@@ -15,5 +15,9 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tokenMemo://open</string>
+	</array>
 </dict>
 </plist>

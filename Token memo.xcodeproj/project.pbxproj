@@ -21,12 +21,12 @@
 		587BDC522A1D0D40001464E4 /* TokenKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
+		58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000001 /* UsageStatistics.swift */; };
+		58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000003 /* ThemeSettings.swift */; };
+		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		58C4733C2A109F0D009D87BC /* Token_memoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* Token_memoApp.swift */; };
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
-		58C4734D2A109F0E009D87BC /* Token_memoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4734C2A109F0E009D87BC /* Token_memoTests.swift */; };
-		58C473572A109F0E009D87BC /* Token_memoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473562A109F0E009D87BC /* Token_memoUITests.swift */; };
-		58C473592A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473582A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift */; };
 		58C473662A109FCD009D87BC /* TokenMemoListAS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473652A109FCD009D87BC /* TokenMemoListAS.swift */; };
 		58C473692A10C9A0009D87BC /* TokenMemoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* TokenMemoList.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
@@ -46,20 +46,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 587BDC4A2A1D0D40001464E4;
 			remoteInfo = TokenKeyboard;
-		};
-		58C473492A109F0E009D87BC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 58C473372A109F0C009D87BC;
-			remoteInfo = "Token memo";
-		};
-		58C473532A109F0E009D87BC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 58C473372A109F0C009D87BC;
-			remoteInfo = "Token memo";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -91,13 +77,14 @@
 		587BDC4F2A1D0D40001464E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587BDC5A2A1FCA10001464E4 /* Token memo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Token memo.entitlements"; sourceTree = "<group>"; };
 		587BDC5B2A1FCA1B001464E4 /* TokenKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TokenKeyboard.entitlements; sourceTree = "<group>"; };
+		58AA11112B4D1A2100000001 /* UsageStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatistics.swift; sourceTree = "<group>"; };
+		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
+		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* Token memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Token memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4733B2A109F0D009D87BC /* Token_memoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoApp.swift; sourceTree = "<group>"; };
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		58C473482A109F0E009D87BC /* Token memoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Token memoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4734C2A109F0E009D87BC /* Token_memoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoTests.swift; sourceTree = "<group>"; };
-		58C473522A109F0E009D87BC /* Token memoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Token memoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C473562A109F0E009D87BC /* Token_memoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoUITests.swift; sourceTree = "<group>"; };
 		58C473582A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		58C473652A109FCD009D87BC /* TokenMemoListAS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenMemoListAS.swift; sourceTree = "<group>"; };
@@ -127,20 +114,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		58C473452A109F0E009D87BC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58C4734F2A109F0E009D87BC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -164,6 +137,14 @@
 			path = TokenKeyboard;
 			sourceTree = "<group>";
 		};
+		58AA11112B4D1A2100000007 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				58AA11112B4D1A2100000005 /* ColorExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		58C4732F2A109F0C009D87BC = {
 			isa = PBXGroup;
 			children = (
@@ -179,8 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				58C473382A109F0D009D87BC /* Token memo.app */,
-				58C473482A109F0E009D87BC /* Token memoTests.xctest */,
-				58C473522A109F0E009D87BC /* Token memoUITests.xctest */,
 				587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */,
 			);
 			name = Products;
@@ -196,6 +175,7 @@
 				58F8FBC42A15278100F5446E /* Screens */,
 				58F8FBC32A15277700F5446E /* Service */,
 				58F8FBC22A15276400F5446E /* Model */,
+				58AA11112B4D1A2100000007 /* Extensions */,
 				58C473672A10A787009D87BC /* Temp */,
 				58C4733B2A109F0D009D87BC /* Token_memoApp.swift */,
 				58C4733F2A109F0E009D87BC /* Assets.xcassets */,
@@ -274,6 +254,8 @@
 				58C7ACB62A2CF27B003F791F /* TutorialView.swift */,
 				580B0D682A30C45E00C7B586 /* FontSetting.swift */,
 				58D9D52F2A3B241F0086BE1A /* ColorfulOnboardingView.swift */,
+				58AA11112B4D1A2100000001 /* UsageStatistics.swift */,
+				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -317,42 +299,6 @@
 			productReference = 58C473382A109F0D009D87BC /* Token memo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		58C473472A109F0E009D87BC /* Token memoTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 58C4735F2A109F0E009D87BC /* Build configuration list for PBXNativeTarget "Token memoTests" */;
-			buildPhases = (
-				58C473442A109F0E009D87BC /* Sources */,
-				58C473452A109F0E009D87BC /* Frameworks */,
-				58C473462A109F0E009D87BC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				58C4734A2A109F0E009D87BC /* PBXTargetDependency */,
-			);
-			name = "Token memoTests";
-			productName = "Token memoTests";
-			productReference = 58C473482A109F0E009D87BC /* Token memoTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		58C473512A109F0E009D87BC /* Token memoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 58C473622A109F0E009D87BC /* Build configuration list for PBXNativeTarget "Token memoUITests" */;
-			buildPhases = (
-				58C4734E2A109F0E009D87BC /* Sources */,
-				58C4734F2A109F0E009D87BC /* Frameworks */,
-				58C473502A109F0E009D87BC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				58C473542A109F0E009D87BC /* PBXTargetDependency */,
-			);
-			name = "Token memoUITests";
-			productName = "Token memoUITests";
-			productReference = 58C473522A109F0E009D87BC /* Token memoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -368,14 +314,6 @@
 					};
 					58C473372A109F0C009D87BC = {
 						CreatedOnToolsVersion = 14.3;
-					};
-					58C473472A109F0E009D87BC = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = 58C473372A109F0C009D87BC;
-					};
-					58C473512A109F0E009D87BC = {
-						CreatedOnToolsVersion = 14.3;
-						TestTargetID = 58C473372A109F0C009D87BC;
 					};
 				};
 			};
@@ -394,8 +332,6 @@
 			projectRoot = "";
 			targets = (
 				58C473372A109F0C009D87BC /* Token memo */,
-				58C473472A109F0E009D87BC /* Token memoTests */,
-				58C473512A109F0E009D87BC /* Token memoUITests */,
 				587BDC4A2A1D0D40001464E4 /* TokenKeyboard */,
 			);
 		};
@@ -418,20 +354,6 @@
 				58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */,
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58C473462A109F0E009D87BC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58C473502A109F0E009D87BC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,23 +392,9 @@
 				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
 				58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */,
 				58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58C473442A109F0E009D87BC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				58C4734D2A109F0E009D87BC /* Token_memoTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58C4734E2A109F0E009D87BC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				58C473592A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift in Sources */,
-				58C473572A109F0E009D87BC /* Token_memoUITests.swift in Sources */,
+				58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */,
+				58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */,
+				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,16 +405,6 @@
 			isa = PBXTargetDependency;
 			target = 587BDC4A2A1D0D40001464E4 /* TokenKeyboard */;
 			targetProxy = 587BDC502A1D0D40001464E4 /* PBXContainerItemProxy */;
-		};
-		58C4734A2A109F0E009D87BC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 58C473372A109F0C009D87BC /* Token memo */;
-			targetProxy = 58C473492A109F0E009D87BC /* PBXContainerItemProxy */;
-		};
-		58C473542A109F0E009D87BC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 58C473372A109F0C009D87BC /* Token memo */;
-			targetProxy = 58C473532A109F0E009D87BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -520,7 +418,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TokenKeyboard/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TokenKeyboard;
+				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -528,7 +426,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.11;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -547,7 +445,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TokenKeyboard/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TokenKeyboard;
+				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -555,7 +453,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.11;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -687,14 +585,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Token memo/Token memo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Token memo/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Token-memo-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Clip Keyboard";
+				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "보안 메모에 접근하기 위해 Face ID가 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -705,7 +604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.12;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -726,14 +625,15 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Token memo/Token memo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Token memo/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Token-memo-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Clip Keyboard";
+				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "보안 메모에 접근하기 위해 Face ID가 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -744,7 +644,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.12;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -754,82 +654,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		58C473602A109F0E009D87BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 2.0.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leeo.Token-memoTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Token memo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Token memo";
-			};
-			name = Debug;
-		};
-		58C473612A109F0E009D87BC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				MARKETING_VERSION = 2.0.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leeo.Token-memoTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Token memo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Token memo";
-			};
-			name = Release;
-		};
-		58C473632A109F0E009D87BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.0.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leeo.Token-memoUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Token memo";
-			};
-			name = Debug;
-		};
-		58C473642A109F0E009D87BC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QGAQ3AY3R3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.0.11;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leeo.Token-memoUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Token memo";
 			};
 			name = Release;
 		};
@@ -859,24 +683,6 @@
 			buildConfigurations = (
 				58C4735D2A109F0E009D87BC /* Debug */,
 				58C4735E2A109F0E009D87BC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		58C4735F2A109F0E009D87BC /* Build configuration list for PBXNativeTarget "Token memoTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				58C473602A109F0E009D87BC /* Debug */,
-				58C473612A109F0E009D87BC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		58C473622A109F0E009D87BC /* Build configuration list for PBXNativeTarget "Token memoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				58C473632A109F0E009D87BC /* Debug */,
-				58C473642A109F0E009D87BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

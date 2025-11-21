@@ -14,28 +14,42 @@ struct SettingView: View {
     
     var body: some View {
         List {
-            NavigationLink(destination: TutorialView()) {
-                Text("클립키보드 사용방법")
-            }
-            
-            NavigationLink(destination: KeyboardTutorialView()) {
-                Text("FAQ")
-            }
-            
-            NavigationLink(destination: FontSetting()) {
-                Text("앱 내 폰트 크기 변경")
+            Section("앱 설정") {
+                NavigationLink(destination: TutorialView()) {
+                    Text("클립키보드 사용방법")
+                }
+
+                NavigationLink(destination: KeyboardTutorialView()) {
+                    Text("FAQ")
+                }
+
+                NavigationLink(destination: FontSetting()) {
+                    Text("앱 내 폰트 크기 변경")
+                }
+
+                NavigationLink(destination: ThemeSettings()) {
+                    Text("키보드 테마 설정")
+                }
+
+                NavigationLink(destination: CopyPasteView()) {
+                    Text("붙여넣기 알림 켜기/끄기")
+                }
             }
 
-            NavigationLink(destination: CopyPasteView()) {
-                Text("붙여넣기 알림 켜기/끄기")
+            Section("통계 및 정보") {
+                NavigationLink(destination: UsageStatistics()) {
+                    Label("사용 통계", systemImage: "chart.bar.fill")
+                }
             }
-            
-            NavigationLink(destination: ReviewWriteView()) {
-                Text("리뷰 및 평점 매기기")
-            }
-            
-            NavigationLink(destination: ContactView()) {
-                Text("개발자에게 연락하기")
+
+            Section("지원") {
+                NavigationLink(destination: ReviewWriteView()) {
+                    Text("리뷰 및 평점 매기기")
+                }
+
+                NavigationLink(destination: ContactView()) {
+                    Text("개발자에게 연락하기")
+                }
             }
         }
     }
