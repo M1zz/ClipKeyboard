@@ -15,12 +15,19 @@ struct Token_memoApp: App {
         WindowGroup {
             if manager.didShowOnboarding {
                 TokenMemoList()
+                    .onOpenURL { url in
+                        // URL scheme으로 앱이 열렸을 때 처리
+                        if url.scheme == "tokenMemo" {
+                            // 키보드에서 앱을 열었을 때 메인 화면으로 이동
+                            print("App opened from keyboard")
+                        }
+                    }
             } else {
                 ColorfulOnboardingView(pages: OnboardingPages) {
                     manager.didShowOnboarding = true
                 }
             }
-            
+
         }
     }
     

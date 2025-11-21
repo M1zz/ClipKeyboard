@@ -13,6 +13,21 @@ let dateFormatter: DateFormatter = {
     return formatter
 }()
 
+// Clipboard History Model
+struct ClipboardHistory: Identifiable, Codable {
+    var id = UUID()
+    var content: String
+    var copiedAt: Date = Date()
+    var isTemporary: Bool = true // 자동으로 7일 후 삭제
+
+    init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true) {
+        self.id = id
+        self.content = content
+        self.copiedAt = copiedAt
+        self.isTemporary = isTemporary
+    }
+}
+
 struct OldMemo: Identifiable, Codable {
     var id = UUID()
     let title: String
@@ -28,14 +43,26 @@ struct Memo: Identifiable, Codable {
     var lastEdited: Date = Date()
     var isFavorite: Bool = false
     var clipCount: Int = 0
-    
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false) {
+
+    // New features
+    var category: String = "기본"
+    var isSecure: Bool = false
+    var isTemplate: Bool = false
+    var templateVariables: [String] = []
+    var shortcut: String?
+
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], shortcut: String? = nil) {
         self.id = id
         self.title = title
         self.value = value
         self.isChecked = isChecked
         self.lastEdited = lastEdited
         self.isFavorite = isFavorite
+        self.category = category
+        self.isSecure = isSecure
+        self.isTemplate = isTemplate
+        self.templateVariables = templateVariables
+        self.shortcut = shortcut
     }
     
     init(from oldMemo: OldMemo) {
@@ -54,6 +81,12 @@ struct Memo: Identifiable, Codable {
         case isChecked
         case lastEdited = "lastEdited"
         case isFavorite = "isFavorite"
+        case clipCount
+        case category
+        case isSecure
+        case isTemplate
+        case templateVariables
+        case shortcut
     }
     
     static var dummyData: [Memo] = [
