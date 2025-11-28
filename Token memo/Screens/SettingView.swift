@@ -36,6 +36,12 @@ struct SettingView: View {
                 }
             }
 
+            Section("데이터 관리") {
+                NavigationLink(destination: CloudBackupView()) {
+                    Label("iCloud 백업 및 복구", systemImage: "icloud.and.arrow.up")
+                }
+            }
+
             Section("통계 및 정보") {
                 NavigationLink(destination: UsageStatistics()) {
                     Label("사용 통계", systemImage: "chart.bar.fill")

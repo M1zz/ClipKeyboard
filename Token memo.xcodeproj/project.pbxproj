@@ -37,6 +37,8 @@
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58F8FBC62A1527C300F5446E /* MemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC52A1527C300F5446E /* MemoDetail.swift */; };
+		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
+		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58F8FBC52A1527C300F5446E /* MemoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetail.swift; sourceTree = "<group>"; };
+		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
+		58CK00022B5E1A2100000002 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
+				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 				58D9D52F2A3B241F0086BE1A /* ColorfulOnboardingView.swift */,
 				58AA11112B4D1A2100000001 /* UsageStatistics.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
+				58CK00022B5E1A2100000002 /* CloudBackupView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -395,6 +401,8 @@
 				58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */,
 				58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */,
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
+				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
+				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
