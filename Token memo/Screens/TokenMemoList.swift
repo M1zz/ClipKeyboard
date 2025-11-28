@@ -598,29 +598,9 @@ struct TokenMemoList: View {
             if let newYearMemo = memos.first(where: { $0.title == "새해인사" && $0.isTemplate }) {
                 print("📝 [샘플 데이터] '새해인사' 템플릿 발견")
 
-                // {이름} 플레이스홀더에 샘플 값 추가
-                let names = ["유미", "주디", "리이오"]
-                for name in names {
-                    MemoStore.shared.addPlaceholderValue(
-                        name,
-                        for: "{이름}",
-                        sourceMemoId: newYearMemo.id,
-                        sourceMemoTitle: newYearMemo.title
-                    )
-                    print("   ✓ {이름}에 '\(name)' 추가")
-                }
-
-                // {회사명} 플레이스홀더에 샘플 값 추가
-                let companies = ["테크코리아", "글로벌인더스트리", "스마트솔루션", "이노베이션", "퓨처테크"]
-                for company in companies {
-                    MemoStore.shared.addPlaceholderValue(
-                        company,
-                        for: "{회사명}",
-                        sourceMemoId: newYearMemo.id,
-                        sourceMemoTitle: newYearMemo.title
-                    )
-                    print("   ✓ {회사명}에 '\(company)' 추가")
-                }
+                // 샘플 플레이스홀더 값은 제거됨
+                // 사용자가 iOS 앱에서 직접 관리하는 값만 사용
+                print("   ℹ️ 샘플 값 자동 추가 비활성화 - 사용자가 직접 값을 추가하세요")
 
                 print("✅ [샘플 데이터] '새해인사' 템플릿에 샘플 값 추가 완료")
             } else {

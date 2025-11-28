@@ -30,7 +30,7 @@ class PredefinedValuesStore {
         print("   Key: \(key)")
 
         // 새로운 형식으로 로드 시도
-        if let data = UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.data(forKey: key) {
+        if let data = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.data(forKey: key) {
             print("   ✅ 데이터 발견 - 크기: \(data.count) bytes")
 
             if let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
@@ -48,18 +48,16 @@ class PredefinedValuesStore {
         let oldKey = "predefined_\(placeholder)"
         print("   🔄 이전 형식 시도 - Key: \(oldKey)")
 
-        if let saved = UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.stringArray(forKey: oldKey) {
+        if let saved = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.stringArray(forKey: oldKey) {
             print("   ✅ 이전 형식에서 로드 - \(saved.count)개 값: \(saved)")
             return saved
         } else {
             print("   ⚠️ 이전 형식 데이터도 없음")
         }
 
-        // 저장된 데이터가 없으면 더미 데이터 반환
-        print("   🎁 더미 데이터 사용")
-        let dummyData = getDummyData(for: placeholder)
-        print("   ✅ 더미 데이터 반환 - \(dummyData.count)개 값: \(dummyData)")
-        return dummyData
+        // 데이터가 없으면 빈 배열 반환
+        print("   📭 데이터 없음 - 빈 배열 반환")
+        return []
     }
 
     // 특정 템플릿에서 사용하는 값만 필터링
@@ -112,7 +110,7 @@ class PredefinedValuesStore {
         let key = "placeholder_values_\(placeholder)"
         print("   🔍 UserDefaults 확인 - Key: \(key)")
 
-        if let userDefaults = UserDefaults(suiteName: "group.com.hyunho.Token-memo"),
+        if let userDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"),
            let data = userDefaults.data(forKey: key),
            let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
             print("   ✅ UserDefaults에서 디코딩 성공 - 총 \(placeholderValues.count)개")
@@ -135,32 +133,11 @@ class PredefinedValuesStore {
             return allValues
         }
 
-        // 저장된 데이터가 없으면 더미 데이터 반환
-        print("   🎁 저장된 데이터 없음 - 더미 데이터 사용")
-        return getDummyData(for: placeholder)
+        // 저장된 데이터가 없으면 빈 배열 반환 (iOS 앱에서 관리하는 값만 사용)
+        print("   ⚠️ 저장된 플레이스홀더 값 없음 - iOS 앱에서 값을 추가하세요")
+        return []
     }
 
-    // 더미 데이터 생성
-    private func getDummyData(for placeholder: String) -> [String] {
-        switch placeholder {
-        case "{이름}":
-            return ["유미", "주디", "리이오"]
-        case "{회사명}":
-            return ["테크코리아", "글로벌인더스트리", "스마트솔루션", "이노베이션", "퓨처테크"]
-        case "{주소}":
-            return ["서울시 강남구", "경기도 성남시", "인천시 남동구", "부산시 해운대구"]
-        case "{전화번호}":
-            return ["010-1234-5678", "010-9876-5432", "010-5555-1234"]
-        case "{이메일}":
-            return ["example@email.com", "user@company.com", "contact@domain.com"]
-        case "{부서}":
-            return ["개발팀", "영업팀", "마케팅팀", "기획팀"]
-        case "{직급}":
-            return ["사원", "대리", "과장", "차장", "부장"]
-        default:
-            return ["샘플1", "샘플2", "샘플3"]
-        }
-    }
 }
 
 // 템플릿 입력 상태 관리
@@ -533,31 +510,8 @@ struct PlaceholderInputView: View {
         // 템플릿 ID로 필터링된 값 로드
         let storedValues = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: templateId)
 
-        // 저장된 값이 있으면 반환 (더미 데이터 포함)
-        if !storedValues.isEmpty {
-            return storedValues
-        }
-
-        // 플레이스홀더별 더미 데이터
-        switch placeholder {
-        case "{이름}":
-            return ["유미", "주디", "리이오"]
-        case "{회사명}":
-            return ["테크코리아", "글로벌인더스트리", "스마트솔루션", "이노베이션", "퓨처테크"]
-        case "{주소}":
-            return ["서울시 강남구", "경기도 성남시", "인천시 남동구", "부산시 해운대구"]
-        case "{전화번호}":
-            return ["010-1234-5678", "010-9876-5432", "010-5555-1234"]
-        case "{이메일}":
-            return ["example@email.com", "user@company.com", "contact@domain.com"]
-        case "{부서}":
-            return ["개발팀", "영업팀", "마케팅팀", "기획팀"]
-        case "{직급}":
-            return ["사원", "대리", "과장", "차장", "부장"]
-        default:
-            // 기타 플레이스홀더는 일반 더미 데이터
-            return ["샘플1", "샘플2", "샘플3"]
-        }
+        // iOS 앱에서 관리하는 저장된 값만 반환
+        return storedValues
     }
 
     var body: some View {

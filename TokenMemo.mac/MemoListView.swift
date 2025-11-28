@@ -10,10 +10,9 @@ import AppKit
 
 struct MemoListView: View {
     @State private var memos: [Memo] = []
-    @State private var showToast: Bool = false
-    @State private var toastMessage: String = ""
     @State private var searchText: String = ""
     @State private var selectedCategory: String = "전체"
+    @State private var isViewActive: Bool = true
 
     var categories: [String] {
         var cats = Set(memos.map { $0.category })
@@ -41,8 +40,7 @@ struct MemoListView: View {
     }
 
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // 컴팩트 헤더
                 VStack(spacing: 6) {
                     HStack {
@@ -107,33 +105,22 @@ struct MemoListView: View {
                         ForEach(filteredMemos) { memo in
                             CompactMemoItemRow(memo: memo) {
                                 copyToClipboard(memo.value)
-                                showToast(message: memo.title)
                             }
                         }
                     }
                     .listStyle(.plain)
                 }
-            }
-
-            // 토스트 메시지
-            VStack {
-                Spacer()
-                if showToast {
-                    Text(toastMessage)
-                        .font(.caption)
-                        .padding(6)
-                        .background(Color.black.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(6)
-                        .padding(.bottom, 8)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
-            }
-            .animation(.easeInOut, value: showToast)
         }
         .frame(width: 350, height: 450)
         .onAppear {
+            print("✅ [MemoListView] onAppear - 뷰 활성화")
+            isViewActive = true
             loadMemos()
+        }
+        .onDisappear {
+            print("⚠️ [MemoListView] onDisappear - 뷰 비활성화 시작")
+            isViewActive = false
+            print("✅ [MemoListView] onDisappear - 뷰 비활성화 완료")
         }
     }
 
@@ -156,27 +143,20 @@ struct MemoListView: View {
     // MARK: - Actions
 
     private func loadMemos() {
+        print("📂 [MemoListView] loadMemos - 메모 로드 시작")
         do {
             memos = try MemoStore.shared.load(type: .tokenMemo)
-            print("📝 [MemoList] \(memos.count)개 메모 로드됨")
+            print("✅ [MemoListView] loadMemos - \(memos.count)개 메모 로드 완료")
         } catch {
-            print("❌ [MemoList] 메모 로드 실패: \(error)")
+            print("❌ [MemoListView] loadMemos - 메모 로드 실패: \(error)")
         }
     }
 
     private func copyToClipboard(_ text: String) {
+        print("📋 [MemoListView] copyToClipboard - 클립보드 복사 시작")
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(text, forType: .string)
-    }
-
-    private func showToast(message: String) {
-        let preview = message.prefix(30)
-        toastMessage = "[\(preview)\(message.count > 30 ? "..." : "")] 클립보드에 복사되었습니다"
-        showToast = true
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            showToast = false
-        }
+        print("✅ [MemoListView] copyToClipboard - 클립보드 복사 완료")
     }
 }
 

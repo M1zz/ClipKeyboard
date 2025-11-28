@@ -123,21 +123,36 @@ class WindowManager {
 
     // 윈도우가 닫힐 때 호출
     fileprivate func removeWindow(key: String) {
+        print("🗑️ [WindowManager] removeWindow - 참조 제거 시작: \(key)")
+
+        // 안전하게 참조 제거 (이미 해제된 객체에 접근하지 않음)
+        let hadWindow = windows[key] != nil
+        let hadDelegate = delegates[key] != nil
+
+        print("   └─ 윈도우 존재: \(hadWindow)")
+        print("   └─ 델리게이트 존재: \(hadDelegate)")
+
         windows.removeValue(forKey: key)
+        print("   └─ windows에서 제거 완료")
+
         delegates.removeValue(forKey: key)
-        print("🗑️ [WindowManager] 윈도우 및 델리게이트 제거: \(key)")
+        print("   └─ delegates에서 제거 완료")
+
+        print("✅ [WindowManager] removeWindow - 완료: \(key)")
+        print("   └─ 남은 윈도우 수: \(windows.count)")
     }
 
     func openNewMemoWindow() {
         print("📝 [WindowManager] 새 메모 윈도우 열기")
 
-        // 기존 윈도우 확인
-        for window in NSApp.windows {
-            if window.identifier?.rawValue == "new-memo" {
-                window.makeKeyAndOrderFront(nil)
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
+        let windowKey = "new-memo"
+
+        // 기존 윈도우가 있으면 포커스
+        if let existingWindow = windows[windowKey] {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ [WindowManager] 기존 윈도우 포커스")
+            return
         }
 
         // TODO: 새 메모 뷰 구현 필요
@@ -155,23 +170,34 @@ class WindowManager {
         window.center()
         window.contentViewController = hostingController
         window.title = "새 메모"
-        window.identifier = NSUserInterfaceItemIdentifier("new-memo")
-        window.makeKeyAndOrderFront(nil)
+        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
         window.level = .floating
 
+        // 델리게이트 설정
+        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        window.delegate = delegate
+
+        // 윈도우와 델리게이트 참조 저장
+        windows[windowKey] = window
+        delegates[windowKey] = delegate
+
+        window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openClipboardHistoryWindow() {
         print("📋 [WindowManager] 클립보드 히스토리 윈도우 열기")
 
-        // 기존 윈도우 확인
-        for window in NSApp.windows {
-            if window.identifier?.rawValue == "clipboard-history" {
-                window.makeKeyAndOrderFront(nil)
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
+        let windowKey = "clipboard-history"
+
+        // 기존 윈도우가 있으면 포커스
+        if let existingWindow = windows[windowKey] {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ [WindowManager] 기존 윈도우 포커스")
+            return
         }
 
         let contentView = ClipboardHistoryView()
@@ -187,23 +213,34 @@ class WindowManager {
         window.center()
         window.contentViewController = hostingController
         window.title = "클립보드 히스토리"
-        window.identifier = NSUserInterfaceItemIdentifier("clipboard-history")
-        window.makeKeyAndOrderFront(nil)
+        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
         window.level = .floating
 
+        // 델리게이트 설정
+        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        window.delegate = delegate
+
+        // 윈도우와 델리게이트 참조 저장
+        windows[windowKey] = window
+        delegates[windowKey] = delegate
+
+        window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openSettingsWindow() {
         print("⚙️ [WindowManager] 설정 윈도우 열기")
 
-        // 기존 윈도우 확인
-        for window in NSApp.windows {
-            if window.identifier?.rawValue == "settings" {
-                window.makeKeyAndOrderFront(nil)
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
+        let windowKey = "settings"
+
+        // 기존 윈도우가 있으면 포커스
+        if let existingWindow = windows[windowKey] {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ [WindowManager] 기존 윈도우 포커스")
+            return
         }
 
         // TODO: 설정 뷰 구현 필요
@@ -221,23 +258,34 @@ class WindowManager {
         window.center()
         window.contentViewController = hostingController
         window.title = "설정"
-        window.identifier = NSUserInterfaceItemIdentifier("settings")
-        window.makeKeyAndOrderFront(nil)
+        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
         window.level = .floating
 
+        // 델리게이트 설정
+        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        window.delegate = delegate
+
+        // 윈도우와 델리게이트 참조 저장
+        windows[windowKey] = window
+        delegates[windowKey] = delegate
+
+        window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openCloudBackupWindow() {
         print("☁️ [WindowManager] iCloud 백업 윈도우 열기")
 
-        // 기존 윈도우 확인
-        for window in NSApp.windows {
-            if window.identifier?.rawValue == "cloud-backup" {
-                window.makeKeyAndOrderFront(nil)
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
+        let windowKey = "cloud-backup"
+
+        // 기존 윈도우가 있으면 포커스
+        if let existingWindow = windows[windowKey] {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ [WindowManager] 기존 윈도우 포커스")
+            return
         }
 
         let contentView = CloudBackupView()
@@ -253,11 +301,21 @@ class WindowManager {
         window.center()
         window.contentViewController = hostingController
         window.title = "iCloud 백업"
-        window.identifier = NSUserInterfaceItemIdentifier("cloud-backup")
-        window.makeKeyAndOrderFront(nil)
+        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
         window.level = .floating
 
+        // 델리게이트 설정
+        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        window.delegate = delegate
+
+        // 윈도우와 델리게이트 참조 저장
+        windows[windowKey] = window
+        delegates[windowKey] = delegate
+
+        window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+
+        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 }
 
@@ -273,8 +331,41 @@ class WindowDelegate: NSObject, NSWindowDelegate {
         super.init()
     }
 
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        print("🔒 [WindowDelegate] windowShouldClose - 윈도우 닫기 요청: \(windowKey)")
+
+        // 윈도우를 즉시 닫지 않고, 뷰를 안전하게 정리한 후 숨김
+        DispatchQueue.main.async {
+            print("   └─ contentViewController 정리 시작")
+
+            // contentViewController를 먼저 정리
+            if let viewController = sender.contentViewController {
+                viewController.view.removeFromSuperview()
+                sender.contentViewController = nil
+                print("      └─ contentViewController 제거 완료")
+            }
+
+            // 짧은 지연 후 참조 제거 및 윈도우 닫기
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                print("   └─ 딕셔너리에서 참조 제거")
+                self?.manager?.removeWindow(key: self?.windowKey ?? "")
+
+                // delegate를 nil로 설정하여 순환 참조 방지
+                print("   └─ delegate 제거")
+                sender.delegate = nil
+
+                // 윈도우 숨기기 (close 대신 orderOut 사용)
+                sender.orderOut(nil)
+                print("✅ [WindowDelegate] 윈도우 숨김 완료")
+            }
+        }
+
+        print("⏸️ [WindowDelegate] windowShouldClose - 닫기 보류 (비동기 처리)")
+        return false  // 일단 닫지 않고, 나중에 orderOut으로 숨김
+    }
+
     func windowWillClose(_ notification: Notification) {
-        print("🔒 [WindowDelegate] 윈도우 닫힘: \(windowKey)")
-        manager?.removeWindow(key: windowKey)
+        print("🗑️ [WindowDelegate] windowWillClose - 윈도우 닫힘 시작: \(windowKey)")
+        print("✅ [WindowDelegate] windowWillClose - 완료 (참조는 이미 제거됨)")
     }
 }

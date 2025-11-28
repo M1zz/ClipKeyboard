@@ -178,7 +178,7 @@ class MemoStore: ObservableObject {
         print("   🔑 [MemoStore.loadPlaceholderValues] 로드 시작: \(placeholder)")
         let key = "placeholder_values_\(placeholder)"
 
-        guard let data = UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.data(forKey: key) else {
+        guard let data = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.data(forKey: key) else {
             print("   ⚠️ [MemoStore.loadPlaceholderValues] 데이터 없음")
             return []
         }
@@ -208,12 +208,12 @@ class MemoStore: ObservableObject {
 
         if let data = try? JSONEncoder().encode(values) {
             print("   인코딩 성공 - 데이터 크기: \(data.count) bytes")
-            UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.set(data, forKey: key)
-            UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.synchronize()
+            UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(data, forKey: key)
+            UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.synchronize()
             print("   ✅ UserDefaults에 저장 완료")
 
             // 저장 직후 확인
-            if let savedData = UserDefaults(suiteName: "group.com.hyunho.Token-memo")?.data(forKey: key) {
+            if let savedData = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.data(forKey: key) {
                 print("   ✅ 저장 확인됨 - 크기: \(savedData.count) bytes")
             } else {
                 print("   ❌ 저장 확인 실패!")
