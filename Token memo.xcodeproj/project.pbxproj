@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,7 @@
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587B7CE22A264F6400455338 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587B7CE12A264F6400455338 /* CollectionViewCell.swift */; };
 		587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */; };
-		587BDC522A1D0D40001464E4 /* TokenKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		587BDC522A1D0D40001464E4 /* TokenKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000001 /* UsageStatistics.swift */; };
@@ -31,6 +31,11 @@
 		58C473692A10C9A0009D87BC /* TokenMemoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* TokenMemoList.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
 		58C7ACB72A2CF27B003F791F /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB62A2CF27B003F791F /* TutorialView.swift */; };
+		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
+		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
+		58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00042B5E1A2100000004 /* NotificationExtension.swift */; };
+		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
+		58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */; };
 		58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D9D52D2A3B23900086BE1A /* DataManager.swift */; };
 		58D9D5302A3B241F0086BE1A /* ColorfulOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D9D52F2A3B241F0086BE1A /* ColorfulOnboardingView.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
@@ -84,20 +89,27 @@
 		58C4733B2A109F0D009D87BC /* Token_memoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoApp.swift; sourceTree = "<group>"; };
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		58C4734C2A109F0E009D87BC /* Token_memoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoTests.swift; sourceTree = "<group>"; };
-		58C473562A109F0E009D87BC /* Token_memoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoUITests.swift; sourceTree = "<group>"; };
-		58C473582A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token_memoUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		58C473652A109FCD009D87BC /* TokenMemoListAS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenMemoListAS.swift; sourceTree = "<group>"; };
 		58C473682A10C9A0009D87BC /* TokenMemoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenMemoList.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58C7ACB62A2CF27B003F791F /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
+		58CK00022B5E1A2100000002 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
+		58CK00042B5E1A2100000004 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
+		58CK00062B5E1A2100000005 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
+		58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotkeyManager.swift; sourceTree = "<group>"; };
 		58D9D52D2A3B23900086BE1A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		58D9D52F2A3B241F0086BE1A /* ColorfulOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorfulOnboardingView.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58F8FBC52A1527C300F5446E /* MemoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetail.swift; sourceTree = "<group>"; };
+		58FBB90A2ED9AD0B004231BE /* TokenMemo.mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TokenMemo.mac.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		58FBB90B2ED9AD0B004231BE /* TokenMemo.mac */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TokenMemo.mac; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		587BDC482A1D0D40001464E4 /* Frameworks */ = {
@@ -108,6 +120,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58C473352A109F0C009D87BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58FBB9072ED9AD0B004231BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -141,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				58AA11112B4D1A2100000005 /* ColorExtension.swift */,
+				58CK00042B5E1A2100000004 /* NotificationExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -150,8 +170,7 @@
 			children = (
 				58C4733A2A109F0D009D87BC /* Token memo */,
 				587BDC4C2A1D0D40001464E4 /* TokenKeyboard */,
-				58C4734B2A109F0E009D87BC /* Token memoTests */,
-				58C473552A109F0E009D87BC /* Token memoUITests */,
+				58FBB90B2ED9AD0B004231BE /* TokenMemo.mac */,
 				58C473392A109F0D009D87BC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -161,6 +180,7 @@
 			children = (
 				58C473382A109F0D009D87BC /* Token memo.app */,
 				587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */,
+				58FBB90A2ED9AD0B004231BE /* TokenMemo.mac.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -193,23 +213,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		58C4734B2A109F0E009D87BC /* Token memoTests */ = {
-			isa = PBXGroup;
-			children = (
-				58C4734C2A109F0E009D87BC /* Token_memoTests.swift */,
-			);
-			path = "Token memoTests";
-			sourceTree = "<group>";
-		};
-		58C473552A109F0E009D87BC /* Token memoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				58C473562A109F0E009D87BC /* Token_memoUITests.swift */,
-				58C473582A109F0E009D87BC /* Token_memoUITestsLaunchTests.swift */,
-			);
-			path = "Token memoUITests";
-			sourceTree = "<group>";
-		};
 		58C473672A10A787009D87BC /* Temp */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +225,8 @@
 			isa = PBXGroup;
 			children = (
 				58D9D52D2A3B23900086BE1A /* DataManager.swift */,
+				58CK00062B5E1A2100000005 /* MenuBarManager.swift */,
+				58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
+				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 				58D9D52F2A3B241F0086BE1A /* ColorfulOnboardingView.swift */,
 				58AA11112B4D1A2100000001 /* UsageStatistics.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
+				58CK00022B5E1A2100000002 /* CloudBackupView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -288,6 +295,7 @@
 				58C473352A109F0C009D87BC /* Frameworks */,
 				58C473362A109F0C009D87BC /* Resources */,
 				587BDC392A1A7934001464E4 /* Embed Foundation Extensions */,
+				58CK00042B5E1A2100000003 /* Remove Keyboard Extension for Mac Catalyst */,
 			);
 			buildRules = (
 			);
@@ -299,6 +307,28 @@
 			productReference = 58C473382A109F0D009D87BC /* Token memo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		58FBB9092ED9AD0B004231BE /* TokenMemo.mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58FBB9142ED9AD0C004231BE /* Build configuration list for PBXNativeTarget "TokenMemo.mac" */;
+			buildPhases = (
+				58FBB9062ED9AD0B004231BE /* Sources */,
+				58FBB9072ED9AD0B004231BE /* Frameworks */,
+				58FBB9082ED9AD0B004231BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				58FBB90B2ED9AD0B004231BE /* TokenMemo.mac */,
+			);
+			name = TokenMemo.mac;
+			packageProductDependencies = (
+			);
+			productName = TokenMemo.mac;
+			productReference = 58FBB90A2ED9AD0B004231BE /* TokenMemo.mac.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -306,7 +336,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					587BDC4A2A1D0D40001464E4 = {
@@ -314,6 +344,9 @@
 					};
 					58C473372A109F0C009D87BC = {
 						CreatedOnToolsVersion = 14.3;
+					};
+					58FBB9092ED9AD0B004231BE = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -333,6 +366,7 @@
 			targets = (
 				58C473372A109F0C009D87BC /* Token memo */,
 				587BDC4A2A1D0D40001464E4 /* TokenKeyboard */,
+				58FBB9092ED9AD0B004231BE /* TokenMemo.mac */,
 			);
 		};
 /* End PBXProject section */
@@ -357,7 +391,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		58FBB9082ED9AD0B004231BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		58CK00042B5E1A2100000003 /* Remove Keyboard Extension for Mac Catalyst */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Remove Keyboard Extension for Mac Catalyst";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Remove keyboard extension when building for Mac Catalyst\nif [ \"$SDKROOT\" == *\"MacOSX\"* ] || [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-maccatalyst\" ]; then\n    echo \"Building for Mac Catalyst - removing keyboard extension\"\n    rm -rf \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/PlugIns/TokenKeyboard.appex\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		587BDC472A1D0D40001464E4 /* Sources */ = {
@@ -395,6 +457,18 @@
 				58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */,
 				58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */,
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
+				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
+				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
+				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,
+				58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */,
+				58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58FBB9062ED9AD0B004231BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +504,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -457,6 +533,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -608,6 +686,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				"SUPPORTED_PLATFORMS[sdk=macosx*]" = macosx;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -657,6 +736,91 @@
 			};
 			name = Release;
 		};
+		58FBB9122ED9AD0C004231BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TokenMemo.mac/TokenMemo.mac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "클립 키보두";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		58FBB9132ED9AD0C004231BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TokenMemo.mac/TokenMemo.mac.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "클립 키보두";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-mac";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -683,6 +847,15 @@
 			buildConfigurations = (
 				58C4735D2A109F0E009D87BC /* Debug */,
 				58C4735E2A109F0E009D87BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58FBB9142ED9AD0C004231BE /* Build configuration list for PBXNativeTarget "TokenMemo.mac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58FBB9122ED9AD0C004231BE /* Debug */,
+				58FBB9132ED9AD0C004231BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

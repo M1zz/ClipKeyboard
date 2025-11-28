@@ -24,9 +24,17 @@ extension Color {
     }
 
     func toHex() -> String? {
+        #if canImport(UIKit)
         guard let components = UIColor(self).cgColor.components, components.count >= 3 else {
             return nil
         }
+        #elseif canImport(AppKit)
+        guard let components = NSColor(self).cgColor.components, components.count >= 3 else {
+            return nil
+        }
+        #else
+        return nil
+        #endif
 
         let r = Float(components[0])
         let g = Float(components[1])

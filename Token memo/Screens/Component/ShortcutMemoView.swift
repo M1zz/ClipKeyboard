@@ -18,7 +18,11 @@ struct ShortcutMemoView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 24)
+                #if canImport(UIKit)
                 .foregroundColor(Color(UIColor.systemBackground))
+                #else
+                .foregroundColor(Color(NSColor.windowBackgroundColor))
+                #endif
             HStack {
                 VStack {
                     HStack {

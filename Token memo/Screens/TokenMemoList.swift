@@ -41,7 +41,13 @@ struct TokenMemoList: View {
 
     // 플레이스홀더 관리 시트
     @State private var showPlaceholderManagementSheet = false
-    
+
+    // Mac Catalyst 단축키용 새 메모 시트
+    @State private var showNewMemoSheet = false
+    @State private var showClipboardHistorySheet = false
+    @State private var showSettingsSheet = false
+    @State private var showMemoListSheet = false
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -176,6 +182,7 @@ struct TokenMemoList: View {
                         }
                     }
 
+                    #if os(iOS)
                     ToolbarItemGroup(placement: .bottomBar) {
                         NavigationLink {
                             ClipboardList()
@@ -203,6 +210,35 @@ struct TokenMemoList: View {
                             Image(systemName: "square.and.pencil")
                         }
                     }
+                    #else
+                    ToolbarItemGroup(placement: .automatic) {
+                        NavigationLink {
+                            ClipboardList()
+                        } label: {
+                            Image(systemName: "clock.arrow.circlepath")
+                        }
+
+                        NavigationLink {
+                            SettingView()
+                        } label: {
+                            Image(systemName: "info.circle")
+                        }
+
+                        Button {
+                            showPlaceholderManagementSheet = true
+                        } label: {
+                            Image(systemName: "list.bullet.circle")
+                        }
+
+                        Spacer()
+
+                        NavigationLink {
+                            MemoAdd()
+                        } label: {
+                            Image(systemName: "square.and.pencil")
+                        }
+                    }
+                    #endif
                 }
                 
                 VStack {
@@ -234,7 +270,11 @@ struct TokenMemoList: View {
                     }
                 }
             })
-            .navigationBarTitleDisplayMode(.inline)
+            #if os(iOS)
+            #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+            #endif
             .searchable(
                 text: $searchQueryString,
                 placement: .navigationBarDrawer,
@@ -277,6 +317,26 @@ struct TokenMemoList: View {
             }
             .sheet(isPresented: $showPlaceholderManagementSheet) {
                 PlaceholderManagementSheet(allMemos: tokenMemos)
+            }
+            .sheet(isPresented: $showNewMemoSheet) {
+                NavigationStack {
+                    MemoAdd()
+                }
+            }
+            .sheet(isPresented: $showClipboardHistorySheet) {
+                NavigationStack {
+                    ClipboardList()
+                }
+            }
+            .sheet(isPresented: $showSettingsSheet) {
+                NavigationStack {
+                    SettingView()
+                }
+            }
+            .sheet(isPresented: $showMemoListSheet) {
+                NavigationStack {
+                    TokenMemoList()
+                }
             }
             .overlay(content: {
                 VStack {
@@ -343,7 +403,18 @@ struct TokenMemoList: View {
                 // 샘플 플레이스홀더 값 추가 (한 번만 실행)
                 addSamplePlaceholderValuesIfNeeded()
 
+                #if targetEnvironment(macCatalyst)
+                // Mac Catalyst 단축키 리스너 등록
+                setupMacCatalystNotifications()
+                #endif
+
                 print("✅ [TokenMemoList] onAppear 완료")
+            }
+            .onDisappear {
+                #if targetEnvironment(macCatalyst)
+                // 알림 제거
+                NotificationCenter.default.removeObserver(self, name: .showNewMemo, object: nil)
+                #endif
             }
         }
     }
@@ -604,6 +675,48 @@ struct TokenMemoList: View {
         }
     }
 
+    #if targetEnvironment(macCatalyst)
+    // MARK: - Mac Catalyst 단축키 설정
+    private func setupMacCatalystNotifications() {
+        print("⌨️ [Mac Catalyst] 단축키 알림 리스너 등록")
+
+        NotificationCenter.default.addObserver(
+            forName: .showMemoList,
+            object: nil,
+            queue: .main
+        ) { [self] _ in
+            print("⌨️ [Mac Catalyst] 메모 목록 단축키 실행 (^⌥K)")
+            showMemoListSheet = true
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: .showNewMemo,
+            object: nil,
+            queue: .main
+        ) { [self] _ in
+            print("⌨️ [Mac Catalyst] 새 메모 단축키 실행 (^⌥N)")
+            showNewMemoSheet = true
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: .showClipboardHistory,
+            object: nil,
+            queue: .main
+        ) { [self] _ in
+            print("⌨️ [Mac Catalyst] 클립보드 히스토리 단축키 실행 (^⌥H)")
+            showClipboardHistorySheet = true
+        }
+
+        NotificationCenter.default.addObserver(
+            forName: .showSettings,
+            object: nil,
+            queue: .main
+        ) { [self] _ in
+            print("⌨️ [Mac Catalyst] 설정 단축키 실행 (⌘,)")
+            showSettingsSheet = true
+        }
+    }
+    #endif
 }
 
 struct TokenMemoList_Previews: PreviewProvider {
@@ -824,7 +937,11 @@ struct TemplateEditSheet: View {
                 .padding()
             }
             .navigationTitle(memo.title)
-            .navigationBarTitleDisplayMode(.inline)
+            #if os(iOS)
+            #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("취소") {
@@ -1085,7 +1202,11 @@ struct TemplateInputSheet: View {
                 }
             }
             .navigationTitle("템플릿 입력")
-            .navigationBarTitleDisplayMode(.inline)
+            #if os(iOS)
+            #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("취소") {
@@ -1136,7 +1257,11 @@ struct PlaceholderManagementSheet: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle("플레이스홀더 관리")
-                .navigationBarTitleDisplayMode(.inline)
+                #if os(iOS)
+            #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+            #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("완료") {
@@ -1165,7 +1290,11 @@ struct PlaceholderManagementSheet: View {
                     }
                 }
                 .navigationTitle("플레이스홀더 관리")
-                .navigationBarTitleDisplayMode(.inline)
+                #if os(iOS)
+            #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+            #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("완료") {
@@ -1263,7 +1392,9 @@ struct TemplateDetailPlaceholderView: View {
             }
         }
         .navigationTitle(template.title)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .onAppear {
             extractPlaceholders()
         }

@@ -33,14 +33,28 @@ struct TokenMemoListAs: View {
                 Text("부모님댁 주소")
                 Text("통관번호")
             }
-            .toolbar {ToolbarItemGroup(placement: .bottomBar ) {
-                Spacer()
-            }
-                ToolbarItemGroup(placement: .bottomBar ) {
+            .toolbar {
+                #if os(iOS)
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Spacer()
+                }
+
+                ToolbarItemGroup(placement: .bottomBar) {
                     Button("1") {
-                        
+
                     }
                 }
+                #else
+                ToolbarItemGroup(placement: .automatic) {
+                    Spacer()
+                }
+
+                ToolbarItemGroup(placement: .automatic) {
+                    Button("1") {
+
+                    }
+                }
+                #endif
             }
         }
         
