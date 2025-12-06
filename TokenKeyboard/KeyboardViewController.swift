@@ -358,6 +358,13 @@ class KeyboardViewController: UIInputViewController {
 
             print("📱 [KeyboardViewController.loadMemos] 메모 로드 완료 - 총 \(temp.count)개")
 
+            // 🔒 보안 메모 제외 (키보드 익스텐션에서는 Face ID 사용 불가)
+            let secureCount = temp.filter { $0.isSecure }.count
+            temp = temp.filter { !$0.isSecure }
+            if secureCount > 0 {
+                print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
+            }
+
             // 필터 적용
             if let theme = selectedTheme {
                 temp = temp.filter { $0.category == theme }

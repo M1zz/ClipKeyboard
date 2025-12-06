@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 var isFirstVisit: Bool = true
 var fontSize: CGFloat = 20
@@ -496,19 +497,57 @@ struct TokenMemoList: View {
     }
 
     private func copyMemo(memo: Memo) {
-        print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate)")
+        print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate), 보안: \(memo.isSecure)")
 
+        // 🔒 보안 메모 확인
+        if memo.isSecure {
+            print("🔐 [copyMemo] 보안 메모 - Face ID 인증 요청")
+            authenticateWithBiometrics(memo: memo)
+            return
+        }
+
+        // 일반 메모는 바로 처리
+        processMemoAfterAuth(memo)
+    }
+
+    private func authenticateWithBiometrics(memo: Memo) {
+        let context = LAContext()
+        var error: NSError?
+
+        // 생체 인증 가능 여부 확인
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            print("❌ [authenticateWithBiometrics] 생체 인증 불가: \(error?.localizedDescription ?? "Unknown error")")
+            showAuthAlert = true
+            return
+        }
+
+        // 생체 인증 요청
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                              localizedReason: "보안 메모에 접근하려면 인증이 필요합니다") { success, authError in
+            DispatchQueue.main.async {
+                if success {
+                    print("✅ [authenticateWithBiometrics] Face ID 인증 성공")
+                    self.processMemoAfterAuth(memo)
+                } else {
+                    print("❌ [authenticateWithBiometrics] Face ID 인증 실패: \(authError?.localizedDescription ?? "Unknown error")")
+                    self.showAuthAlert = true
+                }
+            }
+        }
+    }
+
+    private func processMemoAfterAuth(_ memo: Memo) {
         // 템플릿이면 편집 시트 표시
         if memo.isTemplate {
-            print("📄 [copyMemo] 템플릿 메모 - TemplateEditSheet 표시")
-            print("🔍 [copyMemo] selectedTemplateIdForSheet 설정: \(memo.id)")
+            print("📄 [processMemoAfterAuth] 템플릿 메모 - TemplateEditSheet 표시")
+            print("🔍 [processMemoAfterAuth] selectedTemplateIdForSheet 설정: \(memo.id)")
             selectedTemplateIdForSheet = memo.id
-            print("✅ [copyMemo] selectedTemplateIdForSheet 설정 완료")
+            print("✅ [processMemoAfterAuth] selectedTemplateIdForSheet 설정 완료")
             return
         }
 
         // 일반 메모는 바로 복사
-        print("📋 [copyMemo] 일반 메모 - 바로 복사")
+        print("📋 [processMemoAfterAuth] 일반 메모 - 바로 복사")
         let processedValue = memo.value
         finalizeCopy(memo: memo, processedValue: processedValue)
     }
