@@ -1,0 +1,269 @@
+{
+  "" : {
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token memo-primary.dia",
+    "emit-module-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token memo-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token memo-primary-emit-module.dia",
+    "pch" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token memo-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token memo-primary.swiftdeps"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Constants.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Constants~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Extensions/ColorExtension.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorExtension~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Extensions/NotificationExtension.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/NotificationExtension~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Manager/DataManager.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/DataManager~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Manager/GlobalHotkeyManager.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GlobalHotkeyManager~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Manager/MenuBarManager.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MenuBarManager~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Model/Memo.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Memo~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ClipboardList.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/CloudBackupView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudBackupView~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ColorfulOnboardingView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ComboList.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboList~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/Component/ShortcutMemoView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ShortcutMemoView~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/FontSetting.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/FontSetting~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/MemoAdd.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoAdd~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/MemoDetail.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoDetail~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/SettingView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/SettingView~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ThemeSettings.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ThemeSettings~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/TokenMemoList.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoList~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/TutorialView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TutorialView~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/UsageStatistics.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/UsageStatistics~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Service/CloudKitBackupService.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/CloudKitBackupService~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Service/ComboExecutionService.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ComboExecutionService~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Service/MemoStore.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Temp/TokenMemoListAS.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/TokenMemoListAS~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Token_memoApp.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/Token_memoApp~partial.swiftmodule"
+  },
+  "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

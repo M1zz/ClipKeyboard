@@ -1,0 +1,16 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/FontSetting.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "이 사이즈로 내용이 보입니다.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 23
+        }
+      }
+    ]
+  },
+  "version": 1
+}

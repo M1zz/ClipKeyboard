@@ -6,17 +6,26 @@
 //
 
 import Foundation
+#if os(iOS)
+import UIKit
+import Vision
+import VisionKit
+#endif
 
 enum MemoType {
     case tokenMemo
     case clipboardHistory
+    case smartClipboardHistory  // 새로운 타입
+    case combo  // Phase 2: Combo 시스템
 }
 
 class MemoStore: ObservableObject {
     static let shared = MemoStore()
-    
+
     @Published var memos: [Memo] = []
     @Published var clipboardHistory: [ClipboardHistory] = []
+    @Published var smartClipboardHistory: [SmartClipboardHistory] = []
+    @Published var combos: [Combo] = []
     
     private static func fileURL(type: MemoType) throws -> URL? {
         print("📁 [MemoStore.fileURL] App Group 컨테이너 경로 확인 중...")
@@ -36,6 +45,12 @@ class MemoStore: ObservableObject {
         case .clipboardHistory:
             fileURL = containerURL.appendingPathComponent("clipboard.history.data")
             print("📄 [MemoStore.fileURL] 클립보드 히스토리 파일: \(fileURL.path)")
+        case .smartClipboardHistory:
+            fileURL = containerURL.appendingPathComponent("smart.clipboard.history.data")
+            print("📄 [MemoStore.fileURL] 스마트 클립보드 히스토리 파일: \(fileURL.path)")
+        case .combo:
+            fileURL = containerURL.appendingPathComponent("combos.data")
+            print("📄 [MemoStore.fileURL] Combo 파일: \(fileURL.path)")
         }
 
         let fileExists = FileManager.default.fileExists(atPath: fileURL.path)
@@ -84,7 +99,7 @@ class MemoStore: ObservableObject {
             for (index, memo) in newMemos.enumerated() {
                 print("   [\(index)] ID: \(memo.id)")
                 print("       제목: \(memo.title)")
-                print("       카테고리: \(memo.category)")
+                print("       테마: \(memo.category)")
                 print("       즐겨찾기: \(memo.isFavorite)")
                 print("       템플릿: \(memo.isTemplate)")
                 print("       보안: \(memo.isSecure)")
@@ -113,7 +128,17 @@ class MemoStore: ObservableObject {
         }
 
         print("🏁 [MemoStore.load] 완료 - 반환: \(memos.count)개")
-        return memos
+
+        // 카테고리 → 테마 마이그레이션 실행
+        let (migratedMemos, wasMigrated) = migrateLegacyCategoriesToThemes(memos)
+
+        // 마이그레이션이 수행되었으면 저장
+        if wasMigrated {
+            try? save(memos: migratedMemos, type: type)
+            print("💾 [MemoStore.load] 마이그레이션된 데이터 저장 완료")
+        }
+
+        return migratedMemos
     }
     
     func loadClipboardHistory() throws -> [ClipboardHistory] {
@@ -157,6 +182,158 @@ class MemoStore: ObservableObject {
         history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
 
         try saveClipboardHistory(history: history)
+    }
+
+    // MARK: - Smart Clipboard History (자동 분류)
+
+    /// 스마트 클립보드 히스토리 저장
+    func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
+        let data = try JSONEncoder().encode(history)
+        guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
+        try data.write(to: outfile)
+    }
+
+    /// 스마트 클립보드 히스토리 로드
+    func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
+        guard let fileURL = try Self.fileURL(type: .smartClipboardHistory) else { return [] }
+        guard let data = try? Data(contentsOf: fileURL) else {
+            // 파일이 없으면 기존 클립보드 히스토리 마이그레이션 시도
+            return try migrateFromLegacyClipboard()
+        }
+
+        if let history = try? JSONDecoder().decode([SmartClipboardHistory].self, from: data) {
+            return history
+        }
+        return []
+    }
+
+    /// 스마트 클립보드 히스토리에 추가 (자동 분류 포함)
+    func addToSmartClipboardHistory(content: String) throws {
+        var history = try loadSmartClipboardHistory()
+
+        // 자동 분류
+        let (detectedType, confidence) = ClipboardClassificationService.shared.classify(content: content)
+
+        // 중복 제거
+        history.removeAll { $0.content == content }
+
+        // 새 항목 추가
+        let newItem = SmartClipboardHistory(
+            content: content,
+            detectedType: detectedType,
+            confidence: confidence
+        )
+        history.insert(newItem, at: 0)
+
+        // 최대 100개까지만 유지
+        if history.count > 100 {
+            history = Array(history.prefix(100))
+        }
+
+        // 7일 이상 된 임시 항목 자동 삭제
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
+
+        try saveSmartClipboardHistory(history: history)
+
+        // Published 변수 업데이트
+        DispatchQueue.main.async {
+            self.smartClipboardHistory = history
+        }
+    }
+
+    /// 사용자 피드백으로 타입 수정
+    func updateClipboardItemType(id: UUID, correctedType: ClipboardItemType) throws {
+        var history = try loadSmartClipboardHistory()
+
+        if let index = history.firstIndex(where: { $0.id == id }) {
+            history[index].userCorrectedType = correctedType
+
+            // 학습 모델에 피드백 전달
+            ClipboardClassificationService.shared.updateClassificationModel(
+                content: history[index].content,
+                correctedType: correctedType
+            )
+
+            try saveSmartClipboardHistory(history: history)
+
+            // Published 변수 업데이트
+            DispatchQueue.main.async {
+                self.smartClipboardHistory = history
+            }
+        }
+    }
+
+    /// 기존 클립보드 히스토리에서 마이그레이션
+    private func migrateFromLegacyClipboard() throws -> [SmartClipboardHistory] {
+        print("🔄 [MemoStore] 기존 클립보드 히스토리 마이그레이션 시작...")
+
+        let legacyHistory = try loadClipboardHistory()
+
+        let smartHistory = legacyHistory.map { item -> SmartClipboardHistory in
+            let (type, confidence) = ClipboardClassificationService.shared.classify(content: item.content)
+            return SmartClipboardHistory(
+                id: item.id,
+                content: item.content,
+                copiedAt: item.copiedAt,
+                isTemporary: item.isTemporary,
+                detectedType: type,
+                confidence: confidence
+            )
+        }
+
+        // 새 형식으로 저장
+        if !smartHistory.isEmpty {
+            try saveSmartClipboardHistory(history: smartHistory)
+            print("✅ [MemoStore] 마이그레이션 완료: \(smartHistory.count)개 항목")
+        }
+
+        return smartHistory
+    }
+
+    /// 구 카테고리 이름을 새 테마 이름으로 마이그레이션
+    /// - Parameter memos: 마이그레이션할 메모 배열
+    /// - Returns: (마이그레이션된 메모 배열, 마이그레이션 수행 여부)
+    private func migrateLegacyCategoriesToThemes(_ memos: [Memo]) -> (memos: [Memo], migrated: Bool) {
+        let oldCategories = ["개인정보", "금융", "여행", "업무", "기본"]
+        var needsMigration = false
+
+        // 마이그레이션이 필요한지 확인
+        for memo in memos {
+            if oldCategories.contains(memo.category) {
+                needsMigration = true
+                break
+            }
+        }
+
+        guard needsMigration else {
+            return (memos, false)
+        }
+
+        print("🔄 [MemoStore] 카테고리 → 테마 마이그레이션 시작...")
+
+        let migratedMemos = memos.map { memo -> Memo in
+            guard oldCategories.contains(memo.category) else {
+                return memo
+            }
+
+            var updatedMemo = memo
+
+            // autoDetectedType이 있으면 그것을 사용
+            if let detectedType = memo.autoDetectedType {
+                updatedMemo.category = detectedType.rawValue
+                print("   [\(memo.title)] \(memo.category) → \(detectedType.rawValue) (자동 감지 타입 사용)")
+            } else {
+                // autoDetectedType이 없으면 "텍스트"로 기본 설정
+                updatedMemo.category = "텍스트"
+                print("   [\(memo.title)] \(memo.category) → 텍스트 (기본값)")
+            }
+
+            return updatedMemo
+        }
+
+        print("✅ [MemoStore] 마이그레이션 완료")
+        return (migratedMemos, true)
     }
 
     private func removeDuplicate(_ array: [Memo]) -> [Memo] {
@@ -287,4 +464,623 @@ class MemoStore: ObservableObject {
 
         return placeholders
     }
+
+    // MARK: - Combo 관리 (Phase 2)
+
+    /// Combo 목록 저장
+    func saveCombos(_ combos: [Combo]) throws {
+        let data = try JSONEncoder().encode(combos)
+        guard let outfile = try Self.fileURL(type: .combo) else { return }
+        try data.write(to: outfile)
+
+        // Published 변수 업데이트
+        DispatchQueue.main.async {
+            self.combos = combos
+        }
+    }
+
+    /// Combo 목록 로드
+    func loadCombos() throws -> [Combo] {
+        guard let fileURL = try Self.fileURL(type: .combo) else { return [] }
+        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+
+        if let combos = try? JSONDecoder().decode([Combo].self, from: data) {
+            // Published 변수 업데이트
+            DispatchQueue.main.async {
+                self.combos = combos
+            }
+            return combos
+        }
+        return []
+    }
+
+    /// Combo 추가
+    func addCombo(_ combo: Combo) throws {
+        var combos = try loadCombos()
+        combos.insert(combo, at: 0)
+        try saveCombos(combos)
+    }
+
+    /// Combo 업데이트
+    func updateCombo(_ combo: Combo) throws {
+        var combos = try loadCombos()
+        if let index = combos.firstIndex(where: { $0.id == combo.id }) {
+            combos[index] = combo
+            try saveCombos(combos)
+        }
+    }
+
+    /// Combo 삭제
+    func deleteCombo(id: UUID) throws {
+        var combos = try loadCombos()
+        combos.removeAll { $0.id == id }
+        try saveCombos(combos)
+    }
+
+    /// Combo 사용 횟수 증가 및 마지막 사용 시간 업데이트
+    func incrementComboUseCount(id: UUID) throws {
+        var combos = try loadCombos()
+        if let index = combos.firstIndex(where: { $0.id == id }) {
+            combos[index].useCount += 1
+            combos[index].lastUsed = Date()
+            try saveCombos(combos)
+        }
+    }
+
+    /// Combo 항목의 실제 값 가져오기
+    /// - Parameters:
+    ///   - item: Combo 항목
+    /// - Returns: 항목의 실제 값 (복사할 텍스트)
+    func getComboItemValue(_ item: ComboItem) throws -> String? {
+        switch item.type {
+        case .memo:
+            let memos = try load(type: .tokenMemo)
+            return memos.first(where: { $0.id == item.referenceId })?.value
+        case .clipboardHistory:
+            let history = try loadSmartClipboardHistory()
+            return history.first(where: { $0.id == item.referenceId })?.content
+        case .template:
+            let memos = try load(type: .tokenMemo)
+            // 템플릿의 경우 customValue가 있으면 사용, 없으면 원본 반환
+            if let memo = memos.first(where: { $0.id == item.referenceId }) {
+                return item.displayValue ?? memo.value
+            }
+            return nil
+        }
+    }
 }
+
+// MARK: - Clipboard Classification Service
+
+/// 클립보드 내용 자동 분류 서비스
+class ClipboardClassificationService {
+    static let shared = ClipboardClassificationService()
+
+    private init() {}
+
+    // MARK: - Public Methods
+
+    /// 클립보드 내용을 자동으로 분류
+    /// - Parameter content: 분류할 텍스트
+    /// - Returns: (타입, 신뢰도) 튜플
+    func classify(content: String) -> (type: ClipboardItemType, confidence: Double) {
+        let trimmed = content.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // 빈 문자열 체크
+        if trimmed.isEmpty {
+            return (.text, 0.0)
+        }
+
+        // 각 타입별로 검사 (높은 신뢰도 & 구체적인 패턴부터)
+        if let result = detectRRN(trimmed) { return result }  // 주민등록번호 (매우 구체적)
+        if let result = detectBusinessNumber(trimmed) { return result }  // 사업자등록번호
+        if let result = detectCreditCard(trimmed) { return result }
+        if let result = detectEmail(trimmed) { return result }
+        if let result = detectPhone(trimmed) { return result }
+        if let result = detectURL(trimmed) { return result }
+        if let result = detectPassportNumber(trimmed) { return result }
+        if let result = detectCustomsCode(trimmed) { return result }
+        if let result = detectVehiclePlate(trimmed) { return result }  // 차량번호
+        if let result = detectIPAddress(trimmed) { return result }  // IP주소
+        if let result = detectBirthDate(trimmed) { return result }  // 계좌번호보다 먼저!
+        if let result = detectPostalCode(trimmed) { return result }
+        if let result = detectBankAccount(trimmed) { return result }  // 가장 유연한 패턴은 마지막에
+        if let result = detectAddress(trimmed) { return result }  // 주소 (키워드 기반)
+        if let result = detectName(trimmed) { return result }  // 이름 (가장 모호함)
+
+        // 기본값
+        return (.text, 0.3)
+    }
+
+    /// 사용자 피드백을 반영하여 학습 (향후 ML 모델 개선용)
+    /// - Parameters:
+    ///   - content: 원본 텍스트
+    ///   - correctedType: 사용자가 수정한 타입
+    func updateClassificationModel(content: String, correctedType: ClipboardItemType) {
+        // TODO: 나중에 Core ML 모델 학습 또는 휴리스틱 개선
+        print("📚 [Classification] 학습 데이터 수집: \(content) -> \(correctedType.rawValue)")
+    }
+
+    // MARK: - Clipboard Image Detection
+
+    #if canImport(UIKit)
+    /// 클립보드에서 내용 가져오기 (텍스트 또는 이미지)
+    /// - Returns: SmartClipboardHistory 객체 또는 nil
+    func checkClipboard() -> SmartClipboardHistory? {
+        let pasteboard = UIPasteboard.general
+
+        // 1. 이미지 우선 확인
+        if let image = pasteboard.image {
+            return createHistoryFromImage(image)
+        }
+
+        // 2. 텍스트 확인
+        if let text = pasteboard.string, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return createHistoryFromText(text)
+        }
+
+        return nil
+    }
+
+    /// 이미지로부터 클립보드 히스토리 생성
+    private func createHistoryFromImage(_ image: UIImage) -> SmartClipboardHistory? {
+        // 이미지 크기 제한 (메모리 절약) - 인라인 구현
+        let maxDimension: CGFloat = 1024
+        let maxSize = max(image.size.width, image.size.height)
+
+        var finalImage = image
+        if maxSize > maxDimension {
+            let ratio = maxDimension / maxSize
+            let newSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
+
+            // 리사이즈
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+            defer { UIGraphicsEndImageContext() }
+            image.draw(in: CGRect(origin: .zero, size: newSize))
+
+            guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
+                return nil
+            }
+            finalImage = resizedImage
+        }
+
+        // Base64 변환 - 인라인 구현
+        guard let imageData = finalImage.jpegData(compressionQuality: 0.7) else {
+            return nil
+        }
+        let base64 = imageData.base64EncodedString()
+
+        return SmartClipboardHistory(
+            content: "이미지 (\(Int(finalImage.size.width))x\(Int(finalImage.size.height)))",
+            contentType: .image,
+            imageData: base64,
+            detectedType: .text,
+            confidence: 1.0
+        )
+    }
+
+    /// 텍스트로부터 클립보드 히스토리 생성
+    private func createHistoryFromText(_ text: String) -> SmartClipboardHistory {
+        let classification = classify(content: text)
+
+        return SmartClipboardHistory(
+            content: text,
+            contentType: .text,
+            imageData: nil,
+            detectedType: classification.type,
+            confidence: classification.confidence
+        )
+    }
+
+    /// 클립보드에 이미지가 있는지 확인
+    func hasImage() -> Bool {
+        return UIPasteboard.general.image != nil
+    }
+
+    /// 클립보드에 텍스트가 있는지 확인
+    func hasText() -> Bool {
+        if let text = UIPasteboard.general.string {
+            return !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+        return false
+    }
+    #endif
+
+    // MARK: - Detection Methods
+
+    /// 이메일 감지
+    private func detectEmail(_ text: String) -> (ClipboardItemType, Double)? {
+        let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}$"
+        if text.range(of: emailRegex, options: .regularExpression) != nil {
+            return (.email, 0.95)
+        }
+        return nil
+    }
+
+    /// 전화번호 감지 (한국 형식)
+    private func detectPhone(_ text: String) -> (ClipboardItemType, Double)? {
+        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+
+        // 한국 전화번호 패턴
+        let patterns = [
+            "^010[0-9]{8}$",      // 010-XXXX-XXXX
+            "^01[016789][0-9]{7,8}$", // 기타 휴대폰
+            "^0[2-6][0-9]{7,8}$",    // 지역번호
+            "^1[5-9][0-9]{2}$"       // 단축번호
+        ]
+
+        for pattern in patterns {
+            if cleaned.range(of: pattern, options: .regularExpression) != nil {
+                return (.phone, 0.9)
+            }
+        }
+
+        return nil
+    }
+
+    /// URL 감지
+    private func detectURL(_ text: String) -> (ClipboardItemType, Double)? {
+        let urlRegex = "^(https?://|www\\.)[^\\s]+"
+        if text.range(of: urlRegex, options: .regularExpression) != nil {
+            return (.url, 0.95)
+        }
+
+        // URL 구조 체크
+        if text.contains(".com") || text.contains(".net") || text.contains(".kr") || text.contains(".io") {
+            return (.url, 0.7)
+        }
+
+        return nil
+    }
+
+    /// 신용카드 번호 감지
+    private func detectCreditCard(_ text: String) -> (ClipboardItemType, Double)? {
+        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+
+        // 13~19자리 숫자 (대부분의 카드)
+        guard cleaned.count >= 13 && cleaned.count <= 19 else {
+            return nil
+        }
+
+        // Luhn 알고리즘 검증
+        if isValidLuhn(cleaned) {
+            return (.creditCard, 0.85)
+        }
+
+        return nil
+    }
+
+    /// 계좌번호 감지 (한국)
+    private func detectBankAccount(_ text: String) -> (ClipboardItemType, Double)? {
+        // 통관부호와 구분하기 위해 P로 시작하는 경우 제외
+        if text.uppercased().hasPrefix("P") {
+            return nil
+        }
+
+        let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
+
+        // 한국 계좌번호 패턴: 다양한 형식 지원
+        let patterns = [
+            "^[0-9]{2,4}-[0-9]{2,6}-[0-9]{2,8}$",  // 하이픈 포함 (유연한 패턴)
+            "^[0-9]{10,14}$"  // 숫자만
+        ]
+
+        for pattern in patterns {
+            if cleaned.range(of: pattern, options: .regularExpression) != nil {
+                // 카드번호와 구분하기 위해 신뢰도 낮춤
+                return (.bankAccount, 0.6)
+            }
+        }
+
+        return nil
+    }
+
+    /// 여권번호 감지 (한국)
+    private func detectPassportNumber(_ text: String) -> (ClipboardItemType, Double)? {
+        // 한국 여권: M + 8자리 숫자
+        let passportRegex = "^[MmSs][0-9]{8}$"
+        if text.range(of: passportRegex, options: .regularExpression) != nil {
+            return (.passportNumber, 0.9)
+        }
+
+        return nil
+    }
+
+    /// 통관고유부호 감지
+    private func detectCustomsCode(_ text: String) -> (ClipboardItemType, Double)? {
+        // P로 시작 + 12자리 숫자
+        let customsRegex = "^[Pp][0-9]{12}$"
+        if text.range(of: customsRegex, options: .regularExpression) != nil {
+            return (.customsCode, 0.95)
+        }
+
+        return nil
+    }
+
+    /// 우편번호 감지
+    private func detectPostalCode(_ text: String) -> (ClipboardItemType, Double)? {
+        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+
+        // 한국 우편번호: 5자리
+        if cleaned.count == 5 {
+            return (.postalCode, 0.7)
+        }
+
+        return nil
+    }
+
+    /// 생년월일 감지
+    private func detectBirthDate(_ text: String) -> (ClipboardItemType, Double)? {
+        let patterns = [
+            "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",  // YYYY-MM-DD
+            "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}$", // YYYY.MM.DD
+            "^[0-9]{4}/[0-9]{2}/[0-9]{2}$",  // YYYY/MM/DD
+            "^[0-9]{6}$",                     // YYMMDD (주민번호 앞자리)
+            "^[0-9]{8}$"                      // YYYYMMDD
+        ]
+
+        for pattern in patterns {
+            if text.range(of: pattern, options: .regularExpression) != nil {
+                return (.birthDate, 0.75)
+            }
+        }
+
+        return nil
+    }
+
+    /// 주민등록번호 감지
+    private func detectRRN(_ text: String) -> (ClipboardItemType, Double)? {
+        let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
+
+        // 패턴: YYMMDD-NNNNNNN (6자리-7자리)
+        let rrnPattern = "^[0-9]{6}-[1-4][0-9]{6}$"
+        if cleaned.range(of: rrnPattern, options: .regularExpression) != nil {
+            return (.rrn, 0.95)
+        }
+
+        // 하이픈 없이: YYMMDDNNNNNNN (13자리, 7번째 자리가 1-4)
+        let rrnNoHyphenPattern = "^[0-9]{6}[1-4][0-9]{6}$"
+        if cleaned.range(of: rrnNoHyphenPattern, options: .regularExpression) != nil {
+            return (.rrn, 0.92)
+        }
+
+        return nil
+    }
+
+    /// 사업자등록번호 감지
+    private func detectBusinessNumber(_ text: String) -> (ClipboardItemType, Double)? {
+        let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
+
+        // 패턴: XXX-XX-XXXXX (3자리-2자리-5자리)
+        let businessPattern = "^[0-9]{3}-[0-9]{2}-[0-9]{5}$"
+        if cleaned.range(of: businessPattern, options: .regularExpression) != nil {
+            return (.businessNumber, 0.95)
+        }
+
+        // 하이픈 없이: 10자리
+        if cleaned.range(of: "^[0-9]{10}$", options: .regularExpression) != nil {
+            return (.businessNumber, 0.85)
+        }
+
+        return nil
+    }
+
+    /// 차량번호 감지 (한국)
+    private func detectVehiclePlate(_ text: String) -> (ClipboardItemType, Double)? {
+        // 신형: 12가1234, 123가1234
+        let newPlatePattern = "^[0-9]{2,3}[가-힣][0-9]{4}$"
+        if text.range(of: newPlatePattern, options: .regularExpression) != nil {
+            return (.vehiclePlate, 0.9)
+        }
+
+        // 구형: 가1234, 서울12가3456
+        let oldPlatePattern1 = "^[가-힣][0-9]{4}$"
+        let oldPlatePattern2 = "^[가-힣]{2}[0-9]{2}[가-힣][0-9]{4}$"
+
+        if text.range(of: oldPlatePattern1, options: .regularExpression) != nil {
+            return (.vehiclePlate, 0.85)
+        }
+
+        if text.range(of: oldPlatePattern2, options: .regularExpression) != nil {
+            return (.vehiclePlate, 0.9)
+        }
+
+        return nil
+    }
+
+    /// IP 주소 감지
+    private func detectIPAddress(_ text: String) -> (ClipboardItemType, Double)? {
+        // IPv4: 192.168.0.1
+        let ipv4Pattern = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$"
+        if text.range(of: ipv4Pattern, options: .regularExpression) != nil {
+            // 각 옥텟이 0-255 범위인지 검증
+            let octets = text.split(separator: ".").compactMap { Int($0) }
+            if octets.count == 4 && octets.allSatisfy({ $0 >= 0 && $0 <= 255 }) {
+                return (.ipAddress, 0.95)
+            }
+        }
+
+        // IPv6: 간단한 패턴 (콜론으로 구분된 16진수)
+        let ipv6Pattern = "^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}$"
+        if text.range(of: ipv6Pattern, options: .regularExpression) != nil {
+            return (.ipAddress, 0.85)
+        }
+
+        return nil
+    }
+
+    /// 이름 감지 (한글)
+    private func detectName(_ text: String) -> (ClipboardItemType, Double)? {
+        // 한글만 포함, 2-4글자
+        let namePattern = "^[가-힣]{2,4}$"
+        if text.range(of: namePattern, options: .regularExpression) != nil {
+            // 신뢰도 낮음 (너무 일반적)
+            return (.name, 0.5)
+        }
+
+        // 영문 이름: 대문자로 시작, 2-20글자
+        let englishNamePattern = "^[A-Z][a-z]+( [A-Z][a-z]+)*$"
+        if text.range(of: englishNamePattern, options: .regularExpression) != nil {
+            return (.name, 0.6)
+        }
+
+        return nil
+    }
+
+    /// 주소 감지 (한글 키워드 기반)
+    private func detectAddress(_ text: String) -> (ClipboardItemType, Double)? {
+        // 주소 키워드
+        let addressKeywords = [
+            "시", "도", "구", "동", "로", "길", "번지", "아파트",
+            "빌딩", "타워", "층", "호", "번길", "대로"
+        ]
+
+        var keywordCount = 0
+        for keyword in addressKeywords {
+            if text.contains(keyword) {
+                keywordCount += 1
+            }
+        }
+
+        // 2개 이상의 키워드가 있으면 주소로 판단
+        if keywordCount >= 2 {
+            return (.address, 0.7)
+        }
+
+        // 우편번호 + 주소 패턴 (5자리 + 한글)
+        if text.range(of: "[0-9]{5}", options: .regularExpression) != nil && text.range(of: "[가-힣]+", options: .regularExpression) != nil {
+            return (.address, 0.65)
+        }
+
+        return nil
+    }
+
+    // MARK: - Helper Methods
+
+    /// Luhn 알고리즘 (신용카드 번호 검증)
+    private func isValidLuhn(_ number: String) -> Bool {
+        var sum = 0
+        let reversedChars = number.reversed().map { String($0) }
+
+        for (index, char) in reversedChars.enumerated() {
+            guard let digit = Int(char) else { return false }
+
+            if index % 2 == 1 {
+                let doubled = digit * 2
+                sum += doubled > 9 ? doubled - 9 : doubled
+            } else {
+                sum += digit
+            }
+        }
+
+        return sum % 10 == 0
+    }
+}
+
+
+// MARK: - OCR Service
+
+#if os(iOS)
+class OCRService {
+    static let shared = OCRService()
+    
+    private init() {}
+    
+    /// 이미지에서 텍스트 인식
+    /// - Parameter image: 인식할 이미지
+    /// - Returns: 인식된 텍스트 배열
+    func recognizeText(from image: UIImage, completion: @escaping ([String]) -> Void) {
+        guard let cgImage = image.cgImage else {
+            completion([])
+            return
+        }
+        
+        let request = VNRecognizeTextRequest { (request, error) in
+            guard error == nil,
+                  let observations = request.results as? [VNRecognizedTextObservation] else {
+                completion([])
+                return
+            }
+            
+            let recognizedTexts = observations.compactMap { observation in
+                observation.topCandidates(1).first?.string
+            }
+            
+            DispatchQueue.main.async {
+                completion(recognizedTexts)
+            }
+        }
+        
+        // 한국어 + 영어 인식
+        request.recognitionLanguages = ["ko-KR", "en-US"]
+        request.recognitionLevel = .accurate
+        request.usesLanguageCorrection = true
+        
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                try handler.perform([request])
+            } catch {
+                print("❌ [OCR] 텍스트 인식 실패: \(error)")
+                DispatchQueue.main.async {
+                    completion([])
+                }
+            }
+        }
+    }
+    
+    /// 카드 정보 파싱
+    /// - Parameter texts: OCR로 인식된 텍스트 배열
+    /// - Returns: 파싱된 카드 정보
+    func parseCardInfo(from texts: [String]) -> [String: String] {
+        var result: [String: String] = [:]
+        
+        for text in texts {
+            let cleaned = text.replacingOccurrences(of: " ", with: "")
+                              .replacingOccurrences(of: "-", with: "")
+            
+            // 카드번호 패턴 (13-19자리)
+            if cleaned.range(of: "^[0-9]{13,19}$", options: .regularExpression) != nil {
+                // 4자리씩 나눠서 저장
+                let formatted = cleaned.enumerated().map { (index, char) -> String in
+                    return (index > 0 && index % 4 == 0) ? "-\(char)" : String(char)
+                }.joined()
+                result["카드번호"] = formatted
+            }
+            
+            // 유효기간 패턴 (MM/YY)
+            if let match = text.range(of: "(0[1-9]|1[0-2])/([0-9]{2})", options: .regularExpression) {
+                result["유효기간"] = String(text[match])
+            }
+        }
+        
+        return result
+    }
+    
+    /// 주소 정보 파싱
+    /// - Parameter texts: OCR로 인식된 텍스트 배열
+    /// - Returns: 파싱된 주소 정보
+    func parseAddress(from texts: [String]) -> String {
+        var addressComponents: [String] = []
+        
+        // 주소 키워드
+        let addressKeywords = ["시", "도", "구", "동", "로", "길", "번지", "아파트", "빌딩", "타워", "층", "호"]
+        
+        for text in texts {
+            // 주소 키워드를 포함하는 텍스트만 추출
+            if addressKeywords.contains(where: { text.contains($0) }) {
+                addressComponents.append(text)
+            }
+            
+            // 우편번호 (5자리)
+            if text.range(of: "^[0-9]{5}$", options: .regularExpression) != nil {
+                addressComponents.insert(text, at: 0)
+            }
+        }
+        
+        return addressComponents.joined(separator: " ")
+    }
+}
+#endif
+

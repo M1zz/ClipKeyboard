@@ -1,0 +1,192 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/MemoAdd.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Completed!",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 390
+        }
+      },
+      {
+        "comment": "",
+        "key": "제목",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "메모 제목을 입력하세요",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "내용",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "메모 내용을 입력하세요",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "완료",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 108
+        }
+      },
+      {
+        "comment": "",
+        "key": "테마",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 117
+        }
+      },
+      {
+        "comment": "",
+        "key": "자동: %@",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 127
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 177
+        }
+      },
+      {
+        "comment": "",
+        "key": "보안 메모",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "Face ID로 보호",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 202
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "재사용 가능한 양식",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 195
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "예시",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 223
+        }
+      },
+      {
+        "comment": "",
+        "key": "안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다.",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 228
+        }
+      },
+      {
+        "comment": "",
+        "key": "플레이스홀더 값 설정",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 245
+        }
+      },
+      {
+        "comment": "",
+        "key": "초기화",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 285
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 369
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ok",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 391
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 입력",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 585
+        }
+      },
+      {
+        "comment": "",
+        "key": "추가",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 596
+        }
+      }
+    ]
+  },
+  "version": 1
+}

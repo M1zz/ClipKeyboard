@@ -1,0 +1,24 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/MemoDetail.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Title : ",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 17
+        }
+      },
+      {
+        "comment": "",
+        "key": "Value : ",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 23
+        }
+      }
+    ]
+  },
+  "version": 1
+}

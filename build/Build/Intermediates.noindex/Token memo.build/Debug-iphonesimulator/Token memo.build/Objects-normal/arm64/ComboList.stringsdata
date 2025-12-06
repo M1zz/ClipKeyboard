@@ -1,0 +1,200 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ComboList.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Combo",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "테스트 데이터 추가",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo가 없습니다",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 237
+        }
+      },
+      {
+        "comment": "",
+        "key": "여러 메모를 순서대로 자동 입력하는\nCombo를 만들어보세요",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 242
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld개 항목",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 287
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld초 간격",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 291
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld회 사용",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 296
+        }
+      },
+      {
+        "comment": "",
+        "key": "+%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 310
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 추가",
+        "location": {
+          "startingColumn": 45,
+          "startingLine": 441
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 편집",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 441
+        }
+      },
+      {
+        "comment": "",
+        "key": "기본 정보",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 396
+        }
+      },
+      {
+        "comment": "",
+        "key": "항목 (%lld개)",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 414
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 이름",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 397
+        }
+      },
+      {
+        "comment": "",
+        "key": "즐겨찾기",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 411
+        }
+      },
+      {
+        "comment": "",
+        "key": "간격",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 400
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 402
+        }
+      },
+      {
+        "comment": "",
+        "key": "1초",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 403
+        }
+      },
+      {
+        "comment": "",
+        "key": "2초",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 404
+        }
+      },
+      {
+        "comment": "",
+        "key": "3초",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 405
+        }
+      },
+      {
+        "comment": "",
+        "key": "5초",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 406
+        }
+      },
+      {
+        "comment": "",
+        "key": "항목을 추가해주세요",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 416
+        }
+      },
+      {
+        "comment": "",
+        "key": "항목 추가",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 436
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 445
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 451
+        }
+      }
+    ]
+  },
+  "version": 1
+}

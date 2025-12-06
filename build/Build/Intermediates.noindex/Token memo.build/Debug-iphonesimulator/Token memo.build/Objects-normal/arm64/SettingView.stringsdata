@@ -1,0 +1,160 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/SettingView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "앱 설정",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 17
+        }
+      },
+      {
+        "comment": "",
+        "key": "데이터 관리",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "통계 및 정보",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "지원",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 관리",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 19
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEW",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "클립키보드 사용방법",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "FAQ",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 28
+        }
+      },
+      {
+        "comment": "",
+        "key": "앱 내 폰트 크기 변경",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "키보드 테마 설정",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "붙여넣기 알림 켜기/끄기",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 40
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud 백업 및 복구",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "사용 통계",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "리뷰 및 평점 매기기",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "개발자에게 연락하기",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Web Page",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Web Page",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Web Page",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "Send Email",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 135
+        }
+      }
+    ]
+  },
+  "version": 1
+}

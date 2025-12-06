@@ -9,6 +9,7 @@ import SwiftUI
 
 var showOnlyTemplates: Bool = false
 var showOnlyFavorites: Bool = false
+var selectedTheme: String? = nil  // 선택된 테마 필터
 
 // 미리 정의된 값들 저장소 - 새로운 구조 사용
 class PredefinedValuesStore {
@@ -159,12 +160,20 @@ struct KeyboardView: View {
 
     private var gridItemLayout = [GridItem(.adaptive(minimum: 130), spacing: 10)]
 
+    // 테마 목록
+    private let availableThemes = [
+        "이메일", "전화번호", "주소", "URL", "카드번호", "계좌번호",
+        "여권번호", "통관부호", "우편번호", "이름", "생년월일",
+        "주민등록번호", "사업자등록번호", "차량번호", "IP주소", "텍스트"
+    ]
+
     @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
     @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
     @AppStorage("keyboardKeyColor") private var keyboardKeyColorHex: String = "FFFFFF"
 
     @State private var showTemplatesOnly: Bool = false
     @State private var showFavoritesOnly: Bool = false
+    @State private var selectedThemeFilter: String? = nil  // 선택된 테마 필터
 
     @StateObject private var templateInputState = TemplateInputState()
 
@@ -178,6 +187,56 @@ struct KeyboardView: View {
 
                 // 필터 버튼들
                 HStack(spacing: 8) {
+                    // 테마 필터 버튼 (템플릿 왼쪽에 위치)
+                    Menu {
+                        Button {
+                            selectedThemeFilter = nil
+                            selectedTheme = nil
+                            NotificationCenter.default.post(name: NSNotification.Name("filterChanged"), object: nil)
+                        } label: {
+                            HStack {
+                                Text("전체")
+                                if selectedThemeFilter == nil {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
+
+                        Divider()
+
+                        ForEach(availableThemes, id: \.self) { theme in
+                            Button {
+                                selectedThemeFilter = theme
+                                selectedTheme = theme
+                                showTemplatesOnly = false
+                                showFavoritesOnly = false
+                                showOnlyTemplates = false
+                                showOnlyFavorites = false
+                                NotificationCenter.default.post(name: NSNotification.Name("filterChanged"), object: nil)
+                            } label: {
+                                HStack {
+                                    Text(theme)
+                                    if selectedThemeFilter == theme {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: selectedThemeFilter != nil ? "tag.fill" : "tag")
+                                .font(.system(size: 14))
+                            Text(selectedThemeFilter ?? "테마")
+                                .font(.system(size: 13, weight: .medium))
+                                .lineLimit(1)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(selectedThemeFilter != nil ? Color.blue : Color(.systemGray5))
+                        .foregroundColor(selectedThemeFilter != nil ? .white : (colorScheme == .dark ? .white : .black))
+                        .cornerRadius(16)
+                    }
+
                     // 템플릿 필터 버튼
                     Button {
                         showTemplatesOnly.toggle()
@@ -221,12 +280,14 @@ struct KeyboardView: View {
                     }
 
                     // 필터 초기화 버튼
-                    if showTemplatesOnly || showFavoritesOnly {
+                    if showTemplatesOnly || showFavoritesOnly || selectedThemeFilter != nil {
                         Button {
                             showTemplatesOnly = false
                             showFavoritesOnly = false
+                            selectedThemeFilter = nil
                             showOnlyTemplates = false
                             showOnlyFavorites = false
+                            selectedTheme = nil
                             NotificationCenter.default.post(name: NSNotification.Name("filterChanged"), object: nil)
                         } label: {
                             Image(systemName: "xmark.circle.fill")

@@ -42,6 +42,8 @@
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58F8FBC62A1527C300F5446E /* MemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC52A1527C300F5446E /* MemoDetail.swift */; };
+		1C7C6CDBD08940B2BC4EED19 /* ComboList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */; };
+		256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58F8FBC52A1527C300F5446E /* MemoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetail.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* TokenMemo.mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TokenMemo.mac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboList.swift; sourceTree = "<group>"; };
+		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -244,6 +248,7 @@
 			children = (
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
+				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				5802F4112A2B42D3002825D6 /* Component */,
 				58C473682A10C9A0009D87BC /* TokenMemoList.swift */,
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
+				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
 				58F8FBC52A1527C300F5446E /* MemoDetail.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -462,6 +468,8 @@
 				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,
 				58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */,
 				58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */,
+				1C7C6CDBD08940B2BC4EED19 /* ComboList.swift in Sources */,
+				256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

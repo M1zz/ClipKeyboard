@@ -25,6 +25,14 @@ class DataManager: ObservableObject {
         }
     }
 
+    @Published var didShowUseCaseSelection: Bool = UserDefaults.standard.bool(forKey: "useCaseSelection") {
+        didSet {
+            print("📝 [DataManager] didShowUseCaseSelection 변경: \(didShowUseCaseSelection)")
+            UserDefaults.standard.setValue(didShowUseCaseSelection, forKey: "useCaseSelection")
+            UserDefaults.standard.synchronize()
+        }
+    }
+
     static var didRemoveAds: Bool = UserDefaults.standard.bool(forKey: "didRemoveAds") {
         didSet {
             print("📝 [DataManager] didRemoveAds 변경: \(didRemoveAds)")

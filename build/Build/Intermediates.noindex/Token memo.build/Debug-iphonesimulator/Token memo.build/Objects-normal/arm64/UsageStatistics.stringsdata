@@ -1,0 +1,96 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/UsageStatistics.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "사용 통계",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 132
+        }
+      },
+      {
+        "comment": "",
+        "key": "전체 통계",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "테마별 통계",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "전체 메모",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld개",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "총 사용 횟수",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld회",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld개",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "메모별 통계",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 79
+        }
+      },
+      {
+        "comment": "",
+        "key": "정렬",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 97
+        }
+      }
+    ]
+  },
+  "version": 1
+}

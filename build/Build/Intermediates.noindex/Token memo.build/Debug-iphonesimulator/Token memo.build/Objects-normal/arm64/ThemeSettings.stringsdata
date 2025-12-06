@@ -1,0 +1,104 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ThemeSettings.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "테마 설정",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 88
+        }
+      },
+      {
+        "comment": "",
+        "key": "키보드 테마",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "커스텀 색상",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "미리보기",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "프리셋",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "테마 선택",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 22
+        }
+      },
+      {
+        "comment": "",
+        "key": "배경 색상",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "키 색상",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "기본 라이트",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "기본 다크",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "파스텔 블루",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "민트",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 82
+        }
+      }
+    ]
+  },
+  "version": 1
+}

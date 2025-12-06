@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 var isFirstVisit: Bool = true
 var fontSize: CGFloat = 20
@@ -20,15 +21,20 @@ struct TokenMemoList: View {
     
     @State private var showShortcutSheet: Bool = false
     @State private var isFirstVisit: Bool = true
-    
+
     @State private var keyword: String = ""
     @State private var value: String = ""
+
+    // 클립보드 자동 분류
+    @State private var clipboardDetectedType: ClipboardItemType = .text
+    @State private var clipboardConfidence: Double = 0.0
 
     @State private var searchQueryString = ""
 
     // 보안 관련
     @State private var showAuthAlert = false
     @State private var selectedCategoryFilter: String? = nil
+    @State private var selectedTypeFilter: ClipboardItemType? = nil
 
     // 템플릿 입력 관련
     @State private var showTemplateInputSheet = false
@@ -50,7 +56,12 @@ struct TokenMemoList: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            VStack(spacing: 0) {
+                // 타입 필터 바
+                if !tokenMemos.isEmpty {
+                    MemoTypeFilterBar(selectedFilter: $selectedTypeFilter, memos: tokenMemos)
+                }
+
                 List {
                     if tokenMemos.isEmpty {
                         NavigationLink {
@@ -100,8 +111,7 @@ struct TokenMemoList: View {
                                     insertedValue: memo.value,
                                     insertedCategory: memo.category,
                                     insertedIsTemplate: memo.isTemplate,
-                                    insertedIsSecure: memo.isSecure,
-                                    insertedShortcut: memo.shortcut ?? ""
+                                    insertedIsSecure: memo.isSecure
                                 )
                             } label: {
                                 Label("수정", systemImage: "pencil")
@@ -149,37 +159,9 @@ struct TokenMemoList: View {
 
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        HStack(spacing: 8) {
-                            Text("저장된 항목")
-                                .font(.headline)
-                                .fontWeight(.bold)
-
-                            Menu {
-                                Button("전체") {
-                                    selectedCategoryFilter = nil
-                                    filterByCategory()
-                                }
-                                ForEach(["기본", "은행", "주소", "이메일", "전화번호", "비밀번호", "기타"], id: \.self) { category in
-                                    Button(category) {
-                                        selectedCategoryFilter = category
-                                        filterByCategory()
-                                    }
-                                }
-                            } label: {
-                                HStack(spacing: 4) {
-                                    if let filter = selectedCategoryFilter {
-                                        Text(filter)
-                                            .font(.subheadline)
-                                    }
-                                    Image(systemName: "line.3.horizontal.decrease.circle")
-                                }
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(selectedCategoryFilter != nil ? Color.blue : Color.clear)
-                                .foregroundColor(selectedCategoryFilter != nil ? .white : .blue)
-                                .cornerRadius(8)
-                            }
-                        }
+                        Text("저장된 항목")
+                            .font(.headline)
+                            .fontWeight(.bold)
                     }
 
                     #if os(iOS)
@@ -240,35 +222,30 @@ struct TokenMemoList: View {
                     }
                     #endif
                 }
-                
-                VStack {
-                    Spacer()
-                    if showToast {
-                        Group {
-                            Text(toastMessage)
-                                .multilineTextAlignment(.center)
-                                .padding()
-                                .background(.gray)
-                                .cornerRadius(8)
-                                .padding()
-                                .foregroundColor(.white)
-                        }
+            }
+            .overlay(alignment: .bottom) {
+                if showToast {
+                    Text(toastMessage)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .background(.gray)
+                        .cornerRadius(8)
+                        .padding()
+                        .foregroundColor(.white)
                         .onTapGesture {
                             showToast = false
                         }
-                    }
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .padding(.bottom, 50)
                 }
-                .animation(.easeInOut(duration: 0.5), value: showToast)
-                .transition(.opacity)
             }
-            
+            .animation(.easeInOut(duration: 0.5), value: showToast)
+
             .onChange(of: searchQueryString, perform: { value in
-                if searchQueryString.isEmpty {
-                    tokenMemos = loadedData
-                } else {
-                    tokenMemos = tokenMemos.filter { $0.title.localizedStandardContains(searchQueryString)
-                    }
-                }
+                applyFilters()
+            })
+            .onChange(of: selectedTypeFilter, perform: { _ in
+                applyFilters()
             })
             #if os(iOS)
             #if os(iOS)
@@ -346,7 +323,9 @@ struct TokenMemoList: View {
                                          value: $value,
                                          tokenMemos: $tokenMemos,
                                          originalData: $loadedData,
-                                         showShortcutSheet: $showShortcutSheet)
+                                         showShortcutSheet: $showShortcutSheet,
+                                         detectedType: clipboardDetectedType,
+                                         confidence: clipboardConfidence)
                         .offset(y: 0)
                         .shadow(radius: 15)
                         .opacity(showShortcutSheet ? 1 : 0)
@@ -373,6 +352,9 @@ struct TokenMemoList: View {
                     loadedData = tokenMemos
                     print("✅ [TokenMemoList] loadedData에 메모 저장 완료")
 
+                    // 기존 메모 자동 분류 마이그레이션
+                    migrateExistingMemosClassification()
+
                 } catch {
                     print("❌ [TokenMemoList] 메모 로드 실패: \(error.localizedDescription)")
                     fatalError(error.localizedDescription)
@@ -387,14 +369,22 @@ struct TokenMemoList: View {
 
                 if hasClipboard, isFirstVisit {
                     print("🎯 [TokenMemoList] 클립보드 바로가기 시트 표시 예약")
+
+                    value = UIPasteboard.general.string ?? "error"
+                    print("📝 [TokenMemoList] 클립보드 값: \(value)")
+
+                    // 자동 분류 수행
+                    let classification = ClipboardClassificationService.shared.classify(content: value)
+                    clipboardDetectedType = classification.type
+                    clipboardConfidence = classification.confidence
+                    print("🔍 [TokenMemoList] 자동 분류: \(classification.type.rawValue) (신뢰도: \(Int(classification.confidence * 100))%)")
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         print("📱 [TokenMemoList] 바로가기 시트 표시")
                         showShortcutSheet = true
                     }
 
                     isFirstVisit = false
-                    value = UIPasteboard.general.string ?? "error"
-                    print("📝 [TokenMemoList] 클립보드 값: \(value)")
                 }
 
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
@@ -435,7 +425,59 @@ struct TokenMemoList: View {
         print("✅ [sortMemos] 정렬 완료 - 출력: \(sorted.count)개")
         return sorted
     }
-    
+
+    // 기존 메모 자동 분류 마이그레이션
+    private func migrateExistingMemosClassification() {
+        // 한 번만 실행되도록 체크
+        let migrationKey = "autoClassificationMigrationCompleted_v1"
+        if UserDefaults.standard.bool(forKey: migrationKey) {
+            print("ℹ️ [Migration] 이미 마이그레이션 완료됨")
+            return
+        }
+
+        print("🔄 [Migration] 기존 메모 자동 분류 시작...")
+
+        do {
+            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var updated = false
+
+            for index in memos.indices {
+                // 자동 분류 타입이 없는 메모만 처리
+                if memos[index].autoDetectedType == nil {
+                    let classification = ClipboardClassificationService.shared.classify(content: memos[index].value)
+                    memos[index].autoDetectedType = classification.type
+
+                    // 테마가 "기본"인 경우에만 자동으로 변경
+                    if memos[index].category == "기본" {
+                        let suggestedCategory = Constants.categoryForClipboardType(classification.type)
+                        memos[index].category = suggestedCategory
+                        print("   ✅ [\(memos[index].title)] \(classification.type.rawValue) → \(suggestedCategory)")
+                    } else {
+                        print("   ℹ️ [\(memos[index].title)] \(classification.type.rawValue) (테마 유지: \(memos[index].category))")
+                    }
+
+                    updated = true
+                }
+            }
+
+            if updated {
+                try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+                // UI 업데이트
+                tokenMemos = sortMemos(memos)
+                loadedData = tokenMemos
+                print("✅ [Migration] 마이그레이션 완료 및 저장됨")
+            } else {
+                print("ℹ️ [Migration] 업데이트할 메모 없음")
+            }
+
+            // 마이그레이션 완료 표시
+            UserDefaults.standard.set(true, forKey: migrationKey)
+
+        } catch {
+            print("❌ [Migration] 마이그레이션 실패: \(error)")
+        }
+    }
+
     /// Empty list view
     private var EmptyListView: some View {
         VStack(spacing: 5) {
@@ -455,19 +497,57 @@ struct TokenMemoList: View {
     }
 
     private func copyMemo(memo: Memo) {
-        print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate)")
+        print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate), 보안: \(memo.isSecure)")
 
+        // 🔒 보안 메모 확인
+        if memo.isSecure {
+            print("🔐 [copyMemo] 보안 메모 - Face ID 인증 요청")
+            authenticateWithBiometrics(memo: memo)
+            return
+        }
+
+        // 일반 메모는 바로 처리
+        processMemoAfterAuth(memo)
+    }
+
+    private func authenticateWithBiometrics(memo: Memo) {
+        let context = LAContext()
+        var error: NSError?
+
+        // 생체 인증 가능 여부 확인
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            print("❌ [authenticateWithBiometrics] 생체 인증 불가: \(error?.localizedDescription ?? "Unknown error")")
+            showAuthAlert = true
+            return
+        }
+
+        // 생체 인증 요청
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
+                              localizedReason: "보안 메모에 접근하려면 인증이 필요합니다") { success, authError in
+            DispatchQueue.main.async {
+                if success {
+                    print("✅ [authenticateWithBiometrics] Face ID 인증 성공")
+                    self.processMemoAfterAuth(memo)
+                } else {
+                    print("❌ [authenticateWithBiometrics] Face ID 인증 실패: \(authError?.localizedDescription ?? "Unknown error")")
+                    self.showAuthAlert = true
+                }
+            }
+        }
+    }
+
+    private func processMemoAfterAuth(_ memo: Memo) {
         // 템플릿이면 편집 시트 표시
         if memo.isTemplate {
-            print("📄 [copyMemo] 템플릿 메모 - TemplateEditSheet 표시")
-            print("🔍 [copyMemo] selectedTemplateIdForSheet 설정: \(memo.id)")
+            print("📄 [processMemoAfterAuth] 템플릿 메모 - TemplateEditSheet 표시")
+            print("🔍 [processMemoAfterAuth] selectedTemplateIdForSheet 설정: \(memo.id)")
             selectedTemplateIdForSheet = memo.id
-            print("✅ [copyMemo] selectedTemplateIdForSheet 설정 완료")
+            print("✅ [processMemoAfterAuth] selectedTemplateIdForSheet 설정 완료")
             return
         }
 
         // 일반 메모는 바로 복사
-        print("📋 [copyMemo] 일반 메모 - 바로 복사")
+        print("📋 [processMemoAfterAuth] 일반 메모 - 바로 복사")
         let processedValue = memo.value
         finalizeCopy(memo: memo, processedValue: processedValue)
     }
@@ -478,7 +558,7 @@ struct TokenMemoList: View {
         // 사용 빈도 증가
         do {
             try MemoStore.shared.incrementClipCount(for: memo.id)
-            try MemoStore.shared.addToClipboardHistory(content: processedValue)
+            try MemoStore.shared.addToSmartClipboardHistory(content: processedValue)  // ✨ 자동 분류!
 
             // UI 업데이트를 위해 데이터 리로드
             tokenMemos = sortMemos(try MemoStore.shared.load(type: .tokenMemo))
@@ -563,6 +643,22 @@ struct TokenMemoList: View {
         } catch {
             print("Error filtering by category: \(error)")
         }
+    }
+
+    private func applyFilters() {
+        var filtered = loadedData
+
+        // 검색어 필터
+        if !searchQueryString.isEmpty {
+            filtered = filtered.filter { $0.title.localizedStandardContains(searchQueryString) }
+        }
+
+        // 타입 필터
+        if let typeFilter = selectedTypeFilter {
+            filtered = filtered.filter { $0.autoDetectedType == typeFilter }
+        }
+
+        tokenMemos = filtered
     }
 
     private func addSamplePlaceholderValuesIfNeeded() {
@@ -742,11 +838,6 @@ struct MemoRowView: View {
                         .foregroundColor(.purple)
                 }
 
-                if let shortcut = memo.shortcut {
-                    Text(":\(shortcut)")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                }
             }
         }
     }
@@ -1832,6 +1923,99 @@ struct TemplateSheetResolver: View {
                     isLoading = false
                 }
             }
+        }
+    }
+}
+
+// MARK: - Memo Type Filter Bar
+
+struct MemoTypeFilterBar: View {
+    @Binding var selectedFilter: ClipboardItemType?
+    let memos: [Memo]
+
+    var typeCounts: [ClipboardItemType: Int] {
+        Dictionary(grouping: memos.compactMap { $0.autoDetectedType }, by: { $0 })
+            .mapValues { $0.count }
+    }
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                // 전체 버튼
+                MemoFilterChip(
+                    title: "전체",
+                    icon: "list.bullet",
+                    count: memos.count,
+                    isSelected: selectedFilter == nil
+                ) {
+                    selectedFilter = nil
+                }
+
+                // 타입별 필터 (개수가 있는 것만)
+                ForEach(ClipboardItemType.allCases.filter { typeCounts[$0, default: 0] > 0 }, id: \.self) { type in
+                    MemoFilterChip(
+                        title: type.rawValue,
+                        icon: type.icon,
+                        count: typeCounts[type, default: 0],
+                        color: type.color,
+                        isSelected: selectedFilter == type
+                    ) {
+                        selectedFilter = type
+                    }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+        }
+        .background(Color(.systemGray6))
+    }
+}
+
+struct MemoFilterChip: View {
+    let title: String
+    let icon: String
+    let count: Int
+    var color: String = "blue"
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.caption)
+                Text(title)
+                    .font(.caption)
+                    .fontWeight(isSelected ? .bold : .regular)
+                Text("\(count)")
+                    .font(.caption2)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 2)
+                    .background(isSelected ? Color.white.opacity(0.3) : Color.gray.opacity(0.2))
+                    .cornerRadius(4)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(isSelected ? colorFor(color) : Color.gray.opacity(0.2))
+            .foregroundColor(isSelected ? .white : .primary)
+            .cornerRadius(20)
+        }
+    }
+
+    private func colorFor(_ name: String) -> Color {
+        switch name {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "indigo": return .indigo
+        case "brown": return .brown
+        case "cyan": return .cyan
+        case "teal": return .teal
+        case "pink": return .pink
+        case "mint": return .mint
+        default: return .gray
         }
     }
 }

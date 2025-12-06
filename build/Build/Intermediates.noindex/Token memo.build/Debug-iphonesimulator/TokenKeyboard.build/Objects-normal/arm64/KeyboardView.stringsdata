@@ -1,0 +1,72 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/TokenKeyboard/KeyboardView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "템플릿",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "즐겨찾기",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 213
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 값 선택",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 397
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 변수가 없습니다",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 429
+        }
+      },
+      {
+        "comment": "",
+        "key": "이 템플릿에는 설정할 값이 없어요.\n다시 시도해주세요.",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 433
+        }
+      },
+      {
+        "comment": "",
+        "key": "값을 선택하면 자동으로 입력됩니다",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 464
+        }
+      },
+      {
+        "comment": "",
+        "key": "앱을 열어 플레이스홀더 관리에서\n'%@' 값을 추가해주세요",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 544
+        }
+      },
+      {
+        "comment": "",
+        "key": "값이 등록되지 않았습니다",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 538
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,296 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ClipboardList.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Combo 생성",
+        "location": {
+          "startingColumn": 52,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "클립보드 히스토리",
+        "location": {
+          "startingColumn": 69,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 105
+        }
+      },
+      {
+        "comment": "",
+        "key": "생성 (%lld)",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 생성",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 125
+        }
+      },
+      {
+        "comment": "",
+        "key": "전체 삭제",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "필터 초기화",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 139
+        }
+      },
+      {
+        "comment": "",
+        "key": "클립보드 히스토리 없음",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 215
+        }
+      },
+      {
+        "comment": "",
+        "key": "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ 타입 없음",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 220
+        }
+      },
+      {
+        "comment": "",
+        "key": "이 타입으로 분류된 항목이 없습니다",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 222
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 462
+        }
+      },
+      {
+        "comment": "",
+        "key": "임시",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 556
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 584
+        }
+      },
+      {
+        "comment": "",
+        "key": "타입 변경",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 598
+        }
+      },
+      {
+        "comment": "",
+        "key": "메모로 저장",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 689
+        }
+      },
+      {
+        "comment": "",
+        "key": "메모 정보",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 658
+        }
+      },
+      {
+        "comment": "",
+        "key": "내용",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 670
+        }
+      },
+      {
+        "comment": "",
+        "key": "자동 분류 정보",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 676
+        }
+      },
+      {
+        "comment": "",
+        "key": "제목",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 659
+        }
+      },
+      {
+        "comment": "",
+        "key": "테마",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 661
+        }
+      },
+      {
+        "comment": "",
+        "key": "보안 메모",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 667
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%% 확신",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 682
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 693
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 699
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 생성",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 759
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 정보",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 742
+        }
+      },
+      {
+        "comment": "",
+        "key": "Combo 이름",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 743
+        }
+      },
+      {
+        "comment": "",
+        "key": "자동 복사 간격",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 745
+        }
+      },
+      {
+        "comment": "",
+        "key": "1초",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 746
+        }
+      },
+      {
+        "comment": "",
+        "key": "2초",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 747
+        }
+      },
+      {
+        "comment": "",
+        "key": "3초",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 748
+        }
+      },
+      {
+        "comment": "",
+        "key": "5초",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 749
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld개 항목이 순서대로 실행됩니다",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 754
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 763
+        }
+      },
+      {
+        "comment": "",
+        "key": "생성",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 769
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>새 토큰을 추가할까요?</key>
+	<string>새 토큰을 추가할까요?</string>
+	<key>생성된 키보드가 없어요</key>
+	<string>생성된 키보드가 없어요</string>
+	<key>전체 삭제</key>
+	<string>전체 삭제</string>
+	<key>키보드 버튼 문구</key>
+	<string>키보드 버튼 문구</string>
+	<key>키보드 입력 시 삽입되는 전체 문구를 작성해주세요</key>
+	<string>키보드 입력 시 삽입되는 전체 문구를 작성해주세요</string>
+	<key>키보드 추가</key>
+	<string>키보드 추가</string>
+</dict>
+</plist>

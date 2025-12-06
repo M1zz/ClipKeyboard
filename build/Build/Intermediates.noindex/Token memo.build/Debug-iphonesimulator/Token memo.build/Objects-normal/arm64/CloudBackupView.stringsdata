@@ -1,0 +1,248 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/CloudBackupView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "iCloud 백업",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 194
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 데이터 복구",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 203
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 삭제",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 211
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud 상태",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 28
+        }
+      },
+      {
+        "comment": "",
+        "key": "연결됨",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "연결 안 됨",
+        "location": {
+          "startingColumn": 76,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud에 로그인하세요",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "연결 상태",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 52
+        }
+      },
+      {
+        "comment": "",
+        "key": "마지막 백업",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 없음",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "데이터를 백업하지 않았습니다",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 정보",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업하기",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 112
+        }
+      },
+      {
+        "comment": "",
+        "key": "현재 데이터를 iCloud에 백업합니다",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "복구하기",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud에서 데이터를 복구합니다",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 삭제",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud의 백업 데이터를 삭제합니다",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "백업 관리",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 181
+        }
+      },
+      {
+        "comment": "",
+        "key": "• 백업은 메모와 클립보드 히스토리를 모두 포함합니다",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 184
+        }
+      },
+      {
+        "comment": "",
+        "key": "• 복구 시 현재 데이터는 백업 데이터로 교체됩니다",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 185
+        }
+      },
+      {
+        "comment": "",
+        "key": "• 백업 데이터는 iCloud에 안전하게 저장됩니다",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 186
+        }
+      },
+      {
+        "comment": "",
+        "key": "확인",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 199
+        }
+      },
+      {
+        "comment": "",
+        "key": "복구",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 207
+        }
+      },
+      {
+        "comment": "",
+        "key": "현재 데이터가 백업 데이터로 교체됩니다. 계속하시겠습니까?",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 209
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 212
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 215
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud의 백업 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 217
+        }
+      }
+    ]
+  },
+  "version": 1
+}

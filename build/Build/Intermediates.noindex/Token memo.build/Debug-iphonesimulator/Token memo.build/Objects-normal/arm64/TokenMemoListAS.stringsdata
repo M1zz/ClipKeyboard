@@ -1,0 +1,40 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Temp/TokenMemoListAS.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "부모님댁 주소",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "통관번호",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "1",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 16
+        }
+      },
+      {
+        "comment": "",
+        "key": "1",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 43
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -13,7 +13,118 @@ let dateFormatter: DateFormatter = {
     return formatter
 }()
 
-// Clipboard History Model
+// MARK: - Clipboard Item Type (자동 분류)
+enum ClipboardItemType: String, Codable, CaseIterable {
+    case email = "이메일"
+    case phone = "전화번호"
+    case address = "주소"
+    case url = "URL"
+    case creditCard = "카드번호"
+    case bankAccount = "계좌번호"
+    case passportNumber = "여권번호"
+    case customsCode = "통관부호"
+    case postalCode = "우편번호"
+    case name = "이름"
+    case birthDate = "생년월일"
+    case rrn = "주민등록번호"
+    case businessNumber = "사업자등록번호"
+    case vehiclePlate = "차량번호"
+    case ipAddress = "IP주소"
+    case text = "텍스트"
+
+    var icon: String {
+        switch self {
+        case .email: return "envelope.fill"
+        case .phone: return "phone.fill"
+        case .address: return "location.fill"
+        case .url: return "link"
+        case .creditCard: return "creditcard.fill"
+        case .bankAccount: return "banknote.fill"
+        case .passportNumber: return "person.text.rectangle.fill"
+        case .customsCode: return "shippingbox.fill"
+        case .postalCode: return "mappin.circle.fill"
+        case .name: return "person.fill"
+        case .birthDate: return "calendar"
+        case .rrn: return "person.crop.circle.badge.checkmark"
+        case .businessNumber: return "building.2.fill"
+        case .vehiclePlate: return "car.fill"
+        case .ipAddress: return "network"
+        case .text: return "doc.text"
+        }
+    }
+
+    var color: String {
+        switch self {
+        case .email: return "blue"
+        case .phone: return "green"
+        case .address: return "purple"
+        case .url: return "orange"
+        case .creditCard: return "red"
+        case .bankAccount: return "indigo"
+        case .passportNumber: return "brown"
+        case .customsCode: return "cyan"
+        case .postalCode: return "teal"
+        case .name: return "pink"
+        case .birthDate: return "mint"
+        case .rrn: return "yellow"
+        case .businessNumber: return "blue"
+        case .vehiclePlate: return "green"
+        case .ipAddress: return "purple"
+        case .text: return "gray"
+        }
+    }
+}
+
+// MARK: - Clipboard Content Type
+enum ClipboardContentType: String, Codable {
+    case text = "text"
+    case image = "image"
+    case emoji = "emoji"
+}
+
+// MARK: - Smart Clipboard History (자동 분류 클립보드)
+struct SmartClipboardHistory: Identifiable, Codable {
+    var id = UUID()
+    var content: String
+    var copiedAt: Date = Date()
+    var isTemporary: Bool = true
+
+    // 콘텐츠 타입
+    var contentType: ClipboardContentType = .text
+
+    // 이미지 데이터 (Base64 인코딩)
+    var imageData: String?
+
+    // 이미지 메타데이터
+    var imageWidth: Int?
+    var imageHeight: Int?
+    var imageFormat: String?  // "png", "jpeg", "gif"
+
+    // 자동 분류
+    var detectedType: ClipboardItemType = .text
+    var confidence: Double = 0.0  // 0.0 ~ 1.0 (인식 신뢰도)
+
+    // 메타데이터
+    var sourceApp: String?  // 복사한 앱
+    var tags: [String] = []
+    var autoSaveOffered: Bool = false  // 자동 저장 제안 했는지
+
+    // 사용자 피드백
+    var userCorrectedType: ClipboardItemType?  // 사용자가 수정한 타입
+
+    init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true, contentType: ClipboardContentType = .text, imageData: String? = nil, detectedType: ClipboardItemType = .text, confidence: Double = 0.0) {
+        self.id = id
+        self.content = content
+        self.copiedAt = copiedAt
+        self.isTemporary = isTemporary
+        self.contentType = contentType
+        self.imageData = imageData
+        self.detectedType = detectedType
+        self.confidence = confidence
+    }
+}
+
+// Clipboard History Model (Legacy - 하위 호환성)
 struct ClipboardHistory: Identifiable, Codable {
     var id = UUID()
     var content: String
@@ -66,12 +177,14 @@ struct Memo: Identifiable, Codable {
     var isSecure: Bool = false
     var isTemplate: Bool = false
     var templateVariables: [String] = []
-    var shortcut: String?
 
     // 템플릿의 플레이스홀더 값들 저장 (예: {이름}: [유미, 주디, 리이오])
     var placeholderValues: [String: [String]] = [:]
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], shortcut: String? = nil, placeholderValues: [String: [String]] = [:]) {
+    // 자동 분류 관련 (Phase 1 추가)
+    var autoDetectedType: ClipboardItemType?
+
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], autoDetectedType: ClipboardItemType? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -82,8 +195,8 @@ struct Memo: Identifiable, Codable {
         self.isSecure = isSecure
         self.isTemplate = isTemplate
         self.templateVariables = templateVariables
-        self.shortcut = shortcut
         self.placeholderValues = placeholderValues
+        self.autoDetectedType = autoDetectedType
     }
     
     init(from oldMemo: OldMemo) {
@@ -107,8 +220,8 @@ struct Memo: Identifiable, Codable {
         case isSecure
         case isTemplate
         case templateVariables
-        case shortcut
         case placeholderValues
+        case autoDetectedType
     }
     
     static var dummyData: [Memo] = [
@@ -122,4 +235,64 @@ struct Memo: Identifiable, Codable {
              value: "p12341234",
              lastEdited: dateFormatter.date(from: "2023-08-31 10:00:00")!)
     ]
+}
+
+// MARK: - Combo System (Phase 2)
+
+// Combo Item Type - 어떤 종류의 항목인지
+enum ComboItemType: String, Codable {
+    case memo = "메모"
+    case clipboardHistory = "클립보드"
+    case template = "템플릿"
+}
+
+// Combo에 포함되는 개별 항목
+struct ComboItem: Identifiable, Codable, Equatable {
+    var id = UUID()
+    var type: ComboItemType
+    var referenceId: UUID  // 메모 또는 클립보드 항목의 ID
+    var order: Int  // 실행 순서
+
+    // 표시용 정보 (캐시)
+    var displayTitle: String?  // 항목의 제목/미리보기
+    var displayValue: String?  // 항목의 실제 값 (미리보기용)
+
+    init(id: UUID = UUID(), type: ComboItemType, referenceId: UUID, order: Int, displayTitle: String? = nil, displayValue: String? = nil) {
+        self.id = id
+        self.type = type
+        self.referenceId = referenceId
+        self.order = order
+        self.displayTitle = displayTitle
+        self.displayValue = displayValue
+    }
+}
+
+// Combo - 여러 메모를 순서대로 자동 입력하는 시스템
+struct Combo: Identifiable, Codable {
+    var id = UUID()
+    var title: String
+    var items: [ComboItem]  // 순서대로 실행될 항목들
+    var interval: TimeInterval = 2.0  // 각 항목 사이의 시간 간격 (초)
+    var createdAt: Date = Date()
+    var lastUsed: Date?
+    var category: String = "텍스트"
+    var useCount: Int = 0
+    var isFavorite: Bool = false
+
+    init(id: UUID = UUID(), title: String, items: [ComboItem] = [], interval: TimeInterval = 2.0, createdAt: Date = Date(), lastUsed: Date? = nil, category: String = "텍스트", useCount: Int = 0, isFavorite: Bool = false) {
+        self.id = id
+        self.title = title
+        self.items = items.sorted(by: { $0.order < $1.order })
+        self.interval = interval
+        self.createdAt = createdAt
+        self.lastUsed = lastUsed
+        self.category = category
+        self.useCount = useCount
+        self.isFavorite = isFavorite
+    }
+
+    // 항목을 순서대로 정렬
+    mutating func sortItems() {
+        items.sort(by: { $0.order < $1.order })
+    }
 }

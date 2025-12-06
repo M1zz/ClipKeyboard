@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'Token memo' in project 'Token memo'
+➜ Explicit dependency on target 'TokenKeyboard' in project 'Token memo'
+Target 'TokenKeyboard' in project 'Token memo' (no dependencies)

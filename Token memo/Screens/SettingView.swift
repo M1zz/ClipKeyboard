@@ -15,6 +15,11 @@ struct SettingView: View {
     var body: some View {
         List {
             Section("앱 설정") {
+                NavigationLink(destination: ComboList()) {
+                    Label("Combo 관리", systemImage: "arrow.triangle.2.circlepath.circle")
+                        .badge("NEW")
+                }
+
                 NavigationLink(destination: TutorialView()) {
                     Text("클립키보드 사용방법")
                 }

@@ -1,0 +1,528 @@
+{
+  "source": "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/TokenMemoList.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "검색",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 257
+        }
+      },
+      {
+        "comment": "",
+        "key": "인증 실패",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 259
+        }
+      },
+      {
+        "comment": "",
+        "key": "수정",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 116
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 138
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장된 항목",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "확인",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 260
+        }
+      },
+      {
+        "comment": "",
+        "key": "보안 메모에 접근하려면 생체 인증이 필요합니다",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 262
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 785
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 862
+        }
+      },
+      {
+        "comment": "",
+        "key": "완료",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 875
+        }
+      },
+      {
+        "comment": "",
+        "key": "수정",
+        "location": {
+          "startingColumn": 65,
+          "startingLine": 875
+        }
+      },
+      {
+        "comment": "",
+        "key": "설정할 값이 없습니다",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 907
+        }
+      },
+      {
+        "comment": "",
+        "key": "이 템플릿은 바로 사용 가능합니다",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 911
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 선택",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 922
+        }
+      },
+      {
+        "comment": "",
+        "key": "값을 선택하세요",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 934
+        }
+      },
+      {
+        "comment": "",
+        "key": "미리보기",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 956
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 979
+        }
+      },
+      {
+        "comment": "",
+        "key": "복사",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 985
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제 확인",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1161
+        }
+      },
+      {
+        "comment": "",
+        "key": "+ 버튼을 눌러 값을 추가하세요",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1116
+        }
+      },
+      {
+        "comment": "",
+        "key": "새 값 입력",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 1082
+        }
+      },
+      {
+        "comment": "",
+        "key": "추가",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1101
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1162
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1165
+        }
+      },
+      {
+        "comment": "",
+        "key": "'%@'을(를) 삭제하시겠습니까?",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1177
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 입력",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1236
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿을 완성하세요",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1202
+        }
+      },
+      {
+        "comment": "",
+        "key": "입력하세요",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 1216
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1244
+        }
+      },
+      {
+        "comment": "",
+        "key": "복사",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1250
+        }
+      },
+      {
+        "comment": "",
+        "key": "플레이스홀더 관리",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1291
+        }
+      },
+      {
+        "comment": "",
+        "key": "플레이스홀더 관리",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1324
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿이 없습니다",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1282
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1285
+        }
+      },
+      {
+        "comment": "",
+        "key": "완료",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 1299
+        }
+      },
+      {
+        "comment": "",
+        "key": "완료",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 1332
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 내용",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1377
+        }
+      },
+      {
+        "comment": "",
+        "key": "이 템플릿에는 플레이스홀더가 없습니다",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1399
+        }
+      },
+      {
+        "comment": "",
+        "key": "플레이스홀더 (%lld개)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1406
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제 확인",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1571
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 수정",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1587
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 %lld개",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1478
+        }
+      },
+      {
+        "comment": "",
+        "key": "값이 없습니다.\n템플릿 사용 시 값을 추가하세요.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1507
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1572
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1575
+        }
+      },
+      {
+        "comment": "",
+        "key": "'%@'을(를) 삭제하시겠습니까?",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1584
+        }
+      },
+      {
+        "comment": "",
+        "key": "값",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 1588
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1589
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1592
+        }
+      },
+      {
+        "comment": "",
+        "key": "'%@' 값을 수정하세요.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1604
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제 확인",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1750
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 수정",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1766
+        }
+      },
+      {
+        "comment": "",
+        "key": "값이 없습니다.\n템플릿 메모에서 값을 추가하세요.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1677
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 %lld개",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1644
+        }
+      },
+      {
+        "comment": "",
+        "key": "값 목록",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1663
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿에서 값을 추가하세요",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1670
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1751
+        }
+      },
+      {
+        "comment": "",
+        "key": "삭제",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1754
+        }
+      },
+      {
+        "comment": "",
+        "key": "'%@'을(를) 삭제하시겠습니까?\n\n출처: %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1763
+        }
+      },
+      {
+        "comment": "",
+        "key": "값",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 1767
+        }
+      },
+      {
+        "comment": "",
+        "key": "취소",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1768
+        }
+      },
+      {
+        "comment": "",
+        "key": "저장",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1772
+        }
+      },
+      {
+        "comment": "",
+        "key": "'%@' 값을 수정하세요.\n\n출처: %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1790
+        }
+      },
+      {
+        "comment": "",
+        "key": "템플릿 불러오는 중...",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1831
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1951
+        }
+      }
+    ]
+  },
+  "version": 1
+}

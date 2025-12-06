@@ -93,8 +93,9 @@ class KeyboardViewController: UIInputViewController {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    
-    
+
+
+
     let textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +126,10 @@ class KeyboardViewController: UIInputViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // 키보드 높이를 미리 설정하여 튀는 현상 방지
+        view.translatesAutoresizingMaskIntoConstraints = false
+
         configureNextKeyboardButton()
 
         loadMemos()
@@ -146,7 +151,11 @@ class KeyboardViewController: UIInputViewController {
         myKeyboardView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
         myKeyboardView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        myKeyboardView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+
+        // 높이 제약을 우선순위를 낮춰서 유연하게 만듦
+        let heightConstraint = myKeyboardView.heightAnchor.constraint(equalToConstant: 200)
+        heightConstraint.priority = .defaultHigh  // 750 (required는 1000)
+        heightConstraint.isActive = true
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "addTextEntry"), object: nil, queue: nil) { notification in
             print("🔔 addTextEntry 알림 수신")
             if let text = notification.object as? String,
@@ -315,6 +324,18 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.isHidden = true //!self.needsInputModeSwitchKey
         super.viewWillLayoutSubviews()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 레이아웃을 미리 계산하여 튀는 현상 방지
+        view.layoutIfNeeded()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // 뷰가 완전히 나타난 후 한 번 더 레이아웃 업데이트
+        view.layoutIfNeeded()
+    }
     
     override func textWillChange(_ textInput: UITextInput?) {
         
@@ -337,8 +358,18 @@ class KeyboardViewController: UIInputViewController {
 
             print("📱 [KeyboardViewController.loadMemos] 메모 로드 완료 - 총 \(temp.count)개")
 
+            // 🔒 보안 메모 제외 (키보드 익스텐션에서는 Face ID 사용 불가)
+            let secureCount = temp.filter { $0.isSecure }.count
+            temp = temp.filter { !$0.isSecure }
+            if secureCount > 0 {
+                print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
+            }
+
             // 필터 적용
-            if showOnlyTemplates {
+            if let theme = selectedTheme {
+                temp = temp.filter { $0.category == theme }
+                print("   🏷️ 테마 필터 적용 (\(theme)) - \(temp.count)개")
+            } else if showOnlyTemplates {
                 temp = temp.filter { $0.isTemplate }
                 print("   🔍 템플릿 필터 적용 - \(temp.count)개")
             } else if showOnlyFavorites {
@@ -362,7 +393,6 @@ class KeyboardViewController: UIInputViewController {
                 print("       즐겨찾기: \(item.isFavorite)")
                 print("       템플릿: \(item.isTemplate)")
                 print("       보안: \(item.isSecure)")
-                print("       바로가기: \(item.shortcut ?? "없음")")
                 print("       수정일: \(item.lastEdited)")
                 print("       사용횟수: \(item.clipCount)")
                 print("       템플릿 변수: \(item.templateVariables)")

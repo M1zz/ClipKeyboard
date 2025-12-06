@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameKeyColor</string>
+			<key>relativePath</key>
+			<string>./KeyColor.colorset</string>
+			<key>swiftSymbol</key>
+			<string>key</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameKeyboardBackground</string>
+			<key>relativePath</key>
+			<string>./KeyboardBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>keyboardBackground</string>
+		</dict>
+	</array>
+	<key>images</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameStep1</string>
+			<key>relativePath</key>
+			<string>./Onboarding/step1.imageset</string>
+			<key>swiftSymbol</key>
+			<string>step1</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameStep2</string>
+			<key>relativePath</key>
+			<string>./Onboarding/step2.imageset</string>
+			<key>swiftSymbol</key>
+			<string>step2</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameStep3</string>
+			<key>relativePath</key>
+			<string>./Onboarding/step3.imageset</string>
+			<key>swiftSymbol</key>
+			<string>step3</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameStep4</string>
+			<key>relativePath</key>
+			<string>./Onboarding/step4.imageset</string>
+			<key>swiftSymbol</key>
+			<string>step4</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameToken1</string>
+			<key>relativePath</key>
+			<string>./CopyTutorial/token-1.imageset</string>
+			<key>swiftSymbol</key>
+			<string>token1</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameToken2</string>
+			<key>relativePath</key>
+			<string>./CopyTutorial/token-2.imageset</string>
+			<key>swiftSymbol</key>
+			<string>token2</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameToken3</string>
+			<key>relativePath</key>
+			<string>./CopyTutorial/token-3.imageset</string>
+			<key>swiftSymbol</key>
+			<string>token3</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameToken4</string>
+			<key>relativePath</key>
+			<string>./CopyTutorial/token-4.imageset</string>
+			<key>swiftSymbol</key>
+			<string>token4</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse1</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-1.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use1</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse2</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-2.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use2</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse3</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-3.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use3</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse4</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-4.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use4</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse5</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-5.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use5</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/leeo/Documents/code/Token-memo/Token memo/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameUse6</string>
+			<key>relativePath</key>
+			<string>./KeyboardTutorial/use-6.imageset</string>
+			<key>swiftSymbol</key>
+			<string>use6</string>
+		</dict>
+	</array>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>

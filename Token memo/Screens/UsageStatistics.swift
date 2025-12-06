@@ -14,7 +14,7 @@ struct UsageStatistics: View {
     enum SortOption: String, CaseIterable {
         case usage = "사용 빈도"
         case recent = "최근 사용"
-        case category = "카테고리"
+        case category = "테마"
     }
 
     var sortedMemos: [Memo] {
@@ -64,7 +64,7 @@ struct UsageStatistics: View {
                 .padding(.vertical, 8)
             }
 
-            Section(header: Text("카테고리별 통계")) {
+            Section(header: Text("테마별 통계")) {
                 ForEach(categoryCounts.sorted(by: { $0.value > $1.value }), id: \.key) { category, count in
                     HStack {
                         Text(category)

@@ -1,0 +1,23 @@
+{
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ClipboardList.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.dia",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ClipboardList.swiftdeps"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Screens/ColorfulOnboardingView.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.dia",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/ColorfulOnboardingView.swiftdeps"
+  },
+  "/Users/leeo/Documents/code/Token-memo/Token memo/Service/MemoStore.swift" : {
+    "const-values" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.swiftconstvalues",
+    "dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.d",
+    "diagnostics" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.dia",
+    "object" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.o",
+    "swift-dependencies" : "/Users/leeo/Documents/code/Token-memo/build/Build/Intermediates.noindex/Token memo.build/Debug-iphonesimulator/Token memo.build/Objects-normal/arm64/MemoStore.swiftdeps"
+  }
+}

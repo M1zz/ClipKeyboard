@@ -35,14 +35,23 @@ struct Token_memoApp: App {
                     .onAppear() {
                         print("🎯 [APP BODY] 온보딩 완료 상태 -> TokenMemoList 표시")
                     }
+            } else if !manager.didShowUseCaseSelection {
+                // 새로운 사용 사례 선택 온보딩
+                UseCaseSelectionView {
+                    print("✅ [USE CASE] 사용 사례 선택 완료")
+                    manager.didShowUseCaseSelection = true
+                }
+                .onAppear() {
+                    print("🎯 [APP BODY] 첫 실행 -> 사용 사례 선택 화면 표시")
+                }
             } else {
-
+                // 기존 키보드 설정 온보딩
                 ColorfulOnboardingView(pages: OnboardingPages) {
                     print("✅ [ONBOARDING] 온보딩 완료 -> didShowOnboarding = true")
                     manager.didShowOnboarding = true
                 }
                 .onAppear() {
-                    print("🎯 [APP BODY] 첫 실행 -> 온보딩 화면 표시")
+                    print("🎯 [APP BODY] 사용 사례 선택 후 -> 키보드 설정 온보딩 표시")
                 }
             }
 

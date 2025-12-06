@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key></key>
+	<string></string>
+	<key>1</key>
+	<string></string>
+	<key>Clip Keyboard</key>
+	<string></string>
+	<key>Clipboard List</key>
+	<string></string>
+	<key>Completed!</key>
+	<string></string>
+	<key>FAQ</key>
+	<string></string>
+	<key>Get Started</key>
+	<string></string>
+	<key>Next</key>
+	<string></string>
+	<key>Next Keyboard</key>
+	<string></string>
+	<key>No clipboard, Copy the items you want to paste and add them to the clipboard.</key>
+	<string></string>
+	<key>Ok</key>
+	<string></string>
+	<key>Open Web Page</key>
+	<string></string>
+	<key>You can tap the '+' button to add a phrase or any common text that you want to easily access from iMessages, Mail or other apps</key>
+	<string>"'+' 버튼을 탭하면 iMessage, Mail 또는 기타 앱에서 쉽게 접근할 수 있는 문구나 일반 텍스트를 추가할 수 있습니다."</string>
+	<key>새 토큰을 추가할까요?</key>
+	<string>Add new token?</string>
+	<key>생성된 키보드가 없어요</key>
+	<string>Nothing to Paste</string>
+	<key>전체 삭제</key>
+	<string>Remove all</string>
+	<key>키보드 버튼 문구</key>
+	<string>Insert keyword</string>
+	<key>키보드 입력 시 삽입되는 전체 문구를 작성해주세요</key>
+	<string>Insert contents</string>
+	<key>키보드 추가</key>
+	<string>Save</string>
+</dict>
+</plist>
