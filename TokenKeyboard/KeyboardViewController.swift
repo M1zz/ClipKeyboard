@@ -57,6 +57,18 @@ class KeyboardViewController: UIInputViewController {
         return button
     }()
     
+    private let globeKeyboardButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.heightAnchor.constraint(equalToConstant: 38).isActive = true
+            button.widthAnchor.constraint(equalToConstant: 45).isActive = true
+            button.layer.cornerRadius = 8
+            button.setImage(UIImage(systemName: "globe"), for: .normal)
+            button.tintColor = .black
+            button.backgroundColor = .systemGray2
+            return button
+        }()
+    
     let spaceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -80,21 +92,6 @@ class KeyboardViewController: UIInputViewController {
         button.setTitleColor(UIColor.white, for: UIControl.State.normal)
         return button
     }()
-    
-    let globeKeyboardButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 38).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        button.layer.cornerRadius = 8
-        button.setImage(UIImage(systemName: "globe"), for: .normal)
-        button.tintColor = .black
-        button.backgroundColor = .systemGray2
-        button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-
-
 
     let textField: UITextField = {
         let textField = UITextField()
@@ -252,9 +249,15 @@ class KeyboardViewController: UIInputViewController {
 //            addButton.addTarget(self, action: #selector(openAppPressed), for: .touchUpInside)
 //        }
         
+        bottomView.addSubview(globeKeyboardButton)
+        globeKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        globeKeyboardButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8).isActive = true
+        globeKeyboardButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
+        globeKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+        
         bottomView.addSubview(spaceButton)
         spaceButton.translatesAutoresizingMaskIntoConstraints = false
-        spaceButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8).isActive = true
+        spaceButton.leadingAnchor.constraint(equalTo: globeKeyboardButton.trailingAnchor, constant: 8).isActive = true
         spaceButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
         spaceButton.addTarget(self, action: #selector(spacePressed), for: .touchUpInside)
 

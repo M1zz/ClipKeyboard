@@ -34,12 +34,12 @@ class MenuBarManager: NSObject {
 
         // 메뉴 아이템 추가
         menu.addItem(withTitle: "메모 목록", action: #selector(memoListAction), keyEquivalent: "k")
-        menu.addItem(withTitle: "새 메모", action: #selector(newMemoAction), keyEquivalent: "n")
+        //menu.addItem(withTitle: "새 메모", action: #selector(newMemoAction), keyEquivalent: "n")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "클립보드 히스토리", action: #selector(clipboardHistoryAction), keyEquivalent: "h")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "iCloud 백업", action: #selector(cloudBackupAction), keyEquivalent: "b")
-        menu.addItem(withTitle: "설정", action: #selector(settingsAction), keyEquivalent: ",")
+        //menu.addItem(withTitle: "설정", action: #selector(settingsAction), keyEquivalent: ",")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "종료", action: #selector(quitAction), keyEquivalent: "q")
 

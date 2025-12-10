@@ -73,11 +73,11 @@ class MenuBarManager: NSObject {
 
         // 메뉴 아이템 추가
         addMenuItem(to: menu, title: "메모 목록", action: #selector(memoListAction), key: "k")
-        addMenuItem(to: menu, title: "새 메모", action: #selector(newMemoAction), key: "n")
+        //addMenuItem(to: menu, title: "새 메모", action: #selector(newMemoAction), key: "n")
         addSeparator(to: menu)
         addMenuItem(to: menu, title: "클립보드 히스토리", action: #selector(clipboardHistoryAction), key: "h")
         addSeparator(to: menu)
-        addMenuItem(to: menu, title: "설정", action: #selector(settingsAction), key: ",")
+        //addMenuItem(to: menu, title: "설정", action: #selector(settingsAction), key: ",")
         addSeparator(to: menu)
         addMenuItem(to: menu, title: "종료", action: #selector(quitAction), key: "q")
 
