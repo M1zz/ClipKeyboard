@@ -44,6 +44,10 @@
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58F8FBC62A1527C300F5446E /* MemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC52A1527C300F5446E /* MemoDetail.swift */; };
+		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
+		9C994B052EEAA84000FBC8F6 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B042EEAA83A00FBC8F6 /* DateExtension.swift */; };
+		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
+		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,10 @@
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58F8FBC52A1527C300F5446E /* MemoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetail.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* TokenMemo.mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TokenMemo.mac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
+		9C994B042EEAA83A00FBC8F6 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
+		9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSelectorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -163,6 +171,7 @@
 		58AA11112B4D1A2100000007 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9C994B042EEAA83A00FBC8F6 /* DateExtension.swift */,
 				58AA11112B4D1A2100000005 /* ColorExtension.swift */,
 				58CK00042B5E1A2100000004 /* NotificationExtension.swift */,
 			);
@@ -256,9 +265,10 @@
 		58F8FBC42A15278100F5446E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9C994B062EEAA86100FBC8F6 /* Template */,
+				9C994B012EEAA7F500FBC8F6 /* List */,
 				9C994AE32EEA97F500FBC8F6 /* Memo */,
 				5802F4112A2B42D3002825D6 /* Component */,
-				58C473682A10C9A0009D87BC /* TokenMemoList.swift */,
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -279,6 +289,24 @@
 				58F8FBC52A1527C300F5446E /* MemoDetail.swift */,
 			);
 			path = Memo;
+			sourceTree = "<group>";
+		};
+		9C994B012EEAA7F500FBC8F6 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				58C473682A10C9A0009D87BC /* TokenMemoList.swift */,
+				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		9C994B062EEAA86100FBC8F6 /* Template */ = {
+			isa = PBXGroup;
+			children = (
+				9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */,
+				9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */,
+			);
+			path = Template;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,10 +482,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				58C4733C2A109F0D009D87BC /* Token_memoApp.swift in Sources */,
+				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				58D9D5302A3B241F0086BE1A /* ColorfulOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
+				9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */,
 				5802F4102A2B3C91002825D6 /* ClipboardList.swift in Sources */,
 				5802F4132A2B8E08002825D6 /* ShortcutMemoView.swift in Sources */,
 				58C473662A109FCD009D87BC /* TokenMemoListAS.swift in Sources */,
@@ -474,9 +504,11 @@
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
 				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
 				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,
+				9C994B052EEAA84000FBC8F6 /* DateExtension.swift in Sources */,
 				58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */,
 				58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */,
 				1C7C6CDBD08940B2BC4EED19 /* ComboList.swift in Sources */,
+				9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */,
 				256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
