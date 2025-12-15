@@ -399,7 +399,7 @@ struct MemoAdd: View {
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
                             .font(.caption2)
-                        Text("자동: \(detectedType.rawValue)")
+                        Text("자동: \(detectedType.localizedName)")
                             .font(.caption2)
                     }
                     .padding(.horizontal, 8)
@@ -416,7 +416,7 @@ struct MemoAdd: View {
                         Button {
                             selectedCategory = theme
                         } label: {
-                            Text(theme)
+                            Text(Constants.localizedThemeName(theme))
                                 .font(.callout)
                                 .fontWeight(selectedCategory == theme ? .semibold : .regular)
                                 .padding(.horizontal, 16)
@@ -1215,7 +1215,7 @@ struct ClipboardSuggestionBanner: View {
                                 .font(.caption)
                                 .foregroundColor(colorFor(detectedType.color))
 
-                            Text(detectedType.rawValue)
+                            Text(detectedType.localizedName)
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundColor(colorFor(detectedType.color))

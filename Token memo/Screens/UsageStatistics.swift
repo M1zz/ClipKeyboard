@@ -15,6 +15,10 @@ struct UsageStatistics: View {
         case usage = "사용 빈도"
         case recent = "최근 사용"
         case category = "테마"
+
+        var localizedName: String {
+            return NSLocalizedString(self.rawValue, comment: "Sort option")
+        }
     }
 
     var sortedMemos: [Memo] {
@@ -80,7 +84,7 @@ struct UsageStatistics: View {
                 Spacer()
                 Picker("정렬", selection: $sortBy) {
                     ForEach(SortOption.allCases, id: \.self) { option in
-                        Text(option.rawValue).tag(option)
+                        Text(option.localizedName).tag(option)
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
@@ -101,7 +105,7 @@ struct UsageStatistics: View {
                         }
 
                         HStack(spacing: 12) {
-                            Text(memo.category)
+                            Text(categoryLocalizedName(memo.category))
                                 .font(.caption)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 2)
@@ -147,6 +151,16 @@ struct UsageStatistics: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd HH:mm"
         return formatter.string(from: date)
+    }
+
+    /// 카테고리명을 다국어 지원 이름으로 변환
+    private func categoryLocalizedName(_ category: String) -> String {
+        // 카테고리가 ClipboardItemType의 rawValue와 일치하는지 확인
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == category }) {
+            return type.localizedName
+        }
+        // 일치하지 않으면 카테고리명을 그대로 번역 시도
+        return NSLocalizedString(category, comment: "Category name")
     }
 }
 

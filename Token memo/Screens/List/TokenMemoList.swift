@@ -811,7 +811,7 @@ struct MemoTypeFilterBar: View {
             HStack(spacing: 4) {
                 // 전체 버튼 (항상 첫 번째)
                 MemoFilterChip(
-                    title: "전체",
+                    title: NSLocalizedString("전체", comment: "All"),
                     icon: "list.bullet",
                     count: memos.count,
                     isSelected: selectedFilter == nil
@@ -822,7 +822,7 @@ struct MemoTypeFilterBar: View {
                 // 타입별 필터 (개수가 많은 순서대로 정렬)
                 ForEach(sortedTypes, id: \.self) { type in
                     MemoFilterChip(
-                        title: type.rawValue,
+                        title: type.localizedName,
                         icon: type.icon,
                         count: typeCounts[type, default: 0],
                         color: type.color,

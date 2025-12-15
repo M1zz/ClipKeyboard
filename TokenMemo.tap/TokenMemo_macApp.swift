@@ -49,6 +49,10 @@ struct TokenMemo_macApp: App {
             }
 
             CommandGroup(replacing: .help) {
+                Button("온보딩 다시 보기") {
+                    WindowManager.shared.openOnboardingWindow()
+                }
+
                 Button("도움말") {
                     if let url = URL(string: "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4?pvs=4") {
                         NSWorkspace.shared.open(url)

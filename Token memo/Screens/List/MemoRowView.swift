@@ -25,7 +25,7 @@ struct MemoRowView: View {
                     HStack(spacing: 4) {
                         Image(systemName: detectedType.icon)
                             .font(.caption2)
-                        Text(detectedType.rawValue)
+                        Text(detectedType.localizedName)
                             .font(.caption)
                     }
                     .padding(.horizontal, 8)
@@ -35,7 +35,7 @@ struct MemoRowView: View {
                     .cornerRadius(8)
                 } else {
                     // 자동 분류가 없으면 카테고리 표시
-                    Text(memo.category)
+                    Text(categoryLocalizedName(memo.category))
                         .font(.caption)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 2)
@@ -82,6 +82,16 @@ struct MemoRowView: View {
                 #endif
             }
         }
+    }
+
+    /// 카테고리명을 다국어 지원 이름으로 변환
+    private func categoryLocalizedName(_ category: String) -> String {
+        // 카테고리가 ClipboardItemType의 rawValue와 일치하는지 확인
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == category }) {
+            return type.localizedName
+        }
+        // 일치하지 않으면 카테고리명을 그대로 번역 시도
+        return NSLocalizedString(category, comment: "Category name")
     }
 
     /// 색상 이름을 Color로 변환

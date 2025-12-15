@@ -41,6 +41,8 @@ class MenuBarManager: NSObject {
         menu.addItem(withTitle: "iCloud 백업", action: #selector(cloudBackupAction), keyEquivalent: "b")
         //menu.addItem(withTitle: "설정", action: #selector(settingsAction), keyEquivalent: ",")
         menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: "온보딩 다시 보기", action: #selector(onboardingAction), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "종료", action: #selector(quitAction), keyEquivalent: "q")
 
         // 모든 메뉴 아이템의 타겟 설정
@@ -82,6 +84,12 @@ class MenuBarManager: NSObject {
     @objc private func settingsAction() {
         print("⚙️ [MenuBar] 설정 클릭")
         NotificationCenter.default.post(name: .showSettings, object: nil)
+        activateApp()
+    }
+
+    @objc private func onboardingAction() {
+        print("👋 [MenuBar] 온보딩 다시 보기 클릭")
+        WindowManager.shared.openOnboardingWindow()
         activateApp()
     }
 

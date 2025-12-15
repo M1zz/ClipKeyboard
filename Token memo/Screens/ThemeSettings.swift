@@ -21,7 +21,7 @@ struct ThemeSettings: View {
             Section(header: Text("키보드 테마")) {
                 Picker("테마 선택", selection: $selectedTheme) {
                     ForEach(KeyboardTheme.allCases, id: \.self) { theme in
-                        Text(theme.rawValue).tag(theme)
+                        Text(theme.localizedName).tag(theme)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
@@ -116,6 +116,10 @@ enum KeyboardTheme: String, CaseIterable {
     case light = "라이트"
     case dark = "다크"
     case custom = "커스텀"
+
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Keyboard theme")
+    }
 }
 
 struct ThemeSettings_Previews: PreviewProvider {

@@ -17,6 +17,71 @@ class WindowManager {
 
     private init() {
         setupNotifications()
+        checkAndShowOnboarding()
+    }
+
+    // MARK: - Onboarding
+
+    private func checkAndShowOnboarding() {
+        let hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
+
+        if !hasCompletedOnboarding {
+            // 앱 시작 후 약간의 지연을 두고 온보딩 표시
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.openOnboardingWindow()
+            }
+        }
+    }
+
+    func openOnboardingWindow() {
+        print("👋 [WindowManager] 온보딩 윈도우 열기")
+
+        let windowKey = "onboarding"
+
+        // 기존 윈도우가 있으면 포커스
+        if let existingWindow = windows[windowKey] {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            print("✅ [WindowManager] 기존 윈도우 포커스")
+            return
+        }
+
+        let contentView = OnboardingView {
+            // 온보딩 완료 후
+            print("✅ [WindowManager] 온보딩 완료")
+
+            // 온보딩 윈도우 닫기
+            if let window = self.windows[windowKey] {
+                window.close()
+            }
+        }
+        let hostingController = NSHostingController(rootView: contentView)
+
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 600, height: 500),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+
+        window.center()
+        window.contentViewController = hostingController
+        window.title = "클립키보드에 오신 것을 환영합니다"
+        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
+        window.level = .floating
+
+        // 델리게이트 설정
+        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        window.delegate = delegate
+
+        // 윈도우와 델리게이트 참조 저장
+        windows[windowKey] = window
+        delegates[windowKey] = delegate
+
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        print("✅ [WindowManager] 온보딩 윈도우 생성 완료")
     }
 
     private func setupNotifications() {

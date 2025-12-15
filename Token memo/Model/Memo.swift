@@ -76,6 +76,32 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .text: return "gray"
         }
     }
+
+    // 다국어 지원 표시명
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Clipboard item type")
+    }
+
+    // Xcode String Catalog이 문자열을 감지하도록 하는 헬퍼 함수
+    static func preloadLocalizedStrings() {
+        _ = NSLocalizedString("이메일", comment: "Email")
+        _ = NSLocalizedString("전화번호", comment: "Phone Number")
+        _ = NSLocalizedString("주소", comment: "Address")
+        _ = NSLocalizedString("URL", comment: "URL")
+        _ = NSLocalizedString("카드번호", comment: "Card Number")
+        _ = NSLocalizedString("계좌번호", comment: "Account Number")
+        _ = NSLocalizedString("여권번호", comment: "Passport Number")
+        _ = NSLocalizedString("통관부호", comment: "Customs Code")
+        _ = NSLocalizedString("우편번호", comment: "Postal Code")
+        _ = NSLocalizedString("이름", comment: "Name")
+        _ = NSLocalizedString("생년월일", comment: "Date of Birth")
+        _ = NSLocalizedString("주민등록번호", comment: "Resident Registration Number")
+        _ = NSLocalizedString("사업자등록번호", comment: "Business Registration Number")
+        _ = NSLocalizedString("차량번호", comment: "Vehicle Plate")
+        _ = NSLocalizedString("IP주소", comment: "IP Address")
+        _ = NSLocalizedString("이미지", comment: "Image")
+        _ = NSLocalizedString("텍스트", comment: "Text")
+    }
 }
 
 // MARK: - Clipboard Content Type
@@ -259,6 +285,18 @@ enum ComboItemType: String, Codable {
     case memo = "메모"
     case clipboardHistory = "클립보드"
     case template = "템플릿"
+
+    // 다국어 지원 표시명
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Combo item type")
+    }
+
+    // Xcode String Catalog이 문자열을 감지하도록 하는 헬퍼 함수
+    static func preloadLocalizedStrings() {
+        _ = NSLocalizedString("메모", comment: "Memo")
+        _ = NSLocalizedString("클립보드", comment: "Clipboard")
+        _ = NSLocalizedString("템플릿", comment: "Template")
+    }
 }
 
 // Combo에 포함되는 개별 항목

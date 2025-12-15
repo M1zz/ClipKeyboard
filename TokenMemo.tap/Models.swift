@@ -30,6 +30,97 @@ struct ClipboardHistory: Identifiable, Codable {
     }
 }
 
+// MARK: - Clipboard Item Type (자동 분류)
+enum ClipboardItemType: String, Codable, CaseIterable {
+    case email = "이메일"
+    case phone = "전화번호"
+    case address = "주소"
+    case url = "URL"
+    case creditCard = "카드번호"
+    case bankAccount = "계좌번호"
+    case passportNumber = "여권번호"
+    case customsCode = "통관부호"
+    case postalCode = "우편번호"
+    case name = "이름"
+    case birthDate = "생년월일"
+    case rrn = "주민등록번호"
+    case businessNumber = "사업자등록번호"
+    case vehiclePlate = "차량번호"
+    case ipAddress = "IP주소"
+    case image = "이미지"
+    case text = "텍스트"
+
+    var icon: String {
+        switch self {
+        case .email: return "envelope.fill"
+        case .phone: return "phone.fill"
+        case .address: return "location.fill"
+        case .url: return "link"
+        case .creditCard: return "creditcard.fill"
+        case .bankAccount: return "banknote.fill"
+        case .passportNumber: return "person.text.rectangle.fill"
+        case .customsCode: return "shippingbox.fill"
+        case .postalCode: return "mappin.circle.fill"
+        case .name: return "person.fill"
+        case .birthDate: return "calendar"
+        case .rrn: return "person.crop.circle.badge.checkmark"
+        case .businessNumber: return "building.2.fill"
+        case .vehiclePlate: return "car.fill"
+        case .ipAddress: return "network"
+        case .image: return "photo.fill"
+        case .text: return "doc.text"
+        }
+    }
+
+    var color: String {
+        switch self {
+        case .email: return "blue"
+        case .phone: return "green"
+        case .address: return "purple"
+        case .url: return "orange"
+        case .creditCard: return "red"
+        case .bankAccount: return "indigo"
+        case .passportNumber: return "brown"
+        case .customsCode: return "cyan"
+        case .postalCode: return "teal"
+        case .name: return "pink"
+        case .birthDate: return "mint"
+        case .rrn: return "yellow"
+        case .businessNumber: return "blue"
+        case .vehiclePlate: return "green"
+        case .ipAddress: return "purple"
+        case .image: return "pink"
+        case .text: return "gray"
+        }
+    }
+
+    // 다국어 지원 표시명
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Clipboard item type")
+    }
+
+    // Xcode String Catalog이 문자열을 감지하도록 하는 헬퍼 함수
+    static func preloadLocalizedStrings() {
+        _ = NSLocalizedString("이메일", comment: "Email")
+        _ = NSLocalizedString("전화번호", comment: "Phone Number")
+        _ = NSLocalizedString("주소", comment: "Address")
+        _ = NSLocalizedString("URL", comment: "URL")
+        _ = NSLocalizedString("카드번호", comment: "Card Number")
+        _ = NSLocalizedString("계좌번호", comment: "Account Number")
+        _ = NSLocalizedString("여권번호", comment: "Passport Number")
+        _ = NSLocalizedString("통관부호", comment: "Customs Code")
+        _ = NSLocalizedString("우편번호", comment: "Postal Code")
+        _ = NSLocalizedString("이름", comment: "Name")
+        _ = NSLocalizedString("생년월일", comment: "Date of Birth")
+        _ = NSLocalizedString("주민등록번호", comment: "Resident Registration Number")
+        _ = NSLocalizedString("사업자등록번호", comment: "Business Registration Number")
+        _ = NSLocalizedString("차량번호", comment: "Vehicle Plate")
+        _ = NSLocalizedString("IP주소", comment: "IP Address")
+        _ = NSLocalizedString("이미지", comment: "Image")
+        _ = NSLocalizedString("텍스트", comment: "Text")
+    }
+}
+
 enum ClipboardContentType: String, Codable {
     case text
     case image

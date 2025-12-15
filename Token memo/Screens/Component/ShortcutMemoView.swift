@@ -41,7 +41,7 @@ struct ShortcutMemoView: View {
                             .font(.caption)
                             .foregroundColor(colorFor(detectedType.color))
 
-                        Text(detectedType.rawValue)
+                        Text(detectedType.localizedName)
                             .font(.caption)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)

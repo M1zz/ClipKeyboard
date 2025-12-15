@@ -351,7 +351,7 @@ struct ComboItemChip: View {
         HStack(spacing: 2) {
             Image(systemName: iconName)
                 .font(.caption2)
-            Text(item.type.rawValue)
+            Text(item.type.localizedName)
                 .font(.caption2)
         }
         .padding(.horizontal, 6)

@@ -21,6 +21,10 @@ enum EmojiCategory: String, CaseIterable {
     case symbols = "기호"
     case flags = "국기"
 
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Emoji category")
+    }
+
     var icon: String {
         switch self {
         case .recent: return "clock.fill"
@@ -197,7 +201,7 @@ struct CategoryTab: View {
                 Image(systemName: category.icon)
                     .font(.system(size: 20))
 
-                Text(category.rawValue)
+                Text(category.localizedName)
                     .font(.caption2)
             }
             .foregroundColor(isSelected ? .blue : .secondary)

@@ -217,7 +217,7 @@ struct ClipboardList: View {
                 Text("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)")
                     .opacity(0.7)
             } else {
-                Text("\(selectedFilter!.rawValue) 타입 없음")
+                Text("\(selectedFilter!.localizedName) 타입 없음")
                     .font(.system(size: 22)).bold()
                 Text("이 타입으로 분류된 항목이 없습니다")
                     .opacity(0.7)
@@ -267,7 +267,7 @@ struct ClipboardList: View {
 
                 // 피드백 표시
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    showToast(message: "📋 새로운 \(newItem.detectedType.rawValue) 항목이 추가되었습니다")
+                    showToast(message: "📋 새로운 \(newItem.detectedType.localizedName) 항목이 추가되었습니다")
                 }
 
                 // 3초 후 하이라이트 해제
@@ -298,7 +298,7 @@ struct ClipboardList: View {
         do {
             try MemoStore.shared.updateClipboardItemType(id: item.id, correctedType: newType)
             loadHistory()
-            showToast(message: "타입이 \(newType.rawValue)로 변경되었습니다")
+            showToast(message: "타입이 \(newType.localizedName)로 변경되었습니다")
         } catch {
             print("Error updating type: \(error)")
         }
@@ -415,7 +415,7 @@ struct TypeFilterBar: View {
             HStack(spacing: 8) {
                 // 전체 버튼
                 FilterChip(
-                    title: "전체",
+                    title: NSLocalizedString("전체", comment: "All"),
                     icon: "list.bullet",
                     count: history.count,
                     isSelected: selectedFilter == nil
@@ -426,7 +426,7 @@ struct TypeFilterBar: View {
                 // 타입별 필터 (개수가 있는 것만)
                 ForEach(ClipboardItemType.allCases.filter { typeCounts[$0, default: 0] > 0 }, id: \.self) { type in
                     FilterChip(
-                        title: type.rawValue,
+                        title: type.localizedName,
                         icon: type.icon,
                         count: typeCounts[type, default: 0],
                         color: type.color,
@@ -528,7 +528,7 @@ struct ClipboardItemRow: View {
                         HStack(spacing: 8) {
                             // 타입 태그
                             HStack(spacing: 4) {
-                                Text(displayType.rawValue)
+                                Text(displayType.localizedName)
                                     .font(.caption2)
 
                                 if item.userCorrectedType != nil {
@@ -591,7 +591,7 @@ struct ClipboardItemRow: View {
                     Button {
                         onTypeChange(type)
                     } label: {
-                        Label(type.rawValue, systemImage: type.icon)
+                        Label(type.localizedName, systemImage: type.icon)
                     }
                 }
             } label: {
@@ -676,7 +676,7 @@ struct SaveToMemoSheet: View {
                 Section("자동 분류 정보") {
                     HStack {
                         Image(systemName: item.detectedType.icon)
-                        Text(item.detectedType.rawValue)
+                        Text(item.detectedType.localizedName)
                         Spacer()
                         if item.confidence > 0.8 {
                             Text("\(Int(item.confidence * 100))% 확신")
