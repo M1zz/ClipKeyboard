@@ -390,6 +390,11 @@ struct ComboAddEditView: View {
     @State private var selectedItems: [ComboItem] = []
     @State private var isFavorite: Bool = false
 
+    // 항목 추가/편집 관련 상태
+    @State private var showItemPicker = false
+    @State private var editingTemplateItem: ComboItem? = nil
+    @State private var editingTemplateIndex: Int? = nil
+
     var body: some View {
         NavigationStack {
             Form {
@@ -411,7 +416,7 @@ struct ComboAddEditView: View {
                     Toggle("즐겨찾기", isOn: $isFavorite)
                 }
 
-                Section("항목 (\(selectedItems.count)개)") {
+                Section {
                     if selectedItems.isEmpty {
                         Text("항목을 추가해주세요")
                             .foregroundColor(.secondary)
@@ -428,13 +433,32 @@ struct ComboAddEditView: View {
                                         .foregroundColor(.secondary)
                                         .lineLimit(1)
                                 }
+
+                                // 템플릿인 경우 편집 버튼
+                                if item.type == .template {
+                                    Button {
+                                        editTemplateItem(item)
+                                    } label: {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .foregroundColor(.blue)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
                             }
                         }
+                        .onMove(perform: moveItem)
+                        .onDelete(perform: deleteItem)
                     }
 
-                    // TODO: 항목 추가 버튼
                     Button("항목 추가") {
-                        // TODO: 항목 선택 화면으로 이동
+                        showItemPicker = true
+                    }
+                } header: {
+                    Text("항목 (\(selectedItems.count)개)")
+                } footer: {
+                    if !selectedItems.isEmpty {
+                        Text("드래그하여 순서를 변경할 수 있습니다")
+                            .font(.caption)
                     }
                 }
             }
@@ -454,6 +478,25 @@ struct ComboAddEditView: View {
                     .disabled(title.isEmpty || selectedItems.isEmpty)
                 }
             }
+            .sheet(isPresented: $showItemPicker) {
+                ComboItemPickerSheet(selectedItems: $selectedItems)
+            }
+            .sheet(item: $editingTemplateItem) { item in
+                if let index = editingTemplateIndex,
+                   let memo = loadTemplateMemo(item.referenceId) {
+                    ComboTemplateInputView(
+                        template: memo,
+                        comboItem: Binding(
+                            get: { item },
+                            set: { updated in
+                                selectedItems[index] = updated
+                                editingTemplateItem = nil
+                                editingTemplateIndex = nil
+                            }
+                        )
+                    )
+                }
+            }
             .onAppear {
                 if let combo = combo {
                     title = combo.title
@@ -462,6 +505,41 @@ struct ComboAddEditView: View {
                     isFavorite = combo.isFavorite
                 }
             }
+        }
+    }
+
+    private func moveItem(from: IndexSet, to: Int) {
+        selectedItems.move(fromOffsets: from, toOffset: to)
+        // order 재정렬
+        for (index, _) in selectedItems.enumerated() {
+            selectedItems[index].order = index
+        }
+        print("📝 [ComboAddEditView] 항목 재정렬 완료")
+    }
+
+    private func deleteItem(at: IndexSet) {
+        selectedItems.remove(atOffsets: at)
+        // order 재정렬
+        for (index, _) in selectedItems.enumerated() {
+            selectedItems[index].order = index
+        }
+        print("🗑️ [ComboAddEditView] 항목 삭제 완료. 남은 항목: \(selectedItems.count)개")
+    }
+
+    private func editTemplateItem(_ item: ComboItem) {
+        if let index = selectedItems.firstIndex(where: { $0.id == item.id }) {
+            editingTemplateIndex = index
+            editingTemplateItem = item
+        }
+    }
+
+    private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
+        do {
+            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            return memos.first(where: { $0.id == templateId && $0.isTemplate })
+        } catch {
+            print("❌ [ComboAddEditView] 템플릿 로드 실패: \(error)")
+            return nil
         }
     }
 
@@ -475,6 +553,67 @@ struct ComboAddEditView: View {
         )
         onSave(newCombo)
         dismiss()
+    }
+}
+
+// MARK: - Combo Item Picker Sheet (템플릿 처리 포함)
+
+struct ComboItemPickerSheet: View {
+    @Binding var selectedItems: [ComboItem]
+    @Environment(\.dismiss) var dismiss
+
+    @State private var tempSelectedItems: [ComboItem] = []
+    @State private var showTemplateInput = false
+    @State private var pendingTemplateItem: (memo: Memo, comboItem: ComboItem)? = nil
+
+    var body: some View {
+        ComboItemPickerView(selectedItems: $tempSelectedItems)
+            .onChange(of: tempSelectedItems) { newValue in
+                // 새로 추가된 항목 확인
+                let added = newValue.filter { newItem in
+                    !selectedItems.contains(where: { $0.id == newItem.id })
+                }
+
+                for item in added {
+                    if item.type == .template {
+                        // 템플릿인 경우 플레이스홀더 입력 화면 표시
+                        if let memo = loadTemplateMemo(item.referenceId) {
+                            pendingTemplateItem = (memo, item)
+                            showTemplateInput = true
+                        }
+                    } else {
+                        // 메모/클립보드는 바로 추가
+                        selectedItems.append(item)
+                    }
+                }
+            }
+            .sheet(isPresented: $showTemplateInput) {
+                if let pending = pendingTemplateItem {
+                    ComboTemplateInputView(
+                        template: pending.memo,
+                        comboItem: Binding(
+                            get: { pending.comboItem },
+                            set: { updated in
+                                selectedItems.append(updated)
+                                pendingTemplateItem = nil
+                            }
+                        )
+                    )
+                }
+            }
+            .onAppear {
+                tempSelectedItems = selectedItems
+            }
+    }
+
+    private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
+        do {
+            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            return memos.first(where: { $0.id == templateId && $0.isTemplate })
+        } catch {
+            print("❌ [ComboItemPickerSheet] 템플릿 로드 실패: \(error)")
+            return nil
+        }
     }
 }
 

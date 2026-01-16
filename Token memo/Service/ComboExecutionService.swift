@@ -106,19 +106,30 @@ class ComboExecutionService: ObservableObject {
 
         do {
             if let value = try MemoStore.shared.getComboItemValue(item) {
+                var finalValue = value
+
+                // 템플릿인 경우 displayValue 우선 사용
+                if item.type == .template, let displayValue = item.displayValue, !displayValue.isEmpty {
+                    finalValue = displayValue
+                    print("📝 [ComboExecutionService] 템플릿 displayValue 사용")
+                }
+
+                // 자동 변수 치환 ({날짜}, {시간} 등)
+                finalValue = processTemplateVariables(in: finalValue)
+
                 // 클립보드에 복사
-                UIPasteboard.general.string = value
-                print("✅ 클립보드에 복사됨: \(value.prefix(50))...")
+                UIPasteboard.general.string = finalValue
+                print("✅ 클립보드에 복사됨: \(finalValue.prefix(50))...")
 
                 // 알림 발송 (옵션)
-                postNotification(for: item, value: value)
+                postNotification(for: item, value: finalValue)
             } else {
-                print("⚠️ 항목의 값을 가져올 수 없음")
+                print("⚠️ 항목의 값을 가져올 수 없음 - 건너뛰기")
+                // 에러가 발생해도 다음 항목 계속 진행
             }
         } catch {
-            print("❌ 항목 실행 실패: \(error)")
-            state = .error(error.localizedDescription)
-            stopCombo()
+            print("❌ 항목 실행 실패: \(error) - 건너뛰기")
+            // 에러가 발생해도 다음 항목 계속 진행
         }
     }
 
@@ -167,6 +178,34 @@ class ComboExecutionService: ObservableObject {
                 "total": currentItems.count
             ]
         )
+    }
+
+    /// 템플릿 자동 변수 치환
+    /// - Parameter text: 치환할 텍스트
+    /// - Returns: 치환된 텍스트
+    private func processTemplateVariables(in text: String) -> String {
+        var result = text
+
+        let formatter = DateFormatter()
+
+        // {날짜} → yyyy-MM-dd
+        formatter.dateFormat = "yyyy-MM-dd"
+        result = result.replacingOccurrences(of: "{날짜}", with: formatter.string(from: Date()))
+
+        // {시간} → HH:mm:ss
+        formatter.dateFormat = "HH:mm:ss"
+        result = result.replacingOccurrences(of: "{시간}", with: formatter.string(from: Date()))
+
+        // {연도} → yyyy
+        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
+
+        // {월} → M
+        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
+
+        // {일} → d
+        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
+
+        return result
     }
 
     /// 진행률 계산

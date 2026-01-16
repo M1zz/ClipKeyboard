@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 var showOnlyTemplates: Bool = false
 var showOnlyFavorites: Bool = false
@@ -174,6 +175,7 @@ struct KeyboardView: View {
     @State private var showTemplatesOnly: Bool = false
     @State private var showFavoritesOnly: Bool = false
     @State private var selectedThemeFilter: String? = nil  // 선택된 테마 필터
+    @State private var selectedTab: Int = 0  // 0: 메모, 1: Combo
 
     @StateObject private var templateInputState = TemplateInputState()
 
@@ -181,40 +183,57 @@ struct KeyboardView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // 메모 그리드
-            ZStack {
-                backgroundColor
-                ScrollView {
-                    LazyVGrid(columns: gridItemLayout, spacing: 10)  {
-                        ForEach(clipKey.indices, id:\.self) { i in
-                            Button {
-                                UIImpactFeedbackGenerator().impactOccurred()
-                                // 메모 ID 포함해서 알림 전송
-                                NotificationCenter.default.post(
-                                    name: NSNotification.Name(rawValue: "addTextEntry"),
-                                    object: clipValue[i],
-                                    userInfo: ["memoId": clipMemoId[i]]
-                                )
-                            } label: {
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .foregroundColor(keyColor)
-                                        .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                                    Text(clipKey[i])
-                                        .foregroundStyle(Color(uiColor: .label))
-                                        .lineLimit(1)
-                                        .padding(.vertical, 14)
-                                        .padding(.horizontal, 12)
-                                        .font(.system(size: 15, weight: .semibold))
+            // 탭 선택
+            Picker("", selection: $selectedTab) {
+                Text("메모").tag(0)
+                Text("Combo").tag(1)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+
+            // 탭 내용
+            if selectedTab == 0 {
+                // 메모 그리드
+                ZStack {
+                    backgroundColor
+                    ScrollView {
+                        LazyVGrid(columns: gridItemLayout, spacing: 10)  {
+                            ForEach(clipKey.indices, id:\.self) { i in
+                                Button {
+                                    UIImpactFeedbackGenerator().impactOccurred()
+                                    // 메모 ID 포함해서 알림 전송
+                                    NotificationCenter.default.post(
+                                        name: NSNotification.Name(rawValue: "addTextEntry"),
+                                        object: clipValue[i],
+                                        userInfo: ["memoId": clipMemoId[i]]
+                                    )
+                                } label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .foregroundColor(keyColor)
+                                            .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
+                                        Text(clipKey[i])
+                                            .foregroundStyle(Color(uiColor: .label))
+                                            .lineLimit(1)
+                                            .padding(.vertical, 14)
+                                            .padding(.horizontal, 12)
+                                            .font(.system(size: 15, weight: .semibold))
+                                    }
                                 }
                             }
                         }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
                 }
+                .frame(width: UIScreen.main.bounds.size.width)
+            } else {
+                // Combo 뷰 (TODO: 구현 예정)
+                Text("Combo 기능은 곧 추가됩니다")
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .frame(width: UIScreen.main.bounds.size.width)
         }
         .overlay(
             Group {

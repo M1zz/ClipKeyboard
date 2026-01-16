@@ -601,13 +601,56 @@ class MemoStore: ObservableObject {
             let history = try loadSmartClipboardHistory()
             return history.first(where: { $0.id == item.referenceId })?.content
         case .template:
-            let memos = try load(type: .tokenMemo)
-            // 템플릿의 경우 customValue가 있으면 사용, 없으면 원본 반환
-            if let memo = memos.first(where: { $0.id == item.referenceId }) {
-                return item.displayValue ?? memo.value
+            // 템플릿의 경우 displayValue 우선 사용 (플레이스홀더 값이 미리 입력됨)
+            if let displayValue = item.displayValue, !displayValue.isEmpty {
+                return displayValue
             }
-            return nil
+            // displayValue가 없으면 원본 템플릿 반환
+            let memos = try load(type: .tokenMemo)
+            return memos.first(where: { $0.id == item.referenceId })?.value
         }
+    }
+
+    /// Combo 항목의 참조 대상이 존재하는지 검증
+    /// - Parameter item: 검증할 ComboItem
+    /// - Returns: 참조 대상이 존재하면 true
+    func validateComboItem(_ item: ComboItem) throws -> Bool {
+        switch item.type {
+        case .memo:
+            let memos = try load(type: .tokenMemo)
+            return memos.contains(where: { $0.id == item.referenceId && !$0.isTemplate })
+        case .clipboardHistory:
+            let history = try loadSmartClipboardHistory()
+            return history.contains(where: { $0.id == item.referenceId })
+        case .template:
+            let memos = try load(type: .tokenMemo)
+            return memos.contains(where: { $0.id == item.referenceId && $0.isTemplate })
+        }
+    }
+
+    /// Combo의 모든 항목 검증 및 유효하지 않은 항목 제거
+    /// - Parameter combo: 검증할 Combo
+    /// - Returns: 정리된 Combo
+    func cleanupCombo(_ combo: Combo) throws -> Combo {
+        var validItems: [ComboItem] = []
+
+        for item in combo.items {
+            if try validateComboItem(item) {
+                validItems.append(item)
+            } else {
+                print("⚠️ [MemoStore] Combo '\(combo.title)'의 항목 '\(item.displayTitle ?? "unknown")' 제거됨 (참조 대상 없음)")
+            }
+        }
+
+        var cleanedCombo = combo
+        cleanedCombo.items = validItems
+
+        // order 재정렬
+        for (index, _) in cleanedCombo.items.enumerated() {
+            cleanedCombo.items[index].order = index
+        }
+
+        return cleanedCombo
     }
 }
 

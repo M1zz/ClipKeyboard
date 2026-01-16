@@ -194,6 +194,119 @@ enum MemoType {
     case clipboardHistory
 }
 
+// MARK: - Smart Clipboard History (자동 분류 + 메타데이터)
+struct SmartClipboardHistory: Identifiable, Codable {
+    var id = UUID()
+    var content: String
+    var copiedAt: Date = Date()
+    var isTemporary: Bool = true
+
+    // 콘텐츠 타입
+    var contentType: ClipboardContentType = .text
+
+    // 이미지 데이터 (Base64 인코딩)
+    var imageData: String?
+
+    // 이미지 메타데이터
+    var imageWidth: Int?
+    var imageHeight: Int?
+    var imageFormat: String?  // "png", "jpeg", "gif"
+
+    // 자동 분류
+    var detectedType: ClipboardItemType = .text
+    var confidence: Double = 0.0  // 0.0 ~ 1.0 (인식 신뢰도)
+
+    // 메타데이터
+    var sourceApp: String?  // 복사한 앱
+    var tags: [String] = []
+    var autoSaveOffered: Bool = false  // 자동 저장 제안 했는지
+
+    // 사용자 피드백
+    var userCorrectedType: ClipboardItemType?  // 사용자가 수정한 타입
+
+    init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true, contentType: ClipboardContentType = .text, imageData: String? = nil, detectedType: ClipboardItemType = .text, confidence: Double = 0.0) {
+        self.id = id
+        self.content = content
+        self.copiedAt = copiedAt
+        self.isTemporary = isTemporary
+        self.contentType = contentType
+        self.imageData = imageData
+        self.detectedType = detectedType
+        self.confidence = confidence
+    }
+}
+
+// MARK: - Combo Models
+
+enum ComboItemType: String, Codable {
+    case memo = "메모"
+    case clipboardHistory = "클립보드"
+    case template = "템플릿"
+
+    // 다국어 지원 표시명
+    var localizedName: String {
+        return NSLocalizedString(self.rawValue, comment: "Combo item type")
+    }
+
+    // Xcode String Catalog이 문자열을 감지하도록 하는 헬퍼 함수
+    static func preloadLocalizedStrings() {
+        _ = NSLocalizedString("메모", comment: "Memo")
+        _ = NSLocalizedString("클립보드", comment: "Clipboard")
+        _ = NSLocalizedString("템플릿", comment: "Template")
+    }
+}
+
+// Combo에 포함되는 개별 항목
+struct ComboItem: Identifiable, Codable, Equatable {
+    var id = UUID()
+    var type: ComboItemType
+    var referenceId: UUID  // 메모 또는 클립보드 항목의 ID
+    var order: Int  // 실행 순서
+
+    // 표시용 정보 (캐시)
+    var displayTitle: String?  // 항목의 제목/미리보기
+    var displayValue: String?  // 항목의 실제 값 (미리보기용)
+
+    init(id: UUID = UUID(), type: ComboItemType, referenceId: UUID, order: Int, displayTitle: String? = nil, displayValue: String? = nil) {
+        self.id = id
+        self.type = type
+        self.referenceId = referenceId
+        self.order = order
+        self.displayTitle = displayTitle
+        self.displayValue = displayValue
+    }
+}
+
+// Combo - 여러 메모를 순서대로 자동 입력하는 시스템
+struct Combo: Identifiable, Codable {
+    var id = UUID()
+    var title: String
+    var items: [ComboItem]  // 순서대로 실행될 항목들
+    var interval: TimeInterval = 2.0  // 각 항목 사이의 시간 간격 (초)
+    var createdAt: Date = Date()
+    var lastUsed: Date?
+    var category: String = "텍스트"
+    var useCount: Int = 0
+    var isFavorite: Bool = false
+
+    init(id: UUID = UUID(), title: String, items: [ComboItem] = [], interval: TimeInterval = 2.0, createdAt: Date = Date(), lastUsed: Date? = nil, category: String = "텍스트", useCount: Int = 0, isFavorite: Bool = false) {
+        self.id = id
+        self.title = title
+        self.items = items.sorted(by: { $0.order < $1.order })
+        self.interval = interval
+        self.createdAt = createdAt
+        self.lastUsed = lastUsed
+        self.category = category
+        self.useCount = useCount
+        self.isFavorite = isFavorite
+    }
+
+    // 항목을 순서대로 정렬
+    mutating func sortItems() {
+        items.sort(by: { $0.order < $1.order })
+    }
+}
+
 // MemoStore - Simplified for macOS
 class MemoStore: ObservableObject {
     static let shared = MemoStore()
@@ -372,5 +485,57 @@ class MemoStore: ObservableObject {
         if FileManager.default.fileExists(atPath: fileURL.path) {
             try FileManager.default.removeItem(at: fileURL)
         }
+    }
+
+    // MARK: - Smart Clipboard History Methods
+
+    private static func smartClipboardFileURL() throws -> URL? {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+            print("❌ [MemoStore.smartClipboardFileURL] App Group 컨테이너를 찾을 수 없음!")
+            return nil
+        }
+        return containerURL.appendingPathComponent("smart.clipboard.history.data")
+    }
+
+    func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
+        guard let fileURL = try Self.smartClipboardFileURL() else { return [] }
+        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+
+        if let history = try? JSONDecoder().decode([SmartClipboardHistory].self, from: data) {
+            return history
+        }
+        return []
+    }
+
+    func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
+        let data = try JSONEncoder().encode(history)
+        guard let outfile = try Self.smartClipboardFileURL() else { return }
+        try data.write(to: outfile)
+    }
+
+    // MARK: - Combo Methods
+
+    private static func combosFileURL() throws -> URL? {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+            print("❌ [MemoStore.combosFileURL] App Group 컨테이너를 찾을 수 없음!")
+            return nil
+        }
+        return containerURL.appendingPathComponent("combos.data")
+    }
+
+    func loadCombos() throws -> [Combo] {
+        guard let fileURL = try Self.combosFileURL() else { return [] }
+        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+
+        if let combos = try? JSONDecoder().decode([Combo].self, from: data) {
+            return combos
+        }
+        return []
+    }
+
+    func saveCombos(_ combos: [Combo]) throws {
+        let data = try JSONEncoder().encode(combos)
+        guard let outfile = try Self.combosFileURL() else { return }
+        try data.write(to: outfile)
     }
 }

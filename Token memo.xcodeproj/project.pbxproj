@@ -44,10 +44,12 @@
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58F8FBC62A1527C300F5446E /* MemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC52A1527C300F5446E /* MemoDetail.swift */; };
 		58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */; };
+		72CAAA55032A5A2612281DD1 /* ComboItemPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8978C793D337415F46663BCA /* ComboItemPickerView.swift */; };
 		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
 		9C994B052EEAA84000FBC8F6 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B042EEAA83A00FBC8F6 /* DateExtension.swift */; };
 		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
 		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
+		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 587BDC4A2A1D0D40001464E4;
 			remoteInfo = TokenKeyboard;
+		};
+		9CA0A4072F19D9B3004ABF40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58C473372A109F0C009D87BC;
+			remoteInfo = "Token memo";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -79,6 +88,7 @@
 /* Begin PBXFileReference section */
 		1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboList.swift; sourceTree = "<group>"; };
 		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
+		3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboTemplateInputView.swift; sourceTree = "<group>"; };
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardList.swift; sourceTree = "<group>"; };
 		5802F4122A2B8E08002825D6 /* ShortcutMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutMemoView.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* Token-memo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Token-memo-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -116,10 +126,12 @@
 		58F8FBC52A1527C300F5446E /* MemoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoDetail.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* TokenMemo.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TokenMemo.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupOnboardingView.swift; sourceTree = "<group>"; };
+		8978C793D337415F46663BCA /* ComboItemPickerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboItemPickerView.swift; sourceTree = "<group>"; };
 		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
 		9C994B042EEAA83A00FBC8F6 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
 		9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSelectorView.swift; sourceTree = "<group>"; };
+		9CA0A4032F19D9B3004ABF40 /* TokenMemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TokenMemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST003 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -127,7 +139,39 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		58FBB90B2ED9AD0B004231BE /* TokenMemo.tap */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TokenMemo.tap; sourceTree = "<group>"; };
+		58FBB90B2ED9AD0B004231BE /* TokenMemo.tap */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = TokenMemo.tap;
+			sourceTree = "<group>";
+		};
+		9CA0A3F72F19D685004ABF40 /* WeekAheadTodoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = WeekAheadTodoUITests;
+			sourceTree = "<group>";
+		};
+		9CA0A4042F19D9B3004ABF40 /* TokenMemoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = TokenMemoTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +190,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58FBB9072ED9AD0B004231BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CA0A4002F19D9B3004ABF40 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -192,6 +243,8 @@
 				58C4733A2A109F0D009D87BC /* Token memo */,
 				587BDC4C2A1D0D40001464E4 /* TokenKeyboard */,
 				58FBB90B2ED9AD0B004231BE /* TokenMemo.tap */,
+				9CA0A3F72F19D685004ABF40 /* WeekAheadTodoUITests */,
+				9CA0A4042F19D9B3004ABF40 /* TokenMemoTests */,
 				58C473392A109F0D009D87BC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -202,6 +255,7 @@
 				58C473382A109F0D009D87BC /* Token memo.app */,
 				587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */,
 				58FBB90A2ED9AD0B004231BE /* TokenMemo.tap.app */,
+				9CA0A4032F19D9B3004ABF40 /* TokenMemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,6 +342,7 @@
 				58AA11112B4D1A2100000001 /* UsageStatistics.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
 				58CK00022B5E1A2100000002 /* CloudBackupView.swift */,
+				D32F71B863E077B858D91CE7 /* Combo */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -317,6 +372,16 @@
 				9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */,
 			);
 			path = Template;
+			sourceTree = "<group>";
+		};
+		D32F71B863E077B858D91CE7 /* Combo */ = {
+			isa = PBXGroup;
+			children = (
+				8978C793D337415F46663BCA /* ComboItemPickerView.swift */,
+				3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */,
+			);
+			name = Combo;
+			path = Combo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,11 +440,30 @@
 				58FBB90B2ED9AD0B004231BE /* TokenMemo.tap */,
 			);
 			name = TokenMemo.tap;
-			packageProductDependencies = (
-			);
 			productName = TokenMemo.tap;
 			productReference = 58FBB90A2ED9AD0B004231BE /* TokenMemo.tap.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9CA0A4022F19D9B3004ABF40 /* TokenMemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9CA0A4092F19D9B3004ABF40 /* Build configuration list for PBXNativeTarget "TokenMemoTests" */;
+			buildPhases = (
+				9CA0A3FF2F19D9B3004ABF40 /* Sources */,
+				9CA0A4002F19D9B3004ABF40 /* Frameworks */,
+				9CA0A4012F19D9B3004ABF40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9CA0A4082F19D9B3004ABF40 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9CA0A4042F19D9B3004ABF40 /* TokenMemoTests */,
+			);
+			name = TokenMemoTests;
+			productName = TokenMemoTests;
+			productReference = 9CA0A4032F19D9B3004ABF40 /* TokenMemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -388,7 +472,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					587BDC4A2A1D0D40001464E4 = {
@@ -399,6 +483,11 @@
 					};
 					58FBB9092ED9AD0B004231BE = {
 						CreatedOnToolsVersion = 26.0;
+					};
+					9CA0A4022F19D9B3004ABF40 = {
+						CreatedOnToolsVersion = 26.2;
+						LastSwiftMigration = 2620;
+						TestTargetID = 58C473372A109F0C009D87BC;
 					};
 				};
 			};
@@ -419,6 +508,7 @@
 				58C473372A109F0C009D87BC /* Token memo */,
 				587BDC4A2A1D0D40001464E4 /* TokenKeyboard */,
 				58FBB9092ED9AD0B004231BE /* TokenMemo.tap */,
+				9CA0A4022F19D9B3004ABF40 /* TokenMemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -445,6 +535,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58FBB9082ED9AD0B004231BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CA0A4012F19D9B3004ABF40 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -522,10 +619,19 @@
 				1C7C6CDBD08940B2BC4EED19 /* ComboList.swift in Sources */,
 				9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */,
 				256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */,
+				72CAAA55032A5A2612281DD1 /* ComboItemPickerView.swift in Sources */,
+				DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58FBB9062ED9AD0B004231BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9CA0A3FF2F19D9B3004ABF40 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -539,6 +645,11 @@
 			isa = PBXTargetDependency;
 			target = 587BDC4A2A1D0D40001464E4 /* TokenKeyboard */;
 			targetProxy = 587BDC502A1D0D40001464E4 /* PBXContainerItemProxy */;
+		};
+		9CA0A4082F19D9B3004ABF40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58C473372A109F0C009D87BC /* Token memo */;
+			targetProxy = 9CA0A4072F19D9B3004ABF40 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -902,6 +1013,64 @@
 			};
 			name = Release;
 		};
+		9CA0A40A2F19D9B3004ABF40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.TokenMemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "TokenMemoTests/TokenMemoTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Token memo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Token memo";
+			};
+			name = Debug;
+		};
+		9CA0A40B2F19D9B3004ABF40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.TokenMemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "TokenMemoTests/TokenMemoTests-Bridging-Header.h";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Token memo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Token memo";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -937,6 +1106,15 @@
 			buildConfigurations = (
 				58FBB9122ED9AD0C004231BE /* Debug */,
 				58FBB9132ED9AD0C004231BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9CA0A4092F19D9B3004ABF40 /* Build configuration list for PBXNativeTarget "TokenMemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9CA0A40A2F19D9B3004ABF40 /* Debug */,
+				9CA0A40B2F19D9B3004ABF40 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
