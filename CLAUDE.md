@@ -138,10 +138,21 @@ class MemoStore: ObservableObject {
 - **한글 사용 제한**: rawValue, 로그, 주석만 허용
 
 ### 5. 다국어 지원
-- **필수**: 모든 사용자 노출 문자열
+⚠️ **매우 중요**: 다국어 지원은 이 프로젝트의 필수 요구사항입니다.
+- **필수 규칙**:
+  - 모든 사용자에게 노출되는 문자열은 **반드시** NSLocalizedString으로 처리
+  - UI에 표시되는 한글, 영문 텍스트는 **예외 없이** 다국어 처리 필수
+  - 새로운 기능 추가, 문구 변경 시 **즉시** String Catalog에 추가
+  - Alert, 버튼, 라벨, placeholder, 안내 메시지 등 **모든 UI 텍스트** 포함
 - **방식**: `NSLocalizedString("키", comment: "설명")`
 - **위치**: `Constants.swift` 또는 사용 위치에서 직접 호출
 - **String Catalog**: Xcode String Catalog 사용 (자동 다국어 변환)
+- **지원 언어**: 한국어(ko), 영어(en)
+
+**코드 작성 전 체크리스트**:
+- [ ] 이 문자열이 사용자에게 보이는가? → YES면 NSLocalizedString 사용
+- [ ] String Catalog에 추가했는가?
+- [ ] 한국어와 영어 번역이 모두 제공되는가?
 
 ### 6. 파일 크기
 - SwiftUI View는 300줄 이하 권장
@@ -272,8 +283,27 @@ var localizedName: String {
 ### 8. 이미지 메모리 관리
 ```swift
 // ✅ GOOD - 이미지 크기 제한 (1024px)
-// ✅ GOOD - JPEG 압축 (0.7 품질)
+// ✅ GOOD - JPEG 압압 (0.7 품질)
 guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
+```
+
+### 9. 다국어 지원 누락
+```swift
+// ❌ BAD - 하드코딩된 문자열
+Text("메모 추가")
+.alert("삭제하시겠습니까?", isPresented: $showAlert)
+Button("확인") { }
+
+// ✅ GOOD - NSLocalizedString 사용
+Text(NSLocalizedString("Add Memo", comment: "Button to add a new memo"))
+.alert(NSLocalizedString("Delete confirmation", comment: "Alert message"), isPresented: $showAlert)
+Button(NSLocalizedString("Confirm", comment: "Confirm button")) { }
+
+// ❌ BAD - enum rawValue를 UI에 직접 노출
+Text(theme.rawValue) // "비즈니스" 같은 한글이 그대로 노출
+
+// ✅ GOOD - localizedName 프로퍼티 사용
+Text(theme.localizedName) // NSLocalizedString으로 처리된 값
 ```
 
 ## 테스트 시 확인사항
@@ -299,6 +329,12 @@ guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
 ### 5. 데이터 마이그레이션
 - [ ] 구버전 → 신버전 업데이트 시 데이터 손실 없음
 - [ ] 카테고리 → 테마 마이그레이션
+
+### 6. 다국어 지원
+- [ ] iOS 설정에서 언어를 영어로 변경 → 앱의 모든 텍스트가 영어로 표시되는지 확인
+- [ ] 한글과 영어 간 전환 시 UI 레이아웃이 깨지지 않는지 확인
+- [ ] Alert, placeholder, 버튼 등 모든 UI 요소가 번역되는지 확인
+- [ ] enum의 rawValue가 직접 노출되지 않고 localizedName을 사용하는지 확인
 
 ## 개발 환경
 

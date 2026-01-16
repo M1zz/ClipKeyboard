@@ -234,12 +234,12 @@ struct EmptyComboView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.gray.opacity(0.5))
 
-            Text("Combo가 없습니다")
+            Text(NSLocalizedString("Combo가 없습니다", comment: "Empty combo list title"))
                 .font(.title3)
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary)
 
-            Text("여러 메모를 순서대로 자동 입력하는\nCombo를 만들어보세요")
+            Text(NSLocalizedString("여러 메모를 순서대로 자동 입력하는\nCombo를 만들어보세요", comment: "Empty combo list description"))
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -402,13 +402,13 @@ struct ComboAddEditView: View {
                     TextField("Combo 이름", text: $title)
 
                     HStack {
-                        Text("간격")
+                        Text(NSLocalizedString("간격", comment: "Interval label"))
                         Spacer()
                         Picker("", selection: $interval) {
-                            Text("1초").tag(1.0)
-                            Text("2초").tag(2.0)
-                            Text("3초").tag(3.0)
-                            Text("5초").tag(5.0)
+                            Text(NSLocalizedString("1초", comment: "1 second")).tag(1.0)
+                            Text(NSLocalizedString("2초", comment: "2 seconds")).tag(2.0)
+                            Text(NSLocalizedString("3초", comment: "3 seconds")).tag(3.0)
+                            Text(NSLocalizedString("5초", comment: "5 seconds")).tag(5.0)
                         }
                         .pickerStyle(.menu)
                     }
@@ -418,7 +418,7 @@ struct ComboAddEditView: View {
 
                 Section {
                     if selectedItems.isEmpty {
-                        Text("항목을 추가해주세요")
+                        Text(NSLocalizedString("항목을 추가해주세요", comment: "Add items prompt"))
                             .foregroundColor(.secondary)
                     } else {
                         ForEach(selectedItems) { item in
@@ -454,10 +454,10 @@ struct ComboAddEditView: View {
                         showItemPicker = true
                     }
                 } header: {
-                    Text("항목 (\(selectedItems.count)개)")
+                    Text(NSLocalizedString("항목 (\(selectedItems.count)개)", comment: "Items count header"))
                 } footer: {
                     if !selectedItems.isEmpty {
-                        Text("드래그하여 순서를 변경할 수 있습니다")
+                        Text(NSLocalizedString("드래그하여 순서를 변경할 수 있습니다", comment: "Drag to reorder instruction"))
                             .font(.caption)
                     }
                 }

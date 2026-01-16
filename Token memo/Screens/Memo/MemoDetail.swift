@@ -14,13 +14,13 @@ struct MemoDetail: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Title : ")
+                Text(NSLocalizedString("Title : ", comment: "Label for memo title"))
                 Text(memo.title)
                 Spacer()
             }
             Divider()
             HStack {
-                Text("Value : ")
+                Text(NSLocalizedString("Value : ", comment: "Label for memo value"))
                 Text(memo.value)
                 Spacer()
             }

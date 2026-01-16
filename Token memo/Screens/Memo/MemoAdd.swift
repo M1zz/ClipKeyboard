@@ -532,10 +532,10 @@ struct MemoAdd: View {
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("보안 메모")
+                    Text(NSLocalizedString("보안 메모", comment: "Secure memo toggle"))
                         .font(.callout)
                         .fontWeight(.medium)
-                    Text("Face ID로 보호")
+                    Text(NSLocalizedString("Face ID로 보호", comment: "Face ID protection description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -557,10 +557,10 @@ struct MemoAdd: View {
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("템플릿")
+                    Text(NSLocalizedString("템플릿", comment: "Template toggle"))
                         .font(.callout)
                         .fontWeight(.medium)
-                    Text("재사용 가능한 양식")
+                    Text(NSLocalizedString("재사용 가능한 양식", comment: "Template description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -582,10 +582,10 @@ struct MemoAdd: View {
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Combo")
+                    Text(NSLocalizedString("Combo", comment: "Combo toggle"))
                         .font(.callout)
                         .fontWeight(.medium)
-                    Text("탭마다 다음 값 입력")
+                    Text(NSLocalizedString("탭마다 다음 값 입력", comment: "Combo description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
