@@ -211,6 +211,11 @@ struct Memo: Identifiable, Codable {
     // 템플릿의 플레이스홀더 값들 저장 (예: {이름}: [유미, 주디, 리이오])
     var placeholderValues: [String: [String]] = [:]
 
+    // Combo 기능 (탭마다 다음 값 입력)
+    var isCombo: Bool = false
+    var comboValues: [String] = []  // 순차적으로 입력될 값들 (예: ["1234", "5678", "9012", "3456"])
+    var currentComboIndex: Int = 0  // 현재 입력할 값의 인덱스
+
     // 자동 분류 관련 (Phase 1 추가)
     var autoDetectedType: ClipboardItemType?
 
@@ -219,7 +224,7 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
         self.id = id
         self.title = title
         self.value = value
@@ -231,6 +236,9 @@ struct Memo: Identifiable, Codable {
         self.isTemplate = isTemplate
         self.templateVariables = templateVariables
         self.placeholderValues = placeholderValues
+        self.isCombo = isCombo
+        self.comboValues = comboValues
+        self.currentComboIndex = currentComboIndex
         self.autoDetectedType = autoDetectedType
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
@@ -259,6 +267,9 @@ struct Memo: Identifiable, Codable {
         case isTemplate
         case templateVariables
         case placeholderValues
+        case isCombo
+        case comboValues
+        case currentComboIndex
         case autoDetectedType
         case imageFileName
         case imageFileNames

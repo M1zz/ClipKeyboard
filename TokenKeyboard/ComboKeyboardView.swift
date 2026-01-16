@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ComboKeyboardView: View {
-    @State private var combos: [Combo] = []
-    @State private var executingComboId: UUID? = nil
-    @StateObject private var executionService = ComboExecutionService.shared
+    @State private var executingMemoId: UUID? = nil
+    @State private var refreshTrigger: Bool = false
 
     @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
     @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
@@ -21,14 +21,19 @@ struct ComboKeyboardView: View {
 
     private var gridItemLayout = [GridItem(.adaptive(minimum: 130), spacing: 10)]
 
+    // clipMemos에서 실시간으로 Combo 메모 필터링
+    private var comboMemos: [Memo] {
+        clipMemos.filter { $0.isCombo && !$0.comboValues.isEmpty }
+    }
+
     var body: some View {
         ZStack {
             backgroundColor
 
-            if combos.isEmpty {
+            if comboMemos.isEmpty {
                 // 빈 상태
                 VStack(spacing: 12) {
-                    Image(systemName: "rectangle.stack.badge.play")
+                    Image(systemName: "square.stack.3d.forward.dottedline.fill")
                         .font(.system(size: 50))
                         .foregroundColor(.gray.opacity(0.5))
 
@@ -43,14 +48,13 @@ struct ComboKeyboardView: View {
             } else {
                 ScrollView {
                     LazyVGrid(columns: gridItemLayout, spacing: 10) {
-                        ForEach(combos) { combo in
+                        ForEach(comboMemos) { memo in
                             ComboKeyboardCard(
-                                combo: combo,
-                                isExecuting: executingComboId == combo.id,
-                                executionState: executionService.state,
+                                memo: memo,
+                                isExecuting: executingMemoId == memo.id,
                                 keyColor: keyColor,
                                 onExecute: {
-                                    executeCombo(combo)
+                                    executeCombo(memo)
                                 }
                             )
                         }
@@ -61,34 +65,35 @@ struct ComboKeyboardView: View {
             }
         }
         .frame(width: UIScreen.main.bounds.size.width)
-        .onAppear {
-            loadCombos()
-        }
+        .id(refreshTrigger) // refreshTrigger 변경 시 뷰 재생성
     }
 
-    private func loadCombos() {
-        do {
-            combos = try MemoStore.shared.loadCombos()
-            print("📦 [ComboKeyboardView] Combo 로드 완료: \(combos.count)개")
-        } catch {
-            print("❌ [ComboKeyboardView] Combo 로드 실패: \(error)")
-            combos = []
-        }
-    }
-
-    private func executeCombo(_ combo: Combo) {
-        print("🎬 [ComboKeyboardView] Combo 실행: \(combo.title)")
+    private func executeCombo(_ memo: Memo) {
+        print("🎬 [ComboKeyboardView] Combo 실행: \(memo.title)")
+        print("   현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
         UIImpactFeedbackGenerator().impactOccurred()
-        executingComboId = combo.id
+        executingMemoId = memo.id
 
-        Task {
-            ComboExecutionService.shared.startCombo(combo)
+        // 현재 인덱스의 값 입력
+        if !memo.comboValues.isEmpty {
+            let currentValue = memo.comboValues[memo.currentComboIndex]
+            print("   ✅ 입력할 값: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
 
-            // 실행 완료 후 3초 뒤 초기화
-            try? await Task.sleep(nanoseconds: 3_000_000_000)
-            if case .completed = ComboExecutionService.shared.state {
-                executingComboId = nil
-            }
+            // 알림 전송하여 입력 (KeyboardViewController에서 처리)
+            // KeyboardViewController가 currentComboIndex를 증가시키고 저장함
+            NotificationCenter.default.post(
+                name: NSNotification.Name(rawValue: "addTextEntry"),
+                object: memo.value,
+                userInfo: ["memoId": memo.id]
+            )
+        }
+
+        // 짧은 딜레이 후 뷰 갱신 및 실행 상태 초기화
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            executingMemoId = nil
+            // clipMemos가 업데이트되었으므로 뷰 강제 갱신
+            refreshTrigger.toggle()
+            print("   🔄 뷰 갱신 완료")
         }
     }
 
@@ -132,9 +137,8 @@ struct ComboKeyboardView: View {
 // MARK: - Combo Card
 
 struct ComboKeyboardCard: View {
-    let combo: Combo
+    let memo: Memo
     let isExecuting: Bool
-    let executionState: ComboExecutionState
     let keyColor: Color
     let onExecute: () -> Void
 
@@ -148,21 +152,52 @@ struct ComboKeyboardCard: View {
                     .foregroundColor(isExecuting ? Color.blue.opacity(0.2) : keyColor)
                     .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
 
-                VStack(spacing: 4) {
+                VStack(spacing: 6) {
                     // 제목
-                    Text(combo.title)
-                        .foregroundStyle(Color(uiColor: .label))
+                    Text(memo.title)
+                        .foregroundColor(Color(uiColor: UIColor.label))
                         .font(.system(size: 15, weight: .semibold))
                         .lineLimit(1)
 
-                    // 항목 개수
-                    Text(String(format: NSLocalizedString("%lld개 항목", comment: ""), combo.items.count))
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
+                    // 설명 (선택적)
+                    if !memo.value.isEmpty {
+                        Text(memo.value)
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                    }
+
+                    // 항목 개수 및 현재 위치
+                    HStack(spacing: 4) {
+                        Image(systemName: "square.stack.3d.forward.dottedline")
+                            .font(.caption2)
+                            .foregroundColor(.orange)
+
+                        Text("\(memo.comboValues.count)개 값")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+
+                        Text("•")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+
+                        Text("다음: \(memo.currentComboIndex + 1)")
+                            .font(.caption2)
+                            .foregroundColor(.blue)
+                    }
 
                     // 실행 상태 표시
                     if isExecuting {
-                        executionStatusView
+                        HStack(spacing: 4) {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .scaleEffect(0.7)
+                            Text("입력 중...")
+                                .font(.caption2)
+                                .foregroundColor(.blue)
+                        }
+                        .padding(.top, 2)
                     }
                 }
                 .padding(.vertical, 14)
@@ -170,46 +205,6 @@ struct ComboKeyboardCard: View {
             }
         }
         .disabled(isExecuting)
-    }
-
-    @ViewBuilder
-    private var executionStatusView: some View {
-        switch executionState {
-        case .running(let currentIndex, let totalCount):
-            VStack(spacing: 4) {
-                ProgressView(value: Double(currentIndex + 1), total: Double(totalCount))
-                    .progressViewStyle(.linear)
-                    .tint(.blue)
-
-                Text("\(currentIndex + 1) / \(totalCount)")
-                    .font(.caption2)
-                    .foregroundColor(.blue)
-            }
-            .padding(.top, 4)
-
-        case .completed:
-            HStack(spacing: 4) {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.green)
-                Text("완료!")
-                    .foregroundColor(.green)
-            }
-            .font(.caption)
-            .padding(.top, 4)
-
-        case .error(let message):
-            HStack(spacing: 4) {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(.red)
-                Text("오류")
-                    .foregroundColor(.red)
-            }
-            .font(.caption2)
-            .padding(.top, 4)
-
-        default:
-            EmptyView()
-        }
     }
 }
 

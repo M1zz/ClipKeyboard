@@ -176,6 +176,8 @@ struct TemplateEditSheet: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("복사") {
+                        // 선택한 플레이스홀더 값들을 Memo에 저장
+                        savePlaceholderInputsToMemo()
                         onCopy(previewText)
                     }
                     .fontWeight(.semibold)
@@ -220,21 +222,73 @@ struct TemplateEditSheet: View {
 
     private func loadPlaceholderDefaults() {
         print("📥 [TemplateEditSheet] 기본값 로드 시작")
-        for placeholder in customPlaceholders {
-            // 새로운 형식으로 로드
-            print("   플레이스홀더: \(placeholder)")
-            let values = MemoStore.shared.loadPlaceholderValues(for: placeholder)
-            print("   로드된 값: \(values.count)개")
 
-            if let firstValue = values.first {
-                placeholderInputs[placeholder] = firstValue.value
-                print("   ✓ 기본값 설정: \(firstValue.value) (출처: \(firstValue.sourceMemoTitle))")
-            } else {
-                placeholderInputs[placeholder] = ""
-                print("   ⚠️ 값 없음 - 빈 문자열 설정")
+        // 먼저 Memo 객체에 저장된 값이 있는지 확인
+        if !memo.placeholderValues.isEmpty {
+            print("   ✅ Memo에 저장된 placeholderValues 발견: \(memo.placeholderValues)")
+            for placeholder in customPlaceholders {
+                if let savedValues = memo.placeholderValues[placeholder], let firstValue = savedValues.first {
+                    placeholderInputs[placeholder] = firstValue
+                    print("   ✓ Memo에서 로드: \(placeholder) = \(firstValue)")
+                } else {
+                    // Memo에 없으면 UserDefaults에서 로드
+                    let values = MemoStore.shared.loadPlaceholderValues(for: placeholder)
+                    if let firstValue = values.first {
+                        placeholderInputs[placeholder] = firstValue.value
+                        print("   ✓ UserDefaults에서 로드: \(placeholder) = \(firstValue.value)")
+                    } else {
+                        placeholderInputs[placeholder] = ""
+                        print("   ⚠️ 값 없음: \(placeholder)")
+                    }
+                }
+            }
+        } else {
+            print("   ⚠️ Memo에 placeholderValues 없음 - UserDefaults에서 로드")
+            for placeholder in customPlaceholders {
+                let values = MemoStore.shared.loadPlaceholderValues(for: placeholder)
+                print("   플레이스홀더: \(placeholder), 로드된 값: \(values.count)개")
+
+                if let firstValue = values.first {
+                    placeholderInputs[placeholder] = firstValue.value
+                    print("   ✓ 기본값 설정: \(firstValue.value) (출처: \(firstValue.sourceMemoTitle))")
+                } else {
+                    placeholderInputs[placeholder] = ""
+                    print("   ⚠️ 값 없음 - 빈 문자열 설정")
+                }
             }
         }
         print("✅ [TemplateEditSheet] 기본값 로드 완료: \(placeholderInputs)")
+    }
+
+    // 선택한 플레이스홀더 값들을 Memo에 저장
+    private func savePlaceholderInputsToMemo() {
+        print("💾 [TemplateEditSheet] placeholderInputs를 Memo에 저장 시작")
+        print("   현재 placeholderInputs: \(placeholderInputs)")
+
+        do {
+            var memos = try MemoStore.shared.load(type: .tokenMemo)
+
+            if let index = memos.firstIndex(where: { $0.id == memo.id }) {
+                // placeholderInputs를 [String: [String]] 형식으로 변환
+                var placeholderValuesDict: [String: [String]] = [:]
+                for (placeholder, value) in placeholderInputs {
+                    if !value.isEmpty {
+                        placeholderValuesDict[placeholder] = [value]
+                        print("   저장: \(placeholder) = [\(value)]")
+                    }
+                }
+
+                memos[index].placeholderValues = placeholderValuesDict
+                print("   ✅ Memo placeholderValues 업데이트 완료: \(placeholderValuesDict)")
+
+                try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+                print("   ✅ Memo 저장 완료")
+            } else {
+                print("   ❌ Memo를 찾을 수 없음")
+            }
+        } catch {
+            print("   ❌ Memo 저장 실패: \(error)")
+        }
     }
 }
 

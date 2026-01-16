@@ -322,7 +322,9 @@ struct TokenMemoList: View {
                 insertedValue: memo.value,
                 insertedCategory: memo.category,
                 insertedIsTemplate: memo.isTemplate,
-                insertedIsSecure: memo.isSecure
+                insertedIsSecure: memo.isSecure,
+                insertedIsCombo: memo.isCombo,
+                insertedComboValues: memo.comboValues
             )
         } label: {
             Label("수정", systemImage: "pencil")

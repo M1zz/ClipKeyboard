@@ -31,6 +31,8 @@ struct MemoAdd: View {
     var insertedCategory: String = "텍스트"
     var insertedIsTemplate: Bool = false
     var insertedIsSecure: Bool = false
+    var insertedIsCombo: Bool = false
+    var insertedComboValues: [String] = []
 
     // 새로운 기능들
     @State private var selectedCategory: String = "텍스트"
@@ -43,6 +45,11 @@ struct MemoAdd: View {
     @State private var placeholderValues: [String: [String]] = [:]
     @State private var showingPlaceholderEditor: String? = nil
     @State private var newValue: String = ""
+
+    // Combo 기능
+    @State private var isCombo: Bool = false
+    @State private var comboValues: [String] = []
+    @State private var newComboValue: String = ""
 
     // 자동 분류 관련
     @State private var autoDetectedType: ClipboardItemType? = nil
@@ -62,8 +69,23 @@ struct MemoAdd: View {
     @State private var showImagePicker: Bool = false
     @State private var isProcessingOCR: Bool = false
 
+    // Toast 메시지
+    @State private var showToast: Bool = false
+    @State private var toastMessage: String = ""
+
     @Environment(\.dismiss) private var dismiss
-    
+
+    // 에러 메시지
+    private var alertMessage: String {
+        if keyword.isEmpty {
+            return "제목을 입력하세요"
+        }
+        if isCombo {
+            return "Combo 값을 최소 1개 이상 추가하세요"
+        }
+        return "내용을 입력하세요"
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // 📋 클립보드 스마트 제안
@@ -87,44 +109,52 @@ struct MemoAdd: View {
                     themeSelectionSection
                     titleInputSection
 
-                    // 📌 3단계: 내용 입력 (테마별 맞춤형)
-                    ContentInputSection(
-                        value: $value,
-                        selectedCategory: selectedCategory,
-                        isFocused: $isFocused,
-                        autoDetectedType: $autoDetectedType,
-                        autoDetectedConfidence: $autoDetectedConfidence,
-                        attachedImages: $attachedImages
-                    )
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            
+                    // 📌 2단계: 추가 옵션 (보안, 템플릿, Combo)
+                    additionalOptionsSection
+                    templateSection
+                    comboSection
 
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 8) {
-                                    // 템플릿 변수 버튼들
-                                    templateButton(title: "날짜", variable: "{날짜}")
-                                    templateButton(title: "시간", variable: "{시간}")
-                                    templateButton(title: "이름", variable: "{이름}")
-                                    templateButton(title: "주소", variable: "{주소}")
-                                    templateButton(title: "전화", variable: "{전화}")
+                    // 📌 3단계: 내용 입력
+                    if isCombo {
+                        // Combo용 설명 입력
+                        comboDescriptionSection
+                    } else {
+                        // 일반 내용 입력
+                        ContentInputSection(
+                            value: $value,
+                            selectedCategory: selectedCategory,
+                            isFocused: $isFocused,
+                            autoDetectedType: $autoDetectedType,
+                            autoDetectedConfidence: $autoDetectedConfidence,
+                            attachedImages: $attachedImages
+                        )
+                        .toolbar {
+                            ToolbarItemGroup(placement: .keyboard) {
+
+
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 8) {
+                                        // 템플릿 변수 버튼들
+                                        templateButton(title: "날짜", variable: "{날짜}")
+                                        templateButton(title: "시간", variable: "{시간}")
+                                        templateButton(title: "이름", variable: "{이름}")
+                                        templateButton(title: "주소", variable: "{주소}")
+                                        templateButton(title: "전화", variable: "{전화}")
+                                    }
                                 }
-                            }
 
-                            Spacer()
+                                Spacer()
 
-                            // 완료 버튼
-                            Button {
-                                isFocused = false
-                            } label: {
-                                Text("완료")
-                                    .fontWeight(.semibold)
+                                // 완료 버튼
+                                Button {
+                                    isFocused = false
+                                } label: {
+                                    Text("완료")
+                                        .fontWeight(.semibold)
+                                }
                             }
                         }
                     }
-
-                    additionalOptionsSection
-                    templateSection
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 24)
@@ -142,6 +172,9 @@ struct MemoAdd: View {
                         selectedCategory = "텍스트"
                         isSecure = false
                         isTemplate = false
+                        isCombo = false
+                        comboValues = []
+                        newComboValue = ""
                     } label: {
                         HStack {
                             Image(systemName: "arrow.counterclockwise")
@@ -157,98 +190,116 @@ struct MemoAdd: View {
                     }
 
                     Button {
-                        if !keyword.isEmpty,
-                           (!value.isEmpty || !attachedImages.isEmpty) {
-                            showSucessAlert = true
-                            // success
-                            // save
-                            do {
-                                var loadedMemos:[Memo] = []
-                                loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
-
-                                // 이미지들을 파일로 저장
-                                var savedImageFileNames: [String] = []
-                                #if os(iOS)
-                                for wrapper in attachedImages {
-                                    let fileName = "\(UUID().uuidString).png"
-                                    try MemoStore.shared.saveImage(wrapper.image, fileName: fileName)
-                                    savedImageFileNames.append(fileName)
-                                }
-                                #endif
-
-                                // 템플릿 변수 추출
-                                let variables = extractTemplateVariables(from: value)
-
-                                // 컨텐츠 타입 결정
-                                let contentType: ClipboardContentType
-                                if !value.isEmpty && !savedImageFileNames.isEmpty {
-                                    contentType = .mixed
-                                } else if !savedImageFileNames.isEmpty {
-                                    contentType = .image
-                                } else {
-                                    contentType = .text
-                                }
-
-                                let finalMemoId: UUID
-                                let finalMemoTitle: String
-
-                                if let existingId = memoId,
-                                   let index = loadedMemos.firstIndex(where: { $0.id == existingId }) {
-                                    // 기존 메모 업데이트
-                                    var updatedMemo = loadedMemos[index]
-                                    updatedMemo.title = keyword
-                                    updatedMemo.value = value
-                                    updatedMemo.lastEdited = Date()
-                                    updatedMemo.category = selectedCategory
-                                    updatedMemo.isSecure = isSecure
-                                    updatedMemo.isTemplate = isTemplate
-                                    updatedMemo.templateVariables = variables
-                                    updatedMemo.placeholderValues = placeholderValues
-                                    updatedMemo.imageFileNames = savedImageFileNames
-                                    updatedMemo.contentType = contentType
-
-                                    loadedMemos[index] = updatedMemo
-                                    finalMemoId = existingId
-                                    finalMemoTitle = keyword
-                                } else {
-                                    // 새 메모 추가
-                                    let newMemoId = UUID()
-                                    let newMemo = Memo(
-                                        id: newMemoId,
-                                        title: keyword,
-                                        value: value,
-                                        lastEdited: Date(),
-                                        category: selectedCategory,
-                                        isSecure: isSecure,
-                                        isTemplate: isTemplate,
-                                        templateVariables: variables,
-                                        placeholderValues: placeholderValues,
-                                        imageFileNames: savedImageFileNames,
-                                        contentType: contentType
-                                    )
-                                    loadedMemos.append(newMemo)
-                                    finalMemoId = newMemoId
-                                    finalMemoTitle = keyword
-                                }
-
-                                try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
-
-                                // 플레이스홀더 값들 저장 (출처 정보 포함)
-                                for (placeholder, values) in placeholderValues where !values.isEmpty {
-                                    for value in values {
-                                        MemoStore.shared.addPlaceholderValue(
-                                            value,
-                                            for: placeholder,
-                                            sourceMemoId: finalMemoId,
-                                            sourceMemoTitle: finalMemoTitle
-                                        )
-                                    }
-                                }
-                            } catch {
-                                fatalError(error.localizedDescription)
-                            }
-                        } else {
+                        // 유효성 검사
+                        if keyword.isEmpty {
                             showAlert = true
+                            return
+                        }
+
+                        // Combo인 경우 comboValues 확인, 일반인 경우 value 또는 attachedImages 확인
+                        let hasContent = isCombo ? !comboValues.isEmpty : (!value.isEmpty || !attachedImages.isEmpty)
+
+                        if !hasContent {
+                            showAlert = true
+                            return
+                        }
+
+                        showSucessAlert = true
+                        // success
+                        // save
+                        do {
+                            var loadedMemos:[Memo] = []
+                            loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
+
+                            // 이미지들을 파일로 저장
+                            var savedImageFileNames: [String] = []
+                            #if os(iOS)
+                            for wrapper in attachedImages {
+                                let fileName = "\(UUID().uuidString).png"
+                                try MemoStore.shared.saveImage(wrapper.image, fileName: fileName)
+                                savedImageFileNames.append(fileName)
+                            }
+                            #endif
+
+                            // 템플릿 변수 추출
+                            let variables = extractTemplateVariables(from: value)
+
+                            // 컨텐츠 타입 결정
+                            let contentType: ClipboardContentType
+                            if !value.isEmpty && !savedImageFileNames.isEmpty {
+                                contentType = .mixed
+                            } else if !savedImageFileNames.isEmpty {
+                                contentType = .image
+                            } else {
+                                contentType = .text
+                            }
+
+                            // 카테고리 결정: 자동 분류가 있으면 우선 사용, 없으면 선택한 카테고리 사용
+                            let finalCategory = autoDetectedType?.rawValue ?? selectedCategory
+
+                            let finalMemoId: UUID
+                            let finalMemoTitle: String
+
+                            if let existingId = memoId,
+                               let index = loadedMemos.firstIndex(where: { $0.id == existingId }) {
+                                // 기존 메모 업데이트
+                                var updatedMemo = loadedMemos[index]
+                                updatedMemo.title = keyword
+                                updatedMemo.value = value
+                                updatedMemo.lastEdited = Date()
+                                updatedMemo.category = finalCategory
+                                updatedMemo.isSecure = isSecure
+                                updatedMemo.isTemplate = isTemplate
+                                updatedMemo.templateVariables = variables
+                                updatedMemo.placeholderValues = placeholderValues
+                                updatedMemo.isCombo = isCombo
+                                updatedMemo.comboValues = comboValues
+                                updatedMemo.currentComboIndex = 0
+                                updatedMemo.imageFileNames = savedImageFileNames
+                                updatedMemo.contentType = contentType
+
+                                loadedMemos[index] = updatedMemo
+                                finalMemoId = existingId
+                                finalMemoTitle = keyword
+                            } else {
+                                // 새 메모 추가
+                                let newMemoId = UUID()
+                                let newMemo = Memo(
+                                    id: newMemoId,
+                                    title: keyword,
+                                    value: value,
+                                    lastEdited: Date(),
+                                    category: finalCategory,
+                                    isSecure: isSecure,
+                                    isTemplate: isTemplate,
+                                    templateVariables: variables,
+                                    placeholderValues: placeholderValues,
+                                    isCombo: isCombo,
+                                    comboValues: comboValues,
+                                    currentComboIndex: 0,
+                                    imageFileNames: savedImageFileNames,
+                                    contentType: contentType
+                                )
+                                loadedMemos.append(newMemo)
+                                finalMemoId = newMemoId
+                                finalMemoTitle = keyword
+                            }
+
+                            try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
+
+                            // 플레이스홀더 값들 저장 (출처 정보 포함)
+                            for (placeholder, values) in placeholderValues where !values.isEmpty {
+                                for value in values {
+                                    MemoStore.shared.addPlaceholderValue(
+                                        value,
+                                        for: placeholder,
+                                        sourceMemoId: finalMemoId,
+                                        sourceMemoTitle: finalMemoTitle
+                                    )
+                                }
+                            }
+                        } catch {
+                            fatalError(error.localizedDescription)
                         }
                     } label: {
                         HStack {
@@ -273,14 +324,31 @@ struct MemoAdd: View {
             .ignoresSafeArea(.keyboard)
             .zIndex(100)
         }
-        .alert(Constants.insertContents, isPresented: $showAlert) {
-            
+        .alert(alertMessage, isPresented: $showAlert) {
+
         }
         .alert("저장되었습니다!", isPresented: $showSucessAlert) {
             Button("Ok", role: .cancel) {
                 dismiss()
             }
         }
+        .overlay(
+            Group {
+                if showToast {
+                    VStack {
+                        Spacer()
+                        Text(toastMessage)
+                            .padding()
+                            .background(Color.black.opacity(0.7))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .padding(.bottom, 100)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut, value: showToast)
+                }
+            }
+        )
         .sheet(isPresented: $showEmojiPicker) {
             EmojiPicker { selectedEmoji in
                 // 선택한 이모지를 value에 추가
@@ -363,6 +431,9 @@ struct MemoAdd: View {
             }
 
             isTemplate = insertedIsTemplate
+            isCombo = insertedIsCombo
+            comboValues = insertedComboValues
+
             if !insertedIsSecure && autoDetectedType == nil {
                 // 자동 분류로 보안 설정되지 않았으면 기존 설정 사용
                 isSecure = insertedIsSecure
@@ -503,6 +574,31 @@ struct MemoAdd: View {
             .padding(.horizontal, 16)
             .background(Color(.systemGray6))
             .cornerRadius(12)
+
+            HStack {
+                Image(systemName: isCombo ? "square.stack.3d.forward.dottedline.fill" : "square.stack.3d.forward.dottedline")
+                    .font(.title3)
+                    .foregroundColor(isCombo ? .orange : .secondary)
+                    .frame(width: 32)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Combo")
+                        .font(.callout)
+                        .fontWeight(.medium)
+                    Text("탭마다 다음 값 입력")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                Toggle("", isOn: $isCombo)
+                    .labelsHidden()
+            }
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(Color(.systemGray6))
+            .cornerRadius(12)
         }
     }
 
@@ -558,9 +654,211 @@ struct MemoAdd: View {
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6).opacity(0.5))
+                .background(Color.gray.opacity(0.1))
                 .cornerRadius(12)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var comboSection: some View {
+        if isCombo {
+            comboInfoSection
+            comboValueInputSection
+        }
+    }
+
+    // Combo 설명 입력 섹션
+    private var comboDescriptionSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "text.alignleft")
+                    .font(.title3)
+                    .foregroundColor(.orange)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("설명 (선택)")
+                        .font(.callout)
+                        .fontWeight(.medium)
+                    Text("키보드에서 보여질 설명 문구")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .padding(.bottom, 4)
+
+            TextEditor(text: $value)
+                .frame(minHeight: 80)
+                .padding(8)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .overlay(
+                    Group {
+                        if value.isEmpty {
+                            Text("예: 카드번호를 입력합니다")
+                                .foregroundColor(.secondary)
+                                .padding(.leading, 12)
+                                .padding(.top, 16)
+                                .allowsHitTesting(false)
+                        }
+                    },
+                    alignment: .topLeading
+                )
+        }
+        .padding(.horizontal, 20)
+    }
+
+    private var comboInfoSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "info.circle.fill")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Text("탭할 때마다 다음 값이 순서대로 입력됩니다")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("예시")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.secondary)
+
+                Text("카드번호 입력: 1234 → 5678 → 9012 → 3456")
+                    .font(.caption)
+                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+            }
+        }
+        .padding()
+    }
+
+    private var comboValueInputSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            comboValueHeader
+            comboValueInputField
+            comboValueList
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(12)
+    }
+
+    private var comboValueHeader: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "list.number")
+                .font(.caption)
+                .foregroundColor(.orange)
+            Text("Combo 값 설정 (\(comboValues.count)개)")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+        }
+    }
+
+    private var comboValueInputField: some View {
+        HStack(spacing: 8) {
+            TextField("값 입력", text: $newComboValue)
+                .textFieldStyle(.roundedBorder)
+                .submitLabel(.done)
+                .onSubmit {
+                    addComboValue()
+                }
+
+            Button {
+                addComboValue()
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(newComboValue.isEmpty ? .gray : .orange)
+            }
+            .disabled(newComboValue.isEmpty)
+        }
+    }
+
+    @ViewBuilder
+    private var comboValueList: some View {
+        if !comboValues.isEmpty {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("순서를 변경하려면 드래그하세요")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                            .padding(.bottom, 4)
+
+                        ForEach(Array(comboValues.enumerated()), id: \.offset) { index, value in
+                            HStack {
+                                Image(systemName: "line.3.horizontal")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+
+                                Text("\(index + 1).")
+                                    .font(.callout)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.orange)
+                                    .frame(width: 30, alignment: .leading)
+
+                                Text(value)
+                                    .font(.body)
+
+                                Spacer()
+
+                                Button {
+                                    withAnimation {
+                                        _ = comboValues.remove(at: index)
+                                    }
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.red)
+                                        .font(.title3)
+                                }
+                            }
+                            .padding(12)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                        }
+                        .onMove { from, to in
+                            comboValues.move(fromOffsets: from, toOffset: to)
+                        }
+                    }
+        } else {
+            Text("위의 필드에서 값을 추가하세요")
+                .font(.caption)
+                .foregroundColor(.orange)
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .background(Color.orange.opacity(0.1))
+                .cornerRadius(8)
+        }
+    }
+
+    private func addComboValue() {
+        // 빈 값 체크
+        let trimmedValue = newComboValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedValue.isEmpty else {
+            showToastMessage("값을 입력하세요")
+            return
+        }
+
+        // 중복 체크
+        if comboValues.contains(trimmedValue) {
+            showToastMessage("이미 추가된 값입니다")
+            return
+        }
+
+        comboValues.append(trimmedValue)
+        newComboValue = ""
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+
+    // Toast 메시지 표시
+    private func showToastMessage(_ message: String) {
+        toastMessage = message
+        showToast = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            showToast = false
         }
     }
 
@@ -1097,12 +1395,48 @@ struct ContentInputSection: View {
     // 클립보드에서 이미지 붙여넣기
     private func pasteImageFromClipboard() {
         #if os(iOS)
-        if let image = UIPasteboard.general.image {
-            withAnimation {
-                attachedImages.append(ImageWrapper(image: image))
+        print("📋 [MemoAdd] 클립보드에서 이미지 붙여넣기 시도")
+
+        // 1. 먼저 hasImages로 확인
+        if UIPasteboard.general.hasImages {
+            print("   ✅ 클립보드에 이미지 있음")
+
+            // 2. 이미지 가져오기 시도
+            if let image = UIPasteboard.general.image {
+                print("   ✅ 이미지 가져오기 성공")
+                withAnimation {
+                    attachedImages.append(ImageWrapper(image: image))
+                }
+                showToastMessage("이미지를 추가했습니다")
+                return
             }
-            showToastMessage("이미지를 추가했습니다")
+
+            // 3. 이미지를 가져오지 못했으면 데이터에서 시도
+            print("   ⚠️ .image로 가져오기 실패, 데이터에서 시도")
+            if let imageData = UIPasteboard.general.data(forPasteboardType: "public.png"),
+               let image = UIImage(data: imageData) {
+                print("   ✅ PNG 데이터에서 이미지 생성 성공")
+                withAnimation {
+                    attachedImages.append(ImageWrapper(image: image))
+                }
+                showToastMessage("이미지를 추가했습니다")
+                return
+            }
+
+            if let imageData = UIPasteboard.general.data(forPasteboardType: "public.jpeg"),
+               let image = UIImage(data: imageData) {
+                print("   ✅ JPEG 데이터에서 이미지 생성 성공")
+                withAnimation {
+                    attachedImages.append(ImageWrapper(image: image))
+                }
+                showToastMessage("이미지를 추가했습니다")
+                return
+            }
+
+            print("   ❌ 이미지 데이터 변환 실패")
+            showToastMessage("이미지 형식을 지원하지 않습니다")
         } else {
+            print("   ❌ 클립보드에 이미지 없음")
             showToastMessage("클립보드에 이미지가 없습니다")
         }
         #endif

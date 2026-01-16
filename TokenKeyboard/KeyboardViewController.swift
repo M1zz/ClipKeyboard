@@ -161,6 +161,45 @@ class KeyboardViewController: UIInputViewController {
                 print("📝 텍스트: \(text)")
                 print("🆔 메모 ID: \(memoId)")
 
+                // 해당 메모 찾기
+                if let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) {
+                    var memo = clipMemos[memoIndex]
+
+                    // Combo 메모인 경우
+                    if memo.isCombo && !memo.comboValues.isEmpty {
+                        print("🔄 Combo 메모 - 현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
+
+                        // 현재 인덱스의 값 가져오기
+                        let currentValue = memo.comboValues[memo.currentComboIndex]
+                        print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
+
+                        // 입력
+                        self.textDocumentProxy.insertText(currentValue)
+
+                        // 다음 인덱스로 이동 (순환)
+                        memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
+                        print("   다음 인덱스: \(memo.currentComboIndex)")
+
+                        // 메모리에 업데이트
+                        clipMemos[memoIndex] = memo
+
+                        // 파일에도 저장
+                        do {
+                            var allMemos = try MemoStore.shared.load(type: .tokenMemo)
+                            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
+                                allMemos[fileIndex].currentComboIndex = memo.currentComboIndex
+                                try MemoStore.shared.save(memos: allMemos, type: .tokenMemo)
+                                print("   💾 인덱스 저장 완료")
+                            }
+                        } catch {
+                            print("   ❌ 인덱스 저장 실패: \(error)")
+                        }
+
+                        return
+                    }
+                }
+
+                // 일반 메모 또는 템플릿 처리
                 // 커스텀 플레이스홀더 확인
                 let customPlaceholders = self.extractCustomPlaceholders(from: text)
                 print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
@@ -366,6 +405,13 @@ class KeyboardViewController: UIInputViewController {
             temp = temp.filter { !$0.isSecure }
             if secureCount > 0 {
                 print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
+            }
+
+            // 🖼️ 이미지 메모 제외 (키보드에서는 직접 입력 불가)
+            let imageCount = temp.filter { $0.contentType == .image || $0.contentType == .mixed }.count
+            temp = temp.filter { $0.contentType == .text }
+            if imageCount > 0 {
+                print("   🖼️ 이미지 메모 \(imageCount)개 제외됨 (키보드에서는 직접 입력 불가)")
             }
 
             // 필터 적용

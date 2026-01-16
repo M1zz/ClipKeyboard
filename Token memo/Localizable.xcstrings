@@ -94,6 +94,9 @@
         }
       }
     },
+    "%lld." : {
+
+    },
     "%lld%% 확신" : {
       "localizations" : {
         "en" : {
@@ -113,6 +116,9 @@
           }
         }
       }
+    },
+    "%lld개 변수" : {
+
     },
     "%lld개 항목" : {
       "localizations" : {
@@ -371,6 +377,9 @@
           }
         }
       }
+    },
+    "Combo 값 설정 (%lld개)" : {
+
     },
     "Combo 관리" : {
       "localizations" : {
@@ -704,6 +713,9 @@
         }
       }
     },
+    "Type" : {
+
+    },
     "URL" : {
       "comment" : "URL",
       "localizations" : {
@@ -892,6 +904,7 @@
       }
     },
     "검색" : {
+      "comment" : "Search",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -922,6 +935,9 @@
           }
         }
       }
+    },
+    "결과 미리보기" : {
+      "comment" : "Preview Result"
     },
     "계좌번호" : {
       "comment" : "Account Number",
@@ -1125,6 +1141,9 @@
         }
       }
     },
+    "드래그하여 순서를 변경할 수 있습니다" : {
+
+    },
     "라이트" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1253,6 +1272,9 @@
         }
       }
     },
+    "메모가 없습니다" : {
+      "comment" : "No memos"
+    },
     "메모로 저장" : {
       "localizations" : {
         "en" : {
@@ -1305,6 +1327,9 @@
           }
         }
       }
+    },
+    "모든 플레이스홀더 값을 입력해주세요" : {
+      "comment" : "Fill all placeholders"
     },
     "목록에서 ClipKeyboard를 찾아 선택하세요" : {
       "comment" : "Add Keyboard instruction 3",
@@ -1869,6 +1894,9 @@
         }
       }
     },
+    "설명 (선택)" : {
+
+    },
     "설정" : {
       "localizations" : {
         "en" : {
@@ -1975,6 +2003,9 @@
         }
       }
     },
+    "순서를 변경하려면 드래그하세요" : {
+
+    },
     "시스템" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2058,6 +2089,17 @@
         }
       }
     },
+    "앱에서 Combo를 생성해보세요" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Combos in the app"
+          }
+        }
+      }
+    },
     "앱을 열어 플레이스홀더 관리에서\n'%@' 값을 추가해주세요" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2131,12 +2173,26 @@
         }
       }
     },
+    "예: 카드번호를 입력합니다" : {
+
+    },
     "예시" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Example"
+          }
+        }
+      }
+    },
+    "오류" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
           }
         }
       }
@@ -2163,11 +2219,23 @@
       }
     },
     "완료" : {
+      "comment" : "Done",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Done"
+          }
+        }
+      }
+    },
+    "완료!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done!"
           }
         }
       }
@@ -2192,6 +2260,9 @@
           }
         }
       }
+    },
+    "위의 필드에서 값을 추가하세요" : {
+
     },
     "음식" : {
       "extractionState" : "stale",
@@ -2236,6 +2307,7 @@
       }
     },
     "이 템플릿에는 플레이스홀더가 없습니다" : {
+      "comment" : "No placeholders",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2804,6 +2876,7 @@
       }
     },
     "추가" : {
+      "comment" : "Add",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2814,7 +2887,7 @@
       }
     },
     "취소" : {
-      "comment" : "Cancel button",
+      "comment" : "Cancel",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2834,6 +2907,9 @@
           }
         }
       }
+    },
+    "카드번호 입력: 1234 → 5678 → 9012 → 3456" : {
+
     },
     "커스텀" : {
       "extractionState" : "stale",
@@ -2918,6 +2994,9 @@
           }
         }
       }
+    },
+    "클립보드 히스토리가 없습니다" : {
+      "comment" : "No clipboard history"
     },
     "클립보드에 복사되었습니다" : {
       "extractionState" : "stale",
@@ -3047,6 +3126,9 @@
         }
       }
     },
+    "키보드에서 보여질 설명 문구" : {
+
+    },
     "키보드에서 저장된 메모를 선택하면 바로 입력돼요" : {
       "comment" : "Paste memo description",
       "localizations" : {
@@ -3078,6 +3160,12 @@
           }
         }
       }
+    },
+    "탭마다 다음 값 입력" : {
+
+    },
+    "탭할 때마다 다음 값이 순서대로 입력됩니다" : {
+
     },
     "테마" : {
       "localizations" : {
@@ -3172,6 +3260,9 @@
         }
       }
     },
+    "템플릿 값 설정" : {
+      "comment" : "Set Template Values"
+    },
     "템플릿 내용" : {
       "localizations" : {
         "en" : {
@@ -3191,6 +3282,9 @@
           }
         }
       }
+    },
+    "템플릿 미리보기" : {
+      "comment" : "Template Preview"
     },
     "템플릿 변수가 없습니다" : {
       "extractionState" : "stale",
@@ -3244,6 +3338,7 @@
       }
     },
     "템플릿이 없습니다" : {
+      "comment" : "No templates",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3336,6 +3431,7 @@
       }
     },
     "플레이스홀더 값 설정" : {
+      "comment" : "Set Placeholder Values",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3376,6 +3472,7 @@
       }
     },
     "항목 추가" : {
+      "comment" : "Add Item",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3431,36 +3528,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
-          }
-        }
-      }
-    },
-    "앱에서 Combo를 생성해보세요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create Combos in the app"
-          }
-        }
-      }
-    },
-    "오류" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Error"
-          }
-        }
-      }
-    },
-    "완료!" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done!"
           }
         }
       }

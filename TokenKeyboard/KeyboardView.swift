@@ -229,10 +229,8 @@ struct KeyboardView: View {
                 }
                 .frame(width: UIScreen.main.bounds.size.width)
             } else {
-                // Combo 뷰 (TODO: 구현 예정)
-                Text("Combo 기능은 곧 추가됩니다")
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                // Combo 뷰
+                ComboKeyboardView()
             }
         }
         .overlay(

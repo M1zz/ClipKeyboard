@@ -20,21 +20,22 @@ struct MemoRowView: View {
                 .font(.system(size: fontSize))
 
                 HStack(spacing: 8) {
-                // 자동 분류 타입 표시 (우선순위)
-                if let detectedType = memo.autoDetectedType {
+                // 카테고리 표시 (category가 최종 확정된 값)
+                if let categoryType = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+                    // category가 ClipboardItemType과 매치되면 아이콘과 함께 표시
                     HStack(spacing: 4) {
-                        Image(systemName: detectedType.icon)
+                        Image(systemName: categoryType.icon)
                             .font(.caption2)
-                        Text(detectedType.localizedName)
+                        Text(categoryType.localizedName)
                             .font(.caption)
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(colorFor(detectedType.color).opacity(0.2))
-                    .foregroundColor(colorFor(detectedType.color))
+                    .background(colorFor(categoryType.color).opacity(0.2))
+                    .foregroundColor(colorFor(categoryType.color))
                     .cornerRadius(8)
                 } else {
-                    // 자동 분류가 없으면 카테고리 표시
+                    // 일치하지 않으면 텍스트로만 표시
                     Text(categoryLocalizedName(memo.category))
                         .font(.caption)
                         .padding(.horizontal, 8)
