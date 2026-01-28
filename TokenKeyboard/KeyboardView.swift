@@ -159,8 +159,6 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    private var gridItemLayout = [GridItem(.adaptive(minimum: 130), spacing: 10)]
-
     // 테마 목록
     private let availableThemes = [
         "이메일", "전화번호", "주소", "URL", "카드번호", "계좌번호",
@@ -171,6 +169,14 @@ struct KeyboardView: View {
     @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
     @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
     @AppStorage("keyboardKeyColor") private var keyboardKeyColorHex: String = "FFFFFF"
+    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var keyboardColumnCount: Int = 2
+    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 40.0
+    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 15.0
+
+    // 동적 그리드 레이아웃 (열 개수에 따라 변경)
+    private var gridItemLayout: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, keyboardColumnCount)))
+    }
 
     @State private var showTemplatesOnly: Bool = false
     @State private var showFavoritesOnly: Bool = false
@@ -216,10 +222,11 @@ struct KeyboardView: View {
                                         Text(clipKey[i])
                                             .foregroundStyle(Color(uiColor: .label))
                                             .lineLimit(1)
-                                            .padding(.vertical, 14)
+                                            .padding(.vertical, (buttonHeight - buttonFontSize) / 2)
                                             .padding(.horizontal, 12)
-                                            .font(.system(size: 15, weight: .semibold))
+                                            .font(.system(size: buttonFontSize, weight: .semibold))
                                     }
+                                    .frame(height: buttonHeight)
                                 }
                             }
                         }

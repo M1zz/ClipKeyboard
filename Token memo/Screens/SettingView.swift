@@ -36,6 +36,11 @@ struct SettingView: View {
                     Text("키보드 테마 설정")
                 }
 
+                NavigationLink(destination: KeyboardLayoutSettings()) {
+                    Label("키보드 레이아웃 설정", systemImage: "rectangle.grid.2x2")
+                        .badge("NEW")
+                }
+
                 NavigationLink(destination: CopyPasteView()) {
                     Text("붙여넣기 알림 켜기/끄기")
                 }
