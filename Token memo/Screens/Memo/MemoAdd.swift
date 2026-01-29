@@ -283,6 +283,9 @@ struct MemoAdd: View {
                                 loadedMemos.append(newMemo)
                                 finalMemoId = newMemoId
                                 finalMemoTitle = keyword
+
+                                // 새 메모 생성 횟수 증가
+                                ReviewManager.shared.incrementMemoCreatedCount()
                             }
 
                             try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
@@ -297,6 +300,11 @@ struct MemoAdd: View {
                                         sourceMemoTitle: finalMemoTitle
                                     )
                                 }
+                            }
+
+                            // 적절한 타이밍에 리뷰 요청
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                ReviewManager.shared.requestReviewIfAppropriate()
                             }
                         } catch {
                             fatalError(error.localizedDescription)

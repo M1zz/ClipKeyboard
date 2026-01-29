@@ -279,6 +279,9 @@
         }
       }
     },
+    "⭐️ 리뷰 및 평점 매기기" : {
+
+    },
     "📋 붙여넣기 허용 설정" : {
       "localizations" : {
         "en" : {
@@ -354,6 +357,12 @@
         }
       }
     },
+    "App Store 페이지에서 직접 작성합니다" : {
+      "comment" : "App Store review description"
+    },
+    "App Store에서 리뷰 작성" : {
+      "comment" : "App Store review button"
+    },
     "Clip Keyboard" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -420,6 +429,7 @@
       }
     },
     "Combo 관리" : {
+      "comment" : "Combo management",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -513,6 +523,7 @@
       }
     },
     "FAQ" : {
+      "comment" : "FAQ",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -559,6 +570,7 @@
       }
     },
     "iCloud 백업 및 복구" : {
+      "comment" : "iCloud backup and restore",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -919,6 +931,7 @@
       }
     },
     "개발자에게 연락하기" : {
+      "comment" : "Contact developer",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1163,6 +1176,7 @@
       }
     },
     "데이터 관리" : {
+      "comment" : "Data management section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1255,7 +1269,11 @@
     "레이아웃 설정" : {
 
     },
+    "리뷰 및 평점" : {
+      "comment" : "Review navigation title"
+    },
     "리뷰 및 평점 매기기" : {
+      "comment" : "Write review",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1264,6 +1282,9 @@
           }
         }
       }
+    },
+    "리뷰는 다른 사용자에게 앱을 추천하는 데 도움이 되며, 개발자에게는 큰 힘이 됩니다." : {
+      "comment" : "Review footer message"
     },
     "마지막 백업" : {
       "comment" : "Last backup label",
@@ -1651,6 +1672,7 @@
       }
     },
     "버전" : {
+      "comment" : "Version label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1806,6 +1828,7 @@
       }
     },
     "붙여넣기 알림 켜기/끄기" : {
+      "comment" : "Paste notification toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1814,6 +1837,9 @@
           }
         }
       }
+    },
+    "빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)" : {
+      "comment" : "In-app review description"
     },
     "빠른 메모" : {
       "comment" : "Quick memo feature",
@@ -1881,6 +1907,7 @@
       }
     },
     "사용 통계" : {
+      "comment" : "Usage statistics",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2212,7 +2239,11 @@
         }
       }
     },
+    "안녕하세요 저는 클립키보드의 사용자입니다." : {
+      "comment" : "Email body"
+    },
     "앱 내 폰트 크기 변경" : {
+      "comment" : "Change app font size",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2222,7 +2253,11 @@
         }
       }
     },
+    "앱 내에서 리뷰 작성" : {
+      "comment" : "In-app review button"
+    },
     "앱 설정" : {
+      "comment" : "App settings section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2243,6 +2278,7 @@
       }
     },
     "앱 정보" : {
+      "comment" : "App info section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2996,6 +3032,7 @@
       }
     },
     "지원" : {
+      "comment" : "Support section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3146,6 +3183,9 @@
         }
       }
     },
+    "클립 키보드에 관해 문의드릴 것이 있습니다" : {
+      "comment" : "Email subject"
+    },
     "클립보드" : {
       "comment" : "Clipboard",
       "localizations" : {
@@ -3222,6 +3262,7 @@
       }
     },
     "클립키보드 사용방법" : {
+      "comment" : "ClipKeyboard tutorial",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3230,6 +3271,9 @@
           }
         }
       }
+    },
+    "클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다." : {
+
     },
     "클립키보드에 오신 것을 환영합니다" : {
       "extractionState" : "stale",
@@ -3253,7 +3297,7 @@
       }
     },
     "키보드 레이아웃 설정" : {
-
+      "comment" : "Keyboard layout settings"
     },
     "키보드 메뉴에서 '키보드' 탭을 선택하세요" : {
       "comment" : "Add Keyboard instruction 1",
@@ -3332,6 +3376,7 @@
       }
     },
     "키보드 테마 설정" : {
+      "comment" : "Keyboard theme settings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3605,6 +3650,7 @@
       }
     },
     "통계 및 정보" : {
+      "comment" : "Statistics and info section",
       "localizations" : {
         "en" : {
           "stringUnit" : {

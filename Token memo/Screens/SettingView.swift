@@ -92,23 +92,23 @@ struct CopyPasteView: View {
         List {
             Section {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("📋 붙여넣기 허용 설정")
+                    Text(NSLocalizedString("📋 붙여넣기 허용 설정", comment: "Paste permission settings title"))
                         .font(.headline)
                         .padding(.bottom, 4)
 
-                    Text("앱 실행 시 '붙여넣기 허용' 팝업이 뜬 경우, 아래 경로로 설정을 변경할 수 있습니다.")
+                    Text(NSLocalizedString("앱 실행 시 '붙여넣기 허용' 팝업이 뜬 경우, 아래 경로로 설정을 변경할 수 있습니다.", comment: "Paste permission settings description"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 8)
             }
 
-            Section(header: Text("설정 경로")) {
+            Section(header: Text(NSLocalizedString("설정 경로", comment: "Settings path section header"))) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
                         Image(systemName: "gear")
                             .foregroundColor(.blue)
-                        Text("설정")
+                        Text(NSLocalizedString("설정", comment: "Settings"))
                             .fontWeight(.medium)
                     }
 
@@ -120,7 +120,7 @@ struct CopyPasteView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "app.fill")
                             .foregroundColor(.blue)
-                        Text("클립 키보드")
+                        Text(NSLocalizedString("클립 키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
 
@@ -132,14 +132,14 @@ struct CopyPasteView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "doc.on.clipboard")
                             .foregroundColor(.blue)
-                        Text("다른 앱에서 붙여넣기")
+                        Text(NSLocalizedString("다른 앱에서 붙여넣기", comment: "Paste from other apps"))
                             .fontWeight(.medium)
                     }
                 }
                 .padding(.vertical, 8)
             }
 
-            Section(header: Text("옵션 설명")) {
+            Section(header: Text(NSLocalizedString("옵션 설명", comment: "Options description section header"))) {
                 VStack(alignment: .leading, spacing: 16) {
                     // 묻기
                     HStack(alignment: .top, spacing: 12) {
@@ -147,9 +147,9 @@ struct CopyPasteView: View {
                             .foregroundColor(.orange)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("묻기")
+                            Text(NSLocalizedString("묻기", comment: "Ask option"))
                                 .font(.headline)
-                            Text("복사/붙여넣기 시 매번 팝업이 표시됩니다.")
+                            Text(NSLocalizedString("복사/붙여넣기 시 매번 팝업이 표시됩니다.", comment: "Ask option description"))
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -163,9 +163,9 @@ struct CopyPasteView: View {
                             .foregroundColor(.red)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("거부")
+                            Text(NSLocalizedString("거부", comment: "Deny option"))
                                 .font(.headline)
-                            Text("자동 붙여넣기가 차단됩니다. 하지만 길게 눌러서 수동으로 붙여넣기는 가능합니다.")
+                            Text(NSLocalizedString("자동 붙여넣기가 차단됩니다. 하지만 길게 눌러서 수동으로 붙여넣기는 가능합니다.", comment: "Deny option description"))
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -180,9 +180,9 @@ struct CopyPasteView: View {
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
-                                Text("허용")
+                                Text(NSLocalizedString("허용", comment: "Allow option"))
                                     .font(.headline)
-                                Text("(권장)")
+                                Text(NSLocalizedString("(권장)", comment: "Recommended badge"))
                                     .font(.caption)
                                     .foregroundColor(.green)
                                     .padding(.horizontal, 6)
@@ -190,7 +190,7 @@ struct CopyPasteView: View {
                                     .background(Color.green.opacity(0.2))
                                     .cornerRadius(4)
                             }
-                            Text("팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.")
+                            Text(NSLocalizedString("팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.", comment: "Allow option description"))
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -207,14 +207,14 @@ struct CopyPasteView: View {
                 }) {
                     HStack {
                         Image(systemName: "gear")
-                        Text("설정으로 이동")
+                        Text(NSLocalizedString("설정으로 이동", comment: "Go to Settings button"))
                         Spacer()
                         Image(systemName: "arrow.up.forward.app")
                     }
                 }
             }
         }
-        .navigationTitle("붙여넣기 알림 설정")
+        .navigationTitle(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

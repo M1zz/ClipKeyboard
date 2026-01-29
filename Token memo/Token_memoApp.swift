@@ -15,6 +15,9 @@ struct Token_memoApp: App {
         print("🚀 [APP INIT] Token_memoApp 초기화 시작")
         print("📱 [APP INIT] DataManager 생성됨")
 
+        // 앱 실행 횟수 증가
+        ReviewManager.shared.incrementAppLaunchCount()
+
         #if targetEnvironment(macCatalyst)
         setupMacCatalystCommands()
         #endif
