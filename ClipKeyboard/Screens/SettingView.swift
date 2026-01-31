@@ -14,7 +14,7 @@ struct SettingView: View {
     
     var body: some View {
         List {
-            // 키보드 섹션 (3개)
+            // 키보드 섹션 (5개)
             Section(NSLocalizedString("키보드", comment: "Keyboard section")) {
                 Button {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -28,6 +28,10 @@ struct SettingView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
+                }
+
+                NavigationLink(destination: KeyboardLayoutSettings()) {
+                    Text(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"))
                 }
 
                 NavigationLink(destination: ThemeSettings()) {
@@ -47,8 +51,12 @@ struct SettingView: View {
                 }
             }
 
-            // 정보 섹션 (3개)
+            // 정보 섹션 (4개)
             Section(NSLocalizedString("정보", comment: "Info section")) {
+                NavigationLink(destination: CopyPasteView()) {
+                    Text(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
+                }
+
                 NavigationLink(destination: TutorialView()) {
                     Text(NSLocalizedString("사용 가이드", comment: "User guide"))
                 }
@@ -223,11 +231,11 @@ struct ReviewWriteView: View {
         List {
             Section {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("⭐️ 리뷰 및 평점 매기기")
+                    Text(NSLocalizedString("⭐️ 리뷰 및 평점 매기기", comment: "Review and rating header"))
                         .font(.headline)
                         .padding(.bottom, 4)
 
-                    Text("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.")
+                    Text(NSLocalizedString("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }

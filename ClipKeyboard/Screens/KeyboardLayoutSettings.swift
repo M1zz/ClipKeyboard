@@ -22,43 +22,43 @@ struct KeyboardLayoutSettings: View {
         Form {
             Section {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("⚙️ 키보드 레이아웃 설정")
+                    Text(NSLocalizedString("⚙️ 키보드 레이아웃 설정", comment: "Keyboard layout settings header"))
                         .font(.headline)
-                    Text("키보드의 열 개수와 버튼 크기를 조정할 수 있습니다.")
+                    Text(NSLocalizedString("키보드의 열 개수와 버튼 크기를 조정할 수 있습니다.", comment: "Keyboard layout settings description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 8)
             }
 
-            Section("열 개수") {
+            Section(NSLocalizedString("열 개수", comment: "Column count section")) {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        Text("열 개수")
+                        Text(NSLocalizedString("열 개수", comment: "Column count label"))
                         Spacer()
-                        Text("\(columnCount)열")
+                        Text(String(format: NSLocalizedString("%d열", comment: "Column count value"), columnCount))
                             .foregroundColor(.secondary)
                     }
 
-                    Picker("열 개수", selection: $columnCount) {
+                    Picker(NSLocalizedString("열 개수", comment: "Column count picker"), selection: $columnCount) {
                         ForEach(1...5, id: \.self) { count in
-                            Text("\(count)열").tag(count)
+                            Text(String(format: NSLocalizedString("%d열", comment: "Column count option"), count)).tag(count)
                         }
                     }
                     .pickerStyle(.segmented)
 
-                    Text("화면에 표시될 버튼의 열 개수를 선택하세요. 열이 많을수록 더 많은 버튼을 한 눈에 볼 수 있습니다.")
+                    Text(NSLocalizedString("화면에 표시될 버튼의 열 개수를 선택하세요. 열이 많을수록 더 많은 버튼을 한 눈에 볼 수 있습니다.", comment: "Column count description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
             }
 
-            Section("버튼 크기") {
+            Section(NSLocalizedString("버튼 크기", comment: "Button size section")) {
                 VStack(alignment: .leading, spacing: 16) {
                     // 높이 슬라이더
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("버튼 높이")
+                            Text(NSLocalizedString("버튼 높이", comment: "Button height label"))
                             Spacer()
                             Text("\(Int(buttonHeight))pt")
                                 .foregroundColor(.secondary)
@@ -68,11 +68,11 @@ struct KeyboardLayoutSettings: View {
                             .tint(.blue)
 
                         HStack {
-                            Text("작게")
+                            Text(NSLocalizedString("작게", comment: "Small size label"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("크게")
+                            Text(NSLocalizedString("크게", comment: "Large size label"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -83,7 +83,7 @@ struct KeyboardLayoutSettings: View {
                     // 폰트 크기 슬라이더
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("글자 크기")
+                            Text(NSLocalizedString("글자 크기", comment: "Font size label"))
                             Spacer()
                             Text("\(Int(buttonFontSize))pt")
                                 .foregroundColor(.secondary)
@@ -93,11 +93,11 @@ struct KeyboardLayoutSettings: View {
                             .tint(.blue)
 
                         HStack {
-                            Text("작게")
+                            Text(NSLocalizedString("작게", comment: "Small size label"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("크게")
+                            Text(NSLocalizedString("크게", comment: "Large size label"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -105,9 +105,9 @@ struct KeyboardLayoutSettings: View {
                 }
             }
 
-            Section("미리보기") {
+            Section(NSLocalizedString("미리보기", comment: "Preview section")) {
                 VStack(spacing: 8) {
-                    Text("버튼 미리보기")
+                    Text(NSLocalizedString("버튼 미리보기", comment: "Button preview label"))
                         .font(.caption)
                         .foregroundColor(.secondary)
 
@@ -117,7 +117,7 @@ struct KeyboardLayoutSettings: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white)
                                 .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                            Text("예시 버튼")
+                            Text(NSLocalizedString("예시 버튼", comment: "Example button text"))
                                 .foregroundColor(.primary)
                                 .font(.system(size: buttonFontSize, weight: .semibold))
                                 .padding(.vertical, (buttonHeight - buttonFontSize) / 2)
@@ -126,7 +126,7 @@ struct KeyboardLayoutSettings: View {
                     .frame(height: buttonHeight)
                     .disabled(true)
 
-                    Text("실제 키보드에 적용된 크기로 표시됩니다.")
+                    Text(NSLocalizedString("실제 키보드에 적용된 크기로 표시됩니다.", comment: "Preview description"))
                         .font(.caption2)
                         .foregroundColor(.secondary)
                 }
@@ -139,13 +139,13 @@ struct KeyboardLayoutSettings: View {
                 } label: {
                     HStack {
                         Image(systemName: "arrow.counterclockwise")
-                        Text("기본값으로 되돌리기")
+                        Text(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults button"))
                     }
                     .foregroundColor(.red)
                 }
             }
         }
-        .navigationTitle("레이아웃 설정")
+        .navigationTitle(NSLocalizedString("레이아웃 설정", comment: "Layout settings title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
