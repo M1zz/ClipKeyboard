@@ -159,12 +159,18 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    // 테마 목록
-    private let availableThemes = [
-        "이메일", "전화번호", "주소", "URL", "카드번호", "계좌번호",
-        "여권번호", "통관부호", "우편번호", "이름", "생년월일",
-        "주민등록번호", "사업자등록번호", "차량번호", "IP주소", "텍스트"
-    ]
+    // 테마 목록 - ClipboardItemType enum에서 가져오기
+    private var availableThemes: [String] {
+        ClipboardItemType.allCases.map { $0.rawValue }
+    }
+
+    // 테마의 다국어 표시명을 가져오는 헬퍼 함수
+    private func localizedThemeName(_ theme: String) -> String {
+        if let type = ClipboardItemType(rawValue: theme) {
+            return type.localizedName
+        }
+        return theme
+    }
 
     @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
     @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
