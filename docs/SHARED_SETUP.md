@@ -44,7 +44,7 @@ ClipKeyboard/
    - ✅ **Add to targets**:
      - [x] ClipKeyboard
      - [x] ClipKeyboard.tap
-     - [x] TokenKeyboard
+     - [x] ClipKeyboardExtension
 
 5. **Add 버튼 클릭**
 
@@ -157,7 +157,7 @@ Shared 파일 수정
 → `ClipKeyboard.tap/` 폴더 작업
 
 ### 4. 키보드 확장 기능
-→ `TokenKeyboard/` 폴더 작업
+→ `ClipKeyboardExtension/` 폴더 작업
 
 ## ⚡ 빠른 검증
 

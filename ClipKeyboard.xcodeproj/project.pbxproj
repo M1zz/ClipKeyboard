@@ -22,7 +22,7 @@
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
 		587B7CE22A264F6400455338 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587B7CE12A264F6400455338 /* CollectionViewCell.swift */; };
 		587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */; };
-		587BDC522A1D0D40001464E4 /* TokenKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58AA11112B4D1A2100000002 /* UsageStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000001 /* UsageStatistics.swift */; };
@@ -64,7 +64,7 @@
 			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 587BDC4A2A1D0D40001464E4;
-			remoteInfo = TokenKeyboard;
+			remoteInfo = ClipKeyboardExtension;
 		};
 		9CA0A4072F19D9B3004ABF40 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -82,7 +82,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				587BDC522A1D0D40001464E4 /* TokenKeyboard.appex in Embed Foundation Extensions */,
+				587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,11 +103,11 @@
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		587B7CE12A264F6400455338 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TokenKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		587BDC4F2A1D0D40001464E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587BDC5A2A1FCA10001464E4 /* Token memo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Token memo.entitlements"; sourceTree = "<group>"; };
-		587BDC5B2A1FCA1B001464E4 /* TokenKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TokenKeyboard.entitlements; sourceTree = "<group>"; };
+		587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardExtension.entitlements; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000001 /* UsageStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatistics.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -191,10 +191,10 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		587BDC4C2A1D0D40001464E4 /* TokenKeyboard */ = {
+		587BDC4C2A1D0D40001464E4 /* ClipKeyboardExtension */ = {
 			isa = PBXGroup;
 			children = (
-				587BDC5B2A1FCA1B001464E4 /* TokenKeyboard.entitlements */,
+				587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */,
 				587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */,
 				585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */,
 				587B7CE12A264F6400455338 /* CollectionViewCell.swift */,
@@ -202,7 +202,7 @@
 				INFOPLISTVG2 /* InfoPlist.strings */,
 				8CCD0BEF080AD63B0DF124A2 /* ComboKeyboardView.swift */,
 			);
-			path = TokenKeyboard;
+			path = ClipKeyboardExtension;
 			sourceTree = "<group>";
 		};
 		58AA11112B4D1A2100000007 /* Extensions */ = {
@@ -219,7 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				58C4733A2A109F0D009D87BC /* Token memo */,
-				587BDC4C2A1D0D40001464E4 /* TokenKeyboard */,
+				587BDC4C2A1D0D40001464E4 /* ClipKeyboardExtension */,
 				58FBB90B2ED9AD0B004231BE /* ClipKeyboard.tap */,
 				9CA0A3F72F19D685004ABF40 /* WeekAheadTodoUITests */,
 				9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */,
@@ -231,7 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				58C473382A109F0D009D87BC /* Token memo.app */,
-				587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */,
+				587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */,
 				58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */,
 				9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */,
 			);
@@ -366,9 +366,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		587BDC4A2A1D0D40001464E4 /* TokenKeyboard */ = {
+		587BDC4A2A1D0D40001464E4 /* ClipKeyboardExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 587BDC532A1D0D40001464E4 /* Build configuration list for PBXNativeTarget "TokenKeyboard" */;
+			buildConfigurationList = 587BDC532A1D0D40001464E4 /* Build configuration list for PBXNativeTarget "ClipKeyboardExtension" */;
 			buildPhases = (
 				587BDC472A1D0D40001464E4 /* Sources */,
 				587BDC482A1D0D40001464E4 /* Frameworks */,
@@ -378,9 +378,9 @@
 			);
 			dependencies = (
 			);
-			name = TokenKeyboard;
-			productName = TokenKeyboard;
-			productReference = 587BDC4B2A1D0D40001464E4 /* TokenKeyboard.appex */;
+			name = ClipKeyboardExtension;
+			productName = ClipKeyboardExtension;
+			productReference = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		58C473372A109F0C009D87BC /* Token memo */ = {
@@ -485,7 +485,7 @@
 			projectRoot = "";
 			targets = (
 				58C473372A109F0C009D87BC /* Token memo */,
-				587BDC4A2A1D0D40001464E4 /* TokenKeyboard */,
+				587BDC4A2A1D0D40001464E4 /* ClipKeyboardExtension */,
 				58FBB9092ED9AD0B004231BE /* ClipKeyboard.tap */,
 				9CA0A4022F19D9B3004ABF40 /* ClipKeyboardTests */,
 			);
@@ -546,7 +546,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Remove keyboard extension when building for Mac Catalyst\nif [ \"$SDKROOT\" == *\"MacOSX\"* ] || [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-maccatalyst\" ]; then\n    echo \"Building for Mac Catalyst - removing keyboard extension\"\n    rm -rf \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/PlugIns/TokenKeyboard.appex\"\nfi\n";
+			shellScript = "# Remove keyboard extension when building for Mac Catalyst\nif [ \"$SDKROOT\" == *\"MacOSX\"* ] || [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-maccatalyst\" ]; then\n    echo \"Building for Mac Catalyst - removing keyboard extension\"\n    rm -rf \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/PlugIns/ClipKeyboardExtension.appex\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -626,7 +626,7 @@
 /* Begin PBXTargetDependency section */
 		587BDC512A1D0D40001464E4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 587BDC4A2A1D0D40001464E4 /* TokenKeyboard */;
+			target = 587BDC4A2A1D0D40001464E4 /* ClipKeyboardExtension */;
 			targetProxy = 587BDC502A1D0D40001464E4 /* PBXContainerItemProxy */;
 		};
 		9CA0A4082F19D9B3004ABF40 /* PBXTargetDependency */ = {
@@ -661,11 +661,11 @@
 		587BDC542A1D0D40001464E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = TokenKeyboard/TokenKeyboard.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TokenKeyboard/Info.plist;
+				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -675,7 +675,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -689,11 +689,11 @@
 		587BDC552A1D0D40001464E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = TokenKeyboard/TokenKeyboard.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TokenKeyboard/Info.plist;
+				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -703,7 +703,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 3.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.TokenKeyboard;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1061,7 +1061,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		587BDC532A1D0D40001464E4 /* Build configuration list for PBXNativeTarget "TokenKeyboard" */ = {
+		587BDC532A1D0D40001464E4 /* Build configuration list for PBXNativeTarget "ClipKeyboardExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				587BDC542A1D0D40001464E4 /* Debug */,

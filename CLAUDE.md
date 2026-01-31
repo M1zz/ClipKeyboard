@@ -26,7 +26,7 @@
 - 임시 항목은 7일 후 자동 삭제
 - 최대 100개 항목 유지
 
-### 3. 커스텀 키보드 (TokenKeyboard)
+### 3. 커스텀 키보드 (ClipKeyboardExtension)
 - iOS 키보드 익스텐션
 - 메모를 키보드에서 빠르게 입력
 - App Group을 통한 메인 앱과 데이터 공유
@@ -74,7 +74,7 @@ ClipKeyboard/
 │   │   └── MenuBarManager.swift
 │   ├── Extensions/              # Swift 확장
 │   └── Constants.swift          # 상수 (테마, 다국어 등)
-├── TokenKeyboard/               # iOS 키보드 익스텐션
+├── ClipKeyboardExtension/               # iOS 키보드 익스텐션
 │   ├── KeyboardViewController.swift
 │   └── KeyboardView.swift
 └── ClipKeyboard.tap/               # macOS 앱 (Mac Catalyst)
@@ -349,7 +349,7 @@ Text(theme.localizedName) // NSLocalizedString으로 처리된 값
 
 ### 빌드 타겟
 1. **ClipKeyboard** (iOS 메인 앱)
-2. **TokenKeyboard** (키보드 익스텐션)
+2. **ClipKeyboardExtension** (키보드 익스텐션)
 3. **ClipKeyboard.tap** (macOS 앱, Mac Catalyst)
 
 ## 디버깅 팁

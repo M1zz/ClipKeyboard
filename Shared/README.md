@@ -31,7 +31,7 @@ iOS와 macOS 앱을 **독립적으로 개발**하면서도 핵심 데이터 모�
 3. **옵션 설정**
    - ✅ **Copy items if needed**: 체크 해제 (참조만)
    - ✅ **Create groups**: 선택
-   - ✅ **Add to targets**: **ClipKeyboard**, **ClipKeyboard.tap**, **TokenKeyboard** 모두 선택
+   - ✅ **Add to targets**: **ClipKeyboard**, **ClipKeyboard.tap**, **ClipKeyboardExtension** 모두 선택
 
 ### 2단계: 기존 모델 파일 정리
 

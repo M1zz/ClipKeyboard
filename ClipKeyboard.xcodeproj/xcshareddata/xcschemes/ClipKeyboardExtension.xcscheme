@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "587BDC4A2A1D0D40001464E4"
-               BuildableName = "TokenKeyboard.appex"
-               BlueprintName = "TokenKeyboard"
+               BuildableName = "ClipKeyboardExtension.appex"
+               BlueprintName = "ClipKeyboardExtension"
                ReferencedContainer = "container:ClipKeyboard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
