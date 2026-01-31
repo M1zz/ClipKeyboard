@@ -25,19 +25,19 @@ iOS와 macOS 앱을 **독립적으로 개발**하면서도 핵심 데이터 모�
 
 1. **Xcode에서 프로젝트 열기**
 2. **Shared 폴더를 프로젝트 내비게이터로 드래그**
-   - 또는 File → Add Files to "Token memo"...
+   - 또는 File → Add Files to "ClipKeyboard"...
    - `Shared` 폴더 선택
 
 3. **옵션 설정**
    - ✅ **Copy items if needed**: 체크 해제 (참조만)
    - ✅ **Create groups**: 선택
-   - ✅ **Add to targets**: **Token memo**, **TokenMemo.tap**, **TokenKeyboard** 모두 선택
+   - ✅ **Add to targets**: **ClipKeyboard**, **ClipKeyboard.tap**, **ClipKeyboardExtension** 모두 선택
 
 ### 2단계: 기존 모델 파일 정리
 
 이제 각 타겟의 모델 파일에서 중복된 정의를 제거하고 Shared 모델을 import합니다.
 
-#### iOS - `Token memo/Model/Memo.swift`
+#### iOS - `ClipKeyboard/Model/Memo.swift`
 
 파일 상단에 추가:
 ```swift
@@ -45,7 +45,7 @@ iOS와 macOS 앱을 **독립적으로 개발**하면서도 핵심 데이터 모�
 // - Memo, Combo, ComboItem, SmartClipboardHistory 등은 SharedModels.swift에 있음
 ```
 
-#### macOS - `TokenMemo.tap/Models.swift`
+#### macOS - `ClipKeyboard.tap/Models.swift`
 
 파일 상단에 추가:
 ```swift
@@ -78,13 +78,13 @@ struct Memo: Identifiable, Codable {
 
 ```swift
 // ✅ iOS 전용 기능
-// Token memo/Screens/...
+// ClipKeyboard/Screens/...
 struct MemoListView: View {
     // iOS 전용 UI
 }
 
 // ✅ macOS 전용 기능
-// TokenMemo.tap/...
+// ClipKeyboard.tap/...
 struct MemoListView: View {
     // macOS 전용 UI
 }
@@ -110,10 +110,10 @@ typealias PlatformImage = NSImage
 
 ```bash
 # iOS 빌드
-xcodebuild -scheme "Token memo" -destination 'platform=iOS Simulator,name=iPhone 15' build
+xcodebuild -scheme "ClipKeyboard" -destination 'platform=iOS Simulator,name=iPhone 15' build
 
 # macOS 빌드
-xcodebuild -scheme "TokenMemo.tap" -destination 'platform=macOS' build
+xcodebuild -scheme "ClipKeyboard.tap" -destination 'platform=macOS' build
 ```
 
 ## ⚠️ 주의사항
@@ -133,15 +133,15 @@ xcodebuild -scheme "TokenMemo.tap" -destination 'platform=macOS' build
 
 ### Before (중복)
 ```
-Token memo/Model/Memo.swift          # iOS용 모델
-TokenMemo.tap/Models.swift           # macOS용 모델 (중복!)
+ClipKeyboard/Model/Memo.swift          # iOS용 모델
+ClipKeyboard.tap/Models.swift           # macOS용 모델 (중복!)
 ```
 
 ### After (공유)
 ```
 Shared/Models/SharedModels.swift     # 공통 모델 (한 번만 정의)
-Token memo/Model/Memo.swift          # iOS 전용 확장/헬퍼
-TokenMemo.tap/Models.swift           # macOS 전용 확장/헬퍼
+ClipKeyboard/Model/Memo.swift          # iOS 전용 확장/헬퍼
+ClipKeyboard.tap/Models.swift           # macOS 전용 확장/헬퍼
 ```
 
 ## 🔄 동기화

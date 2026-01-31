@@ -26,12 +26,12 @@
 - 임시 항목은 7일 후 자동 삭제
 - 최대 100개 항목 유지
 
-### 3. 커스텀 키보드 (TokenKeyboard)
+### 3. 커스텀 키보드 (ClipKeyboardExtension)
 - iOS 키보드 익스텐션
 - 메모를 키보드에서 빠르게 입력
 - App Group을 통한 메인 앱과 데이터 공유
 
-### 4. macOS 메뉴바 앱 (TokenMemo.tap)
+### 4. macOS 메뉴바 앱 (ClipKeyboard.tap)
 - Mac Catalyst 기반 macOS 앱
 - 메뉴바 아이콘 및 전역 단축키 지원
 - 클립보드 모니터링
@@ -53,9 +53,9 @@
 ## 프로젝트 구조
 
 ```
-Token-memo/
-├── Token memo/                  # iOS 메인 앱
-│   ├── Token_memoApp.swift     # 앱 진입점
+ClipKeyboard/
+├── ClipKeyboard/                  # iOS 메인 앱
+│   ├── ClipKeyboardApp.swift     # 앱 진입점
 │   ├── Model/                   # 데이터 모델
 │   │   └── Memo.swift          # 메모, 클립보드, Combo 모델
 │   ├── Screens/                 # 화면 (SwiftUI Views)
@@ -74,11 +74,11 @@ Token-memo/
 │   │   └── MenuBarManager.swift
 │   ├── Extensions/              # Swift 확장
 │   └── Constants.swift          # 상수 (테마, 다국어 등)
-├── TokenKeyboard/               # iOS 키보드 익스텐션
+├── ClipKeyboardExtension/               # iOS 키보드 익스텐션
 │   ├── KeyboardViewController.swift
 │   └── KeyboardView.swift
-└── TokenMemo.tap/               # macOS 앱 (Mac Catalyst)
-    └── TokenMemo_macApp.swift
+└── ClipKeyboard.tap/               # macOS 앱 (Mac Catalyst)
+    └── ClipKeyboard_macApp.swift
 ```
 
 ## 데이터 저장 방식
@@ -348,9 +348,9 @@ Text(theme.localizedName) // NSLocalizedString으로 처리된 값
   - Keychain Sharing (생체인증)
 
 ### 빌드 타겟
-1. **Token memo** (iOS 메인 앱)
-2. **TokenKeyboard** (키보드 익스텐션)
-3. **TokenMemo.tap** (macOS 앱, Mac Catalyst)
+1. **ClipKeyboard** (iOS 메인 앱)
+2. **ClipKeyboardExtension** (키보드 익스텐션)
+3. **ClipKeyboard.tap** (macOS 앱, Mac Catalyst)
 
 ## 디버깅 팁
 

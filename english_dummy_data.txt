@@ -1,0 +1,127 @@
+# ClipKeyboard - English Dummy Data for Screenshots
+# 키보드 스크린샷용 영어 더미 데이터
+
+## 📧 Email & Business
+john.doe@company.com
+support@clipkeyboard.app
+newsletter@startup.io
+hello@mywebsite.com
+
+## 📱 Phone Numbers
++1 (555) 123-4567
++44 20 7123 4567
++82 10-1234-5678
+
+## 🔗 URLs
+https://www.example.com
+https://github.com/username/project
+https://docs.google.com/document/d/abc123
+
+## 💳 Cards (Test Numbers)
+4532 1488 0343 6467
+5425 2334 3010 9903
+
+## 💼 Common Business Phrases
+Thank you for your email. I'll get back to you soon.
+I'm currently out of office and will return on Monday.
+Please find the attached file for your review.
+Looking forward to hearing from you.
+Best regards,
+Kind regards,
+Sincerely,
+
+## 📝 Quick Responses
+Thanks!
+Got it 👍
+On my way!
+Running 5 mins late
+Be there soon
+Sounds good!
+Will do
+Absolutely!
+No problem
+You're welcome
+
+## 🏠 Addresses
+123 Main Street, New York, NY 10001
+456 Oak Avenue, Los Angeles, CA 90028
+789 Elm Road, Chicago, IL 60601
+
+## 💬 Common Phrases
+How are you doing?
+What's up?
+See you later!
+Have a great day!
+Talk to you soon
+Catch you later
+Take care!
+
+## 🌐 Social Media
+Follow me @username
+Check out my latest post!
+DM me for details
+#productivity #apps #keyboard
+
+## 🔑 Passwords (Examples - Don't use real ones!)
+MySecurePass123!
+Demo@Password2024
+Test#Account456
+
+## 📊 Numbers & Codes
+Order #12345
+Tracking: 1Z999AA10123456784
+Reference: REF-2024-001
+Invoice #INV-001234
+
+## ✉️ Email Signatures
+John Smith
+Senior Product Manager
+Tech Innovations Inc.
+john.smith@techinnovations.com
++1 (555) 987-6543
+
+## 💡 Templates
+Hi {name},
+
+Thank you for reaching out. I'd be happy to help with {topic}.
+
+Could you please provide more details about {details}?
+
+Looking forward to your response.
+
+Best regards,
+{your_name}
+
+---
+
+Meeting Notes - {date}
+Attendees: {attendees}
+Discussion Points:
+- {point1}
+- {point2}
+- {point3}
+
+Action Items:
+- {action1}
+- {action2}
+
+---
+
+## 🎯 Quick Actions
+Schedule a call
+Send invoice
+Follow up
+Review document
+Approve request
+Update status
+
+## 📅 Date & Time
+Meeting at 2:30 PM
+Deadline: March 15, 2024
+Available Mon-Fri 9AM-5PM
+Conference call at 10:00 AM EST
+
+## 🔐 Two-Factor Codes
+123456
+789012
+456789

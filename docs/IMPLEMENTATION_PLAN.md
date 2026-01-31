@@ -27,12 +27,12 @@
 
 #### 1.1 새 파일 생성
 
-**`Token memo/Screens/Combo/ComboItemPickerView.swift`** ✅
+**`ClipKeyboard/Screens/Combo/ComboItemPickerView.swift`** ✅
 - 메모/클립보드/템플릿 선택 탭 UI
 - 각 타입별 항목 리스트 표시
 - 선택 시 ComboItem 생성 및 추가
 
-**`Token memo/Screens/Combo/ComboTemplateInputView.swift`** ✅
+**`ClipKeyboard/Screens/Combo/ComboTemplateInputView.swift`** ✅
 - 템플릿 플레이스홀더 추출
 - PlaceholderSelectorView 재사용
 - 실시간 미리보기 표시
@@ -40,7 +40,7 @@
 
 #### 1.2 기존 파일 수정
 
-**`Token memo/Screens/ComboList.swift`** ✅
+**`ClipKeyboard/Screens/ComboList.swift`** ✅
 ```swift
 // 라인 435-438 변경
 @State private var showItemPicker = false
@@ -94,7 +94,7 @@ private func deleteItem(at: IndexSet) {
 
 #### 2.1 템플릿 항목 처리 강화
 
-**`Token memo/Service/ComboExecutionService.swift`** ✅
+**`ClipKeyboard/Service/ComboExecutionService.swift`** ✅
 
 라인 107-122 `executeCurrentItem()` 메서드 수정:
 ```swift
@@ -134,7 +134,7 @@ private func processTemplateVariables(in text: String) -> String {
 
 #### 2.2 데이터 무결성 검증
 
-**`Token memo/Service/MemoStore.swift`** ✅
+**`ClipKeyboard/Service/MemoStore.swift`** ✅
 
 라인 612 이후 추가:
 ```swift
@@ -173,7 +173,7 @@ func cleanupCombo(_ combo: Combo) throws -> Combo {
 
 #### 3.1 Combo 전용 뷰 생성
 
-**`TokenKeyboard/ComboKeyboardView.swift`** ✅ (신규 파일)
+**`ClipKeyboardExtension/ComboKeyboardView.swift`** ✅ (신규 파일)
 - Combo 목록 그리드 표시
 - 탭 한 번으로 실행
 - 실행 중 진행 상황 실시간 표시
@@ -220,7 +220,7 @@ struct ComboKeyboardView: View {
 
 #### 3.2 키보드 메인 뷰 수정
 
-**`TokenKeyboard/KeyboardView.swift`** ✅
+**`ClipKeyboardExtension/KeyboardView.swift`** ✅
 
 라인 177, 183-233에 탭 UI 추가:
 ```swift
@@ -311,8 +311,8 @@ if isExecuting {
 - 레거시 백업 호환성 없음
 
 **해결 방법:**
-- `Token memo/Service/CloudKitBackupService.swift` 수정
-- `TokenMemo.tap/CloudKitBackupService.swift` 수정 (macOS)
+- `ClipKeyboard/Service/CloudKitBackupService.swift` 수정
+- `ClipKeyboard.tap/CloudKitBackupService.swift` 수정 (macOS)
 
 ```swift
 // 백업 시 SmartClipboardHistory와 Combo 포함
@@ -341,18 +341,18 @@ if let combosData = record["combos"] as? Data {
 ## 주요 변경 파일
 
 ### 새로 생성 ✅
-1. `Token memo/Screens/Combo/ComboItemPickerView.swift` (363 lines)
-2. `Token memo/Screens/Combo/ComboTemplateInputView.swift` (238 lines)
-3. `TokenKeyboard/ComboKeyboardView.swift` (218 lines)
+1. `ClipKeyboard/Screens/Combo/ComboItemPickerView.swift` (363 lines)
+2. `ClipKeyboard/Screens/Combo/ComboTemplateInputView.swift` (238 lines)
+3. `ClipKeyboardExtension/ComboKeyboardView.swift` (218 lines)
 
 ### 수정 ✅
-1. `Token memo/Screens/ComboList.swift` - 항목 추가/재정렬/삭제
-2. `Token memo/Service/ComboExecutionService.swift` - 템플릿 처리 및 자동 변수 치환
-3. `Token memo/Service/MemoStore.swift` - 검증 메서드 추가
-4. `TokenKeyboard/KeyboardView.swift` - 탭 UI 추가
-5. `Token memo/Service/CloudKitBackupService.swift` - SmartClipboard, Combo 백업
-6. `TokenMemo.tap/CloudKitBackupService.swift` - macOS 버전 동일 수정
-7. `Token memo/Localizable.xcstrings` - 다국어 문자열 추가
+1. `ClipKeyboard/Screens/ComboList.swift` - 항목 추가/재정렬/삭제
+2. `ClipKeyboard/Service/ComboExecutionService.swift` - 템플릿 처리 및 자동 변수 치환
+3. `ClipKeyboard/Service/MemoStore.swift` - 검증 메서드 추가
+4. `ClipKeyboardExtension/KeyboardView.swift` - 탭 UI 추가
+5. `ClipKeyboard/Service/CloudKitBackupService.swift` - SmartClipboard, Combo 백업
+6. `ClipKeyboard.tap/CloudKitBackupService.swift` - macOS 버전 동일 수정
+7. `ClipKeyboard/Localizable.xcstrings` - 다국어 문자열 추가
 
 ## 검증 방법
 

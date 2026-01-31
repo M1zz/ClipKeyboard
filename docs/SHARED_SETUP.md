@@ -4,7 +4,7 @@
 
 ### 1. Shared 폴더 생성
 ```
-Token-memo/
+ClipKeyboard/
 ├── Shared/                           # ✅ 새로 생성
 │   ├── Models/
 │   │   └── SharedModels.swift       # ✅ 공통 데이터 모델
@@ -28,13 +28,13 @@ Token-memo/
 
 ### Step 1: Shared 폴더 추가
 
-1. **Xcode에서 `Token memo.xcodeproj` 열기**
+1. **Xcode에서 `ClipKeyboard.xcodeproj` 열기**
 
-2. **프로젝트 내비게이터에서 `Token-memo` 루트 선택**
+2. **프로젝트 내비게이터에서 `ClipKeyboard` 루트 선택**
 
 3. **Finder에서 `Shared` 폴더를 Xcode로 드래그**
    ```
-   Finder: Token-memo/Shared/
+   Finder: ClipKeyboard/Shared/
    → Xcode: Project Navigator로 드래그
    ```
 
@@ -42,9 +42,9 @@ Token-memo/
    - ❌ **Copy items if needed**: 체크 해제
    - ✅ **Create groups**: 선택
    - ✅ **Add to targets**:
-     - [x] Token memo
-     - [x] TokenMemo.tap
-     - [x] TokenKeyboard
+     - [x] ClipKeyboard
+     - [x] ClipKeyboard.tap
+     - [x] ClipKeyboardExtension
 
 5. **Add 버튼 클릭**
 
@@ -53,13 +53,13 @@ Token-memo/
 #### iOS 빌드 확인
 ```bash
 ⌘ + B (또는 Product → Build)
-Scheme: Token memo
+Scheme: ClipKeyboard
 ```
 
 #### macOS 빌드 확인
 ```bash
 ⌘ + B (또는 Product → Build)
-Scheme: TokenMemo.tap
+Scheme: ClipKeyboard.tap
 ```
 
 **예상 결과**:
@@ -71,11 +71,11 @@ Scheme: TokenMemo.tap
 현재는 다음 파일들이 중복 정의를 가지고 있습니다:
 
 #### iOS
-- `Token memo/Model/Memo.swift`
+- `ClipKeyboard/Model/Memo.swift`
   - SharedModels.swift와 중복: Memo, Combo, ComboItem, SmartClipboardHistory 등
 
 #### macOS
-- `TokenMemo.tap/Models.swift`
+- `ClipKeyboard.tap/Models.swift`
   - SharedModels.swift와 중복: 동일한 struct들
 
 **권장사항**:
@@ -101,7 +101,7 @@ struct Memo: Identifiable, Codable {
 
 ### iOS 전용 기능
 ```swift
-// Token memo/Screens/... 에서 작업
+// ClipKeyboard/Screens/... 에서 작업
 // macOS에 영향 없음
 
 struct MemoListView_iOS: View {
@@ -111,7 +111,7 @@ struct MemoListView_iOS: View {
 
 ### macOS 전용 기능
 ```swift
-// TokenMemo.tap/... 에서 작업
+// ClipKeyboard.tap/... 에서 작업
 // iOS에 영향 없음
 
 struct MemoListView_macOS: View {
@@ -151,13 +151,13 @@ Shared 파일 수정
 → `Shared/Models/SharedModels.swift` 수정
 
 ### 2. iOS UI/기능 추가
-→ `Token memo/` 폴더 작업
+→ `ClipKeyboard/` 폴더 작업
 
 ### 3. macOS UI/기능 추가
-→ `TokenMemo.tap/` 폴더 작업
+→ `ClipKeyboard.tap/` 폴더 작업
 
 ### 4. 키보드 확장 기능
-→ `TokenKeyboard/` 폴더 작업
+→ `ClipKeyboardExtension/` 폴더 작업
 
 ## ⚡ 빠른 검증
 
@@ -165,13 +165,13 @@ Shared 파일 수정
 
 ```bash
 # 프로젝트 루트에서
-cd /Users/leeo/Documents/code/Token-memo
+cd /Users/leeo/Documents/code/ClipKeyboard
 
 # iOS 빌드
-xcodebuild -scheme "Token memo" -destination 'platform=iOS Simulator,name=iPhone 15' clean build
+xcodebuild -scheme "ClipKeyboard" -destination 'platform=iOS Simulator,name=iPhone 15' clean build
 
 # macOS 빌드
-xcodebuild -scheme "TokenMemo.tap" -destination 'platform=macOS' clean build
+xcodebuild -scheme "ClipKeyboard.tap" -destination 'platform=macOS' clean build
 ```
 
 **성공 기준**:
