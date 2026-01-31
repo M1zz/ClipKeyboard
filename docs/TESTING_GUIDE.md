@@ -19,7 +19,7 @@ Token Memo 앱의 핵심 기능들을 TDD(Test-Driven Development) 관점에서 
 ## 📁 테스트 파일 구조
 
 ```
-Token memoTests/
+ClipKeyboardTests/
 ├── ModelTests.swift                    # 모델 테스트
 ├── MemoStoreTests.swift               # 데이터 저장/로드 테스트
 ├── ComboExecutionServiceTests.swift   # Combo 실행 테스트
@@ -34,13 +34,13 @@ Token memoTests/
 1. **Xcode에서 프로젝트 열기**
 2. **File → New → Target...**
 3. **iOS → Unit Testing Bundle** 선택
-4. **Product Name**: `Token memoTests`
-5. **Target to be Tested**: `Token memo`
+4. **Product Name**: `ClipKeyboardTests`
+5. **Target to be Tested**: `ClipKeyboard`
 6. **Finish** 클릭
 
 ### Step 2: 테스트 파일 추가
 
-1. **프로젝트 내비게이터에서 `Token memoTests` 그룹 선택**
+1. **프로젝트 내비게이터에서 `ClipKeyboardTests` 그룹 선택**
 2. **Finder에서 테스트 파일들을 드래그**
    - `ModelTests.swift`
    - `MemoStoreTests.swift`
@@ -50,11 +50,11 @@ Token memoTests/
 
 3. **옵션 설정**:
    - ✅ Copy items if needed
-   - ✅ Add to targets: `Token memoTests`
+   - ✅ Add to targets: `ClipKeyboardTests`
 
 ### Step 3: 앱 타겟 코드 접근 허용
 
-**Token memo 타겟 → Build Settings → Packaging**
+**ClipKeyboard 타겟 → Build Settings → Packaging**
 - `Defines Module` = YES
 
 **또는 테스트 파일에서 `@testable import`**:
@@ -87,10 +87,10 @@ Product → Test
 
 #### iOS 테스트
 ```bash
-cd /Users/leeo/Documents/code/Token-memo
+cd /Users/leeo/Documents/code/ClipKeyboard
 
 xcodebuild test \
-  -scheme "Token memo" \
+  -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests
 ```
@@ -98,7 +98,7 @@ xcodebuild test \
 #### macOS 테스트
 ```bash
 xcodebuild test \
-  -scheme "TokenMemo.tap" \
+  -scheme "ClipKeyboard.tap" \
   -destination 'platform=macOS' \
   -only-testing:TokenMemoTests
 ```
@@ -106,7 +106,7 @@ xcodebuild test \
 #### 특정 테스트만 실행
 ```bash
 xcodebuild test \
-  -scheme "Token memo" \
+  -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/ModelTests/testMemoCreation
 ```
@@ -187,7 +187,7 @@ func testMemoCreation_WithTitle_CreatesValidMemo() {
 
 #### 실행
 ```bash
-xcodebuild test -scheme "Token memo" \
+xcodebuild test -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/ModelTests
 ```
@@ -206,7 +206,7 @@ xcodebuild test -scheme "Token memo" \
 
 #### 실행
 ```bash
-xcodebuild test -scheme "Token memo" \
+xcodebuild test -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/MemoStoreTests
 ```
@@ -226,7 +226,7 @@ xcodebuild test -scheme "Token memo" \
 
 #### 실행
 ```bash
-xcodebuild test -scheme "Token memo" \
+xcodebuild test -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/ComboExecutionServiceTests
 ```
@@ -247,7 +247,7 @@ xcodebuild test -scheme "Token memo" \
 
 #### 실행
 ```bash
-xcodebuild test -scheme "Token memo" \
+xcodebuild test -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/CloudKitBackupServiceTests
 ```
@@ -268,7 +268,7 @@ xcodebuild test -scheme "Token memo" \
 
 #### 실행
 ```bash
-xcodebuild test -scheme "Token memo" \
+xcodebuild test -scheme "ClipKeyboard" \
   -destination 'platform=iOS Simulator,name=iPhone 15' \
   -only-testing:Token\ memoTests/ClipboardDetectionTests
 ```
@@ -351,7 +351,7 @@ jobs:
       - name: Run Tests
         run: |
           xcodebuild test \
-            -scheme "Token memo" \
+            -scheme "ClipKeyboard" \
             -destination 'platform=iOS Simulator,name=iPhone 15' \
             -only-testing:Token\ memoTests
 ```
