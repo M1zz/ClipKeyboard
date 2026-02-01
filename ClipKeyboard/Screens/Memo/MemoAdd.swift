@@ -233,6 +233,7 @@ struct MemoAdd: View {
 
                             // 카테고리 결정: 자동 분류가 있으면 우선 사용, 없으면 선택한 카테고리 사용
                             let finalCategory = autoDetectedType?.rawValue ?? selectedCategory
+                            print("🎨 [MemoAdd] 테마 선택 - 사용자 선택: '\(selectedCategory)', 자동 분류: '\(autoDetectedType?.rawValue ?? "없음")', 최종: '\(finalCategory)'")
 
                             let finalMemoId: UUID
                             let finalMemoTitle: String
