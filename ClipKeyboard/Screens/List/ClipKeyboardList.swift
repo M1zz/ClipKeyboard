@@ -594,15 +594,11 @@ struct ClipKeyboardList: View {
                 Text(NSLocalizedString("첫 클립 추가", comment: "Add first clip button"))
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
+                    .frame(height: 44)
                     .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            .buttonStyle(PlainButtonStyle())
-            .simultaneousGesture(TapGesture().onEnded {
-                HapticManager.shared.light()
-            })
             .padding(.top, 8)
 
             Spacer()
