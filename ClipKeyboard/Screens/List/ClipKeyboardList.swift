@@ -88,9 +88,6 @@ struct ClipKeyboardList: View {
                         memoRow(memo: $memo)
                     }
                     .onDelete(perform: deleteMemo)
-
-                    // 새 메모 추가 버튼
-                    addMemoRow
                 }
             }
             .listStyle(PlainListStyle())
@@ -257,12 +254,17 @@ struct ClipKeyboardList: View {
 
     /// 빈 리스트 행
     private var emptyListRow: some View {
-        NavigationLink {
-            MemoAdd()
-        } label: {
+        ZStack {
+            NavigationLink {
+                MemoAdd()
+            } label: {
+                EmptyView()
+            }
+            .opacity(0)
+
             EmptyListView
         }
-        .buttonStyle(PlainButtonStyle())
+        .listRowBackground(Color.clear)
     }
 
     /// 새 메모 추가 행
