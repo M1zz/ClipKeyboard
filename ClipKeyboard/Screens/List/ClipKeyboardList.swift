@@ -815,6 +815,14 @@ struct ClipKeyboardList: View {
             let beforeCount = filtered.count
             filtered = filtered.filter { $0.category == typeFilter.rawValue }
             print("🔍 [applyFilters] 테마 필터 '\(typeFilter.rawValue)' 적용 - \(beforeCount)개 → \(filtered.count)개")
+
+            // 필터 적용 후 결과가 0개이고 검색어가 없다면 필터를 자동으로 해제
+            if filtered.isEmpty && !loadedData.isEmpty && searchQueryString.isEmpty {
+                print("⚠️ [applyFilters] 필터 결과 0개 - 필터 자동 해제")
+                selectedTypeFilter = nil
+                filtered = loadedData
+                saveSelectedFilter() // 해제된 상태 저장
+            }
         }
 
         tokenMemos = filtered
