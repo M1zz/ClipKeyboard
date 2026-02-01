@@ -43,10 +43,15 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case postalCode = "우편번호"
     case name = "이름"
     case birthDate = "생년월일"
-    case rrn = "주민등록번호"
-    case businessNumber = "사업자등록번호"
+    case taxID = "세금번호"
+    case insuranceNumber = "보험번호"
     case vehiclePlate = "차량번호"
     case ipAddress = "IP주소"
+    case membershipNumber = "회원번호"
+    case trackingNumber = "송장번호"
+    case confirmationCode = "예약번호"
+    case medicalRecord = "진료기록번호"
+    case employeeID = "사번/학번"
     case image = "이미지"
     case text = "텍스트"
 
@@ -59,14 +64,19 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .creditCard: return "creditcard.fill"
         case .bankAccount: return "banknote.fill"
         case .passportNumber: return "person.text.rectangle.fill"
-        case .declarationNumber: return "shippingbox.fill"
+        case .declarationNumber: return "doc.text.fill"
         case .postalCode: return "mappin.circle.fill"
         case .name: return "person.fill"
         case .birthDate: return "calendar"
-        case .rrn: return "person.crop.circle.badge.checkmark"
-        case .businessNumber: return "building.2.fill"
+        case .taxID: return "number.circle.fill"
+        case .insuranceNumber: return "cross.case.fill"
         case .vehiclePlate: return "car.fill"
         case .ipAddress: return "network"
+        case .membershipNumber: return "star.circle.fill"
+        case .trackingNumber: return "shippingbox.fill"
+        case .confirmationCode: return "checkmark.seal.fill"
+        case .medicalRecord: return "stethoscope"
+        case .employeeID: return "person.badge.key.fill"
         case .image: return "photo.fill"
         case .text: return "doc.text"
         }
@@ -85,10 +95,15 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .postalCode: return "teal"
         case .name: return "pink"
         case .birthDate: return "mint"
-        case .rrn: return "yellow"
-        case .businessNumber: return "blue"
+        case .taxID: return "yellow"
+        case .insuranceNumber: return "teal"
         case .vehiclePlate: return "green"
         case .ipAddress: return "purple"
+        case .membershipNumber: return "orange"
+        case .trackingNumber: return "brown"
+        case .confirmationCode: return "indigo"
+        case .medicalRecord: return "red"
+        case .employeeID: return "cyan"
         case .image: return "pink"
         case .text: return "gray"
         }
@@ -108,14 +123,19 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         _ = NSLocalizedString("카드번호", comment: "Card Number")
         _ = NSLocalizedString("계좌번호", comment: "Account Number")
         _ = NSLocalizedString("여권번호", comment: "Passport Number")
-        _ = NSLocalizedString("신고번호", comment: "Declaration Number")
+        _ = NSLocalizedString("통관번호", comment: "Declaration Number")
         _ = NSLocalizedString("우편번호", comment: "Postal Code")
         _ = NSLocalizedString("이름", comment: "Name")
         _ = NSLocalizedString("생년월일", comment: "Date of Birth")
-        _ = NSLocalizedString("주민등록번호", comment: "Resident Registration Number")
-        _ = NSLocalizedString("사업자등록번호", comment: "Business Registration Number")
+        _ = NSLocalizedString("세금번호", comment: "Tax ID")
+        _ = NSLocalizedString("보험번호", comment: "Insurance Number")
         _ = NSLocalizedString("차량번호", comment: "Vehicle Plate")
         _ = NSLocalizedString("IP주소", comment: "IP Address")
+        _ = NSLocalizedString("회원번호", comment: "Membership Number")
+        _ = NSLocalizedString("송장번호", comment: "Tracking Number")
+        _ = NSLocalizedString("예약번호", comment: "Confirmation Code")
+        _ = NSLocalizedString("진료기록번호", comment: "Medical Record Number")
+        _ = NSLocalizedString("사번/학번", comment: "Employee/Student ID")
         _ = NSLocalizedString("이미지", comment: "Image")
         _ = NSLocalizedString("텍스트", comment: "Text")
     }

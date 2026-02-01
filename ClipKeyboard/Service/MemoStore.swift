@@ -704,8 +704,9 @@ class ClipboardClassificationService {
         }
 
         // 각 타입별로 검사 (높은 신뢰도 & 구체적인 패턴부터)
-        if let result = detectRRN(trimmed) { return result }  // 주민등록번호 (매우 구체적)
-        if let result = detectBusinessNumber(trimmed) { return result }  // 사업자등록번호
+        // Korea-specific patterns removed for global categories
+        // if let result = detectRRN(trimmed) { return result }  // Removed: Korea-specific RRN
+        // if let result = detectBusinessNumber(trimmed) { return result }  // Removed: Korea-specific Business Number
         if let result = detectCreditCard(trimmed) { return result }
         if let result = detectEmail(trimmed) { return result }
         if let result = detectPhone(trimmed) { return result }
@@ -960,42 +961,48 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// 주민등록번호 감지
+    /// 주민등록번호 감지 - Removed for global categories
+    // Korea-specific pattern detection removed
+    /*
     private func detectRRN(_ text: String) -> (ClipboardItemType, Double)? {
         let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
 
         // 패턴: YYMMDD-NNNNNNN (6자리-7자리)
         let rrnPattern = "^[0-9]{6}-[1-4][0-9]{6}$"
         if cleaned.range(of: rrnPattern, options: .regularExpression) != nil {
-            return (.rrn, 0.95)
+            return (.taxID, 0.95)
         }
 
         // 하이픈 없이: YYMMDDNNNNNNN (13자리, 7번째 자리가 1-4)
         let rrnNoHyphenPattern = "^[0-9]{6}[1-4][0-9]{6}$"
         if cleaned.range(of: rrnNoHyphenPattern, options: .regularExpression) != nil {
-            return (.rrn, 0.92)
+            return (.taxID, 0.92)
         }
 
         return nil
     }
+    */
 
-    /// 사업자등록번호 감지
+    /// 사업자등록번호 감지 - Removed for global categories
+    // Korea-specific pattern detection removed
+    /*
     private func detectBusinessNumber(_ text: String) -> (ClipboardItemType, Double)? {
         let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
 
         // 패턴: XXX-XX-XXXXX (3자리-2자리-5자리)
         let businessPattern = "^[0-9]{3}-[0-9]{2}-[0-9]{5}$"
         if cleaned.range(of: businessPattern, options: .regularExpression) != nil {
-            return (.businessNumber, 0.95)
+            return (.insuranceNumber, 0.95)
         }
 
         // 하이픈 없이: 10자리
         if cleaned.range(of: "^[0-9]{10}$", options: .regularExpression) != nil {
-            return (.businessNumber, 0.85)
+            return (.insuranceNumber, 0.85)
         }
 
         return nil
     }
+    */
 
     /// 차량번호 감지 (한국)
     private func detectVehiclePlate(_ text: String) -> (ClipboardItemType, Double)? {

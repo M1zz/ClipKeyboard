@@ -342,18 +342,18 @@ struct ClipKeyboardList: View {
                 .foregroundColor(.secondary)
         }
 
-        NavigationLink {
-            SettingView()
-        } label: {
-            Image(systemName: "gearshape")
-                .foregroundColor(.secondary)
-        }
-
         Button {
             HapticManager.shared.light()
             showPlaceholderManagementSheet = true
         } label: {
             Image(systemName: "list.bullet")
+                .foregroundColor(.secondary)
+        }
+
+        NavigationLink {
+            SettingView()
+        } label: {
+            Image(systemName: "gearshape")
                 .foregroundColor(.secondary)
         }
 
@@ -613,7 +613,7 @@ struct ClipKeyboardList: View {
     }
     
     private func showToast(message: String) {
-        toastMessage = "[\(message)] 이 복사되었습니다."
+        toastMessage = String(format: NSLocalizedString("[%@] 이 복사되었습니다.", comment: "Copied toast message"), message)
         showToast = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             showToast = false

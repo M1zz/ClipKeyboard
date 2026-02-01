@@ -244,6 +244,9 @@ struct MemoAdd: View {
                                 print("🎨 [MemoAdd] 테마 - 사용자 선택 우선: '\(finalCategory)' (자동 분류: '\(autoDetectedType?.rawValue ?? "없음")')")
                             }
 
+                            // Update recently used categories
+                            updateRecentlyUsedCategories(finalCategory)
+
                             let finalMemoId: UUID
                             let finalMemoTitle: String
 
@@ -439,7 +442,7 @@ struct MemoAdd: View {
                     selectedCategory = suggestedCategory
 
                     // 민감한 정보는 자동으로 보안 모드
-                    let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .rrn]
+                    let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
                     isSecure = sensitiveTypes.contains(classification.type)
 
                     print("🔍 [MemoAdd] 자동 분류: \(classification.type.rawValue) → 테마: \(suggestedCategory)")
@@ -502,18 +505,30 @@ struct MemoAdd: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
+                    // Recently Used Section
+                    if !recentlyUsedCategories.isEmpty {
+                        // Recently Used Label
+                        Text("최근")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundColor(.secondary)
+                            .padding(.horizontal, 8)
+
+                        ForEach(recentlyUsedCategories, id: \.self) { theme in
+                            themePillButton(theme: theme, showStar: true)
+                        }
+
+                        // Divider
+                        Divider()
+                            .frame(height: 28)
+                            .padding(.horizontal, 4)
+                    }
+
+                    // All Categories
                     ForEach(Constants.themes, id: \.self) { theme in
-                        Button {
-                            selectedCategory = theme
-                        } label: {
-                            Text(Constants.localizedThemeName(theme))
-                                .font(.callout)
-                                .fontWeight(selectedCategory == theme ? .semibold : .regular)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                                .background(selectedCategory == theme ? Color.accentColor : Color(.systemGray6))
-                                .foregroundColor(selectedCategory == theme ? .white : .primary)
-                                .cornerRadius(20)
+                        // Don't show in main list if already in recently used
+                        if !recentlyUsedCategories.contains(theme) {
+                            themePillButton(theme: theme, showStar: false)
                         }
                     }
                 }
@@ -523,6 +538,53 @@ struct MemoAdd: View {
         .padding(.horizontal, 16)
         .background(Color.accentColor.opacity(0.05))
         .cornerRadius(12)
+    }
+
+    // Helper view for theme pill button
+    @ViewBuilder
+    private func themePillButton(theme: String, showStar: Bool) -> some View {
+        Button {
+            selectedCategory = theme
+            updateRecentlyUsedCategories(theme)
+        } label: {
+            HStack(spacing: 4) {
+                if showStar {
+                    Image(systemName: "star.fill")
+                        .font(.caption2)
+                        .foregroundColor(selectedCategory == theme ? .white : .orange)
+                }
+                Text(Constants.localizedThemeName(theme))
+                    .font(.callout)
+                    .fontWeight(selectedCategory == theme ? .semibold : .regular)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(selectedCategory == theme ? Color.accentColor : Color(.systemGray6))
+            .foregroundColor(selectedCategory == theme ? .white : .primary)
+            .cornerRadius(20)
+        }
+    }
+
+    // Get recently used categories (max 5)
+    private var recentlyUsedCategories: [String] {
+        let recent = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
+        return Array(recent.prefix(5))
+    }
+
+    // Update recently used categories
+    private func updateRecentlyUsedCategories(_ category: String) {
+        var recent = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
+
+        // Remove if already exists
+        recent.removeAll { $0 == category }
+
+        // Add to front
+        recent.insert(category, at: 0)
+
+        // Keep only last 5
+        recent = Array(recent.prefix(5))
+
+        UserDefaults.standard.set(recent, forKey: "recentlyUsedCategories")
     }
 
     private var titleInputSection: some View {
@@ -1122,7 +1184,7 @@ struct MemoAdd: View {
         autoDetectedConfidence = ClipboardClassificationService.shared.classify(content: content).confidence
 
         // 민감한 정보는 자동으로 보안 모드
-        let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .rrn]
+        let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
         isSecure = sensitiveTypes.contains(detectedType)
 
         // 제안 배너 숨기기
@@ -1504,10 +1566,15 @@ struct ContentInputSection: View {
         case .postalCode: return "12345"
         case .name: return NSLocalizedString("홍길동", comment: "Name placeholder")
         case .birthDate: return "1990-01-01"
-        case .rrn: return "900101-1234567"
-        case .businessNumber: return "123-45-67890"
+        case .taxID: return "123-45-6789"
+        case .insuranceNumber: return "A12345678"
         case .vehiclePlate: return NSLocalizedString("12가1234", comment: "Vehicle plate placeholder")
         case .ipAddress: return "192.168.0.1"
+        case .membershipNumber: return "M123456"
+        case .trackingNumber: return "1Z999AA10123456784"
+        case .confirmationCode: return "ABC123XYZ"
+        case .medicalRecord: return "MR-2024-001"
+        case .employeeID: return "E12345"
         default: return NSLocalizedString("내용을 입력하세요", comment: "Default placeholder")
         }
     }
@@ -1519,7 +1586,7 @@ struct ContentInputSection: View {
 
         switch type {
         case .email: return .emailAddress
-        case .phone, .creditCard, .bankAccount, .postalCode, .rrn, .businessNumber: return .numberPad
+        case .phone, .creditCard, .bankAccount, .postalCode, .taxID, .insuranceNumber: return .numberPad
         case .ipAddress: return .decimalPad
         case .url: return .URL
         case .birthDate: return .numberPad

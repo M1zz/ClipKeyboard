@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>클립키보드</string>
+	<string>ClipKeyboard</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
