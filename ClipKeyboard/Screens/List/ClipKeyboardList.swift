@@ -54,43 +54,48 @@ struct ClipKeyboardList: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                // 검색 바 섹션 (조건부 표시)
-                if isSearchBarVisible {
-                    Section {
-                        searchBarInlineSection
+            ZStack {
+                // 메모 리스트
+                if !tokenMemos.isEmpty {
+                    List {
+                        // 검색 바 섹션 (조건부 표시)
+                        if isSearchBarVisible {
+                            Section {
+                                searchBarInlineSection
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                        }
+
+                        // 타입 필터 바 섹션
+                        if !loadedData.isEmpty {
+                            Section {
+                                typeFilterBarInlineSection
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
+                        // 메모 리스트 섹션
+                        Section {
+                            // 메모 목록
+                            ForEach($tokenMemos) { $memo in
+                                memoRow(memo: $memo)
+                            }
+                            .onDelete(perform: deleteMemo)
+                        }
                     }
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .listStyle(PlainListStyle())
                 }
 
-                // 타입 필터 바 섹션
-                if !loadedData.isEmpty {
-                    Section {
-                        typeFilterBarInlineSection
-                    }
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                }
-
-                // 메모 리스트 섹션
-                Section {
-                    // 빈 리스트 표시
-                    if tokenMemos.isEmpty {
-                        emptyListRow
-                    }
-
-                    // 메모 목록
-                    ForEach($tokenMemos) { $memo in
-                        memoRow(memo: $memo)
-                    }
-                    .onDelete(perform: deleteMemo)
+                // 빈 화면
+                if tokenMemos.isEmpty {
+                    EmptyListView
                 }
             }
-            .listStyle(PlainListStyle())
             .toolbar {
                 toolbarContent
             }
@@ -250,12 +255,6 @@ struct ClipKeyboardList: View {
     /// 타입 필터 바 섹션 (인라인)
     private var typeFilterBarInlineSection: some View {
         MemoTypeFilterBar(selectedFilter: $selectedTypeFilter, memos: loadedData)
-    }
-
-    /// 빈 리스트 행
-    private var emptyListRow: some View {
-        EmptyListView
-            .listRowBackground(Color.clear)
     }
 
     /// 새 메모 추가 행
