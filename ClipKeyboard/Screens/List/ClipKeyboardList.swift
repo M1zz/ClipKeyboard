@@ -262,19 +262,14 @@ struct ClipKeyboardList: View {
         } label: {
             EmptyListView
         }
+        .buttonStyle(PlainButtonStyle())
     }
 
     /// 새 메모 추가 행
     private var addMemoRow: some View {
-        ZStack {
-            NavigationLink {
-                MemoAdd()
-            } label: {
-                Text("")
-            }
-            .opacity(0.0)
-            .buttonStyle(PlainButtonStyle())
-
+        NavigationLink {
+            MemoAdd()
+        } label: {
             HStack {
                 Spacer()
                 Image(systemName: "plus")
@@ -284,6 +279,8 @@ struct ClipKeyboardList: View {
             }
             .padding(.all, 8)
         }
+        .listRowSeparator(.hidden)
+        .buttonStyle(PlainButtonStyle())
     }
 
     /// 메모 행
