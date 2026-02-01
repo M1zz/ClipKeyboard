@@ -4278,6 +4278,17 @@
         }
       }
     },
+    "통관번호": {
+      "comment": "Declaration Number",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Declaration Number"
+          }
+        }
+      }
+    },
     "파스텔 블루": {
       "localizations": {
         "en": {
@@ -4482,17 +4493,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Running 10 minutes late for the meeting"
-          }
-        }
-      }
-    },
-    "신고번호": {
-      "comment": "Declaration Number",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Declaration Number"
           }
         }
       }
