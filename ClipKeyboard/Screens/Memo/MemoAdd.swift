@@ -1490,7 +1490,7 @@ struct ContentInputSection: View {
         case .creditCard: return "1234-5678-9012-3456"
         case .bankAccount: return "123-456789-12-345"
         case .passportNumber: return "M12345678"
-        case .customsCode: return "P123456789012"
+        case .declarationNumber: return "P123456789012"
         case .postalCode: return "12345"
         case .name: return NSLocalizedString("홍길동", comment: "Name placeholder")
         case .birthDate: return "1990-01-01"

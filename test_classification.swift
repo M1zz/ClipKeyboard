@@ -15,7 +15,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case creditCard = "카드번호"
     case bankAccount = "계좌번호"
     case passportNumber = "여권번호"
-    case customsCode = "통관부호"
+    case declarationNumber = "신고번호"
     case postalCode = "우편번호"
     case name = "이름"
     case birthDate = "생년월일"

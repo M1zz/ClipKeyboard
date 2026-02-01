@@ -695,7 +695,7 @@ class ClipboardClassificationService {
         if let result = detectPhone(trimmed) { return result }
         if let result = detectURL(trimmed) { return result }
         if let result = detectPassportNumber(trimmed) { return result }
-        if let result = detectCustomsCode(trimmed) { return result }
+        if let result = detectDeclarationNumber(trimmed) { return result }
         if let result = detectVehiclePlate(trimmed) { return result }  // 차량번호
         if let result = detectIPAddress(trimmed) { return result }  // IP주소
         if let result = detectBirthDate(trimmed) { return result }  // 계좌번호보다 먼저!
@@ -902,12 +902,12 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// 통관고유부호 감지
-    private func detectCustomsCode(_ text: String) -> (ClipboardItemType, Double)? {
-        // P로 시작 + 12자리 숫자
-        let customsRegex = "^[Pp][0-9]{12}$"
-        if text.range(of: customsRegex, options: .regularExpression) != nil {
-            return (.customsCode, 0.95)
+    /// 신고번호 감지 (통관고유부호 등)
+    private func detectDeclarationNumber(_ text: String) -> (ClipboardItemType, Double)? {
+        // P로 시작 + 12자리 숫자 (통관고유부호)
+        let declarationRegex = "^[Pp][0-9]{12}$"
+        if text.range(of: declarationRegex, options: .regularExpression) != nil {
+            return (.declarationNumber, 0.95)
         }
 
         return nil

@@ -39,7 +39,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case creditCard = "카드번호"
     case bankAccount = "계좌번호"
     case passportNumber = "여권번호"
-    case customsCode = "통관부호"
+    case declarationNumber = "신고번호"
     case postalCode = "우편번호"
     case name = "이름"
     case birthDate = "생년월일"
@@ -59,7 +59,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .creditCard: return "creditcard.fill"
         case .bankAccount: return "banknote.fill"
         case .passportNumber: return "person.text.rectangle.fill"
-        case .customsCode: return "shippingbox.fill"
+        case .declarationNumber: return "shippingbox.fill"
         case .postalCode: return "mappin.circle.fill"
         case .name: return "person.fill"
         case .birthDate: return "calendar"
@@ -81,7 +81,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .creditCard: return "red"
         case .bankAccount: return "indigo"
         case .passportNumber: return "brown"
-        case .customsCode: return "cyan"
+        case .declarationNumber: return "cyan"
         case .postalCode: return "teal"
         case .name: return "pink"
         case .birthDate: return "mint"
@@ -108,7 +108,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         _ = NSLocalizedString("카드번호", comment: "Card Number")
         _ = NSLocalizedString("계좌번호", comment: "Account Number")
         _ = NSLocalizedString("여권번호", comment: "Passport Number")
-        _ = NSLocalizedString("통관부호", comment: "Customs Code")
+        _ = NSLocalizedString("신고번호", comment: "Declaration Number")
         _ = NSLocalizedString("우편번호", comment: "Postal Code")
         _ = NSLocalizedString("이름", comment: "Name")
         _ = NSLocalizedString("생년월일", comment: "Date of Birth")
