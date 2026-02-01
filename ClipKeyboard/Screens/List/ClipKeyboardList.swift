@@ -96,6 +96,10 @@ struct ClipKeyboardList: View {
                     EmptyListView
                 }
             }
+            .onAppear {
+                print("🔄 [ZStack] onAppear - 메모 리로드")
+                loadMemos()
+            }
             .toolbar {
                 toolbarContent
             }
@@ -149,40 +153,13 @@ struct ClipKeyboardList: View {
                 shortcutMemoOverlay
             })
             .onAppear {
-                print("🎬 [ClipKeyboardList] onAppear 시작")
+                print("🎬 [ClipKeyboardList] onAppear 시작 (최초 설정)")
 
                 // 저장된 필터 타입 로드
                 loadSavedFilter()
 
-                // load
-                do {
-                    print("📂 [ClipKeyboardList] 메모 로드 시작...")
-                    let loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
-                    print("📊 [ClipKeyboardList] 로드된 메모 개수: \(loadedMemos.count)")
-
-                    // 기본 템플릿 제공 (최초 1회) - 비활성화
-                    // DefaultTemplates.provideDefaultTemplatesIfNeeded(to: MemoStore.shared)
-
-                    tokenMemos = sortMemos(loadedMemos)
-                    print("🔄 [ClipKeyboardList] 메모 정렬 완료")
-                    print("📋 [ClipKeyboardList] 정렬 후 메모 리스트:")
-                    for (index, memo) in tokenMemos.enumerated() {
-                        print("   [\(index)] \(memo.title) - 즐겨찾기: \(memo.isFavorite), 수정일: \(memo.lastEdited)")
-                    }
-
-                    loadedData = tokenMemos
-                    print("✅ [ClipKeyboardList] loadedData에 메모 저장 완료")
-
-                    // 기존 메모 자동 분류 마이그레이션
-                    migrateExistingMemosClassification()
-
-                    // 필터 적용
-                    applyFilters()
-
-                } catch {
-                    print("❌ [ClipKeyboardList] 메모 로드 실패: \(error.localizedDescription)")
-                    fatalError(error.localizedDescription)
-                }
+                // 기존 메모 자동 분류 마이그레이션 (최초 1회만)
+                migrateExistingMemosClassification()
 
                 // 클립보드 자동 확인 기능 - 클립보드에 내용이 있으면 바로가기 시트 표시
                 // iOS 14+에서 처음 실행 시 "Allow Paste" 알림이 뜰 수 있습니다
@@ -434,6 +411,25 @@ struct ClipKeyboardList: View {
     }
 
     // MARK: - Helper Functions
+
+    /// 메모 데이터 로드
+    private func loadMemos() {
+        do {
+            print("📂 [loadMemos] 메모 로드 시작...")
+            let loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
+            print("📊 [loadMemos] 로드된 메모 개수: \(loadedMemos.count)")
+
+            tokenMemos = sortMemos(loadedMemos)
+            loadedData = tokenMemos
+
+            print("✅ [loadMemos] 메모 로드 완료")
+
+            // 필터 적용
+            applyFilters()
+        } catch {
+            print("❌ [loadMemos] 메모 로드 실패: \(error.localizedDescription)")
+        }
+    }
 
     /// UserDefaults에서 저장된 필터 타입 로드
     private func loadSavedFilter() {
