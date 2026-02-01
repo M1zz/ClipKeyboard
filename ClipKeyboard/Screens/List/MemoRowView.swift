@@ -20,31 +20,6 @@ struct MemoRowView: View {
                 .font(.system(size: fontSize))
 
                 HStack(spacing: 6) {
-                // 카테고리 표시 (category가 최종 확정된 값)
-                if let categoryType = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
-                    // category가 ClipboardItemType과 매치되면 아이콘과 함께 표시
-                    HStack(spacing: 3) {
-                        Image(systemName: categoryType.icon)
-                            .font(.system(size: 9, weight: .medium))
-                        Text(categoryType.localizedName)
-                            .font(.system(size: 10, weight: .medium))
-                    }
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color(.systemGray5))
-                    .foregroundColor(.secondary)
-                    .cornerRadius(4)
-                } else {
-                    // 일치하지 않으면 텍스트로만 표시
-                    Text(categoryLocalizedName(memo.category))
-                        .font(.system(size: 10, weight: .medium))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color(.systemGray5))
-                        .foregroundColor(.secondary)
-                        .cornerRadius(4)
-                }
-
                 if memo.isSecure {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 9))
@@ -56,7 +31,6 @@ struct MemoRowView: View {
                         .font(.system(size: 9))
                         .foregroundColor(.secondary)
                 }
-
                 }
             }
 
