@@ -52,9 +52,6 @@ struct ClipKeyboardList: View {
     // 플레이스홀더 관리 시트
     @State private var showPlaceholderManagementSheet = false
 
-    // 빈 화면에서 첫 클립 추가 시트
-    @State private var showAddMemoFromEmpty = false
-
     var body: some View {
         NavigationStack {
             List {
@@ -146,12 +143,6 @@ struct ClipKeyboardList: View {
             .overlay(content: {
                 shortcutMemoOverlay
             })
-            // 빈 화면에서 첫 클립 추가 시트
-            .sheet(isPresented: $showAddMemoFromEmpty) {
-                NavigationStack {
-                    MemoAdd()
-                }
-            }
             .onAppear {
                 print("🎬 [ClipKeyboardList] onAppear 시작")
 
@@ -597,16 +588,21 @@ struct ClipKeyboardList: View {
             }
             .multilineTextAlignment(.center)
 
-            Button {
-                HapticManager.shared.light()
-                showAddMemoFromEmpty = true
+            NavigationLink {
+                MemoAdd()
             } label: {
                 Text(NSLocalizedString("첫 클립 추가", comment: "Add first clip button"))
                     .fontWeight(.semibold)
+                    .foregroundColor(.white)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(PlainButtonStyle())
+            .simultaneousGesture(TapGesture().onEnded {
+                HapticManager.shared.light()
+            })
             .padding(.top, 8)
 
             Spacer()
