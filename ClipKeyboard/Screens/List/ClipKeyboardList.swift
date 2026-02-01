@@ -580,19 +580,23 @@ struct ClipKeyboardList: View {
 
     /// Empty list view
     private var EmptyListView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
+            Spacer()
+
             Text(NSLocalizedString("자주 치는 문장이 뭔가요?", comment: "Empty state question"))
                 .font(.title3)
                 .fontWeight(.medium)
-                .padding(.top, 40)
+                .multilineTextAlignment(.center)
 
-            VStack(spacing: 12) {
-                Text(NSLocalizedString("\"지금 가는 중\"?", comment: "Empty state example 1"))
+            VStack(spacing: 10) {
+                Text(NSLocalizedString("지금 가는 중", comment: "Empty state example 1"))
+                    .font(.body)
                     .foregroundColor(.secondary)
-                Text(NSLocalizedString("\"감사합니다\"?", comment: "Empty state example 2"))
+                Text(NSLocalizedString("감사합니다", comment: "Empty state example 2"))
+                    .font(.body)
                     .foregroundColor(.secondary)
             }
-            .padding(.bottom, 20)
+            .multilineTextAlignment(.center)
 
             Button {
                 // MemoAdd 화면으로 이동하는 로직은 외부 NavigationLink가 처리
@@ -603,10 +607,11 @@ struct ClipKeyboardList: View {
                     .padding(.vertical, 12)
             }
             .buttonStyle(.borderedProminent)
+            .padding(.top, 8)
 
             Spacer()
         }
-        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
         .padding(.horizontal, 30)
     }
     
