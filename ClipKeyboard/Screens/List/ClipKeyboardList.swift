@@ -798,19 +798,27 @@ struct ClipKeyboardList: View {
     }
 
     private func applyFilters() {
+        print("🔍 [applyFilters] 시작 - loadedData: \(loadedData.count)개")
+        print("🔍 [applyFilters] 검색어: '\(searchQueryString)'")
+        print("🔍 [applyFilters] 타입 필터: \(selectedTypeFilter?.rawValue ?? "없음")")
+
         var filtered = loadedData
 
         // 검색어 필터
         if !searchQueryString.isEmpty {
             filtered = filtered.filter { $0.title.localizedStandardContains(searchQueryString) }
+            print("🔍 [applyFilters] 검색 후: \(filtered.count)개")
         }
 
         // 테마 필터 (메모에 설정된 category 기준)
         if let typeFilter = selectedTypeFilter {
+            let beforeCount = filtered.count
             filtered = filtered.filter { $0.category == typeFilter.rawValue }
+            print("🔍 [applyFilters] 테마 필터 '\(typeFilter.rawValue)' 적용 - \(beforeCount)개 → \(filtered.count)개")
         }
 
         tokenMemos = filtered
+        print("✅ [applyFilters] 완료 - tokenMemos: \(tokenMemos.count)개")
     }
 }
 
