@@ -19,41 +19,42 @@ struct MemoRowView: View {
                       systemImage: memo.isChecked ? "checkmark.square.fill" : "doc.on.doc.fill")
                 .font(.system(size: fontSize))
 
-                HStack(spacing: 8) {
+                HStack(spacing: 6) {
                 // 카테고리 표시 (category가 최종 확정된 값)
                 if let categoryType = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
                     // category가 ClipboardItemType과 매치되면 아이콘과 함께 표시
-                    HStack(spacing: 4) {
+                    HStack(spacing: 3) {
                         Image(systemName: categoryType.icon)
-                            .font(.caption2)
+                            .font(.system(size: 9, weight: .medium))
                         Text(categoryType.localizedName)
-                            .font(.caption)
+                            .font(.system(size: 10, weight: .medium))
                     }
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(colorFor(categoryType.color).opacity(0.2))
-                    .foregroundColor(colorFor(categoryType.color))
-                    .cornerRadius(8)
+                    .background(Color(.systemGray5))
+                    .foregroundColor(.secondary)
+                    .cornerRadius(4)
                 } else {
                     // 일치하지 않으면 텍스트로만 표시
                     Text(categoryLocalizedName(memo.category))
-                        .font(.caption)
-                        .padding(.horizontal, 8)
+                        .font(.system(size: 10, weight: .medium))
+                        .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(Color.blue.opacity(0.2))
-                        .cornerRadius(8)
+                        .background(Color(.systemGray5))
+                        .foregroundColor(.secondary)
+                        .cornerRadius(4)
                 }
 
                 if memo.isSecure {
                     Image(systemName: "lock.fill")
-                        .font(.caption)
-                        .foregroundColor(.orange)
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
                 }
 
                 if memo.isTemplate {
                     Image(systemName: "doc.text.fill")
-                        .font(.caption)
-                        .foregroundColor(.purple)
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
                 }
 
                 }
