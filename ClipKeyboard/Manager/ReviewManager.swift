@@ -17,9 +17,8 @@ import UIKit
 class ReviewManager {
 
     static let shared = ReviewManager()
-    private init() {}
 
-    // MARK: - UserDefaults Keys
+    // MARK: - UserDefaults Keys (기존)
 
     private let lastReviewRequestDateKey = "lastReviewRequestDate"
     private let appLaunchCountKey = "appLaunchCount"
@@ -27,7 +26,16 @@ class ReviewManager {
     private let hasRequestedReviewKey = "hasRequestedReview"
     private let hasRespondedToReviewKey = "hasRespondedToReview"
 
-    // MARK: - Review Request Conditions
+    // MARK: - UserDefaults Keys (새 트리거)
+
+    private let keyFirstPasteReview = "hasRequestedReview_firstPaste"
+    private let keyComboReview = "hasRequestedReview_combo"
+    private let keyPowerUserReview = "hasRequestedReview_powerUser"
+    private let keyInstallDate = "app_install_date"
+    private let keyKeyboardUseCount = "keyboard_use_count"
+    private let keyClipSaveCount = "clip_save_count"
+
+    // MARK: - Review Request Conditions (기존)
 
     /// 리뷰 요청 최소 메모 생성 횟수 (Silent Partner 컨셉: 3개)
     private let minimumMemoCount = 3
@@ -38,13 +46,36 @@ class ReviewManager {
     /// 리뷰 요청 간격 (일)
     private let reviewRequestCooldown: TimeInterval = 90 * 24 * 60 * 60 // 90일
 
-    // MARK: - Public Methods
+    private init() {
+        // 설치일 기록 (최초 1회)
+        if UserDefaults.standard.object(forKey: keyInstallDate) == nil {
+            UserDefaults.standard.set(Date(), forKey: keyInstallDate)
+            print("📊 [ReviewManager] 설치일 기록됨")
+        }
+
+        // 공유 파일(MemoStore, ComboExecutionService)에서 보내는 알림 구독
+        NotificationCenter.default.addObserver(
+            forName: .reviewTriggerComboCompleted, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.trackComboCompleted()
+        }
+        NotificationCenter.default.addObserver(
+            forName: .reviewTriggerClipSaved, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.trackClipSaved()
+        }
+    }
+
+    // MARK: - Public Methods (기존)
 
     /// 앱 실행 시 호출 - 실행 횟수 증가
     func incrementAppLaunchCount() {
         let currentCount = UserDefaults.standard.integer(forKey: appLaunchCountKey)
         UserDefaults.standard.set(currentCount + 1, forKey: appLaunchCountKey)
         print("📊 [ReviewManager] 앱 실행 횟수: \(currentCount + 1)")
+
+        // 키보드 사용 카운트 동기화 (App Group → 표준 UserDefaults)
+        syncKeyboardUseCount()
     }
 
     /// 메모 생성 시 호출 - 메모 생성 횟수 증가
@@ -104,17 +135,129 @@ class ReviewManager {
         UserDefaults.standard.set(true, forKey: hasRequestedReviewKey)
 
         // StoreKit의 리뷰 요청 (iOS 14+)
-        #if os(iOS)
-        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
-        }
-        #endif
+        requestSystemReview()
 
         return true
     }
 
-    /// 리뷰 요청 조건을 확인합니다.
-    /// - Returns: 리뷰 요청 가능 여부
+    // MARK: - New Trigger Methods (최적 트리거)
+
+    /// 키보드에서 붙여넣기 성공 시 호출
+    /// 키보드 익스텐션에서 App Group UserDefaults로 기록 후, 메인 앱에서 동기화하여 호출
+    func trackKeyboardPaste() {
+        let count = UserDefaults.standard.integer(forKey: keyKeyboardUseCount) + 1
+        UserDefaults.standard.set(count, forKey: keyKeyboardUseCount)
+        print("📊 [ReviewManager] 키보드 사용 횟수: \(count)")
+
+        // 트리거 1: 처음 붙여넣기 성공
+        if count == 1 {
+            requestReviewOnce(key: keyFirstPasteReview, delay: 2.0)
+        }
+
+        // 파워 유저 체크
+        checkPowerUserMilestone()
+    }
+
+    /// 클립보드 저장 시 호출
+    func trackClipSaved() {
+        let count = UserDefaults.standard.integer(forKey: keyClipSaveCount) + 1
+        UserDefaults.standard.set(count, forKey: keyClipSaveCount)
+        print("📊 [ReviewManager] 클립 저장 횟수: \(count)")
+
+        // 파워 유저 체크
+        checkPowerUserMilestone()
+    }
+
+    /// Combo 완료 시 호출
+    func trackComboCompleted() {
+        print("📊 [ReviewManager] Combo 완료 트리거")
+        requestReviewOnce(key: keyComboReview, delay: 1.5)
+    }
+
+    /// 리뷰 배너 표시 여부 확인
+    var shouldShowBanner: Bool {
+        let dismissed = UserDefaults.standard.bool(forKey: "review_banner_dismissed")
+        if dismissed { return false }
+
+        let laterDate = UserDefaults.standard.double(forKey: "review_banner_later_date")
+        if laterDate > 0 && Date().timeIntervalSince1970 < laterDate { return false }
+
+        return UserDefaults.standard.integer(forKey: keyClipSaveCount) >= 5
+    }
+
+    /// 배너에서 "나중에" 선택
+    func dismissBannerTemporarily() {
+        let laterDate = Date().addingTimeInterval(7 * 86400).timeIntervalSince1970
+        UserDefaults.standard.set(laterDate, forKey: "review_banner_later_date")
+        print("📊 [ReviewManager] 배너 7일 후 다시 표시")
+    }
+
+    /// 배너에서 "리뷰 남기기" 선택
+    func dismissBannerPermanently() {
+        UserDefaults.standard.set(true, forKey: "review_banner_dismissed")
+        print("📊 [ReviewManager] 배너 영구 닫기")
+    }
+
+    // MARK: - Private Methods
+
+    /// 파워 유저 마일스톤 체크
+    /// 조건: 클립 10개 이상 + 설치 3일 경과 + 키보드 5회 이상 사용
+    private func checkPowerUserMilestone() {
+        guard !UserDefaults.standard.bool(forKey: keyPowerUserReview) else { return }
+
+        guard let installDate = UserDefaults.standard.object(forKey: keyInstallDate) as? Date,
+              Date().timeIntervalSince(installDate) > 3 * 86400 else { return }
+
+        guard UserDefaults.standard.integer(forKey: keyKeyboardUseCount) >= 5 else { return }
+        guard UserDefaults.standard.integer(forKey: keyClipSaveCount) >= 10 else { return }
+
+        print("⭐️ [ReviewManager] 파워 유저 마일스톤 달성!")
+        requestReviewOnce(key: keyPowerUserReview, delay: 1.0)
+    }
+
+    /// 특정 트리거에 대해 1회만 리뷰 요청
+    private func requestReviewOnce(key: String, delay: TimeInterval) {
+        guard !UserDefaults.standard.bool(forKey: key) else {
+            print("⏭️ [ReviewManager] 이미 요청됨: \(key)")
+            return
+        }
+        UserDefaults.standard.set(true, forKey: key)
+        print("⭐️ [ReviewManager] 리뷰 요청 예약: \(key) (딜레이: \(delay)s)")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            self?.requestSystemReview()
+        }
+    }
+
+    /// StoreKit 시스템 리뷰 요청
+    private func requestSystemReview() {
+        #if os(iOS)
+        if let scene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
+            print("⭐️ [ReviewManager] 시스템 리뷰 다이얼로그 요청됨")
+        }
+        #endif
+    }
+
+    /// 키보드 익스텐션의 사용 카운트를 App Group에서 동기화
+    private func syncKeyboardUseCount() {
+        guard let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") else { return }
+
+        let groupCount = groupDefaults.integer(forKey: "keyboard_paste_count")
+        let localCount = UserDefaults.standard.integer(forKey: keyKeyboardUseCount)
+
+        if groupCount > localCount {
+            let diff = groupCount - localCount
+            print("📊 [ReviewManager] 키보드 사용 \(diff)회 동기화 (App Group → Local)")
+
+            for _ in 0..<diff {
+                trackKeyboardPaste()
+            }
+        }
+    }
+
+    /// 리뷰 요청 조건을 확인합니다. (기존 조건 기반)
     private func shouldRequestReview() -> Bool {
         // 1. 메모 생성 횟수 확인
         let memoCount = UserDefaults.standard.integer(forKey: memoCreatedCountKey)
@@ -149,11 +292,15 @@ class ReviewManager {
         let launchCount = UserDefaults.standard.integer(forKey: appLaunchCountKey)
         let hasRequested = UserDefaults.standard.bool(forKey: hasRequestedReviewKey)
         let lastRequestDate = UserDefaults.standard.object(forKey: lastReviewRequestDateKey) as? Date
+        let keyboardUseCount = UserDefaults.standard.integer(forKey: keyKeyboardUseCount)
+        let clipSaveCount = UserDefaults.standard.integer(forKey: keyClipSaveCount)
 
         var info = """
         📊 리뷰 요청 통계
         - 메모 생성 횟수: \(memoCount)/\(minimumMemoCount)
         - 앱 실행 횟수: \(launchCount)/\(minimumLaunchCount)
+        - 키보드 사용 횟수: \(keyboardUseCount)
+        - 클립 저장 횟수: \(clipSaveCount)
         - 리뷰 요청 여부: \(hasRequested ? "예" : "아니오")
         """
 
@@ -173,6 +320,13 @@ class ReviewManager {
         UserDefaults.standard.removeObject(forKey: appLaunchCountKey)
         UserDefaults.standard.removeObject(forKey: memoCreatedCountKey)
         UserDefaults.standard.removeObject(forKey: hasRequestedReviewKey)
+        UserDefaults.standard.removeObject(forKey: keyFirstPasteReview)
+        UserDefaults.standard.removeObject(forKey: keyComboReview)
+        UserDefaults.standard.removeObject(forKey: keyPowerUserReview)
+        UserDefaults.standard.removeObject(forKey: keyKeyboardUseCount)
+        UserDefaults.standard.removeObject(forKey: keyClipSaveCount)
+        UserDefaults.standard.removeObject(forKey: "review_banner_dismissed")
+        UserDefaults.standard.removeObject(forKey: "review_banner_later_date")
         print("🔄 [ReviewManager] 리뷰 요청 데이터 초기화 완료")
     }
 }

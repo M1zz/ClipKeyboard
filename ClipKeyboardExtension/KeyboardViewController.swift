@@ -178,6 +178,7 @@ class KeyboardViewController: UIInputViewController {
 
                         // 입력
                         self.textDocumentProxy.insertText(currentValue)
+                        self.trackKeyboardPaste()
 
                         // 다음 인덱스로 이동 (순환)
                         memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
@@ -225,6 +226,7 @@ class KeyboardViewController: UIInputViewController {
                     let processedText = self.processTemplateVariables(in: text)
                     print("💬 입력할 텍스트: \(processedText)")
                     self.textDocumentProxy.insertText(processedText)
+                    self.trackKeyboardPaste()
                 }
             } else {
                 print("❌ 텍스트 또는 메모 ID가 없습니다")
@@ -253,6 +255,7 @@ class KeyboardViewController: UIInputViewController {
 
                 print("📝 textDocumentProxy.insertText 호출")
                 self.textDocumentProxy.insertText(processedText)
+                self.trackKeyboardPaste()
                 print("✅ 입력 완료!")
             }
         }
@@ -355,6 +358,15 @@ class KeyboardViewController: UIInputViewController {
     @objc private func backSpacePressed(button: UIButton) {
         print("⬅️ Backspace 버튼이 눌렸습니다!")
         (textDocumentProxy as UIKeyInput).deleteBackward()
+    }
+
+    /// 키보드에서 메모 붙여넣기 시 App Group UserDefaults에 카운트 기록
+    /// 메인 앱의 ReviewManager가 이 값을 동기화하여 리뷰 요청 트리거로 사용
+    private func trackKeyboardPaste() {
+        guard let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") else { return }
+        let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
+        groupDefaults.set(count, forKey: "keyboard_paste_count")
+        print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
     }
 
     deinit {

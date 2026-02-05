@@ -261,6 +261,9 @@ class MemoStore: ObservableObject {
 
         try saveSmartClipboardHistory(history: history)
 
+        // 리뷰 요청 트리거: 클립 저장
+        NotificationCenter.default.post(name: .reviewTriggerClipSaved, object: nil)
+
         // Published 변수 업데이트
         DispatchQueue.main.async {
             self.smartClipboardHistory = history

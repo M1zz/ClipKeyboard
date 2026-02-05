@@ -456,6 +456,17 @@
         }
       }
     },
+    "App Store에서 평가" : {
+      "comment" : "Rate on App Store button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate on App Store"
+          }
+        }
+      }
+    },
     "Clip Keyboard" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1288,7 +1299,15 @@
       }
     },
     "나중에" : {
-      "comment" : "Later button"
+      "comment" : "Later button\nMaybe later button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        }
+      }
     },
     "나중에 직접 추가할게요" : {
       "extractionState" : "stale",
@@ -2040,6 +2059,12 @@
           }
         }
       }
+    },
+    "별점 남기기" : {
+      "comment" : "Leave rating button"
+    },
+    "별점 하나가\n1인 개발자에게 큰 힘이 됩니다." : {
+      "comment" : "Review message"
     },
     "보안 메모" : {
       "comment" : "Secure memo toggle",
@@ -3321,6 +3346,9 @@
         }
       }
     },
+    "잘 쓰고 계신가요?" : {
+      "comment" : "Review question"
+    },
     "재사용 가능한 양식" : {
       "comment" : "Template description",
       "localizations" : {
@@ -3344,6 +3372,17 @@
     },
     "저장 실패. 앱을 재시작해주세요." : {
       "comment" : "Data encoding failed error message"
+    },
+    "저장되었습니다!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved!"
+          }
+        }
+      }
     },
     "저장된 메모 불러오기" : {
       "comment" : "Full Access reason 3",
@@ -3369,17 +3408,6 @@
     },
     "저장됨" : {
       "comment" : "Saved toast"
-    },
-    "저장되었습니다!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved!"
-          }
-        }
-      }
     },
     "전역 단축키" : {
       "extractionState" : "stale",
@@ -3648,6 +3676,17 @@
         }
       }
     },
+    "짧은 리뷰 하나가 다른 사용자에게 앱을 알리는 데 도움이 됩니다!" : {
+      "comment" : "Review banner description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A quick review helps other people discover us!"
+          }
+        }
+      }
+    },
     "차량번호" : {
       "comment" : "Vehicle Plate",
       "localizations" : {
@@ -3810,6 +3849,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clip Keyboard"
+          }
+        }
+      }
+    },
+    "클립 키보드를 잘 쓰고 계신가요?" : {
+      "comment" : "Review banner question",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoying Clip Keyboard?"
           }
         }
       }

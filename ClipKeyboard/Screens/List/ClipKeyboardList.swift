@@ -82,6 +82,16 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
+                        // 리뷰 배너 섹션
+                        if ReviewManager.shared.shouldShowBanner {
+                            Section {
+                                ReviewBannerView()
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
                         // 메모 리스트 섹션
                         Section {
                             // 메모 목록
