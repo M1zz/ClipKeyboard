@@ -20,7 +20,7 @@ struct FontSetting: View {
     
     var body: some View {
         VStack {
-            Text("이 사이즈로 내용이 보입니다.")
+            Text(NSLocalizedString("이 사이즈로 내용이 보입니다.", comment: "Font size preview text"))
                 .font(.system(size: fontSize))
                 .padding()
             

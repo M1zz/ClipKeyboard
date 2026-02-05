@@ -12,6 +12,7 @@
       }
     },
     "'%@' 값을 수정하세요." : {
+      "comment" : "Edit value prompt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22,6 +23,7 @@
       }
     },
     "'%@'을(를) 삭제하시겠습니까?" : {
+      "comment" : "Delete confirmation message\nDelete value confirmation",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -66,8 +68,59 @@
         }
       }
     },
+    "'전체 접근 허용' 토글 켜기" : {
+      "comment" : "Full access: toggle on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on 'Allow Full Access' toggle"
+          }
+        }
+      }
+    },
+    "'전체 접근 허용'을 켜주세요" : {
+      "comment" : "Enable Full Access title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on 'Allow Full Access'"
+          }
+        }
+      }
+    },
+    "'클립키보드' 선택" : {
+      "comment" : "Onboarding path: Select ClipKeyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select 'ClipKeyboard'"
+          }
+        }
+      }
+    },
+    "'클립키보드'를 탭" : {
+      "comment" : "Full access: tap ClipKeyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap 'ClipKeyboard'"
+          }
+        }
+      }
+    },
     "\"%@\"" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"%@\""
+          }
+        }
+      }
     },
     "(권장)" : {
       "comment" : "Recommended badge",
@@ -92,11 +145,34 @@
       }
     },
     "%@ 타입 없음" : {
+      "comment" : "No items of type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "No %@ type"
+          }
+        }
+      }
+    },
+    "%d%% 확신" : {
+      "comment" : "Confidence percentage",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d%% confidence"
+          }
+        }
+      }
+    },
+    "%d개 변수" : {
+      "comment" : "Variable count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d variables"
           }
         }
       }
@@ -133,6 +209,7 @@
       }
     },
     "%lld%% 확신" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -164,9 +241,17 @@
       }
     },
     "%lld개 값" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld values"
+          }
+        }
+      }
     },
     "%lld개 변수" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -239,7 +324,14 @@
       }
     },
     "•" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        }
+      }
     },
     "• 백업 데이터는 iCloud에 안전하게 저장됩니다" : {
       "comment" : "Backup info 3",
@@ -275,9 +367,18 @@
       }
     },
     "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다" : {
-      "comment" : "Auto backup info"
+      "comment" : "Auto backup info",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• When auto backup is enabled, changes to memos, clipboard, and combos are backed up automatically\n• Regular backups run every 5 minutes"
+          }
+        }
+      }
     },
     "+ 버튼을 눌러 값을 추가하세요" : {
+      "comment" : "Add value hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -342,7 +443,15 @@
       }
     },
     "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?" : {
-      "comment" : "Restore with data warning message"
+      "comment" : "Restore with data warning message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ There is existing data on this device.\n\nRestoring will delete all current memos, clipboard, and combos and replace them with backup data.\n\nThis action cannot be undone. Continue?"
+          }
+        }
+      }
     },
     "⭐️ 리뷰 및 평점 매기기" : {
       "comment" : "Review and rating header",
@@ -432,7 +541,15 @@
       }
     },
     "12가1234" : {
-      "comment" : "Vehicle plate placeholder"
+      "comment" : "Vehicle plate placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12가1234"
+          }
+        }
+      }
     },
     "App Store 페이지에서 직접 작성합니다" : {
       "comment" : "App Store review description",
@@ -479,7 +596,16 @@
       }
     },
     "Clip Keyboard 선택" : {
-      "comment" : "Step 3"
+      "comment" : "Step 3",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Clip Keyboard"
+          }
+        }
+      }
     },
     "Clipboard List" : {
       "extractionState" : "stale",
@@ -526,7 +652,19 @@
         }
       }
     },
+    "Combo 값 설정 (%d개)" : {
+      "comment" : "Combo value count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combo values (%d)"
+          }
+        }
+      }
+    },
     "Combo 값 설정 (%lld개)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -667,7 +805,15 @@
       }
     },
     "iCloud Drive를 켜주세요." : {
-      "comment" : "iCloud permission error message"
+      "comment" : "iCloud permission error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please turn on iCloud Drive."
+          }
+        }
+      }
     },
     "iCloud 동기화" : {
       "comment" : "iCloud sync feature",
@@ -727,7 +873,15 @@
       }
     },
     "iCloud 저장 공간이 부족합니다." : {
-      "comment" : "iCloud quota exceeded error message"
+      "comment" : "iCloud quota exceeded error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud storage is full."
+          }
+        }
+      }
     },
     "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요." : {
       "comment" : "iCloud quota exceeded error message",
@@ -764,7 +918,15 @@
       }
     },
     "iCloud에 로그인해주세요." : {
-      "comment" : "iCloud not authenticated error message"
+      "comment" : "iCloud not authenticated error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please sign in to iCloud."
+          }
+        }
+      }
     },
     "iCloud에서 데이터를 복구합니다" : {
       "comment" : "Restore button description",
@@ -910,7 +1072,15 @@
       }
     },
     "Return" : {
-      "comment" : "Return key"
+      "comment" : "Return key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return"
+          }
+        }
+      }
     },
     "Send Email" : {
       "localizations" : {
@@ -929,6 +1099,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title : "
+          }
+        }
+      }
+    },
+    "Token Memo에\n오신 것을 환영합니다!" : {
+      "comment" : "Onboarding welcome title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to\nToken Memo!"
           }
         }
       }
@@ -999,6 +1180,7 @@
       }
     },
     "값" : {
+      "comment" : "Value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1008,7 +1190,19 @@
         }
       }
     },
+    "값 %d개" : {
+      "comment" : "Value count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d values"
+          }
+        }
+      }
+    },
     "값 %lld개" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1019,6 +1213,7 @@
       }
     },
     "값 선택" : {
+      "comment" : "Select value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1029,6 +1224,7 @@
       }
     },
     "값 수정" : {
+      "comment" : "Edit value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1059,6 +1255,7 @@
       }
     },
     "값을 선택하세요" : {
+      "comment" : "Select a value hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1079,6 +1276,7 @@
       }
     },
     "값이 없습니다.\n템플릿 사용 시 값을 추가하세요." : {
+      "comment" : "No values hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1122,6 +1320,17 @@
         }
       }
     },
+    "개인정보를 수집하지 않습니다.\n안심하고 사용하세요." : {
+      "comment" : "Privacy assurance message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We do not collect personal information.\nYou can use it with peace of mind."
+          }
+        }
+      }
+    },
     "거부" : {
       "comment" : "Deny option",
       "localizations" : {
@@ -1134,7 +1343,7 @@
       }
     },
     "건너뛰기" : {
-      "extractionState" : "stale",
+      "comment" : "Skip onboarding button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1244,6 +1453,7 @@
       }
     },
     "기본 다크" : {
+      "comment" : "Default dark preset",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1254,6 +1464,7 @@
       }
     },
     "기본 라이트" : {
+      "comment" : "Default light preset",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1285,7 +1496,15 @@
       }
     },
     "기존 데이터가 있습니다. 복원하면 현재 데이터가 모두 삭제됩니다. 계속하시겠습니까?" : {
-      "comment" : "Restore confirmation message"
+      "comment" : "Restore confirmation message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There is existing data. Restoring will delete all current data. Continue?"
+          }
+        }
+      }
     },
     "기호" : {
       "extractionState" : "stale",
@@ -1332,6 +1551,7 @@
       }
     },
     "내용" : {
+      "comment" : "Content",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1342,7 +1562,15 @@
       }
     },
     "내용을 입력하세요" : {
-      "comment" : "Default placeholder"
+      "comment" : "Default placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter content"
+          }
+        }
+      }
     },
     "네트워크 연결을 확인하고 다시 시도해주세요." : {
       "comment" : "Network error message",
@@ -1357,7 +1585,15 @@
       }
     },
     "네트워크 연결을 확인해주세요." : {
-      "comment" : "Network error message"
+      "comment" : "Network error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please check your network connection."
+          }
+        }
+      }
     },
     "다른 앱에서 붙여넣기" : {
       "comment" : "Paste from other apps",
@@ -1372,7 +1608,6 @@
     },
     "다음" : {
       "comment" : "Next button",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1383,7 +1618,14 @@
       }
     },
     "다음: %lld" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next: %lld"
+          }
+        }
+      }
     },
     "다크" : {
       "extractionState" : "stale",
@@ -1420,7 +1662,15 @@
       }
     },
     "데이터 변경 시 자동으로 백업합니다" : {
-      "comment" : "Auto backup description"
+      "comment" : "Auto backup description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically backs up when data changes"
+          }
+        }
+      }
     },
     "데이터가 iCloud에 성공적으로 백업되었습니다." : {
       "extractionState" : "stale",
@@ -1708,6 +1958,17 @@
         }
       }
     },
+    "메모를 추가하고 키보드에서 사용하세요" : {
+      "comment" : "Tip: add memos and use from keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add memos and use them from the keyboard"
+          }
+        }
+      }
+    },
     "메모별 통계" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1766,6 +2027,7 @@
       }
     },
     "무시" : {
+      "comment" : "Ignore",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1832,7 +2094,7 @@
       }
     },
     "미리보기" : {
-      "comment" : "Preview section",
+      "comment" : "Preview\nPreview section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1843,6 +2105,7 @@
       }
     },
     "민트" : {
+      "comment" : "Mint preset",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1853,6 +2116,7 @@
       }
     },
     "배경 색상" : {
+      "comment" : "Background color",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1919,7 +2183,15 @@
       }
     },
     "백업 데이터를 복구합니다." : {
-      "comment" : "Restore empty device message"
+      "comment" : "Restore empty device message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restoring backup data."
+          }
+        }
+      }
     },
     "백업 데이터를 읽을 수 없습니다. 최신 버전의 앱을 사용하고 있는지 확인해주세요." : {
       "comment" : "Data decoding failed error message",
@@ -2000,10 +2272,26 @@
       }
     },
     "백업을 읽을 수 없습니다. 앱을 업데이트해주세요." : {
-      "comment" : "Data decoding failed error message"
+      "comment" : "Data decoding failed error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cannot read backup. Please update the app."
+          }
+        }
+      }
     },
     "백업이 없습니다." : {
-      "comment" : "No backup found error message"
+      "comment" : "No backup found error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No backup found."
+          }
+        }
+      }
     },
     "백업하기" : {
       "comment" : "Backup button label",
@@ -2061,10 +2349,26 @@
       }
     },
     "별점 남기기" : {
-      "comment" : "Leave rating button"
+      "comment" : "Leave rating button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave a Rating"
+          }
+        }
+      }
     },
     "별점 하나가\n1인 개발자에게 큰 힘이 됩니다." : {
-      "comment" : "Review message"
+      "comment" : "Review message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A single rating\nmeans a lot to an indie developer."
+          }
+        }
+      }
     },
     "보안 메모" : {
       "comment" : "Secure memo toggle",
@@ -2078,6 +2382,7 @@
       }
     },
     "보안 메모에 접근하려면 생체 인증이 필요합니다" : {
+      "comment" : "Biometric auth required",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2143,6 +2448,7 @@
       }
     },
     "복사" : {
+      "comment" : "Copy",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2175,6 +2481,7 @@
       }
     },
     "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)" : {
+      "comment" : "Clipboard history empty description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2195,6 +2502,7 @@
       }
     },
     "붙여넣기" : {
+      "comment" : "Paste",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2284,6 +2592,7 @@
       }
     },
     "사용" : {
+      "comment" : "Use",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2340,6 +2649,7 @@
       }
     },
     "사진" : {
+      "comment" : "Photo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2350,7 +2660,7 @@
       }
     },
     "삭제" : {
-      "comment" : "Delete button",
+      "comment" : "Delete\nDelete button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2383,6 +2693,7 @@
       }
     },
     "삭제 확인" : {
+      "comment" : "Delete confirmation\nDelete confirmation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2393,6 +2704,7 @@
       }
     },
     "새 값 입력" : {
+      "comment" : "New value input placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2425,7 +2737,16 @@
       }
     },
     "새 키보드 추가" : {
-      "comment" : "Step 2"
+      "comment" : "Step 2",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add New Keyboard"
+          }
+        }
+      }
     },
     "새 토큰을 추가할까요?" : {
       "extractionState" : "manual",
@@ -2434,6 +2755,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add new token?"
+          }
+        }
+      }
+    },
+    "새로운 키보드 추가..." : {
+      "comment" : "Onboarding path: Add New Keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add New Keyboard..."
           }
         }
       }
@@ -2480,11 +2812,38 @@
         }
       }
     },
+    "생체인증으로 안전하게 보호" : {
+      "comment" : "Onboarding feature: biometric protection",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Secure protection with biometrics"
+          }
+        }
+      }
+    },
     "서버 문제. 잠시 후 다시 시도해주세요." : {
-      "comment" : "iCloud server error message"
+      "comment" : "iCloud server error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server error. Please try again later."
+          }
+        }
+      }
     },
     "서울시 강남구 테헤란로 123" : {
-      "comment" : "Address placeholder"
+      "comment" : "Address placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123 Teheran-ro, Gangnam-gu, Seoul"
+          }
+        }
+      }
     },
     "선택하신 항목에 맞는 템플릿을 자동으로 추가해드려요" : {
       "extractionState" : "stale",
@@ -2498,6 +2857,7 @@
       }
     },
     "설명 (선택)" : {
+      "comment" : "Description optional",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2508,12 +2868,23 @@
       }
     },
     "설정" : {
-      "comment" : "Settings",
+      "comment" : "Onboarding path: Settings\nSettings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "설정 → 일반 → 키보드 → 키보드 목록" : {
+      "comment" : "Full access path",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings → General → Keyboard → Keyboards"
           }
         }
       }
@@ -2530,7 +2901,38 @@
       }
     },
     "설정 > 키보드" : {
-      "comment" : "Step 1"
+      "comment" : "Step 1",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings > Keyboard"
+          }
+        }
+      }
+    },
+    "설정 1/2" : {
+      "comment" : "Setup step 1 of 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step 1/2"
+          }
+        }
+      }
+    },
+    "설정 2/2" : {
+      "comment" : "Setup step 2 of 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step 2/2"
+          }
+        }
+      }
     },
     "설정 경로" : {
       "comment" : "Settings path section header",
@@ -2578,6 +2980,17 @@
         }
       }
     },
+    "설정에서 키보드를 추가한 후\n이 화면으로 돌아와 다음 단계를 진행하세요" : {
+      "comment" : "Onboarding: return after adding keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After adding the keyboard in Settings,\ncome back here to continue"
+          }
+        }
+      }
+    },
     "설정으로 이동" : {
       "comment" : "Go to Settings button",
       "localizations" : {
@@ -2590,6 +3003,7 @@
       }
     },
     "설정할 값이 없습니다" : {
+      "comment" : "No values to set",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2633,6 +3047,7 @@
       }
     },
     "수정" : {
+      "comment" : "Edit",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2643,6 +3058,7 @@
       }
     },
     "순서를 변경하려면 드래그하세요" : {
+      "comment" : "Drag to reorder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2896,6 +3312,7 @@
       }
     },
     "예: 카드번호를 입력합니다" : {
+      "comment" : "Description example",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2906,7 +3323,7 @@
       }
     },
     "예시" : {
-      "comment" : "Example label",
+      "comment" : "Example\nExample label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2950,7 +3367,15 @@
       }
     },
     "오류 발생. 네트워크와 iCloud를 확인해주세요." : {
-      "comment" : "Generic error message\nGeneric iCloud error message"
+      "comment" : "Generic error message\nGeneric iCloud error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occurred. Please check your network and iCloud."
+          }
+        }
+      }
     },
     "온보딩 다시 보기" : {
       "extractionState" : "stale",
@@ -2997,7 +3422,15 @@
       }
     },
     "요청 초과. 잠시 후 다시 시도해주세요." : {
-      "comment" : "Rate limited error message"
+      "comment" : "Rate limited error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many requests. Please try again later."
+          }
+        }
+      }
     },
     "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." : {
       "comment" : "Rate limited error message",
@@ -3023,6 +3456,7 @@
       }
     },
     "위의 버튼을 사용하여\n클립보드에서 붙여넣거나\n사진을 선택할 수 있습니다" : {
+      "comment" : "Image selection guide",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3033,6 +3467,7 @@
       }
     },
     "위의 필드에서 값을 추가하세요" : {
+      "comment" : "Add value hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3054,6 +3489,7 @@
       }
     },
     "이 사이즈로 내용이 보입니다." : {
+      "comment" : "Font size preview text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3064,6 +3500,7 @@
       }
     },
     "이 타입으로 분류된 항목이 없습니다" : {
+      "comment" : "No items of this type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3084,7 +3521,7 @@
       }
     },
     "이 템플릿에는 플레이스홀더가 없습니다" : {
-      "comment" : "No placeholders",
+      "comment" : "No placeholders\nNo placeholders in template",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3095,6 +3532,7 @@
       }
     },
     "이 템플릿은 바로 사용 가능합니다" : {
+      "comment" : "Template ready to use",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3158,6 +3596,7 @@
       }
     },
     "이미지 변경" : {
+      "comment" : "Change image",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3168,6 +3607,7 @@
       }
     },
     "이미지 제거" : {
+      "comment" : "Remove image",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3189,6 +3629,7 @@
       }
     },
     "이미지를 선택하세요" : {
+      "comment" : "Select an image",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3210,12 +3651,35 @@
         }
       }
     },
+    "이제 키보드에서 메모를 바로 입력할 수 있어요" : {
+      "comment" : "Onboarding completion subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can now type memos directly from the keyboard"
+          }
+        }
+      }
+    },
     "인증 실패" : {
+      "comment" : "Auth failed",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Authentication Failed"
+          }
+        }
+      }
+    },
+    "일반" : {
+      "comment" : "Onboarding path: General",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
           }
         }
       }
@@ -3233,6 +3697,7 @@
       }
     },
     "임시" : {
+      "comment" : "Temporary",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3243,9 +3708,17 @@
       }
     },
     "입력 중..." : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entering..."
+          }
+        }
+      }
     },
     "입력하세요" : {
+      "comment" : "Input placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3256,10 +3729,26 @@
       }
     },
     "자동 백업" : {
-      "comment" : "Auto backup label"
+      "comment" : "Auto backup label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto Backup"
+          }
+        }
+      }
     },
     "자동 백업 설정" : {
-      "comment" : "Auto backup settings section header"
+      "comment" : "Auto backup settings section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto Backup Settings"
+          }
+        }
+      }
     },
     "자동 복사 간격" : {
       "localizations" : {
@@ -3304,6 +3793,7 @@
       }
     },
     "자동: %@" : {
+      "comment" : "Auto detected type",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3347,7 +3837,15 @@
       }
     },
     "잘 쓰고 계신가요?" : {
-      "comment" : "Review question"
+      "comment" : "Review question",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoying the app?"
+          }
+        }
+      }
     },
     "재사용 가능한 양식" : {
       "comment" : "Template description",
@@ -3361,6 +3859,7 @@
       }
     },
     "저장" : {
+      "comment" : "Save",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3371,7 +3870,26 @@
       }
     },
     "저장 실패. 앱을 재시작해주세요." : {
-      "comment" : "Data encoding failed error message"
+      "comment" : "Data encoding failed error message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save failed. Please restart the app."
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
     },
     "저장되었습니다!" : {
       "extractionState" : "stale",
@@ -3405,9 +3923,6 @@
           }
         }
       }
-    },
-    "저장됨" : {
-      "comment" : "Saved toast"
     },
     "전역 단축키" : {
       "extractionState" : "stale",
@@ -3510,6 +4025,17 @@
         }
       }
     },
+    "전체 접근 허용" : {
+      "comment" : "Full Access toggle label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow Full Access"
+          }
+        }
+      }
+    },
     "전체 통계" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3588,6 +4114,7 @@
       }
     },
     "제목" : {
+      "comment" : "Title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3627,6 +4154,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Address"
+          }
+        }
+      }
+    },
+    "준비 완료!" : {
+      "comment" : "Onboarding completion title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Set!"
           }
         }
       }
@@ -3710,6 +4248,7 @@
       }
     },
     "초기화" : {
+      "comment" : "Reset",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3731,7 +4270,15 @@
       }
     },
     "최근" : {
-
+      "comment" : "Recent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent"
+          }
+        }
+      }
     },
     "최근 복사한 내용을 언제든지 다시 사용할 수 있어요" : {
       "comment" : "Clipboard history description",
@@ -3768,7 +4315,7 @@
       }
     },
     "추가" : {
-      "comment" : "Add",
+      "comment" : "Add\nAdd button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3801,6 +4348,7 @@
       }
     },
     "카드번호 입력: 1234 → 5678 → 9012 → 3456" : {
+      "comment" : "Combo example",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3822,6 +4370,7 @@
       }
     },
     "커스텀 색상" : {
+      "comment" : "Custom colors section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3908,6 +4457,17 @@
         }
       }
     },
+    "클립보드 자동 저장 및 관리" : {
+      "comment" : "Onboarding feature: clipboard management",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-save and manage clipboard"
+          }
+        }
+      }
+    },
     "클립보드 히스토리" : {
       "comment" : "Clipboard history feature",
       "localizations" : {
@@ -3920,6 +4480,7 @@
       }
     },
     "클립보드 히스토리 없음" : {
+      "comment" : "No clipboard history",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3986,6 +4547,7 @@
       }
     },
     "키 색상" : {
+      "comment" : "Key color",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3996,7 +4558,7 @@
       }
     },
     "키보드" : {
-      "comment" : "Keyboard section",
+      "comment" : "Keyboard section\nOnboarding path: Keyboard",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4037,6 +4599,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select 'Keyboards' tab in Keyboard menu"
+          }
+        }
+      }
+    },
+    "키보드 목록" : {
+      "comment" : "Onboarding path: Keyboards list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboards"
           }
         }
       }
@@ -4098,6 +4671,17 @@
         }
       }
     },
+    "키보드 전환: 🌐 길게 누르기" : {
+      "comment" : "Tip: keyboard switching",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switch keyboard: Long press 🌐"
+          }
+        }
+      }
+    },
     "키보드 추가" : {
       "comment" : "Add keyboard",
       "localizations" : {
@@ -4110,7 +4694,7 @@
       }
     },
     "키보드 테마" : {
-      "comment" : "Keyboard theme",
+      "comment" : "Keyboard theme\nKeyboard theme section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4133,14 +4717,56 @@
       }
     },
     "키보드를 추가해주세요" : {
-      "comment" : "Setup keyboard title"
+      "comment" : "Add keyboard title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please add a keyboard"
+          }
+        }
+      }
+    },
+    "키보드에서 바로 메모 입력" : {
+      "comment" : "Onboarding feature: keyboard input",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type memos directly from keyboard"
+          }
+        }
+      }
+    },
+    "키보드에서 바로 메모를 불러와\n빠르게 입력할 수 있어요" : {
+      "comment" : "Onboarding welcome subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load memos directly from the keyboard\nfor quick input"
+          }
+        }
+      }
     },
     "키보드에서 보여질 설명 문구" : {
+      "comment" : "Keyboard description hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Description shown on keyboard"
+          }
+        }
+      }
+    },
+    "키보드에서 저장된 메모를 불러오려면\n전체 접근 권한이 필요합니다" : {
+      "comment" : "Full Access explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full access is required to load\nsaved memos from the keyboard"
           }
         }
       }
@@ -4202,6 +4828,7 @@
       }
     },
     "탭할 때마다 다음 값이 순서대로 입력됩니다" : {
+      "comment" : "Combo description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4222,6 +4849,7 @@
       }
     },
     "테마 선택" : {
+      "comment" : "Theme picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4232,6 +4860,7 @@
       }
     },
     "테마 설정" : {
+      "comment" : "Theme settings title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4274,6 +4903,7 @@
       }
     },
     "텍스트 인식 중..." : {
+      "comment" : "Recognizing text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4284,7 +4914,7 @@
       }
     },
     "템플릿" : {
-      "comment" : "Template\nTemplate toggle",
+      "comment" : "Template\nTemplate label\nTemplate toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4316,6 +4946,7 @@
       }
     },
     "템플릿 내용" : {
+      "comment" : "Template content",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4326,6 +4957,7 @@
       }
     },
     "템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다" : {
+      "comment" : "No templates description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4368,6 +5000,7 @@
       }
     },
     "템플릿 불러오는 중..." : {
+      "comment" : "Loading template",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4378,6 +5011,7 @@
       }
     },
     "템플릿 입력" : {
+      "comment" : "Template input title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4388,6 +5022,7 @@
       }
     },
     "템플릿을 완성하세요" : {
+      "comment" : "Complete the template",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4432,6 +5067,7 @@
       }
     },
     "파스텔 블루" : {
+      "comment" : "Pastel blue preset",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4464,6 +5100,7 @@
       }
     },
     "프리셋" : {
+      "comment" : "Presets section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4473,7 +5110,19 @@
         }
       }
     },
+    "플레이스홀더 (%d개)" : {
+      "comment" : "Placeholder count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placeholders (%d)"
+          }
+        }
+      }
+    },
     "플레이스홀더 (%lld개)" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4484,7 +5133,7 @@
       }
     },
     "플레이스홀더 값 설정" : {
-      "comment" : "Set Placeholder Values",
+      "comment" : "Placeholder value settings\nSet Placeholder Values",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4495,6 +5144,7 @@
       }
     },
     "플레이스홀더 관리" : {
+      "comment" : "Placeholder management title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4582,7 +5232,15 @@
       }
     },
     "홍길동" : {
-      "comment" : "Name placeholder"
+      "comment" : "Name placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "John Doe"
+          }
+        }
+      }
     },
     "화면에 표시될 버튼의 열 개수를 선택하세요. 열이 많을수록 더 많은 버튼을 한 눈에 볼 수 있습니다." : {
       "comment" : "Column count description",

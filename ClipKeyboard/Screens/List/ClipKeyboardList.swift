@@ -134,10 +134,10 @@ struct ClipKeyboardList: View {
                 saveSelectedFilter()
             })
             // 인증 실패 Alert
-            .alert("인증 실패", isPresented: $showAuthAlert) {
+            .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $showAuthAlert) {
                 Button("확인", role: .cancel) {}
             } message: {
-                Text("보안 메모에 접근하려면 생체 인증이 필요합니다")
+                Text(NSLocalizedString("보안 메모에 접근하려면 생체 인증이 필요합니다", comment: "Biometric auth required"))
             }
             // 각종 Sheet Modifiers
             .modifier(SheetModifiers(

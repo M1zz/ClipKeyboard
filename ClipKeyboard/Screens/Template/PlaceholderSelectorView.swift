@@ -41,7 +41,7 @@ struct PlaceholderSelectorView: View {
             // 값 추가 입력
             if isAdding {
                 HStack(spacing: 8) {
-                    TextField("새 값 입력", text: $newValue)
+                    TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
                         .textFieldStyle(.roundedBorder)
                         .font(.callout)
 
@@ -60,7 +60,7 @@ struct PlaceholderSelectorView: View {
                             isAdding = false
                         }
                     } label: {
-                        Text("추가")
+                        Text(NSLocalizedString("추가", comment: "Add button"))
                             .font(.caption)
                             .fontWeight(.semibold)
                             .padding(.horizontal, 12)
@@ -75,7 +75,7 @@ struct PlaceholderSelectorView: View {
 
             // 값 목록
             if values.isEmpty {
-                Text("+ 버튼을 눌러 값을 추가하세요")
+                Text(NSLocalizedString("+ 버튼을 눌러 값을 추가하세요", comment: "Add value hint"))
                     .font(.caption)
                     .foregroundColor(.orange)
                     .padding(12)
@@ -120,11 +120,11 @@ struct PlaceholderSelectorView: View {
             loadValues()
             print("✅ [PlaceholderSelectorView] onAppear 완료 - 로드된 값: \(values.count)개, 선택된 값: '\(selectedValue)'")
         }
-        .alert("삭제 확인", isPresented: .constant(showDeleteConfirm != nil)) {
-            Button("취소", role: .cancel) {
+        .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation title"), isPresented: .constant(showDeleteConfirm != nil)) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
                 showDeleteConfirm = nil
             }
-            Button("삭제", role: .destructive) {
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
                 if let valueToDelete = showDeleteConfirm {
                     MemoStore.shared.deletePlaceholderValue(valueId: valueToDelete.id, for: placeholder)
                     loadValues()
@@ -136,7 +136,7 @@ struct PlaceholderSelectorView: View {
             }
         } message: {
             if let value = showDeleteConfirm {
-                Text("'\(value.value)'을(를) 삭제하시겠습니까?")
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete confirmation message"), value.value))
             }
         }
     }
@@ -164,22 +164,22 @@ struct PlaceholderManagementSheet: View {
                     Image(systemName: "doc.text.magnifyingglass")
                         .font(.system(size: 50))
                         .foregroundColor(.gray)
-                    Text("템플릿이 없습니다")
+                    Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))
                         .font(.headline)
                         .foregroundColor(.secondary)
-                    Text("템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다")
+                    Text(NSLocalizedString("템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다", comment: "No templates description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle("플레이스홀더 관리")
+                .navigationTitle(NSLocalizedString("플레이스홀더 관리", comment: "Placeholder management title"))
                 #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("완료") {
+                        Button(NSLocalizedString("완료", comment: "Done")) {
                             dismiss()
                         }
                         .fontWeight(.semibold)
@@ -204,13 +204,13 @@ struct PlaceholderManagementSheet: View {
                         }
                     }
                 }
-                .navigationTitle("플레이스홀더 관리")
+                .navigationTitle(NSLocalizedString("플레이스홀더 관리", comment: "Placeholder management title"))
                 #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("완료") {
+                        Button(NSLocalizedString("완료", comment: "Done")) {
                             dismiss()
                         }
                         .fontWeight(.semibold)
