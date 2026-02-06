@@ -18,8 +18,8 @@ struct ThemeSettings: View {
 
     var body: some View {
         Form {
-            Section(header: Text("키보드 테마")) {
-                Picker("테마 선택", selection: $selectedTheme) {
+            Section(header: Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme section"))) {
+                Picker(NSLocalizedString("테마 선택", comment: "Theme picker"), selection: $selectedTheme) {
                     ForEach(KeyboardTheme.allCases, id: \.self) { theme in
                         Text(theme.localizedName).tag(theme)
                     }
@@ -32,19 +32,19 @@ struct ThemeSettings: View {
             }
 
             if selectedTheme == .custom {
-                Section(header: Text("커스텀 색상")) {
-                    ColorPicker("배경 색상", selection: $backgroundColor)
+                Section(header: Text(NSLocalizedString("커스텀 색상", comment: "Custom colors section"))) {
+                    ColorPicker(NSLocalizedString("배경 색상", comment: "Background color"), selection: $backgroundColor)
                         .onChange(of: backgroundColor) { newValue in
                             keyboardBackgroundColorHex = newValue.toHex() ?? "F5F5F5"
                         }
 
-                    ColorPicker("키 색상", selection: $keyColor)
+                    ColorPicker(NSLocalizedString("키 색상", comment: "Key color"), selection: $keyColor)
                         .onChange(of: keyColor) { newValue in
                             keyboardKeyColorHex = newValue.toHex() ?? "FFFFFF"
                         }
                 }
 
-                Section(header: Text("미리보기")) {
+                Section(header: Text(NSLocalizedString("미리보기", comment: "Preview section"))) {
                     VStack(spacing: 12) {
                         HStack(spacing: 8) {
                             ForEach(["안녕", "하세요", "테스트"], id: \.self) { text in
@@ -63,29 +63,29 @@ struct ThemeSettings: View {
                 }
             }
 
-            Section(header: Text("프리셋")) {
-                Button("기본 라이트") {
+            Section(header: Text(NSLocalizedString("프리셋", comment: "Presets section"))) {
+                Button(NSLocalizedString("기본 라이트", comment: "Default light preset")) {
                     backgroundColor = Color(hex: "F5F5F5") ?? .gray
                     keyColor = Color(hex: "FFFFFF") ?? .white
                 }
 
-                Button("기본 다크") {
+                Button(NSLocalizedString("기본 다크", comment: "Default dark preset")) {
                     backgroundColor = Color(hex: "1C1C1E") ?? .black
                     keyColor = Color(hex: "2C2C2E") ?? .gray
                 }
 
-                Button("파스텔 블루") {
+                Button(NSLocalizedString("파스텔 블루", comment: "Pastel blue preset")) {
                     backgroundColor = Color(hex: "E3F2FD") ?? .blue
                     keyColor = Color(hex: "BBDEFB") ?? .blue
                 }
 
-                Button("민트") {
+                Button(NSLocalizedString("민트", comment: "Mint preset")) {
                     backgroundColor = Color(hex: "E0F2F1") ?? .green
                     keyColor = Color(hex: "B2DFDB") ?? .green
                 }
             }
         }
-        .navigationTitle("테마 설정")
+        .navigationTitle(NSLocalizedString("테마 설정", comment: "Theme settings title"))
         .onAppear {
             selectedTheme = KeyboardTheme(rawValue: keyboardTheme) ?? .system
             backgroundColor = Color(hex: keyboardBackgroundColorHex) ?? Color(hex: "F5F5F5") ?? .gray

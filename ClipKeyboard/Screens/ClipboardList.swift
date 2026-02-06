@@ -212,14 +212,14 @@ struct ClipboardList: View {
                 .padding(10)
 
             if selectedFilter == nil {
-                Text("클립보드 히스토리 없음")
+                Text(NSLocalizedString("클립보드 히스토리 없음", comment: "No clipboard history"))
                     .font(.system(size: 22)).bold()
-                Text("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)")
+                Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
                     .opacity(0.7)
             } else {
-                Text("\(selectedFilter!.localizedName) 타입 없음")
+                Text(String(format: NSLocalizedString("%@ 타입 없음", comment: "No items of type"), selectedFilter!.localizedName))
                     .font(.system(size: 22)).bold()
-                Text("이 타입으로 분류된 항목이 없습니다")
+                Text(NSLocalizedString("이 타입으로 분류된 항목이 없습니다", comment: "No items of this type"))
                     .opacity(0.7)
             }
         }
@@ -553,7 +553,7 @@ struct ClipboardItemRow: View {
 
                             // 임시 태그
                             if item.isTemporary {
-                                Text("임시")
+                                Text(NSLocalizedString("임시", comment: "Temporary"))
                                     .font(.caption)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
@@ -679,7 +679,7 @@ struct SaveToMemoSheet: View {
                         Text(item.detectedType.localizedName)
                         Spacer()
                         if item.confidence > 0.8 {
-                            Text("\(Int(item.confidence * 100))% 확신")
+                            Text(String(format: NSLocalizedString("%d%% 확신", comment: "Confidence percentage"), Int(item.confidence * 100)))
                                 .font(.caption)
                                 .foregroundColor(.green)
                         }
@@ -743,10 +743,10 @@ struct CreateComboSheet: View {
                     TextField("Combo 이름", text: $title)
 
                     Picker("자동 복사 간격", selection: $interval) {
-                        Text("1초").tag(1.0)
-                        Text("2초").tag(2.0)
-                        Text("3초").tag(3.0)
-                        Text("5초").tag(5.0)
+                        Text(NSLocalizedString("1초", comment: "1 second")).tag(1.0)
+                        Text(NSLocalizedString("2초", comment: "2 seconds")).tag(2.0)
+                        Text(NSLocalizedString("3초", comment: "3 seconds")).tag(3.0)
+                        Text(NSLocalizedString("5초", comment: "5 seconds")).tag(5.0)
                     }
                 }
 
