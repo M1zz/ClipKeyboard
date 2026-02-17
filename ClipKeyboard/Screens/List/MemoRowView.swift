@@ -38,6 +38,12 @@ struct MemoRowView: View {
                         .font(.system(size: 9))
                         .foregroundColor(.secondary)
                 }
+
+                if memo.isCombo {
+                    Image(systemName: "repeat")
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
+                }
                 }
             }
 

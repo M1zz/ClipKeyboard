@@ -49,6 +49,9 @@ struct ClipKeyboardList: View {
     // 템플릿 편집 시트
     @State private var selectedTemplateIdForSheet: UUID? = nil
 
+    // Combo 편집 시트
+    @State private var selectedComboIdForSheet: UUID? = nil
+
     // 플레이스홀더 관리 시트
     @State private var showPlaceholderManagementSheet = false
 
@@ -144,6 +147,7 @@ struct ClipKeyboardList: View {
                 showTemplateInputSheet: $showTemplateInputSheet,
                 showPlaceholderManagementSheet: $showPlaceholderManagementSheet,
                 selectedTemplateIdForSheet: $selectedTemplateIdForSheet,
+                selectedComboIdForSheet: $selectedComboIdForSheet,
                 templatePlaceholders: templatePlaceholders,
                 templateInputs: $templateInputs,
                 tokenMemos: tokenMemos,
@@ -159,7 +163,11 @@ struct ClipKeyboardList: View {
                     finalizeCopy(memo: memo, processedValue: processedValue)
                     selectedTemplateIdForSheet = nil
                 },
-                onTemplateSheetCancel: { selectedTemplateIdForSheet = nil }
+                onTemplateSheetCancel: { selectedTemplateIdForSheet = nil },
+                onComboDismiss: {
+                    selectedComboIdForSheet = nil
+                    loadMemos()
+                }
             ))
             // 단축키 메모 오버레이
             .overlay(content: {
@@ -267,29 +275,29 @@ struct ClipKeyboardList: View {
 
     /// 메모 행
     private func memoRow(memo: Binding<Memo>) -> some View {
-        HStack {
-            // 복사 버튼
-            Button {
-                copyMemo(memo: memo.wrappedValue)
-            } label: {
-                MemoRowView(memo: memo.wrappedValue, fontSize: fontSize)
-            }
-            .buttonStyle(PlainButtonStyle())
-
-            Spacer()
-
-            // 즐겨찾기 버튼
+        Button {
+            copyMemo(memo: memo.wrappedValue)
+        } label: {
+            MemoRowView(memo: memo.wrappedValue, fontSize: fontSize)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            editButton(memo: memo.wrappedValue)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button {
                 toggleFavorite(memo: memo)
             } label: {
-                Image(systemName: memo.wrappedValue.isFavorite ? "heart.fill" : "heart")
-                    .symbolRenderingMode(.multicolor)
+                Label(
+                    memo.wrappedValue.isFavorite
+                        ? NSLocalizedString("즐겨찾기 해제", comment: "Remove favorite")
+                        : NSLocalizedString("즐겨찾기", comment: "Add favorite"),
+                    systemImage: memo.wrappedValue.isFavorite ? "heart.slash" : "heart"
+                )
             }
-            .frame(width: 40, height: 40)
-            .buttonStyle(BorderedButtonStyle())
-        }
-        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-            editButton(memo: memo.wrappedValue)
+            .tint(.pink)
         }
         .transition(.scale)
     }
@@ -671,6 +679,13 @@ struct ClipKeyboardList: View {
     }
 
     private func processMemoAfterAuth(_ memo: Memo) {
+        // Combo이면 편집 시트 표시
+        if memo.isCombo {
+            print("🔁 [processMemoAfterAuth] Combo 메모 - ComboEditSheet 표시")
+            selectedComboIdForSheet = memo.id
+            return
+        }
+
         // 템플릿이면 편집 시트 표시
         if memo.isTemplate {
             print("📄 [processMemoAfterAuth] 템플릿 메모 - TemplateEditSheet 표시")
@@ -972,6 +987,7 @@ struct MemoFilterChip: View {
         case "teal": return .teal
         case "pink": return .pink
         case "mint": return .mint
+        case "yellow": return .yellow
         default: return .gray
         }
     }
@@ -987,6 +1003,7 @@ struct SheetModifiers: ViewModifier {
     @Binding var showTemplateInputSheet: Bool
     @Binding var showPlaceholderManagementSheet: Bool
     @Binding var selectedTemplateIdForSheet: UUID?
+    @Binding var selectedComboIdForSheet: UUID?
 
     // 데이터
     let templatePlaceholders: [String]
@@ -999,6 +1016,7 @@ struct SheetModifiers: ViewModifier {
     let onTemplateCancel: () -> Void
     let onTemplateCopy: (Memo, String) -> Void
     let onTemplateSheetCancel: () -> Void
+    let onComboDismiss: () -> Void
 
     func body(content: Content) -> some View {
         content
@@ -1029,6 +1047,16 @@ struct SheetModifiers: ViewModifier {
                     onCopy: onTemplateCopy,
                     onCancel: onTemplateSheetCancel
                 )
+            }
+            // Combo 편집 시트
+            .sheet(item: $selectedComboIdForSheet) { comboId in
+                ComboSheetResolver(
+                    comboId: comboId,
+                    allMemos: tokenMemos,
+                    onDismiss: onComboDismiss
+                )
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
             }
     }
 }

@@ -155,6 +155,16 @@
         }
       }
     },
+    "%@: %@" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
     "%d%% 확신" : {
       "comment" : "Confidence percentage",
       "localizations" : {
@@ -642,7 +652,7 @@
       }
     },
     "Combo" : {
-      "comment" : "Combo tab\nCombo toggle",
+      "comment" : "Combo toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -651,6 +661,9 @@
           }
         }
       }
+    },
+    "Combo 값 %d개" : {
+      "comment" : "Combo value count"
     },
     "Combo 값 설정 (%d개)" : {
       "comment" : "Combo value count",
@@ -1275,6 +1288,9 @@
         }
       }
     },
+    "값이 없습니다" : {
+      "comment" : "No values"
+    },
     "값이 없습니다.\n템플릿 사용 시 값을 추가하세요." : {
       "comment" : "No values hint",
       "localizations" : {
@@ -1607,7 +1623,7 @@
       }
     },
     "다음" : {
-      "comment" : "Next button",
+      "comment" : "Next\nNext badge\nNext button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1616,6 +1632,9 @@
           }
         }
       }
+    },
+    "다음: %d번째" : {
+      "comment" : "Next index"
     },
     "다음: %lld" : {
       "localizations" : {
@@ -1637,6 +1656,9 @@
           }
         }
       }
+    },
+    "닫기" : {
+      "comment" : "Close"
     },
     "데이터" : {
       "comment" : "Data section",
@@ -1862,7 +1884,7 @@
       }
     },
     "메모" : {
-      "comment" : "Memo\nMemo tab",
+      "comment" : "Memo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2501,6 +2523,9 @@
         }
       }
     },
+    "불러오는 중..." : {
+      "comment" : "Loading"
+    },
     "붙여넣기" : {
       "comment" : "Paste",
       "localizations" : {
@@ -2704,7 +2729,7 @@
       }
     },
     "새 값 입력" : {
-      "comment" : "New value input placeholder",
+      "comment" : "New value input\nNew value input placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3122,6 +3147,9 @@
           }
         }
       }
+    },
+    "아래에서 값을 추가하세요" : {
+      "comment" : "Add values below"
     },
     "안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다." : {
       "comment" : "Template example text",
@@ -3880,28 +3908,6 @@
         }
       }
     },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        }
-      }
-    },
-    "저장되었습니다!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved!"
-          }
-        }
-      }
-    },
     "저장된 메모 불러오기" : {
       "comment" : "Full Access reason 3",
       "extractionState" : "stale",
@@ -3920,6 +3926,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved Items"
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "저장되었습니다!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved!"
           }
         }
       }
@@ -4170,6 +4198,7 @@
       }
     },
     "즐겨찾기" : {
+      "comment" : "Add favorite",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4178,6 +4207,9 @@
           }
         }
       }
+    },
+    "즐겨찾기 해제" : {
+      "comment" : "Remove favorite"
     },
     "지구본 아이콘을 길게 눌러 ClipKeyboard를 선택하세요" : {
       "comment" : "Switch keyboard description",
