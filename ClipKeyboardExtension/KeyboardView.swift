@@ -231,7 +231,6 @@ struct KeyboardView: View {
                     }
                 }
             }
-            .frame(width: UIScreen.main.bounds.size.width)
         }
         .overlay(
             Group {

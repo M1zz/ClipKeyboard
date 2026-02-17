@@ -55,6 +55,9 @@ struct ClipKeyboardList: View {
     // 플레이스홀더 관리 시트
     @State private var showPlaceholderManagementSheet = false
 
+    // 즐겨찾기 넛지
+    @State private var showFavoriteNudge: Bool = false
+
     // 데이터 리프레시 트리거
     @State private var refreshTrigger = UUID()
 
@@ -212,6 +215,14 @@ struct ClipKeyboardList: View {
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
                 print("🔤 [ClipKeyboardList] 폰트 크기: \(fontSize)")
 
+                // 즐겨찾기 넛지 체크
+                FavoriteNudgeManager.shared.resetIfNeeded()
+                if FavoriteNudgeManager.shared.shouldShowNudge {
+                    print("💝 [ClipKeyboardList] 즐겨찾기 넛지 표시")
+                    showFavoriteNudge = true
+                    FavoriteNudgeManager.shared.recordNudgeShown()
+                }
+
                 print("✅ [ClipKeyboardList] onAppear 완료")
             }
         }
@@ -278,7 +289,11 @@ struct ClipKeyboardList: View {
         Button {
             copyMemo(memo: memo.wrappedValue)
         } label: {
-            MemoRowView(memo: memo.wrappedValue, fontSize: fontSize)
+            MemoRowView(
+                memo: memo.wrappedValue,
+                fontSize: fontSize,
+                showFavoriteNudge: tokenMemos.first?.id == memo.wrappedValue.id && showFavoriteNudge
+            )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
         }
@@ -479,6 +494,11 @@ struct ClipKeyboardList: View {
     private func toggleFavorite(memo: Binding<Memo>) {
         withAnimation(.easeInOut) {
             memo.wrappedValue.isFavorite.toggle()
+
+            // 즐겨찾기 등록 시 넛지 종료
+            if memo.wrappedValue.isFavorite {
+                showFavoriteNudge = false
+            }
 
             do {
                 // loadedData에서 해당 메모 업데이트

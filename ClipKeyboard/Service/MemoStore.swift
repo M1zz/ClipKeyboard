@@ -376,6 +376,14 @@ class MemoStore: ObservableObject {
         return removedArray
     }
 
+    // MARK: - Favorite Helper
+
+    /// 즐겨찾기된 메모가 있는지 확인
+    func hasFavoriteMemo() -> Bool {
+        guard let memos = try? load(type: .tokenMemo) else { return false }
+        return memos.contains(where: { $0.isFavorite })
+    }
+
     // MARK: - 이미지 관리
 
     #if os(iOS)

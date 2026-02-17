@@ -21,6 +21,7 @@
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
+		587382B12F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */; };
 		587384852F2E7AD40042ECA4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587384842F2E7AD40042ECA4 /* WidgetKit.framework */; };
 		587384872F2E7AD40042ECA4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587384862F2E7AD40042ECA4 /* SwiftUI.framework */; };
 		587384982F2E7AD50042ECA4 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587384822F2E7AD40042ECA4 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -117,6 +118,7 @@
 		585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
+		587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNudgeManager.swift; sourceTree = "<group>"; };
 		587384822F2E7AD40042ECA4 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		587384842F2E7AD40042ECA4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		587384862F2E7AD40042ECA4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -331,6 +333,7 @@
 		58D9D52C2A3B237D0086BE1A /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */,
 				587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */,
 				58D9D52D2A3B23900086BE1A /* DataManager.swift */,
 				58CK00062B5E1A2100000005 /* MenuBarManager.swift */,
@@ -694,6 +697,7 @@
 				58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */,
 				1C7C6CDBD08940B2BC4EED19 /* ComboList.swift in Sources */,
 				587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */,
+				587382B12F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift in Sources */,
 				AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */,
 				AA00000400000001F3B00001 /* ReviewBannerView.swift in Sources */,
 				9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */,
