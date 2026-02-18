@@ -17,7 +17,7 @@ class FavoriteNudgeManager {
     private let nudgeCountKey = "favoriteNudgeShownCount"
     private let nudgeVersionKey = "favoriteNudgeVersion"
     private let maxNudgeCount = 3
-    private let nudgeTargetVersion = "3.1.2"
+    private let nudgeTargetVersion = "3.1.3"
 
     // ReviewManager에서 사용하는 동일한 키
     private let keyInstallDate = "app_install_date"
