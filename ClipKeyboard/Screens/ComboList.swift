@@ -14,6 +14,7 @@ struct ComboList: View {
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var editingCombo: Combo? = nil
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -51,7 +52,11 @@ struct ComboList: View {
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showAddCombo = true
+                        if ProFeatureManager.canAddCombo(currentCount: combos.count) {
+                            showAddCombo = true
+                        } else {
+                            showPaywall = true
+                        }
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title3)
@@ -90,6 +95,7 @@ struct ComboList: View {
             .onAppear {
                 loadCombos()
             }
+            .paywall(isPresented: $showPaywall, triggeredBy: .combo)
         }
     }
 

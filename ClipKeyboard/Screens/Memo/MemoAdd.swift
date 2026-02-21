@@ -72,6 +72,10 @@ struct MemoAdd: View {
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
 
+    // Pro 게이팅
+    @State private var showPaywall: Bool = false
+    @State private var paywallTrigger: ProFeatureManager.LimitType? = nil
+
     @Environment(\.dismiss) private var dismiss
 
     // 에러 메시지
@@ -201,6 +205,28 @@ struct MemoAdd: View {
                         if !hasContent {
                             showAlert = true
                             return
+                        }
+
+                        // Pro 제한 체크 (새 메모 생성 시만)
+                        if memoId == nil {
+                            do {
+                                let existingMemos = try MemoStore.shared.load(type: .tokenMemo)
+                                let templateCount = existingMemos.filter { $0.isTemplate }.count
+                                
+                                if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
+                                    paywallTrigger = .template
+                                    showPaywall = true
+                                    return
+                                }
+                                
+                                if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
+                                    paywallTrigger = .memo
+                                    showPaywall = true
+                                    return
+                                }
+                            } catch {
+                                // 로드 실패 시 제한 체크 건너뛰기
+                            }
                         }
 
                         // save
@@ -475,6 +501,7 @@ struct MemoAdd: View {
                 detectedPlaceholders = []
             }
         }
+        .paywall(isPresented: $showPaywall, triggeredBy: paywallTrigger)
     }
 
     // MARK: - View Sections
@@ -623,7 +650,17 @@ struct MemoAdd: View {
 
                 Spacer()
 
-                Toggle("", isOn: $isSecure)
+                Toggle("", isOn: Binding(
+                    get: { isSecure },
+                    set: { newValue in
+                        if newValue && !ProFeatureManager.isBiometricLockAvailable {
+                            paywallTrigger = .biometricLock
+                            showPaywall = true
+                        } else {
+                            isSecure = newValue
+                        }
+                    }
+                ))
                     .labelsHidden()
             }
             .padding(.vertical, 12)

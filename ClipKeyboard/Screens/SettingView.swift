@@ -12,8 +12,40 @@ struct SettingView: View {
     
     @Environment(\.requestReview) var requestReview
     
+    @State private var showPaywall = false
+    
     var body: some View {
         List {
+            // MARK: - Pro 섹션
+            if !ProFeatureManager.isPro {
+                Section {
+                    Button {
+                        showPaywall = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "crown.fill")
+                                .foregroundStyle(.yellow)
+                                .font(.title3)
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(NSLocalizedString("Pro로 업그레이드", comment: "Upgrade to Pro"))
+                                    .font(.headline)
+                                    .foregroundStyle(.primary)
+                                Text(NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase"))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+            
             // 키보드 섹션 (5개)
             Section(NSLocalizedString("키보드", comment: "Keyboard section")) {
                 Button {
@@ -82,6 +114,9 @@ struct SettingView: View {
             }
         }
         .listStyle(.grouped)
+        .navigationTitle(NSLocalizedString("설정", comment: "Settings title"))
+        .navigationBarTitleDisplayMode(.inline)
+        .paywall(isPresented: $showPaywall)
     }
 
     // 앱 버전 정보를 Info.plist에서 자동으로 가져오기

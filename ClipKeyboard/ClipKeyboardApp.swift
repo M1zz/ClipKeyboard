@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct ClipKeyboardApp: App {
     @ObservedObject var manager = DataManager()
+    @StateObject private var storeManager = StoreManager.shared
     @State private var showReviewRequest = false
 
     init() {
@@ -29,6 +30,7 @@ struct ClipKeyboardApp: App {
             if manager.didShowOnboarding {
 
                 ClipKeyboardList()
+                    .environmentObject(storeManager)
                     .onOpenURL { url in
                         // URL scheme으로 앱이 열렸을 때 처리
                         if url.scheme == "clipkeyboard" {

@@ -17,6 +17,13 @@
 		581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550632AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
 		581550642AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
+		581D8A952F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
+		581D8A962F49B4DD00F2F032 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A942F49B4DD00F2F032 /* StoreManager.swift */; };
+		581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
+		581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A942F49B4DD00F2F032 /* StoreManager.swift */; };
+		581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A992F49B4E900F2F032 /* PaywallView.swift */; };
+		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
+		581D8BAE2F49EE2600F2F032 /* Version.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
@@ -59,8 +66,8 @@
 		A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000001F3B00001 /* ReviewRequestView.swift */; };
 		AA00000400000001F3B00001 /* ReviewBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000300000001F3B00001 /* ReviewBannerView.swift */; };
-		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
+		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -108,13 +115,17 @@
 		1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboList.swift; sourceTree = "<group>"; };
 		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
 		3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboTemplateInputView.swift; sourceTree = "<group>"; };
-		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardList.swift; sourceTree = "<group>"; };
 		5802F4122A2B8E08002825D6 /* ShortcutMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutMemoView.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
 		580B0D682A30C45E00C7B586 /* FontSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSetting.swift; sourceTree = "<group>"; };
 		5815505F2AD52D6800A6115B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		581550622AD5321F00A6115B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFeatureManager.swift; sourceTree = "<group>"; };
+		581D8A942F49B4DD00F2F032 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		581D8A992F49B4E900F2F032 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		581D8A9B2F49E85000F2F032 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		581D8BAD2F49EE2600F2F032 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
@@ -160,6 +171,7 @@
 		9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA00000100000001F3B00001 /* ReviewRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestView.swift; sourceTree = "<group>"; };
 		AA00000300000001F3B00001 /* ReviewBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewBannerView.swift; sourceTree = "<group>"; };
+		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST003 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -204,6 +216,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +250,7 @@
 		587384832F2E7AD40042ECA4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				581D8A9B2F49E85000F2F032 /* StoreKit.framework */,
 				587384842F2E7AD40042ECA4 /* WidgetKit.framework */,
 				587384862F2E7AD40042ECA4 /* SwiftUI.framework */,
 			);
@@ -278,6 +292,7 @@
 				587384882F2E7AD40042ECA4 /* widget */,
 				587384832F2E7AD40042ECA4 /* Frameworks */,
 				58C473392A109F0D009D87BC /* Products */,
+				581D8BAD2F49EE2600F2F032 /* Version.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -353,6 +368,8 @@
 		58F8FBC32A15277700F5446E /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
+				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
@@ -363,6 +380,7 @@
 		58F8FBC42A15278100F5446E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
 				9C994B062EEAA86100FBC8F6 /* Template */,
 				9C994B012EEAA7F500FBC8F6 /* List */,
@@ -608,6 +626,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				581D8BAE2F49EE2600F2F032 /* Version.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +680,8 @@
 				585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */,
 				44AF574FA8316546FCD9F690 /* ComboKeyboardView.swift in Sources */,
 				A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */,
+				581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
+				581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,6 +706,7 @@
 				581550632AD5321F00A6115B /* Constants.swift in Sources */,
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
 				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
+				581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */,
 				58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */,
 				58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */,
 				58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */,
@@ -701,6 +723,8 @@
 				AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */,
 				AA00000400000001F3B00001 /* ReviewBannerView.swift in Sources */,
 				9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */,
+				581D8A952F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
+				581D8A962F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 				256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */,
 				72CAAA55032A5A2612281DD1 /* ComboItemPickerView.swift in Sources */,
 				DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */,
@@ -787,7 +811,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -826,7 +850,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -857,7 +881,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -885,7 +909,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -899,6 +923,7 @@
 		};
 		58C4735A2A109F0E009D87BC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -950,6 +975,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -963,6 +989,7 @@
 		};
 		58C4735B2A109F0E009D87BC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -1008,6 +1035,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1046,7 +1074,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.3;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1088,7 +1116,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.3;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1130,7 +1158,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1174,7 +1202,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1203,7 +1231,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1233,7 +1261,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 4.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;

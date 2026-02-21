@@ -389,6 +389,7 @@
     },
     "+ 버튼을 눌러 값을 추가하세요" : {
       "comment" : "Add value hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -628,6 +629,9 @@
         }
       }
     },
+    "ClipKeyboard Pro" : {
+
+    },
     "ClipKeyboard 키보드 추가" : {
       "comment" : "Add Keyboard title",
       "extractionState" : "stale",
@@ -840,7 +844,7 @@
       }
     },
     "iCloud 백업" : {
-      "comment" : "iCloud backup navigation title",
+      "comment" : "Cloud backup\niCloud\niCloud backup navigation title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -861,6 +865,9 @@
           }
         }
       }
+    },
+    "iCloud 백업은 Pro 기능입니다" : {
+      "comment" : "Cloud backup pro"
     },
     "iCloud 상태" : {
       "comment" : "iCloud status label",
@@ -1083,6 +1090,36 @@
           }
         }
       }
+    },
+    "Pro" : {
+
+    },
+    "Pro 버전에서 Face ID/Touch ID 잠금을 사용할 수 있습니다." : {
+      "comment" : "Biometric desc"
+    },
+    "Pro 버전에서 iCloud 백업을 사용할 수 있습니다." : {
+      "comment" : "Cloud backup desc"
+    },
+    "Pro 버전에서 이미지 메모를 저장할 수 있습니다." : {
+      "comment" : "Image memo desc"
+    },
+    "Pro 버전에서 테마를 변경할 수 있습니다." : {
+      "comment" : "Theme desc"
+    },
+    "Pro 업그레이드" : {
+      "comment" : "Upgrade"
+    },
+    "Pro 업그레이드 — %@" : {
+      "comment" : "Price"
+    },
+    "Pro 활성화 완료!" : {
+      "comment" : "Pro activated"
+    },
+    "Pro 활성화됨" : {
+      "comment" : "Pro active"
+    },
+    "Pro로 업그레이드" : {
+      "comment" : "Upgrade to Pro"
     },
     "Return" : {
       "comment" : "Return key",
@@ -1424,6 +1461,15 @@
         }
       }
     },
+    "구매 검증에 실패했습니다." : {
+      "comment" : "Verification failed"
+    },
+    "구매 승인 대기 중입니다." : {
+      "comment" : "Purchase pending"
+    },
+    "구매 중 오류가 발생했습니다." : {
+      "comment" : "Purchase error"
+    },
     "국기" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1456,6 +1502,9 @@
           }
         }
       }
+    },
+    "기능" : {
+      "comment" : "Feature"
     },
     "기본" : {
       "extractionState" : "stale",
@@ -1894,6 +1943,9 @@
         }
       }
     },
+    "메모 개수 제한" : {
+      "comment" : "Memo limit"
+    },
     "메모 목록" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1927,6 +1979,9 @@
           }
         }
       }
+    },
+    "메모 저장" : {
+      "comment" : "Memo"
     },
     "메모 정보" : {
       "localizations" : {
@@ -2048,6 +2103,21 @@
         }
       }
     },
+    "무료" : {
+      "comment" : "Free"
+    },
+    "무료 버전에서는 최근 %d개의 클립보드 기록만 저장됩니다." : {
+      "comment" : "Clipboard limit desc"
+    },
+    "무료 버전에서는 최대 %d개의 메모를 저장할 수 있습니다." : {
+      "comment" : "Memo limit desc"
+    },
+    "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다." : {
+      "comment" : "Combo limit desc"
+    },
+    "무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다." : {
+      "comment" : "Template limit desc"
+    },
     "무시" : {
       "comment" : "Ignore",
       "localizations" : {
@@ -2069,6 +2139,9 @@
           }
         }
       }
+    },
+    "무제한" : {
+      "comment" : "Unlimited"
     },
     "문의하기" : {
       "comment" : "Contact",
@@ -2513,6 +2586,9 @@
         }
       }
     },
+    "복원 중 오류가 발생했습니다." : {
+      "comment" : "Restore error"
+    },
     "부모님댁 주소" : {
       "localizations" : {
         "en" : {
@@ -2728,6 +2804,9 @@
         }
       }
     },
+    "상품 정보를 불러올 수 없습니다." : {
+      "comment" : "Product load error"
+    },
     "새 값 입력" : {
       "comment" : "New value input\nNew value input placeholder",
       "localizations" : {
@@ -2837,6 +2916,9 @@
         }
       }
     },
+    "생체인증 잠금" : {
+      "comment" : "Biometric\nBiometric lock"
+    },
     "생체인증으로 안전하게 보호" : {
       "comment" : "Onboarding feature: biometric protection",
       "localizations" : {
@@ -2893,7 +2975,7 @@
       }
     },
     "설정" : {
-      "comment" : "Onboarding path: Settings\nSettings",
+      "comment" : "Onboarding path: Settings\nSettings\nSettings title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3149,7 +3231,7 @@
       }
     },
     "아래에서 값을 추가하세요" : {
-      "comment" : "Add values below"
+      "comment" : "Add value hint\nAdd values below"
     },
     "안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다." : {
       "comment" : "Template example text",
@@ -3623,6 +3705,9 @@
         }
       }
     },
+    "이미지 메모" : {
+      "comment" : "Image\nImage memo"
+    },
     "이미지 변경" : {
       "comment" : "Change image",
       "localizations" : {
@@ -3679,6 +3764,9 @@
         }
       }
     },
+    "이전 구매 복원" : {
+      "comment" : "Restore"
+    },
     "이제 키보드에서 메모를 바로 입력할 수 있어요" : {
       "comment" : "Onboarding completion subtitle",
       "localizations" : {
@@ -3723,6 +3811,9 @@
           }
         }
       }
+    },
+    "일회성 결제 · 구독 없음 · 환불 가능" : {
+      "comment" : "Purchase info"
     },
     "임시" : {
       "comment" : "Temporary",
@@ -3908,6 +3999,17 @@
         }
       }
     },
+    "저장되었습니다!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved!"
+          }
+        }
+      }
+    },
     "저장된 메모 불러오기" : {
       "comment" : "Full Access reason 3",
       "extractionState" : "stale",
@@ -3937,17 +4039,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved"
-          }
-        }
-      }
-    },
-    "저장되었습니다!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved!"
           }
         }
       }
@@ -4412,6 +4503,12 @@
         }
       }
     },
+    "콤보" : {
+      "comment" : "Combo"
+    },
+    "콤보 개수 제한" : {
+      "comment" : "Combo limit"
+    },
     "크게" : {
       "comment" : "Large size label",
       "localizations" : {
@@ -4477,6 +4574,9 @@
         }
       }
     },
+    "클립보드 기록" : {
+      "comment" : "Clipboard"
+    },
     "클립보드 데이터 접근" : {
       "comment" : "Full Access reason 1",
       "extractionState" : "stale",
@@ -4521,6 +4621,9 @@
           }
         }
       }
+    },
+    "클립보드 히스토리 제한" : {
+      "comment" : "Clipboard limit"
     },
     "클립보드 히스토리가 없습니다" : {
       "comment" : "No clipboard history",
@@ -4892,7 +4995,7 @@
       }
     },
     "테마 설정" : {
-      "comment" : "Theme settings title",
+      "comment" : "Theme\nTheme customization\nTheme settings title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4901,6 +5004,9 @@
           }
         }
       }
+    },
+    "테마 설정은 Pro 기능입니다" : {
+      "comment" : "Theme pro"
     },
     "테마별 통계" : {
       "extractionState" : "stale",
@@ -4976,6 +5082,9 @@
           }
         }
       }
+    },
+    "템플릿 개수 제한" : {
+      "comment" : "Template limit"
     },
     "템플릿 내용" : {
       "comment" : "Template content",
@@ -5195,6 +5304,12 @@
           }
         }
       }
+    },
+    "한번 구매, 평생 사용" : {
+      "comment" : "One-time purchase"
+    },
+    "한번 구매로 데이터를 안전하게 백업하세요" : {
+      "comment" : "Cloud backup pro desc"
     },
     "항목 (%lld개)" : {
       "extractionState" : "stale",

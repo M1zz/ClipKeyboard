@@ -15,67 +15,19 @@ struct PlaceholderSelectorView: View {
     @Binding var selectedValue: String
 
     @State private var values: [PlaceholderValue] = []
-    @State private var isAdding: Bool = false
     @State private var newValue: String = ""
     @State private var showDeleteConfirm: PlaceholderValue? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
-
-                Spacer()
-
-                Button {
-                    isAdding.toggle()
-                } label: {
-                    Image(systemName: isAdding ? "xmark.circle.fill" : "plus.circle.fill")
-                        .foregroundColor(isAdding ? .red : .blue)
-                        .font(.system(size: 18))
-                }
-            }
-
-            // 값 추가 입력
-            if isAdding {
-                HStack(spacing: 8) {
-                    TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.callout)
-
-                    Button {
-                        if !newValue.isEmpty && !values.contains(where: { $0.value == newValue }) {
-                            // 새 값 추가 (출처 정보 포함)
-                            MemoStore.shared.addPlaceholderValue(
-                                newValue,
-                                for: placeholder,
-                                sourceMemoId: sourceMemoId,
-                                sourceMemoTitle: sourceMemoTitle
-                            )
-                            loadValues()
-                            selectedValue = newValue
-                            newValue = ""
-                            isAdding = false
-                        }
-                    } label: {
-                        Text(NSLocalizedString("추가", comment: "Add button"))
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(newValue.isEmpty ? Color.gray : Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .disabled(newValue.isEmpty)
-                }
-            }
+            Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundColor(.secondary)
 
             // 값 목록
             if values.isEmpty {
-                Text(NSLocalizedString("+ 버튼을 눌러 값을 추가하세요", comment: "Add value hint"))
+                Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
                     .font(.caption)
                     .foregroundColor(.orange)
                     .padding(12)
@@ -110,6 +62,37 @@ struct PlaceholderSelectorView: View {
                         }
                     }
                 }
+            }
+
+            // 값 추가 입력 (항상 표시)
+            HStack(spacing: 8) {
+                TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.callout)
+
+                Button {
+                    if !newValue.isEmpty && !values.contains(where: { $0.value == newValue }) {
+                        MemoStore.shared.addPlaceholderValue(
+                            newValue,
+                            for: placeholder,
+                            sourceMemoId: sourceMemoId,
+                            sourceMemoTitle: sourceMemoTitle
+                        )
+                        loadValues()
+                        selectedValue = newValue
+                        newValue = ""
+                    }
+                } label: {
+                    Text(NSLocalizedString("추가", comment: "Add button"))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(newValue.isEmpty ? Color.gray : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .disabled(newValue.isEmpty)
             }
         }
         .padding()

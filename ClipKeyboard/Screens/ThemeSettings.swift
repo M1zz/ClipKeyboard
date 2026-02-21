@@ -16,7 +16,34 @@ struct ThemeSettings: View {
     @State private var backgroundColor: Color = Color(hex: "F5F5F5") ?? .gray
     @State private var keyColor: Color = Color(hex: "FFFFFF") ?? .white
 
+    @State private var showPaywall = false
+
     var body: some View {
+        if !ProFeatureManager.isThemeCustomizationAvailable {
+            VStack(spacing: 20) {
+                Spacer()
+                Image(systemName: "paintpalette.fill")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
+                Text(NSLocalizedString("테마 설정은 Pro 기능입니다", comment: "Theme pro"))
+                    .font(.title3)
+                    .fontWeight(.medium)
+                Button {
+                    showPaywall = true
+                } label: {
+                    Text(NSLocalizedString("Pro 업그레이드", comment: "Upgrade"))
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(height: 50)
+                        .frame(maxWidth: 240)
+                        .background(.orange.gradient)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                Spacer()
+            }
+            .navigationTitle(NSLocalizedString("테마 설정", comment: "Theme settings title"))
+            .paywall(isPresented: $showPaywall, triggeredBy: .themeCustomization)
+        } else {
         Form {
             Section(header: Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme section"))) {
                 Picker(NSLocalizedString("테마 선택", comment: "Theme picker"), selection: $selectedTheme) {
@@ -91,6 +118,7 @@ struct ThemeSettings: View {
             backgroundColor = Color(hex: keyboardBackgroundColorHex) ?? Color(hex: "F5F5F5") ?? .gray
             keyColor = Color(hex: keyboardKeyColorHex) ?? Color(hex: "FFFFFF") ?? .white
         }
+        } // else (Pro 유저)
     }
 
     private func applyTheme(_ theme: KeyboardTheme) {

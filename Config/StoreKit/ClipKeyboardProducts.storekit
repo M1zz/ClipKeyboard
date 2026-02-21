@@ -1,0 +1,40 @@
+{
+  "identifier" : "D3F5A8B2-1234-4567-89AB-CDEF01234567",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : true,
+      "internalID" : "pro_lifetime",
+      "localizations" : [
+        {
+          "description" : "Unlock all features forever",
+          "displayName" : "ClipKeyboard Pro",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "모든 기능을 영구적으로 사용하세요",
+          "displayName" : "ClipKeyboard Pro",
+          "locale" : "ko"
+        }
+      ],
+      "productID" : "com.Ysoup.TokenMemo.pro",
+      "referenceName" : "ClipKeyboard Pro (Lifetime)",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1543660502",
+    "_developerTeamID" : "",
+    "_lastSynchronizedDate" : 0
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
