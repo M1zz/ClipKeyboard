@@ -955,13 +955,13 @@ struct MemoAdd: View {
         // 빈 값 체크
         let trimmedValue = newComboValue.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedValue.isEmpty else {
-            showToastMessage("값을 입력하세요")
+            showToastMessage(NSLocalizedString("값을 입력하세요", comment: ""))
             return
         }
 
         // 중복 체크
         if comboValues.contains(trimmedValue) {
-            showToastMessage("이미 추가된 값입니다")
+            showToastMessage(NSLocalizedString("이미 추가된 값입니다", comment: ""))
             return
         }
 
@@ -1533,7 +1533,7 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
@@ -1545,7 +1545,7 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
@@ -1555,15 +1555,15 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
             print("   ❌ 이미지 데이터 변환 실패")
-            showToastMessage("이미지 형식을 지원하지 않습니다")
+            showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
         } else {
             print("   ❌ 클립보드에 이미지 없음")
-            showToastMessage("클립보드에 이미지가 없습니다")
+            showToastMessage(NSLocalizedString("클립보드에 이미지가 없습니다", comment: ""))
         }
         #endif
     }
@@ -1572,7 +1572,7 @@ struct ContentInputSection: View {
     private func copyImageToClipboard(_ image: UIImage) {
         #if os(iOS)
         UIPasteboard.general.image = image
-        showToastMessage("이미지를 복사했습니다")
+        showToastMessage(NSLocalizedString("이미지를 복사했습니다", comment: ""))
         #endif
     }
 

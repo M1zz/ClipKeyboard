@@ -68,9 +68,9 @@ struct ComboList: View {
                     do {
                         try MemoStore.shared.addCombo(newCombo)
                         loadCombos()
-                        showToast(message: "Combo '\(newCombo.title)' 생성됨")
+                        showToast(message: String(format: NSLocalizedString("Combo '%@' 생성됨", comment: ""), newCombo.title))
                     } catch {
-                        showToast(message: "저장 실패: \(error.localizedDescription)")
+                        showToast(message: String(format: NSLocalizedString("저장 실패: %@", comment: ""), error.localizedDescription))
                     }
                 }
             }
@@ -79,9 +79,9 @@ struct ComboList: View {
                     do {
                         try MemoStore.shared.updateCombo(updatedCombo)
                         loadCombos()
-                        showToast(message: "Combo '\(updatedCombo.title)' 수정됨")
+                        showToast(message: String(format: NSLocalizedString("Combo '%@' 수정됨", comment: ""), updatedCombo.title))
                     } catch {
-                        showToast(message: "저장 실패: \(error.localizedDescription)")
+                        showToast(message: String(format: NSLocalizedString("저장 실패: %@", comment: ""), error.localizedDescription))
                     }
                 }
             }
@@ -122,9 +122,9 @@ struct ComboList: View {
             let combo = combos[index]
             do {
                 try MemoStore.shared.deleteCombo(id: combo.id)
-                showToast(message: "Combo '\(combo.title)' 삭제됨")
+                showToast(message: String(format: NSLocalizedString("Combo '%@' 삭제됨", comment: ""), combo.title))
             } catch {
-                showToast(message: "삭제 실패: \(error.localizedDescription)")
+                showToast(message: String(format: NSLocalizedString("삭제 실패: %@", comment: ""), error.localizedDescription))
             }
         }
         combos.remove(atOffsets: offsets)
@@ -132,7 +132,7 @@ struct ComboList: View {
 
     private func executeCombo(_ combo: Combo) {
         ComboExecutionService.shared.startCombo(combo)
-        showToast(message: "Combo '\(combo.title)' 실행 중... (\(combo.items.count)개 항목, \(Int(combo.interval))초 간격)")
+        showToast(message: String(format: NSLocalizedString("Combo '%@' 실행 중... (%d개 항목, %d초 간격)", comment: ""), combo.title, combo.items.count, Int(combo.interval)))
     }
 
     private func showToast(message: String) {
@@ -290,16 +290,16 @@ struct ComboRowView: View {
 
                 // 항목 수 및 간격 정보
                 HStack(spacing: 12) {
-                    Label("\(combo.items.count)개 항목", systemImage: "list.bullet")
+                    Label(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count), systemImage: "list.bullet")
                         .font(.caption)
                         .foregroundColor(.secondary)
 
-                    Label("\(Int(combo.interval))초 간격", systemImage: "timer")
+                    Label(String(format: NSLocalizedString("%d초 간격", comment: ""), Int(combo.interval)), systemImage: "timer")
                         .font(.caption)
                         .foregroundColor(.secondary)
 
                     if combo.useCount > 0 {
-                        Label("\(combo.useCount)회 사용", systemImage: "chart.bar.fill")
+                        Label(String(format: NSLocalizedString("%d회 사용", comment: ""), combo.useCount), systemImage: "chart.bar.fill")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

@@ -665,7 +665,15 @@
       }
     },
     "Combo 값 %d개": {
-      "comment": "Combo value count"
+      "comment": "Combo value count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combo values: %d"
+          }
+        }
+      }
     },
     "Combo 값 설정 (%d개)": {
       "comment": "Combo value count",
@@ -1402,7 +1410,15 @@
       }
     },
     "값이 없습니다": {
-      "comment": "No values"
+      "comment": "No values",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No values"
+          }
+        }
+      }
     },
     "값이 없습니다.\n템플릿 사용 시 값을 추가하세요.": {
       "comment": "No values hint",
@@ -1791,7 +1807,15 @@
       }
     },
     "다음: %d번째": {
-      "comment": "Next index"
+      "comment": "Next index",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next: #%d"
+          }
+        }
+      }
     },
     "다음: %lld": {
       "localizations": {
@@ -1815,7 +1839,15 @@
       }
     },
     "닫기": {
-      "comment": "Close"
+      "comment": "Close",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        }
+      }
     },
     "데이터": {
       "comment": "Data section",
@@ -2780,7 +2812,15 @@
       }
     },
     "불러오는 중...": {
-      "comment": "Loading"
+      "comment": "Loading",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading..."
+          }
+        }
+      }
     },
     "붙여넣기": {
       "comment": "Paste",
@@ -3427,7 +3467,15 @@
       }
     },
     "아래에서 값을 추가하세요": {
-      "comment": "Add value hint\nAdd values below"
+      "comment": "Add value hint\nAdd values below",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add values below"
+          }
+        }
+      }
     },
     "안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다.": {
       "comment": "Template example text",
@@ -4520,7 +4568,15 @@
       }
     },
     "즐겨찾기 해제": {
-      "comment": "Remove favorite"
+      "comment": "Remove favorite",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from Favorites"
+          }
+        }
+      }
     },
     "지구본 아이콘을 길게 눌러 ClipKeyboard를 선택하세요": {
       "comment": "Switch keyboard description",
@@ -5735,6 +5791,237 @@
           "stringUnit": {
             "state": "translated",
             "value": "Running 10 minutes late for the meeting"
+          }
+        }
+      }
+    },
+    "%d개": {
+      "comment": "count unit",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d"
+          }
+        }
+      }
+    },
+    "도움말": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Help"
+          }
+        }
+      }
+    },
+    "Combo '%@' 생성됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combo '%@' created"
+          }
+        }
+      }
+    },
+    "저장 실패: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save failed: %@"
+          }
+        }
+      }
+    },
+    "Combo '%@' 수정됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combo '%@' updated"
+          }
+        }
+      }
+    },
+    "Combo '%@' 삭제됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combo '%@' deleted"
+          }
+        }
+      }
+    },
+    "삭제 실패: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete failed: %@"
+          }
+        }
+      }
+    },
+    "Combo '%@' 실행 중... (%d개 항목, %d초 간격)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running Combo '%@'... (%d items, %d sec interval)"
+          }
+        }
+      }
+    },
+    "%d개 항목": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items"
+          }
+        }
+      }
+    },
+    "%d초 간격": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d sec interval"
+          }
+        }
+      }
+    },
+    "%d회 사용": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Used %d times"
+          }
+        }
+      }
+    },
+    "생성 (%d)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create (%d)"
+          }
+        }
+      }
+    },
+    "📋 새로운 %@ 항목이 추가되었습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "📋 New %@ item added"
+          }
+        }
+      }
+    },
+    "[%@] 복사됨": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "[%@] Copied"
+          }
+        }
+      }
+    },
+    "타입이 %@로 변경되었습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type changed to %@"
+          }
+        }
+      }
+    },
+    "Combo 생성 실패: %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combo creation failed: %@"
+          }
+        }
+      }
+    },
+    "%d개 항목이 순서대로 실행됩니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d items will be executed in order"
+          }
+        }
+      }
+    },
+    "값을 입력하세요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a value"
+          }
+        }
+      }
+    },
+    "이미 추가된 값입니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Value already added"
+          }
+        }
+      }
+    },
+    "이미지를 추가했습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image added"
+          }
+        }
+      }
+    },
+    "이미지 형식을 지원하지 않습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unsupported image format"
+          }
+        }
+      }
+    },
+    "클립보드에 이미지가 없습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No image in clipboard"
+          }
+        }
+      }
+    },
+    "이미지를 복사했습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image copied"
           }
         }
       }

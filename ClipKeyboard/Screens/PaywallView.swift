@@ -125,20 +125,20 @@ struct PaywallView: View {
             
             // 행들
             featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
-                       free: "\(ProFeatureManager.freeMemoLimit)개",
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
             
             featureRow(NSLocalizedString("콤보", comment: "Combo"),
-                       free: "\(ProFeatureManager.freeComboLimit)개",
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeComboLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
             
             featureRow(NSLocalizedString("템플릿", comment: "Template"),
-                       free: "\(ProFeatureManager.freeTemplateLimit)개",
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeTemplateLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
             
             featureRow(NSLocalizedString("클립보드 기록", comment: "Clipboard"),
-                       free: "\(ProFeatureManager.freeClipboardHistoryLimit)개",
-                       pro: "100개")
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeClipboardHistoryLimit),
+                       pro: String(format: NSLocalizedString("%d개", comment: "count unit"), 100))
             
             featureRow(NSLocalizedString("iCloud 백업", comment: "iCloud"),
                        free: "—", pro: "✓", isProOnly: true)
