@@ -71,6 +71,10 @@ struct MemoAdd: View {
     // Toast 메시지
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
+    
+    // Pro 제한
+    @State private var showPaywall: Bool = false
+    @ObservedObject private var proManager = ProStatusManager.shared
 
     // Pro 게이팅
     @State private var showPaywall: Bool = false
@@ -298,6 +302,12 @@ struct MemoAdd: View {
                                 finalMemoId = existingId
                                 finalMemoTitle = keyword
                             } else {
+                                // 새 메모 추가 전 Pro 체크
+                                if !proManager.canAddMemo(currentCount: loadedMemos.count) {
+                                    showPaywall = true
+                                    return
+                                }
+                                
                                 // 새 메모 추가
                                 let newMemoId = UUID()
                                 let newMemo = Memo(
@@ -402,6 +412,9 @@ struct MemoAdd: View {
                 // 선택한 이모지를 value에 추가
                 value += selectedEmoji
             }
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(triggerReason: .memoLimit)
         }
         #if os(iOS)
         .sheet(isPresented: $showDocumentScanner) {

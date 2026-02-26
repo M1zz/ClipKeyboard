@@ -11,37 +11,56 @@ import StoreKit
 struct SettingView: View {
     
     @Environment(\.requestReview) var requestReview
-    
+    @ObservedObject private var proManager = ProStatusManager.shared
     @State private var showPaywall = false
     
     var body: some View {
         List {
-            // MARK: - Pro 섹션
-            if !ProFeatureManager.isPro {
+            // Pro 섹션
+            if !proManager.isPro {
                 Section {
                     Button {
                         showPaywall = true
                     } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "crown.fill")
-                                .foregroundStyle(.yellow)
-                                .font(.title3)
+                        HStack {
+                            Image(systemName: "star.circle.fill")
+                                .font(.title2)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [.yellow, .orange],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                             
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(NSLocalizedString("Pro로 업그레이드", comment: "Upgrade to Pro"))
+                                Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
                                     .font(.headline)
-                                    .foregroundStyle(.primary)
-                                Text(NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase"))
+                                    .foregroundColor(.primary)
+                                Text(NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundColor(.secondary)
                             }
                             
                             Spacer()
                             
                             Image(systemName: "chevron.right")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundColor(.secondary)
                         }
+                    }
+                }
+            } else {
+                Section {
+                    HStack {
+                        Image(systemName: "checkmark.seal.fill")
+                            .font(.title2)
+                            .foregroundColor(.green)
+                        
+                        Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+                            .font(.headline)
+                        
+                        Spacer()
                     }
                 }
             }
@@ -114,9 +133,9 @@ struct SettingView: View {
             }
         }
         .listStyle(.grouped)
-        .navigationTitle(NSLocalizedString("설정", comment: "Settings title"))
-        .navigationBarTitleDisplayMode(.inline)
-        .paywall(isPresented: $showPaywall)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(triggerReason: .settings)
+        }
     }
 
     // 앱 버전 정보를 Info.plist에서 자동으로 가져오기
