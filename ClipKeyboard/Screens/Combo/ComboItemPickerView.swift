@@ -309,7 +309,7 @@ struct TemplatePickerRow: View {
                         HStack(spacing: 4) {
                             Image(systemName: "curlybraces")
                                 .font(.caption2)
-                            Text("\(template.templateVariables.count)개 변수")
+                            Text(String(format: NSLocalizedString("%d개 변수", comment: "Variable count"), template.templateVariables.count))
                                 .font(.caption2)
                         }
                         .foregroundColor(.orange)

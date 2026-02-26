@@ -14,8 +14,39 @@ struct CloudBackupView: View {
     @State private var alertMessage = ""
     @State private var showRestoreConfirmation = false
     @State private var showDeleteConfirmation = false
+    @State private var showPaywall = false
 
     var body: some View {
+        if !ProFeatureManager.isCloudBackupAvailable {
+            // 무료 유저: Pro 유도
+            VStack(spacing: 20) {
+                Spacer()
+                Image(systemName: "icloud.fill")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.secondary)
+                Text(NSLocalizedString("iCloud 백업은 Pro 기능입니다", comment: "Cloud backup pro"))
+                    .font(.title3)
+                    .fontWeight(.medium)
+                Text(NSLocalizedString("한번 구매로 데이터를 안전하게 백업하세요", comment: "Cloud backup pro desc"))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                Button {
+                    showPaywall = true
+                } label: {
+                    Text(NSLocalizedString("Pro 업그레이드", comment: "Upgrade"))
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(height: 50)
+                        .frame(maxWidth: 240)
+                        .background(.orange.gradient)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                Spacer()
+            }
+            .navigationTitle(NSLocalizedString("백업 및 복원", comment: "Backup and restore"))
+            .paywall(isPresented: $showPaywall, triggeredBy: .cloudBackup)
+        } else {
         List {
             // iCloud 상태 섹션
             Section {
@@ -249,6 +280,7 @@ struct CloudBackupView: View {
         } message: {
             Text(NSLocalizedString("iCloud의 백업 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete confirmation message"))
         }
+        } // else (Pro 유저)
     }
 
     // MARK: - Actions

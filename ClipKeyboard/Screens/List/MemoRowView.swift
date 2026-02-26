@@ -11,6 +11,7 @@ import SwiftUI
 struct MemoRowView: View {
     let memo: Memo
     let fontSize: CGFloat
+    var showFavoriteNudge: Bool = false
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -34,7 +35,13 @@ struct MemoRowView: View {
                 }
 
                 if memo.isTemplate {
-                    Image(systemName: "doc.text.fill")
+                    Image(systemName: "curlybraces")
+                        .font(.system(size: 9))
+                        .foregroundColor(.secondary)
+                }
+
+                if memo.isCombo {
+                    Image(systemName: "repeat")
                         .font(.system(size: 9))
                         .foregroundColor(.secondary)
                 }
@@ -57,6 +64,11 @@ struct MemoRowView: View {
                         )
                 }
                 #endif
+            }
+
+            if showFavoriteNudge {
+                Spacer()
+                FavoriteNudgeHeart()
             }
         }
     }
@@ -104,5 +116,33 @@ struct MemoRowView: View {
         case "yellow": return .yellow
         default: return .gray
         }
+    }
+}
+
+// MARK: - Favorite Nudge Heart Animation
+
+/// 즐겨찾기 넛지 하트 애니메이션 뷰
+/// 오른쪽 밖에서 spring으로 튀어나오고 3초 후 fade out
+struct FavoriteNudgeHeart: View {
+    @State private var appear = false
+
+    var body: some View {
+        Image(systemName: "heart.fill")
+            .font(.system(size: 20))
+            .foregroundColor(.pink)
+            .offset(x: appear ? 0 : 40)
+            .opacity(appear ? 1 : 0)
+            .scaleEffect(appear ? 1.0 : 0.5)
+            .onAppear {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.4)) {
+                    appear = true
+                }
+                // 3초 후 fade out
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation(.easeOut(duration: 0.5)) {
+                        appear = false
+                    }
+                }
+            }
     }
 }

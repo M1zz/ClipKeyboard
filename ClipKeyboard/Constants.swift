@@ -90,7 +90,7 @@ struct Constants {
 
     /// 현재 앱 버전 (참고용)
     /// 실제 버전은 Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString")에서 가져옵니다.
-    static let appVersion = "3.0.4"
+    static let appVersion = "4.0.0"
 
     /// App Store 앱 ID
     static let appStoreID = "1543660502"

@@ -54,7 +54,7 @@ struct TemplateEditSheet: View {
                     // 템플릿 원본
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("템플릿")
+                            Text(NSLocalizedString("템플릿", comment: "Template label"))
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.secondary)
@@ -67,7 +67,7 @@ struct TemplateEditSheet: View {
                                     editedText = memo.value
                                 }
                             } label: {
-                                Text(isEditingText ? "완료" : "수정")
+                                Text(isEditingText ? NSLocalizedString("완료", comment: "Done") : NSLocalizedString("수정", comment: "Edit"))
                                     .font(.caption)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.blue)
@@ -99,11 +99,11 @@ struct TemplateEditSheet: View {
                                 .font(.system(size: 30))
                                 .foregroundColor(.green)
 
-                            Text("설정할 값이 없습니다")
+                            Text(NSLocalizedString("설정할 값이 없습니다", comment: "No values to set"))
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
 
-                            Text("이 템플릿은 바로 사용 가능합니다")
+                            Text(NSLocalizedString("이 템플릿은 바로 사용 가능합니다", comment: "Template ready to use"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -114,7 +114,7 @@ struct TemplateEditSheet: View {
                     } else {
                         VStack(alignment: .leading, spacing: 12) {
                             HStack(spacing: 8) {
-                                Text("값 선택")
+                                Text(NSLocalizedString("값 선택", comment: "Select value"))
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundColor(.secondary)
@@ -126,7 +126,7 @@ struct TemplateEditSheet: View {
                                     Image(systemName: "info.circle.fill")
                                         .font(.caption)
                                         .foregroundColor(.blue)
-                                    Text("값을 선택하세요")
+                                    Text(NSLocalizedString("값을 선택하세요", comment: "Select a value hint"))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -148,7 +148,7 @@ struct TemplateEditSheet: View {
 
                     // 미리보기
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("미리보기")
+                        Text(NSLocalizedString("미리보기", comment: "Preview"))
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.secondary)
@@ -169,13 +169,13 @@ struct TemplateEditSheet: View {
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) {
                         onCancel()
                     }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("복사") {
+                    Button(NSLocalizedString("복사", comment: "Copy")) {
                         // 선택한 플레이스홀더 값들을 Memo에 저장
                         savePlaceholderInputsToMemo()
                         onCopy(previewText)
@@ -305,7 +305,7 @@ struct TemplateInputSheet: View {
         NavigationStack {
             Form {
                 Section {
-                    Text("템플릿을 완성하세요")
+                    Text(NSLocalizedString("템플릿을 완성하세요", comment: "Complete the template"))
                         .font(.headline)
                         .foregroundColor(.secondary)
                 } header: {
@@ -319,7 +319,7 @@ struct TemplateInputSheet: View {
                                 .font(.caption)
                                 .foregroundColor(.secondary)
 
-                            TextField("입력하세요", text: Binding(
+                            TextField(NSLocalizedString("입력하세요", comment: "Input placeholder"), text: Binding(
                                 get: { inputs[placeholder] ?? "" },
                                 set: { inputs[placeholder] = $0 }
                             ))
@@ -339,19 +339,19 @@ struct TemplateInputSheet: View {
                     }
                 }
             }
-            .navigationTitle("템플릿 입력")
+            .navigationTitle(NSLocalizedString("템플릿 입력", comment: "Template input title"))
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) {
                         onCancel()
                     }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("복사") {
+                    Button(NSLocalizedString("복사", comment: "Copy")) {
                         onComplete()
                     }
                     .disabled(inputs.values.contains(where: { $0.isEmpty }))
@@ -377,7 +377,7 @@ struct TemplateDetailPlaceholderView: View {
             VStack(spacing: 20) {
                 // 템플릿 미리보기
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("템플릿 내용")
+                    Text(NSLocalizedString("템플릿 내용", comment: "Template content"))
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.secondary)
@@ -399,14 +399,14 @@ struct TemplateDetailPlaceholderView: View {
                             .font(.system(size: 40))
                             .foregroundColor(.green)
 
-                        Text("이 템플릿에는 플레이스홀더가 없습니다")
+                        Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
                     .padding(.top, 50)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("플레이스홀더 (\(placeholders.count)개)")
+                        Text(String(format: NSLocalizedString("플레이스홀더 (%d개)", comment: "Placeholder count"), placeholders.count))
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.secondary)
@@ -478,7 +478,7 @@ struct TemplatePlaceholderRow: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
 
-                    Text("값 \(values.count)개")
+                    Text(String(format: NSLocalizedString("값 %d개", comment: "Value count"), values.count))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -507,7 +507,7 @@ struct TemplatePlaceholderRow: View {
                 // 값 목록
                 VStack(spacing: 12) {
                     if values.isEmpty {
-                        Text("값이 없습니다.\n템플릿 사용 시 값을 추가하세요.")
+                        Text(NSLocalizedString("값이 없습니다.\n템플릿 사용 시 값을 추가하세요.", comment: "No values hint"))
                             .font(.callout)
                             .foregroundColor(.orange)
                             .padding(16)
@@ -571,11 +571,11 @@ struct TemplatePlaceholderRow: View {
         .onAppear {
             loadValues()
         }
-        .alert("삭제 확인", isPresented: .constant(showDeleteConfirm != nil)) {
-            Button("취소", role: .cancel) {
+        .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"), isPresented: .constant(showDeleteConfirm != nil)) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
                 showDeleteConfirm = nil
             }
-            Button("삭제", role: .destructive) {
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
                 if let valueToDelete = showDeleteConfirm {
                     MemoStore.shared.deletePlaceholderValue(valueId: valueToDelete.id, for: placeholder)
                     loadValues()
@@ -584,15 +584,15 @@ struct TemplatePlaceholderRow: View {
             }
         } message: {
             if let value = showDeleteConfirm {
-                Text("'\(value.value)'을(를) 삭제하시겠습니까?")
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), value.value))
             }
         }
-        .alert("값 수정", isPresented: .constant(editingValue != nil)) {
-            TextField("값", text: $editText)
-            Button("취소", role: .cancel) {
+        .alert(NSLocalizedString("값 수정", comment: "Edit value"), isPresented: .constant(editingValue != nil)) {
+            TextField(NSLocalizedString("값", comment: "Value"), text: $editText)
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
                 editingValue = nil
             }
-            Button("저장") {
+            Button(NSLocalizedString("저장", comment: "Save")) {
                 if let oldValue = editingValue, !editText.isEmpty {
                     // 기존 값 삭제
                     MemoStore.shared.deletePlaceholderValue(valueId: oldValue.id, for: placeholder)
@@ -604,7 +604,7 @@ struct TemplatePlaceholderRow: View {
             }
         } message: {
             if let value = editingValue {
-                Text("'\(value.value)' 값을 수정하세요.")
+                Text(String(format: NSLocalizedString("'%@' 값을 수정하세요.", comment: "Edit value prompt"), value.value))
             }
         }
     }
@@ -645,7 +645,7 @@ struct TemplateSheetResolver: View {
                     ProgressView()
                         .scaleEffect(1.5)
 
-                    Text("템플릿 불러오는 중...")
+                    Text(NSLocalizedString("템플릿 불러오는 중...", comment: "Loading template"))
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }

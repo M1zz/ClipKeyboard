@@ -250,9 +250,10 @@ class MemoStore: ObservableObject {
         )
         history.insert(newItem, at: 0)
 
-        // 최대 100개까지만 유지
-        if history.count > 100 {
-            history = Array(history.prefix(100))
+        // Pro 여부에 따른 히스토리 제한
+        let maxHistory = ProFeatureManager.clipboardHistoryLimit()
+        if history.count > maxHistory {
+            history = Array(history.prefix(maxHistory))
         }
 
         // 7일 이상 된 임시 항목 자동 삭제
@@ -374,6 +375,14 @@ class MemoStore: ObservableObject {
             }
         }
         return removedArray
+    }
+
+    // MARK: - Favorite Helper
+
+    /// 즐겨찾기된 메모가 있는지 확인
+    func hasFavoriteMemo() -> Bool {
+        guard let memos = try? load(type: .tokenMemo) else { return false }
+        return memos.contains(where: { $0.isFavorite })
     }
 
     // MARK: - 이미지 관리

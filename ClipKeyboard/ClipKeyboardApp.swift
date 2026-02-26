@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct ClipKeyboardApp: App {
     @ObservedObject var manager = DataManager()
+    @StateObject private var storeManager = StoreManager.shared
     @State private var showReviewRequest = false
 
     init() {
@@ -29,6 +30,7 @@ struct ClipKeyboardApp: App {
             if manager.didShowOnboarding {
 
                 ClipKeyboardList()
+                    .environmentObject(storeManager)
                     .onOpenURL { url in
                         // URL scheme으로 앱이 열렸을 때 처리
                         if url.scheme == "clipkeyboard" {
@@ -92,7 +94,7 @@ struct ClipKeyboardApp: App {
             }
 
             CommandGroup(replacing: .help) {
-                Button("도움말") {
+                Button(NSLocalizedString("도움말", comment: "Help")) {
                     if let url = URL(string: "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4?pvs=4") {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)

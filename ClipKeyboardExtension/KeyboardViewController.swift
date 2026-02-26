@@ -123,12 +123,16 @@ class KeyboardViewController: UIInputViewController {
     }
     
     private let keyboardView = KeyboardView()
-    
+    private var hostingController: UIHostingController<KeyboardView>?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 키보드 높이를 미리 설정하여 튀는 현상 방지
-        view.translatesAutoresizingMaskIntoConstraints = false
+        // 키보드 전체 높이 제약 (시스템 너비 관리를 유지하면서 높이만 제어)
+        let keyboardHeight: CGFloat = 254  // SwiftUI 영역(200) + 하단 바(54)
+        let heightConstraint = view.heightAnchor.constraint(equalToConstant: keyboardHeight)
+        heightConstraint.priority = .defaultHigh
+        heightConstraint.isActive = true
 
         configureNextKeyboardButton()
 
@@ -138,24 +142,23 @@ class KeyboardViewController: UIInputViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("filterChanged"), object: nil, queue: nil) { [weak self] _ in
             self?.loadMemos()
         }
-        let myKeyboardView = UIHostingController(rootView: keyboardView).view!
+        let hostingVC = UIHostingController(rootView: keyboardView)
+        self.hostingController = hostingVC
+        addChild(hostingVC)
+        let myKeyboardView = hostingVC.view!
         myKeyboardView.translatesAutoresizingMaskIntoConstraints = false
         myKeyboardView.backgroundColor = .clear
-        myKeyboardView.clipsToBounds = true  // Prevent SwiftUI view from blocking touches
+        myKeyboardView.clipsToBounds = true
         view.addSubview(myKeyboardView)
+        hostingVC.didMove(toParent: self)
         view.backgroundColor = .clear
         let bottomView = UIView(frame: CGRect.init(x: 0, y: 0, width: 320, height: 30))
         view.addSubview(bottomView)
-        
-        myKeyboardView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        myKeyboardView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
-        myKeyboardView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        // 높이 제약을 우선순위를 낮춰서 유연하게 만듦
-        let heightConstraint = myKeyboardView.heightAnchor.constraint(equalToConstant: 200)
-        heightConstraint.priority = .defaultHigh  // 750 (required는 1000)
-        heightConstraint.isActive = true
+        myKeyboardView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        myKeyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
+        myKeyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "addTextEntry"), object: nil, queue: nil) { notification in
             print("🔔 addTextEntry 알림 수신")
             if let text = notification.object as? String,

@@ -71,6 +71,14 @@ struct MemoAdd: View {
     // Toast 메시지
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
+    
+    // Pro 제한
+    @State private var showPaywall: Bool = false
+    @ObservedObject private var proManager = ProStatusManager.shared
+
+    // Pro 게이팅
+    @State private var showPaywall: Bool = false
+    @State private var paywallTrigger: ProFeatureManager.LimitType? = nil
 
     @Environment(\.dismiss) private var dismiss
 
@@ -177,7 +185,7 @@ struct MemoAdd: View {
                     } label: {
                         HStack {
                             Image(systemName: "arrow.counterclockwise")
-                            Text("초기화")
+                            Text(NSLocalizedString("초기화", comment: "Reset"))
                         }
                         .font(.callout)
                         .fontWeight(.medium)
@@ -201,6 +209,28 @@ struct MemoAdd: View {
                         if !hasContent {
                             showAlert = true
                             return
+                        }
+
+                        // Pro 제한 체크 (새 메모 생성 시만)
+                        if memoId == nil {
+                            do {
+                                let existingMemos = try MemoStore.shared.load(type: .tokenMemo)
+                                let templateCount = existingMemos.filter { $0.isTemplate }.count
+                                
+                                if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
+                                    paywallTrigger = .template
+                                    showPaywall = true
+                                    return
+                                }
+                                
+                                if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
+                                    paywallTrigger = .memo
+                                    showPaywall = true
+                                    return
+                                }
+                            } catch {
+                                // 로드 실패 시 제한 체크 건너뛰기
+                            }
                         }
 
                         // save
@@ -272,6 +302,12 @@ struct MemoAdd: View {
                                 finalMemoId = existingId
                                 finalMemoTitle = keyword
                             } else {
+                                // 새 메모 추가 전 Pro 체크
+                                if !proManager.canAddMemo(currentCount: loadedMemos.count) {
+                                    showPaywall = true
+                                    return
+                                }
+                                
                                 // 새 메모 추가
                                 let newMemoId = UUID()
                                 let newMemo = Memo(
@@ -331,7 +367,7 @@ struct MemoAdd: View {
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
-                            Text("저장")
+                            Text(NSLocalizedString("저장", comment: "Save"))
                         }
                         .font(.callout)
                         .fontWeight(.semibold)
@@ -377,6 +413,9 @@ struct MemoAdd: View {
                 value += selectedEmoji
             }
         }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(triggerReason: .memoLimit)
+        }
         #if os(iOS)
         .sheet(isPresented: $showDocumentScanner) {
             DocumentCameraView { result in
@@ -406,7 +445,7 @@ struct MemoAdd: View {
                             .scaleEffect(1.5)
                             .tint(.white)
 
-                        Text("텍스트 인식 중...")
+                        Text(NSLocalizedString("텍스트 인식 중...", comment: "Recognizing text"))
                             .foregroundColor(.white)
                             .font(.headline)
                     }
@@ -475,6 +514,7 @@ struct MemoAdd: View {
                 detectedPlaceholders = []
             }
         }
+        .paywall(isPresented: $showPaywall, triggeredBy: paywallTrigger)
     }
 
     // MARK: - View Sections
@@ -492,7 +532,7 @@ struct MemoAdd: View {
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
                             .font(.caption2)
-                        Text("자동: \(detectedType.localizedName)")
+                        Text(String(format: NSLocalizedString("자동: %@", comment: "Auto detected type"), detectedType.localizedName))
                             .font(.caption2)
                     }
                     .padding(.horizontal, 8)
@@ -508,7 +548,7 @@ struct MemoAdd: View {
                     // Recently Used Section
                     if !recentlyUsedCategories.isEmpty {
                         // Recently Used Label
-                        Text("최근")
+                        Text(NSLocalizedString("최근", comment: "Recent"))
                             .font(.caption)
                             .fontWeight(.medium)
                             .foregroundColor(.secondary)
@@ -589,7 +629,7 @@ struct MemoAdd: View {
 
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("제목")
+            Text(NSLocalizedString("제목", comment: "Title"))
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(.secondary)
@@ -623,7 +663,17 @@ struct MemoAdd: View {
 
                 Spacer()
 
-                Toggle("", isOn: $isSecure)
+                Toggle("", isOn: Binding(
+                    get: { isSecure },
+                    set: { newValue in
+                        if newValue && !ProFeatureManager.isBiometricLockAvailable {
+                            paywallTrigger = .biometricLock
+                            showPaywall = true
+                        } else {
+                            isSecure = newValue
+                        }
+                    }
+                ))
                     .labelsHidden()
             }
             .padding(.vertical, 12)
@@ -719,7 +769,7 @@ struct MemoAdd: View {
                         Image(systemName: "list.bullet.rectangle")
                             .font(.caption)
                             .foregroundColor(.blue)
-                        Text("플레이스홀더 값 설정")
+                        Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))
                             .font(.subheadline)
                             .fontWeight(.semibold)
                     }
@@ -758,10 +808,10 @@ struct MemoAdd: View {
                     .foregroundColor(.orange)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("설명 (선택)")
+                    Text(NSLocalizedString("설명 (선택)", comment: "Description optional"))
                         .font(.callout)
                         .fontWeight(.medium)
-                    Text("키보드에서 보여질 설명 문구")
+                    Text(NSLocalizedString("키보드에서 보여질 설명 문구", comment: "Keyboard description hint"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -776,7 +826,7 @@ struct MemoAdd: View {
                 .overlay(
                     Group {
                         if value.isEmpty {
-                            Text("예: 카드번호를 입력합니다")
+                            Text(NSLocalizedString("예: 카드번호를 입력합니다", comment: "Description example"))
                                 .foregroundColor(.secondary)
                                 .padding(.leading, 12)
                                 .padding(.top, 16)
@@ -795,18 +845,18 @@ struct MemoAdd: View {
                 Image(systemName: "info.circle.fill")
                     .font(.caption)
                     .foregroundColor(.secondary)
-                Text("탭할 때마다 다음 값이 순서대로 입력됩니다")
+                Text(NSLocalizedString("탭할 때마다 다음 값이 순서대로 입력됩니다", comment: "Combo description"))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("예시")
+                Text(NSLocalizedString("예시", comment: "Example"))
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundColor(.secondary)
 
-                Text("카드번호 입력: 1234 → 5678 → 9012 → 3456")
+                Text(NSLocalizedString("카드번호 입력: 1234 → 5678 → 9012 → 3456", comment: "Combo example"))
                     .font(.caption)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -833,7 +883,7 @@ struct MemoAdd: View {
             Image(systemName: "list.number")
                 .font(.caption)
                 .foregroundColor(.orange)
-            Text("Combo 값 설정 (\(comboValues.count)개)")
+            Text(String(format: NSLocalizedString("Combo 값 설정 (%d개)", comment: "Combo value count"), comboValues.count))
                 .font(.subheadline)
                 .fontWeight(.semibold)
         }
@@ -863,7 +913,7 @@ struct MemoAdd: View {
     private var comboValueList: some View {
         if !comboValues.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("순서를 변경하려면 드래그하세요")
+                        Text(NSLocalizedString("순서를 변경하려면 드래그하세요", comment: "Drag to reorder"))
                             .font(.caption2)
                             .foregroundColor(.secondary)
                             .padding(.bottom, 4)
@@ -904,7 +954,7 @@ struct MemoAdd: View {
                         }
                     }
         } else {
-            Text("위의 필드에서 값을 추가하세요")
+            Text(NSLocalizedString("위의 필드에서 값을 추가하세요", comment: "Add value hint"))
                 .font(.caption)
                 .foregroundColor(.orange)
                 .padding(12)
@@ -918,13 +968,13 @@ struct MemoAdd: View {
         // 빈 값 체크
         let trimmedValue = newComboValue.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedValue.isEmpty else {
-            showToastMessage("값을 입력하세요")
+            showToastMessage(NSLocalizedString("값을 입력하세요", comment: ""))
             return
         }
 
         // 중복 체크
         if comboValues.contains(trimmedValue) {
-            showToastMessage("이미 추가된 값입니다")
+            showToastMessage(NSLocalizedString("이미 추가된 값입니다", comment: ""))
             return
         }
 
@@ -1266,7 +1316,7 @@ struct PlaceholderValueEditor: View {
                             isAdding = false
                         }
                     } label: {
-                        Text("추가")
+                        Text(NSLocalizedString("추가", comment: "Add"))
                             .font(.caption)
                             .fontWeight(.semibold)
                             .padding(.horizontal, 12)
@@ -1302,7 +1352,7 @@ struct ContentInputSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("내용")
+                Text(NSLocalizedString("내용", comment: "Content"))
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(.secondary)
@@ -1319,7 +1369,7 @@ struct ContentInputSection: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "doc.on.clipboard")
                                     .font(.caption)
-                                Text("붙여넣기")
+                                Text(NSLocalizedString("붙여넣기", comment: "Paste"))
                                     .font(.caption2)
                             }
                             .padding(.horizontal, 8)
@@ -1336,7 +1386,7 @@ struct ContentInputSection: View {
                             HStack(spacing: 4) {
                                 Image(systemName: "photo")
                                     .font(.caption)
-                                Text("사진")
+                                Text(NSLocalizedString("사진", comment: "Photo"))
                                     .font(.caption2)
                             }
                             .padding(.horizontal, 8)
@@ -1371,7 +1421,7 @@ struct ContentInputSection: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "photo.badge.plus")
-                                    Text("이미지 변경")
+                                    Text(NSLocalizedString("이미지 변경", comment: "Change image"))
                                 }
                                 .font(.caption)
                                 .padding(.horizontal, 12)
@@ -1388,7 +1438,7 @@ struct ContentInputSection: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "trash")
-                                    Text("이미지 제거")
+                                    Text(NSLocalizedString("이미지 제거", comment: "Remove image"))
                                 }
                                 .font(.caption)
                                 .padding(.horizontal, 12)
@@ -1407,11 +1457,11 @@ struct ContentInputSection: View {
                             .font(.system(size: 60))
                             .foregroundColor(.gray.opacity(0.5))
 
-                        Text("이미지를 선택하세요")
+                        Text(NSLocalizedString("이미지를 선택하세요", comment: "Select an image"))
                             .font(.headline)
                             .foregroundColor(.secondary)
 
-                        Text("위의 버튼을 사용하여\n클립보드에서 붙여넣거나\n사진을 선택할 수 있습니다")
+                        Text(NSLocalizedString("위의 버튼을 사용하여\n클립보드에서 붙여넣거나\n사진을 선택할 수 있습니다", comment: "Image selection guide"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -1496,7 +1546,7 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
@@ -1508,7 +1558,7 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
@@ -1518,15 +1568,15 @@ struct ContentInputSection: View {
                 withAnimation {
                     attachedImages.append(ImageWrapper(image: image))
                 }
-                showToastMessage("이미지를 추가했습니다")
+                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
                 return
             }
 
             print("   ❌ 이미지 데이터 변환 실패")
-            showToastMessage("이미지 형식을 지원하지 않습니다")
+            showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
         } else {
             print("   ❌ 클립보드에 이미지 없음")
-            showToastMessage("클립보드에 이미지가 없습니다")
+            showToastMessage(NSLocalizedString("클립보드에 이미지가 없습니다", comment: ""))
         }
         #endif
     }
@@ -1535,7 +1585,7 @@ struct ContentInputSection: View {
     private func copyImageToClipboard(_ image: UIImage) {
         #if os(iOS)
         UIPasteboard.general.image = image
-        showToastMessage("이미지를 복사했습니다")
+        showToastMessage(NSLocalizedString("이미지를 복사했습니다", comment: ""))
         #endif
     }
 
@@ -1674,7 +1724,7 @@ struct ClipboardSuggestionBanner: View {
                         HStack(spacing: 4) {
                             Image(systemName: "checkmark")
                                 .font(.caption)
-                            Text("사용")
+                            Text(NSLocalizedString("사용", comment: "Use"))
                                 .font(.caption)
                                 .fontWeight(.semibold)
                         }
@@ -1691,7 +1741,7 @@ struct ClipboardSuggestionBanner: View {
                         HStack(spacing: 4) {
                             Image(systemName: "xmark")
                                 .font(.caption)
-                            Text("무시")
+                            Text(NSLocalizedString("무시", comment: "Ignore"))
                                 .font(.caption)
                         }
                         .padding(.horizontal, 12)

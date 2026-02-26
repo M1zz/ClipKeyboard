@@ -159,19 +159,6 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    // 테마 목록 - ClipboardItemType enum에서 가져오기
-    private var availableThemes: [String] {
-        ClipboardItemType.allCases.map { $0.rawValue }
-    }
-
-    // 테마의 다국어 표시명을 가져오는 헬퍼 함수
-    private func localizedThemeName(_ theme: String) -> String {
-        if let type = ClipboardItemType(rawValue: theme) {
-            return type.localizedName
-        }
-        return theme
-    }
-
     @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
     @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
     @AppStorage("keyboardKeyColor") private var keyboardKeyColorHex: String = "FFFFFF"
@@ -184,66 +171,65 @@ struct KeyboardView: View {
         Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, keyboardColumnCount)))
     }
 
-    @State private var showTemplatesOnly: Bool = false
-    @State private var showFavoritesOnly: Bool = false
-    @State private var selectedThemeFilter: String? = nil  // 선택된 테마 필터
-    @State private var selectedTab: Int = 0  // 0: 메모, 1: Combo
+    // 필터 및 데이터 상태
+    @State private var allMemos: [Memo] = []
+    @State private var selectedCategoryFilter: ClipboardItemType? = nil
 
     @StateObject private var templateInputState = TemplateInputState()
 
     @Environment(\.colorScheme) var colorScheme
 
+    // MARK: - Computed Properties
+
+    private var filteredMemos: [Memo] {
+        if let filter = selectedCategoryFilter {
+            return allMemos.filter { $0.category == filter.rawValue }
+        }
+        return allMemos
+    }
+
+    private var categoriesWithCounts: [(type: ClipboardItemType, count: Int)] {
+        var result: [(ClipboardItemType, Int)] = []
+        for type in ClipboardItemType.allCases {
+            let count = allMemos.filter { $0.category == type.rawValue }.count
+            if count > 0 {
+                result.append((type, count))
+            }
+        }
+        return result.sorted { $0.1 > $1.1 }
+    }
+
+    // MARK: - Body
+
     var body: some View {
         VStack(spacing: 0) {
-            // 탭 선택
-            Picker("", selection: $selectedTab) {
-                Text(NSLocalizedString("메모", comment: "Memo tab")).tag(0)
-                Text(NSLocalizedString("Combo", comment: "Combo tab")).tag(1)
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            // 카테고리 필터 바 (iOS 앱과 동일한 스타일)
+            filterBar
 
-            // 탭 내용
-            if selectedTab == 0 {
-                // 메모 그리드
-                ZStack {
-                    backgroundColor
+            // 메모 그리드
+            ZStack {
+                backgroundColor
+
+                if filteredMemos.isEmpty {
+                    VStack(spacing: 8) {
+                        Image(systemName: "tray")
+                            .font(.system(size: 30))
+                            .foregroundColor(.gray.opacity(0.5))
+                        Text(NSLocalizedString("메모가 없습니다", comment: "No memos"))
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                } else {
                     ScrollView {
-                        LazyVGrid(columns: gridItemLayout, spacing: 10)  {
-                            ForEach(clipKey.indices, id:\.self) { i in
-                                Button {
-                                    UIImpactFeedbackGenerator().impactOccurred()
-                                    // 메모 ID 포함해서 알림 전송
-                                    NotificationCenter.default.post(
-                                        name: NSNotification.Name(rawValue: "addTextEntry"),
-                                        object: clipValue[i],
-                                        userInfo: ["memoId": clipMemoId[i]]
-                                    )
-                                } label: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .foregroundColor(keyColor)
-                                            .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                                        Text(clipKey[i])
-                                            .foregroundStyle(Color(uiColor: .label))
-                                            .lineLimit(1)
-                                            .padding(.vertical, (buttonHeight - buttonFontSize) / 2)
-                                            .padding(.horizontal, 12)
-                                            .font(.system(size: buttonFontSize, weight: .semibold))
-                                    }
-                                    .frame(height: buttonHeight)
-                                }
+                        LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                            ForEach(filteredMemos) { memo in
+                                memoButton(for: memo)
                             }
                         }
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
+                        .padding(.vertical, 6)
                     }
                 }
-                .frame(width: UIScreen.main.bounds.size.width)
-            } else {
-                // Combo 뷰
-                ComboKeyboardView()
             }
         }
         .overlay(
@@ -254,6 +240,8 @@ struct KeyboardView: View {
             }
         )
         .onAppear {
+            loadAllMemos()
+
             // 템플릿 입력 알림 구독
             NotificationCenter.default.addObserver(forName: NSNotification.Name("showTemplateInput"), object: nil, queue: .main) { notification in
                 if let userInfo = notification.userInfo,
@@ -267,14 +255,12 @@ struct KeyboardView: View {
 
                     templateInputState.originalText = text
                     templateInputState.placeholders = placeholders
-                    templateInputState.templateId = memoId  // 템플릿 ID 저장
+                    templateInputState.templateId = memoId
 
-                    // 저장된 값들 불러오기 - 템플릿별로 필터링하여 첫 번째 값을 기본값으로 설정
                     var initialInputs: [String: String] = [:]
 
                     for placeholder in placeholders {
                         print("   🔍 [KeyboardView] 플레이스홀더 값 로드 시도: \(placeholder)")
-                        // 템플릿 ID로 필터링된 값 로드
                         let values = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: memoId)
                         print("   📊 [KeyboardView] \(placeholder): \(values.count)개 - \(values)")
 
@@ -292,7 +278,6 @@ struct KeyboardView: View {
 
                     print("   초기 입력값: \(initialInputs)")
 
-                    // 항상 템플릿 값 선택 UI 표시
                     print("🎨 템플릿 값 선택 UI 표시")
                     withAnimation {
                         templateInputState.isShowing = true
@@ -301,6 +286,146 @@ struct KeyboardView: View {
             }
         }
     }
+
+    // MARK: - Filter Bar
+
+    private var filterBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 4) {
+                // "전체" 필터 칩
+                KeyboardFilterChip(
+                    title: NSLocalizedString("전체", comment: "All"),
+                    icon: "list.bullet",
+                    count: allMemos.count,
+                    color: .blue,
+                    isSelected: selectedCategoryFilter == nil
+                ) {
+                    selectedCategoryFilter = nil
+                }
+
+                // 카테고리별 필터 칩 (메모 수 내림차순 정렬)
+                ForEach(categoriesWithCounts, id: \.type) { item in
+                    KeyboardFilterChip(
+                        title: item.type.localizedName,
+                        icon: item.type.icon,
+                        count: item.count,
+                        color: colorFor(item.type.color),
+                        isSelected: selectedCategoryFilter == item.type
+                    ) {
+                        selectedCategoryFilter = item.type
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+        }
+    }
+
+    // MARK: - Memo Button
+
+    @ViewBuilder
+    private func memoButton(for memo: Memo) -> some View {
+        let catColor = categoryColorFor(memo)
+
+        Button {
+            UIImpactFeedbackGenerator().impactOccurred()
+            NotificationCenter.default.post(
+                name: NSNotification.Name(rawValue: "addTextEntry"),
+                object: memo.value,
+                userInfo: ["memoId": memo.id]
+            )
+            // Combo 인덱스 업데이트 후 뷰 새로고침
+            if memo.isCombo && !memo.comboValues.isEmpty {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    loadAllMemos()
+                }
+            }
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(keyColor)
+                    .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
+                    )
+
+                VStack(spacing: 2) {
+                    HStack(spacing: 6) {
+                        // 카테고리 아이콘 (iOS 앱과 동일한 색상)
+                        Image(systemName: categoryIconFor(memo))
+                            .font(.system(size: 12))
+                            .foregroundColor(catColor)
+
+                        Text(memo.title)
+                            .foregroundStyle(Color(uiColor: .label))
+                            .lineLimit(1)
+                            .font(.system(size: buttonFontSize, weight: .semibold))
+
+                        // Combo 표시
+                        if memo.isCombo && !memo.comboValues.isEmpty {
+                            Image(systemName: "repeat")
+                                .font(.system(size: 9))
+                                .foregroundColor(.orange)
+                        }
+                    }
+
+                    // Combo 다음 값 미리보기
+                    if memo.isCombo && !memo.comboValues.isEmpty {
+                        let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
+                        Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
+                            .font(.system(size: 10))
+                            .foregroundColor(.orange.opacity(0.8))
+                            .lineLimit(1)
+                    }
+                }
+                .padding(.horizontal, 10)
+            }
+            .frame(height: buttonHeight)
+        }
+    }
+
+    // MARK: - Data Loading
+
+    private func loadAllMemos() {
+        allMemos = clipMemos
+    }
+
+    // MARK: - Color Helpers
+
+    private func categoryColorFor(_ memo: Memo) -> Color {
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+            return colorFor(type.color)
+        }
+        return .gray
+    }
+
+    private func categoryIconFor(_ memo: Memo) -> String {
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+            return type.icon
+        }
+        return "doc.text"
+    }
+
+    private func colorFor(_ name: String) -> Color {
+        switch name {
+        case "blue": return .blue
+        case "green": return .green
+        case "purple": return .purple
+        case "orange": return .orange
+        case "red": return .red
+        case "indigo": return .indigo
+        case "brown": return .brown
+        case "cyan": return .cyan
+        case "teal": return .teal
+        case "pink": return .pink
+        case "mint": return .mint
+        case "yellow": return .yellow
+        default: return .gray
+        }
+    }
+
+    // MARK: - Theme Colors
 
     private var backgroundColor: Color {
         if keyboardTheme == "시스템" {
@@ -313,10 +438,6 @@ struct KeyboardView: View {
             return Color(hex: keyboardBackgroundColorHex) ?? .clear
         }
         return .clear
-    }
-
-    private var defaultKeyboardBackground: Color {
-        .clear
     }
 
     private var keyColor: Color {
@@ -338,6 +459,64 @@ struct KeyboardView: View {
                 ? UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
                 : .white
         })
+    }
+}
+
+// MARK: - Keyboard Filter Chip (iOS 앱의 MemoFilterChip과 동일한 스타일)
+
+struct KeyboardFilterChip: View {
+    let title: String
+    let icon: String
+    let count: Int
+    var color: Color = .blue
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 11))
+                    .fontWeight(isSelected ? .semibold : .regular)
+                Text(title)
+                    .font(.system(size: 11))
+                    .fontWeight(isSelected ? .semibold : .regular)
+                Text("\(count)")
+                    .font(.system(size: 9))
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 1)
+                    .background(
+                        isSelected
+                            ? Color.white.opacity(0.25)
+                            : Color.black.opacity(0.1)
+                    )
+                    .cornerRadius(6)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isSelected ? color : Color(.systemGray4))
+                    .shadow(
+                        color: isSelected ? color.opacity(0.3) : .clear,
+                        radius: 3,
+                        x: 0,
+                        y: 1
+                    )
+            )
+            .foregroundColor(isSelected ? .white : Color(.systemGray))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(
+                        isSelected ? Color.white.opacity(0.2) : Color.clear,
+                        lineWidth: 1
+                    )
+            )
+            .scaleEffect(isSelected ? 1.0 : 0.96)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
