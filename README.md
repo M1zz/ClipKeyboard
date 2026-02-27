@@ -13,7 +13,7 @@
   <a href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502">
     <img src="https://img.shields.io/badge/App_Store-Download-007AFF?style=for-the-badge&logo=apple&logoColor=white" alt="App Store">
   </a>
-  <a href="https://m1zz.github.io/clip-keyboard">
+  <a href="https://m1zz.github.io/ClipKeyboard/">
     <img src="https://img.shields.io/badge/Landing_Page-Visit-5856D6?style=for-the-badge&logo=safari&logoColor=white" alt="Landing Page">
   </a>
 </p>
@@ -32,7 +32,7 @@
 
 Clip Keyboard는 **자주 쓰는 문구를 저장하고 키보드에서 바로 입력**할 수 있는 iOS 앱입니다. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.
 
-> **Landing Page**: [m1zz.github.io/clipkeyboard](https://m1zz.github.io/clipkeyboard)
+> **Landing Page**: [m1zz.github.io/ClipKeyboard](https://m1zz.github.io/ClipKeyboard/)
 
 ## Features
 
@@ -115,7 +115,7 @@ open ClipKeyboard.xcodeproj
 
 마케팅 랜딩 페이지는 `docs/` 디렉토리에 있으며 GitHub Pages로 호스팅됩니다.
 
-- **URL**: [m1zz.github.io/clip-keyboard](https://m1zz.github.io/clip-keyboard)
+- **URL**: [m1zz.github.io/clip-keyboard](https://m1zz.github.io/ClipKeyboard/)
 - **Features**: 반응형 디자인, 다크모드 지원, App Store 연동
 - **Deploy**: `docs/` 폴더를 GitHub Pages source로 설정
 
