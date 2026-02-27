@@ -72,10 +72,6 @@ struct MemoAdd: View {
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
     
-    // Pro 제한
-    @State private var showPaywall: Bool = false
-    @ObservedObject private var proManager = ProStatusManager.shared
-
     // Pro 게이팅
     @State private var showPaywall: Bool = false
     @State private var paywallTrigger: ProFeatureManager.LimitType? = nil
@@ -197,173 +193,7 @@ struct MemoAdd: View {
                     }
 
                     Button {
-                        // 유효성 검사
-                        if keyword.isEmpty {
-                            showAlert = true
-                            return
-                        }
-
-                        // Combo인 경우 comboValues 확인, 일반인 경우 value 또는 attachedImages 확인
-                        let hasContent = isCombo ? !comboValues.isEmpty : (!value.isEmpty || !attachedImages.isEmpty)
-
-                        if !hasContent {
-                            showAlert = true
-                            return
-                        }
-
-                        // Pro 제한 체크 (새 메모 생성 시만)
-                        if memoId == nil {
-                            do {
-                                let existingMemos = try MemoStore.shared.load(type: .tokenMemo)
-                                let templateCount = existingMemos.filter { $0.isTemplate }.count
-                                
-                                if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
-                                    paywallTrigger = .template
-                                    showPaywall = true
-                                    return
-                                }
-                                
-                                if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
-                                    paywallTrigger = .memo
-                                    showPaywall = true
-                                    return
-                                }
-                            } catch {
-                                // 로드 실패 시 제한 체크 건너뛰기
-                            }
-                        }
-
-                        // save
-                        do {
-                            var loadedMemos:[Memo] = []
-                            loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
-
-                            // 이미지들을 파일로 저장
-                            var savedImageFileNames: [String] = []
-                            #if os(iOS)
-                            for wrapper in attachedImages {
-                                let fileName = "\(UUID().uuidString).png"
-                                try MemoStore.shared.saveImage(wrapper.image, fileName: fileName)
-                                savedImageFileNames.append(fileName)
-                            }
-                            #endif
-
-                            // 템플릿 변수 추출
-                            let variables = extractTemplateVariables(from: value)
-
-                            // 컨텐츠 타입 결정
-                            let contentType: ClipboardContentType
-                            if !value.isEmpty && !savedImageFileNames.isEmpty {
-                                contentType = .mixed
-                            } else if !savedImageFileNames.isEmpty {
-                                contentType = .image
-                            } else {
-                                contentType = .text
-                            }
-
-                            // 카테고리 결정: 사용자가 선택한 카테고리 우선 사용
-                            // 사용자가 기본값(텍스트)을 그대로 두었고 자동 분류 결과가 있으면 자동 분류 사용
-                            let finalCategory: String
-                            if selectedCategory == "텍스트" && autoDetectedType != nil && autoDetectedType != .text {
-                                // 기본값이고 자동 분류가 텍스트가 아니면 자동 분류 사용
-                                finalCategory = autoDetectedType!.rawValue
-                                print("🎨 [MemoAdd] 테마 - 기본값 사용 중 → 자동 분류 적용: '\(finalCategory)'")
-                            } else {
-                                // 사용자가 의도적으로 선택한 경우 사용자 선택 우선
-                                finalCategory = selectedCategory
-                                print("🎨 [MemoAdd] 테마 - 사용자 선택 우선: '\(finalCategory)' (자동 분류: '\(autoDetectedType?.rawValue ?? "없음")')")
-                            }
-
-                            // Update recently used categories
-                            updateRecentlyUsedCategories(finalCategory)
-
-                            let finalMemoId: UUID
-                            let finalMemoTitle: String
-
-                            if let existingId = memoId,
-                               let index = loadedMemos.firstIndex(where: { $0.id == existingId }) {
-                                // 기존 메모 업데이트
-                                var updatedMemo = loadedMemos[index]
-                                updatedMemo.title = keyword
-                                updatedMemo.value = value
-                                updatedMemo.lastEdited = Date()
-                                updatedMemo.category = finalCategory
-                                updatedMemo.isSecure = isSecure
-                                updatedMemo.isTemplate = isTemplate
-                                updatedMemo.templateVariables = variables
-                                updatedMemo.placeholderValues = placeholderValues
-                                updatedMemo.isCombo = isCombo
-                                updatedMemo.comboValues = comboValues
-                                updatedMemo.currentComboIndex = 0
-                                updatedMemo.imageFileNames = savedImageFileNames
-                                updatedMemo.contentType = contentType
-
-                                loadedMemos[index] = updatedMemo
-                                finalMemoId = existingId
-                                finalMemoTitle = keyword
-                            } else {
-                                // 새 메모 추가 전 Pro 체크
-                                if !proManager.canAddMemo(currentCount: loadedMemos.count) {
-                                    showPaywall = true
-                                    return
-                                }
-                                
-                                // 새 메모 추가
-                                let newMemoId = UUID()
-                                let newMemo = Memo(
-                                    id: newMemoId,
-                                    title: keyword,
-                                    value: value,
-                                    lastEdited: Date(),
-                                    category: finalCategory,
-                                    isSecure: isSecure,
-                                    isTemplate: isTemplate,
-                                    templateVariables: variables,
-                                    placeholderValues: placeholderValues,
-                                    isCombo: isCombo,
-                                    comboValues: comboValues,
-                                    currentComboIndex: 0,
-                                    imageFileNames: savedImageFileNames,
-                                    contentType: contentType
-                                )
-                                loadedMemos.append(newMemo)
-                                finalMemoId = newMemoId
-                                finalMemoTitle = keyword
-
-                                // 새 메모 생성 횟수 증가
-                                ReviewManager.shared.incrementMemoCreatedCount()
-                            }
-
-                            try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
-
-                            // 플레이스홀더 값들 저장 (출처 정보 포함)
-                            for (placeholder, values) in placeholderValues where !values.isEmpty {
-                                for value in values {
-                                    MemoStore.shared.addPlaceholderValue(
-                                        value,
-                                        for: placeholder,
-                                        sourceMemoId: finalMemoId,
-                                        sourceMemoTitle: finalMemoTitle
-                                    )
-                                }
-                            }
-
-                            // 저장 완료 토스트
-                            toastMessage = NSLocalizedString("저장됨", comment: "Saved toast")
-                            showToast = true
-
-                            // 토스트 표시 후 화면 닫기
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                dismiss()
-                            }
-
-                            // 적절한 타이밍에 리뷰 요청
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                ReviewManager.shared.requestReviewIfAppropriate()
-                            }
-                        } catch {
-                            fatalError(error.localizedDescription)
-                        }
+                        saveMemo()
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
@@ -413,9 +243,7 @@ struct MemoAdd: View {
                 value += selectedEmoji
             }
         }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(triggerReason: .memoLimit)
-        }
+        .paywall(isPresented: $showPaywall, triggeredBy: paywallTrigger)
         #if os(iOS)
         .sheet(isPresented: $showDocumentScanner) {
             DocumentCameraView { result in
@@ -514,7 +342,6 @@ struct MemoAdd: View {
                 detectedPlaceholders = []
             }
         }
-        .paywall(isPresented: $showPaywall, triggeredBy: paywallTrigger)
     }
 
     // MARK: - View Sections
@@ -1068,6 +895,169 @@ struct MemoAdd: View {
         case "pink": return .pink
         case "mint": return .mint
         default: return .gray
+        }
+    }
+
+    // MARK: - Save Memo
+
+    private func saveMemo() {
+        // 유효성 검사
+        if keyword.isEmpty {
+            showAlert = true
+            return
+        }
+
+        // Combo인 경우 comboValues 확인, 일반인 경우 value 또는 attachedImages 확인
+        let hasContent = isCombo ? !comboValues.isEmpty : (!value.isEmpty || !attachedImages.isEmpty)
+
+        if !hasContent {
+            showAlert = true
+            return
+        }
+
+        // Pro 제한 체크 (새 메모 생성 시만)
+        if memoId == nil {
+            do {
+                let existingMemos = try MemoStore.shared.load(type: .tokenMemo)
+                let templateCount = existingMemos.filter { $0.isTemplate }.count
+
+                if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
+                    paywallTrigger = .template
+                    showPaywall = true
+                    return
+                }
+
+                if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
+                    paywallTrigger = .memo
+                    showPaywall = true
+                    return
+                }
+            } catch {
+                // 로드 실패 시 제한 체크 건너뛰기
+            }
+        }
+
+        // save
+        do {
+            var loadedMemos: [Memo] = try MemoStore.shared.load(type: .tokenMemo)
+
+            // 이미지들을 파일로 저장
+            var savedImageFileNames: [String] = []
+            #if os(iOS)
+            for wrapper in attachedImages {
+                let fileName = "\(UUID().uuidString).png"
+                try MemoStore.shared.saveImage(wrapper.image, fileName: fileName)
+                savedImageFileNames.append(fileName)
+            }
+            #endif
+
+            // 템플릿 변수 추출
+            let variables = extractTemplateVariables(from: value)
+
+            // 컨텐츠 타입 결정
+            let contentType: ClipboardContentType
+            if !value.isEmpty && !savedImageFileNames.isEmpty {
+                contentType = .mixed
+            } else if !savedImageFileNames.isEmpty {
+                contentType = .image
+            } else {
+                contentType = .text
+            }
+
+            // 카테고리 결정
+            let finalCategory: String
+            if selectedCategory == "텍스트" && autoDetectedType != nil && autoDetectedType != .text {
+                finalCategory = autoDetectedType!.rawValue
+                print("🎨 [MemoAdd] 테마 - 기본값 사용 중 → 자동 분류 적용: '\(finalCategory)'")
+            } else {
+                finalCategory = selectedCategory
+                print("🎨 [MemoAdd] 테마 - 사용자 선택 우선: '\(finalCategory)' (자동 분류: '\(autoDetectedType?.rawValue ?? "없음")')")
+            }
+
+            updateRecentlyUsedCategories(finalCategory)
+
+            let finalMemoId: UUID
+            let finalMemoTitle: String
+
+            if let existingId = memoId,
+               let index = loadedMemos.firstIndex(where: { $0.id == existingId }) {
+                // 기존 메모 업데이트
+                var updatedMemo = loadedMemos[index]
+                updatedMemo.title = keyword
+                updatedMemo.value = value
+                updatedMemo.lastEdited = Date()
+                updatedMemo.category = finalCategory
+                updatedMemo.isSecure = isSecure
+                updatedMemo.isTemplate = isTemplate
+                updatedMemo.templateVariables = variables
+                updatedMemo.placeholderValues = placeholderValues
+                updatedMemo.isCombo = isCombo
+                updatedMemo.comboValues = comboValues
+                updatedMemo.currentComboIndex = 0
+                updatedMemo.imageFileNames = savedImageFileNames
+                updatedMemo.contentType = contentType
+
+                loadedMemos[index] = updatedMemo
+                finalMemoId = existingId
+                finalMemoTitle = keyword
+            } else {
+                // 새 메모 추가 전 Pro 체크
+                if !ProFeatureManager.canAddMemo(currentCount: loadedMemos.count) {
+                    showPaywall = true
+                    return
+                }
+
+                // 새 메모 추가
+                let newMemoId = UUID()
+                let newMemo = Memo(
+                    id: newMemoId,
+                    title: keyword,
+                    value: value,
+                    lastEdited: Date(),
+                    category: finalCategory,
+                    isSecure: isSecure,
+                    isTemplate: isTemplate,
+                    templateVariables: variables,
+                    placeholderValues: placeholderValues,
+                    isCombo: isCombo,
+                    comboValues: comboValues,
+                    currentComboIndex: 0,
+                    imageFileNames: savedImageFileNames,
+                    contentType: contentType
+                )
+                loadedMemos.append(newMemo)
+                finalMemoId = newMemoId
+                finalMemoTitle = keyword
+
+                ReviewManager.shared.incrementMemoCreatedCount()
+            }
+
+            try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
+
+            // 플레이스홀더 값들 저장
+            for (placeholder, values) in placeholderValues where !values.isEmpty {
+                for value in values {
+                    MemoStore.shared.addPlaceholderValue(
+                        value,
+                        for: placeholder,
+                        sourceMemoId: finalMemoId,
+                        sourceMemoTitle: finalMemoTitle
+                    )
+                }
+            }
+
+            toastMessage = NSLocalizedString("저장됨", comment: "Saved toast")
+            showToast = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                dismiss()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                ReviewManager.shared.requestReviewIfAppropriate()
+            }
+        } catch {
+            fatalError(error.localizedDescription)
         }
     }
 

@@ -11,7 +11,7 @@ import StoreKit
 struct SettingView: View {
     
     @Environment(\.requestReview) var requestReview
-    @ObservedObject private var proManager = ProStatusManager.shared
+    @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
     
     var body: some View {
@@ -134,7 +134,7 @@ struct SettingView: View {
         }
         .listStyle(.grouped)
         .sheet(isPresented: $showPaywall) {
-            PaywallView(triggerReason: .settings)
+            PaywallView()
         }
     }
 
