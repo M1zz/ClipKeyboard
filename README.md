@@ -32,7 +32,7 @@
 
 Clip Keyboard는 **자주 쓰는 문구를 저장하고 키보드에서 바로 입력**할 수 있는 iOS 앱입니다. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.
 
-> **Landing Page**: [m1zz.github.io/clip-keyboard](https://m1zz.github.io/clip-keyboard)
+> **Landing Page**: [m1zz.github.io/clipkeyboard](https://m1zz.github.io/clipkeyboard)
 
 ## Features
 
