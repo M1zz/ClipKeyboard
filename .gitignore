@@ -1,2 +1,17 @@
-
+# macOS
 .DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+xcuserdata/
+
+# Swift Package Manager
+.build/
+Packages/
+
+# Claude Code
+.claude/
+.sprintcommander/
