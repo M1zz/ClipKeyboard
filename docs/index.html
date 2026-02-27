@@ -4,39 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clip Keyboard - 반복 입력은 그만, 탭 한 번이면 끝</title>
-    
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="자주 쓰는 메시지를 키보드에서 탭 한 번으로 입력하세요. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.">
     <meta name="keywords" content="키보드 앱, 텍스트 단축키, 상용구, 템플릿 키보드, text expander, 빠른 답장, iOS 키보드, 생산성 앱, clip keyboard">
     <meta name="author" content="Leeo">
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="Clip Keyboard - 반복 입력은 그만">
     <meta property="og:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/">
     <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Clip Keyboard - 반복 입력은 그만">
     <meta name="twitter:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --primary: #007AFF;
             --primary-dark: #0056CC;
@@ -46,14 +46,49 @@
             --card-bg: #FFFFFF;
             --border: #E5E5E7;
         }
-        
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
         }
-        
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: #F0F0F2;
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -65,7 +100,7 @@
             padding: 2rem;
             background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
         }
-        
+
         .hero-badge {
             background: #E8F5E9;
             color: #2E7D32;
@@ -75,7 +110,7 @@
             font-weight: 500;
             margin-bottom: 1.5rem;
         }
-        
+
         .hero h1 {
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 700;
@@ -83,28 +118,28 @@
             margin-bottom: 1.5rem;
             max-width: 800px;
         }
-        
+
         .hero h1 span {
             background: linear-gradient(135deg, #007AFF, #5856D6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .hero-subtitle {
             font-size: 1.25rem;
             color: var(--text-secondary);
             max-width: 600px;
             margin-bottom: 2.5rem;
         }
-        
+
         .cta-buttons {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             justify-content: center;
         }
-        
+
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -118,12 +153,12 @@
             font-size: 1.125rem;
             transition: all 0.2s;
         }
-        
+
         .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
         }
-        
+
         .btn-secondary {
             display: inline-flex;
             align-items: center;
@@ -138,12 +173,12 @@
             border: 1px solid var(--border);
             transition: all 0.2s;
         }
-        
+
         .btn-secondary:hover {
             border-color: var(--primary);
             color: var(--primary);
         }
-        
+
         .app-icon {
             width: 120px;
             height: 120px;
@@ -151,71 +186,71 @@
             margin-bottom: 2rem;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        
+
         /* Problem Section */
         .problem {
             padding: 6rem 2rem;
             background: var(--card-bg);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .section-title {
             font-size: 2rem;
             font-weight: 700;
             text-align: center;
             margin-bottom: 1rem;
         }
-        
+
         .section-subtitle {
             color: var(--text-secondary);
             text-align: center;
             margin-bottom: 4rem;
             font-size: 1.125rem;
         }
-        
+
         .problem-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
-        
+
         .problem-card {
             background: var(--bg);
             padding: 2rem;
             border-radius: 16px;
             border: 1px solid var(--border);
         }
-        
+
         .problem-card .emoji {
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
-        
+
         .problem-card h3 {
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
         }
-        
+
         .problem-card p {
             color: var(--text-secondary);
         }
-        
+
         /* Solution Section */
         .solution {
             padding: 6rem 2rem;
             background: linear-gradient(180deg, #F5F5F7 0%, #FFFFFF 100%);
         }
-        
+
         .solution-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
+
         .solution-card {
             background: var(--card-bg);
             padding: 2.5rem;
@@ -223,11 +258,11 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             transition: transform 0.2s;
         }
-        
+
         .solution-card:hover {
             transform: translateY(-4px);
         }
-        
+
         .solution-card .number {
             width: 48px;
             height: 48px;
@@ -241,45 +276,45 @@
             font-size: 1.25rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .solution-card h3 {
             font-size: 1.375rem;
             margin-bottom: 1rem;
         }
-        
+
         .solution-card p {
             color: var(--text-secondary);
         }
-        
+
         /* Use Cases Section */
         .use-cases {
             padding: 6rem 2rem;
             background: var(--card-bg);
         }
-        
+
         .use-case-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
-        
+
         .use-case {
             background: var(--bg);
             padding: 1.5rem;
             border-radius: 12px;
             border-left: 4px solid var(--primary);
         }
-        
+
         .use-case h4 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .use-case p {
             color: var(--text-secondary);
             font-size: 0.9375rem;
         }
-        
+
         /* Privacy Section */
         .privacy {
             padding: 4rem 2rem;
@@ -287,18 +322,18 @@
             color: white;
             text-align: center;
         }
-        
+
         .privacy h2 {
             font-size: 1.75rem;
             margin-bottom: 1rem;
         }
-        
+
         .privacy p {
             color: #A1A1A6;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         .privacy-badge {
             display: inline-flex;
             align-items: center;
@@ -309,13 +344,13 @@
             margin-top: 1.5rem;
             font-weight: 500;
         }
-        
+
         /* Pricing Section */
         .pricing {
             padding: 6rem 2rem;
             text-align: center;
         }
-        
+
         .price-card {
             background: var(--card-bg);
             max-width: 400px;
@@ -324,22 +359,22 @@
             border-radius: 24px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
-        
+
         .price {
             font-size: 3.5rem;
             font-weight: 700;
         }
-        
+
         .price-desc {
             color: var(--text-secondary);
             margin-bottom: 2rem;
         }
-        
+
         .price-features {
             text-align: left;
             margin-bottom: 2rem;
         }
-        
+
         .price-features li {
             padding: 0.75rem 0;
             border-bottom: 1px solid var(--border);
@@ -348,13 +383,13 @@
             align-items: center;
             gap: 0.75rem;
         }
-        
+
         .price-features li::before {
             content: "✓";
             color: #34C759;
             font-weight: 700;
         }
-        
+
         /* Footer */
         footer {
             padding: 3rem 2rem;
@@ -362,46 +397,57 @@
             color: var(--text-secondary);
             border-top: 1px solid var(--border);
         }
-        
+
         footer a {
             color: var(--primary);
             text-decoration: none;
         }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero {
                 padding: 4rem 1.5rem;
             }
-            
+
             .cta-buttons {
                 flex-direction: column;
                 width: 100%;
                 max-width: 300px;
             }
-            
+
             .btn-primary, .btn-secondary {
                 justify-content: center;
+            }
+
+            .lang-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="ko" onclick="setLanguage('ko')">KO</button>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-badge">🔒 데이터 수집 없음 · 완전한 프라이버시</div>
-        <img src="app-icon.png" alt="Clip Keyboard 앱 아이콘" class="app-icon" onerror="this.style.display='none'">
-        <h1>반복 입력은 그만,<br><span>탭 한 번이면 끝</span></h1>
-        <p class="hero-subtitle">
+        <div class="hero-badge" data-i18n="heroBadge">🔒 데이터 수집 없음 · 완전한 프라이버시</div>
+        <img src="app-icon.png" alt="Clip Keyboard" class="app-icon" onerror="this.style.display='none'">
+        <h1 data-i18n-html="heroTitle">반복 입력은 그만,<br><span>탭 한 번이면 끝</span></h1>
+        <p class="hero-subtitle" data-i18n-html="heroSubtitle">
             자주 쓰는 메시지를 키보드에 저장하고,<br>
             탭 한 번으로 어디서든 바로 입력하세요.
         </p>
         <div class="cta-buttons">
-            <a href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
+            <a id="hero-cta" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
                 </svg>
-                App Store에서 다운로드
+                <span data-i18n="heroCta">App Store에서 다운로드</span>
             </a>
         </div>
     </section>
@@ -409,29 +455,29 @@
     <!-- Problem -->
     <section class="problem">
         <div class="container">
-            <h2 class="section-title">매일 같은 메시지를 타이핑하고 있나요?</h2>
-            <p class="section-subtitle">반복 입력에 낭비되는 시간, 생각보다 많습니다</p>
-            
+            <h2 class="section-title" data-i18n="problemTitle">매일 같은 메시지를 타이핑하고 있나요?</h2>
+            <p class="section-subtitle" data-i18n="problemSubtitle">반복 입력에 낭비되는 시간, 생각보다 많습니다</p>
+
             <div class="problem-grid">
                 <div class="problem-card">
                     <div class="emoji">💬</div>
-                    <h3>고객 응대</h3>
-                    <p>"안녕하세요, 문의 감사합니다..."<br>하루에도 수십 번 같은 인사말</p>
+                    <h3 data-i18n="problemCard1Title">고객 응대</h3>
+                    <p data-i18n-html="problemCard1Desc">"안녕하세요, 문의 감사합니다..."<br>하루에도 수십 번 같은 인사말</p>
                 </div>
                 <div class="problem-card">
                     <div class="emoji">📧</div>
-                    <h3>이메일 서명</h3>
-                    <p>이름, 직책, 연락처...<br>매번 복사-붙여넣기 하기 귀찮음</p>
+                    <h3 data-i18n="problemCard2Title">이메일 서명</h3>
+                    <p data-i18n-html="problemCard2Desc">이름, 직책, 연락처...<br>매번 복사-붙여넣기 하기 귀찮음</p>
                 </div>
                 <div class="problem-card">
                     <div class="emoji">💻</div>
-                    <h3>코드 리뷰</h3>
-                    <p>"LGTM", "확인했습니다", "수정 부탁드립니다"<br>자주 쓰는 코멘트들</p>
+                    <h3 data-i18n="problemCard3Title">코드 리뷰</h3>
+                    <p data-i18n-html="problemCard3Desc">"LGTM", "확인했습니다", "수정 부탁드립니다"<br>자주 쓰는 코멘트들</p>
                 </div>
                 <div class="problem-card">
                     <div class="emoji">📱</div>
-                    <h3>SNS & 메신저</h3>
-                    <p>계좌번호, 주소, 자주 보내는 링크<br>어딘가에 저장해두고 찾기 번거로움</p>
+                    <h3 data-i18n="problemCard4Title">SNS & 메신저</h3>
+                    <p data-i18n-html="problemCard4Desc">계좌번호, 주소, 자주 보내는 링크<br>어딘가에 저장해두고 찾기 번거로움</p>
                 </div>
             </div>
         </div>
@@ -440,24 +486,24 @@
     <!-- Solution -->
     <section class="solution">
         <div class="container">
-            <h2 class="section-title">Clip Keyboard로 해결하세요</h2>
-            <p class="section-subtitle">설정 한 번, 평생 편리함</p>
-            
+            <h2 class="section-title" data-i18n="solutionTitle">Clip Keyboard로 해결하세요</h2>
+            <p class="section-subtitle" data-i18n="solutionSubtitle">설정 한 번, 평생 편리함</p>
+
             <div class="solution-grid">
                 <div class="solution-card">
                     <div class="number">1</div>
-                    <h3>자주 쓰는 문구 저장</h3>
-                    <p>인사말, 서명, 주소, 계좌번호, 자주 쓰는 답변까지 - 무제한으로 저장하세요.</p>
+                    <h3 data-i18n="solutionCard1Title">자주 쓰는 문구 저장</h3>
+                    <p data-i18n="solutionCard1Desc">인사말, 서명, 주소, 계좌번호, 자주 쓰는 답변까지 - 무제한으로 저장하세요.</p>
                 </div>
                 <div class="solution-card">
                     <div class="number">2</div>
-                    <h3>키보드에서 바로 선택</h3>
-                    <p>어떤 앱에서든 키보드를 열고 저장한 문구를 탭하면 바로 입력됩니다.</p>
+                    <h3 data-i18n="solutionCard2Title">키보드에서 바로 선택</h3>
+                    <p data-i18n="solutionCard2Desc">어떤 앱에서든 키보드를 열고 저장한 문구를 탭하면 바로 입력됩니다.</p>
                 </div>
                 <div class="solution-card">
                     <div class="number">3</div>
-                    <h3>시간 절약, 실수 방지</h3>
-                    <p>타이핑 오류 없이 정확하게. 반복 작업 시간을 90% 이상 줄여줍니다.</p>
+                    <h3 data-i18n="solutionCard3Title">시간 절약, 실수 방지</h3>
+                    <p data-i18n="solutionCard3Desc">타이핑 오류 없이 정확하게. 반복 작업 시간을 90% 이상 줄여줍니다.</p>
                 </div>
             </div>
         </div>
@@ -466,33 +512,33 @@
     <!-- Use Cases -->
     <section class="use-cases">
         <div class="container">
-            <h2 class="section-title">이런 분들이 사용합니다</h2>
-            <p class="section-subtitle">직업과 상황에 맞게 활용하세요</p>
-            
+            <h2 class="section-title" data-i18n="useCasesTitle">이런 분들이 사용합니다</h2>
+            <p class="section-subtitle" data-i18n="useCasesSubtitle">직업과 상황에 맞게 활용하세요</p>
+
             <div class="use-case-grid">
                 <div class="use-case">
-                    <h4>👨‍💼 CS 담당자</h4>
-                    <p>고객 문의 답변 템플릿 저장</p>
+                    <h4 data-i18n="useCase1Title">👨‍💼 CS 담당자</h4>
+                    <p data-i18n="useCase1Desc">고객 문의 답변 템플릿 저장</p>
                 </div>
                 <div class="use-case">
-                    <h4>👩‍💻 개발자</h4>
-                    <p>코드 스니펫, PR 코멘트</p>
+                    <h4 data-i18n="useCase2Title">👩‍💻 개발자</h4>
+                    <p data-i18n="useCase2Desc">코드 스니펫, PR 코멘트</p>
                 </div>
                 <div class="use-case">
-                    <h4>📮 이커머스 셀러</h4>
-                    <p>배송 안내, 교환/반품 정책</p>
+                    <h4 data-i18n="useCase3Title">📮 이커머스 셀러</h4>
+                    <p data-i18n="useCase3Desc">배송 안내, 교환/반품 정책</p>
                 </div>
                 <div class="use-case">
-                    <h4>🏢 영업/마케터</h4>
-                    <p>제안서 문구, 미팅 요청</p>
+                    <h4 data-i18n="useCase4Title">🏢 영업/마케터</h4>
+                    <p data-i18n="useCase4Desc">제안서 문구, 미팅 요청</p>
                 </div>
                 <div class="use-case">
-                    <h4>👨‍⚕️ 의료/상담</h4>
-                    <p>안내 문구, 예약 확인</p>
+                    <h4 data-i18n="useCase5Title">👨‍⚕️ 의료/상담</h4>
+                    <p data-i18n="useCase5Desc">안내 문구, 예약 확인</p>
                 </div>
                 <div class="use-case">
-                    <h4>🎓 학생/연구자</h4>
-                    <p>인용 형식, 참고문헌 템플릿</p>
+                    <h4 data-i18n="useCase6Title">🎓 학생/연구자</h4>
+                    <p data-i18n="useCase6Desc">인용 형식, 참고문헌 템플릿</p>
                 </div>
             </div>
         </div>
@@ -500,9 +546,9 @@
 
     <!-- Privacy -->
     <section class="privacy">
-        <h2>🔒 당신의 데이터, 당신만의 것</h2>
-        <p>Clip Keyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.</p>
-        <div class="privacy-badge">
+        <h2 data-i18n="privacyTitle">🔒 당신의 데이터, 당신만의 것</h2>
+        <p data-i18n="privacyDesc">Clip Keyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.</p>
+        <div class="privacy-badge" data-i18n="privacyBadge">
             ✓ Apple 개인정보 보호 정책 준수
         </div>
     </section>
@@ -510,20 +556,20 @@
     <!-- Pricing -->
     <section class="pricing">
         <div class="container">
-            <h2 class="section-title">단 한 번의 결제, 평생 사용</h2>
-            <p class="section-subtitle">구독 없음 · 추가 결제 없음</p>
-            
+            <h2 class="section-title" data-i18n="pricingTitle">단 한 번의 결제, 평생 사용</h2>
+            <p class="section-subtitle" data-i18n="pricingSubtitle">구독 없음 · 추가 결제 없음</p>
+
             <div class="price-card">
-                <div class="price">₩5,500</div>
-                <p class="price-desc">일회성 결제</p>
+                <div class="price" data-i18n="price">₩5,500</div>
+                <p class="price-desc" data-i18n="priceDesc">일회성 결제</p>
                 <ul class="price-features">
-                    <li>무제한 문구 저장</li>
-                    <li>iPhone, iPad, Mac, Vision Pro 지원</li>
-                    <li>iCloud 동기화</li>
-                    <li>평생 무료 업데이트</li>
-                    <li>광고 없음</li>
+                    <li data-i18n="priceFeature1">무제한 문구 저장</li>
+                    <li data-i18n="priceFeature2">iPhone, iPad, Mac, Vision Pro 지원</li>
+                    <li data-i18n="priceFeature3">iCloud 동기화</li>
+                    <li data-i18n="priceFeature4">평생 무료 업데이트</li>
+                    <li data-i18n="priceFeature5">광고 없음</li>
                 </ul>
-                <a href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary" style="width: 100%; justify-content: center;">
+                <a id="pricing-cta" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary" style="width: 100%; justify-content: center;" data-i18n="pricingCta">
                     지금 다운로드
                 </a>
             </div>
@@ -534,12 +580,212 @@
     <footer>
         <p>
             Made with ❤️ by <a href="https://github.com/m1zz" target="_blank">Leeo</a><br>
-            <a href="mailto:leeo@kakao.com">문의하기</a> · 
-            <a href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502">App Store</a>
+            <a href="mailto:leeo@kakao.com" data-i18n="footerContact">문의하기</a> ·
+            <a id="footer-appstore" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502">App Store</a>
         </p>
         <p style="margin-top: 1rem; font-size: 0.875rem;">
             © 2024 Clip Keyboard. All rights reserved.
         </p>
     </footer>
+
+    <script>
+        const translations = {
+            ko: {
+                // Meta
+                pageTitle: "Clip Keyboard - 반복 입력은 그만, 탭 한 번이면 끝",
+                metaDescription: "자주 쓰는 메시지를 키보드에서 탭 한 번으로 입력하세요. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.",
+                ogTitle: "Clip Keyboard - 반복 입력은 그만",
+                ogDescription: "자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.",
+                // Hero
+                heroBadge: "🔒 데이터 수집 없음 · 완전한 프라이버시",
+                heroTitle: '반복 입력은 그만,<br><span>탭 한 번이면 끝</span>',
+                heroSubtitle: '자주 쓰는 메시지를 키보드에 저장하고,<br>탭 한 번으로 어디서든 바로 입력하세요.',
+                heroCta: "App Store에서 다운로드",
+                // Problem
+                problemTitle: "매일 같은 메시지를 타이핑하고 있나요?",
+                problemSubtitle: "반복 입력에 낭비되는 시간, 생각보다 많습니다",
+                problemCard1Title: "고객 응대",
+                problemCard1Desc: '"안녕하세요, 문의 감사합니다..."<br>하루에도 수십 번 같은 인사말',
+                problemCard2Title: "이메일 서명",
+                problemCard2Desc: '이름, 직책, 연락처...<br>매번 복사-붙여넣기 하기 귀찮음',
+                problemCard3Title: "코드 리뷰",
+                problemCard3Desc: '"LGTM", "확인했습니다", "수정 부탁드립니다"<br>자주 쓰는 코멘트들',
+                problemCard4Title: "SNS & 메신저",
+                problemCard4Desc: '계좌번호, 주소, 자주 보내는 링크<br>어딘가에 저장해두고 찾기 번거로움',
+                // Solution
+                solutionTitle: "Clip Keyboard로 해결하세요",
+                solutionSubtitle: "설정 한 번, 평생 편리함",
+                solutionCard1Title: "자주 쓰는 문구 저장",
+                solutionCard1Desc: "인사말, 서명, 주소, 계좌번호, 자주 쓰는 답변까지 - 무제한으로 저장하세요.",
+                solutionCard2Title: "키보드에서 바로 선택",
+                solutionCard2Desc: "어떤 앱에서든 키보드를 열고 저장한 문구를 탭하면 바로 입력됩니다.",
+                solutionCard3Title: "시간 절약, 실수 방지",
+                solutionCard3Desc: "타이핑 오류 없이 정확하게. 반복 작업 시간을 90% 이상 줄여줍니다.",
+                // Use Cases
+                useCasesTitle: "이런 분들이 사용합니다",
+                useCasesSubtitle: "직업과 상황에 맞게 활용하세요",
+                useCase1Title: "👨‍💼 CS 담당자",
+                useCase1Desc: "고객 문의 답변 템플릿 저장",
+                useCase2Title: "👩‍💻 개발자",
+                useCase2Desc: "코드 스니펫, PR 코멘트",
+                useCase3Title: "📮 이커머스 셀러",
+                useCase3Desc: "배송 안내, 교환/반품 정책",
+                useCase4Title: "🏢 영업/마케터",
+                useCase4Desc: "제안서 문구, 미팅 요청",
+                useCase5Title: "👨‍⚕️ 의료/상담",
+                useCase5Desc: "안내 문구, 예약 확인",
+                useCase6Title: "🎓 학생/연구자",
+                useCase6Desc: "인용 형식, 참고문헌 템플릿",
+                // Privacy
+                privacyTitle: "🔒 당신의 데이터, 당신만의 것",
+                privacyDesc: "Clip Keyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.",
+                privacyBadge: "✓ Apple 개인정보 보호 정책 준수",
+                // Pricing
+                pricingTitle: "단 한 번의 결제, 평생 사용",
+                pricingSubtitle: "구독 없음 · 추가 결제 없음",
+                price: "₩5,500",
+                priceDesc: "일회성 결제",
+                priceFeature1: "무제한 문구 저장",
+                priceFeature2: "iPhone, iPad, Mac, Vision Pro 지원",
+                priceFeature3: "iCloud 동기화",
+                priceFeature4: "평생 무료 업데이트",
+                priceFeature5: "광고 없음",
+                pricingCta: "지금 다운로드",
+                // Footer
+                footerContact: "문의하기",
+                // App Store URL
+                appStoreUrl: "https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502"
+            },
+            en: {
+                // Meta
+                pageTitle: "Clip Keyboard - Stop Retyping, One Tap Is All You Need",
+                metaDescription: "Save your frequently used messages and type them with a single tap from your keyboard. Customer support, emails, code reviews — save 90% of your repetitive typing time.",
+                ogTitle: "Clip Keyboard - Stop Retyping",
+                ogDescription: "Type frequently used messages with one tap. Save 90% of repetitive typing time.",
+                // Hero
+                heroBadge: "🔒 No Data Collection · Complete Privacy",
+                heroTitle: 'Stop Retyping,<br><span>One Tap Is All You Need</span>',
+                heroSubtitle: 'Save your go-to messages to your keyboard<br>and type them with a single tap, anywhere.',
+                heroCta: "Download on the App Store",
+                // Problem
+                problemTitle: "Tired of typing the same messages every day?",
+                problemSubtitle: "You spend more time on repetitive typing than you think",
+                problemCard1Title: "Customer Support",
+                problemCard1Desc: '"Hello, thank you for reaching out..."<br>The same greeting dozens of times a day',
+                problemCard2Title: "Email Signatures",
+                problemCard2Desc: 'Name, title, contact info...<br>Copy-pasting every single time gets old',
+                problemCard3Title: "Code Reviews",
+                problemCard3Desc: '"LGTM", "Approved", "Please fix this"<br>The same comments over and over',
+                problemCard4Title: "Social & Messaging",
+                problemCard4Desc: 'Bank accounts, addresses, links you share often<br>Saved somewhere but hard to find',
+                // Solution
+                solutionTitle: "Solve It with Clip Keyboard",
+                solutionSubtitle: "Set up once, enjoy forever",
+                solutionCard1Title: "Save Your Phrases",
+                solutionCard1Desc: "Greetings, signatures, addresses, account numbers, common replies — save unlimited phrases.",
+                solutionCard2Title: "Pick from Your Keyboard",
+                solutionCard2Desc: "Open your keyboard in any app, tap a saved phrase, and it's instantly typed.",
+                solutionCard3Title: "Save Time, Avoid Mistakes",
+                solutionCard3Desc: "Type accurately with zero typos. Cut your repetitive typing time by over 90%.",
+                // Use Cases
+                useCasesTitle: "Who Uses Clip Keyboard",
+                useCasesSubtitle: "Adapt it to your job and daily workflow",
+                useCase1Title: "👨‍💼 Support Agents",
+                useCase1Desc: "Save response templates for customer inquiries",
+                useCase2Title: "👩‍💻 Developers",
+                useCase2Desc: "Code snippets, PR comments",
+                useCase3Title: "📮 E-commerce Sellers",
+                useCase3Desc: "Shipping info, return & exchange policies",
+                useCase4Title: "🏢 Sales & Marketing",
+                useCase4Desc: "Proposal templates, meeting requests",
+                useCase5Title: "👨‍⚕️ Medical & Counseling",
+                useCase5Desc: "Patient instructions, appointment confirmations",
+                useCase6Title: "🎓 Students & Researchers",
+                useCase6Desc: "Citation formats, bibliography templates",
+                // Privacy
+                privacyTitle: "🔒 Your Data, Your Device Only",
+                privacyDesc: "Clip Keyboard collects no data whatsoever. Your saved phrases exist only on your device.",
+                privacyBadge: "✓ Apple Privacy Policy Compliant",
+                // Pricing
+                pricingTitle: "Pay Once, Use Forever",
+                pricingSubtitle: "No subscriptions · No additional charges",
+                price: "$3.99",
+                priceDesc: "One-time purchase",
+                priceFeature1: "Unlimited phrase storage",
+                priceFeature2: "iPhone, iPad, Mac, Vision Pro",
+                priceFeature3: "iCloud sync",
+                priceFeature4: "Free lifetime updates",
+                priceFeature5: "No ads",
+                pricingCta: "Download Now",
+                // Footer
+                footerContact: "Contact Us",
+                // App Store URL
+                appStoreUrl: "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('clipkb-lang', lang);
+            applyLanguage(lang);
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+
+            // Update html lang attribute
+            document.documentElement.lang = lang;
+
+            // Update meta tags
+            document.title = t.pageTitle;
+            document.querySelector('meta[name="description"]').setAttribute('content', t.metaDescription);
+            document.querySelector('meta[property="og:title"]').setAttribute('content', t.ogTitle);
+            document.querySelector('meta[property="og:description"]').setAttribute('content', t.ogDescription);
+            document.querySelector('meta[name="twitter:title"]').setAttribute('content', t.ogTitle);
+            document.querySelector('meta[name="twitter:description"]').setAttribute('content', t.ogDescription);
+
+            // Update text content (data-i18n)
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) {
+                    el.textContent = t[key];
+                }
+            });
+
+            // Update HTML content (data-i18n-html) for elements with <br>/<span>
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Update App Store links
+            var storeUrl = t.appStoreUrl;
+            var heroCta = document.getElementById('hero-cta');
+            var pricingCta = document.getElementById('pricing-cta');
+            var footerAppstore = document.getElementById('footer-appstore');
+            if (heroCta) heroCta.href = storeUrl;
+            if (pricingCta) pricingCta.href = storeUrl;
+            if (footerAppstore) footerAppstore.href = storeUrl;
+
+            // Update toggle buttons
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // Initialize language on page load
+        (function() {
+            var saved = localStorage.getItem('clipkb-lang');
+            if (saved) {
+                applyLanguage(saved);
+            } else {
+                var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+                var lang = browserLang.startsWith('ko') ? 'ko' : 'en';
+                applyLanguage(lang);
+            }
+        })();
+    </script>
 </body>
 </html>
