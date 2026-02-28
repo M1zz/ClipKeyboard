@@ -48,6 +48,8 @@ struct MemoRowView: View {
                 }
             }
 
+            Spacer()
+
             // 이미지 썸네일 (이미지 메모인 경우)
             if (memo.contentType == .image || memo.contentType == .mixed),
                let firstImageFileName = memo.imageFileNames.first {
@@ -66,8 +68,14 @@ struct MemoRowView: View {
                 #endif
             }
 
+            // 즐겨찾기 하트 표시
+            if memo.isFavorite {
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(.pink)
+            }
+
             if showFavoriteNudge {
-                Spacer()
                 FavoriteNudgeHeart()
             }
         }

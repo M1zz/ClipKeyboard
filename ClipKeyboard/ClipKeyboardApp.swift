@@ -32,11 +32,7 @@ struct ClipKeyboardApp: App {
                 ClipKeyboardList()
                     .environmentObject(storeManager)
                     .onOpenURL { url in
-                        // URL scheme으로 앱이 열렸을 때 처리
-                        if url.scheme == "clipkeyboard" {
-                            // 키보드에서 앱을 열었을 때 메인 화면으로 이동
-                            print("🔗 [URL] App opened from keyboard")
-                        }
+                        handleOpenURL(url)
                     }
                     .onAppear() {
                         print("🎯 [APP BODY] 온보딩 완료 상태 -> ClipKeyboardList 표시")
@@ -103,6 +99,41 @@ struct ClipKeyboardApp: App {
                 }
             }
         }
+        #endif
+    }
+
+    // MARK: - URL Scheme Handler
+
+    private func handleOpenURL(_ url: URL) {
+        guard url.scheme == "clipkeyboard" else { return }
+        print("🔗 [URL] App opened with URL: \(url)")
+
+        if url.host == "copy", let idString = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?.first(where: { $0.name == "id" })?.value,
+           let memoId = UUID(uuidString: idString) {
+            // 위젯에서 메모 복사 요청
+            copyMemoToClipboard(memoId: memoId)
+        }
+    }
+
+    private func copyMemoToClipboard(memoId: UUID) {
+        let store = MemoStore.shared
+        if store.memos.isEmpty {
+            try? store.memos = store.load(type: .tokenMemo)
+        }
+
+        guard let memo = store.memos.first(where: { $0.id == memoId }) else {
+            print("⚠️ [Widget Copy] 메모를 찾을 수 없음: \(memoId)")
+            return
+        }
+
+        #if os(iOS)
+        UIPasteboard.general.string = memo.value
+        print("✅ [Widget Copy] 클립보드에 복사됨: \(memo.title)")
+
+        // 복사 완료 햅틱 피드백
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
         #endif
     }
 
