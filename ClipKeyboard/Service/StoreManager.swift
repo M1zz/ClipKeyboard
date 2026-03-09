@@ -2,102 +2,93 @@
 //  StoreManager.swift
 //  ClipKeyboard
 //
-//  Created by hyunho lee on 2026/02/21.
+//  Created by Claude on 2026/02/18.
 //
 
 import Foundation
 import StoreKit
 
-/// StoreKit 2 기반 인앱 구매 매니저
-/// - 일회성 구매 (Non-consumable)
-/// - 구매 상태 UserDefaults + Transaction 이중 검증
+/// StoreKit 2 기반 인앱 구매 관리
 @MainActor
 class StoreManager: ObservableObject {
     static let shared = StoreManager()
     
     // MARK: - Product IDs
+    
     static let proProductID = "com.Ysoup.TokenMemo.pro"
     
-    // MARK: - Published
-    @Published private(set) var proProduct: Product?
-    @Published private(set) var isPro: Bool = false
-    @Published private(set) var isLoading: Bool = false
-    @Published private(set) var purchaseError: String?
+    // MARK: - Published Properties
     
-    // MARK: - Private
-    private var transactionListener: Task<Void, Error>?
-    private let proKey = "clipkeyboard_is_pro"
-    private let proDateKey = "clipkeyboard_pro_date"
+    @Published var products: [Product] = []
+    @Published var purchasedProductIDs: Set<String> = []
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String? = nil
     
-    private let legacyMigratedKey = "clipkeyboard_legacy_pro_migrated"
-    
-    private init() {
-        // 기존 유료 구매자 마이그레이션 (앱이 유료→무료 전환 시)
-        migrateLegacyPaidUsers()
-        
-        // 캐시된 상태 먼저 로드 (빠른 UI 반응)
-        isPro = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: proKey) ?? false
-        
-        // Transaction 리스너 시작
-        transactionListener = listenForTransactions()
-        
-        // 실제 구매 상태 검증
-        Task {
-            await loadProducts()
-            await verifyPurchaseStatus()
-        }
+    var proProduct: Product? {
+        products.first { $0.id == Self.proProductID }
     }
     
-    /// 기존 유료 앱 구매자를 Pro로 자동 전환
-    /// - 앱이 유료 → 무료+IAP 모델로 바뀔 때 한 번만 실행
-    /// - didShowOnboarding = true (기존 유저) + 마이그레이션 미완료 시 Pro 부여
-    private func migrateLegacyPaidUsers() {
-        let defaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
-        let standardDefaults = UserDefaults.standard
+    var isPro: Bool {
+        purchasedProductIDs.contains(Self.proProductID)
+    }
+    
+    // MARK: - Private
+    
+    private var updateListenerTask: Task<Void, Error>? = nil
+    
+    // MARK: - Init
+    
+    private init() {
+        updateListenerTask = listenForTransactions()
         
-        // 이미 마이그레이션 완료됨
-        guard !(defaults?.bool(forKey: legacyMigratedKey) ?? false) else { return }
-        
-        // 기존 유저 판별: 온보딩을 이미 완료한 사람 = 이전 버전 사용자
-        let isExistingUser = standardDefaults.bool(forKey: "onboarding")
-        
-        if isExistingUser {
-            // 기존 유료 앱 구매자 → Pro 부여
-            defaults?.set(true, forKey: proKey)
-            defaults?.set(Date().timeIntervalSince1970, forKey: proDateKey)
-            print("✅ [StoreManager] 기존 유료 구매자 → Pro 마이그레이션 완료")
+        Task {
+            await loadProducts()
+            await updatePurchasedProducts()
         }
-        
-        // 마이그레이션 완료 플래그 (다시 실행 안 함)
-        defaults?.set(true, forKey: legacyMigratedKey)
-        defaults?.synchronize()
     }
     
     deinit {
-        transactionListener?.cancel()
+        updateListenerTask?.cancel()
     }
     
     // MARK: - Public Methods
     
-    /// 상품 정보 로드
+    /// 상품 목록 로드
     func loadProducts() async {
+        isLoading = true
+        errorMessage = nil
+        
         do {
-            let products = try await Product.products(for: [Self.proProductID])
-            proProduct = products.first
+            let storeProducts = try await Product.products(for: [Self.proProductID])
+            products = storeProducts
+            print("✅ [StoreManager] 상품 로드 완료: \(storeProducts.count)개")
+            
+            for product in storeProducts {
+                print("   - \(product.id): \(product.displayPrice)")
+            }
         } catch {
             print("❌ [StoreManager] 상품 로드 실패: \(error)")
+            errorMessage = error.localizedDescription
         }
+        
+        isLoading = false
     }
     
     /// Pro 구매
     func purchasePro() async -> Bool {
         guard let product = proProduct else {
-            purchaseError = NSLocalizedString("상품 정보를 불러올 수 없습니다.", comment: "Product load error")
+            print("❌ [StoreManager] Pro 상품을 찾을 수 없음")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }
         
+        return await purchase(product)
+    }
+    
+    /// 상품 구매
+    func purchase(_ product: Product) async -> Bool {
         isLoading = true
-        purchaseError = nil
+        errorMessage = nil
         
         do {
             let result = try await product.purchase()
@@ -105,28 +96,35 @@ class StoreManager: ObservableObject {
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
+                
+                // 구매 완료 처리
+                await updatePurchasedProducts()
                 await transaction.finish()
-                setProStatus(true)
+                
+                print("✅ [StoreManager] 구매 성공: \(product.id)")
                 isLoading = false
                 return true
                 
             case .userCancelled:
+                print("ℹ️ [StoreManager] 사용자가 구매 취소")
                 isLoading = false
                 return false
                 
             case .pending:
-                purchaseError = NSLocalizedString("구매 승인 대기 중입니다.", comment: "Purchase pending")
+                print("⏳ [StoreManager] 구매 대기 중 (부모 승인 필요 등)")
+                errorMessage = NSLocalizedString("구매 승인 대기 중입니다", comment: "Purchase pending")
                 isLoading = false
                 return false
                 
             @unknown default:
+                print("❓ [StoreManager] 알 수 없는 구매 결과")
                 isLoading = false
                 return false
             }
         } catch {
-            purchaseError = NSLocalizedString("구매 중 오류가 발생했습니다.", comment: "Purchase error")
-            isLoading = false
             print("❌ [StoreManager] 구매 실패: \(error)")
+            errorMessage = error.localizedDescription
+            isLoading = false
             return false
         }
     }
@@ -134,14 +132,15 @@ class StoreManager: ObservableObject {
     /// 구매 복원
     func restorePurchases() async {
         isLoading = true
-        purchaseError = nil
+        errorMessage = nil
         
         do {
             try await AppStore.sync()
-            await verifyPurchaseStatus()
+            await updatePurchasedProducts()
+            print("✅ [StoreManager] 구매 복원 완료")
         } catch {
-            purchaseError = NSLocalizedString("복원 중 오류가 발생했습니다.", comment: "Restore error")
-            print("❌ [StoreManager] 복원 실패: \(error)")
+            print("❌ [StoreManager] 구매 복원 실패: \(error)")
+            errorMessage = error.localizedDescription
         }
         
         isLoading = false
@@ -149,87 +148,70 @@ class StoreManager: ObservableObject {
     
     // MARK: - Private Methods
     
-    /// Transaction 리스너 — 외부 구매/복원 감지
-    private func listenForTransactions() -> Task<Void, Error> {
-        Task.detached { [weak self] in
-            for await result in Transaction.updates {
-                await self?.handleTransactionResult(result)
-            }
-        }
-    }
-    
-    /// Transaction 결과 처리 (MainActor에서 실행)
-    private func handleTransactionResult(_ result: VerificationResult<Transaction>) {
-        do {
-            let transaction = try checkVerified(result)
-            handleTransaction(transaction)
-            Task { await transaction.finish() }
-        } catch {
-            print("⚠️ [StoreManager] Transaction 검증 실패: \(error)")
-        }
-    }
-    
-    /// 구매 상태 검증 (앱 시작 시)
-    private func verifyPurchaseStatus() async {
-        // currentEntitlements로 현재 유효한 구매 확인
+    /// 구매 상태 업데이트
+    private func updatePurchasedProducts() async {
+        var purchasedIDs: Set<String> = []
+        
         for await result in Transaction.currentEntitlements {
-            if case .verified(let transaction) = result,
-               transaction.productID == Self.proProductID {
-                setProStatus(true)
-                return
+            do {
+                let transaction = try checkVerified(result)
+                
+                // 비소모성 상품 (Pro)
+                if transaction.productType == .nonConsumable {
+                    purchasedIDs.insert(transaction.productID)
+                }
+            } catch {
+                print("⚠️ [StoreManager] 트랜잭션 검증 실패: \(error)")
             }
         }
         
-        // 유효한 구매가 없으면 캐시 초기화
-        // (단, 오프라인일 수 있으므로 캐시된 값 유지)
-        // setProStatus(false) — 의도적으로 주석 처리
-        // 오프라인 사용자 경험을 위해 캐시 값 유지
+        purchasedProductIDs = purchasedIDs
+        
+        // ProStatusManager에 알림
+        let isPro = purchasedIDs.contains(Self.proProductID)
+        ProStatusManager.shared.setProStatus(isPro)
+        
+        print("📋 [StoreManager] 구매 상태 업데이트: isPro = \(isPro)")
     }
     
-    /// Transaction 처리
-    private func handleTransaction(_ transaction: Transaction) {
-        if transaction.productID == Self.proProductID {
-            if transaction.revocationDate == nil {
-                setProStatus(true)
-            } else {
-                setProStatus(false)
+    /// 트랜잭션 리스너
+    private func listenForTransactions() -> Task<Void, Error> {
+        return Task.detached {
+            for await result in Transaction.updates {
+                do {
+                    let transaction = try await self.checkVerified(result)
+                    await self.updatePurchasedProducts()
+                    await transaction.finish()
+                } catch {
+                    print("⚠️ [StoreManager] 트랜잭션 업데이트 실패: \(error)")
+                }
             }
         }
     }
     
-    /// Transaction 검증
+    /// 트랜잭션 검증
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
         switch result {
         case .unverified:
-            throw StoreError.verificationFailed
+            throw StoreError.failedVerification
         case .verified(let safe):
             return safe
         }
     }
-    
-    /// Pro 상태 저장 (UserDefaults — App Group 공유)
-    private func setProStatus(_ value: Bool) {
-        isPro = value
-        let defaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
-        defaults?.set(value, forKey: proKey)
-        if value {
-            defaults?.set(Date().timeIntervalSince1970, forKey: proDateKey)
-        }
-        defaults?.synchronize()
-        
-        print(value ? "✅ [StoreManager] Pro 활성화" : "⚠️ [StoreManager] Pro 비활성화")
-    }
 }
 
-// MARK: - Error
+// MARK: - Errors
 
-enum StoreError: LocalizedError {
-    case verificationFailed
+enum StoreError: Error, LocalizedError {
+    case failedVerification
+    case productNotFound
     
     var errorDescription: String? {
         switch self {
-        case .verificationFailed:
-            return NSLocalizedString("구매 검증에 실패했습니다.", comment: "Verification failed")
+        case .failedVerification:
+            return NSLocalizedString("구매 검증에 실패했습니다", comment: "Verification failed")
+        case .productNotFound:
+            return NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
         }
     }
 }

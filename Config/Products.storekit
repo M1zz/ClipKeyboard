@@ -1,0 +1,90 @@
+{
+  "identifier" : "F8A2B3C4-D5E6-7890-ABCD-EF1234567890",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "6.99",
+      "familyShareable" : true,
+      "internalID" : "pro_unlock",
+      "localizations" : [
+        {
+          "description" : "Unlock all features including unlimited memos, iCloud backup, and more.",
+          "displayName" : "ClipKeyboard Pro",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "무제한 메모, iCloud 백업 등 모든 기능을 잠금 해제합니다.",
+          "displayName" : "ClipKeyboard Pro",
+          "locale" : "ko"
+        }
+      ],
+      "productID" : "com.Ysoup.TokenMemo.pro",
+      "referenceName" : "ClipKeyboard Pro",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1234567890",
+    "_developerTeamID" : "YSOUP_TEAM",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 727790400,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
