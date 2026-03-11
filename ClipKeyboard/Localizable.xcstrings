@@ -562,6 +562,7 @@
       }
     },
     "1" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -721,6 +722,7 @@
     },
     "ClipKeyboard에 오신 것을 환영합니다" : {
       "comment" : "Welcome title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -813,6 +815,9 @@
           }
         }
       }
+    },
+    "Combo 값을 최소 1개 이상 추가하세요" : {
+      "comment" : "Alert: combo value required"
     },
     "Combo 관리" : {
       "comment" : "Combo management",
@@ -967,6 +972,7 @@
     },
     "iCloud 동기화" : {
       "comment" : "iCloud sync feature",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1124,6 +1130,7 @@
     },
     "iOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱" : {
       "comment" : "Welcome subtitle",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1358,6 +1365,7 @@
     },
     "Title : " : {
       "comment" : "Label for memo title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1412,6 +1420,7 @@
     },
     "Value : " : {
       "comment" : "Label for memo value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1530,6 +1539,7 @@
       }
     },
     "값을 입력하세요" : {
+      "comment" : "Combo: empty value warning",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1693,8 +1703,12 @@
         }
       }
     },
+    "구매 검증에 실패했습니다" : {
+      "comment" : "Verification failed"
+    },
     "구매 검증에 실패했습니다." : {
       "comment" : "Verification failed",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1704,8 +1718,12 @@
         }
       }
     },
+    "구매 승인 대기 중입니다" : {
+      "comment" : "Purchase pending"
+    },
     "구매 승인 대기 중입니다." : {
       "comment" : "Purchase pending",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1717,6 +1735,7 @@
     },
     "구매 중 오류가 발생했습니다." : {
       "comment" : "Purchase error",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1891,7 +1910,7 @@
       }
     },
     "내용을 입력하세요" : {
-      "comment" : "Default placeholder",
+      "comment" : "Alert: content required\nDefault placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2366,6 +2385,7 @@
     },
     "모든 기기에서 데이터 동기화" : {
       "comment" : "iCloud sync description",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2924,6 +2944,7 @@
     },
     "복사한 내용을 자동으로 저장하고 관리" : {
       "comment" : "Clipboard history description",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2946,6 +2967,7 @@
     },
     "복원 중 오류가 발생했습니다." : {
       "comment" : "Restore error",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2956,6 +2978,7 @@
       }
     },
     "부모님댁 주소" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3023,6 +3046,7 @@
     },
     "빠른 메모" : {
       "comment" : "Quick memo feature",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3190,6 +3214,7 @@
     },
     "상품 정보를 불러올 수 없습니다." : {
       "comment" : "Product load error",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3198,6 +3223,9 @@
           }
         }
       }
+    },
+    "상품을 찾을 수 없습니다" : {
+      "comment" : "Product not found"
     },
     "새 값 입력" : {
       "comment" : "New value input\nNew value input placeholder",
@@ -4104,6 +4132,7 @@
       }
     },
     "이미 추가된 값입니다" : {
+      "comment" : "Combo: duplicate value warning",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4407,6 +4436,7 @@
     },
     "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기" : {
       "comment" : "Quick memo description",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4735,6 +4765,9 @@
           }
         }
       }
+    },
+    "제목을 입력하세요" : {
+      "comment" : "Alert: title required"
     },
     "종료" : {
       "extractionState" : "stale",

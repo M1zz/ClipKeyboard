@@ -230,58 +230,44 @@ struct ClipboardList: View {
     // MARK: - Actions
 
     private func checkAndAddCurrentClipboard() {
-        // 중복 체크 방지
         guard !isCheckingClipboard else { return }
         isCheckingClipboard = true
+        defer { isCheckingClipboard = false }
 
-        // 현재 클립보드 내용 가져오기
         guard let currentClipboard = UIPasteboard.general.string,
-              !currentClipboard.isEmpty else {
-            isCheckingClipboard = false
-            return
-        }
+              !currentClipboard.isEmpty else { return }
 
-        // 이미 히스토리에 있는지 확인
         do {
             let history = try MemoStore.shared.loadSmartClipboardHistory()
+            guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
 
-            // 가장 최근 항목과 같으면 무시 (중복 방지)
-            if let latestItem = history.first,
-               latestItem.content == currentClipboard {
-                print("ℹ️ [ClipboardList] 이미 최근 항목에 존재: \(currentClipboard.prefix(30))...")
-                isCheckingClipboard = false
-                return
-            }
-
-            // 히스토리에 없으면 자동으로 추가 (자동 분류 포함!)
             try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
             print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
-
-            // 즉시 UI에 반영
             loadHistory()
 
-            // 방금 추가된 항목 찾기
             let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
             if let newItem = updatedHistory.first {
-                recentlyAddedId = newItem.id
-
-                // 피드백 표시
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    showToast(message: String(format: NSLocalizedString("📋 새로운 %@ 항목이 추가되었습니다", comment: ""), newItem.detectedType.localizedName))
-                }
-
-                // 3초 후 하이라이트 해제
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    withAnimation {
-                        recentlyAddedId = nil
-                    }
-                }
+                highlightNewlyAdded(newItem)
             }
         } catch {
             print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
         }
+    }
 
-        isCheckingClipboard = false
+    private func isAlreadyLatestItem(_ content: String, in history: [SmartClipboardHistory]) -> Bool {
+        guard let latest = history.first, latest.content == content else { return false }
+        print("ℹ️ [ClipboardList] 이미 최근 항목에 존재: \(content.prefix(30))...")
+        return true
+    }
+
+    private func highlightNewlyAdded(_ item: SmartClipboardHistory) {
+        recentlyAddedId = item.id
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            showToast(message: String(format: NSLocalizedString("📋 새로운 %@ 항목이 추가되었습니다", comment: ""), item.detectedType.localizedName))
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            withAnimation { recentlyAddedId = nil }
+        }
     }
 
     private func copyToPasteboard(_ item: SmartClipboardHistory) {
@@ -468,26 +454,9 @@ struct FilterChip: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
-            .background(isSelected ? colorFor(color) : Color.gray.opacity(0.2))
+            .background(isSelected ? Color.fromName(color) : Color.gray.opacity(0.2))
             .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(20)
-        }
-    }
-
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
         }
     }
 }
@@ -512,7 +481,7 @@ struct ClipboardItemRow: View {
                     // 타입 아이콘
                     Image(systemName: displayType.icon)
                         .font(.title3)
-                        .foregroundColor(colorFor(displayType.color))
+                        .foregroundColor(Color.fromName(displayType.color))
                         .frame(width: 24)
                         // 하이라이트 시 스케일 애니메이션
                         .scaleEffect(isHighlighted ? 1.2 : 1.0)
@@ -541,7 +510,7 @@ struct ClipboardItemRow: View {
                             }
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(colorFor(displayType.color).opacity(0.2))
+                            .background(Color.fromName(displayType.color).opacity(0.2))
                             .cornerRadius(4)
 
                             // 시간
@@ -569,12 +538,12 @@ struct ClipboardItemRow: View {
         .buttonStyle(.plain)
         .background(
             RoundedRectangle(cornerRadius: 8)
-                .fill(isHighlighted ? colorFor(displayType.color).opacity(0.15) : Color.clear)
+                .fill(isHighlighted ? Color.fromName(displayType.color).opacity(0.15) : Color.clear)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(isHighlighted ? colorFor(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
+                .stroke(isHighlighted ? Color.fromName(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
         .swipeActions(edge: .leading) {
@@ -607,22 +576,6 @@ struct ClipboardItemRow: View {
         return formatter.string(from: date)
     }
 
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
-        }
-    }
 }
 
 // MARK: - Save to Memo Sheet

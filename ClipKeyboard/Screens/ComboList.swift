@@ -148,86 +148,37 @@ struct ComboList: View {
     }
 
     private func addTestData() {
-        // 테스트 시나리오 1: 회원가입 정보
-        let signupData = [
-            "홍길동",
-            "hong@example.com",
-            "010-1234-5678",
-            "06234",
-            "서울특별시 강남구 테헤란로 123"
-        ]
-
-        // 테스트 시나리오 2: 배송 정보
-        let shippingData = [
-            "김철수",
-            "010-9876-5432",
-            "13579",
-            "부산광역시 해운대구 해운대로 456",
-            "문 앞에 놓아주세요"
-        ]
-
-        // 클립보드 히스토리에 추가
         do {
-            var allItems: [ComboItem] = []
-            var order = 0
-
-            // 회원가입 데이터 추가
-            for data in signupData {
-                try MemoStore.shared.addToSmartClipboardHistory(content: data)
-                let history = try MemoStore.shared.loadSmartClipboardHistory()
-                if let item = history.first(where: { $0.content == data }) {
-                    let comboItem = ComboItem(
-                        type: .clipboardHistory,
-                        referenceId: item.id,
-                        order: order,
-                        displayTitle: String(data.prefix(20)),
-                        displayValue: data
-                    )
-                    allItems.append(comboItem)
-                    order += 1
-                }
-            }
-
-            // 회원가입 Combo 생성
-            let signupCombo = Combo(
-                title: "회원가입 정보",
-                items: allItems,
-                interval: 2.0
-            )
-            try MemoStore.shared.addCombo(signupCombo)
-
-            // 배송 정보 추가
-            allItems = []
-            order = 0
-            for data in shippingData {
-                try MemoStore.shared.addToSmartClipboardHistory(content: data)
-                let history = try MemoStore.shared.loadSmartClipboardHistory()
-                if let item = history.first(where: { $0.content == data }) {
-                    let comboItem = ComboItem(
-                        type: .clipboardHistory,
-                        referenceId: item.id,
-                        order: order,
-                        displayTitle: String(data.prefix(20)),
-                        displayValue: data
-                    )
-                    allItems.append(comboItem)
-                    order += 1
-                }
-            }
-
-            // 배송 정보 Combo 생성
-            let shippingCombo = Combo(
-                title: "배송 정보",
-                items: allItems,
-                interval: 2.0
-            )
-            try MemoStore.shared.addCombo(shippingCombo)
-
+            try addTestCombo(title: "회원가입 정보", data: [
+                "홍길동", "hong@example.com", "010-1234-5678", "06234", "서울특별시 강남구 테헤란로 123"
+            ])
+            try addTestCombo(title: "배송 정보", data: [
+                "김철수", "010-9876-5432", "13579", "부산광역시 해운대구 해운대로 456", "문 앞에 놓아주세요"
+            ])
             loadCombos()
             showToast(message: "✨ 테스트 데이터 추가 완료! (2개 Combo, 10개 항목)")
         } catch {
             showToast(message: "❌ 테스트 데이터 추가 실패: \(error.localizedDescription)")
         }
+    }
+
+    /// 데이터 배열로 클립보드 히스토리 항목을 생성하고 Combo로 묶어 저장
+    private func addTestCombo(title: String, data: [String]) throws {
+        var items: [ComboItem] = []
+        for (order, text) in data.enumerated() {
+            try MemoStore.shared.addToSmartClipboardHistory(content: text)
+            let history = try MemoStore.shared.loadSmartClipboardHistory()
+            if let item = history.first(where: { $0.content == text }) {
+                items.append(ComboItem(
+                    type: .clipboardHistory,
+                    referenceId: item.id,
+                    order: order,
+                    displayTitle: String(text.prefix(20)),
+                    displayValue: text
+                ))
+            }
+        }
+        try MemoStore.shared.addCombo(Combo(title: title, items: items, interval: 2.0))
     }
 }
 

@@ -39,13 +39,13 @@ struct ShortcutMemoView: View {
                     HStack(spacing: 8) {
                         Image(systemName: detectedType.icon)
                             .font(.caption)
-                            .foregroundColor(colorFor(detectedType.color))
+                            .foregroundColor(Color.fromName(detectedType.color))
 
                         Text(detectedType.localizedName)
                             .font(.caption)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
-                            .background(colorFor(detectedType.color).opacity(0.2))
+                            .background(Color.fromName(detectedType.color).opacity(0.2))
                             .cornerRadius(6)
 
                         if confidence > 0.8 {
@@ -106,22 +106,6 @@ struct ShortcutMemoView: View {
         //.presentationDetents([.height(200)])
     }
 
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
-        }
-    }
 }
 
 struct ShortcutMemoView_Previews: PreviewProvider {

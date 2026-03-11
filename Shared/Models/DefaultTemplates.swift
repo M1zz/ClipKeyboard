@@ -24,8 +24,13 @@ struct DefaultTemplates {
 
     /// 기본 템플릿 목록
     static func getDefaultTemplates() -> [Memo] {
-        let templates: [Memo] = [
-            // 1. 인사말 템플릿
+        greetingTemplates + businessTemplates + responseTemplates
+    }
+
+    // MARK: - Template Groups
+
+    private static var greetingTemplates: [Memo] {
+        [
             Memo(
                 title: "인사말",
                 value: "안녕하세요, {이름}입니다.",
@@ -34,8 +39,31 @@ struct DefaultTemplates {
                 templateVariables: ["이름"],
                 placeholderValues: ["이름": []]
             ),
+            Memo(
+                title: "감사 인사",
+                value: "감사합니다. 좋은 하루 되세요!",
+                category: "인사",
+                isTemplate: false
+            ),
+            Memo(
+                title: "긴급 연락처",
+                value: """
+                긴급 연락처
 
-            // 2. 회의 안내 템플릿
+                이름: {이름}
+                관계: {관계}
+                전화: {전화번호}
+                """,
+                category: "연락처",
+                isTemplate: true,
+                templateVariables: ["이름", "관계", "전화번호"],
+                placeholderValues: ["이름": [], "관계": [], "전화번호": []]
+            )
+        ]
+    }
+
+    private static var businessTemplates: [Memo] {
+        [
             Memo(
                 title: "회의 일정",
                 value: """
@@ -50,23 +78,8 @@ struct DefaultTemplates {
                 category: "업무",
                 isTemplate: true,
                 templateVariables: ["날짜", "시간", "장소", "참석자"],
-                placeholderValues: [
-                    "날짜": [],
-                    "시간": [],
-                    "장소": [],
-                    "참석자": []
-                ]
+                placeholderValues: ["날짜": [], "시간": [], "장소": [], "참석자": []]
             ),
-
-            // 3. 감사 인사 템플릿
-            Memo(
-                title: "감사 인사",
-                value: "감사합니다. 좋은 하루 되세요!",
-                category: "인사",
-                isTemplate: false
-            ),
-
-            // 4. 이메일 서명 템플릿
             Memo(
                 title: "이메일 서명",
                 value: """
@@ -77,24 +90,8 @@ struct DefaultTemplates {
                 category: "업무",
                 isTemplate: true,
                 templateVariables: ["이름", "직책", "회사명", "이메일", "전화번호"],
-                placeholderValues: [
-                    "이름": [],
-                    "직책": [],
-                    "회사명": [],
-                    "이메일": [],
-                    "전화번호": []
-                ]
+                placeholderValues: ["이름": [], "직책": [], "회사명": [], "이메일": [], "전화번호": []]
             ),
-
-            // 5. 거절 메시지 템플릿
-            Memo(
-                title: "정중한 거절",
-                value: "죄송하지만 해당 요청은 어렵습니다. 양해 부탁드립니다.",
-                category: "응대",
-                isTemplate: false
-            ),
-
-            // 6. 주소 템플릿
             Memo(
                 title: "배송 주소",
                 value: """
@@ -105,24 +102,33 @@ struct DefaultTemplates {
                 category: "주소",
                 isTemplate: true,
                 templateVariables: ["우편번호", "주소", "상세주소", "이름", "전화번호"],
-                placeholderValues: [
-                    "우편번호": [],
-                    "주소": [],
-                    "상세주소": [],
-                    "이름": [],
-                    "전화번호": []
-                ]
+                placeholderValues: ["우편번호": [], "주소": [], "상세주소": [], "이름": [], "전화번호": []]
             ),
+            Memo(
+                title: "일정 확인",
+                value: "{날짜} {시간}에 일정이 가능하신가요?",
+                category: "업무",
+                isTemplate: true,
+                templateVariables: ["날짜", "시간"],
+                placeholderValues: ["날짜": [], "시간": []]
+            )
+        ]
+    }
 
-            // 7. 확인 메시지
+    private static var responseTemplates: [Memo] {
+        [
+            Memo(
+                title: "정중한 거절",
+                value: "죄송하지만 해당 요청은 어렵습니다. 양해 부탁드립니다.",
+                category: "응대",
+                isTemplate: false
+            ),
             Memo(
                 title: "확인 완료",
                 value: "확인했습니다. 감사합니다!",
                 category: "응대",
                 isTemplate: false
             ),
-
-            // 8. 문의 답변 템플릿
             Memo(
                 title: "문의 답변",
                 value: """
@@ -138,48 +144,9 @@ struct DefaultTemplates {
                 category: "업무",
                 isTemplate: true,
                 templateVariables: ["이름", "내용", "답변"],
-                placeholderValues: [
-                    "이름": [],
-                    "내용": [],
-                    "답변": []
-                ]
-            ),
-
-            // 9. 일정 확인 요청
-            Memo(
-                title: "일정 확인",
-                value: "{날짜} {시간}에 일정이 가능하신가요?",
-                category: "업무",
-                isTemplate: true,
-                templateVariables: ["날짜", "시간"],
-                placeholderValues: [
-                    "날짜": [],
-                    "시간": []
-                ]
-            ),
-
-            // 10. 긴급 연락처
-            Memo(
-                title: "긴급 연락처",
-                value: """
-                긴급 연락처
-
-                이름: {이름}
-                관계: {관계}
-                전화: {전화번호}
-                """,
-                category: "연락처",
-                isTemplate: true,
-                templateVariables: ["이름", "관계", "전화번호"],
-                placeholderValues: [
-                    "이름": [],
-                    "관계": [],
-                    "전화번호": []
-                ]
+                placeholderValues: ["이름": [], "내용": [], "답변": []]
             )
         ]
-
-        return templates
     }
 
     /// 기본 템플릿 생성 (앱 초기 실행 시 1회만)

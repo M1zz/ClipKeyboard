@@ -233,7 +233,7 @@ struct PaywallView: View {
                 }
                 
                 // 에러 메시지
-                if let error = store.purchaseError {
+                if let error = store.errorMessage {
                     Text(error)
                         .font(.caption)
                         .foregroundStyle(.red)

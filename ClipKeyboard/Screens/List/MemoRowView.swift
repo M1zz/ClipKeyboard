@@ -92,7 +92,7 @@ struct MemoRowView: View {
     /// 카테고리 색상
     private var categoryColor: Color {
         if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
-            return colorFor(type.color)
+            return Color.fromName(type.color)
         }
         return .gray
     }
@@ -107,24 +107,6 @@ struct MemoRowView: View {
         return NSLocalizedString(category, comment: "Category name")
     }
 
-    /// 색상 이름을 Color로 변환
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        case "yellow": return .yellow
-        default: return .gray
-        }
-    }
 }
 
 // MARK: - Favorite Nudge Heart Animation
