@@ -18,12 +18,15 @@ struct ImageWrapper: Identifiable {
 
 struct MemoAdd: View {
 
-    @State private var keyword: String = ""
-    @State private var value: String = ""
-    @State private var showAlert: Bool = false
-    @State private var attachedImages: [ImageWrapper] = [] // 첨부된 이미지들
+    // MARK: - ViewModel
 
-    // 수정 모드용 초기값
+    @StateObject private var viewModel = MemoAddViewModel(
+        saveMemoUseCase: SaveMemoUseCase(),
+        memoRepository: MemoRepository()
+    )
+
+    // MARK: - Public Input Properties (backward compatibility)
+
     var memoId: UUID? = nil // 수정할 메모의 ID
     var insertedKeyword: String = ""
     var insertedValue: String = ""
@@ -33,75 +36,24 @@ struct MemoAdd: View {
     var insertedIsCombo: Bool = false
     var insertedComboValues: [String] = []
 
-    // 새로운 기능들
-    @State private var selectedCategory: String = "텍스트"
-    @State private var isSecure: Bool = false
-    @State private var isTemplate: Bool = false
+    // MARK: - View-only State
+
     @FocusState private var isFocused: Bool
-
-    // 템플릿 플레이스홀더 값 설정
-    @State private var detectedPlaceholders: [String] = []
-    @State private var placeholderValues: [String: [String]] = [:]
-    @State private var showingPlaceholderEditor: String? = nil
-    @State private var newValue: String = ""
-
-    // Combo 기능
-    @State private var isCombo: Bool = false
-    @State private var comboValues: [String] = []
-    @State private var newComboValue: String = ""
-
-    // 자동 분류 관련
-    @State private var autoDetectedType: ClipboardItemType? = nil
-    @State private var autoDetectedConfidence: Double = 0.0
-
-    // 클립보드 스마트 제안
-    @State private var clipboardContent: String? = nil
-    @State private var clipboardDetectedType: ClipboardItemType? = nil
-    @State private var clipboardHistory: SmartClipboardHistory? = nil
-    @State private var showClipboardSuggestion: Bool = false
-
-    // 이모지 피커
-    @State private var showEmojiPicker: Bool = false
-
-    // OCR 문서 스캔
-    @State private var showDocumentScanner: Bool = false
-    @State private var showImagePicker: Bool = false
-    @State private var isProcessingOCR: Bool = false
-
-    // Toast 메시지
-    @State private var showToast: Bool = false
-    @State private var toastMessage: String = ""
-    
-    // Pro 게이팅
-    @State private var showPaywall: Bool = false
-    @State private var paywallTrigger: ProFeatureManager.LimitType? = nil
-
     @Environment(\.dismiss) private var dismiss
-
-    // 에러 메시지
-    private var alertMessage: String {
-        if keyword.isEmpty {
-            return "제목을 입력하세요"
-        }
-        if isCombo {
-            return "Combo 값을 최소 1개 이상 추가하세요"
-        }
-        return "내용을 입력하세요"
-    }
 
     var body: some View {
         VStack(spacing: 0) {
             // 📋 클립보드 스마트 제안
-            if showClipboardSuggestion, let content = clipboardContent, let detectedType = clipboardDetectedType {
+            if viewModel.showClipboardSuggestion, let content = viewModel.clipboardContent, let detectedType = viewModel.clipboardDetectedType {
                 ClipboardSuggestionBanner(
                     content: content,
                     detectedType: detectedType,
-                    clipboardHistory: clipboardHistory,
+                    clipboardHistory: viewModel.clipboardHistory,
                     onAccept: {
-                        acceptClipboardSuggestion()
+                        viewModel.acceptClipboardSuggestion()
                     },
                     onDismiss: {
-                        showClipboardSuggestion = false
+                        viewModel.showClipboardSuggestion = false
                     }
                 )
                 .transition(.move(edge: .top).combined(with: .opacity))
@@ -118,18 +70,18 @@ struct MemoAdd: View {
                     comboSection
 
                     // 📌 3단계: 내용 입력
-                    if isCombo {
+                    if viewModel.isCombo {
                         // Combo용 설명 입력
                         comboDescriptionSection
                     } else {
                         // 일반 내용 입력
                         ContentInputSection(
-                            value: $value,
-                            selectedCategory: selectedCategory,
+                            value: $viewModel.value,
+                            selectedCategory: viewModel.selectedCategory,
                             isFocused: $isFocused,
-                            autoDetectedType: $autoDetectedType,
-                            autoDetectedConfidence: $autoDetectedConfidence,
-                            attachedImages: $attachedImages
+                            autoDetectedType: $viewModel.autoDetectedType,
+                            autoDetectedConfidence: $viewModel.autoDetectedConfidence,
+                            attachedImages: $viewModel.attachedImages
                         )
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
@@ -170,14 +122,7 @@ struct MemoAdd: View {
 
                 HStack(spacing: 12) {
                     Button {
-                        keyword = ""
-                        value = ""
-                        selectedCategory = "텍스트"
-                        isSecure = false
-                        isTemplate = false
-                        isCombo = false
-                        comboValues = []
-                        newComboValue = ""
+                        viewModel.reset()
                     } label: {
                         HStack {
                             Image(systemName: "arrow.counterclockwise")
@@ -193,7 +138,7 @@ struct MemoAdd: View {
                     }
 
                     Button {
-                        saveMemo()
+                        viewModel.saveMemo { dismiss() }
                     } label: {
                         HStack {
                             Image(systemName: "checkmark")
@@ -217,15 +162,15 @@ struct MemoAdd: View {
             .ignoresSafeArea(.keyboard)
             .zIndex(100)
         }
-        .alert(alertMessage, isPresented: $showAlert) {
+        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
 
         }
         .overlay(
             Group {
-                if showToast {
+                if viewModel.showToast {
                     VStack {
                         Spacer()
-                        Text(toastMessage)
+                        Text(viewModel.toastMessage)
                             .padding()
                             .background(Color.black.opacity(0.7))
                             .foregroundColor(.white)
@@ -233,37 +178,36 @@ struct MemoAdd: View {
                             .padding(.bottom, 100)
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut, value: showToast)
+                    .animation(.easeInOut, value: viewModel.showToast)
                 }
             }
         )
-        .sheet(isPresented: $showEmojiPicker) {
+        .sheet(isPresented: $viewModel.showEmojiPicker) {
             EmojiPicker { selectedEmoji in
-                // 선택한 이모지를 value에 추가
-                value += selectedEmoji
+                viewModel.value += selectedEmoji
             }
         }
-        .paywall(isPresented: $showPaywall, triggeredBy: paywallTrigger)
+        .paywall(isPresented: $viewModel.showPaywall, triggeredBy: viewModel.paywallTrigger)
         #if os(iOS)
-        .sheet(isPresented: $showDocumentScanner) {
+        .sheet(isPresented: $viewModel.showDocumentScanner) {
             DocumentCameraView { result in
                 switch result {
                 case .success(let images):
-                    processOCRImages(images)
+                    viewModel.processOCRImages(images)
                 case .failure(let error):
                     print("❌ [OCR] 문서 스캔 실패: \(error)")
                 }
             }
         }
-        .sheet(isPresented: $showImagePicker) {
+        .sheet(isPresented: $viewModel.showImagePicker) {
             ImagePickerView { image in
                 if let image = image {
-                    processOCRImages([image])
+                    viewModel.processOCRImages([image])
                 }
             }
         }
         .overlay {
-            if isProcessingOCR {
+            if viewModel.isProcessingOCR {
                 ZStack {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
@@ -285,62 +229,21 @@ struct MemoAdd: View {
         }
         #endif
         .onAppear {
-            // 📋 새 메모 생성 시 클립보드 내용 확인
-            if memoId == nil && insertedValue.isEmpty {
-                checkClipboardAndSuggest()
-            }
-
-            // 수정 모드 초기화
-            if !insertedKeyword.isEmpty {
-                keyword = insertedKeyword
-            }
-
-            if !insertedValue.isEmpty {
-                value = insertedValue
-
-                // 클립보드에서 온 새로운 메모인 경우 자동 분류 수행
-                if memoId == nil || insertedCategory == "텍스트" {
-                    let classification = ClipboardClassificationService.shared.classify(content: insertedValue)
-                    autoDetectedType = classification.type
-                    autoDetectedConfidence = classification.confidence
-
-                    // 자동으로 테마 설정
-                    let suggestedCategory = Constants.categoryForClipboardType(classification.type)
-                    selectedCategory = suggestedCategory
-
-                    // 민감한 정보는 자동으로 보안 모드
-                    let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
-                    isSecure = sensitiveTypes.contains(classification.type)
-
-                    print("🔍 [MemoAdd] 자동 분류: \(classification.type.rawValue) → 테마: \(suggestedCategory)")
-                }
-            } else {
-                // 기존 설정 사용
-                selectedCategory = insertedCategory
-            }
-
-            isTemplate = insertedIsTemplate
-            isCombo = insertedIsCombo
-            comboValues = insertedComboValues
-
-            if !insertedIsSecure && autoDetectedType == nil {
-                // 자동 분류로 보안 설정되지 않았으면 기존 설정 사용
-                isSecure = insertedIsSecure
-            }
-
-            // 초기 플레이스홀더 감지 및 로드
-            detectPlaceholders()
-            loadPlaceholderValues()
+            viewModel.onAppear(
+                insertedKeyword: insertedKeyword,
+                insertedValue: insertedValue,
+                insertedCategory: insertedCategory,
+                insertedIsTemplate: insertedIsTemplate,
+                insertedIsSecure: insertedIsSecure,
+                insertedIsCombo: insertedIsCombo,
+                insertedComboValues: insertedComboValues
+            )
         }
-        .onChange(of: value) { _ in
-            detectPlaceholders()
+        .onChange(of: viewModel.value) { _ in
+            viewModel.onValueChanged()
         }
-        .onChange(of: isTemplate) { _ in
-            if isTemplate {
-                detectPlaceholders()
-            } else {
-                detectedPlaceholders = []
-            }
+        .onChange(of: viewModel.isTemplate) { _ in
+            viewModel.onIsTemplateChanged()
         }
     }
 
@@ -355,7 +258,7 @@ struct MemoAdd: View {
                     .foregroundColor(.accentColor)
 
                 // 자동 분류 표시
-                if let detectedType = autoDetectedType {
+                if let detectedType = viewModel.autoDetectedType {
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
                             .font(.caption2)
@@ -364,8 +267,8 @@ struct MemoAdd: View {
                     }
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(colorFor(detectedType.color).opacity(0.2))
-                    .foregroundColor(colorFor(detectedType.color))
+                    .background(Color.fromName(detectedType.color).opacity(0.2))
+                    .foregroundColor(Color.fromName(detectedType.color))
                     .cornerRadius(8)
                 }
             }
@@ -373,7 +276,7 @@ struct MemoAdd: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     // Recently Used Section
-                    if !recentlyUsedCategories.isEmpty {
+                    if !viewModel.recentlyUsedCategories.isEmpty {
                         // Recently Used Label
                         Text(NSLocalizedString("최근", comment: "Recent"))
                             .font(.caption)
@@ -381,7 +284,7 @@ struct MemoAdd: View {
                             .foregroundColor(.secondary)
                             .padding(.horizontal, 8)
 
-                        ForEach(recentlyUsedCategories, id: \.self) { theme in
+                        ForEach(viewModel.recentlyUsedCategories, id: \.self) { theme in
                             themePillButton(theme: theme, showStar: true)
                         }
 
@@ -394,7 +297,7 @@ struct MemoAdd: View {
                     // All Categories
                     ForEach(Constants.themes, id: \.self) { theme in
                         // Don't show in main list if already in recently used
-                        if !recentlyUsedCategories.contains(theme) {
+                        if !viewModel.recentlyUsedCategories.contains(theme) {
                             themePillButton(theme: theme, showStar: false)
                         }
                     }
@@ -411,47 +314,24 @@ struct MemoAdd: View {
     @ViewBuilder
     private func themePillButton(theme: String, showStar: Bool) -> some View {
         Button {
-            selectedCategory = theme
-            updateRecentlyUsedCategories(theme)
+            viewModel.selectCategory(theme)
         } label: {
             HStack(spacing: 4) {
                 if showStar {
                     Image(systemName: "star.fill")
                         .font(.caption2)
-                        .foregroundColor(selectedCategory == theme ? .white : .orange)
+                        .foregroundColor(viewModel.selectedCategory == theme ? .white : .orange)
                 }
                 Text(Constants.localizedThemeName(theme))
                     .font(.callout)
-                    .fontWeight(selectedCategory == theme ? .semibold : .regular)
+                    .fontWeight(viewModel.selectedCategory == theme ? .semibold : .regular)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(selectedCategory == theme ? Color.accentColor : Color(.systemGray6))
-            .foregroundColor(selectedCategory == theme ? .white : .primary)
+            .background(viewModel.selectedCategory == theme ? Color.accentColor : Color(.systemGray6))
+            .foregroundColor(viewModel.selectedCategory == theme ? .white : .primary)
             .cornerRadius(20)
         }
-    }
-
-    // Get recently used categories (max 5)
-    private var recentlyUsedCategories: [String] {
-        let recent = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
-        return Array(recent.prefix(5))
-    }
-
-    // Update recently used categories
-    private func updateRecentlyUsedCategories(_ category: String) {
-        var recent = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
-
-        // Remove if already exists
-        recent.removeAll { $0 == category }
-
-        // Add to front
-        recent.insert(category, at: 0)
-
-        // Keep only last 5
-        recent = Array(recent.prefix(5))
-
-        UserDefaults.standard.set(recent, forKey: "recentlyUsedCategories")
     }
 
     private var titleInputSection: some View {
@@ -461,7 +341,7 @@ struct MemoAdd: View {
                 .fontWeight(.medium)
                 .foregroundColor(.secondary)
 
-            TextField("메모 제목을 입력하세요", text: $keyword)
+            TextField("메모 제목을 입력하세요", text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .padding(.vertical, 12)
@@ -474,9 +354,9 @@ struct MemoAdd: View {
     private var additionalOptionsSection: some View {
         VStack(spacing: 12) {
             HStack {
-                Image(systemName: isSecure ? "lock.fill" : "lock")
+                Image(systemName: viewModel.isSecure ? "lock.fill" : "lock")
                     .font(.title3)
-                    .foregroundColor(isSecure ? .orange : .secondary)
+                    .foregroundColor(viewModel.isSecure ? .orange : .secondary)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -491,13 +371,13 @@ struct MemoAdd: View {
                 Spacer()
 
                 Toggle("", isOn: Binding(
-                    get: { isSecure },
+                    get: { viewModel.isSecure },
                     set: { newValue in
                         if newValue && !ProFeatureManager.isBiometricLockAvailable {
-                            paywallTrigger = .biometricLock
-                            showPaywall = true
+                            viewModel.paywallTrigger = .biometricLock
+                            viewModel.showPaywall = true
                         } else {
-                            isSecure = newValue
+                            viewModel.isSecure = newValue
                         }
                     }
                 ))
@@ -509,9 +389,9 @@ struct MemoAdd: View {
             .cornerRadius(12)
 
             HStack {
-                Image(systemName: isTemplate ? "doc.text.fill" : "doc.text")
+                Image(systemName: viewModel.isTemplate ? "doc.text.fill" : "doc.text")
                     .font(.title3)
-                    .foregroundColor(isTemplate ? .purple : .secondary)
+                    .foregroundColor(viewModel.isTemplate ? .purple : .secondary)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -525,7 +405,7 @@ struct MemoAdd: View {
 
                 Spacer()
 
-                Toggle("", isOn: $isTemplate)
+                Toggle("", isOn: $viewModel.isTemplate)
                     .labelsHidden()
             }
             .padding(.vertical, 12)
@@ -534,9 +414,9 @@ struct MemoAdd: View {
             .cornerRadius(12)
 
             HStack {
-                Image(systemName: isCombo ? "square.stack.3d.forward.dottedline.fill" : "square.stack.3d.forward.dottedline")
+                Image(systemName: viewModel.isCombo ? "square.stack.3d.forward.dottedline.fill" : "square.stack.3d.forward.dottedline")
                     .font(.title3)
-                    .foregroundColor(isCombo ? .orange : .secondary)
+                    .foregroundColor(viewModel.isCombo ? .orange : .secondary)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -550,7 +430,7 @@ struct MemoAdd: View {
 
                 Spacer()
 
-                Toggle("", isOn: $isCombo)
+                Toggle("", isOn: $viewModel.isCombo)
                     .labelsHidden()
             }
             .padding(.vertical, 12)
@@ -562,7 +442,7 @@ struct MemoAdd: View {
 
     @ViewBuilder
     private var templateSection: some View {
-        if isTemplate {
+        if viewModel.isTemplate {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
                     Image(systemName: "info.circle.fill")
@@ -590,7 +470,7 @@ struct MemoAdd: View {
             .padding()
 
             // 플레이스홀더 값 설정
-            if !detectedPlaceholders.isEmpty {
+            if !viewModel.detectedPlaceholders.isEmpty {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 8) {
                         Image(systemName: "list.bullet.rectangle")
@@ -601,12 +481,12 @@ struct MemoAdd: View {
                             .fontWeight(.semibold)
                     }
 
-                    ForEach(detectedPlaceholders, id: \.self) { placeholder in
+                    ForEach(viewModel.detectedPlaceholders, id: \.self) { placeholder in
                         PlaceholderValueEditor(
                             placeholder: placeholder,
                             values: Binding(
-                                get: { placeholderValues[placeholder] ?? [] },
-                                set: { placeholderValues[placeholder] = $0 }
+                                get: { viewModel.placeholderValues[placeholder] ?? [] },
+                                set: { viewModel.placeholderValues[placeholder] = $0 }
                             )
                         )
                     }
@@ -620,7 +500,7 @@ struct MemoAdd: View {
 
     @ViewBuilder
     private var comboSection: some View {
-        if isCombo {
+        if viewModel.isCombo {
             comboInfoSection
             comboValueInputSection
         }
@@ -645,14 +525,14 @@ struct MemoAdd: View {
             }
             .padding(.bottom, 4)
 
-            TextEditor(text: $value)
+            TextEditor(text: $viewModel.value)
                 .frame(minHeight: 80)
                 .padding(8)
                 .background(Color(.systemGray6))
                 .cornerRadius(8)
                 .overlay(
                     Group {
-                        if value.isEmpty {
+                        if viewModel.value.isEmpty {
                             Text(NSLocalizedString("예: 카드번호를 입력합니다", comment: "Description example"))
                                 .foregroundColor(.secondary)
                                 .padding(.leading, 12)
@@ -710,7 +590,7 @@ struct MemoAdd: View {
             Image(systemName: "list.number")
                 .font(.caption)
                 .foregroundColor(.orange)
-            Text(String(format: NSLocalizedString("Combo 값 설정 (%d개)", comment: "Combo value count"), comboValues.count))
+            Text(String(format: NSLocalizedString("Combo 값 설정 (%d개)", comment: "Combo value count"), viewModel.comboValues.count))
                 .font(.subheadline)
                 .fontWeight(.semibold)
         }
@@ -718,34 +598,34 @@ struct MemoAdd: View {
 
     private var comboValueInputField: some View {
         HStack(spacing: 8) {
-            TextField("값 입력", text: $newComboValue)
+            TextField("값 입력", text: $viewModel.newComboValue)
                 .textFieldStyle(.roundedBorder)
                 .submitLabel(.done)
                 .onSubmit {
-                    addComboValue()
+                    viewModel.addComboValue()
                 }
 
             Button {
-                addComboValue()
+                viewModel.addComboValue()
             } label: {
                 Image(systemName: "plus.circle.fill")
                     .font(.title2)
-                    .foregroundColor(newComboValue.isEmpty ? .gray : .orange)
+                    .foregroundColor(viewModel.newComboValue.isEmpty ? .gray : .orange)
             }
-            .disabled(newComboValue.isEmpty)
+            .disabled(viewModel.newComboValue.isEmpty)
         }
     }
 
     @ViewBuilder
     private var comboValueList: some View {
-        if !comboValues.isEmpty {
+        if !viewModel.comboValues.isEmpty {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(NSLocalizedString("순서를 변경하려면 드래그하세요", comment: "Drag to reorder"))
                             .font(.caption2)
                             .foregroundColor(.secondary)
                             .padding(.bottom, 4)
 
-                        ForEach(Array(comboValues.enumerated()), id: \.offset) { index, value in
+                        ForEach(Array(viewModel.comboValues.enumerated()), id: \.offset) { index, value in
                             HStack {
                                 Image(systemName: "line.3.horizontal")
                                     .font(.caption)
@@ -764,7 +644,7 @@ struct MemoAdd: View {
 
                                 Button {
                                     withAnimation {
-                                        _ = comboValues.remove(at: index)
+                                        viewModel.removeComboValue(at: index)
                                     }
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
@@ -777,7 +657,7 @@ struct MemoAdd: View {
                             .cornerRadius(8)
                         }
                         .onMove { from, to in
-                            comboValues.move(fromOffsets: from, toOffset: to)
+                            viewModel.moveComboValues(from: from, to: to)
                         }
                     }
         } else {
@@ -791,84 +671,14 @@ struct MemoAdd: View {
         }
     }
 
-    private func addComboValue() {
-        // 빈 값 체크
-        let trimmedValue = newComboValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedValue.isEmpty else {
-            showToastMessage(NSLocalizedString("값을 입력하세요", comment: ""))
-            return
-        }
-
-        // 중복 체크
-        if comboValues.contains(trimmedValue) {
-            showToastMessage(NSLocalizedString("이미 추가된 값입니다", comment: ""))
-            return
-        }
-
-        comboValues.append(trimmedValue)
-        newComboValue = ""
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    }
-
-    // Toast 메시지 표시
-    private func showToastMessage(_ message: String) {
-        toastMessage = message
-        showToast = true
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            showToast = false
-        }
-    }
-
-    // 커스텀 플레이스홀더 감지
-    private func detectPlaceholders() {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        let matches = regex.matches(in: value, range: NSRange(value.startIndex..., in: value))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: value) {
-                let placeholder = String(value[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
-        }
-
-        detectedPlaceholders = placeholders
-    }
-
-    // 플레이스홀더 값 로드
-    private func loadPlaceholderValues() {
-        for placeholder in detectedPlaceholders {
-            // 새로운 형식으로 로드
-            let values = MemoStore.shared.loadPlaceholderValues(for: placeholder)
-            placeholderValues[placeholder] = values.map { $0.value }
-        }
-    }
-
-
-    // 템플릿 변수 추출 함수
-    private func extractTemplateVariables(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        return matches.compactMap { match in
-            guard let range = Range(match.range(at: 1), in: text) else { return nil }
-            return String(text[range])
-        }
-    }
-
     // 템플릿 변수 버튼
     @ViewBuilder
     private func templateButton(title: String, variable: String) -> some View {
         Button {
-            value += variable
+            viewModel.value += variable
+            #if os(iOS)
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            #endif
         } label: {
             Text(title)
                 .font(.system(size: 14, weight: .medium))
@@ -878,361 +688,6 @@ struct MemoAdd: View {
                 .foregroundColor(.white)
                 .cornerRadius(8)
         }
-    }
-
-    // 색상 헬퍼 함수
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
-        }
-    }
-
-    // MARK: - Save Memo
-
-    private func saveMemo() {
-        // 유효성 검사
-        if keyword.isEmpty {
-            showAlert = true
-            return
-        }
-
-        // Combo인 경우 comboValues 확인, 일반인 경우 value 또는 attachedImages 확인
-        let hasContent = isCombo ? !comboValues.isEmpty : (!value.isEmpty || !attachedImages.isEmpty)
-
-        if !hasContent {
-            showAlert = true
-            return
-        }
-
-        // Pro 제한 체크 (새 메모 생성 시만)
-        if memoId == nil {
-            do {
-                let existingMemos = try MemoStore.shared.load(type: .tokenMemo)
-                let templateCount = existingMemos.filter { $0.isTemplate }.count
-
-                if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
-                    paywallTrigger = .template
-                    showPaywall = true
-                    return
-                }
-
-                if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
-                    paywallTrigger = .memo
-                    showPaywall = true
-                    return
-                }
-            } catch {
-                // 로드 실패 시 제한 체크 건너뛰기
-            }
-        }
-
-        // save
-        do {
-            var loadedMemos: [Memo] = try MemoStore.shared.load(type: .tokenMemo)
-
-            // 이미지들을 파일로 저장
-            var savedImageFileNames: [String] = []
-            #if os(iOS)
-            for wrapper in attachedImages {
-                let fileName = "\(UUID().uuidString).png"
-                try MemoStore.shared.saveImage(wrapper.image, fileName: fileName)
-                savedImageFileNames.append(fileName)
-            }
-            #endif
-
-            // 템플릿 변수 추출
-            let variables = extractTemplateVariables(from: value)
-
-            // 컨텐츠 타입 결정
-            let contentType: ClipboardContentType
-            if !value.isEmpty && !savedImageFileNames.isEmpty {
-                contentType = .mixed
-            } else if !savedImageFileNames.isEmpty {
-                contentType = .image
-            } else {
-                contentType = .text
-            }
-
-            // 카테고리 결정
-            let finalCategory: String
-            if selectedCategory == "텍스트" && autoDetectedType != nil && autoDetectedType != .text {
-                finalCategory = autoDetectedType!.rawValue
-                print("🎨 [MemoAdd] 테마 - 기본값 사용 중 → 자동 분류 적용: '\(finalCategory)'")
-            } else {
-                finalCategory = selectedCategory
-                print("🎨 [MemoAdd] 테마 - 사용자 선택 우선: '\(finalCategory)' (자동 분류: '\(autoDetectedType?.rawValue ?? "없음")')")
-            }
-
-            updateRecentlyUsedCategories(finalCategory)
-
-            let finalMemoId: UUID
-            let finalMemoTitle: String
-
-            if let existingId = memoId,
-               let index = loadedMemos.firstIndex(where: { $0.id == existingId }) {
-                // 기존 메모 업데이트
-                var updatedMemo = loadedMemos[index]
-                updatedMemo.title = keyword
-                updatedMemo.value = value
-                updatedMemo.lastEdited = Date()
-                updatedMemo.category = finalCategory
-                updatedMemo.isSecure = isSecure
-                updatedMemo.isTemplate = isTemplate
-                updatedMemo.templateVariables = variables
-                updatedMemo.placeholderValues = placeholderValues
-                updatedMemo.isCombo = isCombo
-                updatedMemo.comboValues = comboValues
-                updatedMemo.currentComboIndex = 0
-                updatedMemo.imageFileNames = savedImageFileNames
-                updatedMemo.contentType = contentType
-
-                loadedMemos[index] = updatedMemo
-                finalMemoId = existingId
-                finalMemoTitle = keyword
-            } else {
-                // 새 메모 추가 전 Pro 체크
-                if !ProFeatureManager.canAddMemo(currentCount: loadedMemos.count) {
-                    showPaywall = true
-                    return
-                }
-
-                // 새 메모 추가
-                let newMemoId = UUID()
-                let newMemo = Memo(
-                    id: newMemoId,
-                    title: keyword,
-                    value: value,
-                    lastEdited: Date(),
-                    category: finalCategory,
-                    isSecure: isSecure,
-                    isTemplate: isTemplate,
-                    templateVariables: variables,
-                    placeholderValues: placeholderValues,
-                    isCombo: isCombo,
-                    comboValues: comboValues,
-                    currentComboIndex: 0,
-                    imageFileNames: savedImageFileNames,
-                    contentType: contentType
-                )
-                loadedMemos.append(newMemo)
-                finalMemoId = newMemoId
-                finalMemoTitle = keyword
-
-                ReviewManager.shared.incrementMemoCreatedCount()
-            }
-
-            try MemoStore.shared.save(memos: loadedMemos, type: .tokenMemo)
-
-            // 플레이스홀더 값들 저장
-            for (placeholder, values) in placeholderValues where !values.isEmpty {
-                for value in values {
-                    MemoStore.shared.addPlaceholderValue(
-                        value,
-                        for: placeholder,
-                        sourceMemoId: finalMemoId,
-                        sourceMemoTitle: finalMemoTitle
-                    )
-                }
-            }
-
-            toastMessage = NSLocalizedString("저장됨", comment: "Saved toast")
-            showToast = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                dismiss()
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                ReviewManager.shared.requestReviewIfAppropriate()
-            }
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-
-    // MARK: - Clipboard Helper Functions
-
-    /// 클립보드 내용을 확인하고 사용자에게 제안
-    private func checkClipboardAndSuggest() {
-        #if os(iOS)
-        // 새로운 통합 클립보드 체크 사용 (텍스트 + 이미지 지원)
-        guard let history = ClipboardClassificationService.shared.checkClipboard() else { return }
-
-        // 텍스트인 경우 추가 검증
-        if history.contentType == ClipboardContentType.text {
-            guard history.content.count < 500 else { return }
-            guard history.content != value else { return }
-
-            // 의미 있는 데이터만 제안
-            if history.detectedType != ClipboardItemType.text || history.confidence > 0.5 {
-                clipboardHistory = history
-                clipboardContent = history.content
-                clipboardDetectedType = history.detectedType
-
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    showClipboardSuggestion = true
-                }
-
-                print("📋 [MemoAdd] 클립보드 텍스트 감지: \(history.detectedType.rawValue)")
-            }
-        } else if history.contentType == ClipboardContentType.image {
-            // 이미지는 항상 제안
-            clipboardHistory = history
-            clipboardContent = history.content
-            clipboardDetectedType = ClipboardItemType.text
-
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showClipboardSuggestion = true
-            }
-
-            print("📋 [MemoAdd] 클립보드 이미지 감지: \(history.content)")
-        }
-        #endif
-    }
-
-    #if os(iOS)
-    /// OCR 이미지 처리
-    private func processOCRImages(_ images: [UIImage]) {
-        isProcessingOCR = true
-
-        var allTexts: [String] = []
-        let group = DispatchGroup()
-
-        for image in images {
-            group.enter()
-            OCRService.shared.recognizeText(from: image) { texts in
-                allTexts.append(contentsOf: texts)
-                group.leave()
-            }
-        }
-
-        group.notify(queue: .main) {
-            defer { isProcessingOCR = false }
-
-            guard !allTexts.isEmpty else {
-                print("❌ [OCR] 인식된 텍스트가 없습니다")
-                return
-            }
-
-            print("✅ [OCR] 인식된 텍스트: \(allTexts)")
-
-            // 카테고리에 따라 파싱 및 자동 입력
-            if let categoryType = ClipboardItemType(rawValue: selectedCategory) {
-                switch categoryType {
-                case .creditCard:
-                    let cardInfo = OCRService.shared.parseCardInfo(from: allTexts)
-
-                    if let cardNumber = cardInfo["카드번호"] {
-                        value = cardNumber
-                        print("💳 [OCR] 카드번호 인식: \(cardNumber)")
-                    }
-
-                    if let expiryDate = cardInfo["유효기간"] {
-                        // 유효기간은 메모나 추가 필드에 넣을 수 있음
-                        print("📅 [OCR] 유효기간 인식: \(expiryDate)")
-                    }
-
-                case .address:
-                    let address = OCRService.shared.parseAddress(from: allTexts)
-                    if !address.isEmpty {
-                        value = address
-                        print("🏠 [OCR] 주소 인식: \(address)")
-                    }
-
-                default:
-                    // 일반 텍스트로 처리
-                    value = allTexts.joined(separator: "\n")
-                }
-            } else {
-                // 일반 텍스트로 처리
-                value = allTexts.joined(separator: "\n")
-            }
-        }
-    }
-    #endif
-
-    /// 클립보드 제안 수락
-    private func acceptClipboardSuggestion() {
-        guard let content = clipboardContent, let detectedType = clipboardDetectedType else { return }
-
-        // 이미지인 경우
-        if let history = clipboardHistory, history.contentType == ClipboardContentType.image {
-            #if os(iOS)
-            // 클립보드에서 이미지 가져오기
-            if let image = UIPasteboard.general.image {
-                withAnimation {
-                    attachedImages = [ImageWrapper(image: image)]
-                }
-                print("✅ [MemoAdd] 클립보드에서 이미지를 가져왔습니다")
-            }
-            #endif
-
-            // 테마를 이미지로 자동 선택
-            selectedCategory = "이미지"
-
-            // 자동 분류 정보 설정
-            autoDetectedType = .image
-            autoDetectedConfidence = 1.0
-
-            // 클립보드 히스토리에 영구 저장
-            var permanentHistory = history
-            permanentHistory.isTemporary = false
-
-            var existingHistory = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
-            existingHistory.insert(permanentHistory, at: 0)
-
-            // 최대 100개 제한
-            if existingHistory.count > 100 {
-                existingHistory = Array(existingHistory.prefix(100))
-            }
-
-            do {
-                try MemoStore.shared.saveSmartClipboardHistory(history: existingHistory)
-                print("✅ [MemoAdd] 이미지를 클립보드 히스토리에 저장했습니다")
-            } catch {
-                print("❌ [MemoAdd] 이미지 저장 실패: \(error)")
-            }
-
-            // 제안 배너 숨기기
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showClipboardSuggestion = false
-            }
-
-            return
-        }
-
-        // 텍스트 내용 채우기
-        value = content
-
-        // 테마 자동 선택
-        let suggestedTheme = Constants.themeForClipboardType(detectedType)
-        selectedCategory = suggestedTheme
-
-        // 자동 분류 정보 설정
-        autoDetectedType = detectedType
-        autoDetectedConfidence = ClipboardClassificationService.shared.classify(content: content).confidence
-
-        // 민감한 정보는 자동으로 보안 모드
-        let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
-        isSecure = sensitiveTypes.contains(detectedType)
-
-        // 제안 배너 숨기기
-        withAnimation(.easeInOut(duration: 0.3)) {
-            showClipboardSuggestion = false
-        }
-
-        print("✅ [MemoAdd] 클립보드 내용 적용: \(detectedType.rawValue)")
     }
 }
 
@@ -1689,12 +1144,12 @@ struct ClipboardSuggestionBanner: View {
                         if clipboardHistory?.contentType != .image {
                             Image(systemName: detectedType.icon)
                                 .font(.caption)
-                                .foregroundColor(colorFor(detectedType.color))
+                                .foregroundColor(Color.fromName(detectedType.color))
 
                             Text(detectedType.localizedName)
                                 .font(.caption)
                                 .fontWeight(.medium)
-                                .foregroundColor(colorFor(detectedType.color))
+                                .foregroundColor(Color.fromName(detectedType.color))
                         }
                     }
 
@@ -1757,23 +1212,6 @@ struct ClipboardSuggestionBanner: View {
         return content
     }
 
-    private func colorFor(_ colorName: String) -> Color {
-        switch colorName {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        case "yellow": return .yellow
-        default: return .gray
-        }
-    }
 }
 
 // MARK: - Emoji Picker
