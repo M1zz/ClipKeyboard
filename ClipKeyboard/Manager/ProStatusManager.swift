@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 /// Pro 상태 및 무료 제한 관리
 class ProStatusManager: ObservableObject {
@@ -28,23 +27,11 @@ class ProStatusManager: ObservableObject {
     
     private let proStatusKey = "com.ysoup.tokenmemo.isPro"
     private let userDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
-    private var cancellables = Set<AnyCancellable>()
-    
+
     // MARK: - Init
-    
+
     private init() {
         loadProStatus()
-        
-        // StoreManager에서 구매 완료 알림 수신
-        NotificationCenter.default.publisher(for: .proStatusChanged)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] notification in
-                if let isPro = notification.object as? Bool {
-                    self?.isPro = isPro
-                    self?.saveProStatus()
-                }
-            }
-            .store(in: &cancellables)
     }
     
     // MARK: - Public Methods
@@ -112,8 +99,3 @@ class ProStatusManager: ObservableObject {
     }
 }
 
-// MARK: - Notifications
-
-extension Notification.Name {
-    static let proStatusChanged = Notification.Name("proStatusChanged")
-}

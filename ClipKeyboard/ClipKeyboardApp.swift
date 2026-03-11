@@ -11,6 +11,7 @@ import SwiftUI
 struct ClipKeyboardApp: App {
     @ObservedObject var manager = DataManager()
     @StateObject private var storeManager = StoreManager.shared
+    @StateObject private var deps = AppDependencies.shared
     @State private var showReviewRequest = false
 
     init() {
@@ -31,6 +32,7 @@ struct ClipKeyboardApp: App {
 
                 ClipKeyboardList()
                     .environmentObject(storeManager)
+                    .environmentObject(deps)
                     .onOpenURL { url in
                         handleOpenURL(url)
                     }

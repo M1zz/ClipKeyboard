@@ -176,7 +176,8 @@ class StoreManager: ObservableObject {
     
     /// 트랜잭션 리스너
     private func listenForTransactions() -> Task<Void, Error> {
-        return Task.detached {
+        return Task.detached { [weak self] in
+            guard let self else { return }
             for await result in Transaction.updates {
                 do {
                     let transaction = try await self.checkVerified(result)
