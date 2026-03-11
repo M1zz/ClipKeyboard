@@ -39,8 +39,10 @@
   - [x] OCRService → 별도 파일 추출
   - [x] MemoStore.swift: 1,220줄 → 678줄 (분류/OCR 서비스 분리)
 
-## 다음 단계 (미완료)
+## Phase 7: 최종 완료 ✅
 
-- [ ] MemoAdd.swift의 @State 변수를 MemoAddViewModel로 완전 연결 (남은 View-only 상태 정리)
-- [ ] ClipKeyboardList ViewModel 분리 (1,071줄 → ViewModel + View 분리)
-- [ ] 미커밋 파일 커밋 (StoreManager, ProStatusManager, Products.storekit, 새 Service 파일들)
+- [x] MemoAdd.swift의 @State 변수를 MemoAddViewModel로 완전 연결 (recentlyUsedCategories, updateRecentlyUsedCategories View 중복 제거, selectCategory 메서드 추가)
+- [x] ClipKeyboardList ViewModel 분리 (ClipKeyboardListViewModel 신규 생성, View는 isSearchBarVisible만 유지)
+- [x] 미커밋 파일 전체 커밋 완료
+
+## 전체 완료 🎉
