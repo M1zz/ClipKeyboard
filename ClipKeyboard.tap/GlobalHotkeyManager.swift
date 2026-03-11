@@ -45,64 +45,55 @@ class GlobalHotkeyManager {
     }
 
     func registerGlobalHotkey() {
-        // 접근성 권한 확인
         checkAccessibilityPermission()
 
-        // Control + Option + K (^⌥K)
         let keyCode: UInt32 = 40 // K key
         let modifiers: UInt32 = UInt32(controlKey | optionKey)
+        let hotKeyID = buildHotKeyID()
 
-        var hotKeyID = EventHotKeyID()
-        hotKeyID.signature = OSType(("T" as Character).asciiValue! << 24 |
-                                    ("M" as Character).asciiValue! << 16 |
-                                    ("H" as Character).asciiValue! << 8 |
-                                    ("K" as Character).asciiValue!)
-        hotKeyID.id = 1
+        guard installHotKeyHandler() else { return }
+        registerHotKey(id: hotKeyID, keyCode: keyCode, modifiers: modifiers)
+    }
 
+    private func buildHotKeyID() -> EventHotKeyID {
+        var id = EventHotKeyID()
+        id.signature = OSType(("T" as Character).asciiValue! << 24 |
+                              ("M" as Character).asciiValue! << 16 |
+                              ("H" as Character).asciiValue! << 8 |
+                              ("K" as Character).asciiValue!)
+        id.id = 1
+        return id
+    }
+
+    private func installHotKeyHandler() -> Bool {
         var eventType = EventTypeSpec()
         eventType.eventClass = OSType(kEventClassKeyboard)
         eventType.eventKind = OSType(kEventHotKeyPressed)
 
-        // 이벤트 핸들러 등록
-        let handler: EventHandlerUPP = { (nextHandler, theEvent, userData) -> OSStatus in
+        let handler: EventHandlerUPP = { (_, _, _) -> OSStatus in
             print("🔥 [Global Hotkey] Control+Option+K 전역 단축키 감지!")
-
-            // 메인 스레드에서 앱 활성화
             DispatchQueue.main.async {
                 GlobalHotkeyManager.shared.activateApp()
             }
-
             return noErr
         }
 
         var handlerRef: EventHandlerRef?
-        let installStatus = InstallEventHandler(
-            GetApplicationEventTarget(),
-            handler,
-            1,
-            &eventType,
-            nil,
-            &handlerRef
-        )
+        let status = InstallEventHandler(GetApplicationEventTarget(), handler, 1, &eventType, nil, &handlerRef)
 
-        if installStatus == noErr {
+        if status == noErr {
             self.eventHandler = handlerRef
             print("✅ [Global Hotkey] 이벤트 핸들러 등록 성공")
+            return true
         } else {
-            print("❌ [Global Hotkey] 이벤트 핸들러 등록 실패: \(installStatus)")
-            return
+            print("❌ [Global Hotkey] 이벤트 핸들러 등록 실패: \(status)")
+            return false
         }
+    }
 
-        // 핫키 등록
+    private func registerHotKey(id: EventHotKeyID, keyCode: UInt32, modifiers: UInt32) {
         var hotKeyRefVar: EventHotKeyRef?
-        let status = RegisterEventHotKey(
-            keyCode,
-            modifiers,
-            hotKeyID,
-            GetApplicationEventTarget(),
-            0,
-            &hotKeyRefVar
-        )
+        let status = RegisterEventHotKey(keyCode, modifiers, id, GetApplicationEventTarget(), 0, &hotKeyRefVar)
 
         if status == noErr {
             self.hotKeyRef = hotKeyRefVar

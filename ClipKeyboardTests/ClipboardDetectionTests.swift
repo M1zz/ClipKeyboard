@@ -221,52 +221,35 @@ final class ClipboardDetectionTests: XCTestCase {
     // MARK: - Helper Method
 
     private func detectClipboardType(_ content: String) -> (type: ClipboardItemType, confidence: Double) {
-        // 실제 앱의 자동 분류 로직 사용
-        // Note: DataManager나 클립보드 분류 로직을 여기서 호출
-        // 현재는 간단한 regex 기반 탐지 구현
-
-        // Email
-        if content.range(of: #"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}"#, options: .regularExpression) != nil {
-            return (.email, 0.9)
+        typealias SimpleRule = (pattern: String, type: ClipboardItemType, confidence: Double)
+        let simpleRules: [SimpleRule] = [
+            (#"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}"#, .email, 0.9),
+            (#"^(\+?\d{1,3}[-.]?)?\d{2,3}[-.]?\d{3,4}[-.]?\d{4}$"#, .phone, 0.9),
+            (#"https?://[^\s]+"#, .url, 0.9),
+            (#"^\d{5}$"#, .postalCode, 0.8),
+        ]
+        for rule in simpleRules {
+            if content.range(of: rule.pattern, options: .regularExpression) != nil {
+                return (rule.type, rule.confidence)
+            }
         }
 
-        // Phone
-        if content.range(of: #"^(\+?\d{1,3}[-.]?)?\d{2,3}[-.]?\d{3,4}[-.]?\d{4}$"#, options: .regularExpression) != nil {
-            return (.phone, 0.9)
-        }
+        if content.hasPrefix("www.") { return (.url, 0.85) }
 
-        // URL
-        if content.range(of: #"https?://[^\s]+"#, options: .regularExpression) != nil {
-            return (.url, 0.9)
-        }
-        if content.hasPrefix("www.") {
-            return (.url, 0.85)
-        }
-
-        // IP Address
-        let ipPattern = #"^(\d{1,3}\.){3}\d{1,3}$"#
-        if let range = content.range(of: ipPattern, options: .regularExpression) {
+        if content.range(of: #"^(\d{1,3}\.){3}\d{1,3}$"#, options: .regularExpression) != nil {
             let components = content.split(separator: ".")
             if components.allSatisfy({ Int($0) ?? 256 <= 255 }) {
                 return (.ipAddress, 0.95)
             }
         }
 
-        // Credit Card
-        let cardPattern = #"^[\d\s-]{13,19}$"#
-        if content.range(of: cardPattern, options: .regularExpression) != nil {
-            let digitsOnly = content.filter { $0.isNumber }
-            if digitsOnly.count >= 13 && digitsOnly.count <= 19 {
+        if content.range(of: #"^[\d\s-]{13,19}$"#, options: .regularExpression) != nil {
+            let digits = content.filter { $0.isNumber }
+            if digits.count >= 13 && digits.count <= 19 {
                 return (.creditCard, 0.75)
             }
         }
 
-        // Postal Code (5자리 숫자)
-        if content.range(of: #"^\d{5}$"#, options: .regularExpression) != nil {
-            return (.postalCode, 0.8)
-        }
-
-        // Default
         return (.text, 0.5)
     }
 }

@@ -48,10 +48,10 @@ final class CloudKitBackupServiceTests: XCTestCase {
         sut.checkAccountStatus()
 
         // Wait for async check
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
             // Then
             // Note: 실제 iCloud 로그인 상태에 따라 결과가 다름
-            print("iCloud 인증 상태: \(self.sut.isAuthenticated)")
+            print("iCloud 인증 상태: \(self?.sut.isAuthenticated ?? false)")
             expectation.fulfill()
         }
 

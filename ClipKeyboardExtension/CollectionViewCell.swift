@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol TextInput {
+protocol TextInput: AnyObject {
     func tapped(text: String, memoId: UUID)
 }
 
 class CollectionViewCell: UICollectionViewCell {
-    
-    var delegate: TextInput?
+
+    weak var delegate: (any TextInput)?
     
     private let titleLabel: UILabel = {
         let label = UILabel()

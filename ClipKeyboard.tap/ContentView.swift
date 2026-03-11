@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var showClipboardHistorySheet = false
     @State private var showSettingsSheet = false
     @State private var showCloudBackupSheet = false
+    @State private var observerTokens: [NSObjectProtocol] = []
 
     var body: some View {
         NavigationStack {
@@ -87,22 +88,26 @@ struct ContentView: View {
         .onAppear {
             setupNotifications()
         }
+        .onDisappear {
+            observerTokens.forEach { NotificationCenter.default.removeObserver($0) }
+            observerTokens.removeAll()
+        }
     }
 
     private func setupNotifications() {
+        guard observerTokens.isEmpty else { return }
         print("🎯 [ContentView] 알림 리스너 등록")
 
-        NotificationCenter.default.addObserver(
+        let t1 = NotificationCenter.default.addObserver(
             forName: .showMemoList,
             object: nil,
             queue: .main
         ) { _ in
             print("📋 [ContentView] 메모 목록 윈도우 열기 요청")
-            // WindowManager가 처리하도록 알림 전달
             NotificationCenter.default.post(name: .openMemoListWindow, object: nil)
         }
 
-        NotificationCenter.default.addObserver(
+        let t2 = NotificationCenter.default.addObserver(
             forName: .showNewMemo,
             object: nil,
             queue: .main
@@ -111,7 +116,7 @@ struct ContentView: View {
             showNewMemoSheet = true
         }
 
-        NotificationCenter.default.addObserver(
+        let t3 = NotificationCenter.default.addObserver(
             forName: .showClipboardHistory,
             object: nil,
             queue: .main
@@ -120,7 +125,7 @@ struct ContentView: View {
             showClipboardHistorySheet = true
         }
 
-        NotificationCenter.default.addObserver(
+        let t4 = NotificationCenter.default.addObserver(
             forName: .showSettings,
             object: nil,
             queue: .main
@@ -129,7 +134,7 @@ struct ContentView: View {
             showSettingsSheet = true
         }
 
-        NotificationCenter.default.addObserver(
+        let t5 = NotificationCenter.default.addObserver(
             forName: .showCloudBackup,
             object: nil,
             queue: .main
@@ -137,6 +142,8 @@ struct ContentView: View {
             print("☁️ [ContentView] 클라우드 백업 표시")
             showCloudBackupSheet = true
         }
+
+        observerTokens = [t1, t2, t3, t4, t5]
     }
 }
 

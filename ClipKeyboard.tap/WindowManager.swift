@@ -27,8 +27,8 @@ class WindowManager {
 
         if !hasCompletedOnboarding {
             // 앱 시작 후 약간의 지연을 두고 온보딩 표시
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.openOnboardingWindow()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.openOnboardingWindow()
             }
         }
     }
@@ -85,105 +85,72 @@ class WindowManager {
     }
 
     private func setupNotifications() {
-        // 메모 목록
-        NotificationCenter.default.addObserver(
-            forName: .openMemoListWindow,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openMemoListWindow()
-        }
+        observe(.openMemoListWindow) { $0.openMemoListWindow() }
+        observe(.showMemoList) { $0.openMemoListWindow() }
+        observe(.showNewMemo) { $0.openNewMemoWindow() }
+        observe(.showClipboardHistory) { $0.openClipboardHistoryWindow() }
+        observe(.showSettings) { $0.openSettingsWindow() }
+        observe(.showCloudBackup) { $0.openCloudBackupWindow() }
+    }
 
-        NotificationCenter.default.addObserver(
-            forName: .showMemoList,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openMemoListWindow()
-        }
-
-        // 새 메모
-        NotificationCenter.default.addObserver(
-            forName: .showNewMemo,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openNewMemoWindow()
-        }
-
-        // 클립보드 히스토리
-        NotificationCenter.default.addObserver(
-            forName: .showClipboardHistory,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openClipboardHistoryWindow()
-        }
-
-        // 설정
-        NotificationCenter.default.addObserver(
-            forName: .showSettings,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openSettingsWindow()
-        }
-
-        // iCloud 백업
-        NotificationCenter.default.addObserver(
-            forName: .showCloudBackup,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.openCloudBackupWindow()
+    private func observe(_ name: NSNotification.Name, handler: @escaping (WindowManager) -> Void) {
+        NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            handler(self)
         }
     }
 
     func openMemoListWindow() {
-        print("📋 [WindowManager] 메모 목록 윈도우 열기 시도")
+        openWindow(
+            key: "memo-list",
+            title: "메모 목록",
+            size: NSSize(width: 350, height: 450),
+            styleMask: [.titled, .closable, .miniaturizable],
+            autosaveName: "MemoListWindow",
+            content: MemoListView()
+        )
+    }
 
-        let windowKey = "memo-list"
+    // MARK: - Common Window Factory
 
-        // 기존 윈도우가 있으면 포커스
-        if let existingWindow = windows[windowKey] {
-            existingWindow.makeKeyAndOrderFront(nil)
+    /// 윈도우 생성 공통 헬퍼 — 기존 윈도우가 있으면 포커스, 없으면 새로 생성
+    private func openWindow<Content: View>(
+        key: String,
+        title: String,
+        size: NSSize,
+        styleMask: NSWindow.StyleMask = [.titled, .closable],
+        autosaveName: String? = nil,
+        content: Content
+    ) {
+        if let existing = windows[key] {
+            existing.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
-            print("✅ [WindowManager] 기존 윈도우 포커스")
+            print("✅ [WindowManager] 기존 윈도우 포커스: \(key)")
             return
         }
 
-        // 새 윈도우 생성 - 컴팩트 크기 (350x450)
-        let contentView = MemoListView()
-        let hostingController = NSHostingController(rootView: contentView)
-
+        let hostingController = NSHostingController(rootView: content)
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 350, height: 450),
-            styleMask: [.titled, .closable, .miniaturizable],
+            contentRect: NSRect(origin: .zero, size: size),
+            styleMask: styleMask,
             backing: .buffered,
             defer: false
         )
-
         window.center()
-        window.setFrameAutosaveName("MemoListWindow")
+        if let autosaveName { window.setFrameAutosaveName(autosaveName) }
         window.contentViewController = hostingController
-        window.title = "메모 목록"
-        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
+        window.title = title
+        window.identifier = NSUserInterfaceItemIdentifier(key)
         window.level = .floating
 
-        // 델리게이트 설정하여 윈도우 닫힐 때 정리
-        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
+        let delegate = WindowDelegate(windowKey: key, manager: self)
         window.delegate = delegate
-
-        // 윈도우와 델리게이트 참조 저장
-        windows[windowKey] = window
-        delegates[windowKey] = delegate
+        windows[key] = window
+        delegates[key] = delegate
 
         window.makeKeyAndOrderFront(nil)
-
-        // 앱 활성화
         NSApp.activate(ignoringOtherApps: true)
-
-        print("✅ [WindowManager] 새 윈도우 생성 완료")
+        print("✅ [WindowManager] 새 윈도우 생성 완료: \(key)")
     }
 
     // 윈도우가 닫힐 때 호출
@@ -208,177 +175,42 @@ class WindowManager {
     }
 
     func openNewMemoWindow() {
-        print("📝 [WindowManager] 새 메모 윈도우 열기")
-
-        let windowKey = "new-memo"
-
-        // 기존 윈도우가 있으면 포커스
-        if let existingWindow = windows[windowKey] {
-            existingWindow.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            print("✅ [WindowManager] 기존 윈도우 포커스")
-            return
-        }
-
-        let contentView = MemoAddView()
-        let hostingController = NSHostingController(rootView: contentView)
-
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 550, height: 650),
+        openWindow(
+            key: "new-memo",
+            title: "새 메모",
+            size: NSSize(width: 550, height: 650),
             styleMask: [.titled, .closable, .resizable],
-            backing: .buffered,
-            defer: false
+            content: MemoAddView()
         )
-
-        window.center()
-        window.contentViewController = hostingController
-        window.title = "새 메모"
-        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
-        window.level = .floating
-
-        // 델리게이트 설정
-        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
-        window.delegate = delegate
-
-        // 윈도우와 델리게이트 참조 저장
-        windows[windowKey] = window
-        delegates[windowKey] = delegate
-
-        window.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-
-        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openClipboardHistoryWindow() {
-        print("📋 [WindowManager] 클립보드 히스토리 윈도우 열기")
-
-        let windowKey = "clipboard-history"
-
-        // 기존 윈도우가 있으면 포커스
-        if let existingWindow = windows[windowKey] {
-            existingWindow.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            print("✅ [WindowManager] 기존 윈도우 포커스")
-            return
-        }
-
-        let contentView = ClipboardHistoryView()
-        let hostingController = NSHostingController(rootView: contentView)
-
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 600, height: 500),
+        openWindow(
+            key: "clipboard-history",
+            title: "클립보드 히스토리",
+            size: NSSize(width: 600, height: 500),
             styleMask: [.titled, .closable, .resizable],
-            backing: .buffered,
-            defer: false
+            content: ClipboardHistoryView()
         )
-
-        window.center()
-        window.contentViewController = hostingController
-        window.title = "클립보드 히스토리"
-        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
-        window.level = .floating
-
-        // 델리게이트 설정
-        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
-        window.delegate = delegate
-
-        // 윈도우와 델리게이트 참조 저장
-        windows[windowKey] = window
-        delegates[windowKey] = delegate
-
-        window.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-
-        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openSettingsWindow() {
-        print("⚙️ [WindowManager] 설정 윈도우 열기")
-
-        let windowKey = "settings"
-
-        // 기존 윈도우가 있으면 포커스
-        if let existingWindow = windows[windowKey] {
-            existingWindow.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            print("✅ [WindowManager] 기존 윈도우 포커스")
-            return
-        }
-
         // TODO: 설정 뷰 구현 필요
-        let contentView = Text("설정 화면")
-            .frame(width: 500, height: 400)
-        let hostingController = NSHostingController(rootView: contentView)
-
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 400),
-            styleMask: [.titled, .closable],
-            backing: .buffered,
-            defer: false
+        openWindow(
+            key: "settings",
+            title: "설정",
+            size: NSSize(width: 500, height: 400),
+            content: Text("설정 화면").frame(width: 500, height: 400)
         )
-
-        window.center()
-        window.contentViewController = hostingController
-        window.title = "설정"
-        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
-        window.level = .floating
-
-        // 델리게이트 설정
-        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
-        window.delegate = delegate
-
-        // 윈도우와 델리게이트 참조 저장
-        windows[windowKey] = window
-        delegates[windowKey] = delegate
-
-        window.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-
-        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 
     func openCloudBackupWindow() {
-        print("☁️ [WindowManager] iCloud 백업 윈도우 열기")
-
-        let windowKey = "cloud-backup"
-
-        // 기존 윈도우가 있으면 포커스
-        if let existingWindow = windows[windowKey] {
-            existingWindow.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-            print("✅ [WindowManager] 기존 윈도우 포커스")
-            return
-        }
-
-        let contentView = CloudBackupView()
-        let hostingController = NSHostingController(rootView: contentView)
-
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 600, height: 500),
-            styleMask: [.titled, .closable],
-            backing: .buffered,
-            defer: false
+        openWindow(
+            key: "cloud-backup",
+            title: "iCloud 백업",
+            size: NSSize(width: 600, height: 500),
+            content: CloudBackupView()
         )
-
-        window.center()
-        window.contentViewController = hostingController
-        window.title = "iCloud 백업"
-        window.identifier = NSUserInterfaceItemIdentifier(windowKey)
-        window.level = .floating
-
-        // 델리게이트 설정
-        let delegate = WindowDelegate(windowKey: windowKey, manager: self)
-        window.delegate = delegate
-
-        // 윈도우와 델리게이트 참조 저장
-        windows[windowKey] = window
-        delegates[windowKey] = delegate
-
-        window.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-
-        print("✅ [WindowManager] 새 윈도우 생성 완료")
     }
 }
 

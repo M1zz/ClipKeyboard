@@ -65,79 +65,66 @@ class PredefinedValuesStore {
     // 특정 템플릿에서 사용하는 값만 필터링
     func getValuesForTemplate(placeholder: String, templateId: UUID?) -> [String] {
         print("\n🔍 [PredefinedValuesStore] getValuesForTemplate 호출")
-        print("   플레이스홀더: \(placeholder)")
-        print("   템플릿 ID: \(templateId?.uuidString ?? "nil")")
+        print("   플레이스홀더: \(placeholder), 템플릿 ID: \(templateId?.uuidString ?? "nil")")
+        logClipMemosState()
 
-        // clipMemos 배열 상태 확인
+        if let values = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
+            return values
+        }
+        return getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
+    }
+
+    /// clipMemos 배열 상태 디버그 출력
+    private func logClipMemosState() {
         print("   📚 clipMemos 배열: \(clipMemos.count)개")
         for (index, memo) in clipMemos.enumerated() {
-            print("      [\(index)] ID: \(memo.id.uuidString)")
-            print("          제목: \(memo.title)")
-            print("          플레이스홀더 값 개수: \(memo.placeholderValues.count)")
-            if !memo.placeholderValues.isEmpty {
-                for (key, vals) in memo.placeholderValues {
-                    print("              \(key): \(vals)")
-                }
+            print("      [\(index)] ID: \(memo.id.uuidString), 제목: \(memo.title)")
+            for (key, vals) in memo.placeholderValues {
+                print("              \(key): \(vals)")
             }
         }
+    }
 
-        // 먼저 Memo 객체에서 직접 가져오기 시도
-        if let templateId = templateId {
-            print("   🔎 템플릿 ID로 검색 중: \(templateId.uuidString)")
-
-            if let memo = clipMemos.first(where: { $0.id == templateId }) {
-                print("   ✅ Memo 객체에서 찾음: \(memo.title)")
-                print("      Memo의 모든 플레이스홀더 값: \(memo.placeholderValues)")
-
-                if let values = memo.placeholderValues[placeholder], !values.isEmpty {
-                    print("   ✅ Memo에 저장된 값 발견: \(values)")
-                    return values
-                } else {
-                    print("   ⚠️ Memo에 '\(placeholder)' 값 없음")
-                    print("      사용 가능한 키: \(memo.placeholderValues.keys)")
-                }
-            } else {
-                print("   ❌ templateId로 Memo를 찾을 수 없음!")
-                print("      검색한 ID: \(templateId.uuidString)")
-                print("      clipMemos의 ID들:")
-                for memo in clipMemos {
-                    print("         - \(memo.id.uuidString) (\(memo.title))")
-                }
-            }
-        } else {
+    /// Memo 객체에서 플레이스홀더 값 조회
+    private func getValuesFromMemos(placeholder: String, templateId: UUID?) -> [String]? {
+        guard let templateId else {
             print("   ⚠️ templateId가 nil입니다")
+            return nil
         }
+        print("   🔎 템플릿 ID로 검색 중: \(templateId.uuidString)")
+        guard let memo = clipMemos.first(where: { $0.id == templateId }) else {
+            print("   ❌ templateId로 Memo를 찾을 수 없음: \(templateId.uuidString)")
+            clipMemos.forEach { print("         - \($0.id.uuidString) (\($0.title))") }
+            return nil
+        }
+        print("   ✅ Memo 객체에서 찾음: \(memo.title)")
+        if let values = memo.placeholderValues[placeholder], !values.isEmpty {
+            print("   ✅ Memo에 저장된 값 발견: \(values)")
+            return values
+        }
+        print("   ⚠️ Memo에 '\(placeholder)' 값 없음, 사용 가능한 키: \(memo.placeholderValues.keys)")
+        return nil
+    }
 
-        // Memo에 없으면 UserDefaults 확인 (기존 로직)
+    /// UserDefaults에서 플레이스홀더 값 조회
+    private func getValuesFromUserDefaults(placeholder: String, templateId: UUID?) -> [String] {
         let key = "placeholder_values_\(placeholder)"
         print("   🔍 UserDefaults 확인 - Key: \(key)")
-
-        if let userDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"),
-           let data = userDefaults.data(forKey: key),
-           let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
-            print("   ✅ UserDefaults에서 디코딩 성공 - 총 \(placeholderValues.count)개")
-
-            // 템플릿 ID로 필터링
-            if let templateId = templateId {
-                let filtered = placeholderValues.filter { $0.sourceMemoId == templateId }
-                print("   📊 템플릿 ID로 필터링: \(filtered.count)개")
-
-                if !filtered.isEmpty {
-                    let values = filtered.map { $0.value }
-                    print("   ✅ 필터링된 값 반환: \(values)")
-                    return values
-                }
-            }
-
-            // 필터링된 값이 없으면 전체 값 반환
-            let allValues = placeholderValues.map { $0.value }
-            print("   ℹ️ 전체 값 반환: \(allValues)")
-            return allValues
+        guard let userDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"),
+              let data = userDefaults.data(forKey: key),
+              let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) else {
+            print("   ⚠️ 저장된 플레이스홀더 값 없음 - iOS 앱에서 값을 추가하세요")
+            return []
         }
-
-        // 저장된 데이터가 없으면 빈 배열 반환 (iOS 앱에서 관리하는 값만 사용)
-        print("   ⚠️ 저장된 플레이스홀더 값 없음 - iOS 앱에서 값을 추가하세요")
-        return []
+        print("   ✅ UserDefaults에서 디코딩 성공 - 총 \(placeholderValues.count)개")
+        if let templateId {
+            let filtered = placeholderValues.filter { $0.sourceMemoId == templateId }
+            print("   📊 템플릿 ID로 필터링: \(filtered.count)개")
+            if !filtered.isEmpty { return filtered.map { $0.value } }
+        }
+        let allValues = placeholderValues.map { $0.value }
+        print("   ℹ️ 전체 값 반환: \(allValues)")
+        return allValues
     }
 
 }
@@ -174,6 +161,7 @@ struct KeyboardView: View {
     // 필터 및 데이터 상태
     @State private var allMemos: [Memo] = []
     @State private var selectedCategoryFilter: ClipboardItemType? = nil
+    @State private var templateObserverToken: NSObjectProtocol?
 
     @StateObject private var templateInputState = TemplateInputState()
 
@@ -242,8 +230,9 @@ struct KeyboardView: View {
         .onAppear {
             loadAllMemos()
 
+            guard templateObserverToken == nil else { return }
             // 템플릿 입력 알림 구독
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("showTemplateInput"), object: nil, queue: .main) { notification in
+            templateObserverToken = NotificationCenter.default.addObserver(forName: NSNotification.Name("showTemplateInput"), object: nil, queue: .main) { notification in
                 if let userInfo = notification.userInfo,
                    let text = userInfo["text"] as? String,
                    let placeholders = userInfo["placeholders"] as? [String],
@@ -283,6 +272,12 @@ struct KeyboardView: View {
                         templateInputState.isShowing = true
                     }
                 }
+            }
+        }
+        .onDisappear {
+            if let token = templateObserverToken {
+                NotificationCenter.default.removeObserver(token)
+                templateObserverToken = nil
             }
         }
     }
@@ -326,63 +321,64 @@ struct KeyboardView: View {
     @ViewBuilder
     private func memoButton(for memo: Memo) -> some View {
         let catColor = categoryColorFor(memo)
-
         Button {
-            UIImpactFeedbackGenerator().impactOccurred()
-            NotificationCenter.default.post(
-                name: NSNotification.Name(rawValue: "addTextEntry"),
-                object: memo.value,
-                userInfo: ["memoId": memo.id]
-            )
-            // Combo 인덱스 업데이트 후 뷰 새로고침
-            if memo.isCombo && !memo.comboValues.isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    loadAllMemos()
-                }
-            }
+            memoButtonAction(for: memo)
         } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(keyColor)
-                    .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
-                    )
+            memoButtonLabel(for: memo, catColor: catColor)
+        }
+    }
 
-                VStack(spacing: 2) {
-                    HStack(spacing: 6) {
-                        // 카테고리 아이콘 (iOS 앱과 동일한 색상)
-                        Image(systemName: categoryIconFor(memo))
-                            .font(.system(size: 12))
-                            .foregroundColor(catColor)
+    private func memoButtonAction(for memo: Memo) {
+        UIImpactFeedbackGenerator().impactOccurred()
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "addTextEntry"),
+            object: memo.value,
+            userInfo: ["memoId": memo.id]
+        )
+        if memo.isCombo && !memo.comboValues.isEmpty {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                loadAllMemos()
+            }
+        }
+    }
 
-                        Text(memo.title)
-                            .foregroundStyle(Color(uiColor: .label))
-                            .lineLimit(1)
-                            .font(.system(size: buttonFontSize, weight: .semibold))
+    @ViewBuilder
+    private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(keyColor)
+                .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
+                )
 
-                        // Combo 표시
-                        if memo.isCombo && !memo.comboValues.isEmpty {
-                            Image(systemName: "repeat")
-                                .font(.system(size: 9))
-                                .foregroundColor(.orange)
-                        }
-                    }
-
-                    // Combo 다음 값 미리보기
+            VStack(spacing: 2) {
+                HStack(spacing: 6) {
+                    Image(systemName: categoryIconFor(memo))
+                        .font(.system(size: 12))
+                        .foregroundColor(catColor)
+                    Text(memo.title)
+                        .foregroundStyle(Color(uiColor: .label))
+                        .lineLimit(1)
+                        .font(.system(size: buttonFontSize, weight: .semibold))
                     if memo.isCombo && !memo.comboValues.isEmpty {
-                        let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
-                        Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
-                            .font(.system(size: 10))
-                            .foregroundColor(.orange.opacity(0.8))
-                            .lineLimit(1)
+                        Image(systemName: "repeat")
+                            .font(.system(size: 9))
+                            .foregroundColor(.orange)
                     }
                 }
-                .padding(.horizontal, 10)
+                if memo.isCombo && !memo.comboValues.isEmpty {
+                    let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
+                    Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
+                        .font(.system(size: 10))
+                        .foregroundColor(.orange.opacity(0.8))
+                        .lineLimit(1)
+                }
             }
-            .frame(height: buttonHeight)
+            .padding(.horizontal, 10)
         }
+        .frame(height: buttonHeight)
     }
 
     // MARK: - Data Loading
@@ -408,21 +404,13 @@ struct KeyboardView: View {
     }
 
     private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        case "yellow": return .yellow
-        default: return .gray
-        }
+        let colorMap: [String: Color] = [
+            "blue": .blue, "green": .green, "purple": .purple,
+            "orange": .orange, "red": .red, "indigo": .indigo,
+            "brown": .brown, "cyan": .cyan, "teal": .teal,
+            "pink": .pink, "mint": .mint, "yellow": .yellow
+        ]
+        return colorMap[name] ?? .gray
     }
 
     // MARK: - Theme Colors
