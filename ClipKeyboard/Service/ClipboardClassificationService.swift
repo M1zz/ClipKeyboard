@@ -16,6 +16,54 @@ class ClipboardClassificationService {
 
     private init() {}
 
+    // MARK: - Memoized Resolver
+
+    /// 리스트 렌더 시점에 재분류 비용을 피하기 위한 in-memory 캐시.
+    /// 키: memo id + value 해시. memo.value가 바뀌면 새로 분류된다.
+    private var resolverCache: [UUID: (contentHash: Int, type: ClipboardItemType)] = [:]
+    private let resolverQueue = DispatchQueue(label: "com.Ysoup.TokenMemo.classification.resolver")
+
+    /// 메모에 적용할 타입을 결정한다.
+    /// 우선순위: 명시 카테고리 매칭 → autoDetectedType → contentType(이미지) → 콘텐츠 기반 자동분류
+    /// - Note: `memo.category`는 영속 수정하지 않는다. 이 결과는 UI 표시용 캐시일 뿐이다.
+    func resolvedType(for memo: Memo) -> ClipboardItemType? {
+        if let explicit = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+            return explicit
+        }
+        if let auto = memo.autoDetectedType {
+            return auto
+        }
+        if memo.contentType == .image {
+            return .image
+        }
+        let trimmed = memo.value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+
+        let hash = trimmed.hashValue
+        let cached: ClipboardItemType? = resolverQueue.sync {
+            if let entry = resolverCache[memo.id], entry.contentHash == hash {
+                return entry.type
+            }
+            return nil
+        }
+        if let cached { return cached }
+
+        let classified = classify(content: trimmed)
+        // 신뢰도가 너무 낮으면 기본 '텍스트'로 남겨 잘못된 아이콘을 피한다.
+        let type: ClipboardItemType = classified.confidence >= 0.5 ? classified.type : .text
+        resolverQueue.sync {
+            resolverCache[memo.id] = (hash, type)
+        }
+        return type
+    }
+
+    /// 특정 메모의 캐시만 제거 (편집/삭제 시 호출 가능).
+    func invalidateResolvedType(for memoId: UUID) {
+        resolverQueue.sync {
+            resolverCache.removeValue(forKey: memoId)
+        }
+    }
+
     // MARK: - Public Methods
 
     /// 클립보드 내용을 자동으로 분류

@@ -22,6 +22,7 @@ class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
 
     private var deleteTimer: Timer?
+    private var deleteStartTime: Date?
     private var notificationTokens: [NSObjectProtocol] = []
 
     private let flowLayout: UICollectionViewFlowLayout = {
@@ -259,7 +260,7 @@ class KeyboardViewController: UIInputViewController {
             let processedText = processTemplateVariables(in: text)
             print("💬 입력할 텍스트: \(processedText)")
             textDocumentProxy.insertText(processedText)
-            trackKeyboardPaste()
+            trackKeyboardPaste(memoId: memoId)
         }
     }
 
@@ -275,7 +276,7 @@ class KeyboardViewController: UIInputViewController {
         print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
 
         textDocumentProxy.insertText(currentValue)
-        trackKeyboardPaste()
+        trackKeyboardPaste(memoId: memoId)
 
         memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
         clipMemos[memoIndex] = memo
@@ -301,6 +302,8 @@ class KeyboardViewController: UIInputViewController {
               let text = userInfo["text"] as? String,
               let inputs = userInfo["inputs"] as? [String: String] else { return }
 
+        let memoId = userInfo["memoId"] as? UUID
+
         var processedText = text
         print("   원본 텍스트: \(processedText)")
 
@@ -313,7 +316,7 @@ class KeyboardViewController: UIInputViewController {
         print("   최종 텍스트: \(processedText)")
         print("📝 textDocumentProxy.insertText 호출")
         textDocumentProxy.insertText(processedText)
-        trackKeyboardPaste()
+        trackKeyboardPaste(memoId: memoId)
         print("✅ 입력 완료!")
     }
 
@@ -329,16 +332,53 @@ class KeyboardViewController: UIInputViewController {
 
     @objc private func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == .began {
+            deleteStartTime = Date()
             // 즉시 첫 삭제 실행
             textDocumentProxy.deleteBackward()
-            // 타이머 시작 (0.1초마다 삭제)
+            // 타이머 시작 (0.1초마다 삭제, 1초 이후에는 단어 단위로 삭제)
             deleteTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-                self?.textDocumentProxy.deleteBackward()
+                guard let self = self else { return }
+                let elapsed = Date().timeIntervalSince(self.deleteStartTime ?? Date())
+                if elapsed >= 1.0 {
+                    self.deleteWordBackward()
+                } else {
+                    self.textDocumentProxy.deleteBackward()
+                }
             }
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             // 손가락을 떼면 타이머 중지
             deleteTimer?.invalidate()
             deleteTimer = nil
+            deleteStartTime = nil
+        }
+    }
+
+    /// 커서 앞의 공백/줄바꿈과 단어 하나를 한 번에 삭제
+    private func deleteWordBackward() {
+        guard let context = textDocumentProxy.documentContextBeforeInput, !context.isEmpty else {
+            textDocumentProxy.deleteBackward()
+            return
+        }
+
+        var charsToDelete = 0
+        var sawNonWhitespace = false
+        for character in context.reversed() {
+            let isBoundary = character.isWhitespace || character.isNewline
+            if sawNonWhitespace && isBoundary {
+                break
+            }
+            if !isBoundary {
+                sawNonWhitespace = true
+            }
+            charsToDelete += 1
+        }
+
+        if charsToDelete == 0 {
+            charsToDelete = 1
+        }
+
+        for _ in 0..<charsToDelete {
+            textDocumentProxy.deleteBackward()
         }
     }
 
@@ -349,11 +389,21 @@ class KeyboardViewController: UIInputViewController {
 
     /// 키보드에서 메모 붙여넣기 시 App Group UserDefaults에 카운트 기록
     /// 메인 앱의 ReviewManager가 이 값을 동기화하여 리뷰 요청 트리거로 사용
-    private func trackKeyboardPaste() {
-        guard let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") else { return }
-        let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
-        groupDefaults.set(count, forKey: "keyboard_paste_count")
-        print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
+    /// memoId가 주어지면 해당 메모의 clipCount + lastUsedAt도 업데이트한다.
+    private func trackKeyboardPaste(memoId: UUID? = nil) {
+        if let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") {
+            let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
+            groupDefaults.set(count, forKey: "keyboard_paste_count")
+            print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
+        }
+
+        if let memoId {
+            do {
+                try MemoStore.shared.incrementClipCount(for: memoId)
+            } catch {
+                print("⚠️ [Keyboard] 사용량 업데이트 실패: \(error)")
+            }
+        }
     }
 
     deinit {

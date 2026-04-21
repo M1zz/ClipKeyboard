@@ -154,6 +154,23 @@
         }
       }
     },
+    "[%d/%d]" : {
+      "comment" : "Combo position e.g. [1/4]",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[%d/%d]"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[%d/%d]"
+          }
+        }
+      }
+    },
     "%@ 타입 없음" : {
       "comment" : "No items of type",
       "localizations" : {
@@ -175,6 +192,57 @@
         }
       }
     },
+    "%d image(s)" : {
+      "comment" : "Image count preview",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d image(s)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 %d장"
+          }
+        }
+      }
+    },
+    "%d saved · find what you need" : {
+      "comment" : "Context lead: default with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d saved · find what you need"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 %d개 · 필요한 거 찾아봐요"
+          }
+        }
+      }
+    },
+    "%d variables" : {
+      "comment" : "Template placeholder count suffix",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d variables"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "변수 %d개"
+          }
+        }
+      }
+    },
     "%d%% 확신" : {
       "comment" : "Confidence percentage",
       "localizations" : {
@@ -182,6 +250,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d%% confidence"
+          }
+        }
+      }
+    },
+    "%d× this week" : {
+      "comment" : "Usage badge: used N times this week",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d× this week"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 주 %d번"
           }
         }
       }
@@ -936,6 +1021,23 @@
         }
       }
     },
+    "Frequent" : {
+      "comment" : "Section header: frequently used memos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequent"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 쓰는 것"
+          }
+        }
+      }
+    },
     "Get Started" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1163,6 +1265,40 @@
         }
       }
     },
+    "Just now" : {
+      "comment" : "Section header: memos used in the last hour",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just now"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방금"
+          }
+        }
+      }
+    },
+    "Just used %@" : {
+      "comment" : "Context lead: recently used memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just used %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방금 전 %@ 꺼냈어요"
+          }
+        }
+      }
+    },
     "macOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1170,6 +1306,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The fastest and most convenient\nmemo and clipboard manager for macOS"
+          }
+        }
+      }
+    },
+    "Masked %@, ending %@" : {
+      "comment" : "Accessibility: masked sensitive content with type and tail digits",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masked %1$@, ending %2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마스킹된 %1$@, 끝자리 %2$@"
           }
         }
       }
@@ -1225,6 +1378,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ok"
+          }
+        }
+      }
+    },
+    "Older" : {
+      "comment" : "Section header: older memos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Older"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 오래"
           }
         }
       }
@@ -1363,6 +1533,23 @@
         }
       }
     },
+    "This week" : {
+      "comment" : "Section header: memos used this week",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This week"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 주"
+          }
+        }
+      }
+    },
     "Title : " : {
       "comment" : "Label for memo title",
       "extractionState" : "stale",
@@ -1414,6 +1601,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL"
+          }
+        }
+      }
+    },
+    "Used %@ a lot today" : {
+      "comment" : "Context lead: most-used today",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used %@ a lot today"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오늘 %@ 많이 썼어요"
+          }
+        }
+      }
+    },
+    "Used %d× today" : {
+      "comment" : "Usage badge: used N times today",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used %d× today"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오늘 %d번"
           }
         }
       }
@@ -2298,6 +2519,17 @@
         }
       }
     },
+    "메모 삭제" : {
+      "comment" : "Delete memo alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Memo"
+          }
+        }
+      }
+    },
     "메모 저장" : {
       "comment" : "Memo",
       "localizations" : {
@@ -2865,6 +3097,9 @@
         }
       }
     },
+    "보안 메모에 접근하려면 인증이 필요합니다" : {
+      "comment" : "Biometric auth reason"
+    },
     "보험번호" : {
       "comment" : "Insurance Number",
       "localizations" : {
@@ -3159,7 +3394,7 @@
       }
     },
     "삭제" : {
-      "comment" : "Delete\nDelete button",
+      "comment" : "Confirm delete\nDelete\nDelete button\nDelete memo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3414,7 +3649,7 @@
       }
     },
     "설정" : {
-      "comment" : "Onboarding path: Settings\nSettings",
+      "comment" : "Menu: settings\nOnboarding path: Settings\nSettings",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4056,6 +4291,17 @@
         }
       }
     },
+    "이 작업은 취소할 수 없습니다." : {
+      "comment" : "Delete warning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        }
+      }
+    },
     "이 타입으로 분류된 항목이 없습니다" : {
       "comment" : "No items of this type",
       "localizations" : {
@@ -4546,6 +4792,7 @@
       }
     },
     "저장된 항목" : {
+      "comment" : "Saved items",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5171,7 +5418,7 @@
       }
     },
     "클립보드 히스토리" : {
-      "comment" : "Clipboard history feature",
+      "comment" : "Menu: clipboard history",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5899,7 +6146,7 @@
       }
     },
     "플레이스홀더 관리" : {
-      "comment" : "Placeholder management title",
+      "comment" : "Menu: placeholder management\nPlaceholder management title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6031,7 +6278,7 @@
       }
     },
     "확인" : {
-      "comment" : "OK button",
+      "comment" : "Confirm\nOK button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6081,28 +6328,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Running 10 minutes late for the meeting"
-          }
-        }
-      }
-    },
-    "메모 삭제" : {
-      "comment" : "Delete memo alert title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Memo"
-          }
-        }
-      }
-    },
-    "이 작업은 취소할 수 없습니다." : {
-      "comment" : "Delete warning message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This action cannot be undone."
           }
         }
       }

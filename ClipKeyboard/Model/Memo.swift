@@ -221,6 +221,9 @@ struct Memo: Identifiable, Codable {
     var lastEdited: Date = Date()
     var isFavorite: Bool = false
     var clipCount: Int = 0
+    /// 마지막 "사용" 시점. 편집과 구분하여 히어로 카드/최근 섹션/상대시간 라벨 등에 사용된다.
+    /// Optional로 선언해 기존 memos.data와 하위 호환을 유지한다 (없으면 lastEdited 폴백).
+    var lastUsedAt: Date?
 
     // New features
     var category: String = "기본"
@@ -244,7 +247,7 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -263,6 +266,7 @@ struct Memo: Identifiable, Codable {
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
         self.contentType = contentType
+        self.lastUsedAt = lastUsedAt
     }
     
     init(from oldMemo: OldMemo) {
@@ -294,6 +298,7 @@ struct Memo: Identifiable, Codable {
         case imageFileName
         case imageFileNames
         case contentType
+        case lastUsedAt
     }
     
     static var dummyData: [Memo] = [

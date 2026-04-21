@@ -156,12 +156,12 @@ class MemoStore: ObservableObject {
         return []
     }
 
-    // 사용 빈도 증가
+    // 사용 빈도 증가 및 마지막 사용 시점 기록
     func incrementClipCount(for memoId: UUID) throws {
         var memos = try load(type: .tokenMemo)
         if let index = memos.firstIndex(where: { $0.id == memoId }) {
             memos[index].clipCount += 1
-            memos[index].lastEdited = Date()
+            memos[index].lastUsedAt = Date()
             try save(memos: memos, type: .tokenMemo)
         }
     }

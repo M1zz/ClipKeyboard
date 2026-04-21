@@ -23,28 +23,57 @@ struct MemoRowView: View {
                 .background(categoryColor.opacity(0.15))
                 .cornerRadius(8)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(memo.title)
                     .font(.system(size: fontSize))
+                    .lineLimit(1)
+
+                let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
+                if !previewText.isEmpty {
+                    HStack(spacing: 4) {
+                        if memo.isSecure {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 10))
+                                .foregroundColor(.secondary)
+                        }
+                        Text(previewText)
+                            .font(.system(size: 13))
+                            .foregroundColor(.secondary)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .accessibilityLabel(
+                                MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
+                            )
+                    }
+                    .padding(.top, 2)
+                }
 
                 HStack(spacing: 6) {
-                if memo.isSecure {
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                }
+                    if memo.isTemplate {
+                        Image(systemName: "curlybraces")
+                            .font(.system(size: 8))
+                            .foregroundColor(.secondary)
+                            .opacity(0.6)
+                    }
 
-                if memo.isTemplate {
-                    Image(systemName: "curlybraces")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                }
+                    if memo.isCombo {
+                        Image(systemName: "repeat")
+                            .font(.system(size: 8))
+                            .foregroundColor(.secondary)
+                            .opacity(0.6)
+                    }
 
-                if memo.isCombo {
-                    Image(systemName: "repeat")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                }
+                    if let relative = relativeTimeLabel {
+                        Text(relative)
+                            .font(.system(size: 10))
+                            .foregroundColor(.secondary)
+                    }
+
+                    if let usage = usageBadgeText {
+                        Text(usage)
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(usageBadgeColor)
+                    }
                 }
             }
 
@@ -81,9 +110,17 @@ struct MemoRowView: View {
         }
     }
 
+    /// 현재 메모에 적용할 타입 결정.
+    /// ClipboardClassificationService의 메모이즈된 resolver를 사용한다.
+    /// - 명시 카테고리 매칭 → autoDetectedType → contentType(이미지) → 콘텐츠 기반 자동분류
+    /// - 결과는 in-memory 캐시되며 memo.value가 바뀔 때만 재계산된다.
+    private var resolvedType: ClipboardItemType? {
+        ClipboardClassificationService.shared.resolvedType(for: memo)
+    }
+
     /// 카테고리 아이콘
     private var categoryIcon: Image {
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+        if let type = resolvedType {
             return Image(systemName: type.icon)
         }
         return Image(systemName: "doc.text")
@@ -91,7 +128,7 @@ struct MemoRowView: View {
 
     /// 카테고리 색상
     private var categoryColor: Color {
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+        if let type = resolvedType {
             return Color.fromName(type.color)
         }
         return .gray
@@ -105,6 +142,42 @@ struct MemoRowView: View {
         }
         // 일치하지 않으면 카테고리명을 그대로 번역 시도
         return NSLocalizedString(category, comment: "Category name")
+    }
+
+    // MARK: - Time / Usage Signals
+
+    /// "3분 전" 같은 상대 시간 라벨. lastUsedAt 우선, 없으면 lastEdited 폴백.
+    private var relativeTimeLabel: String? {
+        let reference = memo.lastUsedAt ?? memo.lastEdited
+        let interval = Date().timeIntervalSince(reference)
+        guard interval >= 0 else { return nil }
+        // 30일 이상 지나면 노이즈가 돼서 숨김.
+        if interval > 60 * 60 * 24 * 30 { return nil }
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .short
+        return formatter.localizedString(for: reference, relativeTo: Date())
+    }
+
+    /// 사용 빈도 배지 텍스트. 오늘 쓴 경우 진하게, 이번 주 쓴 경우는 희미하게.
+    private var usageBadgeText: String? {
+        guard memo.clipCount > 0, let lastUsed = memo.lastUsedAt else { return nil }
+        let calendar = Calendar.current
+        if calendar.isDateInToday(lastUsed) && memo.clipCount >= 2 {
+            let format = NSLocalizedString("Used %d× today", comment: "Usage badge: used N times today")
+            return String(format: format, memo.clipCount)
+        }
+        let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
+        if lastUsed >= weekAgo && memo.clipCount >= 3 {
+            let format = NSLocalizedString("%d× this week", comment: "Usage badge: used N times this week")
+            return String(format: format, memo.clipCount)
+        }
+        return nil
+    }
+
+    /// 오늘 자주 쓴 것은 진한 초록, 그 외는 흐린 회색.
+    private var usageBadgeColor: Color {
+        guard let lastUsed = memo.lastUsedAt else { return .secondary }
+        return Calendar.current.isDateInToday(lastUsed) ? .green : .secondary
     }
 
 }

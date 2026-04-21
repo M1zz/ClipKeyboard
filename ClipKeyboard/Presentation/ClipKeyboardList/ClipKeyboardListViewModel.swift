@@ -282,7 +282,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
             if memo1.isFavorite != memo2.isFavorite {
                 return memo1.isFavorite && !memo2.isFavorite
             } else {
-                return memo1.lastEdited > memo2.lastEdited
+                // 편집 이후에 '사용'만 일어난 경우에도 상단으로 올라오도록
+                // lastUsedAt과 lastEdited 중 늦은 시점을 기준으로 정렬한다.
+                let r1 = max(memo1.lastUsedAt ?? .distantPast, memo1.lastEdited)
+                let r2 = max(memo2.lastUsedAt ?? .distantPast, memo2.lastEdited)
+                return r1 > r2
             }
         }
     }

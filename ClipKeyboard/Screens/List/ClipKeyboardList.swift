@@ -56,10 +56,38 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
-                        // 메모 리스트 섹션
-                        Section {
-                            ForEach(viewModel.tokenMemos) { memo in
-                                memoRow(memo: memo)
+                        // 맥락 부제 + 히어로 카드 (타입 필터 비활성일 때만)
+                        if viewModel.selectedTypeFilter == nil {
+                            Section {
+                                contextLeadView
+                                if let hero = heroMemo {
+                                    heroCardView(memo: hero)
+                                }
+                            }
+                            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 8, trailing: 16))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
+                        // 메모 리스트 섹션 (타입 필터 활성 시 그룹핑 비활성)
+                        if viewModel.selectedTypeFilter != nil {
+                            Section {
+                                ForEach(viewModel.tokenMemos) { memo in
+                                    memoRow(memo: memo)
+                                }
+                            }
+                        } else {
+                            ForEach(groupedSections, id: \.id) { group in
+                                Section {
+                                    ForEach(group.memos) { memo in
+                                        memoRow(memo: memo)
+                                    }
+                                } header: {
+                                    Text(group.localizedTitle)
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundColor(.secondary)
+                                        .textCase(nil)
+                                }
                             }
                         }
                     }
@@ -191,6 +219,70 @@ struct ClipKeyboardList: View {
         .padding(.vertical, 8)
     }
 
+    // MARK: - Context Lead + Hero Card
+
+    /// 나브 타이틀 아래 인라인 부제.
+    /// - 최근 1시간 내 사용한 메모 있으면 "방금 전 %@ 꺼냈어요"
+    /// - 오늘 여러 번 쓴 메모 있으면 "오늘 %@ 많이 썼어요"
+    /// - 없으면 "저장된 %d개 · 필요한 거 찾아봐요"
+    private var contextLeadView: some View {
+        Text(contextLeadText)
+            .font(.system(size: 14))
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 4)
+    }
+
+    private var contextLeadText: String {
+        let memos = viewModel.tokenMemos
+        let now = Date()
+        let hourAgo = now.addingTimeInterval(-60 * 60)
+
+        if let recent = memos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo }) {
+            let format = NSLocalizedString("Just used %@", comment: "Context lead: recently used memo")
+            return String(format: format, recent.title)
+        }
+
+        let topToday = memos
+            .filter {
+                guard let used = $0.lastUsedAt else { return false }
+                return Calendar.current.isDateInToday(used) && $0.clipCount >= 2
+            }
+            .max(by: { $0.clipCount < $1.clipCount })
+        if let topToday {
+            let format = NSLocalizedString("Used %@ a lot today", comment: "Context lead: most-used today")
+            return String(format: format, topToday.title)
+        }
+
+        let format = NSLocalizedString("%d saved · find what you need", comment: "Context lead: default with count")
+        return String(format: format, memos.count)
+    }
+
+    /// 히어로 카드에 띄울 메모. lastUsedAt이 최근 1시간 이내인 항목만 채택.
+    private var heroMemo: Memo? {
+        let hourAgo = Date().addingTimeInterval(-60 * 60)
+        return viewModel.tokenMemos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo })
+    }
+
+    /// "방금 쓴 것" 히어로 카드.
+    private func heroCardView(memo: Memo) -> some View {
+        Button {
+            viewModel.copyMemo(memo: memo)
+        } label: {
+            MemoRowView(memo: memo, fontSize: fontSize)
+                .padding(12)
+                .background(Color(.secondarySystemGroupedBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                )
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(PlainButtonStyle())
+        .padding(.top, 4)
+    }
+
     /// 타입 필터 바 섹션 (인라인)
     private var typeFilterBarInlineSection: some View {
         MemoTypeFilterBar(selectedFilter: $viewModel.selectedTypeFilter, memos: viewModel.loadedData)
@@ -268,6 +360,8 @@ struct ClipKeyboardList: View {
     }
 
     /// Toolbar 버튼들 (iOS/macOS 공통)
+    /// 구성: [검색 토글] [더보기 메뉴(히스토리·플레이스홀더·설정)]  ···  [+ 추가]
+    /// "클립보드 앱의 주어는 '꺼내기'"라는 관점에서 검색/추가를 시각적으로 주연으로.
     @ViewBuilder
     private var toolbarButtons: some View {
         Button {
@@ -283,25 +377,36 @@ struct ClipKeyboardList: View {
                 .foregroundColor(isSearchBarVisible ? .blue : .secondary)
         }
 
-        NavigationLink {
-            ClipboardList()
-        } label: {
-            Image(systemName: "clock.arrow.circlepath")
-                .foregroundColor(.secondary)
-        }
+        Menu {
+            NavigationLink {
+                ClipboardList()
+            } label: {
+                Label(
+                    NSLocalizedString("클립보드 히스토리", comment: "Menu: clipboard history"),
+                    systemImage: "clock.arrow.circlepath"
+                )
+            }
 
-        Button {
-            HapticManager.shared.light()
-            viewModel.showPlaceholderManagementSheet = true
-        } label: {
-            Image(systemName: "list.bullet")
-                .foregroundColor(.secondary)
-        }
+            Button {
+                HapticManager.shared.light()
+                viewModel.showPlaceholderManagementSheet = true
+            } label: {
+                Label(
+                    NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                    systemImage: "list.bullet"
+                )
+            }
 
-        NavigationLink {
-            SettingView()
+            NavigationLink {
+                SettingView()
+            } label: {
+                Label(
+                    NSLocalizedString("설정", comment: "Menu: settings"),
+                    systemImage: "gearshape"
+                )
+            }
         } label: {
-            Image(systemName: "gearshape")
+            Image(systemName: "ellipsis.circle")
                 .foregroundColor(.secondary)
         }
 
@@ -310,7 +415,8 @@ struct ClipKeyboardList: View {
         NavigationLink {
             MemoAdd()
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: "plus.circle.fill")
+                .font(.system(size: 22))
                 .foregroundColor(.blue)
         }
     }
@@ -411,6 +517,82 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+
+// MARK: - Section Grouping (recency buckets)
+
+struct MemoSectionGroup: Identifiable {
+    let id: String
+    let localizedTitle: String
+    let memos: [Memo]
+}
+
+extension ClipKeyboardList {
+    /// 타입 필터가 꺼져 있을 때 사용하는 시간 기반 섹션 그룹.
+    /// - 방금(1시간 이내 사용) / 자주 쓰는 것(오늘+clipCount≥3) / 이번 주 / 더 오래
+    /// - 즐겨찾기 정렬은 ViewModel.sortMemos에서 이미 처리되어 들어오므로 각 버킷 내 상대순서는 보존된다.
+    var groupedSections: [MemoSectionGroup] {
+        let memos = viewModel.tokenMemos
+        guard !memos.isEmpty else { return [] }
+
+        let now = Date()
+        let oneHourAgo = now.addingTimeInterval(-60 * 60)
+        let weekAgo = now.addingTimeInterval(-60 * 60 * 24 * 7)
+
+        var justNow: [Memo] = []
+        var frequent: [Memo] = []
+        var thisWeek: [Memo] = []
+        var older: [Memo] = []
+
+        for memo in memos {
+            let reference = memo.lastUsedAt ?? memo.lastEdited
+            if reference >= oneHourAgo {
+                justNow.append(memo)
+                continue
+            }
+            if memo.clipCount >= 3 && reference >= weekAgo {
+                frequent.append(memo)
+                continue
+            }
+            if reference >= weekAgo {
+                thisWeek.append(memo)
+                continue
+            }
+            older.append(memo)
+        }
+
+        var groups: [MemoSectionGroup] = []
+        if !justNow.isEmpty {
+            groups.append(MemoSectionGroup(
+                id: "just-now",
+                localizedTitle: NSLocalizedString("Just now", comment: "Section header: memos used in the last hour"),
+                memos: justNow
+            ))
+        }
+        if !frequent.isEmpty {
+            groups.append(MemoSectionGroup(
+                id: "frequent",
+                localizedTitle: NSLocalizedString("Frequent", comment: "Section header: frequently used memos"),
+                memos: frequent
+            ))
+        }
+        if !thisWeek.isEmpty {
+            groups.append(MemoSectionGroup(
+                id: "this-week",
+                localizedTitle: NSLocalizedString("This week", comment: "Section header: memos used this week"),
+                memos: thisWeek
+            ))
+        }
+        if !older.isEmpty {
+            groups.append(MemoSectionGroup(
+                id: "older",
+                localizedTitle: NSLocalizedString("Older", comment: "Section header: older memos"),
+                memos: older
+            ))
+        }
+        return groups
     }
 }
 
