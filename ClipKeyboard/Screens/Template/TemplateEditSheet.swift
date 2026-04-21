@@ -28,19 +28,8 @@ struct TemplateEditSheet: View {
             }
         }
 
-        // 자동 변수 치환
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: dateFormatter.string(from: Date()))
-
-        dateFormatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: dateFormatter.string(from: Date()))
-
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        // 자동 변수 치환 — 공용 프로세서 사용 (v4.0부터 {timezone}/{currency}/{greeting_time} 등 지원)
+        return TemplateVariableProcessor.process(result)
     }
 
     var body: some View {
@@ -194,7 +183,6 @@ struct TemplateEditSheet: View {
 
     private func extractCustomPlaceholders() {
         print("🔍 [TemplateEditSheet] 플레이스홀더 추출 시작")
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else {
             print("❌ [TemplateEditSheet] 정규식 생성 실패")
@@ -209,7 +197,7 @@ struct TemplateEditSheet: View {
         for match in matches {
             if let range = Range(match.range, in: text) {
                 let placeholder = String(text[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
                     placeholders.append(placeholder)
                     print("   ✓ 발견: \(placeholder)")
                 }
@@ -436,7 +424,6 @@ struct TemplateDetailPlaceholderView: View {
     }
 
     private func extractPlaceholders() {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
 
@@ -446,7 +433,7 @@ struct TemplateDetailPlaceholderView: View {
         for match in matches {
             if let range = Range(match.range, in: template.value) {
                 let placeholder = String(template.value[range])
-                if !autoVariables.contains(placeholder) && !extractedPlaceholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !extractedPlaceholders.contains(placeholder) {
                     extractedPlaceholders.append(placeholder)
                 }
             }

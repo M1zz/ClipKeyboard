@@ -554,7 +554,6 @@ class KeyboardViewController: UIInputViewController {
 
     // 템플릿 관련 함수들
     private func extractCustomPlaceholders(from text: String) -> [String] {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
 
@@ -564,7 +563,7 @@ class KeyboardViewController: UIInputViewController {
         for match in matches {
             if let range = Range(match.range, in: text) {
                 let placeholder = String(text[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
                     placeholders.append(placeholder)
                 }
             }
@@ -574,20 +573,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        var result = text
-        let dateFormatter = DateFormatter()
-
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: dateFormatter.string(from: Date()))
-
-        dateFormatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: dateFormatter.string(from: Date()))
-
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        TemplateVariableProcessor.process(text)
     }
 
 }

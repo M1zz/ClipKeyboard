@@ -172,20 +172,7 @@ struct ComboTemplateInputView: View {
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        var result = text
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: formatter.string(from: Date()))
-
-        formatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: formatter.string(from: Date()))
-
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        TemplateVariableProcessor.process(text)
     }
 
     private func saveAndDismiss() {

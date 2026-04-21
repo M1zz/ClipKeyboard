@@ -43,6 +43,8 @@
 		58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000003 /* ThemeSettings.swift */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
+		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
+		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */; };
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
@@ -158,6 +160,7 @@
 		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
+		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* ClipKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardApp.swift; sourceTree = "<group>"; };
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 				58AA11112B4D1A2100000005 /* ColorExtension.swift */,
 				58CK00042B5E1A2100000004 /* NotificationExtension.swift */,
 				58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */,
+				58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -800,6 +804,7 @@
 				58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources (Extension) */,
 				581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
+				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -829,6 +834,7 @@
 				58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */,
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
 				58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */,
+				58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */,
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
 				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
 				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,

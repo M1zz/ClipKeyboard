@@ -6467,6 +6467,57 @@
           }
         }
       }
+    },
+    "Good morning" : {
+      "comment" : "Greeting — morning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good morning"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋은 아침이에요"
+          }
+        }
+      }
+    },
+    "Good afternoon" : {
+      "comment" : "Greeting — afternoon",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good afternoon"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "안녕하세요"
+          }
+        }
+      }
+    },
+    "Good evening" : {
+      "comment" : "Greeting — evening/night",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good evening"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋은 저녁이에요"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

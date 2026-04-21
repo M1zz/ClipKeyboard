@@ -527,7 +527,6 @@ class MemoStore: ObservableObject {
 
     // 플레이스홀더 추출 (내부 헬퍼 함수)
     private func extractPlaceholders(from text: String) -> [String] {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
 
@@ -537,7 +536,7 @@ class MemoStore: ObservableObject {
         for match in matches {
             if let range = Range(match.range, in: text) {
                 let placeholder = String(text[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
                     placeholders.append(placeholder)
                 }
             }
