@@ -74,21 +74,24 @@ class ClipboardClassificationService {
         guard !trimmed.isEmpty else { return (.text, 0.0) }
 
         // 높은 신뢰도·구체적인 패턴부터 순서대로 검사 (테이블 기반)
-        // Korea-specific patterns removed for global categories
-        // detectRRN, detectBusinessNumber 제거됨
+        // v4.0: Korea-only detectors (detectVehiclePlate, detectAddress)는 우선순위에서 제거
+        // 글로벌 IBAN/SWIFT/VAT/Crypto/PayPal 우선 배치
         let detectors: [(String) -> (type: ClipboardItemType, confidence: Double)?] = [
+            detectIBAN,            // 가장 엄격 (mod-97 체크섬)
+            detectSWIFT,
+            detectVAT,
+            detectCryptoWallet,
+            detectPayPalLink,
             detectCreditCard,
             detectEmail,
-            detectPhone,
             detectURL,
             detectPassportNumber,
             detectDeclarationNumber,
-            detectVehiclePlate,
             detectIPAddress,
-            detectBirthDate,    // 계좌번호보다 먼저
+            detectBirthDate,       // 계좌번호보다 먼저
             detectPostalCode,
-            detectBankAccount,  // 가장 유연한 패턴은 마지막
-            detectAddress,
+            detectPhone,           // E.164 + 한국 010 fallback
+            detectBankAccount,     // 가장 유연한 패턴은 마지막
             detectName
         ]
 
@@ -201,19 +204,29 @@ class ClipboardClassificationService {
     }
 
     private func detectPhone(_ text: String) -> (ClipboardItemType, Double)? {
+        // v4.0: E.164 국제 포맷 우선, 한국 번호는 fallback.
+        let hasPlus = text.trimmingCharacters(in: .whitespaces).hasPrefix("+")
         let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
 
-        let patterns = [
-            "^010[0-9]{8}$",
-            "^01[016789][0-9]{7,8}$",
-            "^0[2-6][0-9]{7,8}$",
-            "^1[5-9][0-9]{2}$"
-        ]
+        // E.164: + 와 함께 7~15 자리 숫자
+        if hasPlus && cleaned.count >= 7 && cleaned.count <= 15 {
+            return (.phone, 0.92)
+        }
 
-        for pattern in patterns {
-            if cleaned.range(of: pattern, options: .regularExpression) != nil {
-                return (.phone, 0.9)
+        // 일반 국제 번호: 10~15 자리 (약한 신뢰도)
+        if !hasPlus && cleaned.count >= 10 && cleaned.count <= 15 {
+            // 한국 010/0X 번호 강화
+            let koreanPatterns = [
+                "^010[0-9]{8}$",
+                "^01[016789][0-9]{7,8}$",
+                "^0[2-6][0-9]{7,8}$"
+            ]
+            for pattern in koreanPatterns {
+                if cleaned.range(of: pattern, options: .regularExpression) != nil {
+                    return (.phone, 0.9)
+                }
             }
+            return (.phone, 0.55)
         }
 
         return nil
@@ -284,9 +297,21 @@ class ClipboardClassificationService {
     }
 
     private func detectPostalCode(_ text: String) -> (ClipboardItemType, Double)? {
-        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-        if cleaned.count == 5 {
-            return (.postalCode, 0.7)
+        // v4.0: 국가별 우편번호 포맷 다양 (3~10자, 일부는 문자 포함 UK/CA/NL)
+        // 순수 숫자는 자동분류 신뢰도 낮춤 (오탐 위험 높음).
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        // US/KR/DE/FR/JP 등 5자리 숫자 우편번호
+        let digitCleaned = trimmed.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        if digitCleaned == trimmed, digitCleaned.count == 5 {
+            return (.postalCode, 0.55)
+        }
+        // UK 포맷 예: SW1A 1AA, EC1A 1BB (문자+숫자 조합)
+        if trimmed.range(of: "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$", options: .regularExpression) != nil {
+            return (.postalCode, 0.85)
+        }
+        // Canada 포맷 예: K1A 0B1
+        if trimmed.range(of: "^[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]$", options: .regularExpression) != nil {
+            return (.postalCode, 0.85)
         }
         return nil
     }
@@ -309,25 +334,8 @@ class ClipboardClassificationService {
         return nil
     }
 
-    private func detectVehiclePlate(_ text: String) -> (ClipboardItemType, Double)? {
-        let newPlatePattern = "^[0-9]{2,3}[가-힣][0-9]{4}$"
-        if text.range(of: newPlatePattern, options: .regularExpression) != nil {
-            return (.vehiclePlate, 0.9)
-        }
-
-        let oldPlatePattern1 = "^[가-힣][0-9]{4}$"
-        let oldPlatePattern2 = "^[가-힣]{2}[0-9]{2}[가-힣][0-9]{4}$"
-
-        if text.range(of: oldPlatePattern1, options: .regularExpression) != nil {
-            return (.vehiclePlate, 0.85)
-        }
-
-        if text.range(of: oldPlatePattern2, options: .regularExpression) != nil {
-            return (.vehiclePlate, 0.9)
-        }
-
-        return nil
-    }
+    // NOTE: detectVehiclePlate는 v4.0에서 자동분류 우선순위에서 제거됨 (한국 전용 패턴).
+    //       사용자가 수동으로 '차량번호' 카테고리를 지정하는 기능은 enum에 남아 있어 기존 데이터 호환.
 
     private func detectIPAddress(_ text: String) -> (ClipboardItemType, Double)? {
         let ipv4Pattern = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$"
@@ -360,23 +368,100 @@ class ClipboardClassificationService {
         return nil
     }
 
-    private func detectAddress(_ text: String) -> (ClipboardItemType, Double)? {
-        let addressKeywords = [
-            "시", "도", "구", "동", "로", "길", "번지", "아파트",
-            "빌딩", "타워", "층", "호", "번길", "대로"
-        ]
+    // NOTE: detectAddress는 v4.0에서 자동분류 우선순위에서 제거됨 (한국 주소 키워드 기반).
+    //       'address' enum case는 사용자 수동 카테고리로 여전히 사용 가능.
 
-        let keywordCount = addressKeywords.filter { text.contains($0) }.count
+    // MARK: - v4.0 Global Detectors
 
-        if keywordCount >= 2 {
-            return (.address, 0.7)
+    /// IBAN (International Bank Account Number) 검증 — ISO 13616 mod-97 체크섬
+    private func detectIBAN(_ text: String) -> (ClipboardItemType, Double)? {
+        let normalized = text
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "-", with: "")
+            .uppercased()
+
+        // 기본 형식: 2자리 국가코드 + 2자리 체크 + 최대 30자리
+        guard normalized.range(of: "^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$", options: .regularExpression) != nil else {
+            return nil
         }
 
-        if text.range(of: "[0-9]{5}", options: .regularExpression) != nil &&
-           text.range(of: "[가-힣]+", options: .regularExpression) != nil {
-            return (.address, 0.65)
+        // mod-97 체크섬 검증
+        // 앞 4자를 뒤로 이동 후 문자를 숫자로 치환 (A=10, B=11, ..., Z=35)
+        let rearranged = String(normalized.dropFirst(4)) + String(normalized.prefix(4))
+        var numeric = ""
+        for char in rearranged {
+            if char.isLetter {
+                guard let ascii = char.asciiValue else { return nil }
+                numeric += String(Int(ascii) - 55)
+            } else {
+                numeric.append(char)
+            }
         }
 
+        // 긴 숫자 mod-97: 청크 단위로 처리
+        var remainder = 0
+        for digitChar in numeric {
+            guard let digit = Int(String(digitChar)) else { return nil }
+            remainder = (remainder * 10 + digit) % 97
+        }
+
+        if remainder == 1 {
+            return (.iban, 0.97)
+        }
+        return nil
+    }
+
+    /// SWIFT/BIC 코드 — 8자 또는 11자 (AAAA BB CC [DDD])
+    private func detectSWIFT(_ text: String) -> (ClipboardItemType, Double)? {
+        let normalized = text.trimmingCharacters(in: .whitespaces).uppercased()
+        let pattern = "^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$"
+        if normalized.range(of: pattern, options: .regularExpression) != nil {
+            return (.swift, 0.9)
+        }
+        return nil
+    }
+
+    /// VAT 번호 (EU + UK). 국가 prefix + 숫자/영숫자 8–12자.
+    private func detectVAT(_ text: String) -> (ClipboardItemType, Double)? {
+        let normalized = text.replacingOccurrences(of: " ", with: "").uppercased()
+        let euCountries = "AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|GB|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK|XI"
+        let pattern = "^(\(euCountries))[0-9A-Z+*.]{8,12}$"
+        if normalized.range(of: pattern, options: .regularExpression) != nil {
+            return (.vat, 0.85)
+        }
+        return nil
+    }
+
+    /// Crypto 지갑 주소 — BTC (legacy, bech32), ETH (0x 시작 40 hex).
+    private func detectCryptoWallet(_ text: String) -> (ClipboardItemType, Double)? {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+
+        // BTC legacy (P2PKH, P2SH): 1 또는 3으로 시작, Base58 26–35자
+        if trimmed.range(of: "^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", options: .regularExpression) != nil {
+            return (.cryptoWallet, 0.9)
+        }
+        // BTC bech32 (SegWit): bc1 시작
+        if trimmed.lowercased().range(of: "^bc1[a-z0-9]{39,59}$", options: .regularExpression) != nil {
+            return (.cryptoWallet, 0.95)
+        }
+        // ETH / ERC-20 / Polygon / BSC: 0x + 40 hex
+        if trimmed.range(of: "^0x[a-fA-F0-9]{40}$", options: .regularExpression) != nil {
+            return (.cryptoWallet, 0.95)
+        }
+        // TRON: T로 시작, Base58 34자
+        if trimmed.range(of: "^T[a-km-zA-HJ-NP-Z1-9]{33}$", options: .regularExpression) != nil {
+            return (.cryptoWallet, 0.9)
+        }
+        return nil
+    }
+
+    /// PayPal.me 링크 — paypal.me/username.
+    private func detectPayPalLink(_ text: String) -> (ClipboardItemType, Double)? {
+        let trimmed = text.trimmingCharacters(in: .whitespaces)
+        let pattern = "^(https?://)?(www\\.)?paypal\\.me/[A-Za-z0-9_.-]+/?$"
+        if trimmed.range(of: pattern, options: .regularExpression) != nil {
+            return (.paypalLink, 0.95)
+        }
         return nil
     }
 
