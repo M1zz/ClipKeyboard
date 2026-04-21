@@ -17,6 +17,7 @@ struct ClipKeyboardList: View {
     // MARK: - View-only State
 
     @State private var isSearchBarVisible = false
+    @State private var memoToDelete: Memo? = nil
 
     var body: some View {
         NavigationStack {
@@ -60,7 +61,6 @@ struct ClipKeyboardList: View {
                             ForEach(viewModel.tokenMemos) { memo in
                                 memoRow(memo: memo)
                             }
-                            .onDelete(perform: viewModel.deleteMemo)
                         }
                     }
                     .listStyle(PlainListStyle())
@@ -100,6 +100,27 @@ struct ClipKeyboardList: View {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
             } message: {
                 Text(NSLocalizedString("보안 메모에 접근하려면 생체 인증이 필요합니다", comment: "Biometric auth required"))
+            }
+            // 메모 삭제 확인 Alert
+            .alert(
+                NSLocalizedString("메모 삭제", comment: "Delete memo alert title"),
+                isPresented: Binding(
+                    get: { memoToDelete != nil },
+                    set: { if !$0 { memoToDelete = nil } }
+                )
+            ) {
+                Button(NSLocalizedString("삭제", comment: "Confirm delete"), role: .destructive) {
+                    if let memo = memoToDelete,
+                       let idx = viewModel.tokenMemos.firstIndex(where: { $0.id == memo.id }) {
+                        viewModel.deleteMemo(at: IndexSet(integer: idx))
+                    }
+                    memoToDelete = nil
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                    memoToDelete = nil
+                }
+            } message: {
+                Text(NSLocalizedString("이 작업은 취소할 수 없습니다.", comment: "Delete warning"))
             }
             // 각종 Sheet Modifiers
             .modifier(SheetModifiers(
@@ -193,6 +214,11 @@ struct ClipKeyboardList: View {
             editButton(memo: memo)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+            Button(role: .destructive) {
+                memoToDelete = memo
+            } label: {
+                Label(NSLocalizedString("삭제", comment: "Delete memo"), systemImage: "trash")
+            }
             Button {
                 viewModel.toggleFavorite(memoId: memo.id)
             } label: {

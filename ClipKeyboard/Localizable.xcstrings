@@ -6084,6 +6084,28 @@
           }
         }
       }
+    },
+    "메모 삭제" : {
+      "comment" : "Delete memo alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Memo"
+          }
+        }
+      }
+    },
+    "이 작업은 취소할 수 없습니다." : {
+      "comment" : "Delete warning message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action cannot be undone."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
