@@ -6586,6 +6586,23 @@
           }
         }
       }
+    },
+    "No placeholders" : {
+      "comment" : "Fallback when template has no placeholders",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No placeholders"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "플레이스홀더 없음"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

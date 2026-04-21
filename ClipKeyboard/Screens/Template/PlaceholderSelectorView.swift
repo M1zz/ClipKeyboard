@@ -204,9 +204,9 @@ struct PlaceholderManagementSheet: View {
     }
 
     private func extractPlaceholderPreview(from text: String) -> String {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
+        let emptyLabel = NSLocalizedString("No placeholders", comment: "Fallback when template has no placeholders")
         let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return "플레이스홀더 없음" }
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return emptyLabel }
 
         let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
         var placeholders: [String] = []
@@ -214,14 +214,14 @@ struct PlaceholderManagementSheet: View {
         for match in matches {
             if let range = Range(match.range, in: text) {
                 let placeholder = String(text[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
                     placeholders.append(placeholder)
                 }
             }
         }
 
         if placeholders.isEmpty {
-            return "플레이스홀더 없음"
+            return emptyLabel
         }
 
         return placeholders.map { $0.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "") }.joined(separator: ", ")
