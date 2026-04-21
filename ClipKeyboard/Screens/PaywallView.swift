@@ -124,6 +124,9 @@ struct PaywallView: View {
             .background(Color(.systemGray6))
             
             // 행들
+            featureRow(NSLocalizedString("Keyboard extension", comment: "Keyboard extension feature"),
+                       free: "—", pro: "✓", isProOnly: true)
+
             featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))

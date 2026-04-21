@@ -6518,6 +6518,74 @@
           }
         }
       }
+    },
+    "Unlock keyboard in ClipKeyboard" : {
+      "comment" : "Keyboard locked title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock keyboard in ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 앱에서 키보드를 잠금해제하세요"
+          }
+        }
+      }
+    },
+    "Open the main app to upgrade." : {
+      "comment" : "Keyboard locked subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the main app to upgrade."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 앱에서 업그레이드하세요."
+          }
+        }
+      }
+    },
+    "Open App" : {
+      "comment" : "Open main app button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open App"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 열기"
+          }
+        }
+      }
+    },
+    "Keyboard extension" : {
+      "comment" : "Keyboard extension feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard extension"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 익스텐션"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

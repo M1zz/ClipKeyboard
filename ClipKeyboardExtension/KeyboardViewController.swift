@@ -138,9 +138,101 @@ class KeyboardViewController: UIInputViewController {
         let bottomView = setupHostingController()
         setupBottomBarLayout(bottomView)
 
+        // v4.0: 키보드 익스텐션이 Pro 기능으로 분류됨.
+        // 무료 유저이면서 그랜드파더 대상도 아닌 경우 잠금 오버레이 표시.
+        if !ProFeatureManager.isKeyboardExtensionAvailable {
+            presentKeyboardLockOverlay()
+        }
+
         print("✅ viewDidLoad 완료!")
         print("- bottomView가 추가되었습니다")
         print("- spaceButton, backButton, returnButton이 추가되었습니다")
+    }
+
+    /// 키보드 익스텐션 잠금 오버레이.
+    /// - 메인 앱 열기 버튼은 tokenMemo://paywall URL scheme으로 paywall로 직행.
+    private func presentKeyboardLockOverlay() {
+        let overlay = UIView()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        overlay.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.98)
+
+        let lockIcon = UIImageView(image: UIImage(systemName: "lock.fill"))
+        lockIcon.tintColor = .systemBlue
+        lockIcon.contentMode = .scaleAspectFit
+        lockIcon.translatesAutoresizingMaskIntoConstraints = false
+
+        let title = UILabel()
+        title.text = NSLocalizedString("Unlock keyboard in ClipKeyboard", comment: "Keyboard locked title")
+        title.font = .systemFont(ofSize: 15, weight: .semibold)
+        title.textAlignment = .center
+        title.numberOfLines = 0
+        title.translatesAutoresizingMaskIntoConstraints = false
+
+        let subtitle = UILabel()
+        subtitle.text = NSLocalizedString("Open the main app to upgrade.", comment: "Keyboard locked subtitle")
+        subtitle.font = .systemFont(ofSize: 12)
+        subtitle.textColor = .secondaryLabel
+        subtitle.textAlignment = .center
+        subtitle.numberOfLines = 0
+        subtitle.translatesAutoresizingMaskIntoConstraints = false
+
+        let openButton = UIButton(type: .system)
+        openButton.setTitle(NSLocalizedString("Open App", comment: "Open main app button"), for: .normal)
+        openButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        openButton.backgroundColor = .systemBlue
+        openButton.setTitleColor(.white, for: .normal)
+        openButton.layer.cornerRadius = 10
+        openButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        openButton.addTarget(self, action: #selector(openMainAppPaywall), for: .touchUpInside)
+        openButton.translatesAutoresizingMaskIntoConstraints = false
+
+        overlay.addSubview(lockIcon)
+        overlay.addSubview(title)
+        overlay.addSubview(subtitle)
+        overlay.addSubview(openButton)
+        view.addSubview(overlay)
+
+        NSLayoutConstraint.activate([
+            overlay.topAnchor.constraint(equalTo: view.topAnchor),
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            lockIcon.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
+            lockIcon.topAnchor.constraint(equalTo: overlay.topAnchor, constant: 32),
+            lockIcon.widthAnchor.constraint(equalToConstant: 32),
+            lockIcon.heightAnchor.constraint(equalToConstant: 32),
+
+            title.topAnchor.constraint(equalTo: lockIcon.bottomAnchor, constant: 10),
+            title.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 24),
+            title.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -24),
+
+            subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4),
+            subtitle.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 24),
+            subtitle.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -24),
+
+            openButton.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 16),
+            openButton.centerXAnchor.constraint(equalTo: overlay.centerXAnchor)
+        ])
+    }
+
+    @objc private func openMainAppPaywall() {
+        guard let url = URL(string: "clipkeyboard://paywall") else { return }
+        var responder: UIResponder? = self
+        while let current = responder {
+            if let application = current as? UIApplication {
+                application.open(url, options: [:], completionHandler: nil)
+                return
+            }
+            // iOS 18+: use openURL(_:) via extensionContext selector chain fallback
+            let selector = sel_registerName("openURL:")
+            if current.responds(to: selector) {
+                _ = current.perform(selector, with: url)
+                return
+            }
+            responder = current.next
+        }
+        print("⚠️ [Keyboard] Paywall URL scheme 실행 실패")
     }
 
     // MARK: - viewDidLoad Helpers

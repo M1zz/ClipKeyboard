@@ -19,6 +19,7 @@ struct ClipKeyboardList: View {
     @State private var isSearchBarVisible = false
     @State private var memoToDelete: Memo? = nil
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
+    @State private var showPaywallFromKeyboard: Bool = false
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -200,6 +201,10 @@ struct ClipKeyboardList: View {
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
                 print("🔤 [ClipKeyboardList] 폰트 크기: \(fontSize)")
+            }
+            .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: nil)
+            .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
+                showPaywallFromKeyboard = true
             }
         }
     }

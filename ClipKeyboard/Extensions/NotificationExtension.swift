@@ -12,4 +12,5 @@ extension Notification.Name {
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showSettings = Notification.Name("showSettings")
     static let showMemoList = Notification.Name("showMemoList")
+    static let showPaywall = Notification.Name("showPaywall")
 }

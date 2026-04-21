@@ -144,6 +144,9 @@ struct ClipKeyboardApp: App {
            let memoId = UUID(uuidString: idString) {
             // 위젯에서 메모 복사 요청
             copyMemoToClipboard(memoId: memoId)
+        } else if url.host == "paywall" {
+            // 키보드 익스텐션에서 paywall 직행 요청 (v4.0)
+            NotificationCenter.default.post(name: .showPaywall, object: nil)
         }
     }
 
