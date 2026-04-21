@@ -6382,6 +6382,91 @@
           }
         }
       }
+    },
+    "IBAN" : {
+      "comment" : "IBAN (International Bank Account Number)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBAN"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBAN"
+          }
+        }
+      }
+    },
+    "SWIFT/BIC" : {
+      "comment" : "SWIFT/BIC bank code",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SWIFT/BIC"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SWIFT/BIC"
+          }
+        }
+      }
+    },
+    "VAT Number" : {
+      "comment" : "VAT identification number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VAT Number"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VAT 번호"
+          }
+        }
+      }
+    },
+    "Crypto Wallet" : {
+      "comment" : "Cryptocurrency wallet address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crypto Wallet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "암호화폐 지갑"
+          }
+        }
+      }
+    },
+    "PayPal Link" : {
+      "comment" : "PayPal.me link",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PayPal Link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PayPal 링크"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

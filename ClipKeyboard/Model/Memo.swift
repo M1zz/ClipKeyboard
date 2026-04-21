@@ -37,6 +37,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case employeeID = "사번/학번"
     case image = "이미지"
     case text = "텍스트"
+    // v4.0 글로벌 피봇 추가 — 영어 rawValue (신규 국제 결제/세무/크립토 식별자)
+    case iban = "IBAN"
+    case swift = "SWIFT/BIC"
+    case vat = "VAT Number"
+    case cryptoWallet = "Crypto Wallet"
+    case paypalLink = "PayPal Link"
 
     var icon: String {
         switch self {
@@ -62,6 +68,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "person.badge.key.fill"
         case .image: return "photo.fill"
         case .text: return "doc.text"
+        case .iban: return "building.columns.fill"
+        case .swift: return "globe"
+        case .vat: return "doc.badge.gearshape"
+        case .cryptoWallet: return "bitcoinsign.circle.fill"
+        case .paypalLink: return "dollarsign.circle.fill"
         }
     }
 
@@ -89,6 +100,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "cyan"
         case .image: return "pink"
         case .text: return "gray"
+        case .iban: return "blue"
+        case .swift: return "indigo"
+        case .vat: return "orange"
+        case .cryptoWallet: return "yellow"
+        case .paypalLink: return "blue"
         }
     }
 
@@ -121,6 +137,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         _ = NSLocalizedString("사번/학번", comment: "Employee/Student ID")
         _ = NSLocalizedString("이미지", comment: "Image")
         _ = NSLocalizedString("텍스트", comment: "Text")
+        // v4.0 글로벌 피봇
+        _ = NSLocalizedString("IBAN", comment: "IBAN (International Bank Account Number)")
+        _ = NSLocalizedString("SWIFT/BIC", comment: "SWIFT/BIC bank code")
+        _ = NSLocalizedString("VAT Number", comment: "VAT identification number")
+        _ = NSLocalizedString("Crypto Wallet", comment: "Cryptocurrency wallet address")
+        _ = NSLocalizedString("PayPal Link", comment: "PayPal.me link")
     }
 }
 
