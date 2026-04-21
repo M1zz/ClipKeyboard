@@ -6331,6 +6331,57 @@
           }
         }
       }
+    },
+    "Your existing items are safe" : {
+      "comment" : "v4 grace banner title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your existing items are safe"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 항목은 그대로 유지돼요"
+          }
+        }
+      }
+    },
+    "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete." : {
+      "comment" : "v4 grace banner description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무료 플랜 한도가 5개로 바뀌었어요. 저장된 항목은 그대로 유지되고, 신규 추가는 업그레이드 또는 기존 항목 삭제 후 가능합니다."
+          }
+        }
+      }
+    },
+    "Dismiss" : {
+      "comment" : "Dismiss banner",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

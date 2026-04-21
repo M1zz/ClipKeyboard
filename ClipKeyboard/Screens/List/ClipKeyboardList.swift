@@ -18,6 +18,11 @@ struct ClipKeyboardList: View {
 
     @State private var isSearchBarVisible = false
     @State private var memoToDelete: Memo? = nil
+    @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
+
+    private var shouldShowGraceBanner: Bool {
+        graceBannerVisible && !ProFeatureManager.isPro
+    }
 
     var body: some View {
         NavigationStack {
@@ -40,6 +45,19 @@ struct ClipKeyboardList: View {
                         if !viewModel.loadedData.isEmpty {
                             Section {
                                 typeFilterBarInlineSection
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
+                        // v4.0 Grace 배너 (메모가 새 한도 초과한 기존 유저 1회 노출)
+                        if shouldShowGraceBanner {
+                            Section {
+                                GraceQuotaBannerView {
+                                    ProFeatureManager.markGraceBannerDismissed()
+                                    graceBannerVisible = false
+                                }
                             }
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.clear)

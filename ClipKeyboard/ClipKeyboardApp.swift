@@ -21,9 +21,38 @@ struct ClipKeyboardApp: App {
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 
+        // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
+        bootstrapV4GrandfatherFlags()
+
         #if targetEnvironment(macCatalyst)
         setupMacCatalystCommands()
         #endif
+    }
+
+    /// v3.x → v4.0 업그레이드 유저에게 그랜드파더 상태를 부여한다.
+    /// - Pro 구매 이력 있으면 영구 unlock
+    /// - 메모를 하나라도 보유했다면 기존 무료 유저로 기록 (키보드 익스텐션 접근 유지)
+    /// - 메모가 새 freeMemoLimit(5) 초과면 grace 플래그
+    private func bootstrapV4GrandfatherFlags() {
+        // 이미 한 번 초기화됐으면 skip
+        let defaults = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
+        let initKey = "clipkeyboard_v4_grandfather_bootstrap_done"
+        if defaults?.bool(forKey: initKey) == true { return }
+
+        let currentMemoCount: Int
+        if let memos = try? MemoStore.shared.load(type: .tokenMemo) {
+            currentMemoCount = memos.count
+        } else {
+            currentMemoCount = 0
+        }
+
+        ProStatusManager.shared.bootstrapV4GrandfatherFlags(
+            existingMemoCount: currentMemoCount,
+            isProNow: ProFeatureManager.isPro
+        )
+
+        defaults?.set(true, forKey: initKey)
+        print("✅ [APP INIT] v4.0 그랜드파더 부트스트랩 완료 (memos=\(currentMemoCount), isPro=\(ProFeatureManager.isPro))")
     }
 
     var body: some Scene {

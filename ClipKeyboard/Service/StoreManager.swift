@@ -166,11 +166,17 @@ class StoreManager: ObservableObject {
         }
         
         purchasedProductIDs = purchasedIDs
-        
+
         // ProStatusManager에 알림
         let isPro = purchasedIDs.contains(Self.proProductID)
         ProStatusManager.shared.setProStatus(isPro)
-        
+
+        // v4.0 그랜드파더 Pro 플래그: Pro 이력 생기면 영구 기록
+        if isPro {
+            UserDefaults(suiteName: ProFeatureManager.appGroupSuite)?
+                .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
+        }
+
         print("📋 [StoreManager] 구매 상태 업데이트: isPro = \(isPro)")
     }
     
