@@ -162,6 +162,7 @@ struct KeyboardView: View {
     @State private var allMemos: [Memo] = []
     @State private var selectedCategoryFilter: ClipboardItemType? = nil
     @State private var templateObserverToken: NSObjectProtocol?
+    @State private var showImageCopiedToast = false
 
     @StateObject private var templateInputState = TemplateInputState()
 
@@ -227,6 +228,19 @@ struct KeyboardView: View {
                 }
             }
         )
+        .overlay(alignment: .bottom) {
+            if showImageCopiedToast {
+                Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
         .onAppear {
             loadAllMemos()
 
@@ -330,6 +344,12 @@ struct KeyboardView: View {
 
     private func memoButtonAction(for memo: Memo) {
         UIImpactFeedbackGenerator().impactOccurred()
+
+        if memo.contentType == .image || memo.contentType == .mixed {
+            copyImageToClipboard(memo: memo)
+            return
+        }
+
         NotificationCenter.default.post(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: memo.value,
@@ -342,43 +362,63 @@ struct KeyboardView: View {
         }
     }
 
+    private func copyImageToClipboard(memo: Memo) {
+        let fileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+        guard !fileName.isEmpty,
+              let image = MemoStore.shared.loadImage(fileName: fileName) else {
+            print("⚠️ [KeyboardView] 이미지 로드 실패: \(memo.title)")
+            return
+        }
+        UIPasteboard.general.image = image
+        print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title)")
+        withAnimation { showImageCopiedToast = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showImageCopiedToast = false }
+        }
+    }
+
     @ViewBuilder
     private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(keyColor)
-                .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
-                )
+        if memo.contentType == .image || memo.contentType == .mixed {
+            let fileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+            ImageMemoButton(title: memo.title, fileName: fileName, buttonHeight: buttonHeight, buttonFontSize: buttonFontSize)
+        } else {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(keyColor)
+                    .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
+                    )
 
-            VStack(spacing: 2) {
-                HStack(spacing: 6) {
-                    Image(systemName: categoryIconFor(memo))
-                        .font(.system(size: 12))
-                        .foregroundColor(catColor)
-                    Text(memo.title)
-                        .foregroundStyle(Color(uiColor: .label))
-                        .lineLimit(1)
-                        .font(.system(size: buttonFontSize, weight: .semibold))
+                VStack(spacing: 2) {
+                    HStack(spacing: 6) {
+                        Image(systemName: categoryIconFor(memo))
+                            .font(.system(size: 12))
+                            .foregroundColor(catColor)
+                        Text(memo.title)
+                            .foregroundStyle(Color(uiColor: .label))
+                            .lineLimit(1)
+                            .font(.system(size: buttonFontSize, weight: .semibold))
+                        if memo.isCombo && !memo.comboValues.isEmpty {
+                            Image(systemName: "repeat")
+                                .font(.system(size: 9))
+                                .foregroundColor(.orange)
+                        }
+                    }
                     if memo.isCombo && !memo.comboValues.isEmpty {
-                        Image(systemName: "repeat")
-                            .font(.system(size: 9))
-                            .foregroundColor(.orange)
+                        let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
+                        Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
+                            .font(.system(size: 10))
+                            .foregroundColor(.orange.opacity(0.8))
+                            .lineLimit(1)
                     }
                 }
-                if memo.isCombo && !memo.comboValues.isEmpty {
-                    let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
-                    Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
-                        .font(.system(size: 10))
-                        .foregroundColor(.orange.opacity(0.8))
-                        .lineLimit(1)
-                }
+                .padding(.horizontal, 10)
             }
-            .padding(.horizontal, 10)
+            .frame(height: buttonHeight)
         }
-        .frame(height: buttonHeight)
     }
 
     // MARK: - Data Loading
@@ -447,6 +487,61 @@ struct KeyboardView: View {
                 ? UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
                 : .white
         })
+    }
+}
+
+// MARK: - Image Memo Button
+
+struct ImageMemoButton: View {
+    let title: String
+    let fileName: String
+    let buttonHeight: Double
+    let buttonFontSize: Double
+
+    @State private var image: UIImage? = nil
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(Color(uiColor: .systemGray5))
+
+            if let image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: buttonHeight)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+
+            // 하단 그라디언트 + 제목
+            LinearGradient(
+                colors: [.clear, .black.opacity(0.65)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+            HStack(spacing: 4) {
+                Image(systemName: "photo")
+                    .font(.system(size: 10))
+                    .foregroundColor(.white.opacity(0.85))
+                Text(title)
+                    .font(.system(size: buttonFontSize, weight: .semibold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 8)
+            .padding(.bottom, 6)
+        }
+        .frame(height: buttonHeight)
+        .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+        .onAppear {
+            guard image == nil, !fileName.isEmpty else { return }
+            DispatchQueue.global(qos: .userInitiated).async {
+                let loaded = MemoStore.shared.loadImage(fileName: fileName)
+                DispatchQueue.main.async { image = loaded }
+            }
+        }
     }
 }
 

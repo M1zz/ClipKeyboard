@@ -555,18 +555,13 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
-    /// 키보드에서 사용 불가한 메모(보안·이미지) 제외
+    /// 키보드에서 사용 불가한 메모(보안) 제외
     private func filterExcludedMemos(_ memos: [Memo]) -> [Memo] {
         var result = memos
         let secureCount = result.filter { $0.isSecure }.count
         result = result.filter { !$0.isSecure }
         if secureCount > 0 {
             print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
-        }
-        let imageCount = result.filter { $0.contentType == .image || $0.contentType == .mixed }.count
-        result = result.filter { $0.contentType == .text }
-        if imageCount > 0 {
-            print("   🖼️ 이미지 메모 \(imageCount)개 제외됨 (키보드에서는 직접 입력 불가)")
         }
         return result
     }

@@ -998,6 +998,40 @@
         }
       }
     },
+    "Crypto Wallet" : {
+      "comment" : "Cryptocurrency wallet address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crypto Wallet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "암호화폐 지갑"
+          }
+        }
+      }
+    },
+    "Dismiss" : {
+      "comment" : "Dismiss banner",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        }
+      }
+    },
     "Face ID로 보호" : {
       "comment" : "Face ID protection description",
       "localizations" : {
@@ -1017,6 +1051,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "FAQ"
+          }
+        }
+      }
+    },
+    "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete." : {
+      "comment" : "v4 grace banner description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무료 플랜 한도가 5개로 바뀌었어요. 저장된 항목은 그대로 유지되고, 신규 추가는 업그레이드 또는 기존 항목 삭제 후 가능합니다."
           }
         }
       }
@@ -1045,6 +1096,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Get Started"
+          }
+        }
+      }
+    },
+    "Good afternoon" : {
+      "comment" : "Greeting — afternoon",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good afternoon"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "안녕하세요"
+          }
+        }
+      }
+    },
+    "Good evening" : {
+      "comment" : "Greeting — evening/night",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good evening"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋은 저녁이에요"
+          }
+        }
+      }
+    },
+    "Good morning" : {
+      "comment" : "Greeting — morning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good morning"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋은 아침이에요"
+          }
+        }
+      }
+    },
+    "IBAN" : {
+      "comment" : "IBAN (International Bank Account Number)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBAN"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IBAN"
           }
         }
       }
@@ -1299,6 +1418,23 @@
         }
       }
     },
+    "Keyboard extension" : {
+      "comment" : "Keyboard extension feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard extension"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 익스텐션"
+          }
+        }
+      }
+    },
     "macOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1371,6 +1507,23 @@
         }
       }
     },
+    "No placeholders" : {
+      "comment" : "Fallback when template has no placeholders",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No placeholders"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "플레이스홀더 없음"
+          }
+        }
+      }
+    },
     "Ok" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1399,12 +1552,63 @@
         }
       }
     },
+    "Open App" : {
+      "comment" : "Open main app button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open App"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 열기"
+          }
+        }
+      }
+    },
+    "Open the main app to upgrade." : {
+      "comment" : "Keyboard locked subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the main app to upgrade."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 앱에서 업그레이드하세요."
+          }
+        }
+      }
+    },
     "Open Web Page" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Web Page"
+          }
+        }
+      }
+    },
+    "PayPal Link" : {
+      "comment" : "PayPal.me link",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PayPal Link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PayPal 링크"
           }
         }
       }
@@ -1533,6 +1737,23 @@
         }
       }
     },
+    "SWIFT/BIC" : {
+      "comment" : "SWIFT/BIC bank code",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SWIFT/BIC"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SWIFT/BIC"
+          }
+        }
+      }
+    },
     "This week" : {
       "comment" : "Section header: memos used this week",
       "localizations" : {
@@ -1594,6 +1815,23 @@
         }
       }
     },
+    "Unlock keyboard in ClipKeyboard" : {
+      "comment" : "Keyboard locked title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock keyboard in ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 앱에서 키보드를 잠금해제하세요"
+          }
+        }
+      }
+    },
     "URL" : {
       "comment" : "URL",
       "localizations" : {
@@ -1651,6 +1889,23 @@
         }
       }
     },
+    "VAT Number" : {
+      "comment" : "VAT identification number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VAT Number"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VAT 번호"
+          }
+        }
+      }
+    },
     "You can tap the '+' button to add a phrase or any common text that you want to easily access from iMessages, Mail or other apps" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1658,6 +1913,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You can tap the '+' button to add a phrase or any common text that you want to easily access from iMessages, Mail or other apps"
+          }
+        }
+      }
+    },
+    "Your existing items are safe" : {
+      "comment" : "v4 grace banner title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your existing items are safe"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 항목은 그대로 유지돼요"
           }
         }
       }
@@ -4431,6 +4703,17 @@
         }
       }
     },
+    "이미지 복사됨 · 붙여넣기 하세요" : {
+      "comment" : "Image copied toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image copied · Paste it"
+          }
+        }
+      }
+    },
     "이미지 제거" : {
       "comment" : "Remove image",
       "localizations" : {
@@ -5807,6 +6090,18 @@
         }
       }
     },
+    "탭하면 복사됨" : {
+      "comment" : "Tap to copy image",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to copy"
+          }
+        }
+      }
+    },
     "탭할 때마다 다음 값이 순서대로 입력됩니다" : {
       "comment" : "Combo description",
       "localizations" : {
@@ -6328,278 +6623,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Running 10 minutes late for the meeting"
-          }
-        }
-      }
-    },
-    "Your existing items are safe" : {
-      "comment" : "v4 grace banner title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your existing items are safe"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기존 항목은 그대로 유지돼요"
-          }
-        }
-      }
-    },
-    "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete." : {
-      "comment" : "v4 grace banner description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "무료 플랜 한도가 5개로 바뀌었어요. 저장된 항목은 그대로 유지되고, 신규 추가는 업그레이드 또는 기존 항목 삭제 후 가능합니다."
-          }
-        }
-      }
-    },
-    "Dismiss" : {
-      "comment" : "Dismiss banner",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dismiss"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "닫기"
-          }
-        }
-      }
-    },
-    "IBAN" : {
-      "comment" : "IBAN (International Bank Account Number)",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "IBAN"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "IBAN"
-          }
-        }
-      }
-    },
-    "SWIFT/BIC" : {
-      "comment" : "SWIFT/BIC bank code",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SWIFT/BIC"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "SWIFT/BIC"
-          }
-        }
-      }
-    },
-    "VAT Number" : {
-      "comment" : "VAT identification number",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "VAT Number"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "VAT 번호"
-          }
-        }
-      }
-    },
-    "Crypto Wallet" : {
-      "comment" : "Cryptocurrency wallet address",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crypto Wallet"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "암호화폐 지갑"
-          }
-        }
-      }
-    },
-    "PayPal Link" : {
-      "comment" : "PayPal.me link",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PayPal Link"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "PayPal 링크"
-          }
-        }
-      }
-    },
-    "Good morning" : {
-      "comment" : "Greeting — morning",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good morning"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "좋은 아침이에요"
-          }
-        }
-      }
-    },
-    "Good afternoon" : {
-      "comment" : "Greeting — afternoon",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good afternoon"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "안녕하세요"
-          }
-        }
-      }
-    },
-    "Good evening" : {
-      "comment" : "Greeting — evening/night",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good evening"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "좋은 저녁이에요"
-          }
-        }
-      }
-    },
-    "Unlock keyboard in ClipKeyboard" : {
-      "comment" : "Keyboard locked title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock keyboard in ClipKeyboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메인 앱에서 키보드를 잠금해제하세요"
-          }
-        }
-      }
-    },
-    "Open the main app to upgrade." : {
-      "comment" : "Keyboard locked subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the main app to upgrade."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메인 앱에서 업그레이드하세요."
-          }
-        }
-      }
-    },
-    "Open App" : {
-      "comment" : "Open main app button",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open App"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱 열기"
-          }
-        }
-      }
-    },
-    "Keyboard extension" : {
-      "comment" : "Keyboard extension feature",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keyboard extension"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "키보드 익스텐션"
-          }
-        }
-      }
-    },
-    "No placeholders" : {
-      "comment" : "Fallback when template has no placeholders",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No placeholders"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "플레이스홀더 없음"
           }
         }
       }
