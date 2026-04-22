@@ -896,25 +896,34 @@ struct ContentInputSection: View {
                     }
                     .padding(.vertical, 12)
                 } else {
-                    // 이미지가 선택되지 않았을 때 - placeholder
-                    VStack(spacing: 16) {
-                        Image(systemName: "photo.on.rectangle.angled")
-                            .font(.system(size: 60))
-                            .foregroundColor(.gray.opacity(0.5))
+                    // 이미지가 선택되지 않았을 때 - placeholder (탭 시 갤러리 열기)
+                    Button {
+                        showImagePicker = true
+                    } label: {
+                        VStack(spacing: 16) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 60))
+                                .foregroundColor(.gray.opacity(0.5))
 
-                        Text(NSLocalizedString("이미지를 선택하세요", comment: "Select an image"))
-                            .font(.headline)
-                            .foregroundColor(.secondary)
+                            Text(NSLocalizedString("이미지를 선택하세요", comment: "Select an image"))
+                                .font(.headline)
+                                .foregroundColor(.secondary)
 
-                        Text(NSLocalizedString("위의 버튼을 사용하여\n클립보드에서 붙여넣거나\n사진을 선택할 수 있습니다", comment: "Image selection guide"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                            .multilineTextAlignment(.center)
+                            Text(NSLocalizedString("탭하여 사진 선택", comment: "Tap to select photo"))
+                                .font(.caption)
+                                .foregroundColor(.blue.opacity(0.8))
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 250)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.blue.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
+                        )
                     }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 250)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(12)
+                    .buttonStyle(.plain)
                 }
             } else {
                 // 텍스트 테마: 텍스트 입력 영역

@@ -4767,6 +4767,17 @@
         }
       }
     },
+    "탭하여 사진 선택" : {
+      "comment" : "Tap to select photo hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to select a photo"
+          }
+        }
+      }
+    },
     "이미지를 추가했습니다" : {
       "localizations" : {
         "en" : {
