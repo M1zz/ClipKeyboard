@@ -8,73 +8,64 @@
 import SwiftUI
 
 // Separate view for memo row to reduce complexity
+// v4.3 Redesign: design-handoff 기반 CatIcon + 인라인 Template/Combo 배지 +
+// 새 프리뷰 라인. 기존 business 로직(resolvedType 등)은 그대로 유지.
 struct MemoRowView: View {
     let memo: Memo
     let fontSize: CGFloat
     var showFavoriteNudge: Bool = false
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            // 카테고리 아이콘
-            categoryIcon
-                .font(.system(size: 20))
-                .foregroundColor(categoryColor)
-                .frame(width: 32, height: 32)
-                .background(categoryColor.opacity(0.15))
-                .cornerRadius(8)
+            // 새 design: CatIcon — hue-tinted rounded rect (40×40)
+            CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(memo.title)
-                    .font(.system(size: fontSize))
-                    .lineLimit(1)
+                HStack(spacing: 6) {
+                    Text(memo.title)
+                        .font(theme.bodyFont(size: 15, weight: .semibold))
+                        .foregroundColor(theme.text)
+                        .lineLimit(1)
+                    if memo.isTemplate {
+                        TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
+                    }
+                    if memo.isCombo {
+                        TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
+                    }
+                    if memo.isSecure {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 10))
+                            .foregroundColor(theme.textFaint)
+                    }
+                }
 
                 let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
                 if !previewText.isEmpty {
-                    HStack(spacing: 4) {
-                        if memo.isSecure {
-                            Image(systemName: "lock.fill")
-                                .font(.system(size: 10))
-                                .foregroundColor(.secondary)
-                        }
-                        Text(previewText)
-                            .font(.system(size: 13))
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
-                            .accessibilityLabel(
-                                MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
-                            )
-                    }
-                    .padding(.top, 2)
+                    Text(previewText)
+                        .font(theme.bodyFont(size: 13))
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .accessibilityLabel(
+                            MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
+                        )
                 }
 
-                HStack(spacing: 6) {
-                    if memo.isTemplate {
-                        Image(systemName: "curlybraces")
-                            .font(.system(size: 8))
-                            .foregroundColor(.secondary)
-                            .opacity(0.6)
-                    }
-
-                    if memo.isCombo {
-                        Image(systemName: "repeat")
-                            .font(.system(size: 8))
-                            .foregroundColor(.secondary)
-                            .opacity(0.6)
-                    }
-
+                HStack(spacing: 8) {
                     if let relative = relativeTimeLabel {
                         Text(relative)
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
+                            .font(.system(size: 11))
+                            .foregroundColor(theme.textFaint)
                     }
-
                     if let usage = usageBadgeText {
                         Text(usage)
-                            .font(.system(size: 10, weight: .medium))
+                            .font(.system(size: 11, weight: .medium))
                             .foregroundColor(usageBadgeColor)
                     }
                 }
+                .padding(.top, 1)
             }
 
             Spacer()
@@ -87,11 +78,11 @@ struct MemoRowView: View {
                     Image(uiImage: thumbnailImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 44, height: 44)
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                .stroke(theme.divider, lineWidth: 1)
                         )
                 }
                 #endif

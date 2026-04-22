@@ -21,6 +21,8 @@ struct ClipKeyboardList: View {
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     @State private var showPaywallFromKeyboard: Bool = false
 
+    @Environment(\.appTheme) private var theme
+
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
     }
@@ -28,6 +30,9 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                // Design handoff: bg 토큰으로 전체 배경 통일.
+                theme.bg.ignoresSafeArea()
+
                 // 메모 리스트
                 if !viewModel.tokenMemos.isEmpty {
                     List {

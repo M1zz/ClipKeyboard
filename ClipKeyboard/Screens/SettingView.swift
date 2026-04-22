@@ -122,6 +122,28 @@ struct SettingView: View {
                 }
             }
 
+            // v4.3 Redesign: 테마 선택 섹션
+            Section(NSLocalizedString("Appearance", comment: "Settings section: appearance")) {
+                NavigationLink(destination: ThemePickerView()) {
+                    HStack {
+                        Label(NSLocalizedString("Theme", comment: "Settings: theme picker"), systemImage: "paintpalette")
+                        Spacer()
+                        Text(AppThemePreference.shared.kind.displayName)
+                            .foregroundColor(.secondary)
+                            .font(.subheadline)
+                    }
+                }
+                NavigationLink(destination: AppearanceModePickerView()) {
+                    HStack {
+                        Label(NSLocalizedString("Appearance mode", comment: "Settings: appearance mode"), systemImage: "circle.lefthalf.filled")
+                        Spacer()
+                        Text(AppThemePreference.shared.mode.displayName)
+                            .foregroundColor(.secondary)
+                            .font(.subheadline)
+                    }
+                }
+            }
+
             #if !targetEnvironment(macCatalyst)
             Section(NSLocalizedString("Use on other devices", comment: "Cross-device section")) {
                 NavigationLink(destination: MacAppIntroView()) {

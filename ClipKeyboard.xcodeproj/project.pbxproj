@@ -44,6 +44,16 @@
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000003 /* ThemeSettings.swift */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
+		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
+		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
+		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
+		58DS00072F0000000000000007 /* ClipChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00082F0000000000000008 /* ClipChip.swift */; };
+		58DS00092F0000000000000009 /* ClipFAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000A2F000000000000000A /* ClipFAB.swift */; };
+		58DS000B2F000000000000000B /* ClipIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000C2F000000000000000C /* ClipIconButton.swift */; };
+		58DS000D2F000000000000000D /* ClipSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000E2F000000000000000E /* ClipSearchField.swift */; };
+		58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00102F0000000000000010 /* ClipSectionHeader.swift */; };
+		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
+		58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TP00022F0000000000000002 /* ThemePickerView.swift */; };
 		58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */; };
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
@@ -163,6 +173,16 @@
 		587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardExtension.entitlements; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
+		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
+		58DS00082F0000000000000008 /* ClipChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipChip.swift; sourceTree = "<group>"; };
+		58DS000A2F000000000000000A /* ClipFAB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipFAB.swift; sourceTree = "<group>"; };
+		58DS000C2F000000000000000C /* ClipIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipIconButton.swift; sourceTree = "<group>"; };
+		58DS000E2F000000000000000E /* ClipSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSearchField.swift; sourceTree = "<group>"; };
+		58DS00102F0000000000000010 /* ClipSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSectionHeader.swift; sourceTree = "<group>"; };
+		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
+		58TP00022F0000000000000002 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* ClipKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardApp.swift; sourceTree = "<group>"; };
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -332,6 +352,30 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		58DS00112F0000000000000011 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				58DS00022F0000000000000002 /* AppTheme.swift */,
+				58DS00042F0000000000000004 /* AppThemePreference.swift */,
+				58DS00122F0000000000000012 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		58DS00122F0000000000000012 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				58DS00062F0000000000000006 /* CatIcon.swift */,
+				58DS00082F0000000000000008 /* ClipChip.swift */,
+				58DS000A2F000000000000000A /* ClipFAB.swift */,
+				58DS000C2F000000000000000C /* ClipIconButton.swift */,
+				58DS000E2F000000000000000E /* ClipSearchField.swift */,
+				58DS00102F0000000000000010 /* ClipSectionHeader.swift */,
+				58DS00142F0000000000000014 /* TagBadge.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		58C4732F2A109F0C009D87BC = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +413,7 @@
 				58F8FBC32A15277700F5446E /* Service */,
 				58F8FBC22A15276400F5446E /* Model */,
 				58AA11112B4D1A2100000007 /* Extensions */,
+				58DS00112F0000000000000011 /* DesignSystem */,
 				58C473672A10A787009D87BC /* Temp */,
 				58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */,
 				58C4733F2A109F0E009D87BC /* Assets.xcassets */,
@@ -446,6 +491,7 @@
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
+				58TP00022F0000000000000002 /* ThemePickerView.swift */,
 				580B0D682A30C45E00C7B586 /* FontSetting.swift */,
 				58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
@@ -820,6 +866,7 @@
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
+				58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
@@ -839,6 +886,15 @@
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
 				58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */,
 				58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */,
+				58DS00012F0000000000000001 /* AppTheme.swift in Sources */,
+				58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */,
+				58DS00052F0000000000000005 /* CatIcon.swift in Sources */,
+				58DS00072F0000000000000007 /* ClipChip.swift in Sources */,
+				58DS00092F0000000000000009 /* ClipFAB.swift in Sources */,
+				58DS000B2F000000000000000B /* ClipIconButton.swift in Sources */,
+				58DS000D2F000000000000000D /* ClipSearchField.swift in Sources */,
+				58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */,
+				58DS00132F0000000000000013 /* TagBadge.swift in Sources */,
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
 				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
 				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,

@@ -6953,6 +6953,125 @@
         "en" : {"stringUnit" : {"state" : "translated", "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."}},
         "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널(⌃⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."}}
       }
+    },
+    "Appearance" : {
+      "comment" : "Settings section: appearance",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Appearance"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "외관"}}
+      }
+    },
+    "Theme" : {
+      "comment" : "Settings: theme picker",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Theme"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "테마"}}
+      }
+    },
+    "Dusk" : {
+      "comment" : "Theme name",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Dusk"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Dusk"}}
+      }
+    },
+    "Paper" : {
+      "comment" : "Theme name",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Paper"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Paper"}}
+      }
+    },
+    "System" : {
+      "comment" : "Theme mode: follow system",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "System"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "시스템 따름"}}
+      }
+    },
+    "Light" : {
+      "comment" : "Theme mode: light",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Light"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "라이트"}}
+      }
+    },
+    "Dark" : {
+      "comment" : "Theme mode: dark",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Dark"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "다크"}}
+      }
+    },
+    "Appearance mode" : {
+      "comment" : "Settings: appearance mode",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Appearance mode"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "밝기 모드"}}
+      }
+    },
+    "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led." : {
+      "comment" : "Theme picker footer",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "앱 비주얼 방향을 선택하세요. Dusk는 그라디언트 중심 · 인디고바이올렛. Paper는 웜톤 · 세리프 계열."}}
+      }
+    },
+    "Playful gradients · Indigo-violet accent" : {
+      "comment" : "Dusk description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Playful gradients · Indigo-violet accent"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "플레이풀 그라디언트 · 인디고바이올렛 포인트"}}
+      }
+    },
+    "Warm paper · Serif display · Terracotta accent" : {
+      "comment" : "Paper description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Warm paper · Serif display · Terracotta accent"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "웜톤 페이퍼 · 세리프 · 테라코타 포인트"}}
+      }
+    },
+    "Template" : {
+      "comment" : "Tag: template",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Template"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "템플릿"}}
+      }
+    },
+    "Combo" : {
+      "comment" : "Tag: combo",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Combo"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "콤보"}}
+      }
+    },
+    "Address" : {
+      "comment" : "Category: address",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Address"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "주소"}}
+      }
+    },
+    "Link" : {
+      "comment" : "Category: link",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Link"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "링크"}}
+      }
+    },
+    "Card" : {
+      "comment" : "Category: card",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Card"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "카드"}}
+      }
+    },
+    "Search clips" : {
+      "comment" : "Search placeholder",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Search clips"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클립 검색"}}
+      }
     }
   },
   "version" : "1.0"

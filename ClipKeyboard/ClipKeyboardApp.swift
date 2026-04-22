@@ -57,6 +57,7 @@ struct ClipKeyboardApp: App {
 
     var body: some Scene {
         WindowGroup {
+            AppThemedContainer {
             if manager.didShowOnboarding {
 
                 ClipKeyboardList()
@@ -95,6 +96,7 @@ struct ClipKeyboardApp: App {
                     print("🎯 [APP BODY] 첫 실행 -> 온보딩 표시")
                 }
             }
+            } // AppThemedContainer
 
         }
         #if targetEnvironment(macCatalyst)
