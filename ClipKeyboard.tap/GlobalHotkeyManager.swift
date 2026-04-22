@@ -47,8 +47,10 @@ class GlobalHotkeyManager {
     func registerGlobalHotkey() {
         checkAccessibilityPermission()
 
-        let keyCode: UInt32 = 40 // K key
-        let modifiers: UInt32 = UInt32(controlKey | optionKey)
+        // v4.2: ⌃⌥K → ⌃⌥⇧V (3-modifier 조합으로 타 앱 충돌 최소화).
+        // V는 "Value"/"Variable"을 연상 — 메모/스니펫 맥락과 맞음.
+        let keyCode: UInt32 = 9 // V key
+        let modifiers: UInt32 = UInt32(controlKey | optionKey | shiftKey)
         let hotKeyID = buildHotKeyID()
 
         guard installHotKeyHandler() else { return }
@@ -71,7 +73,7 @@ class GlobalHotkeyManager {
         eventType.eventKind = OSType(kEventHotKeyPressed)
 
         let handler: EventHandlerUPP = { (_, _, _) -> OSStatus in
-            print("🔥 [Global Hotkey] Control+Option+K 전역 단축키 감지!")
+            print("🔥 [Global Hotkey] ⌃⌥⇧V 감지!")
             DispatchQueue.main.async {
                 GlobalHotkeyManager.shared.activateApp()
             }
@@ -97,8 +99,8 @@ class GlobalHotkeyManager {
 
         if status == noErr {
             self.hotKeyRef = hotKeyRefVar
-            print("✅ [Global Hotkey] 전역 단축키 등록 성공 (^⌥K)")
-            print("💡 [Global Hotkey] 이제 어디서나 ^⌥K를 눌러 앱을 활성화할 수 있습니다!")
+            print("✅ [Global Hotkey] 전역 단축키 등록 성공 (⌃⌥⇧V)")
+            print("💡 [Global Hotkey] 이제 어디서나 ⌃⌥⇧V로 메모 패널을 띄울 수 있습니다.")
         } else {
             print("❌ [Global Hotkey] 전역 단축키 등록 실패: \(status)")
         }
@@ -129,11 +131,13 @@ class GlobalHotkeyManager {
     }
 
     private func activateApp() {
-        // v4.1: 메뉴바 팝오버를 직접 오픈 (별도 윈도우 대신 Maccy-style overlay).
+        // v4.2: non-activating 플로팅 패널로 띄워 포커스를 뺏지 않음.
+        // 사용자가 다른 앱에서 텍스트 입력 중이더라도 커서·포커스 유지.
+        // 메모 클릭 시 CGEvent ⌘V로 원래 앱에 바로 주입.
         DispatchQueue.main.async {
-            MenuBarManager.shared.showPopoverFromHotkey()
+            MemoFloatingPanelController.shared.toggle()
         }
-        print("✅ [Global Hotkey] 메뉴바 팝오버 오픈")
+        print("✅ [Global Hotkey] 플로팅 메모 패널 오픈")
     }
 
     deinit {

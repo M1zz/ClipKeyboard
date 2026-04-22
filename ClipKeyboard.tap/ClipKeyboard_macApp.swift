@@ -17,30 +17,37 @@ struct ClipKeyboard_macApp: App {
         }
         .commands {
             // 클립키보드 전용 메뉴
+            // v4.2: 단축키를 ⌃⌥⇧ 3-modifier 조합으로 전환해 타 앱과 충돌 최소화.
+            // 모두 ⌃⌥⇧ + 영문 한 글자 — BetterTouchTool/Raycast/Maccy 등과 겹칠 가능성이 매우 낮음.
             CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
+                Button(NSLocalizedString("Quick Paste Panel", comment: "Menu: floating panel")) {
+                    MemoFloatingPanelController.shared.toggle()
+                }
+                .keyboardShortcut("v", modifiers: [.control, .option, .shift])
+
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
-                .keyboardShortcut("k", modifiers: [.control, .option])
+                .keyboardShortcut("m", modifiers: [.control, .option, .shift])
 
                 Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
                     NotificationCenter.default.post(name: .showNewMemo, object: nil)
                 }
-                .keyboardShortcut("n", modifiers: [.control, .option])
+                .keyboardShortcut("n", modifiers: [.control, .option, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
                     NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
                 }
-                .keyboardShortcut("h", modifiers: [.control, .option])
+                .keyboardShortcut("h", modifiers: [.control, .option, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("iCloud Backup", comment: "Menu: iCloud backup")) {
                     NotificationCenter.default.post(name: .showCloudBackup, object: nil)
                 }
-                .keyboardShortcut("b", modifiers: [.control, .option])
+                .keyboardShortcut("b", modifiers: [.control, .option, .shift])
 
                 Button(NSLocalizedString("Preferences…", comment: "Menu: preferences")) {
                     NotificationCenter.default.post(name: .showSettings, object: nil)

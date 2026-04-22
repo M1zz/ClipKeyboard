@@ -6925,6 +6925,34 @@
         "en" : {"stringUnit" : {"state" : "translated", "value" : "Welcome to ClipKeyboard"}},
         "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard에 오신 것을 환영합니다"}}
       }
+    },
+    "Quick Paste Panel" : {
+      "comment" : "Menu: floating panel",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quick Paste Panel"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널"}}
+      }
+    },
+    "Quick paste panel" : {
+      "comment" : "Shortcut: quick paste",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quick paste panel"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널"}}
+      }
+    },
+    "Click to paste" : {
+      "comment" : "Panel hint",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Click to paste"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클릭 시 바로 붙여넣기"}}
+      }
+    },
+    "The quick paste panel (⌃⌥⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
+      "comment" : "Quick paste explainer",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "The quick paste panel (⌃⌥⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널(⌃⌥⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."}}
+      }
     }
   },
   "version" : "1.0"

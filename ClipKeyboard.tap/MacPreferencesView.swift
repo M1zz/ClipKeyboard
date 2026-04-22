@@ -84,18 +84,22 @@ struct MacPreferencesView: View {
     private var shortcutsTab: some View {
         Form {
             Section {
-                shortcutRow(NSLocalizedString("Open memo list", comment: "Shortcut: memo list"), keys: "⌃⌥K")
-                shortcutRow(NSLocalizedString("New memo", comment: "Shortcut: new memo"), keys: "⌃⌥N")
-                shortcutRow(NSLocalizedString("Clipboard history", comment: "Shortcut: clipboard history"), keys: "⌃⌥H")
-                shortcutRow(NSLocalizedString("iCloud backup", comment: "Shortcut: iCloud backup"), keys: "⌃⌥B")
+                shortcutRow(NSLocalizedString("Quick paste panel", comment: "Shortcut: quick paste"), keys: "⌃⌥⇧V")
+                shortcutRow(NSLocalizedString("Open memo list", comment: "Shortcut: memo list"), keys: "⌃⌥⇧M")
+                shortcutRow(NSLocalizedString("New memo", comment: "Shortcut: new memo"), keys: "⌃⌥⇧N")
+                shortcutRow(NSLocalizedString("Clipboard history", comment: "Shortcut: clipboard history"), keys: "⌃⌥⇧H")
+                shortcutRow(NSLocalizedString("iCloud backup", comment: "Shortcut: iCloud backup"), keys: "⌃⌥⇧B")
                 shortcutRow(NSLocalizedString("Preferences", comment: "Shortcut: preferences"), keys: "⌘,")
             } header: {
                 Text(NSLocalizedString("Global Shortcuts", comment: "Prefs section: global shortcuts"))
                     .font(.headline)
             } footer: {
-                Text(NSLocalizedString("ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility.", comment: "Accessibility note"))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(NSLocalizedString("ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility.", comment: "Accessibility note"))
+                    Text(NSLocalizedString("The quick paste panel (⌃⌥⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus.", comment: "Quick paste explainer"))
+                }
+                .font(.caption)
+                .foregroundColor(.secondary)
             }
         }
         .formStyle(.grouped)

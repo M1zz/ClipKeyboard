@@ -172,9 +172,9 @@ class MenuBarManager: NSObject {
         NSApp.activate(ignoringOtherApps: true)
     }
 
-    /// 전역 단축키(⌃⌥K)가 눌렸을 때 팝오버를 직접 연다.
-    func showPopoverFromHotkey() {
-        // statusItem을 활성화시키고 팝오버 오픈.
-        openPopover()
+    /// 전역 단축키(⌃⌥⇧V)로 플로팅 패널을 연다. v4.2부터는 popover 대신
+    /// non-activating NSPanel을 사용해 전경 앱 포커스를 뺏지 않는다.
+    func showFloatingPanelFromHotkey() {
+        MemoFloatingPanelController.shared.toggle()
     }
 }
