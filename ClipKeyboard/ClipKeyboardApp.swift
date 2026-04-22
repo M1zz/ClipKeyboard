@@ -103,23 +103,26 @@ struct ClipKeyboardApp: App {
         #if targetEnvironment(macCatalyst)
         .commands {
             // 클립키보드 전용 메뉴
+            // v4.2: ⌃⇧ (Control+Shift) + 영문자 3-key 조합으로 통일.
+            // Mac에서 Control+Shift 계열 단축키는 거의 표준 바인딩이 없어
+            // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
             CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
-                .keyboardShortcut("x", modifiers: [.command, .shift])
+                .keyboardShortcut("m", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
                     NotificationCenter.default.post(name: .showNewMemo, object: nil)
                 }
-                .keyboardShortcut("n", modifiers: [.command, .shift])
+                .keyboardShortcut("n", modifiers: [.control, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
                     NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
                 }
-                .keyboardShortcut("h", modifiers: [.command, .shift])
+                .keyboardShortcut("h", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("Paywall", comment: "Menu: paywall")) {
                     NotificationCenter.default.post(name: .showPaywall, object: nil)

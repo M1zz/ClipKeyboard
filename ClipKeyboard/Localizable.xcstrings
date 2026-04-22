@@ -6947,11 +6947,11 @@
         "ko" : {"stringUnit" : {"state" : "translated", "value" : "클릭 시 바로 붙여넣기"}}
       }
     },
-    "The quick paste panel (⌃⌥⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
-      "comment" : "Quick paste explainer",
+    "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
+      "comment" : "Quick paste explainer (3-key)",
       "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "The quick paste panel (⌃⌥⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널(⌃⌥⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."}}
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널(⌃⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."}}
       }
     }
   },

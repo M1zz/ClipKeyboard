@@ -17,37 +17,38 @@ struct ClipKeyboard_macApp: App {
         }
         .commands {
             // 클립키보드 전용 메뉴
-            // v4.2: 단축키를 ⌃⌥⇧ 3-modifier 조합으로 전환해 타 앱과 충돌 최소화.
-            // 모두 ⌃⌥⇧ + 영문 한 글자 — BetterTouchTool/Raycast/Maccy 등과 겹칠 가능성이 매우 낮음.
+            // v4.2: 모든 단축키를 ⌃⇧ (Control+Shift) + 영문자 3-key 조합으로
+            // 통일. Mac에서 Control+Shift 계열은 거의 표준 바인딩이 없어
+            // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
             CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
                 Button(NSLocalizedString("Quick Paste Panel", comment: "Menu: floating panel")) {
                     MemoFloatingPanelController.shared.toggle()
                 }
-                .keyboardShortcut("v", modifiers: [.control, .option, .shift])
+                .keyboardShortcut("v", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
-                .keyboardShortcut("m", modifiers: [.control, .option, .shift])
+                .keyboardShortcut("m", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
                     NotificationCenter.default.post(name: .showNewMemo, object: nil)
                 }
-                .keyboardShortcut("n", modifiers: [.control, .option, .shift])
+                .keyboardShortcut("n", modifiers: [.control, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
                     NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
                 }
-                .keyboardShortcut("h", modifiers: [.control, .option, .shift])
+                .keyboardShortcut("h", modifiers: [.control, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("iCloud Backup", comment: "Menu: iCloud backup")) {
                     NotificationCenter.default.post(name: .showCloudBackup, object: nil)
                 }
-                .keyboardShortcut("b", modifiers: [.control, .option, .shift])
+                .keyboardShortcut("b", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("Preferences…", comment: "Menu: preferences")) {
                     NotificationCenter.default.post(name: .showSettings, object: nil)

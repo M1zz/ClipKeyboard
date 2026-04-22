@@ -47,10 +47,11 @@ class GlobalHotkeyManager {
     func registerGlobalHotkey() {
         checkAccessibilityPermission()
 
-        // v4.2: ⌃⌥K → ⌃⌥⇧V (3-modifier 조합으로 타 앱 충돌 최소화).
-        // V는 "Value"/"Variable"을 연상 — 메모/스니펫 맥락과 맞음.
+        // v4.2: ⌃⇧V (3-key 조합). Mac에서 Control+Shift 계열은 표준
+        // 단축키가 거의 없어 BetterTouchTool/Raycast/Maccy/Alfred 등과
+        // 충돌 가능성이 낮음. V는 "Value"/"Variable"을 연상.
         let keyCode: UInt32 = 9 // V key
-        let modifiers: UInt32 = UInt32(controlKey | optionKey | shiftKey)
+        let modifiers: UInt32 = UInt32(controlKey | shiftKey)
         let hotKeyID = buildHotKeyID()
 
         guard installHotKeyHandler() else { return }
@@ -73,7 +74,7 @@ class GlobalHotkeyManager {
         eventType.eventKind = OSType(kEventHotKeyPressed)
 
         let handler: EventHandlerUPP = { (_, _, _) -> OSStatus in
-            print("🔥 [Global Hotkey] ⌃⌥⇧V 감지!")
+            print("🔥 [Global Hotkey] ⌃⇧V 감지!")
             DispatchQueue.main.async {
                 GlobalHotkeyManager.shared.activateApp()
             }
@@ -99,8 +100,8 @@ class GlobalHotkeyManager {
 
         if status == noErr {
             self.hotKeyRef = hotKeyRefVar
-            print("✅ [Global Hotkey] 전역 단축키 등록 성공 (⌃⌥⇧V)")
-            print("💡 [Global Hotkey] 이제 어디서나 ⌃⌥⇧V로 메모 패널을 띄울 수 있습니다.")
+            print("✅ [Global Hotkey] 전역 단축키 등록 성공 (⌃⇧V)")
+            print("💡 [Global Hotkey] 이제 어디서나 ⌃⇧V로 메모 패널을 띄울 수 있습니다.")
         } else {
             print("❌ [Global Hotkey] 전역 단축키 등록 실패: \(status)")
         }
