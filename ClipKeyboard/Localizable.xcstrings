@@ -581,6 +581,23 @@
         }
       }
     },
+    "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more." : {
+      "comment" : "Mac feature: shortcuts description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘⇧N 새 메모, ⌘⇧H 클립보드 기록 등 Mac 네이티브 단축키."
+          }
+        }
+      }
+    },
     "⚙️ 키보드 레이아웃 설정" : {
       "comment" : "Keyboard layout settings header",
       "localizations" : {
@@ -723,6 +740,76 @@
         }
       }
     },
+    "Accessibility permission granted" : {
+      "comment" : "Prefs: a11y granted",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility permission granted"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "손쉬운 사용 권한 허용됨"
+          }
+        }
+      }
+    },
+    "Accessibility permission required for direct paste." : {
+      "comment" : "Prefs: a11y needed",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility permission required for direct paste."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "직접 붙여넣기를 하려면 손쉬운 사용 권한이 필요합니다."
+          }
+        }
+      }
+    },
+    "Address" : {
+      "comment" : "Category: address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주소"
+          }
+        }
+      }
+    },
+    "Also on your Mac" : {
+      "comment" : "Mac hero title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also on your Mac"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac에서도 바로 쓸 수 있어요"
+          }
+        }
+      }
+    },
     "App Store 페이지에서 직접 작성합니다" : {
       "comment" : "App Store review description",
       "localizations" : {
@@ -756,6 +843,75 @@
         }
       }
     },
+    "Appearance" : {
+      "comment" : "Settings section: appearance",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "외관"
+          }
+        }
+      }
+    },
+    "Appearance mode" : {
+      "comment" : "Settings: appearance mode",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance mode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "밝기 모드"
+          }
+        }
+      }
+    },
+    "Card" : {
+      "comment" : "Category: card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Card"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카드"
+          }
+        }
+      }
+    },
+    "Click to paste" : {
+      "comment" : "Panel hint",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to paste"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클릭 시 바로 붙여넣기"
+          }
+        }
+      }
+    },
     "Clip Keyboard" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -779,6 +935,23 @@
         }
       }
     },
+    "Clipboard History" : {
+      "comment" : "Menu: clipboard history",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipboard History"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립보드 히스토리"
+          }
+        }
+      }
+    },
     "Clipboard List" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -786,6 +959,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clipboard List"
+          }
+        }
+      }
+    },
+    "ClipKeyboard" : {
+      "comment" : "App menu name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard"
+          }
+        }
+      }
+    },
+    "ClipKeyboard for Mac" : {
+      "comment" : "Mac app intro title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard for Mac"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac용 ClipKeyboard"
+          }
+        }
+      }
+    },
+    "ClipKeyboard Help" : {
+      "comment" : "Menu: help",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard Help"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 도움말"
           }
         }
       }
@@ -818,7 +1042,7 @@
       }
     },
     "Combo" : {
-      "comment" : "Combo toggle",
+      "comment" : "Combo toggle\nTag: combo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -998,6 +1222,41 @@
         }
       }
     },
+    "Copy" : {
+      "comment" : "Context: copy",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사"
+          }
+        }
+      }
+    },
+    "Copy and Paste" : {
+      "comment" : "Popover context: copy + paste",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy and Paste"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사 후 붙여넣기"
+          }
+        }
+      }
+    },
     "Crypto Wallet" : {
       "comment" : "Cryptocurrency wallet address",
       "localizations" : {
@@ -1011,6 +1270,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "암호화폐 지갑"
+          }
+        }
+      }
+    },
+    "Dark" : {
+      "comment" : "Theme mode: dark",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다크"
           }
         }
       }
@@ -1031,6 +1307,26 @@
           }
         }
       }
+    },
+    "Dusk" : {
+      "comment" : "Theme name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dusk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dusk"
+          }
+        }
+      }
+    },
+    "Email" : {
+      "comment" : "Category: email"
     },
     "Face ID로 보호" : {
       "comment" : "Face ID protection description",
@@ -1100,6 +1396,23 @@
         }
       }
     },
+    "Global hotkey" : {
+      "comment" : "Mac feature: global hotkey",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Global hotkey"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전역 단축키"
+          }
+        }
+      }
+    },
     "Good afternoon" : {
       "comment" : "Greeting — afternoon",
       "localizations" : {
@@ -1151,6 +1464,24 @@
         }
       }
     },
+    "Grant Access…" : {
+      "comment" : "Prefs: grant access",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grant Access…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "권한 허용…"
+          }
+        }
+      }
+    },
     "IBAN" : {
       "comment" : "IBAN (International Bank Account Number)",
       "localizations" : {
@@ -1164,6 +1495,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "IBAN"
+          }
+        }
+      }
+    },
+    "iCloud Backup" : {
+      "comment" : "Menu: iCloud backup",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Backup"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 백업"
           }
         }
       }
@@ -1349,6 +1698,23 @@
         }
       }
     },
+    "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment." : {
+      "comment" : "Universal purchase description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOS에서 Pro를 구매했다면 Mac에서도 추가 결제 없이 그대로 사용됩니다."
+          }
+        }
+      }
+    },
     "iOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱" : {
       "comment" : "Welcome subtitle",
       "extractionState" : "stale",
@@ -1435,6 +1801,40 @@
         }
       }
     },
+    "Light" : {
+      "comment" : "Theme mode: light",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이트"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "comment" : "Category: link",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Link"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크"
+          }
+        }
+      }
+    },
     "macOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1463,6 +1863,74 @@
         }
       }
     },
+    "Memo List" : {
+      "comment" : "Menu: memo list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo List"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 목록"
+          }
+        }
+      }
+    },
+    "Menu bar access" : {
+      "comment" : "Mac feature: menu bar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu bar access"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴바에서 바로 꺼내기"
+          }
+        }
+      }
+    },
+    "Menu bar access · Global hotkey · iCloud sync" : {
+      "comment" : "Mac promo subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu bar access · Global hotkey · iCloud sync"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴바 접근 · 전역 단축키 · iCloud 동기화"
+          }
+        }
+      }
+    },
+    "Native keyboard shortcuts" : {
+      "comment" : "Mac feature: shortcuts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Native keyboard shortcuts"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "네이티브 키보드 단축키"
+          }
+        }
+      }
+    },
     "NEW" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1470,6 +1938,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NEW"
+          }
+        }
+      }
+    },
+    "New Memo" : {
+      "comment" : "Menu: new memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Memo"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 메모"
           }
         }
       }
@@ -1503,6 +1988,42 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No clipboard, Copy the items you want to paste and add them to the clipboard."
+          }
+        }
+      }
+    },
+    "No matches" : {
+      "comment" : "Popover empty state (searching)",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matches"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일치하는 항목 없음"
+          }
+        }
+      }
+    },
+    "No memos yet" : {
+      "comment" : "Popover empty state",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No memos yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 메모가 없어요"
           }
         }
       }
@@ -1552,6 +2073,23 @@
         }
       }
     },
+    "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud." : {
+      "comment" : "Mac install tip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치 후 Mac 메뉴바에서 ClipKeyboard 아이콘을 찾아보세요. 같은 Apple ID로 로그인하면 iCloud 동기화가 작동합니다."
+          }
+        }
+      }
+    },
     "Open App" : {
       "comment" : "Open main app button",
       "localizations" : {
@@ -1565,6 +2103,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱 열기"
+          }
+        }
+      }
+    },
+    "Open on Mac App Store" : {
+      "comment" : "Open Mac App Store button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open on Mac App Store"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac App Store에서 열기"
           }
         }
       }
@@ -1596,6 +2151,59 @@
         }
       }
     },
+    "Paper" : {
+      "comment" : "Theme name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paper"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paper"
+          }
+        }
+      }
+    },
+    "Paste behavior" : {
+      "comment" : "Prefs section: paste",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste behavior"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "붙여넣기 동작"
+          }
+        }
+      }
+    },
+    "Paste directly after selecting" : {
+      "comment" : "Prefs: auto paste",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste directly after selecting"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택 즉시 붙여넣기"
+          }
+        }
+      }
+    },
     "PayPal Link" : {
       "comment" : "PayPal.me link",
       "localizations" : {
@@ -1609,6 +2217,129 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "PayPal 링크"
+          }
+        }
+      }
+    },
+    "Paywall" : {
+      "comment" : "Menu: paywall",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to Pro"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro 업그레이드"
+          }
+        }
+      }
+    },
+    "Phone" : {
+      "comment" : "Category: phone"
+    },
+    "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led." : {
+      "comment" : "Theme picker footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 비주얼 방향을 선택하세요. Dusk는 그라디언트 중심 · 인디고바이올렛. Paper는 웜톤 · 세리프 계열."
+          }
+        }
+      }
+    },
+    "Pin ClipKeyboard to the macOS menu bar and paste from anywhere." : {
+      "comment" : "Mac feature: menu bar description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin ClipKeyboard to the macOS menu bar and paste from anywhere."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 메뉴바에 고정해 어느 앱에서든 붙여넣기."
+          }
+        }
+      }
+    },
+    "Playful gradients · Indigo-violet accent" : {
+      "comment" : "Dusk description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Playful gradients · Indigo-violet accent"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "플레이풀 그라디언트 · 인디고바이올렛 포인트"
+          }
+        }
+      }
+    },
+    "Preferences" : {
+      "comment" : "Settings window title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        }
+      }
+    },
+    "Preferences…" : {
+      "comment" : "Menu: preferences",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferences…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정…"
+          }
+        }
+      }
+    },
+    "Press ⌃⌥K from any app to open your snippet list instantly." : {
+      "comment" : "Mac feature: hotkey description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press ⌃⌥K from any app to open your snippet list instantly."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어디서든 ⌃⌥K로 스니펫 목록을 즉시 열기."
           }
         }
       }
@@ -1716,6 +2447,59 @@
         }
       }
     },
+    "Quick paste panel" : {
+      "comment" : "Shortcut: quick paste",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick paste panel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 붙여넣기 패널"
+          }
+        }
+      }
+    },
+    "Quick Paste Panel" : {
+      "comment" : "Menu: floating panel",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Paste Panel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 붙여넣기 패널"
+          }
+        }
+      }
+    },
+    "Quit ClipKeyboard" : {
+      "comment" : "Menu: quit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 종료"
+          }
+        }
+      }
+    },
     "Return" : {
       "comment" : "Return key",
       "localizations" : {
@@ -1727,12 +2511,82 @@
         }
       }
     },
+    "Same snippets, same memos — available on macOS." : {
+      "comment" : "Mac hero subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Same snippets, same memos — available on macOS."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "같은 스니펫·메모를 macOS에서도 그대로 사용하세요."
+          }
+        }
+      }
+    },
+    "Search clips" : {
+      "comment" : "Search placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search clips"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립 검색"
+          }
+        }
+      }
+    },
+    "Search memos" : {
+      "comment" : "Popover search placeholder",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search memos"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 검색"
+          }
+        }
+      }
+    },
     "Send Email" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Send Email"
+          }
+        }
+      }
+    },
+    "Show Onboarding" : {
+      "comment" : "Menu: show onboarding",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Onboarding"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "온보딩 다시 보기"
           }
         }
       }
@@ -1754,6 +2608,95 @@
         }
       }
     },
+    "Syncs via iCloud" : {
+      "comment" : "Mac feature: iCloud sync",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Syncs via iCloud"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud로 동기화"
+          }
+        }
+      }
+    },
+    "System" : {
+      "comment" : "Theme mode: follow system",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 따름"
+          }
+        }
+      }
+    },
+    "Template" : {
+      "comment" : "Tag: template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "템플릿"
+          }
+        }
+      }
+    },
+    "Text" : {
+      "comment" : "Category: text"
+    },
+    "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
+      "comment" : "Quick paste explainer (3-key)",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 붙여넣기 패널(⌃⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."
+          }
+        }
+      }
+    },
+    "Theme" : {
+      "comment" : "Settings: theme picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "테마"
+          }
+        }
+      }
+    },
     "This week" : {
       "comment" : "Section header: memos used this week",
       "localizations" : {
@@ -1767,6 +2710,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이번 주"
+          }
+        }
+      }
+    },
+    "Tip" : {
+      "comment" : "Tip section title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tip"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팁"
           }
         }
       }
@@ -1804,6 +2764,23 @@
         }
       }
     },
+    "Universal Purchase" : {
+      "comment" : "Mac universal purchase title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Universal Purchase"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번 구매로 전 기기"
+          }
+        }
+      }
+    },
     "Unlock keyboard in ClipKeyboard" : {
       "comment" : "Keyboard locked title",
       "localizations" : {
@@ -1828,6 +2805,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL"
+          }
+        }
+      }
+    },
+    "Use on other devices" : {
+      "comment" : "Cross-device section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use on other devices"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기에서 사용"
           }
         }
       }
@@ -1895,6 +2889,59 @@
         }
       }
     },
+    "Warm paper · Serif display · Terracotta accent" : {
+      "comment" : "Paper description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warm paper · Serif display · Terracotta accent"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웜톤 페이퍼 · 세리프 · 테라코타 포인트"
+          }
+        }
+      }
+    },
+    "Welcome to ClipKeyboard" : {
+      "comment" : "Onboarding window title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard에 오신 것을 환영합니다"
+          }
+        }
+      }
+    },
+    "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)." : {
+      "comment" : "Prefs: paste behavior note",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜면 메뉴바 팝오버에서 Enter 시 복사와 동시에 전경 앱에 붙여넣습니다. 꺼두면 Enter는 복사만, 붙여넣기는 ⌥Enter."
+          }
+        }
+      }
+    },
     "You can tap the '+' button to add a phrase or any common text that you want to easily access from iMessages, Mail or other apps" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1919,6 +2966,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "기존 항목은 그대로 유지돼요"
+          }
+        }
+      }
+    },
+    "Your memos, templates and clipboard history follow you between iPhone and Mac." : {
+      "comment" : "Mac feature: sync description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your memos, templates and clipboard history follow you between iPhone and Mac."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모·템플릿·클립보드 기록이 iPhone과 Mac 사이에서 따라다녀요."
           }
         }
       }
@@ -2582,6 +3646,7 @@
     },
     "도움말" : {
       "comment" : "Help",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5041,6 +6106,28 @@
         }
       }
     },
+    "저장된 항목" : {
+      "comment" : "Saved items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved Items"
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
     "저장되었습니다!" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -5060,28 +6147,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Load saved memos"
-          }
-        }
-      }
-    },
-    "저장된 항목" : {
-      "comment" : "Saved items",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved Items"
-          }
-        }
-      }
-    },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
           }
         }
       }
@@ -6637,440 +7702,6 @@
             "value" : "Running 10 minutes late for the meeting"
           }
         }
-      }
-    },
-    "Use on other devices" : {
-      "comment" : "Cross-device section",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Use on other devices"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "다른 기기에서 사용"}}
-      }
-    },
-    "ClipKeyboard for Mac" : {
-      "comment" : "Mac app intro title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard for Mac"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac용 ClipKeyboard"}}
-      }
-    },
-    "Menu bar access · Global hotkey · iCloud sync" : {
-      "comment" : "Mac promo subtitle",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Menu bar access · Global hotkey · iCloud sync"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메뉴바 접근 · 전역 단축키 · iCloud 동기화"}}
-      }
-    },
-    "Also on your Mac" : {
-      "comment" : "Mac hero title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Also on your Mac"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac에서도 바로 쓸 수 있어요"}}
-      }
-    },
-    "Same snippets, same memos — available on macOS." : {
-      "comment" : "Mac hero subtitle",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Same snippets, same memos — available on macOS."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "같은 스니펫·메모를 macOS에서도 그대로 사용하세요."}}
-      }
-    },
-    "Menu bar access" : {
-      "comment" : "Mac feature: menu bar",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Menu bar access"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메뉴바에서 바로 꺼내기"}}
-      }
-    },
-    "Pin ClipKeyboard to the macOS menu bar and paste from anywhere." : {
-      "comment" : "Mac feature: menu bar description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Pin ClipKeyboard to the macOS menu bar and paste from anywhere."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "macOS 메뉴바에 고정해 어느 앱에서든 붙여넣기."}}
-      }
-    },
-    "Global hotkey" : {
-      "comment" : "Mac feature: global hotkey",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Global hotkey"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "전역 단축키"}}
-      }
-    },
-    "Press ⌃⌥K from any app to open your snippet list instantly." : {
-      "comment" : "Mac feature: hotkey description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Press ⌃⌥K from any app to open your snippet list instantly."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "어디서든 ⌃⌥K로 스니펫 목록을 즉시 열기."}}
-      }
-    },
-    "Syncs via iCloud" : {
-      "comment" : "Mac feature: iCloud sync",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Syncs via iCloud"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iCloud로 동기화"}}
-      }
-    },
-    "Your memos, templates and clipboard history follow you between iPhone and Mac." : {
-      "comment" : "Mac feature: sync description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Your memos, templates and clipboard history follow you between iPhone and Mac."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메모·템플릿·클립보드 기록이 iPhone과 Mac 사이에서 따라다녀요."}}
-      }
-    },
-    "Native keyboard shortcuts" : {
-      "comment" : "Mac feature: shortcuts",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Native keyboard shortcuts"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "네이티브 키보드 단축키"}}
-      }
-    },
-    "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more." : {
-      "comment" : "Mac feature: shortcuts description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "⌘⇧N 새 메모, ⌘⇧H 클립보드 기록 등 Mac 네이티브 단축키."}}
-      }
-    },
-    "Universal Purchase" : {
-      "comment" : "Mac universal purchase title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Universal Purchase"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "한 번 구매로 전 기기"}}
-      }
-    },
-    "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment." : {
-      "comment" : "Universal purchase description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iOS에서 Pro를 구매했다면 Mac에서도 추가 결제 없이 그대로 사용됩니다."}}
-      }
-    },
-    "Open on Mac App Store" : {
-      "comment" : "Open Mac App Store button",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Open on Mac App Store"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac App Store에서 열기"}}
-      }
-    },
-    "Tip" : {
-      "comment" : "Tip section title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Tip"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "팁"}}
-      }
-    },
-    "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud." : {
-      "comment" : "Mac install tip",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설치 후 Mac 메뉴바에서 ClipKeyboard 아이콘을 찾아보세요. 같은 Apple ID로 로그인하면 iCloud 동기화가 작동합니다."}}
-      }
-    },
-    "ClipKeyboard" : {
-      "comment" : "App menu name",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard"}}
-      }
-    },
-    "Memo List" : {
-      "comment" : "Menu: memo list",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Memo List"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메모 목록"}}
-      }
-    },
-    "New Memo" : {
-      "comment" : "Menu: new memo",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "New Memo"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "새 메모"}}
-      }
-    },
-    "Clipboard History" : {
-      "comment" : "Menu: clipboard history",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Clipboard History"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클립보드 히스토리"}}
-      }
-    },
-    "iCloud Backup" : {
-      "comment" : "Menu: iCloud backup",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "iCloud Backup"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iCloud 백업"}}
-      }
-    },
-    "Preferences…" : {
-      "comment" : "Menu: preferences",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Preferences…"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설정…"}}
-      }
-    },
-    "Preferences" : {
-      "comment" : "Settings window title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Preferences"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설정"}}
-      }
-    },
-    "Paywall" : {
-      "comment" : "Menu: paywall",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Upgrade to Pro"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Pro 업그레이드"}}
-      }
-    },
-    "Show Onboarding" : {
-      "comment" : "Menu: show onboarding",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Show Onboarding"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "온보딩 다시 보기"}}
-      }
-    },
-    "Quit ClipKeyboard" : {
-      "comment" : "Menu: quit",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quit ClipKeyboard"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard 종료"}}
-      }
-    },
-    "ClipKeyboard Help" : {
-      "comment" : "Menu: help",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard Help"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard 도움말"}}
-      }
-    },
-    "Copy" : {
-      "comment" : "Context: copy",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Copy"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "복사"}}
-      }
-    },
-    "Search memos" : {
-      "comment" : "Popover search placeholder",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Search memos"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메모 검색"}}
-      }
-    },
-    "No memos yet" : {
-      "comment" : "Popover empty state",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "No memos yet"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "저장된 메모가 없어요"}}
-      }
-    },
-    "No matches" : {
-      "comment" : "Popover empty state (searching)",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "No matches"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "일치하는 항목 없음"}}
-      }
-    },
-    "Copy and Paste" : {
-      "comment" : "Popover context: copy + paste",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Copy and Paste"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "복사 후 붙여넣기"}}
-      }
-    },
-    "Paste directly after selecting" : {
-      "comment" : "Prefs: auto paste",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Paste directly after selecting"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "선택 즉시 붙여넣기"}}
-      }
-    },
-    "Accessibility permission granted" : {
-      "comment" : "Prefs: a11y granted",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Accessibility permission granted"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "손쉬운 사용 권한 허용됨"}}
-      }
-    },
-    "Accessibility permission required for direct paste." : {
-      "comment" : "Prefs: a11y needed",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Accessibility permission required for direct paste."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "직접 붙여넣기를 하려면 손쉬운 사용 권한이 필요합니다."}}
-      }
-    },
-    "Grant Access…" : {
-      "comment" : "Prefs: grant access",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Grant Access…"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "권한 허용…"}}
-      }
-    },
-    "Paste behavior" : {
-      "comment" : "Prefs section: paste",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Paste behavior"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "붙여넣기 동작"}}
-      }
-    },
-    "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)." : {
-      "comment" : "Prefs: paste behavior note",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "켜면 메뉴바 팝오버에서 Enter 시 복사와 동시에 전경 앱에 붙여넣습니다. 꺼두면 Enter는 복사만, 붙여넣기는 ⌥Enter."}}
-      }
-    },
-    "Welcome to ClipKeyboard" : {
-      "comment" : "Onboarding window title",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Welcome to ClipKeyboard"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard에 오신 것을 환영합니다"}}
-      }
-    },
-    "Quick Paste Panel" : {
-      "comment" : "Menu: floating panel",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quick Paste Panel"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널"}}
-      }
-    },
-    "Quick paste panel" : {
-      "comment" : "Shortcut: quick paste",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quick paste panel"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널"}}
-      }
-    },
-    "Click to paste" : {
-      "comment" : "Panel hint",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Click to paste"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클릭 시 바로 붙여넣기"}}
-      }
-    },
-    "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
-      "comment" : "Quick paste explainer (3-key)",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "빠른 붙여넣기 패널(⌃⇧V)은 현재 작업 중인 앱 위에 떠 포커스를 뺏지 않습니다. 메모를 클릭하면 원래 텍스트 필드에 바로 붙여넣습니다."}}
-      }
-    },
-    "Appearance" : {
-      "comment" : "Settings section: appearance",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Appearance"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "외관"}}
-      }
-    },
-    "Theme" : {
-      "comment" : "Settings: theme picker",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Theme"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "테마"}}
-      }
-    },
-    "Dusk" : {
-      "comment" : "Theme name",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Dusk"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Dusk"}}
-      }
-    },
-    "Paper" : {
-      "comment" : "Theme name",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Paper"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Paper"}}
-      }
-    },
-    "System" : {
-      "comment" : "Theme mode: follow system",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "System"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "시스템 따름"}}
-      }
-    },
-    "Light" : {
-      "comment" : "Theme mode: light",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Light"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "라이트"}}
-      }
-    },
-    "Dark" : {
-      "comment" : "Theme mode: dark",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Dark"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "다크"}}
-      }
-    },
-    "Appearance mode" : {
-      "comment" : "Settings: appearance mode",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Appearance mode"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "밝기 모드"}}
-      }
-    },
-    "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led." : {
-      "comment" : "Theme picker footer",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Pick a visual direction for the app. Dusk uses a playful gradient-forward palette. Paper is warm and serif-led."}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "앱 비주얼 방향을 선택하세요. Dusk는 그라디언트 중심 · 인디고바이올렛. Paper는 웜톤 · 세리프 계열."}}
-      }
-    },
-    "Playful gradients · Indigo-violet accent" : {
-      "comment" : "Dusk description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Playful gradients · Indigo-violet accent"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "플레이풀 그라디언트 · 인디고바이올렛 포인트"}}
-      }
-    },
-    "Warm paper · Serif display · Terracotta accent" : {
-      "comment" : "Paper description",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Warm paper · Serif display · Terracotta accent"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "웜톤 페이퍼 · 세리프 · 테라코타 포인트"}}
-      }
-    },
-    "Template" : {
-      "comment" : "Tag: template",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Template"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "템플릿"}}
-      }
-    },
-    "Combo" : {
-      "comment" : "Tag: combo",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Combo"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "콤보"}}
-      }
-    },
-    "Address" : {
-      "comment" : "Category: address",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Address"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "주소"}}
-      }
-    },
-    "Link" : {
-      "comment" : "Category: link",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Link"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "링크"}}
-      }
-    },
-    "Card" : {
-      "comment" : "Category: card",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Card"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "카드"}}
-      }
-    },
-    "Search clips" : {
-      "comment" : "Search placeholder",
-      "localizations" : {
-        "en" : {"stringUnit" : {"state" : "translated", "value" : "Search clips"}},
-        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클립 검색"}}
       }
     }
   },
