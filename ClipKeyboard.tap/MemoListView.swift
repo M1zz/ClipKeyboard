@@ -115,7 +115,7 @@ struct MemoListView: View {
                     .listStyle(.plain)
                 }
         }
-        .frame(width: 350, height: 450)
+        .frame(minWidth: 360, minHeight: 420)
         .onAppear {
             print("✅ [MemoListView] onAppear - 뷰 활성화")
             isViewActive = true

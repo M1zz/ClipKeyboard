@@ -26,7 +26,7 @@ struct MacPreferencesView: View {
             aboutTab
                 .tabItem { Label(NSLocalizedString("About", comment: "Prefs: about"), systemImage: "info.circle") }
         }
-        .frame(width: 520, height: 400)
+        .frame(minWidth: 520, minHeight: 400)
         .padding()
     }
 

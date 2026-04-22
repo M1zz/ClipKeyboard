@@ -104,9 +104,10 @@ class WindowManager {
     func openMemoListWindow() {
         openWindow(
             key: "memo-list",
-            title: "메모 목록",
-            size: NSSize(width: 350, height: 450),
-            styleMask: [.titled, .closable, .miniaturizable],
+            title: NSLocalizedString("Memo List", comment: "Menu: memo list"),
+            size: NSSize(width: 420, height: 560),
+            minSize: NSSize(width: 360, height: 420),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable],
             autosaveName: "MemoListWindow",
             content: MemoListView()
         )
@@ -114,12 +115,15 @@ class WindowManager {
 
     // MARK: - Common Window Factory
 
-    /// 윈도우 생성 공통 헬퍼 — 기존 윈도우가 있으면 포커스, 없으면 새로 생성
+    /// 윈도우 생성 공통 헬퍼 — 기존 윈도우가 있으면 포커스, 없으면 새로 생성.
+    /// - Note: v4.1부터 기본 styleMask에 .resizable 포함. 이전엔 고정 크기 창이
+    ///   콘텐츠 intrinsic size보다 작으면 아래쪽이 잘리던 문제 있었음.
     private func openWindow<Content: View>(
         key: String,
         title: String,
         size: NSSize,
-        styleMask: NSWindow.StyleMask = [.titled, .closable],
+        minSize: NSSize? = nil,
+        styleMask: NSWindow.StyleMask = [.titled, .closable, .resizable],
         autosaveName: String? = nil,
         content: Content
     ) {
@@ -144,6 +148,11 @@ class WindowManager {
         window.identifier = NSUserInterfaceItemIdentifier(key)
         window.level = .floating
 
+        // 최소 크기 — 사용자가 너무 작게 줄여 콘텐츠가 잘리지 않도록.
+        if let minSize {
+            window.minSize = minSize
+        }
+
         let delegate = WindowDelegate(windowKey: key, manager: self)
         window.delegate = delegate
         windows[key] = window
@@ -151,7 +160,7 @@ class WindowManager {
 
         window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
-        print("✅ [WindowManager] 새 윈도우 생성 완료: \(key)")
+        print("✅ [WindowManager] 새 윈도우 생성 완료: \(key) (size=\(Int(size.width))x\(Int(size.height)))")
     }
 
     // 윈도우가 닫힐 때 호출
@@ -178,9 +187,9 @@ class WindowManager {
     func openNewMemoWindow() {
         openWindow(
             key: "new-memo",
-            title: "새 메모",
-            size: NSSize(width: 550, height: 650),
-            styleMask: [.titled, .closable, .resizable],
+            title: NSLocalizedString("New Memo", comment: "Menu: new memo"),
+            size: NSSize(width: 560, height: 700),
+            minSize: NSSize(width: 480, height: 560),
             content: MemoAddView()
         )
     }
@@ -188,9 +197,9 @@ class WindowManager {
     func openClipboardHistoryWindow() {
         openWindow(
             key: "clipboard-history",
-            title: "클립보드 히스토리",
-            size: NSSize(width: 600, height: 500),
-            styleMask: [.titled, .closable, .resizable],
+            title: NSLocalizedString("Clipboard History", comment: "Menu: clipboard history"),
+            size: NSSize(width: 620, height: 560),
+            minSize: NSSize(width: 480, height: 420),
             content: ClipboardHistoryView()
         )
     }
@@ -199,7 +208,8 @@ class WindowManager {
         openWindow(
             key: "settings",
             title: NSLocalizedString("Preferences", comment: "Settings window title"),
-            size: NSSize(width: 520, height: 400),
+            size: NSSize(width: 560, height: 480),
+            minSize: NSSize(width: 520, height: 400),
             content: MacPreferencesView()
         )
     }
@@ -207,8 +217,9 @@ class WindowManager {
     func openCloudBackupWindow() {
         openWindow(
             key: "cloud-backup",
-            title: "iCloud 백업",
-            size: NSSize(width: 600, height: 500),
+            title: NSLocalizedString("iCloud Backup", comment: "Menu: iCloud backup"),
+            size: NSSize(width: 600, height: 680),
+            minSize: NSSize(width: 520, height: 560),
             content: CloudBackupView()
         )
     }

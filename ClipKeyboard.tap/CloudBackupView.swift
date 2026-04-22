@@ -15,7 +15,8 @@ struct CloudBackupView: View {
     @State private var alertTitle = ""
 
     var body: some View {
-        VStack(spacing: 24) {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 24) {
             // 헤더
             VStack(spacing: 8) {
                 Image(systemName: "icloud.and.arrow.up.fill")
@@ -25,10 +26,14 @@ struct CloudBackupView: View {
                 Text(NSLocalizedString("iCloud 백업 및 복구", comment: "iCloud backup and restore title"))
                     .font(.title)
                     .bold()
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text(NSLocalizedString("데이터를 iCloud에 안전하게 백업하세요", comment: "Backup description"))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.top, 20)
 
@@ -136,10 +141,14 @@ struct CloudBackupView: View {
             Text(NSLocalizedString("⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다", comment: "Restore warning"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom)
+            }
+            .padding(30)
+            .frame(maxWidth: .infinity)
         }
-        .padding(30)
-        .frame(minWidth: 500, minHeight: 500)
+        .frame(minWidth: 500, minHeight: 420)
         .alert(alertTitle, isPresented: $showAlert) {
             Button(NSLocalizedString("확인", comment: "OK button"), role: .cancel) {}
         } message: {

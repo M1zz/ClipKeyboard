@@ -178,7 +178,7 @@ struct MemoAddView: View {
             .padding(.top, -20)
             .padding(.bottom)
         }
-        .frame(width: 550, height: 650)
+        .frame(minWidth: 480, minHeight: 560)
         .overlay(
             // Toast 메시지
             VStack {
