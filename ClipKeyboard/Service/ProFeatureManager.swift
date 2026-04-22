@@ -72,9 +72,19 @@ struct ProFeatureManager {
         UserDefaults(suiteName: appGroupSuite)
     }
 
-    /// Pro 여부 (StoreManager에서 가져옴)
+    /// TestFlight 빌드 여부 (샌드박스 영수증 감지)
+    static var isTestFlight: Bool {
+        #if targetEnvironment(macCatalyst)
+        return false
+        #else
+        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+        #endif
+    }
+
+    /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)
     static var isPro: Bool {
-        groupDefaults?.bool(forKey: proStatusKey) ?? false
+        if isTestFlight { return true }
+        return groupDefaults?.bool(forKey: proStatusKey) ?? false
     }
 
     /// v3.x에서 Pro 구매 이력이 있는 유저 여부. v4.0 첫 실행 시 영수증 검증으로 설정되며, 이후 영구 유지.
