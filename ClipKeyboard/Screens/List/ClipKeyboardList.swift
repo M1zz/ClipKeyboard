@@ -346,7 +346,57 @@ struct ClipKeyboardList: View {
             }
             .tint(.pink)
         }
+        .contextMenu {
+            memoContextMenu(memo: memo)
+        }
         .transition(.scale)
+    }
+
+    /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
+    /// swipe 액션은 iOS trackpad에서만 닿고 Mac에서는 불편하므로 같은 액션을 컨텍스트로도 제공.
+    @ViewBuilder
+    private func memoContextMenu(memo: Memo) -> some View {
+        Button {
+            viewModel.copyMemo(memo: memo)
+        } label: {
+            Label(NSLocalizedString("Copy", comment: "Context: copy"), systemImage: "doc.on.doc")
+        }
+
+        Button {
+            viewModel.toggleFavorite(memoId: memo.id)
+        } label: {
+            Label(
+                memo.isFavorite
+                    ? NSLocalizedString("즐겨찾기 해제", comment: "Remove favorite")
+                    : NSLocalizedString("즐겨찾기", comment: "Add favorite"),
+                systemImage: memo.isFavorite ? "heart.slash" : "heart"
+            )
+        }
+
+        Divider()
+
+        NavigationLink {
+            MemoAdd(
+                memoId: memo.id,
+                insertedKeyword: memo.title,
+                insertedValue: memo.value,
+                insertedCategory: memo.category,
+                insertedIsTemplate: memo.isTemplate,
+                insertedIsSecure: memo.isSecure,
+                insertedIsCombo: memo.isCombo,
+                insertedComboValues: memo.comboValues
+            )
+        } label: {
+            Label(NSLocalizedString("수정", comment: "Edit"), systemImage: "pencil")
+        }
+
+        Divider()
+
+        Button(role: .destructive) {
+            memoToDelete = memo
+        } label: {
+            Label(NSLocalizedString("삭제", comment: "Delete memo"), systemImage: "trash")
+        }
     }
 
     /// 수정 버튼

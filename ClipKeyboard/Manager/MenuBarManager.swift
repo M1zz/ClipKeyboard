@@ -71,15 +71,17 @@ class MenuBarManager: NSObject {
             return
         }
 
-        // 메뉴 아이템 추가
-        addMenuItem(to: menu, title: "메모 목록", action: #selector(memoListAction), key: "k")
-        //addMenuItem(to: menu, title: "새 메모", action: #selector(newMemoAction), key: "n")
+        // 메뉴 아이템 추가 (NSLocalizedString으로 locale 자동 대응)
+        addMenuItem(to: menu, title: NSLocalizedString("Memo List", comment: "Menu: memo list"),
+                    action: #selector(memoListAction), key: "k")
+        addMenuItem(to: menu, title: NSLocalizedString("New Memo", comment: "Menu: new memo"),
+                    action: #selector(newMemoAction), key: "n")
         addSeparator(to: menu)
-        addMenuItem(to: menu, title: "클립보드 히스토리", action: #selector(clipboardHistoryAction), key: "h")
+        addMenuItem(to: menu, title: NSLocalizedString("Clipboard History", comment: "Menu: clipboard history"),
+                    action: #selector(clipboardHistoryAction), key: "h")
         addSeparator(to: menu)
-        //addMenuItem(to: menu, title: "설정", action: #selector(settingsAction), key: ",")
-        addSeparator(to: menu)
-        addMenuItem(to: menu, title: "종료", action: #selector(quitAction), key: "q")
+        addMenuItem(to: menu, title: NSLocalizedString("Quit ClipKeyboard", comment: "Menu: quit"),
+                    action: #selector(quitAction), key: "q")
 
         // 메뉴를 statusItem에 연결
         let setMenuSelector = NSSelectorFromString("setMenu:")

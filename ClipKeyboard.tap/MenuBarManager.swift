@@ -26,24 +26,36 @@ class MenuBarManager: NSObject {
             return
         }
 
-        // 아이콘 설정 (이모지만 사용)
-        button.title = "🛶"
+        // 아이콘 설정 — Mac-idiomatic SF Symbol 우선, 폴백으로 이모지.
+        if let icon = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "ClipKeyboard") {
+            icon.isTemplate = true  // 라이트/다크 모드 자동 적응
+            button.image = icon
+        } else {
+            button.title = "🛶"
+        }
 
         // 메뉴 생성
         let menu = NSMenu()
 
-        // 메뉴 아이템 추가
-        menu.addItem(withTitle: "메모 목록", action: #selector(memoListAction), keyEquivalent: "k")
-        menu.addItem(withTitle: "새 메모", action: #selector(newMemoAction), keyEquivalent: "n")
+        // 메뉴 아이템 추가 (로케일 따라 자동 번역)
+        menu.addItem(withTitle: NSLocalizedString("Memo List", comment: "Menu: memo list"),
+                     action: #selector(memoListAction), keyEquivalent: "k")
+        menu.addItem(withTitle: NSLocalizedString("New Memo", comment: "Menu: new memo"),
+                     action: #selector(newMemoAction), keyEquivalent: "n")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "클립보드 히스토리", action: #selector(clipboardHistoryAction), keyEquivalent: "h")
+        menu.addItem(withTitle: NSLocalizedString("Clipboard History", comment: "Menu: clipboard history"),
+                     action: #selector(clipboardHistoryAction), keyEquivalent: "h")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "iCloud 백업", action: #selector(cloudBackupAction), keyEquivalent: "b")
-        //menu.addItem(withTitle: "설정", action: #selector(settingsAction), keyEquivalent: ",")
+        menu.addItem(withTitle: NSLocalizedString("iCloud Backup", comment: "Menu: iCloud backup"),
+                     action: #selector(cloudBackupAction), keyEquivalent: "b")
+        menu.addItem(withTitle: NSLocalizedString("Preferences…", comment: "Menu: preferences"),
+                     action: #selector(settingsAction), keyEquivalent: ",")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "온보딩 다시 보기", action: #selector(onboardingAction), keyEquivalent: "")
+        menu.addItem(withTitle: NSLocalizedString("Show Onboarding", comment: "Menu: show onboarding"),
+                     action: #selector(onboardingAction), keyEquivalent: "")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "종료", action: #selector(quitAction), keyEquivalent: "q")
+        menu.addItem(withTitle: NSLocalizedString("Quit ClipKeyboard", comment: "Menu: quit"),
+                     action: #selector(quitAction), keyEquivalent: "q")
 
         // 모든 메뉴 아이템의 타겟 설정
         for item in menu.items {

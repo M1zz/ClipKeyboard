@@ -62,6 +62,9 @@ struct ClipKeyboardApp: App {
                 ClipKeyboardList()
                     .environmentObject(storeManager)
                     .environmentObject(deps)
+                    #if targetEnvironment(macCatalyst)
+                    .frame(minWidth: 520, minHeight: 640)
+                    #endif
                     .onOpenURL { url in
                         handleOpenURL(url)
                     }
@@ -85,6 +88,9 @@ struct ClipKeyboardApp: App {
                     print("✅ [ONBOARDING] 온보딩 완료 -> didShowOnboarding = true")
                     manager.didShowOnboarding = true
                 }
+                #if targetEnvironment(macCatalyst)
+                .frame(minWidth: 520, minHeight: 640)
+                #endif
                 .onAppear() {
                     print("🎯 [APP BODY] 첫 실행 -> 온보딩 표시")
                 }
@@ -92,36 +98,43 @@ struct ClipKeyboardApp: App {
 
         }
         #if targetEnvironment(macCatalyst)
+        .defaultSize(width: 620, height: 780)
+        #endif
+        #if targetEnvironment(macCatalyst)
         .commands {
             // 클립키보드 전용 메뉴
-            CommandMenu("클립키보드") {
-                Button("메모 목록") {
+            CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
+                Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
                 .keyboardShortcut("x", modifiers: [.command, .shift])
 
-                Button("새 메모") {
+                Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
                     NotificationCenter.default.post(name: .showNewMemo, object: nil)
                 }
                 .keyboardShortcut("n", modifiers: [.command, .shift])
 
                 Divider()
 
-                Button("클립보드 히스토리") {
+                Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
                     NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
                 }
                 .keyboardShortcut("h", modifiers: [.command, .shift])
 
+                Button(NSLocalizedString("Paywall", comment: "Menu: paywall")) {
+                    NotificationCenter.default.post(name: .showPaywall, object: nil)
+                }
+
                 Divider()
 
-                Button("설정") {
+                Button(NSLocalizedString("Preferences…", comment: "Menu: preferences")) {
                     NotificationCenter.default.post(name: .showSettings, object: nil)
                 }
                 .keyboardShortcut(",", modifiers: [.command])
             }
 
             CommandGroup(replacing: .help) {
-                Button(NSLocalizedString("도움말", comment: "Help")) {
+                Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
                     if let url = URL(string: "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4?pvs=4") {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)

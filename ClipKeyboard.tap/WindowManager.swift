@@ -195,12 +195,11 @@ class WindowManager {
     }
 
     func openSettingsWindow() {
-        // TODO: 설정 뷰 구현 필요
         openWindow(
             key: "settings",
-            title: "설정",
-            size: NSSize(width: 500, height: 400),
-            content: Text("설정 화면").frame(width: 500, height: 400)
+            title: NSLocalizedString("Preferences", comment: "Settings window title"),
+            size: NSSize(width: 520, height: 400),
+            content: MacPreferencesView()
         )
     }
 
