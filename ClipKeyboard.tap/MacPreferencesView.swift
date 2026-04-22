@@ -5,13 +5,15 @@
 //  Mac-native preferences window for the menu bar companion app.
 //
 
+import ServiceManagement
 import SwiftUI
 
 struct MacPreferencesView: View {
     @AppStorage("macLaunchAtLogin") private var launchAtLogin: Bool = false
     @AppStorage("macClipboardMonitoring") private var clipboardMonitoring: Bool = true
     @AppStorage("macMenuBarIconStyle") private var iconStyle: String = "symbol"
-    @AppStorage("macDefaultTransform") private var defaultTransform: String = "none"
+    @AppStorage("macAutoPaste") private var autoPaste: Bool = false
+    @State private var hasAccessibility: Bool = DirectPasteHelper.hasAccessibilityPermission()
 
     var body: some View {
         TabView {
@@ -44,14 +46,36 @@ struct MacPreferencesView: View {
             }
 
             Section {
-                Picker(NSLocalizedString("Menu bar icon", comment: "Prefs: icon style"), selection: $iconStyle) {
-                    Text(NSLocalizedString("Clipboard icon (recommended)", comment: "Icon: symbol")).tag("symbol")
-                    Text(NSLocalizedString("Emoji", comment: "Icon: emoji")).tag("emoji")
+                Toggle(NSLocalizedString("Paste directly after selecting", comment: "Prefs: auto paste"), isOn: $autoPaste)
+                if autoPaste {
+                    HStack(alignment: .center, spacing: 8) {
+                        Image(systemName: hasAccessibility ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                            .foregroundColor(hasAccessibility ? .green : .orange)
+                        Text(hasAccessibility
+                             ? NSLocalizedString("Accessibility permission granted", comment: "Prefs: a11y granted")
+                             : NSLocalizedString("Accessibility permission required for direct paste.", comment: "Prefs: a11y needed"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        Spacer()
+                        if !hasAccessibility {
+                            Button(NSLocalizedString("Grant Access…", comment: "Prefs: grant access")) {
+                                _ = DirectPasteHelper.requestAccessibilityPermission()
+                                // 사용자가 시스템 설정에서 토글 후 돌아왔을 때 refresh.
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    hasAccessibility = DirectPasteHelper.hasAccessibilityPermission()
+                                }
+                            }
+                            .controlSize(.small)
+                        }
+                    }
                 }
-                .pickerStyle(.inline)
             } header: {
-                Text(NSLocalizedString("Appearance", comment: "Prefs section: appearance"))
+                Text(NSLocalizedString("Paste behavior", comment: "Prefs section: paste"))
                     .font(.headline)
+            } footer: {
+                Text(NSLocalizedString("When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste).", comment: "Prefs: paste behavior note"))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -130,9 +154,28 @@ struct MacPreferencesView: View {
         }
     }
 
+    /// SMAppService.mainApp으로 실제 로그인 시 자동 실행 등록.
+    /// - macOS 13+ 필요. sandbox 앱의 경우 앱 내부 Helper 없이 본 앱을 직접 등록.
     private func setLaunchAtLogin(_ enabled: Bool) {
-        // SMAppService는 macOS 13+에서 사용. LaunchAtLogin 기능은 entitlement + SMAppService.mainApp.register/unregister 조합.
-        // 간단 구현 — 실제 sandbox 앱에서는 SMAppService.mainApp 사용 필요. 여기서는 사용자 선호만 저장.
-        print("🔧 [Prefs] Launch at login: \(enabled) (persisted; SMAppService 등록은 별도 구현 필요)")
+        let service = SMAppService.mainApp
+        do {
+            if enabled {
+                if service.status != .enabled {
+                    try service.register()
+                    print("✅ [Prefs] Launch at login 등록 성공 (status=\(service.status.rawValue))")
+                }
+            } else {
+                if service.status == .enabled {
+                    try service.unregister()
+                    print("🔓 [Prefs] Launch at login 해제 성공")
+                }
+            }
+        } catch {
+            print("❌ [Prefs] Launch at login 변경 실패: \(error.localizedDescription)")
+            // 실패 시 UI 토글을 원래대로 되돌려 사용자 혼란 방지.
+            DispatchQueue.main.async {
+                self.launchAtLogin = (service.status == .enabled)
+            }
+        }
     }
 }

@@ -129,10 +129,11 @@ class GlobalHotkeyManager {
     }
 
     private func activateApp() {
-        // 메모 목록 윈도우 열기
-        NotificationCenter.default.post(name: .openMemoListWindow, object: nil)
-
-        print("✅ [Global Hotkey] 메모 목록 윈도우 열기")
+        // v4.1: 메뉴바 팝오버를 직접 오픈 (별도 윈도우 대신 Maccy-style overlay).
+        DispatchQueue.main.async {
+            MenuBarManager.shared.showPopoverFromHotkey()
+        }
+        print("✅ [Global Hotkey] 메뉴바 팝오버 오픈")
     }
 
     deinit {

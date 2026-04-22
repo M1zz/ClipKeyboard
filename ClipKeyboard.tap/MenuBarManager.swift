@@ -4,6 +4,9 @@
 //
 //  Created by Claude on 2025-11-28.
 //
+//  v4.1: NSMenu → NSPopover with SwiftUI. 검색·키보드 네비·⌘1-9·
+//  ⌥Enter 바로 붙여넣기로 Maccy/Paste 수준의 table-stakes UX.
+//
 
 import AppKit
 import SwiftUI
@@ -12,13 +15,16 @@ class MenuBarManager: NSObject {
     static let shared = MenuBarManager()
 
     private var statusItem: NSStatusItem?
+    private var popover: NSPopover?
+    private var eventMonitor: Any?
 
     private override init() {
         super.init()
     }
 
+    // MARK: - Setup
+
     func setupMenuBar() {
-        // Status Bar 아이템 생성
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         guard let button = statusItem?.button else {
@@ -26,23 +32,90 @@ class MenuBarManager: NSObject {
             return
         }
 
-        // 아이콘 설정 — Mac-idiomatic SF Symbol 우선, 폴백으로 이모지.
+        // SF Symbol 아이콘 (라이트/다크 자동).
         if let icon = NSImage(systemSymbolName: "doc.on.clipboard", accessibilityDescription: "ClipKeyboard") {
-            icon.isTemplate = true  // 라이트/다크 모드 자동 적응
+            icon.isTemplate = true
             button.image = icon
         } else {
             button.title = "🛶"
         }
 
-        // 메뉴 생성
-        let menu = NSMenu()
+        // 클릭 이벤트 — 팝오버 토글 vs 우클릭 컨텍스트 메뉴.
+        button.action = #selector(handleStatusItemClick(_:))
+        button.target = self
+        button.sendAction(on: [.leftMouseUp, .rightMouseUp])
 
-        // 메뉴 아이템 추가 (로케일 따라 자동 번역)
-        menu.addItem(withTitle: NSLocalizedString("Memo List", comment: "Menu: memo list"),
-                     action: #selector(memoListAction), keyEquivalent: "k")
+        setupPopover()
+        installClickOutsideMonitor()
+
+        print("✅ [MenuBar] NSPopover 기반 메뉴바 설정 완료")
+    }
+
+    private func setupPopover() {
+        let popover = NSPopover()
+        popover.behavior = .transient
+        popover.animates = true
+        popover.contentSize = NSSize(width: 360, height: 480)
+
+        // 루트에 weak self로 dismiss 주입 — 선택/취소 시 팝오버 닫기.
+        let rootView = MenuBarPopoverView(dismiss: { [weak self] in
+            self?.closePopover()
+        })
+        popover.contentViewController = NSHostingController(rootView: rootView)
+        self.popover = popover
+    }
+
+    /// 팝오버 밖 클릭 감지 → 자동 닫기 (behavior .transient로도 처리되지만 보조).
+    private func installClickOutsideMonitor() {
+        eventMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
+            if self?.popover?.isShown == true {
+                self?.closePopover()
+            }
+        }
+    }
+
+    // MARK: - Actions
+
+    @objc private func handleStatusItemClick(_ sender: Any?) {
+        guard let event = NSApp.currentEvent else {
+            togglePopover()
+            return
+        }
+        // 우클릭 / Control+클릭 → 보조 컨텍스트 메뉴 (빠른 액션만)
+        if event.type == .rightMouseUp || event.modifierFlags.contains(.control) {
+            showContextMenu()
+        } else {
+            togglePopover()
+        }
+    }
+
+    private func togglePopover() {
+        guard let popover else { return }
+        if popover.isShown {
+            closePopover()
+        } else {
+            openPopover()
+        }
+    }
+
+    private func openPopover() {
+        guard let popover, let button = statusItem?.button else { return }
+        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+
+        // 팝오버 윈도우를 key window로 만들어 TextField가 바로 입력 받도록.
+        popover.contentViewController?.view.window?.makeKey()
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func closePopover() {
+        popover?.performClose(nil)
+    }
+
+    /// 우클릭 시 표시되는 경량 메뉴 (팝오버 대신 간단 액션만 노출).
+    private func showContextMenu() {
+        let menu = NSMenu()
         menu.addItem(withTitle: NSLocalizedString("New Memo", comment: "Menu: new memo"),
                      action: #selector(newMemoAction), keyEquivalent: "n")
-        menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: NSLocalizedString("Clipboard History", comment: "Menu: clipboard history"),
                      action: #selector(clipboardHistoryAction), keyEquivalent: "h")
         menu.addItem(NSMenuItem.separator())
@@ -56,61 +129,52 @@ class MenuBarManager: NSObject {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: NSLocalizedString("Quit ClipKeyboard", comment: "Menu: quit"),
                      action: #selector(quitAction), keyEquivalent: "q")
+        for item in menu.items { item.target = self }
 
-        // 모든 메뉴 아이템의 타겟 설정
-        for item in menu.items {
-            item.target = self
+        // popUpMenu 호출 — 버튼 아래에 표시.
+        if let button = statusItem?.button {
+            menu.popUp(positioning: nil,
+                      at: NSPoint(x: 0, y: button.bounds.height + 4),
+                      in: button)
         }
-
-        statusItem?.menu = menu
-
-        print("✅ [MenuBar] 메뉴바 아이콘 설정 완료")
-    }
-
-    // MARK: - Menu Actions
-
-    @objc private func memoListAction() {
-        print("📋 [MenuBar] 메모 목록 클릭")
-        NotificationCenter.default.post(name: .showMemoList, object: nil)
-        activateApp()
     }
 
     @objc private func newMemoAction() {
-        print("📝 [MenuBar] 새 메모 클릭")
         NotificationCenter.default.post(name: .showNewMemo, object: nil)
         activateApp()
     }
 
     @objc private func clipboardHistoryAction() {
-        print("📋 [MenuBar] 클립보드 히스토리 클릭")
         NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
         activateApp()
     }
 
     @objc private func cloudBackupAction() {
-        print("☁️ [MenuBar] iCloud 백업 클릭")
         NotificationCenter.default.post(name: .showCloudBackup, object: nil)
         activateApp()
     }
 
     @objc private func settingsAction() {
-        print("⚙️ [MenuBar] 설정 클릭")
         NotificationCenter.default.post(name: .showSettings, object: nil)
         activateApp()
     }
 
     @objc private func onboardingAction() {
-        print("👋 [MenuBar] 온보딩 다시 보기 클릭")
         WindowManager.shared.openOnboardingWindow()
         activateApp()
     }
 
     @objc private func quitAction() {
-        print("👋 [MenuBar] 종료")
         NSApp.terminate(nil)
     }
 
     private func activateApp() {
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    /// 전역 단축키(⌃⌥K)가 눌렸을 때 팝오버를 직접 연다.
+    func showPopoverFromHotkey() {
+        // statusItem을 활성화시키고 팝오버 오픈.
+        openPopover()
     }
 }
