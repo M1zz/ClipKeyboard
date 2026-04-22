@@ -1783,13 +1783,13 @@
         }
       }
     },
-    "Token Memo에\n오신 것을 환영합니다!" : {
+    "클립 키보드에\n오신 것을 환영합니다!" : {
       "comment" : "Onboarding welcome title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to\nToken Memo!"
+            "value" : "Welcome to\nClip Keyboard!"
           }
         }
       }

@@ -164,7 +164,7 @@ private struct OnboardingWelcomePage: View {
             }
 
             VStack(spacing: 12) {
-                Text(NSLocalizedString("Token Memo에\n오신 것을 환영합니다!", comment: "Onboarding welcome title"))
+                Text(NSLocalizedString("클립 키보드에\n오신 것을 환영합니다!", comment: "Onboarding welcome title"))
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
