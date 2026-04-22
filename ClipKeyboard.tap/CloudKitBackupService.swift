@@ -115,9 +115,21 @@ class CloudKitBackupService: ObservableObject {
 
     // MARK: - Backup
 
+    /// 캐시된 isAuthenticated 플래그에 의존하지 않고 호출 시점에 계정 상태를
+    /// 새로 조회. 앱 시작 직후 첫 버튼 클릭이 init의 async 콜백보다 빠른
+    /// race 상황에서 .notAuthenticated 오탐을 방지한다.
+    private func ensureAuthenticated() async throws {
+        let status = try await container.accountStatus()
+        await MainActor.run { self.isAuthenticated = (status == .available) }
+        guard status == .available else {
+            print("⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
+            throw CloudKitError.notAuthenticated
+        }
+    }
+
     func backupData() async throws {
         print("☁️ [CloudKit] 백업 시작...")
-        guard isAuthenticated else { throw CloudKitError.notAuthenticated }
+        try await ensureAuthenticated()
 
         await MainActor.run { isBackingUp = true }
         defer { Task { [weak self] in await MainActor.run { self?.isBackingUp = false } } }
@@ -128,17 +140,59 @@ class CloudKitBackupService: ObservableObject {
                 memos: memos, smartClipboard: smartClipboard, combos: combos
             )
             var record = try await tapFetchOrCreateRecord()
-            tapConfigureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
+            try tapConfigureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
 
-            _ = try await privateDatabase.save(record)
+            _ = try await saveRecordWithRetry(record, maxRetries: 3)
 
             let backupDate = Date()
             await MainActor.run { saveLastBackupDate(backupDate) }
             print("✅ [CloudKit] 백업 완료: \(backupDate)")
+        } catch let error as CKError {
+            print("❌ [CloudKit] CKError \(error.code.rawValue): \(error.localizedDescription)")
+            throw CloudKitError.backupFailed(error)
         } catch {
             print("❌ [CloudKit] 백업 실패: \(error)")
             throw CloudKitError.backupFailed(error)
         }
+    }
+
+    /// 재시도 로직이 포함된 저장 (iOS와 동일 패턴).
+    private func saveRecordWithRetry(_ record: CKRecord, maxRetries: Int) async throws -> CKRecord {
+        var lastError: Error?
+        for attempt in 0..<maxRetries {
+            do {
+                return try await privateDatabase.save(record)
+            } catch let error as CKError {
+                lastError = error
+                let transient: [CKError.Code] = [.zoneBusy, .requestRateLimited, .serviceUnavailable, .networkFailure, .networkUnavailable, .serverResponseLost]
+                if transient.contains(error.code), attempt < maxRetries - 1 {
+                    let delay = pow(2.0, Double(attempt)) // 1s, 2s, 4s
+                    print("🔁 [CloudKit] 재시도 \(attempt + 1)/\(maxRetries) — \(delay)s 후")
+                    try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                    continue
+                }
+                throw error
+            } catch {
+                throw error
+            }
+        }
+        throw lastError ?? CKError(.internalError)
+    }
+
+    /// Data를 CKAsset으로 변환 (1MB field limit 우회).
+    private func createAsset(from data: Data, filename: String) throws -> CKAsset {
+        let tempDir = FileManager.default.temporaryDirectory
+        let fileURL = tempDir.appendingPathComponent(filename)
+        try data.write(to: fileURL)
+        return CKAsset(fileURL: fileURL)
+    }
+
+    /// CKAsset에서 Data 읽기.
+    private func readAsset(_ asset: CKAsset) throws -> Data {
+        guard let fileURL = asset.fileURL else {
+            throw CloudKitError.decodingFailed
+        }
+        return try Data(contentsOf: fileURL)
     }
 
     private func tapLoadDataForBackup() throws -> (memos: [Memo], smartClipboard: [SmartClipboardHistory], combos: [Combo]) {
@@ -173,14 +227,17 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    private func tapConfigureRecord(_ record: inout CKRecord, memosData: Data, smartClipboardData: Data, combosData: Data) {
-        record["memos"] = memosData as CKRecordValue
-        record["smartClipboardHistory"] = smartClipboardData as CKRecordValue
-        record["combos"] = combosData as CKRecordValue
+    /// iOS와 동일한 필드 이름(`memosAsset` 등) + CKAsset 사용.
+    /// 이전 Mac 버전은 `memos` 키에 raw Data를 쓰고 있어 iOS 백업과 호환되지
+    /// 않았고, 1MB 필드 크기 제한에 걸려 조용히 실패하기도 했다.
+    private func tapConfigureRecord(_ record: inout CKRecord, memosData: Data, smartClipboardData: Data, combosData: Data) throws {
+        record["memosAsset"] = try createAsset(from: memosData, filename: "memos.json")
+        record["smartClipboardAsset"] = try createAsset(from: smartClipboardData, filename: "smartClipboard.json")
+        record["combosAsset"] = try createAsset(from: combosData, filename: "combos.json")
         record["backupDate"] = Date() as CKRecordValue
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
         record["version"] = appVersion as CKRecordValue
-        print("💾 [CloudKit] 레코드 데이터 업데이트 완료")
+        print("💾 [CloudKit] 레코드 데이터 업데이트 완료 (CKAsset)")
     }
 
     // MARK: - Restore
@@ -188,9 +245,7 @@ class CloudKitBackupService: ObservableObject {
     func restoreData() async throws {
         print("☁️ [CloudKit] 복구 시작...")
 
-        guard isAuthenticated else {
-            throw CloudKitError.notAuthenticated
-        }
+        try await ensureAuthenticated()
 
         await MainActor.run { isRestoring = true }
         defer { Task { [weak self] in await MainActor.run { self?.isRestoring = false } } }
@@ -219,12 +274,28 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
+    /// CKAsset (iOS/새 Mac 형식) → 없으면 raw Data (레거시 Mac 형식) 순으로 시도.
+    /// iOS와 동일한 필드 이름 규약(`memosAsset`)을 우선 읽어 크로스 디바이스 호환.
+    private func dataFromRecord(_ record: CKRecord, assetKey: String, legacyDataKey: String) -> Data? {
+        if let asset = record[assetKey] as? CKAsset {
+            if let data = try? readAsset(asset) {
+                print("📦 [CloudKit] \(assetKey) 로드 (Asset)")
+                return data
+            }
+        }
+        if let legacy = record[legacyDataKey] as? Data {
+            print("📦 [CloudKit] \(legacyDataKey) 로드 (레거시 Data)")
+            return legacy
+        }
+        return nil
+    }
+
     private func fetchMemos(from record: CKRecord) throws -> [Memo] {
-        guard let memosData = record["memos"] as? Data else {
-            print("❌ [CloudKit] 메모 데이터 없음")
+        guard let data = dataFromRecord(record, assetKey: "memosAsset", legacyDataKey: "memos") else {
+            print("❌ [CloudKit] 메모 데이터 없음 (memosAsset/memos 모두 비어있음)")
             throw CloudKitError.noBackupFound
         }
-        guard let memos = try? JSONDecoder().decode([Memo].self, from: memosData) else {
+        guard let memos = try? JSONDecoder().decode([Memo].self, from: data) else {
             print("❌ [CloudKit] 메모 디코딩 실패")
             throw CloudKitError.decodingFailed
         }
@@ -233,7 +304,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func fetchSmartClipboardHistory(from record: CKRecord) -> [SmartClipboardHistory] {
-        guard let data = record["smartClipboardHistory"] as? Data else {
+        guard let data = dataFromRecord(record, assetKey: "smartClipboardAsset", legacyDataKey: "smartClipboardHistory") else {
             print("ℹ️ [CloudKit] 스마트 클립보드 데이터 없음 (레거시 백업일 수 있음)")
             return []
         }
@@ -246,7 +317,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func fetchCombos(from record: CKRecord) -> [Combo] {
-        guard let data = record["combos"] as? Data else {
+        guard let data = dataFromRecord(record, assetKey: "combosAsset", legacyDataKey: "combos") else {
             print("ℹ️ [CloudKit] Combo 데이터 없음 (레거시 백업일 수 있음)")
             return []
         }
@@ -291,9 +362,7 @@ class CloudKitBackupService: ObservableObject {
     func deleteBackup() async throws {
         print("🗑️ [CloudKit] 백업 삭제 시작...")
 
-        guard isAuthenticated else {
-            throw CloudKitError.notAuthenticated
-        }
+        try await ensureAuthenticated()
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")

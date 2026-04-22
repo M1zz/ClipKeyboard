@@ -243,12 +243,21 @@ class CloudKitBackupService: ObservableObject {
 
     // MARK: - Backup
 
+    /// 호출 시점에 계정 상태를 새로 확인. init의 async 콜백이 아직 돌아오지
+    /// 않은 상태에서 첫 버튼 클릭으로 .notAuthenticated 오탐이 나던 race를 제거.
+    private func ensureAuthenticated() async throws {
+        let status = try await container.accountStatus()
+        await MainActor.run { self.isAuthenticated = (status == .available) }
+        guard status == .available else {
+            print("⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
+            throw CloudKitError.notAuthenticated
+        }
+    }
+
     func backupData() async throws {
         print("☁️ [CloudKit] 백업 시작...")
 
-        guard isAuthenticated else {
-            throw CloudKitError.notAuthenticated
-        }
+        try await ensureAuthenticated()
 
         await MainActor.run { isBackingUp = true }
         defer { Task { [weak self] in await MainActor.run { self?.isBackingUp = false } } }
@@ -390,7 +399,7 @@ class CloudKitBackupService: ObservableObject {
     func restoreData(forceOverwrite: Bool = false) async throws {
         print("☁️ [CloudKit] 복구 시작...")
 
-        guard isAuthenticated else { throw CloudKitError.notAuthenticated }
+        try await ensureAuthenticated()
 
         if !forceOverwrite && hasLocalData() {
             print("⚠️ [CloudKit] 기존 데이터 존재 - 사용자 확인 필요")
