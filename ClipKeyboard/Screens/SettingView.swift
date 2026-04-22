@@ -122,6 +122,34 @@ struct SettingView: View {
                 }
             }
 
+            #if !targetEnvironment(macCatalyst)
+            Section(NSLocalizedString("Use on other devices", comment: "Cross-device section")) {
+                NavigationLink(destination: MacAppIntroView()) {
+                    HStack(spacing: 12) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 32, height: 32)
+                            Image(systemName: "macbook")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(.white)
+                        }
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                            Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                }
+            }
+            #endif
+
             Section(NSLocalizedString("앱 정보", comment: "App info section")) {
                 HStack {
                     Text(NSLocalizedString("버전", comment: "Version label"))

@@ -1783,17 +1783,6 @@
         }
       }
     },
-    "클립 키보드에\n오신 것을 환영합니다!" : {
-      "comment" : "Onboarding welcome title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welcome to\nClip Keyboard!"
-          }
-        }
-      }
-    },
     "TokenMemo 활성화" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4521,6 +4510,7 @@
     },
     "위의 버튼을 사용하여\n클립보드에서 붙여넣거나\n사진을 선택할 수 있습니다" : {
       "comment" : "Image selection guide",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4763,17 +4753,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select an image"
-          }
-        }
-      }
-    },
-    "탭하여 사진 선택" : {
-      "comment" : "Tap to select photo hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to select a photo"
           }
         }
       }
@@ -5645,6 +5624,17 @@
         }
       }
     },
+    "클립 키보드에\n오신 것을 환영합니다!" : {
+      "comment" : "Onboarding welcome title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to\nClip Keyboard!"
+          }
+        }
+      }
+    },
     "클립 키보드에 관해 문의드릴 것이 있습니다" : {
       "comment" : "Email subject",
       "localizations" : {
@@ -6109,6 +6099,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap to copy"
+          }
+        }
+      }
+    },
+    "탭하여 사진 선택" : {
+      "comment" : "Tap to select photo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to select a photo"
           }
         }
       }
@@ -6636,6 +6637,216 @@
             "value" : "Running 10 minutes late for the meeting"
           }
         }
+      }
+    },
+    "Use on other devices" : {
+      "comment" : "Cross-device section",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Use on other devices"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "다른 기기에서 사용"}}
+      }
+    },
+    "ClipKeyboard for Mac" : {
+      "comment" : "Mac app intro title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard for Mac"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac용 ClipKeyboard"}}
+      }
+    },
+    "Menu bar access · Global hotkey · iCloud sync" : {
+      "comment" : "Mac promo subtitle",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Menu bar access · Global hotkey · iCloud sync"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메뉴바 접근 · 전역 단축키 · iCloud 동기화"}}
+      }
+    },
+    "Also on your Mac" : {
+      "comment" : "Mac hero title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Also on your Mac"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac에서도 바로 쓸 수 있어요"}}
+      }
+    },
+    "Same snippets, same memos — available on macOS." : {
+      "comment" : "Mac hero subtitle",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Same snippets, same memos — available on macOS."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "같은 스니펫·메모를 macOS에서도 그대로 사용하세요."}}
+      }
+    },
+    "Menu bar access" : {
+      "comment" : "Mac feature: menu bar",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Menu bar access"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메뉴바에서 바로 꺼내기"}}
+      }
+    },
+    "Pin ClipKeyboard to the macOS menu bar and paste from anywhere." : {
+      "comment" : "Mac feature: menu bar description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Pin ClipKeyboard to the macOS menu bar and paste from anywhere."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "macOS 메뉴바에 고정해 어느 앱에서든 붙여넣기."}}
+      }
+    },
+    "Global hotkey" : {
+      "comment" : "Mac feature: global hotkey",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Global hotkey"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "전역 단축키"}}
+      }
+    },
+    "Press ⌃⌥K from any app to open your snippet list instantly." : {
+      "comment" : "Mac feature: hotkey description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Press ⌃⌥K from any app to open your snippet list instantly."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "어디서든 ⌃⌥K로 스니펫 목록을 즉시 열기."}}
+      }
+    },
+    "Syncs via iCloud" : {
+      "comment" : "Mac feature: iCloud sync",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Syncs via iCloud"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iCloud로 동기화"}}
+      }
+    },
+    "Your memos, templates and clipboard history follow you between iPhone and Mac." : {
+      "comment" : "Mac feature: sync description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Your memos, templates and clipboard history follow you between iPhone and Mac."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메모·템플릿·클립보드 기록이 iPhone과 Mac 사이에서 따라다녀요."}}
+      }
+    },
+    "Native keyboard shortcuts" : {
+      "comment" : "Mac feature: shortcuts",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Native keyboard shortcuts"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "네이티브 키보드 단축키"}}
+      }
+    },
+    "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more." : {
+      "comment" : "Mac feature: shortcuts description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "⌘⇧N 새 메모, ⌘⇧H 클립보드 기록 등 Mac 네이티브 단축키."}}
+      }
+    },
+    "Universal Purchase" : {
+      "comment" : "Mac universal purchase title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Universal Purchase"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "한 번 구매로 전 기기"}}
+      }
+    },
+    "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment." : {
+      "comment" : "Universal purchase description",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iOS에서 Pro를 구매했다면 Mac에서도 추가 결제 없이 그대로 사용됩니다."}}
+      }
+    },
+    "Open on Mac App Store" : {
+      "comment" : "Open Mac App Store button",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Open on Mac App Store"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Mac App Store에서 열기"}}
+      }
+    },
+    "Tip" : {
+      "comment" : "Tip section title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Tip"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "팁"}}
+      }
+    },
+    "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud." : {
+      "comment" : "Mac install tip",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud."}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설치 후 Mac 메뉴바에서 ClipKeyboard 아이콘을 찾아보세요. 같은 Apple ID로 로그인하면 iCloud 동기화가 작동합니다."}}
+      }
+    },
+    "ClipKeyboard" : {
+      "comment" : "App menu name",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard"}}
+      }
+    },
+    "Memo List" : {
+      "comment" : "Menu: memo list",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Memo List"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "메모 목록"}}
+      }
+    },
+    "New Memo" : {
+      "comment" : "Menu: new memo",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "New Memo"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "새 메모"}}
+      }
+    },
+    "Clipboard History" : {
+      "comment" : "Menu: clipboard history",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Clipboard History"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "클립보드 히스토리"}}
+      }
+    },
+    "iCloud Backup" : {
+      "comment" : "Menu: iCloud backup",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "iCloud Backup"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "iCloud 백업"}}
+      }
+    },
+    "Preferences…" : {
+      "comment" : "Menu: preferences",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Preferences…"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설정…"}}
+      }
+    },
+    "Preferences" : {
+      "comment" : "Settings window title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Preferences"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "설정"}}
+      }
+    },
+    "Paywall" : {
+      "comment" : "Menu: paywall",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Upgrade to Pro"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "Pro 업그레이드"}}
+      }
+    },
+    "Show Onboarding" : {
+      "comment" : "Menu: show onboarding",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Show Onboarding"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "온보딩 다시 보기"}}
+      }
+    },
+    "Quit ClipKeyboard" : {
+      "comment" : "Menu: quit",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Quit ClipKeyboard"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard 종료"}}
+      }
+    },
+    "ClipKeyboard Help" : {
+      "comment" : "Menu: help",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard Help"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard 도움말"}}
+      }
+    },
+    "Copy" : {
+      "comment" : "Context: copy",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Copy"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "복사"}}
       }
     }
   },

@@ -60,6 +60,7 @@
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
 		58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */; };
+		58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MA00022F0000000000000002 /* MacAppIntroView.swift */; };
 		58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
 		58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
@@ -180,6 +181,7 @@
 		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
 		58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupOnboardingView.swift; sourceTree = "<group>"; };
+		58MA00022F0000000000000002 /* MacAppIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppIntroView.swift; sourceTree = "<group>"; };
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
 		58PS00012B5E1A2100000001 /* ProStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStatusManager.swift; sourceTree = "<group>"; };
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
+				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
 				580B0D682A30C45E00C7B586 /* FontSetting.swift */,
 				58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
@@ -816,6 +819,7 @@
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
+				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
