@@ -58,15 +58,16 @@ class WindowManager {
         let hostingController = NSHostingController(rootView: contentView)
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 600, height: 500),
-            styleMask: [.titled, .closable],
+            contentRect: NSRect(x: 0, y: 0, width: 620, height: 720),
+            styleMask: [.titled, .closable, .resizable],
             backing: .buffered,
             defer: false
         )
+        window.minSize = NSSize(width: 520, height: 620)
 
         window.center()
         window.contentViewController = hostingController
-        window.title = "클립키보드에 오신 것을 환영합니다"
+        window.title = NSLocalizedString("Welcome to ClipKeyboard", comment: "Onboarding window title")
         window.identifier = NSUserInterfaceItemIdentifier(windowKey)
         window.level = .floating
 

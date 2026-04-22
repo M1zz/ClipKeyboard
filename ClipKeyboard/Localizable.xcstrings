@@ -6918,6 +6918,13 @@
         "en" : {"stringUnit" : {"state" : "translated", "value" : "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."}},
         "ko" : {"stringUnit" : {"state" : "translated", "value" : "켜면 메뉴바 팝오버에서 Enter 시 복사와 동시에 전경 앱에 붙여넣습니다. 꺼두면 Enter는 복사만, 붙여넣기는 ⌥Enter."}}
       }
+    },
+    "Welcome to ClipKeyboard" : {
+      "comment" : "Onboarding window title",
+      "localizations" : {
+        "en" : {"stringUnit" : {"state" : "translated", "value" : "Welcome to ClipKeyboard"}},
+        "ko" : {"stringUnit" : {"state" : "translated", "value" : "ClipKeyboard에 오신 것을 환영합니다"}}
+      }
     }
   },
   "version" : "1.0"
