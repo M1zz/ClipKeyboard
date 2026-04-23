@@ -142,11 +142,11 @@ struct ClipKeyboardList: View {
             .navigationBarTitleDisplayMode(.large)
             #endif
             // 검색 및 필터 변경 감지
-            .onChange(of: viewModel.searchQueryString, perform: { _ in viewModel.applyFilters() })
-            .onChange(of: viewModel.selectedTypeFilter, perform: { _ in
+            .onChange(of: viewModel.searchQueryString) { viewModel.applyFilters() }
+            .onChange(of: viewModel.selectedTypeFilter) {
                 viewModel.applyFilters()
                 viewModel.saveSelectedFilter()
-            })
+            }
             // 인증 실패 Alert
             .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $viewModel.showAuthAlert) {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
@@ -853,9 +853,4 @@ struct SheetModifiers: ViewModifier {
                 .presentationDragIndicator(.visible)
             }
     }
-}
-
-// UUID를 Identifiable로 만들기 위한 extension
-extension UUID: Identifiable {
-    public var id: UUID { self }
 }

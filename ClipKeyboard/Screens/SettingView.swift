@@ -492,7 +492,10 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
 
     static func getRootViewController() -> UIViewController? {
         // In SwiftUI 2.0
-        UIApplication.shared.windows.first?.rootViewController
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first(where: { $0.isKeyWindow })?.rootViewController
     }
 }
 #else
