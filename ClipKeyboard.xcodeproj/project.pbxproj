@@ -948,6 +948,7 @@
 				DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */,
 				0BCBD63182E44529B6F7ACC9 /* AppDependencies.swift in Sources */,
 				B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */,
+				FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
