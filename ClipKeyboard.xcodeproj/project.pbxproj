@@ -28,7 +28,6 @@
 		581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A942F49B4DD00F2F032 /* StoreManager.swift */; };
 		581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A992F49B4E900F2F032 /* PaywallView.swift */; };
 		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
-		581D8BAE2F49EE2600F2F032 /* Version.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
@@ -44,16 +43,6 @@
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000003 /* ThemeSettings.swift */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
-		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
-		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
-		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
-		58DS00072F0000000000000007 /* ClipChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00082F0000000000000008 /* ClipChip.swift */; };
-		58DS00092F0000000000000009 /* ClipFAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000A2F000000000000000A /* ClipFAB.swift */; };
-		58DS000B2F000000000000000B /* ClipIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000C2F000000000000000C /* ClipIconButton.swift */; };
-		58DS000D2F000000000000000D /* ClipSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000E2F000000000000000E /* ClipSearchField.swift */; };
-		58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00102F0000000000000010 /* ClipSectionHeader.swift */; };
-		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
-		58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TP00022F0000000000000002 /* ThemePickerView.swift */; };
 		58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */; };
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
@@ -65,6 +54,15 @@
 		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
 		58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */; };
 		58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D9D52D2A3B23900086BE1A /* DataManager.swift */; };
+		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
+		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
+		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
+		58DS00072F0000000000000007 /* ClipChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00082F0000000000000008 /* ClipChip.swift */; };
+		58DS00092F0000000000000009 /* ClipFAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000A2F000000000000000A /* ClipFAB.swift */; };
+		58DS000B2F000000000000000B /* ClipIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000C2F000000000000000C /* ClipIconButton.swift */; };
+		58DS000D2F000000000000000D /* ClipSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS000E2F000000000000000E /* ClipSearchField.swift */; };
+		58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00102F0000000000000010 /* ClipSectionHeader.swift */; };
+		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
@@ -77,6 +75,7 @@
 		58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
 		58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
 		58SV00052F9A1B0100000005 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00022F9A1B0100000002 /* OCRService.swift */; };
+		58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TP00022F0000000000000002 /* ThemePickerView.swift */; };
 		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		5EB5872F8FEC49A1BAF729E4 /* ComboRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB5872F8FEC49A1BAF729E3 /* ComboRepositoryProtocol.swift */; };
@@ -95,14 +94,10 @@
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
 		DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */; };
 		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
+		FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA000002000000000000AAA1 /* NavigationThemeModifier.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
-		FA000001000000000000BBB1 /* Fraunces-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA1 /* Fraunces-Regular.ttf */; };
-		FA000001000000000000BBB2 /* Fraunces-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA2 /* Fraunces-Bold.ttf */; };
-		FA000001000000000000BBB3 /* InstrumentSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */; };
-		FA000001000000000000BBB4 /* InstrumentSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */; };
-			FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA000002000000000000AAA1 /* NavigationThemeModifier.swift */; };
-	/* End PBXBuildFile section */
+/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		587384962F2E7AD50042ECA4 /* PBXContainerItemProxy */ = {
@@ -178,16 +173,6 @@
 		587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardExtension.entitlements; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
-		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
-		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
-		58DS00082F0000000000000008 /* ClipChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipChip.swift; sourceTree = "<group>"; };
-		58DS000A2F000000000000000A /* ClipFAB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipFAB.swift; sourceTree = "<group>"; };
-		58DS000C2F000000000000000C /* ClipIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipIconButton.swift; sourceTree = "<group>"; };
-		58DS000E2F000000000000000E /* ClipSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSearchField.swift; sourceTree = "<group>"; };
-		58DS00102F0000000000000010 /* ClipSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSectionHeader.swift; sourceTree = "<group>"; };
-		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
-		58TP00022F0000000000000002 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* ClipKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardApp.swift; sourceTree = "<group>"; };
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -200,6 +185,15 @@
 		58CK00062B5E1A2100000005 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotkeyManager.swift; sourceTree = "<group>"; };
 		58D9D52D2A3B23900086BE1A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
+		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
+		58DS00082F0000000000000008 /* ClipChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipChip.swift; sourceTree = "<group>"; };
+		58DS000A2F000000000000000A /* ClipFAB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipFAB.swift; sourceTree = "<group>"; };
+		58DS000C2F000000000000000C /* ClipIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipIconButton.swift; sourceTree = "<group>"; };
+		58DS000E2F000000000000000E /* ClipSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSearchField.swift; sourceTree = "<group>"; };
+		58DS00102F0000000000000010 /* ClipSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSectionHeader.swift; sourceTree = "<group>"; };
+		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
@@ -211,6 +205,7 @@
 		58PS00012B5E1A2100000001 /* ProStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStatusManager.swift; sourceTree = "<group>"; };
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		58TP00022F0000000000000002 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		5EB5872F8FEC49A1BAF729E3 /* ComboRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboRepositoryProtocol.swift; sourceTree = "<group>"; };
 		71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMemoUseCase.swift; sourceTree = "<group>"; };
@@ -228,16 +223,12 @@
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
 		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
+		FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST003 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST004 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FA000001000000000000AAA1 /* Fraunces-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fraunces-Regular.ttf"; path = "ClipKeyboard/Resources/Fonts/Fraunces-Regular.ttf"; sourceTree = SOURCE_ROOT; };
-		FA000001000000000000AAA2 /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fraunces-Bold.ttf"; path = "ClipKeyboard/Resources/Fonts/Fraunces-Bold.ttf"; sourceTree = SOURCE_ROOT; };
-		FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "InstrumentSans-Regular.ttf"; path = "ClipKeyboard/Resources/Fonts/InstrumentSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
-		FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "InstrumentSans-SemiBold.ttf"; path = "ClipKeyboard/Resources/Fonts/InstrumentSans-SemiBold.ttf"; sourceTree = SOURCE_ROOT; };
-			FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
-	/* End PBXFileReference section */
+/* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
@@ -362,31 +353,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		58DS00112F0000000000000011 /* DesignSystem */ = {
-			isa = PBXGroup;
-			children = (
-				58DS00022F0000000000000002 /* AppTheme.swift */,
-				58DS00042F0000000000000004 /* AppThemePreference.swift */,
-				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
-				58DS00122F0000000000000012 /* Components */,
-			);
-			path = DesignSystem;
-			sourceTree = "<group>";
-		};
-		58DS00122F0000000000000012 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				58DS00062F0000000000000006 /* CatIcon.swift */,
-				58DS00082F0000000000000008 /* ClipChip.swift */,
-				58DS000A2F000000000000000A /* ClipFAB.swift */,
-				58DS000C2F000000000000000C /* ClipIconButton.swift */,
-				58DS000E2F000000000000000E /* ClipSearchField.swift */,
-				58DS00102F0000000000000010 /* ClipSectionHeader.swift */,
-				58DS00142F0000000000000014 /* TagBadge.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		58C4732F2A109F0C009D87BC = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +431,31 @@
 				58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		58DS00112F0000000000000011 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				58DS00022F0000000000000002 /* AppTheme.swift */,
+				58DS00042F0000000000000004 /* AppThemePreference.swift */,
+				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
+				58DS00122F0000000000000012 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		58DS00122F0000000000000012 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				58DS00062F0000000000000006 /* CatIcon.swift */,
+				58DS00082F0000000000000008 /* ClipChip.swift */,
+				58DS000A2F000000000000000A /* ClipFAB.swift */,
+				58DS000C2F000000000000000C /* ClipIconButton.swift */,
+				58DS000E2F000000000000000E /* ClipSearchField.swift */,
+				58DS00102F0000000000000010 /* ClipSectionHeader.swift */,
+				58DS00142F0000000000000014 /* TagBadge.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		58F8FBC22A15276400F5446E /* Model */ = {
@@ -617,19 +608,7 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-
-		FA000001000000000000CCC1 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				FA000001000000000000AAA1 /* Fraunces-Regular.ttf */,
-				FA000001000000000000AAA2 /* Fraunces-Bold.ttf */,
-				FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */,
-				FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-	/* End PBXGroup section */
+/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		587384812F2E7AD40042ECA4 /* widgetExtension */ = {
@@ -741,7 +720,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					587384812F2E7AD40042ECA4 = {
 						CreatedOnToolsVersion = 26.0;
@@ -818,7 +797,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				581D8BAE2F49EE2600F2F032 /* Version.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +812,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		58CK00042B5E1A2100000003 /* Remove Keyboard Extension for Mac Catalyst */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
