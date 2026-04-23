@@ -192,11 +192,8 @@ struct MemoAdd: View {
         #if os(iOS)
         .sheet(isPresented: $viewModel.showDocumentScanner) {
             DocumentCameraView { result in
-                switch result {
-                case .success(let images):
+                if case .success(let images) = result {
                     viewModel.processOCRImages(images)
-                case .failure(let error):
-                    print("❌ [OCR] 문서 스캔 실패: \(error)")
                 }
             }
         }
@@ -354,24 +351,13 @@ struct MemoAdd: View {
 
     private var additionalOptionsSection: some View {
         VStack(spacing: 12) {
-            HStack {
-                Image(systemName: viewModel.isSecure ? "lock.fill" : "lock")
-                    .font(.title3)
-                    .foregroundColor(viewModel.isSecure ? .orange : .secondary)
-                    .frame(width: 32)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("보안 메모", comment: "Secure memo toggle"))
-                        .font(.callout)
-                        .fontWeight(.medium)
-                    Text(NSLocalizedString("Face ID로 보호", comment: "Face ID protection description"))
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                }
-
-                Spacer()
-
-                Toggle("", isOn: Binding(
+            ToggleOptionRow(
+                activeIcon: "lock.fill",
+                inactiveIcon: "lock",
+                title: NSLocalizedString("보안 메모", comment: "Secure memo toggle"),
+                description: NSLocalizedString("Face ID로 보호", comment: "Face ID protection description"),
+                activeColor: .orange,
+                isOn: Binding(
                     get: { viewModel.isSecure },
                     set: { newValue in
                         if newValue && !ProFeatureManager.isBiometricLockAvailable {
@@ -381,63 +367,26 @@ struct MemoAdd: View {
                             viewModel.isSecure = newValue
                         }
                     }
-                ))
-                    .labelsHidden()
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(theme.surfaceAlt)
-            .cornerRadius(theme.radiusMd)
+                )
+            )
 
-            HStack {
-                Image(systemName: viewModel.isTemplate ? "doc.text.fill" : "doc.text")
-                    .font(.title3)
-                    .foregroundColor(viewModel.isTemplate ? .purple : .secondary)
-                    .frame(width: 32)
+            ToggleOptionRow(
+                activeIcon: "doc.text.fill",
+                inactiveIcon: "doc.text",
+                title: NSLocalizedString("템플릿", comment: "Template toggle"),
+                description: NSLocalizedString("재사용 가능한 양식", comment: "Template description"),
+                activeColor: .purple,
+                isOn: $viewModel.isTemplate
+            )
 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("템플릿", comment: "Template toggle"))
-                        .font(.callout)
-                        .fontWeight(.medium)
-                    Text(NSLocalizedString("재사용 가능한 양식", comment: "Template description"))
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                }
-
-                Spacer()
-
-                Toggle("", isOn: $viewModel.isTemplate)
-                    .labelsHidden()
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(theme.surfaceAlt)
-            .cornerRadius(theme.radiusMd)
-
-            HStack {
-                Image(systemName: viewModel.isCombo ? "square.stack.3d.forward.dottedline.fill" : "square.stack.3d.forward.dottedline")
-                    .font(.title3)
-                    .foregroundColor(viewModel.isCombo ? .orange : .secondary)
-                    .frame(width: 32)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("Combo", comment: "Combo toggle"))
-                        .font(.callout)
-                        .fontWeight(.medium)
-                    Text(NSLocalizedString("탭마다 다음 값 입력", comment: "Combo description"))
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                }
-
-                Spacer()
-
-                Toggle("", isOn: $viewModel.isCombo)
-                    .labelsHidden()
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(theme.surfaceAlt)
-            .cornerRadius(theme.radiusMd)
+            ToggleOptionRow(
+                activeIcon: "square.stack.3d.forward.dottedline.fill",
+                inactiveIcon: "square.stack.3d.forward.dottedline",
+                title: NSLocalizedString("Combo", comment: "Combo toggle"),
+                description: NSLocalizedString("탭마다 다음 값 입력", comment: "Combo description"),
+                activeColor: .orange,
+                isOn: $viewModel.isCombo
+            )
         }
     }
 
@@ -698,6 +647,46 @@ struct MemoAdd_Previews: PreviewProvider {
     }
 }
 
+// MARK: - Toggle Option Row
+
+private struct ToggleOptionRow: View {
+    let activeIcon: String
+    let inactiveIcon: String
+    let title: String
+    let description: String
+    let activeColor: Color
+    @Binding var isOn: Bool
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        HStack {
+            Image(systemName: isOn ? activeIcon : inactiveIcon)
+                .font(.title3)
+                .foregroundColor(isOn ? activeColor : .secondary)
+                .frame(width: 32)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.callout)
+                    .fontWeight(.medium)
+                Text(description)
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(theme.surfaceAlt)
+        .cornerRadius(theme.radiusMd)
+    }
+}
+
 // 플레이스홀더 값 편집기
 struct PlaceholderValueEditor: View {
     let placeholder: String
@@ -709,7 +698,7 @@ struct PlaceholderValueEditor: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
+                Text(placeholder.strippingTemplateBraces)
                     .font(.callout)
                     .fontWeight(.semibold)
 
@@ -989,52 +978,22 @@ struct ContentInputSection: View {
         )
     }
 
-    // 클립보드에서 이미지 붙여넣기
     private func pasteImageFromClipboard() {
         #if os(iOS)
-        print("📋 [MemoAdd] 클립보드에서 이미지 붙여넣기 시도")
-
-        // 1. 먼저 hasImages로 확인
-        if UIPasteboard.general.hasImages {
-            print("   ✅ 클립보드에 이미지 있음")
-
-            // 2. 이미지 가져오기 시도
-            if let image = UIPasteboard.general.image {
-                print("   ✅ 이미지 가져오기 성공")
-                withAnimation {
-                    attachedImages.append(ImageWrapper(image: image))
-                }
-                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
-                return
-            }
-
-            // 3. 이미지를 가져오지 못했으면 데이터에서 시도
-            print("   ⚠️ .image로 가져오기 실패, 데이터에서 시도")
-            if let imageData = UIPasteboard.general.data(forPasteboardType: "public.png"),
-               let image = UIImage(data: imageData) {
-                print("   ✅ PNG 데이터에서 이미지 생성 성공")
-                withAnimation {
-                    attachedImages.append(ImageWrapper(image: image))
-                }
-                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
-                return
-            }
-
-            if let imageData = UIPasteboard.general.data(forPasteboardType: "public.jpeg"),
-               let image = UIImage(data: imageData) {
-                print("   ✅ JPEG 데이터에서 이미지 생성 성공")
-                withAnimation {
-                    attachedImages.append(ImageWrapper(image: image))
-                }
-                showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
-                return
-            }
-
-            print("   ❌ 이미지 데이터 변환 실패")
-            showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
-        } else {
-            print("   ❌ 클립보드에 이미지 없음")
+        guard UIPasteboard.general.hasImages else {
             showToastMessage(NSLocalizedString("클립보드에 이미지가 없습니다", comment: ""))
+            return
+        }
+
+        let image = UIPasteboard.general.image
+            ?? UIPasteboard.general.data(forPasteboardType: "public.png").flatMap(UIImage.init)
+            ?? UIPasteboard.general.data(forPasteboardType: "public.jpeg").flatMap(UIImage.init)
+
+        if let image {
+            withAnimation { attachedImages.append(ImageWrapper(image: image)) }
+            showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
+        } else {
+            showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
         }
         #endif
     }
@@ -1221,10 +1180,7 @@ struct ClipboardSuggestionBanner: View {
     }
 
     private var previewText: String {
-        if content.count > 40 {
-            return String(content.prefix(40)) + "..."
-        }
-        return content
+        content.count > 40 ? String(content.prefix(40)) + "..." : content
     }
 
 }
@@ -1445,6 +1401,7 @@ struct ImageAttachmentView: View {
     let onRemove: () -> Void
     let onCopy: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var isPressed = false
 
     var body: some View {
@@ -1532,3 +1489,11 @@ struct ImagePickerView: UIViewControllerRepresentable {
     }
 }
 #endif
+
+// MARK: - String Helper
+
+private extension String {
+    var strippingTemplateBraces: String {
+        replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
+    }
+}

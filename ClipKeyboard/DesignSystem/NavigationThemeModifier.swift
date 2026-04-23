@@ -25,8 +25,8 @@ struct ThemedNavTitleModifier: ViewModifier {
         content
             #if os(iOS)
             .onAppear { applyNavBarFont(theme) }
-            .onChange(of: theme.kind) { applyNavBarFont(theme) }
-            .onChange(of: theme.isDark) { applyNavBarFont(theme) }
+            .onChange(of: theme.kind) { _ in applyNavBarFont(theme) }
+            .onChange(of: theme.isDark) { _ in applyNavBarFont(theme) }
             #endif
     }
 

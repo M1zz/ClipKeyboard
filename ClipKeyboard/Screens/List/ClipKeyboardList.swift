@@ -10,6 +10,11 @@ import LocalAuthentication
 
 var fontSize: CGFloat = 20
 
+// UUID는 이 Swift 버전에서 Identifiable을 자동 제공하지 않으므로 명시적으로 추가
+extension UUID: @retroactive Identifiable {
+    public var id: UUID { self }
+}
+
 struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
@@ -124,7 +129,6 @@ struct ClipKeyboardList: View {
                 }
             }
             .task {
-                print("🔄 [task] 메모 리프레시")
                 viewModel.loadMemos()
             }
             .toolbar {
@@ -142,8 +146,8 @@ struct ClipKeyboardList: View {
             .navigationBarTitleDisplayMode(.large)
             #endif
             // 검색 및 필터 변경 감지
-            .onChange(of: viewModel.searchQueryString) { viewModel.applyFilters() }
-            .onChange(of: viewModel.selectedTypeFilter) {
+            .onChange(of: viewModel.searchQueryString) { _ in viewModel.applyFilters() }
+            .onChange(of: viewModel.selectedTypeFilter) { _ in
                 viewModel.applyFilters()
                 viewModel.saveSelectedFilter()
             }
@@ -205,7 +209,6 @@ struct ClipKeyboardList: View {
             .onAppear {
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
-                print("🔤 [ClipKeyboardList] 폰트 크기: \(fontSize)")
             }
             .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: nil)
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in

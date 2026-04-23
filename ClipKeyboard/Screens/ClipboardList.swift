@@ -90,7 +90,7 @@ struct ClipboardList: View {
                         }
                     }
                     .listStyle(.plain)
-                    .onChange(of: recentlyAddedId) { _, newId in
+                    .onChange(of: recentlyAddedId) { newId in
                         if let id = newId {
                             withAnimation(.easeInOut(duration: 0.5)) {
                                 proxy.scrollTo(id, anchor: .top)
