@@ -161,7 +161,7 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 160,
         radiusSm: 8, radiusMd: 12, radiusLg: 18, radiusXl: 24,
-        displayFontName: "Fraunces",
+        displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )
 
@@ -189,7 +189,7 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 160,
         radiusSm: 8, radiusMd: 12, radiusLg: 18, radiusXl: 24,
-        displayFontName: "Fraunces",
+        displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )
 
@@ -219,15 +219,16 @@ struct AppTheme: Equatable {
     // MARK: Font helpers
 
     func displayFont(size: CGFloat, weight: Font.Weight = .bold) -> Font {
+        // Paper: Fraunces-Bold 직접 지정이므로 weight 파라미터 무시하고 custom 폰트 사용
         if let name = displayFontName {
-            return Font.custom(name, size: size).weight(weight)
+            return Font.custom(name, size: size)
         }
         return Font.system(size: size, weight: weight, design: .default)
     }
 
     func bodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         if let name = bodyFontName {
-            return Font.custom(name, size: size).weight(weight)
+            return Font.custom(name, size: size)
         }
         return Font.system(size: size, weight: weight)
     }

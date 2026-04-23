@@ -79,9 +79,9 @@ struct MemoRowView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 44, height: 44)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 8)
+                            RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .stroke(theme.divider, lineWidth: 1)
                         )
                 }

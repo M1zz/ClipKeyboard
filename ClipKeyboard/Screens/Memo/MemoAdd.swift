@@ -135,7 +135,7 @@ struct MemoAdd: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(12)
+                        .cornerRadius(theme.radiusMd)
                     }
 
                     Button {
@@ -151,7 +151,7 @@ struct MemoAdd: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
                         .background(Color.accentColor)
-                        .cornerRadius(12)
+                        .cornerRadius(theme.radiusMd)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -270,7 +270,7 @@ struct MemoAdd: View {
                     .padding(.vertical, 4)
                     .background(Color.fromName(detectedType.color).opacity(0.2))
                     .foregroundColor(Color.fromName(detectedType.color))
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
                 }
             }
 
@@ -308,7 +308,7 @@ struct MemoAdd: View {
         .padding(.vertical, 8)
         .padding(.horizontal, 16)
         .background(Color.accentColor.opacity(0.05))
-        .cornerRadius(12)
+        .cornerRadius(theme.radiusMd)
     }
 
     // Helper view for theme pill button
@@ -331,7 +331,7 @@ struct MemoAdd: View {
             .padding(.vertical, 8)
             .background(viewModel.selectedCategory == categoryString ? Color.accentColor : theme.surfaceAlt)
             .foregroundColor(viewModel.selectedCategory == categoryString ? .white : .primary)
-            .cornerRadius(20)
+            .cornerRadius(theme.radiusLg)
         }
     }
 
@@ -348,7 +348,7 @@ struct MemoAdd: View {
                 .padding(.vertical, 12)
                 .padding(.horizontal, 16)
                 .background(theme.surfaceAlt)
-                .cornerRadius(12)
+                .cornerRadius(theme.radiusMd)
         }
     }
 
@@ -387,7 +387,7 @@ struct MemoAdd: View {
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
             .background(theme.surfaceAlt)
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
 
             HStack {
                 Image(systemName: viewModel.isTemplate ? "doc.text.fill" : "doc.text")
@@ -412,7 +412,7 @@ struct MemoAdd: View {
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
             .background(theme.surfaceAlt)
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
 
             HStack {
                 Image(systemName: viewModel.isCombo ? "square.stack.3d.forward.dottedline.fill" : "square.stack.3d.forward.dottedline")
@@ -437,7 +437,7 @@ struct MemoAdd: View {
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
             .background(theme.surfaceAlt)
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
         }
     }
 
@@ -465,7 +465,7 @@ struct MemoAdd: View {
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                 }
             }
             .padding()
@@ -494,7 +494,7 @@ struct MemoAdd: View {
                 }
                 .padding()
                 .background(Color.gray.opacity(0.1))
-                .cornerRadius(12)
+                .cornerRadius(theme.radiusMd)
             }
         }
     }
@@ -530,7 +530,7 @@ struct MemoAdd: View {
                 .frame(minHeight: 80)
                 .padding(8)
                 .background(theme.surfaceAlt)
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
                 .overlay(
                     Group {
                         if viewModel.value.isEmpty {
@@ -569,7 +569,7 @@ struct MemoAdd: View {
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(theme.surfaceAlt)
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
             }
         }
         .padding()
@@ -583,7 +583,7 @@ struct MemoAdd: View {
         }
         .padding()
         .background(Color.gray.opacity(0.1))
-        .cornerRadius(12)
+        .cornerRadius(theme.radiusMd)
     }
 
     private var comboValueHeader: some View {
@@ -655,7 +655,7 @@ struct MemoAdd: View {
                             }
                             .padding(12)
                             .background(theme.surfaceAlt)
-                            .cornerRadius(8)
+                            .cornerRadius(theme.radiusSm)
                         }
                         .onMove { from, to in
                             viewModel.moveComboValues(from: from, to: to)
@@ -668,7 +668,7 @@ struct MemoAdd: View {
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color.orange.opacity(0.1))
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
         }
     }
 
@@ -687,7 +687,7 @@ struct MemoAdd: View {
                 .padding(.vertical, 6)
                 .background(Color.accentColor)
                 .foregroundColor(.white)
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
         }
     }
 }
@@ -743,7 +743,7 @@ struct PlaceholderValueEditor: View {
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
                             .background(Color.blue.opacity(0.1))
-                            .cornerRadius(12)
+                            .cornerRadius(theme.radiusMd)
                         }
                     }
                 }
@@ -770,7 +770,7 @@ struct PlaceholderValueEditor: View {
                             .padding(.vertical, 6)
                             .background(newValue.isEmpty ? Color.gray : Color.blue)
                             .foregroundColor(.white)
-                            .cornerRadius(8)
+                            .cornerRadius(theme.radiusSm)
                     }
                     .disabled(newValue.isEmpty)
                 }
@@ -857,7 +857,7 @@ struct ContentInputSection: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxHeight: 300)
-                            .cornerRadius(12)
+                            .cornerRadius(theme.radiusMd)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
@@ -877,7 +877,7 @@ struct ContentInputSection: View {
                                 .padding(.vertical, 6)
                                 .background(Color.blue.opacity(0.1))
                                 .foregroundColor(.blue)
-                                .cornerRadius(8)
+                                .cornerRadius(theme.radiusSm)
                             }
 
                             Button {
@@ -894,7 +894,7 @@ struct ContentInputSection: View {
                                 .padding(.vertical, 6)
                                 .background(Color.red.opacity(0.1))
                                 .foregroundColor(.red)
-                                .cornerRadius(8)
+                                .cornerRadius(theme.radiusSm)
                             }
                         }
                     }
@@ -921,7 +921,7 @@ struct ContentInputSection: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 250)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(12)
+                        .cornerRadius(theme.radiusMd)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.blue.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
@@ -946,7 +946,7 @@ struct ContentInputSection: View {
                         .padding(.vertical, 12)
                         .scrollContentBackground(.hidden)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(12)
+                        .cornerRadius(theme.radiusMd)
                         .keyboardType(keyboardTypeForTheme)
                         .focused($isFocused)
                         .onChange(of: value) { newValue in
@@ -979,7 +979,7 @@ struct ContentInputSection: View {
                         .padding(.vertical, 8)
                         .background(Color.black.opacity(0.8))
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .padding(.top, 8)
                 }
@@ -1192,7 +1192,7 @@ struct ClipboardSuggestionBanner: View {
                         .padding(.vertical, 6)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                     }
 
                     Button {
@@ -1208,7 +1208,7 @@ struct ClipboardSuggestionBanner: View {
                         .padding(.vertical, 6)
                         .background(theme.surfaceAlt)
                         .foregroundColor(theme.textMuted)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                     }
                 }
             }
@@ -1455,7 +1455,7 @@ struct ImageAttachmentView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
                 .clipped()
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)

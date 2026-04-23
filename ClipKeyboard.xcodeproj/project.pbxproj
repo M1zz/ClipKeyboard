@@ -97,7 +97,12 @@
 		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
-/* End PBXBuildFile section */
+		FA000001000000000000BBB1 /* Fraunces-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA1 /* Fraunces-Regular.ttf */; };
+		FA000001000000000000BBB2 /* Fraunces-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA2 /* Fraunces-Bold.ttf */; };
+		FA000001000000000000BBB3 /* InstrumentSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */; };
+		FA000001000000000000BBB4 /* InstrumentSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */; };
+			FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA000002000000000000AAA1 /* NavigationThemeModifier.swift */; };
+	/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		587384962F2E7AD50042ECA4 /* PBXContainerItemProxy */ = {
@@ -227,7 +232,12 @@
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST003 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST004 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+		FA000001000000000000AAA1 /* Fraunces-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fraunces-Regular.ttf"; path = "ClipKeyboard/Resources/Fonts/Fraunces-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		FA000001000000000000AAA2 /* Fraunces-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Fraunces-Bold.ttf"; path = "ClipKeyboard/Resources/Fonts/Fraunces-Bold.ttf"; sourceTree = SOURCE_ROOT; };
+		FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "InstrumentSans-Regular.ttf"; path = "ClipKeyboard/Resources/Fonts/InstrumentSans-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "InstrumentSans-SemiBold.ttf"; path = "ClipKeyboard/Resources/Fonts/InstrumentSans-SemiBold.ttf"; sourceTree = SOURCE_ROOT; };
+			FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
+	/* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
@@ -357,6 +367,7 @@
 			children = (
 				58DS00022F0000000000000002 /* AppTheme.swift */,
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
+				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
 			);
 			path = DesignSystem;
@@ -606,7 +617,19 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
+
+		FA000001000000000000CCC1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FA000001000000000000AAA1 /* Fraunces-Regular.ttf */,
+				FA000001000000000000AAA2 /* Fraunces-Bold.ttf */,
+				FA000001000000000000AAA3 /* InstrumentSans-Regular.ttf */,
+				FA000001000000000000AAA4 /* InstrumentSans-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+	/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		587384812F2E7AD40042ECA4 /* widgetExtension */ = {

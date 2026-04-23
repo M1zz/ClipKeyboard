@@ -71,9 +71,11 @@ struct AppThemedContainer<Content: View>: View {
     }
 
     var body: some View {
+        let theme = prefs.theme(for: systemColorScheme)
         content()
             .environmentObject(prefs)
-            .environment(\.appTheme, prefs.theme(for: systemColorScheme))
+            .environment(\.appTheme, theme)
             .preferredColorScheme(prefs.preferredColorScheme)
+            .themedNavigationTitle(theme)
     }
 }

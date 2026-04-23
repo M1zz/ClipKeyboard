@@ -242,7 +242,7 @@ struct ClipKeyboardList: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
         .background(theme.surfaceAlt)
-        .cornerRadius(10)
+        .cornerRadius(theme.radiusSm)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
     }
@@ -300,9 +300,9 @@ struct ClipKeyboardList: View {
             MemoRowView(memo: memo, fontSize: fontSize)
                 .padding(12)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: theme.radiusMd)
                         .stroke(Color.blue.opacity(0.2), lineWidth: 1)
                 )
                 .contentShape(Rectangle())
@@ -510,7 +510,7 @@ struct ClipKeyboardList: View {
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
                 .background(Color.toastBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
                 .onTapGesture {
                     HapticManager.shared.soft()
@@ -582,7 +582,7 @@ struct ClipKeyboardList: View {
             .padding(.vertical, 40)
             .padding(.horizontal, 30)
             .background(theme.bg)
-            .cornerRadius(20)
+            .cornerRadius(theme.radiusLg)
             .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
 
             Spacer()
