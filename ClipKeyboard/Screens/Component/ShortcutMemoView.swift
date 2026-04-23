@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ShortcutMemoView: View {
 
+    @Environment(\.appTheme) private var theme
+
     @Binding var keyword: String
     @Binding var value: String
     @Binding var tokenMemos:[Memo]
@@ -21,7 +23,7 @@ struct ShortcutMemoView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 24)
                 #if canImport(UIKit)
-                .foregroundColor(Color(UIColor.systemBackground))
+                .foregroundColor(theme.surface)
                 #else
                 .foregroundColor(Color(NSColor.windowBackgroundColor))
                 #endif

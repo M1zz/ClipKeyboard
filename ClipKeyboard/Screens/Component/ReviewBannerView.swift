@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReviewBannerView: View {
     @State private var isVisible = true
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         if ReviewManager.shared.shouldShowBanner && isVisible {
@@ -20,7 +21,7 @@ struct ReviewBannerView: View {
 
                 Text(NSLocalizedString("짧은 리뷰 하나가 다른 사용자에게 앱을 알리는 데 도움이 됩니다!", comment: "Review banner description"))
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
 
@@ -38,7 +39,7 @@ struct ReviewBannerView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(16)
-            .background(Color(.systemGray6))
+            .background(theme.surfaceAlt)
             .cornerRadius(12)
             .padding(.horizontal, 16)
         }

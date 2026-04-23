@@ -13,6 +13,8 @@ struct TemplateEditSheet: View {
     let onCopy: (String) -> Void
     let onCancel: () -> Void
 
+    @Environment(\.appTheme) private var theme
+
     @State private var customPlaceholders: [String] = []
     @State private var placeholderInputs: [String: String] = [:]
     @State private var editedText: String = ""
@@ -46,7 +48,7 @@ struct TemplateEditSheet: View {
                             Text(NSLocalizedString("템플릿", comment: "Template label"))
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
 
                             Spacer()
 
@@ -68,14 +70,14 @@ struct TemplateEditSheet: View {
                                 .font(.body)
                                 .frame(minHeight: 100)
                                 .padding(12)
-                                .background(Color(.systemGray6))
+                                .background(theme.surfaceAlt)
                                 .cornerRadius(12)
                         } else {
                             Text(memo.value)
                                 .font(.body)
                                 .padding(12)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(.systemGray6))
+                                .background(theme.surfaceAlt)
                                 .cornerRadius(12)
                         }
                     }
@@ -94,7 +96,7 @@ struct TemplateEditSheet: View {
 
                             Text(NSLocalizedString("이 템플릿은 바로 사용 가능합니다", comment: "Template ready to use"))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -106,7 +108,7 @@ struct TemplateEditSheet: View {
                                 Text(NSLocalizedString("값 선택", comment: "Select value"))
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(theme.textMuted)
 
                                 Spacer()
 
@@ -117,7 +119,7 @@ struct TemplateEditSheet: View {
                                         .foregroundColor(.blue)
                                     Text(NSLocalizedString("값을 선택하세요", comment: "Select a value hint"))
                                         .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(theme.textMuted)
                                 }
                             }
 
@@ -140,7 +142,7 @@ struct TemplateEditSheet: View {
                         Text(NSLocalizedString("미리보기", comment: "Preview"))
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
 
                         Text(previewText)
                             .font(.body)
@@ -287,6 +289,7 @@ struct TemplateInputSheet: View {
     let onComplete: () -> Void
     let onCancel: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @FocusState private var focusedField: String?
 
     var body: some View {
@@ -295,7 +298,7 @@ struct TemplateInputSheet: View {
                 Section {
                     Text(NSLocalizedString("템플릿을 완성하세요", comment: "Complete the template"))
                         .font(.headline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 } header: {
                     EmptyView()
                 }
@@ -305,7 +308,7 @@ struct TemplateInputSheet: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
 
                             TextField(NSLocalizedString("입력하세요", comment: "Input placeholder"), text: Binding(
                                 get: { inputs[placeholder] ?? "" },
@@ -358,6 +361,7 @@ struct TemplateInputSheet: View {
 // 템플릿별 플레이스홀더 상세 관리 화면
 struct TemplateDetailPlaceholderView: View {
     let template: Memo
+    @Environment(\.appTheme) private var theme
     @State private var placeholders: [String] = []
 
     var body: some View {
@@ -368,13 +372,13 @@ struct TemplateDetailPlaceholderView: View {
                     Text(NSLocalizedString("템플릿 내용", comment: "Template content"))
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     Text(template.value)
                         .font(.body)
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.systemGray6))
+                        .background(theme.surfaceAlt)
                         .cornerRadius(12)
                 }
                 .padding(.horizontal)
@@ -389,7 +393,7 @@ struct TemplateDetailPlaceholderView: View {
 
                         Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                     .padding(.top, 50)
                 } else {
@@ -397,7 +401,7 @@ struct TemplateDetailPlaceholderView: View {
                         Text(String(format: NSLocalizedString("플레이스홀더 (%d개)", comment: "Placeholder count"), placeholders.count))
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                             .padding(.horizontal)
 
                         VStack(spacing: 12) {
@@ -449,6 +453,7 @@ struct TemplatePlaceholderRow: View {
     let templateId: UUID
     let templateTitle: String
 
+    @Environment(\.appTheme) private var theme
     @State private var values: [PlaceholderValue] = []
     @State private var showDeleteConfirm: PlaceholderValue? = nil
     @State private var editingValue: PlaceholderValue? = nil
@@ -467,7 +472,7 @@ struct TemplatePlaceholderRow: View {
 
                     Text(String(format: NSLocalizedString("값 %d개", comment: "Value count"), values.count))
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Spacer(minLength: 20)
@@ -478,7 +483,7 @@ struct TemplatePlaceholderRow: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(Color(.systemBackground))
+            .background(theme.surface)
             .contentShape(Rectangle())
             .onTapGesture {
                 withAnimation(.spring(response: 0.3)) {
@@ -513,7 +518,7 @@ struct TemplatePlaceholderRow: View {
 
                                         Text(formatDate(value.addedAt))
                                             .font(.caption2)
-                                            .foregroundColor(.secondary)
+                                            .foregroundColor(theme.textMuted)
                                     }
 
                                     Spacer()
@@ -539,7 +544,7 @@ struct TemplatePlaceholderRow: View {
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 14)
-                                .background(Color(.systemGray6))
+                                .background(theme.surfaceAlt)
                                 .cornerRadius(10)
                             }
                         }
@@ -549,11 +554,11 @@ struct TemplatePlaceholderRow: View {
                 .padding(.bottom, 12)
             }
         }
-        .background(Color(.systemBackground))
+        .background(theme.surface)
         .cornerRadius(12)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(.systemGray4), lineWidth: 1)
+                .stroke(theme.divider, lineWidth: 1)
         )
         .onAppear {
             loadValues()
@@ -634,10 +639,10 @@ struct TemplateSheetResolver: View {
 
                     Text(NSLocalizedString("템플릿 불러오는 중...", comment: "Loading template"))
                         .font(.callout)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemBackground))
+                .background(theme.surface)
             }
         }
         .onAppear {

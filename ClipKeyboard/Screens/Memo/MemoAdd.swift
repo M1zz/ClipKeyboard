@@ -40,6 +40,7 @@ struct MemoAdd: View {
 
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         VStack(spacing: 0) {
@@ -130,10 +131,10 @@ struct MemoAdd: View {
                         }
                         .font(.callout)
                         .fontWeight(.medium)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
-                        .background(Color(.systemGray6))
+                        .background(theme.surfaceAlt)
                         .cornerRadius(12)
                     }
 
@@ -157,7 +158,7 @@ struct MemoAdd: View {
                 .padding(.top, 12)
                 .padding(.bottom, 48)
             }
-            .background(Color(.systemBackground))
+            .background(theme.surface)
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
             .ignoresSafeArea(.keyboard)
             .zIndex(100)
@@ -222,7 +223,7 @@ struct MemoAdd: View {
                             .font(.headline)
                     }
                     .padding(32)
-                    .background(Color(.systemBackground))
+                    .background(theme.surface)
                     .cornerRadius(16)
                 }
             }
@@ -281,7 +282,7 @@ struct MemoAdd: View {
                         Text(NSLocalizedString("최근", comment: "Recent"))
                             .font(.caption)
                             .fontWeight(.medium)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                             .padding(.horizontal, 8)
 
                         ForEach(viewModel.recentlyUsedCategories, id: \.self) { theme in
@@ -312,24 +313,24 @@ struct MemoAdd: View {
 
     // Helper view for theme pill button
     @ViewBuilder
-    private func themePillButton(theme: String, showStar: Bool) -> some View {
+    private func themePillButton(theme categoryString: String, showStar: Bool) -> some View {
         Button {
-            viewModel.selectCategory(theme)
+            viewModel.selectCategory(categoryString)
         } label: {
             HStack(spacing: 4) {
                 if showStar {
                     Image(systemName: "star.fill")
                         .font(.caption2)
-                        .foregroundColor(viewModel.selectedCategory == theme ? .white : .orange)
+                        .foregroundColor(viewModel.selectedCategory == categoryString ? .white : .orange)
                 }
-                Text(Constants.localizedThemeName(theme))
+                Text(Constants.localizedThemeName(categoryString))
                     .font(.callout)
-                    .fontWeight(viewModel.selectedCategory == theme ? .semibold : .regular)
+                    .fontWeight(viewModel.selectedCategory == categoryString ? .semibold : .regular)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(viewModel.selectedCategory == theme ? Color.accentColor : Color(.systemGray6))
-            .foregroundColor(viewModel.selectedCategory == theme ? .white : .primary)
+            .background(viewModel.selectedCategory == categoryString ? Color.accentColor : theme.surfaceAlt)
+            .foregroundColor(viewModel.selectedCategory == categoryString ? .white : .primary)
             .cornerRadius(20)
         }
     }
@@ -339,14 +340,14 @@ struct MemoAdd: View {
             Text(NSLocalizedString("제목", comment: "Title"))
                 .font(.subheadline)
                 .fontWeight(.medium)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             TextField("메모 제목을 입력하세요", text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .padding(.vertical, 12)
                 .padding(.horizontal, 16)
-                .background(Color(.systemGray6))
+                .background(theme.surfaceAlt)
                 .cornerRadius(12)
         }
     }
@@ -365,7 +366,7 @@ struct MemoAdd: View {
                         .fontWeight(.medium)
                     Text(NSLocalizedString("Face ID로 보호", comment: "Face ID protection description"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Spacer()
@@ -385,7 +386,7 @@ struct MemoAdd: View {
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
-            .background(Color(.systemGray6))
+            .background(theme.surfaceAlt)
             .cornerRadius(12)
 
             HStack {
@@ -400,7 +401,7 @@ struct MemoAdd: View {
                         .fontWeight(.medium)
                     Text(NSLocalizedString("재사용 가능한 양식", comment: "Template description"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Spacer()
@@ -410,7 +411,7 @@ struct MemoAdd: View {
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
-            .background(Color(.systemGray6))
+            .background(theme.surfaceAlt)
             .cornerRadius(12)
 
             HStack {
@@ -425,7 +426,7 @@ struct MemoAdd: View {
                         .fontWeight(.medium)
                     Text(NSLocalizedString("탭마다 다음 값 입력", comment: "Combo description"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Spacer()
@@ -435,7 +436,7 @@ struct MemoAdd: View {
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
-            .background(Color(.systemGray6))
+            .background(theme.surfaceAlt)
             .cornerRadius(12)
         }
     }
@@ -447,23 +448,23 @@ struct MemoAdd: View {
                 HStack(spacing: 8) {
                     Image(systemName: "info.circle.fill")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                     Text(NSLocalizedString("템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요", comment: "Template variable instruction"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(NSLocalizedString("예시", comment: "Example label"))
                         .font(.caption)
                         .fontWeight(.semibold)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     Text(NSLocalizedString("안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다.", comment: "Template example text"))
                         .font(.caption)
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.systemGray6))
+                        .background(theme.surfaceAlt)
                         .cornerRadius(8)
                 }
             }
@@ -520,7 +521,7 @@ struct MemoAdd: View {
                         .fontWeight(.medium)
                     Text(NSLocalizedString("키보드에서 보여질 설명 문구", comment: "Keyboard description hint"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
             }
             .padding(.bottom, 4)
@@ -528,13 +529,13 @@ struct MemoAdd: View {
             TextEditor(text: $viewModel.value)
                 .frame(minHeight: 80)
                 .padding(8)
-                .background(Color(.systemGray6))
+                .background(theme.surfaceAlt)
                 .cornerRadius(8)
                 .overlay(
                     Group {
                         if viewModel.value.isEmpty {
                             Text(NSLocalizedString("예: 카드번호를 입력합니다", comment: "Description example"))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                                 .padding(.leading, 12)
                                 .padding(.top, 16)
                                 .allowsHitTesting(false)
@@ -551,23 +552,23 @@ struct MemoAdd: View {
             HStack(spacing: 8) {
                 Image(systemName: "info.circle.fill")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
                 Text(NSLocalizedString("탭할 때마다 다음 값이 순서대로 입력됩니다", comment: "Combo description"))
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
             }
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(NSLocalizedString("예시", comment: "Example"))
                     .font(.caption)
                     .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
 
                 Text(NSLocalizedString("카드번호 입력: 1234 → 5678 → 9012 → 3456", comment: "Combo example"))
                     .font(.caption)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(.systemGray6))
+                    .background(theme.surfaceAlt)
                     .cornerRadius(8)
             }
         }
@@ -622,14 +623,14 @@ struct MemoAdd: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(NSLocalizedString("순서를 변경하려면 드래그하세요", comment: "Drag to reorder"))
                             .font(.caption2)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                             .padding(.bottom, 4)
 
                         ForEach(Array(viewModel.comboValues.enumerated()), id: \.offset) { index, value in
                             HStack {
                                 Image(systemName: "line.3.horizontal")
                                     .font(.caption)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(theme.textFaint)
 
                                 Text("\(index + 1).")
                                     .font(.callout)
@@ -653,7 +654,7 @@ struct MemoAdd: View {
                                 }
                             }
                             .padding(12)
-                            .background(Color(.systemGray6))
+                            .background(theme.surfaceAlt)
                             .cornerRadius(8)
                         }
                         .onMove { from, to in
@@ -701,6 +702,7 @@ struct MemoAdd_Previews: PreviewProvider {
 struct PlaceholderValueEditor: View {
     let placeholder: String
     @Binding var values: [String]
+    @Environment(\.appTheme) private var theme
     @State private var newValue: String = ""
     @State private var isAdding: Bool = false
 
@@ -775,7 +777,7 @@ struct PlaceholderValueEditor: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(theme.surface)
         .cornerRadius(10)
     }
 }
@@ -790,6 +792,8 @@ struct ContentInputSection: View {
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
 
+    @Environment(\.appTheme) private var theme
+
     @State private var showImagePicker = false
     @State private var showToast = false
     @State private var toastMessage = ""
@@ -800,7 +804,7 @@ struct ContentInputSection: View {
                 Text(NSLocalizedString("내용", comment: "Content"))
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
 
                 Spacer()
 
@@ -907,7 +911,7 @@ struct ContentInputSection: View {
 
                             Text(NSLocalizedString("이미지를 선택하세요", comment: "Select an image"))
                                 .font(.headline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
 
                             Text(NSLocalizedString("탭하여 사진 선택", comment: "Tap to select photo"))
                                 .font(.caption)
@@ -916,7 +920,7 @@ struct ContentInputSection: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 250)
-                        .background(Color(.systemGray6))
+                        .background(theme.surfaceAlt)
                         .cornerRadius(12)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
@@ -941,7 +945,7 @@ struct ContentInputSection: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 12)
                         .scrollContentBackground(.hidden)
-                        .background(Color(.systemGray6))
+                        .background(theme.surfaceAlt)
                         .cornerRadius(12)
                         .keyboardType(keyboardTypeForTheme)
                         .focused($isFocused)
@@ -1108,6 +1112,8 @@ struct ClipboardSuggestionBanner: View {
     let onAccept: () -> Void
     let onDismiss: () -> Void
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
@@ -1164,7 +1170,7 @@ struct ClipboardSuggestionBanner: View {
 
                     Text(previewText)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .lineLimit(1)
                 }
 
@@ -1200,14 +1206,14 @@ struct ClipboardSuggestionBanner: View {
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(Color(.systemGray5))
-                        .foregroundColor(.secondary)
+                        .background(theme.surfaceAlt)
+                        .foregroundColor(theme.textMuted)
                         .cornerRadius(8)
                     }
                 }
             }
             .padding(16)
-            .background(Color(.systemBackground))
+            .background(theme.surface)
 
             Divider()
         }
@@ -1272,6 +1278,7 @@ enum EmojiCategory: String, CaseIterable {
 
 struct EmojiPicker: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
     @State private var selectedCategory: EmojiCategory = .smileys
 
     let onEmojiSelected: (String) -> Void
@@ -1301,7 +1308,7 @@ struct EmojiPicker: View {
                     .padding(.horizontal)
                     .padding(.vertical, 12)
                 }
-                .background(Color(.systemBackground))
+                .background(theme.surface)
 
                 Divider()
 

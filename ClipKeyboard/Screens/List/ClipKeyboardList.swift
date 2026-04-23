@@ -109,7 +109,7 @@ struct ClipKeyboardList: View {
                                 } header: {
                                     Text(group.localizedTitle)
                                         .font(.system(size: 12, weight: .semibold))
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(theme.textMuted)
                                         .textCase(nil)
                                 }
                             }
@@ -220,7 +220,7 @@ struct ClipKeyboardList: View {
     private var searchBarInlineSection: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
+                .foregroundColor(theme.textFaint)
                 .font(.system(size: 16))
 
             TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
@@ -234,14 +234,14 @@ struct ClipKeyboardList: View {
                     viewModel.searchQueryString = ""
                 }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textFaint)
                         .font(.system(size: 16))
                 }
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
-        .background(Color(.systemGray6))
+        .background(theme.surfaceAlt)
         .cornerRadius(10)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
@@ -256,7 +256,7 @@ struct ClipKeyboardList: View {
     private var contextLeadView: some View {
         Text(contextLeadText)
             .font(.system(size: 14))
-            .foregroundColor(.secondary)
+            .foregroundColor(theme.textMuted)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 4)
     }
@@ -299,7 +299,7 @@ struct ClipKeyboardList: View {
         } label: {
             MemoRowView(memo: memo, fontSize: fontSize)
                 .padding(12)
-                .background(Color(.secondarySystemGroupedBackground))
+                .background(theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
@@ -485,7 +485,7 @@ struct ClipKeyboardList: View {
             }
         } label: {
             Image(systemName: "ellipsis.circle")
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
         }
 
         Spacer()
@@ -559,10 +559,10 @@ struct ClipKeyboardList: View {
                 VStack(spacing: 10) {
                     Text("\"\(NSLocalizedString("회의가 10분 늦어질 것 같습니다", comment: "Empty state example 1"))\"")
                         .font(.body)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                     Text("\"\(NSLocalizedString("확인했습니다. 검토 후 답변드리겠습니다", comment: "Empty state example 2"))\"")
                         .font(.body)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
                 .multilineTextAlignment(.center)
 
@@ -581,7 +581,7 @@ struct ClipKeyboardList: View {
             }
             .padding(.vertical, 40)
             .padding(.horizontal, 30)
-            .background(Color(UIColor.secondarySystemGroupedBackground))
+            .background(theme.bg)
             .cornerRadius(20)
             .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
 
@@ -740,6 +740,8 @@ struct MemoFilterChip: View {
     let isSelected: Bool
     let action: () -> Void
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 5) {
@@ -765,7 +767,7 @@ struct MemoFilterChip: View {
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: 18)
-                    .fill(isSelected ? Color.fromName(color) : Color(.systemGray4))
+                    .fill(isSelected ? Color.fromName(color) : theme.surfaceAlt)
                     .shadow(
                         color: isSelected ? Color.fromName(color).opacity(0.3) : Color.clear,
                         radius: 4,
@@ -773,7 +775,7 @@ struct MemoFilterChip: View {
                         y: 2
                     )
             )
-            .foregroundColor(isSelected ? .white : Color(.systemGray))
+            .foregroundColor(isSelected ? .white : theme.textFaint)
             .overlay(
                 RoundedRectangle(cornerRadius: 18)
                     .strokeBorder(

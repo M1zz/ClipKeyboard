@@ -11,6 +11,7 @@ import StoreKit
 struct SettingView: View {
     
     @Environment(\.requestReview) var requestReview
+    @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
     
@@ -39,14 +40,14 @@ struct SettingView: View {
                                     .foregroundColor(.primary)
                                 Text(NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(theme.textMuted)
                             }
                             
                             Spacer()
                             
                             Image(systemName: "chevron.right")
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
                 }
@@ -78,7 +79,7 @@ struct SettingView: View {
                         Spacer()
                         Image(systemName: "arrow.up.forward.app")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                 }
 
@@ -129,7 +130,7 @@ struct SettingView: View {
                         Label(NSLocalizedString("Theme", comment: "Settings: theme picker"), systemImage: "paintpalette")
                         Spacer()
                         Text(AppThemePreference.shared.kind.displayName)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                             .font(.subheadline)
                     }
                 }
@@ -138,7 +139,7 @@ struct SettingView: View {
                         Label(NSLocalizedString("Appearance mode", comment: "Settings: appearance mode"), systemImage: "circle.lefthalf.filled")
                         Spacer()
                         Text(AppThemePreference.shared.mode.displayName)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                             .font(.subheadline)
                     }
                 }
@@ -163,7 +164,7 @@ struct SettingView: View {
                                 .fontWeight(.semibold)
                             Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                                 .lineLimit(1)
                         }
                     }
@@ -175,7 +176,7 @@ struct SettingView: View {
             Section(NSLocalizedString("앱 정보", comment: "App info section")) {
                 HStack {
                     Text(NSLocalizedString("버전", comment: "Version label"))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                     Spacer()
                     Text(appVersion)
                         .foregroundColor(.primary)
@@ -196,6 +197,8 @@ struct SettingView: View {
 
 struct CopyPasteView: View {
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         List {
             Section {
@@ -206,7 +209,7 @@ struct CopyPasteView: View {
 
                     Text(NSLocalizedString("앱 실행 시 '붙여넣기 허용' 팝업이 뜬 경우, 아래 경로로 설정을 변경할 수 있습니다.", comment: "Paste permission settings description"))
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
                 .padding(.vertical, 8)
             }
@@ -222,7 +225,7 @@ struct CopyPasteView: View {
 
                     Image(systemName: "chevron.down")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
 
                     HStack(spacing: 8) {
@@ -234,7 +237,7 @@ struct CopyPasteView: View {
 
                     Image(systemName: "chevron.down")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
 
                     HStack(spacing: 8) {
@@ -259,7 +262,7 @@ struct CopyPasteView: View {
                                 .font(.headline)
                             Text(NSLocalizedString("복사/붙여넣기 시 매번 팝업이 표시됩니다.", comment: "Ask option description"))
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
 
@@ -275,7 +278,7 @@ struct CopyPasteView: View {
                                 .font(.headline)
                             Text(NSLocalizedString("자동 붙여넣기가 차단됩니다. 하지만 길게 눌러서 수동으로 붙여넣기는 가능합니다.", comment: "Deny option description"))
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
 
@@ -300,7 +303,7 @@ struct CopyPasteView: View {
                             }
                             Text(NSLocalizedString("팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.", comment: "Allow option description"))
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
                 }
@@ -331,6 +334,7 @@ struct ReviewWriteView: View {
 
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
+    @Environment(\.appTheme) private var theme
     @State private var showingOptions = false
 
     var body: some View {
@@ -343,7 +347,7 @@ struct ReviewWriteView: View {
 
                     Text(NSLocalizedString("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
                 .padding(.vertical, 8)
             }
@@ -366,12 +370,12 @@ struct ReviewWriteView: View {
                                 .foregroundColor(.primary)
                             Text(NSLocalizedString("빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)", comment: "In-app review description"))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                     .padding(.vertical, 4)
                 }
@@ -396,19 +400,19 @@ struct ReviewWriteView: View {
                                 .foregroundColor(.primary)
                             Text(NSLocalizedString("App Store 페이지에서 직접 작성합니다", comment: "App Store review description"))
                                 .font(.caption)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                         Spacer()
                         Image(systemName: "arrow.up.forward.app")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                     .padding(.vertical, 4)
                 }
             } footer: {
                 Text(NSLocalizedString("리뷰는 다른 사용자에게 앱을 추천하는 데 도움이 되며, 개발자에게는 큰 힘이 됩니다.", comment: "Review footer message"))
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
             }
         }
         .navigationTitle(NSLocalizedString("리뷰 및 평점", comment: "Review navigation title"))

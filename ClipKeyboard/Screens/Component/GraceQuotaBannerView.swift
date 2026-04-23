@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GraceQuotaBannerView: View {
     let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -30,7 +31,7 @@ struct GraceQuotaBannerView: View {
                         comment: "v4 grace banner description"
                     ))
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -41,9 +42,9 @@ struct GraceQuotaBannerView: View {
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .padding(6)
-                        .background(Color(.systemGray5))
+                        .background(theme.surfaceAlt)
                         .clipShape(Circle())
                 }
                 .buttonStyle(PlainButtonStyle())

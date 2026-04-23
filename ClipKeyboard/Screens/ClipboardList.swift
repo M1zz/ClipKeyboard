@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ClipboardList: View {
 
+    @Environment(\.appTheme) private var theme
+
     @State private var clipboardHistory: [SmartClipboardHistory] = []
     @State private var selectedFilter: ClipboardItemType? = nil
 
@@ -390,6 +392,7 @@ struct ClipboardList: View {
 struct TypeFilterBar: View {
     @Binding var selectedFilter: ClipboardItemType?
     let history: [SmartClipboardHistory]
+    @Environment(\.appTheme) private var theme
 
     var typeCounts: [ClipboardItemType: Int] {
         Dictionary(grouping: history, by: { $0.detectedType })
@@ -425,7 +428,7 @@ struct TypeFilterBar: View {
             .padding(.horizontal)
             .padding(.vertical, 8)
         }
-        .background(Color(.systemGray6))
+        .background(theme.surfaceAlt)
     }
 }
 
@@ -436,6 +439,7 @@ struct FilterChip: View {
     var color: String = "blue"
     let isSelected: Bool
     let action: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button(action: action) {
@@ -469,6 +473,7 @@ struct ClipboardItemRow: View {
     let onTap: () -> Void
     let onSave: () -> Void
     let onTypeChange: (ClipboardItemType) -> Void
+    @Environment(\.appTheme) private var theme
 
     var displayType: ClipboardItemType {
         item.userCorrectedType ?? item.detectedType
@@ -516,7 +521,7 @@ struct ClipboardItemRow: View {
                             // 시간
                             Text(formatDate(item.copiedAt))
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textFaint)
 
                             Spacer()
 
@@ -584,6 +589,7 @@ struct SaveToMemoSheet: View {
     let item: SmartClipboardHistory
     let onComplete: (Bool) -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var title: String
     @State private var category: String = "기본"
     @State private var isSecure: Bool = false
@@ -623,7 +629,7 @@ struct SaveToMemoSheet: View {
                 Section("내용") {
                     Text(item.content)
                         .font(.system(size: 14))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Section("자동 분류 정보") {
@@ -686,6 +692,7 @@ struct CreateComboSheet: View {
     let onCreate: (String, TimeInterval) -> Void
     let onCancel: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var title: String = ""
     @State private var interval: TimeInterval = 2.0
 
@@ -706,7 +713,7 @@ struct CreateComboSheet: View {
                 Section {
                     Label(String(format: NSLocalizedString("%d개 항목이 순서대로 실행됩니다", comment: ""), itemCount), systemImage: "info.circle")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
             }
             .navigationTitle("Combo 생성")
