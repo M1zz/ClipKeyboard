@@ -619,6 +619,7 @@ struct TemplateSheetResolver: View {
     let onCopy: (Memo, String) -> Void
     let onCancel: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var loadedMemo: Memo? = nil
     @State private var isLoading: Bool = false
 
