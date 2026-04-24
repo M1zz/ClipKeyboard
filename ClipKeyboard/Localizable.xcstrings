@@ -282,6 +282,9 @@
         }
       }
     },
+    "%d개 메모 더 보기 → Pro 업그레이드" : {
+      "comment" : "Hidden memos upgrade banner"
+    },
     "%d개 변수" : {
       "comment" : "Variable count",
       "localizations" : {
@@ -6106,6 +6109,18 @@
         }
       }
     },
+    "저장된 메모 불러오기" : {
+      "comment" : "Full Access reason 3",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load saved memos"
+          }
+        }
+      }
+    },
     "저장된 항목" : {
       "comment" : "Saved items",
       "localizations" : {
@@ -6135,18 +6150,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved!"
-          }
-        }
-      }
-    },
-    "저장된 메모 불러오기" : {
-      "comment" : "Full Access reason 3",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Load saved memos"
           }
         }
       }

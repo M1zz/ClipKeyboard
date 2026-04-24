@@ -89,12 +89,19 @@ class KeyboardViewController: UIInputViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 38).isActive = true
         button.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = UIColor.systemBlue
+        config.baseForegroundColor = UIColor.white
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        config.title = NSLocalizedString("Return", comment: "Return key")
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var updated = attrs
+            updated.font = .systemFont(ofSize: 13, weight: .medium)
+            return updated
+        }
+        config.cornerStyle = .fixed
         button.layer.cornerRadius = 8
-        button.setTitle(NSLocalizedString("Return", comment: "Return key"), for: UIControl.State.normal)
-        button.titleLabel!.font = .systemFont(ofSize: 13, weight: .medium)
-        button.backgroundColor = UIColor.systemBlue
-        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        button.configuration = config
         return button
     }()
 
@@ -171,12 +178,19 @@ class KeyboardViewController: UIInputViewController {
         subtitle.translatesAutoresizingMaskIntoConstraints = false
 
         let openButton = UIButton(type: .system)
-        openButton.setTitle(NSLocalizedString("Open App", comment: "Open main app button"), for: .normal)
-        openButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        openButton.backgroundColor = .systemBlue
-        openButton.setTitleColor(.white, for: .normal)
+        var openConfig = UIButton.Configuration.filled()
+        openConfig.baseBackgroundColor = .systemBlue
+        openConfig.baseForegroundColor = .white
+        openConfig.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20)
+        openConfig.title = NSLocalizedString("Open App", comment: "Open main app button")
+        openConfig.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var updated = attrs
+            updated.font = .systemFont(ofSize: 14, weight: .semibold)
+            return updated
+        }
+        openConfig.cornerStyle = .fixed
         openButton.layer.cornerRadius = 10
-        openButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
+        openButton.configuration = openConfig
         openButton.addTarget(self, action: #selector(openMainAppPaywall), for: .touchUpInside)
         openButton.translatesAutoresizingMaskIntoConstraints = false
 

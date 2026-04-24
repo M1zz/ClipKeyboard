@@ -11,6 +11,7 @@ import StoreKit
 struct ReviewRequestView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         VStack(spacing: 24) {
@@ -31,7 +32,7 @@ struct ReviewRequestView: View {
             Text(NSLocalizedString("별점 하나가\n1인 개발자에게 큰 힘이 됩니다.", comment: "Review message"))
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
                 .lineSpacing(4)
 
             Spacer()
@@ -47,7 +48,7 @@ struct ReviewRequestView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                        .background(Color(.systemGray5))
+                        .background(theme.surfaceAlt)
                         .foregroundColor(.primary)
                         .cornerRadius(10)
                 }

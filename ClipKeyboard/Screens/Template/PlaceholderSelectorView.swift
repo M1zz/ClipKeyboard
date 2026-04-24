@@ -13,6 +13,7 @@ struct PlaceholderSelectorView: View {
     let sourceMemoId: UUID
     let sourceMemoTitle: String
     @Binding var selectedValue: String
+    @Environment(\.appTheme) private var theme
 
     @State private var values: [PlaceholderValue] = []
     @State private var newValue: String = ""
@@ -23,7 +24,7 @@ struct PlaceholderSelectorView: View {
             Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             // 값 목록
             if values.isEmpty {
@@ -46,7 +47,7 @@ struct PlaceholderSelectorView: View {
                                         .font(.system(size: 14, weight: selectedValue == placeholderValue.value ? .semibold : .regular))
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 8)
-                                        .background(selectedValue == placeholderValue.value ? Color.blue : Color(.systemGray5))
+                                        .background(selectedValue == placeholderValue.value ? Color.blue : theme.surfaceAlt)
                                         .foregroundColor(selectedValue == placeholderValue.value ? .white : .primary)
                                         .cornerRadius(16)
                                 }
@@ -96,7 +97,7 @@ struct PlaceholderSelectorView: View {
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(theme.surfaceAlt)
         .cornerRadius(10)
         .onAppear {
             print("🎬 [PlaceholderSelectorView] onAppear - 플레이스홀더: \(placeholder)")
@@ -135,6 +136,7 @@ struct PlaceholderSelectorView: View {
 struct PlaceholderManagementSheet: View {
     let allMemos: [Memo]
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
 
     var templateMemos: [Memo] {
         allMemos.filter { $0.isTemplate }
@@ -146,13 +148,13 @@ struct PlaceholderManagementSheet: View {
                 VStack(spacing: 12) {
                     Image(systemName: "doc.text.magnifyingglass")
                         .font(.system(size: 50))
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textFaint)
                     Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))
                         .font(.headline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                     Text(NSLocalizedString("템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다", comment: "No templates description"))
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

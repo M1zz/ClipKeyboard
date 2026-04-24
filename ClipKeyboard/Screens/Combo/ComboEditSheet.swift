@@ -13,6 +13,7 @@ struct ComboSheetResolver: View {
     let comboId: UUID
     let allMemos: [Memo]
     let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
 
     @State private var loadedMemo: Memo? = nil
     @State private var isLoading: Bool = false
@@ -28,10 +29,10 @@ struct ComboSheetResolver: View {
 
                     Text(NSLocalizedString("불러오는 중...", comment: "Loading"))
                         .font(.callout)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(.systemBackground))
+                .background(theme.bg)
             }
         }
         .onAppear {
@@ -84,6 +85,7 @@ struct ComboSheetResolver: View {
 struct ComboEditSheet: View {
     let memo: Memo
     let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
 
     @State private var comboValues: [String] = []
     @State private var currentComboIndex: Int = 0
@@ -145,7 +147,7 @@ struct ComboEditSheet: View {
 
             Text(String(format: NSLocalizedString("Combo 값 %d개", comment: "Combo value count"), comboValues.count))
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             Spacer()
 
@@ -175,11 +177,11 @@ struct ComboEditSheet: View {
 
             Text(NSLocalizedString("값이 없습니다", comment: "No values"))
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add values below"))
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -194,9 +196,9 @@ struct ComboEditSheet: View {
                     // 번호
                     Text("\(index + 1)")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(index == currentComboIndex ? .white : .secondary)
+                        .foregroundColor(index == currentComboIndex ? .white : theme.textMuted)
                         .frame(width: 28, height: 28)
-                        .background(index == currentComboIndex ? Color.orange : Color(.systemGray5))
+                        .background(index == currentComboIndex ? Color.orange : theme.surfaceAlt)
                         .cornerRadius(14)
 
                     // 값

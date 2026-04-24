@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct MacAppIntroView: View {
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         ScrollView {
@@ -46,7 +47,7 @@ struct MacAppIntroView: View {
 
             Text(NSLocalizedString("Same snippets, same memos — available on macOS.", comment: "Mac hero subtitle"))
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -82,7 +83,7 @@ struct MacAppIntroView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemGroupedBackground))
+        .background(theme.surfaceAlt)
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 
@@ -97,7 +98,7 @@ struct MacAppIntroView: View {
                     .fontWeight(.semibold)
                 Text(NSLocalizedString("If you've purchased Pro on iOS, it works on Mac automatically — no extra payment.", comment: "Universal purchase description"))
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -135,10 +136,10 @@ struct MacAppIntroView: View {
             Text(NSLocalizedString("Tip", comment: "Tip section title"))
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
             Text(NSLocalizedString("Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud.", comment: "Mac install tip"))
                 .font(.footnote)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -162,6 +163,7 @@ private struct MacFeatureRow: View {
     let tint: Color
     let title: String
     let description: String
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -178,7 +180,7 @@ private struct MacFeatureRow: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Text(description)
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

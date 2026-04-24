@@ -11,6 +11,7 @@ struct ComboTemplateInputView: View {
     let template: Memo
     @Binding var comboItem: ComboItem
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appTheme) private var theme
 
     @State private var placeholders: [String] = []
     @State private var inputs: [String: String] = [:]
@@ -23,13 +24,13 @@ struct ComboTemplateInputView: View {
                         Text(NSLocalizedString("템플릿 미리보기", comment: "Template Preview"))
                             .font(.caption)
                             .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
 
                         Text(template.value)
                             .font(.body)
                             .padding(12)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
+                            .background(theme.surfaceAlt)
                             .cornerRadius(8)
                     }
                 }
@@ -43,7 +44,7 @@ struct ComboTemplateInputView: View {
 
                             Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders"))
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 20)
