@@ -260,7 +260,7 @@ class CloudKitBackupService: ObservableObject {
         try await ensureAuthenticated()
 
         await MainActor.run { isBackingUp = true }
-        defer { Task { [weak self] in await MainActor.run { self?.isBackingUp = false } } }
+        defer { Task { @MainActor [weak self] in self?.isBackingUp = false } }
 
         do {
             let (memos, smartClipboard, combos) = try loadDataForBackup()
@@ -414,7 +414,7 @@ class CloudKitBackupService: ObservableObject {
         }
 
         await MainActor.run { isRestoring = true }
-        defer { Task { [weak self] in await MainActor.run { self?.isRestoring = false } } }
+        defer { Task { @MainActor [weak self] in self?.isRestoring = false } }
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")

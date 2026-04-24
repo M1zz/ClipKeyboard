@@ -703,7 +703,8 @@ extension KeyboardViewController: TextInput {
 
 extension String {
     func textSize() -> CGFloat {
-        return self.size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "Helvetica", size: 15)]).width
+        let font: UIFont = UIFont(name: "Helvetica", size: 15) ?? .systemFont(ofSize: 15)
+        return self.size(withAttributes: [NSAttributedString.Key.font: font]).width
     }
 }
 

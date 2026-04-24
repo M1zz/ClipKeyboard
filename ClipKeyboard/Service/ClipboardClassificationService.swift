@@ -59,8 +59,8 @@ class ClipboardClassificationService {
 
     /// 특정 메모의 캐시만 제거 (편집/삭제 시 호출 가능).
     func invalidateResolvedType(for memoId: UUID) {
-        resolverQueue.sync {
-            resolverCache.removeValue(forKey: memoId)
+        resolverQueue.sync { [self] in
+            _ = resolverCache.removeValue(forKey: memoId)
         }
     }
 

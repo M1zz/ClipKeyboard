@@ -165,8 +165,7 @@ struct ComboTemplateInputView: View {
         print("✅ [ComboTemplateInputView] \(placeholders.count)개 플레이스홀더 추출: \(placeholders)")
 
         // 기존 값이 있으면 로드
-        if let existingValue = comboItem.displayValue {
-            // displayValue에서 역으로 값 추출 시도 (간단히 기존 값 사용)
+        if comboItem.displayValue != nil {
             print("📝 [ComboTemplateInputView] 기존 값 존재")
         }
     }
