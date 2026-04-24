@@ -237,7 +237,7 @@ struct AppTheme: Equatable {
 // MARK: - Environment
 
 private struct AppThemeKey: EnvironmentKey {
-    static let defaultValue: AppTheme = .duskLight
+    static let defaultValue: AppTheme = .paperLight
 }
 
 extension EnvironmentValues {

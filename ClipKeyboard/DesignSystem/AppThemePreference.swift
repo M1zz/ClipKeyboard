@@ -26,7 +26,7 @@ final class AppThemePreference: ObservableObject {
 
     init() {
         let storedKind = UserDefaults.standard.string(forKey: kindKey)
-            .flatMap(AppThemeKind.init(rawValue:)) ?? .dusk
+            .flatMap(AppThemeKind.init(rawValue:)) ?? .paper
         let storedMode = UserDefaults.standard.string(forKey: modeKey)
             .flatMap(AppThemeMode.init(rawValue:)) ?? .system
         self.kind = storedKind
