@@ -15,6 +15,30 @@ struct CloudBackupView: View {
     @State private var alertTitle = ""
 
     var body: some View {
+        if !MacProManager.isCloudBackupAvailable {
+            macProGateView
+        } else {
+        backupContentView
+        }
+    }
+
+    private var macProGateView: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            Image(systemName: "icloud.fill")
+                .font(.system(size: 48))
+                .foregroundStyle(.secondary)
+            Text(NSLocalizedString("iCloud 백업은 Pro 기능입니다", comment: "Cloud backup pro"))
+                .font(.title3).fontWeight(.medium)
+            Text(NSLocalizedString("iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다.", comment: "Mac Pro sync hint"))
+                .font(.subheadline).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center).padding(.horizontal, 32)
+            Spacer()
+        }
+        .frame(minWidth: 500, minHeight: 420)
+    }
+
+    private var backupContentView: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 24) {
             // 헤더

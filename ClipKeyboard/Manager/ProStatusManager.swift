@@ -140,6 +140,9 @@ class ProStatusManager: ObservableObject {
     private func saveProStatus() {
         userDefaults?.set(isPro, forKey: proStatusKey)
         userDefaults?.synchronize()
+        // macOS 앱과 Pro 상태 동기화 (iCloud KV Store)
+        NSUbiquitousKeyValueStore.default.set(isPro, forKey: proStatusKey)
+        NSUbiquitousKeyValueStore.default.synchronize()
         print("💾 [ProStatusManager] Pro 상태 저장: \(isPro)")
     }
 }

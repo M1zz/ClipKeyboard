@@ -192,6 +192,11 @@ struct KeyboardView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // 무료 유저: 숨겨진 메모 있을 때 업그레이드 배너
+            if isFreeUser && hiddenMemoCount > 0 {
+                freeUpgradeBanner
+            }
+
             // 카테고리 필터 바 (iOS 앱과 동일한 스타일)
             filterBar
 
@@ -294,6 +299,34 @@ struct KeyboardView: View {
                 templateObserverToken = nil
             }
         }
+    }
+
+    // MARK: - Free Upgrade Banner
+
+    private var freeUpgradeBanner: some View {
+        Button {
+            if let url = URL(string: "clipkeyboard://paywall") {
+                var responder: UIResponder? = UIApplication.shared
+                // extensionContext를 통해 URL 열기 시도
+                NotificationCenter.default.post(name: NSNotification.Name("openMainAppPaywall"), object: nil)
+                _ = responder
+            }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 11))
+                Text(String(format: NSLocalizedString("%d개 메모 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount))
+                    .font(.system(size: 11, weight: .medium))
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 10))
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 5)
+            .background(Color.orange.opacity(0.85))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Filter Bar
@@ -424,7 +457,20 @@ struct KeyboardView: View {
     // MARK: - Data Loading
 
     private func loadAllMemos() {
-        allMemos = clipMemos
+        let limit = ProFeatureManager.keyboardMemoDisplayLimit
+        allMemos = limit == Int.max ? clipMemos : Array(clipMemos.prefix(limit))
+    }
+
+    // MARK: - Free tier
+
+    private var isFreeUser: Bool {
+        !ProFeatureManager.isPro && !ProFeatureManager.isGrandfathered
+    }
+
+    private var totalMemoCount: Int { clipMemos.count }
+    private var hiddenMemoCount: Int {
+        guard isFreeUser else { return 0 }
+        return max(0, totalMemoCount - ProFeatureManager.freeMemoLimit)
     }
 
     // MARK: - Color Helpers

@@ -138,12 +138,6 @@ class KeyboardViewController: UIInputViewController {
         let bottomView = setupHostingController()
         setupBottomBarLayout(bottomView)
 
-        // v4.0: 키보드 익스텐션이 Pro 기능으로 분류됨.
-        // 무료 유저이면서 그랜드파더 대상도 아닌 경우 잠금 오버레이 표시.
-        if !ProFeatureManager.isKeyboardExtensionAvailable {
-            presentKeyboardLockOverlay()
-        }
-
         print("✅ viewDidLoad 완료!")
         print("- bottomView가 추가되었습니다")
         print("- spaceButton, backButton, returnButton이 추가되었습니다")

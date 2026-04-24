@@ -20,8 +20,19 @@ struct MemoListView: View {
         return Array(cats).sorted()
     }
 
+    private var isFreeUser: Bool { !MacProManager.isPro }
+    private var hiddenMemoCount: Int {
+        guard isFreeUser else { return 0 }
+        return max(0, memos.count - MacProManager.freeMemoLimit)
+    }
+
     var filteredMemos: [Memo] {
         var filtered = memos
+
+        // 무료 유저: 표시 한도 적용 (정렬 후 상위 N개만)
+        if isFreeUser {
+            filtered = Array(filtered.sorted { $0.lastEdited > $1.lastEdited }.prefix(MacProManager.freeMemoLimit))
+        }
 
         // 카테고리 필터
         if selectedCategory != "전체" {
@@ -36,6 +47,7 @@ struct MemoListView: View {
             }
         }
 
+        if isFreeUser { return filtered }
         return filtered.sorted { $0.lastEdited > $1.lastEdited }
     }
 
@@ -96,6 +108,21 @@ struct MemoListView: View {
                 .padding(8)
 
                 Divider()
+
+                // 무료 유저: 숨겨진 메모 배너
+                if isFreeUser && hiddenMemoCount > 0 {
+                    HStack(spacing: 6) {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 10))
+                        Text(String(format: NSLocalizedString("%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
+                            .font(.system(size: 11))
+                        Spacer()
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 5)
+                    .background(Color.orange.opacity(0.85))
+                }
 
                 // 리스트
                 if filteredMemos.isEmpty {

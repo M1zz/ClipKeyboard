@@ -23,11 +23,15 @@ struct MacPreferencesView: View {
             shortcutsTab
                 .tabItem { Label(NSLocalizedString("Shortcuts", comment: "Prefs: shortcuts"), systemImage: "command") }
 
+            proTab
+                .tabItem { Label(NSLocalizedString("Pro", comment: "Prefs: pro"), systemImage: "star.fill") }
+
             aboutTab
                 .tabItem { Label(NSLocalizedString("About", comment: "Prefs: about"), systemImage: "info.circle") }
         }
         .frame(minWidth: 520, minHeight: 400)
         .padding()
+        .onAppear { MacProManager.refreshFromCloud() }
     }
 
     // MARK: - Tabs
@@ -103,6 +107,71 @@ struct MacPreferencesView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    private var proTab: some View {
+        VStack(spacing: 20) {
+            // 현재 상태
+            HStack(spacing: 12) {
+                Image(systemName: MacProManager.isPro ? "checkmark.seal.fill" : "star.circle")
+                    .font(.system(size: 36))
+                    .foregroundStyle(MacProManager.isPro ? .yellow : .secondary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(MacProManager.isPro
+                         ? NSLocalizedString("Pro 활성화됨", comment: "Pro active")
+                         : NSLocalizedString("무료 플랜", comment: "Free plan"))
+                        .font(.title3).fontWeight(.semibold)
+                    Text(MacProManager.isPro
+                         ? NSLocalizedString("모든 기능을 사용할 수 있습니다.", comment: "All features unlocked")
+                         : NSLocalizedString("메모 5개 · 클립보드 20개 제한", comment: "Free limits"))
+                        .font(.subheadline).foregroundStyle(.secondary)
+                }
+                Spacer()
+            }
+            .padding()
+            .background(MacProManager.isPro ? Color.yellow.opacity(0.1) : Color.secondary.opacity(0.08))
+            .cornerRadius(10)
+
+            Divider()
+
+            // 기능 비교
+            VStack(alignment: .leading, spacing: 10) {
+                featureRow(NSLocalizedString("메모", comment: "Feature: memos"),
+                           free: NSLocalizedString("최대 5개", comment: "Free memo limit"),
+                           pro: NSLocalizedString("무제한", comment: "Unlimited"))
+                featureRow(NSLocalizedString("클립보드 히스토리", comment: "Feature: clipboard"),
+                           free: NSLocalizedString("최대 20개", comment: "Free clipboard limit"),
+                           pro: NSLocalizedString("최대 100개", comment: "Pro clipboard limit"))
+                featureRow(NSLocalizedString("iCloud 백업", comment: "Feature: icloud"),
+                           free: "—", pro: "✓")
+                featureRow(NSLocalizedString("iOS 구매 시 자동 연동", comment: "Feature: ios sync"),
+                           free: "—", pro: "✓")
+            }
+
+            Spacer()
+
+            if !MacProManager.isPro {
+                Text(NSLocalizedString("iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다.", comment: "iOS purchase hint"))
+                    .font(.caption).foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+
+                Button(NSLocalizedString("상태 새로고침", comment: "Refresh Pro status")) {
+                    MacProManager.refreshFromCloud()
+                }
+                .controlSize(.regular)
+            }
+        }
+        .padding()
+        .formStyle(.grouped)
+    }
+
+    private func featureRow(_ name: String, free: String, pro: String) -> some View {
+        HStack {
+            Text(name).frame(maxWidth: .infinity, alignment: .leading)
+            Text(free).foregroundStyle(.secondary).frame(width: 90, alignment: .center)
+            Text(pro).foregroundStyle(MacProManager.isPro ? .primary : .secondary).frame(width: 90, alignment: .center)
+        }
+        .font(.subheadline)
     }
 
     private var aboutTab: some View {

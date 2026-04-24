@@ -57,13 +57,13 @@ struct ProFeatureManager {
     /// 이미지 메모 사용 가능 여부
     static var isImageMemoAvailable: Bool { isPro }
 
-    /// 키보드 익스텐션 사용 가능 여부 (v4.0 신규 잠금)
-    /// - Pro 구매자: 항상 true
-    /// - v3.x Pro 그랜드파더: 항상 true
-    /// - v3.x 무료 기존 유저: 항상 true (기존 경험 유지)
-    /// - 신규 v4.0 무료 유저: false → Paywall
-    static var isKeyboardExtensionAvailable: Bool {
-        isPro || hasGrandfatheredPurchase || wasExistingFreeUser
+    /// 키보드 익스텐션은 모든 유저에게 무료 개방.
+    /// 무료 유저는 freeMemoLimit 개수만큼만 표시됨.
+    static var isKeyboardExtensionAvailable: Bool { true }
+
+    /// 키보드에서 표시할 메모 최대 개수.
+    static var keyboardMemoDisplayLimit: Int {
+        (isPro || isGrandfathered) ? Int.max : freeMemoLimit
     }
 
     // MARK: - 상태 체크
@@ -74,11 +74,7 @@ struct ProFeatureManager {
 
     /// TestFlight 빌드 여부 (샌드박스 영수증 감지)
     static var isTestFlight: Bool {
-        #if targetEnvironment(macCatalyst)
-        return false
-        #else
         return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-        #endif
     }
 
     /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)
