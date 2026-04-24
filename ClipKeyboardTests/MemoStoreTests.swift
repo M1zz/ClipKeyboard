@@ -1,6 +1,6 @@
 //
 //  MemoStoreTests.swift
-//  Token memoTests
+//  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-01-16.
 //  MemoStore 저장/로드 테스트
@@ -26,7 +26,7 @@ final class MemoStoreTests: XCTestCase {
 
     override func tearDown() {
         // 테스트 후 데이터 정리
-        try? sut.save(memos: [], type: .tokenMemo)
+        try? sut.save(memos: [], type: .memo)
         try? sut.saveSmartClipboardHistory(history: [])
         try? sut.saveCombos([])
         testMemos = nil
@@ -38,8 +38,8 @@ final class MemoStoreTests: XCTestCase {
 
     func testSaveAndLoadMemos() throws {
         // When
-        try sut.save(memos: testMemos, type: .tokenMemo)
-        let loadedMemos = try sut.load(type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
+        let loadedMemos = try sut.load(type: .memo)
 
         // Then
         XCTAssertEqual(loadedMemos.count, testMemos.count)
@@ -50,10 +50,10 @@ final class MemoStoreTests: XCTestCase {
 
     func testLoadEmptyMemos() throws {
         // Given
-        try sut.save(memos: [], type: .tokenMemo)
+        try sut.save(memos: [], type: .memo)
 
         // When
-        let loadedMemos = try sut.load(type: .tokenMemo)
+        let loadedMemos = try sut.load(type: .memo)
 
         // Then
         XCTAssertTrue(loadedMemos.isEmpty)
@@ -61,15 +61,15 @@ final class MemoStoreTests: XCTestCase {
 
     func testUpdateMemo() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
 
         // When
-        var updatedMemos = try sut.load(type: .tokenMemo)
+        var updatedMemos = try sut.load(type: .memo)
         updatedMemos[0].title = "수정된 제목"
         updatedMemos[0].value = "수정된 값"
-        try sut.save(memos: updatedMemos, type: .tokenMemo)
+        try sut.save(memos: updatedMemos, type: .memo)
 
-        let loadedMemos = try sut.load(type: .tokenMemo)
+        let loadedMemos = try sut.load(type: .memo)
 
         // Then
         XCTAssertEqual(loadedMemos[0].title, "수정된 제목")
@@ -78,14 +78,14 @@ final class MemoStoreTests: XCTestCase {
 
     func testDeleteMemo() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
 
         // When
-        var loadedMemos = try sut.load(type: .tokenMemo)
+        var loadedMemos = try sut.load(type: .memo)
         loadedMemos.remove(at: 1) // "테스트2" 삭제
-        try sut.save(memos: loadedMemos, type: .tokenMemo)
+        try sut.save(memos: loadedMemos, type: .memo)
 
-        let finalMemos = try sut.load(type: .tokenMemo)
+        let finalMemos = try sut.load(type: .memo)
 
         // Then
         XCTAssertEqual(finalMemos.count, 2)
@@ -196,7 +196,7 @@ final class MemoStoreTests: XCTestCase {
 
     func testValidateComboItem_ValidMemo() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
         let item = ComboItem(type: .memo, referenceId: testMemos[0].id, order: 0)
 
         // When
@@ -208,7 +208,7 @@ final class MemoStoreTests: XCTestCase {
 
     func testValidateComboItem_InvalidMemo() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
         let invalidItem = ComboItem(type: .memo, referenceId: UUID(), order: 0)
 
         // When
@@ -220,7 +220,7 @@ final class MemoStoreTests: XCTestCase {
 
     func testCleanupCombo_RemovesInvalidItems() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
 
         let validId = testMemos[0].id
         let invalidId = UUID()
@@ -244,7 +244,7 @@ final class MemoStoreTests: XCTestCase {
 
     func testGetComboItemValue_Memo() throws {
         // Given
-        try sut.save(memos: testMemos, type: .tokenMemo)
+        try sut.save(memos: testMemos, type: .memo)
         let item = ComboItem(type: .memo, referenceId: testMemos[0].id, order: 0)
 
         // When
@@ -257,7 +257,7 @@ final class MemoStoreTests: XCTestCase {
     func testGetComboItemValue_Template() throws {
         // Given
         let template = Memo(title: "템플릿", value: "안녕하세요 {이름}님", isTemplate: true)
-        try sut.save(memos: [template], type: .tokenMemo)
+        try sut.save(memos: [template], type: .memo)
 
         let item = ComboItem(
             type: .template,

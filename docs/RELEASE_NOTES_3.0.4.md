@@ -39,7 +39,7 @@
 
 ### Version 3.0.4 Update
 
-Hello! Clip Keyboard has been improved. 🎉
+Hello! ClipKeyboard has been improved. 🎉
 
 #### ✨ What's New
 
@@ -92,7 +92,7 @@ Hello! Clip Keyboard has been improved. 🎉
 • Version Management Improvements: All components centrally managed
 • Stability improvements and bug fixes
 
-Do you like Clip Keyboard? Your review greatly helps improve the app! ⭐️
+Do you like ClipKeyboard? Your review greatly helps improve the app! ⭐️
 
 ---
 

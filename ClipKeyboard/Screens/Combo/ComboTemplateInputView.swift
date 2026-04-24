@@ -1,6 +1,6 @@
 //
 //  ComboTemplateInputView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2026/01/16.
 //
@@ -11,6 +11,7 @@ struct ComboTemplateInputView: View {
     let template: Memo
     @Binding var comboItem: ComboItem
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appTheme) private var theme
 
     @State private var placeholders: [String] = []
     @State private var inputs: [String: String] = [:]
@@ -23,13 +24,13 @@ struct ComboTemplateInputView: View {
                         Text(NSLocalizedString("템플릿 미리보기", comment: "Template Preview"))
                             .font(.caption)
                             .fontWeight(.semibold)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
 
                         Text(template.value)
                             .font(.body)
                             .padding(12)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemGray6))
+                            .background(theme.surfaceAlt)
                             .cornerRadius(8)
                     }
                 }
@@ -43,7 +44,7 @@ struct ComboTemplateInputView: View {
 
                             Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders"))
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 20)
@@ -165,27 +166,13 @@ struct ComboTemplateInputView: View {
         print("✅ [ComboTemplateInputView] \(placeholders.count)개 플레이스홀더 추출: \(placeholders)")
 
         // 기존 값이 있으면 로드
-        if let existingValue = comboItem.displayValue {
-            // displayValue에서 역으로 값 추출 시도 (간단히 기존 값 사용)
+        if comboItem.displayValue != nil {
             print("📝 [ComboTemplateInputView] 기존 값 존재")
         }
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        var result = text
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: formatter.string(from: Date()))
-
-        formatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: formatter.string(from: Date()))
-
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        TemplateVariableProcessor.process(text)
     }
 
     private func saveAndDismiss() {

@@ -1,6 +1,6 @@
 //
 //  ComboList.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code on 2025-12-06.
 //  Phase 2: Combo System
@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ComboList: View {
+    @Environment(\.appTheme) private var theme
     @State private var combos: [Combo] = []
     @State private var showAddCombo = false
     @State private var showToast = false
@@ -34,6 +35,9 @@ struct ComboList: View {
                         }
                         .onDelete(perform: deleteCombo)
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(theme.bg)
                 }
             }
             .navigationTitle("Combo")
@@ -148,92 +152,45 @@ struct ComboList: View {
     }
 
     private func addTestData() {
-        // 테스트 시나리오 1: 회원가입 정보
-        let signupData = [
-            "홍길동",
-            "hong@example.com",
-            "010-1234-5678",
-            "06234",
-            "서울특별시 강남구 테헤란로 123"
-        ]
-
-        // 테스트 시나리오 2: 배송 정보
-        let shippingData = [
-            "김철수",
-            "010-9876-5432",
-            "13579",
-            "부산광역시 해운대구 해운대로 456",
-            "문 앞에 놓아주세요"
-        ]
-
-        // 클립보드 히스토리에 추가
         do {
-            var allItems: [ComboItem] = []
-            var order = 0
-
-            // 회원가입 데이터 추가
-            for data in signupData {
-                try MemoStore.shared.addToSmartClipboardHistory(content: data)
-                let history = try MemoStore.shared.loadSmartClipboardHistory()
-                if let item = history.first(where: { $0.content == data }) {
-                    let comboItem = ComboItem(
-                        type: .clipboardHistory,
-                        referenceId: item.id,
-                        order: order,
-                        displayTitle: String(data.prefix(20)),
-                        displayValue: data
-                    )
-                    allItems.append(comboItem)
-                    order += 1
-                }
-            }
-
-            // 회원가입 Combo 생성
-            let signupCombo = Combo(
-                title: "회원가입 정보",
-                items: allItems,
-                interval: 2.0
-            )
-            try MemoStore.shared.addCombo(signupCombo)
-
-            // 배송 정보 추가
-            allItems = []
-            order = 0
-            for data in shippingData {
-                try MemoStore.shared.addToSmartClipboardHistory(content: data)
-                let history = try MemoStore.shared.loadSmartClipboardHistory()
-                if let item = history.first(where: { $0.content == data }) {
-                    let comboItem = ComboItem(
-                        type: .clipboardHistory,
-                        referenceId: item.id,
-                        order: order,
-                        displayTitle: String(data.prefix(20)),
-                        displayValue: data
-                    )
-                    allItems.append(comboItem)
-                    order += 1
-                }
-            }
-
-            // 배송 정보 Combo 생성
-            let shippingCombo = Combo(
-                title: "배송 정보",
-                items: allItems,
-                interval: 2.0
-            )
-            try MemoStore.shared.addCombo(shippingCombo)
-
+            try addTestCombo(title: "회원가입 정보", data: [
+                "홍길동", "hong@example.com", "010-1234-5678", "06234", "서울특별시 강남구 테헤란로 123"
+            ])
+            try addTestCombo(title: "배송 정보", data: [
+                "김철수", "010-9876-5432", "13579", "부산광역시 해운대구 해운대로 456", "문 앞에 놓아주세요"
+            ])
             loadCombos()
             showToast(message: "✨ 테스트 데이터 추가 완료! (2개 Combo, 10개 항목)")
         } catch {
             showToast(message: "❌ 테스트 데이터 추가 실패: \(error.localizedDescription)")
         }
     }
+
+    /// 데이터 배열로 클립보드 히스토리 항목을 생성하고 Combo로 묶어 저장
+    private func addTestCombo(title: String, data: [String]) throws {
+        var items: [ComboItem] = []
+        for (order, text) in data.enumerated() {
+            try MemoStore.shared.addToSmartClipboardHistory(content: text)
+            let history = try MemoStore.shared.loadSmartClipboardHistory()
+            if let item = history.first(where: { $0.content == text }) {
+                items.append(ComboItem(
+                    type: .clipboardHistory,
+                    referenceId: item.id,
+                    order: order,
+                    displayTitle: String(text.prefix(20)),
+                    displayValue: text
+                ))
+            }
+        }
+        try MemoStore.shared.addCombo(Combo(title: title, items: items, interval: 2.0))
+    }
 }
 
 // MARK: - Empty View
 
 struct EmptyComboView: View {
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "arrow.triangle.2.circlepath.circle")
@@ -243,11 +200,11 @@ struct EmptyComboView: View {
             Text(NSLocalizedString("Combo가 없습니다", comment: "Empty combo list title"))
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             Text(NSLocalizedString("여러 메모를 순서대로 자동 입력하는\nCombo를 만들어보세요", comment: "Empty combo list description"))
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
@@ -261,6 +218,7 @@ struct ComboRowView: View {
     let combo: Combo
     let onExecute: () -> Void
     let onEdit: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button(action: onEdit) {
@@ -292,16 +250,16 @@ struct ComboRowView: View {
                 HStack(spacing: 12) {
                     Label(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count), systemImage: "list.bullet")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     Label(String(format: NSLocalizedString("%d초 간격", comment: ""), Int(combo.interval)), systemImage: "timer")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     if combo.useCount > 0 {
                         Label(String(format: NSLocalizedString("%d회 사용", comment: ""), combo.useCount), systemImage: "chart.bar.fill")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                 }
 
@@ -315,7 +273,7 @@ struct ComboRowView: View {
                         if combo.items.count > 3 {
                             Text("+\(combo.items.count - 3)")
                                 .font(.caption2)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
                 }
@@ -391,6 +349,7 @@ struct ComboAddEditView: View {
     let onSave: (Combo) -> Void
 
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appTheme) private var theme
     @State private var title: String = ""
     @State private var interval: TimeInterval = 2.0
     @State private var selectedItems: [ComboItem] = []
@@ -425,18 +384,18 @@ struct ComboAddEditView: View {
                 Section {
                     if selectedItems.isEmpty {
                         Text(NSLocalizedString("항목을 추가해주세요", comment: "Add items prompt"))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     } else {
                         ForEach(selectedItems) { item in
                             HStack {
                                 Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(theme.textFaint)
                                 ComboItemChip(item: item)
                                 Spacer()
                                 if let title = item.displayTitle {
                                     Text(title)
                                         .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(theme.textMuted)
                                         .lineLimit(1)
                                 }
 
@@ -541,7 +500,7 @@ struct ComboAddEditView: View {
 
     private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
         do {
-            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            let memos = try MemoStore.shared.load(type: .memo)
             return memos.first(where: { $0.id == templateId && $0.isTemplate })
         } catch {
             print("❌ [ComboAddEditView] 템플릿 로드 실패: \(error)")
@@ -614,7 +573,7 @@ struct ComboItemPickerSheet: View {
 
     private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
         do {
-            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            let memos = try MemoStore.shared.load(type: .memo)
             return memos.first(where: { $0.id == templateId && $0.isTemplate })
         } catch {
             print("❌ [ComboItemPickerSheet] 템플릿 로드 실패: \(error)")

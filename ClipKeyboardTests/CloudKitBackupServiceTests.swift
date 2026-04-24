@@ -1,6 +1,6 @@
 //
 //  CloudKitBackupServiceTests.swift
-//  Token memoTests
+//  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-01-16.
 //  CloudKit 백업/복구 테스트 (통합 테스트)
@@ -23,7 +23,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
 
     override func tearDown() {
         // 테스트 후 데이터 정리
-        try? memoStore.save(memos: [], type: .tokenMemo)
+        try? memoStore.save(memos: [], type: .memo)
         try? memoStore.saveSmartClipboardHistory(history: [])
         try? memoStore.saveCombos([])
         memoStore = nil
@@ -48,10 +48,10 @@ final class CloudKitBackupServiceTests: XCTestCase {
         sut.checkAccountStatus()
 
         // Wait for async check
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
             // Then
             // Note: 실제 iCloud 로그인 상태에 따라 결과가 다름
-            print("iCloud 인증 상태: \(self.sut.isAuthenticated)")
+            print("iCloud 인증 상태: \(self?.sut.isAuthenticated ?? false)")
             expectation.fulfill()
         }
 
@@ -77,7 +77,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
             ])
         ]
 
-        try memoStore.save(memos: testMemos, type: .tokenMemo)
+        try memoStore.save(memos: testMemos, type: .memo)
         try memoStore.saveSmartClipboardHistory(history: testHistory)
         try memoStore.saveCombos(testCombos)
 
@@ -85,7 +85,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
         // Note: 실제 백업은 네트워크가 필요하므로 통합 테스트에서만 실행
 
         // Then
-        let loadedMemos = try memoStore.load(type: .tokenMemo)
+        let loadedMemos = try memoStore.load(type: .memo)
         let loadedHistory = try memoStore.loadSmartClipboardHistory()
         let loadedCombos = try memoStore.loadCombos()
 
@@ -170,19 +170,19 @@ final class CloudKitBackupServiceTests: XCTestCase {
             Memo(title: "통합 테스트2", value: "통합 값2")
         ]
 
-        try memoStore.save(memos: testMemos, type: .tokenMemo)
+        try memoStore.save(memos: testMemos, type: .memo)
 
         // When - 백업
         try await sut.backupData()
 
         // 데이터 삭제
-        try memoStore.save(memos: [], type: .tokenMemo)
+        try memoStore.save(memos: [], type: .memo)
 
         // 복구
         try await sut.restoreData()
 
         // Then
-        let restoredMemos = try memoStore.load(type: .tokenMemo)
+        let restoredMemos = try memoStore.load(type: .memo)
         XCTAssertEqual(restoredMemos.count, 2)
         XCTAssertEqual(restoredMemos[0].title, "통합 테스트1")
         XCTAssertEqual(restoredMemos[1].title, "통합 테스트2")

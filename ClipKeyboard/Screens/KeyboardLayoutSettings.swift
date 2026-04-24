@@ -1,6 +1,6 @@
 //
 //  KeyboardLayoutSettings.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code on 2026-01-28.
 //  키보드 레이아웃 및 버튼 크기 설정

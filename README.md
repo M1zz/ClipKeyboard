@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/app-icon.png" alt="Clip Keyboard" width="120" height="120" style="border-radius: 22%;">
+  <img src="docs/app-icon.png" alt="ClipKeyboard" width="120" height="120" style="border-radius: 22%;">
 </p>
 
-<h1 align="center">Clip Keyboard</h1>
+<h1 align="center">ClipKeyboard</h1>
 
 <p align="center">
   <strong>반복 입력은 그만, 탭 한 번이면 끝</strong><br>
@@ -28,9 +28,9 @@
 
 ---
 
-## What is Clip Keyboard?
+## What is ClipKeyboard?
 
-Clip Keyboard는 **자주 쓰는 문구를 저장하고 키보드에서 바로 입력**할 수 있는 iOS 앱입니다. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.
+ClipKeyboard는 **자주 쓰는 문구를 저장하고 키보드에서 바로 입력**할 수 있는 iOS 앱입니다. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.
 
 > **Landing Page**: [m1zz.github.io/ClipKeyboard](https://m1zz.github.io/ClipKeyboard/)
 
@@ -121,7 +121,7 @@ open ClipKeyboard.xcodeproj
 
 ## License
 
-All rights reserved. &copy; 2024 Clip Keyboard.
+All rights reserved. &copy; 2024 ClipKeyboard.
 
 ## Contact
 

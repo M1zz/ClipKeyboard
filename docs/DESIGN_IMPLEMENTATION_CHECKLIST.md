@@ -433,7 +433,7 @@ Button(action: addMemo) {
 - `"키보드를 추가해주세요"`
 - `"설정 > 키보드"`
 - `"새 키보드 추가"`
-- `"Clip Keyboard 선택"`
+- `"ClipKeyboard 선택"`
 - `"나중에"`
 - `"설정 열기"`
 

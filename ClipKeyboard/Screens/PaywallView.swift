@@ -12,6 +12,7 @@ import StoreKit
 /// 제한 도달 시 자연스럽게 표시
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
     @ObservedObject private var store = StoreManager.shared
     
     /// 어떤 제한 때문에 보여주는지 (nil이면 일반 업그레이드)
@@ -121,9 +122,12 @@ struct PaywallView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(Color(.systemGray6))
+            .background(theme.surfaceAlt)
             
             // 행들
+            featureRow(NSLocalizedString("Keyboard extension", comment: "Keyboard extension feature"),
+                       free: "—", pro: "✓", isProOnly: true)
+
             featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
@@ -155,7 +159,7 @@ struct PaywallView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(.systemGray5), lineWidth: 1)
+                .stroke(theme.surfaceAlt, lineWidth: 1)
         )
     }
     
@@ -233,7 +237,7 @@ struct PaywallView: View {
                 }
                 
                 // 에러 메시지
-                if let error = store.purchaseError {
+                if let error = store.errorMessage {
                     Text(error)
                         .font(.caption)
                         .foregroundStyle(.red)

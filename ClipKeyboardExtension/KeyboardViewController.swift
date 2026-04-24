@@ -16,12 +16,14 @@ var clipMemoId: [UUID] = []  // 메모 ID 저장
 var clipMemos: [Memo] = []  // 전체 메모 객체 저장
 var tappedIndex = 2
 var clipboardData: KeyboardData = [:]
-var tokenMemoData: KeyboardData = [:]
+var memoData: KeyboardData = [:]
 
 class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
 
     private var deleteTimer: Timer?
+    private var deleteStartTime: Date?
+    private var notificationTokens: [NSObjectProtocol] = []
 
     private let flowLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -87,12 +89,19 @@ class KeyboardViewController: UIInputViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 38).isActive = true
         button.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = UIColor.systemBlue
+        config.baseForegroundColor = UIColor.white
+        config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+        config.title = NSLocalizedString("Return", comment: "Return key")
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var updated = attrs
+            updated.font = .systemFont(ofSize: 13, weight: .medium)
+            return updated
+        }
+        config.cornerStyle = .fixed
         button.layer.cornerRadius = 8
-        button.setTitle(NSLocalizedString("Return", comment: "Return key"), for: UIControl.State.normal)
-        button.titleLabel!.font = .systemFont(ofSize: 13, weight: .medium)
-        button.backgroundColor = UIColor.systemBlue
-        button.setTitleColor(UIColor.white, for: UIControl.State.normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        button.configuration = config
         return button
     }()
 
@@ -128,23 +137,127 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 키보드 전체 높이 제약 (시스템 너비 관리를 유지하면서 높이만 제어)
+        setupHeightConstraint()
+        configureNextKeyboardButton()
+        loadMemos()
+        setupNotificationObservers()
+
+        let bottomView = setupHostingController()
+        setupBottomBarLayout(bottomView)
+
+        print("✅ viewDidLoad 완료!")
+        print("- bottomView가 추가되었습니다")
+        print("- spaceButton, backButton, returnButton이 추가되었습니다")
+    }
+
+    /// 키보드 익스텐션 잠금 오버레이.
+    /// - 메인 앱 열기 버튼은 clipkeyboard://paywall URL scheme으로 paywall로 직행.
+    private func presentKeyboardLockOverlay() {
+        let overlay = UIView()
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        overlay.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.98)
+
+        let lockIcon = UIImageView(image: UIImage(systemName: "lock.fill"))
+        lockIcon.tintColor = .systemBlue
+        lockIcon.contentMode = .scaleAspectFit
+        lockIcon.translatesAutoresizingMaskIntoConstraints = false
+
+        let title = UILabel()
+        title.text = NSLocalizedString("Unlock keyboard in ClipKeyboard", comment: "Keyboard locked title")
+        title.font = .systemFont(ofSize: 15, weight: .semibold)
+        title.textAlignment = .center
+        title.numberOfLines = 0
+        title.translatesAutoresizingMaskIntoConstraints = false
+
+        let subtitle = UILabel()
+        subtitle.text = NSLocalizedString("Open the main app to upgrade.", comment: "Keyboard locked subtitle")
+        subtitle.font = .systemFont(ofSize: 12)
+        subtitle.textColor = .secondaryLabel
+        subtitle.textAlignment = .center
+        subtitle.numberOfLines = 0
+        subtitle.translatesAutoresizingMaskIntoConstraints = false
+
+        let openButton = UIButton(type: .system)
+        var openConfig = UIButton.Configuration.filled()
+        openConfig.baseBackgroundColor = .systemBlue
+        openConfig.baseForegroundColor = .white
+        openConfig.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20)
+        openConfig.title = NSLocalizedString("Open App", comment: "Open main app button")
+        openConfig.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attrs in
+            var updated = attrs
+            updated.font = .systemFont(ofSize: 14, weight: .semibold)
+            return updated
+        }
+        openConfig.cornerStyle = .fixed
+        openButton.layer.cornerRadius = 10
+        openButton.configuration = openConfig
+        openButton.addTarget(self, action: #selector(openMainAppPaywall), for: .touchUpInside)
+        openButton.translatesAutoresizingMaskIntoConstraints = false
+
+        overlay.addSubview(lockIcon)
+        overlay.addSubview(title)
+        overlay.addSubview(subtitle)
+        overlay.addSubview(openButton)
+        view.addSubview(overlay)
+
+        NSLayoutConstraint.activate([
+            overlay.topAnchor.constraint(equalTo: view.topAnchor),
+            overlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            overlay.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            lockIcon.centerXAnchor.constraint(equalTo: overlay.centerXAnchor),
+            lockIcon.topAnchor.constraint(equalTo: overlay.topAnchor, constant: 32),
+            lockIcon.widthAnchor.constraint(equalToConstant: 32),
+            lockIcon.heightAnchor.constraint(equalToConstant: 32),
+
+            title.topAnchor.constraint(equalTo: lockIcon.bottomAnchor, constant: 10),
+            title.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 24),
+            title.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -24),
+
+            subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 4),
+            subtitle.leadingAnchor.constraint(equalTo: overlay.leadingAnchor, constant: 24),
+            subtitle.trailingAnchor.constraint(equalTo: overlay.trailingAnchor, constant: -24),
+
+            openButton.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 16),
+            openButton.centerXAnchor.constraint(equalTo: overlay.centerXAnchor)
+        ])
+    }
+
+    @objc private func openMainAppPaywall() {
+        guard let url = URL(string: "clipkeyboard://paywall") else { return }
+        var responder: UIResponder? = self
+        while let current = responder {
+            if let application = current as? UIApplication {
+                application.open(url, options: [:], completionHandler: nil)
+                return
+            }
+            // iOS 18+: use openURL(_:) via extensionContext selector chain fallback
+            let selector = sel_registerName("openURL:")
+            if current.responds(to: selector) {
+                _ = current.perform(selector, with: url)
+                return
+            }
+            responder = current.next
+        }
+        print("⚠️ [Keyboard] Paywall URL scheme 실행 실패")
+    }
+
+    // MARK: - viewDidLoad Helpers
+
+    private func setupHeightConstraint() {
         let keyboardHeight: CGFloat = 254  // SwiftUI 영역(200) + 하단 바(54)
         let heightConstraint = view.heightAnchor.constraint(equalToConstant: keyboardHeight)
         heightConstraint.priority = .defaultHigh
         heightConstraint.isActive = true
+    }
 
-        configureNextKeyboardButton()
-
-        loadMemos()
-
-        // 필터 변경 알림 구독
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("filterChanged"), object: nil, queue: nil) { [weak self] _ in
-            self?.loadMemos()
-        }
+    /// SwiftUI KeyboardView를 호스팅하고, 하단 bottomView를 생성하여 반환
+    private func setupHostingController() -> UIView {
         let hostingVC = UIHostingController(rootView: keyboardView)
         self.hostingController = hostingVC
         addChild(hostingVC)
+
         let myKeyboardView = hostingVC.view!
         myKeyboardView.translatesAutoresizingMaskIntoConstraints = false
         myKeyboardView.backgroundColor = .clear
@@ -152,157 +265,33 @@ class KeyboardViewController: UIInputViewController {
         view.addSubview(myKeyboardView)
         hostingVC.didMove(toParent: self)
         view.backgroundColor = .clear
-        let bottomView = UIView(frame: CGRect.init(x: 0, y: 0, width: 320, height: 30))
+
+        let bottomView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        bottomView.backgroundColor = .clear
         view.addSubview(bottomView)
 
-        myKeyboardView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        myKeyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
-        myKeyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "addTextEntry"), object: nil, queue: nil) { notification in
-            print("🔔 addTextEntry 알림 수신")
-            if let text = notification.object as? String,
-               let userInfo = notification.userInfo,
-               let memoId = userInfo["memoId"] as? UUID {
-                print("📝 텍스트: \(text)")
-                print("🆔 메모 ID: \(memoId)")
+        NSLayoutConstraint.activate([
+            myKeyboardView.topAnchor.constraint(equalTo: view.topAnchor),
+            myKeyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            myKeyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            bottomView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            bottomView.heightAnchor.constraint(equalToConstant: 54)
+        ])
 
-                // 해당 메모 찾기
-                if let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) {
-                    var memo = clipMemos[memoIndex]
+        return bottomView
+    }
 
-                    // Combo 메모인 경우
-                    if memo.isCombo && !memo.comboValues.isEmpty {
-                        print("🔄 Combo 메모 - 현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
-
-                        // 현재 인덱스의 값 가져오기
-                        let currentValue = memo.comboValues[memo.currentComboIndex]
-                        print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
-
-                        // 입력
-                        self.textDocumentProxy.insertText(currentValue)
-                        self.trackKeyboardPaste()
-
-                        // 다음 인덱스로 이동 (순환)
-                        memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
-                        print("   다음 인덱스: \(memo.currentComboIndex)")
-
-                        // 메모리에 업데이트
-                        clipMemos[memoIndex] = memo
-
-                        // 파일에도 저장
-                        do {
-                            var allMemos = try MemoStore.shared.load(type: .tokenMemo)
-                            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
-                                allMemos[fileIndex].currentComboIndex = memo.currentComboIndex
-                                try MemoStore.shared.save(memos: allMemos, type: .tokenMemo)
-                                print("   💾 인덱스 저장 완료")
-                            }
-                        } catch {
-                            print("   ❌ 인덱스 저장 실패: \(error)")
-                        }
-
-                        return
-                    }
-                }
-
-                // 일반 메모 또는 템플릿 처리
-                // 커스텀 플레이스홀더 확인
-                let customPlaceholders = self.extractCustomPlaceholders(from: text)
-                print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
-
-                if !customPlaceholders.isEmpty {
-                    print("✅ 템플릿 입력 오버레이 표시")
-                    // 커스텀 오버레이 표시 (메모 ID 포함)
-                    NotificationCenter.default.post(
-                        name: NSNotification.Name("showTemplateInput"),
-                        object: nil,
-                        userInfo: [
-                            "text": text,
-                            "placeholders": customPlaceholders,
-                            "memoId": memoId
-                        ]
-                    )
-                } else {
-                    print("⚡ 자동 변수만 치환해서 바로 입력")
-                    // 플레이스홀더가 없으면 자동 변수만 치환해서 바로 입력
-                    let processedText = self.processTemplateVariables(in: text)
-                    print("💬 입력할 텍스트: \(processedText)")
-                    self.textDocumentProxy.insertText(processedText)
-                    self.trackKeyboardPaste()
-                }
-            } else {
-                print("❌ 텍스트 또는 메모 ID가 없습니다")
-            }
-        }
-
-        // 템플릿 입력 완료 알림 구독
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("templateInputComplete"), object: nil, queue: .main) { notification in
-            print("✅ templateInputComplete 수신")
-            if let userInfo = notification.userInfo,
-               let text = userInfo["text"] as? String,
-               let inputs = userInfo["inputs"] as? [String: String] {
-
-                var processedText = text
-                print("   원본 텍스트: \(processedText)")
-
-                // 커스텀 플레이스홀더 치환
-                for (placeholder, value) in inputs {
-                    print("   [\(placeholder)] -> [\(value)]")
-                    processedText = processedText.replacingOccurrences(of: placeholder, with: value)
-                }
-
-                // 자동 변수도 치환
-                processedText = self.processTemplateVariables(in: processedText)
-                print("   최종 텍스트: \(processedText)")
-
-                print("📝 textDocumentProxy.insertText 호출")
-                self.textDocumentProxy.insertText(processedText)
-                self.trackKeyboardPaste()
-                print("✅ 입력 완료!")
-            }
-        }
-        
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        bottomView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        bottomView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        bottomView.heightAnchor.constraint(equalToConstant: 54).isActive = true
-
-        // 투명한 배경
-        bottomView.backgroundColor = .clear
-        
-        
-//        #if os(iOS)
-//        bottomView.addSubview(addButton)
-//        addButton.translatesAutoresizingMaskIntoConstraints = false
-//        addButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor).isActive = true
-//        addButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-//        addButton.addTarget(self, action: #selector(openAppPressed), for: .touchUpInside)
-//        #else
-//        
-//        #endif
-//        if UIDevice.current.userInterfaceIdiom == .pad {
-//            bottomView.addSubview(globeKeyboardButton)
-//            globeKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-//            globeKeyboardButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor).isActive = true
-//            globeKeyboardButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-//            globeKeyboardButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-//            globeKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-//            
-//            bottomView.addSubview(addButton)
-//            addButton.translatesAutoresizingMaskIntoConstraints = false
-//            addButton.leadingAnchor.constraint(equalTo: globeKeyboardButton.trailingAnchor).isActive = true
-//            addButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-//            addButton.addTarget(self, action: #selector(openAppPressed), for: .touchUpInside)
-//        }
-        
+    private func setupBottomBarLayout(_ bottomView: UIView) {
         bottomView.addSubview(globeKeyboardButton)
         globeKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
         globeKeyboardButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8).isActive = true
         globeKeyboardButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
         globeKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        
+
         bottomView.addSubview(spaceButton)
         spaceButton.translatesAutoresizingMaskIntoConstraints = false
         spaceButton.leadingAnchor.constraint(equalTo: globeKeyboardButton.trailingAnchor, constant: 8).isActive = true
@@ -327,10 +316,111 @@ class KeyboardViewController: UIInputViewController {
         longPress.numberOfTouchesRequired = 1
         longPress.allowableMovement = 10
         backButton.addGestureRecognizer(longPress)
+    }
 
-        print("✅ viewDidLoad 완료!")
-        print("- bottomView가 추가되었습니다")
-        print("- spaceButton, backButton, returnButton이 추가되었습니다")
+    private func setupNotificationObservers() {
+        let t1 = NotificationCenter.default.addObserver(forName: NSNotification.Name("filterChanged"), object: nil, queue: nil) { [weak self] _ in
+            self?.loadMemos()
+        }
+        let t2 = NotificationCenter.default.addObserver(forName: NSNotification.Name("addTextEntry"), object: nil, queue: nil) { [weak self] notification in
+            self?.handleAddTextEntry(notification)
+        }
+        let t3 = NotificationCenter.default.addObserver(forName: NSNotification.Name("templateInputComplete"), object: nil, queue: .main) { [weak self] notification in
+            self?.handleTemplateInputComplete(notification)
+        }
+        let t4 = NotificationCenter.default.addObserver(forName: NSNotification.Name("openMainAppPaywall"), object: nil, queue: .main) { [weak self] _ in
+            self?.openMainAppPaywall()
+        }
+        notificationTokens = [t1, t2, t3, t4]
+    }
+
+    private func handleAddTextEntry(_ notification: Notification) {
+        print("🔔 addTextEntry 알림 수신")
+        guard let text = notification.object as? String,
+              let userInfo = notification.userInfo,
+              let memoId = userInfo["memoId"] as? UUID else {
+            print("❌ 텍스트 또는 메모 ID가 없습니다")
+            return
+        }
+
+        print("📝 텍스트: \(text)")
+        print("🆔 메모 ID: \(memoId)")
+
+        if handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
+
+        let customPlaceholders = extractCustomPlaceholders(from: text)
+        print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
+
+        if !customPlaceholders.isEmpty {
+            print("✅ 템플릿 입력 오버레이 표시")
+            NotificationCenter.default.post(
+                name: NSNotification.Name("showTemplateInput"),
+                object: nil,
+                userInfo: ["text": text, "placeholders": customPlaceholders, "memoId": memoId]
+            )
+        } else {
+            print("⚡ 자동 변수만 치환해서 바로 입력")
+            let processedText = processTemplateVariables(in: text)
+            print("💬 입력할 텍스트: \(processedText)")
+            textDocumentProxy.insertText(processedText)
+            trackKeyboardPaste(memoId: memoId)
+        }
+    }
+
+    /// Combo 메모인 경우 현재 인덱스 값을 입력하고 인덱스를 순환시킴
+    /// - Returns: Combo 처리를 했으면 true
+    private func handleComboMemoIfNeeded(text: String, memoId: UUID) -> Bool {
+        guard let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) else { return false }
+        var memo = clipMemos[memoIndex]
+        guard memo.isCombo && !memo.comboValues.isEmpty else { return false }
+
+        let currentValue = memo.comboValues[memo.currentComboIndex]
+        print("🔄 Combo 메모 - 현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
+        print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
+
+        textDocumentProxy.insertText(currentValue)
+        trackKeyboardPaste(memoId: memoId)
+
+        memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
+        clipMemos[memoIndex] = memo
+        print("   다음 인덱스: \(memo.currentComboIndex)")
+
+        do {
+            var allMemos = try MemoStore.shared.load(type: .memo)
+            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
+                allMemos[fileIndex].currentComboIndex = memo.currentComboIndex
+                try MemoStore.shared.save(memos: allMemos, type: .memo)
+                print("   💾 인덱스 저장 완료")
+            }
+        } catch {
+            print("   ❌ 인덱스 저장 실패: \(error)")
+        }
+
+        return true
+    }
+
+    private func handleTemplateInputComplete(_ notification: Notification) {
+        print("✅ templateInputComplete 수신")
+        guard let userInfo = notification.userInfo,
+              let text = userInfo["text"] as? String,
+              let inputs = userInfo["inputs"] as? [String: String] else { return }
+
+        let memoId = userInfo["memoId"] as? UUID
+
+        var processedText = text
+        print("   원본 텍스트: \(processedText)")
+
+        for (placeholder, value) in inputs {
+            print("   [\(placeholder)] -> [\(value)]")
+            processedText = processedText.replacingOccurrences(of: placeholder, with: value)
+        }
+
+        processedText = processTemplateVariables(in: processedText)
+        print("   최종 텍스트: \(processedText)")
+        print("📝 textDocumentProxy.insertText 호출")
+        textDocumentProxy.insertText(processedText)
+        trackKeyboardPaste(memoId: memoId)
+        print("✅ 입력 완료!")
     }
 
     @objc func spacePressed(button: UIButton) {
@@ -345,16 +435,53 @@ class KeyboardViewController: UIInputViewController {
 
     @objc private func handleLongPress(_ gestureRecognizer: UIGestureRecognizer) {
         if gestureRecognizer.state == .began {
+            deleteStartTime = Date()
             // 즉시 첫 삭제 실행
             textDocumentProxy.deleteBackward()
-            // 타이머 시작 (0.1초마다 삭제)
+            // 타이머 시작 (0.1초마다 삭제, 1초 이후에는 단어 단위로 삭제)
             deleteTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-                self?.textDocumentProxy.deleteBackward()
+                guard let self = self else { return }
+                let elapsed = Date().timeIntervalSince(self.deleteStartTime ?? Date())
+                if elapsed >= 1.0 {
+                    self.deleteWordBackward()
+                } else {
+                    self.textDocumentProxy.deleteBackward()
+                }
             }
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             // 손가락을 떼면 타이머 중지
             deleteTimer?.invalidate()
             deleteTimer = nil
+            deleteStartTime = nil
+        }
+    }
+
+    /// 커서 앞의 공백/줄바꿈과 단어 하나를 한 번에 삭제
+    private func deleteWordBackward() {
+        guard let context = textDocumentProxy.documentContextBeforeInput, !context.isEmpty else {
+            textDocumentProxy.deleteBackward()
+            return
+        }
+
+        var charsToDelete = 0
+        var sawNonWhitespace = false
+        for character in context.reversed() {
+            let isBoundary = character.isWhitespace || character.isNewline
+            if sawNonWhitespace && isBoundary {
+                break
+            }
+            if !isBoundary {
+                sawNonWhitespace = true
+            }
+            charsToDelete += 1
+        }
+
+        if charsToDelete == 0 {
+            charsToDelete = 1
+        }
+
+        for _ in 0..<charsToDelete {
+            textDocumentProxy.deleteBackward()
         }
     }
 
@@ -365,15 +492,26 @@ class KeyboardViewController: UIInputViewController {
 
     /// 키보드에서 메모 붙여넣기 시 App Group UserDefaults에 카운트 기록
     /// 메인 앱의 ReviewManager가 이 값을 동기화하여 리뷰 요청 트리거로 사용
-    private func trackKeyboardPaste() {
-        guard let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") else { return }
-        let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
-        groupDefaults.set(count, forKey: "keyboard_paste_count")
-        print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
+    /// memoId가 주어지면 해당 메모의 clipCount + lastUsedAt도 업데이트한다.
+    private func trackKeyboardPaste(memoId: UUID? = nil) {
+        if let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") {
+            let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
+            groupDefaults.set(count, forKey: "keyboard_paste_count")
+            print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
+        }
+
+        if let memoId {
+            do {
+                try MemoStore.shared.incrementClipCount(for: memoId)
+            } catch {
+                print("⚠️ [Keyboard] 사용량 업데이트 실패: \(error)")
+            }
+        }
     }
 
     deinit {
         deleteTimer?.invalidate()
+        notificationTokens.forEach { NotificationCenter.default.removeObserver($0) }
     }
     
     override func viewDidLayoutSubviews() {
@@ -414,80 +552,91 @@ class KeyboardViewController: UIInputViewController {
     
     private func loadMemos() {
         do {
-            var temp = try MemoStore.shared.load(type: .tokenMemo)
+            let allMemos = try MemoStore.shared.load(type: .memo)
+            print("📱 [KeyboardViewController.loadMemos] 메모 로드 완료 - 총 \(allMemos.count)개")
 
-            print("📱 [KeyboardViewController.loadMemos] 메모 로드 완료 - 총 \(temp.count)개")
+            let filtered = filterExcludedMemos(allMemos)
+            let userFiltered = applyUserFilter(filtered)
+            let sorted = sortMemos(userFiltered)
 
-            // 🔒 보안 메모 제외 (키보드 익스텐션에서는 Face ID 사용 불가)
-            let secureCount = temp.filter { $0.isSecure }.count
-            temp = temp.filter { !$0.isSecure }
-            if secureCount > 0 {
-                print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
-            }
-
-            // 🖼️ 이미지 메모 제외 (키보드에서는 직접 입력 불가)
-            let imageCount = temp.filter { $0.contentType == .image || $0.contentType == .mixed }.count
-            temp = temp.filter { $0.contentType == .text }
-            if imageCount > 0 {
-                print("   🖼️ 이미지 메모 \(imageCount)개 제외됨 (키보드에서는 직접 입력 불가)")
-            }
-
-            // 필터 적용
-            if let theme = selectedTheme {
-                temp = temp.filter { $0.category == theme }
-                print("   🏷️ 테마 필터 적용 (\(theme)) - \(temp.count)개")
-            } else if showOnlyTemplates {
-                temp = temp.filter { $0.isTemplate }
-                print("   🔍 템플릿 필터 적용 - \(temp.count)개")
-            } else if showOnlyFavorites {
-                temp = temp.filter { $0.isFavorite }
-                print("   ⭐ 즐겨찾기 필터 적용 - \(temp.count)개")
-            }
-
-            temp = sortMemos(temp)
-            clipKey = []
-            clipValue = []
-            clipMemoId = []
-            clipMemos = []
-
-            print("\n📋 [KeyboardViewController] 불러온 메모 상세 정보:")
-            for (index, item) in temp.enumerated() {
-                print("   [\(index)] =====================================")
-                print("       ID: \(item.id)")
-                print("       제목: \(item.title)")
-                print("       값: \(item.value)")
-                print("       카테고리: \(item.category)")
-                print("       즐겨찾기: \(item.isFavorite)")
-                print("       템플릿: \(item.isTemplate)")
-                print("       보안: \(item.isSecure)")
-                print("       수정일: \(item.lastEdited)")
-                print("       사용횟수: \(item.clipCount)")
-                print("       템플릿 변수: \(item.templateVariables)")
-                print("       📦 플레이스홀더 값:")
-                if item.placeholderValues.isEmpty {
-                    print("           (비어있음)")
-                } else {
-                    for (placeholder, values) in item.placeholderValues {
-                        print("           \(placeholder): \(values)")
-                    }
-                }
-                print("   ========================================\n")
-
-                clipKey.append(item.title)
-                clipValue.append(item.value)
-                clipMemoId.append(item.id)
-                clipMemos.append(item)
-            }
-
-            print("✅ [KeyboardViewController] clipMemos 배열에 \(clipMemos.count)개 저장 완료\n")
-
-            var tempDic: [String:String] = [:]
-            for item in temp {
-                tempDic[item.title] = item.value
-                tokenMemoData[item.title] = item.value
-            }
+            populateKeyboardData(sorted)
+            buildMemoData(sorted)
         } catch {
             print("❌ Error loading memos: \(error.localizedDescription)")
+        }
+    }
+
+    /// 키보드에서 사용 불가한 메모(보안) 제외
+    private func filterExcludedMemos(_ memos: [Memo]) -> [Memo] {
+        var result = memos
+        let secureCount = result.filter { $0.isSecure }.count
+        result = result.filter { !$0.isSecure }
+        if secureCount > 0 {
+            print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
+        }
+        return result
+    }
+
+    /// 사용자 선택 필터(테마/템플릿/즐겨찾기) 적용
+    private func applyUserFilter(_ memos: [Memo]) -> [Memo] {
+        if let theme = selectedTheme {
+            let result = memos.filter { $0.category == theme }
+            print("   🏷️ 테마 필터 적용 (\(theme)) - \(result.count)개")
+            return result
+        } else if showOnlyTemplates {
+            let result = memos.filter { $0.isTemplate }
+            print("   🔍 템플릿 필터 적용 - \(result.count)개")
+            return result
+        } else if showOnlyFavorites {
+            let result = memos.filter { $0.isFavorite }
+            print("   ⭐ 즐겨찾기 필터 적용 - \(result.count)개")
+            return result
+        }
+        return memos
+    }
+
+    /// clipKey/clipValue/clipMemoId/clipMemos 배열 채우기
+    private func populateKeyboardData(_ memos: [Memo]) {
+        clipKey = []
+        clipValue = []
+        clipMemoId = []
+        clipMemos = []
+
+        print("\n📋 [KeyboardViewController] 불러온 메모 상세 정보:")
+        for (index, item) in memos.enumerated() {
+            print("   [\(index)] =====================================")
+            print("       ID: \(item.id)")
+            print("       제목: \(item.title)")
+            print("       값: \(item.value)")
+            print("       카테고리: \(item.category)")
+            print("       즐겨찾기: \(item.isFavorite)")
+            print("       템플릿: \(item.isTemplate)")
+            print("       보안: \(item.isSecure)")
+            print("       수정일: \(item.lastEdited)")
+            print("       사용횟수: \(item.clipCount)")
+            print("       템플릿 변수: \(item.templateVariables)")
+            print("       📦 플레이스홀더 값:")
+            if item.placeholderValues.isEmpty {
+                print("           (비어있음)")
+            } else {
+                for (placeholder, values) in item.placeholderValues {
+                    print("           \(placeholder): \(values)")
+                }
+            }
+            print("   ========================================\n")
+
+            clipKey.append(item.title)
+            clipValue.append(item.value)
+            clipMemoId.append(item.id)
+            clipMemos.append(item)
+        }
+        print("✅ [KeyboardViewController] clipMemos 배열에 \(clipMemos.count)개 저장 완료\n")
+    }
+
+    /// memoData 딕셔너리 채우기
+    private func buildMemoData(_ memos: [Memo]) {
+        for item in memos {
+            memoData[item.title] = item.value
         }
     }
 
@@ -503,7 +652,6 @@ class KeyboardViewController: UIInputViewController {
 
     // 템플릿 관련 함수들
     private func extractCustomPlaceholders(from text: String) -> [String] {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
 
@@ -513,7 +661,7 @@ class KeyboardViewController: UIInputViewController {
         for match in matches {
             if let range = Range(match.range, in: text) {
                 let placeholder = String(text[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
+                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
                     placeholders.append(placeholder)
                 }
             }
@@ -523,20 +671,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        var result = text
-        let dateFormatter = DateFormatter()
-
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: dateFormatter.string(from: Date()))
-
-        dateFormatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: dateFormatter.string(from: Date()))
-
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        TemplateVariableProcessor.process(text)
     }
 
 }
@@ -582,7 +717,8 @@ extension KeyboardViewController: TextInput {
 
 extension String {
     func textSize() -> CGFloat {
-        return self.size(withAttributes: [NSAttributedString.Key.font: UIFont(name: "Helvetica", size: 15)]).width
+        let font: UIFont = UIFont(name: "Helvetica", size: 15) ?? .systemFont(ofSize: 15)
+        return self.size(withAttributes: [NSAttributedString.Key.font: font]).width
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  SharedModels.swift
-//  Token Memo - Shared Models
+//  ClipKeyboard - Shared Models
 //
 //  Created by Claude Code on 2026-01-16.
 //  iOS와 macOS가 공유하는 핵심 데이터 모델
@@ -123,7 +123,7 @@ enum ComboItemType: String, Codable {
 
 /// 메모 타입
 enum MemoType {
-    case tokenMemo
+    case memo
     case clipboardHistory
 }
 

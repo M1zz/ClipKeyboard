@@ -1,6 +1,6 @@
 //
 //  MemoRowView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Leeo on 12/11/25.
 //
@@ -8,74 +8,115 @@
 import SwiftUI
 
 // Separate view for memo row to reduce complexity
+// v4.3 Redesign: design-handoff 기반 CatIcon + 인라인 Template/Combo 배지 +
+// 새 프리뷰 라인. 기존 business 로직(resolvedType 등)은 그대로 유지.
 struct MemoRowView: View {
     let memo: Memo
     let fontSize: CGFloat
     var showFavoriteNudge: Bool = false
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            // 카테고리 아이콘
-            categoryIcon
-                .font(.system(size: 20))
-                .foregroundColor(categoryColor)
-                .frame(width: 32, height: 32)
-                .background(categoryColor.opacity(0.15))
-                .cornerRadius(8)
+            leadingIcon
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(memo.title)
-                    .font(.system(size: fontSize))
-
+            VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                if memo.isSecure {
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
+                    Text(memo.title)
+                        .font(theme.bodyFont(size: 15, weight: .semibold))
+                        .foregroundColor(theme.text)
+                        .lineLimit(1)
+                    if memo.isTemplate {
+                        TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
+                    }
+                    if memo.isCombo {
+                        TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
+                    }
+                    if memo.isSecure {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 10))
+                            .foregroundColor(theme.textFaint)
+                    }
                 }
 
-                if memo.isTemplate {
-                    Image(systemName: "curlybraces")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                }
-
-                if memo.isCombo {
-                    Image(systemName: "repeat")
-                        .font(.system(size: 9))
-                        .foregroundColor(.secondary)
-                }
-                }
-            }
-
-            // 이미지 썸네일 (이미지 메모인 경우)
-            if (memo.contentType == .image || memo.contentType == .mixed),
-               let firstImageFileName = memo.imageFileNames.first {
-                #if os(iOS)
-                if let thumbnailImage = MemoStore.shared.loadImage(fileName: firstImageFileName) {
-                    Image(uiImage: thumbnailImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
+                if !previewText.isEmpty {
+                    Text(previewText)
+                        .font(theme.bodyFont(size: 13))
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .accessibilityLabel(
+                            MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
                         )
                 }
-                #endif
+
+                HStack(spacing: 8) {
+                    if let relative = relativeTimeLabel {
+                        Text(relative)
+                            .font(.system(size: 11))
+                            .foregroundColor(theme.textFaint)
+                    }
+                    if let usage = usageBadgeText {
+                        Text(usage)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(usageBadgeColor)
+                    }
+                }
+                .padding(.top, 1)
+            }
+
+            Spacer()
+
+            // 즐겨찾기 하트 표시
+            if memo.isFavorite {
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(.pink)
             }
 
             if showFavoriteNudge {
-                Spacer()
                 FavoriteNudgeHeart()
             }
         }
     }
 
+    /// 좌측 아이콘. 이미지 메모면 실제 이미지 썸네일을, 아니면 카테고리 CatIcon을 보여준다.
+    @ViewBuilder
+    private var leadingIcon: some View {
+        #if os(iOS)
+        if (memo.contentType == .image || memo.contentType == .mixed),
+           let firstImageFileName = memo.imageFileNames.first,
+           let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 40, height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(theme.divider, lineWidth: 0.5)
+                )
+        } else {
+            CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
+        }
+        #else
+        CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
+        #endif
+    }
+
+    /// 현재 메모에 적용할 타입 결정.
+    /// ClipboardClassificationService의 메모이즈된 resolver를 사용한다.
+    /// - 명시 카테고리 매칭 → autoDetectedType → contentType(이미지) → 콘텐츠 기반 자동분류
+    /// - 결과는 in-memory 캐시되며 memo.value가 바뀔 때만 재계산된다.
+    private var resolvedType: ClipboardItemType? {
+        ClipboardClassificationService.shared.resolvedType(for: memo)
+    }
+
     /// 카테고리 아이콘
     private var categoryIcon: Image {
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
+        if let type = resolvedType {
             return Image(systemName: type.icon)
         }
         return Image(systemName: "doc.text")
@@ -83,8 +124,8 @@ struct MemoRowView: View {
 
     /// 카테고리 색상
     private var categoryColor: Color {
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
-            return colorFor(type.color)
+        if let type = resolvedType {
+            return Color.fromName(type.color)
         }
         return .gray
     }
@@ -99,24 +140,42 @@ struct MemoRowView: View {
         return NSLocalizedString(category, comment: "Category name")
     }
 
-    /// 색상 이름을 Color로 변환
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        case "yellow": return .yellow
-        default: return .gray
-        }
+    // MARK: - Time / Usage Signals
+
+    /// "3분 전" 같은 상대 시간 라벨. lastUsedAt 우선, 없으면 lastEdited 폴백.
+    private var relativeTimeLabel: String? {
+        let reference = memo.lastUsedAt ?? memo.lastEdited
+        let interval = Date().timeIntervalSince(reference)
+        guard interval >= 0 else { return nil }
+        // 30일 이상 지나면 노이즈가 돼서 숨김.
+        if interval > 60 * 60 * 24 * 30 { return nil }
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .short
+        return formatter.localizedString(for: reference, relativeTo: Date())
     }
+
+    /// 사용 빈도 배지 텍스트. 오늘 쓴 경우 진하게, 이번 주 쓴 경우는 희미하게.
+    private var usageBadgeText: String? {
+        guard memo.clipCount > 0, let lastUsed = memo.lastUsedAt else { return nil }
+        let calendar = Calendar.current
+        if calendar.isDateInToday(lastUsed) && memo.clipCount >= 2 {
+            let format = NSLocalizedString("Used %d× today", comment: "Usage badge: used N times today")
+            return String(format: format, memo.clipCount)
+        }
+        let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
+        if lastUsed >= weekAgo && memo.clipCount >= 3 {
+            let format = NSLocalizedString("%d× this week", comment: "Usage badge: used N times this week")
+            return String(format: format, memo.clipCount)
+        }
+        return nil
+    }
+
+    /// 오늘 자주 쓴 것은 진한 초록, 그 외는 흐린 회색.
+    private var usageBadgeColor: Color {
+        guard let lastUsed = memo.lastUsedAt else { return .secondary }
+        return Calendar.current.isDateInToday(lastUsed) ? .green : .secondary
+    }
+
 }
 
 // MARK: - Favorite Nudge Heart Animation

@@ -1,6 +1,6 @@
-# 📐 Clip Keyboard Design Guide
+# 📐 ClipKeyboard Design Guide
 
-> 클립 키보드 디자인 시스템 최종본
+> 클립키보드 디자인 시스템 최종본
 > Version: 1.0
 > Last Updated: 2025-02-01
 

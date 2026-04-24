@@ -17,44 +17,52 @@ struct ClipKeyboard_macApp: App {
         }
         .commands {
             // 클립키보드 전용 메뉴
-            CommandMenu("클립키보드") {
-                Button("메모 목록") {
+            // v4.2: 모든 단축키를 ⌃⇧ (Control+Shift) + 영문자 3-key 조합으로
+            // 통일. Mac에서 Control+Shift 계열은 거의 표준 바인딩이 없어
+            // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
+            CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
+                Button(NSLocalizedString("Quick Paste Panel", comment: "Menu: floating panel")) {
+                    MemoFloatingPanelController.shared.toggle()
+                }
+                .keyboardShortcut("v", modifiers: [.control, .shift])
+
+                Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
-                .keyboardShortcut("k", modifiers: [.control, .option])
+                .keyboardShortcut("m", modifiers: [.control, .shift])
 
-                Button("새 메모") {
+                Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
                     NotificationCenter.default.post(name: .showNewMemo, object: nil)
                 }
-                .keyboardShortcut("n", modifiers: [.control, .option])
+                .keyboardShortcut("n", modifiers: [.control, .shift])
 
                 Divider()
 
-                Button("클립보드 히스토리") {
+                Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
                     NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
                 }
-                .keyboardShortcut("h", modifiers: [.control, .option])
+                .keyboardShortcut("h", modifiers: [.control, .shift])
 
                 Divider()
 
-                Button("iCloud 백업") {
+                Button(NSLocalizedString("iCloud Backup", comment: "Menu: iCloud backup")) {
                     NotificationCenter.default.post(name: .showCloudBackup, object: nil)
                 }
-                .keyboardShortcut("b", modifiers: [.control, .option])
+                .keyboardShortcut("b", modifiers: [.control, .shift])
 
-                Button("설정") {
+                Button(NSLocalizedString("Preferences…", comment: "Menu: preferences")) {
                     NotificationCenter.default.post(name: .showSettings, object: nil)
                 }
                 .keyboardShortcut(",", modifiers: [.command])
             }
 
             CommandGroup(replacing: .help) {
-                Button("온보딩 다시 보기") {
+                Button(NSLocalizedString("Show Onboarding", comment: "Menu: show onboarding")) {
                     WindowManager.shared.openOnboardingWindow()
                 }
 
-                Button("도움말") {
-                    if let url = URL(string: "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4?pvs=4") {
+                Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
+                    if let url = URL(string: "https://m1zz.github.io/ClipKeyboard/tutorial.html") {
                         NSWorkspace.shared.open(url)
                     }
                 }

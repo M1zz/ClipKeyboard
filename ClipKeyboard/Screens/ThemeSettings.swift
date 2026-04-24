@@ -1,6 +1,6 @@
 //
 //  ThemeSettings.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code
 //

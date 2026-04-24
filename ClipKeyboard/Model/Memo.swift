@@ -1,6 +1,6 @@
 //
 //  Memo.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 2023/05/15.
 //
@@ -37,6 +37,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case employeeID = "사번/학번"
     case image = "이미지"
     case text = "텍스트"
+    // v4.0 글로벌 피봇 추가 — 영어 rawValue (신규 국제 결제/세무/크립토 식별자)
+    case iban = "IBAN"
+    case swift = "SWIFT/BIC"
+    case vat = "VAT Number"
+    case cryptoWallet = "Crypto Wallet"
+    case paypalLink = "PayPal Link"
 
     var icon: String {
         switch self {
@@ -62,6 +68,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "person.badge.key.fill"
         case .image: return "photo.fill"
         case .text: return "doc.text"
+        case .iban: return "building.columns.fill"
+        case .swift: return "globe"
+        case .vat: return "doc.badge.gearshape"
+        case .cryptoWallet: return "bitcoinsign.circle.fill"
+        case .paypalLink: return "dollarsign.circle.fill"
         }
     }
 
@@ -89,6 +100,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "cyan"
         case .image: return "pink"
         case .text: return "gray"
+        case .iban: return "blue"
+        case .swift: return "indigo"
+        case .vat: return "orange"
+        case .cryptoWallet: return "yellow"
+        case .paypalLink: return "blue"
         }
     }
 
@@ -121,6 +137,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         _ = NSLocalizedString("사번/학번", comment: "Employee/Student ID")
         _ = NSLocalizedString("이미지", comment: "Image")
         _ = NSLocalizedString("텍스트", comment: "Text")
+        // v4.0 글로벌 피봇
+        _ = NSLocalizedString("IBAN", comment: "IBAN (International Bank Account Number)")
+        _ = NSLocalizedString("SWIFT/BIC", comment: "SWIFT/BIC bank code")
+        _ = NSLocalizedString("VAT Number", comment: "VAT identification number")
+        _ = NSLocalizedString("Crypto Wallet", comment: "Cryptocurrency wallet address")
+        _ = NSLocalizedString("PayPal Link", comment: "PayPal.me link")
     }
 }
 
@@ -221,6 +243,9 @@ struct Memo: Identifiable, Codable {
     var lastEdited: Date = Date()
     var isFavorite: Bool = false
     var clipCount: Int = 0
+    /// 마지막 "사용" 시점. 편집과 구분하여 히어로 카드/최근 섹션/상대시간 라벨 등에 사용된다.
+    /// Optional로 선언해 기존 memos.data와 하위 호환을 유지한다 (없으면 lastEdited 폴백).
+    var lastUsedAt: Date?
 
     // New features
     var category: String = "기본"
@@ -244,7 +269,7 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -263,6 +288,7 @@ struct Memo: Identifiable, Codable {
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
         self.contentType = contentType
+        self.lastUsedAt = lastUsedAt
     }
     
     init(from oldMemo: OldMemo) {
@@ -294,6 +320,7 @@ struct Memo: Identifiable, Codable {
         case imageFileName
         case imageFileNames
         case contentType
+        case lastUsedAt
     }
     
     static var dummyData: [Memo] = [

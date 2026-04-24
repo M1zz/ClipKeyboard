@@ -12,67 +12,130 @@ import Foundation
 /// - 제한 도달 여부 체크
 /// - Pro 기능 게이팅
 struct ProFeatureManager {
-    
-    // MARK: - 무료 제한 설정
-    // 이 값들을 조정해서 무료/Pro 경계를 설정
-    
+
+    // MARK: - 무료 제한 설정 (v4.0)
+    // v3.x: 메모 10, 콤보 2 → v4.0: 메모 5, 콤보 1
+    // 기존 유저는 `isGrandfathered`로 새 제한 우회 (P0 참조)
+
     /// 무료 메모 최대 개수
-    static let freeMemoLimit = 10
-    
+    static let freeMemoLimit = 5
+
     /// 무료 콤보 최대 개수
-    static let freeComboLimit = 2
-    
+    static let freeComboLimit = 1
+
     /// 무료 클립보드 히스토리 최대 개수
     static let freeClipboardHistoryLimit = 20
-    
+
     /// 무료 템플릿 최대 개수
     static let freeTemplateLimit = 3
-    
+
+    // MARK: - App Group UserDefaults 키 (키보드 익스텐션과 공유)
+
+    static let appGroupSuite = "group.com.Ysoup.TokenMemo"
+    static let proStatusKey = "clipkeyboard_is_pro"
+    /// v4.0 업그레이드 시점에 v3.x Pro 구매 이력이 확인되면 영구 true.
+    static let grandfatheredPurchaseKey = "clipkeyboard_was_pro_at_v3"
+    /// v4.0 업그레이드 시점에 메모를 1개 이상 가진 기존 유저를 표시. 키보드 익스텐션 등의
+    /// 기존 가용 기능은 유지하고, 신규 추가만 새 제한을 적용한다.
+    static let existingFreeUserKey = "clipkeyboard_existing_free_user"
+    /// v4.0 업그레이드 시 메모 보유량이 새 한도를 초과해 grace 상태가 된 유저.
+    static let graceMemoQuotaKey = "clipkeyboard_v4_grace_memos"
+    /// v4.0 grace 배너를 이미 닫은 유저.
+    static let graceBannerDismissedKey = "clipkeyboard_v4_grace_banner_dismissed"
+
     // MARK: - Pro 전용 기능 플래그
-    
+
     /// iCloud 백업 사용 가능 여부
     static var isCloudBackupAvailable: Bool { isPro }
-    
+
     /// 생체인증 잠금 사용 가능 여부
     static var isBiometricLockAvailable: Bool { isPro }
-    
+
     /// 테마 커스터마이징 사용 가능 여부
     static var isThemeCustomizationAvailable: Bool { isPro }
-    
+
     /// 이미지 메모 사용 가능 여부
     static var isImageMemoAvailable: Bool { isPro }
-    
-    // MARK: - 상태 체크
-    
-    /// Pro 여부 (StoreManager에서 가져옴)
-    static var isPro: Bool {
-        // App Group UserDefaults에서 캐시 값 읽기 (동기적)
-        return UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: "clipkeyboard_is_pro") ?? false
+
+    /// 키보드 익스텐션은 모든 유저에게 무료 개방.
+    /// 무료 유저는 freeMemoLimit 개수만큼만 표시됨.
+    static var isKeyboardExtensionAvailable: Bool { true }
+
+    /// 키보드에서 표시할 메모 최대 개수.
+    static var keyboardMemoDisplayLimit: Int {
+        (isPro || isGrandfathered) ? Int.max : freeMemoLimit
     }
-    
+
+    // MARK: - 상태 체크
+
+    private static var groupDefaults: UserDefaults? {
+        UserDefaults(suiteName: appGroupSuite)
+    }
+
+    /// TestFlight 빌드 여부 (샌드박스 영수증 감지)
+    static var isTestFlight: Bool {
+        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+    }
+
+    /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)
+    static var isPro: Bool {
+        if isTestFlight { return true }
+        return groupDefaults?.bool(forKey: proStatusKey) ?? false
+    }
+
+    /// v3.x에서 Pro 구매 이력이 있는 유저 여부. v4.0 첫 실행 시 영수증 검증으로 설정되며, 이후 영구 유지.
+    static var hasGrandfatheredPurchase: Bool {
+        groupDefaults?.bool(forKey: grandfatheredPurchaseKey) ?? false
+    }
+
+    /// v3.x 기존 무료 유저 여부 (메모 하나라도 저장했던 유저). 키보드 익스텐션 기본 접근 보장용.
+    static var wasExistingFreeUser: Bool {
+        groupDefaults?.bool(forKey: existingFreeUserKey) ?? false
+    }
+
+    /// 업그레이드 그랜드파더 상태 (Pro 구매자 or 기존 유저)를 통합적으로 판단.
+    /// 신규 제한을 적용하지 않아야 하는 경우 true.
+    static var isGrandfathered: Bool {
+        hasGrandfatheredPurchase || wasExistingFreeUser
+    }
+
+    /// v4.0 업그레이드 당시 메모가 새 한도를 초과했던 유저.
+    static var hasGraceMemoQuota: Bool {
+        groupDefaults?.bool(forKey: graceMemoQuotaKey) ?? false
+    }
+
+    /// grace 배너 노출이 이미 닫혔는지.
+    static var didDismissGraceBanner: Bool {
+        groupDefaults?.bool(forKey: graceBannerDismissedKey) ?? false
+    }
+
+    static func markGraceBannerDismissed() {
+        groupDefaults?.set(true, forKey: graceBannerDismissedKey)
+    }
+
     // MARK: - 제한 체크
-    
+
     /// 메모 추가 가능 여부
     static func canAddMemo(currentCount: Int) -> Bool {
-        if isPro { return true }
+        if isPro || isGrandfathered { return true }
         return currentCount < freeMemoLimit
     }
-    
+
     /// 콤보 추가 가능 여부
     static func canAddCombo(currentCount: Int) -> Bool {
-        if isPro { return true }
+        if isPro || isGrandfathered { return true }
         return currentCount < freeComboLimit
     }
-    
+
     /// 템플릿 추가 가능 여부
     static func canAddTemplate(currentCount: Int) -> Bool {
-        if isPro { return true }
+        if isPro || isGrandfathered { return true }
         return currentCount < freeTemplateLimit
     }
-    
+
     /// 클립보드 히스토리 제한
     static func clipboardHistoryLimit() -> Int {
-        return isPro ? 100 : freeClipboardHistoryLimit
+        return (isPro || isGrandfathered) ? 100 : freeClipboardHistoryLimit
     }
     
     // MARK: - 제한 도달 정보

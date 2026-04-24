@@ -1,6 +1,6 @@
 //
 //  ClipboardList.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 2023/06/03.
 //  Enhanced with Smart Classification by Claude Code
@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct ClipboardList: View {
+
+    @Environment(\.appTheme) private var theme
 
     @State private var clipboardHistory: [SmartClipboardHistory] = []
     @State private var selectedFilter: ClipboardItemType? = nil
@@ -83,14 +85,18 @@ struct ClipboardList: View {
                                     )
                                 }
                                 .id(item.id)
+                                .listRowBackground(Color.clear)
+                                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                                .listRowSeparator(.hidden)
                             }
                             .onDelete(perform: isSelectingForCombo ? nil : deleteItems)
                         }
                     }
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(theme.bg)
                     .onChange(of: recentlyAddedId) { newId in
                         if let id = newId {
-                            // 부드럽게 스크롤
                             withAnimation(.easeInOut(duration: 0.5)) {
                                 proxy.scrollTo(id, anchor: .top)
                             }
@@ -230,58 +236,44 @@ struct ClipboardList: View {
     // MARK: - Actions
 
     private func checkAndAddCurrentClipboard() {
-        // 중복 체크 방지
         guard !isCheckingClipboard else { return }
         isCheckingClipboard = true
+        defer { isCheckingClipboard = false }
 
-        // 현재 클립보드 내용 가져오기
         guard let currentClipboard = UIPasteboard.general.string,
-              !currentClipboard.isEmpty else {
-            isCheckingClipboard = false
-            return
-        }
+              !currentClipboard.isEmpty else { return }
 
-        // 이미 히스토리에 있는지 확인
         do {
             let history = try MemoStore.shared.loadSmartClipboardHistory()
+            guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
 
-            // 가장 최근 항목과 같으면 무시 (중복 방지)
-            if let latestItem = history.first,
-               latestItem.content == currentClipboard {
-                print("ℹ️ [ClipboardList] 이미 최근 항목에 존재: \(currentClipboard.prefix(30))...")
-                isCheckingClipboard = false
-                return
-            }
-
-            // 히스토리에 없으면 자동으로 추가 (자동 분류 포함!)
             try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
             print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
-
-            // 즉시 UI에 반영
             loadHistory()
 
-            // 방금 추가된 항목 찾기
             let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
             if let newItem = updatedHistory.first {
-                recentlyAddedId = newItem.id
-
-                // 피드백 표시
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    showToast(message: String(format: NSLocalizedString("📋 새로운 %@ 항목이 추가되었습니다", comment: ""), newItem.detectedType.localizedName))
-                }
-
-                // 3초 후 하이라이트 해제
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    withAnimation {
-                        recentlyAddedId = nil
-                    }
-                }
+                highlightNewlyAdded(newItem)
             }
         } catch {
             print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
         }
+    }
 
-        isCheckingClipboard = false
+    private func isAlreadyLatestItem(_ content: String, in history: [SmartClipboardHistory]) -> Bool {
+        guard let latest = history.first, latest.content == content else { return false }
+        print("ℹ️ [ClipboardList] 이미 최근 항목에 존재: \(content.prefix(30))...")
+        return true
+    }
+
+    private func highlightNewlyAdded(_ item: SmartClipboardHistory) {
+        recentlyAddedId = item.id
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            showToast(message: String(format: NSLocalizedString("📋 새로운 %@ 항목이 추가되었습니다", comment: ""), item.detectedType.localizedName))
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            withAnimation { recentlyAddedId = nil }
+        }
     }
 
     private func copyToPasteboard(_ item: SmartClipboardHistory) {
@@ -404,6 +396,7 @@ struct ClipboardList: View {
 struct TypeFilterBar: View {
     @Binding var selectedFilter: ClipboardItemType?
     let history: [SmartClipboardHistory]
+    @Environment(\.appTheme) private var theme
 
     var typeCounts: [ClipboardItemType: Int] {
         Dictionary(grouping: history, by: { $0.detectedType })
@@ -439,7 +432,7 @@ struct TypeFilterBar: View {
             .padding(.horizontal)
             .padding(.vertical, 8)
         }
-        .background(Color(.systemGray6))
+        .background(theme.bg)
     }
 }
 
@@ -450,6 +443,7 @@ struct FilterChip: View {
     var color: String = "blue"
     let isSelected: Bool
     let action: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button(action: action) {
@@ -468,26 +462,9 @@ struct FilterChip: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
-            .background(isSelected ? colorFor(color) : Color.gray.opacity(0.2))
+            .background(isSelected ? Color.fromName(color) : Color.gray.opacity(0.2))
             .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(20)
-        }
-    }
-
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
         }
     }
 }
@@ -500,6 +477,7 @@ struct ClipboardItemRow: View {
     let onTap: () -> Void
     let onSave: () -> Void
     let onTypeChange: (ClipboardItemType) -> Void
+    @Environment(\.appTheme) private var theme
 
     var displayType: ClipboardItemType {
         item.userCorrectedType ?? item.detectedType
@@ -512,7 +490,7 @@ struct ClipboardItemRow: View {
                     // 타입 아이콘
                     Image(systemName: displayType.icon)
                         .font(.title3)
-                        .foregroundColor(colorFor(displayType.color))
+                        .foregroundColor(Color.fromName(displayType.color))
                         .frame(width: 24)
                         // 하이라이트 시 스케일 애니메이션
                         .scaleEffect(isHighlighted ? 1.2 : 1.0)
@@ -541,13 +519,13 @@ struct ClipboardItemRow: View {
                             }
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(colorFor(displayType.color).opacity(0.2))
+                            .background(Color.fromName(displayType.color).opacity(0.2))
                             .cornerRadius(4)
 
                             // 시간
                             Text(formatDate(item.copiedAt))
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textFaint)
 
                             Spacer()
 
@@ -564,17 +542,22 @@ struct ClipboardItemRow: View {
                     }
                 }
             }
-            .padding(.vertical, 4)
+            .padding(12)
         }
         .buttonStyle(.plain)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(isHighlighted ? colorFor(displayType.color).opacity(0.15) : Color.clear)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .fill(theme.surface)
+                .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .fill(isHighlighted ? Color.fromName(displayType.color).opacity(0.1) : Color.clear)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(isHighlighted ? colorFor(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .stroke(isHighlighted ? Color.fromName(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
         .swipeActions(edge: .leading) {
@@ -607,22 +590,6 @@ struct ClipboardItemRow: View {
         return formatter.string(from: date)
     }
 
-    private func colorFor(_ name: String) -> Color {
-        switch name {
-        case "blue": return .blue
-        case "green": return .green
-        case "purple": return .purple
-        case "orange": return .orange
-        case "red": return .red
-        case "indigo": return .indigo
-        case "brown": return .brown
-        case "cyan": return .cyan
-        case "teal": return .teal
-        case "pink": return .pink
-        case "mint": return .mint
-        default: return .gray
-        }
-    }
 }
 
 // MARK: - Save to Memo Sheet
@@ -631,6 +598,7 @@ struct SaveToMemoSheet: View {
     let item: SmartClipboardHistory
     let onComplete: (Bool) -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var title: String
     @State private var category: String = "기본"
     @State private var isSecure: Bool = false
@@ -670,7 +638,7 @@ struct SaveToMemoSheet: View {
                 Section("내용") {
                     Text(item.content)
                         .font(.system(size: 14))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Section("자동 분류 정보") {
@@ -707,7 +675,7 @@ struct SaveToMemoSheet: View {
 
     private func saveToMemo() {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             let newMemo = Memo(
                 title: title,
                 value: item.content,
@@ -717,7 +685,7 @@ struct SaveToMemoSheet: View {
                 autoDetectedType: item.detectedType
             )
             memos.append(newMemo)
-            try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
             onComplete(true)
         } catch {
             print("Error saving to memo: \(error)")
@@ -733,6 +701,7 @@ struct CreateComboSheet: View {
     let onCreate: (String, TimeInterval) -> Void
     let onCancel: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @State private var title: String = ""
     @State private var interval: TimeInterval = 2.0
 
@@ -753,7 +722,7 @@ struct CreateComboSheet: View {
                 Section {
                     Label(String(format: NSLocalizedString("%d개 항목이 순서대로 실행됩니다", comment: ""), itemCount), systemImage: "info.circle")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
             }
             .navigationTitle("Combo 생성")

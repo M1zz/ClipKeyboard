@@ -1,6 +1,6 @@
 //
 //  ComboExecutionService.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code on 2025-12-06.
 //  Phase 2: Combo Execution Service
@@ -187,28 +187,7 @@ class ComboExecutionService: ObservableObject {
     /// - Parameter text: 치환할 텍스트
     /// - Returns: 치환된 텍스트
     private func processTemplateVariables(in text: String) -> String {
-        var result = text
-
-        let formatter = DateFormatter()
-
-        // {날짜} → yyyy-MM-dd
-        formatter.dateFormat = "yyyy-MM-dd"
-        result = result.replacingOccurrences(of: "{날짜}", with: formatter.string(from: Date()))
-
-        // {시간} → HH:mm:ss
-        formatter.dateFormat = "HH:mm:ss"
-        result = result.replacingOccurrences(of: "{시간}", with: formatter.string(from: Date()))
-
-        // {연도} → yyyy
-        result = result.replacingOccurrences(of: "{연도}", with: String(Calendar.current.component(.year, from: Date())))
-
-        // {월} → M
-        result = result.replacingOccurrences(of: "{월}", with: String(Calendar.current.component(.month, from: Date())))
-
-        // {일} → d
-        result = result.replacingOccurrences(of: "{일}", with: String(Calendar.current.component(.day, from: Date())))
-
-        return result
+        TemplateVariableProcessor.process(text)
     }
 
     /// 진행률 계산

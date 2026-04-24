@@ -1,6 +1,6 @@
 //
 //  NotificationExtension.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -12,4 +12,5 @@ extension Notification.Name {
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showSettings = Notification.Name("showSettings")
     static let showMemoList = Notification.Name("showMemoList")
+    static let showPaywall = Notification.Name("showPaywall")
 }

@@ -9,10 +9,8 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct widgetBundle: WidgetBundle {
+struct ClipKeyboardWidgetBundle: WidgetBundle {
     var body: some Widget {
-        widget()
-        widgetControl()
-        widgetLiveActivity()
+        FavoriteMemoWidget()
     }
 }

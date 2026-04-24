@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 10/10/23.
 //
@@ -105,5 +105,5 @@ struct Constants {
     static let developerEmail = "clipkeyboard@gmail.com"
 
     /// 튜토리얼 URL
-    static let tutorialURL = "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4"
+    static let tutorialURL = "https://m1zz.github.io/ClipKeyboard/tutorial.html"
 }

@@ -1,6 +1,6 @@
 //
 //  Models.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -54,6 +54,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case employeeID = "사번/학번"
     case image = "이미지"
     case text = "텍스트"
+    // v4.0 글로벌 피봇 (iOS와 동기화)
+    case iban = "IBAN"
+    case swift = "SWIFT/BIC"
+    case vat = "VAT Number"
+    case cryptoWallet = "Crypto Wallet"
+    case paypalLink = "PayPal Link"
 
     var icon: String {
         switch self {
@@ -79,6 +85,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "person.badge.key.fill"
         case .image: return "photo.fill"
         case .text: return "doc.text"
+        case .iban: return "building.columns.fill"
+        case .swift: return "globe"
+        case .vat: return "doc.badge.gearshape"
+        case .cryptoWallet: return "bitcoinsign.circle.fill"
+        case .paypalLink: return "dollarsign.circle.fill"
         }
     }
 
@@ -106,6 +117,11 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         case .employeeID: return "cyan"
         case .image: return "pink"
         case .text: return "gray"
+        case .iban: return "blue"
+        case .swift: return "indigo"
+        case .vat: return "orange"
+        case .cryptoWallet: return "yellow"
+        case .paypalLink: return "blue"
         }
     }
 
@@ -144,6 +160,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
 enum ClipboardContentType: String, Codable {
     case text
     case image
+    case emoji
     case mixed // 텍스트 + 이미지
 }
 
@@ -165,6 +182,13 @@ struct Memo: Identifiable, Codable {
 
     // 템플릿의 플레이스홀더 값들 저장 (예: {이름}: [유미, 주디, 리이오])
     var placeholderValues: [String: [String]] = [:]
+
+    // iOS 필드 (round-trip 손실 방지용)
+    var lastUsedAt: Date?
+    var isCombo: Bool = false
+    var comboValues: [String] = []
+    var currentComboIndex: Int = 0
+    var autoDetectedType: ClipboardItemType?
 
     // 이미지 지원
     var imageFileName: String? // 이미지 파일명 (있는 경우) - 하위 호환성 유지
@@ -190,27 +214,16 @@ struct Memo: Identifiable, Codable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case value
-        case isChecked
-        case lastEdited = "lastEdited"
-        case isFavorite = "isFavorite"
-        case clipCount
-        case category
-        case isSecure
-        case isTemplate
-        case templateVariables
-        case shortcut
-        case placeholderValues
-        case imageFileName
-        case imageFileNames
-        case contentType
+        case id, title, value, isChecked
+        case lastEdited, isFavorite, clipCount
+        case category, isSecure, isTemplate, templateVariables, shortcut, placeholderValues
+        case lastUsedAt, isCombo, comboValues, currentComboIndex, autoDetectedType
+        case imageFileName, imageFileNames, contentType
     }
 }
 
 enum MemoType {
-    case tokenMemo
+    case memo
     case clipboardHistory
 }
 
@@ -342,7 +355,7 @@ class MemoStore: ObservableObject {
 
         let fileURL: URL
         switch type {
-        case .tokenMemo:
+        case .memo:
             fileURL = containerURL.appendingPathComponent("memos.data")
         case .clipboardHistory:
             fileURL = containerURL.appendingPathComponent("clipboard.history.data")
@@ -557,5 +570,32 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(combos)
         guard let outfile = try Self.combosFileURL() else { return }
         try data.write(to: outfile)
+    }
+}
+
+// MARK: - MacProManager
+
+/// iOS 구매 상태를 iCloud KV Store로 동기화받아 macOS Pro 여부 판단.
+/// iCloud KV Store 우선, 없으면 App Group UserDefaults 폴백.
+struct MacProManager {
+    static let proStatusKey = "clipkeyboard_is_pro"
+    static let appGroupSuite = "group.com.Ysoup.TokenMemo"
+
+    static let freeMemoLimit = 5
+    static let freeClipboardLimit = 20
+
+    static var isPro: Bool {
+        if NSUbiquitousKeyValueStore.default.bool(forKey: proStatusKey) { return true }
+        return UserDefaults(suiteName: appGroupSuite)?.bool(forKey: proStatusKey) ?? false
+    }
+
+    static var isCloudBackupAvailable: Bool { isPro }
+
+    static var memoDisplayLimit: Int { isPro ? Int.max : freeMemoLimit }
+    static var clipboardDisplayLimit: Int { isPro ? 100 : freeClipboardLimit }
+
+    /// 구매 상태가 변경될 때 KV Store에서 새로고침 (앱 포그라운드 복귀 시 호출 권장)
+    static func refreshFromCloud() {
+        NSUbiquitousKeyValueStore.default.synchronize()
     }
 }

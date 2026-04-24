@@ -19,5 +19,12 @@
 	<array>
 		<string>clipkeyboard://open</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fraunces-Regular.ttf</string>
+		<string>Fraunces-Bold.ttf</string>
+		<string>InstrumentSans-Regular.ttf</string>
+		<string>InstrumentSans-SemiBold.ttf</string>
+	</array>
 </dict>
 </plist>

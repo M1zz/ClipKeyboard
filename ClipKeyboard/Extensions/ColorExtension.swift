@@ -1,6 +1,6 @@
 //
 //  ColorExtension.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code
 //
@@ -45,6 +45,19 @@ extension Color {
                      lroundf(r * 255),
                      lroundf(g * 255),
                      lroundf(b * 255))
+    }
+
+    // MARK: - Named Color Mapping
+
+    /// 색상 이름 문자열에서 Color 반환 (테마·카테고리 색상 공통 사용)
+    static func fromName(_ name: String) -> Color {
+        let colorMap: [String: Color] = [
+            "blue": .blue, "green": .green, "purple": .purple,
+            "orange": .orange, "red": .red, "indigo": .indigo,
+            "brown": .brown, "cyan": .cyan, "teal": .teal,
+            "pink": .pink, "mint": .mint, "yellow": .yellow
+        ]
+        return colorMap[name] ?? .gray
     }
 
     // MARK: - Design System Colors

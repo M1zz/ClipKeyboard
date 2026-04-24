@@ -1,6 +1,6 @@
 //
 //  ComboItemPickerView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2026/01/16.
 //
@@ -10,6 +10,7 @@ import SwiftUI
 struct ComboItemPickerView: View {
     @Binding var selectedItems: [ComboItem]
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appTheme) private var theme
 
     @State private var selectedTab: ComboItemType = .memo
     @State private var memos: [Memo] = []
@@ -32,7 +33,7 @@ struct ComboItemPickerView: View {
                 // 검색 바
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
+                        .foregroundColor(theme.textFaint)
                     TextField(NSLocalizedString("검색", comment: "Search"), text: $searchText)
                         .textFieldStyle(.plain)
                     if !searchText.isEmpty {
@@ -40,13 +41,13 @@ struct ComboItemPickerView: View {
                             searchText = ""
                         } label: {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.gray)
+                                .foregroundColor(theme.textFaint)
                         }
                     }
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 8)
-                .background(Color(.systemGray6))
+                .background(theme.surfaceAlt)
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .padding(.bottom, 8)
@@ -59,7 +60,7 @@ struct ComboItemPickerView: View {
                     case .memo:
                         if filteredMemos.isEmpty {
                             Text(NSLocalizedString("메모가 없습니다", comment: "No memos"))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         } else {
                             ForEach(filteredMemos) { memo in
@@ -71,7 +72,7 @@ struct ComboItemPickerView: View {
                     case .clipboardHistory:
                         if filteredClipboard.isEmpty {
                             Text(NSLocalizedString("클립보드 히스토리가 없습니다", comment: "No clipboard history"))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         } else {
                             ForEach(filteredClipboard) { item in
@@ -83,7 +84,7 @@ struct ComboItemPickerView: View {
                     case .template:
                         if filteredTemplates.isEmpty {
                             Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                                 .frame(maxWidth: .infinity, alignment: .center)
                         } else {
                             ForEach(filteredTemplates) { template in
@@ -153,7 +154,7 @@ struct ComboItemPickerView: View {
         print("📥 [ComboItemPickerView] 데이터 로드 시작")
 
         do {
-            let allMemos = try MemoStore.shared.load(type: .tokenMemo)
+            let allMemos = try MemoStore.shared.load(type: .memo)
 
             // 템플릿과 일반 메모 분리
             templates = allMemos.filter { $0.isTemplate }
@@ -204,6 +205,7 @@ struct ComboItemPickerView: View {
 struct MemoPickerRow: View {
     let memo: Memo
     let onSelect: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button {
@@ -216,7 +218,7 @@ struct MemoPickerRow: View {
                         .foregroundColor(.primary)
                     Text(memo.value)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .lineLimit(1)
                 }
 
@@ -245,6 +247,7 @@ struct MemoPickerRow: View {
 struct ClipboardPickerRow: View {
     let item: SmartClipboardHistory
     let onSelect: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button {
@@ -258,7 +261,7 @@ struct ClipboardPickerRow: View {
                             .font(.caption)
                         Text(item.detectedType.localizedName)
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
 
                     Text(item.content)
@@ -268,7 +271,7 @@ struct ClipboardPickerRow: View {
 
                     Text(item.copiedAt, style: .relative)
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                 }
 
                 Spacer()
@@ -283,6 +286,7 @@ struct ClipboardPickerRow: View {
 struct TemplatePickerRow: View {
     let template: Memo
     let onSelect: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button {
@@ -301,7 +305,7 @@ struct TemplatePickerRow: View {
 
                     Text(template.value)
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
                         .lineLimit(1)
 
                     // 플레이스홀더 개수 표시
