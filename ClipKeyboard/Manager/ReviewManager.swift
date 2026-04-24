@@ -1,6 +1,6 @@
 //
 //  ReviewManager.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2026/01/29.
 //
@@ -103,7 +103,7 @@ class ReviewManager {
         }
 
         // 메모 개수 확인 (실제 저장된 메모 수)
-        let memoCount = (try? MemoStore.shared.load(type: .tokenMemo).count) ?? 0
+        let memoCount = (try? MemoStore.shared.load(type: .memo).count) ?? 0
         guard memoCount >= minimumMemoCount else {
             print("📝 [ReviewManager] 메모 개수 부족: \(memoCount)/\(minimumMemoCount)")
             return false

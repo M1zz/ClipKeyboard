@@ -1,6 +1,6 @@
 //
 //  TemplateEditSheet.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Leeo on 12/11/25.
 //
@@ -183,12 +183,12 @@ struct TemplateEditSheet: View {
 
     private func savePlaceholderInputsToMemo() {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             guard let index = memos.firstIndex(where: { $0.id == memo.id }) else { return }
             memos[index].placeholderValues = placeholderInputs
                 .filter { !$0.value.isEmpty }
                 .mapValues { [$0] }
-            try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
             // 저장 실패는 조용히 무시 — 복사 기능 자체는 계속 동작
         }
@@ -512,7 +512,7 @@ struct TemplateSheetResolver: View {
         }
 
         DispatchQueue.global(qos: .userInitiated).async {
-            let memo = (try? MemoStore.shared.load(type: .tokenMemo))?.first(where: { $0.id == templateId })
+            let memo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == templateId })
             DispatchQueue.main.async {
                 loadedMemo = memo
                 isLoading = false

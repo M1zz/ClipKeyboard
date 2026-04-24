@@ -1,6 +1,6 @@
 //
 //  MemoRowView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Leeo on 12/11/25.
 //
@@ -19,8 +19,7 @@ struct MemoRowView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            // 새 design: CatIcon — hue-tinted rounded rect (40×40)
-            CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
+            leadingIcon
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
@@ -70,24 +69,6 @@ struct MemoRowView: View {
 
             Spacer()
 
-            // 이미지 썸네일 (이미지 메모인 경우)
-            if (memo.contentType == .image || memo.contentType == .mixed),
-               let firstImageFileName = memo.imageFileNames.first {
-                #if os(iOS)
-                if let thumbnailImage = MemoStore.shared.loadImage(fileName: firstImageFileName) {
-                    Image(uiImage: thumbnailImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 44, height: 44)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: theme.radiusSm)
-                                .stroke(theme.divider, lineWidth: 1)
-                        )
-                }
-                #endif
-            }
-
             // 즐겨찾기 하트 표시
             if memo.isFavorite {
                 Image(systemName: "heart.fill")
@@ -99,6 +80,30 @@ struct MemoRowView: View {
                 FavoriteNudgeHeart()
             }
         }
+    }
+
+    /// 좌측 아이콘. 이미지 메모면 실제 이미지 썸네일을, 아니면 카테고리 CatIcon을 보여준다.
+    @ViewBuilder
+    private var leadingIcon: some View {
+        #if os(iOS)
+        if (memo.contentType == .image || memo.contentType == .mixed),
+           let firstImageFileName = memo.imageFileNames.first,
+           let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 40, height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(theme.divider, lineWidth: 0.5)
+                )
+        } else {
+            CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
+        }
+        #else
+        CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
+        #endif
     }
 
     /// 현재 메모에 적용할 타입 결정.

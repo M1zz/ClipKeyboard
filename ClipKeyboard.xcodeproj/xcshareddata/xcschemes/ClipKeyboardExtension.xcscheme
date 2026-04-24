@@ -83,7 +83,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "0"
          BundleIdentifier = "com.Ysoup.TokenMemo"
-         RemotePath = "/var/containers/Bundle/Application/74B92D48-181C-46DC-8038-65E766919CCE/Token memo.app">
+         RemotePath = "/var/containers/Bundle/Application/74B92D48-181C-46DC-8038-65E766919CCE/ClipKeyboard.app">
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference

@@ -1,6 +1,6 @@
 //
 //  ClipboardDetectionTests.swift
-//  Token memoTests
+//  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-01-16.
 //  클립보드 자동 분류 테스트

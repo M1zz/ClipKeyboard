@@ -1,6 +1,6 @@
 //
 //  CloudKitBackupService.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -196,7 +196,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func tapLoadDataForBackup() throws -> (memos: [Memo], smartClipboard: [SmartClipboardHistory], combos: [Combo]) {
-        let memos = try MemoStore.shared.load(type: .tokenMemo)
+        let memos = try MemoStore.shared.load(type: .memo)
         let smartClipboard = try MemoStore.shared.loadSmartClipboardHistory()
         let combos = try MemoStore.shared.loadCombos()
         print("📦 [CloudKit] 백업할 메모: \(memos.count)개, 클립보드: \(smartClipboard.count)개, Combo: \(combos.count)개")
@@ -331,7 +331,7 @@ class CloudKitBackupService: ObservableObject {
 
     private func saveRestoredData(memos: [Memo], smartClipboard: [SmartClipboardHistory], combos: [Combo]) throws {
         print("💾 [CloudKit] 로컬 저장 시작...")
-        try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+        try MemoStore.shared.save(memos: memos, type: .memo)
         print("✅ [CloudKit] 메모 \(memos.count)개 저장 완료")
 
         if !smartClipboard.isEmpty {

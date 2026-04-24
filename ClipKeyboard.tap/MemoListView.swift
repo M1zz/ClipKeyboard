@@ -1,6 +1,6 @@
 //
 //  MemoListView.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -176,7 +176,7 @@ struct MemoListView: View {
     private func loadMemos() {
         print("📂 [MemoListView] loadMemos - 메모 로드 시작")
         do {
-            memos = try MemoStore.shared.load(type: .tokenMemo)
+            memos = try MemoStore.shared.load(type: .memo)
             print("✅ [MemoListView] loadMemos - \(memos.count)개 메모 로드 완료")
         } catch {
             print("❌ [MemoListView] loadMemos - 메모 로드 실패: \(error)")

@@ -1,4 +1,4 @@
-# Token Memo 앱 개선 계획: Combo 기능 완성
+# ClipKeyboard 앱 개선 계획: Combo 기능 완성
 
 ## 목표
 "반복 입력 시간 절약"이라는 핵심 가치를 극대화하기 위해 **Combo 기능을 완성**합니다.
@@ -142,13 +142,13 @@ private func processTemplateVariables(in text: String) -> String {
 func validateComboItem(_ item: ComboItem) throws -> Bool {
     switch item.type {
     case .memo:
-        let memos = try load(type: .tokenMemo)
+        let memos = try load(type: .memo)
         return memos.contains(where: { $0.id == item.referenceId })
     case .clipboardHistory:
         let history = try loadSmartClipboardHistory()
         return history.contains(where: { $0.id == item.referenceId })
     case .template:
-        let memos = try load(type: .tokenMemo)
+        let memos = try load(type: .memo)
         return memos.contains(where: { $0.id == item.referenceId && $0.isTemplate })
     }
 }

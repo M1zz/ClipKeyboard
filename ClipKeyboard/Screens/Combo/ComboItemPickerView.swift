@@ -1,6 +1,6 @@
 //
 //  ComboItemPickerView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2026/01/16.
 //
@@ -154,7 +154,7 @@ struct ComboItemPickerView: View {
         print("📥 [ComboItemPickerView] 데이터 로드 시작")
 
         do {
-            let allMemos = try MemoStore.shared.load(type: .tokenMemo)
+            let allMemos = try MemoStore.shared.load(type: .memo)
 
             // 템플릿과 일반 메모 분리
             templates = allMemos.filter { $0.isTemplate }

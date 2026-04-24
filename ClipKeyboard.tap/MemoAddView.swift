@@ -1,6 +1,6 @@
 //
 //  MemoAddView.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-12-11.
 //
@@ -247,7 +247,7 @@ struct MemoAddView: View {
 
     private func saveMemo() {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
 
             // 이미지들을 파일로 저장
             var savedImageFileNames: [String] = []
@@ -276,7 +276,7 @@ struct MemoAddView: View {
             )
             memos.append(newMemo)
 
-            try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
 
             print("✅ [MemoAdd] 메모 저장 완료")
             showToastMessage("메모가 저장되었습니다")

@@ -2,7 +2,7 @@
 
 ## 📋 개요
 
-Token Memo 앱의 핵심 기능들을 TDD(Test-Driven Development) 관점에서 테스트합니다.
+ClipKeyboard 앱의 핵심 기능들을 TDD(Test-Driven Development) 관점에서 테스트합니다.
 
 ## 🎯 테스트 범위
 
@@ -100,7 +100,7 @@ xcodebuild test \
 xcodebuild test \
   -scheme "ClipKeyboard.tap" \
   -destination 'platform=macOS' \
-  -only-testing:TokenMemoTests
+  -only-testing:ClipKeyboardTests
 ```
 
 #### 특정 테스트만 실행

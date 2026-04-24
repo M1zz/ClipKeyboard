@@ -1,6 +1,6 @@
 //
 //  OnboardingView.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-12-14.
 //

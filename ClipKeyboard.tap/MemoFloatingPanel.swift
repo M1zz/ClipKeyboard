@@ -281,7 +281,7 @@ final class PanelListViewModel: ObservableObject {
 
     func reload() {
         do {
-            let loaded = try MemoStore.shared.load(type: .tokenMemo)
+            let loaded = try MemoStore.shared.load(type: .memo)
             memos = loaded.sorted { a, b in
                 if a.isFavorite != b.isFavorite { return a.isFavorite && !b.isFavorite }
                 return a.lastEdited > b.lastEdited

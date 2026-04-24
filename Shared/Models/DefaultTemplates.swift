@@ -1,6 +1,6 @@
 //
 //  DefaultTemplates.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Default seed templates. v4.0: global freelancer pack of 30 English templates.
 //  Korean locale also gets legacy Korean presets preserved for continuity.
@@ -310,7 +310,7 @@ struct DefaultTemplates {
 
         // 저장
         do {
-            try memoStore.save(memos: memoStore.memos, type: .tokenMemo)
+            try memoStore.save(memos: memoStore.memos, type: .memo)
             hasProvidedDefaultTemplates = true
             print("✅ [DefaultTemplates] 기본 템플릿 \(templates.count)개 제공 완료 (locale: \(Locale.current.identifier))")
         } catch {

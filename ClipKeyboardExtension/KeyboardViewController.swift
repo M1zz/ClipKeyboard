@@ -16,7 +16,7 @@ var clipMemoId: [UUID] = []  // 메모 ID 저장
 var clipMemos: [Memo] = []  // 전체 메모 객체 저장
 var tappedIndex = 2
 var clipboardData: KeyboardData = [:]
-var tokenMemoData: KeyboardData = [:]
+var memoData: KeyboardData = [:]
 
 class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
@@ -151,7 +151,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     /// 키보드 익스텐션 잠금 오버레이.
-    /// - 메인 앱 열기 버튼은 tokenMemo://paywall URL scheme으로 paywall로 직행.
+    /// - 메인 앱 열기 버튼은 clipkeyboard://paywall URL scheme으로 paywall로 직행.
     private func presentKeyboardLockOverlay() {
         let overlay = UIView()
         overlay.translatesAutoresizingMaskIntoConstraints = false
@@ -386,10 +386,10 @@ class KeyboardViewController: UIInputViewController {
         print("   다음 인덱스: \(memo.currentComboIndex)")
 
         do {
-            var allMemos = try MemoStore.shared.load(type: .tokenMemo)
+            var allMemos = try MemoStore.shared.load(type: .memo)
             if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
                 allMemos[fileIndex].currentComboIndex = memo.currentComboIndex
-                try MemoStore.shared.save(memos: allMemos, type: .tokenMemo)
+                try MemoStore.shared.save(memos: allMemos, type: .memo)
                 print("   💾 인덱스 저장 완료")
             }
         } catch {
@@ -552,7 +552,7 @@ class KeyboardViewController: UIInputViewController {
     
     private func loadMemos() {
         do {
-            let allMemos = try MemoStore.shared.load(type: .tokenMemo)
+            let allMemos = try MemoStore.shared.load(type: .memo)
             print("📱 [KeyboardViewController.loadMemos] 메모 로드 완료 - 총 \(allMemos.count)개")
 
             let filtered = filterExcludedMemos(allMemos)
@@ -560,7 +560,7 @@ class KeyboardViewController: UIInputViewController {
             let sorted = sortMemos(userFiltered)
 
             populateKeyboardData(sorted)
-            buildTokenMemoData(sorted)
+            buildMemoData(sorted)
         } catch {
             print("❌ Error loading memos: \(error.localizedDescription)")
         }
@@ -633,10 +633,10 @@ class KeyboardViewController: UIInputViewController {
         print("✅ [KeyboardViewController] clipMemos 배열에 \(clipMemos.count)개 저장 완료\n")
     }
 
-    /// tokenMemoData 딕셔너리 채우기
-    private func buildTokenMemoData(_ memos: [Memo]) {
+    /// memoData 딕셔너리 채우기
+    private func buildMemoData(_ memos: [Memo]) {
         for item in memos {
-            tokenMemoData[item.title] = item.value
+            memoData[item.title] = item.value
         }
     }
 

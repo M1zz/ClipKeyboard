@@ -39,8 +39,31 @@ struct ClipKeyboardList: View {
                 theme.bg.ignoresSafeArea()
 
                 // 메모 리스트
-                if !viewModel.tokenMemos.isEmpty {
+                if !viewModel.memos.isEmpty {
                     List {
+                        // 클립보드 캡처 카드 (최상단, 새 클립보드 감지 시만)
+                        if viewModel.hasFreshClipboard {
+                            Section {
+                                ClipboardCaptureCard(
+                                    value: viewModel.value,
+                                    detectedType: viewModel.clipboardDetectedType,
+                                    confidence: viewModel.clipboardConfidence,
+                                    onDismiss: {
+                                        withAnimation(.easeOut(duration: 0.25)) {
+                                            viewModel.dismissClipboardCapture()
+                                        }
+                                    },
+                                    onSaveTap: {
+                                        viewModel.markClipboardSaved()
+                                    }
+                                )
+                            }
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                        }
+
                         // 검색 바 섹션 (조건부 표시)
                         if isSearchBarVisible {
                             Section {
@@ -101,7 +124,7 @@ struct ClipKeyboardList: View {
                         // 메모 리스트 섹션 (타입 필터 활성 시 그룹핑 비활성)
                         if viewModel.selectedTypeFilter != nil {
                             Section {
-                                ForEach(viewModel.tokenMemos) { memo in
+                                ForEach(viewModel.memos) { memo in
                                     memoRow(memo: memo)
                                 }
                             }
@@ -125,7 +148,7 @@ struct ClipKeyboardList: View {
                 }
 
                 // 빈 화면
-                if viewModel.tokenMemos.isEmpty {
+                if viewModel.memos.isEmpty {
                     EmptyListView
                 }
             }
@@ -141,10 +164,10 @@ struct ClipKeyboardList: View {
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // Navigation 설정
+            // Navigation 설정 — inline 타이틀로 상단 공간 회수, 캡처 카드/필터가 바로 보이도록
             .navigationTitle(NSLocalizedString("저장된 항목", comment: "Saved items"))
             #if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             #endif
             // 검색 및 필터 변경 감지
             .onChange(of: viewModel.searchQueryString) { _ in viewModel.applyFilters() }
@@ -168,7 +191,7 @@ struct ClipKeyboardList: View {
             ) {
                 Button(NSLocalizedString("삭제", comment: "Confirm delete"), role: .destructive) {
                     if let memo = memoToDelete,
-                       let idx = viewModel.tokenMemos.firstIndex(where: { $0.id == memo.id }) {
+                       let idx = viewModel.memos.firstIndex(where: { $0.id == memo.id }) {
                         viewModel.deleteMemo(at: IndexSet(integer: idx))
                     }
                     memoToDelete = nil
@@ -187,7 +210,7 @@ struct ClipKeyboardList: View {
                 selectedComboIdForSheet: $viewModel.selectedComboIdForSheet,
                 templatePlaceholders: viewModel.templatePlaceholders,
                 templateInputs: $viewModel.templateInputs,
-                tokenMemos: viewModel.tokenMemos,
+                memos: viewModel.memos,
                 currentTemplateMemo: viewModel.currentTemplateMemo,
                 onTemplateComplete: {
                     viewModel.confirmTemplateInput()
@@ -203,10 +226,6 @@ struct ClipKeyboardList: View {
                     viewModel.loadMemos()
                 }
             ))
-            // 단축키 메모 오버레이
-            .overlay(content: {
-                shortcutMemoOverlay
-            })
             .onAppear {
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
@@ -266,7 +285,7 @@ struct ClipKeyboardList: View {
     }
 
     private var contextLeadText: String {
-        let memos = viewModel.tokenMemos
+        let memos = viewModel.memos
         let now = Date()
         let hourAgo = now.addingTimeInterval(-60 * 60)
 
@@ -293,7 +312,7 @@ struct ClipKeyboardList: View {
     /// 히어로 카드에 띄울 메모. lastUsedAt이 최근 1시간 이내인 항목만 채택.
     private var heroMemo: Memo? {
         let hourAgo = Date().addingTimeInterval(-60 * 60)
-        return viewModel.tokenMemos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo })
+        return viewModel.memos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo })
     }
 
     /// "방금 쓴 것" 히어로 카드.
@@ -328,7 +347,7 @@ struct ClipKeyboardList: View {
             MemoRowView(
                 memo: memo,
                 fontSize: fontSize,
-                showFavoriteNudge: viewModel.tokenMemos.first?.id == memo.id && viewModel.showFavoriteNudge
+                showFavoriteNudge: viewModel.memos.first?.id == memo.id && viewModel.showFavoriteNudge
             )
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -533,29 +552,6 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 단축키 메모 오버레이
-    @ViewBuilder
-    private var shortcutMemoOverlay: some View {
-        VStack {
-            Spacer()
-            if !viewModel.value.isEmpty {
-                ShortcutMemoView(
-                    keyword: $viewModel.keyword,
-                    value: $viewModel.value,
-                    tokenMemos: $viewModel.tokenMemos,
-                    originalData: $viewModel.loadedData,
-                    showShortcutSheet: $viewModel.showShortcutSheet,
-                    detectedType: viewModel.clipboardDetectedType,
-                    confidence: viewModel.clipboardConfidence
-                )
-                .offset(y: 0)
-                .shadow(radius: 15)
-                .opacity(viewModel.showShortcutSheet ? 1 : 0)
-                .animation(.easeInOut(duration: 0.5).delay(0.3), value: viewModel.showShortcutSheet)
-            }
-        }
-    }
-
     /// Empty list view
     private var EmptyListView: some View {
         VStack(spacing: 24) {
@@ -623,7 +619,7 @@ extension ClipKeyboardList {
     /// - 방금(1시간 이내 사용) / 자주 쓰는 것(오늘+clipCount≥3) / 이번 주 / 더 오래
     /// - 즐겨찾기 정렬은 ViewModel.sortMemos에서 이미 처리되어 들어오므로 각 버킷 내 상대순서는 보존된다.
     var groupedSections: [MemoSectionGroup] {
-        let memos = viewModel.tokenMemos
+        let memos = viewModel.memos
         guard !memos.isEmpty else { return [] }
 
         let now = Date()
@@ -813,7 +809,7 @@ struct SheetModifiers: ViewModifier {
     // 데이터
     let templatePlaceholders: [String]
     @Binding var templateInputs: [String: String]
-    let tokenMemos: [Memo]
+    let memos: [Memo]
     let currentTemplateMemo: Memo?
 
     // 콜백
@@ -840,7 +836,7 @@ struct SheetModifiers: ViewModifier {
             }
             // 플레이스홀더 관리 시트
             .sheet(isPresented: $showPlaceholderManagementSheet) {
-                PlaceholderManagementSheet(allMemos: tokenMemos)
+                PlaceholderManagementSheet(allMemos: memos)
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
             }
@@ -848,7 +844,7 @@ struct SheetModifiers: ViewModifier {
             .sheet(item: $selectedTemplateIdForSheet) { templateId in
                 TemplateSheetResolver(
                     templateId: templateId,
-                    allMemos: tokenMemos,
+                    allMemos: memos,
                     onCopy: onTemplateCopy,
                     onCancel: onTemplateSheetCancel
                 )
@@ -857,7 +853,7 @@ struct SheetModifiers: ViewModifier {
             .sheet(item: $selectedComboIdForSheet) { comboId in
                 ComboSheetResolver(
                     comboId: comboId,
-                    allMemos: tokenMemos,
+                    allMemos: memos,
                     onDismiss: onComboDismiss
                 )
                 .presentationDetents([.medium, .large])

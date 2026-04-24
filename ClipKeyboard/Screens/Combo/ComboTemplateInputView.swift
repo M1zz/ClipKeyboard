@@ -1,6 +1,6 @@
 //
 //  ComboTemplateInputView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude on 2026/01/16.
 //

@@ -1,6 +1,6 @@
 //
 //  MemoRepository.swift
-//  Token memo
+//  ClipKeyboard
 //
 
 import Foundation
@@ -13,11 +13,11 @@ final class MemoRepository: MemoRepositoryProtocol {
     }
 
     func fetchAll() throws -> [Memo] {
-        try MemoStore.shared.load(type: .tokenMemo)
+        try MemoStore.shared.load(type: .memo)
     }
 
     func save(_ memos: [Memo]) throws {
-        try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+        try MemoStore.shared.save(memos: memos, type: .memo)
     }
 
     func add(_ memo: Memo) throws {

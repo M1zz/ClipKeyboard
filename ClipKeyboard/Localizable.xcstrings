@@ -915,29 +915,6 @@
         }
       }
     },
-    "Clip Keyboard" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clip Keyboard"
-          }
-        }
-      }
-    },
-    "Clip Keyboard 선택" : {
-      "comment" : "Step 3",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Clip Keyboard"
-          }
-        }
-      }
-    },
     "Clipboard History" : {
       "comment" : "Menu: clipboard history",
       "localizations" : {
@@ -1295,7 +1272,7 @@
       }
     },
     "Dismiss" : {
-      "comment" : "Dismiss banner",
+      "comment" : "Dismiss banner\nInline capture card: dismiss button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1749,6 +1726,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "IP Address"
+          }
+        }
+      }
+    },
+    "Just copied" : {
+      "comment" : "Inline capture card: just copied hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just copied"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방금 복사함"
           }
         }
       }
@@ -2531,6 +2525,23 @@
         }
       }
     },
+    "Save as memo" : {
+      "comment" : "Inline capture card: save button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save as memo"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모로 저장"
+          }
+        }
+      }
+    },
     "Search clips" : {
       "comment" : "Search placeholder",
       "localizations" : {
@@ -2742,17 +2753,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title : "
-          }
-        }
-      }
-    },
-    "TokenMemo 활성화" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enable TokenMemo"
           }
         }
       }
@@ -5261,7 +5261,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hello, I am a user of Clip Keyboard."
+            "value" : "Hello, I am a user of ClipKeyboard."
           }
         }
       }
@@ -6109,6 +6109,17 @@
         }
       }
     },
+    "저장되었습니다!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved!"
+          }
+        }
+      }
+    },
     "저장된 메모 불러오기" : {
       "comment" : "Full Access reason 3",
       "extractionState" : "stale",
@@ -6139,17 +6150,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved"
-          }
-        }
-      }
-    },
-    "저장되었습니다!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved!"
           }
         }
       }
@@ -6670,50 +6670,6 @@
         }
       }
     },
-    "클립 키보드" : {
-      "comment" : "ClipKeyboard app name",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clip Keyboard"
-          }
-        }
-      }
-    },
-    "클립 키보드를 잘 쓰고 계신가요?" : {
-      "comment" : "Review banner question",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enjoying Clip Keyboard?"
-          }
-        }
-      }
-    },
-    "클립 키보드에\n오신 것을 환영합니다!" : {
-      "comment" : "Onboarding welcome title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Welcome to\nClip Keyboard!"
-          }
-        }
-      }
-    },
-    "클립 키보드에 관해 문의드릴 것이 있습니다" : {
-      "comment" : "Email subject",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I have a question about Clip Keyboard"
-          }
-        }
-      }
-    },
     "클립보드" : {
       "comment" : "Clipboard",
       "localizations" : {
@@ -6834,6 +6790,17 @@
         }
       }
     },
+    "클립키보드" : {
+      "comment" : "ClipKeyboard app name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard"
+          }
+        }
+      }
+    },
     "클립키보드 사용방법" : {
       "comment" : "ClipKeyboard tutorial",
       "extractionState" : "stale",
@@ -6852,7 +6819,40 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Did you like Clip Keyboard? Your review greatly helps improve the app."
+            "value" : "Did you like ClipKeyboard? Your review greatly helps improve the app."
+          }
+        }
+      }
+    },
+    "클립키보드를 잘 쓰고 계신가요?" : {
+      "comment" : "Review banner question",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoying ClipKeyboard?"
+          }
+        }
+      }
+    },
+    "클립키보드에\n오신 것을 환영합니다!" : {
+      "comment" : "Onboarding welcome title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to\nClipKeyboard!"
+          }
+        }
+      }
+    },
+    "클립키보드에 관해 문의드릴 것이 있습니다" : {
+      "comment" : "Email subject",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I have a question about ClipKeyboard"
           }
         }
       }

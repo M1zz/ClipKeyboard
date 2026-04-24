@@ -1,6 +1,6 @@
 //
 //  ComboExecutionService.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code on 2025-12-06.
 //  Phase 2: Combo Execution Service

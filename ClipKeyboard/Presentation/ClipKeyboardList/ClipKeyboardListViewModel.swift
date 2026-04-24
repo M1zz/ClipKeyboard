@@ -13,7 +13,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     // MARK: - Data State
 
-    @Published var tokenMemos: [Memo] = []
+    @Published var memos: [Memo] = []
     @Published var loadedData: [Memo] = []
 
     // MARK: - Search & Filter
@@ -22,13 +22,18 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var selectedTypeFilter: ClipboardItemType? = nil
     @Published var selectedCategoryFilter: String? = nil
 
-    // MARK: - Clipboard Shortcut Sheet
+    // MARK: - Clipboard Capture State
 
     @Published var keyword: String = ""
     @Published var value: String = ""
     @Published var clipboardDetectedType: ClipboardItemType = .text
     @Published var clipboardConfidence: Double = 0.0
-    @Published var showShortcutSheet: Bool = false
+
+    /// 상단 인라인 캡처 카드 노출 여부. onAppear에서 새 클립보드 감지 시 true.
+    @Published var hasFreshClipboard: Bool = false
+
+    /// 마지막으로 사용자가 "숨기기"한 클립보드 값. 같은 값이 다시 나타나면 재노출하지 않는다.
+    private let lastDismissedClipboardKey = "lastDismissedClipboard"
 
     // MARK: - Sheet Presentation State
 
@@ -56,7 +61,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Private
 
     private let selectedFilterKey = "selectedTypeFilter"
-    private var isFirstVisit = true
 
     // MARK: - onAppear
 
@@ -65,26 +69,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         loadSavedFilter()
         migrateExistingMemosClassification()
 
-        #if os(iOS)
-        print("📋 [ClipKeyboardListViewModel] 클립보드 확인 중...")
-        let clipboardString = UIPasteboard.general.string
-        let hasClipboard = !(clipboardString?.isEmpty ?? true)
-        print("📋 [ClipKeyboardListViewModel] 클립보드 내용 있음: \(hasClipboard), isFirstVisit: \(isFirstVisit)")
-
-        if hasClipboard, isFirstVisit {
-            print("🎯 [ClipKeyboardListViewModel] 클립보드 바로가기 시트 표시 예약")
-            value = clipboardString ?? ""
-            let classification = ClipboardClassificationService.shared.classify(content: value)
-            clipboardDetectedType = classification.type
-            clipboardConfidence = classification.confidence
-            print("🔍 [ClipKeyboardListViewModel] 자동 분류: \(classification.type.rawValue) (신뢰도: \(Int(classification.confidence * 100))%)")
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.showShortcutSheet = true
-            }
-            isFirstVisit = false
-        }
-        #endif
+        checkFreshClipboard()
 
         FavoriteNudgeManager.shared.resetIfNeeded()
         if FavoriteNudgeManager.shared.shouldShowNudge {
@@ -101,10 +86,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func loadMemos() {
         do {
             print("📂 [loadMemos] 메모 로드 시작...")
-            let loadedMemos = try MemoStore.shared.load(type: .tokenMemo)
+            let loadedMemos = try MemoStore.shared.load(type: .memo)
             print("📊 [loadMemos] 로드된 메모 개수: \(loadedMemos.count)")
-            tokenMemos = sortMemos(loadedMemos)
-            loadedData = tokenMemos
+            memos = sortMemos(loadedMemos)
+            loadedData = memos
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
         } catch {
@@ -158,8 +143,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
             }
         }
 
-        tokenMemos = filtered
-        print("✅ [applyFilters] 완료 - tokenMemos: \(tokenMemos.count)개")
+        memos = filtered
+        print("✅ [applyFilters] 완료 - memos: \(memos.count)개")
     }
 
     // MARK: - Memo Actions
@@ -177,7 +162,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             loadedData = sortMemos(loadedData)
 
             do {
-                try MemoStore.shared.save(memos: loadedData, type: .tokenMemo)
+                try MemoStore.shared.save(memos: loadedData, type: .memo)
                 applyFilters()
             } catch {
                 fatalError(error.localizedDescription)
@@ -186,11 +171,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func deleteMemo(at offsets: IndexSet) {
-        let deletedIds = offsets.map { tokenMemos[$0].id }
+        let deletedIds = offsets.map { memos[$0].id }
         loadedData.removeAll { memo in deletedIds.contains(memo.id) }
 
         do {
-            try MemoStore.shared.save(memos: loadedData, type: .tokenMemo)
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
             applyFilters()
         } catch {
             fatalError(error.localizedDescription)
@@ -242,7 +227,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 try MemoStore.shared.addToSmartClipboardHistory(content: processedValue)
             }
 
-            let allMemos = try MemoStore.shared.load(type: .tokenMemo)
+            let allMemos = try MemoStore.shared.load(type: .memo)
             loadedData = sortMemos(allMemos)
             applyFilters()
         } catch {
@@ -275,6 +260,44 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return processTemplateVariables(in: result)
     }
 
+    // MARK: - Clipboard Capture Card
+
+    /// 앱 진입 시 클립보드 내용을 분류하고, 이전에 "숨기기"한 값과 다르면 상단 카드를 표시한다.
+    func checkFreshClipboard() {
+        #if os(iOS)
+        guard let clipboardString = UIPasteboard.general.string,
+              !clipboardString.isEmpty else {
+            hasFreshClipboard = false
+            return
+        }
+
+        let lastDismissed = UserDefaults.standard.string(forKey: lastDismissedClipboardKey) ?? ""
+        if clipboardString == lastDismissed {
+            hasFreshClipboard = false
+            return
+        }
+
+        value = clipboardString
+        let classification = ClipboardClassificationService.shared.classify(content: value)
+        clipboardDetectedType = classification.type
+        clipboardConfidence = classification.confidence
+        hasFreshClipboard = true
+        print("📋 [checkFreshClipboard] 새 클립보드 감지: \(classification.type.rawValue)")
+        #endif
+    }
+
+    /// 사용자가 "숨기기"한 경우: 같은 값이 다시 나타나지 않도록 저장하고 카드 닫기.
+    func dismissClipboardCapture() {
+        UserDefaults.standard.set(value, forKey: lastDismissedClipboardKey)
+        hasFreshClipboard = false
+    }
+
+    /// 저장 플로우로 진입한 경우: 카드만 닫고 dismissed 기록은 남기지 않는다
+    /// (저장 이후 사용자가 다시 보고 싶을 수도 있으므로).
+    func markClipboardSaved() {
+        hasFreshClipboard = false
+    }
+
     // MARK: - Sorting
 
     func sortMemos(_ memos: [Memo]) -> [Memo] {
@@ -303,7 +326,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         print("🔄 [Migration] 기존 메모 자동 분류 시작...")
 
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             var updated = false
 
             for index in memos.indices {
@@ -324,7 +347,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             }
 
             if updated {
-                try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+                try MemoStore.shared.save(memos: memos, type: .memo)
                 loadedData = sortMemos(memos)
                 applyFilters()
                 print("✅ [Migration] 마이그레이션 완료 및 저장됨")

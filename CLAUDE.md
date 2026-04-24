@@ -1,8 +1,8 @@
-# Token Memo (ClipKeyboard) 프로젝트
+# ClipKeyboard 프로젝트
 
 ## 프로젝트 개요
 
-- **프로젝트명**: Token Memo (앱 이름: ClipKeyboard)
+- **프로젝트명**: ClipKeyboard
 - **현재 버전**: 3.0.1
 - **언어**: Swift
 - **UI 프레임워크**: SwiftUI
@@ -263,7 +263,7 @@ import Vision
 ```swift
 // ✅ GOOD - URL scheme으로 키보드에서 앱 열기
 .onOpenURL { url in
-    if url.scheme == "tokenMemo" {
+    if url.scheme == "clipkeyboard" {
         // 처리 로직
     }
 }
@@ -382,7 +382,7 @@ if let dict = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.dictionaryRe
 
 ## 참고 문서
 
-- [노션 튜토리얼](https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4)
+- [사용 가이드](https://m1zz.github.io/ClipKeyboard/tutorial.html)
 - 개발자 이메일: leeo@kakao.com
 
 ## 버전 히스토리

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clip Keyboard - 반복 입력은 그만, 탭 한 번이면 끝</title>
+    <title>ClipKeyboard - 반복 입력은 그만, 탭 한 번이면 끝</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="자주 쓰는 메시지를 키보드에서 탭 한 번으로 입력하세요. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.">
@@ -11,7 +11,7 @@
     <meta name="author" content="Leeo">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Clip Keyboard - 반복 입력은 그만">
+    <meta property="og:title" content="ClipKeyboard - 반복 입력은 그만">
     <meta property="og:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/">
@@ -19,7 +19,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Clip Keyboard - 반복 입력은 그만">
+    <meta name="twitter:title" content="ClipKeyboard - 반복 입력은 그만">
     <meta name="twitter:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
 
     <!-- Favicon -->
@@ -436,11 +436,11 @@
     <!-- Hero -->
     <section class="hero">
         <div class="hero-badge" data-i18n="heroBadge">🔒 데이터 수집 없음 · 완전한 프라이버시</div>
-        <img src="app-icon.png" alt="Clip Keyboard" class="app-icon" onerror="this.style.display='none'">
-        <h1 data-i18n-html="heroTitle">반복 입력은 그만,<br><span>탭 한 번이면 끝</span></h1>
+        <img src="app-icon.png" alt="ClipKeyboard" class="app-icon" onerror="this.style.display='none'">
+        <h1 data-i18n-html="heroTitle">폰 하나로 클라이언트 응대,<br><span>탭 한 번이면 끝</span></h1>
         <p class="hero-subtitle" data-i18n-html="heroSubtitle">
-            자주 쓰는 메시지를 키보드에 저장하고,<br>
-            탭 한 번으로 어디서든 바로 입력하세요.
+            IBAN · SWIFT · 타임존 · 영어 템플릿<br>
+            한 번 저장, 어디서든 키보드에서 꺼내세요.
         </p>
         <div class="cta-buttons">
             <a id="hero-cta" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
@@ -449,35 +449,38 @@
                 </svg>
                 <span data-i18n="heroCta">App Store에서 다운로드</span>
             </a>
+            <a href="tutorial.html" class="btn-secondary">
+                <span data-i18n="heroTutorial">사용 가이드 보기</span>
+            </a>
         </div>
     </section>
 
     <!-- Problem -->
     <section class="problem">
         <div class="container">
-            <h2 class="section-title" data-i18n="problemTitle">매일 같은 메시지를 타이핑하고 있나요?</h2>
-            <p class="section-subtitle" data-i18n="problemSubtitle">반복 입력에 낭비되는 시간, 생각보다 많습니다</p>
+            <h2 class="section-title" data-i18n="problemTitle">폰으로 일하는데 같은 것만 반복 입력하고 있나요?</h2>
+            <p class="section-subtitle" data-i18n="problemSubtitle">원격 프리랜서가 하루에 타이핑하는 것들</p>
 
             <div class="problem-grid">
                 <div class="problem-card">
-                    <div class="emoji">💬</div>
-                    <h3 data-i18n="problemCard1Title">고객 응대</h3>
-                    <p data-i18n-html="problemCard1Desc">"안녕하세요, 문의 감사합니다..."<br>하루에도 수십 번 같은 인사말</p>
+                    <div class="emoji">🏦</div>
+                    <h3 data-i18n="problemCard1Title">결제 정보</h3>
+                    <p data-i18n-html="problemCard1Desc">IBAN · SWIFT · Wise · PayPal<br>매 클라이언트마다 같은 정보 반복</p>
                 </div>
                 <div class="problem-card">
-                    <div class="emoji">📧</div>
-                    <h3 data-i18n="problemCard2Title">이메일 서명</h3>
-                    <p data-i18n-html="problemCard2Desc">이름, 직책, 연락처...<br>매번 복사-붙여넣기 하기 귀찮음</p>
+                    <div class="emoji">🌏</div>
+                    <h3 data-i18n="problemCard2Title">타임존 응대</h3>
+                    <p data-i18n-html="problemCard2Desc">"I'm in GMT+7, will reply in ~6h"<br>매 새 DM마다 다시 설명</p>
                 </div>
                 <div class="problem-card">
-                    <div class="emoji">💻</div>
-                    <h3 data-i18n="problemCard3Title">코드 리뷰</h3>
-                    <p data-i18n-html="problemCard3Desc">"LGTM", "확인했습니다", "수정 부탁드립니다"<br>자주 쓰는 코멘트들</p>
+                    <div class="emoji">✍️</div>
+                    <h3 data-i18n="problemCard3Title">비원어민 영어</h3>
+                    <p data-i18n-html="problemCard3Desc">제안 후속 · 입금 리마인더 · 일정 조정<br>"이 톤이 프로페셔널한가?" 매번 고민</p>
                 </div>
                 <div class="problem-card">
-                    <div class="emoji">📱</div>
-                    <h3 data-i18n="problemCard4Title">SNS & 메신저</h3>
-                    <p data-i18n-html="problemCard4Desc">계좌번호, 주소, 자주 보내는 링크<br>어딘가에 저장해두고 찾기 번거로움</p>
+                    <div class="emoji">📋</div>
+                    <h3 data-i18n="problemCard4Title">세금·서류</h3>
+                    <p data-i18n-html="problemCard4Desc">VAT · Tax ID · 사업자 주소<br>오타 한 번에 인보이스 반려</p>
                 </div>
             </div>
         </div>
@@ -486,24 +489,24 @@
     <!-- Solution -->
     <section class="solution">
         <div class="container">
-            <h2 class="section-title" data-i18n="solutionTitle">Clip Keyboard로 해결하세요</h2>
-            <p class="section-subtitle" data-i18n="solutionSubtitle">설정 한 번, 평생 편리함</p>
+            <h2 class="section-title" data-i18n="solutionTitle">ClipKeyboard로 해결하세요</h2>
+            <p class="section-subtitle" data-i18n="solutionSubtitle">폰 하나로 클라이언트 응대가 끝나는 이유</p>
 
             <div class="solution-grid">
                 <div class="solution-card">
                     <div class="number">1</div>
-                    <h3 data-i18n="solutionCard1Title">자주 쓰는 문구 저장</h3>
-                    <p data-i18n="solutionCard1Desc">인사말, 서명, 주소, 계좌번호, 자주 쓰는 답변까지 - 무제한으로 저장하세요.</p>
+                    <h3 data-i18n="solutionCard1Title">금융 정보 한 번만 입력</h3>
+                    <p data-i18n="solutionCard1Desc">IBAN · SWIFT · VAT · Wise · PayPal. 한 번 저장해두면 Gmail · Slack · Upwork · Deel 어디서든 탭 한 번으로 입력.</p>
                 </div>
                 <div class="solution-card">
                     <div class="number">2</div>
-                    <h3 data-i18n="solutionCard2Title">키보드에서 바로 선택</h3>
-                    <p data-i18n="solutionCard2Desc">어떤 앱에서든 키보드를 열고 저장한 문구를 탭하면 바로 입력됩니다.</p>
+                    <h3 data-i18n="solutionCard2Title">비원어민용 영어 템플릿 내장</h3>
+                    <p data-i18n="solutionCard2Desc">제안 후속 · 입금 리마인더 · 일정 조정 · 스코프 푸쉬백 — 프로페셔널한 영어 30종 기본 제공. 톤 고민 끝.</p>
                 </div>
                 <div class="solution-card">
                     <div class="number">3</div>
-                    <h3 data-i18n="solutionCard3Title">시간 절약, 실수 방지</h3>
-                    <p data-i18n="solutionCard3Desc">타이핑 오류 없이 정확하게. 반복 작업 시간을 90% 이상 줄여줍니다.</p>
+                    <h3 data-i18n="solutionCard3Title">타임존·통화 자동 변수</h3>
+                    <p data-i18n="solutionCard3Desc">{timezone} · {response_time} · {currency} 같은 템플릿 변수로 매 메시지마다 자연스럽게 조정.</p>
                 </div>
             </div>
         </div>
@@ -512,33 +515,33 @@
     <!-- Use Cases -->
     <section class="use-cases">
         <div class="container">
-            <h2 class="section-title" data-i18n="useCasesTitle">이런 분들이 사용합니다</h2>
-            <p class="section-subtitle" data-i18n="useCasesSubtitle">직업과 상황에 맞게 활용하세요</p>
+            <h2 class="section-title" data-i18n="useCasesTitle">디지털 노마드 · 원격 프리랜서의 하루</h2>
+            <p class="section-subtitle" data-i18n="useCasesSubtitle">치앙마이·리스본·발리에서 폰으로 일하는 사람을 위해</p>
 
             <div class="use-case-grid">
                 <div class="use-case">
-                    <h4 data-i18n="useCase1Title">👨‍💼 CS 담당자</h4>
-                    <p data-i18n="useCase1Desc">고객 문의 답변 템플릿 저장</p>
+                    <h4 data-i18n="useCase1Title">💸 클라이언트 온보딩</h4>
+                    <p data-i18n="useCase1Desc">첫 DM에 IBAN · 주소 · Wise · 타임존 한 번에</p>
                 </div>
                 <div class="use-case">
-                    <h4 data-i18n="useCase2Title">👩‍💻 개발자</h4>
-                    <p data-i18n="useCase2Desc">코드 스니펫, PR 코멘트</p>
+                    <h4 data-i18n="useCase2Title">📨 제안서 후속</h4>
+                    <p data-i18n="useCase2Desc">"Just following up on..." — 내장 영어 템플릿 탭</p>
                 </div>
                 <div class="use-case">
-                    <h4 data-i18n="useCase3Title">📮 이커머스 셀러</h4>
-                    <p data-i18n="useCase3Desc">배송 안내, 교환/반품 정책</p>
+                    <h4 data-i18n="useCase3Title">⏰ 시차 응대</h4>
+                    <p data-i18n="useCase3Desc">{timezone} 변수로 현재 위치·응답 시간 자동</p>
                 </div>
                 <div class="use-case">
-                    <h4 data-i18n="useCase4Title">🏢 영업/마케터</h4>
-                    <p data-i18n="useCase4Desc">제안서 문구, 미팅 요청</p>
+                    <h4 data-i18n="useCase4Title">🧾 인보이스 발송</h4>
+                    <p data-i18n="useCase4Desc">VAT · Tax ID · 결제 기한 한 번에</p>
                 </div>
                 <div class="use-case">
-                    <h4 data-i18n="useCase5Title">👨‍⚕️ 의료/상담</h4>
-                    <p data-i18n="useCase5Desc">안내 문구, 예약 확인</p>
+                    <h4 data-i18n="useCase5Title">🗓 일정 조정</h4>
+                    <p data-i18n="useCase5Desc">Calendly 링크 · 리스케줄 문구 · 회의 확인</p>
                 </div>
                 <div class="use-case">
-                    <h4 data-i18n="useCase6Title">🎓 학생/연구자</h4>
-                    <p data-i18n="useCase6Desc">인용 형식, 참고문헌 템플릿</p>
+                    <h4 data-i18n="useCase6Title">💰 입금 리마인더</h4>
+                    <p data-i18n="useCase6Desc">"Kind reminder about invoice #..." 프로페셔널 톤</p>
                 </div>
             </div>
         </div>
@@ -547,7 +550,7 @@
     <!-- Privacy -->
     <section class="privacy">
         <h2 data-i18n="privacyTitle">🔒 당신의 데이터, 당신만의 것</h2>
-        <p data-i18n="privacyDesc">Clip Keyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.</p>
+        <p data-i18n="privacyDesc">ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.</p>
         <div class="privacy-badge" data-i18n="privacyBadge">
             ✓ Apple 개인정보 보호 정책 준수
         </div>
@@ -560,7 +563,7 @@
             <p class="section-subtitle" data-i18n="pricingSubtitle">구독 없음 · 추가 결제 없음</p>
 
             <div class="price-card">
-                <div class="price" data-i18n="price">₩5,500</div>
+                <div class="price" data-i18n="price">₩14,900</div>
                 <p class="price-desc" data-i18n="priceDesc">일회성 결제</p>
                 <ul class="price-features">
                     <li data-i18n="priceFeature1">무제한 문구 저장</li>
@@ -581,10 +584,12 @@
         <p>
             Made with ❤️ by <a href="https://github.com/m1zz" target="_blank">Leeo</a><br>
             <a href="mailto:leeo@kakao.com" data-i18n="footerContact">문의하기</a> ·
+            <a href="tutorial.html" data-i18n="footerTutorial">사용 가이드</a> ·
+            <a href="privacy.html" data-i18n="footerPrivacy">개인정보 처리방침</a> ·
             <a id="footer-appstore" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502">App Store</a>
         </p>
         <p style="margin-top: 1rem; font-size: 0.875rem;">
-            © 2024 Clip Keyboard. All rights reserved.
+            © 2026 ClipKeyboard. All rights reserved.
         </p>
     </footer>
 
@@ -592,58 +597,59 @@
         const translations = {
             ko: {
                 // Meta
-                pageTitle: "Clip Keyboard - 반복 입력은 그만, 탭 한 번이면 끝",
-                metaDescription: "자주 쓰는 메시지를 키보드에서 탭 한 번으로 입력하세요. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.",
-                ogTitle: "Clip Keyboard - 반복 입력은 그만",
-                ogDescription: "자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.",
+                pageTitle: "ClipKeyboard — 폰으로 일하는 원격 프리랜서를 위한 iOS 키보드",
+                metaDescription: "IBAN · SWIFT · VAT · 타임존 · 비원어민 영어 템플릿까지. 원격 프리랜서의 반복 입력을 탭 한 번으로 끝내는 iOS 키보드 익스텐션.",
+                ogTitle: "ClipKeyboard — 디지털 노마드를 위한 iOS 키보드",
+                ogDescription: "IBAN, 타임존, 비원어민 영어 템플릿. 폰으로 클라이언트 응대하는 프리랜서용 키보드.",
                 // Hero
                 heroBadge: "🔒 데이터 수집 없음 · 완전한 프라이버시",
-                heroTitle: '반복 입력은 그만,<br><span>탭 한 번이면 끝</span>',
-                heroSubtitle: '자주 쓰는 메시지를 키보드에 저장하고,<br>탭 한 번으로 어디서든 바로 입력하세요.',
+                heroTitle: '폰 하나로 클라이언트 응대,<br><span>탭 한 번이면 끝</span>',
+                heroSubtitle: 'IBAN · SWIFT · 타임존 · 영어 템플릿<br>한 번 저장, 어디서든 키보드에서 꺼내세요.',
                 heroCta: "App Store에서 다운로드",
+                heroTutorial: "사용 가이드 보기",
                 // Problem
-                problemTitle: "매일 같은 메시지를 타이핑하고 있나요?",
-                problemSubtitle: "반복 입력에 낭비되는 시간, 생각보다 많습니다",
-                problemCard1Title: "고객 응대",
-                problemCard1Desc: '"안녕하세요, 문의 감사합니다..."<br>하루에도 수십 번 같은 인사말',
-                problemCard2Title: "이메일 서명",
-                problemCard2Desc: '이름, 직책, 연락처...<br>매번 복사-붙여넣기 하기 귀찮음',
-                problemCard3Title: "코드 리뷰",
-                problemCard3Desc: '"LGTM", "확인했습니다", "수정 부탁드립니다"<br>자주 쓰는 코멘트들',
-                problemCard4Title: "SNS & 메신저",
-                problemCard4Desc: '계좌번호, 주소, 자주 보내는 링크<br>어딘가에 저장해두고 찾기 번거로움',
+                problemTitle: "폰으로 일하는데 같은 것만 반복 입력하고 있나요?",
+                problemSubtitle: "원격 프리랜서가 하루에 타이핑하는 것들",
+                problemCard1Title: "결제 정보",
+                problemCard1Desc: 'IBAN · SWIFT · Wise · PayPal<br>매 클라이언트마다 같은 정보 반복',
+                problemCard2Title: "타임존 응대",
+                problemCard2Desc: '"I\'m in GMT+7, will reply in ~6h"<br>매 새 DM마다 다시 설명',
+                problemCard3Title: "비원어민 영어",
+                problemCard3Desc: '제안 후속 · 입금 리마인더 · 일정 조정<br>"이 톤이 프로페셔널한가?" 매번 고민',
+                problemCard4Title: "세금·서류",
+                problemCard4Desc: 'VAT · Tax ID · 사업자 주소<br>오타 한 번에 인보이스 반려',
                 // Solution
-                solutionTitle: "Clip Keyboard로 해결하세요",
-                solutionSubtitle: "설정 한 번, 평생 편리함",
-                solutionCard1Title: "자주 쓰는 문구 저장",
-                solutionCard1Desc: "인사말, 서명, 주소, 계좌번호, 자주 쓰는 답변까지 - 무제한으로 저장하세요.",
-                solutionCard2Title: "키보드에서 바로 선택",
-                solutionCard2Desc: "어떤 앱에서든 키보드를 열고 저장한 문구를 탭하면 바로 입력됩니다.",
-                solutionCard3Title: "시간 절약, 실수 방지",
-                solutionCard3Desc: "타이핑 오류 없이 정확하게. 반복 작업 시간을 90% 이상 줄여줍니다.",
+                solutionTitle: "ClipKeyboard로 해결하세요",
+                solutionSubtitle: "폰 하나로 클라이언트 응대가 끝나는 이유",
+                solutionCard1Title: "금융 정보 한 번만 입력",
+                solutionCard1Desc: "IBAN · SWIFT · VAT · Wise · PayPal. 한 번 저장해두면 Gmail · Slack · Upwork · Deel 어디서든 탭 한 번으로 입력.",
+                solutionCard2Title: "비원어민용 영어 템플릿 내장",
+                solutionCard2Desc: "제안 후속 · 입금 리마인더 · 일정 조정 · 스코프 푸쉬백 — 프로페셔널한 영어 30종 기본 제공. 톤 고민 끝.",
+                solutionCard3Title: "타임존·통화 자동 변수",
+                solutionCard3Desc: "{timezone} · {response_time} · {currency} 같은 템플릿 변수로 매 메시지마다 자연스럽게 조정.",
                 // Use Cases
-                useCasesTitle: "이런 분들이 사용합니다",
-                useCasesSubtitle: "직업과 상황에 맞게 활용하세요",
-                useCase1Title: "👨‍💼 CS 담당자",
-                useCase1Desc: "고객 문의 답변 템플릿 저장",
-                useCase2Title: "👩‍💻 개발자",
-                useCase2Desc: "코드 스니펫, PR 코멘트",
-                useCase3Title: "📮 이커머스 셀러",
-                useCase3Desc: "배송 안내, 교환/반품 정책",
-                useCase4Title: "🏢 영업/마케터",
-                useCase4Desc: "제안서 문구, 미팅 요청",
-                useCase5Title: "👨‍⚕️ 의료/상담",
-                useCase5Desc: "안내 문구, 예약 확인",
-                useCase6Title: "🎓 학생/연구자",
-                useCase6Desc: "인용 형식, 참고문헌 템플릿",
+                useCasesTitle: "디지털 노마드 · 원격 프리랜서의 하루",
+                useCasesSubtitle: "치앙마이·리스본·발리에서 폰으로 일하는 사람을 위해",
+                useCase1Title: "💸 클라이언트 온보딩",
+                useCase1Desc: "첫 DM에 IBAN · 주소 · Wise · 타임존 한 번에",
+                useCase2Title: "📨 제안서 후속",
+                useCase2Desc: '"Just following up on..." — 내장 영어 템플릿 탭',
+                useCase3Title: "⏰ 시차 응대",
+                useCase3Desc: "{timezone} 변수로 현재 위치·응답 시간 자동",
+                useCase4Title: "🧾 인보이스 발송",
+                useCase4Desc: "VAT · Tax ID · 결제 기한 한 번에",
+                useCase5Title: "🗓 일정 조정",
+                useCase5Desc: "Calendly 링크 · 리스케줄 문구 · 회의 확인",
+                useCase6Title: "💰 입금 리마인더",
+                useCase6Desc: '"Kind reminder about invoice #..." 프로페셔널 톤',
                 // Privacy
                 privacyTitle: "🔒 당신의 데이터, 당신만의 것",
-                privacyDesc: "Clip Keyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.",
+                privacyDesc: "ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 정보(금융·영어 템플릿·타임존)는 오직 당신의 기기에만 존재합니다.",
                 privacyBadge: "✓ Apple 개인정보 보호 정책 준수",
                 // Pricing
                 pricingTitle: "단 한 번의 결제, 평생 사용",
                 pricingSubtitle: "구독 없음 · 추가 결제 없음",
-                price: "₩5,500",
+                price: "₩14,900",
                 priceDesc: "일회성 결제",
                 priceFeature1: "무제한 문구 저장",
                 priceFeature2: "iPhone, iPad, Mac, Vision Pro 지원",
@@ -653,63 +659,66 @@
                 pricingCta: "지금 다운로드",
                 // Footer
                 footerContact: "문의하기",
+                footerTutorial: "사용 가이드",
+                footerPrivacy: "개인정보 처리방침",
                 // App Store URL
                 appStoreUrl: "https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502"
             },
             en: {
                 // Meta
-                pageTitle: "Clip Keyboard - Stop Retyping, One Tap Is All You Need",
-                metaDescription: "Save your frequently used messages and type them with a single tap from your keyboard. Customer support, emails, code reviews — save 90% of your repetitive typing time.",
-                ogTitle: "Clip Keyboard - Stop Retyping",
-                ogDescription: "Type frequently used messages with one tap. Save 90% of repetitive typing time.",
+                pageTitle: "ClipKeyboard — iOS keyboard for remote freelancers working from their phone",
+                metaDescription: "IBAN · SWIFT · VAT · timezone · built-in professional English templates. An iOS keyboard that ends the repetitive typing every remote freelancer does.",
+                ogTitle: "ClipKeyboard — iOS keyboard for digital nomads",
+                ogDescription: "IBAN, timezones, non-native English templates — saved once, tapped forever from any app.",
                 // Hero
                 heroBadge: "🔒 No Data Collection · Complete Privacy",
-                heroTitle: 'Stop Retyping,<br><span>One Tap Is All You Need</span>',
-                heroSubtitle: 'Save your go-to messages to your keyboard<br>and type them with a single tap, anywhere.',
+                heroTitle: 'Client work from your phone,<br><span>one tap at a time</span>',
+                heroSubtitle: 'IBAN · SWIFT · timezones · English templates.<br>Saved once, pulled from your keyboard anywhere.',
                 heroCta: "Download on the App Store",
+                heroTutorial: "Read the Guide",
                 // Problem
-                problemTitle: "Tired of typing the same messages every day?",
-                problemSubtitle: "You spend more time on repetitive typing than you think",
-                problemCard1Title: "Customer Support",
-                problemCard1Desc: '"Hello, thank you for reaching out..."<br>The same greeting dozens of times a day',
-                problemCard2Title: "Email Signatures",
-                problemCard2Desc: 'Name, title, contact info...<br>Copy-pasting every single time gets old',
-                problemCard3Title: "Code Reviews",
-                problemCard3Desc: '"LGTM", "Approved", "Please fix this"<br>The same comments over and over',
-                problemCard4Title: "Social & Messaging",
-                problemCard4Desc: 'Bank accounts, addresses, links you share often<br>Saved somewhere but hard to find',
+                problemTitle: "Working from your phone, retyping the same things?",
+                problemSubtitle: "What remote freelancers type every single day",
+                problemCard1Title: "Payment Info",
+                problemCard1Desc: 'IBAN · SWIFT · Wise · PayPal<br>Same info, every new client',
+                problemCard2Title: "Timezone Replies",
+                problemCard2Desc: '"I\'m in GMT+7, will reply in ~6h"<br>Typed in every new DM',
+                problemCard3Title: "Non-native English",
+                problemCard3Desc: 'Proposal follow-ups · payment reminders · reschedules<br>"Is this tone professional enough?"',
+                problemCard4Title: "Tax & Paperwork",
+                problemCard4Desc: 'VAT · Tax ID · business address<br>One typo = invoice bounced',
                 // Solution
-                solutionTitle: "Solve It with Clip Keyboard",
-                solutionSubtitle: "Set up once, enjoy forever",
-                solutionCard1Title: "Save Your Phrases",
-                solutionCard1Desc: "Greetings, signatures, addresses, account numbers, common replies — save unlimited phrases.",
-                solutionCard2Title: "Pick from Your Keyboard",
-                solutionCard2Desc: "Open your keyboard in any app, tap a saved phrase, and it's instantly typed.",
-                solutionCard3Title: "Save Time, Avoid Mistakes",
-                solutionCard3Desc: "Type accurately with zero typos. Cut your repetitive typing time by over 90%.",
+                solutionTitle: "Solve It with ClipKeyboard",
+                solutionSubtitle: "Why your phone is enough for client work",
+                solutionCard1Title: "Enter financial info once",
+                solutionCard1Desc: "IBAN · SWIFT · VAT · Wise · PayPal. Save once, tap to enter in Gmail, Slack, Upwork, Deel — anywhere.",
+                solutionCard2Title: "Built-in English templates",
+                solutionCard2Desc: "Proposal follow-ups, payment reminders, reschedules, scope pushbacks — 30 pro-tone English templates for non-native speakers.",
+                solutionCard3Title: "Timezone & currency variables",
+                solutionCard3Desc: "Template variables like {timezone} · {response_time} · {currency} adjust every message naturally.",
                 // Use Cases
-                useCasesTitle: "Who Uses Clip Keyboard",
-                useCasesSubtitle: "Adapt it to your job and daily workflow",
-                useCase1Title: "👨‍💼 Support Agents",
-                useCase1Desc: "Save response templates for customer inquiries",
-                useCase2Title: "👩‍💻 Developers",
-                useCase2Desc: "Code snippets, PR comments",
-                useCase3Title: "📮 E-commerce Sellers",
-                useCase3Desc: "Shipping info, return & exchange policies",
-                useCase4Title: "🏢 Sales & Marketing",
-                useCase4Desc: "Proposal templates, meeting requests",
-                useCase5Title: "👨‍⚕️ Medical & Counseling",
-                useCase5Desc: "Patient instructions, appointment confirmations",
-                useCase6Title: "🎓 Students & Researchers",
-                useCase6Desc: "Citation formats, bibliography templates",
+                useCasesTitle: "A remote freelancer's day",
+                useCasesSubtitle: "For people working on their phone from Chiang Mai, Lisbon, Bali",
+                useCase1Title: "💸 Client onboarding",
+                useCase1Desc: "First DM: IBAN, address, Wise, timezone — all ready",
+                useCase2Title: "📨 Proposal follow-ups",
+                useCase2Desc: '"Just following up on..." — tap a built-in English template',
+                useCase3Title: "⏰ Handling time zones",
+                useCase3Desc: "{timezone} variable auto-fills your current location & reply time",
+                useCase4Title: "🧾 Invoicing",
+                useCase4Desc: "VAT, tax ID, due date — entered in one shot",
+                useCase5Title: "🗓 Scheduling",
+                useCase5Desc: "Calendly links · reschedule lines · meeting confirmations",
+                useCase6Title: "💰 Payment reminders",
+                useCase6Desc: '"Kind reminder about invoice #..." — professional tone built in',
                 // Privacy
                 privacyTitle: "🔒 Your Data, Your Device Only",
-                privacyDesc: "Clip Keyboard collects no data whatsoever. Your saved phrases exist only on your device.",
+                privacyDesc: "ClipKeyboard collects no data whatsoever. Your saved info (financial, English templates, timezones) exists only on your device.",
                 privacyBadge: "✓ Apple Privacy Policy Compliant",
                 // Pricing
                 pricingTitle: "Pay Once, Use Forever",
                 pricingSubtitle: "No subscriptions · No additional charges",
-                price: "$3.99",
+                price: "$9.99",
                 priceDesc: "One-time purchase",
                 priceFeature1: "Unlimited phrase storage",
                 priceFeature2: "iPhone, iPad, Mac, Vision Pro",
@@ -719,6 +728,8 @@
                 pricingCta: "Download Now",
                 // Footer
                 footerContact: "Contact Us",
+                footerTutorial: "Tutorial",
+                footerPrivacy: "Privacy Policy",
                 // App Store URL
                 appStoreUrl: "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
             }

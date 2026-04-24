@@ -40,7 +40,7 @@ struct ClipKeyboardApp: App {
         if defaults?.bool(forKey: initKey) == true { return }
 
         let currentMemoCount: Int
-        if let memos = try? MemoStore.shared.load(type: .tokenMemo) {
+        if let memos = try? MemoStore.shared.load(type: .memo) {
             currentMemoCount = memos.count
         } else {
             currentMemoCount = 0
@@ -140,7 +140,7 @@ struct ClipKeyboardApp: App {
 
             CommandGroup(replacing: .help) {
                 Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
-                    if let url = URL(string: "https://leeo75.notion.site/ClipKeyboard-tutorial-70624fccc524465f99289c89bd0261a4?pvs=4") {
+                    if let url = URL(string: "https://m1zz.github.io/ClipKeyboard/tutorial.html") {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)
                         #endif
@@ -171,7 +171,7 @@ struct ClipKeyboardApp: App {
     private func copyMemoToClipboard(memoId: UUID) {
         let store = MemoStore.shared
         if store.memos.isEmpty {
-            try? store.memos = store.load(type: .tokenMemo)
+            try? store.memos = store.load(type: .memo)
         }
 
         guard let memo = store.memos.first(where: { $0.id == memoId }) else {

@@ -1,6 +1,6 @@
 //
 //  SettingView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 2023/06/05.
 //
@@ -233,7 +233,7 @@ struct CopyPasteView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "app.fill")
                             .foregroundColor(.blue)
-                        Text(NSLocalizedString("클립 키보드", comment: "ClipKeyboard app name"))
+                        Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
 
@@ -457,7 +457,7 @@ struct ContactView: View {
                 dismiss()
 
                 EmailController.shared.sendEmail(
-                    subject: NSLocalizedString("클립 키보드에 관해 문의드릴 것이 있습니다", comment: "Email subject"),
+                    subject: NSLocalizedString("클립키보드에 관해 문의드릴 것이 있습니다", comment: "Email subject"),
                     body: NSLocalizedString("안녕하세요 저는 클립키보드의 사용자입니다.", comment: "Email body"),
                     to: Constants.developerEmail
                 )

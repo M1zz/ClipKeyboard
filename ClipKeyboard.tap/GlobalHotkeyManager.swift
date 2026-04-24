@@ -1,6 +1,6 @@
 //
 //  GlobalHotkeyManager.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //

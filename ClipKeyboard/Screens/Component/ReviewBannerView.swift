@@ -14,7 +14,7 @@ struct ReviewBannerView: View {
     var body: some View {
         if ReviewManager.shared.shouldShowBanner && isVisible {
             VStack(spacing: 12) {
-                Text(NSLocalizedString("클립 키보드를 잘 쓰고 계신가요?", comment: "Review banner question"))
+                Text(NSLocalizedString("클립키보드를 잘 쓰고 계신가요?", comment: "Review banner question"))
                     .font(.headline)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)

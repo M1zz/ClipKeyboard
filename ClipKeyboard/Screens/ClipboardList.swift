@@ -1,6 +1,6 @@
 //
 //  ClipboardList.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 2023/06/03.
 //  Enhanced with Smart Classification by Claude Code
@@ -675,7 +675,7 @@ struct SaveToMemoSheet: View {
 
     private func saveToMemo() {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             let newMemo = Memo(
                 title: title,
                 value: item.content,
@@ -685,7 +685,7 @@ struct SaveToMemoSheet: View {
                 autoDetectedType: item.detectedType
             )
             memos.append(newMemo)
-            try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
             onComplete(true)
         } catch {
             print("Error saving to memo: \(error)")

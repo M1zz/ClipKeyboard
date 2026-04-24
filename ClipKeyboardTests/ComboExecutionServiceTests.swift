@@ -1,6 +1,6 @@
 //
 //  ComboExecutionServiceTests.swift
-//  Token memoTests
+//  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-01-16.
 //  Combo 실행 서비스 테스트
@@ -27,12 +27,12 @@ final class ComboExecutionServiceTests: XCTestCase {
             Memo(title: "메모3", value: "값3")
         ]
 
-        try? memoStore.save(memos: testMemos, type: .tokenMemo)
+        try? memoStore.save(memos: testMemos, type: .memo)
     }
 
     override func tearDown() {
         sut.stopCombo()
-        try? memoStore.save(memos: [], type: .tokenMemo)
+        try? memoStore.save(memos: [], type: .memo)
         try? memoStore.saveCombos([])
         testMemos = nil
         memoStore = nil
@@ -195,7 +195,7 @@ final class ComboExecutionServiceTests: XCTestCase {
             value: "오늘은 {날짜}입니다",
             isTemplate: true
         )
-        try? memoStore.save(memos: [template], type: .tokenMemo)
+        try? memoStore.save(memos: [template], type: .memo)
 
         let combo = Combo(title: "날짜 테스트", items: [
             ComboItem(type: .template, referenceId: template.id, order: 0)
@@ -223,7 +223,7 @@ final class ComboExecutionServiceTests: XCTestCase {
             value: "현재 시각: {시간}",
             isTemplate: true
         )
-        try? memoStore.save(memos: [template], type: .tokenMemo)
+        try? memoStore.save(memos: [template], type: .memo)
 
         let combo = Combo(title: "시간 테스트", items: [
             ComboItem(type: .template, referenceId: template.id, order: 0)

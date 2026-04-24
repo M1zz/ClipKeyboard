@@ -1,6 +1,6 @@
 //
 //  ModelTests.swift
-//  Token memoTests
+//  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-01-16.
 //  데이터 모델 단위 테스트

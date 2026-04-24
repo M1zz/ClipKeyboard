@@ -1,6 +1,6 @@
 //
 //  ComboList.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Claude Code on 2025-12-06.
 //  Phase 2: Combo System
@@ -500,7 +500,7 @@ struct ComboAddEditView: View {
 
     private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
         do {
-            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            let memos = try MemoStore.shared.load(type: .memo)
             return memos.first(where: { $0.id == templateId && $0.isTemplate })
         } catch {
             print("❌ [ComboAddEditView] 템플릿 로드 실패: \(error)")
@@ -573,7 +573,7 @@ struct ComboItemPickerSheet: View {
 
     private func loadTemplateMemo(_ templateId: UUID) -> Memo? {
         do {
-            let memos = try MemoStore.shared.load(type: .tokenMemo)
+            let memos = try MemoStore.shared.load(type: .memo)
             return memos.first(where: { $0.id == templateId && $0.isTemplate })
         } catch {
             print("❌ [ComboItemPickerSheet] 템플릿 로드 실패: \(error)")

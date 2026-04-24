@@ -1,6 +1,6 @@
 //
 //  Models.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -223,7 +223,7 @@ struct Memo: Identifiable, Codable {
 }
 
 enum MemoType {
-    case tokenMemo
+    case memo
     case clipboardHistory
 }
 
@@ -355,7 +355,7 @@ class MemoStore: ObservableObject {
 
         let fileURL: URL
         switch type {
-        case .tokenMemo:
+        case .memo:
             fileURL = containerURL.appendingPathComponent("memos.data")
         case .clipboardHistory:
             fileURL = containerURL.appendingPathComponent("clipboard.history.data")

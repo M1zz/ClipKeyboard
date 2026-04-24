@@ -57,7 +57,7 @@ struct ComboSheetResolver: View {
         print("🔍 [ComboSheetResolver] 메모리에 없음 - 파일에서 로드")
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                let memos = try MemoStore.shared.load(type: .tokenMemo)
+                let memos = try MemoStore.shared.load(type: .memo)
                 if let memo = memos.first(where: { $0.id == comboId }) {
                     DispatchQueue.main.async {
                         print("✅ [ComboSheetResolver] 파일에서 찾음: \(memo.title)")
@@ -307,11 +307,11 @@ struct ComboEditSheet: View {
 
     private func saveChanges() {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             if let index = memos.firstIndex(where: { $0.id == memo.id }) {
                 memos[index].comboValues = comboValues
                 memos[index].currentComboIndex = currentComboIndex
-                try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+                try MemoStore.shared.save(memos: memos, type: .memo)
                 print("✅ [ComboEditSheet] 저장 완료 - 값 \(comboValues.count)개, 인덱스: \(currentComboIndex)")
             }
         } catch {

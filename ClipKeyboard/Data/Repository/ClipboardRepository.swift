@@ -1,6 +1,6 @@
 //
 //  ClipboardRepository.swift
-//  Token memo
+//  ClipKeyboard
 //
 
 import Foundation

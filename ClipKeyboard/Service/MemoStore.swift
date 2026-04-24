@@ -1,6 +1,6 @@
 //
 //  MemoStore.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by hyunho lee on 2023/05/16.
 //
@@ -13,7 +13,7 @@ import VisionKit
 #endif
 
 enum MemoType {
-    case tokenMemo
+    case memo
     case clipboardHistory
     case smartClipboardHistory
     case combo
@@ -35,7 +35,7 @@ class MemoStore: ObservableObject {
         }
 
         switch type {
-        case .tokenMemo:
+        case .memo:
             return containerURL.appendingPathComponent("memos.data")
         case .clipboardHistory:
             return containerURL.appendingPathComponent("clipboard.history.data")
@@ -91,11 +91,11 @@ class MemoStore: ObservableObject {
     // MARK: - Clip Count
 
     func incrementClipCount(for memoId: UUID) throws {
-        var memos = try load(type: .tokenMemo)
+        var memos = try load(type: .memo)
         if let index = memos.firstIndex(where: { $0.id == memoId }) {
             memos[index].clipCount += 1
             memos[index].lastUsedAt = Date()
-            try save(memos: memos, type: .tokenMemo)
+            try save(memos: memos, type: .memo)
         }
     }
 
@@ -226,7 +226,7 @@ class MemoStore: ObservableObject {
     // MARK: - Favorite
 
     func hasFavoriteMemo() -> Bool {
-        guard let memos = try? load(type: .tokenMemo) else { return false }
+        guard let memos = try? load(type: .memo) else { return false }
         return memos.contains(where: { $0.isFavorite })
     }
 
@@ -306,7 +306,7 @@ class MemoStore: ObservableObject {
     }
 
     func deletePlaceholderValues(fromMemoId memoId: UUID) {
-        let allMemos = (try? load(type: .tokenMemo)) ?? []
+        let allMemos = (try? load(type: .memo)) ?? []
         var allPlaceholders: Set<String> = []
 
         for memo in allMemos where memo.isTemplate {
@@ -386,23 +386,23 @@ class MemoStore: ObservableObject {
     func getComboItemValue(_ item: ComboItem) throws -> String? {
         switch item.type {
         case .memo:
-            return try load(type: .tokenMemo).first(where: { $0.id == item.referenceId })?.value
+            return try load(type: .memo).first(where: { $0.id == item.referenceId })?.value
         case .clipboardHistory:
             return try loadSmartClipboardHistory().first(where: { $0.id == item.referenceId })?.content
         case .template:
             if let displayValue = item.displayValue, !displayValue.isEmpty { return displayValue }
-            return try load(type: .tokenMemo).first(where: { $0.id == item.referenceId })?.value
+            return try load(type: .memo).first(where: { $0.id == item.referenceId })?.value
         }
     }
 
     func validateComboItem(_ item: ComboItem) throws -> Bool {
         switch item.type {
         case .memo:
-            return try load(type: .tokenMemo).contains(where: { $0.id == item.referenceId && !$0.isTemplate })
+            return try load(type: .memo).contains(where: { $0.id == item.referenceId && !$0.isTemplate })
         case .clipboardHistory:
             return try loadSmartClipboardHistory().contains(where: { $0.id == item.referenceId })
         case .template:
-            return try load(type: .tokenMemo).contains(where: { $0.id == item.referenceId && $0.isTemplate })
+            return try load(type: .memo).contains(where: { $0.id == item.referenceId && $0.isTemplate })
         }
     }
 

@@ -1,6 +1,6 @@
 //
 //  ClipboardHistoryView.swift
-//  TokenMemo.tap
+//  ClipKeyboard.tap
 //
 //  Created by Claude on 2025-11-28.
 //
@@ -212,7 +212,7 @@ struct ClipboardHistoryView: View {
 
     private func saveToMemo(_ item: ClipboardHistory) {
         do {
-            var memos = try MemoStore.shared.load(type: .tokenMemo)
+            var memos = try MemoStore.shared.load(type: .memo)
             let newMemo = Memo(
                 title: item.contentType == .image ? "이미지" : String(item.content.prefix(30)),
                 value: item.content,
@@ -221,7 +221,7 @@ struct ClipboardHistoryView: View {
                 contentType: item.contentType
             )
             memos.append(newMemo)
-            try MemoStore.shared.save(memos: memos, type: .tokenMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
 
             toastMessage = "메모로 저장되었습니다"
             showToast = true

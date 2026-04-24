@@ -1,6 +1,6 @@
 //
 //  PlaceholderSelectorView.swift
-//  Token memo
+//  ClipKeyboard
 //
 //  Created by Leeo on 12/11/25.
 //
