@@ -305,12 +305,8 @@ struct KeyboardView: View {
 
     private var freeUpgradeBanner: some View {
         Button {
-            if let url = URL(string: "clipkeyboard://paywall") {
-                var responder: UIResponder? = UIApplication.shared
-                // extensionContext를 통해 URL 열기 시도
-                NotificationCenter.default.post(name: NSNotification.Name("openMainAppPaywall"), object: nil)
-                _ = responder
-            }
+            // KeyboardViewController가 이 알림을 받아 URL scheme으로 메인 앱 열기
+            NotificationCenter.default.post(name: NSNotification.Name("openMainAppPaywall"), object: nil)
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "lock.fill")

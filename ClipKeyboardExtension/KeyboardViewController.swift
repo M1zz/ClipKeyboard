@@ -314,7 +314,10 @@ class KeyboardViewController: UIInputViewController {
         let t3 = NotificationCenter.default.addObserver(forName: NSNotification.Name("templateInputComplete"), object: nil, queue: .main) { [weak self] notification in
             self?.handleTemplateInputComplete(notification)
         }
-        notificationTokens = [t1, t2, t3]
+        let t4 = NotificationCenter.default.addObserver(forName: NSNotification.Name("openMainAppPaywall"), object: nil, queue: .main) { [weak self] _ in
+            self?.openMainAppPaywall()
+        }
+        notificationTokens = [t1, t2, t3, t4]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
