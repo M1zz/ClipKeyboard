@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ComboList: View {
+    @Environment(\.appTheme) private var theme
     @State private var combos: [Combo] = []
     @State private var showAddCombo = false
     @State private var showToast = false
@@ -34,6 +35,9 @@ struct ComboList: View {
                         }
                         .onDelete(perform: deleteCombo)
                     }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(theme.bg)
                 }
             }
             .navigationTitle("Combo")
@@ -185,6 +189,8 @@ struct ComboList: View {
 // MARK: - Empty View
 
 struct EmptyComboView: View {
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         VStack(spacing: 20) {
             Image(systemName: "arrow.triangle.2.circlepath.circle")
@@ -194,11 +200,11 @@ struct EmptyComboView: View {
             Text(NSLocalizedString("Combo가 없습니다", comment: "Empty combo list title"))
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
 
             Text(NSLocalizedString("여러 메모를 순서대로 자동 입력하는\nCombo를 만들어보세요", comment: "Empty combo list description"))
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
@@ -212,6 +218,7 @@ struct ComboRowView: View {
     let combo: Combo
     let onExecute: () -> Void
     let onEdit: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Button(action: onEdit) {
@@ -243,16 +250,16 @@ struct ComboRowView: View {
                 HStack(spacing: 12) {
                     Label(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count), systemImage: "list.bullet")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     Label(String(format: NSLocalizedString("%d초 간격", comment: ""), Int(combo.interval)), systemImage: "timer")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(theme.textMuted)
 
                     if combo.useCount > 0 {
                         Label(String(format: NSLocalizedString("%d회 사용", comment: ""), combo.useCount), systemImage: "chart.bar.fill")
                             .font(.caption)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     }
                 }
 
@@ -266,7 +273,7 @@ struct ComboRowView: View {
                         if combo.items.count > 3 {
                             Text("+\(combo.items.count - 3)")
                                 .font(.caption2)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(theme.textMuted)
                         }
                     }
                 }
@@ -342,6 +349,7 @@ struct ComboAddEditView: View {
     let onSave: (Combo) -> Void
 
     @Environment(\.dismiss) var dismiss
+    @Environment(\.appTheme) private var theme
     @State private var title: String = ""
     @State private var interval: TimeInterval = 2.0
     @State private var selectedItems: [ComboItem] = []
@@ -376,18 +384,18 @@ struct ComboAddEditView: View {
                 Section {
                     if selectedItems.isEmpty {
                         Text(NSLocalizedString("항목을 추가해주세요", comment: "Add items prompt"))
-                            .foregroundColor(.secondary)
+                            .foregroundColor(theme.textMuted)
                     } else {
                         ForEach(selectedItems) { item in
                             HStack {
                                 Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(theme.textFaint)
                                 ComboItemChip(item: item)
                                 Spacer()
                                 if let title = item.displayTitle {
                                     Text(title)
                                         .font(.caption)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(theme.textMuted)
                                         .lineLimit(1)
                                 }
 

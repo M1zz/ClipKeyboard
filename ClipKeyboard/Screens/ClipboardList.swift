@@ -90,6 +90,8 @@ struct ClipboardList: View {
                         }
                     }
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(theme.bg)
                     .onChange(of: recentlyAddedId) { newId in
                         if let id = newId {
                             withAnimation(.easeInOut(duration: 0.5)) {
@@ -427,7 +429,7 @@ struct TypeFilterBar: View {
             .padding(.horizontal)
             .padding(.vertical, 8)
         }
-        .background(theme.surfaceAlt)
+        .background(theme.bg)
     }
 }
 

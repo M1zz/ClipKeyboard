@@ -184,6 +184,8 @@ struct SettingView: View {
             }
         }
         .listStyle(.grouped)
+        .scrollContentBackground(.hidden)
+        .background(theme.bg.ignoresSafeArea())
         .sheet(isPresented: $showPaywall) {
             PaywallView()
         }
