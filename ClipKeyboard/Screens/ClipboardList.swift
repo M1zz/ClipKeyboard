@@ -85,6 +85,9 @@ struct ClipboardList: View {
                                     )
                                 }
                                 .id(item.id)
+                                .listRowBackground(Color.clear)
+                                .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+                                .listRowSeparator(.hidden)
                             }
                             .onDelete(perform: isSelectingForCombo ? nil : deleteItems)
                         }
@@ -539,16 +542,21 @@ struct ClipboardItemRow: View {
                     }
                 }
             }
-            .padding(.vertical, 4)
+            .padding(12)
         }
         .buttonStyle(.plain)
         .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(isHighlighted ? Color.fromName(displayType.color).opacity(0.15) : Color.clear)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .fill(theme.surface)
+                .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .fill(isHighlighted ? Color.fromName(displayType.color).opacity(0.1) : Color.clear)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(isHighlighted ? Color.fromName(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )

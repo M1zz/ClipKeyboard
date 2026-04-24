@@ -121,6 +121,7 @@ struct ClipKeyboardList: View {
                         }
                     }
                     .listStyle(PlainListStyle())
+                    .scrollContentBackground(.hidden)
                 }
 
                 // 빈 화면
@@ -329,7 +330,11 @@ struct ClipKeyboardList: View {
                 fontSize: fontSize,
                 showFavoriteNudge: viewModel.tokenMemos.first?.id == memo.id && viewModel.showFavoriteNudge
             )
+            .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .background(theme.surface)
+            .cornerRadius(theme.radiusMd)
+            .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
             .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
@@ -358,6 +363,9 @@ struct ClipKeyboardList: View {
             memoContextMenu(memo: memo)
         }
         .transition(.scale)
+        .listRowBackground(Color.clear)
+        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
+        .listRowSeparator(.hidden)
     }
 
     /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
