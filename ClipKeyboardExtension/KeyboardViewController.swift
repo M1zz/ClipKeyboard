@@ -131,7 +131,7 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
-    private let keyboardView = KeyboardView()
+    private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self)
     private var hostingController: UIHostingController<KeyboardView>?
 
     override func viewDidLoad() {
@@ -141,13 +141,9 @@ class KeyboardViewController: UIInputViewController {
         configureNextKeyboardButton()
         loadMemos()
         setupNotificationObservers()
+        setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
 
-        let bottomView = setupHostingController()
-        setupBottomBarLayout(bottomView)
-
-        print("✅ viewDidLoad 완료!")
-        print("- bottomView가 추가되었습니다")
-        print("- spaceButton, backButton, returnButton이 추가되었습니다")
+        print("✅ viewDidLoad 완료 — fullscreen SwiftUI keyboard")
     }
 
     /// 키보드 익스텐션 잠금 오버레이.
@@ -253,7 +249,9 @@ class KeyboardViewController: UIInputViewController {
     }
 
     /// SwiftUI KeyboardView를 호스팅하고, 하단 bottomView를 생성하여 반환
-    private func setupHostingController() -> UIView {
+    /// SwiftUI KeyboardView를 화면 전체에 호스팅. 하단 UIKit 바 제거됨 —
+    /// globe/space/backspace/return은 모두 SwiftUI 키보드 (특히 Type 탭) 안에 통합.
+    private func setupHostingController() {
         let hostingVC = UIHostingController(rootView: keyboardView)
         self.hostingController = hostingVC
         addChild(hostingVC)
@@ -266,56 +264,12 @@ class KeyboardViewController: UIInputViewController {
         hostingVC.didMove(toParent: self)
         view.backgroundColor = .clear
 
-        let bottomView = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 30))
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.backgroundColor = .clear
-        view.addSubview(bottomView)
-
         NSLayoutConstraint.activate([
             myKeyboardView.topAnchor.constraint(equalTo: view.topAnchor),
             myKeyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             myKeyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            myKeyboardView.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
-            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            bottomView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            bottomView.heightAnchor.constraint(equalToConstant: 54)
+            myKeyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-
-        return bottomView
-    }
-
-    private func setupBottomBarLayout(_ bottomView: UIView) {
-        bottomView.addSubview(globeKeyboardButton)
-        globeKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        globeKeyboardButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8).isActive = true
-        globeKeyboardButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-        globeKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-
-        bottomView.addSubview(spaceButton)
-        spaceButton.translatesAutoresizingMaskIntoConstraints = false
-        spaceButton.leadingAnchor.constraint(equalTo: globeKeyboardButton.trailingAnchor, constant: 8).isActive = true
-        spaceButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-        spaceButton.addTarget(self, action: #selector(spacePressed), for: .touchUpInside)
-
-        bottomView.addSubview(backButton)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.leadingAnchor.constraint(equalTo: spaceButton.trailingAnchor, constant: 6).isActive = true
-        backButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-        backButton.addTarget(self, action: #selector(backSpacePressed), for: .touchUpInside)
-
-        bottomView.addSubview(returnButton)
-        returnButton.translatesAutoresizingMaskIntoConstraints = false
-        returnButton.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 6).isActive = true
-        returnButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -8).isActive = true
-        returnButton.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
-        returnButton.addTarget(self, action: #selector(returnPressed), for: .touchUpInside)
-
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(KeyboardViewController.handleLongPress(_:)))
-        longPress.minimumPressDuration = 0.3
-        longPress.numberOfTouchesRequired = 1
-        longPress.allowableMovement = 10
-        backButton.addGestureRecognizer(longPress)
     }
 
     private func setupNotificationObservers() {
@@ -790,4 +744,25 @@ extension UIView {
             subview.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+}
+
+// MARK: - TypingInputProxy
+
+extension KeyboardViewController: TypingInputProxy {
+    /// 키보드 host 앱 텍스트 필드에 문자 입력
+    func insertText(_ text: String) {
+        print("⌨️ [TypingProxy.insertText] '\(text)' — hasInput=\(textDocumentProxy.hasText)")
+        textDocumentProxy.insertText(text)
+    }
+    /// 한 글자 삭제
+    func deleteBackward() {
+        print("⌨️ [TypingProxy.deleteBackward]")
+        textDocumentProxy.deleteBackward()
+    }
+    /// 엔터 입력
+    func insertNewline() {
+        print("⌨️ [TypingProxy.insertNewline]")
+        textDocumentProxy.insertText("\n")
+    }
+    /// `advanceToNextInputMode()`는 UIInputViewController에 이미 있어 별도 구현 불요.
 }

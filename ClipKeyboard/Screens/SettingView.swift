@@ -110,6 +110,10 @@ struct SettingView: View {
                     Text(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
                 }
 
+                NavigationLink(destination: UsageGuideView()) {
+                    Text(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
+                }
+
                 NavigationLink(destination: TutorialView()) {
                     Text(NSLocalizedString("사용 가이드", comment: "User guide"))
                 }

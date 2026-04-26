@@ -132,8 +132,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
         if let typeFilter = selectedTypeFilter {
             let beforeCount = filtered.count
-            filtered = filtered.filter { $0.category == typeFilter.rawValue }
-            print("🔍 [applyFilters] 테마 필터 '\(typeFilter.rawValue)' 적용 - \(beforeCount)개 → \(filtered.count)개")
+            // resolvedType 기반 필터링: 이미지/자동분류된 타입까지 정확히 반영
+            filtered = filtered.filter {
+                ClipboardClassificationService.shared.resolvedType(for: $0) == typeFilter
+            }
+            print("🔍 [applyFilters] 타입 필터 '\(typeFilter.rawValue)' 적용 - \(beforeCount)개 → \(filtered.count)개")
 
             if filtered.isEmpty && !loadedData.isEmpty && searchQueryString.isEmpty {
                 print("⚠️ [applyFilters] 필터 결과 0개 - 필터 자동 해제")
