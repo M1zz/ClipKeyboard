@@ -190,6 +190,8 @@ final class MemoAddViewModel: ObservableObject {
             let finalCategory = determineFinalCategory()
             updateRecentlyUsedCategories(finalCategory)
 
+            let isNewMemo = editingMemo == nil
+
             let (finalMemoId, finalMemoTitle) = try applyMemoToList(
                 &loadedMemos,
                 imageFileNames: imageFileNames,
@@ -198,6 +200,17 @@ final class MemoAddViewModel: ObservableObject {
 
             try memoRepository.save(loadedMemos)
             savePlaceholderValues(memoId: finalMemoId, memoTitle: finalMemoTitle)
+
+            // Analytics — 새 메모일 때만 (수정은 제외)
+            if isNewMemo {
+                let memoType: String
+                if isCombo { memoType = "combo" }
+                else if isTemplate { memoType = "template" }
+                else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" }
+                else if !imageFileNames.isEmpty { memoType = "image" }
+                else { memoType = "text" }
+                AnalyticsService.logMemoCreated(memoType: memoType, memoCount: loadedMemos.count)
+            }
 
             showToastMessage(NSLocalizedString("저장됨", comment: "Saved toast"))
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { dismiss() }

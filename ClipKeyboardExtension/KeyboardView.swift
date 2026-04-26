@@ -146,12 +146,50 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    @AppStorage("keyboardTheme") private var keyboardTheme: String = "system"
-    @AppStorage("keyboardBackgroundColor") private var keyboardBackgroundColorHex: String = "F5F5F5"
-    @AppStorage("keyboardKeyColor") private var keyboardKeyColorHex: String = "FFFFFF"
     @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var keyboardColumnCount: Int = 2
     @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 40.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 15.0
+
+    // 색상 커스터마이즈 — 기본은 false (Paper 테마 사용), true면 hex 오버라이드
+    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var useCustomColors: Bool = false
+    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customKeyHex: String = ""
+
+    // 옵션 토글 — 기본 OFF로 화면 공간 확보
+    @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showSearchBar: Bool = false
+    @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecentSection: Bool = false
+
+    // 타이핑 모드 — Memos / Type 전환
+    @State private var inputMode: InputMode = .memos
+    /// 마지막으로 사용한 언어 모드 — 재실행해도 유지
+    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var typingLangRaw: String = "english"
+
+    private var typingLang: Binding<TypingKeyboardView.InputLang> {
+        Binding(
+            get: {
+                switch typingLangRaw {
+                case "korean": return .korean
+                default: return .english
+                }
+            },
+            set: { newValue in
+                switch newValue {
+                case .korean: typingLangRaw = "korean"
+                case .english: typingLangRaw = "english"
+                }
+            }
+        )
+    }
+
+    /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
+    let typingProxy: TypingInputProxy?
+
+    init(typingProxy: TypingInputProxy? = nil) {
+        self.typingProxy = typingProxy
+    }
+
+    enum InputMode { case memos, typing }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
     private var gridItemLayout: [GridItem] {
@@ -164,55 +202,164 @@ struct KeyboardView: View {
     @State private var templateObserverToken: NSObjectProtocol?
     @State private var showImageCopiedToast = false
 
+    // 검색 상태
+    @State private var searchQuery: String = ""
+    @State private var isSearching: Bool = false
+    @State private var searchKeyboardLang: SearchLang = .english
+
+    // 콤보 전용 탭
+    @State private var showCombosOnly: Bool = false
+
     @StateObject private var templateInputState = TemplateInputState()
 
     @Environment(\.colorScheme) var colorScheme
 
-    // MARK: - Computed Properties
+    enum SearchLang { case english, korean }
 
-    private var filteredMemos: [Memo] {
-        if let filter = selectedCategoryFilter {
-            return allMemos.filter { $0.category == filter.rawValue }
-        }
-        return allMemos
+    /// iOS 앱과 동일한 Paper 테마 — light/dark는 시스템 모드 따름
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark)
     }
 
-    private var categoriesWithCounts: [(type: ClipboardItemType, count: Int)] {
-        var result: [(ClipboardItemType, Int)] = []
-        for type in ClipboardItemType.allCases {
-            let count = allMemos.filter { $0.category == type.rawValue }.count
-            if count > 0 {
-                result.append((type, count))
+    // MARK: - Computed Properties
+
+    /// resolvedType 기반 필터 + 검색 — iOS 앱과 일관성
+    private var filteredMemos: [Memo] {
+        var result = allMemos
+
+        // 콤보 전용 탭이 활성이면 콤보만
+        if showCombosOnly {
+            result = result.filter { $0.isCombo }
+        }
+
+        if let filter = selectedCategoryFilter {
+            result = result.filter {
+                ClipboardClassificationService.shared.resolvedType(for: $0) == filter
             }
         }
-        return result.sorted { $0.1 > $1.1 }
+        if !searchQuery.isEmpty {
+            let q = searchQuery
+            result = result.filter {
+                $0.title.localizedStandardContains(q) ||
+                $0.value.localizedStandardContains(q) ||
+                $0.category.localizedStandardContains(q)
+            }
+        }
+        return result
+    }
+
+    /// 카테고리 카운트 — resolvedType 기반
+    private var categoriesWithCounts: [(type: ClipboardItemType, count: Int)] {
+        var counts: [ClipboardItemType: Int] = [:]
+        for memo in allMemos {
+            if let type = ClipboardClassificationService.shared.resolvedType(for: memo) {
+                counts[type, default: 0] += 1
+            }
+        }
+        return counts.map { ($0.key, $0.value) }.sorted { $0.1 > $1.1 }
+    }
+
+    /// 콤보 보유 여부 — 콤보 탭 칩 노출 여부 결정
+    private var hasCombos: Bool {
+        allMemos.contains { $0.isCombo }
+    }
+
+    /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
+    private var recentMemos: [Memo] {
+        let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
+        return allMemos
+            .filter { ($0.lastUsedAt ?? .distantPast) >= weekAgo }
+            .sorted { ($0.lastUsedAt ?? .distantPast) > ($1.lastUsedAt ?? .distantPast) }
+            .prefix(5)
+            .map { $0 }
+    }
+
+    /// 최근 사용 섹션 노출 조건 — 검색·필터·콤보 탭 모두 비활성일 때만
+    private var shouldShowRecentSection: Bool {
+        searchQuery.isEmpty && selectedCategoryFilter == nil && !showCombosOnly && !recentMemos.isEmpty
     }
 
     // MARK: - Body
 
     var body: some View {
         VStack(spacing: 0) {
+            // 모드 탭 — Memos / Type
+            modeTabBar
+
+            if inputMode == .typing, let proxy = typingProxy {
+                TypingKeyboardView(proxy: proxy, lang: typingLang)
+            } else {
+                memoModeContent
+            }
+        }
+    }
+
+    private var modeTabBar: some View {
+        HStack(spacing: 0) {
+            modeTab(title: NSLocalizedString("Memos", comment: "Mode tab: memos"),
+                    icon: "list.bullet.rectangle",
+                    isSelected: inputMode == .memos) {
+                inputMode = .memos
+            }
+            modeTab(title: NSLocalizedString("Type", comment: "Mode tab: typing"),
+                    icon: "keyboard",
+                    isSelected: inputMode == .typing) {
+                inputMode = .typing
+            }
+        }
+        .padding(.horizontal, 8)
+        .padding(.top, 4)
+        .padding(.bottom, 2)
+    }
+
+    private func modeTab(title: String, icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            action()
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: icon)
+                    .font(.system(size: 11, weight: .semibold))
+                Text(title)
+                    .font(.system(size: 12, weight: .semibold))
+            }
+            .foregroundColor(isSelected ? .white : theme.text)
+            .frame(maxWidth: .infinity, minHeight: 28)
+            .background(isSelected ? Color.blue : theme.surface)
+            .clipShape(Capsule())
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    @ViewBuilder
+    private var memoModeContent: some View {
+        VStack(spacing: 0) {
             // 무료 유저: 숨겨진 메모 있을 때 업그레이드 배너
             if isFreeUser && hiddenMemoCount > 0 {
                 freeUpgradeBanner
             }
 
-            // 카테고리 필터 바 (iOS 앱과 동일한 스타일)
-            filterBar
+            // 검색 바 — 사용자 토글 ON일 때만
+            if showSearchBar {
+                searchBar
+            }
+
+            // 최근 사용 섹션 — 사용자 토글 ON + 검색·필터 비활성일 때만
+            if showRecentSection && !isSearching && shouldShowRecentSection {
+                recentSection
+            }
+
+            // 카테고리 필터 바 — 검색 중 아닐 때만
+            if !isSearching {
+                filterBar
+            }
 
             // 메모 그리드
             ZStack {
                 backgroundColor
 
                 if filteredMemos.isEmpty {
-                    VStack(spacing: 8) {
-                        Image(systemName: "tray")
-                            .font(.system(size: 30))
-                            .foregroundColor(.gray.opacity(0.5))
-                        Text(NSLocalizedString("메모가 없습니다", comment: "No memos"))
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
+                    emptyStateView
                 } else {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
@@ -225,7 +372,14 @@ struct KeyboardView: View {
                     }
                 }
             }
+
+            // 미니 검색 키보드 — 검색 중일 때만
+            if isSearching {
+                miniSearchKeyboard
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
+        .animation(.easeOut(duration: 0.22), value: isSearching)
         .overlay(
             Group {
                 if templateInputState.isShowing {
@@ -325,6 +479,256 @@ struct KeyboardView: View {
         .buttonStyle(.plain)
     }
 
+    // MARK: - Search Bar
+
+    /// 키보드 상단 검색 바 — 탭하면 미니 QWERTY 펼침.
+    private var searchBar: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 13))
+                .foregroundColor(.secondary)
+
+            if isSearching {
+                Text(searchQuery.isEmpty
+                     ? NSLocalizedString("Type to filter…", comment: "Search bar placeholder when active")
+                     : searchQuery)
+                    .font(.system(size: 14))
+                    .foregroundColor(searchQuery.isEmpty ? .secondary : .primary)
+                    .lineLimit(1)
+                Spacer(minLength: 0)
+                Button {
+                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    searchQuery = ""
+                    isSearching = false
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.secondary)
+                }
+            } else {
+                Text(NSLocalizedString("Search snippets", comment: "Search bar idle"))
+                    .font(.system(size: 14))
+                    .foregroundColor(.secondary)
+                Spacer(minLength: 0)
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+        .padding(.horizontal, 8)
+        .padding(.top, 4)
+        .padding(.bottom, 2)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard !isSearching else { return }
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            isSearching = true
+        }
+    }
+
+    // MARK: - Empty State
+
+    @ViewBuilder
+    private var emptyStateView: some View {
+        VStack(spacing: 10) {
+            Image(systemName: emptyStateIcon)
+                .font(.system(size: 26))
+                .foregroundColor(theme.textFaint)
+
+            VStack(spacing: 3) {
+                Text(emptyStateTitle)
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(theme.text)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .padding(.horizontal, 16)
+
+                Text(emptyStateSubtitle)
+                    .font(.system(size: 11))
+                    .foregroundColor(theme.textMuted)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+            }
+
+            // 빠져나갈 액션 — 검색·필터·콤보 탭에서 항상 명시적 escape 제공
+            if let escapeAction = emptyStateEscape {
+                Button {
+                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    escapeAction.handler()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 12))
+                        Text(escapeAction.label)
+                            .font(.system(size: 13, weight: .semibold))
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+                    .background(Color.blue)
+                    .clipShape(Capsule())
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.top, 4)
+            }
+        }
+    }
+
+    /// empty state에서 노출되는 escape 버튼 (있으면). 검색·필터·콤보별 다르게.
+    private var emptyStateEscape: (label: String, handler: () -> Void)? {
+        if !searchQuery.isEmpty {
+            return (NSLocalizedString("Clear search", comment: "Empty escape: clear search"), {
+                searchQuery = ""
+                isSearching = false
+            })
+        }
+        if showCombosOnly {
+            return (NSLocalizedString("Show all", comment: "Empty escape: show all memos"), {
+                showCombosOnly = false
+            })
+        }
+        if selectedCategoryFilter != nil {
+            return (NSLocalizedString("Clear filter", comment: "Empty escape: clear filter"), {
+                selectedCategoryFilter = nil
+            })
+        }
+        return nil
+    }
+
+    private var emptyStateIcon: String {
+        if !searchQuery.isEmpty { return "magnifyingglass" }
+        if showCombosOnly { return "bolt.slash" }
+        if selectedCategoryFilter != nil { return "tray" }
+        return "sparkles"  // 메모 0개일 때
+    }
+
+    private var emptyStateTitle: String {
+        if !searchQuery.isEmpty {
+            return String(format: NSLocalizedString("No matches for \"%@\"", comment: "Empty search result"), searchQuery)
+        }
+        if showCombosOnly {
+            return NSLocalizedString("No combos yet", comment: "Empty: no combos")
+        }
+        if selectedCategoryFilter != nil {
+            return NSLocalizedString("Nothing in this filter", comment: "Empty: no items in filter")
+        }
+        return NSLocalizedString("Save your IBAN once. Paste forever.", comment: "Empty: zero memos")
+    }
+
+    private var emptyStateSubtitle: String {
+        if !searchQuery.isEmpty {
+            return NSLocalizedString("Try a shorter keyword or clear the filter.", comment: "Empty hint: search")
+        }
+        if showCombosOnly {
+            return NSLocalizedString("Combos chain multiple snippets. Add one in the main app.", comment: "Empty hint: combos")
+        }
+        if selectedCategoryFilter != nil {
+            return NSLocalizedString("Try clearing the filter.", comment: "Empty hint: filter")
+        }
+        return NSLocalizedString("Add snippets in the main app — they'll appear here in seconds.", comment: "Empty hint: zero memos")
+    }
+
+    // MARK: - Mini Search Keyboard
+
+    /// 검색 전용 미니 QWERTY (높이 ~120pt). TextField 사용 X — 자체 버튼이 searchQuery 문자열에 append.
+    private var miniSearchKeyboard: some View {
+        VStack(spacing: 4) {
+            ForEach(Array(currentRows.enumerated()), id: \.offset) { _, row in
+                HStack(spacing: 3) {
+                    ForEach(row, id: \.self) { letter in
+                        searchKey(letter: letter)
+                    }
+                }
+            }
+            HStack(spacing: 3) {
+                langToggleKey
+                spaceKey
+                backspaceKey
+            }
+        }
+        .padding(.horizontal, 3)
+        .padding(.vertical, 4)
+        .background(theme.surfaceAlt)
+    }
+
+    private func searchKey(letter: String) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            searchQuery.append(letter)
+        } label: {
+            Text(letter)
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(theme.text)
+                .frame(maxWidth: .infinity, minHeight: 28)
+                .background(theme.surface)
+                .cornerRadius(6)
+        }
+    }
+
+    private var spaceKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            searchQuery.append(" ")
+        } label: {
+            HStack {
+                Spacer()
+                Image(systemName: "space")
+                    .font(.system(size: 11))
+                    .foregroundColor(theme.textMuted)
+                Spacer()
+            }
+            .frame(height: 28)
+            .background(theme.surface)
+            .cornerRadius(6)
+        }
+    }
+
+    private var backspaceKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            if !searchQuery.isEmpty { searchQuery.removeLast() }
+        } label: {
+            Image(systemName: "delete.left.fill")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 56, height: 28)
+                .background(theme.divider)
+                .cornerRadius(6)
+        }
+    }
+
+    private var langToggleKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            searchKeyboardLang = (searchKeyboardLang == .english) ? .korean : .english
+        } label: {
+            Text(searchKeyboardLang == .english ? "한" : "EN")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 40, height: 28)
+                .background(theme.divider)
+                .cornerRadius(6)
+        }
+    }
+
+    private var currentRows: [[String]] {
+        switch searchKeyboardLang {
+        case .english:
+            return [
+                ["q","w","e","r","t","y","u","i","o","p"],
+                ["a","s","d","f","g","h","j","k","l"],
+                ["z","x","c","v","b","n","m"]
+            ]
+        case .korean:
+            return [
+                ["ㅂ","ㅈ","ㄷ","ㄱ","ㅅ","ㅛ","ㅕ","ㅑ","ㅐ","ㅔ"],
+                ["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ","ㅗ","ㅓ","ㅏ","ㅣ"],
+                ["ㅋ","ㅌ","ㅊ","ㅍ","ㅠ","ㅜ","ㅡ"]
+            ]
+        }
+    }
+
     // MARK: - Filter Bar
 
     private var filterBar: some View {
@@ -336,9 +740,24 @@ struct KeyboardView: View {
                     icon: "list.bullet",
                     count: allMemos.count,
                     color: .blue,
-                    isSelected: selectedCategoryFilter == nil
+                    isSelected: selectedCategoryFilter == nil && !showCombosOnly
                 ) {
                     selectedCategoryFilter = nil
+                    showCombosOnly = false
+                }
+
+                // 콤보 전용 탭 (콤보 있는 경우만 노출)
+                if hasCombos {
+                    KeyboardFilterChip(
+                        title: NSLocalizedString("Combos", comment: "Filter: combos"),
+                        icon: "bolt.fill",
+                        count: allMemos.filter { $0.isCombo }.count,
+                        color: .orange,
+                        isSelected: showCombosOnly
+                    ) {
+                        showCombosOnly.toggle()
+                        if showCombosOnly { selectedCategoryFilter = nil }
+                    }
                 }
 
                 // 카테고리별 필터 칩 (메모 수 내림차순 정렬)
@@ -348,15 +767,59 @@ struct KeyboardView: View {
                         icon: item.type.icon,
                         count: item.count,
                         color: colorFor(item.type.color),
-                        isSelected: selectedCategoryFilter == item.type
+                        isSelected: selectedCategoryFilter == item.type && !showCombosOnly
                     ) {
                         selectedCategoryFilter = item.type
+                        showCombosOnly = false
                     }
                 }
             }
             .padding(.horizontal, 12)
-            .padding(.vertical, 6)
+            .padding(.vertical, 3)
         }
+    }
+
+    // MARK: - Recent Section
+
+    /// 최근 1주 사용한 메모 5개 — 헤더 없이 가로 스크롤 미니 카드만 (공간 절약)
+    private var recentSection: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 5) {
+                Image(systemName: "clock.arrow.circlepath")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(theme.textFaint)
+                ForEach(recentMemos) { memo in
+                    recentChip(memo)
+                }
+            }
+            .padding(.horizontal, 12)
+        }
+        .padding(.vertical, 2)
+    }
+
+    private func recentChip(_ memo: Memo) -> some View {
+        Button {
+            memoButtonAction(for: memo)
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: categoryIconFor(memo))
+                    .font(.system(size: 10))
+                    .foregroundColor(categoryColorFor(memo))
+                Text(memo.title)
+                    .font(.system(size: 12, weight: .medium))
+                    .foregroundColor(theme.text)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(theme.surface)
+            .clipShape(Capsule())
+            .overlay(
+                Capsule()
+                    .stroke(categoryColorFor(memo).opacity(0.3), lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 
     // MARK: - Memo Button
@@ -369,10 +832,82 @@ struct KeyboardView: View {
         } label: {
             memoButtonLabel(for: memo, catColor: catColor)
         }
+        .contextMenu {
+            Button {
+                UIPasteboard.general.string = memo.value
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            } label: {
+                Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+            }
+        } preview: {
+            memoLongPressPreview(memo: memo)
+        }
+    }
+
+    /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 — Mail 스타일
+    private func memoLongPressPreview(memo: Memo) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: categoryIconFor(memo))
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(categoryColorFor(memo))
+                Text(memo.title)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(theme.text)
+                Spacer(minLength: 0)
+                if memo.isCombo {
+                    Text(NSLocalizedString("Combo", comment: "Tag: combo"))
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.orange)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.orange.opacity(0.15))
+                        .clipShape(Capsule())
+                }
+                if isSensitive(memo) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 11))
+                        .foregroundColor(theme.textFaint)
+                }
+            }
+
+            // 콤보면 단계별 라인 모두 보여주기, 아니면 본문 통째로
+            if memo.isCombo && !memo.comboValues.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    ForEach(Array(memo.comboValues.enumerated()), id: \.offset) { index, value in
+                        HStack(alignment: .top, spacing: 8) {
+                            Text("\(index + 1).")
+                                .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                                .foregroundColor(theme.textFaint)
+                            Text(value)
+                                .font(.system(size: 13))
+                                .foregroundColor(theme.text)
+                        }
+                    }
+                }
+            } else {
+                Text(memo.value)
+                    .font(.system(size: 14))
+                    .foregroundColor(theme.text)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(16)
+        .frame(minWidth: 280, idealWidth: 320, maxWidth: 360, minHeight: 100, idealHeight: 200, maxHeight: 400)
+        .background(theme.surface)
     }
 
     private func memoButtonAction(for memo: Memo) {
         UIImpactFeedbackGenerator().impactOccurred()
+
+        // 메모 사용 직후 검색 모드 자동 종료 — 다음 입력은 깨끗한 상태에서 시작
+        if isSearching {
+            withAnimation(.easeOut(duration: 0.18)) {
+                searchQuery = ""
+                isSearching = false
+            }
+        }
 
         if memo.contentType == .image || memo.contentType == .mixed {
             copyImageToClipboard(memo: memo)
@@ -413,11 +948,11 @@ struct KeyboardView: View {
             ImageMemoButton(title: memo.title, fileName: fileName, buttonHeight: buttonHeight, buttonFontSize: buttonFontSize)
         } else {
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .foregroundColor(keyColor)
-                    .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
+                    .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: theme.radiusMd)
                             .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
                     )
 
@@ -427,7 +962,7 @@ struct KeyboardView: View {
                             .font(.system(size: 12))
                             .foregroundColor(catColor)
                         Text(memo.title)
-                            .foregroundStyle(Color(uiColor: .label))
+                            .foregroundColor(theme.text)
                             .lineLimit(1)
                             .font(.system(size: buttonFontSize, weight: .semibold))
                         if memo.isCombo && !memo.comboValues.isEmpty {
@@ -435,12 +970,22 @@ struct KeyboardView: View {
                                 .font(.system(size: 9))
                                 .foregroundColor(.orange)
                         }
+                        if isSensitive(memo) {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 9))
+                                .foregroundColor(theme.textFaint)
+                        }
                     }
                     if memo.isCombo && !memo.comboValues.isEmpty {
                         let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
                         Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
                             .font(.system(size: 10))
                             .foregroundColor(.orange.opacity(0.8))
+                            .lineLimit(1)
+                    } else if isSensitive(memo) {
+                        Text(displayValueFor(memo))
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundColor(theme.textMuted)
                             .lineLimit(1)
                     }
                 }
@@ -485,6 +1030,37 @@ struct KeyboardView: View {
         return "doc.text"
     }
 
+    /// 민감 정보 마스킹 — 카드/IBAN/계좌/VAT/Tax/여권 등 자릿수 노출 위험 타입에 대해
+    /// 마지막 4자리만 노출 ("•••• 1234"). 카페·공항 등 옆 사람 보일 수 있는 환경 보호.
+    private func displayValueFor(_ memo: Memo) -> String {
+        guard let resolvedType = ClipboardClassificationService.shared.resolvedType(for: memo) else {
+            return memo.value
+        }
+        let sensitive: Set<ClipboardItemType> = [
+            .creditCard, .bankAccount, .iban, .swift, .vat,
+            .taxID, .passportNumber, .insuranceNumber
+        ]
+        guard sensitive.contains(resolvedType) else { return memo.value }
+        let trimmed = memo.value
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "-", with: "")
+        guard trimmed.count > 4 else { return memo.value }
+        let last4 = String(trimmed.suffix(4))
+        return "•••• \(last4)"
+    }
+
+    /// 메모가 민감 정보인지 — 카드 라벨에서 작은 자물쇠 아이콘 노출용
+    private func isSensitive(_ memo: Memo) -> Bool {
+        guard let resolvedType = ClipboardClassificationService.shared.resolvedType(for: memo) else {
+            return false
+        }
+        let sensitive: Set<ClipboardItemType> = [
+            .creditCard, .bankAccount, .iban, .swift, .vat,
+            .taxID, .passportNumber, .insuranceNumber
+        ]
+        return sensitive.contains(resolvedType)
+    }
+
     private func colorFor(_ name: String) -> Color {
         let colorMap: [String: Color] = [
             "blue": .blue, "green": .green, "purple": .purple,
@@ -495,40 +1071,21 @@ struct KeyboardView: View {
         return colorMap[name] ?? .gray
     }
 
-    // MARK: - Theme Colors
+    // MARK: - Theme-derived Colors (Paper 테마 + 사용자 커스텀 오버라이드)
 
+    /// 기본은 iOS 앱 Paper 테마. `useCustomColors=true`이면 사용자 hex로 오버라이드.
     private var backgroundColor: Color {
-        if keyboardTheme == "시스템" {
-            return .clear
-        } else if keyboardTheme == "라이트" {
-            return .clear
-        } else if keyboardTheme == "다크" {
-            return .clear
-        } else if keyboardTheme == "커스텀" {
-            return Color(hex: keyboardBackgroundColorHex) ?? .clear
+        if useCustomColors, !customBgHex.isEmpty, let custom = Color(hex: customBgHex) {
+            return custom
         }
-        return .clear
+        return theme.bg
     }
 
     private var keyColor: Color {
-        if keyboardTheme == "시스템" {
-            return defaultKeyColor
-        } else if keyboardTheme == "라이트" {
-            return .white
-        } else if keyboardTheme == "다크" {
-            return Color(red: 0.17, green: 0.17, blue: 0.18)
-        } else if keyboardTheme == "커스텀" {
-            return Color(hex: keyboardKeyColorHex) ?? defaultKeyColor
+        if useCustomColors, !customKeyHex.isEmpty, let custom = Color(hex: customKeyHex) {
+            return custom
         }
-        return defaultKeyColor
-    }
-
-    private var defaultKeyColor: Color {
-        Color(uiColor: UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
-                ? UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
-                : .white
-        })
+        return theme.surface
     }
 }
 
@@ -850,23 +1407,5 @@ struct PlaceholderInputView: View {
         .padding(12)
         .background(Color(UIColor.systemGray6).opacity(0.5))
         .cornerRadius(10)
-    }
-}
-
-// Color extension for hex support (needed for keyboard target)
-extension Color {
-    init?(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
-
-        let r = Double((rgb & 0xFF0000) >> 16) / 255.0
-        let g = Double((rgb & 0x00FF00) >> 8) / 255.0
-        let b = Double(rgb & 0x0000FF) / 255.0
-
-        self.init(red: r, green: g, blue: b)
     }
 }

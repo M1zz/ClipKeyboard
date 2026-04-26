@@ -32,7 +32,9 @@ enum TemplateVariableProcessor {
         "{timezone}", "{타임존}",
         "{timezone_offset}",
         "{currency}", "{통화}",
-        "{greeting_time}", "{인사}"
+        "{greeting_time}", "{인사}",
+        // v4.0.3 city
+        "{city}", "{도시}"
     ]
 
     /// Substitute all known auto-variables in `text`. Custom placeholders ({이름},
@@ -94,7 +96,19 @@ enum TemplateVariableProcessor {
         result = result.replacingOccurrences(of: "{greeting_time}", with: greeting)
         result = result.replacingOccurrences(of: "{인사}", with: greeting)
 
+        // City — derived from timezone identifier (e.g. "Asia/Bangkok" → "Bangkok")
+        let city = cityFromTimezone(timezoneValue)
+        result = result.replacingOccurrences(of: "{city}", with: city)
+        result = result.replacingOccurrences(of: "{도시}", with: city)
+
         return result
+    }
+
+    /// 시간대 식별자에서 도시명 추출. "Asia/Bangkok" → "Bangkok"
+    /// 언더스코어는 공백으로 변환 ("America/Los_Angeles" → "Los Angeles")
+    private static func cityFromTimezone(_ tz: String) -> String {
+        guard let last = tz.split(separator: "/").last else { return tz }
+        return last.replacingOccurrences(of: "_", with: " ")
     }
 
     // MARK: - Greeting helper

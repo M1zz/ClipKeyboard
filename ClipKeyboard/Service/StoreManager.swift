@@ -96,12 +96,31 @@ class StoreManager: ObservableObject {
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
-                
+
                 // 구매 완료 처리
                 await updatePurchasedProducts()
                 await transaction.finish()
-                
+
                 print("✅ [StoreManager] 구매 성공: \(product.id)")
+
+                // Analytics — Offer Code 여부 판별 (iOS 17.2+에서만 direct 검출 가능)
+                var isOfferCode = false
+                var offerCodeName: String? = nil
+                if #available(iOS 17.2, *) {
+                    if transaction.offer?.type == .code {
+                        isOfferCode = true
+                        offerCodeName = transaction.offer?.id ?? "code"
+                    }
+                }
+                let priceDouble = NSDecimalNumber(decimal: product.price).doubleValue
+                AnalyticsService.logPaywallPurchase(
+                    productId: product.id,
+                    isOfferCode: isOfferCode,
+                    offerCode: offerCodeName,
+                    currency: product.priceFormatStyle.currencyCode,
+                    revenue: priceDouble
+                )
+
                 isLoading = false
                 return true
                 

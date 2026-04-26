@@ -41,6 +41,8 @@
 		587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
+		58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
+		58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
 		58AA11112B4D1A2100000004 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000003 /* ThemeSettings.swift */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */; };
@@ -48,6 +50,10 @@
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
+		58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */; };
+		58CC36AE2F9E6A880010DE3E /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AD2F9E6A880010DE3E /* FirebaseAnalyticsCore */; };
+		58CC36B02F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AF2F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport */; };
+		58CC36B22F9E6A880010DE3E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36B12F9E6A880010DE3E /* FirebaseCore */; };
 		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
 		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
 		58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00042B5E1A2100000004 /* NotificationExtension.swift */; };
@@ -90,6 +96,14 @@
 		A2BA33458AA645918E1CDF85 /* ComboRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA33458AA645918E1CDF84 /* ComboRepository.swift */; };
 		AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000001F3B00001 /* ReviewRequestView.swift */; };
 		AA00000400000001F3B00001 /* ReviewBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000300000001F3B00001 /* ReviewBannerView.swift */; };
+		AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000600000001F3B00002 /* UsageGuideView.swift */; };
+		AA00000700000001F3B00003 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
+		AA00000800000001F3B00003 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
+		AA00001000000001F3B00004 /* HangulComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001100000001F3B00004 /* HangulComposer.swift */; };
+		AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001300000001F3B00004 /* TypingKeyboardView.swift */; };
+		AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
+		AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
+		AA00001800000001F3B00007 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
 		B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */; };
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
 		DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */; };
@@ -171,6 +185,7 @@
 		587BDC4F2A1D0D40001464E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587BDC5A2A1FCA10001464E4 /* ClipKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboard.entitlements; sourceTree = "<group>"; };
 		587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardExtension.entitlements; sourceTree = "<group>"; };
+		58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000003 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* ClipKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +235,11 @@
 		A2BA33458AA645918E1CDF84 /* ComboRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboRepository.swift; sourceTree = "<group>"; };
 		AA00000100000001F3B00001 /* ReviewRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestView.swift; sourceTree = "<group>"; };
 		AA00000300000001F3B00001 /* ReviewBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewBannerView.swift; sourceTree = "<group>"; };
+		AA00000600000001F3B00002 /* UsageGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageGuideView.swift; sourceTree = "<group>"; };
+		AA00001100000001F3B00004 /* HangulComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulComposer.swift; sourceTree = "<group>"; };
+		AA00001300000001F3B00004 /* TypingKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingKeyboardView.swift; sourceTree = "<group>"; };
+		AA00001500000001F3B00005 /* CheonjiinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheonjiinInput.swift; sourceTree = "<group>"; };
+		AA00001700000001F3B00006 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
 		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
@@ -267,6 +287,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58CC36B02F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport in Frameworks */,
+				58CC36B22F9E6A880010DE3E /* FirebaseCore in Frameworks */,
+				58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */,
+				58CC36AE2F9E6A880010DE3E /* FirebaseAnalyticsCore in Frameworks */,
 				581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +358,9 @@
 				587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */,
 				587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */,
 				585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */,
+				AA00001100000001F3B00004 /* HangulComposer.swift */,
+				AA00001500000001F3B00005 /* CheonjiinInput.swift */,
+				AA00001300000001F3B00004 /* TypingKeyboardView.swift */,
 				587B7CE12A264F6400455338 /* CollectionViewCell.swift */,
 				587BDC4F2A1D0D40001464E4 /* Info.plist */,
 				INFOPLISTVG2 /* InfoPlist.strings */,
@@ -382,6 +409,7 @@
 		58C4733A2A109F0D009D87BC /* ClipKeyboard */ = {
 			isa = PBXGroup;
 			children = (
+				58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */,
 				5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */,
 				587BDC5A2A1FCA10001464E4 /* ClipKeyboard.entitlements */,
 				581550622AD5321F00A6115B /* Constants.swift */,
@@ -472,6 +500,7 @@
 				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
+				AA00001700000001F3B00006 /* AnalyticsService.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
 				58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */,
@@ -492,6 +521,7 @@
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
+				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
 				58TP00022F0000000000000002 /* ThemePickerView.swift */,
 				580B0D682A30C45E00C7B586 /* FontSetting.swift */,
@@ -720,7 +750,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2620;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					587384812F2E7AD40042ECA4 = {
 						CreatedOnToolsVersion = 26.0;
@@ -751,6 +781,9 @@
 				ko,
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
+			packageReferences = (
+				58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -779,6 +812,7 @@
 				58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */,
 				581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF2 /* InfoPlist.strings in Resources */,
+				58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +824,7 @@
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
+				58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,13 +884,19 @@
 				587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */,
 				581550642AD5321F00A6115B /* Constants.swift in Sources */,
 				585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */,
+				AA00001000000001F3B00004 /* HangulComposer.swift in Sources */,
+				AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */,
+				AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */,
 				44AF574FA8316546FCD9F690 /* ComboKeyboardView.swift in Sources */,
 				A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */,
 				581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
 				58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */,
 				581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
+				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
+				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
+				AA00001800000001F3B00007 /* AnalyticsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -864,9 +905,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
+				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
+				AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */,
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
 				58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
@@ -996,7 +1039,7 @@
 				CODE_SIGN_ENTITLEMENTS = widget/widget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1011,7 +1054,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1036,7 +1079,7 @@
 				CODE_SIGN_ENTITLEMENTS = widget/widget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1051,7 +1094,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1069,9 +1112,10 @@
 		587BDC542A1D0D40001464E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
@@ -1082,7 +1126,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1097,9 +1141,10 @@
 		587BDC552A1D0D40001464E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
@@ -1110,7 +1155,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1127,6 +1172,7 @@
 			baseConfigurationReference = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1193,6 +1239,7 @@
 			baseConfigurationReference = 581D8BAD2F49EE2600F2F032 /* Version.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1256,7 +1303,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboard/ClipKeyboard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipKeyboard/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -1275,7 +1322,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1298,7 +1345,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboard/ClipKeyboard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipKeyboard/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -1317,7 +1364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1341,7 +1388,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1359,7 +1406,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1385,7 +1432,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1403,7 +1450,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1425,14 +1472,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1455,14 +1502,14 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1534,6 +1581,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		58CC36AD2F9E6A880010DE3E /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		58CC36AF2F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsIdentitySupport;
+		};
+		58CC36B12F9E6A880010DE3E /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 58C473302A109F0C009D87BC /* Project object */;
 }

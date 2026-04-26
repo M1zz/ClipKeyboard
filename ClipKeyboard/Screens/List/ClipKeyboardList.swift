@@ -15,6 +15,14 @@ extension UUID: @retroactive Identifiable {
     public var id: UUID { self }
 }
 
+/// List 스크롤 오프셋을 상위 View로 전달하는 PreferenceKey.
+private struct ScrollOffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
@@ -25,6 +33,8 @@ struct ClipKeyboardList: View {
     @State private var memoToDelete: Memo? = nil
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     @State private var showPaywallFromKeyboard: Bool = false
+    @State private var hasAppeared: Bool = false
+    @State private var scrollOffset: CGFloat = 0
 
     @Environment(\.appTheme) private var theme
 
@@ -41,30 +51,7 @@ struct ClipKeyboardList: View {
                 // 메모 리스트
                 if !viewModel.memos.isEmpty {
                     List {
-                        // 클립보드 캡처 카드 (최상단, 새 클립보드 감지 시만)
-                        if viewModel.hasFreshClipboard {
-                            Section {
-                                ClipboardCaptureCard(
-                                    value: viewModel.value,
-                                    detectedType: viewModel.clipboardDetectedType,
-                                    confidence: viewModel.clipboardConfidence,
-                                    onDismiss: {
-                                        withAnimation(.easeOut(duration: 0.25)) {
-                                            viewModel.dismissClipboardCapture()
-                                        }
-                                    },
-                                    onSaveTap: {
-                                        viewModel.markClipboardSaved()
-                                    }
-                                )
-                            }
-                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                        }
-
-                        // 검색 바 섹션 (조건부 표시)
+                        // 1. 검색 바 (조건부)
                         if isSearchBarVisible {
                             Section {
                                 searchBarInlineSection
@@ -75,7 +62,20 @@ struct ClipKeyboardList: View {
                             .transition(.move(edge: .top).combined(with: .opacity))
                         }
 
-                        // 타입 필터 바 섹션
+                        // 2. Ambient Top Block — 인사말 + 통계 + 컨텍스트 액션 카드 (하나로 통합)
+                        //    Notes 스타일: 스크롤 시 부드럽게 fade-out
+                        if viewModel.selectedTypeFilter == nil {
+                            Section {
+                                ambientTopBlock
+                                    .background(scrollOffsetReader)
+                                    .opacity(greetingOpacity)
+                            }
+                            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 8, trailing: 16))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
+                        // 3. 타입 필터 바
                         if !viewModel.loadedData.isEmpty {
                             Section {
                                 typeFilterBarInlineSection
@@ -85,7 +85,7 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
-                        // v4.0 Grace 배너 (메모가 새 한도 초과한 기존 유저 1회 노출)
+                        // 4. Grace 배너 (조건부)
                         if shouldShowGraceBanner {
                             Section {
                                 GraceQuotaBannerView {
@@ -98,7 +98,7 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
-                        // 리뷰 배너 섹션
+                        // 5. 리뷰 배너 (조건부)
                         if ReviewManager.shared.shouldShowBanner {
                             Section {
                                 ReviewBannerView()
@@ -108,43 +108,36 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
-                        // 맥락 부제 + 히어로 카드 (타입 필터 비활성일 때만)
-                        if viewModel.selectedTypeFilter == nil {
-                            Section {
-                                contextLeadView
-                                if let hero = heroMemo {
-                                    heroCardView(memo: hero)
+                        // 6. 메모 리스트 — 섹션 헤더 없이 단일 스트림.
+                        //    · recency opacity로 시간감 전달
+                        //    · 날짜 경계에서 초미니멀 divider 삽입
+                        //    · 첫 로드 시 stagger enter 애니메이션
+                        Section {
+                            ForEach(Array(viewModel.memos.enumerated()), id: \.element.id) { index, memo in
+                                let prevMemo = index > 0 ? viewModel.memos[index - 1] : nil
+                                if let dayLabel = dayBoundaryLabel(for: memo, previousMemo: prevMemo) {
+                                    timeDivider(label: dayLabel)
+                                        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 4, trailing: 16))
+                                        .listRowBackground(Color.clear)
+                                        .listRowSeparator(.hidden)
                                 }
-                            }
-                            .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 8, trailing: 16))
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 메모 리스트 섹션 (타입 필터 활성 시 그룹핑 비활성)
-                        if viewModel.selectedTypeFilter != nil {
-                            Section {
-                                ForEach(viewModel.memos) { memo in
-                                    memoRow(memo: memo)
-                                }
-                            }
-                        } else {
-                            ForEach(groupedSections, id: \.id) { group in
-                                Section {
-                                    ForEach(group.memos) { memo in
-                                        memoRow(memo: memo)
-                                    }
-                                } header: {
-                                    Text(group.localizedTitle)
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .foregroundColor(theme.textMuted)
-                                        .textCase(nil)
-                                }
+                                memoRow(memo: memo)
+                                    .opacity(recencyOpacity(for: memo) * (hasAppeared ? 1.0 : 0.0))
+                                    .offset(y: hasAppeared ? 0 : 16)
+                                    .animation(
+                                        .easeOut(duration: 0.35).delay(Double(min(index, 12)) * 0.035),
+                                        value: hasAppeared
+                                    )
                             }
                         }
                     }
                     .listStyle(PlainListStyle())
                     .scrollContentBackground(.hidden)
+                    .coordinateSpace(name: "listScroll")
+                    .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
+                        scrollOffset = value
+                    }
+                    .animation(.easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
                 }
 
                 // 빈 화면
@@ -164,11 +157,13 @@ struct ClipKeyboardList: View {
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // Navigation 설정 — inline 타이틀로 상단 공간 회수, 캡처 카드/필터가 바로 보이도록
-            .navigationTitle(NSLocalizedString("저장된 항목", comment: "Saved items"))
+            // Navigation 설정 — 타이틀 제거. 그리팅이 상단 앵커 역할.
+            // 접근성: VoiceOver용으로 숨은 라벨 유지.
+            .navigationTitle("")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
+            .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
             // 검색 및 필터 변경 감지
             .onChange(of: viewModel.searchQueryString) { _ in viewModel.applyFilters() }
             .onChange(of: viewModel.selectedTypeFilter) { _ in
@@ -229,6 +224,12 @@ struct ClipKeyboardList: View {
             .onAppear {
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
+                // 첫 로드 시 stagger enter 트리거 (한 번만)
+                if !hasAppeared {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        hasAppeared = true
+                    }
+                }
             }
             .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: nil)
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
@@ -270,42 +271,121 @@ struct ClipKeyboardList: View {
         .padding(.vertical, 8)
     }
 
-    // MARK: - Context Lead + Hero Card
+    // MARK: - Ambient Top Block
 
-    /// 나브 타이틀 아래 인라인 부제.
-    /// - 최근 1시간 내 사용한 메모 있으면 "방금 전 %@ 꺼냈어요"
-    /// - 오늘 여러 번 쓴 메모 있으면 "오늘 %@ 많이 썼어요"
-    /// - 없으면 "저장된 %d개 · 필요한 거 찾아봐요"
-    private var contextLeadView: some View {
-        Text(contextLeadText)
-            .font(.system(size: 14))
-            .foregroundColor(theme.textMuted)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, 4)
+    /// 상단 통합 블록: 시간대 인사 + 스마트 컨텍스트 + 액션 카드 하나.
+    /// 기존에 분산돼 있던 "방금 복사 캡처 / 컨텍스트 부제 / 히어로 카드"가
+    /// 사용자 상태에 따라 자연스럽게 하나로 합쳐져 표시된다.
+    private var ambientTopBlock: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            greetingHeader
+            contextActionCard
+        }
     }
 
-    private var contextLeadText: String {
-        let memos = viewModel.memos
-        let now = Date()
-        let hourAgo = now.addingTimeInterval(-60 * 60)
+    /// 시간대 인사말 + 상태 한 줄 통계.
+    private var greetingHeader: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(timeGreeting)
+                .font(.system(size: 24, weight: .semibold, design: .serif))
+                .foregroundColor(theme.text)
+            Text(contextLine)
+                .font(.system(size: 13))
+                .foregroundColor(theme.textMuted)
+        }
+    }
 
-        if let recent = memos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo }) {
-            let format = NSLocalizedString("Just used %@", comment: "Context lead: recently used memo")
+    /// 상황에 맞는 단 하나의 액션 카드.
+    /// 우선순위: 방금 복사한 클립보드 → 최근 1시간 내 쓴 메모 히어로 → 없음(숨김)
+    @ViewBuilder
+    private var contextActionCard: some View {
+        if viewModel.hasFreshClipboard {
+            ClipboardCaptureCard(
+                value: viewModel.value,
+                detectedType: viewModel.clipboardDetectedType,
+                confidence: viewModel.clipboardConfidence,
+                onDismiss: {
+                    withAnimation(.easeOut(duration: 0.25)) {
+                        viewModel.dismissClipboardCapture()
+                    }
+                },
+                onSaveTap: {
+                    viewModel.markClipboardSaved()
+                }
+            )
+            .transition(.move(edge: .top).combined(with: .opacity))
+        } else if let hero = heroMemo {
+            heroCardView(memo: hero)
+        }
+    }
+
+    /// 시간대 기반 인사말 + 이모지 — 아침/낮/저녁/밤.
+    /// 이모지는 일출·낮·일몰·밤을 근사 (실제 일출/일몰 시간은 위치 권한 피하려 시간대로 근사).
+    private var timeGreeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        let emoji: String
+        let phrase: String
+        switch hour {
+        case 5..<8:
+            emoji = "🌅"
+            phrase = NSLocalizedString("Good morning", comment: "Greeting: morning")
+        case 8..<12:
+            emoji = "☀️"
+            phrase = NSLocalizedString("Good morning", comment: "Greeting: morning")
+        case 12..<17:
+            emoji = "🌤"
+            phrase = NSLocalizedString("Good afternoon", comment: "Greeting: afternoon")
+        case 17..<20:
+            emoji = "🌅"
+            phrase = NSLocalizedString("Good evening", comment: "Greeting: evening")
+        case 20..<24:
+            emoji = "🌙"
+            phrase = NSLocalizedString("Good evening", comment: "Greeting: evening")
+        default:
+            emoji = "🌙"
+            phrase = NSLocalizedString("Still up?", comment: "Greeting: late night")
+        }
+        return "\(emoji)  \(phrase)"
+    }
+
+    // MARK: - Scroll Fade (Notes-style)
+
+    /// 상단 그리팅 영역의 스크롤 오프셋을 기록하는 GeometryReader.
+    private var scrollOffsetReader: some View {
+        GeometryReader { proxy in
+            Color.clear.preference(
+                key: ScrollOffsetPreferenceKey.self,
+                value: -proxy.frame(in: .named("listScroll")).minY
+            )
+        }
+    }
+
+    /// 스크롤 오프셋 기반 fade — 80pt 넘게 스크롤하면 완전 투명.
+    private var greetingOpacity: Double {
+        1 - Double(min(max(scrollOffset / 80, 0), 1))
+    }
+
+    /// 그리팅 아래 한 줄 — 상황 기반 스마트 문구.
+    /// 우선순위: 오늘 사용 횟수 표시 → 최근 1시간 사용한 메모 → 기본 개수 표시
+    private var contextLine: String {
+        let memos = viewModel.memos
+        let usedToday = memos.filter {
+            guard let used = $0.lastUsedAt else { return false }
+            return Calendar.current.isDateInToday(used)
+        }.reduce(0) { $0 + $1.clipCount }
+
+        if usedToday > 0 {
+            let format = NSLocalizedString("%d saved · %d taps today", comment: "Stats with today usage")
+            return String(format: format, memos.count, usedToday)
+        }
+
+        let hourAgo = Date().addingTimeInterval(-60 * 60)
+        if let recent = memos.first(where: { ($0.lastUsedAt ?? .distantPast) >= hourAgo }) {
+            let format = NSLocalizedString("Just used %@", comment: "Context: recently used memo")
             return String(format: format, recent.title)
         }
 
-        let topToday = memos
-            .filter {
-                guard let used = $0.lastUsedAt else { return false }
-                return Calendar.current.isDateInToday(used) && $0.clipCount >= 2
-            }
-            .max(by: { $0.clipCount < $1.clipCount })
-        if let topToday {
-            let format = NSLocalizedString("Used %@ a lot today", comment: "Context lead: most-used today")
-            return String(format: format, topToday.title)
-        }
-
-        let format = NSLocalizedString("%d saved · find what you need", comment: "Context lead: default with count")
+        let format = NSLocalizedString("%d saved · find what you need", comment: "Stats default")
         return String(format: format, memos.count)
     }
 
@@ -318,20 +398,165 @@ struct ClipKeyboardList: View {
     /// "방금 쓴 것" 히어로 카드.
     private func heroCardView(memo: Memo) -> some View {
         Button {
+            HapticManager.shared.soft()
             viewModel.copyMemo(memo: memo)
         } label: {
             MemoRowView(memo: memo, fontSize: fontSize)
-                .padding(12)
+                .padding(14)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: theme.radiusMd)
-                        .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color.blue.opacity(0.18), lineWidth: 1)
                 )
                 .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
-        .padding(.top, 4)
+    }
+
+    // MARK: - Recency Fade
+
+    /// 메모의 최근 사용 시점에 따라 행 opacity를 부드럽게 감쇠.
+    /// 섹션 헤더 없이도 "최근 것은 생생하고 오래된 것은 조용히 뒤로 물러나는" 느낌.
+    private func recencyOpacity(for memo: Memo) -> Double {
+        let reference = memo.lastUsedAt ?? memo.lastEdited
+        let interval = Date().timeIntervalSince(reference)
+        if interval < 60 * 60 { return 1.0 }                 // 1시간 이내
+        if interval < 60 * 60 * 24 { return 0.95 }           // 오늘
+        if interval < 60 * 60 * 24 * 7 { return 0.88 }       // 이번 주
+        return 0.78                                           // 그 이상
+    }
+
+    // MARK: - Context Menu Preview (Mail-style)
+
+    /// 길게 눌렀을 때 떠오르는 플로팅 미리보기 — 실제 콘텐츠 전체 보기.
+    private func memoContextPreview(memo: Memo) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack(spacing: 10) {
+                    Text(memo.title)
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(theme.text)
+                    if memo.isTemplate {
+                        TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
+                    }
+                    if memo.isCombo {
+                        TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
+                    }
+                    if memo.isSecure {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(theme.textFaint)
+                    }
+                    Spacer(minLength: 0)
+                }
+
+                #if os(iOS)
+                if (memo.contentType == .image || memo.contentType == .mixed),
+                   let firstImageFileName = memo.imageFileNames.first,
+                   let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+                #endif
+
+                if !memo.value.isEmpty {
+                    Text(memo.value)
+                        .font(.system(size: 15))
+                        .foregroundColor(theme.text)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .textSelection(.enabled)
+                }
+
+                HStack(spacing: 8) {
+                    if memo.clipCount > 0 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "doc.on.doc.fill")
+                                .font(.system(size: 10))
+                            Text(String(format: NSLocalizedString("Used %d×", comment: "Preview: total use count"), memo.clipCount))
+                                .font(.system(size: 11, weight: .medium))
+                        }
+                        .foregroundColor(theme.textMuted)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(theme.surfaceAlt)
+                        .clipShape(Capsule())
+                    }
+                    if memo.isFavorite {
+                        HStack(spacing: 4) {
+                            Image(systemName: "heart.fill")
+                                .font(.system(size: 10))
+                            Text(NSLocalizedString("Favorite", comment: "Preview: favorite badge"))
+                                .font(.system(size: 11, weight: .medium))
+                        }
+                        .foregroundColor(.pink)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 3)
+                        .background(Color.pink.opacity(0.12))
+                        .clipShape(Capsule())
+                    }
+                    Spacer(minLength: 0)
+                }
+            }
+            .padding(20)
+        }
+        .frame(minWidth: 320, idealWidth: 360, maxWidth: 420, minHeight: 120, idealHeight: 260, maxHeight: 520)
+        .background(theme.surface)
+    }
+
+    // MARK: - Time Divider (day boundary)
+
+    /// 이전 메모와 날짜(캘린더 기준 일)가 바뀔 때만 divider 라벨 반환. 같은 날이면 nil.
+    private func dayBoundaryLabel(for memo: Memo, previousMemo: Memo?) -> String? {
+        let cal = Calendar.current
+        let reference = memo.lastUsedAt ?? memo.lastEdited
+
+        guard let prev = previousMemo else {
+            return relativeDateLabel(reference)
+        }
+        let prevRef = prev.lastUsedAt ?? prev.lastEdited
+        if cal.isDate(reference, inSameDayAs: prevRef) { return nil }
+        return relativeDateLabel(reference)
+    }
+
+    /// 초미니멀 day divider — 얇은 수평선 + 작은 라벨.
+    private func timeDivider(label: String) -> some View {
+        HStack(spacing: 8) {
+            Rectangle()
+                .fill(theme.divider)
+                .frame(height: 0.5)
+            Text(label)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(theme.textFaint)
+                .textCase(.uppercase)
+                .tracking(0.5)
+            Rectangle()
+                .fill(theme.divider)
+                .frame(height: 0.5)
+        }
+    }
+
+    /// 캘린더 기준 상대적 날짜 라벨.
+    private func relativeDateLabel(_ date: Date) -> String {
+        let cal = Calendar.current
+        if cal.isDateInToday(date) {
+            return NSLocalizedString("Today", comment: "Divider label: today")
+        }
+        if cal.isDateInYesterday(date) {
+            return NSLocalizedString("Yesterday", comment: "Divider label: yesterday")
+        }
+        let daysDiff = cal.dateComponents([.day], from: date, to: Date()).day ?? 0
+        if daysDiff < 7 {
+            return NSLocalizedString("This week", comment: "Divider label: earlier this week")
+        }
+        if daysDiff < 30 {
+            return NSLocalizedString("This month", comment: "Divider label: earlier this month")
+        }
+        return NSLocalizedString("Earlier", comment: "Divider label: earlier than a month")
     }
 
     /// 타입 필터 바 섹션 (인라인)
@@ -342,6 +567,7 @@ struct ClipKeyboardList: View {
     /// 메모 행
     private func memoRow(memo: Memo) -> some View {
         Button {
+            HapticManager.shared.soft()
             viewModel.copyMemo(memo: memo)
         } label: {
             MemoRowView(
@@ -380,6 +606,8 @@ struct ClipKeyboardList: View {
         }
         .contextMenu {
             memoContextMenu(memo: memo)
+        } preview: {
+            memoContextPreview(memo: memo)
         }
         .transition(.scale)
         .listRowBackground(Color.clear)
@@ -606,81 +834,6 @@ struct ClipKeyboardList_Previews: PreviewProvider {
 }
 
 
-// MARK: - Section Grouping (recency buckets)
-
-struct MemoSectionGroup: Identifiable {
-    let id: String
-    let localizedTitle: String
-    let memos: [Memo]
-}
-
-extension ClipKeyboardList {
-    /// 타입 필터가 꺼져 있을 때 사용하는 시간 기반 섹션 그룹.
-    /// - 방금(1시간 이내 사용) / 자주 쓰는 것(오늘+clipCount≥3) / 이번 주 / 더 오래
-    /// - 즐겨찾기 정렬은 ViewModel.sortMemos에서 이미 처리되어 들어오므로 각 버킷 내 상대순서는 보존된다.
-    var groupedSections: [MemoSectionGroup] {
-        let memos = viewModel.memos
-        guard !memos.isEmpty else { return [] }
-
-        let now = Date()
-        let oneHourAgo = now.addingTimeInterval(-60 * 60)
-        let weekAgo = now.addingTimeInterval(-60 * 60 * 24 * 7)
-
-        var justNow: [Memo] = []
-        var frequent: [Memo] = []
-        var thisWeek: [Memo] = []
-        var older: [Memo] = []
-
-        for memo in memos {
-            let reference = memo.lastUsedAt ?? memo.lastEdited
-            if reference >= oneHourAgo {
-                justNow.append(memo)
-                continue
-            }
-            if memo.clipCount >= 3 && reference >= weekAgo {
-                frequent.append(memo)
-                continue
-            }
-            if reference >= weekAgo {
-                thisWeek.append(memo)
-                continue
-            }
-            older.append(memo)
-        }
-
-        var groups: [MemoSectionGroup] = []
-        if !justNow.isEmpty {
-            groups.append(MemoSectionGroup(
-                id: "just-now",
-                localizedTitle: NSLocalizedString("Just now", comment: "Section header: memos used in the last hour"),
-                memos: justNow
-            ))
-        }
-        if !frequent.isEmpty {
-            groups.append(MemoSectionGroup(
-                id: "frequent",
-                localizedTitle: NSLocalizedString("Frequent", comment: "Section header: frequently used memos"),
-                memos: frequent
-            ))
-        }
-        if !thisWeek.isEmpty {
-            groups.append(MemoSectionGroup(
-                id: "this-week",
-                localizedTitle: NSLocalizedString("This week", comment: "Section header: memos used this week"),
-                memos: thisWeek
-            ))
-        }
-        if !older.isEmpty {
-            groups.append(MemoSectionGroup(
-                id: "older",
-                localizedTitle: NSLocalizedString("Older", comment: "Section header: older memos"),
-                memos: older
-            ))
-        }
-        return groups
-    }
-}
-
 
 // MARK: - Memo Type Filter Bar
 
@@ -688,11 +841,13 @@ struct MemoTypeFilterBar: View {
     @Binding var selectedFilter: ClipboardItemType?
     let memos: [Memo]
 
-    // 메모에 설정된 category(테마) 기준으로 개수 계산
+    // resolvedType 기준으로 개수 계산 — 이미지/자동분류 타입까지 반영
     var typeCounts: [ClipboardItemType: Int] {
         var counts: [ClipboardItemType: Int] = [:]
-        for type in ClipboardItemType.allCases {
-            counts[type] = memos.filter { $0.category == type.rawValue }.count
+        for memo in memos {
+            if let type = ClipboardClassificationService.shared.resolvedType(for: memo) {
+                counts[type, default: 0] += 1
+            }
         }
         return counts
     }

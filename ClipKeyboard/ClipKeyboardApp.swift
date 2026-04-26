@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+// 키보드 ext에서는 Firebase 미사용 (KEYBOARD_EXTENSION 플래그로 제외)
+#if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
+import FirebaseCore
+#endif
 
 @main
 struct ClipKeyboardApp: App {
@@ -17,6 +21,15 @@ struct ClipKeyboardApp: App {
     init() {
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
         print("📱 [APP INIT] DataManager 생성됨")
+
+        // Firebase 초기화 — GoogleService-Info.plist 자동 로드
+        // Analytics 데이터 수집 여부는 Firebase Console 설정에 따름
+        #if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
+        if FirebaseApp.app() == nil {
+            FirebaseApp.configure()
+            print("🔥 [APP INIT] FirebaseApp 초기화 완료")
+        }
+        #endif
 
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
