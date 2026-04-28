@@ -1252,7 +1252,7 @@ struct TemplateInputOverlay: View {
             VStack(spacing: 0) {
                 // 헤더
                 HStack {
-                    Text("템플릿 값 선택")
+                    Text(NSLocalizedString("Choose template values", comment: "Template input overlay title"))
                         .font(.headline)
                         .fontWeight(.semibold)
 
@@ -1284,11 +1284,11 @@ struct TemplateInputOverlay: View {
                                     .font(.system(size: 40))
                                     .foregroundColor(.gray)
 
-                                Text("템플릿 변수가 없습니다")
+                                Text(NSLocalizedString("No template variables", comment: "Empty state: no template variables"))
                                     .font(.headline)
                                     .foregroundColor(.primary)
 
-                                Text("이 템플릿에는 설정할 값이 없어요.\n다시 시도해주세요.")
+                                Text(NSLocalizedString("This template has no values to set.\nPlease try again.", comment: "Empty state: no template variables hint"))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                     .multilineTextAlignment(.center)
@@ -1319,7 +1319,7 @@ struct TemplateInputOverlay: View {
                                     .font(.system(size: 16))
                                     .foregroundColor(.blue)
 
-                                Text("값을 선택하면 자동으로 입력됩니다")
+                                Text(NSLocalizedString("Values will be inserted automatically once selected", comment: "Template input hint"))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -1393,13 +1393,13 @@ struct PlaceholderInputView: View {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(.caption)
                             .foregroundColor(.orange)
-                        Text("값이 등록되지 않았습니다")
+                        Text(NSLocalizedString("No saved values", comment: "Placeholder values empty title"))
                             .font(.caption)
                             .fontWeight(.semibold)
                             .foregroundColor(.orange)
                     }
 
-                    Text("앱을 열어 플레이스홀더 관리에서\n'\(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))' 값을 추가해주세요")
+                    Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")))
                         .font(.caption2)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.center)

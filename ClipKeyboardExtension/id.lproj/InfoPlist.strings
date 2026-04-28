@@ -1,0 +1,7 @@
+/*
+  InfoPlist.strings
+  ClipKeyboardExtension (Indonesian)
+*/
+
+/* Keyboard extension display name */
+"CFBundleDisplayName" = "ClipKeyboard";
