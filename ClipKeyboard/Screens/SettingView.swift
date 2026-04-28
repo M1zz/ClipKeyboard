@@ -91,6 +91,10 @@ struct SettingView: View {
                     Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme"))
                 }
 
+                NavigationLink(destination: SecurePINSettings()) {
+                    Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"), systemImage: "lock.shield")
+                }
+
                 NavigationLink(destination: FontSetting()) {
                     Text(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
                 }

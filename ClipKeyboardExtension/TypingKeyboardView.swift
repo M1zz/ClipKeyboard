@@ -25,7 +25,6 @@ struct TypingKeyboardView: View {
     enum KoreanLayout: String { case dubeolsik, cheonjiin }
 
     let proxy: TypingInputProxy
-    @Binding var lang: InputLang
 
     @State private var layer: InputLayer = .letters
     @State private var isShiftOn: Bool = false
@@ -35,7 +34,16 @@ struct TypingKeyboardView: View {
     @State private var deleteHoldActive = false
     @State private var deleteTimer: Timer? = nil
 
-    /// 한글 레이아웃 — 사용자가 KeyboardLayoutSettings에서 선택. 기본 두벌식.
+    /// 입력 언어 — 한/EN 두 가지 토글. iOS 앱에서 변경 시에도 반영.
+    /// @AppStorage를 직접 보유 — 부모 Binding으로 받지 않음 (Binding 재계산 시 view identity 깨짐 → @State 리셋 → 한글 조합 끊김 버그).
+    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var typingLangRaw: String = InputLang.english.rawValue
+
+    private var lang: InputLang {
+        InputLang(rawValue: typingLangRaw) ?? .english
+    }
+
+    /// 한글 레이아웃 — 사용자가 iOS 앱 설정 (KeyboardLayoutSettings)에서만 선택. 키보드에서 직접 전환 불가.
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
     private var koreanLayoutRaw: String = KoreanLayout.dubeolsik.rawValue
 
@@ -267,66 +275,24 @@ struct TypingKeyboardView: View {
         }
     }
 
-    /// 한/EN 버튼 — 3단계 cycle: 영어 → 두벌식 → 천지인 → 영어 ...
-    /// 길게 누르면 직접 메뉴로 선택 가능 (Menu).
+    /// 한/EN 토글 — 두 언어 사이만 전환. 한글 레이아웃(두벌식/천지인)은 iOS 앱 설정에서.
+    /// 라벨은 **타깃 언어**를 보여줌 (현재 한국어면 "EN", 영어면 "한") — 누르면 그쪽으로 간다는 의미.
     private var langToggleKey: some View {
-        Menu {
-            Button {
-                cycleSetLang(.english, layout: nil)
-            } label: {
-                Label(NSLocalizedString("English", comment: "Language: English"), systemImage: lang == .english ? "checkmark" : "abc")
-            }
-            Button {
-                cycleSetLang(.korean, layout: .dubeolsik)
-            } label: {
-                Label(NSLocalizedString("한국어 (두벌식)", comment: "Language: Korean dubeolsik"), systemImage: (lang == .korean && koreanLayout == .dubeolsik) ? "checkmark" : "keyboard")
-            }
-            Button {
-                cycleSetLang(.korean, layout: .cheonjiin)
-            } label: {
-                Label(NSLocalizedString("한국어 (천지인)", comment: "Language: Korean cheonjiin"), systemImage: (lang == .korean && koreanLayout == .cheonjiin) ? "checkmark" : "keyboard")
-            }
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            switchLang(to: lang == .english ? .korean : .english)
         } label: {
-            keyBackground(width: 32, fill: theme.divider) {
-                Text(currentLangLabel)
+            keyBackground(width: 36, fill: theme.divider) {
+                Text(targetLangLabel)
                     .font(.system(size: 13, weight: .medium))
                     .foregroundColor(theme.text)
             }
-        } primaryAction: {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-            cycleNext()
         }
     }
 
-    /// 현재 모드 라벨: EN / 한 / 천
-    private var currentLangLabel: String {
-        if lang == .english { return "EN" }
-        return koreanLayout == .cheonjiin ? "천" : "한"
-    }
-
-    /// 한 단계 cycle: 영어 → 두벌식 → 천지인 → 영어 ...
-    private func cycleNext() {
-        // 진행 중인 컴포지션 commit
-        if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
-
-        switch (lang, koreanLayout) {
-        case (.english, _):
-            lang = .korean
-            koreanLayoutRaw = KoreanLayout.dubeolsik.rawValue
-        case (.korean, .dubeolsik):
-            koreanLayoutRaw = KoreanLayout.cheonjiin.rawValue
-        case (.korean, .cheonjiin):
-            lang = .english
-        }
-        layer = .letters
-    }
-
-    /// Menu에서 직접 선택
-    private func cycleSetLang(_ newLang: InputLang, layout: KoreanLayout?) {
-        if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
-        lang = newLang
-        if let layout { koreanLayoutRaw = layout.rawValue }
-        layer = .letters
+    /// 토글 시 이동할 언어 라벨 — 한국어면 "EN", 영어면 "한"
+    private var targetLangLabel: String {
+        lang == .korean ? "EN" : "한"
     }
 
     /// 시스템 키보드 전환 — Apple 가이드라인상 모든 커스텀 키보드는 이 버튼 필수.
@@ -423,10 +389,11 @@ struct TypingKeyboardView: View {
 
                 // 행 2-4
                 HStack(alignment: .top, spacing: keySpacing) {
-                    // 왼쪽 열: ABC + 한글(tall)
+                    // 왼쪽 열: ABC + EN + 🌐 (한글 자리를 EN + 지구본으로 분할)
                     VStack(spacing: rowSpacing) {
                         cjABCKey(w: colW)
-                        cjHangulKey(w: colW, h: tallH)
+                        cjEnKey(w: colW)
+                        cjGlobeKey(w: colW)
                     }
                     .frame(width: colW)
 
@@ -522,7 +489,7 @@ struct TypingKeyboardView: View {
     private func cjABCKey(w: CGFloat) -> some View {
         Button {
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-            cycleSetLang(.english, layout: nil)
+            switchLang(to: .english)
         } label: {
             cjBox(w: w, fill: theme.divider) {
                 Text("ABC")
@@ -532,28 +499,42 @@ struct TypingKeyboardView: View {
         }
     }
 
-    // 한글 — 레이아웃 전환 메뉴 (tall, 행 3-4)
-    private func cjHangulKey(w: CGFloat, h: CGFloat) -> some View {
-        Menu {
-            Button {
-                cycleSetLang(.korean, layout: .dubeolsik)
-            } label: {
-                Label(NSLocalizedString("한국어 (두벌식)", comment: "Language: Korean dubeolsik"),
-                      systemImage: "keyboard")
-            }
-            Button {
-                cycleSetLang(.english, layout: nil)
-            } label: {
-                Label(NSLocalizedString("English", comment: "Language: English"),
-                      systemImage: "abc")
-            }
+    // EN — 영어 QWERTY로 전환 (한글 자리 상단)
+    private func cjEnKey(w: CGFloat) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            switchLang(to: .english)
         } label: {
-            cjBox(w: w, h: h, fill: theme.divider) {
-                Text(NSLocalizedString("한글", comment: "Korean mode key"))
-                    .font(.system(size: 14, weight: .regular))
+            cjBox(w: w, fill: theme.divider) {
+                Text("EN")
+                    .font(.system(size: 14, weight: .medium))
                     .foregroundColor(theme.text)
             }
         }
+    }
+
+    // 🌐 — 시스템 키보드로 전환 (한글 자리 하단)
+    private func cjGlobeKey(w: CGFloat) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            cheonjiinInput.commit()
+            hangulComposer.commit()
+            proxy.advanceToNextInputMode()
+        } label: {
+            cjBox(w: w, fill: theme.divider) {
+                Image(systemName: "globe")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(theme.text)
+            }
+        }
+    }
+
+    /// 언어 전환 — 진행 중 컴포지션 commit, layer letters로 리셋
+    private func switchLang(to newLang: InputLang) {
+        cheonjiinInput.commit()
+        hangulComposer.commit()
+        typingLangRaw = newLang.rawValue
+        layer = .letters
     }
 
     // ⌫ 삭제 (hold-to-repeat 공유)

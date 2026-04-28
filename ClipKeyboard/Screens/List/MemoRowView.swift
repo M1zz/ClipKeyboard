@@ -58,11 +58,6 @@ struct MemoRowView: View {
                             .font(.system(size: 11))
                             .foregroundColor(theme.textFaint)
                     }
-                    if let usage = usageBadgeText {
-                        Text(usage)
-                            .font(.system(size: 11, weight: .medium))
-                            .foregroundColor(usageBadgeColor)
-                    }
                 }
                 .padding(.top, 1)
             }
@@ -152,28 +147,6 @@ struct MemoRowView: View {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
         return formatter.localizedString(for: reference, relativeTo: Date())
-    }
-
-    /// 사용 빈도 배지 텍스트. 오늘 쓴 경우 진하게, 이번 주 쓴 경우는 희미하게.
-    private var usageBadgeText: String? {
-        guard memo.clipCount > 0, let lastUsed = memo.lastUsedAt else { return nil }
-        let calendar = Calendar.current
-        if calendar.isDateInToday(lastUsed) && memo.clipCount >= 2 {
-            let format = NSLocalizedString("Used %d× today", comment: "Usage badge: used N times today")
-            return String(format: format, memo.clipCount)
-        }
-        let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
-        if lastUsed >= weekAgo && memo.clipCount >= 3 {
-            let format = NSLocalizedString("%d× this week", comment: "Usage badge: used N times this week")
-            return String(format: format, memo.clipCount)
-        }
-        return nil
-    }
-
-    /// 오늘 자주 쓴 것은 진한 초록, 그 외는 흐린 회색.
-    private var usageBadgeColor: Color {
-        guard let lastUsed = memo.lastUsedAt else { return .secondary }
-        return Calendar.current.isDateInToday(lastUsed) ? .green : .secondary
     }
 
 }

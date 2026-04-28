@@ -47,10 +47,6 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
     private var koreanLayoutRaw: String = "dubeolsik"
 
-    // 보안 PIN 상태
-    @State private var showPINSetup = false
-    @State private var pinIsSet = false
-
     var body: some View {
         Form {
             Section {
@@ -262,49 +258,6 @@ struct KeyboardLayoutSettings: View {
             }
 
             Section {
-                if pinIsSet {
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: 14))
-                        Text(NSLocalizedString("보안 PIN이 설정되어 있습니다", comment: "Secure PIN is set"))
-                        Spacer()
-                        Button(NSLocalizedString("변경", comment: "Change PIN button")) {
-                            showPINSetup = true
-                        }
-                        .font(.system(size: 14))
-                    }
-                    Button(role: .destructive) {
-                        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.removeObject(forKey: "keyboard_secure_pin_hash")
-                        pinIsSet = false
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "trash")
-                                .font(.caption)
-                            Text(NSLocalizedString("PIN 삭제", comment: "Delete PIN button"))
-                                .font(.caption)
-                        }
-                        .foregroundColor(.red)
-                    }
-                } else {
-                    Button {
-                        showPINSetup = true
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "plus.circle")
-                            Text(NSLocalizedString("보안 PIN 설정", comment: "Set secure PIN button"))
-                        }
-                        .foregroundColor(.blue)
-                    }
-                }
-            } header: {
-                Text(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN section header"))
-            } footer: {
-                Text(NSLocalizedString("보안 메모를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다.", comment: "Secure PIN section footer"))
-                    .font(.caption)
-            }
-
-            Section {
                 Button {
                     resetToDefaults()
                 } label: {
@@ -314,13 +267,6 @@ struct KeyboardLayoutSettings: View {
                     }
                     .foregroundColor(.red)
                 }
-            }
-        }
-        .sheet(isPresented: $showPINSetup) {
-            SecurePINSetupView { hash in
-                UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(hash, forKey: "keyboard_secure_pin_hash")
-                pinIsSet = true
-                showPINSetup = false
             }
         }
         .navigationTitle(NSLocalizedString("레이아웃 설정", comment: "Layout settings title"))
@@ -335,9 +281,6 @@ struct KeyboardLayoutSettings: View {
             if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) {
                 customKeyColor = c
             }
-            // PIN 설정 여부 동기화
-            let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
-            pinIsSet = !storedHash.isEmpty
         }
     }
 

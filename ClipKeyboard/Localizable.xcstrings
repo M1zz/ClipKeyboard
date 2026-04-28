@@ -1143,6 +1143,7 @@
     },
     "Clear filter" : {
       "comment" : "Empty escape: clear filter",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1514,6 +1515,7 @@
     },
     "Combos" : {
       "comment" : "Filter: combos",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1531,6 +1533,7 @@
     },
     "Combos chain multiple snippets. Add one in the main app." : {
       "comment" : "Empty hint: combos",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1855,6 +1858,7 @@
     },
     "English" : {
       "comment" : "Language: English",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2797,6 +2801,9 @@
         }
       }
     },
+    "Mark snippets as favorite in the main app to see them here." : {
+      "comment" : "Empty hint: favorites"
+    },
     "Masked %@, ending %@" : {
       "comment" : "Accessibility: masked sensitive content with type and tail digits",
       "localizations" : {
@@ -3020,6 +3027,7 @@
     },
     "No combos yet" : {
       "comment" : "Empty: no combos",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3034,6 +3042,9 @@
           }
         }
       }
+    },
+    "No favorites yet" : {
+      "comment" : "Empty: no favorites"
     },
     "No matches" : {
       "comment" : "Popover empty state (searching)",
@@ -3125,6 +3136,7 @@
     },
     "Nothing in this filter" : {
       "comment" : "Empty: no items in filter",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4035,6 +4047,9 @@
         }
       }
     },
+    "Show favorites only" : {
+      "comment" : "Toggle favorites filter"
+    },
     "Show Onboarding" : {
       "comment" : "Menu: show onboarding",
       "extractionState" : "stale",
@@ -4363,6 +4378,7 @@
     },
     "Try clearing the filter." : {
       "comment" : "Empty hint: filter",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6408,6 +6424,9 @@
         }
       }
     },
+    "보안 PIN" : {
+      "comment" : "Secure PIN nav title"
+    },
     "보안 PIN 설정" : {
       "comment" : "Secure PIN setup nav title\nSet secure PIN button"
     },
@@ -6429,7 +6448,7 @@
       }
     },
     "보안 메모 PIN" : {
-      "comment" : "Secure memo PIN section header"
+      "comment" : "Secure memo PIN\nSecure memo PIN section header"
     },
     "보안 메모 잠금에 사용할 PIN을 입력하세요." : {
       "comment" : "PIN setup: enter hint"
@@ -7383,6 +7402,9 @@
           }
         }
       }
+    },
+    "앱에서 보안 PIN을 먼저 설정하세요" : {
+      "comment" : "Set PIN in app first"
     },
     "앱을 열어 플레이스홀더 관리에서\n'%@' 값을 추가해주세요" : {
       "localizations" : {
@@ -9241,6 +9263,7 @@
     },
     "탭하여 인증" : {
       "comment" : "Tap to authenticate",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9620,6 +9643,7 @@
     },
     "한국어 (두벌식)" : {
       "comment" : "Language: Korean dubeolsik",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9637,6 +9661,7 @@
     },
     "한국어 (천지인)" : {
       "comment" : "Language: Korean cheonjiin",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9651,9 +9676,6 @@
           }
         }
       }
-    },
-    "한글" : {
-      "comment" : "Korean mode key"
     },
     "한번 구매, 평생 사용" : {
       "comment" : "One-time purchase",

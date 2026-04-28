@@ -162,26 +162,6 @@ struct KeyboardView: View {
 
     // 타이핑 모드 — Memos / Type 전환 (기본: 키보드)
     @State private var inputMode: InputMode = .typing
-    /// 마지막으로 사용한 언어 모드 — 재실행해도 유지
-    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var typingLangRaw: String = "english"
-
-    private var typingLang: Binding<TypingKeyboardView.InputLang> {
-        Binding(
-            get: {
-                switch typingLangRaw {
-                case "korean": return .korean
-                default: return .english
-                }
-            },
-            set: { newValue in
-                switch newValue {
-                case .korean: typingLangRaw = "korean"
-                case .english: typingLangRaw = "english"
-                }
-            }
-        )
-    }
 
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
@@ -197,19 +177,20 @@ struct KeyboardView: View {
         Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, keyboardColumnCount)))
     }
 
-    // 필터 및 데이터 상태
+    // 데이터 상태
     @State private var allMemos: [Memo] = []
-    @State private var selectedCategoryFilter: ClipboardItemType? = nil
     @State private var templateObserverToken: NSObjectProtocol?
     @State private var showImageCopiedToast = false
+    @State private var showPinNotSetToast = false
 
     // 검색 상태
     @State private var searchQuery: String = ""
     @State private var isSearching: Bool = false
     @State private var searchKeyboardLang: SearchLang = .english
 
-    // 콤보 전용 탭
-    @State private var showCombosOnly: Bool = false
+    // 즐겨찾기만 보기 토글 — 재실행해도 유지
+    @AppStorage("keyboardShowFavoritesOnly", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var showFavoritesOnly: Bool = false
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
@@ -230,19 +211,12 @@ struct KeyboardView: View {
 
     // MARK: - Computed Properties
 
-    /// resolvedType 기반 필터 + 검색 — iOS 앱과 일관성
+    /// 즐겨찾기 토글 + 검색만 적용
     private var filteredMemos: [Memo] {
         var result = allMemos
 
-        // 콤보 전용 탭이 활성이면 콤보만
-        if showCombosOnly {
-            result = result.filter { $0.isCombo }
-        }
-
-        if let filter = selectedCategoryFilter {
-            result = result.filter {
-                ClipboardClassificationService.shared.resolvedType(for: $0) == filter
-            }
+        if showFavoritesOnly {
+            result = result.filter { $0.isFavorite }
         }
         if !searchQuery.isEmpty {
             let q = searchQuery
@@ -255,22 +229,6 @@ struct KeyboardView: View {
         return result
     }
 
-    /// 카테고리 카운트 — resolvedType 기반
-    private var categoriesWithCounts: [(type: ClipboardItemType, count: Int)] {
-        var counts: [ClipboardItemType: Int] = [:]
-        for memo in allMemos {
-            if let type = ClipboardClassificationService.shared.resolvedType(for: memo) {
-                counts[type, default: 0] += 1
-            }
-        }
-        return counts.map { ($0.key, $0.value) }.sorted { $0.1 > $1.1 }
-    }
-
-    /// 콤보 보유 여부 — 콤보 탭 칩 노출 여부 결정
-    private var hasCombos: Bool {
-        allMemos.contains { $0.isCombo }
-    }
-
     /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
     private var recentMemos: [Memo] {
         let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
@@ -281,9 +239,9 @@ struct KeyboardView: View {
             .map { $0 }
     }
 
-    /// 최근 사용 섹션 노출 조건 — 검색·필터·콤보 탭 모두 비활성일 때만
+    /// 최근 사용 섹션 노출 조건 — 검색·즐겨찾기 모두 비활성일 때만
     private var shouldShowRecentSection: Bool {
-        searchQuery.isEmpty && selectedCategoryFilter == nil && !showCombosOnly && !recentMemos.isEmpty
+        searchQuery.isEmpty && !showFavoritesOnly && !recentMemos.isEmpty
     }
 
     // MARK: - Body
@@ -295,7 +253,7 @@ struct KeyboardView: View {
                 modeTabBar
 
                 if inputMode == .typing, let proxy = typingProxy {
-                    TypingKeyboardView(proxy: proxy, lang: typingLang)
+                    TypingKeyboardView(proxy: proxy)
                 } else {
                     memoModeContent
                 }
@@ -315,6 +273,10 @@ struct KeyboardView: View {
             modeIconTab(icon: "list.bullet.rectangle", isSelected: inputMode == .memos) {
                 inputMode = .memos
             }
+            // 메모 모드일 때만 즐겨찾기 토글 노출
+            if inputMode == .memos {
+                favoritesToggleButton
+            }
             Spacer()
             if let proxy = typingProxy {
                 clearAllButton(proxy: proxy)
@@ -323,6 +285,23 @@ struct KeyboardView: View {
         .padding(.horizontal, 8)
         .padding(.top, 4)
         .padding(.bottom, 2)
+    }
+
+    /// 즐겨찾기만 보기 토글 버튼 — 활성 시 노란색 별 아이콘
+    private var favoritesToggleButton: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            showFavoritesOnly.toggle()
+        } label: {
+            Image(systemName: showFavoritesOnly ? "star.fill" : "star")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(showFavoritesOnly ? .white : theme.text)
+                .frame(width: 36, height: 28)
+                .background(showFavoritesOnly ? Color.yellow : theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(NSLocalizedString("Show favorites only", comment: "Toggle favorites filter"))
     }
 
     private func modeIconTab(icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
@@ -368,14 +347,9 @@ struct KeyboardView: View {
                 searchBar
             }
 
-            // 최근 사용 섹션 — 사용자 토글 ON + 검색·필터 비활성일 때만
+            // 최근 사용 섹션 — 사용자 토글 ON + 검색·즐겨찾기 비활성일 때만
             if showRecentSection && !isSearching && shouldShowRecentSection {
                 recentSection
-            }
-
-            // 카테고리 필터 바 — 검색 중 아닐 때만
-            if !isSearching {
-                filterBar
             }
 
             // 메모 그리드
@@ -419,6 +393,17 @@ struct KeyboardView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showPinNotSetToast {
+                Text(NSLocalizedString("앱에서 보안 PIN을 먼저 설정하세요", comment: "Set PIN in app first"))
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.orange.opacity(0.9))
                     .clipShape(Capsule())
                     .padding(.bottom, 8)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
@@ -599,7 +584,7 @@ struct KeyboardView: View {
         }
     }
 
-    /// empty state에서 노출되는 escape 버튼 (있으면). 검색·필터·콤보별 다르게.
+    /// empty state에서 노출되는 escape 버튼 (있으면).
     private var emptyStateEscape: (label: String, handler: () -> Void)? {
         if !searchQuery.isEmpty {
             return (NSLocalizedString("Clear search", comment: "Empty escape: clear search"), {
@@ -607,14 +592,9 @@ struct KeyboardView: View {
                 isSearching = false
             })
         }
-        if showCombosOnly {
+        if showFavoritesOnly {
             return (NSLocalizedString("Show all", comment: "Empty escape: show all memos"), {
-                showCombosOnly = false
-            })
-        }
-        if selectedCategoryFilter != nil {
-            return (NSLocalizedString("Clear filter", comment: "Empty escape: clear filter"), {
-                selectedCategoryFilter = nil
+                showFavoritesOnly = false
             })
         }
         return nil
@@ -622,20 +602,16 @@ struct KeyboardView: View {
 
     private var emptyStateIcon: String {
         if !searchQuery.isEmpty { return "magnifyingglass" }
-        if showCombosOnly { return "bolt.slash" }
-        if selectedCategoryFilter != nil { return "tray" }
-        return "sparkles"  // 메모 0개일 때
+        if showFavoritesOnly { return "star.slash" }
+        return "sparkles"
     }
 
     private var emptyStateTitle: String {
         if !searchQuery.isEmpty {
             return String(format: NSLocalizedString("No matches for \"%@\"", comment: "Empty search result"), searchQuery)
         }
-        if showCombosOnly {
-            return NSLocalizedString("No combos yet", comment: "Empty: no combos")
-        }
-        if selectedCategoryFilter != nil {
-            return NSLocalizedString("Nothing in this filter", comment: "Empty: no items in filter")
+        if showFavoritesOnly {
+            return NSLocalizedString("No favorites yet", comment: "Empty: no favorites")
         }
         return NSLocalizedString("Save your IBAN once. Paste forever.", comment: "Empty: zero memos")
     }
@@ -644,11 +620,8 @@ struct KeyboardView: View {
         if !searchQuery.isEmpty {
             return NSLocalizedString("Try a shorter keyword or clear the filter.", comment: "Empty hint: search")
         }
-        if showCombosOnly {
-            return NSLocalizedString("Combos chain multiple snippets. Add one in the main app.", comment: "Empty hint: combos")
-        }
-        if selectedCategoryFilter != nil {
-            return NSLocalizedString("Try clearing the filter.", comment: "Empty hint: filter")
+        if showFavoritesOnly {
+            return NSLocalizedString("Mark snippets as favorite in the main app to see them here.", comment: "Empty hint: favorites")
         }
         return NSLocalizedString("Add snippets in the main app — they'll appear here in seconds.", comment: "Empty hint: zero memos")
     }
@@ -753,56 +726,6 @@ struct KeyboardView: View {
         }
     }
 
-    // MARK: - Filter Bar
-
-    private var filterBar: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 4) {
-                // "전체" 필터 칩
-                KeyboardFilterChip(
-                    title: NSLocalizedString("전체", comment: "All"),
-                    icon: "list.bullet",
-                    count: allMemos.count,
-                    color: .blue,
-                    isSelected: selectedCategoryFilter == nil && !showCombosOnly
-                ) {
-                    selectedCategoryFilter = nil
-                    showCombosOnly = false
-                }
-
-                // 콤보 전용 탭 (콤보 있는 경우만 노출)
-                if hasCombos {
-                    KeyboardFilterChip(
-                        title: NSLocalizedString("Combos", comment: "Filter: combos"),
-                        icon: "bolt.fill",
-                        count: allMemos.filter { $0.isCombo }.count,
-                        color: .orange,
-                        isSelected: showCombosOnly
-                    ) {
-                        showCombosOnly.toggle()
-                        if showCombosOnly { selectedCategoryFilter = nil }
-                    }
-                }
-
-                // 카테고리별 필터 칩 (메모 수 내림차순 정렬)
-                ForEach(categoriesWithCounts, id: \.type) { item in
-                    KeyboardFilterChip(
-                        title: item.type.localizedName,
-                        icon: item.type.icon,
-                        count: item.count,
-                        color: colorFor(item.type.color),
-                        isSelected: selectedCategoryFilter == item.type && !showCombosOnly
-                    ) {
-                        selectedCategoryFilter = item.type
-                        showCombosOnly = false
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 3)
-        }
-    }
-
     // MARK: - Recent Section
 
     /// 최근 1주 사용한 메모 5개 — 헤더 없이 가로 스크롤 미니 카드만 (공간 절약)
@@ -888,10 +811,19 @@ struct KeyboardView: View {
                         .background(Color.orange.opacity(0.15))
                         .clipShape(Capsule())
                 }
-                if isSensitive(memo) {
+                if memo.isTemplate || !memo.templateVariables.isEmpty {
+                    Text(NSLocalizedString("Template", comment: "Tag: template"))
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.purple)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.purple.opacity(0.15))
+                        .clipShape(Capsule())
+                }
+                if memo.isSecure {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 11))
-                        .foregroundColor(theme.textFaint)
+                        .foregroundColor(.orange)
                 }
             }
 
@@ -961,8 +893,12 @@ struct KeyboardView: View {
     private func authenticateAndInsert(memo: Memo) {
         let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
         guard !storedHash.isEmpty else {
-            // PIN 미설정 — 그냥 삽입 (폴백)
-            insertMemo(memo)
+            // PIN 미설정 — 입력 차단하고 사용자에게 안내
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            withAnimation { showPinNotSetToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+                withAnimation { showPinNotSetToast = false }
+            }
             return
         }
         pendingSecureMemo = memo
@@ -1032,14 +968,15 @@ struct KeyboardView: View {
                                 .font(.system(size: 9))
                                 .foregroundColor(.orange)
                         }
+                        if memo.isTemplate || !memo.templateVariables.isEmpty {
+                            Image(systemName: "curlybraces")
+                                .font(.system(size: 9, weight: .semibold))
+                                .foregroundColor(.purple)
+                        }
                         if memo.isSecure {
                             Image(systemName: "lock.fill")
                                 .font(.system(size: 9))
                                 .foregroundColor(.orange)
-                        } else if isSensitive(memo) {
-                            Image(systemName: "lock.fill")
-                                .font(.system(size: 9))
-                                .foregroundColor(theme.textFaint)
                         }
                     }
                     if memo.isCombo && !memo.comboValues.isEmpty {
@@ -1047,16 +984,6 @@ struct KeyboardView: View {
                         Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
                             .font(.system(size: 10))
                             .foregroundColor(.orange.opacity(0.8))
-                            .lineLimit(1)
-                    } else if memo.isSecure {
-                        Text(NSLocalizedString("탭하여 인증", comment: "Tap to authenticate"))
-                            .font(.system(size: 10))
-                            .foregroundColor(.orange.opacity(0.8))
-                            .lineLimit(1)
-                    } else if isSensitive(memo) {
-                        Text(displayValueFor(memo))
-                            .font(.system(size: 10, design: .monospaced))
-                            .foregroundColor(theme.textMuted)
                             .lineLimit(1)
                     }
                 }
@@ -1217,37 +1144,6 @@ struct KeyboardView: View {
         return "doc.text"
     }
 
-    /// 민감 정보 마스킹 — 카드/IBAN/계좌/VAT/Tax/여권 등 자릿수 노출 위험 타입에 대해
-    /// 마지막 4자리만 노출 ("•••• 1234"). 카페·공항 등 옆 사람 보일 수 있는 환경 보호.
-    private func displayValueFor(_ memo: Memo) -> String {
-        guard let resolvedType = ClipboardClassificationService.shared.resolvedType(for: memo) else {
-            return memo.value
-        }
-        let sensitive: Set<ClipboardItemType> = [
-            .creditCard, .bankAccount, .iban, .swift, .vat,
-            .taxID, .passportNumber, .insuranceNumber
-        ]
-        guard sensitive.contains(resolvedType) else { return memo.value }
-        let trimmed = memo.value
-            .replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: "-", with: "")
-        guard trimmed.count > 4 else { return memo.value }
-        let last4 = String(trimmed.suffix(4))
-        return "•••• \(last4)"
-    }
-
-    /// 메모가 민감 정보인지 — 카드 라벨에서 작은 자물쇠 아이콘 노출용
-    private func isSensitive(_ memo: Memo) -> Bool {
-        guard let resolvedType = ClipboardClassificationService.shared.resolvedType(for: memo) else {
-            return false
-        }
-        let sensitive: Set<ClipboardItemType> = [
-            .creditCard, .bankAccount, .iban, .swift, .vat,
-            .taxID, .passportNumber, .insuranceNumber
-        ]
-        return sensitive.contains(resolvedType)
-    }
-
     private func colorFor(_ name: String) -> Color {
         let colorMap: [String: Color] = [
             "blue": .blue, "green": .green, "purple": .purple,
@@ -1331,63 +1227,6 @@ struct ImageMemoButton: View {
     }
 }
 
-// MARK: - Keyboard Filter Chip (iOS 앱의 MemoFilterChip과 동일한 스타일)
-
-struct KeyboardFilterChip: View {
-    let title: String
-    let icon: String
-    let count: Int
-    var color: Color = .blue
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            HStack(spacing: 4) {
-                Image(systemName: icon)
-                    .font(.system(size: 11))
-                    .fontWeight(isSelected ? .semibold : .regular)
-                Text(title)
-                    .font(.system(size: 11))
-                    .fontWeight(isSelected ? .semibold : .regular)
-                Text("\(count)")
-                    .font(.system(size: 9))
-                    .fontWeight(isSelected ? .bold : .medium)
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 1)
-                    .background(
-                        isSelected
-                            ? Color.white.opacity(0.25)
-                            : Color.black.opacity(0.1)
-                    )
-                    .cornerRadius(6)
-            }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(isSelected ? color : Color(.systemGray4))
-                    .shadow(
-                        color: isSelected ? color.opacity(0.3) : .clear,
-                        radius: 3,
-                        x: 0,
-                        y: 1
-                    )
-            )
-            .foregroundColor(isSelected ? .white : Color(.systemGray))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14)
-                    .strokeBorder(
-                        isSelected ? Color.white.opacity(0.2) : Color.clear,
-                        lineWidth: 1
-                    )
-            )
-            .scaleEffect(isSelected ? 1.0 : 0.96)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
 
 #Preview {
     KeyboardView()

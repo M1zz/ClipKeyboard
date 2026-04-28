@@ -31,6 +31,7 @@
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
+		B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
 		587382B12F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */; };
 		587384852F2E7AD40042ECA4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587384842F2E7AD40042ECA4 /* WidgetKit.framework */; };
@@ -174,6 +175,7 @@
 		581D8BAD2F49EE2600F2F032 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
+		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNudgeManager.swift; sourceTree = "<group>"; };
 		587384822F2E7AD40042ECA4 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -514,6 +516,7 @@
 			children = (
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
+				5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */,
 				9C994B062EEAA86100FBC8F6 /* Template */,
 				9C994B012EEAA7F500FBC8F6 /* List */,
 				9C994AE32EEA97F500FBC8F6 /* Memo */,
@@ -917,6 +920,7 @@
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
 				58SV00052F9A1B0100000005 /* OCRService.swift in Sources */,
 				587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */,
+				B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */,
 				9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */,
 				5802F4102A2B3C91002825D6 /* ClipboardList.swift in Sources */,
 				5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */,
