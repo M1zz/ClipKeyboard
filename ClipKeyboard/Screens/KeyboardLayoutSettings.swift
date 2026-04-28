@@ -7,6 +7,10 @@
 //
 
 import SwiftUI
+import CryptoKit
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
@@ -42,6 +46,10 @@ struct KeyboardLayoutSettings: View {
     // 한글 레이아웃 — 두벌식 / 천지인
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
     private var koreanLayoutRaw: String = "dubeolsik"
+
+    // 보안 PIN 상태
+    @State private var showPINSetup = false
+    @State private var pinIsSet = false
 
     var body: some View {
         Form {
@@ -254,6 +262,49 @@ struct KeyboardLayoutSettings: View {
             }
 
             Section {
+                if pinIsSet {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 14))
+                        Text(NSLocalizedString("보안 PIN이 설정되어 있습니다", comment: "Secure PIN is set"))
+                        Spacer()
+                        Button(NSLocalizedString("변경", comment: "Change PIN button")) {
+                            showPINSetup = true
+                        }
+                        .font(.system(size: 14))
+                    }
+                    Button(role: .destructive) {
+                        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.removeObject(forKey: "keyboard_secure_pin_hash")
+                        pinIsSet = false
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "trash")
+                                .font(.caption)
+                            Text(NSLocalizedString("PIN 삭제", comment: "Delete PIN button"))
+                                .font(.caption)
+                        }
+                        .foregroundColor(.red)
+                    }
+                } else {
+                    Button {
+                        showPINSetup = true
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "plus.circle")
+                            Text(NSLocalizedString("보안 PIN 설정", comment: "Set secure PIN button"))
+                        }
+                        .foregroundColor(.blue)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN section header"))
+            } footer: {
+                Text(NSLocalizedString("보안 메모를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다.", comment: "Secure PIN section footer"))
+                    .font(.caption)
+            }
+
+            Section {
                 Button {
                     resetToDefaults()
                 } label: {
@@ -263,6 +314,13 @@ struct KeyboardLayoutSettings: View {
                     }
                     .foregroundColor(.red)
                 }
+            }
+        }
+        .sheet(isPresented: $showPINSetup) {
+            SecurePINSetupView { hash in
+                UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(hash, forKey: "keyboard_secure_pin_hash")
+                pinIsSet = true
+                showPINSetup = false
             }
         }
         .navigationTitle(NSLocalizedString("레이아웃 설정", comment: "Layout settings title"))
@@ -277,6 +335,9 @@ struct KeyboardLayoutSettings: View {
             if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) {
                 customKeyColor = c
             }
+            // PIN 설정 여부 동기화
+            let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+            pinIsSet = !storedHash.isEmpty
         }
     }
 
@@ -292,6 +353,122 @@ struct KeyboardLayoutSettings: View {
         showSearchBar = false
         showRecentSection = false
         koreanLayoutRaw = "dubeolsik"
+    }
+}
+
+// MARK: - Secure PIN Setup View
+
+struct SecurePINSetupView: View {
+    var onSave: (String) -> Void
+
+    enum Step { case enter, confirm }
+
+    @State private var step: Step = .enter
+    @State private var firstPIN = ""
+    @State private var currentPIN = ""
+    @State private var mismatch = false
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 28) {
+                // Icon + Title
+                VStack(spacing: 10) {
+                    Image(systemName: "lock.shield.fill")
+                        .font(.system(size: 44))
+                        .foregroundColor(.orange)
+                    Text(step == .enter
+                         ? NSLocalizedString("4자리 PIN 입력", comment: "PIN setup: enter step title")
+                         : NSLocalizedString("PIN 확인", comment: "PIN setup: confirm step title"))
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                    if mismatch {
+                        Text(NSLocalizedString("PIN이 일치하지 않습니다. 다시 시도하세요.", comment: "PIN mismatch error"))
+                            .font(.caption)
+                            .foregroundColor(.red)
+                    } else {
+                        Text(step == .enter
+                             ? NSLocalizedString("보안 메모 잠금에 사용할 PIN을 입력하세요.", comment: "PIN setup: enter hint")
+                             : NSLocalizedString("동일한 PIN을 한 번 더 입력하세요.", comment: "PIN setup: confirm hint"))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .padding(.top, 32)
+
+                // 4-dot indicator
+                HStack(spacing: 20) {
+                    ForEach(0..<4, id: \.self) { i in
+                        Circle()
+                            .fill(i < currentPIN.count ? Color.orange : Color(UIColor.systemGray4))
+                            .frame(width: 16, height: 16)
+                    }
+                }
+
+                // Number pad
+                VStack(spacing: 12) {
+                    ForEach([[1,2,3],[4,5,6],[7,8,9]], id: \.first) { row in
+                        HStack(spacing: 20) {
+                            ForEach(row, id: \.self) { n in
+                                pinDigitButton(String(n))
+                            }
+                        }
+                    }
+                    HStack(spacing: 20) {
+                        Color.clear.frame(width: 80, height: 60)
+                        pinDigitButton("0")
+                        Button {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            if !currentPIN.isEmpty { currentPIN.removeLast() }
+                        } label: {
+                            Image(systemName: "delete.left.fill")
+                                .font(.system(size: 22))
+                                .foregroundColor(.primary)
+                                .frame(width: 80, height: 60)
+                        }
+                    }
+                }
+
+                Spacer()
+            }
+            .navigationTitle(NSLocalizedString("보안 PIN 설정", comment: "Secure PIN setup nav title"))
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private func pinDigitButton(_ digit: String) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            guard currentPIN.count < 4 else { return }
+            currentPIN.append(digit)
+            if currentPIN.count == 4 { advance() }
+        } label: {
+            Text(digit)
+                .font(.system(size: 24, weight: .medium))
+                .foregroundColor(.primary)
+                .frame(width: 80, height: 60)
+                .background(Circle().fill(Color(UIColor.systemGray6)))
+        }
+    }
+
+    private func advance() {
+        if step == .enter {
+            firstPIN = currentPIN
+            currentPIN = ""
+            mismatch = false
+            step = .confirm
+        } else {
+            if firstPIN == currentPIN {
+                let digest = SHA256.hash(data: Data(firstPIN.utf8))
+                let hash = digest.compactMap { String(format: "%02x", $0) }.joined()
+                onSave(hash)
+            } else {
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+                mismatch = true
+                step = .enter
+                firstPIN = ""
+                currentPIN = ""
+            }
+        }
     }
 }
 

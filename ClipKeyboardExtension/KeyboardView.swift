@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import CryptoKit
 
 var showOnlyTemplates: Bool = false
 var showOnlyFavorites: Bool = false
@@ -159,8 +160,8 @@ struct KeyboardView: View {
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showSearchBar: Bool = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecentSection: Bool = false
 
-    // 타이핑 모드 — Memos / Type 전환
-    @State private var inputMode: InputMode = .memos
+    // 타이핑 모드 — Memos / Type 전환 (기본: 키보드)
+    @State private var inputMode: InputMode = .typing
     /// 마지막으로 사용한 언어 모드 — 재실행해도 유지
     @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
     private var typingLangRaw: String = "english"
@@ -209,6 +210,12 @@ struct KeyboardView: View {
 
     // 콤보 전용 탭
     @State private var showCombosOnly: Bool = false
+
+    // 보안 메모 PIN 인증
+    @State private var showPINEntry = false
+    @State private var pendingSecureMemo: Memo? = nil
+    @State private var enteredPIN = ""
+    @State private var pinEntryWrong = false
 
     @StateObject private var templateInputState = TemplateInputState()
 
@@ -282,29 +289,35 @@ struct KeyboardView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            // 모드 탭 — Memos / Type
-            modeTabBar
+        ZStack {
+            VStack(spacing: 0) {
+                // 모드 탭 — Memos / Type
+                modeTabBar
 
-            if inputMode == .typing, let proxy = typingProxy {
-                TypingKeyboardView(proxy: proxy, lang: typingLang)
-            } else {
-                memoModeContent
+                if inputMode == .typing, let proxy = typingProxy {
+                    TypingKeyboardView(proxy: proxy, lang: typingLang)
+                } else {
+                    memoModeContent
+                }
+            }
+
+            if showPINEntry {
+                pinEntryOverlay
             }
         }
     }
 
     private var modeTabBar: some View {
-        HStack(spacing: 0) {
-            modeTab(title: NSLocalizedString("Memos", comment: "Mode tab: memos"),
-                    icon: "list.bullet.rectangle",
-                    isSelected: inputMode == .memos) {
+        HStack(spacing: 6) {
+            modeIconTab(icon: "keyboard", isSelected: inputMode == .typing) {
+                inputMode = .typing
+            }
+            modeIconTab(icon: "list.bullet.rectangle", isSelected: inputMode == .memos) {
                 inputMode = .memos
             }
-            modeTab(title: NSLocalizedString("Type", comment: "Mode tab: typing"),
-                    icon: "keyboard",
-                    isSelected: inputMode == .typing) {
-                inputMode = .typing
+            Spacer()
+            if let proxy = typingProxy {
+                clearAllButton(proxy: proxy)
             }
         }
         .padding(.horizontal, 8)
@@ -312,21 +325,32 @@ struct KeyboardView: View {
         .padding(.bottom, 2)
     }
 
-    private func modeTab(title: String, icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    private func modeIconTab(icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
         Button {
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             action()
         } label: {
-            HStack(spacing: 5) {
-                Image(systemName: icon)
-                    .font(.system(size: 11, weight: .semibold))
-                Text(title)
-                    .font(.system(size: 12, weight: .semibold))
-            }
-            .foregroundColor(isSelected ? .white : theme.text)
-            .frame(maxWidth: .infinity, minHeight: 28)
-            .background(isSelected ? Color.blue : theme.surface)
-            .clipShape(Capsule())
+            Image(systemName: icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(isSelected ? .white : theme.text)
+                .frame(width: 36, height: 28)
+                .background(isSelected ? Color.blue : theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    private func clearAllButton(proxy: TypingInputProxy) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            proxy.clearAll()
+        } label: {
+            Image(systemName: "xmark.circle")
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(theme.textMuted)
+                .frame(width: 36, height: 28)
+                .background(theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -901,7 +925,6 @@ struct KeyboardView: View {
     private func memoButtonAction(for memo: Memo) {
         UIImpactFeedbackGenerator().impactOccurred()
 
-        // 메모 사용 직후 검색 모드 자동 종료 — 다음 입력은 깨끗한 상태에서 시작
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
                 searchQuery = ""
@@ -914,6 +937,15 @@ struct KeyboardView: View {
             return
         }
 
+        if memo.isSecure {
+            authenticateAndInsert(memo: memo)
+            return
+        }
+
+        insertMemo(memo)
+    }
+
+    private func insertMemo(_ memo: Memo) {
         NotificationCenter.default.post(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: memo.value,
@@ -923,6 +955,36 @@ struct KeyboardView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 loadAllMemos()
             }
+        }
+    }
+
+    private func authenticateAndInsert(memo: Memo) {
+        let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        guard !storedHash.isEmpty else {
+            // PIN 미설정 — 그냥 삽입 (폴백)
+            insertMemo(memo)
+            return
+        }
+        pendingSecureMemo = memo
+        enteredPIN = ""
+        pinEntryWrong = false
+        showPINEntry = true
+    }
+
+    private func verifyPIN() {
+        let digest = SHA256.hash(data: Data(enteredPIN.utf8))
+        let hash = digest.compactMap { String(format: "%02x", $0) }.joined()
+        let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        if hash == storedHash {
+            showPINEntry = false
+            if let memo = pendingSecureMemo { insertMemo(memo) }
+            pendingSecureMemo = nil
+            enteredPIN = ""
+            pinEntryWrong = false
+        } else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            enteredPIN = ""
+            pinEntryWrong = true
         }
     }
 
@@ -970,7 +1032,11 @@ struct KeyboardView: View {
                                 .font(.system(size: 9))
                                 .foregroundColor(.orange)
                         }
-                        if isSensitive(memo) {
+                        if memo.isSecure {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 9))
+                                .foregroundColor(.orange)
+                        } else if isSensitive(memo) {
                             Image(systemName: "lock.fill")
                                 .font(.system(size: 9))
                                 .foregroundColor(theme.textFaint)
@@ -979,6 +1045,11 @@ struct KeyboardView: View {
                     if memo.isCombo && !memo.comboValues.isEmpty {
                         let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
                         Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
+                            .font(.system(size: 10))
+                            .foregroundColor(.orange.opacity(0.8))
+                            .lineLimit(1)
+                    } else if memo.isSecure {
+                        Text(NSLocalizedString("탭하여 인증", comment: "Tap to authenticate"))
                             .font(.system(size: 10))
                             .foregroundColor(.orange.opacity(0.8))
                             .lineLimit(1)
@@ -1012,6 +1083,122 @@ struct KeyboardView: View {
     private var hiddenMemoCount: Int {
         guard isFreeUser else { return 0 }
         return max(0, totalMemoCount - ProFeatureManager.freeMemoLimit)
+    }
+
+    // MARK: - PIN Entry Overlay
+
+    private var pinEntryOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.45)
+                .ignoresSafeArea()
+
+            VStack(spacing: 8) {
+                // Header
+                HStack(spacing: 6) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.orange)
+                    Text(NSLocalizedString("보안 PIN 입력", comment: "PIN entry overlay title"))
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.primary)
+                }
+                .padding(.top, 14)
+
+                if pinEntryWrong {
+                    Text(NSLocalizedString("PIN이 올바르지 않습니다", comment: "PIN wrong error"))
+                        .font(.system(size: 11))
+                        .foregroundColor(.red)
+                }
+
+                // 4-dot indicator
+                HStack(spacing: 14) {
+                    ForEach(0..<4, id: \.self) { i in
+                        Circle()
+                            .fill(i < enteredPIN.count ? Color.orange : Color(UIColor.systemGray4))
+                            .frame(width: 11, height: 11)
+                    }
+                }
+                .padding(.vertical, 4)
+
+                // Number grid
+                VStack(spacing: 4) {
+                    ForEach([[1,2,3],[4,5,6],[7,8,9]], id: \.first) { row in
+                        HStack(spacing: 4) {
+                            ForEach(row, id: \.self) { n in
+                                pinOverlayDigitKey(String(n))
+                            }
+                        }
+                    }
+                    HStack(spacing: 4) {
+                        pinOverlayCancelKey
+                        pinOverlayDigitKey("0")
+                        pinOverlayBackspaceKey
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 14)
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(UIColor.systemBackground))
+                    .shadow(color: .black.opacity(0.25), radius: 10)
+            )
+            .padding(.horizontal, 40)
+        }
+    }
+
+    private func pinOverlayDigitKey(_ digit: String) -> some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            guard enteredPIN.count < 4 else { return }
+            enteredPIN.append(digit)
+            pinEntryWrong = false
+            if enteredPIN.count == 4 { verifyPIN() }
+        } label: {
+            Text(digit)
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundColor(.primary)
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .background(Color(UIColor.systemGray5))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    private var pinOverlayCancelKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            showPINEntry = false
+            pendingSecureMemo = nil
+            enteredPIN = ""
+            pinEntryWrong = false
+        } label: {
+            Text(NSLocalizedString("취소", comment: "Cancel"))
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .background(Color(UIColor.systemGray5))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    private var pinOverlayBackspaceKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            if !enteredPIN.isEmpty { enteredPIN.removeLast() }
+        } label: {
+            Image(systemName: "delete.left")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(.primary)
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .background(Color(UIColor.systemGray5))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 
     // MARK: - Color Helpers

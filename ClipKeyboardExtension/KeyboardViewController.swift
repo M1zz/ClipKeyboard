@@ -520,15 +520,9 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
-    /// 키보드에서 사용 불가한 메모(보안) 제외
+    /// 키보드에서 표시할 메모 필터 — 보안 메모는 표시하되 탭 시 인증 요구 (KeyboardView에서 처리)
     private func filterExcludedMemos(_ memos: [Memo]) -> [Memo] {
-        var result = memos
-        let secureCount = result.filter { $0.isSecure }.count
-        result = result.filter { !$0.isSecure }
-        if secureCount > 0 {
-            print("   🔐 보안 메모 \(secureCount)개 제외됨 (키보드에서는 접근 불가)")
-        }
-        return result
+        return memos
     }
 
     /// 사용자 선택 필터(테마/템플릿/즐겨찾기) 적용
@@ -765,4 +759,11 @@ extension KeyboardViewController: TypingInputProxy {
         textDocumentProxy.insertText("\n")
     }
     /// `advanceToNextInputMode()`는 UIInputViewController에 이미 있어 별도 구현 불요.
+    func cursorRight() {
+        textDocumentProxy.adjustTextPosition(byCharacterOffset: 1)
+    }
+    func clearAll() {
+        guard let before = textDocumentProxy.documentContextBeforeInput, !before.isEmpty else { return }
+        for _ in before { textDocumentProxy.deleteBackward() }
+    }
 }
