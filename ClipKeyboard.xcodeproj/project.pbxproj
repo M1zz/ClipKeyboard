@@ -31,7 +31,6 @@
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
-		B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
 		587382B12F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */; };
 		587384852F2E7AD40042ECA4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 587384842F2E7AD40042ECA4 /* WidgetKit.framework */; };
@@ -106,6 +105,7 @@
 		AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
 		AA00001800000001F3B00007 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
 		B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */; };
+		B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */; };
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
 		DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */; };
 		DD2399E0334C5A8778EB9E46 /* ComboTemplateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */; };
@@ -175,7 +175,6 @@
 		581D8BAD2F49EE2600F2F032 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
-		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNudgeManager.swift; sourceTree = "<group>"; };
 		587384822F2E7AD40042ECA4 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -225,6 +224,7 @@
 		58TP00022F0000000000000002 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		5EB5872F8FEC49A1BAF729E3 /* ComboRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboRepositoryProtocol.swift; sourceTree = "<group>"; };
+		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMemoUseCase.swift; sourceTree = "<group>"; };
 		82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryProtocol.swift; sourceTree = "<group>"; };
 		8359E806AD334EBE9AD02EEC /* ClassifyClipboardUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifyClipboardUseCase.swift; sourceTree = "<group>"; };
@@ -1058,7 +1058,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1098,7 +1098,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1116,7 +1116,6 @@
 		587BDC542A1D0D40001464E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1130,12 +1129,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1145,7 +1145,6 @@
 		587BDC552A1D0D40001464E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1159,12 +1158,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) KEYBOARD_EXTENSION";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1326,7 +1326,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1368,7 +1368,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1410,7 +1410,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1454,7 +1454,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1483,7 +1483,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1513,7 +1513,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.0.3;
+				MARKETING_VERSION = 4.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;

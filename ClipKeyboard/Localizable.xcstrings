@@ -297,6 +297,7 @@
     },
     "%d× this week" : {
       "comment" : "Usage badge: used N times this week",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4615,6 +4616,7 @@
     },
     "Used %d× today" : {
       "comment" : "Usage badge: used N times today",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

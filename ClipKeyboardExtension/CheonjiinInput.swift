@@ -92,47 +92,66 @@ final class CheonjiinInput {
         tentativeRawCount = 0
     }
 
-    /// 백스페이스 — 현재 진행 중인 cycle/stroke를 한 단계 되돌리거나 composer에 위임
+    /// 백스페이스 — 진행 중인 cycle/stroke를 되돌리거나 composer에 위임
     func backspace() {
         if tentativeRawCount > 0 {
-            // 임시 raw 표시 중 — 마지막 raw + 마지막 stroke 제거
+            // 임시 raw 표시 중 — 마지막 raw + 마지막 stroke 제거 (state 정합)
             composer?.proxy?.deleteBackward()
             tentativeRawCount -= 1
             if !vowelStrokes.isEmpty { vowelStrokes.removeLast() }
             return
         }
         if !vowelStrokes.isEmpty {
-            // 모음 stroke 진행 중 — 마지막 stroke 취소
+            // 합성된 모음 stroke 진행 중 — 마지막 stroke 취소 + 남은 stroke 재렌더
             vowelStrokes.removeLast()
-            // composer에서도 한 글자 삭제 (현재 표시된 모음/stroke)
             composer?.backspace()
-            // 남은 stroke가 있으면 다시 합성
             if !vowelStrokes.isEmpty {
-                let strokeStr = String(vowelStrokes)
-                if let vowel = Self.vowelStrokeMap[strokeStr] {
-                    composer?.input(vowel)
-                } else {
-                    // 부분 매치만 — 마지막 stroke 그대로
-                    composer?.input(vowelStrokes.last!)
-                }
+                renderRemainingVowelStrokes()
             }
             return
         }
         if lastConsonantKey != nil {
-            // 자음 cycle 진행 중 — 한 단계 뒤로
-            consonantTapIndex = max(0, consonantTapIndex - 1)
+            // 자음 한 글자 완전 제거 (iOS 네이티브 천지인 동작과 일치 — cycle back이 아님)
             composer?.backspace()
-            if consonantTapIndex >= 0, let cycle = Self.consonantCycles[lastConsonantKey ?? ""] {
-                if consonantTapIndex < cycle.count {
-                    composer?.input(cycle[consonantTapIndex])
-                } else {
-                    reset()
-                }
-            }
+            lastConsonantKey = nil
+            lastTapTime = nil
+            consonantTapIndex = 0
             return
         }
-        // 진행 중인 게 없으면 composer에 위임
+        // 진행 중인 게 없으면 composer에 위임 (이전 syllable 분해 또는 host 삭제)
         composer?.backspace()
+    }
+
+    /// 백스페이스 후 남은 vowelStrokes를 적절하게 재렌더 — 합성/prefix+tentative/all-tentative
+    private func renderRemainingVowelStrokes() {
+        let strokeStr = String(vowelStrokes)
+        if let vowel = Self.vowelStrokeMap[strokeStr] {
+            composer?.input(vowel)
+            return
+        }
+        // strokeStr가 어떤 key의 prefix 인 경우 (단독 ㆍ 등) — 전부 tentative
+        let canExtend = Self.vowelStrokeMap.keys.contains(where: { $0.hasPrefix(strokeStr) })
+        let prefixMatches = Self.vowelStrokeMap.filter { strokeStr.hasPrefix($0.key) }
+
+        if let bestMatch = prefixMatches.max(by: { $0.key.count < $1.key.count }) {
+            // 일부는 합성 가능, 나머지는 tentative
+            composer?.input(bestMatch.value)
+            for ch in strokeStr.dropFirst(bestMatch.key.count) {
+                composer?.proxy?.insertText(String(ch))
+                tentativeRawCount += 1
+            }
+        } else if canExtend {
+            // 전부 tentative
+            for ch in vowelStrokes {
+                composer?.proxy?.insertText(String(ch))
+                tentativeRawCount += 1
+            }
+        } else {
+            // 매치도 prefix도 없음 — fallback
+            for ch in vowelStrokes {
+                composer?.input(ch)
+            }
+        }
     }
 
     func reset() {
