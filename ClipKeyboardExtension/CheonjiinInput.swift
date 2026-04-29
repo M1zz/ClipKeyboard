@@ -26,8 +26,12 @@ final class CheonjiinInput {
     private var lastVowelStrokeTime: Date?
     private let vowelTimeout: TimeInterval = 0.6
 
-    /// proxy로 직접 삽입한 임시 raw 글자 수 (단독 ㆍ 등). 다음 stroke 도착 시 deleteBackward로 정리.
-    private var tentativeRawCount: Int = 0
+    /// 직전 vowel-render에서 proxy로 직접 삽입한 raw 글자 수 (단독 ㆍ 등). 다음 stroke 도착 시 cleanup.
+    private var prevTentativeRawCount: Int = 0
+
+    /// 직전 vowel-render에서 composer.input으로 합성된 모음 medial이 존재하는지.
+    /// true면 다음 stroke 시작 전에 composer.backspace로 medial을 clean state로 복원해야 함.
+    private var hasComposedVowel: Bool = false
 
     // MARK: - Tables
 
@@ -42,8 +46,7 @@ final class CheonjiinInput {
         "ㅇㅁ": ["ㅇ", "ㅁ"]
     ]
 
-    /// stroke 시퀀스 → 결합된 모음 자모.
-    /// 가장 긴 매치 우선. 짧은 prefix 단계에서 부분 매치도 인정.
+    /// stroke 시퀀스 → 결합된 모음 자모. 정확 매치 우선.
     private static let vowelStrokeMap: [String: Character] = [
         // 단일
         "ㅣ": "ㅣ",
@@ -63,7 +66,12 @@ final class CheonjiinInput {
         "ㅣㆍㅣ": "ㅐ",
         "ㆍㅣㅣ": "ㅔ",
         "ㅣㆍㆍㅣ": "ㅒ",
-        "ㆍㆍㅣㅣ": "ㅖ"
+        "ㆍㆍㅣㅣ": "ㅖ",
+        // 복합 모음 (ㅘ/ㅙ/ㅝ/ㅞ) — ㅗ/ㅜ + ㅏ/ㅓ/ㅐ/ㅔ
+        "ㆍㅡㅣㆍ": "ㅘ",
+        "ㆍㅡㅣㆍㅣ": "ㅙ",
+        "ㅡㆍㆍㅣ": "ㅝ",
+        "ㅡㆍㆍㅣㅣ": "ㅞ"
     ]
 
     // MARK: - Public API
@@ -79,6 +87,7 @@ final class CheonjiinInput {
 
     /// commit — Composer commit + 자체 state reset
     func commit() {
+        // 미완성 raw stroke만 폐기. composer로 합성된 모음은 syllable에 포함되어 commit됨.
         cleanupTentative()
         composer?.commit()
         reset()
@@ -86,72 +95,54 @@ final class CheonjiinInput {
 
     /// proxy로 직접 삽입한 임시 raw 글자 제거
     private func cleanupTentative() {
-        for _ in 0..<tentativeRawCount {
+        for _ in 0..<prevTentativeRawCount {
             composer?.proxy?.deleteBackward()
         }
-        tentativeRawCount = 0
+        prevTentativeRawCount = 0
+    }
+
+    /// 직전 vowel-sequence rendering을 완전히 되돌림 (composer-rendered medial 포함)
+    private func clearPreviousRender() {
+        cleanupTentative()
+        if hasComposedVowel {
+            // medial이 사라질 때까지 backspace. 단일 medial이면 1번, 복합 (ㅘ ㅚ 등)이면 2번.
+            // safety counter는 무한 루프 방지.
+            var safety = 5
+            while composer?.medialIsSet == true && safety > 0 {
+                composer?.backspace()
+                safety -= 1
+            }
+            hasComposedVowel = false
+        }
     }
 
     /// 백스페이스 — 진행 중인 cycle/stroke를 되돌리거나 composer에 위임
     func backspace() {
-        if tentativeRawCount > 0 {
-            // 임시 raw 표시 중 — 마지막 raw + 마지막 stroke 제거 (state 정합)
+        if prevTentativeRawCount > 0 {
+            // 임시 raw 표시 중 — 마지막 raw + 마지막 stroke 제거
             composer?.proxy?.deleteBackward()
-            tentativeRawCount -= 1
+            prevTentativeRawCount -= 1
             if !vowelStrokes.isEmpty { vowelStrokes.removeLast() }
             return
         }
         if !vowelStrokes.isEmpty {
-            // 합성된 모음 stroke 진행 중 — 마지막 stroke 취소 + 남은 stroke 재렌더
+            // 합성된 모음 stroke 진행 중 — 마지막 stroke 제거 + 남은 stroke 재렌더
             vowelStrokes.removeLast()
-            composer?.backspace()
+            clearPreviousRender()
             if !vowelStrokes.isEmpty {
-                renderRemainingVowelStrokes()
+                renderCurrentStrokes()
             }
             return
         }
         if lastConsonantKey != nil {
-            // 자음 한 글자 완전 제거 (iOS 네이티브 천지인 동작과 일치 — cycle back이 아님)
+            // 자음 한 글자 완전 제거 (iOS 네이티브 천지인 동작과 일치)
             composer?.backspace()
             lastConsonantKey = nil
             lastTapTime = nil
             consonantTapIndex = 0
             return
         }
-        // 진행 중인 게 없으면 composer에 위임 (이전 syllable 분해 또는 host 삭제)
         composer?.backspace()
-    }
-
-    /// 백스페이스 후 남은 vowelStrokes를 적절하게 재렌더 — 합성/prefix+tentative/all-tentative
-    private func renderRemainingVowelStrokes() {
-        let strokeStr = String(vowelStrokes)
-        if let vowel = Self.vowelStrokeMap[strokeStr] {
-            composer?.input(vowel)
-            return
-        }
-        // strokeStr가 어떤 key의 prefix 인 경우 (단독 ㆍ 등) — 전부 tentative
-        let canExtend = Self.vowelStrokeMap.keys.contains(where: { $0.hasPrefix(strokeStr) })
-        let prefixMatches = Self.vowelStrokeMap.filter { strokeStr.hasPrefix($0.key) }
-
-        if let bestMatch = prefixMatches.max(by: { $0.key.count < $1.key.count }) {
-            // 일부는 합성 가능, 나머지는 tentative
-            composer?.input(bestMatch.value)
-            for ch in strokeStr.dropFirst(bestMatch.key.count) {
-                composer?.proxy?.insertText(String(ch))
-                tentativeRawCount += 1
-            }
-        } else if canExtend {
-            // 전부 tentative
-            for ch in vowelStrokes {
-                composer?.proxy?.insertText(String(ch))
-                tentativeRawCount += 1
-            }
-        } else {
-            // 매치도 prefix도 없음 — fallback
-            for ch in vowelStrokes {
-                composer?.input(ch)
-            }
-        }
     }
 
     func reset() {
@@ -160,19 +151,19 @@ final class CheonjiinInput {
         consonantTapIndex = 0
         vowelStrokes.removeAll()
         lastVowelStrokeTime = nil
-        tentativeRawCount = 0
+        prevTentativeRawCount = 0
+        hasComposedVowel = false
     }
 
     // MARK: - Handlers
 
     private func handleConsonant(key: String, cycle: [Character]) {
-        // 임시 raw 모음(ㆍ 등) 정리 — 미완성 모음은 자음 입력 시 폐기
+        // 미완성 raw 모음 정리 — composer-rendered 모음은 syllable에 포함되므로 유지.
         cleanupTentative()
-        // 모음 진행 중이었으면 commit
-        if !vowelStrokes.isEmpty {
-            vowelStrokes.removeAll()
-            lastVowelStrokeTime = nil
-        }
+        vowelStrokes.removeAll()
+        lastVowelStrokeTime = nil
+        // 직전 syllable이 medial을 갖고 있어도 그건 유지 (final/migration은 HangulComposer가 처리).
+        hasComposedVowel = false
 
         let now = Date()
         let isCycleContinuation = (lastConsonantKey == key) &&
@@ -184,7 +175,7 @@ final class CheonjiinInput {
             composer?.backspace()
             composer?.input(cycle[consonantTapIndex])
         } else {
-            // 새 키 또는 timeout 후 — 이전 자음 commit + 새로 시작
+            // 새 키 또는 timeout 후 — 새로 시작
             consonantTapIndex = 0
             composer?.input(cycle[0])
         }
@@ -199,54 +190,55 @@ final class CheonjiinInput {
         consonantTapIndex = 0
 
         let now = Date()
-        // timeout 체크 — 지났으면 새 stroke sequence 시작 (임시 raw도 정리)
+        // timeout 체크 — 지났으면 새 stroke sequence 시작
         if let last = lastVowelStrokeTime, now.timeIntervalSince(last) > vowelTimeout {
-            cleanupTentative()
+            clearPreviousRender()
             vowelStrokes.removeAll()
         }
         lastVowelStrokeTime = now
 
         vowelStrokes.append(stroke)
+        // 직전 render 완전히 되돌리고 현재 buffer로 새로 렌더 — state 일관성 보장.
+        clearPreviousRender()
+        renderCurrentStrokes()
+    }
+
+    /// 현재 vowelStrokes를 clean state(host에 이전 sequence 흔적 없음)에서 렌더.
+    private func renderCurrentStrokes() {
         let strokeStr = String(vowelStrokes)
 
-        // 이전 표시 정리 — 임시 raw가 있으면 raw 삭제, 없으면 composer로 합성된 모음 backspace
-        let undoPrevious: () -> Void = { [weak self] in
-            guard let self = self else { return }
-            if self.tentativeRawCount > 0 {
-                self.cleanupTentative()
-            } else if self.vowelStrokes.count > 1 {
-                self.composer?.backspace()
-            }
-        }
-
+        // 1) 정확 매치
         if let vowel = Self.vowelStrokeMap[strokeStr] {
-            // 정확 매치 — 이전 표시 정리 후 합성된 모음 input
-            undoPrevious()
             composer?.input(vowel)
+            hasComposedVowel = true
             return
         }
 
-        // 가장 긴 prefix 매치 (strokeStr이 key로 시작) — 예: "ㅣㆍㆍㅣ" → 가장 긴 prefix = "ㅣㆍㆍ"=ㅑ
+        // 2) prefix 매치 (가장 긴) + 나머지 raw
         let prefixMatches = Self.vowelStrokeMap.filter { strokeStr.hasPrefix($0.key) }
         if let bestMatch = prefixMatches.max(by: { $0.key.count < $1.key.count }) {
-            let remaining = String(strokeStr.dropFirst(bestMatch.key.count))
-            undoPrevious()
             composer?.input(bestMatch.value)
-            for ch in remaining {
+            hasComposedVowel = true
+            for ch in strokeStr.dropFirst(bestMatch.key.count) {
                 composer?.input(ch)
+                // composer.input이 medial을 변경하면 hasComposedVowel은 이미 true이므로 OK.
             }
             return
         }
 
-        // strokeStr이 다른 key의 prefix가 되는지 (예: 단독 ㆍ → ㆍㅡ, ㆍㅣ 등의 prefix)
-        // 그렇다면 syllable 합성하지 말고 proxy로 raw 임시 삽입 — 다음 stroke에서 정리.
+        // 3) strokeStr이 더 긴 key의 prefix → tentative raw로 표시 (다음 stroke 대기)
         let canExtend = Self.vowelStrokeMap.keys.contains(where: { $0.hasPrefix(strokeStr) })
         if canExtend {
-            composer?.proxy?.insertText(String(stroke))
-            tentativeRawCount += 1
-        } else {
-            // 어떤 매치도 불가능 — composer에 raw input (commitAndReset + insertText)
-            composer?.input(stroke)
+            for ch in vowelStrokes {
+                composer?.proxy?.insertText(String(ch))
+                prevTentativeRawCount += 1
+            }
+            return
+        }
+
+        // 4) 매치 불가 — 마지막 stroke 그대로 commit
+        for ch in vowelStrokes {
+            composer?.input(ch)
         }
     }
 }

@@ -67,6 +67,9 @@ final class HangulComposer {
     private var medial: Int? = nil
     private var final: Int? = nil
 
+    /// 외부 (CheonjiinInput)에서 현재 medial 존재 여부를 확인할 때 사용.
+    var medialIsSet: Bool { medial != nil }
+
     /// 강한 참조 — adapter가 임시 인스턴스인 경우가 많아 weak이면 즉시 dealloc된다.
     /// retain cycle 위험 없음 (proxy → KeyboardViewController, controller는 view를 value로만 보유).
     var proxy: HangulInputProxy?
