@@ -293,8 +293,8 @@ struct MemoAdd: View {
                             .padding(.horizontal, 4)
                     }
 
-                    // All Categories
-                    ForEach(Constants.themes, id: \.self) { theme in
+                    // All Categories — 사용자 편집 가능한 CategoryStore에서 읽음
+                    ForEach(CategoryStore.shared.allCategories, id: \.self) { theme in
                         // Don't show in main list if already in recently used
                         if !viewModel.recentlyUsedCategories.contains(theme) {
                             themePillButton(theme: theme, showStar: false)

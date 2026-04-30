@@ -95,6 +95,10 @@ struct SettingView: View {
                     Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"), systemImage: "lock.shield")
                 }
 
+                NavigationLink(destination: CategorySettings()) {
+                    Label(NSLocalizedString("Categories", comment: "Categories nav title"), systemImage: "tag")
+                }
+
                 NavigationLink(destination: FontSetting()) {
                     Text(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
                 }

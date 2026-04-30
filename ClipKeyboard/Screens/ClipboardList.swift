@@ -627,7 +627,7 @@ struct SaveToMemoSheet: View {
                     TextField("제목", text: $title)
 
                     Picker("테마", selection: $category) {
-                        ForEach(Constants.categories, id: \.self) { cat in
+                        ForEach(CategoryStore.shared.allCategories, id: \.self) { cat in
                             Text(cat).tag(cat)
                         }
                     }
