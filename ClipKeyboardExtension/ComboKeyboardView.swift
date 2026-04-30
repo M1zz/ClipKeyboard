@@ -182,7 +182,7 @@ struct ComboKeyboardCard: View {
                             .font(.caption2)
                             .foregroundColor(.secondary)
 
-                        Text("다음: \(memo.currentComboIndex + 1)")
+                        Text(String(format: NSLocalizedString("다음: %lld", comment: "Combo next index"), memo.currentComboIndex + 1))
                             .font(.caption2)
                             .foregroundColor(.blue)
                     }
@@ -193,7 +193,7 @@ struct ComboKeyboardCard: View {
                             ProgressView()
                                 .progressViewStyle(.circular)
                                 .scaleEffect(0.7)
-                            Text("입력 중...")
+                            Text(NSLocalizedString("입력 중...", comment: "Combo executing"))
                                 .font(.caption2)
                                 .foregroundColor(.blue)
                         }
