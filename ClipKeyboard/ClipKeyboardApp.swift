@@ -31,6 +31,9 @@ struct ClipKeyboardApp: App {
         }
         #endif
 
+        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 Firebase로 보냄
+        AnalyticsService.flushKeyboardBeacon()
+
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 

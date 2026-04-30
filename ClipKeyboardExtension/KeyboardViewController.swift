@@ -487,6 +487,8 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidAppear(animated)
         // 뷰가 완전히 나타난 후 한 번 더 레이아웃 업데이트
         view.layoutIfNeeded()
+        // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Firebase로 전송)
+        KeyboardBeacon.recordUse()
     }
     
     override func textWillChange(_ textInput: UITextInput?) {

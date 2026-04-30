@@ -23,6 +23,10 @@ enum AnalyticsEvent: String {
     case memoCreated = "memo_created"
     /// Apple Offer Code (예: APRIL) 리딤으로 인한 구매
     case offerCodeRedeemed = "offer_code_redeemed"
+    /// 키보드 익스텐션 사용 (App Group 비콘 → 메인 앱 launch 시점에 전송)
+    case keyboardUsed = "keyboard_used"
+    /// 일괄 가져오기 (BulkImport)로 메모 저장
+    case bulkImported = "bulk_imported"
 }
 
 /// 이벤트 파라미터 키 — 분석 시 슬라이싱용
@@ -34,6 +38,9 @@ enum AnalyticsParam: String {
     case revenue = "revenue"               // 사용자 결제 금액 (USD)
     case memoType = "memo_type"            // "text" | "image" | "template" | "combo"
     case memoCount = "memo_count"          // 사용자 보유 메모 총 개수
+    case useCount = "use_count"            // 누적 키보드 사용 횟수 (마지막 보고 이후)
+    case hoursSinceLastUse = "hours_since_last_use"  // 마지막 키보드 사용 후 경과 시간
+    case importedCount = "imported_count"  // BulkImport로 저장한 메모 수
 }
 
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
@@ -87,5 +94,29 @@ enum AnalyticsService {
             .memoType: memoType,
             .memoCount: memoCount
         ])
+    }
+
+    /// 키보드 사용 비콘 — 메인 앱 launch 시 호출. App Group에 익스텐션이 기록한 timestamp/카운트를 읽어 전송.
+    /// 카운트 = 0이면 (= 비콘 미발생) 이벤트 생략. 보고 후 카운트 0으로 리셋.
+    static func flushKeyboardBeacon() {
+        let appGroup = "group.com.Ysoup.TokenMemo"
+        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        let count = defaults.integer(forKey: "kb.beacon.pendingCount")
+        guard count > 0 else { return }
+        let lastUseEpoch = defaults.double(forKey: "kb.beacon.lastUse")
+        let hoursSince = lastUseEpoch > 0
+            ? Int((Date().timeIntervalSince1970 - lastUseEpoch) / 3600)
+            : -1
+        log(.keyboardUsed, parameters: [
+            .useCount: count,
+            .hoursSinceLastUse: hoursSince
+        ])
+        // 보고 완료 — 카운트만 리셋 (lastUse는 그대로 두어 cohort 분석 가능)
+        defaults.set(0, forKey: "kb.beacon.pendingCount")
+    }
+
+    /// 일괄 가져오기로 메모 N개 저장
+    static func logBulkImported(count: Int) {
+        log(.bulkImported, parameters: [.importedCount: count])
     }
 }

@@ -70,6 +70,7 @@
 		58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00102F0000000000000010 /* ClipSectionHeader.swift */; };
 		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
+		0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616238CD1282F3D06FC7E369 /* BulkImportView.swift */; };
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
@@ -100,6 +101,7 @@
 		AA00000700000001F3B00003 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
 		AA00000800000001F3B00003 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		AA00001000000001F3B00004 /* HangulComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001100000001F3B00004 /* HangulComposer.swift */; };
+		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001300000001F3B00004 /* TypingKeyboardView.swift */; };
 		AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
 		AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
@@ -211,6 +213,7 @@
 		58DS00102F0000000000000010 /* ClipSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipSectionHeader.swift; sourceTree = "<group>"; };
 		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
+		616238CD1282F3D06FC7E369 /* BulkImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportView.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +242,7 @@
 		AA00000300000001F3B00001 /* ReviewBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewBannerView.swift; sourceTree = "<group>"; };
 		AA00000600000001F3B00002 /* UsageGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageGuideView.swift; sourceTree = "<group>"; };
 		AA00001100000001F3B00004 /* HangulComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulComposer.swift; sourceTree = "<group>"; };
+		F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardBeacon.swift; sourceTree = "<group>"; };
 		AA00001300000001F3B00004 /* TypingKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingKeyboardView.swift; sourceTree = "<group>"; };
 		AA00001500000001F3B00005 /* CheonjiinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheonjiinInput.swift; sourceTree = "<group>"; };
 		AA00001700000001F3B00006 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
@@ -363,6 +367,7 @@
 				587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */,
 				585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */,
 				AA00001100000001F3B00004 /* HangulComposer.swift */,
+				F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */,
 				AA00001500000001F3B00005 /* CheonjiinInput.swift */,
 				AA00001300000001F3B00004 /* TypingKeyboardView.swift */,
 				587B7CE12A264F6400455338 /* CollectionViewCell.swift */,
@@ -560,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
+				616238CD1282F3D06FC7E369 /* BulkImportView.swift */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
@@ -891,6 +897,7 @@
 				581550642AD5321F00A6115B /* Constants.swift in Sources */,
 				585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */,
 				AA00001000000001F3B00004 /* HangulComposer.swift in Sources */,
+				29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */,
 				AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */,
 				AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */,
 				44AF574FA8316546FCD9F690 /* ComboKeyboardView.swift in Sources */,
@@ -930,6 +937,7 @@
 				581550632AD5321F00A6115B /* Constants.swift in Sources */,
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
 				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
+				0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */,
 				581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */,
 				58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */,
 				58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */,

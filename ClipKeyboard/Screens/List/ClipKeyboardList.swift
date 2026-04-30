@@ -33,6 +33,7 @@ struct ClipKeyboardList: View {
     @State private var memoToDelete: Memo? = nil
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     @State private var showPaywallFromKeyboard: Bool = false
+    @State private var showBulkImport: Bool = false
     @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
 
@@ -748,12 +749,24 @@ struct ClipKeyboardList: View {
 
         Spacer()
 
-        NavigationLink {
-            MemoAdd()
+        Menu {
+            NavigationLink {
+                MemoAdd()
+            } label: {
+                Label(NSLocalizedString("New memo", comment: "Menu: new memo"), systemImage: "square.and.pencil")
+            }
+            Button {
+                showBulkImport = true
+            } label: {
+                Label(NSLocalizedString("Bulk import from text", comment: "Menu: bulk import"), systemImage: "doc.on.clipboard")
+            }
         } label: {
             Image(systemName: "plus.circle.fill")
                 .font(.system(size: 22))
                 .foregroundColor(.blue)
+        }
+        .sheet(isPresented: $showBulkImport) {
+            BulkImportView()
         }
     }
 
