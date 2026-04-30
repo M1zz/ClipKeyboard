@@ -106,6 +106,7 @@
 		AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001300000001F3B00004 /* TypingKeyboardView.swift */; };
 		AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
 		AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
+		E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */; };
 		098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */; };
 		AA00001800000001F3B00007 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001700000001F3B00006 /* AnalyticsService.swift */; };
 		B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */; };
@@ -251,6 +252,7 @@
 		AA00001300000001F3B00004 /* TypingKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingKeyboardView.swift; sourceTree = "<group>"; };
 		AA00001500000001F3B00005 /* CheonjiinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheonjiinInput.swift; sourceTree = "<group>"; };
 		AA00001700000001F3B00006 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconBackgroundScheduler.swift; sourceTree = "<group>"; };
 		F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
+				0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */,
 				F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
@@ -929,6 +932,7 @@
 			files = (
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
+				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,

@@ -34,6 +34,10 @@ struct ClipKeyboardApp: App {
         // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 Firebase로 보냄
         AnalyticsService.flushKeyboardBeacon()
 
+        // 백그라운드 새로고침 task 등록 — 메인 앱이 안 열려도 주기적으로 비콘 flush
+        // (키보드만 쓰는 유저의 DAU 추적용)
+        BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
+
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 

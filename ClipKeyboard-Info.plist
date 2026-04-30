@@ -26,5 +26,14 @@
 		<string>InstrumentSans-Regular.ttf</string>
 		<string>InstrumentSans-SemiBold.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.Ysoup.TokenMemo.beacon-flush</string>
+	</array>
 </dict>
 </plist>
