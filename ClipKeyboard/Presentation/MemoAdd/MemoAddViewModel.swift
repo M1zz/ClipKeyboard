@@ -21,7 +21,9 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - Editing Context
 
-    let editingMemo: Memo?
+    /// 편집 대상 메모 — onAppear(memoId:)에서 repository 조회 후 할당.
+    /// init 시점에는 nil이고, 편집 모드면 onAppear에서 채워진다.
+    private(set) var editingMemo: Memo?
 
     // MARK: - Input Fields (@Published)
 
@@ -107,6 +109,7 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - onAppear 초기화
 
     func onAppear(
+        memoId: UUID? = nil,
         insertedKeyword: String = "",
         insertedValue: String = "",
         insertedCategory: String = "텍스트",
@@ -115,6 +118,13 @@ final class MemoAddViewModel: ObservableObject {
         insertedIsCombo: Bool = false,
         insertedComboValues: [String] = []
     ) {
+        // 편집 대상 메모 해석 — memoId 있으면 repository에서 조회해 editingMemo 설정.
+        // 이게 없으면 saveMemo가 "수정"이 아닌 "새 메모"로 처리하여 원본이 안 지워짐.
+        if editingMemo == nil, let id = memoId,
+           let resolved = (try? memoRepository.fetchAll())?.first(where: { $0.id == id }) {
+            editingMemo = resolved
+        }
+
         // 새 메모 생성 시 클립보드 내용 확인
         if editingMemo == nil && insertedValue.isEmpty {
             checkClipboardAndSuggest()

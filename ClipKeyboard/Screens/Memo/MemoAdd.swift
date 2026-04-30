@@ -228,6 +228,7 @@ struct MemoAdd: View {
         #endif
         .onAppear {
             viewModel.onAppear(
+                memoId: memoId,
                 insertedKeyword: insertedKeyword,
                 insertedValue: insertedValue,
                 insertedCategory: insertedCategory,
