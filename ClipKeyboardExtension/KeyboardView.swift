@@ -166,8 +166,13 @@ struct KeyboardView: View {
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
 
-    init(typingProxy: TypingInputProxy? = nil) {
+    /// 호스트 텍스트 필드 상태 — clearAll(X) 버튼은 hasText일 때만 노출.
+    /// nil이면 (preview 등) 항상 표시.
+    @ObservedObject var documentState: KeyboardDocumentState
+
+    init(typingProxy: TypingInputProxy? = nil, documentState: KeyboardDocumentState = KeyboardDocumentState()) {
         self.typingProxy = typingProxy
+        self.documentState = documentState
     }
 
     enum InputMode { case memos, typing }
@@ -278,13 +283,16 @@ struct KeyboardView: View {
                 favoritesToggleButton
             }
             Spacer()
-            if let proxy = typingProxy {
+            // 텍스트 필드에 입력된 내용이 있을 때만 X 버튼 노출
+            if let proxy = typingProxy, documentState.hasText {
                 clearAllButton(proxy: proxy)
+                    .transition(.opacity.combined(with: .scale(scale: 0.85)))
             }
         }
         .padding(.horizontal, 8)
         .padding(.top, 4)
         .padding(.bottom, 2)
+        .animation(.easeOut(duration: 0.18), value: documentState.hasText)
     }
 
     /// 즐겨찾기만 보기 토글 버튼 — 활성 시 노란색 별 아이콘

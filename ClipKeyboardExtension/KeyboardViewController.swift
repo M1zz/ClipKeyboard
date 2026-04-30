@@ -131,7 +131,9 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
-    private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self)
+    /// SwiftUI에서 관찰하는 호스트 텍스트 필드 상태 — textDidChange에서 갱신
+    private let documentState = KeyboardDocumentState()
+    private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState)
     private var hostingController: UIHostingController<KeyboardView>?
 
     override func viewDidLoad() {
@@ -504,6 +506,34 @@ class KeyboardViewController: UIInputViewController {
             textColor = UIColor.black
         }
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
+        // SwiftUI 관찰 가능한 hasText 상태 갱신 — clearAll(X) 버튼 표시 여부에 사용
+        updateHasTextState()
+    }
+
+    override func selectionWillChange(_ textInput: UITextInput?) {
+        super.selectionWillChange(textInput)
+    }
+
+    override func selectionDidChange(_ textInput: UITextInput?) {
+        super.selectionDidChange(textInput)
+        // 커서 이동 시에도 텍스트 존재 여부가 바뀔 수 있어 다시 확인
+        updateHasTextState()
+    }
+
+    private func updateHasTextState() {
+        let proxy = self.textDocumentProxy
+        let before = proxy.documentContextBeforeInput ?? ""
+        let after = proxy.documentContextAfterInput ?? ""
+        let hasAny = !before.isEmpty || !after.isEmpty
+        // @Published 갱신은 메인 스레드에서
+        if Thread.isMainThread {
+            if documentState.hasText != hasAny { documentState.hasText = hasAny }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                if self.documentState.hasText != hasAny { self.documentState.hasText = hasAny }
+            }
+        }
     }
     
     private func loadMemos() {
