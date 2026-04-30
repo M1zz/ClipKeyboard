@@ -76,19 +76,25 @@ struct TypingKeyboardView: View {
         VStack(spacing: rowSpacing) {
             ForEach(Array(currentRows.enumerated()), id: \.offset) { rowIndex, row in
                 HStack(spacing: keySpacing) {
-                    if rowIndex == 2 && layer == .letters {
-                        shiftKey
+                    // Row 2 (3번째 행) 좌측 — letters면 shift, numbers/symbols면 #+= ↔ 123 토글
+                    if rowIndex == 2 {
+                        if layer == .letters {
+                            shiftKey
+                        } else {
+                            symbolsToggleKey
+                        }
                     }
                     ForEach(Array(row.enumerated()), id: \.offset) { _, char in
                         letterKey(char)
                     }
-                    if rowIndex == 2 && layer == .letters {
+                    // Row 2 우측 — 모든 모드에서 백스페이스
+                    if rowIndex == 2 {
                         backspaceKey
                     }
                 }
                 .padding(.horizontal, rowIndex == 1 && layer == .letters ? 18 : 0)  // Apple: 둘째 행 살짝 안쪽
             }
-            // 마지막 행 — 123 + 한/EN + 🌐 + space + return
+            // 마지막 행 — 123/ABC + 한/EN + 🌐 + space + return
             HStack(spacing: keySpacing) {
                 layerToggleKey
                 langToggleKey
@@ -270,6 +276,21 @@ struct TypingKeyboardView: View {
             keyBackground(width: 44, fill: theme.divider) {
                 Text(layer == .letters ? "123" : "ABC")
                     .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(theme.text)
+            }
+        }
+    }
+
+    /// numbers ↔ symbols 토글 — Apple 키보드의 #+= / 123 키와 동일.
+    /// row 2 좌측 (letters에서 shift 자리)에서만 노출.
+    private var symbolsToggleKey: some View {
+        Button {
+            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            layer = (layer == .numbers) ? .symbols : .numbers
+        } label: {
+            keyBackground(width: 42, fill: theme.divider) {
+                Text(layer == .numbers ? "#+=" : "123")
+                    .font(.system(size: 14, weight: .regular))
                     .foregroundColor(theme.text)
             }
         }
