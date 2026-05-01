@@ -556,7 +556,7 @@
             <div class="tip" data-i18n="memoTip">이모지 · 줄바꿈 · 마크다운은 있는 그대로 입력됩니다. 이메일 서명 같은 긴 텍스트도 문제없습니다.</div>
 
             <h3 data-i18n="memoImageTitle">이미지 메모</h3>
-            <p data-i18n="memoImage">사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다.</p>
+            <p data-i18n-html="memoImage">사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. <strong>무료 버전에서는 5개까지 저장</strong> 가능, Pro에서 무제한.</p>
         </section>
 
         <!-- 3. 템플릿 -->
@@ -741,6 +741,20 @@
             </details>
 
             <details>
+                <summary data-i18n="faq9Q">무료 버전과 Pro는 어떻게 달라요?</summary>
+                <div class="content" data-i18n-html="faq9A">
+                    <p>무료에서도 메모 10개, 콤보 3개, 템플릿 3개, 클립보드 기록 50개, 이미지 메모 5개, 테마 커스터마이징을 모두 사용할 수 있습니다. Pro(일회성 결제)는 모든 한도를 무제한으로 풀고 iCloud 백업과 생체인증 잠금을 추가로 제공합니다.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq10Q">7일 무료 체험은 어떻게 시작하나요?</summary>
+                <div class="content" data-i18n-html="faq10A">
+                    <p>앱 안의 Pro 업그레이드 화면에 <strong>7일 무료 체험 시작</strong> 버튼이 있습니다. 한 번 누르면 7일 동안 모든 Pro 기능이 풀립니다(1회 한정). 만료되면 자동으로 무료 한도로 돌아가며, 결제를 안 해도 페널티는 없습니다.</p>
+                </div>
+            </details>
+
+            <details>
                 <summary data-i18n="faq8Q">이 가이드에 없는 문제가 있어요</summary>
                 <div class="content" data-i18n-html="faq8A">
                     <p>개발자에게 직접 이메일 주세요: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. 대부분 하루 안에 답장드립니다.</p>
@@ -804,7 +818,7 @@
                 memoUse3: "상단 검색창으로 빠르게 찾기",
                 memoTip: "이모지 · 줄바꿈 · 마크다운은 있는 그대로 입력됩니다. 이메일 서명 같은 긴 텍스트도 문제없습니다.",
                 memoImageTitle: "이미지 메모",
-                memoImage: "사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다.",
+                memoImage: '사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. <strong>무료 버전에서는 5개까지 저장</strong> 가능, Pro에서 무제한.',
                 // template
                 tmplTitle: "템플릿 & 플레이스홀더",
                 tmplLead: '매번 조금씩 달라지는 문구는 <code>{변수}</code>로 남겨두고, 쓸 때만 채우세요.',
@@ -882,6 +896,10 @@
                 faq6A: '<p>두 기기가 같은 Apple ID로 로그인돼 있는지, iCloud Drive가 켜져 있는지 확인하세요. 앱 내 <strong>iCloud 백업 → 지금 백업</strong>을 한 번 눌러 수동 동기화도 가능합니다.</p>',
                 faq7Q: "데이터는 어디에 저장되나요?",
                 faq7A: "<p>모든 메모는 당신의 기기(App Group 컨테이너)에만 저장됩니다. iCloud 백업을 활성화한 경우 암호화된 상태로 당신의 iCloud에 저장됩니다. 개발자는 어떤 데이터도 수집하지 않습니다.</p>",
+                faq9Q: "무료 버전과 Pro는 어떻게 달라요?",
+                faq9A: "<p>무료에서도 메모 10개, 콤보 3개, 템플릿 3개, 클립보드 기록 50개, 이미지 메모 5개, 테마 커스터마이징을 모두 사용할 수 있습니다. Pro(일회성 결제)는 모든 한도를 무제한으로 풀고 iCloud 백업과 생체인증 잠금을 추가로 제공합니다.</p>",
+                faq10Q: "7일 무료 체험은 어떻게 시작하나요?",
+                faq10A: "<p>앱 안의 Pro 업그레이드 화면에 <strong>7일 무료 체험 시작</strong> 버튼이 있습니다. 한 번 누르면 7일 동안 모든 Pro 기능이 풀립니다(1회 한정). 만료되면 자동으로 무료 한도로 돌아가며, 결제를 안 해도 페널티는 없습니다.</p>",
                 faq8Q: "이 가이드에 없는 문제가 있어요",
                 faq8A: '<p>개발자에게 직접 이메일 주세요: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. 대부분 하루 안에 답장드립니다.</p>',
                 // CTA & footer
@@ -927,7 +945,7 @@
                 memoUse3: "Use the search bar at the top to find quickly",
                 memoTip: "Emojis, line breaks, and markdown are typed as-is. Long email signatures? No problem.",
                 memoImageTitle: "Image Memos",
-                memoImage: "Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts.",
+                memoImage: 'Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.',
                 // template
                 tmplTitle: "Templates & Placeholders",
                 tmplLead: 'Leave slightly-varying parts as <code>{variable}</code> and fill them in when you use it.',
@@ -1005,6 +1023,10 @@
                 faq6A: '<p>Make sure both devices are signed in with the same Apple ID and iCloud Drive is enabled. You can also manually sync via <strong>iCloud Backup → Back Up Now</strong> in the app.</p>',
                 faq7Q: "Where is my data stored?",
                 faq7A: "<p>All memos are stored on your device (App Group container). With iCloud Backup enabled, they're stored encrypted in your own iCloud. The developer collects no data.</p>",
+                faq9Q: "What's the difference between Free and Pro?",
+                faq9A: "<p>The free tier covers 10 memos, 3 combos, 3 templates, 50 clipboard items, 5 image memos, and theme customization. Pro (one-time purchase) lifts every limit to unlimited and adds iCloud backup and biometric lock.</p>",
+                faq10Q: "How do I start the 7-day free trial?",
+                faq10A: "<p>On the Pro upgrade screen in the app, you'll see a <strong>Start 7-day free trial</strong> button. Tap it once and all Pro features unlock for 7 days (one-time only). When it ends, the app falls back to the free tier automatically — no penalty if you don't purchase.</p>",
                 faq8Q: "My issue isn't in this guide",
                 faq8A: '<p>Email the developer directly: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. Usually a reply within a day.</p>',
                 bottomCta: "Download on the App Store",
