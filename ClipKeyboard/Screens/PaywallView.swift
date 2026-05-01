@@ -19,6 +19,8 @@ struct PaywallView: View {
     var triggeredBy: ProFeatureManager.LimitType?
     
     @State private var showSuccessAnimation = false
+    /// trial 상태가 바뀌었음을 알려 view를 다시 그리게 하는 tick (ProFeatureManager가 struct라 직접 observe 불가)
+    @State private var trialTick: Int = 0
     
     var body: some View {
         NavigationView {
@@ -60,6 +62,9 @@ struct PaywallView: View {
                 successOverlay
             }
         }
+        .onAppear {
+            AnalyticsService.logPaywallView(triggeredBy: triggeredBy?.analyticsKey)
+        }
     }
     
     // MARK: - Header
@@ -69,16 +74,24 @@ struct PaywallView: View {
             Image(systemName: "crown.fill")
                 .font(.system(size: 48))
                 .foregroundStyle(.yellow.gradient)
-            
+
             Text("ClipKeyboard Pro")
                 .font(.title)
                 .fontWeight(.bold)
-            
-            Text(NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase"))
+
+            Text(headerSubtitle)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
         .padding(.top, 20)
+    }
+
+    private var headerSubtitle: String {
+        if ProFeatureManager.canStartTrial {
+            return String(format: NSLocalizedString("%d일 무료 체험 · 한번 구매, 평생 사용", comment: "Trial subtitle"), ProFeatureManager.trialDurationDays)
+        }
+        return NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase")
     }
     
     // MARK: - Limit Banner
@@ -146,15 +159,13 @@ struct PaywallView: View {
             
             featureRow(NSLocalizedString("iCloud 백업", comment: "iCloud"),
                        free: "—", pro: "✓", isProOnly: true)
-            
+
             featureRow(NSLocalizedString("생체인증 잠금", comment: "Biometric"),
                        free: "—", pro: "✓", isProOnly: true)
-            
-            featureRow(NSLocalizedString("테마 설정", comment: "Theme"),
-                       free: "—", pro: "✓", isProOnly: true)
-            
+
             featureRow(NSLocalizedString("이미지 메모", comment: "Image"),
-                       free: "—", pro: "✓", isProOnly: true)
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeImageMemoLimit),
+                       pro: NSLocalizedString("무제한", comment: "Unlimited"))
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .overlay(
@@ -196,10 +207,20 @@ struct PaywallView: View {
                     .foregroundStyle(.green)
                     .padding()
             } else {
+                // 활성 trial 표시
+                if ProFeatureManager.isInTrial {
+                    trialActiveBadge
+                }
+
+                // 7일 무료 체험 시작 버튼 (1회 한정, 자격 있을 때만)
+                if ProFeatureManager.canStartTrial {
+                    trialStartButton
+                }
+
                 // 구매 버튼
                 Button {
                     Task {
-                        let success = await store.purchasePro()
+                        let success = await store.purchasePro(triggeredBy: triggeredBy?.analyticsKey)
                         if success {
                             withAnimation(.spring(response: 0.4)) {
                                 showSuccessAnimation = true
@@ -226,7 +247,7 @@ struct PaywallView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
                 .disabled(store.isLoading)
-                
+
                 // 복원 버튼
                 Button {
                     Task { await store.restorePurchases() }
@@ -235,7 +256,7 @@ struct PaywallView: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-                
+
                 // 에러 메시지
                 if let error = store.errorMessage {
                     Text(error)
@@ -244,6 +265,57 @@ struct PaywallView: View {
                 }
             }
         }
+        .id(trialTick) // trial 시작 시 강제 redraw
+    }
+
+    /// "7일 무료 체험 시작" 버튼
+    private var trialStartButton: some View {
+        Button {
+            let started = ProFeatureManager.startTrial()
+            if started {
+                AnalyticsService.logTrialStarted(triggeredBy: triggeredBy?.analyticsKey)
+                trialTick &+= 1
+                withAnimation(.spring(response: 0.4)) {
+                    showSuccessAnimation = true
+                }
+                Task {
+                    try? await Task.sleep(nanoseconds: 1_500_000_000)
+                    dismiss()
+                }
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "gift.fill")
+                Text(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays))
+                    .fontWeight(.semibold)
+            }
+            .font(.headline)
+            .foregroundStyle(.orange)
+            .frame(height: 54)
+            .frame(maxWidth: .infinity)
+            .background(.orange.opacity(0.12))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(.orange.opacity(0.4), lineWidth: 1.5)
+            )
+        }
+    }
+
+    /// 활성 trial 상태 배지
+    private var trialActiveBadge: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "clock.badge.checkmark.fill")
+                .foregroundStyle(.green)
+            Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+                .font(.subheadline)
+                .fontWeight(.medium)
+            Spacer()
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .background(.green.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
     
     private var priceText: String {
@@ -270,21 +342,30 @@ struct PaywallView: View {
         ZStack {
             Color.black.opacity(0.3)
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 16) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 64))
                     .foregroundStyle(.green)
-                
-                Text(NSLocalizedString("Pro 활성화 완료!", comment: "Pro activated"))
+
+                Text(successText)
                     .font(.title2)
                     .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
             }
             .padding(40)
             .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 20))
         }
         .transition(.opacity)
+    }
+
+    /// 구매 vs trial 시작에 따라 다른 메시지
+    private var successText: String {
+        if ProFeatureManager.isInTrial && !store.isPro {
+            return NSLocalizedString("체험 시작! 모든 기능 잠금 해제됨", comment: "Trial started")
+        }
+        return NSLocalizedString("Pro 활성화 완료!", comment: "Pro activated")
     }
 }
 

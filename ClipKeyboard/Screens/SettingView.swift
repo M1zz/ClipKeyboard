@@ -18,7 +18,47 @@ struct SettingView: View {
     var body: some View {
         List {
             // Pro 섹션
-            if !proManager.isPro {
+            if proManager.isPro {
+                Section {
+                    HStack {
+                        Image(systemName: "checkmark.seal.fill")
+                            .font(.title2)
+                            .foregroundColor(.green)
+
+                        Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+                            .font(.headline)
+
+                        Spacer()
+                    }
+                }
+            } else if ProFeatureManager.isInTrial {
+                Section {
+                    Button {
+                        showPaywall = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "clock.badge.checkmark.fill")
+                                .font(.title2)
+                                .foregroundStyle(.green.gradient)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+                        }
+                    }
+                }
+            } else {
                 Section {
                     Button {
                         showPaywall = true
@@ -33,35 +73,24 @@ struct SettingView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                            
+
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
                                     .font(.headline)
                                     .foregroundColor(.primary)
-                                Text(NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
+                                Text(ProFeatureManager.canStartTrial
+                                     ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 메모, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
+                                     : NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
                                     .font(.caption)
                                     .foregroundColor(theme.textMuted)
                             }
-                            
+
                             Spacer()
-                            
+
                             Image(systemName: "chevron.right")
                                 .font(.caption)
                                 .foregroundColor(theme.textMuted)
                         }
-                    }
-                }
-            } else {
-                Section {
-                    HStack {
-                        Image(systemName: "checkmark.seal.fill")
-                            .font(.title2)
-                            .foregroundColor(.green)
-                        
-                        Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
-                            .font(.headline)
-                        
-                        Spacer()
                     }
                 }
             }

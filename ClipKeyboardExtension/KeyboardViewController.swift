@@ -463,6 +463,9 @@ class KeyboardViewController: UIInputViewController {
                 print("⚠️ [Keyboard] 사용량 업데이트 실패: \(error)")
             }
         }
+
+        // 메모/콤보/템플릿 입력은 host의 textDidChange를 거치지 않을 수 있어 X 버튼 상태를 명시적으로 갱신.
+        updateHasTextState()
     }
 
     deinit {
@@ -489,6 +492,8 @@ class KeyboardViewController: UIInputViewController {
         super.viewDidAppear(animated)
         // 뷰가 완전히 나타난 후 한 번 더 레이아웃 업데이트
         view.layoutIfNeeded()
+        // 호스트 필드가 이미 텍스트를 가진 채로 키보드가 떴을 때도 X 버튼이 즉시 보이도록 초기 상태 반영
+        updateHasTextState()
         // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Firebase로 전송)
         KeyboardBeacon.recordUse()
     }
@@ -776,19 +781,23 @@ extension UIView {
 
 extension KeyboardViewController: TypingInputProxy {
     /// 키보드 host 앱 텍스트 필드에 문자 입력
+    /// 자체 입력은 host의 textDidChange를 거치지 않으므로 hasText를 명시적으로 갱신.
     func insertText(_ text: String) {
         print("⌨️ [TypingProxy.insertText] '\(text)' — hasInput=\(textDocumentProxy.hasText)")
         textDocumentProxy.insertText(text)
+        updateHasTextState()
     }
     /// 한 글자 삭제
     func deleteBackward() {
         print("⌨️ [TypingProxy.deleteBackward]")
         textDocumentProxy.deleteBackward()
+        updateHasTextState()
     }
     /// 엔터 입력
     func insertNewline() {
         print("⌨️ [TypingProxy.insertNewline]")
         textDocumentProxy.insertText("\n")
+        updateHasTextState()
     }
     /// `advanceToNextInputMode()`는 UIInputViewController에 이미 있어 별도 구현 불요.
     func cursorRight() {
@@ -797,5 +806,6 @@ extension KeyboardViewController: TypingInputProxy {
     func clearAll() {
         guard let before = textDocumentProxy.documentContextBeforeInput, !before.isEmpty else { return }
         for _ in before { textDocumentProxy.deleteBackward() }
+        updateHasTextState()
     }
 }

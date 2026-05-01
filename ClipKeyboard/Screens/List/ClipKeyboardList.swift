@@ -293,7 +293,29 @@ struct ClipKeyboardList: View {
             Text(contextLine)
                 .font(.system(size: 13))
                 .foregroundColor(theme.textMuted)
+            if let savedText = timeSavedBadgeText {
+                HStack(spacing: 4) {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 11))
+                    Text(savedText)
+                        .font(.system(size: 12, weight: .medium))
+                }
+                .foregroundColor(.green)
+                .padding(.top, 2)
+            }
         }
+    }
+
+    /// 평생 누적 절약 시간 배지 — 10분 미만이면 숨김.
+    private var timeSavedBadgeText: String? {
+        let total = KeyboardUsageTracker.totalTimeSavedSeconds()
+        guard total >= 600 else { return nil }
+        let hours = Int(total) / 3600
+        let minutes = (Int(total) % 3600) / 60
+        if hours > 0 {
+            return String(format: NSLocalizedString("Saved %dh %dm so far", comment: "Time saved badge h+m"), hours, minutes)
+        }
+        return String(format: NSLocalizedString("Saved %dm so far", comment: "Time saved badge minutes"), minutes)
     }
 
     /// 상황에 맞는 단 하나의 액션 카드.
@@ -368,16 +390,14 @@ struct ClipKeyboardList: View {
 
     /// 그리팅 아래 한 줄 — 상황 기반 스마트 문구.
     /// 우선순위: 오늘 사용 횟수 표시 → 최근 1시간 사용한 메모 → 기본 개수 표시
+    /// 일일 카운트는 KeyboardUsageTracker (사용자 로컬 자정 기준 자연 초기화).
     private var contextLine: String {
         let memos = viewModel.memos
-        let usedToday = memos.filter {
-            guard let used = $0.lastUsedAt else { return false }
-            return Calendar.current.isDateInToday(used)
-        }.reduce(0) { $0 + $1.clipCount }
+        let todayTaps = KeyboardUsageTracker.dailyUsageCount()
 
-        if usedToday > 0 {
+        if todayTaps > 0 {
             let format = NSLocalizedString("%d saved · %d taps today", comment: "Stats with today usage")
-            return String(format: format, memos.count, usedToday)
+            return String(format: format, memos.count, todayTaps)
         }
 
         let hourAgo = Date().addingTimeInterval(-60 * 60)

@@ -96,6 +96,8 @@ class MemoStore: ObservableObject {
             memos[index].clipCount += 1
             memos[index].lastUsedAt = Date()
             try save(memos: memos, type: .memo)
+            // 일일 카운트 + 평생 절약 시간 갱신 (메모 길이 기반)
+            KeyboardUsageTracker.recordMemoUse(value: memos[index].value)
         }
     }
 
@@ -421,5 +423,53 @@ class MemoStore: ObservableObject {
             return updated
         }
         return cleaned
+    }
+}
+
+// MARK: - KeyboardUsageTracker
+
+/// 키보드/메모 사용 통계 — App Group UserDefaults 기반.
+/// - 일일 카운트: `kb.usage.daily.YYYY-MM-DD` (사용자 로컬 자정 기준 자연 초기화)
+/// - 평생 절약 시간: `kb.timeSaved.totalSeconds` (Double 누적)
+///
+/// 메모 사용 시점에 `recordMemoUse(value:)` 호출. 키보드 익스텐션과 메인 앱 모두
+/// `MemoStore.incrementClipCount`를 거치므로 양쪽에서 일관되게 집계된다.
+enum KeyboardUsageTracker {
+    private static let appGroup = "group.com.Ysoup.TokenMemo"
+    private static let timeSavedKey = "kb.timeSaved.totalSeconds"
+    private static let dailyKeyPrefix = "kb.usage.daily."
+
+    /// 평균 입력 속도 가정 (한글/영문 혼용 보수적 추정).
+    private static let charsPerSecond: Double = 4.0
+    /// 메모 탭+선택에 드는 오버헤드 (초). 실제 절약 시간에서 차감.
+    private static let memoTapOverheadSeconds: Double = 1.0
+
+    /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp).
+    static func recordMemoUse(value: String) {
+        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        let key = dailyKey(for: Date())
+        defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
+
+        let saved = max(0, Double(value.count) / charsPerSecond - memoTapOverheadSeconds)
+        defaults.set(defaults.double(forKey: timeSavedKey) + saved, forKey: timeSavedKey)
+    }
+
+    /// 특정 날짜의 사용 횟수 (기본: 오늘)
+    static func dailyUsageCount(for date: Date = Date()) -> Int {
+        UserDefaults(suiteName: appGroup)?.integer(forKey: dailyKey(for: date)) ?? 0
+    }
+
+    /// 평생 누적 절약 시간 (초)
+    static func totalTimeSavedSeconds() -> Double {
+        UserDefaults(suiteName: appGroup)?.double(forKey: timeSavedKey) ?? 0
+    }
+
+    private static func dailyKey(for date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = .current
+        formatter.dateFormat = "yyyy-MM-dd"
+        return dailyKeyPrefix + formatter.string(from: date)
     }
 }

@@ -88,32 +88,32 @@ class ProStatusManager: ObservableObject {
     
     /// 클립보드 히스토리를 더 저장할 수 있는지 확인
     func canAddClipboardHistory(currentCount: Int) -> Bool {
-        return isPro || ProFeatureManager.isGrandfathered || currentCount < FreeLimits.maxClipboardHistory
+        return ProFeatureManager.hasFullAccess || currentCount < FreeLimits.maxClipboardHistory
     }
 
     /// 템플릿을 더 추가할 수 있는지 확인
     func canAddTemplate(currentCount: Int) -> Bool {
         return ProFeatureManager.canAddTemplate(currentCount: currentCount)
     }
-    
-    /// iCloud 백업 사용 가능 여부
+
+    /// iCloud 백업 사용 가능 여부 (구매 / 그랜드파더 / 활성 trial)
     var canUseCloudBackup: Bool {
-        return isPro
+        return ProFeatureManager.hasFullAccess
     }
-    
+
     /// Combo 기능 사용 가능 여부
     var canUseCombo: Bool {
-        return isPro
+        return ProFeatureManager.hasFullAccess
     }
-    
+
     /// 보안 메모 사용 가능 여부
     var canUseSecureMemo: Bool {
-        return isPro
+        return ProFeatureManager.hasFullAccess
     }
-    
+
     /// 남은 무료 메모 개수
     func remainingFreeMemos(currentCount: Int) -> Int {
-        if isPro { return Int.max }
+        if ProFeatureManager.hasFullAccess { return Int.max }
         return max(0, FreeLimits.maxMemos - currentCount)
     }
     

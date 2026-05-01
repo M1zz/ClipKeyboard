@@ -682,6 +682,15 @@
         }
       }
     },
+    "%d일 무료 체험 · 한번 구매, 평생 사용" : {
+      "comment" : "Trial subtitle"
+    },
+    "%d일 무료 체험 + 무제한 메모, iCloud 백업" : {
+      "comment" : "Pro features w/ trial"
+    },
+    "%d일 무료 체험 시작" : {
+      "comment" : "Start free trial button"
+    },
     "%d초 간격" : {
       "localizations" : {
         "en" : {
@@ -6011,6 +6020,7 @@
     },
     "Pro 버전에서 이미지 메모를 저장할 수 있습니다." : {
       "comment" : "Image memo desc",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6559,6 +6569,20 @@
           }
         }
       }
+    },
+    "Saved %dh %dm so far" : {
+      "comment" : "Time saved badge h+m",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Saved %1$dh %2$dm so far"
+          }
+        }
+      }
+    },
+    "Saved %dm so far" : {
+      "comment" : "Time saved badge minutes"
     },
     "Saved items" : {
       "comment" : "Screen: main memo list",
@@ -9675,6 +9699,9 @@
         }
       }
     },
+    "메모 한도까지 %d개 남음 → Pro 업그레이드" : {
+      "comment" : "Memo limit near banner"
+    },
     "메모가 없습니다" : {
       "comment" : "No memos",
       "localizations" : {
@@ -9880,6 +9907,9 @@
           }
         }
       }
+    },
+    "무료 버전에서는 최대 %d개의 이미지 메모를 저장할 수 있습니다." : {
+      "comment" : "Image memo limit desc"
     },
     "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다." : {
       "comment" : "Combo limit desc",
@@ -13849,6 +13879,9 @@
         }
       }
     },
+    "지금 Pro로 업그레이드하면 평생 사용" : {
+      "comment" : "Trial upsell"
+    },
     "지원" : {
       "comment" : "Support section",
       "extractionState" : "stale",
@@ -13957,6 +13990,12 @@
           }
         }
       }
+    },
+    "체험 시작! 모든 기능 잠금 해제됨" : {
+      "comment" : "Trial started"
+    },
+    "체험 활성 — %d일 남음" : {
+      "comment" : "Trial active days remaining"
     },
     "초기화" : {
       "comment" : "Reset",
@@ -15077,7 +15116,7 @@
       }
     },
     "테마 설정" : {
-      "comment" : "Theme\nTheme customization\nTheme settings title",
+      "comment" : "Theme customization\nTheme settings title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15095,6 +15134,7 @@
     },
     "테마 설정은 Pro 기능입니다" : {
       "comment" : "Theme pro",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

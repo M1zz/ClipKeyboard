@@ -17,6 +17,8 @@ import FirebaseAnalytics
 
 /// 추적할 이벤트 이름 — Firebase 표준 이름 (snake_case, 40자 이내)
 enum AnalyticsEvent: String {
+    /// Paywall 화면 노출
+    case paywallView = "paywall_view"
     /// Pro 잠금 해제 결제 성공
     case paywallPurchase = "paywall_purchase"
     /// 메모 추가
@@ -27,6 +29,8 @@ enum AnalyticsEvent: String {
     case keyboardUsed = "keyboard_used"
     /// 일괄 가져오기 (BulkImport)로 메모 저장
     case bulkImported = "bulk_imported"
+    /// 7일 무료 체험 시작
+    case trialStarted = "trial_started"
 }
 
 /// 이벤트 파라미터 키 — 분석 시 슬라이싱용
@@ -41,6 +45,7 @@ enum AnalyticsParam: String {
     case useCount = "use_count"            // 누적 키보드 사용 횟수 (마지막 보고 이후)
     case hoursSinceLastUse = "hours_since_last_use"  // 마지막 키보드 사용 후 경과 시간
     case importedCount = "imported_count"  // BulkImport로 저장한 메모 수
+    case triggeredBy = "triggered_by"      // paywall 노출/구매를 유도한 한도 (memo, combo, image_memo 등)
 }
 
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
@@ -68,7 +73,7 @@ enum AnalyticsService {
     // MARK: - Convenience
 
     /// Pro 구매 성공 — 일반가 또는 Offer Code 모두
-    static func logPaywallPurchase(productId: String, isOfferCode: Bool, offerCode: String? = nil, currency: String = "USD", revenue: Double? = nil) {
+    static func logPaywallPurchase(productId: String, isOfferCode: Bool, offerCode: String? = nil, currency: String = "USD", revenue: Double? = nil, triggeredBy: String? = nil) {
         var params: [AnalyticsParam: Any] = [
             .productId: productId,
             .priceTier: isOfferCode ? "offer" : "regular",
@@ -76,6 +81,7 @@ enum AnalyticsService {
         ]
         if let revenue { params[.revenue] = revenue }
         if let offerCode { params[.offerCode] = offerCode }
+        if let triggeredBy { params[.triggeredBy] = triggeredBy }
 
         log(.paywallPurchase, parameters: params)
 
@@ -86,6 +92,20 @@ enum AnalyticsService {
                 .productId: productId
             ])
         }
+    }
+
+    /// Paywall 화면 노출 — 어떤 한도/진입점이 트리거했는지 기록
+    static func logPaywallView(triggeredBy: String?) {
+        var params: [AnalyticsParam: Any] = [:]
+        if let triggeredBy { params[.triggeredBy] = triggeredBy }
+        log(.paywallView, parameters: params)
+    }
+
+    /// 7일 무료 체험 시작 — 어떤 한도가 trial을 유도했는지 슬라이싱
+    static func logTrialStarted(triggeredBy: String?) {
+        var params: [AnalyticsParam: Any] = [:]
+        if let triggeredBy { params[.triggeredBy] = triggeredBy }
+        log(.trialStarted, parameters: params)
     }
 
     /// 메모 생성

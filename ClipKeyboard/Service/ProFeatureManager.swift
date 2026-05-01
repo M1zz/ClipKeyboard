@@ -13,21 +13,25 @@ import Foundation
 /// - Pro 기능 게이팅
 struct ProFeatureManager {
 
-    // MARK: - 무료 제한 설정 (v4.0)
-    // v3.x: 메모 10, 콤보 2 → v4.0: 메모 5, 콤보 1
-    // 기존 유저는 `isGrandfathered`로 새 제한 우회 (P0 참조)
+    // MARK: - 무료 제한 설정
+    // v3.x: 메모 10, 콤보 2 → v4.0: 메모 5, 콤보 1 → v4.1: 메모 10, 콤보 3
+    // 노마드 use case 기준 가치 검증 시간 확보를 위해 v4.1에서 한도 상향.
+    // 기존 유저는 `isGrandfathered`로 신규 제한 우회 유지.
 
     /// 무료 메모 최대 개수
-    static let freeMemoLimit = 5
+    static let freeMemoLimit = 10
 
     /// 무료 콤보 최대 개수
-    static let freeComboLimit = 1
+    static let freeComboLimit = 3
 
     /// 무료 클립보드 히스토리 최대 개수
-    static let freeClipboardHistoryLimit = 20
+    static let freeClipboardHistoryLimit = 50
 
     /// 무료 템플릿 최대 개수
     static let freeTemplateLimit = 3
+
+    /// 무료 이미지 메모 최대 개수 (이미지가 첨부된 메모 개수 기준)
+    static let freeImageMemoLimit = 5
 
     // MARK: - App Group UserDefaults 키 (키보드 익스텐션과 공유)
 
@@ -42,20 +46,32 @@ struct ProFeatureManager {
     static let graceMemoQuotaKey = "clipkeyboard_v4_grace_memos"
     /// v4.0 grace 배너를 이미 닫은 유저.
     static let graceBannerDismissedKey = "clipkeyboard_v4_grace_banner_dismissed"
+    /// 7일 무료 체험 시작 timestamp (epoch). 한 번 설정되면 다시 설정하지 않음 (1회 한정).
+    static let trialStartedAtKey = "clipkeyboard_trial_started_at"
+    /// 시계 조작 방어용 마지막 본 시점 (epoch). 매 launch마다 max(now, lastSeen)로 갱신.
+    static let trialLastSeenKey = "clipkeyboard_trial_last_seen"
+
+    /// 무료 체험 기간 (일)
+    static let trialDurationDays = 7
 
     // MARK: - Pro 전용 기능 플래그
 
+    /// 모든 Pro 기능에 무제한 접근 가능 — 구매(Pro) / v3.x 그랜드파더 / 활성 7일 체험
+    static var hasFullAccess: Bool {
+        isPro || isGrandfathered || isInTrial
+    }
+
     /// iCloud 백업 사용 가능 여부
-    static var isCloudBackupAvailable: Bool { isPro }
+    static var isCloudBackupAvailable: Bool { hasFullAccess }
 
     /// 생체인증 잠금 사용 가능 여부
-    static var isBiometricLockAvailable: Bool { isPro }
+    static var isBiometricLockAvailable: Bool { hasFullAccess }
 
-    /// 테마 커스터마이징 사용 가능 여부
-    static var isThemeCustomizationAvailable: Bool { isPro }
+    /// 테마 커스터마이징 사용 가능 여부 (v4.1부터 무료 개방)
+    static var isThemeCustomizationAvailable: Bool { true }
 
-    /// 이미지 메모 사용 가능 여부
-    static var isImageMemoAvailable: Bool { isPro }
+    /// 이미지 메모 사용 가능 여부 (v4.1부터 무료 유저도 freeImageMemoLimit개까지 가능)
+    static var isImageMemoAvailable: Bool { true }
 
     /// 키보드 익스텐션은 모든 유저에게 무료 개방.
     /// 무료 유저는 freeMemoLimit 개수만큼만 표시됨.
@@ -63,7 +79,7 @@ struct ProFeatureManager {
 
     /// 키보드에서 표시할 메모 최대 개수.
     static var keyboardMemoDisplayLimit: Int {
-        (isPro || isGrandfathered) ? Int.max : freeMemoLimit
+        hasFullAccess ? Int.max : freeMemoLimit
     }
 
     // MARK: - 상태 체크
@@ -99,6 +115,67 @@ struct ProFeatureManager {
         hasGrandfatheredPurchase || wasExistingFreeUser
     }
 
+    // MARK: - 7일 무료 체험 (Trial)
+
+    /// 시계 조작 방어용 "현재 시점" — 항상 단조 증가하도록 max(now, lastSeen) 적용.
+    /// 사용자가 시계를 뒤로 돌려도 trial 잔여 시간이 늘어나지 않는다.
+    /// 시계를 앞으로 돌리면 trial 만료가 빨라지지만, 그건 사용자가 손해 보는 방향이라 OK.
+    private static var monotonicNow: TimeInterval {
+        let now = Date().timeIntervalSince1970
+        let lastSeen = groupDefaults?.double(forKey: trialLastSeenKey) ?? 0
+        let effective = max(now, lastSeen)
+        // 새 최댓값으로 lastSeen 갱신 (단조성 유지)
+        if effective > lastSeen {
+            groupDefaults?.set(effective, forKey: trialLastSeenKey)
+        }
+        return effective
+    }
+
+    /// 체험 시작 timestamp (없으면 nil)
+    static var trialStartedAt: TimeInterval? {
+        let value = groupDefaults?.double(forKey: trialStartedAtKey) ?? 0
+        return value > 0 ? value : nil
+    }
+
+    /// 체험을 한 번이라도 시작한 적 있는지 (재시작 방지용)
+    static var hasStartedTrial: Bool {
+        trialStartedAt != nil
+    }
+
+    /// 체험 활성 여부 (시작 + 미만료)
+    static var isInTrial: Bool {
+        guard let startedAt = trialStartedAt else { return false }
+        let durationSeconds = TimeInterval(trialDurationDays) * 86400
+        return monotonicNow < startedAt + durationSeconds
+    }
+
+    /// 체험 남은 일수 (활성 중일 때만 의미 있음). 0이면 오늘 만료.
+    static var trialDaysRemaining: Int {
+        guard let startedAt = trialStartedAt else { return 0 }
+        let durationSeconds = TimeInterval(trialDurationDays) * 86400
+        let remainingSeconds = (startedAt + durationSeconds) - monotonicNow
+        guard remainingSeconds > 0 else { return 0 }
+        return Int(ceil(remainingSeconds / 86400))
+    }
+
+    /// 체험 시작 가능 여부 — 아직 안 했고, 이미 Pro도 아니고, 그랜드파더도 아닌 경우
+    static var canStartTrial: Bool {
+        !hasStartedTrial && !isPro && !isGrandfathered
+    }
+
+    /// 체험 시작 (1회 한정, idempotent)
+    /// - Returns: 실제로 시작된 경우 true, 이미 시작된 적 있거나 자격 없음이면 false
+    @discardableResult
+    static func startTrial() -> Bool {
+        guard canStartTrial else {
+            print("ℹ️ [ProFeatureManager] 체험 시작 불가 (이미 시작됨/Pro/그랜드파더)")
+            return false
+        }
+        groupDefaults?.set(monotonicNow, forKey: trialStartedAtKey)
+        print("🎁 [ProFeatureManager] 7일 무료 체험 시작")
+        return true
+    }
+
     /// v4.0 업그레이드 당시 메모가 새 한도를 초과했던 유저.
     static var hasGraceMemoQuota: Bool {
         groupDefaults?.bool(forKey: graceMemoQuotaKey) ?? false
@@ -117,25 +194,31 @@ struct ProFeatureManager {
 
     /// 메모 추가 가능 여부
     static func canAddMemo(currentCount: Int) -> Bool {
-        if isPro || isGrandfathered { return true }
+        if hasFullAccess { return true }
         return currentCount < freeMemoLimit
     }
 
     /// 콤보 추가 가능 여부
     static func canAddCombo(currentCount: Int) -> Bool {
-        if isPro || isGrandfathered { return true }
+        if hasFullAccess { return true }
         return currentCount < freeComboLimit
     }
 
     /// 템플릿 추가 가능 여부
     static func canAddTemplate(currentCount: Int) -> Bool {
-        if isPro || isGrandfathered { return true }
+        if hasFullAccess { return true }
         return currentCount < freeTemplateLimit
+    }
+
+    /// 이미지 메모 추가 가능 여부 (currentImageMemoCount = 이미지가 첨부된 메모 수)
+    static func canAddImageMemo(currentImageMemoCount: Int) -> Bool {
+        if hasFullAccess { return true }
+        return currentImageMemoCount < freeImageMemoLimit
     }
 
     /// 클립보드 히스토리 제한
     static func clipboardHistoryLimit() -> Int {
-        return (isPro || isGrandfathered) ? 100 : freeClipboardHistoryLimit
+        return hasFullAccess ? 100 : freeClipboardHistoryLimit
     }
     
     // MARK: - 제한 도달 정보
@@ -149,7 +232,21 @@ struct ProFeatureManager {
         case biometricLock
         case themeCustomization
         case imageMemo
-        
+
+        /// Analytics 슬라이싱용 안정된 영문 키 (locale 무관)
+        var analyticsKey: String {
+            switch self {
+            case .memo: return "memo"
+            case .combo: return "combo"
+            case .template: return "template"
+            case .clipboardHistory: return "clipboard_history"
+            case .cloudBackup: return "cloud_backup"
+            case .biometricLock: return "biometric_lock"
+            case .themeCustomization: return "theme"
+            case .imageMemo: return "image_memo"
+            }
+        }
+
         var localizedTitle: String {
             switch self {
             case .memo:
@@ -188,7 +285,7 @@ struct ProFeatureManager {
             case .themeCustomization:
                 return NSLocalizedString("Pro 버전에서 테마를 변경할 수 있습니다.", comment: "Theme desc")
             case .imageMemo:
-                return NSLocalizedString("Pro 버전에서 이미지 메모를 저장할 수 있습니다.", comment: "Image memo desc")
+                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 이미지 메모를 저장할 수 있습니다.", comment: "Image memo limit desc"), freeImageMemoLimit)
             }
         }
     }

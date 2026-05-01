@@ -75,18 +75,19 @@ class StoreManager: ObservableObject {
     }
     
     /// Pro 구매
-    func purchasePro() async -> Bool {
+    /// - Parameter triggeredBy: 어떤 한도/진입점이 paywall을 띄웠는지 (analytics 슬라이싱용)
+    func purchasePro(triggeredBy: String? = nil) async -> Bool {
         guard let product = proProduct else {
             print("❌ [StoreManager] Pro 상품을 찾을 수 없음")
             errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }
-        
-        return await purchase(product)
+
+        return await purchase(product, triggeredBy: triggeredBy)
     }
-    
+
     /// 상품 구매
-    func purchase(_ product: Product) async -> Bool {
+    func purchase(_ product: Product, triggeredBy: String? = nil) async -> Bool {
         isLoading = true
         errorMessage = nil
         
@@ -118,7 +119,8 @@ class StoreManager: ObservableObject {
                     isOfferCode: isOfferCode,
                     offerCode: offerCodeName,
                     currency: product.priceFormatStyle.currencyCode,
-                    revenue: priceDouble
+                    revenue: priceDouble,
+                    triggeredBy: triggeredBy
                 )
 
                 isLoading = false

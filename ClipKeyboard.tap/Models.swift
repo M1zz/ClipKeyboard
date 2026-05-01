@@ -581,8 +581,8 @@ struct MacProManager {
     static let proStatusKey = "clipkeyboard_is_pro"
     static let appGroupSuite = "group.com.Ysoup.TokenMemo"
 
-    static let freeMemoLimit = 5
-    static let freeClipboardLimit = 20
+    static let freeMemoLimit = 10
+    static let freeClipboardLimit = 50
 
     static var isPro: Bool {
         if NSUbiquitousKeyValueStore.default.bool(forKey: proStatusKey) { return true }

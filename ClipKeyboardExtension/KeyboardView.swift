@@ -345,8 +345,8 @@ struct KeyboardView: View {
     @ViewBuilder
     private var memoModeContent: some View {
         VStack(spacing: 0) {
-            // 무료 유저: 숨겨진 메모 있을 때 업그레이드 배너
-            if isFreeUser && hiddenMemoCount > 0 {
+            // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
+            if isFreeUser && (hiddenMemoCount > 0 || isMemoLimitNear) {
                 freeUpgradeBanner
             }
 
@@ -482,7 +482,7 @@ struct KeyboardView: View {
             HStack(spacing: 6) {
                 Image(systemName: "lock.fill")
                     .font(.system(size: 11))
-                Text(String(format: NSLocalizedString("%d개 메모 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount))
+                Text(upgradeBannerText)
                     .font(.system(size: 11, weight: .medium))
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -494,6 +494,22 @@ struct KeyboardView: View {
             .background(Color.orange.opacity(0.85))
         }
         .buttonStyle(.plain)
+    }
+
+    /// 배너 문구: hidden 메모가 있으면 그 개수, 없으면 한도까지 남은 개수
+    private var upgradeBannerText: String {
+        if hiddenMemoCount > 0 {
+            return String(format: NSLocalizedString("%d개 메모 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
+        }
+        let remaining = max(0, ProFeatureManager.freeMemoLimit - totalMemoCount)
+        return String(format: NSLocalizedString("메모 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
+    }
+
+    /// 한도 도달 임박 (남은 슬롯 2개 이하)
+    private var isMemoLimitNear: Bool {
+        guard isFreeUser else { return false }
+        let remaining = ProFeatureManager.freeMemoLimit - totalMemoCount
+        return remaining > 0 && remaining <= 2
     }
 
     // MARK: - Search Bar
@@ -1011,7 +1027,7 @@ struct KeyboardView: View {
     // MARK: - Free tier
 
     private var isFreeUser: Bool {
-        !ProFeatureManager.isPro && !ProFeatureManager.isGrandfathered
+        !ProFeatureManager.hasFullAccess
     }
 
     private var totalMemoCount: Int { clipMemos.count }

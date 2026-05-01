@@ -366,9 +366,15 @@ final class MemoAddViewModel: ObservableObject {
         do {
             let existingMemos = try memoRepository.fetchAll()
             let templateCount = existingMemos.filter { $0.isTemplate }.count
+            let imageMemoCount = existingMemos.filter { !$0.imageFileNames.isEmpty }.count
 
             if isTemplate && !ProFeatureManager.canAddTemplate(currentCount: templateCount) {
                 paywallTrigger = .template
+                showPaywall = true
+                return false
+            }
+            if !attachedImages.isEmpty && !ProFeatureManager.canAddImageMemo(currentImageMemoCount: imageMemoCount) {
+                paywallTrigger = .imageMemo
                 showPaywall = true
                 return false
             }
