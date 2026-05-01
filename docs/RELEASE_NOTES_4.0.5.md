@@ -65,3 +65,5 @@
 #### Default language switched to English
 
 - For unsupported locales, the app now falls back to English instead of Korean. No impact for Korean / English / Indonesian users.
+
+
