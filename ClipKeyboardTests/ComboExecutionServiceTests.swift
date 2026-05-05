@@ -20,6 +20,10 @@ final class ComboExecutionServiceTests: XCTestCase {
         sut = ComboExecutionService.shared
         memoStore = MemoStore.shared
 
+        // 싱글톤 격리: 이전 테스트가 .completed 등 비-idle 상태로 끝났을 경우
+        // startCombo의 `guard state == .idle`에서 막혀 후속 테스트가 실패한다.
+        sut.stopCombo()
+
         // 테스트 메모 준비
         testMemos = [
             Memo(title: "메모1", value: "값1"),
@@ -122,7 +126,7 @@ final class ComboExecutionServiceTests: XCTestCase {
 
     // MARK: - Execution Tests
 
-    func testStartCombo_WithSingleItem() async {
+    func testStartCombo_WithSingleItem() {
         // Given
         let combo = Combo(title: "단일 항목", items: [
             ComboItem(type: .memo, referenceId: testMemos[0].id, order: 0)
@@ -131,14 +135,15 @@ final class ComboExecutionServiceTests: XCTestCase {
         // When
         sut.startCombo(combo)
 
-        // Wait for completion
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5초
+        // 단일 항목은 startCombo 내에서 즉시 completeExecution → state = .completed.
+        // 그 후 3초 후 stopCombo로 .idle. 짧게 main runloop 진행시켜 .completed 확인.
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
 
         // Then
-        XCTAssertEqual(sut.state, .idle) // 단일 항목은 즉시 완료
+        XCTAssertEqual(sut.state, .completed)
     }
 
-    func testStartCombo_WithMultipleItems() async {
+    func testStartCombo_WithMultipleItems() {
         // Given
         let combo = Combo(title: "다중 항목", items: [
             ComboItem(type: .memo, referenceId: testMemos[0].id, order: 0),
@@ -149,8 +154,9 @@ final class ComboExecutionServiceTests: XCTestCase {
         // When
         sut.startCombo(combo)
 
-        // Wait for all items to execute
-        try? await Task.sleep(nanoseconds: 1_000_000_000) // 1초
+        // Timer는 main run loop에 의존. Task.sleep은 run loop를 진행시키지 않으므로
+        // RunLoop.current.run(until:)을 사용해서 timer fire를 기다린다.
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1.0))
 
         // Then
         XCTAssertEqual(sut.state, .completed)
@@ -244,7 +250,7 @@ final class ComboExecutionServiceTests: XCTestCase {
 
     // MARK: - Error Handling Tests
 
-    func testStartCombo_WithInvalidItem_ContinuesExecution() async {
+    func testStartCombo_WithInvalidItem_ContinuesExecution() {
         // Given
         let combo = Combo(title: "에러 처리 테스트", items: [
             ComboItem(type: .memo, referenceId: testMemos[0].id, order: 0),
@@ -255,8 +261,8 @@ final class ComboExecutionServiceTests: XCTestCase {
         // When
         sut.startCombo(combo)
 
-        // Wait for completion
-        try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5초
+        // Timer fire 대기 (main run loop 진행)
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1.5))
 
         // Then - 에러가 발생해도 다음 항목 계속 진행
         XCTAssertEqual(sut.state, .completed)
