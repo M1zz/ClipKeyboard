@@ -16,7 +16,7 @@ extension Color {
 
     /// Primary color for CTA, links, and selections
     /// Light: #007AFF, Dark: #0A84FF
-    static let appPrimary = Color("Primary")
+    static let appPrimary = Color("AppPrimary")
 
     /// Success color for completion states
     /// Light: #34C759, Dark: #30D158

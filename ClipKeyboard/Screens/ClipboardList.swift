@@ -292,7 +292,7 @@ struct ClipboardList: View {
             loadHistory()
             showToast(message: String(format: NSLocalizedString("타입이 %@로 변경되었습니다", comment: ""), newType.localizedName))
         } catch {
-            print("Error updating type: \(error)")
+            print("❌ [ClipboardList.updateItemType] \(error)")
         }
     }
 
@@ -308,7 +308,7 @@ struct ClipboardList: View {
         do {
             clipboardHistory = try MemoStore.shared.loadSmartClipboardHistory()
         } catch {
-            print("Error loading clipboard history: \(error)")
+            print("❌ [ClipboardList.loadHistory] \(error)")
         }
     }
 
@@ -321,7 +321,7 @@ struct ClipboardList: View {
         do {
             try MemoStore.shared.saveSmartClipboardHistory(history: clipboardHistory)
         } catch {
-            print("Error deleting clipboard history: \(error)")
+            print("❌ [ClipboardList.deleteItems] \(error)")
         }
     }
 
@@ -330,7 +330,7 @@ struct ClipboardList: View {
         do {
             try MemoStore.shared.saveSmartClipboardHistory(history: [])
         } catch {
-            print("Error clearing clipboard history: \(error)")
+            print("❌ [ClipboardList.clearAll] \(error)")
         }
     }
 
@@ -623,10 +623,10 @@ struct SaveToMemoSheet: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("메모 정보") {
-                    TextField("제목", text: $title)
+                Section(NSLocalizedString("메모 정보", comment: "Memo info section header")) {
+                    TextField(NSLocalizedString("제목", comment: "Title field placeholder"), text: $title)
 
-                    Picker("테마", selection: $category) {
+                    Picker(NSLocalizedString("테마", comment: "Theme picker label"), selection: $category) {
                         ForEach(CategoryStore.shared.allCategories, id: \.self) { cat in
                             Text(cat).tag(cat)
                         }
@@ -688,7 +688,7 @@ struct SaveToMemoSheet: View {
             try MemoStore.shared.save(memos: memos, type: .memo)
             onComplete(true)
         } catch {
-            print("Error saving to memo: \(error)")
+            print("❌ [ClipboardList.saveAsMemo] \(error)")
             onComplete(false)
         }
     }

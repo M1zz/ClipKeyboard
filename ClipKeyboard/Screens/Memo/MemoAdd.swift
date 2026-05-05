@@ -340,7 +340,7 @@ struct MemoAdd: View {
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
-            TextField("메모 제목을 입력하세요", text: $viewModel.keyword)
+            TextField(NSLocalizedString("메모 제목을 입력하세요", comment: "Memo title placeholder"), text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .padding(.vertical, 12)
@@ -549,7 +549,7 @@ struct MemoAdd: View {
 
     private var comboValueInputField: some View {
         HStack(spacing: 8) {
-            TextField("값 입력", text: $viewModel.newComboValue)
+            TextField(NSLocalizedString("값 입력", comment: "Combo value input placeholder"), text: $viewModel.newComboValue)
                 .textFieldStyle(.roundedBorder)
                 .submitLabel(.done)
                 .onSubmit {
@@ -742,7 +742,7 @@ struct PlaceholderValueEditor: View {
             // 값 추가
             if isAdding {
                 HStack(spacing: 8) {
-                    TextField("값 입력", text: $newValue)
+                    TextField(NSLocalizedString("값 입력", comment: "Placeholder value input"), text: $newValue)
                         .textFieldStyle(.roundedBorder)
                         .font(.caption)
 

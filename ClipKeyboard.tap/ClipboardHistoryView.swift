@@ -32,11 +32,11 @@ struct ClipboardHistoryView: View {
                             .foregroundStyle(.blue)
 
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("클립보드 히스토리")
+                            Text(NSLocalizedString("클립보드 히스토리", comment: "Clipboard history title"))
                                 .font(.title)
                                 .bold()
 
-                            Text("\(clipboardHistory.count)개의 항목")
+                            Text(String(format: NSLocalizedString("%d개의 항목", comment: "Item count"), clipboardHistory.count))
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
@@ -46,7 +46,7 @@ struct ClipboardHistoryView: View {
                         Button {
                             clearAll()
                         } label: {
-                            Label("전체 삭제", systemImage: "trash")
+                            Label(NSLocalizedString("전체 삭제", comment: "Clear all"), systemImage: "trash")
                         }
                         .buttonStyle(.bordered)
                         .tint(.red)
@@ -58,7 +58,7 @@ struct ClipboardHistoryView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
 
-                        TextField("검색...", text: $searchText)
+                        TextField(NSLocalizedString("검색...", comment: "Search placeholder"), text: $searchText)
                             .textFieldStyle(.plain)
 
                         if !searchText.isEmpty {
@@ -264,7 +264,7 @@ struct ClipboardItemRow: View {
                         HStack(spacing: 8) {
                             Image(systemName: "photo")
                                 .foregroundStyle(.secondary)
-                            Text("이미지를 불러올 수 없습니다")
+                            Text(NSLocalizedString("이미지를 불러올 수 없습니다", comment: "Image load error"))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -287,7 +287,7 @@ struct ClipboardItemRow: View {
                     .foregroundStyle(.secondary)
 
                     if item.isTemporary {
-                        Text("임시")
+                        Text(NSLocalizedString("임시", comment: "Temporary tag"))
                             .font(.caption)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
@@ -296,7 +296,7 @@ struct ClipboardItemRow: View {
                     }
 
                     if item.contentType == .image {
-                        Text("이미지")
+                        Text(NSLocalizedString("이미지", comment: "Image tag"))
                             .font(.caption)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)

@@ -28,7 +28,7 @@ struct MemoAddView: View {
                         .font(.system(size: 32))
                         .foregroundStyle(.blue)
 
-                    Text("새 메모")
+                    Text(NSLocalizedString("새 메모", comment: "Add memo title"))
                         .font(.title2)
                         .bold()
 
@@ -45,17 +45,17 @@ struct MemoAddView: View {
                 }
 
                 // 제목 입력
-                TextField("제목", text: $title)
+                TextField(NSLocalizedString("제목", comment: "Title placeholder"), text: $title)
                     .textFieldStyle(.roundedBorder)
                     .font(.headline)
 
                 // 카테고리 선택
                 HStack {
-                    Text("카테고리:")
+                    Text(NSLocalizedString("Category Label", comment: "Category inline label (with colon)"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
-                    TextField("카테고리", text: $category)
+                    TextField(NSLocalizedString("카테고리", comment: "Category placeholder"), text: $category)
                         .textFieldStyle(.roundedBorder)
                         .font(.caption)
                         .frame(width: 100)
@@ -75,7 +75,7 @@ struct MemoAddView: View {
                         HStack {
                             Image(systemName: "text.alignleft")
                                 .foregroundStyle(.blue)
-                            Text("내용")
+                            Text(NSLocalizedString("내용", comment: "Content section header"))
                                 .font(.headline)
                         }
 
@@ -92,13 +92,13 @@ struct MemoAddView: View {
                         HStack {
                             Image(systemName: "photo")
                                 .foregroundStyle(.purple)
-                            Text("이미지 첨부")
+                            Text(NSLocalizedString("이미지 첨부", comment: "Image attachment section header"))
                                 .font(.headline)
 
                             Spacer()
 
                             if !attachedImages.isEmpty {
-                                Text("\(attachedImages.count)개")
+                                Text(String(format: NSLocalizedString("%d개", comment: "Item count"), attachedImages.count))
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -109,14 +109,14 @@ struct MemoAddView: View {
                             Button {
                                 selectImageFromFile()
                             } label: {
-                                Label("파일에서 선택", systemImage: "folder")
+                                Label(NSLocalizedString("파일에서 선택", comment: "Pick from file"), systemImage: "folder")
                             }
                             .buttonStyle(.bordered)
 
                             Button {
                                 pasteImageFromClipboard()
                             } label: {
-                                Label("클립보드에서 붙여넣기", systemImage: "doc.on.clipboard")
+                                Label(NSLocalizedString("클립보드에서 붙여넣기", comment: "Paste from clipboard"), systemImage: "doc.on.clipboard")
                             }
                             .buttonStyle(.bordered)
                         }
@@ -140,7 +140,7 @@ struct MemoAddView: View {
                                     Image(systemName: "photo.on.rectangle.angled")
                                         .font(.system(size: 40))
                                         .foregroundStyle(.secondary)
-                                    Text("이미지를 추가해보세요")
+                                    Text(NSLocalizedString("이미지를 추가해보세요", comment: "Empty image hint"))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -161,13 +161,13 @@ struct MemoAddView: View {
             HStack(spacing: 12) {
                 Spacer()
 
-                Button("취소") {
+                Button(NSLocalizedString("취소", comment: "Cancel button")) {
                     closeWindow()
                 }
                 .buttonStyle(.bordered)
                 .keyboardShortcut(.cancelAction)
 
-                Button("저장") {
+                Button(NSLocalizedString("저장", comment: "Save button")) {
                     saveMemo()
                 }
                 .buttonStyle(.borderedProminent)

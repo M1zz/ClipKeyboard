@@ -60,7 +60,7 @@ struct MemoListView: View {
                             .font(.system(size: 16))
                             .foregroundStyle(.blue)
 
-                        Text("메모")
+                        Text(NSLocalizedString("메모", comment: "Memos section header"))
                             .font(.headline)
                             .bold()
 
@@ -86,7 +86,7 @@ struct MemoListView: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
 
-                        TextField("검색", text: $searchText)
+                        TextField(NSLocalizedString("검색", comment: "Search placeholder"), text: $searchText)
                             .textFieldStyle(.plain)
                             .font(.caption)
 

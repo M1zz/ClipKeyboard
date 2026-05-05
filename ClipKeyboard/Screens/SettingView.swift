@@ -517,7 +517,7 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     func sendEmail(subject:String, body:String, to:String){
         // Check if the device is able to send emails
         if !MFMailComposeViewController.canSendMail() {
-           print("This device cannot send emails.")
+           print("⚠️ [EmailHelper.sendEmail] 이 기기는 메일 발송을 지원하지 않음")
            return
         }
         // Create the email composer
