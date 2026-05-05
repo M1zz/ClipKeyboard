@@ -78,7 +78,7 @@ struct ClipKeyboardApp: App {
     var body: some Scene {
         WindowGroup {
             AppThemedContainer {
-            if manager.didShowOnboarding {
+            if manager.didShowOnboarding && manager.didShowUseCaseSelection {
 
                 ClipKeyboardList()
                     .environmentObject(storeManager)
@@ -103,17 +103,29 @@ struct ClipKeyboardApp: App {
                         ReviewRequestView()
                             .presentationDetents([.medium])
                     }
-            } else {
-                // 온보딩
+            } else if !manager.didShowOnboarding {
+                // 1단계: 키보드 셋업 온보딩
                 KeyboardSetupOnboardingView {
-                    print("✅ [ONBOARDING] 온보딩 완료 -> didShowOnboarding = true")
+                    print("✅ [ONBOARDING] 키보드 온보딩 완료 -> 페르소나 선택으로")
                     manager.didShowOnboarding = true
                 }
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif
                 .onAppear() {
-                    print("🎯 [APP BODY] 첫 실행 -> 온보딩 표시")
+                    print("🎯 [APP BODY] 첫 실행 -> 키보드 온보딩 표시")
+                }
+            } else {
+                // 2단계: 페르소나 선택 → 카테고리 선제 시드
+                PersonaSelectionView {
+                    print("✅ [ONBOARDING] 페르소나 선택 완료 -> 메인 진입")
+                    manager.didShowUseCaseSelection = true
+                }
+                #if targetEnvironment(macCatalyst)
+                .frame(minWidth: 520, minHeight: 640)
+                #endif
+                .onAppear() {
+                    print("🎯 [APP BODY] 페르소나 선택 화면 표시")
                 }
             }
             } // AppThemedContainer

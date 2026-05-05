@@ -594,7 +594,7 @@
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d"
+            "value" : "%d item"
           }
         }
       }
@@ -661,6 +661,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d item akan dieksekusi berurutan"
+          }
+        }
+      }
+    },
+    "%d개의 항목" : {
+      "comment" : "Item count",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d items"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d item"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d개의 항목"
           }
         }
       }
@@ -2106,6 +2130,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "카테고리"
+          }
+        }
+      }
+    },
+    "Category Label" : {
+      "comment" : "Category inline label (with colon)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category:"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori:"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리:"
           }
         }
       }
@@ -3882,7 +3930,6 @@
     },
     "iCloud Drive가 활성화되어 있는지 확인해주세요. 설정 > [사용자 이름] > iCloud > iCloud Drive를 켜주세요." : {
       "comment" : "iCloud permission error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3900,6 +3947,7 @@
     },
     "iCloud Drive를 켜주세요." : {
       "comment" : "iCloud permission error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4004,7 +4052,6 @@
     },
     "iCloud 서버에 일시적인 문제가 있습니다. 잠시 후 다시 시도해주세요." : {
       "comment" : "iCloud server error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4022,6 +4069,7 @@
     },
     "iCloud 저장 공간이 부족합니다." : {
       "comment" : "iCloud quota exceeded error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4039,7 +4087,6 @@
     },
     "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요." : {
       "comment" : "iCloud quota exceeded error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4091,6 +4138,7 @@
     },
     "iCloud에 로그인해주세요." : {
       "comment" : "iCloud not authenticated error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4613,6 +4661,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "길게 누르면 드래그로 순서 변경, 왼쪽으로 밀면 삭제 (보호된 항목은 삭제 불가)."
+          }
+        }
+      }
+    },
+    "macOS 전용 메모 앱" : {
+      "comment" : "App tagline",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo app for macOS"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi memo untuk macOS"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 전용 메모 앱"
           }
         }
       }
@@ -8322,6 +8394,7 @@
       }
     },
     "값 입력" : {
+      "comment" : "Combo value input placeholder\nPlaceholder value input",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8732,6 +8805,30 @@
         }
       }
     },
+    "국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천" : {
+      "comment" : "Persona: Nomad description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For users entering international transfers, visas, and travel info"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk pengguna yang memasukkan transfer internasional, visa, dan info perjalanan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천"
+          }
+        }
+      }
+    },
     "권한 허용하기" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -8988,7 +9085,6 @@
     },
     "네트워크 연결을 확인하고 다시 시도해주세요." : {
       "comment" : "Network error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9006,6 +9102,7 @@
     },
     "네트워크 연결을 확인해주세요." : {
       "comment" : "Network error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9245,7 +9342,6 @@
     },
     "데이터를 준비하는 중 문제가 발생했습니다. 앱을 재시작하고 다시 시도해주세요." : {
       "comment" : "Data encoding failed error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9372,6 +9468,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tarik untuk mengubah urutan"
+          }
+        }
+      }
+    },
+    "디지털 노마드 / 프리랜서" : {
+      "comment" : "Persona: Digital Nomad title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digital Nomad / Freelancer"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digital Nomad / Pekerja Lepas"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디지털 노마드 / 프리랜서"
           }
         }
       }
@@ -9513,6 +9633,30 @@
         }
       }
     },
+    "메뉴바 아이콘: 🛶" : {
+      "comment" : "Menu bar icon description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu bar icon: 🛶"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikon bilah menu: 🛶"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴바 아이콘: 🛶"
+          }
+        }
+      }
+    },
     "메뉴바에서 언제든지" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -9615,6 +9759,30 @@
         }
       }
     },
+    "메모 목록 표시" : {
+      "comment" : "Show memo list label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show memo list"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilkan daftar memo"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 목록 표시"
+          }
+        }
+      }
+    },
     "메모 붙여넣기" : {
       "comment" : "Paste memo title",
       "extractionState" : "stale",
@@ -9668,6 +9836,7 @@
       }
     },
     "메모 정보" : {
+      "comment" : "Memo info section header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9684,6 +9853,7 @@
       }
     },
     "메모 제목을 입력하세요" : {
+      "comment" : "Memo title placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9800,6 +9970,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sinkronkan data di semua perangkat"
+          }
+        }
+      }
+    },
+    "모든 기능 사용" : {
+      "comment" : "All features label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All features available"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semua fitur tersedia"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 기능 사용"
           }
         }
       }
@@ -10032,7 +10226,6 @@
     },
     "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요." : {
       "comment" : "Generic error message\nGeneric iCloud error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10203,7 +10396,6 @@
     },
     "백업 데이터가 없습니다. 먼저 백업을 생성해주세요." : {
       "comment" : "No backup found error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10238,7 +10430,6 @@
     },
     "백업 데이터를 읽을 수 없습니다. 최신 버전의 앱을 사용하고 있는지 확인해주세요." : {
       "comment" : "Data decoding failed error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10358,6 +10549,7 @@
     },
     "백업을 읽을 수 없습니다. 앱을 업데이트해주세요." : {
       "comment" : "Data decoding failed error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10375,6 +10567,7 @@
     },
     "백업이 없습니다." : {
       "comment" : "No backup found error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10954,6 +11147,30 @@
         }
       }
     },
+    "비즈니스 / 직장인" : {
+      "comment" : "Persona: Business title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Business / Office Worker"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bisnis / Karyawan Kantor"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비즈니스 / 직장인"
+          }
+        }
+      }
+    },
     "빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)" : {
       "comment" : "In-app review description",
       "localizations" : {
@@ -11315,6 +11532,30 @@
         }
       }
     },
+    "새 메모 화면" : {
+      "comment" : "New memo screen placeholder",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New memo screen"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layar memo baru"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 메모 화면"
+          }
+        }
+      }
+    },
     "새 키보드 추가" : {
       "comment" : "Step 2",
       "extractionState" : "stale",
@@ -11486,6 +11727,7 @@
     },
     "서버 문제. 잠시 후 다시 시도해주세요." : {
       "comment" : "iCloud server error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11725,6 +11967,30 @@
         }
       }
     },
+    "설정 화면" : {
+      "comment" : "Settings screen placeholder",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings screen"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layar pengaturan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 화면"
+          }
+        }
+      }
+    },
     "설정에서 키보드를 추가한 후\n이 화면으로 돌아와 다음 단계를 진행하세요" : {
       "comment" : "Onboarding: return after adding keyboard",
       "localizations" : {
@@ -11919,7 +12185,7 @@
       }
     },
     "시작하기" : {
-      "comment" : "Get started button",
+      "comment" : "Get started button\nOnboarding continue button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12072,6 +12338,30 @@
         }
       }
     },
+    "앱 메뉴: 클립키보드" : {
+      "comment" : "App menu description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App menu: ClipKeyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu aplikasi: ClipKeyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 메뉴: 클립키보드"
+          }
+        }
+      }
+    },
     "앱 설정" : {
       "comment" : "App settings section",
       "extractionState" : "stale",
@@ -12171,6 +12461,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buka aplikasi dan tambahkan nilai '%@' di Kelola Placeholder"
+          }
+        }
+      }
+    },
+    "어떻게 사용하실 예정인가요?" : {
+      "comment" : "Persona onboarding title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How will you use ClipKeyboard?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bagaimana Anda akan menggunakan ClipKeyboard?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어떻게 사용하실 예정인가요?"
+          }
+        }
+      }
+    },
+    "언제든지 접근 가능" : {
+      "comment" : "Always accessible label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always accessible"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selalu dapat diakses"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언제든지 접근 가능"
           }
         }
       }
@@ -12381,6 +12719,7 @@
     },
     "오류 발생. 네트워크와 iCloud를 확인해주세요." : {
       "comment" : "Generic error message\nGeneric iCloud error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12466,6 +12805,7 @@
     },
     "요청 초과. 잠시 후 다시 시도해주세요." : {
       "comment" : "Rate limited error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12483,7 +12823,6 @@
     },
     "요청이 너무 많습니다. 잠시 후 다시 시도해주세요." : {
       "comment" : "Rate limited error message",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12838,6 +13177,30 @@
         }
       }
     },
+    "이미지 첨부" : {
+      "comment" : "Image attachment section header",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attach Image"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lampirkan Gambar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 첨부"
+          }
+        }
+      }
+    },
     "이미지 형식을 지원하지 않습니다" : {
       "localizations" : {
         "en" : {
@@ -12900,6 +13263,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pilih gambar"
+          }
+        }
+      }
+    },
+    "이미지를 추가해보세요" : {
+      "comment" : "Empty image hint",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add an image"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan gambar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지를 추가해보세요"
           }
         }
       }
@@ -13006,6 +13393,30 @@
         }
       }
     },
+    "일반 / 개인" : {
+      "comment" : "Persona: General title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General / Personal"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umum / Pribadi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반 / 개인"
+          }
+        }
+      }
+    },
     "일반 > 키보드 메뉴로 이동하세요" : {
       "comment" : "Open Settings instruction 2",
       "extractionState" : "stale",
@@ -13020,6 +13431,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buka menu Umum > Keyboard"
+          }
+        }
+      }
+    },
+    "일상에서 자주 쓰는 기본 정보만 빠르게 입력" : {
+      "comment" : "Persona: General description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick entry for everyday basics"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entri cepat untuk kebutuhan sehari-hari"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일상에서 자주 쓰는 기본 정보만 빠르게 입력"
           }
         }
       }
@@ -13192,6 +13627,30 @@
         }
       }
     },
+    "자동 추가될 카테고리" : {
+      "comment" : "Preview categories header",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories to be added"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori yang akan ditambahkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동 추가될 카테고리"
+          }
+        }
+      }
+    },
     "자동: %@" : {
       "comment" : "Auto detected type",
       "localizations" : {
@@ -13223,6 +13682,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Simpan teks yang sering digunakan, tempel cepat"
+          }
+        }
+      }
+    },
+    "자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요." : {
+      "comment" : "Persona onboarding subtitle",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We will preset commonly-used categories for you. You can change them anytime."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami akan menyiapkan kategori yang sering digunakan. Anda dapat mengubahnya kapan saja."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요."
           }
         }
       }
@@ -13330,6 +13813,7 @@
     },
     "저장 실패. 앱을 재시작해주세요." : {
       "comment" : "Data encoding failed error message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13445,6 +13929,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Izin Aksesibilitas diperlukan\nuntuk shortcut global"
+          }
+        }
+      }
+    },
+    "전역 단축키: ⌃⌥K" : {
+      "comment" : "Global hotkey description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Global shortcut: ⌃⌥K"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan global: ⌃⌥K"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전역 단축키: ⌃⌥K"
           }
         }
       }
@@ -13707,7 +14215,7 @@
       }
     },
     "제목" : {
-      "comment" : "Title",
+      "comment" : "Title\nTitle field placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13951,6 +14459,30 @@
         }
       }
     },
+    "창을 닫아도 앱은 백그라운드에서 계속 실행됩니다" : {
+      "comment" : "Background run hint",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closing the window keeps the app running in the background"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menutup jendela tetap menjalankan aplikasi di latar belakang"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "창을 닫아도 앱은 백그라운드에서 계속 실행됩니다"
+          }
+        }
+      }
+    },
     "천지인 (3x3)" : {
       "comment" : "Korean layout: cheonjiin",
       "localizations" : {
@@ -14164,6 +14696,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan nomor kartu: 1234 → 5678 → 9012 → 3456"
+          }
+        }
+      }
+    },
+    "카테고리" : {
+      "comment" : "Category placeholder",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리"
           }
         }
       }
@@ -14435,6 +14991,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tidak ada gambar di clipboard"
+          }
+        }
+      }
+    },
+    "클립보드에서 붙여넣기" : {
+      "comment" : "Paste from clipboard",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste from Clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempel dari Clipboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립보드에서 붙여넣기"
           }
         }
       }
@@ -15083,6 +15663,7 @@
       }
     },
     "테마" : {
+      "comment" : "Theme picker label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15490,6 +16071,30 @@
         }
       }
     },
+    "파일에서 선택" : {
+      "comment" : "Pick from file",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick from File"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih dari File"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파일에서 선택"
+          }
+        }
+      }
+    },
     "팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다." : {
       "comment" : "Allow option description",
       "localizations" : {
@@ -15621,6 +16226,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset Filter"
+          }
+        }
+      }
+    },
+    "학번, 학교 이메일, 과제 템플릿이 필요한 분께 추천" : {
+      "comment" : "Persona: Student description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For students needing IDs, school email, and assignment templates"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk pelajar yang membutuhkan ID, email sekolah, dan template tugas"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학번, 학교 이메일, 과제 템플릿이 필요한 분께 추천"
+          }
+        }
+      }
+    },
+    "학생" : {
+      "comment" : "Persona: Student title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Student"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pelajar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학생"
           }
         }
       }
@@ -15930,6 +16583,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "활용 사례"
+          }
+        }
+      }
+    },
+    "회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천" : {
+      "comment" : "Persona: Business description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For users with frequent work email, business card, and meeting input"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk pengguna yang sering memasukkan email kerja, kartu nama, dan rapat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천"
           }
         }
       }

@@ -497,3 +497,269 @@ struct KeyboardSetupOnboardingView_Previews: PreviewProvider {
         KeyboardSetupOnboardingView(exitAction: { })
     }
 }
+
+// MARK: - Persona (Onboarding Step 2)
+// Persona enum + PersonaSelectionView를 본 파일 끝에 합쳤다 — 별도 파일로 두면
+// Xcode 프로젝트에 수동 등록이 필요해 빌드가 깨지므로 자동으로 컴파일되도록 같은 파일에 둠.
+
+import Foundation
+
+enum Persona: String, CaseIterable, Codable {
+    case nomad = "nomad"
+    case business = "business"
+    case student = "student"
+    case general = "general"
+
+    /// 1차 타깃 페르소나 — 기본 선택값
+    static let `default`: Persona = .nomad
+
+    /// SF Symbol
+    var icon: String {
+        switch self {
+        case .nomad: return "globe"
+        case .business: return "briefcase.fill"
+        case .student: return "graduationcap.fill"
+        case .general: return "person.fill"
+        }
+    }
+
+    /// UI 노출용 제목
+    var localizedTitle: String {
+        switch self {
+        case .nomad: return NSLocalizedString("디지털 노마드 / 프리랜서", comment: "Persona: Digital Nomad title")
+        case .business: return NSLocalizedString("비즈니스 / 직장인", comment: "Persona: Business title")
+        case .student: return NSLocalizedString("학생", comment: "Persona: Student title")
+        case .general: return NSLocalizedString("일반 / 개인", comment: "Persona: General title")
+        }
+    }
+
+    /// UI 노출용 설명 (한 줄)
+    var localizedDescription: String {
+        switch self {
+        case .nomad:
+            return NSLocalizedString("국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천", comment: "Persona: Nomad description")
+        case .business:
+            return NSLocalizedString("회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천", comment: "Persona: Business description")
+        case .student:
+            return NSLocalizedString("학번, 학교 이메일, 과제 템플릿이 필요한 분께 추천", comment: "Persona: Student description")
+        case .general:
+            return NSLocalizedString("일상에서 자주 쓰는 기본 정보만 빠르게 입력", comment: "Persona: General description")
+        }
+    }
+
+    /// 언어별 페르소나 시드 카테고리.
+    /// - 라벨은 사용자가 추후 자유롭게 수정 가능 (CategoryStore가 단순 String 배열을 영속).
+    /// - 국가 시드(CategoryStore.localeDefaults)와 합쳐져 최종 카테고리가 결정됨.
+    func seedCategories(language: String) -> [String] {
+        let lang = language.lowercased()
+        switch self {
+        case .nomad:
+            switch lang {
+            case "ko":
+                return ["IBAN", "SWIFT/BIC", "VAT/세금번호", "PayPal", "Crypto Wallet",
+                        "여권번호", "비자", "Frequent Flyer", "여행자보험", "환전 메모"]
+            case "id":
+                return ["IBAN", "SWIFT/BIC", "NPWP", "PayPal", "Crypto Wallet",
+                        "Paspor", "Visa", "Frequent Flyer", "Asuransi Perjalanan", "Catatan Tukar Uang"]
+            default: // en + fallback
+                return ["IBAN", "SWIFT/BIC", "VAT / Tax ID", "PayPal", "Crypto Wallet",
+                        "Passport", "Visa", "Frequent Flyer", "Travel Insurance", "FX Notes"]
+            }
+        case .business:
+            switch lang {
+            case "ko":
+                return ["회사 이메일", "비즈니스 주소", "사업자번호", "명함 정보",
+                        "미팅 메모", "영수증", "프로젝트 코드", "VPN/계정"]
+            case "id":
+                return ["Email Kantor", "Alamat Bisnis", "NPWP", "Info Kartu Nama",
+                        "Catatan Rapat", "Tanda Terima", "Kode Proyek", "VPN/Akun"]
+            default:
+                return ["Work Email", "Business Address", "Tax / EIN", "Business Card Info",
+                        "Meeting Notes", "Receipt", "Project Code", "VPN / Account"]
+            }
+        case .student:
+            switch lang {
+            case "ko":
+                return ["학번", "학교 이메일", "학교 주소", "학생증 번호",
+                        "과제 템플릿", "도서관 카드", "장학금 정보", "기숙사 주소"]
+            case "id":
+                return ["NIM", "Email Kampus", "Alamat Kampus", "Nomor KTM",
+                        "Template Tugas", "Kartu Perpustakaan", "Beasiswa", "Alamat Asrama"]
+            default:
+                return ["Student ID", "School Email", "School Address", "Library Card #",
+                        "Assignment Template", "Scholarship Info", "Dorm Address"]
+            }
+        case .general:
+            switch lang {
+            case "ko":
+                return ["이메일", "전화번호", "주소", "비밀번호 힌트", "긴급 연락처"]
+            case "id":
+                return ["Email", "Nomor Telepon", "Alamat", "Petunjuk Kata Sandi", "Kontak Darurat"]
+            default:
+                return ["Email", "Phone", "Address", "Password Hint", "Emergency Contact"]
+            }
+        }
+    }
+}
+
+import SwiftUI
+
+struct PersonaSelectionView: View {
+    /// 완료 콜백 — 부모 뷰가 didShowUseCaseSelection = true 처리
+    let onContinue: () -> Void
+
+    @State private var selected: Persona = .default
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // 헤더
+            VStack(spacing: 8) {
+                Text(NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title"))
+                    .font(.title2)
+                    .bold()
+                    .multilineTextAlignment(.center)
+
+                Text(NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle"))
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 24)
+            }
+            .padding(.top, 40)
+            .padding(.bottom, 24)
+
+            // 페르소나 카드 리스트
+            ScrollView {
+                VStack(spacing: 12) {
+                    ForEach(Persona.allCases, id: \.self) { persona in
+                        PersonaCard(persona: persona, isSelected: selected == persona) {
+                            selected = persona
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+
+            Divider()
+
+            // 미리보기 + 시작 버튼
+            VStack(spacing: 12) {
+                PreviewChips(persona: selected)
+
+                Button {
+                    apply()
+                } label: {
+                    Text(NSLocalizedString("시작하기", comment: "Onboarding continue button"))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .background(Color.accentColor)
+                        .foregroundStyle(.white)
+                        .font(.headline)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 20)
+            }
+            .padding(.top, 12)
+        }
+    }
+
+    private func apply() {
+        let lang = Locale.current.language.languageCode?.identifier
+        CategoryStore.shared.applyPersona(selected, language: lang)
+        print("✅ [PersonaSelectionView] 페르소나=\(selected.rawValue) 적용 후 메인으로")
+        onContinue()
+    }
+}
+
+// MARK: - Persona Card
+
+private struct PersonaCard: View {
+    let persona: Persona
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 16) {
+                ZStack {
+                    Circle()
+                        .fill(isSelected ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.12))
+                        .frame(width: 48, height: 48)
+                    Image(systemName: persona.icon)
+                        .font(.title3)
+                        .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(persona.localizedTitle)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                        .multilineTextAlignment(.leading)
+                    Text(persona.localizedDescription)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.5))
+            }
+            .padding(16)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isSelected ? Color.accentColor.opacity(0.06) : Color.gray.opacity(0.06))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Preview Chips
+
+private struct PreviewChips: View {
+    let persona: Persona
+
+    private var seeds: [String] {
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        return persona.seedCategories(language: lang)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(NSLocalizedString("자동 추가될 카테고리", comment: "Preview categories header"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 16)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(seeds, id: \.self) { seed in
+                        Text(seed)
+                            .font(.caption)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
+                            .background(Color.accentColor.opacity(0.10))
+                            .foregroundStyle(Color.accentColor)
+                            .clipShape(Capsule())
+                    }
+                }
+                .padding(.horizontal, 16)
+            }
+        }
+    }
+}
+
+#if DEBUG
+#Preview {
+    PersonaSelectionView(onContinue: {})
+}
+#endif

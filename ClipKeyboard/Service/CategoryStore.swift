@@ -23,11 +23,40 @@ final class CategoryStore: ObservableObject {
     private let appGroup = "group.com.Ysoup.TokenMemo"
     private let storageKey = "user.categories.v1"
     private let seededFlagKey = "user.categories.seeded.v1"
+    private let personaKey = "user.selected_persona.v1"
 
     @Published private(set) var categories: [String] = []
 
     private init() {
         load()
+    }
+
+    // MARK: - Persona
+
+    /// 사용자가 온보딩에서 선택한 페르소나. nil이면 미선택.
+    var selectedPersona: Persona? {
+        get {
+            guard let raw = UserDefaults(suiteName: appGroup)?.string(forKey: personaKey) else {
+                return nil
+            }
+            return Persona(rawValue: raw)
+        }
+    }
+
+    /// 페르소나 선택 + 시드 카테고리를 기존 목록에 머지(중복 제거).
+    /// 사용자가 추가했던 카테고리는 보존되며, 페르소나 시드만 위에 얹힌다.
+    func applyPersona(_ persona: Persona, language: String? = nil) {
+        let lang = language ?? Locale.current.language.languageCode?.identifier ?? "en"
+        let seeds = persona.seedCategories(language: lang)
+
+        var merged = categories
+        for seed in seeds where !merged.contains(seed) {
+            merged.append(seed)
+        }
+        categories = merged
+        persist()
+        UserDefaults(suiteName: appGroup)?.set(persona.rawValue, forKey: personaKey)
+        print("👤 [CategoryStore] 페르소나 적용: \(persona.rawValue) (lang=\(lang), 신규=\(seeds.count))")
     }
 
     // MARK: - Public API
@@ -112,7 +141,7 @@ final class CategoryStore: ObservableObject {
     /// 현재 Locale에 맞는 기본 카테고리 목록.
     /// 글로벌 공통 (이메일/URL/전화번호 등) + 국가별 특화 항목.
     static func localeDefaults() -> [String] {
-        let region = Locale.current.regionCode ?? ""
+        let region = Locale.current.region?.identifier ?? ""
         return globalCommon + countrySpecific(for: region)
     }
 
