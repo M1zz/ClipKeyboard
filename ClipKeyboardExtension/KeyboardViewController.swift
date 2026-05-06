@@ -304,6 +304,10 @@ class KeyboardViewController: UIInputViewController {
 
         if handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
 
+        // v4.0.8: attachedTemplate 흐름 — 메모에 옵션 템플릿이 연결되어 있으면
+        // 템플릿의 토큰을 입력받아 메모 본문 + \n + 치환된 템플릿으로 결합 출력.
+        if handleAttachedTemplateIfNeeded(memoId: memoId) { return }
+
         let customPlaceholders = extractCustomPlaceholders(from: text)
         print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
 
@@ -321,6 +325,48 @@ class KeyboardViewController: UIInputViewController {
             textDocumentProxy.insertText(processedText)
             trackKeyboardPaste(memoId: memoId)
         }
+    }
+
+    /// v4.0.8: 메모에 옵션 템플릿(`attachedTemplateId`)이 연결되어 있으면 그 템플릿의
+    /// 토큰을 입력받기 위한 오버레이를 띄운다. 토큰이 없으면 즉시 결합 출력.
+    /// - Returns: attached 흐름을 처리했으면 true.
+    private func handleAttachedTemplateIfNeeded(memoId: UUID) -> Bool {
+        guard let baseMemo = clipMemos.first(where: { $0.id == memoId }),
+              let attachedId = baseMemo.attachedTemplateId else {
+            return false
+        }
+        // attached template 메모를 모든 메모에서 찾기 (clipMemos는 표시 한도가 있을 수 있음)
+        let allMemos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        guard let attached = allMemos.first(where: { $0.id == attachedId }) else {
+            print("⚠️ [attachedTemplate] 템플릿 메모를 찾을 수 없음: \(attachedId)")
+            return false
+        }
+        let placeholders = extractCustomPlaceholders(from: attached.value)
+        print("🔗 [attachedTemplate] base=\(baseMemo.title), template=\(attached.title), tokens=\(placeholders)")
+
+        if placeholders.isEmpty {
+            // 토큰이 없는 평범한 텍스트 템플릿 → 즉시 결합 출력
+            let combined = TemplateVariableProcessor.compose(
+                memoValue: baseMemo.value,
+                templateBody: attached.value,
+                templateInputs: [:]
+            )
+            textDocumentProxy.insertText(combined)
+            trackKeyboardPaste(memoId: memoId)
+        } else {
+            // 입력 시트 표시 — baseMemoId 같이 전달해서 결합 흐름 식별
+            NotificationCenter.default.post(
+                name: NSNotification.Name("showTemplateInput"),
+                object: nil,
+                userInfo: [
+                    "text": attached.value,
+                    "placeholders": placeholders,
+                    "memoId": attached.id,
+                    "baseMemoId": baseMemo.id
+                ]
+            )
+        }
+        return true
     }
 
     /// Combo 메모인 경우 현재 인덱스 값을 입력하고 인덱스를 순환시킴
@@ -362,6 +408,7 @@ class KeyboardViewController: UIInputViewController {
               let inputs = userInfo["inputs"] as? [String: String] else { return }
 
         let memoId = userInfo["memoId"] as? UUID
+        let baseMemoId = userInfo["baseMemoId"] as? UUID
 
         var processedText = text
         print("   원본 텍스트: \(processedText)")
@@ -372,10 +419,20 @@ class KeyboardViewController: UIInputViewController {
         }
 
         processedText = processTemplateVariables(in: processedText)
-        print("   최종 텍스트: \(processedText)")
-        print("📝 textDocumentProxy.insertText 호출")
-        textDocumentProxy.insertText(processedText)
-        trackKeyboardPaste(memoId: memoId)
+
+        // v4.0.8: attached 흐름이면 base 메모 본문과 결합 (옵션 X — \n 이어붙이기)
+        if let baseId = baseMemoId,
+           let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
+            let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
+            print("🔗 [attachedTemplate] 결합 출력: \(combined)")
+            textDocumentProxy.insertText(combined)
+            trackKeyboardPaste(memoId: baseId)
+        } else {
+            print("   최종 텍스트: \(processedText)")
+            print("📝 textDocumentProxy.insertText 호출")
+            textDocumentProxy.insertText(processedText)
+            trackKeyboardPaste(memoId: memoId)
+        }
         print("✅ 입력 완료!")
     }
 

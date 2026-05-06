@@ -139,9 +139,22 @@ class TemplateInputState: ObservableObject {
     @Published var currentFocusedPlaceholder: String? = nil
     @Published var allPlaceholdersFilled: Bool = false
     @Published var templateId: UUID? = nil  // 현재 편집 중인 템플릿 ID
+    /// v4.0.8: attachedTemplate 흐름에서 본 메모(계좌번호 등)의 ID. nil이면 일반 템플릿 흐름.
+    @Published var baseMemoId: UUID? = nil
+    /// v4.0.8: 본 메모 본문 — preview 표시용으로 매번 MemoStore 조회 안 하도록 캐싱.
+    @Published var baseMemoValue: String = ""
 
     func updateAllPlaceholdersFilled() {
         allPlaceholdersFilled = !inputs.values.contains(where: { $0.isEmpty })
+    }
+
+    /// 현재 입력값 기준 결합 미리보기. baseMemoValue가 있으면 결합 형태, 없으면 치환 결과.
+    var previewText: String {
+        let resolvedTemplate = TemplateVariableProcessor.substitute(originalText, with: inputs)
+        if baseMemoValue.isEmpty {
+            return resolvedTemplate
+        }
+        return baseMemoValue + "\n" + resolvedTemplate
     }
 }
 
@@ -435,6 +448,15 @@ struct KeyboardView: View {
                     templateInputState.originalText = text
                     templateInputState.placeholders = placeholders
                     templateInputState.templateId = memoId
+                    // v4.0.8: attached 흐름이면 baseMemoId + baseMemoValue 캐시. 없으면 비움.
+                    let baseMemoId = userInfo["baseMemoId"] as? UUID
+                    templateInputState.baseMemoId = baseMemoId
+                    if let baseId = baseMemoId,
+                       let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
+                        templateInputState.baseMemoValue = baseMemo.value
+                    } else {
+                        templateInputState.baseMemoValue = ""
+                    }
 
                     var initialInputs: [String: String] = [:]
 
@@ -1319,6 +1341,9 @@ struct TemplateInputOverlay: View {
                             }
                             .padding(40)
                         } else {
+                            // v4.0.8: 실시간 결과 미리보기 (사용자가 입력값을 상상하지 않도록)
+                            previewSection
+
                             ForEach(state.placeholders, id: \.self) { placeholder in
                                 PlaceholderInputView(
                                     placeholder: placeholder,
@@ -1327,14 +1352,32 @@ struct TemplateInputOverlay: View {
                                         set: { newValue in
                                             state.inputs[placeholder] = newValue
                                             state.updateAllPlaceholdersFilled()
-                                            // 모든 값이 채워졌으면 자동으로 입력
-                                            if state.allPlaceholdersFilled {
+                                            // numeric 토큰이 하나라도 있으면 사용자가 자릿수를 누적해야 하므로
+                                            // 자동 완료 비활성화 (명시적 "확인" 버튼 필요)
+                                            let hasNumeric = state.placeholders.contains { TemplateVariableProcessor.isNumericToken($0) }
+                                            if state.allPlaceholdersFilled && !hasNumeric {
                                                 completeInput()
                                             }
                                         }
                                     ),
                                     templateId: state.templateId  // 템플릿 ID 전달
                                 )
+                            }
+
+                            // 명시적 확인 버튼 (numeric 토큰 케이스)
+                            if state.placeholders.contains(where: { TemplateVariableProcessor.isNumericToken($0) }) {
+                                Button {
+                                    completeInput()
+                                } label: {
+                                    Text(NSLocalizedString("확인", comment: "Confirm template input"))
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(state.allPlaceholdersFilled ? Color.blue : Color.gray.opacity(0.3))
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                }
+                                .disabled(!state.allPlaceholdersFilled)
                             }
 
                             // 안내 메시지 - 하단으로 이동
@@ -1358,42 +1401,77 @@ struct TemplateInputOverlay: View {
                 }
                 .background(Color(UIColor.systemBackground))
             }
-            .frame(maxWidth: 350, maxHeight: 300)
+            .frame(maxWidth: 380, maxHeight: 460)
             .cornerRadius(16)
             .shadow(radius: 20)
         }
     }
 
+    // MARK: - v4.0.8 Preview section
+    /// 사용자가 입력 중인 현재 값 기준 최종 출력될 결과를 보여줘 "상상" 부담 제거.
+    @ViewBuilder
+    private var previewSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: "eye.fill")
+                    .font(.caption2)
+                    .foregroundColor(.green)
+                Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.secondary)
+            }
+
+            Text(state.previewText.isEmpty ? state.originalText : state.previewText)
+                .font(.system(size: 14, design: .monospaced))
+                .foregroundColor(.primary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+                .background(Color.green.opacity(0.08))
+                .cornerRadius(8)
+        }
+    }
+
     private func completeInput() {
         // 완료 알림 전송
+        var userInfo: [String: Any] = [
+            "text": state.originalText,
+            "inputs": state.inputs
+        ]
+        if let baseId = state.baseMemoId {
+            userInfo["baseMemoId"] = baseId
+        }
+        if let templateId = state.templateId {
+            userInfo["memoId"] = templateId
+        }
         NotificationCenter.default.post(
             name: NSNotification.Name("templateInputComplete"),
             object: nil,
-            userInfo: [
-                "text": state.originalText,
-                "inputs": state.inputs
-            ]
+            userInfo: userInfo
         )
 
         withAnimation {
             state.isShowing = false
             state.currentFocusedPlaceholder = nil
+            state.baseMemoId = nil
         }
     }
 }
 
-// 플레이스홀더 입력 뷰 (선택 방식)
+// 플레이스홀더 입력 뷰 (선택 방식 + 숫자 토큰 직접 입력)
 struct PlaceholderInputView: View {
     let placeholder: String
     @Binding var selectedValue: String
     let templateId: UUID?  // 템플릿 ID 추가
 
     private var predefinedValues: [String] {
-        // 템플릿 ID로 필터링된 값 로드
         let storedValues = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: templateId)
-
-        // iOS 앱에서 관리하는 저장된 값만 반환
         return storedValues
+    }
+
+    /// v4.0.8: 토큰명에 금액/amount/qty 등 키워드가 있으면 numeric 직접 입력 모드.
+    private var isNumericToken: Bool {
+        TemplateVariableProcessor.isNumericToken(placeholder)
     }
 
     var body: some View {
@@ -1411,51 +1489,185 @@ struct PlaceholderInputView: View {
                 }
             }
 
-            if predefinedValues.isEmpty {
-                VStack(spacing: 8) {
-                    HStack(spacing: 6) {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.caption)
-                            .foregroundColor(.orange)
-                        Text(NSLocalizedString("No saved values", comment: "Placeholder values empty title"))
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.orange)
-                    }
-
-                    Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")))
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                        .lineLimit(2)
-                }
-                .padding(12)
-                .frame(maxWidth: .infinity)
-                .background(Color.orange.opacity(0.1))
-                .cornerRadius(8)
+            if isNumericToken {
+                numericInputSection
             } else {
+                textPredefinedSection
+            }
+        }
+        .padding(12)
+        .background(Color(UIColor.systemGray6).opacity(0.5))
+        .cornerRadius(10)
+    }
+
+    // MARK: - Numeric input (v4.0.8)
+    // 정산 금액 등 매번 다른 숫자 입력. textDocumentProxy를 거치지 않고
+    // 자체 0-9 버튼이 selectedValue에 append하므로 호스트 텍스트 필드에 영향 없음.
+
+    @ViewBuilder
+    private var numericInputSection: some View {
+        VStack(spacing: 8) {
+            // 입력값 디스플레이
+            HStack {
+                Text(selectedValue.isEmpty ? "0" : formattedNumeric)
+                    .font(.system(size: 22, weight: .semibold, design: .monospaced))
+                    .foregroundColor(selectedValue.isEmpty ? .secondary : .primary)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+
+                if !selectedValue.isEmpty {
+                    Button {
+                        selectedValue = ""
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 18))
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background(Color(UIColor.systemBackground))
+            .cornerRadius(8)
+
+            // 0-9 + 백스페이스 패드 (3 columns × 4 rows)
+            VStack(spacing: 6) {
+                HStack(spacing: 6) {
+                    numericKey("1"); numericKey("2"); numericKey("3")
+                }
+                HStack(spacing: 6) {
+                    numericKey("4"); numericKey("5"); numericKey("6")
+                }
+                HStack(spacing: 6) {
+                    numericKey("7"); numericKey("8"); numericKey("9")
+                }
+                HStack(spacing: 6) {
+                    numericKey("00", flex: 1)
+                    numericKey("0")
+                    backspaceKey
+                }
+            }
+
+            // 사전 저장 값이 있으면 빠른 선택 옵션도 같이 노출
+            if !predefinedValues.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 6) {
                         ForEach(predefinedValues, id: \.self) { value in
                             Button {
                                 selectedValue = value
                                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             } label: {
                                 Text(value)
-                                    .font(.system(size: 14, weight: selectedValue == value ? .semibold : .regular))
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 10)
-                                    .background(selectedValue == value ? Color.blue : Color(UIColor.systemGray5))
-                                    .foregroundColor(selectedValue == value ? .white : .primary)
-                                    .cornerRadius(20)
+                                    .font(.system(size: 12))
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 4)
+                                    .background(selectedValue == value ? Color.blue.opacity(0.2) : Color(UIColor.systemGray5))
+                                    .foregroundColor(selectedValue == value ? .blue : .primary)
+                                    .cornerRadius(12)
                             }
                         }
                     }
                 }
             }
         }
-        .padding(12)
-        .background(Color(UIColor.systemGray6).opacity(0.5))
-        .cornerRadius(10)
+    }
+
+    /// 입력값에 천 단위 콤마 자동 표시 (보기용, selectedValue 자체는 raw digits)
+    private var formattedNumeric: String {
+        guard let n = Int(selectedValue) else { return selectedValue }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSNumber(value: n)) ?? selectedValue
+    }
+
+    @ViewBuilder
+    private func numericKey(_ digit: String, flex: CGFloat = 1) -> some View {
+        Button {
+            // 13자리 제한 (천억 단위까지) — 너무 큰 수 방지
+            guard selectedValue.count + digit.count <= 13 else { return }
+            // 첫자리 0 방지 (단 입력값이 비었을 때만 0 1자리 허용)
+            if selectedValue.isEmpty && digit == "00" {
+                selectedValue = "0"
+            } else if selectedValue == "0" {
+                selectedValue = digit == "0" || digit == "00" ? "0" : digit
+            } else {
+                selectedValue += digit
+            }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        } label: {
+            Text(digit)
+                .font(.system(size: 18, weight: .medium, design: .monospaced))
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .background(Color(UIColor.systemGray5))
+                .foregroundColor(.primary)
+                .cornerRadius(8)
+        }
+    }
+
+    @ViewBuilder
+    private var backspaceKey: some View {
+        Button {
+            if !selectedValue.isEmpty {
+                selectedValue.removeLast()
+            }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        } label: {
+            Image(systemName: "delete.left")
+                .font(.system(size: 18))
+                .frame(maxWidth: .infinity)
+                .frame(height: 40)
+                .background(Color(UIColor.systemGray4))
+                .foregroundColor(.primary)
+                .cornerRadius(8)
+        }
+    }
+
+    // MARK: - Text predefined (existing flow)
+
+    @ViewBuilder
+    private var textPredefinedSection: some View {
+        if predefinedValues.isEmpty {
+            VStack(spacing: 8) {
+                HStack(spacing: 6) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                    Text(NSLocalizedString("No saved values", comment: "Placeholder values empty title"))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.orange)
+                }
+
+                Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")))
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity)
+            .background(Color.orange.opacity(0.1))
+            .cornerRadius(8)
+        } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(predefinedValues, id: \.self) { value in
+                        Button {
+                            selectedValue = value
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        } label: {
+                            Text(value)
+                                .font(.system(size: 14, weight: selectedValue == value ? .semibold : .regular))
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(selectedValue == value ? Color.blue : Color(UIColor.systemGray5))
+                                .foregroundColor(selectedValue == value ? .white : .primary)
+                                .cornerRadius(20)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
