@@ -208,6 +208,7 @@ struct ClipKeyboardList: View {
                 templateInputs: $viewModel.templateInputs,
                 memos: viewModel.memos,
                 currentTemplateMemo: viewModel.currentTemplateMemo,
+                attachedTemplateBaseMemo: viewModel.attachedTemplateBaseMemo,
                 onTemplateComplete: {
                     viewModel.confirmTemplateInput()
                 },
@@ -999,6 +1000,8 @@ struct SheetModifiers: ViewModifier {
     @Binding var templateInputs: [String: String]
     let memos: [Memo]
     let currentTemplateMemo: Memo?
+    /// v4.0.8: attachedTemplate 흐름이면 본 메모(계좌번호 등). preview 결합용.
+    let attachedTemplateBaseMemo: Memo?
 
     // 콜백
     let onTemplateComplete: () -> Void
@@ -1011,12 +1014,14 @@ struct SheetModifiers: ViewModifier {
         content
             // 템플릿 입력 시트
             .sheet(isPresented: $showTemplateInputSheet) {
-                if currentTemplateMemo != nil {
+                if let template = currentTemplateMemo {
                     TemplateInputSheet(
                         placeholders: templatePlaceholders,
                         inputs: $templateInputs,
                         onComplete: onTemplateComplete,
-                        onCancel: onTemplateCancel
+                        onCancel: onTemplateCancel,
+                        originalText: template.value,
+                        baseMemoValue: attachedTemplateBaseMemo?.value ?? ""
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)

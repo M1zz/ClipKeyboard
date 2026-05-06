@@ -19,6 +19,11 @@ struct PlaceholderSelectorView: View {
     @State private var newValue: String = ""
     @State private var showDeleteConfirm: PlaceholderValue? = nil
 
+    /// v4.0.8: 토큰명에 금액/amount/price 등이 있으면 numberPad
+    private var isNumericToken: Bool {
+        TemplateVariableProcessor.isNumericToken(placeholder)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
@@ -70,6 +75,9 @@ struct PlaceholderSelectorView: View {
                 TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
                     .textFieldStyle(.roundedBorder)
                     .font(.callout)
+                    #if os(iOS)
+                    .keyboardType(isNumericToken ? .numberPad : .default)
+                    #endif
 
                 Button {
                     if !newValue.isEmpty && !values.contains(where: { $0.value == newValue }) {

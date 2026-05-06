@@ -33,6 +33,8 @@ final class MemoAddViewModel: ObservableObject {
     @Published var isSecure: Bool = false
     @Published var isTemplate: Bool = false
     @Published var isCombo: Bool = false
+    /// v4.0.8: 메모에 옵션 템플릿을 연결. nil이면 미연결.
+    @Published var attachedTemplateId: UUID? = nil
     @Published var comboValues: [String] = []
     @Published var newComboValue: String = ""
 
@@ -162,6 +164,11 @@ final class MemoAddViewModel: ObservableObject {
         isCombo = insertedIsCombo
         comboValues = insertedComboValues
 
+        // 편집 모드면 기존 메모의 attachedTemplateId 로드
+        if let existing = editingMemo {
+            attachedTemplateId = existing.attachedTemplateId
+        }
+
         if !insertedIsSecure && autoDetectedType == nil {
             isSecure = insertedIsSecure
         }
@@ -185,6 +192,7 @@ final class MemoAddViewModel: ObservableObject {
         isCombo = false
         comboValues = []
         newComboValue = ""
+        attachedTemplateId = nil
         print("🔄 [MemoAddViewModel] 폼 초기화 완료")
     }
 
@@ -438,6 +446,7 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.currentComboIndex = 0
             updatedMemo.imageFileNames = imageFileNames
             updatedMemo.contentType = contentType
+            updatedMemo.attachedTemplateId = attachedTemplateId
             loadedMemos[index] = updatedMemo
             return (existing.id, keyword)
         } else {
@@ -460,7 +469,8 @@ final class MemoAddViewModel: ObservableObject {
                 comboValues: comboValues,
                 currentComboIndex: 0,
                 imageFileNames: imageFileNames,
-                contentType: contentType
+                contentType: contentType,
+                attachedTemplateId: attachedTemplateId
             )
             loadedMemos.append(newMemo)
             ReviewManager.shared.incrementMemoCreatedCount()

@@ -126,6 +126,90 @@ enum TemplateVariableProcessor {
     }
 }
 
+// MARK: - Token kind detection (v4.0.8)
+
+extension TemplateVariableProcessor {
+    /// 토큰 종류 — 입력 UI에서 키패드 종류를 결정.
+    enum TokenKind {
+        case text
+        case number
+    }
+
+    /// 숫자 의도 토큰 키워드 (대소문자/공백 무시 부분 매칭).
+    /// 예: `{금액}`, `{amount_total}`, `{Price}`, `{TotalCount}` → .number
+    /// `금액`/`amount` 등이 토큰명 어딘가에 있으면 숫자로 간주.
+    private static let numericKeywords: [String] = [
+        // 한국어
+        "금액", "수량", "갯수", "개수", "가격", "번호", "원", "값",
+        // 영어
+        "amount", "price", "quantity", "qty", "count", "number", "num", "value", "total"
+    ]
+
+    /// 토큰 (`{이름}` 같은 wrapping 포함 또는 미포함)이 숫자 입력 의도인지 판정.
+    static func tokenKind(_ token: String) -> TokenKind {
+        let stripped = token
+            .trimmingCharacters(in: CharacterSet(charactersIn: "{} "))
+            .lowercased()
+            .replacingOccurrences(of: " ", with: "")
+        for keyword in numericKeywords {
+            if stripped.contains(keyword.lowercased()) {
+                return .number
+            }
+        }
+        return .text
+    }
+
+    /// 토큰이 숫자 의도면 true.
+    static func isNumericToken(_ token: String) -> Bool {
+        tokenKind(token) == .number
+    }
+}
+
+// MARK: - Memo + attached template composition (v4.0.8)
+
+extension TemplateVariableProcessor {
+    /// 메모 본문에서 사용자 정의 토큰만 추출 (autoVariableTokens 제외).
+    /// 중복 제거 + 등장 순서 보존.
+    static func extractCustomTokens(in text: String) -> [String] {
+        let pattern = "\\{([^}]+)\\}"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
+        let nsRange = NSRange(text.startIndex..., in: text)
+        let matches = regex.matches(in: text, range: nsRange)
+        var seen: Set<String> = []
+        var ordered: [String] = []
+        for match in matches {
+            guard let range = Range(match.range, in: text) else { continue }
+            let token = String(text[range])
+            if autoVariableTokens.contains(token) { continue }
+            if seen.insert(token).inserted {
+                ordered.append(token)
+            }
+        }
+        return ordered
+    }
+
+    /// 사용자 입력값으로 토큰을 치환한 후 자동 변수까지 처리한 최종 문자열을 반환.
+    /// `inputs` key는 토큰 wrapping 포함 (예: `{금액}`).
+    static func substitute(_ text: String, with inputs: [String: String]) -> String {
+        var result = text
+        for (token, value) in inputs {
+            result = result.replacingOccurrences(of: token, with: value)
+        }
+        return process(result)
+    }
+
+    /// 옵션 X (이어 붙이기): 메모 본문 + 줄바꿈 + 입력값 치환된 템플릿 본문.
+    /// templateBody가 nil이거나 빈 문자열이면 메모 본문만 반환.
+    static func compose(memoValue: String, templateBody: String?, templateInputs: [String: String]) -> String {
+        guard let body = templateBody, !body.isEmpty else {
+            return memoValue
+        }
+        let resolvedTemplate = substitute(body, with: templateInputs)
+        if memoValue.isEmpty { return resolvedTemplate }
+        return memoValue + "\n" + resolvedTemplate
+    }
+}
+
 // MARK: - Helpers
 
 private extension String {

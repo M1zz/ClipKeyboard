@@ -69,6 +69,7 @@ struct MemoAdd: View {
                     additionalOptionsSection
                     templateSection
                     comboSection
+                    attachedTemplateSection
 
                     // 📌 3단계: 내용 입력
                     if viewModel.isCombo {
@@ -455,6 +456,119 @@ struct MemoAdd: View {
             comboInfoSection
             comboValueInputSection
         }
+    }
+
+    // MARK: - Attached Template (v4.0.8)
+
+    /// 옵션 템플릿 연결 섹션. 본 메모가 템플릿이 아닌 경우에만 노출.
+    /// 평소엔 메모 단독 사용, 토글 켜면 사용 시 입력 시트 띄워 결합 출력.
+    @ViewBuilder
+    private var attachedTemplateSection: some View {
+        if !viewModel.isTemplate && !viewModel.isCombo {
+            VStack(alignment: .leading, spacing: 12) {
+                Toggle(isOn: Binding(
+                    get: { viewModel.attachedTemplateId != nil },
+                    set: { newValue in
+                        if newValue {
+                            // 첫 사용자 템플릿을 자동 선택
+                            if viewModel.attachedTemplateId == nil {
+                                viewModel.attachedTemplateId = availableTemplates.first?.id
+                            }
+                        } else {
+                            viewModel.attachedTemplateId = nil
+                        }
+                    }
+                )) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "doc.badge.plus")
+                            .foregroundColor(.purple)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("+ 템플릿 연결", comment: "Attach template toggle"))
+                                .font(.callout)
+                                .fontWeight(.medium)
+                            Text(NSLocalizedString("사용 시 템플릿 입력값을 받아 함께 출력합니다", comment: "Attach template hint"))
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+                        }
+                    }
+                }
+                .disabled(availableTemplates.isEmpty)
+
+                if availableTemplates.isEmpty {
+                    Text(NSLocalizedString("연결할 템플릿이 없습니다. 먼저 템플릿 메모를 만들어주세요.", comment: "No templates hint"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .padding(.leading, 32)
+                } else if viewModel.attachedTemplateId != nil {
+                    Picker(NSLocalizedString("템플릿 선택", comment: "Template picker label"),
+                           selection: Binding(
+                            get: { viewModel.attachedTemplateId ?? availableTemplates.first?.id ?? UUID() },
+                            set: { viewModel.attachedTemplateId = $0 }
+                           )) {
+                        ForEach(availableTemplates, id: \.id) { template in
+                            Text(template.title).tag(template.id)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .padding(.leading, 32)
+
+                    if let selected = availableTemplates.first(where: { $0.id == viewModel.attachedTemplateId }) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            // 템플릿 본문 표시
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(NSLocalizedString("템플릿 본문", comment: "Template body label"))
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(theme.textMuted)
+                                Text(selected.value)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(8)
+                                    .background(theme.surfaceAlt)
+                                    .cornerRadius(theme.radiusSm)
+                            }
+
+                            // 결합 결과 미리보기 (사용자가 어떤 결과가 출력될지 미리 보도록)
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "eye.fill")
+                                        .font(.caption2)
+                                        .foregroundColor(.green)
+                                    Text(NSLocalizedString("출력 예시", comment: "Combined output preview header"))
+                                        .font(.caption2)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(theme.textMuted)
+                                }
+                                let memoPreview = viewModel.value.isEmpty
+                                    ? NSLocalizedString("(메모 본문)", comment: "Memo body placeholder in preview")
+                                    : viewModel.value
+                                Text("\(memoPreview)\n\(selected.value)")
+                                    .font(.caption)
+                                    .foregroundColor(.primary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(8)
+                                    .background(Color.green.opacity(0.08))
+                                    .cornerRadius(theme.radiusSm)
+                                Text(NSLocalizedString("사용 시 {토큰} 부분에 입력값이 채워집니다", comment: "Token substitution hint"))
+                                    .font(.caption2)
+                                    .foregroundColor(theme.textMuted)
+                            }
+                        }
+                        .padding(.leading, 32)
+                    }
+                }
+            }
+            .padding()
+            .background(Color.purple.opacity(0.05))
+            .cornerRadius(theme.radiusMd)
+        }
+    }
+
+    /// 사용자가 만든 템플릿 메모 목록. 본 메모(`isTemplate=false`)는 자연스레 제외됨.
+    private var availableTemplates: [Memo] {
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        return memos.filter { $0.isTemplate }
     }
 
     // Combo 설명 입력 섹션

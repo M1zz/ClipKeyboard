@@ -269,7 +269,12 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil) {
+    /// v4.0.8: 메모에 옵션 템플릿을 연결.
+    /// 메모 사용 시 이 ID로 템플릿 메모를 찾아 입력 시트를 띄우고,
+    /// 결과를 본 메모 값과 줄바꿈으로 결합해 출력. nil이면 기존처럼 메모 단독 사용.
+    var attachedTemplateId: UUID?
+
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, attachedTemplateId: UUID? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -289,8 +294,9 @@ struct Memo: Identifiable, Codable {
         self.imageFileNames = imageFileNames
         self.contentType = contentType
         self.lastUsedAt = lastUsedAt
+        self.attachedTemplateId = attachedTemplateId
     }
-    
+
     init(from oldMemo: OldMemo) {
         self.id = oldMemo.id
         self.title = oldMemo.title
@@ -321,6 +327,7 @@ struct Memo: Identifiable, Codable {
         case imageFileNames
         case contentType
         case lastUsedAt
+        case attachedTemplateId
     }
     
     static var dummyData: [Memo] = [

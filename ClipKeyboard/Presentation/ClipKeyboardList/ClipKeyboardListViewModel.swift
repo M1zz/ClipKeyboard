@@ -48,6 +48,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var templatePlaceholders: [String] = []
     @Published var templateInputs: [String: String] = [:]
     @Published var currentTemplateMemo: Memo? = nil
+    /// v4.0.8: attachedTemplate 흐름에서 본 메모 (계좌번호 등). nil이면 일반 템플릿 흐름.
+    /// 본 메모 + 입력값 치환된 템플릿을 줄바꿈으로 결합해 출력.
+    @Published var attachedTemplateBaseMemo: Memo? = nil
 
     // MARK: - Toast
 
@@ -199,8 +202,30 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func confirmTemplateInput() {
         guard let memo = currentTemplateMemo else { return }
-        let processedValue = processTemplateWithInputs(in: memo.value, inputs: templateInputs)
-        finalizeCopy(memo: memo, processedValue: processedValue)
+        let processedTemplate = processTemplateWithInputs(in: memo.value, inputs: templateInputs)
+
+        if let base = attachedTemplateBaseMemo {
+            // v4.0.8 attachedTemplate 흐름: 본 메모 + \n + 치환된 템플릿
+            let combined = TemplateVariableProcessor.compose(
+                memoValue: base.value,
+                templateBody: processedTemplate,
+                templateInputs: [:] // 이미 substituted
+            )
+            finalizeCopy(memo: base, processedValue: combined)
+            attachedTemplateBaseMemo = nil
+        } else {
+            finalizeCopy(memo: memo, processedValue: processedTemplate)
+        }
+        showTemplateInputSheet = false
+    }
+
+    /// v4.0.8: attachedTemplate 입력 스킵 — 본 메모 단독 출력 (사용자가 시트에서 "템플릿 없이").
+    func skipAttachedTemplate() {
+        guard let base = attachedTemplateBaseMemo else { return }
+        finalizeCopy(memo: base, processedValue: base.value)
+        attachedTemplateBaseMemo = nil
+        currentTemplateMemo = nil
+        templateInputs = [:]
         showTemplateInputSheet = false
     }
 
@@ -402,6 +427,17 @@ final class ClipKeyboardListViewModel: ObservableObject {
         if memo.isTemplate {
             print("📄 [processMemoAfterAuth] 템플릿 메모 - TemplateEditSheet 표시")
             selectedTemplateIdForSheet = memo.id
+            return
+        }
+
+        // v4.0.8: 옵션 템플릿 연결 메모 → 입력 시트 트리거
+        if let attachedId = memo.attachedTemplateId,
+           let attached = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == attachedId }) {
+            print("🔗 [processMemoAfterAuth] attachedTemplate 흐름 — base=\(memo.title), template=\(attached.title)")
+            attachedTemplateBaseMemo = memo
+            currentTemplateMemo = attached
+            templateInputs = [:]
+            showTemplateInputSheet = true
             return
         }
 

@@ -202,9 +202,23 @@ struct TemplateInputSheet: View {
     @Binding var inputs: [String: String]
     let onComplete: () -> Void
     let onCancel: () -> Void
+    /// v4.0.8: 미리보기 계산용. 빈 문자열이면 미리보기 미표시.
+    var originalText: String = ""
+    /// v4.0.8: attachedTemplate 흐름이면 본 메모 본문 — preview 결합 표시용.
+    var baseMemoValue: String = ""
 
     @Environment(\.appTheme) private var theme
     @FocusState private var focusedField: String?
+
+    /// 현재 입력값 기준 결합 미리보기.
+    private var previewText: String {
+        guard !originalText.isEmpty else { return "" }
+        let resolvedTemplate = TemplateVariableProcessor.substitute(originalText, with: inputs)
+        if baseMemoValue.isEmpty {
+            return resolvedTemplate
+        }
+        return baseMemoValue + "\n" + resolvedTemplate
+    }
 
     var body: some View {
         NavigationStack {
@@ -215,18 +229,56 @@ struct TemplateInputSheet: View {
                         .foregroundColor(theme.textMuted)
                 } header: { EmptyView() }
 
+                // v4.0.8: 실시간 결합 미리보기
+                if !previewText.isEmpty {
+                    Section {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "eye.fill")
+                                    .font(.caption2)
+                                    .foregroundColor(.green)
+                                Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
+                                    .font(.caption2)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(theme.textMuted)
+                            }
+                            Text(previewText)
+                                .font(.system(size: 14))
+                                .foregroundColor(.primary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(10)
+                                .background(Color.green.opacity(0.08))
+                                .cornerRadius(8)
+                        }
+                    }
+                }
+
                 Section {
                     ForEach(placeholders, id: \.self) { placeholder in
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(placeholder.strippingTemplateBraces)
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
+                            HStack(spacing: 6) {
+                                Text(placeholder.strippingTemplateBraces)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                                if TemplateVariableProcessor.isNumericToken(placeholder) {
+                                    Text(NSLocalizedString("숫자", comment: "Numeric token hint"))
+                                        .font(.system(size: 9, weight: .semibold))
+                                        .padding(.horizontal, 5)
+                                        .padding(.vertical, 1)
+                                        .background(Color.blue.opacity(0.15))
+                                        .foregroundColor(.blue)
+                                        .cornerRadius(4)
+                                }
+                            }
 
                             TextField(NSLocalizedString("입력하세요", comment: "Input placeholder"), text: Binding(
                                 get: { inputs[placeholder] ?? "" },
                                 set: { inputs[placeholder] = $0 }
                             ))
                             .textFieldStyle(.roundedBorder)
+                            #if os(iOS)
+                            .keyboardType(TemplateVariableProcessor.isNumericToken(placeholder) ? .numberPad : .default)
+                            #endif
                             .focused($focusedField, equals: placeholder)
                             .submitLabel(.next)
                             .onSubmit {
