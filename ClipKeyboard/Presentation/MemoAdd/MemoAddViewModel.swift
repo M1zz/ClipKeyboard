@@ -104,8 +104,34 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - 카테고리 선택
 
     func selectCategory(_ theme: String) {
+        let previousCategory = selectedCategory
         selectedCategory = theme
         updateRecentlyUsedCategories(theme)
+
+        // v4.0.8: 백지 부담 줄이기 — 카테고리에 맞는 샘플 자동 채움.
+        // 1) value가 비어있거나
+        // 2) 이전 카테고리의 샘플 값 그대로(=사용자가 수정 안 함)일 때만 갱신.
+        // 사용자가 직접 입력한 값은 절대 덮어쓰지 않는다.
+        if let sample = Constants.sampleValue(for: theme) {
+            if value.isEmpty || Constants.isSampleValue(value, forCategory: previousCategory) {
+                value = sample
+                isSampleValue = true
+            }
+        }
+    }
+
+    // MARK: - v4.0.8 Sample value tracking
+
+    /// 현재 value가 카테고리 샘플과 동일한지 (= 사용자가 아직 수정 안 함).
+    /// View에서 바인딩의 set 콜백에서 갱신해야 사용자 수정 즉시 false로 바뀜.
+    @Published var isSampleValue: Bool = false
+
+    /// value 변경 시 호출 — 사용자가 입력하면 isSampleValue를 자동으로 false 처리.
+    /// View에서 TextEditor onChange에서 호출.
+    func didChangeValue() {
+        if isSampleValue && !Constants.isSampleValue(value, forCategory: selectedCategory) {
+            isSampleValue = false
+        }
     }
 
     // MARK: - onAppear 초기화
@@ -410,9 +436,20 @@ final class MemoAddViewModel: ObservableObject {
     }
 
     private func determineFinalCategory() -> String {
+        // 1) autoDetectedType이 setupView 시점에 채워져 있으면 그대로 사용
         if selectedCategory == "텍스트", let detected = autoDetectedType, detected != .text {
             print("🎨 [MemoAddViewModel] 테마 - 기본값 사용 중 → 자동 분류 적용: '\(detected.rawValue)'")
             return detected.rawValue
+        }
+        // 2) selectedCategory가 기본값("텍스트")인데 사용자가 value를 직접 입력한 경우
+        //    value 변경에 자동 분류가 반응하지 않으므로 저장 시점에 한 번 더 분류 시도.
+        //    이게 없으면 메모 카드의 분류 배지(resolvedType)와 저장된 category가 어긋남.
+        if selectedCategory == "텍스트", !value.isEmpty {
+            let result = ClipboardClassificationService.shared.classify(content: value)
+            if result.type != .text && result.confidence >= 0.7 {
+                print("🎨 [MemoAddViewModel] 테마 - 저장 시점 재분류 적용: '\(result.type.rawValue)' (신뢰도 \(result.confidence))")
+                return result.type.rawValue
+            }
         }
         print("🎨 [MemoAddViewModel] 테마 - 사용자 선택 우선: '\(selectedCategory)'")
         return selectedCategory

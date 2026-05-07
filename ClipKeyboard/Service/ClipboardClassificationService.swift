@@ -90,8 +90,9 @@ class ClipboardClassificationService {
             detectIPAddress,
             detectBirthDate,       // 계좌번호보다 먼저
             detectPostalCode,
-            detectPhone,           // E.164 + 한국 010 fallback
-            detectBankAccount,     // 가장 유연한 패턴은 마지막
+            detectPhoneStrong,     // E.164 + 한국 010 등 신뢰도 높은 패턴만
+            detectBankAccount,     // 한국 전화번호 형식과 겹치는 약한 phone 패턴 전에 시도
+            detectPhoneWeak,       // 일반 10~15자리 숫자 (계좌번호 안 매치된 경우만)
             detectName
         ]
 
@@ -203,8 +204,9 @@ class ClipboardClassificationService {
         return nil
     }
 
-    private func detectPhone(_ text: String) -> (ClipboardItemType, Double)? {
-        // v4.0: E.164 국제 포맷 우선, 한국 번호는 fallback.
+    /// 신뢰도 높은 phone 패턴: E.164 + 한국 010/0X. 이 단계에서 안 잡히면
+    /// detectBankAccount에 양보 (계좌번호 형식과 한국 전화번호가 겹치는 경계 케이스 처리).
+    private func detectPhoneStrong(_ text: String) -> (ClipboardItemType, Double)? {
         let hasPlus = text.trimmingCharacters(in: .whitespaces).hasPrefix("+")
         let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
 
@@ -213,9 +215,8 @@ class ClipboardClassificationService {
             return (.phone, 0.92)
         }
 
-        // 일반 국제 번호: 10~15 자리 (약한 신뢰도)
+        // 한국 010/0X 번호만 강한 신뢰도로 phone 처리
         if !hasPlus && cleaned.count >= 10 && cleaned.count <= 15 {
-            // 한국 010/0X 번호 강화
             let koreanPatterns = [
                 "^010[0-9]{8}$",
                 "^01[016789][0-9]{7,8}$",
@@ -226,9 +227,19 @@ class ClipboardClassificationService {
                     return (.phone, 0.9)
                 }
             }
-            return (.phone, 0.55)
         }
 
+        return nil
+    }
+
+    /// 약한 phone 패턴: 일반 10~15자리 숫자 (`+` 없음). detectBankAccount 다음에
+    /// 호출되어 계좌번호로 매치 안 된 경우에만 phone으로 잡는다.
+    private func detectPhoneWeak(_ text: String) -> (ClipboardItemType, Double)? {
+        let hasPlus = text.trimmingCharacters(in: .whitespaces).hasPrefix("+")
+        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        if !hasPlus && cleaned.count >= 10 && cleaned.count <= 15 {
+            return (.phone, 0.55)
+        }
         return nil
     }
 
