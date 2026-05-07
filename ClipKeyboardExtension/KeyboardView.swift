@@ -217,6 +217,7 @@ struct KeyboardView: View {
     @State private var pinEntryWrong = false
 
     @StateObject private var templateInputState = TemplateInputState()
+    @State private var pendingBypassTemplate: Bool = false
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -820,21 +821,98 @@ struct KeyboardView: View {
     @ViewBuilder
     private func memoButton(for memo: Memo) -> some View {
         let catColor = categoryColorFor(memo)
-        Button {
-            memoButtonAction(for: memo)
-        } label: {
-            memoButtonLabel(for: memo, catColor: catColor)
-        }
-        .contextMenu {
+        let isNormalContent = memo.contentType != .image && memo.contentType != .mixed
+        if memo.attachedTemplateId != nil && isNormalContent && !memo.isCombo {
+            attachedTemplateMemoButton(for: memo, catColor: catColor)
+        } else {
             Button {
-                UIPasteboard.general.string = memo.value
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                memoButtonAction(for: memo)
             } label: {
-                Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                memoButtonLabel(for: memo, catColor: catColor)
             }
-        } preview: {
-            memoLongPressPreview(memo: memo)
+            .contextMenu {
+                Button {
+                    UIPasteboard.general.string = memo.value
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                } label: {
+                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                }
+            } preview: {
+                memoLongPressPreview(memo: memo)
+            }
         }
+    }
+
+    /// attachedTemplateId가 있는 메모용 분할 버튼 — 왼쪽: 메모값만 입력, 오른쪽: 템플릿 포함 입력
+    @ViewBuilder
+    private func attachedTemplateMemoButton(for memo: Memo, catColor: Color) -> some View {
+        HStack(spacing: 0) {
+            // 왼쪽: 메모 값만 입력
+            Button {
+                memoButtonAction(for: memo, bypassTemplate: true)
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: categoryIconFor(memo))
+                        .font(.system(size: 12))
+                        .foregroundColor(catColor)
+                    Text(memo.title)
+                        .foregroundColor(theme.text)
+                        .lineLimit(1)
+                        .font(.system(size: buttonFontSize, weight: .semibold))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if memo.isSecure {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 9))
+                            .foregroundColor(.orange)
+                    }
+                }
+                .padding(.horizontal, 10)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlainButtonStyle())
+            .contextMenu {
+                Button {
+                    UIPasteboard.general.string = memo.value
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                } label: {
+                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                }
+            } preview: {
+                memoLongPressPreview(memo: memo)
+            }
+
+            // 구분선
+            catColor.opacity(0.3)
+                .frame(width: 1)
+                .padding(.vertical, 8)
+
+            // 오른쪽: 템플릿 포함 입력
+            Button {
+                memoButtonAction(for: memo, bypassTemplate: false)
+            } label: {
+                VStack(spacing: 2) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 12))
+                        .foregroundColor(.purple)
+                    Text(NSLocalizedString("Template", comment: "Tag: template"))
+                        .font(.system(size: 8, weight: .semibold))
+                        .foregroundColor(.purple)
+                }
+                .frame(width: 44)
+                .frame(maxHeight: .infinity)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .frame(height: buttonHeight)
+        .background(keyColor)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
+        )
     }
 
     /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 — Mail 스타일
@@ -900,7 +978,7 @@ struct KeyboardView: View {
         .background(theme.surface)
     }
 
-    private func memoButtonAction(for memo: Memo) {
+    private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
         UIImpactFeedbackGenerator().impactOccurred()
 
         if isSearching {
@@ -916,18 +994,20 @@ struct KeyboardView: View {
         }
 
         if memo.isSecure {
-            authenticateAndInsert(memo: memo)
+            authenticateAndInsert(memo: memo, bypassTemplate: bypassTemplate)
             return
         }
 
-        insertMemo(memo)
+        insertMemo(memo, bypassTemplate: bypassTemplate)
     }
 
-    private func insertMemo(_ memo: Memo) {
+    private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {
+        var userInfo: [String: Any] = ["memoId": memo.id]
+        if bypassTemplate { userInfo["bypassAttachedTemplate"] = true }
         NotificationCenter.default.post(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: memo.value,
-            userInfo: ["memoId": memo.id]
+            userInfo: userInfo
         )
         if memo.isCombo && !memo.comboValues.isEmpty {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -936,10 +1016,9 @@ struct KeyboardView: View {
         }
     }
 
-    private func authenticateAndInsert(memo: Memo) {
+    private func authenticateAndInsert(memo: Memo, bypassTemplate: Bool = false) {
         let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
         guard !storedHash.isEmpty else {
-            // PIN 미설정 — 입력 차단하고 사용자에게 안내
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
             withAnimation { showPinNotSetToast = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
@@ -948,6 +1027,7 @@ struct KeyboardView: View {
             return
         }
         pendingSecureMemo = memo
+        pendingBypassTemplate = bypassTemplate
         enteredPIN = ""
         pinEntryWrong = false
         showPINEntry = true
@@ -959,10 +1039,11 @@ struct KeyboardView: View {
         let storedHash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
         if hash == storedHash {
             showPINEntry = false
-            if let memo = pendingSecureMemo { insertMemo(memo) }
+            if let memo = pendingSecureMemo { insertMemo(memo, bypassTemplate: pendingBypassTemplate) }
             pendingSecureMemo = nil
             enteredPIN = ""
             pinEntryWrong = false
+            pendingBypassTemplate = false
         } else {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             enteredPIN = ""
@@ -1283,57 +1364,91 @@ struct TemplateInputOverlay: View {
     @ObservedObject var state: TemplateInputState
 
     var body: some View {
-        ZStack {
-            // 배경 dimming
-            Color.black.opacity(0.4)
-                .ignoresSafeArea()
-                .onTapGesture {
-                    withAnimation {
-                        state.isShowing = false
-                        state.currentFocusedPlaceholder = nil
-                    }
-                }
-
-            // 입력 카드
-            VStack(spacing: 0) {
-                // 헤더
-                HStack {
-                    Text(NSLocalizedString("Choose template values", comment: "Template input overlay title"))
-                        .font(.headline)
-                        .fontWeight(.semibold)
-
+        VStack(spacing: 0) {
+            // MARK: 헤더 — 항상 보임: [00][000][0000] + 입력하기 + 닫기
+            HStack(spacing: 8) {
                     Spacer()
 
-                    Button(action: {
+                    // 숫자 플레이스홀더가 있을 때만 자릿수 패드 표시
+                    if let numericPH = state.placeholders.first(where: { TemplateVariableProcessor.isNumericToken($0) }) {
+                        HStack(spacing: 6) {
+                            ForEach(["00", "000", "0000"], id: \.self) { zeros in
+                                let cur = state.inputs[numericPH] ?? ""
+                                let inactive = cur.isEmpty || cur == "0"
+                                Button {
+                                    let v = state.inputs[numericPH] ?? ""
+                                    guard !v.isEmpty && v != "0" else { return }
+                                    guard v.count + zeros.count <= 13 else { return }
+                                    state.inputs[numericPH] = v + zeros
+                                    state.updateAllPlaceholdersFilled()
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                } label: {
+                                    Text(zeros)
+                                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                        .frame(height: 36)
+                                        .padding(.horizontal, 10)
+                                        .background(inactive ? Color.blue.opacity(0.05) : Color.blue.opacity(0.12))
+                                        .foregroundColor(inactive ? Color.blue.opacity(0.35) : Color.blue)
+                                        .cornerRadius(8)
+                                }
+                                .disabled(inactive)
+                            }
+                        }
+                    }
+
+                    // 입력하기 버튼 (항상 노출)
+                    Button {
+                        completeInput()
+                    } label: {
+                        Text(NSLocalizedString("입력하기", comment: "Insert with template button"))
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 8)
+                            .background(state.allPlaceholdersFilled ? Color.blue : Color.gray.opacity(0.4))
+                            .cornerRadius(10)
+                    }
+                    .disabled(!state.allPlaceholdersFilled)
+
+                    // 닫기
+                    Button {
                         withAnimation {
                             state.isShowing = false
                             state.currentFocusedPlaceholder = nil
                         }
-                    }) {
+                    } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 22))
                             .foregroundColor(.gray)
                     }
                 }
-                .padding()
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
                 .background(Color(UIColor.systemBackground))
 
                 Divider()
 
-                // 입력 필드들
+                // MARK: 컬러 프리뷰
+                coloredPreviewText
+                    .font(.system(size: 15))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(10)
+                    .background(Color(UIColor.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 8)
+
+                // MARK: 플레이스홀더 입력 (스크롤)
                 ScrollView {
                     VStack(spacing: 16) {
                         if state.placeholders.isEmpty {
-                            // 플레이스홀더가 없는 경우
                             VStack(spacing: 12) {
                                 Image(systemName: "questionmark.circle")
                                     .font(.system(size: 40))
                                     .foregroundColor(.gray)
-
                                 Text(NSLocalizedString("No template variables", comment: "Empty state: no template variables"))
                                     .font(.headline)
                                     .foregroundColor(.primary)
-
                                 Text(NSLocalizedString("This template has no values to set.\nPlease try again.", comment: "Empty state: no template variables hint"))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
@@ -1341,9 +1456,6 @@ struct TemplateInputOverlay: View {
                             }
                             .padding(40)
                         } else {
-                            // v4.0.8: 실시간 결과 미리보기 (사용자가 입력값을 상상하지 않도록)
-                            previewSection
-
                             ForEach(state.placeholders, id: \.self) { placeholder in
                                 PlaceholderInputView(
                                     placeholder: placeholder,
@@ -1352,104 +1464,75 @@ struct TemplateInputOverlay: View {
                                         set: { newValue in
                                             state.inputs[placeholder] = newValue
                                             state.updateAllPlaceholdersFilled()
-                                            // numeric 토큰이 하나라도 있으면 사용자가 자릿수를 누적해야 하므로
-                                            // 자동 완료 비활성화 (명시적 "확인" 버튼 필요)
                                             let hasNumeric = state.placeholders.contains { TemplateVariableProcessor.isNumericToken($0) }
                                             if state.allPlaceholdersFilled && !hasNumeric {
                                                 completeInput()
                                             }
                                         }
                                     ),
-                                    templateId: state.templateId  // 템플릿 ID 전달
+                                    templateId: state.templateId
                                 )
                             }
-
-                            // 명시적 확인 버튼 (numeric 토큰 케이스)
-                            if state.placeholders.contains(where: { TemplateVariableProcessor.isNumericToken($0) }) {
-                                Button {
-                                    completeInput()
-                                } label: {
-                                    Text(NSLocalizedString("확인", comment: "Confirm template input"))
-                                        .font(.headline)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 12)
-                                        .background(state.allPlaceholdersFilled ? Color.blue : Color.gray.opacity(0.3))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(10)
-                                }
-                                .disabled(!state.allPlaceholdersFilled)
-                            }
-
-                            // 안내 메시지 - 하단으로 이동
-                            HStack(spacing: 8) {
-                                Image(systemName: "info.circle.fill")
-                                    .font(.system(size: 16))
-                                    .foregroundColor(.blue)
-
-                                Text(NSLocalizedString("Values will be inserted automatically once selected", comment: "Template input hint"))
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue.opacity(0.1))
-                            .cornerRadius(8)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
                 }
                 .background(Color(UIColor.systemBackground))
-            }
-            .frame(maxWidth: 380, maxHeight: 460)
-            .cornerRadius(16)
-            .shadow(radius: 20)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(UIColor.systemBackground))
     }
 
-    // MARK: - v4.0.8 Preview section
-    /// 사용자가 입력 중인 현재 값 기준 최종 출력될 결과를 보여줘 "상상" 부담 제거.
-    @ViewBuilder
-    private var previewSection: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
-                Image(systemName: "eye.fill")
-                    .font(.caption2)
-                    .foregroundColor(.green)
-                Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
-                    .font(.caption2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
-            }
+    private struct PreviewSegment {
+        let text: String
+        let isValue: Bool
+    }
 
-            Text(state.previewText.isEmpty ? state.originalText : state.previewText)
-                .font(.system(size: 14, design: .monospaced))
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(10)
-                .background(Color.green.opacity(0.08))
-                .cornerRadius(8)
+    private func parseSegments() -> [PreviewSegment] {
+        let original = state.originalText
+        var segments: [PreviewSegment] = []
+        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
+            return [PreviewSegment(text: original, isValue: false)]
+        }
+        var lastEnd = original.startIndex
+        for match in regex.matches(in: original, range: NSRange(original.startIndex..., in: original)) {
+            guard let range = Range(match.range, in: original) else { continue }
+            if lastEnd < range.lowerBound {
+                segments.append(PreviewSegment(text: String(original[lastEnd..<range.lowerBound]), isValue: false))
+            }
+            let key = String(original[range])
+            let value = state.inputs[key] ?? ""
+            segments.append(PreviewSegment(text: value.isEmpty ? key : value, isValue: !value.isEmpty))
+            lastEnd = range.upperBound
+        }
+        if lastEnd < original.endIndex {
+            segments.append(PreviewSegment(text: String(original[lastEnd...]), isValue: false))
+        }
+        return segments
+    }
+
+    private var coloredPreviewText: Text {
+        let base: Text = state.baseMemoValue.isEmpty ? Text("") : Text(state.baseMemoValue + "\n")
+        return parseSegments().reduce(base) { acc, seg in
+            seg.isValue
+                ? acc + Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold()
+                : acc + Text(seg.text)
         }
     }
 
     private func completeInput() {
-        // 완료 알림 전송
         var userInfo: [String: Any] = [
             "text": state.originalText,
             "inputs": state.inputs
         ]
-        if let baseId = state.baseMemoId {
-            userInfo["baseMemoId"] = baseId
-        }
-        if let templateId = state.templateId {
-            userInfo["memoId"] = templateId
-        }
+        if let baseId = state.baseMemoId { userInfo["baseMemoId"] = baseId }
+        if let templateId = state.templateId { userInfo["memoId"] = templateId }
         NotificationCenter.default.post(
             name: NSNotification.Name("templateInputComplete"),
             object: nil,
             userInfo: userInfo
         )
-
         withAnimation {
             state.isShowing = false
             state.currentFocusedPlaceholder = nil
@@ -1462,7 +1545,7 @@ struct TemplateInputOverlay: View {
 struct PlaceholderInputView: View {
     let placeholder: String
     @Binding var selectedValue: String
-    let templateId: UUID?  // 템플릿 ID 추가
+    let templateId: UUID?
 
     private var predefinedValues: [String] {
         let storedValues = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: templateId)
@@ -1476,79 +1559,35 @@ struct PlaceholderInputView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
-
-                if !selectedValue.isEmpty {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.caption)
-                        .foregroundColor(.green)
-                }
-            }
-
             if isNumericToken {
                 numericInputSection
             } else {
                 textPredefinedSection
             }
         }
-        .padding(12)
-        .background(Color(UIColor.systemGray6).opacity(0.5))
-        .cornerRadius(10)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
     }
 
-    // MARK: - Numeric input (v4.0.8)
-    // 정산 금액 등 매번 다른 숫자 입력. textDocumentProxy를 거치지 않고
-    // 자체 0-9 버튼이 selectedValue에 append하므로 호스트 텍스트 필드에 영향 없음.
+    // MARK: - Numeric input
+    // 자릿수 패드(00·000·0000) + 1-9 수평 스크롤.
 
     @ViewBuilder
     private var numericInputSection: some View {
         VStack(spacing: 8) {
-            // 입력값 디스플레이
-            HStack {
-                Text(selectedValue.isEmpty ? "0" : formattedNumeric)
-                    .font(.system(size: 22, weight: .semibold, design: .monospaced))
-                    .foregroundColor(selectedValue.isEmpty ? .secondary : .primary)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-
-                if !selectedValue.isEmpty {
-                    Button {
-                        selectedValue = ""
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 18))
-                            .foregroundColor(.secondary)
+            // 수평 스크롤: [AC][⌫][1][2][3][4][5][6][7][8][9]
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    numericScrollClear
+                    numericScrollBackspace
+                    ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { digit in
+                        numericScrollKey(digit)
                     }
                 }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background(Color(UIColor.systemBackground))
-            .cornerRadius(8)
-
-            // 0-9 + 백스페이스 패드 (3 columns × 4 rows)
-            VStack(spacing: 6) {
-                HStack(spacing: 6) {
-                    numericKey("1"); numericKey("2"); numericKey("3")
-                }
-                HStack(spacing: 6) {
-                    numericKey("4"); numericKey("5"); numericKey("6")
-                }
-                HStack(spacing: 6) {
-                    numericKey("7"); numericKey("8"); numericKey("9")
-                }
-                HStack(spacing: 6) {
-                    numericKey("00", flex: 1)
-                    numericKey("0")
-                    backspaceKey
-                }
+                .padding(.horizontal, 4)
             }
 
-            // 사전 저장 값이 있으면 빠른 선택 옵션도 같이 노출
+            // 사전 저장 값 빠른 선택
             if !predefinedValues.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
@@ -1572,20 +1611,10 @@ struct PlaceholderInputView: View {
         }
     }
 
-    /// 입력값에 천 단위 콤마 자동 표시 (보기용, selectedValue 자체는 raw digits)
-    private var formattedNumeric: String {
-        guard let n = Int(selectedValue) else { return selectedValue }
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.string(from: NSNumber(value: n)) ?? selectedValue
-    }
-
     @ViewBuilder
-    private func numericKey(_ digit: String, flex: CGFloat = 1) -> some View {
+    private func numericScrollKey(_ digit: String) -> some View {
         Button {
-            // 13자리 제한 (천억 단위까지) — 너무 큰 수 방지
             guard selectedValue.count + digit.count <= 13 else { return }
-            // 첫자리 0 방지 (단 입력값이 비었을 때만 0 1자리 허용)
             if selectedValue.isEmpty && digit == "00" {
                 selectedValue = "0"
             } else if selectedValue == "0" {
@@ -1597,8 +1626,7 @@ struct PlaceholderInputView: View {
         } label: {
             Text(digit)
                 .font(.system(size: 18, weight: .medium, design: .monospaced))
-                .frame(maxWidth: .infinity)
-                .frame(height: 40)
+                .frame(width: digit == "00" ? 56 : 48, height: 44)
                 .background(Color(UIColor.systemGray5))
                 .foregroundColor(.primary)
                 .cornerRadius(8)
@@ -1606,17 +1634,30 @@ struct PlaceholderInputView: View {
     }
 
     @ViewBuilder
-    private var backspaceKey: some View {
+    private var numericScrollClear: some View {
         Button {
-            if !selectedValue.isEmpty {
-                selectedValue.removeLast()
-            }
+            selectedValue = ""
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        } label: {
+            Text("AC")
+                .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                .frame(width: 46, height: 44)
+                .background(Color(UIColor.systemGray4))
+                .foregroundColor(selectedValue.isEmpty ? Color.secondary : Color.primary)
+                .cornerRadius(8)
+        }
+        .disabled(selectedValue.isEmpty)
+    }
+
+    @ViewBuilder
+    private var numericScrollBackspace: some View {
+        Button {
+            if !selectedValue.isEmpty { selectedValue.removeLast() }
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
             Image(systemName: "delete.left")
                 .font(.system(size: 18))
-                .frame(maxWidth: .infinity)
-                .frame(height: 40)
+                .frame(width: 54, height: 44)
                 .background(Color(UIColor.systemGray4))
                 .foregroundColor(.primary)
                 .cornerRadius(8)

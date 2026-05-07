@@ -41,6 +41,7 @@ struct MemoAdd: View {
     @FocusState private var isFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    @State private var showNewTemplateSheet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -245,6 +246,25 @@ struct MemoAdd: View {
         .onChange(of: viewModel.isTemplate) { _ in
             viewModel.onIsTemplateChanged()
         }
+        .sheet(isPresented: $showNewTemplateSheet, onDismiss: {
+            // 시트 닫힌 후 새로 생성된 템플릿을 자동 선택
+            if let newest = availableTemplates.last {
+                viewModel.attachedTemplateId = newest.id
+            }
+        }) {
+            NavigationView {
+                MemoAdd(insertedIsTemplate: true)
+                    .navigationTitle(NSLocalizedString("새 템플릿", comment: "New template nav title"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) {
+                                showNewTemplateSheet = false
+                            }
+                        }
+                    }
+            }
+        }
     }
 
     // MARK: - View Sections
@@ -405,18 +425,45 @@ struct MemoAdd: View {
                         .foregroundColor(theme.textMuted)
                 }
 
+                // 빠른 삽입 — 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(NSLocalizedString("예시", comment: "Example label"))
+                    Text(NSLocalizedString("빠른 삽입", comment: "Quick insert label"))
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
 
-                    Text(NSLocalizedString("안녕하세요 {이름}님, {날짜} {시간}에 미팅이 예정되어 있습니다.", comment: "Template example text"))
-                        .font(.caption)
-                        .padding(12)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(theme.surfaceAlt)
-                        .cornerRadius(theme.radiusSm)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            // 숫자 입력 타입
+                            quickInsertToken("{금액}", isNumeric: true)
+                            quickInsertToken("{수량}", isNumeric: true)
+                            quickInsertToken("{가격}", isNumeric: true)
+                            // 텍스트 선택 타입
+                            quickInsertToken("{이름}", isNumeric: false)
+                            quickInsertToken("{메모}", isNumeric: false)
+                            quickInsertToken("{주소}", isNumeric: false)
+                        }
+                    }
+
+                    // 타입 범례
+                    HStack(spacing: 12) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "number")
+                                .font(.system(size: 9))
+                                .foregroundColor(.blue)
+                            Text(NSLocalizedString("숫자 입력 (키보드에서 숫자패드 표시)", comment: "Numeric token legend"))
+                                .font(.system(size: 10))
+                                .foregroundColor(.secondary)
+                        }
+                        HStack(spacing: 4) {
+                            Image(systemName: "list.bullet")
+                                .font(.system(size: 9))
+                                .foregroundColor(.green)
+                            Text(NSLocalizedString("선택지 (저장된 값 중 선택)", comment: "Selection token legend"))
+                                .font(.system(size: 10))
+                                .foregroundColor(.secondary)
+                        }
+                    }
                 }
             }
             .padding()
@@ -495,21 +542,43 @@ struct MemoAdd: View {
                 .disabled(availableTemplates.isEmpty)
 
                 if availableTemplates.isEmpty {
-                    Text(NSLocalizedString("연결할 템플릿이 없습니다. 먼저 템플릿 메모를 만들어주세요.", comment: "No templates hint"))
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                        .padding(.leading, 32)
-                } else if viewModel.attachedTemplateId != nil {
-                    Picker(NSLocalizedString("템플릿 선택", comment: "Template picker label"),
-                           selection: Binding(
-                            get: { viewModel.attachedTemplateId ?? availableTemplates.first?.id ?? UUID() },
-                            set: { viewModel.attachedTemplateId = $0 }
-                           )) {
-                        ForEach(availableTemplates, id: \.id) { template in
-                            Text(template.title).tag(template.id)
+                    HStack(spacing: 10) {
+                        Text(NSLocalizedString("연결할 템플릿이 없습니다.", comment: "No templates hint"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+
+                        Button {
+                            showNewTemplateSheet = true
+                        } label: {
+                            Label(NSLocalizedString("새 템플릿 만들기", comment: "Create new template button"),
+                                  systemImage: "plus.circle.fill")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.purple)
                         }
                     }
-                    .pickerStyle(.menu)
+                    .padding(.leading, 32)
+                } else if viewModel.attachedTemplateId != nil {
+                    HStack {
+                        Picker(NSLocalizedString("템플릿 선택", comment: "Template picker label"),
+                               selection: Binding(
+                                get: { viewModel.attachedTemplateId ?? availableTemplates.first?.id ?? UUID() },
+                                set: { viewModel.attachedTemplateId = $0 }
+                               )) {
+                            ForEach(availableTemplates, id: \.id) { template in
+                                Text(template.title).tag(template.id)
+                            }
+                        }
+                        .pickerStyle(.menu)
+
+                        Button {
+                            showNewTemplateSheet = true
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundColor(.purple)
+                                .font(.system(size: 18))
+                        }
+                    }
                     .padding(.leading, 32)
 
                     if let selected = availableTemplates.first(where: { $0.id == viewModel.attachedTemplateId }) {
@@ -754,6 +823,15 @@ struct MemoAdd: View {
                 .cornerRadius(theme.radiusSm)
         }
     }
+
+    private func quickInsertToken(_ token: String, isNumeric: Bool) -> some View {
+        QuickInsertTokenButton(token: token, isNumeric: isNumeric) {
+            viewModel.value += token
+            #if os(iOS)
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            #endif
+        }
+    }
 }
 
 struct MemoAdd_Previews: PreviewProvider {
@@ -803,6 +881,35 @@ private struct ToggleOptionRow: View {
 }
 
 // 플레이스홀더 값 편집기
+// MARK: - Quick Insert Token Button
+
+private struct QuickInsertTokenButton: View {
+    let token: String
+    let isNumeric: Bool
+    let action: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: isNumeric ? "number" : "list.bullet")
+                    .font(.system(size: 9, weight: .semibold))
+                Text(token)
+                    .font(.system(size: 12, weight: .medium))
+            }
+            .foregroundColor(isNumeric ? .blue : .green)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background((isNumeric ? Color.blue : Color.green).opacity(0.1))
+            .cornerRadius(8)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .strokeBorder((isNumeric ? Color.blue : Color.green).opacity(0.25), lineWidth: 1)
+            )
+        }
+    }
+}
+
 struct PlaceholderValueEditor: View {
     let placeholder: String
     @Binding var values: [String]
@@ -810,12 +917,29 @@ struct PlaceholderValueEditor: View {
     @State private var newValue: String = ""
     @State private var isAdding: Bool = false
 
+    private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(placeholder.strippingTemplateBraces)
                     .font(.callout)
                     .fontWeight(.semibold)
+
+                // 타입 뱃지 — 숫자 입력 vs 선택지
+                HStack(spacing: 4) {
+                    Image(systemName: isNumeric ? "number" : "list.bullet")
+                        .font(.system(size: 10, weight: .semibold))
+                    Text(isNumeric
+                         ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
+                         : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
+                        .font(.system(size: 10, weight: .semibold))
+                }
+                .foregroundColor(isNumeric ? .blue : .green)
+                .padding(.horizontal, 7)
+                .padding(.vertical, 3)
+                .background((isNumeric ? Color.blue : Color.green).opacity(0.12))
+                .cornerRadius(6)
 
                 Spacer()
 

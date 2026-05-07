@@ -26,10 +26,27 @@ struct PlaceholderSelectorView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundColor(theme.textMuted)
+            HStack(spacing: 8) {
+                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.textMuted)
+
+                // 타입 뱃지
+                HStack(spacing: 4) {
+                    Image(systemName: isNumericToken ? "number" : "list.bullet")
+                        .font(.system(size: 9, weight: .semibold))
+                    Text(isNumericToken
+                         ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
+                         : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
+                        .font(.system(size: 9, weight: .semibold))
+                }
+                .foregroundColor(isNumericToken ? .blue : .green)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background((isNumericToken ? Color.blue : Color.green).opacity(0.12))
+                .cornerRadius(5)
+            }
 
             // 값 목록
             if values.isEmpty {

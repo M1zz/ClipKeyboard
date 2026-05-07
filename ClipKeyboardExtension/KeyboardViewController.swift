@@ -304,9 +304,11 @@ class KeyboardViewController: UIInputViewController {
 
         if handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
 
-        // v4.0.8: attachedTemplate 흐름 — 메모에 옵션 템플릿이 연결되어 있으면
-        // 템플릿의 토큰을 입력받아 메모 본문 + \n + 치환된 템플릿으로 결합 출력.
-        if handleAttachedTemplateIfNeeded(memoId: memoId) { return }
+        // bypassAttachedTemplate 플래그가 true면 템플릿 연결 흐름을 건너뛰고 메모 값만 입력.
+        let bypass = (notification.userInfo?["bypassAttachedTemplate"] as? Bool) ?? false
+        if !bypass {
+            if handleAttachedTemplateIfNeeded(memoId: memoId) { return }
+        }
 
         let customPlaceholders = extractCustomPlaceholders(from: text)
         print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
