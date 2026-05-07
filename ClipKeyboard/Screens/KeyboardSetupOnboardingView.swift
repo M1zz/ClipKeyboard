@@ -605,8 +605,15 @@ enum Persona: String, CaseIterable, Codable {
 import SwiftUI
 
 struct PersonaSelectionView: View {
-    /// 완료 콜백 — 부모 뷰가 didShowUseCaseSelection = true 처리
+    /// 진입 컨텍스트 — 헤더/버튼 라벨이 다르고, settings 모드는 nav 환경에 들어감.
+    enum Mode {
+        case onboarding
+        case settings
+    }
+
+    /// 완료 콜백 — onboarding이면 didShowUseCaseSelection 처리, settings이면 dismiss.
     let onContinue: () -> Void
+    var mode: Mode = .onboarding
 
     @State private var selected: Persona = .default
 
@@ -614,18 +621,18 @@ struct PersonaSelectionView: View {
         VStack(spacing: 0) {
             // 헤더
             VStack(spacing: 8) {
-                Text(NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title"))
+                Text(headerTitle)
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
 
-                Text(NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle"))
+                Text(headerSubtitle)
                     .font(.callout)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
             }
-            .padding(.top, 40)
+            .padding(.top, mode == .onboarding ? 40 : 16)
             .padding(.bottom, 24)
 
             // 페르소나 카드 리스트
@@ -642,14 +649,14 @@ struct PersonaSelectionView: View {
 
             Divider()
 
-            // 미리보기 + 시작 버튼
+            // 미리보기 + 적용 버튼
             VStack(spacing: 12) {
                 PreviewChips(persona: selected)
 
                 Button {
                     apply()
                 } label: {
-                    Text(NSLocalizedString("시작하기", comment: "Onboarding continue button"))
+                    Text(applyButtonTitle)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(Color.accentColor)
@@ -662,12 +669,47 @@ struct PersonaSelectionView: View {
             }
             .padding(.top, 12)
         }
+        .onAppear {
+            // 기존 선택값 표시 (settings 진입 시 특히 필요)
+            if let existing = CategoryStore.shared.selectedPersona {
+                selected = existing
+            }
+        }
+    }
+
+    // MARK: - Mode-aware copy
+
+    private var headerTitle: String {
+        switch mode {
+        case .onboarding:
+            return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
+        case .settings:
+            return NSLocalizedString("사용 패턴 변경", comment: "Persona settings title")
+        }
+    }
+
+    private var headerSubtitle: String {
+        switch mode {
+        case .onboarding:
+            return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
+        case .settings:
+            return NSLocalizedString("새 페르소나의 추천 카테고리가 추가됩니다. 기존 카테고리는 유지됩니다.", comment: "Persona settings subtitle")
+        }
+    }
+
+    private var applyButtonTitle: String {
+        switch mode {
+        case .onboarding:
+            return NSLocalizedString("시작하기", comment: "Onboarding continue button")
+        case .settings:
+            return NSLocalizedString("변경 적용", comment: "Apply persona change button")
+        }
     }
 
     private func apply() {
         let lang = Locale.current.language.languageCode?.identifier
         CategoryStore.shared.applyPersona(selected, language: lang)
-        print("✅ [PersonaSelectionView] 페르소나=\(selected.rawValue) 적용 후 메인으로")
+        print("✅ [PersonaSelectionView] 페르소나=\(selected.rawValue) 적용 (mode=\(mode))")
         onContinue()
     }
 }

@@ -128,6 +128,21 @@ struct SettingView: View {
                     Label(NSLocalizedString("Categories", comment: "Categories nav title"), systemImage: "tag")
                 }
 
+                NavigationLink(destination: PersonaSettingsContainer()) {
+                    Label {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("사용 패턴", comment: "Persona setting row title"))
+                            if let p = CategoryStore.shared.selectedPersona {
+                                Text(p.localizedTitle)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                            }
+                        }
+                    } icon: {
+                        Image(systemName: "person.crop.circle.badge.checkmark")
+                    }
+                }
+
                 NavigationLink(destination: FontSetting()) {
                     Text(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
                 }
@@ -235,6 +250,41 @@ struct SettingView: View {
     // 앱 버전 정보를 Info.plist에서 자동으로 가져오기
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+    }
+}
+
+// MARK: - Persona Settings (v4.0.8)
+/// 설정 → 사용 패턴 진입점. PersonaSelectionView를 settings 모드로 감싸 dismiss 처리.
+struct PersonaSettingsContainer: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var showAppliedToast = false
+
+    var body: some View {
+        PersonaSelectionView(onContinue: {
+            showAppliedToast = true
+            // 토스트 잠깐 보여준 뒤 닫기
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                dismiss()
+            }
+        }, mode: .settings)
+        .navigationTitle(NSLocalizedString("사용 패턴", comment: "Persona setting nav title"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .overlay(alignment: .bottom) {
+            if showAppliedToast {
+                Text(NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
+                    .font(.callout)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(Color.black.opacity(0.8))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 60)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: showAppliedToast)
     }
 }
 
