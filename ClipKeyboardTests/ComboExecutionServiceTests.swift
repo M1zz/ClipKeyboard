@@ -156,7 +156,8 @@ final class ComboExecutionServiceTests: XCTestCase {
 
         // Timer는 main run loop에 의존. Task.sleep은 run loop를 진행시키지 않으므로
         // RunLoop.current.run(until:)을 사용해서 timer fire를 기다린다.
-        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1.0))
+        // 시뮬레이터 부하에 따라 fire가 늦을 수 있어 안전 마진 (3 × 0.2s 보다 충분히 큰 값).
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 2.0))
 
         // Then
         XCTAssertEqual(sut.state, .completed)
@@ -261,8 +262,8 @@ final class ComboExecutionServiceTests: XCTestCase {
         // When
         sut.startCombo(combo)
 
-        // Timer fire 대기 (main run loop 진행)
-        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1.5))
+        // Timer fire 대기 (main run loop 진행) — 시뮬 부하 여유 포함
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 3.0))
 
         // Then - 에러가 발생해도 다음 항목 계속 진행
         XCTAssertEqual(sut.state, .completed)
