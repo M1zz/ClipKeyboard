@@ -1022,6 +1022,12 @@ struct ContentInputSection: View {
 
     @Environment(\.appTheme) private var theme
 
+    /// v4.0.8: 현재 value가 카테고리의 샘플 값과 동일한지 — 매번 판정.
+    /// 사용자가 수정하면 자동으로 false. 우연히 샘플과 같아지면 다시 true (드문 케이스).
+    private var isSampleValue: Bool {
+        Constants.isSampleValue(value, forCategory: selectedCategory)
+    }
+
     @State private var showImagePicker = false
     @State private var showToast = false
     @State private var toastMessage = ""
@@ -1158,6 +1164,35 @@ struct ContentInputSection: View {
                     .buttonStyle(.plain)
                 }
             } else {
+                // v4.0.8: 샘플 값이면 안내 배너 — "수정해서 사용하세요"
+                if isSampleValue {
+                    HStack(spacing: 8) {
+                        Image(systemName: "pencil.tip")
+                            .font(.caption)
+                            .foregroundColor(.orange)
+                        Text(NSLocalizedString("샘플 — 수정해서 사용하세요", comment: "Sample value hint"))
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.orange)
+                        Spacer()
+                        Button {
+                            value = ""
+                        } label: {
+                            Text(NSLocalizedString("지우기", comment: "Clear sample"))
+                                .font(.caption2)
+                                .foregroundColor(.orange)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.orange.opacity(0.15))
+                                .cornerRadius(6)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Color.orange.opacity(0.08))
+                    .cornerRadius(theme.radiusSm)
+                }
+
                 // 텍스트 테마: 텍스트 입력 영역
                 ZStack(alignment: .topLeading) {
                     if value.isEmpty {

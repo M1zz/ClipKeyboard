@@ -76,6 +76,50 @@ struct Constants {
         return themeForClipboardType(type)
     }
 
+    // MARK: - v4.0.8: Sample value provider
+    // 빈 메모에서 시작하는 부담을 줄이기 위해 카테고리(테마)에 맞는 샘플을 미리 채워준다.
+    // 사용자는 샘플을 수정해서 사용하면 됨. 사용자에게 "샘플" 뱃지로 명시 표시.
+
+    /// 사용자에게 친화적인 샘플 placeholder 값들의 raw key로 매핑된 사전.
+    private static let sampleValuesByRawType: [String: String] = [
+        ClipboardItemType.email.rawValue: "example@email.com",
+        ClipboardItemType.phone.rawValue: "010-0000-0000",
+        ClipboardItemType.address.rawValue: "서울특별시 종로구 청와대로 1",
+        ClipboardItemType.url.rawValue: "https://example.com",
+        ClipboardItemType.creditCard.rawValue: "0000-0000-0000-0000",
+        ClipboardItemType.bankAccount.rawValue: "000-0000-000000",
+        ClipboardItemType.passportNumber.rawValue: "M12345678",
+        ClipboardItemType.declarationNumber.rawValue: "P000000000000",
+        ClipboardItemType.postalCode.rawValue: "06234",
+        ClipboardItemType.name.rawValue: "홍길동",
+        ClipboardItemType.birthDate.rawValue: "1990-01-01",
+        ClipboardItemType.taxID.rawValue: "000-00-00000",
+        ClipboardItemType.insuranceNumber.rawValue: "0000000000",
+        ClipboardItemType.vehiclePlate.rawValue: "12가 3456",
+        ClipboardItemType.ipAddress.rawValue: "192.168.0.1",
+        ClipboardItemType.membershipNumber.rawValue: "M0000000",
+        ClipboardItemType.trackingNumber.rawValue: "1Z000000000000000",
+        ClipboardItemType.confirmationCode.rawValue: "ABC123XYZ",
+        ClipboardItemType.medicalRecord.rawValue: "MR-000-0000",
+        ClipboardItemType.employeeID.rawValue: "EMP-0000",
+        ClipboardItemType.iban.rawValue: "GB82 WEST 1234 5698 7654 32",
+        ClipboardItemType.swift.rawValue: "BOFAUS3NXXX",
+        ClipboardItemType.vat.rawValue: "DE123456789",
+        ClipboardItemType.cryptoWallet.rawValue: "0x0000000000000000000000000000000000000000",
+        ClipboardItemType.paypalLink.rawValue: "paypal.me/yourname"
+    ]
+
+    /// 카테고리(테마)에 맞는 샘플 값을 반환. 매핑이 없거나 image/text면 nil.
+    static func sampleValue(for category: String) -> String? {
+        return sampleValuesByRawType[category]
+    }
+
+    /// 주어진 값이 카테고리의 샘플 값과 동일한지 (=아직 사용자가 수정 안 함) 판정.
+    static func isSampleValue(_ value: String, forCategory category: String) -> Bool {
+        guard let sample = sampleValue(for: category) else { return false }
+        return value == sample
+    }
+
     // 테마명을 다국어 이름으로 변환 (UI 표시용)
     static func localizedThemeName(_ theme: String) -> String {
         if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == theme }) {

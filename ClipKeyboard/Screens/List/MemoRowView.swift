@@ -30,6 +30,13 @@ struct MemoRowView: View {
                     if memo.isTemplate {
                         TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
                     }
+                    // v4.0.8: 옵션 템플릿 연결 메모는 +Template 보라 배지로 시각 구분
+                    if !memo.isTemplate && memo.attachedTemplateId != nil {
+                        TagBadge(
+                            label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
+                            tint: .purple
+                        )
+                    }
                     if memo.isCombo {
                         TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
                     }

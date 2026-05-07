@@ -462,6 +462,13 @@ struct ClipKeyboardList: View {
                     if memo.isTemplate {
                         TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
                     }
+                    // v4.0.8: 옵션 템플릿이 연결된 일반 메모 — Template 배지와 시각 구분
+                    if !memo.isTemplate && memo.attachedTemplateId != nil {
+                        TagBadge(
+                            label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
+                            tint: .purple
+                        )
+                    }
                     if memo.isCombo {
                         TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
                     }
