@@ -909,19 +909,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "+Template"
+            "value": "+ Template"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "+Templat"
+            "value": "+ Template"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "+Template"
+            "value": "+ 템플릿"
           }
         }
       }
