@@ -11,7 +11,8 @@ import SwiftUI
 // MARK: - Model
 
 /// 각 시나리오 하나.
-private struct UsageScenario: Identifiable {
+/// internal — 메모 추가 화면(MemoAdd)의 활용사례 토글에서 재사용.
+struct UsageScenario: Identifiable {
     let id = UUID()
     let titleKey: String       // 상황 제목
     let contextKey: String?    // 상대방이 던진 질문·맥락 (없으면 숨김)
@@ -28,7 +29,7 @@ private struct UsageScenario: Identifiable {
     var example: String { exampleKey }
 }
 
-private enum ScenarioFeature: String {
+enum ScenarioFeature: String {
     case memo, template, combo, smartClipboard
 
     var label: String {
@@ -51,7 +52,7 @@ private enum ScenarioFeature: String {
 }
 
 /// 카테고리 (섹션).
-private struct UsageCategory: Identifiable {
+struct UsageCategory: Identifiable {
     let id = UUID()
     let emoji: String
     let titleKey: String
@@ -64,7 +65,8 @@ private struct UsageCategory: Identifiable {
 
 // MARK: - Data
 
-private let usageCategories: [UsageCategory] = [
+/// 모든 활용사례. 메모 추가 화면에서도 재사용.
+let usageCategories: [UsageCategory] = [
     // 1. 결제·금융
     UsageCategory(
         emoji: "💰",

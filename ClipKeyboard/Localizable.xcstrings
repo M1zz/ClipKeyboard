@@ -203,6 +203,30 @@
         }
       }
     },
+    "\"Where are you based?\" answer": {
+      "comment": "Scenario title — based location answer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"Where are you based?\" answer"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jawaban \"Anda berbasis di mana?\""
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\"어디에 사세요?\" 답변"
+          }
+        }
+      }
+    },
     "(권장)": {
       "comment": "Recommended badge",
       "localizations": {
@@ -1158,6 +1182,30 @@
         }
       }
     },
+    "30 non-native-speaker-friendly templates.": {
+      "comment": "Usage category description — pro english",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 non-native-speaker-friendly templates."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 templat ramah penutur non-Inggris"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "비원어민도 어색하지 않은 영어 템플릿 30종"
+          }
+        }
+      }
+    },
     "123": {
       "localizations": {
         "en": {
@@ -1299,6 +1347,30 @@
         }
       }
     },
+    "After successful project wrap-up": {
+      "comment": "Scenario context — wrap up",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After successful project wrap-up"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setelah proyek selesai dengan sukses"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "프로젝트 마무리 후"
+          }
+        }
+      }
+    },
     "Also on your Mac": {
       "comment": "Mac hero title",
       "localizations": {
@@ -1436,6 +1508,30 @@
         }
       }
     },
+    "Asking for testimonial": {
+      "comment": "Scenario title — testimonial",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asking for testimonial"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permintaan Testimoni"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "추천사 요청"
+          }
+        }
+      }
+    },
     "Auto": {
       "comment": "Bulk import: auto split mode",
       "localizations": {
@@ -1449,6 +1545,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "자동"
+          }
+        }
+      }
+    },
+    "Auto-classifies what you copy — find it later instantly.": {
+      "comment": "Usage category description — smart clipboard",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-classifies what you copy — find it later instantly."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasifikasi otomatis konten yang Anda salin — temukan kembali secara instan"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사한 내용을 자동 분류 — 나중에 즉시 찾기"
           }
         }
       }
@@ -1472,6 +1592,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "배경"
+          }
+        }
+      }
+    },
+    "Banking & Payments": {
+      "comment": "Usage category title — banking",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Banking & Payments"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perbankan & Pembayaran"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "결제·금융"
+          }
+        }
+      }
+    },
+    "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.": {
+      "comment": "Example — call availability",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak berbasis di tempat tertentu — saat ini di {city}. Saya sudah mengatur komunikasi async-first sehingga zona waktu biasanya tidak masalah, tapi saya akan memberi tahu jendela waktu yang jelas saat saya bisa dihubungi."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정해진 거점은 없고 — 지금은 {city}에 있습니다. 비동기 우선 커뮤니케이션 환경으로 타임존이 큰 문제가 되지 않지만, 연락 가능한 시간대는 명확히 알려드리겠습니다."
           }
         }
       }
@@ -1546,6 +1714,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "텍스트로 일괄 가져오기"
+          }
+        }
+      }
+    },
+    "Can you send your Wise details?": {
+      "comment": "Scenario context — wise",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can you send your Wise details?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisakah Anda mengirim detail Wise Anda?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise 정보를 보내줄 수 있을까요?"
           }
         }
       }
@@ -1650,6 +1842,78 @@
           "stringUnit": {
             "state": "translated",
             "value": "검색 지우기"
+          }
+        }
+      }
+    },
+    "Client is waiting for you": {
+      "comment": "Scenario context — client waiting",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client is waiting for you"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klien sedang menunggu Anda"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라이언트가 답을 기다리는 중"
+          }
+        }
+      }
+    },
+    "Client requests something outside scope": {
+      "comment": "Scenario context — out of scope",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client requests something outside scope"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klien meminta sesuatu di luar lingkup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라이언트가 추가 작업을 요청함"
+          }
+        }
+      }
+    },
+    "Client's IBAN → filed automatically": {
+      "comment": "Scenario context — iban filed",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Client's IBAN → filed automatically"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IBAN klien → diarsipkan otomatis"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클라이언트 IBAN을 자동으로 분류·저장"
           }
         }
       }
@@ -2019,6 +2283,54 @@
         }
       }
     },
+    "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history.": {
+      "comment": "Smart clipboard hint — Stripe URL auto-tag",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL Stripe yang disalin otomatis ditandai sebagai \"URL\". Akses kapan saja dari riwayat clipboard."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사한 Stripe URL은 자동으로 \"URL\"로 태그됩니다. 클립보드 히스토리에서 언제든 다시 꺼내쓸 수 있습니다."
+          }
+        }
+      }
+    },
+    "Copied Stripe URLs are auto-tagged as \\": {
+      "comment": "Smart clipboard hint — Stripe",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied Stripe URLs are auto-tagged as \\"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL Stripe yang disalin otomatis ditandai sebagai \\"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사한 Stripe URL은 자동으로 \\"
+          }
+        }
+      }
+    },
     "Copy": {
       "comment": "CTA: copy scenario text\nContext: copy",
       "localizations": {
@@ -2042,6 +2354,126 @@
         }
       }
     },
+    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
+      "comment": "Smart clipboard hint — VAT recognition",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin nomor PPN dalam format PT123456789 atau EU123456789 — aplikasi mengenalinya sebagai \"VAT / Tax ID\" dan menyamarkan saat tampilan."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PT123456789 또는 EU123456789 형식의 VAT 번호를 복사하면 앱이 \"VAT / 세금번호\"로 인식하고 화면에서는 마스킹 처리합니다."
+          }
+        }
+      }
+    },
+    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\": {
+      "comment": "Smart clipboard hint — VAT",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin nomor PPN dalam format PT123456789 atau EU123456789 — aplikasi mengenalinya sebagai \\"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PT123456789 또는 EU123456789 형식의 VAT 번호를 복사하면 앱이 \\"
+          }
+        }
+      }
+    },
+    "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching.": {
+      "comment": "Smart clipboard hint — IBAN auto-tag",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin IBAN apa pun — aplikasi otomatis menandainya sebagai \"IBAN\". Temukan kembali di filter IBAN tanpa pencarian."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IBAN을 복사하면 앱이 자동으로 \"IBAN\" 태그를 붙입니다. 검색 없이 IBAN 필터에서 바로 찾을 수 있습니다."
+          }
+        }
+      }
+    },
+    "Copy any IBAN — the app auto-tags it as \\": {
+      "comment": "Smart clipboard hint — IBAN",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy any IBAN — the app auto-tags it as \\"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin IBAN apa pun — aplikasi otomatis menandainya sebagai \\"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IBAN을 복사하면 앱이 자동으로 \\"
+          }
+        }
+      }
+    },
+    "Copy IBAN from Wise / Revolut": {
+      "comment": "Scenario title — copy iban",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy IBAN from Wise / Revolut"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin IBAN dari Wise / Revolut"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise / Revolut에서 IBAN 복사"
+          }
+        }
+      }
+    },
     "Copy to clipboard": {
       "comment": "Context menu: copy",
       "localizations": {
@@ -2061,6 +2493,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "클립보드에 복사"
+          }
+        }
+      }
+    },
+    "Crossing borders update": {
+      "comment": "Scenario title — borders",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crossing borders update"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pemberitahuan Lintas Batas"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이동 중 알림 (국경 통과)"
           }
         }
       }
@@ -2153,6 +2609,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "기본은 iOS 앱 테마를 따릅니다. 토글을 켜면 나만의 색상으로 덮어씁니다."
+          }
+        }
+      }
+    },
+    "Delivery delay heads-up": {
+      "comment": "Scenario title — delay",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delivery delay heads-up"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pemberitahuan Keterlambatan Pengiriman"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "납기 지연 사전 공지"
           }
         }
       }
@@ -2305,6 +2785,30 @@
         }
       }
     },
+    "Explaining your time, once.": {
+      "comment": "Usage category description — timezone",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Explaining your time, once."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jelaskan waktu Anda sekali saja"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "내 시간을 한 번에 설명"
+          }
+        }
+      }
+    },
     "Face ID로 보호": {
       "comment": "Face ID protection description",
       "localizations": {
@@ -2391,6 +2895,30 @@
         }
       }
     },
+    "Gmail: new client onboarding": {
+      "comment": "Scenario title — gmail onboarding",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gmail: new client onboarding"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gmail: Orientasi Klien Baru"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gmail: 신규 클라이언트 온보딩"
+          }
+        }
+      }
+    },
     "Good afternoon": {
       "comment": "Greeting — afternoon\nGreeting: afternoon",
       "localizations": {
@@ -2456,6 +2984,246 @@
           "stringUnit": {
             "state": "translated",
             "value": "좋은 아침이에요"
+          }
+        }
+      }
+    },
+    "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?": {
+      "comment": "Example — upwork proposal",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client_name}, saya melihat Anda merekrut untuk {role}. Saya telah mengerjakan proyek serupa untuk {reference} — berikut ringkasannya: {portfolio}. Bersedia ngobrol 15 menit?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client_name}님, {role} 포지션 채용 중이신 것을 보았습니다. {reference}에서 비슷한 프로젝트를 진행한 경험이 있으며 — 간단한 포트폴리오: {portfolio}. 15분 정도 짧은 대화 가능할까요?"
+          }
+        }
+      }
+    },
+    "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark.": {
+      "comment": "Example — delay",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, saya beri tahu sebelumnya — {reason}, jadi saya menunda pengiriman ke {new_date}. Saya akan mengirim pratinjau progress besok sehingga Anda tidak ketinggalan informasi."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 미리 알려드립니다 — {reason}으로 인해 납기를 {new_date}로 연기합니다. 진행 상황은 내일 미리 보여드려 답답하지 않도록 하겠습니다."
+          }
+        }
+      }
+    },
+    "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?": {
+      "comment": "Example — scope pushback",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, saya senang menerima ini — namun ini di luar lingkup awal kita ({original_scope}), jadi saya akan mengirim penawaran yang diperbarui untuk tambahan ini. Apakah itu OK?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 기꺼이 도와드리겠습니다 — 다만 원래 스코프({original_scope})를 벗어나는 작업이라 업데이트된 견적을 보내드리겠습니다. 괜찮을까요?"
+          }
+        }
+      }
+    },
+    "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}": {
+      "comment": "Example — timezone reply",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, saya saat ini di GMT+{offset} ({city}). Saya bisa pada {time_window}. Calendly: {link}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 저는 현재 GMT+{offset} ({city})에 있습니다. {time_window} 가능합니다. Calendly: {link}"
+          }
+        }
+      }
+    },
+    "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy.": {
+      "comment": "Example — testimonial",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, jika Anda menikmati bekerja sama, testimoni singkat (2–3 kalimat) untuk situs saya akan sangat berarti. Tidak ada tekanan — hanya jika mudah bagi Anda."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 함께 작업한 경험이 좋으셨다면 제 사이트에 올릴 짧은 추천사(2-3문장) 부탁드려도 될까요. 부담 가지지 마시고 — 간단히 가능하실 때만요."
+          }
+        }
+      }
+    },
+    "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve.": {
+      "comment": "Example — payment reminder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, sekadar pengingat tentang faktur #{invoice_no} (jatuh tempo {due_date}, sekarang {days} hari terlambat). Beri tahu saya jika ada masalah — saya senang membantu menyelesaikan."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 인보이스 #{invoice_no} 관련 정중히 리마인드 드립니다 (납기 {due_date}, 현재 {days}일 연체). 진행에 문제가 있으시면 알려주세요 — 함께 해결하겠습니다."
+          }
+        }
+      }
+    },
+    "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}": {
+      "comment": "Example — proposal follow-up",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {client}, saya hanya ingin menindaklanjuti proposal yang saya kirim Senin lalu. Senang untuk panggilan singkat jika ada yang perlu diklarifikasi.\n\nSalam, {name}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {client}님, 월요일에 보내드린 제안서 관련 후속 메시지입니다. 추가 설명이 필요하면 짧은 통화도 가능합니다.\n\n감사합니다, {name} 드림"
+          }
+        }
+      }
+    },
+    "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?": {
+      "comment": "Example — linkedin cold dm",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo {name}, saya melihat Anda merekrut {role} di {company}. Saya pernah mengerjakan proyek serupa untuk {reference_client} — berikut ringkasannya: {portfolio_link}. Bersedia ngobrol 15 menit minggu ini?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요 {name}님, {company}의 {role} 채용 공고를 보았습니다. {reference_client}에서 비슷한 프로젝트를 진행한 경험이 있고 — 간단 소개: {portfolio_link}. 이번 주 15분 정도 짧은 대화 가능할까요?"
+          }
+        }
+      }
+    },
+    "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are.": {
+      "comment": "Example — wifi",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Halo tim, wifi di co-working saya baru saja terputus. Sekarang kembali online dari lokasi cadangan. Siap melanjutkan kapan pun Anda siap."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "팀 여러분, 코워킹 와이파이가 끊겼다가 백업 장소에서 다시 연결됐습니다. 언제든 이어가실 수 있도록 준비되어 있습니다."
+          }
+        }
+      }
+    },
+    "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow.": {
+      "comment": "Example — sign off",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hai! Saya selesai untuk malam ini ({time} di {city}, GMT+{offset}). Saya akan membalas hal pertama besok."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "안녕하세요! 오늘 일과 마치겠습니다 ({city} 기준 {time}, GMT+{offset}). 내일 오전 첫 일과로 답장 드리겠습니다."
           }
         }
       }
@@ -2710,6 +3478,78 @@
         }
       }
     },
+    "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])": {
+      "comment": "Example — invoice summary",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faktur #{invoice_no} · {currency} {amount}\nJatuh tempo: {due_date}\nPembayaran: Wise ([email])"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "인보이스 #{invoice_no} · {currency} {amount}\n납기: {due_date}\n결제: Wise ([email])"
+          }
+        }
+      }
+    },
+    "Invoice is past due": {
+      "comment": "Scenario context — overdue",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoice is past due"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faktur telah jatuh tempo"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "인보이스가 연체된 상황"
+          }
+        }
+      }
+    },
+    "Invoice summary": {
+      "comment": "Scenario title — invoice summary",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invoice summary"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ringkasan Faktur"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "인보이스 요약"
+          }
+        }
+      }
+    },
     "IP주소": {
       "comment": "IP Address",
       "localizations": {
@@ -2957,6 +3797,30 @@
         }
       }
     },
+    "LinkedIn cold DM": {
+      "comment": "Scenario title — linkedin",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LinkedIn cold DM"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DM Dingin LinkedIn"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LinkedIn 콜드 DM"
+          }
+        }
+      }
+    },
     "Long-press to drag and reorder. Swipe left to delete (protected ones can't be removed).": {
       "comment": "Categories footer hint",
       "localizations": {
@@ -3147,6 +4011,30 @@
         }
       }
     },
+    "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]": {
+      "comment": "Example — wire transfer info",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama: [Nama Anda]\nIBAN: [IBAN Anda]\nSWIFT: [SWIFT/BIC Anda]\nAlamat: [Alamat Terdaftar Anda]\nNomor PPN: [Nomor PPN Anda]"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이름: [이름]\nIBAN: [IBAN]\nSWIFT: [SWIFT/BIC]\n주소: [등록 주소]\nVAT 번호: [VAT 번호]"
+          }
+        }
+      }
+    },
     "Native keyboard shortcuts": {
       "comment": "Mac feature: shortcuts",
       "localizations": {
@@ -3183,6 +4071,54 @@
           "stringUnit": {
             "state": "translated",
             "value": "새 카테고리 이름"
+          }
+        }
+      }
+    },
+    "New client asks out of curiosity": {
+      "comment": "Scenario title — curiosity",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New client asks out of curiosity"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klien Baru Bertanya karena Penasaran"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "처음 보는 사람의 위치 질문"
+          }
+        }
+      }
+    },
+    "New client wire transfer info": {
+      "comment": "Scenario title — wire transfer",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New client wire transfer info"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Info Transfer Klien Baru"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "신규 클라이언트 송금 정보"
           }
         }
       }
@@ -3343,6 +4279,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "템플릿 변수가 없습니다"
+          }
+        }
+      }
+    },
+    "Nomad life essentials": {
+      "comment": "Usage category title — nomad",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nomad life essentials"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esensial Hidup Nomad"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "노마드 필수 메모"
           }
         }
       }
@@ -3575,6 +4535,30 @@
         }
       }
     },
+    "Payment reminder (overdue)": {
+      "comment": "Scenario title — payment reminder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Payment reminder (overdue)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengingat Pembayaran (jatuh tempo)"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "결제 리마인더 (연체)"
+          }
+        }
+      }
+    },
     "PayPal Link": {
       "comment": "PayPal.me link",
       "localizations": {
@@ -3617,6 +4601,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pro 업그레이드"
+          }
+        }
+      }
+    },
+    "Per-platform shortcuts": {
+      "comment": "Usage category title — per platform",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Per-platform shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan per Platform"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "플랫폼별 단축 답장"
           }
         }
       }
@@ -3800,6 +4808,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "플레이풀 그라디언트 · 인디고바이올렛 포인트"
+          }
+        }
+      }
+    },
+    "Please send your banking details for wire transfer.": {
+      "comment": "Scenario context — banking",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please send your banking details for wire transfer."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tolong kirim detail bank Anda untuk transfer kawat."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "송금을 위해 계좌 정보를 보내주세요."
           }
         }
       }
@@ -4011,6 +5043,102 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pro Aktif"
+          }
+        }
+      }
+    },
+    "Professional English": {
+      "comment": "Usage category title — pro english",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Professional English"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bahasa Inggris Profesional"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "프로페셔널 영어"
+          }
+        }
+      }
+    },
+    "Proposal follow-up (3 days silent)": {
+      "comment": "Scenario title — proposal follow-up",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proposal follow-up (3 days silent)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tindak Lanjut Proposal (3 hari tanpa balasan)"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "제안서 후속 (3일 무응답)"
+          }
+        }
+      }
+    },
+    "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end.": {
+      "comment": "Example — borders",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pemberitahuan singkat: hari ini saya melintasi perbatasan ({from} → {to}), jadi balasan akan lebih lambat hingga ~{eta}. Semuanya sesuai jadwal di sisi saya."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "간단 알림: 오늘 국경을 이동합니다 ({from} → {to}). ~{eta}까지 응답이 느릴 수 있습니다. 진행 상황은 정상입니다."
+          }
+        }
+      }
+    },
+    "Quick timezone reply": {
+      "comment": "Scenario title — timezone reply",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick timezone reply"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balasan Cepat Zona Waktu"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "타임존 빠른 답장"
           }
         }
       }
@@ -4292,6 +5420,30 @@
         }
       }
     },
+    "Scope pushback (politely)": {
+      "comment": "Scenario title — scope pushback",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scope pushback (politely)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Penolakan Lingkup (sopan)"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스코프 정중히 거절"
+          }
+        }
+      }
+    },
     "Search bar": {
       "comment": "Toggle: show search bar in keyboard",
       "localizations": {
@@ -4400,6 +5552,54 @@
         }
       }
     },
+    "Sending payment confirmation link": {
+      "comment": "Scenario context — payment link",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sending payment confirmation link"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mengirim tautan konfirmasi pembayaran"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "결제 확인 링크 발송"
+          }
+        }
+      }
+    },
+    "Sent a proposal but no reply yet": {
+      "comment": "Scenario context — proposal silent",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sent a proposal but no reply yet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mengirim proposal tapi belum ada balasan"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "제안서를 보냈는데 아직 답이 없음"
+          }
+        }
+      }
+    },
     "Show all": {
       "comment": "Empty escape: show all memos",
       "localizations": {
@@ -4436,6 +5636,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "즐겨찾기만 보기"
+          }
+        }
+      }
+    },
+    "Signing off for the night": {
+      "comment": "Scenario title — sign off",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signing off for the night"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pesan Selesai Kerja"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "오늘 업무 마무리 메시지"
           }
         }
       }
@@ -4505,6 +5729,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "아직 깨어 있어요?"
+          }
+        }
+      }
+    },
+    "Stripe dashboard links": {
+      "comment": "Scenario title — stripe",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stripe dashboard links"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tautan Dashboard Stripe"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stripe 대시보드 링크"
           }
         }
       }
@@ -4710,6 +5958,30 @@
         }
       }
     },
+    "Timezone & availability": {
+      "comment": "Usage category title — timezone",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Timezone & availability"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zona Waktu & Ketersediaan"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "타임존·연락 가능 시간"
+          }
+        }
+      }
+    },
     "Tip": {
       "comment": "Tip section title",
       "localizations": {
@@ -4911,6 +6183,78 @@
         }
       }
     },
+    "Upwork proposal intro": {
+      "comment": "Scenario title — upwork",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upwork proposal intro"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengantar Proposal Upwork"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upwork 제안서 인사"
+          }
+        }
+      }
+    },
+    "Upwork, LinkedIn, Gmail — templates that ship.": {
+      "comment": "Usage category description — per platform",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upwork, LinkedIn, Gmail — templates that ship."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upwork, LinkedIn, Gmail — templat siap kirim"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upwork, LinkedIn, Gmail — 바로 보낼 수 있는 템플릿"
+          }
+        }
+      }
+    },
+    "Urgent DM at 10pm": {
+      "comment": "Scenario context — urgent dm",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Urgent DM at 10pm"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DM Mendesak Pukul 10 Malam"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "밤 10시에 온 급한 DM"
+          }
+        }
+      }
+    },
     "URL": {
       "comment": "URL",
       "localizations": {
@@ -5026,6 +6370,30 @@
         }
       }
     },
+    "VAT / Tax ID detection": {
+      "comment": "Scenario title — vat detect",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VAT / Tax ID detection"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deteksi PPN / NPWP"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VAT / 세금번호 자동 감지"
+          }
+        }
+      }
+    },
     "VAT Number": {
       "comment": "VAT identification number",
       "localizations": {
@@ -5068,6 +6436,198 @@
           "stringUnit": {
             "state": "translated",
             "value": "웜톤 페이퍼 · 세리프 · 테라코타 포인트"
+          }
+        }
+      }
+    },
+    "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
+      "comment": "Example — gmail onboarding",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selamat bergabung, {client}! Berikut yang dapat Anda harapkan:\n\n1. Calendly untuk sinkronisasi pertama: {calendly}\n2. Info bank di bawah (jika bayar via transfer)\n3. Undangan channel Slack dalam 24 jam\n4. Demo progress setiap Kamis\n\nSenang bekerja sama!"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "환영합니다 {client}님! 다음과 같이 진행할 예정입니다:\n\n1. 첫 미팅 Calendly: {calendly}\n2. 송금 계좌 정보는 아래에 (송금 결제 시)\n3. 24시간 내 Slack 채널 초대\n4. 매주 목요일 진행 상황 공유\n\n함께 일하게 되어 기대됩니다!"
+          }
+        }
+      }
+    },
+    "When can we jump on a call?": {
+      "comment": "Scenario title — call availability",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When can we jump on a call?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapan Kita Bisa Telepon?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "통화 가능 시간 안내"
+          }
+        }
+      }
+    },
+    "Wifi dropped — back online": {
+      "comment": "Scenario title — wifi",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wifi dropped — back online"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wifi Terputus — Kembali Online"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "와이파이 끊김 — 복귀 알림"
+          }
+        }
+      }
+    },
+    "Wifi drops, visa runs, location questions.": {
+      "comment": "Usage category description — nomad",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wifi drops, visa runs, location questions."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wifi terputus, perjalanan visa, pertanyaan lokasi"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "와이파이 끊김, 비자 갱신, 위치 질문 등"
+          }
+        }
+      }
+    },
+    "Wire transfers, VAT, invoicing — save once, tap forever.": {
+      "comment": "Usage category description — banking",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wire transfers, VAT, invoicing — save once, tap forever."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transfer kawat, PPN, faktur — simpan sekali, gunakan selamanya"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "송금, VAT, 인보이스 — 한 번 저장하고 평생 탭 한 번으로"
+          }
+        }
+      }
+    },
+    "Wise / PayPal quick share": {
+      "comment": "Scenario title — wise paypal",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise / PayPal quick share"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berbagi Cepat Wise / PayPal"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise / PayPal 빠르게 공유"
+          }
+        }
+      }
+    },
+    "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})": {
+      "comment": "Example — wise paypal",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email Wise: you@example.com\nPayPal: you@example.com\n(Lebih suka Wise — lebih cepat + biaya lebih rendah untuk {currency})"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wise 이메일: you@example.com\nPayPal: you@example.com\n(Wise 선호 — {currency} 기준 더 빠르고 수수료 저렴)"
+          }
+        }
+      }
+    },
+    "Writing cover letters in bulk": {
+      "comment": "Scenario context — bulk cover letters",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Writing cover letters in bulk"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menulis surat lamaran secara massal"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여러 제안서를 한꺼번에 작성 중"
           }
         }
       }
@@ -6225,6 +7785,7 @@
     },
     "메모 제목을 입력하세요": {
       "comment": "Memo title placeholder",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -7292,6 +8853,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pengaturan Notifikasi Tempel"
+          }
+        }
+      }
+    },
+    "붙여넣을 내용": {
+      "comment": "Content label — what gets pasted when user taps the memo",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Content to paste"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konten yang akan ditempel"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "붙여넣을 내용"
           }
         }
       }
@@ -8725,6 +10310,30 @@
         }
       }
     },
+    "예: 회사 이메일, 송금 계좌": {
+      "comment": "Memo title field placeholder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Work email, Bank account"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mis. Email kerja, Rekening bank"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "예: 회사 이메일, 송금 계좌"
+          }
+        }
+      }
+    },
     "예시": {
       "comment": "Example",
       "localizations": {
@@ -9852,7 +11461,7 @@
       }
     },
     "제목": {
-      "comment": "Title\nTitle field placeholder",
+      "comment": "Title field placeholder",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -10762,6 +12371,30 @@
           "stringUnit": {
             "state": "translated",
             "value": "Silakan tambahkan keyboard"
+          }
+        }
+      }
+    },
+    "키보드에 표시할 이름": {
+      "comment": "Memo title label — what user sees on the keyboard",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name shown on keyboard"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama yang ditampilkan di keyboard"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키보드에 표시할 이름"
           }
         }
       }
@@ -11755,1634 +13388,74 @@
         }
       }
     },
-    "Banking & Payments": {
-      "comment": "Usage category title — banking",
+    "활용사례에서 영감 받기": {
+      "comment": "Usage scenario picker prompt",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Banking & Payments"
+            "value": "Get inspired by usage examples"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "결제·금융"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Perbankan & Pembayaran"
-          }
-        }
-      }
-    },
-    "Wire transfers, VAT, invoicing — save once, tap forever.": {
-      "comment": "Usage category description — banking",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wire transfers, VAT, invoicing — save once, tap forever."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "송금, VAT, 인보이스 — 한 번 저장하고 평생 탭 한 번으로"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transfer kawat, PPN, faktur — simpan sekali, gunakan selamanya"
-          }
-        }
-      }
-    },
-    "Timezone & availability": {
-      "comment": "Usage category title — timezone",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Timezone & availability"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "타임존·연락 가능 시간"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Zona Waktu & Ketersediaan"
-          }
-        }
-      }
-    },
-    "Explaining your time, once.": {
-      "comment": "Usage category description — timezone",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Explaining your time, once."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "내 시간을 한 번에 설명"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jelaskan waktu Anda sekali saja"
-          }
-        }
-      }
-    },
-    "Professional English": {
-      "comment": "Usage category title — pro english",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Professional English"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "프로페셔널 영어"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bahasa Inggris Profesional"
-          }
-        }
-      }
-    },
-    "30 non-native-speaker-friendly templates.": {
-      "comment": "Usage category description — pro english",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 non-native-speaker-friendly templates."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "비원어민도 어색하지 않은 영어 템플릿 30종"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "30 templat ramah penutur non-Inggris"
-          }
-        }
-      }
-    },
-    "Per-platform shortcuts": {
-      "comment": "Usage category title — per platform",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Per-platform shortcuts"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "플랫폼별 단축 답장"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pintasan per Platform"
-          }
-        }
-      }
-    },
-    "Upwork, LinkedIn, Gmail — templates that ship.": {
-      "comment": "Usage category description — per platform",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Upwork, LinkedIn, Gmail — templates that ship."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Upwork, LinkedIn, Gmail — 바로 보낼 수 있는 템플릿"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Upwork, LinkedIn, Gmail — templat siap kirim"
-          }
-        }
-      }
-    },
-    "Nomad life essentials": {
-      "comment": "Usage category title — nomad",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nomad life essentials"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "노마드 필수 메모"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Esensial Hidup Nomad"
-          }
-        }
-      }
-    },
-    "Wifi drops, visa runs, location questions.": {
-      "comment": "Usage category description — nomad",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wifi drops, visa runs, location questions."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "와이파이 끊김, 비자 갱신, 위치 질문 등"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wifi terputus, perjalanan visa, pertanyaan lokasi"
-          }
-        }
-      }
-    },
-    "Auto-classifies what you copy — find it later instantly.": {
-      "comment": "Usage category description — smart clipboard",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Auto-classifies what you copy — find it later instantly."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "복사한 내용을 자동 분류 — 나중에 즉시 찾기"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klasifikasi otomatis konten yang Anda salin — temukan kembali secara instan"
-          }
-        }
-      }
-    },
-    "New client wire transfer info": {
-      "comment": "Scenario title — wire transfer",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New client wire transfer info"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "신규 클라이언트 송금 정보"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Info Transfer Klien Baru"
-          }
-        }
-      }
-    },
-    "Wise / PayPal quick share": {
-      "comment": "Scenario title — wise paypal",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise / PayPal quick share"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise / PayPal 빠르게 공유"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Berbagi Cepat Wise / PayPal"
-          }
-        }
-      }
-    },
-    "Invoice summary": {
-      "comment": "Scenario title — invoice summary",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invoice summary"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "인보이스 요약"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ringkasan Faktur"
-          }
-        }
-      }
-    },
-    "Quick timezone reply": {
-      "comment": "Scenario title — timezone reply",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick timezone reply"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "타임존 빠른 답장"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Balasan Cepat Zona Waktu"
-          }
-        }
-      }
-    },
-    "Signing off for the night": {
-      "comment": "Scenario title — sign off",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Signing off for the night"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "오늘 업무 마무리 메시지"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pesan Selesai Kerja"
-          }
-        }
-      }
-    },
-    "When can we jump on a call?": {
-      "comment": "Scenario title — call availability",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "When can we jump on a call?"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "통화 가능 시간 안내"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kapan Kita Bisa Telepon?"
-          }
-        }
-      }
-    },
-    "Proposal follow-up (3 days silent)": {
-      "comment": "Scenario title — proposal follow-up",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Proposal follow-up (3 days silent)"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "제안서 후속 (3일 무응답)"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tindak Lanjut Proposal (3 hari tanpa balasan)"
-          }
-        }
-      }
-    },
-    "Payment reminder (overdue)": {
-      "comment": "Scenario title — payment reminder",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Payment reminder (overdue)"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "결제 리마인더 (연체)"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pengingat Pembayaran (jatuh tempo)"
-          }
-        }
-      }
-    },
-    "Scope pushback (politely)": {
-      "comment": "Scenario title — scope pushback",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scope pushback (politely)"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "스코프 정중히 거절"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Penolakan Lingkup (sopan)"
-          }
-        }
-      }
-    },
-    "Delivery delay heads-up": {
-      "comment": "Scenario title — delay",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delivery delay heads-up"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "납기 지연 사전 공지"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pemberitahuan Keterlambatan Pengiriman"
-          }
-        }
-      }
-    },
-    "Asking for testimonial": {
-      "comment": "Scenario title — testimonial",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Asking for testimonial"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "추천사 요청"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Permintaan Testimoni"
-          }
-        }
-      }
-    },
-    "Upwork proposal intro": {
-      "comment": "Scenario title — upwork",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Upwork proposal intro"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Upwork 제안서 인사"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pengantar Proposal Upwork"
-          }
-        }
-      }
-    },
-    "LinkedIn cold DM": {
-      "comment": "Scenario title — linkedin",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "LinkedIn cold DM"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "LinkedIn 콜드 DM"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DM Dingin LinkedIn"
-          }
-        }
-      }
-    },
-    "Gmail: new client onboarding": {
-      "comment": "Scenario title — gmail onboarding",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gmail: new client onboarding"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gmail: 신규 클라이언트 온보딩"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gmail: Orientasi Klien Baru"
-          }
-        }
-      }
-    },
-    "Wifi dropped — back online": {
-      "comment": "Scenario title — wifi",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wifi dropped — back online"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "와이파이 끊김 — 복귀 알림"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wifi Terputus — Kembali Online"
-          }
-        }
-      }
-    },
-    "Crossing borders update": {
-      "comment": "Scenario title — borders",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crossing borders update"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이동 중 알림 (국경 통과)"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pemberitahuan Lintas Batas"
-          }
-        }
-      }
-    },
-    "New client asks out of curiosity": {
-      "comment": "Scenario title — curiosity",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New client asks out of curiosity"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "처음 보는 사람의 위치 질문"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klien Baru Bertanya karena Penasaran"
-          }
-        }
-      }
-    },
-    "VAT / Tax ID detection": {
-      "comment": "Scenario title — vat detect",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "VAT / Tax ID detection"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "VAT / 세금번호 자동 감지"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deteksi PPN / NPWP"
-          }
-        }
-      }
-    },
-    "Stripe dashboard links": {
-      "comment": "Scenario title — stripe",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stripe dashboard links"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stripe 대시보드 링크"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tautan Dashboard Stripe"
-          }
-        }
-      }
-    },
-    "Copy IBAN from Wise / Revolut": {
-      "comment": "Scenario title — copy iban",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy IBAN from Wise / Revolut"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise / Revolut에서 IBAN 복사"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salin IBAN dari Wise / Revolut"
-          }
-        }
-      }
-    },
-    "Please send your banking details for wire transfer.": {
-      "comment": "Scenario context — banking",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Please send your banking details for wire transfer."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "송금을 위해 계좌 정보를 보내주세요."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tolong kirim detail bank Anda untuk transfer kawat."
-          }
-        }
-      }
-    },
-    "Can you send your Wise details?": {
-      "comment": "Scenario context — wise",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Can you send your Wise details?"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise 정보를 보내줄 수 있을까요?"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bisakah Anda mengirim detail Wise Anda?"
-          }
-        }
-      }
-    },
-    "Urgent DM at 10pm": {
-      "comment": "Scenario context — urgent dm",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Urgent DM at 10pm"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "밤 10시에 온 급한 DM"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DM Mendesak Pukul 10 Malam"
-          }
-        }
-      }
-    },
-    "Client is waiting for you": {
-      "comment": "Scenario context — client waiting",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Client is waiting for you"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "클라이언트가 답을 기다리는 중"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klien sedang menunggu Anda"
-          }
-        }
-      }
-    },
-    "Sent a proposal but no reply yet": {
-      "comment": "Scenario context — proposal silent",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sent a proposal but no reply yet"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "제안서를 보냈는데 아직 답이 없음"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mengirim proposal tapi belum ada balasan"
-          }
-        }
-      }
-    },
-    "Invoice is past due": {
-      "comment": "Scenario context — overdue",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invoice is past due"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "인보이스가 연체된 상황"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Faktur telah jatuh tempo"
-          }
-        }
-      }
-    },
-    "Client requests something outside scope": {
-      "comment": "Scenario context — out of scope",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Client requests something outside scope"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "클라이언트가 추가 작업을 요청함"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klien meminta sesuatu di luar lingkup"
-          }
-        }
-      }
-    },
-    "After successful project wrap-up": {
-      "comment": "Scenario context — wrap up",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "After successful project wrap-up"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "프로젝트 마무리 후"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Setelah proyek selesai dengan sukses"
-          }
-        }
-      }
-    },
-    "Writing cover letters in bulk": {
-      "comment": "Scenario context — bulk cover letters",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Writing cover letters in bulk"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "여러 제안서를 한꺼번에 작성 중"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menulis surat lamaran secara massal"
-          }
-        }
-      }
-    },
-    "Sending payment confirmation link": {
-      "comment": "Scenario context — payment link",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sending payment confirmation link"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "결제 확인 링크 발송"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mengirim tautan konfirmasi pembayaran"
-          }
-        }
-      }
-    },
-    "Client's IBAN → filed automatically": {
-      "comment": "Scenario context — iban filed",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Client's IBAN → filed automatically"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "클라이언트 IBAN을 자동으로 분류·저장"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "IBAN klien → diarsipkan otomatis"
-          }
-        }
-      }
-    },
-    "Copy any IBAN — the app auto-tags it as \\": {
-      "comment": "Smart clipboard hint — IBAN",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy any IBAN — the app auto-tags it as \\"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "IBAN을 복사하면 앱이 자동으로 \\"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salin IBAN apa pun — aplikasi otomatis menandainya sebagai \\"
-          }
-        }
-      }
-    },
-    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\": {
-      "comment": "Smart clipboard hint — VAT",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PT123456789 또는 EU123456789 형식의 VAT 번호를 복사하면 앱이 \\"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salin nomor PPN dalam format PT123456789 atau EU123456789 — aplikasi mengenalinya sebagai \\"
-          }
-        }
-      }
-    },
-    "Copied Stripe URLs are auto-tagged as \\": {
-      "comment": "Smart clipboard hint — Stripe",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copied Stripe URLs are auto-tagged as \\"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "복사한 Stripe URL은 자동으로 \\"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL Stripe yang disalin otomatis ditandai sebagai \\"
-          }
-        }
-      }
-    },
-    "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}": {
-      "comment": "Example — timezone reply",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 저는 현재 GMT+{offset} ({city})에 있습니다. {time_window} 가능합니다. Calendly: {link}"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, saya saat ini di GMT+{offset} ({city}). Saya bisa pada {time_window}. Calendly: {link}"
-          }
-        }
-      }
-    },
-    "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow.": {
-      "comment": "Example — sign off",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요! 오늘 일과 마치겠습니다 ({city} 기준 {time}, GMT+{offset}). 내일 오전 첫 일과로 답장 드리겠습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hai! Saya selesai untuk malam ini ({time} di {city}, GMT+{offset}). Saya akan membalas hal pertama besok."
-          }
-        }
-      }
-    },
-    "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.": {
-      "comment": "Example — call availability",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "정해진 거점은 없고 — 지금은 {city}에 있습니다. 비동기 우선 커뮤니케이션 환경으로 타임존이 큰 문제가 되지 않지만, 연락 가능한 시간대는 명확히 알려드리겠습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tidak berbasis di tempat tertentu — saat ini di {city}. Saya sudah mengatur komunikasi async-first sehingga zona waktu biasanya tidak masalah, tapi saya akan memberi tahu jendela waktu yang jelas saat saya bisa dihubungi."
-          }
-        }
-      }
-    },
-    "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve.": {
-      "comment": "Example — payment reminder",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 인보이스 #{invoice_no} 관련 정중히 리마인드 드립니다 (납기 {due_date}, 현재 {days}일 연체). 진행에 문제가 있으시면 알려주세요 — 함께 해결하겠습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, sekadar pengingat tentang faktur #{invoice_no} (jatuh tempo {due_date}, sekarang {days} hari terlambat). Beri tahu saya jika ada masalah — saya senang membantu menyelesaikan."
-          }
-        }
-      }
-    },
-    "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?": {
-      "comment": "Example — scope pushback",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 기꺼이 도와드리겠습니다 — 다만 원래 스코프({original_scope})를 벗어나는 작업이라 업데이트된 견적을 보내드리겠습니다. 괜찮을까요?"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, saya senang menerima ini — namun ini di luar lingkup awal kita ({original_scope}), jadi saya akan mengirim penawaran yang diperbarui untuk tambahan ini. Apakah itu OK?"
-          }
-        }
-      }
-    },
-    "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark.": {
-      "comment": "Example — delay",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 미리 알려드립니다 — {reason}으로 인해 납기를 {new_date}로 연기합니다. 진행 상황은 내일 미리 보여드려 답답하지 않도록 하겠습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, saya beri tahu sebelumnya — {reason}, jadi saya menunda pengiriman ke {new_date}. Saya akan mengirim pratinjau progress besok sehingga Anda tidak ketinggalan informasi."
-          }
-        }
-      }
-    },
-    "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy.": {
-      "comment": "Example — testimonial",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 함께 작업한 경험이 좋으셨다면 제 사이트에 올릴 짧은 추천사(2-3문장) 부탁드려도 될까요. 부담 가지지 마시고 — 간단히 가능하실 때만요."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, jika Anda menikmati bekerja sama, testimoni singkat (2–3 kalimat) untuk situs saya akan sangat berarti. Tidak ada tekanan — hanya jika mudah bagi Anda."
-          }
-        }
-      }
-    },
-    "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?": {
-      "comment": "Example — upwork proposal",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client_name}님, {role} 포지션 채용 중이신 것을 보았습니다. {reference}에서 비슷한 프로젝트를 진행한 경험이 있으며 — 간단한 포트폴리오: {portfolio}. 15분 정도 짧은 대화 가능할까요?"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client_name}, saya melihat Anda merekrut untuk {role}. Saya telah mengerjakan proyek serupa untuk {reference} — berikut ringkasannya: {portfolio}. Bersedia ngobrol 15 menit?"
-          }
-        }
-      }
-    },
-    "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?": {
-      "comment": "Example — linkedin cold dm",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {name}님, {company}의 {role} 채용 공고를 보았습니다. {reference_client}에서 비슷한 프로젝트를 진행한 경험이 있고 — 간단 소개: {portfolio_link}. 이번 주 15분 정도 짧은 대화 가능할까요?"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {name}, saya melihat Anda merekrut {role} di {company}. Saya pernah mengerjakan proyek serupa untuk {reference_client} — berikut ringkasannya: {portfolio_link}. Bersedia ngobrol 15 menit minggu ini?"
-          }
-        }
-      }
-    },
-    "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are.": {
-      "comment": "Example — wifi",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "팀 여러분, 코워킹 와이파이가 끊겼다가 백업 장소에서 다시 연결됐습니다. 언제든 이어가실 수 있도록 준비되어 있습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo tim, wifi di co-working saya baru saja terputus. Sekarang kembali online dari lokasi cadangan. Siap melanjutkan kapan pun Anda siap."
-          }
-        }
-      }
-    },
-    "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end.": {
-      "comment": "Example — borders",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "간단 알림: 오늘 국경을 이동합니다 ({from} → {to}). ~{eta}까지 응답이 느릴 수 있습니다. 진행 상황은 정상입니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pemberitahuan singkat: hari ini saya melintasi perbatasan ({from} → {to}), jadi balasan akan lebih lambat hingga ~{eta}. Semuanya sesuai jadwal di sisi saya."
-          }
-        }
-      }
-    },
-    "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching.": {
-      "comment": "Smart clipboard hint — IBAN auto-tag",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "IBAN을 복사하면 앱이 자동으로 \"IBAN\" 태그를 붙입니다. 검색 없이 IBAN 필터에서 바로 찾을 수 있습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salin IBAN apa pun — aplikasi otomatis menandainya sebagai \"IBAN\". Temukan kembali di filter IBAN tanpa pencarian."
-          }
-        }
-      }
-    },
-    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
-      "comment": "Smart clipboard hint — VAT recognition",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PT123456789 또는 EU123456789 형식의 VAT 번호를 복사하면 앱이 \"VAT / 세금번호\"로 인식하고 화면에서는 마스킹 처리합니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salin nomor PPN dalam format PT123456789 atau EU123456789 — aplikasi mengenalinya sebagai \"VAT / Tax ID\" dan menyamarkan saat tampilan."
-          }
-        }
-      }
-    },
-    "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history.": {
-      "comment": "Smart clipboard hint — Stripe URL auto-tag",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history."
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "복사한 Stripe URL은 자동으로 \"URL\"로 태그됩니다. 클립보드 히스토리에서 언제든 다시 꺼내쓸 수 있습니다."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "URL Stripe yang disalin otomatis ditandai sebagai \"URL\". Akses kapan saja dari riwayat clipboard."
-          }
-        }
-      }
-    },
-    "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]": {
-      "comment": "Example — wire transfer info",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이름: [이름]\nIBAN: [IBAN]\nSWIFT: [SWIFT/BIC]\n주소: [등록 주소]\nVAT 번호: [VAT 번호]"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nama: [Nama Anda]\nIBAN: [IBAN Anda]\nSWIFT: [SWIFT/BIC Anda]\nAlamat: [Alamat Terdaftar Anda]\nNomor PPN: [Nomor PPN Anda]"
-          }
-        }
-      }
-    },
-    "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})": {
-      "comment": "Example — wise paypal",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wise 이메일: you@example.com\nPayPal: you@example.com\n(Wise 선호 — {currency} 기준 더 빠르고 수수료 저렴)"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Email Wise: you@example.com\nPayPal: you@example.com\n(Lebih suka Wise — lebih cepat + biaya lebih rendah untuk {currency})"
-          }
-        }
-      }
-    },
-    "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])": {
-      "comment": "Example — invoice summary",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "인보이스 #{invoice_no} · {currency} {amount}\n납기: {due_date}\n결제: Wise ([email])"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Faktur #{invoice_no} · {currency} {amount}\nJatuh tempo: {due_date}\nPembayaran: Wise ([email])"
-          }
-        }
-      }
-    },
-    "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}": {
-      "comment": "Example — proposal follow-up",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "안녕하세요 {client}님, 월요일에 보내드린 제안서 관련 후속 메시지입니다. 추가 설명이 필요하면 짧은 통화도 가능합니다.\n\n감사합니다, {name} 드림"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Halo {client}, saya hanya ingin menindaklanjuti proposal yang saya kirim Senin lalu. Senang untuk panggilan singkat jika ada yang perlu diklarifikasi.\n\nSalam, {name}"
-          }
-        }
-      }
-    },
-    "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
-      "comment": "Example — gmail onboarding",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "환영합니다 {client}님! 다음과 같이 진행할 예정입니다:\n\n1. 첫 미팅 Calendly: {calendly}\n2. 송금 계좌 정보는 아래에 (송금 결제 시)\n3. 24시간 내 Slack 채널 초대\n4. 매주 목요일 진행 상황 공유\n\n함께 일하게 되어 기대됩니다!"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Selamat bergabung, {client}! Berikut yang dapat Anda harapkan:\n\n1. Calendly untuk sinkronisasi pertama: {calendly}\n2. Info bank di bawah (jika bayar via transfer)\n3. Undangan channel Slack dalam 24 jam\n4. Demo progress setiap Kamis\n\nSenang bekerja sama!"
-          }
-        }
-      }
-    },
-    "\"Where are you based?\" answer": {
-      "comment": "Scenario title — based location answer",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "\"Where are you based?\" answer"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "\"어디에 사세요?\" 답변"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jawaban \"Anda berbasis di mana?\""
-          }
-        }
-      }
-    },
-    "키보드에 표시할 이름": {
-      "comment": "Memo title label — what user sees on the keyboard",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name shown on keyboard"
-          }
-        },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nama yang ditampilkan di keyboard"
+            "value": "Dapatkan inspirasi dari contoh penggunaan"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "키보드에 표시할 이름"
+            "value": "활용사례에서 영감 받기"
           }
         }
       }
     },
-    "예: 회사 이메일, 송금 계좌": {
-      "comment": "Memo title field placeholder",
+    "실제로 쓰는 영어 템플릿을 골라 시작하세요": {
+      "comment": "Usage scenario picker hint",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "e.g. Work email, Bank account"
+            "value": "Pick a real-world English template to start"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "mis. Email kerja, Rekening bank"
+            "value": "Pilih templat bahasa Inggris yang nyata untuk memulai"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "예: 회사 이메일, 송금 계좌"
+            "value": "실제로 쓰는 영어 템플릿을 골라 시작하세요"
           }
         }
       }
     },
-    "붙여넣을 내용": {
-      "comment": "Content label — what gets pasted when user taps the memo",
+    "활용사례": {
+      "comment": "Usage scenarios picker title",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Content to paste"
+            "value": "Usage examples"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Konten yang akan ditempel"
+            "value": "Contoh penggunaan"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "붙여넣을 내용"
+            "value": "활용사례"
           }
         }
       }

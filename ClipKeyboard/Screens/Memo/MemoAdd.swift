@@ -39,9 +39,13 @@ struct MemoAdd: View {
     // MARK: - View-only State
 
     @FocusState private var isFocused: Bool
+    /// v4.0.8: 멀티 필드 focus — 키보드 toolbar "다음" 버튼이 내용 → 제목으로 이동
+    @FocusState private var isTitleFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @State private var showNewTemplateSheet = false
+    /// v4.0.8: 활용사례 도움 시트 토글
+    @State private var showUsageHelperSheet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -63,7 +67,13 @@ struct MemoAdd: View {
 
             ScrollView {
                 VStack(spacing: 28) {
-                    // 📌 1단계: 저장할 내용 (가장 핵심) — 사용자가 진입하자마자 입력 가능
+                    // 📌 1단계: 카테고리(테마) — 무엇을 저장할지 정의
+                    themeSelectionSection
+
+                    // 📌 2단계: 활용사례 도움 토글
+                    usageHelperToggle
+
+                    // 📌 3단계: 붙여넣을 내용
                     if viewModel.isCombo {
                         comboDescriptionSection
                     } else {
@@ -73,14 +83,19 @@ struct MemoAdd: View {
                             isFocused: $isFocused,
                             autoDetectedType: $viewModel.autoDetectedType,
                             autoDetectedConfidence: $viewModel.autoDetectedConfidence,
-                            attachedImages: $viewModel.attachedImages
+                            attachedImages: $viewModel.attachedImages,
+                            onNext: {
+                                isFocused = false
+                                // 키보드가 내려간 후 다음 필드 focus (즉시 호출 시 race)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                    isTitleFocused = true
+                                }
+                            }
                         )
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
-
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 8) {
-                                        // 템플릿 변수 버튼들
                                         templateButton(title: NSLocalizedString("날짜", comment: "Date template button"), variable: "{날짜}")
                                         templateButton(title: NSLocalizedString("시간", comment: "Time template button"), variable: "{시간}")
                                         templateButton(title: NSLocalizedString("이름", comment: "Name template button"), variable: "{이름}")
@@ -91,7 +106,17 @@ struct MemoAdd: View {
 
                                 Spacer()
 
-                                // 완료 버튼
+                                // 다음 입력으로 이동
+                                Button {
+                                    isFocused = false
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                        isTitleFocused = true
+                                    }
+                                } label: {
+                                    Text(NSLocalizedString("다음", comment: "Next field button"))
+                                        .fontWeight(.semibold)
+                                }
+
                                 Button {
                                     isFocused = false
                                 } label: {
@@ -102,13 +127,10 @@ struct MemoAdd: View {
                         }
                     }
 
-                    // 📌 2단계: 제목
+                    // 📌 4단계: 키보드에 표시할 이름
                     titleInputSection
 
-                    // 📌 3단계: 카테고리(테마) — 자동 분류 결과를 기준으로 표시
-                    themeSelectionSection
-
-                    // 📌 4단계: 추가 옵션 (보안, 템플릿, Combo)
+                    // 📌 5단계: 추가 옵션 (보안, 템플릿, Combo)
                     additionalOptionsSection
                     templateSection
                     comboSection
@@ -354,6 +376,47 @@ struct MemoAdd: View {
         }
     }
 
+    // MARK: - Usage Helper Toggle (v4.0.8)
+    /// 사용자가 무엇을 저장할지 막막할 때 활용사례에서 영감 받기.
+    /// 토글 ON → showUsageHelperSheet = true → UsageScenarioPickerSheet 표시.
+    /// 시나리오 카드 탭 → value 자동 채움 + 시트 dismiss.
+    private var usageHelperToggle: some View {
+        Button {
+            showUsageHelperSheet = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "lightbulb.fill")
+                    .font(.callout)
+                    .foregroundColor(.yellow)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(NSLocalizedString("활용사례에서 영감 받기", comment: "Usage scenario picker prompt"))
+                        .font(.callout)
+                        .fontWeight(.medium)
+                        .foregroundColor(.primary)
+                    Text(NSLocalizedString("실제로 쓰는 영어 템플릿을 골라 시작하세요", comment: "Usage scenario picker hint"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2)
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(Color.yellow.opacity(0.08))
+            .cornerRadius(theme.radiusMd)
+        }
+        .buttonStyle(.plain)
+        .sheet(isPresented: $showUsageHelperSheet) {
+            UsageScenarioPickerSheet { selectedExample in
+                // 시나리오 본문을 메모 value로 적용. 사용자가 수정 가능 (샘플 표시는 안 함).
+                viewModel.value = selectedExample
+                showUsageHelperSheet = false
+            }
+        }
+    }
+
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
@@ -364,6 +427,7 @@ struct MemoAdd: View {
             TextField(NSLocalizedString("예: 회사 이메일, 송금 계좌", comment: "Memo title field placeholder"), text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
+                .focused($isTitleFocused)
                 .padding(.vertical, 12)
                 .padding(.horizontal, 16)
                 .background(theme.surfaceAlt)
@@ -1019,6 +1083,9 @@ struct ContentInputSection: View {
     @Binding var autoDetectedType: ClipboardItemType?
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
+    /// v4.0.8: 키보드 toolbar "다음" 버튼 — 다음 필드(제목)로 focus 이동.
+    /// nil이면 버튼 숨김.
+    var onNext: (() -> Void)? = nil
 
     @Environment(\.appTheme) private var theme
 
@@ -1193,34 +1260,26 @@ struct ContentInputSection: View {
                     .cornerRadius(theme.radiusSm)
                 }
 
-                // 텍스트 테마: 텍스트 입력 영역
-                ZStack(alignment: .topLeading) {
-                    if value.isEmpty {
-                        Text(placeholderText)
-                            .foregroundColor(.secondary.opacity(0.5))
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 20)
-                    }
-
-                    TextEditor(text: $value)
-                        .font(.body)
-                        .frame(minHeight: 150)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 12)
-                        .scrollContentBackground(.hidden)
-                        .background(theme.surfaceAlt)
-                        .cornerRadius(theme.radiusMd)
-                        .keyboardType(keyboardTypeForTheme)
-                        .focused($isFocused)
-                        .onChange(of: value) { newValue in
-                            // 자동 분류
-                            if !newValue.isEmpty {
-                                let classification = ClipboardClassificationService.shared.classify(content: newValue)
-                                autoDetectedType = classification.type
-                                autoDetectedConfidence = classification.confidence
-                            }
+                // 텍스트 테마: 동적 높이 TextField (iOS 16+ axis: .vertical)
+                // 처음엔 작게 시작(2줄), 내용이 길어지면 최대 10줄까지 자동 확장.
+                TextField(placeholderText, text: $value, axis: .vertical)
+                    .font(.body)
+                    .lineLimit(2...10)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 12)
+                    .background(theme.surfaceAlt)
+                    .cornerRadius(theme.radiusMd)
+                    #if os(iOS)
+                    .keyboardType(keyboardTypeForTheme)
+                    #endif
+                    .focused($isFocused)
+                    .onChange(of: value) { newValue in
+                        if !newValue.isEmpty {
+                            let classification = ClipboardClassificationService.shared.classify(content: newValue)
+                            autoDetectedType = classification.type
+                            autoDetectedConfidence = classification.confidence
                         }
-                }
+                    }
             }
         }
         .sheet(isPresented: $showImagePicker) {
@@ -1769,5 +1828,92 @@ struct ImagePickerView: UIViewControllerRepresentable {
 private extension String {
     var strippingTemplateBraces: String {
         replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
+    }
+}
+
+// MARK: - Usage Scenario Picker (v4.0.8)
+
+/// 메모 추가 화면의 "활용사례에서 영감 받기" 토글이 띄우는 시트.
+/// UsageGuideView의 시나리오 데이터(`usageCategories`)를 그대로 사용.
+struct UsageScenarioPickerSheet: View {
+    /// 시나리오 본문(영어 템플릿)을 받아 부모가 value에 채워넣고 시트를 닫음.
+    let onSelect: (String) -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 24) {
+                    ForEach(usageCategories) { category in
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack(spacing: 8) {
+                                Text(category.emoji)
+                                Text(category.title)
+                                    .font(.headline)
+                            }
+                            Text(category.desc)
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+
+                            VStack(spacing: 8) {
+                                ForEach(category.scenarios) { scenario in
+                                    scenarioCard(scenario)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 16)
+                    }
+                }
+                .padding(.vertical, 16)
+            }
+            .navigationTitle(NSLocalizedString("활용사례", comment: "Usage scenarios picker title"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("닫기", comment: "Close")) { dismiss() }
+                }
+            }
+        }
+    }
+
+    private func scenarioCard(_ scenario: UsageScenario) -> some View {
+        Button {
+            onSelect(scenario.example)
+        } label: {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(scenario.title)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                if let context = scenario.context {
+                    Text(context)
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .multilineTextAlignment(.leading)
+                }
+                Text(scenario.example)
+                    .font(.system(size: 12, design: .monospaced))
+                    .foregroundColor(theme.textMuted)
+                    .lineLimit(3)
+                    .multilineTextAlignment(.leading)
+                    .padding(8)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(theme.surfaceAlt)
+                    .cornerRadius(6)
+            }
+            .padding(12)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(theme.surface)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .stroke(theme.surfaceAlt, lineWidth: 1)
+            )
+            .cornerRadius(12)
+        }
+        .buttonStyle(.plain)
     }
 }
