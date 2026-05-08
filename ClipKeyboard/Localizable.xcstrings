@@ -13314,6 +13314,78 @@
           }
         }
       }
+    },
+    "키보드에 표시할 이름": {
+      "comment": "Memo title label — what user sees on the keyboard",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name shown on keyboard"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama yang ditampilkan di keyboard"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키보드에 표시할 이름"
+          }
+        }
+      }
+    },
+    "예: 회사 이메일, 송금 계좌": {
+      "comment": "Memo title field placeholder",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Work email, Bank account"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mis. Email kerja, Rekening bank"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "예: 회사 이메일, 송금 계좌"
+          }
+        }
+      }
+    },
+    "붙여넣을 내용": {
+      "comment": "Content label — what gets pasted when user taps the memo",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Content to paste"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Konten yang akan ditempel"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "붙여넣을 내용"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

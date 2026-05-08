@@ -356,12 +356,12 @@ struct MemoAdd: View {
 
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(NSLocalizedString("제목", comment: "Title"))
+            Text(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
-            TextField(NSLocalizedString("메모 제목을 입력하세요", comment: "Memo title placeholder"), text: $viewModel.keyword)
+            TextField(NSLocalizedString("예: 회사 이메일, 송금 계좌", comment: "Memo title field placeholder"), text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .padding(.vertical, 12)
@@ -1035,7 +1035,7 @@ struct ContentInputSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(NSLocalizedString("내용", comment: "Content"))
+                Text(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(theme.textMuted)

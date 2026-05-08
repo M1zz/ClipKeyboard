@@ -23,7 +23,9 @@ private struct UsageScenario: Identifiable {
         guard let key = contextKey else { return nil }
         return NSLocalizedString(key, comment: "Usage scenario context")
     }
-    var example: String { NSLocalizedString(exampleKey, comment: "Usage scenario example") }
+    /// 본문은 사용자가 클라이언트에게 실제로 보낼 영어 템플릿이므로 번역하지 않고
+    /// 영어 원문을 그대로 사용한다. 비원어민 디지털 노마드 1차 타깃 대상.
+    var example: String { exampleKey }
 }
 
 private enum ScenarioFeature: String {
