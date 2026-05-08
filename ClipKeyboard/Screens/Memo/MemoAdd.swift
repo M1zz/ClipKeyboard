@@ -63,21 +63,10 @@ struct MemoAdd: View {
 
             ScrollView {
                 VStack(spacing: 28) {
-                    themeSelectionSection
-                    titleInputSection
-
-                    // 📌 2단계: 추가 옵션 (보안, 템플릿, Combo)
-                    additionalOptionsSection
-                    templateSection
-                    comboSection
-                    attachedTemplateSection
-
-                    // 📌 3단계: 내용 입력
+                    // 📌 1단계: 저장할 내용 (가장 핵심) — 사용자가 진입하자마자 입력 가능
                     if viewModel.isCombo {
-                        // Combo용 설명 입력
                         comboDescriptionSection
                     } else {
-                        // 일반 내용 입력
                         ContentInputSection(
                             value: $viewModel.value,
                             selectedCategory: viewModel.selectedCategory,
@@ -88,7 +77,6 @@ struct MemoAdd: View {
                         )
                         .toolbar {
                             ToolbarItemGroup(placement: .keyboard) {
-
 
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 8) {
@@ -113,6 +101,18 @@ struct MemoAdd: View {
                             }
                         }
                     }
+
+                    // 📌 2단계: 제목
+                    titleInputSection
+
+                    // 📌 3단계: 카테고리(테마) — 자동 분류 결과를 기준으로 표시
+                    themeSelectionSection
+
+                    // 📌 4단계: 추가 옵션 (보안, 템플릿, Combo)
+                    additionalOptionsSection
+                    templateSection
+                    comboSection
+                    attachedTemplateSection
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 24)
