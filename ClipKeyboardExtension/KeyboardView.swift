@@ -895,9 +895,11 @@ struct KeyboardView: View {
                     Image(systemName: "sparkles")
                         .font(.system(size: 12))
                         .foregroundColor(.purple)
-                    Text(NSLocalizedString("Template", comment: "Tag: template"))
+                    Text(NSLocalizedString("+ Template", comment: "Tag: attached template button"))
                         .font(.system(size: 8, weight: .semibold))
                         .foregroundColor(.purple)
+                        .lineLimit(1)
+                        .fixedSize()
                 }
                 .frame(width: 44)
                 .frame(maxHeight: .infinity)
@@ -1096,8 +1098,8 @@ struct KeyboardView: View {
                                 .foregroundColor(.orange)
                         }
                         if memo.isTemplate || !memo.templateVariables.isEmpty {
-                            Image(systemName: "curlybraces")
-                                .font(.system(size: 9, weight: .semibold))
+                            Text(NSLocalizedString("Template", comment: "Tag: template"))
+                                .font(.system(size: 8, weight: .semibold))
                                 .foregroundColor(.purple)
                         }
                         if memo.isSecure {
@@ -1365,7 +1367,7 @@ struct TemplateInputOverlay: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: 헤더 — 항상 보임: [00][000][0000] + 입력하기 + 닫기
+            // MARK: 헤더 — 항상 보임: [00][000][0000] + 입력 + 닫기
             HStack(spacing: 8) {
                     Spacer()
 
@@ -1385,6 +1387,8 @@ struct TemplateInputOverlay: View {
                                 } label: {
                                     Text(zeros)
                                         .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                        .lineLimit(1)
+                                        .fixedSize()
                                         .frame(height: 36)
                                         .padding(.horizontal, 10)
                                         .background(inactive ? Color.blue.opacity(0.05) : Color.blue.opacity(0.12))
@@ -1396,12 +1400,14 @@ struct TemplateInputOverlay: View {
                         }
                     }
 
-                    // 입력하기 버튼 (항상 노출)
+                    // 입력 버튼 (항상 노출)
                     Button {
                         completeInput()
                     } label: {
                         Text(NSLocalizedString("입력하기", comment: "Insert with template button"))
                             .font(.system(size: 14, weight: .semibold))
+                            .lineLimit(1)
+                            .fixedSize()
                             .foregroundColor(.white)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 8)
@@ -1575,16 +1581,12 @@ struct PlaceholderInputView: View {
     @ViewBuilder
     private var numericInputSection: some View {
         VStack(spacing: 8) {
-            // 수평 스크롤: [AC][⌫][1][2][3][4][5][6][7][8][9]
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 6) {
-                    numericScrollClear
-                    numericScrollBackspace
-                    ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { digit in
-                        numericScrollKey(digit)
-                    }
+            // 전체 너비: [1][2][3][4][5][6][7][8][9][⌫]
+            HStack(spacing: 6) {
+                ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { digit in
+                    numericScrollKey(digit)
                 }
-                .padding(.horizontal, 4)
+                numericScrollBackspace
             }
 
             // 사전 저장 값 빠른 선택
@@ -1626,27 +1628,11 @@ struct PlaceholderInputView: View {
         } label: {
             Text(digit)
                 .font(.system(size: 18, weight: .medium, design: .monospaced))
-                .frame(width: digit == "00" ? 56 : 48, height: 44)
+                .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray5))
                 .foregroundColor(.primary)
                 .cornerRadius(8)
         }
-    }
-
-    @ViewBuilder
-    private var numericScrollClear: some View {
-        Button {
-            selectedValue = ""
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        } label: {
-            Text("AC")
-                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                .frame(width: 46, height: 44)
-                .background(Color(UIColor.systemGray4))
-                .foregroundColor(selectedValue.isEmpty ? Color.secondary : Color.primary)
-                .cornerRadius(8)
-        }
-        .disabled(selectedValue.isEmpty)
     }
 
     @ViewBuilder
@@ -1657,7 +1643,7 @@ struct PlaceholderInputView: View {
         } label: {
             Image(systemName: "delete.left")
                 .font(.system(size: 18))
-                .frame(width: 54, height: 44)
+                .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray4))
                 .foregroundColor(.primary)
                 .cornerRadius(8)
