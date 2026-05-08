@@ -239,9 +239,13 @@ struct SettingView: View {
                 }
             }
         }
+        .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
+        .navigationBarTitleDisplayMode(.inline)
         .listStyle(.grouped)
         .scrollContentBackground(.hidden)
         .background(theme.bg.ignoresSafeArea())
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .sheet(isPresented: $showPaywall) {
             PaywallView()
         }
