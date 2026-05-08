@@ -7237,7 +7237,7 @@
         }
       }
     },
-    "+ Template" : {
+    "Plus Template" : {
       "comment" : "Tag: attached template button",
       "extractionState": "manual",
       "localizations" : {

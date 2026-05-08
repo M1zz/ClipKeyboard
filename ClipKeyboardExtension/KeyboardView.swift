@@ -895,7 +895,7 @@ struct KeyboardView: View {
                     Image(systemName: "sparkles")
                         .font(.system(size: 12))
                         .foregroundColor(.purple)
-                    Text(NSLocalizedString("+ Template", comment: "Tag: attached template button"))
+                    Text(NSLocalizedString("Plus Template", comment: "Tag: attached template button"))
                         .font(.system(size: 8, weight: .semibold))
                         .foregroundColor(.purple)
                         .lineLimit(1)
