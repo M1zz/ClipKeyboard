@@ -255,6 +255,8 @@ struct UsageGuideView: View {
         .navigationTitle(NSLocalizedString("Usage scenarios", comment: "Screen title: usage guide"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         #endif
     }
 

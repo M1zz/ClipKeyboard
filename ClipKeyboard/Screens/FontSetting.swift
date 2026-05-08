@@ -15,27 +15,29 @@ enum FontSize: CGFloat {
 
 
 struct FontSetting: View {
-    
+
+    @Environment(\.appTheme) private var theme
     @State private var fontSize: CGFloat = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
-    
+
     var body: some View {
         VStack {
             Text(NSLocalizedString("이 사이즈로 내용이 보입니다.", comment: "Font size preview text"))
                 .font(.system(size: fontSize))
                 .padding()
-            
+
             Slider(value: Binding(
-                get: {
-                    self.fontSize
-                },
-                set: {
-                    self.fontSize = $0
-                    saveFontSize()
-                }
+                get: { self.fontSize },
+                set: { self.fontSize = $0; saveFontSize() }
             ), in: 10...40, step: 2)
             .padding()
             .padding()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(theme.bg.ignoresSafeArea())
+        .navigationTitle(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
     
     func saveFontSize() {
