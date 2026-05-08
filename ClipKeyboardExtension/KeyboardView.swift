@@ -1372,7 +1372,7 @@ struct TemplateInputOverlay: View {
                     // 숫자 플레이스홀더가 있을 때만 자릿수 패드 표시
                     if let numericPH = state.placeholders.first(where: { TemplateVariableProcessor.isNumericToken($0) }) {
                         HStack(spacing: 6) {
-                            ForEach(["00", "000", "0000"], id: \.self) { zeros in
+                            ForEach(["0", "00", "000", "0000"], id: \.self) { zeros in
                                 let cur = state.inputs[numericPH] ?? ""
                                 let inactive = cur.isEmpty || cur == "0"
                                 Button {
