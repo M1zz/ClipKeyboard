@@ -7292,7 +7292,7 @@
       }
     },
     "다음": {
-      "comment": "Next\nNext badge\nNext button",
+      "comment": "Next\nNext badge\nNext button\nNext field button",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -9959,6 +9959,30 @@
         }
       }
     },
+    "실제로 쓰는 영어 템플릿을 골라 시작하세요": {
+      "comment": "Usage scenario picker hint",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a real-world English template to start"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilih templat bahasa Inggris yang nyata untuk memulai"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "실제로 쓰는 영어 템플릿을 골라 시작하세요"
+          }
+        }
+      }
+    },
     "아래에서 값을 추가하세요": {
       "comment": "Add value hint\nAdd values below",
       "localizations": {
@@ -11359,7 +11383,7 @@
       }
     },
     "전체": {
-      "comment": "All",
+      "comment": "All\nAll categories filter",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -13330,6 +13354,54 @@
         }
       }
     },
+    "활용사례": {
+      "comment": "Usage scenarios picker title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usage examples"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contoh penggunaan"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "활용사례"
+          }
+        }
+      }
+    },
+    "활용사례에서 영감 받기": {
+      "comment": "Usage scenario picker prompt",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get inspired by usage examples"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dapatkan inspirasi dari contoh penggunaan"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "활용사례에서 영감 받기"
+          }
+        }
+      }
+    },
     "회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천": {
       "comment": "Persona: Business description",
       "extractionState": "manual",
@@ -13388,74 +13460,26 @@
         }
       }
     },
-    "활용사례에서 영감 받기": {
-      "comment": "Usage scenario picker prompt",
+    "입력": {
+      "comment": "Tap-to-insert hint",
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Get inspired by usage examples"
+            "value": "Insert"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dapatkan inspirasi dari contoh penggunaan"
+            "value": "Sisipkan"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "활용사례에서 영감 받기"
-          }
-        }
-      }
-    },
-    "실제로 쓰는 영어 템플릿을 골라 시작하세요": {
-      "comment": "Usage scenario picker hint",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pick a real-world English template to start"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pilih templat bahasa Inggris yang nyata untuk memulai"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "실제로 쓰는 영어 템플릿을 골라 시작하세요"
-          }
-        }
-      }
-    },
-    "활용사례": {
-      "comment": "Usage scenarios picker title",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usage examples"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contoh penggunaan"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "활용사례"
+            "value": "입력"
           }
         }
       }

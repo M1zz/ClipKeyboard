@@ -1936,36 +1936,76 @@ struct UsageScenarioPickerSheet: View {
         Button {
             onSelect(scenario.example)
         } label: {
-            VStack(alignment: .leading, spacing: 6) {
-                Text(scenario.title)
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                if let context = scenario.context {
-                    Text(context)
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                        .multilineTextAlignment(.leading)
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .top, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(scenario.title)
+                            .font(.callout)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        if let context = scenario.context {
+                            Text(context)
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+                                .multilineTextAlignment(.leading)
+                        }
+                    }
+                    Spacer(minLength: 0)
+                    // 버튼 affordance — 탭하면 입력된다는 명시 표시
+                    HStack(spacing: 4) {
+                        Image(systemName: "arrow.down.doc.fill")
+                            .font(.caption2)
+                        Text(NSLocalizedString("입력", comment: "Tap-to-insert hint"))
+                            .font(.caption2)
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.accentColor)
+                    .clipShape(Capsule())
                 }
-                Text(scenario.example)
+
+                // example 본문 — `[Your Name]` 같은 더미 placeholder는 빨간색으로 강조.
+                // `{토큰}`은 앱이 입력 받는 템플릿 변수라 다르게 처리(여기선 그대로 회색).
+                Text(highlightedExample(scenario.example))
                     .font(.system(size: 12, design: .monospaced))
-                    .foregroundColor(theme.textMuted)
-                    .lineLimit(3)
+                    .lineLimit(4)
                     .multilineTextAlignment(.leading)
                     .padding(8)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(theme.surfaceAlt)
                     .cornerRadius(6)
             }
-            .padding(12)
+            .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(theme.surface)
             .overlay(
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .stroke(theme.surfaceAlt, lineWidth: 1)
+                    .stroke(Color.accentColor.opacity(0.35), lineWidth: 1.2)
             )
             .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)
+    }
+
+    /// `[Your Name]` 같은 더미 placeholder를 빨간색으로 강조한 AttributedString 생성.
+    /// 사용자가 "여기는 직접 입력해야 하는 부분"이라는 걸 즉시 인지할 수 있도록.
+    private func highlightedExample(_ raw: String) -> AttributedString {
+        var attr = AttributedString(raw)
+        attr.foregroundColor = .secondary
+
+        let pattern = "\\[[^\\]]+\\]"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return attr }
+        let nsRange = NSRange(raw.startIndex..., in: raw)
+        let matches = regex.matches(in: raw, range: nsRange)
+        for match in matches.reversed() {
+            guard let stringRange = Range(match.range, in: raw),
+                  let attrRange = Range(stringRange, in: attr) else { continue }
+            attr[attrRange].foregroundColor = .red
+            attr[attrRange].font = .system(size: 12, weight: .semibold, design: .monospaced)
+        }
+        return attr
     }
 }
