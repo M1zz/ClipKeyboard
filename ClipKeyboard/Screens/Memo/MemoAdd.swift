@@ -1842,31 +1842,67 @@ struct UsageScenarioPickerSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
+    /// v4.0.8: 카테고리 필터 — nil이면 "전체" (모든 카테고리 표시)
+    @State private var selectedCategoryId: UUID? = nil
+
+    /// 필터링된 카테고리 목록
+    private var filteredCategories: [UsageCategory] {
+        guard let id = selectedCategoryId else { return usageCategories }
+        return usageCategories.filter { $0.id == id }
+    }
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 24) {
-                    ForEach(usageCategories) { category in
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack(spacing: 8) {
-                                Text(category.emoji)
-                                Text(category.title)
-                                    .font(.headline)
-                            }
-                            Text(category.desc)
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
+            VStack(spacing: 0) {
+                // 카테고리 필터 칩
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        filterChip(
+                            label: NSLocalizedString("전체", comment: "All categories filter"),
+                            emoji: "🌐",
+                            isSelected: selectedCategoryId == nil,
+                            action: { selectedCategoryId = nil }
+                        )
+                        ForEach(usageCategories) { category in
+                            filterChip(
+                                label: category.title,
+                                emoji: category.emoji,
+                                isSelected: selectedCategoryId == category.id,
+                                action: { selectedCategoryId = category.id }
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                }
+                .background(theme.surface)
 
-                            VStack(spacing: 8) {
-                                ForEach(category.scenarios) { scenario in
-                                    scenarioCard(scenario)
+                Divider()
+
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 24) {
+                        ForEach(filteredCategories) { category in
+                            VStack(alignment: .leading, spacing: 12) {
+                                HStack(spacing: 8) {
+                                    Text(category.emoji)
+                                    Text(category.title)
+                                        .font(.headline)
+                                }
+                                Text(category.desc)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+
+                                VStack(spacing: 8) {
+                                    ForEach(category.scenarios) { scenario in
+                                        scenarioCard(scenario)
+                                    }
                                 }
                             }
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.horizontal, 16)
                     }
+                    .padding(.vertical, 16)
                 }
-                .padding(.vertical, 16)
             }
             .navigationTitle(NSLocalizedString("활용사례", comment: "Usage scenarios picker title"))
             #if os(iOS)
@@ -1878,6 +1914,22 @@ struct UsageScenarioPickerSheet: View {
                 }
             }
         }
+    }
+
+    private func filterChip(label: String, emoji: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Text(emoji)
+                Text(label)
+                    .font(.system(size: 13, weight: isSelected ? .semibold : .regular))
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(isSelected ? Color.accentColor : theme.surfaceAlt)
+            .foregroundColor(isSelected ? .white : .primary)
+            .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
     }
 
     private func scenarioCard(_ scenario: UsageScenario) -> some View {
