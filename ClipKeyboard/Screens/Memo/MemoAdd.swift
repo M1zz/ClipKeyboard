@@ -1260,8 +1260,33 @@ struct ContentInputSection: View {
                     .cornerRadius(theme.radiusSm)
                 }
 
-                // 텍스트 테마: 동적 높이 TextField (iOS 16+ axis: .vertical)
-                // 처음엔 작게 시작(2줄), 내용이 길어지면 최대 10줄까지 자동 확장.
+                // 텍스트 테마: syntax highlighting + 동적 높이 입력칸.
+                // [Your Name] 같은 더미 placeholder는 빨간 굵은 글씨로 강조 — 사용자가
+                // "여기는 직접 수정해야 한다"는 걸 즉시 인지. iOS TextField는 attributed
+                // 표시를 지원 안 해 UITextView wrapper로 처리.
+                #if os(iOS)
+                HighlightedTextEditor(
+                    text: $value,
+                    placeholder: placeholderText,
+                    keyboardType: keyboardTypeForTheme,
+                    isFocused: Binding(
+                        get: { isFocused },
+                        set: { isFocused = $0 }
+                    )
+                )
+                .frame(minHeight: 60, maxHeight: 240)
+                .padding(.horizontal, 4)
+                .padding(.vertical, 4)
+                .background(theme.surfaceAlt)
+                .cornerRadius(theme.radiusMd)
+                .onChange(of: value) { newValue in
+                    if !newValue.isEmpty {
+                        let classification = ClipboardClassificationService.shared.classify(content: newValue)
+                        autoDetectedType = classification.type
+                        autoDetectedConfidence = classification.confidence
+                    }
+                }
+                #else
                 TextField(placeholderText, text: $value, axis: .vertical)
                     .font(.body)
                     .lineLimit(2...10)
@@ -1269,9 +1294,6 @@ struct ContentInputSection: View {
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
-                    #if os(iOS)
-                    .keyboardType(keyboardTypeForTheme)
-                    #endif
                     .focused($isFocused)
                     .onChange(of: value) { newValue in
                         if !newValue.isEmpty {
@@ -1280,6 +1302,7 @@ struct ContentInputSection: View {
                             autoDetectedConfidence = classification.confidence
                         }
                     }
+                #endif
             }
         }
         .sheet(isPresented: $showImagePicker) {
@@ -1830,6 +1853,157 @@ private extension String {
         replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
     }
 }
+
+// MARK: - Highlighted Text Editor (v4.0.8)
+
+#if os(iOS)
+/// `[Your Name]` 같은 더미 placeholder를 빨간색으로 syntax highlight하는 입력칸.
+/// SwiftUI TextField/TextEditor는 plain text만 지원하므로 UITextView를 wrapping.
+/// - 동적 높이: isScrollEnabled=false + parent의 frame minHeight/maxHeight로 제어
+/// - syntax highlighting: NSTextStorageDelegate에서 매 편집 후 [...] 패턴에 attribute 적용
+/// - placeholder: text가 비어있을 때만 회색 hint 표시
+/// - focus: @FocusState wrapper로 first responder 동기화
+struct HighlightedTextEditor: UIViewRepresentable {
+    @Binding var text: String
+    var placeholder: String = ""
+    var keyboardType: UIKeyboardType = .default
+    /// 외부 focus 제어 — true 설정 시 first responder 됨, false 시 keyboard 내림.
+    /// 사용자 탭/blur로 인한 변화도 이 binding으로 부모에게 전달.
+    @Binding var isFocused: Bool
+
+    func makeUIView(context: Context) -> UITextView {
+        let tv = UITextView()
+        tv.delegate = context.coordinator
+        tv.font = .preferredFont(forTextStyle: .body)
+        tv.backgroundColor = .clear
+        tv.textContainerInset = .init(top: 12, left: 8, bottom: 12, right: 8)
+        tv.isScrollEnabled = true  // maxHeight 도달하면 내부 스크롤
+        tv.keyboardType = keyboardType
+        tv.textStorage.delegate = context.coordinator
+        tv.attributedText = Self.highlight(text)
+        return tv
+    }
+
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        // 외부 binding 변경 동기화 (plain text 비교 — attributedText로 비교 시 false-positive)
+        if uiView.text != text {
+            let savedSelection = uiView.selectedRange
+            uiView.attributedText = Self.highlight(text)
+            uiView.selectedRange = savedSelection
+        }
+        if uiView.keyboardType != keyboardType {
+            uiView.keyboardType = keyboardType
+            uiView.reloadInputViews()
+        }
+        // focus 동기화
+        if isFocused && !uiView.isFirstResponder {
+            uiView.becomeFirstResponder()
+        } else if !isFocused && uiView.isFirstResponder {
+            uiView.resignFirstResponder()
+        }
+
+        // placeholder 처리 — text 비었으면 회색 hint를 attributedText로 표시
+        // (실제 text는 그대로 ""이라 typing 시 hint가 사라짐)
+        context.coordinator.refreshPlaceholderIfNeeded(uiView, placeholder: placeholder)
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+
+    /// `[Your Name]` 패턴을 빨간색 굵게 강조한 attributed string 생성.
+    static func highlight(_ raw: String) -> NSAttributedString {
+        let result = NSMutableAttributedString(
+            string: raw,
+            attributes: [
+                .font: UIFont.preferredFont(forTextStyle: .body),
+                .foregroundColor: UIColor.label
+            ]
+        )
+        applyDummyPlaceholderHighlight(to: result)
+        return result
+    }
+
+    /// `[...]` 패턴에 빨간 굵은 글씨 attribute 적용. NSMutableAttributedString in place.
+    static func applyDummyPlaceholderHighlight(to storage: NSMutableAttributedString) {
+        let pattern = "\\[[^\\]]+\\]"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
+        let fullRange = NSRange(location: 0, length: storage.length)
+        regex.enumerateMatches(in: storage.string, range: fullRange) { match, _, _ in
+            guard let range = match?.range else { return }
+            storage.addAttributes([
+                .foregroundColor: UIColor.systemRed,
+                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
+            ], range: range)
+        }
+    }
+
+    final class Coordinator: NSObject, UITextViewDelegate, NSTextStorageDelegate {
+        var parent: HighlightedTextEditor
+        private var isShowingPlaceholder = false
+
+        init(_ parent: HighlightedTextEditor) {
+            self.parent = parent
+        }
+
+        // MARK: - UITextViewDelegate
+
+        func textViewDidChange(_ textView: UITextView) {
+            // placeholder 모드일 때는 binding 갱신 안 함 (회색 hint가 실제 text가 아님)
+            if isShowingPlaceholder { return }
+            parent.text = textView.text
+        }
+
+        func textViewDidBeginEditing(_ textView: UITextView) {
+            // placeholder가 표시 중이면 입력 시작 시 클리어
+            if isShowingPlaceholder {
+                textView.attributedText = HighlightedTextEditor.highlight("")
+                isShowingPlaceholder = false
+            }
+            parent.isFocused = true
+        }
+
+        func textViewDidEndEditing(_ textView: UITextView) {
+            parent.isFocused = false
+            refreshPlaceholderIfNeeded(textView, placeholder: parent.placeholder)
+        }
+
+        // MARK: - NSTextStorageDelegate
+        // 매 편집 후 [...] 패턴 빨강 강조 자동 적용. textViewDidChange보다 안전 —
+        // editing 진행 중 호출되어 cursor 위치가 깨지지 않음.
+        func textStorage(_ textStorage: NSTextStorage,
+                         didProcessEditing editedMask: NSTextStorage.EditActions,
+                         range editedRange: NSRange,
+                         changeInLength delta: Int) {
+            guard editedMask.contains(.editedCharacters), !isShowingPlaceholder else { return }
+            // 전체 text storage에 다시 한 번 highlight (빨강 매치가 사라진 경우 복구)
+            let fullRange = NSRange(location: 0, length: textStorage.length)
+            textStorage.removeAttribute(.foregroundColor, range: fullRange)
+            textStorage.addAttribute(.foregroundColor, value: UIColor.label, range: fullRange)
+            HighlightedTextEditor.applyDummyPlaceholderHighlight(to: textStorage)
+        }
+
+        // MARK: - Placeholder
+
+        func refreshPlaceholderIfNeeded(_ textView: UITextView, placeholder: String) {
+            let isEmpty = (parent.text.isEmpty)
+            let isFocused = textView.isFirstResponder
+            // 비어있고 focus 안 됐을 때만 회색 placeholder 표시
+            if isEmpty && !isFocused && !placeholder.isEmpty {
+                textView.attributedText = NSAttributedString(
+                    string: placeholder,
+                    attributes: [
+                        .font: UIFont.preferredFont(forTextStyle: .body),
+                        .foregroundColor: UIColor.placeholderText
+                    ]
+                )
+                isShowingPlaceholder = true
+            } else if isShowingPlaceholder {
+                textView.attributedText = HighlightedTextEditor.highlight(parent.text)
+                isShowingPlaceholder = false
+            }
+        }
+    }
+}
+#endif
 
 // MARK: - Usage Scenario Picker (v4.0.8)
 
