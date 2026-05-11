@@ -38,6 +38,7 @@ struct ClipKeyboardList: View {
     @State private var scrollOffset: CGFloat = 0
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -133,10 +134,10 @@ struct ClipKeyboardList: View {
                                     }
                                 }
                                 memoRow(memo: memo)
-                                    .opacity(recencyOpacity(for: memo) * (hasAppeared ? 1.0 : 0.0))
-                                    .offset(y: hasAppeared ? 0 : 16)
+                                    .opacity(recencyOpacity(for: memo) * (hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0)))
+                                    .offset(y: (hasAppeared || reduceMotion) ? 0 : 16)
                                     .animation(
-                                        .easeOut(duration: 0.35).delay(Double(min(index, 12)) * 0.035),
+                                        reduceMotion ? nil : .easeOut(duration: 0.35).delay(Double(min(index, 12)) * 0.035),
                                         value: hasAppeared
                                     )
                             }
@@ -258,11 +259,14 @@ struct ClipKeyboardList: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(theme.textFaint)
                 .font(.system(size: 16))
+                .accessibilityHidden(true)
 
             TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
                 .textFieldStyle(PlainTextFieldStyle())
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
+                .accessibilityLabel(NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
+                .accessibilityHint(NSLocalizedString("메모 제목 또는 내용으로 검색합니다", comment: "Search field accessibility hint"))
 
             if !viewModel.searchQueryString.isEmpty {
                 Button(action: {
@@ -273,6 +277,7 @@ struct ClipKeyboardList: View {
                         .foregroundColor(theme.textFaint)
                         .font(.system(size: 16))
                 }
+                .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
             }
         }
         .padding(.horizontal, 12)
@@ -840,6 +845,14 @@ struct ClipKeyboardList: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .animation(.easeOut(duration: 0.2), value: viewModel.showToast)
                 .padding(.bottom, 50)
+                .accessibilityHidden(true)  // VoiceOver는 아래 onChange announcement로 전달
+                .onChange(of: viewModel.showToast) { isShowing in
+                    #if os(iOS)
+                    if isShowing {
+                        UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
+                    }
+                    #endif
+                }
         }
     }
 
@@ -973,6 +986,7 @@ struct MemoFilterChip: View {
                 Image(systemName: icon)
                     .font(.system(size: 13))
                     .fontWeight(isSelected ? .semibold : .regular)
+                    .accessibilityHidden(true)
                 Text(title)
                     .font(.system(size: 13))
                     .fontWeight(isSelected ? .semibold : .regular)
@@ -987,6 +1001,7 @@ struct MemoFilterChip: View {
                             : Color.black.opacity(0.1)
                     )
                     .cornerRadius(8)
+                    .accessibilityHidden(true)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
@@ -1012,6 +1027,15 @@ struct MemoFilterChip: View {
             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(
+            String(format: NSLocalizedString("%@, %d개", comment: "Filter chip: name and count"), title, count)
+        )
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+        .accessibilityHint(
+            isSelected
+                ? NSLocalizedString("현재 선택됨", comment: "Filter chip: currently selected")
+                : NSLocalizedString("탭하여 이 유형으로 필터링", comment: "Filter chip: tap to filter")
+        )
     }
 }
 

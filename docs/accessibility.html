@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipKeyboard 손쉬운 사용 · Accessibility</title>
+    <meta name="description" content="ClipKeyboard의 손쉬운 사용 기능 안내 — VoiceOver, 음성 명령, 더 큰 텍스트, 다크 모드, 동작 줄이기 지원.">
+    <meta property="og:title" content="ClipKeyboard 손쉬운 사용">
+    <meta property="og:description" content="모든 사용자를 위해 설계된 ClipKeyboard의 접근성 기능을 소개합니다.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/accessibility.html">
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0056CC;
+            --bg: #FAFAFA;
+            --text: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --card-bg: #FFFFFF;
+            --border: #E5E5E7;
+            --success: #34C759;
+            --purple: #AF52DE;
+            --orange: #FF9500;
+            --pink: #FF2D55;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0E0B17;
+                --text: #F4F1FA;
+                --text-secondary: #A39AB2;
+                --card-bg: #1A1524;
+                --border: rgba(255,255,255,0.08);
+                --primary: #8A6FFF;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Language toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            gap: 4px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .lang-btn {
+            padding: 4px 12px;
+            border-radius: 14px;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Nav */
+        nav {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--primary); }
+
+        nav .brand {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        nav .sep { color: var(--border); }
+
+        /* Hero */
+        .hero {
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        /* Features grid */
+        .section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-body {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .feature-tip {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Testing section */
+        .testing-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testing-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .test-steps {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .test-steps li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 0.9rem;
+        }
+
+        .step-num {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-body { color: var(--text-secondary); }
+        .step-body strong { color: var(--text); }
+
+        /* Commitment section */
+        .commitment {
+            background: linear-gradient(135deg, #007AFF11, #AF52DE11);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .commitment h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .commitment p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 520px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-link {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .contact-link:hover { opacity: 0.85; }
+
+        /* WCAG table */
+        .wcag-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .wcag-table th,
+        .wcag-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .wcag-table th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .badge-pass { background: #34C75920; color: #1A8A38; }
+        .badge-wip  { background: #FF950020; color: #CC7A00; }
+
+        @media (prefers-color-scheme: dark) {
+            .badge-pass { color: #3BD97B; }
+            .badge-wip  { color: #FBBF24; }
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* i18n */
+        .ko { display: block; }
+        .en { display: none; }
+        body.en-mode .ko { display: none; }
+        body.en-mode .en { display: block; }
+        body.en-mode .features-grid .feature-card { display: block; }
+
+        @media (max-width: 600px) {
+            .hero { padding: 4rem 1.25rem 3rem; }
+            .section { padding: 2rem 1.25rem; }
+            nav { padding: 1rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language toggle -->
+<div class="lang-toggle" role="group" aria-label="Language selector">
+    <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko" aria-pressed="true">한국어</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en" aria-pressed="false">English</button>
+</div>
+
+<!-- Nav -->
+<nav aria-label="Site navigation">
+    <a href="index.html" class="brand">ClipKeyboard</a>
+    <span class="sep" aria-hidden="true">›</span>
+    <a href="accessibility.html">
+        <span class="ko">손쉬운 사용</span>
+        <span class="en">Accessibility</span>
+    </a>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-badge" aria-hidden="true">♿ Accessibility</div>
+    <h1>
+        <span class="ko">모든 사람을 위한<br>ClipKeyboard</span>
+        <span class="en">ClipKeyboard<br>for Everyone</span>
+    </h1>
+    <p>
+        <span class="ko">시각·운동·청각 보조 기능을 완전히 지원합니다. Apple 손쉬운 사용 철학을 바탕으로, 어떤 방식으로 기기를 사용하든 ClipKeyboard를 자유롭게 쓸 수 있습니다.</span>
+        <span class="en">Full support for visual, motor, and auditory assistive features. Built on Apple's accessibility philosophy — use ClipKeyboard your way, no matter how you interact with your device.</span>
+    </p>
+</header>
+
+<!-- Features -->
+<main>
+<section class="section" aria-labelledby="features-heading">
+    <h2 class="section-title" id="features-heading">
+        <span class="ko">지원하는 손쉬운 사용 기능</span>
+        <span class="en">Supported Accessibility Features</span>
+    </h2>
+    <p class="section-subtitle">
+        <span class="ko">아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.</span>
+        <span class="en">Enable these features in iPhone Settings → Accessibility.</span>
+    </p>
+
+    <div class="features-grid" role="list">
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">👁</span>
+            <h3 class="feature-title">VoiceOver</h3>
+            <p class="feature-body">
+                <span class="ko">메모 목록에서 한 번 탭하면 카테고리·제목·내용을 읽어줍니다. 이중 탭하면 클립보드에 복사되며 <strong>"복사됨"</strong> 알림이 즉시 읽힙니다.<br><br>위아래 쓸기로 <strong>즐겨찾기 추가</strong>, <strong>삭제</strong> 커스텀 액션에 접근할 수 있어 별도 스와이프 없이 사용 가능합니다.</span>
+                <span class="en">One tap on a memo row announces category, title, content, and timestamp. Double-tap copies to clipboard and immediately announces <strong>"Copied"</strong>.<br><br>Swipe up/down to access <strong>Add Favorite</strong> and <strong>Delete</strong> custom actions without requiring swipe gestures.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 손쉬운 사용 → VoiceOver</span>
+                <span class="en">⚙️ Settings → Accessibility → VoiceOver</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🎙</span>
+            <h3 class="feature-title">
+                <span class="ko">음성 명령</span>
+                <span class="en">Voice Control</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">화면에 보이는 버튼 이름을 그대로 말해 조작합니다. <strong>"메모 검색 탭"</strong>, <strong>"확인 탭"</strong>처럼 말하면 됩니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.</span>
+                <span class="en">Say the name of any visible button to activate it. <strong>"Tap Search"</strong>, <strong>"Tap Done"</strong>, and more. Every button and input field has an accessible name for precise voice targeting.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 손쉬운 사용 → 음성 명령</span>
+                <span class="en">⚙️ Settings → Accessibility → Voice Control</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🔠</span>
+            <h3 class="feature-title">
+                <span class="ko">더 큰 텍스트</span>
+                <span class="en">Larger Text</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">시스템 텍스트 크기를 키우면 메모 제목·내용 미리보기·배지가 비례해서 커집니다. 커스텀 폰트(Paper 테마)도 Dynamic Type 기반으로 스케일됩니다.<br><br>앱 내 글꼴 크기 슬라이더로 키보드만 별도 조정할 수도 있습니다.</span>
+                <span class="en">Increasing system text size proportionally scales memo titles, previews, and badges. Custom fonts (Paper theme) scale via Dynamic Type.<br><br>An in-app font size slider lets you adjust the keyboard separately.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 디스플레이 및 밝기 → 텍스트 크기</span>
+                <span class="en">⚙️ Settings → Display &amp; Brightness → Text Size</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🌙</span>
+            <h3 class="feature-title">
+                <span class="ko">다크 모드</span>
+                <span class="en">Dark Mode</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">Dusk·Paper 두 테마 모두 다크 모드를 완전히 지원합니다. 시스템 설정을 따르거나 앱 내에서 직접 선택할 수 있습니다. 밝기에 민감한 사용자에게 권장됩니다.</span>
+                <span class="en">Both Dusk and Paper themes fully support dark mode. Follow the system setting or choose manually in-app. Recommended for users sensitive to bright screens.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 디스플레이 및 밝기 → 다크</span>
+                <span class="en">⚙️ Settings → Display &amp; Brightness → Dark</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🎨</span>
+            <h3 class="feature-title">
+                <span class="ko">색상 없이 구별</span>
+                <span class="en">Differentiate Without Color</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">Template · +Template · Combo · New 배지는 색상뿐 아니라 텍스트 라벨로도 구분됩니다. 색맹 사용자도 배지 종류를 읽을 수 있습니다.</span>
+                <span class="en">Template, +Template, Combo, and New badges are distinguished by text labels, not color alone. Color-blind users can read badge types without relying on color.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 색상 필터</span>
+                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Color Filters</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🌀</span>
+            <h3 class="feature-title">
+                <span class="ko">동작 줄이기</span>
+                <span class="en">Reduce Motion</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">즐겨찾기 추가 시 나타나는 하트 애니메이션이 <strong>동작 줄이기</strong> 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 효과 없이 페이드만 사용합니다. 전정 장애가 있는 사용자에게 권장됩니다.</span>
+                <span class="en">The heart animation on favoriting automatically respects <strong>Reduce Motion</strong>. When enabled, only a fade is used — no movement or scale effects. Recommended for users with vestibular disorders.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 손쉬운 사용 → 동작 → 동작 줄이기</span>
+                <span class="en">⚙️ Settings → Accessibility → Motion → Reduce Motion</span>
+            </p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+            <span class="feature-icon" aria-hidden="true">🔒</span>
+            <h3 class="feature-title">
+                <span class="ko">충분한 대비</span>
+                <span class="en">Sufficient Contrast</span>
+            </h3>
+            <p class="feature-body">
+                <span class="ko">Dusk·Paper 두 테마 모두 WCAG 2.1 AA 기준(4.5:1) 이상의 색상 대비를 제공합니다. 저시력 사용자도 본문 텍스트와 배경을 명확히 구별할 수 있습니다.</span>
+                <span class="en">Both Dusk and Paper themes meet WCAG 2.1 AA contrast requirements (4.5:1 minimum). Users with low vision can clearly distinguish body text from backgrounds.</span>
+            </p>
+            <p class="feature-tip">
+                <span class="ko">⚙️ 설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 대비 높이기</span>
+                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Increase Contrast</span>
+            </p>
+        </article>
+
+    </div>
+
+    <!-- Testing -->
+    <div class="testing-section" aria-labelledby="testing-heading">
+        <h3 class="testing-title" id="testing-heading">
+            <span aria-hidden="true">✅</span>
+            <span class="ko">직접 테스트하는 방법</span>
+            <span class="en">How to Test</span>
+        </h3>
+        <ol class="test-steps">
+            <li>
+                <span class="step-num" aria-hidden="true">1</span>
+                <span class="step-body">
+                    <span class="ko"><strong>VoiceOver</strong> — 메모 행 한 번 탭 → 전체 내용 읽기 확인. 이중 탭 → "복사됨" 알림 확인. 위아래 쓸기 → 즐겨찾기·삭제 액션 확인.</span>
+                    <span class="en"><strong>VoiceOver</strong> — Single-tap a memo row, verify full content is read. Double-tap, verify "Copied" announcement. Swipe up/down, verify Favorite and Delete actions appear.</span>
+                </span>
+            </li>
+            <li>
+                <span class="step-num" aria-hidden="true">2</span>
+                <span class="step-body">
+                    <span class="ko"><strong>음성 명령</strong> — "탭 검색" 또는 "탭 확인" 말하기 → 반응 확인.</span>
+                    <span class="en"><strong>Voice Control</strong> — Say "Tap Search" or "Tap Done" and verify the app responds.</span>
+                </span>
+            </li>
+            <li>
+                <span class="step-num" aria-hidden="true">3</span>
+                <span class="step-body">
+                    <span class="ko"><strong>더 큰 텍스트</strong> — 설정에서 텍스트 크기 최대로 → 메모 목록 텍스트 크기 확인.</span>
+                    <span class="en"><strong>Larger Text</strong> — Set system text size to maximum. Verify memo titles and previews scale proportionally.</span>
+                </span>
+            </li>
+            <li>
+                <span class="step-num" aria-hidden="true">4</span>
+                <span class="step-body">
+                    <span class="ko"><strong>다크 모드</strong> — 제어 센터에서 다크 모드 전환 → 즉시 색상 변경 확인.</span>
+                    <span class="en"><strong>Dark Mode</strong> — Toggle dark mode from Control Center. Verify colors update instantly without relaunching.</span>
+                </span>
+            </li>
+            <li>
+                <span class="step-num" aria-hidden="true">5</span>
+                <span class="step-body">
+                    <span class="ko"><strong>색상 필터</strong> — 설정 → 적록색맹 필터 ON → 배지 구분 확인.</span>
+                    <span class="en"><strong>Color Filters</strong> — Enable red-green color blindness filter. Verify badges are distinguishable by text alone.</span>
+                </span>
+            </li>
+            <li>
+                <span class="step-num" aria-hidden="true">6</span>
+                <span class="step-body">
+                    <span class="ko"><strong>동작 줄이기</strong> — 설정 ON → 즐겨찾기 추가 → 하트 애니메이션이 이동 없이 페이드만 되는지 확인.</span>
+                    <span class="en"><strong>Reduce Motion</strong> — Enable setting → add a favorite → verify the heart only fades, no movement or scale.</span>
+                </span>
+            </li>
+        </ol>
+    </div>
+
+    <!-- WCAG conformance -->
+    <div style="margin-top: 3rem;">
+        <h3 class="section-title" style="font-size: 1.2rem;">
+            <span class="ko">WCAG 2.1 적합성</span>
+            <span class="en">WCAG 2.1 Conformance</span>
+        </h3>
+        <table class="wcag-table" aria-label="WCAG 2.1 conformance status">
+            <thead>
+                <tr>
+                    <th><span class="ko">기준</span><span class="en">Criterion</span></th>
+                    <th><span class="ko">등급</span><span class="en">Level</span></th>
+                    <th><span class="ko">상태</span><span class="en">Status</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="ko">비텍스트 콘텐츠 대체 텍스트 (1.1.1)</span><span class="en">Non-text Content Alt Text (1.1.1)</span></td>
+                    <td>A</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="ko">정보·구조의 색상 외 표현 (1.4.1)</span><span class="en">Use of Color (1.4.1)</span></td>
+                    <td>A</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="ko">텍스트 명암비 4.5:1 이상 (1.4.3)</span><span class="en">Contrast Minimum (1.4.3)</span></td>
+                    <td>AA</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="ko">텍스트 크기 조정 (1.4.4)</span><span class="en">Resize Text (1.4.4)</span></td>
+                    <td>AA</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="ko">모든 기능 키보드/포인터 접근 (2.1.1)</span><span class="en">Keyboard Accessible (2.1.1)</span></td>
+                    <td>A</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="ko">동작으로 인한 불편 방지 (2.3.3)</span><span class="en">Animation from Interactions (2.3.3)</span></td>
+                    <td>AAA</td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Commitment -->
+    <div class="commitment" role="complementary" aria-labelledby="commitment-heading">
+        <h2 id="commitment-heading">
+            <span class="ko">접근성 개선은 계속됩니다</span>
+            <span class="en">Our Accessibility Commitment</span>
+        </h2>
+        <p>
+            <span class="ko">ClipKeyboard는 지속적으로 접근성을 개선하고 있습니다. 사용 중 불편한 점이나 개선 의견이 있으면 언제든 알려주세요.</span>
+            <span class="en">We continuously improve accessibility in ClipKeyboard. If you encounter any barriers or have suggestions, we'd love to hear from you.</span>
+        </p>
+        <a href="mailto:leeo@kakao.com" class="contact-link">
+            <span class="ko">접근성 피드백 보내기</span>
+            <span class="en">Send Accessibility Feedback</span>
+        </a>
+    </div>
+</section>
+</main>
+
+<footer>
+    <p>
+        <a href="index.html">ClipKeyboard</a> ·
+        <a href="privacy.html"><span class="ko">개인정보 처리방침</span><span class="en">Privacy Policy</span></a> ·
+        <a href="tutorial.html"><span class="ko">사용 가이드</span><span class="en">User Guide</span></a>
+    </p>
+    <p style="margin-top: 8px;">
+        <span class="ko">© 2025 Ysoup. 개발자: leeo@kakao.com</span>
+        <span class="en">© 2025 Ysoup. Contact: leeo@kakao.com</span>
+    </p>
+</footer>
+
+<script>
+    function setLang(lang) {
+        document.body.classList.toggle('en-mode', lang === 'en');
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-ko').setAttribute('aria-pressed', lang === 'ko');
+        document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+        document.documentElement.lang = lang;
+        localStorage.setItem('clipkb-lang', lang);
+    }
+
+    // Restore saved language preference
+    const saved = localStorage.getItem('clipkb-lang');
+    if (saved) setLang(saved);
+    else {
+        const browser = navigator.language.startsWith('ko') ? 'ko' : 'en';
+        setLang(browser);
+    }
+</script>
+</body>
+</html>

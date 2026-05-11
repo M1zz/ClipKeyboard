@@ -31,6 +31,8 @@ struct FontSetting: View {
             ), in: 10...40, step: 2)
             .padding()
             .padding()
+            .accessibilityLabel(NSLocalizedString("앱 내 폰트 크기", comment: "Font size slider label"))
+            .accessibilityValue(String(format: NSLocalizedString("%d포인트", comment: "Font size value format"), Int(fontSize)))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.bg.ignoresSafeArea())

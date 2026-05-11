@@ -218,12 +218,20 @@ struct MemoAdd: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                             .padding(.bottom, 100)
+                            .accessibilityHidden(true)
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .animation(.easeInOut, value: viewModel.showToast)
                 }
             }
         )
+        .onChange(of: viewModel.showToast) { isShowing in
+            #if os(iOS)
+            if isShowing {
+                UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
+            }
+            #endif
+        }
         .sheet(isPresented: $viewModel.showEmojiPicker) {
             EmojiPicker { selectedEmoji in
                 viewModel.value += selectedEmoji
@@ -372,6 +380,7 @@ struct MemoAdd: View {
     // Helper view for theme pill button
     @ViewBuilder
     private func themePillButton(theme categoryString: String, showStar: Bool) -> some View {
+        let isSelected = viewModel.selectedCategory == categoryString
         Button {
             viewModel.selectCategory(categoryString)
         } label: {
@@ -379,18 +388,28 @@ struct MemoAdd: View {
                 if showStar {
                     Image(systemName: "star.fill")
                         .font(.caption2)
-                        .foregroundColor(viewModel.selectedCategory == categoryString ? .white : .orange)
+                        .foregroundColor(isSelected ? .white : .orange)
+                        .accessibilityHidden(true)
                 }
                 Text(Constants.localizedThemeName(categoryString))
                     .font(.callout)
-                    .fontWeight(viewModel.selectedCategory == categoryString ? .semibold : .regular)
+                    .fontWeight(isSelected ? .semibold : .regular)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(viewModel.selectedCategory == categoryString ? Color.accentColor : theme.surfaceAlt)
-            .foregroundColor(viewModel.selectedCategory == categoryString ? .white : .primary)
+            .background(isSelected ? Color.accentColor : theme.surfaceAlt)
+            .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(theme.radiusLg)
         }
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+        .accessibilityLabel(
+            isSelected
+                ? String(format: NSLocalizedString("%@, 선택됨", comment: "Theme pill: selected"), Constants.localizedThemeName(categoryString))
+                : Constants.localizedThemeName(categoryString)
+        )
+        .accessibilityHint(
+            isSelected ? "" : NSLocalizedString("탭하여 이 카테고리 선택", comment: "Theme pill: tap to select")
+        )
     }
 
     // MARK: - Usage Helper Toggle (v4.0.8)
@@ -903,6 +922,8 @@ struct MemoAdd: View {
                 .foregroundColor(.white)
                 .cornerRadius(theme.radiusSm)
         }
+        .accessibilityLabel(title)
+        .accessibilityHint(NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다", comment: "Template variable button hint"))
     }
 
     private func quickInsertToken(_ token: String, isNumeric: Bool) -> some View {
@@ -939,6 +960,7 @@ private struct ToggleOptionRow: View {
                 .font(.title3)
                 .foregroundColor(isOn ? activeColor : .secondary)
                 .frame(width: 32)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -958,6 +980,15 @@ private struct ToggleOptionRow: View {
         .padding(.horizontal, 16)
         .background(theme.surfaceAlt)
         .cornerRadius(theme.radiusMd)
+        // 행 전체를 단일 스위치로 묶어 VoiceOver가 "제목, 켬/끔, 스위치"로 읽게 함
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+        .accessibilityValue(isOn
+            ? NSLocalizedString("켬", comment: "Toggle state: on")
+            : NSLocalizedString("끔", comment: "Toggle state: off")
+        )
+        .accessibilityHint(description)
+        .accessibilityAddTraits(.isToggle)
     }
 }
 
@@ -975,6 +1006,7 @@ private struct QuickInsertTokenButton: View {
             HStack(spacing: 4) {
                 Image(systemName: isNumeric ? "number" : "list.bullet")
                     .font(.system(size: 9, weight: .semibold))
+                    .accessibilityHidden(true)
                 Text(token)
                     .font(.system(size: 12, weight: .medium))
             }
@@ -988,6 +1020,8 @@ private struct QuickInsertTokenButton: View {
                     .strokeBorder((isNumeric ? Color.blue : Color.green).opacity(0.25), lineWidth: 1)
             )
         }
+        .accessibilityLabel(token)
+        .accessibilityHint(NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다", comment: "Quick insert token button hint"))
     }
 }
 
