@@ -13,8 +13,19 @@ import UIKit
 struct KeyboardSetupOnboardingView: View {
     var exitAction: () -> Void
     @State private var currentPage = 0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private let totalPages = 4
+
+    private var pageTitle: String {
+        switch currentPage {
+        case 0: return NSLocalizedString("환영합니다", comment: "Onboarding page 1 title for VoiceOver")
+        case 1: return NSLocalizedString("키보드 추가, 1단계 중 2단계", comment: "Onboarding page 2 title for VoiceOver")
+        case 2: return NSLocalizedString("전체 접근 허용, 2단계 중 2단계", comment: "Onboarding page 3 title for VoiceOver")
+        case 3: return NSLocalizedString("준비 완료", comment: "Onboarding page 4 title for VoiceOver")
+        default: return ""
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -39,6 +50,7 @@ struct KeyboardSetupOnboardingView: View {
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 8)
                         }
+                        .accessibilityHint(NSLocalizedString("온보딩을 건너뛰고 앱을 바로 시작합니다", comment: "Skip onboarding hint"))
                     }
                 }
                 .frame(height: 44)
@@ -58,20 +70,32 @@ struct KeyboardSetupOnboardingView: View {
                 #if os(iOS)
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 #endif
-                .animation(.easeInOut(duration: 0.3), value: currentPage)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: currentPage)
+                // VoiceOver: 페이지 전환 시 제목 공지
+                .onChange(of: currentPage) { _ in
+                    #if os(iOS)
+                    UIAccessibility.post(notification: .screenChanged, argument: pageTitle)
+                    #endif
+                }
 
                 // MARK: - Bottom Controls
                 VStack(spacing: 20) {
-                    // Page indicator
+                    // Page indicator — VoiceOver에 진행률 전달
                     HStack(spacing: 8) {
                         ForEach(0..<totalPages, id: \.self) { index in
                             Circle()
                                 .fill(index == currentPage ? Color.white : Color.white.opacity(0.35))
                                 .frame(width: 8, height: 8)
                                 .scaleEffect(index == currentPage ? 1.2 : 1.0)
-                                .animation(.easeInOut(duration: 0.2), value: currentPage)
+                                .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: currentPage)
+                                .accessibilityHidden(true)
                         }
                     }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(
+                        String(format: NSLocalizedString("%d단계 중 %d단계", comment: "Onboarding page indicator: step X of Y"),
+                               currentPage + 1, totalPages)
+                    )
 
                     // Action buttons
                     if currentPage < totalPages - 1 {
@@ -134,7 +158,7 @@ struct KeyboardSetupOnboardingView: View {
     }
 
     private func nextPage() {
-        withAnimation(.easeInOut(duration: 0.3)) {
+        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.3)) {
             currentPage = min(currentPage + 1, totalPages - 1)
         }
     }
@@ -448,6 +472,7 @@ private struct OnboardingPathRow: View {
                     .font(.system(size: 15, weight: isHighlighted ? .bold : .regular))
                     .foregroundColor(isHighlighted ? .yellow : .white.opacity(0.8))
                     .frame(width: 24)
+                    .accessibilityHidden(true)
 
                 Text(text)
                     .font(.system(size: 15, weight: isHighlighted ? .semibold : .regular))
@@ -466,6 +491,7 @@ private struct OnboardingPathRow: View {
                     Spacer()
                 }
                 .padding(.vertical, 2)
+                .accessibilityHidden(true)
             }
         }
     }
@@ -481,6 +507,7 @@ private struct OnboardingFeatureRow: View {
                 .font(.system(size: 20))
                 .foregroundColor(.white)
                 .frame(width: 32)
+                .accessibilityHidden(true)
 
             Text(text)
                 .font(.system(size: 15))
@@ -488,6 +515,7 @@ private struct OnboardingFeatureRow: View {
 
             Spacer()
         }
+        .accessibilityElement(children: .combine)
     }
 }
 

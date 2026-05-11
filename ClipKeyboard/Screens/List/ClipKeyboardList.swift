@@ -149,7 +149,7 @@ struct ClipKeyboardList: View {
                     .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
                         scrollOffset = value
                     }
-                    .animation(.easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
                 }
 
                 // 빈 화면
@@ -167,7 +167,7 @@ struct ClipKeyboardList: View {
             .overlay(alignment: .bottom) {
                 toastOverlay
             }
-            .animation(.easeInOut(duration: 0.5), value: viewModel.showToast)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.5), value: viewModel.showToast)
 
             // Navigation 설정 — 타이틀 제거. 그리팅이 상단 앵커 역할.
             // 접근성: VoiceOver용으로 숨은 라벨 유지.
@@ -665,7 +665,7 @@ struct ClipKeyboardList: View {
         } preview: {
             memoContextPreview(memo: memo)
         }
-        .transition(.scale)
+        .transition(reduceMotion ? .opacity : .scale)
         .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
         .listRowSeparator(.hidden)
@@ -758,7 +758,7 @@ struct ClipKeyboardList: View {
     private var toolbarButtons: some View {
         Button {
             HapticManager.shared.light()
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7)) {
                 isSearchBarVisible.toggle()
                 if !isSearchBarVisible {
                     viewModel.searchQueryString = ""
@@ -1024,7 +1024,7 @@ struct MemoFilterChip: View {
                     )
             )
             .scaleEffect(isSelected ? 1.0 : 0.96)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
+            .animation(.easeOut(duration: 0.15), value: isSelected)
         }
         .buttonStyle(PlainButtonStyle())
         .accessibilityLabel(

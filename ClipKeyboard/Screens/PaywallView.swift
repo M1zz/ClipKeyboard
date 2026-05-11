@@ -54,6 +54,7 @@ struct PaywallView: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.secondary)
                     }
+                    .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paywall"))
                 }
             }
         }
@@ -175,16 +176,23 @@ struct PaywallView: View {
     }
     
     private func featureRow(_ name: String, free: String, pro: String, isProOnly: Bool = false) -> some View {
-        HStack {
+        let freeLabel = free == "—"
+            ? NSLocalizedString("미포함", comment: "Feature not included")
+            : free == "✓" ? NSLocalizedString("포함", comment: "Feature included") : free
+        let proLabel = pro == "—"
+            ? NSLocalizedString("미포함", comment: "Feature not included")
+            : pro == "✓" ? NSLocalizedString("포함", comment: "Feature included") : pro
+
+        return HStack {
             Text(name)
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             Text(free)
                 .font(.subheadline)
                 .foregroundStyle(isProOnly ? .secondary : .primary)
                 .frame(width: 60)
-            
+
             Text(pro)
                 .font(.subheadline)
                 .fontWeight(.medium)
@@ -193,6 +201,11 @@ struct PaywallView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(
+            String(format: NSLocalizedString("%@, 무료: %@, Pro: %@", comment: "Feature row: name, free plan value, pro plan value"),
+                   name, freeLabel, proLabel)
+        )
     }
     
     // MARK: - Purchase
@@ -225,6 +238,10 @@ struct PaywallView: View {
                             withAnimation(.spring(response: 0.4)) {
                                 showSuccessAnimation = true
                             }
+                            #if os(iOS)
+                            UIAccessibility.post(notification: .announcement,
+                                argument: NSLocalizedString("Pro 활성화 완료!", comment: "Pro activated announcement"))
+                            #endif
                             try? await Task.sleep(nanoseconds: 1_500_000_000)
                             dismiss()
                         }
@@ -247,6 +264,11 @@ struct PaywallView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
                 .disabled(store.isLoading)
+                .accessibilityLabel(store.isLoading
+                    ? NSLocalizedString("처리 중", comment: "Purchase loading state")
+                    : priceText
+                )
+                .accessibilityHint(store.isLoading ? "" : NSLocalizedString("탭하면 Pro를 구매합니다", comment: "Purchase button hint"))
 
                 // 복원 버튼
                 Button {
@@ -307,6 +329,7 @@ struct PaywallView: View {
         HStack(spacing: 8) {
             Image(systemName: "clock.badge.checkmark.fill")
                 .foregroundStyle(.green)
+                .accessibilityHidden(true)
             Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
                 .font(.subheadline)
                 .fontWeight(.medium)
@@ -316,6 +339,7 @@ struct PaywallView: View {
         .padding(.vertical, 10)
         .background(.green.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .accessibilityElement(children: .combine)
     }
     
     private var priceText: String {

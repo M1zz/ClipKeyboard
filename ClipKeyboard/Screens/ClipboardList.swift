@@ -54,12 +54,21 @@ struct ClipboardList: View {
                                 HStack(spacing: 12) {
                                     // 선택 모드 체크박스
                                     if isSelectingForCombo {
-                                        Image(systemName: selectedForCombo.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(selectedForCombo.contains(item.id) ? .blue : .gray)
-                                            .font(.title3)
-                                            .onTapGesture {
-                                                toggleSelection(item.id)
-                                            }
+                                        let isChecked = selectedForCombo.contains(item.id)
+                                        Button {
+                                            toggleSelection(item.id)
+                                        } label: {
+                                            Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+                                                .foregroundColor(isChecked ? .blue : .gray)
+                                                .font(.title3)
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel(isChecked
+                                            ? NSLocalizedString("선택됨", comment: "Combo checkbox: selected")
+                                            : NSLocalizedString("선택 안 됨", comment: "Combo checkbox: not selected")
+                                        )
+                                        .accessibilityHint(NSLocalizedString("탭하여 Combo에 포함하거나 제외합니다", comment: "Combo checkbox hint"))
+                                        .accessibilityAddTraits(isChecked ? [.isButton, .isSelected] : .isButton)
                                     }
 
                                     ClipboardItemRow(
@@ -104,11 +113,14 @@ struct ClipboardList: View {
                     }
                 }
             }
-            .navigationTitle(isSelectingForCombo ? "Combo 생성" : "클립보드 히스토리")
+            .navigationTitle(isSelectingForCombo
+                ? NSLocalizedString("Combo 생성", comment: "Clipboard list: combo creation mode title")
+                : NSLocalizedString("클립보드 히스토리", comment: "Clipboard list navigation title")
+            )
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     if isSelectingForCombo {
-                        Button("취소") {
+                        Button(NSLocalizedString("취소", comment: "Cancel combo selection")) {
                             isSelectingForCombo = false
                             selectedForCombo.removeAll()
                         }
@@ -136,13 +148,13 @@ struct ClipboardList: View {
                             Button(role: .destructive) {
                                 clearAll()
                             } label: {
-                                Label("전체 삭제", systemImage: "trash")
+                                Label(NSLocalizedString("전체 삭제", comment: "Clear all clipboard history"), systemImage: "trash")
                             }
 
                             Button {
                                 selectedFilter = nil
                             } label: {
-                                Label("필터 초기화", systemImage: "line.3.horizontal.decrease.circle")
+                                Label(NSLocalizedString("필터 초기화", comment: "Reset filter"), systemImage: "line.3.horizontal.decrease.circle")
                             }
                         } label: {
                             Image(systemName: "ellipsis.circle")
@@ -194,7 +206,7 @@ struct ClipboardList: View {
             if let item = itemToSave {
                 SaveToMemoSheet(item: item) { savedSuccessfully in
                     if savedSuccessfully {
-                        showToast(message: "메모로 저장되었습니다")
+                        showToast(message: NSLocalizedString("메모로 저장되었습니다", comment: "Clipboard item saved as memo"))
                     }
                     showSaveDialog = false
                 }
@@ -299,6 +311,9 @@ struct ClipboardList: View {
     private func showToast(message: String) {
         toastMessage = message
         showToast = true
+        #if os(iOS)
+        UIAccessibility.post(notification: .announcement, argument: message)
+        #endif
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             showToast = false
         }
@@ -487,13 +502,13 @@ struct ClipboardItemRow: View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top, spacing: 12) {
-                    // 타입 아이콘
+                    // 타입 아이콘 — VoiceOver에서는 합성 레이블이 타입을 포함하므로 숨김
                     Image(systemName: displayType.icon)
                         .font(.title3)
                         .foregroundColor(Color.fromName(displayType.color))
                         .frame(width: 24)
-                        // 하이라이트 시 스케일 애니메이션
                         .scaleEffect(isHighlighted ? 1.2 : 1.0)
+                        .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 4) {
                         // 내용
@@ -512,9 +527,11 @@ struct ClipboardItemRow: View {
                                 if item.userCorrectedType != nil {
                                     Image(systemName: "checkmark.circle.fill")
                                         .font(.caption2)
+                                        .accessibilityHidden(true)
                                 } else if item.confidence > 0.8 {
                                     Image(systemName: "sparkles")
                                         .font(.caption2)
+                                        .accessibilityHidden(true)
                                 }
                             }
                             .padding(.horizontal, 6)
@@ -560,11 +577,13 @@ struct ClipboardItemRow: View {
                 .stroke(isHighlighted ? Color.fromName(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
+        .accessibilityLabel("\(displayType.localizedName), \(item.content)")
+        .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Clipboard item copy hint"))
         .swipeActions(edge: .leading) {
             Button {
                 onSave()
             } label: {
-                Label("저장", systemImage: "square.and.arrow.down")
+                Label(NSLocalizedString("저장", comment: "Save clipboard item as memo"), systemImage: "square.and.arrow.down")
             }
             .tint(.green)
         }
@@ -578,7 +597,7 @@ struct ClipboardItemRow: View {
                     }
                 }
             } label: {
-                Label("타입 변경", systemImage: "tag")
+                Label(NSLocalizedString("타입 변경", comment: "Change item type"), systemImage: "tag")
             }
             .tint(.blue)
         }
@@ -632,16 +651,16 @@ struct SaveToMemoSheet: View {
                         }
                     }
 
-                    Toggle("보안 메모", isOn: $isSecure)
+                    Toggle(NSLocalizedString("보안 메모", comment: "Secure memo toggle"), isOn: $isSecure)
                 }
 
-                Section("내용") {
+                Section(NSLocalizedString("내용", comment: "Content section header")) {
                     Text(item.content)
                         .font(.system(size: 14))
                         .foregroundColor(theme.textMuted)
                 }
 
-                Section("자동 분류 정보") {
+                Section(NSLocalizedString("자동 분류 정보", comment: "Auto classification info section header")) {
                     HStack {
                         Image(systemName: item.detectedType.icon)
                         Text(item.detectedType.localizedName)
