@@ -17,6 +17,8 @@ struct ClipKeyboardApp: App {
     @StateObject private var storeManager = StoreManager.shared
     @StateObject private var deps = AppDependencies.shared
     @State private var showReviewRequest = false
+    /// VoiceOver 첫 감지 시 접근성 안내 시트
+    @State private var showAccessibilityGuide = false
 
     init() {
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
@@ -98,10 +100,26 @@ struct ClipKeyboardApp: App {
                                 showReviewRequest = true
                             }
                         }
+
+                        // VoiceOver 감지 → 접근성 안내 (1.5초 후, 최초 1회)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            checkVoiceOverAndNudge()
+                        }
+                    }
+                    .onReceive(
+                        NotificationCenter.default.publisher(
+                            for: UIAccessibility.voiceOverStatusDidChangeNotification
+                        )
+                    ) { _ in
+                        // 앱 사용 중 VoiceOver가 켜졌을 때도 안내
+                        checkVoiceOverAndNudge()
                     }
                     .sheet(isPresented: $showReviewRequest) {
                         ReviewRequestView()
                             .presentationDetents([.medium])
+                    }
+                    .sheet(isPresented: $showAccessibilityGuide) {
+                        AccessibilityGuideView()
                     }
             } else if !manager.didShowOnboarding {
                 // 1단계: 키보드 셋업 온보딩
@@ -179,6 +197,22 @@ struct ClipKeyboardApp: App {
                     }
                 }
             }
+        }
+        #endif
+    }
+
+    // MARK: - Accessibility Nudge
+
+    /// VoiceOver가 켜진 상태로 앱에 진입하면 최초 1회 접근성 안내 시트를 띄운다.
+    private func checkVoiceOverAndNudge() {
+        #if os(iOS)
+        let nudgeKey = "a11y_guide_nudge_shown_v1"
+        guard UIAccessibility.isVoiceOverRunning,
+              !(UserDefaults.standard.bool(forKey: nudgeKey)) else { return }
+        UserDefaults.standard.set(true, forKey: nudgeKey)
+        // 리뷰 시트와 겹치지 않도록 약간 지연
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            showAccessibilityGuide = true
         }
         #endif
     }

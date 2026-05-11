@@ -170,6 +170,14 @@ struct SettingView: View {
                     Text(NSLocalizedString("사용 가이드", comment: "User guide"))
                 }
 
+                // 접근성 안내 — 손쉬운 사용 기능 지원 내용 및 테스트 방법
+                NavigationLink(destination: AccessibilityGuideView()) {
+                    Label(
+                        NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
+                        systemImage: "figure.walk.circle"
+                    )
+                }
+
                 NavigationLink(destination: ReviewWriteView()) {
                     Text(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
                 }
