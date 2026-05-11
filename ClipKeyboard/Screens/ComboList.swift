@@ -303,14 +303,9 @@ struct ComboRowView: View {
         .buttonStyle(PlainButtonStyle())
         .accessibilityLabel(rowAccessibilityLabel)
         .accessibilityHint(NSLocalizedString("탭하면 편집 화면을 엽니다", comment: "Combo row edit hint"))
-        .accessibilityCustomActions([
-            AccessibilityCustomAction(
-                name: NSLocalizedString("실행", comment: "Execute combo action")
-            ) {
-                onExecute()
-                return true
-            }
-        ])
+        .accessibilityAction(named: NSLocalizedString("실행", comment: "Execute combo action")) {
+            onExecute()
+        }
     }
 }
 

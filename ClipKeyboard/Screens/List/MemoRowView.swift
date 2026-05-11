@@ -95,7 +95,13 @@ struct MemoRowView: View {
         .accessibilityLabel(voiceOverLabel)
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Memo row accessibility hint"))
         .accessibilityAddTraits(.isButton)
-        .accessibilityCustomActions(voiceOverActions)
+        .accessibilityAction(named: memo.isFavorite
+            ? NSLocalizedString("즐겨찾기 해제", comment: "VoiceOver action: remove favorite")
+            : NSLocalizedString("즐겨찾기 추가", comment: "VoiceOver action: add favorite")
+        ) { onFavoriteToggle?() }
+        .accessibilityAction(named: NSLocalizedString("삭제", comment: "VoiceOver action: delete memo")) {
+            onDelete?()
+        }
     }
 
     // MARK: - Accessibility Label
@@ -146,34 +152,6 @@ struct MemoRowView: View {
         return parts.joined(separator: ", ")
     }
 
-    // MARK: - VoiceOver Custom Actions
-    // 스와이프 액션과 동일한 기능을 VoiceOver 커스텀 액션으로 노출.
-    // 롤러(rotor) 없이도 VoiceOver 사용자가 컨텍스트 메뉴 기능 접근 가능.
-
-    private var voiceOverActions: [AccessibilityCustomAction] {
-        var actions: [AccessibilityCustomAction] = []
-
-        if let onFavoriteToggle {
-            let label = memo.isFavorite
-                ? NSLocalizedString("즐겨찾기 해제", comment: "VoiceOver action: remove favorite")
-                : NSLocalizedString("즐겨찾기 추가", comment: "VoiceOver action: add favorite")
-            actions.append(AccessibilityCustomAction(name: label) {
-                onFavoriteToggle()
-                return true
-            })
-        }
-
-        if let onDelete {
-            actions.append(AccessibilityCustomAction(
-                name: NSLocalizedString("삭제", comment: "VoiceOver action: delete memo")
-            ) {
-                onDelete()
-                return true
-            })
-        }
-
-        return actions
-    }
 
     // MARK: - Leading Icon
 

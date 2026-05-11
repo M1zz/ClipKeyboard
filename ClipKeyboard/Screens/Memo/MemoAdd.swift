@@ -988,7 +988,18 @@ private struct ToggleOptionRow: View {
             : NSLocalizedString("끔", comment: "Toggle state: off")
         )
         .accessibilityHint(description)
-        .accessibilityAddTraits(.isToggle)
+        .modifier(ToggleTraitModifier())
+    }
+}
+
+/// `.isToggle` 트레이트를 iOS 17+ 에서만 적용하는 modifier.
+private struct ToggleTraitModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 17, *) {
+            content.accessibilityAddTraits(.isToggle)
+        } else {
+            content
+        }
     }
 }
 
@@ -2018,14 +2029,13 @@ struct HighlightedTextEditor: UIViewRepresentable {
         }
 
         // MARK: - NSTextStorageDelegate
-        // 매 편집 후 [...] 패턴 빨강 강조 자동 적용. textViewDidChange보다 안전 —
-        // editing 진행 중 호출되어 cursor 위치가 깨지지 않음.
+        // willProcessEditing에서 attribute 변경 — didProcessEditing에서 수정하면
+        // layout manager 알림 이후 state 변경으로 SwiftUI 경고 발생.
         func textStorage(_ textStorage: NSTextStorage,
-                         didProcessEditing editedMask: NSTextStorage.EditActions,
+                         willProcessEditing editedMask: NSTextStorage.EditActions,
                          range editedRange: NSRange,
                          changeInLength delta: Int) {
             guard editedMask.contains(.editedCharacters), !isShowingPlaceholder else { return }
-            // 전체 text storage에 다시 한 번 highlight (빨강 매치가 사라진 경우 복구)
             let fullRange = NSRange(location: 0, length: textStorage.length)
             textStorage.removeAttribute(.foregroundColor, range: fullRange)
             textStorage.addAttribute(.foregroundColor, value: UIColor.label, range: fullRange)
