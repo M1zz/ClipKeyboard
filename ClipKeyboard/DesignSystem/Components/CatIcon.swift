@@ -107,5 +107,7 @@ struct CatIcon: View {
                 .foregroundColor(category.foregroundColor(isDark: theme.isDark))
         }
         .frame(width: size, height: size)
+        // 장식 요소 — 부모 행의 accessibilityLabel이 카테고리 정보를 포함하므로 숨김
+        .accessibilityHidden(true)
     }
 }

@@ -27,5 +27,7 @@ struct TagBadge: View {
                 RoundedRectangle(cornerRadius: 4, style: .continuous)
                     .fill(bg)
             )
+            // 부모 행의 accessibilityLabel이 배지 내용을 포함하므로 VoiceOver 개별 탐색 불필요
+            .accessibilityHidden(true)
     }
 }

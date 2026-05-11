@@ -18,6 +18,7 @@ struct ClipSearchField: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(theme.textMuted)
                 .font(.system(size: 15))
+                .accessibilityHidden(true)
 
             TextField(placeholder, text: $text)
                 .textFieldStyle(.plain)
@@ -25,6 +26,8 @@ struct ClipSearchField: View {
                 .font(theme.bodyFont(size: 15))
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
+                .accessibilityLabel(NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
+                .accessibilityHint(NSLocalizedString("메모 제목 또는 내용으로 검색합니다", comment: "Search field accessibility hint"))
 
             if !text.isEmpty {
                 Button {
@@ -35,6 +38,7 @@ struct ClipSearchField: View {
                         .font(.system(size: 15))
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
             }
         }
         .padding(.horizontal, 14)

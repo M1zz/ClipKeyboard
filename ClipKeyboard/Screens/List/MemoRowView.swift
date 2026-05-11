@@ -15,7 +15,12 @@ struct MemoRowView: View {
     let fontSize: CGFloat
     var showFavoriteNudge: Bool = false
 
+    // VoiceOver 커스텀 액션 콜백 — 부모(ClipKeyboardList)에서 주입
+    var onFavoriteToggle: (() -> Void)? = nil
+    var onDelete: (() -> Void)? = nil
+
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -47,6 +52,7 @@ struct MemoRowView: View {
                         Image(systemName: "lock.fill")
                             .font(.system(size: 10))
                             .foregroundColor(theme.textFaint)
+                            .accessibilityHidden(true)
                     }
                 }
 
@@ -57,9 +63,6 @@ struct MemoRowView: View {
                         .foregroundColor(theme.textMuted)
                         .lineLimit(1)
                         .truncationMode(.tail)
-                        .accessibilityLabel(
-                            MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
-                        )
                 }
 
                 HStack(spacing: 8) {
@@ -79,13 +82,100 @@ struct MemoRowView: View {
                 Image(systemName: "heart.fill")
                     .font(.system(size: 14))
                     .foregroundColor(.pink)
+                    .accessibilityHidden(true)  // 합성 라벨에 포함됨
             }
 
             if showFavoriteNudge {
-                FavoriteNudgeHeart()
+                FavoriteNudgeHeart(reduceMotion: reduceMotion)
             }
         }
+        // MARK: - Accessibility
+        // 행 전체를 단일 요소로 묶어 VoiceOver가 자연스러운 순서로 읽도록 함
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(voiceOverLabel)
+        .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Memo row accessibility hint"))
+        .accessibilityAddTraits(.isButton)
+        .accessibilityCustomActions(voiceOverActions)
     }
+
+    // MARK: - Accessibility Label
+
+    private var voiceOverLabel: String {
+        var parts: [String] = []
+
+        // 1. 카테고리 (위치 컨텍스트)
+        if let type = resolvedType {
+            parts.append(type.localizedName)
+        } else {
+            let cat = ClipCategory.from(itemType: nil)
+            parts.append(cat.localizedLabel)
+        }
+
+        // 2. 제목
+        parts.append(memo.title)
+
+        // 3. 상태 배지
+        if memo.isSecure {
+            parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge"))
+        }
+        if memo.isTemplate {
+            parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge"))
+        }
+        if !memo.isTemplate && memo.attachedTemplateId != nil {
+            parts.append(NSLocalizedString("옵션 템플릿 연결됨", comment: "VoiceOver: attached template badge"))
+        }
+        if memo.isCombo {
+            parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge"))
+        }
+        if memo.isFavorite {
+            parts.append(NSLocalizedString("즐겨찾기", comment: "VoiceOver: favorite badge"))
+        }
+        if memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400 {
+            parts.append(NSLocalizedString("새로 추가됨", comment: "VoiceOver: new memo badge"))
+        }
+
+        // 4. 내용 미리보기 (MemoPreviewFormatter의 접근성 텍스트 활용)
+        let preview = MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: resolvedType)
+        if !preview.isEmpty { parts.append(preview) }
+
+        // 5. 사용 시간
+        if let relative = relativeTimeLabel {
+            parts.append(relative)
+        }
+
+        return parts.joined(separator: ", ")
+    }
+
+    // MARK: - VoiceOver Custom Actions
+    // 스와이프 액션과 동일한 기능을 VoiceOver 커스텀 액션으로 노출.
+    // 롤러(rotor) 없이도 VoiceOver 사용자가 컨텍스트 메뉴 기능 접근 가능.
+
+    private var voiceOverActions: [AccessibilityCustomAction] {
+        var actions: [AccessibilityCustomAction] = []
+
+        if let onFavoriteToggle {
+            let label = memo.isFavorite
+                ? NSLocalizedString("즐겨찾기 해제", comment: "VoiceOver action: remove favorite")
+                : NSLocalizedString("즐겨찾기 추가", comment: "VoiceOver action: add favorite")
+            actions.append(AccessibilityCustomAction(name: label) {
+                onFavoriteToggle()
+                return true
+            })
+        }
+
+        if let onDelete {
+            actions.append(AccessibilityCustomAction(
+                name: NSLocalizedString("삭제", comment: "VoiceOver action: delete memo")
+            ) {
+                onDelete()
+                return true
+            })
+        }
+
+        return actions
+    }
+
+    // MARK: - Leading Icon
 
     /// 좌측 아이콘. 이미지 메모면 실제 이미지 썸네일을, 아니면 카테고리 CatIcon을 보여준다.
     @ViewBuilder
@@ -103,6 +193,7 @@ struct MemoRowView: View {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .stroke(theme.divider, lineWidth: 0.5)
                 )
+                .accessibilityHidden(true)
         } else {
             CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
         }
@@ -112,37 +203,8 @@ struct MemoRowView: View {
     }
 
     /// 현재 메모에 적용할 타입 결정.
-    /// ClipboardClassificationService의 메모이즈된 resolver를 사용한다.
-    /// - 명시 카테고리 매칭 → autoDetectedType → contentType(이미지) → 콘텐츠 기반 자동분류
-    /// - 결과는 in-memory 캐시되며 memo.value가 바뀔 때만 재계산된다.
     private var resolvedType: ClipboardItemType? {
         ClipboardClassificationService.shared.resolvedType(for: memo)
-    }
-
-    /// 카테고리 아이콘
-    private var categoryIcon: Image {
-        if let type = resolvedType {
-            return Image(systemName: type.icon)
-        }
-        return Image(systemName: "doc.text")
-    }
-
-    /// 카테고리 색상
-    private var categoryColor: Color {
-        if let type = resolvedType {
-            return Color.fromName(type.color)
-        }
-        return .gray
-    }
-
-    /// 카테고리명을 다국어 지원 이름으로 변환
-    private func categoryLocalizedName(_ category: String) -> String {
-        // 카테고리가 ClipboardItemType의 rawValue와 일치하는지 확인
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == category }) {
-            return type.localizedName
-        }
-        // 일치하지 않으면 카테고리명을 그대로 번역 시도
-        return NSLocalizedString(category, comment: "Category name")
     }
 
     // MARK: - Time / Usage Signals
@@ -152,39 +214,37 @@ struct MemoRowView: View {
         let reference = memo.lastUsedAt ?? memo.lastEdited
         let interval = Date().timeIntervalSince(reference)
         guard interval >= 0 else { return nil }
-        // 30일 이상 지나면 노이즈가 돼서 숨김.
         if interval > 60 * 60 * 24 * 30 { return nil }
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
         return formatter.localizedString(for: reference, relativeTo: Date())
     }
-
 }
 
 // MARK: - Favorite Nudge Heart Animation
 
 /// 즐겨찾기 넛지 하트 애니메이션 뷰
-/// 오른쪽 밖에서 spring으로 튀어나오고 3초 후 fade out
+/// reduceMotion ON: 페이드만, OFF: spring으로 튀어나오고 3초 후 fade out
 struct FavoriteNudgeHeart: View {
+    let reduceMotion: Bool
     @State private var appear = false
 
     var body: some View {
         Image(systemName: "heart.fill")
             .font(.system(size: 20))
             .foregroundColor(.pink)
-            .offset(x: appear ? 0 : 40)
             .opacity(appear ? 1 : 0)
-            .scaleEffect(appear ? 1.0 : 0.5)
+            .offset(x: reduceMotion ? 0 : (appear ? 0 : 40))
+            .scaleEffect(reduceMotion ? 1 : (appear ? 1.0 : 0.5))
             .onAppear {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.4)) {
-                    appear = true
-                }
-                // 3초 후 fade out
+                let animation: Animation = reduceMotion
+                    ? .easeIn(duration: 0.2)
+                    : .spring(response: 0.5, dampingFraction: 0.4)
+                withAnimation(animation) { appear = true }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    withAnimation(.easeOut(duration: 0.5)) {
-                        appear = false
-                    }
+                    withAnimation(.easeOut(duration: 0.4)) { appear = false }
                 }
             }
+            .accessibilityHidden(true)
     }
 }

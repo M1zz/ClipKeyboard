@@ -608,11 +608,23 @@ struct ClipKeyboardList: View {
         Button {
             HapticManager.shared.soft()
             viewModel.copyMemo(memo: memo)
+            // VoiceOver: 복사 완료 음성 알림
+            #if os(iOS)
+            if UIAccessibility.isVoiceOverRunning {
+                let msg = String(
+                    format: NSLocalizedString("%@ 복사됨", comment: "VoiceOver: copied announcement"),
+                    memo.title
+                )
+                UIAccessibility.post(notification: .announcement, argument: msg)
+            }
+            #endif
         } label: {
             MemoRowView(
                 memo: memo,
                 fontSize: fontSize,
-                showFavoriteNudge: viewModel.memos.first?.id == memo.id && viewModel.showFavoriteNudge
+                showFavoriteNudge: viewModel.memos.first?.id == memo.id && viewModel.showFavoriteNudge,
+                onFavoriteToggle: { viewModel.toggleFavorite(memoId: memo.id) },
+                onDelete: { memoToDelete = memo }
             )
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)

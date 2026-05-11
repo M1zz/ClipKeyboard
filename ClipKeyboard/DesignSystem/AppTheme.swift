@@ -219,18 +219,49 @@ struct AppTheme: Equatable {
     // MARK: Font helpers
 
     func displayFont(size: CGFloat, weight: Font.Weight = .bold) -> Font {
-        // Paper: Fraunces-Bold 직접 지정이므로 weight 파라미터 무시하고 custom 폰트 사용
         if let name = displayFontName {
-            return Font.custom(name, size: size)
+            // Dynamic Type: relativeTo .title로 디스플레이 폰트도 접근성 크기에 비례해 스케일
+            return Font.custom(name, size: size, relativeTo: .title)
         }
         return Font.system(size: size, weight: weight, design: .default)
     }
 
     func bodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         if let name = bodyFontName {
-            return Font.custom(name, size: size)
+            // Dynamic Type: 커스텀 폰트를 .body 기준으로 스케일 — 시스템 텍스트 크기 설정 반영
+            return Font.custom(name, size: size, relativeTo: .body)
         }
         return Font.system(size: size, weight: weight)
+    }
+
+    /// Dynamic Type 시맨틱 스타일 기반 폰트.
+    /// 숫자 크기 대신 TextStyle을 직접 지정해 시스템 접근성 크기에 완전히 연동.
+    func bodyFont(style: Font.TextStyle, weight: Font.Weight = .regular) -> Font {
+        if let name = bodyFontName {
+            let baseSize = style.basePointSize
+            return Font.custom(name, size: baseSize, relativeTo: style)
+        }
+        return Font.system(style, weight: weight)
+    }
+}
+
+extension Font.TextStyle {
+    /// HIG 기준 각 텍스트 스타일의 기본 포인트 크기.
+    var basePointSize: CGFloat {
+        switch self {
+        case .largeTitle: return 34
+        case .title:      return 28
+        case .title2:     return 22
+        case .title3:     return 20
+        case .headline:   return 17
+        case .body:       return 17
+        case .callout:    return 16
+        case .subheadline:return 15
+        case .footnote:   return 13
+        case .caption:    return 12
+        case .caption2:   return 11
+        @unknown default: return 17
+        }
     }
 }
 
