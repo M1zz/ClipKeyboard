@@ -65,127 +65,144 @@ struct MemoAdd: View {
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
 
-            ScrollView {
-                VStack(spacing: 28) {
-                    // 📌 1단계: 카테고리(테마) — 무엇을 저장할지 정의
-                    themeSelectionSection
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 28) {
+                        // 📌 1단계: 카테고리(테마) — 무엇을 저장할지 정의
+                        themeSelectionSection
 
-                    // 📌 2단계: 활용사례 도움 토글
-                    usageHelperToggle
+                        // 📌 2단계: 활용사례 도움 — 새 메모이고 내용이 비었을 때만 노출
+                        if memoId == nil && viewModel.value.isEmpty {
+                            usageHelperToggle
+                        }
 
-                    // 📌 3단계: 붙여넣을 내용
-                    if viewModel.isCombo {
-                        comboDescriptionSection
-                    } else {
-                        ContentInputSection(
-                            value: $viewModel.value,
-                            selectedCategory: viewModel.selectedCategory,
-                            isFocused: $isFocused,
-                            autoDetectedType: $viewModel.autoDetectedType,
-                            autoDetectedConfidence: $viewModel.autoDetectedConfidence,
-                            attachedImages: $viewModel.attachedImages,
-                            onNext: {
-                                isFocused = false
-                                // 키보드가 내려간 후 다음 필드 focus (즉시 호출 시 race)
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                    isTitleFocused = true
-                                }
-                            }
-                        )
-                        .toolbar {
-                            ToolbarItemGroup(placement: .keyboard) {
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 8) {
-                                        templateButton(title: NSLocalizedString("날짜", comment: "Date template button"), variable: "{날짜}")
-                                        templateButton(title: NSLocalizedString("시간", comment: "Time template button"), variable: "{시간}")
-                                        templateButton(title: NSLocalizedString("이름", comment: "Name template button"), variable: "{이름}")
-                                        templateButton(title: NSLocalizedString("주소", comment: "Address template button"), variable: "{주소}")
-                                        templateButton(title: NSLocalizedString("전화", comment: "Phone template button"), variable: "{전화}")
-                                    }
-                                }
-
-                                Spacer()
-
-                                // 다음 입력으로 이동
-                                Button {
+                        // 📌 3단계: 붙여넣을 내용
+                        if viewModel.isCombo {
+                            comboDescriptionSection
+                        } else {
+                            ContentInputSection(
+                                value: $viewModel.value,
+                                selectedCategory: viewModel.selectedCategory,
+                                isFocused: $isFocused,
+                                autoDetectedType: $viewModel.autoDetectedType,
+                                autoDetectedConfidence: $viewModel.autoDetectedConfidence,
+                                attachedImages: $viewModel.attachedImages,
+                                onNext: {
                                     isFocused = false
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                         isTitleFocused = true
                                     }
-                                } label: {
-                                    Text(NSLocalizedString("다음", comment: "Next field button"))
-                                        .fontWeight(.semibold)
                                 }
+                            )
+                            .id("contentField")
+                        }
 
-                                Button {
-                                    isFocused = false
-                                } label: {
-                                    Text(NSLocalizedString("완료", comment: "Done button"))
-                                        .fontWeight(.semibold)
+                        // 📌 4단계: 키보드에 표시할 이름
+                        titleInputSection
+
+                        // 📌 5단계: 추가 옵션 (보안, 템플릿, Combo)
+                        additionalOptionsSection
+                        templateSection
+                        comboSection
+                        attachedTemplateSection
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 24)
+                    .padding(.bottom, 24)
+                }
+                // 하단 버튼 영역 — 키보드 바로 위에 딱 붙는 영역
+                .safeAreaInset(edge: .bottom, spacing: 0) {
+                VStack(spacing: 0) {
+                    Divider()
+
+                    // 템플릿 ON + 붙여넣을 내용 포커스일 때만 변수 삽입 버튼 표시
+                    if isFocused && viewModel.isTemplate {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: "{금액}")
+                                templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: "{수량}")
+                                templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: "{이름}")
+                                templateButton(title: NSLocalizedString("날짜", comment: "Date token button"), variable: "{날짜}")
+                                templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: "{시간}")
+                                templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: "{주소}")
+                                templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: "{전화}")
+                            }
+                            .padding(.horizontal, 20)
+                        }
+                        .padding(.vertical, 8)
+                        Divider()
+                    }
+
+                    HStack(spacing: 12) {
+                        Button {
+                            viewModel.reset()
+                        } label: {
+                            HStack {
+                                Image(systemName: "arrow.counterclockwise")
+                                Text(NSLocalizedString("초기화", comment: "Reset"))
+                            }
+                            .font(.callout)
+                            .fontWeight(.medium)
+                            .foregroundColor(theme.textMuted)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .background(theme.surfaceAlt)
+                            .cornerRadius(theme.radiusMd)
+                        }
+
+                        if isFocused {
+                            // 내용 입력 중: 다음 필드(이름)로 이동
+                            Button {
+                                isFocused = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                    isTitleFocused = true
                                 }
+                            } label: {
+                                HStack {
+                                    Text(NSLocalizedString("다음", comment: "Next field button in bottom bar"))
+                                    Image(systemName: "arrow.forward")
+                                }
+                                .font(.callout)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(Color.accentColor)
+                                .cornerRadius(theme.radiusMd)
+                            }
+                        } else {
+                            Button {
+                                viewModel.saveMemo { dismiss() }
+                            } label: {
+                                HStack {
+                                    Image(systemName: "checkmark")
+                                    Text(NSLocalizedString("저장", comment: "Save"))
+                                }
+                                .font(.callout)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(Color.accentColor)
+                                .cornerRadius(theme.radiusMd)
                             }
                         }
                     }
-
-                    // 📌 4단계: 키보드에 표시할 이름
-                    titleInputSection
-
-                    // 📌 5단계: 추가 옵션 (보안, 템플릿, Combo)
-                    additionalOptionsSection
-                    templateSection
-                    comboSection
-                    attachedTemplateSection
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                    .padding(.bottom, 12)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-                .padding(.bottom, 100)
+                .background(theme.surface)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
             }
-
-            // 하단 버튼 영역
-            VStack(spacing: 0) {
-                Divider()
-
-                HStack(spacing: 12) {
-                    Button {
-                        viewModel.reset()
-                    } label: {
-                        HStack {
-                            Image(systemName: "arrow.counterclockwise")
-                            Text(NSLocalizedString("초기화", comment: "Reset"))
+                .onChange(of: isFocused) { focused in
+                    if focused {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            proxy.scrollTo("contentField", anchor: .top)
                         }
-                        .font(.callout)
-                        .fontWeight(.medium)
-                        .foregroundColor(theme.textMuted)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(theme.surfaceAlt)
-                        .cornerRadius(theme.radiusMd)
-                    }
-
-                    Button {
-                        viewModel.saveMemo { dismiss() }
-                    } label: {
-                        HStack {
-                            Image(systemName: "checkmark")
-                            Text(NSLocalizedString("저장", comment: "Save"))
-                        }
-                        .font(.callout)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(Color.accentColor)
-                        .cornerRadius(theme.radiusMd)
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 12)
-                .padding(.bottom, 48)
-            }
-            .background(theme.surface)
-            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
-            .ignoresSafeArea(.keyboard)
-            .zIndex(100)
+            }  // ScrollViewReader
         }
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
 
@@ -1881,8 +1898,12 @@ struct HighlightedTextEditor: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UITextView, context: Context) {
+        context.coordinator.parent = self
         // 외부 binding 변경 동기화 (plain text 비교 — attributedText로 비교 시 false-positive)
-        if uiView.text != text {
+        // placeholder 표시 중이고 실제 text가 비어있으면 uiView.text는 placeholder 문자열 —
+        // 이 경우 동기화 불필요 (refreshPlaceholderIfNeeded가 관리)
+        let isPlaceholderVisible = context.coordinator.isShowingPlaceholder && text.isEmpty
+        if !isPlaceholderVisible && uiView.text != text {
             let savedSelection = uiView.selectedRange
             uiView.attributedText = Self.highlight(text)
             uiView.selectedRange = savedSelection
@@ -1934,7 +1955,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
 
     final class Coordinator: NSObject, UITextViewDelegate, NSTextStorageDelegate {
         var parent: HighlightedTextEditor
-        private var isShowingPlaceholder = false
+        var isShowingPlaceholder = false
 
         init(_ parent: HighlightedTextEditor) {
             self.parent = parent

@@ -40,6 +40,9 @@ struct MemoRowView: View {
                     if memo.isCombo {
                         TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
                     }
+                    if memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400 {
+                        TagBadge(label: NSLocalizedString("New", comment: "Badge: new memo within 24h"), tint: .green)
+                    }
                     if memo.isSecure {
                         Image(systemName: "lock.fill")
                             .font(.system(size: 10))

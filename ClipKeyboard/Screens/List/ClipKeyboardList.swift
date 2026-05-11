@@ -109,18 +109,28 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
-                        // 6. 메모 리스트 — 섹션 헤더 없이 단일 스트림.
-                        //    · recency opacity로 시간감 전달
-                        //    · 날짜 경계에서 초미니멀 divider 삽입
+                        // 6. 메모 리스트 — 단일 스트림.
+                        //    · 즐겨찾기는 최상단에 하나의 "즐겨찾기" 헤더로 묶음 (날짜 구분 없음)
+                        //    · 비즐겨찾기는 날짜 경계에서 초미니멀 divider 삽입
                         //    · 첫 로드 시 stagger enter 애니메이션
                         Section {
                             ForEach(Array(viewModel.memos.enumerated()), id: \.element.id) { index, memo in
                                 let prevMemo = index > 0 ? viewModel.memos[index - 1] : nil
-                                if let dayLabel = dayBoundaryLabel(for: memo, previousMemo: prevMemo) {
-                                    timeDivider(label: dayLabel)
+                                if memo.isFavorite && prevMemo?.isFavorite != true {
+                                    // 첫 즐겨찾기 앞에만 "즐겨찾기" 헤더
+                                    timeDivider(label: NSLocalizedString("Favorites", comment: "Section header: favorites"))
                                         .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 4, trailing: 16))
                                         .listRowBackground(Color.clear)
                                         .listRowSeparator(.hidden)
+                                } else if !memo.isFavorite {
+                                    // 즐겨찾기 → 일반 전환 시 이전 메모를 nil 취급해 첫 날짜 라벨 강제 표시
+                                    let effectivePrev = prevMemo?.isFavorite == true ? nil : prevMemo
+                                    if let dayLabel = dayBoundaryLabel(for: memo, previousMemo: effectivePrev) {
+                                        timeDivider(label: dayLabel)
+                                            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 4, trailing: 16))
+                                            .listRowBackground(Color.clear)
+                                            .listRowSeparator(.hidden)
+                                    }
                                 }
                                 memoRow(memo: memo)
                                     .opacity(recencyOpacity(for: memo) * (hasAppeared ? 1.0 : 0.0))
