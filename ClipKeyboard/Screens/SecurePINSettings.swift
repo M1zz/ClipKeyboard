@@ -27,6 +27,7 @@ struct SecurePINSettings: View {
                         Image(systemName: "lock.shield.fill")
                             .font(.title2)
                             .foregroundColor(.orange)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN section header"))
                             .font(.headline)
                     }
@@ -42,12 +43,15 @@ struct SecurePINSettings: View {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.green)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("보안 PIN이 설정되어 있습니다", comment: "Secure PIN is set"))
                         Spacer()
                         Button(NSLocalizedString("변경", comment: "Change PIN button")) {
                             showPINSetup = true
                         }
                         .font(.system(size: 14))
+                        .accessibilityLabel(NSLocalizedString("PIN 변경", comment: "Change PIN accessibility label"))
+                        .accessibilityHint(NSLocalizedString("새 PIN을 설정합니다", comment: "Change PIN hint"))
                     }
                     Button(role: .destructive) {
                         UserDefaults(suiteName: appGroup)?.removeObject(forKey: pinKey)
@@ -55,20 +59,24 @@ struct SecurePINSettings: View {
                     } label: {
                         HStack(spacing: 6) {
                             Image(systemName: "trash")
+                                .accessibilityHidden(true)
                             Text(NSLocalizedString("PIN 삭제", comment: "Delete PIN button"))
                         }
                         .foregroundColor(.red)
                     }
+                    .accessibilityHint(NSLocalizedString("저장된 보안 PIN을 삭제합니다", comment: "Delete PIN hint"))
                 } else {
                     Button {
                         showPINSetup = true
                     } label: {
                         HStack(spacing: 6) {
                             Image(systemName: "plus.circle")
+                                .accessibilityHidden(true)
                             Text(NSLocalizedString("보안 PIN 설정", comment: "Set secure PIN button"))
                         }
                         .foregroundColor(.blue)
                     }
+                    .accessibilityHint(NSLocalizedString("4자리 보안 PIN을 새로 설정합니다", comment: "Set PIN hint"))
                 }
             }
         }

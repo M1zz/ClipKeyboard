@@ -11,6 +11,7 @@ import SwiftUI
 struct ClipboardList: View {
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var clipboardHistory: [SmartClipboardHistory] = []
     @State private var selectedFilter: ClipboardItemType? = nil
@@ -106,7 +107,7 @@ struct ClipboardList: View {
                     .background(theme.bg)
                     .onChange(of: recentlyAddedId) { newId in
                         if let id = newId {
-                            withAnimation(.easeInOut(duration: 0.5)) {
+                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.5)) {
                                 proxy.scrollTo(id, anchor: .top)
                             }
                         }
@@ -179,7 +180,7 @@ struct ClipboardList: View {
                             .foregroundColor(.white)
 
                         Button(action: {
-                            withAnimation(.spring(response: 0.3)) {
+                            withAnimation(reduceMotion ? nil : .spring(response: 0.3)) {
                                 showToast = false
                             }
                         }) {
@@ -280,11 +281,11 @@ struct ClipboardList: View {
 
     private func highlightNewlyAdded(_ item: SmartClipboardHistory) {
         recentlyAddedId = item.id
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+        withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7)) {
             showToast(message: String(format: NSLocalizedString("📋 새로운 %@ 항목이 추가되었습니다", comment: ""), item.detectedType.localizedName))
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation { recentlyAddedId = nil }
+            withAnimation(reduceMotion ? nil : .default) { recentlyAddedId = nil }
         }
     }
 

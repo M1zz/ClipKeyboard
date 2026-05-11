@@ -24,6 +24,7 @@ struct CategorySettings: View {
                         Image(systemName: "tag.fill")
                             .font(.title2)
                             .foregroundColor(.accentColor)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("Manage categories", comment: "Category settings header"))
                             .font(.headline)
                     }
@@ -92,9 +93,11 @@ struct CategorySettings: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "arrow.counterclockwise")
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("Reset to regional defaults", comment: "Reset categories button"))
                     }
                 }
+                .accessibilityHint(NSLocalizedString("앱 기본 카테고리 목록으로 초기화합니다", comment: "Reset categories hint"))
             }
         }
         .navigationTitle(NSLocalizedString("Categories", comment: "Categories nav title"))
@@ -124,6 +127,7 @@ struct CategorySettings: View {
                     renaming = nil
                 })
                 .textFieldStyle(.roundedBorder)
+                .accessibilityLabel(NSLocalizedString("새 카테고리 이름", comment: "Rename category field"))
                 Button(NSLocalizedString("Done", comment: "Done")) {
                     if store.rename(from: category, to: renameText) {
                         UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -139,6 +143,7 @@ struct CategorySettings: View {
                     Image(systemName: "lock.fill")
                         .font(.caption)
                         .foregroundColor(.secondary)
+                        .accessibilityLabel(NSLocalizedString("기본 카테고리 (삭제 불가)", comment: "Protected category lock icon"))
                 } else {
                     Button {
                         renaming = category
@@ -149,6 +154,8 @@ struct CategorySettings: View {
                             .foregroundColor(.accentColor)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(NSLocalizedString("이름 변경", comment: "Rename category button"))
+                    .accessibilityHint(String(format: NSLocalizedString("%@ 카테고리 이름을 변경합니다", comment: "Rename category hint"), category))
                 }
             }
         }

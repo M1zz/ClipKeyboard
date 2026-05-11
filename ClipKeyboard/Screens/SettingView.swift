@@ -24,12 +24,15 @@ struct SettingView: View {
                         Image(systemName: "checkmark.seal.fill")
                             .font(.title2)
                             .foregroundColor(.green)
+                            .accessibilityHidden(true)
 
                         Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                             .font(.headline)
 
                         Spacer()
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                 }
             } else if ProFeatureManager.isInTrial {
                 Section {
@@ -40,6 +43,7 @@ struct SettingView: View {
                             Image(systemName: "clock.badge.checkmark.fill")
                                 .font(.title2)
                                 .foregroundStyle(.green.gradient)
+                                .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
@@ -55,8 +59,10 @@ struct SettingView: View {
                             Image(systemName: "chevron.right")
                                 .font(.caption)
                                 .foregroundColor(theme.textMuted)
+                                .accessibilityHidden(true)
                         }
                     }
+                    .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
                 }
             } else {
                 Section {
@@ -73,6 +79,7 @@ struct SettingView: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
+                                .accessibilityHidden(true)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
@@ -90,8 +97,10 @@ struct SettingView: View {
                             Image(systemName: "chevron.right")
                                 .font(.caption)
                                 .foregroundColor(theme.textMuted)
+                                .accessibilityHidden(true)
                         }
                     }
+                    .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
                 }
             }
             
@@ -109,8 +118,10 @@ struct SettingView: View {
                         Image(systemName: "arrow.up.forward.app")
                             .font(.caption)
                             .foregroundColor(theme.textMuted)
+                            .accessibilityHidden(true)
                     }
                 }
+                .accessibilityHint(NSLocalizedString("iOS 설정 앱으로 이동합니다", comment: "Open iOS Settings hint"))
 
                 NavigationLink(destination: KeyboardLayoutSettings()) {
                     Text(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"))
@@ -220,7 +231,9 @@ struct SettingView: View {
                             Image(systemName: "macbook")
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundColor(.white)
+                                .accessibilityHidden(true)
                         }
+                        .accessibilityHidden(true)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
@@ -269,12 +282,12 @@ struct SettingView: View {
 /// 설정 → 사용 패턴 진입점. PersonaSelectionView를 settings 모드로 감싸 dismiss 처리.
 struct PersonaSettingsContainer: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showAppliedToast = false
 
     var body: some View {
         PersonaSelectionView(onContinue: {
             showAppliedToast = true
-            // 토스트 잠깐 보여준 뒤 닫기
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                 dismiss()
             }
@@ -294,9 +307,16 @@ struct PersonaSettingsContainer: View {
                     .clipShape(Capsule())
                     .padding(.bottom, 60)
                     .transition(.opacity)
+                    .accessibilityHidden(true)
             }
         }
-        .animation(.easeInOut(duration: 0.2), value: showAppliedToast)
+        .onChange(of: showAppliedToast) { visible in
+            if visible {
+                UIAccessibility.post(notification: .announcement,
+                    argument: NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
+            }
+        }
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: showAppliedToast)
     }
 }
 
@@ -324,6 +344,7 @@ struct CopyPasteView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "gear")
                             .foregroundColor(.blue)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("설정", comment: "Settings"))
                             .fontWeight(.medium)
                     }
@@ -332,10 +353,12 @@ struct CopyPasteView: View {
                         .font(.caption)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
+                        .accessibilityHidden(true)
 
                     HStack(spacing: 8) {
                         Image(systemName: "app.fill")
                             .foregroundColor(.blue)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
@@ -344,10 +367,12 @@ struct CopyPasteView: View {
                         .font(.caption)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
+                        .accessibilityHidden(true)
 
                     HStack(spacing: 8) {
                         Image(systemName: "doc.on.clipboard")
                             .foregroundColor(.blue)
+                            .accessibilityHidden(true)
                         Text(NSLocalizedString("다른 앱에서 붙여넣기", comment: "Paste from other apps"))
                             .fontWeight(.medium)
                     }
@@ -459,9 +484,7 @@ struct ReviewWriteView: View {
 
             Section {
                 Button(action: {
-                    // StoreKit의 in-app 리뷰 요청 (iOS 14+)
                     requestReview()
-                    // 1초 후 화면 닫기
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         dismiss()
                     }
@@ -469,6 +492,7 @@ struct ReviewWriteView: View {
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
+                            .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(NSLocalizedString("앱 내에서 리뷰 작성", comment: "In-app review button"))
                                 .font(.headline)
@@ -481,13 +505,13 @@ struct ReviewWriteView: View {
                         Image(systemName: "chevron.right")
                             .font(.caption)
                             .foregroundColor(theme.textMuted)
+                            .accessibilityHidden(true)
                     }
                     .padding(.vertical, 4)
                 }
 
                 Button(action: {
                     dismiss()
-                    // App Store 리뷰 페이지로 직접 이동
                     if let url = URL(string: Constants.appStoreReviewURL) {
                         #if os(iOS)
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -499,6 +523,7 @@ struct ReviewWriteView: View {
                     HStack {
                         Image(systemName: "link")
                             .foregroundColor(.blue)
+                            .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(NSLocalizedString("App Store에서 리뷰 작성", comment: "App Store review button"))
                                 .font(.headline)
@@ -511,9 +536,11 @@ struct ReviewWriteView: View {
                         Image(systemName: "arrow.up.forward.app")
                             .font(.caption)
                             .foregroundColor(theme.textMuted)
+                            .accessibilityHidden(true)
                     }
                     .padding(.vertical, 4)
                 }
+                .accessibilityHint(NSLocalizedString("App Store 페이지로 이동합니다", comment: "Open App Store hint"))
             } footer: {
                 Text(NSLocalizedString("리뷰는 다른 사용자에게 앱을 추천하는 데 도움이 되며, 개발자에게는 큰 힘이 됩니다.", comment: "Review footer message"))
                     .font(.caption)

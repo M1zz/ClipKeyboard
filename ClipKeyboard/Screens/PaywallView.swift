@@ -13,6 +13,7 @@ import StoreKit
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject private var store = StoreManager.shared
     
     /// 어떤 제한 때문에 보여주는지 (nil이면 일반 업그레이드)
@@ -235,7 +236,7 @@ struct PaywallView: View {
                     Task {
                         let success = await store.purchasePro(triggeredBy: triggeredBy?.analyticsKey)
                         if success {
-                            withAnimation(.spring(response: 0.4)) {
+                            withAnimation(reduceMotion ? nil : .spring(response: 0.4)) {
                                 showSuccessAnimation = true
                             }
                             #if os(iOS)
@@ -297,7 +298,7 @@ struct PaywallView: View {
             if started {
                 AnalyticsService.logTrialStarted(triggeredBy: triggeredBy?.analyticsKey)
                 trialTick &+= 1
-                withAnimation(.spring(response: 0.4)) {
+                withAnimation(reduceMotion ? nil : .spring(response: 0.4)) {
                     showSuccessAnimation = true
                 }
                 Task {

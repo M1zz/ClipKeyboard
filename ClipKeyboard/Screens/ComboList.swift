@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ComboList: View {
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var combos: [Combo] = []
     @State private var showAddCombo = false
     @State private var showToast = false
@@ -26,10 +27,8 @@ struct ComboList: View {
                     List {
                         ForEach(combos) { combo in
                             ComboRowView(combo: combo) {
-                                // 실행
                                 executeCombo(combo)
                             } onEdit: {
-                                // 편집
                                 editingCombo = combo
                             }
                         }
@@ -47,11 +46,12 @@ struct ComboList: View {
                         Button {
                             addTestData()
                         } label: {
-                            Label("테스트 데이터 추가", systemImage: "wand.and.stars")
+                            Label(NSLocalizedString("테스트 데이터 추가", comment: "Add test data"), systemImage: "wand.and.stars")
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
+                    .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu"))
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -65,6 +65,8 @@ struct ComboList: View {
                         Image(systemName: "plus.circle.fill")
                             .font(.title3)
                     }
+                    .accessibilityLabel(NSLocalizedString("새 Combo 추가", comment: "Add new combo button"))
+                    .accessibilityHint(NSLocalizedString("새로운 Combo를 만듭니다", comment: "Add combo button hint"))
                 }
             }
             .sheet(isPresented: $showAddCombo) {
@@ -94,6 +96,12 @@ struct ComboList: View {
                     ToastView(message: toastMessage)
                         .padding(.bottom, 50)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .accessibilityHidden(true)
+                }
+            }
+            .onChange(of: showToast) { visible in
+                if visible {
+                    UIAccessibility.post(notification: .announcement, argument: toastMessage)
                 }
             }
             .onAppear {
@@ -141,11 +149,11 @@ struct ComboList: View {
 
     private func showToast(message: String) {
         toastMessage = message
-        withAnimation {
+        withAnimation(reduceMotion ? nil : .default) {
             showToast = true
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            withAnimation {
+            withAnimation(reduceMotion ? nil : .default) {
                 showToast = false
             }
         }
@@ -196,6 +204,7 @@ struct EmptyComboView: View {
             Image(systemName: "arrow.triangle.2.circlepath.circle")
                 .font(.system(size: 60))
                 .foregroundColor(.gray.opacity(0.5))
+                .accessibilityHidden(true)
 
             Text(NSLocalizedString("Combo가 없습니다", comment: "Empty combo list title"))
                 .font(.title3)
@@ -220,33 +229,43 @@ struct ComboRowView: View {
     let onEdit: () -> Void
     @Environment(\.appTheme) private var theme
 
+    private var rowAccessibilityLabel: String {
+        var parts = [combo.title]
+        if combo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Favorite")) }
+        parts.append(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count))
+        parts.append(String(format: NSLocalizedString("%d초 간격", comment: ""), Int(combo.interval)))
+        if combo.useCount > 0 {
+            parts.append(String(format: NSLocalizedString("%d회 사용", comment: ""), combo.useCount))
+        }
+        return parts.joined(separator: ", ")
+    }
+
     var body: some View {
         Button(action: onEdit) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    // 타이틀
                     Text(combo.title)
                         .font(.headline)
 
                     Spacer()
 
-                    // 즐겨찾기
                     if combo.isFavorite {
                         Image(systemName: "star.fill")
                             .font(.caption)
                             .foregroundColor(.yellow)
+                            .accessibilityHidden(true)
                     }
 
-                    // 실행 버튼
+                    // 실행 버튼 — 중첩 버튼이므로 VoiceOver 커스텀 액션으로 노출
                     Button(action: onExecute) {
                         Image(systemName: "play.circle.fill")
                             .font(.title3)
                             .foregroundColor(.blue)
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .accessibilityHidden(true)
                 }
 
-                // 항목 수 및 간격 정보
                 HStack(spacing: 12) {
                     Label(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count), systemImage: "list.bullet")
                         .font(.caption)
@@ -262,8 +281,8 @@ struct ComboRowView: View {
                             .foregroundColor(theme.textMuted)
                     }
                 }
+                .accessibilityHidden(true)
 
-                // 항목 미리보기 (최대 3개)
                 if !combo.items.isEmpty {
                     HStack(spacing: 4) {
                         ForEach(combo.items.prefix(3)) { item in
@@ -276,11 +295,22 @@ struct ComboRowView: View {
                                 .foregroundColor(theme.textMuted)
                         }
                     }
+                    .accessibilityHidden(true)
                 }
             }
             .padding(.vertical, 4)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(rowAccessibilityLabel)
+        .accessibilityHint(NSLocalizedString("탭하면 편집 화면을 엽니다", comment: "Combo row edit hint"))
+        .accessibilityCustomActions([
+            AccessibilityCustomAction(
+                name: NSLocalizedString("실행", comment: "Execute combo action")
+            ) {
+                onExecute()
+                return true
+            }
+        ])
     }
 }
 
@@ -363,13 +393,15 @@ struct ComboAddEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("기본 정보") {
-                    TextField("Combo 이름", text: $title)
+                Section(NSLocalizedString("기본 정보", comment: "Basic info section header")) {
+                    TextField(NSLocalizedString("Combo 이름", comment: "Combo name placeholder"), text: $title)
+                        .accessibilityLabel(NSLocalizedString("Combo 이름", comment: "Combo name field"))
+                        .accessibilityHint(NSLocalizedString("Combo의 이름을 입력합니다", comment: "Combo name hint"))
 
                     HStack {
                         Text(NSLocalizedString("간격", comment: "Interval label"))
                         Spacer()
-                        Picker("", selection: $interval) {
+                        Picker(NSLocalizedString("간격", comment: "Interval picker label"), selection: $interval) {
                             Text(NSLocalizedString("1초", comment: "1 second")).tag(1.0)
                             Text(NSLocalizedString("2초", comment: "2 seconds")).tag(2.0)
                             Text(NSLocalizedString("3초", comment: "3 seconds")).tag(3.0)
@@ -378,7 +410,7 @@ struct ComboAddEditView: View {
                         .pickerStyle(.menu)
                     }
 
-                    Toggle("즐겨찾기", isOn: $isFavorite)
+                    Toggle(NSLocalizedString("즐겨찾기", comment: "Favorite toggle"), isOn: $isFavorite)
                 }
 
                 Section {
@@ -390,6 +422,7 @@ struct ComboAddEditView: View {
                             HStack {
                                 Image(systemName: "line.3.horizontal")
                                     .foregroundColor(theme.textFaint)
+                                    .accessibilityHidden(true)
                                 ComboItemChip(item: item)
                                 Spacer()
                                 if let title = item.displayTitle {
@@ -399,7 +432,6 @@ struct ComboAddEditView: View {
                                         .lineLimit(1)
                                 }
 
-                                // 템플릿인 경우 편집 버튼
                                 if item.type == .template {
                                     Button {
                                         editTemplateItem(item)
@@ -408,6 +440,7 @@ struct ComboAddEditView: View {
                                             .foregroundColor(.blue)
                                     }
                                     .buttonStyle(PlainButtonStyle())
+                                    .accessibilityLabel(NSLocalizedString("플레이스홀더 편집", comment: "Edit template placeholders"))
                                 }
                             }
                         }
@@ -415,9 +448,10 @@ struct ComboAddEditView: View {
                         .onDelete(perform: deleteItem)
                     }
 
-                    Button("항목 추가") {
+                    Button(NSLocalizedString("항목 추가", comment: "Add item button")) {
                         showItemPicker = true
                     }
+                    .accessibilityHint(NSLocalizedString("메모, 클립보드 항목, 템플릿을 Combo에 추가합니다", comment: "Add item hint"))
                 } header: {
                     Text(NSLocalizedString("항목 (\(selectedItems.count)개)", comment: "Items count header"))
                 } footer: {
@@ -427,17 +461,17 @@ struct ComboAddEditView: View {
                     }
                 }
             }
-            .navigationTitle(combo == nil ? "Combo 추가" : "Combo 편집")
+            .navigationTitle(combo == nil ? NSLocalizedString("Combo 추가", comment: "Add combo title") : NSLocalizedString("Combo 편집", comment: "Edit combo title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") {
+                    Button(NSLocalizedString("취소", comment: "Cancel button")) {
                         dismiss()
                     }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("저장") {
+                    Button(NSLocalizedString("저장", comment: "Save button")) {
                         saveCombo()
                     }
                     .disabled(title.isEmpty || selectedItems.isEmpty)

@@ -10,6 +10,7 @@ import SwiftUI
 struct ReviewBannerView: View {
     @State private var isVisible = true
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         if ReviewManager.shared.shouldShowBanner && isVisible {
@@ -49,21 +50,23 @@ struct ReviewBannerView: View {
         Button(NSLocalizedString("App Store에서 평가", comment: "Rate on App Store button")) {
             openAppStoreReview()
             ReviewManager.shared.dismissBannerPermanently()
-            withAnimation { isVisible = false }
+            withAnimation(reduceMotion ? nil : .default) { isVisible = false }
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.regular)
         .frame(maxWidth: .infinity)
+        .accessibilityHint(NSLocalizedString("App Store 리뷰 페이지로 이동합니다", comment: "Rate button hint"))
     }
 
     private var laterButton: some View {
         Button(NSLocalizedString("나중에", comment: "Maybe later button")) {
             ReviewManager.shared.dismissBannerTemporarily()
-            withAnimation { isVisible = false }
+            withAnimation(reduceMotion ? nil : .default) { isVisible = false }
         }
         .buttonStyle(.bordered)
         .controlSize(.regular)
         .frame(maxWidth: .infinity)
+        .accessibilityHint(NSLocalizedString("배너를 잠시 숨깁니다", comment: "Maybe later button hint"))
     }
 
     private func openAppStoreReview() {
