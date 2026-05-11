@@ -312,6 +312,12 @@ struct MemoAdd: View {
                     }
             }
         }
+        .navigationTitle(memoId == nil
+            ? NSLocalizedString("새 메모", comment: "New memo navigation title")
+            : NSLocalizedString("메모 수정", comment: "Edit memo navigation title"))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     // MARK: - View Sections
