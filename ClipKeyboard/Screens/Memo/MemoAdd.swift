@@ -38,7 +38,7 @@ struct MemoAdd: View {
 
     // MARK: - View-only State
 
-    @FocusState private var isFocused: Bool
+    @State private var isFocused: Bool = false
     /// v4.0.8: 멀티 필드 focus — 키보드 toolbar "다음" 버튼이 내용 → 제목으로 이동
     @FocusState private var isTitleFocused: Bool
     @Environment(\.dismiss) private var dismiss
@@ -1079,7 +1079,7 @@ struct PlaceholderValueEditor: View {
 struct ContentInputSection: View {
     @Binding var value: String
     let selectedCategory: String
-    @FocusState.Binding var isFocused: Bool
+    @Binding var isFocused: Bool
     @Binding var autoDetectedType: ClipboardItemType?
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
@@ -1269,10 +1269,7 @@ struct ContentInputSection: View {
                     text: $value,
                     placeholder: placeholderText,
                     keyboardType: keyboardTypeForTheme,
-                    isFocused: Binding(
-                        get: { isFocused },
-                        set: { isFocused = $0 }
-                    )
+                    isFocused: $isFocused
                 )
                 .frame(minHeight: 60, maxHeight: 240)
                 .padding(.horizontal, 4)
@@ -1294,7 +1291,6 @@ struct ContentInputSection: View {
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
-                    .focused($isFocused)
                     .onChange(of: value) { newValue in
                         if !newValue.isEmpty {
                             let classification = ClipboardClassificationService.shared.classify(content: newValue)
