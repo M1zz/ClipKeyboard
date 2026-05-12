@@ -46,6 +46,7 @@ struct TemplateEditSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel")) { onCancel() }
+                        .accessibilityHint(NSLocalizedString("변경을 취소하고 닫습니다", comment: "Cancel template edit hint"))
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(NSLocalizedString("복사", comment: "Copy")) {
@@ -53,6 +54,7 @@ struct TemplateEditSheet: View {
                         onCopy(previewText)
                     }
                     .fontWeight(.semibold)
+                    .accessibilityHint(NSLocalizedString("미리보기 텍스트를 클립보드에 복사합니다", comment: "Copy template button hint"))
                 }
             }
         }
@@ -81,6 +83,9 @@ struct TemplateEditSheet: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.blue)
                 }
+                .accessibilityHint(isEditingText
+                    ? NSLocalizedString("편집을 완료하고 미리보기에 반영합니다", comment: "Done editing template hint")
+                    : NSLocalizedString("템플릿 내용을 직접 수정합니다", comment: "Edit template content hint"))
             }
 
             if isEditingText {
@@ -90,6 +95,8 @@ struct TemplateEditSheet: View {
                     .padding(12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(12)
+                    .accessibilityLabel(NSLocalizedString("템플릿 내용 편집", comment: "Template content editor label"))
+                    .accessibilityHint(NSLocalizedString("내용을 수정 후 완료를 눌러 저장합니다", comment: "Template editor hint"))
             } else {
                 Text(memo.value)
                     .font(.body)
@@ -388,6 +395,7 @@ struct TemplatePlaceholderRow: View {
     let templateTitle: String
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var values: [PlaceholderValue] = []
     @State private var showDeleteConfirm: PlaceholderValue? = nil
     @State private var editingValue: PlaceholderValue? = nil
@@ -459,7 +467,7 @@ struct TemplatePlaceholderRow: View {
         .background(theme.surface)
         .contentShape(Rectangle())
         .onTapGesture {
-            withAnimation(.spring(response: 0.3)) { isExpanded.toggle() }
+            withAnimation(reduceMotion ? nil : .spring(response: 0.3)) { isExpanded.toggle() }
         }
     }
 

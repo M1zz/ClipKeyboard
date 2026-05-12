@@ -344,7 +344,7 @@ struct ClipKeyboardList: View {
                 detectedType: viewModel.clipboardDetectedType,
                 confidence: viewModel.clipboardConfidence,
                 onDismiss: {
-                    withAnimation(.easeOut(duration: 0.25)) {
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
                         viewModel.dismissClipboardCapture()
                     }
                 },

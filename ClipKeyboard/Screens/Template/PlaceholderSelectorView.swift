@@ -62,17 +62,22 @@ struct PlaceholderSelectorView: View {
                     HStack(spacing: 8) {
                         ForEach(values) { placeholderValue in
                             HStack(spacing: 6) {
+                                let isSelected = selectedValue == placeholderValue.value
                                 Button {
                                     selectedValue = placeholderValue.value
                                 } label: {
                                     Text(placeholderValue.value)
-                                        .font(.system(size: 14, weight: selectedValue == placeholderValue.value ? .semibold : .regular))
+                                        .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 8)
-                                        .background(selectedValue == placeholderValue.value ? Color.blue : theme.surfaceAlt)
-                                        .foregroundColor(selectedValue == placeholderValue.value ? .white : .primary)
+                                        .background(isSelected ? Color.blue : theme.surfaceAlt)
+                                        .foregroundColor(isSelected ? .white : .primary)
                                         .cornerRadius(16)
                                 }
+                                .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+                                .accessibilityHint(isSelected
+                                    ? NSLocalizedString("현재 선택됨", comment: "Filter chip: currently selected")
+                                    : NSLocalizedString("탭하면 이 값으로 설정됩니다", comment: "Placeholder value chip hint"))
 
                                 Button {
                                     showDeleteConfirm = placeholderValue
@@ -81,6 +86,8 @@ struct PlaceholderSelectorView: View {
                                         .font(.system(size: 14))
                                         .foregroundColor(.red)
                                 }
+                                .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), placeholderValue.value))
+                                .accessibilityHint(NSLocalizedString("이 저장된 값을 삭제합니다", comment: "Delete placeholder value hint"))
                             }
                         }
                     }
@@ -119,6 +126,7 @@ struct PlaceholderSelectorView: View {
                         .cornerRadius(8)
                 }
                 .disabled(newValue.isEmpty)
+                .accessibilityHint(NSLocalizedString("새 값을 목록에 추가합니다", comment: "Add value button hint"))
             }
         }
         .padding()

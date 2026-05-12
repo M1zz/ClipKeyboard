@@ -323,7 +323,11 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
-        .accessibilityLabel(NSLocalizedString("Show favorites only", comment: "Toggle favorites filter"))
+        .accessibilityLabel(NSLocalizedString("즐겨찾기만 보기", comment: "Toggle favorites filter"))
+        .accessibilityValue(showFavoritesOnly
+            ? NSLocalizedString("켬", comment: "Toggle state: on")
+            : NSLocalizedString("끔", comment: "Toggle state: off"))
+        .accessibilityHint(NSLocalizedString("즐겨찾기 메모만 표시하거나 전체를 표시합니다", comment: "Favorites toggle hint"))
     }
 
     private func modeIconTab(icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
@@ -354,6 +358,8 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(NSLocalizedString("전체 삭제", comment: "Clear all text"))
+        .accessibilityHint(NSLocalizedString("현재 입력된 텍스트를 모두 지웁니다", comment: "Clear all button hint"))
     }
 
     @ViewBuilder
@@ -581,6 +587,13 @@ struct KeyboardView: View {
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             isSearching = true
         }
+        .accessibilityLabel(isSearching
+            ? (searchQuery.isEmpty ? NSLocalizedString("검색 중", comment: "Search bar active empty") : searchQuery)
+            : NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
+        .accessibilityHint(isSearching
+            ? NSLocalizedString("x 버튼을 탭하면 검색을 닫습니다", comment: "Search bar active hint")
+            : NSLocalizedString("탭하면 메모를 검색합니다", comment: "Search bar hint"))
+        .accessibilityAddTraits(isSearching ? [] : .isButton)
     }
 
     // MARK: - Empty State
@@ -840,6 +853,34 @@ struct KeyboardView: View {
             } preview: {
                 memoLongPressPreview(memo: memo)
             }
+            .accessibilityLabel(memoAccessibilityLabel(for: memo))
+            .accessibilityHint(memoAccessibilityHint(for: memo))
+        }
+    }
+
+    private func memoAccessibilityLabel(for memo: Memo) -> String {
+        var parts: [String] = [memo.title]
+        if memo.isSecure { parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge")) }
+        if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
+        if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
+        if memo.contentType == .image || memo.contentType == .mixed {
+            parts.append(NSLocalizedString("이미지 메모", comment: "VoiceOver: image memo"))
+        } else if !memo.value.isEmpty {
+            let preview = String(memo.value.prefix(40))
+            parts.append(preview)
+        }
+        return parts.joined(separator: ", ")
+    }
+
+    private func memoAccessibilityHint(for memo: Memo) -> String {
+        if memo.isTemplate {
+            return NSLocalizedString("탭하면 변수 값을 입력 후 붙여넣기합니다", comment: "Template memo button hint")
+        } else if memo.isCombo {
+            return NSLocalizedString("탭할 때마다 다음 값이 순서대로 입력됩니다", comment: "Combo memo button hint")
+        } else if memo.isSecure {
+            return NSLocalizedString("탭하면 PIN 인증 후 붙여넣기합니다", comment: "Secure memo button hint")
+        } else {
+            return NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Clipboard item copy hint")
         }
     }
 
@@ -871,6 +912,8 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(PlainButtonStyle())
+            .accessibilityLabel(memo.title)
+            .accessibilityHint(NSLocalizedString("탭하면 메모 내용만 붙여넣기합니다", comment: "Split button: memo only hint"))
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
@@ -886,6 +929,7 @@ struct KeyboardView: View {
             catColor.opacity(0.3)
                 .frame(width: 1)
                 .padding(.vertical, 8)
+                .accessibilityHidden(true)
 
             // 오른쪽: 템플릿 포함 입력
             Button {
@@ -906,6 +950,8 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(PlainButtonStyle())
+            .accessibilityLabel(String(format: NSLocalizedString("%@ +템플릿", comment: "Split button: with template label"), memo.title))
+            .accessibilityHint(NSLocalizedString("탭하면 연결된 템플릿 변수를 채워 붙여넣기합니다", comment: "Split button: template hint"))
         }
         .frame(height: buttonHeight)
         .background(keyColor)

@@ -43,6 +43,7 @@ struct MemoAdd: View {
     @FocusState private var isTitleFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showNewTemplateSheet = false
     /// v4.0.8: 활용사례 도움 시트 토글
     @State private var showUsageHelperSheet = false
@@ -197,7 +198,7 @@ struct MemoAdd: View {
             }
                 .onChange(of: isFocused) { focused in
                     if focused {
-                        withAnimation(.easeInOut(duration: 0.3)) {
+                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.3)) {
                             proxy.scrollTo("contentField", anchor: .top)
                         }
                     }
@@ -883,7 +884,7 @@ struct MemoAdd: View {
                                 Spacer()
 
                                 Button {
-                                    withAnimation {
+                                    withAnimation(reduceMotion ? nil : .default) {
                                         viewModel.removeComboValue(at: index)
                                     }
                                 } label: {
@@ -1156,6 +1157,7 @@ struct ContentInputSection: View {
     var onNext: (() -> Void)? = nil
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// v4.0.8: 현재 value가 카테고리의 샘플 값과 동일한지 — 매번 판정.
     /// 사용자가 수정하면 자동으로 false. 우연히 샘플과 같아지면 다시 true (드문 케이스).
@@ -1250,7 +1252,7 @@ struct ContentInputSection: View {
                             }
 
                             Button {
-                                withAnimation {
+                                withAnimation(reduceMotion ? nil : .default) {
                                     attachedImages.removeAll()
                                 }
                             } label: {
@@ -1372,7 +1374,7 @@ struct ContentInputSection: View {
         .sheet(isPresented: $showImagePicker) {
             ImagePickerView { image in
                 if let image = image {
-                    withAnimation {
+                    withAnimation(reduceMotion ? nil : .default) {
                         attachedImages.append(ImageWrapper(image: image))
                     }
                 }
@@ -1410,7 +1412,7 @@ struct ContentInputSection: View {
             ?? UIPasteboard.general.data(forPasteboardType: "public.jpeg").flatMap(UIImage.init)
 
         if let image {
-            withAnimation { attachedImages.append(ImageWrapper(image: image)) }
+            withAnimation(reduceMotion ? nil : .default) { attachedImages.append(ImageWrapper(image: image)) }
             showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
         } else {
             showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
@@ -1655,6 +1657,7 @@ enum EmojiCategory: String, CaseIterable {
 struct EmojiPicker: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var selectedCategory: EmojiCategory = .smileys
 
     let onEmojiSelected: (String) -> Void
@@ -1674,7 +1677,7 @@ struct EmojiPicker: View {
                                     category: category,
                                     isSelected: selectedCategory == category
                                 ) {
-                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                    withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
                                         selectedCategory = category
                                     }
                                 }
@@ -1945,6 +1948,8 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.keyboardType = keyboardType
         tv.textStorage.delegate = context.coordinator
         tv.attributedText = Self.highlight(text)
+        tv.accessibilityLabel = NSLocalizedString("내용", comment: "Content section header")
+        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. {변수명} 형식으로 템플릿 변수를 추가할 수 있습니다.", comment: "Content input field hint")
         return tv
     }
 
