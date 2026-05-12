@@ -47,15 +47,15 @@ class DataManager: ObservableObject {
         let savedOnboarding = UserDefaults.standard.bool(forKey: "onboarding")
         print("📖 [DataManager] 온보딩 상태 로드: \(savedOnboarding)")
 
-        textEntries = UserDefaults(suiteName: AppConfig.appGroup)!.stringArray(forKey: "entries") ?? [String]()
+        textEntries = AppConfig.sharedDefaults?.stringArray(forKey: "entries") ?? []
         print("📖 [DataManager] textEntries 로드 완료: \(textEntries.count)개")
         print("✅ [DataManager] init() 완료")
     }
-    
+
     /// Save text entries to `UserDefaults`
     private func saveTextEntries() {
-        UserDefaults(suiteName: AppConfig.appGroup)!.setValue(textEntries, forKey: "entries")
-        UserDefaults(suiteName: AppConfig.appGroup)!.synchronize()
+        AppConfig.sharedDefaults?.setValue(textEntries, forKey: "entries")
+        AppConfig.sharedDefaults?.synchronize()
     }
 }
 
@@ -64,6 +64,7 @@ class AppConfig {
 
     // MARK: - App Group
     static let appGroup = "group.com.Ysoup.TokenMemo"
+    static let sharedDefaults = UserDefaults(suiteName: appGroup)
     
     /// Custom keyboard background color
     static let keyboardColor = Color(#colorLiteral(red: 0.8392156863, green: 0.8470588235, blue: 0.8745098039, alpha: 1))

@@ -330,17 +330,20 @@ struct Memo: Identifiable, Codable {
         case attachedTemplateId
     }
     
-    static var dummyData: [Memo] = [
-        Memo(title: "계좌번호",
-             value: "123412341234123412341234123412341234123412341234",
-             lastEdited: dateFormatter.date(from: "2023-08-31 10:00:00")!),
-        Memo(title: "부모님 댁 주소",
-             value: "거기 어딘가",
-             lastEdited: dateFormatter.date(from: "2023-08-31 10:00:00")!),
-        Memo(title: "통관번호",
-             value: "p12341234",
-             lastEdited: dateFormatter.date(from: "2023-08-31 10:00:00")!)
-    ]
+    static var dummyData: [Memo] = {
+        let date = dateFormatter.date(from: "2023-08-31 10:00:00") ?? Date()
+        return [
+            Memo(title: "계좌번호",
+                 value: "123412341234123412341234123412341234123412341234",
+                 lastEdited: date),
+            Memo(title: "부모님 댁 주소",
+                 value: "거기 어딘가",
+                 lastEdited: date),
+            Memo(title: "통관번호",
+                 value: "p12341234",
+                 lastEdited: date)
+        ]
+    }()
 }
 
 // MARK: - Combo System (Phase 2)

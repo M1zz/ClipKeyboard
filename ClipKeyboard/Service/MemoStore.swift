@@ -113,7 +113,7 @@ class MemoStore: ObservableObject {
             history = Array(history.prefix(100))
         }
 
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
 
         try saveClipboardHistory(history: history)
@@ -152,7 +152,7 @@ class MemoStore: ObservableObject {
             history = Array(history.prefix(maxHistory))
         }
 
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
 
         try saveSmartClipboardHistory(history: history)
