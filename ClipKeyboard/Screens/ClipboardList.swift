@@ -692,17 +692,17 @@ struct SaveToMemoSheet: View {
                     }
                 }
             }
-            .navigationTitle("메모로 저장")
+            .navigationTitle(NSLocalizedString("메모로 저장", comment: "Save to memo sheet title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") {
+                    Button(NSLocalizedString("취소", comment: "Cancel button")) {
                         onComplete(false)
                     }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("저장") {
+                    Button(NSLocalizedString("저장", comment: "Save button")) {
                         saveToMemo()
                     }
                     .disabled(title.isEmpty)
@@ -746,10 +746,10 @@ struct CreateComboSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Combo 정보") {
-                    TextField("Combo 이름", text: $title)
+                Section(NSLocalizedString("Combo 정보", comment: "Combo info section header")) {
+                    TextField(NSLocalizedString("Combo 이름", comment: "Combo name field placeholder"), text: $title)
 
-                    Picker("자동 복사 간격", selection: $interval) {
+                    Picker(NSLocalizedString("자동 복사 간격", comment: "Auto copy interval picker label"), selection: $interval) {
                         Text(NSLocalizedString("1초", comment: "1 second")).tag(1.0)
                         Text(NSLocalizedString("2초", comment: "2 seconds")).tag(2.0)
                         Text(NSLocalizedString("3초", comment: "3 seconds")).tag(3.0)
@@ -763,17 +763,17 @@ struct CreateComboSheet: View {
                         .foregroundColor(theme.textMuted)
                 }
             }
-            .navigationTitle("Combo 생성")
+            .navigationTitle(NSLocalizedString("Combo 생성", comment: "Create combo sheet title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") {
+                    Button(NSLocalizedString("취소", comment: "Cancel button")) {
                         onCancel()
                     }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("생성") {
+                    Button(NSLocalizedString("생성", comment: "Create button")) {
                         onCreate(title, interval)
                     }
                     .disabled(title.isEmpty)
