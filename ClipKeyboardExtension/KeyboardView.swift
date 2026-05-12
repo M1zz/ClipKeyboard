@@ -1107,6 +1107,7 @@ struct KeyboardView: View {
             return
         }
         UIPasteboard.general.image = image
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title)")
         withAnimation { showImageCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

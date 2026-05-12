@@ -262,6 +262,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("❌ [finalizeCopy] 오류: \(error)")
         }
 
+        // 청각 장애 접근성: 시각적 토스트를 놓쳐도 복사 완료를 인지할 수 있도록 success 햅틱
+        #if os(iOS)
+        HapticManager.shared.success()
+        #endif
+
         let message = memo.contentType == .image
             ? NSLocalizedString("이미지", comment: "Image")
             : processedValue

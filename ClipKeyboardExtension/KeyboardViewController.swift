@@ -325,6 +325,7 @@ class KeyboardViewController: UIInputViewController {
             let processedText = processTemplateVariables(in: text)
             print("💬 입력할 텍스트: \(processedText)")
             textDocumentProxy.insertText(processedText)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
             trackKeyboardPaste(memoId: memoId)
         }
     }
@@ -383,9 +384,16 @@ class KeyboardViewController: UIInputViewController {
         print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
 
         textDocumentProxy.insertText(currentValue)
+        let nextIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
+        // 마지막 항목이면 success(완료 패턴), 중간 항목이면 medium(진행 패턴)
+        if nextIndex == 0 {
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } else {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        }
         trackKeyboardPaste(memoId: memoId)
 
-        memo.currentComboIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
+        memo.currentComboIndex = nextIndex
         clipMemos[memoIndex] = memo
         print("   다음 인덱스: \(memo.currentComboIndex)")
 
@@ -428,11 +436,13 @@ class KeyboardViewController: UIInputViewController {
             let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
             print("🔗 [attachedTemplate] 결합 출력: \(combined)")
             textDocumentProxy.insertText(combined)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
             trackKeyboardPaste(memoId: baseId)
         } else {
             print("   최종 텍스트: \(processedText)")
             print("📝 textDocumentProxy.insertText 호출")
             textDocumentProxy.insertText(processedText)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")

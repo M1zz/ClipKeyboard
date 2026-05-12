@@ -121,15 +121,25 @@ class ComboExecutionService: ObservableObject {
                 UIPasteboard.general.string = finalValue
                 print("✅ 클립보드에 복사됨: \(finalValue.prefix(50))...")
 
+                // 청각 장애 접근성: 항목 복사 완료 햅틱 (medium = 구별 가능한 강도)
+                DispatchQueue.main.async {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
+
                 // 알림 발송 (옵션)
                 postNotification(for: item, value: finalValue)
             } else {
                 print("⚠️ 항목의 값을 가져올 수 없음 - 건너뛰기")
-                // 에러가 발생해도 다음 항목 계속 진행
+                // 청각 장애 접근성: 항목 건너뜀을 warning 햅틱으로 알림
+                DispatchQueue.main.async {
+                    UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                }
             }
         } catch {
             print("❌ 항목 실행 실패: \(error) - 건너뛰기")
-            // 에러가 발생해도 다음 항목 계속 진행
+            DispatchQueue.main.async {
+                UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            }
         }
     }
 
@@ -148,6 +158,11 @@ class ComboExecutionService: ObservableObject {
         timer?.invalidate()
         timer = nil
         state = .completed
+
+        // 청각 장애 접근성: Combo 완료 success 햅틱 (두 번 울리는 패턴 — 완료 신호)
+        DispatchQueue.main.async {
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        }
 
         // 사용 횟수 증가
         if let combo = currentCombo {
