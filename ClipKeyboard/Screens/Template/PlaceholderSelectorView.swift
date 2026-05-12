@@ -195,6 +195,8 @@ struct PlaceholderManagementSheet: View {
                 #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
+                .toolbarBackground(theme.bg, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(NSLocalizedString("완료", comment: "Done")) {
@@ -226,6 +228,8 @@ struct PlaceholderManagementSheet: View {
                 #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
                 #endif
+                .toolbarBackground(theme.bg, for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
                 .toolbar {
                     ToolbarItem(placement: .confirmationAction) {
                         Button(NSLocalizedString("완료", comment: "Done")) {

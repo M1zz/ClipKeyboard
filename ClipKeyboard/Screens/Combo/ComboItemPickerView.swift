@@ -99,6 +99,8 @@ struct ComboItemPickerView: View {
             }
             .navigationTitle(NSLocalizedString("항목 추가", comment: "Add Item"))
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(theme.bg, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel")) {

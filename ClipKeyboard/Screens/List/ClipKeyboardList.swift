@@ -175,6 +175,8 @@ struct ClipKeyboardList: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
+            .toolbarBackground(theme.bg, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
             // 검색 및 필터 변경 감지
             .onChange(of: viewModel.searchQueryString) { _ in viewModel.applyFilters() }
