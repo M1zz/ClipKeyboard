@@ -221,6 +221,8 @@ struct ClipboardList: View {
                 showComboCreation = false
             }
         }
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     /// Empty list view

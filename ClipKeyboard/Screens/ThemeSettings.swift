@@ -16,6 +16,8 @@ struct ThemeSettings: View {
     @State private var backgroundColor: Color = Color(hex: "F5F5F5") ?? .gray
     @State private var keyColor: Color = Color(hex: "FFFFFF") ?? .white
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         Form {
             Section(header: Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme section"))) {
@@ -86,6 +88,8 @@ struct ThemeSettings: View {
             }
         }
         .navigationTitle(NSLocalizedString("테마 설정", comment: "Theme settings title"))
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             selectedTheme = KeyboardTheme(rawValue: keyboardTheme) ?? .system
             backgroundColor = Color(hex: keyboardBackgroundColorHex) ?? Color(hex: "F5F5F5") ?? .gray

@@ -19,6 +19,8 @@ struct SecurePINSettings: View {
     private let pinKey = "keyboard_secure_pin_hash"
     private let appGroup = "group.com.Ysoup.TokenMemo"
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         Form {
             Section {
@@ -91,6 +93,8 @@ struct SecurePINSettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             let storedHash = UserDefaults(suiteName: appGroup)?.string(forKey: pinKey) ?? ""
             pinIsSet = !storedHash.isEmpty

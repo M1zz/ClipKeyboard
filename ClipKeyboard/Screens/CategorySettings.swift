@@ -14,6 +14,7 @@ struct CategorySettings: View {
     @State private var renaming: String? = nil
     @State private var renameText: String = ""
     @State private var showResetAlert = false
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Form {
@@ -104,6 +105,8 @@ struct CategorySettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .alert(NSLocalizedString("Reset categories?", comment: "Reset alert title"),
                isPresented: $showResetAlert) {
             Button(NSLocalizedString("Cancel", comment: "Cancel"), role: .cancel) { }

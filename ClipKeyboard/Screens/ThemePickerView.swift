@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ThemePickerView: View {
     @EnvironmentObject private var prefs: AppThemePreference
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         List {
@@ -31,6 +32,8 @@ struct ThemePickerView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
@@ -100,6 +103,7 @@ private struct ThemeOptionRow: View {
 
 struct AppearanceModePickerView: View {
     @EnvironmentObject private var prefs: AppThemePreference
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         List {
@@ -134,6 +138,8 @@ struct AppearanceModePickerView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     private func iconName(for mode: AppThemeMode) -> String {

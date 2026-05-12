@@ -283,6 +283,7 @@ struct SettingView: View {
 struct PersonaSettingsContainer: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appTheme) private var theme
     @State private var showAppliedToast = false
 
     var body: some View {
@@ -296,6 +297,8 @@ struct PersonaSettingsContainer: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .overlay(alignment: .bottom) {
             if showAppliedToast {
                 Text(NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
@@ -457,6 +460,8 @@ struct CopyPasteView: View {
         }
         .navigationTitle(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
@@ -551,6 +556,8 @@ struct ReviewWriteView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 

@@ -15,6 +15,7 @@ struct CloudBackupView: View {
     @State private var showRestoreConfirmation = false
     @State private var showDeleteConfirmation = false
     @State private var showPaywall = false
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         if !ProFeatureManager.isCloudBackupAvailable {
@@ -255,6 +256,8 @@ struct CloudBackupView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .alert(alertTitle, isPresented: $showAlert) {
             Button(NSLocalizedString("확인", comment: "OK button"), role: .cancel) { }
         } message: {

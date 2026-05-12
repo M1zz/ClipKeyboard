@@ -47,6 +47,8 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
     private var koreanLayoutRaw: String = "dubeolsik"
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         Form {
             Section {
@@ -273,6 +275,8 @@ struct KeyboardLayoutSettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             // 저장된 hex 값을 ColorPicker 초기값으로 동기화
             if !customBgHex.isEmpty, let c = Color(hex: customBgHex) {
