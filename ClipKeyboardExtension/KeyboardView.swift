@@ -286,10 +286,20 @@ struct KeyboardView: View {
 
     private var modeTabBar: some View {
         HStack(spacing: 6) {
-            modeIconTab(icon: "keyboard", isSelected: inputMode == .typing) {
+            modeIconTab(
+                icon: "keyboard",
+                isSelected: inputMode == .typing,
+                label: NSLocalizedString("타이핑 모드", comment: "Typing keyboard mode tab"),
+                hint: NSLocalizedString("직접 타이핑 모드로 전환합니다", comment: "Typing mode tab hint")
+            ) {
                 inputMode = .typing
             }
-            modeIconTab(icon: "list.bullet.rectangle", isSelected: inputMode == .memos) {
+            modeIconTab(
+                icon: "list.bullet.rectangle",
+                isSelected: inputMode == .memos,
+                label: NSLocalizedString("메모 모드", comment: "Memo list mode tab"),
+                hint: NSLocalizedString("저장된 메모 목록 모드로 전환합니다", comment: "Memo mode tab hint")
+            ) {
                 inputMode = .memos
             }
             // 메모 모드일 때만 즐겨찾기 토글 노출
@@ -323,6 +333,8 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: 44, minHeight: 44)
+        .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("즐겨찾기만 보기", comment: "Toggle favorites filter"))
         .accessibilityValue(showFavoritesOnly
             ? NSLocalizedString("켬", comment: "Toggle state: on")
@@ -330,7 +342,7 @@ struct KeyboardView: View {
         .accessibilityHint(NSLocalizedString("즐겨찾기 메모만 표시하거나 전체를 표시합니다", comment: "Favorites toggle hint"))
     }
 
-    private func modeIconTab(icon: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    private func modeIconTab(icon: String, isSelected: Bool, label: String, hint: String, action: @escaping () -> Void) -> some View {
         Button {
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             action()
@@ -343,6 +355,11 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: 44, minHeight: 44)
+        .contentShape(Rectangle())
+        .accessibilityLabel(label)
+        .accessibilityHint(hint)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     private func clearAllButton(proxy: TypingInputProxy) -> some View {
@@ -358,6 +375,8 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: 44, minHeight: 44)
+        .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("전체 삭제", comment: "Clear all text"))
         .accessibilityHint(NSLocalizedString("현재 입력된 텍스트를 모두 지웁니다", comment: "Clear all button hint"))
     }
@@ -827,6 +846,10 @@ struct KeyboardView: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+        .accessibilityLabel(String(format: NSLocalizedString("최근: %@", comment: "Recent memo chip label"), memo.title))
+        .accessibilityHint(memoAccessibilityHint(for: memo))
     }
 
     // MARK: - Memo Button
