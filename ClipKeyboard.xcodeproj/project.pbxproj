@@ -53,6 +53,11 @@
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
+		CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */; };
+		EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EP00001A2F0000000000000003 /* EmojiPicker.swift */; };
+		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
+		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
+		US00002A2F000000000000000A /* UsageScenarioPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */; };
 		FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00001A2F0000000000000001 /* FeedbackView.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
 		58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */; };
@@ -65,11 +70,6 @@
 		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
 		58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */; };
 		58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D9D52D2A3B23900086BE1A /* DataManager.swift */; };
-		CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */; };
-		EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EP00001A2F0000000000000003 /* EmojiPicker.swift */; };
-		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
-		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
-		US00002A2F000000000000000A /* UsageScenarioPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */; };
 		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
 		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
 		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
@@ -176,11 +176,6 @@
 		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
 		34094107944543AB9AC89678 /* ClipboardRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardRepositoryProtocol.swift; sourceTree = "<group>"; };
 		3B623F0C08A6514FB0ADE597 /* ComboTemplateInputView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboTemplateInputView.swift; sourceTree = "<group>"; };
-		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
-		EP00001A2F0000000000000003 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
-		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
-		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
-		US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageScenarioPickerSheet.swift; sourceTree = "<group>"; };
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardList.swift; sourceTree = "<group>"; };
 		5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCaptureCard.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -213,6 +208,11 @@
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardList.swift; sourceTree = "<group>"; };
+		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
+		EP00001A2F0000000000000003 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
+		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
+		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
+		US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageScenarioPickerSheet.swift; sourceTree = "<group>"; };
 		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
@@ -557,12 +557,7 @@
 				9C994B012EEAA7F500FBC8F6 /* List */,
 				9C994AE32EEA97F500FBC8F6 /* Memo */,
 				5802F4112A2B42D3002825D6 /* Component */,
-				CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
-		EP00001A2F0000000000000003 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
-		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
-		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
-		US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageScenarioPickerSheet.swift; sourceTree = "<group>"; };
-		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
+				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -599,11 +594,10 @@
 		9C994AE32EEA97F500FBC8F6 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
 				IC00001A2F0000000000000005 /* ImagePickerComponents.swift */,
 				HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */,
 				US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */,
-
+				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
 				616238CD1282F3D06FC7E369 /* BulkImportView.swift */,
 			);
 			path = Memo;
@@ -981,13 +975,12 @@
 				5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */,
 				581550632AD5321F00A6115B /* Constants.swift in Sources */,
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
-				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
 				CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */,
 				EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */,
 				IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */,
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,
 				US00002A2F000000000000000A /* UsageScenarioPickerSheet.swift in Sources */,
-
+				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
 				0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */,
 				581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */,
 				58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */,
@@ -997,12 +990,7 @@
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
 				58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */,
 				58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */,
-				CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */; };
-		EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EP00001A2F0000000000000003 /* EmojiPicker.swift */; };
-		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
-		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
-		US00002A2F000000000000000A /* UsageScenarioPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */; };
-		58DS00012F0000000000000001 /* AppTheme.swift in Sources */,
+				58DS00012F0000000000000001 /* AppTheme.swift in Sources */,
 				58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */,
 				58DS00052F0000000000000005 /* CatIcon.swift in Sources */,
 				58DS00072F0000000000000007 /* ClipChip.swift in Sources */,
