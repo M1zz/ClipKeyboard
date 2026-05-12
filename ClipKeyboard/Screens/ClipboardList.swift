@@ -141,7 +141,7 @@ struct ClipboardList: View {
                             Button {
                                 isSelectingForCombo = true
                             } label: {
-                                Label("Combo 생성", systemImage: "arrow.triangle.2.circlepath.circle")
+                                Label(NSLocalizedString("Combo 생성", comment: "Create combo from clipboard items"), systemImage: "arrow.triangle.2.circlepath.circle")
                             }
 
                             Divider()
@@ -580,7 +580,11 @@ struct ClipboardItemRow: View {
                 .stroke(isHighlighted ? Color.fromName(displayType.color).opacity(0.5) : Color.clear, lineWidth: 2)
                 .animation(.easeInOut(duration: 0.3), value: isHighlighted)
         )
-        .accessibilityLabel("\(displayType.localizedName), \(item.content)")
+        .accessibilityLabel({
+            var parts = [displayType.localizedName, item.content, formatDate(item.copiedAt)]
+            if item.isTemporary { parts.append(NSLocalizedString("임시 항목", comment: "VoiceOver: temporary item")) }
+            return parts.joined(separator: ", ")
+        }())
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Clipboard item copy hint"))
         .swipeActions(edge: .leading) {
             Button {

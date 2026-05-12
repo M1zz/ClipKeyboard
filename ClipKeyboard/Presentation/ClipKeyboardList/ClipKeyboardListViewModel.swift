@@ -5,6 +5,9 @@
 
 import SwiftUI
 import LocalAuthentication
+#if os(iOS)
+import UIKit
+#endif
 
 // MARK: - ClipKeyboardListViewModel
 
@@ -278,6 +281,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func showToastMessage(_ message: String) {
         toastMessage = String(format: NSLocalizedString("[%@] 이 복사되었습니다.", comment: "Copied toast message"), message)
         showToast = true
+        // 시각 장애 접근성: VoiceOver 사용 시 토스트를 볼 수 없으므로 announcement로 알림
+        #if os(iOS)
+        UIAccessibility.post(notification: .announcement, argument: toastMessage)
+        #endif
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             self?.showToast = false
         }
