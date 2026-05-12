@@ -233,6 +233,18 @@ struct ComboEditSheet: View {
                         ? String(format: NSLocalizedString("%d번, %@, 다음 예정", comment: "Combo row: next"), index + 1, value)
                         : String(format: NSLocalizedString("%d번, %@", comment: "Combo row"), index + 1, value)
                 )
+                // 스위치 컨트롤: 드래그 재정렬 불가 → 커스텀 액션으로 이동/삭제 제공
+                .accessibilityAction(named: NSLocalizedString("위로 이동", comment: "Move combo value up")) {
+                    guard index > 0 else { return }
+                    moveValues(from: IndexSet([index]), to: index - 1)
+                }
+                .accessibilityAction(named: NSLocalizedString("아래로 이동", comment: "Move combo value down")) {
+                    guard index < comboValues.count - 1 else { return }
+                    moveValues(from: IndexSet([index]), to: index + 2)
+                }
+                .accessibilityAction(named: NSLocalizedString("삭제", comment: "Delete combo value")) {
+                    deleteValues(at: IndexSet([index]))
+                }
             }
             .onDelete(perform: deleteValues)
             .onMove(perform: moveValues)

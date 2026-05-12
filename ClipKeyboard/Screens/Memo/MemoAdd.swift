@@ -326,12 +326,12 @@ struct MemoAdd: View {
     private var themeSelectionSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Label("테마 선택", systemImage: "tag.fill")
+                Label(NSLocalizedString("테마 선택", comment: "Theme selection section header"), systemImage: "tag.fill")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(.accentColor)
 
-                // 자동 분류 표시
+                // 자동 분류 표시 — 스위치 컨트롤: 비대화형이므로 스캔 목록 제외
                 if let detectedType = viewModel.autoDetectedType {
                     HStack(spacing: 4) {
                         Image(systemName: "sparkles")
@@ -344,28 +344,37 @@ struct MemoAdd: View {
                     .background(Color.fromName(detectedType.color).opacity(0.2))
                     .foregroundColor(Color.fromName(detectedType.color))
                     .cornerRadius(theme.radiusSm)
+                    .accessibilityHidden(true)
                 }
             }
+            // 섹션 헤더 전체를 단일 정보 요소로 묶음 (스위치 컨트롤 스캔 1회로 통과)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(
+                viewModel.autoDetectedType != nil
+                    ? String(format: NSLocalizedString("테마 선택, 자동 감지: %@", comment: "Theme section header with auto detection"), viewModel.autoDetectedType!.localizedName)
+                    : NSLocalizedString("테마 선택", comment: "Theme selection section header")
+            )
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     // Recently Used Section
                     if !viewModel.recentlyUsedCategories.isEmpty {
-                        // Recently Used Label
+                        // 스위치 컨트롤: "최근" 레이블과 구분선은 비대화형 → 숨김
                         Text(NSLocalizedString("최근", comment: "Recent"))
                             .font(.caption)
                             .fontWeight(.medium)
                             .foregroundColor(theme.textMuted)
                             .padding(.horizontal, 8)
+                            .accessibilityHidden(true)
 
                         ForEach(viewModel.recentlyUsedCategories, id: \.self) { theme in
                             themePillButton(theme: theme, showStar: true)
                         }
 
-                        // Divider
                         Divider()
                             .frame(height: 28)
                             .padding(.horizontal, 4)
+                            .accessibilityHidden(true)
                     }
 
                     // All Categories — 사용자 편집 가능한 CategoryStore에서 읽음

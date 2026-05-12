@@ -26,11 +26,17 @@ struct ComboList: View {
                 } else {
                     List {
                         ForEach(combos) { combo in
-                            ComboRowView(combo: combo) {
-                                executeCombo(combo)
-                            } onEdit: {
-                                editingCombo = combo
-                            }
+                            ComboRowView(
+                                combo: combo,
+                                onExecute: { executeCombo(combo) },
+                                onEdit: { editingCombo = combo },
+                                onDelete: {
+                                    if let idx = combos.firstIndex(where: { $0.id == combo.id }) {
+                                        deleteCombo(at: IndexSet([idx]))
+                                    }
+                                },
+                                onFavoriteToggle: { toggleFavorite(combo) }
+                            )
                         }
                         .onDelete(perform: deleteCombo)
                     }
@@ -144,6 +150,17 @@ struct ComboList: View {
         combos.remove(atOffsets: offsets)
     }
 
+    private func toggleFavorite(_ combo: Combo) {
+        var updated = combo
+        updated.isFavorite.toggle()
+        do {
+            try MemoStore.shared.updateCombo(updated)
+            loadCombos()
+        } catch {
+            print("❌ Combo 즐겨찾기 토글 실패: \(error)")
+        }
+    }
+
     private func executeCombo(_ combo: Combo) {
         ComboExecutionService.shared.startCombo(combo)
         showToast(message: String(format: NSLocalizedString("Combo '%@' 실행 중... (%d개 항목, %d초 간격)", comment: ""), combo.title, combo.items.count, Int(combo.interval)))
@@ -229,6 +246,8 @@ struct ComboRowView: View {
     let combo: Combo
     let onExecute: () -> Void
     let onEdit: () -> Void
+    var onDelete: (() -> Void)? = nil
+    var onFavoriteToggle: (() -> Void)? = nil
     @Environment(\.appTheme) private var theme
 
     private var rowAccessibilityLabel: String {
@@ -307,6 +326,14 @@ struct ComboRowView: View {
         .accessibilityHint(NSLocalizedString("탭하면 편집 화면을 엽니다", comment: "Combo row edit hint"))
         .accessibilityAction(named: NSLocalizedString("실행", comment: "Execute combo action")) {
             onExecute()
+        }
+        // 스위치 컨트롤: 스와이프 불가 → 즐겨찾기/삭제를 커스텀 액션으로 제공
+        .accessibilityAction(named: combo.isFavorite
+            ? NSLocalizedString("즐겨찾기 해제", comment: "Remove favorite")
+            : NSLocalizedString("즐겨찾기 추가", comment: "Add favorite")
+        ) { onFavoriteToggle?() }
+        .accessibilityAction(named: NSLocalizedString("삭제", comment: "Delete combo")) {
+            onDelete?()
         }
     }
 }
