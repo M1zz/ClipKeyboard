@@ -47,10 +47,11 @@ struct AccessibilityGuideView: View {
     private var heroSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("ClipKeyboard는 모든 사용자를 위해 설계됐습니다", comment: "Accessibility guide hero title"))
-                .font(.system(size: 22, weight: .bold))
+                .font(.title3)
+                .fontWeight(.bold)
                 .foregroundColor(theme.text)
             Text(NSLocalizedString("시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.", comment: "Accessibility guide hero description"))
-                .font(.system(size: 15))
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -130,19 +131,19 @@ struct AccessibilityGuideView: View {
                 NSLocalizedString("테스트 방법", comment: "Accessibility testing section header"),
                 systemImage: "checkmark.shield.fill"
             )
-            .font(.system(size: 17, weight: .semibold))
+            .font(.headline)
             .foregroundColor(theme.text)
 
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(testSteps, id: \.self) { step in
                     HStack(alignment: .top, spacing: 10) {
                         Image(systemName: "chevron.right.circle.fill")
-                            .font(.system(size: 13))
+                            .font(.footnote)
                             .foregroundColor(theme.accent)
                             .padding(.top, 2)
                             .accessibilityHidden(true)
                         Text(step)
-                            .font(.system(size: 14))
+                            .font(.subheadline)
                             .foregroundColor(theme.textMuted)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -201,28 +202,28 @@ private struct FeatureCard: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 12) {
                 Image(systemName: feature.icon)
-                    .font(.system(size: 22))
+                    .font(.title3)
                     .foregroundColor(feature.iconColor)
                     .frame(width: 36, height: 36)
                     .background(feature.iconColor.opacity(0.12))
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .accessibilityHidden(true)
                 Text(feature.title)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.headline)
                     .foregroundColor(theme.text)
             }
             Text(feature.body)
-                .font(.system(size: 14))
+                .font(.subheadline)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: 6) {
                 Image(systemName: "gear")
-                    .font(.system(size: 11))
+                    .font(.caption2)
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)
                 Text(feature.tip)
-                    .font(.system(size: 12))
+                    .font(.caption)
                     .foregroundColor(theme.textFaint)
             }
         }
