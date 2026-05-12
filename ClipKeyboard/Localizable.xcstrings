@@ -14623,6 +14623,216 @@
           }
         }
       }
+    },
+    "피드백 보내기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Feedback"
+          }
+        }
+      }
+    },
+    "문의 유형": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
+          }
+        }
+      }
+    },
+    "버그 신고": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bug Report"
+          }
+        }
+      }
+    },
+    "기능 제안": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feature Request"
+          }
+        }
+      }
+    },
+    "사용 방법 문의": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usage Question"
+          }
+        }
+      }
+    },
+    "자동 첨부 정보": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-attached Info"
+          }
+        }
+      }
+    },
+    "보내기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send"
+          }
+        }
+      }
+    },
+    "피드백 내용": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feedback Content"
+          }
+        }
+      }
+    },
+    "불편하신 점이나 제안 사항을 자유롭게 적어주세요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feel free to describe your issue or suggestion"
+          }
+        }
+      }
+    },
+    "어떤 상황에서 문제가 발생했는지 알려주세요.\n예) 메모를 저장할 때 앱이 종료됩니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please describe when the issue occurs.\nExample: The app closes when saving a memo."
+          }
+        }
+      }
+    },
+    "어떤 기능이 있으면 좋겠나요?\n예) 메모를 폴더로 묶는 기능이 필요해요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What feature would you like?\nExample: I need a way to group memos into folders."
+          }
+        }
+      }
+    },
+    "어떤 부분이 궁금하신가요?\n예) 클립보드 히스토리는 어떻게 보나요?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What would you like to know?\nExample: How do I view my clipboard history?"
+          }
+        }
+      }
+    },
+    "자유롭게 의견을 남겨주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leave any feedback you'd like."
+          }
+        }
+      }
+    },
+    "메일 앱을 열 수 없습니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cannot Open Mail App"
+          }
+        }
+      }
+    },
+    "다른 메일 앱으로 열기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open with Another Mail App"
+          }
+        }
+      }
+    },
+    "Mail 앱이 설정되어 있지 않습니다. mailto: 링크로 다른 메일 앱을 열겠습니까?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mail is not configured. Would you like to open another mail app via mailto: link?"
+          }
+        }
+      }
+    },
+    "피드백을 보냈습니다!\n소중한 의견 감사합니다 🙏": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feedback sent!\nThank you for your valuable input 🙏"
+          }
+        }
+      }
+    },
+    "탭하면 메일 앱으로 전송됩니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to send via mail app"
+          }
+        }
+      }
+    },
+    "내용을 입력하면 활성화됩니다": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter content to enable"
+          }
+        }
+      }
+    },
+    "피드백 보내기 설정 항목": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Feedback settings entry"
+          }
+        }
+      }
+    },
+    "피드백 유형": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feedback type"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

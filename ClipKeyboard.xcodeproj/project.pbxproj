@@ -53,6 +53,7 @@
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
+		FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00001A2F0000000000000001 /* FeedbackView.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
 		58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */; };
 		58CC36AE2F9E6A880010DE3E /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AD2F9E6A880010DE3E /* FirebaseAnalyticsCore */; };
@@ -212,6 +213,7 @@
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardList.swift; sourceTree = "<group>"; };
+		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
 		58CK00022B5E1A2100000002 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
@@ -562,6 +564,7 @@
 		US00001A2F0000000000000009 /* UsageScenarioPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageScenarioPickerSheet.swift; sourceTree = "<group>"; };
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				1C7C6CDBD08940B2BC4EED1A /* ComboList.swift */,
+				FB00001A2F0000000000000001 /* FeedbackView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
@@ -960,6 +963,7 @@
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
+				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */,
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,

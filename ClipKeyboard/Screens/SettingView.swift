@@ -193,8 +193,11 @@ struct SettingView: View {
                     Text(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
                 }
 
-                NavigationLink(destination: ContactView()) {
-                    Text(NSLocalizedString("문의하기", comment: "Contact"))
+                NavigationLink(destination: FeedbackView()) {
+                    Label(
+                        NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
+                        systemImage: "envelope.badge"
+                    )
                 }
             }
 
@@ -581,28 +584,6 @@ struct TutorialView: View {
     }
 }
 
-struct ContactView: View {
-    
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        VStack {
-            Button("Send Email") {
-                
-            }
-            .onAppear(perform: {
-                dismiss()
-
-                EmailController.shared.sendEmail(
-                    subject: NSLocalizedString("클립키보드에 관해 문의드릴 것이 있습니다", comment: "Email subject"),
-                    body: NSLocalizedString("안녕하세요 저는 클립키보드의 사용자입니다.", comment: "Email body"),
-                    to: Constants.developerEmail
-                )
-            })
-        }
-    }
-}
-
 #if canImport(MessageUI)
 import MessageUI
 
@@ -610,13 +591,13 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     public static let shared = EmailController()
     private override init() { }
 
-    func sendEmail(subject:String, body:String, to:String){
-        // Check if the device is able to send emails
-        if !MFMailComposeViewController.canSendMail() {
-           print("⚠️ [EmailHelper.sendEmail] 이 기기는 메일 발송을 지원하지 않음")
-           return
+    static var canSendMail: Bool { MFMailComposeViewController.canSendMail() }
+
+    func sendEmail(subject: String, body: String, to: String) {
+        guard MFMailComposeViewController.canSendMail() else {
+            print("⚠️ [EmailController.sendEmail] 이 기기는 메일 발송을 지원하지 않음")
+            return
         }
-        // Create the email composer
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = self
         mailComposer.setToRecipients([to])
@@ -630,7 +611,6 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     }
 
     static func getRootViewController() -> UIViewController? {
-        // In SwiftUI 2.0
         UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
             .flatMap { $0.windows }
@@ -638,20 +618,12 @@ class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     }
 }
 #else
-// macOS fallback - EmailController는 사용하지 않음
 class EmailController: NSObject {
     public static let shared = EmailController()
     private override init() { }
+    static var canSendMail: Bool { false }
 
-    func sendEmail(subject:String, body:String, to:String){
-        // macOS에서는 mailto URL 스킴 사용
-        let urlString = "mailto:\(to)?subject=\(subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&body=\(body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
-        if let url = URL(string: urlString) {
-            #if os(macOS)
-            NSWorkspace.shared.open(url)
-            #endif
-        }
-    }
+    func sendEmail(subject: String, body: String, to: String) {}
 }
 #endif
 
