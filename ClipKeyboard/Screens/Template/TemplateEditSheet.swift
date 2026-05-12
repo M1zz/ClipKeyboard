@@ -421,36 +421,28 @@ struct TemplatePlaceholderRow: View {
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(theme.divider, lineWidth: 1))
         .onAppear { loadValues() }
         .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"),
-               isPresented: .constant(showDeleteConfirm != nil)) {
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { showDeleteConfirm = nil }
+               item: $showDeleteConfirm) { v in
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                if let v = showDeleteConfirm {
-                    MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
-                    loadValues()
-                }
-                showDeleteConfirm = nil
+                MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
+                loadValues()
             }
-        } message: {
-            if let v = showDeleteConfirm {
-                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), v.value))
-            }
+        } message: { v in
+            Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), v.value))
         }
         .alert(NSLocalizedString("값 수정", comment: "Edit value"),
-               isPresented: .constant(editingValue != nil)) {
+               item: $editingValue) { v in
             TextField(NSLocalizedString("값", comment: "Value"), text: $editText)
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { editingValue = nil }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("저장", comment: "Save")) {
-                if let old = editingValue, !editText.isEmpty {
-                    MemoStore.shared.deletePlaceholderValue(valueId: old.id, for: placeholder)
+                if !editText.isEmpty {
+                    MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
                     MemoStore.shared.addPlaceholderValue(editText, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
                     loadValues()
                 }
-                editingValue = nil
             }
-        } message: {
-            if let v = editingValue {
-                Text(String(format: NSLocalizedString("'%@' 값을 수정하세요.", comment: "Edit value prompt"), v.value))
-            }
+        } message: { v in
+            Text(String(format: NSLocalizedString("'%@' 값을 수정하세요.", comment: "Edit value prompt"), v.value))
         }
     }
 
@@ -475,6 +467,14 @@ struct TemplatePlaceholderRow: View {
         .onTapGesture {
             withAnimation(reduceMotion ? nil : .spring(response: 0.3)) { isExpanded.toggle() }
         }
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(
+            String(format: NSLocalizedString("%@, 값 %d개", comment: "Placeholder row header label"), placeholder.strippingTemplateBraces, values.count)
+        )
+        .accessibilityHint(isExpanded
+            ? NSLocalizedString("탭하면 값 목록을 접습니다", comment: "Collapse placeholder row hint")
+            : NSLocalizedString("탭하면 값 목록을 펼칩니다", comment: "Expand placeholder row hint")
+        )
     }
 
     @ViewBuilder
@@ -510,6 +510,9 @@ struct TemplatePlaceholderRow: View {
                                     .font(.system(size: 28))
                                     .foregroundColor(.blue)
                             }
+                            .accessibilityLabel(String(format: NSLocalizedString("%@ 수정", comment: "Edit value button label"), value.value))
+                            .accessibilityHint(NSLocalizedString("이 값을 수정합니다", comment: "Edit value button hint"))
+
                             Button {
                                 showDeleteConfirm = value
                             } label: {
@@ -517,6 +520,8 @@ struct TemplatePlaceholderRow: View {
                                     .font(.system(size: 28))
                                     .foregroundColor(.red)
                             }
+                            .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value button label"), value.value))
+                            .accessibilityHint(NSLocalizedString("이 저장된 값을 삭제합니다", comment: "Delete value button hint"))
                         }
                     }
                     .padding(.horizontal, 16)

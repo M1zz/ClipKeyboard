@@ -130,6 +130,8 @@ struct ComboEditSheet: View {
                     } label: {
                         Image(systemName: "arrow.counterclockwise")
                     }
+                    .accessibilityLabel(NSLocalizedString("순서 초기화", comment: "Reset combo index button"))
+                    .accessibilityHint(NSLocalizedString("다음 항목을 첫 번째로 재설정합니다", comment: "Reset combo index hint"))
                 }
             }
             .onAppear {
@@ -202,6 +204,7 @@ struct ComboEditSheet: View {
                         .frame(width: 28, height: 28)
                         .background(index == currentComboIndex ? Color.orange : theme.surfaceAlt)
                         .cornerRadius(14)
+                        .accessibilityHidden(true)
 
                     // 값
                     Text(value)
@@ -220,9 +223,16 @@ struct ComboEditSheet: View {
                             .background(Color.orange)
                             .foregroundColor(.white)
                             .cornerRadius(6)
+                            .accessibilityHidden(true)
                     }
                 }
                 .padding(.vertical, 4)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(
+                    index == currentComboIndex
+                        ? String(format: NSLocalizedString("%d번, %@, 다음 예정", comment: "Combo row: next"), index + 1, value)
+                        : String(format: NSLocalizedString("%d번, %@", comment: "Combo row"), index + 1, value)
+                )
             }
             .onDelete(perform: deleteValues)
             .onMove(perform: moveValues)
@@ -250,6 +260,8 @@ struct ComboEditSheet: View {
                     .foregroundColor(newValueText.isEmpty ? .gray : .orange)
             }
             .disabled(newValueText.isEmpty)
+            .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add combo value button"))
+            .accessibilityHint(NSLocalizedString("입력한 값을 Combo 목록에 추가합니다", comment: "Add combo value hint"))
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)

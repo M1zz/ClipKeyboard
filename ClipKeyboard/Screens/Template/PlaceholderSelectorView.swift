@@ -137,24 +137,16 @@ struct PlaceholderSelectorView: View {
             loadValues()
             print("✅ [PlaceholderSelectorView] onAppear 완료 - 로드된 값: \(values.count)개, 선택된 값: '\(selectedValue)'")
         }
-        .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation title"), isPresented: .constant(showDeleteConfirm != nil)) {
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
-                showDeleteConfirm = nil
-            }
+        .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation title"),
+               item: $showDeleteConfirm) { valueToDelete in
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                if let valueToDelete = showDeleteConfirm {
-                    MemoStore.shared.deletePlaceholderValue(valueId: valueToDelete.id, for: placeholder)
-                    loadValues()
-                    if selectedValue == valueToDelete.value {
-                        selectedValue = ""
-                    }
-                }
-                showDeleteConfirm = nil
+                MemoStore.shared.deletePlaceholderValue(valueId: valueToDelete.id, for: placeholder)
+                loadValues()
+                if selectedValue == valueToDelete.value { selectedValue = "" }
             }
-        } message: {
-            if let value = showDeleteConfirm {
-                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete confirmation message"), value.value))
-            }
+        } message: { valueToDelete in
+            Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete confirmation message"), valueToDelete.value))
         }
     }
 

@@ -315,6 +315,7 @@ struct ClipKeyboardList: View {
                 HStack(spacing: 4) {
                     Image(systemName: "clock.arrow.circlepath")
                         .font(.system(size: 11))
+                        .accessibilityHidden(true)
                     Text(savedText)
                         .font(.system(size: 12, weight: .medium))
                 }
@@ -440,15 +441,20 @@ struct ClipKeyboardList: View {
             HapticManager.shared.soft()
             viewModel.copyMemo(memo: memo)
         } label: {
-            MemoRowView(memo: memo, fontSize: fontSize)
-                .padding(14)
-                .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .stroke(Color.blue.opacity(0.18), lineWidth: 1)
-                )
-                .contentShape(Rectangle())
+            MemoRowView(
+                memo: memo,
+                fontSize: fontSize,
+                onFavoriteToggle: { viewModel.toggleFavorite(memoId: memo.id) },
+                onDelete: { memoToDelete = memo }
+            )
+            .padding(14)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(Color.blue.opacity(0.18), lineWidth: 1)
+            )
+            .contentShape(Rectangle())
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -803,6 +809,8 @@ struct ClipKeyboardList: View {
             Image(systemName: "ellipsis.circle")
                 .foregroundColor(theme.textMuted)
         }
+        .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu label"))
+        .accessibilityHint(NSLocalizedString("클립보드 히스토리, 플레이스홀더 관리, 설정 메뉴를 엽니다", comment: "More options menu hint"))
 
         Spacer()
 
@@ -822,6 +830,8 @@ struct ClipKeyboardList: View {
                 .font(.system(size: 22))
                 .foregroundColor(.blue)
         }
+        .accessibilityLabel(NSLocalizedString("메모 추가", comment: "Add memo menu label"))
+        .accessibilityHint(NSLocalizedString("새 메모를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
         }
