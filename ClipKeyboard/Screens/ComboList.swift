@@ -17,6 +17,8 @@ struct ComboList: View {
     @State private var toastMessage = ""
     @State private var editingCombo: Combo? = nil
     @State private var showPaywall = false
+    // 인지 장애 접근성: VoiceOver/스위치 컨트롤 삭제 액션 전 확인
+    @State private var comboToDelete: Combo? = nil
 
     var body: some View {
         NavigationStack {
@@ -31,9 +33,7 @@ struct ComboList: View {
                                 onExecute: { executeCombo(combo) },
                                 onEdit: { editingCombo = combo },
                                 onDelete: {
-                                    if let idx = combos.firstIndex(where: { $0.id == combo.id }) {
-                                        deleteCombo(at: IndexSet([idx]))
-                                    }
+                                    comboToDelete = combo
                                 },
                                 onFavoriteToggle: { toggleFavorite(combo) }
                             )
@@ -114,6 +114,17 @@ struct ComboList: View {
                 loadCombos()
             }
             .paywall(isPresented: $showPaywall, triggeredBy: .combo)
+            .alert(NSLocalizedString("Combo 삭제", comment: "Delete combo confirm title"),
+                   item: $comboToDelete) { combo in
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+                Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                    if let idx = combos.firstIndex(where: { $0.id == combo.id }) {
+                        deleteCombo(at: IndexSet([idx]))
+                    }
+                }
+            } message: { combo in
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete combo confirm message"), combo.title))
+            }
             .toolbarBackground(theme.bg, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }

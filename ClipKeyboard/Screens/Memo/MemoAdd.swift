@@ -45,6 +45,8 @@ struct MemoAdd: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showNewTemplateSheet = false
+    /// 인지 장애 접근성: 내용이 있을 때 초기화 전 확인
+    @State private var showResetConfirm = false
     /// v4.0.8: 활용사례 도움 시트 토글
     @State private var showUsageHelperSheet = false
 
@@ -136,7 +138,12 @@ struct MemoAdd: View {
 
                     HStack(spacing: 12) {
                         Button {
-                            viewModel.reset()
+                            let hasContent = !viewModel.value.isEmpty || !viewModel.keyword.isEmpty || !viewModel.attachedImages.isEmpty
+                            if hasContent {
+                                showResetConfirm = true
+                            } else {
+                                viewModel.reset()
+                            }
                         } label: {
                             HStack {
                                 Image(systemName: "arrow.counterclockwise")
@@ -207,6 +214,15 @@ struct MemoAdd: View {
         }
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
 
+        }
+        .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),
+               isPresented: $showResetConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("초기화", comment: "Confirm reset"), role: .destructive) {
+                viewModel.reset()
+            }
+        } message: {
+            Text(NSLocalizedString("입력한 내용이 모두 지워집니다. 계속하시겠습니까?", comment: "Reset form confirm message"))
         }
         .overlay(
             Group {

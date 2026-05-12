@@ -30,6 +30,9 @@ struct ClipboardList: View {
     @State private var selectedForCombo: Set<UUID> = []
     @State private var showComboCreation: Bool = false
 
+    // 인지 장애 접근성: 파괴적 작업 전 확인 알림
+    @State private var showClearAllConfirm: Bool = false
+
     var filteredHistory: [SmartClipboardHistory] {
         if let filter = selectedFilter {
             return clipboardHistory.filter { $0.detectedType == filter }
@@ -147,7 +150,7 @@ struct ClipboardList: View {
                             Divider()
 
                             Button(role: .destructive) {
-                                clearAll()
+                                showClearAllConfirm = true
                             } label: {
                                 Label(NSLocalizedString("전체 삭제", comment: "Clear all clipboard history"), systemImage: "trash")
                             }
@@ -223,6 +226,15 @@ struct ClipboardList: View {
         }
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .alert(NSLocalizedString("클립보드 히스토리 전체 삭제", comment: "Clear all confirm title"),
+               isPresented: $showClearAllConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("전체 삭제", comment: "Confirm clear all"), role: .destructive) {
+                clearAll()
+            }
+        } message: {
+            Text(NSLocalizedString("저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다.", comment: "Clear all confirm message"))
+        }
     }
 
     /// Empty list view

@@ -15,6 +15,7 @@ import UIKit
 struct SecurePINSettings: View {
     @State private var showPINSetup = false
     @State private var pinIsSet = false
+    @State private var showDeletePINConfirm = false
 
     private let pinKey = "keyboard_secure_pin_hash"
     private let appGroup = "group.com.Ysoup.TokenMemo"
@@ -56,8 +57,7 @@ struct SecurePINSettings: View {
                         .accessibilityHint(NSLocalizedString("새 PIN을 설정합니다", comment: "Change PIN hint"))
                     }
                     Button(role: .destructive) {
-                        UserDefaults(suiteName: appGroup)?.removeObject(forKey: pinKey)
-                        pinIsSet = false
+                        showDeletePINConfirm = true
                     } label: {
                         HStack(spacing: 6) {
                             Image(systemName: "trash")
@@ -88,6 +88,16 @@ struct SecurePINSettings: View {
                 pinIsSet = true
                 showPINSetup = false
             }
+        }
+        .alert(NSLocalizedString("보안 PIN 삭제", comment: "Delete PIN confirm title"),
+               isPresented: $showDeletePINConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                UserDefaults(suiteName: appGroup)?.removeObject(forKey: pinKey)
+                pinIsSet = false
+            }
+        } message: {
+            Text(NSLocalizedString("PIN을 삭제하면 보안 메모 잠금이 해제됩니다. 계속하시겠습니까?", comment: "Delete PIN confirm message"))
         }
         .navigationTitle(NSLocalizedString("보안 PIN", comment: "Secure PIN nav title"))
         #if os(iOS)
