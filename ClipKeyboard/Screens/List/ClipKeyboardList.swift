@@ -209,7 +209,11 @@ struct ClipKeyboardList: View {
                     memoToDelete = nil
                 }
             } message: {
-                Text(NSLocalizedString("이 작업은 취소할 수 없습니다.", comment: "Delete warning"))
+                if let memo = memoToDelete {
+                    Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.", comment: "Delete memo confirm message with title"), memo.title))
+                } else {
+                    Text(NSLocalizedString("이 작업은 취소할 수 없습니다.", comment: "Delete warning"))
+                }
             }
             // 각종 Sheet Modifiers
             .modifier(SheetModifiers(

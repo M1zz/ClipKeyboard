@@ -434,15 +434,17 @@ struct ComboAddEditView: View {
                         .accessibilityHint(NSLocalizedString("Combo의 이름을 입력합니다", comment: "Combo name hint"))
 
                     HStack {
-                        Text(NSLocalizedString("간격", comment: "Interval label"))
+                        Text(NSLocalizedString("항목 간 간격", comment: "Interval label"))
                         Spacer()
-                        Picker(NSLocalizedString("간격", comment: "Interval picker label"), selection: $interval) {
+                        Picker(NSLocalizedString("항목 간 간격", comment: "Interval picker label"), selection: $interval) {
                             Text(NSLocalizedString("1초", comment: "1 second")).tag(1.0)
                             Text(NSLocalizedString("2초", comment: "2 seconds")).tag(2.0)
                             Text(NSLocalizedString("3초", comment: "3 seconds")).tag(3.0)
                             Text(NSLocalizedString("5초", comment: "5 seconds")).tag(5.0)
                         }
                         .pickerStyle(.menu)
+                        .accessibilityLabel(NSLocalizedString("항목 간 간격", comment: "Interval picker label"))
+                        .accessibilityHint(NSLocalizedString("Combo 실행 시 각 항목이 입력되는 사이의 대기 시간", comment: "Interval picker hint"))
                     }
 
                     Toggle(NSLocalizedString("즐겨찾기", comment: "Favorite toggle"), isOn: $isFavorite)
@@ -491,7 +493,7 @@ struct ComboAddEditView: View {
                     Text(NSLocalizedString("항목 (\(selectedItems.count)개)", comment: "Items count header"))
                 } footer: {
                     if !selectedItems.isEmpty {
-                        Text(NSLocalizedString("드래그하여 순서를 변경할 수 있습니다", comment: "Drag to reorder instruction"))
+                        Text(NSLocalizedString("드래그하여 순서를 변경할 수 있습니다. Combo 실행 시 이 순서대로 각 항목이 입력됩니다.", comment: "Drag to reorder instruction with execution order explanation"))
                             .font(.caption)
                     }
                 }

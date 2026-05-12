@@ -147,6 +147,7 @@ struct MemoAdd: View {
                         } label: {
                             HStack {
                                 Image(systemName: "arrow.counterclockwise")
+                                    .accessibilityHidden(true)
                                 Text(NSLocalizedString("초기화", comment: "Reset"))
                             }
                             .font(.callout)
@@ -157,6 +158,7 @@ struct MemoAdd: View {
                             .background(theme.surfaceAlt)
                             .cornerRadius(theme.radiusMd)
                         }
+                        .accessibilityHint(NSLocalizedString("입력한 내용, 이름, 카테고리를 모두 지웁니다", comment: "Reset button hint"))
 
                         if isFocused {
                             // 내용 입력 중: 다음 필드(이름)로 이동
