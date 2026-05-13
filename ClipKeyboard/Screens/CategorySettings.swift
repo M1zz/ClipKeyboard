@@ -139,7 +139,7 @@ struct CategorySettings: View {
                 }
                 .font(.caption)
             } else {
-                Text(category)
+                Text(NSLocalizedString(category, comment: "Category name"))
                     .foregroundColor(CategoryStore.protectedCategories.contains(category) ? .secondary : .primary)
                 Spacer()
                 if CategoryStore.protectedCategories.contains(category) {

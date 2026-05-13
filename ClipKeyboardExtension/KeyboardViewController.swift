@@ -555,6 +555,9 @@ class KeyboardViewController: UIInputViewController {
         super.viewWillAppear(animated)
         // 레이아웃을 미리 계산하여 튀는 현상 방지
         view.layoutIfNeeded()
+        // 새 텍스트 필드에 키보드가 나타날 때마다 한글 컴포저 상태를 초기화.
+        // 이전 필드에서 조합 중이던 음절이 새 필드에 딸려오는 버그를 방지한다.
+        documentState.composerResetToken += 1
     }
 
     override func viewDidAppear(_ animated: Bool) {

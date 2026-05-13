@@ -65,6 +65,7 @@
 		58CC36B02F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AF2F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport */; };
 		58CC36B22F9E6A880010DE3E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36B12F9E6A880010DE3E /* FirebaseCore */; };
 		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
+		SG00002A2F0000000000000002 /* SuggestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SG00001A2F0000000000000001 /* SuggestionManager.swift */; };
 		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
 		58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00042B5E1A2100000004 /* NotificationExtension.swift */; };
 		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
@@ -216,6 +217,7 @@
 		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
+		SG00001A2F0000000000000001 /* SuggestionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionManager.swift; sourceTree = "<group>"; };
 		58CK00022B5E1A2100000002 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
 		58CK00042B5E1A2100000004 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		58CK00062B5E1A2100000005 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 				F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
 				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
+				SG00001A2F0000000000000001 /* SuggestionManager.swift */,
 				58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */,
 				58SV00022F9A1B0100000002 /* OCRService.swift */,
 			);
@@ -1000,6 +1003,7 @@
 				58DS000F2F000000000000000F /* ClipSectionHeader.swift in Sources */,
 				58DS00132F0000000000000013 /* TagBadge.swift in Sources */,
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
+				SG00002A2F0000000000000002 /* SuggestionManager.swift in Sources */,
 				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,
 				58CK00052B5E1A2100000004 /* NotificationExtension.swift in Sources */,
 				58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */,

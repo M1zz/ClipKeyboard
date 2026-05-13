@@ -18,6 +18,7 @@ struct PlaceholderSelectorView: View {
     @State private var values: [PlaceholderValue] = []
     @State private var newValue: String = ""
     @State private var showDeleteConfirm: PlaceholderValue? = nil
+    @State private var showDeleteAlert: Bool = false
 
     /// v4.0.8: 토큰명에 금액/amount/price 등이 있으면 numberPad
     private var isNumericToken: Bool {
@@ -81,6 +82,7 @@ struct PlaceholderSelectorView: View {
 
                                 Button {
                                     showDeleteConfirm = placeholderValue
+                                    showDeleteAlert = true
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
                                         .font(.system(size: 14))
@@ -138,15 +140,22 @@ struct PlaceholderSelectorView: View {
             print("✅ [PlaceholderSelectorView] onAppear 완료 - 로드된 값: \(values.count)개, 선택된 값: '\(selectedValue)'")
         }
         .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation title"),
-               item: $showDeleteConfirm) { valueToDelete in
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
-            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                MemoStore.shared.deletePlaceholderValue(valueId: valueToDelete.id, for: placeholder)
-                loadValues()
-                if selectedValue == valueToDelete.value { selectedValue = "" }
+               isPresented: $showDeleteAlert) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                showDeleteConfirm = nil
             }
-        } message: { valueToDelete in
-            Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete confirmation message"), valueToDelete.value))
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                if let v = showDeleteConfirm {
+                    MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
+                    loadValues()
+                    if selectedValue == v.value { selectedValue = "" }
+                }
+                showDeleteConfirm = nil
+            }
+        } message: {
+            if let v = showDeleteConfirm {
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete confirmation message"), v.value))
+            }
         }
     }
 

@@ -19,6 +19,7 @@ struct ComboList: View {
     @State private var showPaywall = false
     // 인지 장애 접근성: VoiceOver/스위치 컨트롤 삭제 액션 전 확인
     @State private var comboToDelete: Combo? = nil
+    @State private var showDeleteAlert: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -34,6 +35,7 @@ struct ComboList: View {
                                 onEdit: { editingCombo = combo },
                                 onDelete: {
                                     comboToDelete = combo
+                                    showDeleteAlert = true
                                 },
                                 onFavoriteToggle: { toggleFavorite(combo) }
                             )
@@ -115,15 +117,21 @@ struct ComboList: View {
             }
             .paywall(isPresented: $showPaywall, triggeredBy: .combo)
             .alert(NSLocalizedString("Combo 삭제", comment: "Delete combo confirm title"),
-                   item: $comboToDelete) { combo in
-                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+                   isPresented: $showDeleteAlert) {
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                    comboToDelete = nil
+                }
                 Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                    if let idx = combos.firstIndex(where: { $0.id == combo.id }) {
+                    if let combo = comboToDelete,
+                       let idx = combos.firstIndex(where: { $0.id == combo.id }) {
                         deleteCombo(at: IndexSet([idx]))
                     }
+                    comboToDelete = nil
                 }
-            } message: { combo in
-                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete combo confirm message"), combo.title))
+            } message: {
+                if let combo = comboToDelete {
+                    Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete combo confirm message"), combo.title))
+                }
             }
             .toolbarBackground(theme.bg, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)

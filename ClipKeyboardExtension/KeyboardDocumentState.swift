@@ -15,4 +15,9 @@ final class KeyboardDocumentState: ObservableObject {
     /// 호스트 텍스트 필드에 입력된 텍스트가 있는지.
     /// false면 KeyboardView의 X(clear all) 버튼 등 텍스트가 있어야 의미있는 UI를 숨김.
     @Published var hasText: Bool = false
+
+    /// 키보드가 새 텍스트 필드에 나타날 때마다 증가.
+    /// TypingKeyboardView가 이 값이 바뀌면 hangulComposer/cheonjiinInput 상태를 초기화해
+    /// 이전 필드의 조합 중 음절이 새 필드로 '딸려오는' 버그를 방지한다.
+    @Published var composerResetToken: Int = 0
 }

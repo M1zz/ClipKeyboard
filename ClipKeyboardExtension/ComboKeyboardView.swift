@@ -174,7 +174,7 @@ struct ComboKeyboardCard: View {
                             .font(.caption2)
                             .foregroundColor(.orange)
 
-                        Text("\(memo.comboValues.count)개 값")
+                        Text(String(format: NSLocalizedString("%d values", comment: "Combo value count"), memo.comboValues.count))
                             .font(.caption2)
                             .foregroundColor(.secondary)
 

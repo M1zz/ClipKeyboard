@@ -404,7 +404,9 @@ struct TemplatePlaceholderRow: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var values: [PlaceholderValue] = []
     @State private var showDeleteConfirm: PlaceholderValue? = nil
+    @State private var showDeleteAlert: Bool = false
     @State private var editingValue: PlaceholderValue? = nil
+    @State private var showEditAlert: Bool = false
     @State private var editText: String = ""
     @State private var isExpanded: Bool = false
 
@@ -421,28 +423,40 @@ struct TemplatePlaceholderRow: View {
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(theme.divider, lineWidth: 1))
         .onAppear { loadValues() }
         .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"),
-               item: $showDeleteConfirm) { v in
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
-            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
-                loadValues()
+               isPresented: $showDeleteAlert) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                showDeleteConfirm = nil
             }
-        } message: { v in
-            Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), v.value))
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                if let v = showDeleteConfirm {
+                    MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
+                    loadValues()
+                }
+                showDeleteConfirm = nil
+            }
+        } message: {
+            if let v = showDeleteConfirm {
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), v.value))
+            }
         }
         .alert(NSLocalizedString("값 수정", comment: "Edit value"),
-               item: $editingValue) { v in
+               isPresented: $showEditAlert) {
             TextField(NSLocalizedString("값", comment: "Value"), text: $editText)
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                editingValue = nil
+            }
             Button(NSLocalizedString("저장", comment: "Save")) {
-                if !editText.isEmpty {
+                if let v = editingValue, !editText.isEmpty {
                     MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: placeholder)
                     MemoStore.shared.addPlaceholderValue(editText, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
                     loadValues()
                 }
+                editingValue = nil
             }
-        } message: { v in
-            Text(String(format: NSLocalizedString("'%@' 값을 수정하세요.", comment: "Edit value prompt"), v.value))
+        } message: {
+            if let v = editingValue {
+                Text(String(format: NSLocalizedString("'%@' 값을 수정하세요.", comment: "Edit value prompt"), v.value))
+            }
         }
     }
 
@@ -505,6 +519,7 @@ struct TemplatePlaceholderRow: View {
                             Button {
                                 editingValue = value
                                 editText = value.value
+                                showEditAlert = true
                             } label: {
                                 Image(systemName: "pencil.circle.fill")
                                     .font(.system(size: 28))
@@ -515,6 +530,7 @@ struct TemplatePlaceholderRow: View {
 
                             Button {
                                 showDeleteConfirm = value
+                                showDeleteAlert = true
                             } label: {
                                 Image(systemName: "trash.circle.fill")
                                     .font(.system(size: 28))
@@ -595,10 +611,6 @@ struct TemplateSheetResolver: View {
 // MARK: - String Helper
 
 private extension String {
-    var strippingTemplateBraces: String {
-        replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
-    }
-
     func extractTemplatePlaceholders() -> [String] {
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }

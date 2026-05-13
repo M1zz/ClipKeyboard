@@ -65,7 +65,7 @@ struct UsageCategory: Identifiable {
 // MARK: - Locale-aware Data
 
 /// 현재 로케일에 맞는 활용사례 배열.
-/// UsageGuideView 와 MemoAdd(UsageScenarioPickerSheet) 양쪽에서 참조.
+/// UsageGuideView 와 SuggestionManager 양쪽에서 참조.
 var usageCategories: [UsageCategory] {
     let lang = Locale.current.language.languageCode?.identifier ?? "en"
     switch lang {

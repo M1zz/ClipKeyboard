@@ -272,7 +272,7 @@ struct KeyboardView: View {
                 modeTabBar
 
                 if inputMode == .typing, let proxy = typingProxy {
-                    TypingKeyboardView(proxy: proxy)
+                    TypingKeyboardView(proxy: proxy, documentState: documentState)
                 } else {
                     memoModeContent
                 }

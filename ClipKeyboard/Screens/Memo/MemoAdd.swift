@@ -47,8 +47,6 @@ struct MemoAdd: View {
     @State private var showNewTemplateSheet = false
     /// 인지 장애 접근성: 내용이 있을 때 초기화 전 확인
     @State private var showResetConfirm = false
-    /// v4.0.8: 활용사례 도움 시트 토글
-    @State private var showUsageHelperSheet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -74,12 +72,7 @@ struct MemoAdd: View {
                         // 📌 1단계: 카테고리(테마) — 무엇을 저장할지 정의
                         themeSelectionSection
 
-                        // 📌 2단계: 활용사례 도움 — 새 메모이고 내용이 비었을 때만 노출
-                        if memoId == nil && viewModel.value.isEmpty {
-                            usageHelperToggle
-                        }
-
-                        // 📌 3단계: 붙여넣을 내용
+                        // 📌 2단계: 붙여넣을 내용
                         if viewModel.isCombo {
                             comboDescriptionSection
                         } else {
@@ -444,47 +437,6 @@ struct MemoAdd: View {
         .accessibilityHint(
             isSelected ? "" : NSLocalizedString("탭하여 이 카테고리 선택", comment: "Theme pill: tap to select")
         )
-    }
-
-    // MARK: - Usage Helper Toggle (v4.0.8)
-    /// 사용자가 무엇을 저장할지 막막할 때 활용사례에서 영감 받기.
-    /// 토글 ON → showUsageHelperSheet = true → UsageScenarioPickerSheet 표시.
-    /// 시나리오 카드 탭 → value 자동 채움 + 시트 dismiss.
-    private var usageHelperToggle: some View {
-        Button {
-            showUsageHelperSheet = true
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "lightbulb.fill")
-                    .font(.callout)
-                    .foregroundColor(.yellow)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("활용사례에서 영감 받기", comment: "Usage scenario picker prompt"))
-                        .font(.callout)
-                        .fontWeight(.medium)
-                        .foregroundColor(.primary)
-                    Text(NSLocalizedString("실제로 쓰는 영어 템플릿을 골라 시작하세요", comment: "Usage scenario picker hint"))
-                        .font(.caption)
-                        .foregroundColor(theme.textMuted)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption2)
-                    .foregroundColor(theme.textMuted)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .background(Color.yellow.opacity(0.08))
-            .cornerRadius(theme.radiusMd)
-        }
-        .buttonStyle(.plain)
-        .sheet(isPresented: $showUsageHelperSheet) {
-            UsageScenarioPickerSheet { selectedExample in
-                // 시나리오 본문을 메모 value로 적용. 사용자가 수정 가능 (샘플 표시는 안 함).
-                viewModel.value = selectedExample
-                showUsageHelperSheet = false
-            }
-        }
     }
 
     private var titleInputSection: some View {

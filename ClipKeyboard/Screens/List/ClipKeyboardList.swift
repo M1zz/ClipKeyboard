@@ -26,6 +26,7 @@ private struct ScrollOffsetPreferenceKey: PreferenceKey {
 struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
+    @ObservedObject private var suggestionManager = SuggestionManager.shared
 
     // MARK: - View-only State
 
@@ -36,6 +37,8 @@ struct ClipKeyboardList: View {
     @State private var showBulkImport: Bool = false
     @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
+    @State private var occasionalSuggestion_: SuggestionTemplate? = nil
+    @State private var navigateToOccasionalAdd: Bool = false
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -110,6 +113,26 @@ struct ClipKeyboardList: View {
                             .listRowSeparator(.hidden)
                         }
 
+                        // 5.5 활용 제안 배너 (비정기, 조건부)
+                        if let suggestion = suggestionManager.occasionalSuggestion {
+                            Section {
+                                OccasionalSuggestionBanner(
+                                    suggestion: suggestion,
+                                    onDismiss: {
+                                        withAnimation { suggestionManager.dismissOccasionalSuggestion() }
+                                    },
+                                    onAdd: {
+                                        occasionalSuggestion_ = suggestion
+                                        suggestionManager.acceptOccasionalSuggestion()
+                                        navigateToOccasionalAdd = true
+                                    }
+                                )
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                        }
+
                         // 6. 메모 리스트 — 단일 스트림.
                         //    · 즐겨찾기는 최상단에 하나의 "즐겨찾기" 헤더로 묶음 (날짜 구분 없음)
                         //    · 비즐겨찾기는 날짜 경계에서 초미니멀 divider 삽입
@@ -157,6 +180,12 @@ struct ClipKeyboardList: View {
                     EmptyListView
                 }
             }
+            .background(
+                NavigationLink(destination: {
+                    if let s = occasionalSuggestion_ { memoAdd(for: s) } else { MemoAdd() }
+                }(), isActive: $navigateToOccasionalAdd) { EmptyView() }
+                    .hidden()
+            )
             .task {
                 viewModel.loadMemos()
             }
@@ -245,6 +274,7 @@ struct ClipKeyboardList: View {
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
                 // 첫 로드 시 stagger enter 트리거 (한 번만)
                 if !hasAppeared {
+                    SuggestionManager.shared.recordAppOpen()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                         hasAppeared = true
                     }
@@ -872,50 +902,105 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// Empty list view
+    /// Empty list — locale-aware suggestion card grid
     private var EmptyListView: some View {
-        VStack(spacing: 24) {
-            Spacer()
-
-            VStack(spacing: 24) {
-                Text(NSLocalizedString("자주 치는 문장이 뭔가요?", comment: "Empty state question"))
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-
-                VStack(spacing: 10) {
-                    Text("\"\(NSLocalizedString("회의가 10분 늦어질 것 같습니다", comment: "Empty state example 1"))\"")
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                    Text("\"\(NSLocalizedString("확인했습니다. 검토 후 답변드리겠습니다", comment: "Empty state example 2"))\"")
-                        .font(.body)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(NSLocalizedString("이런 방법으로 쓸 수 있어요", comment: "Empty state suggestion header"))
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("탭해서 바로 내 메모로 추가할 수 있어요", comment: "Empty state suggestion subhead"))
+                        .font(.subheadline)
                         .foregroundColor(theme.textMuted)
                 }
-                .multilineTextAlignment(.center)
+                .padding(.horizontal, 20)
+                .padding(.top, 24)
+
+                LazyVGrid(
+                    columns: [GridItem(.flexible()), GridItem(.flexible())],
+                    spacing: 12
+                ) {
+                    ForEach(suggestionManager.emptyStateSuggestions) { suggestion in
+                        suggestionCard(suggestion)
+                    }
+                }
+                .padding(.horizontal, 16)
 
                 NavigationLink {
                     MemoAdd()
                 } label: {
-                    Text(NSLocalizedString("첫 클립 추가", comment: "Add first clip button"))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(height: 44)
-                        .padding(.horizontal, 24)
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                    HStack(spacing: 6) {
+                        Image(systemName: "plus")
+                        Text(NSLocalizedString("직접 추가하기", comment: "Add memo manually button"))
+                            .fontWeight(.medium)
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(theme.accent)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(theme.accent.opacity(0.1))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 16)
                 }
-                .padding(.top, 8)
-            }
-            .padding(.vertical, 40)
-            .padding(.horizontal, 30)
-            .background(theme.bg)
-            .cornerRadius(theme.radiusLg)
-            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
 
-            Spacer()
+                Spacer(minLength: 40)
+            }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 20)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    /// feature 태그에 맞게 MemoAdd를 구성한다.
+    /// .template → 템플릿 토글 ON, .combo → 콤보 토글 ON, 나머지 → 일반 메모.
+    private func memoAdd(for suggestion: SuggestionTemplate) -> MemoAdd {
+        var add = MemoAdd()
+        add.insertedValue = suggestion.content
+        switch suggestion.feature {
+        case .template:      add.insertedIsTemplate = true
+        case .combo:         add.insertedIsCombo    = true
+        case .memo, .smartClipboard: break
+        }
+        return add
+    }
+
+    private func suggestionCard(_ suggestion: SuggestionTemplate) -> some View {
+        NavigationLink(destination: memoAdd(for: suggestion)) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 6) {
+                    Text(suggestion.emoji)
+                        .font(.title2)
+                    Spacer()
+                    Text(suggestion.feature.label)
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundColor(suggestion.feature.color)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(suggestion.feature.color.opacity(0.12))
+                        .cornerRadius(4)
+                }
+
+                Text(suggestion.title)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.text)
+                    .lineLimit(1)
+
+                Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+                    .lineLimit(2)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(theme.surface)
+            .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 메모 추가", comment: "Suggestion card a11y label"), suggestion.title))
+        .accessibilityHint(NSLocalizedString("탭하면 이 예시로 메모를 만들 수 있어요", comment: "Suggestion card a11y hint"))
     }
 }
 
@@ -925,7 +1010,75 @@ struct ClipKeyboardList_Previews: PreviewProvider {
     }
 }
 
+// MARK: - Occasional Suggestion Banner
 
+struct OccasionalSuggestionBanner: View {
+    let suggestion: SuggestionTemplate
+    let onDismiss: () -> Void
+    let onAdd: () -> Void
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "lightbulb.fill")
+                    .foregroundColor(.yellow)
+                    .font(.subheadline)
+                Text(NSLocalizedString("이런 것도 써보실래요?", comment: "Occasional suggestion banner title"))
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.text)
+                Spacer()
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .padding(6)
+                        .background(theme.surfaceAlt)
+                        .clipShape(Circle())
+                }
+                .accessibilityLabel(NSLocalizedString("제안 닫기", comment: "Dismiss suggestion banner"))
+            }
+
+            HStack(spacing: 10) {
+                Text(suggestion.emoji)
+                    .font(.title2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(suggestion.title)
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(theme.text)
+                    Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(2)
+                }
+                Spacer()
+            }
+
+            Button(action: onAdd) {
+                Text(NSLocalizedString("지금 추가하기", comment: "Accept suggestion button"))
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(theme.accent)
+                    .cornerRadius(8)
+            }
+        }
+        .padding(14)
+        .background(theme.surface)
+        .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 4)
+    }
+}
 
 // MARK: - Memo Type Filter Bar
 
