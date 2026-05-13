@@ -11,13 +11,13 @@
         },
         "id": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": ""
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": ""
           }
         }
@@ -110,6 +110,12 @@
             "state": "translated",
             "value": "Are you sure you want to delete '%@'? This action cannot be undone."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
+          }
         }
       }
     },
@@ -119,6 +125,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Are you sure you want to delete '%@'? This action cannot be cancelled."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Are you sure you want to delete '%@'? This action cannot be cancelled."
           }
         }
@@ -215,6 +227,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Speak the name you see on screen, like 'Tap Memo Search', to control the app. All buttons and input fields have readable names."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Speak the name you see on screen, like 'Tap Memo Search', to control the app. All buttons and input fields have readable names."
           }
         }
@@ -423,6 +441,12 @@
             "state": "new",
             "value": "%1$@\n%2$@"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@\n%@"
+          }
         }
       }
     },
@@ -432,6 +456,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "%@ +Template"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%@ +Template"
           }
         }
@@ -445,6 +475,12 @@
             "state": "translated",
             "value": "Save as %@ memo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Save as %@ memo"
+          }
         }
       }
     },
@@ -454,6 +490,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "%@ copied"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%@ copied"
           }
         }
@@ -467,6 +509,12 @@
             "state": "translated",
             "value": "Delete %@"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete %@"
+          }
         }
       }
     },
@@ -476,6 +524,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Edit %@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Edit %@"
           }
         }
@@ -489,6 +543,12 @@
             "state": "translated",
             "value": "Add %@ example memo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add %@ example memo"
+          }
         }
       }
     },
@@ -498,6 +558,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Rename the %@ category"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Rename the %@ category"
           }
         }
@@ -534,6 +600,12 @@
             "state": "new",
             "value": "%1$@, %2$d개"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@, %2$d items"
+          }
         }
       }
     },
@@ -550,6 +622,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@, 값 %2$d개"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@, %d values"
           }
         }
       }
@@ -568,6 +646,12 @@
             "state": "new",
             "value": "%1$@, 무료: %2$@, Pro: %3$@"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@, Free: %2$@, Pro: %3$@"
+          }
         }
       }
     },
@@ -577,6 +661,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "%@, selected"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%@, selected"
           }
         }
@@ -618,6 +708,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$@. %2$@. %3$@: %4$@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@. %@. %@: %@"
           }
         }
       }
@@ -750,6 +846,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d개 값"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d values"
           }
         }
       }
@@ -915,6 +1017,12 @@
             "state": "new",
             "value": "%1$d단계 중 %2$d단계"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Step %2$d of %1$d"
+          }
         }
       }
     },
@@ -932,6 +1040,12 @@
             "state": "new",
             "value": "%1$d번, %2$@"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No. %d, %@"
+          }
         }
       }
     },
@@ -948,6 +1062,12 @@
           "stringUnit": {
             "state": "new",
             "value": "%1$d번, %2$@, 다음 예정"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No. %d, %@, up next"
           }
         }
       }
@@ -977,6 +1097,12 @@
             "state": "translated",
             "value": "%d-day free trial · Buy once, use forever"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d-day free trial · Buy once, use forever"
+          }
         }
       }
     },
@@ -988,6 +1114,12 @@
             "state": "translated",
             "value": "%d-day free trial + unlimited memos, iCloud backup"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d-day free trial + unlimited memos, iCloud backup"
+          }
         }
       }
     },
@@ -997,6 +1129,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Start %d-day free trial"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Start %d-day free trial"
           }
         }
@@ -1024,6 +1162,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "%d points"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%d points"
           }
         }
@@ -1224,6 +1368,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "+ Attach template"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "+ Attach template"
           }
         }
@@ -1456,6 +1606,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Set a new 4-digit security PIN"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Set a new 4-digit security PIN"
           }
         }
@@ -1756,6 +1912,12 @@
             "state": "translated",
             "value": "Go to App Store review page"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Go to App Store review page"
+          }
         }
       }
     },
@@ -1765,6 +1927,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Go to App Store page"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Go to App Store page"
           }
         }
@@ -2458,6 +2626,12 @@
             "state": "translated",
             "value": "ClipKeyboard is designed for everyone"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ClipKeyboard is designed for everyone"
+          }
         }
       }
     },
@@ -2607,6 +2781,12 @@
             "state": "translated",
             "value": "Delete Combo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete Combo"
+          }
         }
       }
     },
@@ -2649,6 +2829,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Wait time between items when Combo runs"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Wait time between items when Combo runs"
           }
         }
@@ -2745,6 +2931,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Enter a name for the Combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Enter a name for the Combo"
           }
         }
@@ -3204,6 +3396,12 @@
             "state": "translated",
             "value": "Both Dusk and Paper themes fully support dark mode. Follow system settings or choose directly within the app."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Both Dusk and Paper themes fully support dark mode. Follow system settings or choose directly within the app."
+          }
         }
       }
     },
@@ -3352,6 +3550,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "즐겨찾기"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Favorites"
           }
         }
       }
@@ -4071,6 +4275,12 @@
             "state": "translated",
             "value": "Go to iOS Settings app"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Go to iOS Settings app"
+          }
         }
       }
     },
@@ -4400,6 +4610,12 @@
             "state": "translated",
             "value": "Mail is not configured. Would you like to open another mail app via mailto: link?"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mail is not configured. Would you like to open another mail app via mailto: link?"
+          }
         }
       }
     },
@@ -4624,6 +4840,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "새로운"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "New"
           }
         }
       }
@@ -5353,6 +5575,12 @@
             "state": "translated",
             "value": "Change PIN"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Change PIN"
+          }
         }
       }
     },
@@ -5396,6 +5624,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Deleting the PIN will unlock secure memos. Continue?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Deleting the PIN will unlock secure memos. Continue?"
           }
         }
@@ -5665,6 +5899,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Open Pro upgrade screen"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Open Pro upgrade screen"
           }
         }
@@ -6090,6 +6330,12 @@
             "state": "new",
             "value": "Saved %1$dh %2$dm so far"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Saved %dh %dm so far"
+          }
         }
       }
     },
@@ -6100,6 +6346,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saved %dm so far"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d menit dihemat sejauh ini"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지금까지 %d분 절약함"
           }
         }
       }
@@ -6576,6 +6834,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Template, +Template, Combo, and New badges are distinguished by text labels as well as color. Users with color blindness can read the badge types."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Template, +Template, Combo, and New badges are distinguished by text labels as well as color. Users with color blindness can read the badge types."
           }
         }
@@ -7169,6 +7433,18 @@
             "state": "translated",
             "value": "VoiceOver"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver"
+          }
         }
       }
     },
@@ -7178,6 +7454,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "VoiceOver: Single tap on a memo row → confirm reading aloud. Double tap → confirm 'Copied' announcement."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "VoiceOver: Single tap on a memo row → confirm reading aloud. Double tap → confirm 'Copied' announcement."
           }
         }
@@ -7404,6 +7686,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap the × button to close search."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap the × button to close search."
           }
         }
@@ -7635,6 +7923,12 @@
             "state": "translated",
             "value": "Add value"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add value"
+          }
         }
       }
     },
@@ -7782,6 +8076,12 @@
             "state": "translated",
             "value": "Searching…"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Searching…"
+          }
         }
       }
     },
@@ -7791,6 +8091,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Clear search"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Clear search"
           }
         }
@@ -7913,6 +8219,12 @@
             "state": "translated",
             "value": "Amount"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Amount"
+          }
         }
       }
     },
@@ -7941,6 +8253,12 @@
             "state": "translated",
             "value": "Feature Request"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Feature Request"
+          }
         }
       }
     },
@@ -7950,6 +8268,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "General"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "General"
           }
         }
@@ -8014,6 +8338,12 @@
             "state": "translated",
             "value": "Default category (cannot be deleted)"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Default category (cannot be deleted)"
+          }
         }
       }
     },
@@ -8059,6 +8389,12 @@
             "state": "translated",
             "value": "Other"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Other"
+          }
         }
       }
     },
@@ -8068,6 +8404,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Off"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Off"
           }
         }
@@ -8132,6 +8474,12 @@
             "state": "translated",
             "value": "Edit content and tap Done to save."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edit content and tap Done to save."
+          }
         }
       }
     },
@@ -8141,6 +8489,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Enter content to enable"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Enter content to enable"
           }
         }
@@ -8188,6 +8542,12 @@
             "state": "translated",
             "value": "Open with Another Mail App"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Open with Another Mail App"
+          }
         }
       }
     },
@@ -8231,6 +8591,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Resets this item to the first position."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Resets this item to the first position."
           }
         }
@@ -8278,6 +8644,12 @@
             "state": "translated",
             "value": "Dark Mode"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dark Mode"
+          }
         }
       }
     },
@@ -8287,6 +8659,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Dark Mode: Toggle dark mode in Control Center → confirm background and text color changes."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Dark Mode: Toggle dark mode in Control Center → confirm background and text color changes."
           }
         }
@@ -8317,6 +8695,12 @@
             "state": "translated",
             "value": "More"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "More"
+          }
         }
       }
     },
@@ -8328,6 +8712,12 @@
             "state": "translated",
             "value": "Larger Text"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Larger Text"
+          }
         }
       }
     },
@@ -8337,6 +8727,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Larger Text: Set text size to maximum in settings → confirm text size in the app memo list."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Larger Text: Set text size to maximum in settings → confirm text size in the app memo list."
           }
         }
@@ -8469,6 +8865,12 @@
             "state": "translated",
             "value": "Reduce Motion"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Reduce Motion"
+          }
         }
       }
     },
@@ -8478,6 +8880,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Reduce Motion: Turn on in settings, add to favorites → confirm heart fades without moving."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Reduce Motion: Turn on in settings, add to favorites → confirm heart fades without moving."
           }
         }
@@ -8553,6 +8961,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Drag to reorder. Items are entered in this order when the Combo runs."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Drag to reorder. Items are entered in this order when the Combo runs."
           }
         }
@@ -8733,6 +9147,12 @@
             "state": "translated",
             "value": "Search memos"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Search memos"
+          }
         }
       }
     },
@@ -8742,6 +9162,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Memo mode"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Memo mode"
           }
         }
@@ -8779,6 +9205,12 @@
             "state": "translated",
             "value": "Single tap on a memo in the list to hear the category, title, and content. Double tap to copy to clipboard.\n\nSwipe up or down to select additional actions like 'Add to favorites' or 'Delete'."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Single tap on a memo in the list to hear the category, title, and content. Double tap to copy to clipboard.\n\nSwipe up or down to select additional actions like 'Add to favorites' or 'Delete'."
+          }
         }
       }
     },
@@ -8805,6 +9237,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Edit memo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Edit memo"
           }
         }
@@ -8852,6 +9290,12 @@
             "state": "translated",
             "value": "Search by memo title or content"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Search by memo title or content"
+          }
         }
       }
     },
@@ -8881,6 +9325,12 @@
             "state": "translated",
             "value": "Add memo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add memo"
+          }
         }
       }
     },
@@ -8892,6 +9342,12 @@
             "state": "translated",
             "value": "%d memos until limit → Upgrade to Pro"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d memos until limit → Upgrade to Pro"
+          }
         }
       }
     },
@@ -8901,6 +9357,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Add memos, clipboard items, and templates to a Combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Add memos, clipboard items, and templates to a Combo"
           }
         }
@@ -8948,6 +9410,12 @@
             "state": "translated",
             "value": "Saved as memo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Saved as memo"
+          }
         }
       }
     },
@@ -8974,6 +9442,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Cannot Open Mail App"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Cannot Open Mail App"
           }
         }
@@ -9079,6 +9553,12 @@
             "state": "translated",
             "value": "The free version allows up to %d image memos."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The free version allows up to %d image memos."
+          }
         }
       }
     },
@@ -9175,6 +9655,12 @@
             "state": "translated",
             "value": "Type"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Type"
+          }
         }
       }
     },
@@ -9255,6 +9741,12 @@
             "state": "translated",
             "value": "Copies the preview text to the clipboard."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Copies the preview text to the clipboard."
+          }
         }
       }
     },
@@ -9264,6 +9756,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Excluded"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Excluded"
           }
         }
@@ -9309,6 +9807,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Hide banner temporarily"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Hide banner temporarily"
           }
         }
@@ -9543,6 +10047,12 @@
             "state": "translated",
             "value": "Bug Report"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bug Report"
+          }
         }
       }
     },
@@ -9663,6 +10173,12 @@
             "state": "translated",
             "value": "Cancels changes and closes."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cancels changes and closes."
+          }
         }
       }
     },
@@ -9708,6 +10224,12 @@
             "state": "translated",
             "value": "Send"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Send"
+          }
         }
       }
     },
@@ -9734,6 +10256,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Delete security PIN"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Delete security PIN"
           }
         }
@@ -10019,6 +10547,12 @@
             "state": "translated",
             "value": "Copied"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Copied"
+          }
         }
       }
     },
@@ -10062,6 +10596,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Feel free to describe your issue or suggestion"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Feel free to describe your issue or suggestion"
           }
         }
@@ -10131,6 +10671,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Enter the content to paste. Add template variables using the {variableName} format."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Enter the content to paste. Add template variables using the {variableName} format."
           }
         }
@@ -10260,6 +10806,12 @@
             "state": "translated",
             "value": "Usage Question"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Usage Question"
+          }
         }
       }
     },
@@ -10293,6 +10845,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "When used, prompts for template inputs and combines the output"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "When used, prompts for template inputs and combines the output"
           }
         }
@@ -10472,6 +11030,12 @@
             "state": "translated",
             "value": "Add new Combo"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add new Combo"
+          }
         }
       }
     },
@@ -10481,6 +11045,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Set a new PIN"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Set a new PIN"
           }
         }
@@ -10511,6 +11081,12 @@
             "state": "translated",
             "value": "Adds the new value to the list."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Adds the new value to the list."
+          }
         }
       }
     },
@@ -10520,6 +11096,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "New memo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "New memo"
           }
         }
@@ -10557,6 +11139,12 @@
             "state": "translated",
             "value": "Write a new memo or import text."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Write a new memo or import text."
+          }
         }
       }
     },
@@ -10568,6 +11156,12 @@
             "state": "translated",
             "value": "Write a new memo."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Write a new memo."
+          }
         }
       }
     },
@@ -10577,6 +11171,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "New category name"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "New category name"
           }
         }
@@ -10679,6 +11279,12 @@
             "state": "translated",
             "value": "Newly added"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Newly added"
+          }
         }
       }
     },
@@ -10688,6 +11294,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Create a new Combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Create a new Combo"
           }
         }
@@ -10718,6 +11330,12 @@
             "state": "translated",
             "value": "Differentiate Without Color"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Differentiate Without Color"
+          }
         }
       }
     },
@@ -10727,6 +11345,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Color Filters: Settings → Accessibility → Color Filters (red-green) and confirm badge distinction."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Color Filters: Settings → Accessibility → Color Filters (red-green) and confirm badge distinction."
           }
         }
@@ -10882,6 +11506,12 @@
             "state": "translated",
             "value": "Not selected"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Not selected"
+          }
         }
       }
     },
@@ -10891,6 +11521,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Selected"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Selected"
           }
         }
@@ -10986,6 +11622,12 @@
             "state": "translated",
             "value": "Settings → Display & Brightness → Dark"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Settings → Display & Brightness → Dark"
+          }
         }
       }
     },
@@ -10995,6 +11637,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Settings → Display & Brightness → Text Size"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Settings → Display & Brightness → Text Size"
           }
         }
@@ -11008,6 +11656,12 @@
             "state": "translated",
             "value": "Settings → Accessibility → VoiceOver"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Settings → Accessibility → VoiceOver"
+          }
         }
       }
     },
@@ -11017,6 +11671,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Settings → Accessibility → Motion → Reduce Motion"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Settings → Accessibility → Motion → Reduce Motion"
           }
         }
@@ -11030,6 +11690,12 @@
             "state": "translated",
             "value": "Settings → Accessibility → Display & Text Size → Color Filters"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Settings → Accessibility → Display & Text Size → Color Filters"
+          }
         }
       }
     },
@@ -11039,6 +11705,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Settings → Accessibility → Voice Control"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Settings → Accessibility → Voice Control"
           }
         }
@@ -11246,6 +11918,12 @@
             "state": "translated",
             "value": "Accessibility"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Accessibility"
+          }
         }
       }
     },
@@ -11274,6 +11952,12 @@
             "state": "translated",
             "value": "Quantity"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quantity"
+          }
         }
       }
     },
@@ -11300,6 +11984,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Reset order"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Reset order"
           }
         }
@@ -11425,6 +12115,12 @@
             "state": "translated",
             "value": "Supports visual, motor, and auditory assistive features. These can be enabled in iPhone Settings → Accessibility."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Supports visual, motor, and auditory assistive features. These can be enabled in iPhone Settings → Accessibility."
+          }
         }
       }
     },
@@ -11451,6 +12147,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Increasing the system text size also enlarges memo titles, content previews, and badges. You can also adjust the keyboard separately with the in-app font size slider."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Increasing the system text size also enlarges memo titles, content previews, and badges. You can also adjust the keyboard separately with the in-app font size slider."
           }
         }
@@ -11522,6 +12224,12 @@
             "state": "translated",
             "value": "Run"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Run"
+          }
         }
       }
     },
@@ -11531,6 +12239,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Move down"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Move down"
           }
         }
@@ -11577,6 +12291,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Reset to the app's default category list"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Reset to the app's default category list"
           }
         }
@@ -11716,6 +12436,12 @@
             "state": "translated",
             "value": "What feature would you like?\nExample: I need a way to group memos into folders."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "What feature would you like?\nExample: I need a way to group memos into folders."
+          }
         }
       }
     },
@@ -11727,6 +12453,12 @@
             "state": "translated",
             "value": "What would you like to know?\nExample: How do I view my clipboard history?"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "What would you like to know?\nExample: How do I view my clipboard history?"
+          }
         }
       }
     },
@@ -11736,6 +12468,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Please describe when the issue occurs.\nExample: The app closes when saving a memo."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Please describe when the issue occurs.\nExample: The app closes when saving a memo."
           }
         }
@@ -12015,6 +12753,12 @@
             "state": "translated",
             "value": "Skip onboarding and start the app"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Skip onboarding and start the app"
+          }
         }
       }
     },
@@ -12041,6 +12785,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Optional template linked"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Optional template linked"
           }
         }
@@ -12105,6 +12855,12 @@
             "state": "translated",
             "value": "Move up"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Move up"
+          }
         }
       }
     },
@@ -12133,6 +12889,12 @@
             "state": "translated",
             "value": "Voice Control"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voice Control"
+          }
         }
       }
     },
@@ -12144,6 +12906,12 @@
             "state": "translated",
             "value": "Voice Control: Say 'Tap Memo Search' or 'Tap OK' → confirm response."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voice Control: Say 'Tap Memo Search' or 'Tap OK' → confirm response."
+          }
         }
       }
     },
@@ -12153,6 +12921,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Edit this value."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Edit this value."
           }
         }
@@ -12198,6 +12972,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Delete this saved value."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Delete this saved value."
           }
         }
@@ -12262,6 +13042,12 @@
             "state": "translated",
             "value": "Want to try this?"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Want to try this?"
+          }
         }
       }
     },
@@ -12271,6 +13057,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Here's how you can use it"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Here's how you can use it"
           }
         }
@@ -12299,6 +13091,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Rename"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Rename"
           }
         }
@@ -12728,6 +13526,12 @@
             "state": "translated",
             "value": "Temporary item"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temporary item"
+          }
         }
       }
     },
@@ -12761,6 +13565,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Clear input"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Clear input"
           }
         }
@@ -12856,6 +13666,12 @@
             "state": "translated",
             "value": "Adds the entered value to the Combo list."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Adds the entered value to the Combo list."
+          }
         }
       }
     },
@@ -12867,6 +13683,12 @@
             "state": "translated",
             "value": "Clears all content, title, and category."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clears all content, title, and category."
+          }
         }
       }
     },
@@ -12876,6 +13698,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "All content will be cleared. Continue?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "All content will be cleared. Continue?"
           }
         }
@@ -12974,6 +13802,12 @@
             "state": "translated",
             "value": "Auto-attached Info"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto-attached Info"
+          }
         }
       }
     },
@@ -13024,6 +13858,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Leave any feedback you'd like."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Leave any feedback you'd like."
           }
         }
@@ -13163,6 +14003,12 @@
             "state": "translated",
             "value": "Switch to saved memo list mode."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Switch to saved memo list mode."
+          }
         }
       }
     },
@@ -13174,6 +14020,12 @@
             "state": "translated",
             "value": "Delete the saved security PIN"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete the saved security PIN"
+          }
         }
       }
     },
@@ -13183,6 +14035,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "All saved clipboard items will be deleted. This action cannot be undone."
           }
         }
@@ -13288,6 +14146,12 @@
             "state": "translated",
             "value": "Allow Full Access, step 2 of 2"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Allow Full Access, step 2 of 2"
+          }
         }
       }
     },
@@ -13331,6 +14195,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Collapsed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Collapsed"
           }
         }
@@ -13395,6 +14265,12 @@
             "state": "translated",
             "value": "Dismiss suggestion"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dismiss suggestion"
+          }
         }
       }
     },
@@ -13421,6 +14297,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Ready"
           }
         }
@@ -13468,6 +14350,12 @@
             "state": "translated",
             "value": "Show favorite memos only or show all."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Show favorite memos only or show all."
+          }
         }
       }
     },
@@ -13479,6 +14367,12 @@
             "state": "translated",
             "value": "Add to favorites"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add to favorites"
+          }
         }
       }
     },
@@ -13488,6 +14382,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "The heart animation shown when adding to favorites follows the 'Reduce Motion' setting. When enabled, only a fade is used without movement or scaling."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "The heart animation shown when adding to favorites follows the 'Reduce Motion' setting. When enabled, only a fade is used without movement or scaling."
           }
         }
@@ -13518,6 +14418,12 @@
             "state": "translated",
             "value": "Favorites only"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Favorites only"
+          }
         }
       }
     },
@@ -13529,6 +14435,12 @@
             "state": "translated",
             "value": "Upgrade to Pro now and use it for life"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Upgrade to Pro now and use it for life"
+          }
         }
       }
     },
@@ -13538,6 +14450,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Add now"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Add now"
           }
         }
@@ -13575,6 +14493,12 @@
             "state": "translated",
             "value": "Add your own"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add your own"
+          }
         }
       }
     },
@@ -13584,6 +14508,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Switch to direct typing mode."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Switch to direct typing mode."
           }
         }
@@ -13672,6 +14602,12 @@
             "state": "translated",
             "value": "Processing"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Processing"
+          }
         }
       }
     },
@@ -13724,6 +14660,12 @@
             "state": "translated",
             "value": "Trial started! All features unlocked"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Trial started! All features unlocked"
+          }
         }
       }
     },
@@ -13733,6 +14675,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Trial active — %d days remaining"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Trial active — %d days remaining"
           }
         }
@@ -13778,6 +14726,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Recent: %@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Recent: %@"
           }
         }
@@ -13922,6 +14876,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "On"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "On"
           }
         }
@@ -14088,6 +15048,12 @@
             "state": "translated",
             "value": "Clear all clipboard history"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clear all clipboard history"
+          }
         }
       }
     },
@@ -14114,6 +15080,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Opens clipboard history, placeholder management, and settings menu."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Opens clipboard history, placeholder management, and settings menu."
           }
         }
@@ -14423,6 +15395,12 @@
             "state": "translated",
             "value": "Add keyboard, step 1 of 2"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add keyboard, step 1 of 2"
+          }
         }
       }
     },
@@ -14577,6 +15555,12 @@
             "state": "translated",
             "value": "Typing mode"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Typing mode"
+          }
         }
       }
     },
@@ -14638,6 +15622,12 @@
             "state": "translated",
             "value": "Tap to paste after PIN verification."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to paste after PIN verification."
+          }
         }
       }
     },
@@ -14647,6 +15637,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to purchase Pro"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to purchase Pro"
           }
         }
@@ -14660,6 +15656,12 @@
             "state": "translated",
             "value": "Tap to collapse the value list."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to collapse the value list."
+          }
         }
       }
     },
@@ -14669,6 +15671,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to expand the value list."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to expand the value list."
           }
         }
@@ -14682,6 +15690,12 @@
             "state": "translated",
             "value": "Tap to paste the memo content only."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to paste the memo content only."
+          }
         }
       }
     },
@@ -14691,6 +15705,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to search memos."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to search memos."
           }
         }
@@ -14704,6 +15724,12 @@
             "state": "translated",
             "value": "Tap to send via mail app"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to send via mail app"
+          }
         }
       }
     },
@@ -14713,6 +15739,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to enter variable values and paste."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to enter variable values and paste."
           }
         }
@@ -14726,6 +15758,12 @@
             "state": "translated",
             "value": "Tap to fill in template variables and paste."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to fill in template variables and paste."
+          }
         }
       }
     },
@@ -14735,6 +15773,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to set this value."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to set this value."
           }
         }
@@ -14748,6 +15792,12 @@
             "state": "translated",
             "value": "Tap to create a memo from this example"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to create a memo from this example"
+          }
         }
       }
     },
@@ -14757,6 +15807,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to insert variable at cursor position"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to insert variable at cursor position"
           }
         }
@@ -14770,6 +15826,12 @@
             "state": "translated",
             "value": "Tap to copy to clipboard"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to copy to clipboard"
+          }
         }
       }
     },
@@ -14781,6 +15843,12 @@
             "state": "translated",
             "value": "Tap to open edit screen"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to open edit screen"
+          }
         }
       }
     },
@@ -14790,6 +15858,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to include or exclude from Combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to include or exclude from Combo"
           }
         }
@@ -14820,6 +15894,12 @@
             "state": "translated",
             "value": "Tap to filter by this type"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tap to filter by this type"
+          }
         }
       }
     },
@@ -14829,6 +15909,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to select this category"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to select this category"
           }
         }
@@ -14857,6 +15943,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Tap to add it as your own memo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Tap to add it as your own memo"
           }
         }
@@ -14904,6 +15996,12 @@
             "state": "translated",
             "value": "Theme selection, auto-detected: %@"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Theme selection, auto-detected: %@"
+          }
         }
       }
     },
@@ -14947,6 +16045,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "How to Test"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "How to Test"
           }
         }
@@ -15062,6 +16166,12 @@
             "state": "translated",
             "value": "Edit template content"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edit template content"
+          }
         }
       }
     },
@@ -15071,6 +16181,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Edit template content directly."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Edit template content directly."
           }
         }
@@ -15176,6 +16292,12 @@
             "state": "translated",
             "value": "Select template"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Select template"
+          }
         }
       }
     },
@@ -15202,6 +16324,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Copy template text"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Copy template text"
           }
         }
@@ -15348,6 +16476,12 @@
             "state": "translated",
             "value": "Complete editing and apply to preview."
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Complete editing and apply to preview."
+          }
         }
       }
     },
@@ -15359,6 +16493,12 @@
             "state": "translated",
             "value": "Expanded"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Expanded"
+          }
         }
       }
     },
@@ -15368,6 +16508,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Included"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Included"
           }
         }
@@ -15449,6 +16595,12 @@
             "state": "translated",
             "value": "Edit placeholder"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edit placeholder"
+          }
         }
       }
     },
@@ -15458,6 +16610,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Feedback Content"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Feedback Content"
           }
         }
@@ -15471,6 +16629,12 @@
             "state": "translated",
             "value": "Send Feedback"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Send Feedback"
+          }
         }
       }
     },
@@ -15480,6 +16644,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Send Feedback settings entry"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Send Feedback settings entry"
           }
         }
@@ -15493,6 +16663,12 @@
             "state": "translated",
             "value": "Feedback type"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Feedback type"
+          }
         }
       }
     },
@@ -15502,6 +16678,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Feedback sent!\nThank you for your valuable input 🙏"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Feedback sent!\nThank you for your valuable input 🙏"
           }
         }
@@ -15630,6 +16812,12 @@
             "state": "translated",
             "value": "Item spacing"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Item spacing"
+          }
         }
       }
     },
@@ -15709,6 +16897,12 @@
             "state": "translated",
             "value": "Currently selected"
           }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Currently selected"
+          }
         }
       }
     },
@@ -15718,6 +16912,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Clears all currently entered text."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Clears all currently entered text."
           }
         }
@@ -15798,6 +16998,12 @@
         "en": {
           "stringUnit": {
             "state": "translated",
+            "value": "Welcome"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Welcome"
           }
         }
@@ -16553,6 +17759,2094 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rekomendasi restoran"
+          }
+        }
+      }
+    },
+    "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다"
+          }
+        }
+      }
+    },
+    "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\\n• 5분마다 정기적으로 백업이 실행됩니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\\n• 5분마다 정기적으로 백업이 실행됩니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\\n• 5분마다 정기적으로 백업이 실행됩니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\\n• 5분마다 정기적으로 백업이 실행됩니다"
+          }
+        }
+      }
+    },
+    "⚠️ 현재 기기에 데이터가 있습니다.\\n\\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\\n\\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⚠️ 현재 기기에 데이터가 있습니다.\\n\\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\\n\\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⚠️ 현재 기기에 데이터가 있습니다.\\n\\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\\n\\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⚠️ 현재 기기에 데이터가 있습니다.\\n\\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\\n\\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?"
+          }
+        }
+      }
+    },
+    "%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다"
+          }
+        }
+      }
+    },
+    "About": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정보"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tentang"
+          }
+        }
+      }
+    },
+    "Accessibility permission granted": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission granted"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "접근성 권한 허용됨"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izin aksesibilitas diberikan"
+          }
+        }
+      }
+    },
+    "Accessibility permission required for direct paste.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accessibility permission required for direct paste."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "직접 붙여넣기를 위해 접근성 권한이 필요합니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Izin aksesibilitas diperlukan untuk tempel langsung."
+          }
+        }
+      }
+    },
+    "Click to paste": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Click to paste"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클릭해서 붙여넣기"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klik untuk menempel"
+          }
+        }
+      }
+    },
+    "Clipboard history": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clipboard history"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클립보드 히스토리"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riwayat clipboard"
+          }
+        }
+      }
+    },
+    "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
+          }
+        }
+      }
+    },
+    "ClipKeyboard에 오신 것을 환영합니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ClipKeyboard에 오신 것을 환영합니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ClipKeyboard에 오신 것을 환영합니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ClipKeyboard에 오신 것을 환영합니다"
+          }
+        }
+      }
+    },
+    "Copy and Paste": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy and Paste"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy and Paste"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy and Paste"
+          }
+        }
+      }
+    },
+    "General": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "General"
+          }
+        }
+      }
+    },
+    "Global Shortcuts": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Shortcuts"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global Shortcuts"
+          }
+        }
+      }
+    },
+    "Grant Access…": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Access…"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Access…"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grant Access…"
+          }
+        }
+      }
+    },
+    "iCloud Backup": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Backup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Backup"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud Backup"
+          }
+        }
+      }
+    },
+    "iCloud 동기화": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 동기화"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 동기화"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 동기화"
+          }
+        }
+      }
+    },
+    "iCloud 백업 및 복구": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 백업 및 복구"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 백업 및 복구"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 백업 및 복구"
+          }
+        }
+      }
+    },
+    "iCloud 상태:": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 상태:"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 상태:"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iCloud 상태:"
+          }
+        }
+      }
+    },
+    "iOS 구매 시 자동 연동": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 구매 시 자동 연동"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 구매 시 자동 연동"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 구매 시 자동 연동"
+          }
+        }
+      }
+    },
+    "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다."
+          }
+        }
+      }
+    },
+    "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다."
+          }
+        }
+      }
+    },
+    "⌃⌥K로 어디서나 빠르게 접근": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "⌃⌥K로 어디서나 빠르게 접근"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⌃⌥K로 어디서나 빠르게 접근"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "⌃⌥K로 어디서나 빠르게 접근"
+          }
+        }
+      }
+    },
+    "Launch at login": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch at login"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch at login"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Launch at login"
+          }
+        }
+      }
+    },
+    "macOS에서 가장 빠르고 편리한\\n메모 및 클립보드 관리 앱": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "macOS에서 가장 빠르고 편리한\\n메모 및 클립보드 관리 앱"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "macOS에서 가장 빠르고 편리한\\n메모 및 클립보드 관리 앱"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "macOS에서 가장 빠르고 편리한\\n메모 및 클립보드 관리 앱"
+          }
+        }
+      }
+    },
+    "Monitor clipboard in background": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor clipboard in background"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor clipboard in background"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor clipboard in background"
+          }
+        }
+      }
+    },
+    "No matches": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches"
+          }
+        }
+      }
+    },
+    "No matches for \\": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches for \\"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches for \\"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches for \\"
+          }
+        }
+      }
+    },
+    "No memos yet": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No memos yet"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No memos yet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No memos yet"
+          }
+        }
+      }
+    },
+    "Open memo list": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open memo list"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open memo list"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open memo list"
+          }
+        }
+      }
+    },
+    "Paste behavior": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste behavior"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste behavior"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste behavior"
+          }
+        }
+      }
+    },
+    "Paste directly after selecting": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste directly after selecting"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste directly after selecting"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste directly after selecting"
+          }
+        }
+      }
+    },
+    "Preferences": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
+        }
+      }
+    },
+    "Quick Paste Panel": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Paste Panel"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Paste Panel"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quick Paste Panel"
+          }
+        }
+      }
+    },
+    "Search memos": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search memos"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search memos"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search memos"
+          }
+        }
+      }
+    },
+    "Send Feedback": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Feedback"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Feedback"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send Feedback"
+          }
+        }
+      }
+    },
+    "Shortcuts": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        }
+      }
+    },
+    "Show Onboarding": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Onboarding"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Onboarding"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Onboarding"
+          }
+        }
+      }
+    },
+    "Startup": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Startup"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Startup"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Startup"
+          }
+        }
+      }
+    },
+    "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
+          }
+        }
+      }
+    },
+    "This template has no values to set.\\nPlease try again.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This template has no values to set.\\nPlease try again."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This template has no values to set.\\nPlease try again."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This template has no values to set.\\nPlease try again."
+          }
+        }
+      }
+    },
+    "Version %@": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@"
+          }
+        }
+      }
+    },
+    "View User Guide": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View User Guide"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View User Guide"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View User Guide"
+          }
+        }
+      }
+    },
+    "Welcome to ClipKeyboard": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to ClipKeyboard"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to ClipKeyboard"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to ClipKeyboard"
+          }
+        }
+      }
+    },
+    "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste).": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste)."
+          }
+        }
+      }
+    },
+    "값이 없습니다.\\n템플릿 사용 시 값을 추가하세요.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "값이 없습니다.\\n템플릿 사용 시 값을 추가하세요."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "값이 없습니다.\\n템플릿 사용 시 값을 추가하세요."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "값이 없습니다.\\n템플릿 사용 시 값을 추가하세요."
+          }
+        }
+      }
+    },
+    "개인정보를 수집하지 않습니다.\\n안심하고 사용하세요.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개인정보를 수집하지 않습니다.\\n안심하고 사용하세요."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "개인정보를 수집하지 않습니다.\\n안심하고 사용하세요."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "개인정보를 수집하지 않습니다.\\n안심하고 사용하세요."
+          }
+        }
+      }
+    },
+    "검색...": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "검색..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "검색..."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "검색..."
+          }
+        }
+      }
+    },
+    "데이터가 iCloud에 성공적으로 백업되었습니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "데이터가 iCloud에 성공적으로 백업되었습니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "데이터가 iCloud에 성공적으로 백업되었습니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "데이터가 iCloud에 성공적으로 백업되었습니다."
+          }
+        }
+      }
+    },
+    "데이터를 iCloud에 안전하게 백업하세요": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "데이터를 iCloud에 안전하게 백업하세요"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "데이터를 iCloud에 안전하게 백업하세요"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "데이터를 iCloud에 안전하게 백업하세요"
+          }
+        }
+      }
+    },
+    "마지막 백업:": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "마지막 백업:"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "마지막 백업:"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "마지막 백업:"
+          }
+        }
+      }
+    },
+    "메모 5개 · 클립보드 20개 제한": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "메모 5개 · 클립보드 20개 제한"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "메모 5개 · 클립보드 20개 제한"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "메모 5개 · 클립보드 20개 제한"
+          }
+        }
+      }
+    },
+    "메모를 즐겨찾기에 추가하세요": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "메모를 즐겨찾기에 추가하세요"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "메모를 즐겨찾기에 추가하세요"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "메모를 즐겨찾기에 추가하세요"
+          }
+        }
+      }
+    },
+    "모든 기기에서 데이터 동기화": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 기기에서 데이터 동기화"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "모든 기기에서 데이터 동기화"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "모든 기기에서 데이터 동기화"
+          }
+        }
+      }
+    },
+    "모든 기능을 사용할 수 있습니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "모든 기능을 사용할 수 있습니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "모든 기능을 사용할 수 있습니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "모든 기능을 사용할 수 있습니다."
+          }
+        }
+      }
+    },
+    "무료 플랜": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "무료 플랜"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "무료 플랜"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "무료 플랜"
+          }
+        }
+      }
+    },
+    "백업 데이터가 성공적으로 복구되었습니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "백업 데이터가 성공적으로 복구되었습니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "백업 데이터가 성공적으로 복구되었습니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "백업 데이터가 성공적으로 복구되었습니다."
+          }
+        }
+      }
+    },
+    "백업 중...": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "백업 중..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "백업 중..."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "백업 중..."
+          }
+        }
+      }
+    },
+    "별점 하나가\\n1인 개발자에게 큰 힘이 됩니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "별점 하나가\\n1인 개발자에게 큰 힘이 됩니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "별점 하나가\\n1인 개발자에게 큰 힘이 됩니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "별점 하나가\\n1인 개발자에게 큰 힘이 됩니다."
+          }
+        }
+      }
+    },
+    "복구 중...": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복구 중..."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복구 중..."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복구 중..."
+          }
+        }
+      }
+    },
+    "복사한 내용을 자동으로 저장하고 관리": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사한 내용을 자동으로 저장하고 관리"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복사한 내용을 자동으로 저장하고 관리"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복사한 내용을 자동으로 저장하고 관리"
+          }
+        }
+      }
+    },
+    "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+          }
+        }
+      }
+    },
+    "빠른 메모": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "빠른 메모"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "빠른 메모"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "빠른 메모"
+          }
+        }
+      }
+    },
+    "상태 새로고침": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상태 새로고침"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "상태 새로고침"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "상태 새로고침"
+          }
+        }
+      }
+    },
+    "상태 확인": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "상태 확인"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "상태 확인"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "상태 확인"
+          }
+        }
+      }
+    },
+    "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요"
+          }
+        }
+      }
+    },
+    "어떤 기능이 있으면 좋겠나요?\\n예) 메모를 폴더로 묶는 기능이 필요해요.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "어떤 기능이 있으면 좋겠나요?\\n예) 메모를 폴더로 묶는 기능이 필요해요."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 기능이 있으면 좋겠나요?\\n예) 메모를 폴더로 묶는 기능이 필요해요."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 기능이 있으면 좋겠나요?\\n예) 메모를 폴더로 묶는 기능이 필요해요."
+          }
+        }
+      }
+    },
+    "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?"
+          }
+        }
+      }
+    },
+    "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 메모를 저장할 때 앱이 종료됩니다.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 메모를 저장할 때 앱이 종료됩니다."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 메모를 저장할 때 앱이 종료됩니다."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 메모를 저장할 때 앱이 종료됩니다."
+          }
+        }
+      }
+    },
+    "여러 메모를 순서대로 자동 입력하는\\nCombo를 만들어보세요": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "여러 메모를 순서대로 자동 입력하는\\nCombo를 만들어보세요"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "여러 메모를 순서대로 자동 입력하는\\nCombo를 만들어보세요"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "여러 메모를 순서대로 자동 입력하는\\nCombo를 만들어보세요"
+          }
+        }
+      }
+    },
+    "이미지를 불러올 수 없습니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이미지를 불러올 수 없습니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "이미지를 불러올 수 없습니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "이미지를 불러올 수 없습니다"
+          }
+        }
+      }
+    },
+    "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기"
+          }
+        }
+      }
+    },
+    "전": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전"
+          }
+        }
+      }
+    },
+    "전역 단축키": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전역 단축키"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전역 단축키"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전역 단축키"
+          }
+        }
+      }
+    },
+    "즐겨찾기 메모": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "즐겨찾기 메모"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 메모"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 메모"
+          }
+        }
+      }
+    },
+    "즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요.": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요."
+          }
+        }
+      }
+    },
+    "즐겨찾기 없음": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "즐겨찾기 없음"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 없음"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "즐겨찾기 없음"
+          }
+        }
+      }
+    },
+    "최대 100개": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최대 100개"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 100개"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 100개"
+          }
+        }
+      }
+    },
+    "최대 20개": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최대 20개"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 20개"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 20개"
+          }
+        }
+      }
+    },
+    "최대 5개": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "최대 5개"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 5개"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "최대 5개"
+          }
+        }
+      }
+    },
+    "클립키보드에\\n오신 것을 환영합니다!": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "클립키보드에\\n오신 것을 환영합니다!"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클립키보드에\\n오신 것을 환영합니다!"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클립키보드에\\n오신 것을 환영합니다!"
+          }
+        }
+      }
+    },
+    "키보드에서 바로 메모를 불러와\\n빠르게 입력할 수 있어요": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키보드에서 바로 메모를 불러와\\n빠르게 입력할 수 있어요"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "키보드에서 바로 메모를 불러와\\n빠르게 입력할 수 있어요"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "키보드에서 바로 메모를 불러와\\n빠르게 입력할 수 있어요"
+          }
+        }
+      }
+    },
+    "키보드에서 저장된 메모를 불러오려면\\n전체 접근 권한이 필요합니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키보드에서 저장된 메모를 불러오려면\\n전체 접근 권한이 필요합니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "키보드에서 저장된 메모를 불러오려면\\n전체 접근 권한이 필요합니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "키보드에서 저장된 메모를 불러오려면\\n전체 접근 권한이 필요합니다"
+          }
+        }
+      }
+    },
+    "탭하여 복사": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "탭하여 복사"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "탭하여 복사"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "탭하여 복사"
+          }
+        }
+      }
+    },
+    "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다"
+          }
+        }
+      }
+    },
+    "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏"
+          }
+        }
+      }
+    },
+    "항목 (\\(selectedItems.count)개)": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "항목 (\\(selectedItems.count)개)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "항목 (\\(selectedItems.count)개)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "항목 (\\(selectedItems.count)개)"
           }
         }
       }

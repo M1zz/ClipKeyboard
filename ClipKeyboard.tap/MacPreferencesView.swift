@@ -88,11 +88,11 @@ struct MacPreferencesView: View {
     private var shortcutsTab: some View {
         Form {
             Section {
-                shortcutRow(NSLocalizedString("Quick paste panel", comment: "Shortcut: quick paste"), keys: "⌃⇧V")
+                shortcutRow(NSLocalizedString("Quick Paste Panel", comment: "Shortcut: quick paste"), keys: "⌃⇧V")
                 shortcutRow(NSLocalizedString("Open memo list", comment: "Shortcut: memo list"), keys: "⌃⇧M")
                 shortcutRow(NSLocalizedString("New memo", comment: "Shortcut: new memo"), keys: "⌃⇧N")
                 shortcutRow(NSLocalizedString("Clipboard history", comment: "Shortcut: clipboard history"), keys: "⌃⇧H")
-                shortcutRow(NSLocalizedString("iCloud backup", comment: "Shortcut: iCloud backup"), keys: "⌃⇧B")
+                shortcutRow(NSLocalizedString("iCloud Backup", comment: "Shortcut: iCloud backup"), keys: "⌃⇧B")
                 shortcutRow(NSLocalizedString("Preferences", comment: "Shortcut: preferences"), keys: "⌘,")
             } header: {
                 Text(NSLocalizedString("Global Shortcuts", comment: "Prefs section: global shortcuts"))
