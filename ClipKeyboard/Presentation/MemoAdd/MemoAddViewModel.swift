@@ -110,16 +110,24 @@ final class MemoAddViewModel: ObservableObject {
         applySampleIfAppropriate(newCategory: theme, previousCategory: previousCategory)
     }
 
-    /// v4.0.8: 백지 부담 줄이기 — 카테고리에 맞는 샘플 자동 채움.
-    /// 1) value가 비어있거나
-    /// 2) 이전 카테고리의 샘플 값 그대로(=사용자가 수정 안 함)일 때만 갱신.
+    /// v4.0.8: 백지 부담 줄이기 — 카테고리에 맞는 샘플 자동 채움 (value + keyword).
+    /// 1) value/keyword가 비어있거나
+    /// 2) 이전 카테고리의 샘플 그대로(=사용자가 수정 안 함)일 때만 갱신.
     /// 사용자가 직접 입력한 값은 절대 덮어쓰지 않는다.
     /// selectCategory + setupView 양쪽에서 호출 (직접 set하는 경로도 자동 채움 trigger).
     private func applySampleIfAppropriate(newCategory: String, previousCategory: String) {
-        guard let sample = Constants.sampleValue(for: newCategory) else { return }
-        if value.isEmpty || Constants.isSampleValue(value, forCategory: previousCategory) {
-            value = sample
-            isSampleValue = true
+        // 1) 붙여넣을 내용 (value)
+        if let sample = Constants.sampleValue(for: newCategory) {
+            if value.isEmpty || Constants.isSampleValue(value, forCategory: previousCategory) {
+                value = sample
+                isSampleValue = true
+            }
+        }
+        // 2) 키보드에 표시할 이름 (keyword) — 카테고리 다국어명을 기본값으로
+        if let titleSample = Constants.sampleTitle(for: newCategory) {
+            if keyword.isEmpty || Constants.isSampleTitle(keyword, forCategory: previousCategory) {
+                keyword = titleSample
+            }
         }
     }
 

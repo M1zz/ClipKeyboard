@@ -120,6 +120,24 @@ struct Constants {
         return value == sample
     }
 
+    /// 카테고리에 맞는 기본 keyword(이름) 샘플. 카테고리 다국어명을 그대로 사용해
+    /// 백지 부담을 줄이되, 사용자가 자기 맥락에 맞게 수정 가능.
+    /// 예: ko 환경 "전화번호" / en 환경 "Phone" / id 환경 "Telepon".
+    static func sampleTitle(for category: String) -> String? {
+        // sampleValue 매핑이 있는 카테고리만 keyword 자동 채움
+        guard sampleValuesByRawType[category] != nil else { return nil }
+        if let type = ClipboardItemType(rawValue: category) {
+            return type.localizedName
+        }
+        return category
+    }
+
+    /// 주어진 keyword가 카테고리의 샘플 keyword와 동일한지 — 자동 갱신 가능 여부 판정.
+    static func isSampleTitle(_ title: String, forCategory category: String) -> Bool {
+        guard let sample = sampleTitle(for: category) else { return false }
+        return title == sample
+    }
+
     // 테마명을 다국어 이름으로 변환 (UI 표시용)
     static func localizedThemeName(_ theme: String) -> String {
         if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == theme }) {
