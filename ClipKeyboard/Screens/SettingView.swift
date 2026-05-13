@@ -142,7 +142,7 @@ struct SettingView: View {
                 NavigationLink(destination: PersonaSettingsContainer()) {
                     Label {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("사용 패턴", comment: "Persona setting row title"))
+                            Text(NSLocalizedString("페르소나", comment: "Persona setting row title"))
                             if let p = CategoryStore.shared.selectedPersona {
                                 Text(p.localizedTitle)
                                     .font(.caption)
@@ -296,7 +296,7 @@ struct PersonaSettingsContainer: View {
                 dismiss()
             }
         }, mode: .settings)
-        .navigationTitle(NSLocalizedString("사용 패턴", comment: "Persona setting nav title"))
+        .navigationTitle(NSLocalizedString("페르소나", comment: "Persona setting nav title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

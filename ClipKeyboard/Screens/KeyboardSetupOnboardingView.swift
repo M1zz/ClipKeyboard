@@ -712,7 +712,7 @@ struct PersonaSelectionView: View {
         case .onboarding:
             return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
         case .settings:
-            return NSLocalizedString("사용 패턴 변경", comment: "Persona settings title")
+            return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
         }
     }
 
