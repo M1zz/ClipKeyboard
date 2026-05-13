@@ -692,9 +692,13 @@ struct UsageGuideView: View {
 
             HStack(spacing: 8) {
                 NavigationLink {
+                    // v4.0.8: 시나리오의 feature에 따라 메모 추가 화면의 토글도 미리 ON.
+                    // .template → 템플릿 토글, .combo → Combo 토글, 그 외(.memo/.smartClipboard)는 일반 메모
                     MemoAdd(
                         insertedKeyword: scenario.title,
-                        insertedValue: scenario.example
+                        insertedValue: scenario.example,
+                        insertedIsTemplate: scenario.feature == .template,
+                        insertedIsCombo: scenario.feature == .combo
                     )
                 } label: {
                     HStack(spacing: 4) {

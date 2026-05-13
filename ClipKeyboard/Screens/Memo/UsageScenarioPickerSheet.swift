@@ -6,7 +6,9 @@
 import SwiftUI
 
 struct UsageScenarioPickerSheet: View {
-    let onSelect: (String) -> Void
+    /// 선택된 시나리오 전체를 부모에게 전달. 부모는 example 본문 외에도
+    /// scenario.feature를 보고 isTemplate / isCombo 토글을 함께 설정한다.
+    let onSelect: (UsageScenario) -> Void
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
@@ -100,7 +102,7 @@ struct UsageScenarioPickerSheet: View {
 
     private func scenarioCard(_ scenario: UsageScenario) -> some View {
         Button {
-            onSelect(scenario.example)
+            onSelect(scenario)
         } label: {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top, spacing: 8) {
