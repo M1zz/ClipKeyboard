@@ -1498,6 +1498,34 @@ struct ContentInputSection: View {
                         }
                     }
                 #endif
+
+                // 일반 카테고리에서 이미지 미첨부 시 큰 "이미지 추가" 탭 버튼.
+                // 헤더 우측 작은 아이콘만으로는 인지율이 낮아 별도 노출.
+                if attachedImages.isEmpty {
+                    Button {
+                        showImagePicker = true
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "photo.badge.plus")
+                                .font(.body)
+                            Text(NSLocalizedString("이미지 추가", comment: "Add image button on memo add screen"))
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                        }
+                        .foregroundColor(.blue)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(theme.surfaceAlt)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                                .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4]))
+                        )
+                        .cornerRadius(theme.radiusMd)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(NSLocalizedString("이미지 추가", comment: "Add image button on memo add screen"))
+                    .padding(.top, 4)
+                }
             }
         }
         .sheet(isPresented: $showImagePicker) {
