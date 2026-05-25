@@ -226,50 +226,35 @@ struct ClipKeyboardList: View {
                     Text(NSLocalizedString("이 작업은 취소할 수 없습니다.", comment: "Delete warning"))
                 }
             }
-            // 롱프레스 완료 후 액션 메뉴
-            // SwiftUI race 회피: confirmationDialog dismiss와 sheet/alert 트리거가 동시에
-            // 발생하면 시트가 안 뜨는 버그가 있음. memoToEdit/memoToDelete는 dialog가
-            // 사라진 다음 set하도록 asyncAfter로 한 frame 지연.
-            .confirmationDialog(
-                memoForActions?.title ?? "",
-                isPresented: $showMemoActions,
-                titleVisibility: .visible
-            ) {
+            // 롱프레스 완료 후 액션 시트 (커스텀 bottom sheet)
+            // iOS confirmationDialog/actionSheet는 시스템 디자인상 button systemImage를
+            // 렌더링 안 함. 아이콘 표시를 위해 .sheet + MemoActionSheet 사용.
+            // SwiftUI race 회피: sheet dismiss 후 0.35s 뒤에 memoToEdit/memoToDelete set.
+            .sheet(isPresented: $showMemoActions) {
                 if let memo = memoForActions {
-                    Button {
-                        HapticManager.shared.selection()
-                        viewModel.copyMemo(memo: memo)
-                    } label: {
-                        Label(NSLocalizedString("복사", comment: "Action: copy"), systemImage: "doc.on.doc")
-                    }
-                    Button {
-                        HapticManager.shared.selection()
-                        viewModel.toggleFavorite(memoId: memo.id)
-                    } label: {
-                        Label(
-                            memo.isFavorite
-                                ? NSLocalizedString("즐겨찾기 해제", comment: "Action: remove favorite")
-                                : NSLocalizedString("즐겨찾기 추가", comment: "Action: add favorite"),
-                            systemImage: memo.isFavorite ? "heart.slash" : "heart"
-                        )
-                    }
-                    Button {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            memoToEdit = memo
+                    MemoActionSheet(
+                        memo: memo,
+                        onCopy: {
+                            HapticManager.shared.selection()
+                            viewModel.copyMemo(memo: memo)
+                        },
+                        onToggleFavorite: {
+                            HapticManager.shared.selection()
+                            viewModel.toggleFavorite(memoId: memo.id)
+                        },
+                        onEdit: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                memoToEdit = memo
+                            }
+                        },
+                        onDelete: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                memoToDelete = memo
+                            }
                         }
-                    } label: {
-                        Label(NSLocalizedString("수정", comment: "Action: edit"), systemImage: "pencil")
-                    }
-                    Button(role: .destructive) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            memoToDelete = memo
-                        }
-                    } label: {
-                        Label(NSLocalizedString("삭제", comment: "Action: delete"), systemImage: "trash")
-                    }
-                }
-                Button(role: .cancel) {} label: {
-                    Label(NSLocalizedString("취소", comment: "Cancel"), systemImage: "xmark")
+                    )
+                    .presentationDetents([.height(380)])
+                    .presentationDragIndicator(.visible)
                 }
             }
             // 즐겨찾기 탭 + 버튼 — 즐겨찾기로 바로 저장
@@ -1756,6 +1741,122 @@ struct ClipKeyboardList_Previews: PreviewProvider {
 }
 
 // MARK: - Swipe Page Indicator
+
+// MARK: - Memo Action Sheet (long-press menu)
+
+/// 메모 카드를 long-press 했을 때 뜨는 커스텀 bottom sheet.
+/// confirmationDialog는 iOS에서 button icon을 렌더링 안 해서 자체 시트로 구현.
+/// 각 행에 SF Symbol + 텍스트 표시 (삭제는 빨간색).
+private struct MemoActionSheet: View {
+    let memo: Memo
+    let onCopy: () -> Void
+    let onToggleFavorite: () -> Void
+    let onEdit: () -> Void
+    let onDelete: () -> Void
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // 헤더 — 메모 제목
+            HStack {
+                Text(memo.title)
+                    .font(.headline)
+                    .foregroundColor(theme.text)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
+            .padding(.bottom, 16)
+
+            // 액션 그룹
+            VStack(spacing: 0) {
+                actionRow(
+                    label: NSLocalizedString("복사", comment: "Action: copy"),
+                    systemImage: "doc.on.doc"
+                ) {
+                    onCopy()
+                    dismiss()
+                }
+                Divider().padding(.leading, 56)
+                actionRow(
+                    label: memo.isFavorite
+                        ? NSLocalizedString("즐겨찾기 해제", comment: "Action: remove favorite")
+                        : NSLocalizedString("즐겨찾기 추가", comment: "Action: add favorite"),
+                    systemImage: memo.isFavorite ? "heart.slash" : "heart"
+                ) {
+                    onToggleFavorite()
+                    dismiss()
+                }
+                Divider().padding(.leading, 56)
+                actionRow(
+                    label: NSLocalizedString("수정", comment: "Action: edit"),
+                    systemImage: "pencil"
+                ) {
+                    dismiss()
+                    onEdit()
+                }
+                Divider().padding(.leading, 56)
+                actionRow(
+                    label: NSLocalizedString("삭제", comment: "Action: delete"),
+                    systemImage: "trash",
+                    isDestructive: true
+                ) {
+                    dismiss()
+                    onDelete()
+                }
+            }
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .padding(.horizontal, 16)
+
+            Spacer(minLength: 12)
+
+            // 취소
+            Button {
+                dismiss()
+            } label: {
+                Text(NSLocalizedString("취소", comment: "Cancel"))
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.text)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(theme.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 20)
+        }
+        .background(theme.bg)
+    }
+
+    private func actionRow(
+        label: String,
+        systemImage: String,
+        isDestructive: Bool = false,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            HStack(spacing: 16) {
+                Image(systemName: systemImage)
+                    .font(.title3)
+                    .frame(width: 24, alignment: .center)
+                    .foregroundColor(isDestructive ? .red : theme.text)
+                Text(label)
+                    .font(.body)
+                    .foregroundColor(isDestructive ? .red : theme.text)
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 14)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+}
 
 private struct SwipePageIndicator: View {
     let total: Int
