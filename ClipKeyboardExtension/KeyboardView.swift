@@ -288,6 +288,24 @@ struct KeyboardView: View {
         return pages
     }
 
+    /// 그리드 표시 항목 — attached template이 있는 일반 메모는 두 셀로 expand:
+    /// 1) 원본 메모만 입력, 2) 원본 + 템플릿 적용. 각각 다른 셀로 보여 사용자가 선택.
+    private var displayItems: [DisplayItem] {
+        filteredMemos.flatMap { memo -> [DisplayItem] in
+            let canSplit = memo.attachedTemplateId != nil
+                && !memo.isCombo
+                && memo.contentType != .image
+                && memo.contentType != .mixed
+            if canSplit {
+                return [
+                    DisplayItem(memo: memo, useTemplate: false),
+                    DisplayItem(memo: memo, useTemplate: true)
+                ]
+            }
+            return [DisplayItem(memo: memo, useTemplate: false)]
+        }
+    }
+
     /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
     private var recentMemos: [Memo] {
         let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
@@ -449,8 +467,8 @@ struct KeyboardView: View {
                 } else {
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
-                            ForEach(filteredMemos) { memo in
-                                memoButton(for: memo)
+                            ForEach(displayItems) { item in
+                                memoButton(for: item.memo, useTemplate: item.useTemplate)
                             }
                         }
                         .padding(.horizontal, 12)
@@ -952,10 +970,12 @@ struct KeyboardView: View {
     // MARK: - Memo Button
 
     @ViewBuilder
-    private func memoButton(for memo: Memo) -> some View {
+    private func memoButton(for memo: Memo, useTemplate: Bool = false) -> some View {
         let catColor = categoryColorFor(memo)
         let isImageMemo = (memo.contentType == .image || memo.contentType == .mixed)
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+        // attached template 메모는 useTemplate=true일 때 템플릿 적용, false면 메모만 (bypass).
+        let bypass = memo.attachedTemplateId != nil && !useTemplate
 
         if isImageMemo && !imageFileName.isEmpty {
             // 이미지 메모: 전체 배경으로 이미지 표시
@@ -981,9 +1001,9 @@ struct KeyboardView: View {
             .accessibilityHint(memoAccessibilityHint(for: memo))
         } else {
             Button {
-                memoButtonAction(for: memo)
+                memoButtonAction(for: memo, bypassTemplate: bypass)
             } label: {
-                memoButtonLabel(for: memo, catColor: catColor)
+                memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
             .contextMenu {
                 Button {
@@ -1189,13 +1209,15 @@ struct KeyboardView: View {
             .cornerRadius(3)
     }
 
-    private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
-        ZStack {
+    private func memoButtonLabel(for memo: Memo, catColor: Color, useTemplate: Bool = false) -> some View {
+        let border = borderStyle(for: memo, useTemplate: useTemplate)
+        return ZStack {
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .foregroundColor(keyColor)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
             // 메모 칸 안에는 심볼/뱃지 일절 두지 않음 — 제목만.
+            // 타입(템플릿/콤보/보안) 구분은 셀 테두리 색으로.
             Text(memo.title)
                 .foregroundColor(theme.text)
                 .lineLimit(2)
@@ -1204,6 +1226,20 @@ struct KeyboardView: View {
                 .padding(10)
         }
         .frame(height: buttonHeight)
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(border.color, lineWidth: border.width)
+        )
+    }
+
+    /// 메모 셀 테두리 — 타입 식별용. 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
+    /// 일반 메모는 테두리 없음(clear, 0).
+    private func borderStyle(for memo: Memo, useTemplate: Bool) -> (color: Color, width: CGFloat) {
+        if useTemplate { return (.purple, 1.5) }
+        if memo.isCombo { return (.orange, 1.5) }
+        if memo.isSecure { return (.gray, 1.5) }
+        if memo.isTemplate || !memo.templateVariables.isEmpty { return (.purple, 1.5) }
+        return (.clear, 0)
     }
 
     // MARK: - Data Loading
@@ -1797,5 +1833,13 @@ struct PlaceholderInputView: View {
     }
 }
 
-// MARK: - Keyboard Swipe Page Indicator (v4.1.0)
+// MARK: - DisplayItem
+
+/// 메모 그리드 1셀. 같은 메모가 attached template으로 2셀로 expand될 때
+/// useTemplate 값으로 구분. id는 (memoId, useTemplate) 합성으로 SwiftUI ForEach 충돌 방지.
+private struct DisplayItem: Identifiable {
+    let memo: Memo
+    let useTemplate: Bool
+    var id: String { "\(memo.id.uuidString)-\(useTemplate ? "t" : "n")" }
+}
 
