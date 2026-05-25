@@ -161,7 +161,7 @@ class TemplateInputState: ObservableObject {
 struct KeyboardView: View {
 
     @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var keyboardColumnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 17.0
 
     // 색상 커스터마이즈 — 기본은 false (Paper 테마 사용), true면 hex 오버라이드
@@ -208,6 +208,8 @@ struct KeyboardView: View {
 
     // v4.1.0: 카테고리 swipe 현재 페이지 인덱스 (즐겨찾기 별 토글은 제거됨)
     @State private var currentCategoryPage: Int = 0
+    // v4.1.x: 카테고리 버튼 행은 평소엔 숨겨두고 토글 시 펼침 — 메모 영역 최대 확보
+    @State private var isCategoryRowExpanded: Bool = false
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
@@ -342,6 +344,26 @@ struct KeyboardView: View {
             }
             // v4.1.0: 별 토글 제거 — 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 흡수
             Spacer()
+            // 카테고리 버튼 행 펼침/접힘 토글 — 평소엔 접혀 메모 영역 최대화
+            if inputMode == .memos, categoryPages.count > 1 {
+                Button {
+                    KeyboardHaptics.softTap()
+                    withAnimation(.spring(response: 0.28, dampingFraction: 0.78)) {
+                        isCategoryRowExpanded.toggle()
+                    }
+                } label: {
+                    Image(systemName: isCategoryRowExpanded ? "chevron.up" : "folder")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(isCategoryRowExpanded ? .white : theme.text)
+                        .frame(width: 36, height: 28)
+                        .background(isCategoryRowExpanded ? Color.blue : theme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .frame(minWidth: 44, minHeight: 44)
+                .contentShape(Rectangle())
+                .accessibilityLabel(NSLocalizedString("카테고리 표시", comment: "Toggle category row"))
+            }
             // 텍스트 필드에 입력된 내용이 있을 때만 X 버튼 노출
             if let proxy = typingProxy, documentState.hasText {
                 clearAllButton(proxy: proxy)
@@ -401,9 +423,11 @@ struct KeyboardView: View {
                 freeUpgradeBanner
             }
 
-            // 상단 카테고리 버튼 행 — 페이지 인디케이터(점) 대신 심볼 버튼으로 직접 점프
-            if categoryPages.count > 1 {
+            // 상단 카테고리 버튼 행 — modeTabBar의 folder 토글 ON일 때만 펼침.
+            // 평소엔 메모 그리드가 행 하나만큼 더 보임.
+            if categoryPages.count > 1 && isCategoryRowExpanded {
                 categoryTabRow
+                    .transition(.move(edge: .top).combined(with: .opacity))
             }
 
             // 검색 바 — 사용자 토글 ON일 때만
