@@ -1211,28 +1211,18 @@ struct KeyboardView: View {
 
     private func memoButtonLabel(for memo: Memo, catColor: Color, useTemplate: Bool = false) -> some View {
         let style = typeStyle(for: memo, useTemplate: useTemplate)
-        return ZStack(alignment: .topTrailing) {
+        return ZStack {
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .foregroundColor(keyColor)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
-            // 메모 칸 안 텍스트는 제목만. 타입 구분은 테두리(색+패턴) + 모서리 마커(모양)으로 — 색맹 친화.
+            // 메모 칸 안 텍스트는 제목만. 타입 구분은 테두리(색+dash 패턴)으로 — 색맹 친화.
             Text(memo.title)
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .font(.system(size: buttonFontSize, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(10)
-
-            // 우상단 모서리 마커 — 모양으로 구분 (●/◆/■). 색만으로 의존하지 않음.
-            if let marker = style.marker {
-                marker.shape
-                    .fill(style.color)
-                    .frame(width: 6, height: 6)
-                    .padding(.top, 4)
-                    .padding(.trailing, 4)
-                    .accessibilityHidden(true)
-            }
         }
         .frame(height: buttonHeight)
         .overlay(
@@ -1242,22 +1232,19 @@ struct KeyboardView: View {
         )
     }
 
-    /// 메모 타입 시각 스타일 — 테두리 색·dash + 모서리 마커 모양. 색맹 보조용.
+    /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
     private func typeStyle(for memo: Memo, useTemplate: Bool) -> TypeVisualStyle {
         if useTemplate || memo.isTemplate || !memo.templateVariables.isEmpty {
-            return TypeVisualStyle(color: .purple, lineWidth: 1.5, dash: [],
-                                   marker: .init(shape: AnyShape(Circle())))
+            return TypeVisualStyle(color: .purple, lineWidth: 1.5, dash: [])
         }
         if memo.isCombo {
-            return TypeVisualStyle(color: .orange, lineWidth: 1.5, dash: [5, 3],
-                                   marker: .init(shape: AnyShape(DiamondShape())))
+            return TypeVisualStyle(color: .orange, lineWidth: 1.5, dash: [5, 3])
         }
         if memo.isSecure {
-            return TypeVisualStyle(color: .gray, lineWidth: 1.5, dash: [1, 3],
-                                   marker: .init(shape: AnyShape(Rectangle())))
+            return TypeVisualStyle(color: .gray, lineWidth: 1.5, dash: [1, 3])
         }
-        return TypeVisualStyle(color: .clear, lineWidth: 0, dash: [], marker: nil)
+        return TypeVisualStyle(color: .clear, lineWidth: 0, dash: [])
     }
 
     // MARK: - Data Loading
@@ -1851,32 +1838,14 @@ struct PlaceholderInputView: View {
     }
 }
 
-// MARK: - Type Visual Style (색맹 보조 — 색 + 패턴 + 모양)
+// MARK: - Type Visual Style (색맹 보조 — 색 + dash 패턴)
 
-/// 메모 타입 시각 표현. 테두리 색·dash 패턴 + 우상단 모서리 마커 모양.
-/// 색약·색맹 사용자도 모양 또는 패턴 차이로 구분 가능.
+/// 메모 타입 시각 표현. 테두리 색 + dash 패턴 차이로 색약·색맹 사용자도
+/// 패턴만으로 구분 가능.
 private struct TypeVisualStyle {
     let color: Color
     let lineWidth: CGFloat
     let dash: [CGFloat]
-    let marker: Marker?
-
-    struct Marker {
-        let shape: AnyShape
-    }
-}
-
-/// 다이아몬드(◆) 모양 — 콤보 메모 마커.
-private struct DiamondShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var p = Path()
-        p.move(to: CGPoint(x: rect.midX, y: rect.minY))
-        p.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
-        p.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
-        p.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
-        p.closeSubpath()
-        return p
-    }
 }
 
 // MARK: - DisplayItem
