@@ -769,26 +769,11 @@ struct ClipKeyboardList: View {
         )
         .overlay(alignment: .bottom) {
             if viewModel.allCategoryTabs.count > 1 {
-                HStack(spacing: 8) {
-                    SwipePageIndicator(
-                        total: viewModel.allCategoryTabs.count,
-                        selectedIndex: viewModel.selectedCategoryIndex,
-                        accentColor: tabIndicatorColor
-                    )
-                    // v4.1.0: 페이지 인디케이터 옆 ⚙ — ... 메뉴의 "카테고리 관리"와
-                    // 같은 CategoryManagementSheet 띄움. 단일 진입점으로 통일.
-                    Button {
-                        HapticManager.shared.light()
-                        showCategoryManagement = true
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.secondary)
-                            .padding(8)
-                            .background(.ultraThinMaterial, in: Circle())
-                    }
-                    .accessibilityLabel(NSLocalizedString("카테고리 관리", comment: "Manage categories button"))
-                }
+                SwipePageIndicator(
+                    total: viewModel.allCategoryTabs.count,
+                    selectedIndex: viewModel.selectedCategoryIndex,
+                    accentColor: tabIndicatorColor
+                )
                 .padding(.bottom, 12)
             }
         }
@@ -1453,23 +1438,21 @@ struct ClipKeyboardList: View {
 
             Button {
                 HapticManager.shared.light()
-                viewModel.showPlaceholderManagementSheet = true
-            } label: {
-                Label(
-                    NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
-                    systemImage: "list.bullet"
-                )
-            }
-
-            Divider()
-
-            Button {
-                HapticManager.shared.light()
                 showCategoryManagement = true
             } label: {
                 Label(
                     NSLocalizedString("카테고리 관리", comment: "Menu: manage categories"),
                     systemImage: "folder.badge.gearshape"
+                )
+            }
+
+            Button {
+                HapticManager.shared.light()
+                viewModel.showPlaceholderManagementSheet = true
+            } label: {
+                Label(
+                    NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                    systemImage: "list.bullet"
                 )
             }
 
