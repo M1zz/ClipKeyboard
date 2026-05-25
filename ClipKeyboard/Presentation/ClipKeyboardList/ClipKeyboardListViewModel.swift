@@ -146,6 +146,30 @@ final class ClipKeyboardListViewModel: ObservableObject {
         customCategories = ud?.stringArray(forKey: "userDefinedCategories_v1") ?? []
         let hidden = ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
         hiddenCategoryTabs = Set(hidden)
+        seedCustomCategoriesFromPersonaIfNeeded()
+    }
+
+    /// 페르소나별로 카테고리 시드를 customCategories에 한 번씩 머지.
+    /// 키: `category.persona.{rawValue}.seeded.v1` — 페르소나별 1회. 사용자가 삭제하면
+    /// 다시 안 들어옴 (같은 페르소나에서는). 페르소나가 바뀌면 새 시드가 한 번 추가됨.
+    private func seedCustomCategoriesFromPersonaIfNeeded() {
+        guard let persona = CategoryStore.shared.selectedPersona else { return }
+        let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let flagKey = "category.persona.\(persona.rawValue).seeded.v1"
+        guard ud?.bool(forKey: flagKey) != true else { return }
+
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let seeds = persona.seedCategories(language: lang)
+        var added = 0
+        for seed in seeds where !customCategories.contains(seed) {
+            customCategories.append(seed)
+            added += 1
+        }
+        if added > 0 {
+            ud?.set(customCategories, forKey: "userDefinedCategories_v1")
+        }
+        ud?.set(true, forKey: flagKey)
+        print("👤 [ListViewModel] 페르소나 \(persona.rawValue) 카테고리 시드 +\(added)개")
     }
 
     func saveCustomCategories() {
