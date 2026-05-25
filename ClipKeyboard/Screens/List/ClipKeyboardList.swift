@@ -775,8 +775,12 @@ struct ClipKeyboardList: View {
                         selectedIndex: viewModel.selectedCategoryIndex,
                         accentColor: tabIndicatorColor
                     )
-                    // v4.1.0: 페이지 인디케이터 옆 ⚙ 카테고리 관리 진입 (설정 진입점 대신)
-                    NavigationLink(destination: CategorySettings()) {
+                    // v4.1.0: 페이지 인디케이터 옆 ⚙ — ... 메뉴의 "카테고리 관리"와
+                    // 같은 CategoryManagementSheet 띄움. 단일 진입점으로 통일.
+                    Button {
+                        HapticManager.shared.light()
+                        showCategoryManagement = true
+                    } label: {
                         Image(systemName: "gearshape.fill")
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.secondary)
