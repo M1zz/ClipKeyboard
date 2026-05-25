@@ -847,24 +847,19 @@ struct KeyboardView: View {
     private var categoryTabRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
+                Spacer(minLength: 0)
                 ForEach(Array(categoryPages.enumerated()), id: \.offset) { index, key in
                     let isSelected = currentCategoryPage == index
                     Button {
                         KeyboardHaptics.tap()
                         currentCategoryPage = index
                     } label: {
-                        HStack(spacing: 4) {
-                            Text(labelForCategoryKey(key))
-                                .font(.system(size: 12, weight: .semibold))
-                                .lineLimit(1)
-                            Image(systemName: iconForCategoryKey(key))
-                                .font(.system(size: 11, weight: .semibold))
-                        }
-                        .foregroundColor(isSelected ? .white : theme.text)
-                        .padding(.horizontal, 8)
-                        .frame(height: 22)
-                        .background(isSelected ? colorForCategoryKey(key) : theme.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                        Image(systemName: iconForCategoryKey(key))
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(isSelected ? .white : theme.text)
+                            .frame(width: 28, height: 22)
+                            .background(isSelected ? colorForCategoryKey(key) : theme.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
                     }
                     .buttonStyle(PlainButtonStyle())
                     .accessibilityLabel(labelForCategoryKey(key))
@@ -1014,22 +1009,20 @@ struct KeyboardView: View {
     @ViewBuilder
     private func attachedTemplateMemoButton(for memo: Memo, catColor: Color) -> some View {
         HStack(spacing: 0) {
-            // 왼쪽: 메모 값만 입력
+            // 왼쪽: 메모 값만 입력 — 왼쪽 카테고리 아이콘과 S 뱃지 모두 제거,
+            // 우측에 카테고리 심볼만 작게 배치해 제목 공간 최대화.
             Button {
                 memoButtonAction(for: memo, bypassTemplate: true)
             } label: {
                 HStack(spacing: 6) {
-                    Image(systemName: categoryIconFor(memo))
-                        .font(.caption)
-                        .foregroundColor(catColor)
                     Text(memo.title)
                         .foregroundColor(theme.text)
                         .lineLimit(1)
                         .font(.system(size: buttonFontSize, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    if memo.isSecure {
-                        badgeLetter("S", color: .gray)
-                    }
+                    Image(systemName: categoryIconFor(memo))
+                        .font(.caption2)
+                        .foregroundColor(catColor.opacity(0.8))
                 }
                 .padding(.horizontal, 10)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -1255,32 +1248,19 @@ struct KeyboardView: View {
                 .foregroundColor(keyColor)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
-            VStack(alignment: .leading, spacing: 4) {
-                Text(memo.title)
-                    .foregroundColor(theme.text)
-                    .lineLimit(2)
-                    .font(.system(size: buttonFontSize, weight: .semibold))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            Text(memo.title)
+                .foregroundColor(theme.text)
+                .lineLimit(2)
+                .font(.system(size: buttonFontSize, weight: .semibold))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
 
-                if memo.isCombo && !memo.comboValues.isEmpty
-                    || memo.isTemplate || !memo.templateVariables.isEmpty
-                    || memo.isSecure {
-                    HStack(spacing: 4) {
-                        if memo.isTemplate || !memo.templateVariables.isEmpty {
-                            badgeLetter("T", color: .purple)
-                        }
-                        if memo.isCombo && !memo.comboValues.isEmpty {
-                            badgeLetter("C", color: .orange)
-                        }
-                        if memo.isSecure {
-                            badgeLetter("S", color: .gray)
-                        }
-                    }
-                }
-            }
-            .padding(10)
-            // v4.1.x: 즐겨찾기 하트 심볼 제거 — 즐겨찾기는 ★favorites 카테고리 탭에서
-            // 확인 가능. 셀 공간을 T/C/S 같은 글자 뱃지에 할애.
+            // 우측 상단에 카테고리 심볼만 작게 — T/C/S 뱃지와 즐겨찾기 심볼 모두 제거.
+            // 셀 공간을 메모 제목에 최대한 할애.
+            Image(systemName: categoryIconFor(memo))
+                .font(.caption2)
+                .foregroundColor(catColor.opacity(0.8))
+                .padding(6)
         }
         .frame(height: buttonHeight)
     }
