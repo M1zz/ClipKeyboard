@@ -96,29 +96,32 @@ struct ClipKeyboardList: View {
                     .ignoresSafeArea()
                     .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
 
-                // v4.1.0: 카테고리 기능이 활성일 때만 탭/swipe 뷰 사용.
-                // 비활성이면 .all 탭 페이지 하나만 (전체 메모 단일 리스트).
-                if CategoryStore.shared.isFeatureEnabled {
-                    categoryTabView
-                } else {
-                    tabPageView(for: .all)
-                }
-            }
-            .overlay(alignment: .top) {
-                // v4.1.0: 메모 5개 모이면 카테고리 활성화 배너 노출
-                if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
-                    CategoryActivationBanner(
-                        onEnable: {
-                            withAnimation { CategoryStore.shared.enableFeature() }
-                            HapticManager.shared.success()
-                        },
-                        onDismiss: {
-                            withAnimation { CategoryStore.shared.dismissActivationBanner() }
-                        }
-                    )
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-                    .transition(.move(edge: .top).combined(with: .opacity))
+                // v4.1.0: 활성화 배너를 메모 위에 overlay하지 않고 VStack flow 안에
+                // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
+                // GraceQuotaBanner 등)과 통일된 패턴.
+                VStack(spacing: 0) {
+                    if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
+                        CategoryActivationBanner(
+                            onEnable: {
+                                withAnimation { CategoryStore.shared.enableFeature() }
+                                HapticManager.shared.success()
+                            },
+                            onDismiss: {
+                                withAnimation { CategoryStore.shared.dismissActivationBanner() }
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                    }
+
+                    // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
+                    if CategoryStore.shared.isFeatureEnabled {
+                        categoryTabView
+                    } else {
+                        tabPageView(for: .all)
+                    }
                 }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
