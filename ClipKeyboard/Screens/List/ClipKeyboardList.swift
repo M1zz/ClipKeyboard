@@ -448,7 +448,9 @@ struct ClipKeyboardList: View {
             HStack(alignment: .top, spacing: 4) {
                 memoTypeIcon(memo: memo, onColor: onColor)
                 Spacer()
-                if categoryBadgeVisible, viewModel.customCategories.contains(memo.category) {
+                if categoryBadgeVisible,
+                   CategoryStore.shared.isFeatureEnabled,
+                   viewModel.customCategories.contains(memo.category) {
                     Image(systemName: customCategoryIcon(memo.category))
                         .font(.title2)
                         .foregroundColor(onColor
@@ -545,7 +547,8 @@ struct ClipKeyboardList: View {
     private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
         if hasImage { return true }
         if memo.isTemplate || memo.isCombo || memo.isSecure || memo.isFavorite { return true }
-        if viewModel.customCategories.contains(memo.category) { return true }
+        if CategoryStore.shared.isFeatureEnabled,
+           viewModel.customCategories.contains(memo.category) { return true }
         return false
     }
 
@@ -583,7 +586,8 @@ struct ClipKeyboardList: View {
             Color(uiColor: .systemGray3)
         } else if memo.isFavorite {
             Color.pink
-        } else if viewModel.customCategories.contains(memo.category) {
+        } else if CategoryStore.shared.isFeatureEnabled,
+                  viewModel.customCategories.contains(memo.category) {
             customCategoryColor(memo.category)
         } else {
             theme.surface
