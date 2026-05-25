@@ -409,7 +409,41 @@ struct ClipKeyboardList: View {
         let isActive = longPressActiveMemo?.id == memo.id
         let holdDuration: Double = 0.65
 
-        return Button {
+        // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
+        // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
+        // 그대로 유지 (button trait 명시 + tap 햅틱).
+        return VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 4) {
+                memoTypeIcon(memo: memo, onColor: onColor)
+                Spacer()
+                if categoryBadgeVisible, viewModel.customCategories.contains(memo.category) {
+                    Image(systemName: customCategoryIcon(memo.category))
+                        .font(.title2)
+                        .foregroundColor(onColor
+                            ? .white.opacity(0.85)
+                            : customCategoryColor(memo.category))
+                        .accessibilityHidden(true)
+                } else if memo.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.title2)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : .pink)
+                        .accessibilityHidden(true)
+                }
+            }
+            Spacer(minLength: 16)
+            Text(memo.title)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(onColor ? .white : theme.text)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
+        .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
+        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        .onTapGesture {
             HapticManager.shared.selection() // 탭: 선택 햅틱
             viewModel.copyMemo(memo: memo)
             checkCategoryBadgeNudge()
@@ -419,40 +453,8 @@ struct ClipKeyboardList: View {
                 UIAccessibility.post(notification: .announcement, argument: msg)
             }
             #endif
-        } label: {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 4) {
-                    memoTypeIcon(memo: memo, onColor: onColor)
-                    Spacer()
-                    if categoryBadgeVisible, viewModel.customCategories.contains(memo.category) {
-                        Image(systemName: customCategoryIcon(memo.category))
-                            .font(.title2)
-                            .foregroundColor(onColor
-                                ? .white.opacity(0.85)
-                                : customCategoryColor(memo.category))
-                            .accessibilityHidden(true)
-                    } else if memo.isFavorite {
-                        Image(systemName: "heart.fill")
-                            .font(.title2)
-                            .foregroundColor(onColor ? .white.opacity(0.9) : .pink)
-                            .accessibilityHidden(true)
-                    }
-                }
-                Spacer(minLength: 16)
-                Text(memo.title)
-                    .font(.title2.weight(.semibold))
-                    .foregroundColor(onColor ? .white : theme.text)
-                    .lineLimit(3)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
-            .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
-            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-            .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
         }
-        .buttonStyle(.plain)
-        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        .accessibilityAddTraits(.isButton)
         // 롱프레스 감아지는 테두리 오버레이
         .overlay {
             RoundedRectangle(cornerRadius: 32, style: .continuous)
