@@ -822,8 +822,11 @@ struct ClipKeyboardList: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
-                // 전체 메모를 하나의 그리드로 — 즐겨찾기(핑크) → 최근사용 → 나머지 순
-                let allMemos = viewModel.pinnedMemos + viewModel.recentlyUsedMemos + viewModel.remainingMemos
+                // 전체 메모를 하나의 그리드로.
+                // 정렬: 즐겨찾기 먼저 + lastEdited 내림차순 (viewModel.memos = sortMemos 결과).
+                // 사용량(lastUsedAt) 기반 재정렬은 의도적으로 적용하지 않음 — 사용자가 위치를
+                // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
+                let allMemos = viewModel.memos
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
                         ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
