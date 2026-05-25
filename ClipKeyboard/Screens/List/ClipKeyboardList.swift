@@ -227,6 +227,9 @@ struct ClipKeyboardList: View {
                 }
             }
             // 롱프레스 완료 후 액션 메뉴
+            // SwiftUI race 회피: confirmationDialog dismiss와 sheet/alert 트리거가 동시에
+            // 발생하면 시트가 안 뜨는 버그가 있음. memoToEdit/memoToDelete는 dialog가
+            // 사라진 다음 set하도록 asyncAfter로 한 frame 지연.
             .confirmationDialog(
                 memoForActions?.title ?? "",
                 isPresented: $showMemoActions,
@@ -244,10 +247,14 @@ struct ClipKeyboardList: View {
                         viewModel.toggleFavorite(memoId: memo.id)
                     }
                     Button(NSLocalizedString("수정", comment: "Action: edit")) {
-                        memoToEdit = memo
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            memoToEdit = memo
+                        }
                     }
                     Button(NSLocalizedString("삭제", comment: "Action: delete"), role: .destructive) {
-                        memoToDelete = memo
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            memoToDelete = memo
+                        }
                     }
                 }
                 Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
