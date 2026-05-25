@@ -230,7 +230,7 @@ struct KeyboardView: View {
     // MARK: - Computed Properties
 
     /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
-    /// 별 토글은 v4.1.0에서 제거됨 — 즐겨찾기는 pinnedFavoriteStrip로 항상 노출.
+    /// 별 토글은 v4.1.0에서 제거됨 — 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
     private var filteredMemos: [Memo] {
         var result = allMemos
 
@@ -296,19 +296,9 @@ struct KeyboardView: View {
             .map { $0 }
     }
 
-    /// 최근 사용 섹션 노출 조건 — 검색·즐겨찾기 모두 비활성일 때만
+    /// 최근 사용 섹션 노출 조건 — 검색 비활성일 때만
     private var shouldShowRecentSection: Bool {
         searchQuery.isEmpty && !recentMemos.isEmpty
-    }
-
-    /// 핀 스트립용 즐겨찾기 — 최대 4개
-    private var pinnedFavoriteMemos: [Memo] {
-        allMemos.filter { $0.isFavorite }.prefix(4).map { $0 }
-    }
-
-    /// 검색·즐겨찾기 필터 비활성 + 즐겨찾기 있을 때 핀 스트립 노출
-    private var shouldShowPinnedStrip: Bool {
-        searchQuery.isEmpty && !pinnedFavoriteMemos.isEmpty
     }
 
     // MARK: - Body
@@ -350,7 +340,7 @@ struct KeyboardView: View {
             ) {
                 inputMode = .memos
             }
-            // v4.1.0: 별 토글 제거 — 즐겨찾기는 pinnedFavoriteStrip + 카테고리 swipe로 흡수
+            // v4.1.0: 별 토글 제거 — 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 흡수
             Spacer()
             // 텍스트 필드에 입력된 내용이 있을 때만 X 버튼 노출
             if let proxy = typingProxy, documentState.hasText {
@@ -416,14 +406,9 @@ struct KeyboardView: View {
                 searchBar
             }
 
-            // 최근 사용 섹션 — 사용자 토글 ON + 검색·즐겨찾기 비활성일 때만
+            // 최근 사용 섹션 — 사용자 토글 ON + 검색 비활성일 때만
             if showRecentSection && !isSearching && shouldShowRecentSection {
                 recentSection
-            }
-
-            // 즐겨찾기 고정 스트립 — 항상 같은 자리, 스크롤 영역 밖
-            if shouldShowPinnedStrip {
-                pinnedFavoriteStrip
             }
 
             // 메모 그리드
@@ -857,40 +842,6 @@ struct KeyboardView: View {
                 ["ㅋ","ㅌ","ㅊ","ㅍ","ㅠ","ㅜ","ㅡ"]
             ]
         }
-    }
-
-    // MARK: - Pinned Favorites Strip
-
-    /// 즐겨찾기 항상 고정 스트립 — 스크롤 밖 상단, 최대 4개 2열 그리드
-    private var pinnedFavoriteStrip: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 4) {
-                Image(systemName: "pin.fill")
-                    .font(.caption2.weight(.semibold))
-                    .foregroundColor(.orange)
-                    .accessibilityHidden(true)
-                Text(NSLocalizedString("즐겨찾기", comment: "Pinned favorites strip label"))
-                    .font(.caption2.weight(.semibold))
-                    .foregroundColor(theme.textFaint)
-                Spacer()
-            }
-            .padding(.horizontal, 12)
-
-            LazyVGrid(
-                columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)],
-                spacing: 8
-            ) {
-                ForEach(pinnedFavoriteMemos) { memo in
-                    memoButton(for: memo)
-                }
-            }
-            .padding(.horizontal, 12)
-
-            Divider()
-                .padding(.top, 4)
-        }
-        .padding(.top, 4)
-        .background(backgroundColor)
     }
 
     // MARK: - Recent Section
