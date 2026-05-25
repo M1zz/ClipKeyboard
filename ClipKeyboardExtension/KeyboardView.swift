@@ -1220,8 +1220,9 @@ struct KeyboardView: View {
             Text(memo.title)
                 .foregroundColor(theme.text)
                 .lineLimit(2)
+                .multilineTextAlignment(.center)
                 .font(.system(size: buttonFontSize, weight: .semibold))
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .padding(10)
         }
         .frame(height: buttonHeight)
