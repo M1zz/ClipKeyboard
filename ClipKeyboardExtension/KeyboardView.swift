@@ -932,7 +932,6 @@ struct KeyboardView: View {
         let catColor = categoryColorFor(memo)
         let isImageMemo = (memo.contentType == .image || memo.contentType == .mixed)
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-        let isNormalContent = !isImageMemo
 
         if isImageMemo && !imageFileName.isEmpty {
             // 이미지 메모: 전체 배경으로 이미지 표시
@@ -956,8 +955,6 @@ struct KeyboardView: View {
             } preview: { memoLongPressPreview(memo: memo) }
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
-        } else if memo.attachedTemplateId != nil && isNormalContent && !memo.isCombo {
-            attachedTemplateMemoButton(for: memo, catColor: catColor)
         } else {
             Button {
                 memoButtonAction(for: memo)
@@ -1006,80 +1003,6 @@ struct KeyboardView: View {
     }
 
     /// attachedTemplateId가 있는 메모용 분할 버튼 — 왼쪽: 메모값만 입력, 오른쪽: 템플릿 포함 입력
-    @ViewBuilder
-    private func attachedTemplateMemoButton(for memo: Memo, catColor: Color) -> some View {
-        HStack(spacing: 0) {
-            // 왼쪽: 메모 값만 입력 — 왼쪽 카테고리 아이콘과 S 뱃지 모두 제거,
-            // 우측에 카테고리 심볼만 작게 배치해 제목 공간 최대화.
-            Button {
-                memoButtonAction(for: memo, bypassTemplate: true)
-            } label: {
-                HStack(spacing: 6) {
-                    Text(memo.title)
-                        .foregroundColor(theme.text)
-                        .lineLimit(1)
-                        .font(.system(size: buttonFontSize, weight: .semibold))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Image(systemName: categoryIconFor(memo))
-                        .font(.caption2)
-                        .foregroundColor(catColor.opacity(0.8))
-                }
-                .padding(.horizontal, 10)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(memo.title)
-            .accessibilityHint(NSLocalizedString("탭하면 메모 내용만 붙여넣기합니다", comment: "Split button: memo only hint"))
-            .contextMenu {
-                Button {
-                    UIPasteboard.general.string = memo.value
-                    KeyboardHaptics.tap()
-                } label: {
-                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
-                }
-            } preview: {
-                memoLongPressPreview(memo: memo)
-            }
-
-            // 구분선
-            catColor.opacity(0.3)
-                .frame(width: 1)
-                .padding(.vertical, 8)
-                .accessibilityHidden(true)
-
-            // 오른쪽: 템플릿 포함 입력
-            Button {
-                memoButtonAction(for: memo, bypassTemplate: false)
-            } label: {
-                VStack(spacing: 2) {
-                    Image(systemName: "sparkles")
-                        .font(.caption)
-                        .foregroundColor(.purple)
-                    Text(NSLocalizedString("Plus Template", comment: "Tag: attached template button"))
-                        .font(.caption2.weight(.semibold))
-                        .foregroundColor(.purple)
-                        .lineLimit(1)
-                        .fixedSize()
-                }
-                .frame(width: 44)
-                .frame(maxHeight: .infinity)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(String(format: NSLocalizedString("%@ +템플릿", comment: "Split button: with template label"), memo.title))
-            .accessibilityHint(NSLocalizedString("탭하면 연결된 템플릿 변수를 채워 붙여넣기합니다", comment: "Split button: template hint"))
-        }
-        .frame(height: buttonHeight)
-        .background(keyColor)
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
-        .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
-                .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
-        )
-    }
-
     /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 — Mail 스타일
     private func memoLongPressPreview(memo: Memo) -> some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -1243,24 +1166,18 @@ struct KeyboardView: View {
     }
 
     private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack {
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .foregroundColor(keyColor)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
+            // 메모 칸 안에는 심볼/뱃지 일절 두지 않음 — 제목만.
             Text(memo.title)
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .font(.system(size: buttonFontSize, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(10)
-
-            // 우측 상단에 카테고리 심볼만 작게 — T/C/S 뱃지와 즐겨찾기 심볼 모두 제거.
-            // 셀 공간을 메모 제목에 최대한 할애.
-            Image(systemName: categoryIconFor(memo))
-                .font(.caption2)
-                .foregroundColor(catColor.opacity(0.8))
-                .padding(6)
         }
         .frame(height: buttonHeight)
     }
