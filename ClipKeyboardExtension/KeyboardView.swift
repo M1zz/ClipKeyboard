@@ -401,6 +401,11 @@ struct KeyboardView: View {
                 freeUpgradeBanner
             }
 
+            // 상단 카테고리 버튼 행 — 페이지 인디케이터(점) 대신 심볼 버튼으로 직접 점프
+            if categoryPages.count > 1 {
+                categoryTabRow
+            }
+
             // 검색 바 — 사용자 토글 ON일 때만
             if showSearchBar {
                 searchBar
@@ -446,16 +451,7 @@ struct KeyboardView: View {
                     )
                 }
             }
-            .overlay(alignment: .bottom) {
-                // 카테고리 활성 + 페이지 2개 이상일 때만 인디케이터 노출
-                if categoryPages.count > 1 {
-                    KeyboardSwipePageIndicator(
-                        total: categoryPages.count,
-                        selectedIndex: max(0, min(currentCategoryPage, categoryPages.count - 1))
-                    )
-                    .padding(.bottom, 6)
-                }
-            }
+            // 인디케이터 점 제거 — 상단 categoryTabRow에서 심볼 버튼으로 이동
 
             // 미니 검색 키보드 — 검색 중일 때만
             if isSearching {
@@ -841,6 +837,39 @@ struct KeyboardView: View {
                 ["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ","ㅗ","ㅓ","ㅏ","ㅣ"],
                 ["ㅋ","ㅌ","ㅊ","ㅍ","ㅠ","ㅜ","ㅡ"]
             ]
+        }
+    }
+
+    // MARK: - Category Tab Row (상단 심볼 버튼)
+
+    /// 카테고리 페이지 직행 버튼 행. 페이지 인디케이터(점)를 대체.
+    /// 각 카테고리를 SF Symbol로 표현, 선택된 항목만 배경색으로 강조.
+    private var categoryTabRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 6) {
+                ForEach(Array(categoryPages.enumerated()), id: \.offset) { index, key in
+                    let isSelected = currentCategoryPage == index
+                    Button {
+                        KeyboardHaptics.tap()
+                        currentCategoryPage = index
+                    } label: {
+                        Image(systemName: iconForCategoryKey(key))
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(isSelected ? .white : theme.text)
+                            .frame(width: 36, height: 28)
+                            .background(isSelected ? colorForCategoryKey(key) : theme.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .accessibilityLabel(key == "★all" ?
+                                        NSLocalizedString("All", comment: "Category: all") :
+                                        key == "★favorites" ?
+                                        NSLocalizedString("Favorites", comment: "Category: favorites") : key)
+                    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+                }
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
         }
     }
 
@@ -1409,6 +1438,26 @@ struct KeyboardView: View {
         return "doc.text"
     }
 
+    /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
+    private func iconForCategoryKey(_ key: String) -> String {
+        if key == "★all" { return "square.grid.2x2.fill" }
+        if key == "★favorites" { return "heart.fill" }
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == key }) {
+            return type.icon
+        }
+        return "folder.fill"
+    }
+
+    /// 카테고리 페이지 키에 대응되는 강조 색상.
+    private func colorForCategoryKey(_ key: String) -> Color {
+        if key == "★all" { return .blue }
+        if key == "★favorites" { return .pink }
+        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == key }) {
+            return colorFor(type.color)
+        }
+        return .gray
+    }
+
     private func colorFor(_ name: String) -> Color {
         let colorMap: [String: Color] = [
             "blue": .blue, "green": .green, "purple": .purple,
@@ -1831,23 +1880,3 @@ struct PlaceholderInputView: View {
 
 // MARK: - Keyboard Swipe Page Indicator (v4.1.0)
 
-/// 키보드 익스텐션 메모 그리드 하단의 카테고리 페이지 인디케이터.
-/// iOS 메인 앱의 SwipePageIndicator와 시각적으로 동일 (활성 dot 회색, 크기로 구분).
-private struct KeyboardSwipePageIndicator: View {
-    let total: Int
-    let selectedIndex: Int
-
-    var body: some View {
-        HStack(spacing: 5) {
-            ForEach(0..<total, id: \.self) { index in
-                Capsule()
-                    .fill(index == selectedIndex ? Color.gray : Color.gray.opacity(0.3))
-                    .frame(width: index == selectedIndex ? 16 : 5, height: 5)
-            }
-        }
-        .animation(.spring(response: 0.28, dampingFraction: 0.72), value: selectedIndex)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background(.ultraThinMaterial, in: Capsule())
-    }
-}
