@@ -335,8 +335,11 @@ struct MemoAdd: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 28) {
-                        // 📌 1단계: 카테고리(테마) — 무엇을 저장할지 정의
-                        themeSelectionSection
+                        // 📌 1단계: 카테고리(테마) — 카테고리 기능 활성 시에만 노출.
+                        // 비활성이면 사용자는 단일 "기본" 카테고리로 자동 저장.
+                        if CategoryStore.shared.isFeatureEnabled {
+                            themeSelectionSection
+                        }
 
                         // 📌 2단계: 붙여넣을 내용
                         if viewModel.isCombo {

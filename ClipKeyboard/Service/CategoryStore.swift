@@ -24,11 +24,61 @@ final class CategoryStore: ObservableObject {
     private let storageKey = "user.categories.v1"
     private let seededFlagKey = "user.categories.seeded.v1"
     private let personaKey = "user.selected_persona.v1"
+    /// v4.1.0: 카테고리 기능 활성화 플래그. 기본 OFF, 사용자가 명시적으로 활성화.
+    private let featureEnabledKey = "category.feature.enabled.v1"
+    /// 활성화 배너를 사용자가 "안 쓸래요"로 닫은 적이 있는지 — 다시 표시 안 함.
+    private let activationDismissedKey = "category.activation.banner.dismissed.v1"
+    /// 마이그레이션 완료 flag — 기존 사용자(category != "기본"인 메모 보유)는 자동 활성.
+    private let featureMigratedKey = "category.feature.migrated.v1"
 
     @Published private(set) var categories: [String] = []
+    @Published private(set) var isFeatureEnabled: Bool = false
 
     private init() {
         load()
+        loadFeatureEnabledState()
+    }
+
+    // MARK: - Feature toggle (v4.1.0)
+
+    /// 카테고리 기능 켜기. 메인 화면 탭/메모 추가 picker 노출.
+    func enableFeature() {
+        UserDefaults(suiteName: appGroup)?.set(true, forKey: featureEnabledKey)
+        isFeatureEnabled = true
+        print("✅ [CategoryStore] 카테고리 기능 활성화")
+    }
+
+    /// 사용자가 "안 쓸래요" 선택 — 배너 영구 닫기. 추후 카테고리 관리 페이지에서
+    /// 수동으로 다시 켤 수 있음.
+    func dismissActivationBanner() {
+        UserDefaults(suiteName: appGroup)?.set(true, forKey: activationDismissedKey)
+        print("🙈 [CategoryStore] 활성화 배너 영구 닫힘")
+    }
+
+    /// 활성화 배너를 보여줄지 — 미활성 + 미dismiss + 메모 5개 이상일 때 true.
+    func shouldShowActivationBanner(currentMemoCount: Int) -> Bool {
+        guard !isFeatureEnabled else { return false }
+        let defaults = UserDefaults(suiteName: appGroup)
+        if defaults?.bool(forKey: activationDismissedKey) == true { return false }
+        return currentMemoCount >= 5
+    }
+
+    /// 첫 실행 시 마이그레이션 — 기존 사용자(메모 중 category가 "기본"이 아닌 것이
+    /// 1개라도 있으면 카테고리를 이미 쓰고 있던 것)는 자동 활성. 신규 설치는 OFF.
+    func migrateFeatureEnabledIfNeeded(existingMemoCategories: [String]) {
+        let defaults = UserDefaults(suiteName: appGroup)
+        guard defaults?.bool(forKey: featureMigratedKey) != true else { return }
+        let hasNonDefault = existingMemoCategories.contains { $0 != "기본" && !$0.isEmpty }
+        if hasNonDefault {
+            defaults?.set(true, forKey: featureEnabledKey)
+            isFeatureEnabled = true
+            print("🔄 [CategoryStore] 기존 사용자 자동 활성 (category != 기본인 메모 보유)")
+        }
+        defaults?.set(true, forKey: featureMigratedKey)
+    }
+
+    private func loadFeatureEnabledState() {
+        isFeatureEnabled = UserDefaults(suiteName: appGroup)?.bool(forKey: featureEnabledKey) ?? false
     }
 
     // MARK: - Persona

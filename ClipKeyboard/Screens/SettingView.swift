@@ -134,10 +134,8 @@ struct SettingView: View {
                         Image(systemName: "person.crop.circle.badge.checkmark")
                     }
                 }
-                NavigationLink(destination: CategorySettings()) {
-                    Label(NSLocalizedString("카테고리 관리", comment: "Categories nav title"),
-                          systemImage: "tag")
-                }
+                // v4.1.0: 카테고리 관리는 메인 화면 페이지 인디케이터 옆 ⚙ 버튼으로 이동.
+                // 설정에서 중복 진입점 제거 — 다른 use case 항목과 헷갈리지 않도록.
                 NavigationLink(destination: FontSetting()) {
                     Label(NSLocalizedString("폰트 크기", comment: "App font size"),
                           systemImage: "textformat.size")

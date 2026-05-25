@@ -96,7 +96,30 @@ struct ClipKeyboardList: View {
                     .ignoresSafeArea()
                     .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
 
-                categoryTabView
+                // v4.1.0: 카테고리 기능이 활성일 때만 탭/swipe 뷰 사용.
+                // 비활성이면 .all 탭 페이지 하나만 (전체 메모 단일 리스트).
+                if CategoryStore.shared.isFeatureEnabled {
+                    categoryTabView
+                } else {
+                    tabPageView(for: .all)
+                }
+            }
+            .overlay(alignment: .top) {
+                // v4.1.0: 메모 5개 모이면 카테고리 활성화 배너 노출
+                if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
+                    CategoryActivationBanner(
+                        onEnable: {
+                            withAnimation { CategoryStore.shared.enableFeature() }
+                            HapticManager.shared.success()
+                        },
+                        onDismiss: {
+                            withAnimation { CategoryStore.shared.dismissActivationBanner() }
+                        }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if isSearchBarVisible {
@@ -334,6 +357,10 @@ struct ClipKeyboardList: View {
             .onAppear {
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: "fontSize") as? CGFloat ?? 20.0
+                // v4.1.0: 카테고리 기능 마이그레이션 — 기존 사용자 자동 활성
+                CategoryStore.shared.migrateFeatureEnabledIfNeeded(
+                    existingMemoCategories: viewModel.memos.map { $0.category }
+                )
                 // 첫 로드 시 stagger enter 트리거 (한 번만)
                 if !hasAppeared {
                     SuggestionManager.shared.recordAppOpen()
@@ -739,11 +766,22 @@ struct ClipKeyboardList: View {
         )
         .overlay(alignment: .bottom) {
             if viewModel.allCategoryTabs.count > 1 {
-                SwipePageIndicator(
-                    total: viewModel.allCategoryTabs.count,
-                    selectedIndex: viewModel.selectedCategoryIndex,
-                    accentColor: tabIndicatorColor
-                )
+                HStack(spacing: 8) {
+                    SwipePageIndicator(
+                        total: viewModel.allCategoryTabs.count,
+                        selectedIndex: viewModel.selectedCategoryIndex,
+                        accentColor: tabIndicatorColor
+                    )
+                    // v4.1.0: 페이지 인디케이터 옆 ⚙ 카테고리 관리 진입 (설정 진입점 대신)
+                    NavigationLink(destination: CategorySettings()) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.secondary)
+                            .padding(8)
+                            .background(.ultraThinMaterial, in: Circle())
+                    }
+                    .accessibilityLabel(NSLocalizedString("카테고리 관리", comment: "Manage categories button"))
+                }
                 .padding(.bottom, 12)
             }
         }
@@ -1749,6 +1787,62 @@ struct ClipKeyboardList_Previews: PreviewProvider {
 }
 
 // MARK: - Swipe Page Indicator
+
+// MARK: - Category Activation Banner (v4.1.0)
+
+/// 카테고리 기능이 미활성일 때 메모가 5개 이상이면 상단에 노출.
+/// "쓸래요" → enableFeature, "안 쓸래요" → dismissActivationBanner (영구 닫힘).
+private struct CategoryActivationBanner: View {
+    let onEnable: () -> Void
+    let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: "folder.badge.plus")
+                    .font(.title3)
+                    .foregroundColor(.blue)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(NSLocalizedString("메모가 늘었어요", comment: "Category activation banner title"))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("카테고리로 분류해서 빠르게 찾아볼까요?", comment: "Category activation banner subtitle"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+                Spacer()
+            }
+            HStack(spacing: 8) {
+                Button(action: onDismiss) {
+                    Text(NSLocalizedString("괜찮아요", comment: "Decline category activation"))
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundColor(theme.textMuted)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(theme.surfaceAlt)
+                        .clipShape(Capsule())
+                }
+                Button(action: onEnable) {
+                    Text(NSLocalizedString("써볼게요", comment: "Accept category activation"))
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(Color.blue)
+                        .clipShape(Capsule())
+                }
+            }
+        }
+        .padding(14)
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .shadow(color: .black.opacity(0.08), radius: 8, y: 2)
+    }
+}
 
 // MARK: - Memo Action Sheet (long-press menu)
 
