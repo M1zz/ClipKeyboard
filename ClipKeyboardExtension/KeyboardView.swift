@@ -853,24 +853,34 @@ struct KeyboardView: View {
                         KeyboardHaptics.tap()
                         currentCategoryPage = index
                     } label: {
-                        Image(systemName: iconForCategoryKey(key))
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(isSelected ? .white : theme.text)
-                            .frame(width: 36, height: 28)
-                            .background(isSelected ? colorForCategoryKey(key) : theme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                        HStack(spacing: 4) {
+                            Text(labelForCategoryKey(key))
+                                .font(.system(size: 12, weight: .semibold))
+                                .lineLimit(1)
+                            Image(systemName: iconForCategoryKey(key))
+                                .font(.system(size: 11, weight: .semibold))
+                        }
+                        .foregroundColor(isSelected ? .white : theme.text)
+                        .padding(.horizontal, 8)
+                        .frame(height: 22)
+                        .background(isSelected ? colorForCategoryKey(key) : theme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .accessibilityLabel(key == "★all" ?
-                                        NSLocalizedString("All", comment: "Category: all") :
-                                        key == "★favorites" ?
-                                        NSLocalizedString("Favorites", comment: "Category: favorites") : key)
+                    .accessibilityLabel(labelForCategoryKey(key))
                     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                 }
             }
             .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.vertical, 2)
         }
+    }
+
+    /// 카테고리 페이지 키에 표시할 짧은 라벨.
+    private func labelForCategoryKey(_ key: String) -> String {
+        if key == "★all" { return NSLocalizedString("전체", comment: "Category tab: all") }
+        if key == "★favorites" { return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites") }
+        return key
     }
 
     // MARK: - Recent Section
