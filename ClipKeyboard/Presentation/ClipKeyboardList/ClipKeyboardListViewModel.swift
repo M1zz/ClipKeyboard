@@ -65,8 +65,15 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     var allCategoryTabs: [CategoryTab] {
         var tabs: [CategoryTab] = [.all]
-        if !hiddenCategoryTabs.contains("__favorites__") { tabs.append(.favorites) }
-        for cat in customCategories where !hiddenCategoryTabs.contains(cat) {
+        // 즐겨찾기 메모가 1개 이상일 때만 즐겨찾기 탭 노출
+        if !hiddenCategoryTabs.contains("__favorites__"),
+           loadedData.contains(where: { $0.isFavorite }) {
+            tabs.append(.favorites)
+        }
+        // 사용자 카테고리는 해당 카테고리에 속한 메모가 1개 이상일 때만 탭 노출
+        for cat in customCategories
+        where !hiddenCategoryTabs.contains(cat)
+              && loadedData.contains(where: { $0.category == cat }) {
             tabs.append(.custom(cat))
         }
         return tabs
