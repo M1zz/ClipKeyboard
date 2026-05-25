@@ -356,7 +356,7 @@ struct KeyboardView: View {
 
     private func modeIconTab(icon: String, isSelected: Bool, label: String, hint: String, action: @escaping () -> Void) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             action()
         } label: {
             Image(systemName: icon)
@@ -376,7 +376,7 @@ struct KeyboardView: View {
 
     private func clearAllButton(proxy: TypingInputProxy) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            KeyboardHaptics.mediumTap()
             proxy.clearAll()
         } label: {
             Image(systemName: "xmark.circle")
@@ -436,10 +436,10 @@ struct KeyboardView: View {
                                 let v = value.translation.height
                                 guard abs(h) > abs(v) * 1.5, abs(h) > 60 else { return }
                                 if h < 0, currentCategoryPage < categoryPages.count - 1 {
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    KeyboardHaptics.tap()
                                     currentCategoryPage += 1
                                 } else if h > 0, currentCategoryPage > 0 {
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    KeyboardHaptics.tap()
                                     currentCategoryPage -= 1
                                 }
                             }
@@ -617,7 +617,7 @@ struct KeyboardView: View {
                     .lineLimit(1)
                 Spacer(minLength: 0)
                 Button {
-                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    KeyboardHaptics.softTap()
                     searchQuery = ""
                     isSearching = false
                 } label: {
@@ -642,7 +642,7 @@ struct KeyboardView: View {
         .contentShape(Rectangle())
         .onTapGesture {
             guard !isSearching else { return }
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             isSearching = true
         }
         .accessibilityLabel(isSearching
@@ -681,7 +681,7 @@ struct KeyboardView: View {
             // 빠져나갈 액션 — 검색·필터·콤보 탭에서 항상 명시적 escape 제공
             if let escapeAction = emptyStateEscape {
                 Button {
-                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                    KeyboardHaptics.softTap()
                     escapeAction.handler()
                 } label: {
                     HStack(spacing: 4) {
@@ -769,7 +769,7 @@ struct KeyboardView: View {
 
     private func searchKey(letter: String) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             searchQuery.append(letter)
         } label: {
             Text(letter)
@@ -783,7 +783,7 @@ struct KeyboardView: View {
 
     private var spaceKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             searchQuery.append(" ")
         } label: {
             HStack {
@@ -801,7 +801,7 @@ struct KeyboardView: View {
 
     private var backspaceKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             if !searchQuery.isEmpty { searchQuery.removeLast() }
         } label: {
             Image(systemName: "delete.left.fill")
@@ -815,7 +815,7 @@ struct KeyboardView: View {
 
     private var langToggleKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             searchKeyboardLang = (searchKeyboardLang == .english) ? .korean : .english
         } label: {
             Text(searchKeyboardLang == .english ? "한" : "EN")
@@ -915,7 +915,7 @@ struct KeyboardView: View {
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    KeyboardHaptics.tap()
                 } label: {
                     Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
                 }
@@ -933,7 +933,7 @@ struct KeyboardView: View {
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    KeyboardHaptics.tap()
                 } label: {
                     Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
                 }
@@ -1004,7 +1004,7 @@ struct KeyboardView: View {
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    KeyboardHaptics.tap()
                 } label: {
                     Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
                 }
@@ -1114,7 +1114,7 @@ struct KeyboardView: View {
     }
 
     private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
-        UIImpactFeedbackGenerator().impactOccurred()
+        KeyboardHaptics.tap()
 
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
@@ -1341,7 +1341,7 @@ struct KeyboardView: View {
 
     private func pinOverlayDigitKey(_ digit: String) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             guard enteredPIN.count < 4 else { return }
             enteredPIN.append(digit)
             pinEntryWrong = false
@@ -1360,7 +1360,7 @@ struct KeyboardView: View {
 
     private var pinOverlayCancelKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             showPINEntry = false
             pendingSecureMemo = nil
             enteredPIN = ""
@@ -1379,7 +1379,7 @@ struct KeyboardView: View {
 
     private var pinOverlayBackspaceKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             if !enteredPIN.isEmpty { enteredPIN.removeLast() }
         } label: {
             Image(systemName: "delete.left")
@@ -1513,7 +1513,7 @@ struct TemplateInputOverlay: View {
                                     guard v.count + zeros.count <= 13 else { return }
                                     state.inputs[numericPH] = v + zeros
                                     state.updateAllPlaceholdersFilled()
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    KeyboardHaptics.tap()
                                 } label: {
                                     Text(zeros)
                                         .font(.system(.footnote, design: .monospaced, weight: .semibold))
@@ -1726,7 +1726,7 @@ struct PlaceholderInputView: View {
                         ForEach(predefinedValues, id: \.self) { value in
                             Button {
                                 selectedValue = value
-                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                KeyboardHaptics.tap()
                             } label: {
                                 Text(value)
                                     .font(.caption)
@@ -1754,7 +1754,7 @@ struct PlaceholderInputView: View {
             } else {
                 selectedValue += digit
             }
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
         } label: {
             Text(digit)
                 .font(.system(.headline, design: .monospaced, weight: .medium))
@@ -1769,7 +1769,7 @@ struct PlaceholderInputView: View {
     private var numericScrollBackspace: some View {
         Button {
             if !selectedValue.isEmpty { selectedValue.removeLast() }
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
         } label: {
             Image(systemName: "delete.left")
                 .font(.headline)
@@ -1812,7 +1812,7 @@ struct PlaceholderInputView: View {
                     ForEach(predefinedValues, id: \.self) { value in
                         Button {
                             selectedValue = value
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            KeyboardHaptics.tap()
                         } label: {
                             Text(value)
                                 .font(.footnote.weight(selectedValue == value ? .semibold : .regular))

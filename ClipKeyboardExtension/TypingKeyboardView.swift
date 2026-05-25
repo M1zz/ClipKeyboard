@@ -186,7 +186,7 @@ struct TypingKeyboardView: View {
 
     private func letterKey(_ char: String) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             sendCharacter(char)
             if isShiftOn && !isCapsLock { isShiftOn = false }
         } label: {
@@ -200,7 +200,7 @@ struct TypingKeyboardView: View {
 
     private var shiftKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             if isCapsLock {
                 isCapsLock = false
                 isShiftOn = false
@@ -235,14 +235,14 @@ struct TypingKeyboardView: View {
     private func startDeleteHold() {
         guard !deleteHoldActive else { return }
         deleteHoldActive = true
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        KeyboardHaptics.tap()
         performDelete()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             guard self.deleteHoldActive else { return }
             self.deleteTimer = Timer.scheduledTimer(withTimeInterval: 0.08, repeats: true) { _ in
                 DispatchQueue.main.async {
                     if self.deleteHoldActive {
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        KeyboardHaptics.tap()
                         self.performDelete()
                     } else {
                         self.deleteTimer?.invalidate()
@@ -277,7 +277,7 @@ struct TypingKeyboardView: View {
 
     private var layerToggleKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
             switch layer {
             case .letters: layer = .numbers
@@ -296,7 +296,7 @@ struct TypingKeyboardView: View {
     /// row 2 좌측 (letters에서 shift 자리)에서만 노출.
     private var symbolsToggleKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             layer = (layer == .numbers) ? .symbols : .numbers
         } label: {
             keyBackground(width: 42, fill: theme.divider) {
@@ -311,7 +311,7 @@ struct TypingKeyboardView: View {
     /// 라벨은 **타깃 언어**를 보여줌 (현재 한국어면 "EN", 영어면 "한") — 누르면 그쪽으로 간다는 의미.
     private var langToggleKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             switchLang(to: lang == .english ? .korean : .english)
         } label: {
             keyBackground(width: 36, fill: theme.divider) {
@@ -330,7 +330,7 @@ struct TypingKeyboardView: View {
     /// 시스템 키보드 전환 — Apple 가이드라인상 모든 커스텀 키보드는 이 버튼 필수.
     private var globeKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
             proxy.advanceToNextInputMode()
         } label: {
@@ -344,7 +344,7 @@ struct TypingKeyboardView: View {
 
     private var spaceKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
             proxy.insertText(" ")
         } label: {
@@ -360,7 +360,7 @@ struct TypingKeyboardView: View {
 
     private var returnKey: some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             if lang == .korean { cheonjiinInput.commit(); hangulComposer.commit() }
             proxy.insertNewline()
         } label: {
@@ -477,7 +477,7 @@ struct TypingKeyboardView: View {
 
     private func cjVowelKey(_ char: String, w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             sendCharacter(char)
         } label: {
             cjBox(w: w, fill: theme.surface) {
@@ -490,7 +490,7 @@ struct TypingKeyboardView: View {
 
     private func cjConKey(_ label: String, w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             sendCharacter(label)
         } label: {
             cjBox(w: w, fill: theme.surface) {
@@ -504,7 +504,7 @@ struct TypingKeyboardView: View {
     // #123 — 숫자/기호 레이어로 전환
     private func cjLayerKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             layer = .numbers
@@ -520,7 +520,7 @@ struct TypingKeyboardView: View {
     // ABC — 영어 QWERTY로 전환
     private func cjABCKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             switchLang(to: .english)
         } label: {
             cjBox(w: w, fill: theme.divider) {
@@ -534,7 +534,7 @@ struct TypingKeyboardView: View {
     // EN — 영어 QWERTY로 전환 (한글 자리 상단)
     private func cjEnKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             switchLang(to: .english)
         } label: {
             cjBox(w: w, fill: theme.divider) {
@@ -548,7 +548,7 @@ struct TypingKeyboardView: View {
     // 🌐 — 시스템 키보드로 전환 (한글 자리 하단)
     private func cjGlobeKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             proxy.advanceToNextInputMode()
@@ -587,7 +587,7 @@ struct TypingKeyboardView: View {
     // ↵ 리턴 (tall, 행 2-3)
     private func cjReturnKey(w: CGFloat, h: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             proxy.insertNewline()
@@ -603,7 +603,7 @@ struct TypingKeyboardView: View {
     // 스페이스
     private func cjSpaceKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             proxy.insertText(" ")
@@ -619,7 +619,7 @@ struct TypingKeyboardView: View {
     // → 커서 오른쪽 이동
     private func cjArrowKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            KeyboardHaptics.tap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             proxy.cursorRight()
@@ -635,7 +635,7 @@ struct TypingKeyboardView: View {
     // .,?! — 숫자/기호 레이어로 전환
     private func cjSymKey(w: CGFloat) -> some View {
         Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            KeyboardHaptics.softTap()
             cheonjiinInput.commit()
             hangulComposer.commit()
             layer = .numbers

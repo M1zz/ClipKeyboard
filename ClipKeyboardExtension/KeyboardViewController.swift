@@ -398,7 +398,7 @@ class KeyboardViewController: UIInputViewController {
         if nextIndex == 0 {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         } else {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            KeyboardHaptics.mediumTap()
         }
         trackKeyboardPaste(memoId: memoId)
 
@@ -426,7 +426,7 @@ class KeyboardViewController: UIInputViewController {
         guard memo.isCombo && !memo.comboValues.isEmpty else { return }
 
         let nextIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        KeyboardHaptics.tap()
         print("⏭️ Combo 스킵: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] → \(nextIndex + 1)")
 
         memo.currentComboIndex = nextIndex
@@ -600,6 +600,8 @@ class KeyboardViewController: UIInputViewController {
         updateHasTextState()
         // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Firebase로 전송)
         KeyboardBeacon.recordUse()
+        // 햅틱 엔진 사전 깨우기 — 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
+        KeyboardHaptics.prepare()
     }
     
     override func textWillChange(_ textInput: UITextInput?) {
