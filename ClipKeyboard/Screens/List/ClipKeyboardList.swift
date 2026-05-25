@@ -573,13 +573,10 @@ struct ClipKeyboardList: View {
 
     // MARK: - Tab Background Color
 
-    /// 하단 인디케이터 선택 dot 색상 — 탭 색상과 일치
+    /// 하단 인디케이터 선택 dot 색상 — 단조로운 회색으로 통일.
+    /// 활성/비활성은 색이 아니라 dot 크기(20pt vs 6pt)로 구분.
     private var tabIndicatorColor: Color {
-        switch viewModel.selectedCategoryTab {
-        case .all:       return .blue
-        case .favorites: return .pink
-        case .custom(let name): return customCategoryColor(name)
-        }
+        Color.gray
     }
 
     /// 현재 탭에 맞는 배경색 — all=흰색, favorites=핑크, custom=팔레트색
