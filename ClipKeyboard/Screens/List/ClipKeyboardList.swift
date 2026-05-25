@@ -406,6 +406,10 @@ struct ClipKeyboardList: View {
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
         let isActive = longPressActiveMemo?.id == memo.id
         let holdDuration: Double = 0.65
+        // progress fill을 trigger보다 살짝 짧게 — 시뮬 환경에서 onLongPressGesture가
+        // 미세하게 일찍 fire되는 경우가 있어 "원이 아직 안 찼는데 시트 뜸" 현상을
+        // 방지하기 위함. 사용자는 0.5s에 원이 가득 차는 걸 보고 0.65s까지 누르면 시트.
+        let progressFillDuration: Double = 0.5
 
         // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
@@ -460,7 +464,7 @@ struct ClipKeyboardList: View {
                 .stroke(theme.accent, style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
                 .animation(
                     isActive
-                        ? .linear(duration: holdDuration)
+                        ? .linear(duration: progressFillDuration)
                         : .easeOut(duration: 0.18),
                     value: longPressProgress
                 )
@@ -479,15 +483,15 @@ struct ClipKeyboardList: View {
                 longPressProgress = 0
                 // 프로세스 진행 햅틱: 시작(light) → 중간(medium) → 완료 직전(medium)
                 HapticManager.shared.light()
-                DispatchQueue.main.asyncAfter(deadline: .now() + holdDuration * 0.45) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + progressFillDuration * 0.45) {
                     guard self.longPressActiveMemo?.id == memo.id else { return }
                     HapticManager.shared.medium()
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + holdDuration * 0.80) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + progressFillDuration * 0.85) {
                     guard self.longPressActiveMemo?.id == memo.id else { return }
                     HapticManager.shared.medium()
                 }
-                withAnimation(.linear(duration: holdDuration)) {
+                withAnimation(.linear(duration: progressFillDuration)) {
                     longPressProgress = 1.0
                 }
             } else {
