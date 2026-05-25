@@ -236,28 +236,41 @@ struct ClipKeyboardList: View {
                 titleVisibility: .visible
             ) {
                 if let memo = memoForActions {
-                    Button(NSLocalizedString("복사", comment: "Action: copy")) {
+                    Button {
                         HapticManager.shared.selection()
                         viewModel.copyMemo(memo: memo)
+                    } label: {
+                        Label(NSLocalizedString("복사", comment: "Action: copy"), systemImage: "doc.on.doc")
                     }
-                    Button(memo.isFavorite
-                           ? NSLocalizedString("즐겨찾기 해제", comment: "Action: remove favorite")
-                           : NSLocalizedString("즐겨찾기 추가", comment: "Action: add favorite")) {
+                    Button {
                         HapticManager.shared.selection()
                         viewModel.toggleFavorite(memoId: memo.id)
+                    } label: {
+                        Label(
+                            memo.isFavorite
+                                ? NSLocalizedString("즐겨찾기 해제", comment: "Action: remove favorite")
+                                : NSLocalizedString("즐겨찾기 추가", comment: "Action: add favorite"),
+                            systemImage: memo.isFavorite ? "heart.slash" : "heart"
+                        )
                     }
-                    Button(NSLocalizedString("수정", comment: "Action: edit")) {
+                    Button {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                             memoToEdit = memo
                         }
+                    } label: {
+                        Label(NSLocalizedString("수정", comment: "Action: edit"), systemImage: "pencil")
                     }
-                    Button(NSLocalizedString("삭제", comment: "Action: delete"), role: .destructive) {
+                    Button(role: .destructive) {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                             memoToDelete = memo
                         }
+                    } label: {
+                        Label(NSLocalizedString("삭제", comment: "Action: delete"), systemImage: "trash")
                     }
                 }
-                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+                Button(role: .cancel) {} label: {
+                    Label(NSLocalizedString("취소", comment: "Cancel"), systemImage: "xmark")
+                }
             }
             // 즐겨찾기 탭 + 버튼 — 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
