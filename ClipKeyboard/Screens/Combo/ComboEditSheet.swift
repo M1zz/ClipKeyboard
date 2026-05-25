@@ -209,7 +209,7 @@ struct ComboEditSheet: View {
                     // 값
                     Text(value)
                         .font(.body)
-                        .lineLimit(2)
+                        .lineLimit(3)
 
                     Spacer()
 

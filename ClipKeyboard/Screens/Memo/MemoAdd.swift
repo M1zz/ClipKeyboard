@@ -35,20 +35,286 @@ struct MemoAdd: View {
     var insertedIsSecure: Bool = false
     var insertedIsCombo: Bool = false
     var insertedComboValues: [String] = []
+    var insertedHint: String = ""
+    var insertedIsFavorite: Bool = false
+    var openImagePickerOnAppear: Bool = false
 
     // MARK: - View-only State
 
     @State private var isFocused: Bool = false
-    /// v4.0.8: 멀티 필드 focus — 키보드 toolbar "다음" 버튼이 내용 → 제목으로 이동
+    @FocusState private var isQuickTextFocused: Bool  // quickModeBody TextEditor 전용
     @FocusState private var isTitleFocused: Bool
+    @FocusState private var isHintFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showNewTemplateSheet = false
-    /// 인지 장애 접근성: 내용이 있을 때 초기화 전 확인
     @State private var showResetConfirm = false
+    /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
+    @State private var showAdvancedOptions: Bool = false
+
+    private var isQuickMode: Bool {
+        memoId == nil && !insertedIsTemplate && !insertedIsCombo && !showAdvancedOptions
+    }
 
     var body: some View {
+        Group {
+            if isQuickMode {
+                quickModeBody
+            } else {
+                fullModeBody
+            }
+        }
+        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {}
+        .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),
+               isPresented: $showResetConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("초기화", comment: "Confirm reset"), role: .destructive) {
+                viewModel.reset()
+                showAdvancedOptions = false
+            }
+        } message: {
+            Text(NSLocalizedString("입력한 내용이 모두 지워집니다. 계속하시겠습니까?", comment: "Reset form confirm message"))
+        }
+        .overlay {
+            if viewModel.showToast {
+                VStack {
+                    Spacer()
+                    Text(viewModel.toastMessage)
+                        .padding()
+                        .background(Color.black.opacity(0.7))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.bottom, 100)
+                        .accessibilityHidden(true)
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.easeInOut, value: viewModel.showToast)
+            }
+        }
+        .onChange(of: viewModel.showToast) { _, isShowing in
+            #if os(iOS)
+            if isShowing {
+                UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
+            }
+            #endif
+        }
+        .sheet(isPresented: $viewModel.showEmojiPicker) {
+            EmojiPicker { selectedEmoji in
+                viewModel.value += selectedEmoji
+            }
+        }
+        .paywall(isPresented: $viewModel.showPaywall, triggeredBy: viewModel.paywallTrigger)
+        #if os(iOS)
+        .sheet(isPresented: $viewModel.showDocumentScanner) {
+            DocumentCameraView { result in
+                if case .success(let images) = result {
+                    viewModel.processOCRImages(images)
+                }
+            }
+        }
+        .sheet(isPresented: $viewModel.showImagePicker) {
+            ImagePickerView { image in
+                if let image = image {
+                    viewModel.processOCRImages([image])
+                }
+            }
+        }
+        .overlay {
+            if viewModel.isProcessingOCR {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    VStack(spacing: 16) {
+                        ProgressView().scaleEffect(1.5).tint(.white)
+                        Text(NSLocalizedString("텍스트 인식 중...", comment: "Recognizing text"))
+                            .foregroundColor(.white).font(.headline)
+                    }
+                    .padding(32).background(theme.surface).cornerRadius(16)
+                }
+            }
+        }
+        #endif
+        .onAppear {
+            viewModel.onAppear(
+                memoId: memoId,
+                insertedKeyword: insertedKeyword,
+                insertedValue: insertedValue,
+                insertedCategory: insertedCategory,
+                insertedIsTemplate: insertedIsTemplate,
+                insertedIsSecure: insertedIsSecure,
+                insertedIsCombo: insertedIsCombo,
+                insertedComboValues: insertedComboValues,
+                insertedHint: insertedHint,
+                insertedIsFavorite: insertedIsFavorite
+            )
+            if openImagePickerOnAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    viewModel.showImagePicker = true
+                }
+            }
+        }
+        .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
+        .onChange(of: viewModel.isTemplate) { _, _ in viewModel.onIsTemplateChanged() }
+        .sheet(isPresented: $showNewTemplateSheet, onDismiss: {
+            if let newest = availableTemplates.last {
+                viewModel.attachedTemplateId = newest.id
+            }
+        }) {
+            NavigationView {
+                MemoAdd(insertedIsTemplate: true)
+                    .navigationTitle(NSLocalizedString("새 템플릿", comment: "New template nav title"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) {
+                                showNewTemplateSheet = false
+                            }
+                        }
+                    }
+            }
+        }
+        .navigationTitle({
+            if memoId != nil {
+                if insertedIsTemplate { return NSLocalizedString("메모 수정 타이틀_템플릿", comment: "Edit template navigation title") }
+                if insertedIsCombo { return NSLocalizedString("메모 수정 타이틀_콤보", comment: "Edit combo navigation title") }
+                return NSLocalizedString("메모 수정", comment: "Edit memo navigation title")
+            }
+            if insertedIsTemplate { return NSLocalizedString("새 템플릿", comment: "New template navigation title") }
+            if insertedIsCombo { return NSLocalizedString("새 콤보", comment: "New combo navigation title") }
+            return NSLocalizedString("새 메모", comment: "New memo navigation title")
+        }())
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+    }
+
+    // MARK: - Quick Mode Body
+
+    private var quickModeBody: some View {
+        VStack(spacing: 0) {
+            if viewModel.showClipboardSuggestion,
+               let content = viewModel.clipboardContent,
+               let detectedType = viewModel.clipboardDetectedType {
+                ClipboardSuggestionBanner(
+                    content: content,
+                    detectedType: detectedType,
+                    clipboardHistory: viewModel.clipboardHistory,
+                    onAccept: { viewModel.acceptClipboardSuggestion() },
+                    onDismiss: { viewModel.showClipboardSuggestion = false }
+                )
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+
+            ScrollView {
+                VStack(spacing: 14) {
+                    // 텍스트 입력 카드 — 메인 리스트 카드와 동일한 스타일
+                    VStack(alignment: .leading, spacing: 0) {
+                        Image(systemName: "doc.fill")
+                            .font(.title2)
+                            .foregroundStyle(theme.textFaint)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 16)
+                            .padding(.bottom, 6)
+
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: $viewModel.value)
+                                .font(.title3.weight(.semibold))
+                                .focused($isQuickTextFocused)
+                                .scrollContentBackground(.hidden)
+                                .padding(.horizontal, 12)
+                                .frame(minHeight: 80, maxHeight: 200)
+                            if viewModel.value.isEmpty {
+                                Text(NSLocalizedString("저장할 텍스트를 입력하세요", comment: "Quick add placeholder"))
+                                    .font(.title3.weight(.semibold))
+                                    .foregroundColor(theme.textFaint)
+                                    .padding(.horizontal, 16)
+                                    .padding(.top, 10)
+                                    .allowsHitTesting(false)
+                            }
+                        }
+                        .padding(.bottom, 16)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .background(theme.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 4)
+
+                    // 힌트 필드 카드
+                    HStack(spacing: 8) {
+                        Image(systemName: "lightbulb.fill")
+                            .foregroundColor(.yellow.opacity(0.8))
+                            .font(.footnote)
+                        TextField(
+                            NSLocalizedString("어디서 쓰나요? (선택)", comment: "Hint field placeholder"),
+                            text: $viewModel.hint
+                        )
+                        .font(.callout)
+                        .foregroundColor(theme.textMuted)
+                        .focused($isHintFocused)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .background(theme.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+                    // 더 설정하기 카드
+                    Button {
+                        withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
+                    } label: {
+                        HStack {
+                            Image(systemName: "slider.horizontal.3")
+                                .font(.callout)
+                            Text(NSLocalizedString("더 설정하기", comment: "Show advanced options"))
+                                .font(.callout)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                        }
+                        .foregroundColor(theme.textMuted)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 14)
+                        .background(theme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
+            }
+            .background(theme.bg)
+
+            Divider()
+
+            Button {
+                if viewModel.keyword.isEmpty {
+                    viewModel.keyword = viewModel.autoGeneratedTitle()
+                }
+                viewModel.saveMemo { dismiss() }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark")
+                    Text(NSLocalizedString("저장", comment: "Save"))
+                }
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(viewModel.value.isEmpty ? Color.gray.opacity(0.4) : Color.accentColor)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            }
+            .disabled(viewModel.value.isEmpty)
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 12)
+            .background(theme.surface)
+        }
+        .onAppear { isQuickTextFocused = true }
+    }
+
+    // MARK: - Full Mode Body (기존 UI)
+
+    private var fullModeBody: some View {
         VStack(spacing: 0) {
             // 📋 클립보드 스마트 제안
             if viewModel.showClipboardSuggestion, let content = viewModel.clipboardContent, let detectedType = viewModel.clipboardDetectedType {
@@ -198,7 +464,7 @@ struct MemoAdd: View {
                 .background(theme.surface)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
             }
-                .onChange(of: isFocused) { focused in
+                .onChange(of: isFocused) { _, focused in
                     if focused {
                         withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.3)) {
                             proxy.scrollTo("contentField", anchor: .top)
@@ -207,129 +473,6 @@ struct MemoAdd: View {
                 }
             }  // ScrollViewReader
         }
-        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
-
-        }
-        .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),
-               isPresented: $showResetConfirm) {
-            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
-            Button(NSLocalizedString("초기화", comment: "Confirm reset"), role: .destructive) {
-                viewModel.reset()
-            }
-        } message: {
-            Text(NSLocalizedString("입력한 내용이 모두 지워집니다. 계속하시겠습니까?", comment: "Reset form confirm message"))
-        }
-        .overlay(
-            Group {
-                if viewModel.showToast {
-                    VStack {
-                        Spacer()
-                        Text(viewModel.toastMessage)
-                            .padding()
-                            .background(Color.black.opacity(0.7))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .padding(.bottom, 100)
-                            .accessibilityHidden(true)
-                    }
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut, value: viewModel.showToast)
-                }
-            }
-        )
-        .onChange(of: viewModel.showToast) { isShowing in
-            #if os(iOS)
-            if isShowing {
-                UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
-            }
-            #endif
-        }
-        .sheet(isPresented: $viewModel.showEmojiPicker) {
-            EmojiPicker { selectedEmoji in
-                viewModel.value += selectedEmoji
-            }
-        }
-        .paywall(isPresented: $viewModel.showPaywall, triggeredBy: viewModel.paywallTrigger)
-        #if os(iOS)
-        .sheet(isPresented: $viewModel.showDocumentScanner) {
-            DocumentCameraView { result in
-                if case .success(let images) = result {
-                    viewModel.processOCRImages(images)
-                }
-            }
-        }
-        .sheet(isPresented: $viewModel.showImagePicker) {
-            ImagePickerView { image in
-                if let image = image {
-                    viewModel.processOCRImages([image])
-                }
-            }
-        }
-        .overlay {
-            if viewModel.isProcessingOCR {
-                ZStack {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-
-                    VStack(spacing: 16) {
-                        ProgressView()
-                            .scaleEffect(1.5)
-                            .tint(.white)
-
-                        Text(NSLocalizedString("텍스트 인식 중...", comment: "Recognizing text"))
-                            .foregroundColor(.white)
-                            .font(.headline)
-                    }
-                    .padding(32)
-                    .background(theme.surface)
-                    .cornerRadius(16)
-                }
-            }
-        }
-        #endif
-        .onAppear {
-            viewModel.onAppear(
-                memoId: memoId,
-                insertedKeyword: insertedKeyword,
-                insertedValue: insertedValue,
-                insertedCategory: insertedCategory,
-                insertedIsTemplate: insertedIsTemplate,
-                insertedIsSecure: insertedIsSecure,
-                insertedIsCombo: insertedIsCombo,
-                insertedComboValues: insertedComboValues
-            )
-        }
-        .onChange(of: viewModel.value) { _ in
-            viewModel.onValueChanged()
-        }
-        .onChange(of: viewModel.isTemplate) { _ in
-            viewModel.onIsTemplateChanged()
-        }
-        .sheet(isPresented: $showNewTemplateSheet, onDismiss: {
-            // 시트 닫힌 후 새로 생성된 템플릿을 자동 선택
-            if let newest = availableTemplates.last {
-                viewModel.attachedTemplateId = newest.id
-            }
-        }) {
-            NavigationView {
-                MemoAdd(insertedIsTemplate: true)
-                    .navigationTitle(NSLocalizedString("새 템플릿", comment: "New template nav title"))
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) {
-                                showNewTemplateSheet = false
-                            }
-                        }
-                    }
-            }
-        }
-        .navigationTitle(memoId == nil
-            ? NSLocalizedString("새 메모", comment: "New memo navigation title")
-            : NSLocalizedString("메모 수정", comment: "Edit memo navigation title"))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
     }
 
     // MARK: - View Sections
@@ -476,24 +619,6 @@ struct MemoAdd: View {
                         }
                     }
                 )
-            )
-
-            ToggleOptionRow(
-                activeIcon: "doc.text.fill",
-                inactiveIcon: "doc.text",
-                title: NSLocalizedString("템플릿", comment: "Template toggle"),
-                description: NSLocalizedString("재사용 가능한 양식", comment: "Template description"),
-                activeColor: .purple,
-                isOn: $viewModel.isTemplate
-            )
-
-            ToggleOptionRow(
-                activeIcon: "square.stack.3d.forward.dottedline.fill",
-                inactiveIcon: "square.stack.3d.forward.dottedline",
-                title: NSLocalizedString("Combo", comment: "Combo toggle"),
-                description: NSLocalizedString("탭마다 다음 값 입력", comment: "Combo description"),
-                activeColor: .orange,
-                isOn: $viewModel.isCombo
             )
         }
     }
@@ -1158,49 +1283,36 @@ struct ContentInputSection: View {
 
                 Spacer()
 
-                // 이미지 버튼들 (이미지 테마일 때만 표시)
-                if selectedCategory == "이미지" {
-                    HStack(spacing: 8) {
-                        // 클립보드에서 이미지 붙여넣기
-                        Button {
-                            pasteImageFromClipboard()
-                        } label: {
-                            HStack(spacing: 4) {
-                                Image(systemName: "doc.on.clipboard")
-                                    .font(.caption)
-                                Text(NSLocalizedString("붙여넣기", comment: "Paste"))
-                                    .font(.caption2)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
+                // 이미지 첨부 버튼 — 항상 표시
+                HStack(spacing: 8) {
+                    Button {
+                        pasteImageFromClipboard()
+                    } label: {
+                        Image(systemName: "doc.on.clipboard")
+                            .font(.caption)
+                            .padding(6)
                             .background(Color.purple.opacity(0.1))
                             .foregroundColor(.purple)
                             .cornerRadius(6)
-                        }
+                    }
+                    .accessibilityLabel(NSLocalizedString("클립보드에서 이미지 붙여넣기", comment: "Paste image from clipboard"))
 
-                        // 파일에서 이미지 선택
-                        Button {
-                            showImagePicker = true
-                        } label: {
-                            HStack(spacing: 4) {
-                                Image(systemName: "photo")
-                                    .font(.caption)
-                                Text(NSLocalizedString("사진", comment: "Photo"))
-                                    .font(.caption2)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
+                    Button {
+                        showImagePicker = true
+                    } label: {
+                        Image(systemName: "photo")
+                            .font(.caption)
+                            .padding(6)
                             .background(Color.blue.opacity(0.1))
                             .foregroundColor(.blue)
                             .cornerRadius(6)
-                        }
                     }
+                    .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
                 }
             }
 
-            // 이미지 테마: 이미지 뷰 표시
             if selectedCategory == "이미지" {
-                // 이미지가 선택되었을 때
+                // ── "이미지" 카테고리: 풀-이미지 모드 ──
                 if let firstImage = attachedImages.first {
                     VStack(spacing: 12) {
                         Image(uiImage: firstImage.image)
@@ -1213,7 +1325,6 @@ struct ContentInputSection: View {
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
 
-                        // 이미지 변경/제거 버튼
                         HStack(spacing: 12) {
                             Button {
                                 showImagePicker = true
@@ -1231,9 +1342,7 @@ struct ContentInputSection: View {
                             }
 
                             Button {
-                                withAnimation(reduceMotion ? nil : .default) {
-                                    attachedImages.removeAll()
-                                }
+                                withAnimation(reduceMotion ? nil : .default) { attachedImages.removeAll() }
                             } label: {
                                 HStack {
                                     Image(systemName: "trash")
@@ -1250,7 +1359,7 @@ struct ContentInputSection: View {
                     }
                     .padding(.vertical, 12)
                 } else {
-                    // 이미지가 선택되지 않았을 때 - placeholder (탭 시 갤러리 열기)
+                    // 아직 이미지 미선택 — 큰 placeholder
                     Button {
                         showImagePicker = true
                     } label: {
@@ -1280,6 +1389,44 @@ struct ContentInputSection: View {
                     .buttonStyle(.plain)
                 }
             } else {
+                // 일반 카테고리: 텍스트 + 선택적 이미지 첨부
+                if let firstImage = attachedImages.first {
+                    HStack(spacing: 10) {
+                        Image(uiImage: firstImage.image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 72, height: 72)
+                            .cornerRadius(theme.radiusSm)
+                            .clipped()
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(NSLocalizedString("배경 이미지", comment: "Attached image label"))
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+                            HStack(spacing: 8) {
+                                Button {
+                                    showImagePicker = true
+                                } label: {
+                                    Label(NSLocalizedString("변경", comment: "Change image"), systemImage: "photo.badge.plus")
+                                        .font(.caption)
+                                        .foregroundColor(.blue)
+                                }
+                                Button {
+                                    withAnimation(reduceMotion ? nil : .default) { attachedImages.removeAll() }
+                                } label: {
+                                    Label(NSLocalizedString("제거", comment: "Remove image"), systemImage: "trash")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(10)
+                    .background(theme.surfaceAlt)
+                    .cornerRadius(theme.radiusMd)
+                }
+
                 // v4.0.8: 샘플 값이면 안내 배너 — "수정해서 사용하세요"
                 if isSampleValue {
                     HStack(spacing: 8) {
@@ -1325,7 +1472,7 @@ struct ContentInputSection: View {
                 .padding(.vertical, 4)
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
-                .onChange(of: value) { newValue in
+                .onChange(of: value) { _, newValue in
                     if !newValue.isEmpty {
                         let classification = ClipboardClassificationService.shared.classify(content: newValue)
                         autoDetectedType = classification.type
@@ -1340,7 +1487,7 @@ struct ContentInputSection: View {
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
-                    .onChange(of: value) { newValue in
+                    .onChange(of: value) { _, newValue in
                         if !newValue.isEmpty {
                             let classification = ClipboardClassificationService.shared.classify(content: newValue)
                             autoDetectedType = classification.type

@@ -107,7 +107,7 @@ struct ComboList: View {
                         .accessibilityHidden(true)
                 }
             }
-            .onChange(of: showToast) { visible in
+            .onChange(of: showToast) { _, visible in
                 if visible {
                     UIAccessibility.post(notification: .announcement, argument: toastMessage)
                 }
@@ -474,7 +474,7 @@ struct ComboAddEditView: View {
                                     Text(title)
                                         .font(.caption)
                                         .foregroundColor(theme.textMuted)
-                                        .lineLimit(1)
+                                        .lineLimit(2)
                                 }
 
                                 if item.type == .template {
@@ -614,7 +614,7 @@ struct ComboItemPickerSheet: View {
 
     var body: some View {
         ComboItemPickerView(selectedItems: $tempSelectedItems)
-            .onChange(of: tempSelectedItems) { newValue in
+            .onChange(of: tempSelectedItems) { _, newValue in
                 // 새로 추가된 항목 확인
                 let added = newValue.filter { newItem in
                     !selectedItems.contains(where: { $0.id == newItem.id })

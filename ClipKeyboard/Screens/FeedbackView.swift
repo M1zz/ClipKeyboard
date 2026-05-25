@@ -122,8 +122,7 @@ struct FeedbackView: View {
                     .font(.subheadline)
                 Text(type.localizedName)
                     .font(.subheadline)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.85)
+                    .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)

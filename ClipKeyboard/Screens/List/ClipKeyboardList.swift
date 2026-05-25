@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LocalAuthentication
+import TipKit
 
 var fontSize: CGFloat = 20
 
@@ -39,6 +40,46 @@ struct ClipKeyboardList: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var occasionalSuggestion_: SuggestionTemplate? = nil
     @State private var navigateToOccasionalAdd: Bool = false
+    @State private var showPracticeFromCard: Bool = false
+    @State private var showKeyboardSetup: Bool = false
+
+    // Category badge nudge
+    @State private var categoryBadgeVisible: Bool = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
+    @State private var showCategoryBadgeNudge: Bool = false
+
+    // Category
+    @State private var showCategoryManagement: Bool = false
+    @State private var showAddCategoryAlert: Bool = false
+    @State private var newCategoryName: String = ""
+    @State private var categoryToDelete: String? = nil
+    // 롱프레스 컨텍스트에서 즉석 카테고리 생성+배정
+    @State private var memoForCategoryAssign: Memo? = nil
+    @State private var newCategoryForMemo: String = ""
+    @State private var showNewCategoryForMemoAlert: Bool = false
+
+    // 롱프레스 테두리 애니메이션 + 액션 메뉴
+    @State private var longPressActiveMemo: Memo? = nil
+    @State private var longPressProgress: CGFloat = 0
+    @State private var memoForActions: Memo? = nil
+    @State private var showMemoActions: Bool = false
+
+    // 즐겨찾기 탭 전용
+    @State private var showAddFavoriteMemoSheet: Bool = false
+    @State private var showSwipeCategoryDialog: Bool = false
+
+    // Sheet modals for MemoAdd
+    @State private var showAddMemoSheet: Bool = false
+    @State private var addMemoSheetCategory: String = ""
+    @State private var showAddTemplateSheet: Bool = false
+    @State private var showAddComboSheet: Bool = false
+    @State private var showAddImageMemoSheet: Bool = false
+    @State private var memoToEdit: Memo? = nil
+
+    // TipKit
+    private let welcomeTip = WelcomeTip()
+    private let addMemoTip = AddMemoTip()
+    private let keyboardTip = KeyboardTip()
+    private let cleanUpTip = CleanUpSamplesTip()
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -50,169 +91,110 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Design handoff: bg 토큰으로 전체 배경 통일.
-                theme.bg.ignoresSafeArea()
+                // 현재 탭에 따라 배경색이 부드럽게 전환
+                tabBackgroundColor
+                    .ignoresSafeArea()
+                    .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
 
-                // 메모 리스트
-                if !viewModel.memos.isEmpty {
-                    List {
-                        // 1. 검색 바 (조건부)
-                        if isSearchBarVisible {
-                            Section {
-                                searchBarInlineSection
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                        }
-
-                        // 2. Ambient Top Block — 인사말 + 통계 + 컨텍스트 액션 카드 (하나로 통합)
-                        //    Notes 스타일: 스크롤 시 부드럽게 fade-out
-                        if viewModel.selectedTypeFilter == nil {
-                            Section {
-                                ambientTopBlock
-                                    .background(scrollOffsetReader)
-                                    .opacity(greetingOpacity)
-                            }
-                            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 8, trailing: 16))
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 3. 타입 필터 바
-                        if !viewModel.loadedData.isEmpty {
-                            Section {
-                                typeFilterBarInlineSection
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 4. Grace 배너 (조건부)
-                        if shouldShowGraceBanner {
-                            Section {
-                                GraceQuotaBannerView {
-                                    ProFeatureManager.markGraceBannerDismissed()
-                                    graceBannerVisible = false
-                                }
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 5. 리뷰 배너 (조건부)
-                        if ReviewManager.shared.shouldShowBanner {
-                            Section {
-                                ReviewBannerView()
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 5.5 활용 제안 배너 (비정기, 조건부)
-                        if let suggestion = suggestionManager.occasionalSuggestion {
-                            Section {
-                                OccasionalSuggestionBanner(
-                                    suggestion: suggestion,
-                                    onDismiss: {
-                                        withAnimation { suggestionManager.dismissOccasionalSuggestion() }
-                                    },
-                                    onAdd: {
-                                        occasionalSuggestion_ = suggestion
-                                        suggestionManager.acceptOccasionalSuggestion()
-                                        navigateToOccasionalAdd = true
-                                    }
-                                )
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                        }
-
-                        // 6. 메모 리스트 — 단일 스트림.
-                        //    · 즐겨찾기는 최상단에 하나의 "즐겨찾기" 헤더로 묶음 (날짜 구분 없음)
-                        //    · 비즐겨찾기는 날짜 경계에서 초미니멀 divider 삽입
-                        //    · 첫 로드 시 stagger enter 애니메이션
-                        Section {
-                            ForEach(Array(viewModel.memos.enumerated()), id: \.element.id) { index, memo in
-                                let prevMemo = index > 0 ? viewModel.memos[index - 1] : nil
-                                if memo.isFavorite && prevMemo?.isFavorite != true {
-                                    // 첫 즐겨찾기 앞에만 "즐겨찾기" 헤더
-                                    timeDivider(label: NSLocalizedString("Favorites", comment: "Section header: favorites"))
-                                        .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 4, trailing: 16))
-                                        .listRowBackground(Color.clear)
-                                        .listRowSeparator(.hidden)
-                                } else if !memo.isFavorite {
-                                    // 즐겨찾기 → 일반 전환 시 이전 메모를 nil 취급해 첫 날짜 라벨 강제 표시
-                                    let effectivePrev = prevMemo?.isFavorite == true ? nil : prevMemo
-                                    if let dayLabel = dayBoundaryLabel(for: memo, previousMemo: effectivePrev) {
-                                        timeDivider(label: dayLabel)
-                                            .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 4, trailing: 16))
-                                            .listRowBackground(Color.clear)
-                                            .listRowSeparator(.hidden)
-                                    }
-                                }
-                                memoRow(memo: memo)
-                                    .opacity(recencyOpacity(for: memo) * (hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0)))
-                                    .offset(y: (hasAppeared || reduceMotion) ? 0 : 16)
-                                    .animation(
-                                        reduceMotion ? nil : .easeOut(duration: 0.35).delay(Double(min(index, 12)) * 0.035),
-                                        value: hasAppeared
-                                    )
-                            }
-                        }
-                    }
-                    .listStyle(PlainListStyle())
-                    .scrollContentBackground(.hidden)
-                    .coordinateSpace(name: "listScroll")
-                    .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                        scrollOffset = value
-                    }
-                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
-                }
-
-                // 빈 화면
-                if viewModel.memos.isEmpty {
-                    EmptyListView
+                categoryTabView
+            }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if isSearchBarVisible {
+                    searchBarInlineSection
+                        .background(.regularMaterial)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
-            .background(
-                NavigationLink(destination: {
-                    if let s = occasionalSuggestion_ { memoAdd(for: s) } else { MemoAdd() }
-                }(), isActive: $navigateToOccasionalAdd) { EmptyView() }
-                    .hidden()
-            )
+            .alert(
+                NSLocalizedString("새 카테고리", comment: "Add category alert title"),
+                isPresented: $showAddCategoryAlert
+            ) {
+                TextField(NSLocalizedString("카테고리 이름", comment: "Category name placeholder"), text: $newCategoryName)
+                Button(NSLocalizedString("추가", comment: "Add")) {
+                    viewModel.addCustomCategory(newCategoryName)
+                    newCategoryName = ""
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                    newCategoryName = ""
+                }
+            } message: {
+                Text(NSLocalizedString("메모를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
+            }
+            .alert(
+                NSLocalizedString("카테고리 삭제", comment: "Delete category alert title"),
+                isPresented: Binding(get: { categoryToDelete != nil }, set: { if !$0 { categoryToDelete = nil } })
+            ) {
+                Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                    if let name = categoryToDelete { viewModel.deleteCustomCategory(name) }
+                    categoryToDelete = nil
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { categoryToDelete = nil }
+            } message: {
+                if let name = categoryToDelete {
+                    Text(String(format: NSLocalizedString("'%@' 카테고리를 삭제하시겠습니까? 메모는 유지됩니다.", comment: "Delete category confirm message"), name))
+                }
+            }
+            .alert(
+                NSLocalizedString("새 카테고리 만들기", comment: "Create new category and assign alert title"),
+                isPresented: $showNewCategoryForMemoAlert
+            ) {
+                TextField(NSLocalizedString("카테고리 이름", comment: "Category name placeholder"), text: $newCategoryForMemo)
+                Button(NSLocalizedString("추가", comment: "Add")) {
+                    let trimmed = newCategoryForMemo.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if !trimmed.isEmpty, let memo = memoForCategoryAssign {
+                        viewModel.addCustomCategory(trimmed)
+                        viewModel.moveMemo(memo, toCategory: trimmed)
+                    }
+                    newCategoryForMemo = ""
+                    memoForCategoryAssign = nil
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                    newCategoryForMemo = ""
+                    memoForCategoryAssign = nil
+                }
+            } message: {
+                Text(NSLocalizedString("카테고리가 생성되고 이 메모가 바로 이동됩니다.", comment: "Create category and assign message"))
+            }
+            .sheet(isPresented: $navigateToOccasionalAdd, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    Group {
+                        if let s = occasionalSuggestion_ { memoAdd(for: s) } else { MemoAdd() }
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { navigateToOccasionalAdd = false }
+                        }
+                    }
+                }
+            }
             .task {
                 viewModel.loadMemos()
             }
             .toolbar {
                 toolbarContent
             }
+            // 하단 툴바 — iOS 26: 배경 hidden으로 Liquid Glass pill이 콘텐츠 위에 플로팅
+            // iOS 17-25: thin material 유지
+            .toolbarBackground(.hidden, for: .bottomBar)
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
                 toastOverlay
             }
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // Navigation 설정 — 타이틀 제거. 그리팅이 상단 앵커 역할.
-            // 접근성: VoiceOver용으로 숨은 라벨 유지.
+            // Navigation 설정 — 네비게이션 바 완전히 숨김. 그리팅이 상단 앵커 역할.
             .navigationTitle("")
             #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
             #endif
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
             // 검색 및 필터 변경 감지
-            .onChange(of: viewModel.searchQueryString) { _ in viewModel.applyFilters() }
-            .onChange(of: viewModel.selectedTypeFilter) { _ in
+            .onChange(of: viewModel.searchQueryString) { _, _ in viewModel.applyFilters() }
+            .onChange(of: viewModel.selectedTypeFilter) { _, _ in
                 viewModel.applyFilters()
                 viewModel.saveSelectedFilter()
             }
+            .onChange(of: viewModel.showFavoritesFilter) { _, _ in viewModel.applyFilters() }
             // 인증 실패 Alert
             .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $viewModel.showAuthAlert) {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
@@ -242,6 +224,81 @@ struct ClipKeyboardList: View {
                     Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.", comment: "Delete memo confirm message with title"), memo.title))
                 } else {
                     Text(NSLocalizedString("이 작업은 취소할 수 없습니다.", comment: "Delete warning"))
+                }
+            }
+            // 롱프레스 완료 후 액션 메뉴
+            .confirmationDialog(
+                memoForActions?.title ?? "",
+                isPresented: $showMemoActions,
+                titleVisibility: .visible
+            ) {
+                if let memo = memoForActions {
+                    Button(NSLocalizedString("복사", comment: "Action: copy")) {
+                        HapticManager.shared.selection()
+                        viewModel.copyMemo(memo: memo)
+                    }
+                    Button(memo.isFavorite
+                           ? NSLocalizedString("즐겨찾기 해제", comment: "Action: remove favorite")
+                           : NSLocalizedString("즐겨찾기 추가", comment: "Action: add favorite")) {
+                        HapticManager.shared.selection()
+                        viewModel.toggleFavorite(memoId: memo.id)
+                    }
+                    Button(NSLocalizedString("수정", comment: "Action: edit")) {
+                        memoToEdit = memo
+                    }
+                    Button(NSLocalizedString("삭제", comment: "Action: delete"), role: .destructive) {
+                        memoToDelete = memo
+                    }
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+            }
+            // 즐겨찾기 탭 + 버튼 — 즐겨찾기로 바로 저장
+            .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    MemoAdd(insertedIsFavorite: true)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddFavoriteMemoSheet = false }
+                            }
+                        }
+                }
+            }
+            // 즐겨찾기 탭 오른쪽 스와이프 → 새 카테고리 생성 제안
+            .confirmationDialog(
+                NSLocalizedString("새로운 카테고리를 만들까요?", comment: "Swipe right favorites: create category dialog title"),
+                isPresented: $showSwipeCategoryDialog,
+                titleVisibility: .visible
+            ) {
+                Button(NSLocalizedString("새 카테고리 만들기", comment: "Swipe right favorites: confirm create category")) {
+                    newCategoryName = ""
+                    showAddCategoryAlert = true
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+            } message: {
+                Text(NSLocalizedString("즐겨찾기 메모를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
+            }
+            // KeyboardTip 액션: 키보드 설정으로 이동
+            .sheet(isPresented: $showKeyboardSetup) {
+                KeyboardSetupOnboardingView { showKeyboardSetup = false }
+                    .presentationDetents([.large])
+            }
+            .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
+                NavigationStack {
+                    MemoAdd(
+                        memoId: memo.id,
+                        insertedKeyword: memo.title,
+                        insertedValue: memo.value,
+                        insertedCategory: memo.category,
+                        insertedIsTemplate: memo.isTemplate,
+                        insertedIsSecure: memo.isSecure,
+                        insertedIsCombo: memo.isCombo,
+                        insertedComboValues: memo.comboValues
+                    )
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { memoToEdit = nil }
+                        }
+                    }
                 }
             }
             // 각종 Sheet Modifiers
@@ -284,6 +341,13 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
             }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                viewModel.onSceneResume()
+            }
+            .sheet(isPresented: $showPracticeFromCard) {
+                KeyboardPracticeSheet()
+                    .presentationDetents([.large])
+            }
         }
     }
 
@@ -294,7 +358,7 @@ struct ClipKeyboardList: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(theme.textFaint)
-                .font(.system(size: 16))
+                .font(.callout)
                 .accessibilityHidden(true)
 
             TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
@@ -311,7 +375,7 @@ struct ClipKeyboardList: View {
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(theme.textFaint)
-                        .font(.system(size: 16))
+                        .font(.callout)
                 }
                 .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
             }
@@ -322,6 +386,549 @@ struct ClipKeyboardList: View {
         .cornerRadius(theme.radiusSm)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
+    }
+
+    // MARK: - Grid
+
+    private let gridColumns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+
+    private func memoGridCell(memo: Memo) -> some View {
+        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+        let hasImage = !imageFileName.isEmpty
+        let onColor = cardIsColored(memo: memo, hasImage: hasImage)
+        let isActive = longPressActiveMemo?.id == memo.id
+        let holdDuration: Double = 0.65
+
+        return Button {
+            HapticManager.shared.selection() // 탭: 선택 햅틱
+            viewModel.copyMemo(memo: memo)
+            checkCategoryBadgeNudge()
+            #if os(iOS)
+            if UIAccessibility.isVoiceOverRunning {
+                let msg = String(format: NSLocalizedString("%@ 복사됨", comment: "VoiceOver: copied announcement"), memo.title)
+                UIAccessibility.post(notification: .announcement, argument: msg)
+            }
+            #endif
+        } label: {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 4) {
+                    memoTypeIcon(memo: memo, onColor: onColor)
+                    Spacer()
+                    if categoryBadgeVisible, viewModel.customCategories.contains(memo.category) {
+                        Image(systemName: customCategoryIcon(memo.category))
+                            .font(.title2)
+                            .foregroundColor(onColor
+                                ? .white.opacity(0.85)
+                                : customCategoryColor(memo.category))
+                            .accessibilityHidden(true)
+                    } else if memo.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .font(.title2)
+                            .foregroundColor(onColor ? .white.opacity(0.9) : .pink)
+                            .accessibilityHidden(true)
+                    }
+                }
+                Spacer(minLength: 16)
+                Text(memo.title)
+                    .font(.title2.weight(.semibold))
+                    .foregroundColor(onColor ? .white : theme.text)
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
+            .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
+            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        // 롱프레스 감아지는 테두리 오버레이
+        .overlay {
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .trim(from: 0, to: isActive ? longPressProgress : 0)
+                .stroke(theme.accent, style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
+                .animation(
+                    isActive
+                        ? .linear(duration: holdDuration)
+                        : .easeOut(duration: 0.18),
+                    value: longPressProgress
+                )
+                .allowsHitTesting(false)
+        }
+        .onLongPressGesture(minimumDuration: holdDuration, maximumDistance: 20) {
+            // 완료 — 진행 완료 햅틱 후 액션 메뉴 표시
+            HapticManager.shared.heavy()
+            longPressActiveMemo = nil
+            longPressProgress = 0
+            memoForActions = memo
+            showMemoActions = true
+        } onPressingChanged: { isPressing in
+            if isPressing {
+                longPressActiveMemo = memo
+                longPressProgress = 0
+                // 프로세스 진행 햅틱: 시작(light) → 중간(medium) → 완료 직전(medium)
+                HapticManager.shared.light()
+                DispatchQueue.main.asyncAfter(deadline: .now() + holdDuration * 0.45) {
+                    guard self.longPressActiveMemo?.id == memo.id else { return }
+                    HapticManager.shared.medium()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + holdDuration * 0.80) {
+                    guard self.longPressActiveMemo?.id == memo.id else { return }
+                    HapticManager.shared.medium()
+                }
+                withAnimation(.linear(duration: holdDuration)) {
+                    longPressProgress = 1.0
+                }
+            } else {
+                // 중간에 뗌 — 테두리 되감기
+                withAnimation(.easeOut(duration: 0.18)) {
+                    longPressProgress = 0
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    if self.longPressActiveMemo?.id == memo.id {
+                        self.longPressActiveMemo = nil
+                    }
+                }
+            }
+        }
+        .accessibilityLabel(memo.title)
+        .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
+    }
+
+
+    /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용
+    private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
+        if hasImage { return true }
+        if memo.isTemplate || memo.isCombo || memo.isSecure || memo.isFavorite { return true }
+        if viewModel.customCategories.contains(memo.category) { return true }
+        return false
+    }
+
+    private func memoTypeIconName(memo: Memo) -> String {
+        if memo.isTemplate { return "wand.and.sparkles" }
+        if memo.isCombo    { return "square.stack.3d.up.fill" }
+        if memo.isSecure   { return "lock.fill" }
+        return "doc.fill"
+    }
+
+    @ViewBuilder
+    private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
+        Image(systemName: memoTypeIconName(memo: memo))
+            .font(.title2)
+            .foregroundStyle(onColor ? Color.white.opacity(0.9) : theme.textFaint)
+            .accessibilityHidden(true)
+    }
+
+    @ViewBuilder
+    private func memoCardBackground(memo: Memo, imageFileName: String, hasImage: Bool) -> some View {
+        if hasImage {
+            ZStack {
+                MemoImageBackground(fileName: imageFileName)
+                LinearGradient(
+                    colors: [.black.opacity(0.15), .clear, .black.opacity(0.45)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            }
+        } else if memo.isTemplate {
+            Color.purple
+        } else if memo.isCombo {
+            Color.blue
+        } else if memo.isSecure {
+            Color(uiColor: .systemGray3)
+        } else if memo.isFavorite {
+            Color.pink
+        } else if viewModel.customCategories.contains(memo.category) {
+            customCategoryColor(memo.category)
+        } else {
+            theme.surface
+        }
+    }
+
+    // MARK: - Tab Background Color
+
+    /// 하단 인디케이터 선택 dot 색상 — 탭 색상과 일치
+    private var tabIndicatorColor: Color {
+        switch viewModel.selectedCategoryTab {
+        case .all:       return .blue
+        case .favorites: return .pink
+        case .custom(let name): return customCategoryColor(name)
+        }
+    }
+
+    /// 현재 탭에 맞는 배경색 — all=흰색, favorites=핑크, custom=팔레트색
+    private var tabBackgroundColor: Color {
+        switch viewModel.selectedCategoryTab {
+        case .all:       return theme.bg
+        case .favorites: return Color.pink.opacity(0.08)
+        case .custom(let name): return customCategoryColor(name).opacity(0.08)
+        }
+    }
+
+    /// 커스텀 카테고리 순서에 따라 결정적으로 색상 반환
+    private func customCategoryColor(_ name: String) -> Color {
+        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
+        return palette[idx % palette.count]
+    }
+
+    /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
+    private func customCategoryIcon(_ name: String) -> String {
+        let icons = ["folder.fill", "bookmark.fill", "tag.fill", "briefcase.fill",
+                     "star.fill", "heart.circle.fill", "person.fill", "house.fill"]
+        let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
+        return icons[idx % icons.count]
+    }
+
+    // MARK: - Category Tab Bar
+
+    private var categoryTabBar: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(viewModel.allCategoryTabs, id: \.self) { tab in
+                        categoryTabChip(tab: tab, proxy: proxy)
+                    }
+                    // "+" 추가 버튼
+                    Button {
+                        HapticManager.shared.light()
+                        showAddCategoryAlert = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "plus")
+                                .font(.caption.weight(.semibold))
+                            Text(NSLocalizedString("추가", comment: "Add category button"))
+                                .font(.caption.weight(.semibold))
+                        }
+                        .foregroundColor(theme.textMuted)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 7)
+                        .background(
+                            Capsule().strokeBorder(theme.textFaint.opacity(0.4), lineWidth: 1)
+                        )
+                    }
+                    .accessibilityLabel(NSLocalizedString("카테고리 추가", comment: "Add category accessibility label"))
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+            }
+            .background {
+                // iOS 26+ : Liquid Glass / 이하 : ultraThinMaterial
+                // ignoresSafeArea로 상태바 아래까지 확장해 카드처럼 떠있는 느낌 제거
+                if #available(iOS 26, *) {
+                    Rectangle()
+                        .glassEffect()
+                        .ignoresSafeArea(edges: .top)
+                } else {
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .ignoresSafeArea(edges: .top)
+                }
+            }
+            .onChange(of: viewModel.selectedCategoryTab) { _, newTab in
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    proxy.scrollTo(newTab, anchor: .center)
+                }
+            }
+        }
+        // 하단 경계 — 미세한 그림자로 자연스러운 분리
+        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)
+    }
+
+    private func categoryTabChip(tab: CategoryTab, proxy: ScrollViewProxy) -> some View {
+        let isSelected = viewModel.selectedCategoryTab == tab
+        return Button {
+            HapticManager.shared.selection()
+            viewModel.selectCategoryTab(tab)
+        } label: {
+            HStack(spacing: 5) {
+                Image(systemName: tab.icon)
+                    .font(.caption2.weight(.semibold))
+                Text(tab.displayName)
+                    .font(.subheadline.weight(isSelected ? .semibold : .regular))
+                if !tab.isBuiltIn {
+                    Button {
+                        HapticManager.shared.light()
+                        categoryToDelete = tab.displayName
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.caption2.weight(.bold))
+                            .foregroundColor(isSelected ? .white.opacity(0.7) : theme.textFaint)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(String(format: NSLocalizedString("'%@' 카테고리 삭제", comment: "Delete category chip"), tab.displayName))
+                }
+            }
+            .foregroundColor(isSelected ? .white : theme.textMuted)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background {
+                if isSelected {
+                    Capsule().fill(Color.blue)
+                } else {
+                    // 비선택 칩: glass 환경에서 자연스럽게 녹아드는 반투명
+                    if #available(iOS 26, *) {
+                        Capsule().fill(.thinMaterial)
+                    } else {
+                        Capsule().fill(theme.surfaceAlt)
+                    }
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .id(tab)
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
+
+    // MARK: - Category Tab View (Page Swipe)
+
+    /// TabView.page 방식 — ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
+    /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
+    private var categoryTabView: some View {
+        let binding = Binding<CategoryTab>(
+            get: { viewModel.selectedCategoryTab },
+            set: { newTab in
+                viewModel.selectCategoryTab(newTab)
+            }
+        )
+        return TabView(selection: binding) {
+            ForEach(viewModel.allCategoryTabs, id: \.self) { tab in
+                tabPageView(for: tab)
+                    .tag(tab)
+            }
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .id(viewModel.customCategories)
+        // 경계 스와이프 감지: 없는 페이지 방향으로 스와이프할 때만 동작.
+        // 첫 탭에서 오른쪽 → 마지막 탭으로 순환,
+        // 마지막 탭에서 왼쪽(더 이상 없는 방향) → 카테고리 생성 제안.
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 60)
+                .onEnded { value in
+                    let h = value.translation.width
+                    let v = value.translation.height
+                    guard abs(h) > abs(v) * 1.5, abs(h) > 80 else { return }
+                    let tabs = viewModel.allCategoryTabs
+                    let idx = viewModel.selectedCategoryIndex
+                    if h > 0, idx == 0 {
+                        // 첫 탭에서 오른쪽 스와이프 → 마지막 탭으로
+                        HapticManager.shared.light()
+                        viewModel.selectCategoryTab(tabs[tabs.count - 1])
+                    } else if h < 0, idx == tabs.count - 1 {
+                        // 마지막 탭에서 더 왼쪽(없는 페이지 방향) → 카테고리 생성 제안
+                        HapticManager.shared.light()
+                        showSwipeCategoryDialog = true
+                    }
+                }
+        )
+        .overlay(alignment: .bottom) {
+            if viewModel.allCategoryTabs.count > 1 {
+                SwipePageIndicator(
+                    total: viewModel.allCategoryTabs.count,
+                    selectedIndex: viewModel.selectedCategoryIndex,
+                    accentColor: tabIndicatorColor
+                )
+                .padding(.bottom, 12)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func tabPageView(for tab: CategoryTab) -> some View {
+        let filtered = viewModel.memos(for: tab)
+        switch tab {
+        case .all:
+            if !viewModel.memos.isEmpty {
+                allTabScrollView
+            } else {
+                EmptyListView
+            }
+        case .favorites:
+            if !filtered.isEmpty {
+                filteredTabScrollView(memos: filtered, isFavorites: true)
+            } else {
+                favoritesEmptyStateView
+            }
+        case .custom(let name):
+            if !filtered.isEmpty {
+                filteredTabScrollView(memos: filtered)
+            } else {
+                categoryEmptyStateView(
+                    icon: "folder",
+                    message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name)
+                )
+            }
+        }
+    }
+
+    private var allTabScrollView: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 0) {
+                // 상단 여백 — Dynamic Island 아래 숨 쉬는 공간
+                Color.clear.frame(height: 16)
+
+                // TipKit 팁들
+                VStack(spacing: 12) {
+                    TipView(welcomeTip)
+                        .tipBackground(theme.surface)
+                        .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
+                    TipView(keyboardTip) { action in
+                        if action.id == "setup" {
+                            showKeyboardSetup = true
+                            keyboardTip.invalidate(reason: .actionPerformed)
+                        }
+                    }
+                    .tipBackground(theme.surface)
+                    TipView(cleanUpTip) { action in
+                        if action.id == "delete" {
+                            deleteSampleMemos()
+                            cleanUpTip.invalidate(reason: .actionPerformed)
+                        } else {
+                            cleanUpTip.invalidate(reason: .actionPerformed)
+                        }
+                    }
+                    .tipBackground(theme.surface)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .padding(.bottom, 4)
+
+                // Grace 배너
+                if shouldShowGraceBanner {
+                    GraceQuotaBannerView {
+                        ProFeatureManager.markGraceBannerDismissed()
+                        graceBannerVisible = false
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                }
+
+                // 카테고리 배지 끄기 넛지
+                if showCategoryBadgeNudge {
+                    categoryBadgeNudgeBanner
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
+                // 전체 메모를 하나의 그리드로 — 즐겨찾기(핑크) → 최근사용 → 나머지 순
+                let allMemos = viewModel.pinnedMemos + viewModel.recentlyUsedMemos + viewModel.remainingMemos
+                if !allMemos.isEmpty {
+                    LazyVGrid(columns: gridColumns, spacing: 12) {
+                        ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
+                            memoGridCell(memo: memo)
+                                .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
+                                .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
+                                .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                }
+            }
+            // 하단 safe area + 툴바 높이 확보: Liquid Glass pill 뒤로 콘텐츠가 흐름
+            .padding(.bottom, 120)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
+        }
+        .ignoresSafeArea(.container, edges: .bottom)
+    }
+
+    private func filteredTabScrollView(memos: [Memo], isFavorites: Bool = false) -> some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 0) {
+                Color.clear.frame(height: 16)
+                LazyVGrid(columns: gridColumns, spacing: 12) {
+                    ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
+                        memoGridCell(memo: memo)
+                            .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
+                            .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
+                            .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                    }
+                    if isFavorites {
+                        addFavoriteMemoCard
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+            }
+            .padding(.bottom, 120)
+        }
+        .ignoresSafeArea(.container, edges: .bottom)
+    }
+
+    private var addFavoriteMemoCard: some View {
+        Button {
+            HapticManager.shared.light()
+            showAddFavoriteMemoSheet = true
+        } label: {
+            VStack(spacing: 10) {
+                Image(systemName: "plus")
+                    .font(.title2.weight(.medium))
+                    .foregroundColor(theme.textFaint)
+                Text(NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"))
+                    .font(.caption.weight(.medium))
+                    .foregroundColor(theme.textFaint)
+            }
+            .frame(maxWidth: .infinity, minHeight: 116)
+            .background(theme.surface.opacity(0.5))
+            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .strokeBorder(
+                        theme.textFaint.opacity(0.3),
+                        style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
+                    )
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(NSLocalizedString("즐겨찾기 메모 추가", comment: "Add favorite memo card a11y"))
+    }
+
+    private func categoryEmptyStateView(icon: String, message: String) -> some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: icon)
+                .font(.system(size: 44))
+                .foregroundColor(theme.textFaint)
+            Text(message)
+                .font(.subheadline)
+                .foregroundColor(theme.textMuted)
+                .multilineTextAlignment(.center)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+    }
+
+    private var favoritesEmptyStateView: some View {
+        ZStack(alignment: .center) {
+            // 화면 정 중앙 — 빈 상태 안내
+            VStack(spacing: 14) {
+                Image(systemName: "heart.slash")
+                    .font(.system(size: 44))
+                    .foregroundColor(theme.textFaint)
+                Text(NSLocalizedString("즐겨찾기한 메모가 없습니다.\n메모를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"))
+                    .font(.subheadline)
+                    .foregroundColor(theme.textMuted)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+            }
+
+            // 상단 — 즐겨찾기 메모 추가 카드
+            VStack {
+                LazyVGrid(columns: gridColumns, spacing: 12) {
+                    addFavoriteMemoCard
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                Spacer()
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     // MARK: - Ambient Top Block
@@ -340,18 +947,18 @@ struct ClipKeyboardList: View {
     private var greetingHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(timeGreeting)
-                .font(.system(size: 24, weight: .semibold, design: .serif))
+                .font(.system(.title, design: .serif, weight: .black))
                 .foregroundColor(theme.text)
             Text(contextLine)
-                .font(.system(size: 13))
+                .font(.footnote)
                 .foregroundColor(theme.textMuted)
             if let savedText = timeSavedBadgeText {
                 HStack(spacing: 4) {
                     Image(systemName: "clock.arrow.circlepath")
-                        .font(.system(size: 11))
+                        .font(.caption2)
                         .accessibilityHidden(true)
                     Text(savedText)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.caption.weight(.medium))
                 }
                 .foregroundColor(.green)
                 .padding(.top, 2)
@@ -483,10 +1090,10 @@ struct ClipKeyboardList: View {
             )
             .padding(14)
             .background(theme.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             .overlay(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .stroke(Color.blue.opacity(0.18), lineWidth: 1)
+                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                    .stroke(Color.blue.opacity(0.12), lineWidth: 1)
             )
             .contentShape(Rectangle())
         }
@@ -514,7 +1121,7 @@ struct ClipKeyboardList: View {
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 10) {
                     Text(memo.title)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.headline.weight(.semibold))
                         .foregroundColor(theme.text)
                     if memo.isTemplate {
                         TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
@@ -531,7 +1138,7 @@ struct ClipKeyboardList: View {
                     }
                     if memo.isSecure {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 12))
+                            .font(.caption)
                             .foregroundColor(theme.textFaint)
                     }
                     Spacer(minLength: 0)
@@ -551,7 +1158,7 @@ struct ClipKeyboardList: View {
 
                 if !memo.value.isEmpty {
                     Text(memo.value)
-                        .font(.system(size: 15))
+                        .font(.subheadline)
                         .foregroundColor(theme.text)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .fixedSize(horizontal: false, vertical: true)
@@ -562,9 +1169,9 @@ struct ClipKeyboardList: View {
                     if memo.clipCount > 0 {
                         HStack(spacing: 4) {
                             Image(systemName: "doc.on.doc.fill")
-                                .font(.system(size: 10))
+                                .font(.caption2)
                             Text(String(format: NSLocalizedString("Used %d×", comment: "Preview: total use count"), memo.clipCount))
-                                .font(.system(size: 11, weight: .medium))
+                                .font(.caption2.weight(.medium))
                         }
                         .foregroundColor(theme.textMuted)
                         .padding(.horizontal, 8)
@@ -575,9 +1182,9 @@ struct ClipKeyboardList: View {
                     if memo.isFavorite {
                         HStack(spacing: 4) {
                             Image(systemName: "heart.fill")
-                                .font(.system(size: 10))
+                                .font(.caption2)
                             Text(NSLocalizedString("Favorite", comment: "Preview: favorite badge"))
-                                .font(.system(size: 11, weight: .medium))
+                                .font(.caption2.weight(.medium))
                         }
                         .foregroundColor(.pink)
                         .padding(.horizontal, 8)
@@ -596,7 +1203,7 @@ struct ClipKeyboardList: View {
 
     // MARK: - Time Divider (day boundary)
 
-    /// 이전 메모와 날짜(캘린더 기준 일)가 바뀔 때만 divider 라벨 반환. 같은 날이면 nil.
+    /// 이전 메모와 날짜 버킷(오늘/어제/이번주/이번달…)이 바뀔 때만 divider 라벨 반환.
     private func dayBoundaryLabel(for memo: Memo, previousMemo: Memo?) -> String? {
         let cal = Calendar.current
         let reference = memo.lastUsedAt ?? memo.lastEdited
@@ -605,8 +1212,13 @@ struct ClipKeyboardList: View {
             return relativeDateLabel(reference)
         }
         let prevRef = prev.lastUsedAt ?? prev.lastEdited
+
+        // 같은 날이거나 같은 버킷(예: 둘 다 "This week")이면 헤더 불필요
         if cal.isDate(reference, inSameDayAs: prevRef) { return nil }
-        return relativeDateLabel(reference)
+        let currentLabel = relativeDateLabel(reference)
+        let prevLabel = relativeDateLabel(prevRef)
+        if currentLabel == prevLabel { return nil }
+        return currentLabel
     }
 
     /// 초미니멀 day divider — 얇은 수평선 + 작은 라벨.
@@ -615,15 +1227,20 @@ struct ClipKeyboardList: View {
             Rectangle()
                 .fill(theme.divider)
                 .frame(height: 0.5)
+                .accessibilityHidden(true)
             Text(label)
-                .font(.system(size: 10, weight: .medium))
+                .font(.caption2.weight(.medium))
                 .foregroundColor(theme.textFaint)
                 .textCase(.uppercase)
                 .tracking(0.5)
             Rectangle()
                 .fill(theme.divider)
                 .frame(height: 0.5)
+                .accessibilityHidden(true)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(label)
+        .accessibilityAddTraits(.isHeader)
     }
 
     /// 캘린더 기준 상대적 날짜 라벨.
@@ -647,70 +1264,11 @@ struct ClipKeyboardList: View {
 
     /// 타입 필터 바 섹션 (인라인)
     private var typeFilterBarInlineSection: some View {
-        MemoTypeFilterBar(selectedFilter: $viewModel.selectedTypeFilter, memos: viewModel.loadedData)
-    }
-
-    /// 메모 행
-    private func memoRow(memo: Memo) -> some View {
-        Button {
-            HapticManager.shared.soft()
-            viewModel.copyMemo(memo: memo)
-            // VoiceOver: 복사 완료 음성 알림
-            #if os(iOS)
-            if UIAccessibility.isVoiceOverRunning {
-                let msg = String(
-                    format: NSLocalizedString("%@ 복사됨", comment: "VoiceOver: copied announcement"),
-                    memo.title
-                )
-                UIAccessibility.post(notification: .announcement, argument: msg)
-            }
-            #endif
-        } label: {
-            MemoRowView(
-                memo: memo,
-                fontSize: fontSize,
-                showFavoriteNudge: viewModel.memos.first?.id == memo.id && viewModel.showFavoriteNudge,
-                onFavoriteToggle: { viewModel.toggleFavorite(memoId: memo.id) },
-                onDelete: { memoToDelete = memo }
-            )
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(theme.surface)
-            .cornerRadius(theme.radiusMd)
-            .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(PlainButtonStyle())
-        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-            editButton(memo: memo)
-        }
-        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            Button(role: .destructive) {
-                memoToDelete = memo
-            } label: {
-                Label(NSLocalizedString("삭제", comment: "Delete memo"), systemImage: "trash")
-            }
-            Button {
-                viewModel.toggleFavorite(memoId: memo.id)
-            } label: {
-                Label(
-                    memo.isFavorite
-                        ? NSLocalizedString("즐겨찾기 해제", comment: "Remove favorite")
-                        : NSLocalizedString("즐겨찾기", comment: "Add favorite"),
-                    systemImage: memo.isFavorite ? "heart.slash" : "heart"
-                )
-            }
-            .tint(.pink)
-        }
-        .contextMenu {
-            memoContextMenu(memo: memo)
-        } preview: {
-            memoContextPreview(memo: memo)
-        }
-        .transition(reduceMotion ? .opacity : .scale)
-        .listRowBackground(Color.clear)
-        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
-        .listRowSeparator(.hidden)
+        MemoTypeFilterBar(
+            selectedFilter: $viewModel.selectedTypeFilter,
+            showFavorites: $viewModel.showFavoritesFilter,
+            memos: viewModel.loadedData
+        )
     }
 
     /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
@@ -736,17 +1294,48 @@ struct ClipKeyboardList: View {
 
         Divider()
 
-        NavigationLink {
-            MemoAdd(
-                memoId: memo.id,
-                insertedKeyword: memo.title,
-                insertedValue: memo.value,
-                insertedCategory: memo.category,
-                insertedIsTemplate: memo.isTemplate,
-                insertedIsSecure: memo.isSecure,
-                insertedIsCombo: memo.isCombo,
-                insertedComboValues: memo.comboValues
+        // 기존 카테고리 — 서브메뉴 없이 바로 노출
+        ForEach(viewModel.customCategories, id: \.self) { category in
+            Button {
+                viewModel.moveMemo(memo, toCategory: category)
+            } label: {
+                Label(
+                    memo.category == category
+                        ? "✓  \(category)"
+                        : category,
+                    systemImage: "folder.fill"
+                )
+            }
+        }
+
+        // 새 카테고리 즉석 생성 + 이 메모 바로 이동
+        Button {
+            memoForCategoryAssign = memo
+            newCategoryForMemo = ""
+            showNewCategoryForMemoAlert = true
+        } label: {
+            Label(
+                NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"),
+                systemImage: "folder.badge.plus"
             )
+        }
+
+        // 카테고리 해제 (분류된 메모만)
+        if memo.category != "기본" {
+            Button {
+                viewModel.moveMemo(memo, toCategory: "기본")
+            } label: {
+                Label(
+                    NSLocalizedString("카테고리 해제", comment: "Remove from category"),
+                    systemImage: "tray"
+                )
+            }
+        }
+
+        Divider()
+
+        Button {
+            memoToEdit = memo
         } label: {
             Label(NSLocalizedString("수정", comment: "Edit"), systemImage: "pencil")
         }
@@ -758,25 +1347,6 @@ struct ClipKeyboardList: View {
         } label: {
             Label(NSLocalizedString("삭제", comment: "Delete memo"), systemImage: "trash")
         }
-    }
-
-    /// 수정 버튼
-    private func editButton(memo: Memo) -> some View {
-        NavigationLink {
-            MemoAdd(
-                memoId: memo.id,
-                insertedKeyword: memo.title,
-                insertedValue: memo.value,
-                insertedCategory: memo.category,
-                insertedIsTemplate: memo.isTemplate,
-                insertedIsSecure: memo.isSecure,
-                insertedIsCombo: memo.isCombo,
-                insertedComboValues: memo.comboValues
-            )
-        } label: {
-            Label(NSLocalizedString("수정", comment: "Edit"), systemImage: "pencil")
-        }
-        .tint(.green)
     }
 
     /// Toolbar 컨텐츠
@@ -831,6 +1401,20 @@ struct ClipKeyboardList: View {
                 )
             }
 
+            Divider()
+
+            Button {
+                HapticManager.shared.light()
+                showCategoryManagement = true
+            } label: {
+                Label(
+                    NSLocalizedString("카테고리 관리", comment: "Menu: manage categories"),
+                    systemImage: "folder.badge.gearshape"
+                )
+            }
+
+            Divider()
+
             NavigationLink {
                 SettingView()
             } label: {
@@ -849,25 +1433,91 @@ struct ClipKeyboardList: View {
         Spacer()
 
         Menu {
-            NavigationLink {
-                MemoAdd()
+            Button {
+                HapticManager.shared.light()
+                if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
+                showAddMemoSheet = true
             } label: {
-                Label(NSLocalizedString("New memo", comment: "Menu: new memo"), systemImage: "square.and.pencil")
+                Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: "square.and.pencil")
             }
+            Button {
+                HapticManager.shared.light()
+                showAddTemplateSheet = true
+            } label: {
+                Label(NSLocalizedString("새 템플릿 만들기", comment: "Menu: new template"), systemImage: "wand.and.sparkles")
+            }
+            Button {
+                HapticManager.shared.light()
+                showAddComboSheet = true
+            } label: {
+                Label(NSLocalizedString("새 콤보 만들기", comment: "Menu: new combo"), systemImage: "square.stack.3d.forward.dottedline.fill")
+            }
+            Button {
+                HapticManager.shared.light()
+                showAddImageMemoSheet = true
+            } label: {
+                Label(NSLocalizedString("이미지 메모 추가", comment: "Menu: new image memo"), systemImage: "photo.badge.plus")
+            }
+            Divider()
             Button {
                 showBulkImport = true
             } label: {
-                Label(NSLocalizedString("Bulk import from text", comment: "Menu: bulk import"), systemImage: "doc.on.clipboard")
+                Label(NSLocalizedString("텍스트 가져오기", comment: "Menu: bulk import"), systemImage: "doc.on.clipboard")
             }
         } label: {
             Image(systemName: "plus.circle.fill")
-                .font(.system(size: 22))
+                .font(.title2)
                 .foregroundColor(.blue)
         }
         .accessibilityLabel(NSLocalizedString("메모 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 메모를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
+        .popoverTip(addMemoTip)
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
+        }
+        .sheet(isPresented: $showCategoryManagement) {
+            CategoryManagementSheet(viewModel: viewModel)
+                .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos() }) {
+            NavigationStack {
+                MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddMemoSheet = false }
+                        }
+                    }
+            }
+        }
+        .sheet(isPresented: $showAddTemplateSheet, onDismiss: { viewModel.loadMemos() }) {
+            NavigationStack {
+                MemoAdd(insertedIsTemplate: true)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddTemplateSheet = false }
+                        }
+                    }
+            }
+        }
+        .sheet(isPresented: $showAddComboSheet, onDismiss: { viewModel.loadMemos() }) {
+            NavigationStack {
+                MemoAdd(insertedIsCombo: true)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddComboSheet = false }
+                        }
+                    }
+            }
+        }
+        .sheet(isPresented: $showAddImageMemoSheet, onDismiss: { viewModel.loadMemos() }) {
+            NavigationStack {
+                MemoAdd(openImagePickerOnAppear: true)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddImageMemoSheet = false }
+                        }
+                    }
+            }
         }
     }
 
@@ -892,7 +1542,7 @@ struct ClipKeyboardList: View {
                 .animation(.easeOut(duration: 0.2), value: viewModel.showToast)
                 .padding(.bottom, 50)
                 .accessibilityHidden(true)  // VoiceOver는 아래 onChange announcement로 전달
-                .onChange(of: viewModel.showToast) { isShowing in
+                .onChange(of: viewModel.showToast) { _, isShowing in
                     #if os(iOS)
                     if isShowing {
                         UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
@@ -928,8 +1578,8 @@ struct ClipKeyboardList: View {
                 }
                 .padding(.horizontal, 16)
 
-                NavigationLink {
-                    MemoAdd()
+                Button {
+                    showAddMemoSheet = true
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "plus")
@@ -953,6 +1603,77 @@ struct ClipKeyboardList: View {
 
     /// feature 태그에 맞게 MemoAdd를 구성한다.
     /// .template → 템플릿 토글 ON, .combo → 콤보 토글 ON, 나머지 → 일반 메모.
+    private func deleteSampleMemos() {
+        let sampleIds = SampleMemoStorage.load()
+        guard !sampleIds.isEmpty else { return }
+        do {
+            let allMemos = try MemoStore.shared.load(type: .memo)
+            let remaining = allMemos.filter { !sampleIds.contains($0.id) }
+            try MemoStore.shared.save(memos: remaining, type: .memo)
+            SampleMemoStorage.clear()
+            viewModel.loadMemos()
+            print("🗑️ [ClipKeyboardList] 샘플 메모 \(sampleIds.count)개 삭제 완료")
+        } catch {
+            print("❌ [ClipKeyboardList] 샘플 메모 삭제 실패: \(error)")
+        }
+    }
+
+    /// 메모 복사 시 호출 — 3회 이상이면 카테고리 배지 끄기 넛지 표시 (1회)
+    private func checkCategoryBadgeNudge() {
+        guard categoryBadgeVisible else { return }
+        guard !UserDefaults.standard.bool(forKey: "categoryBadgeNudgeDismissed") else { return }
+        let count = UserDefaults.standard.integer(forKey: "memoCopyCount") + 1
+        UserDefaults.standard.set(count, forKey: "memoCopyCount")
+        if count >= 3 {
+            withAnimation(.easeInOut(duration: 0.3)) { showCategoryBadgeNudge = true }
+        }
+    }
+
+    /// 카테고리 색상 배지 끄기 넛지 배너
+    private var categoryBadgeNudgeBanner: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "circle.fill")
+                .font(.title3)
+                .foregroundColor(.blue)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(NSLocalizedString("카테고리 색상 배지", comment: "Nudge: category badge title"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Text(NSLocalizedString("카드 오른쪽 점이 카테고리를 표시해요. 끄시겠어요?", comment: "Nudge: category badge message"))
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+            Spacer()
+            VStack(spacing: 6) {
+                Button {
+                    UserDefaults.standard.set(false, forKey: "categoryBadgeVisible")
+                    UserDefaults.standard.set(true, forKey: "categoryBadgeNudgeDismissed")
+                    withAnimation { categoryBadgeVisible = false; showCategoryBadgeNudge = false }
+                } label: {
+                    Text(NSLocalizedString("끄기", comment: "Nudge: turn off"))
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(Color.blue, in: Capsule())
+                }
+                Button {
+                    UserDefaults.standard.set(true, forKey: "categoryBadgeNudgeDismissed")
+                    withAnimation { showCategoryBadgeNudge = false }
+                } label: {
+                    Text(NSLocalizedString("유지", comment: "Nudge: keep on"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+            }
+        }
+        .padding(12)
+        .background(theme.surface)
+        .cornerRadius(theme.radiusMd)
+        .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
+    }
+
     private func memoAdd(for suggestion: SuggestionTemplate) -> MemoAdd {
         var add = MemoAdd()
         add.insertedValue = suggestion.content
@@ -965,7 +1686,10 @@ struct ClipKeyboardList: View {
     }
 
     private func suggestionCard(_ suggestion: SuggestionTemplate) -> some View {
-        NavigationLink(destination: memoAdd(for: suggestion)) {
+        Button {
+            occasionalSuggestion_ = suggestion
+            navigateToOccasionalAdd = true
+        } label: {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 6) {
                     Text(suggestion.emoji)
@@ -985,17 +1709,16 @@ struct ClipKeyboardList: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.text)
-                    .lineLimit(1)
 
                 Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
                     .font(.caption)
                     .foregroundColor(theme.textMuted)
-                    .lineLimit(2)
+                    .lineLimit(3)
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(theme.surface)
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
             .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)
@@ -1007,6 +1730,192 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+// MARK: - Swipe Page Indicator
+
+private struct SwipePageIndicator: View {
+    let total: Int
+    let selectedIndex: Int
+    var accentColor: Color = .blue
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(0..<total, id: \.self) { index in
+                Capsule()
+                    .fill(index == selectedIndex ? accentColor : theme.textFaint.opacity(0.35))
+                    .frame(width: index == selectedIndex ? 20 : 6, height: 6)
+            }
+        }
+        .animation(.spring(response: 0.28, dampingFraction: 0.72), value: selectedIndex)
+        .animation(.easeInOut(duration: 0.3), value: accentColor)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(.ultraThinMaterial, in: Capsule())
+    }
+}
+
+// MARK: - Memo Image Background Helper
+
+/// 이미지 메모용 배경 뷰 — 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
+private struct MemoImageBackground: View {
+    let fileName: String
+    @State private var image: UIImage? = nil
+
+    var body: some View {
+        ZStack {
+            Color(uiColor: .systemGray5)
+            if let image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Image(systemName: "photo")
+                    .font(.title3)
+                    .foregroundColor(Color(uiColor: .systemGray3))
+            }
+        }
+        .clipped()
+        .onAppear {
+            guard image == nil, !fileName.isEmpty else { return }
+            DispatchQueue.global(qos: .userInitiated).async {
+                // 파일 경로 확인
+                let containerURL = FileManager.default.containerURL(
+                    forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+                )
+                let filePath = containerURL?.appendingPathComponent("Images").appendingPathComponent(fileName).path ?? "nil"
+                let exists = FileManager.default.fileExists(atPath: filePath)
+                print("🖼️ [MemoImageBackground] fileName='\(fileName)' path='\(filePath)' exists=\(exists)")
+
+                let loaded = MemoStore.shared.loadImage(fileName: fileName)
+                print("🖼️ [MemoImageBackground] loaded=\(loaded != nil ? "✅ \(Int(loaded!.size.width))x\(Int(loaded!.size.height))" : "❌ nil")")
+                DispatchQueue.main.async { image = loaded }
+            }
+        }
+    }
+}
+
+// MARK: - Activation Card (첫 붙여넣기 유도)
+
+struct ActivationCard: View {
+    let onPractice: () -> Void
+    let onSnooze: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Text("⌨️")
+                    .font(.title3)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(NSLocalizedString("이제 다른 앱에서 써보세요", comment: "Activation card title"))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("아무 텍스트 필드 탭 → 🌐 눌러 전환 → 메모 탭", comment: "Activation card hint"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+                Spacer()
+            }
+
+            HStack(spacing: 10) {
+                Button(action: onPractice) {
+                    Text(NSLocalizedString("지금 연습하기", comment: "Activation card: start practice button"))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 9)
+                        .background(Color.accentColor)
+                        .cornerRadius(8)
+                }
+
+                Button(action: onSnooze) {
+                    Text(NSLocalizedString("나중에", comment: "Activation card: snooze button"))
+                        .font(.subheadline)
+                        .foregroundColor(theme.textMuted)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 9)
+                        .background(theme.surfaceAlt)
+                        .cornerRadius(8)
+                }
+            }
+        }
+        .padding(14)
+        .background(theme.surface)
+        .cornerRadius(theme.radiusMd)
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .stroke(Color.accentColor.opacity(0.2), lineWidth: 1)
+        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 4)
+    }
+}
+
+// MARK: - Template Hint Banner
+
+struct TemplateHintBanner: View {
+    let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "doc.text.fill")
+                    .foregroundColor(.purple)
+                    .font(.subheadline)
+                Text(NSLocalizedString("💡 템플릿으로 반복 입력을 자동화해보세요", comment: "Template hint banner title"))
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(theme.text)
+                Spacer()
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .padding(6)
+                        .background(theme.surfaceAlt)
+                        .clipShape(Circle())
+                }
+                .accessibilityLabel(NSLocalizedString("템플릿 힌트 닫기", comment: "Dismiss template hint banner"))
+            }
+
+            Text(NSLocalizedString("{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.", comment: "Template hint description"))
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+
+            NavigationLink {
+                MemoAdd(insertedIsTemplate: true)
+            } label: {
+                Text(NSLocalizedString("첫 템플릿 만들기", comment: "Template hint CTA button"))
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 9)
+                    .background(Color.purple)
+                    .cornerRadius(8)
+            }
+            .buttonStyle(.plain)
+            .simultaneousGesture(TapGesture().onEnded {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { onDismiss() }
+            })
+        }
+        .padding(14)
+        .background(theme.surface)
+        .cornerRadius(theme.radiusMd)
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .stroke(Color.purple.opacity(0.2), lineWidth: 1)
+        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 4)
     }
 }
 
@@ -1052,7 +1961,7 @@ struct OccasionalSuggestionBanner: View {
                     Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
-                        .lineLimit(2)
+                        .lineLimit(3)
                 }
                 Spacer()
             }
@@ -1070,9 +1979,9 @@ struct OccasionalSuggestionBanner: View {
         }
         .padding(14)
         .background(theme.surface)
-        .cornerRadius(12)
+        .cornerRadius(theme.radiusMd)
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
         )
         .padding(.horizontal, 16)
@@ -1084,7 +1993,13 @@ struct OccasionalSuggestionBanner: View {
 
 struct MemoTypeFilterBar: View {
     @Binding var selectedFilter: ClipboardItemType?
+    @Binding var showFavorites: Bool
     let memos: [Memo]
+    @State private var isExpanded = false
+
+    private let visibleLimit = 2
+
+    var favoritesCount: Int { memos.filter { $0.isFavorite }.count }
 
     // resolvedType 기준으로 개수 계산 — 이미지/자동분류 타입까지 반영
     var typeCounts: [ClipboardItemType: Int] {
@@ -1097,38 +2012,72 @@ struct MemoTypeFilterBar: View {
         return counts
     }
 
-    // 개수가 많은 순서대로 타입 정렬
+    // 메모가 있는 타입만, 개수 많은 순 정렬
     var sortedTypes: [ClipboardItemType] {
-        ClipboardItemType.allCases.sorted { type1, type2 in
-            let count1 = typeCounts[type1, default: 0]
-            let count2 = typeCounts[type2, default: 0]
-            return count1 > count2
-        }
+        ClipboardItemType.allCases
+            .filter { typeCounts[$0, default: 0] > 0 }
+            .sorted { typeCounts[$0, default: 0] > typeCounts[$1, default: 0] }
+    }
+
+    var visibleTypes: [ClipboardItemType] {
+        isExpanded ? sortedTypes : Array(sortedTypes.prefix(visibleLimit))
+    }
+
+    var hiddenCount: Int { max(0, sortedTypes.count - visibleLimit) }
+
+    // 전체/즐겨찾기 선택 시 타입 필터 해제, 타입 선택 시 즐겨찾기 해제
+    private func selectAll() {
+        selectedFilter = nil
+        showFavorites = false
+    }
+    private func selectFavorites() {
+        selectedFilter = nil
+        showFavorites = true
+    }
+    private func selectType(_ type: ClipboardItemType) {
+        showFavorites = false
+        selectedFilter = type
     }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 4) {
-                // 전체 버튼 (항상 첫 번째)
+                // 전체 버튼
                 MemoFilterChip(
                     title: NSLocalizedString("전체", comment: "All"),
                     icon: "list.bullet",
                     count: memos.count,
-                    isSelected: selectedFilter == nil
-                ) {
-                    selectedFilter = nil
+                    isSelected: selectedFilter == nil && !showFavorites
+                ) { selectAll() }
+
+                // 즐겨찾기 버튼 (전체 바로 오른쪽)
+                if favoritesCount > 0 {
+                    MemoFilterChip(
+                        title: NSLocalizedString("즐겨찾기", comment: "Favorites filter chip"),
+                        icon: "star.fill",
+                        count: favoritesCount,
+                        color: "orange",
+                        isSelected: showFavorites
+                    ) { selectFavorites() }
                 }
 
-                // 타입별 필터 (개수가 많은 순서대로 정렬)
-                ForEach(sortedTypes, id: \.self) { type in
+                // 상위 2개 (또는 전체) 타입 필터
+                ForEach(visibleTypes, id: \.self) { type in
                     MemoFilterChip(
                         title: type.localizedName,
                         icon: type.icon,
                         count: typeCounts[type, default: 0],
                         color: type.color,
-                        isSelected: selectedFilter == type
-                    ) {
-                        selectedFilter = type
+                        isSelected: selectedFilter == type && !showFavorites
+                    ) { selectType(type) }
+                }
+
+                // 더 보기 / 접기 버튼
+                if hiddenCount > 0 {
+                    FilterExpandChip(isExpanded: isExpanded, hiddenCount: hiddenCount) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                            isExpanded.toggle()
+                        }
                     }
                 }
             }
@@ -1136,6 +2085,40 @@ struct MemoTypeFilterBar: View {
             .padding(.vertical, 8)
         }
         .frame(maxWidth: .infinity)
+        .onChange(of: selectedFilter) { _, newFilter in
+            // 선택된 필터가 숨겨진 영역에 있으면 자동 펼침
+            guard let f = newFilter, !visibleTypes.contains(f) else { return }
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) { isExpanded = true }
+        }
+    }
+}
+
+private struct FilterExpandChip: View {
+    let isExpanded: Bool
+    let hiddenCount: Int
+    let action: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 3) {
+                Text(isExpanded
+                     ? NSLocalizedString("접기", comment: "Collapse filter bar")
+                     : String(format: NSLocalizedString("+%d개", comment: "More filter count"), hiddenCount))
+                    .font(.footnote.weight(.medium))
+                Image(systemName: isExpanded ? "chevron.left" : "chevron.right")
+                    .font(.caption2.weight(.semibold))
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(theme.surfaceAlt)
+            .cornerRadius(16)
+            .foregroundColor(theme.textMuted)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(isExpanded
+            ? NSLocalizedString("접기", comment: "Collapse filter bar")
+            : String(format: NSLocalizedString("%d개 카테고리 더 보기", comment: "More categories a11y"), hiddenCount))
     }
 }
 
@@ -1153,14 +2136,14 @@ struct MemoFilterChip: View {
         Button(action: action) {
             HStack(spacing: 5) {
                 Image(systemName: icon)
-                    .font(.system(size: 13))
+                    .font(.footnote)
                     .fontWeight(isSelected ? .semibold : .regular)
                     .accessibilityHidden(true)
                 Text(title)
-                    .font(.system(size: 13))
+                    .font(.footnote)
                     .fontWeight(isSelected ? .semibold : .regular)
                 Text("\(count)")
-                    .font(.system(size: 11))
+                    .font(.caption2)
                     .fontWeight(isSelected ? .bold : .medium)
                     .padding(.horizontal, 5)
                     .padding(.vertical, 2)
@@ -1274,5 +2257,104 @@ struct SheetModifiers: ViewModifier {
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
             }
+    }
+}
+
+
+// MARK: - Category Management Sheet
+
+struct CategoryManagementSheet: View {
+    @ObservedObject var viewModel: ClipKeyboardListViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var showAddAlert = false
+    @State private var newName = ""
+    @State private var isEditing = false
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section(NSLocalizedString("기본", comment: "Category section: built-in")) {
+                    HStack {
+                        Label {
+                            Text(NSLocalizedString("전체", comment: "Category: all"))
+                        } icon: {
+                            Image(systemName: "square.grid.2x2.fill")
+                                .foregroundColor(.blue)
+                        }
+                        Spacer()
+                        Text(NSLocalizedString("항상 표시", comment: "Category always visible"))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+
+                    Toggle(isOn: Binding(
+                        get: { viewModel.isCategoryVisible("__favorites__") },
+                        set: { viewModel.setCategoryVisible("__favorites__", visible: $0) }
+                    )) {
+                        Label {
+                            Text(NSLocalizedString("즐겨찾기", comment: "Category: favorites"))
+                        } icon: {
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.pink)
+                        }
+                    }
+                }
+
+                Section(NSLocalizedString("커스텀", comment: "Category section: custom")) {
+                    ForEach(viewModel.customCategories, id: \.self) { cat in
+                        Toggle(isOn: Binding(
+                            get: { viewModel.isCategoryVisible(cat) },
+                            set: { viewModel.setCategoryVisible(cat, visible: $0) }
+                        )) {
+                            Label(cat, systemImage: "folder.fill")
+                        }
+                    }
+                    .onDelete { indexSet in
+                        for idx in indexSet.sorted(by: >) {
+                            viewModel.deleteCustomCategory(viewModel.customCategories[idx])
+                        }
+                    }
+                    .onMove(perform: viewModel.reorderCustomCategories)
+
+                    Button {
+                        showAddAlert = true
+                    } label: {
+                        Label(
+                            NSLocalizedString("새 카테고리 추가", comment: "Add new category button"),
+                            systemImage: "plus.circle.fill"
+                        )
+                    }
+                }
+            }
+            .navigationTitle(NSLocalizedString("카테고리 관리", comment: "Category management sheet title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .environment(\.editMode, .constant(isEditing ? .active : .inactive))
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(isEditing
+                           ? NSLocalizedString("완료", comment: "Done editing")
+                           : NSLocalizedString("편집", comment: "Edit list")) {
+                        withAnimation { isEditing.toggle() }
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(NSLocalizedString("닫기", comment: "Close sheet")) { dismiss() }
+                }
+            }
+        }
+        .alert(
+            NSLocalizedString("새 카테고리", comment: "Add category alert title"),
+            isPresented: $showAddAlert
+        ) {
+            TextField(NSLocalizedString("카테고리 이름", comment: "Category name placeholder"), text: $newName)
+            Button(NSLocalizedString("추가", comment: "Add")) {
+                viewModel.addCustomCategory(newName)
+                newName = ""
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { newName = "" }
+        } message: {
+            Text(NSLocalizedString("메모를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
+        }
     }
 }

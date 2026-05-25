@@ -161,8 +161,8 @@ class TemplateInputState: ObservableObject {
 struct KeyboardView: View {
 
     @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var keyboardColumnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 40.0
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 15.0
+    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 17.0
 
     // 색상 커스터마이즈 — 기본은 false (Paper 테마 사용), true면 hex 오버라이드
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var useCustomColors: Bool = false
@@ -263,6 +263,16 @@ struct KeyboardView: View {
         searchQuery.isEmpty && !showFavoritesOnly && !recentMemos.isEmpty
     }
 
+    /// 핀 스트립용 즐겨찾기 — 최대 4개
+    private var pinnedFavoriteMemos: [Memo] {
+        allMemos.filter { $0.isFavorite }.prefix(4).map { $0 }
+    }
+
+    /// 검색·즐겨찾기 필터 비활성 + 즐겨찾기 있을 때 핀 스트립 노출
+    private var shouldShowPinnedStrip: Bool {
+        searchQuery.isEmpty && !showFavoritesOnly && !pinnedFavoriteMemos.isEmpty
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -326,7 +336,7 @@ struct KeyboardView: View {
             showFavoritesOnly.toggle()
         } label: {
             Image(systemName: showFavoritesOnly ? "star.fill" : "star")
-                .font(.system(size: 15, weight: .semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundColor(showFavoritesOnly ? .white : theme.text)
                 .frame(width: 36, height: 28)
                 .background(showFavoritesOnly ? Color.yellow : theme.surface)
@@ -348,7 +358,7 @@ struct KeyboardView: View {
             action()
         } label: {
             Image(systemName: icon)
-                .font(.system(size: 15, weight: .semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundColor(isSelected ? .white : theme.text)
                 .frame(width: 36, height: 28)
                 .background(isSelected ? Color.blue : theme.surface)
@@ -368,7 +378,7 @@ struct KeyboardView: View {
             proxy.clearAll()
         } label: {
             Image(systemName: "xmark.circle")
-                .font(.system(size: 15, weight: .semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundColor(theme.textMuted)
                 .frame(width: 36, height: 28)
                 .background(theme.surface)
@@ -397,6 +407,11 @@ struct KeyboardView: View {
             // 최근 사용 섹션 — 사용자 토글 ON + 검색·즐겨찾기 비활성일 때만
             if showRecentSection && !isSearching && shouldShowRecentSection {
                 recentSection
+            }
+
+            // 즐겨찾기 고정 스트립 — 항상 같은 자리, 스크롤 영역 밖
+            if shouldShowPinnedStrip {
+                pinnedFavoriteStrip
             }
 
             // 메모 그리드
@@ -435,7 +450,7 @@ struct KeyboardView: View {
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
@@ -446,7 +461,7 @@ struct KeyboardView: View {
             }
             if showPinNotSetToast {
                 Text(NSLocalizedString("앱에서 보안 PIN을 먼저 설정하세요", comment: "Set PIN in app first"))
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
@@ -529,12 +544,12 @@ struct KeyboardView: View {
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: "lock.fill")
-                    .font(.system(size: 11))
+                    .font(.caption2)
                 Text(upgradeBannerText)
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.caption2.weight(.medium))
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 10))
+                    .font(.caption2)
             }
             .foregroundColor(.white)
             .padding(.horizontal, 12)
@@ -566,14 +581,14 @@ struct KeyboardView: View {
     private var searchBar: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 13))
+                .font(.footnote)
                 .foregroundColor(.secondary)
 
             if isSearching {
                 Text(searchQuery.isEmpty
                      ? NSLocalizedString("Type to filter…", comment: "Search bar placeholder when active")
                      : searchQuery)
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(searchQuery.isEmpty ? .secondary : .primary)
                     .lineLimit(1)
                 Spacer(minLength: 0)
@@ -583,12 +598,12 @@ struct KeyboardView: View {
                     isSearching = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 16))
+                        .font(.callout)
                         .foregroundColor(.secondary)
                 }
             } else {
                 Text(NSLocalizedString("Search snippets", comment: "Search bar idle"))
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(.secondary)
                 Spacer(minLength: 0)
             }
@@ -621,19 +636,19 @@ struct KeyboardView: View {
     private var emptyStateView: some View {
         VStack(spacing: 10) {
             Image(systemName: emptyStateIcon)
-                .font(.system(size: 26))
+                .font(.title)
                 .foregroundColor(theme.textFaint)
 
             VStack(spacing: 3) {
                 Text(emptyStateTitle)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.footnote.weight(.semibold))
                     .foregroundColor(theme.text)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .padding(.horizontal, 16)
 
                 Text(emptyStateSubtitle)
-                    .font(.system(size: 11))
+                    .font(.caption2)
                     .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 20)
@@ -647,9 +662,9 @@ struct KeyboardView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 12))
+                            .font(.caption)
                         Text(escapeAction.label)
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.footnote.weight(.semibold))
                     }
                     .foregroundColor(.white)
                     .padding(.horizontal, 14)
@@ -734,7 +749,7 @@ struct KeyboardView: View {
             searchQuery.append(letter)
         } label: {
             Text(letter)
-                .font(.system(size: 15, weight: .medium))
+                .font(.subheadline.weight(.medium))
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, minHeight: 28)
                 .background(theme.surface)
@@ -750,7 +765,7 @@ struct KeyboardView: View {
             HStack {
                 Spacer()
                 Image(systemName: "space")
-                    .font(.system(size: 11))
+                    .font(.caption2)
                     .foregroundColor(theme.textMuted)
                 Spacer()
             }
@@ -766,7 +781,7 @@ struct KeyboardView: View {
             if !searchQuery.isEmpty { searchQuery.removeLast() }
         } label: {
             Image(systemName: "delete.left.fill")
-                .font(.system(size: 13, weight: .semibold))
+                .font(.footnote.weight(.semibold))
                 .foregroundColor(theme.text)
                 .frame(width: 56, height: 28)
                 .background(theme.divider)
@@ -780,7 +795,7 @@ struct KeyboardView: View {
             searchKeyboardLang = (searchKeyboardLang == .english) ? .korean : .english
         } label: {
             Text(searchKeyboardLang == .english ? "한" : "EN")
-                .font(.system(size: 12, weight: .semibold))
+                .font(.caption.weight(.semibold))
                 .foregroundColor(theme.text)
                 .frame(width: 40, height: 28)
                 .background(theme.divider)
@@ -805,6 +820,40 @@ struct KeyboardView: View {
         }
     }
 
+    // MARK: - Pinned Favorites Strip
+
+    /// 즐겨찾기 항상 고정 스트립 — 스크롤 밖 상단, 최대 4개 2열 그리드
+    private var pinnedFavoriteStrip: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 4) {
+                Image(systemName: "pin.fill")
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(.orange)
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("즐겨찾기", comment: "Pinned favorites strip label"))
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(theme.textFaint)
+                Spacer()
+            }
+            .padding(.horizontal, 12)
+
+            LazyVGrid(
+                columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)],
+                spacing: 8
+            ) {
+                ForEach(pinnedFavoriteMemos) { memo in
+                    memoButton(for: memo)
+                }
+            }
+            .padding(.horizontal, 12)
+
+            Divider()
+                .padding(.top, 4)
+        }
+        .padding(.top, 4)
+        .background(backgroundColor)
+    }
+
     // MARK: - Recent Section
 
     /// 최근 1주 사용한 메모 5개 — 헤더 없이 가로 스크롤 미니 카드만 (공간 절약)
@@ -812,7 +861,7 @@ struct KeyboardView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 5) {
                 Image(systemName: "clock.arrow.circlepath")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.caption2.weight(.semibold))
                     .foregroundColor(theme.textFaint)
                 ForEach(recentMemos) { memo in
                     recentChip(memo)
@@ -829,10 +878,10 @@ struct KeyboardView: View {
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: categoryIconFor(memo))
-                    .font(.system(size: 10))
+                    .font(.caption2)
                     .foregroundColor(categoryColorFor(memo))
                 Text(memo.title)
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
                     .lineLimit(1)
             }
@@ -857,8 +906,33 @@ struct KeyboardView: View {
     @ViewBuilder
     private func memoButton(for memo: Memo) -> some View {
         let catColor = categoryColorFor(memo)
-        let isNormalContent = memo.contentType != .image && memo.contentType != .mixed
-        if memo.attachedTemplateId != nil && isNormalContent && !memo.isCombo {
+        let isImageMemo = (memo.contentType == .image || memo.contentType == .mixed)
+        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+        let isNormalContent = !isImageMemo
+
+        if isImageMemo && !imageFileName.isEmpty {
+            // 이미지 메모: 전체 배경으로 이미지 표시
+            Button {
+                memoButtonAction(for: memo)
+            } label: {
+                ImageMemoButton(
+                    title: memo.title,
+                    fileName: imageFileName,
+                    buttonHeight: buttonHeight,
+                    buttonFontSize: buttonFontSize
+                )
+            }
+            .contextMenu {
+                Button {
+                    UIPasteboard.general.string = memo.value
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                } label: {
+                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                }
+            } preview: { memoLongPressPreview(memo: memo) }
+            .accessibilityLabel(memoAccessibilityLabel(for: memo))
+            .accessibilityHint(memoAccessibilityHint(for: memo))
+        } else if memo.attachedTemplateId != nil && isNormalContent && !memo.isCombo {
             attachedTemplateMemoButton(for: memo, catColor: catColor)
         } else {
             Button {
@@ -917,7 +991,7 @@ struct KeyboardView: View {
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: categoryIconFor(memo))
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .foregroundColor(catColor)
                     Text(memo.title)
                         .foregroundColor(theme.text)
@@ -926,7 +1000,7 @@ struct KeyboardView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                     if memo.isSecure {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 9))
+                            .font(.caption2)
                             .foregroundColor(.orange)
                     }
                 }
@@ -960,10 +1034,10 @@ struct KeyboardView: View {
             } label: {
                 VStack(spacing: 2) {
                     Image(systemName: "sparkles")
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .foregroundColor(.purple)
                     Text(NSLocalizedString("Plus Template", comment: "Tag: attached template button"))
-                        .font(.system(size: 8, weight: .semibold))
+                        .font(.caption2.weight(.semibold))
                         .foregroundColor(.purple)
                         .lineLimit(1)
                         .fixedSize()
@@ -991,15 +1065,15 @@ struct KeyboardView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: categoryIconFor(memo))
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.footnote.weight(.semibold))
                     .foregroundColor(categoryColorFor(memo))
                 Text(memo.title)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout.weight(.semibold))
                     .foregroundColor(theme.text)
                 Spacer(minLength: 0)
                 if memo.isCombo {
                     Text(NSLocalizedString("Combo", comment: "Tag: combo"))
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.caption2.weight(.semibold))
                         .foregroundColor(.orange)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -1008,7 +1082,7 @@ struct KeyboardView: View {
                 }
                 if memo.isTemplate || !memo.templateVariables.isEmpty {
                     Text(NSLocalizedString("Template", comment: "Tag: template"))
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.caption2.weight(.semibold))
                         .foregroundColor(.purple)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -1017,7 +1091,7 @@ struct KeyboardView: View {
                 }
                 if memo.isSecure {
                     Image(systemName: "lock.fill")
-                        .font(.system(size: 11))
+                        .font(.caption2)
                         .foregroundColor(.orange)
                 }
             }
@@ -1028,17 +1102,17 @@ struct KeyboardView: View {
                     ForEach(Array(memo.comboValues.enumerated()), id: \.offset) { index, value in
                         HStack(alignment: .top, spacing: 8) {
                             Text("\(index + 1).")
-                                .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                                .font(.system(.caption, design: .monospaced, weight: .semibold))
                                 .foregroundColor(theme.textFaint)
                             Text(value)
-                                .font(.system(size: 13))
+                                .font(.footnote)
                                 .foregroundColor(theme.text)
                         }
                     }
                 }
             } else {
                 Text(memo.value)
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
@@ -1140,56 +1214,58 @@ struct KeyboardView: View {
 
     @ViewBuilder
     private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
-        if memo.contentType == .image || memo.contentType == .mixed {
-            let fileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-            ImageMemoButton(title: memo.title, fileName: fileName, buttonHeight: buttonHeight, buttonFontSize: buttonFontSize)
-        } else {
-            ZStack {
-                RoundedRectangle(cornerRadius: theme.radiusMd)
-                    .foregroundColor(keyColor)
-                    .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: theme.radiusMd)
-                            .strokeBorder(catColor.opacity(0.4), lineWidth: 1.5)
-                    )
+        ZStack(alignment: .topTrailing) {
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .foregroundColor(keyColor)
+                .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
-                VStack(spacing: 2) {
-                    HStack(spacing: 6) {
-                        Image(systemName: categoryIconFor(memo))
-                            .font(.system(size: 12))
-                            .foregroundColor(catColor)
-                        Text(memo.title)
-                            .foregroundColor(theme.text)
-                            .lineLimit(1)
-                            .font(.system(size: buttonFontSize, weight: .semibold))
-                        if memo.isCombo && !memo.comboValues.isEmpty {
-                            Image(systemName: "repeat")
-                                .font(.system(size: 9))
-                                .foregroundColor(.orange)
-                        }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(memo.title)
+                    .foregroundColor(theme.text)
+                    .lineLimit(2)
+                    .font(.system(size: buttonFontSize, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                if memo.isCombo && !memo.comboValues.isEmpty
+                    || memo.isTemplate || !memo.templateVariables.isEmpty
+                    || memo.isSecure {
+                    HStack(spacing: 4) {
                         if memo.isTemplate || !memo.templateVariables.isEmpty {
-                            Text(NSLocalizedString("Template", comment: "Tag: template"))
-                                .font(.system(size: 8, weight: .semibold))
-                                .foregroundColor(.purple)
+                            Text("T")
+                                .font(.caption2.weight(.bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, 1)
+                                .background(Color.purple)
+                                .cornerRadius(3)
+                        }
+                        if memo.isCombo && !memo.comboValues.isEmpty {
+                            Text("C")
+                                .font(.caption2.weight(.bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 4)
+                                .padding(.vertical, 1)
+                                .background(Color.orange)
+                                .cornerRadius(3)
                         }
                         if memo.isSecure {
                             Image(systemName: "lock.fill")
-                                .font(.system(size: 9))
-                                .foregroundColor(.orange)
+                                .font(.caption2)
+                                .foregroundColor(theme.textFaint)
                         }
                     }
-                    if memo.isCombo && !memo.comboValues.isEmpty {
-                        let nextIndex = memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
-                        Text("\(NSLocalizedString("다음", comment: "Next")): \(memo.comboValues[nextIndex])")
-                            .font(.system(size: 10))
-                            .foregroundColor(.orange.opacity(0.8))
-                            .lineLimit(1)
-                    }
                 }
-                .padding(.horizontal, 10)
             }
-            .frame(height: buttonHeight)
+            .padding(10)
+
+            if memo.isFavorite {
+                Image(systemName: "heart.fill")
+                    .font(.caption2)
+                    .foregroundColor(.pink)
+                    .padding(6)
+            }
         }
+        .frame(height: buttonHeight)
     }
 
     // MARK: - Data Loading
@@ -1222,17 +1298,17 @@ struct KeyboardView: View {
                 // Header
                 HStack(spacing: 6) {
                     Image(systemName: "lock.fill")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.caption.weight(.semibold))
                         .foregroundColor(.orange)
                     Text(NSLocalizedString("보안 PIN 입력", comment: "PIN entry overlay title"))
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.footnote.weight(.semibold))
                         .foregroundColor(.primary)
                 }
                 .padding(.top, 14)
 
                 if pinEntryWrong {
                     Text(NSLocalizedString("PIN이 올바르지 않습니다", comment: "PIN wrong error"))
-                        .font(.system(size: 11))
+                        .font(.caption2)
                         .foregroundColor(.red)
                 }
 
@@ -1282,7 +1358,7 @@ struct KeyboardView: View {
             if enteredPIN.count == 4 { verifyPIN() }
         } label: {
             Text(digit)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.headline.weight(.semibold))
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
@@ -1301,7 +1377,7 @@ struct KeyboardView: View {
             pinEntryWrong = false
         } label: {
             Text(NSLocalizedString("취소", comment: "Cancel"))
-                .font(.system(size: 13, weight: .medium))
+                .font(.footnote.weight(.medium))
                 .foregroundColor(.secondary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
@@ -1317,7 +1393,7 @@ struct KeyboardView: View {
             if !enteredPIN.isEmpty { enteredPIN.removeLast() }
         } label: {
             Image(systemName: "delete.left")
-                .font(.system(size: 15, weight: .medium))
+                .font(.subheadline.weight(.medium))
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
@@ -1382,7 +1458,7 @@ struct ImageMemoButton: View {
     @State private var image: UIImage? = nil
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottomLeading) {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundColor(Color(uiColor: .systemGray5))
 
@@ -1394,28 +1470,22 @@ struct ImageMemoButton: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
 
-            // 하단 그라디언트 + 제목
+            // 텍스트 가독성을 위한 하단 그라디언트
             LinearGradient(
-                colors: [.clear, .black.opacity(0.65)],
-                startPoint: .center,
+                colors: [.clear, .black.opacity(0.6)],
+                startPoint: .top,
                 endPoint: .bottom
             )
             .clipShape(RoundedRectangle(cornerRadius: 10))
 
-            HStack(spacing: 4) {
-                Image(systemName: "photo")
-                    .font(.system(size: 10))
-                    .foregroundColor(.white.opacity(0.85))
-                Text(title)
-                    .font(.system(size: buttonFontSize, weight: .semibold))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-            }
-            .padding(.horizontal, 8)
-            .padding(.bottom, 6)
+            Text(title)
+                .font(.system(size: buttonFontSize, weight: .semibold))
+                .foregroundColor(.white)
+                .lineLimit(2)
+                .padding(10)
         }
         .frame(height: buttonHeight)
-        .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+        .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
         .onAppear {
             guard image == nil, !fileName.isEmpty else { return }
             DispatchQueue.global(qos: .userInitiated).async {
@@ -1456,7 +1526,7 @@ struct TemplateInputOverlay: View {
                                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                                 } label: {
                                     Text(zeros)
-                                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                        .font(.system(.footnote, design: .monospaced, weight: .semibold))
                                         .lineLimit(1)
                                         .fixedSize()
                                         .frame(height: 36)
@@ -1475,7 +1545,7 @@ struct TemplateInputOverlay: View {
                         completeInput()
                     } label: {
                         Text(NSLocalizedString("입력하기", comment: "Insert with template button"))
-                            .font(.system(size: 14, weight: .semibold))
+                            .font(.footnote.weight(.semibold))
                             .lineLimit(1)
                             .fixedSize()
                             .foregroundColor(.white)
@@ -1494,7 +1564,7 @@ struct TemplateInputOverlay: View {
                         }
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 22))
+                            .font(.title2)
                             .foregroundColor(.gray)
                     }
                 }
@@ -1506,7 +1576,7 @@ struct TemplateInputOverlay: View {
 
                 // MARK: 컬러 프리뷰
                 coloredPreviewText
-                    .font(.system(size: 15))
+                    .font(.subheadline)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
                     .background(Color(UIColor.systemGray6))
@@ -1520,7 +1590,7 @@ struct TemplateInputOverlay: View {
                         if state.placeholders.isEmpty {
                             VStack(spacing: 12) {
                                 Image(systemName: "questionmark.circle")
-                                    .font(.system(size: 40))
+                                    .font(.largeTitle)
                                     .foregroundColor(.gray)
                                 Text(NSLocalizedString("No template variables", comment: "Empty state: no template variables"))
                                     .font(.headline)
@@ -1592,8 +1662,8 @@ struct TemplateInputOverlay: View {
         let base: Text = state.baseMemoValue.isEmpty ? Text("") : Text(state.baseMemoValue + "\n")
         return parseSegments().reduce(base) { acc, seg in
             seg.isValue
-                ? acc + Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold()
-                : acc + Text(seg.text)
+                ? Text("\(acc)\(Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold())")
+                : Text("\(acc)\(Text(seg.text))")
         }
     }
 
@@ -1669,7 +1739,7 @@ struct PlaceholderInputView: View {
                                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             } label: {
                                 Text(value)
-                                    .font(.system(size: 12))
+                                    .font(.caption)
                                     .padding(.horizontal, 10)
                                     .padding(.vertical, 4)
                                     .background(selectedValue == value ? Color.blue.opacity(0.2) : Color(UIColor.systemGray5))
@@ -1697,7 +1767,7 @@ struct PlaceholderInputView: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
             Text(digit)
-                .font(.system(size: 18, weight: .medium, design: .monospaced))
+                .font(.system(.headline, design: .monospaced, weight: .medium))
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray5))
                 .foregroundColor(.primary)
@@ -1712,7 +1782,7 @@ struct PlaceholderInputView: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
             Image(systemName: "delete.left")
-                .font(.system(size: 18))
+                .font(.headline)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray4))
                 .foregroundColor(.primary)
@@ -1755,7 +1825,7 @@ struct PlaceholderInputView: View {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         } label: {
                             Text(value)
-                                .font(.system(size: 14, weight: selectedValue == value ? .semibold : .regular))
+                                .font(.footnote.weight(selectedValue == value ? .semibold : .regular))
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                                 .background(selectedValue == value ? Color.blue : Color(UIColor.systemGray5))

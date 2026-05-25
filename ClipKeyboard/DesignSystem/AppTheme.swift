@@ -140,12 +140,12 @@ struct AppTheme: Equatable {
     static let paperLight = AppTheme(
         kind: .paper,
         isDark: false,
-        bg: hx("F7F4EE"),
+        bg: hx("EFEFF4"),
         surface: .white,
-        surfaceAlt: hx("EFEAE0"),
+        surfaceAlt: hx("E5E5EA"),
         text: hx("1B1814"),
         textMuted: hx("6A6358"),
-        textFaint: hx("726A63"),
+        textFaint: hx("8E8E93"),
         accent: hx("C85A3A"),
         accentSoft: hx("F7E4DB"),
         accentFg: .white,
@@ -153,14 +153,14 @@ struct AppTheme: Equatable {
         success: hx("4A8A5A"),
         warn: hx("C88A3A"),
         pink: hx("C85A80"),
-        divider: Color.black.opacity(0.08),
+        divider: Color.black.opacity(0.07),
         heroGradientStops: [
             hx("FBE8D9"),
             hx("F5D5C2"),
             hx("E8B79E")
         ],
         heroGradientAngle: 160,
-        radiusSm: 8, radiusMd: 12, radiusLg: 18, radiusXl: 24,
+        radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
         displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )
@@ -188,7 +188,7 @@ struct AppTheme: Equatable {
             hx("4A2A1A")
         ],
         heroGradientAngle: 160,
-        radiusSm: 8, radiusMd: 12, radiusLg: 18, radiusXl: 24,
+        radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
         displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )
@@ -220,18 +220,16 @@ struct AppTheme: Equatable {
 
     func displayFont(size: CGFloat, weight: Font.Weight = .bold) -> Font {
         if let name = displayFontName {
-            // Dynamic Type: relativeTo .title로 디스플레이 폰트도 접근성 크기에 비례해 스케일
             return Font.custom(name, size: size, relativeTo: .title)
         }
-        return Font.system(size: size, weight: weight, design: .default)
+        return Font.system(Font.TextStyle.nearest(to: size), weight: weight)
     }
 
     func bodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         if let name = bodyFontName {
-            // Dynamic Type: 커스텀 폰트를 .body 기준으로 스케일 — 시스템 텍스트 크기 설정 반영
             return Font.custom(name, size: size, relativeTo: .body)
         }
-        return Font.system(size: size, weight: weight)
+        return Font.system(Font.TextStyle.nearest(to: size), weight: weight)
     }
 
     /// Dynamic Type 시맨틱 스타일 기반 폰트.
@@ -246,6 +244,22 @@ struct AppTheme: Equatable {
 }
 
 extension Font.TextStyle {
+    /// 포인트 크기에서 가장 가까운 TextStyle을 반환 — Dynamic Type 스케일링에 사용.
+    static func nearest(to size: CGFloat) -> Font.TextStyle {
+        switch size {
+        case ..<11.5: return .caption2
+        case ..<12.5: return .caption
+        case ..<14:   return .footnote
+        case ..<15.5: return .subheadline
+        case ..<16.5: return .callout
+        case ..<18.5: return .body
+        case ..<21:   return .title3
+        case ..<25:   return .title2
+        case ..<31:   return .title
+        default:      return .largeTitle
+        }
+    }
+
     /// HIG 기준 각 텍스트 스타일의 기본 포인트 크기.
     var basePointSize: CGFloat {
         switch self {

@@ -73,7 +73,7 @@ struct MemoListView: View {
                         // 카테고리 선택
                         Picker("", selection: $selectedCategory) {
                             ForEach(categories, id: \.self) { category in
-                                Text(category).tag(category)
+                                Text(category == "전체" ? NSLocalizedString("전체", comment: "All categories") : (ClipboardItemType(rawValue: category)?.localizedName ?? category)).tag(category)
                             }
                         }
                         .frame(width: 80)
@@ -163,7 +163,7 @@ struct MemoListView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(.secondary)
 
-            Text(searchText.isEmpty ? "메모 없음" : "검색 결과 없음")
+            Text(searchText.isEmpty ? NSLocalizedString("메모 없음", comment: "No memos") : NSLocalizedString("검색 결과 없음", comment: "No search results"))
                 .font(.caption)
                 .bold()
                 .foregroundStyle(.secondary)

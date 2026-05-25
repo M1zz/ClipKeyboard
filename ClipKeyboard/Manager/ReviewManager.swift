@@ -134,8 +134,8 @@ class ReviewManager {
         UserDefaults.standard.set(Date(), forKey: lastReviewRequestDateKey)
         UserDefaults.standard.set(true, forKey: hasRequestedReviewKey)
 
-        // StoreKit의 리뷰 요청 (iOS 14+)
-        requestSystemReview()
+        // StoreKit의 리뷰 요청
+        Task { @MainActor in requestSystemReview() }
 
         return true
     }
@@ -230,11 +230,12 @@ class ReviewManager {
     }
 
     /// StoreKit 시스템 리뷰 요청
+    @MainActor
     private func requestSystemReview() {
         #if os(iOS)
         if let scene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            SKStoreReviewController.requestReview(in: scene)
+            AppStore.requestReview(in: scene)
             print("⭐️ [ReviewManager] 시스템 리뷰 다이얼로그 요청됨")
         }
         #endif

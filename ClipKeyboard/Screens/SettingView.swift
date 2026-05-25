@@ -14,10 +14,12 @@ struct SettingView: View {
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
-    
+    @State private var showKeyboardGuide = false
+
     var body: some View {
         List {
-            // Pro 섹션
+
+            // MARK: Pro 상태
             if proManager.isPro {
                 Section {
                     HStack {
@@ -25,10 +27,8 @@ struct SettingView: View {
                             .font(.title2)
                             .foregroundColor(.green)
                             .accessibilityHidden(true)
-
                         Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                             .font(.headline)
-
                         Spacer()
                     }
                     .accessibilityElement(children: .combine)
@@ -36,109 +36,90 @@ struct SettingView: View {
                 }
             } else if ProFeatureManager.isInTrial {
                 Section {
-                    Button {
-                        showPaywall = true
-                    } label: {
+                    Button { showPaywall = true } label: {
                         HStack {
                             Image(systemName: "clock.badge.checkmark.fill")
                                 .font(.title2)
                                 .foregroundStyle(.green.gradient)
                                 .accessibilityHidden(true)
-
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .font(.headline).foregroundColor(.primary)
                                 Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
-                                    .font(.caption)
-                                    .foregroundColor(theme.textMuted)
+                                    .font(.caption).foregroundColor(theme.textMuted)
                             }
-
                             Spacer()
-
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
-                                .accessibilityHidden(true)
+                            Image(systemName: "chevron.right").font(.caption)
+                                .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
                     .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
                 }
             } else {
                 Section {
-                    Button {
-                        showPaywall = true
-                    } label: {
+                    Button { showPaywall = true } label: {
                         HStack {
                             Image(systemName: "star.circle.fill")
                                 .font(.title2)
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        colors: [.yellow, .orange],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
+                                .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .accessibilityHidden(true)
-
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .font(.headline).foregroundColor(.primary)
                                 Text(ProFeatureManager.canStartTrial
                                      ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 메모, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
                                      : NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
-                                    .font(.caption)
-                                    .foregroundColor(theme.textMuted)
+                                    .font(.caption).foregroundColor(theme.textMuted)
                             }
-
                             Spacer()
-
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
-                                .accessibilityHidden(true)
+                            Image(systemName: "chevron.right").font(.caption)
+                                .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
                     .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
                 }
             }
-            
-            // 키보드 섹션 (5개)
-            Section(NSLocalizedString("키보드", comment: "Keyboard section")) {
+
+            // MARK: 키보드
+            // 키보드 관련 설정 및 도구 모음
+            Section(NSLocalizedString("키보드", comment: "Settings section: keyboard")) {
+                // 시트 버튼 — Label 텍스트에 .primary를 명시해 파란색 tint 방지
                 Button {
                     HapticManager.shared.light()
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
+                    showKeyboardGuide = true
                 } label: {
                     HStack {
-                        Text(NSLocalizedString("키보드 설정", comment: "Keyboard settings"))
+                        Label {
+                            Text(NSLocalizedString("키보드 설정 가이드", comment: "Keyboard setup guide"))
+                                .foregroundStyle(Color.primary)
+                        } icon: {
+                            Image(systemName: "keyboard.badge.eye")
+                        }
                         Spacer()
-                        Image(systemName: "arrow.up.forward.app")
-                            .font(.caption)
-                            .foregroundColor(theme.textMuted)
+                        Image(systemName: "chevron.right")
+                            .font(.caption).foregroundStyle(.tertiary)
                             .accessibilityHidden(true)
                     }
                 }
-                .accessibilityHint(NSLocalizedString("iOS 설정 앱으로 이동합니다", comment: "Open iOS Settings hint"))
+                .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
 
+                NavigationLink(destination: KeyboardPracticeView()) {
+                    Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
+                          systemImage: "hand.tap")
+                }
                 NavigationLink(destination: KeyboardLayoutSettings()) {
-                    Text(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"))
+                    Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
+                          systemImage: "rectangle.3.group")
                 }
-
                 NavigationLink(destination: ThemeSettings()) {
-                    Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme"))
+                    Label(NSLocalizedString("키보드 테마", comment: "Keyboard theme"),
+                          systemImage: "swatchpalette")
                 }
+            }
 
-                NavigationLink(destination: SecurePINSettings()) {
-                    Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"), systemImage: "lock.shield")
-                }
-
-                NavigationLink(destination: CategorySettings()) {
-                    Label(NSLocalizedString("Categories", comment: "Categories nav title"), systemImage: "tag")
-                }
-
+            // MARK: 개인화
+            // 사용자가 취향에 맞게 바꾸는 값
+            Section(NSLocalizedString("개인화", comment: "Settings section: personalization")) {
                 NavigationLink(destination: PersonaSettingsContainer()) {
                     Label {
                         VStack(alignment: .leading, spacing: 2) {
@@ -153,78 +134,96 @@ struct SettingView: View {
                         Image(systemName: "person.crop.circle.badge.checkmark")
                     }
                 }
-
+                NavigationLink(destination: CategorySettings()) {
+                    Label(NSLocalizedString("카테고리 관리", comment: "Categories nav title"),
+                          systemImage: "tag")
+                }
                 NavigationLink(destination: FontSetting()) {
-                    Text(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
+                    Label(NSLocalizedString("폰트 크기", comment: "App font size"),
+                          systemImage: "textformat.size")
                 }
             }
 
-            // 데이터 섹션 (2개)
-            Section(NSLocalizedString("데이터", comment: "Data section")) {
-                // iCloud 동기화는 CloudBackupView 안에 있다고 가정
-                NavigationLink(destination: CloudBackupView()) {
-                    Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"), systemImage: "icloud.and.arrow.up")
-                }
-            }
-
-            // 정보 섹션 (4개)
-            Section(NSLocalizedString("정보", comment: "Info section")) {
-                NavigationLink(destination: CopyPasteView()) {
-                    Text(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
-                }
-
-                NavigationLink(destination: UsageGuideView()) {
-                    Text(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
-                }
-
-                NavigationLink(destination: TutorialView()) {
-                    Text(NSLocalizedString("사용 가이드", comment: "User guide"))
-                }
-
-                // 접근성 안내 — 손쉬운 사용 기능 지원 내용 및 테스트 방법
-                NavigationLink(destination: AccessibilityGuideView()) {
-                    Label(
-                        NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
-                        systemImage: "figure.walk.circle"
-                    )
-                }
-
-                NavigationLink(destination: ReviewWriteView()) {
-                    Text(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
-                }
-
-                NavigationLink(destination: FeedbackView()) {
-                    Label(
-                        NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
-                        systemImage: "envelope.badge"
-                    )
-                }
-            }
-
-            // v4.3 Redesign: 테마 선택 섹션
-            Section(NSLocalizedString("Appearance", comment: "Settings section: appearance")) {
+            // MARK: 화면
+            // 앱 외관 관련
+            Section(NSLocalizedString("화면", comment: "Settings section: appearance")) {
                 NavigationLink(destination: ThemePickerView()) {
                     HStack {
-                        Label(NSLocalizedString("Theme", comment: "Settings: theme picker"), systemImage: "paintpalette")
+                        Label(NSLocalizedString("앱 테마", comment: "Settings: theme picker"),
+                              systemImage: "paintpalette")
                         Spacer()
                         Text(AppThemePreference.shared.kind.displayName)
-                            .foregroundColor(theme.textMuted)
-                            .font(.subheadline)
+                            .foregroundColor(theme.textMuted).font(.subheadline)
                     }
                 }
                 NavigationLink(destination: AppearanceModePickerView()) {
                     HStack {
-                        Label(NSLocalizedString("Appearance mode", comment: "Settings: appearance mode"), systemImage: "circle.lefthalf.filled")
+                        Label(NSLocalizedString("화면 모드", comment: "Settings: appearance mode"),
+                              systemImage: "circle.lefthalf.filled")
                         Spacer()
                         Text(AppThemePreference.shared.mode.displayName)
-                            .foregroundColor(theme.textMuted)
-                            .font(.subheadline)
+                            .foregroundColor(theme.textMuted).font(.subheadline)
                     }
+                }
+                Toggle(isOn: Binding(
+                    get: { UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true },
+                    set: { UserDefaults.standard.set($0, forKey: "categoryBadgeVisible") }
+                )) {
+                    Label(NSLocalizedString("카테고리 색상 배지", comment: "Settings: show category color badge on cards"),
+                          systemImage: "circle.fill")
                 }
             }
 
+            // MARK: 데이터 & 보안
+            // 실제 앱 동작에 영향을 주는 설정
+            Section(NSLocalizedString("데이터 & 보안", comment: "Settings section: data and security")) {
+                NavigationLink(destination: CloudBackupView()) {
+                    Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
+                          systemImage: "icloud.and.arrow.up")
+                }
+                NavigationLink(destination: SecurePINSettings()) {
+                    Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
+                          systemImage: "lock.shield")
+                }
+                NavigationLink(destination: CopyPasteView()) {
+                    Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
+                          systemImage: "doc.on.clipboard")
+                }
+            }
+
+            // MARK: 도움말
+            // 사용법 안내 및 정보 전달
+            Section(NSLocalizedString("도움말", comment: "Settings section: help")) {
+                NavigationLink(destination: UsageGuideView()) {
+                    Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                          systemImage: "lightbulb")
+                }
+                NavigationLink(destination: TutorialView()) {
+                    Label(NSLocalizedString("사용 가이드", comment: "User guide"),
+                          systemImage: "book.closed")
+                }
+                NavigationLink(destination: AccessibilityGuideView()) {
+                    Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
+                          systemImage: "figure.walk.circle")
+                }
+            }
+
+            // MARK: 지원
+            // 리뷰 및 개발자 소통
+            Section(NSLocalizedString("지원", comment: "Settings section: support")) {
+                NavigationLink(destination: ReviewWriteView()) {
+                    Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
+                          systemImage: "star")
+                }
+                NavigationLink(destination: FeedbackView()) {
+                    Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
+                          systemImage: "envelope.badge")
+                }
+            }
+
+            // MARK: 다른 기기에서 사용 (iOS 전용)
             #if !targetEnvironment(macCatalyst)
-            Section(NSLocalizedString("Use on other devices", comment: "Cross-device section")) {
+            Section(NSLocalizedString("다른 기기에서 사용", comment: "Cross-device section")) {
                 NavigationLink(destination: MacAppIntroView()) {
                     HStack(spacing: 12) {
                         ZStack {
@@ -237,15 +236,11 @@ struct SettingView: View {
                                 .accessibilityHidden(true)
                         }
                         .accessibilityHidden(true)
-
                         VStack(alignment: .leading, spacing: 2) {
                             Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
+                                .font(.subheadline).fontWeight(.semibold)
                             Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
-                                .lineLimit(1)
+                                .font(.caption).foregroundColor(theme.textMuted)
                         }
                     }
                     .padding(.vertical, 4)
@@ -253,25 +248,29 @@ struct SettingView: View {
             }
             #endif
 
+            // MARK: 앱 정보
             Section(NSLocalizedString("앱 정보", comment: "App info section")) {
                 HStack {
                     Text(NSLocalizedString("버전", comment: "Version label"))
                         .foregroundColor(theme.textMuted)
                     Spacer()
-                    Text(appVersion)
-                        .foregroundColor(.primary)
+                    Text(appVersion).foregroundColor(.primary)
                 }
             }
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)
-        .listStyle(.grouped)
+        .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(theme.bg.ignoresSafeArea())
+        .contentMargins(.top, 16, for: .scrollContent)
+        .contentMargins(.bottom, 24, for: .scrollContent)
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .sheet(isPresented: $showPaywall) {
-            PaywallView()
+        .sheet(isPresented: $showPaywall) { PaywallView() }
+        .sheet(isPresented: $showKeyboardGuide) {
+            KeyboardSetupOnboardingView { showKeyboardGuide = false }
+                .presentationDetents([.large])
         }
     }
 
@@ -316,7 +315,7 @@ struct PersonaSettingsContainer: View {
                     .accessibilityHidden(true)
             }
         }
-        .onChange(of: showAppliedToast) { visible in
+        .onChange(of: showAppliedToast) { _, visible in
             if visible {
                 UIAccessibility.post(notification: .announcement,
                     argument: NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))

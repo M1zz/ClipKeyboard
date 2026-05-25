@@ -221,7 +221,7 @@ struct MemoPickerRow: View {
                     Text(memo.value)
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
+                        .lineLimit(3)
                 }
 
                 Spacer()
@@ -269,7 +269,7 @@ struct ClipboardPickerRow: View {
                     Text(item.content)
                         .font(.body)
                         .foregroundColor(.primary)
-                        .lineLimit(2)
+                        .lineLimit(3)
 
                     Text(item.copiedAt, style: .relative)
                         .font(.caption2)
@@ -308,7 +308,7 @@ struct TemplatePickerRow: View {
                     Text(template.value)
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
+                        .lineLimit(3)
 
                     // 플레이스홀더 개수 표시
                     if !template.templateVariables.isEmpty {

@@ -74,7 +74,7 @@ struct TypingKeyboardView: View {
                 standardBody
             }
         }
-        .onChange(of: documentState.composerResetToken) { _ in
+        .onChange(of: documentState.composerResetToken) { _, _ in
             // 새 텍스트 필드 진입 시 컴포저 초기화.
             // 이전 필드에서 조합 중이던 음절은 이미 proxy.insertText()로 커밋되었으므로
             // state만 비워도 텍스트 손실 없음. proxy는 다음 키 입력 시 재설정된다.

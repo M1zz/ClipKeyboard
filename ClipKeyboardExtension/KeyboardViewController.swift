@@ -145,6 +145,9 @@ class KeyboardViewController: UIInputViewController {
         setupNotificationObservers()
         setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
 
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .set(true, forKey: "keyboard_extension_did_load")
+
         print("✅ viewDidLoad 완료 — fullscreen SwiftUI keyboard")
     }
 
@@ -287,7 +290,13 @@ class KeyboardViewController: UIInputViewController {
         let t4 = NotificationCenter.default.addObserver(forName: NSNotification.Name("openMainAppPaywall"), object: nil, queue: .main) { [weak self] _ in
             self?.openMainAppPaywall()
         }
-        notificationTokens = [t1, t2, t3, t4]
+        let t5 = NotificationCenter.default.addObserver(forName: NSNotification.Name("skipComboEntry"), object: nil, queue: nil) { [weak self] notification in
+            guard let self,
+                  let userInfo = notification.userInfo,
+                  let memoId = userInfo["memoId"] as? UUID else { return }
+            self.handleComboSkip(memoId: memoId)
+        }
+        notificationTokens = [t1, t2, t3, t4, t5]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
@@ -409,6 +418,29 @@ class KeyboardViewController: UIInputViewController {
         }
 
         return true
+    }
+
+    private func handleComboSkip(memoId: UUID) {
+        guard let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) else { return }
+        var memo = clipMemos[memoIndex]
+        guard memo.isCombo && !memo.comboValues.isEmpty else { return }
+
+        let nextIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        print("⏭️ Combo 스킵: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] → \(nextIndex + 1)")
+
+        memo.currentComboIndex = nextIndex
+        clipMemos[memoIndex] = memo
+
+        do {
+            var allMemos = try MemoStore.shared.load(type: .memo)
+            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
+                allMemos[fileIndex].currentComboIndex = nextIndex
+                try MemoStore.shared.save(memos: allMemos, type: .memo)
+            }
+        } catch {
+            print("❌ 콤보 스킵 저장 실패: \(error)")
+        }
     }
 
     private func handleTemplateInputComplete(_ notification: Notification) {

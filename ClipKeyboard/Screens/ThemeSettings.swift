@@ -27,7 +27,7 @@ struct ThemeSettings: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: selectedTheme) { newValue in
+                .onChange(of: selectedTheme) { _, newValue in
                     keyboardTheme = newValue.rawValue
                     applyTheme(newValue)
                 }
@@ -36,12 +36,12 @@ struct ThemeSettings: View {
             if selectedTheme == .custom {
                 Section(header: Text(NSLocalizedString("커스텀 색상", comment: "Custom colors section"))) {
                     ColorPicker(NSLocalizedString("배경 색상", comment: "Background color"), selection: $backgroundColor)
-                        .onChange(of: backgroundColor) { newValue in
+                        .onChange(of: backgroundColor) { _, newValue in
                             keyboardBackgroundColorHex = newValue.toHex() ?? "F5F5F5"
                         }
 
                     ColorPicker(NSLocalizedString("키 색상", comment: "Key color"), selection: $keyColor)
-                        .onChange(of: keyColor) { newValue in
+                        .onChange(of: keyColor) { _, newValue in
                             keyboardKeyColorHex = newValue.toHex() ?? "FFFFFF"
                         }
                 }
@@ -49,7 +49,7 @@ struct ThemeSettings: View {
                 Section(header: Text(NSLocalizedString("미리보기", comment: "Preview section"))) {
                     VStack(spacing: 12) {
                         HStack(spacing: 8) {
-                            ForEach(["안녕", "하세요", "테스트"], id: \.self) { text in
+                            ForEach([NSLocalizedString("안녕", comment: "Preview key 1"), NSLocalizedString("하세요", comment: "Preview key 2"), NSLocalizedString("테스트", comment: "Preview key 3")], id: \.self) { text in
                                 Text(text)
                                     .padding()
                                     .background(keyColor)

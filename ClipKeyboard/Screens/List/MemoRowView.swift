@@ -14,6 +14,9 @@ struct MemoRowView: View {
     let memo: Memo
     let fontSize: CGFloat
     var showFavoriteNudge: Bool = false
+    /// compact=true: 홈 리스트용 — 아이콘(CatIcon만), 타이틀, 배지만 표시.
+    /// 이미지 썸네일·밸류 미리보기·시간 라벨 숨김.
+    var compact: Bool = false
 
     // VoiceOver 커스텀 액션 콜백 — 부모(ClipKeyboardList)에서 주입
     var onFavoriteToggle: (() -> Void)? = nil
@@ -23,56 +26,45 @@ struct MemoRowView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             leadingIcon
 
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 6) {
-                    Text(memo.title)
-                        .font(theme.bodyFont(size: 15, weight: .semibold))
-                        .foregroundColor(theme.text)
-                        .lineLimit(1)
-                    if memo.isTemplate {
-                        TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
-                    }
-                    // v4.0.8: 옵션 템플릿 연결 메모는 +Template 보라 배지로 시각 구분
-                    if !memo.isTemplate && memo.attachedTemplateId != nil {
-                        TagBadge(
-                            label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
-                            tint: .purple
-                        )
-                    }
-                    if memo.isCombo {
-                        TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
-                    }
-                    if memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400 {
-                        TagBadge(label: NSLocalizedString("New", comment: "Badge: new memo within 24h"), tint: .green)
-                    }
-                    if memo.isSecure {
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: 10))
-                            .foregroundColor(theme.textFaint)
-                            .accessibilityHidden(true)
+                Text(memo.title)
+                    .font(theme.bodyFont(style: .subheadline, weight: .semibold))
+                    .foregroundColor(theme.text)
+
+                badgesRow
+
+                if !compact {
+                    let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
+                    if !previewText.isEmpty {
+                        Text(previewText)
+                            .font(theme.bodyFont(style: .footnote))
+                            .foregroundColor(theme.textMuted)
+                            .lineLimit(3)
                     }
                 }
 
-                let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
-                if !previewText.isEmpty {
-                    Text(previewText)
-                        .font(theme.bodyFont(size: 13))
-                        .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
+                if !compact, let hint = memo.hint, !hint.isEmpty {
+                    HStack(spacing: 3) {
+                        Image(systemName: "lightbulb.fill")
+                            .font(.caption2)
+                            .foregroundColor(.yellow.opacity(0.7))
+                        Text(hint)
+                            .font(.caption2)
+                            .foregroundColor(theme.textFaint)
+                            .lineLimit(1)
+                    }
+                    .padding(.top, 1)
                 }
 
-                HStack(spacing: 8) {
-                    if let relative = relativeTimeLabel {
-                        Text(relative)
-                            .font(.system(size: 11))
-                            .foregroundColor(theme.textFaint)
-                    }
+                if !compact, let relative = relativeTimeLabel {
+                    Text(relative)
+                        .font(.caption2)
+                        .foregroundColor(theme.textFaint)
+                        .padding(.top, 1)
                 }
-                .padding(.top, 1)
             }
 
             Spacer()
@@ -80,9 +72,9 @@ struct MemoRowView: View {
             // 즐겨찾기 하트 표시
             if memo.isFavorite {
                 Image(systemName: "heart.fill")
-                    .font(.system(size: 14))
+                    .font(.callout)
                     .foregroundColor(.pink)
-                    .accessibilityHidden(true)  // 합성 라벨에 포함됨
+                    .accessibilityHidden(true)
             }
 
             if showFavoriteNudge {
@@ -101,6 +93,40 @@ struct MemoRowView: View {
         ) { onFavoriteToggle?() }
         .accessibilityAction(named: NSLocalizedString("삭제", comment: "VoiceOver action: delete memo")) {
             onDelete?()
+        }
+    }
+
+    // MARK: - Badges Row
+
+    @ViewBuilder
+    private var badgesRow: some View {
+        if memo.isTemplate || (!memo.isTemplate && memo.attachedTemplateId != nil)
+            || memo.isCombo
+            || (memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400)
+            || memo.isSecure {
+            HStack(spacing: 6) {
+                if memo.isTemplate {
+                    TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
+                }
+                if !memo.isTemplate && memo.attachedTemplateId != nil {
+                    TagBadge(
+                        label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
+                        tint: .purple
+                    )
+                }
+                if memo.isCombo {
+                    TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
+                }
+                if memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400 {
+                    TagBadge(label: NSLocalizedString("New", comment: "Badge: new memo within 24h"), tint: .green)
+                }
+                if memo.isSecure {
+                    Image(systemName: "lock.fill")
+                        .font(.caption2)
+                        .foregroundColor(theme.textFaint)
+                        .accessibilityHidden(true)
+                }
+            }
         }
     }
 
@@ -155,29 +181,9 @@ struct MemoRowView: View {
 
     // MARK: - Leading Icon
 
-    /// 좌측 아이콘. 이미지 메모면 실제 이미지 썸네일을, 아니면 카테고리 CatIcon을 보여준다.
-    @ViewBuilder
+    /// 좌측 아이콘 — 항상 카테고리 CatIcon 사용.
     private var leadingIcon: some View {
-        #if os(iOS)
-        if (memo.contentType == .image || memo.contentType == .mixed),
-           let firstImageFileName = memo.imageFileNames.first,
-           let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 40, height: 40)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(theme.divider, lineWidth: 0.5)
-                )
-                .accessibilityHidden(true)
-        } else {
-            CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
-        }
-        #else
         CatIcon(category: ClipCategory.from(itemType: resolvedType), size: 40)
-        #endif
     }
 
     /// 현재 메모에 적용할 타입 결정.
@@ -209,7 +215,7 @@ struct FavoriteNudgeHeart: View {
 
     var body: some View {
         Image(systemName: "heart.fill")
-            .font(.system(size: 20))
+            .font(.title3)
             .foregroundColor(.pink)
             .opacity(appear ? 1 : 0)
             .offset(x: reduceMotion ? 0 : (appear ? 0 : 40))

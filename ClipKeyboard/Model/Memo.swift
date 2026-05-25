@@ -274,7 +274,12 @@ struct Memo: Identifiable, Codable {
     /// 결과를 본 메모 값과 줄바꿈으로 결합해 출력. nil이면 기존처럼 메모 단독 사용.
     var attachedTemplateId: UUID?
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, attachedTemplateId: UUID? = nil) {
+    /// "어디서 / 언제 쓰나요?" 컨텍스트 힌트.
+    /// ADHD·건망증 사용자가 나중에 이 메모를 왜 저장했는지 떠올릴 수 있도록 돕는다.
+    /// Optional이라 기존 데이터와 완전 하위 호환 (없으면 nil).
+    var hint: String? = nil
+
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, attachedTemplateId: UUID? = nil, hint: String? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -295,6 +300,7 @@ struct Memo: Identifiable, Codable {
         self.contentType = contentType
         self.lastUsedAt = lastUsedAt
         self.attachedTemplateId = attachedTemplateId
+        self.hint = hint
     }
 
     init(from oldMemo: OldMemo) {
@@ -328,6 +334,7 @@ struct Memo: Identifiable, Codable {
         case contentType
         case lastUsedAt
         case attachedTemplateId
+        case hint
     }
     
     static var dummyData: [Memo] = {

@@ -89,7 +89,7 @@ struct ClipboardHistoryView: View {
                                 // 클립보드에 복사
                                 if item.contentType == .image {
                                     copyImageToClipboard(item)
-                                    showToast(message: "이미지")
+                                    showToast(message: NSLocalizedString("이미지", comment: "Image type"))
                                 } else {
                                     copyToClipboard(item.content)
                                     showToast(message: item.content)
@@ -139,13 +139,13 @@ struct ClipboardHistoryView: View {
                 .font(.system(size: 60))
                 .foregroundStyle(.secondary)
 
-            Text(searchText.isEmpty ? "클립보드 히스토리 없음" : "검색 결과 없음")
+            Text(searchText.isEmpty ? NSLocalizedString("클립보드 히스토리 없음", comment: "No clipboard history") : NSLocalizedString("검색 결과 없음", comment: "No search results"))
                 .font(.title2)
                 .bold()
 
             Text(searchText.isEmpty ?
-                 "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)" :
-                 "'\(searchText)'와 일치하는 항목이 없습니다")
+                 NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description") :
+                 String(format: NSLocalizedString("'%@'와 일치하는 항목이 없습니다", comment: "No results for search query"), searchText))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -182,7 +182,7 @@ struct ClipboardHistoryView: View {
 
     private func showToast(message: String) {
         let preview = message.prefix(30)
-        toastMessage = "[\(preview)\(message.count > 30 ? "..." : "")] 클립보드에 복사되었습니다"
+        toastMessage = String(format: NSLocalizedString("[%@] 클립보드에 복사되었습니다", comment: "Clipboard copy toast"), String(preview) + (message.count > 30 ? "..." : ""))
         showToast = true
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -214,7 +214,7 @@ struct ClipboardHistoryView: View {
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             let newMemo = Memo(
-                title: item.contentType == .image ? "이미지" : String(item.content.prefix(30)),
+                title: item.contentType == .image ? NSLocalizedString("이미지", comment: "Image type") : String(item.content.prefix(30)),
                 value: item.content,
                 lastEdited: Date(),
                 imageFileName: item.imageFileName,
@@ -223,7 +223,7 @@ struct ClipboardHistoryView: View {
             memos.append(newMemo)
             try MemoStore.shared.save(memos: memos, type: .memo)
 
-            toastMessage = "메모로 저장되었습니다"
+            toastMessage = NSLocalizedString("메모로 저장되었습니다", comment: "Saved as memo toast")
             showToast = true
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -318,7 +318,7 @@ struct ClipboardItemRow: View {
                             .foregroundStyle(.green)
                     }
                     .buttonStyle(.plain)
-                    .help("메모로 저장")
+                    .help(NSLocalizedString("메모로 저장", comment: "Save as memo tooltip"))
 
                     Button {
                         onCopy()
@@ -327,7 +327,7 @@ struct ClipboardItemRow: View {
                             .foregroundStyle(.blue)
                     }
                     .buttonStyle(.plain)
-                    .help("클립보드에 복사")
+                    .help(NSLocalizedString("클립보드에 복사", comment: "Copy to clipboard tooltip"))
 
                     Button {
                         onDelete()
@@ -336,7 +336,7 @@ struct ClipboardItemRow: View {
                             .foregroundStyle(.red)
                     }
                     .buttonStyle(.plain)
-                    .help("삭제")
+                    .help(NSLocalizedString("삭제", comment: "Delete tooltip"))
                 }
             }
         }

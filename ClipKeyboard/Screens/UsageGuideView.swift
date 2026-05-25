@@ -625,12 +625,12 @@ struct UsageGuideView: View {
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(category.title)
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.callout.weight(.semibold))
                             .foregroundColor(theme.text)
                         Text(category.desc)
-                            .font(.system(size: 12))
+                            .font(.caption)
                             .foregroundColor(theme.textMuted)
-                            .lineLimit(1)
+                            .lineLimit(2)
                     }
                     Spacer()
                     Image(systemName: expanded.contains(category.id) ? "chevron.up" : "chevron.down")

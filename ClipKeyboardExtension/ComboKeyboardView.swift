@@ -2,9 +2,6 @@
 //  ComboKeyboardView.swift
 //  TokenKeyboard
 //
-//  Created by Claude Code on 2026-01-16.
-//  Phase 3: Combo support in keyboard extension
-//
 
 import SwiftUI
 import UIKit
@@ -19,9 +16,8 @@ struct ComboKeyboardView: View {
 
     @Environment(\.colorScheme) var colorScheme
 
-    private var gridItemLayout = [GridItem(.adaptive(minimum: 130), spacing: 10)]
+    private var gridItemLayout = [GridItem(.adaptive(minimum: 150), spacing: 8)]
 
-    // clipMemos에서 실시간으로 Combo 메모 필터링
     private var comboMemos: [Memo] {
         clipMemos.filter { $0.isCombo && !$0.comboValues.isEmpty }
     }
@@ -31,103 +27,84 @@ struct ComboKeyboardView: View {
             backgroundColor
 
             if comboMemos.isEmpty {
-                // 빈 상태
                 VStack(spacing: 12) {
                     Image(systemName: "square.stack.3d.forward.dottedline.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(.gray.opacity(0.5))
-
+                        .font(.system(size: 44))
+                        .foregroundColor(.gray.opacity(0.4))
                     Text(NSLocalizedString("Combo가 없습니다", comment: "Empty combo list title"))
                         .font(.headline)
                         .foregroundColor(.secondary)
-
                     Text(NSLocalizedString("앱에서 Combo를 생성해보세요", comment: "Empty combo list description"))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
             } else {
                 ScrollView {
-                    LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                    LazyVGrid(columns: gridItemLayout, spacing: 8) {
                         ForEach(comboMemos) { memo in
                             ComboKeyboardCard(
                                 memo: memo,
                                 isExecuting: executingMemoId == memo.id,
                                 keyColor: keyColor,
-                                onExecute: {
-                                    executeCombo(memo)
-                                }
+                                onInsert: { executeCombo(memo) },
+                                onSkip: { skipCombo(memo) }
                             )
                         }
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
                 }
             }
         }
-        .frame(width: UIScreen.main.bounds.size.width)
-        .id(refreshTrigger) // refreshTrigger 변경 시 뷰 재생성
+        .frame(maxWidth: .infinity)
+        .id(refreshTrigger)
     }
 
     private func executeCombo(_ memo: Memo) {
-        print("🎬 [ComboKeyboardView] Combo 실행: \(memo.title)")
-        print("   현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
-        UIImpactFeedbackGenerator().impactOccurred()
+        guard !memo.comboValues.isEmpty else { return }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         executingMemoId = memo.id
-
-        // 현재 인덱스의 값 입력
-        if !memo.comboValues.isEmpty {
-            let currentValue = memo.comboValues[memo.currentComboIndex]
-            print("   ✅ 입력할 값: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
-
-            // 알림 전송하여 입력 (KeyboardViewController에서 처리)
-            // KeyboardViewController가 currentComboIndex를 증가시키고 저장함
-            NotificationCenter.default.post(
-                name: NSNotification.Name(rawValue: "addTextEntry"),
-                object: memo.value,
-                userInfo: ["memoId": memo.id]
-            )
-        }
-
-        // 짧은 딜레이 후 뷰 갱신 및 실행 상태 초기화
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "addTextEntry"),
+            object: memo.value,
+            userInfo: ["memoId": memo.id]
+        )
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             executingMemoId = nil
-            // clipMemos가 업데이트되었으므로 뷰 강제 갱신
             refreshTrigger.toggle()
-            print("   🔄 뷰 갱신 완료")
+        }
+    }
+
+    private func skipCombo(_ memo: Memo) {
+        guard !memo.comboValues.isEmpty else { return }
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "skipComboEntry"),
+            object: nil,
+            userInfo: ["memoId": memo.id]
+        )
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            refreshTrigger.toggle()
         }
     }
 
     // MARK: - Theme Colors
 
     private var backgroundColor: Color {
-        if keyboardTheme == "시스템" {
-            return .clear
-        } else if keyboardTheme == "라이트" {
-            return .clear
-        } else if keyboardTheme == "다크" {
-            return .clear
-        } else if keyboardTheme == "커스텀" {
-            return Color(hex: keyboardBackgroundColorHex) ?? .clear
-        }
-        return .clear
+        keyboardTheme == "커스텀" ? (Color(hex: keyboardBackgroundColorHex) ?? .clear) : .clear
     }
 
     private var keyColor: Color {
-        if keyboardTheme == "시스템" {
-            return defaultKeyColor
-        } else if keyboardTheme == "라이트" {
-            return .white
-        } else if keyboardTheme == "다크" {
-            return Color(red: 0.17, green: 0.17, blue: 0.18)
-        } else if keyboardTheme == "커스텀" {
-            return Color(hex: keyboardKeyColorHex) ?? defaultKeyColor
+        switch keyboardTheme {
+        case "라이트": return .white
+        case "다크": return Color(red: 0.17, green: 0.17, blue: 0.18)
+        case "커스텀": return Color(hex: keyboardKeyColorHex) ?? defaultKeyColor
+        default: return defaultKeyColor
         }
-        return defaultKeyColor
     }
 
     private var defaultKeyColor: Color {
-        Color(uiColor: UIColor { traitCollection in
-            traitCollection.userInterfaceStyle == .dark
+        Color(uiColor: UIColor { tc in
+            tc.userInterfaceStyle == .dark
                 ? UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.0)
                 : .white
         })
@@ -140,71 +117,82 @@ struct ComboKeyboardCard: View {
     let memo: Memo
     let isExecuting: Bool
     let keyColor: Color
-    let onExecute: () -> Void
+    let onInsert: () -> Void
+    let onSkip: () -> Void
+
+    @Environment(\.colorScheme) var colorScheme
+
+    private var safeIndex: Int {
+        memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
+    }
+    private var currentValue: String { memo.comboValues[safeIndex] }
+    private var total: Int { memo.comboValues.count }
 
     var body: some View {
-        Button(action: {
-            guard !isExecuting else { return }
-            onExecute()
-        }) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(isExecuting ? Color.blue.opacity(0.2) : keyColor)
-                    .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-
-                VStack(spacing: 6) {
+        HStack(spacing: 0) {
+            // ── 좌: 입력 버튼 ──────────────────────────────
+            Button(action: {
+                guard !isExecuting else { return }
+                onInsert()
+            }) {
+                VStack(alignment: .leading, spacing: 4) {
                     // 제목
                     Text(memo.title)
-                        .foregroundColor(Color(uiColor: UIColor.label))
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(Color(uiColor: .label))
                         .lineLimit(1)
 
-                    // 설명 (선택적)
-                    if !memo.value.isEmpty {
-                        Text(memo.value)
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                    }
-
-                    // 항목 개수 및 현재 위치
+                    // 인덱스 배지
                     HStack(spacing: 4) {
-                        Image(systemName: "square.stack.3d.forward.dottedline")
-                            .font(.caption2)
+                        Text("\(safeIndex + 1) / \(total)")
+                            .font(.system(size: 13, weight: .bold, design: .rounded))
                             .foregroundColor(.orange)
-
-                        Text(String(format: NSLocalizedString("%d values", comment: "Combo value count"), memo.comboValues.count))
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-
-                        Text("•")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-
-                        Text(String(format: NSLocalizedString("다음: %lld", comment: "Combo next index"), memo.currentComboIndex + 1))
-                            .font(.caption2)
-                            .foregroundColor(.blue)
-                    }
-
-                    // 실행 상태 표시
-                    if isExecuting {
-                        HStack(spacing: 4) {
+                        if isExecuting {
                             ProgressView()
                                 .progressViewStyle(.circular)
-                                .scaleEffect(0.7)
-                            Text(NSLocalizedString("입력 중...", comment: "Combo executing"))
-                                .font(.caption2)
-                                .foregroundColor(.blue)
+                                .scaleEffect(0.65)
                         }
-                        .padding(.top, 2)
                     }
+
+                    // 현재 값 미리보기
+                    Text(currentValue)
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
                 }
-                .padding(.vertical, 14)
-                .padding(.horizontal, 12)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 10)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .disabled(isExecuting)
+
+            // 구분선
+            Divider()
+                .frame(width: 0.5)
+                .background(Color(uiColor: .separator))
+
+            // ── 우: 스킵 버튼 ──────────────────────────────
+            Button(action: onSkip) {
+                Image(systemName: "forward.end.fill")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.orange.opacity(0.7))
+                    .frame(width: 40)
+                    .frame(maxHeight: .infinity)
+            }
+            .disabled(isExecuting)
         }
-        .disabled(isExecuting)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(isExecuting ? Color.orange.opacity(0.08) : keyColor)
+                .shadow(color: Color.black.opacity(0.25), radius: 2, y: 1)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .strokeBorder(Color.orange.opacity(0.3), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .frame(height: 68)
     }
 }
 

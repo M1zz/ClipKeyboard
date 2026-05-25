@@ -17,10 +17,10 @@ struct KeyboardLayoutSettings: View {
     private var columnCount: Int = 2
 
     @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var buttonHeight: Double = 40.0
+    private var buttonHeight: Double = 56.0
 
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var buttonFontSize: Double = 15.0
+    private var buttonFontSize: Double = 17.0
 
     // 색상 커스터마이즈 — 기본 false (Paper 테마 사용)
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
@@ -95,7 +95,7 @@ struct KeyboardLayoutSettings: View {
                                 .foregroundColor(.secondary)
                         }
 
-                        Slider(value: $buttonHeight, in: 20...60, step: 1)
+                        Slider(value: $buttonHeight, in: 32...120, step: 1)
                             .tint(.blue)
 
                         HStack {
@@ -120,7 +120,7 @@ struct KeyboardLayoutSettings: View {
                                 .foregroundColor(.secondary)
                         }
 
-                        Slider(value: $buttonFontSize, in: 10...20, step: 1)
+                        Slider(value: $buttonFontSize, in: 10...36, step: 1)
                             .tint(.blue)
 
                         HStack {
@@ -198,13 +198,13 @@ struct KeyboardLayoutSettings: View {
 
                         ColorPicker(NSLocalizedString("Background", comment: "Color picker: keyboard background"),
                                     selection: $customBgColor, supportsOpacity: false)
-                            .onChange(of: customBgColor) { newColor in
+                            .onChange(of: customBgColor) { _, newColor in
                                 customBgHex = newColor.toHex() ?? ""
                             }
 
                         ColorPicker(NSLocalizedString("Key", comment: "Color picker: keyboard key"),
                                     selection: $customKeyColor, supportsOpacity: false)
-                            .onChange(of: customKeyColor) { newColor in
+                            .onChange(of: customKeyColor) { _, newColor in
                                 customKeyHex = newColor.toHex() ?? ""
                             }
 
@@ -290,8 +290,8 @@ struct KeyboardLayoutSettings: View {
 
     private func resetToDefaults() {
         columnCount = 2
-        buttonHeight = 40.0
-        buttonFontSize = 15.0
+        buttonHeight = 56.0
+        buttonFontSize = 17.0
         useCustomColors = false
         customBgHex = ""
         customKeyHex = ""

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import StoreKit
 
 /// Pro 기능 제한 관리
 /// - 무료 사용자 제한 정의
@@ -88,9 +89,20 @@ struct ProFeatureManager {
         UserDefaults(suiteName: appGroupSuite)
     }
 
-    /// TestFlight 빌드 여부 (샌드박스 영수증 감지)
-    static var isTestFlight: Bool {
-        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+    /// TestFlight 빌드 여부 — 앱 시작 시 bootstrapIsTestFlight()로 설정.
+    nonisolated(unsafe) static var isTestFlight: Bool = false
+
+    /// AppTransaction으로 TestFlight/Sandbox 환경 감지 후 캐시 저장.
+    /// ClipKeyboardApp.init()에서 Task로 호출.
+    static func bootstrapIsTestFlight() async {
+        do {
+            let result = try await AppTransaction.shared
+            if case .verified(let transaction) = result {
+                isTestFlight = transaction.environment == .xcode || transaction.environment == .sandbox
+            }
+        } catch {
+            isTestFlight = false
+        }
     }
 
     /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)

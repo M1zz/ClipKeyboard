@@ -219,7 +219,7 @@ struct PlaceholderManagementSheet: View {
                                 Text(extractPlaceholderPreview(from: template.value))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
-                                    .lineLimit(1)
+                                    .lineLimit(2)
                             }
                             .padding(.vertical, 4)
                         }

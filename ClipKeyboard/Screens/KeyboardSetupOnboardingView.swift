@@ -2,7 +2,7 @@
 //  KeyboardSetupOnboardingView.swift
 //  ClipKeyboard
 //
-//  Multi-step keyboard setup onboarding
+//  Tips 앱 스타일 단계별 키보드 설정 가이드
 //
 
 import SwiftUI
@@ -10,156 +10,134 @@ import SwiftUI
 import UIKit
 #endif
 
+// MARK: - Main View
+
 struct KeyboardSetupOnboardingView: View {
     var exitAction: () -> Void
+
     @State private var currentPage = 0
+    @State private var setupStatus: SetupStatus = .idle
+    @State private var isWaitingForReturn = false
+    @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private let totalPages = 4
+    enum SetupStatus { case idle, checking, confirmed, notFound }
 
-    private var pageTitle: String {
-        switch currentPage {
-        case 0: return NSLocalizedString("환영합니다", comment: "Onboarding page 1 title for VoiceOver")
-        case 1: return NSLocalizedString("키보드 추가, 1단계 중 2단계", comment: "Onboarding page 2 title for VoiceOver")
-        case 2: return NSLocalizedString("전체 접근 허용, 2단계 중 2단계", comment: "Onboarding page 3 title for VoiceOver")
-        case 3: return NSLocalizedString("준비 완료", comment: "Onboarding page 4 title for VoiceOver")
-        default: return ""
-        }
-    }
+    private let steps = SetupStep.all
 
     var body: some View {
-        ZStack {
-            LinearGradient(
-                colors: [.blue.opacity(0.6), .purple.opacity(0.6)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+        ZStack(alignment: .top) {
+            theme.bg.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // MARK: - Skip Button
+                // Close button row
                 HStack {
                     Spacer()
-                    if currentPage < totalPages - 1 {
-                        Button {
-                            exitAction()
-                        } label: {
-                            Text(NSLocalizedString("건너뛰기", comment: "Skip onboarding button"))
-                                .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.7))
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
-                        }
-                        .accessibilityHint(NSLocalizedString("온보딩을 건너뛰고 앱을 바로 시작합니다", comment: "Skip onboarding hint"))
+                    Button(action: exitAction) {
+                        Image(systemName: "xmark")
+                            .font(.callout.weight(.semibold))
+                            .foregroundColor(theme.textMuted)
+                            .padding(9)
+                            .background(theme.surfaceAlt)
+                            .clipShape(Circle())
+                    }
+                    .accessibilityLabel(NSLocalizedString("닫기", comment: "Close"))
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
+                .padding(.bottom, 4)
+
+                // Step pages
+                TabView(selection: $currentPage) {
+                    ForEach(Array(steps.enumerated()), id: \.offset) { idx, step in
+                        StepPageView(step: step, setupStatus: setupStatus, theme: theme)
+                            .tag(idx)
                     }
                 }
-                .frame(height: 44)
-                .padding(.horizontal, 8)
-
-                // MARK: - Page Content
-                TabView(selection: $currentPage) {
-                    OnboardingWelcomePage()
-                        .tag(0)
-                    OnboardingAddKeyboardPage()
-                        .tag(1)
-                    OnboardingFullAccessPage()
-                        .tag(2)
-                    OnboardingCompletionPage()
-                        .tag(3)
-                }
-                #if os(iOS)
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                #endif
                 .animation(reduceMotion ? nil : .easeInOut(duration: 0.3), value: currentPage)
-                // VoiceOver: 페이지 전환 시 제목 공지
-                .onChange(of: currentPage) { _ in
-                    #if os(iOS)
-                    UIAccessibility.post(notification: .screenChanged, argument: pageTitle)
-                    #endif
-                }
 
-                // MARK: - Bottom Controls
-                VStack(spacing: 20) {
-                    // Page indicator — VoiceOver에 진행률 전달
-                    HStack(spacing: 8) {
-                        ForEach(0..<totalPages, id: \.self) { index in
-                            Circle()
-                                .fill(index == currentPage ? Color.white : Color.white.opacity(0.35))
-                                .frame(width: 8, height: 8)
-                                .scaleEffect(index == currentPage ? 1.2 : 1.0)
-                                .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: currentPage)
-                                .accessibilityHidden(true)
+                // Bottom controls
+                VStack(spacing: 16) {
+                    // Page dots
+                    HStack(spacing: 5) {
+                        ForEach(0..<steps.count, id: \.self) { i in
+                            Capsule()
+                                .fill(i == currentPage ? theme.accent : theme.divider)
+                                .frame(width: i == currentPage ? 22 : 7, height: 7)
+                                .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
                         }
                     }
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(
-                        String(format: NSLocalizedString("%d단계 중 %d단계", comment: "Onboarding page indicator: step X of Y"),
-                               currentPage + 1, totalPages)
-                    )
+                    .accessibilityLabel(String(format: NSLocalizedString("%d단계 중 %d단계", comment: "Step X of Y"), currentPage + 1, steps.count))
 
                     // Action buttons
-                    if currentPage < totalPages - 1 {
-                        HStack(spacing: 12) {
-                            if currentPage == 1 || currentPage == 2 {
-                                Button {
-                                    openSettings()
-                                } label: {
-                                    HStack(spacing: 6) {
-                                        Image(systemName: "gear")
-                                        Text(NSLocalizedString("설정 열기", comment: "Open settings button"))
-                                    }
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 50)
-                                    .background(Color.white.opacity(0.25))
-                                    .cornerRadius(12)
-                                }
-                            }
-
-                            Button {
-                                nextPage()
-                            } label: {
+                    HStack(spacing: 12) {
+                        // "설정 열기" 버튼 — step 2(index 1)와 step 3(index 2)에서 표시
+                        if currentPage == 1 || currentPage == 2 {
+                            Button(action: openSettings) {
                                 HStack(spacing: 6) {
-                                    Text(NSLocalizedString("다음", comment: "Next button"))
-                                    Image(systemName: "arrow.right")
+                                    Image(systemName: "gear")
+                                        .accessibilityHidden(true)
+                                    Text(NSLocalizedString("설정 열기", comment: "Open Settings button"))
                                 }
                                 .font(.headline)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.blue)
+                                .foregroundColor(theme.accent)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(Color.white)
-                                .cornerRadius(12)
+                                .frame(height: 52)
+                                .background(theme.accentSoft)
+                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                             }
                         }
-                    } else {
-                        Button {
-                            exitAction()
-                        } label: {
-                            HStack(spacing: 8) {
-                                Text(NSLocalizedString("시작하기", comment: "Get started button"))
-                                Image(systemName: "arrow.right")
+
+                        // Next / Done
+                        if currentPage < steps.count - 1 {
+                            Button {
+                                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
+                                    currentPage += 1
+                                }
+                            } label: {
+                                Text(currentPage == 2
+                                     ? NSLocalizedString("설정 완료", comment: "Setup done button")
+                                     : NSLocalizedString("다음", comment: "Next button"))
+                                    .font(.headline.weight(.semibold))
+                                    .foregroundColor(theme.accentFg)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(theme.accent)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                             }
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.blue)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.white)
-                            .cornerRadius(12)
+                        } else {
+                            Button(action: exitAction) {
+                                Text(NSLocalizedString("시작하기", comment: "Get started button"))
+                                    .font(.headline.weight(.semibold))
+                                    .foregroundColor(theme.accentFg)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(theme.accent)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                            }
                         }
                     }
                 }
-                .padding(.horizontal, 30)
-                .padding(.bottom, 40)
+                .padding(.horizontal, 24)
+                .padding(.top, 12)
+                .padding(.bottom, 32)
             }
         }
-    }
-
-    private func nextPage() {
-        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.3)) {
-            currentPage = min(currentPage + 1, totalPages - 1)
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            guard isWaitingForReturn, currentPage == 2 else { return }
+            isWaitingForReturn = false
+            setupStatus = .checking
+            let loaded = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: "keyboard_extension_did_load") ?? false
+            withAnimation(.easeInOut(duration: 0.3)) {
+                setupStatus = loaded ? .confirmed : .notFound
+            }
+            if loaded {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    withAnimation { currentPage = steps.count - 1 }
+                }
+            }
         }
     }
 
@@ -167,368 +145,455 @@ struct KeyboardSetupOnboardingView: View {
         #if canImport(UIKit)
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
+            isWaitingForReturn = true
         }
         #endif
     }
 }
 
-// MARK: - Welcome Page
-private struct OnboardingWelcomePage: View {
-    var body: some View {
-        VStack(spacing: 28) {
-            Spacer()
+// MARK: - Step Data
 
-            ZStack {
-                Circle()
-                    .fill(Color.white.opacity(0.2))
-                    .frame(width: 120, height: 120)
-                Image(systemName: "doc.on.clipboard.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.white)
-            }
+struct SetupStep {
+    let title: String
+    let description: String
+    let path: [String]       // 경로 표시용 (예: ["설정", "일반", "키보드"])
+    let kind: Kind
 
-            VStack(spacing: 12) {
-                Text(NSLocalizedString("클립키보드에\n오신 것을 환영합니다!", comment: "Onboarding welcome title"))
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-
-                Text(NSLocalizedString("키보드에서 바로 메모를 불러와\n빠르게 입력할 수 있어요", comment: "Onboarding welcome subtitle"))
-                    .font(.system(size: 17))
-                    .foregroundColor(.white.opacity(0.9))
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(4)
-            }
-            .padding(.horizontal, 30)
-
-            VStack(spacing: 14) {
-                OnboardingFeatureRow(
-                    icon: "keyboard",
-                    text: NSLocalizedString("키보드에서 바로 메모 입력", comment: "Onboarding feature: keyboard input")
-                )
-                OnboardingFeatureRow(
-                    icon: "doc.on.clipboard",
-                    text: NSLocalizedString("클립보드 자동 저장 및 관리", comment: "Onboarding feature: clipboard management")
-                )
-                OnboardingFeatureRow(
-                    icon: "lock.shield",
-                    text: NSLocalizedString("생체인증으로 안전하게 보호", comment: "Onboarding feature: biometric protection")
-                )
-            }
-            .padding(.horizontal, 40)
-
-            Spacer()
-            Spacer()
-        }
+    enum Kind {
+        case welcome
+        case addKeyboard
+        case fullAccess
+        case done
     }
+
+    static let all: [SetupStep] = [
+        SetupStep(
+            title: NSLocalizedString("키보드를 추가해요", comment: "Setup step 1 title"),
+            description: NSLocalizedString("iPhone 설정에서 클립키보드 키보드를 추가하세요. 딱 한 번만 하면 됩니다.", comment: "Setup step 1 description"),
+            path: [
+                NSLocalizedString("설정", comment: "iOS Settings"),
+                NSLocalizedString("일반", comment: "iOS Settings: General"),
+                NSLocalizedString("키보드", comment: "iOS Settings: Keyboard"),
+                NSLocalizedString("새로운 키보드 추가…", comment: "iOS Settings: Add New Keyboard")
+            ],
+            kind: .addKeyboard
+        ),
+        SetupStep(
+            title: NSLocalizedString("ClipKeyboard를 선택해요", comment: "Setup step 2 title"),
+            description: NSLocalizedString("서드파티 키보드 목록에서 'ClipKeyboard'를 찾아 탭하세요.", comment: "Setup step 2 description"),
+            path: [
+                NSLocalizedString("ClipKeyboard", comment: "Keyboard name in list")
+            ],
+            kind: .addKeyboard
+        ),
+        SetupStep(
+            title: NSLocalizedString("전체 접근을 허용해요", comment: "Setup step 3 title"),
+            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 메모에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
+            path: [
+                NSLocalizedString("ClipKeyboard", comment: "Keyboard name"),
+                NSLocalizedString("전체 접근 허용", comment: "Allow Full Access toggle")
+            ],
+            kind: .fullAccess
+        ),
+        SetupStep(
+            title: NSLocalizedString("준비 완료!", comment: "Setup done title"),
+            description: NSLocalizedString("이제 키보드에서 메모를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요.", comment: "Setup done description"),
+            path: [],
+            kind: .done
+        )
+    ]
 }
 
-// MARK: - Add Keyboard Page
-private struct OnboardingAddKeyboardPage: View {
+// MARK: - Single Step Page
+
+private struct StepPageView: View {
+    let step: SetupStep
+    let setupStatus: KeyboardSetupOnboardingView.SetupStatus
+    let theme: AppTheme
+
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-
-            Text(NSLocalizedString("설정 1/2", comment: "Setup step 1 of 2"))
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.white.opacity(0.7))
-
-            ZStack {
-                Circle()
-                    .fill(Color.white.opacity(0.2))
-                    .frame(width: 100, height: 100)
-                Image(systemName: "keyboard.badge.ellipsis")
-                    .font(.system(size: 44))
-                    .foregroundColor(.white)
-            }
-
-            Text(NSLocalizedString("키보드를 추가해주세요", comment: "Add keyboard title"))
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-
-            // Step-by-step path visualization
+        ScrollView {
             VStack(spacing: 0) {
-                OnboardingPathRow(
-                    text: NSLocalizedString("설정", comment: "Onboarding path: Settings"),
-                    icon: "gear",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("일반", comment: "Onboarding path: General"),
-                    icon: "gearshape",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("키보드", comment: "Onboarding path: Keyboard"),
-                    icon: "keyboard",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("키보드 목록", comment: "Onboarding path: Keyboards list"),
-                    icon: "list.bullet",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("새로운 키보드 추가...", comment: "Onboarding path: Add New Keyboard"),
-                    icon: "plus.circle",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("'클립키보드' 선택", comment: "Onboarding path: Select ClipKeyboard"),
-                    icon: "checkmark.circle.fill",
-                    showArrow: false,
-                    isHighlighted: true
-                )
-            }
-            .padding(.horizontal, 30)
-            .padding(.vertical, 12)
-            .background(Color.white.opacity(0.12))
-            .cornerRadius(16)
-            .padding(.horizontal, 30)
+                // Illustration
+                illustrationArea
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 240)
+                    .background(theme.surfaceAlt)
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg))
+                    .padding(.horizontal, 24)
+                    .padding(.top, 12)
 
-            // Info box
-            HStack(spacing: 10) {
-                Image(systemName: "info.circle.fill")
-                    .foregroundColor(.white.opacity(0.8))
-                Text(NSLocalizedString("설정에서 키보드를 추가한 후\n이 화면으로 돌아와 다음 단계를 진행하세요", comment: "Onboarding: return after adding keyboard"))
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.8))
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(12)
-            .background(Color.white.opacity(0.12))
-            .cornerRadius(10)
-            .padding(.horizontal, 30)
+                // Text content
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(step.title)
+                        .font(.title2.weight(.bold))
+                        .foregroundColor(theme.text)
 
-            Spacer()
-            Spacer()
-        }
-    }
-}
+                    Text(step.description)
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .lineSpacing(4)
+                        .fixedSize(horizontal: false, vertical: true)
 
-// MARK: - Full Access Page
-private struct OnboardingFullAccessPage: View {
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-
-            Text(NSLocalizedString("설정 2/2", comment: "Setup step 2 of 2"))
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.white.opacity(0.7))
-
-            ZStack {
-                Circle()
-                    .fill(Color.white.opacity(0.2))
-                    .frame(width: 100, height: 100)
-                Image(systemName: "hand.raised.circle.fill")
-                    .font(.system(size: 44))
-                    .foregroundColor(.white)
-            }
-
-            VStack(spacing: 8) {
-                Text(NSLocalizedString("'전체 접근 허용'을 켜주세요", comment: "Enable Full Access title"))
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-
-                Text(NSLocalizedString("키보드에서 저장된 메모를 불러오려면\n전체 접근 권한이 필요합니다", comment: "Full Access explanation"))
-                    .font(.system(size: 15))
-                    .foregroundColor(.white.opacity(0.85))
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(2)
-            }
-
-            // Step-by-step path
-            VStack(spacing: 0) {
-                OnboardingPathRow(
-                    text: NSLocalizedString("설정 → 일반 → 키보드 → 키보드 목록", comment: "Full access path"),
-                    icon: "gear",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("'클립키보드'를 탭", comment: "Full access: tap ClipKeyboard"),
-                    icon: "hand.tap",
-                    showArrow: true
-                )
-                OnboardingPathRow(
-                    text: NSLocalizedString("'전체 접근 허용' 토글 켜기", comment: "Full access: toggle on"),
-                    icon: "togglepower",
-                    showArrow: false,
-                    isHighlighted: true
-                )
-            }
-            .padding(.horizontal, 30)
-            .padding(.vertical, 12)
-            .background(Color.white.opacity(0.12))
-            .cornerRadius(16)
-            .padding(.horizontal, 30)
-
-            // Visual toggle mockup
-            VStack(spacing: 0) {
-                HStack {
-                    Text(NSLocalizedString("전체 접근 허용", comment: "Full Access toggle label"))
-                        .font(.system(size: 16))
-                        .foregroundColor(.primary)
-                    Spacer()
-                    ZStack(alignment: .trailing) {
-                        Capsule()
-                            .fill(Color.green)
-                            .frame(width: 51, height: 31)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 27, height: 27)
-                            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
-                            .padding(.trailing, 2)
+                    if !step.path.isEmpty && step.kind != .done {
+                        pathCard
                     }
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-            }
-            .background(Color.white)
-            .cornerRadius(10)
-            .padding(.horizontal, 40)
 
-            // Privacy assurance
-            HStack(spacing: 10) {
-                Image(systemName: "lock.shield.fill")
-                    .foregroundColor(.white.opacity(0.9))
-                Text(NSLocalizedString("개인정보를 수집하지 않습니다.\n안심하고 사용하세요.", comment: "Privacy assurance message"))
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.9))
-                    .fixedSize(horizontal: false, vertical: true)
+                    if step.kind == .fullAccess {
+                        setupStatusBadge
+                    }
+
+                    privacyNote
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 24)
+            }
+        }
+        .scrollBounceBehavior(.basedOnSize)
+    }
+
+    // MARK: Illustration
+
+    @ViewBuilder
+    private var illustrationArea: some View {
+        switch step.kind {
+        case .welcome:
+            EmptyView()
+
+        case .addKeyboard:
+            if step.path.count > 1 {
+                // Step 1: Settings path illustration
+                SettingsPathIllustration(
+                    path: [
+                        NSLocalizedString("설정", comment: "iOS Settings"),
+                        NSLocalizedString("일반", comment: "General"),
+                        NSLocalizedString("키보드", comment: "Keyboard"),
+                        NSLocalizedString("새로운 키보드 추가…", comment: "Add New Keyboard")
+                    ],
+                    theme: theme
+                )
+            } else {
+                // Step 2: keyboard list with ClipKeyboard highlighted
+                KeyboardListIllustration(theme: theme)
+            }
+
+        case .fullAccess:
+            FullAccessIllustration(theme: theme)
+
+        case .done:
+            DoneIllustration(theme: theme)
+        }
+    }
+
+    // MARK: Path Card
+
+    private var pathCard: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(step.path.enumerated()), id: \.offset) { i, item in
+                HStack(spacing: 10) {
+                    if step.kind == .fullAccess && i == step.path.count - 1 {
+                        // Toggle ON
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(theme.success)
+                            .frame(width: 40, height: 24)
+                            .overlay(
+                                Circle()
+                                    .fill(.white)
+                                    .frame(width: 20, height: 20)
+                                    .offset(x: 8)
+                            )
+                            .accessibilityHidden(true)
+                    } else {
+                        Image(systemName: i == step.path.count - 1 ? "checkmark.circle.fill" : "arrow.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(i == step.path.count - 1 ? theme.success : theme.accent)
+                            .accessibilityHidden(true)
+                    }
+
+                    Text(item)
+                        .font(i == step.path.count - 1 ? .subheadline.weight(.semibold) : .subheadline)
+                        .foregroundColor(i == step.path.count - 1 ? theme.text : theme.textMuted)
+                }
+                .padding(.vertical, 8)
+
+                if i < step.path.count - 1 {
+                    Divider()
+                        .padding(.leading, 34)
+                }
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 4)
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+    }
+
+    // MARK: Setup Status
+
+    @ViewBuilder
+    private var setupStatusBadge: some View {
+        switch setupStatus {
+        case .confirmed:
+            HStack(spacing: 8) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(theme.success)
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("키보드가 확인됐어요! 다음으로 넘어갈게요.", comment: "Setup confirmed"))
+                    .font(.subheadline)
+                    .foregroundColor(theme.text)
             }
             .padding(12)
-            .background(Color.white.opacity(0.12))
-            .cornerRadius(10)
-            .padding(.horizontal, 30)
+            .background(theme.success.opacity(0.12))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+            .transition(.move(edge: .bottom).combined(with: .opacity))
 
-            Spacer()
-            Spacer()
+        case .notFound:
+            HStack(spacing: 8) {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundColor(theme.warn)
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?", comment: "Setup not found"))
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(12)
+            .background(theme.warn.opacity(0.12))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+            .transition(.move(edge: .bottom).combined(with: .opacity))
+
+        default:
+            EmptyView()
+        }
+    }
+
+    // MARK: Privacy Note
+
+    private var privacyNote: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "lock.shield.fill")
+                .font(.caption)
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
+            Text(NSLocalizedString("개인정보를 수집하지 않습니다.", comment: "Privacy assurance"))
+                .font(.caption)
+                .foregroundColor(theme.textFaint)
         }
     }
 }
 
-// MARK: - Completion Page
-private struct OnboardingCompletionPage: View {
-    var body: some View {
-        VStack(spacing: 28) {
-            Spacer()
+// MARK: - Illustrations
 
-            ZStack {
-                Circle()
-                    .fill(Color.white.opacity(0.2))
-                    .frame(width: 120, height: 120)
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.white)
-            }
-
-            VStack(spacing: 12) {
-                Text(NSLocalizedString("준비 완료!", comment: "Onboarding completion title"))
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(.white)
-
-                Text(NSLocalizedString("이제 키보드에서 메모를 바로 입력할 수 있어요", comment: "Onboarding completion subtitle"))
-                    .font(.system(size: 17))
-                    .foregroundColor(.white.opacity(0.9))
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(4)
-            }
-            .padding(.horizontal, 30)
-
-            // Tips
-            VStack(alignment: .leading, spacing: 14) {
-                OnboardingFeatureRow(
-                    icon: "globe",
-                    text: NSLocalizedString("키보드 전환: 🌐 길게 누르기", comment: "Tip: keyboard switching")
-                )
-                OnboardingFeatureRow(
-                    icon: "plus.circle",
-                    text: NSLocalizedString("메모를 추가하고 키보드에서 사용하세요", comment: "Tip: add memos and use from keyboard")
-                )
-            }
-            .padding(.horizontal, 40)
-
-            Spacer()
-            Spacer()
-        }
-    }
-}
-
-// MARK: - Reusable Components
-private struct OnboardingPathRow: View {
-    let text: String
-    let icon: String
-    var showArrow: Bool = true
-    var isHighlighted: Bool = false
+private struct SettingsPathIllustration: View {
+    let path: [String]
+    let theme: AppTheme
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 12) {
-                Image(systemName: icon)
-                    .font(.system(size: 15, weight: isHighlighted ? .bold : .regular))
-                    .foregroundColor(isHighlighted ? .yellow : .white.opacity(0.8))
-                    .frame(width: 24)
-                    .accessibilityHidden(true)
-
-                Text(text)
-                    .font(.system(size: 15, weight: isHighlighted ? .semibold : .regular))
-                    .foregroundColor(isHighlighted ? .yellow : .white)
-
-                Spacer()
-            }
-            .padding(.vertical, 8)
-
-            if showArrow {
+            // Fake Settings rows
+            ForEach(Array(path.enumerated()), id: \.offset) { i, label in
                 HStack {
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(.white.opacity(0.4))
-                        .padding(.leading, 6)
+                    if i == 0 {
+                        Image(systemName: "gear")
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .frame(width: 28, height: 28)
+                            .background(Color.gray)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .accessibilityHidden(true)
+                    } else {
+                        Spacer().frame(width: 28)
+                    }
+
+                    Text(label)
+                        .font(.subheadline)
+                        .foregroundColor(i == path.count - 1 ? theme.accent : theme.text)
+                        .fontWeight(i == path.count - 1 ? .semibold : .regular)
+
                     Spacer()
+
+                    Image(systemName: i < path.count - 1 ? "chevron.right" : "plus.circle.fill")
+                        .font(.caption)
+                        .foregroundColor(i == path.count - 1 ? theme.accent : theme.textFaint)
+                        .accessibilityHidden(true)
                 }
-                .padding(.vertical, 2)
-                .accessibilityHidden(true)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+
+                if i < path.count - 1 {
+                    Divider().padding(.leading, 56)
+                }
             }
         }
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(20)
     }
 }
 
-private struct OnboardingFeatureRow: View {
-    let icon: String
-    let text: String
+private struct KeyboardListIllustration: View {
+    let theme: AppTheme
+
+    private let keyboards = ["한국어", "영어(미국)", "이모티콘"]
+    private let clipKeyboard = "ClipKeyboard"
 
     var body: some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.system(size: 20))
-                .foregroundColor(.white)
-                .frame(width: 32)
-                .accessibilityHidden(true)
+        VStack(spacing: 0) {
+            Text(NSLocalizedString("키보드", comment: "Keyboard list header"))
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 6)
 
-            Text(text)
-                .font(.system(size: 15))
-                .foregroundColor(.white.opacity(0.9))
+            ForEach(keyboards, id: \.self) { kb in
+                HStack {
+                    Text(kb)
+                        .font(.subheadline)
+                        .foregroundColor(theme.text)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .accessibilityHidden(true)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 11)
+                Divider().padding(.leading, 16)
+            }
 
-            Spacer()
+            // Highlighted row
+            HStack {
+                Text(clipKeyboard)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                Spacer()
+                Image(systemName: "arrow.left.circle.fill")
+                    .foregroundColor(theme.accent)
+                    .accessibilityHidden(true)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .background(theme.accentSoft)
         }
-        .accessibilityElement(children: .combine)
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(20)
+    }
+}
+
+private struct FullAccessIllustration: View {
+    let theme: AppTheme
+    @State private var toggled = true
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header row
+            HStack {
+                Image(systemName: "keyboard")
+                    .font(.title3)
+                    .foregroundColor(theme.accent)
+                    .accessibilityHidden(true)
+                Text("ClipKeyboard")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Spacer()
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+
+            Divider().padding(.leading, 16)
+
+            // Toggle row
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(NSLocalizedString("전체 접근 허용", comment: "Allow Full Access"))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("메모 접근에 필요합니다", comment: "Required for memo access"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+                Spacer()
+                // Animated toggle
+                ZStack(alignment: toggled ? .trailing : .leading) {
+                    Capsule()
+                        .fill(toggled ? theme.success : theme.divider)
+                        .frame(width: 50, height: 30)
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 26, height: 26)
+                        .padding(.horizontal, 2)
+                        .shadow(radius: 2)
+                }
+                .onAppear {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.6)) {
+                        toggled = true
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+        }
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(20)
+    }
+}
+
+private struct DoneIllustration: View {
+    let theme: AppTheme
+    @State private var appeared = false
+
+    var body: some View {
+        VStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(theme.accentSoft)
+                    .frame(width: 100, height: 100)
+                    .scaleEffect(appeared ? 1 : 0.5)
+                    .opacity(appeared ? 1 : 0)
+
+                Image(systemName: "checkmark")
+                    .font(.system(size: 44, weight: .bold))
+                    .foregroundColor(theme.accent)
+                    .scaleEffect(appeared ? 1 : 0.3)
+                    .opacity(appeared ? 1 : 0)
+            }
+
+            HStack(spacing: 8) {
+                Image(systemName: "globe")
+                    .font(.title3)
+                    .foregroundColor(theme.textMuted)
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("🌐 길게 눌러 전환", comment: "Long press globe to switch"))
+                    .font(.subheadline)
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(theme.surfaceAlt)
+            .clipShape(Capsule())
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.65).delay(0.2)) {
+                appeared = true
+            }
+        }
     }
 }
 
 // MARK: - Preview
+
 struct KeyboardSetupOnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         KeyboardSetupOnboardingView(exitAction: { })
     }
 }
 
-// MARK: - Persona (Onboarding Step 2)
-// Persona enum + PersonaSelectionView를 본 파일 끝에 합쳤다 — 별도 파일로 두면
-// Xcode 프로젝트에 수동 등록이 필요해 빌드가 깨지므로 자동으로 컴파일되도록 같은 파일에 둠.
+// MARK: - Persona (same file to avoid Xcode project registration)
 
 import Foundation
 
@@ -538,10 +603,8 @@ enum Persona: String, CaseIterable, Codable {
     case student = "student"
     case general = "general"
 
-    /// 1차 타깃 페르소나 — 기본 선택값
     static let `default`: Persona = .nomad
 
-    /// SF Symbol
     var icon: String {
         switch self {
         case .nomad: return "globe"
@@ -551,7 +614,6 @@ enum Persona: String, CaseIterable, Codable {
         }
     }
 
-    /// UI 노출용 제목
     var localizedTitle: String {
         switch self {
         case .nomad: return NSLocalizedString("디지털 노마드 / 프리랜서", comment: "Persona: Digital Nomad title")
@@ -561,7 +623,6 @@ enum Persona: String, CaseIterable, Codable {
         }
     }
 
-    /// UI 노출용 설명 (한 줄)
     var localizedDescription: String {
         switch self {
         case .nomad:
@@ -575,9 +636,39 @@ enum Persona: String, CaseIterable, Codable {
         }
     }
 
-    /// 언어별 페르소나 시드 카테고리.
-    /// - 라벨은 사용자가 추후 자유롭게 수정 가능 (CategoryStore가 단순 String 배열을 영속).
-    /// - 국가 시드(CategoryStore.localeDefaults)와 합쳐져 최종 카테고리가 결정됨.
+    var exampleTags: [String] {
+        switch self {
+        case .nomad:
+            return [
+                NSLocalizedString("🏦 IBAN", comment: "Nomad example tag: IBAN"),
+                NSLocalizedString("🛂 여권번호", comment: "Nomad example tag: passport"),
+                NSLocalizedString("✈️ 비자", comment: "Nomad example tag: visa"),
+                NSLocalizedString("💱 환전 메모", comment: "Nomad example tag: FX notes")
+            ]
+        case .business:
+            return [
+                NSLocalizedString("📧 회사 이메일", comment: "Business example tag: work email"),
+                NSLocalizedString("🪪 명함", comment: "Business example tag: business card"),
+                NSLocalizedString("💼 사업자번호", comment: "Business example tag: business number"),
+                NSLocalizedString("📋 미팅 메모", comment: "Business example tag: meeting notes")
+            ]
+        case .student:
+            return [
+                NSLocalizedString("🎓 학번", comment: "Student example tag: student ID"),
+                NSLocalizedString("📚 학교 이메일", comment: "Student example tag: school email"),
+                NSLocalizedString("📝 과제 템플릿", comment: "Student example tag: assignment"),
+                NSLocalizedString("🏠 기숙사 주소", comment: "Student example tag: dorm address")
+            ]
+        case .general:
+            return [
+                NSLocalizedString("📞 전화번호", comment: "General example tag: phone"),
+                NSLocalizedString("📍 주소", comment: "General example tag: address"),
+                NSLocalizedString("🔑 긴급 연락처", comment: "General example tag: emergency contact"),
+                NSLocalizedString("✉️ 이메일", comment: "General example tag: email")
+            ]
+        }
+    }
+
     func seedCategories(language: String) -> [String] {
         let lang = language.lowercased()
         switch self {
@@ -589,7 +680,7 @@ enum Persona: String, CaseIterable, Codable {
             case "id":
                 return ["IBAN", "SWIFT/BIC", "NPWP", "PayPal", "Crypto Wallet",
                         "Paspor", "Visa", "Frequent Flyer", "Asuransi Perjalanan", "Catatan Tukar Uang"]
-            default: // en + fallback
+            default:
                 return ["IBAN", "SWIFT/BIC", "VAT / Tax ID", "PayPal", "Crypto Wallet",
                         "Passport", "Visa", "Frequent Flyer", "Travel Insurance", "FX Notes"]
             }
@@ -633,13 +724,8 @@ enum Persona: String, CaseIterable, Codable {
 import SwiftUI
 
 struct PersonaSelectionView: View {
-    /// 진입 컨텍스트 — 헤더/버튼 라벨이 다르고, settings 모드는 nav 환경에 들어감.
-    enum Mode {
-        case onboarding
-        case settings
-    }
+    enum Mode { case onboarding, settings }
 
-    /// 완료 콜백 — onboarding이면 didShowUseCaseSelection 처리, settings이면 dismiss.
     let onContinue: () -> Void
     var mode: Mode = .onboarding
 
@@ -647,7 +733,6 @@ struct PersonaSelectionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // 헤더
             VStack(spacing: 8) {
                 Text(headerTitle)
                     .font(.title2)
@@ -663,7 +748,6 @@ struct PersonaSelectionView: View {
             .padding(.top, mode == .onboarding ? 40 : 16)
             .padding(.bottom, 24)
 
-            // 페르소나 카드 리스트
             ScrollView {
                 VStack(spacing: 12) {
                     ForEach(Persona.allCases, id: \.self) { persona in
@@ -677,7 +761,6 @@ struct PersonaSelectionView: View {
 
             Divider()
 
-            // 미리보기 + 적용 버튼
             VStack(spacing: 12) {
                 PreviewChips(persona: selected)
 
@@ -698,51 +781,39 @@ struct PersonaSelectionView: View {
             .padding(.top, 12)
         }
         .onAppear {
-            // 기존 선택값 표시 (settings 진입 시 특히 필요)
             if let existing = CategoryStore.shared.selectedPersona {
                 selected = existing
             }
         }
     }
 
-    // MARK: - Mode-aware copy
-
     private var headerTitle: String {
         switch mode {
-        case .onboarding:
-            return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
-        case .settings:
-            return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
+        case .onboarding: return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
+        case .settings: return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
         }
     }
 
     private var headerSubtitle: String {
         switch mode {
-        case .onboarding:
-            return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
-        case .settings:
-            return NSLocalizedString("새 페르소나의 추천 카테고리가 추가됩니다. 기존 카테고리는 유지됩니다.", comment: "Persona settings subtitle")
+        case .onboarding: return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
+        case .settings: return NSLocalizedString("새 페르소나의 추천 카테고리가 추가됩니다. 기존 카테고리는 유지됩니다.", comment: "Persona settings subtitle")
         }
     }
 
     private var applyButtonTitle: String {
         switch mode {
-        case .onboarding:
-            return NSLocalizedString("시작하기", comment: "Onboarding continue button")
-        case .settings:
-            return NSLocalizedString("변경 적용", comment: "Apply persona change button")
+        case .onboarding: return NSLocalizedString("시작하기", comment: "Onboarding continue button")
+        case .settings: return NSLocalizedString("변경 적용", comment: "Apply persona change button")
         }
     }
 
     private func apply() {
         let lang = Locale.current.language.languageCode?.identifier
         CategoryStore.shared.applyPersona(selected, language: lang)
-        print("✅ [PersonaSelectionView] 페르소나=\(selected.rawValue) 적용 (mode=\(mode))")
         onContinue()
     }
 }
-
-// MARK: - Persona Card
 
 private struct PersonaCard: View {
     let persona: Persona
@@ -751,33 +822,49 @@ private struct PersonaCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 16) {
-                ZStack {
-                    Circle()
-                        .fill(isSelected ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.12))
-                        .frame(width: 48, height: 48)
-                    Image(systemName: persona.icon)
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(spacing: 16) {
+                    ZStack {
+                        Circle()
+                            .fill(isSelected ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.12))
+                            .frame(width: 48, height: 48)
+                        Image(systemName: persona.icon)
+                            .font(.title3)
+                            .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(persona.localizedTitle)
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                            .multilineTextAlignment(.leading)
+                        Text(persona.localizedDescription)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title3)
-                        .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+                        .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.5))
                 }
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(persona.localizedTitle)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                        .multilineTextAlignment(.leading)
-                    Text(persona.localizedDescription)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                        .fixedSize(horizontal: false, vertical: true)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        ForEach(persona.exampleTags, id: \.self) { tag in
+                            Text(tag)
+                                .font(.caption2)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(isSelected ? Color.accentColor.opacity(0.12) : Color.gray.opacity(0.08))
+                                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
+                                .clipShape(Capsule())
+                        }
+                    }
                 }
-
-                Spacer()
-
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.title3)
-                    .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.5))
             }
             .padding(16)
             .background(
@@ -792,8 +879,6 @@ private struct PersonaCard: View {
         .buttonStyle(.plain)
     }
 }
-
-// MARK: - Preview Chips
 
 private struct PreviewChips: View {
     let persona: Persona

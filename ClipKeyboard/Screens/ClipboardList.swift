@@ -33,6 +33,9 @@ struct ClipboardList: View {
     // 인지 장애 접근성: 파괴적 작업 전 확인 알림
     @State private var showClearAllConfirm: Bool = false
 
+    // 붙여넣기 허용 팁
+    @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: "pasteTipDismissed")
+
     var filteredHistory: [SmartClipboardHistory] {
         if let filter = selectedFilter {
             return clipboardHistory.filter { $0.detectedType == filter }
@@ -46,6 +49,17 @@ struct ClipboardList: View {
                 // 타입 필터 바
                 if !clipboardHistory.isEmpty {
                     TypeFilterBar(selectedFilter: $selectedFilter, history: clipboardHistory)
+                }
+
+                // 붙여넣기 허용 팁 배너
+                if showPasteTip {
+                    PasteTipBanner {
+                        withAnimation(.easeInOut(duration: 0.25)) {
+                            showPasteTip = false
+                        }
+                        UserDefaults.standard.set(true, forKey: "pasteTipDismissed")
+                    }
+                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 // 히스토리 리스트
@@ -108,7 +122,7 @@ struct ClipboardList: View {
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
                     .background(theme.bg)
-                    .onChange(of: recentlyAddedId) { newId in
+                    .onChange(of: recentlyAddedId) { _, newId in
                         if let id = newId {
                             withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.5)) {
                                 proxy.scrollTo(id, anchor: .top)
@@ -528,8 +542,8 @@ struct ClipboardItemRow: View {
                     VStack(alignment: .leading, spacing: 4) {
                         // 내용
                         Text(item.content)
-                            .font(.system(size: 14))
-                            .lineLimit(2)
+                            .font(.callout)
+                            .lineLimit(3)
                             .foregroundColor(.primary)
 
                         // 메타 정보
@@ -780,6 +794,61 @@ struct CreateComboSheet: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Paste Tip Banner
+
+private struct PasteTipBanner: View {
+    @Environment(\.appTheme) private var theme
+    let onDismiss: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "doc.on.clipboard.fill")
+                    .font(.subheadline)
+                    .foregroundColor(theme.accent)
+                    .padding(.top, 1)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(NSLocalizedString("붙여넣기 팝업 없애는 방법", comment: "Paste tip banner title"))
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.text)
+
+                    Text(NSLocalizedString("설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 0)
+
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.caption2)
+                        .foregroundColor(theme.textFaint)
+                        .padding(6)
+                        .background(theme.divider)
+                        .clipShape(Circle())
+                }
+                .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paste tip"))
+            }
+
+            Button(action: onDismiss) {
+                Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(theme.accent)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(14)
+        .background(theme.accentSoft)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
     }
 }
 

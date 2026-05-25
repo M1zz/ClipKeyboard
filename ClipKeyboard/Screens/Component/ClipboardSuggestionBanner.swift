@@ -73,7 +73,7 @@ struct ClipboardSuggestionBanner: View {
                     Text(previewText)
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
+                        .lineLimit(3)
                 }
 
                 Spacer()

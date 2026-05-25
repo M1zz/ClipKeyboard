@@ -140,8 +140,9 @@ struct PaywallView: View {
             .background(theme.surfaceAlt)
             
             // 행들
-            featureRow(NSLocalizedString("Keyboard extension", comment: "Keyboard extension feature"),
-                       free: "—", pro: "✓", isProOnly: true)
+            featureRow(NSLocalizedString("키보드에서 보이는 메모", comment: "Keyboard visible memos feature row"),
+                       free: String(format: NSLocalizedString("%d개", comment: "count unit"), 10),
+                       pro: NSLocalizedString("무제한", comment: "Unlimited"))
 
             featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),

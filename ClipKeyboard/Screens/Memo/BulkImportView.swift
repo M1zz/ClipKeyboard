@@ -90,7 +90,7 @@ struct BulkImportView: View {
             TextEditor(text: $pasteText)
                 .frame(minHeight: 140)
                 .font(.system(size: 14))
-                .onChange(of: pasteText) { _ in regenerate() }
+                .onChange(of: pasteText) { _, _ in regenerate() }
             HStack(spacing: 8) {
                 Button {
                     if let s = UIPasteboard.general.string {
@@ -107,7 +107,7 @@ struct BulkImportView: View {
                     }
                 }
                 .pickerStyle(.menu)
-                .onChange(of: splitMode) { _ in regenerate() }
+                .onChange(of: splitMode) { _, _ in regenerate() }
             }
         } header: {
             Text(NSLocalizedString("Paste your notes", comment: "Bulk import: paste header"))

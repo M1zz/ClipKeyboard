@@ -29,11 +29,11 @@ class GlobalHotkeyManager {
             // 접근성 설정 열기
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 let alert = NSAlert()
-                alert.messageText = "접근성 권한 필요"
-                alert.informativeText = "전역 단축키를 사용하려면 접근성 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용 에서 ClipKeyboard를 활성화하세요."
+                alert.messageText = NSLocalizedString("접근성 권한 필요", comment: "Accessibility permission alert title")
+                alert.informativeText = NSLocalizedString("전역 단축키를 사용하려면 접근성 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용 에서 ClipKeyboard를 활성화하세요.", comment: "Accessibility permission alert body")
                 alert.alertStyle = .warning
-                alert.addButton(withTitle: "시스템 설정 열기")
-                alert.addButton(withTitle: "나중에")
+                alert.addButton(withTitle: NSLocalizedString("시스템 설정 열기", comment: "Open system settings button"))
+                alert.addButton(withTitle: NSLocalizedString("나중에", comment: "Later button"))
 
                 if alert.runModal() == .alertFirstButtonReturn {
                     if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {

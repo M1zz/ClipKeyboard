@@ -5,9 +5,39 @@
 
 import SwiftUI
 import LocalAuthentication
+import TipKit
 #if os(iOS)
 import UIKit
 #endif
+
+// MARK: - CategoryTab
+
+enum CategoryTab: Hashable, Equatable {
+    case all
+    case favorites
+    case custom(String)
+
+    var displayName: String {
+        switch self {
+        case .all:       return NSLocalizedString("전체", comment: "Category tab: all")
+        case .favorites: return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites")
+        case .custom(let name): return name
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .all:       return "square.grid.2x2"
+        case .favorites: return "heart.fill"
+        case .custom:    return "folder.fill"
+        }
+    }
+
+    var isBuiltIn: Bool {
+        if case .custom = self { return false }
+        return true
+    }
+}
 
 // MARK: - ClipKeyboardListViewModel
 
@@ -24,6 +54,128 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var searchQueryString = ""
     @Published var selectedTypeFilter: ClipboardItemType? = nil
     @Published var selectedCategoryFilter: String? = nil
+    @Published var showFavoritesFilter: Bool = false
+
+    // MARK: - Category Tabs
+
+    @Published var selectedCategoryTab: CategoryTab = .all
+    @Published var customCategories: [String] = []
+    /// 탭 바에서 숨길 카테고리 이름 집합. 즐겨찾기는 "__favorites__" 키 사용.
+    @Published var hiddenCategoryTabs: Set<String> = []
+
+    var allCategoryTabs: [CategoryTab] {
+        var tabs: [CategoryTab] = [.all]
+        if !hiddenCategoryTabs.contains("__favorites__") { tabs.append(.favorites) }
+        for cat in customCategories where !hiddenCategoryTabs.contains(cat) {
+            tabs.append(.custom(cat))
+        }
+        return tabs
+    }
+
+    var selectedCategoryIndex: Int {
+        allCategoryTabs.firstIndex(of: selectedCategoryTab) ?? 0
+    }
+
+    func selectCategoryTab(_ tab: CategoryTab) {
+        withAnimation(.easeInOut(duration: 0.22)) { selectedCategoryTab = tab }
+    }
+
+    func navigateToNextCategory() {
+        let tabs = allCategoryTabs
+        selectCategoryTab(tabs[(selectedCategoryIndex + 1) % tabs.count])
+    }
+
+    func navigateToPreviousCategory() {
+        let tabs = allCategoryTabs
+        let count = tabs.count
+        selectCategoryTab(tabs[(selectedCategoryIndex - 1 + count) % count])
+    }
+
+    func memosForCurrentTab() -> [Memo] {
+        memos(for: selectedCategoryTab)
+    }
+
+    func memos(for tab: CategoryTab) -> [Memo] {
+        switch tab {
+        case .all:
+            return memos
+        case .favorites:
+            // 타입 필터와 무관하게 전체 데이터에서 즐겨찾기 추출.
+            // 타입 필터가 켜져 있어도 즐겨찾기한 메모는 항상 표시.
+            let base = searchQueryString.isEmpty ? loadedData : loadedData.filter {
+                $0.title.localizedStandardContains(searchQueryString)
+            }
+            return base.filter { $0.isFavorite }
+        case .custom(let name):
+            // 마찬가지로 타입 필터 무관하게 카테고리 기반으로만 필터.
+            let base = searchQueryString.isEmpty ? loadedData : loadedData.filter {
+                $0.title.localizedStandardContains(searchQueryString)
+            }
+            return base.filter { $0.category == name }
+        }
+    }
+
+    func addCustomCategory(_ name: String) {
+        let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !customCategories.contains(trimmed) else { return }
+        customCategories.append(trimmed)
+        saveCustomCategories()
+    }
+
+    func deleteCustomCategory(_ name: String) {
+        customCategories.removeAll { $0 == name }
+        if case .custom(let cur) = selectedCategoryTab, cur == name {
+            selectedCategoryTab = .all
+        }
+        saveCustomCategories()
+    }
+
+    func moveMemo(_ memo: Memo, toCategory category: String) {
+        guard let idx = loadedData.firstIndex(where: { $0.id == memo.id }) else { return }
+        loadedData[idx].category = category
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            applyFilters()
+        } catch {
+            print("❌ [moveMemo] 저장 실패: \(error)")
+        }
+    }
+
+    func loadCustomCategories() {
+        let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        customCategories = ud?.stringArray(forKey: "userDefinedCategories_v1") ?? []
+        let hidden = ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
+        hiddenCategoryTabs = Set(hidden)
+    }
+
+    func saveCustomCategories() {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .set(customCategories, forKey: "userDefinedCategories_v1")
+    }
+
+    func setCategoryVisible(_ key: String, visible: Bool) {
+        if visible {
+            hiddenCategoryTabs.remove(key)
+        } else {
+            hiddenCategoryTabs.insert(key)
+            if key == "__favorites__", case .favorites = selectedCategoryTab {
+                selectedCategoryTab = .all
+            } else if case .custom(let cur) = selectedCategoryTab, cur == key {
+                selectedCategoryTab = .all
+            }
+        }
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .set(Array(hiddenCategoryTabs), forKey: "hiddenCategoryTabs_v1")
+    }
+
+    func isCategoryVisible(_ key: String) -> Bool {
+        !hiddenCategoryTabs.contains(key)
+    }
+
+    func reorderCustomCategories(from: IndexSet, to: Int) {
+        customCategories.move(fromOffsets: from, toOffset: to)
+        saveCustomCategories()
+    }
 
     // MARK: - Clipboard Capture State
 
@@ -64,6 +216,15 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     @Published var showFavoriteNudge: Bool = false
 
+    // MARK: - Activation Card (첫 붙여넣기 유도)
+
+    @Published var showActivationCard: Bool = false
+    @Published var showTemplateHint: Bool = false
+    private var lastKnownPasteCount: Int = 0
+    private let practicePromptShownKey = "keyboard_practice_prompt_shown_v1"
+    private let activationCardSnoozedKey = "activation_card_snoozed_until"
+    private let templateHintShownKey = "template_hint_shown_v1"
+
     // MARK: - Private
 
     private let selectedFilterKey = "selectedTypeFilter"
@@ -73,9 +234,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func onAppear() {
         print("🎬 [ClipKeyboardListViewModel] onAppear 시작")
         loadSavedFilter()
+        loadCustomCategories()
         migrateExistingMemosClassification()
 
         checkFreshClipboard()
+        checkActivationCard()
 
         FavoriteNudgeManager.shared.resetIfNeeded()
         if FavoriteNudgeManager.shared.shouldShowNudge {
@@ -87,19 +250,147 @@ final class ClipKeyboardListViewModel: ObservableObject {
         print("✅ [ClipKeyboardListViewModel] onAppear 완료")
     }
 
+    // MARK: - Scene Resume (앱 포그라운드 복귀 시 호출)
+
+    func onSceneResume() {
+        checkFreshClipboard()
+        let newCount = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.integer(forKey: "keyboard_paste_count") ?? 0
+        if lastKnownPasteCount == 0 && newCount > 0 {
+            showActivationCard = false
+            showCelebrationToast()
+            print("🎉 [ViewModel] 첫 붙여넣기 감지 — 축하 토스트 표시")
+        }
+        lastKnownPasteCount = newCount
+        checkActivationCard()
+    }
+
+    private func showCelebrationToast() {
+        toastMessage = NSLocalizedString("🎉 첫 붙여넣기 완료! 이제 진짜 ClipKeyboard 사용자예요", comment: "First paste celebration toast")
+        showToast = true
+        #if os(iOS)
+        UIAccessibility.post(notification: .announcement, argument: toastMessage)
+        #endif
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) { [weak self] in
+            self?.showToast = false
+        }
+    }
+
+    // MARK: - Activation Card
+
+    private func checkActivationCard() {
+        let pasted = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.integer(forKey: "keyboard_paste_count") ?? 0
+        lastKnownPasteCount = pasted
+        guard pasted == 0 else {
+            showActivationCard = false
+            return
+        }
+        guard UserDefaults.standard.bool(forKey: practicePromptShownKey) else { return }
+        if let snoozedUntil = UserDefaults.standard.object(forKey: activationCardSnoozedKey) as? Date,
+           snoozedUntil > Date() {
+            showActivationCard = false
+            return
+        }
+        showActivationCard = true
+    }
+
+    func snoozeActivationCard() {
+        UserDefaults.standard.set(Date().addingTimeInterval(24 * 60 * 60), forKey: activationCardSnoozedKey)
+        showActivationCard = false
+    }
+
+    // MARK: - Template Hint
+
+    func checkTemplateHintIfNeeded() {
+        guard !UserDefaults.standard.bool(forKey: templateHintShownKey) else { return }
+        guard loadedData.count >= 3 else { return }
+        showTemplateHint = true
+    }
+
+    func dismissTemplateHint() {
+        UserDefaults.standard.set(true, forKey: templateHintShownKey)
+        showTemplateHint = false
+    }
+
+    // MARK: - Section Helpers (ADHD 친화 섹션 분리)
+
+    /// 고정(즐겨찾기)된 메모
+    var pinnedMemos: [Memo] {
+        memos.filter { $0.isFavorite }
+    }
+
+    /// 최근 사용한 메모 (비고정, lastUsedAt 있는 것 중 상위 3개)
+    var recentlyUsedMemos: [Memo] {
+        let pinnedIds = Set(pinnedMemos.map { $0.id })
+        return memos
+            .filter { !$0.isFavorite && !pinnedIds.contains($0.id) && $0.lastUsedAt != nil }
+            .sorted { ($0.lastUsedAt ?? .distantPast) > ($1.lastUsedAt ?? .distantPast) }
+            .prefix(3)
+            .map { $0 }
+    }
+
+    /// 고정·최근 사용 제외한 나머지 전체 메모
+    var remainingMemos: [Memo] {
+        let excludeIds = Set((pinnedMemos + recentlyUsedMemos).map { $0.id })
+        return memos.filter { !excludeIds.contains($0.id) }
+    }
+
     // MARK: - Data Loading
 
     func loadMemos() {
         do {
             print("📂 [loadMemos] 메모 로드 시작...")
+            diagnoseMemoStorage()
             let loadedMemos = try MemoStore.shared.load(type: .memo)
             print("📊 [loadMemos] 로드된 메모 개수: \(loadedMemos.count)")
+            let noImageCount = loadedMemos.filter { ($0.imageFileNames.first ?? $0.imageFileName ?? "").isEmpty }.count
+            print("🖼️ [loadMemos] 이미지 있는 메모: \(loadedMemos.count - noImageCount)개 / 전체: \(loadedMemos.count)개")
             memos = sortMemos(loadedMemos)
             loadedData = memos
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
+            checkTemplateHintIfNeeded()
+            updateCleanUpTipParameter(memos: loadedMemos)
         } catch {
             print("❌ [loadMemos] 메모 로드 실패: \(error.localizedDescription)")
+        }
+    }
+
+    private func updateCleanUpTipParameter(memos: [Memo]) {
+        let sampleIds = SampleMemoStorage.load()
+        let userCount = memos.filter { !sampleIds.contains($0.id) }.count
+        CleanUpSamplesTip.userCreatedMemoCount = userCount
+    }
+
+    // MARK: - Storage Diagnosis
+
+    private func diagnoseMemoStorage() {
+        guard let containerURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+        ) else {
+            print("🔴 [diagnosis] App Group 컨테이너를 찾을 수 없음")
+            return
+        }
+
+        // 1. Images 폴더에 실제 파일이 있는지 확인
+        let imagesDir = containerURL.appendingPathComponent("Images")
+        if let files = try? FileManager.default.contentsOfDirectory(atPath: imagesDir.path) {
+            print("🖼️ [diagnosis] Images 폴더 파일 수: \(files.count)")
+            for f in files.prefix(10) { print("  └ \(f)") }
+        } else {
+            print("🖼️ [diagnosis] Images 폴더 없음 또는 비어있음")
+        }
+
+        // 2. memos.data JSON에 imageFileName 키가 존재하는지 raw 검색
+        let memoFile = containerURL.appendingPathComponent("memos.data")
+        if let data = try? Data(contentsOf: memoFile),
+           let json = String(data: data, encoding: .utf8) {
+            let hasImageField = json.contains("imageFileName")
+            let hasImageNamesField = json.contains("imageFileNames")
+            print("🖼️ [diagnosis] memos.data 크기: \(data.count) bytes")
+            print("🖼️ [diagnosis] JSON에 'imageFileName' 포함: \(hasImageField)")
+            print("🖼️ [diagnosis] JSON에 'imageFileNames' 포함: \(hasImageNamesField)")
+        } else {
+            print("🔴 [diagnosis] memos.data 파일을 읽을 수 없음")
         }
     }
 
@@ -136,7 +427,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("🔍 [applyFilters] 검색 후: \(filtered.count)개")
         }
 
-        if let typeFilter = selectedTypeFilter {
+        if showFavoritesFilter {
+            filtered = filtered.filter { $0.isFavorite }
+            print("🔍 [applyFilters] 즐겨찾기 필터 적용 - \(filtered.count)개")
+        } else if let typeFilter = selectedTypeFilter {
             let beforeCount = filtered.count
             // resolvedType 기반 필터링: 이미지/자동분류된 타입까지 정확히 반영
             filtered = filtered.filter {
@@ -265,6 +559,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("❌ [finalizeCopy] 오류: \(error)")
         }
 
+        // 첫 복사 시 KeyboardTip 표시 조건 충족
+        KeyboardTip.hasCopiedMemo = true
+
         // 청각 장애 접근성: 시각적 토스트를 놓쳐도 복사 완료를 인지할 수 있도록 success 햅틱
         #if os(iOS)
         HapticManager.shared.success()
@@ -344,13 +641,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
         memos.sorted { memo1, memo2 in
             if memo1.isFavorite != memo2.isFavorite {
                 return memo1.isFavorite && !memo2.isFavorite
-            } else {
-                // 편집 이후에 '사용'만 일어난 경우에도 상단으로 올라오도록
-                // lastUsedAt과 lastEdited 중 늦은 시점을 기준으로 정렬한다.
-                let r1 = max(memo1.lastUsedAt ?? .distantPast, memo1.lastEdited)
-                let r2 = max(memo2.lastUsedAt ?? .distantPast, memo2.lastEdited)
-                return r1 > r2
             }
+            return memo1.lastEdited > memo2.lastEdited
         }
     }
 

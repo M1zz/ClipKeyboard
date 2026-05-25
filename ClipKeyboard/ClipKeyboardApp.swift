@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 // 키보드 ext에서는 Firebase 미사용 (KEYBOARD_EXTENSION 플래그로 제외)
 #if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
 import FirebaseCore
@@ -13,11 +14,9 @@ import FirebaseCore
 
 @main
 struct ClipKeyboardApp: App {
-    @ObservedObject var manager = DataManager()
     @StateObject private var storeManager = StoreManager.shared
     @StateObject private var deps = AppDependencies.shared
     @State private var showReviewRequest = false
-    /// VoiceOver 첫 감지 시 접근성 안내 시트
     @State private var showAccessibilityGuide = false
 
     init() {
@@ -40,11 +39,19 @@ struct ClipKeyboardApp: App {
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
 
+        // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행
+        Task { await ProFeatureManager.bootstrapIsTestFlight() }
+
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 
         // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
         bootstrapV4GrandfatherFlags()
+
+        // TipKit 설정 — 온보딩 대신 상황에 맞는 팁으로 안내
+        try? Tips.configure([
+            .datastoreLocation(.applicationDefault)
+        ])
 
         #if targetEnvironment(macCatalyst)
         setupMacCatalystCommands()
@@ -77,76 +84,129 @@ struct ClipKeyboardApp: App {
         print("✅ [APP INIT] v4.0 그랜드파더 부트스트랩 완료 (memos=\(currentMemoCount), isPro=\(ProFeatureManager.isPro))")
     }
 
+    // MARK: - Default Sample Data
+
+    /// 최초 설치 후 온보딩 완료 시 일반 메모·템플릿·콤보 각 1개씩 삽입한다.
+    /// UserDefaults 플래그로 중복 삽입을 방지한다.
+    private func insertDefaultSamplesIfNeeded() {
+        let key = "defaultSamplesInserted_v1"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let isKorean = lang == "ko"
+        let persona = CategoryStore.shared.selectedPersona ?? .general
+
+        let samples: [Memo]
+        if persona == .nomad {
+            samples = nomadSamples(isKorean: isKorean)
+        } else {
+            samples = generalSamples(isKorean: isKorean)
+        }
+
+        do {
+            var memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+            memos.append(contentsOf: samples)
+            try MemoStore.shared.save(memos: memos, type: .memo)
+            SampleMemoStorage.save(ids: samples.map { $0.id })
+            UserDefaults.standard.set(true, forKey: key)
+            print("✅ [APP INIT] 기본 샘플 메모 \(samples.count)개 삽입 완료 (persona=\(persona.rawValue))")
+        } catch {
+            print("❌ [APP INIT] 기본 샘플 삽입 실패: \(error)")
+        }
+    }
+
+    private func generalSamples(isKorean: Bool) -> [Memo] {
+        let memo = Memo(
+            title: isKorean ? "내 이메일" : "My Email",
+            value: "example@email.com",
+            category: isKorean ? "이메일" : "Email"
+        )
+        let template = Memo(
+            title: isKorean ? "간단 인사말" : "Quick Greeting",
+            value: isKorean
+                ? "안녕하세요 {이름}님, 반갑습니다!\n{날짜}에 연락드립니다."
+                : "Hi {name}, great to meet you!\nReaching out on {date}.",
+            category: isKorean ? "텍스트" : "Text",
+            isTemplate: true
+        )
+        let combo = Memo(
+            title: isKorean ? "이름 + 연락처" : "Name + Contact",
+            value: "",
+            category: isKorean ? "텍스트" : "Text",
+            isCombo: true,
+            comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
+        )
+        return [memo, template, combo]
+    }
+
+    private func nomadSamples(isKorean: Bool) -> [Memo] {
+        let template = Memo(
+            title: isKorean ? "국제 송금 양식" : "Bank Transfer",
+            value: isKorean
+                ? "{금액}을 {수신인}에게 보냅니다\nIBAN: {iban}\nSWIFT: {swift}\n참조: {참조번호}"
+                : "Pay {amount} to {recipient}\nIBAN: {iban}\nSWIFT: {swift}\nRef: {reference}",
+            category: "IBAN",
+            isTemplate: true
+        )
+        let combo = Memo(
+            title: isKorean ? "내 연락처" : "My Contact",
+            value: "",
+            category: isKorean ? "연락처" : "Contact",
+            isCombo: true,
+            comboValues: isKorean
+                ? ["이름", "이메일", "전화번호"]
+                : ["Full Name", "Email", "Phone"]
+        )
+        let checklist = Memo(
+            title: isKorean ? "여행 체크리스트" : "Travel Checklist",
+            value: isKorean
+                ? "여권 ✓\n비자 ✓\n여행자보험 ✓\n긴급 연락처: "
+                : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
+            category: isKorean ? "여행" : "Travel"
+        )
+        return [template, combo, checklist]
+    }
+
     var body: some Scene {
         WindowGroup {
             AppThemedContainer {
-            if manager.didShowOnboarding && manager.didShowUseCaseSelection {
+            ClipKeyboardList()
+                .environmentObject(storeManager)
+                .environmentObject(deps)
+                #if targetEnvironment(macCatalyst)
+                .frame(minWidth: 520, minHeight: 640)
+                #endif
+                .onOpenURL { url in
+                    handleOpenURL(url)
+                }
+                .onAppear {
+                    insertDefaultSamplesIfNeeded()
 
-                ClipKeyboardList()
-                    .environmentObject(storeManager)
-                    .environmentObject(deps)
-                    #if targetEnvironment(macCatalyst)
-                    .frame(minWidth: 520, minHeight: 640)
-                    #endif
-                    .onOpenURL { url in
-                        handleOpenURL(url)
-                    }
-                    .onAppear() {
-                        print("🎯 [APP BODY] 온보딩 완료 상태 -> ClipKeyboardList 표시")
-
-                        // 리뷰 요청 체크 (1초 지연)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            if ReviewManager.shared.shouldShowReview() {
-                                showReviewRequest = true
-                            }
-                        }
-
-                        // VoiceOver 감지 → 접근성 안내 (1.5초 후, 최초 1회)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            checkVoiceOverAndNudge()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        if ReviewManager.shared.shouldShowReview() {
+                            showReviewRequest = true
                         }
                     }
-                    .onReceive(
-                        NotificationCenter.default.publisher(
-                            for: UIAccessibility.voiceOverStatusDidChangeNotification
-                        )
-                    ) { _ in
-                        // 앱 사용 중 VoiceOver가 켜졌을 때도 안내
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         checkVoiceOverAndNudge()
                     }
-                    .sheet(isPresented: $showReviewRequest) {
-                        ReviewRequestView()
-                            .presentationDetents([.medium])
-                    }
-                    .sheet(isPresented: $showAccessibilityGuide) {
-                        AccessibilityGuideView()
-                    }
-            } else if !manager.didShowOnboarding {
-                // 1단계: 키보드 셋업 온보딩
-                KeyboardSetupOnboardingView {
-                    print("✅ [ONBOARDING] 키보드 온보딩 완료 -> 페르소나 선택으로")
-                    manager.didShowOnboarding = true
                 }
-                #if targetEnvironment(macCatalyst)
-                .frame(minWidth: 520, minHeight: 640)
-                #endif
-                .onAppear() {
-                    print("🎯 [APP BODY] 첫 실행 -> 키보드 온보딩 표시")
+                .onReceive(
+                    NotificationCenter.default.publisher(
+                        for: UIAccessibility.voiceOverStatusDidChangeNotification
+                    )
+                ) { _ in
+                    checkVoiceOverAndNudge()
                 }
-            } else {
-                // 2단계: 페르소나 선택 → 카테고리 선제 시드
-                PersonaSelectionView {
-                    print("✅ [ONBOARDING] 페르소나 선택 완료 -> 메인 진입")
-                    manager.didShowUseCaseSelection = true
+                .sheet(isPresented: $showReviewRequest) {
+                    ReviewRequestView()
+                        .presentationDetents([.medium])
                 }
-                #if targetEnvironment(macCatalyst)
-                .frame(minWidth: 520, minHeight: 640)
-                #endif
-                .onAppear() {
-                    print("🎯 [APP BODY] 페르소나 선택 화면 표시")
+                .sheet(isPresented: $showAccessibilityGuide) {
+                    AccessibilityGuideView()
                 }
-            }
-            } // AppThemedContainer
+        } // AppThemedContainer
 
         }
         #if targetEnvironment(macCatalyst)
