@@ -206,9 +206,8 @@ struct KeyboardView: View {
     @State private var isSearching: Bool = false
     @State private var searchKeyboardLang: SearchLang = .english
 
-    // 즐겨찾기만 보기 토글 — 재실행해도 유지
-    @AppStorage("keyboardShowFavoritesOnly", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var showFavoritesOnly: Bool = false
+    // v4.1.0: 카테고리 swipe 현재 페이지 인덱스 (즐겨찾기 별 토글은 제거됨)
+    @State private var currentCategoryPage: Int = 0
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
@@ -230,13 +229,19 @@ struct KeyboardView: View {
 
     // MARK: - Computed Properties
 
-    /// 즐겨찾기 토글 + 검색만 적용
+    /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
+    /// 별 토글은 v4.1.0에서 제거됨 — 즐겨찾기는 pinnedFavoriteStrip로 항상 노출.
     private var filteredMemos: [Memo] {
         var result = allMemos
 
-        if showFavoritesOnly {
-            result = result.filter { $0.isFavorite }
+        if isCategoryFeatureEnabled, let category = selectedCategoryFilter {
+            if category == "★favorites" {
+                result = result.filter { $0.isFavorite }
+            } else if category != "★all" {
+                result = result.filter { $0.category == category }
+            }
         }
+
         if !searchQuery.isEmpty {
             let q = searchQuery
             result = result.filter {
@@ -246,6 +251,39 @@ struct KeyboardView: View {
             }
         }
         return result
+    }
+
+    /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
+    /// App Group UserDefaults에서 같은 flag/배열을 읽어 동일 동작 보장.
+    private var isCategoryFeatureEnabled: Bool {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .bool(forKey: "category.feature.enabled.v1") ?? false
+    }
+
+    private var sharedUserCategories: [String] {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .stringArray(forKey: "user.categories.v1") ?? []
+    }
+
+    /// v4.1.0: 키보드 페이지 인디케이터로 선택된 카테고리. "★all"=전체, "★favorites"=즐겨찾기,
+    /// 그 외=실제 카테고리 이름. 기본 nil → 전체.
+    private var selectedCategoryFilter: String? {
+        guard !categoryPages.isEmpty else { return nil }
+        let index = max(0, min(currentCategoryPage, categoryPages.count - 1))
+        return categoryPages[index]
+    }
+
+    /// 카테고리 swipe 페이지 목록. 활성 시: 전체 + 즐겨찾기 + 사용자 카테고리 (사용 중인 것만).
+    private var categoryPages: [String] {
+        guard isCategoryFeatureEnabled else { return [] }
+        var pages: [String] = ["★all"]
+        if allMemos.contains(where: { $0.isFavorite }) {
+            pages.append("★favorites")
+        }
+        let usedCategories = sharedUserCategories
+            .filter { name in allMemos.contains { $0.category == name } }
+        pages.append(contentsOf: usedCategories)
+        return pages
     }
 
     /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
@@ -260,7 +298,7 @@ struct KeyboardView: View {
 
     /// 최근 사용 섹션 노출 조건 — 검색·즐겨찾기 모두 비활성일 때만
     private var shouldShowRecentSection: Bool {
-        searchQuery.isEmpty && !showFavoritesOnly && !recentMemos.isEmpty
+        searchQuery.isEmpty && !recentMemos.isEmpty
     }
 
     /// 핀 스트립용 즐겨찾기 — 최대 4개
@@ -270,7 +308,7 @@ struct KeyboardView: View {
 
     /// 검색·즐겨찾기 필터 비활성 + 즐겨찾기 있을 때 핀 스트립 노출
     private var shouldShowPinnedStrip: Bool {
-        searchQuery.isEmpty && !showFavoritesOnly && !pinnedFavoriteMemos.isEmpty
+        searchQuery.isEmpty && !pinnedFavoriteMemos.isEmpty
     }
 
     // MARK: - Body
@@ -312,10 +350,7 @@ struct KeyboardView: View {
             ) {
                 inputMode = .memos
             }
-            // 메모 모드일 때만 즐겨찾기 토글 노출
-            if inputMode == .memos {
-                favoritesToggleButton
-            }
+            // v4.1.0: 별 토글 제거 — 즐겨찾기는 pinnedFavoriteStrip + 카테고리 swipe로 흡수
             Spacer()
             // 텍스트 필드에 입력된 내용이 있을 때만 X 버튼 노출
             if let proxy = typingProxy, documentState.hasText {
@@ -327,29 +362,6 @@ struct KeyboardView: View {
         .padding(.top, 4)
         .padding(.bottom, 2)
         .animation(.easeOut(duration: 0.18), value: documentState.hasText)
-    }
-
-    /// 즐겨찾기만 보기 토글 버튼 — 활성 시 노란색 별 아이콘
-    private var favoritesToggleButton: some View {
-        Button {
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-            showFavoritesOnly.toggle()
-        } label: {
-            Image(systemName: showFavoritesOnly ? "star.fill" : "star")
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(showFavoritesOnly ? .white : theme.text)
-                .frame(width: 36, height: 28)
-                .background(showFavoritesOnly ? Color.yellow : theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
-        .buttonStyle(PlainButtonStyle())
-        .frame(minWidth: 44, minHeight: 44)
-        .contentShape(Rectangle())
-        .accessibilityLabel(NSLocalizedString("즐겨찾기만 보기", comment: "Toggle favorites filter"))
-        .accessibilityValue(showFavoritesOnly
-            ? NSLocalizedString("켬", comment: "Toggle state: on")
-            : NSLocalizedString("끔", comment: "Toggle state: off"))
-        .accessibilityHint(NSLocalizedString("즐겨찾기 메모만 표시하거나 전체를 표시합니다", comment: "Favorites toggle hint"))
     }
 
     private func modeIconTab(icon: String, isSelected: Bool, label: String, hint: String, action: @escaping () -> Void) -> some View {
@@ -430,6 +442,33 @@ struct KeyboardView: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                     }
+                    // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 40)
+                            .onEnded { value in
+                                guard categoryPages.count > 1 else { return }
+                                let h = value.translation.width
+                                let v = value.translation.height
+                                guard abs(h) > abs(v) * 1.5, abs(h) > 60 else { return }
+                                if h < 0, currentCategoryPage < categoryPages.count - 1 {
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    currentCategoryPage += 1
+                                } else if h > 0, currentCategoryPage > 0 {
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    currentCategoryPage -= 1
+                                }
+                            }
+                    )
+                }
+            }
+            .overlay(alignment: .bottom) {
+                // 카테고리 활성 + 페이지 2개 이상일 때만 인디케이터 노출
+                if categoryPages.count > 1 {
+                    KeyboardSwipePageIndicator(
+                        total: categoryPages.count,
+                        selectedIndex: max(0, min(currentCategoryPage, categoryPages.count - 1))
+                    )
+                    .padding(.bottom, 6)
                 }
             }
 
@@ -686,9 +725,9 @@ struct KeyboardView: View {
                 isSearching = false
             })
         }
-        if showFavoritesOnly {
+        if selectedCategoryFilter == "★favorites" {
             return (NSLocalizedString("Show all", comment: "Empty escape: show all memos"), {
-                showFavoritesOnly = false
+                currentCategoryPage = 0
             })
         }
         return nil
@@ -696,7 +735,7 @@ struct KeyboardView: View {
 
     private var emptyStateIcon: String {
         if !searchQuery.isEmpty { return "magnifyingglass" }
-        if showFavoritesOnly { return "star.slash" }
+        if selectedCategoryFilter == "★favorites" { return "heart.slash" }
         return "sparkles"
     }
 
@@ -704,7 +743,7 @@ struct KeyboardView: View {
         if !searchQuery.isEmpty {
             return String(format: NSLocalizedString("No matches for \"%@\"", comment: "Empty search result"), searchQuery)
         }
-        if showFavoritesOnly {
+        if selectedCategoryFilter == "★favorites" {
             return NSLocalizedString("No favorites yet", comment: "Empty: no favorites")
         }
         return NSLocalizedString("Save your IBAN once. Paste forever.", comment: "Empty: zero memos")
@@ -714,7 +753,7 @@ struct KeyboardView: View {
         if !searchQuery.isEmpty {
             return NSLocalizedString("Try a shorter keyword or clear the filter.", comment: "Empty hint: search")
         }
-        if showFavoritesOnly {
+        if selectedCategoryFilter == "★favorites" {
             return NSLocalizedString("Mark snippets as favorite in the main app to see them here.", comment: "Empty hint: favorites")
         }
         return NSLocalizedString("Add snippets in the main app — they'll appear here in seconds.", comment: "Empty hint: zero memos")
@@ -1836,5 +1875,28 @@ struct PlaceholderInputView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Keyboard Swipe Page Indicator (v4.1.0)
+
+/// 키보드 익스텐션 메모 그리드 하단의 카테고리 페이지 인디케이터.
+/// iOS 메인 앱의 SwipePageIndicator와 시각적으로 동일 (활성 dot 회색, 크기로 구분).
+private struct KeyboardSwipePageIndicator: View {
+    let total: Int
+    let selectedIndex: Int
+
+    var body: some View {
+        HStack(spacing: 5) {
+            ForEach(0..<total, id: \.self) { index in
+                Capsule()
+                    .fill(index == selectedIndex ? Color.gray : Color.gray.opacity(0.3))
+                    .frame(width: index == selectedIndex ? 16 : 5, height: 5)
+            }
+        }
+        .animation(.spring(response: 0.28, dampingFraction: 0.72), value: selectedIndex)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial, in: Capsule())
     }
 }
