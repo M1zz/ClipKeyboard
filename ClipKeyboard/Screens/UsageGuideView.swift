@@ -18,6 +18,23 @@ struct UsageScenario: Identifiable {
     let contextKey: String?    // 상대방이 던진 질문·맥락 (없으면 숨김)
     let exampleKey: String     // 보낼 내용 예시 (메모 저장 시 value로 사용)
     let feature: ScenarioFeature
+    /// v4.1.0: 어느 페르소나에 적합한지. 비어있으면 universal (모든 페르소나에 노출).
+    /// SuggestionManager가 페르소나 선택 시 이 set 매칭만 풀에 포함.
+    let personas: Set<Persona>
+
+    init(
+        titleKey: String,
+        contextKey: String?,
+        exampleKey: String,
+        feature: ScenarioFeature,
+        personas: Set<Persona> = []
+    ) {
+        self.titleKey = titleKey
+        self.contextKey = contextKey
+        self.exampleKey = exampleKey
+        self.feature = feature
+        self.personas = personas
+    }
 
     var title: String { NSLocalizedString(titleKey, comment: "Usage scenario title") }
     var context: String? {
@@ -91,25 +108,29 @@ private enum UsageScenarioData {
                     titleKey: "계좌번호 공유",
                     contextKey: "계좌번호 알려주세요",
                     exampleKey: "은행: 카카오뱅크\n예금주: [이름]\n계좌번호: [계좌번호]\n\n(토스/카카오페이도 가능합니다 🙏)",
-                    feature: .memo
+                    feature: .memo,
+                    personas: [.business, .student, .general]
                 ),
                 UsageScenario(
                     titleKey: "정산 요청",
                     contextKey: "이번 달 정산 어떻게 해?",
                     exampleKey: "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원\n입금 계좌: 카카오뱅크 [계좌번호] ([이름])\n\n확인 부탁드립니다 😊",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business, .nomad]
                 ),
                 UsageScenario(
                     titleKey: "청구서 요약",
                     contextKey: nil,
                     exampleKey: "청구서 #{번호}\n금액: {금액}원 (VAT 포함)\n납기: {납기일}\n입금 계좌: [은행] [계좌번호] ([예금주])",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business, .nomad]
                 ),
                 UsageScenario(
                     titleKey: "N빵 정산",
                     contextKey: "오늘 밥값 얼마야?",
                     exampleKey: "오늘 총 {총금액}원이에요!\n{인원}명이니까 1인당 {1인금액}원 🙏\n카카오뱅크 [계좌번호] ([이름])으로 보내주세요~",
-                    feature: .template
+                    feature: .template,
+                    personas: [.student, .general]
                 ),
             ]
         ),
@@ -124,25 +145,29 @@ private enum UsageScenarioData {
                     titleKey: "부재중 자동응답",
                     contextKey: nil,
                     exampleKey: "안녕하세요. {날짜}부터 {날짜}까지 부재중입니다.\n급한 업무는 {담당자}({연락처})에게 연락 주세요.\n복귀 후 빠르게 회신하겠습니다. 감사합니다.",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business]
                 ),
                 UsageScenario(
                     titleKey: "회의 일정 안내",
                     contextKey: nil,
                     exampleKey: "안녕하세요 {이름}님,\n\n아래 일정으로 미팅 요청드립니다.\n📅 일시: {날짜} {시간}\n📍 장소: {장소}\n📌 안건: {안건}\n\n참석 가능 여부 확인 부탁드립니다 😊",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business]
                 ),
                 UsageScenario(
                     titleKey: "주간 업무 보고",
                     contextKey: nil,
                     exampleKey: "안녕하세요.\n금주 업무 진행 현황 보고드립니다.\n\n✅ 완료: {완료사항}\n🔄 진행 중: {진행중}\n📋 다음 주 예정: {예정사항}\n\n문의사항 있으시면 말씀해 주세요.",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business]
                 ),
                 UsageScenario(
                     titleKey: "협업 제안",
                     contextKey: nil,
                     exampleKey: "안녕하세요 {담당자}님,\n\n{프로젝트}와 관련하여 협업을 제안드리고자 연락드립니다.\n저는 {회사/이름}에서 {업무}를 담당하고 있습니다.\n\n간단히 통화 가능하실까요? 편하신 시간 알려주세요.\n감사합니다.",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business, .nomad]
                 ),
             ]
         ),
@@ -157,19 +182,22 @@ private enum UsageScenarioData {
                     titleKey: "배송지 주소",
                     contextKey: "배송지 주소 알려주세요",
                     exampleKey: "[우편번호]\n[주소]\n[상세주소]\n\n받는 분: [이름]\n연락처: [전화번호]",
-                    feature: .memo
+                    feature: .memo,
+                    personas: [.general, .student]
                 ),
                 UsageScenario(
                     titleKey: "약속 잡기",
                     contextKey: "언제 시간 되세요?",
                     exampleKey: "{날짜} {시간}에 {장소}에서 어떠세요? 안 되시면 말씀해 주세요 😊",
-                    feature: .template
+                    feature: .template,
+                    personas: [.general, .student, .business]
                 ),
                 UsageScenario(
                     titleKey: "지각 알림",
                     contextKey: "어디야?",
                     exampleKey: "죄송해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏",
-                    feature: .template
+                    feature: .template,
+                    personas: [.general, .student, .business]
                 ),
             ]
         ),
@@ -184,19 +212,22 @@ private enum UsageScenarioData {
                     titleKey: "자기소개",
                     contextKey: nil,
                     exampleKey: "안녕하세요, [이름]입니다.\n[직함/소속]에서 [업무]를 맡고 있습니다.\n연락처: [이메일] / [전화번호]\n\n잘 부탁드립니다 🙏",
-                    feature: .memo
+                    feature: .memo,
+                    personas: [.business, .student, .general]
                 ),
                 UsageScenario(
                     titleKey: "이메일 서명",
                     contextKey: nil,
                     exampleKey: "[이름]\n[직책] | [회사명]\n📧 [이메일]\n📞 [전화번호]\n🌐 [홈페이지]",
-                    feature: .memo
+                    feature: .memo,
+                    personas: [.business, .student]
                 ),
                 UsageScenario(
                     titleKey: "감사 인사",
                     contextKey: "프로젝트 마무리 후",
                     exampleKey: "안녕하세요 {이름}님,\n\n이번 프로젝트 함께해 주셔서 진심으로 감사드립니다.\n덕분에 좋은 결과를 낼 수 있었습니다.\n\n앞으로도 좋은 인연 이어갔으면 합니다 😊",
-                    feature: .template
+                    feature: .template,
+                    personas: [.business, .nomad]
                 ),
             ]
         ),

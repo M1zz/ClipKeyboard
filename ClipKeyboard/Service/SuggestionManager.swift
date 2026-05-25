@@ -71,28 +71,49 @@ final class SuggestionManager: ObservableObject {
         return Array(pool.shuffled().prefix(3))
     }
 
-    /// 페르소나 가중치 풀: 선택된 페르소나(+general) seed를 두 번 넣어 노출 빈도 ↑.
-    /// usageCategories 시나리오는 가중치 없이 1회만 포함.
+    /// v4.1.0: 페르소나 매칭 풀.
+    /// 선택된 페르소나가 있으면 usageCategories 시나리오 + personaSeed에서 매칭만 필터.
+    /// 매칭 풀이 3개 미만이면 fallback으로 전체 풀 사용 (empty state 보장).
     private func personaWeightedPool() -> [SuggestionTemplate] {
-        let everything = allSuggestions
         guard let selected = CategoryStore.shared.selectedPersona else {
-            return everything
+            return allSuggestions
         }
-        let preferred = Self.personaSeedSuggestions.filter { seed in
-            seed.persona == selected || seed.persona == .general
+
+        // 1) usageCategories 시나리오 — personas set이 매칭하거나 비어있으면(universal) 포함
+        let fromUsageGuide = usageCategories.flatMap { category in
+            category.scenarios
+                .filter { scenario in
+                    scenario.personas.isEmpty || scenario.personas.contains(selected)
+                }
+                .map { scenario in
+                    SuggestionTemplate(
+                        stableID: abs(scenario.exampleKey.hashValue),
+                        emoji: category.emoji,
+                        title: scenario.title,
+                        content: scenario.example,
+                        feature: scenario.feature,
+                        categoryTitle: category.title
+                    )
+                }
         }
-        let preferredAsTemplates = preferred.map { seed in
-            SuggestionTemplate(
-                stableID: seed.stableID,
-                emoji: seed.emoji,
-                title: NSLocalizedString(seed.titleKey, comment: "Empty state seed title"),
-                content: seed.content,
-                feature: seed.feature,
-                categoryTitle: NSLocalizedString(seed.categoryKey, comment: "Empty state seed category")
-            )
-        }
-        // preferred를 2번 넣어 random pick에서 더 자주 뽑힘
-        return everything + preferredAsTemplates
+
+        // 2) personaSeed — 선택된 페르소나 + general
+        let fromPersonaSeeds = Self.personaSeedSuggestions
+            .filter { $0.persona == selected || $0.persona == .general }
+            .map { seed in
+                SuggestionTemplate(
+                    stableID: seed.stableID,
+                    emoji: seed.emoji,
+                    title: NSLocalizedString(seed.titleKey, comment: "Empty state seed title"),
+                    content: seed.content,
+                    feature: seed.feature,
+                    categoryTitle: NSLocalizedString(seed.categoryKey, comment: "Empty state seed category")
+                )
+            }
+
+        let filtered = fromUsageGuide + fromPersonaSeeds
+        // 3개 미만이면 fallback (사용자에게 empty state로 안 보이도록)
+        return filtered.count >= 3 ? filtered : allSuggestions
     }
 
     // MARK: - Persona seed pool (v4.0.8)
