@@ -1018,9 +1018,7 @@ struct KeyboardView: View {
                         .font(.system(size: buttonFontSize, weight: .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     if memo.isSecure {
-                        Image(systemName: "lock.fill")
-                            .font(.caption2)
-                            .foregroundColor(.orange)
+                        badgeLetter("S", color: .gray)
                     }
                 }
                 .padding(.horizontal, 10)
@@ -1109,9 +1107,7 @@ struct KeyboardView: View {
                         .clipShape(Capsule())
                 }
                 if memo.isSecure {
-                    Image(systemName: "lock.fill")
-                        .font(.caption2)
-                        .foregroundColor(.orange)
+                    badgeLetter("S", color: .gray)
                 }
             }
 
@@ -1231,7 +1227,18 @@ struct KeyboardView: View {
         }
     }
 
+    /// T/C/S 같은 글자 뱃지 — 메모 셀의 type 표시 (심볼 대신 통일된 작은 라벨).
     @ViewBuilder
+    private func badgeLetter(_ letter: String, color: Color) -> some View {
+        Text(letter)
+            .font(.caption2.weight(.bold))
+            .foregroundColor(.white)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 1)
+            .background(color)
+            .cornerRadius(3)
+    }
+
     private func memoButtonLabel(for memo: Memo, catColor: Color) -> some View {
         ZStack(alignment: .topTrailing) {
             RoundedRectangle(cornerRadius: theme.radiusMd)
@@ -1250,39 +1257,20 @@ struct KeyboardView: View {
                     || memo.isSecure {
                     HStack(spacing: 4) {
                         if memo.isTemplate || !memo.templateVariables.isEmpty {
-                            Text("T")
-                                .font(.caption2.weight(.bold))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 4)
-                                .padding(.vertical, 1)
-                                .background(Color.purple)
-                                .cornerRadius(3)
+                            badgeLetter("T", color: .purple)
                         }
                         if memo.isCombo && !memo.comboValues.isEmpty {
-                            Text("C")
-                                .font(.caption2.weight(.bold))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 4)
-                                .padding(.vertical, 1)
-                                .background(Color.orange)
-                                .cornerRadius(3)
+                            badgeLetter("C", color: .orange)
                         }
                         if memo.isSecure {
-                            Image(systemName: "lock.fill")
-                                .font(.caption2)
-                                .foregroundColor(theme.textFaint)
+                            badgeLetter("S", color: .gray)
                         }
                     }
                 }
             }
             .padding(10)
-
-            if memo.isFavorite {
-                Image(systemName: "heart.fill")
-                    .font(.caption2)
-                    .foregroundColor(.pink)
-                    .padding(6)
-            }
+            // v4.1.x: 즐겨찾기 하트 심볼 제거 — 즐겨찾기는 ★favorites 카테고리 탭에서
+            // 확인 가능. 셀 공간을 T/C/S 같은 글자 뱃지에 할애.
         }
         .frame(height: buttonHeight)
     }
