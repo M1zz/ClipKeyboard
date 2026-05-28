@@ -17251,6 +17251,17 @@
         }
       }
     },
+    "이전에 구매한 Pro를 복원합니다" : {
+      "comment" : "Restore purchases accessibility hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restores your previously purchased Pro"
+          }
+        }
+      }
+    },
     "이제 다른 앱에서 써보세요" : {
       "comment" : "Activation card title",
       "extractionState" : "manual",

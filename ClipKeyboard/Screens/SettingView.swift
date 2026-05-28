@@ -54,6 +54,16 @@ struct SettingView: View {
                         }
                     }
                     .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+
+                    Button {
+                        Task { await proManager.restorePurchases() }
+                    } label: {
+                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: "arrow.clockwise")
+                            .foregroundStyle(Color.secondary)
+                    }
+                    .disabled(proManager.isLoading)
+                    .accessibilityLabel(NSLocalizedString("이전 구매 복원", comment: "Restore"))
+                    .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
                 }
             } else {
                 Section {
@@ -77,6 +87,16 @@ struct SettingView: View {
                         }
                     }
                     .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+
+                    Button {
+                        Task { await proManager.restorePurchases() }
+                    } label: {
+                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: "arrow.clockwise")
+                            .foregroundStyle(Color.secondary)
+                    }
+                    .disabled(proManager.isLoading)
+                    .accessibilityLabel(NSLocalizedString("이전 구매 복원", comment: "Restore"))
+                    .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
                 }
             }
 
