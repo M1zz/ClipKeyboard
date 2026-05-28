@@ -2,7 +2,7 @@
 //  ShareViewController.swift
 //  ClipKeyboardShareExtension
 //
-//  iOS Share Sheet에서 텍스트를 받아 ClipKeyboard 메모로 빠르게 저장.
+//  iOS Share Sheet에서 이미지/텍스트/URL 받아 ClipKeyboard 메모로 빠르게 저장.
 //  메인 앱과 App Group을 공유해 MemoStore 파일에 직접 append.
 //
 
@@ -14,43 +14,56 @@ import UniformTypeIdentifiers
 class ShareViewController: UIViewController {
 
     private var sharedText: String = ""
+    private var sharedImages: [UIImage] = []
     private var detectedTitle: String = ""
     private var detectedCategory: String = "기본"
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
-        loadSharedItem()
+        loadSharedItems()
     }
 
-    private func loadSharedItem() {
+    private func loadSharedItems() {
         guard let item = (extensionContext?.inputItems as? [NSExtensionItem])?.first,
               let providers = item.attachments else {
             presentSheet()
             return
         }
 
-        // text/plain or URL 처리
+        let imageType = UTType.image.identifier
         let textType = UTType.plainText.identifier
         let urlType = UTType.url.identifier
         let group = DispatchGroup()
 
         for provider in providers {
-            if provider.hasItemConformingToTypeIdentifier(textType) {
+            if provider.hasItemConformingToTypeIdentifier(imageType) {
+                group.enter()
+                provider.loadItem(forTypeIdentifier: imageType, options: nil) { [weak self] item, _ in
+                    defer { group.leave() }
+                    if let image = item as? UIImage {
+                        self?.sharedImages.append(image)
+                    } else if let url = item as? URL,
+                              let data = try? Data(contentsOf: url),
+                              let image = UIImage(data: data) {
+                        self?.sharedImages.append(image)
+                    }
+                }
+            } else if provider.hasItemConformingToTypeIdentifier(textType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: textType, options: nil) { [weak self] item, _ in
+                    defer { group.leave() }
                     if let str = item as? String {
                         self?.sharedText = str
                     }
-                    group.leave()
                 }
             } else if provider.hasItemConformingToTypeIdentifier(urlType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: urlType, options: nil) { [weak self] item, _ in
+                    defer { group.leave() }
                     if let url = item as? URL {
                         self?.sharedText = url.absoluteString
                     }
-                    group.leave()
                 }
             }
         }
@@ -62,14 +75,21 @@ class ShareViewController: UIViewController {
     }
 
     private func computeDefaults() {
-        // 자동 분류 (간단 — 풀 분류기는 메인 앱에 있음, 익스텐션에선 가벼운 휴리스틱만)
-        let s = sharedText
-        if s.contains("@") && s.contains(".") { detectedCategory = "이메일"; detectedTitle = "Email" }
-        else if s.lowercased().hasPrefix("http") { detectedCategory = "URL"; detectedTitle = "URL" }
-        else if s.range(of: #"^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$"#, options: .regularExpression) != nil {
-            detectedCategory = "IBAN"; detectedTitle = "IBAN"
+        if !sharedImages.isEmpty {
+            detectedTitle = NSLocalizedString("Image", comment: "Default title for image memo")
+            return
         }
-        else {
+        let s = sharedText
+        if s.contains("@") && s.contains(".") {
+            detectedCategory = "이메일"
+            detectedTitle = "Email"
+        } else if s.lowercased().hasPrefix("http") {
+            detectedCategory = "URL"
+            detectedTitle = "URL"
+        } else if s.range(of: #"^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$"#, options: .regularExpression) != nil {
+            detectedCategory = "IBAN"
+            detectedTitle = "IBAN"
+        } else {
             detectedCategory = "기본"
             let firstLine = s.split(separator: "\n", maxSplits: 1).first.map(String.init) ?? s
             detectedTitle = firstLine.count <= 30 ? firstLine : String(firstLine.prefix(27)) + "…"
@@ -80,6 +100,7 @@ class ShareViewController: UIViewController {
         let host = UIHostingController(
             rootView: ShareSaveView(
                 text: sharedText,
+                images: sharedImages,
                 initialTitle: detectedTitle,
                 category: detectedCategory,
                 onSave: { [weak self] title, value in
@@ -102,19 +123,39 @@ class ShareViewController: UIViewController {
         }
         let memoURL = containerURL.appendingPathComponent("memos.data")
 
-        // 기존 메모 로드 (실패해도 빈 배열로 시작)
         var memos: [[String: Any]] = []
         if let data = try? Data(contentsOf: memoURL),
            let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
             memos = decoded
         }
 
-        // 새 메모 추가 — Memo struct와 동일한 키 구조 사용
-        let now = Date()
-        let formatter = ISO8601DateFormatter()
-        let iso = formatter.string(from: now)
+        let id = UUID().uuidString
+        let iso = ISO8601DateFormatter().string(from: Date())
+
+        var imageFileNames: [String] = []
+        // ClipboardContentType rawValue: text="텍스트", image="이미지"
+        var contentType = "텍스트"
+
+        if !sharedImages.isEmpty {
+            let imagesDir = containerURL.appendingPathComponent("Images")
+            try? FileManager.default.createDirectory(at: imagesDir, withIntermediateDirectories: true)
+
+            for (index, image) in sharedImages.enumerated() {
+                let fileName = index == 0 ? "\(id).jpg" : "\(id)_\(index).jpg"
+                let fileURL = imagesDir.appendingPathComponent(fileName)
+                let resized = resized(image, maxDimension: 1024)
+                if let data = resized.jpegData(compressionQuality: 0.7) {
+                    try? data.write(to: fileURL)
+                    imageFileNames.append(fileName)
+                }
+            }
+            if !imageFileNames.isEmpty {
+                contentType = "이미지"
+            }
+        }
+
         let newMemo: [String: Any] = [
-            "id": UUID().uuidString,
+            "id": id,
             "title": title,
             "value": value,
             "isChecked": false,
@@ -128,26 +169,32 @@ class ShareViewController: UIViewController {
             "isCombo": false,
             "comboValues": [],
             "currentComboIndex": 0,
-            "imageFileNames": [],
-            "contentType": "text"
+            "imageFileNames": imageFileNames,
+            "contentType": contentType
         ]
         memos.append(newMemo)
 
-        // 저장 — JSONSerialization으로 직렬화. JSONEncoder는 Date를 다르게 처리해서 직접 JSON dict 사용.
         if let data = try? JSONSerialization.data(withJSONObject: memos, options: []) {
             try? data.write(to: memoURL)
         }
 
-        // 메인 앱에게 데이터 변경 알림
         UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "share.lastSavedAt")
 
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         extensionContext?.completeRequest(returningItems: nil)
     }
 
+    private func resized(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
+        let size = image.size
+        guard size.width > maxDimension || size.height > maxDimension else { return image }
+        let ratio = min(maxDimension / size.width, maxDimension / size.height)
+        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in image.draw(in: CGRect(origin: .zero, size: newSize)) }
+    }
+
     private func cancel() {
-        let cancelError = NSError(domain: "ClipKeyboardShareCancel", code: 0, userInfo: nil)
-        extensionContext?.cancelRequest(withError: cancelError)
+        extensionContext?.cancelRequest(withError: NSError(domain: "ClipKeyboardShareCancel", code: 0))
     }
 }
 
@@ -155,15 +202,20 @@ class ShareViewController: UIViewController {
 
 private struct ShareSaveView: View {
     let text: String
+    let images: [UIImage]
     @State var title: String
     let category: String
     let onSave: (String, String) -> Void
     let onCancel: () -> Void
 
-    init(text: String, initialTitle: String, category: String,
+    private var isImageShare: Bool { !images.isEmpty }
+    private var canSave: Bool { isImageShare || !text.isEmpty }
+
+    init(text: String, images: [UIImage], initialTitle: String, category: String,
          onSave: @escaping (String, String) -> Void,
          onCancel: @escaping () -> Void) {
         self.text = text
+        self.images = images
         self._title = State(initialValue: initialTitle)
         self.category = category
         self.onSave = onSave
@@ -176,12 +228,18 @@ private struct ShareSaveView: View {
                 Section(NSLocalizedString("Title", comment: "Title field")) {
                     TextField(NSLocalizedString("Title", comment: "Title field"), text: $title)
                 }
+
                 Section(NSLocalizedString("Content", comment: "Content section")) {
-                    Text(text)
-                        .font(.system(size: 13))
-                        .foregroundColor(.secondary)
-                        .lineLimit(8)
+                    if isImageShare {
+                        imagePreview
+                    } else {
+                        Text(text)
+                            .font(.system(size: 13))
+                            .foregroundColor(.secondary)
+                            .lineLimit(8)
+                    }
                 }
+
                 Section {
                     HStack {
                         Image(systemName: "tag")
@@ -202,12 +260,41 @@ private struct ShareSaveView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(NSLocalizedString("Save", comment: "Save")) {
-                        onSave(title.isEmpty ? String(text.prefix(20)) : title, text)
+                        onSave(title, text)
                     }
                     .fontWeight(.semibold)
-                    .disabled(text.isEmpty)
+                    .disabled(!canSave)
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    private var imagePreview: some View {
+        if images.count == 1 {
+            Image(uiImage: images[0])
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 220)
+                .cornerRadius(8)
+                .padding(.vertical, 4)
+        } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(images.indices, id: \.self) { i in
+                        Image(uiImage: images[i])
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 120, height: 120)
+                            .clipped()
+                            .cornerRadius(8)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+            Text(String(format: NSLocalizedString("%d images", comment: "Image count label"), images.count))
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
     }
 }

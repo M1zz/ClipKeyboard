@@ -10761,9 +10761,6 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off"
-    },
     "끔" : {
       "comment" : "Toggle state: off",
       "localizations" : {
@@ -10780,6 +10777,9 @@
           }
         }
       }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off"
     },
     "나중에" : {
       "comment" : "Activation card: snooze button\nLater button\nMaybe later button",
@@ -18049,6 +18049,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tersimpan"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
           }
         }
       }
