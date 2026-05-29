@@ -214,8 +214,8 @@ struct PaywallView: View {
     
     private var purchaseSection: some View {
         VStack(spacing: 12) {
-            if store.isPro {
-                // 이미 Pro
+            if ProFeatureManager.hasPermanentPro {
+                // 이미 Pro (구매 / 그랜드파더 / TestFlight) — store.isPro만 보면 그랜드파더 누락
                 Label(NSLocalizedString("Pro 활성화됨", comment: "Pro active"),
                       systemImage: "checkmark.seal.fill")
                     .font(.headline)
@@ -388,7 +388,7 @@ struct PaywallView: View {
 
     /// 구매 vs trial 시작에 따라 다른 메시지
     private var successText: String {
-        if ProFeatureManager.isInTrial && !store.isPro {
+        if ProFeatureManager.isInTrial && !ProFeatureManager.hasPermanentPro {
             return NSLocalizedString("체험 시작! 모든 기능 잠금 해제됨", comment: "Trial started")
         }
         return NSLocalizedString("Pro 활성화 완료!", comment: "Pro activated")

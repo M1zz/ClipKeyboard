@@ -62,6 +62,16 @@ struct ProFeatureManager {
         isPro || isGrandfathered || isInTrial
     }
 
+    /// 영구적인 Pro 권한 보유 여부 — 구매(Pro) / v3.x 그랜드파더 / TestFlight.
+    /// 체험(trial)은 일부러 제외한다(체험 유저에겐 "평생 Pro" 업셀을 계속 보여줘야 하므로).
+    ///
+    /// ⚠️ UI에서 "Pro 활성화됨 vs 업그레이드 유도"를 결정할 땐 반드시 이 값을 쓴다.
+    /// `StoreManager.isPro`(실제 결제 entitlement만 봄)를 쓰면 그랜드파더/TestFlight 유저가
+    /// 기능은 다 열려 있는데도 "업그레이드" 안내를 보게 되는 불일치가 생긴다.
+    static var hasPermanentPro: Bool {
+        isPro || isGrandfathered
+    }
+
     /// iCloud 백업 사용 가능 여부
     static var isCloudBackupAvailable: Bool { hasFullAccess }
 

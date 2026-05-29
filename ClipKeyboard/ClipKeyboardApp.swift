@@ -47,6 +47,16 @@ struct ClipKeyboardApp: App {
         // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
         Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() }
 
+        // DEBUG 빌드에서만 계정/구매 상태 진단 덤프 (Xcode 콘솔에서 "🩺 [Diag]"로 검색)
+        #if DEBUG
+        Task {
+            // TestFlight 감지·그랜드파더 검증이 먼저 끝나도록 잠깐 양보
+            await ProFeatureManager.bootstrapIsTestFlight()
+            await ProFeatureManager.grandfatherPaidUserIfNeeded()
+            await StoreManager.shared.logAccountDiagnostics()
+        }
+        #endif
+
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 

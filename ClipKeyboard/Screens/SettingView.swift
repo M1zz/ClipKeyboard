@@ -20,7 +20,9 @@ struct SettingView: View {
         List {
 
             // MARK: Pro 상태
-            if proManager.isPro {
+            // StoreManager.isPro(결제 entitlement만)가 아니라 hasPermanentPro를 본다.
+            // → 그랜드파더/TestFlight 유저도 "Pro 활성화됨"으로 올바르게 표시 (업그레이드 안내 X)
+            if ProFeatureManager.hasPermanentPro {
                 Section {
                     HStack {
                         Image(systemName: "checkmark.seal.fill")

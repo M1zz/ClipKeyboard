@@ -170,8 +170,102 @@ class StoreManager: ObservableObject {
         isLoading = false
     }
     
+    // MARK: - Diagnostics
+
+    /// 현재 계정의 Pro/구매 상태를 한눈에 보기 위한 진단 덤프.
+    /// "왜 Pro가 아닌가 / 왜 프로모션·복원이 안 되나" 디버깅용.
+    /// 호출: ClipKeyboardApp.init()에서 Task로. (로그는 Xcode 콘솔에서 "🩺 [Diag]"로 검색)
+    func logAccountDiagnostics() async {
+        let line = String(repeating: "─", count: 48)
+        print("🩺 [Diag] \(line)")
+        print("🩺 [Diag] === 계정/구매 상태 진단 시작 ===")
+
+        // 1) 실행 환경 (AppTransaction = Apple ID에 묶인 최초 구매 영수증)
+        print("🩺 [Diag] isTestFlight(cached) = \(ProFeatureManager.isTestFlight)")
+        do {
+            let result = try await AppTransaction.shared
+            switch result {
+            case .verified(let tx):
+                print("🩺 [Diag] AppTransaction: VERIFIED")
+                print("🩺 [Diag]   environment        = \(tx.environment.rawValue)  (production / sandbox / xcode)")
+                print("🩺 [Diag]   originalPurchase   = \(tx.originalPurchaseDate)")
+                print("🩺 [Diag]   originalAppVersion = \(tx.originalAppVersion)")
+                print("🩺 [Diag]   bundleID           = \(tx.bundleID)")
+                print("🩺 [Diag]   freemium 컷오프      = \(ProFeatureManager.freemiumReleaseDate)")
+                print("🩺 [Diag]   → 그랜드파더 대상?    = \(tx.originalPurchaseDate < ProFeatureManager.freemiumReleaseDate)")
+            case .unverified(_, let error):
+                print("🩺 [Diag] AppTransaction: UNVERIFIED — \(error)")
+            }
+        } catch {
+            print("🩺 [Diag] AppTransaction 조회 실패: \(error)")
+        }
+
+        // 2) 앱이 인식하는 Pro 권한 종합 (ProFeatureManager)
+        print("🩺 [Diag] -- ProFeatureManager 종합 판정 --")
+        print("🩺 [Diag] hasFullAccess         = \(ProFeatureManager.hasFullAccess)  ← 최종 Pro 기능 개방 여부")
+        print("🩺 [Diag]   isPro               = \(ProFeatureManager.isPro)")
+        print("🩺 [Diag]   isGrandfathered     = \(ProFeatureManager.isGrandfathered)")
+        print("🩺 [Diag]     hasGrandfathered  = \(ProFeatureManager.hasGrandfatheredPurchase)")
+        print("🩺 [Diag]     wasExistingFree   = \(ProFeatureManager.wasExistingFreeUser)")
+        print("🩺 [Diag]   isInTrial           = \(ProFeatureManager.isInTrial)")
+        print("🩺 [Diag]     hasStartedTrial   = \(ProFeatureManager.hasStartedTrial)")
+        print("🩺 [Diag]     trialStartedAt    = \(ProFeatureManager.trialStartedAt.map { "\(Date(timeIntervalSince1970: $0))" } ?? "nil")")
+        print("🩺 [Diag]     trialDaysRemaining= \(ProFeatureManager.trialDaysRemaining)")
+
+        // 3) App Group UserDefaults 원본 값
+        let d = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
+        print("🩺 [Diag] -- App Group UserDefaults (\(ProFeatureManager.appGroupSuite)) --")
+        func dump(_ key: String) {
+            let raw = d?.object(forKey: key)
+            print("🩺 [Diag]   \(key) = \(raw.map { "\($0)" } ?? "nil(미설정)")")
+        }
+        dump(ProFeatureManager.proStatusKey)
+        dump(ProFeatureManager.grandfatheredPurchaseKey)
+        dump(ProFeatureManager.existingFreeUserKey)
+        dump(ProFeatureManager.trialStartedAtKey)
+
+        // 4) StoreManager 상태
+        print("🩺 [Diag] -- StoreManager --")
+        print("🩺 [Diag]   로드된 상품 수        = \(products.count)  (0이면 상품 fetch 실패)")
+        for p in products {
+            print("🩺 [Diag]     • \(p.id) | \(p.displayPrice) | type=\(p.type.rawValue)")
+        }
+        print("🩺 [Diag]   purchasedProductIDs = \(purchasedProductIDs.isEmpty ? "(없음)" : purchasedProductIDs.joined(separator: ", "))")
+        print("🩺 [Diag]   StoreManager.isPro  = \(isPro)")
+
+        // 5) 실제 보유 권한 (Transaction.currentEntitlements) — 프로모/복원이 실제로 들어왔는지 확인
+        print("🩺 [Diag] -- Transaction.currentEntitlements (실제 보유 권한) --")
+        var count = 0
+        for await result in Transaction.currentEntitlements {
+            count += 1
+            switch result {
+            case .verified(let tx):
+                var offerInfo = "none"
+                if #available(iOS 17.2, *), let offer = tx.offer {
+                    offerInfo = "type=\(offer.type)  id=\(offer.id ?? "-")"
+                }
+                print("🩺 [Diag]   #\(count) VERIFIED")
+                print("🩺 [Diag]      productID     = \(tx.productID)")
+                print("🩺 [Diag]      productType   = \(tx.productType.rawValue)")
+                print("🩺 [Diag]      ownershipType = \(tx.ownershipType)  (purchased / familyShared)")
+                print("🩺 [Diag]      purchaseDate  = \(tx.purchaseDate)")
+                print("🩺 [Diag]      revocationDate= \(tx.revocationDate.map { "\($0)" } ?? "nil")")
+                print("🩺 [Diag]      environment   = \(tx.environment.rawValue)")
+                print("🩺 [Diag]      offer         = \(offerInfo)")
+            case .unverified(let tx, let error):
+                print("🩺 [Diag]   #\(count) UNVERIFIED — productID=\(tx.productID) error=\(error)")
+            }
+        }
+        if count == 0 {
+            print("🩺 [Diag]   (보유 권한 없음 — 프로모션/복원이 한 번도 성공하지 않았다는 뜻)")
+        }
+
+        print("🩺 [Diag] === 진단 끝 ===")
+        print("🩺 [Diag] \(line)")
+    }
+
     // MARK: - Private Methods
-    
+
     /// 구매 상태 업데이트
     private func updatePurchasedProducts() async {
         var purchasedIDs: Set<String> = []
