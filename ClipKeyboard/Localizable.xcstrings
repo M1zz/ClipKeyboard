@@ -743,6 +743,7 @@
     },
     "%@, 선택됨" : {
       "comment" : "Theme pill: selected",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2550,6 +2551,9 @@
         }
       }
     },
+    "All categories will be deleted. Your memos are kept (they just won't have a category tab)." : {
+      "comment" : "Remove all categories alert message"
+    },
     "Also on your Mac" : {
       "comment" : "Mac hero title",
       "localizations" : {
@@ -3873,7 +3877,7 @@
       }
     },
     "Copy" : {
-      "comment" : "CTA: copy scenario text\nContext: copy",
+      "comment" : "CTA: copy scenario text",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7914,8 +7918,18 @@
         }
       }
     },
+    "Remove all" : {
+      "comment" : "Remove all"
+    },
+    "Remove all categories" : {
+      "comment" : "Remove all categories button"
+    },
+    "Remove all categories?" : {
+      "comment" : "Remove all categories alert title"
+    },
     "Reset" : {
       "comment" : "Reset",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7939,6 +7953,7 @@
     },
     "Reset categories?" : {
       "comment" : "Reset alert title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7962,6 +7977,7 @@
     },
     "Reset to regional defaults" : {
       "comment" : "Reset categories button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9939,6 +9955,7 @@
     },
     "Your custom categories will be removed and the list will be re-seeded based on your region." : {
       "comment" : "Reset alert message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12332,6 +12349,9 @@
         }
       }
     },
+    "모든 카테고리를 삭제합니다. 메모는 유지됩니다." : {
+      "comment" : "Remove all categories hint"
+    },
     "모든 플레이스홀더 값을 입력해주세요" : {
       "comment" : "Fill all placeholders",
       "localizations" : {
@@ -14053,7 +14073,7 @@
       }
     },
     "삭제" : {
-      "comment" : "Action: delete\nConfirm delete\nDelete\nDelete button\nDelete combo\nDelete combo value\nDelete memo\nVoiceOver action: delete memo",
+      "comment" : "Action: delete\nConfirm delete\nDelete\nDelete button\nDelete combo\nDelete combo value\nVoiceOver action: delete memo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15839,6 +15859,7 @@
     },
     "앱 기본 카테고리 목록으로 초기화합니다" : {
       "comment" : "Reset categories hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17861,6 +17882,7 @@
     },
     "자동: %@" : {
       "comment" : "Auto detected type",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18047,6 +18069,30 @@
         }
       }
     },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -18076,6 +18122,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal simpan: %@"
+          }
+        }
+      }
+    },
+    "저장된 메모 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Memos (shown in keyboard)"
+          }
+        }
+      }
+    },
+    "저장된 메모 목록 모드로 전환합니다" : {
+      "comment" : "Memo mode tab hint",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switch to saved memo list mode."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Switch to saved memo list mode."
           }
         }
       }
@@ -18110,59 +18185,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
-    "저장된 메모 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Memos (shown in keyboard)"
-          }
-        }
-      }
-    },
-    "저장된 메모 목록 모드로 전환합니다" : {
-      "comment" : "Memo mode tab hint",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Switch to saved memo list mode."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Switch to saved memo list mode."
           }
         }
       }
@@ -18607,7 +18629,7 @@
       }
     },
     "즐겨찾기" : {
-      "comment" : "Add favorite\nCategory tab: favorites\nCategory: favorites\nFavorite\nFavorite toggle\nFavorites filter chip\nVoiceOver: favorite badge",
+      "comment" : "Category tab: favorites\nCategory: favorites\nFavorite\nFavorite toggle\nFavorites filter chip\nVoiceOver: favorite badge",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19154,6 +19176,7 @@
     },
     "최근" : {
       "comment" : "Recent",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19421,6 +19444,9 @@
     "카테고리 아이콘" : {
       "comment" : "Keyboard category icon settings"
     },
+    "카테고리 이동" : {
+      "comment" : "Action: move to category"
+    },
     "카테고리 이름" : {
       "comment" : "Category name placeholder"
     },
@@ -19428,7 +19454,7 @@
       "comment" : "Add category accessibility label"
     },
     "카테고리 해제" : {
-      "comment" : "Remove from category"
+      "comment" : "Action: remove from category"
     },
     "카테고리가 생성되고 이 메모가 바로 이동됩니다." : {
       "comment" : "Create category and assign message"
@@ -20870,6 +20896,7 @@
     },
     "탭하여 이 카테고리 선택" : {
       "comment" : "Theme pill: tap to select",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20921,6 +20948,7 @@
     },
     "테마" : {
       "comment" : "Theme picker label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20937,7 +20965,7 @@
       }
     },
     "테마 선택" : {
-      "comment" : "Theme picker\nTheme selection section header",
+      "comment" : "Theme picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20955,6 +20983,7 @@
     },
     "테마 선택, 자동 감지: %@" : {
       "comment" : "Theme section header with auto detection",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

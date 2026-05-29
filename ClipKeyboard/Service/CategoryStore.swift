@@ -21,7 +21,13 @@ final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
 
     private let appGroup = "group.com.Ysoup.TokenMemo"
-    private let storageKey = "user.categories.v1"
+    /// 단일 진실 공급원 — 키보드 리스트 페이지 탭(ClipKeyboardListViewModel)·아이콘/레이아웃
+    /// 설정과 동일한 키. CategorySettings(이 store 사용)와 키보드 페이지가 같은 목록을 본다.
+    private let storageKey = "userDefinedCategories_v1"
+    /// v4.2 이전 CategoryStore 전용 키 — 통일 시 이 store/키보드 키로 머지된다.
+    private let legacyStorageKey = "user.categories.v1"
+    /// 두 카테고리 키 통일 머지 1회 완료 플래그.
+    private let unifiedMigrationKey = "category.store.unified.v1"
     private let seededFlagKey = "user.categories.seeded.v1"
     private let personaKey = "user.selected_persona.v1"
     /// v4.1.0: 카테고리 기능 활성화 플래그. 기본 OFF, 사용자가 명시적으로 활성화.
@@ -93,20 +99,11 @@ final class CategoryStore: ObservableObject {
         }
     }
 
-    /// 페르소나 선택 + 시드 카테고리를 기존 목록에 머지(중복 제거).
-    /// 사용자가 추가했던 카테고리는 보존되며, 페르소나 시드만 위에 얹힌다.
+    /// 페르소나 선택을 저장한다. (카테고리는 기본 제공하지 않으므로 시드하지 않음 —
+    /// 사용자가 직접 카테고리를 만들어 쓴다. persona 값은 제안/연습 등 다른 기능에서 사용.)
     func applyPersona(_ persona: Persona, language: String? = nil) {
-        let lang = language ?? Locale.current.language.languageCode?.identifier ?? "en"
-        let seeds = persona.seedCategories(language: lang)
-
-        var merged = categories
-        for seed in seeds where !merged.contains(seed) {
-            merged.append(seed)
-        }
-        categories = merged
-        persist()
         UserDefaults(suiteName: appGroup)?.set(persona.rawValue, forKey: personaKey)
-        print("👤 [CategoryStore] 페르소나 적용: \(persona.rawValue) (lang=\(lang), 신규=\(seeds.count))")
+        print("👤 [CategoryStore] 페르소나 선택 저장: \(persona.rawValue)")
     }
 
     // MARK: - Public API
@@ -153,9 +150,9 @@ final class CategoryStore: ObservableObject {
         persist()
     }
 
-    /// 시스템 기본값으로 초기화 (사용자 데이터 삭제됨).
-    func resetToDefaults() {
-        categories = Self.localeDefaults()
+    /// 모든 카테고리 삭제 (메모는 유지되며 카테고리 탭만 사라짐).
+    func removeAll() {
+        categories = []
         persist()
     }
 
@@ -164,85 +161,53 @@ final class CategoryStore: ObservableObject {
 
     // MARK: - Storage
 
+    /// 외부(예: CategorySettings.onAppear)에서 디스크 최신값으로 다시 읽기.
+    /// 키보드 컨텍스트 메뉴 등 다른 경로가 같은 키를 갱신했을 수 있으므로.
+    func reload() {
+        load()
+    }
+
     private func load() {
         guard let defaults = UserDefaults(suiteName: appGroup) else {
-            categories = Self.localeDefaults()
+            categories = []
             return
         }
-        if defaults.bool(forKey: seededFlagKey),
-           let stored = defaults.stringArray(forKey: storageKey),
-           !stored.isEmpty {
+        // v4.2: 두 카테고리 키(레거시 user.categories.v1 + 키보드 userDefinedCategories_v1) 통일.
+        migrateUnifyIfNeeded(defaults)
+
+        if let stored = defaults.stringArray(forKey: storageKey), !stored.isEmpty {
             categories = stored
         } else {
-            // 첫 실행 — locale 기반 시드
-            categories = Self.localeDefaults()
+            // 기본 제공 카테고리 없음 — 사용자가 직접 만들어 쓴다.
+            // (전체/즐겨찾기 탭은 카테고리 목록과 무관하게 항상 제공됨)
+            categories = []
             defaults.set(true, forKey: seededFlagKey)
-            persist()
         }
+    }
+
+    /// 레거시 CategoryStore 키와 키보드 키에 흩어진 카테고리를 canonical 키로 합친다(손실 없음).
+    /// 기존 canonical(키보드) 순서를 우선 유지하고, 레거시에만 있던 항목을 뒤에 덧붙인다.
+    private func migrateUnifyIfNeeded(_ defaults: UserDefaults) {
+        guard !defaults.bool(forKey: unifiedMigrationKey) else { return }
+
+        let canonical = defaults.stringArray(forKey: storageKey) ?? []
+        let legacy = defaults.stringArray(forKey: legacyStorageKey) ?? []
+
+        if !(canonical.isEmpty && legacy.isEmpty) {
+            var merged = canonical
+            for cat in legacy where !merged.contains(cat) {
+                merged.append(cat)
+            }
+            // 보호 카테고리 누락 방지
+            if !merged.contains("기본") { merged.insert("기본", at: 0) }
+            defaults.set(merged, forKey: storageKey)
+            print("🔄 [CategoryStore] 카테고리 통일 머지: 키보드 \(canonical.count) + 레거시 \(legacy.count) → \(merged.count)")
+        }
+        defaults.set(true, forKey: unifiedMigrationKey)
     }
 
     private func persist() {
         guard let defaults = UserDefaults(suiteName: appGroup) else { return }
         defaults.set(categories, forKey: storageKey)
-    }
-
-    // MARK: - Locale-aware defaults
-
-    /// 현재 Locale에 맞는 기본 카테고리 목록.
-    /// 글로벌 공통 (이메일/URL/전화번호 등) + 국가별 특화 항목.
-    static func localeDefaults() -> [String] {
-        let region = Locale.current.region?.identifier ?? ""
-        return globalCommon + countrySpecific(for: region)
-    }
-
-    /// 모든 국가에서 공통적으로 유용한 카테고리.
-    private static let globalCommon: [String] = [
-        "기본",
-        "이메일",
-        "전화번호",
-        "주소",
-        "URL",
-        "카드번호",
-        "계좌번호",
-        "이름",
-        "생년월일",
-        "우편번호"
-    ]
-
-    /// 국가 코드별 특화 카테고리.
-    private static func countrySpecific(for region: String) -> [String] {
-        switch region.uppercased() {
-        case "KR":
-            return ["주민등록번호", "사업자등록번호", "여권번호", "통관번호", "차량번호", "사번/학번"]
-        case "ID":
-            return ["NPWP", "KTP", "NIK", "BPJS", "Paspor", "Plat Nomor"]
-        case "BR":
-            return ["CPF", "CNPJ", "RG", "Passaporte", "Placa do veículo", "PIS"]
-        case "US":
-            return ["SSN", "EIN", "Driver's License", "Passport", "Insurance"]
-        case "GB":
-            return ["NI Number", "UTR", "Passport", "NHS Number", "Driving Licence"]
-        case "DE":
-            return ["Steuer-ID", "Personalausweis", "Reisepass", "Krankenversicherung", "IBAN"]
-        case "FR":
-            return ["Numéro fiscal", "Carte d'identité", "Passeport", "Sécurité sociale", "IBAN"]
-        case "JP":
-            return ["マイナンバー", "運転免許証", "パスポート", "健康保険"]
-        case "VN":
-            return ["CMND/CCCD", "Mã số thuế", "Hộ chiếu", "BHYT"]
-        case "PH":
-            return ["TIN", "SSS", "PhilHealth", "PhilSys", "Passport"]
-        case "TH":
-            return ["บัตรประชาชน", "เลขผู้เสียภาษี", "หนังสือเดินทาง"]
-        case "MX":
-            return ["RFC", "CURP", "INE", "Pasaporte"]
-        case "ES":
-            return ["DNI/NIE", "NIF", "Pasaporte", "IBAN", "Seguridad Social"]
-        case "IN":
-            return ["Aadhaar", "PAN", "GSTIN", "Passport", "Driving License"]
-        default:
-            // 글로벌 노마드 — 국가 코드 매칭 안 되면 노마드 친화 항목
-            return ["IBAN", "VAT/Tax ID", "Passport", "Insurance"]
-        }
     }
 }

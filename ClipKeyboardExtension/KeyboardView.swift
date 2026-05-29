@@ -1149,8 +1149,14 @@ struct KeyboardView: View {
     private func memoButtonLabel(for memo: Memo, catColor: Color, useTemplate: Bool = false) -> some View {
         let style = typeStyle(for: memo, useTemplate: useTemplate)
         return ZStack {
+            // 기본 키 색(커스텀 색 설정 존중) 위에 카테고리 색을 옅게 틴트.
+            // 제목 가독성을 위해 라이트 0.14 / 다크 0.22로 약하게만 입힌다.
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .foregroundColor(keyColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: theme.radiusMd)
+                        .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
+                )
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
             // 메모 칸 안 텍스트는 제목만. 타입 구분은 테두리(색+dash 패턴)으로 — 색맹 친화.

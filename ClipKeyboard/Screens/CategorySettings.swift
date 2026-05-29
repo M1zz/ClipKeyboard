@@ -87,35 +87,38 @@ struct CategorySettings: View {
                     .font(.caption)
             }
 
-            // Reset
-            Section {
-                Button(role: .destructive) {
-                    showResetAlert = true
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "arrow.counterclockwise")
-                            .accessibilityHidden(true)
-                        Text(NSLocalizedString("Reset to regional defaults", comment: "Reset categories button"))
+            // Remove all
+            if !store.allCategories.isEmpty {
+                Section {
+                    Button(role: .destructive) {
+                        showResetAlert = true
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "trash")
+                                .accessibilityHidden(true)
+                            Text(NSLocalizedString("Remove all categories", comment: "Remove all categories button"))
+                        }
                     }
+                    .accessibilityHint(NSLocalizedString("모든 카테고리를 삭제합니다. 메모는 유지됩니다.", comment: "Remove all categories hint"))
                 }
-                .accessibilityHint(NSLocalizedString("앱 기본 카테고리 목록으로 초기화합니다", comment: "Reset categories hint"))
             }
         }
         .navigationTitle(NSLocalizedString("Categories", comment: "Categories nav title"))
+        .onAppear { store.reload() } // 키보드 컨텍스트 메뉴 등 다른 경로의 변경 반영 (통일된 단일 목록)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
-        .alert(NSLocalizedString("Reset categories?", comment: "Reset alert title"),
+        .alert(NSLocalizedString("Remove all categories?", comment: "Remove all categories alert title"),
                isPresented: $showResetAlert) {
             Button(NSLocalizedString("Cancel", comment: "Cancel"), role: .cancel) { }
-            Button(NSLocalizedString("Reset", comment: "Reset"), role: .destructive) {
-                store.resetToDefaults()
+            Button(NSLocalizedString("Remove all", comment: "Remove all"), role: .destructive) {
+                store.removeAll()
             }
         } message: {
-            Text(NSLocalizedString("Your custom categories will be removed and the list will be re-seeded based on your region.",
-                                   comment: "Reset alert message"))
+            Text(NSLocalizedString("All categories will be deleted. Your memos are kept (they just won't have a category tab).",
+                                   comment: "Remove all categories alert message"))
         }
     }
 

@@ -257,6 +257,7 @@ struct ClipKeyboardList: View {
                 if let memo = memoForActions {
                     MemoActionSheet(
                         memo: memo,
+                        categories: viewModel.customCategories,
                         onCopy: {
                             HapticManager.shared.selection()
                             viewModel.copyMemo(memo: memo)
@@ -273,6 +274,17 @@ struct ClipKeyboardList: View {
                         onDelete: {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                                 memoToDelete = memo
+                            }
+                        },
+                        onMoveToCategory: { category in
+                            HapticManager.shared.selection()
+                            viewModel.moveMemo(memo, toCategory: category)
+                        },
+                        onCreateNewCategory: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                memoForCategoryAssign = memo
+                                newCategoryForMemo = ""
+                                showNewCategoryForMemoAlert = true
                             }
                         }
                     )
@@ -1302,83 +1314,6 @@ struct ClipKeyboardList: View {
     }
 
     /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
-    /// swipe 액션은 iOS trackpad에서만 닿고 Mac에서는 불편하므로 같은 액션을 컨텍스트로도 제공.
-    @ViewBuilder
-    private func memoContextMenu(memo: Memo) -> some View {
-        Button {
-            viewModel.copyMemo(memo: memo)
-        } label: {
-            Label(NSLocalizedString("Copy", comment: "Context: copy"), systemImage: "doc.on.doc")
-        }
-
-        Button {
-            viewModel.toggleFavorite(memoId: memo.id)
-        } label: {
-            Label(
-                memo.isFavorite
-                    ? NSLocalizedString("즐겨찾기 해제", comment: "Remove favorite")
-                    : NSLocalizedString("즐겨찾기", comment: "Add favorite"),
-                systemImage: memo.isFavorite ? "heart.slash" : "heart"
-            )
-        }
-
-        Divider()
-
-        // 기존 카테고리 — 서브메뉴 없이 바로 노출
-        ForEach(viewModel.customCategories, id: \.self) { category in
-            Button {
-                viewModel.moveMemo(memo, toCategory: category)
-            } label: {
-                Label(
-                    memo.category == category
-                        ? "✓  \(category)"
-                        : category,
-                    systemImage: "folder.fill"
-                )
-            }
-        }
-
-        // 새 카테고리 즉석 생성 + 이 메모 바로 이동
-        Button {
-            memoForCategoryAssign = memo
-            newCategoryForMemo = ""
-            showNewCategoryForMemoAlert = true
-        } label: {
-            Label(
-                NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"),
-                systemImage: "folder.badge.plus"
-            )
-        }
-
-        // 카테고리 해제 (분류된 메모만)
-        if memo.category != "기본" {
-            Button {
-                viewModel.moveMemo(memo, toCategory: "기본")
-            } label: {
-                Label(
-                    NSLocalizedString("카테고리 해제", comment: "Remove from category"),
-                    systemImage: "tray"
-                )
-            }
-        }
-
-        Divider()
-
-        Button {
-            memoToEdit = memo
-        } label: {
-            Label(NSLocalizedString("수정", comment: "Edit"), systemImage: "pencil")
-        }
-
-        Divider()
-
-        Button(role: .destructive) {
-            memoToDelete = memo
-        } label: {
-            Label(NSLocalizedString("삭제", comment: "Delete memo"), systemImage: "trash")
-        }
-    }
-
     /// Toolbar 컨텐츠
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
@@ -1826,10 +1761,16 @@ private struct CategoryActivationBanner: View {
 /// 각 행에 SF Symbol + 텍스트 표시 (삭제는 빨간색).
 private struct MemoActionSheet: View {
     let memo: Memo
+    /// 이동 대상 카테고리 목록 (키보드 페이지와 동일한 통일 목록).
+    var categories: [String] = []
     let onCopy: () -> Void
     let onToggleFavorite: () -> Void
     let onEdit: () -> Void
     let onDelete: () -> Void
+    /// 메모를 다른 카테고리로 이동. nil이면 이동 행을 표시하지 않는다.
+    var onMoveToCategory: ((String) -> Void)? = nil
+    /// "새 카테고리에 추가" — 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
+    var onCreateNewCategory: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -1866,6 +1807,47 @@ private struct MemoActionSheet: View {
                 ) {
                     onToggleFavorite()
                     dismiss()
+                }
+                // 카테고리 이동 — 통일된 카테고리 목록으로 즉시 이동 (메모 작성 폼엔 선택 UI 없음)
+                if let onMoveToCategory {
+                    Divider().padding(.leading, 56)
+                    Menu {
+                        ForEach(categories, id: \.self) { cat in
+                            Button {
+                                onMoveToCategory(cat)
+                                dismiss()
+                            } label: {
+                                if memo.category == cat {
+                                    Label(cat, systemImage: "checkmark")
+                                } else {
+                                    Text(cat)
+                                }
+                            }
+                        }
+                        if let onCreateNewCategory {
+                            Divider()
+                            Button {
+                                dismiss()
+                                onCreateNewCategory()
+                            } label: {
+                                Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"), systemImage: "folder.badge.plus")
+                            }
+                        }
+                        if memo.category != "기본" {
+                            Divider()
+                            Button {
+                                onMoveToCategory("기본")
+                                dismiss()
+                            } label: {
+                                Label(NSLocalizedString("카테고리 해제", comment: "Action: remove from category"), systemImage: "tray")
+                            }
+                        }
+                    } label: {
+                        actionRowLabel(
+                            label: NSLocalizedString("카테고리 이동", comment: "Action: move to category"),
+                            systemImage: "folder"
+                        )
+                    }
                 }
                 Divider().padding(.leading, 56)
                 actionRow(
@@ -1917,21 +1899,30 @@ private struct MemoActionSheet: View {
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
-            HStack(spacing: 16) {
-                Image(systemName: systemImage)
-                    .font(.title3)
-                    .frame(width: 24, alignment: .center)
-                    .foregroundColor(isDestructive ? .red : theme.text)
-                Text(label)
-                    .font(.body)
-                    .foregroundColor(isDestructive ? .red : theme.text)
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 14)
-            .contentShape(Rectangle())
+            actionRowLabel(label: label, systemImage: systemImage, isDestructive: isDestructive)
         }
         .buttonStyle(.plain)
+    }
+
+    /// 행 라벨 비주얼 — Button과 Menu(카테고리 이동)가 공유.
+    private func actionRowLabel(
+        label: String,
+        systemImage: String,
+        isDestructive: Bool = false
+    ) -> some View {
+        HStack(spacing: 16) {
+            Image(systemName: systemImage)
+                .font(.title3)
+                .frame(width: 24, alignment: .center)
+                .foregroundColor(isDestructive ? .red : theme.text)
+            Text(label)
+                .font(.body)
+                .foregroundColor(isDestructive ? .red : theme.text)
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 14)
+        .contentShape(Rectangle())
     }
 }
 

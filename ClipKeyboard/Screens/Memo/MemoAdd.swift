@@ -335,13 +335,10 @@ struct MemoAdd: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 28) {
-                        // 📌 1단계: 카테고리(테마) — 카테고리 기능 활성 시에만 노출.
-                        // 비활성이면 사용자는 단일 "기본" 카테고리로 자동 저장.
-                        if CategoryStore.shared.isFeatureEnabled {
-                            themeSelectionSection
-                        }
+                        // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
+                        // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
-                        // 📌 2단계: 붙여넣을 내용
+                        // 📌 붙여넣을 내용
                         if viewModel.isCombo {
                             comboDescriptionSection
                         } else {
@@ -479,111 +476,6 @@ struct MemoAdd: View {
     }
 
     // MARK: - View Sections
-
-    private var themeSelectionSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Label(NSLocalizedString("테마 선택", comment: "Theme selection section header"), systemImage: "tag.fill")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.accentColor)
-
-                // 자동 분류 표시 — 스위치 컨트롤: 비대화형이므로 스캔 목록 제외
-                if let detectedType = viewModel.autoDetectedType {
-                    HStack(spacing: 4) {
-                        Image(systemName: "sparkles")
-                            .font(.caption2)
-                        Text(String(format: NSLocalizedString("자동: %@", comment: "Auto detected type"), detectedType.localizedName))
-                            .font(.caption2)
-                    }
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(Color.fromName(detectedType.color).opacity(0.2))
-                    .foregroundColor(Color.fromName(detectedType.color))
-                    .cornerRadius(theme.radiusSm)
-                    .accessibilityHidden(true)
-                }
-            }
-            // 섹션 헤더 전체를 단일 정보 요소로 묶음 (스위치 컨트롤 스캔 1회로 통과)
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(
-                viewModel.autoDetectedType != nil
-                    ? String(format: NSLocalizedString("테마 선택, 자동 감지: %@", comment: "Theme section header with auto detection"), viewModel.autoDetectedType!.localizedName)
-                    : NSLocalizedString("테마 선택", comment: "Theme selection section header")
-            )
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    // Recently Used Section
-                    if !viewModel.recentlyUsedCategories.isEmpty {
-                        // 스위치 컨트롤: "최근" 레이블과 구분선은 비대화형 → 숨김
-                        Text(NSLocalizedString("최근", comment: "Recent"))
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundColor(theme.textMuted)
-                            .padding(.horizontal, 8)
-                            .accessibilityHidden(true)
-
-                        ForEach(viewModel.recentlyUsedCategories, id: \.self) { theme in
-                            themePillButton(theme: theme, showStar: true)
-                        }
-
-                        Divider()
-                            .frame(height: 28)
-                            .padding(.horizontal, 4)
-                            .accessibilityHidden(true)
-                    }
-
-                    // All Categories — 사용자 편집 가능한 CategoryStore에서 읽음
-                    ForEach(CategoryStore.shared.allCategories, id: \.self) { theme in
-                        // Don't show in main list if already in recently used
-                        if !viewModel.recentlyUsedCategories.contains(theme) {
-                            themePillButton(theme: theme, showStar: false)
-                        }
-                    }
-                }
-            }
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 16)
-        .background(Color.accentColor.opacity(0.05))
-        .cornerRadius(theme.radiusMd)
-    }
-
-    // Helper view for theme pill button
-    @ViewBuilder
-    private func themePillButton(theme categoryString: String, showStar: Bool) -> some View {
-        let isSelected = viewModel.selectedCategory == categoryString
-        Button {
-            viewModel.selectCategory(categoryString)
-        } label: {
-            HStack(spacing: 4) {
-                if showStar {
-                    Image(systemName: "star.fill")
-                        .font(.caption2)
-                        .foregroundColor(isSelected ? .white : .orange)
-                        .accessibilityHidden(true)
-                }
-                Text(Constants.localizedThemeName(categoryString))
-                    .font(.callout)
-                    .fontWeight(isSelected ? .semibold : .regular)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(isSelected ? Color.accentColor : theme.surfaceAlt)
-            .foregroundColor(isSelected ? .white : .primary)
-            .cornerRadius(theme.radiusLg)
-        }
-        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
-        .accessibilityLabel(
-            isSelected
-                ? String(format: NSLocalizedString("%@, 선택됨", comment: "Theme pill: selected"), Constants.localizedThemeName(categoryString))
-                : Constants.localizedThemeName(categoryString)
-        )
-        .accessibilityHint(
-            isSelected ? "" : NSLocalizedString("탭하여 이 카테고리 선택", comment: "Theme pill: tap to select")
-        )
-    }
 
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {

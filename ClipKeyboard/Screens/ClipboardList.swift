@@ -678,11 +678,7 @@ struct SaveToMemoSheet: View {
                 Section(NSLocalizedString("메모 정보", comment: "Memo info section header")) {
                     TextField(NSLocalizedString("제목", comment: "Title field placeholder"), text: $title)
 
-                    Picker(NSLocalizedString("테마", comment: "Theme picker label"), selection: $category) {
-                        ForEach(CategoryStore.shared.allCategories, id: \.self) { cat in
-                            Text(cat).tag(cat)
-                        }
-                    }
+                    // 카테고리는 아래 "자동 분류 정보"의 감지 타입으로 자동 결정됨 (수동 선택 제거).
 
                     Toggle(NSLocalizedString("보안 메모", comment: "Secure memo toggle"), isOn: $isSecure)
                 }
