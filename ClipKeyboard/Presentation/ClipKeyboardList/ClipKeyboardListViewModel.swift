@@ -137,6 +137,35 @@ final class ClipKeyboardListViewModel: ObservableObject {
         saveCustomCategories()
     }
 
+    // MARK: - Smart Category Suggestion
+
+    /// 제안을 띄울 최소 메모 수.
+    static let categorySuggestionThreshold = 3
+
+    /// 메모를 보고 만들 만한 카테고리를 제안한다.
+    /// 자동 분류로 `category` 값은 이미 붙어 있으나 아직 사용자 카테고리 목록엔 없는 그룹 중
+    /// 가장 큰 것을 고른다(임계치 이상). 메모는 이미 그 값을 가지므로 카테고리를 추가하기만
+    /// 하면 곧바로 해당 탭에 모인다. (저장값은 rawValue, 표시는 호출부에서 현지화)
+    var suggestedCategory: (name: String, count: Int)? {
+        let excluded: Set<String> = ["기본", "텍스트", "이미지", ""]
+        var counts: [String: Int] = [:]
+        for memo in loadedData {
+            let c = memo.category
+            guard !excluded.contains(c), !customCategories.contains(c) else { continue }
+            counts[c, default: 0] += 1
+        }
+        guard let best = counts.max(by: { $0.value < $1.value }),
+              best.value >= Self.categorySuggestionThreshold else { return nil }
+        return (best.key, best.value)
+    }
+
+    /// 제안 수락 — 카테고리를 추가하고 해당 탭으로 이동.
+    /// 메모는 이미 분류돼 있어 추가 즉시 그 탭에 모인다.
+    func acceptSuggestedCategory(_ name: String) {
+        addCustomCategory(name)
+        selectCategoryTab(.custom(name))
+    }
+
     func moveMemo(_ memo: Memo, toCategory category: String) {
         guard let idx = loadedData.firstIndex(where: { $0.id == memo.id }) else { return }
         loadedData[idx].category = category

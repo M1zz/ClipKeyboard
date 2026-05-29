@@ -882,7 +882,7 @@ struct KeyboardView: View {
             HStack(spacing: 5) {
                 Image(systemName: categoryIconFor(memo))
                     .font(.caption2)
-                    .foregroundColor(categoryColorFor(memo))
+                    .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
                 Text(memo.title)
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
@@ -894,7 +894,7 @@ struct KeyboardView: View {
             .clipShape(Capsule())
             .overlay(
                 Capsule()
-                    .stroke(categoryColorFor(memo).opacity(0.3), lineWidth: 1)
+                    .stroke((categoryColorFor(memo) ?? .clear).opacity(0.3), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -990,7 +990,7 @@ struct KeyboardView: View {
             HStack(spacing: 8) {
                 Image(systemName: categoryIconFor(memo))
                     .font(.footnote.weight(.semibold))
-                    .foregroundColor(categoryColorFor(memo))
+                    .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
                 Text(memo.title)
                     .font(.callout.weight(.semibold))
                     .foregroundColor(theme.text)
@@ -1146,16 +1146,20 @@ struct KeyboardView: View {
             .cornerRadius(3)
     }
 
-    private func memoButtonLabel(for memo: Memo, catColor: Color, useTemplate: Bool = false) -> some View {
+    private func memoButtonLabel(for memo: Memo, catColor: Color?, useTemplate: Bool = false) -> some View {
         let style = typeStyle(for: memo, useTemplate: useTemplate)
         return ZStack {
-            // 기본 키 색(커스텀 색 설정 존중) 위에 카테고리 색을 옅게 틴트.
+            // 기본 키 색(커스텀 색 설정 존중) 위에, 사용자 카테고리가 있을 때만 그 색을 옅게 틴트.
             // 제목 가독성을 위해 라이트 0.14 / 다크 0.22로 약하게만 입힌다.
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .foregroundColor(keyColor)
                 .overlay(
-                    RoundedRectangle(cornerRadius: theme.radiusMd)
-                        .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
+                    Group {
+                        if let catColor {
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                                .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
+                        }
+                    }
                 )
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
@@ -1328,17 +1332,14 @@ struct KeyboardView: View {
 
     // MARK: - Color Helpers
 
-    private func categoryColorFor(_ memo: Memo) -> Color {
-        // 사용자 정의 카테고리: iOS 앱과 동일한 인덱스 기반 팔레트
-        if let idx = sharedUserCategories.firstIndex(of: memo.category) {
-            let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
-            return palette[idx % palette.count]
-        }
-        // 시스템 자동분류 타입 색상
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
-            return colorForTypeName(type.color)
-        }
-        return .gray
+    /// 메모가 **사용자가 만든 카테고리**에 속할 때만 그 카테고리 색을 반환한다.
+    /// 카테고리가 없으면(자동 분류값만 있는 경우 포함) nil → 색을 입히지 않는다.
+    /// (이전엔 자동 분류 타입에도 색을 반환해, 사용자 카테고리가 없는데도 메모에 색이
+    ///  칠해지는 버그가 있었음. 카테고리는 이제 사용자가 직접 만들어 쓰므로 그 색만 사용.)
+    private func categoryColorFor(_ memo: Memo) -> Color? {
+        guard let idx = sharedUserCategories.firstIndex(of: memo.category) else { return nil }
+        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        return palette[idx % palette.count]
     }
 
     private func categoryIconFor(_ memo: Memo) -> String {
@@ -1346,16 +1347,6 @@ struct KeyboardView: View {
             return type.icon
         }
         return "doc.text"
-    }
-
-    private func colorForTypeName(_ name: String) -> Color {
-        let colorMap: [String: Color] = [
-            "blue": .blue, "green": .green, "purple": .purple,
-            "orange": .orange, "red": .red, "indigo": .indigo,
-            "brown": .brown, "cyan": .cyan, "teal": .teal,
-            "pink": .pink, "mint": .mint, "yellow": .yellow
-        ]
-        return colorMap[name] ?? .gray
     }
 
     /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
@@ -1379,7 +1370,8 @@ struct KeyboardView: View {
     /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반
     private func colorForCategoryKey(_ key: String) -> Color {
         if key == "★all" { return .blue }
-        if key == "★favorites" { return .pink }
+        // 즐겨찾기 지정색 — 앱의 Color.clipFavorite(#FF4A9E)와 동일 (타깃 분리로 인라인).
+        if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = sharedUserCategories.firstIndex(of: key) ?? 0
         return palette[idx % palette.count]

@@ -11,6 +11,11 @@ import TipKit
 
 var fontSize: CGFloat = 20
 
+extension Color {
+    /// 즐겨찾기 지정색 — 시스템 핑크보다 더 선명한 분홍(#FF4A9E).
+    static let clipFavorite = Color(red: 1.0, green: 0.29, blue: 0.62)
+}
+
 // UUID는 이 Swift 버전에서 Identifiable을 자동 제공하지 않으므로 명시적으로 추가
 extension UUID: @retroactive Identifiable {
     public var id: UUID { self }
@@ -111,6 +116,17 @@ struct ClipKeyboardList: View {
                         .padding(.top, 8)
                         .padding(.bottom, 4)
                         .transition(.move(edge: .top).combined(with: .opacity))
+                    }
+
+                    // 메모를 보고 카테고리 생성을 제안 (TipKit). 자동 분류된 메모가 임계치 이상
+                    // 쌓였는데 아직 그 카테고리가 없으면 부드럽게 안내.
+                    if CategoryStore.shared.isFeatureEnabled,
+                       let suggestion = viewModel.suggestedCategory {
+                        categorySuggestionTip(name: suggestion.name, count: suggestion.count)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 4)
+                            .transition(.move(edge: .top).combined(with: .opacity))
                     }
 
                     // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
@@ -460,7 +476,7 @@ struct ClipKeyboardList: View {
                 } else if memo.isFavorite {
                     Image(systemName: "heart.fill")
                         .font(.title2)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : .pink)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
                         .accessibilityHidden(true)
                 }
             }
@@ -585,7 +601,7 @@ struct ClipKeyboardList: View {
         } else if memo.isSecure {
             Color(uiColor: .systemGray3)
         } else if memo.isFavorite {
-            Color.pink
+            Color.clipFavorite
         } else if CategoryStore.shared.isFeatureEnabled,
                   viewModel.customCategories.contains(memo.category) {
             customCategoryColor(memo.category)
@@ -601,7 +617,7 @@ struct ClipKeyboardList: View {
     private var tabIndicatorColor: Color {
         switch viewModel.selectedCategoryTab {
         case .all:       return .gray
-        case .favorites: return .pink
+        case .favorites: return .clipFavorite
         case .custom(let name): return customCategoryColor(name)
         }
     }
@@ -610,7 +626,7 @@ struct ClipKeyboardList: View {
     private var tabBackgroundColor: Color {
         switch viewModel.selectedCategoryTab {
         case .all:       return theme.bg
-        case .favorites: return Color.pink.opacity(0.08)
+        case .favorites: return Color.clipFavorite.opacity(0.10)
         case .custom(let name): return customCategoryColor(name).opacity(0.08)
         }
     }
@@ -683,6 +699,24 @@ struct ClipKeyboardList: View {
         }
         // 하단 경계 — 미세한 그림자로 자연스러운 분리
         .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)
+    }
+
+    /// 카테고리 생성 제안 TipKit 카드. 수락 시 카테고리 추가 + 해당 탭으로 이동.
+    /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
+    @ViewBuilder
+    private func categorySuggestionTip(name: String, count: Int) -> some View {
+        let tip = CategorySuggestionTip(
+            categoryRawName: name,
+            displayName: Constants.localizedThemeName(name),
+            count: count
+        )
+        TipView(tip) { action in
+            if action.id == "create" {
+                withAnimation { viewModel.acceptSuggestedCategory(name) }
+                HapticManager.shared.success()
+                tip.invalidate(reason: .actionPerformed)
+            }
+        }
     }
 
     private func categoryTabChip(tab: CategoryTab, proxy: ScrollViewProxy) -> some View {
@@ -1228,10 +1262,10 @@ struct ClipKeyboardList: View {
                             Text(NSLocalizedString("Favorite", comment: "Preview: favorite badge"))
                                 .font(.caption2.weight(.medium))
                         }
-                        .foregroundColor(.pink)
+                        .foregroundColor(.clipFavorite)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(Color.pink.opacity(0.12))
+                        .background(Color.clipFavorite.opacity(0.12))
                         .clipShape(Capsule())
                     }
                     Spacer(minLength: 0)
@@ -1926,6 +1960,39 @@ private struct MemoActionSheet: View {
     }
 }
 
+// MARK: - Category Suggestion Tip (TipKit)
+
+/// 메모를 보고 "이 카테고리를 만들어 정리할까요?"를 부드럽게 제안하는 팁.
+/// 메모는 자동 분류로 이미 `category` 값을 갖고 있어, 카테고리를 추가하면 곧바로 모인다.
+/// id에 카테고리 rawValue를 포함 → 카테고리별로 1회씩 노출/무효화가 추적된다.
+struct CategorySuggestionTip: Tip {
+    let categoryRawName: String
+    let displayName: String
+    let count: Int
+
+    var id: String { "category-suggestion-\(categoryRawName)" }
+
+    var title: Text {
+        Text(String(format: NSLocalizedString("'%@' 메모가 %d개 있어요", comment: "Category suggestion tip title — category name, memo count"),
+                    displayName, count))
+    }
+
+    var message: Text? {
+        Text(String(format: NSLocalizedString("'%@' 카테고리를 만들어 한 곳에 모아드릴까요?", comment: "Category suggestion tip message — category name"),
+                    displayName))
+    }
+
+    var image: Image? {
+        Image(systemName: "folder.badge.plus")
+    }
+
+    var actions: [Tips.Action] {
+        [Tips.Action(id: "create") {
+            Text(NSLocalizedString("카테고리 만들기", comment: "Category suggestion: create action button"))
+        }]
+    }
+}
+
 private struct SwipePageIndicator: View {
     let total: Int
     let selectedIndex: Int
@@ -2487,7 +2554,7 @@ struct CategoryManagementSheet: View {
                             Text(NSLocalizedString("즐겨찾기", comment: "Category: favorites"))
                         } icon: {
                             Image(systemName: "heart.fill")
-                                .foregroundColor(.pink)
+                                .foregroundColor(.clipFavorite)
                         }
                     }
                 }
