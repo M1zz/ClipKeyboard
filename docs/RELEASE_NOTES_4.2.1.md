@@ -21,3 +21,21 @@ English
 - Keyboard memo buttons are now subtly tinted by their category color, and we fixed a bug where memos were colored even when you had no categories — only memos in a category you created get a tint now
 - Unified the Favorites color to a brighter pink, the tab, heart badges, and the keyboard favorites page now use one designated pink
 - Improved English translations, filled in strings across several screens that previously showed Korean text instead of English
+
+---
+
+App Store 제출용 요약 (한국어)
+
+• Pro 표시 오류 수정 — 기존 구매자·테스터에게 모든 기능이 열려 있는데도 "업그레이드" 안내가 뜨던 문제를 해결했습니다
+• 카테고리를 처음부터 비우고 필요한 것만 직접 추가 — 비슷한 메모가 쌓이면 "이 카테고리로 정리할까요?"를 자동 제안합니다
+• 메모를 길게 눌러 카테고리로 이동하거나 새 카테고리를 즉석에서 만들 수 있습니다
+• 키보드 메모를 카테고리 색으로 구분하고, 즐겨찾기는 더 선명한 분홍으로 통일했습니다
+• 영어 번역 보강 및 자잘한 버그 수정
+
+App Store Summary (English)
+
+• Fixed a Pro status bug where long-time buyers and testers saw an "Upgrade" prompt even though they already had full access
+• Categories now start empty — create just what you need, and get a smart suggestion to group similar memos in one tap
+• Long-press a memo to move it to a category, or create a new category on the spot
+• Keyboard memos are tinted by their category color, and Favorites now use a brighter, more distinct pink
+• Improved English translations and minor bug fixes

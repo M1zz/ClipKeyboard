@@ -85,6 +85,17 @@
         }
       }
     },
+    "'%@' 메모가 %d개 있어요" : {
+      "comment" : "Category suggestion tip title — category name, memo count",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "'%1$@' 메모가 %2$d개 있어요"
+          }
+        }
+      }
+    },
     "'%@' 카테고리 삭제" : {
       "comment" : "Delete category chip",
       "localizations" : {
@@ -95,6 +106,9 @@
           }
         }
       }
+    },
+    "'%@' 카테고리를 만들어 한 곳에 모아드릴까요?" : {
+      "comment" : "Category suggestion tip message — category name"
     },
     "'%@' 카테고리를 삭제하시겠습니까? 메모는 유지됩니다." : {
       "comment" : "Delete category confirm message",
@@ -4609,7 +4623,9 @@
         }
       }
     },
-    "English" : {},
+    "English" : {
+
+    },
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -18475,6 +18491,40 @@
         }
       }
     },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
+          }
+        }
+      }
+    },
+    "저장할 텍스트를 입력하세요" : {
+      "comment" : "Quick add placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter text to save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan teks untuk disimpan"
+          }
+        }
+      }
+    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -18495,23 +18545,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
           }
         }
       }
@@ -18626,23 +18659,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
-          }
-        }
-      }
-    },
-    "저장할 텍스트를 입력하세요" : {
-      "comment" : "Quick add placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter text to save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masukkan teks untuk disimpan"
           }
         }
       }
@@ -19904,6 +19920,9 @@
           }
         }
       }
+    },
+    "카테고리 만들기" : {
+      "comment" : "Category suggestion: create action button"
     },
     "카테고리 삭제" : {
       "comment" : "Delete category alert title",
