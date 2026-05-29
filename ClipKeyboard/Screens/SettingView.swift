@@ -100,9 +100,18 @@ struct SettingView: View {
                 }
             }
 
-            // MARK: 키보드
-            // 키보드 관련 설정 및 도구 모음
-            Section(NSLocalizedString("키보드", comment: "Settings section: keyboard")) {
+            // MARK: 키보드 (선택 기능)
+            // iOS 설정 > 일반 > 키보드에서 ClipKeyboard를 추가한 사용자를 위한 설정
+            Section(header: VStack(alignment: .leading, spacing: 4) {
+                Text(NSLocalizedString("키보드 (선택 기능)", comment: "Settings section: keyboard optional"))
+                    .font(.footnote)
+                    .foregroundColor(theme.textMuted)
+                    .textCase(.uppercase)
+                Text(NSLocalizedString("iOS 설정 > 일반 > 키보드에서 추가할 수 있어요", comment: "Keyboard optional section footer"))
+                    .font(.caption2)
+                    .foregroundColor(theme.textFaint)
+                    .textCase(.none)
+            }) {
                 // 시트 버튼 — Label 텍스트에 .primary를 명시해 파란색 tint 방지
                 Button {
                     HapticManager.shared.light()
@@ -134,6 +143,10 @@ struct SettingView: View {
                 NavigationLink(destination: ThemeSettings()) {
                     Label(NSLocalizedString("키보드 테마", comment: "Keyboard theme"),
                           systemImage: "swatchpalette")
+                }
+                NavigationLink(destination: CategoryIconSettings()) {
+                    Label(NSLocalizedString("카테고리 아이콘", comment: "Keyboard category icon settings"),
+                          systemImage: "square.grid.2x2.fill")
                 }
             }
 

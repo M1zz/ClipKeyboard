@@ -173,9 +173,6 @@ struct KeyboardView: View {
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showSearchBar: Bool = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecentSection: Bool = false
 
-    // 타이핑 모드 — Memos / Type 전환 (기본: 키보드)
-    @State private var inputMode: InputMode = .typing
-
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
 
@@ -187,8 +184,6 @@ struct KeyboardView: View {
         self.typingProxy = typingProxy
         self.documentState = documentState
     }
-
-    enum InputMode { case memos, typing }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
     private var gridItemLayout: [GridItem] {
@@ -208,8 +203,6 @@ struct KeyboardView: View {
 
     // v4.1.0: 카테고리 swipe 현재 페이지 인덱스 (즐겨찾기 별 토글은 제거됨)
     @State private var currentCategoryPage: Int = 0
-    // v4.1.x: 카테고리 버튼 행은 평소엔 숨겨두고 토글 시 펼침 — 메모 영역 최대 확보
-    @State private var isCategoryRowExpanded: Bool = false
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
@@ -262,9 +255,17 @@ struct KeyboardView: View {
             .bool(forKey: "category.feature.enabled.v1") ?? false
     }
 
+    /// iOS 앱 ClipKeyboardListViewModel과 같은 키 — 완전 동기화
     private var sharedUserCategories: [String] {
         UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .stringArray(forKey: "user.categories.v1") ?? []
+            .stringArray(forKey: "userDefinedCategories_v1") ?? []
+    }
+
+    /// iOS 앱에서 숨긴 탭 목록 — "__favorites__" 또는 카테고리 이름
+    private var sharedHiddenCategoryTabs: Set<String> {
+        let arr = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
+        return Set(arr)
     }
 
     /// v4.1.0: 키보드 페이지 인디케이터로 선택된 카테고리. "★all"=전체, "★favorites"=즐겨찾기,
@@ -275,15 +276,22 @@ struct KeyboardView: View {
         return categoryPages[index]
     }
 
-    /// 카테고리 swipe 페이지 목록. 활성 시: 전체 + 즐겨찾기 + 사용자 카테고리 (사용 중인 것만).
+    /// 카테고리 페이지 목록 — iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 동일 로직
     private var categoryPages: [String] {
         guard isCategoryFeatureEnabled else { return [] }
+        let hidden = sharedHiddenCategoryTabs
         var pages: [String] = ["★all"]
-        if allMemos.contains(where: { $0.isFavorite }) {
+        // 즐겨찾기: 숨김 처리 + 메모 1개 이상일 때만
+        if !hidden.contains("__favorites__"),
+           allMemos.contains(where: { $0.isFavorite }) {
             pages.append("★favorites")
         }
+        // 사용자 카테고리: 숨김 처리 + 해당 카테고리 메모 1개 이상일 때만
         let usedCategories = sharedUserCategories
-            .filter { name in allMemos.contains { $0.category == name } }
+            .filter { name in
+                !hidden.contains(name) &&
+                allMemos.contains { $0.category == name }
+            }
         pages.append(contentsOf: usedCategories)
         return pages
     }
@@ -325,93 +333,16 @@ struct KeyboardView: View {
 
     var body: some View {
         ZStack {
-            VStack(spacing: 0) {
-                // 모드 탭 — Memos / Type
-                modeTabBar
+            backgroundColor.ignoresSafeArea()
 
-                if inputMode == .typing, let proxy = typingProxy {
-                    TypingKeyboardView(proxy: proxy, documentState: documentState)
-                } else {
-                    memoModeContent
-                }
+            VStack(spacing: 0) {
+                memoModeContent
             }
 
             if showPINEntry {
                 pinEntryOverlay
             }
         }
-    }
-
-    private var modeTabBar: some View {
-        HStack(spacing: 6) {
-            modeIconTab(
-                icon: "keyboard",
-                isSelected: inputMode == .typing,
-                label: NSLocalizedString("타이핑 모드", comment: "Typing keyboard mode tab"),
-                hint: NSLocalizedString("직접 타이핑 모드로 전환합니다", comment: "Typing mode tab hint")
-            ) {
-                inputMode = .typing
-            }
-            modeIconTab(
-                icon: "list.bullet.rectangle",
-                isSelected: inputMode == .memos,
-                label: NSLocalizedString("메모 모드", comment: "Memo list mode tab"),
-                hint: NSLocalizedString("저장된 메모 목록 모드로 전환합니다", comment: "Memo mode tab hint")
-            ) {
-                inputMode = .memos
-            }
-            // v4.1.0: 별 토글 제거 — 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 흡수
-            Spacer()
-            // 카테고리 버튼 행 펼침/접힘 토글 — 평소엔 접혀 메모 영역 최대화
-            if inputMode == .memos, categoryPages.count > 1 {
-                Button {
-                    KeyboardHaptics.softTap()
-                    withAnimation(.spring(response: 0.28, dampingFraction: 0.78)) {
-                        isCategoryRowExpanded.toggle()
-                    }
-                } label: {
-                    Image(systemName: isCategoryRowExpanded ? "chevron.up" : "folder")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(isCategoryRowExpanded ? .white : theme.text)
-                        .frame(width: 36, height: 28)
-                        .background(isCategoryRowExpanded ? Color.blue : theme.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                }
-                .buttonStyle(PlainButtonStyle())
-                .frame(minWidth: 44, minHeight: 44)
-                .contentShape(Rectangle())
-                .accessibilityLabel(NSLocalizedString("카테고리 표시", comment: "Toggle category row"))
-            }
-            // 텍스트 필드에 입력된 내용이 있을 때만 X 버튼 노출
-            if let proxy = typingProxy, documentState.hasText {
-                clearAllButton(proxy: proxy)
-                    .transition(.opacity.combined(with: .scale(scale: 0.85)))
-            }
-        }
-        .padding(.horizontal, 8)
-        .padding(.top, 4)
-        .padding(.bottom, 2)
-        .animation(.easeOut(duration: 0.18), value: documentState.hasText)
-    }
-
-    private func modeIconTab(icon: String, isSelected: Bool, label: String, hint: String, action: @escaping () -> Void) -> some View {
-        Button {
-            KeyboardHaptics.softTap()
-            action()
-        } label: {
-            Image(systemName: icon)
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(isSelected ? .white : theme.text)
-                .frame(width: 36, height: 28)
-                .background(isSelected ? Color.blue : theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
-        .buttonStyle(PlainButtonStyle())
-        .frame(minWidth: 44, minHeight: 44)
-        .contentShape(Rectangle())
-        .accessibilityLabel(label)
-        .accessibilityHint(hint)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     private func clearAllButton(proxy: TypingInputProxy) -> some View {
@@ -441,12 +372,20 @@ struct KeyboardView: View {
                 freeUpgradeBanner
             }
 
-            // 상단 카테고리 버튼 행 — modeTabBar의 folder 토글 ON일 때만 펼침.
-            // 평소엔 메모 그리드가 행 하나만큼 더 보임.
-            if categoryPages.count > 1 && isCategoryRowExpanded {
-                categoryTabRow
-                    .transition(.move(edge: .top).combined(with: .opacity))
+            // 상단 헤더 — 카테고리 탭 + clear 버튼
+            HStack(spacing: 0) {
+                if categoryPages.count > 1 {
+                    categoryTabRow
+                } else {
+                    Spacer()
+                }
+                if let proxy = typingProxy, documentState.hasText {
+                    clearAllButton(proxy: proxy)
+                        .padding(.trailing, 4)
+                        .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                }
             }
+            .animation(.easeOut(duration: 0.18), value: documentState.hasText)
 
             // 검색 바 — 사용자 토글 ON일 때만
             if showSearchBar {
@@ -882,26 +821,24 @@ struct KeyboardView: View {
         }
     }
 
-    // MARK: - Category Tab Row (상단 심볼 버튼)
+    // MARK: - Category Tab Row
 
-    /// 카테고리 페이지 직행 버튼 행. 페이지 인디케이터(점)를 대체.
-    /// 각 카테고리를 SF Symbol로 표현, 선택된 항목만 배경색으로 강조.
     private var categoryTabRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
-                Spacer(minLength: 0)
                 ForEach(Array(categoryPages.enumerated()), id: \.offset) { index, key in
                     let isSelected = currentCategoryPage == index
+                    let accent = colorForCategoryKey(key)
                     Button {
                         KeyboardHaptics.tap()
                         currentCategoryPage = index
                     } label: {
                         Image(systemName: iconForCategoryKey(key))
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(isSelected ? .white : theme.text)
-                            .frame(width: 28, height: 22)
-                            .background(isSelected ? colorForCategoryKey(key) : theme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundColor(isSelected ? .white : theme.textMuted)
+                            .frame(width: 32, height: 28)
+                            .background(isSelected ? accent : theme.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: 7))
                     }
                     .buttonStyle(PlainButtonStyle())
                     .accessibilityLabel(labelForCategoryKey(key))
@@ -909,7 +846,7 @@ struct KeyboardView: View {
                 }
             }
             .padding(.horizontal, 8)
-            .padding(.vertical, 2)
+            .padding(.vertical, 5)
         }
     }
 
@@ -1386,8 +1323,14 @@ struct KeyboardView: View {
     // MARK: - Color Helpers
 
     private func categoryColorFor(_ memo: Memo) -> Color {
+        // 사용자 정의 카테고리: iOS 앱과 동일한 인덱스 기반 팔레트
+        if let idx = sharedUserCategories.firstIndex(of: memo.category) {
+            let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+            return palette[idx % palette.count]
+        }
+        // 시스템 자동분류 타입 색상
         if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == memo.category }) {
-            return colorFor(type.color)
+            return colorForTypeName(type.color)
         }
         return .gray
     }
@@ -1399,27 +1342,7 @@ struct KeyboardView: View {
         return "doc.text"
     }
 
-    /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
-    private func iconForCategoryKey(_ key: String) -> String {
-        if key == "★all" { return "square.grid.2x2.fill" }
-        if key == "★favorites" { return "heart.fill" }
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == key }) {
-            return type.icon
-        }
-        return "folder.fill"
-    }
-
-    /// 카테고리 페이지 키에 대응되는 강조 색상.
-    private func colorForCategoryKey(_ key: String) -> Color {
-        if key == "★all" { return .blue }
-        if key == "★favorites" { return .pink }
-        if let type = ClipboardItemType.allCases.first(where: { $0.rawValue == key }) {
-            return colorFor(type.color)
-        }
-        return .gray
-    }
-
-    private func colorFor(_ name: String) -> Color {
+    private func colorForTypeName(_ name: String) -> Color {
         let colorMap: [String: Color] = [
             "blue": .blue, "green": .green, "purple": .purple,
             "orange": .orange, "red": .red, "indigo": .indigo,
@@ -1427,6 +1350,33 @@ struct KeyboardView: View {
             "pink": .pink, "mint": .mint, "yellow": .yellow
         ]
         return colorMap[name] ?? .gray
+    }
+
+    /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
+    /// 사용자 커스텀 아이콘 — userCategoryIcons_v1 에서 로드
+    private var customCategoryIcons: [String: String] {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String] ?? [:]
+    }
+
+    /// 커스텀 > 인덱스 팔레트 순으로 폴백 (iOS 앱과 동일)
+    private func iconForCategoryKey(_ key: String) -> String {
+        if key == "★all" { return "square.grid.2x2.fill" }
+        if key == "★favorites" { return "heart.fill" }
+        if let custom = customCategoryIcons[key] { return custom }
+        let icons = ["folder.fill", "bookmark.fill", "tag.fill", "briefcase.fill",
+                     "star.fill", "heart.circle.fill", "person.fill", "house.fill"]
+        let idx = sharedUserCategories.firstIndex(of: key) ?? 0
+        return icons[idx % icons.count]
+    }
+
+    /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반
+    private func colorForCategoryKey(_ key: String) -> Color {
+        if key == "★all" { return .blue }
+        if key == "★favorites" { return .pink }
+        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        let idx = sharedUserCategories.firstIndex(of: key) ?? 0
+        return palette[idx % palette.count]
     }
 
     // MARK: - Theme-derived Colors (Paper 테마 + 사용자 커스텀 오버라이드)

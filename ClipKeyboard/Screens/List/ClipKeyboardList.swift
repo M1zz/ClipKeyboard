@@ -40,8 +40,6 @@ struct ClipKeyboardList: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var occasionalSuggestion_: SuggestionTemplate? = nil
     @State private var navigateToOccasionalAdd: Bool = false
-    @State private var showPracticeFromCard: Bool = false
-    @State private var showKeyboardSetup: Bool = false
 
     // Category badge nudge
     @State private var categoryBadgeVisible: Bool = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
@@ -78,7 +76,6 @@ struct ClipKeyboardList: View {
     // TipKit
     private let welcomeTip = WelcomeTip()
     private let addMemoTip = AddMemoTip()
-    private let keyboardTip = KeyboardTip()
     private let cleanUpTip = CleanUpSamplesTip()
 
     @Environment(\.appTheme) private var theme
@@ -308,11 +305,6 @@ struct ClipKeyboardList: View {
             } message: {
                 Text(NSLocalizedString("즐겨찾기 메모를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
             }
-            // KeyboardTip 액션: 키보드 설정으로 이동
-            .sheet(isPresented: $showKeyboardSetup) {
-                KeyboardSetupOnboardingView { showKeyboardSetup = false }
-                    .presentationDetents([.large])
-            }
             .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
                 NavigationStack {
                     MemoAdd(
@@ -378,10 +370,6 @@ struct ClipKeyboardList: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 viewModel.onSceneResume()
-            }
-            .sheet(isPresented: $showPracticeFromCard) {
-                KeyboardPracticeSheet()
-                    .presentationDetents([.large])
             }
         }
     }
@@ -822,13 +810,6 @@ struct ClipKeyboardList: View {
                     TipView(welcomeTip)
                         .tipBackground(theme.surface)
                         .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
-                    TipView(keyboardTip) { action in
-                        if action.id == "setup" {
-                            showKeyboardSetup = true
-                            keyboardTip.invalidate(reason: .actionPerformed)
-                        }
-                    }
-                    .tipBackground(theme.surface)
                     TipView(cleanUpTip) { action in
                         if action.id == "delete" {
                             deleteSampleMemos()

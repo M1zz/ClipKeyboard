@@ -2,8 +2,7 @@
 //  KeyboardLayoutSettings.swift
 //  ClipKeyboard
 //
-//  Created by Claude Code on 2026-01-28.
-//  키보드 레이아웃 및 버튼 크기 설정
+//  키보드 레이아웃 및 언어 설정. 상단에 키보드 익스텐션 전체 미리보기를 포함.
 //
 
 import SwiftUI
@@ -12,298 +11,405 @@ import CryptoKit
 import UIKit
 #endif
 
+// MARK: - KeyboardLayoutSettings
+
 struct KeyboardLayoutSettings: View {
-    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var columnCount: Int = 2
 
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var buttonHeight: Double = 56.0
+    // MARK: AppStorage — App Group 공유 (익스텐션과 동일 키)
+    @AppStorage("keyboardColumnCount",    store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var columnCount:    Int    = 2
+    @AppStorage("keyboardButtonHeight",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight:   Double = 56.0
+    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 17.0
+    @AppStorage("keyboardUseCustomColors",store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var useCustomColors:Bool   = false
+    @AppStorage("keyboardCustomBgHex",    store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customBgHex:    String = ""
+    @AppStorage("keyboardCustomKeyHex",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customKeyHex:   String = ""
+    @AppStorage("keyboardShowSearch",     store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showSearch:     Bool   = false
+    @AppStorage("keyboardShowRecent",     store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecent:     Bool   = false
+    @AppStorage("keyboardKoreanLayout",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var koreanLayout:   String = "dubeolsik"
+    @AppStorage("keyboardTypingLang",     store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var defaultLang:    String = "english"
 
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var buttonFontSize: Double = 17.0
-
-    // 색상 커스터마이즈 — 기본 false (Paper 테마 사용)
-    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var useCustomColors: Bool = false
-
-    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var customBgHex: String = ""
-
-    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var customKeyHex: String = ""
-
-    // ColorPicker 바인딩용 임시 Color (hex로 변환 후 저장)
-    @State private var customBgColor: Color = .clear
+    @State private var customBgColor:  Color = .clear
     @State private var customKeyColor: Color = .clear
-
-    // 옵션 토글
-    @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var showSearchBar: Bool = false
-
-    @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var showRecentSection: Bool = false
-
-    // 한글 레이아웃 — 두벌식 / 천지인
-    @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
-    private var koreanLayoutRaw: String = "dubeolsik"
-
     @Environment(\.appTheme) private var theme
 
     var body: some View {
-        Form {
+        List {
+            // ── 1. 미리보기 ────────────────────────────────────────────
             Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(NSLocalizedString("⚙️ 키보드 레이아웃 설정", comment: "Keyboard layout settings header"))
-                        .font(.headline)
-                    Text(NSLocalizedString("키보드의 열 개수와 버튼 크기를 조정할 수 있습니다.", comment: "Keyboard layout settings description"))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.vertical, 8)
+                KeyboardPreviewView()
+                    .frame(height: 220)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+                    )
+                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                    .listRowBackground(Color.clear)
             }
 
-            Section(NSLocalizedString("열 개수", comment: "Column count section")) {
-                VStack(alignment: .leading, spacing: 12) {
+            // ── 2. 그리드 레이아웃 ─────────────────────────────────────
+            Section {
+                // 열 개수 — segmented
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(NSLocalizedString("열 개수", comment: "Column count label"))
                         Spacer()
                         Text(String(format: NSLocalizedString("%d열", comment: "Column count value"), columnCount))
                             .foregroundColor(.secondary)
                     }
-
-                    Picker(NSLocalizedString("열 개수", comment: "Column count picker"), selection: $columnCount) {
-                        ForEach(1...5, id: \.self) { count in
-                            Text(String(format: NSLocalizedString("%d열", comment: "Column count option"), count)).tag(count)
+                    Picker("", selection: $columnCount) {
+                        ForEach(1...5, id: \.self) { n in
+                            Text("\(n)").tag(n)
                         }
                     }
                     .pickerStyle(.segmented)
-
-                    Text(NSLocalizedString("화면에 표시될 버튼의 열 개수를 선택하세요. 열이 많을수록 더 많은 버튼을 한 눈에 볼 수 있습니다.", comment: "Column count description"))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
                 }
-            }
 
-            Section(NSLocalizedString("버튼 크기", comment: "Button size section")) {
-                VStack(alignment: .leading, spacing: 16) {
-                    // 높이 슬라이더
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text(NSLocalizedString("버튼 높이", comment: "Button height label"))
-                            Spacer()
-                            Text("\(Int(buttonHeight))pt")
-                                .foregroundColor(.secondary)
-                        }
-
-                        Slider(value: $buttonHeight, in: 32...120, step: 1)
-                            .tint(.blue)
-
-                        HStack {
-                            Text(NSLocalizedString("작게", comment: "Small size label"))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(NSLocalizedString("크게", comment: "Large size label"))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-
-                    Divider()
-
-                    // 폰트 크기 슬라이더
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text(NSLocalizedString("글자 크기", comment: "Font size label"))
-                            Spacer()
-                            Text("\(Int(buttonFontSize))pt")
-                                .foregroundColor(.secondary)
-                        }
-
-                        Slider(value: $buttonFontSize, in: 10...36, step: 1)
-                            .tint(.blue)
-
-                        HStack {
-                            Text(NSLocalizedString("작게", comment: "Small size label"))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(NSLocalizedString("크게", comment: "Large size label"))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-            }
-
-            Section {
-                Picker(selection: $koreanLayoutRaw) {
-                    Text(NSLocalizedString("두벌식 (표준)", comment: "Korean layout: 2-set standard"))
-                        .tag("dubeolsik")
-                    Text(NSLocalizedString("천지인 (3x3)", comment: "Korean layout: cheonjiin"))
-                        .tag("cheonjiin")
-                } label: {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("Korean layout", comment: "Picker: Korean keyboard layout"))
-                        Text(NSLocalizedString("Used when typing in Korean (한 toggle).", comment: "Picker desc: Korean layout"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                .pickerStyle(.menu)
-            } header: {
-                Text(NSLocalizedString("Korean keyboard", comment: "Section: Korean keyboard"))
-            } footer: {
-                Text(NSLocalizedString("두벌식 = full QWERTY-style. 천지인 = 9-key layout common on older Korean phones.", comment: "Footer: Korean layouts"))
-                    .font(.caption)
-            }
-
-            Section {
-                Toggle(isOn: $showSearchBar) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("Search bar", comment: "Toggle: show search bar in keyboard"))
-                        Text(NSLocalizedString("Type to filter snippets. Adds a search input above the grid.", comment: "Toggle desc: search bar"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-                Toggle(isOn: $showRecentSection) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("Recent snippets", comment: "Toggle: show recent section"))
-                        Text(NSLocalizedString("Pin the last 5 used snippets at the top of the keyboard.", comment: "Toggle desc: recent"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                }
-            } header: {
-                Text(NSLocalizedString("Keyboard sections", comment: "Section: keyboard sections"))
-            } footer: {
-                Text(NSLocalizedString("Both options off by default — your snippet grid gets more room. Toggle on as needed.", comment: "Section footer: keyboard sections"))
-                    .font(.caption)
-            }
-
-            Section {
-                VStack(alignment: .leading, spacing: 12) {
-                    Toggle(isOn: $useCustomColors) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("Custom keyboard colors", comment: "Toggle: use custom colors"))
-                            Text(NSLocalizedString("Override the default Paper theme with your own colors.", comment: "Toggle description"))
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-
-                    if useCustomColors {
-                        Divider()
-
-                        ColorPicker(NSLocalizedString("Background", comment: "Color picker: keyboard background"),
-                                    selection: $customBgColor, supportsOpacity: false)
-                            .onChange(of: customBgColor) { _, newColor in
-                                customBgHex = newColor.toHex() ?? ""
-                            }
-
-                        ColorPicker(NSLocalizedString("Key", comment: "Color picker: keyboard key"),
-                                    selection: $customKeyColor, supportsOpacity: false)
-                            .onChange(of: customKeyColor) { _, newColor in
-                                customKeyHex = newColor.toHex() ?? ""
-                            }
-
-                        Button {
-                            customBgHex = ""
-                            customKeyHex = ""
-                            customBgColor = .clear
-                            customKeyColor = .clear
-                        } label: {
-                            HStack {
-                                Image(systemName: "arrow.uturn.backward")
-                                    .font(.caption)
-                                Text(NSLocalizedString("Reset to theme defaults", comment: "Button: reset custom colors"))
-                                    .font(.caption)
-                            }
-                            .foregroundColor(.blue)
-                        }
-                    }
-                }
-            } header: {
-                Text(NSLocalizedString("Keyboard colors", comment: "Section: keyboard colors"))
-            } footer: {
-                Text(NSLocalizedString("Default uses your iOS app theme. Toggle on to override with your own colors.", comment: "Section footer: keyboard colors"))
-                    .font(.caption)
-            }
-
-            Section(NSLocalizedString("미리보기", comment: "Preview section")) {
-                VStack(spacing: 8) {
-                    Text(NSLocalizedString("버튼 미리보기", comment: "Button preview label"))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-
-                    // 미리보기 버튼
-                    Button(action: {}) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white)
-                                .shadow(color: Color.black.opacity(0.3), radius: 2, y: 1)
-                            Text(NSLocalizedString("예시 버튼", comment: "Example button text"))
-                                .foregroundColor(.primary)
-                                .font(.system(size: buttonFontSize, weight: .semibold))
-                                .padding(.vertical, (buttonHeight - buttonFontSize) / 2)
-                        }
-                    }
-                    .frame(height: buttonHeight)
-                    .disabled(true)
-
-                    Text(NSLocalizedString("실제 키보드에 적용된 크기로 표시됩니다.", comment: "Preview description"))
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                }
-                .padding(.vertical, 8)
-            }
-
-            Section {
-                Button {
-                    resetToDefaults()
-                } label: {
+                // 버튼 높이
+                VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Image(systemName: "arrow.counterclockwise")
-                        Text(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults button"))
+                        Text(NSLocalizedString("버튼 높이", comment: "Button height label"))
+                        Spacer()
+                        Text("\(Int(buttonHeight))pt").foregroundColor(.secondary)
                     }
-                    .foregroundColor(.red)
+                    Slider(value: $buttonHeight, in: 32...120, step: 1).tint(.blue)
+                    HStack {
+                        Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
+                        Spacer()
+                        Text(NSLocalizedString("크게", comment: "Large")).font(.caption).foregroundColor(.secondary)
+                    }
+                }
+
+                // 글자 크기
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(NSLocalizedString("글자 크기", comment: "Font size label"))
+                        Spacer()
+                        Text("\(Int(buttonFontSize))pt").foregroundColor(.secondary)
+                    }
+                    Slider(value: $buttonFontSize, in: 10...36, step: 1).tint(.blue)
+                    HStack {
+                        Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
+                        Spacer()
+                        Text(NSLocalizedString("크게", comment: "Large")).font(.caption).foregroundColor(.secondary)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("그리드 레이아웃", comment: "Section: grid layout"))
+            }
+
+            // ── 3. 언어 설정 ───────────────────────────────────────────
+            Section {
+                // 기본 언어 — Apple-style Picker (NavigationLink)
+                Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
+                    Label("English", systemImage: "globe").tag("english")
+                    Label("한국어", systemImage: "globe.asia.australia.fill").tag("korean")
+                }
+
+                // 한국어 레이아웃 — Apple-style Picker (NavigationLink)
+                Picker(NSLocalizedString("한국어 레이아웃", comment: "Korean layout picker label"), selection: $koreanLayout) {
+                    VStack(alignment: .leading) {
+                        Text(NSLocalizedString("두벌식", comment: "Korean layout: dubeolsik"))
+                        Text(NSLocalizedString("QWERTY 스타일 (표준)", comment: "Dubeolsik subtitle"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                    .tag("dubeolsik")
+
+                    VStack(alignment: .leading) {
+                        Text(NSLocalizedString("천지인", comment: "Korean layout: cheonjiin"))
+                        Text(NSLocalizedString("3×3 키패드 스타일", comment: "Cheonjiin subtitle"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                    .tag("cheonjiin")
+                }
+
+                // 레이아웃 시각 가이드
+                koreanLayoutGuide
+            } header: {
+                Text(NSLocalizedString("언어", comment: "Section: language"))
+            } footer: {
+                Text(NSLocalizedString("키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.", comment: "Language section footer"))
+            }
+
+            // ── 4. 표시 옵션 ───────────────────────────────────────────
+            Section {
+                Toggle(isOn: $showSearch) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("검색창", comment: "Show search bar toggle"))
+                        Text(NSLocalizedString("메모를 이름으로 빠르게 찾습니다", comment: "Search bar description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
+                Toggle(isOn: $showRecent) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("최근 메모", comment: "Show recent snippets toggle"))
+                        Text(NSLocalizedString("최근 사용한 메모 5개를 상단에 표시합니다", comment: "Recent snippets description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("표시 옵션", comment: "Section: display options"))
+            }
+
+            // ── 5. 색상 ────────────────────────────────────────────────
+            Section {
+                Toggle(isOn: $useCustomColors) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("커스텀 색상 사용", comment: "Use custom colors toggle"))
+                        Text(NSLocalizedString("기본 Paper 테마 대신 직접 색상을 지정합니다", comment: "Custom colors description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
+                if useCustomColors {
+                    ColorPicker(NSLocalizedString("배경색", comment: "Background color picker"),
+                                selection: $customBgColor, supportsOpacity: false)
+                        .onChange(of: customBgColor) { _, c in customBgHex = c.toHex() ?? "" }
+
+                    ColorPicker(NSLocalizedString("키 색상", comment: "Key color picker"),
+                                selection: $customKeyColor, supportsOpacity: false)
+                        .onChange(of: customKeyColor) { _, c in customKeyHex = c.toHex() ?? "" }
+
+                    Button {
+                        customBgHex  = ""; customKeyHex  = ""
+                        customBgColor = .clear; customKeyColor = .clear
+                    } label: {
+                        Label(NSLocalizedString("색상 초기화", comment: "Reset colors"), systemImage: "arrow.uturn.backward")
+                            .foregroundColor(.blue).font(.footnote)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("색상", comment: "Section: colors"))
+            }
+
+            // ── 6. 전체 초기화 ─────────────────────────────────────────
+            Section {
+                Button(role: .destructive) { resetToDefaults() } label: {
+                    Label(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults"), systemImage: "arrow.counterclockwise")
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("레이아웃 설정", comment: "Layout settings title"))
+        .listStyle(.insetGrouped)
+        .navigationTitle(NSLocalizedString("키보드 설정", comment: "Keyboard settings nav title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
-            // 저장된 hex 값을 ColorPicker 초기값으로 동기화
-            if !customBgHex.isEmpty, let c = Color(hex: customBgHex) {
-                customBgColor = c
-            }
-            if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) {
-                customKeyColor = c
-            }
+            if !customBgHex.isEmpty,  let c = Color(hex: customBgHex)  { customBgColor  = c }
+            if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { customKeyColor = c }
         }
     }
 
+    // MARK: - Korean Layout Visual Guide
+
+    private var koreanLayoutGuide: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(NSLocalizedString("레이아웃 미리보기", comment: "Layout preview label"))
+                .font(.caption)
+                .foregroundColor(.secondary)
+            HStack(spacing: 12) {
+                // 두벌식
+                layoutCard(
+                    title: "두벌식",
+                    rows: [["ㅂ","ㅈ","ㄷ","ㄱ","ㅅ"],["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ"],["ㅗ","ㅓ","ㅏ","ㅣ","ㅡ"]],
+                    isSelected: koreanLayout == "dubeolsik"
+                )
+                // 천지인
+                layoutCard(
+                    title: "천지인",
+                    rows: [["ㅣ","ㆍ","ㅡ"],["ㄱㅋ","ㄴㄹ","ㄷㅌ"],["ㅂㅍ","ㅅㅎ","ㅈㅊ"]],
+                    isSelected: koreanLayout == "cheonjiin"
+                )
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func layoutCard(title: String, rows: [[String]], isSelected: Bool) -> some View {
+        VStack(spacing: 4) {
+            ForEach(rows.indices, id: \.self) { ri in
+                HStack(spacing: 3) {
+                    ForEach(rows[ri].indices, id: \.self) { ci in
+                        Text(rows[ri][ci])
+                            .font(.system(size: 9, weight: .medium))
+                            .frame(minWidth: 18, minHeight: 16)
+                            .background(isSelected ? Color.blue.opacity(0.15) : Color(.systemGray6))
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                    }
+                }
+            }
+            Text(title)
+                .font(.caption2)
+                .foregroundColor(isSelected ? .blue : .secondary)
+                .padding(.top, 2)
+        }
+        .padding(8)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(isSelected ? Color.blue.opacity(0.06) : Color(.systemGray6))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .strokeBorder(isSelected ? Color.blue.opacity(0.4) : Color.clear, lineWidth: 1.5)
+        )
+        .onTapGesture { koreanLayout = isSelected ? koreanLayout : (title == "두벌식" ? "dubeolsik" : "cheonjiin") }
+    }
+
+    // MARK: - Reset
+
     private func resetToDefaults() {
-        columnCount = 2
-        buttonHeight = 56.0
-        buttonFontSize = 17.0
-        useCustomColors = false
-        customBgHex = ""
-        customKeyHex = ""
-        customBgColor = .clear
-        customKeyColor = .clear
-        showSearchBar = false
-        showRecentSection = false
-        koreanLayoutRaw = "dubeolsik"
+        columnCount = 2; buttonHeight = 56; buttonFontSize = 17
+        useCustomColors = false; customBgHex = ""; customKeyHex = ""
+        customBgColor = .clear; customKeyColor = .clear
+        showSearch = false; showRecent = false
+        koreanLayout = "dubeolsik"; defaultLang = "english"
     }
 }
 
-// MARK: - Secure PIN Setup View
+// MARK: - KeyboardPreviewView
+
+/// 키보드 익스텐션 전체를 설정 화면에서 실시간으로 미리 보여주는 뷰.
+/// AppStorage를 직접 읽어 슬라이더/토글 변경이 즉시 반영된다.
+struct KeyboardPreviewView: View {
+
+    private let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+
+    @AppStorage("keyboardColumnCount",    store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var columnCount:    Int    = 2
+    @AppStorage("keyboardButtonHeight",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonHeight:   Double = 56.0
+    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var buttonFontSize: Double = 17.0
+    @AppStorage("keyboardUseCustomColors",store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var useCustomColors:Bool   = false
+    @AppStorage("keyboardCustomBgHex",    store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customBgHex:    String = ""
+    @AppStorage("keyboardCustomKeyHex",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var customKeyHex:   String = ""
+
+    @State private var previewMemos: [Memo] = []
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+
+    private var bgColor: Color {
+        if useCustomColors, !customBgHex.isEmpty, let c = Color(hex: customBgHex) { return c }
+        return theme.bg
+    }
+    private var keyColor: Color {
+        if useCustomColors, !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { return c }
+        return theme.surface
+    }
+
+    // 카테고리 탭 (익스텐션과 동일 로직)
+    private var categoryFeatureEnabled: Bool { ud?.bool(forKey: "category.feature.enabled.v1") ?? false }
+    private var allUserCats: [String] { ud?.stringArray(forKey: "userDefinedCategories_v1") ?? [] }
+    private var hiddenCats: Set<String> { Set(ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []) }
+    private var customIcons: [String: String] { ud?.dictionary(forKey: "userCategoryIcons_v1") as? [String: String] ?? [:] }
+
+    private var categoryPages: [String] {
+        guard categoryFeatureEnabled else { return [] }
+        var pages = ["★all"]
+        if !hiddenCats.contains("__favorites__"), previewMemos.contains(where: { $0.isFavorite }) {
+            pages.append("★favorites")
+        }
+        pages.append(contentsOf: allUserCats.filter { cat in
+            !hiddenCats.contains(cat) && previewMemos.contains { $0.category == cat }
+        })
+        return pages
+    }
+
+    private func catIcon(_ key: String) -> String {
+        if key == "★all"       { return "square.grid.2x2.fill" }
+        if key == "★favorites" { return "heart.fill" }
+        if let c = customIcons[key] { return c }
+        let palette = ["folder.fill","bookmark.fill","tag.fill","briefcase.fill",
+                       "star.fill","heart.circle.fill","person.fill","house.fill"]
+        let idx = allUserCats.firstIndex(of: key) ?? 0
+        return palette[idx % palette.count]
+    }
+    private func catColor(_ key: String) -> Color {
+        if key == "★all"       { return .blue }
+        if key == "★favorites" { return .pink }
+        let pal: [Color] = [.blue,.green,.orange,.purple,.teal,.indigo,.cyan]
+        let idx = allUserCats.firstIndex(of: key) ?? 0
+        return pal[idx % pal.count]
+    }
+
+    private var gridColumns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 8), count: max(1, min(5, columnCount)))
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // ── 상단 헤더: 카테고리 탭 ──
+            if !categoryPages.isEmpty {
+                HStack(spacing: 0) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(Array(categoryPages.enumerated()), id: \.offset) { idx, key in
+                                let sel = idx == 0
+                                Image(systemName: catIcon(key))
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .foregroundColor(sel ? .white : theme.textMuted)
+                                    .frame(width: 30, height: 26)
+                                    .background(sel ? catColor(key) : keyColor)
+                                    .clipShape(RoundedRectangle(cornerRadius: 7))
+                            }
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 5)
+                    }
+                }
+            }
+
+            // ── 메모 그리드 ──
+            ZStack {
+                bgColor
+
+                if previewMemos.isEmpty {
+                    // 메모 없을 때 플레이스홀더
+                    LazyVGrid(columns: gridColumns, spacing: 8) {
+                        ForEach(0..<(columnCount * 2), id: \.self) { _ in
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(keyColor.opacity(0.6))
+                                .frame(height: min(buttonHeight, 50))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .strokeBorder(theme.divider, lineWidth: 0.5)
+                                )
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                } else {
+                    let displayMemos = Array(previewMemos.prefix(columnCount * 3))
+                    ScrollView(showsIndicators: false) {
+                        LazyVGrid(columns: gridColumns, spacing: 8) {
+                            ForEach(displayMemos) { memo in
+                                ZStack(alignment: .bottomLeading) {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(keyColor)
+                                        .frame(height: min(buttonHeight, 60))
+                                        .shadow(color: .black.opacity(0.10), radius: 1.5, y: 1)
+                                    Text(memo.title)
+                                        .font(.system(size: min(buttonFontSize, 14), weight: .medium))
+                                        .foregroundColor(theme.text)
+                                        .lineLimit(1)
+                                        .padding(.horizontal, 7)
+                                        .padding(.bottom, 5)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                    }
+                    .disabled(true)
+                }
+            }
+        }
+        .background(bgColor)
+        .onAppear {
+            previewMemos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        }
+    }
+}
+
+// MARK: - SecurePINSetupView
 
 struct SecurePINSetupView: View {
     var onSave: (String) -> Void
@@ -318,7 +424,6 @@ struct SecurePINSetupView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 28) {
-                // Icon + Title
                 VStack(spacing: 10) {
                     Image(systemName: "lock.shield.fill")
                         .font(.system(size: 44))
@@ -326,23 +431,19 @@ struct SecurePINSetupView: View {
                     Text(step == .enter
                          ? NSLocalizedString("4자리 PIN 입력", comment: "PIN setup: enter step title")
                          : NSLocalizedString("PIN 확인", comment: "PIN setup: confirm step title"))
-                        .font(.title3)
-                        .fontWeight(.semibold)
+                        .font(.title3).fontWeight(.semibold)
                     if mismatch {
                         Text(NSLocalizedString("PIN이 일치하지 않습니다. 다시 시도하세요.", comment: "PIN mismatch error"))
-                            .font(.caption)
-                            .foregroundColor(.red)
+                            .font(.caption).foregroundColor(.red)
                     } else {
                         Text(step == .enter
                              ? NSLocalizedString("보안 메모 잠금에 사용할 PIN을 입력하세요.", comment: "PIN setup: enter hint")
                              : NSLocalizedString("동일한 PIN을 한 번 더 입력하세요.", comment: "PIN setup: confirm hint"))
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                            .font(.caption).foregroundColor(.secondary)
                     }
                 }
                 .padding(.top, 32)
 
-                // 4-dot indicator
                 HStack(spacing: 20) {
                     ForEach(0..<4, id: \.self) { i in
                         Circle()
@@ -351,13 +452,10 @@ struct SecurePINSetupView: View {
                     }
                 }
 
-                // Number pad
                 VStack(spacing: 12) {
                     ForEach([[1,2,3],[4,5,6],[7,8,9]], id: \.first) { row in
                         HStack(spacing: 20) {
-                            ForEach(row, id: \.self) { n in
-                                pinDigitButton(String(n))
-                            }
+                            ForEach(row, id: \.self) { n in pinDigitButton(String(n)) }
                         }
                     }
                     HStack(spacing: 20) {
@@ -368,13 +466,11 @@ struct SecurePINSetupView: View {
                             if !currentPIN.isEmpty { currentPIN.removeLast() }
                         } label: {
                             Image(systemName: "delete.left.fill")
-                                .font(.system(size: 22))
-                                .foregroundColor(.primary)
+                                .font(.system(size: 22)).foregroundColor(.primary)
                                 .frame(width: 80, height: 60)
                         }
                     }
                 }
-
                 Spacer()
             }
             .navigationTitle(NSLocalizedString("보안 PIN 설정", comment: "Secure PIN setup nav title"))
@@ -389,9 +485,7 @@ struct SecurePINSetupView: View {
             currentPIN.append(digit)
             if currentPIN.count == 4 { advance() }
         } label: {
-            Text(digit)
-                .font(.system(size: 24, weight: .medium))
-                .foregroundColor(.primary)
+            Text(digit).font(.system(size: 24, weight: .medium)).foregroundColor(.primary)
                 .frame(width: 80, height: 60)
                 .background(Circle().fill(Color(UIColor.systemGray6)))
         }
@@ -399,28 +493,20 @@ struct SecurePINSetupView: View {
 
     private func advance() {
         if step == .enter {
-            firstPIN = currentPIN
-            currentPIN = ""
-            mismatch = false
-            step = .confirm
+            firstPIN = currentPIN; currentPIN = ""; mismatch = false; step = .confirm
         } else {
             if firstPIN == currentPIN {
-                let digest = SHA256.hash(data: Data(firstPIN.utf8))
-                let hash = digest.compactMap { String(format: "%02x", $0) }.joined()
+                let hash = SHA256.hash(data: Data(firstPIN.utf8))
+                    .compactMap { String(format: "%02x", $0) }.joined()
                 onSave(hash)
             } else {
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
-                mismatch = true
-                step = .enter
-                firstPIN = ""
-                currentPIN = ""
+                mismatch = true; step = .enter; firstPIN = ""; currentPIN = ""
             }
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        KeyboardLayoutSettings()
-    }
+    NavigationStack { KeyboardLayoutSettings() }
 }
