@@ -42,6 +42,11 @@ struct ClipKeyboardApp: App {
         // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행
         Task { await ProFeatureManager.bootstrapIsTestFlight() }
 
+        // v4.0 이전 유료 앱 구매자 그랜드파더 (AppTransaction 영수증 기반).
+        // bootstrap_done 1회 가드와 무관하게 매 실행 검증 → 이미 업데이트 후 Pro를 잃은
+        // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
+        Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() }
+
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 

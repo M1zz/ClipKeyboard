@@ -46,3 +46,29 @@
 - [x] 미커밋 파일 전체 커밋 완료
 
 ## 전체 완료 🎉
+
+---
+
+# v4.0 이전 유료 구매자 Pro 복구 (2026-05-29)
+
+## 문제
+- 앱은 v4.0 출시(2026-02-21 00:14 KST) 전까지 **유료 앱(다운로드 유료)**, 이후 **무료 + Pro IAP**로 전환.
+- 2024년 유료 구매자가 v4.0 업데이트 후 Pro 기능이 잠겨 "다시 사야 하냐"는 피드백.
+- 원인: 그랜드파더 부여가 (1) 신규 Pro IAP 영수증, (2) 기기 내 메모 개수 휴리스틱에만 의존.
+  과거 유료 구매자는 신규 IAP 영수증이 없고, 재설치/기기변경 시 메모도 0개 → 신규 무료 유저로 오인.
+  Apple 정식 수단인 `AppTransaction`(최초 구매일)을 전혀 확인하지 않던 것이 핵심 결함.
+
+## 해결
+- [x] `ProFeatureManager.grandfatherPaidUserIfNeeded()` 추가
+  - `AppTransaction.shared.originalPurchaseDate < freemiumReleaseDate`이면 `grandfatheredPurchaseKey` 영구 부여
+  - iOS의 `originalAppVersion`은 빌드번호라 신뢰 불가 → `originalPurchaseDate`로 판별
+  - 컷오프: `freemiumReleaseDate = 1_771_686_000` (2026-02-22 00:00 KST, 출시일 +여유)
+  - idempotent (이미 그랜드파더면 즉시 return)
+- [x] `ClipKeyboardApp.init()`에서 매 실행 검증 Task 추가 (bootstrap_done 1회 가드와 무관 → 이미 막힌 유저 자동 구제)
+- [x] `StoreManager.restorePurchases()`에서도 재검증 (이전 구매 복원 버튼으로 즉시 해제)
+- [x] 부여 직후 `ProStatusManager.objectWillChange.send()`로 UI 갱신
+- [x] ClipKeyboard 스킴 빌드 성공 확인
+
+## 검증 필요 (실기기/Sandbox)
+- [ ] Sandbox/TestFlight에서 originalPurchaseDate 동작 확인 (Xcode 환경은 originalPurchaseDate가 컷오프 이전이라 항상 부여됨에 유의)
+- [ ] 실제 2024 구매 계정으로 업데이트 후 Pro 자동 복구 확인

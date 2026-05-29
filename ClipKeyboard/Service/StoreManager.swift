@@ -158,6 +158,9 @@ class StoreManager: ObservableObject {
         do {
             try await AppStore.sync()
             await updatePurchasedProducts()
+            // v4.0 이전 유료 앱 구매자도 "이전 구매 복원"으로 즉시 Pro 해제되도록
+            // AppTransaction(최초 구매일) 재검증. (신규 Pro IAP 영수증이 없어도 부여됨)
+            await ProFeatureManager.grandfatherPaidUserIfNeeded()
             print("✅ [StoreManager] 구매 복원 완료")
         } catch {
             print("❌ [StoreManager] 구매 복원 실패: \(error)")

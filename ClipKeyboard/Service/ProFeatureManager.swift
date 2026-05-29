@@ -105,6 +105,52 @@ struct ProFeatureManager {
         }
     }
 
+    // MARK: - v4.0 이전 유료 앱 구매자 그랜드파더
+
+    /// v4.0(무료 + Pro IAP) App Store 출시 시각.
+    /// 앱은 이 시점까지 "유료 앱(다운로드 유료)"이었고 이후 무료로 전환됐다.
+    /// 따라서 이 시점 **이전**에 앱을 최초 구매(다운로드)한 사용자는 유료 구매자이므로
+    /// 영구 Pro로 인정한다.
+    ///
+    /// 실제 출시: 2026-02-21 00:14 KST. 타임존/심사 전파 오차로 인해 유료 구매자가
+    /// 누락되는 일이 없도록 컷오프를 다음 날 자정(KST)으로 넉넉히 잡는다 — 유료 구매자
+    /// 누락(=0)을 최우선하고, 그 대가로 초기 무료 다운로더 극소수가 Pro가 될 수 있는 건 허용.
+    /// 값: 2026-02-22 00:00:00 KST = 2026-02-21 15:00:00 UTC = epoch 1_771_686_000.
+    static let freemiumReleaseDate = Date(timeIntervalSince1970: 1_771_686_000)
+
+    /// v4.0 이전 유료 구매자를 AppTransaction(Apple ID에 묶인 최초 구매 영수증)으로 식별해
+    /// 영구 그랜드파더 Pro를 부여한다.
+    /// - iOS의 `originalAppVersion`은 마케팅 버전이 아니라 빌드 번호라 신뢰 불가 →
+    ///   `originalPurchaseDate`를 v4.0 출시일과 비교해 판별한다.
+    /// - Apple ID 영수증 기반이라 재설치 / 기기 변경 / 데이터 초기화 후에도 유지된다.
+    /// - 이미 그랜드파더 상태면 즉시 종료 (idempotent — 매 실행 호출해도 안전).
+    /// 호출 시점: ClipKeyboardApp.init() / 구매 복원 직후.
+    static func grandfatherPaidUserIfNeeded() async {
+        // 이미 그랜드파더면 재검증 불필요 (이전 실행에서 이미 부여됨)
+        if hasGrandfatheredPurchase { return }
+
+        do {
+            let result = try await AppTransaction.shared
+            guard case .verified(let appTransaction) = result else {
+                print("⚠️ [ProFeatureManager] AppTransaction 미검증 — 유료 구매자 판별 보류")
+                return
+            }
+
+            if appTransaction.originalPurchaseDate < freemiumReleaseDate {
+                groupDefaults?.set(true, forKey: grandfatheredPurchaseKey)
+                print("🛡 [ProFeatureManager] v4.0 이전 유료 앱 구매자 → 그랜드파더 Pro 부여 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+                // hasFullAccess를 보는 화면들이 재렌더되도록 ProStatusManager에 변경 알림
+                await MainActor.run {
+                    ProStatusManager.shared.objectWillChange.send()
+                }
+            } else {
+                print("ℹ️ [ProFeatureManager] v4.0 이후 최초 다운로드 — 그랜드파더 비대상 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+            }
+        } catch {
+            print("⚠️ [ProFeatureManager] AppTransaction 조회 실패 — 다음 실행에 재시도: \(error)")
+        }
+    }
+
     /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)
     static var isPro: Bool {
         if isTestFlight { return true }
