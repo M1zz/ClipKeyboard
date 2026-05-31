@@ -101,8 +101,9 @@ struct ClipKeyboardApp: App {
 
     // MARK: - Default Sample Data
 
-    /// 최초 설치 후 온보딩 완료 시 일반 메모·템플릿·콤보 각 1개씩 삽입한다.
-    /// UserDefaults 플래그로 중복 삽입을 방지한다.
+    /// 최초 설치 후 온보딩 완료 시 4종(일반 메모·템플릿·콤보·일반메모+템플릿)을 1개씩 삽입한다.
+    /// "이런 것도 되는구나"를 첫 화면에서 바로 보여주기 위한 시드 데이터.
+    /// UserDefaults 플래그로 중복 삽입을 방지한다(기존 설치 유저에겐 재삽입 안 함).
     private func insertDefaultSamplesIfNeeded() {
         let key = "defaultSamplesInserted_v1"
         guard !UserDefaults.standard.bool(forKey: key) else { return }
@@ -131,19 +132,22 @@ struct ClipKeyboardApp: App {
     }
 
     private func generalSamples(isKorean: Bool) -> [Memo] {
+        // 1) 일반 메모 — 탭하면 바로 복사
         let memo = Memo(
             title: isKorean ? "내 이메일" : "My Email",
             value: "example@email.com",
             category: isKorean ? "이메일" : "Email"
         )
+        // 2) 템플릿 — {빈칸}을 채워 완성
         let template = Memo(
-            title: isKorean ? "간단 인사말" : "Quick Greeting",
+            title: isKorean ? "회신 템플릿" : "Reply Template",
             value: isKorean
-                ? "안녕하세요 {이름}님, 반갑습니다!\n{날짜}에 연락드립니다."
-                : "Hi {name}, great to meet you!\nReaching out on {date}.",
+                ? "{이름}님, 문의 주셔서 감사합니다.\n{날짜}까지 답변드릴게요."
+                : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: isKorean ? "텍스트" : "Text",
             isTemplate: true
         )
+        // 3) 콤보 — 여러 값을 순서대로 입력
         let combo = Memo(
             title: isKorean ? "이름 + 연락처" : "Name + Contact",
             value: "",
@@ -151,7 +155,14 @@ struct ClipKeyboardApp: App {
             isCombo: true,
             comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
         )
-        return [memo, template, combo]
+        // 4) 일반 메모 + 템플릿 — 고정 인사말 뒤에 템플릿 빈칸이 함께 채워짐
+        let memoWithTemplate = Memo(
+            title: isKorean ? "인사말 + 회신 (탭)" : "Greeting + Reply (tap)",
+            value: isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!",
+            category: isKorean ? "텍스트" : "Text",
+            attachedTemplateId: template.id
+        )
+        return [memo, template, combo, memoWithTemplate]
     }
 
     private func nomadSamples(isKorean: Bool) -> [Memo] {
@@ -179,7 +190,14 @@ struct ClipKeyboardApp: App {
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
             category: isKorean ? "여행" : "Travel"
         )
-        return [template, combo, checklist]
+        // 일반 메모 + 템플릿 — 고정 안내문 뒤에 송금 양식 빈칸이 함께 채워짐
+        let noteWithTemplate = Memo(
+            title: isKorean ? "송금 안내 + 양식 (탭)" : "Payment note + form (tap)",
+            value: isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.",
+            category: "IBAN",
+            attachedTemplateId: template.id
+        )
+        return [template, combo, checklist, noteWithTemplate]
     }
 
     var body: some Scene {
