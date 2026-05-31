@@ -19,7 +19,15 @@ struct ThemeSettings: View {
     @Environment(\.appTheme) private var theme
 
     var body: some View {
-        Form {
+        VStack(spacing: 0) {
+            // ── 상단 고정 실시간 미리보기 — 테마/색을 바꾸면 즉시 반영 ──
+            themePreview
+                .padding(.horizontal, 16)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+                .background(theme.bg)
+
+            Form {
             Section(header: Text(NSLocalizedString("키보드 테마", comment: "Keyboard theme section"))) {
                 Picker(NSLocalizedString("테마 선택", comment: "Theme picker"), selection: $selectedTheme) {
                     ForEach(KeyboardTheme.allCases, id: \.self) { theme in
@@ -45,24 +53,6 @@ struct ThemeSettings: View {
                             keyboardKeyColorHex = newValue.toHex() ?? "FFFFFF"
                         }
                 }
-
-                Section(header: Text(NSLocalizedString("미리보기", comment: "Preview section"))) {
-                    VStack(spacing: 12) {
-                        HStack(spacing: 8) {
-                            ForEach([NSLocalizedString("안녕", comment: "Preview key 1"), NSLocalizedString("하세요", comment: "Preview key 2"), NSLocalizedString("테스트", comment: "Preview key 3")], id: \.self) { text in
-                                Text(text)
-                                    .padding()
-                                    .background(keyColor)
-                                    .cornerRadius(theme.radiusSm)
-                                    .shadow(radius: 2)
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(backgroundColor)
-                    .cornerRadius(theme.radiusMd)
-                }
             }
 
             Section(header: Text(NSLocalizedString("프리셋", comment: "Presets section"))) {
@@ -86,7 +76,8 @@ struct ThemeSettings: View {
                     keyColor = Color(hex: "B2DFDB") ?? .green
                 }
             }
-        }
+            }   // Form
+        }       // VStack
         .navigationTitle(NSLocalizedString("테마 설정", comment: "Theme settings title"))
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -95,6 +86,32 @@ struct ThemeSettings: View {
             backgroundColor = Color(hex: keyboardBackgroundColorHex) ?? Color(hex: "F5F5F5") ?? .gray
             keyColor = Color(hex: keyboardKeyColorHex) ?? Color(hex: "FFFFFF") ?? .white
         }
+    }
+
+    // 테마/색을 즉시 반영하는 키보드 키캡 미리보기 (언어중립 라벨).
+    private var themePreview: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 8) {
+                ForEach(["Aa", "Bb", "Cc"], id: \.self) { t in
+                    Text(t)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(.primary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(keyColor)
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+                        .shadow(color: .black.opacity(0.08), radius: 1.5, y: 1)
+                }
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity)
+        .background(backgroundColor)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        )
     }
 
     private func applyTheme(_ theme: KeyboardTheme) {

@@ -34,20 +34,21 @@ struct KeyboardLayoutSettings: View {
     @Environment(\.appTheme) private var theme
 
     var body: some View {
-        List {
-            // ── 1. 미리보기 ────────────────────────────────────────────
-            Section {
-                KeyboardPreviewView()
-                    .frame(height: 220)
-                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: theme.radiusMd)
-                            .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
-                    )
-                    .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
-                    .listRowBackground(Color.clear)
-            }
+        VStack(spacing: 0) {
+            // ── 상단 고정 실시간 미리보기 — 아래 설정을 바꾸면 즉시 반영된다 ──
+            KeyboardPreviewView()
+                .frame(height: 200)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                .overlay(
+                    RoundedRectangle(cornerRadius: theme.radiusMd)
+                        .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+                )
+                .padding(.horizontal, 16)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+                .background(theme.bg)
 
+            List {
             // ── 2. 그리드 레이아웃 ─────────────────────────────────────
             Section {
                 // 열 개수 — segmented
@@ -73,7 +74,7 @@ struct KeyboardLayoutSettings: View {
                         Spacer()
                         Text("\(Int(buttonHeight))pt").foregroundColor(.secondary)
                     }
-                    Slider(value: $buttonHeight, in: 32...120, step: 1).tint(.blue)
+                    Slider(value: $buttonHeight, in: 32...120, step: 1).tint(theme.accent)
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()
@@ -88,7 +89,7 @@ struct KeyboardLayoutSettings: View {
                         Spacer()
                         Text("\(Int(buttonFontSize))pt").foregroundColor(.secondary)
                     }
-                    Slider(value: $buttonFontSize, in: 10...36, step: 1).tint(.blue)
+                    Slider(value: $buttonFontSize, in: 10...36, step: 1).tint(theme.accent)
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()
@@ -188,7 +189,7 @@ struct KeyboardLayoutSettings: View {
                         customBgColor = .clear; customKeyColor = .clear
                     } label: {
                         Label(NSLocalizedString("색상 초기화", comment: "Reset colors"), systemImage: "arrow.uturn.backward")
-                            .foregroundColor(.blue).font(.footnote)
+                            .foregroundColor(theme.accent).font(.footnote)
                     }
                 }
             } header: {
@@ -201,8 +202,9 @@ struct KeyboardLayoutSettings: View {
                     Label(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults"), systemImage: "arrow.counterclockwise")
                 }
             }
+            }
+            .listStyle(.insetGrouped)
         }
-        .listStyle(.insetGrouped)
         .navigationTitle(NSLocalizedString("키보드 설정", comment: "Keyboard settings nav title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -250,24 +252,24 @@ struct KeyboardLayoutSettings: View {
                         Text(rows[ri][ci])
                             .font(.system(size: 9, weight: .medium))
                             .frame(minWidth: 18, minHeight: 16)
-                            .background(isSelected ? Color.blue.opacity(0.15) : Color(.systemGray6))
+                            .background(isSelected ? theme.accent.opacity(0.15) : Color(.systemGray6))
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
                 }
             }
             Text(title)
                 .font(.caption2)
-                .foregroundColor(isSelected ? .blue : .secondary)
+                .foregroundColor(isSelected ? theme.accent : .secondary)
                 .padding(.top, 2)
         }
         .padding(8)
         .background(
             RoundedRectangle(cornerRadius: theme.radiusSm)
-                .fill(isSelected ? Color.blue.opacity(0.06) : Color(.systemGray6))
+                .fill(isSelected ? theme.accent.opacity(0.08) : Color(.systemGray6))
         )
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusSm)
-                .strokeBorder(isSelected ? Color.blue.opacity(0.4) : Color.clear, lineWidth: 1.5)
+                .strokeBorder(isSelected ? theme.accent.opacity(0.5) : Color.clear, lineWidth: 1.5)
         )
         .onTapGesture { if !isSelected { koreanLayout = layoutId } }
     }
