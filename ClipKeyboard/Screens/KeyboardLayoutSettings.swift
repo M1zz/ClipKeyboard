@@ -102,7 +102,7 @@ struct KeyboardLayoutSettings: View {
                 // 기본 언어 — Apple-style Picker (NavigationLink)
                 Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
                     Label("English", systemImage: "globe").tag("english")
-                    Label("한국어", systemImage: "globe.asia.australia.fill").tag("korean")
+                    Label(NSLocalizedString("한국어", comment: "Korean language option"), systemImage: "globe.asia.australia.fill").tag("korean")
                 }
 
                 // 한국어 레이아웃 — Apple-style Picker (NavigationLink)
@@ -210,13 +210,15 @@ struct KeyboardLayoutSettings: View {
             HStack(spacing: 12) {
                 // 두벌식
                 layoutCard(
-                    title: "두벌식",
+                    title: NSLocalizedString("두벌식", comment: "Dubeolsik Korean keyboard layout name"),
+                    layoutId: "dubeolsik",
                     rows: [["ㅂ","ㅈ","ㄷ","ㄱ","ㅅ"],["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ"],["ㅗ","ㅓ","ㅏ","ㅣ","ㅡ"]],
                     isSelected: koreanLayout == "dubeolsik"
                 )
                 // 천지인
                 layoutCard(
-                    title: "천지인",
+                    title: NSLocalizedString("천지인", comment: "Cheonjiin Korean keyboard layout name"),
+                    layoutId: "cheonjiin",
                     rows: [["ㅣ","ㆍ","ㅡ"],["ㄱㅋ","ㄴㄹ","ㄷㅌ"],["ㅂㅍ","ㅅㅎ","ㅈㅊ"]],
                     isSelected: koreanLayout == "cheonjiin"
                 )
@@ -225,7 +227,7 @@ struct KeyboardLayoutSettings: View {
         .padding(.vertical, 4)
     }
 
-    private func layoutCard(title: String, rows: [[String]], isSelected: Bool) -> some View {
+    private func layoutCard(title: String, layoutId: String, rows: [[String]], isSelected: Bool) -> some View {
         VStack(spacing: 4) {
             ForEach(rows.indices, id: \.self) { ri in
                 HStack(spacing: 3) {
@@ -252,7 +254,7 @@ struct KeyboardLayoutSettings: View {
             RoundedRectangle(cornerRadius: theme.radiusSm)
                 .strokeBorder(isSelected ? Color.blue.opacity(0.4) : Color.clear, lineWidth: 1.5)
         )
-        .onTapGesture { koreanLayout = isSelected ? koreanLayout : (title == "두벌식" ? "dubeolsik" : "cheonjiin") }
+        .onTapGesture { if !isSelected { koreanLayout = layoutId } }
     }
 
     // MARK: - Reset

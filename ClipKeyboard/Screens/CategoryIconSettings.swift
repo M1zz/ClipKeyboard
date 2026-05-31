@@ -107,10 +107,10 @@ struct CategoryIconSettings: View {
                                 .accessibilityHidden(true)
                         }
                     }
-                    .accessibilityLabel("\(cat), 아이콘 변경")
+                    .accessibilityLabel(String(format: NSLocalizedString("%@, 아이콘 변경", comment: "Category row a11y: change icon"), cat))
                 }
             } footer: {
-                Text("키보드에서 카테고리 탭에 표시되는 아이콘을 변경합니다.")
+                Text(NSLocalizedString("키보드에서 카테고리 탭에 표시되는 아이콘을 변경합니다.", comment: "Category icon settings footer"))
                     .font(.caption)
             }
 
@@ -120,12 +120,12 @@ struct CategoryIconSettings: View {
                         icons = [:]
                         saveCustomIcons([:])
                     } label: {
-                        Label("기본값으로 초기화", systemImage: "arrow.counterclockwise")
+                        Label(NSLocalizedString("기본값으로 초기화", comment: "Reset icons to default"), systemImage: "arrow.counterclockwise")
                     }
                 }
             }
         }
-        .navigationTitle("카테고리 아이콘")
+        .navigationTitle(NSLocalizedString("카테고리 아이콘", comment: "Category icons screen title"))
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.insetGrouped)
         .sheet(isPresented: Binding(
@@ -173,7 +173,7 @@ struct SymbolPickerSheet: View {
                     // 검색 결과 또는 카탈로그 섹션
                     if !search.isEmpty {
                         if filtered.isEmpty {
-                            Text("검색 결과 없음")
+                            Text(NSLocalizedString("검색 결과 없음", comment: "No symbol search results"))
                                 .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.top, 40)
@@ -198,12 +198,12 @@ struct SymbolPickerSheet: View {
                 }
                 .padding(.bottom, 24)
             }
-            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always), prompt: "심볼 이름 검색")
+            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always), prompt: NSLocalizedString("심볼 이름 검색", comment: "Symbol name search prompt"))
             .navigationTitle(category)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("취소") { dismiss() }
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
                 }
             }
         }

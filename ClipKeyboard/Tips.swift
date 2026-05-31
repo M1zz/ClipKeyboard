@@ -57,7 +57,7 @@ struct KeyboardTip: Tip {
     }
 
     var actions: [Action] {
-        [Action(id: "setup", title: "키보드 설정하기")]
+        [Action(id: "setup", title: NSLocalizedString("키보드 설정하기", comment: "Tip action: set up keyboard"))]
     }
 }
 
@@ -83,8 +83,8 @@ struct CleanUpSamplesTip: Tip {
 
     var actions: [Action] {
         [
-            Action(id: "delete", title: "지우기"),
-            Action(id: "keep", title: "유지하기")
+            Action(id: "delete", title: NSLocalizedString("지우기", comment: "Tip action: delete")),
+            Action(id: "keep", title: NSLocalizedString("유지하기", comment: "Tip action: keep"))
         ]
     }
 }

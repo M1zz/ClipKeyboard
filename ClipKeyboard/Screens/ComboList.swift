@@ -500,7 +500,7 @@ struct ComboAddEditView: View {
                     }
                     .accessibilityHint(NSLocalizedString("메모, 클립보드 항목, 템플릿을 Combo에 추가합니다", comment: "Add item hint"))
                 } header: {
-                    Text(NSLocalizedString("항목 (\(selectedItems.count)개)", comment: "Items count header"))
+                    Text(String(format: NSLocalizedString("항목 (%d개)", comment: "Items count header"), selectedItems.count))
                 } footer: {
                     if !selectedItems.isEmpty {
                         Text(NSLocalizedString("드래그하여 순서를 변경할 수 있습니다. Combo 실행 시 이 순서대로 각 항목이 입력됩니다.", comment: "Drag to reorder instruction with execution order explanation"))

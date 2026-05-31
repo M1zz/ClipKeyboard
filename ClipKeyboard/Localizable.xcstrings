@@ -93,6 +93,12 @@
             "state" : "new",
             "value" : "'%1$@' 메모가 %2$d개 있어요"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' — %d memos"
+          }
         }
       }
     },
@@ -108,7 +114,15 @@
       }
     },
     "'%@' 카테고리를 만들어 한 곳에 모아드릴까요?" : {
-      "comment" : "Category suggestion tip message — category name"
+      "comment" : "Category suggestion tip message — category name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a '%@' category to keep them in one place?"
+          }
+        }
+      }
     },
     "'%@' 카테고리를 삭제하시겠습니까? 메모는 유지됩니다." : {
       "comment" : "Delete category confirm message",
@@ -1087,8 +1101,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다"
+            "state" : "translated",
+            "value" : "%d memos locked — unlocks when you buy Pro on iOS"
           }
         },
         "id" : {
@@ -1550,7 +1564,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "• When auto backup is enabled, changes to memos, clipboard, and combos are backed up automatically\n• Regular backups run every 5 minutes"
+            "value" : "• When auto-backup is on, memos, clipboard, and combos are backed up whenever they change\n• A backup also runs every 5 minutes"
           }
         },
         "id" : {
@@ -1567,8 +1581,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\\n• 5분마다 정기적으로 백업이 실행됩니다"
+            "state" : "translated",
+            "value" : "• When auto-backup is on, memos, clipboard, and combos are backed up whenever they change\n• A backup also runs every 5 minutes"
           }
         },
         "id" : {
@@ -1676,8 +1690,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "⌃⌥K로 어디서나 빠르게 접근"
+            "state" : "translated",
+            "value" : "Quick access anywhere with ⌃⌥K"
           }
         },
         "id" : {
@@ -1745,8 +1759,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다"
+            "state" : "translated",
+            "value" : "⚠️ Restoring replaces your current data with the backup"
           }
         },
         "id" : {
@@ -1769,7 +1783,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⚠️ There is existing data on this device.\n\nRestoring will delete all current memos, clipboard, and combos and replace them with backup data.\n\nThis action cannot be undone. Continue?"
+            "value" : "⚠️ This device already has data.\n\nRestoring deletes all current memos, clipboard items, and combos and replaces them with the backup.\n\nThis cannot be undone. Continue?"
           }
         },
         "id" : {
@@ -1786,8 +1800,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "⚠️ 현재 기기에 데이터가 있습니다.\\n\\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\\n\\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?"
+            "state" : "translated",
+            "value" : "⚠️ This device already has data.\n\nRestoring deletes all current memos, clipboard items, and combos and replaces them with the backup.\n\nThis cannot be undone. Continue?"
           }
         },
         "id" : {
@@ -2308,7 +2322,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "12가1234"
+            "value" : "12A 3456"
           }
         },
         "id" : {
@@ -3597,8 +3611,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "ClipKeyboard에 오신 것을 환영합니다"
+            "state" : "translated",
+            "value" : "Welcome to ClipKeyboard"
           }
         },
         "id" : {
@@ -5299,8 +5313,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iCloud 동기화"
+            "state" : "translated",
+            "value" : "iCloud Sync"
           }
         },
         "id" : {
@@ -5340,8 +5354,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iCloud 백업 및 복구"
+            "state" : "translated",
+            "value" : "iCloud Backup & Restore"
           }
         },
         "id" : {
@@ -5398,8 +5412,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iCloud 상태:"
+            "state" : "translated",
+            "value" : "iCloud status:"
           }
         },
         "id" : {
@@ -5683,8 +5697,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iOS 구매 시 자동 연동"
+            "state" : "translated",
+            "value" : "Syncs automatically with your iOS purchase"
           }
         },
         "id" : {
@@ -5742,8 +5756,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다."
+            "state" : "translated",
+            "value" : "Buy Pro in the iOS app and it activates on macOS too."
           }
         },
         "id" : {
@@ -5766,8 +5780,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다."
+            "state" : "translated",
+            "value" : "Buy Pro in the iOS app and it activates on this Mac too."
           }
         },
         "id" : {
@@ -6173,8 +6187,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "macOS에서 가장 빠르고 편리한\\n메모 및 클립보드 관리 앱"
+            "state" : "translated",
+            "value" : "The fastest, easiest memo &\\nclipboard manager on macOS"
           }
         },
         "id" : {
@@ -10355,7 +10369,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No values.\nAdd values when using templates."
+            "value" : "No values yet.\nAdd values when you use the template."
           }
         },
         "id" : {
@@ -10372,8 +10386,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "값이 없습니다.\\n템플릿 사용 시 값을 추가하세요."
+            "state" : "translated",
+            "value" : "No values yet.\nAdd values when you use the template."
           }
         },
         "id" : {
@@ -10408,7 +10422,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We do not collect personal information.\nYou can use it with peace of mind."
+            "value" : "We don't collect any personal data.\nUse it with peace of mind."
           }
         },
         "id" : {
@@ -10443,8 +10457,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "개인정보를 수집하지 않습니다.\\n안심하고 사용하세요."
+            "state" : "translated",
+            "value" : "We don't collect any personal data.\nUse it with peace of mind."
           }
         },
         "id" : {
@@ -10529,7 +10543,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No Results"
+            "value" : "No results"
           }
         },
         "id" : {
@@ -10563,8 +10577,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "검색..."
+            "state" : "translated",
+            "value" : "Search..."
           }
         },
         "id" : {
@@ -10971,7 +10985,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset to defaults"
+            "value" : "Reset to default"
           }
         }
       }
@@ -11528,8 +11542,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "데이터가 iCloud에 성공적으로 백업되었습니다."
+            "state" : "translated",
+            "value" : "Your data was backed up to iCloud successfully."
           }
         },
         "id" : {
@@ -11586,8 +11600,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "데이터를 iCloud에 안전하게 백업하세요"
+            "state" : "translated",
+            "value" : "Back up your data safely to iCloud"
           }
         },
         "id" : {
@@ -11724,7 +11738,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2-Set (Dubeolsik)"
+            "value" : "Dubeolsik"
           }
         }
       }
@@ -11975,8 +11989,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "마지막 백업:"
+            "state" : "translated",
+            "value" : "Last backup:"
           }
         },
         "id" : {
@@ -12040,8 +12054,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "메모 5개 · 클립보드 20개 제한"
+            "state" : "translated",
+            "value" : "Limited to 5 memos · 20 clipboard items"
           }
         },
         "id" : {
@@ -12471,8 +12485,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "메모를 즐겨찾기에 추가하세요"
+            "state" : "translated",
+            "value" : "Add memos to your favorites"
           }
         },
         "id" : {
@@ -12559,8 +12573,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "모든 기기에서 데이터 동기화"
+            "state" : "translated",
+            "value" : "Sync your data across all devices"
           }
         },
         "id" : {
@@ -12607,8 +12621,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "모든 기능을 사용할 수 있습니다."
+            "state" : "translated",
+            "value" : "You can use every feature."
           }
         },
         "id" : {
@@ -12761,8 +12775,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "무료 플랜"
+            "state" : "translated",
+            "value" : "Free plan"
           }
         },
         "id" : {
@@ -13099,8 +13113,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "백업 데이터가 성공적으로 복구되었습니다."
+            "state" : "translated",
+            "value" : "Your backup was restored successfully."
           }
         },
         "id" : {
@@ -13276,8 +13290,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "백업 중..."
+            "state" : "translated",
+            "value" : "Backing up..."
           }
         },
         "id" : {
@@ -13479,7 +13493,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A single rating\nmeans a lot to an indie developer."
+            "value" : "A single rating means a lot\nto a solo developer."
           }
         },
         "id" : {
@@ -13496,8 +13510,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "별점 하나가\\n1인 개발자에게 큰 힘이 됩니다."
+            "state" : "translated",
+            "value" : "A single rating means a lot\nto a solo developer."
           }
         },
         "id" : {
@@ -13792,8 +13806,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "복구 중..."
+            "state" : "translated",
+            "value" : "Restoring..."
           }
         },
         "id" : {
@@ -13884,8 +13898,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "복사한 내용을 자동으로 저장하고 관리"
+            "state" : "translated",
+            "value" : "Automatically save and manage what you copy"
           }
         },
         "id" : {
@@ -13908,7 +13922,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copied content is automatically saved here\n(Max 100 items, kept for 7 days)"
+            "value" : "What you copy is saved here automatically\n(up to 100 items, kept for 7 days)"
           }
         },
         "id" : {
@@ -13925,8 +13939,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+            "state" : "translated",
+            "value" : "What you copy is saved here automatically\n(up to 100 items, kept for 7 days)"
           }
         },
         "id" : {
@@ -14118,8 +14132,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "빠른 메모"
+            "state" : "translated",
+            "value" : "Quick Memo"
           }
         },
         "id" : {
@@ -14437,8 +14451,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "상태 새로고침"
+            "state" : "translated",
+            "value" : "Refresh status"
           }
         },
         "id" : {
@@ -14461,8 +14475,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "상태 확인"
+            "state" : "translated",
+            "value" : "Check status"
           }
         },
         "id" : {
@@ -15531,7 +15545,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "After adding the keyboard in Settings,\ncome back here to continue"
+            "value" : "After adding the keyboard in Settings,\ncome back to this screen to continue."
           }
         },
         "id" : {
@@ -15548,8 +15562,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요"
+            "state" : "translated",
+            "value" : "After adding the keyboard in Settings,\ncome back to this screen to continue."
           }
         },
         "id" : {
@@ -16390,7 +16404,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "What feature would you like?\nExample: I need a way to group memos into folders."
+            "value" : "What feature would you like?\ne.g. I'd like to group memos into folders."
           }
         },
         "id" : {
@@ -16407,8 +16421,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "어떤 기능이 있으면 좋겠나요?\\n예) 메모를 폴더로 묶는 기능이 필요해요."
+            "state" : "translated",
+            "value" : "What feature would you like?\ne.g. I'd like to group memos into folders."
           }
         },
         "id" : {
@@ -16431,7 +16445,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "What would you like to know?\nExample: How do I view my clipboard history?"
+            "value" : "What would you like to know?\ne.g. How do I view clipboard history?"
           }
         },
         "id" : {
@@ -16448,8 +16462,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?"
+            "state" : "translated",
+            "value" : "What would you like to know?\ne.g. How do I view clipboard history?"
           }
         },
         "id" : {
@@ -16472,7 +16486,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please describe when the issue occurs.\nExample: The app closes when saving a memo."
+            "value" : "Tell us when the problem happens.\ne.g. The app quits when I save a memo."
           }
         },
         "id" : {
@@ -16489,8 +16503,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 메모를 저장할 때 앱이 종료됩니다."
+            "state" : "translated",
+            "value" : "Tell us when the problem happens.\ne.g. The app quits when I save a memo."
           }
         },
         "id" : {
@@ -16654,7 +16668,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create a Combo to automatically enter\nmultiple memos in order"
+            "value" : "Create a Combo that types\nseveral memos in sequence"
           }
         },
         "id" : {
@@ -16671,8 +16685,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "여러 메모를 순서대로 자동 입력하는\\nCombo를 만들어보세요"
+            "state" : "translated",
+            "value" : "Create a Combo that types\nseveral memos in sequence"
           }
         },
         "id" : {
@@ -17670,8 +17684,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "이미지를 불러올 수 없습니다"
+            "state" : "translated",
+            "value" : "Couldn't load the image"
           }
         },
         "id" : {
@@ -18324,8 +18338,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기"
+            "state" : "translated",
+            "value" : "Save text you use often and paste it fast"
           }
         },
         "id" : {
@@ -18512,8 +18526,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
+            "state" : "translated",
+            "value" : "ago"
           }
         },
         "id" : {
@@ -18668,8 +18682,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전역 단축키"
+            "state" : "translated",
+            "value" : "Global Shortcut"
           }
         },
         "id" : {
@@ -19062,8 +19076,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "즐겨찾기 메모"
+            "state" : "translated",
+            "value" : "Favorite Memos"
           }
         },
         "id" : {
@@ -19108,8 +19122,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요."
+            "state" : "translated",
+            "value" : "Tap a favorite memo to copy it instantly. Swipe a memo left to add it to favorites."
           }
         },
         "id" : {
@@ -19150,8 +19164,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "즐겨찾기 없음"
+            "state" : "translated",
+            "value" : "No favorites"
           }
         },
         "id" : {
@@ -19311,7 +19325,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clear"
+            "value" : "Delete"
           }
         },
         "id" : {
@@ -19698,8 +19712,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "최대 5개"
+            "state" : "translated",
+            "value" : "Up to 5"
           }
         },
         "id" : {
@@ -19722,8 +19736,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "최대 20개"
+            "state" : "translated",
+            "value" : "Up to 20"
           }
         },
         "id" : {
@@ -19746,8 +19760,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "최대 100개"
+            "state" : "translated",
+            "value" : "Up to 100"
           }
         },
         "id" : {
@@ -19903,7 +19917,15 @@
       }
     },
     "카테고리 만들기" : {
-      "comment" : "Category suggestion: create action button"
+      "comment" : "Category suggestion: create action button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create Category"
+          }
+        }
+      }
     },
     "카테고리 삭제" : {
       "comment" : "Delete category alert title",
@@ -19933,7 +19955,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Category icons"
+            "value" : "Category Icons"
           }
         }
       }
@@ -20500,8 +20522,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "클립키보드에\\n오신 것을 환영합니다!"
+            "state" : "translated",
+            "value" : "Welcome to\nClipKeyboard!"
           }
         },
         "id" : {
@@ -20930,7 +20952,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Load memos directly from the keyboard\nfor quick input"
+            "value" : "Pull up your memos right from the keyboard\nand type them in fast"
           }
         },
         "id" : {
@@ -20947,8 +20969,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "키보드에서 바로 메모를 불러와\\n빠르게 입력할 수 있어요"
+            "state" : "translated",
+            "value" : "Pull up your memos right from the keyboard\nand type them in fast"
           }
         },
         "id" : {
@@ -21007,7 +21029,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Full access is required to load\nsaved memos from the keyboard"
+            "value" : "To load your saved memos from the keyboard,\nFull Access is required"
           }
         },
         "id" : {
@@ -21024,8 +21046,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "키보드에서 저장된 메모를 불러오려면\\n전체 접근 권한이 필요합니다"
+            "state" : "translated",
+            "value" : "To load your saved memos from the keyboard,\nFull Access is required"
           }
         },
         "id" : {
@@ -21049,7 +21071,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Change the icons shown on category tabs in the keyboard."
+            "value" : "Change the icon shown on the category tab in the keyboard."
           }
         }
       }
@@ -21448,8 +21470,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "탭하여 복사"
+            "state" : "translated",
+            "value" : "Tap to copy"
           }
         },
         "id" : {
@@ -21832,8 +21854,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다"
+            "state" : "translated",
+            "value" : "Create a template memo using {} and you can manage it here"
           }
         },
         "id" : {
@@ -22436,7 +22458,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Feedback sent!\nThank you for your valuable input 🙏"
+            "value" : "Feedback sent!\nThank you for your input 🙏"
           }
         },
         "id" : {
@@ -22453,8 +22475,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏"
+            "state" : "translated",
+            "value" : "Feedback sent!\nThank you for your input 🙏"
           }
         },
         "id" : {
@@ -22684,8 +22706,8 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "항목 (\\(selectedItems.count)개)"
+            "state" : "translated",
+            "value" : "Items selected"
           }
         },
         "id" : {
@@ -23311,6 +23333,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tambahkan contoh"
+          }
+        }
+      }
+    },
+    "항목 (%d개)" : {
+      "comment" : "Items count header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items (%d)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item (%d)"
+          }
+        }
+      }
+    },
+    "키보드 설정하기" : {
+      "comment" : "Tip action: set up keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set up keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atur keyboard"
+          }
+        }
+      }
+    },
+    "유지하기" : {
+      "comment" : "Tip action: keep",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
           }
         }
       }
