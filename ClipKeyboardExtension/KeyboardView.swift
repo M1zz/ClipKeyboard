@@ -172,6 +172,10 @@ struct KeyboardView: View {
     // 옵션 토글 — 기본 OFF로 화면 공간 확보
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showSearchBar: Bool = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecentSection: Bool = false
+    // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
+    // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
+    @AppStorage("keyboardKoreanEnabled", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var koreanInputEnabled: Bool = false
+    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var defaultTypingLang: String = "english"
 
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
@@ -734,12 +738,16 @@ struct KeyboardView: View {
                 }
             }
             HStack(spacing: 3) {
-                langToggleKey
+                if koreanInputEnabled { langToggleKey }   // 한국어 미사용 시 토글 숨김
                 spaceKey
                 backspaceKey
             }
         }
         .padding(.horizontal, 3)
+        .onAppear {
+            // 한국어 미사용이면 항상 영어 자판. 사용 중이면 기본 언어 설정을 시작값으로.
+            searchKeyboardLang = (koreanInputEnabled && defaultTypingLang == "korean") ? .korean : .english
+        }
         .padding(.vertical, 4)
         .background(theme.surfaceAlt)
     }
@@ -805,7 +813,8 @@ struct KeyboardView: View {
     }
 
     private var currentRows: [[String]] {
-        switch searchKeyboardLang {
+        // 한국어 미사용이면 무조건 영어 자판 (한글 노출 방지 방어)
+        switch (koreanInputEnabled ? searchKeyboardLang : .english) {
         case .english:
             return [
                 ["q","w","e","r","t","y","u","i","o","p"],

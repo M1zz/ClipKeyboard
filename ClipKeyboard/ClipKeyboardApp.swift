@@ -139,6 +139,18 @@ struct ClipKeyboardApp: App {
     }
 
     /// 신규 설치에서만 자동 삽입. 신규 설치는 데모 질문 대상이 아니므로 resolved로 표시.
+    /// 한국어 입력 토글 기본값은 OFF지만, 기존에 키보드 기본 언어를 한국어로 쓰던 사용자는
+    /// 토글이 갑자기 사라지지 않도록 1회 자동 활성화한다. (영어 기본 사용자는 OFF 유지 → 한 안 보임)
+    private func migrateKoreanEnabledIfNeeded() {
+        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        guard g?.bool(forKey: "koreanEnabledMigrated_v1") != true else { return }
+        if g?.string(forKey: "keyboardTypingLang") == "korean" {
+            g?.set(true, forKey: "keyboardKoreanEnabled")
+            print("🔄 [APP INIT] 기존 한국어 사용자 — 한국어 입력 자동 활성화")
+        }
+        g?.set(true, forKey: "koreanEnabledMigrated_v1")
+    }
+
     private func insertDefaultSamplesIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
         if performSampleInsertion() {
@@ -243,6 +255,7 @@ struct ClipKeyboardApp: App {
                     handleOpenURL(url)
                 }
                 .onAppear {
+                    migrateKoreanEnabledIfNeeded()
                     insertDefaultSamplesIfNeeded()
                     offerDemoSamplesToExistingUserIfNeeded()
 

@@ -26,6 +26,8 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardShowRecent",     store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showRecent:     Bool   = false
     @AppStorage("keyboardKoreanLayout",   store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var koreanLayout:   String = "dubeolsik"
     @AppStorage("keyboardTypingLang",     store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var defaultLang:    String = "english"
+    // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
+    @AppStorage("keyboardKoreanEnabled",  store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var koreanEnabled:  Bool   = false
 
     @State private var customBgColor:  Color = .clear
     @State private var customKeyColor: Color = .clear
@@ -99,6 +101,16 @@ struct KeyboardLayoutSettings: View {
 
             // ── 3. 언어 설정 ───────────────────────────────────────────
             Section {
+                // 한국어 입력 사용 — 기본 OFF. 켜야 키보드에 한/EN 토글과 한글 자판이 나타난다.
+                Toggle(isOn: $koreanEnabled) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("한국어 입력", comment: "Enable Korean input toggle"))
+                        Text(NSLocalizedString("켜면 키보드에서 한국어도 입력할 수 있어요", comment: "Enable Korean input subtitle"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
+
+                if koreanEnabled {
                 // 기본 언어 — Apple-style Picker (NavigationLink)
                 Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
                     Label("English", systemImage: "globe").tag("english")
@@ -124,10 +136,13 @@ struct KeyboardLayoutSettings: View {
 
                 // 레이아웃 시각 가이드
                 koreanLayoutGuide
+                }   // if koreanEnabled
             } header: {
                 Text(NSLocalizedString("언어", comment: "Section: language"))
             } footer: {
-                Text(NSLocalizedString("키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.", comment: "Language section footer"))
+                Text(koreanEnabled
+                     ? NSLocalizedString("키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.", comment: "Language section footer")
+                     : NSLocalizedString("이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다.", comment: "Language section footer when Korean off"))
             }
 
             // ── 4. 표시 옵션 ───────────────────────────────────────────
