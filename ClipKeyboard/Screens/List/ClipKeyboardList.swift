@@ -413,7 +413,7 @@ struct ClipKeyboardList: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(theme.textFaint)
-                .font(.callout)
+                .font(.body)
                 .accessibilityHidden(true)
 
             TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
@@ -430,7 +430,7 @@ struct ClipKeyboardList: View {
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(theme.textFaint)
-                        .font(.callout)
+                        .font(.body)
                 }
                 .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
             }
@@ -981,7 +981,7 @@ struct ClipKeyboardList: View {
                 .font(.system(size: 44))
                 .foregroundColor(theme.textFaint)
             Text(message)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
             Spacer()
@@ -998,7 +998,7 @@ struct ClipKeyboardList: View {
                     .font(.system(size: 44))
                     .foregroundColor(theme.textFaint)
                 Text(NSLocalizedString("즐겨찾기한 메모가 없습니다.\n메모를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
@@ -1036,7 +1036,7 @@ struct ClipKeyboardList: View {
                 .font(.system(.title, design: .serif, weight: .black))
                 .foregroundColor(theme.text)
             Text(contextLine)
-                .font(.footnote)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
             if let savedText = timeSavedBadgeText {
                 HStack(spacing: 4) {
@@ -1224,7 +1224,7 @@ struct ClipKeyboardList: View {
                     }
                     if memo.isSecure {
                         Image(systemName: "lock.fill")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textFaint)
                     }
                     Spacer(minLength: 0)
@@ -1244,7 +1244,7 @@ struct ClipKeyboardList: View {
 
                 if !memo.value.isEmpty {
                     Text(memo.value)
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.text)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .fixedSize(horizontal: false, vertical: true)
@@ -1533,7 +1533,7 @@ struct ClipKeyboardList: View {
     private var toastOverlay: some View {
         if viewModel.showToast {
             Text(viewModel.toastMessage)
-                .font(.footnote)
+                .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
                 .padding(.horizontal, 16)
@@ -1569,7 +1569,7 @@ struct ClipKeyboardList: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
                     Text(NSLocalizedString("탭해서 바로 내 메모로 추가할 수 있어요", comment: "Empty state suggestion subhead"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 .padding(.horizontal, 20)
@@ -1593,7 +1593,7 @@ struct ClipKeyboardList: View {
                         Text(NSLocalizedString("직접 추가하기", comment: "Add memo manually button"))
                             .fontWeight(.medium)
                     }
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.accent)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
@@ -1648,7 +1648,7 @@ struct ClipKeyboardList: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(theme.text)
                 Text(NSLocalizedString("카드 오른쪽 점이 카테고리를 표시해요. 끄시겠어요?", comment: "Nudge: category badge message"))
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
             Spacer()
@@ -1670,7 +1670,7 @@ struct ClipKeyboardList: View {
                     withAnimation { showCategoryBadgeNudge = false }
                 } label: {
                     Text(NSLocalizedString("유지", comment: "Nudge: keep on"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
             }
@@ -1713,12 +1713,12 @@ struct ClipKeyboardList: View {
                 }
 
                 Text(suggestion.title)
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.text)
 
                 Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .lineLimit(3)
             }
@@ -1759,11 +1759,11 @@ private struct CategoryActivationBanner: View {
                     .foregroundColor(.blue)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(NSLocalizedString("메모가 늘었어요", comment: "Category activation banner title"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
                     Text(NSLocalizedString("카테고리로 분류해서 빠르게 찾아볼까요?", comment: "Category activation banner subtitle"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 Spacer()
@@ -1771,7 +1771,7 @@ private struct CategoryActivationBanner: View {
             HStack(spacing: 8) {
                 Button(action: onDismiss) {
                     Text(NSLocalizedString("괜찮아요", comment: "Decline category activation"))
-                        .font(.caption)
+                        .font(.body)
                         .fontWeight(.medium)
                         .foregroundColor(theme.textMuted)
                         .frame(maxWidth: .infinity)
@@ -1781,7 +1781,7 @@ private struct CategoryActivationBanner: View {
                 }
                 Button(action: onEnable) {
                     Text(NSLocalizedString("써볼게요", comment: "Accept category activation"))
-                        .font(.caption)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -2081,11 +2081,11 @@ struct ActivationCard: View {
                     .accessibilityHidden(true)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(NSLocalizedString("이제 다른 앱에서 써보세요", comment: "Activation card title"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
                     Text(NSLocalizedString("아무 텍스트 필드 탭 → 🌐 눌러 전환 → 메모 탭", comment: "Activation card hint"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 Spacer()
@@ -2094,7 +2094,7 @@ struct ActivationCard: View {
             HStack(spacing: 10) {
                 Button(action: onPractice) {
                     Text(NSLocalizedString("지금 연습하기", comment: "Activation card: start practice button"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -2105,7 +2105,7 @@ struct ActivationCard: View {
 
                 Button(action: onSnooze) {
                     Text(NSLocalizedString("나중에", comment: "Activation card: snooze button"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 9)
@@ -2137,15 +2137,15 @@ struct TemplateHintBanner: View {
             HStack(spacing: 8) {
                 Image(systemName: "doc.text.fill")
                     .foregroundColor(.purple)
-                    .font(.subheadline)
+                    .font(.body)
                 Text(NSLocalizedString("💡 템플릿으로 반복 입력을 자동화해보세요", comment: "Template hint banner title"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.text)
                 Spacer()
                 Button(action: onDismiss) {
                     Image(systemName: "xmark")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(6)
                         .background(theme.surfaceAlt)
@@ -2155,14 +2155,14 @@ struct TemplateHintBanner: View {
             }
 
             Text(NSLocalizedString("{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.", comment: "Template hint description"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
 
             NavigationLink {
                 MemoAdd(insertedIsTemplate: true)
             } label: {
                 Text(NSLocalizedString("첫 템플릿 만들기", comment: "Template hint CTA button"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -2201,15 +2201,15 @@ struct OccasionalSuggestionBanner: View {
             HStack(spacing: 8) {
                 Image(systemName: "lightbulb.fill")
                     .foregroundColor(.yellow)
-                    .font(.subheadline)
+                    .font(.body)
                 Text(NSLocalizedString("이런 것도 써보실래요?", comment: "Occasional suggestion banner title"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.text)
                 Spacer()
                 Button(action: onDismiss) {
                     Image(systemName: "xmark")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(6)
                         .background(theme.surfaceAlt)
@@ -2223,11 +2223,11 @@ struct OccasionalSuggestionBanner: View {
                     .font(.title2)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(suggestion.title)
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.medium)
                         .foregroundColor(theme.text)
                     Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(3)
                 }
@@ -2236,7 +2236,7 @@ struct OccasionalSuggestionBanner: View {
 
             Button(action: onAdd) {
                 Text(NSLocalizedString("지금 추가하기", comment: "Accept suggestion button"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -2404,11 +2404,11 @@ struct MemoFilterChip: View {
         Button(action: action) {
             HStack(spacing: 5) {
                 Image(systemName: icon)
-                    .font(.footnote)
+                    .font(.body)
                     .fontWeight(isSelected ? .semibold : .regular)
                     .accessibilityHidden(true)
                 Text(title)
-                    .font(.footnote)
+                    .font(.body)
                     .fontWeight(isSelected ? .semibold : .regular)
                 Text("\(count)")
                     .font(.caption2)
@@ -2552,7 +2552,7 @@ struct CategoryManagementSheet: View {
                         }
                         Spacer()
                         Text(NSLocalizedString("항상 표시", comment: "Category always visible"))
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(.secondary)
                     }
 

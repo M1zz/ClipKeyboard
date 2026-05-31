@@ -63,10 +63,10 @@ private struct ThemeOptionRow: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(kind.displayName)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.body.weight(.semibold))
                         .foregroundColor(.primary)
                     Text(subtitle(for: kind))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(.secondary)
                         .lineLimit(2)
                         .fixedSize(horizontal: false, vertical: true)

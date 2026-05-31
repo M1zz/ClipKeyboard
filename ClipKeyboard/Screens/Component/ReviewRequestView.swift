@@ -30,7 +30,7 @@ struct ReviewRequestView: View {
 
             // Brief message
             Text(NSLocalizedString("별점 하나가\n1인 개발자에게 큰 힘이 됩니다.", comment: "Review message"))
-                .font(.subheadline)
+                .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundColor(theme.textMuted)
                 .lineSpacing(4)

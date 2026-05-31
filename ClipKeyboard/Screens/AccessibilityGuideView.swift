@@ -138,12 +138,12 @@ struct AccessibilityGuideView: View {
                 ForEach(testSteps, id: \.self) { step in
                     HStack(alignment: .top, spacing: 10) {
                         Image(systemName: "chevron.right.circle.fill")
-                            .font(.footnote)
+                            .font(.body)
                             .foregroundColor(theme.accent)
                             .padding(.top, 2)
                             .accessibilityHidden(true)
                         Text(step)
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -213,7 +213,7 @@ private struct FeatureCard: View {
                     .foregroundColor(theme.text)
             }
             Text(feature.body)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -223,7 +223,7 @@ private struct FeatureCard: View {
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)
                 Text(feature.tip)
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textFaint)
             }
         }

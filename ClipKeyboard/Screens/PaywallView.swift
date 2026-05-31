@@ -82,7 +82,7 @@ struct PaywallView: View {
                 .fontWeight(.bold)
 
             Text(headerSubtitle)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -104,7 +104,7 @@ struct PaywallView: View {
                 .foregroundStyle(.orange)
             
             Text(limit.localizedDescription)
-                .font(.subheadline)
+                .font(.body)
                 .multilineTextAlignment(.leading)
         }
         .padding()
@@ -120,17 +120,17 @@ struct PaywallView: View {
             // 헤더
             HStack {
                 Text(NSLocalizedString("기능", comment: "Feature"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Text(NSLocalizedString("무료", comment: "Free"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.medium)
                     .frame(width: 60)
                 
                 Text("Pro")
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.bold)
                     .foregroundStyle(.orange)
                     .frame(width: 60)
@@ -187,16 +187,16 @@ struct PaywallView: View {
 
         return HStack {
             Text(name)
-                .font(.subheadline)
+                .font(.body)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             Text(free)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundStyle(isProOnly ? .secondary : .primary)
                 .frame(width: 60)
 
             Text(pro)
-                .font(.subheadline)
+                .font(.body)
                 .fontWeight(.medium)
                 .foregroundStyle(.orange)
                 .frame(width: 60)
@@ -277,14 +277,14 @@ struct PaywallView: View {
                     Task { await store.restorePurchases() }
                 } label: {
                     Text(NSLocalizedString("이전 구매 복원", comment: "Restore"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundStyle(.secondary)
                 }
 
                 // 에러 메시지
                 if let error = store.errorMessage {
                     Text(error)
-                        .font(.caption)
+                        .font(.body)
                         .foregroundStyle(.red)
                 }
             }
@@ -333,7 +333,7 @@ struct PaywallView: View {
                 .foregroundStyle(.green)
                 .accessibilityHidden(true)
             Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
-                .font(.subheadline)
+                .font(.body)
                 .fontWeight(.medium)
             Spacer()
         }

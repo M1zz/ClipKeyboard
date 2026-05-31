@@ -83,7 +83,7 @@ struct NomadQuickSetupView: View {
             }
             Spacer()
             Button(NSLocalizedString("건너뛰기", comment: "Skip nomad wizard")) { onComplete() }
-                .font(.subheadline)
+                .font(.body)
                 .foregroundStyle(.secondary)
         }
         .animation(.spring(response: 0.3), value: step)
@@ -103,7 +103,7 @@ struct NomadQuickSetupView: View {
                 .padding(.bottom, 8)
 
             Text(NSLocalizedString("자주 쓰는 정보를 먼저 등록해드릴게요.", comment: "Nomad wizard step 1 subtitle"))
-                .font(.subheadline)
+                .font(.body)
                 .foregroundStyle(theme.textMuted)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 28)
@@ -147,7 +147,7 @@ struct NomadQuickSetupView: View {
                     .padding(.bottom, 8)
 
                 Text(NSLocalizedString("입력하지 않아도 돼요. 언제든지 앱에서 추가할 수 있어요.", comment: "Nomad wizard step 2 subtitle"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundStyle(theme.textMuted)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 28)
@@ -167,7 +167,7 @@ struct NomadQuickSetupView: View {
                         onComplete()
                     } label: {
                         Text(NSLocalizedString("건너뛰기", comment: "Skip nomad wizard"))
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundStyle(theme.textMuted)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
@@ -302,7 +302,7 @@ private struct NomadInputSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label)
-                .font(.caption)
+                .font(.body)
                 .foregroundStyle(theme.textMuted)
 
             TextField(placeholder, text: $text)

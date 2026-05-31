@@ -40,7 +40,7 @@ struct KeyboardPracticeView: View {
                         practiceText = ""
                     }
                     .foregroundColor(theme.textMuted)
-                    .font(.subheadline)
+                    .font(.body)
                 }
                 Spacer(minLength: 220)
             }
@@ -93,25 +93,25 @@ struct KeyboardPracticeView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text(NSLocalizedString("저장된 메모 (키보드에서 보임)",
                                    comment: "Saved memos hint label"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
 
             ForEach(sampleMemos) { memo in
                 HStack(spacing: 10) {
                     Image(systemName: "doc.text")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.accent)
                         .frame(width: 20)
                         .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text(memo.title)
-                            .font(.subheadline)
+                            .font(.body)
                             .fontWeight(.medium)
                             .foregroundColor(theme.text)
                         if !memo.value.isEmpty {
                             Text(memo.value)
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                                 .lineLimit(1)
                         }
@@ -130,7 +130,7 @@ struct KeyboardPracticeView: View {
     private var practiceEditor: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("입력 연습 공간", comment: "Practice text area label"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
 
             ZStack(alignment: .topLeading) {
@@ -177,7 +177,7 @@ private struct PracticeStepRow: View {
                 .accessibilityHidden(true)
 
             Text(text)
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.text)
         }
     }
@@ -236,7 +236,7 @@ struct KeyboardPracticeSheet: View {
                 "ClipKeyboard 설치가 완료됐어요!\n저장한 메모를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요.",
                 comment: "Practice prompt description"
             ))
-            .font(.subheadline)
+            .font(.body)
             .foregroundColor(theme.textMuted)
             .multilineTextAlignment(.center)
             .lineSpacing(4)
@@ -262,7 +262,7 @@ struct KeyboardPracticeSheet: View {
                     dismiss()
                 } label: {
                     Text(NSLocalizedString("나중에 할게요", comment: "Skip practice button"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(.vertical, 8)
                 }

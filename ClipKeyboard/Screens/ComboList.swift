@@ -291,7 +291,7 @@ struct ComboRowView: View {
 
                     if combo.isFavorite {
                         Image(systemName: "star.fill")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(.yellow)
                             .accessibilityHidden(true)
                     }
@@ -308,16 +308,16 @@ struct ComboRowView: View {
 
                 HStack(spacing: 12) {
                     Label(String(format: NSLocalizedString("%d개 항목", comment: ""), combo.items.count), systemImage: "list.bullet")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
 
                     Label(String(format: NSLocalizedString("%d초 간격", comment: ""), Int(combo.interval)), systemImage: "timer")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
 
                     if combo.useCount > 0 {
                         Label(String(format: NSLocalizedString("%d회 사용", comment: ""), combo.useCount), systemImage: "chart.bar.fill")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
                 }
@@ -474,7 +474,7 @@ struct ComboAddEditView: View {
                                 Spacer()
                                 if let title = item.displayTitle {
                                     Text(title)
-                                        .font(.caption)
+                                        .font(.body)
                                         .foregroundColor(theme.textMuted)
                                         .lineLimit(2)
                                 }
@@ -504,7 +504,7 @@ struct ComboAddEditView: View {
                 } footer: {
                     if !selectedItems.isEmpty {
                         Text(NSLocalizedString("드래그하여 순서를 변경할 수 있습니다. Combo 실행 시 이 순서대로 각 항목이 입력됩니다.", comment: "Drag to reorder instruction with execution order explanation"))
-                            .font(.caption)
+                            .font(.body)
                     }
                 }
             }

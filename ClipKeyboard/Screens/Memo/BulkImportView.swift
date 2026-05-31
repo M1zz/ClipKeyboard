@@ -89,7 +89,7 @@ struct BulkImportView: View {
         Section {
             TextEditor(text: $pasteText)
                 .frame(minHeight: 140)
-                .font(.system(size: 14))
+                .font(.body)
                 .onChange(of: pasteText) { _, _ in regenerate() }
             HStack(spacing: 8) {
                 Button {
@@ -130,12 +130,12 @@ struct BulkImportView: View {
                     Button(NSLocalizedString("Select all", comment: "Bulk import: select all")) {
                         for i in drafts.indices { drafts[i].include = true }
                     }
-                    .font(.caption)
+                    .font(.body)
                 } else {
                     Button(NSLocalizedString("Deselect all", comment: "Bulk import: deselect all")) {
                         for i in drafts.indices { drafts[i].include = false }
                     }
-                    .font(.caption)
+                    .font(.body)
                 }
             }
         }
@@ -154,9 +154,9 @@ struct BulkImportView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 TextField(NSLocalizedString("Title", comment: "Title field"), text: draft.title)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.body.weight(.semibold))
                 Text(draft.wrappedValue.value)
-                    .font(.system(size: 12))
+                    .font(.body)
                     .foregroundColor(.secondary)
                     .lineLimit(2)
             }

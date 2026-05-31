@@ -35,7 +35,7 @@ struct SecurePINSettings: View {
                             .font(.headline)
                     }
                     Text(NSLocalizedString("보안 메모를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다.", comment: "Secure PIN section footer"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 8)
@@ -52,7 +52,7 @@ struct SecurePINSettings: View {
                         Button(NSLocalizedString("변경", comment: "Change PIN button")) {
                             showPINSetup = true
                         }
-                        .font(.system(size: 14))
+                        .font(.body)
                         .accessibilityLabel(NSLocalizedString("PIN 변경", comment: "Change PIN accessibility label"))
                         .accessibilityHint(NSLocalizedString("새 PIN을 설정합니다", comment: "Change PIN hint"))
                     }

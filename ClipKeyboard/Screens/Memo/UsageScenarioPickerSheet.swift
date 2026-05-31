@@ -57,7 +57,7 @@ struct UsageScenarioPickerSheet: View {
                                         .font(.headline)
                                 }
                                 Text(category.desc)
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(theme.textMuted)
 
                                 VStack(spacing: 8) {
@@ -89,7 +89,7 @@ struct UsageScenarioPickerSheet: View {
             HStack(spacing: 4) {
                 Text(emoji)
                 Text(label)
-                    .font(.system(size: 13, weight: isSelected ? .semibold : .regular))
+                    .font(.body.weight(isSelected ? .semibold : .regular))
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
@@ -108,12 +108,12 @@ struct UsageScenarioPickerSheet: View {
                 HStack(alignment: .top, spacing: 8) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(scenario.title)
-                            .font(.callout)
+                            .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(.primary)
                         if let context = scenario.context {
                             Text(context)
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                                 .multilineTextAlignment(.leading)
                         }
@@ -134,7 +134,7 @@ struct UsageScenarioPickerSheet: View {
                 }
 
                 Text(highlightedExample(scenario.example))
-                    .font(.system(size: 12, design: .monospaced))
+                    .font(.system(.body, design: .monospaced))
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                     .padding(8)

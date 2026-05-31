@@ -29,7 +29,7 @@ struct ComboSheetResolver: View {
                         .scaleEffect(1.5)
 
                     Text(NSLocalizedString("불러오는 중...", comment: "Loading"))
-                        .font(.callout)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -154,18 +154,18 @@ struct ComboEditSheet: View {
     private var headerSection: some View {
         HStack {
             Image(systemName: "repeat")
-                .font(.system(size: 16))
+                .font(.body)
                 .foregroundColor(.orange)
 
             Text(String(format: NSLocalizedString("Combo 값 %d개", comment: "Combo value count"), comboValues.count))
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
 
             Spacer()
 
             if !comboValues.isEmpty {
                 Text(String(format: NSLocalizedString("다음: %d번째", comment: "Next index"), currentComboIndex + 1))
-                    .font(.caption)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
@@ -188,11 +188,11 @@ struct ComboEditSheet: View {
                 .foregroundColor(.gray.opacity(0.5))
 
             Text(NSLocalizedString("값이 없습니다", comment: "No values"))
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
 
             Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add values below"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
             Spacer()
         }
@@ -207,7 +207,7 @@ struct ComboEditSheet: View {
                 HStack(spacing: 12) {
                     // 번호
                     Text("\(index + 1)")
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .font(.system(.body, design: .rounded).weight(.bold))
                         .foregroundColor(index == currentComboIndex ? .white : theme.textMuted)
                         .frame(width: 28, height: 28)
                         .background(index == currentComboIndex ? Color.orange : theme.surfaceAlt)

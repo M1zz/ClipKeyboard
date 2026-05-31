@@ -101,7 +101,7 @@ struct FeedbackView: View {
     private var typeSelector: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(NSLocalizedString("문의 유형", comment: "Feedback type label"))
-                .font(.subheadline)
+                .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.text)
 
@@ -119,9 +119,9 @@ struct FeedbackView: View {
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: type.icon)
-                    .font(.subheadline)
+                    .font(.body)
                 Text(type.localizedName)
-                    .font(.subheadline)
+                    .font(.body)
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
@@ -145,7 +145,7 @@ struct FeedbackView: View {
     private var messageEditor: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(NSLocalizedString("내용", comment: "Feedback message label"))
-                .font(.subheadline)
+                .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.text)
 
@@ -190,12 +190,12 @@ struct FeedbackView: View {
     private var deviceInfoCard: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(NSLocalizedString("자동 첨부 정보", comment: "Auto-attached info section label"))
-                .font(.caption)
+                .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
 
             Text(deviceInfo)
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)

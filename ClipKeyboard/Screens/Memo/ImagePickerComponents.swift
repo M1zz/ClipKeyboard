@@ -89,7 +89,7 @@ struct ImageAttachmentView: View {
                     onCopy()
                 } label: {
                     Image(systemName: "doc.on.doc.fill")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundStyle(.white)
                         .background(Circle().fill(Color.blue).frame(width: 20, height: 20))
                 }

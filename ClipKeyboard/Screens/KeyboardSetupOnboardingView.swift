@@ -341,7 +341,7 @@ private struct StepPageView: View {
                     .foregroundColor(theme.success)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("키보드가 확인됐어요! 다음으로 넘어갈게요.", comment: "Setup confirmed"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.text)
             }
             .padding(12)
@@ -355,7 +355,7 @@ private struct StepPageView: View {
                     .foregroundColor(theme.warn)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?", comment: "Setup not found"))
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
             .padding(12)
@@ -373,11 +373,11 @@ private struct StepPageView: View {
     private var privacyNote: some View {
         HStack(spacing: 8) {
             Image(systemName: "lock.shield.fill")
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textFaint)
                 .accessibilityHidden(true)
             Text(NSLocalizedString("개인정보를 수집하지 않습니다.", comment: "Privacy assurance"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textFaint)
         }
     }
@@ -407,14 +407,14 @@ private struct SettingsPathIllustration: View {
                     }
 
                     Text(label)
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(i == path.count - 1 ? theme.accent : theme.text)
                         .fontWeight(i == path.count - 1 ? .semibold : .regular)
 
                     Spacer()
 
                     Image(systemName: i < path.count - 1 ? "chevron.right" : "plus.circle.fill")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(i == path.count - 1 ? theme.accent : theme.textFaint)
                         .accessibilityHidden(true)
                 }
@@ -441,7 +441,7 @@ private struct KeyboardListIllustration: View {
     var body: some View {
         VStack(spacing: 0) {
             Text(NSLocalizedString("키보드", comment: "Keyboard list header"))
-                .font(.caption)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 16)
@@ -451,11 +451,11 @@ private struct KeyboardListIllustration: View {
             ForEach(keyboards, id: \.self) { kb in
                 HStack {
                     Text(kb)
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.text)
                     Spacer()
                     Image(systemName: "chevron.right")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
                 }
@@ -513,7 +513,7 @@ private struct FullAccessIllustration: View {
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(theme.text)
                     Text(NSLocalizedString("메모 접근에 필요합니다", comment: "Required for memo access"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 Spacer()
@@ -569,7 +569,7 @@ private struct DoneIllustration: View {
                     .foregroundColor(theme.textMuted)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("🌐 길게 눌러 전환", comment: "Long press globe to switch"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
             .padding(.horizontal, 16)
@@ -741,7 +741,7 @@ struct PersonaSelectionView: View {
                     .multilineTextAlignment(.center)
 
                 Text(headerSubtitle)
-                    .font(.callout)
+                    .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
@@ -841,7 +841,7 @@ private struct PersonaCard: View {
                             .foregroundStyle(.primary)
                             .multilineTextAlignment(.leading)
                         Text(persona.localizedDescription)
-                            .font(.caption)
+                            .font(.body)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.leading)
                             .fixedSize(horizontal: false, vertical: true)
@@ -893,7 +893,7 @@ private struct PreviewChips: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("자동 추가될 카테고리", comment: "Preview categories header"))
-                .font(.caption)
+                .font(.body)
                 .foregroundStyle(.secondary)
                 .padding(.horizontal, 16)
 
@@ -901,7 +901,7 @@ private struct PreviewChips: View {
                 HStack(spacing: 8) {
                     ForEach(seeds, id: \.self) { seed in
                         Text(seed)
-                            .font(.caption)
+                            .font(.body)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
                             .background(Color.accentColor.opacity(0.10))

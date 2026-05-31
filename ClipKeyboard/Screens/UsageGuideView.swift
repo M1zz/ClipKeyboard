@@ -617,7 +617,7 @@ struct UsageGuideView: View {
                 .font(.system(size: 24, weight: .semibold, design: .serif))
                 .foregroundColor(theme.text)
             Text(NSLocalizedString("18 moments where ClipKeyboard saves you minutes — or rescues a mistake.", comment: "Usage guide hero subtitle"))
-                .font(.system(size: 14))
+                .font(.body)
                 .foregroundColor(theme.textMuted)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -659,13 +659,13 @@ struct UsageGuideView: View {
                             .font(.callout.weight(.semibold))
                             .foregroundColor(theme.text)
                         Text(category.desc)
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                             .lineLimit(2)
                     }
                     Spacer()
                     Image(systemName: expanded.contains(category.id) ? "chevron.up" : "chevron.down")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.body.weight(.semibold))
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
                 }
@@ -693,7 +693,7 @@ struct UsageGuideView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 8) {
                 Text(scenario.title)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.body.weight(.semibold))
                     .foregroundColor(theme.text)
                 Spacer()
                 featureBadge(scenario.feature)
@@ -706,14 +706,14 @@ struct UsageGuideView: View {
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
                     Text(context)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.body.weight(.medium))
                         .foregroundColor(theme.textMuted)
                         .italic()
                 }
             }
 
             Text(scenario.example)
-                .font(.system(size: 13, design: .monospaced))
+                .font(.system(.body, design: .monospaced))
                 .foregroundColor(theme.text)
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -734,9 +734,9 @@ struct UsageGuideView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 12))
+                            .font(.body)
                         Text(NSLocalizedString("Save as memo", comment: "CTA: save scenario as memo"))
-                            .font(.system(size: 13, weight: .semibold))
+                            .font(.body.weight(.semibold))
                     }
                     .foregroundColor(.white)
                     .padding(.horizontal, 12)
@@ -759,7 +759,7 @@ struct UsageGuideView: View {
                     #endif
                 } label: {
                     Text(NSLocalizedString("Copy", comment: "CTA: copy scenario text"))
-                        .font(.system(size: 13))
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 7)

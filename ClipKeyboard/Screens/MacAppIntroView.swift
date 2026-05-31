@@ -48,7 +48,7 @@ struct MacAppIntroView: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             Text(NSLocalizedString("Same snippets, same memos — available on macOS.", comment: "Mac hero subtitle"))
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
@@ -96,10 +96,10 @@ struct MacAppIntroView: View {
                 .font(.system(size: 18))
             VStack(alignment: .leading, spacing: 4) {
                 Text(NSLocalizedString("Universal Purchase", comment: "Mac universal purchase title"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                 Text(NSLocalizedString("If you've purchased Pro on iOS, it works on Mac automatically — no extra payment.", comment: "Universal purchase description"))
-                    .font(.footnote)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -136,11 +136,11 @@ struct MacAppIntroView: View {
     private var shortcutsHint: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("Tip", comment: "Tip section title"))
-                .font(.caption)
+                .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
             Text(NSLocalizedString("Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud.", comment: "Mac install tip"))
-                .font(.footnote)
+                .font(.body)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
@@ -177,11 +177,11 @@ private struct MacFeatureRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .fixedSize(horizontal: false, vertical: true)
                 Text(description)
-                    .font(.footnote)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }

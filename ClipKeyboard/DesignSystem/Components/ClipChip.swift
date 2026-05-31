@@ -22,7 +22,7 @@ struct ClipChip: View {
             HStack(spacing: 6) {
                 if let icon {
                     Image(systemName: icon)
-                        .font(.system(size: 12, weight: isActive ? .semibold : .medium))
+                        .font(.body.weight(isActive ? .semibold : .medium))
                 }
                 Text(label)
                     .font(theme.bodyFont(size: 14, weight: .medium))

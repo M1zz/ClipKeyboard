@@ -93,7 +93,7 @@ struct PersonaQuickAddView: View {
                         .padding(.bottom, 8)
 
                     Text(NSLocalizedString("입력하지 않아도 돼요. 언제든지 앱에서 추가할 수 있어요.", comment: "Persona quick add step subtitle"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundStyle(theme.textMuted)
                         .padding(.horizontal, 24)
                         .padding(.bottom, 28)
@@ -123,7 +123,7 @@ struct PersonaQuickAddView: View {
                             onComplete()
                         } label: {
                             Text(NSLocalizedString("건너뛰기", comment: "Skip persona quick add"))
-                                .font(.subheadline)
+                                .font(.body)
                                 .foregroundStyle(theme.textMuted)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
@@ -163,7 +163,7 @@ struct PersonaQuickAddView: View {
                 .frame(width: 28, height: 6)
             Spacer()
             Button(NSLocalizedString("건너뛰기", comment: "Skip persona quick add")) { onComplete() }
-                .font(.subheadline)
+                .font(.body)
                 .foregroundStyle(.secondary)
         }
         .padding(.horizontal, 24)
@@ -214,7 +214,7 @@ private struct PersonaInputSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label)
-                .font(.caption)
+                .font(.body)
                 .foregroundStyle(theme.textMuted)
 
             TextField(placeholder, text: $text)

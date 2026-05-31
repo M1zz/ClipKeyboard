@@ -48,10 +48,10 @@ struct SettingView: View {
                                 Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
                                     .font(.headline).foregroundColor(.primary)
                                 Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
-                                    .font(.caption).foregroundColor(theme.textMuted)
+                                    .font(.body).foregroundColor(theme.textMuted)
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.caption)
+                            Image(systemName: "chevron.right").font(.body)
                                 .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
@@ -81,10 +81,10 @@ struct SettingView: View {
                                 Text(ProFeatureManager.canStartTrial
                                      ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 메모, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
                                      : NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
-                                    .font(.caption).foregroundColor(theme.textMuted)
+                                    .font(.body).foregroundColor(theme.textMuted)
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.caption)
+                            Image(systemName: "chevron.right").font(.body)
                                 .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
@@ -106,7 +106,7 @@ struct SettingView: View {
             // iOS 설정 > 일반 > 키보드에서 ClipKeyboard를 추가한 사용자를 위한 설정
             Section(header: VStack(alignment: .leading, spacing: 4) {
                 Text(NSLocalizedString("키보드 (선택 기능)", comment: "Settings section: keyboard optional"))
-                    .font(.footnote)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .textCase(.uppercase)
                 Text(NSLocalizedString("iOS 설정 > 일반 > 키보드에서 추가할 수 있어요", comment: "Keyboard optional section footer"))
@@ -128,7 +128,7 @@ struct SettingView: View {
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.caption).foregroundStyle(.tertiary)
+                            .font(.body).foregroundStyle(.tertiary)
                             .accessibilityHidden(true)
                     }
                 }
@@ -161,7 +161,7 @@ struct SettingView: View {
                             Text(NSLocalizedString("페르소나", comment: "Persona setting row title"))
                             if let p = CategoryStore.shared.selectedPersona {
                                 Text(p.localizedTitle)
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(theme.textMuted)
                             }
                         }
@@ -186,7 +186,7 @@ struct SettingView: View {
                               systemImage: "paintpalette")
                         Spacer()
                         Text(AppThemePreference.shared.kind.displayName)
-                            .foregroundColor(theme.textMuted).font(.subheadline)
+                            .foregroundColor(theme.textMuted).font(.body)
                     }
                 }
                 NavigationLink(destination: AppearanceModePickerView()) {
@@ -195,7 +195,7 @@ struct SettingView: View {
                               systemImage: "circle.lefthalf.filled")
                         Spacer()
                         Text(AppThemePreference.shared.mode.displayName)
-                            .foregroundColor(theme.textMuted).font(.subheadline)
+                            .foregroundColor(theme.textMuted).font(.body)
                     }
                 }
                 Toggle(isOn: Binding(
@@ -264,16 +264,16 @@ struct SettingView: View {
                                 .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .frame(width: 32, height: 32)
                             Image(systemName: "macbook")
-                                .font(.system(size: 15, weight: .semibold))
+                                .font(.body.weight(.semibold))
                                 .foregroundColor(.white)
                                 .accessibilityHidden(true)
                         }
                         .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
-                                .font(.subheadline).fontWeight(.semibold)
+                                .font(.body).fontWeight(.semibold)
                             Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
-                                .font(.caption).foregroundColor(theme.textMuted)
+                                .font(.body).foregroundColor(theme.textMuted)
                         }
                     }
                     .padding(.vertical, 4)
@@ -337,7 +337,7 @@ struct PersonaSettingsContainer: View {
         .overlay(alignment: .bottom) {
             if showAppliedToast {
                 Text(NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
-                    .font(.callout)
+                    .font(.body)
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
@@ -371,7 +371,7 @@ struct CopyPasteView: View {
                         .padding(.bottom, 4)
 
                     Text(NSLocalizedString("앱 실행 시 '붙여넣기 허용' 팝업이 뜬 경우, 아래 경로로 설정을 변경할 수 있습니다.", comment: "Paste permission settings description"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 .padding(.vertical, 8)
@@ -388,7 +388,7 @@ struct CopyPasteView: View {
                     }
 
                     Image(systemName: "chevron.down")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
                         .accessibilityHidden(true)
@@ -402,7 +402,7 @@ struct CopyPasteView: View {
                     }
 
                     Image(systemName: "chevron.down")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
                         .accessibilityHidden(true)
@@ -429,7 +429,7 @@ struct CopyPasteView: View {
                             Text(NSLocalizedString("묻기", comment: "Ask option"))
                                 .font(.headline)
                             Text(NSLocalizedString("복사/붙여넣기 시 매번 팝업이 표시됩니다.", comment: "Ask option description"))
-                                .font(.subheadline)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                     }
@@ -445,7 +445,7 @@ struct CopyPasteView: View {
                             Text(NSLocalizedString("거부", comment: "Deny option"))
                                 .font(.headline)
                             Text(NSLocalizedString("자동 붙여넣기가 차단됩니다. 하지만 길게 눌러서 수동으로 붙여넣기는 가능합니다.", comment: "Deny option description"))
-                                .font(.subheadline)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                     }
@@ -462,7 +462,7 @@ struct CopyPasteView: View {
                                 Text(NSLocalizedString("허용", comment: "Allow option"))
                                     .font(.headline)
                                 Text(NSLocalizedString("(권장)", comment: "Recommended badge"))
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.green)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
@@ -470,7 +470,7 @@ struct CopyPasteView: View {
                                     .cornerRadius(theme.radiusXs)
                             }
                             Text(NSLocalizedString("팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.", comment: "Allow option description"))
-                                .font(.subheadline)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                     }
@@ -516,7 +516,7 @@ struct ReviewWriteView: View {
                         .padding(.bottom, 4)
 
                     Text(NSLocalizedString("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
-                        .font(.subheadline)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 .padding(.vertical, 8)
@@ -538,12 +538,12 @@ struct ReviewWriteView: View {
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             Text(NSLocalizedString("빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)", comment: "In-app review description"))
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                             .accessibilityHidden(true)
                     }
@@ -569,12 +569,12 @@ struct ReviewWriteView: View {
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             Text(NSLocalizedString("App Store 페이지에서 직접 작성합니다", comment: "App Store review description"))
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                         Spacer()
                         Image(systemName: "arrow.up.forward.app")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                             .accessibilityHidden(true)
                     }
@@ -583,7 +583,7 @@ struct ReviewWriteView: View {
                 .accessibilityHint(NSLocalizedString("App Store 페이지로 이동합니다", comment: "Open App Store hint"))
             } footer: {
                 Text(NSLocalizedString("리뷰는 다른 사용자에게 앱을 추천하는 데 도움이 되며, 개발자에게는 큰 힘이 됩니다.", comment: "Review footer message"))
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
         }

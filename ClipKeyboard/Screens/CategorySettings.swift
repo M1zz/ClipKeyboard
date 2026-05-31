@@ -31,7 +31,7 @@ struct CategorySettings: View {
                     }
                     Text(NSLocalizedString("Add your own categories or remove ones you don't use. Defaults vary by region.",
                                            comment: "Category settings description"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(.secondary)
                 }
                 .padding(.vertical, 8)
@@ -79,12 +79,12 @@ struct CategorySettings: View {
                     Text(String(format: NSLocalizedString("%d categories", comment: "Categories count header"),
                                 store.allCategories.count))
                     Spacer()
-                    EditButton().font(.caption)
+                    EditButton().font(.body)
                 }
             } footer: {
                 Text(NSLocalizedString("Long-press to drag and reorder. Swipe left to delete (protected ones can't be removed).",
                                        comment: "Categories footer hint"))
-                    .font(.caption)
+                    .font(.body)
             }
 
             // Remove all
@@ -140,14 +140,14 @@ struct CategorySettings: View {
                     }
                     renaming = nil
                 }
-                .font(.caption)
+                .font(.body)
             } else {
                 Text(NSLocalizedString(category, comment: "Category name"))
                     .foregroundColor(CategoryStore.protectedCategories.contains(category) ? .secondary : .primary)
                 Spacer()
                 if CategoryStore.protectedCategories.contains(category) {
                     Image(systemName: "lock.fill")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(.secondary)
                         .accessibilityLabel(NSLocalizedString("기본 카테고리 (삭제 불가)", comment: "Protected category lock icon"))
                 } else {
@@ -156,7 +156,7 @@ struct CategorySettings: View {
                         renameText = category
                     } label: {
                         Image(systemName: "pencil")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(.accentColor)
                     }
                     .buttonStyle(.plain)

@@ -191,7 +191,7 @@ struct ClipboardList: View {
                 if showToast {
                     HStack(spacing: 12) {
                         Text(toastMessage)
-                            .font(.subheadline)
+                            .font(.body)
                             .fontWeight(.medium)
                             .multilineTextAlignment(.center)
                             .foregroundColor(.white)
@@ -203,7 +203,7 @@ struct ClipboardList: View {
                         }) {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.white.opacity(0.7))
-                                .font(.caption)
+                                .font(.body)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -493,9 +493,9 @@ struct FilterChip: View {
         Button(action: action) {
             HStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.caption)
+                    .font(.body)
                 Text(title)
-                    .font(.caption)
+                    .font(.body)
                     .fontWeight(isSelected ? .bold : .regular)
                 Text("\(count)")
                     .font(.caption2)
@@ -542,7 +542,7 @@ struct ClipboardItemRow: View {
                     VStack(alignment: .leading, spacing: 4) {
                         // 내용
                         Text(item.content)
-                            .font(.callout)
+                            .font(.body)
                             .lineLimit(3)
                             .foregroundColor(.primary)
 
@@ -570,7 +570,7 @@ struct ClipboardItemRow: View {
 
                             // 시간
                             Text(formatDate(item.copiedAt))
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(theme.textFaint)
 
                             Spacer()
@@ -578,7 +578,7 @@ struct ClipboardItemRow: View {
                             // 임시 태그
                             if item.isTemporary {
                                 Text(NSLocalizedString("임시", comment: "Temporary"))
-                                    .font(.caption)
+                                    .font(.body)
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
                                     .background(Color.orange.opacity(0.2))
@@ -685,7 +685,7 @@ struct SaveToMemoSheet: View {
 
                 Section(NSLocalizedString("내용", comment: "Content section header")) {
                     Text(item.content)
-                        .font(.system(size: 14))
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
 
@@ -696,7 +696,7 @@ struct SaveToMemoSheet: View {
                         Spacer()
                         if item.confidence > 0.8 {
                             Text(String(format: NSLocalizedString("%d%% 확신", comment: "Confidence percentage"), Int(item.confidence * 100)))
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(.green)
                         }
                     }
@@ -769,7 +769,7 @@ struct CreateComboSheet: View {
 
                 Section {
                     Label(String(format: NSLocalizedString("%d개 항목이 순서대로 실행됩니다", comment: ""), itemCount), systemImage: "info.circle")
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
             }
@@ -803,18 +803,18 @@ private struct PasteTipBanner: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "doc.on.clipboard.fill")
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.accent)
                     .padding(.top, 1)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(NSLocalizedString("붙여넣기 팝업 없애는 방법", comment: "Paste tip banner title"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
 
                     Text(NSLocalizedString("설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -834,7 +834,7 @@ private struct PasteTipBanner: View {
 
             Button(action: onDismiss) {
                 Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
-                    .font(.caption)
+                    .font(.body)
                     .fontWeight(.medium)
                     .foregroundColor(theme.accent)
             }

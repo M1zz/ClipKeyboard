@@ -102,7 +102,7 @@ struct CategoryIconSettings: View {
                                 .foregroundColor(.primary)
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(.secondary)
                                 .accessibilityHidden(true)
                         }
@@ -111,7 +111,7 @@ struct CategoryIconSettings: View {
                 }
             } footer: {
                 Text(NSLocalizedString("키보드에서 카테고리 탭에 표시되는 아이콘을 변경합니다.", comment: "Category icon settings footer"))
-                    .font(.caption)
+                    .font(.body)
             }
 
             if !icons.isEmpty {

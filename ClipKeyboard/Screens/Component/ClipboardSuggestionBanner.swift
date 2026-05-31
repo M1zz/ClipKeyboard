@@ -55,23 +55,23 @@ struct ClipboardSuggestionBanner: View {
                         Text(clipboardHistory?.contentType == .image
                              ? NSLocalizedString("이미지 감지", comment: "Image detected")
                              : NSLocalizedString("클립보드 감지", comment: "Clipboard detected"))
-                            .font(.subheadline)
+                            .font(.body)
                             .fontWeight(.semibold)
 
                         if clipboardHistory?.contentType != .image {
                             Image(systemName: detectedType.icon)
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(Color.fromName(detectedType.color))
 
                             Text(detectedType.localizedName)
-                                .font(.caption)
+                                .font(.body)
                                 .fontWeight(.medium)
                                 .foregroundColor(Color.fromName(detectedType.color))
                         }
                     }
 
                     Text(previewText)
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(3)
                 }
@@ -85,9 +85,9 @@ struct ClipboardSuggestionBanner: View {
                     } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "checkmark")
-                                .font(.caption)
+                                .font(.body)
                             Text(NSLocalizedString("사용", comment: "Use"))
-                                .font(.caption)
+                                .font(.body)
                                 .fontWeight(.semibold)
                         }
                         .padding(.horizontal, 12)
@@ -102,9 +102,9 @@ struct ClipboardSuggestionBanner: View {
                     } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "xmark")
-                                .font(.caption)
+                                .font(.body)
                             Text(NSLocalizedString("무시", comment: "Ignore"))
-                                .font(.caption)
+                                .font(.body)
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)

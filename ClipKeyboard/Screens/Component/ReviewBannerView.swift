@@ -21,7 +21,7 @@ struct ReviewBannerView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 Text(NSLocalizedString("짧은 리뷰 하나가 다른 사용자에게 앱을 알리는 데 도움이 됩니다!", comment: "Review banner description"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)

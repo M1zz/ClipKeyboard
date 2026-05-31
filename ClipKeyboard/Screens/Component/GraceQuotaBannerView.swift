@@ -23,14 +23,14 @@ struct GraceQuotaBannerView: View {
                         "Your existing items are safe",
                         comment: "v4 grace banner title"
                     ))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
 
                     Text(NSLocalizedString(
                         "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete.",
                         comment: "v4 grace banner description"
                     ))
-                    .font(.footnote)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
                 }
@@ -41,7 +41,7 @@ struct GraceQuotaBannerView: View {
                     onDismiss()
                 } label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.body.weight(.semibold))
                         .foregroundColor(theme.textMuted)
                         .padding(6)
                         .background(theme.surfaceAlt)

@@ -17,7 +17,7 @@ struct ClipSearchField: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(theme.textMuted)
-                .font(.system(size: 15))
+                .font(.body)
                 .accessibilityHidden(true)
 
             TextField(placeholder, text: $text)
@@ -35,7 +35,7 @@ struct ClipSearchField: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(theme.textFaint)
-                        .font(.system(size: 15))
+                        .font(.body)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))

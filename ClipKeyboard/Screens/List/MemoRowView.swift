@@ -72,7 +72,7 @@ struct MemoRowView: View {
             // 즐겨찾기 하트 표시
             if memo.isFavorite {
                 Image(systemName: "heart.fill")
-                    .font(.callout)
+                    .font(.body)
                     .foregroundColor(.pink)
                     .accessibilityHidden(true)
             }

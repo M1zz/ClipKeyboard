@@ -219,7 +219,7 @@ struct MemoPickerRow: View {
                         .font(.body)
                         .foregroundColor(.primary)
                     Text(memo.value)
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(3)
                 }
@@ -230,12 +230,12 @@ struct MemoPickerRow: View {
                     if memo.isFavorite {
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
-                            .font(.caption)
+                            .font(.body)
                     }
                     if memo.isSecure {
                         Image(systemName: "lock.fill")
                             .foregroundColor(.orange)
-                            .font(.caption)
+                            .font(.body)
                     }
 
                     Image(systemName: "plus.circle.fill")
@@ -260,9 +260,9 @@ struct ClipboardPickerRow: View {
                     HStack {
                         Image(systemName: item.detectedType.icon)
                             .foregroundColor(.blue)
-                            .font(.caption)
+                            .font(.body)
                         Text(item.detectedType.localizedName)
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
 
@@ -299,14 +299,14 @@ struct TemplatePickerRow: View {
                     HStack {
                         Image(systemName: "doc.text.fill")
                             .foregroundColor(.purple)
-                            .font(.caption)
+                            .font(.body)
                         Text(template.title)
                             .font(.body)
                             .foregroundColor(.primary)
                     }
 
                     Text(template.value)
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(3)
 
@@ -328,7 +328,7 @@ struct TemplatePickerRow: View {
                     if template.isFavorite {
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
-                            .font(.caption)
+                            .font(.body)
                     }
 
                     Image(systemName: "plus.circle.fill")

@@ -29,7 +29,7 @@ struct CloudBackupView: View {
                     .font(.title3)
                     .fontWeight(.medium)
                 Text(NSLocalizedString("한번 구매로 데이터를 안전하게 백업하세요", comment: "Cloud backup pro desc"))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                 Button {
@@ -60,7 +60,7 @@ struct CloudBackupView: View {
                         Text(NSLocalizedString("iCloud 상태", comment: "iCloud status label"))
                             .font(.headline)
                         Text(backupService.isAuthenticated ? NSLocalizedString("연결됨", comment: "Connected status") : NSLocalizedString("연결 안 됨", comment: "Disconnected status"))
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundColor(.secondary)
                     }
 
@@ -71,11 +71,11 @@ struct CloudBackupView: View {
                 if !backupService.isAuthenticated {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(NSLocalizedString("iCloud에 로그인하세요", comment: "iCloud login prompt"))
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundColor(.orange)
 
                         Text(NSLocalizedString("설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.", comment: "iCloud login instruction"))
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(.secondary)
                     }
                     .padding(.vertical, 4)
@@ -93,10 +93,10 @@ struct CloudBackupView: View {
                                 Text(NSLocalizedString("마지막 백업", comment: "Last backup label"))
                                     .font(.headline)
                                 Text(lastBackup, style: .relative)
-                                    .font(.subheadline)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                                 Text(lastBackup, style: .date)
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                             }
 
@@ -113,7 +113,7 @@ struct CloudBackupView: View {
                                 Text(NSLocalizedString("백업 없음", comment: "No backup label"))
                                     .font(.headline)
                                 Text(NSLocalizedString("데이터를 백업하지 않았습니다", comment: "No backup description"))
-                                    .font(.subheadline)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                             }
 
@@ -145,7 +145,7 @@ struct CloudBackupView: View {
                             Text(NSLocalizedString("자동 백업", comment: "Auto backup label"))
                                 .font(.headline)
                             Text(NSLocalizedString("데이터 변경 시 자동으로 백업합니다", comment: "Auto backup description"))
-                                .font(.caption)
+                                .font(.body)
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -154,7 +154,7 @@ struct CloudBackupView: View {
                     Text(NSLocalizedString("자동 백업 설정", comment: "Auto backup settings section header"))
                 } footer: {
                     Text(NSLocalizedString("• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다", comment: "Auto backup info"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(.secondary)
                 }
 
@@ -174,7 +174,7 @@ struct CloudBackupView: View {
                                     .font(.headline)
                                     .foregroundColor(.primary)
                                 Text(NSLocalizedString("현재 데이터를 iCloud에 백업합니다", comment: "Backup button description"))
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                             }
 
@@ -202,7 +202,7 @@ struct CloudBackupView: View {
                                     .font(.headline)
                                     .foregroundColor(.primary)
                                 Text(NSLocalizedString("iCloud에서 데이터를 복구합니다", comment: "Restore button description"))
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                             }
 
@@ -229,7 +229,7 @@ struct CloudBackupView: View {
                                     Text(NSLocalizedString("백업 삭제", comment: "Delete backup button label"))
                                         .font(.headline)
                                     Text(NSLocalizedString("iCloud의 백업 데이터를 삭제합니다", comment: "Delete backup button description"))
-                                        .font(.caption)
+                                        .font(.body)
                                 }
 
                                 Spacer()
@@ -246,7 +246,7 @@ struct CloudBackupView: View {
                         Text(NSLocalizedString("• 복구 시 현재 데이터는 백업 데이터로 교체됩니다", comment: "Backup info 2"))
                         Text(NSLocalizedString("• 백업 데이터는 iCloud에 안전하게 저장됩니다", comment: "Backup info 3"))
                     }
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(.secondary)
                     .padding(.top, 4)
                 }

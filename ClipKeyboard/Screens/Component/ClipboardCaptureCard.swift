@@ -52,11 +52,11 @@ struct ClipboardCaptureCard: View {
     private var headerRow: some View {
         HStack(spacing: 6) {
             Text(NSLocalizedString("Just copied", comment: "Inline capture card: just copied hint"))
-                .font(.system(size: 12, weight: .semibold))
+                .font(.body.weight(.semibold))
                 .foregroundColor(theme.textMuted)
 
             Text(detectedType.localizedName)
-                .font(.system(size: 12, weight: .semibold))
+                .font(.body.weight(.semibold))
                 .foregroundColor(Color.fromName(detectedType.color))
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
@@ -75,7 +75,7 @@ struct ClipboardCaptureCard: View {
 
     private var preview: some View {
         Text(value)
-            .font(.system(size: 14))
+            .font(.body)
             .foregroundColor(theme.text)
             .lineLimit(2)
             .fixedSize(horizontal: false, vertical: true)
@@ -88,9 +88,9 @@ struct ClipboardCaptureCard: View {
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 13))
+                        .font(.body)
                     Text(NSLocalizedString("Save as memo", comment: "Inline capture card: save button"))
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.body.weight(.semibold))
                 }
                 .foregroundColor(.white)
                 .padding(.horizontal, 12)
@@ -105,7 +105,7 @@ struct ClipboardCaptureCard: View {
 
             Button(action: onDismiss) {
                 Text(NSLocalizedString("Dismiss", comment: "Inline capture card: dismiss button"))
-                    .font(.system(size: 13))
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 7)
