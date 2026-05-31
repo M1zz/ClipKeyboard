@@ -28,9 +28,16 @@ struct TemplateEditSheet: View {
     /// 자동 변수 칩을 탭했을 때 안내할 토큰 (예: {날짜})
     @State private var autoVarTipToken: String? = nil
 
-    /// 템플릿에 들어있는 자동 변수 토큰들(예: {날짜}, {시간}) — 사용자가 채우지 않아도 자동 입력됨.
+    /// 날짜 토큰 — 자동(오늘) 대신 사용자가 오늘/내일/다음 주/2주 뒤/직접 선택할 수 있다.
+    private static let dateTokens: Set<String> = ["{날짜}", "{date}"]
+    private var dateTokensInTemplate: [String] {
+        Self.dateTokens.filter { memo.value.contains($0) }
+    }
+    /// 날짜를 제외한 자동 변수(시간·타임존 등) — 그대로 자동 입력되며 탭 시 안내만 표시.
     private var autoVarsInTemplate: [String] {
-        TemplateVariableProcessor.autoVariableTokens.filter { memo.value.contains($0) }
+        TemplateVariableProcessor.autoVariableTokens
+            .subtracting(Self.dateTokens)
+            .filter { memo.value.contains($0) }
     }
 
     var previewText: String {
@@ -142,7 +149,7 @@ struct TemplateEditSheet: View {
 
     @ViewBuilder
     private var placeholderSection: some View {
-        if customPlaceholders.isEmpty {
+        if customPlaceholders.isEmpty && dateTokensInTemplate.isEmpty {
             VStack(spacing: 8) {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 30))
@@ -189,6 +196,19 @@ struct TemplateEditSheet: View {
                     )
                     .id(placeholder)
                 }
+
+                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택
+                ForEach(dateTokensInTemplate, id: \.self) { token in
+                    DatePlaceholderSelector(
+                        token: token,
+                        value: Binding(
+                            get: { placeholderInputs[token] ?? "" },
+                            set: { placeholderInputs[token] = $0 }
+                        ),
+                        isHighlighted: highlightedPlaceholder == token
+                    )
+                    .id(token)
+                }
             }
         }
     }
@@ -212,6 +232,12 @@ struct TemplateEditSheet: View {
                                      tint: filled ? theme.success : theme.accent)
                         }
                         .accessibilityHint(NSLocalizedString("값 선택으로 이동합니다", comment: "Scroll to value selector hint"))
+                    }
+                    ForEach(dateTokensInTemplate, id: \.self) { token in
+                        Button { focusPlaceholder(token, proxy: proxy) } label: {
+                            fillChip(text: token.strippingTemplateBraces, icon: "calendar", tint: theme.accent)
+                        }
+                        .accessibilityHint(NSLocalizedString("날짜를 선택합니다", comment: "Pick a date hint"))
                     }
                     ForEach(autoVarsInTemplate, id: \.self) { tok in
                         Button { autoVarTipToken = tok } label: {
@@ -309,6 +335,11 @@ struct TemplateInputSheet: View {
     @Environment(\.appTheme) private var theme
     @FocusState private var focusedField: String?
 
+    /// 템플릿에 든 날짜 토큰 — 자동(오늘) 대신 선택 가능.
+    private var dateTokensInInput: [String] {
+        ["{날짜}", "{date}"].filter { originalText.contains($0) }
+    }
+
     /// 현재 입력값 기준 결합 미리보기.
     private var previewText: String {
         guard !originalText.isEmpty else { return "" }
@@ -400,6 +431,22 @@ struct TemplateInputSheet: View {
                                     focusedField = nil
                                 }
                             }
+                        }
+                    }
+                }
+
+                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택
+                if !dateTokensInInput.isEmpty {
+                    Section {
+                        ForEach(dateTokensInInput, id: \.self) { token in
+                            DatePlaceholderSelector(
+                                token: token,
+                                value: Binding(
+                                    get: { inputs[token] ?? "" },
+                                    set: { inputs[token] = $0 }
+                                )
+                            )
+                            .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                         }
                     }
                 }
@@ -708,6 +755,85 @@ struct TemplateSheetResolver: View {
                 isLoading = false
             }
         }
+    }
+}
+
+// MARK: - Date Placeholder Selector
+
+/// 날짜 토큰({날짜}/{date})용 선택기. 자동(오늘) 고정 대신 오늘·내일·다음 주·2주 뒤·직접 선택을 제공.
+/// 선택값을 inputs에 넣으면 substitute가 자동 처리보다 우선 적용한다.
+struct DatePlaceholderSelector: View {
+    let token: String
+    @Binding var value: String
+    var isHighlighted: Bool = false
+    @Environment(\.appTheme) private var theme
+    @State private var customDate: Date = Date()
+
+    private static let fmt: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        f.locale = Locale(identifier: "en_US_POSIX")
+        return f
+    }()
+
+    private struct Opt: Identifiable { let id = UUID(); let label: String; let days: Int }
+    private var opts: [Opt] {
+        [Opt(label: NSLocalizedString("오늘", comment: "Date option: today"), days: 0),
+         Opt(label: NSLocalizedString("내일", comment: "Date option: tomorrow"), days: 1),
+         Opt(label: NSLocalizedString("다음 주", comment: "Date option: next week"), days: 7),
+         Opt(label: NSLocalizedString("2주 뒤", comment: "Date option: in two weeks"), days: 14)]
+    }
+    private func str(_ days: Int) -> String {
+        Self.fmt.string(from: Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date())
+    }
+    private var effectiveValue: String { value.isEmpty ? str(0) : value }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 6) {
+                Image(systemName: "calendar")
+                Text(token.strippingTemplateBraces).fontWeight(.semibold)
+                Spacer()
+                Text(effectiveValue).fontWeight(.semibold).foregroundColor(theme.accent)
+            }
+            .font(.body)
+            .foregroundColor(theme.textMuted)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(opts) { opt in
+                        let sel = effectiveValue == str(opt.days)
+                        Button {
+                            HapticManager.shared.selection()
+                            customDate = Calendar.current.date(byAdding: .day, value: opt.days, to: Date()) ?? Date()
+                            value = str(opt.days)
+                        } label: {
+                            Text(opt.label)
+                                .font(.body.weight(.medium))
+                                .foregroundColor(sel ? .white : theme.accent)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(sel ? theme.accent : theme.accent.opacity(0.12))
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+            }
+
+            DatePicker(NSLocalizedString("직접 선택", comment: "Pick a specific date"),
+                       selection: $customDate, displayedComponents: .date)
+                .font(.body)
+                .onChange(of: customDate) { _, d in value = Self.fmt.string(from: d) }
+        }
+        .padding()
+        .background(theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                .strokeBorder(isHighlighted ? theme.accent : theme.divider, lineWidth: isHighlighted ? 2 : 1)
+        )
+        .animation(.easeInOut(duration: 0.25), value: isHighlighted)
+        .onAppear { if !value.isEmpty, let d = Self.fmt.date(from: value) { customDate = d } }
     }
 }
 

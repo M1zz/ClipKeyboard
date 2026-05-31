@@ -164,6 +164,23 @@
         }
       }
     },
+    "'%@'은 자동으로 채워져요" : {
+      "comment" : "Auto variable tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' is filled in automatically"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' diisi secara otomatis"
+          }
+        }
+      }
+    },
     "'%@'을(를) 삭제하시겠습니까?" : {
       "comment" : "Delete confirmation message\nDelete value confirmation",
       "localizations" : {
@@ -10294,6 +10311,23 @@
         }
       }
     },
+    "값 선택으로 이동합니다" : {
+      "comment" : "Scroll to value selector hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrolls to the value selector"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gulir ke pemilih nilai"
+          }
+        }
+      }
+    },
     "값 수정" : {
       "comment" : "Edit value",
       "localizations" : {
@@ -12111,6 +12145,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Memo"
+          }
+        }
+      }
+    },
+    "메모 + 템플릿" : {
+      "comment" : "Memo plus template header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo + Template"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo + Templat"
           }
         }
       }
@@ -14189,6 +14240,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비즈니스 / 직장인"
+          }
+        }
+      }
+    },
+    "빈칸을 탭해 채우세요" : {
+      "comment" : "Tap a blank to fill it",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a blank to fill it in"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk kolom kosong untuk mengisinya"
           }
         }
       }
@@ -17413,6 +17481,23 @@
         }
       }
     },
+    "이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요." : {
+      "comment" : "Attached template explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This memo has a template attached. Fill in the blanks and it's copied together with the memo. See the combined result in 'Live preview' below."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo ini memiliki templat terlampir. Isi kolom kosong dan akan disalin bersama memo. Lihat hasil gabungannya di 'Pratinjau langsung' di bawah."
+          }
+        }
+      }
+    },
     "이 사이즈로 내용이 보입니다." : {
       "comment" : "Font size preview text",
       "localizations" : {
@@ -17477,6 +17562,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Delete this saved value."
+          }
+        }
+      }
+    },
+    "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다." : {
+      "comment" : "Auto variable tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You don't need to fill this in. It's replaced with the current value (today's date, current time, etc.) when you copy."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda tidak perlu mengisi ini. Nilai ini diganti dengan nilai saat ini (tanggal hari ini, waktu sekarang, dll.) saat menyalin."
           }
         }
       }
@@ -18502,6 +18604,23 @@
         }
       }
     },
+    "자동으로 채워지는 값입니다" : {
+      "comment" : "Auto-filled value hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This value is filled in automatically"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai ini diisi otomatis"
+          }
+        }
+      }
+    },
     "자유롭게 의견을 남겨주세요." : {
       "comment" : "Other feedback placeholder",
       "localizations" : {
@@ -18673,47 +18792,6 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
-          }
-        }
-      }
-    },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -18776,6 +18854,65 @@
         }
       }
     },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
+          }
+        }
+      }
+    },
+    "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
+      "comment" : "Practice step 3 for nomad persona",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap your saved IBAN or passport to fill in forms instantly"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
       "comment" : "Clear all confirm message",
       "localizations" : {
@@ -18806,24 +18943,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tersimpan"
-          }
-        }
-      }
-    },
-    "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
-      "comment" : "Practice step 3 for nomad persona",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap your saved IBAN or passport to fill in forms instantly"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
           }
         }
       }
@@ -20322,23 +20441,6 @@
         }
       }
     },
-    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
-      "comment" : "Enable Korean input subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on to also type Korean on the keyboard"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
-          }
-        }
-      }
-    },
     "켬" : {
       "comment" : "Toggle state: on",
       "localizations" : {
@@ -20352,6 +20454,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "On"
+          }
+        }
+      }
+    },
+    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
+      "comment" : "Enable Korean input subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on to also type Korean on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
           }
         }
       }
@@ -22833,6 +22952,22 @@
         }
       }
     },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        }
+      }
+    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -22949,22 +23084,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
-          }
-        }
-      }
-    },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
           }
         }
       }
@@ -23271,7 +23390,7 @@
       }
     },
     "확인" : {
-      "comment" : "Confirm\nDismiss accessibility guide\nOK button",
+      "comment" : "Confirm\nDismiss accessibility guide\nOK\nOK button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23543,121 +23662,104 @@
         }
       }
     },
-    "'%@'은 자동으로 채워져요" : {
-      "comment" : "Auto variable tip title",
+    "오늘" : {
+      "comment" : "Date option: today",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'%@' is filled in automatically"
+            "value" : "Today"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'%@' diisi secara otomatis"
+            "value" : "Hari ini"
           }
         }
       }
     },
-    "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다." : {
-      "comment" : "Auto variable tip message",
+    "내일" : {
+      "comment" : "Date option: tomorrow",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You don't need to fill this in. It's replaced with the current value (today's date, current time, etc.) when you copy."
+            "value" : "Tomorrow"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anda tidak perlu mengisi ini. Nilai ini diganti dengan nilai saat ini (tanggal hari ini, waktu sekarang, dll.) saat menyalin."
+            "value" : "Besok"
           }
         }
       }
     },
-    "빈칸을 탭해 채우세요" : {
-      "comment" : "Tap a blank to fill it",
+    "다음 주" : {
+      "comment" : "Date option: next week",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap a blank to fill it in"
+            "value" : "Next week"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ketuk kolom kosong untuk mengisinya"
+            "value" : "Minggu depan"
           }
         }
       }
     },
-    "값 선택으로 이동합니다" : {
-      "comment" : "Scroll to value selector hint",
+    "2주 뒤" : {
+      "comment" : "Date option: in two weeks",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scrolls to the value selector"
+            "value" : "In 2 weeks"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gulir ke pemilih nilai"
+            "value" : "Dalam 2 minggu"
           }
         }
       }
     },
-    "자동으로 채워지는 값입니다" : {
-      "comment" : "Auto-filled value hint",
+    "직접 선택" : {
+      "comment" : "Pick a specific date",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This value is filled in automatically"
+            "value" : "Pick a date"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nilai ini diisi otomatis"
+            "value" : "Pilih tanggal"
           }
         }
       }
     },
-    "메모 + 템플릿" : {
-      "comment" : "Memo plus template header",
+    "날짜를 선택합니다" : {
+      "comment" : "Pick a date hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Memo + Template"
+            "value" : "Choose a date"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Memo + Templat"
-          }
-        }
-      }
-    },
-    "이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요." : {
-      "comment" : "Attached template explanation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This memo has a template attached. Fill in the blanks and it's copied together with the memo. See the combined result in 'Live preview' below."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memo ini memiliki templat terlampir. Isi kolom kosong dan akan disalin bersama memo. Lihat hasil gabungannya di 'Pratinjau langsung' di bawah."
+            "value" : "Pilih tanggal"
           }
         }
       }
