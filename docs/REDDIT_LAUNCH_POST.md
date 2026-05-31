@@ -181,8 +181,8 @@ curious what phrases you find yourself typing over and over.
 
 **Title (택1)**
 
-1. **[iOS] ClipKeyboard — a keyboard that types your saved phrases, IBAN & email templates into any app (70% off this week)**
-2. **[iOS] I built a keyboard for the stuff I retype every day — IBAN, templates, timezone replies. $2.99 this week.**
+1. **[iOS] ClipKeyboard — save your IBAN, phrases & email templates, tap to type them into any app ($9.99 → $2.99 this week)**
+2. **[iOS] I built a keyboard for the stuff I retype every day — IBAN, templates, timezone replies ($9.99 → $2.99, this week only)**
 
 **본문 (복사용)**
 
@@ -208,7 +208,7 @@ Just shipped a big cleanup update: it starts empty now instead of dumping a
 dozen default categories on you, suggests grouping similar items, and lets you
 long-press to organize. Felt like the right time to share it.
 
-**Deal for this sub: $2.99 (normally $9.99) — 70% off.**
+**Deal for this sub: ~~$9.99~~ → $2.99 (70% off, this week only).**
 Tap on iPhone/iPad and the App Store opens with it applied:
 https://apps.apple.com/redeem?ctx=offercodes&id=1543660502&code=2026JUNE
 (or enter code `2026JUNE` in App Store → profile → "Redeem Gift Card or Code".
