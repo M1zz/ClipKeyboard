@@ -839,7 +839,7 @@ struct MemoAdd: View {
     private var comboValueInputField: some View {
         HStack(spacing: 8) {
             TextField(NSLocalizedString("값 입력", comment: "Combo value input placeholder"), text: $viewModel.newComboValue)
-                .textFieldStyle(.roundedBorder)
+                .clipRoundedField()
                 .submitLabel(.done)
                 .onSubmit {
                     viewModel.addComboValue()
@@ -1113,7 +1113,7 @@ struct PlaceholderValueEditor: View {
             if isAdding {
                 HStack(spacing: 8) {
                     TextField(NSLocalizedString("값 입력", comment: "Placeholder value input"), text: $newValue)
-                        .textFieldStyle(.roundedBorder)
+                        .clipRoundedField()
                         .font(.body)
 
                     Button {

@@ -99,6 +99,7 @@ struct TemplateEditSheet: View {
             if isEditingText {
                 TextEditor(text: $editedText)
                     .font(.body)
+                    .scrollContentBackground(.hidden)
                     .frame(minHeight: 100)
                     .padding(12)
                     .background(theme.surfaceAlt)
@@ -290,7 +291,7 @@ struct TemplateInputSheet: View {
                                 get: { inputs[placeholder] ?? "" },
                                 set: { inputs[placeholder] = $0 }
                             ))
-                            .textFieldStyle(.roundedBorder)
+                            .clipRoundedField()
                             #if os(iOS)
                             .keyboardType(TemplateVariableProcessor.isNumericToken(placeholder) ? .numberPad : .default)
                             #endif

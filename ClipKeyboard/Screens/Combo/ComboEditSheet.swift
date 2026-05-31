@@ -266,7 +266,7 @@ struct ComboEditSheet: View {
     private var addValueSection: some View {
         HStack(spacing: 10) {
             TextField(NSLocalizedString("새 값 입력", comment: "New value input"), text: $newValueText)
-                .textFieldStyle(.roundedBorder)
+                .clipRoundedField()
                 .submitLabel(.done)
                 .onSubmit {
                     addValue()

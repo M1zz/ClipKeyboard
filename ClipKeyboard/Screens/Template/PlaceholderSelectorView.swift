@@ -99,7 +99,7 @@ struct PlaceholderSelectorView: View {
             // 값 추가 입력 (항상 표시)
             HStack(spacing: 8) {
                 TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
-                    .textFieldStyle(.roundedBorder)
+                    .clipRoundedField()
                     .font(.body)
                     #if os(iOS)
                     .keyboardType(isNumericToken ? .numberPad : .default)

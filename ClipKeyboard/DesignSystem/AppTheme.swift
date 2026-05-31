@@ -299,6 +299,29 @@ extension View {
     func appTheme(_ theme: AppTheme) -> some View {
         environment(\.appTheme, theme)
     }
+
+    /// 앱 공통의 둥근 입력 필드 스타일. 시스템 `.roundedBorder`(작은 시스템 라운딩) 대신
+    /// 테마 radius·색을 써 다른 둥근 박스들과 일관되게 한다. TextField에 적용.
+    func clipRoundedField() -> some View {
+        modifier(ClipRoundedField())
+    }
+}
+
+/// TextField를 테마 radius 기반 둥근 박스로 감싸는 모디파이어 (environment에서 테마를 읽음).
+private struct ClipRoundedField: ViewModifier {
+    @Environment(\.appTheme) private var theme
+    func body(content: Content) -> some View {
+        content
+            .textFieldStyle(.plain)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                    .strokeBorder(theme.divider, lineWidth: 1)
+            )
+    }
 }
 
 // MARK: - File-scope helper

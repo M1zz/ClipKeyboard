@@ -4653,7 +4653,9 @@
         }
       }
     },
-    "English" : {},
+    "English" : {
+
+    },
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -11074,17 +11076,6 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끔" : {
       "comment" : "Toggle state: off",
       "localizations" : {
@@ -11097,6 +11088,17 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -12964,7 +12966,7 @@
       }
     },
     "미리보기" : {
-      "comment" : "Preview\nPreview section",
+      "comment" : "Preview",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16241,6 +16243,7 @@
     },
     "안녕" : {
       "comment" : "Preview key 1",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17338,6 +17341,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Konten akan ditampilkan dalam ukuran ini."
+          }
+        }
+      }
+    },
+    "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다." : {
+      "comment" : "Language section footer when Korean off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turning this on adds a Korean/English toggle button to the keyboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengaktifkan ini menambahkan tombol alih Korea/Inggris ke keyboard."
           }
         }
       }
@@ -18585,6 +18605,50 @@
         }
       }
     },
+    "저장 실패: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save failed: %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gagal simpan: %@"
+          }
+        }
+      }
+    },
+    "저장된 메모 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Memos (shown in keyboard)"
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersimpan"
+          }
+        }
+      }
+    },
     "저장할 텍스트를 입력하세요" : {
       "comment" : "Quick add placeholder",
       "localizations" : {
@@ -18622,33 +18686,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장 실패: %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save failed: %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gagal simpan: %@"
-          }
-        }
-      }
-    },
-    "저장된 메모 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Memos (shown in keyboard)"
           }
         }
       }
@@ -18701,23 +18738,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tersimpan"
           }
         }
       }
@@ -20213,6 +20233,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "On"
+          }
+        }
+      }
+    },
+    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
+      "comment" : "Enable Korean input subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on to also type Korean on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
           }
         }
       }
@@ -21795,6 +21832,7 @@
     },
     "테스트" : {
       "comment" : "Preview key 3",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22695,6 +22733,7 @@
     },
     "하세요" : {
       "comment" : "Preview key 2",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22846,6 +22885,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Korean layout"
+          }
+        }
+      }
+    },
+    "한국어 입력" : {
+      "comment" : "Enable Korean input toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korean input"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Korea"
           }
         }
       }
@@ -23381,57 +23437,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "휴대폰 번호"
-          }
-        }
-      }
-    },
-    "한국어 입력" : {
-      "comment" : "Enable Korean input toggle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Korean input"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Input Korea"
-          }
-        }
-      }
-    },
-    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
-      "comment" : "Enable Korean input subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on to also type Korean on the keyboard"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
-          }
-        }
-      }
-    },
-    "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다." : {
-      "comment" : "Language section footer when Korean off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turning this on adds a Korean/English toggle button to the keyboard."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mengaktifkan ini menambahkan tombol alih Korea/Inggris ke keyboard."
           }
         }
       }

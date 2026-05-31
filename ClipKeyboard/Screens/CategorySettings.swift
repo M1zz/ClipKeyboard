@@ -132,7 +132,7 @@ struct CategorySettings: View {
                     }
                     renaming = nil
                 })
-                .textFieldStyle(.roundedBorder)
+                .clipRoundedField()
                 .accessibilityLabel(NSLocalizedString("새 카테고리 이름", comment: "Rename category field"))
                 Button(NSLocalizedString("Done", comment: "Done")) {
                     if store.rename(from: category, to: renameText) {
