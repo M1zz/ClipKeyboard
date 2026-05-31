@@ -776,6 +776,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("🔗 [processMemoAfterAuth] attachedTemplate 흐름 — base=\(memo.title), template=\(attached.title)")
             attachedTemplateBaseMemo = memo
             currentTemplateMemo = attached
+            // 연결된 템플릿의 사용자 플레이스홀더를 추출해야 입력 필드가 나타난다(누락 시 값 입력 불가).
+            templatePlaceholders = TemplateVariableProcessor.extractCustomTokens(in: attached.value)
             templateInputs = [:]
             showTemplateInputSheet = true
             return

@@ -2494,7 +2494,9 @@ struct SheetModifiers: ViewModifier {
                         onComplete: onTemplateComplete,
                         onCancel: onTemplateCancel,
                         originalText: template.value,
-                        baseMemoValue: attachedTemplateBaseMemo?.value ?? ""
+                        baseMemoValue: attachedTemplateBaseMemo?.value ?? "",
+                        sourceMemoId: template.id,
+                        sourceMemoTitle: template.title
                     )
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)

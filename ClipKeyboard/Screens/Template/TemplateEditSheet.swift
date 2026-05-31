@@ -331,9 +331,11 @@ struct TemplateInputSheet: View {
     var originalText: String = ""
     /// v4.0.8: attachedTemplate 흐름이면 본 메모 본문 — preview 결합 표시용.
     var baseMemoValue: String = ""
+    /// 저장값 귀속용 — PlaceholderSelectorView가 값 저장/로드 시 사용.
+    var sourceMemoId: UUID = UUID()
+    var sourceMemoTitle: String = ""
 
     @Environment(\.appTheme) private var theme
-    @FocusState private var focusedField: String?
 
     /// 템플릿에 든 날짜 토큰 — 자동(오늘) 대신 선택 가능.
     private var dateTokensInInput: [String] {
@@ -397,42 +399,22 @@ struct TemplateInputSheet: View {
                 }
 
                 Section {
+                    // 일반 템플릿과 동일한 값 선택 UI (저장값 칩·새 값 추가 등)
                     ForEach(placeholders, id: \.self) { placeholder in
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack(spacing: 6) {
-                                Text(placeholder.strippingTemplateBraces)
-                                    .font(.body)
-                                    .foregroundColor(theme.textMuted)
-                                if TemplateVariableProcessor.isNumericToken(placeholder) {
-                                    Text(NSLocalizedString("숫자", comment: "Numeric token hint"))
-                                        .font(.body.weight(.semibold))
-                                        .padding(.horizontal, 5)
-                                        .padding(.vertical, 1)
-                                        .background(Color.blue.opacity(0.15))
-                                        .foregroundColor(.blue)
-                                        .cornerRadius(theme.radiusXs)
-                                }
-                            }
-
-                            TextField(NSLocalizedString("입력하세요", comment: "Input placeholder"), text: Binding(
+                        PlaceholderSelectorView(
+                            placeholder: placeholder,
+                            sourceMemoId: sourceMemoId,
+                            sourceMemoTitle: sourceMemoTitle,
+                            selectedValue: Binding(
                                 get: { inputs[placeholder] ?? "" },
                                 set: { inputs[placeholder] = $0 }
-                            ))
-                            .clipRoundedField()
-                            #if os(iOS)
-                            .keyboardType(TemplateVariableProcessor.isNumericToken(placeholder) ? .numberPad : .default)
-                            #endif
-                            .focused($focusedField, equals: placeholder)
-                            .submitLabel(.next)
-                            .onSubmit {
-                                if let i = placeholders.firstIndex(of: placeholder), i < placeholders.count - 1 {
-                                    focusedField = placeholders[i + 1]
-                                } else {
-                                    focusedField = nil
-                                }
-                            }
-                        }
+                            )
+                        )
+                        .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
+                        .listRowBackground(Color.clear)
                     }
+                } header: {
+                    Text(NSLocalizedString("값 선택", comment: "Select value"))
                 }
 
                 // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택
@@ -465,9 +447,6 @@ struct TemplateInputSheet: View {
                     Button(NSLocalizedString("복사", comment: "Copy")) { onComplete() }
                         .disabled(inputs.values.contains(where: { $0.isEmpty }))
                 }
-            }
-            .onAppear {
-                focusedField = placeholders.first
             }
         }
     }
