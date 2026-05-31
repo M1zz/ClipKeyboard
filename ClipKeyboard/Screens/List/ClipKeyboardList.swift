@@ -304,7 +304,7 @@ struct ClipKeyboardList: View {
                             }
                         }
                     )
-                    .presentationDetents([.height(380)])
+                    .presentationDetents([.height(470)])
                     .presentationDragIndicator(.visible)
                 }
             }

@@ -4653,9 +4653,7 @@
         }
       }
     },
-    "English" : {
-
-    },
+    "English" : {},
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -23437,6 +23435,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "휴대폰 번호"
+          }
+        }
+      }
+    },
+    "연습" : {
+      "comment" : "Practice section label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latihan"
+          }
+        }
+      }
+    },
+    "처음으로" : {
+      "comment" : "Reset practice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start over"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai ulang"
+          }
+        }
+      }
+    },
+    "연습을 처음부터 다시 시작합니다" : {
+      "comment" : "Reset practice hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart the practice from the beginning"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai ulang latihan dari awal"
+          }
+        }
+      }
+    },
+    "아래 버튼을 누르면 Combo 값이 순서대로 입력되는 걸 볼 수 있어요" : {
+      "comment" : "Practice preview placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the button below to see how the Combo types its values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk tombol di bawah untuk melihat bagaimana Combo mengetik nilainya secara berurutan"
+          }
+        }
+      }
+    },
+    "다음 값 입력" : {
+      "comment" : "Insert next combo value (practice)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insert next"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan berikutnya"
+          }
+        }
+      }
+    },
+    "Next로 표시된 값을 미리보기에 추가하고 다음 값으로 넘어갑니다" : {
+      "comment" : "Insert next practice hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds the value marked Next to the preview and moves on to the next value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menambahkan nilai bertanda Next ke pratinjau dan beralih ke nilai berikutnya"
           }
         }
       }
