@@ -468,19 +468,20 @@ struct ClipKeyboardList: View {
             HStack(alignment: .top, spacing: 4) {
                 memoTypeIcon(memo: memo, onColor: onColor)
                 Spacer()
-                if categoryBadgeVisible,
-                   CategoryStore.shared.isFeatureEnabled,
-                   viewModel.customCategories.contains(memo.category) {
+                // 우상단 = 카테고리 식별 심볼(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
+                if memo.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.title2)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
+                        .accessibilityHidden(true)
+                } else if categoryBadgeVisible,
+                          CategoryStore.shared.isFeatureEnabled,
+                          viewModel.customCategories.contains(memo.category) {
                     Image(systemName: customCategoryIcon(memo.category))
                         .font(.title2)
                         .foregroundColor(onColor
                             ? .white.opacity(0.85)
                             : customCategoryColor(memo.category))
-                        .accessibilityHidden(true)
-                } else if memo.isFavorite {
-                    Image(systemName: "heart.fill")
-                        .font(.title2)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
                         .accessibilityHidden(true)
                 }
             }
@@ -565,10 +566,11 @@ struct ClipKeyboardList: View {
     }
 
 
-    /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용
+    /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용.
+    /// 색은 '카테고리'를 의미한다 — 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
     private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
         if hasImage { return true }
-        if memo.isTemplate || memo.isCombo || memo.isSecure || memo.isFavorite { return true }
+        if memo.isFavorite || memo.isSecure { return true }
         if CategoryStore.shared.isFeatureEnabled,
            viewModel.customCategories.contains(memo.category) { return true }
         return false
@@ -600,17 +602,15 @@ struct ClipKeyboardList: View {
                     endPoint: .bottom
                 )
             }
-        } else if memo.isTemplate {
-            Color.purple
-        } else if memo.isCombo {
-            Color.blue
-        } else if memo.isSecure {
-            Color(uiColor: .systemGray3)
         } else if memo.isFavorite {
+            // 즐겨찾기 = 분홍 (기본 제공되는 즐겨찾기 카테고리 색)
             Color.clipFavorite
         } else if CategoryStore.shared.isFeatureEnabled,
                   viewModel.customCategories.contains(memo.category) {
+            // 색 = 카테고리 (타입은 좌상단 아이콘으로 구분)
             customCategoryColor(memo.category)
+        } else if memo.isSecure {
+            Color(uiColor: .systemGray3)
         } else {
             theme.surface
         }
@@ -646,10 +646,14 @@ struct ClipKeyboardList: View {
 
     /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
     private func customCategoryIcon(_ name: String) -> String {
-        let icons = ["folder.fill", "bookmark.fill", "tag.fill", "briefcase.fill",
-                     "star.fill", "heart.circle.fill", "person.fill", "house.fill"]
-        let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
-        return icons[idx % icons.count]
+        // 사용자가 '카테고리 아이콘' 설정(CategoryIconSettings)에서 지정한 커스텀 심볼 우선.
+        // 색맹 사용자가 색 대신 심볼로 카테고리를 구분할 수 있게 한다. 미지정 시 기본 팔레트.
+        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
+           let symbol = custom[name] {
+            return symbol
+        }
+        return defaultIcon(for: name, in: viewModel.customCategories)
     }
 
     // MARK: - Category Tab Bar

@@ -159,11 +159,11 @@ struct ClipKeyboardApp: App {
     private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
         let work = isKorean ? "업무" : "Work"
         let personal = isKorean ? "개인" : "Personal"
-        // 1) 일반 메모 — 탭하면 바로 복사
+        // 1) 일반 메모 (즐겨찾기) — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let memo = Memo(
             title: isKorean ? "내 이메일" : "My Email",
             value: "example@email.com",
-            category: personal
+            isFavorite: true
         )
         // 2) 템플릿 — {빈칸}을 채워 완성
         let template = Memo(
@@ -212,12 +212,13 @@ struct ClipKeyboardApp: App {
                 ? ["이름", "이메일", "전화번호"]
                 : ["Full Name", "Email", "Phone"]
         )
+        // 즐겨찾기 — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let checklist = Memo(
             title: isKorean ? "여행 체크리스트" : "Travel Checklist",
             value: isKorean
                 ? "여권 ✓\n비자 ✓\n여행자보험 ✓\n긴급 연락처: "
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
-            category: travel
+            isFavorite: true
         )
         // 일반 메모 + 템플릿 — 고정 안내문 뒤에 송금 양식 빈칸이 함께 채워짐
         let noteWithTemplate = Memo(

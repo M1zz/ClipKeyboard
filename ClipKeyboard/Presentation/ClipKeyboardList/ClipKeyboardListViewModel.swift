@@ -65,9 +65,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     var allCategoryTabs: [CategoryTab] {
         var tabs: [CategoryTab] = [.all]
-        // 즐겨찾기 메모가 1개 이상일 때만 즐겨찾기 탭 노출
-        if !hiddenCategoryTabs.contains("__favorites__"),
-           loadedData.contains(where: { $0.isFavorite }) {
+        // 즐겨찾기는 기본 제공 카테고리 — 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
+        if !hiddenCategoryTabs.contains("__favorites__") {
             tabs.append(.favorites)
         }
         // 사용자 카테고리는 해당 카테고리에 속한 메모가 1개 이상일 때만 탭 노출
