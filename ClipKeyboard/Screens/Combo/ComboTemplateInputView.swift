@@ -22,7 +22,7 @@ struct ComboTemplateInputView: View {
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(NSLocalizedString("템플릿 미리보기", comment: "Template Preview"))
-                            .font(.caption)
+                            .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(theme.textMuted)
 
@@ -43,7 +43,7 @@ struct ComboTemplateInputView: View {
                                 .foregroundColor(.green)
 
                             Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders"))
-                                .font(.subheadline)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                         .frame(maxWidth: .infinity)
@@ -79,7 +79,7 @@ struct ComboTemplateInputView: View {
                                 Image(systemName: "exclamationmark.triangle.fill")
                                     .foregroundColor(.orange)
                                 Text(NSLocalizedString("모든 플레이스홀더 값을 입력해주세요", comment: "Fill all placeholders"))
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.orange)
                             }
                             .padding(12)

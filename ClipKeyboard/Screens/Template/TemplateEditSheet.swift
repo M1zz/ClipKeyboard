@@ -78,7 +78,7 @@ struct TemplateEditSheet: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(NSLocalizedString("템플릿", comment: "Template label"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textMuted)
                 Spacer()
@@ -87,7 +87,7 @@ struct TemplateEditSheet: View {
                     if isEditingText { editedText = memo.value }
                 } label: {
                     Text(isEditingText ? NSLocalizedString("완료", comment: "Done") : NSLocalizedString("수정", comment: "Edit"))
-                        .font(.caption)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(.blue)
                 }
@@ -124,10 +124,10 @@ struct TemplateEditSheet: View {
                     .font(.system(size: 30))
                     .foregroundColor(.green)
                 Text(NSLocalizedString("설정할 값이 없습니다", comment: "No values to set"))
-                    .font(.subheadline)
+                    .font(.body)
                     .fontWeight(.semibold)
                 Text(NSLocalizedString("이 템플릿은 바로 사용 가능합니다", comment: "Template ready to use"))
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
             .frame(maxWidth: .infinity)
@@ -138,16 +138,16 @@ struct TemplateEditSheet: View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
                     Text(NSLocalizedString("값 선택", comment: "Select value"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
                     Spacer()
                     HStack(spacing: 4) {
                         Image(systemName: "info.circle.fill")
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(.blue)
                         Text(NSLocalizedString("값을 선택하세요", comment: "Select a value hint"))
-                            .font(.caption)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
                 }
@@ -170,7 +170,7 @@ struct TemplateEditSheet: View {
     private var previewSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("미리보기", comment: "Preview"))
-                .font(.subheadline)
+                .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
             Text(previewText.templateChipAttributed(theme: theme))
@@ -250,15 +250,15 @@ struct TemplateInputSheet: View {
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 6) {
                                 Image(systemName: "eye.fill")
-                                    .font(.caption2)
+                                    .font(.body)
                                     .foregroundColor(.green)
                                 Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
-                                    .font(.caption2)
+                                    .font(.body)
                                     .fontWeight(.semibold)
                                     .foregroundColor(theme.textMuted)
                             }
                             Text(previewText.templateChipAttributed(theme: theme))
-                                .font(.system(size: 14))
+                                .font(.body)
                                 .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(10)
@@ -273,11 +273,11 @@ struct TemplateInputSheet: View {
                         VStack(alignment: .leading, spacing: 4) {
                             HStack(spacing: 6) {
                                 Text(placeholder.strippingTemplateBraces)
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(theme.textMuted)
                                 if TemplateVariableProcessor.isNumericToken(placeholder) {
                                     Text(NSLocalizedString("숫자", comment: "Numeric token hint"))
-                                        .font(.system(size: 9, weight: .semibold))
+                                        .font(.body.weight(.semibold))
                                         .padding(.horizontal, 5)
                                         .padding(.vertical, 1)
                                         .background(Color.blue.opacity(0.15))
@@ -341,7 +341,7 @@ struct TemplateDetailPlaceholderView: View {
             VStack(spacing: 20) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(NSLocalizedString("템플릿 내용", comment: "Template content"))
-                        .font(.subheadline)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
 
@@ -361,14 +361,14 @@ struct TemplateDetailPlaceholderView: View {
                             .font(.system(size: 40))
                             .foregroundColor(.green)
                         Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
                     .padding(.top, 50)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(String(format: NSLocalizedString("플레이스홀더 (%d개)", comment: "Placeholder count"), placeholders.count))
-                            .font(.subheadline)
+                            .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(theme.textMuted)
                             .padding(.horizontal)
@@ -473,7 +473,7 @@ struct TemplatePlaceholderRow: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                 Text(String(format: NSLocalizedString("값 %d개", comment: "Value count"), values.count))
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(theme.textMuted)
             }
             Spacer(minLength: 20)
@@ -501,7 +501,7 @@ struct TemplatePlaceholderRow: View {
     private var valueList: some View {
         if values.isEmpty {
             Text(NSLocalizedString("값이 없습니다.\n템플릿 사용 시 값을 추가하세요.", comment: "No values hint"))
-                .font(.callout)
+                .font(.body)
                 .foregroundColor(.orange)
                 .padding(16)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -517,7 +517,7 @@ struct TemplatePlaceholderRow: View {
                                 .font(.body)
                                 .fontWeight(.semibold)
                             Text(value.addedAt.formatted(date: .abbreviated, time: .shortened))
-                                .font(.caption2)
+                                .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
                         Spacer()
@@ -584,7 +584,7 @@ struct TemplateSheetResolver: View {
                 VStack(spacing: 16) {
                     ProgressView().scaleEffect(1.5)
                     Text(NSLocalizedString("템플릿 불러오는 중...", comment: "Loading template"))
-                        .font(.callout)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

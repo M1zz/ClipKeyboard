@@ -29,18 +29,18 @@ struct PlaceholderSelectorView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
-                    .font(.caption)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textMuted)
 
                 // 타입 뱃지
                 HStack(spacing: 4) {
                     Image(systemName: isNumericToken ? "number" : "list.bullet")
-                        .font(.system(size: 9, weight: .semibold))
+                        .font(.body.weight(.semibold))
                     Text(isNumericToken
                          ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
                          : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
-                        .font(.system(size: 9, weight: .semibold))
+                        .font(.body.weight(.semibold))
                 }
                 .foregroundColor(isNumericToken ? .blue : .green)
                 .padding(.horizontal, 6)
@@ -52,7 +52,7 @@ struct PlaceholderSelectorView: View {
             // 값 목록
             if values.isEmpty {
                 Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(.orange)
                     .padding(12)
                     .frame(maxWidth: .infinity)
@@ -68,7 +68,7 @@ struct PlaceholderSelectorView: View {
                                     selectedValue = placeholderValue.value
                                 } label: {
                                     Text(placeholderValue.value)
-                                        .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
+                                        .font(.body.weight(isSelected ? .semibold : .regular))
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 8)
                                         .background(isSelected ? Color.blue : theme.surfaceAlt)
@@ -85,7 +85,7 @@ struct PlaceholderSelectorView: View {
                                     showDeleteAlert = true
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
-                                        .font(.system(size: 14))
+                                        .font(.body)
                                         .foregroundColor(.red)
                                 }
                                 .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), placeholderValue.value))
@@ -100,7 +100,7 @@ struct PlaceholderSelectorView: View {
             HStack(spacing: 8) {
                 TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
                     .textFieldStyle(.roundedBorder)
-                    .font(.callout)
+                    .font(.body)
                     #if os(iOS)
                     .keyboardType(isNumericToken ? .numberPad : .default)
                     #endif
@@ -119,7 +119,7 @@ struct PlaceholderSelectorView: View {
                     }
                 } label: {
                     Text(NSLocalizedString("추가", comment: "Add button"))
-                        .font(.caption)
+                        .font(.body)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -187,7 +187,7 @@ struct PlaceholderManagementSheet: View {
                         .font(.headline)
                         .foregroundColor(theme.textMuted)
                     Text(NSLocalizedString("채울 칸이 있는 템플릿을 만들면\n그 값들을 여기서 관리할 수 있어요", comment: "No templates description"))
-                        .font(.caption)
+                        .font(.body)
                         .foregroundColor(theme.textMuted)
                         .multilineTextAlignment(.center)
                 }
@@ -217,7 +217,7 @@ struct PlaceholderManagementSheet: View {
                                     .font(.headline)
 
                                 Text(extractPlaceholderPreview(from: template.value))
-                                    .font(.caption)
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                                     .lineLimit(2)
                             }
