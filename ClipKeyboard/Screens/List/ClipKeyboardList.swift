@@ -487,11 +487,13 @@ struct ClipKeyboardList: View {
             Text(memo.title)
                 .font(.title2.weight(.semibold))
                 .foregroundColor(onColor ? .white : theme.text)
-                .lineLimit(3)
+                .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(16)
-        .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
+        // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
+        // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
+        .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
         .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
@@ -952,7 +954,7 @@ struct ClipKeyboardList: View {
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.textFaint)
             }
-            .frame(maxWidth: .infinity, minHeight: 116)
+            .frame(maxWidth: .infinity, minHeight: 140)  // 메모 셀과 동일 높이
             .background(theme.surface.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
             .overlay {
