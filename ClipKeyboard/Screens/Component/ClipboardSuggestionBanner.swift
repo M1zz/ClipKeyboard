@@ -28,9 +28,9 @@ struct ClipboardSuggestionBanner: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 44, height: 44)
                         .clipped()
-                        .cornerRadius(10)
+                        .cornerRadius(theme.radiusSm)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10)
+                            RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .stroke(Color.blue.opacity(0.5), lineWidth: 2)
                         )
                 } else {
@@ -46,7 +46,7 @@ struct ClipboardSuggestionBanner: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .cornerRadius(10)
+                        .cornerRadius(theme.radiusSm)
                 }
 
                 // 내용

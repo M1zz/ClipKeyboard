@@ -71,7 +71,7 @@ struct ImageAttachmentView: View {
                 .clipped()
                 .cornerRadius(theme.radiusSm)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: theme.radiusSm)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
 

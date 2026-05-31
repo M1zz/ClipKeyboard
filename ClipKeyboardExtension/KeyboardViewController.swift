@@ -51,7 +51,7 @@ class KeyboardViewController: UIInputViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 38).isActive = true
         button.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
         button.setImage(UIImage(systemName: "delete.backward"), for: .normal)
         button.tintColor = .black
         button.backgroundColor = .systemGray2
@@ -64,7 +64,7 @@ class KeyboardViewController: UIInputViewController {
             button.translatesAutoresizingMaskIntoConstraints = false
             button.heightAnchor.constraint(equalToConstant: 38).isActive = true
             button.widthAnchor.constraint(equalToConstant: 45).isActive = true
-            button.layer.cornerRadius = 8
+            button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
             button.setImage(UIImage(systemName: "globe"), for: .normal)
             button.tintColor = .black
             button.backgroundColor = .systemGray2
@@ -76,7 +76,7 @@ class KeyboardViewController: UIInputViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 38).isActive = true
         button.widthAnchor.constraint(greaterThanOrEqualToConstant: 150).isActive = true
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
         button.setTitle("Space", for: UIControl.State.normal)
         button.titleLabel!.font = .systemFont(ofSize: 14, weight: .medium)
         button.backgroundColor = UIColor.white
@@ -100,7 +100,7 @@ class KeyboardViewController: UIInputViewController {
             return updated
         }
         config.cornerStyle = .fixed
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
         button.configuration = config
         return button
     }()
@@ -190,7 +190,7 @@ class KeyboardViewController: UIInputViewController {
             return updated
         }
         openConfig.cornerStyle = .fixed
-        openButton.layer.cornerRadius = 10
+        openButton.layer.cornerRadius = AppTheme.paperLight.radiusSm  // sm=10, 테마 불변
         openButton.configuration = openConfig
         openButton.addTarget(self, action: #selector(openMainAppPaywall), for: .touchUpInside)
         openButton.translatesAutoresizingMaskIntoConstraints = false

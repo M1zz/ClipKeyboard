@@ -46,7 +46,7 @@ struct PlaceholderSelectorView: View {
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
                 .background((isNumericToken ? Color.blue : Color.green).opacity(0.12))
-                .cornerRadius(5)
+                .cornerRadius(theme.radiusXs)
             }
 
             // 값 목록
@@ -57,7 +57,7 @@ struct PlaceholderSelectorView: View {
                     .padding(12)
                     .frame(maxWidth: .infinity)
                     .background(Color.orange.opacity(0.1))
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
@@ -73,7 +73,7 @@ struct PlaceholderSelectorView: View {
                                         .padding(.vertical, 8)
                                         .background(isSelected ? Color.blue : theme.surfaceAlt)
                                         .foregroundColor(isSelected ? .white : .primary)
-                                        .cornerRadius(16)
+                                        .cornerRadius(theme.radiusLg)
                                 }
                                 .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
                                 .accessibilityHint(isSelected
@@ -125,7 +125,7 @@ struct PlaceholderSelectorView: View {
                         .padding(.vertical, 6)
                         .background(newValue.isEmpty ? Color.gray : Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                 }
                 .disabled(newValue.isEmpty)
                 .accessibilityHint(NSLocalizedString("새 값을 목록에 추가합니다", comment: "Add value button hint"))
@@ -133,7 +133,7 @@ struct PlaceholderSelectorView: View {
         }
         .padding()
         .background(theme.surfaceAlt)
-        .cornerRadius(10)
+        .cornerRadius(theme.radiusSm)
         .onAppear {
             print("🎬 [PlaceholderSelectorView] onAppear - 플레이스홀더: \(placeholder)")
             loadValues()

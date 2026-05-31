@@ -37,9 +37,9 @@ struct KeyboardLayoutSettings: View {
             Section {
                 KeyboardPreviewView()
                     .frame(height: 220)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                     .overlay(
-                        RoundedRectangle(cornerRadius: 14)
+                        RoundedRectangle(cornerRadius: theme.radiusMd)
                             .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
                     )
                     .listRowInsets(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
@@ -234,7 +234,7 @@ struct KeyboardLayoutSettings: View {
                             .font(.system(size: 9, weight: .medium))
                             .frame(minWidth: 18, minHeight: 16)
                             .background(isSelected ? Color.blue.opacity(0.15) : Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
                 }
             }
@@ -245,11 +245,11 @@ struct KeyboardLayoutSettings: View {
         }
         .padding(8)
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: theme.radiusSm)
                 .fill(isSelected ? Color.blue.opacity(0.06) : Color(.systemGray6))
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: theme.radiusSm)
                 .strokeBorder(isSelected ? Color.blue.opacity(0.4) : Color.clear, lineWidth: 1.5)
         )
         .onTapGesture { koreanLayout = isSelected ? koreanLayout : (title == "두벌식" ? "dubeolsik" : "cheonjiin") }
@@ -348,7 +348,7 @@ struct KeyboardPreviewView: View {
                                     .foregroundColor(sel ? .white : theme.textMuted)
                                     .frame(width: 30, height: 26)
                                     .background(sel ? catColor(key) : keyColor)
-                                    .clipShape(RoundedRectangle(cornerRadius: 7))
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                             }
                         }
                         .padding(.horizontal, 8)
@@ -365,11 +365,11 @@ struct KeyboardPreviewView: View {
                     // 메모 없을 때 플레이스홀더
                     LazyVGrid(columns: gridColumns, spacing: 8) {
                         ForEach(0..<(columnCount * 2), id: \.self) { _ in
-                            RoundedRectangle(cornerRadius: 8)
+                            RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .fill(keyColor.opacity(0.6))
                                 .frame(height: min(buttonHeight, 50))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
+                                    RoundedRectangle(cornerRadius: theme.radiusSm)
                                         .strokeBorder(theme.divider, lineWidth: 0.5)
                                 )
                         }
@@ -382,7 +382,7 @@ struct KeyboardPreviewView: View {
                         LazyVGrid(columns: gridColumns, spacing: 8) {
                             ForEach(displayMemos) { memo in
                                 ZStack(alignment: .bottomLeading) {
-                                    RoundedRectangle(cornerRadius: 8)
+                                    RoundedRectangle(cornerRadius: theme.radiusSm)
                                         .fill(keyColor)
                                         .frame(height: min(buttonHeight, 60))
                                         .shadow(color: .black.opacity(0.10), radius: 1.5, y: 1)

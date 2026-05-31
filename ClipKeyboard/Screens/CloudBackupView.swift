@@ -41,7 +41,7 @@ struct CloudBackupView: View {
                         .frame(height: 50)
                         .frame(maxWidth: 240)
                         .background(.orange.gradient)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }
                 Spacer()
             }

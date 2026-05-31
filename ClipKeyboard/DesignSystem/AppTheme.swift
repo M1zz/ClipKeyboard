@@ -67,7 +67,10 @@ struct AppTheme: Equatable {
     let heroGradientStops: [Color]
     let heroGradientAngle: Double  // degrees
 
-    // Radius scale
+    // Radius scale — 화면 코너의 단일 소스. raw 숫자 대신 이 토큰만 사용한다.
+    //  xs: 배지·칩·작은 인디케이터 / sm: 버튼·인풋·작은 컨테이너
+    //  md: 카드·시트 본문·주요 버튼 / lg: 큰 카드·강조 컨테이너 / xl: 히어로·풀시트
+    let radiusXs: CGFloat
     let radiusSm: CGFloat
     let radiusMd: CGFloat
     let radiusLg: CGFloat
@@ -104,7 +107,7 @@ struct AppTheme: Equatable {
             hx("E8B5E8")
         ],
         heroGradientAngle: 155,
-        radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
+        radiusXs: 6, radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
         displayFontName: nil,   // Inter → system fallback
         bodyFontName: nil
     )
@@ -132,7 +135,7 @@ struct AppTheme: Equatable {
             hx("6B2E6B")
         ],
         heroGradientAngle: 155,
-        radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
+        radiusXs: 6, radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
         displayFontName: nil,
         bodyFontName: nil
     )
@@ -160,7 +163,7 @@ struct AppTheme: Equatable {
             hx("E8B79E")
         ],
         heroGradientAngle: 160,
-        radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
+        radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
         displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )
@@ -188,7 +191,7 @@ struct AppTheme: Equatable {
             hx("4A2A1A")
         ],
         heroGradientAngle: 160,
-        radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
+        radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
         displayFontName: "Fraunces-Bold",
         bodyFontName: "InstrumentSans-Regular"
     )

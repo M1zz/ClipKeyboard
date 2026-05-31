@@ -110,7 +110,7 @@ struct PaywallView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.orange.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
     }
     
     // MARK: - Feature Comparison
@@ -170,9 +170,9 @@ struct PaywallView: View {
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeImageMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
         }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(theme.surfaceAlt, lineWidth: 1)
         )
     }
@@ -263,7 +263,7 @@ struct PaywallView: View {
                     .frame(height: 54)
                     .frame(maxWidth: .infinity)
                     .background(.orange.gradient)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }
                 .disabled(store.isLoading)
                 .accessibilityLabel(store.isLoading
@@ -318,9 +318,9 @@ struct PaywallView: View {
             .frame(height: 54)
             .frame(maxWidth: .infinity)
             .background(.orange.opacity(0.12))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
             .overlay(
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .stroke(.orange.opacity(0.4), lineWidth: 1.5)
             )
         }
@@ -340,7 +340,7 @@ struct PaywallView: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
         .background(.green.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
         .accessibilityElement(children: .combine)
     }
     
@@ -381,7 +381,7 @@ struct PaywallView: View {
             }
             .padding(40)
             .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg))
         }
         .transition(.opacity)
     }

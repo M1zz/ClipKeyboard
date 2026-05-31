@@ -122,6 +122,10 @@ struct ComboKeyboardCard: View {
 
     @Environment(\.colorScheme) var colorScheme
 
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark)
+    }
+
     private var safeIndex: Int {
         memo.currentComboIndex < memo.comboValues.count ? memo.currentComboIndex : 0
     }
@@ -183,15 +187,15 @@ struct ComboKeyboardCard: View {
             .disabled(isExecuting)
         }
         .background(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: theme.radiusSm)
                 .fill(isExecuting ? Color.orange.opacity(0.08) : keyColor)
                 .shadow(color: Color.black.opacity(0.25), radius: 2, y: 1)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: theme.radiusSm)
                 .strokeBorder(Color.orange.opacity(0.3), lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
         .frame(height: 68)
     }
 }

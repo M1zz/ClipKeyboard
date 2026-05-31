@@ -180,7 +180,7 @@ struct TypingKeyboardView: View {
         content()
             .frame(maxWidth: width ?? .infinity, minHeight: keyHeight)
             .background(fill)
-            .cornerRadius(8)
+            .cornerRadius(theme.radiusXs)
             .shadow(color: Color.black.opacity(0.18), radius: 0, x: 0, y: 1)
     }
 
@@ -471,7 +471,7 @@ struct TypingKeyboardView: View {
         c()
             .frame(width: w, height: h)
             .background(fill)
-            .cornerRadius(8)
+            .cornerRadius(theme.radiusXs)
             .shadow(color: Color.black.opacity(0.18), radius: 0, x: 0, y: 1)
     }
 

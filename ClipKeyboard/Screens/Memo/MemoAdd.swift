@@ -84,7 +84,7 @@ struct MemoAdd: View {
                         .padding()
                         .background(Color.black.opacity(0.7))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(theme.radiusSm)
                         .padding(.bottom, 100)
                         .accessibilityHidden(true)
                 }
@@ -129,7 +129,7 @@ struct MemoAdd: View {
                         Text(NSLocalizedString("텍스트 인식 중...", comment: "Recognizing text"))
                             .foregroundColor(.white).font(.headline)
                     }
-                    .padding(32).background(theme.surface).cornerRadius(16)
+                    .padding(32).background(theme.surface).cornerRadius(theme.radiusLg)
                 }
             }
         }
@@ -236,7 +236,7 @@ struct MemoAdd: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .background(theme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
                     .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 4)
 
                     // 힌트 필드 카드
@@ -255,7 +255,7 @@ struct MemoAdd: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 14)
                     .background(theme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
 
                     // 더 설정하기 카드
                     Button {
@@ -274,7 +274,7 @@ struct MemoAdd: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 14)
                         .background(theme.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
                     }
                 }
                 .padding(.horizontal, 16)
@@ -301,7 +301,7 @@ struct MemoAdd: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
                 .background(viewModel.value.isEmpty ? Color.gray.opacity(0.4) : Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             }
             .disabled(viewModel.value.isEmpty)
             .padding(.horizontal, 16)
@@ -1031,9 +1031,9 @@ private struct QuickInsertTokenButton: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
             .background((isNumeric ? Color.blue : Color.green).opacity(0.1))
-            .cornerRadius(8)
+            .cornerRadius(theme.radiusSm)
             .overlay(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: theme.radiusSm)
                     .strokeBorder((isNumeric ? Color.blue : Color.green).opacity(0.25), lineWidth: 1)
             )
         }
@@ -1071,7 +1071,7 @@ struct PlaceholderValueEditor: View {
                 .padding(.horizontal, 7)
                 .padding(.vertical, 3)
                 .background((isNumeric ? Color.blue : Color.green).opacity(0.12))
-                .cornerRadius(6)
+                .cornerRadius(theme.radiusXs)
 
                 Spacer()
 
@@ -1138,7 +1138,7 @@ struct PlaceholderValueEditor: View {
         }
         .padding()
         .background(theme.surface)
-        .cornerRadius(10)
+        .cornerRadius(theme.radiusSm)
     }
 }
 
@@ -1188,7 +1188,7 @@ struct ContentInputSection: View {
                             .padding(6)
                             .background(Color.purple.opacity(0.1))
                             .foregroundColor(.purple)
-                            .cornerRadius(6)
+                            .cornerRadius(theme.radiusXs)
                     }
                     .accessibilityLabel(NSLocalizedString("클립보드에서 이미지 붙여넣기", comment: "Paste image from clipboard"))
 
@@ -1200,7 +1200,7 @@ struct ContentInputSection: View {
                             .padding(6)
                             .background(Color.blue.opacity(0.1))
                             .foregroundColor(.blue)
-                            .cornerRadius(6)
+                            .cornerRadius(theme.radiusXs)
                     }
                     .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
                 }
@@ -1216,7 +1216,7 @@ struct ContentInputSection: View {
                             .frame(maxHeight: 300)
                             .cornerRadius(theme.radiusMd)
                             .overlay(
-                                RoundedRectangle(cornerRadius: 12)
+                                RoundedRectangle(cornerRadius: theme.radiusMd)
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
 
@@ -1277,7 +1277,7 @@ struct ContentInputSection: View {
                         .background(theme.surfaceAlt)
                         .cornerRadius(theme.radiusMd)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 12)
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
                                 .strokeBorder(Color.blue.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
                         )
                     }
@@ -1342,7 +1342,7 @@ struct ContentInputSection: View {
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 4)
                                 .background(Color.orange.opacity(0.15))
-                                .cornerRadius(6)
+                                .cornerRadius(theme.radiusXs)
                         }
                     }
                     .padding(.horizontal, 12)

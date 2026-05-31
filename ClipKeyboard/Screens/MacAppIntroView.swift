@@ -86,7 +86,7 @@ struct MacAppIntroView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(theme.surfaceAlt)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
     }
 
     private var purchaseNote: some View {
@@ -108,10 +108,10 @@ struct MacAppIntroView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.green.opacity(0.08))
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(Color.green.opacity(0.25), lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
     }
 
     private var openAppStoreButton: some View {
@@ -127,7 +127,7 @@ struct MacAppIntroView: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
             .background(Color.blue)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         }
         .buttonStyle(PlainButtonStyle())
     }

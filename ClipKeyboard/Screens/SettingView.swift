@@ -260,7 +260,7 @@ struct SettingView: View {
                 NavigationLink(destination: MacAppIntroView()) {
                     HStack(spacing: 12) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 8)
+                            RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .frame(width: 32, height: 32)
                             Image(systemName: "macbook")
@@ -467,7 +467,7 @@ struct CopyPasteView: View {
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
                                     .background(Color.green.opacity(0.2))
-                                    .cornerRadius(4)
+                                    .cornerRadius(theme.radiusXs)
                             }
                             Text(NSLocalizedString("팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.", comment: "Allow option description"))
                                 .font(.subheadline)

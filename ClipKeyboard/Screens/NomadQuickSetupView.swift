@@ -128,7 +128,7 @@ struct NomadQuickSetupView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                     .background(Color.accentColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 36)
@@ -172,7 +172,7 @@ struct NomadQuickSetupView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(theme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                     }
 
                     Button {
@@ -186,7 +186,7 @@ struct NomadQuickSetupView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background(Color.accentColor)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                     }
                 }
                 .padding(.horizontal, 20)
@@ -278,11 +278,11 @@ private struct NomadFocusCard: View {
             .padding(.vertical, 16)
             .padding(.horizontal, 8)
             .background(
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .fill(isSelected ? Color.accentColor.opacity(0.10) : theme.surface)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
             )
         }
@@ -312,9 +312,9 @@ private struct NomadInputSection: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 12)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: theme.radiusSm)
                         .strokeBorder(isFocused ? Color.accentColor : theme.divider, lineWidth: 1.5)
                 )
         }

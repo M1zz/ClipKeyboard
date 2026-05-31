@@ -20,7 +20,7 @@ class CollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.backgroundColor = .white
         label.textColor = .black
-        label.layer.cornerRadius = 10
+        label.layer.cornerRadius = AppTheme.paperLight.radiusSm  // 단일 코너 스케일 (sm=10, 테마 불변)
         label.layer.masksToBounds = true
         label.layer.borderWidth = 1.0
         label.layer.borderColor = UIColor.black.cgColor

@@ -361,6 +361,7 @@ struct ComboRowView: View {
 
 struct ComboItemChip: View {
     let item: ComboItem
+    @Environment(\.appTheme) private var theme
 
     var iconName: String {
         switch item.type {
@@ -395,7 +396,7 @@ struct ComboItemChip: View {
         .padding(.vertical, 2)
         .background(colorName.opacity(0.2))
         .foregroundColor(colorName)
-        .cornerRadius(4)
+        .cornerRadius(theme.radiusXs)
     }
 }
 
@@ -403,6 +404,7 @@ struct ComboItemChip: View {
 
 struct ToastView: View {
     let message: String
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         Text(message)
@@ -411,7 +413,7 @@ struct ToastView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
             .background(Color.black.opacity(0.8))
-            .cornerRadius(10)
+            .cornerRadius(theme.radiusSm)
     }
 }
 

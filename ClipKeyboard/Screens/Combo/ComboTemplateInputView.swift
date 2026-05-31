@@ -31,7 +31,7 @@ struct ComboTemplateInputView: View {
                             .padding(12)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(theme.surfaceAlt)
-                            .cornerRadius(8)
+                            .cornerRadius(theme.radiusSm)
                     }
                 }
 
@@ -73,7 +73,7 @@ struct ComboTemplateInputView: View {
                                 .padding(12)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .background(Color.blue.opacity(0.1))
-                                .cornerRadius(8)
+                                .cornerRadius(theme.radiusSm)
                         } else {
                             HStack {
                                 Image(systemName: "exclamationmark.triangle.fill")
@@ -85,7 +85,7 @@ struct ComboTemplateInputView: View {
                             .padding(12)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(Color.orange.opacity(0.1))
-                            .cornerRadius(8)
+                            .cornerRadius(theme.radiusSm)
                         }
                     }
                 }

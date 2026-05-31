@@ -671,7 +671,7 @@ struct UsageGuideView: View {
                 }
                 .padding(14)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             }
             .buttonStyle(PlainButtonStyle())
             .accessibilityLabel(category.title)
@@ -718,7 +718,7 @@ struct UsageGuideView: View {
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(theme.surfaceAlt)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
                 .textSelection(.enabled)
 
             HStack(spacing: 8) {
@@ -772,9 +772,9 @@ struct UsageGuideView: View {
         }
         .padding(14)
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
                 .stroke(theme.divider, lineWidth: 0.5)
         )
         .accessibilityElement(children: .contain)

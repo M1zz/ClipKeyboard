@@ -30,9 +30,9 @@ struct ClipboardCaptureCard: View {
         }
         .padding(12)
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .overlay(
-            RoundedRectangle(cornerRadius: 14)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(Color.blue.opacity(0.18), lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
@@ -46,7 +46,7 @@ struct ClipboardCaptureCard: View {
             .foregroundColor(Color.fromName(detectedType.color))
             .frame(width: 40, height: 40)
             .background(Color.fromName(detectedType.color).opacity(0.15))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
     }
 
     private var headerRow: some View {

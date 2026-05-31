@@ -140,16 +140,16 @@ struct UsageScenarioPickerSheet: View {
                     .padding(8)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(theme.surfaceAlt)
-                    .cornerRadius(6)
+                    .cornerRadius(theme.radiusXs)
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(theme.surface)
             .overlay(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
                     .stroke(Color.accentColor.opacity(0.35), lineWidth: 1.2)
             )
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
             .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)

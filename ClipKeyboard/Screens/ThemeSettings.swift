@@ -53,7 +53,7 @@ struct ThemeSettings: View {
                                 Text(text)
                                     .padding()
                                     .background(keyColor)
-                                    .cornerRadius(8)
+                                    .cornerRadius(theme.radiusSm)
                                     .shadow(radius: 2)
                             }
                         }
@@ -61,7 +61,7 @@ struct ThemeSettings: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(backgroundColor)
-                    .cornerRadius(12)
+                    .cornerRadius(theme.radiusMd)
                 }
             }
 

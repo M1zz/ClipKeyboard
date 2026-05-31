@@ -129,6 +129,7 @@ struct EmojiPicker: View {
 }
 
 struct CategoryTabButton: View {
+    @Environment(\.appTheme) private var theme
     let category: EmojiCategory
     let isSelected: Bool
     let action: () -> Void
@@ -145,7 +146,7 @@ struct CategoryTabButton: View {
             .frame(width: 60)
             .padding(.vertical, 8)
             .background(
-                RoundedRectangle(cornerRadius: 8)
+                RoundedRectangle(cornerRadius: theme.radiusSm)
                     .fill(isSelected ? Color.blue.opacity(0.1) : Color.clear)
             )
         }

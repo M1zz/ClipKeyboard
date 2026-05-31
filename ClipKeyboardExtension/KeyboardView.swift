@@ -355,7 +355,7 @@ struct KeyboardView: View {
                 .foregroundColor(theme.textMuted)
                 .frame(width: 36, height: 28)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(PlainButtonStyle())
         .frame(minWidth: 44, minHeight: 44)
@@ -754,7 +754,7 @@ struct KeyboardView: View {
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, minHeight: 28)
                 .background(theme.surface)
-                .cornerRadius(6)
+                .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -772,7 +772,7 @@ struct KeyboardView: View {
             }
             .frame(height: 28)
             .background(theme.surface)
-            .cornerRadius(6)
+            .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -786,7 +786,7 @@ struct KeyboardView: View {
                 .foregroundColor(theme.text)
                 .frame(width: 56, height: 28)
                 .background(theme.divider)
-                .cornerRadius(6)
+                .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -800,7 +800,7 @@ struct KeyboardView: View {
                 .foregroundColor(theme.text)
                 .frame(width: 40, height: 28)
                 .background(theme.divider)
-                .cornerRadius(6)
+                .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -838,7 +838,7 @@ struct KeyboardView: View {
                             .foregroundColor(isSelected ? .white : theme.textMuted)
                             .frame(width: 32, height: 28)
                             .background(isSelected ? accent : theme.surface)
-                            .clipShape(RoundedRectangle(cornerRadius: 7))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
                     .buttonStyle(PlainButtonStyle())
                     .accessibilityLabel(labelForCategoryKey(key))
@@ -1143,7 +1143,7 @@ struct KeyboardView: View {
             .padding(.horizontal, 4)
             .padding(.vertical, 1)
             .background(color)
-            .cornerRadius(3)
+            .cornerRadius(theme.radiusXs)
     }
 
     private func memoButtonLabel(for memo: Memo, catColor: Color?, useTemplate: Bool = false) -> some View {
@@ -1268,7 +1268,7 @@ struct KeyboardView: View {
                 .padding(.bottom, 14)
             }
             .background(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: theme.radiusLg)
                     .fill(Color(UIColor.systemBackground))
                     .shadow(color: .black.opacity(0.25), radius: 10)
             )
@@ -1290,7 +1290,7 @@ struct KeyboardView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
                 .background(Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -1309,7 +1309,7 @@ struct KeyboardView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
                 .background(Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -1325,7 +1325,7 @@ struct KeyboardView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 40)
                 .background(Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -1403,11 +1403,14 @@ struct ImageMemoButton: View {
     let buttonHeight: Double
     let buttonFontSize: Double
 
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+
     @State private var image: UIImage? = nil
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: theme.radiusSm)
                 .foregroundColor(Color(uiColor: .systemGray5))
 
             if let image {
@@ -1415,7 +1418,7 @@ struct ImageMemoButton: View {
                     .resizable()
                     .scaledToFill()
                     .frame(height: buttonHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
             }
 
             // 텍스트 가독성을 위한 하단 그라디언트
@@ -1424,7 +1427,7 @@ struct ImageMemoButton: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
 
             Text(title)
                 .font(.system(size: buttonFontSize, weight: .semibold))
@@ -1452,6 +1455,9 @@ struct ImageMemoButton: View {
 // 템플릿 입력 오버레이
 struct TemplateInputOverlay: View {
     @ObservedObject var state: TemplateInputState
+
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -1481,7 +1487,7 @@ struct TemplateInputOverlay: View {
                                         .padding(.horizontal, 10)
                                         .background(inactive ? Color.blue.opacity(0.05) : Color.blue.opacity(0.12))
                                         .foregroundColor(inactive ? Color.blue.opacity(0.35) : Color.blue)
-                                        .cornerRadius(8)
+                                        .cornerRadius(theme.radiusXs)
                                 }
                                 .disabled(inactive)
                             }
@@ -1500,7 +1506,7 @@ struct TemplateInputOverlay: View {
                             .padding(.horizontal, 14)
                             .padding(.vertical, 8)
                             .background(state.allPlaceholdersFilled ? Color.blue : Color.gray.opacity(0.4))
-                            .cornerRadius(10)
+                            .cornerRadius(theme.radiusSm)
                     }
                     .disabled(!state.allPlaceholdersFilled)
 
@@ -1528,7 +1534,7 @@ struct TemplateInputOverlay: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
                     .background(Color(UIColor.systemGray6))
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusXs)
                     .padding(.horizontal, 12)
                     .padding(.top, 8)
 
@@ -1641,6 +1647,9 @@ struct PlaceholderInputView: View {
     @Binding var selectedValue: String
     let templateId: UUID?
 
+    @Environment(\.colorScheme) private var colorScheme
+    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+
     private var predefinedValues: [String] {
         let storedValues = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: templateId)
         return storedValues
@@ -1692,7 +1701,7 @@ struct PlaceholderInputView: View {
                                     .padding(.vertical, 4)
                                     .background(selectedValue == value ? Color.blue.opacity(0.2) : Color(UIColor.systemGray5))
                                     .foregroundColor(selectedValue == value ? .blue : .primary)
-                                    .cornerRadius(12)
+                                    .cornerRadius(theme.radiusSm)
                             }
                         }
                     }
@@ -1719,7 +1728,7 @@ struct PlaceholderInputView: View {
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray5))
                 .foregroundColor(.primary)
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -1734,7 +1743,7 @@ struct PlaceholderInputView: View {
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray4))
                 .foregroundColor(.primary)
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusXs)
         }
     }
 
@@ -1763,7 +1772,7 @@ struct PlaceholderInputView: View {
             .padding(12)
             .frame(maxWidth: .infinity)
             .background(Color.orange.opacity(0.1))
-            .cornerRadius(8)
+            .cornerRadius(theme.radiusXs)
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
@@ -1778,7 +1787,7 @@ struct PlaceholderInputView: View {
                                 .padding(.vertical, 10)
                                 .background(selectedValue == value ? Color.blue : Color(UIColor.systemGray5))
                                 .foregroundColor(selectedValue == value ? .white : .primary)
-                                .cornerRadius(20)
+                                .cornerRadius(theme.radiusLg)
                         }
                     }
                 }

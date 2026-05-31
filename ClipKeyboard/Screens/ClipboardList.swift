@@ -502,13 +502,13 @@ struct FilterChip: View {
                     .padding(.horizontal, 4)
                     .padding(.vertical, 2)
                     .background(isSelected ? Color.white.opacity(0.3) : Color.gray.opacity(0.2))
-                    .cornerRadius(4)
+                    .cornerRadius(theme.radiusXs)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(isSelected ? Color.fromName(color) : Color.gray.opacity(0.2))
             .foregroundColor(isSelected ? .white : .primary)
-            .cornerRadius(20)
+            .cornerRadius(theme.radiusLg)
         }
     }
 }
@@ -566,7 +566,7 @@ struct ClipboardItemRow: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(Color.fromName(displayType.color).opacity(0.2))
-                            .cornerRadius(4)
+                            .cornerRadius(theme.radiusXs)
 
                             // 시간
                             Text(formatDate(item.copiedAt))
@@ -582,7 +582,7 @@ struct ClipboardItemRow: View {
                                     .padding(.horizontal, 6)
                                     .padding(.vertical, 2)
                                     .background(Color.orange.opacity(0.2))
-                                    .cornerRadius(4)
+                                    .cornerRadius(theme.radiusXs)
                             }
                         }
                     }
@@ -842,7 +842,7 @@ private struct PasteTipBanner: View {
         }
         .padding(14)
         .background(theme.accentSoft)
-        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .padding(.horizontal, 16)
         .padding(.top, 8)
     }

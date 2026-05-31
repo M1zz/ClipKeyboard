@@ -152,7 +152,7 @@ struct AccessibilityGuideView: View {
         }
         .padding(16)
         .background(theme.surfaceAlt)
-        .cornerRadius(14)
+        .cornerRadius(theme.radiusMd)
     }
 
     private var testSteps: [String] {[
@@ -206,7 +206,7 @@ private struct FeatureCard: View {
                     .foregroundColor(feature.iconColor)
                     .frame(width: 36, height: 36)
                     .background(feature.iconColor.opacity(0.12))
-                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
                     .accessibilityHidden(true)
                 Text(feature.title)
                     .font(.headline)
@@ -229,7 +229,7 @@ private struct FeatureCard: View {
         }
         .padding(16)
         .background(theme.surface)
-        .cornerRadius(14)
+        .cornerRadius(theme.radiusMd)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(feature.title). \(feature.body). \(NSLocalizedString("설정 경로", comment: "")): \(feature.tip)")
     }

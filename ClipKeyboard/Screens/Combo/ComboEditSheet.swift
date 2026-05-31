@@ -163,7 +163,7 @@ struct ComboEditSheet: View {
                     .padding(.vertical, 4)
                     .background(Color.orange.opacity(0.15))
                     .foregroundColor(.orange)
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
             }
         }
         .padding(.horizontal, 16)
@@ -203,7 +203,7 @@ struct ComboEditSheet: View {
                         .foregroundColor(index == currentComboIndex ? .white : theme.textMuted)
                         .frame(width: 28, height: 28)
                         .background(index == currentComboIndex ? Color.orange : theme.surfaceAlt)
-                        .cornerRadius(14)
+                        .cornerRadius(theme.radiusMd)
                         .accessibilityHidden(true)
 
                     // 값
@@ -222,7 +222,7 @@ struct ComboEditSheet: View {
                             .padding(.vertical, 3)
                             .background(Color.orange)
                             .foregroundColor(.white)
-                            .cornerRadius(6)
+                            .cornerRadius(theme.radiusXs)
                             .accessibilityHidden(true)
                     }
                 }

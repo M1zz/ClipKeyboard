@@ -490,8 +490,8 @@ struct ClipKeyboardList: View {
         .padding(16)
         .frame(maxWidth: .infinity, minHeight: 116, alignment: .topLeading)
         .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
-        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-        .contentShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
         .onTapGesture {
             HapticManager.shared.selection() // 탭: 선택 햅틱
@@ -507,7 +507,7 @@ struct ClipKeyboardList: View {
         .accessibilityAddTraits(.isButton)
         // 롱프레스 감아지는 테두리 오버레이
         .overlay {
-            RoundedRectangle(cornerRadius: 32, style: .continuous)
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                 .trim(from: 0, to: isActive ? longPressProgress : 0)
                 .stroke(theme.accent, style: StrokeStyle(lineWidth: 3.5, lineCap: .round))
                 .animation(
@@ -951,9 +951,9 @@ struct ClipKeyboardList: View {
             }
             .frame(maxWidth: .infinity, minHeight: 116)
             .background(theme.surface.opacity(0.5))
-            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
             .overlay {
-                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                     .strokeBorder(
                         theme.textFaint.opacity(0.3),
                         style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
@@ -1228,7 +1228,7 @@ struct ClipKeyboardList: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(maxWidth: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
                 }
                 #endif
 
@@ -1588,7 +1588,7 @@ struct ClipKeyboardList: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(theme.accent.opacity(0.1))
-                    .cornerRadius(10)
+                    .cornerRadius(theme.radiusSm)
                     .padding(.horizontal, 16)
                 }
 
@@ -1699,7 +1699,7 @@ struct ClipKeyboardList: View {
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
                         .background(suggestion.feature.color.opacity(0.12))
-                        .cornerRadius(4)
+                        .cornerRadius(theme.radiusXs)
                 }
 
                 Text(suggestion.title)
@@ -1783,7 +1783,7 @@ private struct CategoryActivationBanner: View {
         }
         .padding(14)
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
         .shadow(color: .black.opacity(0.08), radius: 8, y: 2)
     }
 }
@@ -1902,7 +1902,7 @@ private struct MemoActionSheet: View {
                 }
             }
             .background(theme.surface)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             .padding(.horizontal, 16)
 
             Spacer(minLength: 12)
@@ -1918,7 +1918,7 @@ private struct MemoActionSheet: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
                     .background(theme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 20)
@@ -2090,7 +2090,7 @@ struct ActivationCard: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 9)
                         .background(Color.accentColor)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                 }
 
                 Button(action: onSnooze) {
@@ -2100,7 +2100,7 @@ struct ActivationCard: View {
                         .padding(.horizontal, 14)
                         .padding(.vertical, 9)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(8)
+                        .cornerRadius(theme.radiusSm)
                 }
             }
         }
@@ -2158,7 +2158,7 @@ struct TemplateHintBanner: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 9)
                     .background(Color.purple)
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
             }
             .buttonStyle(.plain)
             .simultaneousGesture(TapGesture().onEnded {
@@ -2232,7 +2232,7 @@ struct OccasionalSuggestionBanner: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
                     .background(theme.accent)
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
             }
         }
         .padding(14)
@@ -2370,7 +2370,7 @@ private struct FilterExpandChip: View {
             .padding(.horizontal, 10)
             .padding(.vertical, 7)
             .background(theme.surfaceAlt)
-            .cornerRadius(16)
+            .cornerRadius(theme.radiusLg)
             .foregroundColor(theme.textMuted)
         }
         .buttonStyle(.plain)
@@ -2410,13 +2410,13 @@ struct MemoFilterChip: View {
                             ? Color.white.opacity(0.25)
                             : Color.black.opacity(0.1)
                     )
-                    .cornerRadius(8)
+                    .cornerRadius(theme.radiusSm)
                     .accessibilityHidden(true)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(
-                RoundedRectangle(cornerRadius: 18)
+                RoundedRectangle(cornerRadius: theme.radiusLg)
                     .fill(isSelected ? Color.fromName(color) : theme.surfaceAlt)
                     .shadow(
                         color: isSelected ? Color.fromName(color).opacity(0.3) : Color.clear,
@@ -2427,7 +2427,7 @@ struct MemoFilterChip: View {
             )
             .foregroundColor(isSelected ? .white : theme.textFaint)
             .overlay(
-                RoundedRectangle(cornerRadius: 18)
+                RoundedRectangle(cornerRadius: theme.radiusLg)
                     .strokeBorder(
                         isSelected ? Color.white.opacity(0.2) : Color.clear,
                         lineWidth: 1

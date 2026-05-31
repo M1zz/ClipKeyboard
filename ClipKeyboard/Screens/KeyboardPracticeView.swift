@@ -84,7 +84,7 @@ struct KeyboardPracticeView: View {
         }
         .padding(16)
         .background(theme.surface)
-        .cornerRadius(14)
+        .cornerRadius(theme.radiusMd)
     }
 
     // MARK: - Memo Hints Card
@@ -120,7 +120,7 @@ struct KeyboardPracticeView: View {
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(theme.surfaceAlt)
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
             }
         }
     }
@@ -140,9 +140,9 @@ struct KeyboardPracticeView: View {
                     .padding(10)
                     .scrollContentBackground(.hidden)
                     .background(theme.surface)
-                    .cornerRadius(12)
+                    .cornerRadius(theme.radiusMd)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: theme.radiusMd)
                             .stroke(isEditorFocused ? theme.accent : theme.divider, lineWidth: 1.5)
                     )
 
@@ -255,7 +255,7 @@ struct KeyboardPracticeSheet: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(theme.accent)
-                        .cornerRadius(14)
+                        .cornerRadius(theme.radiusMd)
                 }
 
                 Button {

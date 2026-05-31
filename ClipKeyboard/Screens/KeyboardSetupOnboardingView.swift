@@ -295,7 +295,7 @@ private struct StepPageView: View {
                 HStack(spacing: 10) {
                     if step.kind == .fullAccess && i == step.path.count - 1 {
                         // Toggle ON
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: theme.radiusSm)
                             .fill(theme.success)
                             .frame(width: 40, height: 24)
                             .overlay(
@@ -400,7 +400,7 @@ private struct SettingsPathIllustration: View {
                             .foregroundColor(.white)
                             .frame(width: 28, height: 28)
                             .background(Color.gray)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                             .accessibilityHidden(true)
                     } else {
                         Spacer().frame(width: 28)
@@ -427,7 +427,7 @@ private struct SettingsPathIllustration: View {
             }
         }
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .padding(20)
     }
 }
@@ -479,7 +479,7 @@ private struct KeyboardListIllustration: View {
             .background(theme.accentSoft)
         }
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .padding(20)
     }
 }
@@ -538,7 +538,7 @@ private struct FullAccessIllustration: View {
             .padding(.vertical, 14)
         }
         .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .padding(20)
     }
 }
@@ -726,6 +726,7 @@ import SwiftUI
 struct PersonaSelectionView: View {
     enum Mode { case onboarding, settings }
 
+    @Environment(\.appTheme) private var theme
     let onContinue: () -> Void
     var mode: Mode = .onboarding
 
@@ -773,7 +774,7 @@ struct PersonaSelectionView: View {
                         .background(Color.accentColor)
                         .foregroundStyle(.white)
                         .font(.headline)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 20)
@@ -816,6 +817,7 @@ struct PersonaSelectionView: View {
 }
 
 private struct PersonaCard: View {
+    @Environment(\.appTheme) private var theme
     let persona: Persona
     let isSelected: Bool
     let onTap: () -> Void
@@ -868,11 +870,11 @@ private struct PersonaCard: View {
             }
             .padding(16)
             .background(
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .fill(isSelected ? Color.accentColor.opacity(0.06) : Color.gray.opacity(0.06))
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 14)
+                RoundedRectangle(cornerRadius: theme.radiusMd)
                     .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
             )
         }

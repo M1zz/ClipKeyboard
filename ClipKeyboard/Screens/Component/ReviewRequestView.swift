@@ -50,7 +50,7 @@ struct ReviewRequestView: View {
                         .padding(.vertical, 14)
                         .background(theme.surfaceAlt)
                         .foregroundColor(.primary)
-                        .cornerRadius(10)
+                        .cornerRadius(theme.radiusSm)
                 }
 
                 Button {
@@ -69,7 +69,7 @@ struct ReviewRequestView: View {
                         .frame(height: 50)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(theme.radiusSm)
                 }
             }
             .padding(.bottom, 30)

@@ -128,7 +128,7 @@ struct PersonaQuickAddView: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(theme.surface)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                         }
 
                         Button {
@@ -142,7 +142,7 @@ struct PersonaQuickAddView: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 14)
                                 .background(Color.accentColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                         }
                     }
                     .padding(.horizontal, 20)
@@ -224,9 +224,9 @@ private struct PersonaInputSection: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 12)
                 .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: theme.radiusSm)
                         .strokeBorder(isFocused ? Color.accentColor : theme.divider, lineWidth: 1.5)
                 )
         }

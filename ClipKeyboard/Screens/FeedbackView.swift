@@ -241,7 +241,7 @@ struct FeedbackView: View {
         }
         .padding(32)
         .background(theme.surface)
-        .cornerRadius(20)
+        .cornerRadius(theme.radiusLg)
         .shadow(color: .black.opacity(0.15), radius: 16, x: 0, y: 8)
         .padding(40)
         .transition(.opacity.combined(with: .scale(scale: 0.9)))

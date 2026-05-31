@@ -149,6 +149,7 @@ struct CategoryIconSettings: View {
 // MARK: - Symbol Picker Sheet
 
 struct SymbolPickerSheet: View {
+    @Environment(\.appTheme) private var theme
     let category: String
     let current: String?
     let onSelect: (String) -> Void
@@ -219,7 +220,7 @@ struct SymbolPickerSheet: View {
                         .frame(width: 48, height: 48)
                         .background(current == symbol ? Color.blue : Color(.systemGray5))
                         .foregroundColor(current == symbol ? .white : .primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(symbol)

@@ -41,7 +41,7 @@ struct ReviewBannerView: View {
             .frame(maxWidth: .infinity)
             .padding(16)
             .background(theme.surfaceAlt)
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
             .padding(.horizontal, 16)
         }
     }

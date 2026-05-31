@@ -96,7 +96,7 @@ struct TemplateEditSheet: View {
                     .frame(minHeight: 100)
                     .padding(12)
                     .background(theme.surfaceAlt)
-                    .cornerRadius(12)
+                    .cornerRadius(theme.radiusMd)
                     .accessibilityLabel(NSLocalizedString("템플릿 내용 편집", comment: "Template content editor label"))
                     .accessibilityHint(NSLocalizedString("내용을 수정 후 완료를 눌러 저장합니다", comment: "Template editor hint"))
             } else {
@@ -105,7 +105,7 @@ struct TemplateEditSheet: View {
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(theme.surfaceAlt)
-                    .cornerRadius(12)
+                    .cornerRadius(theme.radiusMd)
             }
         }
     }
@@ -127,7 +127,7 @@ struct TemplateEditSheet: View {
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.green.opacity(0.1))
-            .cornerRadius(12)
+            .cornerRadius(theme.radiusMd)
         } else {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
@@ -172,7 +172,7 @@ struct TemplateEditSheet: View {
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.blue.opacity(0.1))
-                .cornerRadius(12)
+                .cornerRadius(theme.radiusMd)
         }
     }
 
@@ -257,7 +257,7 @@ struct TemplateInputSheet: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(10)
                                 .background(Color.green.opacity(0.08))
-                                .cornerRadius(8)
+                                .cornerRadius(theme.radiusSm)
                         }
                     }
                 }
@@ -276,7 +276,7 @@ struct TemplateInputSheet: View {
                                         .padding(.vertical, 1)
                                         .background(Color.blue.opacity(0.15))
                                         .foregroundColor(.blue)
-                                        .cornerRadius(4)
+                                        .cornerRadius(theme.radiusXs)
                                 }
                             }
 
@@ -344,7 +344,7 @@ struct TemplateDetailPlaceholderView: View {
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(theme.surfaceAlt)
-                        .cornerRadius(12)
+                        .cornerRadius(theme.radiusMd)
                 }
                 .padding(.horizontal)
                 .padding(.top)
@@ -419,8 +419,8 @@ struct TemplatePlaceholderRow: View {
             }
         }
         .background(theme.surface)
-        .cornerRadius(12)
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(theme.divider, lineWidth: 1))
+        .cornerRadius(theme.radiusMd)
+        .overlay(RoundedRectangle(cornerRadius: theme.radiusMd).stroke(theme.divider, lineWidth: 1))
         .onAppear { loadValues() }
         .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"),
                isPresented: $showDeleteAlert) {
@@ -500,7 +500,7 @@ struct TemplatePlaceholderRow: View {
                 .padding(16)
                 .frame(maxWidth: .infinity, alignment: .center)
                 .background(Color.orange.opacity(0.1))
-                .cornerRadius(8)
+                .cornerRadius(theme.radiusSm)
                 .multilineTextAlignment(.center)
         } else {
             VStack(spacing: 10) {
@@ -543,7 +543,7 @@ struct TemplatePlaceholderRow: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 14)
                     .background(theme.surfaceAlt)
-                    .cornerRadius(10)
+                    .cornerRadius(theme.radiusSm)
                 }
             }
         }

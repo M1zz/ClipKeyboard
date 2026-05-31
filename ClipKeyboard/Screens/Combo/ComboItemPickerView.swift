@@ -48,7 +48,7 @@ struct ComboItemPickerView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 8)
                 .background(theme.surfaceAlt)
-                .cornerRadius(10)
+                .cornerRadius(theme.radiusSm)
                 .padding(.horizontal)
                 .padding(.bottom, 8)
 

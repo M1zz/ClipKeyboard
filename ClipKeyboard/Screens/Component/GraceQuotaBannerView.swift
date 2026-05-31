@@ -55,10 +55,10 @@ struct GraceQuotaBannerView: View {
         .frame(maxWidth: .infinity)
         .background(Color(.systemBlue).opacity(0.08))
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(Color.blue.opacity(0.25), lineWidth: 1)
         )
-        .cornerRadius(12)
+        .cornerRadius(theme.radiusMd)
         .padding(.horizontal, 16)
         .padding(.top, 4)
     }

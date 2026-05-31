@@ -42,6 +42,7 @@ private struct ThemeOptionRow: View {
     let isSelected: Bool
     let onTap: () -> Void
 
+    @Environment(\.appTheme) private var theme
     @Environment(\.colorScheme) private var systemColorScheme
 
     private var previewTheme: AppTheme {
@@ -52,11 +53,11 @@ private struct ThemeOptionRow: View {
         Button(action: onTap) {
             HStack(spacing: 14) {
                 // Hero gradient preview swatch (48×48 rounded).
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
                     .fill(previewTheme.heroGradient)
                     .frame(width: 48, height: 48)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
                             .stroke(Color.black.opacity(0.06), lineWidth: 0.5)
                     )
 
