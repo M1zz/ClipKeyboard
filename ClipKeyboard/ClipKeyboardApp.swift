@@ -110,18 +110,27 @@ struct ClipKeyboardApp: App {
     /// 기존 사용자에게 "체험해 볼래요?"를 이미 물어봤는지(신규 설치는 자동 처리되어 묻지 않음).
     private let demoOfferResolvedKey = "demoSampleOfferResolved_v1"
 
-    /// 현재 페르소나·로케일에 맞는 샘플 4종을 만들어 저장한다. 성공 여부 반환.
+    /// 현재 페르소나·로케일에 맞는 샘플 4종 + 카테고리 2개를 만들어 저장한다. 성공 여부 반환.
+    /// 샘플이 속한 카테고리를 실제로 생성·활성화해 "색 = 카테고리 = 스와이프 페이지"가
+    /// 첫 화면에서 일관되게 동작하도록 한다.
     @discardableResult
     private func performSampleInsertion() -> Bool {
         let isKorean = (Locale.current.language.languageCode?.identifier ?? "en") == "ko"
         let persona = CategoryStore.shared.selectedPersona ?? .general
-        let samples = persona == .nomad ? nomadSamples(isKorean: isKorean) : generalSamples(isKorean: isKorean)
+        let result = persona == .nomad ? nomadSamples(isKorean: isKorean) : generalSamples(isKorean: isKorean)
         do {
             var memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-            memos.append(contentsOf: samples)
+            memos.append(contentsOf: result.memos)
             try MemoStore.shared.save(memos: memos, type: .memo)
-            SampleMemoStorage.save(ids: samples.map { $0.id })
-            print("✅ [APP INIT] 기본 샘플 메모 \(samples.count)개 삽입 완료 (persona=\(persona.rawValue))")
+            SampleMemoStorage.save(ids: result.memos.map { $0.id })
+            // 샘플이 속한 카테고리를 실제로 만들고 기능을 켜 → 스와이프 페이지(탭)가 생긴다.
+            result.categories.forEach { CategoryStore.shared.add($0) }
+            CategoryStore.shared.enableFeature()
+            print("✅ [APP INIT] 샘플 \(result.memos.count)개 + 카테고리 \(result.categories.count)개 시드 (persona=\(persona.rawValue))")
+            // 시딩 후 리스트가 카테고리/메모를 다시 읽도록 알림 (신규 설치·체험 수락 공통)
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
+            }
             return true
         } catch {
             print("❌ [APP INIT] 기본 샘플 삽입 실패: \(error)")
@@ -147,12 +156,14 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    private func generalSamples(isKorean: Bool) -> [Memo] {
+    private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
+        let work = isKorean ? "업무" : "Work"
+        let personal = isKorean ? "개인" : "Personal"
         // 1) 일반 메모 — 탭하면 바로 복사
         let memo = Memo(
             title: isKorean ? "내 이메일" : "My Email",
             value: "example@email.com",
-            category: isKorean ? "이메일" : "Email"
+            category: personal
         )
         // 2) 템플릿 — {빈칸}을 채워 완성
         let template = Memo(
@@ -160,14 +171,14 @@ struct ClipKeyboardApp: App {
             value: isKorean
                 ? "{이름}님, 문의 주셔서 감사합니다.\n{날짜}까지 답변드릴게요."
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
-            category: isKorean ? "텍스트" : "Text",
+            category: work,
             isTemplate: true
         )
         // 3) 콤보 — 여러 값을 순서대로 입력
         let combo = Memo(
             title: isKorean ? "이름 + 연락처" : "Name + Contact",
             value: "",
-            category: isKorean ? "텍스트" : "Text",
+            category: personal,
             isCombo: true,
             comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
         )
@@ -175,25 +186,27 @@ struct ClipKeyboardApp: App {
         let memoWithTemplate = Memo(
             title: isKorean ? "인사말 + 회신 (탭)" : "Greeting + Reply (tap)",
             value: isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!",
-            category: isKorean ? "텍스트" : "Text",
+            category: work,
             attachedTemplateId: template.id
         )
-        return [memo, template, combo, memoWithTemplate]
+        return ([memo, template, combo, memoWithTemplate], [work, personal])
     }
 
-    private func nomadSamples(isKorean: Bool) -> [Memo] {
+    private func nomadSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
+        let finance = isKorean ? "금융" : "Finance"
+        let travel = isKorean ? "여행" : "Travel"
         let template = Memo(
             title: isKorean ? "국제 송금 양식" : "Bank Transfer",
             value: isKorean
                 ? "{금액}을 {수신인}에게 보냅니다\nIBAN: {iban}\nSWIFT: {swift}\n참조: {참조번호}"
                 : "Pay {amount} to {recipient}\nIBAN: {iban}\nSWIFT: {swift}\nRef: {reference}",
-            category: "IBAN",
+            category: finance,
             isTemplate: true
         )
         let combo = Memo(
             title: isKorean ? "내 연락처" : "My Contact",
             value: "",
-            category: isKorean ? "연락처" : "Contact",
+            category: travel,
             isCombo: true,
             comboValues: isKorean
                 ? ["이름", "이메일", "전화번호"]
@@ -204,16 +217,16 @@ struct ClipKeyboardApp: App {
             value: isKorean
                 ? "여권 ✓\n비자 ✓\n여행자보험 ✓\n긴급 연락처: "
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
-            category: isKorean ? "여행" : "Travel"
+            category: travel
         )
         // 일반 메모 + 템플릿 — 고정 안내문 뒤에 송금 양식 빈칸이 함께 채워짐
         let noteWithTemplate = Memo(
             title: isKorean ? "송금 안내 + 양식 (탭)" : "Payment note + form (tap)",
             value: isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.",
-            category: "IBAN",
+            category: finance,
             attachedTemplateId: template.id
         )
-        return [template, combo, checklist, noteWithTemplate]
+        return ([template, combo, checklist, noteWithTemplate], [finance, travel])
     }
 
     var body: some Scene {
@@ -262,9 +275,8 @@ struct ClipKeyboardApp: App {
                     isPresented: $showDemoSampleOffer
                 ) {
                     Button(NSLocalizedString("체험해 보기", comment: "Demo samples offer accept")) {
-                        if performSampleInsertion() {
-                            NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
-                        }
+                        // performSampleInsertion 내부에서 .demoSamplesInserted 알림을 발행해 리스트가 갱신됨
+                        performSampleInsertion()
                         UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
                     }
                     Button(NSLocalizedString("괜찮아요", comment: "Demo samples offer decline"), role: .cancel) {

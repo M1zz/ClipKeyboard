@@ -400,6 +400,7 @@ struct ClipKeyboardList: View {
                 viewModel.onSceneResume()
             }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
+                viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
         }
