@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 // MARK: - Combo Sheet Resolver
 
@@ -91,9 +92,16 @@ struct ComboEditSheet: View {
     @State private var currentComboIndex: Int = 0
     @State private var newValueText: String = ""
 
+    private let comboInfoTip = ComboInfoTip()
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                // 콤보를 탭해 처음 열었을 때 동작 방식 안내
+                TipView(comboInfoTip)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 12)
+
                 // 헤더 정보
                 headerSection
 

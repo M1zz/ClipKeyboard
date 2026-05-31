@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 // MARK: - Template Edit Sheet
 
@@ -15,6 +16,8 @@ struct TemplateEditSheet: View {
     let onCancel: () -> Void
 
     @Environment(\.appTheme) private var theme
+
+    private let templateInfoTip = TemplateInfoTip()
 
     @State private var customPlaceholders: [String] = []
     @State private var placeholderInputs: [String: String] = [:]
@@ -33,6 +36,9 @@ struct TemplateEditSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    // 템플릿을 탭해 처음 열었을 때 채우는 방법 안내
+                    TipView(templateInfoTip)
+
                     templateOriginalSection
                     placeholderSection
                     previewSection

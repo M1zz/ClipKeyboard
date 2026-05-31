@@ -89,6 +89,36 @@ struct CleanUpSamplesTip: Tip {
     }
 }
 
+// MARK: - ComboInfoTip
+// 콤보 메모를 탭해서 ComboEditSheet를 처음 열었을 때 동작 방식을 설명.
+
+struct ComboInfoTip: Tip {
+    var title: Text {
+        Text(NSLocalizedString("Combo는 이렇게 동작해요", comment: "Combo info tip title"))
+    }
+    var message: Text? {
+        Text(NSLocalizedString("탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.", comment: "Combo info tip message"))
+    }
+    var image: Image? {
+        Image(systemName: "repeat")
+    }
+}
+
+// MARK: - TemplateInfoTip
+// 템플릿 메모를 탭해서 TemplateEditSheet를 처음 열었을 때 채우는 방법을 설명.
+
+struct TemplateInfoTip: Tip {
+    var title: Text {
+        Text(NSLocalizedString("템플릿은 이렇게 채워요", comment: "Template info tip title"))
+    }
+    var message: Text? {
+        Text(NSLocalizedString("강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.", comment: "Template info tip message"))
+    }
+    var image: Image? {
+        Image(systemName: "curlybraces")
+    }
+}
+
 // MARK: - Sample UUID Storage
 
 enum SampleMemoStorage {

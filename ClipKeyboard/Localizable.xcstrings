@@ -23162,6 +23162,75 @@
         }
       }
     },
+    "Combo는 이렇게 동작해요" : {
+      "comment" : "Combo info tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How a Combo works"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cara kerja Combo"
+          }
+        }
+      }
+    },
+    "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요." : {
+      "comment" : "Combo info tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each tap inserts your saved values one at a time, in order. Keep going with the next value right from the keyboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap ketukan memasukkan nilai tersimpan satu per satu secara berurutan. Lanjutkan ke nilai berikutnya langsung dari keyboard."
+          }
+        }
+      }
+    },
+    "템플릿은 이렇게 채워요" : {
+      "comment" : "Template info tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How a template works"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cara kerja templat"
+          }
+        }
+      }
+    },
+    "강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요." : {
+      "comment" : "Template info tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just fill in the highlighted slots — the rest of the text completes itself. Enter your go-to formats in a flash."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cukup isi kolom yang disorot — sisa teksnya akan lengkap dengan sendirinya. Masukkan format andalan Anda dengan cepat."
+          }
+        }
+      }
+    },
+    },
     "회의가 10분 늦어질 것 같습니다" : {
       "comment" : "Empty state example 1",
       "extractionState" : "stale",
