@@ -186,7 +186,7 @@ struct PlaceholderManagementSheet: View {
                     Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))
                         .font(.headline)
                         .foregroundColor(theme.textMuted)
-                    Text(NSLocalizedString("템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다", comment: "No templates description"))
+                    Text(NSLocalizedString("채울 칸이 있는 템플릿을 만들면\n그 값들을 여기서 관리할 수 있어요", comment: "No templates description"))
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
                         .multilineTextAlignment(.center)

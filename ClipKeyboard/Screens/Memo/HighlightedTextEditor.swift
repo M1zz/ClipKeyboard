@@ -30,7 +30,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.textStorage.delegate = context.coordinator
         tv.attributedText = Self.highlight(text)
         tv.accessibilityLabel = NSLocalizedString("내용", comment: "Content section header")
-        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. {변수명} 형식으로 템플릿 변수를 추가할 수 있습니다.", comment: "Content input field hint")
+        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. 나중에 채울 칸은 변수명을 중괄호로 감싸서 만들어요. 예: 이름", comment: "Content input field hint")
         return tv
     }
 
@@ -65,7 +65,24 @@ struct HighlightedTextEditor: UIViewRepresentable {
             ]
         )
         applyDummyPlaceholderHighlight(to: result)
+        applyTemplateVariableHighlight(to: result)
         return result
+    }
+
+    /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 — 강조색 + 은은한 배경.
+    /// 편집 가능한 입력칸이라 중괄호는 지우지 않고 토큰 전체를 색으로 묶는다.
+    static func applyTemplateVariableHighlight(to storage: NSMutableAttributedString) {
+        let pattern = "\\{[^}]+\\}"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
+        let fullRange = NSRange(location: 0, length: storage.length)
+        regex.enumerateMatches(in: storage.string, range: fullRange) { match, _, _ in
+            guard let range = match?.range else { return }
+            storage.addAttributes([
+                .foregroundColor: UIColor.systemBlue,
+                .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.12),
+                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
+            ], range: range)
+        }
     }
 
     static func applyDummyPlaceholderHighlight(to storage: NSMutableAttributedString) {
@@ -118,8 +135,10 @@ struct HighlightedTextEditor: UIViewRepresentable {
             guard editedMask.contains(.editedCharacters), !isShowingPlaceholder else { return }
             let fullRange = NSRange(location: 0, length: textStorage.length)
             textStorage.removeAttribute(.foregroundColor, range: fullRange)
+            textStorage.removeAttribute(.backgroundColor, range: fullRange)
             textStorage.addAttribute(.foregroundColor, value: UIColor.label, range: fullRange)
             HighlightedTextEditor.applyDummyPlaceholderHighlight(to: textStorage)
+            HighlightedTextEditor.applyTemplateVariableHighlight(to: textStorage)
         }
 
         // MARK: - Placeholder

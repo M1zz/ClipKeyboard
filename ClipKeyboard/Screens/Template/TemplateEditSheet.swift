@@ -106,7 +106,7 @@ struct TemplateEditSheet: View {
                     .accessibilityLabel(NSLocalizedString("템플릿 내용 편집", comment: "Template content editor label"))
                     .accessibilityHint(NSLocalizedString("내용을 수정 후 완료를 눌러 저장합니다", comment: "Template editor hint"))
             } else {
-                Text(memo.value)
+                Text(memo.value.templateChipAttributed(theme: theme))
                     .font(.body)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -173,7 +173,7 @@ struct TemplateEditSheet: View {
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
-            Text(previewText)
+            Text(previewText.templateChipAttributed(theme: theme))
                 .font(.body)
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -257,7 +257,7 @@ struct TemplateInputSheet: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(theme.textMuted)
                             }
-                            Text(previewText)
+                            Text(previewText.templateChipAttributed(theme: theme))
                                 .font(.system(size: 14))
                                 .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -345,7 +345,7 @@ struct TemplateDetailPlaceholderView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
 
-                    Text(template.value)
+                    Text(template.value.templateChipAttributed(theme: theme))
                         .font(.body)
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -617,6 +617,36 @@ struct TemplateSheetResolver: View {
 // MARK: - String Helper
 
 private extension String {
+    /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
+    /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
+    func templateChipAttributed(theme: AppTheme) -> AttributedString {
+        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
+            return AttributedString(self)
+        }
+        let ns = self as NSString
+        var out = AttributedString()
+        var cursor = 0
+        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
+            let full = match.range
+            if full.location > cursor {
+                let plain = ns.substring(with: NSRange(location: cursor, length: full.location - cursor))
+                out += AttributedString(plain)
+            }
+            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
+            let name = ns.substring(with: match.range(at: 1))
+            var chip = AttributedString("\u{2009}\(name)\u{2009}")
+            chip.foregroundColor = theme.accent
+            chip.backgroundColor = theme.accentSoft
+            chip.font = .body.weight(.semibold)
+            out += chip
+            cursor = full.location + full.length
+        }
+        if cursor < ns.length {
+            out += AttributedString(ns.substring(from: cursor))
+        }
+        return out
+    }
+
     func extractTemplatePlaceholders() -> [String] {
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }

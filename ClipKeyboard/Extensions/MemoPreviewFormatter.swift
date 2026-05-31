@@ -91,7 +91,8 @@ enum MemoPreviewFormatter {
     // MARK: - Type-specific renderers
 
     private static func templatePreview(_ memo: Memo) -> String {
-        let first = truncate(singleLine(memo.value), max: 28)
+        // 리스트 행에서는 {중괄호}를 떼고 자연스럽게 — 변수 개수는 "· N variables"로 안내된다.
+        let first = truncate(singleLine(memo.value).strippingTemplateBraces, max: 28)
         let placeholders = extractPlaceholders(in: memo.value)
         guard !placeholders.isEmpty else { return first }
         let format = NSLocalizedString("%d variables", comment: "Template placeholder count suffix")

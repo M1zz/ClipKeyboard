@@ -4623,9 +4623,7 @@
         }
       }
     },
-    "English" : {
-
-    },
+    "English" : {},
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -14055,23 +14053,6 @@
         }
       }
     },
-    "붙여넣을 내용을 입력하세요. {변수명} 형식으로 템플릿 변수를 추가할 수 있습니다." : {
-      "comment" : "Content input field hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter the content to paste. Add template variables using the {variableName} format."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Enter the content to paste. Add template variables using the {variableName} format."
-          }
-        }
-      }
-    },
     "비자·여행" : {
       "comment" : "Nomad focus: visa and travel",
       "extractionState" : "manual",
@@ -21845,23 +21826,6 @@
         }
       }
     },
-    "템플릿 메모를 생성하고 {} 를 사용하면\n여기서 관리할 수 있습니다" : {
-      "comment" : "No templates description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Create template memos using {} and\nmanage them here"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buat memo template dengan {} dan\nkelola di sini"
-          }
-        }
-      }
-    },
     "템플릿 메모를 생성하고 {} 를 사용하면\\n여기서 관리할 수 있습니다" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -23162,6 +23126,42 @@
         }
       }
     },
+    "회의가 10분 늦어질 것 같습니다" : {
+      "comment" : "Empty state example 1",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running 10 minutes late for the meeting"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saya terlambat 10 menit untuk rapat"
+          }
+        }
+      }
+    },
+    "휴대폰 번호" : {
+      "comment" : "General quick add: phone number label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone Number"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "휴대폰 번호"
+          }
+        }
+      }
+    },
     "Combo는 이렇게 동작해요" : {
       "comment" : "Combo info tip title",
       "localizations" : {
@@ -23230,39 +23230,36 @@
         }
       }
     },
-    },
-    "회의가 10분 늦어질 것 같습니다" : {
-      "comment" : "Empty state example 1",
-      "extractionState" : "stale",
+    "채울 칸이 있는 템플릿을 만들면\n그 값들을 여기서 관리할 수 있어요" : {
+      "comment" : "No templates description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Running 10 minutes late for the meeting"
+            "value" : "Create a template with fill-in slots, and you can manage their values here."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saya terlambat 10 menit untuk rapat"
+            "value" : "Buat templat dengan kolom isian, lalu Anda dapat mengelola nilainya di sini."
           }
         }
       }
     },
-    "휴대폰 번호" : {
-      "comment" : "General quick add: phone number label",
-      "extractionState" : "manual",
+    "붙여넣을 내용을 입력하세요. 나중에 채울 칸은 변수명을 중괄호로 감싸서 만들어요. 예: 이름" : {
+      "comment" : "Content input field hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Phone Number"
+            "value" : "Enter the content to paste. To make a fill-in slot, wrap a variable name in curly braces, e.g. name."
           }
         },
-        "ko" : {
+        "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "휴대폰 번호"
+            "value" : "Masukkan konten yang akan ditempel. Untuk membuat kolom isian, bungkus nama variabel dengan kurung kurawal, mis. nama."
           }
         }
       }
