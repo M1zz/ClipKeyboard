@@ -18,6 +18,8 @@ struct ClipKeyboardApp: App {
     @StateObject private var deps = AppDependencies.shared
     @State private var showReviewRequest = false
     @State private var showAccessibilityGuide = false
+    /// 기존 사용자에게 데모 샘플 체험을 1회 물어보는 알림
+    @State private var showDemoSampleOffer = false
 
     init() {
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
@@ -104,30 +106,44 @@ struct ClipKeyboardApp: App {
     /// 최초 설치 후 온보딩 완료 시 4종(일반 메모·템플릿·콤보·일반메모+템플릿)을 1개씩 삽입한다.
     /// "이런 것도 되는구나"를 첫 화면에서 바로 보여주기 위한 시드 데이터.
     /// UserDefaults 플래그로 중복 삽입을 방지한다(기존 설치 유저에겐 재삽입 안 함).
-    private func insertDefaultSamplesIfNeeded() {
-        let key = "defaultSamplesInserted_v1"
-        guard !UserDefaults.standard.bool(forKey: key) else { return }
+    private let samplesInsertedKey = "defaultSamplesInserted_v1"
+    /// 기존 사용자에게 "체험해 볼래요?"를 이미 물어봤는지(신규 설치는 자동 처리되어 묻지 않음).
+    private let demoOfferResolvedKey = "demoSampleOfferResolved_v1"
 
-        let lang = Locale.current.language.languageCode?.identifier ?? "en"
-        let isKorean = lang == "ko"
+    /// 현재 페르소나·로케일에 맞는 샘플 4종을 만들어 저장한다. 성공 여부 반환.
+    @discardableResult
+    private func performSampleInsertion() -> Bool {
+        let isKorean = (Locale.current.language.languageCode?.identifier ?? "en") == "ko"
         let persona = CategoryStore.shared.selectedPersona ?? .general
-
-        let samples: [Memo]
-        if persona == .nomad {
-            samples = nomadSamples(isKorean: isKorean)
-        } else {
-            samples = generalSamples(isKorean: isKorean)
-        }
-
+        let samples = persona == .nomad ? nomadSamples(isKorean: isKorean) : generalSamples(isKorean: isKorean)
         do {
             var memos = (try? MemoStore.shared.load(type: .memo)) ?? []
             memos.append(contentsOf: samples)
             try MemoStore.shared.save(memos: memos, type: .memo)
             SampleMemoStorage.save(ids: samples.map { $0.id })
-            UserDefaults.standard.set(true, forKey: key)
             print("✅ [APP INIT] 기본 샘플 메모 \(samples.count)개 삽입 완료 (persona=\(persona.rawValue))")
+            return true
         } catch {
             print("❌ [APP INIT] 기본 샘플 삽입 실패: \(error)")
+            return false
+        }
+    }
+
+    /// 신규 설치에서만 자동 삽입. 신규 설치는 데모 질문 대상이 아니므로 resolved로 표시.
+    private func insertDefaultSamplesIfNeeded() {
+        guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
+        if performSampleInsertion() {
+            UserDefaults.standard.set(true, forKey: samplesInsertedKey)
+            UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
+        }
+    }
+
+    /// 이미 설치돼 자동 삽입을 못 받은 기존 사용자에게만 1회 체험을 묻는다.
+    private func offerDemoSamplesToExistingUserIfNeeded() {
+        guard UserDefaults.standard.bool(forKey: samplesInsertedKey),
+              !UserDefaults.standard.bool(forKey: demoOfferResolvedKey) else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            showDemoSampleOffer = true
         }
     }
 
@@ -214,9 +230,11 @@ struct ClipKeyboardApp: App {
                 }
                 .onAppear {
                     insertDefaultSamplesIfNeeded()
+                    offerDemoSamplesToExistingUserIfNeeded()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        if ReviewManager.shared.shouldShowReview() {
+                        // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
+                        if !showDemoSampleOffer, ReviewManager.shared.shouldShowReview() {
                             showReviewRequest = true
                         }
                     }
@@ -238,6 +256,22 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showAccessibilityGuide) {
                     AccessibilityGuideView()
+                }
+                .alert(
+                    NSLocalizedString("이런 기능도 있어요", comment: "Demo samples offer title"),
+                    isPresented: $showDemoSampleOffer
+                ) {
+                    Button(NSLocalizedString("체험해 보기", comment: "Demo samples offer accept")) {
+                        if performSampleInsertion() {
+                            NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
+                        }
+                        UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
+                    }
+                    Button(NSLocalizedString("괜찮아요", comment: "Demo samples offer decline"), role: .cancel) {
+                        UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
+                    }
+                } message: {
+                    Text(NSLocalizedString("템플릿·콤보·메모+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 메모는 그대로 유지돼요.", comment: "Demo samples offer message"))
                 }
         } // AppThemedContainer
 

@@ -399,6 +399,9 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 viewModel.onSceneResume()
             }
+            .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
+                viewModel.loadMemos()
+            }
         }
     }
 

@@ -23263,6 +23263,57 @@
           }
         }
       }
+    },
+    "이런 기능도 있어요" : {
+      "comment" : "Demo samples offer title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See what you can do"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat yang bisa Anda lakukan"
+          }
+        }
+      }
+    },
+    "템플릿·콤보·메모+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 메모는 그대로 유지돼요." : {
+      "comment" : "Demo samples offer message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add 4 examples — template, combo, and memo + template — to try them out. Your existing memos stay untouched."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan 4 contoh — templat, combo, dan memo + templat — untuk dicoba. Memo Anda yang ada tetap tidak berubah."
+          }
+        }
+      }
+    },
+    "체험해 보기" : {
+      "comment" : "Demo samples offer accept",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add examples"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan contoh"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
