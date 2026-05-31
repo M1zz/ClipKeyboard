@@ -115,9 +115,9 @@ Tap once, filled in automatically. Use ClipKeyboard for this —
 **질문 예**: *"Non-native English speakers: how do you handle professional tone in client emails?"*
 
 ```
-Not a silver bullet but this helps: I pre-saved 30-ish templates
-in ClipKeyboard — proposal follow-ups, payment reminders, 
-scope pushback, invoice delays. 
+Not a silver bullet but this helps: I keep my own set of reply
+templates in ClipKeyboard — proposal follow-ups, payment reminders,
+scope pushback, invoice delays.
 
 Once a native-speaker friend helped me get them right, I stopped 
 rewriting the same email in different words for 20 minutes.
@@ -211,7 +211,8 @@ and having them pre-written means I don't have to regenerate it.
 - **App Store**: https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502
 - **랜딩 페이지**: https://m1zz.github.io/ClipKeyboard/
 - **사용 가이드**: https://m1zz.github.io/ClipKeyboard/tutorial.html
-- **$0.99 특가 URL (2026-05-03까지)**: https://apps.apple.com/redeem?ctx=offercodes&id=1543660502&code=APRIL
+- **$2.99 특가 URL (코드 `2026JUNE`, 2026-06-14까지)**: https://apps.apple.com/redeem?ctx=offercodes&id=1543660502&code=2026JUNE
+  - ⚠️ `APRIL` 코드(구 $0.99, 2026-05-03)는 만료됨. ASC에서 `2026JUNE` 새로 발급 후 이 링크 동작 확인.
 - **개발자 연락처**: leeo@kakao.com
 
 ---
@@ -229,7 +230,7 @@ and having them pre-written means I don't have to regenerate it.
 
 - **Reddit**: r/digitalnomad 1개 글 500+ upvotes, r/freelance 1개 글 200+ upvotes
 - **Twitter**: 팔로워 500+, 최소 1개 트윗 100+ impressions
-- **리딤**: `APRIL` 코드 700/1000 소진 (70%)
+- **리딤**: `2026JUNE` 코드 700/1000 소진 (70%)
 - **DL**: App Store 오가닉 DL 월 100+
 - **매출**: MRR $200~800 (소유주 투입 시간 대비 0이 아닌 신호)
 
