@@ -6682,6 +6682,23 @@
         }
       }
     },
+    "Next로 표시된 값을 미리보기에 추가하고 다음 값으로 넘어갑니다" : {
+      "comment" : "Insert next practice hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds the value marked Next to the preview and moves on to the next value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menambahkan nilai bertanda Next ke pratinjau dan beralih ke nilai berikutnya"
+          }
+        }
+      }
+    },
     "No favorites yet" : {
       "comment" : "Empty: no favorites",
       "localizations" : {
@@ -11074,6 +11091,17 @@
         }
       }
     },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
     "끔" : {
       "comment" : "Toggle state: off",
       "localizations" : {
@@ -11086,17 +11114,6 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Off"
-          }
-        }
-      }
-    },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -11305,8 +11322,26 @@
         }
       }
     },
+    "다음 값 입력" : {
+      "comment" : "Insert next combo value (practice)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insert next"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan berikutnya"
+          }
+        }
+      }
+    },
     "다음 항목을 첫 번째로 재설정합니다" : {
       "comment" : "Reset combo index hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15804,6 +15839,7 @@
     },
     "순서 초기화" : {
       "comment" : "Reset combo index button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16154,6 +16190,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "써볼게요"
+          }
+        }
+      }
+    },
+    "아래 버튼을 누르면 Combo 값이 순서대로 입력되는 걸 볼 수 있어요" : {
+      "comment" : "Practice preview placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the button below to see how the Combo types its values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk tombol di bawah untuk melihat bagaimana Combo mengetik nilainya secara berurutan"
           }
         }
       }
@@ -16823,6 +16876,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "연결할 템플릿이 없습니다."
+          }
+        }
+      }
+    },
+    "연습" : {
+      "comment" : "Practice section label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latihan"
+          }
+        }
+      }
+    },
+    "연습을 처음부터 다시 시작합니다" : {
+      "comment" : "Reset practice hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart the practice from the beginning"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai ulang latihan dari awal"
           }
         }
       }
@@ -18586,6 +18673,47 @@
         }
       }
     },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -18630,64 +18758,6 @@
         }
       }
     },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tersimpan"
-          }
-        }
-      }
-    },
-    "저장할 텍스트를 입력하세요" : {
-      "comment" : "Quick add placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter text to save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masukkan teks untuk disimpan"
-          }
-        }
-      }
-    },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장된 메모 목록 모드로 전환합니다" : {
       "comment" : "Memo mode tab hint",
       "extractionState" : "stale",
@@ -18702,23 +18772,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Switch to saved memo list mode."
-          }
-        }
-      }
-    },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
           }
         }
       }
@@ -18740,6 +18793,23 @@
         }
       }
     },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersimpan"
+          }
+        }
+      }
+    },
     "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
       "comment" : "Practice step 3 for nomad persona",
       "extractionState" : "manual",
@@ -18754,6 +18824,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
+          }
+        }
+      }
+    },
+    "저장할 텍스트를 입력하세요" : {
+      "comment" : "Quick add placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter text to save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan teks untuk disimpan"
           }
         }
       }
@@ -19608,6 +19695,23 @@
         }
       }
     },
+    "처음으로" : {
+      "comment" : "Reset practice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start over"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai ulang"
+          }
+        }
+      }
+    },
     "천지인" : {
       "comment" : "Cheonjiin Korean keyboard layout name\nKorean layout: cheonjiin",
       "localizations" : {
@@ -20218,23 +20322,6 @@
         }
       }
     },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -20248,6 +20335,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
+          }
+        }
+      }
+    },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
           }
         }
       }
@@ -23439,104 +23543,121 @@
         }
       }
     },
-    "연습" : {
-      "comment" : "Practice section label",
+    "'%@'은 자동으로 채워져요" : {
+      "comment" : "Auto variable tip title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Practice"
+            "value" : "'%@' is filled in automatically"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Latihan"
+            "value" : "'%@' diisi secara otomatis"
           }
         }
       }
     },
-    "처음으로" : {
-      "comment" : "Reset practice",
+    "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다." : {
+      "comment" : "Auto variable tip message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Start over"
+            "value" : "You don't need to fill this in. It's replaced with the current value (today's date, current time, etc.) when you copy."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mulai ulang"
+            "value" : "Anda tidak perlu mengisi ini. Nilai ini diganti dengan nilai saat ini (tanggal hari ini, waktu sekarang, dll.) saat menyalin."
           }
         }
       }
     },
-    "연습을 처음부터 다시 시작합니다" : {
-      "comment" : "Reset practice hint",
+    "빈칸을 탭해 채우세요" : {
+      "comment" : "Tap a blank to fill it",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Restart the practice from the beginning"
+            "value" : "Tap a blank to fill it in"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mulai ulang latihan dari awal"
+            "value" : "Ketuk kolom kosong untuk mengisinya"
           }
         }
       }
     },
-    "아래 버튼을 누르면 Combo 값이 순서대로 입력되는 걸 볼 수 있어요" : {
-      "comment" : "Practice preview placeholder",
+    "값 선택으로 이동합니다" : {
+      "comment" : "Scroll to value selector hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap the button below to see how the Combo types its values in order"
+            "value" : "Scrolls to the value selector"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ketuk tombol di bawah untuk melihat bagaimana Combo mengetik nilainya secara berurutan"
+            "value" : "Gulir ke pemilih nilai"
           }
         }
       }
     },
-    "다음 값 입력" : {
-      "comment" : "Insert next combo value (practice)",
+    "자동으로 채워지는 값입니다" : {
+      "comment" : "Auto-filled value hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insert next"
+            "value" : "This value is filled in automatically"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Masukkan berikutnya"
+            "value" : "Nilai ini diisi otomatis"
           }
         }
       }
     },
-    "Next로 표시된 값을 미리보기에 추가하고 다음 값으로 넘어갑니다" : {
-      "comment" : "Insert next practice hint",
+    "메모 + 템플릿" : {
+      "comment" : "Memo plus template header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adds the value marked Next to the preview and moves on to the next value"
+            "value" : "Memo + Template"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Menambahkan nilai bertanda Next ke pratinjau dan beralih ke nilai berikutnya"
+            "value" : "Memo + Templat"
+          }
+        }
+      }
+    },
+    "이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요." : {
+      "comment" : "Attached template explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This memo has a template attached. Fill in the blanks and it's copied together with the memo. See the combined result in 'Live preview' below."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo ini memiliki templat terlampir. Isi kolom kosong dan akan disalin bersama memo. Lihat hasil gabungannya di 'Pratinjau langsung' di bawah."
           }
         }
       }

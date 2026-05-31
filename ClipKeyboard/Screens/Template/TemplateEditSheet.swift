@@ -23,6 +23,15 @@ struct TemplateEditSheet: View {
     @State private var placeholderInputs: [String: String] = [:]
     @State private var editedText: String = ""
     @State private var isEditingText: Bool = false
+    /// 미리보기 칩을 탭해 포커스가 옮겨진 placeholder (강조 테두리)
+    @State private var highlightedPlaceholder: String? = nil
+    /// 자동 변수 칩을 탭했을 때 안내할 토큰 (예: {날짜})
+    @State private var autoVarTipToken: String? = nil
+
+    /// 템플릿에 들어있는 자동 변수 토큰들(예: {날짜}, {시간}) — 사용자가 채우지 않아도 자동 입력됨.
+    private var autoVarsInTemplate: [String] {
+        TemplateVariableProcessor.autoVariableTokens.filter { memo.value.contains($0) }
+    }
 
     var previewText: String {
         var result = isEditingText ? editedText : memo.value
@@ -34,16 +43,30 @@ struct TemplateEditSheet: View {
 
     var body: some View {
         NavigationStack {
+            ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 20) {
                     // 템플릿을 탭해 처음 열었을 때 채우는 방법 안내
                     TipView(templateInfoTip)
 
                     templateOriginalSection
+                    if !customPlaceholders.isEmpty || !autoVarsInTemplate.isEmpty {
+                        fillChipsRow(proxy)
+                    }
                     placeholderSection
                     previewSection
                 }
                 .padding()
+            }
+            }
+            .alert(
+                String(format: NSLocalizedString("'%@'은 자동으로 채워져요", comment: "Auto variable tip title"),
+                       (autoVarTipToken ?? "").strippingTemplateBraces),
+                isPresented: Binding(get: { autoVarTipToken != nil }, set: { if !$0 { autoVarTipToken = nil } })
+            ) {
+                Button(NSLocalizedString("확인", comment: "OK")) { autoVarTipToken = nil }
+            } message: {
+                Text(NSLocalizedString("이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다.", comment: "Auto variable tip message"))
             }
             .navigationTitle(memo.title)
             #if os(iOS)
@@ -161,9 +184,69 @@ struct TemplateEditSheet: View {
                         selectedValue: Binding(
                             get: { placeholderInputs[placeholder] ?? "" },
                             set: { placeholderInputs[placeholder] = $0 }
-                        )
+                        ),
+                        isHighlighted: highlightedPlaceholder == placeholder
                     )
+                    .id(placeholder)
                 }
+            }
+        }
+    }
+
+    // MARK: - Fill Chips (탭해서 채우기)
+
+    /// 템플릿의 빈칸들을 칩으로 보여주고, 탭하면 해당 값 선택으로 포커스를 옮긴다.
+    /// 자동 변수(날짜 등)는 탭 시 "자동으로 채워짐" 안내를 띄운다.
+    private func fillChipsRow(_ proxy: ScrollViewProxy) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(NSLocalizedString("빈칸을 탭해 채우세요", comment: "Tap a blank to fill it"))
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(customPlaceholders, id: \.self) { ph in
+                        let filled = !(placeholderInputs[ph] ?? "").isEmpty
+                        Button { focusPlaceholder(ph, proxy: proxy) } label: {
+                            fillChip(text: ph.strippingTemplateBraces,
+                                     icon: filled ? "checkmark.circle.fill" : "arrow.down.circle.fill",
+                                     tint: filled ? theme.success : theme.accent)
+                        }
+                        .accessibilityHint(NSLocalizedString("값 선택으로 이동합니다", comment: "Scroll to value selector hint"))
+                    }
+                    ForEach(autoVarsInTemplate, id: \.self) { tok in
+                        Button { autoVarTipToken = tok } label: {
+                            fillChip(text: tok.strippingTemplateBraces, icon: "clock.fill", tint: theme.textMuted)
+                        }
+                        .accessibilityHint(NSLocalizedString("자동으로 채워지는 값입니다", comment: "Auto-filled value hint"))
+                    }
+                }
+            }
+        }
+    }
+
+    private func fillChip(text: String, icon: String, tint: Color) -> some View {
+        HStack(spacing: 5) {
+            Image(systemName: icon)
+            Text(text)
+        }
+        .font(.body.weight(.medium))
+        .foregroundColor(tint)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(tint.opacity(0.12))
+        .clipShape(Capsule())
+    }
+
+    private func focusPlaceholder(_ placeholder: String, proxy: ScrollViewProxy) {
+        HapticManager.shared.selection()
+        withAnimation(.easeInOut(duration: 0.3)) {
+            proxy.scrollTo(placeholder, anchor: .center)
+            highlightedPlaceholder = placeholder
+        }
+        // 잠시 강조 후 해제
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+            if highlightedPlaceholder == placeholder {
+                withAnimation { highlightedPlaceholder = nil }
             }
         }
     }
@@ -240,9 +323,22 @@ struct TemplateInputSheet: View {
         NavigationStack {
             Form {
                 Section {
-                    Text(NSLocalizedString("템플릿을 완성하세요", comment: "Complete the template"))
-                        .font(.headline)
-                        .foregroundColor(theme.textMuted)
+                    if baseMemoValue.isEmpty {
+                        Text(NSLocalizedString("템플릿을 완성하세요", comment: "Complete the template"))
+                            .font(.headline)
+                            .foregroundColor(theme.textMuted)
+                    } else {
+                        // attachedTemplate 흐름 — 메모 본문 + 연결된 템플릿이 합쳐진다는 걸 설명
+                        VStack(alignment: .leading, spacing: 4) {
+                            Label(NSLocalizedString("메모 + 템플릿", comment: "Memo plus template header"),
+                                  systemImage: "doc.badge.plus")
+                                .font(.headline)
+                                .foregroundColor(theme.text)
+                            Text(NSLocalizedString("이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
+                        }
+                    }
                 } header: { EmptyView() }
 
                 // v4.0.8: 실시간 결합 미리보기

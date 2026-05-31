@@ -13,6 +13,8 @@ struct PlaceholderSelectorView: View {
     let sourceMemoId: UUID
     let sourceMemoTitle: String
     @Binding var selectedValue: String
+    /// 미리보기 칩을 탭해 이 박스로 포커스가 옮겨졌을 때 강조 테두리 표시
+    var isHighlighted: Bool = false
     @Environment(\.appTheme) private var theme
 
     @State private var values: [PlaceholderValue] = []
@@ -133,7 +135,13 @@ struct PlaceholderSelectorView: View {
         }
         .padding()
         .background(theme.surfaceAlt)
-        .cornerRadius(theme.radiusSm)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                .strokeBorder(isHighlighted ? theme.accent : theme.divider,
+                              lineWidth: isHighlighted ? 2 : 1)
+        )
+        .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear {
             print("🎬 [PlaceholderSelectorView] onAppear - 플레이스홀더: \(placeholder)")
             loadValues()
