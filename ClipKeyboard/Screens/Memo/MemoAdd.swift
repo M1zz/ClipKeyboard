@@ -1305,6 +1305,8 @@ struct ContentInputSection: View {
                     .cornerRadius(theme.radiusSm)
                 }
 
+                // 이미지를 값으로 첨부하면 텍스트 값 입력은 비활성화(숨김) — 이미지가 곧 값.
+                if attachedImages.isEmpty {
                 // 텍스트 테마: syntax highlighting + 동적 높이 입력칸.
                 // [Your Name] 같은 더미 placeholder는 빨간 굵은 글씨로 강조 — 사용자가
                 // "여기는 직접 수정해야 한다"는 걸 즉시 인지. iOS TextField는 attributed
@@ -1344,6 +1346,7 @@ struct ContentInputSection: View {
                         }
                     }
                 #endif
+                }
 
                 // 일반 카테고리에서 이미지 미첨부 시 큰 "이미지 추가" 탭 버튼.
                 // 헤더 우측 작은 아이콘만으로는 인지율이 낮아 별도 노출.
@@ -1379,6 +1382,7 @@ struct ContentInputSection: View {
                 if let image = image {
                     withAnimation(reduceMotion ? nil : .default) {
                         attachedImages.append(ImageWrapper(image: image))
+                        value = "" // 이미지를 값으로 쓰므로 텍스트 값은 비운다.
                     }
                 }
             }
@@ -1415,7 +1419,10 @@ struct ContentInputSection: View {
             ?? UIPasteboard.general.data(forPasteboardType: "public.jpeg").flatMap(UIImage.init)
 
         if let image {
-            withAnimation(reduceMotion ? nil : .default) { attachedImages.append(ImageWrapper(image: image)) }
+            withAnimation(reduceMotion ? nil : .default) {
+                attachedImages.append(ImageWrapper(image: image))
+                value = "" // 이미지를 값으로 쓰므로 텍스트 값은 비운다.
+            }
             showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
         } else {
             showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))

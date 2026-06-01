@@ -582,6 +582,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 if !processedValue.isEmpty && memo.contentType == .mixed {
                     UIPasteboard.general.string = processedValue
                 }
+                // 이미지 메모 탭 시 복사됨 안내 토스트.
+                showPlainToast(NSLocalizedString("이미지가 복사되었습니다", comment: "Image copied toast"))
             }
         } else {
             UIPasteboard.general.string = processedValue
@@ -621,7 +623,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Toast
 
     func showToastMessage(_ message: String) {
-        toastMessage = String(format: NSLocalizedString("[%@] 이 복사되었습니다.", comment: "Copied toast message"), message)
+        showPlainToast(String(format: NSLocalizedString("[%@] 이 복사되었습니다.", comment: "Copied toast message"), message))
+    }
+
+    /// 포맷 없이 메시지를 그대로 토스트로 표시(예: 이미지 복사 안내).
+    func showPlainToast(_ message: String) {
+        toastMessage = message
         showToast = true
         // 시각 장애 접근성: VoiceOver 사용 시 토스트를 볼 수 없으므로 announcement로 알림
         #if os(iOS)

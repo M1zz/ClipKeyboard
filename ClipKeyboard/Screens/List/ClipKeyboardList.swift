@@ -599,6 +599,7 @@ struct ClipKeyboardList: View {
         if memo.isTemplate { return "wand.and.sparkles" }
         if memo.isCombo    { return "square.stack.3d.up.fill" }
         if memo.isSecure   { return "lock.fill" }
+        if memo.contentType == .image || memo.contentType == .mixed { return "photo.fill" }
         return "doc.fill"
     }
 

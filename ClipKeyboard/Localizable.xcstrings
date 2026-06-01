@@ -24342,6 +24342,40 @@
           }
         }
       }
+    },
+    "이미지가 복사되었습니다" : {
+      "comment" : "Image copied toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image copied"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gambar disalin"
+          }
+        }
+      }
+    },
+    "콤보가 순서대로 입력되는 흐름을 연습해 봅니다" : {
+      "comment" : "Practice disclosure hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice how the combo inserts values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berlatih bagaimana kombo memasukkan nilai secara berurutan"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
