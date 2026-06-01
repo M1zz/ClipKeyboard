@@ -101,32 +101,44 @@ struct ComboEditSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // 콤보를 탭해 처음 열었을 때 동작 방식 안내
-                TipView(comboInfoTip)
-                    .padding(.horizontal, 16)
-                    .padding(.top, 12)
+                // 안내·헤더·값·연습을 모두 하나의 스크롤로 — 고정하지 않고 상하로 흐른다.
+                List {
+                    // 콤보 동작 안내 — 고정하지 않고 함께 스크롤되어 내려간다.
+                    TipView(comboInfoTip)
+                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
 
-                // 헤더 정보
-                headerSection
+                    // 헤더 정보
+                    headerSection
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+
+                    if comboValues.isEmpty {
+                        emptyStateView
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    } else {
+                        // 값 목록 (드래그 재정렬 + 스와이프 삭제)
+                        comboValueRows
+
+                        // 연습 — 값 아래에 이어서, 함께 스크롤된다.
+                        practiceSection
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
+                }
+                .listStyle(.plain)
+                .environment(\.editMode, .constant(.active))
+                .scrollContentBackground(.hidden)
+                .background(theme.bg)
 
                 Divider()
 
-                // 값 목록
-                if comboValues.isEmpty {
-                    emptyStateView
-                } else {
-                    valueListSection
-                }
-
-                // 연습 — "다음 값 입력"을 눌러 Combo가 순서대로 입력되는 흐름을 직접 확인
-                if !comboValues.isEmpty {
-                    Divider()
-                    practiceSection
-                }
-
-                Divider()
-
-                // 하단 입력 영역
+                // 하단 입력 영역 (입력 바만 고정)
                 addValueSection
             }
             .navigationTitle(memo.title)
@@ -202,9 +214,8 @@ struct ComboEditSheet: View {
 
     // MARK: - Value List
 
-    private var valueListSection: some View {
-        List {
-            ForEach(Array(comboValues.enumerated()), id: \.offset) { index, value in
+    private var comboValueRows: some View {
+        ForEach(Array(comboValues.enumerated()), id: \.offset) { index, value in
                 HStack(spacing: 12) {
                     // 번호
                     Text("\(index + 1)")
@@ -255,11 +266,8 @@ struct ComboEditSheet: View {
                     deleteValues(at: IndexSet([index]))
                 }
             }
-            .onDelete(perform: deleteValues)
-            .onMove(perform: moveValues)
-        }
-        .listStyle(.plain)
-        .environment(\.editMode, .constant(.active))
+        .onDelete(perform: deleteValues)
+        .onMove(perform: moveValues)
     }
 
     // MARK: - Practice Section
