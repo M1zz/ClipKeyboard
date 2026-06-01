@@ -1027,6 +1027,15 @@ struct KeyboardView: View {
                 }
             }
 
+            // 콤보 설명(작성 시 입력한 설명 문구) — 단계 위에 부제로 표시.
+            if memo.isCombo, !memo.value.isEmpty {
+                Text(memo.value)
+                    .font(.footnote)
+                    .foregroundColor(theme.textMuted)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             // 콤보면 단계별 라인 모두 보여주기, 아니면 본문 통째로
             if memo.isCombo && !memo.comboValues.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {

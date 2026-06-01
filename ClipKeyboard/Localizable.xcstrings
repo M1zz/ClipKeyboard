@@ -24325,6 +24325,23 @@
           }
         }
       }
+    },
+    "키보드에서 길게 누르면 미리보기에 함께 표시돼요" : {
+      "comment" : "Combo description hint — shown in long-press preview",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shown in the preview when you long-press on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ditampilkan di pratinjau saat Anda menekan lama di papan ketik"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

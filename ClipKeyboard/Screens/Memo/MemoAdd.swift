@@ -756,7 +756,8 @@ struct MemoAdd: View {
                     Text(NSLocalizedString("설명 (선택)", comment: "Description optional"))
                         .font(.body)
                         .fontWeight(.medium)
-                    Text(NSLocalizedString("키보드에서 보여질 설명 문구", comment: "Keyboard description hint"))
+                    Text(NSLocalizedString("키보드에서 길게 누르면 미리보기에 함께 표시돼요", comment: "Combo description hint — shown in long-press preview")
+)
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
