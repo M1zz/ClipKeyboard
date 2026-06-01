@@ -131,9 +131,9 @@ struct MemoFloatingPanelView: View {
             // 반투명 재질 — Character Viewer 느낌.
             VisualEffectBackground(material: .hudWindow, blendingMode: .behindWindow)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: MacRadius.md))
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: MacRadius.md)
                 .stroke(Color.primary.opacity(0.08), lineWidth: 0.5)
         )
         .frame(minWidth: 340, minHeight: 380)
@@ -148,9 +148,9 @@ struct MemoFloatingPanelView: View {
         HStack(spacing: 8) {
             Image(systemName: "doc.on.clipboard.fill")
                 .foregroundColor(.accentColor)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(.subheadline).weight(.semibold))
             Text(NSLocalizedString("ClipKeyboard", comment: "App menu name"))
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(.subheadline).weight(.semibold))
                 .foregroundColor(.primary)
             Spacer()
             Text(NSLocalizedString("Click to paste", comment: "Panel hint"))
@@ -160,7 +160,7 @@ struct MemoFloatingPanelView: View {
                 onDismiss()
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 13))
+                    .font(.system(.subheadline))
                     .foregroundColor(.secondary)
             }
             .buttonStyle(.plain)
@@ -230,11 +230,11 @@ private struct FloatingMemoRow: View {
                 if memo.isFavorite {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.pink)
-                        .font(.system(size: 10))
+                        .font(.system(.caption))
                         .frame(width: 16, height: 16)
                 } else if index < 9 {
                     Text("\(index + 1)")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        .font(.system(.caption, design: .monospaced).weight(.medium))
                         .foregroundColor(.secondary)
                         .frame(width: 16, height: 16)
                 } else {
@@ -243,14 +243,14 @@ private struct FloatingMemoRow: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(memo.title)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(.subheadline).weight(.medium))
                         .lineLimit(1)
                     let preview = memo.value
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
                         Text(preview)
-                            .font(.system(size: 11))
+                            .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)
                     }

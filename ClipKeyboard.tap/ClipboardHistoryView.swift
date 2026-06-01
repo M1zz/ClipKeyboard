@@ -73,7 +73,7 @@ struct ClipboardHistoryView: View {
                     }
                     .padding(8)
                     .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+                    .cornerRadius(MacRadius.sm)
                 }
                 .padding()
 
@@ -115,7 +115,7 @@ struct ClipboardHistoryView: View {
                         .padding()
                         .background(Color.black.opacity(0.8))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(MacRadius.sm)
                         .padding(.bottom, 20)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                         .onTapGesture {
@@ -259,7 +259,7 @@ struct ClipboardItemRow: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: 200, maxHeight: 150)
-                            .cornerRadius(8)
+                            .cornerRadius(MacRadius.sm)
                     } else {
                         HStack(spacing: 8) {
                             Image(systemName: "photo")
@@ -272,7 +272,7 @@ struct ClipboardItemRow: View {
                 } else {
                     // 텍스트 표시
                     Text(item.content)
-                        .font(.system(size: 14))
+                        .font(.system(.callout))
                         .lineLimit(3)
                         .foregroundStyle(.primary)
                 }
@@ -292,7 +292,7 @@ struct ClipboardItemRow: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(Color.orange.opacity(0.2))
-                            .cornerRadius(4)
+                            .cornerRadius(MacRadius.xs)
                     }
 
                     if item.contentType == .image {
@@ -301,7 +301,7 @@ struct ClipboardItemRow: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(Color.blue.opacity(0.2))
-                            .cornerRadius(4)
+                            .cornerRadius(MacRadius.xs)
                     }
                 }
             }
@@ -343,7 +343,7 @@ struct ClipboardItemRow: View {
         .padding(.vertical, 8)
         .padding(.horizontal, 12)
         .background(isHovering ? Color.gray.opacity(0.1) : Color.clear)
-        .cornerRadius(8)
+        .cornerRadius(MacRadius.sm)
         .onHover { hovering in
             isHovering = hovering
         }

@@ -43,13 +43,13 @@ struct OnboardingView: View {
                     // Welcome Text — fixedSize로 길이에 관계없이 세로 확장
                     VStack(spacing: 10) {
                         Text(NSLocalizedString("ClipKeyboard에 오신 것을 환영합니다", comment: "Welcome title"))
-                            .font(.system(size: 26, weight: .bold))
+                            .font(.system(.title).weight(.bold))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
 
                         Text(NSLocalizedString("macOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱", comment: "Welcome subtitle"))
-                            .font(.system(size: 15))
+                            .font(.system(.body))
                             .foregroundColor(.white.opacity(0.9))
                             .multilineTextAlignment(.center)
                             .lineSpacing(4)
@@ -91,15 +91,15 @@ struct OnboardingView: View {
                     }) {
                         HStack(spacing: 10) {
                             Text(NSLocalizedString("시작하기", comment: "Get started button"))
-                                .font(.system(size: 16, weight: .semibold))
+                                .font(.system(.body).weight(.semibold))
                             Image(systemName: "arrow.right")
-                                .font(.system(size: 14, weight: .semibold))
+                                .font(.system(.callout).weight(.semibold))
                         }
                         .foregroundColor(.blue)
                         .frame(maxWidth: .infinity)
                         .frame(height: 44)
                         .background(Color.white)
-                        .cornerRadius(12)
+                        .cornerRadius(MacRadius.md)
                         .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
                     }
                     .buttonStyle(.plain)
@@ -129,23 +129,23 @@ struct MacFeatureRow: View {
         HStack(spacing: 14) {
             // Icon
             ZStack {
-                RoundedRectangle(cornerRadius: 10)
+                RoundedRectangle(cornerRadius: MacRadius.sm)
                     .fill(Color.white.opacity(0.2))
                     .frame(width: 44, height: 44)
 
                 Image(systemName: icon)
-                    .font(.system(size: 20))
+                    .font(.system(.title3))
                     .foregroundColor(.white)
             }
 
             // Text
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.system(.callout).weight(.semibold))
                     .foregroundColor(.white)
 
                 Text(description)
-                    .font(.system(size: 12))
+                    .font(.system(.footnote))
                     .foregroundColor(.white.opacity(0.8))
             }
 

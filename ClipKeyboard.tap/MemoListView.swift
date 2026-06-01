@@ -57,7 +57,7 @@ struct MemoListView: View {
                 VStack(spacing: 6) {
                     HStack {
                         Image(systemName: "doc.on.clipboard.fill")
-                            .font(.system(size: 16))
+                            .font(.system(.body))
                             .foregroundStyle(.blue)
 
                         Text(NSLocalizedString("메모", comment: "Memos section header"))
@@ -103,7 +103,7 @@ struct MemoListView: View {
                     }
                     .padding(4)
                     .background(Color.gray.opacity(0.1))
-                    .cornerRadius(4)
+                    .cornerRadius(MacRadius.xs)
                 }
                 .padding(8)
 
@@ -113,9 +113,9 @@ struct MemoListView: View {
                 if isFreeUser && hiddenMemoCount > 0 {
                     HStack(spacing: 6) {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 10))
+                            .font(.system(.caption))
                         Text(String(format: NSLocalizedString("%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
-                            .font(.system(size: 11))
+                            .font(.system(.caption))
                         Spacer()
                     }
                     .foregroundColor(.white)
@@ -255,13 +255,13 @@ struct CompactMemoItemRow: View {
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 30, height: 30)
                                         .clipped()
-                                        .cornerRadius(4)
+                                        .cornerRadius(MacRadius.xs)
                                 }
                             }
 
                             if imageFileNames.count > 3 {
                                 Text("+\(imageFileNames.count - 3)")
-                                    .font(.system(size: 8))
+                                    .font(.system(.caption2))
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -269,13 +269,13 @@ struct CompactMemoItemRow: View {
 
                     if memo.contentType == .mixed && !memo.value.isEmpty {
                         Text(memo.value)
-                            .font(.system(size: 10))
+                            .font(.system(.caption))
                             .lineLimit(1)
                             .foregroundStyle(.secondary)
                     }
                 } else {
                     Text(memo.value)
-                        .font(.system(size: 10))
+                        .font(.system(.caption))
                         .lineLimit(1)
                         .foregroundStyle(.secondary)
                 }
@@ -284,7 +284,7 @@ struct CompactMemoItemRow: View {
         .padding(.vertical, 4)
         .padding(.horizontal, 6)
         .background(isHovering ? Color.blue.opacity(0.1) : Color.clear)
-        .cornerRadius(4)
+        .cornerRadius(MacRadius.xs)
         .onHover { hovering in
             isHovering = hovering
         }

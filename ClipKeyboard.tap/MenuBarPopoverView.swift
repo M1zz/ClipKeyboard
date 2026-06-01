@@ -96,7 +96,7 @@ struct MenuBarPopoverView: View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.secondary)
-                .font(.system(size: 13))
+                .font(.system(.subheadline))
 
             TextField(
                 NSLocalizedString("Search memos", comment: "Popover search placeholder"),
@@ -118,7 +118,7 @@ struct MenuBarPopoverView: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
-                        .font(.system(size: 13))
+                        .font(.system(.subheadline))
                 }
                 .buttonStyle(.plain)
             }
@@ -226,7 +226,7 @@ struct MenuBarPopoverView: View {
         Button(action: action) {
             HStack(spacing: 4) {
                 Image(systemName: symbol)
-                    .font(.system(size: 12))
+                    .font(.system(.footnote))
                 Text(title)
                     .font(.caption)
                     .lineLimit(1)
@@ -287,29 +287,29 @@ private struct PopoverRow: View {
                 if memo.isFavorite {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.pink)
-                        .font(.system(size: 10))
+                        .font(.system(.caption))
                         .frame(width: 16, height: 16)
                 } else if showShortcut {
                     Text("⌘\(index + 1)")
-                        .font(.system(size: 9, weight: .medium, design: .monospaced))
+                        .font(.system(.caption2, design: .monospaced).weight(.medium))
                         .foregroundColor(.secondary)
                         .frame(width: 20, height: 16)
                         .background(Color.secondary.opacity(0.15))
-                        .clipShape(RoundedRectangle(cornerRadius: 3))
+                        .clipShape(RoundedRectangle(cornerRadius: MacRadius.xs))
                 } else {
                     Spacer().frame(width: 20)
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(memo.title)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.system(.subheadline).weight(.medium))
                         .lineLimit(1)
                     let preview = memo.value
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
                         Text(preview)
-                            .font(.system(size: 11))
+                            .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)
                     }

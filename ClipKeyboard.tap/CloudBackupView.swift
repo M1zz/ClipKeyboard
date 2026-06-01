@@ -83,7 +83,7 @@ struct CloudBackupView: View {
             }
             .padding()
             .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
+            .cornerRadius(MacRadius.sm)
 
             // 마지막 백업 정보
             if let lastBackupDate = cloudService.lastBackupDate {
@@ -104,7 +104,7 @@ struct CloudBackupView: View {
                 }
                 .padding()
                 .background(Color.blue.opacity(0.1))
-                .cornerRadius(10)
+                .cornerRadius(MacRadius.sm)
             }
 
             Spacer()

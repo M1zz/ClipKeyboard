@@ -84,7 +84,7 @@ struct MemoAddView: View {
                             .frame(minHeight: 150)
                             .padding(8)
                             .background(Color.gray.opacity(0.1))
-                            .cornerRadius(8)
+                            .cornerRadius(MacRadius.sm)
                     }
 
                     // 이미지 첨부 영역
@@ -148,7 +148,7 @@ struct MemoAddView: View {
                                 Spacer()
                             }
                             .background(Color.gray.opacity(0.05))
-                            .cornerRadius(8)
+                            .cornerRadius(MacRadius.sm)
                         }
                     }
                 }
@@ -188,7 +188,7 @@ struct MemoAddView: View {
                         .padding()
                         .background(Color.black.opacity(0.8))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(MacRadius.sm)
                         .padding(.bottom, 20)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
@@ -323,9 +323,9 @@ struct ImageAttachmentView: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 120, height: 120)
                 .clipped()
-                .cornerRadius(8)
+                .cornerRadius(MacRadius.sm)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: MacRadius.sm)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
 

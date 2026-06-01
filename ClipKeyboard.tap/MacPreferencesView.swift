@@ -130,7 +130,7 @@ struct MacPreferencesView: View {
             }
             .padding()
             .background(MacProManager.isPro ? Color.yellow.opacity(0.1) : Color.secondary.opacity(0.08))
-            .cornerRadius(10)
+            .cornerRadius(MacRadius.sm)
 
             Divider()
 
@@ -223,7 +223,7 @@ struct MacPreferencesView: View {
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3)
                 .background(Color.secondary.opacity(0.15))
-                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .clipShape(RoundedRectangle(cornerRadius: MacRadius.xs))
         }
     }
 
