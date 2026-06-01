@@ -344,15 +344,68 @@ struct KeyboardPreviewView: View {
     private var customColors: [String: String] { ud?.dictionary(forKey: "userCategoryColors_v1") as? [String: String] ?? [:] }
     private func catColor(_ key: String) -> Color {
         if key == "★all"       { return .blue }
-        if key == "★favorites" { return .pink }
+        // 익스텐션의 colorForCategoryKey와 동일한 즐겨찾기 색 #FF4A9E
+        if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
         if let hex = customColors[key], let c = Color(hex: hex) { return c }
         let pal: [Color] = [.blue,.green,.orange,.purple,.teal,.indigo,.cyan]
         let idx = allUserCats.firstIndex(of: key) ?? 0
         return pal[idx % pal.count]
     }
 
+    /// 메모가 속한 사용자 카테고리 색(익스텐션 categoryColorFor와 동일). 미해당이면 nil.
+    private func memoCatColor(_ memo: Memo) -> Color? {
+        guard allUserCats.contains(memo.category) else { return nil }
+        return catColor(memo.category)
+    }
+
+    /// 메모 타입별 테두리 스타일(익스텐션 typeStyle과 동일 — 색맹 보조 이중 큐).
+    private func typeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
+        if memo.isTemplate || !memo.templateVariables.isEmpty {
+            return (.purple, 1.5, [])
+        }
+        if memo.isCombo { return (.orange, 1.5, [5, 3]) }
+        if memo.isSecure { return (.gray, 1.5, [1, 3]) }
+        return (.clear, 0, [])
+    }
+
     private var gridColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 8), count: max(1, min(5, columnCount)))
+        // 익스텐션 LazyVGrid spacing 10과 동일
+        Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, columnCount)))
+    }
+
+    /// 익스텐션 memoButtonLabel과 동일한 셀 — radiusMd, 카테고리 틴트, 타입 테두리,
+    /// 중앙 2줄 제목. 프리뷰가 실제 키보드와 같은 모습이 되도록 한다.
+    @ViewBuilder
+    private func previewCell(_ memo: Memo) -> some View {
+        let cat = memoCatColor(memo)
+        let border = typeBorder(memo)
+        ZStack {
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .foregroundColor(keyColor)
+                .overlay(
+                    Group {
+                        if let cat {
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                                .fill(cat.opacity(theme.isDark ? 0.22 : 0.14))
+                        }
+                    }
+                )
+                .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
+
+            Text(memo.title)
+                .foregroundColor(theme.text)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .font(.system(size: buttonFontSize, weight: .semibold))
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(10)
+        }
+        .frame(height: buttonHeight)
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(border.color,
+                              style: StrokeStyle(lineWidth: border.lineWidth, dash: border.dash))
+        )
     }
 
     var body: some View {
@@ -364,11 +417,12 @@ struct KeyboardPreviewView: View {
                         HStack(spacing: 6) {
                             ForEach(Array(categoryPages.enumerated()), id: \.offset) { idx, key in
                                 let sel = idx == 0
+                                // 익스텐션 categoryTabRow와 동일: 13pt, 32×28, 비선택 배경 surface
                                 Image(systemName: catIcon(key))
-                                    .font(.system(size: 12, weight: .semibold))
+                                    .font(.system(size: 13, weight: .semibold))
                                     .foregroundColor(sel ? .white : theme.textMuted)
-                                    .frame(width: 30, height: 26)
-                                    .background(sel ? catColor(key) : keyColor)
+                                    .frame(width: 32, height: 28)
+                                    .background(sel ? catColor(key) : theme.surface)
                                     .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                             }
                         }
@@ -383,40 +437,29 @@ struct KeyboardPreviewView: View {
                 bgColor
 
                 if previewMemos.isEmpty {
-                    // 메모 없을 때 플레이스홀더
-                    LazyVGrid(columns: gridColumns, spacing: 8) {
+                    // 메모 없을 때 플레이스홀더 (셀과 동일한 radiusMd)
+                    LazyVGrid(columns: gridColumns, spacing: 10) {
                         ForEach(0..<(columnCount * 2), id: \.self) { _ in
-                            RoundedRectangle(cornerRadius: theme.radiusSm)
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
                                 .fill(keyColor.opacity(0.6))
                                 .frame(height: min(buttonHeight, 50))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: theme.radiusSm)
+                                    RoundedRectangle(cornerRadius: theme.radiusMd)
                                         .strokeBorder(theme.divider, lineWidth: 0.5)
                                 )
                         }
                     }
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                 } else {
                     let displayMemos = Array(previewMemos.prefix(columnCount * 3))
                     ScrollView(showsIndicators: false) {
-                        LazyVGrid(columns: gridColumns, spacing: 8) {
+                        LazyVGrid(columns: gridColumns, spacing: 10) {
                             ForEach(displayMemos) { memo in
-                                ZStack(alignment: .bottomLeading) {
-                                    RoundedRectangle(cornerRadius: theme.radiusSm)
-                                        .fill(keyColor)
-                                        .frame(height: min(buttonHeight, 60))
-                                        .shadow(color: .black.opacity(0.10), radius: 1.5, y: 1)
-                                    Text(memo.title)
-                                        .font(.system(size: min(buttonFontSize, 14), weight: .medium))
-                                        .foregroundColor(theme.text)
-                                        .lineLimit(1)
-                                        .padding(.horizontal, 7)
-                                        .padding(.bottom, 5)
-                                }
+                                previewCell(memo)
                             }
                         }
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                     }
                     .disabled(true)

@@ -1347,6 +1347,7 @@ struct KeyboardView: View {
     ///  칠해지는 버그가 있었음. 카테고리는 이제 사용자가 직접 만들어 쓰므로 그 색만 사용.)
     private func categoryColorFor(_ memo: Memo) -> Color? {
         guard let idx = sharedUserCategories.firstIndex(of: memo.category) else { return nil }
+        if let hex = customCategoryColors[memo.category], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         return palette[idx % palette.count]
     }
@@ -1365,6 +1366,12 @@ struct KeyboardView: View {
             .dictionary(forKey: "userCategoryIcons_v1") as? [String: String] ?? [:]
     }
 
+    /// 사용자가 지정한 카테고리 색 — userCategoryColors_v1 에서 로드(앱과 동일 키).
+    private var customCategoryColors: [String: String] {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryColors_v1") as? [String: String] ?? [:]
+    }
+
     /// 커스텀 > 인덱스 팔레트 순으로 폴백 (iOS 앱과 동일)
     private func iconForCategoryKey(_ key: String) -> String {
         if key == "★all" { return "square.grid.2x2.fill" }
@@ -1381,6 +1388,7 @@ struct KeyboardView: View {
         if key == "★all" { return .blue }
         // 즐겨찾기 지정색 — 앱의 Color.clipFavorite(#FF4A9E)와 동일 (타깃 분리로 인라인).
         if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
+        if let hex = customCategoryColors[key], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = sharedUserCategories.firstIndex(of: key) ?? 0
         return palette[idx % palette.count]
