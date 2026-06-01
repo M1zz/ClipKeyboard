@@ -47,7 +47,7 @@ struct KeyboardPracticeView: View {
             .padding()
         }
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("키보드 연습", comment: "Keyboard practice nav title"))
+        .navigationTitle(NSLocalizedString("키보드 연습하기", comment: "Keyboard Practice"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)

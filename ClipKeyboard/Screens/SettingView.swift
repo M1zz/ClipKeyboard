@@ -105,7 +105,7 @@ struct SettingView: View {
             // MARK: 키보드 (선택 기능)
             // iOS 설정 > 일반 > 키보드에서 ClipKeyboard를 추가한 사용자를 위한 설정
             Section(header: VStack(alignment: .leading, spacing: 4) {
-                Text(NSLocalizedString("키보드 (선택 기능)", comment: "Settings section: keyboard optional"))
+                Text(NSLocalizedString("키보드", comment: "Settings section: keyboard"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                     .textCase(.uppercase)
@@ -141,14 +141,6 @@ struct SettingView: View {
                 NavigationLink(destination: KeyboardLayoutSettings()) {
                     Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                           systemImage: "rectangle.3.group")
-                }
-                NavigationLink(destination: ThemeSettings()) {
-                    Label(NSLocalizedString("키보드 테마", comment: "Keyboard theme"),
-                          systemImage: "swatchpalette")
-                }
-                NavigationLink(destination: CategoryIconSettings()) {
-                    Label(NSLocalizedString("카테고리 아이콘", comment: "Keyboard category icon settings"),
-                          systemImage: "square.grid.2x2.fill")
                 }
             }
 
@@ -204,6 +196,11 @@ struct SettingView: View {
                 )) {
                     Label(NSLocalizedString("카테고리 색상 배지", comment: "Settings: show category color badge on cards"),
                           systemImage: "circle.fill")
+                }
+                // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정 → iOS(화면) 쪽에 배치
+                NavigationLink(destination: CategoryIconSettings()) {
+                    Label(NSLocalizedString("카테고리 아이콘", comment: "Category icon settings"),
+                          systemImage: "square.grid.2x2.fill")
                 }
             }
 

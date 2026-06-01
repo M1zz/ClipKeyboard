@@ -205,7 +205,7 @@ struct KeyboardLayoutSettings: View {
             }
             .listStyle(.insetGrouped)
         }
-        .navigationTitle(NSLocalizedString("키보드 설정", comment: "Keyboard settings nav title"))
+        .navigationTitle(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
