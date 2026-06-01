@@ -85,6 +85,19 @@ struct MemoAddView: View {
                             .padding(8)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(MacRadius.sm)
+
+                        // 자동 변수 삽입 + 커스텀 플레이스홀더 안내
+                        templateVariableBar
+
+                        // 내용에 {토큰}이 있으면 칩 미리보기
+                        if textContent.contains("{") {
+                            Text(textContent.templateChipAttributed())
+                                .font(.callout)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(8)
+                                .background(Color.accentColor.opacity(0.06))
+                                .clipShape(RoundedRectangle(cornerRadius: MacRadius.sm))
+                        }
                     }
 
                     // 이미지 첨부 영역
@@ -201,6 +214,53 @@ struct MemoAddView: View {
         }
     }
 
+    // MARK: - Template Variable Bar
+
+    /// 탭하면 본문에 삽입되는 자동 변수들. iOS의 자동 변수 토큰과 동일.
+    private let autoVars: [(token: String, labelKey: String)] = [
+        ("{date}", "날짜"),
+        ("{time}", "시간"),
+        ("{timezone}", "타임존"),
+        ("{currency}", "통화"),
+        ("{greeting_time}", "인사"),
+        ("{city}", "도시")
+    ]
+
+    private var templateVariableBar: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(NSLocalizedString("자동으로 채워지는 값", comment: "Auto-fill variables hint"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 6) {
+                    ForEach(autoVars, id: \.token) { item in
+                        Button {
+                            insertToken(item.token)
+                        } label: {
+                            Text(NSLocalizedString(item.labelKey, comment: "Auto template variable"))
+                                .font(.caption)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 5)
+                                .background(Color.accentColor.opacity(0.12))
+                                .foregroundColor(.accentColor)
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+
+            Text(NSLocalizedString("{ }로 감싸면 입력할 때 채우는 칸이 됩니다", comment: "Custom placeholder hint"))
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func insertToken(_ token: String) {
+        textContent += token
+    }
+
     // MARK: - Computed Properties
 
     private var canSave: Bool {
@@ -218,7 +278,7 @@ struct MemoAddView: View {
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
         panel.allowedContentTypes = [.image]
-        panel.message = "이미지를 선택하세요"
+        panel.message = NSLocalizedString("이미지를 선택하세요", comment: "Open panel: pick image message")
 
         if panel.runModal() == .OK {
             for url in panel.urls {
@@ -234,9 +294,9 @@ struct MemoAddView: View {
 
         if let image = pasteboard.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage {
             attachedImages.append(image)
-            showToastMessage("클립보드에서 이미지를 추가했습니다")
+            showToastMessage(NSLocalizedString("클립보드에서 이미지를 추가했습니다", comment: "Toast: image added from clipboard"))
         } else {
-            showToastMessage("클립보드에 이미지가 없습니다")
+            showToastMessage(NSLocalizedString("클립보드에 이미지가 없습니다", comment: "Toast: no image in clipboard"))
         }
     }
 
@@ -267,10 +327,16 @@ struct MemoAddView: View {
                 contentType = .text
             }
 
+            // 템플릿 감지: 본문에 {토큰}이 있으면 템플릿으로 저장
+            let customTokens = textContent.extractTemplatePlaceholders()
+            let isTemplate = textContent.contains("{")
+
             let newMemo = Memo(
                 title: title,
                 value: textContent,
                 category: category,
+                isTemplate: isTemplate,
+                templateVariables: customTokens,
                 imageFileNames: savedImageFileNames,
                 contentType: contentType
             )
@@ -279,7 +345,7 @@ struct MemoAddView: View {
             try MemoStore.shared.save(memos: memos, type: .memo)
 
             print("✅ [MemoAdd] 메모 저장 완료")
-            showToastMessage("메모가 저장되었습니다")
+            showToastMessage(NSLocalizedString("메모가 저장되었습니다", comment: "Toast: memo saved"))
 
             // 저장 후 창 닫기
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -287,7 +353,7 @@ struct MemoAddView: View {
             }
         } catch {
             print("❌ [MemoAdd] 메모 저장 실패: \(error)")
-            showToastMessage("저장 실패: \(error.localizedDescription)")
+            showToastMessage(String(format: NSLocalizedString("저장 실패: %@", comment: "Toast: save failed with reason"), error.localizedDescription))
         }
     }
 
