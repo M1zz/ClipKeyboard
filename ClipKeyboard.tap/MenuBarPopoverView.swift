@@ -23,6 +23,8 @@ final class PopoverViewModel: ObservableObject {
         let q = searchText.lowercased()
         return memos.filter { memo in
             if memo.title.lowercased().contains(q) { return true }
+            // 보안 메모는 값(암호문)으로 검색하지 않음 — 제목으로만 매칭.
+            if memo.isSecure { return false }
             if memo.value.lowercased().contains(q) { return true }
             // Fuzzy: check char sequence (usr lcl → /usr/local 같은 매칭)
             return fuzzyMatch(needle: q, haystack: (memo.title + " " + memo.value).lowercased())
@@ -258,14 +260,18 @@ struct MenuBarPopoverView: View {
     }
 
     private func copyMemo(_ memo: Memo, paste: Bool) {
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
-        print("✅ [Popover] 복사: \(memo.title)")
-        dismiss()
-        if paste {
-            // 팝오버 닫힌 뒤 짧은 지연 후 ⌘V 자동 주입.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
-                DirectPasteHelper.pasteToFrontmostApp()
+        // 보안 메모면 Touch ID 인증 + 복호화 후 복사. 일반 메모는 즉시.
+        MacSecureAccess.resolveForPaste(memo) { resolved in
+            guard let resolved else { return } // 인증 취소/실패/키 미동기화
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(resolved, forType: .string)
+            print("✅ [Popover] 복사: \(memo.title)")
+            dismiss()
+            if paste {
+                // 팝오버 닫힌 뒤 짧은 지연 후 ⌘V 자동 주입.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+                    DirectPasteHelper.pasteToFrontmostApp()
+                }
             }
         }
     }
@@ -304,11 +310,12 @@ private struct PopoverRow: View {
                     Text(memo.title)
                         .font(.system(.subheadline).weight(.medium))
                         .lineLimit(1)
-                    let preview = memo.value
+                    // 보안 메모는 값을 마스킹(인증 전 노출 금지).
+                    let preview = MacSecureAccess.maskedPreview(memo)
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
-                        Text(preview.templateChipAttributed())
+                        Text(memo.isSecure ? AttributedString(preview) : preview.templateChipAttributed())
                             .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)

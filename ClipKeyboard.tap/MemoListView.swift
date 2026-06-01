@@ -41,11 +41,12 @@ struct MemoListView: View {
             filtered = filtered.filter { $0.category == selectedCategory }
         }
 
-        // 검색 필터
+        // 검색 필터 — 보안 메모는 제목으로만(값은 암호문이라 검색 제외).
         if !searchText.isEmpty {
             filtered = filtered.filter {
-                $0.title.localizedCaseInsensitiveContains(searchText) ||
-                $0.value.localizedCaseInsensitiveContains(searchText)
+                if $0.title.localizedCaseInsensitiveContains(searchText) { return true }
+                if $0.isSecure { return false }
+                return $0.value.localizedCaseInsensitiveContains(searchText)
             }
         }
 
@@ -135,6 +136,11 @@ struct MemoListView: View {
                             CompactMemoItemRow(memo: memo) {
                                 if memo.contentType == .image {
                                     copyImageToClipboard(memo)
+                                } else if memo.isSecure {
+                                    // 보안 메모: Touch ID 인증 + 복호화 후 복사
+                                    MacSecureAccess.resolveForPaste(memo) { resolved in
+                                        if let resolved { copyToClipboard(resolved) }
+                                    }
                                 } else if memo.hasCustomPlaceholders {
                                     fillMemo = memo
                                 } else {
@@ -286,13 +292,13 @@ struct CompactMemoItemRow: View {
                     }
 
                     if memo.contentType == .mixed && !memo.value.isEmpty {
-                        Text(memo.value.templateChipAttributed())
+                        Text(memo.isSecure ? AttributedString(MacSecureAccess.maskedPreview(memo)) : memo.value.templateChipAttributed())
                             .font(.system(.caption))
                             .lineLimit(1)
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    Text(memo.value.templateChipAttributed())
+                    Text(memo.isSecure ? AttributedString(MacSecureAccess.maskedPreview(memo)) : memo.value.templateChipAttributed())
                         .font(.system(.caption))
                         .lineLimit(1)
                         .foregroundStyle(.secondary)

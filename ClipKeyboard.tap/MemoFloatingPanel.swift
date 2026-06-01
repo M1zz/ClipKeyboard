@@ -96,11 +96,18 @@ final class MemoFloatingPanelController: NSObject {
     }
 
     private func handleSelect(_ memo: Memo) {
-        // 1) 클립보드에 텍스트 기록
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
-        print("📋 [FloatingPanel] 메모 복사: \(memo.title)")
+        // 보안 메모면 Touch ID 인증 + 복호화 후 복사.
+        MacSecureAccess.resolveForPaste(memo) { resolved in
+            guard let resolved else { return }
+            // 1) 클립보드에 텍스트 기록
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(resolved, forType: .string)
+            print("📋 [FloatingPanel] 메모 복사: \(memo.title)")
+            self.finishInsert()
+        }
+    }
 
+    private func finishInsert() {
         // 2) 패널 닫기 (원래 전경 앱은 포커스 잃은 적 없음)
         close()
 
@@ -187,9 +194,12 @@ struct MemoFloatingPanelView: View {
                     }
                     .contextMenu {
                         Button(NSLocalizedString("Copy", comment: "Context: copy")) {
-                            NSPasteboard.general.clearContents()
-                            NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
-                            onDismiss()
+                            MacSecureAccess.resolveForPaste(memo) { resolved in
+                                guard let resolved else { return }
+                                NSPasteboard.general.clearContents()
+                                NSPasteboard.general.setString(resolved, forType: .string)
+                                onDismiss()
+                            }
                         }
                         Button(NSLocalizedString("Copy and Paste", comment: "Popover context: copy + paste")) {
                             onSelect(memo)
@@ -245,11 +255,11 @@ private struct FloatingMemoRow: View {
                     Text(memo.title)
                         .font(.system(.subheadline).weight(.medium))
                         .lineLimit(1)
-                    let preview = memo.value
+                    let preview = MacSecureAccess.maskedPreview(memo)
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
-                        Text(preview.templateChipAttributed())
+                        Text(memo.isSecure ? AttributedString(preview) : preview.templateChipAttributed())
                             .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)
