@@ -178,8 +178,7 @@ struct MemoAdd: View {
             return NSLocalizedString("새 메모", comment: "New memo navigation title")
         }())
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .toolbar {
             // 새 메모(퀵 모드): 저장 버튼을 헤더 오른쪽(취소 맞은편)에 둬서 본문이 답답하지 않게.
             if isQuickMode {

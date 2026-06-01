@@ -604,8 +604,7 @@ struct UsageGuideView: View {
         .navigationTitle(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         #endif
     }
 

@@ -256,8 +256,7 @@ struct CloudBackupView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .alert(alertTitle, isPresented: $showAlert) {
             Button(NSLocalizedString("확인", comment: "OK button"), role: .cancel) { }
         } message: {

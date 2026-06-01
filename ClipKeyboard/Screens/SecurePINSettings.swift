@@ -103,8 +103,7 @@ struct SecurePINSettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .onAppear {
             let storedHash = UserDefaults(suiteName: appGroup)?.string(forKey: pinKey) ?? ""
             pinIsSet = !storedHash.isEmpty

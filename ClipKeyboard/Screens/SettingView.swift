@@ -294,8 +294,7 @@ struct SettingView: View {
         .background(theme.bg.ignoresSafeArea())
         .contentMargins(.top, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
         .sheet(isPresented: $showKeyboardGuide) {
             KeyboardSetupOnboardingView { showKeyboardGuide = false }
@@ -370,8 +369,7 @@ struct DisplaySettingsView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
     }
 
     /// 실제 메모 그리드 셀(ClipKeyboardList.memoGridCell)과 동일한 모양의 미리보기.
@@ -432,8 +430,7 @@ struct PersonaSettingsContainer: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .overlay(alignment: .bottom) {
             if showAppliedToast {
                 Text(NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
@@ -595,8 +592,7 @@ struct CopyPasteView: View {
         }
         .navigationTitle(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
     }
 }
 
@@ -691,8 +687,7 @@ struct ReviewWriteView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
     }
 }
 

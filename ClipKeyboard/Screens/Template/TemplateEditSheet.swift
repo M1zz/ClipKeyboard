@@ -80,8 +80,7 @@ struct TemplateEditSheet: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel")) { onCancel() }
@@ -438,8 +437,7 @@ struct TemplateInputSheet: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel")) { onCancel() }
@@ -515,8 +513,7 @@ struct TemplateDetailPlaceholderView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .onAppear {
             placeholders = template.value.extractTemplatePlaceholders()
         }

@@ -92,8 +92,7 @@ struct ComboTemplateInputView: View {
             }
             .navigationTitle(NSLocalizedString("템플릿 값 설정", comment: "Set Template Values"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel")) {

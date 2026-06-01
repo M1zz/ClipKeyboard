@@ -238,8 +238,7 @@ struct ClipboardList: View {
                 showComboCreation = false
             }
         }
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .alert(NSLocalizedString("클립보드 히스토리 전체 삭제", comment: "Clear all confirm title"),
                isPresented: $showClearAllConfirm) {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }

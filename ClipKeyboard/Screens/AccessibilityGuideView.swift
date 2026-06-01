@@ -36,8 +36,7 @@ struct AccessibilityGuideView: View {
                     }
                 }
             }
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
             #endif
         }
     }

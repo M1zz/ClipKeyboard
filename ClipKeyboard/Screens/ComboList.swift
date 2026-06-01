@@ -133,8 +133,7 @@ struct ComboList: View {
                     Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete combo confirm message"), combo.title))
                 }
             }
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
         }
     }
 
@@ -510,8 +509,7 @@ struct ComboAddEditView: View {
             }
             .navigationTitle(combo == nil ? NSLocalizedString("Combo 추가", comment: "Add combo title") : NSLocalizedString("Combo 편집", comment: "Edit combo title"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(theme.bg, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .solidNavBar(theme.bg)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("취소", comment: "Cancel button")) {

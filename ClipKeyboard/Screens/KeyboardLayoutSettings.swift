@@ -209,8 +209,7 @@ struct KeyboardLayoutSettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .onAppear {
             if !customBgHex.isEmpty,  let c = Color(hex: customBgHex)  { customBgColor  = c }
             if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { customKeyColor = c }

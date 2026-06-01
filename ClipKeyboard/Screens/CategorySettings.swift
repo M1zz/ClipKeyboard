@@ -108,8 +108,7 @@ struct CategorySettings: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .alert(NSLocalizedString("Remove all categories?", comment: "Remove all categories alert title"),
                isPresented: $showResetAlert) {
             Button(NSLocalizedString("Cancel", comment: "Cancel"), role: .cancel) { }

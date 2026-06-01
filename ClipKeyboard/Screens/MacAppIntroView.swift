@@ -28,8 +28,7 @@ struct MacAppIntroView: View {
         .navigationTitle(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         #endif
     }
 

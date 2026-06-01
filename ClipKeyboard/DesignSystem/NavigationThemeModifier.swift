@@ -16,6 +16,19 @@ extension View {
     func themedNavigationTitle(_ theme: AppTheme) -> some View {
         modifier(ThemedNavTitleModifier(theme: theme))
     }
+
+    /// 네비게이션 바를 테마 배경색으로 불투명하게 — 여러 시트/화면에서 반복되던
+    /// toolbarBackground 2줄 보일러플레이트를 한 줄로.
+    @ViewBuilder
+    func solidNavBar(_ color: Color) -> some View {
+        #if os(iOS)
+        self
+            .toolbarBackground(color, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+        #else
+        self
+        #endif
+    }
 }
 
 struct ThemedNavTitleModifier: ViewModifier {

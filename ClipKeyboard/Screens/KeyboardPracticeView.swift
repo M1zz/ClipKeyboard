@@ -49,8 +49,7 @@ struct KeyboardPracticeView: View {
         .background(theme.bg.ignoresSafeArea())
         .navigationTitle(NSLocalizedString("키보드 연습하기", comment: "Keyboard Practice"))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(theme.bg, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .solidNavBar(theme.bg)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 isEditorFocused = true
