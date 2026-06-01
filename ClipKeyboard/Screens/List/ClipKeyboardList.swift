@@ -118,6 +118,16 @@ struct ClipKeyboardList: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
 
+                    // 페르소나 기반 카테고리 이름 제안 (TipKit). 선택한 사용 패턴에 맞는
+                    // 카테고리 이름을 부드럽게 추천 — 탭하면 만들어서 정리. (값/메모는 추가 안 함)
+                    if shouldShowPersonaCategoryTip {
+                        personaCategorySuggestionTip()
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 4)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                    }
+
                     // 메모를 보고 카테고리 생성을 제안 (TipKit). 자동 분류된 메모가 임계치 이상
                     // 쌓였는데 아직 그 카테고리가 없으면 부드럽게 안내.
                     if CategoryStore.shared.isFeatureEnabled,
@@ -714,13 +724,43 @@ struct ClipKeyboardList: View {
     /// 카테고리 생성 제안 TipKit 카드. 수락 시 카테고리 추가 + 해당 탭으로 이동.
     /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
     @ViewBuilder
+    // MARK: - Persona Category Suggestion (TipKit)
+
+    /// 선택한 페르소나에 맞는, 아직 안 만든 카테고리 이름 후보.
+    private var personaCategorySuggestions: [String] {
+        guard let persona = CategoryStore.shared.selectedPersona else { return [] }
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let existing = Set(viewModel.customCategories)
+        return persona.seedCategories(language: lang).filter { !existing.contains($0) }
+    }
+
+    /// 페르소나 카테고리 제안 팁 표시 조건: 페르소나 있음 + 콘텐츠 기반 제안과 겹치지 않음 + 후보 있음.
+    private var shouldShowPersonaCategoryTip: Bool {
+        CategoryStore.shared.selectedPersona != nil
+            && viewModel.suggestedCategory == nil
+            && !personaCategorySuggestions.isEmpty
+    }
+
+    private func personaCategorySuggestionTip() -> some View {
+        let tip = PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
+        return TipView(tip) { action in
+            // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
+            viewModel.addCustomCategory(action.id)
+            CategoryStore.shared.enableFeature()
+            HapticManager.shared.success()
+            viewModel.loadCustomCategories()
+            viewModel.loadMemos()
+            tip.invalidate(reason: .actionPerformed)
+        }
+    }
+
     private func categorySuggestionTip(name: String, count: Int) -> some View {
         let tip = CategorySuggestionTip(
             categoryRawName: name,
             displayName: Constants.localizedThemeName(name),
             count: count
         )
-        TipView(tip) { action in
+        return TipView(tip) { action in
             if action.id == "create" {
                 withAnimation { viewModel.acceptSuggestedCategory(name) }
                 HapticManager.shared.success()
@@ -2000,6 +2040,26 @@ struct CategorySuggestionTip: Tip {
         [Tips.Action(id: "create") {
             Text(NSLocalizedString("카테고리 만들기", comment: "Category suggestion: create action button"))
         }]
+    }
+}
+
+/// 페르소나에 맞는 카테고리 '이름'을 제안하는 팁. 액션(카테고리명)을 탭하면 그 카테고리를 만든다.
+struct PersonaCategoryTip: Tip {
+    let suggestions: [String]
+
+    var id: String { "persona-category-suggestion" }
+
+    var title: Text {
+        Text(NSLocalizedString("이런 카테고리는 어때요?", comment: "Persona category suggestion tip title"))
+    }
+    var message: Text? {
+        Text(NSLocalizedString("선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요.", comment: "Persona category suggestion tip message"))
+    }
+    var image: Image? {
+        Image(systemName: "folder.badge.plus")
+    }
+    var actions: [Tips.Action] {
+        suggestions.map { name in Tips.Action(id: name) { Text(name) } }
     }
 }
 

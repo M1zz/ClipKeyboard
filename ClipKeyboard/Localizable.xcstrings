@@ -23866,6 +23866,40 @@
           }
         }
       }
+    },
+    "이런 카테고리는 어때요?" : {
+      "comment" : "Persona category suggestion tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try one of these categories?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba salah satu kategori ini?"
+          }
+        }
+      }
+    },
+    "선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요." : {
+      "comment" : "Persona category suggestion tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These match how you use the app. Tap one to create it and gather your memos in one place."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini cocok dengan cara Anda memakai aplikasi. Ketuk salah satu untuk membuatnya dan mengumpulkan memo Anda di satu tempat."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
