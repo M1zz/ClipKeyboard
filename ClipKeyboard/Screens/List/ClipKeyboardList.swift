@@ -480,19 +480,31 @@ struct ClipKeyboardList: View {
             HStack(alignment: .top, spacing: 4) {
                 memoTypeIcon(memo: memo, onColor: onColor)
                 Spacer()
-                // 우상단 = 카테고리 식별 심볼(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
-                // 메모+템플릿(attachedTemplate) 결합 메모는 심볼에 "+"를 합쳐 표시.
+                // 우상단 = 식별 심볼. 메모+템플릿(attachedTemplate)이면 템플릿 심볼까지
+                // 함께 표시해 "심볼 2개"(카테고리/즐겨찾기 + 템플릿)로 보여준다.
                 let hasAttachedTemplate = !memo.isTemplate && memo.attachedTemplateId != nil
-                if memo.isFavorite {
-                    topRightSymbol(systemName: "heart.fill",
-                                   color: onColor ? .white.opacity(0.9) : .clipFavorite,
-                                   plus: hasAttachedTemplate, onColor: onColor)
-                } else if categoryBadgeVisible,
-                          CategoryStore.shared.isFeatureEnabled,
-                          viewModel.customCategories.contains(memo.category) {
-                    topRightSymbol(systemName: customCategoryIcon(memo.category),
-                                   color: onColor ? .white.opacity(0.85) : customCategoryColor(memo.category),
-                                   plus: hasAttachedTemplate, onColor: onColor)
+                HStack(spacing: 5) {
+                    if hasAttachedTemplate {
+                        Image(systemName: "wand.and.sparkles")
+                            .font(.title3)
+                            .foregroundColor(onColor ? .white.opacity(0.85) : .purple)
+                            .accessibilityHidden(true)
+                    }
+                    if memo.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .font(.title2)
+                            .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
+                            .accessibilityHidden(true)
+                    } else if categoryBadgeVisible,
+                              CategoryStore.shared.isFeatureEnabled,
+                              viewModel.customCategories.contains(memo.category) {
+                        Image(systemName: customCategoryIcon(memo.category))
+                            .font(.title2)
+                            .foregroundColor(onColor
+                                ? .white.opacity(0.85)
+                                : customCategoryColor(memo.category))
+                            .accessibilityHidden(true)
+                    }
                 }
             }
             Spacer(minLength: 16)
@@ -656,24 +668,6 @@ struct ClipKeyboardList: View {
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
         return palette[idx % palette.count]
-    }
-
-    /// 우상단 식별 심볼. attachedTemplate(메모+템플릿) 결합 메모면 "+" 배지를 합쳐 표시.
-    @ViewBuilder
-    private func topRightSymbol(systemName: String, color: Color, plus: Bool, onColor: Bool) -> some View {
-        Image(systemName: systemName)
-            .font(.title2)
-            .foregroundColor(color)
-            .overlay(alignment: .bottomTrailing) {
-                if plus {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 11, weight: .bold))
-                        .foregroundColor(onColor ? .white : .purple)
-                        .background(Circle().fill(onColor ? Color.black.opacity(0.3) : Color(uiColor: .systemBackground)))
-                        .offset(x: 5, y: 5)
-                }
-            }
-            .accessibilityHidden(true)
     }
 
     /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
@@ -1914,10 +1908,21 @@ private struct MemoActionSheet: View {
                     onToggleFavorite()
                     dismiss()
                 }
-                // 카테고리 이동 — 통일된 카테고리 목록으로 즉시 이동 (메모 작성 폼엔 선택 UI 없음)
+                // 카테고리 지정 — 미분류(흰 배경) 메모는 "추가", 이미 카테고리가 있으면 "이동".
                 if let onMoveToCategory {
+                    // 카드가 실제로 색을 갖는 조건과 동일(기능 활성 + 커스텀 카테고리 소속)
+                    let hasCategory = CategoryStore.shared.isFeatureEnabled && categories.contains(memo.category)
                     Divider().padding(.leading, 56)
                     Menu {
+                        // 즐겨찾기 — '전체' 탭은 지정 대상이 아니지만 즐겨찾기는 카테고리처럼 지정 가능.
+                        Button {
+                            onToggleFavorite()
+                            dismiss()
+                        } label: {
+                            Label(NSLocalizedString("즐겨찾기", comment: "Favorites"),
+                                  systemImage: memo.isFavorite ? "checkmark" : "heart")
+                        }
+                        Divider()
                         ForEach(categories, id: \.self) { cat in
                             Button {
                                 onMoveToCategory(cat)
@@ -1939,18 +1944,20 @@ private struct MemoActionSheet: View {
                                 Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"), systemImage: "folder.badge.plus")
                             }
                         }
-                        if memo.category != "기본" {
+                        if hasCategory {
                             Divider()
                             Button {
                                 onMoveToCategory("기본")
                                 dismiss()
                             } label: {
-                                Label(NSLocalizedString("카테고리 해제", comment: "Action: remove from category"), systemImage: "tray")
+                                Label(NSLocalizedString("카테고리에서 빼기", comment: "Action: remove memo from its category"), systemImage: "tray")
                             }
                         }
                     } label: {
                         actionRowLabel(
-                            label: NSLocalizedString("카테고리 이동", comment: "Action: move to category"),
+                            label: hasCategory
+                                ? NSLocalizedString("카테고리 이동", comment: "Action: move to category")
+                                : NSLocalizedString("카테고리에 추가", comment: "Action: add to category"),
                             systemImage: "folder"
                         )
                     }

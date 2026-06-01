@@ -24274,6 +24274,40 @@
           }
         }
       }
+    },
+    "카테고리에 추가" : {
+      "comment" : "Action: add to category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan ke kategori"
+          }
+        }
+      }
+    },
+    "카테고리에서 빼기" : {
+      "comment" : "Action: remove memo from its category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus dari kategori"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
