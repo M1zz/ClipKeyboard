@@ -94,6 +94,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // 클립보드 모니터링 시작
         ClipboardMonitorService.shared.startMonitoring()
+
+        // iCloud 자동 복원: 로컬이 비어있으면 아이폰 백업을 시작 시 가져온다.
+        // (덮어쓸 로컬 데이터가 없을 때만 동작 — 사용자 데이터 보호)
+        Task {
+            await CloudKitBackupService.shared.autoRestoreIfLocalEmpty()
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {

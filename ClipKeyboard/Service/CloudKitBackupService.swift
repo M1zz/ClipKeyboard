@@ -126,9 +126,42 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func loadAutoBackupSetting() {
-        self.autoBackupEnabled = UserDefaults.standard.bool(forKey: "autoBackupEnabled")
+        let defaults = UserDefaults.standard
+        // 자동 백업 기본값 ON: 한 번도 설정한 적 없으면 켠다. 다른 기기(맥)에서
+        // 시작 시 바로 복원할 수 있도록 항상 최신 백업이 존재하게 한다.
+        // 이미 켜거나 끈 사용자의 명시적 선택은 그대로 존중한다.
+        if defaults.object(forKey: "autoBackupEnabled") == nil {
+            defaults.set(true, forKey: "autoBackupEnabled")
+            print("🔄 [CloudKit] 자동 백업 기본 활성화 (최초 실행)")
+        }
+        self.autoBackupEnabled = defaults.bool(forKey: "autoBackupEnabled")
         if autoBackupEnabled {
             startAutoBackupTimer()
+            performInitialBackupIfNeeded()
+        }
+    }
+
+    /// 시작 직후 최신 백업을 한 번 보장한다 — 맥/다른 기기가 바로 복원할 수 있게.
+    /// 인증이 확정될 때까지 잠깐 대기하고, 최근(1시간 내) 백업이 있으면 생략한다.
+    private func performInitialBackupIfNeeded() {
+        Task { [weak self] in
+            guard let self else { return }
+            // init의 accountStatus 콜백이 비동기라 인증 확정까지 최대 5초 대기.
+            for _ in 0..<10 {
+                if self.isAuthenticated { break }
+                try? await Task.sleep(nanoseconds: 500_000_000)
+            }
+            guard self.autoBackupEnabled, self.isAuthenticated, !self.isBackingUp else { return }
+            if let last = self.lastBackupDate, Date().timeIntervalSince(last) < 3600 {
+                print("ℹ️ [CloudKit] 최근 백업 존재 - 시작 초기 백업 생략")
+                return
+            }
+            do {
+                try await self.backupData()
+                print("✅ [CloudKit] 시작 직후 초기 백업 완료")
+            } catch {
+                print("⚠️ [CloudKit] 시작 초기 백업 실패: \(error.localizedDescription)")
+            }
         }
     }
 

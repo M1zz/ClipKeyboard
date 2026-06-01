@@ -395,6 +395,42 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
+    // MARK: - Auto Restore (시작 시 비어있으면 iCloud에서 가져오기)
+
+    /// 로컬 데이터가 비어있고 iCloud에 백업이 있으면 시작 시 조용히 복원한다.
+    /// 덮어쓸 로컬 데이터가 없으므로 사용자 확인 없이 안전하게 가져온다.
+    /// (아이폰에서 만든 메모를 맥에서 바로 보이게 하는 핵심 동작)
+    @discardableResult
+    func autoRestoreIfLocalEmpty() async -> Bool {
+        // 로컬에 데이터가 있으면 자동 복원하지 않음 — 사용자 데이터 보호.
+        if hasLocalData() {
+            print("ℹ️ [CloudKit] 로컬 데이터 존재 - 자동 복원 생략")
+            return false
+        }
+        do {
+            try await ensureAuthenticated()
+        } catch {
+            print("ℹ️ [CloudKit] iCloud 미인증 - 자동 복원 생략")
+            return false
+        }
+        guard await hasBackup() else {
+            print("ℹ️ [CloudKit] iCloud 백업 없음 - 자동 복원 생략")
+            return false
+        }
+        do {
+            // 위에서 로컬이 비어있음을 확인했으므로 덮어쓰기 안전.
+            try await restoreData(forceOverwrite: true)
+            print("🎉 [CloudKit] 시작 시 iCloud 자동 복원 완료")
+            await MainActor.run {
+                NotificationCenter.default.post(name: .dataRestored, object: nil)
+            }
+            return true
+        } catch {
+            print("⚠️ [CloudKit] 시작 자동 복원 실패: \(error.localizedDescription)")
+            return false
+        }
+    }
+
     /// 복원 (기존 데이터 덮어쓰기 여부를 외부에서 확인 필요)
     /// - Parameter forceOverwrite: true면 확인 없이 덮어쓰기, false면 호출 전에 hasLocalData()로 확인 필요
     func restoreData(forceOverwrite: Bool = false) async throws {

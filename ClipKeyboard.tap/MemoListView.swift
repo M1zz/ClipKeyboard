@@ -162,6 +162,10 @@ struct MemoListView: View {
             isViewActive = true
             loadMemos()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .dataRestored)) { _ in
+            // iCloud 자동/수동 복원 직후 목록 갱신.
+            loadMemos()
+        }
         .onDisappear {
             print("⚠️ [MemoListView] onDisappear - 뷰 비활성화 시작")
             isViewActive = false
