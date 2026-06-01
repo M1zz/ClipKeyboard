@@ -24308,6 +24308,23 @@
           }
         }
       }
+    },
+    "힌트 (선택)" : {
+      "comment" : "Hint section label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hint (optional)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Petunjuk (opsional)"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

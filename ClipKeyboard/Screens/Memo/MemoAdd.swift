@@ -232,85 +232,79 @@ struct MemoAdd: View {
             }
 
             ScrollView {
-                VStack(spacing: 14) {
-                    // 텍스트 입력 카드 — 메인 리스트 카드와 동일한 스타일
-                    VStack(alignment: .leading, spacing: 0) {
-                        Image(systemName: "doc.fill")
-                            .font(.title2)
-                            .foregroundStyle(theme.textFaint)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 16)
-                            .padding(.bottom, 6)
-
-                        ZStack(alignment: .topLeading) {
-                            TextEditor(text: $viewModel.value)
-                                .font(.title3.weight(.semibold))
-                                .focused($isQuickTextFocused)
-                                .scrollContentBackground(.hidden)
-                                .padding(.horizontal, 12)
-                                .frame(minHeight: 80, maxHeight: 200)
-                            if viewModel.value.isEmpty {
-                                Text(NSLocalizedString("저장할 텍스트를 입력하세요", comment: "Quick add placeholder"))
-                                    .font(.title3.weight(.semibold))
-                                    .foregroundColor(theme.textFaint)
-                                    .padding(.horizontal, 16)
-                                    .padding(.top, 10)
-                                    .allowsHitTesting(false)
-                            }
+                VStack(alignment: .leading, spacing: 22) {
+                    // 1) 붙여넣을 내용(VALUE) + 이미지 — 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
+                    ContentInputSection(
+                        value: $viewModel.value,
+                        selectedCategory: viewModel.selectedCategory,
+                        isFocused: $isFocused,
+                        autoDetectedType: $viewModel.autoDetectedType,
+                        autoDetectedConfidence: $viewModel.autoDetectedConfidence,
+                        attachedImages: $viewModel.attachedImages,
+                        onNext: {
+                            isFocused = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { isTitleFocused = true }
                         }
-                        .padding(.bottom, 16)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .background(theme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-                    .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 4)
+                    )
 
-                    // 힌트 필드 카드
-                    HStack(spacing: 8) {
-                        Image(systemName: "lightbulb.fill")
-                            .foregroundColor(.yellow.opacity(0.8))
-                            .font(.body)
-                        TextField(
-                            NSLocalizedString("어디서 쓰나요? (선택)", comment: "Hint field placeholder"),
-                            text: $viewModel.hint
-                        )
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .focused($isHintFocused)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
-                    .background(theme.surface)
-                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
+                    // 2) 키보드에 표시할 이름(KEY) — 이 메모가 키보드에서 보일 제목. 핵심.
+                    titleInputSection
 
-                    // 더 설정하기 카드
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
-                    } label: {
-                        HStack {
-                            Image(systemName: "slider.horizontal.3")
-                                .font(.body)
-                            Text(NSLocalizedString("더 설정하기", comment: "Show advanced options"))
-                                .font(.body)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.body)
-                        }
-                        .foregroundColor(theme.textMuted)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 14)
-                        .background(theme.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
-                    }
+                    // 3) 힌트 (선택)
+                    quickHintField
+
+                    // 4) 더 설정하기 (보안·템플릿·콤보)
+                    quickAdvancedButton
                 }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 16)
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 20)
             }
             .background(theme.bg)
-            // 저장 버튼은 헤더 오른쪽(toolbar)으로 이동 — 하단 큰 버튼 제거해 본문 여백 확보.
+            // 저장 버튼은 헤더 오른쪽(toolbar)에 위치.
         }
-        .onAppear { isQuickTextFocused = true }
+    }
+
+    /// 퀵 모드 힌트(어디서 쓰나요) — 선택 입력.
+    private var quickHintField: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(NSLocalizedString("힌트 (선택)", comment: "Hint section label"))
+                .font(.body)
+                .fontWeight(.medium)
+                .foregroundColor(theme.textMuted)
+            HStack(spacing: 8) {
+                Image(systemName: "lightbulb.fill")
+                    .foregroundColor(.yellow.opacity(0.8))
+                    .font(.body)
+                TextField(NSLocalizedString("어디서 쓰나요? (선택)", comment: "Hint field placeholder"), text: $viewModel.hint)
+                    .font(.body)
+                    .focused($isHintFocused)
+            }
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(theme.surfaceAlt)
+            .cornerRadius(theme.radiusMd)
+        }
+    }
+
+    /// 퀵 모드 "더 설정하기" — 보안/템플릿/콤보 등 고급 옵션으로 전환.
+    private var quickAdvancedButton: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
+        } label: {
+            HStack {
+                Image(systemName: "slider.horizontal.3")
+                Text(NSLocalizedString("더 설정하기", comment: "Show advanced options"))
+                Spacer()
+                Image(systemName: "chevron.right")
+            }
+            .font(.body)
+            .foregroundColor(theme.textMuted)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(theme.surfaceAlt)
+            .cornerRadius(theme.radiusMd)
+        }
     }
 
     // MARK: - Full Mode Body (기존 UI)
