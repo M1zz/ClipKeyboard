@@ -2587,8 +2587,8 @@ struct SheetModifiers: ViewModifier {
                         sourceMemoId: template.id,
                         sourceMemoTitle: template.title
                     )
-                    // 템플릿·메모+템플릿 입력은 항상 전체 높이로 — 빈칸 채우기 + 미리보기 공간 확보.
-                    .presentationDetents([.large])
+                    // 메모+템플릿은 합쳐진 결과가 길어 전체 높이로, 일반 템플릿은 중간 높이도 허용.
+                    .presentationDetents(attachedTemplateBaseMemo != nil ? [.large] : [.medium, .large])
                     .presentationDragIndicator(.visible)
                 }
             }
