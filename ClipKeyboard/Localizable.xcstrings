@@ -24461,6 +24461,23 @@
           }
         }
       }
+    },
+    "탭하면 복사" : {
+      "comment" : "Tap to copy hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to copy"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk menyalin"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

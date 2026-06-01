@@ -280,6 +280,9 @@ private struct FloatingMemoRow: View {
         .onHover { hovering in
             isHovering = hovering
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(memo.macAccessibilityLabel)
+        .accessibilityHint(NSLocalizedString("탭하면 복사", comment: "Tap to copy hint"))
     }
 }
 

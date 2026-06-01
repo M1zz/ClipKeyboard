@@ -337,6 +337,9 @@ private struct PopoverRow: View {
             showShortcut ? KeyEquivalent(Character("\(index + 1)")) : KeyEquivalent("\0"),
             modifiers: .command
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(memo.macAccessibilityLabel)
+        .accessibilityHint(NSLocalizedString("탭하면 복사", comment: "Tap to copy hint"))
     }
 }
 

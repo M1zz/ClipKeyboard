@@ -315,6 +315,10 @@ struct CompactMemoItemRow: View {
         .onTapGesture {
             onCopy()
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(memo.macAccessibilityLabel)
+        .accessibilityHint(NSLocalizedString("탭하면 복사", comment: "Tap to copy hint"))
     }
 }
 
