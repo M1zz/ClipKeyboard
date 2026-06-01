@@ -2694,7 +2694,13 @@ struct CategoryManagementSheet: View {
                             get: { viewModel.isCategoryVisible(cat) },
                             set: { viewModel.setCategoryVisible(cat, visible: $0) }
                         )) {
-                            Label(cat, systemImage: "folder.fill")
+                            // 실제 카드/키보드에서 쓰는 그 카테고리의 심볼·색으로 표시.
+                            Label {
+                                Text(cat)
+                            } icon: {
+                                Image(systemName: categoryIconForName(cat))
+                                    .foregroundColor(categoryColorForName(cat))
+                            }
                         }
                     }
                     .onDelete { indexSet in
@@ -2743,5 +2749,25 @@ struct CategoryManagementSheet: View {
         } message: {
             Text(NSLocalizedString("메모를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
         }
+    }
+
+    /// 카드/키보드와 동일한 카테고리 심볼.
+    private func categoryIconForName(_ name: String) -> String {
+        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
+           let symbol = custom[name] {
+            return symbol
+        }
+        return defaultIcon(for: name, in: viewModel.customCategories)
+    }
+
+    /// 카드/키보드와 동일한 카테고리 색.
+    private func categoryColorForName(_ name: String) -> Color {
+        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryColors_v1") as? [String: String],
+           let hex = custom[name], let c = Color(hex: hex) {
+            return c
+        }
+        return defaultColor(for: name, in: viewModel.customCategories)
     }
 }
