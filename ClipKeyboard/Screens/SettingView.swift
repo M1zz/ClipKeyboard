@@ -167,21 +167,20 @@ struct SettingView: View {
                         Image(systemName: "person.crop.circle.badge.checkmark")
                     }
                 }
-                // v4.1.0: 카테고리 관리는 메인 화면 페이지 인디케이터 옆 ⚙ 버튼으로 이동.
-                // 설정에서 중복 진입점 제거 — 다른 use case 항목과 헷갈리지 않도록.
-                NavigationLink(destination: FontSetting()) {
-                    Label(NSLocalizedString("폰트 크기", comment: "App font size"),
-                          systemImage: "textformat.size")
-                }
             }
 
             // MARK: 카테고리 (메모 표시)
             // 앱 테마/화면 모드는 제거 — 앱은 Paper + 시스템 라이트/다크를 따름.
             Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
-                // 카테고리 색상 배지 — 상세 페이지에서 설명 + 켜고 끄기
+                // 카테고리 관리 — 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
+                NavigationLink(destination: CategorySettings()) {
+                    Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
+                          systemImage: "folder.badge.gearshape")
+                }
+                // 카테고리 심볼 — 카드 우상단에 카테고리 심볼 표시 켜고 끄기
                 NavigationLink(destination: CategoryBadgeSettingsView()) {
-                    Label(NSLocalizedString("카테고리 색상 배지", comment: "Settings: show category color badge on cards"),
-                          systemImage: "circle.fill")
+                    Label(NSLocalizedString("카테고리 심볼", comment: "Settings: show category symbol on cards"),
+                          systemImage: "tag.circle.fill")
                 }
                 // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정
                 NavigationLink(destination: CategoryIconSettings()) {
@@ -315,7 +314,7 @@ struct CategoryBadgeSettingsView: View {
         List {
             Section {
                 Toggle(isOn: $visible) {
-                    Label(NSLocalizedString("카테고리 색상 배지", comment: "Category color badge"), systemImage: "circle.fill")
+                    Label(NSLocalizedString("카테고리 심볼", comment: "Category symbol"), systemImage: "tag.circle.fill")
                 }
                 .onChange(of: visible) { _, v in
                     UserDefaults.standard.set(v, forKey: "categoryBadgeVisible")
@@ -334,7 +333,7 @@ struct CategoryBadgeSettingsView: View {
                 .padding(.vertical, 10)
             }
         }
-        .navigationTitle(NSLocalizedString("카테고리 색상 배지", comment: "Category color badge"))
+        .navigationTitle(NSLocalizedString("카테고리 심볼", comment: "Category symbol"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

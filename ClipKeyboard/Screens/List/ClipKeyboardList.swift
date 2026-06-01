@@ -1684,7 +1684,7 @@ struct ClipKeyboardList: View {
                 .foregroundColor(.blue)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(NSLocalizedString("카테고리 색상 배지", comment: "Nudge: category badge title"))
+                Text(NSLocalizedString("카테고리 심볼", comment: "Nudge: category symbol title"))
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(theme.text)
                 Text(NSLocalizedString("카드 오른쪽 점이 카테고리를 표시해요. 끄시겠어요?", comment: "Nudge: category badge message"))

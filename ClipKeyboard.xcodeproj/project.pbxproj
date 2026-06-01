@@ -21,7 +21,6 @@
 		44AF574FA8316546FCD9F690 /* ComboKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCD0BEF080AD63B0DF124A2 /* ComboKeyboardView.swift */; };
 		5802F4102A2B3C91002825D6 /* ClipboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802F40F2A2B3C91002825D6 /* ClipboardList.swift */; };
 		5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */; };
-		580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580B0D682A30C45E00C7B586 /* FontSetting.swift */; };
 		581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550632AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
@@ -185,7 +184,6 @@
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardList.swift; sourceTree = "<group>"; };
 		5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCaptureCard.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
-		580B0D682A30C45E00C7B586 /* FontSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSetting.swift; sourceTree = "<group>"; };
 		5815505F2AD52D6800A6115B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		581550622AD5321F00A6115B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
@@ -582,7 +580,6 @@
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
 				58TP00022F0000000000000002 /* ThemePickerView.swift */,
-				580B0D682A30C45E00C7B586 /* FontSetting.swift */,
 				58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */,
 				58AA11112B4D1A2100000003 /* ThemeSettings.swift */,
 				58CK00022B5E1A2100000002 /* CloudBackupView.swift */,
@@ -975,7 +972,6 @@
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
-				580B0D692A30C45E00C7B586 /* FontSetting.swift in Sources */,
 				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
 				KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */,
 				NQ00002A2F0000000000000002 /* NomadQuickSetupView.swift in Sources */,
