@@ -336,6 +336,8 @@ struct TemplateInputSheet: View {
     var sourceMemoTitle: String = ""
 
     @Environment(\.appTheme) private var theme
+    private let attachedTemplateTip = AttachedTemplateTip()
+    private let templateInfoTip = TemplateInfoTip()
 
     /// 템플릿에 든 날짜 토큰 — 자동(오늘) 대신 선택 가능.
     private var dateTokensInInput: [String] {
@@ -355,23 +357,18 @@ struct TemplateInputSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                // 상단 설명 — 다른 뷰들처럼 TipKit 팁으로(플로팅, 닫기 가능).
                 Section {
-                    if baseMemoValue.isEmpty {
-                        Text(NSLocalizedString("템플릿을 완성하세요", comment: "Complete the template"))
-                            .font(.headline)
-                            .foregroundColor(theme.textMuted)
-                    } else {
-                        // attachedTemplate 흐름 — 메모 본문 + 연결된 템플릿이 합쳐진다는 걸 설명
-                        VStack(alignment: .leading, spacing: 4) {
-                            Label(NSLocalizedString("메모 + 템플릿", comment: "Memo plus template header"),
-                                  systemImage: "doc.badge.plus")
-                                .font(.headline)
-                                .foregroundColor(theme.text)
-                            Text(NSLocalizedString("이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
-                                .font(.body)
-                                .foregroundColor(theme.textMuted)
+                    Group {
+                        if baseMemoValue.isEmpty {
+                            TipView(templateInfoTip)
+                        } else {
+                            TipView(attachedTemplateTip)
                         }
                     }
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 } header: { EmptyView() }
 
                 // 실시간 결합 미리보기 — '값 선택'보다 위에 둬서 채우는 동안 결과가 바로 보인다.
@@ -401,7 +398,7 @@ struct TemplateInputSheet: View {
                 }
 
                 Section {
-                    // 일반 템플릿과 동일한 값 선택 UI (저장값 칩·새 값 추가 등)
+                    // 값 선택 — 다른 섹션과 동일한 흰 카드 스타일(embedded: 자체 회색 카드 제거)
                     ForEach(placeholders, id: \.self) { placeholder in
                         PlaceholderSelectorView(
                             placeholder: placeholder,
@@ -410,16 +407,15 @@ struct TemplateInputSheet: View {
                             selectedValue: Binding(
                                 get: { inputs[placeholder] ?? "" },
                                 set: { inputs[placeholder] = $0 }
-                            )
+                            ),
+                            embedded: true
                         )
-                        .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
-                        .listRowBackground(Color.clear)
                     }
                 } header: {
                     Text(NSLocalizedString("값 선택", comment: "Select value"))
                 }
 
-                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택
+                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택 (다른 섹션과 동일한 흰 카드)
                 if !dateTokensInInput.isEmpty {
                     Section {
                         ForEach(dateTokensInInput, id: \.self) { token in
@@ -428,10 +424,12 @@ struct TemplateInputSheet: View {
                                 value: Binding(
                                     get: { inputs[token] ?? "" },
                                     set: { inputs[token] = $0 }
-                                )
+                                ),
+                                embedded: true
                             )
-                            .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                         }
+                    } header: {
+                        Text(NSLocalizedString("날짜", comment: "Date section header"))
                     }
                 }
             }
@@ -747,6 +745,8 @@ struct DatePlaceholderSelector: View {
     let token: String
     @Binding var value: String
     var isHighlighted: Bool = false
+    /// Form 섹션에 자연스럽게 녹이기 위해 자체 회색 카드를 끈다.
+    var embedded: Bool = false
     @Environment(\.appTheme) private var theme
     @State private var customDate: Date = Date()
 
@@ -806,12 +806,16 @@ struct DatePlaceholderSelector: View {
                 .font(.body)
                 .onChange(of: customDate) { _, d in value = Self.fmt.string(from: d) }
         }
-        .padding()
-        .background(theme.surfaceAlt)
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .padding(embedded ? 0 : 16)
+        .background(embedded ? Color.clear : theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: embedded ? 0 : theme.radiusMd, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .strokeBorder(isHighlighted ? theme.accent : theme.divider, lineWidth: isHighlighted ? 2 : 1)
+            Group {
+                if !embedded {
+                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                        .strokeBorder(isHighlighted ? theme.accent : theme.divider, lineWidth: isHighlighted ? 2 : 1)
+                }
+            }
         )
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear { if !value.isEmpty, let d = Self.fmt.date(from: value) { customDate = d } }

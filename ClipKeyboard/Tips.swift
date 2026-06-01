@@ -119,6 +119,21 @@ struct TemplateInfoTip: Tip {
     }
 }
 
+// MARK: - AttachedTemplateTip
+// 메모+템플릿(attachedTemplate) 입력 시트 상단 설명.
+
+struct AttachedTemplateTip: Tip {
+    var title: Text {
+        Text(NSLocalizedString("메모 + 템플릿", comment: "Memo plus template header"))
+    }
+    var message: Text? {
+        Text(NSLocalizedString("이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
+    }
+    var image: Image? {
+        Image(systemName: "doc.badge.plus")
+    }
+}
+
 // MARK: - Sample UUID Storage
 
 enum SampleMemoStorage {

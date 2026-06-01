@@ -15,6 +15,8 @@ struct PlaceholderSelectorView: View {
     @Binding var selectedValue: String
     /// 미리보기 칩을 탭해 이 박스로 포커스가 옮겨졌을 때 강조 테두리 표시
     var isHighlighted: Bool = false
+    /// Form 섹션 안에 넣을 때 — 자체 회색 카드/패딩을 끄고 섹션의 흰 카드에 자연스럽게 녹인다.
+    var embedded: Bool = false
     @Environment(\.appTheme) private var theme
 
     @State private var values: [PlaceholderValue] = []
@@ -141,13 +143,17 @@ struct PlaceholderSelectorView: View {
                 }
             }
         }
-        .padding()
-        .background(theme.surfaceAlt)
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .padding(embedded ? 0 : 16)
+        .background(embedded ? Color.clear : theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: embedded ? 0 : theme.radiusMd, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .strokeBorder(isHighlighted ? theme.accent : theme.divider,
-                              lineWidth: isHighlighted ? 2 : 1)
+            Group {
+                if !embedded {
+                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                        .strokeBorder(isHighlighted ? theme.accent : theme.divider,
+                                      lineWidth: isHighlighted ? 2 : 1)
+                }
+            }
         )
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear {
