@@ -133,8 +133,11 @@ struct SettingView: View {
                             Image(systemName: "keyboard.badge.eye")
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.body).foregroundStyle(.tertiary)
+                        // 시스템 디스클로저 인디케이터와 동일한 톤·크기로 맞춤
+                        // (형제 NavigationLink 행들의 기본 chevron과 일치시키기 위함)
+                        Image(systemName: "chevron.forward")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(Color(uiColor: .tertiaryLabel))
                             .accessibilityHidden(true)
                     }
                 }
