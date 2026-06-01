@@ -318,8 +318,6 @@ struct KeyboardPreviewView: View {
     private var categoryFeatureEnabled: Bool { ud?.bool(forKey: "category.feature.enabled.v1") ?? false }
     private var allUserCats: [String] { ud?.stringArray(forKey: "userDefinedCategories_v1") ?? [] }
     private var hiddenCats: Set<String> { Set(ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []) }
-    private var customIcons: [String: String] { ud?.dictionary(forKey: "userCategoryIcons_v1") as? [String: String] ?? [:] }
-
     private var categoryPages: [String] {
         guard categoryFeatureEnabled else { return [] }
         var pages = ["★all"]
@@ -335,21 +333,13 @@ struct KeyboardPreviewView: View {
     private func catIcon(_ key: String) -> String {
         if key == "★all"       { return "square.grid.2x2.fill" }
         if key == "★favorites" { return "heart.fill" }
-        if let c = customIcons[key] { return c }
-        let palette = ["folder.fill","bookmark.fill","tag.fill","briefcase.fill",
-                       "star.fill","heart.circle.fill","person.fill","house.fill"]
-        let idx = allUserCats.firstIndex(of: key) ?? 0
-        return palette[idx % palette.count]
+        return categorySymbol(for: key, in: allUserCats)
     }
-    private var customColors: [String: String] { ud?.dictionary(forKey: "userCategoryColors_v1") as? [String: String] ?? [:] }
     private func catColor(_ key: String) -> Color {
         if key == "★all"       { return .blue }
         // 익스텐션의 colorForCategoryKey와 동일한 즐겨찾기 색 #FF4A9E
         if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
-        if let hex = customColors[key], let c = Color(hex: hex) { return c }
-        let pal: [Color] = [.blue,.green,.orange,.purple,.teal,.indigo,.cyan]
-        let idx = allUserCats.firstIndex(of: key) ?? 0
-        return pal[idx % pal.count]
+        return categoryTint(for: key, in: allUserCats)
     }
 
     /// 메모가 속한 사용자 카테고리 색(익스텐션 categoryColorFor와 동일). 미해당이면 nil.

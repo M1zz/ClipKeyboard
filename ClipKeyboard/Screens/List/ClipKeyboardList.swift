@@ -701,24 +701,13 @@ struct ClipKeyboardList: View {
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
     private func customCategoryColor(_ name: String) -> Color {
-        if let hex = CategoryStore.shared.colorHex(for: name), let c = Color(hex: hex) {
-            return c
-        }
-        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
-        let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
-        return palette[idx % palette.count]
+        categoryTint(for: name, in: viewModel.customCategories)
     }
 
     /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
     private func customCategoryIcon(_ name: String) -> String {
-        // 사용자가 '카테고리 아이콘' 설정(CategoryIconSettings)에서 지정한 커스텀 심볼 우선.
-        // 색맹 사용자가 색 대신 심볼로 카테고리를 구분할 수 있게 한다. 미지정 시 기본 팔레트.
-        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
-           let symbol = custom[name] {
-            return symbol
-        }
-        return defaultIcon(for: name, in: viewModel.customCategories)
+        // 색맹 사용자가 색 대신 심볼로 카테고리를 구분할 수 있게 한다(공유 헬퍼).
+        categorySymbol(for: name, in: viewModel.customCategories)
     }
 
     // MARK: - Category Tab Bar
@@ -2061,12 +2050,7 @@ private struct MemoActionSheet: View {
 
     /// 카테고리 심볼 — 카드/키보드와 동일(사용자 지정 우선, 없으면 기본 팔레트).
     private func categoryIcon(_ name: String) -> String {
-        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
-           let symbol = custom[name] {
-            return symbol
-        }
-        return defaultIcon(for: name, in: categories)
+        categorySymbol(for: name, in: categories)
     }
 }
 
@@ -2756,23 +2740,11 @@ struct CategoryManagementSheet: View {
         }
     }
 
-    /// 카드/키보드와 동일한 카테고리 심볼.
+    /// 카드/키보드와 동일한 카테고리 심볼·색(공유 헬퍼 위임).
     private func categoryIconForName(_ name: String) -> String {
-        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
-           let symbol = custom[name] {
-            return symbol
-        }
-        return defaultIcon(for: name, in: viewModel.customCategories)
+        categorySymbol(for: name, in: viewModel.customCategories)
     }
-
-    /// 카드/키보드와 동일한 카테고리 색.
     private func categoryColorForName(_ name: String) -> Color {
-        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .dictionary(forKey: "userCategoryColors_v1") as? [String: String],
-           let hex = custom[name], let c = Color(hex: hex) {
-            return c
-        }
-        return defaultColor(for: name, in: viewModel.customCategories)
+        categoryTint(for: name, in: viewModel.customCategories)
     }
 }

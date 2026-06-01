@@ -183,13 +183,8 @@ struct CategorySettings: View {
 
     private func colorBinding(_ category: String) -> Binding<Color> {
         Binding(
-            get: {
-                if let hex = store.colorHex(for: category), let c = Color(hex: hex) { return c }
-                return defaultPaletteColor(category)
-            },
-            set: { newColor in
-                store.setColorHex(newColor.toHex(), for: category)
-            }
+            get: { categoryTint(for: category, in: store.allCategories) },
+            set: { newColor in store.setColorHex(newColor.toHex(), for: category) }
         )
     }
 
@@ -198,13 +193,6 @@ struct CategorySettings: View {
             get: { store.isVisible(category) },
             set: { store.setVisible(category, $0) }
         )
-    }
-
-    /// 미지정 시 기본 팔레트 색 — ClipKeyboardList의 매핑과 동일(순서 기반).
-    private func defaultPaletteColor(_ category: String) -> Color {
-        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
-        let idx = store.allCategories.firstIndex(of: category) ?? 0
-        return palette[idx % palette.count]
     }
 }
 
