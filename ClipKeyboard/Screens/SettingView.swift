@@ -169,35 +169,15 @@ struct SettingView: View {
                 }
             }
 
-            // MARK: 화면
-            // 앱 외관 관련
-            Section(NSLocalizedString("화면", comment: "Settings section: appearance")) {
-                NavigationLink(destination: ThemePickerView()) {
-                    HStack {
-                        Label(NSLocalizedString("앱 테마", comment: "Settings: theme picker"),
-                              systemImage: "paintpalette")
-                        Spacer()
-                        Text(AppThemePreference.shared.kind.displayName)
-                            .foregroundColor(theme.textMuted).font(.body)
-                    }
-                }
-                NavigationLink(destination: AppearanceModePickerView()) {
-                    HStack {
-                        Label(NSLocalizedString("화면 모드", comment: "Settings: appearance mode"),
-                              systemImage: "circle.lefthalf.filled")
-                        Spacer()
-                        Text(AppThemePreference.shared.mode.displayName)
-                            .foregroundColor(theme.textMuted).font(.body)
-                    }
-                }
-                Toggle(isOn: Binding(
-                    get: { UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true },
-                    set: { UserDefaults.standard.set($0, forKey: "categoryBadgeVisible") }
-                )) {
+            // MARK: 카테고리 (메모 표시)
+            // 앱 테마/화면 모드는 제거 — 앱은 Paper + 시스템 라이트/다크를 따름.
+            Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
+                // 카테고리 색상 배지 — 상세 페이지에서 설명 + 켜고 끄기
+                NavigationLink(destination: CategoryBadgeSettingsView()) {
                     Label(NSLocalizedString("카테고리 색상 배지", comment: "Settings: show category color badge on cards"),
                           systemImage: "circle.fill")
                 }
-                // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정 → iOS(화면) 쪽에 배치
+                // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정
                 NavigationLink(destination: CategoryIconSettings()) {
                     Label(NSLocalizedString("카테고리 아이콘", comment: "Category icon settings"),
                           systemImage: "square.grid.2x2.fill")
@@ -307,6 +287,72 @@ struct SettingView: View {
     // 앱 버전 정보를 Info.plist에서 자동으로 가져오기
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+    }
+}
+
+// MARK: - Category Badge Settings
+
+/// '카테고리 색상 배지' 토글 + 설명 + 켜짐/꺼짐 미리보기.
+struct CategoryBadgeSettingsView: View {
+    @Environment(\.appTheme) private var theme
+    @State private var visible = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
+
+    var body: some View {
+        List {
+            Section {
+                Toggle(isOn: $visible) {
+                    Label(NSLocalizedString("카테고리 색상 배지", comment: "Category color badge"), systemImage: "circle.fill")
+                }
+                .onChange(of: visible) { _, v in
+                    UserDefaults.standard.set(v, forKey: "categoryBadgeVisible")
+                }
+            } footer: {
+                Text(NSLocalizedString("메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요.", comment: "Category badge explanation"))
+                    .font(.body)
+            }
+
+            Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
+                HStack(spacing: 20) {
+                    miniCard(withBadge: true, label: NSLocalizedString("켜짐", comment: "On"))
+                    miniCard(withBadge: false, label: NSLocalizedString("꺼짐", comment: "Off"))
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+            }
+        }
+        .navigationTitle(NSLocalizedString("카테고리 색상 배지", comment: "Category color badge"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .toolbarBackground(theme.bg, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+    }
+
+    private func miniCard(withBadge: Bool, label: String) -> some View {
+        VStack(spacing: 8) {
+            ZStack(alignment: .topTrailing) {
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .fill(theme.accent)
+                    .frame(width: 116, height: 84)
+                    .overlay(alignment: .bottomLeading) {
+                        Text(NSLocalizedString("메모", comment: "Memo"))
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(10)
+                    }
+                if withBadge {
+                    Image(systemName: "folder.fill")
+                        .font(.title3)
+                        .foregroundColor(.white.opacity(0.9))
+                        .padding(10)
+                }
+            }
+            Text(label)
+                .font(.footnote)
+                .foregroundColor(theme.textMuted)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(label)
     }
 }
 

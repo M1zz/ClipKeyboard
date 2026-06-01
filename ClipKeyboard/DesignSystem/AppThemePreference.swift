@@ -25,12 +25,10 @@ final class AppThemePreference: ObservableObject {
     }
 
     init() {
-        let storedKind = UserDefaults.standard.string(forKey: kindKey)
-            .flatMap(AppThemeKind.init(rawValue:)) ?? .paper
-        let storedMode = UserDefaults.standard.string(forKey: modeKey)
-            .flatMap(AppThemeMode.init(rawValue:)) ?? .system
-        self.kind = storedKind
-        self.mode = storedMode
+        // v4.3: 테마/화면모드 선택 기능 제거 — 앱은 Paper 테마 + 시스템 라이트/다크를 따른다.
+        // (다크모드를 완벽 지원하므로 별도 모드 선택이 불필요.)
+        self.kind = .paper
+        self.mode = .system
     }
 
     /// 주어진 시스템 colorScheme과 사용자 설정을 종합해 AppTheme 인스턴스 반환.

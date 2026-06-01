@@ -23798,6 +23798,74 @@
           }
         }
       }
+    },
+    "메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요." : {
+      "comment" : "Category badge explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the memo's category as a color and symbol in the top-right of each card. The symbol lets colorblind users tell categories apart too. Turn it off for cleaner cards."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan kategori memo sebagai warna dan simbol di kanan atas setiap kartu. Simbolnya juga membantu pengguna buta warna membedakan kategori. Matikan untuk kartu yang lebih bersih."
+          }
+        }
+      }
+    },
+    "켜짐" : {
+      "comment" : "On",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktif"
+          }
+        }
+      }
+    },
+    "꺼짐" : {
+      "comment" : "Off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nonaktif"
+          }
+        }
+      }
+    },
+    "페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다." : {
+      "comment" : "Persona is recommendation-only note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choosing a persona doesn't add any memos. It only changes the recommendations you see (suggested memos · category names)."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memilih persona tidak menambahkan memo apa pun. Ini hanya mengubah rekomendasi yang Anda lihat (memo yang disarankan · nama kategori)."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

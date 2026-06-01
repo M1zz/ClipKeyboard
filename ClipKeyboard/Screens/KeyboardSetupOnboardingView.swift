@@ -770,6 +770,17 @@ struct PersonaSelectionView: View {
             VStack(spacing: 12) {
                 PreviewChips(persona: selected)
 
+                // 안내: 페르소나를 골라도 메모/값이 추가되는 게 아니라, 그에 맞는 추천만 바뀐다.
+                HStack(spacing: 6) {
+                    Image(systemName: "info.circle")
+                        .accessibilityHidden(true)
+                    Text(NSLocalizedString("페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다.", comment: "Persona is recommendation-only note"))
+                }
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
+
                 Button {
                     apply()
                 } label: {
