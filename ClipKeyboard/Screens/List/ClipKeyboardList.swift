@@ -49,6 +49,8 @@ struct ClipKeyboardList: View {
     // Category badge nudge
     @State private var categoryBadgeVisible: Bool = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
     @State private var showCategoryBadgeNudge: Bool = false
+    /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
+    @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
 
     // Category
     @State private var showCategoryManagement: Bool = false
@@ -479,20 +481,18 @@ struct ClipKeyboardList: View {
                 memoTypeIcon(memo: memo, onColor: onColor)
                 Spacer()
                 // 우상단 = 카테고리 식별 심볼(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
+                // 메모+템플릿(attachedTemplate) 결합 메모는 심볼에 "+"를 합쳐 표시.
+                let hasAttachedTemplate = !memo.isTemplate && memo.attachedTemplateId != nil
                 if memo.isFavorite {
-                    Image(systemName: "heart.fill")
-                        .font(.title2)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                        .accessibilityHidden(true)
+                    topRightSymbol(systemName: "heart.fill",
+                                   color: onColor ? .white.opacity(0.9) : .clipFavorite,
+                                   plus: hasAttachedTemplate, onColor: onColor)
                 } else if categoryBadgeVisible,
                           CategoryStore.shared.isFeatureEnabled,
                           viewModel.customCategories.contains(memo.category) {
-                    Image(systemName: customCategoryIcon(memo.category))
-                        .font(.title2)
-                        .foregroundColor(onColor
-                            ? .white.opacity(0.85)
-                            : customCategoryColor(memo.category))
-                        .accessibilityHidden(true)
+                    topRightSymbol(systemName: customCategoryIcon(memo.category),
+                                   color: onColor ? .white.opacity(0.85) : customCategoryColor(memo.category),
+                                   plus: hasAttachedTemplate, onColor: onColor)
                 }
             }
             Spacer(minLength: 16)
@@ -505,7 +505,7 @@ struct ClipKeyboardList: View {
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
-        .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
         .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
@@ -656,6 +656,24 @@ struct ClipKeyboardList: View {
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
         return palette[idx % palette.count]
+    }
+
+    /// 우상단 식별 심볼. attachedTemplate(메모+템플릿) 결합 메모면 "+" 배지를 합쳐 표시.
+    @ViewBuilder
+    private func topRightSymbol(systemName: String, color: Color, plus: Bool, onColor: Bool) -> some View {
+        Image(systemName: systemName)
+            .font(.title2)
+            .foregroundColor(color)
+            .overlay(alignment: .bottomTrailing) {
+                if plus {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(onColor ? .white : .purple)
+                        .background(Circle().fill(onColor ? Color.black.opacity(0.3) : Color(uiColor: .systemBackground)))
+                        .offset(x: 5, y: 5)
+                }
+            }
+            .accessibilityHidden(true)
     }
 
     /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
@@ -1003,7 +1021,7 @@ struct ClipKeyboardList: View {
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.textFaint)
             }
-            .frame(maxWidth: .infinity, minHeight: 140)  // 메모 셀과 동일 높이
+            .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
             .background(theme.surface.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
             .overlay {

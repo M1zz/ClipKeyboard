@@ -172,18 +172,21 @@ struct SettingView: View {
                 }
             }
 
-            // MARK: 카테고리 (메모 표시)
-            // 앱 테마/화면 모드는 제거 — 앱은 Paper + 시스템 라이트/다크를 따름.
+            // MARK: 디스플레이 (이 앱에서만의 메모 표시 방식)
+            // 메모 셀 높이·우상단 심볼 표시 등 화면 표시 전용 설정.
+            Section(NSLocalizedString("디스플레이", comment: "Settings section: display")) {
+                NavigationLink(destination: DisplaySettingsView()) {
+                    Label(NSLocalizedString("메모 표시", comment: "Memo display settings entry"),
+                          systemImage: "rectangle.grid.1x2")
+                }
+            }
+
+            // MARK: 카테고리 (공용 — 메모·키보드 양쪽에서 사용)
             Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
                 // 카테고리 관리 — 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
                 NavigationLink(destination: CategorySettings()) {
                     Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
                           systemImage: "folder.badge.gearshape")
-                }
-                // 카테고리 심볼 — 카드 우상단에 카테고리 심볼 표시 켜고 끄기
-                NavigationLink(destination: CategoryBadgeSettingsView()) {
-                    Label(NSLocalizedString("카테고리 심볼", comment: "Settings: show category symbol on cards"),
-                          systemImage: "tag.circle.fill")
                 }
                 // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정
                 NavigationLink(destination: CategoryIconSettings()) {
@@ -306,15 +309,35 @@ struct SettingView: View {
     }
 }
 
-// MARK: - Category Badge Settings
+// MARK: - Display Settings
 
-/// '카테고리 색상 배지' 토글 + 설명 + 켜짐/꺼짐 미리보기.
-struct CategoryBadgeSettingsView: View {
+/// 메모 표시 방식(이 앱 전용) — 메모 셀 높이 + 우상단 카테고리 심볼 표시.
+struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
     @State private var visible = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
+    /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
+    @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
 
     var body: some View {
         List {
+            // 메모 높이
+            Section {
+                Picker(selection: $memoCardHeight) {
+                    Text(NSLocalizedString("작게", comment: "Small")).tag(110.0)
+                    Text(NSLocalizedString("보통", comment: "Medium")).tag(140.0)
+                    Text(NSLocalizedString("크게", comment: "Large")).tag(180.0)
+                } label: {
+                    Label(NSLocalizedString("메모 높이", comment: "Memo cell height"), systemImage: "arrow.up.and.down")
+                }
+                .pickerStyle(.segmented)
+            } header: {
+                Text(NSLocalizedString("메모 높이", comment: "Memo cell height"))
+            } footer: {
+                Text(NSLocalizedString("리스트에서 메모 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.", comment: "Memo height explanation"))
+                    .font(.body)
+            }
+
+            // 우상단 심볼
             Section {
                 Toggle(isOn: $visible) {
                     Label(NSLocalizedString("카테고리 심볼", comment: "Category symbol"), systemImage: "tag.circle.fill")
@@ -322,6 +345,8 @@ struct CategoryBadgeSettingsView: View {
                 .onChange(of: visible) { _, v in
                     UserDefaults.standard.set(v, forKey: "categoryBadgeVisible")
                 }
+            } header: {
+                Text(NSLocalizedString("우상단 심볼", comment: "Top-right symbol section"))
             } footer: {
                 Text(NSLocalizedString("메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요.", comment: "Category badge explanation"))
                     .font(.body)
@@ -336,7 +361,7 @@ struct CategoryBadgeSettingsView: View {
                 .padding(.vertical, 10)
             }
         }
-        .navigationTitle(NSLocalizedString("카테고리 심볼", comment: "Category symbol"))
+        .navigationTitle(NSLocalizedString("메모 표시", comment: "Memo display settings entry"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

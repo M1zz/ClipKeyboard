@@ -24172,6 +24172,108 @@
           }
         }
       }
+    },
+    "디스플레이" : {
+      "comment" : "Settings section: display",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilan"
+          }
+        }
+      }
+    },
+    "메모 표시" : {
+      "comment" : "Memo display settings entry",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo display"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilan memo"
+          }
+        }
+      }
+    },
+    "메모 높이" : {
+      "comment" : "Memo cell height",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo height"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinggi memo"
+          }
+        }
+      }
+    },
+    "보통" : {
+      "comment" : "Medium",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sedang"
+          }
+        }
+      }
+    },
+    "우상단 심볼" : {
+      "comment" : "Top-right symbol section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top-right symbol"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbol kanan atas"
+          }
+        }
+      }
+    },
+    "리스트에서 메모 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로." : {
+      "comment" : "Memo height explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set how tall memo cards are in the list. Smaller fits more per screen; larger shows bigger titles."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atur tinggi kartu memo di daftar. Lebih kecil memuat lebih banyak; lebih besar menampilkan judul lebih besar."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
