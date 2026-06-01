@@ -588,6 +588,7 @@ struct KeyboardView: View {
             Image(systemName: "magnifyingglass")
                 .font(.footnote)
                 .foregroundColor(.secondary)
+                .accessibilityHidden(true)
 
             if isSearching {
                 Text(searchQuery.isEmpty
@@ -878,6 +879,7 @@ struct KeyboardView: View {
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.caption2.weight(.semibold))
                     .foregroundColor(theme.textFaint)
+                    .accessibilityHidden(true)
                 ForEach(recentMemos) { memo in
                     recentChip(memo)
                 }

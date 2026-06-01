@@ -16375,7 +16375,7 @@
       }
     },
     "스페이스" : {
-      "comment" : "Spacebar (ko)",
+      "comment" : "Space key\nSpacebar (ko)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18273,7 +18273,7 @@
       }
     },
     "이미지 메모" : {
-      "comment" : "Image\nImage memo\nVoiceOver: image memo",
+      "comment" : "Image\nImage memo\nVoiceOver: image memo\nVoiceOver: image memo badge",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18790,6 +18790,23 @@
         }
       }
     },
+    "입력 언어 전환" : {
+      "comment" : "Toggle input language key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switch input language"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganti bahasa input"
+          }
+        }
+      }
+    },
     "입력 연습 공간" : {
       "comment" : "Practice text area label",
       "localizations" : {
@@ -18815,6 +18832,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mengetik..."
+          }
+        }
+      }
+    },
+    "입력 취소" : {
+      "comment" : "Cancel value input",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel input"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batalkan input"
           }
         }
       }
@@ -19304,6 +19338,23 @@
         }
       }
     },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
+          }
+        }
+      }
+    },
     "저장 실패: %@" : {
       "localizations" : {
         "en" : {
@@ -19331,19 +19382,20 @@
         }
       }
     },
-    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
-      "comment" : "Clear all confirm message",
+    "저장할 텍스트를 입력하세요" : {
+      "comment" : "Quick add placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+            "value" : "Enter text to save"
           }
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+            "state" : "translated",
+            "value" : "Masukkan teks untuk disimpan"
           }
         }
       }
@@ -19368,23 +19420,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
           }
         }
       }
@@ -19424,6 +19459,23 @@
         }
       }
     },
+    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
+      "comment" : "Clear all confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
     "저장됨" : {
       "comment" : "Saved toast",
       "localizations" : {
@@ -19455,24 +19507,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
-          }
-        }
-      }
-    },
-    "저장할 텍스트를 입력하세요" : {
-      "comment" : "Quick add placeholder",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter text to save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masukkan teks untuk disimpan"
           }
         }
       }
@@ -22485,6 +22519,23 @@
         }
       }
     },
+    "탭하면 콤보에 추가" : {
+      "comment" : "Tap to add to combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to add to combo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk menambah ke kombo"
+          }
+        }
+      }
+    },
     "탭하면 클립보드에 복사, 꾹 누르면 추가 옵션" : {
       "comment" : "Memo card hint",
       "localizations" : {
@@ -24407,23 +24458,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "입력 언어 전환" : {
-      "comment" : "Toggle input language key",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Switch input language"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ganti bahasa input"
           }
         }
       }

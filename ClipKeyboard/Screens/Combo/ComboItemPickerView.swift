@@ -243,8 +243,10 @@ struct MemoPickerRow: View {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(.blue)
                 }
+                .accessibilityHidden(true)
             }
         }
+        .accessibilityHint(NSLocalizedString("탭하면 콤보에 추가", comment: "Tap to add to combo"))
     }
 }
 
@@ -263,6 +265,7 @@ struct ClipboardPickerRow: View {
                         Image(systemName: item.detectedType.icon)
                             .foregroundColor(.blue)
                             .font(.body)
+                            .accessibilityHidden(true)
                         Text(item.detectedType.localizedName)
                             .font(.body)
                             .foregroundColor(theme.textMuted)
@@ -282,8 +285,10 @@ struct ClipboardPickerRow: View {
 
                 Image(systemName: "plus.circle.fill")
                     .foregroundColor(.blue)
+                    .accessibilityHidden(true)
             }
         }
+        .accessibilityHint(NSLocalizedString("탭하면 콤보에 추가", comment: "Tap to add to combo"))
     }
 }
 
@@ -302,6 +307,7 @@ struct TemplatePickerRow: View {
                         Image(systemName: "doc.text.fill")
                             .foregroundColor(.purple)
                             .font(.body)
+                            .accessibilityHidden(true)
                         Text(template.title)
                             .font(.body)
                             .foregroundColor(.primary)
@@ -317,6 +323,7 @@ struct TemplatePickerRow: View {
                         HStack(spacing: 4) {
                             Image(systemName: "curlybraces")
                                 .font(.caption2)
+                                .accessibilityHidden(true)
                             Text(String(format: NSLocalizedString("%d개 변수", comment: "Variable count"), template.templateVariables.count))
                                 .font(.caption2)
                         }
@@ -336,8 +343,10 @@ struct TemplatePickerRow: View {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(.blue)
                 }
+                .accessibilityHidden(true)
             }
         }
+        .accessibilityHint(NSLocalizedString("탭하면 콤보에 추가", comment: "Tap to add to combo"))
     }
 }
 

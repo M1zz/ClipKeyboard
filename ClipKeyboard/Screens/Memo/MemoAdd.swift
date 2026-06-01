@@ -681,6 +681,7 @@ struct MemoAdd: View {
                                 .foregroundColor(.purple)
                                 .font(.system(.body))
                         }
+                        .accessibilityLabel(NSLocalizedString("새 템플릿 만들기", comment: "Create new template button"))
                     }
                     .padding(.leading, 32)
 
@@ -1033,6 +1034,7 @@ struct PlaceholderValueEditor: View {
                 HStack(spacing: 4) {
                     Image(systemName: isNumeric ? "number" : "list.bullet")
                         .font(.system(.caption2, weight: .semibold))
+                        .accessibilityHidden(true)
                     Text(isNumeric
                          ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
                          : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
@@ -1052,6 +1054,9 @@ struct PlaceholderValueEditor: View {
                     Image(systemName: isAdding ? "xmark.circle.fill" : "plus.circle.fill")
                         .foregroundColor(isAdding ? .red : .blue)
                 }
+                .accessibilityLabel(isAdding
+                    ? NSLocalizedString("입력 취소", comment: "Cancel value input")
+                    : NSLocalizedString("값 추가", comment: "Add combo value button"))
             }
 
             // 값 목록
