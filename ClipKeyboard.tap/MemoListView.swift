@@ -134,7 +134,7 @@ struct MemoListView: View {
                                 if memo.contentType == .image {
                                     copyImageToClipboard(memo)
                                 } else {
-                                    copyToClipboard(memo.value)
+                                    copyToClipboard(memo.resolvedForPaste())
                                 }
                             }
                         }
@@ -268,13 +268,13 @@ struct CompactMemoItemRow: View {
                     }
 
                     if memo.contentType == .mixed && !memo.value.isEmpty {
-                        Text(memo.value)
+                        Text(memo.value.templateChipAttributed())
                             .font(.system(.caption))
                             .lineLimit(1)
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    Text(memo.value)
+                    Text(memo.value.templateChipAttributed())
                         .font(.system(.caption))
                         .lineLimit(1)
                         .foregroundStyle(.secondary)

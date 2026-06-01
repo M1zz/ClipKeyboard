@@ -259,7 +259,7 @@ struct MenuBarPopoverView: View {
 
     private func copyMemo(_ memo: Memo, paste: Bool) {
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(memo.value, forType: .string)
+        NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
         print("✅ [Popover] 복사: \(memo.title)")
         dismiss()
         if paste {
@@ -308,7 +308,7 @@ private struct PopoverRow: View {
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
-                        Text(preview)
+                        Text(preview.templateChipAttributed())
                             .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)

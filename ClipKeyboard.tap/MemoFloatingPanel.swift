@@ -98,7 +98,7 @@ final class MemoFloatingPanelController: NSObject {
     private func handleSelect(_ memo: Memo) {
         // 1) 클립보드에 텍스트 기록
         NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(memo.value, forType: .string)
+        NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
         print("📋 [FloatingPanel] 메모 복사: \(memo.title)")
 
         // 2) 패널 닫기 (원래 전경 앱은 포커스 잃은 적 없음)
@@ -188,7 +188,7 @@ struct MemoFloatingPanelView: View {
                     .contextMenu {
                         Button(NSLocalizedString("Copy", comment: "Context: copy")) {
                             NSPasteboard.general.clearContents()
-                            NSPasteboard.general.setString(memo.value, forType: .string)
+                            NSPasteboard.general.setString(memo.resolvedForPaste(), forType: .string)
                             onDismiss()
                         }
                         Button(NSLocalizedString("Copy and Paste", comment: "Popover context: copy + paste")) {
@@ -249,7 +249,7 @@ private struct FloatingMemoRow: View {
                         .replacingOccurrences(of: "\n", with: " ")
                         .trimmingCharacters(in: .whitespaces)
                     if !preview.isEmpty {
-                        Text(preview)
+                        Text(preview.templateChipAttributed())
                             .font(.system(.caption))
                             .foregroundColor(.secondary)
                             .lineLimit(1)
