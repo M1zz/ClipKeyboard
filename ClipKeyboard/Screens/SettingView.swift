@@ -15,6 +15,12 @@ struct SettingView: View {
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
     @State private var showKeyboardGuide = false
+    @State private var securePINSet = false
+
+    private func refreshSecurePINState() {
+        let hash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        securePINSet = !hash.isEmpty
+    }
 
     var body: some View {
         List {
@@ -192,8 +198,15 @@ struct SettingView: View {
                           systemImage: "icloud.and.arrow.up")
                 }
                 NavigationLink(destination: SecurePINSettings()) {
-                    Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
-                          systemImage: "lock.shield")
+                    HStack {
+                        Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
+                              systemImage: "lock.shield")
+                        Spacer()
+                        Text(securePINSet
+                             ? NSLocalizedString("설정됨", comment: "PIN is set")
+                             : NSLocalizedString("없음", comment: "PIN not set / none"))
+                            .foregroundColor(theme.textMuted).font(.body)
+                    }
                 }
                 NavigationLink(destination: CopyPasteView()) {
                     Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
@@ -270,6 +283,7 @@ struct SettingView: View {
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear { refreshSecurePINState() }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .background(theme.bg.ignoresSafeArea())
@@ -630,7 +644,7 @@ struct ReviewWriteView: View {
                     .foregroundColor(theme.textMuted)
             }
         }
-        .navigationTitle(NSLocalizedString("리뷰 및 평점", comment: "Review navigation title"))
+        .navigationTitle(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

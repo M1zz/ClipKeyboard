@@ -99,7 +99,7 @@ struct SecurePINSettings: View {
         } message: {
             Text(NSLocalizedString("PIN을 삭제하면 보안 메모 잠금이 해제됩니다. 계속하시겠습니까?", comment: "Delete PIN confirm message"))
         }
-        .navigationTitle(NSLocalizedString("보안 PIN", comment: "Secure PIN nav title"))
+        .navigationTitle(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

@@ -601,7 +601,7 @@ struct UsageGuideView: View {
             .padding(16)
         }
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("Usage scenarios", comment: "Screen title: usage guide"))
+        .navigationTitle(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(theme.bg, for: .navigationBar)

@@ -36,7 +36,7 @@ struct FontSetting: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("앱 내 폰트 크기", comment: "App font size"))
+        .navigationTitle(NSLocalizedString("폰트 크기", comment: "App font size"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(theme.bg, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
