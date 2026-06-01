@@ -9,13 +9,11 @@ import UIKit
 import SwiftUI
 
 typealias KeyboardData = [String:String]
-// var displayKeyboardData: KeyboardData = [:]
 var clipKey: [String] = []
 var clipValue: [String] = []
 var clipMemoId: [UUID] = []  // 메모 ID 저장
 var clipMemos: [Memo] = []  // 전체 메모 객체 저장
 var tappedIndex = 2
-var clipboardData: KeyboardData = [:]
 var memoData: KeyboardData = [:]
 
 class KeyboardViewController: UIInputViewController {
@@ -25,40 +23,6 @@ class KeyboardViewController: UIInputViewController {
     private var deleteStartTime: Date?
     private var notificationTokens: [NSObjectProtocol] = []
 
-    private let flowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 0
-        return layout
-    }()
-    
-    private lazy var customCollectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        view.isScrollEnabled = true
-        view.showsHorizontalScrollIndicator = true
-        view.showsVerticalScrollIndicator = false
-        view.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        view.contentInset = .zero
-        view.backgroundColor = .systemGray5
-        view.clipsToBounds = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: 38).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
-        button.setImage(UIImage(systemName: "delete.backward"), for: .normal)
-        button.tintColor = .black
-        button.backgroundColor = .systemGray2
-        button.setTitleColor(.black, for: .normal)
-        return button
-    }()
-    
     private let globeKeyboardButton: UIButton = {
             let button = UIButton(type: .system)
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -767,44 +731,7 @@ class KeyboardViewController: UIInputViewController {
 
 }
 
-//extension KeyboardViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return clipKey.count
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 10
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = customCollectionView.dequeueReusableCell(withReuseIdentifier: "cellIdentifier", for: indexPath) as? CollectionViewCell else {
-//            return CollectionViewCell()
-//        }
-//        cell.setTitle(clipKey[indexPath.row])
-//        cell.delegate = self
-//        
-//        return cell
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let label = UILabel(frame: .zero)
-//        label.text = clipKey[indexPath.row]
-//        label.sizeToFit()
-//        
-//        if label.frame.width > 150 {
-//            return CGSize(width: 150, height: 40)
-//        } else {
-//            return CGSize(width: label.frame.width + 20, height: 40)
-//        }
-//    }
-//}
 
-extension KeyboardViewController: TextInput {
-    func tapped(text: String, memoId: UUID) {
-        print("📱 [KeyboardViewController] 메모 터치됨 - ID: \(memoId)")
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "addTextEntry"), object: text, userInfo: ["memoId": memoId])
-    }
-}
 
 extension String {
     func textSize() -> CGFloat {
