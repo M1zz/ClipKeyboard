@@ -100,6 +100,7 @@
 		8359E806AD334EBE9AD02EED /* ClassifyClipboardUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359E806AD334EBE9AD02EEC /* ClassifyClipboardUseCase.swift */; };
 		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
 		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
+		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
 		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
 		A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		A2BA33458AA645918E1CDF85 /* ComboRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA33458AA645918E1CDF84 /* ComboRepository.swift */; };
@@ -248,6 +249,7 @@
 		A11Y00012F0000000000000000 /* AccessibilityGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityGuideView.swift; sourceTree = "<group>"; };
 		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
+		TSH00022F0000000000000002 /* TemplateSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSheets.swift; sourceTree = "<group>"; };
 		9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSelectorView.swift; sourceTree = "<group>"; };
 		9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2BA33458AA645918E1CDF84 /* ComboRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboRepository.swift; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 			isa = PBXGroup;
 			children = (
 				9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */,
+				TSH00022F0000000000000002 /* TemplateSheets.swift */,
 				9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */,
 			);
 			path = Template;
@@ -942,6 +945,7 @@
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
+				TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */,
 				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
 				KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
