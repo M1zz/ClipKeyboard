@@ -626,6 +626,7 @@ struct MemoAdd: View {
                     HStack(spacing: 8) {
                         Image(systemName: "doc.badge.plus")
                             .foregroundColor(.purple)
+                            .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(NSLocalizedString("+ 템플릿 연결", comment: "Attach template toggle"))
                                 .font(.body)
