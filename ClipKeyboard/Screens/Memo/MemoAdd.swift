@@ -37,7 +37,6 @@ struct MemoAdd: View {
     var insertedComboValues: [String] = []
     var insertedHint: String = ""
     var insertedIsFavorite: Bool = false
-    var openImagePickerOnAppear: Bool = false
 
     // MARK: - View-only State
 
@@ -147,11 +146,6 @@ struct MemoAdd: View {
                 insertedHint: insertedHint,
                 insertedIsFavorite: insertedIsFavorite
             )
-            if openImagePickerOnAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    viewModel.showImagePicker = true
-                }
-            }
         }
         .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
         .onChange(of: viewModel.isTemplate) { _, _ in viewModel.onIsTemplateChanged() }
