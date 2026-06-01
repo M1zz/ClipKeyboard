@@ -13,6 +13,8 @@ struct MemoListView: View {
     @State private var searchText: String = ""
     @State private var selectedCategory: String = "전체"
     @State private var isViewActive: Bool = true
+    /// 커스텀 플레이스홀더 값 채우기 시트 대상 메모.
+    @State private var fillMemo: Memo? = nil
 
     var categories: [String] {
         var cats = Set(memos.map { $0.category })
@@ -133,6 +135,8 @@ struct MemoListView: View {
                             CompactMemoItemRow(memo: memo) {
                                 if memo.contentType == .image {
                                     copyImageToClipboard(memo)
+                                } else if memo.hasCustomPlaceholders {
+                                    fillMemo = memo
                                 } else {
                                     copyToClipboard(memo.resolvedForPaste())
                                 }
@@ -143,6 +147,16 @@ struct MemoListView: View {
                 }
         }
         .frame(minWidth: 360, minHeight: 420)
+        .sheet(item: $fillMemo) { memo in
+            MacTemplateFillSheet(memo: memo) { resolved, paste in
+                copyToClipboard(resolved)
+                if paste {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+                        DirectPasteHelper.pasteToFrontmostApp()
+                    }
+                }
+            }
+        }
         .onAppear {
             print("✅ [MemoListView] onAppear - 뷰 활성화")
             isViewActive = true

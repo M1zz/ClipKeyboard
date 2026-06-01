@@ -23934,6 +23934,40 @@
           }
         }
       }
+    },
+    "값 채우기" : {
+      "comment" : "Mac template fill sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill in values"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isi nilai"
+          }
+        }
+      }
+    },
+    "복사 후 붙여넣기" : {
+      "comment" : "Copy then paste",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy & Paste"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin & Tempel"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
