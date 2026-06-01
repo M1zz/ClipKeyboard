@@ -778,7 +778,6 @@ struct MemoAdd: View {
                     alignment: .topLeading
                 )
         }
-        .padding(.horizontal, 20)
     }
 
     private var comboInfoSection: some View {
@@ -806,7 +805,6 @@ struct MemoAdd: View {
                     .cornerRadius(theme.radiusSm)
             }
         }
-        .padding()
     }
 
     private var comboValueInputSection: some View {
@@ -815,9 +813,6 @@ struct MemoAdd: View {
             comboValueInputField
             comboValueList
         }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(theme.radiusMd)
     }
 
     private var comboValueHeader: some View {
