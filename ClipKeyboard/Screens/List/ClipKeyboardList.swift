@@ -77,7 +77,6 @@ struct ClipKeyboardList: View {
     @State private var addMemoSheetCategory: String = ""
     @State private var showAddTemplateSheet: Bool = false
     @State private var showAddComboSheet: Bool = false
-    @State private var showAddImageMemoSheet: Bool = false
     @State private var memoToEdit: Memo? = nil
 
     // TipKit
@@ -1534,12 +1533,7 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("새 콤보 만들기", comment: "Menu: new combo"), systemImage: "square.stack.3d.forward.dottedline.fill")
             }
-            Button {
-                HapticManager.shared.light()
-                showAddImageMemoSheet = true
-            } label: {
-                Label(NSLocalizedString("이미지 메모 추가", comment: "Menu: new image memo"), systemImage: "photo.badge.plus")
-            }
+            // '이미지 메모 추가' 제거 — 새 메모에서 바로 이미지 첨부 가능(중복 제거)
             Divider()
             Button {
                 showBulkImport = true
@@ -1587,16 +1581,6 @@ struct ClipKeyboardList: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(NSLocalizedString("취소", comment: "Cancel")) { showAddComboSheet = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showAddImageMemoSheet, onDismiss: { viewModel.loadMemos() }) {
-            NavigationStack {
-                MemoAdd(openImagePickerOnAppear: true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddImageMemoSheet = false }
                         }
                     }
             }
