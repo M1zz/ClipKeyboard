@@ -378,14 +378,18 @@ struct DisplaySettingsView: View {
     /// memoCardHeight·visible(심볼 토글)을 그대로 반영해 설정 변화를 즉시 보여준다.
     private func previewCell(title: String, symbol: String, color: Color, plusTemplate: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 5) {
-                Spacer()
-                // 메모+템플릿이면 템플릿 심볼까지 함께(심볼 2개)
+            HStack(alignment: .top, spacing: 4) {
+                // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼, 같은 색·왼쪽 정렬)
+                Image(systemName: "doc.fill")
+                    .font(.title3)
+                    .foregroundColor(.white.opacity(0.9))
                 if plusTemplate {
                     Image(systemName: "wand.and.sparkles")
                         .font(.title3)
-                        .foregroundColor(.white.opacity(0.85))
+                        .foregroundColor(.white.opacity(0.9))
                 }
+                Spacer()
+                // 우상단: 카테고리 심볼
                 if visible {
                     Image(systemName: symbol)
                         .font(.title2)

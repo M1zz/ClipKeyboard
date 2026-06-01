@@ -480,31 +480,22 @@ struct ClipKeyboardList: View {
             HStack(alignment: .top, spacing: 4) {
                 memoTypeIcon(memo: memo, onColor: onColor)
                 Spacer()
-                // 우상단 = 식별 심볼. 메모+템플릿(attachedTemplate)이면 템플릿 심볼까지
-                // 함께 표시해 "심볼 2개"(카테고리/즐겨찾기 + 템플릿)로 보여준다.
-                let hasAttachedTemplate = !memo.isTemplate && memo.attachedTemplateId != nil
-                HStack(spacing: 5) {
-                    if hasAttachedTemplate {
-                        Image(systemName: "wand.and.sparkles")
-                            .font(.title3)
-                            .foregroundColor(onColor ? .white.opacity(0.85) : .purple)
-                            .accessibilityHidden(true)
-                    }
-                    if memo.isFavorite {
-                        Image(systemName: "heart.fill")
-                            .font(.title2)
-                            .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                            .accessibilityHidden(true)
-                    } else if categoryBadgeVisible,
-                              CategoryStore.shared.isFeatureEnabled,
-                              viewModel.customCategories.contains(memo.category) {
-                        Image(systemName: customCategoryIcon(memo.category))
-                            .font(.title2)
-                            .foregroundColor(onColor
-                                ? .white.opacity(0.85)
-                                : customCategoryColor(memo.category))
-                            .accessibilityHidden(true)
-                    }
+                // 우상단 = 카테고리 식별 심볼만(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
+                // 메모+템플릿 표시는 좌상단(memoTypeIcon)에서 처리 — 카테고리 색과 헷갈리지 않도록.
+                if memo.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.title2)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
+                        .accessibilityHidden(true)
+                } else if categoryBadgeVisible,
+                          CategoryStore.shared.isFeatureEnabled,
+                          viewModel.customCategories.contains(memo.category) {
+                    Image(systemName: customCategoryIcon(memo.category))
+                        .font(.title2)
+                        .foregroundColor(onColor
+                            ? .white.opacity(0.85)
+                            : customCategoryColor(memo.category))
+                        .accessibilityHidden(true)
                 }
             }
             Spacer(minLength: 16)
@@ -607,10 +598,20 @@ struct ClipKeyboardList: View {
 
     @ViewBuilder
     private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
-        Image(systemName: memoTypeIconName(memo: memo))
-            .font(.title2)
-            .foregroundStyle(onColor ? Color.white.opacity(0.9) : theme.textFaint)
-            .accessibilityHidden(true)
+        // 메모+템플릿이면 [메모 심볼 + 막대기(wand) 심볼]을 같은 색으로 왼쪽 정렬.
+        let color = onColor ? Color.white.opacity(0.9) : theme.textFaint
+        let hasAttachedTemplate = !memo.isTemplate && memo.attachedTemplateId != nil
+        return HStack(spacing: 4) {
+            Image(systemName: memoTypeIconName(memo: memo))
+                .font(.title2)
+                .foregroundStyle(color)
+            if hasAttachedTemplate {
+                Image(systemName: "wand.and.sparkles")
+                    .font(.title2)
+                    .foregroundStyle(color)
+            }
+        }
+        .accessibilityHidden(true)
     }
 
     @ViewBuilder
