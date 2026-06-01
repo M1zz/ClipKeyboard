@@ -374,30 +374,6 @@ struct TemplateInputSheet: View {
                     }
                 } header: { EmptyView() }
 
-                // v4.0.8: 실시간 결합 미리보기
-                if !previewText.isEmpty {
-                    Section {
-                        VStack(alignment: .leading, spacing: 6) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "eye.fill")
-                                    .font(.body)
-                                    .foregroundColor(.green)
-                                Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
-                                    .font(.body)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(theme.textMuted)
-                            }
-                            Text(previewText.templateChipAttributed(theme: theme))
-                                .font(.body)
-                                .foregroundColor(.primary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(10)
-                                .background(Color.green.opacity(0.08))
-                                .cornerRadius(theme.radiusSm)
-                        }
-                    }
-                }
-
                 Section {
                     // 일반 템플릿과 동일한 값 선택 UI (저장값 칩·새 값 추가 등)
                     ForEach(placeholders, id: \.self) { placeholder in
@@ -430,6 +406,32 @@ struct TemplateInputSheet: View {
                             )
                             .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                         }
+                    }
+                }
+
+                // 실시간 결합 미리보기 — 빈칸을 채우면 바로 아래에서 결과가 바뀌는 게 보인다.
+                if !previewText.isEmpty {
+                    Section {
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(spacing: 6) {
+                                Image(systemName: "eye.fill")
+                                    .font(.body)
+                                    .foregroundColor(.green)
+                                Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(theme.textMuted)
+                            }
+                            Text(previewText.templateChipAttributed(theme: theme))
+                                .font(.body)
+                                .foregroundColor(.primary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(10)
+                                .background(Color.green.opacity(0.08))
+                                .cornerRadius(theme.radiusSm)
+                        }
+                    } header: {
+                        Text(NSLocalizedString("미리보기", comment: "Preview"))
                     }
                 }
             }

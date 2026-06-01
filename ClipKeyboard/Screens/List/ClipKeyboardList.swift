@@ -2587,7 +2587,8 @@ struct SheetModifiers: ViewModifier {
                         sourceMemoId: template.id,
                         sourceMemoTitle: template.title
                     )
-                    .presentationDetents([.medium, .large])
+                    // 템플릿·메모+템플릿 입력은 항상 전체 높이로 — 빈칸 채우기 + 미리보기 공간 확보.
+                    .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
                 }
             }
@@ -2613,7 +2614,8 @@ struct SheetModifiers: ViewModifier {
                     allMemos: memos,
                     onDismiss: onComboDismiss
                 )
-                .presentationDetents([.medium, .large])
+                // 콤보 시트는 전체 높이로 — 절반만 올라오던 답답함 해소.
+                .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
             }
     }

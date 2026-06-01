@@ -51,86 +51,94 @@ struct PlaceholderSelectorView: View {
                 .cornerRadius(theme.radiusXs)
             }
 
-            // 값 목록
-            if values.isEmpty {
-                Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
+            if isNumericToken {
+                // 금액 등 숫자 토큰: 저장하지 않고 입력값을 바로 사용한다.
+                // (다시 쓸 일 없는 1회성 값이라 저장 목록을 만들지 않음)
+                TextField(NSLocalizedString("값 입력", comment: "Direct value input placeholder"), text: $selectedValue)
+                    .clipRoundedField()
                     .font(.body)
-                    .foregroundColor(.orange)
-                    .padding(12)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.orange.opacity(0.1))
-                    .cornerRadius(theme.radiusSm)
+                    #if os(iOS)
+                    .keyboardType(.numberPad)
+                    #endif
             } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(values) { placeholderValue in
-                            HStack(spacing: 6) {
-                                let isSelected = selectedValue == placeholderValue.value
-                                Button {
-                                    selectedValue = placeholderValue.value
-                                } label: {
-                                    Text(placeholderValue.value)
-                                        .font(.body.weight(isSelected ? .semibold : .regular))
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                        .background(isSelected ? Color.blue : theme.surfaceAlt)
-                                        .foregroundColor(isSelected ? .white : .primary)
-                                        .cornerRadius(theme.radiusLg)
-                                }
-                                .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
-                                .accessibilityHint(isSelected
-                                    ? NSLocalizedString("현재 선택됨", comment: "Filter chip: currently selected")
-                                    : NSLocalizedString("탭하면 이 값으로 설정됩니다", comment: "Placeholder value chip hint"))
+                // 값 목록 (저장된 값 칩)
+                if values.isEmpty {
+                    Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
+                        .font(.body)
+                        .foregroundColor(.orange)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.orange.opacity(0.1))
+                        .cornerRadius(theme.radiusSm)
+                } else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(values) { placeholderValue in
+                                HStack(spacing: 6) {
+                                    let isSelected = selectedValue == placeholderValue.value
+                                    Button {
+                                        selectedValue = placeholderValue.value
+                                    } label: {
+                                        Text(placeholderValue.value)
+                                            .font(.body.weight(isSelected ? .semibold : .regular))
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 8)
+                                            .background(isSelected ? Color.blue : theme.surfaceAlt)
+                                            .foregroundColor(isSelected ? .white : .primary)
+                                            .cornerRadius(theme.radiusLg)
+                                    }
+                                    .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+                                    .accessibilityHint(isSelected
+                                        ? NSLocalizedString("현재 선택됨", comment: "Filter chip: currently selected")
+                                        : NSLocalizedString("탭하면 이 값으로 설정됩니다", comment: "Placeholder value chip hint"))
 
-                                Button {
-                                    showDeleteConfirm = placeholderValue
-                                    showDeleteAlert = true
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .font(.body)
-                                        .foregroundColor(.red)
+                                    Button {
+                                        showDeleteConfirm = placeholderValue
+                                        showDeleteAlert = true
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .font(.body)
+                                            .foregroundColor(.red)
+                                    }
+                                    .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), placeholderValue.value))
+                                    .accessibilityHint(NSLocalizedString("이 저장된 값을 삭제합니다", comment: "Delete placeholder value hint"))
                                 }
-                                .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), placeholderValue.value))
-                                .accessibilityHint(NSLocalizedString("이 저장된 값을 삭제합니다", comment: "Delete placeholder value hint"))
                             }
                         }
                     }
                 }
-            }
 
-            // 값 추가 입력 (항상 표시)
-            HStack(spacing: 8) {
-                TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
-                    .clipRoundedField()
-                    .font(.body)
-                    #if os(iOS)
-                    .keyboardType(isNumericToken ? .numberPad : .default)
-                    #endif
-
-                Button {
-                    if !newValue.isEmpty && !values.contains(where: { $0.value == newValue }) {
-                        MemoStore.shared.addPlaceholderValue(
-                            newValue,
-                            for: placeholder,
-                            sourceMemoId: sourceMemoId,
-                            sourceMemoTitle: sourceMemoTitle
-                        )
-                        loadValues()
-                        selectedValue = newValue
-                        newValue = ""
-                    }
-                } label: {
-                    Text(NSLocalizedString("추가", comment: "Add button"))
+                // 값 추가 입력 (저장형 토큰만)
+                HStack(spacing: 8) {
+                    TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
+                        .clipRoundedField()
                         .font(.body)
-                        .fontWeight(.semibold)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(newValue.isEmpty ? Color.gray : Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(theme.radiusSm)
+
+                    Button {
+                        if !newValue.isEmpty && !values.contains(where: { $0.value == newValue }) {
+                            MemoStore.shared.addPlaceholderValue(
+                                newValue,
+                                for: placeholder,
+                                sourceMemoId: sourceMemoId,
+                                sourceMemoTitle: sourceMemoTitle
+                            )
+                            loadValues()
+                            selectedValue = newValue
+                            newValue = ""
+                        }
+                    } label: {
+                        Text(NSLocalizedString("추가", comment: "Add button"))
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(newValue.isEmpty ? Color.gray : Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(theme.radiusSm)
+                    }
+                    .disabled(newValue.isEmpty)
+                    .accessibilityHint(NSLocalizedString("새 값을 목록에 추가합니다", comment: "Add value button hint"))
                 }
-                .disabled(newValue.isEmpty)
-                .accessibilityHint(NSLocalizedString("새 값을 목록에 추가합니다", comment: "Add value button hint"))
             }
         }
         .padding()

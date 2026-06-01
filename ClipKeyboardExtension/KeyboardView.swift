@@ -1193,6 +1193,12 @@ struct KeyboardView: View {
                 .padding(10)
         }
         .frame(height: buttonHeight)
+        // 모든 메모 칸에 기본 테두리 — 칸 경계가 또렷하게 보이도록.
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(theme.divider, lineWidth: 1)
+        )
+        // 타입 구분 테두리(템플릿/콤보/보안) — 색맹 친화, 기본 테두리 위에 덧입힌다.
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .strokeBorder(style.color,

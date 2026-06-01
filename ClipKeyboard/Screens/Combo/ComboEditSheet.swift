@@ -93,6 +93,8 @@ struct ComboEditSheet: View {
     @State private var newValueText: String = ""
     /// 연습 미리보기에 쌓인 출력 (실제 입력처럼 시뮬레이션)
     @State private var practiceOutput: String = ""
+    /// 연습 영역 펼침 여부 — 기본 접힘(화면 답답함 해소, 고정 노출 안 함)
+    @State private var showPractice: Bool = false
 
     private let comboInfoTip = ComboInfoTip()
 
@@ -266,12 +268,24 @@ struct ComboEditSheet: View {
     /// 사용자가 Combo가 실제로 어떻게 순서대로 입력되는지 직접 체험하게 한다.
     private var practiceSection: some View {
         VStack(alignment: .leading, spacing: 8) {
+            // 접기/펼치기 헤더 — 평소엔 접혀 있어 공간을 차지하지 않는다.
             HStack {
-                Label(NSLocalizedString("연습", comment: "Practice section label"), systemImage: "play.circle.fill")
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(theme.textMuted)
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { showPractice.toggle() }
+                } label: {
+                    HStack(spacing: 6) {
+                        Label(NSLocalizedString("연습", comment: "Practice section label"), systemImage: "play.circle.fill")
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(theme.textMuted)
+                        Image(systemName: showPractice ? "chevron.up" : "chevron.down")
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(theme.textFaint)
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint(NSLocalizedString("콤보가 순서대로 입력되는 흐름을 연습해 봅니다", comment: "Practice disclosure hint"))
                 Spacer()
-                if !practiceOutput.isEmpty {
+                if showPractice, !practiceOutput.isEmpty {
                     Button { practiceReset() } label: {
                         Label(NSLocalizedString("처음으로", comment: "Reset practice"), systemImage: "arrow.counterclockwise")
                             .font(.body)
@@ -281,6 +295,7 @@ struct ComboEditSheet: View {
                 }
             }
 
+            if showPractice {
             // 미리보기 — 입력된 값이 순서대로 쌓인다
             ScrollView {
                 Text(practiceOutput.isEmpty
@@ -317,6 +332,7 @@ struct ComboEditSheet: View {
             }
             .accessibilityLabel(NSLocalizedString("다음 값 입력", comment: "Insert next combo value (practice)"))
             .accessibilityHint(NSLocalizedString("Next로 표시된 값을 미리보기에 추가하고 다음 값으로 넘어갑니다", comment: "Insert next practice hint"))
+            }   // if showPractice
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -399,7 +415,8 @@ struct ComboEditSheet: View {
     private func insertNext() {
         guard !comboValues.isEmpty else { return }
         let idx = currentComboIndex < comboValues.count ? currentComboIndex : 0
-        practiceOutput += (practiceOutput.isEmpty ? "" : "\n") + comboValues[idx]
+        // 실제 콤보 입력처럼 옆으로 이어 붙인다(개행 없이) — 텍스트필드에 타이핑하듯.
+        practiceOutput += comboValues[idx]
         currentComboIndex = (idx + 1) % comboValues.count
         saveChanges()
         HapticManager.shared.selection()
