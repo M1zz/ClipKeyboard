@@ -807,17 +807,7 @@ struct DatePlaceholderSelector: View {
                 .font(.body)
                 .onChange(of: customDate) { _, d in value = Self.fmt.string(from: d) }
         }
-        .padding(embedded ? 0 : 16)
-        .background(embedded ? Color.clear : theme.surfaceAlt)
-        .clipShape(RoundedRectangle(cornerRadius: embedded ? 0 : theme.radiusMd, style: .continuous))
-        .overlay(
-            Group {
-                if !embedded {
-                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                        .strokeBorder(isHighlighted ? theme.accent : theme.divider, lineWidth: isHighlighted ? 2 : 1)
-                }
-            }
-        )
+        .embeddableCard(embedded: embedded, isHighlighted: isHighlighted, theme: theme)
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear { if !value.isEmpty, let d = Self.fmt.date(from: value) { customDate = d } }
     }

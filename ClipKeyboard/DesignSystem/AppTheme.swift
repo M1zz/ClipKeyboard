@@ -331,3 +331,25 @@ private struct ClipRoundedField: ViewModifier {
 private func hx(_ hex: String) -> Color {
     Color(hex: hex) ?? .clear
 }
+
+// MARK: - Embeddable card chrome
+// 템플릿 값 입력 칸 등에서 반복되던 "surfaceAlt 카드 + 강조 테두리" 패턴.
+// embedded면 Form 섹션의 흰 카드에 녹이기 위해 자체 카드를 끈다.
+extension View {
+    @ViewBuilder
+    func embeddableCard(embedded: Bool, isHighlighted: Bool, theme: AppTheme) -> some View {
+        self
+            .padding(embedded ? 0 : 16)
+            .background(embedded ? Color.clear : theme.surfaceAlt)
+            .clipShape(RoundedRectangle(cornerRadius: embedded ? 0 : theme.radiusMd, style: .continuous))
+            .overlay(
+                Group {
+                    if !embedded {
+                        RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                            .strokeBorder(isHighlighted ? theme.accent : theme.divider,
+                                          lineWidth: isHighlighted ? 2 : 1)
+                    }
+                }
+            )
+    }
+}
