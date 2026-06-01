@@ -107,28 +107,28 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "계좌번호 공유",
                     contextKey: "계좌번호 알려주세요",
-                    exampleKey: "은행: 카카오뱅크\n예금주: [이름]\n계좌번호: [계좌번호]\n\n(토스/카카오페이도 가능합니다 🙏)",
+                    exampleKey: "은행: 카카오뱅크\n예금주: {이름}\n계좌번호: {계좌번호}\n\n(토스/카카오페이도 가능합니다 🙏)",
                     feature: .memo,
                     personas: [.business, .student, .general]
                 ),
                 UsageScenario(
                     titleKey: "정산 요청",
                     contextKey: "이번 달 정산 어떻게 해?",
-                    exampleKey: "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원\n입금 계좌: 카카오뱅크 [계좌번호] ([이름])\n\n확인 부탁드립니다 😊",
+                    exampleKey: "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원\n입금 계좌: 카카오뱅크 {계좌번호} ({이름})\n\n확인 부탁드립니다 😊",
                     feature: .template,
                     personas: [.business, .nomad]
                 ),
                 UsageScenario(
                     titleKey: "청구서 요약",
                     contextKey: nil,
-                    exampleKey: "청구서 #{번호}\n금액: {금액}원 (VAT 포함)\n납기: {납기일}\n입금 계좌: [은행] [계좌번호] ([예금주])",
+                    exampleKey: "청구서 #{번호}\n금액: {금액}원 (VAT 포함)\n납기: {납기일}\n입금 계좌: {은행} {계좌번호} ({예금주})",
                     feature: .template,
                     personas: [.business, .nomad]
                 ),
                 UsageScenario(
                     titleKey: "N빵 정산",
                     contextKey: "오늘 밥값 얼마야?",
-                    exampleKey: "오늘 총 {총금액}원이에요!\n{인원}명이니까 1인당 {1인금액}원 🙏\n카카오뱅크 [계좌번호] ([이름])으로 보내주세요~",
+                    exampleKey: "오늘 총 {총금액}원이에요!\n{인원}명이니까 1인당 {1인금액}원 🙏\n카카오뱅크 {계좌번호} ({이름})으로 보내주세요~",
                     feature: .template,
                     personas: [.student, .general]
                 ),
@@ -181,7 +181,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "배송지 주소",
                     contextKey: "배송지 주소 알려주세요",
-                    exampleKey: "[우편번호]\n[주소]\n[상세주소]\n\n받는 분: [이름]\n연락처: [전화번호]",
+                    exampleKey: "{우편번호}\n{주소}\n{상세주소}\n\n받는 분: {이름}\n연락처: {전화번호}",
                     feature: .memo,
                     personas: [.general, .student]
                 ),
@@ -211,14 +211,14 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "자기소개",
                     contextKey: nil,
-                    exampleKey: "안녕하세요, [이름]입니다.\n[직함/소속]에서 [업무]를 맡고 있습니다.\n연락처: [이메일] / [전화번호]\n\n잘 부탁드립니다 🙏",
+                    exampleKey: "안녕하세요, {이름}입니다.\n{직함/소속}에서 {업무}를 맡고 있습니다.\n연락처: {이메일} / {전화번호}\n\n잘 부탁드립니다 🙏",
                     feature: .memo,
                     personas: [.business, .student, .general]
                 ),
                 UsageScenario(
                     titleKey: "이메일 서명",
                     contextKey: nil,
-                    exampleKey: "[이름]\n[직책] | [회사명]\n📧 [이메일]\n📞 [전화번호]\n🌐 [홈페이지]",
+                    exampleKey: "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}",
                     feature: .memo,
                     personas: [.business, .student]
                 ),
@@ -273,13 +273,13 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Nomor rekening bank",
                     contextKey: "Bisa kirim nomor rekeningnya?",
-                    exampleKey: "Bank: BCA / Mandiri / BNI\nA/N: [Nama Lengkap]\nNo. Rekening: [Nomor Rekening]\n\nBisa juga transfer ke GoPay/OVO: [Nomor HP] 🙏",
+                    exampleKey: "Bank: BCA / Mandiri / BNI\nA/N: {Nama Lengkap}\nNo. Rekening: {Nomor Rekening}\n\nBisa juga transfer ke GoPay/OVO: {Nomor HP} 🙏",
                     feature: .memo
                 ),
                 UsageScenario(
                     titleKey: "Tagihan bulanan",
                     contextKey: nil,
-                    exampleKey: "Halo {nama},\n\nTagihan bulan {bulan}: Rp {jumlah}\nRekening tujuan: BCA [nomor] a/n [nama]\nJatuh tempo: {tanggal}\n\nMohon segera dikonfirmasi. Terima kasih 🙏",
+                    exampleKey: "Halo {nama},\n\nTagihan bulan {bulan}: Rp {jumlah}\nRekening tujuan: BCA {nomor} a/n {nama}\nJatuh tempo: {tanggal}\n\nMohon segera dikonfirmasi. Terima kasih 🙏",
                     feature: .template
                 ),
                 UsageScenario(
@@ -291,7 +291,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Patungan / split bill",
                     contextKey: "Berapa bagian saya?",
-                    exampleKey: "Total tadi Rp {total} untuk {jumlah} orang.\nJadi per orang Rp {perorang} ya 😊\nBisa transfer ke GoPay/OVO [nomor] a/n [nama]",
+                    exampleKey: "Total tadi Rp {total} untuk {jumlah} orang.\nJadi per orang Rp {perorang} ya 😊\nBisa transfer ke GoPay/OVO {nomor} a/n {nama}",
                     feature: .template
                 ),
             ]
@@ -306,7 +306,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Perkenalan diri",
                     contextKey: nil,
-                    exampleKey: "Halo, saya [Nama].\nSaya bekerja sebagai [Jabatan] di [Perusahaan].\nBisa dihubungi di [Email] atau [No. HP].\n\nSenang berkenalan! 😊",
+                    exampleKey: "Halo, saya {Nama}.\nSaya bekerja sebagai {Jabatan} di {Perusahaan}.\nBisa dihubungi di {Email} atau {No. HP}.\n\nSenang berkenalan! 😊",
                     feature: .memo
                 ),
                 UsageScenario(
@@ -324,7 +324,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Tanda tangan email",
                     contextKey: nil,
-                    exampleKey: "[Nama Lengkap]\n[Jabatan] | [Perusahaan]\n📧 [Email]\n📞 [No. HP]\n🌐 [Website]",
+                    exampleKey: "{Nama Lengkap}\n{Jabatan} | {Perusahaan}\n📧 {Email}\n📞 {No. HP}\n🌐 {Website}",
                     feature: .memo
                 ),
             ]
@@ -339,19 +339,19 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Alamat pengiriman",
                     contextKey: "Alamat pengirimannya ke mana?",
-                    exampleKey: "Nama: [Nama Lengkap]\nNo. HP: [Nomor HP]\nAlamat: [Jalan, No. Rumah]\nKelurahan: [Kelurahan], Kecamatan: [Kecamatan]\nKota: [Kota], Kode Pos: [Kode Pos]",
+                    exampleKey: "Nama: {Nama Lengkap}\nNo. HP: {Nomor HP}\nAlamat: {Jalan, No. Rumah}\nKelurahan: {Kelurahan}, Kecamatan: {Kecamatan}\nKota: {Kota}, Kode Pos: {Kode Pos}",
                     feature: .memo
                 ),
                 UsageScenario(
                     titleKey: "Cek status pesanan",
                     contextKey: nil,
-                    exampleKey: "Halo, saya mau menanyakan pesanan saya dengan nomor order [nomor]. Sudah sampai mana ya? Estimasi tiba kapan? Terima kasih 🙏",
+                    exampleKey: "Halo, saya mau menanyakan pesanan saya dengan nomor order {nomor}. Sudah sampai mana ya? Estimasi tiba kapan? Terima kasih 🙏",
                     feature: .memo
                 ),
                 UsageScenario(
                     titleKey: "Komplain produk",
                     contextKey: nil,
-                    exampleKey: "Halo, saya menerima pesanan [nama produk] dengan nomor order [nomor] namun {masalah}. Mohon bantuannya untuk proses {solusi yang diinginkan}. Terima kasih 🙏",
+                    exampleKey: "Halo, saya menerima pesanan {nama produk} dengan nomor order {nomor} namun {masalah}. Mohon bantuannya untuk proses {solusi yang diinginkan}. Terima kasih 🙏",
                     feature: .template
                 ),
             ]
@@ -419,7 +419,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "New client wire transfer info",
                     contextKey: "Please send your banking details for wire transfer.",
-                    exampleKey: "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]",
+                    exampleKey: "Name: {Your Name}\nIBAN: {Your IBAN}\nSWIFT: {Your SWIFT/BIC}\nAddress: {Your Registered Address}\nVAT ID: {Your VAT Number}",
                     feature: .combo
                 ),
                 UsageScenario(
@@ -431,7 +431,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Invoice summary",
                     contextKey: nil,
-                    exampleKey: "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])",
+                    exampleKey: "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ({email})",
                     feature: .template
                 ),
             ]
@@ -712,8 +712,9 @@ struct UsageGuideView: View {
                 }
             }
 
-            Text(scenario.example)
-                .font(.system(.body, design: .monospaced))
+            // {플레이스홀더}는 템플릿 화면과 동일하게 칩으로 표시 (날것 [] / {} 노출 방지)
+            Text(scenario.example.templateChipAttributed(theme: theme))
+                .font(.body)
                 .foregroundColor(theme.text)
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -728,7 +729,8 @@ struct UsageGuideView: View {
                     MemoAdd(
                         insertedKeyword: scenario.title,
                         insertedValue: scenario.example,
-                        insertedIsTemplate: scenario.feature == .template,
+                        // {플레이스홀더}가 있으면 항상 템플릿으로 추가 — 탭하면 칩/값 채우기 UX
+                        insertedIsTemplate: scenario.feature == .template || scenario.example.contains("{"),
                         insertedIsCombo: scenario.feature == .combo
                     )
                 } label: {

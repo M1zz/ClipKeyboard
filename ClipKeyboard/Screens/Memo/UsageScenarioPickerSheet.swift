@@ -133,8 +133,8 @@ struct UsageScenarioPickerSheet: View {
                     .clipShape(Capsule())
                 }
 
-                Text(highlightedExample(scenario.example))
-                    .font(.system(.body, design: .monospaced))
+                Text(scenario.example.templateChipAttributed(theme: theme))
+                    .font(.body)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                     .padding(8)
@@ -153,22 +153,5 @@ struct UsageScenarioPickerSheet: View {
             .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)
-    }
-
-    private func highlightedExample(_ raw: String) -> AttributedString {
-        var attr = AttributedString(raw)
-        attr.foregroundColor = .secondary
-
-        let pattern = "\\[[^\\]]+\\]"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return attr }
-        let nsRange = NSRange(raw.startIndex..., in: raw)
-        let matches = regex.matches(in: raw, range: nsRange)
-        for match in matches.reversed() {
-            guard let stringRange = Range(match.range, in: raw),
-                  let attrRange = Range(stringRange, in: attr) else { continue }
-            attr[attrRange].foregroundColor = .red
-            attr[attrRange].font = .system(.caption, design: .monospaced, weight: .semibold)
-        }
-        return attr
     }
 }

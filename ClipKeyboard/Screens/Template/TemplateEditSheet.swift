@@ -818,7 +818,7 @@ struct DatePlaceholderSelector: View {
 
 // MARK: - String Helper
 
-private extension String {
+extension String {
     /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
     /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
     func templateChipAttributed(theme: AppTheme) -> AttributedString {
