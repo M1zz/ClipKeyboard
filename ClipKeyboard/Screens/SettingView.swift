@@ -320,6 +320,20 @@ struct DisplaySettingsView: View {
 
     var body: some View {
         List {
+            // 라이브 미리보기 — 아래 설정을 바꾸면 즉시 반영된다(실제 메모 카드와 동일 모양).
+            Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
+                HStack(spacing: 12) {
+                    previewCell(title: NSLocalizedString("메모", comment: "Memo"),
+                                symbol: "folder.fill", color: theme.accent, plusTemplate: false)
+                    previewCell(title: NSLocalizedString("메모 + 템플릿", comment: "Memo + template sample"),
+                                symbol: "doc.text.fill", color: .blue, plusTemplate: true)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+                .animation(.easeInOut(duration: 0.2), value: memoCardHeight)
+                .animation(.easeInOut(duration: 0.2), value: visible)
+            }
+
             // 메모 높이
             Section {
                 Picker(selection: $memoCardHeight) {
@@ -351,15 +365,6 @@ struct DisplaySettingsView: View {
                 Text(NSLocalizedString("메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요.", comment: "Category badge explanation"))
                     .font(.body)
             }
-
-            Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
-                HStack(spacing: 20) {
-                    miniCard(withBadge: true, label: NSLocalizedString("켜짐", comment: "On"))
-                    miniCard(withBadge: false, label: NSLocalizedString("꺼짐", comment: "Off"))
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
-            }
         }
         .navigationTitle(NSLocalizedString("메모 표시", comment: "Memo display settings entry"))
         #if os(iOS)
@@ -369,31 +374,41 @@ struct DisplaySettingsView: View {
         .toolbarBackground(.visible, for: .navigationBar)
     }
 
-    private func miniCard(withBadge: Bool, label: String) -> some View {
-        VStack(spacing: 8) {
-            ZStack(alignment: .topTrailing) {
-                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .fill(theme.accent)
-                    .frame(width: 116, height: 84)
-                    .overlay(alignment: .bottomLeading) {
-                        Text(NSLocalizedString("메모", comment: "Memo"))
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(10)
-                    }
-                if withBadge {
-                    Image(systemName: "folder.fill")
-                        .font(.title3)
+    /// 실제 메모 그리드 셀(ClipKeyboardList.memoGridCell)과 동일한 모양의 미리보기.
+    /// memoCardHeight·visible(심볼 토글)을 그대로 반영해 설정 변화를 즉시 보여준다.
+    private func previewCell(title: String, symbol: String, color: Color, plusTemplate: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 4) {
+                Spacer()
+                if visible {
+                    Image(systemName: symbol)
+                        .font(.title2)
                         .foregroundColor(.white.opacity(0.9))
-                        .padding(10)
+                        .overlay(alignment: .bottomTrailing) {
+                            if plusTemplate {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .background(Circle().fill(Color.black.opacity(0.3)))
+                                    .offset(x: 5, y: 5)
+                            }
+                        }
                 }
             }
-            Text(label)
-                .font(.footnote)
-                .foregroundColor(theme.textMuted)
+            Spacer(minLength: 16)
+            Text(title)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(.white)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .padding(16)
+        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+        .background(color)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        .shadow(color: .black.opacity(0.10), radius: 6, x: 0, y: 3)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(label)
+        .accessibilityLabel(title)
     }
 }
 
