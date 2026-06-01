@@ -53,10 +53,17 @@ def check_hardcoded_korean(root: str):
         os.path.join(root, "ClipKeyboard", "Screens", "**", "*.swift"),
         os.path.join(root, "ClipKeyboard", "DesignSystem", "**", "*.swift"),
         os.path.join(root, "ClipKeyboardExtension", "**", "*.swift"),
+        # 맥 앱 뷰도 영어 노출 보장. Models.swift는 분류 enum rawValue(저장용
+        # 한국어)라 UI가 아니므로 제외.
+        os.path.join(root, "ClipKeyboard.tap", "*.swift"),
     ]
+    # 데이터 모델/직렬화용 한국어(enum rawValue 등)는 UI가 아니므로 스캔 제외.
+    excluded_basenames = {"Models.swift"}
     violations = []
     for pat in globs:
         for f in glob.glob(pat, recursive=True):
+            if os.path.basename(f) in excluded_basenames:
+                continue
             try:
                 lines = open(f, encoding="utf-8").read().splitlines()
             except OSError:
