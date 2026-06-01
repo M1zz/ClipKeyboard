@@ -435,7 +435,12 @@ private struct SettingsPathIllustration: View {
 private struct KeyboardListIllustration: View {
     let theme: AppTheme
 
-    private let keyboards = ["한국어", "영어(미국)", "이모티콘"]
+    // iOS 설정의 키보드 목록을 흉내낸 예시 — 사용자 언어에 맞는 이름으로 표시(영어 유저는 Korean/English (US)/Emoji).
+    private var keyboards: [String] {
+        [NSLocalizedString("한국어", comment: "Keyboard name: Korean"),
+         NSLocalizedString("영어(미국)", comment: "Keyboard name: English (US)"),
+         NSLocalizedString("이모티콘", comment: "Keyboard name: Emoji")]
+    }
     private let clipKeyboard = "ClipKeyboard"
 
     var body: some View {

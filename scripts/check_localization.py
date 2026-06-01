@@ -31,6 +31,49 @@ ALLOW_SUBSTRINGS = [
     "천지인",        # 한국어 자판 고유명사
 ]
 
+# --- 하드코딩 한국어(미감싼 UI 문자열) 검사 -----------------------------------
+import glob
+
+# UI에 직접 들어가는 한글 문자열 리터럴(Text/Button/navigationTitle 등) + Screens의 한글 배열.
+_UI_CALL = re.compile(
+    r'(?:Text|Label|Button|navigationTitle|navigationBarTitle|searchable|tabItem'
+    r'|confirmationDialog|Picker|Toggle|Section|TextField|Menu|alert|prompt)'
+    r'\s*\(\s*(?:[^,()"]*,\s*)?"(?:[^"\\]|\\.)*[가-힣]'
+)
+_ARRAY = re.compile(r'\b(?:let|var)\s+\w+(?:\s*:\s*\[String\])?\s*=\s*\[[^\]]*?"[^"]*[가-힣][^"]*"')
+
+def _korean_lits_all_tokens(line: str) -> bool:
+    """줄의 한글 리터럴이 모두 `{토큰}` 형태면 True(템플릿 토큰 배열 → 무시)."""
+    kor = [l for l in re.findall(r'"([^"]*)"', line) if HANGUL.search(l)]
+    return bool(kor) and all(re.search(r'\{[^}]*[가-힣]', l) for l in kor)
+
+def check_hardcoded_korean(root: str):
+    """NSLocalizedString으로 감싸지 않은 한국어 UI 문자열을 찾는다. (Screens/익스텐션/디자인시스템)"""
+    globs = [
+        os.path.join(root, "ClipKeyboard", "Screens", "**", "*.swift"),
+        os.path.join(root, "ClipKeyboard", "DesignSystem", "**", "*.swift"),
+        os.path.join(root, "ClipKeyboardExtension", "**", "*.swift"),
+    ]
+    violations = []
+    for pat in globs:
+        for f in glob.glob(pat, recursive=True):
+            try:
+                lines = open(f, encoding="utf-8").read().splitlines()
+            except OSError:
+                continue
+            for i, line in enumerate(lines, 1):
+                if "NSLocalizedString" in line or "isKorean" in line:
+                    continue
+                s = line.lstrip()
+                if s.startswith("//") or s.startswith("*") or s.startswith("/*"):
+                    continue
+                if _korean_lits_all_tokens(line):
+                    continue
+                if _UI_CALL.search(line) or _ARRAY.search(line):
+                    violations.append((os.path.relpath(f, root), i, line.strip()[:80]))
+    return violations
+
+
 def main() -> int:
     xcode = "--xcode" in sys.argv
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -63,9 +106,11 @@ def main() -> int:
                 continue
             en_has_korean.append((key, val))
 
-    total = len(en_has_korean) + len(missing_en)
+    hardcoded = check_hardcoded_korean(root)
+
+    total = len(en_has_korean) + len(missing_en) + len(hardcoded)
     if total == 0:
-        print("✅ check_localization: 영어 슬롯에 한국어 노출 없음")
+        print("✅ check_localization: 영어 슬롯/하드코딩 한국어 노출 없음")
         return 0
 
     prefix = "error: " if xcode else ""
@@ -79,7 +124,11 @@ def main() -> int:
         print(f"\n[영어 번역 누락(한글 키가 그대로 노출됨)] {len(missing_en)}건", file=out)
         for k in missing_en:
             print(f"  • {k[:70]!r}", file=out)
-    print("\n→ ClipKeyboard/Localizable.xcstrings 에서 위 항목의 en 값을 영어로 채우세요.", file=out)
+    if hardcoded:
+        print(f"\n[하드코딩 한국어 — NSLocalizedString으로 감싸야 함] {len(hardcoded)}건", file=out)
+        for rel, ln, txt in hardcoded:
+            print(f"  • {rel}:{ln}\n      {txt}", file=out)
+    print("\n→ 카탈로그 en 값을 영어로 채우거나, UI 문자열을 NSLocalizedString으로 감싸세요.", file=out)
     return 1
 
 if __name__ == "__main__":

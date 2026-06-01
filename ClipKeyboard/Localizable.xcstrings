@@ -2236,6 +2236,23 @@
         }
       }
     },
+    "2주 뒤" : {
+      "comment" : "Date option: in two weeks",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 weeks"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dalam 2 minggu"
+          }
+        }
+      }
+    },
     "2초" : {
       "comment" : "2 seconds",
       "localizations" : {
@@ -11198,6 +11215,23 @@
         }
       }
     },
+    "날짜를 선택합니다" : {
+      "comment" : "Pick a date hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a date"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih tanggal"
+          }
+        }
+      }
+    },
     "내 것을 저장해보세요" : {
       "comment" : "Add memo tip title",
       "localizations" : {
@@ -11273,6 +11307,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan konten"
+          }
+        }
+      }
+    },
+    "내일" : {
+      "comment" : "Date option: tomorrow",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Besok"
           }
         }
       }
@@ -11369,6 +11420,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan berikutnya"
+          }
+        }
+      }
+    },
+    "다음 주" : {
+      "comment" : "Date option: next week",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next week"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minggu depan"
           }
         }
       }
@@ -17247,6 +17315,23 @@
         }
       }
     },
+    "오늘" : {
+      "comment" : "Date option: today",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hari ini"
+          }
+        }
+      }
+    },
     "온보딩을 건너뛰고 앱을 바로 시작합니다" : {
       "comment" : "Skip onboarding hint",
       "extractionState" : "stale",
@@ -18376,6 +18461,7 @@
     },
     "입력하세요" : {
       "comment" : "Input placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18871,6 +18957,40 @@
         }
       }
     },
+    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
+      "comment" : "Clear all confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersimpan"
+          }
+        }
+      }
+    },
     "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
       "comment" : "Practice step 3 for nomad persona",
       "extractionState" : "manual",
@@ -18909,40 +19029,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
-      "comment" : "Clear all confirm message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tersimpan"
           }
         }
       }
@@ -19666,6 +19752,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You've created your own snippets. Want to clear out the starter examples?"
+          }
+        }
+      }
+    },
+    "직접 선택" : {
+      "comment" : "Pick a specific date",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a date"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih tanggal"
           }
         }
       }
@@ -20441,23 +20544,6 @@
         }
       }
     },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -20471,6 +20557,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
+          }
+        }
+      }
+    },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
           }
         }
       }
@@ -22952,22 +23055,6 @@
         }
       }
     },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        }
-      }
-    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -23084,6 +23171,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
           }
         }
       }
@@ -23662,104 +23765,36 @@
         }
       }
     },
-    "오늘" : {
-      "comment" : "Date option: today",
+    "영어(미국)" : {
+      "comment" : "Keyboard name: English (US)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Today"
+            "value" : "English (US)"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hari ini"
+            "value" : "Inggris (AS)"
           }
         }
       }
     },
-    "내일" : {
-      "comment" : "Date option: tomorrow",
+    "이모티콘" : {
+      "comment" : "Keyboard name: Emoji",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tomorrow"
+            "value" : "Emoji"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Besok"
-          }
-        }
-      }
-    },
-    "다음 주" : {
-      "comment" : "Date option: next week",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next week"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minggu depan"
-          }
-        }
-      }
-    },
-    "2주 뒤" : {
-      "comment" : "Date option: in two weeks",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In 2 weeks"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dalam 2 minggu"
-          }
-        }
-      }
-    },
-    "직접 선택" : {
-      "comment" : "Pick a specific date",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pick a date"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pilih tanggal"
-          }
-        }
-      }
-    },
-    "날짜를 선택합니다" : {
-      "comment" : "Pick a date hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose a date"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pilih tanggal"
+            "value" : "Emoji"
           }
         }
       }
