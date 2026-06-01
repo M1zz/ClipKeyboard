@@ -98,6 +98,8 @@
 		58TP00012F0000000000000001 /* ThemePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TP00022F0000000000000002 /* ThemePickerView.swift */; };
 		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
+		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
+		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		5EB5872F8FEC49A1BAF729E4 /* ComboRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB5872F8FEC49A1BAF729E3 /* ComboRepositoryProtocol.swift */; };
 		61864F395C2773BF9C2498DF /* CategorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */; };
 		B2C3D4E5F6A1B2C3D4E5F6A1 /* CategoryIconSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A1B2C3D4E5F6 /* CategoryIconSettings.swift */; };
@@ -252,6 +254,7 @@
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		58TP00022F0000000000000002 /* ThemePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePickerView.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
+		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
 		5EB5872F8FEC49A1BAF729E3 /* ComboRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboRepositoryProtocol.swift; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		616238CD1282F3D06FC7E369 /* BulkImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportView.swift; sourceTree = "<group>"; };
@@ -420,6 +423,7 @@
 				58CK00042B5E1A2100000004 /* NotificationExtension.swift */,
 				58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */,
 				58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */,
+				SMC00022F0000000000000002 /* SecureMemoCrypto.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -958,6 +962,7 @@
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
+				SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */,
 				AA00001800000001F3B00007 /* AnalyticsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1009,6 +1014,7 @@
 				58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */,
 				58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */,
 				58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */,
+				SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */,
 				58DS00012F0000000000000001 /* AppTheme.swift in Sources */,
 				58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */,
 				58DS00052F0000000000000005 /* CatIcon.swift in Sources */,
