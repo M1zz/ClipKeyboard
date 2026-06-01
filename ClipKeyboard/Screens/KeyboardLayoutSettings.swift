@@ -341,9 +341,11 @@ struct KeyboardPreviewView: View {
         let idx = allUserCats.firstIndex(of: key) ?? 0
         return palette[idx % palette.count]
     }
+    private var customColors: [String: String] { ud?.dictionary(forKey: "userCategoryColors_v1") as? [String: String] ?? [:] }
     private func catColor(_ key: String) -> Color {
         if key == "★all"       { return .blue }
         if key == "★favorites" { return .pink }
+        if let hex = customColors[key], let c = Color(hex: hex) { return c }
         let pal: [Color] = [.blue,.green,.orange,.purple,.teal,.indigo,.cyan]
         let idx = allUserCats.firstIndex(of: key) ?? 0
         return pal[idx % pal.count]

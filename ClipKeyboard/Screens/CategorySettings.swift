@@ -124,7 +124,8 @@ struct CategorySettings: View {
 
     @ViewBuilder
     private func categoryRow(_ category: String) -> some View {
-        HStack {
+        let isProtected = CategoryStore.protectedCategories.contains(category)
+        HStack(spacing: 12) {
             if renaming == category {
                 TextField(category, text: $renameText, onCommit: {
                     if store.rename(from: category, to: renameText) {
@@ -142,10 +143,17 @@ struct CategorySettings: View {
                 }
                 .font(.body)
             } else {
+                // 색 편집 — 커스텀 카테고리만. 시스템 ColorPicker로 직접 지정.
+                if !isProtected {
+                    ColorPicker(selection: colorBinding(category), supportsOpacity: false) { EmptyView() }
+                        .labelsHidden()
+                        .frame(width: 28)
+                        .accessibilityLabel(String(format: NSLocalizedString("%@ 색상", comment: "Category color picker"), category))
+                }
                 Text(NSLocalizedString(category, comment: "Category name"))
-                    .foregroundColor(CategoryStore.protectedCategories.contains(category) ? .secondary : .primary)
+                    .foregroundColor(isProtected ? .secondary : .primary)
                 Spacer()
-                if CategoryStore.protectedCategories.contains(category) {
+                if isProtected {
                     Image(systemName: "lock.fill")
                         .font(.body)
                         .foregroundColor(.secondary)
@@ -162,9 +170,41 @@ struct CategorySettings: View {
                     .buttonStyle(.plain)
                     .accessibilityLabel(NSLocalizedString("이름 변경", comment: "Rename category button"))
                     .accessibilityHint(String(format: NSLocalizedString("%@ 카테고리 이름을 변경합니다", comment: "Rename category hint"), category))
+                    // 표시 토글 — 탭에 노출할지(켜짐=표시).
+                    Toggle("", isOn: visibleBinding(category))
+                        .labelsHidden()
+                        .accessibilityLabel(String(format: NSLocalizedString("%@ 탭 표시", comment: "Category visibility toggle"), category))
                 }
             }
         }
+    }
+
+    // MARK: - Bindings (색/표시)
+
+    private func colorBinding(_ category: String) -> Binding<Color> {
+        Binding(
+            get: {
+                if let hex = store.colorHex(for: category), let c = Color(hex: hex) { return c }
+                return defaultPaletteColor(category)
+            },
+            set: { newColor in
+                store.setColorHex(newColor.toHex(), for: category)
+            }
+        )
+    }
+
+    private func visibleBinding(_ category: String) -> Binding<Bool> {
+        Binding(
+            get: { store.isVisible(category) },
+            set: { store.setVisible(category, $0) }
+        )
+    }
+
+    /// 미지정 시 기본 팔레트 색 — ClipKeyboardList의 매핑과 동일(순서 기반).
+    private func defaultPaletteColor(_ category: String) -> Color {
+        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        let idx = store.allCategories.firstIndex(of: category) ?? 0
+        return palette[idx % palette.count]
     }
 }
 

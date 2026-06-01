@@ -647,8 +647,12 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 커스텀 카테고리 순서에 따라 결정적으로 색상 반환
+    /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
+    /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
     private func customCategoryColor(_ name: String) -> Color {
+        if let hex = CategoryStore.shared.colorHex(for: name), let c = Color(hex: hex) {
+            return c
+        }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = viewModel.customCategories.firstIndex(of: name) ?? 0
         return palette[idx % palette.count]

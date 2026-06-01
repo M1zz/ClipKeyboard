@@ -24121,6 +24121,57 @@
           }
         }
       }
+    },
+    "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요." : {
+      "comment" : "Persona settings subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommended categories are added — off at first, so turn on only the ones you want in Manage Categories."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori yang direkomendasikan ditambahkan — awalnya nonaktif, jadi aktifkan hanya yang Anda inginkan di Kelola Kategori."
+          }
+        }
+      }
+    },
+    "%@ 색상" : {
+      "comment" : "Category color picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ color"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warna %@"
+          }
+        }
+      }
+    },
+    "%@ 탭 표시" : {
+      "comment" : "Category visibility toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show %@ tab"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilkan tab %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

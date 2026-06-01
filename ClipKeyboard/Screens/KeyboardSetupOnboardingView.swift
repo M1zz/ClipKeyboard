@@ -814,7 +814,7 @@ struct PersonaSelectionView: View {
     private var headerSubtitle: String {
         switch mode {
         case .onboarding: return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
-        case .settings: return NSLocalizedString("새 페르소나의 추천 카테고리가 추가됩니다. 기존 카테고리는 유지됩니다.", comment: "Persona settings subtitle")
+        case .settings: return NSLocalizedString("추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.", comment: "Persona settings subtitle")
         }
     }
 
@@ -828,6 +828,13 @@ struct PersonaSelectionView: View {
     private func apply() {
         let lang = Locale.current.language.languageCode?.identifier
         CategoryStore.shared.applyPersona(selected, language: lang)
+        // 설정에서 페르소나를 바꾸면 추천 카테고리를 추가하되 표시 토글은 OFF로 둔다.
+        // 사용자가 카테고리 관리에서 직접 켜기 전까지 탭에 나타나지 않는다.
+        if mode == .settings {
+            selected.seedCategories(language: lang ?? "en").forEach {
+                CategoryStore.shared.addHidden($0)
+            }
+        }
         onContinue()
     }
 }

@@ -159,6 +159,52 @@ final class CategoryStore: ObservableObject {
     /// 보호 카테고리 — 삭제 불가.
     static let protectedCategories: Set<String> = ["기본", "텍스트", "이미지"]
 
+    // MARK: - Visibility (표시/숨김 토글)
+    // 메인 리스트·키보드 탭에 노출할지 여부. ClipKeyboardListViewModel과 동일한 키 사용.
+
+    private let hiddenTabsKey = "hiddenCategoryTabs_v1"
+
+    /// 카테고리가 탭으로 표시되는지(숨김 집합에 없으면 표시).
+    func isVisible(_ name: String) -> Bool {
+        let hidden = UserDefaults(suiteName: appGroup)?.stringArray(forKey: hiddenTabsKey) ?? []
+        return !hidden.contains(name)
+    }
+
+    /// 카테고리 표시/숨김 설정.
+    func setVisible(_ name: String, _ visible: Bool) {
+        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        var hidden = Set(defaults.stringArray(forKey: hiddenTabsKey) ?? [])
+        if visible { hidden.remove(name) } else { hidden.insert(name) }
+        defaults.set(Array(hidden), forKey: hiddenTabsKey)
+    }
+
+    /// 카테고리 추가 후 표시 토글을 OFF(숨김)로 둔다 — 페르소나 변경 등으로 자동 추가될 때
+    /// 사용자가 카테고리 관리에서 직접 켜기 전까지 탭을 어지럽히지 않도록.
+    @discardableResult
+    func addHidden(_ name: String) -> Bool {
+        let added = add(name)
+        if added { setVisible(name, false) }
+        return added
+    }
+
+    // MARK: - Color (카테고리 색 편집)
+    // 미지정 시 호출부(ClipKeyboardList)가 팔레트 인덱스로 결정. 지정 시 이 값 우선.
+
+    private let categoryColorsKey = "userCategoryColors_v1"
+
+    /// 사용자가 지정한 카테고리 색(hex). 미지정이면 nil.
+    func colorHex(for name: String) -> String? {
+        (UserDefaults(suiteName: appGroup)?.dictionary(forKey: categoryColorsKey) as? [String: String])?[name]
+    }
+
+    /// 카테고리 색 지정/해제. nil이면 기본 팔레트로 되돌린다.
+    func setColorHex(_ hex: String?, for name: String) {
+        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        var map = (defaults.dictionary(forKey: categoryColorsKey) as? [String: String]) ?? [:]
+        if let hex { map[name] = hex } else { map.removeValue(forKey: name) }
+        defaults.set(map, forKey: categoryColorsKey)
+    }
+
     // MARK: - Storage
 
     /// 외부(예: CategorySettings.onAppear)에서 디스크 최신값으로 다시 읽기.
