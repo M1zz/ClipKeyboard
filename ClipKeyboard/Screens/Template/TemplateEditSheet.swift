@@ -60,8 +60,9 @@ struct TemplateEditSheet: View {
                     if !customPlaceholders.isEmpty || !autoVarsInTemplate.isEmpty {
                         fillChipsRow(proxy)
                     }
-                    placeholderSection
+                    // 미리보기를 '값 선택'보다 위에 — 채우는 동안 결과가 바로 보이게.
                     previewSection
+                    placeholderSection
                 }
                 .padding()
             }
