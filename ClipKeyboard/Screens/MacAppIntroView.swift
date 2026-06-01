@@ -93,7 +93,7 @@ struct MacAppIntroView: View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "checkmark.seal.fill")
                 .foregroundColor(.green)
-                .font(.system(size: 18))
+                .font(.system(.body))
             VStack(alignment: .leading, spacing: 4) {
                 Text(NSLocalizedString("Universal Purchase", comment: "Mac universal purchase title"))
                     .font(.body)
@@ -170,7 +170,7 @@ private struct MacFeatureRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(.body, weight: .semibold))
                 .foregroundColor(tint)
                 .frame(width: 28)
                 .padding(.top, 2)

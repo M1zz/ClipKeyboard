@@ -260,12 +260,12 @@ struct ClipboardList: View {
 
             if selectedFilter == nil {
                 Text(NSLocalizedString("클립보드 히스토리 없음", comment: "No clipboard history"))
-                    .font(.system(size: 22)).bold()
+                    .font(.system(.title2)).bold()
                 Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
                     .opacity(0.7)
             } else {
                 Text(String(format: NSLocalizedString("%@ 타입 없음", comment: "No items of type"), selectedFilter!.localizedName))
-                    .font(.system(size: 22)).bold()
+                    .font(.system(.title2)).bold()
                 Text(NSLocalizedString("이 타입으로 분류된 항목이 없습니다", comment: "No items of this type"))
                     .opacity(0.7)
             }

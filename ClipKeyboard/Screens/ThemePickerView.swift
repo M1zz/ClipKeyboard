@@ -77,11 +77,11 @@ private struct ThemeOptionRow: View {
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(previewTheme.accent)
-                        .font(.system(size: 20))
+                        .font(.system(.title3))
                 } else {
                     Image(systemName: "circle")
                         .foregroundColor(.secondary.opacity(0.5))
-                        .font(.system(size: 20))
+                        .font(.system(.title3))
                 }
             }
             .padding(.vertical, 6)

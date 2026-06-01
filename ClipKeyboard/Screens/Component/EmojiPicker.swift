@@ -138,7 +138,7 @@ struct CategoryTabButton: View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Image(systemName: category.icon)
-                    .font(.system(size: 20))
+                    .font(.system(.title3))
                 Text(category.localizedName)
                     .font(.caption2)
             }

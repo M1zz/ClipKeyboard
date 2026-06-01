@@ -42,7 +42,7 @@ struct ClipboardCaptureCard: View {
 
     private var typeIcon: some View {
         Image(systemName: detectedType.icon)
-            .font(.system(size: 18, weight: .semibold))
+            .font(.system(.body, weight: .semibold))
             .foregroundColor(Color.fromName(detectedType.color))
             .frame(width: 40, height: 40)
             .background(Color.fromName(detectedType.color).opacity(0.15))
@@ -65,7 +65,7 @@ struct ClipboardCaptureCard: View {
 
             if confidence > 0.8 {
                 Image(systemName: "sparkles")
-                    .font(.system(size: 10))
+                    .font(.system(.caption2))
                     .foregroundColor(.yellow)
             }
 

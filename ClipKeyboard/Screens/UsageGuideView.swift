@@ -614,7 +614,7 @@ struct UsageGuideView: View {
     private var heroHeader: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(NSLocalizedString("Your day as a remote freelancer", comment: "Usage guide hero title"))
-                .font(.system(size: 24, weight: .semibold, design: .serif))
+                .font(.system(.title2, design: .serif, weight: .semibold))
                 .foregroundColor(theme.text)
             Text(NSLocalizedString("18 moments where ClipKeyboard saves you minutes — or rescues a mistake.", comment: "Usage guide hero subtitle"))
                 .font(.body)
@@ -652,7 +652,7 @@ struct UsageGuideView: View {
             } label: {
                 HStack(spacing: 10) {
                     Text(category.emoji)
-                        .font(.system(size: 22))
+                        .font(.system(.title2))
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(category.title)
@@ -702,7 +702,7 @@ struct UsageGuideView: View {
             if let context = scenario.context {
                 HStack(spacing: 6) {
                     Image(systemName: "quote.opening")
-                        .font(.system(size: 10))
+                        .font(.system(.caption2))
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
                     Text(context)
@@ -782,7 +782,7 @@ struct UsageGuideView: View {
 
     private func featureBadge(_ feature: ScenarioFeature) -> some View {
         Text(feature.label)
-            .font(.system(size: 10, weight: .semibold))
+            .font(.system(.caption2, weight: .semibold))
             .foregroundColor(feature.color)
             .padding(.horizontal, 7)
             .padding(.vertical, 2)

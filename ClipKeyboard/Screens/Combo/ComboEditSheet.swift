@@ -337,7 +337,7 @@ struct ComboEditSheet: View {
                 addValue()
             } label: {
                 Image(systemName: "plus.circle.fill")
-                    .font(.system(size: 28))
+                    .font(.system(.title))
                     .foregroundColor(newValueText.isEmpty ? .gray : .orange)
             }
             .disabled(newValueText.isEmpty)

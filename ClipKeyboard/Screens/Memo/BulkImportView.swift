@@ -148,7 +148,7 @@ struct BulkImportView: View {
             } label: {
                 Image(systemName: draft.wrappedValue.include ? "checkmark.circle.fill" : "circle")
                     .foregroundColor(draft.wrappedValue.include ? .accentColor : .secondary)
-                    .font(.system(size: 20))
+                    .font(.system(.title3))
             }
             .buttonStyle(.plain)
 

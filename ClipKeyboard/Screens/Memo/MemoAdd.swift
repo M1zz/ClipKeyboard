@@ -555,18 +555,18 @@ struct MemoAdd: View {
                     HStack(spacing: 12) {
                         HStack(spacing: 4) {
                             Image(systemName: "number")
-                                .font(.system(size: 9))
+                                .font(.system(.caption2))
                                 .foregroundColor(.blue)
                             Text(NSLocalizedString("숫자 입력 (키보드에서 숫자패드 표시)", comment: "Numeric token legend"))
-                                .font(.system(size: 10))
+                                .font(.system(.caption2))
                                 .foregroundColor(.secondary)
                         }
                         HStack(spacing: 4) {
                             Image(systemName: "list.bullet")
-                                .font(.system(size: 9))
+                                .font(.system(.caption2))
                                 .foregroundColor(.green)
                             Text(NSLocalizedString("선택지 (저장된 값 중 선택)", comment: "Selection token legend"))
-                                .font(.system(size: 10))
+                                .font(.system(.caption2))
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -682,7 +682,7 @@ struct MemoAdd: View {
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .foregroundColor(.purple)
-                                .font(.system(size: 18))
+                                .font(.system(.body))
                         }
                     }
                     .padding(.leading, 32)
@@ -1022,7 +1022,7 @@ private struct QuickInsertTokenButton: View {
         Button(action: action) {
             HStack(spacing: 4) {
                 Image(systemName: isNumeric ? "number" : "list.bullet")
-                    .font(.system(size: 9, weight: .semibold))
+                    .font(.system(.caption2, weight: .semibold))
                     .accessibilityHidden(true)
                 Text(token)
                     .font(.body.weight(.medium))
@@ -1061,11 +1061,11 @@ struct PlaceholderValueEditor: View {
                 // 타입 뱃지 — 숫자 입력 vs 선택지
                 HStack(spacing: 4) {
                     Image(systemName: isNumeric ? "number" : "list.bullet")
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.system(.caption2, weight: .semibold))
                     Text(isNumeric
                          ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
                          : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.system(.caption2, weight: .semibold))
                 }
                 .foregroundColor(isNumeric ? .blue : .green)
                 .padding(.horizontal, 7)

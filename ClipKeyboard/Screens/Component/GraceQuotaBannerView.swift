@@ -16,7 +16,7 @@ struct GraceQuotaBannerView: View {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: "checkmark.shield.fill")
                     .foregroundColor(.blue)
-                    .font(.system(size: 18))
+                    .font(.system(.body))
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(NSLocalizedString(

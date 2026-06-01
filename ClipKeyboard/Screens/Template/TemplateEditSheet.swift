@@ -602,7 +602,7 @@ struct TemplatePlaceholderRow: View {
             Spacer(minLength: 20)
             Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
                 .foregroundColor(.blue)
-                .font(.system(size: 24))
+                .font(.system(.title2))
         }
         .padding(16)
         .background(theme.surface)
@@ -651,7 +651,7 @@ struct TemplatePlaceholderRow: View {
                                 showEditAlert = true
                             } label: {
                                 Image(systemName: "pencil.circle.fill")
-                                    .font(.system(size: 28))
+                                    .font(.system(.title))
                                     .foregroundColor(.blue)
                             }
                             .accessibilityLabel(String(format: NSLocalizedString("%@ 수정", comment: "Edit value button label"), value.value))
@@ -662,7 +662,7 @@ struct TemplatePlaceholderRow: View {
                                 showDeleteAlert = true
                             } label: {
                                 Image(systemName: "trash.circle.fill")
-                                    .font(.system(size: 28))
+                                    .font(.system(.title))
                                     .foregroundColor(.red)
                             }
                             .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value button label"), value.value))

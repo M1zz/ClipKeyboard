@@ -167,7 +167,7 @@ struct UsageScenarioPickerSheet: View {
             guard let stringRange = Range(match.range, in: raw),
                   let attrRange = Range(stringRange, in: attr) else { continue }
             attr[attrRange].foregroundColor = .red
-            attr[attrRange].font = .system(size: 12, weight: .semibold, design: .monospaced)
+            attr[attrRange].font = .system(.caption, design: .monospaced, weight: .semibold)
         }
         return attr
     }
