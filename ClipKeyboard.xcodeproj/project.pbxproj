@@ -32,6 +32,7 @@
 		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
+		KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
 		587382B12F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */; };
@@ -185,6 +186,7 @@
 		581D8A9B2F49E85000F2F032 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		581D8BAD2F49EE2600F2F032 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Version.xcconfig; sourceTree = "<group>"; };
 		585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		KBO00022F0000000000000002 /* KeyboardOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardOverlays.swift; sourceTree = "<group>"; };
 		587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutSettings.swift; sourceTree = "<group>"; };
 		587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		587382B02F3B8AAD0042ECA4 /* FavoriteNudgeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNudgeManager.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */,
 				587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */,
 				585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */,
+				KBO00022F0000000000000002 /* KeyboardOverlays.swift */,
 				AA00001100000001F3B00004 /* HangulComposer.swift */,
 				F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */,
 				845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */,
@@ -917,6 +920,7 @@
 				587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */,
 				581550642AD5321F00A6115B /* Constants.swift in Sources */,
 				585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */,
+				KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */,
 				AA00001000000001F3B00004 /* HangulComposer.swift in Sources */,
 				29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */,
 				0A839CB4770AA10B52CBAA72 /* KeyboardDocumentState.swift in Sources */,
