@@ -74,6 +74,7 @@
 		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
 		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
+		MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAC00022F0000000000000002 /* MemoAddComponents.swift */; };
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
@@ -221,6 +222,7 @@
 		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
 		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
+		MAC00022F0000000000000002 /* MemoAddComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddComponents.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -580,6 +582,7 @@
 				IC00001A2F0000000000000005 /* ImagePickerComponents.swift */,
 				HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */,
 				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
+				MAC00022F0000000000000002 /* MemoAddComponents.swift */,
 				616238CD1282F3D06FC7E369 /* BulkImportView.swift */,
 			);
 			path = Memo;
@@ -964,6 +967,7 @@
 				IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */,
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,
 				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
+				MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */,
 				0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */,
 				581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */,
 				58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */,
