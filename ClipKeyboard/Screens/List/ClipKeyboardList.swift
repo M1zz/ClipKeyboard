@@ -511,6 +511,13 @@ struct ClipKeyboardList: View {
         .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
         .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        // 타입 테두리 — 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .strokeBorder(memoTypeBorder(memo).color,
+                              style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
+                                                 dash: memoTypeBorder(memo).dash))
+        )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
         .onTapGesture {
@@ -594,6 +601,17 @@ struct ClipKeyboardList: View {
         if memo.isCombo    { return "square.stack.3d.up.fill" }
         if memo.isSecure   { return "lock.fill" }
         return "doc.fill"
+    }
+
+    /// 메모 타입별 테두리 — 키보드 익스텐션 typeStyle과 정확히 동일.
+    /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
+    private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
+        if memo.isTemplate || !memo.templateVariables.isEmpty {
+            return (.purple, 1.5, [])
+        }
+        if memo.isCombo { return (.orange, 1.5, [5, 3]) }
+        if memo.isSecure { return (.gray, 1.5, [1, 3]) }
+        return (.clear, 0, [])
     }
 
     @ViewBuilder
@@ -1929,11 +1947,8 @@ private struct MemoActionSheet: View {
                                 onMoveToCategory(cat)
                                 dismiss()
                             } label: {
-                                if memo.category == cat {
-                                    Label(cat, systemImage: "checkmark")
-                                } else {
-                                    Text(cat)
-                                }
+                                // 각 카테고리에 그 카테고리 심볼을 붙여 표시(현재 카테고리는 체크).
+                                Label(cat, systemImage: memo.category == cat ? "checkmark" : categoryIcon(cat))
                             }
                         }
                         if let onCreateNewCategory {
@@ -2037,6 +2052,16 @@ private struct MemoActionSheet: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 14)
         .contentShape(Rectangle())
+    }
+
+    /// 카테고리 심볼 — 카드/키보드와 동일(사용자 지정 우선, 없으면 기본 팔레트).
+    private func categoryIcon(_ name: String) -> String {
+        if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
+           let symbol = custom[name] {
+            return symbol
+        }
+        return defaultIcon(for: name, in: categories)
     }
 }
 
