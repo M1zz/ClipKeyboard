@@ -530,6 +530,7 @@ struct ClipKeyboardList: View {
             }
             #endif
         }
+        .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isButton)
         // 롱프레스 감아지는 테두리 오버레이
         .overlay {
@@ -580,7 +581,7 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        .accessibilityLabel(memo.title)
+        .accessibilityLabel(memoGridAccessibilityLabel(memo))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
 
@@ -593,6 +594,25 @@ struct ClipKeyboardList: View {
         if CategoryStore.shared.isFeatureEnabled,
            viewModel.customCategories.contains(memo.category) { return true }
         return false
+    }
+
+    /// 그리드 셀 VoiceOver 합성 라벨 — 제목 + 상태(즐겨찾기/이미지/보안/템플릿/콤보/카테고리).
+    private func memoGridAccessibilityLabel(_ memo: Memo) -> String {
+        var parts: [String] = [memo.title]
+        if memo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Category: favorites")) }
+        if memo.contentType == .image || memo.contentType == .mixed {
+            parts.append(NSLocalizedString("이미지 메모", comment: "VoiceOver: image memo badge"))
+        }
+        if memo.isSecure { parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge")) }
+        if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
+        if !memo.isTemplate, memo.attachedTemplateId != nil {
+            parts.append(NSLocalizedString("옵션 템플릿 연결됨", comment: "VoiceOver: attached template badge"))
+        }
+        if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
+        if CategoryStore.shared.isFeatureEnabled, viewModel.customCategories.contains(memo.category) {
+            parts.append(NSLocalizedString(memo.category, comment: "Category name"))
+        }
+        return parts.joined(separator: ", ")
     }
 
     private func memoTypeIconName(memo: Memo) -> String {

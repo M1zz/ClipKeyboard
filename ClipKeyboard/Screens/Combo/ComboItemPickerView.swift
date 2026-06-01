@@ -34,6 +34,7 @@ struct ComboItemPickerView: View {
                 HStack {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(theme.textFaint)
+                        .accessibilityHidden(true)
                     TextField(NSLocalizedString("검색", comment: "Search"), text: $searchText)
                         .textFieldStyle(.plain)
                     if !searchText.isEmpty {
@@ -43,6 +44,7 @@ struct ComboItemPickerView: View {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(theme.textFaint)
                         }
+                        .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
                     }
                 }
                 .padding(.horizontal)

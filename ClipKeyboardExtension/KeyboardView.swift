@@ -782,6 +782,7 @@ struct KeyboardView: View {
             .background(theme.surface)
             .cornerRadius(theme.radiusXs)
         }
+        .accessibilityLabel(NSLocalizedString("스페이스", comment: "Space key"))
     }
 
     private var backspaceKey: some View {
@@ -796,6 +797,7 @@ struct KeyboardView: View {
                 .background(theme.divider)
                 .cornerRadius(theme.radiusXs)
         }
+        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
     }
 
     private var langToggleKey: some View {
@@ -810,6 +812,7 @@ struct KeyboardView: View {
                 .background(theme.divider)
                 .cornerRadius(theme.radiusXs)
         }
+        .accessibilityLabel(NSLocalizedString("입력 언어 전환", comment: "Toggle input language key"))
     }
 
     private var currentRows: [[String]] {

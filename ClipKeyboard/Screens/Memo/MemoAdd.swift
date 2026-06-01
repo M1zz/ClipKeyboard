@@ -807,6 +807,7 @@ struct MemoAdd: View {
                     .foregroundColor(viewModel.newComboValue.isEmpty ? .gray : .orange)
             }
             .disabled(viewModel.newComboValue.isEmpty)
+            .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add combo value button"))
         }
     }
 
@@ -824,6 +825,7 @@ struct MemoAdd: View {
                                 Image(systemName: "line.3.horizontal")
                                     .font(.body)
                                     .foregroundColor(theme.textFaint)
+                                    .accessibilityHidden(true)
 
                                 Text("\(index + 1).")
                                     .font(.body)
@@ -845,10 +847,25 @@ struct MemoAdd: View {
                                         .foregroundColor(.red)
                                         .font(.title3)
                                 }
+                                .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), value))
                             }
                             .padding(12)
                             .background(theme.surfaceAlt)
                             .cornerRadius(theme.radiusSm)
+                            // VoiceOver/스위치 컨트롤: 드래그 불가 → 커스텀 액션으로 이동/삭제.
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel(String(format: NSLocalizedString("%d번, %@", comment: "Combo row"), index + 1, value))
+                            .accessibilityAction(named: NSLocalizedString("위로 이동", comment: "Move combo value up")) {
+                                guard index > 0 else { return }
+                                viewModel.moveComboValues(from: IndexSet([index]), to: index - 1)
+                            }
+                            .accessibilityAction(named: NSLocalizedString("아래로 이동", comment: "Move combo value down")) {
+                                guard index < viewModel.comboValues.count - 1 else { return }
+                                viewModel.moveComboValues(from: IndexSet([index]), to: index + 2)
+                            }
+                            .accessibilityAction(named: NSLocalizedString("삭제", comment: "Delete combo value")) {
+                                viewModel.removeComboValue(at: index)
+                            }
                         }
                         .onMove { from, to in
                             viewModel.moveComboValues(from: from, to: to)

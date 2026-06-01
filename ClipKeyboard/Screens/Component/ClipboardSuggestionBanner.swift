@@ -62,6 +62,7 @@ struct ClipboardSuggestionBanner: View {
                             Image(systemName: detectedType.icon)
                                 .font(.body)
                                 .foregroundColor(Color.fromName(detectedType.color))
+                                .accessibilityHidden(true)
 
                             Text(detectedType.localizedName)
                                 .font(.body)
@@ -86,6 +87,7 @@ struct ClipboardSuggestionBanner: View {
                         HStack(spacing: 4) {
                             Image(systemName: "checkmark")
                                 .font(.body)
+                                .accessibilityHidden(true)
                             Text(NSLocalizedString("사용", comment: "Use"))
                                 .font(.body)
                                 .fontWeight(.semibold)
@@ -103,6 +105,7 @@ struct ClipboardSuggestionBanner: View {
                         HStack(spacing: 4) {
                             Image(systemName: "xmark")
                                 .font(.body)
+                                .accessibilityHidden(true)
                             Text(NSLocalizedString("무시", comment: "Ignore"))
                                 .font(.body)
                         }

@@ -518,6 +518,24 @@
         }
       }
     },
+    "{ }로 감싸면 입력할 때 채우는 칸이 됩니다" : {
+      "comment" : "Custom placeholder hint",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wrap text in { } to create a fill-in blank"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bungkus teks dengan { } untuk membuat kolom isian"
+          }
+        }
+      }
+    },
     "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요." : {
       "comment" : "Template hint description",
       "extractionState" : "manual",
@@ -673,6 +691,23 @@
         }
       }
     },
+    "%@ 색상" : {
+      "comment" : "Category color picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ color"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warna %@"
+          }
+        }
+      }
+    },
     "%@ 수정" : {
       "comment" : "Edit value button label",
       "localizations" : {
@@ -737,6 +772,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tidak ada tipe %@"
+          }
+        }
+      }
+    },
+    "%@ 탭 표시" : {
+      "comment" : "Category visibility toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show %@ tab"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilkan tab %@"
           }
         }
       }
@@ -1374,6 +1426,7 @@
     },
     "%d포인트" : {
       "comment" : "Font size value format",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9612,6 +9665,7 @@
     },
     "Usage scenarios" : {
       "comment" : "Screen title: usage guide",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10363,7 +10417,7 @@
       }
     },
     "값 입력" : {
-      "comment" : "Combo value input placeholder\nPlaceholder value input",
+      "comment" : "Combo value input placeholder\nDirect value input placeholder\nPlaceholder value input",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10375,6 +10429,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan Nilai"
+          }
+        }
+      }
+    },
+    "값 채우기" : {
+      "comment" : "Mac template fill sheet title",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill in values"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isi nilai"
           }
         }
       }
@@ -11142,13 +11214,20 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
+    "꺼짐" : {
+      "comment" : "Off",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Off"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nonaktif"
           }
         }
       }
@@ -11165,6 +11244,17 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -11199,7 +11289,7 @@
       }
     },
     "날짜" : {
-      "comment" : "Date token button",
+      "comment" : "Date section header\nDate token button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11821,6 +11911,24 @@
         }
       }
     },
+    "도시" : {
+      "comment" : "Auto template variable",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kota"
+          }
+        }
+      }
+    },
     "도움말" : {
       "comment" : "Settings section: help",
       "localizations" : {
@@ -12013,6 +12121,23 @@
         }
       }
     },
+    "디스플레이" : {
+      "comment" : "Settings section: display",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilan"
+          }
+        }
+      }
+    },
     "디지털 노마드 / 프리랜서" : {
       "comment" : "Persona: Digital Nomad title",
       "extractionState" : "manual",
@@ -12103,6 +12228,7 @@
     },
     "리뷰 및 평점" : {
       "comment" : "Review navigation title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12131,6 +12257,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ulasan membantu pengguna lain menemukan aplikasi dan sangat menyemangati pengembang."
+          }
+        }
+      }
+    },
+    "리스트에서 메모 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로." : {
+      "comment" : "Memo height explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set how tall memo cards are in the list. Smaller fits more per screen; larger shows bigger titles."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atur tinggi kartu memo di daftar. Lebih kecil memuat lebih banyak; lebih besar menampilkan judul lebih besar."
           }
         }
       }
@@ -12218,7 +12361,7 @@
       }
     },
     "메모 + 템플릿" : {
-      "comment" : "Memo plus template header",
+      "comment" : "Memo + template sample\nMemo plus template header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12288,6 +12431,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Search memos"
+          }
+        }
+      }
+    },
+    "메모 높이" : {
+      "comment" : "Memo cell height",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo height"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinggi memo"
           }
         }
       }
@@ -12534,6 +12694,40 @@
         }
       }
     },
+    "메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요." : {
+      "comment" : "Category badge explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the memo's category as a color and symbol in the top-right of each card. The symbol lets colorblind users tell categories apart too. Turn it off for cleaner cards."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan kategori memo sebagai warna dan simbol di kanan atas setiap kartu. Simbolnya juga membantu pengguna buta warna membedakan kategori. Matikan untuk kartu yang lebih bersih."
+          }
+        }
+      }
+    },
+    "메모 표시" : {
+      "comment" : "Memo display settings entry",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo display"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilan memo"
+          }
+        }
+      }
+    },
     "메모 한도까지 %d개 남음 → Pro 업그레이드" : {
       "comment" : "Memo limit near banner",
       "localizations" : {
@@ -12605,6 +12799,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tidak ada memo"
+          }
+        }
+      }
+    },
+    "메모가 저장되었습니다" : {
+      "comment" : "Toast: memo saved",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo disimpan"
           }
         }
       }
@@ -13733,6 +13945,7 @@
     },
     "보안 PIN" : {
       "comment" : "Secure PIN nav title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13918,6 +14131,23 @@
         }
       }
     },
+    "보통" : {
+      "comment" : "Medium",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sedang"
+          }
+        }
+      }
+    },
     "보험번호" : {
       "comment" : "Insurance Number",
       "localizations" : {
@@ -14040,6 +14270,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salin"
+          }
+        }
+      }
+    },
+    "복사 후 붙여넣기" : {
+      "comment" : "Copy then paste",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy & Paste"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin & Tempel"
           }
         }
       }
@@ -15440,8 +15688,26 @@
         }
       }
     },
+    "선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요." : {
+      "comment" : "Persona category suggestion tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These match how you use the app. Tap one to create it and gather your memos in one place."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini cocok dengan cara Anda memakai aplikasi. Ketuk salah satu untuk membuatnya dan mengumpulkan memo Anda di satu tempat."
+          }
+        }
+      }
+    },
     "설명 (선택)" : {
       "comment" : "Description optional",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15754,6 +16020,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "설정 화면"
+          }
+        }
+      }
+    },
+    "설정됨" : {
+      "comment" : "PIN is set",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diatur"
           }
         }
       }
@@ -16484,6 +16767,7 @@
     },
     "앱 내 폰트 크기" : {
       "comment" : "App font size\nFont size slider label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16576,6 +16860,7 @@
     },
     "앱 테마" : {
       "comment" : "Settings: theme picker",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16814,6 +17099,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "언제든지 접근 가능"
+          }
+        }
+      }
+    },
+    "없음" : {
+      "comment" : "PIN not set / none",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada"
           }
         }
       }
@@ -17067,6 +17369,23 @@
         }
       }
     },
+    "영어(미국)" : {
+      "comment" : "Keyboard name: English (US)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English (US)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inggris (AS)"
+          }
+        }
+      }
+    },
     "예: 010-1234-5678" : {
       "comment" : "General quick add: phone number placeholder",
       "extractionState" : "manual",
@@ -17213,6 +17532,7 @@
     },
     "예: 카드번호를 입력합니다" : {
       "comment" : "Description example",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17418,6 +17738,23 @@
         }
       }
     },
+    "우상단 심볼" : {
+      "comment" : "Top-right symbol section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Top-right symbol"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbol kanan atas"
+          }
+        }
+      }
+    },
     "우편번호" : {
       "comment" : "Postal Code",
       "localizations" : {
@@ -17585,6 +17922,7 @@
     },
     "이 사이즈로 내용이 보입니다." : {
       "comment" : "Font size preview text",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17770,6 +18108,23 @@
         }
       }
     },
+    "이런 카테고리는 어때요?" : {
+      "comment" : "Persona category suggestion tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try one of these categories?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba salah satu kategori ini?"
+          }
+        }
+      }
+    },
     "이렇게 연습하세요" : {
       "comment" : "Practice instructions header",
       "localizations" : {
@@ -17849,6 +18204,23 @@
         }
       }
     },
+    "이모티콘" : {
+      "comment" : "Keyboard name: Emoji",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emoji"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emoji"
+          }
+        }
+      }
+    },
     "이미 추가된 값입니다" : {
       "comment" : "Combo: duplicate value warning",
       "localizations" : {
@@ -17919,6 +18291,7 @@
     },
     "이미지 메모 추가" : {
       "comment" : "Menu: new image memo",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18032,6 +18405,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Format gambar tidak didukung"
+          }
+        }
+      }
+    },
+    "이미지가 복사되었습니다" : {
+      "comment" : "Image copied toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image copied"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gambar disalin"
           }
         }
       }
@@ -18204,6 +18594,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sekarang Anda bisa mengetik memo langsung dari keyboard"
+          }
+        }
+      }
+    },
+    "인사" : {
+      "comment" : "Auto template variable",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Greeting"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sapaan"
           }
         }
       }
@@ -18690,6 +19098,24 @@
         }
       }
     },
+    "자동으로 채워지는 값" : {
+      "comment" : "Auto-fill variables hint",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filled in automatically"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diisi otomatis"
+          }
+        }
+      }
+    },
     "자동으로 채워지는 값입니다" : {
       "comment" : "Auto-filled value hint",
       "localizations" : {
@@ -18878,23 +19304,6 @@
         }
       }
     },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
-          }
-        }
-      }
-    },
     "저장 실패: %@" : {
       "localizations" : {
         "en" : {
@@ -18918,6 +19327,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your Memos (shown in keyboard)"
+          }
+        }
+      }
+    },
+    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
+      "comment" : "Clear all confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
           }
         }
       }
@@ -18957,23 +19424,6 @@
         }
       }
     },
-    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
-      "comment" : "Clear all confirm message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
     "저장됨" : {
       "comment" : "Saved toast",
       "localizations" : {
@@ -19009,32 +19459,9 @@
         }
       }
     },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장할 텍스트를 입력하세요" : {
       "comment" : "Quick add placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19446,7 +19873,7 @@
       }
     },
     "즐겨찾기" : {
-      "comment" : "Category tab: favorites\nCategory: favorites\nFavorite\nFavorite toggle\nFavorites filter chip\nVoiceOver: favorite badge",
+      "comment" : "Category tab: favorites\nCategory: favorites\nFavorite\nFavorite toggle\nFavorites\nFavorites filter chip\nVoiceOver: favorite badge",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20255,6 +20682,23 @@
         }
       }
     },
+    "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요." : {
+      "comment" : "Persona settings subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommended categories are added — off at first, so turn on only the ones you want in Manage Categories."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori yang direkomendasikan ditambahkan — awalnya nonaktif, jadi aktifkan hanya yang Anda inginkan di Kelola Kategori."
+          }
+        }
+      }
+    },
     "출력 예시" : {
       "comment" : "Combined output preview header",
       "extractionState" : "manual",
@@ -20366,7 +20810,7 @@
       }
     },
     "카테고리 관리" : {
-      "comment" : "Category management sheet title\nMenu: manage categories",
+      "comment" : "Category management sheet title\nManage categories settings entry\nMenu: manage categories",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20400,6 +20844,7 @@
     },
     "카테고리 색상 배지" : {
       "comment" : "Nudge: category badge title\nSettings: show category color badge on cards",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20409,8 +20854,25 @@
         }
       }
     },
+    "카테고리 심볼" : {
+      "comment" : "Category symbol\nNudge: category symbol title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category symbol"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simbol kategori"
+          }
+        }
+      }
+    },
     "카테고리 아이콘" : {
-      "comment" : "Category icons screen title\nKeyboard category icon settings",
+      "comment" : "Category icon settings\nCategory icons screen title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20455,6 +20917,7 @@
     },
     "카테고리 해제" : {
       "comment" : "Action: remove from category",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20495,6 +20958,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "카테고리로 분류해서 빠르게 찾아볼까요?"
+          }
+        }
+      }
+    },
+    "카테고리에 추가" : {
+      "comment" : "Action: add to category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan ke kategori"
+          }
+        }
+      }
+    },
+    "카테고리에서 빼기" : {
+      "comment" : "Action: remove memo from its category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus dari kategori"
           }
         }
       }
@@ -20544,6 +21041,23 @@
         }
       }
     },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
+          }
+        }
+      }
+    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -20561,8 +21075,9 @@
         }
       }
     },
-    "켬" : {
-      "comment" : "Toggle state: on",
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20572,8 +21087,8 @@
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
+            "state" : "translated",
+            "value" : "Aktif"
           }
         }
       }
@@ -20626,6 +21141,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit Combo"
+          }
+        }
+      }
+    },
+    "콤보가 순서대로 입력되는 흐름을 연습해 봅니다" : {
+      "comment" : "Practice disclosure hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Practice how the combo inserts values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berlatih bagaimana kombo memasukkan nilai secara berurutan"
           }
         }
       }
@@ -20888,6 +21420,24 @@
         }
       }
     },
+    "클립보드에서 이미지를 추가했습니다" : {
+      "comment" : "Toast: image added from clipboard",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added image from clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gambar ditambahkan dari papan klip"
+          }
+        }
+      }
+    },
     "클립키보드" : {
       "comment" : "ClipKeyboard app name",
       "localizations" : {
@@ -21035,7 +21585,7 @@
       }
     },
     "키보드" : {
-      "comment" : "Keyboard\nKeyboard list header\niOS Settings: Keyboard",
+      "comment" : "Keyboard\nKeyboard list header\nSettings section: keyboard\niOS Settings: Keyboard",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21053,6 +21603,7 @@
     },
     "키보드 (선택 기능)" : {
       "comment" : "Settings section: keyboard optional",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21151,6 +21702,7 @@
     },
     "키보드 설정" : {
       "comment" : "Keyboard settings nav title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21214,6 +21766,7 @@
     },
     "키보드 연습" : {
       "comment" : "Keyboard practice nav title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21224,7 +21777,7 @@
       }
     },
     "키보드 연습하기" : {
-      "comment" : "Keyboard practice settings entry",
+      "comment" : "Keyboard Practice\nKeyboard practice settings entry",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21305,7 +21858,7 @@
       }
     },
     "키보드 테마" : {
-      "comment" : "Keyboard theme\nKeyboard theme section",
+      "comment" : "Keyboard theme section",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21421,6 +21974,24 @@
         }
       }
     },
+    "키보드에서 길게 누르면 미리보기에 함께 표시돼요" : {
+      "comment" : "Combo description hint — shown in long-press preview",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shown in the preview when you long-press on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ditampilkan di pratinjau saat Anda menekan lama di papan ketik"
+          }
+        }
+      }
+    },
     "키보드에서 바로 메모 입력" : {
       "comment" : "Onboarding feature: keyboard input",
       "extractionState" : "stale",
@@ -21483,6 +22054,7 @@
     },
     "키보드에서 보여질 설명 문구" : {
       "comment" : "Keyboard description hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21623,6 +22195,24 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Typing mode"
+          }
+        }
+      }
+    },
+    "타임존" : {
+      "comment" : "Auto template variable",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timezone"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zona waktu"
           }
         }
       }
@@ -22563,6 +23153,7 @@
     },
     "템플릿을 완성하세요" : {
       "comment" : "Complete the template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22608,6 +23199,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nomor Bea Cukai"
+          }
+        }
+      }
+    },
+    "통화" : {
+      "comment" : "Auto template variable",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Currency"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mata uang"
           }
         }
       }
@@ -22742,6 +23351,23 @@
         }
       }
     },
+    "페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다." : {
+      "comment" : "Persona is recommendation-only note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choosing a persona doesn't add any memos. It only changes the recommendations you see (suggested memos · category names)."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memilih persona tidak menambahkan memo apa pun. Ini hanya mengubah rekomendasi yang Anda lihat (memo yang disarankan · nama kategori)."
+          }
+        }
+      }
+    },
     "편집" : {
       "comment" : "Edit list",
       "localizations" : {
@@ -22806,6 +23432,7 @@
     },
     "폰트 크기" : {
       "comment" : "App font size",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23192,7 +23819,7 @@
       }
     },
     "한국어" : {
-      "comment" : "Korean language option",
+      "comment" : "Keyboard name: Korean\nKorean language option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23454,6 +24081,7 @@
     },
     "화면" : {
       "comment" : "Settings section: appearance",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23465,6 +24093,7 @@
     },
     "화면 모드" : {
       "comment" : "Settings: appearance mode",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23765,550 +24394,6 @@
         }
       }
     },
-    "영어(미국)" : {
-      "comment" : "Keyboard name: English (US)",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "English (US)"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inggris (AS)"
-          }
-        }
-      }
-    },
-    "이모티콘" : {
-      "comment" : "Keyboard name: Emoji",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Emoji"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Emoji"
-          }
-        }
-      }
-    },
-    "메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요." : {
-      "comment" : "Category badge explanation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shows the memo's category as a color and symbol in the top-right of each card. The symbol lets colorblind users tell categories apart too. Turn it off for cleaner cards."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menampilkan kategori memo sebagai warna dan simbol di kanan atas setiap kartu. Simbolnya juga membantu pengguna buta warna membedakan kategori. Matikan untuk kartu yang lebih bersih."
-          }
-        }
-      }
-    },
-    "켜짐" : {
-      "comment" : "On",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktif"
-          }
-        }
-      }
-    },
-    "꺼짐" : {
-      "comment" : "Off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nonaktif"
-          }
-        }
-      }
-    },
-    "페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다." : {
-      "comment" : "Persona is recommendation-only note",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choosing a persona doesn't add any memos. It only changes the recommendations you see (suggested memos · category names)."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memilih persona tidak menambahkan memo apa pun. Ini hanya mengubah rekomendasi yang Anda lihat (memo yang disarankan · nama kategori)."
-          }
-        }
-      }
-    },
-    "이런 카테고리는 어때요?" : {
-      "comment" : "Persona category suggestion tip title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try one of these categories?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coba salah satu kategori ini?"
-          }
-        }
-      }
-    },
-    "선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요." : {
-      "comment" : "Persona category suggestion tip message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "These match how you use the app. Tap one to create it and gather your memos in one place."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ini cocok dengan cara Anda memakai aplikasi. Ketuk salah satu untuk membuatnya dan mengumpulkan memo Anda di satu tempat."
-          }
-        }
-      }
-    },
-    "설정됨" : {
-      "comment" : "PIN is set",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Set"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diatur"
-          }
-        }
-      }
-    },
-    "없음" : {
-      "comment" : "PIN not set / none",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "None"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tidak ada"
-          }
-        }
-      }
-    },
-    "값 채우기" : {
-      "comment" : "Mac template fill sheet title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fill in values"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Isi nilai"
-          }
-        }
-      }
-    },
-    "복사 후 붙여넣기" : {
-      "comment" : "Copy then paste",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy & Paste"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salin & Tempel"
-          }
-        }
-      }
-    },
-    "자동으로 채워지는 값" : {
-      "comment" : "Auto-fill variables hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Filled in automatically"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diisi otomatis"
-          }
-        }
-      }
-    },
-    "{ }로 감싸면 입력할 때 채우는 칸이 됩니다" : {
-      "comment" : "Custom placeholder hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wrap text in { } to create a fill-in blank"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bungkus teks dengan { } untuk membuat kolom isian"
-          }
-        }
-      }
-    },
-    "타임존" : {
-      "comment" : "Auto template variable",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Timezone"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zona waktu"
-          }
-        }
-      }
-    },
-    "통화" : {
-      "comment" : "Auto template variable",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Currency"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mata uang"
-          }
-        }
-      }
-    },
-    "인사" : {
-      "comment" : "Auto template variable",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Greeting"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sapaan"
-          }
-        }
-      }
-    },
-    "도시" : {
-      "comment" : "Auto template variable",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "City"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kota"
-          }
-        }
-      }
-    },
-    "클립보드에서 이미지를 추가했습니다" : {
-      "comment" : "Toast: image added from clipboard",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Added image from clipboard"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gambar ditambahkan dari papan klip"
-          }
-        }
-      }
-    },
-    "메모가 저장되었습니다" : {
-      "comment" : "Toast: memo saved",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memo saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memo disimpan"
-          }
-        }
-      }
-    },
-    "카테고리 심볼" : {
-      "comment" : "Category symbol",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Category symbol"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simbol kategori"
-          }
-        }
-      }
-    },
-    "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요." : {
-      "comment" : "Persona settings subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recommended categories are added — off at first, so turn on only the ones you want in Manage Categories."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kategori yang direkomendasikan ditambahkan — awalnya nonaktif, jadi aktifkan hanya yang Anda inginkan di Kelola Kategori."
-          }
-        }
-      }
-    },
-    "%@ 색상" : {
-      "comment" : "Category color picker",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ color"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warna %@"
-          }
-        }
-      }
-    },
-    "%@ 탭 표시" : {
-      "comment" : "Category visibility toggle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show %@ tab"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tampilkan tab %@"
-          }
-        }
-      }
-    },
-    "디스플레이" : {
-      "comment" : "Settings section: display",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Display"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tampilan"
-          }
-        }
-      }
-    },
-    "메모 표시" : {
-      "comment" : "Memo display settings entry",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memo display"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tampilan memo"
-          }
-        }
-      }
-    },
-    "메모 높이" : {
-      "comment" : "Memo cell height",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memo height"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tinggi memo"
-          }
-        }
-      }
-    },
-    "보통" : {
-      "comment" : "Medium",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Medium"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sedang"
-          }
-        }
-      }
-    },
-    "우상단 심볼" : {
-      "comment" : "Top-right symbol section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Top-right symbol"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simbol kanan atas"
-          }
-        }
-      }
-    },
-    "리스트에서 메모 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로." : {
-      "comment" : "Memo height explanation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Set how tall memo cards are in the list. Smaller fits more per screen; larger shows bigger titles."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atur tinggi kartu memo di daftar. Lebih kecil memuat lebih banyak; lebih besar menampilkan judul lebih besar."
-          }
-        }
-      }
-    },
-    "카테고리에 추가" : {
-      "comment" : "Action: add to category",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to category"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tambahkan ke kategori"
-          }
-        }
-      }
-    },
-    "카테고리에서 빼기" : {
-      "comment" : "Action: remove memo from its category",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove from category"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hapus dari kategori"
-          }
-        }
-      }
-    },
     "힌트 (선택)" : {
       "comment" : "Hint section label",
       "localizations" : {
@@ -24326,53 +24411,19 @@
         }
       }
     },
-    "키보드에서 길게 누르면 미리보기에 함께 표시돼요" : {
-      "comment" : "Combo description hint — shown in long-press preview",
+    "입력 언어 전환" : {
+      "comment" : "Toggle input language key",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shown in the preview when you long-press on the keyboard"
+            "value" : "Switch input language"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ditampilkan di pratinjau saat Anda menekan lama di papan ketik"
-          }
-        }
-      }
-    },
-    "이미지가 복사되었습니다" : {
-      "comment" : "Image copied toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image copied"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gambar disalin"
-          }
-        }
-      }
-    },
-    "콤보가 순서대로 입력되는 흐름을 연습해 봅니다" : {
-      "comment" : "Practice disclosure hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Practice how the combo inserts values in order"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Berlatih bagaimana kombo memasukkan nilai secara berurutan"
+            "value" : "Ganti bahasa input"
           }
         }
       }
