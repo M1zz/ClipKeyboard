@@ -334,10 +334,9 @@ struct MemoAdd: View {
                         // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
                         if viewModel.isCombo {
-                            // 콤보: 핵심인 '값'을 가장 먼저. 설명은 선택이라 뒤로.
+                            // 콤보: 핵심인 '값'을 가장 먼저.
                             comboSection            // 안내 + Combo 값 설정(값 입력·목록)
                             titleInputSection       // 키보드에 표시할 이름
-                            comboDescriptionSection // 설명 (선택)
                             additionalOptionsSection
                         } else {
                             // 📌 붙여넣을 내용
@@ -745,45 +744,6 @@ struct MemoAdd: View {
     }
 
     // Combo 설명 입력 섹션
-    private var comboDescriptionSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: "text.alignleft")
-                    .font(.title3)
-                    .foregroundColor(.orange)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("설명 (선택)", comment: "Description optional"))
-                        .font(.body)
-                        .fontWeight(.medium)
-                    Text(NSLocalizedString("키보드에서 길게 누르면 미리보기에 함께 표시돼요", comment: "Combo description hint — shown in long-press preview")
-)
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-            }
-            .padding(.bottom, 4)
-
-            TextEditor(text: $viewModel.value)
-                .frame(minHeight: 80)
-                .padding(8)
-                .background(theme.surfaceAlt)
-                .cornerRadius(theme.radiusSm)
-                .overlay(
-                    Group {
-                        if viewModel.value.isEmpty {
-                            Text(NSLocalizedString("예: 카드번호를 입력합니다", comment: "Description example"))
-                                .foregroundColor(theme.textMuted)
-                                .padding(.leading, 12)
-                                .padding(.top, 16)
-                                .allowsHitTesting(false)
-                        }
-                    },
-                    alignment: .topLeading
-                )
-        }
-    }
-
     private var comboInfoSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
