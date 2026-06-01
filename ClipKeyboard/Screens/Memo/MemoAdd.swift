@@ -333,10 +333,14 @@ struct MemoAdd: View {
                         // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
                         // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
-                        // 📌 붙여넣을 내용
                         if viewModel.isCombo {
-                            comboDescriptionSection
+                            // 콤보: 핵심인 '값'을 가장 먼저. 설명은 선택이라 뒤로.
+                            comboSection            // 안내 + Combo 값 설정(값 입력·목록)
+                            titleInputSection       // 키보드에 표시할 이름
+                            comboDescriptionSection // 설명 (선택)
+                            additionalOptionsSection
                         } else {
+                            // 📌 붙여넣을 내용
                             ContentInputSection(
                                 value: $viewModel.value,
                                 selectedCategory: viewModel.selectedCategory,
@@ -352,16 +356,15 @@ struct MemoAdd: View {
                                 }
                             )
                             .id("contentField")
+
+                            // 📌 키보드에 표시할 이름
+                            titleInputSection
+
+                            // 📌 추가 옵션 (보안, 템플릿)
+                            additionalOptionsSection
+                            templateSection
+                            attachedTemplateSection
                         }
-
-                        // 📌 4단계: 키보드에 표시할 이름
-                        titleInputSection
-
-                        // 📌 5단계: 추가 옵션 (보안, 템플릿, Combo)
-                        additionalOptionsSection
-                        templateSection
-                        comboSection
-                        attachedTemplateSection
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
