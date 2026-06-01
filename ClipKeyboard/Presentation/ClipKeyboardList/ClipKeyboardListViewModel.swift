@@ -533,14 +533,22 @@ final class ClipKeyboardListViewModel: ObservableObject {
         processMemoAfterAuth(memo)
     }
 
+    /// 보안 메모면 복호화한 값을 반환. 평문/비보안은 그대로. 복호화 불가(키 미동기화)면 nil.
+    private func usableValue(of memo: Memo) -> String? {
+        guard SecureMemoCrypto.isEncrypted(memo.value) else { return memo.value }
+        return SecureMemoCrypto.decrypt(memo.value)
+    }
+
     func confirmTemplateInput() {
         guard let memo = currentTemplateMemo else { return }
-        let processedTemplate = processTemplateWithInputs(in: memo.value, inputs: templateInputs)
+        guard let memoValue = usableValue(of: memo) else { showAuthAlert = true; return }
+        let processedTemplate = processTemplateWithInputs(in: memoValue, inputs: templateInputs)
 
         if let base = attachedTemplateBaseMemo {
+            guard let baseValue = usableValue(of: base) else { showAuthAlert = true; return }
             // v4.0.8 attachedTemplate 흐름: 본 메모 + \n + 치환된 템플릿
             let combined = TemplateVariableProcessor.compose(
-                memoValue: base.value,
+                memoValue: baseValue,
                 templateBody: processedTemplate,
                 templateInputs: [:] // 이미 substituted
             )
@@ -555,7 +563,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// v4.0.8: attachedTemplate 입력 스킵 — 본 메모 단독 출력 (사용자가 시트에서 "템플릿 없이").
     func skipAttachedTemplate() {
         guard let base = attachedTemplateBaseMemo else { return }
-        finalizeCopy(memo: base, processedValue: base.value)
+        guard let baseValue = usableValue(of: base) else { showAuthAlert = true; return }
+        finalizeCopy(memo: base, processedValue: baseValue)
         attachedTemplateBaseMemo = nil
         currentTemplateMemo = nil
         templateInputs = [:]
@@ -784,7 +793,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
 
         print("📋 [processMemoAfterAuth] 일반 메모 - 바로 복사")
-        finalizeCopy(memo: memo, processedValue: memo.value)
+        guard let value = usableValue(of: memo) else { showAuthAlert = true; return }
+        finalizeCopy(memo: memo, processedValue: value)
     }
 
     private func processTemplateVariables(in text: String) -> String {

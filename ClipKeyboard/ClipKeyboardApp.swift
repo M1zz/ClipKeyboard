@@ -151,6 +151,35 @@ struct ClipKeyboardApp: App {
         g?.set(true, forKey: "koreanEnabledMigrated_v1")
     }
 
+    /// 기존 평문 보안 메모를 암호화한다(1회). 암호화 키가 아직 없으면 생성된다.
+    /// 키 확보 실패(키체인 불가) 시 플래그를 세우지 않아 다음 실행에서 재시도.
+    private func migrateSecureMemoEncryptionIfNeeded() {
+        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        guard g?.bool(forKey: "secureMemoEncryptionMigrated_v1") != true else { return }
+        do {
+            var memos = try MemoStore.shared.load(type: .memo)
+            var changed = false
+            var allEncrypted = true
+            for i in memos.indices where memos[i].isSecure && !SecureMemoCrypto.isEncrypted(memos[i].value) {
+                if let enc = SecureMemoCrypto.encrypt(memos[i].value) {
+                    memos[i].value = enc
+                    changed = true
+                } else {
+                    allEncrypted = false
+                }
+            }
+            if changed { try MemoStore.shared.save(memos: memos, type: .memo) }
+            if allEncrypted {
+                g?.set(true, forKey: "secureMemoEncryptionMigrated_v1")
+                print("🔐 [APP INIT] 보안 메모 암호화 마이그레이션 완료 (변경: \(changed))")
+            } else {
+                print("⏳ [APP INIT] 보안 키 미확보 — 다음 실행에서 보안 메모 암호화 재시도")
+            }
+        } catch {
+            print("❌ [APP INIT] 보안 메모 암호화 마이그레이션 실패: \(error)")
+        }
+    }
+
     private func insertDefaultSamplesIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
         if performSampleInsertion() {
@@ -256,6 +285,7 @@ struct ClipKeyboardApp: App {
                 }
                 .onAppear {
                     migrateKoreanEnabledIfNeeded()
+                    migrateSecureMemoEncryptionIfNeeded()
                     insertDefaultSamplesIfNeeded()
                     offerDemoSamplesToExistingUserIfNeeded()
 
@@ -399,7 +429,18 @@ struct ClipKeyboardApp: App {
         }
 
         #if os(iOS)
-        UIPasteboard.general.string = memo.value
+        // 위젯은 보안 메모를 노출하지 않지만, 방어적으로 암호문이면 복호화(키 없으면 중단).
+        let widgetValue: String
+        if SecureMemoCrypto.isEncrypted(memo.value) {
+            guard let dec = SecureMemoCrypto.decrypt(memo.value) else {
+                print("🔒 [Widget Copy] 보안 키 미동기화 - 복사 중단")
+                return
+            }
+            widgetValue = dec
+        } else {
+            widgetValue = memo.value
+        }
+        UIPasteboard.general.string = widgetValue
         print("✅ [Widget Copy] 클립보드에 복사됨: \(memo.title)")
 
         // 복사 완료 햅틱 피드백

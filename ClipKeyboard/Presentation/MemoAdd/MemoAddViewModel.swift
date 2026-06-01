@@ -224,6 +224,12 @@ final class MemoAddViewModel: ObservableObject {
             isSecure = insertedIsSecure
         }
 
+        // 보안 메모 편집: 저장된 값이 암호문이면 평문으로 풀어 보여준다.
+        // (편집 후 저장 시 SaveMemoUseCase가 다시 암호화)
+        if SecureMemoCrypto.isEncrypted(value) {
+            value = SecureMemoCrypto.decrypt(value) ?? value
+        }
+
         // 초기 플레이스홀더 감지 및 로드
         detectPlaceholders()
         loadPlaceholderValues()

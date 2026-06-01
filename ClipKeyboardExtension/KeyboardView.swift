@@ -1078,11 +1078,22 @@ struct KeyboardView: View {
     }
 
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {
+        // 보안 메모면 복호화한 값을 넣는다(PIN 인증 후 호출됨). 키 미동기화로 복호화 불가면 중단.
+        let valueToInsert: String
+        if SecureMemoCrypto.isEncrypted(memo.value) {
+            guard let decrypted = SecureMemoCrypto.decrypt(memo.value) else {
+                print("🔒 [insertMemo] 보안 키 미동기화 - 복호화 불가, 삽입 중단")
+                return
+            }
+            valueToInsert = decrypted
+        } else {
+            valueToInsert = memo.value
+        }
         var userInfo: [String: Any] = ["memoId": memo.id]
         if bypassTemplate { userInfo["bypassAttachedTemplate"] = true }
         NotificationCenter.default.post(
             name: NSNotification.Name(rawValue: "addTextEntry"),
-            object: memo.value,
+            object: valueToInsert,
             userInfo: userInfo
         )
         if memo.isCombo && !memo.comboValues.isEmpty {
