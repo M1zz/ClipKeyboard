@@ -45,6 +45,11 @@ final class MemoFloatingPanelController: NSObject {
         }
         guard let panel else { return }
 
+        // 매 표시마다 콘텐츠를 새로 주입 → SwiftUI .onAppear 재호출 → 최신 메모 reload.
+        // (패널은 1회 생성 후 orderFront로 재사용되므로, 콘텐츠를 갈아끼우지 않으면
+        //  첫 표시 시점의 stale 메모가 그대로 남는다 — 메뉴바 팝오버와 동일한 이슈.)
+        panel.contentViewController = makeContentViewController()
+
         // 활성 스크린 중앙 상단 가까이에 배치.
         if let screen = NSScreen.main {
             let panelSize = panel.frame.size
@@ -66,15 +71,6 @@ final class MemoFloatingPanelController: NSObject {
     }
 
     private func buildPanel() -> MemoFloatingPanel {
-        let contentView = MemoFloatingPanelView(
-            onSelect: { [weak self] memo in
-                self?.handleSelect(memo)
-            },
-            onDismiss: { [weak self] in
-                self?.close()
-            }
-        )
-
         let panel = MemoFloatingPanel(
             contentRect: NSRect(x: 0, y: 0, width: 380, height: 460),
             styleMask: [.nonactivatingPanel, .titled, .closable, .resizable, .fullSizeContentView],
@@ -91,8 +87,23 @@ final class MemoFloatingPanelController: NSObject {
         panel.hasShadow = true
         panel.isReleasedWhenClosed = false
 
-        panel.contentViewController = NSHostingController(rootView: contentView)
+        // 콘텐츠는 show()에서 매번 새로 주입한다 (fresh reload 보장).
+        panel.contentViewController = makeContentViewController()
         return panel
+    }
+
+    /// 패널 콘텐츠(SwiftUI)를 새로 만들어 반환한다. show()에서 매 표시마다 호출해
+    /// `.onAppear` → `reload()`가 항상 다시 돌도록 한다.
+    private func makeContentViewController() -> NSViewController {
+        let contentView = MemoFloatingPanelView(
+            onSelect: { [weak self] memo in
+                self?.handleSelect(memo)
+            },
+            onDismiss: { [weak self] in
+                self?.close()
+            }
+        )
+        return NSHostingController(rootView: contentView)
     }
 
     private func handleSelect(_ memo: Memo) {

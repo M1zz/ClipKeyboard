@@ -56,13 +56,23 @@ class MenuBarManager: NSObject {
         popover.behavior = .transient
         popover.animates = true
         popover.contentSize = NSSize(width: 360, height: 480)
+        popover.contentViewController = makePopoverContentController()
+        self.popover = popover
+    }
 
+    /// 팝오버 콘텐츠(SwiftUI)를 새로 만들어 반환한다.
+    ///
+    /// NSPopover는 `contentViewController`를 재사용하므로, 한 번 만든 호스팅 컨트롤러를
+    /// 그대로 다시 `show()` 하면 SwiftUI `.onAppear`가 재호출되지 않는다. 그 결과
+    /// `PopoverViewModel`이 최초 로드(앱 시작 직후) 시점의 stale 메모를 계속 보여주고,
+    /// 그 뒤 추가·편집한 메모가 메뉴바 리스트에 나타나지 않았다.
+    /// → openPopover()에서 매 표시 직전 이 컨트롤러를 새로 주입해 항상 fresh reload되게 한다.
+    private func makePopoverContentController() -> NSViewController {
         // 루트에 weak self로 dismiss 주입 — 선택/취소 시 팝오버 닫기.
         let rootView = MenuBarPopoverView(dismiss: { [weak self] in
             self?.closePopover()
         })
-        popover.contentViewController = NSHostingController(rootView: rootView)
-        self.popover = popover
+        return NSHostingController(rootView: rootView)
     }
 
     /// 팝오버 밖 클릭 감지 → 자동 닫기 (behavior .transient로도 처리되지만 보조).
@@ -100,6 +110,9 @@ class MenuBarManager: NSObject {
 
     private func openPopover() {
         guard let popover, let button = statusItem?.button else { return }
+        // 매 표시마다 콘텐츠를 새로 주입 → SwiftUI .onAppear 재호출 → 최신 메모 reload.
+        // (NSPopover의 contentViewController 재사용으로 인한 stale 리스트 문제 해결)
+        popover.contentViewController = makePopoverContentController()
         popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
 
         // 팝오버 윈도우를 key window로 만들어 TextField가 바로 입력 받도록.

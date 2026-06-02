@@ -24478,6 +24478,23 @@
           }
         }
       }
+    },
+    "메모를 탭하면 즉시 붙여넣으려면 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용에서 ClipKeyboard를 켜 주세요." : {
+      "comment" : "macOS alert body: accessibility permission needed for tap-to-paste",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To paste instantly when you tap a memo, ClipKeyboard needs Accessibility permission.\n\nGo to System Settings > Privacy & Security > Accessibility and enable ClipKeyboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk menempel secara instan saat Anda mengetuk memo, ClipKeyboard memerlukan izin Aksesibilitas.\n\nBuka System Settings > Privacy & Security > Accessibility dan aktifkan ClipKeyboard."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
