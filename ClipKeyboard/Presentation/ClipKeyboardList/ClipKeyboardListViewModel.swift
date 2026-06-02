@@ -25,6 +25,28 @@ enum CategoryTab: Hashable, Equatable {
         }
     }
 
+    /// UserDefaults 저장용 안정 키 (마지막 본 탭 복원).
+    var storageKey: String {
+        switch self {
+        case .all:              return "__all__"
+        case .favorites:        return "__favorites__"
+        case .custom(let name): return "custom:" + name
+        }
+    }
+
+    init?(storageKey: String) {
+        switch storageKey {
+        case "__all__":       self = .all
+        case "__favorites__": self = .favorites
+        default:
+            let prefix = "custom:"
+            guard storageKey.hasPrefix(prefix) else { return nil }
+            let name = String(storageKey.dropFirst(prefix.count))
+            guard !name.isEmpty else { return nil }
+            self = .custom(name)
+        }
+    }
+
     var icon: String {
         switch self {
         case .all:       return "square.grid.2x2"
@@ -84,6 +106,30 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func selectCategoryTab(_ tab: CategoryTab) {
         withAnimation(.easeInOut(duration: 0.22)) { selectedCategoryTab = tab }
+        // 마지막 본 탭 기억 — 다음 실행 시 이 화면에서 시작.
+        UserDefaults.standard.set(tab.storageKey, forKey: Self.selectedCategoryTabKey)
+    }
+
+    private static let selectedCategoryTabKey = "selectedCategoryTab_v1"
+    private var didRestoreCategoryTab = false
+
+    /// 앱 시작 시 1회 — 마지막에 보던 카테고리 탭을 복원한다.
+    /// 카테고리 기능이 켜져 있고, 저장된 탭이 지금도 노출 가능한 경우에만 적용
+    /// (삭제·숨김된 카테고리거나 기능이 꺼져 있으면 전체에서 시작).
+    func restoreSelectedCategoryTabIfNeeded() {
+        guard !didRestoreCategoryTab else { return }
+        didRestoreCategoryTab = true
+
+        guard CategoryStore.shared.isFeatureEnabled,
+              let raw = UserDefaults.standard.string(forKey: Self.selectedCategoryTabKey),
+              let saved = CategoryTab(storageKey: raw),
+              saved != .all else { return }
+
+        loadCustomCategories()
+        if allCategoryTabs.contains(saved) {
+            selectedCategoryTab = saved
+            print("↩️ [restoreSelectedCategoryTab] 마지막 탭 복원: \(saved.storageKey)")
+        }
     }
 
     func navigateToNextCategory() {
@@ -386,6 +432,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
             applyFilters()
             checkTemplateHintIfNeeded()
             updateCleanUpTipParameter(memos: loadedMemos)
+            // 데이터·카테고리가 로드된 뒤 1회 — 마지막 본 탭으로 복원.
+            restoreSelectedCategoryTabIfNeeded()
         } catch {
             print("❌ [loadMemos] 메모 로드 실패: \(error.localizedDescription)")
         }
