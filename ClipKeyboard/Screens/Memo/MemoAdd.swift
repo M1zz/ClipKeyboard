@@ -231,18 +231,6 @@ struct MemoAdd: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
-                    // 0) 빠른 패턴 — 빈 화면일 때만. 계좌번호·주소 등 예상 형식을
-                    //    한 탭으로 제목+값 골격으로 채워 새 메모 허들을 낮춘다.
-                    if viewModel.value.isEmpty,
-                       viewModel.keyword.isEmpty,
-                       viewModel.attachedImages.isEmpty {
-                        QuickPatternRow { pattern in
-                            viewModel.keyword = pattern.title
-                            viewModel.value = pattern.scaffold
-                            isFocused = true
-                        }
-                    }
-
                     // 1) 붙여넣을 내용(VALUE) + 이미지 — 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
                     ContentInputSection(
                         value: $viewModel.value,

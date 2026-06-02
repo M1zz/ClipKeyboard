@@ -2,8 +2,9 @@
 //  QuickPatterns.swift
 //  ClipKeyboard
 //
-//  새 메모 작성 허들을 낮추는 "빠른 패턴" 칩. 계좌번호·주소·연락처처럼
-//  예상되는 형식을 한 탭으로 제목(키) + 구조화된 값 골격으로 채운다.
+//  새 메모 작성 허들을 낮추는 패턴 데이터 + 고스트 제안 카드.
+//  계좌번호·주소·연락처처럼 예상되는 형식을 제목(키) + 구조화된 값 골격으로
+//  미리 갖춰두고, 메인 화면에 "이런 메모는 어때요?" 흐릿한 카드로 제안한다.
 //  로케일(ko/id/en)별로 실제 맥락에 맞는 골격을 제공한다.
 //
 
@@ -73,46 +74,93 @@ struct QuickPattern: Identifiable {
     ]
 }
 
-/// 새 메모 빈 화면 상단의 빠른 패턴 칩 행.
-struct QuickPatternRow: View {
+/// 메인 화면에 흐릿하게 떠 있는 "고스트 메모" 제안 카드.
+/// "이런 메모는 어때요?" — 추가(채워서 만들기) / 닫기(제안 끄기) 중 선택.
+struct GhostMemoSuggestionCard: View {
     @Environment(\.appTheme) private var theme
-    let onSelect: (QuickPattern) -> Void
+    let pattern: QuickPattern
+    let onAdd: () -> Void
+    let onDismiss: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("빠른 패턴", comment: "Quick pattern section label"))
-                .font(.body)
-                .fontWeight(.medium)
-                .foregroundColor(theme.textMuted)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 6) {
+                Image(systemName: "sparkles")
+                    .font(.caption)
+                    .foregroundColor(.blue)
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("이런 메모는 어때요?", comment: "Ghost suggestion header"))
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(theme.textMuted)
+                Spacer(minLength: 0)
+            }
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(QuickPattern.defaults) { pattern in
-                        Button {
-                            HapticManager.shared.light()
-                            onSelect(pattern)
-                        } label: {
-                            HStack(spacing: 6) {
-                                Image(systemName: pattern.icon)
-                                    .font(.caption)
-                                    .accessibilityHidden(true)
-                                Text(pattern.title)
-                                    .font(.callout.weight(.medium))
-                            }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(theme.surfaceAlt)
-                            .foregroundColor(theme.text)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(theme.divider, lineWidth: 0.5))
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        .accessibilityLabel(pattern.title)
-                        .accessibilityHint(NSLocalizedString("탭하면 이 형식으로 채워요", comment: "VoiceOver: quick pattern hint"))
-                    }
+            HStack(spacing: 10) {
+                Image(systemName: pattern.icon)
+                    .font(.body)
+                    .foregroundColor(.blue)
+                    .frame(width: 34, height: 34)
+                    .background(Color.blue.opacity(0.10))
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(pattern.title)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(previewText)
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .lineLimit(1)
                 }
-                .padding(.vertical, 1)
+                Spacer(minLength: 0)
+            }
+
+            HStack(spacing: 8) {
+                Button(action: onAdd) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus")
+                            .font(.caption.weight(.bold))
+                            .accessibilityHidden(true)
+                        Text(NSLocalizedString("추가", comment: "Add"))
+                            .font(.callout.weight(.semibold))
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 7)
+                    .background(Color.blue)
+                    .clipShape(Capsule())
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityHint(String(format: NSLocalizedString("%@ 메모를 채워서 추가", comment: "VoiceOver: add ghost memo hint"), pattern.title))
+
+                Button(action: onDismiss) {
+                    Text(NSLocalizedString("닫기", comment: "Close / dismiss"))
+                        .font(.callout)
+                        .foregroundColor(theme.textMuted)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 7)
+                }
+                .buttonStyle(PlainButtonStyle())
+
+                Spacer(minLength: 0)
             }
         }
+        .padding(14)
+        .background(theme.surface.opacity(0.6))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                .strokeBorder(theme.divider, style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
+        )
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(String(format: NSLocalizedString("추천 메모 %@", comment: "VoiceOver: suggested memo"), pattern.title))
+    }
+
+    /// 값 골격을 한 줄 힌트로 — "은행: · 예금주: · 계좌번호:".
+    private var previewText: String {
+        pattern.scaffold
+            .replacingOccurrences(of: "\n", with: " · ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

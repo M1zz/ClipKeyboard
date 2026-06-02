@@ -24870,36 +24870,53 @@
         }
       }
     },
-    "빠른 패턴" : {
-      "comment" : "Quick pattern section label",
+    "이런 메모는 어때요?" : {
+      "comment" : "Ghost suggestion header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quick patterns"
+            "value" : "How about this memo?"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pola cepat"
+            "value" : "Bagaimana dengan memo ini?"
           }
         }
       }
     },
-    "탭하면 이 형식으로 채워요" : {
-      "comment" : "VoiceOver: quick pattern hint",
+    "%@ 메모를 채워서 추가" : {
+      "comment" : "VoiceOver: add ghost memo hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap to fill this format"
+            "value" : "Fill in and add the %@ memo"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ketuk untuk mengisi format ini"
+            "value" : "Isi dan tambahkan memo %@"
+          }
+        }
+      }
+    },
+    "추천 메모 %@" : {
+      "comment" : "VoiceOver: suggested memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggested memo %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo yang disarankan %@"
           }
         }
       }

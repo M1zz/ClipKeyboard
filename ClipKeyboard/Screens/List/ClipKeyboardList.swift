@@ -75,6 +75,11 @@ struct ClipKeyboardList: View {
     // 스타터팩 — 추천 묶음 일괄 추가 시트
     @State private var showStarterPack: Bool = false
 
+    // 고스트 메모 제안 — 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
+    @State private var ghostSuggestion: QuickPattern? = nil
+    @State private var ghostAddPattern: QuickPattern? = nil
+    private let dismissedGhostPatternsKey = "dismissedGhostPatterns_v1"
+
     // Sheet modals for MemoAdd
     @State private var showAddMemoSheet: Bool = false
     @State private var addMemoSheetCategory: String = ""
@@ -215,6 +220,19 @@ struct ClipKeyboardList: View {
                     )
                 }
             }
+            .sheet(item: $ghostAddPattern, onDismiss: {
+                viewModel.loadMemos()
+                refreshGhostSuggestion()
+            }) { pattern in
+                NavigationStack {
+                    MemoAdd(insertedKeyword: pattern.title, insertedValue: pattern.scaffold)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { ghostAddPattern = nil }
+                            }
+                        }
+                }
+            }
             .sheet(isPresented: $navigateToOccasionalAdd, onDismiss: { viewModel.loadMemos() }) {
                 NavigationStack {
                     Group {
@@ -229,6 +247,7 @@ struct ClipKeyboardList: View {
             }
             .task {
                 viewModel.loadMemos()
+                refreshGhostSuggestion()
             }
             .toolbar {
                 toolbarContent
@@ -990,6 +1009,24 @@ struct ClipKeyboardList: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
                         .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
+                // 고스트 메모 제안 — 흐릿한 카드로 "이런 메모는 어때요?" 제안.
+                // 메모가 있을 때만(빈 화면은 자체 제안 카드가 있음).
+                if !viewModel.memos.isEmpty, let ghost = ghostSuggestion {
+                    GhostMemoSuggestionCard(
+                        pattern: ghost,
+                        onAdd: { ghostAddPattern = ghost },
+                        onDismiss: {
+                            dismissGhostPattern(ghost)
+                            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                                refreshGhostSuggestion()
+                            }
+                        }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .transition(.opacity)
                 }
 
                 // 전체 메모를 하나의 그리드로.
@@ -1762,6 +1799,26 @@ struct ClipKeyboardList: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Ghost Memo Suggestion
+
+    /// 닫지 않았고 아직 같은 제목의 메모가 없는 패턴 하나를 골라 제안한다.
+    private func refreshGhostSuggestion() {
+        let dismissed = Set(UserDefaults.standard.stringArray(forKey: dismissedGhostPatternsKey) ?? [])
+        let existingTitles = Set(viewModel.memos.map { $0.title })
+        ghostSuggestion = QuickPattern.defaults.first {
+            !dismissed.contains($0.title) && !existingTitles.contains($0.title)
+        }
+    }
+
+    /// 제안을 닫으면 다시 뜨지 않도록 제목을 기록한다.
+    private func dismissGhostPattern(_ pattern: QuickPattern) {
+        var dismissed = UserDefaults.standard.stringArray(forKey: dismissedGhostPatternsKey) ?? []
+        if !dismissed.contains(pattern.title) {
+            dismissed.append(pattern.title)
+            UserDefaults.standard.set(dismissed, forKey: dismissedGhostPatternsKey)
+        }
     }
 
     /// feature 태그에 맞게 MemoAdd를 구성한다.
