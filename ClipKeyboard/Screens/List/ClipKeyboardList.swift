@@ -1157,12 +1157,18 @@ struct ClipKeyboardList: View {
                 value: viewModel.value,
                 detectedType: viewModel.clipboardDetectedType,
                 confidence: viewModel.clipboardConfidence,
+                suggestedTitle: viewModel.suggestedClipboardTitle,
                 onDismiss: {
                     withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
                         viewModel.dismissClipboardCapture()
                     }
                 },
-                onSaveTap: {
+                onSaveDirect: {
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                        viewModel.saveClipboardAsMemo()
+                    }
+                },
+                onEditTap: {
                     viewModel.markClipboardSaved()
                 }
             )

@@ -24495,6 +24495,74 @@
           }
         }
       }
+    },
+    "내 %@" : {
+      "comment" : "Suggested memo title: My <type>",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Saya"
+          }
+        }
+      }
+    },
+    "제안된 제목 %@" : {
+      "comment" : "VoiceOver: suggested title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggested title: %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Judul yang disarankan: %@"
+          }
+        }
+      }
+    },
+    "'%@' 메모로 저장했어요" : {
+      "comment" : "Saved clipboard as memo toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved as memo: %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan sebagai memo: %@"
+          }
+        }
+      }
+    },
+    "%@ 제목으로 바로 저장" : {
+      "comment" : "VoiceOver hint: save with suggested title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save right away with the title %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan langsung dengan judul %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

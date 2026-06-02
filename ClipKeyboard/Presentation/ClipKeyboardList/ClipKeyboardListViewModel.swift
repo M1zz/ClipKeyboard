@@ -687,6 +687,56 @@ final class ClipKeyboardListViewModel: ObservableObject {
         hasFreshClipboard = false
     }
 
+    /// 감지 타입 기반 자동 제목(키) 제안. 분류 안 된 텍스트는 본문 첫 줄에서 추출.
+    var suggestedClipboardTitle: String {
+        if clipboardDetectedType == .text {
+            let firstLine = value
+                .components(separatedBy: .newlines)
+                .first?
+                .trimmingCharacters(in: .whitespaces) ?? value
+            let snippet = String(firstLine.prefix(20))
+            return snippet.isEmpty
+                ? NSLocalizedString("메모", comment: "Default memo title")
+                : snippet
+        }
+        return clipboardDetectedType.suggestedMemoTitle
+    }
+
+    /// 원탭 저장: 방금 복사한 클립보드를 제안된 제목으로 즉시 메모로 저장한다.
+    /// 제목 입력 없이 키보드에서 바로 꺼내 쓸 수 있게 — 이 앱의 핵심 마찰을 제거.
+    func saveClipboardAsMemo() {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            hasFreshClipboard = false
+            return
+        }
+
+        let title = suggestedClipboardTitle
+        let memo = Memo(
+            title: title,
+            value: value,
+            autoDetectedType: clipboardDetectedType
+        )
+
+        do {
+            var memos = try MemoStore.shared.load(type: .memo)
+            memos.insert(memo, at: 0)
+            try MemoStore.shared.save(memos: memos, type: .memo)
+            loadedData = sortMemos(memos)
+            applyFilters()
+            hasFreshClipboard = false
+            // 같은 값이 다시 카드로 뜨지 않도록 기록 (저장했으니 재노출 불필요).
+            UserDefaults.standard.set(value, forKey: lastDismissedClipboardKey)
+            #if os(iOS)
+            HapticManager.shared.success()
+            #endif
+            showPlainToast(String(format: NSLocalizedString("'%@' 메모로 저장했어요", comment: "Saved clipboard as memo toast"), title))
+            print("✅ [saveClipboardAsMemo] '\(title)' 저장 완료")
+        } catch {
+            print("❌ [saveClipboardAsMemo] 저장 실패: \(error)")
+        }
+    }
+
     // MARK: - Sorting
 
     func sortMemos(_ memos: [Memo]) -> [Memo] {
