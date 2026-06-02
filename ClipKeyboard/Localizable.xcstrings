@@ -24869,6 +24869,40 @@
           }
         }
       }
+    },
+    "빠른 패턴" : {
+      "comment" : "Quick pattern section label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick patterns"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pola cepat"
+          }
+        }
+      }
+    },
+    "탭하면 이 형식으로 채워요" : {
+      "comment" : "VoiceOver: quick pattern hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to fill this format"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk mengisi format ini"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
