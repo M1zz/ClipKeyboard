@@ -17,21 +17,11 @@ class WindowManager {
 
     private init() {
         setupNotifications()
-        checkAndShowOnboarding()
+        // 자동 온보딩 표시 제거 — 앱 시작 시 바로 메모(더미데이터)를 만난다.
+        // 온보딩은 Help 메뉴 "Show Onboarding"에서 수동으로만 열 수 있다.
     }
 
     // MARK: - Onboarding
-
-    private func checkAndShowOnboarding() {
-        let hasCompletedOnboarding = UserDefaults.standard.bool(forKey: "hasCompletedOnboarding")
-
-        if !hasCompletedOnboarding {
-            // 앱 시작 후 약간의 지연을 두고 온보딩 표시
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.openOnboardingWindow()
-            }
-        }
-    }
 
     func openOnboardingWindow() {
         print("👋 [WindowManager] 온보딩 윈도우 열기")

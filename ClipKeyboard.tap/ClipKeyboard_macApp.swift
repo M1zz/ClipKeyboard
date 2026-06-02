@@ -97,8 +97,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         // iCloud 자동 복원: 로컬이 비어있으면 아이폰 백업을 시작 시 가져온다.
         // (덮어쓸 로컬 데이터가 없을 때만 동작 — 사용자 데이터 보호)
+        // 복원이 끝난 뒤에도 여전히 비어있으면(맥 단독 신규 유저) 더미를 시드한다.
         Task {
             await CloudKitBackupService.shared.autoRestoreIfLocalEmpty()
+            await MainActor.run { MacSampleSeeder.seedIfNeeded() }
         }
     }
 
