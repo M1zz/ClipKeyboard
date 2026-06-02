@@ -586,6 +586,7 @@ struct UsageGuideView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var expanded: Set<UUID> = Set(usageCategories.prefix(1).map { $0.id })
+    @State private var showStarterPack: Bool = false
 
     var body: some View {
         ScrollView {
@@ -606,22 +607,56 @@ struct UsageGuideView: View {
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
         #endif
+        .sheet(isPresented: $showStarterPack) {
+            StarterPackView()
+        }
     }
 
     // MARK: - Subviews
 
     private var heroHeader: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(NSLocalizedString("Your day as a remote freelancer", comment: "Usage guide hero title"))
-                .font(.system(.title2, design: .serif, weight: .semibold))
-                .foregroundColor(theme.text)
-            Text(NSLocalizedString("18 moments where ClipKeyboard saves you minutes — or rescues a mistake.", comment: "Usage guide hero subtitle"))
-                .font(.body)
-                .foregroundColor(theme.textMuted)
+        VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(NSLocalizedString("Your day as a remote freelancer", comment: "Usage guide hero title"))
+                    .font(.system(.title2, design: .serif, weight: .semibold))
+                    .foregroundColor(theme.text)
+                Text(NSLocalizedString("18 moments where ClipKeyboard saves you minutes — or rescues a mistake.", comment: "Usage guide hero subtitle"))
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+
+            // 둘러보다가 바로 묶음으로 추가 — 갤러리에서도 스타터팩 진입.
+            Button {
+                HapticManager.shared.light()
+                showStarterPack = true
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "square.stack.3d.up.fill")
+                        .accessibilityHidden(true)
+                    Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
+                        .font(.body.weight(.semibold))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.semibold))
+                        .accessibilityHidden(true)
+                }
+                .foregroundColor(.white)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(
+                    LinearGradient(
+                        colors: [Color.blue, Color.purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .cornerRadius(theme.radiusMd)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 8)
-        .accessibilityElement(children: .combine)
     }
 
     private func categorySection(category: UsageCategory) -> some View {

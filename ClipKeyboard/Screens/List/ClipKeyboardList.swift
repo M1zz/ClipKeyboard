@@ -72,6 +72,9 @@ struct ClipKeyboardList: View {
     @State private var showAddFavoriteMemoSheet: Bool = false
     @State private var showSwipeCategoryDialog: Bool = false
 
+    // 스타터팩 — 추천 묶음 일괄 추가 시트
+    @State private var showStarterPack: Bool = false
+
     // Sheet modals for MemoAdd
     @State private var showAddMemoSheet: Bool = false
     @State private var addMemoSheetCategory: String = ""
@@ -204,6 +207,13 @@ struct ClipKeyboardList: View {
                 }
             } message: {
                 Text(NSLocalizedString("카테고리가 생성되고 이 메모가 바로 이동됩니다.", comment: "Create category and assign message"))
+            }
+            .sheet(isPresented: $showStarterPack, onDismiss: { viewModel.loadMemos() }) {
+                StarterPackView { count in
+                    viewModel.showPlainToast(
+                        String(format: NSLocalizedString("스타터팩 %d개를 추가했어요", comment: "Starter pack added toast"), count)
+                    )
+                }
             }
             .sheet(isPresented: $navigateToOccasionalAdd, onDismiss: { viewModel.loadMemos() }) {
                 NavigationStack {
@@ -1482,6 +1492,25 @@ struct ClipKeyboardList: View {
 
         Menu {
             NavigationLink {
+                UsageGuideView()
+            } label: {
+                Label(
+                    NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                    systemImage: "sparkles"
+                )
+            }
+
+            Button {
+                HapticManager.shared.light()
+                showStarterPack = true
+            } label: {
+                Label(
+                    NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
+                    systemImage: "square.stack.3d.up.fill"
+                )
+            }
+
+            NavigationLink {
                 ClipboardList()
             } label: {
                 Label(
@@ -1660,6 +1689,42 @@ struct ClipKeyboardList: View {
                 }
                 .padding(.horizontal, 16)
 
+                // 추천 스타터팩 — 바로 쓸 수 있는 묶음을 한 번에 추가 (첫인상 aha)
+                Button {
+                    HapticManager.shared.light()
+                    showStarterPack = true
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "sparkles")
+                            .font(.title3)
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
+                                .font(.body.weight(.semibold))
+                            Text(NSLocalizedString("바로 쓸 수 있는 메모를 한 번에", comment: "Empty state: add starter pack subtitle"))
+                                .font(.caption)
+                                .opacity(0.9)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.semibold))
+                            .accessibilityHidden(true)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [Color.blue, Color.purple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .cornerRadius(theme.radiusMd)
+                    .padding(.horizontal, 16)
+                }
+                .accessibilityHint(NSLocalizedString("추천 메모를 골라 한 번에 추가합니다", comment: "VoiceOver: starter pack hint"))
+
                 Button {
                     showAddMemoSheet = true
                 } label: {
@@ -1675,6 +1740,22 @@ struct ClipKeyboardList: View {
                     .background(theme.accent.opacity(0.1))
                     .cornerRadius(theme.radiusSm)
                     .padding(.horizontal, 16)
+                }
+
+                // 활용 사례 갤러리 전체 보기 — 발견성 (기존엔 설정 깊숙이만 있었음)
+                NavigationLink {
+                    UsageGuideView()
+                } label: {
+                    HStack(spacing: 4) {
+                        Text(NSLocalizedString("이걸로 할 수 있는 것 모두 보기", comment: "Empty state: browse all use cases"))
+                            .font(.body.weight(.medium))
+                        Image(systemName: "arrow.right")
+                            .font(.caption.weight(.semibold))
+                            .accessibilityHidden(true)
+                    }
+                    .foregroundColor(theme.textMuted)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
                 }
 
                 Spacer(minLength: 40)

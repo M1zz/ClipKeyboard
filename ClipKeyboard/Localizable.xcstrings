@@ -24563,6 +24563,193 @@
           }
         }
       }
+    },
+    "스타터팩" : {
+      "comment" : "Starter pack screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starter Pack"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paket Awal"
+          }
+        }
+      }
+    },
+    "바로 쓸 수 있는 메모" : {
+      "comment" : "Starter pack header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready-to-use memos"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo siap pakai"
+          }
+        }
+      }
+    },
+    "골라서 한 번에 추가하세요. 키보드에서 바로 꺼내 쓸 수 있어요." : {
+      "comment" : "Starter pack subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a few and add them all at once. Pull them straight from your keyboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih beberapa dan tambahkan sekaligus. Ambil langsung dari keyboard Anda."
+          }
+        }
+      }
+    },
+    "탭하면 스타터팩에 추가/제외" : {
+      "comment" : "VoiceOver: toggle starter pack item",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to add or remove from the starter pack"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk menambah atau menghapus dari paket awal"
+          }
+        }
+      }
+    },
+    "선택한 %d개 추가하기" : {
+      "comment" : "Starter pack add button (count)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add %d selected"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah %d terpilih"
+          }
+        }
+      }
+    },
+    "항목을 골라주세요" : {
+      "comment" : "Starter pack add button (none selected)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select some items"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih beberapa item"
+          }
+        }
+      }
+    },
+    "스타터팩 %d개를 추가했어요" : {
+      "comment" : "Starter pack added toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added %d from the starter pack"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menambahkan %d dari paket awal"
+          }
+        }
+      }
+    },
+    "추천 스타터팩 추가" : {
+      "comment" : "Empty state: add starter pack title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a starter pack"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah paket awal"
+          }
+        }
+      }
+    },
+    "바로 쓸 수 있는 메모를 한 번에" : {
+      "comment" : "Empty state: add starter pack subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready-to-use memos, all at once"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo siap pakai, sekaligus"
+          }
+        }
+      }
+    },
+    "추천 메모를 골라 한 번에 추가합니다" : {
+      "comment" : "VoiceOver: starter pack hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick recommended memos and add them at once"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih memo rekomendasi dan tambahkan sekaligus"
+          }
+        }
+      }
+    },
+    "이걸로 할 수 있는 것 모두 보기" : {
+      "comment" : "Empty state: browse all use cases",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See everything you can do"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat semua yang bisa Anda lakukan"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
