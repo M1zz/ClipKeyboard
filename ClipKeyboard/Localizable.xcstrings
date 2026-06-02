@@ -24750,6 +24750,125 @@
           }
         }
       }
+    },
+    "인식된 텍스트가 없어요" : {
+      "comment" : "OCR: no text recognized toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No text recognized"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada teks yang dikenali"
+          }
+        }
+      }
+    },
+    "값에 담았어요" : {
+      "comment" : "OCR: applied selection toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to the value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ditambahkan ke nilai"
+          }
+        }
+      }
+    },
+    "이미지에서 인식한 텍스트예요. 메모 값으로 담을 줄을 골라주세요." : {
+      "comment" : "OCR picker subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text recognized from the image. Pick the lines to use as the memo value."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teks dikenali dari gambar. Pilih baris untuk dijadikan nilai memo."
+          }
+        }
+      }
+    },
+    "모두" : {
+      "comment" : "OCR picker: select all",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semua"
+          }
+        }
+      }
+    },
+    "선택한 %d줄 담기" : {
+      "comment" : "OCR picker apply button (count)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add %d selected line(s)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah %d baris terpilih"
+          }
+        }
+      }
+    },
+    "줄을 골라주세요" : {
+      "comment" : "OCR picker apply button (none)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select some lines"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih beberapa baris"
+          }
+        }
+      }
+    },
+    "탭하면 값에 담기/제외" : {
+      "comment" : "VoiceOver: toggle OCR line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to add or remove from the value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk menambah atau menghapus dari nilai"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

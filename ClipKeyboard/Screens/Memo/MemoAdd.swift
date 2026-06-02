@@ -119,6 +119,11 @@ struct MemoAdd: View {
                 }
             }
         }
+        .sheet(isPresented: $viewModel.showOCRPicker) {
+            OCRTextPickerSheet(candidates: viewModel.ocrCandidates) { lines in
+                viewModel.applyOCRSelection(lines)
+            }
+        }
         .overlay {
             if viewModel.isProcessingOCR {
                 ZStack {

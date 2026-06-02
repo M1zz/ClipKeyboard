@@ -70,6 +70,9 @@ final class MemoAddViewModel: ObservableObject {
     @Published var showDocumentScanner: Bool = false
     @Published var showImagePicker: Bool = false
     @Published var isProcessingOCR: Bool = false
+    /// OCR로 인식된 텍스트 후보들 — 사용자가 값으로 담을 줄을 직접 고른다.
+    @Published var ocrCandidates: [String] = []
+    @Published var showOCRPicker: Bool = false
     @Published var showToast: Bool = false
     @Published var toastMessage: String = ""
     @Published var showPaywall: Bool = false
@@ -385,13 +388,17 @@ final class MemoAddViewModel: ObservableObject {
 
         group.notify(queue: .main) { [weak self] in
             guard let self else { return }
-            defer { self.isProcessingOCR = false }
-            guard !allTexts.isEmpty else {
+            self.isProcessingOCR = false
+            let candidates = self.buildOCRCandidates(allTexts)
+            guard !candidates.isEmpty else {
                 print("❌ [OCR] 인식된 텍스트가 없습니다")
+                self.showToastMessage(NSLocalizedString("인식된 텍스트가 없어요", comment: "OCR: no text recognized toast"))
                 return
             }
-            print("✅ [OCR] 인식된 텍스트: \(allTexts)")
-            self.applyOCRResult(allTexts)
+            print("✅ [OCR] 인식된 텍스트 후보 \(candidates.count)개")
+            // 자동으로 값에 쏟아붓지 않고 — 사용자가 담을 줄을 직접 고르게 한다.
+            self.ocrCandidates = candidates
+            self.showOCRPicker = true
         }
     }
     #endif
@@ -682,34 +689,48 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - OCR Private Helpers
 
     #if os(iOS)
-    private func applyOCRResult(_ texts: [String]) {
-        guard let categoryType = ClipboardItemType(rawValue: selectedCategory) else {
-            value = texts.joined(separator: "\n")
-            return
+    /// 인식 텍스트에서 선택 후보 목록을 만든다.
+    /// 카테고리에 맞는 스마트 파싱 결과(카드번호·주소)를 맨 앞 추천으로 올리고,
+    /// 이어서 인식된 줄들을 중복 제거해 나열한다.
+    private func buildOCRCandidates(_ texts: [String]) -> [String] {
+        var seen = Set<String>()
+        var result: [String] = []
+        func push(_ s: String) {
+            let t = s.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !t.isEmpty, !seen.contains(t) else { return }
+            seen.insert(t)
+            result.append(t)
         }
-        switch categoryType {
-        case .creditCard:
-            applyOCRCreditCardResult(texts)
-        case .address:
-            let address = OCRService.shared.parseAddress(from: texts)
-            if !address.isEmpty {
-                value = address
-                print("🏠 [OCR] 주소 인식: \(address)")
+        // 1) 카테고리 스마트 파싱을 맨 앞 추천으로
+        if let categoryType = ClipboardItemType(rawValue: selectedCategory) {
+            switch categoryType {
+            case .creditCard:
+                if let card = OCRService.shared.parseCardInfo(from: texts)["카드번호"] { push(card) }
+            case .address:
+                push(OCRService.shared.parseAddress(from: texts))
+            default:
+                break
             }
-        default:
-            value = texts.joined(separator: "\n")
         }
+        // 2) 인식된 줄들
+        texts.forEach { push($0) }
+        return result
     }
 
-    private func applyOCRCreditCardResult(_ texts: [String]) {
-        let cardInfo = OCRService.shared.parseCardInfo(from: texts)
-        if let cardNumber = cardInfo["카드번호"] {
-            value = cardNumber
-            print("💳 [OCR] 카드번호 인식: \(cardNumber)")
+    /// 사용자가 고른 줄(들)을 값에 담는다. 기존 값이 있으면 줄바꿈으로 이어 붙인다.
+    func applyOCRSelection(_ lines: [String]) {
+        let chosen = lines
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        showOCRPicker = false
+        guard !chosen.isEmpty else { return }
+        let joined = chosen.joined(separator: "\n")
+        if value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            value = joined
+        } else {
+            value += "\n" + joined
         }
-        if let expiryDate = cardInfo["유효기간"] {
-            print("📅 [OCR] 유효기간 인식: \(expiryDate)")
-        }
+        showToastMessage(NSLocalizedString("값에 담았어요", comment: "OCR: applied selection toast"))
     }
     #endif
 }

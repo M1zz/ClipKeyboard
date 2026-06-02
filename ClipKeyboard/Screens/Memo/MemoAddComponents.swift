@@ -604,3 +604,116 @@ struct ContentInputSection: View {
         }
     }
 }
+
+// MARK: - OCR Text Picker Sheet
+
+/// 캡쳐/첨부 이미지에서 OCR로 인식된 텍스트 중 메모 값으로 담을 줄을 고르는 시트.
+/// 여러 줄을 선택해 합칠 수 있다(예: 주소처럼 여러 줄로 나뉜 값).
+struct OCRTextPickerSheet: View {
+    @Environment(\.appTheme) private var theme
+    @Environment(\.dismiss) private var dismiss
+
+    let candidates: [String]
+    /// 선택한 줄들을 값으로 담는다.
+    let onApply: ([String]) -> Void
+
+    @State private var selected: Set<Int> = []
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(NSLocalizedString("이미지에서 인식한 텍스트예요. 메모 값으로 담을 줄을 골라주세요.", comment: "OCR picker subtitle"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .padding(.bottom, 4)
+
+                    ForEach(Array(candidates.enumerated()), id: \.offset) { index, line in
+                        row(index: index, line: line)
+                    }
+
+                    Spacer(minLength: 90)
+                }
+                .padding(16)
+            }
+            .background(theme.bg.ignoresSafeArea())
+            .navigationTitle(NSLocalizedString("값 선택", comment: "OCR picker title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(NSLocalizedString("모두", comment: "OCR picker: select all")) {
+                        if selected.count == candidates.count {
+                            selected.removeAll()
+                        } else {
+                            selected = Set(candidates.indices)
+                        }
+                    }
+                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                applyButton
+            }
+        }
+    }
+
+    private func row(index: Int, line: String) -> some View {
+        let isOn = selected.contains(index)
+        return Button {
+            HapticManager.shared.light()
+            if isOn { selected.remove(index) } else { selected.insert(index) }
+        } label: {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
+                    .font(.system(.title3))
+                    .foregroundColor(isOn ? .blue : theme.textFaint)
+                    .accessibilityHidden(true)
+                Text(line)
+                    .font(.body)
+                    .foregroundColor(theme.text)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(14)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .stroke(isOn ? Color.blue.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
+        .accessibilityLabel(line)
+        .accessibilityHint(NSLocalizedString("탭하면 값에 담기/제외", comment: "VoiceOver: toggle OCR line"))
+    }
+
+    private var applyButton: some View {
+        let count = selected.count
+        return Button {
+            let lines = candidates.enumerated()
+                .filter { selected.contains($0.offset) }
+                .map { $0.element }
+            onApply(lines)
+            dismiss()
+        } label: {
+            Text(count > 0
+                 ? String(format: NSLocalizedString("선택한 %d줄 담기", comment: "OCR picker apply button (count)"), count)
+                 : NSLocalizedString("줄을 골라주세요", comment: "OCR picker apply button (none)"))
+                .font(.body.weight(.semibold))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 15)
+                .background(count > 0 ? Color.blue : Color.gray)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .disabled(count == 0)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .background(.regularMaterial)
+    }
+}
