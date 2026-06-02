@@ -490,6 +490,62 @@ struct ClipKeyboardList: View {
         GridItem(.flexible(), spacing: 12)
     ]
 
+    /// 고스트(가상) 메모 셀 — 실제 메모 셀과 같은 치수·제목 스타일을 그대로 쓰되
+    /// 반투명 + 점선 테두리로 "아직 실재하지 않는 제안"임을 표현. 탭하면 채워서
+    /// 추가하는 편집기로 진입(사용자가 한 번 눌러보고 판단).
+    private func ghostMemoCell(pattern: QuickPattern) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 4) {
+                Image(systemName: "sparkles")
+                    .font(.title3)
+                    .foregroundColor(.blue.opacity(0.8))
+                    .accessibilityHidden(true)
+                Spacer()
+                Button {
+                    dismissGhostPattern(pattern)
+                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                        refreshGhostSuggestion()
+                    }
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.textFaint)
+                        .padding(4)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
+            }
+            Spacer(minLength: 16)
+            Text(pattern.title)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(theme.text)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(NSLocalizedString("눌러서 추가해보기", comment: "Ghost memo: tap to try"))
+                .font(.caption)
+                .foregroundColor(theme.textFaint)
+                .padding(.top, 4)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+        .background(theme.surface.opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .strokeBorder(theme.divider, style: StrokeStyle(lineWidth: 1.5, dash: [6, 5]))
+        )
+        .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        .opacity(0.85)
+        .onTapGesture {
+            HapticManager.shared.selection()
+            ghostAddPattern = pattern
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(String(format: NSLocalizedString("추천 메모 %@", comment: "VoiceOver: suggested memo"), pattern.title))
+        .accessibilityHint(NSLocalizedString("눌러서 채워서 추가해보기", comment: "VoiceOver: ghost memo hint"))
+    }
+
     private func memoGridCell(memo: Memo) -> some View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
@@ -1011,24 +1067,6 @@ struct ClipKeyboardList: View {
                         .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
-                // 고스트 메모 제안 — 흐릿한 카드로 "이런 메모는 어때요?" 제안.
-                // 메모가 있을 때만(빈 화면은 자체 제안 카드가 있음).
-                if !viewModel.memos.isEmpty, let ghost = ghostSuggestion {
-                    GhostMemoSuggestionCard(
-                        pattern: ghost,
-                        onAdd: { ghostAddPattern = ghost },
-                        onDismiss: {
-                            dismissGhostPattern(ghost)
-                            withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
-                                refreshGhostSuggestion()
-                            }
-                        }
-                    )
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
-                    .transition(.opacity)
-                }
-
                 // 전체 메모를 하나의 그리드로.
                 // 정렬: 즐겨찾기 먼저 + lastEdited 내림차순 (viewModel.memos = sortMemos 결과).
                 // 사용량(lastUsedAt) 기반 재정렬은 의도적으로 적용하지 않음 — 사용자가 위치를
@@ -1036,6 +1074,11 @@ struct ClipKeyboardList: View {
                 let allMemos = viewModel.memos
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
+                        // 고스트(가상) 메모 — 실제 메모 셀과 같은 모양, 흐릿하게.
+                        // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
+                        if let ghost = ghostSuggestion {
+                            ghostMemoCell(pattern: ghost)
+                        }
                         ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
                             memoGridCell(memo: memo)
                                 .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
