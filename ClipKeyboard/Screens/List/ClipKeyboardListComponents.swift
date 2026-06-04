@@ -10,6 +10,57 @@ import SwiftUI
 import TipKit
 import LocalAuthentication
 
+// MARK: - Pro Value Nudge Banner
+
+/// 무료 유저가 가치를 느낀 순간(시간 절약 누적·한도 근접)에 1회 노출되는 Pro 넛지.
+/// 페이월 노출률을 높이는 상단 레버 — 탭하면 페이월, ×면 영구 닫힘.
+struct ProValueNudgeBanner: View {
+    let message: String
+    let onTap: () -> Void
+    let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 10) {
+                Image(systemName: "crown.fill")
+                    .font(.title3)
+                    .foregroundStyle(.yellow)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(message)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.text)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(.orange)
+                }
+                Spacer(minLength: 8)
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.textFaint)
+                        .padding(6)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
+            }
+            .padding(14)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                    .stroke(.orange.opacity(0.35), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityHint(NSLocalizedString("탭하면 Pro 업그레이드 보기", comment: "VoiceOver: open paywall"))
+    }
+}
+
 // MARK: - Category Activation Banner (v4.1.0)
 
 /// 카테고리 기능이 미활성일 때 메모가 5개 이상이면 상단에 노출.

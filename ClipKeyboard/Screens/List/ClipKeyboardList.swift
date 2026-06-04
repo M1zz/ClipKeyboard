@@ -39,6 +39,8 @@ struct ClipKeyboardList: View {
     @State private var isSearchBarVisible = false
     @State private var memoToDelete: Memo? = nil
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
+    // 가치 순간 Pro 넛지 — 1회·닫기 가능 (페이월 노출률 향상)
+    @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: "proValueNudgeDismissed_v1")
     @State private var showPaywallFromKeyboard: Bool = false
     @State private var showBulkImport: Bool = false
     @State private var hasAppeared: Bool = false
@@ -99,6 +101,28 @@ struct ClipKeyboardList: View {
         graceBannerVisible && !ProFeatureManager.isPro
     }
 
+    /// 가치 순간 Pro 넛지 표시 조건: 무료 유저 + 미닫힘 + 가치 입증
+    /// (10분 이상 절약했거나 무료 한도에 근접). grace 배너와는 동시 노출 안 함.
+    private var shouldShowProValueNudge: Bool {
+        guard !proNudgeDismissed,
+              !ProFeatureManager.hasFullAccess,
+              !shouldShowGraceBanner else { return false }
+        let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
+        let nearLimit = viewModel.memos.count >= max(1, ProFeatureManager.freeMemoLimit - 3)
+        return savedEnough || nearLimit
+    }
+
+    /// 절약 시간이 충분하면 그 증거를, 아니면 남은 무료 칸(손실 회피)을 메시지로.
+    private var proValueNudgeMessage: String {
+        let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
+        if saved >= 600 {
+            let minutes = Int(saved / 60)
+            return String(format: NSLocalizedString("이미 %d분을 아꼈어요 — Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
+        }
+        let left = max(0, ProFeatureManager.freeMemoLimit - viewModel.memos.count)
+        return String(format: NSLocalizedString("무료 메모 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -111,6 +135,26 @@ struct ClipKeyboardList: View {
                 // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
                 // GraceQuotaBanner 등)과 통일된 패턴.
                 VStack(spacing: 0) {
+                    // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
+                    // 페이월을 영영 안 보던 캐주얼 무료 유저에게 노출을 만들어줌.
+                    if shouldShowProValueNudge {
+                        ProValueNudgeBanner(
+                            message: proValueNudgeMessage,
+                            onTap: {
+                                HapticManager.shared.light()
+                                showPaywallFromKeyboard = true
+                            },
+                            onDismiss: {
+                                UserDefaults.standard.set(true, forKey: "proValueNudgeDismissed_v1")
+                                withAnimation { proNudgeDismissed = true }
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                    }
+
                     if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
                         CategoryActivationBanner(
                             onEnable: {

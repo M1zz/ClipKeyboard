@@ -25006,6 +25006,74 @@
           }
         }
       }
+    },
+    "Pro 보기" : {
+      "comment" : "Pro nudge CTA",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See Pro"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat Pro"
+          }
+        }
+      }
+    },
+    "탭하면 Pro 업그레이드 보기" : {
+      "comment" : "VoiceOver: open paywall",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to see the Pro upgrade"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk lihat upgrade Pro"
+          }
+        }
+      }
+    },
+    "이미 %d분을 아꼈어요 — Pro로 무제한으로 계속" : {
+      "comment" : "Pro nudge: time saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've already saved %d minutes — go Pro for unlimited"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda sudah hemat %d menit — pakai Pro tanpa batas"
+          }
+        }
+      }
+    },
+    "무료 메모 %d칸 남았어요 — Pro로 무제한" : {
+      "comment" : "Pro nudge: slots left",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d free memo slots left — go Pro for unlimited"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sisa %d slot memo gratis — pakai Pro tanpa batas"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
