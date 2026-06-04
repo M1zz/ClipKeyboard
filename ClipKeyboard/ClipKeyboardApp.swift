@@ -37,6 +37,15 @@ struct ClipKeyboardApp: App {
         // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 Firebase로 보냄
         AnalyticsService.flushKeyboardBeacon()
 
+        // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
+        let keyboardActive = (UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .double(forKey: "kb.beacon.lastUse") ?? 0) > 0
+        AnalyticsService.applyLaunchUserProperties(
+            isPro: ProFeatureManager.hasFullAccess,
+            persona: CategoryStore.shared.selectedPersona?.rawValue,
+            keyboardActive: keyboardActive
+        )
+
         // 백그라운드 새로고침 task 등록 — 메인 앱이 안 열려도 주기적으로 비콘 flush
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()

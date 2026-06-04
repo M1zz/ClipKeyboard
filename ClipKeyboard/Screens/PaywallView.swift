@@ -22,6 +22,8 @@ struct PaywallView: View {
     @State private var showSuccessAnimation = false
     /// trial 상태가 바뀌었음을 알려 view를 다시 그리게 하는 tick (ProFeatureManager가 struct라 직접 observe 불가)
     @State private var trialTick: Int = 0
+    /// 전환 완료 여부 — 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
+    @State private var didConvert = false
     
     var body: some View {
         NavigationView {
@@ -69,6 +71,12 @@ struct PaywallView: View {
         }
         .onAppear {
             AnalyticsService.logPaywallView(triggeredBy: triggeredBy?.analyticsKey)
+        }
+        .onDisappear {
+            // 구매/체험 시작이 아니면 "닫기"로 기록 → 닫기율(view 대비) 산출.
+            if !didConvert {
+                AnalyticsService.logPaywallDismissed(triggeredBy: triggeredBy?.analyticsKey)
+            }
         }
     }
     
@@ -291,9 +299,11 @@ struct PaywallView: View {
 
                 // 구매 버튼
                 Button {
+                    AnalyticsService.logPaywallCtaTapped(triggeredBy: triggeredBy?.analyticsKey, isTrial: false)
                     Task {
                         let success = await store.purchasePro(triggeredBy: triggeredBy?.analyticsKey)
                         if success {
+                            didConvert = true
                             withAnimation(reduceMotion ? nil : .spring(response: 0.4)) {
                                 showSuccessAnimation = true
                             }
@@ -352,8 +362,10 @@ struct PaywallView: View {
     /// "7일 무료 체험 시작" 버튼
     private var trialStartButton: some View {
         Button {
+            AnalyticsService.logPaywallCtaTapped(triggeredBy: triggeredBy?.analyticsKey, isTrial: true)
             let started = ProFeatureManager.startTrial()
             if started {
+                didConvert = true
                 AnalyticsService.logTrialStarted(triggeredBy: triggeredBy?.analyticsKey)
                 trialTick &+= 1
                 withAnimation(reduceMotion ? nil : .spring(response: 0.4)) {

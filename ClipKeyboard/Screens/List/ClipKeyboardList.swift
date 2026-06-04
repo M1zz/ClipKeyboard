@@ -112,6 +112,11 @@ struct ClipKeyboardList: View {
         return savedEnough || nearLimit
     }
 
+    /// 넛지 메시지 종류 — Analytics source 슬라이싱용.
+    private var proNudgeSource: String {
+        KeyboardUsageTracker.totalTimeSavedSeconds() >= 600 ? "time_saved" : "slots_left"
+    }
+
     /// 절약 시간이 충분하면 그 증거를, 아니면 남은 무료 칸(손실 회피)을 메시지로.
     private var proValueNudgeMessage: String {
         let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
@@ -142,6 +147,7 @@ struct ClipKeyboardList: View {
                             message: proValueNudgeMessage,
                             onTap: {
                                 HapticManager.shared.light()
+                                AnalyticsService.logProNudge(.proNudgeTapped, source: proNudgeSource)
                                 showPaywallFromKeyboard = true
                             },
                             onDismiss: {
@@ -153,6 +159,7 @@ struct ClipKeyboardList: View {
                         .padding(.top, 8)
                         .padding(.bottom, 4)
                         .transition(.move(edge: .top).combined(with: .opacity))
+                        .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
                     }
 
                     if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
@@ -292,6 +299,7 @@ struct ClipKeyboardList: View {
             .task {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
+                AnalyticsService.setMemoBucket(viewModel.memos.count)
             }
             .toolbar {
                 toolbarContent

@@ -128,15 +128,17 @@ class StoreManager: ObservableObject {
                 
             case .userCancelled:
                 print("ℹ️ [StoreManager] 사용자가 구매 취소")
+                AnalyticsService.logPurchaseCancelled(triggeredBy: triggeredBy)
                 isLoading = false
                 return false
-                
+
             case .pending:
                 print("⏳ [StoreManager] 구매 대기 중 (부모 승인 필요 등)")
                 errorMessage = NSLocalizedString("구매 승인 대기 중입니다", comment: "Purchase pending")
+                AnalyticsService.logPurchaseFailed(reason: "pending", triggeredBy: triggeredBy)
                 isLoading = false
                 return false
-                
+
             @unknown default:
                 print("❓ [StoreManager] 알 수 없는 구매 결과")
                 isLoading = false
@@ -145,6 +147,7 @@ class StoreManager: ObservableObject {
         } catch {
             print("❌ [StoreManager] 구매 실패: \(error)")
             errorMessage = error.localizedDescription
+            AnalyticsService.logPurchaseFailed(reason: "\(error)", triggeredBy: triggeredBy)
             isLoading = false
             return false
         }

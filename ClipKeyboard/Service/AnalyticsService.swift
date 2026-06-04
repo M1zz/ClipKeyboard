@@ -31,6 +31,18 @@ enum AnalyticsEvent: String {
     case bulkImported = "bulk_imported"
     /// 7일 무료 체험 시작
     case trialStarted = "trial_started"
+    /// Paywall을 구매 없이 닫음 (닫기율 = view 대비)
+    case paywallDismissed = "paywall_dismissed"
+    /// Paywall에서 구매 버튼을 탭함 (StoreKit 시트 진입 전) — "안 누름 vs 누르고 이탈" 분리
+    case paywallCtaTapped = "paywall_cta_tapped"
+    /// StoreKit 결제 사용자 취소
+    case purchaseCancelled = "purchase_cancelled"
+    /// StoreKit 결제 실패 (네트워크/검증/상품 등)
+    case purchaseFailed = "purchase_failed"
+    /// 가치 순간 Pro 넛지 노출
+    case proNudgeShown = "pro_nudge_shown"
+    /// 가치 순간 Pro 넛지 탭 → 페이월
+    case proNudgeTapped = "pro_nudge_tapped"
 }
 
 /// 이벤트 파라미터 키 — 분석 시 슬라이싱용
@@ -46,6 +58,8 @@ enum AnalyticsParam: String {
     case hoursSinceLastUse = "hours_since_last_use"  // 마지막 키보드 사용 후 경과 시간
     case importedCount = "imported_count"  // BulkImport로 저장한 메모 수
     case triggeredBy = "triggered_by"      // paywall 노출/구매를 유도한 한도 (memo, combo, image_memo 등)
+    case reason = "reason"                 // 실패/취소 사유
+    case source = "source"                 // 넛지 종류 등 (time_saved | slots_left)
 }
 
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
@@ -138,5 +152,61 @@ enum AnalyticsService {
     /// 일괄 가져오기로 메모 N개 저장
     static func logBulkImported(count: Int) {
         log(.bulkImported, parameters: [.importedCount: count])
+    }
+
+    // MARK: - Paywall micro-funnel
+
+    static func logPaywallDismissed(triggeredBy: String?) {
+        log(.paywallDismissed, parameters: triggeredBy.map { [.triggeredBy: $0] } ?? [:])
+    }
+
+    static func logPaywallCtaTapped(triggeredBy: String?, isTrial: Bool) {
+        var params: [AnalyticsParam: Any] = [.source: isTrial ? "trial" : "buy"]
+        if let triggeredBy { params[.triggeredBy] = triggeredBy }
+        log(.paywallCtaTapped, parameters: params)
+    }
+
+    static func logPurchaseCancelled(triggeredBy: String?) {
+        log(.purchaseCancelled, parameters: triggeredBy.map { [.triggeredBy: $0] } ?? [:])
+    }
+
+    static func logPurchaseFailed(reason: String, triggeredBy: String?) {
+        var params: [AnalyticsParam: Any] = [.reason: String(reason.prefix(90))]
+        if let triggeredBy { params[.triggeredBy] = triggeredBy }
+        log(.purchaseFailed, parameters: params)
+    }
+
+    static func logProNudge(_ event: AnalyticsEvent, source: String) {
+        log(event, parameters: [.source: source])
+    }
+
+    // MARK: - User Properties (세그먼트 — 모든 퍼널을 이 축으로 쪼갤 수 있게)
+
+    /// 런치 시 1회 — Pro 여부·페르소나·키보드 활성 여부를 유저 속성으로 설정.
+    /// 이걸 박아두면 GA4에서 "페르소나별 전환", "키보드 켠 유저의 전환" 같은 슬라이싱이 가능.
+    static func applyLaunchUserProperties(isPro: Bool, persona: String?, keyboardActive: Bool) {
+        setUserProperty(isPro ? "yes" : "no", forName: "is_pro")
+        setUserProperty(persona ?? "none", forName: "persona")
+        setUserProperty(keyboardActive ? "yes" : "no", forName: "keyboard_active")
+    }
+
+    /// 메모 보유량 버킷 — 활성도/한도근접 세그먼트.
+    static func setMemoBucket(_ count: Int) {
+        let bucket: String
+        switch count {
+        case 0:         bucket = "0"
+        case 1..<10:    bucket = "1-9"
+        case 10:        bucket = "10_at_limit"
+        case 11..<50:   bucket = "11-49"
+        default:        bucket = "50+"
+        }
+        setUserProperty(bucket, forName: "memo_bucket")
+    }
+
+    private static func setUserProperty(_ value: String, forName name: String) {
+        #if !KEYBOARD_EXTENSION && canImport(FirebaseAnalytics)
+        Analytics.setUserProperty(value, forName: name)
+        #endif
+        print("📊 [Analytics] userProperty \(name)=\(value)")
     }
 }
