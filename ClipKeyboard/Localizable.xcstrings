@@ -24938,6 +24938,74 @@
           }
         }
       }
+    },
+    "IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번" : {
+      "comment" : "Paywall value: unlimited save",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save IBAN, timezone replies & account info without limits — one tap in any app"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan IBAN, balasan zona waktu & info rekening tanpa batas — satu ketukan di app mana pun"
+          }
+        }
+      }
+    },
+    "프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게" : {
+      "comment" : "Paywall value: english templates",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited professional English templates — sound fluent, even as a non-native"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template bahasa Inggris profesional tanpa batas — terdengar fasih, bahkan non-natif"
+          }
+        }
+      }
+    },
+    "iCloud 백업·콤보·보안 메모·macOS 앱까지 전부" : {
+      "comment" : "Paywall value: pro extras",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud backup, Combos, secure memos & the macOS app — all included"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cadangan iCloud, Combo, memo aman & app macOS — semua termasuk"
+          }
+        }
+      }
+    },
+    "이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요." : {
+      "comment" : "Paywall personalized time-saved proof",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've already saved %d minutes with ClipKeyboard. Go Pro to keep saving without limits."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda sudah menghemat %d menit dengan ClipKeyboard. Pakai Pro untuk terus hemat tanpa batas."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

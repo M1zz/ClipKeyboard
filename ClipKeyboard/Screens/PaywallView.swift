@@ -29,18 +29,21 @@ struct PaywallView: View {
                 VStack(spacing: 24) {
                     // MARK: - 헤더
                     headerSection
-                    
+
                     // MARK: - 제한 안내 (트리거된 경우)
                     if let trigger = triggeredBy {
                         limitBanner(trigger)
                     }
-                    
-                    // MARK: - 기능 비교
-                    featureComparison
-                    
-                    // MARK: - 구매 버튼
+
+                    // MARK: - 가치 제안 (개인화 증거 + 결과 중심)
+                    valueProps
+
+                    // MARK: - 구매 버튼 (가치 직후, 스펙표 위)
                     purchaseSection
-                    
+
+                    // MARK: - 기능 비교 (보조 디테일)
+                    featureComparison
+
                     // MARK: - 하단 정보
                     footerSection
                 }
@@ -94,6 +97,60 @@ struct PaywallView: View {
             return String(format: NSLocalizedString("%d일 무료 체험 · 한번 구매, 평생 사용", comment: "Trial subtitle"), ProFeatureManager.trialDurationDays)
         }
         return NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase")
+    }
+
+    // MARK: - Value Props (개인화 증거 + 결과 중심)
+
+    private var valueProps: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 개인화된 증거 — 이미 절약한 시간(있을 때만). 가장 강력한 전환 훅.
+            if let proof = timeSavedProof {
+                HStack(spacing: 10) {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.title3)
+                        .foregroundStyle(.green)
+                        .accessibilityHidden(true)
+                    Text(proof)
+                        .font(.callout.weight(.semibold))
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.green.opacity(0.12))
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                .accessibilityElement(children: .combine)
+            }
+
+            valueRow("checkmark.seal.fill",
+                     NSLocalizedString("IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번", comment: "Paywall value: unlimited save"))
+            valueRow("text.bubble.fill",
+                     NSLocalizedString("프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게", comment: "Paywall value: english templates"))
+            valueRow("icloud.fill",
+                     NSLocalizedString("iCloud 백업·콤보·보안 메모·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func valueRow(_ icon: String, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: icon)
+                .font(.body)
+                .foregroundStyle(.orange)
+                .frame(width: 24)
+                .accessibilityHidden(true)
+            Text(text)
+                .font(.body)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+    }
+
+    /// 이미 절약한 시간을 증거로 — 5분 이상일 때만 노출.
+    private var timeSavedProof: String? {
+        let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
+        guard seconds >= 300 else { return nil }
+        let minutes = Int(seconds / 60)
+        return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), minutes)
     }
     
     // MARK: - Limit Banner
