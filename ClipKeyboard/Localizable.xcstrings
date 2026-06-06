@@ -120,6 +120,23 @@
         }
       }
     },
+    "'%@' 추가": {
+      "comment": "Add memo to this category card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to '%@'"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah ke '%@'"
+          }
+        }
+      }
+    },
     "'%@' 카테고리 삭제": {
       "comment": "Delete category chip",
       "localizations": {
@@ -153,6 +170,23 @@
         }
       }
     },
+    "'%@' 카테고리에 메모 추가": {
+      "comment": "Add memo to category a11y",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a memo to the '%@' category"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah memo ke kategori '%@'"
+          }
+        }
+      }
+    },
     "'%@'에 메모가 없습니다": {
       "comment": "Custom category empty state",
       "localizations": {
@@ -160,6 +194,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "No memos in '%@'"
+          }
+        }
+      }
+    },
+    "'%@'에 해당하는 메모가 없습니다": {
+      "comment": "Built-in category empty state",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No memos match '%@'"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak ada memo yang cocok dengan '%@'"
           }
         }
       }
@@ -239,7 +290,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Are you sure you want to delete '%@'? This action cannot be cancelled."
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
           }
         },
         "id": {
@@ -792,6 +843,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Rename the %@ category"
+          }
+        }
+      }
+    },
+    "%@ 카테고리 표시": {
+      "comment": "Built-in category toggle a11y",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show %@ category"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan kategori %@"
           }
         }
       }
@@ -1360,7 +1428,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No. %d, %@, up next"
+            "value": "Up next: No. %d, %@"
           }
         },
         "id": {
@@ -2450,7 +2518,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "18 moments where ClipKeyboard saves you minutes — or rescues a mistake."
+            "value": "18 moments where ClipKeyboard saves you minutes — or saves you from a mistake."
           }
         },
         "id": {
@@ -4865,7 +4933,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete."
+            "value": "The free plan is now limited to 5 items. Everything you've saved stays — you just can't add new ones until you upgrade or delete some."
           }
         },
         "id": {
@@ -5399,6 +5467,23 @@
         }
       }
     },
+    "IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번": {
+      "comment": "Paywall value: unlimited save",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save IBAN, timezone replies & account info without limits — one tap in any app"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simpan IBAN, balasan zona waktu & info rekening tanpa batas — satu ketukan di app mana pun"
+          }
+        }
+      }
+    },
     "iCloud Backup": {
       "comment": "Auto-registered",
       "extractionState": "manual",
@@ -5501,6 +5586,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "iCloud 백업 및 복구"
+          }
+        }
+      }
+    },
+    "iCloud 백업·콤보·보안 메모·macOS 앱까지 전부": {
+      "comment": "Paywall value: pro extras",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud backup, Combos, secure memos & the macOS app — all included"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cadangan iCloud, Combo, memo aman & app macOS — semua termasuk"
           }
         }
       }
@@ -6805,7 +6907,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adds the value marked Next to the preview and moves on to the next value"
+            "value": "Adds the value marked \"Next\" to the preview and moves on to the next value"
           }
         },
         "id": {
@@ -7174,7 +7276,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open on Mac App Store"
+            "value": "Open in the Mac App Store"
           }
         },
         "id": {
@@ -7925,6 +8027,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kustomisasi tema tersedia di Pro."
+          }
+        }
+      }
+    },
+    "Pro 보기": {
+      "comment": "Pro nudge CTA",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See Pro"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lihat Pro"
           }
         }
       }
@@ -10510,7 +10629,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Added to the value"
+            "value": "Added to your values"
           }
         },
         "id": {
@@ -10666,7 +10785,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "We never collect personal data. You're safe to use this."
+            "value": "We never collect personal data, so you can use it with confidence."
           }
         },
         "ko": {
@@ -11002,7 +11121,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "For users entering international transfers, visas, and travel info"
+            "value": "For users dealing with international transfers, visas, and travel info"
           }
         },
         "id": {
@@ -11190,6 +11309,23 @@
         }
       }
     },
+    "기본 제공 카테고리": {
+      "comment": "Built-in categories section header",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Built-in categories"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategori bawaan"
+          }
+        }
+      }
+    },
     "기본 카테고리 (삭제 불가)": {
       "comment": "Protected category lock icon",
       "localizations": {
@@ -11305,6 +11441,17 @@
         }
       }
     },
+    "끄기": {
+      "comment": "Nudge: turn off",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        }
+      }
+    },
     "끔": {
       "comment": "Toggle state: off",
       "localizations": {
@@ -11317,17 +11464,6 @@
         "id": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Off"
-          }
-        }
-      }
-    },
-    "끄기": {
-      "comment": "Nudge: turn off",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
             "value": "Off"
           }
         }
@@ -11521,6 +11657,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Periksa koneksi jaringan dan coba lagi."
+          }
+        }
+      }
+    },
+    "눌러서 채워서 추가해보기": {
+      "comment": "VoiceOver: ghost memo hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to fill in and add"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk untuk mengisi dan menambah"
+          }
+        }
+      }
+    },
+    "눌러서 추가해보기": {
+      "comment": "Ghost memo: tap to try",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to try adding"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk untuk coba menambah"
           }
         }
       }
@@ -12158,6 +12328,23 @@
         }
       }
     },
+    "드래그하여 순서를 바꿉니다": {
+      "comment": "Reorder cell a11y hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag to change the order"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seret untuk mengubah urutan"
+          }
+        }
+      }
+    },
     "드래그하여 순서를 변경할 수 있습니다": {
       "comment": "Drag to reorder instruction",
       "extractionState": "stale",
@@ -12768,7 +12955,7 @@
       }
     },
     "메모 추가": {
-      "comment": "Add memo menu label",
+      "comment": "Add memo card\nAdd memo menu label",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -12848,6 +13035,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Add memos, clipboard items, and templates to a Combo"
+          }
+        }
+      }
+    },
+    "메모+템플릿": {
+      "comment": "Built-in category: text memos and templates",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memos + Templates"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memo + Templat"
           }
         }
       }
@@ -13203,6 +13407,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gratis"
+          }
+        }
+      }
+    },
+    "무료 메모 %d칸 남았어요 — Pro로 무제한": {
+      "comment": "Pro nudge: slots left",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d free memo slots left — go Pro for unlimited"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sisa %d slot memo gratis — pakai Pro tanpa batas"
           }
         }
       }
@@ -14879,7 +15100,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "When used, {token} parts will be filled with your input"
+            "value": "When used, the {token} placeholders are filled with your input"
           }
         },
         "id": {
@@ -16452,6 +16673,23 @@
         }
       }
     },
+    "순서 바꾸기": {
+      "comment": "Action: reorder memos\nReorder mode title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reorder"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atur Ulang"
+          }
+        }
+      }
+    },
     "순서 초기화": {
       "comment": "Reset combo index button",
       "extractionState": "stale",
@@ -17131,6 +17369,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Atur PIN keamanan di aplikasi terlebih dahulu"
+          }
+        }
+      }
+    },
+    "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 메모만 모아 볼 수 있어요.": {
+      "comment": "Built-in categories section footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categories we've prepared for you. Turn one on to show a tab at the top that gathers only that kind of memo."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kategori yang sudah kami siapkan. Aktifkan untuk menampilkan tab di atas yang hanya mengumpulkan jenis memo tersebut."
           }
         }
       }
@@ -18140,7 +18395,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This memo has a template attached. Fill in the blanks and it's copied together with the memo. See the combined result in 'Live preview' below."
+            "value": "This memo has a template attached. Fill in the blanks, and the result is copied along with the memo. See the combined result in 'Live preview' below."
           }
         },
         "id": {
@@ -18469,6 +18724,40 @@
         }
       }
     },
+    "이미 %d분을 아꼈어요 — Pro로 무제한으로 계속": {
+      "comment": "Pro nudge: time saved",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've already saved %d minutes — go Pro for unlimited"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda sudah hemat %d menit — pakai Pro tanpa batas"
+          }
+        }
+      }
+    },
+    "이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.": {
+      "comment": "Paywall personalized time-saved proof",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've already saved %d minutes with ClipKeyboard. Go Pro to keep saving without limits."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda sudah menghemat %d menit dengan ClipKeyboard. Pakai Pro untuk terus hemat tanpa batas."
+          }
+        }
+      }
+    },
     "이미 추가된 값입니다": {
       "comment": "Combo: duplicate value warning",
       "localizations": {
@@ -18521,7 +18810,7 @@
       }
     },
     "이미지 메모": {
-      "comment": "Image\nImage memo\nVoiceOver: image memo\nVoiceOver: image memo badge",
+      "comment": "Built-in category: image memos only\nImage\nImage memo\nVoiceOver: image memo\nVoiceOver: image memo badge",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -18538,8 +18827,7 @@
       }
     },
     "이미지 메모 추가": {
-      "comment": "Menu: new image memo",
-      "extractionState": "stale",
+      "comment": "Add image memo card",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -19515,7 +19803,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Let us register your frequently used info first."
+            "value": "Let's start by saving the info you use often."
           }
         },
         "ko": {
@@ -19636,23 +19924,6 @@
         }
       }
     },
-    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다.": {
-      "comment": "Clear all confirm message",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
     "전": {
       "comment": "Auto-registered",
       "extractionState": "manual",
@@ -19736,6 +20007,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Delete the saved security PIN"
+          }
+        }
+      }
+    },
+    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다.": {
+      "comment": "Clear all confirm message",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "All saved clipboard items will be deleted. This action cannot be undone."
           }
         }
       }
@@ -20772,7 +21060,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add Your First Clip"
+            "value": "Add Your First Memo"
           }
         },
         "id": {
@@ -21153,6 +21441,23 @@
         }
       }
     },
+    "카드를 끌어 순서를 바꾸세요": {
+      "comment": "Reorder mode hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag cards to reorder"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seret kartu untuk mengatur ulang"
+          }
+        }
+      }
+    },
     "카드번호": {
       "comment": "Card Number",
       "localizations": {
@@ -21444,23 +21749,6 @@
         }
       }
     },
-    "켬": {
-      "comment": "Toggle state: on",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "On"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "On"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요": {
       "comment": "Enable Korean input subtitle",
       "localizations": {
@@ -21496,8 +21784,25 @@
         }
       }
     },
+    "켬": {
+      "comment": "Toggle state: on",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "On"
+          }
+        }
+      }
+    },
     "콤보": {
-      "comment": "Combo\nVoiceOver: combo badge",
+      "comment": "Built-in category: combos only\nCombo\nVoiceOver: combo badge",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -21544,6 +21849,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Edit Combo"
+          }
+        }
+      }
+    },
+    "콤보 추가": {
+      "comment": "Add combo card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah kombo"
           }
         }
       }
@@ -22690,6 +23012,23 @@
         }
       }
     },
+    "탭하면 Pro 업그레이드 보기": {
+      "comment": "VoiceOver: open paywall",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to see the Pro upgrade"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk untuk lihat upgrade Pro"
+          }
+        }
+      }
+    },
     "탭하면 Pro를 구매합니다": {
       "comment": "Purchase button hint",
       "localizations": {
@@ -22747,7 +23086,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tap to add or remove from the value"
+            "value": "Tap to add or remove this value"
           }
         },
         "id": {
@@ -22862,7 +23201,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tap to add or remove from the starter pack"
+            "value": "Tap to add to or remove from the starter pack"
           }
         },
         "id": {
@@ -23010,7 +23349,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tap to include or exclude from Combo"
+            "value": "Tap to include in or exclude from the Combo"
           }
         },
         "id": {
@@ -23323,7 +23662,7 @@
       }
     },
     "템플릿": {
-      "comment": "Template\nTemplate label\nVoiceOver: template badge",
+      "comment": "Built-in category: templates only\nTemplate\nTemplate label\nVoiceOver: template badge",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -23553,6 +23892,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Masukkan Template"
+          }
+        }
+      }
+    },
+    "템플릿 추가": {
+      "comment": "Add template card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add template"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah templat"
           }
         }
       }
@@ -23943,6 +24299,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ekspresi"
+          }
+        }
+      }
+    },
+    "프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게": {
+      "comment": "Paywall value: english templates",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited professional English templates — sound fluent, even as a non-native"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Template bahasa Inggris profesional tanpa batas — terdengar fasih, bahkan non-natif"
           }
         }
       }
@@ -24901,380 +25274,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "눌러서 추가해보기": {
-      "comment": "Ghost memo: tap to try",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tap to try adding"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ketuk untuk coba menambah"
-          }
-        }
-      }
-    },
-    "눌러서 채워서 추가해보기": {
-      "comment": "VoiceOver: ghost memo hint",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tap to fill in and add"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ketuk untuk mengisi dan menambah"
-          }
-        }
-      }
-    },
-    "IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번": {
-      "comment": "Paywall value: unlimited save",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save IBAN, timezone replies & account info without limits — one tap in any app"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simpan IBAN, balasan zona waktu & info rekening tanpa batas — satu ketukan di app mana pun"
-          }
-        }
-      }
-    },
-    "프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게": {
-      "comment": "Paywall value: english templates",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unlimited professional English templates — sound fluent, even as a non-native"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Template bahasa Inggris profesional tanpa batas — terdengar fasih, bahkan non-natif"
-          }
-        }
-      }
-    },
-    "iCloud 백업·콤보·보안 메모·macOS 앱까지 전부": {
-      "comment": "Paywall value: pro extras",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "iCloud backup, Combos, secure memos & the macOS app — all included"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cadangan iCloud, Combo, memo aman & app macOS — semua termasuk"
-          }
-        }
-      }
-    },
-    "이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.": {
-      "comment": "Paywall personalized time-saved proof",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You've already saved %d minutes with ClipKeyboard. Go Pro to keep saving without limits."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anda sudah menghemat %d menit dengan ClipKeyboard. Pakai Pro untuk terus hemat tanpa batas."
-          }
-        }
-      }
-    },
-    "Pro 보기": {
-      "comment": "Pro nudge CTA",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "See Pro"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lihat Pro"
-          }
-        }
-      }
-    },
-    "탭하면 Pro 업그레이드 보기": {
-      "comment": "VoiceOver: open paywall",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tap to see the Pro upgrade"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ketuk untuk lihat upgrade Pro"
-          }
-        }
-      }
-    },
-    "이미 %d분을 아꼈어요 — Pro로 무제한으로 계속": {
-      "comment": "Pro nudge: time saved",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You've already saved %d minutes — go Pro for unlimited"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Anda sudah hemat %d menit — pakai Pro tanpa batas"
-          }
-        }
-      }
-    },
-    "무료 메모 %d칸 남았어요 — Pro로 무제한": {
-      "comment": "Pro nudge: slots left",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d free memo slots left — go Pro for unlimited"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sisa %d slot memo gratis — pakai Pro tanpa batas"
-          }
-        }
-      }
-    },
-    "메모+템플릿": {
-      "comment": "Built-in category: text memos and templates",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Memos + Templates"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Memo + Templat"
-          }
-        }
-      }
-    },
-    "기본 제공 카테고리": {
-      "comment": "Built-in categories section header",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Built-in categories"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kategori bawaan"
-          }
-        }
-      }
-    },
-    "'%@'에 해당하는 메모가 없습니다": {
-      "comment": "Built-in category empty state",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No memos match '%@'"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tidak ada memo yang cocok dengan '%@'"
-          }
-        }
-      }
-    },
-    "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 메모만 모아 볼 수 있어요.": {
-      "comment": "Built-in categories section footer",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Categories we've prepared for you. Turn one on to show a tab at the top that gathers only that kind of memo."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kategori yang sudah kami siapkan. Aktifkan untuk menampilkan tab di atas yang hanya mengumpulkan jenis memo tersebut."
-          }
-        }
-      }
-    },
-    "%@ 카테고리 표시": {
-      "comment": "Built-in category toggle a11y",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show %@ category"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tampilkan kategori %@"
-          }
-        }
-      }
-    },
-    "순서 바꾸기": {
-      "comment": "Action/title: reorder memos",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reorder"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Atur Ulang"
-          }
-        }
-      }
-    },
-    "카드를 끌어 순서를 바꾸세요": {
-      "comment": "Reorder mode hint",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Drag cards to reorder"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seret kartu untuk mengatur ulang"
-          }
-        }
-      }
-    },
-    "드래그하여 순서를 바꿉니다": {
-      "comment": "Reorder cell accessibility hint",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Drag to change the order"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seret untuk mengubah urutan"
-          }
-        }
-      }
-    },
-    "템플릿 추가": {
-      "comment": "Add template card",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add template"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tambah templat"
-          }
-        }
-      }
-    },
-    "콤보 추가": {
-      "comment": "Add combo card",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add combo"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tambah kombo"
-          }
-        }
-      }
-    },
-    "'%@' 추가": {
-      "comment": "Add memo to this category card",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add to '%@'"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tambah ke '%@'"
-          }
-        }
-      }
-    },
-    "'%@' 카테고리에 메모 추가": {
-      "comment": "Add memo to category accessibility",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add a memo to the '%@' category"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tambah memo ke kategori '%@'"
           }
         }
       }
