@@ -134,6 +134,8 @@ struct MemoActionSheet: View {
     var onMoveToCategory: ((String) -> Void)? = nil
     /// "새 카테고리에 추가" — 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
     var onCreateNewCategory: (() -> Void)? = nil
+    /// "순서 바꾸기" — 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
+    var onReorder: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -220,6 +222,16 @@ struct MemoActionSheet: View {
                                 : NSLocalizedString("카테고리에 추가", comment: "Action: add to category"),
                             systemImage: "folder"
                         )
+                    }
+                }
+                if let onReorder {
+                    Divider().padding(.leading, 56)
+                    actionRow(
+                        label: NSLocalizedString("순서 바꾸기", comment: "Action: reorder memos"),
+                        systemImage: "arrow.up.arrow.down"
+                    ) {
+                        dismiss()
+                        onReorder()
                     }
                 }
                 Divider().padding(.leading, 56)

@@ -37,6 +37,26 @@ struct CategorySettings: View {
                 .padding(.vertical, 8)
             }
 
+            // 기본 제공 카테고리 (타입별 모아보기) — 앱이 미리 만들어 둔 카테고리. 켜면 탭으로 노출.
+            Section {
+                ForEach(BuiltInCategory.allCases, id: \.self) { builtIn in
+                    Toggle(isOn: builtInBinding(builtIn)) {
+                        Label {
+                            Text(builtIn.displayName)
+                        } icon: {
+                            Image(systemName: builtIn.icon)
+                                .foregroundColor(builtIn.tint)
+                        }
+                    }
+                    .accessibilityLabel(String(format: NSLocalizedString("%@ 카테고리 표시", comment: "Built-in category toggle a11y"), builtIn.displayName))
+                }
+            } header: {
+                Text(NSLocalizedString("기본 제공 카테고리", comment: "Built-in categories section header"))
+            } footer: {
+                Text(NSLocalizedString("앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 메모만 모아 볼 수 있어요.", comment: "Built-in categories section footer"))
+                    .font(.body)
+            }
+
             // Add new
             Section {
                 HStack {
@@ -191,6 +211,13 @@ struct CategorySettings: View {
         Binding(
             get: { store.isVisible(category) },
             set: { store.setVisible(category, $0) }
+        )
+    }
+
+    private func builtInBinding(_ builtIn: BuiltInCategory) -> Binding<Bool> {
+        Binding(
+            get: { store.isBuiltInEnabled(builtIn.rawValue) },
+            set: { store.setBuiltInEnabled(builtIn.rawValue, $0) }
         )
     }
 }

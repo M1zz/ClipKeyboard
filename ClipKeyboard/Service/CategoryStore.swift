@@ -37,12 +37,36 @@ final class CategoryStore: ObservableObject {
     /// 마이그레이션 완료 flag — 기존 사용자(category != "기본"인 메모 보유)는 자동 활성.
     private let featureMigratedKey = "category.feature.migrated.v1"
 
+    /// 기본 제공 카테고리(타입별 모아보기) 활성화 목록. 키보드 리스트와 동일 키 공유.
+    private let enabledBuiltInKey = "enabledBuiltInCategories_v1"
+
     @Published private(set) var categories: [String] = []
     @Published private(set) var isFeatureEnabled: Bool = false
+    /// 사용자가 켠 기본 제공 카테고리 rawValue 집합 (BuiltInCategory.rawValue).
+    @Published private(set) var enabledBuiltIns: Set<String> = []
 
     private init() {
         load()
         loadFeatureEnabledState()
+        loadBuiltInState()
+    }
+
+    // MARK: - 기본 제공 카테고리 (타입별 모아보기)
+
+    private func loadBuiltInState() {
+        enabledBuiltIns = Set(UserDefaults(suiteName: appGroup)?.stringArray(forKey: enabledBuiltInKey) ?? [])
+    }
+
+    /// 해당 기본 제공 카테고리가 켜져 있는지.
+    func isBuiltInEnabled(_ rawValue: String) -> Bool {
+        enabledBuiltIns.contains(rawValue)
+    }
+
+    /// 기본 제공 카테고리 켜기/끄기. App Group에 영구 저장 → 리스트 탭에 즉시 반영.
+    func setBuiltInEnabled(_ rawValue: String, _ enabled: Bool) {
+        if enabled { enabledBuiltIns.insert(rawValue) } else { enabledBuiltIns.remove(rawValue) }
+        UserDefaults(suiteName: appGroup)?.set(Array(enabledBuiltIns), forKey: enabledBuiltInKey)
+        print("\(enabled ? "✅" : "🚫") [CategoryStore] 기본 제공 카테고리 '\(rawValue)' \(enabled ? "켜짐" : "꺼짐")")
     }
 
     // MARK: - Feature toggle (v4.1.0)

@@ -8,6 +8,7 @@
 import SwiftUI
 import LocalAuthentication
 import TipKit
+import UniformTypeIdentifiers
 
 var fontSize: CGFloat = 20
 
@@ -26,6 +27,43 @@ private struct ScrollOffsetPreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
+    }
+}
+
+/// 순서 바꾸기 그리드의 드롭 델리게이트 — 드래그가 다른 카드 위로 들어오면 그 자리로 즉시 이동.
+/// `.onDrag`가 손가락을 따라오는 네이티브 미리보기를 제공하고, dropEntered에서 라이브 재배치한다.
+private struct MemoReorderDropDelegate: DropDelegate {
+    let item: Memo
+    @Binding var list: [Memo]
+    @Binding var dragging: Memo?
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+
+    func dropEntered(info: DropInfo) {
+        guard let dragging, dragging.id != item.id,
+              let from = list.firstIndex(where: { $0.id == dragging.id }),
+              let to = list.firstIndex(where: { $0.id == item.id }) else { return }
+        withAnimation(.spring(response: 0.32, dampingFraction: 0.78)) {
+            list.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+        }
+        HapticManager.shared.light()
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        dragging = nil
+        return true
+    }
+}
+
+/// 그리드 여백에 드롭됐을 때 드래그 상태만 정리하는 컨테이너용 델리게이트(재배치는 안 함).
+private struct ReorderResetDropDelegate: DropDelegate {
+    @Binding var dragging: Memo?
+    func dropUpdated(info: DropInfo) -> DropProposal? { DropProposal(operation: .move) }
+    func performDrop(info: DropInfo) -> Bool {
+        dragging = nil
+        return true
     }
 }
 
@@ -69,6 +107,13 @@ struct ClipKeyboardList: View {
     @State private var longPressProgress: CGFloat = 0
     @State private var memoForActions: Memo? = nil
     @State private var showMemoActions: Bool = false
+
+    // 탭 누름 바운스 — 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
+    @State private var bounceTriggers: [UUID: Int] = [:]
+
+    // 순서 바꾸기(흔들기/드래그 재정렬)
+    @State private var draggingMemo: Memo? = nil
+    @State private var wiggle: Bool = false
 
     // 즐겨찾기 탭 전용
     @State private var showAddFavoriteMemoSheet: Bool = false
@@ -394,11 +439,20 @@ struct ClipKeyboardList: View {
                                 newCategoryForMemo = ""
                                 showNewCategoryForMemoAlert = true
                             }
+                        },
+                        onReorder: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                viewModel.enterReorderMode()
+                            }
                         }
                     )
-                    .presentationDetents([.height(470)])
+                    .presentationDetents([.height(530)])
                     .presentationDragIndicator(.visible)
                 }
+            }
+            // 순서 바꾸기 — 전체 메모 흔들기/드래그 재정렬 (전체화면)
+            .fullScreenCover(isPresented: $viewModel.isReorderMode) {
+                reorderModeView
             }
             // 즐겨찾기 탭 + 버튼 — 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
@@ -599,9 +653,6 @@ struct ClipKeyboardList: View {
     }
 
     private func memoGridCell(memo: Memo) -> some View {
-        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-        let hasImage = !imageFileName.isEmpty
-        let onColor = cardIsColored(memo: memo, hasImage: hasImage)
         let isActive = longPressActiveMemo?.id == memo.id
         let holdDuration: Double = 0.65
         // progress fill을 trigger보다 살짝 짧게 — 시뮬 환경에서 onLongPressGesture가
@@ -612,52 +663,22 @@ struct ClipKeyboardList: View {
         // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
         // 그대로 유지 (button trait 명시 + tap 햅틱).
-        return VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 4) {
-                memoTypeIcon(memo: memo, onColor: onColor)
-                Spacer()
-                // 우상단 = 카테고리 식별 심볼만(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
-                // 메모+템플릿 표시는 좌상단(memoTypeIcon)에서 처리 — 카테고리 색과 헷갈리지 않도록.
-                if memo.isFavorite {
-                    Image(systemName: "heart.fill")
-                        .font(.title2)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                        .accessibilityHidden(true)
-                } else if categoryBadgeVisible,
-                          CategoryStore.shared.isFeatureEnabled,
-                          viewModel.customCategories.contains(memo.category) {
-                    Image(systemName: customCategoryIcon(memo.category))
-                        .font(.title2)
-                        .foregroundColor(onColor
-                            ? .white.opacity(0.85)
-                            : customCategoryColor(memo.category))
-                        .accessibilityHidden(true)
-                }
-            }
-            Spacer(minLength: 16)
-            Text(memo.title)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(onColor ? .white : theme.text)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(16)
-        // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
-        // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 타입 테두리 — 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(memoTypeBorder(memo).color,
-                              style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
-                                                 dash: memoTypeBorder(memo).dash))
-        )
+        return memoCardSurface(memo: memo)
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        // 푹신한 누름 — 탭하면 부드럽게 들어갔다가(0.92) 원래보다 살짝 큰 1.05배로 튀어나온 뒤
+        // 원래 크기로 안착. 키프레임으로 1.05 peak를 정확히 보장(빠른 탭에도 항상 보임).
+        .keyframeAnimator(initialValue: 1.0, trigger: bounceTriggers[memo.id] ?? 0) { view, scale in
+            view.scaleEffect(scale)
+        } keyframes: { _ in
+            KeyframeTrack(\.self) {
+                CubicKeyframe(0.92, duration: 0.12)   // 부드럽게 쑥 들어감
+                CubicKeyframe(1.05, duration: 0.17)   // 원래보다 크게 튀어나옴
+                CubicKeyframe(1.0, duration: 0.22)    // 원래 크기로 안착
+            }
+        }
         .onTapGesture {
             HapticManager.shared.selection() // 탭: 선택 햅틱
+            if !reduceMotion { bounceTriggers[memo.id, default: 0] += 1 } // 푹신 바운스 재생
             viewModel.copyMemo(memo: memo)
             checkCategoryBadgeNudge()
             #if os(iOS)
@@ -722,6 +743,55 @@ struct ClipKeyboardList: View {
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
 
+    /// 메모 카드의 순수 비주얼(제스처 없음). memoGridCell(탭/롱프레스)과 재정렬 모드 셀이 공유.
+    private func memoCardSurface(memo: Memo) -> some View {
+        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
+        let hasImage = !imageFileName.isEmpty
+        let onColor = cardIsColored(memo: memo, hasImage: hasImage)
+
+        return VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .top, spacing: 4) {
+                memoTypeIcon(memo: memo, onColor: onColor)
+                Spacer()
+                // 우상단 = 카테고리 식별 심볼만(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
+                if memo.isFavorite {
+                    Image(systemName: "heart.fill")
+                        .font(.title2)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
+                        .accessibilityHidden(true)
+                } else if categoryBadgeVisible,
+                          CategoryStore.shared.isFeatureEnabled,
+                          viewModel.customCategories.contains(memo.category) {
+                    Image(systemName: customCategoryIcon(memo.category))
+                        .font(.title2)
+                        .foregroundColor(onColor
+                            ? .white.opacity(0.85)
+                            : customCategoryColor(memo.category))
+                        .accessibilityHidden(true)
+                }
+            }
+            Spacer(minLength: 16)
+            Text(memo.title)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(onColor ? .white : theme.text)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
+        // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
+        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+        .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        // 타입 테두리 — 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .strokeBorder(memoTypeBorder(memo).color,
+                              style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
+                                                 dash: memoTypeBorder(memo).dash))
+        )
+        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+    }
 
     /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용.
     /// 색은 '카테고리'를 의미한다 — 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
@@ -822,6 +892,7 @@ struct ClipKeyboardList: View {
         switch viewModel.selectedCategoryTab {
         case .all:       return .gray
         case .favorites: return .clipFavorite
+        case .builtIn(let b): return b.tint
         case .custom(let name): return customCategoryColor(name)
         }
     }
@@ -831,6 +902,7 @@ struct ClipKeyboardList: View {
         switch viewModel.selectedCategoryTab {
         case .all:       return theme.bg
         case .favorites: return Color.clipFavorite.opacity(0.10)
+        case .builtIn(let b): return b.tint.opacity(0.08)
         case .custom(let name): return customCategoryColor(name).opacity(0.08)
         }
     }
@@ -1064,6 +1136,15 @@ struct ClipKeyboardList: View {
             } else {
                 favoritesEmptyStateView
             }
+        case .builtIn(let b):
+            if !filtered.isEmpty {
+                filteredTabScrollView(memos: filtered)
+            } else {
+                categoryEmptyStateView(
+                    icon: b.icon,
+                    message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName)
+                )
+            }
         case .custom(let name):
             if !filtered.isEmpty {
                 filteredTabScrollView(memos: filtered)
@@ -1074,6 +1155,108 @@ struct ClipKeyboardList: View {
                 )
             }
         }
+    }
+
+    // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
+
+    /// 2열 그리드 한 칸 너비 — onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
+    private var reorderPreviewWidth: CGFloat {
+        #if os(iOS)
+        return max(120, (UIScreen.main.bounds.width - 44) / 2)
+        #else
+        return 160
+        #endif
+    }
+
+    /// 순서 바꾸기 전용 화면 — 전체 메모를 흔들리는 그리드로 보여주고 드래그로 재정렬.
+    private var reorderModeView: some View {
+        NavigationStack {
+            ScrollView {
+                Text(NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint"))
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, 12)
+
+                LazyVGrid(columns: gridColumns, spacing: 12) {
+                    ForEach(Array(viewModel.reorderList.enumerated()), id: \.element.id) { index, memo in
+                        reorderCardCell(memo: memo, index: index)
+                    }
+                }
+                .padding(16)
+                .padding(.bottom, 40)
+                // 재배치 애니메이션은 dropEntered의 withAnimation이 담당(이중 적용 방지).
+                // 셀 바깥(여백)에 드롭돼도 드래그 상태를 풀어 카드가 사라진 채 남지 않게 한다.
+                .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
+            }
+            .background(theme.bg.ignoresSafeArea())
+            .navigationTitle(NSLocalizedString("순서 바꾸기", comment: "Reorder mode title"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("완료", comment: "Done")) {
+                        HapticManager.shared.success()
+                        viewModel.exitReorderMode()
+                    }
+                    .fontWeight(.semibold)
+                }
+            }
+            .solidNavBar(theme.bg)
+        }
+        .onAppear {
+            draggingMemo = nil
+            if !reduceMotion { withAnimation { wiggle = true } }
+        }
+        .onDisappear {
+            wiggle = false
+            draggingMemo = nil
+        }
+    }
+
+    /// 재정렬 그리드의 한 셀 — 흔들림 + onDrag/onDrop 라이브 재배치.
+    private func reorderCardCell(memo: Memo, index: Int) -> some View {
+        let isDragging = draggingMemo?.id == memo.id
+        return memoCardSurface(memo: memo)
+            // 드래그 중인 카드는 원위치를 비워(투명) 떠 있는 느낌을 준다.
+            .opacity(isDragging ? 0.001 : 1.0)
+            .overlay(alignment: .topLeading) {
+                // 흔들기 모드 식별용 작은 그립 배지.
+                Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
+                    .font(.caption2.weight(.bold))
+                    .foregroundColor(.white)
+                    .padding(6)
+                    .background(Circle().fill(Color.black.opacity(0.35)))
+                    .padding(8)
+                    .opacity(isDragging ? 0 : 1)
+                    .accessibilityHidden(true)
+            }
+            .onDrag {
+                draggingMemo = memo
+                HapticManager.shared.medium()
+                return NSItemProvider(object: memo.id.uuidString as NSString)
+            } preview: {
+                // 손가락을 따라오는 미리보기는 항상 또렷하게(원본 dim과 분리).
+                memoCardSurface(memo: memo)
+                    .frame(width: reorderPreviewWidth, height: memoCardHeight)
+            }
+            .onDrop(of: [.text], delegate: MemoReorderDropDelegate(
+                item: memo,
+                list: $viewModel.reorderList,
+                dragging: $draggingMemo
+            ))
+            // 흔들림 — 드래그 중인 카드는 흔들지 않음. reduceMotion이면 정지.
+            .rotationEffect(.degrees((reduceMotion || isDragging) ? 0 : (wiggle ? 1.4 : -1.4)))
+            .animation(
+                (reduceMotion || isDragging)
+                    ? nil
+                    : .easeInOut(duration: 0.14).repeatForever(autoreverses: true).delay(Double(index % 6) * 0.045),
+                value: wiggle
+            )
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(memo.title)
+            .accessibilityHint(NSLocalizedString("드래그하여 순서를 바꿉니다", comment: "Reorder cell a11y hint"))
     }
 
     private var allTabScrollView: some View {

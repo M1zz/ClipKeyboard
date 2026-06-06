@@ -10,17 +10,71 @@ import TipKit
 import UIKit
 #endif
 
+// MARK: - BuiltInCategory
+
+/// 앱이 미리 만들어 제공하는 "기본 제공 카테고리". 사용자가 카테고리 관리에서 켜면 탭으로 노출된다.
+/// 일반(문자열) 카테고리와 달리 `memo.category` 문자열이 아니라 **메모의 타입**으로 멤버십을 판정한다.
+/// (요청: 필터가 아니라 카테고리로 — 사용자에겐 카테고리와 동일하게 보이되 멤버십만 타입 기준)
+enum BuiltInCategory: String, CaseIterable, Hashable {
+    case templates   // 템플릿만
+    case textMemos   // 메모+템플릿 (이미지·콤보 제외)
+    case images      // 이미지 메모만
+    case combos      // 콤보만
+
+    var displayName: String {
+        switch self {
+        case .templates: return NSLocalizedString("템플릿", comment: "Built-in category: templates only")
+        case .textMemos: return NSLocalizedString("메모+템플릿", comment: "Built-in category: text memos and templates")
+        case .images:    return NSLocalizedString("이미지 메모", comment: "Built-in category: image memos only")
+        case .combos:    return NSLocalizedString("콤보", comment: "Built-in category: combos only")
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .templates: return "wand.and.stars"
+        case .textMemos: return "doc.text.fill"
+        case .images:    return "photo.fill"
+        case .combos:    return "square.stack.3d.up.fill"
+        }
+    }
+
+    /// 탭 배경·인디케이터 색 (선택 칩은 공통 파랑, 이 색은 은은한 배경 틴트로만 사용).
+    var tint: Color {
+        switch self {
+        case .templates: return .purple
+        case .textMemos: return .indigo
+        case .images:    return .green
+        case .combos:    return .orange
+        }
+    }
+
+    /// 이 카테고리에 메모가 속하는지 — 타입 기준 판정.
+    func matches(_ memo: Memo) -> Bool {
+        switch self {
+        case .templates: return memo.isTemplate
+        case .textMemos: return !memo.isCombo
+                              && memo.contentType != .image
+                              && memo.contentType != .mixed
+        case .images:    return memo.contentType == .image || memo.contentType == .mixed
+        case .combos:    return memo.isCombo
+        }
+    }
+}
+
 // MARK: - CategoryTab
 
 enum CategoryTab: Hashable, Equatable {
     case all
     case favorites
+    case builtIn(BuiltInCategory)
     case custom(String)
 
     var displayName: String {
         switch self {
         case .all:       return NSLocalizedString("전체", comment: "Category tab: all")
         case .favorites: return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites")
+        case .builtIn(let b): return b.displayName
         case .custom(let name): return name
         }
     }
@@ -30,6 +84,7 @@ enum CategoryTab: Hashable, Equatable {
         switch self {
         case .all:              return "__all__"
         case .favorites:        return "__favorites__"
+        case .builtIn(let b):   return "builtin:" + b.rawValue
         case .custom(let name): return "custom:" + name
         }
     }
@@ -39,6 +94,12 @@ enum CategoryTab: Hashable, Equatable {
         case "__all__":       self = .all
         case "__favorites__": self = .favorites
         default:
+            let builtInPrefix = "builtin:"
+            if storageKey.hasPrefix(builtInPrefix),
+               let b = BuiltInCategory(rawValue: String(storageKey.dropFirst(builtInPrefix.count))) {
+                self = .builtIn(b)
+                return
+            }
             let prefix = "custom:"
             guard storageKey.hasPrefix(prefix) else { return nil }
             let name = String(storageKey.dropFirst(prefix.count))
@@ -51,10 +112,13 @@ enum CategoryTab: Hashable, Equatable {
         switch self {
         case .all:       return "square.grid.2x2"
         case .favorites: return "heart.fill"
+        case .builtIn(let b): return b.icon
         case .custom:    return "folder.fill"
         }
     }
 
+    /// 칩에 삭제(x) 버튼을 숨길지 — 사용자 정의(custom)만 칩에서 삭제 가능.
+    /// 기본 제공 카테고리는 카테고리 관리 화면의 토글로 끈다.
     var isBuiltIn: Bool {
         if case .custom = self { return false }
         return true
@@ -78,18 +142,74 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var selectedCategoryFilter: String? = nil
     @Published var showFavoritesFilter: Bool = false
 
+    // MARK: - Reorder (수동 순서 바꾸기)
+
+    /// 그리드 흔들기/드래그 재정렬 모드 여부.
+    @Published var isReorderMode: Bool = false
+    /// 재정렬 모드에서 드래그로 실시간 바뀌는 작업용 전체 목록(전체 한 벌).
+    @Published var reorderList: [Memo] = []
+
+    private let manualOrderKey = "memoManualOrder_v1"
+    private let manualOrderActiveKey = "memoManualOrderActive_v1"
+
+    /// 사용자가 수동 순서를 한 번이라도 지정했는지. true면 sortMemos가 수동 순서를 따른다
+    /// (즐겨찾기 맨 위 고정 해제 — 사용자가 둔 순서 그대로).
+    private var manualOrderActive: Bool {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: manualOrderActiveKey) ?? false
+    }
+
+    /// 저장된 수동 순서(메모 id 배열).
+    private var manualOrder: [UUID] {
+        let raw = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.stringArray(forKey: manualOrderKey) ?? []
+        return raw.compactMap { UUID(uuidString: $0) }
+    }
+
+    /// 재정렬 모드 진입 — 현재 전체 목록을 작업용 목록으로 복제.
+    func enterReorderMode() {
+        reorderList = loadedData
+        withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = true }
+    }
+
+    /// 재정렬 모드 종료 — 현재 순서를 영구 저장하고 닫는다.
+    func exitReorderMode() {
+        commitReorder()
+        withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = false }
+    }
+
+    /// reorderList 순서를 디스크/UserDefaults에 영구 저장. 이후 sortMemos가 이 순서를 따른다.
+    func commitReorder() {
+        guard !reorderList.isEmpty else { return }
+        let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        ud?.set(reorderList.map { $0.id.uuidString }, forKey: manualOrderKey)
+        ud?.set(true, forKey: manualOrderActiveKey)
+        loadedData = reorderList
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            print("✅ [commitReorder] 수동 순서 \(loadedData.count)개 저장")
+        } catch {
+            print("❌ [commitReorder] 저장 실패: \(error)")
+        }
+        applyFilters()
+    }
+
     // MARK: - Category Tabs
 
     @Published var selectedCategoryTab: CategoryTab = .all
     @Published var customCategories: [String] = []
     /// 탭 바에서 숨길 카테고리 이름 집합. 즐겨찾기는 "__favorites__" 키 사용.
     @Published var hiddenCategoryTabs: Set<String> = []
+    /// 사용자가 카테고리 관리에서 켠 기본 제공 카테고리(타입별 모아보기). allCases 순서 유지.
+    @Published var enabledBuiltInCategories: [BuiltInCategory] = []
 
     var allCategoryTabs: [CategoryTab] {
         var tabs: [CategoryTab] = [.all]
         // 즐겨찾기는 기본 제공 카테고리 — 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
         if !hiddenCategoryTabs.contains("__favorites__") {
             tabs.append(.favorites)
+        }
+        // 기본 제공 카테고리(켠 것만). 타입 기준이므로 사용자가 켜면 메모 유무와 무관하게 노출.
+        for b in enabledBuiltInCategories {
+            tabs.append(.builtIn(b))
         }
         // 사용자 카테고리는 해당 카테고리에 속한 메모가 1개 이상일 때만 탭 노출
         for cat in customCategories
@@ -158,6 +278,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 $0.title.localizedStandardContains(searchQueryString)
             }
             return base.filter { $0.isFavorite }
+        case .builtIn(let b):
+            // 기본 제공 카테고리 — 메모 타입 기준으로 필터. 검색은 그대로 적용.
+            let base = searchQueryString.isEmpty ? loadedData : loadedData.filter {
+                $0.title.localizedStandardContains(searchQueryString)
+            }
+            return base.filter { b.matches($0) }
         case .custom(let name):
             // 마찬가지로 타입 필터 무관하게 카테고리 기반으로만 필터.
             let base = searchQueryString.isEmpty ? loadedData : loadedData.filter {
@@ -228,6 +354,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
         customCategories = ud?.stringArray(forKey: "userDefinedCategories_v1") ?? []
         let hidden = ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
         hiddenCategoryTabs = Set(hidden)
+        // 기본 제공 카테고리 — allCases 순서를 유지해 탭 순서가 항상 일정하게.
+        let enabledRaw = Set(ud?.stringArray(forKey: "enabledBuiltInCategories_v1") ?? [])
+        enabledBuiltInCategories = BuiltInCategory.allCases.filter { enabledRaw.contains($0.rawValue) }
+        // 관리 화면에서 끈 카테고리가 현재 선택 탭이면 전체로 되돌린다(빈 탭에 머무는 것 방지).
+        if !allCategoryTabs.contains(selectedCategoryTab) {
+            selectedCategoryTab = .all
+        }
     }
 
     func saveCustomCategories() {
@@ -788,7 +921,22 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Sorting
 
     func sortMemos(_ memos: [Memo]) -> [Memo] {
-        memos.sorted { memo1, memo2 in
+        // 사용자가 직접 순서를 바꾼 적이 있으면 그 순서를 그대로 따른다(즐겨찾기 고정 해제).
+        // 수동 순서에 없는 새 메모는 맨 위(최신순)에 둔다.
+        if manualOrderActive {
+            let order = manualOrder
+            let rank = Dictionary(order.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
+            return memos.sorted { a, b in
+                switch (rank[a.id], rank[b.id]) {
+                case let (ra?, rb?): return ra < rb
+                case (nil, _?):      return true   // 순서 미등록(새 메모)은 위로
+                case (_?, nil):      return false
+                case (nil, nil):     return a.lastEdited > b.lastEdited
+                }
+            }
+        }
+        // 기본: 즐겨찾기 먼저 → 최근 수정순
+        return memos.sorted { memo1, memo2 in
             if memo1.isFavorite != memo2.isFavorite {
                 return memo1.isFavorite && !memo2.isFavorite
             }
