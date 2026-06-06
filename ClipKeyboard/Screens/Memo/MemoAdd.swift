@@ -43,7 +43,6 @@ struct MemoAdd: View {
     @State private var isFocused: Bool = false
     @FocusState private var isQuickTextFocused: Bool  // quickModeBody TextEditor 전용
     @FocusState private var isTitleFocused: Bool
-    @FocusState private var isHintFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -248,10 +247,7 @@ struct MemoAdd: View {
                     // 2) 키보드에 표시할 이름(KEY) — 이 메모가 키보드에서 보일 제목. 핵심.
                     titleInputSection
 
-                    // 3) 힌트 (선택)
-                    quickHintField
-
-                    // 4) 더 설정하기 (보안·템플릿·콤보)
+                    // 3) 더 설정하기 (보안·템플릿·콤보)
                     quickAdvancedButton
                 }
                 .padding(.horizontal, 20)
@@ -260,28 +256,6 @@ struct MemoAdd: View {
             }
             .background(theme.bg)
             // 저장 버튼은 헤더 오른쪽(toolbar)에 위치.
-        }
-    }
-
-    /// 퀵 모드 힌트(어디서 쓰나요) — 선택 입력.
-    private var quickHintField: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(NSLocalizedString("힌트 (선택)", comment: "Hint section label"))
-                .font(.body)
-                .fontWeight(.medium)
-                .foregroundColor(theme.textMuted)
-            HStack(spacing: 8) {
-                Image(systemName: "lightbulb.fill")
-                    .foregroundColor(.yellow.opacity(0.8))
-                    .font(.body)
-                TextField(NSLocalizedString("어디서 쓰나요? (선택)", comment: "Hint field placeholder"), text: $viewModel.hint)
-                    .font(.body)
-                    .focused($isHintFocused)
-            }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(theme.surfaceAlt)
-            .cornerRadius(theme.radiusMd)
         }
     }
 
@@ -765,8 +739,11 @@ struct MemoAdd: View {
                     .font(.body)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(theme.surfaceAlt)
-                    .cornerRadius(theme.radiusSm)
+                    .background(
+                        // 앱 일반 카드와 동일한 continuous(스퀴클) 코너로 통일.
+                        RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                            .fill(theme.surfaceAlt)
+                    )
             }
         }
     }
