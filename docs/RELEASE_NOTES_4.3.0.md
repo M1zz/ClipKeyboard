@@ -2,44 +2,56 @@ ClipKeyboard v4.3.0
 
 한국어
 
-- 보안 메모를 진짜로 암호화했습니다, 잠금으로 표시한 메모의 내용을 기기에 평문으로 두지 않고 암호화해 저장합니다 — 암호화 키는 iCloud 키체인으로 안전하게 동기화되어, 맥에서도 같은 보안 메모를 Touch ID 인증을 거쳐야만 볼 수 있고 인증 전에는 내용이 마스킹됩니다
-- 아이폰 메모가 맥에서 바로 보입니다, 같은 iCloud 계정이면 맥 앱을 처음 켤 때 아이폰의 메모를 자동으로 가져옵니다 — 더 이상 수동으로 복원할 필요가 없습니다
-- 맥 앱을 아이폰과 같은 결로 다듬었습니다, 둥근 모서리·여백·폰트를 통일하고 템플릿 빈칸 채우기, 자동 변수(날짜·시간·통화 등) 치환, 보안 메모 잠금까지 맥에서도 동작합니다
-- "디스플레이" 설정을 새로 만들었습니다, 메모 카드 높이(작게·보통·크게)와 우상단 카테고리 심볼 표시를 직접 정할 수 있고, 바뀌는 모습을 바로 위 미리보기에서 확인할 수 있습니다
-- 새 메모 화면을 정돈했습니다, 저장 버튼을 헤더 오른쪽으로 옮겨 본문을 넓혔고, "키보드에 표시할 이름"(키)과 "붙여넣을 내용"(값)을 함께 입력하도록 했습니다 — 새 메모에서 바로 이미지도 첨부할 수 있어 별도의 이미지 메모 메뉴는 없앴습니다
-- 템플릿·콤보 입력을 더 매끄럽게 했습니다, 미리보기를 값 입력 위에 두어 빈칸을 채우는 동안 결과가 바로 보이고, 콤보·메모＋템플릿 시트는 전체 높이로 열립니다 — 금액 같은 숫자 칸은 저장 목록 없이 바로 입력합니다
-- 메모 종류를 테두리로 구분합니다, 키보드와 똑같이 템플릿은 보라 실선, 콤보는 주황 점선, 보안 메모는 회색 점선 테두리로 표시됩니다 — 배경색은 카테고리, 테두리는 종류로 역할이 나뉩니다
-- 카테고리 색을 직접 바꿀 수 있습니다, 카테고리 관리에서 색을 지정하고 표시 여부를 토글할 수 있으며, 메뉴·카드·키보드가 모두 같은 심볼과 색을 씁니다
-- 접근성을 한층 보강했습니다, 메모 카드가 즐겨찾기·보안·템플릿·콤보 상태까지 음성으로 읽히고, 콤보 값은 드래그 없이도 위/아래로 옮기거나 삭제할 수 있으며, 키보드와 여러 화면의 VoiceOver 라벨을 정리했습니다
-- 이미지 메모를 더 명확하게 했습니다, 이미지를 첨부하면 텍스트 입력은 비활성화되고, 저장된 이미지 메모를 탭하면 "이미지가 복사되었습니다" 안내가 뜹니다
+- 메모를 직접 끌어 순서를 바꿉니다, 메모를 길게 눌러 "순서 바꾸기"로 들어가면 카드가 홈 화면처럼 흔들리고 드래그앤드롭으로 원하는 자리에 놓을 수 있습니다 — 바꾼 순서는 그대로 저장됩니다
+- 누르는 감촉을 더했습니다, 메모를 탭하면 살짝 눌렸다가 원래보다 살짝 커졌다 제자리로 부드럽게 통통 튀어 오릅니다
+- 종류별로 모아 보는 카테고리를 기본 제공합니다, 템플릿만·이미지 메모만·콤보만·메모＋템플릿을 모아 보는 카테고리를 미리 만들어 뒀습니다 — 카테고리 관리에서 원하는 것만 켜면 상단 탭에 바로 나타납니다
+- 모든 카테고리에 "추가" 버튼이 생겼습니다, 즐겨찾기처럼 각 카테고리 끝의 추가 카드를 누르면 그 카테고리(또는 템플릿·콤보)로 바로 새 항목을 만들 수 있습니다
+- 마지막으로 보던 탭을 기억합니다, 앱을 다시 열면 직전에 보던 카테고리 탭에서 시작합니다
+- 복사한 내용을 한 번에 메모로 저장합니다, 방금 복사한 내용을 원탭으로 메모로 담고 제목까지 자동으로 제안합니다
+- 빈 화면에서 빠르게 시작합니다, 새 메모 빈 화면에 자주 쓰는 형식을 흐릿한 제안 카드로 보여주고 한 번 탭하면 바로 채워집니다
+- 이미지에서 글자만 골라 담습니다, 캡처한 이미지에서 메모로 가져올 텍스트를 직접 선택할 수 있습니다(문자 인식)
+- 처음 쓰는 분을 위한 스타터팩과 활용 갤러리, 자주 쓰는 메모 묶음을 한 번에 추가하고 실제 활용 사례를 둘러보며 아이디어를 얻을 수 있습니다
+- 날짜 변수에 선택지를 더했습니다, 템플릿의 날짜 자동 변수에서 오늘·내일·다음 주·2주 뒤·직접 선택을 고를 수 있습니다
+- 보안 메모를 진짜로 암호화했습니다, 잠금으로 표시한 메모는 기기에 평문이 아니라 암호화되어 저장되고 키는 iCloud 키체인으로 안전하게 동기화됩니다 — 맥에서도 Touch ID 인증 전에는 내용이 가려집니다
+- 아이폰 메모가 맥에서 자동으로 나타납니다, 같은 iCloud 계정이면 맥 앱을 처음 켤 때 메모를 자동으로 가져오고 템플릿 빈칸 채우기·자동 변수·보안 잠금까지 맥에서 그대로 동작합니다
+- "디스플레이" 설정을 새로 만들었습니다, 메모 카드 높이와 카테고리 심볼 표시를 직접 정하고 바로 위 미리보기로 바뀌는 모습을 확인할 수 있습니다
+- 종류는 테두리로, 카테고리는 색으로 구분합니다, 템플릿은 보라 실선·콤보는 주황 점선·보안 메모는 회색 점선으로 종류를 나타내고 카테고리 색은 직접 바꿀 수 있습니다
+- 접근성을 한층 보강했습니다, 메모 카드가 즐겨찾기·보안·템플릿·콤보 상태까지 읽어주고 순서 바꾸기와 콤보 값 이동도 VoiceOver로 다룰 수 있습니다
+- Pro 안내를 결과 중심으로 정돈하고, 영어 문구를 원어민이 보기에 자연스럽게 다듬었습니다 — 콤보 만들기 화면 등 자잘한 마감도 손봤습니다
 
 English
 
-- Secure memos are now truly encrypted, content of memos you mark as locked is no longer stored as plain text — it's encrypted, and the key syncs safely through your iCloud Keychain, so on Mac the same secure memos require Touch ID and stay masked until you authenticate
-- Your iPhone memos show up on Mac automatically, on the same iCloud account the Mac app pulls in your iPhone memos the first time you open it — no more manual restore
-- The Mac app now matches the iPhone feel, unified corners, spacing and fonts, plus template fill-in blanks, auto-variables (date, time, currency…) and secure-memo locking now work on Mac too
-- New "Display" settings, choose your memo card height (Small / Medium / Large) and whether the top-right category symbol shows, with a live preview right above so you see changes instantly
-- A tidier new-memo screen, the Save button moved to the top-right to free up space, and you now set both the keyboard label (the key) and the content to paste (the value) — you can attach an image right here, so the separate image-memo menu is gone
-- Smoother template & combo input, the preview sits above the inputs so you see the result while filling blanks, and combo / memo＋template sheets open full height — numeric fields like amounts are typed directly without a saved-values list
-- Memo types are marked by border, just like the keyboard: templates get a solid purple border, combos an orange dashed border, secure memos a gray dotted border — background color means category, border means type
-- Editable category colors, set a color and toggle visibility per category in Manage Categories, and menus, cards and the keyboard all use the same symbol and color
-- Stronger accessibility, memo cards now speak their favorite / secure / template / combo state, combo values can be moved up/down or deleted without dragging, and VoiceOver labels across the keyboard and several screens were cleaned up
-- Clearer image memos, attaching an image disables text input, and tapping a saved image memo shows an "Image copied" confirmation
+- Drag memos to reorder them, long-press a memo and tap "Reorder" — the cards wiggle like the Home Screen and you drag and drop them wherever you like, and the new order is saved
+- A satisfying press feel, tapping a memo gently presses in, pops a touch larger than its normal size, then springs back into place
+- Built-in category views by type, we've pre-made views that gather just your templates, just image memos, just combos, or memos＋templates — turn on the ones you want in Manage Categories and they appear as tabs at the top
+- An "Add" button in every category, like Favorites, each category now ends with an add card that creates a new item straight into that category (or as a template or combo)
+- It remembers the tab you were on, reopen the app and you start on the category tab you last viewed
+- Turn a copy into a memo in one tap, save what you just copied as a memo with a single tap, and the title is suggested for you automatically
+- Start fast from a blank screen, the empty new-memo screen shows your go-to formats as faint suggestion cards — one tap fills them in
+- Pull just the text from an image, pick exactly which recognized text to bring into a memo from a captured image (text recognition)
+- A starter pack and an examples gallery for newcomers, add a bundle of handy memos at once, and browse real-world use cases for inspiration
+- More choices for date variables, the template date auto-variable now offers Today, Tomorrow, Next week, In two weeks, or pick a date
+- Secure memos are now truly encrypted, memos you mark as locked are stored encrypted rather than as plain text, and the key syncs safely through your iCloud Keychain — on Mac they stay masked until you authenticate with Touch ID
+- Your iPhone memos appear on Mac automatically, on the same iCloud account the Mac app pulls them in the first time you open it, and template fill-in blanks, auto-variables and secure locking all work on Mac too
+- New "Display" settings, set your memo card height and whether the category symbol shows, with a live preview right above so you see changes instantly
+- Type is shown by border, category by color, templates get a solid purple border, combos an orange dashed border, secure memos a gray dotted border — and you can change category colors yourself
+- Stronger accessibility, memo cards now speak their favorite / secure / template / combo state, and both reordering and moving combo values work with VoiceOver
+- A clearer Pro screen and more natural English, the Pro screen now leads with outcomes, the English copy was polished by a native reader, and small touches like the new-combo screen were refined
 
 ---
 
 App Store 제출용 요약 (한국어)
 
-• 보안 메모를 실제로 암호화 — 키는 iCloud 키체인으로 동기화되어 맥에서도 Touch ID 인증 후에만 열립니다
-• 아이폰 메모가 맥에서 자동으로 나타나고, 맥 앱이 템플릿·자동 변수·보안 잠금까지 지원합니다
-• "디스플레이" 설정 신설 — 메모 높이·카테고리 심볼을 라이브 미리보기로 조정
-• 새 메모·템플릿·콤보 입력 정돈, 미리보기를 위로, 시트는 전체 높이로
-• 카테고리 색 편집 + 접근성(VoiceOver) 대폭 보강
+• 메모를 길게 눌러 직접 끌어 순서 바꾸기 — 탭할 때 통통 튀는 감촉까지
+• 템플릿·이미지·콤보만 모아 보는 기본 카테고리 + 각 카테고리에 "추가" 버튼, 마지막 본 탭 기억
+• 복사한 내용을 원탭으로 메모 저장(제목 자동 제안), 이미지에서 텍스트만 골라 담기
+• 보안 메모를 실제로 암호화 + 아이폰 메모를 맥에서 자동으로
+• 스타터팩·활용 갤러리로 쉽게 시작, 영어 문구를 자연스럽게 다듬고 자잘한 버그 수정
 
 App Store Summary (English)
 
-• Secure memos are now truly encrypted — the key syncs via iCloud Keychain, and on Mac they open only after Touch ID
-• iPhone memos appear on Mac automatically, and the Mac app now supports templates, auto-variables and secure locking
-• New "Display" settings to adjust memo height and the category symbol with a live preview
-• Tidier new-memo, template and combo input — preview on top, full-height sheets
-• Editable category colors and major VoiceOver accessibility improvements
+• Long-press to drag memos into any order — with a satisfying springy tap
+• Built-in views for just your templates, images or combos, an "Add" button in every category, and it remembers your last tab
+• Turn a copy into a memo in one tap (with a suggested title), or pull just the text from an image
+• Secure memos are now truly encrypted, and your iPhone memos appear on Mac automatically
+• A starter pack and examples gallery to get going, polished English, and minor bug fixes
