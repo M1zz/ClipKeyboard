@@ -1132,26 +1132,30 @@ struct ClipKeyboardList: View {
             }
         case .favorites:
             if !filtered.isEmpty {
-                filteredTabScrollView(memos: filtered, isFavorites: true)
+                filteredTabScrollView(memos: filtered, tab: tab)
             } else {
                 favoritesEmptyStateView
             }
         case .builtIn(let b):
             if !filtered.isEmpty {
-                filteredTabScrollView(memos: filtered)
+                filteredTabScrollView(memos: filtered, tab: tab)
             } else {
-                categoryEmptyStateView(
+                // 비어 있어도 "추가" 카드를 함께 보여 바로 만들 수 있게.
+                emptyStateWithAddCard(
                     icon: b.icon,
-                    message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName)
+                    message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName),
+                    tab: tab
                 )
             }
         case .custom(let name):
             if !filtered.isEmpty {
-                filteredTabScrollView(memos: filtered)
+                filteredTabScrollView(memos: filtered, tab: tab)
             } else {
-                categoryEmptyStateView(
+                // 커스텀 탭은 메모 1개 이상일 때만 노출되지만, 안전망으로 추가 카드 포함.
+                emptyStateWithAddCard(
                     icon: "folder",
-                    message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name)
+                    message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name),
+                    tab: tab
                 )
             }
         }
@@ -1332,7 +1336,7 @@ struct ClipKeyboardList: View {
         .ignoresSafeArea(.container, edges: .bottom)
     }
 
-    private func filteredTabScrollView(memos: [Memo], isFavorites: Bool = false) -> some View {
+    private func filteredTabScrollView(memos: [Memo], tab: CategoryTab) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
                 Color.clear.frame(height: 16)
@@ -1343,9 +1347,8 @@ struct ClipKeyboardList: View {
                             .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                             .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                     }
-                    if isFavorites {
-                        addFavoriteMemoCard
-                    }
+                    // 각 카테고리(즐겨찾기·커스텀·기본 제공)마다 끝에 "○○ 추가" 카드.
+                    addCard(for: tab)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -1355,18 +1358,26 @@ struct ClipKeyboardList: View {
         .ignoresSafeArea(.container, edges: .bottom)
     }
 
+    /// 즐겨찾기 탭 전용(하위 호환). 내부적으로 공통 addCard 사용.
     private var addFavoriteMemoCard: some View {
+        addCard(for: .favorites)
+    }
+
+    /// 그리드 끝에 붙는 점선 "추가" 카드. 즐겨찾기·커스텀·기본 제공 카테고리가 공유.
+    private func addMemoCard(label: String, accessibility: String, action: @escaping () -> Void) -> some View {
         Button {
             HapticManager.shared.light()
-            showAddFavoriteMemoSheet = true
+            action()
         } label: {
             VStack(spacing: 10) {
                 Image(systemName: "plus")
                     .font(.title2.weight(.medium))
                     .foregroundColor(theme.textFaint)
-                Text(NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"))
+                Text(label)
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.textFaint)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
             .background(theme.surface.opacity(0.5))
@@ -1380,23 +1391,75 @@ struct ClipKeyboardList: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(NSLocalizedString("즐겨찾기 메모 추가", comment: "Add favorite memo card a11y"))
+        .accessibilityLabel(accessibility)
     }
 
-    private func categoryEmptyStateView(icon: String, message: String) -> some View {
-        VStack(spacing: 16) {
-            Spacer()
-            Image(systemName: icon)
-                .font(.system(size: 44))
-                .foregroundColor(theme.textFaint)
-            Text(message)
-                .font(.body)
-                .foregroundColor(theme.textMuted)
-                .multilineTextAlignment(.center)
-            Spacer()
+    /// 현재 탭에 맞는 "추가" 카드 — 탭한 카테고리에 곧바로 들어가도록 생성 흐름을 연다.
+    @ViewBuilder
+    private func addCard(for tab: CategoryTab) -> some View {
+        switch tab {
+        case .all:
+            EmptyView()
+        case .favorites:
+            addMemoCard(
+                label: NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"),
+                accessibility: NSLocalizedString("즐겨찾기 메모 추가", comment: "Add favorite memo card a11y")
+            ) { showAddFavoriteMemoSheet = true }
+        case .builtIn(let b):
+            switch b {
+            case .templates:
+                addMemoCard(
+                    label: NSLocalizedString("템플릿 추가", comment: "Add template card"),
+                    accessibility: NSLocalizedString("템플릿 추가", comment: "Add template card")
+                ) { showAddTemplateSheet = true }
+            case .combos:
+                addMemoCard(
+                    label: NSLocalizedString("콤보 추가", comment: "Add combo card"),
+                    accessibility: NSLocalizedString("콤보 추가", comment: "Add combo card")
+                ) { showAddComboSheet = true }
+            case .images:
+                addMemoCard(
+                    label: NSLocalizedString("이미지 메모 추가", comment: "Add image memo card"),
+                    accessibility: NSLocalizedString("이미지 메모 추가", comment: "Add image memo card")
+                ) { addMemoSheetCategory = "이미지"; showAddMemoSheet = true }
+            case .textMemos:
+                addMemoCard(
+                    label: NSLocalizedString("메모 추가", comment: "Add memo card"),
+                    accessibility: NSLocalizedString("메모 추가", comment: "Add memo card")
+                ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
+            }
+        case .custom(let name):
+            addMemoCard(
+                label: String(format: NSLocalizedString("'%@' 추가", comment: "Add memo to this category card"), name),
+                accessibility: String(format: NSLocalizedString("'%@' 카테고리에 메모 추가", comment: "Add memo to category a11y"), name)
+            ) { addMemoSheetCategory = name; showAddMemoSheet = true }
+        }
+    }
+
+
+    /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
+    private func emptyStateWithAddCard(icon: String, message: String, tab: CategoryTab) -> some View {
+        ZStack(alignment: .center) {
+            VStack(spacing: 14) {
+                Image(systemName: icon)
+                    .font(.system(size: 44))
+                    .foregroundColor(theme.textFaint)
+                Text(message)
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+            }
+            VStack {
+                LazyVGrid(columns: gridColumns, spacing: 12) {
+                    addCard(for: tab)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                Spacer()
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
     }
 
     private var favoritesEmptyStateView: some View {

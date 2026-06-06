@@ -25210,6 +25210,74 @@
           }
         }
       }
+    },
+    "템플릿 추가": {
+      "comment": "Add template card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add template"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah templat"
+          }
+        }
+      }
+    },
+    "콤보 추가": {
+      "comment": "Add combo card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add combo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah kombo"
+          }
+        }
+      }
+    },
+    "'%@' 추가": {
+      "comment": "Add memo to this category card",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add to '%@'"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah ke '%@'"
+          }
+        }
+      }
+    },
+    "'%@' 카테고리에 메모 추가": {
+      "comment": "Add memo to category accessibility",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a memo to the '%@' category"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambah memo ke kategori '%@'"
+          }
+        }
+      }
     }
   },
   "version": "1.1"
