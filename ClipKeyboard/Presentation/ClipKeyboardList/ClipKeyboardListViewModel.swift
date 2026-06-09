@@ -1084,7 +1084,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
         print("📋 [processMemoAfterAuth] 일반 메모 - 바로 복사")
         guard let value = usableValue(of: memo) else { showAuthAlert = true; return }
-        finalizeCopy(memo: memo, processedValue: value)
+        // 자동 변수({날짜}/{시간}/{연도} 등)는 템플릿 여부와 무관하게 항상 확장한다.
+        // ⚠️ 회귀 복구: 4.3.0은 isTemplate을 저장형 불린으로 뒀고 자동 변수만 쓰는
+        // 템플릿(예: "오늘 {날짜}")도 isTemplate=true로 동작했다. 4.3.1에서 isTemplate이
+        // 계산형(!templateVariables.isEmpty)으로 바뀌며 자동 변수만 있는 메모는
+        // templateVariables=[] → isTemplate=false → 이 일반 경로로 떨어져 {날짜}가 raw로
+        // 복사됐다. process()는 자동 변수만 치환하고 커스텀 토큰/일반 텍스트는 그대로 둔다.
+        finalizeCopy(memo: memo, processedValue: TemplateVariableProcessor.process(value))
     }
 
     private func processTemplateVariables(in text: String) -> String {
