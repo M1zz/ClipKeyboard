@@ -241,9 +241,19 @@ struct KeyboardView: View {
         var result = allMemos
 
         if isCategoryFeatureEnabled, let category = selectedCategoryFilter {
-            if category == "★favorites" {
+            switch category {
+            case "★basic":
+                // 기본 = 어떤 사용자 카테고리에도 속하지 않은 비즐겨찾기 메모(앱 basicBucketMemos와 동일).
+                let custom = Set(sharedUserCategories)
+                result = result.filter { !custom.contains($0.category) && !$0.isFavorite }
+            case "★favorites":
                 result = result.filter { $0.isFavorite }
-            } else if category != "★all" {
+            case "★all":
+                break   // (레거시 안전장치 — 현재 페이지 목록엔 없음) 전체 표시
+            case let c where c.hasPrefix(Self.builtInPrefix):
+                let raw = String(c.dropFirst(Self.builtInPrefix.count))
+                result = result.filter { builtInMatches(raw, $0) }
+            default:
                 result = result.filter { $0.category == category }
             }
         }
@@ -279,6 +289,62 @@ struct KeyboardView: View {
         return Set(arr)
     }
 
+    /// iOS 앱에서 켠 기본 제공 카테고리 rawValue 목록(allCases 순서 유지) — 앱 BuiltInCategory와 동일.
+    /// (타깃 분리로 enum을 공유하지 못해 rawValue 문자열로 인라인 처리.)
+    private static let builtInOrder = ["templates", "textMemos", "images", "combos"]
+    private var sharedEnabledBuiltIns: [String] {
+        let enabled = Set(UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .stringArray(forKey: "enabledBuiltInCategories_v1") ?? [])
+        return Self.builtInOrder.filter { enabled.contains($0) }
+    }
+
+    /// 기본 제공 카테고리 페이지 키 prefix(커스텀 카테고리 이름과 충돌 방지).
+    private static let builtInPrefix = "★builtin:"
+
+    /// 앱 BuiltInCategory.matches와 동일한 타입 판정.
+    private func builtInMatches(_ raw: String, _ memo: Memo) -> Bool {
+        switch raw {
+        case "templates": return memo.isTemplate
+        case "textMemos": return !memo.isCombo && memo.contentType != .image && memo.contentType != .mixed
+        case "images":    return memo.contentType == .image || memo.contentType == .mixed
+        case "combos":    return memo.isCombo
+        default:          return false
+        }
+    }
+
+    /// 앱 BuiltInCategory.displayName과 동일(다국어 키 공유).
+    private func builtInDisplayName(_ raw: String) -> String {
+        switch raw {
+        case "templates": return NSLocalizedString("템플릿", comment: "Built-in category: templates only")
+        case "textMemos": return NSLocalizedString("메모+템플릿", comment: "Built-in category: text memos and templates")
+        case "images":    return NSLocalizedString("이미지 메모", comment: "Built-in category: image memos only")
+        case "combos":    return NSLocalizedString("콤보", comment: "Built-in category: combos only")
+        default:          return raw
+        }
+    }
+
+    /// 앱 BuiltInCategory.icon과 동일.
+    private func builtInIcon(_ raw: String) -> String {
+        switch raw {
+        case "templates": return "wand.and.stars"
+        case "textMemos": return "doc.text.fill"
+        case "images":    return "photo.fill"
+        case "combos":    return "square.stack.3d.up.fill"
+        default:          return "folder.fill"
+        }
+    }
+
+    /// 앱 BuiltInCategory.tint와 동일.
+    private func builtInTint(_ raw: String) -> Color {
+        switch raw {
+        case "templates": return .purple
+        case "textMemos": return .indigo
+        case "images":    return .green
+        case "combos":    return .orange
+        default:          return .blue
+        }
+    }
+
     /// v4.1.0: 키보드 페이지 인디케이터로 선택된 카테고리. "★all"=전체, "★favorites"=즐겨찾기,
     /// 그 외=실제 카테고리 이름. 기본 nil → 전체.
     private var selectedCategoryFilter: String? {
@@ -287,17 +353,22 @@ struct KeyboardView: View {
         return categoryPages[index]
     }
 
-    /// 카테고리 페이지 목록 — iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 동일 로직
+    /// 카테고리 페이지 목록 — iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 완전 동일.
+    /// 순서: 기본(★basic) → 즐겨찾기(숨김 아니면 항상) → 기본 제공(켠 것) → 사용자 카테고리(메모 있는 것).
+    /// "전체(★all)" 탭은 앱에서 제거됐으므로 키보드에서도 노출하지 않는다.
     private var categoryPages: [String] {
         guard isCategoryFeatureEnabled else { return [] }
         let hidden = sharedHiddenCategoryTabs
-        var pages: [String] = ["★all"]
-        // 즐겨찾기: 숨김 처리 + 메모 1개 이상일 때만
-        if !hidden.contains("__favorites__"),
-           allMemos.contains(where: { $0.isFavorite }) {
+        var pages: [String] = ["★basic"]
+        // 즐겨찾기: 숨기지 않은 한 메모 유무와 무관하게 항상 노출 (앱과 동일).
+        if !hidden.contains("__favorites__") {
             pages.append("★favorites")
         }
-        // 사용자 카테고리: 숨김 처리 + 해당 카테고리 메모 1개 이상일 때만
+        // 기본 제공 카테고리 — 사용자가 켠 것만(타입 기준이라 메모 유무 무관).
+        for b in sharedEnabledBuiltIns {
+            pages.append(Self.builtInPrefix + b)
+        }
+        // 사용자 카테고리: 숨김 아니고 해당 카테고리 메모 1개 이상일 때만.
         let usedCategories = sharedUserCategories
             .filter { name in
                 !hidden.contains(name) &&
@@ -859,8 +930,12 @@ struct KeyboardView: View {
 
     /// 카테고리 페이지 키에 표시할 짧은 라벨.
     private func labelForCategoryKey(_ key: String) -> String {
+        if key == "★basic" { return NSLocalizedString("기본", comment: "Category tab: default/basic") }
         if key == "★all" { return NSLocalizedString("전체", comment: "Category tab: all") }
         if key == "★favorites" { return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites") }
+        if key.hasPrefix(Self.builtInPrefix) {
+            return builtInDisplayName(String(key.dropFirst(Self.builtInPrefix.count)))
+        }
         return key
     }
 
@@ -1387,8 +1462,12 @@ struct KeyboardView: View {
 
     /// 커스텀 > 인덱스 팔레트 순으로 폴백 (iOS 앱과 동일)
     private func iconForCategoryKey(_ key: String) -> String {
+        if key == "★basic" { return "tray.full.fill" }
         if key == "★all" { return "square.grid.2x2.fill" }
         if key == "★favorites" { return "heart.fill" }
+        if key.hasPrefix(Self.builtInPrefix) {
+            return builtInIcon(String(key.dropFirst(Self.builtInPrefix.count)))
+        }
         if let custom = customCategoryIcons[key] { return custom }
         let icons = ["folder.fill", "bookmark.fill", "tag.fill", "briefcase.fill",
                      "star.fill", "heart.circle.fill", "person.fill", "house.fill"]
@@ -1398,9 +1477,13 @@ struct KeyboardView: View {
 
     /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반
     private func colorForCategoryKey(_ key: String) -> Color {
+        if key == "★basic" { return .gray }   // 앱 .basic 인디케이터 색과 동일
         if key == "★all" { return .blue }
         // 즐겨찾기 지정색 — 앱의 Color.clipFavorite(#FF4A9E)와 동일 (타깃 분리로 인라인).
         if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
+        if key.hasPrefix(Self.builtInPrefix) {
+            return builtInTint(String(key.dropFirst(Self.builtInPrefix.count)))
+        }
         if let hex = customCategoryColors[key], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         let idx = sharedUserCategories.firstIndex(of: key) ?? 0
