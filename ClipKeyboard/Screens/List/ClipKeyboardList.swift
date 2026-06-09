@@ -143,6 +143,8 @@ struct ClipKeyboardList: View {
     @State private var showAddTemplateSheet: Bool = false
     @State private var showAddComboSheet: Bool = false
     @State private var memoToEdit: Memo? = nil
+    /// memoToEdit 시트를 "템플릿으로 만들기"로 열었는지 — 본문 포커스로 변수 삽입바 노출.
+    @State private var editStartInTemplateMode: Bool = false
 
     // TipKit
     private let welcomeTip = WelcomeTip()
@@ -492,6 +494,12 @@ struct ClipKeyboardList: View {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                                 viewModel.enterReorderMode()
                             }
+                        },
+                        onMakeTemplate: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                editStartInTemplateMode = true
+                                memoToEdit = memo
+                            }
                         }
                     )
                     .presentationDetents([.height(530)])
@@ -535,7 +543,10 @@ struct ClipKeyboardList: View {
 
     private var screenL6: some View {
         screenL5
-            .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
+            .sheet(item: $memoToEdit, onDismiss: {
+                editStartInTemplateMode = false
+                viewModel.loadMemos()
+            }) { memo in
                 NavigationStack {
                     MemoAdd(
                         memoId: memo.id,
@@ -543,7 +554,8 @@ struct ClipKeyboardList: View {
                         insertedValue: memo.value,
                         insertedCategory: memo.category,
                         insertedIsTemplate: memo.isTemplate,
-                        insertedIsSecure: memo.isSecure
+                        insertedIsSecure: memo.isSecure,
+                        startInTemplateMode: editStartInTemplateMode
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {

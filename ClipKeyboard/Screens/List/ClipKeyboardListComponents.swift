@@ -136,6 +136,9 @@ struct MemoActionSheet: View {
     var onCreateNewCategory: (() -> Void)? = nil
     /// "순서 바꾸기" — 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
     var onReorder: (() -> Void)? = nil
+    /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
+    /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
+    var onMakeTemplate: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -241,6 +244,17 @@ struct MemoActionSheet: View {
                 ) {
                     dismiss()
                     onEdit()
+                }
+                // 템플릿으로 만들기 — 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출.
+                if let onMakeTemplate, !memo.isTemplate, !memo.isCombo, memo.contentType == .text {
+                    Divider().padding(.leading, 56)
+                    actionRow(
+                        label: NSLocalizedString("템플릿으로 만들기", comment: "Action: turn memo into a template"),
+                        systemImage: "wand.and.sparkles"
+                    ) {
+                        dismiss()
+                        onMakeTemplate()
+                    }
                 }
                 Divider().padding(.leading, 56)
                 actionRow(

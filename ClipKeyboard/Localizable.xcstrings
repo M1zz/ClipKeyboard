@@ -4904,9 +4904,7 @@
         }
       }
     },
-    "English" : {
-
-    },
+    "English" : {},
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -25810,6 +25808,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
+          }
+        }
+      }
+    },
+    "템플릿으로 만들기" : {
+      "comment" : "Action: turn memo into a template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make Template"
           }
         }
       }

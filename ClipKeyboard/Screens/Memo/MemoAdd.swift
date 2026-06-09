@@ -37,6 +37,8 @@ struct MemoAdd: View {
     var insertedComboValues: [String] = []
     var insertedHint: String = ""
     var insertedIsFavorite: Bool = false
+    /// "템플릿으로 만들기"로 진입했을 때 true — 본문에 포커스를 줘 변수 삽입바를 바로 노출.
+    var startInTemplateMode: Bool = false
 
     // MARK: - View-only State
 
@@ -150,6 +152,13 @@ struct MemoAdd: View {
                 insertedHint: insertedHint,
                 insertedIsFavorite: insertedIsFavorite
             )
+            // "템플릿으로 만들기" 진입 — 시트가 안착한 뒤 본문에 포커스를 줘
+            // 변수 삽입바({이름}/{날짜}…)를 바로 띄운다.
+            if startInTemplateMode {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    isFocused = true
+                }
+            }
         }
         .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
         .sheet(isPresented: $showNewTemplateSheet) {
