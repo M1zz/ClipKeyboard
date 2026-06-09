@@ -58,7 +58,13 @@ struct EmojiPicker: View {
 
     let onEmojiSelected: (String) -> Void
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 8), count: 7)
+    /// Dynamic Type에 맞춰 이모지 글자 크기를 함께 키운다(기본 32pt 기준).
+    @ScaledMetric(relativeTo: .title) private var emojiSize: CGFloat = 32
+
+    /// 이모지 크기에 따라 열을 자동 재배치 — 큰 글자 크기에서 7열 고정으로 잘리지 않도록 adaptive.
+    private var columns: [GridItem] {
+        [GridItem(.adaptive(minimum: emojiSize + 12), spacing: 8)]
+    }
 
     var body: some View {
         NavigationView {
@@ -94,9 +100,12 @@ struct EmojiPicker: View {
                                 selectEmoji(emoji)
                             } label: {
                                 Text(emoji)
-                                    .font(.system(size: 32))
+                                    .font(.system(size: emojiSize))
                             }
                             .buttonStyle(EmojiButtonStyle())
+                            // 이모지 자체를 VoiceOver 라벨로 노출(이름 읽힘) + 버튼 트레잇 명시.
+                            .accessibilityLabel(emoji)
+                            .accessibilityAddTraits(.isButton)
                         }
                     }
                     .padding()
@@ -139,6 +148,7 @@ struct CategoryTabButton: View {
             VStack(spacing: 4) {
                 Image(systemName: category.icon)
                     .font(.system(.title3))
+                    .accessibilityHidden(true)
                 Text(category.localizedName)
                     .font(.caption2)
             }
@@ -151,6 +161,10 @@ struct CategoryTabButton: View {
             )
         }
         .buttonStyle(.plain)
+        // 카테고리 이름만 읽고, 선택 상태를 VoiceOver에 노출(아이콘은 장식이라 숨김).
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(category.localizedName)
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
     }
 }
 

@@ -500,6 +500,7 @@ struct FilterChip: View {
             HStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.body)
+                    .accessibilityHidden(true)
                 Text(title)
                     .font(.body)
                     .fontWeight(isSelected ? .bold : .regular)
@@ -516,6 +517,9 @@ struct FilterChip: View {
             .foregroundColor(isSelected ? .white : .primary)
             .cornerRadius(theme.radiusLg)
         }
+        // 필터명 + 개수만 읽고, 현재 선택된 필터는 VoiceOver에 선택 상태로 노출.
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
     }
 }
 

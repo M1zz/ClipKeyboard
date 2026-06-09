@@ -387,6 +387,7 @@ struct MemoAdd: View {
                                 HStack {
                                     Text(NSLocalizedString("다음", comment: "Next field button in bottom bar"))
                                     Image(systemName: "arrow.forward")
+                                        .accessibilityHidden(true)
                                 }
                                 .font(.body)
                                 .fontWeight(.semibold)
@@ -402,6 +403,7 @@ struct MemoAdd: View {
                             } label: {
                                 HStack {
                                     Image(systemName: "checkmark")
+                                        .accessibilityHidden(true)
                                     Text(NSLocalizedString("저장", comment: "Save"))
                                 }
                                 .font(.body)
@@ -449,6 +451,8 @@ struct MemoAdd: View {
                 .padding(.horizontal, 16)
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
+                // VoiceOver가 placeholder 대신 필드의 의미("키보드에 표시할 이름")를 읽도록 명시.
+                .accessibilityLabel(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
         }
     }
 

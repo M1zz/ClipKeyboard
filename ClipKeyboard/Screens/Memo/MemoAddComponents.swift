@@ -435,6 +435,7 @@ struct ContentInputSection: View {
                 .padding(.vertical, 4)
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
+                .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
                 .onChange(of: value) { _, newValue in
                     if !newValue.isEmpty {
                         let classification = ClipboardClassificationService.shared.classify(content: newValue)
@@ -450,6 +451,7 @@ struct ContentInputSection: View {
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
+                    .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
                     .onChange(of: value) { _, newValue in
                         if !newValue.isEmpty {
                             let classification = ClipboardClassificationService.shared.classify(content: newValue)
