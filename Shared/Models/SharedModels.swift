@@ -205,12 +205,15 @@ struct Memo: Identifiable, Codable {
     var isTemplate: Bool = false
     var templateVariables: [String] = []
     var placeholderValues: [String: [String]] = [:]
+    /// 콤보 = 자식 메모 참조(순서 있음). 신 통합 모델과 직렬화 포맷 일치를 위해 유지.
+    var childMemoIds: [UUID] = []
+    var comboInterval: TimeInterval = 2.0
     var autoDetectedType: ClipboardItemType?
     var imageFileName: String?
     var imageFileNames: [String] = []
     var contentType: ClipboardContentType = .text
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], childMemoIds: [UUID] = [], comboInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
         self.id = id
         self.title = title
         self.value = value
@@ -222,6 +225,8 @@ struct Memo: Identifiable, Codable {
         self.isTemplate = isTemplate
         self.templateVariables = templateVariables
         self.placeholderValues = placeholderValues
+        self.childMemoIds = childMemoIds
+        self.comboInterval = comboInterval
         self.autoDetectedType = autoDetectedType
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
@@ -234,7 +239,35 @@ struct Memo: Identifiable, Codable {
         case isFavorite = "isFavorite"
         case clipCount, category, isSecure, isTemplate
         case templateVariables, placeholderValues, autoDetectedType
+        case childMemoIds, comboInterval
         case imageFileName, imageFileNames, contentType
+    }
+
+    /// 관용 디코더 — 누락 키를 모두 기본값으로 허용한다. ⚠️ 하위호환 필수:
+    /// 합성 Codable은 비옵셔널 키 누락 시 keyNotFound를 던져 [Memo] 전체 디코딩을
+    /// 무너뜨린다. 메인 앱이 쓴 데이터(isTemplate 키 없음, comboValues 키 추가)나
+    /// childMemoIds/comboInterval이 없던 구버전 데이터를 키보드·위젯이 읽어도
+    /// 메모가 통째로 사라지지 않게 한다.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        self.title = try c.decodeIfPresent(String.self, forKey: .title) ?? ""
+        self.value = try c.decodeIfPresent(String.self, forKey: .value) ?? ""
+        self.isChecked = try c.decodeIfPresent(Bool.self, forKey: .isChecked) ?? false
+        self.lastEdited = try c.decodeIfPresent(Date.self, forKey: .lastEdited) ?? Date()
+        self.isFavorite = try c.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+        self.clipCount = try c.decodeIfPresent(Int.self, forKey: .clipCount) ?? 0
+        self.category = try c.decodeIfPresent(String.self, forKey: .category) ?? "기본"
+        self.isSecure = try c.decodeIfPresent(Bool.self, forKey: .isSecure) ?? false
+        self.isTemplate = try c.decodeIfPresent(Bool.self, forKey: .isTemplate) ?? false
+        self.templateVariables = try c.decodeIfPresent([String].self, forKey: .templateVariables) ?? []
+        self.placeholderValues = try c.decodeIfPresent([String: [String]].self, forKey: .placeholderValues) ?? [:]
+        self.childMemoIds = try c.decodeIfPresent([UUID].self, forKey: .childMemoIds) ?? []
+        self.comboInterval = try c.decodeIfPresent(TimeInterval.self, forKey: .comboInterval) ?? 2.0
+        self.autoDetectedType = try c.decodeIfPresent(ClipboardItemType.self, forKey: .autoDetectedType)
+        self.imageFileName = try c.decodeIfPresent(String.self, forKey: .imageFileName)
+        self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
+        self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
     }
 }
 

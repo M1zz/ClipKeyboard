@@ -547,3 +547,274 @@ extension String {
         return result
     }
 }
+
+// MARK: - Template Fill Sheet (탭 시 하프모달, 키보드 스타일 값 입력)
+
+struct TemplateFillSheet: View {
+    let memo: Memo
+    /// 최종 resolved 문자열(자동 변수까지 치환됨)을 전달.
+    let onCopy: (String) -> Void
+    let onCancel: () -> Void
+
+    @Environment(\.appTheme) private var theme
+    @State private var inputs: [String: String] = [:]
+    @State private var placeholders: [String] = []
+
+    /// 사용자 변수가 모두 채워졌는지.
+    private var allFilled: Bool {
+        !placeholders.contains { (inputs[$0] ?? "").trimmingCharacters(in: .whitespaces).isEmpty }
+    }
+
+    /// 현재 입력 기준 최종 결과(자동 변수 포함 치환).
+    private var resolvedValue: String {
+        TemplateVariableProcessor.substitute(memo.value, with: inputs)
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // MARK: 컬러 프리뷰 — 복사될 결과를 그대로 보여준다(채운 값은 초록 강조).
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 6) {
+                        Image(systemName: "eye.fill")
+                            .font(.footnote)
+                            .foregroundColor(.green)
+                        Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
+                            .font(.footnote.weight(.semibold))
+                            .foregroundColor(theme.textMuted)
+                    }
+                    coloredPreview
+                        .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(theme.surfaceAlt)
+                        .cornerRadius(theme.radiusSm)
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+
+                // MARK: 플레이스홀더 입력
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(placeholders, id: \.self) { ph in
+                            TemplateFillRow(
+                                placeholder: ph,
+                                templateId: memo.id,
+                                value: Binding(
+                                    get: { inputs[ph] ?? "" },
+                                    set: { inputs[ph] = $0 }
+                                )
+                            )
+                        }
+                    }
+                    .padding(16)
+                }
+            }
+            .background(theme.bg)
+            .navigationTitle(NSLocalizedString("템플릿 입력", comment: "Template input title"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { onCancel() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        saveEnteredValues()
+                        HapticManager.shared.success()
+                        onCopy(resolvedValue)
+                    } label: {
+                        Label(NSLocalizedString("복사", comment: "Copy"), systemImage: "doc.on.doc")
+                            .fontWeight(.semibold)
+                    }
+                    .disabled(!allFilled)
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+        .onAppear {
+            // 자동 변수({날짜} 등)는 제외하고 사용자가 채울 커스텀 변수만.
+            let custom = memo.value.extractTemplatePlaceholders()
+            placeholders = custom
+            for ph in custom where inputs[ph] == nil { inputs[ph] = "" }
+        }
+    }
+
+    // MARK: - Colored Preview (키보드 coloredPreviewText 이식)
+
+    private struct PreviewSegment { let text: String; let isValue: Bool }
+
+    private func parseSegments() -> [PreviewSegment] {
+        let original = memo.value
+        var segments: [PreviewSegment] = []
+        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
+            return [PreviewSegment(text: original, isValue: false)]
+        }
+        var lastEnd = original.startIndex
+        for match in regex.matches(in: original, range: NSRange(original.startIndex..., in: original)) {
+            guard let range = Range(match.range, in: original) else { continue }
+            if lastEnd < range.lowerBound {
+                segments.append(PreviewSegment(text: String(original[lastEnd..<range.lowerBound]), isValue: false))
+            }
+            let key = String(original[range])
+            let value = inputs[key] ?? ""
+            segments.append(PreviewSegment(text: value.isEmpty ? key : value, isValue: !value.isEmpty))
+            lastEnd = range.upperBound
+        }
+        if lastEnd < original.endIndex {
+            segments.append(PreviewSegment(text: String(original[lastEnd...]), isValue: false))
+        }
+        return segments
+    }
+
+    private var coloredPreview: Text {
+        parseSegments().reduce(Text("")) { acc, seg in
+            seg.isValue
+                ? acc + Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold()
+                : acc + Text(seg.text)
+        }
+    }
+
+    // MARK: - Save entered values to history
+
+    private func saveEnteredValues() {
+        for ph in placeholders {
+            let v = (inputs[ph] ?? "").trimmingCharacters(in: .whitespaces)
+            guard !v.isEmpty else { continue }
+            MemoStore.shared.addPlaceholderValue(v, for: ph, sourceMemoId: memo.id, sourceMemoTitle: memo.title)
+        }
+    }
+}
+
+// MARK: - Per-Placeholder Fill Row (키보드 PlaceholderInputView 이식 + 인앱 TextField)
+
+private struct TemplateFillRow: View {
+    let placeholder: String
+    let templateId: UUID
+    @Binding var value: String
+
+    @Environment(\.appTheme) private var theme
+    @State private var savedValues: [String] = []
+
+    private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            // 토큰 이름 헤더 — 여러 변수일 때 어느 칸인지 구분.
+            Text(placeholder.strippingTemplateBraces)
+                .font(.body.weight(.semibold))
+                .foregroundColor(theme.textMuted)
+
+            if isNumeric {
+                numericSection
+            } else {
+                textSection
+            }
+        }
+        .padding(14)
+        .background(theme.surface)
+        .cornerRadius(theme.radiusMd)
+        .overlay(RoundedRectangle(cornerRadius: theme.radiusMd).stroke(theme.divider, lineWidth: 1))
+        .onAppear { loadSaved() }
+    }
+
+    // MARK: 숫자 입력 — 1-9 키패드 + ⌫ + 00/000/0000 + 저장값 칩
+
+    @ViewBuilder
+    private var numericSection: some View {
+        VStack(spacing: 8) {
+            if !value.isEmpty {
+                Text(value)
+                    .font(.system(.title3, design: .monospaced, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            HStack(spacing: 6) {
+                ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { d in numericKey(d) }
+                Button {
+                    if !value.isEmpty { value.removeLast() }
+                    HapticManager.shared.selection()
+                } label: {
+                    Image(systemName: "delete.left")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .background(Color(UIColor.systemGray4))
+                        .foregroundColor(.primary)
+                        .cornerRadius(theme.radiusXs)
+                }
+            }
+            HStack(spacing: 6) {
+                numericKey("0")
+                ForEach(["00","000","0000"], id: \.self) { z in numericKey(z) }
+            }
+            savedChips
+        }
+    }
+
+    @ViewBuilder
+    private func numericKey(_ digit: String) -> some View {
+        Button {
+            guard value.count + digit.count <= 13 else { return }
+            if value.isEmpty && (digit == "0" || digit.allSatisfy { $0 == "0" }) {
+                value = "0"
+            } else if value == "0" {
+                value = digit.allSatisfy { $0 == "0" } ? "0" : digit
+            } else {
+                value += digit
+            }
+            HapticManager.shared.selection()
+        } label: {
+            Text(digit)
+                .font(.system(.headline, design: .monospaced, weight: .medium))
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(Color(UIColor.systemGray5))
+                .foregroundColor(.primary)
+                .cornerRadius(theme.radiusXs)
+        }
+    }
+
+    // MARK: 텍스트 입력 — TextField(직접 입력) + 저장값 빠른 선택 칩
+
+    @ViewBuilder
+    private var textSection: some View {
+        TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
+            .textFieldStyle(.roundedBorder)
+        savedChips
+    }
+
+    // MARK: 저장값 칩 (공통)
+
+    @ViewBuilder
+    private var savedChips: some View {
+        if !savedValues.isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(savedValues, id: \.self) { v in
+                        Button {
+                            value = v
+                            HapticManager.shared.selection()
+                        } label: {
+                            Text(v)
+                                .font(.footnote.weight(value == v ? .semibold : .regular))
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(value == v ? theme.accent : Color(UIColor.systemGray5))
+                                .foregroundColor(value == v ? theme.accentFg : .primary)
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
+                .padding(.vertical, 2)
+            }
+        }
+    }
+
+    private func loadSaved() {
+        // 중복 제거 + 최근 순 유지.
+        var seen = Set<String>()
+        savedValues = MemoStore.shared.loadPlaceholderValues(for: placeholder)
+            .map { $0.value }
+            .filter { seen.insert($0).inserted }
+    }
+}

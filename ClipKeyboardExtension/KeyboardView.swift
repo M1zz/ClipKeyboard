@@ -176,6 +176,11 @@ struct KeyboardView: View {
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
     @AppStorage("keyboardKoreanEnabled", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var koreanInputEnabled: Bool = false
     @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var defaultTypingLang: String = "english"
+    /// 메모 구분 표시 마스터 토글(메인 앱과 공유). 기본 OFF = 키도 심플(타입 테두리·카테고리 틴트 숨김).
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showVisualCues: Bool = false
+
+    /// 메모 구분 장치 노출 여부 — iOS "색상 없이 구별" 또는 설정 토글 ON.
+    private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
 
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
@@ -218,6 +223,8 @@ struct KeyboardView: View {
     @State private var pendingBypassTemplate: Bool = false
 
     @Environment(\.colorScheme) var colorScheme
+    /// iOS "색상 없이 구별"(Differentiate Without Color)이 켜졌을 때만 타입 테두리를 표시.
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     enum SearchLang { case english, korean }
 
@@ -300,22 +307,9 @@ struct KeyboardView: View {
         return pages
     }
 
-    /// 그리드 표시 항목 — attached template이 있는 일반 메모는 두 셀로 expand:
-    /// 1) 원본 메모만 입력, 2) 원본 + 템플릿 적용. 각각 다른 셀로 보여 사용자가 선택.
+    /// 그리드 표시 항목 — 메모 하나당 셀 하나.
     private var displayItems: [DisplayItem] {
-        filteredMemos.flatMap { memo -> [DisplayItem] in
-            let canSplit = memo.attachedTemplateId != nil
-                && !memo.isCombo
-                && memo.contentType != .image
-                && memo.contentType != .mixed
-            if canSplit {
-                return [
-                    DisplayItem(memo: memo, useTemplate: false),
-                    DisplayItem(memo: memo, useTemplate: true)
-                ]
-            }
-            return [DisplayItem(memo: memo, useTemplate: false)]
-        }
+        filteredMemos.map { DisplayItem(memo: $0, useTemplate: false) }
     }
 
     /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
@@ -922,11 +916,11 @@ struct KeyboardView: View {
 
     @ViewBuilder
     private func memoButton(for memo: Memo, useTemplate: Bool = false) -> some View {
+        // 카테고리 색 틴트는 카테고리 정체성이라 항상 표시(구분 표시 토글과 무관).
         let catColor = categoryColorFor(memo)
         let isImageMemo = (memo.contentType == .image || memo.contentType == .mixed)
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-        // attached template 메모는 useTemplate=true일 때 템플릿 적용, false면 메모만 (bypass).
-        let bypass = memo.attachedTemplateId != nil && !useTemplate
+        let bypass = false
 
         if isImageMemo && !imageFileName.isEmpty {
             // 이미지 메모: 전체 배경으로 이미지 표시
@@ -989,7 +983,7 @@ struct KeyboardView: View {
         if memo.isTemplate {
             return NSLocalizedString("탭하면 변수 값을 입력 후 붙여넣기합니다", comment: "Template memo button hint")
         } else if memo.isCombo {
-            return NSLocalizedString("탭할 때마다 다음 값이 순서대로 입력됩니다", comment: "Combo memo button hint")
+            return NSLocalizedString("탭하면 여러 값이 순서대로 입력됩니다", comment: "Combo memo button hint")
         } else if memo.isSecure {
             return NSLocalizedString("탭하면 PIN 인증 후 붙여넣기합니다", comment: "Secure memo button hint")
         } else {
@@ -1032,10 +1026,11 @@ struct KeyboardView: View {
                 }
             }
 
-            // 콤보면 단계별 라인 모두 보여주기, 아니면 본문 통째로
-            if memo.isCombo && !memo.comboValues.isEmpty {
+            // 콤보면 자식 메모 값을 단계별로 모두 보여주기, 아니면 본문 통째로
+            let comboChildValues = memo.comboValues
+            if !comboChildValues.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
-                    ForEach(Array(memo.comboValues.enumerated()), id: \.offset) { index, value in
+                    ForEach(Array(comboChildValues.enumerated()), id: \.offset) { index, value in
                         HStack(alignment: .top, spacing: 8) {
                             Text("\(index + 1).")
                                 .font(.system(.caption, design: .monospaced, weight: .semibold))
@@ -1094,18 +1089,12 @@ struct KeyboardView: View {
         } else {
             valueToInsert = memo.value
         }
-        var userInfo: [String: Any] = ["memoId": memo.id]
-        if bypassTemplate { userInfo["bypassAttachedTemplate"] = true }
+        let userInfo: [String: Any] = ["memoId": memo.id]
         NotificationCenter.default.post(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: valueToInsert,
             userInfo: userInfo
         )
-        if memo.isCombo && !memo.comboValues.isEmpty {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                loadAllMemos()
-            }
-        }
     }
 
     private func authenticateAndInsert(memo: Memo, bypassTemplate: Bool = false) {
@@ -1212,8 +1201,10 @@ struct KeyboardView: View {
     }
 
     /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
+    /// iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 칸 경계 테두리만).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
     private func typeStyle(for memo: Memo, useTemplate: Bool) -> TypeVisualStyle {
+        guard visualCuesVisible else { return TypeVisualStyle(color: .clear, lineWidth: 0, dash: []) }
         if useTemplate || memo.isTemplate || !memo.templateVariables.isEmpty {
             return TypeVisualStyle(color: .purple, lineWidth: 1.5, dash: [])
         }

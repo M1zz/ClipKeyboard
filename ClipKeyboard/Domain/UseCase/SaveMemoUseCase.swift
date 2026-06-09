@@ -14,8 +14,6 @@ struct MemoDraft {
     var category: String
     var isSecure: Bool = false
     var isTemplate: Bool = false
-    var isCombo: Bool = false
-    var comboValues: [String] = []
     var isFavorite: Bool = false
     var autoDetectedType: ClipboardItemType? = nil
     #if os(iOS)
@@ -52,9 +50,6 @@ struct SaveMemoUseCase {
             existing.value = valueToStore
             existing.category = draft.category
             existing.isSecure = draft.isSecure
-            existing.isTemplate = draft.isTemplate
-            existing.isCombo = draft.isCombo
-            existing.comboValues = draft.comboValues
             existing.isFavorite = draft.isFavorite
             existing.autoDetectedType = draft.autoDetectedType
             existing.lastEdited = Date()
@@ -67,9 +62,6 @@ struct SaveMemoUseCase {
                 isFavorite: draft.isFavorite,
                 category: draft.category,
                 isSecure: draft.isSecure,
-                isTemplate: draft.isTemplate,
-                isCombo: draft.isCombo,
-                comboValues: draft.comboValues,
                 autoDetectedType: draft.autoDetectedType
             )
             try memoRepository.add(memo)

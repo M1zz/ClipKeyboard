@@ -65,6 +65,9 @@ enum BuiltInCategory: String, CaseIterable, Hashable {
 // MARK: - CategoryTab
 
 enum CategoryTab: Hashable, Equatable {
+    /// "전체" 탭 제거 후 기본 홈 탭 — 어떤 사용자 카테고리에도 속하지 않은(기본/미분류) 메모 모음.
+    case basic
+    /// 카테고리 기능이 꺼져 있을 때의 단일 "모든 메모" 페이지 전용. 탭 바에는 노출되지 않음.
     case all
     case favorites
     case builtIn(BuiltInCategory)
@@ -72,6 +75,7 @@ enum CategoryTab: Hashable, Equatable {
 
     var displayName: String {
         switch self {
+        case .basic:     return NSLocalizedString("기본", comment: "Category tab: default/basic")
         case .all:       return NSLocalizedString("전체", comment: "Category tab: all")
         case .favorites: return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites")
         case .builtIn(let b): return b.displayName
@@ -82,6 +86,7 @@ enum CategoryTab: Hashable, Equatable {
     /// UserDefaults 저장용 안정 키 (마지막 본 탭 복원).
     var storageKey: String {
         switch self {
+        case .basic:            return "__basic__"
         case .all:              return "__all__"
         case .favorites:        return "__favorites__"
         case .builtIn(let b):   return "builtin:" + b.rawValue
@@ -91,6 +96,7 @@ enum CategoryTab: Hashable, Equatable {
 
     init?(storageKey: String) {
         switch storageKey {
+        case "__basic__":     self = .basic
         case "__all__":       self = .all
         case "__favorites__": self = .favorites
         default:
@@ -110,6 +116,7 @@ enum CategoryTab: Hashable, Equatable {
 
     var icon: String {
         switch self {
+        case .basic:     return "tray.full.fill"
         case .all:       return "square.grid.2x2"
         case .favorites: return "heart.fill"
         case .builtIn(let b): return b.icon
@@ -194,7 +201,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     // MARK: - Category Tabs
 
-    @Published var selectedCategoryTab: CategoryTab = .all
+    @Published var selectedCategoryTab: CategoryTab = .basic
     @Published var customCategories: [String] = []
     /// 탭 바에서 숨길 카테고리 이름 집합. 즐겨찾기는 "__favorites__" 키 사용.
     @Published var hiddenCategoryTabs: Set<String> = []
@@ -202,7 +209,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var enabledBuiltInCategories: [BuiltInCategory] = []
 
     var allCategoryTabs: [CategoryTab] {
-        var tabs: [CategoryTab] = [.all]
+        var tabs: [CategoryTab] = [.basic]
         // 즐겨찾기는 기본 제공 카테고리 — 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
         if !hiddenCategoryTabs.contains("__favorites__") {
             tabs.append(.favorites)
@@ -243,7 +250,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         guard CategoryStore.shared.isFeatureEnabled,
               let raw = UserDefaults.standard.string(forKey: Self.selectedCategoryTabKey),
               let saved = CategoryTab(storageKey: raw),
-              saved != .all else { return }
+              saved != .basic else { return }
 
         loadCustomCategories()
         if allCategoryTabs.contains(saved) {
@@ -267,8 +274,19 @@ final class ClipKeyboardListViewModel: ObservableObject {
         memos(for: selectedCategoryTab)
     }
 
+    /// "기본" 탭에 모이는 메모 — 사용자가 만든 어떤 커스텀 카테고리에도 속하지 않은 모든 메모.
+    /// (category == "기본", 빈값, 또는 삭제된 카테고리의 고아 메모까지 catch-all로 포함해
+    /// "전체" 탭이 사라져도 어떤 메모도 화면에서 누락되지 않게 한다.)
+    /// 검색·타입 필터가 반영된 `memos` 기준이라 다른 탭과 동작이 일관된다.
+    var basicBucketMemos: [Memo] {
+        // 즐겨찾기도 하나의 카테고리 — 즐겨찾기한 메모는 기본 버킷에서 빠지고 즐겨찾기 탭에만 보인다.
+        memos.filter { !customCategories.contains($0.category) && !$0.isFavorite }
+    }
+
     func memos(for tab: CategoryTab) -> [Memo] {
         switch tab {
+        case .basic:
+            return basicBucketMemos
         case .all:
             return memos
         case .favorites:
@@ -303,7 +321,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func deleteCustomCategory(_ name: String) {
         customCategories.removeAll { $0 == name }
         if case .custom(let cur) = selectedCategoryTab, cur == name {
-            selectedCategoryTab = .all
+            selectedCategoryTab = .basic
         }
         saveCustomCategories()
     }
@@ -359,7 +377,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         enabledBuiltInCategories = BuiltInCategory.allCases.filter { enabledRaw.contains($0.rawValue) }
         // 관리 화면에서 끈 카테고리가 현재 선택 탭이면 전체로 되돌린다(빈 탭에 머무는 것 방지).
         if !allCategoryTabs.contains(selectedCategoryTab) {
-            selectedCategoryTab = .all
+            selectedCategoryTab = .basic
         }
     }
 
@@ -374,9 +392,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
         } else {
             hiddenCategoryTabs.insert(key)
             if key == "__favorites__", case .favorites = selectedCategoryTab {
-                selectedCategoryTab = .all
+                selectedCategoryTab = .basic
             } else if case .custom(let cur) = selectedCategoryTab, cur == key {
-                selectedCategoryTab = .all
+                selectedCategoryTab = .basic
             }
         }
         UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
@@ -559,7 +577,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("📊 [loadMemos] 로드된 메모 개수: \(loadedMemos.count)")
             let noImageCount = loadedMemos.filter { ($0.imageFileNames.first ?? $0.imageFileName ?? "").isEmpty }.count
             print("🖼️ [loadMemos] 이미지 있는 메모: \(loadedMemos.count - noImageCount)개 / 전체: \(loadedMemos.count)개")
-            memos = sortMemos(loadedMemos)
+            // "전체" 탭 제거에 따른 정리 — category가 비어 있는(미분류) 메모를 "기본"으로 정규화.
+            // 멱등(idempotent)하므로 매 로드마다 수행해도 안전하고, 변경이 있을 때만 저장한다.
+            let normalizedMemos = normalizeEmptyCategories(loadedMemos)
+            memos = sortMemos(normalizedMemos)
             loadedData = memos
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
@@ -570,6 +591,27 @@ final class ClipKeyboardListViewModel: ObservableObject {
         } catch {
             print("❌ [loadMemos] 메모 로드 실패: \(error.localizedDescription)")
         }
+    }
+
+    /// category가 비어 있거나(공백 포함) 없는 메모를 "기본"으로 채운다.
+    /// 변경이 발생한 경우에만 디스크에 저장하고, 정규화된 목록을 반환한다.
+    private func normalizeEmptyCategories(_ source: [Memo]) -> [Memo] {
+        var result = source
+        var changedCount = 0
+        for i in result.indices
+        where result[i].category.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            result[i].category = "기본"
+            changedCount += 1
+        }
+        if changedCount > 0 {
+            do {
+                try MemoStore.shared.save(memos: result, type: .memo)
+                print("🔄 [normalizeEmptyCategories] 빈 카테고리 메모 \(changedCount)개를 '기본'으로 정규화")
+            } catch {
+                print("❌ [normalizeEmptyCategories] 저장 실패: \(error.localizedDescription)")
+            }
+        }
+        return result
     }
 
     private func updateCleanUpTipParameter(memos: [Memo]) {
@@ -963,15 +1005,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 if memos[index].autoDetectedType == nil {
                     let classification = ClipboardClassificationService.shared.classify(content: memos[index].value)
                     memos[index].autoDetectedType = classification.type
-
-                    if memos[index].category == "기본" {
-                        let suggestedCategory = Constants.categoryForClipboardType(classification.type)
-                        memos[index].category = suggestedCategory
-                        print("   ✅ [\(memos[index].title)] \(classification.type.rawValue) → \(suggestedCategory)")
-                    } else {
-                        print("   ℹ️ [\(memos[index].title)] \(classification.type.rawValue) (테마 유지: \(memos[index].category))")
-                    }
-
+                    // ⚠️ category는 절대 자동 변경하지 않는다 — 사용자가 지정한 카테고리는 물론
+                    // "기본" 버킷도 그대로 보존. autoDetectedType만 채워 타입 필터/빌트인 탭에 사용.
                     updated = true
                 }
             }
@@ -1027,21 +1062,15 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
 
         if memo.isTemplate {
-            print("📄 [processMemoAfterAuth] 템플릿 메모 - TemplateEditSheet 표시")
+            // 채울 사용자 변수가 없으면(자동 변수 {날짜} 등만) 하프모달 없이 바로 복사.
+            let customTokens = TemplateVariableProcessor.extractCustomTokens(in: memo.value)
+            if customTokens.isEmpty {
+                print("📄 [processMemoAfterAuth] 템플릿(자동 변수만) - 바로 복사")
+                finalizeCopy(memo: memo, processedValue: TemplateVariableProcessor.substitute(memo.value, with: [:]))
+                return
+            }
+            print("📄 [processMemoAfterAuth] 템플릿 메모 - 값 입력 하프모달 표시")
             selectedTemplateIdForSheet = memo.id
-            return
-        }
-
-        // v4.0.8: 옵션 템플릿 연결 메모 → 입력 시트 트리거
-        if let attachedId = memo.attachedTemplateId,
-           let attached = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == attachedId }) {
-            print("🔗 [processMemoAfterAuth] attachedTemplate 흐름 — base=\(memo.title), template=\(attached.title)")
-            attachedTemplateBaseMemo = memo
-            currentTemplateMemo = attached
-            // 연결된 템플릿의 사용자 플레이스홀더를 추출해야 입력 필드가 나타난다(누락 시 값 입력 불가).
-            templatePlaceholders = TemplateVariableProcessor.extractCustomTokens(in: attached.value)
-            templateInputs = [:]
-            showTemplateInputSheet = true
             return
         }
 

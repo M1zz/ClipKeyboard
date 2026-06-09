@@ -875,14 +875,24 @@ struct SheetModifiers: ViewModifier {
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
             }
-            // 템플릿 편집 시트
+            // 템플릿 값 입력 하프모달 — 탭하면 키보드 익스텐션과 동일한 UX로
+            // 변수를 채우고 우상단 "복사"로 결과를 클립보드에 복사.
             .sheet(item: $selectedTemplateIdForSheet) { templateId in
-                TemplateSheetResolver(
-                    templateId: templateId,
-                    allMemos: memos,
-                    onCopy: onTemplateCopy,
-                    onCancel: onTemplateSheetCancel
-                )
+                if let memo = memos.first(where: { $0.id == templateId }) {
+                    TemplateFillSheet(
+                        memo: memo,
+                        onCopy: { resolved in onTemplateCopy(memo, resolved) },
+                        onCancel: onTemplateSheetCancel
+                    )
+                } else {
+                    // 폴백(거의 발생 안 함): 기존 편집 시트.
+                    TemplateSheetResolver(
+                        templateId: templateId,
+                        allMemos: memos,
+                        onCopy: onTemplateCopy,
+                        onCancel: onTemplateSheetCancel
+                    )
+                }
             }
             // Combo 편집 시트
             .sheet(item: $selectedComboIdForSheet) { comboId in

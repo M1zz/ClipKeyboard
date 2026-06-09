@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ClipKeyboard · 데이터 모델 UML</title>
+<style>
+  :root {
+    --bg: #0f1116;
+    --surface: #181b23;
+    --surface-2: #1f232d;
+    --border: #2c3140;
+    --text: #e7e9ee;
+    --muted: #98a2b3;
+    --accent: #7c8cff;
+    --accent-soft: #2a2f4a;
+    --struct: #5b9bd5;
+    --enum: #d59a5b;
+    --service: #6fce8f;
+    --legacy: #c77b9a;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    line-height: 1.55;
+  }
+  header {
+    padding: 40px 24px 28px;
+    border-bottom: 1px solid var(--border);
+    background: radial-gradient(1200px 300px at 20% -50%, rgba(124,140,255,0.18), transparent),
+                var(--surface);
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+  h1 .sub { color: var(--accent); }
+  .meta { color: var(--muted); font-size: 13.5px; }
+  .meta code { font-family: var(--mono); background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+  main { max-width: 1180px; margin: 0 auto; padding: 28px 24px 80px; }
+  section { margin-top: 40px; }
+  h2 {
+    font-size: 19px; margin: 0 0 14px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border); letter-spacing: -0.01em;
+  }
+  h3 { font-size: 15.5px; margin: 26px 0 8px; }
+
+  /* Legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 8px 0 4px; font-size: 13px; color: var(--muted); }
+  .legend .item { display: flex; align-items: center; gap: 7px; }
+  .swatch { width: 13px; height: 13px; border-radius: 3px; display: inline-block; }
+  .rel { font-family: var(--mono); color: var(--text); background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+
+  /* Mermaid panel */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    overflow-x: auto;
+  }
+  .mermaid { text-align: center; }
+
+  /* Entity cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .card > .title {
+    padding: 11px 14px; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; gap: 9px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .tag {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em;
+    padding: 2px 7px; border-radius: 999px; text-transform: uppercase;
+    color: #0d0f14;
+  }
+  .tag.struct { background: var(--struct); }
+  .tag.enum { background: var(--enum); }
+  .tag.service { background: var(--service); }
+  .tag.legacy { background: var(--legacy); }
+  .proto { margin-left: auto; font-size: 11.5px; color: var(--muted); font-family: var(--mono); }
+  table { width: 100%; border-collapse: collapse; font-size: 12.7px; }
+  td { padding: 6px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.k { font-family: var(--mono); color: var(--text); white-space: nowrap; }
+  td.t { font-family: var(--mono); color: var(--accent); text-align: right; white-space: nowrap; }
+  td.note { color: var(--muted); font-size: 12px; }
+  .opt { color: var(--legacy); }
+  .ref { color: var(--service); }
+  .cases { padding: 10px 14px; font-family: var(--mono); font-size: 12.3px; color: var(--muted); }
+  .cases b { color: var(--text); font-weight: 600; }
+
+  /* Storage table */
+  .storage { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .storage table { font-size: 13px; }
+  .storage th { text-align: left; padding: 9px 14px; background: var(--surface-2); font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600; }
+  .storage td { padding: 9px 14px; }
+  .storage td code { font-family: var(--mono); background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-size: 12px; }
+
+  .note-list { color: var(--muted); font-size: 13.5px; padding-left: 18px; }
+  .note-list li { margin: 5px 0; }
+  .note-list b { color: var(--text); }
+  .svg-wrap { overflow-x: auto; padding: 4px; }
+  details.src { margin-top: 12px; }
+  details.src summary { cursor: pointer; color: var(--muted); font-size: 12.5px; }
+  details.src pre { margin-top: 8px; padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; overflow-x: auto; font-family: var(--mono); font-size: 11.7px; color: var(--muted); line-height: 1.4; }
+  footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 30px 24px 50px; border-top: 1px solid var(--border); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>ClipKeyboard · <span class="sub">데이터 모델 UML</span></h1>
+    <p class="meta">
+      도메인 데이터 모델 클래스 다이어그램 · 출처 <code>Model/Memo.swift</code>, <code>Service/MemoStore.swift</code>, <code>Service/CloudKitBackupService.swift</code><br/>
+      생성일 2026-06-08 · App Group <code>group.com.Ysoup.TokenMemo</code>
+    </p>
+  </div>
+</header>
+
+<main>
+  <section id="legend">
+    <h2>범례</h2>
+    <div class="legend">
+      <span class="item"><span class="swatch" style="background:var(--struct)"></span> struct (값 타입)</span>
+      <span class="item"><span class="swatch" style="background:var(--enum)"></span> enum</span>
+      <span class="item"><span class="swatch" style="background:var(--service)"></span> 저장/동기화 서비스</span>
+      <span class="item"><span class="swatch" style="background:var(--legacy)"></span> 레거시 / 마이그레이션 원본</span>
+    </div>
+    <div class="legend" style="margin-top:10px">
+      <span class="item"><span class="rel">*--</span> 합성(소유, composition)</span>
+      <span class="item"><span class="rel">o--</span> 집합(보관, aggregation)</span>
+      <span class="item"><span class="rel">--&gt;</span> 연관(타입 참조)</span>
+      <span class="item"><span class="rel">..&gt;</span> 의존(UUID 참조 / 마이그레이션)</span>
+    </div>
+  </section>
+
+  <section id="diagram">
+    <h2>클래스 다이어그램</h2>
+    <div class="diagram">
+      <div class="svg-wrap">
+<svg id="my-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width:100%;height:auto;display:block;margin:0 auto;max-width: 1864.18px; background-color: transparent;" viewBox="0 0 1864.1796875 1138" role="graphics-document document" aria-roledescription="classDiagram"><style>#my-svg{font-family:ui-monospace,Menlo,monospace;font-size:13px;fill:#ccc;}#my-svg .error-icon{fill:#a44141;}#my-svg .error-text{fill:#ddd;stroke:#ddd;}#my-svg .edge-thickness-normal{stroke-width:2px;}#my-svg .edge-thickness-thick{stroke-width:3.5px;}#my-svg .edge-pattern-solid{stroke-dasharray:0;}#my-svg .edge-pattern-dashed{stroke-dasharray:3;}#my-svg .edge-pattern-dotted{stroke-dasharray:2;}#my-svg .marker{fill:#7c8cff;stroke:#7c8cff;}#my-svg .marker.cross{stroke:#7c8cff;}#my-svg svg{font-family:ui-monospace,Menlo,monospace;font-size:13px;}#my-svg g.classGroup text{fill:#81B1DB;stroke:none;font-family:ui-monospace,Menlo,monospace;font-size:10px;}#my-svg g.classGroup text .title{font-weight:bolder;}#my-svg .nodeLabel,#my-svg .edgeLabel{color:#e0dfdf;}#my-svg .edgeLabel .label rect{fill:#1f2020;}#my-svg .label text{fill:#e0dfdf;}#my-svg .edgeLabel .label span{background:#1f2020;}#my-svg .classTitle{font-weight:bolder;}#my-svg .node rect,#my-svg .node circle,#my-svg .node ellipse,#my-svg .node polygon,#my-svg .node path{fill:#1f2020;stroke:#81B1DB;stroke-width:1px;}#my-svg .divider{stroke:#81B1DB;stroke-width:1;}#my-svg g.clickable{cursor:pointer;}#my-svg g.classGroup rect{fill:#1f2020;stroke:#81B1DB;}#my-svg g.classGroup line{stroke:#81B1DB;stroke-width:1;}#my-svg .classLabel .box{stroke:none;stroke-width:0;fill:#1f2020;opacity:0.5;}#my-svg .classLabel .label{fill:#81B1DB;font-size:10px;}#my-svg .relation{stroke:#7c8cff;stroke-width:1;fill:none;}#my-svg .dashed-line{stroke-dasharray:3;}#my-svg .dotted-line{stroke-dasharray:1 2;}#my-svg #compositionStart,#my-svg .composition{fill:#7c8cff!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #compositionEnd,#my-svg .composition{fill:#7c8cff!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #dependencyStart,#my-svg .dependency{fill:#7c8cff!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #dependencyStart,#my-svg .dependency{fill:#7c8cff!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #extensionStart,#my-svg .extension{fill:transparent!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #extensionEnd,#my-svg .extension{fill:transparent!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #aggregationStart,#my-svg .aggregation{fill:transparent!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #aggregationEnd,#my-svg .aggregation{fill:transparent!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #lollipopStart,#my-svg .lollipop{fill:#1f2020!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg #lollipopEnd,#my-svg .lollipop{fill:#1f2020!important;stroke:#7c8cff!important;stroke-width:1;}#my-svg .edgeTerminals{font-size:11px;line-height:initial;}#my-svg .classTitleText{text-anchor:middle;font-size:18px;fill:#ccc;}#my-svg :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><defs><marker id="my-svg_classDiagram-aggregationStart" class="marker aggregation classDiagram" refX="18" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-aggregationEnd" class="marker aggregation classDiagram" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-extensionStart" class="marker extension classDiagram" refX="18" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 1,7 L18,13 V 1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-extensionEnd" class="marker extension classDiagram" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 1,1 V 13 L18,7 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-compositionStart" class="marker composition classDiagram" refX="18" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-compositionEnd" class="marker composition classDiagram" refX="1" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-dependencyStart" class="marker dependency classDiagram" refX="6" refY="7" markerWidth="190" markerHeight="240" orient="auto"><path d="M 5,7 L9,13 L1,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-dependencyEnd" class="marker dependency classDiagram" refX="13" refY="7" markerWidth="20" markerHeight="28" orient="auto"><path d="M 18,7 L9,13 L14,7 L9,1 Z"/></marker></defs><defs><marker id="my-svg_classDiagram-lollipopStart" class="marker lollipop classDiagram" refX="13" refY="7" markerWidth="190" markerHeight="240" orient="auto"><circle stroke="black" fill="transparent" cx="7" cy="7" r="6"/></marker></defs><defs><marker id="my-svg_classDiagram-lollipopEnd" class="marker lollipop classDiagram" refX="1" refY="7" markerWidth="190" markerHeight="240" orient="auto"><circle stroke="black" fill="transparent" cx="7" cy="7" r="6"/></marker></defs><g class="root"><g class="clusters"/><g class="edgePaths"><path d="M732.141,676.75L737.221,676.75C742.301,676.75,752.461,676.75,767.577,676.75C782.694,676.75,802.767,676.75,812.803,676.75L822.84,676.75" id="id_Combo_ComboItem_1" class="edge-pattern-solid relation" style="fill:none" marker-start="url(#my-svg_classDiagram-compositionStart)"/><path d="M280.372,371.067L312.084,321.264C343.796,271.461,407.22,171.856,463.916,122.053C520.612,72.25,570.579,72.25,619.242,72.25C667.905,72.25,715.263,72.25,763.273,72.25C811.284,72.25,859.947,72.25,912.523,72.25C965.099,72.25,1021.589,72.25,1062.479,79.381C1103.37,86.512,1128.661,100.774,1141.307,107.904L1153.953,115.035" id="id_MemoStore_Memo_2" class="edge-pattern-solid relation" style="fill:none" marker-start="url(#my-svg_classDiagram-aggregationStart)"/><path d="M432.017,521.881L438.455,523.109C444.893,524.337,457.769,526.794,489.19,528.022C520.612,529.25,570.579,529.25,619.242,529.25C667.905,529.25,715.263,529.25,763.273,529.25C811.284,529.25,859.947,529.25,912.523,529.25C965.099,529.25,1021.589,529.25,1064.73,544.208C1107.872,559.167,1137.666,589.083,1152.563,604.042L1167.461,619" id="id_MemoStore_SmartClipboardHistory_3" class="edge-pattern-solid relation" style="fill:none" marker-start="url(#my-svg_classDiagram-aggregationStart)"/><path d="M273.538,588.878L306.389,646.356C339.24,703.835,404.942,818.793,462.777,876.271C520.612,933.75,570.579,933.75,619.242,933.75C667.905,933.75,715.263,933.75,750.936,933.75C786.608,933.75,810.595,933.75,822.589,933.75L834.582,933.75" id="id_MemoStore_ClipboardHistory_4" class="edge-pattern-solid relation" style="fill:none" marker-start="url(#my-svg_classDiagram-aggregationStart)"/><path d="M404.174,581.654L415.252,587.504C426.331,593.353,448.488,605.051,468.951,614.657C489.414,624.263,508.184,631.775,517.568,635.532L526.953,639.288" id="id_MemoStore_Combo_5" class="edge-pattern-solid relation" style="fill:none" marker-start="url(#my-svg_classDiagram-aggregationStart)"/><path d="M1442.891,175.074L1458.145,172.812C1473.4,170.549,1503.909,166.025,1532.769,164.926C1561.63,163.826,1588.841,166.153,1602.447,167.316L1616.053,168.479" id="id_Memo_ClipboardItemType_6" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M1442.891,347.093L1458.145,362.994C1473.4,378.895,1503.909,410.698,1544.938,467.586C1585.966,524.474,1637.515,606.447,1663.289,647.434L1689.063,688.421" id="id_Memo_ClipboardContentType_7" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M1388.899,619L1413.152,583.75C1437.405,548.5,1485.911,478,1532.489,417.828C1579.067,357.656,1623.717,307.813,1646.041,282.891L1668.366,257.969" id="id_SmartClipboardHistory_ClipboardItemType_8" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M1446.805,764.804L1461.407,766.212C1476.009,767.619,1505.214,770.435,1538.636,771.36C1572.058,772.285,1609.698,771.319,1628.518,770.836L1647.338,770.354" id="id_SmartClipboardHistory_ClipboardContentType_9" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M949.422,770.25L970.864,819.375C992.307,868.5,1035.193,966.75,1080.674,1015.875C1126.155,1065,1174.232,1065,1198.27,1065L1222.309,1065" id="id_ComboItem_ComboItemType_10" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M295.262,386.25L324.492,353.75C353.723,321.25,412.184,256.25,450.451,223.75C488.717,191.25,506.79,191.25,515.827,191.25L524.863,191.25" id="id_MemoStore_MemoType_11" class="edge-pattern-solid relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M1182.127,385L1177.431,392.611C1172.736,400.222,1163.344,415.444,1158.649,424.958C1153.953,434.472,1153.953,438.278,1178.031,442.083C1202.109,445.889,1250.266,449.694,1298.422,449.694C1346.578,449.694,1394.734,445.889,1418.813,442.083C1442.891,438.278,1442.891,434.472,1438.72,425.809C1434.549,417.147,1426.208,403.626,1422.038,396.866L1417.867,390.106" id="id_Memo_Memo_12" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M937.485,583.25L960.917,507.375C984.349,431.5,1031.214,279.75,1066.337,207.509C1101.46,135.269,1124.842,142.538,1136.533,146.172L1148.224,149.807" id="id_ComboItem_Memo_13" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M994.379,676.75L1008.329,676.75C1022.279,676.75,1050.178,676.75,1075.173,680.447C1100.169,684.144,1122.259,691.537,1133.304,695.234L1144.349,698.931" id="id_ComboItem_SmartClipboardHistory_14" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M1006.117,191.25L1018.111,191.25C1030.104,191.25,1054.091,191.25,1077.731,191.527C1101.37,191.805,1124.663,192.36,1136.309,192.637L1147.955,192.915" id="id_PlaceholderValue_Memo_15" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M263.437,643.25L297.971,587.75C332.506,532.25,401.575,421.25,461.094,365.75C520.612,310.25,570.579,310.25,619.242,310.25C667.905,310.25,715.263,310.25,763.273,310.25C811.284,310.25,859.947,310.25,912.523,310.25C965.099,310.25,1021.589,310.25,1061.591,304.18C1101.593,298.111,1125.107,285.972,1136.864,279.902L1148.622,273.833" id="id_CloudKitBackupService_Memo_16" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M308.676,763.701L335.671,773.793C362.665,783.884,416.655,804.067,468.633,814.159C520.612,824.25,570.579,824.25,619.242,824.25C667.905,824.25,715.263,824.25,763.273,824.25C811.284,824.25,859.947,824.25,912.523,824.25C965.099,824.25,1021.589,824.25,1060.879,820.553C1100.169,816.856,1122.259,809.463,1133.304,805.766L1144.349,802.069" id="id_CloudKitBackupService_SmartClipboardHistory_17" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M308.676,730.82L335.671,731.808C362.665,732.797,416.655,734.773,452.106,732.377C487.557,729.98,504.47,723.211,512.926,719.826L521.383,716.441" id="id_CloudKitBackupService_Combo_18" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M974.813,419.75L992.023,419.75C1009.234,419.75,1043.656,419.75,1072.811,407.649C1101.965,395.548,1125.852,371.346,1137.795,359.245L1149.738,347.145" id="id_OldMemo_Memo_19" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/><path d="M982.637,933.75L998.544,933.75C1014.451,933.75,1046.264,933.75,1073.396,924.415C1100.527,915.08,1122.977,896.41,1134.201,887.075L1145.426,877.74" id="id_ClipboardHistory_SmartClipboardHistory_20" class="edge-pattern-dashed relation" style="fill:none" marker-end="url(#my-svg_classDiagram-dependencyEnd)"/></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(762.62109375, 676.75)"><g class="label" transform="translate(-19.5703125, -7.5)"><foreignObject width="39.140625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">items</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(731.6406274999999, 691.75)"><g class="inner" transform="translate(0, 0)"><foreignObject style="width: 9px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">1</span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(800.339841875, 656.75)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..*</span></div></foreignObject></g><g class="edgeLabel" transform="translate(762.62109375, 72.25)"><g class="label" transform="translate(-19.5703125, -7.5)"><foreignObject width="39.140625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">memos</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(1141.0773536199822, 88.3737426221913)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..*</span></div></foreignObject></g><g class="edgeLabel" transform="translate(762.62109375, 529.25)"><g class="label" transform="translate(-19.5703125, -7.5)"><foreignObject width="39.140625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">smart</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(1160.739905076171, 591.0154488444039)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..*</span></div></foreignObject></g><g class="edgeLabel" transform="translate(620.546875, 933.75)"><g class="label" transform="translate(-23.48046875, -7.5)"><foreignObject width="46.9609375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">legacy</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(812.082030625, 913.75)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..*</span></div></foreignObject></g><g class="edgeLabel" transform="translate(470.64453125, 616.75)"><g class="label" transform="translate(-23.48046875, -7.5)"><foreignObject width="46.9609375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">combos</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(511.2802298751991, 613.8592263105783)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..*</span></div></foreignObject></g><g class="edgeLabel" transform="translate(1534.41796875, 161.5)"><g class="label" transform="translate(-62.61328125, -7.5)"><foreignObject width="125.2265625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">autoDetectedType</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1534.41796875, 442.5)"><g class="label" transform="translate(-43.046875, -7.5)"><foreignObject width="86.09375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">contentType</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1534.41796875, 407.5)"><g class="label" transform="translate(-46.9609375, -7.5)"><foreignObject width="93.921875" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">detectedType</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1534.41796875, 773.25)"><g class="label" transform="translate(-43.046875, -7.5)"><foreignObject width="86.09375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">contentType</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1078.078125, 1065)"><g class="label" transform="translate(-15.65625, -7.5)"><foreignObject width="31.3125" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">type</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(470.64453125, 191.25)"><g class="label" transform="translate(-31.30859375, -7.5)"><foreignObject width="62.6171875" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">routesBy</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1298.421875, 453.5)"><g class="label" transform="translate(-70.44140625, -7.5)"><foreignObject width="140.8828125" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">attachedTemplateId</span></span></div></foreignObject></g></g><g class="edgeTerminals" transform="translate(1406.1392827496982, 402.76955045773786)"><g class="inner" transform="translate(0, 0)"/><foreignObject style="width: 36px; height: 12px;"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">0..1</span></div></foreignObject></g><g class="edgeLabel" transform="translate(1078.078125, 128)"><g class="label" transform="translate(-43.046875, -7.5)"><foreignObject width="86.09375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">referenceId</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1078.078125, 676.75)"><g class="label" transform="translate(-43.046875, -7.5)"><foreignObject width="86.09375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">referenceId</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1078.078125, 191.25)"><g class="label" transform="translate(-46.9609375, -7.5)"><foreignObject width="93.921875" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">sourceMemoId</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(762.62109375, 310.25)"><g class="label" transform="translate(-23.48046875, -7.5)"><foreignObject width="46.9609375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">backup</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(762.62109375, 824.25)"><g class="label" transform="translate(-23.48046875, -7.5)"><foreignObject width="46.9609375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">backup</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(470.64453125, 736.75)"><g class="label" transform="translate(-23.48046875, -7.5)"><foreignObject width="46.9609375" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">backup</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1078.078125, 419.75)"><g class="label" transform="translate(-27.39453125, -7.5)"><foreignObject width="54.7890625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">migrate</span></span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(1078.078125, 933.75)"><g class="label" transform="translate(-27.39453125, -7.5)"><foreignObject width="54.7890625" height="15"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"><span class="edgeLabel">migrate</span></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default" id="classId-Memo-0" data-node="true" data-id="Memo" transform="translate(1298.421875, 196.5)"><rect style="" class="outer title-state" x="-144.46875" y="-188.5" width="288.9375" height="377"/><line class="divider" x1="-144.46875" x2="144.46875" y1="-142.5" y2="-142.5"/><line class="divider" x1="-144.46875" x2="144.46875" y1="177.5" y2="177.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -181)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="31.3125" height="15" transform="translate( -15.65625, -162)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">Memo</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -136.96875, -131)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -136.96875, -112)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+title String</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -136.96875, -93)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+value String</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -136.96875, -74)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isFavorite Bool</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -136.96875, -55)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+category String</span></div></foreignObject><foreignObject width="109.578125" height="15" transform="translate( -136.96875, -36)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isSecure Bool</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -136.96875, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isTemplate Bool</span></div></foreignObject><foreignObject width="242.6328125" height="15" transform="translate( -136.96875, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+templateVariables List&lt;String&gt;</span></div></foreignObject><foreignObject width="226.9765625" height="15" transform="translate( -136.96875, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+placeholderValues StringDict</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -136.96875, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isCombo Bool</span></div></foreignObject><foreignObject width="195.671875" height="15" transform="translate( -136.96875, 59)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+comboValues List&lt;String&gt;</span></div></foreignObject><foreignObject width="273.9375" height="15" transform="translate( -136.96875, 78)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+autoDetectedType ClipboardItemType</span></div></foreignObject><foreignObject width="219.1484375" height="15" transform="translate( -136.96875, 97)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+imageFileNames List&lt;String&gt;</span></div></foreignObject><foreignObject width="258.28125" height="15" transform="translate( -136.96875, 116)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+contentType ClipboardContentType</span></div></foreignObject><foreignObject width="187.84375" height="15" transform="translate( -136.96875, 135)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+attachedTemplateId UUID</span></div></foreignObject><foreignObject width="93.921875" height="15" transform="translate( -136.96875, 154)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+hint String</span></div></foreignObject></g></g><g class="node default" id="classId-OldMemo-1" data-node="true" data-id="OldMemo" transform="translate(908.609375, 419.75)"><rect style="" class="outer title-state" x="-66.203125" y="-74.5" width="132.40625" height="149"/><line class="divider" x1="-66.203125" x2="66.203125" y1="-28.5" y2="-28.5"/><line class="divider" x1="-66.203125" x2="66.203125" y1="63.5" y2="63.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="54.7890625" height="15" transform="translate( -27.39453125, -48)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">OldMemo</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -58.703125, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -58.703125, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+title String</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -58.703125, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+value String</span></div></foreignObject><foreignObject width="117.40625" height="15" transform="translate( -58.703125, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isChecked Bool</span></div></foreignObject></g></g><g class="node default" id="classId-SmartClipboardHistory-2" data-node="true" data-id="SmartClipboardHistory" transform="translate(1298.421875, 750.5)"><rect style="" class="outer title-state" x="-148.3828125" y="-131.5" width="296.765625" height="263"/><line class="divider" x1="-148.3828125" x2="148.3828125" y1="-85.5" y2="-85.5"/><line class="divider" x1="-148.3828125" x2="148.3828125" y1="120.5" y2="120.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -124)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="164.3671875" height="15" transform="translate( -82.18359375, -105)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">SmartClipboardHistory</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -140.8828125, -74)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="117.40625" height="15" transform="translate( -140.8828125, -55)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+content String</span></div></foreignObject><foreignObject width="109.578125" height="15" transform="translate( -140.8828125, -36)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+copiedAt Date</span></div></foreignObject><foreignObject width="133.0546875" height="15" transform="translate( -140.8828125, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isTemporary Bool</span></div></foreignObject><foreignObject width="258.28125" height="15" transform="translate( -140.8828125, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+contentType ClipboardContentType</span></div></foreignObject><foreignObject width="133.0546875" height="15" transform="translate( -140.8828125, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+imageData String</span></div></foreignObject><foreignObject width="242.6328125" height="15" transform="translate( -140.8828125, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+detectedType ClipboardItemType</span></div></foreignObject><foreignObject width="140.8828125" height="15" transform="translate( -140.8828125, 59)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+confidence Double</span></div></foreignObject><foreignObject width="281.765625" height="15" transform="translate( -140.8828125, 78)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+userCorrectedType ClipboardItemType</span></div></foreignObject><foreignObject width="140.8828125" height="15" transform="translate( -140.8828125, 97)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+tags List&lt;String&gt;</span></div></foreignObject></g></g><g class="node default" id="classId-ClipboardHistory-3" data-node="true" data-id="ClipboardHistory" transform="translate(908.609375, 933.75)"><rect style="" class="outer title-state" x="-74.02734375" y="-74.5" width="148.0546875" height="149"/><line class="divider" x1="-74.02734375" x2="74.02734375" y1="-28.5" y2="-28.5"/><line class="divider" x1="-74.02734375" x2="74.02734375" y1="63.5" y2="63.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="125.2265625" height="15" transform="translate( -62.61328125, -48)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ClipboardHistory</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -66.52734375, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="117.40625" height="15" transform="translate( -66.52734375, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+content String</span></div></foreignObject><foreignObject width="109.578125" height="15" transform="translate( -66.52734375, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+copiedAt Date</span></div></foreignObject><foreignObject width="133.0546875" height="15" transform="translate( -66.52734375, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isTemporary Bool</span></div></foreignObject></g></g><g class="node default" id="classId-PlaceholderValue-4" data-node="true" data-id="PlaceholderValue" transform="translate(908.609375, 191.25)"><rect style="" class="outer title-state" x="-97.5078125" y="-84" width="195.015625" height="168"/><line class="divider" x1="-97.5078125" x2="97.5078125" y1="-38" y2="-38"/><line class="divider" x1="-97.5078125" x2="97.5078125" y1="73" y2="73"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -76.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="125.2265625" height="15" transform="translate( -62.61328125, -57.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">PlaceholderValue</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -90.0078125, -26.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -90.0078125, -7.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+value String</span></div></foreignObject><foreignObject width="140.8828125" height="15" transform="translate( -90.0078125, 11.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+sourceMemoId UUID</span></div></foreignObject><foreignObject width="180.015625" height="15" transform="translate( -90.0078125, 30.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+sourceMemoTitle String</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -90.0078125, 49.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+addedAt Date</span></div></foreignObject></g></g><g class="node default" id="classId-Combo-5" data-node="true" data-id="Combo" transform="translate(620.546875, 676.75)"><rect style="" class="outer title-state" x="-93.59375" y="-112.5" width="187.1875" height="225"/><line class="divider" x1="-93.59375" x2="93.59375" y1="-66.5" y2="-66.5"/><line class="divider" x1="-93.59375" x2="93.59375" y1="82.5" y2="82.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -105)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="39.140625" height="15" transform="translate( -19.5703125, -86)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">Combo</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -86.09375, -55)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -86.09375, -36)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+title String</span></div></foreignObject><foreignObject width="172.1875" height="15" transform="translate( -86.09375, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+items List&lt;ComboItem&gt;</span></div></foreignObject><foreignObject width="172.1875" height="15" transform="translate( -86.09375, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+interval TimeInterval</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -86.09375, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+category String</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -86.09375, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+useCount Int</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -86.09375, 59)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isFavorite Bool</span></div></foreignObject><foreignObject width="93.921875" height="15" transform="translate( -86.09375, 90)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+sortItems()</span></div></foreignObject></g></g><g class="node default" id="classId-ComboItem-6" data-node="true" data-id="ComboItem" transform="translate(908.609375, 676.75)"><rect style="" class="outer title-state" x="-85.76953125" y="-93.5" width="171.5390625" height="187"/><line class="divider" x1="-85.76953125" x2="85.76953125" y1="-47.5" y2="-47.5"/><line class="divider" x1="-85.76953125" x2="85.76953125" y1="82.5" y2="82.5"/><g class="label"><foreignObject width="62.6171875" height="15" transform="translate( -31.30859375, -86)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«struct»</span></div></foreignObject><foreignObject class="classTitle" width="70.4453125" height="15" transform="translate( -35.22265625, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ComboItem</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -78.26953125, -36)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+id UUID</span></div></foreignObject><foreignObject width="148.7109375" height="15" transform="translate( -78.26953125, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+type ComboItemType</span></div></foreignObject><foreignObject width="133.0546875" height="15" transform="translate( -78.26953125, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+referenceId UUID</span></div></foreignObject><foreignObject width="78.2734375" height="15" transform="translate( -78.26953125, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+order Int</span></div></foreignObject><foreignObject width="156.5390625" height="15" transform="translate( -78.26953125, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+displayTitle String</span></div></foreignObject><foreignObject width="156.5390625" height="15" transform="translate( -78.26953125, 59)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+displayValue String</span></div></foreignObject></g></g><g class="node default" id="classId-ClipboardItemType-7" data-node="true" data-id="ClipboardItemType" transform="translate(1739.10546875, 179)"><rect style="" class="outer title-state" x="-117.07421875" y="-74.5" width="234.1484375" height="149"/><line class="divider" x1="-117.07421875" x2="117.07421875" y1="-28.5" y2="-28.5"/><line class="divider" x1="-117.07421875" x2="117.07421875" y1="63.5" y2="63.5"/><g class="label"><foreignObject width="46.9609375" height="15" transform="translate( -23.48046875, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«enum»</span></div></foreignObject><foreignObject class="classTitle" width="133.0546875" height="15" transform="translate( -66.52734375, -48)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ClipboardItemType</span></div></foreignObject><foreignObject width="219.1484375" height="15" transform="translate( -109.57421875, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+cases27 email_to_paypalLink</span></div></foreignObject><foreignObject width="93.921875" height="15" transform="translate( -109.57421875, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+icon String</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -109.57421875, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+color String</span></div></foreignObject><foreignObject width="164.3671875" height="15" transform="translate( -109.57421875, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+localizedName String</span></div></foreignObject></g></g><g class="node default" id="classId-ClipboardContentType-8" data-node="true" data-id="ClipboardContentType" transform="translate(1739.10546875, 768)"><rect style="" class="outer title-state" x="-85.76953125" y="-74.5" width="171.5390625" height="149"/><line class="divider" x1="-85.76953125" x2="85.76953125" y1="-28.5" y2="-28.5"/><line class="divider" x1="-85.76953125" x2="85.76953125" y1="63.5" y2="63.5"/><g class="label"><foreignObject width="46.9609375" height="15" transform="translate( -23.48046875, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«enum»</span></div></foreignObject><foreignObject class="classTitle" width="156.5390625" height="15" transform="translate( -78.26953125, -48)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ClipboardContentType</span></div></foreignObject><foreignObject width="31.3125" height="15" transform="translate( -78.26953125, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">text</span></div></foreignObject><foreignObject width="39.140625" height="15" transform="translate( -78.26953125, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">image</span></div></foreignObject><foreignObject width="39.140625" height="15" transform="translate( -78.26953125, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">emoji</span></div></foreignObject><foreignObject width="39.140625" height="15" transform="translate( -78.26953125, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">mixed</span></div></foreignObject></g></g><g class="node default" id="classId-ComboItemType-9" data-node="true" data-id="ComboItemType" transform="translate(1298.421875, 1065)"><rect style="" class="outer title-state" x="-70.11328125" y="-65" width="140.2265625" height="130"/><line class="divider" x1="-70.11328125" x2="70.11328125" y1="-19" y2="-19"/><line class="divider" x1="-70.11328125" x2="70.11328125" y1="54" y2="54"/><g class="label"><foreignObject width="46.9609375" height="15" transform="translate( -23.48046875, -57.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«enum»</span></div></foreignObject><foreignObject class="classTitle" width="101.75" height="15" transform="translate( -50.875, -38.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">ComboItemType</span></div></foreignObject><foreignObject width="31.3125" height="15" transform="translate( -62.61328125, -7.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">memo</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -62.61328125, 11.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">clipboardHistory</span></div></foreignObject><foreignObject width="62.6171875" height="15" transform="translate( -62.61328125, 30.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">template</span></div></foreignObject></g></g><g class="node default" id="classId-MemoType-10" data-node="true" data-id="MemoType" transform="translate(620.546875, 191.25)"><rect style="" class="outer title-state" x="-89.68359375" y="-74.5" width="179.3671875" height="149"/><line class="divider" x1="-89.68359375" x2="89.68359375" y1="-28.5" y2="-28.5"/><line class="divider" x1="-89.68359375" x2="89.68359375" y1="63.5" y2="63.5"/><g class="label"><foreignObject width="46.9609375" height="15" transform="translate( -23.48046875, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«enum»</span></div></foreignObject><foreignObject class="classTitle" width="62.6171875" height="15" transform="translate( -31.30859375, -48)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">MemoType</span></div></foreignObject><foreignObject width="31.3125" height="15" transform="translate( -82.18359375, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">memo</span></div></foreignObject><foreignObject width="125.2265625" height="15" transform="translate( -82.18359375, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">clipboardHistory</span></div></foreignObject><foreignObject width="164.3671875" height="15" transform="translate( -82.18359375, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">smartClipboardHistory</span></div></foreignObject><foreignObject width="39.140625" height="15" transform="translate( -82.18359375, 40)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">combo</span></div></foreignObject></g></g><g class="node default" id="classId-MemoStore-11" data-node="true" data-id="MemoStore" transform="translate(211.16796875, 479.75)"><rect style="" class="outer title-state" x="-203.16796875" y="-93.5" width="406.3359375" height="187"/><line class="divider" x1="-203.16796875" x2="203.16796875" y1="-47.5" y2="-47.5"/><line class="divider" x1="-203.16796875" x2="203.16796875" y1="44.5" y2="44.5"/><g class="label"><foreignObject width="70.4453125" height="15" transform="translate( -35.22265625, -86)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«service»</span></div></foreignObject><foreignObject class="classTitle" width="70.4453125" height="15" transform="translate( -35.22265625, -67)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">MemoStore</span></div></foreignObject><foreignObject width="133.0546875" height="15" transform="translate( -195.66796875, -36)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+memos List&lt;Memo&gt;</span></div></foreignObject><foreignObject width="313.0703125" height="15" transform="translate( -195.66796875, -17)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+clipboardHistory List&lt;ClipboardHistory&gt;</span></div></foreignObject><foreignObject width="391.3359375" height="15" transform="translate( -195.66796875, 2)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+smartClipboardHistory List&lt;SmartClipboardHistory&gt;</span></div></foreignObject><foreignObject width="148.7109375" height="15" transform="translate( -195.66796875, 21)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+combos List&lt;Combo&gt;</span></div></foreignObject><foreignObject width="86.09375" height="15" transform="translate( -195.66796875, 52)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+save(type)</span></div></foreignObject><foreignObject width="86.09375" height="15" transform="translate( -195.66796875, 71)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+load(type)</span></div></foreignObject></g></g><g class="node default" id="classId-CloudKitBackupService-12" data-node="true" data-id="CloudKitBackupService" transform="translate(211.16796875, 727.25)"><rect style="" class="outer title-state" x="-97.5078125" y="-84" width="195.015625" height="168"/><line class="divider" x1="-97.5078125" x2="97.5078125" y1="-38" y2="-38"/><line class="divider" x1="-97.5078125" x2="97.5078125" y1="35" y2="35"/><g class="label"><foreignObject width="70.4453125" height="15" transform="translate( -35.22265625, -76.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">«service»</span></div></foreignObject><foreignObject class="classTitle" width="164.3671875" height="15" transform="translate( -82.18359375, -57.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">CloudKitBackupService</span></div></foreignObject><foreignObject width="164.3671875" height="15" transform="translate( -90.0078125, -26.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+isAuthenticated Bool</span></div></foreignObject><foreignObject width="156.5390625" height="15" transform="translate( -90.0078125, -7.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+lastBackupDate Date</span></div></foreignObject><foreignObject width="180.015625" height="15" transform="translate( -90.0078125, 11.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+autoBackupEnabled Bool</span></div></foreignObject><foreignObject width="101.75" height="15" transform="translate( -90.0078125, 42.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+backupData()</span></div></foreignObject><foreignObject width="109.578125" height="15" transform="translate( -90.0078125, 61.5)"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">+restoreData()</span></div></foreignObject></g></g></g></g></g></svg>
+</div>
+      <details class="src">
+        <summary>Mermaid 소스 (편집용)</summary>
+        <pre>classDiagram
+    direction LR
+
+    class Memo {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +title String
+      +value String
+      +isFavorite Bool
+      +category String
+      +isSecure Bool
+      +isTemplate Bool
+      +templateVariables List~String~
+      +placeholderValues StringDict
+      +isCombo Bool
+      +comboValues List~String~
+      +autoDetectedType ClipboardItemType
+      +imageFileNames List~String~
+      +contentType ClipboardContentType
+      +attachedTemplateId UUID
+      +hint String
+    }
+
+    class OldMemo {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +title String
+      +value String
+      +isChecked Bool
+    }
+
+    class SmartClipboardHistory {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +content String
+      +copiedAt Date
+      +isTemporary Bool
+      +contentType ClipboardContentType
+      +imageData String
+      +detectedType ClipboardItemType
+      +confidence Double
+      +userCorrectedType ClipboardItemType
+      +tags List~String~
+    }
+
+    class ClipboardHistory {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +content String
+      +copiedAt Date
+      +isTemporary Bool
+    }
+
+    class PlaceholderValue {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +value String
+      +sourceMemoId UUID
+      +sourceMemoTitle String
+      +addedAt Date
+    }
+
+    class Combo {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +title String
+      +items List~ComboItem~
+      +interval TimeInterval
+      +category String
+      +useCount Int
+      +isFavorite Bool
+      +sortItems()
+    }
+
+    class ComboItem {
+      &lt;&lt;struct&gt;&gt;
+      +id UUID
+      +type ComboItemType
+      +referenceId UUID
+      +order Int
+      +displayTitle String
+      +displayValue String
+    }
+
+    class ClipboardItemType {
+      &lt;&lt;enum&gt;&gt;
+      +cases27 email_to_paypalLink
+      +icon String
+      +color String
+      +localizedName String
+    }
+
+    class ClipboardContentType {
+      &lt;&lt;enum&gt;&gt;
+      text
+      image
+      emoji
+      mixed
+    }
+
+    class ComboItemType {
+      &lt;&lt;enum&gt;&gt;
+      memo
+      clipboardHistory
+      template
+    }
+
+    class MemoType {
+      &lt;&lt;enum&gt;&gt;
+      memo
+      clipboardHistory
+      smartClipboardHistory
+      combo
+    }
+
+    class MemoStore {
+      &lt;&lt;service&gt;&gt;
+      +memos List~Memo~
+      +clipboardHistory List~ClipboardHistory~
+      +smartClipboardHistory List~SmartClipboardHistory~
+      +combos List~Combo~
+      +save(type)
+      +load(type)
+    }
+
+    class CloudKitBackupService {
+      &lt;&lt;service&gt;&gt;
+      +isAuthenticated Bool
+      +lastBackupDate Date
+      +autoBackupEnabled Bool
+      +backupData()
+      +restoreData()
+    }
+
+    Combo &quot;1&quot; *-- &quot;0..*&quot; ComboItem : items
+    MemoStore o-- &quot;0..*&quot; Memo : memos
+    MemoStore o-- &quot;0..*&quot; SmartClipboardHistory : smart
+    MemoStore o-- &quot;0..*&quot; ClipboardHistory : legacy
+    MemoStore o-- &quot;0..*&quot; Combo : combos
+
+    Memo --&gt; ClipboardItemType : autoDetectedType
+    Memo --&gt; ClipboardContentType : contentType
+    SmartClipboardHistory --&gt; ClipboardItemType : detectedType
+    SmartClipboardHistory --&gt; ClipboardContentType : contentType
+    ComboItem --&gt; ComboItemType : type
+    MemoStore --&gt; MemoType : routesBy
+
+    Memo ..&gt; &quot;0..1&quot; Memo : attachedTemplateId
+    ComboItem ..&gt; Memo : referenceId
+    ComboItem ..&gt; SmartClipboardHistory : referenceId
+    PlaceholderValue ..&gt; Memo : sourceMemoId
+    CloudKitBackupService ..&gt; Memo : backup
+    CloudKitBackupService ..&gt; SmartClipboardHistory : backup
+    CloudKitBackupService ..&gt; Combo : backup
+
+    OldMemo ..&gt; Memo : migrate
+    ClipboardHistory ..&gt; SmartClipboardHistory : migrate</pre>
+      </details>
+    </div>
+    
+  </section>
+
+  <section id="entities">
+    <h2>엔티티 상세</h2>
+    <div class="grid">
+
+      <!-- Memo -->
+      <div class="card">
+        <div class="title"><span class="tag struct">struct</span> Memo <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">title</td><td class="t">String</td></tr>
+          <tr><td class="k">value</td><td class="t">String</td></tr>
+          <tr><td class="k">isChecked</td><td class="t">Bool</td></tr>
+          <tr><td class="k">lastEdited</td><td class="t">Date</td></tr>
+          <tr><td class="k">isFavorite</td><td class="t">Bool</td></tr>
+          <tr><td class="k">clipCount</td><td class="t">Int</td></tr>
+          <tr><td class="k">lastUsedAt</td><td class="t opt">Date?</td></tr>
+          <tr><td class="k">category</td><td class="t">String = "기본"</td></tr>
+          <tr><td class="k">isSecure</td><td class="t">Bool</td></tr>
+          <tr><td class="k">isTemplate</td><td class="t">Bool</td></tr>
+          <tr><td class="k">templateVariables</td><td class="t">[String]</td></tr>
+          <tr><td class="k">placeholderValues</td><td class="t">[String:[String]]</td></tr>
+          <tr><td class="k">isCombo</td><td class="t">Bool</td></tr>
+          <tr><td class="k">comboValues</td><td class="t">[String]</td></tr>
+          <tr><td class="k">currentComboIndex</td><td class="t">Int</td></tr>
+          <tr><td class="k">autoDetectedType</td><td class="t ref">ClipboardItemType?</td></tr>
+          <tr><td class="k">imageFileName</td><td class="t opt">String?</td></tr>
+          <tr><td class="k">imageFileNames</td><td class="t">[String]</td></tr>
+          <tr><td class="k">contentType</td><td class="t ref">ClipboardContentType</td></tr>
+          <tr><td class="k">attachedTemplateId</td><td class="t ref">UUID? → Memo</td></tr>
+          <tr><td class="k">hint</td><td class="t opt">String?</td></tr>
+        </table>
+        <div class="cases"><b>분류 플래그</b> · isTemplate / isCombo / isSecure 로 메모 종류 구분. attachedTemplateId 로 다른 Memo(템플릿)를 선택적으로 첨부.</div>
+      </div>
+
+      <!-- SmartClipboardHistory -->
+      <div class="card">
+        <div class="title"><span class="tag struct">struct</span> SmartClipboardHistory <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">content</td><td class="t">String</td></tr>
+          <tr><td class="k">copiedAt</td><td class="t">Date</td></tr>
+          <tr><td class="k">isTemporary</td><td class="t">Bool</td></tr>
+          <tr><td class="k">contentType</td><td class="t ref">ClipboardContentType</td></tr>
+          <tr><td class="k">imageData</td><td class="t opt">String? (Base64)</td></tr>
+          <tr><td class="k">imageWidth</td><td class="t opt">Int?</td></tr>
+          <tr><td class="k">imageHeight</td><td class="t opt">Int?</td></tr>
+          <tr><td class="k">imageFormat</td><td class="t opt">String?</td></tr>
+          <tr><td class="k">detectedType</td><td class="t ref">ClipboardItemType</td></tr>
+          <tr><td class="k">confidence</td><td class="t">Double (0–1)</td></tr>
+          <tr><td class="k">sourceApp</td><td class="t opt">String?</td></tr>
+          <tr><td class="k">tags</td><td class="t">[String]</td></tr>
+          <tr><td class="k">autoSaveOffered</td><td class="t">Bool</td></tr>
+          <tr><td class="k">userCorrectedType</td><td class="t ref">ClipboardItemType?</td></tr>
+        </table>
+        <div class="cases">자동 분류 결과(detectedType + confidence)와 사용자 정정(userCorrectedType)을 함께 보관. 임시 항목은 7일 후 삭제.</div>
+      </div>
+
+      <!-- Combo -->
+      <div class="card">
+        <div class="title"><span class="tag struct">struct</span> Combo <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">title</td><td class="t">String</td></tr>
+          <tr><td class="k">items</td><td class="t ref">[ComboItem]</td></tr>
+          <tr><td class="k">interval</td><td class="t">TimeInterval = 2.0</td></tr>
+          <tr><td class="k">createdAt</td><td class="t">Date</td></tr>
+          <tr><td class="k">lastUsed</td><td class="t opt">Date?</td></tr>
+          <tr><td class="k">category</td><td class="t">String</td></tr>
+          <tr><td class="k">useCount</td><td class="t">Int</td></tr>
+          <tr><td class="k">isFavorite</td><td class="t">Bool</td></tr>
+        </table>
+        <div class="cases">여러 항목을 <b>순서대로 자동 입력</b>. items 를 order 기준으로 정렬(sortItems).</div>
+      </div>
+
+      <!-- ComboItem -->
+      <div class="card">
+        <div class="title"><span class="tag struct">struct</span> ComboItem <span class="proto">Identifiable, Codable, Equatable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">type</td><td class="t ref">ComboItemType</td></tr>
+          <tr><td class="k">referenceId</td><td class="t ref">UUID → Memo / Clip</td></tr>
+          <tr><td class="k">order</td><td class="t">Int</td></tr>
+          <tr><td class="k">displayTitle</td><td class="t opt">String?</td></tr>
+          <tr><td class="k">displayValue</td><td class="t opt">String?</td></tr>
+        </table>
+        <div class="cases">type 에 따라 referenceId 가 Memo / SmartClipboardHistory / 템플릿 Memo 를 가리킴.</div>
+      </div>
+
+      <!-- PlaceholderValue -->
+      <div class="card">
+        <div class="title"><span class="tag struct">struct</span> PlaceholderValue <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">value</td><td class="t">String</td></tr>
+          <tr><td class="k">sourceMemoId</td><td class="t ref">UUID → Memo</td></tr>
+          <tr><td class="k">sourceMemoTitle</td><td class="t">String</td></tr>
+          <tr><td class="k">addedAt</td><td class="t">Date</td></tr>
+        </table>
+        <div class="cases">템플릿 변수에 채운 값의 히스토리. UserDefaults 키 <code style="font-family:var(--mono)">placeholder_values_{변수}</code> 에 저장.</div>
+      </div>
+
+      <!-- ClipboardHistory (legacy) -->
+      <div class="card">
+        <div class="title"><span class="tag legacy">legacy</span> ClipboardHistory <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">content</td><td class="t">String</td></tr>
+          <tr><td class="k">copiedAt</td><td class="t">Date</td></tr>
+          <tr><td class="k">isTemporary</td><td class="t">Bool</td></tr>
+        </table>
+        <div class="cases">구버전 클립보드 → <b>SmartClipboardHistory</b> 로 마이그레이션(하위 호환 보관).</div>
+      </div>
+
+      <!-- OldMemo (legacy) -->
+      <div class="card">
+        <div class="title"><span class="tag legacy">legacy</span> OldMemo <span class="proto">Identifiable, Codable</span></div>
+        <table>
+          <tr><td class="k">id</td><td class="t">UUID</td></tr>
+          <tr><td class="k">title</td><td class="t">String</td></tr>
+          <tr><td class="k">value</td><td class="t">String</td></tr>
+          <tr><td class="k">isChecked</td><td class="t">Bool</td></tr>
+        </table>
+        <div class="cases">구버전 메모 → <b>Memo</b> 변환: <code style="font-family:var(--mono)">Memo(from: OldMemo)</code>.</div>
+      </div>
+
+      <!-- Enums -->
+      <div class="card">
+        <div class="title"><span class="tag enum">enum</span> ClipboardItemType <span class="proto">String, Codable, CaseIterable</span></div>
+        <div class="cases">
+          <b>25개 분류 + text/image</b> (rawValue 한글/영문)<br/>
+          email · phone · address · url · creditCard · bankAccount · passportNumber · declarationNumber · postalCode · name · birthDate · taxID · insuranceNumber · vehiclePlate · ipAddress · membershipNumber · trackingNumber · confirmationCode · medicalRecord · employeeID · image · text<br/>
+          <b>v4.0 글로벌</b> · iban · swift · vat · cryptoWallet · paypalLink<br/>
+          <span style="color:var(--accent)">computed</span> icon · color · localizedName
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title"><span class="tag enum">enum</span> ClipboardContentType <span class="proto">String, Codable</span></div>
+        <div class="cases"><b>text</b> · <b>image</b> · <b>emoji</b> · <b>mixed</b><br/>Memo·SmartClipboardHistory 의 콘텐츠 종류.</div>
+      </div>
+
+      <div class="card">
+        <div class="title"><span class="tag enum">enum</span> ComboItemType <span class="proto">String, Codable</span></div>
+        <div class="cases"><b>memo</b> "메모" · <b>clipboardHistory</b> "클립보드" · <b>template</b> "템플릿"<br/>ComboItem.referenceId 가 가리키는 대상 종류.</div>
+      </div>
+
+      <div class="card">
+        <div class="title"><span class="tag enum">enum</span> MemoType <span class="proto">(no rawValue)</span></div>
+        <div class="cases"><b>memo</b> · <b>clipboardHistory</b> · <b>smartClipboardHistory</b> · <b>combo</b><br/>MemoStore.save/load 라우팅 키 → 저장 파일 결정.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="persistence">
+    <h2>영속화 (로컬 · App Group)</h2>
+    <div class="storage">
+      <table>
+        <thead><tr><th>모델</th><th>파일</th><th>위치</th></tr></thead>
+        <tbody>
+          <tr><td><code>[Memo]</code></td><td><code>memos.data</code></td><td>App Group 컨테이너 (JSONEncoder)</td></tr>
+          <tr><td><code>[SmartClipboardHistory]</code></td><td><code>smart.clipboard.history.data</code></td><td>App Group 컨테이너</td></tr>
+          <tr><td><code>[ClipboardHistory]</code> (레거시)</td><td><code>clipboard.history.data</code></td><td>App Group 컨테이너</td></tr>
+          <tr><td><code>[Combo]</code></td><td><code>combos.data</code></td><td>App Group 컨테이너</td></tr>
+          <tr><td>이미지</td><td><code>Images/{UUID}.png</code></td><td>App Group <code>Images/</code> 폴더</td></tr>
+          <tr><td><code>[PlaceholderValue]</code></td><td><code>placeholder_values_{변수}</code></td><td>UserDefaults (JSON)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="sync">
+    <h2>동기화 / 마이그레이션</h2>
+    <ul class="note-list">
+      <li><b>CloudKitBackupService</b> — <code>[Memo]</code> · <code>[SmartClipboardHistory]</code> · <code>[Combo]</code> 를 CKAsset(JSON)으로 백업/복구. 자동 백업 5분 간격.</li>
+      <li><b>OldMemo → Memo</b> — <code>Memo(from:)</code> 변환 생성자. 누락 필드는 기본값으로 채움.</li>
+      <li><b>ClipboardHistory → SmartClipboardHistory</b> — 단순 히스토리에서 자동 분류 히스토리로 승격.</li>
+      <li><b>imageFileName → imageFileNames</b> — 단일→다중 이미지. 둘 다 디코딩 지원(하위 호환).</li>
+      <li><b>분류 우선순위</b> — 구체적 패턴 먼저: RRN → 사업자번호 → 카드번호 → 생년월일 → 계좌번호.</li>
+    </ul>
+    <p class="meta" style="margin-top:14px">참고: iOS/macOS 공유본 <code>Shared/Models/SharedModels.swift</code> 가 동일 구조를 갖고, <code>Model/Memo.swift</code> 가 최신 정본입니다.</p>
+  </section>
+</main>
+
+<footer>
+  ClipKeyboard 데이터 모델 UML · 자동 생성 문서 · <code>docs/data-model-uml.html</code>
+</footer>
+
+
+</body>
+</html>

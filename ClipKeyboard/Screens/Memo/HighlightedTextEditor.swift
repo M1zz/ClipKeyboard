@@ -70,18 +70,25 @@ struct HighlightedTextEditor: UIViewRepresentable {
     }
 
     /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 — 강조색 + 은은한 배경.
-    /// 편집 가능한 입력칸이라 중괄호는 지우지 않고 토큰 전체를 색으로 묶는다.
+    /// 편집 가능한 입력칸이므로 중괄호는 텍스트에 남기되, `{`·`}` 글자만 투명색으로 처리해
+    /// 화면에는 칩 배경 안에 변수명만 보이게 한다(4.3.0 스타일 — 중괄호 노출 X).
     static func applyTemplateVariableHighlight(to storage: NSMutableAttributedString) {
         let pattern = "\\{[^}]+\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
         let fullRange = NSRange(location: 0, length: storage.length)
         regex.enumerateMatches(in: storage.string, range: fullRange) { match, _, _ in
-            guard let range = match?.range else { return }
+            guard let range = match?.range, range.length >= 2 else { return }
+            // 토큰 전체에 칩 배경 + 강조색.
             storage.addAttributes([
                 .foregroundColor: UIColor.systemBlue,
                 .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.12),
                 .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
             ], range: range)
+            // 여는/닫는 중괄호 글자만 투명 처리 — 배경(칩)은 유지되어 좌우 여백처럼 보인다.
+            storage.addAttribute(.foregroundColor, value: UIColor.clear,
+                                 range: NSRange(location: range.location, length: 1))
+            storage.addAttribute(.foregroundColor, value: UIColor.clear,
+                                 range: NSRange(location: range.location + range.length - 1, length: 1))
         }
     }
 

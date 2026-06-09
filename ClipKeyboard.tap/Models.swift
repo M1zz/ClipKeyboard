@@ -188,6 +188,9 @@ struct Memo: Identifiable, Codable {
     var isCombo: Bool = false
     var comboValues: [String] = []
     var currentComboIndex: Int = 0
+    /// 콤보 = 자식 메모 참조(순서 있음). iOS와 round-trip 포맷 일치.
+    var childMemoIds: [UUID] = []
+    var comboInterval: TimeInterval = 2.0
     var autoDetectedType: ClipboardItemType?
 
     // 이미지 지원
@@ -218,7 +221,38 @@ struct Memo: Identifiable, Codable {
         case lastEdited, isFavorite, clipCount
         case category, isSecure, isTemplate, templateVariables, shortcut, placeholderValues
         case lastUsedAt, isCombo, comboValues, currentComboIndex, autoDetectedType
+        case childMemoIds, comboInterval
         case imageFileName, imageFileNames, contentType
+    }
+
+    /// 관용 디코더 — 누락 키를 모두 기본값으로 허용한다. ⚠️ 하위호환 필수:
+    /// 합성 Codable은 비옵셔널 키 누락 시 keyNotFound로 [Memo] 전체 디코딩을 무너뜨린다.
+    /// iOS/구버전이 쓴 데이터에 일부 키가 없어도 macOS 앱에서 메모가 사라지지 않게 한다.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        self.title = try c.decodeIfPresent(String.self, forKey: .title) ?? ""
+        self.value = try c.decodeIfPresent(String.self, forKey: .value) ?? ""
+        self.isChecked = try c.decodeIfPresent(Bool.self, forKey: .isChecked) ?? false
+        self.lastEdited = try c.decodeIfPresent(Date.self, forKey: .lastEdited) ?? Date()
+        self.isFavorite = try c.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+        self.clipCount = try c.decodeIfPresent(Int.self, forKey: .clipCount) ?? 0
+        self.category = try c.decodeIfPresent(String.self, forKey: .category) ?? "기본"
+        self.isSecure = try c.decodeIfPresent(Bool.self, forKey: .isSecure) ?? false
+        self.isTemplate = try c.decodeIfPresent(Bool.self, forKey: .isTemplate) ?? false
+        self.templateVariables = try c.decodeIfPresent([String].self, forKey: .templateVariables) ?? []
+        self.shortcut = try c.decodeIfPresent(String.self, forKey: .shortcut)
+        self.placeholderValues = try c.decodeIfPresent([String: [String]].self, forKey: .placeholderValues) ?? [:]
+        self.lastUsedAt = try c.decodeIfPresent(Date.self, forKey: .lastUsedAt)
+        self.isCombo = try c.decodeIfPresent(Bool.self, forKey: .isCombo) ?? false
+        self.comboValues = try c.decodeIfPresent([String].self, forKey: .comboValues) ?? []
+        self.currentComboIndex = try c.decodeIfPresent(Int.self, forKey: .currentComboIndex) ?? 0
+        self.childMemoIds = try c.decodeIfPresent([UUID].self, forKey: .childMemoIds) ?? []
+        self.comboInterval = try c.decodeIfPresent(TimeInterval.self, forKey: .comboInterval) ?? 2.0
+        self.autoDetectedType = try c.decodeIfPresent(ClipboardItemType.self, forKey: .autoDetectedType)
+        self.imageFileName = try c.decodeIfPresent(String.self, forKey: .imageFileName)
+        self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
+        self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
     }
 }
 

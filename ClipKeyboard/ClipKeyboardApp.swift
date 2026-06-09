@@ -21,9 +21,25 @@ struct ClipKeyboardApp: App {
     /// 기존 사용자에게 데모 샘플 체험을 1회 물어보는 알림
     @State private var showDemoSampleOffer = false
 
+    /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
+    /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
+    /// 일반 실행에는 없다. 테스트 중에는 Firebase·스케줄러·마이그레이션 등 무거운
+    /// 런치 작업을 건너뛰어 테스트 러너가 곧바로 연결되게 한다.
+    static let isRunningUnitTests: Bool =
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+
     init() {
+        if ClipKeyboardApp.isRunningUnitTests {
+            print("🧪 [APP INIT] 유닛 테스트 모드 — 무거운 초기화 스킵")
+            return
+        }
+
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
         print("📱 [APP INIT] DataManager 생성됨")
+
+        // 콤보/attached 데이터 모델 통합 마이그레이션 — 다른 어떤 load/save보다 먼저 실행해
+        // 레거시 키(isCombo/comboValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
+        migrateComboModelIfNeeded()
 
         // Firebase 초기화 — GoogleService-Info.plist 자동 로드
         // Analytics 데이터 수집 여부는 Firebase Console 설정에 따름
@@ -189,6 +205,147 @@ struct ClipKeyboardApp: App {
         }
     }
 
+    /// 레거시 메모의 콤보/attached 필드만 원본 JSON에서 읽기 위한 경량 디코더.
+    /// (신 Memo 모델은 이 키들을 더 이상 디코드하지 않으므로 별도로 읽어야 한다.)
+    private struct LegacyMemoFields: Decodable {
+        let id: UUID
+        var isCombo: Bool = false
+        var comboValues: [String] = []
+        var attachedTemplateId: UUID? = nil
+        enum CodingKeys: String, CodingKey { case id, isCombo, comboValues, attachedTemplateId }
+        init(from decoder: Decoder) throws {
+            let c = try decoder.container(keyedBy: CodingKeys.self)
+            id = try c.decode(UUID.self, forKey: .id)
+            isCombo = try c.decodeIfPresent(Bool.self, forKey: .isCombo) ?? false
+            comboValues = try c.decodeIfPresent([String].self, forKey: .comboValues) ?? []
+            attachedTemplateId = try c.decodeIfPresent(UUID.self, forKey: .attachedTemplateId)
+        }
+    }
+
+    private var appGroupContainerURL: URL? {
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo")
+    }
+
+    /// 변환되지 않은 레거시 콤보/attached 데이터가 디스크에 남아있는지 빠르게 감지.
+    /// (combos.data 존재, 또는 memos.data 원본에 레거시 키가 살아있으면 true.)
+    /// CloudKit으로 옛 백업을 복원한 경우처럼 플래그가 이미 set돼 있어도 재변환이 필요한 상황을 잡아낸다.
+    private func hasLegacyComboData() -> Bool {
+        // 1) 플랫 콤보 파일이 비어있지 않게 존재
+        if let url = appGroupContainerURL?.appendingPathComponent("combos.data"),
+           let d = try? Data(contentsOf: url), d.count > 2 {
+            return true
+        }
+        // 2) 메모 원본에 레거시 콤보/attached 키가 살아있음 (신 모델 save 후엔 사라짐)
+        if let url = appGroupContainerURL?.appendingPathComponent("memos.data"),
+           let d = try? Data(contentsOf: url),
+           let s = String(data: d, encoding: .utf8) {
+            if s.contains("\"isCombo\":true") { return true }
+            if s.contains("\"attachedTemplateId\":\"") { return true }
+        }
+        return false
+    }
+
+    /// 콤보/메모+템플릿 데이터 모델 통합 마이그레이션.
+    /// - 레거시 메모 내장 콤보(isCombo+comboValues) → 자식 메모 생성 + childMemoIds
+    /// - attachedTemplateId → 본문을 합쳐 일반 메모로 (compose)
+    /// - 플랫 Combo(combos.data) → childMemoIds를 가진 콤보 Memo
+    ///
+    /// 하위호환 강화 포인트:
+    /// - init 맨 앞 + onAppear + CloudKit 복원 후 모두에서 호출(멱등). 다른 load/save가 레거시 키를
+    ///   지우기 전에 원본 JSON에서 먼저 읽는다.
+    /// - 플래그가 set돼 있어도 `hasLegacyComboData()`가 참이면 재실행(옛 백업 복원 대비).
+    /// - 단일 save로 원자적 적용. 실패 시 플래그 미set → 다음 기회에 재시도.
+    private func migrateComboModelIfNeeded() {
+        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let alreadyMigrated = (g?.bool(forKey: "comboModelUnifyMigrated_v1") == true)
+        // 이미 변환됐고 남은 레거시 데이터도 없으면 빠르게 종료.
+        guard !alreadyMigrated || hasLegacyComboData() else { return }
+        do {
+            // 1) 원본 JSON에서 레거시 필드 먼저 읽기 (이후 save로 사라지기 전에).
+            //    OldMemo 등 과거 포맷도 id만 있으면 디코드됨(콤보 필드는 기본값).
+            var legacyById: [UUID: LegacyMemoFields] = [:]
+            if let url = appGroupContainerURL?.appendingPathComponent("memos.data"),
+               let data = try? Data(contentsOf: url),
+               let legacy = try? JSONDecoder().decode([LegacyMemoFields].self, from: data) {
+                for l in legacy { legacyById[l.id] = l }
+            }
+
+            var memos = try MemoStore.shared.load(type: .memo)   // 신 모델 (comboValues 보유 메모는 그대로 디코드)
+            var converted = false
+
+            // 2) attachedTemplate → 본문 합치기 + dev childMemoIds 콤보 → comboValues.
+            //    (레거시 메모 내장 콤보의 comboValues는 모델에 그대로 디코드되어 별도 변환 불필요.)
+            let valueById = Dictionary(memos.map { ($0.id, $0.value) }, uniquingKeysWith: { a, _ in a })
+            for i in memos.indices {
+                if let L = legacyById[memos[i].id],
+                   let tId = L.attachedTemplateId,
+                   let tmpl = memos.first(where: { $0.id == tId }) {
+                    memos[i].value = TemplateVariableProcessor.compose(
+                        memoValue: memos[i].value, templateBody: tmpl.value, templateInputs: [:])
+                    converted = true
+                }
+                // dev(미출시)에서 만든 childMemoIds 콤보 → 참조 메모 value를 comboValues 단계로 펼침.
+                if memos[i].comboValues.isEmpty, !memos[i].childMemoIds.isEmpty {
+                    let steps = memos[i].childMemoIds.compactMap { valueById[$0] }.filter { !$0.isEmpty }
+                    if !steps.isEmpty {
+                        memos[i].comboValues = steps
+                        memos[i].childMemoIds = []
+                        converted = true
+                    }
+                }
+            }
+
+            // 3) 플랫 Combo(combos.data) → comboValues를 가진 콤보 Memo (기존 Combo 타입으로 디코드)
+            let combos = (try? MemoStore.shared.loadCombos()) ?? []
+            for c in combos where !memos.contains(where: { $0.id == c.id }) {
+                var steps: [String] = []
+                for item in c.items.sorted(by: { $0.order < $1.order }) {
+                    if (item.type == .memo || item.type == .template),
+                       let v = valueById[item.referenceId], !v.isEmpty {
+                        steps.append(v)
+                    } else {
+                        let v = item.displayValue ?? ""
+                        let t = (item.displayTitle ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+                        if !v.isEmpty { steps.append(v) }
+                        else if !t.isEmpty { steps.append(t) }
+                    }
+                }
+                guard !steps.isEmpty else { continue }   // 빈 콤보는 만들지 않음
+                var comboMemo = Memo(
+                    id: c.id, title: c.title, value: "",
+                    isFavorite: c.isFavorite, category: c.category,
+                    comboValues: steps, comboInterval: c.interval, lastUsedAt: c.lastUsed)
+                comboMemo.clipCount = c.useCount
+                memos.append(comboMemo)
+                converted = true
+            }
+            // 변경이 있을 때만 저장(불필요한 디스크 쓰기 방지).
+            if converted {
+                try MemoStore.shared.save(memos: memos, type: .memo)
+            }
+
+            // 4) combos.data 삭제(없으면 무시) + 플래그
+            if let url = appGroupContainerURL?.appendingPathComponent("combos.data") {
+                try? FileManager.default.removeItem(at: url)
+            }
+            g?.set(true, forKey: "comboModelUnifyMigrated_v1")
+            print("🔄 [APP MIGRATION] 콤보 모델 통합 완료 (변경=\(converted))")
+        } catch {
+            print("❌ [APP MIGRATION] 콤보 모델 마이그레이션 실패: \(error)")
+        }
+    }
+
+    /// 구 "카테고리 심볼" 토글(categoryBadgeVisible, standard UD)을 신 마스터 토글
+    /// showVisualCues(App Group)로 1회 승계. 켜둔 사용자는 계속 구분 표시가 보이도록.
+    private func migrateVisualCuesIfNeeded() {
+        let std = UserDefaults.standard
+        guard !std.bool(forKey: "visualCuesMigrated_v1") else { return }
+        if std.object(forKey: "categoryBadgeVisible") as? Bool == true {
+            UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(true, forKey: "showVisualCues")
+        }
+        std.set(true, forKey: "visualCuesMigrated_v1")
+    }
+
     private func insertDefaultSamplesIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
         if performSampleInsertion() {
@@ -215,29 +372,27 @@ struct ClipKeyboardApp: App {
             value: "example@email.com",
             isFavorite: true
         )
-        // 2) 템플릿 — {빈칸}을 채워 완성
+        // 2) 템플릿 — 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
         let template = Memo(
             title: isKorean ? "회신 템플릿" : "Reply Template",
             value: isKorean
                 ? "{이름}님, 문의 주셔서 감사합니다.\n{날짜}까지 답변드릴게요."
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: work,
-            isTemplate: true
+            templateVariables: isKorean ? ["{이름}"] : ["{name}"]
         )
-        // 3) 콤보 — 여러 값을 순서대로 입력
+        // 3) 콤보 — 메모 안에 순서 있는 단계들(comboValues)
         let combo = Memo(
             title: isKorean ? "이름 + 연락처" : "Name + Contact",
             value: "",
             category: personal,
-            isCombo: true,
             comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
         )
-        // 4) 일반 메모 + 템플릿 — 고정 인사말 뒤에 템플릿 빈칸이 함께 채워짐
+        // 4) 일반 메모 (고정 인사말 + 회신 양식을 한 메모로 합침)
         let memoWithTemplate = Memo(
-            title: isKorean ? "인사말 + 회신 (탭)" : "Greeting + Reply (tap)",
-            value: isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!",
-            category: work,
-            attachedTemplateId: template.id
+            title: isKorean ? "인사말 + 회신" : "Greeting + Reply",
+            value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
+            category: work
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
     }
@@ -251,16 +406,15 @@ struct ClipKeyboardApp: App {
                 ? "{금액}을 {수신인}에게 보냅니다\nIBAN: {iban}\nSWIFT: {swift}\n참조: {참조번호}"
                 : "Pay {amount} to {recipient}\nIBAN: {iban}\nSWIFT: {swift}\nRef: {reference}",
             category: finance,
-            isTemplate: true
+            templateVariables: isKorean
+                ? ["{금액}", "{수신인}", "{iban}", "{swift}", "{참조번호}"]
+                : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"]
         )
         let combo = Memo(
             title: isKorean ? "내 연락처" : "My Contact",
             value: "",
             category: travel,
-            isCombo: true,
-            comboValues: isKorean
-                ? ["이름", "이메일", "전화번호"]
-                : ["Full Name", "Email", "Phone"]
+            comboValues: isKorean ? ["이름", "이메일", "전화번호"] : ["Full Name", "Email", "Phone"]
         )
         // 즐겨찾기 — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let checklist = Memo(
@@ -270,18 +424,22 @@ struct ClipKeyboardApp: App {
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
             isFavorite: true
         )
-        // 일반 메모 + 템플릿 — 고정 안내문 뒤에 송금 양식 빈칸이 함께 채워짐
+        // 일반 메모 (고정 안내문 + 송금 양식을 한 메모로 합침)
         let noteWithTemplate = Memo(
-            title: isKorean ? "송금 안내 + 양식 (탭)" : "Payment note + form (tap)",
-            value: isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.",
-            category: finance,
-            attachedTemplateId: template.id
+            title: isKorean ? "송금 안내 + 양식" : "Payment note + form",
+            value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
+            category: finance
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
     }
 
     var body: some Scene {
         WindowGroup {
+            // 테스트 호스트: 무거운 화면/onAppear 마이그레이션 없이 빈 뷰만 띄워
+            // 테스트 러너가 즉시 연결되게 한다. (ViewBuilder 조건 분기)
+            if ClipKeyboardApp.isRunningUnitTests {
+                Color.clear
+            } else {
             AppThemedContainer {
             ClipKeyboardList()
                 .environmentObject(storeManager)
@@ -293,6 +451,8 @@ struct ClipKeyboardApp: App {
                     handleOpenURL(url)
                 }
                 .onAppear {
+                    migrateComboModelIfNeeded()
+                    migrateVisualCuesIfNeeded()
                     migrateKoreanEnabledIfNeeded()
                     migrateSecureMemoEncryptionIfNeeded()
                     insertDefaultSamplesIfNeeded()
@@ -339,6 +499,7 @@ struct ClipKeyboardApp: App {
                     Text(NSLocalizedString("템플릿·콤보·메모+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 메모는 그대로 유지돼요.", comment: "Demo samples offer message"))
                 }
         } // AppThemedContainer
+            } // else (비테스트 실행)
 
         }
         #if targetEnvironment(macCatalyst)

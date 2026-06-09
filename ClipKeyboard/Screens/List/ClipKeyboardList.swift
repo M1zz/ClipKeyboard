@@ -75,6 +75,7 @@ struct ClipKeyboardList: View {
     // MARK: - View-only State
 
     @State private var isSearchBarVisible = false
+    @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo? = nil
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     // 가치 순간 Pro 넛지 — 1회·닫기 가능 (페이월 노출률 향상)
@@ -86,9 +87,18 @@ struct ClipKeyboardList: View {
     @State private var occasionalSuggestion_: SuggestionTemplate? = nil
     @State private var navigateToOccasionalAdd: Bool = false
 
-    // Category badge nudge
-    @State private var categoryBadgeVisible: Bool = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
+    // 메모 구분 표시 마스터 토글 — 기본 OFF(제목만, 가장 심플).
+    // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
+    // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var showVisualCues: Bool = false
     @State private var showCategoryBadgeNudge: Bool = false
+
+    /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부.
+    /// iOS "색상 없이 구별"(접근성) ON 또는 설정 "메모 구분 표시" 토글 ON일 때 표시.
+    private var visualCuesVisible: Bool {
+        differentiateWithoutColor || showVisualCues
+    }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
 
@@ -141,6 +151,8 @@ struct ClipKeyboardList: View {
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// iOS "색상 없이 구별"(Differentiate Without Color)이 켜졌을 때만 메모 타입 테두리를 표시.
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -173,17 +185,8 @@ struct ClipKeyboardList: View {
         return String(format: NSLocalizedString("무료 메모 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                // 현재 탭에 따라 배경색이 부드럽게 전환
-                tabBackgroundColor
-                    .ignoresSafeArea()
-                    .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
-
-                // v4.1.0: 활성화 배너를 메모 위에 overlay하지 않고 VStack flow 안에
-                // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
-                // GraceQuotaBanner 등)과 통일된 패턴.
+    @ViewBuilder
+    private var mainColumn: some View {
                 VStack(spacing: 0) {
                     // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
                     // 페이월을 영영 안 보던 캐주얼 무료 유저에게 노출을 만들어줌.
@@ -251,6 +254,19 @@ struct ClipKeyboardList: View {
                         tabPageView(for: .all)
                     }
                 }
+    }
+
+    private var screenBody: some View {
+            ZStack {
+                // 현재 탭에 따라 배경색이 부드럽게 전환
+                tabBackgroundColor
+                    .ignoresSafeArea()
+                    .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
+
+                // v4.1.0: 활성화 배너를 메모 위에 overlay하지 않고 VStack flow 안에
+                // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
+                // GraceQuotaBanner 등)과 통일된 패턴.
+                mainColumn
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if isSearchBarVisible {
@@ -309,6 +325,10 @@ struct ClipKeyboardList: View {
             } message: {
                 Text(NSLocalizedString("카테고리가 생성되고 이 메모가 바로 이동됩니다.", comment: "Create category and assign message"))
             }
+    }
+
+    private var screenBody2: some View {
+        screenBody
             .sheet(isPresented: $showStarterPack, onDismiss: { viewModel.loadMemos() }) {
                 StarterPackView { count in
                     viewModel.showPlainToast(
@@ -364,7 +384,10 @@ struct ClipKeyboardList: View {
             .toolbar(.hidden, for: .navigationBar)
             #endif
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
-            // 검색 및 필터 변경 감지
+    }
+
+    private var screenL3: some View {
+        screenBody2
             .onChange(of: viewModel.searchQueryString) { _, _ in viewModel.applyFilters() }
             .onChange(of: viewModel.selectedTypeFilter) { _, _ in
                 viewModel.applyFilters()
@@ -372,6 +395,10 @@ struct ClipKeyboardList: View {
             }
             .onChange(of: viewModel.showFavoritesFilter) { _, _ in viewModel.applyFilters() }
             // 인증 실패 Alert
+    }
+
+    private var screenL4: some View {
+        screenL3
             .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $viewModel.showAuthAlert) {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
             } message: {
@@ -451,6 +478,10 @@ struct ClipKeyboardList: View {
                 }
             }
             // 순서 바꾸기 — 전체 메모 흔들기/드래그 재정렬 (전체화면)
+    }
+
+    private var screenL5: some View {
+        screenL4
             .fullScreenCover(isPresented: $viewModel.isReorderMode) {
                 reorderModeView
             }
@@ -479,6 +510,10 @@ struct ClipKeyboardList: View {
             } message: {
                 Text(NSLocalizedString("즐겨찾기 메모를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
             }
+    }
+
+    private var screenL6: some View {
+        screenL5
             .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
                 NavigationStack {
                     MemoAdd(
@@ -487,9 +522,7 @@ struct ClipKeyboardList: View {
                         insertedValue: memo.value,
                         insertedCategory: memo.category,
                         insertedIsTemplate: memo.isTemplate,
-                        insertedIsSecure: memo.isSecure,
-                        insertedIsCombo: memo.isCombo,
-                        insertedComboValues: memo.comboValues
+                        insertedIsSecure: memo.isSecure
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
@@ -538,6 +571,10 @@ struct ClipKeyboardList: View {
                     }
                 }
             }
+    }
+
+    private var screenL7: some View {
+        screenL6
             .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: nil)
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
@@ -545,10 +582,19 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 viewModel.onSceneResume()
             }
+    }
+
+    private var screenL8: some View {
+        screenL7
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
+    }
+
+    var body: some View {
+        NavigationStack {
+            screenL8
         }
     }
 
@@ -564,6 +610,8 @@ struct ClipKeyboardList: View {
 
             TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
                 .textFieldStyle(PlainTextFieldStyle())
+                .focused($isSearchFieldFocused)
+                .submitLabel(.search)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .accessibilityLabel(NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
@@ -608,9 +656,19 @@ struct ClipKeyboardList: View {
                     .accessibilityHidden(true)
                 Spacer()
                 Button {
+                    HapticManager.shared.soft()
                     dismissGhostPattern(pattern)
-                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                    if reduceMotion {
                         refreshGhostSuggestion()
+                    } else {
+                        // 1) 현재 제안이 점차 작아지면서 사라짐
+                        withAnimation(.easeIn(duration: 0.22)) { ghostSuggestion = nil }
+                        // 2) 다음 제안이 있으면 작은 네모부터 커지면서 등장
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
+                            withAnimation(.spring(response: 0.42, dampingFraction: 0.62)) {
+                                refreshGhostSuggestion()
+                            }
+                        }
                     }
                 } label: {
                     Image(systemName: "xmark")
@@ -650,6 +708,10 @@ struct ClipKeyboardList: View {
         .accessibilityAddTraits(.isButton)
         .accessibilityLabel(String(format: NSLocalizedString("추천 메모 %@", comment: "VoiceOver: suggested memo"), pattern.title))
         .accessibilityHint(NSLocalizedString("눌러서 채워서 추가해보기", comment: "VoiceOver: ghost memo hint"))
+        // 제안 교체 시 작은 네모에서 커지며 등장 / 닫으면 작아지며 사라지는 트랜지션.
+        // 패턴이 바뀌면 id가 달라져 퇴장→등장이 분리되어 애니메이션된다.
+        .id(pattern.title)
+        .transition(.scale(scale: 0.2, anchor: .center).combined(with: .opacity))
     }
 
     private func memoGridCell(memo: Memo) -> some View {
@@ -750,27 +812,28 @@ struct ClipKeyboardList: View {
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
 
         return VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 4) {
-                memoTypeIcon(memo: memo, onColor: onColor)
-                Spacer()
-                // 우상단 = 카테고리 식별 심볼만(색맹 대비). 즐겨찾기는 하트, 커스텀 카테고리는 지정 심볼.
-                if memo.isFavorite {
-                    Image(systemName: "heart.fill")
-                        .font(.title2)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                        .accessibilityHidden(true)
-                } else if categoryBadgeVisible,
-                          CategoryStore.shared.isFeatureEnabled,
-                          viewModel.customCategories.contains(memo.category) {
-                    Image(systemName: customCategoryIcon(memo.category))
-                        .font(.title2)
-                        .foregroundColor(onColor
-                            ? .white.opacity(0.85)
-                            : customCategoryColor(memo.category))
-                        .accessibilityHidden(true)
+            // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
+            if visualCuesVisible {
+                HStack(alignment: .top, spacing: 4) {
+                    memoTypeIcon(memo: memo, onColor: onColor)
+                    Spacer()
+                    if memo.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .font(.title2)
+                            .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
+                            .accessibilityHidden(true)
+                    } else if CategoryStore.shared.isFeatureEnabled,
+                              viewModel.customCategories.contains(memo.category) {
+                        Image(systemName: customCategoryIcon(memo.category))
+                            .font(.title2)
+                            .foregroundColor(onColor
+                                ? .white.opacity(0.85)
+                                : customCategoryColor(memo.category))
+                            .accessibilityHidden(true)
+                    }
                 }
+                Spacer(minLength: 16)
             }
-            Spacer(minLength: 16)
             Text(memo.title)
                 .font(.title2.weight(.semibold))
                 .foregroundColor(onColor ? .white : theme.text)
@@ -797,6 +860,7 @@ struct ClipKeyboardList: View {
     /// 색은 '카테고리'를 의미한다 — 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
     private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
         if hasImage { return true }
+        // 카테고리/즐겨찾기 색은 '카테고리 정체성'이라 항상 표시(구분 표시 토글과 무관).
         if memo.isFavorite || memo.isSecure { return true }
         if CategoryStore.shared.isFeatureEnabled,
            viewModel.customCategories.contains(memo.category) { return true }
@@ -812,9 +876,6 @@ struct ClipKeyboardList: View {
         }
         if memo.isSecure { parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
-        if !memo.isTemplate, memo.attachedTemplateId != nil {
-            parts.append(NSLocalizedString("옵션 템플릿 연결됨", comment: "VoiceOver: attached template badge"))
-        }
         if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
         if CategoryStore.shared.isFeatureEnabled, viewModel.customCategories.contains(memo.category) {
             parts.append(NSLocalizedString(memo.category, comment: "Category name"))
@@ -832,7 +893,9 @@ struct ClipKeyboardList: View {
 
     /// 메모 타입별 테두리 — 키보드 익스텐션 typeStyle과 정확히 동일.
     /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
+    /// 색맹 보조용이므로 iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 깔끔한 카드).
     private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
+        guard visualCuesVisible else { return (.clear, 0, []) }
         if memo.isTemplate || !memo.templateVariables.isEmpty {
             return (.purple, 1.5, [])
         }
@@ -841,20 +904,12 @@ struct ClipKeyboardList: View {
         return (.clear, 0, [])
     }
 
-    @ViewBuilder
     private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
-        // 메모+템플릿이면 [메모 심볼 + 막대기(wand) 심볼]을 같은 색으로 왼쪽 정렬.
         let color = onColor ? Color.white.opacity(0.9) : theme.textFaint
-        let hasAttachedTemplate = !memo.isTemplate && memo.attachedTemplateId != nil
         return HStack(spacing: 4) {
             Image(systemName: memoTypeIconName(memo: memo))
                 .font(.title2)
                 .foregroundStyle(color)
-            if hasAttachedTemplate {
-                Image(systemName: "wand.and.sparkles")
-                    .font(.title2)
-                    .foregroundStyle(color)
-            }
         }
         .accessibilityHidden(true)
     }
@@ -871,11 +926,11 @@ struct ClipKeyboardList: View {
                 )
             }
         } else if memo.isFavorite {
-            // 즐겨찾기 = 분홍 (기본 제공되는 즐겨찾기 카테고리 색)
+            // 즐겨찾기 = 분홍 (카테고리 색이므로 항상 표시)
             Color.clipFavorite
         } else if CategoryStore.shared.isFeatureEnabled,
                   viewModel.customCategories.contains(memo.category) {
-            // 색 = 카테고리 (타입은 좌상단 아이콘으로 구분)
+            // 색 = 카테고리 (항상 표시)
             customCategoryColor(memo.category)
         } else if memo.isSecure {
             Color(uiColor: .systemGray3)
@@ -890,6 +945,7 @@ struct ClipKeyboardList: View {
     /// 즐겨찾기는 분홍, 커스텀 카테고리는 그 카테고리 색, 전체는 무채색.
     private var tabIndicatorColor: Color {
         switch viewModel.selectedCategoryTab {
+        case .basic:     return .gray
         case .all:       return .gray
         case .favorites: return .clipFavorite
         case .builtIn(let b): return b.tint
@@ -900,6 +956,7 @@ struct ClipKeyboardList: View {
     /// 현재 탭에 맞는 배경색 — all=흰색, favorites=핑크, custom=팔레트색
     private var tabBackgroundColor: Color {
         switch viewModel.selectedCategoryTab {
+        case .basic:     return theme.bg
         case .all:       return theme.bg
         case .favorites: return Color.clipFavorite.opacity(0.10)
         case .builtIn(let b): return b.tint.opacity(0.08)
@@ -1124,9 +1181,15 @@ struct ClipKeyboardList: View {
     private func tabPageView(for tab: CategoryTab) -> some View {
         let filtered = viewModel.memos(for: tab)
         switch tab {
+        case .basic:
+            if !filtered.isEmpty {
+                allTabScrollView(memos: filtered)
+            } else {
+                EmptyListView
+            }
         case .all:
             if !viewModel.memos.isEmpty {
-                allTabScrollView
+                allTabScrollView(memos: viewModel.memos)
             } else {
                 EmptyListView
             }
@@ -1263,7 +1326,7 @@ struct ClipKeyboardList: View {
             .accessibilityHint(NSLocalizedString("드래그하여 순서를 바꿉니다", comment: "Reorder cell a11y hint"))
     }
 
-    private var allTabScrollView: some View {
+    private func allTabScrollView(memos allMemos: [Memo]) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
                 // 상단 여백 — Dynamic Island 아래 숨 쉬는 공간
@@ -1310,7 +1373,6 @@ struct ClipKeyboardList: View {
                 // 정렬: 즐겨찾기 먼저 + lastEdited 내림차순 (viewModel.memos = sortMemos 결과).
                 // 사용량(lastUsedAt) 기반 재정렬은 의도적으로 적용하지 않음 — 사용자가 위치를
                 // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
-                let allMemos = viewModel.memos
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
                         // 고스트(가상) 메모 — 실제 메모 셀과 같은 모양, 흐릿하게.
@@ -1398,6 +1460,8 @@ struct ClipKeyboardList: View {
     @ViewBuilder
     private func addCard(for tab: CategoryTab) -> some View {
         switch tab {
+        case .basic:
+            EmptyView()
         case .all:
             EmptyView()
         case .favorites:
@@ -1690,13 +1754,6 @@ struct ClipKeyboardList: View {
                     if memo.isTemplate {
                         TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
                     }
-                    // v4.0.8: 옵션 템플릿이 연결된 일반 메모 — Template 배지와 시각 구분
-                    if !memo.isTemplate && memo.attachedTemplateId != nil {
-                        TagBadge(
-                            label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
-                            tint: .purple
-                        )
-                    }
                     if memo.isCombo {
                         TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
                     }
@@ -1863,6 +1920,14 @@ struct ClipKeyboardList: View {
                     viewModel.searchQueryString = ""
                 }
             }
+            // 검색바가 열리면 자동으로 키보드를 띄움 (TextField가 화면에 마운트된 뒤 포커스)
+            if isSearchBarVisible {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    isSearchFieldFocused = true
+                }
+            } else {
+                isSearchFieldFocused = false
+            }
         } label: {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(isSearchBarVisible ? .blue : .secondary)
@@ -1937,6 +2002,7 @@ struct ClipKeyboardList: View {
         Spacer()
 
         Menu {
+            // 통합 모델: 사용자는 "메모"만 만든다. 변수({…})를 넣으면 템플릿, 이어지는 메모를 더하면 콤보가 된다.
             Button {
                 HapticManager.shared.light()
                 if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
@@ -1944,19 +2010,6 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: "square.and.pencil")
             }
-            Button {
-                HapticManager.shared.light()
-                showAddTemplateSheet = true
-            } label: {
-                Label(NSLocalizedString("새 템플릿 만들기", comment: "Menu: new template"), systemImage: "wand.and.sparkles")
-            }
-            Button {
-                HapticManager.shared.light()
-                showAddComboSheet = true
-            } label: {
-                Label(NSLocalizedString("새 콤보 만들기", comment: "Menu: new combo"), systemImage: "square.stack.3d.forward.dottedline.fill")
-            }
-            // '이미지 메모 추가' 제거 — 새 메모에서 바로 이미지 첨부 가능(중복 제거)
             Divider()
             Button {
                 showBulkImport = true
@@ -2181,7 +2234,7 @@ struct ClipKeyboardList: View {
 
     /// 메모 복사 시 호출 — 3회 이상이면 카테고리 배지 끄기 넛지 표시 (1회)
     private func checkCategoryBadgeNudge() {
-        guard categoryBadgeVisible else { return }
+        guard showVisualCues else { return }
         guard !UserDefaults.standard.bool(forKey: "categoryBadgeNudgeDismissed") else { return }
         let count = UserDefaults.standard.integer(forKey: "memoCopyCount") + 1
         UserDefaults.standard.set(count, forKey: "memoCopyCount")
@@ -2208,9 +2261,8 @@ struct ClipKeyboardList: View {
             Spacer()
             VStack(spacing: 6) {
                 Button {
-                    UserDefaults.standard.set(false, forKey: "categoryBadgeVisible")
                     UserDefaults.standard.set(true, forKey: "categoryBadgeNudgeDismissed")
-                    withAnimation { categoryBadgeVisible = false; showCategoryBadgeNudge = false }
+                    withAnimation { showVisualCues = false; showCategoryBadgeNudge = false }
                 } label: {
                     Text(NSLocalizedString("끄기", comment: "Nudge: turn off"))
                         .font(.caption.weight(.semibold))

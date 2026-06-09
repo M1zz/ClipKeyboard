@@ -24,17 +24,26 @@ struct MemoRowView: View {
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
+    /// 메모 구분 표시 마스터 토글(카드와 동일). 기본 OFF = 제목 위주로 심플.
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var showVisualCues: Bool = false
+    private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            leadingIcon
+            if visualCuesVisible {
+                leadingIcon
+            }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(memo.title)
                     .font(theme.bodyFont(style: .subheadline, weight: .semibold))
                     .foregroundColor(theme.text)
 
-                badgesRow
+                if visualCuesVisible {
+                    badgesRow
+                }
 
                 if !compact {
                     let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
@@ -69,8 +78,8 @@ struct MemoRowView: View {
 
             Spacer()
 
-            // 즐겨찾기 하트 표시
-            if memo.isFavorite {
+            // 즐겨찾기 하트 표시 (구분 표시 ON일 때만)
+            if visualCuesVisible, memo.isFavorite {
                 Image(systemName: "heart.fill")
                     .font(.body)
                     .foregroundColor(.pink)
@@ -100,19 +109,13 @@ struct MemoRowView: View {
 
     @ViewBuilder
     private var badgesRow: some View {
-        if memo.isTemplate || (!memo.isTemplate && memo.attachedTemplateId != nil)
+        if memo.isTemplate
             || memo.isCombo
             || (memo.clipCount == 0 && Date().timeIntervalSince(memo.lastEdited) < 86400)
             || memo.isSecure {
             HStack(spacing: 6) {
                 if memo.isTemplate {
                     TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
-                }
-                if !memo.isTemplate && memo.attachedTemplateId != nil {
-                    TagBadge(
-                        label: NSLocalizedString("+Template", comment: "Tag: optional attached template"),
-                        tint: .purple
-                    )
                 }
                 if memo.isCombo {
                     TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
@@ -152,9 +155,6 @@ struct MemoRowView: View {
         }
         if memo.isTemplate {
             parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge"))
-        }
-        if !memo.isTemplate && memo.attachedTemplateId != nil {
-            parts.append(NSLocalizedString("옵션 템플릿 연결됨", comment: "VoiceOver: attached template badge"))
         }
         if memo.isCombo {
             parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge"))

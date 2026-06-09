@@ -250,16 +250,23 @@ struct Memo: Identifiable, Codable {
     // New features
     var category: String = "기본"
     var isSecure: Bool = false
-    var isTemplate: Bool = false
     var templateVariables: [String] = []
+    /// 템플릿 여부(계산형) — 본문에 {변수}가 있으면(=templateVariables 비어있지 않으면) 템플릿.
+    /// 별도 토글/타입 없이 "변수 있으면 템플릿"으로 자동 판정.
+    var isTemplate: Bool { !templateVariables.isEmpty }
 
     // 템플릿의 플레이스홀더 값들 저장 (예: {이름}: [유미, 주디, 리이오])
     var placeholderValues: [String: [String]] = [:]
 
-    // Combo 기능 (탭마다 다음 값 입력)
-    var isCombo: Bool = false
-    var comboValues: [String] = []  // 순차적으로 입력될 값들 (예: ["1234", "5678", "9012", "3456"])
-    var currentComboIndex: Int = 0  // 현재 입력할 값의 인덱스
+    /// 콤보 = 메모 안의 순서 있는 텍스트 단계들("이어지는 메모"). 비어있지 않으면 콤보.
+    /// (출시본 4.3.x에도 있던 필드 — 기존 인라인 콤보 데이터와 그대로 호환.)
+    var comboValues: [String] = []
+    /// 콤보 순차 입력 시 단계 간 시간 간격(초).
+    var comboInterval: TimeInterval = 2.0
+    /// 콤보 여부(계산형) — 단계가 하나라도 있으면 콤보.
+    var isCombo: Bool { !comboValues.isEmpty }
+    /// (레거시) 콤보=자식 메모 참조. 마이그레이션 디코드용으로만 보관. 신규 로직 미사용.
+    var childMemoIds: [UUID] = []
 
     // 자동 분류 관련 (Phase 1 추가)
     var autoDetectedType: ClipboardItemType?
@@ -269,17 +276,12 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
 
-    /// v4.0.8: 메모에 옵션 템플릿을 연결.
-    /// 메모 사용 시 이 ID로 템플릿 메모를 찾아 입력 시트를 띄우고,
-    /// 결과를 본 메모 값과 줄바꿈으로 결합해 출력. nil이면 기존처럼 메모 단독 사용.
-    var attachedTemplateId: UUID?
-
     /// "어디서 / 언제 쓰나요?" 컨텍스트 힌트.
     /// ADHD·건망증 사용자가 나중에 이 메모를 왜 저장했는지 떠올릴 수 있도록 돕는다.
     /// Optional이라 기존 데이터와 완전 하위 호환 (없으면 nil).
     var hint: String? = nil
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], isCombo: Bool = false, comboValues: [String] = [], currentComboIndex: Int = 0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, attachedTemplateId: UUID? = nil, hint: String? = nil) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], comboValues: [String] = [], comboInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -288,18 +290,15 @@ struct Memo: Identifiable, Codable {
         self.isFavorite = isFavorite
         self.category = category
         self.isSecure = isSecure
-        self.isTemplate = isTemplate
         self.templateVariables = templateVariables
         self.placeholderValues = placeholderValues
-        self.isCombo = isCombo
         self.comboValues = comboValues
-        self.currentComboIndex = currentComboIndex
+        self.comboInterval = comboInterval
         self.autoDetectedType = autoDetectedType
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
         self.contentType = contentType
         self.lastUsedAt = lastUsedAt
-        self.attachedTemplateId = attachedTemplateId
         self.hint = hint
     }
 
@@ -311,7 +310,37 @@ struct Memo: Identifiable, Codable {
         self.lastEdited = Date() // 새로운 버전에서 추가된 속성 초기화
         self.isFavorite = false
     }
-    
+
+    /// 관용적 디코더 — 모든 필드를 `decodeIfPresent` + 기본값으로 읽는다.
+    /// ⚠️ 매우 중요(하위호환): 합성 Codable은 CodingKeys의 비옵셔널 키가 JSON에
+    /// 없으면 `keyNotFound`를 던져 **[Memo] 배열 전체 디코딩이 실패**한다. 그러면
+    /// load 폴백이 OldMemo(title/value만)로 떨어져 카테고리·즐겨찾기·콤보 등이
+    /// 통째로 사라진다. 신규 키(childMemoIds, comboValues, comboInterval 등)가
+    /// 없던 구버전 memos.data도 안전하게 디코딩되도록 누락 키를 모두 허용한다.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        self.title = try c.decodeIfPresent(String.self, forKey: .title) ?? ""
+        self.value = try c.decodeIfPresent(String.self, forKey: .value) ?? ""
+        self.isChecked = try c.decodeIfPresent(Bool.self, forKey: .isChecked) ?? false
+        self.lastEdited = try c.decodeIfPresent(Date.self, forKey: .lastEdited) ?? Date()
+        self.isFavorite = try c.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+        self.clipCount = try c.decodeIfPresent(Int.self, forKey: .clipCount) ?? 0
+        self.lastUsedAt = try c.decodeIfPresent(Date.self, forKey: .lastUsedAt)
+        self.category = try c.decodeIfPresent(String.self, forKey: .category) ?? "기본"
+        self.isSecure = try c.decodeIfPresent(Bool.self, forKey: .isSecure) ?? false
+        self.templateVariables = try c.decodeIfPresent([String].self, forKey: .templateVariables) ?? []
+        self.placeholderValues = try c.decodeIfPresent([String: [String]].self, forKey: .placeholderValues) ?? [:]
+        self.comboValues = try c.decodeIfPresent([String].self, forKey: .comboValues) ?? []
+        self.comboInterval = try c.decodeIfPresent(TimeInterval.self, forKey: .comboInterval) ?? 2.0
+        self.childMemoIds = try c.decodeIfPresent([UUID].self, forKey: .childMemoIds) ?? []
+        self.autoDetectedType = try c.decodeIfPresent(ClipboardItemType.self, forKey: .autoDetectedType)
+        self.imageFileName = try c.decodeIfPresent(String.self, forKey: .imageFileName)
+        self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
+        self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
+        self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
+    }
+
     enum CodingKeys: String, CodingKey {
         case id
         case title
@@ -322,18 +351,16 @@ struct Memo: Identifiable, Codable {
         case clipCount
         case category
         case isSecure
-        case isTemplate
         case templateVariables
         case placeholderValues
-        case isCombo
         case comboValues
-        case currentComboIndex
+        case childMemoIds
+        case comboInterval
         case autoDetectedType
         case imageFileName
         case imageFileNames
         case contentType
         case lastUsedAt
-        case attachedTemplateId
         case hint
     }
     

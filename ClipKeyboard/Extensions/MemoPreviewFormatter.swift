@@ -102,11 +102,8 @@ enum MemoPreviewFormatter {
 
     private static func comboPreview(_ memo: Memo) -> String {
         guard !memo.comboValues.isEmpty else { return truncate(singleLine(memo.value)) }
-        let index = min(memo.currentComboIndex, memo.comboValues.count - 1)
-        let current = singleLine(memo.comboValues[index])
-        let positionFormat = NSLocalizedString("[%d/%d]", comment: "Combo position e.g. [1/4]")
-        let position = String(format: positionFormat, index + 1, memo.comboValues.count)
-        return "\(position) \(truncate(current, max: 24))"
+        let format = NSLocalizedString("%d items", comment: "Combo item count preview")
+        return String(format: format, memo.comboValues.count)
     }
 
     private static func imagePreview(count: Int) -> String {

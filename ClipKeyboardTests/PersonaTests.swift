@@ -81,26 +81,16 @@ final class PersonaTests: XCTestCase {
 
     // MARK: - CategoryStore.applyPersona
 
-    func testApplyPersona_AddsSeedCategories() {
+    func testApplyPersona_PersistsSelectionWithoutMutatingCategories() {
+        // 현재 동작: applyPersona는 페르소나 선택만 저장하고 카테고리는 시드하지 않는다
+        // (사용자가 직접 카테고리를 만든다). 기존 카테고리는 그대로 보존돼야 한다.
         let store = CategoryStore.shared
-        let originalSnapshot = store.allCategories
+        let before = store.allCategories
 
         store.applyPersona(.nomad, language: "en")
 
-        let after = store.allCategories
-        XCTAssertTrue(after.contains("Passport"), "페르소나 시드가 추가되어야 함")
-        XCTAssertTrue(after.contains("IBAN"))
-        // 기존 카테고리도 유지되어야 함
-        for original in originalSnapshot {
-            XCTAssertTrue(after.contains(original), "기존 카테고리 \(original) 유실")
-        }
-
-        // cleanup — 추가한 시드만 제거
-        let toRemove = Persona.nomad.seedCategories(language: "en")
-            .filter { !originalSnapshot.contains($0) }
-        for seed in toRemove {
-            _ = store.remove(seed)
-        }
+        XCTAssertEqual(store.selectedPersona, .nomad, "페르소나 선택이 저장돼야 함")
+        XCTAssertEqual(store.allCategories, before, "applyPersona는 카테고리를 변경하지 않아야 함")
     }
 
     func testApplyPersona_PersistsSelection() {

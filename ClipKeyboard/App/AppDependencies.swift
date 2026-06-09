@@ -16,7 +16,6 @@ final class AppDependencies: ObservableObject {
     // MARK: - Repositories
     lazy var memoRepository: MemoRepositoryProtocol = MemoRepository(storage: storage)
     lazy var clipboardRepository: ClipboardRepositoryProtocol = ClipboardRepository(storage: storage)
-    lazy var comboRepository: ComboRepositoryProtocol = ComboRepository(storage: storage)
 
     // MARK: - Use Cases
     lazy var classifyClipboard = ClassifyClipboardUseCase()

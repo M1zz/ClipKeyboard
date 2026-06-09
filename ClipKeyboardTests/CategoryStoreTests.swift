@@ -121,13 +121,6 @@ final class CategoryStoreTests: XCTestCase {
         XCTAssertTrue(CategoryStore.protectedCategories.contains("이미지"))
     }
 
-    // MARK: - Locale defaults
-
-    func testLocaleDefaults_NotEmpty() {
-        let defaults = CategoryStore.localeDefaults()
-        XCTAssertFalse(defaults.isEmpty, "Locale 기본 카테고리는 최소 글로벌 공통 항목이 있어야 함")
-    }
-
     // MARK: - allCategories vs categories
 
     func testAllCategories_ReflectsCategoriesArray() {

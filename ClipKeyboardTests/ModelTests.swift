@@ -38,8 +38,7 @@ final class ModelTests: XCTestCase {
             value: "테스트 값",
             isFavorite: true,
             category: "업무",
-            isTemplate: true,
-            templateVariables: ["{이름}", "{날짜}"]
+            templateVariables: ["{이름}", "{날짜}"]  // isTemplate은 이제 계산형: 변수가 있으면 true
         )
 
         // When
@@ -58,7 +57,7 @@ final class ModelTests: XCTestCase {
 
     func testMemoWithPlaceholderValues() {
         // Given
-        let memo = Memo(title: "템플릿", value: "안녕하세요 {이름}님", isTemplate: true)
+        let memo = Memo(title: "템플릿", value: "안녕하세요 {이름}님", templateVariables: ["{이름}"])
 
         // When
         var memoWithValues = memo

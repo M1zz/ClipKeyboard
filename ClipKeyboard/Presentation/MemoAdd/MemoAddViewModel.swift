@@ -33,12 +33,17 @@ final class MemoAddViewModel: ObservableObject {
     @Published var selectedCategory: String = "텍스트"
     @Published var isSecure: Bool = false
     @Published var isTemplate: Bool = false
-    @Published var isCombo: Bool = false
     @Published var isFavorite: Bool = false
-    /// v4.0.8: 메모에 옵션 템플릿을 연결. nil이면 미연결.
-    @Published var attachedTemplateId: UUID? = nil
-    @Published var comboValues: [String] = []
-    @Published var newComboValue: String = ""
+    /// "이어지는 메모" 단계들(본문 value=1단계, 이 배열=2..N단계). 비어있으면 일반 메모.
+    @Published var continuations: [String] = []
+
+    /// 저장용 콤보 단계 = [본문] + 비어있지 않은 이어지는 단계들. 이어지는 단계가 없으면 빈 배열(=일반 메모).
+    private var resolvedComboValues: [String] {
+        let extra = continuations
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        return extra.isEmpty ? [] : ([value] + extra)
+    }
 
     // MARK: - Template Placeholder 관련
 
@@ -87,9 +92,6 @@ final class MemoAddViewModel: ObservableObject {
     var alertMessage: String {
         if keyword.isEmpty {
             return NSLocalizedString("제목을 입력하세요", comment: "Alert: title required")
-        }
-        if isCombo {
-            return NSLocalizedString("Combo 값을 최소 1개 이상 추가하세요", comment: "Alert: combo value required")
         }
         return NSLocalizedString("내용을 입력하세요", comment: "Alert: content required")
     }
@@ -210,15 +212,23 @@ final class MemoAddViewModel: ObservableObject {
             applySampleIfAppropriate(newCategory: insertedCategory, previousCategory: prev)
         }
 
+        // 편집 모드: 기존 메모의 카테고리를 그대로 보존한다.
+        // (위 자동 분류 블록이 선택 카테고리를 건드렸을 수 있으므로 여기서 확정적으로 덮어쓴다.
+        //  템플릿·콤보·일반 메모 모두 카테고리가 자동 재분류로 사라지지 않게 하는 핵심.)
+        if editingMemo != nil {
+            selectedCategory = insertedCategory
+        }
+
         isTemplate = insertedIsTemplate
-        isCombo = insertedIsCombo
-        comboValues = insertedComboValues
         if editingMemo == nil { isFavorite = insertedIsFavorite }
 
-        // 편집 모드면 기존 메모의 attachedTemplateId + hint 로드
+        // 편집 모드면 기존 메모의 hint + 콤보 단계 로드 (본문=1단계, 나머지=이어지는 단계)
         if let existing = editingMemo {
-            attachedTemplateId = existing.attachedTemplateId
             hint = existing.hint ?? ""
+            if !existing.comboValues.isEmpty {
+                continuations = Array(existing.comboValues.dropFirst())
+                if value.isEmpty { value = existing.comboValues.first ?? "" }
+            }
         } else if !insertedHint.isEmpty {
             hint = insertedHint
         }
@@ -233,12 +243,23 @@ final class MemoAddViewModel: ObservableObject {
             value = SecureMemoCrypto.decrypt(value) ?? value
         }
 
+        // 본문에 {변수}가 있으면 템플릿 도우미가 바로 보이도록 진입 시 1회 감지.
+        detectPlaceholders()
+
         // 초기 플레이스홀더 감지 및 로드
         detectPlaceholders()
         loadPlaceholderValues()
 
         // 최근 사용 카테고리 로드
         recentlyUsedCategories = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
+    }
+
+    // MARK: - 이어지는 메모(콤보 단계)
+
+    func addContinuation() { continuations.append("") }
+    func removeContinuation(at index: Int) {
+        guard continuations.indices.contains(index) else { return }
+        continuations.remove(at: index)
     }
 
     // MARK: - 초기화 (리셋)
@@ -250,10 +271,7 @@ final class MemoAddViewModel: ObservableObject {
         selectedCategory = "텍스트"
         isSecure = false
         isTemplate = false
-        isCombo = false
-        comboValues = []
-        newComboValue = ""
-        attachedTemplateId = nil
+        continuations = []
         print("🔄 [MemoAddViewModel] 폼 초기화 완료")
     }
 
@@ -289,8 +307,7 @@ final class MemoAddViewModel: ObservableObject {
             // Analytics — 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String
-                if isCombo { memoType = "combo" }
-                else if isTemplate { memoType = "template" }
+                if isTemplate { memoType = "template" }
                 else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" }
                 else if !imageFileNames.isEmpty { memoType = "image" }
                 else { memoType = "text" }
@@ -306,36 +323,6 @@ final class MemoAddViewModel: ObservableObject {
         } catch {
             print("❌ [MemoAddViewModel] 저장 실패: \(error)")
         }
-    }
-
-    // MARK: - Combo Value 관리
-
-    func addComboValue() {
-        let trimmedValue = newComboValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedValue.isEmpty else {
-            showToastMessage(NSLocalizedString("값을 입력하세요", comment: "Combo: empty value warning"))
-            return
-        }
-
-        if comboValues.contains(trimmedValue) {
-            showToastMessage(NSLocalizedString("이미 추가된 값입니다", comment: "Combo: duplicate value warning"))
-            return
-        }
-
-        comboValues.append(trimmedValue)
-        newComboValue = ""
-        #if os(iOS)
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        #endif
-    }
-
-    func removeComboValue(at index: Int) {
-        guard comboValues.indices.contains(index) else { return }
-        comboValues.remove(at: index)
-    }
-
-    func moveComboValues(from source: IndexSet, to destination: Int) {
-        comboValues.move(fromOffsets: source, toOffset: destination)
     }
 
     // MARK: - Template Placeholder
@@ -432,7 +419,7 @@ final class MemoAddViewModel: ObservableObject {
             showAlert = true
             return false
         }
-        let hasContent = isCombo ? !comboValues.isEmpty : (!value.isEmpty || !attachedImages.isEmpty)
+        let hasContent = !value.isEmpty || !attachedImages.isEmpty
         if !hasContent {
             showAlert = true
             return false
@@ -481,6 +468,9 @@ final class MemoAddViewModel: ObservableObject {
     }
 
     private func determineFinalCategory() -> String {
+        // 0) 편집 모드면 기존 카테고리를 그대로 유지(자동 재분류로 덮어쓰지 않음).
+        //    신규 메모만 자동 분류 대상. 템플릿/콤보 포함 모든 메모의 카테고리 보존.
+        if editingMemo != nil { return selectedCategory }
         // 1) autoDetectedType이 setupView 시점에 채워져 있으면 그대로 사용
         if selectedCategory == "텍스트", let detected = autoDetectedType, detected != .text {
             print("🎨 [MemoAddViewModel] 테마 - 기본값 사용 중 → 자동 분류 적용: '\(detected.rawValue)'")
@@ -521,15 +511,12 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.lastEdited = Date()
             updatedMemo.category = finalCategory
             updatedMemo.isSecure = isSecure
-            updatedMemo.isTemplate = isTemplate
-            updatedMemo.templateVariables = variables
+            updatedMemo.templateVariables = variables   // isTemplate은 계산형(변수 있으면 자동)
+            updatedMemo.comboValues = resolvedComboValues   // isCombo는 계산형(이어지는 단계 있으면 자동)
             updatedMemo.placeholderValues = placeholderValues
-            updatedMemo.isCombo = isCombo
-            updatedMemo.comboValues = comboValues
-            updatedMemo.currentComboIndex = 0
             updatedMemo.imageFileNames = imageFileNames
             updatedMemo.contentType = contentType
-            updatedMemo.attachedTemplateId = attachedTemplateId
+            // childMemoIds/comboInterval는 기존 값 보존(콤보 편집은 ComboList에서)
             loadedMemos[index] = updatedMemo
             return (existing.id, keyword)
         } else {
@@ -546,15 +533,11 @@ final class MemoAddViewModel: ObservableObject {
                 isFavorite: isFavorite,
                 category: finalCategory,
                 isSecure: isSecure,
-                isTemplate: isTemplate,
-                templateVariables: variables,
+                templateVariables: variables,   // isTemplate은 계산형(변수 있으면 자동)
                 placeholderValues: placeholderValues,
-                isCombo: isCombo,
-                comboValues: comboValues,
-                currentComboIndex: 0,
+                comboValues: resolvedComboValues,
                 imageFileNames: imageFileNames,
                 contentType: contentType,
-                attachedTemplateId: attachedTemplateId,
                 hint: hint.isEmpty ? nil : hint
             )
             loadedMemos.append(newMemo)

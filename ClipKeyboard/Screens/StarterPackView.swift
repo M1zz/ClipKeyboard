@@ -190,12 +190,11 @@ struct StarterPackView: View {
             var memos = try MemoStore.shared.load(type: .memo)
             for item in chosen {
                 // {플레이스홀더}가 있으면 템플릿으로 — 탭하면 값 채우기 UX.
-                let isTemplate = item.example.contains("{")
-                let vars = isTemplate ? item.example.extractTemplatePlaceholders() : []
+                // {플레이스홀더}가 있으면 templateVariables가 채워져 자동으로 템플릿이 된다.
+                let vars = item.example.contains("{") ? item.example.extractTemplatePlaceholders() : []
                 let memo = Memo(
                     title: item.title,
                     value: item.example,
-                    isTemplate: isTemplate,
                     templateVariables: vars
                 )
                 memos.insert(memo, at: 0)

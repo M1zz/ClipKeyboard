@@ -202,6 +202,10 @@ struct SettingView: View {
                     Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
                           systemImage: "icloud.and.arrow.up")
                 }
+                NavigationLink(destination: MemoHistoryView()) {
+                    Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),
+                          systemImage: "clock.arrow.circlepath")
+                }
                 NavigationLink(destination: SecurePINSettings()) {
                     HStack {
                         Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
@@ -313,7 +317,10 @@ struct SettingView: View {
 /// 메모 표시 방식(이 앱 전용) — 메모 셀 높이 + 우상단 카테고리 심볼 표시.
 struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
-    @State private var visible = UserDefaults.standard.object(forKey: "categoryBadgeVisible") as? Bool ?? true
+    /// 메모 구분 표시 마스터 토글 — 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
+    /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var visible: Bool = false
     /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
 
@@ -350,18 +357,15 @@ struct DisplaySettingsView: View {
                     .font(.body)
             }
 
-            // 우상단 심볼
+            // 메모 구분 표시 (마스터 토글)
             Section {
                 Toggle(isOn: $visible) {
-                    Label(NSLocalizedString("카테고리 심볼", comment: "Category symbol"), systemImage: "tag.circle.fill")
-                }
-                .onChange(of: visible) { _, v in
-                    UserDefaults.standard.set(v, forKey: "categoryBadgeVisible")
+                    Label(NSLocalizedString("메모 구분 표시", comment: "Show visual cues toggle"), systemImage: "square.grid.2x2")
                 }
             } header: {
-                Text(NSLocalizedString("우상단 심볼", comment: "Top-right symbol section"))
+                Text(NSLocalizedString("메모 구분 표시", comment: "Visual cues section"))
             } footer: {
-                Text(NSLocalizedString("메모 카드 오른쪽 위에 그 메모가 속한 카테고리를 색과 심볼로 표시해요. 색맹이어도 심볼로 구분할 수 있어요. 카드를 더 깔끔하게 보고 싶다면 끄세요.", comment: "Category badge explanation"))
+                Text(NSLocalizedString("카테고리 색은 항상 표시돼요. 이 설정을 켜면 메모 타입(템플릿·콤보·보안) 아이콘과 테두리, 심볼까지 함께 표시해 더 자세히 구분할 수 있어요. iOS '색상 없이 구별' 접근성 설정을 켜면 자동으로 표시됩니다.", comment: "Visual cues explanation"))
                     .font(.body)
             }
         }
@@ -408,6 +412,97 @@ struct DisplaySettingsView: View {
         .shadow(color: .black.opacity(0.10), radius: 6, x: 0, y: 3)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(title)
+    }
+}
+
+// MARK: - Memo Time Machine (변경 기록 / 되돌리기)
+
+/// 메모의 최근 변경 스냅샷(최근 10개)을 보여주고, 한 시점으로 되돌릴 수 있는 화면.
+struct MemoHistoryView: View {
+    @Environment(\.appTheme) private var theme
+    @State private var snapshots: [MemoSnapshot] = []
+    @State private var pendingRestore: MemoSnapshot? = nil
+    @State private var showRestoredToast = false
+
+    private var dateFormatter: DateFormatter {
+        let f = DateFormatter()
+        f.locale = .current
+        // 로케일에 맞춰 자동 현지화(월/일 + 시각). 별도 번역 키 불필요.
+        f.setLocalizedDateFormatFromTemplate("MMMdjmm")
+        return f
+    }
+
+    var body: some View {
+        List {
+            if snapshots.isEmpty {
+                Section {
+                    Text(NSLocalizedString("아직 저장된 변경 기록이 없어요. 메모를 추가·편집·삭제하면 직전 상태가 자동으로 여기에 보관돼요 (최근 10개).", comment: "Empty memo history"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+            } else {
+                Section {
+                    ForEach(snapshots) { snap in
+                        Button {
+                            pendingRestore = snap
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(dateFormatter.string(from: snap.timestamp))
+                                        .font(.body)
+                                        .foregroundColor(theme.text)
+                                    Text(String(format: NSLocalizedString("메모 %d개", comment: "Snapshot memo count"), snap.memoCount))
+                                        .font(.caption)
+                                        .foregroundColor(theme.textMuted)
+                                }
+                                Spacer()
+                                Image(systemName: "arrow.uturn.backward")
+                                    .foregroundColor(theme.accent)
+                                    .accessibilityHidden(true)
+                            }
+                        }
+                    }
+                } header: {
+                    Text(NSLocalizedString("되돌릴 시점", comment: "Restore points header"))
+                } footer: {
+                    Text(NSLocalizedString("탭하면 그 시점의 메모 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요.", comment: "Memo history footer"))
+                        .font(.body)
+                }
+            }
+        }
+        .navigationTitle(NSLocalizedString("변경 기록", comment: "Memo change history title"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
+        .onAppear { snapshots = MemoStore.shared.loadMemoHistory() }
+        .alert(item: $pendingRestore) { snap in
+            Alert(
+                title: Text(NSLocalizedString("이 시점으로 되돌릴까요?", comment: "Restore confirm title")),
+                message: Text(String(format: NSLocalizedString("%@ 시점의 메모 %d개로 되돌립니다.", comment: "Restore confirm message"), dateFormatter.string(from: snap.timestamp), snap.memoCount)),
+                primaryButton: .default(Text(NSLocalizedString("되돌리기", comment: "Restore"))) {
+                    if MemoStore.shared.restoreMemoSnapshot(snap.id) {
+                        snapshots = MemoStore.shared.loadMemoHistory()
+                        withAnimation { showRestoredToast = true }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            withAnimation { showRestoredToast = false }
+                        }
+                    }
+                },
+                secondaryButton: .cancel(Text(NSLocalizedString("취소", comment: "Cancel")))
+            )
+        }
+        .overlay(alignment: .bottom) {
+            if showRestoredToast {
+                Text(NSLocalizedString("되돌렸어요", comment: "Restored toast"))
+                    .font(.body)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20).padding(.vertical, 12)
+                    .background(Color.black.opacity(0.8), in: Capsule())
+                    .padding(.bottom, 40)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
     }
 }
 

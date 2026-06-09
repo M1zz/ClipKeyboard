@@ -27,32 +27,40 @@ class ComboExecutionService: ObservableObject {
     @Published var currentItemIndex: Int = 0
 
     private var timer: Timer?
-    private var currentCombo: Combo?
-    private var currentItems: [ComboItem] = []
+    /// 실행 중인 콤보(= 자식 메모를 가진 Memo).
+    private var currentCombo: Memo?
+    /// 자식 메모들의 value(순서대로). childMemoIds → 메모 value 해석 결과.
+    private var currentValues: [String] = []
 
     private init() {}
 
     /// Combo 실행 시작
-    /// - Parameter combo: 실행할 Combo
-    func startCombo(_ combo: Combo) {
+    /// - Parameter memo: 자식 메모(childMemoIds)를 가진 콤보 Memo
+    func startCombo(_ memo: Memo) {
         guard state == .idle else {
             print("⚠️ Combo가 이미 실행 중입니다")
             return
         }
 
-        currentCombo = combo
-        currentItems = combo.items.sorted(by: { $0.order < $1.order })
+        currentCombo = memo
+        currentValues = memo.comboValues   // 콤보 단계(인라인 텍스트)
         currentItemIndex = 0
 
-        print("🎬 Combo '\(combo.title)' 실행 시작 (\(currentItems.count)개 항목, \(combo.interval)초 간격)")
+        guard !currentValues.isEmpty else {
+            print("⚠️ Combo '\(memo.title)' 자식 메모 없음 — 실행 취소")
+            stopCombo()
+            return
+        }
+
+        print("🎬 Combo '\(memo.title)' 실행 시작 (\(currentValues.count)개 항목, \(memo.comboInterval)초 간격)")
 
         // 첫 번째 항목 즉시 실행
         executeCurrentItem()
 
         // 타이머 시작 (두 번째 항목부터)
-        if currentItems.count > 1 {
-            state = .running(currentIndex: 0, totalCount: currentItems.count)
-            startTimer(interval: combo.interval)
+        if currentValues.count > 1 {
+            state = .running(currentIndex: 0, totalCount: currentValues.count)
+            startTimer(interval: memo.comboInterval)
         } else {
             // 항목이 1개면 바로 완료
             completeExecution()
@@ -70,9 +78,9 @@ class ComboExecutionService: ObservableObject {
 
     /// Combo 재개
     func resumeCombo() {
-        guard case .paused = state, let combo = currentCombo else { return }
-        state = .running(currentIndex: currentItemIndex, totalCount: currentItems.count)
-        startTimer(interval: combo.interval)
+        guard case .paused = state, let memo = currentCombo else { return }
+        state = .running(currentIndex: currentItemIndex, totalCount: currentValues.count)
+        startTimer(interval: memo.comboInterval)
         print("▶️ Combo 재개")
     }
 
@@ -81,7 +89,7 @@ class ComboExecutionService: ObservableObject {
         timer?.invalidate()
         timer = nil
         currentCombo = nil
-        currentItems = []
+        currentValues = []
         currentItemIndex = 0
         state = .idle
         print("⏹ Combo 중지")
@@ -96,58 +104,33 @@ class ComboExecutionService: ObservableObject {
     }
 
     private func executeCurrentItem() {
-        guard currentItemIndex < currentItems.count else {
+        guard currentItemIndex < currentValues.count else {
             completeExecution()
             return
         }
 
-        let item = currentItems[currentItemIndex]
-        print("📋 [\(currentItemIndex + 1)/\(currentItems.count)] 실행 중: \(item.type.rawValue)")
+        // 자동 변수 치환 ({날짜}, {시간} 등)
+        let finalValue = processTemplateVariables(in: currentValues[currentItemIndex])
+        print("📋 [\(currentItemIndex + 1)/\(currentValues.count)] 실행 중")
 
-        do {
-            if let value = try MemoStore.shared.getComboItemValue(item) {
-                var finalValue = value
+        // 클립보드에 복사
+        UIPasteboard.general.string = finalValue
+        print("✅ 클립보드에 복사됨: \(finalValue.prefix(50))...")
 
-                // 템플릿인 경우 displayValue 우선 사용
-                if item.type == .template, let displayValue = item.displayValue, !displayValue.isEmpty {
-                    finalValue = displayValue
-                    print("📝 [ComboExecutionService] 템플릿 displayValue 사용")
-                }
-
-                // 자동 변수 치환 ({날짜}, {시간} 등)
-                finalValue = processTemplateVariables(in: finalValue)
-
-                // 클립보드에 복사
-                UIPasteboard.general.string = finalValue
-                print("✅ 클립보드에 복사됨: \(finalValue.prefix(50))...")
-
-                // 청각 장애 접근성: 항목 복사 완료 햅틱 (medium = 구별 가능한 강도)
-                DispatchQueue.main.async {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                }
-
-                // 알림 발송 (옵션)
-                postNotification(for: item, value: finalValue)
-            } else {
-                print("⚠️ 항목의 값을 가져올 수 없음 - 건너뛰기")
-                // 청각 장애 접근성: 항목 건너뜀을 warning 햅틱으로 알림
-                DispatchQueue.main.async {
-                    UINotificationFeedbackGenerator().notificationOccurred(.warning)
-                }
-            }
-        } catch {
-            print("❌ 항목 실행 실패: \(error) - 건너뛰기")
-            DispatchQueue.main.async {
-                UINotificationFeedbackGenerator().notificationOccurred(.warning)
-            }
+        // 청각 장애 접근성: 항목 복사 완료 햅틱 (medium = 구별 가능한 강도)
+        DispatchQueue.main.async {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }
+
+        // 알림 발송 (옵션)
+        postNotification(value: finalValue)
     }
 
     private func executeNextItem() {
         currentItemIndex += 1
 
-        if currentItemIndex < currentItems.count {
-            state = .running(currentIndex: currentItemIndex, totalCount: currentItems.count)
+        if currentItemIndex < currentValues.count {
+            state = .running(currentIndex: currentItemIndex, totalCount: currentValues.count)
             executeCurrentItem()
         } else {
             completeExecution()
@@ -164,10 +147,10 @@ class ComboExecutionService: ObservableObject {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
 
-        // 사용 횟수 증가
+        // 사용 횟수 증가 (콤보도 일반 메모이므로 clipCount/lastUsedAt 일원화)
         if let combo = currentCombo {
             do {
-                try MemoStore.shared.incrementComboUseCount(id: combo.id)
+                try MemoStore.shared.incrementClipCount(for: combo.id)
                 print("🎉 Combo '\(combo.title)' 완료!")
             } catch {
                 print("⚠️ 사용 횟수 업데이트 실패: \(error)")
@@ -185,15 +168,14 @@ class ComboExecutionService: ObservableObject {
         }
     }
 
-    private func postNotification(for item: ComboItem, value: String) {
+    private func postNotification(value: String) {
         NotificationCenter.default.post(
             name: .comboItemExecuted,
             object: nil,
             userInfo: [
-                "itemType": item.type.rawValue,
                 "value": value,
                 "index": currentItemIndex,
-                "total": currentItems.count
+                "total": currentValues.count
             ]
         )
     }
@@ -207,14 +189,14 @@ class ComboExecutionService: ObservableObject {
 
     /// 진행률 계산
     var progress: Double {
-        guard currentItems.count > 0 else { return 0 }
-        return Double(currentItemIndex) / Double(currentItems.count)
+        guard currentValues.count > 0 else { return 0 }
+        return Double(currentItemIndex) / Double(currentValues.count)
     }
 
-    /// 현재 실행 중인 항목
-    var currentItem: ComboItem? {
-        guard currentItemIndex < currentItems.count else { return nil }
-        return currentItems[currentItemIndex]
+    /// 현재 실행 중인 항목 값
+    var currentValue: String? {
+        guard currentItemIndex < currentValues.count else { return nil }
+        return currentValues[currentItemIndex]
     }
 }
 

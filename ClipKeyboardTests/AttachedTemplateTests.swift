@@ -126,27 +126,30 @@ final class AttachedTemplateTests: XCTestCase {
         XCTAssertEqual(result, "이 계좌로 50000원 보내주세요")
     }
 
-    // MARK: - Memo model
+    // MARK: - Memo model (콤보 신 모델)
 
-    func testMemo_AttachedTemplateId_DefaultsToNil() {
+    func testMemo_ChildMemoIds_DefaultsToEmpty() {
         let memo = Memo(title: "테스트", value: "값")
-        XCTAssertNil(memo.attachedTemplateId)
+        XCTAssertTrue(memo.childMemoIds.isEmpty)
+        XCTAssertFalse(memo.isCombo)
     }
 
-    func testMemo_AttachedTemplateId_PersistsViaCodable() throws {
-        let templateId = UUID()
-        let memo = Memo(title: "계좌번호", value: "1234-5678", attachedTemplateId: templateId)
+    func testMemo_Combo_PersistsViaCodable() throws {
+        // 통합 모델: 콤보 판정은 comboValues 기반(childMemoIds 아님).
+        var memo = Memo(title: "콤보", value: "1단계", comboValues: ["1단계", "2단계"])
+        memo.comboInterval = 3.0
 
-        let encoded = try JSONEncoder().encode(memo)
-        let decoded = try JSONDecoder().decode(Memo.self, from: encoded)
-
-        XCTAssertEqual(decoded.attachedTemplateId, templateId)
+        let decoded = try JSONDecoder().decode(Memo.self, from: JSONEncoder().encode(memo))
+        XCTAssertEqual(decoded.comboValues, ["1단계", "2단계"])
+        XCTAssertEqual(decoded.comboInterval, 3.0)
+        XCTAssertTrue(decoded.isCombo)
     }
 
-    func testMemo_LegacyMemoWithoutAttachedField_DecodesAsNil() throws {
-        // 4.0.8 이전 메모 데이터에는 attachedTemplateId 키가 없음 — 디코딩 시 nil이어야 함
+    func testMemo_LegacyJSONWithRemovedKeys_DecodesAndIgnores() throws {
+        // 구버전 JSON(isCombo/comboValues/attachedTemplateId 키 포함)도 신 모델로 디코딩되며
+        // 해당 키들은 무시되고 childMemoIds는 기본 빈 배열.
         let legacyJSON = """
-        {"id":"\(UUID().uuidString)","title":"기존","value":"값","isChecked":false,"lastEdited":"2026-05-06T00:00:00Z","isFavorite":false,"clipCount":0,"category":"기본","isSecure":false,"isTemplate":false,"templateVariables":[],"placeholderValues":{},"isCombo":false,"comboValues":[],"currentComboIndex":0,"imageFileNames":[],"contentType":"text"}
+        {"id":"\(UUID().uuidString)","title":"기존","value":"값","isChecked":false,"lastEdited":"2026-05-06T00:00:00Z","isFavorite":false,"clipCount":0,"category":"기본","isSecure":false,"isTemplate":false,"templateVariables":[],"placeholderValues":{},"isCombo":false,"comboValues":[],"currentComboIndex":0,"attachedTemplateId":"\(UUID().uuidString)","imageFileNames":[],"contentType":"text"}
         """.data(using: .utf8)!
 
         let formatter = ISO8601DateFormatter()
@@ -157,6 +160,7 @@ final class AttachedTemplateTests: XCTestCase {
         }
 
         let memo = try decoder.decode(Memo.self, from: legacyJSON)
-        XCTAssertNil(memo.attachedTemplateId)
+        XCTAssertTrue(memo.childMemoIds.isEmpty)
+        XCTAssertFalse(memo.isCombo)
     }
 }

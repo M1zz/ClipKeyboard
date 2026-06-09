@@ -254,13 +254,7 @@ class KeyboardViewController: UIInputViewController {
         let t4 = NotificationCenter.default.addObserver(forName: NSNotification.Name("openMainAppPaywall"), object: nil, queue: .main) { [weak self] _ in
             self?.openMainAppPaywall()
         }
-        let t5 = NotificationCenter.default.addObserver(forName: NSNotification.Name("skipComboEntry"), object: nil, queue: nil) { [weak self] notification in
-            guard let self,
-                  let userInfo = notification.userInfo,
-                  let memoId = userInfo["memoId"] as? UUID else { return }
-            self.handleComboSkip(memoId: memoId)
-        }
-        notificationTokens = [t1, t2, t3, t4, t5]
+        notificationTokens = [t1, t2, t3, t4]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
@@ -276,12 +270,6 @@ class KeyboardViewController: UIInputViewController {
         print("🆔 메모 ID: \(memoId)")
 
         if handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
-
-        // bypassAttachedTemplate 플래그가 true면 템플릿 연결 흐름을 건너뛰고 메모 값만 입력.
-        let bypass = (notification.userInfo?["bypassAttachedTemplate"] as? Bool) ?? false
-        if !bypass {
-            if handleAttachedTemplateIfNeeded(memoId: memoId) { return }
-        }
 
         let customPlaceholders = extractCustomPlaceholders(from: text)
         print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")
@@ -303,107 +291,33 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
-    /// v4.0.8: 메모에 옵션 템플릿(`attachedTemplateId`)이 연결되어 있으면 그 템플릿의
-    /// 토큰을 입력받기 위한 오버레이를 띄운다. 토큰이 없으면 즉시 결합 출력.
-    /// - Returns: attached 흐름을 처리했으면 true.
-    private func handleAttachedTemplateIfNeeded(memoId: UUID) -> Bool {
-        guard let baseMemo = clipMemos.first(where: { $0.id == memoId }),
-              let attachedId = baseMemo.attachedTemplateId else {
-            return false
-        }
-        // attached template 메모를 모든 메모에서 찾기 (clipMemos는 표시 한도가 있을 수 있음)
-        let allMemos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        guard let attached = allMemos.first(where: { $0.id == attachedId }) else {
-            print("⚠️ [attachedTemplate] 템플릿 메모를 찾을 수 없음: \(attachedId)")
-            return false
-        }
-        let placeholders = extractCustomPlaceholders(from: attached.value)
-        print("🔗 [attachedTemplate] base=\(baseMemo.title), template=\(attached.title), tokens=\(placeholders)")
-
-        if placeholders.isEmpty {
-            // 토큰이 없는 평범한 텍스트 템플릿 → 즉시 결합 출력
-            let combined = TemplateVariableProcessor.compose(
-                memoValue: baseMemo.value,
-                templateBody: attached.value,
-                templateInputs: [:]
-            )
-            textDocumentProxy.insertText(combined)
-            trackKeyboardPaste(memoId: memoId)
-        } else {
-            // 입력 시트 표시 — baseMemoId 같이 전달해서 결합 흐름 식별
-            NotificationCenter.default.post(
-                name: NSNotification.Name("showTemplateInput"),
-                object: nil,
-                userInfo: [
-                    "text": attached.value,
-                    "placeholders": placeholders,
-                    "memoId": attached.id,
-                    "baseMemoId": baseMemo.id
-                ]
-            )
-        }
-        return true
-    }
-
-    /// Combo 메모인 경우 현재 인덱스 값을 입력하고 인덱스를 순환시킴
+    /// Combo 메모(자식 메모 참조)인 경우 자식들의 value를 comboInterval 간격으로 순차 입력.
     /// - Returns: Combo 처리를 했으면 true
     private func handleComboMemoIfNeeded(text: String, memoId: UUID) -> Bool {
-        guard let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) else { return false }
-        var memo = clipMemos[memoIndex]
-        guard memo.isCombo && !memo.comboValues.isEmpty else { return false }
+        guard let memo = clipMemos.first(where: { $0.id == memoId }), !memo.comboValues.isEmpty else { return false }
+        let values = memo.comboValues
+        guard !values.isEmpty else { return false }
 
-        let currentValue = memo.comboValues[memo.currentComboIndex]
-        print("🔄 Combo 메모 - 현재 인덱스: \(memo.currentComboIndex), 전체: \(memo.comboValues.count)개")
-        print("✅ Combo 값 입력: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] \(currentValue)")
-
-        textDocumentProxy.insertText(currentValue)
-        let nextIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
-        // 마지막 항목이면 success(완료 패턴), 중간 항목이면 medium(진행 패턴)
-        if nextIndex == 0 {
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-        } else {
-            KeyboardHaptics.mediumTap()
-        }
+        print("🔄 Combo 메모 '\(memo.title)' - 자식 \(values.count)개 순차 입력 (간격 \(memo.comboInterval)s)")
+        insertComboValuesSequentially(values, interval: memo.comboInterval, index: 0)
         trackKeyboardPaste(memoId: memoId)
-
-        memo.currentComboIndex = nextIndex
-        clipMemos[memoIndex] = memo
-        print("   다음 인덱스: \(memo.currentComboIndex)")
-
-        do {
-            var allMemos = try MemoStore.shared.load(type: .memo)
-            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
-                allMemos[fileIndex].currentComboIndex = memo.currentComboIndex
-                try MemoStore.shared.save(memos: allMemos, type: .memo)
-                print("   💾 인덱스 저장 완료")
-            }
-        } catch {
-            print("   ❌ 인덱스 저장 실패: \(error)")
-        }
-
         return true
     }
 
-    private func handleComboSkip(memoId: UUID) {
-        guard let memoIndex = clipMemos.firstIndex(where: { $0.id == memoId }) else { return }
-        var memo = clipMemos[memoIndex]
-        guard memo.isCombo && !memo.comboValues.isEmpty else { return }
+    /// 콤보 자식 값들을 interval 간격으로 하나씩 입력(정책 A). 자동변수 치환 포함.
+    private func insertComboValuesSequentially(_ values: [String], interval: TimeInterval, index: Int) {
+        guard index < values.count else { return }
+        let processed = processTemplateVariables(in: values[index])
+        textDocumentProxy.insertText(processed)
 
-        let nextIndex = (memo.currentComboIndex + 1) % memo.comboValues.count
-        KeyboardHaptics.tap()
-        print("⏭️ Combo 스킵: [\(memo.currentComboIndex + 1)/\(memo.comboValues.count)] → \(nextIndex + 1)")
-
-        memo.currentComboIndex = nextIndex
-        clipMemos[memoIndex] = memo
-
-        do {
-            var allMemos = try MemoStore.shared.load(type: .memo)
-            if let fileIndex = allMemos.firstIndex(where: { $0.id == memoId }) {
-                allMemos[fileIndex].currentComboIndex = nextIndex
-                try MemoStore.shared.save(memos: allMemos, type: .memo)
+        if index < values.count - 1 {
+            KeyboardHaptics.mediumTap()
+            DispatchQueue.main.asyncAfter(deadline: .now() + interval) { [weak self] in
+                self?.insertComboValuesSequentially(values, interval: interval, index: index + 1)
             }
-        } catch {
-            print("❌ 콤보 스킵 저장 실패: \(error)")
+        } else {
+            // 마지막 항목 — 완료 패턴 햅틱
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
         }
     }
 

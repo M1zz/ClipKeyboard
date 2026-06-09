@@ -152,12 +152,7 @@ struct MemoAdd: View {
             )
         }
         .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
-        .onChange(of: viewModel.isTemplate) { _, _ in viewModel.onIsTemplateChanged() }
-        .sheet(isPresented: $showNewTemplateSheet, onDismiss: {
-            if let newest = availableTemplates.last {
-                viewModel.attachedTemplateId = newest.id
-            }
-        }) {
+        .sheet(isPresented: $showNewTemplateSheet) {
             NavigationView {
                 MemoAdd(insertedIsTemplate: true)
                     .navigationTitle(NSLocalizedString("새 템플릿", comment: "New template nav title"))
@@ -257,6 +252,16 @@ struct MemoAdd: View {
             .background(theme.bg)
             // 저장 버튼은 헤더 오른쪽(toolbar)에 위치.
         }
+        // 붙여넣을 내용 입력 중에만 키보드 위에 변수 옵션 바 노출 (이름·기타 필드에선 숨김).
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            if isFocused {
+                VStack(spacing: 0) {
+                    Divider()
+                    variableTokenBar
+                }
+                .background(theme.surface)
+            }
+        }
     }
 
     /// 퀵 모드 "더 설정하기" — 보안/템플릿/콤보 등 고급 옵션으로 전환.
@@ -305,37 +310,32 @@ struct MemoAdd: View {
                         // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
                         // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
-                        if viewModel.isCombo {
-                            // 콤보: 핵심인 '값'을 가장 먼저.
-                            comboSection            // 안내 + Combo 값 설정(값 입력·목록)
-                            titleInputSection       // 키보드에 표시할 이름
-                            additionalOptionsSection
-                        } else {
-                            // 📌 붙여넣을 내용
-                            ContentInputSection(
-                                value: $viewModel.value,
-                                selectedCategory: viewModel.selectedCategory,
-                                isFocused: $isFocused,
-                                autoDetectedType: $viewModel.autoDetectedType,
-                                autoDetectedConfidence: $viewModel.autoDetectedConfidence,
-                                attachedImages: $viewModel.attachedImages,
-                                onNext: {
-                                    isFocused = false
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                        isTitleFocused = true
-                                    }
+                        // 📌 붙여넣을 내용
+                        ContentInputSection(
+                            value: $viewModel.value,
+                            selectedCategory: viewModel.selectedCategory,
+                            isFocused: $isFocused,
+                            autoDetectedType: $viewModel.autoDetectedType,
+                            autoDetectedConfidence: $viewModel.autoDetectedConfidence,
+                            attachedImages: $viewModel.attachedImages,
+                            onNext: {
+                                isFocused = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                    isTitleFocused = true
                                 }
-                            )
-                            .id("contentField")
+                            }
+                        )
+                        .id("contentField")
 
-                            // 📌 키보드에 표시할 이름
-                            titleInputSection
+                        // 📌 키보드에 표시할 이름
+                        titleInputSection
 
-                            // 📌 추가 옵션 (보안, 템플릿)
-                            additionalOptionsSection
-                            templateSection
-                            attachedTemplateSection
-                        }
+                        // 📌 추가 옵션 (보안)
+                        additionalOptionsSection
+                        // 변수가 있으면 자동으로 템플릿 도우미 노출
+                        templateSection
+                        // 이어지는 메모를 더하면 콤보
+                        continuationsSection
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
@@ -346,21 +346,9 @@ struct MemoAdd: View {
                 VStack(spacing: 0) {
                     Divider()
 
-                    // 템플릿 ON + 붙여넣을 내용 포커스일 때만 변수 삽입 버튼 표시
-                    if isFocused && viewModel.isTemplate {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: "{금액}")
-                                templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: "{수량}")
-                                templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: "{이름}")
-                                templateButton(title: NSLocalizedString("날짜", comment: "Date token button"), variable: "{날짜}")
-                                templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: "{시간}")
-                                templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: "{주소}")
-                                templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: "{전화}")
-                            }
-                            .padding(.horizontal, 20)
-                        }
-                        .padding(.vertical, 8)
+                    // 본문 포커스 시 변수 삽입 버튼 표시 — {변수}를 넣으면 자동으로 템플릿이 됨
+                    if isFocused {
+                        variableTokenBar
                         Divider()
                     }
 
@@ -487,9 +475,61 @@ struct MemoAdd: View {
         }
     }
 
+    /// "이어지는 메모" 단계 — 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
+    @ViewBuilder
+    private var continuationsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Image(systemName: "arrow.turn.down.right")
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+                Text(NSLocalizedString("이어지는 메모", comment: "Continuation memos section"))
+                    .font(.body).fontWeight(.semibold)
+                    .foregroundColor(theme.textMuted)
+            }
+
+            ForEach(viewModel.continuations.indices, id: \.self) { idx in
+                HStack(spacing: 8) {
+                    Text("\(idx + 2).")
+                        .font(.system(.callout, design: .monospaced))
+                        .foregroundColor(theme.textFaint)
+                    TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
+                              text: $viewModel.continuations[idx], axis: .vertical)
+                        .textFieldStyle(.roundedBorder)
+                    Button {
+                        viewModel.removeContinuation(at: idx)
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .foregroundColor(theme.textFaint)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(NSLocalizedString("이 단계 삭제", comment: "Delete continuation step"))
+                }
+            }
+
+            Button {
+                HapticManager.shared.light()
+                viewModel.addContinuation()
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "plus.circle")
+                    Text(NSLocalizedString("이어지는 메모 추가", comment: "Add continuation memo"))
+                }
+                .font(.body)
+            }
+
+            if !viewModel.continuations.isEmpty {
+                Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
+                    .font(.caption)
+                    .foregroundColor(theme.textFaint)
+            }
+        }
+        .padding()
+    }
+
     @ViewBuilder
     private var templateSection: some View {
-        if viewModel.isTemplate {
+        if !viewModel.detectedPlaceholders.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
                     Image(systemName: "info.circle.fill")
@@ -572,144 +612,7 @@ struct MemoAdd: View {
         }
     }
 
-    @ViewBuilder
-    private var comboSection: some View {
-        if viewModel.isCombo {
-            comboInfoSection
-            comboValueInputSection
-        }
-    }
-
     // MARK: - Attached Template (v4.0.8)
-
-    /// 옵션 템플릿 연결 섹션. 본 메모가 템플릿이 아닌 경우에만 노출.
-    /// 평소엔 메모 단독 사용, 토글 켜면 사용 시 입력 시트 띄워 결합 출력.
-    @ViewBuilder
-    private var attachedTemplateSection: some View {
-        if !viewModel.isTemplate && !viewModel.isCombo {
-            VStack(alignment: .leading, spacing: 12) {
-                Toggle(isOn: Binding(
-                    get: { viewModel.attachedTemplateId != nil },
-                    set: { newValue in
-                        if newValue {
-                            // 첫 사용자 템플릿을 자동 선택
-                            if viewModel.attachedTemplateId == nil {
-                                viewModel.attachedTemplateId = availableTemplates.first?.id
-                            }
-                        } else {
-                            viewModel.attachedTemplateId = nil
-                        }
-                    }
-                )) {
-                    HStack(spacing: 8) {
-                        Image(systemName: "doc.badge.plus")
-                            .foregroundColor(.purple)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("+ 템플릿 연결", comment: "Attach template toggle"))
-                                .font(.body)
-                                .fontWeight(.medium)
-                            Text(NSLocalizedString("사용 시 템플릿 입력값을 받아 함께 출력합니다", comment: "Attach template hint"))
-                                .font(.body)
-                                .foregroundColor(theme.textMuted)
-                        }
-                    }
-                }
-                .disabled(availableTemplates.isEmpty)
-
-                if availableTemplates.isEmpty {
-                    HStack(spacing: 10) {
-                        Text(NSLocalizedString("연결할 템플릿이 없습니다.", comment: "No templates hint"))
-                            .font(.body)
-                            .foregroundColor(theme.textMuted)
-
-                        Button {
-                            showNewTemplateSheet = true
-                        } label: {
-                            Label(NSLocalizedString("새 템플릿 만들기", comment: "Create new template button"),
-                                  systemImage: "plus.circle.fill")
-                                .font(.body)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.purple)
-                        }
-                    }
-                    .padding(.leading, 32)
-                } else if viewModel.attachedTemplateId != nil {
-                    HStack {
-                        Picker(NSLocalizedString("템플릿 선택", comment: "Template picker label"),
-                               selection: Binding(
-                                get: { viewModel.attachedTemplateId ?? availableTemplates.first?.id ?? UUID() },
-                                set: { viewModel.attachedTemplateId = $0 }
-                               )) {
-                            ForEach(availableTemplates, id: \.id) { template in
-                                Text(template.title).tag(template.id)
-                            }
-                        }
-                        .pickerStyle(.menu)
-
-                        Button {
-                            showNewTemplateSheet = true
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .foregroundColor(.purple)
-                                .font(.system(.body))
-                        }
-                        .accessibilityLabel(NSLocalizedString("새 템플릿 만들기", comment: "Create new template button"))
-                    }
-                    .padding(.leading, 32)
-
-                    if let selected = availableTemplates.first(where: { $0.id == viewModel.attachedTemplateId }) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            // 템플릿 본문 표시
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(NSLocalizedString("템플릿 본문", comment: "Template body label"))
-                                    .font(.caption2)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(theme.textMuted)
-                                Text(selected.value)
-                                    .font(.body)
-                                    .foregroundColor(theme.textMuted)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(8)
-                                    .background(theme.surfaceAlt)
-                                    .cornerRadius(theme.radiusSm)
-                            }
-
-                            // 결합 결과 미리보기 (사용자가 어떤 결과가 출력될지 미리 보도록)
-                            VStack(alignment: .leading, spacing: 4) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "eye.fill")
-                                        .font(.caption2)
-                                        .foregroundColor(.green)
-                                    Text(NSLocalizedString("출력 예시", comment: "Combined output preview header"))
-                                        .font(.caption2)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(theme.textMuted)
-                                }
-                                let memoPreview = viewModel.value.isEmpty
-                                    ? NSLocalizedString("(메모 본문)", comment: "Memo body placeholder in preview")
-                                    : viewModel.value
-                                Text("\(memoPreview)\n\(selected.value)")
-                                    .font(.body)
-                                    .foregroundColor(.primary)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(8)
-                                    .background(Color.green.opacity(0.08))
-                                    .cornerRadius(theme.radiusSm)
-                                Text(NSLocalizedString("사용 시 {토큰} 부분에 입력값이 채워집니다", comment: "Token substitution hint"))
-                                    .font(.caption2)
-                                    .foregroundColor(theme.textMuted)
-                            }
-                        }
-                        .padding(.leading, 32)
-                    }
-                }
-            }
-            .padding()
-            .background(Color.purple.opacity(0.05))
-            .cornerRadius(theme.radiusMd)
-        }
-    }
 
     /// 사용자가 만든 템플릿 메모 목록. 본 메모(`isTemplate=false`)는 자연스레 제외됨.
     private var availableTemplates: [Memo] {
@@ -717,150 +620,29 @@ struct MemoAdd: View {
         return memos.filter { $0.isTemplate }
     }
 
-    // Combo 설명 입력 섹션
-    private var comboInfoSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: "info.circle.fill")
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                Text(NSLocalizedString("탭할 때마다 다음 값이 순서대로 입력됩니다", comment: "Combo description"))
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-            }
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text(NSLocalizedString("예시", comment: "Example"))
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.textMuted)
 
-                Text(NSLocalizedString("카드번호 입력: 1234 → 5678 → 9012 → 3456", comment: "Combo example"))
-                    .font(.body)
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        // 앱 일반 카드와 동일한 continuous(스퀴클) 코너로 통일.
-                        RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                            .fill(theme.surfaceAlt)
-                    )
-            }
-        }
-    }
-
-    private var comboValueInputSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            comboValueHeader
-            comboValueInputField
-            comboValueList
-        }
-    }
-
-    private var comboValueHeader: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "list.number")
-                .font(.body)
-                .foregroundColor(.orange)
-            Text(String(format: NSLocalizedString("Combo 값 설정 (%d개)", comment: "Combo value count"), viewModel.comboValues.count))
-                .font(.body)
-                .fontWeight(.semibold)
-        }
-    }
-
-    private var comboValueInputField: some View {
-        HStack(spacing: 8) {
-            TextField(NSLocalizedString("값 입력", comment: "Combo value input placeholder"), text: $viewModel.newComboValue)
-                .clipRoundedField()
-                .submitLabel(.done)
-                .onSubmit {
-                    viewModel.addComboValue()
-                }
-
-            Button {
-                viewModel.addComboValue()
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(viewModel.newComboValue.isEmpty ? .gray : .orange)
-            }
-            .disabled(viewModel.newComboValue.isEmpty)
-            .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add combo value button"))
-        }
-    }
-
-    @ViewBuilder
-    private var comboValueList: some View {
-        if !viewModel.comboValues.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(NSLocalizedString("순서를 변경하려면 드래그하세요", comment: "Drag to reorder"))
-                            .font(.caption2)
-                            .foregroundColor(theme.textMuted)
-                            .padding(.bottom, 4)
-
-                        ForEach(Array(viewModel.comboValues.enumerated()), id: \.offset) { index, value in
-                            HStack {
-                                Image(systemName: "line.3.horizontal")
-                                    .font(.body)
-                                    .foregroundColor(theme.textFaint)
-                                    .accessibilityHidden(true)
-
-                                Text("\(index + 1).")
-                                    .font(.body)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.orange)
-                                    .frame(width: 30, alignment: .leading)
-
-                                Text(value)
-                                    .font(.body)
-
-                                Spacer()
-
-                                Button {
-                                    withAnimation(reduceMotion ? nil : .default) {
-                                        viewModel.removeComboValue(at: index)
-                                    }
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.red)
-                                        .font(.title3)
-                                }
-                                .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value label"), value))
-                            }
-                            .padding(12)
-                            .background(theme.surfaceAlt)
-                            .cornerRadius(theme.radiusSm)
-                            // VoiceOver/스위치 컨트롤: 드래그 불가 → 커스텀 액션으로 이동/삭제.
-                            .accessibilityElement(children: .ignore)
-                            .accessibilityLabel(String(format: NSLocalizedString("%d번, %@", comment: "Combo row"), index + 1, value))
-                            .accessibilityAction(named: NSLocalizedString("위로 이동", comment: "Move combo value up")) {
-                                guard index > 0 else { return }
-                                viewModel.moveComboValues(from: IndexSet([index]), to: index - 1)
-                            }
-                            .accessibilityAction(named: NSLocalizedString("아래로 이동", comment: "Move combo value down")) {
-                                guard index < viewModel.comboValues.count - 1 else { return }
-                                viewModel.moveComboValues(from: IndexSet([index]), to: index + 2)
-                            }
-                            .accessibilityAction(named: NSLocalizedString("삭제", comment: "Delete combo value")) {
-                                viewModel.removeComboValue(at: index)
-                            }
-                        }
-                        .onMove { from, to in
-                            viewModel.moveComboValues(from: from, to: to)
-                        }
-                    }
-        } else {
-            Text(NSLocalizedString("위의 필드에서 값을 추가하세요", comment: "Add value hint"))
-                .font(.body)
-                .foregroundColor(.orange)
-                .padding(12)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .background(Color.orange.opacity(0.1))
-                .cornerRadius(theme.radiusSm)
-        }
-    }
 
     // 템플릿 변수 버튼
     @ViewBuilder
+    /// 키보드 위에 뜨는 템플릿 변수 옵션 바 — 본문(붙여넣을 내용) 입력 중에만 노출.
+    /// 탭하면 커서 위치에 {변수}가 삽입되어 자동으로 템플릿이 된다.
+    private var variableTokenBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: "{금액}")
+                templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: "{수량}")
+                templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: "{이름}")
+                templateButton(title: NSLocalizedString("날짜", comment: "Date token button"), variable: "{날짜}")
+                templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: "{시간}")
+                templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: "{주소}")
+                templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: "{전화}")
+            }
+            .padding(.horizontal, 20)
+        }
+        .padding(.vertical, 8)
+    }
+
     private func templateButton(title: String, variable: String) -> some View {
         Button {
             viewModel.value += variable

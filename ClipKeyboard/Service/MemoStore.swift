@@ -46,7 +46,12 @@ class MemoStore: ObservableObject {
         }
     }
 
-    func save(memos: [Memo], type: MemoType) throws {
+    func save(memos: [Memo], type: MemoType, recordHistory: Bool = true) throws {
+        // 타임머신: 메모를 덮어쓰기 직전, 의미 있는 변경이면 "이전 상태"를 스냅샷으로 보관.
+        // (대량 삭제·편집·마이그레이션 사고를 되돌릴 수 있는 로컬 안전망. 최근 10개 유지.)
+        if type == .memo, recordHistory {
+            captureMemoHistoryIfMeaningful(newMemos: memos)
+        }
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
         try data.write(to: outfile)
@@ -64,12 +69,7 @@ class MemoStore: ObservableObject {
         guard let fileURL = try Self.fileURL(type: type) else { return [] }
         guard let data = try? Data(contentsOf: fileURL) else { return [] }
 
-        let memos = decodeMemosFromData(data)
-        let (migratedMemos, wasMigrated) = migrateLegacyCategoriesToThemes(memos)
-        if wasMigrated {
-            try? save(memos: migratedMemos, type: type)
-        }
-        return migratedMemos
+        return decodeMemosFromData(data)
     }
 
     private func decodeMemosFromData(_ data: Data) -> [Memo] {
@@ -202,22 +202,6 @@ class MemoStore: ObservableObject {
         }
 
         return smartHistory
-    }
-
-    private func migrateLegacyCategoriesToThemes(_ memos: [Memo]) -> (memos: [Memo], migrated: Bool) {
-        let oldCategories = ["개인정보", "금융", "여행", "업무", "기본"]
-        guard memos.contains(where: { oldCategories.contains($0.category) }) else {
-            return (memos, false)
-        }
-
-        let migratedMemos = memos.map { memo -> Memo in
-            guard oldCategories.contains(memo.category) else { return memo }
-            var updated = memo
-            updated.category = memo.autoDetectedType?.rawValue ?? "텍스트"
-            return updated
-        }
-
-        return (migratedMemos, true)
     }
 
     private func removeDuplicate(_ array: [Memo]) -> [Memo] {
@@ -424,6 +408,91 @@ class MemoStore: ObservableObject {
         }
         return cleaned
     }
+
+    // MARK: - Memo Time Machine (최근 변경 스냅샷)
+
+    /// 메모 전체 상태의 스냅샷(되돌리기용). 최근 N개만 보관.
+    static let memoHistoryLimit = 10
+
+    private static func historyFileURL() -> URL? {
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo")?
+            .appendingPathComponent("memo.history.data")
+    }
+
+    /// 사용량(clipCount/lastUsedAt/lastEdited)만 다른 저장은 스냅샷하지 않도록 비교용 서명 생성.
+    /// 제목·본문·카테고리·타입·자식·이미지·힌트 등 "의미 있는" 필드만 포함.
+    private func historySignature(_ memos: [Memo]) -> String {
+        memos
+            .sorted { $0.id.uuidString < $1.id.uuidString }
+            .map { m in
+                [m.id.uuidString, m.title, m.value, m.category,
+                 String(m.isTemplate), String(m.isSecure),
+                 m.childMemoIds.map { $0.uuidString }.joined(separator: ","),
+                 m.imageFileNames.joined(separator: ","),
+                 m.hint ?? ""].joined(separator: "\u{1F}")   // unit separator
+            }
+            .joined(separator: "\n")
+    }
+
+    func loadMemoHistory() -> [MemoSnapshot] {
+        guard let url = Self.historyFileURL(), let data = try? Data(contentsOf: url) else { return [] }
+        return (try? JSONDecoder().decode([MemoSnapshot].self, from: data)) ?? []
+    }
+
+    private func saveMemoHistory(_ snapshots: [MemoSnapshot]) {
+        guard let url = Self.historyFileURL() else { return }
+        if let data = try? JSONEncoder().encode(snapshots) {
+            try? data.write(to: url)
+        }
+    }
+
+    /// 현재 디스크 상태(곧 덮어쓸 이전 메모)를 스냅샷으로 push. 의미 있는 변경일 때만.
+    private func captureMemoHistoryIfMeaningful(newMemos: [Memo]) {
+        guard let url = try? Self.fileURL(type: .memo),
+              let data = try? Data(contentsOf: url) else { return }   // 기존 데이터 없으면 스냅샷 불필요
+        let current = decodeMemosFromData(data)
+        guard !current.isEmpty else { return }
+        guard historySignature(current) != historySignature(newMemos) else { return }  // 사용량만 변경 → skip
+        pushMemoSnapshot(current)
+    }
+
+    private func pushMemoSnapshot(_ memos: [Memo]) {
+        var history = loadMemoHistory()
+        let snapshot = MemoSnapshot(id: UUID(), timestamp: Date(), memoCount: memos.count, memos: memos)
+        history.insert(snapshot, at: 0)
+        if history.count > Self.memoHistoryLimit {
+            history = Array(history.prefix(Self.memoHistoryLimit))
+        }
+        saveMemoHistory(history)
+    }
+
+    /// 스냅샷으로 되돌린다. 되돌리기 자체도 취소할 수 있도록 현재 상태를 먼저 스냅샷에 남긴다.
+    @discardableResult
+    func restoreMemoSnapshot(_ id: UUID) -> Bool {
+        let history = loadMemoHistory()
+        guard let snapshot = history.first(where: { $0.id == id }) else { return false }
+        // 현재 상태 보존(되돌리기의 되돌리기 가능)
+        if let url = try? Self.fileURL(type: .memo), let data = try? Data(contentsOf: url) {
+            let current = decodeMemosFromData(data)
+            if !current.isEmpty { pushMemoSnapshot(current) }
+        }
+        do {
+            try save(memos: snapshot.memos, type: .memo, recordHistory: false)
+            print("↩️ [MemoStore] 스냅샷 복원: \(snapshot.memoCount)개 (\(snapshot.timestamp))")
+            return true
+        } catch {
+            print("❌ [MemoStore] 스냅샷 복원 실패: \(error)")
+            return false
+        }
+    }
+}
+
+/// 메모 전체 상태 스냅샷(타임머신 1개 지점).
+struct MemoSnapshot: Codable, Identifiable {
+    var id: UUID
+    var timestamp: Date
+    var memoCount: Int
+    var memos: [Memo]
 }
 
 // MARK: - KeyboardUsageTracker

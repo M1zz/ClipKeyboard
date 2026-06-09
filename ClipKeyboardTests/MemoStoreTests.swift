@@ -256,7 +256,7 @@ final class MemoStoreTests: XCTestCase {
 
     func testGetComboItemValue_Template() throws {
         // Given
-        let template = Memo(title: "템플릿", value: "안녕하세요 {이름}님", isTemplate: true)
+        let template = Memo(title: "템플릿", value: "안녕하세요 {이름}님", templateVariables: ["{이름}"])
         try sut.save(memos: [template], type: .memo)
 
         let item = ComboItem(

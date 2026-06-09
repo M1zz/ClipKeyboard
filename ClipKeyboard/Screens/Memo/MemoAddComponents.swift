@@ -85,7 +85,8 @@ struct QuickInsertTokenButton: View {
                 Image(systemName: isNumeric ? "number" : "list.bullet")
                     .font(.system(.caption2, weight: .semibold))
                     .accessibilityHidden(true)
-                Text(token)
+                // 중괄호 없이 변수명만 칩으로 표시(삽입은 {…} 형태 그대로).
+                Text(token.strippingTemplateBraces)
                     .font(.body.weight(.medium))
             }
             .foregroundColor(isNumeric ? .blue : .green)
