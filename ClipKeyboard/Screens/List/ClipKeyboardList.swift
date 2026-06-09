@@ -185,9 +185,30 @@ struct ClipKeyboardList: View {
         return String(format: NSLocalizedString("무료 메모 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
+    /// 화면 상단 large title — 현재 보고 있는 카테고리 이름.
+    /// 페이저(categoryTabView) 위에 두어 스와이프로 페이지가 바뀌면 함께 갱신된다.
+    /// 카테고리 기능이 꺼져 있으면 단일 "전체" 페이지이므로 그 이름을 표시.
+    private var categoryLargeTitle: some View {
+        let tab: CategoryTab = CategoryStore.shared.isFeatureEnabled ? viewModel.selectedCategoryTab : .all
+        return Text(tab.displayName)
+            .font(.largeTitle.weight(.bold))
+            .foregroundColor(theme.text)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 4)
+            .contentTransition(.opacity)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: viewModel.selectedCategoryTab)
+            .accessibilityAddTraits(.isHeader)
+    }
+
     @ViewBuilder
     private var mainColumn: some View {
                 VStack(spacing: 0) {
+                    categoryLargeTitle
+
                     // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
                     // 페이월을 영영 안 보던 캐주얼 무료 유저에게 노출을 만들어줌.
                     if shouldShowProValueNudge {
@@ -815,7 +836,10 @@ struct ClipKeyboardList: View {
             // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
             if visualCuesVisible {
                 HStack(alignment: .top, spacing: 4) {
-                    memoTypeIcon(memo: memo, onColor: onColor)
+                    // 보안 메모는 제목 왼쪽 자물쇠로 표시하므로 상단 타입 아이콘에서는 생략(중복 방지).
+                    if !memo.isSecure {
+                        memoTypeIcon(memo: memo, onColor: onColor)
+                    }
                     Spacer()
                     if memo.isFavorite {
                         Image(systemName: "heart.fill")
@@ -834,11 +858,20 @@ struct ClipKeyboardList: View {
                 }
                 Spacer(minLength: 16)
             }
-            Text(memo.title)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(onColor ? .white : theme.text)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                // 보안 메모는 제목 왼쪽에 자물쇠 심볼로 표시.
+                if memo.isSecure {
+                    Image(systemName: "lock.fill")
+                        .font(.title3)
+                        .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
+                        .accessibilityHidden(true)
+                }
+                Text(memo.title)
+                    .font(.title2.weight(.semibold))
+                    .foregroundColor(onColor ? .white : theme.text)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
@@ -1183,13 +1216,13 @@ struct ClipKeyboardList: View {
         switch tab {
         case .basic:
             if !filtered.isEmpty {
-                allTabScrollView(memos: filtered)
+                allTabScrollView(memos: filtered, tab: .basic)
             } else {
                 EmptyListView
             }
         case .all:
             if !viewModel.memos.isEmpty {
-                allTabScrollView(memos: viewModel.memos)
+                allTabScrollView(memos: viewModel.memos, tab: .all)
             } else {
                 EmptyListView
             }
@@ -1326,13 +1359,18 @@ struct ClipKeyboardList: View {
             .accessibilityHint(NSLocalizedString("드래그하여 순서를 바꿉니다", comment: "Reorder cell a11y hint"))
     }
 
-    private func allTabScrollView(memos allMemos: [Memo]) -> some View {
+    private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
                 // 상단 여백 — Dynamic Island 아래 숨 쉬는 공간
                 Color.clear.frame(height: 16)
 
                 // TipKit 팁들
+                // ⚠️ 세로 패딩(top/bottom)을 이 블록에 붙이지 않는다.
+                // 팁이 모두 닫히면 TipView는 0 높이로 접히지만, 항상 존재하는 래퍼/뷰에 붙은
+                // 세로 패딩은 빈 상태에서도 남아, 첫 페이지 그리드만 다른 페이지보다 아래에서
+                // 시작하는 정렬 어긋남을 만든다. 가로 패딩만 두고, 팁이 보일 때의 위쪽 간격은
+                // 상단 16pt 여백이, 그리드와의 간격은 그리드 자체의 .padding(.top, 8)이 담당한다.
                 VStack(spacing: 12) {
                     TipView(welcomeTip)
                         .tipBackground(theme.surface)
@@ -1348,8 +1386,6 @@ struct ClipKeyboardList: View {
                     .tipBackground(theme.surface)
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .padding(.bottom, 4)
 
                 // Grace 배너
                 if shouldShowGraceBanner {
@@ -1386,6 +1422,8 @@ struct ClipKeyboardList: View {
                                 .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                                 .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                         }
+                        // 다른 카테고리 탭처럼 그리드 끝에 "추가" 카드 — 기본 탭에서도 추가를 유도.
+                        addCard(for: tab)
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
@@ -1460,10 +1498,12 @@ struct ClipKeyboardList: View {
     @ViewBuilder
     private func addCard(for tab: CategoryTab) -> some View {
         switch tab {
-        case .basic:
-            EmptyView()
-        case .all:
-            EmptyView()
+        case .basic, .all:
+            // 기본/전체 탭에서도 다른 카테고리처럼 추가를 유도하는 카드.
+            addMemoCard(
+                label: NSLocalizedString("메모 추가", comment: "Add memo card"),
+                accessibility: NSLocalizedString("메모 추가", comment: "Add memo card")
+            ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
         case .favorites:
             addMemoCard(
                 label: NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"),
@@ -2228,7 +2268,8 @@ struct ClipKeyboardList: View {
             viewModel.loadMemos()
             print("🗑️ [ClipKeyboardList] 샘플 메모 \(sampleIds.count)개 삭제 완료")
         } catch {
-            print("❌ [ClipKeyboardList] 샘플 메모 삭제 실패: \(error)")
+            print("❌ [ClipKeyboardList.deleteSampleMemos] 샘플 메모 삭제 실패: \(error)")
+            viewModel.showPlainToast(NSLocalizedString("샘플 메모를 삭제하지 못했습니다", comment: "Sample memo delete failed toast"))
         }
     }
 

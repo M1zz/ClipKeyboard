@@ -44,6 +44,7 @@ struct BulkImportView: View {
     @State private var splitMode: SplitMode = .auto
     @State private var drafts: [Draft] = []
     @State private var savedCount: Int? = nil
+    @State private var showSaveError = false
 
     var body: some View {
         NavigationStack {
@@ -62,6 +63,14 @@ struct BulkImportView: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .solidNavBar(theme.bg)
+            .alert(
+                NSLocalizedString("가져오기 실패", comment: "Bulk import failed alert title"),
+                isPresented: $showSaveError
+            ) {
+                Button(NSLocalizedString("확인", comment: "Confirm")) {}
+            } message: {
+                Text(NSLocalizedString("메모를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Bulk import failed alert message"))
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("Cancel", comment: "Cancel")) { dismiss() }
@@ -275,8 +284,9 @@ struct BulkImportView: View {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             savedCount = toSave.count
         } catch {
-            print("❌ [BulkImport] save failed: \(error)")
+            print("❌ [BulkImportView.saveAll] 일괄 가져오기 저장 실패: \(error)")
             UINotificationFeedbackGenerator().notificationOccurred(.error)
+            showSaveError = true
         }
     }
 }

@@ -363,7 +363,50 @@ struct Memo: Identifiable, Codable {
         case lastUsedAt
         case hint
     }
-    
+
+    /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
+    /// `isTemplate`/`isCombo`/`currentComboIndex`(비옵셔널) 키가 JSON에 없으면 keyNotFound를
+    /// 던져 `[Memo]` 디코딩이 통째로 실패하고, OldMemo(title/value만) 폴백으로 카테고리·
+    /// 즐겨찾기·콤보가 전멸한다. 4.3.1에서 이 키들을 stored→계산형으로 바꾸며 인코딩에서
+    /// 누락시킨 것이 원인. 계산형 값을 레거시 키로도 함께 써서 구버전이 안전하게 읽게 한다.
+    /// (attachedTemplateId는 Optional이라 구버전이 누락을 허용 → 생략.)
+    private enum LegacyCompatKeys: String, CodingKey {
+        case isTemplate
+        case isCombo
+        case currentComboIndex
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(id, forKey: .id)
+        try c.encode(title, forKey: .title)
+        try c.encode(value, forKey: .value)
+        try c.encode(isChecked, forKey: .isChecked)
+        try c.encode(lastEdited, forKey: .lastEdited)
+        try c.encode(isFavorite, forKey: .isFavorite)
+        try c.encode(clipCount, forKey: .clipCount)
+        try c.encode(category, forKey: .category)
+        try c.encode(isSecure, forKey: .isSecure)
+        try c.encode(templateVariables, forKey: .templateVariables)
+        try c.encode(placeholderValues, forKey: .placeholderValues)
+        try c.encode(comboValues, forKey: .comboValues)
+        try c.encode(childMemoIds, forKey: .childMemoIds)
+        try c.encode(comboInterval, forKey: .comboInterval)
+        try c.encodeIfPresent(autoDetectedType, forKey: .autoDetectedType)
+        try c.encodeIfPresent(imageFileName, forKey: .imageFileName)
+        try c.encode(imageFileNames, forKey: .imageFileNames)
+        try c.encode(contentType, forKey: .contentType)
+        try c.encodeIfPresent(lastUsedAt, forKey: .lastUsedAt)
+        try c.encodeIfPresent(hint, forKey: .hint)
+
+        // 레거시 키도 함께 기록 — 구버전 디코더가 필수로 요구하는 키.
+        var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)
+        try legacy.encode(isTemplate, forKey: .isTemplate)
+        try legacy.encode(isCombo, forKey: .isCombo)
+        try legacy.encode(0, forKey: .currentComboIndex)
+    }
+
+
     static var dummyData: [Memo] = {
         let date = dateFormatter.date(from: "2023-08-31 10:00:00") ?? Date()
         return [

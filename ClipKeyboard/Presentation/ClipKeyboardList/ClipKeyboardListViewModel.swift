@@ -727,20 +727,28 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 try MemoStore.shared.save(memos: loadedData, type: .memo)
                 applyFilters()
             } catch {
-                fatalError(error.localizedDescription)
+                // 저장 실패로 앱을 크래시시키지 않는다 — 디스크 상태로 되돌려 UI 일관성을 유지하고 사용자에게 알린다.
+                print("❌ [ClipKeyboardListViewModel.toggleFavorite] 즐겨찾기 저장 실패: \(error)")
+                loadMemos()
+                showPlainToast(NSLocalizedString("변경 사항을 저장하지 못했습니다", comment: "Save failed toast"))
             }
         }
     }
 
     func deleteMemo(at offsets: IndexSet) {
         let deletedIds = offsets.map { memos[$0].id }
+        let backup = loadedData
         loadedData.removeAll { memo in deletedIds.contains(memo.id) }
 
         do {
             try MemoStore.shared.save(memos: loadedData, type: .memo)
             applyFilters()
         } catch {
-            fatalError(error.localizedDescription)
+            // 삭제 저장 실패 시 크래시 대신 메모리 상태를 롤백하고 사용자에게 알린다.
+            print("❌ [ClipKeyboardListViewModel.deleteMemo] 메모 삭제 저장 실패: \(error)")
+            loadedData = backup
+            applyFilters()
+            showPlainToast(NSLocalizedString("삭제하지 못했습니다", comment: "Delete failed toast"))
         }
     }
 

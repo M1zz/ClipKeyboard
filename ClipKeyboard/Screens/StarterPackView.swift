@@ -27,6 +27,7 @@ struct StarterPackView: View {
 
     private let items: [StarterPackItem]
     @State private var selected: Set<UUID>
+    @State private var showSaveError = false
 
     init(onComplete: @escaping (Int) -> Void = { _ in }) {
         self.onComplete = onComplete
@@ -81,6 +82,14 @@ struct StarterPackView: View {
             }
             .safeAreaInset(edge: .bottom) {
                 addButton
+            }
+            .alert(
+                NSLocalizedString("추가 실패", comment: "Starter pack add failed alert title"),
+                isPresented: $showSaveError
+            ) {
+                Button(NSLocalizedString("확인", comment: "Confirm")) {}
+            } message: {
+                Text(NSLocalizedString("메모를 추가하지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Starter pack add failed alert message"))
             }
         }
     }
@@ -207,10 +216,15 @@ struct StarterPackView: View {
             #endif
             print("✅ [StarterPack] \(chosen.count)개 메모 추가 완료")
             onComplete(chosen.count)
+            dismiss()
         } catch {
-            print("❌ [StarterPack] 저장 실패: \(error)")
+            // 저장 실패 시 시트를 닫지 않는다 — 선택을 보존하고 사용자가 재시도할 수 있도록 알린다.
+            print("❌ [StarterPack.addSelected] 메모 추가 저장 실패: \(error)")
+            #if os(iOS)
+            HapticManager.shared.error()
+            #endif
+            showSaveError = true
         }
-        dismiss()
     }
 }
 

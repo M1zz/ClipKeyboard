@@ -332,7 +332,8 @@ struct ClipboardList: View {
             loadHistory()
             showToast(message: String(format: NSLocalizedString("타입이 %@로 변경되었습니다", comment: ""), newType.localizedName))
         } catch {
-            print("❌ [ClipboardList.updateItemType] \(error)")
+            print("❌ [ClipboardList.updateItemType] 타입 변경 실패: \(error)")
+            showToast(message: NSLocalizedString("타입 변경에 실패했습니다", comment: "Clipboard item type change failed toast"))
         }
     }
 
@@ -364,7 +365,10 @@ struct ClipboardList: View {
         do {
             try MemoStore.shared.saveSmartClipboardHistory(history: clipboardHistory)
         } catch {
-            print("❌ [ClipboardList.deleteItems] \(error)")
+            // 저장 실패 시 화면과 디스크가 어긋나므로 디스크 상태로 되돌리고 알린다.
+            print("❌ [ClipboardList.deleteItems] 삭제 저장 실패: \(error)")
+            loadHistory()
+            showToast(message: NSLocalizedString("삭제하지 못했습니다", comment: "Delete failed toast"))
         }
     }
 
@@ -373,7 +377,10 @@ struct ClipboardList: View {
         do {
             try MemoStore.shared.saveSmartClipboardHistory(history: [])
         } catch {
-            print("❌ [ClipboardList.clearAll] \(error)")
+            // 저장 실패 시 디스크 상태로 되돌리고 알린다.
+            print("❌ [ClipboardList.clearAll] 전체 삭제 저장 실패: \(error)")
+            loadHistory()
+            showToast(message: NSLocalizedString("전체 삭제에 실패했습니다", comment: "Clear all failed toast"))
         }
     }
 

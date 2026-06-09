@@ -55,6 +55,10 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
         try data.write(to: outfile)
+        // 다운그레이드로 유실되지 않도록 카테고리 할당을 사이드카에도 보관.
+        if type == .memo {
+            Self.writeCategorySidecar(memos)
+        }
         NotificationCenter.default.post(name: NSNotification.Name("MemoDataChanged"), object: nil)
     }
 
@@ -69,7 +73,19 @@ class MemoStore: ObservableObject {
         guard let fileURL = try Self.fileURL(type: type) else { return [] }
         guard let data = try? Data(contentsOf: fileURL) else { return [] }
 
-        return decodeMemosFromData(data)
+        var memos = decodeMemosFromData(data)
+        if type == .memo {
+            if Self.restoreCategoriesFromSidecar(&memos) {
+                // 다운그레이드 등으로 memos.data의 category가 유실된 흔적 →
+                // 사이드카에서 복원하고 파일도 치유(재저장, 스냅샷 폭주 방지 위해 recordHistory:false).
+                try? save(memos: memos, type: .memo, recordHistory: false)
+                print("🔄 [MemoStore.load] 유실된 메모 카테고리를 사이드카에서 복원·치유")
+            } else if Self.categorySidecarMissing() {
+                // 기존 사용자 1회 부트스트랩 — 이후 다운그레이드에 대비해 사이드카를 채워둔다.
+                Self.writeCategorySidecar(memos)
+            }
+        }
+        return memos
     }
 
     private func decodeMemosFromData(_ data: Data) -> [Memo] {
@@ -80,6 +96,54 @@ class MemoStore: ObservableObject {
             return oldMemos.map { Memo(from: $0) }
         }
         return []
+    }
+
+    // MARK: - 카테고리 다운그레이드 안전장치 (사이드카)
+    //
+    // 각 메모의 `category`는 memos.data JSON 안에 저장된다. 카테고리 필드가 없는 구버전
+    // Memo 모델이 이 파일을 로드한 뒤 재저장하면 `category` 키가 통째로 빠져, 다운그레이드 →
+    // 재업그레이드 시 모든 메모가 "기본"으로 떨어진다(카테고리 유실). 이미 배포된 구버전의
+    // 동작은 바꿀 수 없으므로, 구버전이 절대 읽지/쓰지 않는 App Group UserDefaults 키에
+    // [메모ID: 카테고리] 맵을 따로 저장해두고 신버전 로드 시 복원한다.
+    // (구버전엔 카테고리 편집 UI가 없으니, 신버전 저장 시점의 사이드카가 항상 정답이다.)
+    private static let categorySidecarKey = "memoCategoryAssignments_v1"
+    private static let defaultCategoryName = "기본"
+    private static var sidecarDefaults: UserDefaults? {
+        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+    }
+
+    /// 현재 메모들의 '비기본' 카테고리 할당을 사이드카에 통째로 덮어써 항상 최신 상태로 유지.
+    static func writeCategorySidecar(_ memos: [Memo]) {
+        guard let d = sidecarDefaults else { return }
+        var map: [String: String] = [:]
+        for m in memos where !m.category.isEmpty && m.category != defaultCategoryName {
+            map[m.id.uuidString] = m.category
+        }
+        d.set(map, forKey: categorySidecarKey)
+    }
+
+    static func categorySidecarMissing() -> Bool {
+        sidecarDefaults?.dictionary(forKey: categorySidecarKey) == nil
+    }
+
+    /// 사이드카의 카테고리를 복원. memos.data 쪽이 기본/빈값(=구버전이 지운 유실 신호)인
+    /// 메모만 덮어쓴다. 신버전에서 의도적으로 '기본'으로 옮긴 경우엔 저장 시 사이드카에서도
+    /// 제거되므로 잘못 되살아나지 않는다. 변경이 있었으면 true.
+    static func restoreCategoriesFromSidecar(_ memos: inout [Memo]) -> Bool {
+        guard let d = sidecarDefaults,
+              let map = d.dictionary(forKey: categorySidecarKey) as? [String: String],
+              !map.isEmpty else { return false }
+        var changed = false
+        for i in memos.indices {
+            guard let saved = map[memos[i].id.uuidString],
+                  !saved.isEmpty, saved != defaultCategoryName else { continue }
+            let current = memos[i].category
+            if current.isEmpty || current == defaultCategoryName {
+                memos[i].category = saved
+                changed = true
+            }
+        }
+        return changed
     }
 
     func loadClipboardHistory() throws -> [ClipboardHistory] {

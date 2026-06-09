@@ -315,7 +315,8 @@ struct TemplateEditSheet: View {
                 .mapValues { [$0] }
             try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
-            // 저장 실패는 조용히 무시 — 복사 기능 자체는 계속 동작
+            // 플레이스홀더 값 저장 실패는 치명적이지 않음(복사 기능 자체는 계속 동작) — 로그만 남김
+            print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 플레이스홀더 값 저장 실패: \(error)")
         }
     }
 }

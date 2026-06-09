@@ -565,15 +565,38 @@ struct TemplateFillSheet: View {
         !placeholders.contains { (inputs[$0] ?? "").trimmingCharacters(in: .whitespaces).isEmpty }
     }
 
-    /// 현재 입력 기준 최종 결과(자동 변수 포함 치환).
+    /// 현재 입력 기준 최종 결과(자동 변수 포함 치환). 복사 시 사용.
     private var resolvedValue: String {
         TemplateVariableProcessor.substitute(memo.value, with: inputs)
+    }
+
+    /// 미리보기용 — 아직 안 채운 변수는 그대로 남겨 칩으로 보이게 한다.
+    /// (onAppear가 inputs를 빈 문자열("")로 초기화하므로, 빈 값까지 치환하면
+    ///  {금액} 같은 미입력 변수가 빈칸으로 지워져 프리뷰에서 사라진다 → 빈 값은 제외.)
+    private var previewValue: String {
+        let filled = inputs.filter { !$0.value.isEmpty }
+        return TemplateVariableProcessor.substitute(memo.value, with: filled)
+    }
+
+    /// 제목 — 채울 변수가 하나뿐이면 변수명 기반("금액 입력")으로 더 구체적으로,
+    /// 여러 개면 일반 "템플릿 입력"으로 표시.
+    private var fillTitle: String {
+        let custom = memo.value.extractTemplatePlaceholders()
+        if custom.count == 1 {
+            return String(
+                format: NSLocalizedString("%@ 입력", comment: "Template fill title for a single placeholder, e.g. 금액 입력"),
+                custom[0].strippingTemplateBraces
+            )
+        }
+        return NSLocalizedString("템플릿 입력", comment: "Template input title")
     }
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // MARK: 컬러 프리뷰 — 복사될 결과를 그대로 보여준다(채운 값은 초록 강조).
+                // MARK: 미리보기 — 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
+                // 다른 화면(TemplateInputSheet/TemplateEditSheet)과 동일하게 중괄호 없는 강조색
+                // 칩으로 표시한다(templateChipAttributed).
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
                         Image(systemName: "eye.fill")
@@ -583,8 +606,9 @@ struct TemplateFillSheet: View {
                             .font(.footnote.weight(.semibold))
                             .foregroundColor(theme.textMuted)
                     }
-                    coloredPreview
+                    Text(previewValue.templateChipAttributed(theme: theme))
                         .font(.body)
+                        .foregroundColor(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(12)
                         .background(theme.surfaceAlt)
@@ -611,7 +635,7 @@ struct TemplateFillSheet: View {
                 }
             }
             .background(theme.bg)
-            .navigationTitle(NSLocalizedString("템플릿 입력", comment: "Template input title"))
+            .navigationTitle(fillTitle)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -642,40 +666,6 @@ struct TemplateFillSheet: View {
         }
     }
 
-    // MARK: - Colored Preview (키보드 coloredPreviewText 이식)
-
-    private struct PreviewSegment { let text: String; let isValue: Bool }
-
-    private func parseSegments() -> [PreviewSegment] {
-        let original = memo.value
-        var segments: [PreviewSegment] = []
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return [PreviewSegment(text: original, isValue: false)]
-        }
-        var lastEnd = original.startIndex
-        for match in regex.matches(in: original, range: NSRange(original.startIndex..., in: original)) {
-            guard let range = Range(match.range, in: original) else { continue }
-            if lastEnd < range.lowerBound {
-                segments.append(PreviewSegment(text: String(original[lastEnd..<range.lowerBound]), isValue: false))
-            }
-            let key = String(original[range])
-            let value = inputs[key] ?? ""
-            segments.append(PreviewSegment(text: value.isEmpty ? key : value, isValue: !value.isEmpty))
-            lastEnd = range.upperBound
-        }
-        if lastEnd < original.endIndex {
-            segments.append(PreviewSegment(text: String(original[lastEnd...]), isValue: false))
-        }
-        return segments
-    }
-
-    private var coloredPreview: Text {
-        parseSegments().reduce(Text("")) { acc, seg in
-            seg.isValue
-                ? acc + Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold()
-                : acc + Text(seg.text)
-        }
-    }
 
     // MARK: - Save entered values to history
 
@@ -725,11 +715,7 @@ private struct TemplateFillRow: View {
     @ViewBuilder
     private var numericSection: some View {
         VStack(spacing: 8) {
-            if !value.isEmpty {
-                Text(value)
-                    .font(.system(.title3, design: .monospaced, weight: .semibold))
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-            }
+            // 입력값은 상단 "입력될 결과" 프리뷰에 실시간 반영되므로 여기서 다시 표시하지 않는다(중복 제거).
             HStack(spacing: 6) {
                 ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { d in numericKey(d) }
                 Button {

@@ -205,6 +205,34 @@ struct ClipKeyboardApp: App {
         }
     }
 
+    /// 시드 샘플 중 본문에 {변수}가 있는데도 templateVariables가 비어 isTemplate=false가 된
+    /// 메모(예: "인사말 + 회신", "송금 안내 + 양식")를 1회 보정한다. 탭 시 하프모달이 뜨도록.
+    /// 사용자가 직접 만든 메모(코드/JSON 안의 리터럴 중괄호 등)는 건드리지 않기 위해
+    /// SampleMemoStorage가 추적하는 샘플 메모로만 범위를 한정한다.
+    private func migrateSampleTemplateFlagsIfNeeded() {
+        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        guard g?.bool(forKey: "sampleTemplateFlagsMigrated_v1") != true else { return }
+        do {
+            var memos = try MemoStore.shared.load(type: .memo)
+            let sampleIds = SampleMemoStorage.load()
+            var changed = false
+            for i in memos.indices
+            where sampleIds.contains(memos[i].id) && memos[i].templateVariables.isEmpty {
+                let custom = memos[i].value.extractTemplatePlaceholders()
+                if !custom.isEmpty {
+                    memos[i].templateVariables = custom
+                    changed = true
+                    print("🔄 [APP MIGRATION] 샘플 템플릿 플래그 보정: \(memos[i].title) → \(custom)")
+                }
+            }
+            if changed { try MemoStore.shared.save(memos: memos, type: .memo) }
+            g?.set(true, forKey: "sampleTemplateFlagsMigrated_v1")
+            print("🔄 [APP MIGRATION] 샘플 템플릿 플래그 마이그레이션 완료 (변경=\(changed))")
+        } catch {
+            print("❌ [APP MIGRATION] 샘플 템플릿 플래그 마이그레이션 실패: \(error)")
+        }
+    }
+
     /// 레거시 메모의 콤보/attached 필드만 원본 JSON에서 읽기 위한 경량 디코더.
     /// (신 Memo 모델은 이 키들을 더 이상 디코드하지 않으므로 별도로 읽어야 한다.)
     private struct LegacyMemoFields: Decodable {
@@ -388,11 +416,14 @@ struct ClipKeyboardApp: App {
             category: personal,
             comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
         )
-        // 4) 일반 메모 (고정 인사말 + 회신 양식을 한 메모로 합침)
+        // 4) 인사말 + 회신 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
+        //    templateVariables를 넘기지 않으면 isTemplate=false가 되어 탭 시 {변수}가
+        //    그대로 복사되는 버그가 생긴다. 합쳐진 본문의 커스텀 토큰을 그대로 사용.
         let memoWithTemplate = Memo(
             title: isKorean ? "인사말 + 회신" : "Greeting + Reply",
             value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
-            category: work
+            category: work,
+            templateVariables: template.templateVariables
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
     }
@@ -424,11 +455,12 @@ struct ClipKeyboardApp: App {
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
             isFavorite: true
         )
-        // 일반 메모 (고정 안내문 + 송금 양식을 한 메모로 합침)
+        // 고정 안내문 + 송금 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
         let noteWithTemplate = Memo(
             title: isKorean ? "송금 안내 + 양식" : "Payment note + form",
             value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
-            category: finance
+            category: finance,
+            templateVariables: template.templateVariables
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
     }
@@ -456,6 +488,7 @@ struct ClipKeyboardApp: App {
                     migrateKoreanEnabledIfNeeded()
                     migrateSecureMemoEncryptionIfNeeded()
                     insertDefaultSamplesIfNeeded()
+                    migrateSampleTemplateFlagsIfNeeded()
                     offerDemoSamplesToExistingUserIfNeeded()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

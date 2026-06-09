@@ -321,7 +321,9 @@ final class MemoAddViewModel: ObservableObject {
             }
             print("✅ [MemoAddViewModel] 메모 저장 완료: \(finalMemoTitle)")
         } catch {
-            print("❌ [MemoAddViewModel] 저장 실패: \(error)")
+            // 저장 실패 시 화면을 닫지 않는다(작성 내용 보존) — 토스트로 알리고 사용자가 재시도할 수 있게 한다.
+            print("❌ [MemoAddViewModel.saveMemo] 메모 저장 실패: \(error)")
+            showToastMessage(NSLocalizedString("저장에 실패했습니다. 다시 시도해주세요.", comment: "Memo save failed toast"))
         }
     }
 
@@ -450,7 +452,8 @@ final class MemoAddViewModel: ObservableObject {
                 return false
             }
         } catch {
-            // 로드 실패 시 제한 체크 건너뛰기
+            // 로드 실패 시 제한 체크를 건너뛰고 저장을 허용 (사용자 흐름 차단 방지)
+            print("⚠️ [MemoAddViewModel.checkProLimitsForNewMemo] 기존 메모 로드 실패 — Pro 제한 체크 건너뜀: \(error)")
         }
         return true
     }
