@@ -6,6 +6,7 @@ ClipKeyboard v4.3.1
 - 메모를 길게 눌러 바로 템플릿으로 만듭니다, 일반 메모를 길게 누르면 "템플릿으로 만들기"가 나오고 누르면 편집 화면에서 본문에 {이름}·{날짜} 같은 변수를 원하는 자리에 바로 넣을 수 있습니다
 - 날짜·시간 자동 변수만 쓰던 템플릿이 다시 제대로 채워집니다, "{날짜}"처럼 자동 변수만 들어간 메모를 탭하면 이제 실제 날짜·시간으로 바꿔 복사합니다
 - 콤보가 메모 목록 안으로 자연스럽게 들어왔습니다, 여러 내용을 순서대로 입력하는 콤보를 별도 화면이 아니라 메모와 같은 목록에서 함께 만들고 관리합니다 — 기존에 만들어 둔 콤보·카테고리·메모는 그대로 유지됩니다
+- 콤보를 탭하면 입력될 값들을 미리 보여줍니다, 콤보 메모를 누르면 곧바로 복사되고, 키보드에서 순서대로 입력될 단계 값들이 하프모달로 한눈에 펼쳐집니다
 - 보안 메모를 제목 옆 자물쇠로 한눈에, 잠근 메모는 제목 왼쪽에 자물쇠가 붙어 목록에서 바로 알아볼 수 있습니다
 - 지금 보고 있는 카테고리를 상단에 크게 보여줍니다, 화면 맨 위에 현재 카테고리 이름이 큰 제목으로 표시되어 어디를 보고 있는지 분명해집니다
 - 업데이트하거나 기기를 옮겨도 데이터가 그대로입니다, 카테고리·콤보·메모가 버전을 오르내려도 사라지지 않도록 하위 호환을 한층 보강했습니다
@@ -18,6 +19,7 @@ English
 - Turn a memo into a template right from a long-press, long-press a plain memo and tap "Make Template" to open the editor and drop variables like {name} and {date} exactly where you want them
 - Templates that use only date/time auto-variables fill in correctly again, tapping a memo with just {date} now copies it with the real date and time substituted
 - Combos now live right inside your memo list, build and manage step-by-step combos in the same list as your memos instead of on a separate screen — and the combos, categories and memos you already made are kept exactly as they were
+- Tap a combo to preview what it'll enter, tapping a combo memo copies it right away and a half-sheet lays out the step values that will be typed in order on the keyboard
 - Spot secure memos at a glance with a lock by the title, locked memos now show a lock to the left of the title so you can recognize them straight from the list
 - See the category you're viewing as a large title up top, the current category name now appears as a big title at the top of the screen, so it's always clear where you are
 - Your data stays put across updates and device changes, we strengthened backward compatibility so categories, combos and memos won't disappear when moving between versions
