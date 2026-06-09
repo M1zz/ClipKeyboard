@@ -752,6 +752,74 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
     }
 
+    /// 롱프레스에서 보안 설정/해제. ON=평문을 암호화. OFF=평문이 드러나므로 생체 인증 후 복호화.
+    func toggleSecure(memoId: UUID) {
+        guard let memo = loadedData.first(where: { $0.id == memoId }) else { return }
+        if memo.isSecure {
+            // 보안 해제 — 평문 노출이므로 인증을 먼저 요구.
+            authenticateForSecureChange { [weak self] in
+                self?.applySecure(memoId: memoId, makeSecure: false)
+            }
+        } else {
+            applySecure(memoId: memoId, makeSecure: true)
+        }
+    }
+
+    private func authenticateForSecureChange(onSuccess: @escaping () -> Void) {
+        let context = LAContext()
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            showAuthAlert = true
+            return
+        }
+        context.evaluatePolicy(
+            .deviceOwnerAuthenticationWithBiometrics,
+            localizedReason: NSLocalizedString("보안을 해제하려면 인증이 필요합니다", comment: "Biometric auth reason for unlocking a secure memo")
+        ) { success, _ in
+            DispatchQueue.main.async {
+                if success { onSuccess() } else { self.showAuthAlert = true }
+            }
+        }
+    }
+
+    /// 보안 상태를 적용해 저장. makeSecure=true면 평문을 암호화, false면 암호문을 복호화.
+    /// (암복호화는 idempotent — 어떤 상태의 value가 와도 안전.)
+    private func applySecure(memoId: UUID, makeSecure: Bool) {
+        guard let idx = loadedData.firstIndex(where: { $0.id == memoId }) else { return }
+        let backup = loadedData
+        var memo = loadedData[idx]
+        if makeSecure {
+            let plain = SecureMemoCrypto.isEncrypted(memo.value)
+                ? (SecureMemoCrypto.decrypt(memo.value) ?? memo.value)
+                : memo.value
+            guard let enc = SecureMemoCrypto.encrypt(plain) else {
+                showPlainToast(NSLocalizedString("보안 설정에 실패했습니다", comment: "Make-secure failed toast"))
+                return
+            }
+            memo.value = enc
+            memo.isSecure = true
+        } else {
+            if SecureMemoCrypto.isEncrypted(memo.value) {
+                memo.value = SecureMemoCrypto.decrypt(memo.value) ?? memo.value
+            }
+            memo.isSecure = false
+        }
+        loadedData[idx] = memo
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            loadedData = sortMemos(loadedData)
+            applyFilters()
+            showPlainToast(makeSecure
+                ? NSLocalizedString("보안 메모로 설정했어요", comment: "Memo locked toast")
+                : NSLocalizedString("보안을 해제했어요", comment: "Memo unlocked toast"))
+        } catch {
+            print("❌ [applySecure] 저장 실패: \(error)")
+            loadedData = backup
+            applyFilters()
+            showPlainToast(NSLocalizedString("변경 사항을 저장하지 못했습니다", comment: "Save failed toast"))
+        }
+    }
+
     func copyMemo(memo: Memo) {
         print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate), 보안: \(memo.isSecure)")
 

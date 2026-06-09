@@ -25855,6 +25855,72 @@
           }
         }
       }
+    },
+    "보안 메모로 설정" : {
+      "comment" : "Action: make memo secure",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make Secure"
+          }
+        }
+      }
+    },
+    "보안 해제" : {
+      "comment" : "Action: remove secure lock from memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Lock"
+          }
+        }
+      }
+    },
+    "보안 메모로 설정했어요" : {
+      "comment" : "Memo locked toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo locked"
+          }
+        }
+      }
+    },
+    "보안을 해제했어요" : {
+      "comment" : "Memo unlocked toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lock removed"
+          }
+        }
+      }
+    },
+    "보안 설정에 실패했습니다" : {
+      "comment" : "Make-secure failed toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't lock this memo"
+          }
+        }
+      }
+    },
+    "보안을 해제하려면 인증이 필요합니다" : {
+      "comment" : "Biometric auth reason for unlocking a secure memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authenticate to remove the lock"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

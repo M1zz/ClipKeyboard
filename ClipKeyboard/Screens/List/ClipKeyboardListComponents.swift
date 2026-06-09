@@ -139,6 +139,8 @@ struct MemoActionSheet: View {
     /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
     var onMakeTemplate: (() -> Void)? = nil
+    /// "보안 메모로 설정 / 보안 해제" — 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
+    var onToggleSecure: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -254,6 +256,19 @@ struct MemoActionSheet: View {
                     ) {
                         dismiss()
                         onMakeTemplate()
+                    }
+                }
+                // 보안 메모 설정/해제 — 텍스트 메모에서만(이미지/콤보는 제외).
+                if let onToggleSecure, memo.contentType == .text, !memo.isCombo {
+                    Divider().padding(.leading, 56)
+                    actionRow(
+                        label: memo.isSecure
+                            ? NSLocalizedString("보안 해제", comment: "Action: remove secure lock from memo")
+                            : NSLocalizedString("보안 메모로 설정", comment: "Action: make memo secure"),
+                        systemImage: memo.isSecure ? "lock.open" : "lock"
+                    ) {
+                        dismiss()
+                        onToggleSecure()
                     }
                 }
                 Divider().padding(.leading, 56)

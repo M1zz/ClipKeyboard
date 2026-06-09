@@ -500,6 +500,10 @@ struct ClipKeyboardList: View {
                                 editStartInTemplateMode = true
                                 memoToEdit = memo
                             }
+                        },
+                        onToggleSecure: {
+                            HapticManager.shared.selection()
+                            viewModel.toggleSecure(memoId: memo.id)
                         }
                     )
                     .presentationDetents([.height(530)])
@@ -906,7 +910,8 @@ struct ClipKeyboardList: View {
     private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
         if hasImage { return true }
         // 카테고리/즐겨찾기 색은 '카테고리 정체성'이라 항상 표시(구분 표시 토글과 무관).
-        if memo.isFavorite || memo.isSecure { return true }
+        // 보안은 색이 아니라 자물쇠 심볼로만 구분한다(카드 색은 카테고리를 따른다).
+        if memo.isFavorite { return true }
         if CategoryStore.shared.isFeatureEnabled,
            viewModel.customCategories.contains(memo.category) { return true }
         return false
@@ -977,9 +982,8 @@ struct ClipKeyboardList: View {
                   viewModel.customCategories.contains(memo.category) {
             // 색 = 카테고리 (항상 표시)
             customCategoryColor(memo.category)
-        } else if memo.isSecure {
-            Color(uiColor: .systemGray3)
         } else {
+            // 보안 메모도 카테고리 색(없으면 기본 표면색)을 따른다 — 회색으로 칠하지 않는다.
             theme.surface
         }
     }
