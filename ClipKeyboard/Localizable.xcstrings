@@ -25822,6 +25822,39 @@
           }
         }
       }
+    },
+    "클립보드에 복사됐어요" : {
+      "comment" : "Combo preview: copied to clipboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied to clipboard"
+          }
+        }
+      }
+    },
+    "키보드에서 이 순서로 입력돼요" : {
+      "comment" : "Combo preview: typed in this order on the keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typed in this order on the keyboard"
+          }
+        }
+      }
+    },
+    "%d단계: %@" : {
+      "comment" : "Combo preview step: order and value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %d: %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -802,7 +802,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         showTemplateInputSheet = false
     }
 
-    func finalizeCopy(memo: Memo, processedValue: String) {
+    func finalizeCopy(memo: Memo, processedValue: String, showToastAfter: Bool = true) {
         #if os(iOS)
         if memo.contentType == .image || memo.contentType == .mixed {
             if let firstImageFileName = memo.imageFileNames.first,
@@ -845,6 +845,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
         HapticManager.shared.success()
         #endif
 
+        // 콤보처럼 자체 미리보기 시트를 띄우는 경우엔 중복 토스트를 생략한다.
+        guard showToastAfter else { return }
         let message = memo.contentType == .image
             ? NSLocalizedString("이미지", comment: "Image")
             : processedValue
@@ -1064,7 +1066,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     private func processMemoAfterAuth(_ memo: Memo) {
         if memo.isCombo {
-            print("🔁 [processMemoAfterAuth] Combo 메모 - ComboEditSheet 표시")
+            // 콤보 탭 → 순차 입력될 단계 값(자동 변수 치환)을 즉시 클립보드에 복사하고,
+            // 어떤 값들이 입력될지 보여주는 미리보기 하프모달을 띄운다(편집은 롱프레스→수정).
+            print("🔁 [processMemoAfterAuth] Combo 메모 - 즉시 복사 + 미리보기 하프모달")
+            let steps = memo.comboValues.map { TemplateVariableProcessor.process($0) }
+            finalizeCopy(memo: memo, processedValue: steps.joined(separator: "\n"), showToastAfter: false)
             selectedComboIdForSheet = memo.id
             return
         }

@@ -908,15 +908,15 @@ struct SheetModifiers: ViewModifier {
                     )
                 }
             }
-            // Combo 편집 시트
+            // Combo 미리보기 하프모달 — 탭 시 즉시 복사되고, 순차 입력될 값들을 보여준다.
             .sheet(item: $selectedComboIdForSheet) { comboId in
-                ComboSheetResolver(
+                ComboPreviewSheet(
                     comboId: comboId,
                     allMemos: memos,
                     onDismiss: onComboDismiss
                 )
-                // 콤보 시트는 전체 높이로 — 절반만 올라오던 답답함 해소.
-                .presentationDetents([.large])
+                // 템플릿 fill 시트와 동일하게 하프모달(필요 시 위로 확장).
+                .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
             }
     }
