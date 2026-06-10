@@ -3,13 +3,14 @@ ClipKeyboard v4.3.1
 한국어
 
 - 템플릿을 탭하면 그 자리에서 빈칸을 채웁니다, 템플릿 메모를 누르면 키보드에서와 똑같이 값 입력창이 아래에서 부드럽게 올라와 {이름}·{날짜} 같은 빈칸을 채운 결과가 바로 복사됩니다
-- 메모를 길게 눌러 바로 템플릿으로 만듭니다, 일반 메모를 길게 누르면 "템플릿으로 만들기"가 나오고 누르면 편집 화면에서 본문에 {이름}·{날짜} 같은 변수를 원하는 자리에 바로 넣을 수 있습니다
+- 메모를 길게 눌러 별도의 템플릿으로 만듭니다, "템플릿으로 만들기"를 누르면 원본은 그대로 둔 채 그 내용으로 채운 새 템플릿 메모가 열리고, 본문에 {이름}·{날짜} 같은 변수를 원하는 자리에 넣어 저장하면 됩니다 — 변수를 넣으면 커서가 바로 그 뒤로 가 이어서 입력하기 편합니다
 - 날짜·시간 자동 변수만 쓰던 템플릿이 다시 제대로 채워집니다, "{날짜}"처럼 자동 변수만 들어간 메모를 탭하면 이제 실제 날짜·시간으로 바꿔 복사합니다
 - 콤보가 메모 목록 안으로 자연스럽게 들어왔습니다, 여러 내용을 순서대로 입력하는 콤보를 별도 화면이 아니라 메모와 같은 목록에서 함께 만들고 관리합니다 — 기존에 만들어 둔 콤보·카테고리·메모는 그대로 유지됩니다
 - 콤보를 탭하면 입력될 값들을 미리 보여줍니다, 콤보 메모를 누르면 곧바로 복사되고, 키보드에서 순서대로 입력될 단계 값들이 하프모달로 한눈에 펼쳐집니다
 - 보안 메모를 회색으로 칠하지 않고 자물쇠 심볼로만 표시합니다, 잠근 메모도 카드 색은 카테고리를 그대로 따르고 제목 왼쪽 자물쇠로만 구분됩니다
 - 메모를 길게 눌러 보안 설정·해제를 바로 합니다, 롱프레스 메뉴에서 보안 메모로 잠그거나 풀 수 있고, 해제할 때는 Face ID·Touch ID로 인증합니다
 - 키보드의 카테고리가 앱과 완전히 같아졌습니다, 더 이상 "전체" 탭이 없고 기본·즐겨찾기·기본 제공(템플릿/이미지/콤보 등)·내 카테고리가 앱과 똑같은 순서로 나타납니다
+- 키보드 메모도 앱과 똑같이 보입니다, 즐겨찾기 메모는 분홍색으로, 보안 메모는 제목 앞에 자물쇠로 표시됩니다
 - 지금 보고 있는 카테고리를 상단에 크게 보여줍니다, 화면 맨 위에 현재 카테고리 이름이 큰 제목으로 표시되어 어디를 보고 있는지 분명해집니다
 - 업데이트하거나 기기를 옮겨도 데이터가 그대로입니다, 카테고리·콤보·메모가 버전을 오르내려도 사라지지 않도록 하위 호환을 한층 보강했습니다
 - 저장 중 문제가 생겨도 앱이 꺼지지 않습니다, 즐겨찾기·삭제·타입 변경이 실패하더라도 이전 상태로 되돌리고 안내 메시지를 보여줍니다
@@ -18,13 +19,14 @@ ClipKeyboard v4.3.1
 English
 
 - Tap a template to fill in the blanks right there, tapping a template memo slides up a value-input sheet from the bottom — just like on the keyboard — and copies the result with blanks like {name} and {date} filled in
-- Turn a memo into a template right from a long-press, long-press a plain memo and tap "Make Template" to open the editor and drop variables like {name} and {date} exactly where you want them
+- Turn a memo into a separate template from a long-press, tap "Make Template" and the original stays as-is while a new template memo opens pre-filled — drop variables like {name} and {date} wherever you want and save; the cursor now lands right after each variable so you can keep typing
 - Templates that use only date/time auto-variables fill in correctly again, tapping a memo with just {date} now copies it with the real date and time substituted
 - Combos now live right inside your memo list, build and manage step-by-step combos in the same list as your memos instead of on a separate screen — and the combos, categories and memos you already made are kept exactly as they were
 - Tap a combo to preview what it'll enter, tapping a combo memo copies it right away and a half-sheet lays out the step values that will be typed in order on the keyboard
 - Secure memos are shown with just a lock, not a gray card, a locked memo keeps its category color and is marked only by a lock to the left of the title
 - Lock or unlock a memo straight from a long-press, set or remove secure mode from the long-press menu — unlocking asks for Face ID / Touch ID
 - The keyboard's categories now match the app exactly, the "All" tab is gone and Default, Favorites, the built-in views (templates / images / combos…) and your own categories appear in the same order as in the app
+- Memos in the keyboard look just like the app too, favorite memos show in pink and secure memos show a lock before the title
 - See the category you're viewing as a large title up top, the current category name now appears as a big title at the top of the screen, so it's always clear where you are
 - Your data stays put across updates and device changes, we strengthened backward compatibility so categories, combos and memos won't disappear when moving between versions
 - The app no longer crashes if a save hiccups, if favoriting, deleting or changing a type fails, it rolls back to the previous state and shows you a message instead
@@ -35,19 +37,19 @@ English
 App Store 제출용 요약 (한국어)
 
 • 템플릿 메모를 탭하면 값 입력창이 바로 올라와 빈칸을 채워 복사 — 키보드와 동일한 경험
-• 메모를 길게 눌러 "템플릿으로 만들기" — 본문에 변수를 바로 삽입, 자동 변수({날짜}) 템플릿 복구
+• 메모를 길게 눌러 "템플릿으로 만들기" — 원본은 그대로 두고 별도 새 템플릿 메모 생성, 자동 변수({날짜}) 템플릿 복구
 • 콤보를 메모 목록 안에서 함께 관리(기존 콤보·카테고리·메모는 그대로 유지)
 • 보안 메모는 회색 없이 자물쇠 심볼로만 표시 + 롱프레스로 보안 설정/해제, 현재 카테고리는 상단에 큰 제목으로
-• 키보드 카테고리를 앱과 완전히 일치("전체" 제거, 기본 제공 카테고리 추가)
+• 키보드를 앱과 완전히 일치 — 카테고리("전체" 제거·기본 제공 추가), 즐겨찾기 분홍·보안 자물쇠 표시
 • 업데이트·기기 이동에도 데이터 유지 강화, 저장 실패 시 크래시 대신 안전하게 복구
 • 이모지 선택 Dynamic Type 대응 등 접근성 보강과 자잘한 마감
 
 App Store Summary (English)
 
 • Tap a template memo and a value sheet slides up to fill in the blanks and copy — the same experience as on the keyboard
-• Long-press a memo to "Make Template" — drop variables right into the body, and auto-variable ({date}) templates are fixed
+• Long-press a memo to "Make Template" — creates a separate new template (original kept), plus auto-variable ({date}) templates are fixed
 • Manage combos right inside your memo list (your existing combos, categories and memos are kept as-is)
 • Secure memos shown by a lock symbol only (no gray card) + lock/unlock from a long-press, and the current category appears as a large title up top
-• The keyboard's categories now match the app exactly ("All" tab removed, built-in views added)
+• The keyboard now matches the app exactly — categories ("All" removed, built-in views added), plus pink favorites and a lock on secure memos
 • Stronger data retention across updates and device changes, with safe recovery instead of crashes on save failures
 • Accessibility polish including Dynamic Type in the emoji picker, plus minor refinements
