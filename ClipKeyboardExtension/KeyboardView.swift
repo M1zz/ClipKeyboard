@@ -1252,14 +1252,21 @@ struct KeyboardView: View {
                 )
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
-            // 메모 칸 안 텍스트는 제목만. 타입 구분은 테두리(색+dash 패턴)으로 — 색맹 친화.
-            Text(memo.title)
-                .foregroundColor(theme.text)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-                .font(.system(size: buttonFontSize, weight: .semibold))
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(10)
+            // 메모 칸 안 텍스트는 제목. 보안 메모는 제목 앞에 자물쇠 심볼(앱과 동일, 항상 표시).
+            HStack(spacing: 4) {
+                if memo.isSecure {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: buttonFontSize * 0.82, weight: .semibold))
+                        .foregroundColor(theme.textMuted)
+                }
+                Text(memo.title)
+                    .foregroundColor(theme.text)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: buttonFontSize, weight: .semibold))
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(10)
         }
         .frame(height: buttonHeight)
         // 모든 메모 칸에 기본 테두리 — 칸 경계가 또렷하게 보이도록.

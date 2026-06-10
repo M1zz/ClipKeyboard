@@ -247,8 +247,9 @@ struct MemoActionSheet: View {
                     dismiss()
                     onEdit()
                 }
-                // 템플릿으로 만들기 — 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출.
-                if let onMakeTemplate, !memo.isTemplate, !memo.isCombo, memo.contentType == .text {
+                // 템플릿으로 만들기 — 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출
+                // (보안 메모는 값이 암호문이라 제외).
+                if let onMakeTemplate, !memo.isTemplate, !memo.isCombo, !memo.isSecure, memo.contentType == .text {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("템플릿으로 만들기", comment: "Action: turn memo into a template"),

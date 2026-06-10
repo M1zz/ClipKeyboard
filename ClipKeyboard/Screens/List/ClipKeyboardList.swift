@@ -143,8 +143,8 @@ struct ClipKeyboardList: View {
     @State private var showAddTemplateSheet: Bool = false
     @State private var showAddComboSheet: Bool = false
     @State private var memoToEdit: Memo? = nil
-    /// memoToEdit 시트를 "템플릿으로 만들기"로 열었는지 — 본문 포커스로 변수 삽입바 노출.
-    @State private var editStartInTemplateMode: Bool = false
+    /// "템플릿으로 만들기" 원본 메모 — 이 메모 내용으로 채운 별도 새 메모를 만든다(원본은 그대로).
+    @State private var makeTemplateSource: Memo? = nil
 
     // TipKit
     private let welcomeTip = WelcomeTip()
@@ -497,8 +497,7 @@ struct ClipKeyboardList: View {
                         },
                         onMakeTemplate: {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                editStartInTemplateMode = true
-                                memoToEdit = memo
+                                makeTemplateSource = memo
                             }
                         },
                         onToggleSecure: {
@@ -547,10 +546,7 @@ struct ClipKeyboardList: View {
 
     private var screenL6: some View {
         screenL5
-            .sheet(item: $memoToEdit, onDismiss: {
-                editStartInTemplateMode = false
-                viewModel.loadMemos()
-            }) { memo in
+            .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
                 NavigationStack {
                     MemoAdd(
                         memoId: memo.id,
@@ -558,12 +554,28 @@ struct ClipKeyboardList: View {
                         insertedValue: memo.value,
                         insertedCategory: memo.category,
                         insertedIsTemplate: memo.isTemplate,
-                        insertedIsSecure: memo.isSecure,
-                        startInTemplateMode: editStartInTemplateMode
+                        insertedIsSecure: memo.isSecure
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(NSLocalizedString("취소", comment: "Cancel")) { memoToEdit = nil }
+                        }
+                    }
+                }
+            }
+            // "템플릿으로 만들기" — 원본 내용으로 채운 별도 새 메모(memoId=nil). 본문 포커스로
+            // 변수 삽입바를 바로 띄우고, 저장하면 원본은 그대로 둔 채 새 템플릿 메모가 생긴다.
+            .sheet(item: $makeTemplateSource, onDismiss: { viewModel.loadMemos() }) { src in
+                NavigationStack {
+                    MemoAdd(
+                        insertedKeyword: src.title,
+                        insertedValue: src.value,
+                        insertedCategory: src.category,
+                        startInTemplateMode: true
+                    )
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { makeTemplateSource = nil }
                         }
                     }
                 }

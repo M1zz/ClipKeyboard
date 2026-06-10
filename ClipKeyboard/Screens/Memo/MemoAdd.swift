@@ -54,7 +54,8 @@ struct MemoAdd: View {
     @State private var showAdvancedOptions: Bool = false
 
     private var isQuickMode: Bool {
-        memoId == nil && !insertedIsTemplate && !insertedIsCombo && !showAdvancedOptions
+        // "템플릿으로 만들기"로 들어온 새 메모는 변수 삽입바가 있는 전체 모드로 시작한다.
+        memoId == nil && !insertedIsTemplate && !insertedIsCombo && !showAdvancedOptions && !startInTemplateMode
     }
 
     var body: some View {
