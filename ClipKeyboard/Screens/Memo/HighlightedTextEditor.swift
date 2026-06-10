@@ -38,9 +38,20 @@ struct HighlightedTextEditor: UIViewRepresentable {
         context.coordinator.parent = self
         let isPlaceholderVisible = context.coordinator.isShowingPlaceholder && text.isEmpty
         if !isPlaceholderVisible && uiView.text != text {
+            let oldText = uiView.text ?? ""
             let savedSelection = uiView.selectedRange
             uiView.attributedText = Self.highlight(text)
-            uiView.selectedRange = savedSelection
+            let newLength = (text as NSString).length
+            if text.hasPrefix(oldText) && newLength > (oldText as NSString).length {
+                // 변수/이모지 삽입처럼 끝에 덧붙은 경우 — 커서를 새 텍스트 끝으로 옮겨
+                // 곧바로 이어서 입력할 수 있게 한다(이전엔 커서가 앞으로 튀던 문제).
+                uiView.selectedRange = NSRange(location: newLength, length: 0)
+            } else {
+                // 그 외(하이라이트 갱신 등)는 기존 커서 위치를 범위 보정해 유지.
+                let loc = min(savedSelection.location, newLength)
+                let len = min(savedSelection.length, newLength - loc)
+                uiView.selectedRange = NSRange(location: loc, length: len)
+            }
         }
         if uiView.keyboardType != keyboardType {
             uiView.keyboardType = keyboardType
