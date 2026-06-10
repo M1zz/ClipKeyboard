@@ -246,7 +246,8 @@ struct MemoAdd: View {
                         onNext: {
                             isFocused = false
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { isTitleFocused = true }
-                        }
+                        },
+                        forceTextKeyboard: startInTemplateMode
                     )
 
                     // 2) 키보드에 표시할 이름(KEY) — 이 메모가 키보드에서 보일 제목. 핵심.
@@ -333,7 +334,8 @@ struct MemoAdd: View {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                                     isTitleFocused = true
                                 }
-                            }
+                            },
+                            forceTextKeyboard: startInTemplateMode
                         )
                         .id("contentField")
 

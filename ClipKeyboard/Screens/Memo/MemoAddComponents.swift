@@ -220,6 +220,8 @@ struct ContentInputSection: View {
     /// v4.0.8: 키보드 toolbar "다음" 버튼 — 다음 필드(제목)로 focus 이동.
     /// nil이면 버튼 숨김.
     var onNext: (() -> Void)? = nil
+    /// 템플릿 작성 모드 — 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
+    var forceTextKeyboard: Bool = false
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -593,6 +595,8 @@ struct ContentInputSection: View {
     }
 
     private var keyboardTypeForTheme: UIKeyboardType {
+        // 템플릿 작성 중이거나 본문에 {변수}가 있으면 글자 입력이 필요하므로 항상 기본 키보드.
+        if forceTextKeyboard || value.contains("{") { return .default }
         guard let type = ClipboardItemType(rawValue: selectedCategory) else {
             return .default
         }
