@@ -1433,7 +1433,12 @@ struct KeyboardView: View {
     /// 카테고리가 없으면(자동 분류값만 있는 경우 포함) nil → 색을 입히지 않는다.
     /// (이전엔 자동 분류 타입에도 색을 반환해, 사용자 카테고리가 없는데도 메모에 색이
     ///  칠해지는 버그가 있었음. 카테고리는 이제 사용자가 직접 만들어 쓰므로 그 색만 사용.)
+    /// 앱 Color.clipFavorite(#FF4A9E)와 동일 — 타깃 분리로 인라인.
+    private var favoritePink: Color { Color(red: 1.0, green: 0.29, blue: 0.62) }
+
     private func categoryColorFor(_ memo: Memo) -> Color? {
+        // 즐겨찾기는 카테고리처럼 분홍색 정체성을 갖는다 — 카테고리 색보다 우선(앱과 동일).
+        if memo.isFavorite { return favoritePink }
         guard let idx = sharedUserCategories.firstIndex(of: memo.category) else { return nil }
         if let hex = customCategoryColors[memo.category], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
@@ -1479,8 +1484,7 @@ struct KeyboardView: View {
     private func colorForCategoryKey(_ key: String) -> Color {
         if key == "★basic" { return .gray }   // 앱 .basic 인디케이터 색과 동일
         if key == "★all" { return .blue }
-        // 즐겨찾기 지정색 — 앱의 Color.clipFavorite(#FF4A9E)와 동일 (타깃 분리로 인라인).
-        if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
+        if key == "★favorites" { return favoritePink }
         if key.hasPrefix(Self.builtInPrefix) {
             return builtInTint(String(key.dropFirst(Self.builtInPrefix.count)))
         }
