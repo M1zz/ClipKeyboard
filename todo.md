@@ -351,6 +351,23 @@
 
 ---
 
+# 지원 페이지(사용 가이드) 기능 동기화 (2026-06-10)
+
+## 요청
+- docs/tutorial.html(지원/사용 가이드)을 현재 기능에 맞게 업데이트.
+
+## 반영 ✅
+- [x] 용어 정리: "테마" → "카테고리" (메모 추가 단계)
+- [x] 콤보 생성 흐름 수정: 별도 "콤보 탭" 제거 → 메모 본문 + "이어지는 메모"로 콤보 생성, 탭 시 미리보기 하프시트
+- [x] 보안 메모 섹션 추가: 길게 눌러 잠금/해제, 기기 암호화, Face ID·Touch ID, 자물쇠 표시 (Pro)
+- [x] 템플릿: 탭 시 값 입력 시트, "템플릿으로 만들기"(롱프레스), 날짜 변수 선택지
+- [x] 키보드 외형: 즐겨찾기 분홍·보안 자물쇠·현재 카테고리 큰 제목
+- [x] 이미지 메모: OCR(문자 인식) 추가
+- [x] FAQ: 보안 메모 잠금 항목 추가
+- [x] ko/en 양쪽 번역 동기화
+
+---
+
 # 데이터 모델 UML 다이어그램 HTML (2026-06-08)
 
 ## 요청
@@ -447,3 +464,156 @@
 
 ## 검증
 - 빌드(테스트 타겟/제네릭 iOS) 그린 + 294 테스트 그린.
+
+---
+
+# iCloud 백업/복원 무결성 테스트 + 메모 타임머신 테스트 (2026-06-11)
+
+## 요청
+- 아이클라우드를 포함, 사용자가 쓰는 기능들의 정상 동작 무결성을 테스트 코드로 보장.
+
+## 구현 ✅
+- [x] **CloudKitBackupService 테스트 가능 리팩토링** — `CloudKitBackupDatabase` 프로토콜 신설
+      (record(for:)/save/deleteRecord), CKDatabase가 그대로 채택. 계정 상태도 클로저 주입.
+      테스트 전용 init(database:accountStatus:)는 타이머·리스너·초기백업 부작용 없음.
+      shared 동작은 동일(시그니처/경로 변화 없음).
+- [x] `CloudKitBackupIntegrityTests` 14건 — 네트워크 없이 mock DB로 출시 코드 경로 전체 검증:
+  - 백업 레코드 구성(3 Asset+버전+날짜), 2차 백업은 기존 레코드 갱신(레코드 1개 유지)
+  - **백업→로컬 전체 삭제→복원 라운드트립: Memo 전 필드 보존**(보안/즐겨찾기/템플릿 변수/
+    placeholderValues/comboValues/이미지 파일명/힌트/날짜/clipCount + 클립보드·콤보)
+  - 복원 시 comboModelUnifyMigrated_v1 플래그 리셋(옛 백업 재변환 보장)
+  - 로컬 데이터 있으면 forceOverwrite 없이 복원 거부 + 로컬 데이터 무손상
+  - 백업 없음→noBackupFound / 깨진 백업 JSON→실패해도 로컬 데이터 무손상
+  - 레거시 Data 필드 백업(CKAsset 이전 포맷) 복원 호환
+  - 미인증(noAccount/restricted) 시 백업·복원 거부(네트워크 시도 0회)
+  - 일시적 네트워크 오류 1회 재시도 후 성공 / 권한 오류는 재시도 없이 즉시 실패
+  - hasBackup 정합성, deleteBackup 후 레코드·lastBackupDate 제거
+- [x] `MemoTimeMachineTests` 7건 — 변경 기록(스냅샷 링버퍼) 첫 테스트:
+  - 의미 있는 변경만 스냅샷(사용량 clipCount 변경은 skip), recordHistory:false는 미기록
+  - 최근 10개 링버퍼 유지, 대량 삭제 복원(전 필드), 되돌리기의 되돌리기, 없는 id는 false+무손상
+
+## 검증
+- 신규 21건 그린 + **전체 스위트 297건 그린**(기존 테스트 무회귀, 시뮬레이터 iPhone 17 Pro).
+
+## 남은 것 (실기기/실계정에서만 가능)
+- [ ] 실제 iCloud 계정으로 기기 A 백업 → 기기 B 복원 E2E (CKContainer 실연결)
+
+---
+
+# 커버리지 갭 검토 + 미커버 기능 테스트 27건 추가 (2026-06-11)
+
+## 요청
+- 버그 신고를 받기 전에 보장 안 된 기능이 없는지 검토하고 테스트 보강.
+
+## 갭 분석 결과 → 테스트 추가 ✅
+- [x] `CategorySidecarTests` 6건 — **카테고리 다운그레이드 안전장치(완전 미검증이었음)**:
+      save 시 비기본만 사이드카 기록 / 유실(기본·빈값)만 복원·사용자 변경은 보존 /
+      다운그레이드 재저장→load 치유 왕복 / 의도적 "기본" 이동은 부활 안 함 / 기존 사용자 부트스트랩
+- [x] `SmartClipboardLifecycleTests` 6건 — 복사 시 자동 분류, 중복은 맨 앞 이동(무중복),
+      요금제별 개수 제한(무료50/Pro100), 7일 지난 임시 항목 정리(보관 항목은 유지),
+      사용자 분류 수정 영속, 레거시 clipboard.history.data → 스마트 마이그레이션(id 보존)
+- [x] `MemoListSortingTests` 4건 — 즐겨찾기 우선→최근순, 수동 순서 시 즐겨찾기 고정 해제,
+      순서 미등록 새 메모 맨 위, commitReorder 영구 저장+새 ViewModel 재현
+- [x] `BuiltInCategoryTests` 4건 + `CategoryTabStorageTests` 2건 — 타입별 모아보기 판정
+      (템플릿은 메모+템플릿 탭에도 포함, mixed는 이미지 탭), 탭 storageKey 왕복(한글·이모지 포함)
+- [x] `KeyboardUsageTrackerTests` 4건 — 일일 카운트, 절약 시간 누적(40자=9초), 음수 clamp, 날짜 스코프
+- [x] `TemplateBraceDisplayTests` 1건 — 칩 라벨 중괄호 제거
+
+## 검증
+- **전체 스위트 324건 그린**(297 + 신규 27, 시뮬레이터 iPhone 17 Pro).
+
+## 남은 갭 (현 구조로는 단위 테스트 불가 — 인지하고 관리)
+- [ ] `migrateComboModelIfNeeded`/`hasLegacyComboData` — ClipKeyboardApp에 private.
+      테스트하려면 별도 타입으로 추출 필요(마이그레이션 로직 이동 리스크 있어 보류). 실기기 검증 항목 유지.
+- [ ] 키보드 익스텐션/위젯의 Memo 복사본(Shared/Models/SharedModels.swift) — 익스텐션 타겟에
+      테스트 타겟이 없음. 메인 Memo와 디코더 동기화는 코드 리뷰로 관리(memo_codable_backcompat 참고).
+- [ ] `grandfatherPaidUserIfNeeded` — AppTransaction(StoreKit) 의존, Sandbox/실기기 전용.
+- [ ] UI 레이어(시트 라우팅·애니메이션·키보드 익스텐션 UI) — 단위 테스트 범위 밖, 실기기 체크리스트로.
+
+---
+
+# 키보드 익스텐션 타이핑 로직 테스트 33건 추가 (2026-06-11)
+
+## 요청
+- 키보드 익스텐션 입력(타이핑) 쪽도 테스트로 커버.
+
+## 방법
+- HangulComposer/CheonjiinInput은 익스텐션 타겟 소속이지만 **순수 Foundation 로직 +
+  HangulInputProxy 프로토콜 추상화**라, pbxproj에서 두 소스를 ClipKeyboardTests 타겟에도
+  컴파일하도록 등록(PBXBuildFile 2건 + 테스트 타겟 Sources phase).
+- `FakeHangulProxy`(insertText/deleteBackward를 텍스트 버퍼로 재현) → **fake의 text가
+  사용자가 키보드에서 보는 글자** 그대로를 검증.
+
+## 구현 ✅
+- [x] `HangulComposerTests` 18건 — 2벌식 조합:
+      기본 음절(한/한글/꼬), 받침 이동 도깨비불(안+ㅏ=아나), 겹받침 분해 이동(읽+ㅓ=일거),
+      복합 모음(과/희), 겹받침(읽), 종성불가 ㄸ 처리(바따), ㅇ초성 자동(가오),
+      백스페이스 단계 되돌리기(한→하→ㅎ→∅, ㄺ→ㄹ, ㅘ→ㅗ), 비한글 commit(가!나), commit 후 글자단위 삭제
+- [x] `CheonjiinInputTests` 15건 — 천지인:
+      자음 multi-tap 순환(ㄱ→ㅋ→ㄲ→ㄱ), 0.5초 타임아웃 시 새 글자(ㄱㄱ), 다른 키로 사이클 중단,
+      모음 획 진화(이→아→야), ㅐ 조합, 단독 ㆍ 임시표시→해석(ㅓ), 음절 완성(한),
+      받침 이동(간+ㅏ=가나), 백스페이스(자음 전체 삭제/획 되돌리기 야→아/임시 ㆍ 제거),
+      commit(음절 확정/미완성 획 폐기 — 쓰레기 문자 방지)
+
+## 검증
+- **전체 스위트 357건 그린**(324 + 신규 33). 익스텐션은 앱 임베드로 함께 빌드 확인.
+
+## 여전히 자동화 불가 (실기기 수동 체크리스트)
+- [ ] KeyboardViewController의 입력 핸들링(메모 탭→insertText, 콤보 순차 입력) — UIInputViewController 의존
+- [ ] 시스템 레벨 E2E(서드파티 키보드 활성화·전환·실제 앱에서 타이핑) — iOS 제약상 XCUITest 불가
+
+---
+
+# 메인 화면 검색 키보드가 안 내려가는 문제 수정 (2026-06-11)
+
+## 원인
+- 검색 포커스(isSearchFieldFocused) 해제 경로가 돋보기 토글 버튼 단 하나뿐.
+  iOS는 배경 탭으로 키보드를 자동으로 닫지 않으며(항상 opt-in), 메모 그리드는
+  일반 ScrollView라(List/Form과 달리) 스크롤 시 자동 dismiss도 없었음.
+
+## 수정 ✅
+- [x] ClipKeyboardList.screenBody의 ZStack(메모 영역)에:
+  - `.simultaneousGesture(TapGesture → isSearchFieldFocused = false)` — 빈 곳/카드
+    어디를 탭해도 키보드 닫힘. simultaneous라 카드 탭 동작(복사 등)은 그대로 실행.
+  - `.scrollDismissesKeyboard(.immediately)` — 그리드 스크롤/탭 페이지 스와이프 시 닫힘.
+- 검색바 자신은 safeAreaInset 분리 영역이라 탭해도 포커스 안 풀림(재탭 깜빡임 없음).
+- [x] ClipKeyboard 스킴 빌드 그린.
+
+## 검증 필요 (시뮬레이터/실기기)
+- [ ] 검색 중 메모 카드 탭 → 키보드 내려가면서 복사 동작 정상
+- [ ] 빈 공간 탭/스크롤/페이지 스와이프 → 키보드 내려감
+- [ ] 검색 필드 재탭 → 키보드 유지(깜빡임 없음)
+
+---
+
+# 메모 카드 속 "내용 힌트" — 맺혔다 흩어지는 미리보기 (2026-06-11)
+
+## 요청 (3차 확정)
+- 1차: 타이틀 아래 통계 띠(반려). 2차: 카드 속 내용이 물고기처럼 좌우 유영(반려 — "좀 별로,
+  깔끔하고 우아하게. 힌트는 주고 싶은데 지저분하지 않게").
+- 확정: **움직임 없이 제자리에서** 블러가 걷히며 살며시 맺혔다가, 머문 뒤 흩어지듯 사라지는 힌트.
+
+## 구현 ✅
+- [x] `ContentHintPreview` (ClipKeyboardListComponents.swift, 구 FishbowlContentPreview 교체):
+  - 주기 14~18초(메모 id 시드별) 중 6초만 노출:
+    **맺힘 0.9s**(blur 4→0, 3pt 아래서 떠오름, 페이드 인) → **머묾 4.2s**(또렷) →
+    **흩어짐 0.9s**(blur 0→4, 살짝 떠오르며 페이드 아웃) → 휴식 8~12s(빈 공간).
+  - smoothstep(easeInOut) 곡선, 좌우 이동·기울기·둥실거림 전부 제거 — iOS 알림 텍스트 톤.
+  - 시드 기반 위상 분산(카드들이 동시에 깜빡이지 않음), allowsHitTesting(false),
+    accessibilityHidden, reduceMotion=페이드만(blur·rise 없음).
+- [x] 호출부 이름 교체 외 동일: fishbowlText(보안 메모 nil) + 영역 상시 확보(높이 균일).
+
+## 검증 ✅
+- 빌드 그린. 시뮬레이터 프레임: "간단 인사말" 힌트 또렷 + "내 이메일"은 블러에 싸여 맺히는 중
+  (위상 분산 확인), 5초 뒤 앞 힌트는 사라지고 "이름 + 연락처"에 "2 items" 등장.
+- 검증 권장(실기기): 머묾 4.2s/휴식 길이 취향, 다크모드 가독성, reduceMotion.
+
+## 후속 조정 (2026-06-11, 사용자 피드백 "좋고")
+- [x] **더 가끔 등장**: 기본 주기 14~18s → 24~31s(보통). 빈도 3단계 `ContentHintPace`:
+      여유롭게(38~48s) / 보통(24~31s, 기본) / 자주(14~19s).
+- [x] **설정 추가** (설정 → 메모 표시): "메모 내용 힌트" 토글(기본 ON) + "등장 빈도"
+      세그먼트 피커(토글 OFF면 비활성). @AppStorage contentHintEnabled / contentHintPace.
+      끄면 힌트 영역 자체가 사라져 완전한 제목-only 카드로(전 카드 동일 → 높이 균일 유지).
+- [x] **폰트 .caption2 → .body**, zoneHeight 16 → 22.
+- [x] Localizable.xcstrings 신규 키 5개(ko+en/id): 메모 내용 힌트/등장 빈도/여유롭게/자주/푸터 설명.
+- [x] 빌드 그린 + 시뮬레이터 확인(.body 크기 힌트 교대 등장).

@@ -542,7 +542,7 @@
             <ol class="steps">
                 <li data-i18n-html="memoAdd1">앱 메인 화면에서 우상단 <strong>＋</strong> 버튼 탭</li>
                 <li data-i18n="memoAdd2">제목과 내용을 입력 (내용은 실제로 입력될 텍스트)</li>
-                <li data-i18n-html="memoAdd3">필요하면 <strong>테마</strong>(카테고리)를 선택해 분류</li>
+                <li data-i18n-html="memoAdd3">필요하면 <strong>카테고리</strong>를 선택해 분류</li>
                 <li data-i18n="memoAdd4">저장하면 키보드에서 바로 보입니다</li>
             </ol>
 
@@ -555,8 +555,13 @@
 
             <div class="tip" data-i18n="memoTip">이모지 · 줄바꿈 · 마크다운은 있는 그대로 입력됩니다. 이메일 서명 같은 긴 텍스트도 문제없습니다.</div>
 
-            <h3 data-i18n="memoImageTitle">이미지 메모</h3>
-            <p data-i18n-html="memoImage">사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. <strong>무료 버전에서는 5개까지 저장</strong> 가능, Pro에서 무제한.</p>
+            <div class="note" data-i18n="memoKeyboardLook">키보드에서도 앱과 똑같이 보입니다 — 즐겨찾기 메모는 분홍색, 보안 메모는 제목 앞 자물쇠로 표시되고, 현재 보고 있는 카테고리가 화면 상단에 큰 제목으로 나타납니다.</div>
+
+            <h3 data-i18n="memoImageTitle">이미지 메모 & 문자 인식</h3>
+            <p data-i18n-html="memoImage">사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. 캡처한 이미지에서 <strong>문자 인식(OCR)</strong>으로 필요한 텍스트만 골라 메모로 담을 수도 있습니다. <strong>무료 버전에서는 이미지 메모 5개까지 저장</strong> 가능, Pro에서 무제한.</p>
+
+            <h3 data-i18n="memoSecureTitle">보안 메모 (잠금)</h3>
+            <p data-i18n-html="memoSecure">민감한 메모는 잠가서 보호하세요. 메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하면 기기에 암호화되어 저장되고(키는 iCloud 키체인으로 안전하게 동기화), 열거나 잠금을 해제할 때 <strong>Face ID · Touch ID</strong>로 인증합니다. 잠긴 메모는 목록과 키보드에서 제목 앞 자물쇠로만 구분되며 카드 색은 그대로 유지됩니다. <strong>Pro 기능</strong>입니다.</p>
         </section>
 
         <!-- 3. 템플릿 -->
@@ -574,10 +579,15 @@
 
             <h3 data-i18n="tmplUseTitle">사용하기</h3>
             <ol class="steps">
-                <li data-i18n="tmplUse1">템플릿 메모를 탭하면 각 플레이스홀더 입력 창이 뜹니다</li>
-                <li data-i18n="tmplUse2">값을 채우고 확인하면 완성된 문장이 입력됩니다</li>
+                <li data-i18n="tmplUse1">템플릿 메모를 탭하면 값 입력 시트가 아래에서 부드럽게 올라옵니다</li>
+                <li data-i18n="tmplUse2">빈칸을 채우고 우상단 복사 버튼을 누르면 완성된 문장이 복사됩니다</li>
                 <li data-i18n-html="tmplUse3">한 번 입력한 값은 자동으로 기록돼 다음에 선택하기 쉽습니다 (예: "이름"에 자주 쓰는 사람 목록)</li>
             </ol>
+
+            <h3 data-i18n="tmplMakeTitle">기존 메모를 템플릿으로</h3>
+            <p data-i18n-html="tmplMake">일반 메모를 길게 눌러 <strong>템플릿으로 만들기</strong>를 선택하면, 원본은 그대로 둔 채 그 내용으로 채운 새 템플릿 메모가 열립니다. 본문에서 <code>{변수}</code>를 원하는 자리에 넣어 저장하세요. 변수를 넣으면 커서가 바로 그 뒤로 이동해 이어서 입력하기 편합니다.</p>
+
+            <div class="note" data-i18n="tmplDateNote">날짜·시간 자동 변수는 <strong>오늘 · 내일 · 다음 주 · 2주 뒤 · 직접 선택</strong> 중에서 고를 수 있고, 탭하면 실제 날짜로 바뀌어 복사됩니다.</div>
 
             <div class="tip" data-i18n="tmplTip">같은 이름의 변수는 여러 템플릿에서 공유됩니다. <code>{이름}</code>에 입력한 값은 다른 템플릿의 <code>{이름}</code>에서도 제안됩니다.</div>
         </section>
@@ -632,12 +642,15 @@
             </ul>
 
             <h3 data-i18n="comboMakeTitle">콤보 만들기</h3>
+            <p data-i18n-html="comboMakeIntro">콤보는 이제 별도 화면이 아니라 <strong>메모 목록 안에서</strong> 만듭니다. 메모에 이어질 내용을 더하면 그 메모가 곧 콤보가 됩니다.</p>
             <ol class="steps">
-                <li data-i18n-html="comboMake1">앱 메인 → <strong>콤보</strong> 탭 → <strong>＋</strong></li>
-                <li data-i18n-html="comboMake2">추가할 항목을 순서대로 선택 (메모 / 클립보드 항목 / 템플릿)</li>
-                <li data-i18n="comboMake3">각 항목 사이의 대기 시간(초) 설정</li>
-                <li data-i18n="comboMake4">저장 후 키보드의 콤보 탭에서 실행</li>
+                <li data-i18n-html="comboMake1">앱 메인에서 <strong>＋</strong>로 새 메모를 만들고 첫 본문을 입력</li>
+                <li data-i18n-html="comboMake2"><strong>이어지는 메모</strong>를 더해 순서대로 입력될 내용을 추가</li>
+                <li data-i18n="comboMake3">각 단계 사이의 대기 시간(초) 설정</li>
+                <li data-i18n="comboMake4">저장하면 메모 목록에 콤보로 표시되고, 키보드에서 탭하면 순서대로 입력됩니다</li>
             </ol>
+
+            <div class="note" data-i18n="comboPreviewNote">콤보 메모를 탭하면 곧바로 복사되고, 순서대로 입력될 단계 값들을 하프시트로 한눈에 미리 보여줍니다. 기존에 만들어 둔 콤보·카테고리·메모는 업데이트 후에도 그대로 유지됩니다.</div>
 
             <div class="tip" data-i18n="comboTip">대기 시간을 0.3초 이하로 하면 시스템이 못 따라올 수 있습니다. 0.5~1초를 권장합니다.</div>
         </section>
@@ -755,6 +768,13 @@
             </details>
 
             <details>
+                <summary data-i18n="faq11Q">보안 메모는 어떻게 잠그나요?</summary>
+                <div class="content" data-i18n-html="faq11A">
+                    <p>메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하세요. 잠긴 메모는 기기에 암호화되어 저장되며, 키는 iCloud 키체인으로 안전하게 동기화됩니다. 열거나 잠금을 해제하려면 Face ID·Touch ID 인증이 필요합니다. (Pro 기능)</p>
+                </div>
+            </details>
+
+            <details>
                 <summary data-i18n="faq8Q">이 가이드에 없는 문제가 있어요</summary>
                 <div class="content" data-i18n-html="faq8A">
                     <p>개발자에게 직접 이메일 주세요: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. 대부분 하루 안에 답장드립니다.</p>
@@ -810,24 +830,30 @@
                 memoAddTitle: "메모 추가",
                 memoAdd1: '앱 메인 화면에서 우상단 <strong>＋</strong> 버튼 탭',
                 memoAdd2: "제목과 내용을 입력 (내용은 실제로 입력될 텍스트)",
-                memoAdd3: '필요하면 <strong>테마</strong>(카테고리)를 선택해 분류',
+                memoAdd3: '필요하면 <strong>카테고리</strong>를 선택해 분류',
                 memoAdd4: "저장하면 키보드에서 바로 보입니다",
                 memoUseTitle: "키보드에서 사용",
                 memoUse1: "저장한 메모 카드를 탭 → 바로 커서 위치에 입력",
                 memoUse2: "길게 눌러 복사·편집 메뉴",
                 memoUse3: "상단 검색창으로 빠르게 찾기",
                 memoTip: "이모지 · 줄바꿈 · 마크다운은 있는 그대로 입력됩니다. 이메일 서명 같은 긴 텍스트도 문제없습니다.",
-                memoImageTitle: "이미지 메모",
-                memoImage: '사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. <strong>무료 버전에서는 5개까지 저장</strong> 가능, Pro에서 무제한.',
+                memoKeyboardLook: "키보드에서도 앱과 똑같이 보입니다 — 즐겨찾기 메모는 분홍색, 보안 메모는 제목 앞 자물쇠로 표시되고, 현재 보고 있는 카테고리가 화면 상단에 큰 제목으로 나타납니다.",
+                memoImageTitle: "이미지 메모 & 문자 인식",
+                memoImage: '사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. 캡처한 이미지에서 <strong>문자 인식(OCR)</strong>으로 필요한 텍스트만 골라 메모로 담을 수도 있습니다. <strong>무료 버전에서는 이미지 메모 5개까지 저장</strong> 가능, Pro에서 무제한.',
+                memoSecureTitle: "보안 메모 (잠금)",
+                memoSecure: '민감한 메모는 잠가서 보호하세요. 메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하면 기기에 암호화되어 저장되고(키는 iCloud 키체인으로 안전하게 동기화), 열거나 잠금을 해제할 때 <strong>Face ID · Touch ID</strong>로 인증합니다. 잠긴 메모는 목록과 키보드에서 제목 앞 자물쇠로만 구분되며 카드 색은 그대로 유지됩니다. <strong>Pro 기능</strong>입니다.',
                 // template
                 tmplTitle: "템플릿 & 플레이스홀더",
                 tmplLead: '매번 조금씩 달라지는 문구는 <code>{변수}</code>로 남겨두고, 쓸 때만 채우세요.',
                 tmplSyntaxTitle: "문법",
                 tmplSyntax: '중괄호 <code>{ }</code> 안에 변수 이름을 쓰면 플레이스홀더가 됩니다. 예:',
                 tmplUseTitle: "사용하기",
-                tmplUse1: "템플릿 메모를 탭하면 각 플레이스홀더 입력 창이 뜹니다",
-                tmplUse2: "값을 채우고 확인하면 완성된 문장이 입력됩니다",
+                tmplUse1: "템플릿 메모를 탭하면 값 입력 시트가 아래에서 부드럽게 올라옵니다",
+                tmplUse2: "빈칸을 채우고 우상단 복사 버튼을 누르면 완성된 문장이 복사됩니다",
                 tmplUse3: '한 번 입력한 값은 자동으로 기록돼 다음에 선택하기 쉽습니다 (예: "이름"에 자주 쓰는 사람 목록)',
+                tmplMakeTitle: "기존 메모를 템플릿으로",
+                tmplMake: '일반 메모를 길게 눌러 <strong>템플릿으로 만들기</strong>를 선택하면, 원본은 그대로 둔 채 그 내용으로 채운 새 템플릿 메모가 열립니다. 본문에서 <code>{변수}</code>를 원하는 자리에 넣어 저장하세요. 변수를 넣으면 커서가 바로 그 뒤로 이동해 이어서 입력하기 편합니다.',
+                tmplDateNote: '날짜·시간 자동 변수는 <strong>오늘 · 내일 · 다음 주 · 2주 뒤 · 직접 선택</strong> 중에서 고를 수 있고, 탭하면 실제 날짜로 바뀌어 복사됩니다.',
                 tmplTip: '같은 이름의 변수는 여러 템플릿에서 공유됩니다. <code>{이름}</code>에 입력한 값은 다른 템플릿의 <code>{이름}</code>에서도 제안됩니다.',
                 // smart clip
                 smartTitle: "스마트 클립보드",
@@ -852,10 +878,12 @@
                 comboWhen2: "주문서에 배송지·요청사항·할인코드 한 번에",
                 comboWhen3: "CS 답변 = 인사말 + 답변 본문 + 서명 조합",
                 comboMakeTitle: "콤보 만들기",
-                comboMake1: '앱 메인 → <strong>콤보</strong> 탭 → <strong>＋</strong>',
-                comboMake2: "추가할 항목을 순서대로 선택 (메모 / 클립보드 항목 / 템플릿)",
-                comboMake3: "각 항목 사이의 대기 시간(초) 설정",
-                comboMake4: "저장 후 키보드의 콤보 탭에서 실행",
+                comboMakeIntro: '콤보는 이제 별도 화면이 아니라 <strong>메모 목록 안에서</strong> 만듭니다. 메모에 이어질 내용을 더하면 그 메모가 곧 콤보가 됩니다.',
+                comboMake1: '앱 메인에서 <strong>＋</strong>로 새 메모를 만들고 첫 본문을 입력',
+                comboMake2: '<strong>이어지는 메모</strong>를 더해 순서대로 입력될 내용을 추가',
+                comboMake3: "각 단계 사이의 대기 시간(초) 설정",
+                comboMake4: "저장하면 메모 목록에 콤보로 표시되고, 키보드에서 탭하면 순서대로 입력됩니다",
+                comboPreviewNote: "콤보 메모를 탭하면 곧바로 복사되고, 순서대로 입력될 단계 값들을 하프시트로 한눈에 미리 보여줍니다. 기존에 만들어 둔 콤보·카테고리·메모는 업데이트 후에도 그대로 유지됩니다.",
                 comboTip: "대기 시간을 0.3초 이하로 하면 시스템이 못 따라올 수 있습니다. 0.5~1초를 권장합니다.",
                 // mac
                 macTitle: "macOS 메뉴바 앱",
@@ -900,6 +928,8 @@
                 faq9A: "<p>무료에서도 메모 10개, 콤보 3개, 템플릿 3개, 클립보드 기록 50개, 이미지 메모 5개, 테마 커스터마이징을 모두 사용할 수 있습니다. Pro(일회성 결제)는 모든 한도를 무제한으로 풀고 iCloud 백업과 생체인증 잠금을 추가로 제공합니다.</p>",
                 faq10Q: "7일 무료 체험은 어떻게 시작하나요?",
                 faq10A: "<p>앱 안의 Pro 업그레이드 화면에 <strong>7일 무료 체험 시작</strong> 버튼이 있습니다. 한 번 누르면 7일 동안 모든 Pro 기능이 풀립니다(1회 한정). 만료되면 자동으로 무료 한도로 돌아가며, 결제를 안 해도 페널티는 없습니다.</p>",
+                faq11Q: "보안 메모는 어떻게 잠그나요?",
+                faq11A: '<p>메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하세요. 잠긴 메모는 기기에 암호화되어 저장되며, 키는 iCloud 키체인으로 안전하게 동기화됩니다. 열거나 잠금을 해제하려면 Face ID·Touch ID 인증이 필요합니다. (Pro 기능)</p>',
                 faq8Q: "이 가이드에 없는 문제가 있어요",
                 faq8A: '<p>개발자에게 직접 이메일 주세요: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. 대부분 하루 안에 답장드립니다.</p>',
                 // CTA & footer
@@ -937,24 +967,30 @@
                 memoAddTitle: "Add a Memo",
                 memoAdd1: 'Tap the <strong>＋</strong> button on the top-right of the main screen',
                 memoAdd2: "Enter a title and content (content is the text that will be typed)",
-                memoAdd3: 'Pick a <strong>theme</strong> (category) to organize',
+                memoAdd3: 'Pick a <strong>category</strong> to organize',
                 memoAdd4: "Save, and it's instantly available in the keyboard",
                 memoUseTitle: "Use from the Keyboard",
                 memoUse1: "Tap a memo card → text is typed at the cursor",
                 memoUse2: "Long-press for copy/edit menu",
                 memoUse3: "Use the search bar at the top to find quickly",
                 memoTip: "Emojis, line breaks, and markdown are typed as-is. Long email signatures? No problem.",
-                memoImageTitle: "Image Memos",
-                memoImage: 'Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.',
+                memoKeyboardLook: "The keyboard mirrors the app — favorite memos appear in pink, secure memos show a lock before the title, and the category you're viewing appears as a large title at the top.",
+                memoImageTitle: "Image Memos & Text Recognition",
+                memoImage: 'Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. You can also pull just the text you need from a captured image with <strong>text recognition (OCR)</strong>. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.',
+                memoSecureTitle: "Secure Memos (Lock)",
+                memoSecure: 'Lock sensitive memos to protect them. Long-press a memo and choose <strong>Lock as secure memo</strong> — it\'s stored encrypted on your device (the key syncs safely via your iCloud Keychain), and opening or unlocking it requires <strong>Face ID / Touch ID</strong>. Locked memos are marked only by a lock before the title in both the list and the keyboard, keeping their card color. This is a <strong>Pro feature</strong>.',
                 // template
                 tmplTitle: "Templates & Placeholders",
                 tmplLead: 'Leave slightly-varying parts as <code>{variable}</code> and fill them in when you use it.',
                 tmplSyntaxTitle: "Syntax",
                 tmplSyntax: 'Variable names inside curly braces <code>{ }</code> become placeholders. Examples:',
                 tmplUseTitle: "How to Use",
-                tmplUse1: "Tap a template memo — each placeholder shows an input prompt",
-                tmplUse2: "Fill in values and confirm; the completed sentence is typed",
+                tmplUse1: "Tap a template memo — a value-input sheet slides up from the bottom",
+                tmplUse2: "Fill in the blanks and tap Copy at the top-right; the completed sentence is copied",
                 tmplUse3: 'Values you\'ve entered are remembered, making the next selection faster (e.g. a history of "name" values)',
+                tmplMakeTitle: "Turn an Existing Memo into a Template",
+                tmplMake: 'Long-press a regular memo and choose <strong>Make Template</strong> — the original stays as-is while a new template memo opens pre-filled with its content. Drop <code>{variable}</code> wherever you want and save; the cursor lands right after each variable so you can keep typing.',
+                tmplDateNote: 'Date/time auto-variables let you pick <strong>Today, Tomorrow, Next week, In two weeks, or a specific date</strong> — tapping substitutes the real date and copies it.',
                 tmplTip: 'Variables with the same name are shared across templates. Values entered for <code>{name}</code> are suggested in other templates\' <code>{name}</code>.',
                 // smart clip
                 smartTitle: "Smart Clipboard",
@@ -979,10 +1015,12 @@
                 comboWhen2: "Orders: address + requests + discount code in one shot",
                 comboWhen3: "Support replies = greeting + body + signature",
                 comboMakeTitle: "Create a Combo",
-                comboMake1: 'Main app → <strong>Combos</strong> tab → <strong>＋</strong>',
-                comboMake2: "Pick items in order (memo / clipboard item / template)",
-                comboMake3: "Set the delay (in seconds) between items",
-                comboMake4: "Save, then run it from the Combos tab in the keyboard",
+                comboMakeIntro: 'Combos are now built <strong>right inside your memo list</strong>, not on a separate screen. Add follow-up content to a memo and it becomes a combo.',
+                comboMake1: 'In the main app, tap <strong>＋</strong> to create a new memo and enter the first content',
+                comboMake2: 'Add <strong>follow-up memos</strong> for the content to be entered in order',
+                comboMake3: "Set the delay (in seconds) between steps",
+                comboMake4: "Save — it appears as a combo in your memo list, and tapping it in the keyboard types the steps in order",
+                comboPreviewNote: "Tapping a combo memo copies it right away and lays out the step values that will be typed, in order, in a half-sheet preview. The combos, categories, and memos you already made are kept exactly as they were across updates.",
                 comboTip: "Delays under 0.3s may exceed what the system can keep up with. 0.5–1s is recommended.",
                 // mac
                 macTitle: "macOS Menu Bar App",
@@ -1027,6 +1065,8 @@
                 faq9A: "<p>The free tier covers 10 memos, 3 combos, 3 templates, 50 clipboard items, 5 image memos, and theme customization. Pro (one-time purchase) lifts every limit to unlimited and adds iCloud backup and biometric lock.</p>",
                 faq10Q: "How do I start the 7-day free trial?",
                 faq10A: "<p>On the Pro upgrade screen in the app, you'll see a <strong>Start 7-day free trial</strong> button. Tap it once and all Pro features unlock for 7 days (one-time only). When it ends, the app falls back to the free tier automatically — no penalty if you don't purchase.</p>",
+                faq11Q: "How do I lock a secure memo?",
+                faq11A: '<p>Long-press a memo and choose <strong>Lock as secure memo</strong>. Locked memos are stored encrypted on your device, with the key synced safely via your iCloud Keychain. Opening or unlocking requires Face ID / Touch ID. (Pro feature)</p>',
                 faq8Q: "My issue isn't in this guide",
                 faq8A: '<p>Email the developer directly: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. Usually a reply within a day.</p>',
                 bottomCta: "Download on the App Store",
