@@ -5,11 +5,8 @@
 
 import SwiftUI
 
-extension String {
-    var strippingTemplateBraces: String {
-        replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
-    }
-}
+// String.strippingTemplateBraces는 MemoPreviewFormatter.swift로 이동
+// (키보드 익스텐션 타겟과 공유하기 위해).
 
 #if os(iOS)
 /// `[Your Name]` 같은 더미 placeholder를 빨간색으로 syntax highlight하는 입력칸.

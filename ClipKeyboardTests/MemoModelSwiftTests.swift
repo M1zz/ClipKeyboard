@@ -76,6 +76,24 @@ struct MemoModelSwiftTests {
         #expect(decoded.comboInterval == 1.5)
     }
 
+    @Test("힌트·키보드 동기화 토글 Codable 라운드트립 + 구버전 기본값 ON")
+    func hintAndKeyboardSyncRoundTrip() throws {
+        var original = Memo(title: "힌트", value: "값",
+                            hint: "회사 소개 첫 줄", hintShownOnKeyboard: false)
+        let decoded = try JSONDecoder().decode(Memo.self, from: JSONEncoder().encode(original))
+        #expect(decoded.hint == "회사 소개 첫 줄")
+        #expect(decoded.hintShownOnKeyboard == false)
+
+        // 구버전 데이터(hintShownOnKeyboard 키 없음)는 기본 ON으로 읽힌다.
+        original.hintShownOnKeyboard = true
+        var json = try #require(try JSONSerialization.jsonObject(
+            with: JSONEncoder().encode(original)) as? [String: Any])
+        json.removeValue(forKey: "hintShownOnKeyboard")
+        let legacyData = try JSONSerialization.data(withJSONObject: json)
+        let legacy = try JSONDecoder().decode(Memo.self, from: legacyData)
+        #expect(legacy.hintShownOnKeyboard == true)
+    }
+
     @Test("콤보 메모 Codable 라운드트립 — comboValues 보존")
     func comboCodableRoundTrip() throws {
         let original = Memo(title: "콤보", value: "A",

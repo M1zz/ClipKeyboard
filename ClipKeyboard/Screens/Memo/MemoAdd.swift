@@ -342,6 +342,9 @@ struct MemoAdd: View {
                         // 📌 키보드에 표시할 이름
                         titleInputSection
 
+                        // 📌 내용 힌트 (카드·키보드에서 살며시 보일 한 줄, 선택)
+                        hintInputSection
+
                         // 📌 추가 옵션 (보안)
                         additionalOptionsSection
                         // 변수가 있으면 자동으로 템플릿 도우미 노출
@@ -466,6 +469,40 @@ struct MemoAdd: View {
                 // VoiceOver가 placeholder 대신 필드의 의미("키보드에 표시할 이름")를 읽도록 명시.
                 .accessibilityLabel(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
         }
+    }
+
+    /// 내용 힌트(선택) — 카드 힌트·키보드 스왑에서 자동 요약 대신 보여줄 한 줄을 직접 정한다.
+    /// 힌트를 쓰면 "키보드에 표시할 이름과 같이 표시" 동기화 토글이 나타난다(기본 ON).
+    private var hintInputSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(NSLocalizedString("내용 힌트 (선택)", comment: "Custom content hint label"))
+                .font(.body)
+                .fontWeight(.medium)
+                .foregroundColor(theme.textMuted)
+
+            TextField(NSLocalizedString("카드에 살며시 보여줄 한 줄 — 비우면 자동 요약", comment: "Custom hint field placeholder"),
+                      text: $viewModel.hint)
+                .font(.body)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 16)
+                .background(theme.surfaceAlt)
+                .cornerRadius(theme.radiusMd)
+                .accessibilityLabel(NSLocalizedString("내용 힌트 (선택)", comment: "Custom content hint label"))
+
+            if !viewModel.hint.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Toggle(isOn: $viewModel.hintShownOnKeyboard) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("키보드에 표시할 이름과 같이 표시", comment: "Hint keyboard sync toggle"))
+                            .font(.body)
+                        Text(NSLocalizedString("키보드에서 이름이 잠시 이 힌트로 바뀌었다 돌아와요.", comment: "Hint keyboard sync description"))
+                            .font(.caption)
+                            .foregroundColor(theme.textFaint)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: viewModel.hint.isEmpty)
     }
 
     private var additionalOptionsSection: some View {

@@ -178,6 +178,9 @@ struct KeyboardView: View {
     @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var defaultTypingLang: String = "english"
     /// 메모 구분 표시 마스터 토글(메인 앱과 공유). 기본 OFF = 키도 심플(타입 테두리·카테고리 틴트 숨김).
     @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var showVisualCues: Bool = false
+    /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) — 키보드에서는 셀이 2초 머물면
+    /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
+    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")) private var contentHintEnabled: Bool = true
 
     /// 메모 구분 장치 노출 여부 — iOS "색상 없이 구별" 또는 설정 토글 ON.
     private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
@@ -1253,17 +1256,19 @@ struct KeyboardView: View {
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
             // 메모 칸 안 텍스트는 제목. 보안 메모는 제목 앞에 자물쇠 심볼(앱과 동일, 항상 표시).
+            // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
             HStack(spacing: 4) {
                 if memo.isSecure {
                     Image(systemName: "lock.fill")
                         .font(.system(size: buttonFontSize * 0.82, weight: .semibold))
                         .foregroundColor(theme.textMuted)
                 }
-                Text(memo.title)
-                    .foregroundColor(theme.text)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: buttonFontSize, weight: .semibold))
+                MemoTitleHintSwap(title: memo.title,
+                                  hint: keyboardHintText(for: memo),
+                                  seed: memo.id.hashValue,
+                                  fontSize: buttonFontSize,
+                                  titleColor: theme.text,
+                                  hintColor: theme.textMuted)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(10)
@@ -1280,6 +1285,20 @@ struct KeyboardView: View {
                 .strokeBorder(style.color,
                               style: StrokeStyle(lineWidth: style.lineWidth, dash: style.dash))
         )
+    }
+
+    /// 키보드 셀 내용 힌트 텍스트 — 설정 OFF면 nil(스왑 없음).
+    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선이되, 메모별 동기화 토글
+    /// (hintShownOnKeyboard)이 꺼져 있으면 키보드에서는 스왑하지 않는다.
+    /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(값이 암호문이기도 함) → nil. 앱 카드와 동일 기준.
+    private func keyboardHintText(for memo: Memo) -> String? {
+        guard contentHintEnabled else { return nil }
+        if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
+            return memo.hintShownOnKeyboard ? custom : nil
+        }
+        guard !memo.isSecure else { return nil }
+        let text = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
+        return text.isEmpty ? nil : text
     }
 
     /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
@@ -1516,6 +1535,79 @@ struct KeyboardView: View {
             return custom
         }
         return theme.surface
+    }
+}
+
+// MARK: - Memo Title ↔ Content Hint Swap
+
+/// 키보드 메모 셀의 제목 ↔ 내용 힌트 스왑 — 키보드는 공간이 좁아 앱 카드처럼 별도 줄을
+/// 두는 대신 제목 자리를 잠시 빌린다. 셀이 화면에 나타나 2초쯤 머물면 제목이 내용으로
+/// 부드럽게 바뀌었다가, 잠시 후 다시 제목으로 돌아온다. 이번 등장에서 한 번만 —
+/// 셀이 화면 밖으로 나갔다 다시 들어오면 처음부터(앱 카드 힌트와 동일 기준).
+/// 셀(seed)마다 바뀌는 시점·읽히는 시간이 조금씩 달라 키보드 전체가 동시에 변하지 않는다.
+struct MemoTitleHintSwap: View {
+    let title: String
+    /// nil이면(설정 OFF·보안 메모·빈 내용) 스왑 없이 제목만 표시한다.
+    let hint: String?
+    /// 셀별 위상 시드(메모 id 해시) — 스왑 시점·머묾 시간에 결정적 편차를 준다.
+    let seed: Int
+    let fontSize: Double
+    let titleColor: Color
+    let hintColor: Color
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var showingHint = false
+
+    /// 최소 2초는 머문 뒤에 바뀐다(바닥값, 앱 카드 힌트와 동일) — 카드별 편차가 더해진다.
+    static let baseRevealDelay: Double = 2.0
+    /// 제목 ↔ 내용 전환 시간 — 키보드는 시선 바로 아래라 확 바뀌면 어지럽다. 천천히 녹아들게.
+    static let swapDuration: Double = 1.0
+
+    /// 스왑 시점 2.0~3.6s — 셀들이 하나둘 차례로 바뀐다.
+    private var revealDelay: Double { Self.baseRevealDelay + unit(0) * 1.6 }
+    /// 내용이 읽히는 시간 3.2~4.6s — 전환이 느려진 만큼 읽는 시간도 살짝 여유 있게.
+    private var holdDuration: Double { 3.2 + unit(1) * 1.4 }
+
+    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) — 같은 셀은 항상 같은 리듬.
+    private func unit(_ salt: UInt64) -> Double {
+        var h = UInt64(bitPattern: Int64(seed)) &+ (salt &+ 1) &* 0x9E3779B97F4A7C15
+        h ^= h >> 33
+        h = h &* 0xFF51AFD7ED558CCD
+        h ^= h >> 33
+        return Double(h % 1024) / 1024.0
+    }
+
+    var body: some View {
+        ZStack {
+            Text(title)
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundColor(titleColor)
+                .opacity(showingHint ? 0 : 1)
+                .blur(radius: !reduceMotion && showingHint ? 3 : 0)
+            if let hint {
+                Text(hint)
+                    .font(.system(size: fontSize * 0.92))
+                    .foregroundColor(hintColor)
+                    .opacity(showingHint ? 1 : 0)
+                    .blur(radius: !reduceMotion && !showingHint ? 3 : 0)
+            }
+        }
+        .lineLimit(2)
+        .multilineTextAlignment(.center)
+        // VoiceOver는 셀 버튼의 accessibilityLabel(제목+내용)이 안내 — 일시 표시는 숨김.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(title)
+        .task {
+            // 셀이 화면을 벗어나면 task가 취소되고, 다시 나타나면 처음부터 시작된다.
+            guard hint != nil else { return }
+            showingHint = false
+            do {
+                try await Task.sleep(for: .seconds(revealDelay))
+                withAnimation(.easeInOut(duration: Self.swapDuration)) { showingHint = true }
+                try await Task.sleep(for: .seconds(Self.swapDuration + holdDuration))
+                withAnimation(.easeInOut(duration: Self.swapDuration)) { showingHint = false }
+            } catch { /* 화면 이탈로 취소 — 다음 등장 때 다시 */ }
+        }
     }
 }
 

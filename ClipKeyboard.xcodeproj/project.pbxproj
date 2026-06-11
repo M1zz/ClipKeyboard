@@ -70,6 +70,7 @@
 		58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */; };
 		58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MA00022F0000000000000002 /* MacAppIntroView.swift */; };
 		58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
+		58MP00032F0000000000000003 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
 		58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
@@ -911,6 +912,7 @@
 				587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */,
 				587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */,
 				587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */,
+				58MP00032F0000000000000003 /* MemoPreviewFormatter.swift in Sources */,
 				581550642AD5321F00A6115B /* Constants.swift in Sources */,
 				585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */,
 				KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */,

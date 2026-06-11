@@ -30,6 +30,8 @@ final class MemoAddViewModel: ObservableObject {
     @Published var keyword: String = ""
     @Published var value: String = ""
     @Published var hint: String = ""
+    /// 힌트를 키보드에서도 표시(제목과 잠시 스왑)할지 — 힌트가 비어있으면 무의미. 기본 ON.
+    @Published var hintShownOnKeyboard: Bool = true
     @Published var selectedCategory: String = "텍스트"
     @Published var isSecure: Bool = false
     @Published var isTemplate: Bool = false
@@ -225,6 +227,7 @@ final class MemoAddViewModel: ObservableObject {
         // 편집 모드면 기존 메모의 hint + 콤보 단계 로드 (본문=1단계, 나머지=이어지는 단계)
         if let existing = editingMemo {
             hint = existing.hint ?? ""
+            hintShownOnKeyboard = existing.hintShownOnKeyboard
             if !existing.comboValues.isEmpty {
                 continuations = Array(existing.comboValues.dropFirst())
                 if value.isEmpty { value = existing.comboValues.first ?? "" }
@@ -268,6 +271,7 @@ final class MemoAddViewModel: ObservableObject {
         keyword = ""
         value = ""
         hint = ""
+        hintShownOnKeyboard = true
         selectedCategory = "텍스트"
         isSecure = false
         isTemplate = false
@@ -511,6 +515,7 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.title = keyword
             updatedMemo.value = value
             updatedMemo.hint = hint.isEmpty ? nil : hint
+            updatedMemo.hintShownOnKeyboard = hintShownOnKeyboard
             updatedMemo.lastEdited = Date()
             updatedMemo.category = finalCategory
             updatedMemo.isSecure = isSecure
@@ -541,7 +546,8 @@ final class MemoAddViewModel: ObservableObject {
                 comboValues: resolvedComboValues,
                 imageFileNames: imageFileNames,
                 contentType: contentType,
-                hint: hint.isEmpty ? nil : hint
+                hint: hint.isEmpty ? nil : hint,
+                hintShownOnKeyboard: hintShownOnKeyboard
             )
             loadedMemos.append(newMemo)
             ReviewManager.shared.incrementMemoCreatedCount()

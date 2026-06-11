@@ -323,9 +323,10 @@ struct DisplaySettingsView: View {
     private var visible: Bool = false
     /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 카드 내용 힌트 — 제목 아래 내용이 살며시 나타났다 사라지는 미리보기.
-    @AppStorage("contentHintEnabled") private var contentHintEnabled: Bool = true
-    @AppStorage("contentHintPace") private var contentHintPace: String = ContentHintPace.normal.rawValue
+    /// 카드 내용 힌트 — 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
+    /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
+    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    private var contentHintEnabled: Bool = true
 
     var body: some View {
         List {
@@ -372,24 +373,15 @@ struct DisplaySettingsView: View {
                     .font(.body)
             }
 
-            // 메모 내용 힌트 (제목 아래 살며시 나타나는 미리보기)
+            // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)
             Section {
                 Toggle(isOn: $contentHintEnabled) {
                     Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: "sparkles")
                 }
-                Picker(selection: $contentHintPace) {
-                    ForEach(ContentHintPace.allCases, id: \.rawValue) { pace in
-                        Text(pace.localizedName).tag(pace.rawValue)
-                    }
-                } label: {
-                    Label(NSLocalizedString("등장 빈도", comment: "Content hint pace"), systemImage: "timer")
-                }
-                .pickerStyle(.segmented)
-                .disabled(!contentHintEnabled)
             } header: {
                 Text(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"))
             } footer: {
-                Text(NSLocalizedString("메모 제목 아래에 내용이 이따금 살며시 나타났다 사라져요. 빈도를 고르거나 끌 수 있어요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
+                Text(NSLocalizedString("메모 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
                     .font(.body)
             }
         }

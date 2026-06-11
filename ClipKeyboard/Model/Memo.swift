@@ -278,10 +278,14 @@ struct Memo: Identifiable, Codable {
 
     /// "어디서 / 언제 쓰나요?" 컨텍스트 힌트.
     /// ADHD·건망증 사용자가 나중에 이 메모를 왜 저장했는지 떠올릴 수 있도록 돕는다.
+    /// 값이 있으면 카드 내용 힌트(자동 요약 대신)로도 쓰인다.
     /// Optional이라 기존 데이터와 완전 하위 호환 (없으면 nil).
     var hint: String? = nil
+    /// 힌트를 키보드에서도 표시할지 — ON이면 키보드 셀의 "표시할 이름"이 잠시 힌트로
+    /// 바뀌었다 돌아온다(동기화). hint가 비어있으면 무의미. 기본 ON.
+    var hintShownOnKeyboard: Bool = true
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], comboValues: [String] = [], comboInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], comboValues: [String] = [], comboInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil, hintShownOnKeyboard: Bool = true) {
         self.id = id
         self.title = title
         self.value = value
@@ -300,6 +304,7 @@ struct Memo: Identifiable, Codable {
         self.contentType = contentType
         self.lastUsedAt = lastUsedAt
         self.hint = hint
+        self.hintShownOnKeyboard = hintShownOnKeyboard
     }
 
     init(from oldMemo: OldMemo) {
@@ -339,6 +344,7 @@ struct Memo: Identifiable, Codable {
         self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
         self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
         self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
+        self.hintShownOnKeyboard = try c.decodeIfPresent(Bool.self, forKey: .hintShownOnKeyboard) ?? true
     }
 
     enum CodingKeys: String, CodingKey {
@@ -362,6 +368,7 @@ struct Memo: Identifiable, Codable {
         case contentType
         case lastUsedAt
         case hint
+        case hintShownOnKeyboard
     }
 
     /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
@@ -398,6 +405,7 @@ struct Memo: Identifiable, Codable {
         try c.encode(contentType, forKey: .contentType)
         try c.encodeIfPresent(lastUsedAt, forKey: .lastUsedAt)
         try c.encodeIfPresent(hint, forKey: .hint)
+        try c.encode(hintShownOnKeyboard, forKey: .hintShownOnKeyboard)
 
         // 레거시 키도 함께 기록 — 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)
