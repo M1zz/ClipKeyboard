@@ -291,6 +291,11 @@ struct ClipKeyboardList: View {
                 // GraceQuotaBanner 등)과 통일된 패턴.
                 mainColumn
             }
+            // 검색 키보드 내리기: 메모 영역 아무 데나 탭(simultaneous라 카드 탭 동작은 그대로 실행)
+            // 하거나 스크롤하면 닫힌다. 검색바 자신은 safeAreaInset의 분리 영역이라
+            // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
+            .simultaneousGesture(TapGesture().onEnded { isSearchFieldFocused = false })
+            .scrollDismissesKeyboard(.immediately)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if isSearchBarVisible {
                     searchBarInlineSection
