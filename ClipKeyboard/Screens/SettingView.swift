@@ -323,6 +323,9 @@ struct DisplaySettingsView: View {
     private var visible: Bool = false
     /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
+    /// 카드 내용 힌트 — 제목 아래 내용이 살며시 나타났다 사라지는 미리보기.
+    @AppStorage("contentHintEnabled") private var contentHintEnabled: Bool = true
+    @AppStorage("contentHintPace") private var contentHintPace: String = ContentHintPace.normal.rawValue
 
     var body: some View {
         List {
@@ -366,6 +369,27 @@ struct DisplaySettingsView: View {
                 Text(NSLocalizedString("메모 구분 표시", comment: "Visual cues section"))
             } footer: {
                 Text(NSLocalizedString("카테고리 색은 항상 표시돼요. 이 설정을 켜면 메모 타입(템플릿·콤보·보안) 아이콘과 테두리, 심볼까지 함께 표시해 더 자세히 구분할 수 있어요. iOS '색상 없이 구별' 접근성 설정을 켜면 자동으로 표시됩니다.", comment: "Visual cues explanation"))
+                    .font(.body)
+            }
+
+            // 메모 내용 힌트 (제목 아래 살며시 나타나는 미리보기)
+            Section {
+                Toggle(isOn: $contentHintEnabled) {
+                    Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: "sparkles")
+                }
+                Picker(selection: $contentHintPace) {
+                    ForEach(ContentHintPace.allCases, id: \.rawValue) { pace in
+                        Text(pace.localizedName).tag(pace.rawValue)
+                    }
+                } label: {
+                    Label(NSLocalizedString("등장 빈도", comment: "Content hint pace"), systemImage: "timer")
+                }
+                .pickerStyle(.segmented)
+                .disabled(!contentHintEnabled)
+            } header: {
+                Text(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"))
+            } footer: {
+                Text(NSLocalizedString("메모 제목 아래에 내용이 이따금 살며시 나타났다 사라져요. 빈도를 고르거나 끌 수 있어요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
                     .font(.body)
             }
         }

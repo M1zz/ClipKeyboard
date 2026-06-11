@@ -101,6 +101,9 @@ struct ClipKeyboardList: View {
     }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
+    /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기·빈도 조절.
+    @AppStorage("contentHintEnabled") private var contentHintEnabled: Bool = true
+    @AppStorage("contentHintPace") private var contentHintPace: String = ContentHintPace.normal.rawValue
 
     // Category
     @State private var showCategoryManagement: Bool = false
@@ -185,6 +188,14 @@ struct ClipKeyboardList: View {
         }
         let left = max(0, ProFeatureManager.freeMemoLimit - viewModel.memos.count)
         return String(format: NSLocalizedString("무료 메모 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
+    }
+
+    /// 카드 어항 미리보기 텍스트 — 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
+    /// ⚠️ 보안 메모는 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
+    private func fishbowlText(memo: Memo) -> String? {
+        guard !memo.isSecure else { return nil }
+        let text = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
+        return text.isEmpty ? nil : text
     }
 
     /// 화면 상단 large title — 현재 보고 있는 카테고리 이름.
@@ -904,6 +915,21 @@ struct ClipKeyboardList: View {
                     .foregroundColor(onColor ? .white : theme.text)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
+            }
+
+            // 제목 아래 내용 힌트 — 블러가 걷히며 살며시 맺혔다가 흩어지듯 사라진다.
+            // 설정(메모 표시)에서 켜기/끄기·빈도 조절. 켜져 있으면 카드 높이 균일성을
+            // 위해 영역은 항상 확보(보안 메모 등은 빈 공간), 꺼져 있으면 영역 자체가 없다.
+            if contentHintEnabled {
+                Spacer(minLength: 8)
+                if let hint = fishbowlText(memo: memo) {
+                    ContentHintPreview(text: hint,
+                                       seed: memo.id.hashValue,
+                                       onColor: onColor,
+                                       pace: ContentHintPace(rawValue: contentHintPace) ?? .normal)
+                } else {
+                    Color.clear.frame(height: ContentHintPreview.zoneHeight)
+                }
             }
         }
         .padding(16)

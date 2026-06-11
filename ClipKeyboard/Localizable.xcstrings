@@ -1,6 +1,91 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
+    "메모 내용 힌트" : {
+      "comment" : "Content hint toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memo Content Hints"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Petunjuk Isi Memo"
+          }
+        }
+      }
+    },
+    "등장 빈도" : {
+      "comment" : "Content hint pace",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequency"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frekuensi"
+          }
+        }
+      }
+    },
+    "여유롭게" : {
+      "comment" : "Hint pace: relaxed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relaxed"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Santai"
+          }
+        }
+      }
+    },
+    "자주" : {
+      "comment" : "Hint pace: frequent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Often"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sering"
+          }
+        }
+      }
+    },
+    "메모 제목 아래에 내용이 이따금 살며시 나타났다 사라져요. 빈도를 고르거나 끌 수 있어요. 보안 메모의 내용은 표시되지 않아요." : {
+      "comment" : "Content hint explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The memo's content gently appears and fades below its title from time to time. Choose how often, or turn it off. Secure memo contents are never shown."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isi memo muncul dan menghilang perlahan di bawah judulnya dari waktu ke waktu. Pilih frekuensinya, atau matikan. Isi memo aman tidak pernah ditampilkan."
+          }
+        }
+      }
+    },
     "" : {
       "localizations" : {
         "en" : {

@@ -1050,3 +1050,116 @@ struct CategoryManagementSheet: View {
         categoryTint(for: name, in: viewModel.customCategories)
     }
 }
+
+// MARK: - Content Hint (카드 속 은은한 내용 힌트)
+
+/// 메모 카드 제목 아래의 내용 힌트 — 움직임 없이 제자리에서 블러가 걷히며 살며시
+/// 맺혔다가(materialize), 잠시 머문 뒤 흩어지듯 사라진다(dissolve). iOS 알림 텍스트처럼
+/// 절제된 등장/퇴장만 쓰고 대부분의 시간은 빈 공간 — 카드의 심플함을 해치지 않는다.
+/// 카드(seed)마다 주기·위상이 달라 화면 전체가 동시에 깜빡이지 않는다.
+/// 내용 힌트의 등장 빈도 — 설정에서 선택. 주기(휴식 포함)가 달라진다.
+enum ContentHintPace: String, CaseIterable {
+    case relaxed   // 여유롭게 — 가장 뜸하게
+    case normal    // 보통 (기본)
+    case frequent  // 자주
+
+    /// 기본 주기(초). 시드별 jitter가 더해져 카드마다 조금씩 다르다.
+    var basePeriod: Double {
+        switch self {
+        case .relaxed:  return 38
+        case .normal:   return 24
+        case .frequent: return 14
+        }
+    }
+
+    var periodJitter: Double {
+        switch self {
+        case .relaxed:  return 10
+        case .normal:   return 7
+        case .frequent: return 5
+        }
+    }
+
+    var localizedName: String {
+        switch self {
+        case .relaxed:  return NSLocalizedString("여유롭게", comment: "Hint pace: relaxed")
+        case .normal:   return NSLocalizedString("보통", comment: "Medium")
+        case .frequent: return NSLocalizedString("자주", comment: "Hint pace: frequent")
+        }
+    }
+}
+
+struct ContentHintPreview: View {
+    let text: String
+    /// 카드별 위상 시드(메모 id 해시) — 카드들이 제각각의 타이밍으로 숨쉰다.
+    let seed: Int
+    /// 컬러 카드(이미지·카테고리색) 위인지 — 텍스트 색 결정.
+    let onColor: Bool
+    /// 등장 빈도(설정에서 선택) — 주기를 결정한다.
+    let pace: ContentHintPace
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// 카드 높이 균일성을 위해 항상 이 높이를 차지한다(힌트가 없는 동안은 빈 공간).
+    /// .body 한 줄이 들어가는 높이.
+    static let zoneHeight: CGFloat = 22
+
+    var body: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 20.0)) { timeline in
+            let t = timeline.date.timeIntervalSinceReferenceDate
+            let hint = state(at: t)
+            Text(text)
+                .font(.body)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .foregroundColor(onColor ? .white.opacity(0.85) : .secondary)
+                .opacity(hint.opacity)
+                .blur(radius: reduceMotion ? 0 : hint.blur)
+                .offset(y: reduceMotion ? 0 : hint.rise)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .frame(height: Self.zoneHeight)
+        .allowsHitTesting(false)        // 탭은 카드로 통과
+        .accessibilityHidden(true)      // VoiceOver는 카드 라벨이 안내 (깜빡이는 요소 제외)
+    }
+
+    // MARK: 등장/퇴장 곡선 (seed 기반 결정적)
+
+    private struct HintState {
+        var opacity: Double = 0
+        var blur: CGFloat = 0
+        var rise: CGFloat = 0
+    }
+
+    /// 주기(pace 기반) 중 앞 6초만 보인다: 맺힘 0.9s → 머묾 4.2s → 흩어짐 0.9s → 휴식.
+    private func state(at t: TimeInterval) -> HintState {
+        let s = Double(abs(seed))
+        let period = pace.basePeriod + s.truncatingRemainder(dividingBy: pace.periodJitter)
+        let phase = (t + s.truncatingRemainder(dividingBy: 97.0) * 0.73)
+            .truncatingRemainder(dividingBy: period)
+        let appear = 0.9, hold = 4.2, vanish = 0.9
+        guard phase < appear + hold + vanish else { return HintState() }     // 휴식(빈 공간)
+
+        var hint = HintState()
+        if phase < appear {
+            // 맺힘: 블러가 걷히며 3pt 아래에서 자리로 떠오른다.
+            let p = smoothstep(phase / appear)
+            hint.opacity = p
+            hint.blur = (1 - p) * 4
+            hint.rise = (1 - p) * 3
+        } else if phase < appear + hold {
+            // 머묾: 또렷하게 읽히는 구간.
+            hint.opacity = 1
+        } else {
+            // 흩어짐: 살짝 떠오르며 블러 속으로 사라진다.
+            let p = smoothstep((phase - appear - hold) / vanish)
+            hint.opacity = 1 - p
+            hint.blur = p * 4
+            hint.rise = -p * 2
+        }
+        return hint
+    }
+
+    /// easeInOut — 시작과 끝이 부드러운 S-curve.
+    private func smoothstep(_ p: Double) -> Double { p * p * (3 - 2 * p) }
+}
