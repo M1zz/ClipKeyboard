@@ -71,11 +71,24 @@ enum CloudKitError: Error {
     }
 }
 
+// MARK: - CloudKit Database 추상화 (테스트 주입용)
+
+/// CloudKit private DB 중 백업이 쓰는 연산만 추상화. 실제 CKDatabase가 그대로 채택하고,
+/// 테스트는 인메모리 mock을 주입해 네트워크 없이 백업/복원 전 경로의 무결성을 검증한다.
+protocol CloudKitBackupDatabase {
+    func record(for recordID: CKRecord.ID) async throws -> CKRecord
+    @discardableResult func save(_ record: CKRecord) async throws -> CKRecord
+    @discardableResult func deleteRecord(withID recordID: CKRecord.ID) async throws -> CKRecord.ID
+}
+
+extension CKDatabase: CloudKitBackupDatabase {}
+
 class CloudKitBackupService: ObservableObject {
     static let shared = CloudKitBackupService()
 
-    private let container: CKContainer
-    private let privateDatabase: CKDatabase
+    private let container: CKContainer?
+    private let database: CloudKitBackupDatabase
+    private let fetchAccountStatus: () async throws -> CKAccountStatus
 
     @Published var isAuthenticated: Bool = false
     @Published var lastBackupDate: Date?
@@ -87,8 +100,10 @@ class CloudKitBackupService: ObservableObject {
     private let autoBackupInterval: TimeInterval = 300 // 5분마다 자동 백업
 
     private init() {
-        self.container = CKContainer(identifier: "iCloud.com.Ysoup.TokenMemo")
-        self.privateDatabase = container.privateCloudDatabase
+        let container = CKContainer(identifier: "iCloud.com.Ysoup.TokenMemo")
+        self.container = container
+        self.database = container.privateCloudDatabase
+        self.fetchAccountStatus = { try await container.accountStatus() }
 
         checkAccountStatus()
         loadLastBackupDate()
@@ -96,6 +111,15 @@ class CloudKitBackupService: ObservableObject {
 
         // 데이터 변경 알림 리스너 등록
         setupDataChangeListener()
+    }
+
+    /// 테스트 전용: mock DB/계정 상태를 주입한다.
+    /// 타이머·데이터 변경 리스너·초기 자동 백업 등 부작용 없이 순수 백업/복원 로직만 동작.
+    init(database: CloudKitBackupDatabase,
+         accountStatus: @escaping () async throws -> CKAccountStatus) {
+        self.container = nil
+        self.database = database
+        self.fetchAccountStatus = accountStatus
     }
 
     deinit {
@@ -106,6 +130,7 @@ class CloudKitBackupService: ObservableObject {
     // MARK: - Account Status
 
     func checkAccountStatus() {
+        guard let container else { return }
         container.accountStatus { [weak self] status, error in
             DispatchQueue.main.async {
                 self?.isAuthenticated = (status == .available)
@@ -280,7 +305,7 @@ class CloudKitBackupService: ObservableObject {
     /// 호출 시점에 계정 상태를 새로 확인. init의 async 콜백이 아직 돌아오지
     /// 않은 상태에서 첫 버튼 클릭으로 .notAuthenticated 오탐이 나던 race를 제거.
     private func ensureAuthenticated() async throws {
-        let status = try await container.accountStatus()
+        let status = try await fetchAccountStatus()
         await MainActor.run { self.isAuthenticated = (status == .available) }
         guard status == .available else {
             print("⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
@@ -352,7 +377,7 @@ class CloudKitBackupService: ObservableObject {
     private func fetchOrCreateRecord() async throws -> CKRecord {
         let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
         do {
-            let record = try await privateDatabase.record(for: recordID)
+            let record = try await database.record(for: recordID)
             print("🔄 [CloudKit] 기존 백업 레코드 업데이트")
             return record
         } catch let error as CKError where error.code == .unknownItem {
@@ -378,7 +403,7 @@ class CloudKitBackupService: ObservableObject {
         for attempt in 1...maxRetries {
             do {
                 print("💾 [CloudKit] 저장 시도 \(attempt)/\(maxRetries)...")
-                let savedRecord = try await privateDatabase.save(record)
+                let savedRecord = try await database.save(record)
                 print("✅ [CloudKit] 저장 성공 (시도 \(attempt))")
                 return savedRecord
             } catch let error as CKError {
@@ -452,7 +477,7 @@ class CloudKitBackupService: ObservableObject {
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
-            let record = try await privateDatabase.record(for: recordID)
+            let record = try await database.record(for: recordID)
             print("📦 [CloudKit] 백업 레코드 찾음")
             if let version = record["version"] as? String {
                 print("📦 [CloudKit] 백업 버전: \(version)")
@@ -562,7 +587,7 @@ class CloudKitBackupService: ObservableObject {
     func hasBackup() async -> Bool {
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
-            _ = try await privateDatabase.record(for: recordID)
+            _ = try await database.record(for: recordID)
             return true
         } catch {
             return false
@@ -576,7 +601,7 @@ class CloudKitBackupService: ObservableObject {
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
-            _ = try await privateDatabase.deleteRecord(withID: recordID)
+            _ = try await database.deleteRecord(withID: recordID)
 
             await MainActor.run {
                 lastBackupDate = nil
