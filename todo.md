@@ -617,3 +617,25 @@
 - [x] **폰트 .caption2 → .body**, zoneHeight 16 → 22.
 - [x] Localizable.xcstrings 신규 키 5개(ko+en/id): 메모 내용 힌트/등장 빈도/여유롭게/자주/푸터 설명.
 - [x] 빌드 그린 + 시뮬레이터 확인(.body 크기 힌트 교대 등장).
+
+---
+
+# iOS ↔ macOS 저장체계 동기화 (2026-06-12)
+
+## 맥앱 업데이트 (Models.swift / CloudKitBackupService.swift)
+
+- [x] `Memo.hint` 필드 추가 — 맥에서 저장 시 iOS 힌트가 영구 손실되던 버그 수정
+- [x] `OldMemo` 폴백 디코딩 추가 (1.x 포맷 마이그레이션, iOS와 동일)
+- [x] `preloadLocalizedStrings`에 v4.0 항목(IBAN/SWIFT/VAT/Crypto/PayPal) 동기화
+- [x] 맥 CloudKitBackupService에 `CloudKitBackupDatabase` 테스트 시임 추가 (iOS와 동일 구조)
+- [x] 맥 복원 시 `comboModelUnifyMigrated_v1` 플래그 리셋 (iOS와 동일)
+
+## 백업/복원 무결성 테스트
+
+- [x] `scripts/roundtrip/run_roundtrip_test.sh` — 실제 양쪽 모델 소스로
+      iOS 인코딩→맥 디코딩→맥 재인코딩→iOS 디코딩 전 필드 보존 검증
+- [x] 수정 전 모델로 돌리면 hint 손실로 실패함을 확인 (테스트 유효성 검증)
+- [x] macOS 타겟 빌드 그린
+- [x] iOS 전체 테스트 스위트 (CloudKitBackupIntegrityTests 포함) 그린
+- [x] (부수 수정) KeyboardUsageTrackerTests 날짜 잔존값 격리 버그 수정
+      — 전날 실행이 남긴 어제 키 때문에 다음 날 반드시 깨지던 테스트

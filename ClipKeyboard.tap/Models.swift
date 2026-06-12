@@ -154,6 +154,12 @@ enum ClipboardItemType: String, Codable, CaseIterable {
         _ = NSLocalizedString("사번/학번", comment: "Employee/Student ID")
         _ = NSLocalizedString("이미지", comment: "Image")
         _ = NSLocalizedString("텍스트", comment: "Text")
+        // v4.0 글로벌 피봇
+        _ = NSLocalizedString("IBAN", comment: "IBAN (International Bank Account Number)")
+        _ = NSLocalizedString("SWIFT/BIC", comment: "SWIFT/BIC bank code")
+        _ = NSLocalizedString("VAT Number", comment: "VAT identification number")
+        _ = NSLocalizedString("Crypto Wallet", comment: "Cryptocurrency wallet address")
+        _ = NSLocalizedString("PayPal Link", comment: "PayPal.me link")
     }
 }
 
@@ -198,7 +204,11 @@ struct Memo: Identifiable, Codable {
     var imageFileNames: [String] = [] // 여러 이미지 파일명
     var contentType: ClipboardContentType = .text
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], shortcut: String? = nil, placeholderValues: [String: [String]] = [:], imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text) {
+    /// "어디서 / 언제 쓰나요?" 컨텍스트 힌트 (iOS와 round-trip 일치).
+    /// ⚠️ CodingKeys에서 빠지면 맥에서 저장할 때 iOS가 쓴 힌트가 영구 소실된다.
+    var hint: String?
+
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, isTemplate: Bool = false, templateVariables: [String] = [], shortcut: String? = nil, placeholderValues: [String: [String]] = [:], imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, hint: String? = nil) {
         self.id = id
         self.title = title
         self.value = value
@@ -214,6 +224,17 @@ struct Memo: Identifiable, Codable {
         self.imageFileName = imageFileName
         self.imageFileNames = imageFileNames
         self.contentType = contentType
+        self.hint = hint
+    }
+
+    /// 구버전(1.x) 포맷 마이그레이션 — iOS의 Memo(from: OldMemo)와 동일.
+    init(from oldMemo: OldMemo) {
+        self.id = oldMemo.id
+        self.title = oldMemo.title
+        self.value = oldMemo.value
+        self.isChecked = oldMemo.isChecked
+        self.lastEdited = Date()
+        self.isFavorite = false
     }
 
     enum CodingKeys: String, CodingKey {
@@ -223,6 +244,7 @@ struct Memo: Identifiable, Codable {
         case lastUsedAt, isCombo, comboValues, currentComboIndex, autoDetectedType
         case childMemoIds, comboInterval
         case imageFileName, imageFileNames, contentType
+        case hint
     }
 
     /// 관용 디코더 — 누락 키를 모두 기본값으로 허용한다. ⚠️ 하위호환 필수:
@@ -253,7 +275,16 @@ struct Memo: Identifiable, Codable {
         self.imageFileName = try c.decodeIfPresent(String.self, forKey: .imageFileName)
         self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
         self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
+        self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
     }
+}
+
+/// 구버전(1.x) 메모 포맷 — load() 폴백 디코딩용 (iOS Memo.swift와 동일).
+struct OldMemo: Identifiable, Codable {
+    var id = UUID()
+    let title: String
+    let value: String
+    var isChecked: Bool = false
 }
 
 enum MemoType {
@@ -421,6 +452,12 @@ class MemoStore: ObservableObject {
 
         if let memos = try? JSONDecoder().decode([Memo].self, from: data) {
             return memos
+        }
+
+        // 구버전(1.x) 포맷 폴백 — iOS decodeMemosFromData와 동일한 마이그레이션 경로.
+        if let oldMemos = try? JSONDecoder().decode([OldMemo].self, from: data) {
+            print("🔄 [MemoStore.load] 구버전 포맷 감지 - OldMemo \(oldMemos.count)개 마이그레이션")
+            return oldMemos.map { Memo(from: $0) }
         }
 
         return []

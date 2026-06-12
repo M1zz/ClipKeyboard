@@ -18,14 +18,16 @@ final class KeyboardUsageTrackerTests: XCTestCase {
         UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
     }
 
-    private var todayKey: String {
+    private func dailyKey(for date: Date) -> String {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.timeZone = .current
         formatter.dateFormat = "yyyy-MM-dd"
-        return "kb.usage.daily." + formatter.string(from: Date())
+        return "kb.usage.daily." + formatter.string(from: date)
     }
+
+    private var todayKey: String { dailyKey(for: Date()) }
 
     override func setUp() {
         super.setUp()
@@ -39,6 +41,11 @@ final class KeyboardUsageTrackerTests: XCTestCase {
 
     private func clearStats() {
         groupDefaults?.removeObject(forKey: todayKey)
+        // 어제 키도 정리 — 전날 테스트 실행이 남긴 잔존값이 시뮬레이터에 누적되어
+        // testDailyUsageCount_IsScopedToDate의 "어제 = 0" 단언을 다음 날 깨뜨린다.
+        if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) {
+            groupDefaults?.removeObject(forKey: dailyKey(for: yesterday))
+        }
         groupDefaults?.removeObject(forKey: "kb.timeSaved.totalSeconds")
     }
 
