@@ -846,7 +846,7 @@
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
 				58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				402CB667C6B5413634EBB83C /* XCLocalSwiftPackageReference "LeeoKit" */,
+				588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
@@ -1657,14 +1657,15 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		402CB667C6B5413634EBB83C /* XCLocalSwiftPackageReference "LeeoKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LeeoKit;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
+		588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1678,7 +1679,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 402CB667C6B5413634EBB83C /* XCLocalSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 		58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */ = {
@@ -1703,7 +1704,7 @@
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 402CB667C6B5413634EBB83C /* XCLocalSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
