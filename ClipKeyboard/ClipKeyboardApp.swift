@@ -54,7 +54,7 @@ struct ClipKeyboardApp: App {
         AnalyticsService.flushKeyboardBeacon()
 
         // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
-        let keyboardActive = (UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        let keyboardActive = (UserDefaults(suiteName: AppGroup.identifier)?
             .double(forKey: "kb.beacon.lastUse") ?? 0) > 0
         AnalyticsService.applyLaunchUserProperties(
             isPro: ProFeatureManager.hasFullAccess,
@@ -167,7 +167,7 @@ struct ClipKeyboardApp: App {
     /// 한국어 입력 토글 기본값은 OFF지만, 기존에 키보드 기본 언어를 한국어로 쓰던 사용자는
     /// 토글이 갑자기 사라지지 않도록 1회 자동 활성화한다. (영어 기본 사용자는 OFF 유지 → 한 안 보임)
     private func migrateKoreanEnabledIfNeeded() {
-        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let g = UserDefaults(suiteName: AppGroup.identifier)
         guard g?.bool(forKey: "koreanEnabledMigrated_v1") != true else { return }
         if g?.string(forKey: "keyboardTypingLang") == "korean" {
             g?.set(true, forKey: "keyboardKoreanEnabled")
@@ -179,7 +179,7 @@ struct ClipKeyboardApp: App {
     /// 기존 평문 보안 메모를 암호화한다(1회). 암호화 키가 아직 없으면 생성된다.
     /// 키 확보 실패(키체인 불가) 시 플래그를 세우지 않아 다음 실행에서 재시도.
     private func migrateSecureMemoEncryptionIfNeeded() {
-        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let g = UserDefaults(suiteName: AppGroup.identifier)
         guard g?.bool(forKey: "secureMemoEncryptionMigrated_v1") != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
@@ -210,7 +210,7 @@ struct ClipKeyboardApp: App {
     /// 사용자가 직접 만든 메모(코드/JSON 안의 리터럴 중괄호 등)는 건드리지 않기 위해
     /// SampleMemoStorage가 추적하는 샘플 메모로만 범위를 한정한다.
     private func migrateSampleTemplateFlagsIfNeeded() {
-        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let g = UserDefaults(suiteName: AppGroup.identifier)
         guard g?.bool(forKey: "sampleTemplateFlagsMigrated_v1") != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
@@ -251,7 +251,7 @@ struct ClipKeyboardApp: App {
     }
 
     private var appGroupContainerURL: URL? {
-        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo")
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)
     }
 
     /// 변환되지 않은 레거시 콤보/attached 데이터가 디스크에 남아있는지 빠르게 감지.
@@ -284,7 +284,7 @@ struct ClipKeyboardApp: App {
     /// - 플래그가 set돼 있어도 `hasLegacyComboData()`가 참이면 재실행(옛 백업 복원 대비).
     /// - 단일 save로 원자적 적용. 실패 시 플래그 미set → 다음 기회에 재시도.
     private func migrateComboModelIfNeeded() {
-        let g = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let g = UserDefaults(suiteName: AppGroup.identifier)
         let alreadyMigrated = (g?.bool(forKey: "comboModelUnifyMigrated_v1") == true)
         // 이미 변환됐고 남은 레거시 데이터도 없으면 빠르게 종료.
         guard !alreadyMigrated || hasLegacyComboData() else { return }
@@ -369,7 +369,7 @@ struct ClipKeyboardApp: App {
         let std = UserDefaults.standard
         guard !std.bool(forKey: "visualCuesMigrated_v1") else { return }
         if std.object(forKey: "categoryBadgeVisible") as? Bool == true {
-            UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(true, forKey: "showVisualCues")
+            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: "showVisualCues")
         }
         std.set(true, forKey: "visualCuesMigrated_v1")
     }

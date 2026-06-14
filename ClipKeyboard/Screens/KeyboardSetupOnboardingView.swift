@@ -129,7 +129,7 @@ struct KeyboardSetupOnboardingView: View {
             guard isWaitingForReturn, currentPage == 2 else { return }
             isWaitingForReturn = false
             setupStatus = .checking
-            let loaded = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: "keyboard_extension_did_load") ?? false
+            let loaded = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: "keyboard_extension_did_load") ?? false
             withAnimation(.easeInOut(duration: 0.3)) {
                 setupStatus = loaded ? .confirmed : .notFound
             }

@@ -449,7 +449,7 @@ struct MemoImageBackground: View {
             DispatchQueue.global(qos: .userInitiated).async {
                 // 파일 경로 확인
                 let containerURL = FileManager.default.containerURL(
-                    forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+                    forSecurityApplicationGroupIdentifier: AppGroup.identifier
                 )
                 let filePath = containerURL?.appendingPathComponent("Images").appendingPathComponent(fileName).path ?? "nil"
                 let exists = FileManager.default.fileExists(atPath: filePath)

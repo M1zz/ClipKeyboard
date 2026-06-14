@@ -91,7 +91,7 @@ struct ClipKeyboardList: View {
     // 메모 구분 표시 마스터 토글 — 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var showVisualCues: Bool = false
     @State private var showCategoryBadgeNudge: Bool = false
 
@@ -103,7 +103,7 @@ struct ClipKeyboardList: View {
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
     /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
-    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
     private var contentHintEnabled: Bool = true
 
     // Category

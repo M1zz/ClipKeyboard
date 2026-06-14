@@ -63,7 +63,7 @@ class DataManager: ObservableObject {
 class AppConfig {
 
     // MARK: - App Group
-    static let appGroup = "group.com.Ysoup.TokenMemo"
+    static let appGroup = AppGroup.identifier
     static let sharedDefaults = UserDefaults(suiteName: appGroup)
     
     /// Custom keyboard background color

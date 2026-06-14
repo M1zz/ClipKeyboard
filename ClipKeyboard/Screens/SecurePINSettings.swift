@@ -18,7 +18,7 @@ struct SecurePINSettings: View {
     @State private var showDeletePINConfirm = false
 
     private let pinKey = "keyboard_secure_pin_hash"
-    private let appGroup = "group.com.Ysoup.TokenMemo"
+    private let appGroup = AppGroup.identifier
 
     @Environment(\.appTheme) private var theme
 

@@ -109,7 +109,7 @@ class KeyboardViewController: UIInputViewController {
         setupNotificationObservers()
         setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
 
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        UserDefaults(suiteName: AppGroup.identifier)?
             .set(true, forKey: "keyboard_extension_did_load")
 
         print("✅ viewDidLoad 완료 — fullscreen SwiftUI keyboard")
@@ -429,7 +429,7 @@ class KeyboardViewController: UIInputViewController {
     /// 메인 앱의 ReviewManager가 이 값을 동기화하여 리뷰 요청 트리거로 사용
     /// memoId가 주어지면 해당 메모의 clipCount + lastUsedAt도 업데이트한다.
     private func trackKeyboardPaste(memoId: UUID? = nil) {
-        if let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") {
+        if let groupDefaults = UserDefaults(suiteName: AppGroup.identifier) {
             let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
             groupDefaults.set(count, forKey: "keyboard_paste_count")
             print("📊 [Keyboard] 붙여넣기 카운트: \(count)")

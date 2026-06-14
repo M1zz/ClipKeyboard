@@ -26,7 +26,7 @@ struct MemoRowView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
     /// 메모 구분 표시 마스터 토글(카드와 동일). 기본 OFF = 제목 위주로 심플.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var showVisualCues: Bool = false
     private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
 

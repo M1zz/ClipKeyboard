@@ -243,7 +243,7 @@ class ReviewManager {
 
     /// 키보드 익스텐션의 사용 카운트를 App Group에서 동기화
     private func syncKeyboardUseCount() {
-        guard let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") else { return }
+        guard let groupDefaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
 
         let groupCount = groupDefaults.integer(forKey: "keyboard_paste_count")
         let localCount = UserDefaults.standard.integer(forKey: keyKeyboardUseCount)

@@ -15,7 +15,7 @@ import UIKit
 
 enum KeyboardBeacon {
     /// App Group container ID — 메인 앱과 동일.
-    private static let appGroup = "group.com.Ysoup.TokenMemo"
+    private static let appGroup = AppGroup.identifier
 
     /// 마지막 키보드 사용 timestamp (Unix epoch seconds).
     static let lastUseKey = "kb.beacon.lastUse"

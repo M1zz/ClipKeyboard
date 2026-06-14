@@ -57,7 +57,7 @@ enum TemplateVariableProcessor {
         for token in monthTokens { result = result.replacingOccurrences(of: token, with: month) }
         for token in dayTokens { result = result.replacingOccurrences(of: token, with: day) }
 
-        let groupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let groupDefaults = UserDefaults(suiteName: AppGroup.identifier)
         let timezoneValue = groupDefaults?.string(forKey: userTimezoneKey)?.nonEmpty
             ?? TimeZone.current.identifier
         result = result.replacingOccurrences(of: "{timezone}", with: timezoneValue)

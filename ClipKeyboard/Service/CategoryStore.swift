@@ -20,7 +20,7 @@ import Combine
 final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
 
-    private let appGroup = "group.com.Ysoup.TokenMemo"
+    private let appGroup = AppGroup.identifier
     /// 단일 진실 공급원 — 키보드 리스트 페이지 탭(ClipKeyboardListViewModel)·아이콘/레이아웃
     /// 설정과 동일한 키. CategorySettings(이 store 사용)와 키보드 페이지가 같은 목록을 본다.
     private let storageKey = "userDefinedCategories_v1"

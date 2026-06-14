@@ -382,7 +382,7 @@ class MemoStore: ObservableObject {
     @Published var clipboardHistory: [ClipboardHistory] = []
 
     private static func fileURL(type: MemoType) throws -> URL? {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             print("❌ [MemoStore.fileURL] App Group 컨테이너를 찾을 수 없음!")
             return nil
         }
@@ -503,7 +503,7 @@ class MemoStore: ObservableObject {
 
     // 이미지 저장
     func saveImage(_ image: NSImage, fileName: String) throws {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
         }
 
@@ -528,7 +528,7 @@ class MemoStore: ObservableObject {
 
     // 이미지 로드
     func loadImage(fileName: String) -> NSImage? {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             return nil
         }
 
@@ -543,7 +543,7 @@ class MemoStore: ObservableObject {
 
     // 이미지 삭제
     func deleteImage(fileName: String) throws {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             return
         }
 
@@ -557,7 +557,7 @@ class MemoStore: ObservableObject {
     // MARK: - Smart Clipboard History Methods
 
     private static func smartClipboardFileURL() throws -> URL? {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             print("❌ [MemoStore.smartClipboardFileURL] App Group 컨테이너를 찾을 수 없음!")
             return nil
         }
@@ -583,7 +583,7 @@ class MemoStore: ObservableObject {
     // MARK: - Combo Methods
 
     private static func combosFileURL() throws -> URL? {
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo") else {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             print("❌ [MemoStore.combosFileURL] App Group 컨테이너를 찾을 수 없음!")
             return nil
         }
@@ -613,7 +613,7 @@ class MemoStore: ObservableObject {
 /// iCloud KV Store 우선, 없으면 App Group UserDefaults 폴백.
 struct MacProManager {
     static let proStatusKey = "clipkeyboard_is_pro"
-    static let appGroupSuite = "group.com.Ysoup.TokenMemo"
+    static let appGroupSuite = AppGroup.identifier
 
     static let freeMemoLimit = 10
     static let freeClipboardLimit = 50

@@ -14,7 +14,7 @@ enum StorageError: Error {
 
 final class AppGroupStorage {
     static let shared = AppGroupStorage()
-    private let groupID = "group.com.Ysoup.TokenMemo"
+    private let groupID = AppGroup.identifier
 
     private init() {}
 
