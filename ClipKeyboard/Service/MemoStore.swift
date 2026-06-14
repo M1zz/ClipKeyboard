@@ -568,7 +568,6 @@ struct MemoSnapshot: Codable, Identifiable {
 /// 메모 사용 시점에 `recordMemoUse(value:)` 호출. 키보드 익스텐션과 메인 앱 모두
 /// `MemoStore.incrementClipCount`를 거치므로 양쪽에서 일관되게 집계된다.
 enum KeyboardUsageTracker {
-    private static let appGroup = AppGroup.identifier
     private static let timeSavedKey = "kb.timeSaved.totalSeconds"
     private static let dailyKeyPrefix = "kb.usage.daily."
 
@@ -579,7 +578,7 @@ enum KeyboardUsageTracker {
 
     /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp).
     static func recordMemoUse(value: String) {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         let key = dailyKey(for: Date())
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
@@ -589,12 +588,12 @@ enum KeyboardUsageTracker {
 
     /// 특정 날짜의 사용 횟수 (기본: 오늘)
     static func dailyUsageCount(for date: Date = Date()) -> Int {
-        UserDefaults(suiteName: appGroup)?.integer(forKey: dailyKey(for: date)) ?? 0
+        UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: dailyKey(for: date)) ?? 0
     }
 
     /// 평생 누적 절약 시간 (초)
     static func totalTimeSavedSeconds() -> Double {
-        UserDefaults(suiteName: appGroup)?.double(forKey: timeSavedKey) ?? 0
+        UserDefaults(suiteName: AppGroup.identifier)?.double(forKey: timeSavedKey) ?? 0
     }
 
     private static func dailyKey(for date: Date) -> String {

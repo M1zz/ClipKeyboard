@@ -133,8 +133,7 @@ enum AnalyticsService {
     /// 키보드 사용 비콘 — 메인 앱 launch 시 호출. App Group에 익스텐션이 기록한 timestamp/카운트를 읽어 전송.
     /// 카운트 = 0이면 (= 비콘 미발생) 이벤트 생략. 보고 후 카운트 0으로 리셋.
     static func flushKeyboardBeacon() {
-        let appGroup = AppGroup.identifier
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         let count = defaults.integer(forKey: "kb.beacon.pendingCount")
         guard count > 0 else { return }
         let lastUseEpoch = defaults.double(forKey: "kb.beacon.lastUse")

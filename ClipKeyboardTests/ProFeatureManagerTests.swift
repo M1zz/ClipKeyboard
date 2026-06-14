@@ -13,7 +13,7 @@ import XCTest
 final class ProFeatureManagerTests: XCTestCase {
 
     private var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
+        UserDefaults(suiteName: AppGroup.identifier)
     }
 
     /// 테스트 격리를 위해 모든 ProFeatureManager 관련 키 초기화

@@ -613,14 +613,13 @@ class MemoStore: ObservableObject {
 /// iCloud KV Store 우선, 없으면 App Group UserDefaults 폴백.
 struct MacProManager {
     static let proStatusKey = "clipkeyboard_is_pro"
-    static let appGroupSuite = AppGroup.identifier
 
     static let freeMemoLimit = 10
     static let freeClipboardLimit = 50
 
     static var isPro: Bool {
         if NSUbiquitousKeyValueStore.default.bool(forKey: proStatusKey) { return true }
-        return UserDefaults(suiteName: appGroupSuite)?.bool(forKey: proStatusKey) ?? false
+        return UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: proStatusKey) ?? false
     }
 
     static var isCloudBackupAvailable: Bool { isPro }

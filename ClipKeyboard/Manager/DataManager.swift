@@ -63,8 +63,7 @@ class DataManager: ObservableObject {
 class AppConfig {
 
     // MARK: - App Group
-    static let appGroup = AppGroup.identifier
-    static let sharedDefaults = UserDefaults(suiteName: appGroup)
+    static let sharedDefaults = UserDefaults(suiteName: AppGroup.identifier)
     
     /// Custom keyboard background color
     static let keyboardColor = Color(#colorLiteral(red: 0.8392156863, green: 0.8470588235, blue: 0.8745098039, alpha: 1))

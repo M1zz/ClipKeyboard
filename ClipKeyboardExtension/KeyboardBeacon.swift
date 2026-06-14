@@ -15,7 +15,6 @@ import UIKit
 
 enum KeyboardBeacon {
     /// App Group container ID — 메인 앱과 동일.
-    private static let appGroup = AppGroup.identifier
 
     /// 마지막 키보드 사용 timestamp (Unix epoch seconds).
     static let lastUseKey = "kb.beacon.lastUse"
@@ -26,7 +25,7 @@ enum KeyboardBeacon {
     /// 키보드가 사용됨을 기록. viewDidAppear에서 한 번 호출.
     /// 비용: UserDefaults write 2개. 네트워크·SDK 사용 없음.
     static func recordUse() {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         defaults.set(Date().timeIntervalSince1970, forKey: lastUseKey)
         let prev = defaults.integer(forKey: pendingUseCountKey)
         defaults.set(prev + 1, forKey: pendingUseCountKey)

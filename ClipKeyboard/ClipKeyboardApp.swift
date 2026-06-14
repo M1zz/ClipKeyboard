@@ -105,7 +105,7 @@ struct ClipKeyboardApp: App {
     /// - 메모가 새 freeMemoLimit 초과면 grace 플래그
     private func bootstrapV4GrandfatherFlags() {
         // 이미 한 번 초기화됐으면 skip
-        let defaults = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
         let initKey = "clipkeyboard_v4_grandfather_bootstrap_done"
         if defaults?.bool(forKey: initKey) == true { return }
 

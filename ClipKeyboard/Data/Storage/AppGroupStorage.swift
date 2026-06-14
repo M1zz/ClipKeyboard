@@ -14,7 +14,6 @@ enum StorageError: Error {
 
 final class AppGroupStorage {
     static let shared = AppGroupStorage()
-    private let groupID = AppGroup.identifier
 
     private init() {}
 
@@ -28,7 +27,7 @@ final class AppGroupStorage {
     var containerURL: URL {
         get throws {
             guard let url = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: groupID
+                forSecurityApplicationGroupIdentifier: AppGroup.identifier
             ) else { throw StorageError.containerNotFound }
             return url
         }

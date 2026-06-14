@@ -216,8 +216,8 @@ class StoreManager: ObservableObject {
         print("🩺 [Diag]     trialDaysRemaining= \(ProFeatureManager.trialDaysRemaining)")
 
         // 3) App Group UserDefaults 원본 값
-        let d = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
-        print("🩺 [Diag] -- App Group UserDefaults (\(ProFeatureManager.appGroupSuite)) --")
+        let d = UserDefaults(suiteName: AppGroup.identifier)
+        print("🩺 [Diag] -- App Group UserDefaults (\(AppGroup.identifier)) --")
         func dump(_ key: String) {
             let raw = d?.object(forKey: key)
             print("🩺 [Diag]   \(key) = \(raw.map { "\($0)" } ?? "nil(미설정)")")
@@ -294,7 +294,7 @@ class StoreManager: ObservableObject {
 
         // v4.0 그랜드파더 Pro 플래그: Pro 이력 생기면 영구 기록
         if isPro {
-            UserDefaults(suiteName: ProFeatureManager.appGroupSuite)?
+            UserDefaults(suiteName: AppGroup.identifier)?
                 .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
         }
 

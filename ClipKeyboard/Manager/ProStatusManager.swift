@@ -29,7 +29,7 @@ class ProStatusManager: ObservableObject {
 
     // ProFeatureManager와 키를 통일 (이전 "com.ysoup.tokenmemo.isPro" 키는 누락돼 Pro 구매 상태가 ProFeatureManager에 전달되지 않던 버그가 있었음)
     private let proStatusKey = ProFeatureManager.proStatusKey
-    private let userDefaults = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
+    private let userDefaults = UserDefaults(suiteName: AppGroup.identifier)
 
     // MARK: - Init
 

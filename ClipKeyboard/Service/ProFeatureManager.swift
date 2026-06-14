@@ -36,7 +36,6 @@ struct ProFeatureManager {
 
     // MARK: - App Group UserDefaults 키 (키보드 익스텐션과 공유)
 
-    static let appGroupSuite = AppGroup.identifier
     static let proStatusKey = "clipkeyboard_is_pro"
     /// v4.0 업그레이드 시점에 v3.x Pro 구매 이력이 확인되면 영구 true.
     static let grandfatheredPurchaseKey = "clipkeyboard_was_pro_at_v3"
@@ -96,7 +95,7 @@ struct ProFeatureManager {
     // MARK: - 상태 체크
 
     private static var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: appGroupSuite)
+        UserDefaults(suiteName: AppGroup.identifier)
     }
 
     /// TestFlight 빌드 여부 — 앱 시작 시 bootstrapIsTestFlight()로 설정.

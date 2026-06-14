@@ -11,16 +11,15 @@ import LeeoKit
 
 // MARK: - Storage
 
-private let kAppGroup = AppGroup.identifier
 private let kIconsKey  = "userCategoryIcons_v1"
 private let kCatsKey   = "userDefinedCategories_v1"
 
 private func loadCustomIcons() -> [String: String] {
-    UserDefaults(suiteName: kAppGroup)?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
+    UserDefaults(suiteName: AppGroup.identifier)?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
 }
 
 private func saveCustomIcons(_ dict: [String: String]) {
-    UserDefaults(suiteName: kAppGroup)?.set(dict, forKey: kIconsKey)
+    UserDefaults(suiteName: AppGroup.identifier)?.set(dict, forKey: kIconsKey)
 }
 
 // MARK: - Symbol Catalog
@@ -83,7 +82,7 @@ struct CategoryIconSettings: View {
     @Environment(\.appTheme) private var theme
 
     private var categories: [String] {
-        UserDefaults(suiteName: kAppGroup)?.stringArray(forKey: kCatsKey) ?? []
+        UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: kCatsKey) ?? []
     }
 
     var body: some View {
