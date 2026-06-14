@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 struct MacAppIntroView: View {
     @Environment(\.appTheme) private var theme

@@ -9,6 +9,7 @@ import SwiftUI
 import CryptoKit
 #if canImport(UIKit)
 import UIKit
+import LeeoKit
 #endif
 
 // MARK: - KeyboardLayoutSettings

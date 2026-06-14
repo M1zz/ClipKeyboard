@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 import TipKit
 import UniformTypeIdentifiers
+import LeeoKit
 
 var fontSize: CGFloat = 20
 

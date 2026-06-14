@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 struct CategorySettings: View {
     @StateObject private var store = CategoryStore.shared

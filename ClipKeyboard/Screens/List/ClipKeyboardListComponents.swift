@@ -9,6 +9,7 @@
 import SwiftUI
 import TipKit
 import LocalAuthentication
+import LeeoKit
 
 // MARK: - Pro Value Nudge Banner
 

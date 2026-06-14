@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 import CryptoKit
+import LeeoKit
 
 var showOnlyTemplates: Bool = false
 var showOnlyFavorites: Bool = false

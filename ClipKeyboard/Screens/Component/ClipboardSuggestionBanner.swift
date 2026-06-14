@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 struct ClipboardSuggestionBanner: View {
     let content: String

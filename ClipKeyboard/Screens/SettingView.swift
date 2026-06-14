@@ -824,6 +824,7 @@ struct TutorialView: View {
 
 #if canImport(MessageUI)
 import MessageUI
+import LeeoKit
 
 class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     public static let shared = EmailController()

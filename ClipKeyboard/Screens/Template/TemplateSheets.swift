@@ -7,6 +7,7 @@
 
 import SwiftUI
 import TipKit
+import LeeoKit
 
 // MARK: - Template Input Sheet
 

@@ -8,6 +8,7 @@ import LocalAuthentication
 import TipKit
 #if os(iOS)
 import UIKit
+import LeeoKit
 #endif
 
 // MARK: - BuiltInCategory

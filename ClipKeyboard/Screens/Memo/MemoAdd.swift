@@ -8,6 +8,7 @@
 import SwiftUI
 #if os(iOS)
 import UIKit
+import LeeoKit
 #endif
 
 // MARK: - Image Wrapper
