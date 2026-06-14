@@ -12,7 +12,7 @@ import LeeoKit
 struct CategorySettings: View {
     @StateObject private var store = CategoryStore.shared
     @State private var newCategoryName: String = ""
-    @State private var renaming: String? = nil
+    @State private var renaming: String?
     @State private var renameText: String = ""
     @State private var showResetAlert = false
     @Environment(\.appTheme) private var theme

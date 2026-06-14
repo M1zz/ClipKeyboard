@@ -9,7 +9,7 @@ import SwiftUI
 import StoreKit
 
 struct SettingView: View {
-    
+
     @Environment(\.requestReview) var requestReview
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
@@ -437,7 +437,7 @@ struct DisplaySettingsView: View {
 struct MemoHistoryView: View {
     @Environment(\.appTheme) private var theme
     @State private var snapshots: [MemoSnapshot] = []
-    @State private var pendingRestore: MemoSnapshot? = nil
+    @State private var pendingRestore: MemoSnapshot?
     @State private var showRestoredToast = false
 
     private var dateFormatter: DateFormatter {
@@ -803,13 +803,13 @@ struct ReviewWriteView: View {
 }
 
 struct TutorialView: View {
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         VStack {
             Button("Open Web Page") {
-                
+
             }
             .onAppear(perform: {
                 dismiss()

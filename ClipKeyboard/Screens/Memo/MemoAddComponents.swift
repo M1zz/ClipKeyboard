@@ -220,7 +220,7 @@ struct ContentInputSection: View {
     @Binding var attachedImages: [ImageWrapper]
     /// v4.0.8: 키보드 toolbar "다음" 버튼 — 다음 필드(제목)로 focus 이동.
     /// nil이면 버튼 숨김.
-    var onNext: (() -> Void)? = nil
+    var onNext: (() -> Void)?
     /// 템플릿 작성 모드 — 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
 

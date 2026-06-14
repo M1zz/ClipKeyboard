@@ -15,7 +15,7 @@ struct ClipboardList: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var clipboardHistory: [SmartClipboardHistory] = []
-    @State private var selectedFilter: ClipboardItemType? = nil
+    @State private var selectedFilter: ClipboardItemType?
 
     @State private var showToast: Bool = false
     @State private var toastMessage: String = ""
@@ -23,7 +23,7 @@ struct ClipboardList: View {
     @State private var itemToSave: SmartClipboardHistory?
 
     // 자동 추가 개선
-    @State private var recentlyAddedId: UUID? = nil
+    @State private var recentlyAddedId: UUID?
     @State private var isCheckingClipboard: Bool = false
 
     // Combo 생성 (Phase 2)

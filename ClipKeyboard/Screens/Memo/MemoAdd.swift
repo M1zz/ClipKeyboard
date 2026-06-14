@@ -28,7 +28,7 @@ struct MemoAdd: View {
 
     // MARK: - Public Input Properties (backward compatibility)
 
-    var memoId: UUID? = nil // 수정할 메모의 ID
+    var memoId: UUID? // 수정할 메모의 ID
     var insertedKeyword: String = ""
     var insertedValue: String = ""
     var insertedCategory: String = "텍스트"
@@ -673,9 +673,6 @@ struct MemoAdd: View {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         return memos.filter { $0.isTemplate }
     }
-
-
-
 
     // 템플릿 변수 버튼
     @ViewBuilder

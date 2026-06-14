@@ -146,8 +146,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Search & Filter
 
     @Published var searchQueryString = ""
-    @Published var selectedTypeFilter: ClipboardItemType? = nil
-    @Published var selectedCategoryFilter: String? = nil
+    @Published var selectedTypeFilter: ClipboardItemType?
+    @Published var selectedCategoryFilter: String?
     @Published var showFavoritesFilter: Bool = false
 
     // MARK: - Reorder (수동 순서 바꾸기)
@@ -428,18 +428,18 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     @Published var showTemplateInputSheet: Bool = false
     @Published var showPlaceholderManagementSheet: Bool = false
-    @Published var selectedTemplateIdForSheet: UUID? = nil
-    @Published var selectedComboIdForSheet: UUID? = nil
+    @Published var selectedTemplateIdForSheet: UUID?
+    @Published var selectedComboIdForSheet: UUID?
     @Published var showAuthAlert: Bool = false
 
     // MARK: - Template Input
 
     @Published var templatePlaceholders: [String] = []
     @Published var templateInputs: [String: String] = [:]
-    @Published var currentTemplateMemo: Memo? = nil
+    @Published var currentTemplateMemo: Memo?
     /// v4.0.8: attachedTemplate 흐름에서 본 메모 (계좌번호 등). nil이면 일반 템플릿 흐름.
     /// 본 메모 + 입력값 치환된 템플릿을 줄바꿈으로 결합해 출력.
-    @Published var attachedTemplateBaseMemo: Memo? = nil
+    @Published var attachedTemplateBaseMemo: Memo?
 
     // MARK: - Toast
 

@@ -726,8 +726,6 @@ enum Persona: String, CaseIterable, Codable {
     }
 }
 
-import SwiftUI
-
 struct PersonaSelectionView: View {
     enum Mode { case onboarding, settings }
 

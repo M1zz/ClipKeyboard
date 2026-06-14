@@ -280,7 +280,7 @@ struct Memo: Identifiable, Codable {
     /// ADHD·건망증 사용자가 나중에 이 메모를 왜 저장했는지 떠올릴 수 있도록 돕는다.
     /// 값이 있으면 카드 내용 힌트(자동 요약 대신)로도 쓰인다.
     /// Optional이라 기존 데이터와 완전 하위 호환 (없으면 nil).
-    var hint: String? = nil
+    var hint: String?
     /// 힌트를 키보드에서도 표시할지 — ON이면 키보드 셀의 "표시할 이름"이 잠시 힌트로
     /// 바뀌었다 돌아온다(동기화). hint가 비어있으면 무의미. 기본 ON.
     var hintShownOnKeyboard: Bool = true
@@ -413,7 +413,6 @@ struct Memo: Identifiable, Codable {
         try legacy.encode(isCombo, forKey: .isCombo)
         try legacy.encode(0, forKey: .currentComboIndex)
     }
-
 
     static var dummyData: [Memo] = {
         let date = dateFormatter.date(from: "2023-08-31 10:00:00") ?? Date()

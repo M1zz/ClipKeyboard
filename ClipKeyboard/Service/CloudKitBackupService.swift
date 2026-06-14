@@ -131,7 +131,7 @@ class CloudKitBackupService: ObservableObject {
 
     func checkAccountStatus() {
         guard let container else { return }
-        container.accountStatus { [weak self] status, error in
+        container.accountStatus { [weak self] status, _ in
             DispatchQueue.main.async {
                 self?.isAuthenticated = (status == .available)
                 print("📱 [CloudKit] Account Status: \(status.rawValue)")

@@ -12,7 +12,7 @@ import LeeoKit
 
 var showOnlyTemplates: Bool = false
 var showOnlyFavorites: Bool = false
-var selectedTheme: String? = nil  // 선택된 테마 필터
+var selectedTheme: String?  // 선택된 테마 필터
 
 // 미리 정의된 값들 저장소 - 새로운 구조 사용
 class PredefinedValuesStore {
@@ -137,11 +137,11 @@ class TemplateInputState: ObservableObject {
     @Published var placeholders: [String] = []
     @Published var inputs: [String: String] = [:]
     @Published var originalText: String = ""
-    @Published var currentFocusedPlaceholder: String? = nil
+    @Published var currentFocusedPlaceholder: String?
     @Published var allPlaceholdersFilled: Bool = false
-    @Published var templateId: UUID? = nil  // 현재 편집 중인 템플릿 ID
+    @Published var templateId: UUID?  // 현재 편집 중인 템플릿 ID
     /// v4.0.8: attachedTemplate 흐름에서 본 메모(계좌번호 등)의 ID. nil이면 일반 템플릿 흐름.
-    @Published var baseMemoId: UUID? = nil
+    @Published var baseMemoId: UUID?
     /// v4.0.8: 본 메모 본문 — preview 표시용으로 매번 MemoStore 조회 안 하도록 캐싱.
     @Published var baseMemoValue: String = ""
 
@@ -219,7 +219,7 @@ struct KeyboardView: View {
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
-    @State private var pendingSecureMemo: Memo? = nil
+    @State private var pendingSecureMemo: Memo?
     @State private var enteredPIN = ""
     @State private var pinEntryWrong = false
 
@@ -887,18 +887,18 @@ struct KeyboardView: View {
 
     private var currentRows: [[String]] {
         // 한국어 미사용이면 무조건 영어 자판 (한글 노출 방지 방어)
-        switch (koreanInputEnabled ? searchKeyboardLang : .english) {
+        switch koreanInputEnabled ? searchKeyboardLang : .english {
         case .english:
             return [
-                ["q","w","e","r","t","y","u","i","o","p"],
-                ["a","s","d","f","g","h","j","k","l"],
-                ["z","x","c","v","b","n","m"]
+                ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+                ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+                ["z", "x", "c", "v", "b", "n", "m"]
             ]
         case .korean:
             return [
-                ["ㅂ","ㅈ","ㄷ","ㄱ","ㅅ","ㅛ","ㅕ","ㅑ","ㅐ","ㅔ"],
-                ["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ","ㅗ","ㅓ","ㅏ","ㅣ"],
-                ["ㅋ","ㅌ","ㅊ","ㅍ","ㅠ","ㅜ","ㅡ"]
+                ["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ", "ㅛ", "ㅕ", "ㅑ", "ㅐ", "ㅔ"],
+                ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ"],
+                ["ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ"]
             ]
         }
     }
@@ -1375,7 +1375,7 @@ struct KeyboardView: View {
 
                 // Number grid
                 VStack(spacing: 4) {
-                    ForEach([[1,2,3],[4,5,6],[7,8,9]], id: \.first) { row in
+                    ForEach([[1, 2, 3], [4, 5, 6], [7, 8, 9]], id: \.first) { row in
                         HStack(spacing: 4) {
                             ForEach(row, id: \.self) { n in
                                 pinOverlayDigitKey(String(n))

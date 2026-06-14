@@ -15,7 +15,7 @@ struct MemoDraft {
     var isSecure: Bool = false
     var isTemplate: Bool = false
     var isFavorite: Bool = false
-    var autoDetectedType: ClipboardItemType? = nil
+    var autoDetectedType: ClipboardItemType?
     #if os(iOS)
     var images: [UIImage] = []
     #endif

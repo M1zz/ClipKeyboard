@@ -17,4 +17,3 @@ protocol TypingInputProxy: AnyObject {
     func cursorRight()
     func clearAll()
 }
-

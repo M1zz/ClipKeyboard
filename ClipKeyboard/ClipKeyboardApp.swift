@@ -238,7 +238,7 @@ struct ClipKeyboardApp: App {
         let id: UUID
         var isCombo: Bool = false
         var comboValues: [String] = []
-        var attachedTemplateId: UUID? = nil
+        var attachedTemplateId: UUID?
         enum CodingKeys: String, CodingKey { case id, isCombo, comboValues, attachedTemplateId }
         init(from decoder: Decoder) throws {
             let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -327,14 +327,13 @@ struct ClipKeyboardApp: App {
             for c in combos where !memos.contains(where: { $0.id == c.id }) {
                 var steps: [String] = []
                 for item in c.items.sorted(by: { $0.order < $1.order }) {
-                    if (item.type == .memo || item.type == .template),
+                    if item.type == .memo || item.type == .template,
                        let v = valueById[item.referenceId], !v.isEmpty {
                         steps.append(v)
                     } else {
                         let v = item.displayValue ?? ""
                         let t = (item.displayTitle ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-                        if !v.isEmpty { steps.append(v) }
-                        else if !t.isEmpty { steps.append(t) }
+                        if !v.isEmpty { steps.append(v) } else if !t.isEmpty { steps.append(t) }
                     }
                 }
                 guard !steps.isEmpty else { continue }   // 빈 콤보는 만들지 않음

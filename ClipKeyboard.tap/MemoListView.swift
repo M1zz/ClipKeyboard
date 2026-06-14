@@ -14,7 +14,7 @@ struct MemoListView: View {
     @State private var selectedCategory: String = "전체"
     @State private var isViewActive: Bool = true
     /// 커스텀 플레이스홀더 값 채우기 시트 대상 메모.
-    @State private var fillMemo: Memo? = nil
+    @State private var fillMemo: Memo?
 
     var categories: [String] {
         var cats = Set(memos.map { $0.category })
@@ -272,7 +272,7 @@ struct CompactMemoItemRow: View {
 
                     if !imageFileNames.isEmpty {
                         HStack(spacing: 4) {
-                            ForEach(Array(imageFileNames.prefix(3).enumerated()), id: \.offset) { index, fileName in
+                            ForEach(Array(imageFileNames.prefix(3).enumerated()), id: \.offset) { _, fileName in
                                 if let image = MemoStore.shared.loadImage(fileName: fileName) {
                                     Image(nsImage: image)
                                         .resizable()

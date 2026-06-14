@@ -119,7 +119,7 @@ struct AccessibilityGuideView: View {
                 comment: "Reduce Motion feature description"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → 동작 → 동작 줄이기", comment: "Reduce Motion settings path")
-        ),
+        )
     ]}
 
     // MARK: - Testing Section
@@ -178,7 +178,7 @@ struct AccessibilityGuideView: View {
         NSLocalizedString(
             "동작 줄이기: 설정 ON 후 즐겨찾기 추가 → 하트가 이동 없이 페이드 확인.",
             comment: "Test step: Reduce Motion"
-        ),
+        )
     ]}
 }
 

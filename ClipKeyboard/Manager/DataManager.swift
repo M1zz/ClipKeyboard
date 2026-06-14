@@ -10,13 +10,13 @@ import Foundation
 
 /// Manager handling the text entries
 class DataManager: ObservableObject {
-    
+
     /// Dynamic properties that the UI will react to
     @Published var editingEntry: String = ""
     @Published var textEntries = [String]() {
         didSet { saveTextEntries() }
     }
-    
+
     @Published var didShowOnboarding: Bool = UserDefaults.standard.bool(forKey: "onboarding") {
         didSet {
             print("📝 [DataManager] didShowOnboarding 변경: \(didShowOnboarding)")
@@ -64,13 +64,11 @@ class AppConfig {
 
     // MARK: - App Group
     static let sharedDefaults = UserDefaults(suiteName: AppGroup.identifier)
-    
+
     /// Custom keyboard background color
     static let keyboardColor = Color(#colorLiteral(red: 0.8392156863, green: 0.8470588235, blue: 0.8745098039, alpha: 1))
     static let keyboardTabColor = Color(#colorLiteral(red: 0.6980392157, green: 0.7137254902, blue: 0.7647058824, alpha: 1))
-    
+
     /// Your email for support
     static let emailSupport = "leeo@kakao.com"
 }
-
-

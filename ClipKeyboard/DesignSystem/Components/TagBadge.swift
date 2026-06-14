@@ -10,7 +10,7 @@ import SwiftUI
 struct TagBadge: View {
     let label: String
     /// v4.0.8: 옵션 색상. nil이면 테마 accent 사용 (기본).
-    var tint: Color? = nil
+    var tint: Color?
 
     @Environment(\.appTheme) private var theme
 

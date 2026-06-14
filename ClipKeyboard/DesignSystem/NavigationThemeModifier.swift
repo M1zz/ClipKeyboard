@@ -52,11 +52,11 @@ struct ThemedNavTitleModifier: ViewModifier {
         if theme.kind == .paper, let font = UIFont(name: "Fraunces-Bold", size: 34) {
             appearance.largeTitleTextAttributes = [
                 .font: font,
-                .foregroundColor: UIColor(theme.text),
+                .foregroundColor: UIColor(theme.text)
             ]
         } else {
             appearance.largeTitleTextAttributes = [
-                .foregroundColor: UIColor(theme.text),
+                .foregroundColor: UIColor(theme.text)
             ]
         }
 
@@ -67,7 +67,7 @@ struct ThemedNavTitleModifier: ViewModifier {
 
         appearance.titleTextAttributes = [
             .font: inlineFont,
-            .foregroundColor: UIColor(theme.text),
+            .foregroundColor: UIColor(theme.text)
         ]
 
         UINavigationBar.appearance().standardAppearance = appearance

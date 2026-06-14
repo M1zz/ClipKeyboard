@@ -85,7 +85,7 @@ class ProStatusManager: ObservableObject {
     func canAddMemo(currentCount: Int) -> Bool {
         return ProFeatureManager.canAddMemo(currentCount: currentCount)
     }
-    
+
     /// 클립보드 히스토리를 더 저장할 수 있는지 확인
     func canAddClipboardHistory(currentCount: Int) -> Bool {
         return ProFeatureManager.hasFullAccess || currentCount < FreeLimits.maxClipboardHistory
@@ -116,27 +116,27 @@ class ProStatusManager: ObservableObject {
         if ProFeatureManager.hasFullAccess { return Int.max }
         return max(0, FreeLimits.maxMemos - currentCount)
     }
-    
+
     /// Pro 상태 설정 (StoreManager에서 호출)
     func setProStatus(_ isPro: Bool) {
         self.isPro = isPro
         saveProStatus()
         print("✅ [ProStatusManager] Pro 상태 변경: \(isPro)")
     }
-    
+
     /// Pro 상태 복원 (앱 시작 시 또는 구매 복원 시)
     func restoreProStatus() {
         // StoreManager에서 구매 복원 후 호출됨
         loadProStatus()
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func loadProStatus() {
         isPro = userDefaults?.bool(forKey: proStatusKey) ?? false
         print("📥 [ProStatusManager] Pro 상태 로드: \(isPro)")
     }
-    
+
     private func saveProStatus() {
         userDefaults?.set(isPro, forKey: proStatusKey)
         userDefaults?.synchronize()
@@ -146,4 +146,3 @@ class ProStatusManager: ObservableObject {
         print("💾 [ProStatusManager] Pro 상태 저장: \(isPro)")
     }
 }
-

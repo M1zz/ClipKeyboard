@@ -17,20 +17,20 @@ import LeeoKit
 struct KeyboardLayoutSettings: View {
 
     // MARK: AppStorage — App Group 공유 (익스텐션과 동일 키)
-    @AppStorage("keyboardColumnCount",    store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount:    Int    = 2
-    @AppStorage("keyboardButtonHeight",   store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight:   Double = 56.0
+    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount: Int    = 2
+    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 56.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors",store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors:Bool   = false
-    @AppStorage("keyboardCustomBgHex",    store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex:    String = ""
-    @AppStorage("keyboardCustomKeyHex",   store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex:   String = ""
-    @AppStorage("keyboardShowSearch",     store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch:     Bool   = false
-    @AppStorage("keyboardShowRecent",     store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecent:     Bool   = false
-    @AppStorage("keyboardKoreanLayout",   store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanLayout:   String = "dubeolsik"
-    @AppStorage("keyboardTypingLang",     store: UserDefaults(suiteName: AppGroup.identifier)) private var defaultLang:    String = "english"
+    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
+    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch: Bool   = false
+    @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecent: Bool   = false
+    @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanLayout: String = "dubeolsik"
+    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: AppGroup.identifier)) private var defaultLang: String = "english"
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
-    @AppStorage("keyboardKoreanEnabled",  store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanEnabled:  Bool   = false
+    @AppStorage("keyboardKoreanEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanEnabled: Bool   = false
 
-    @State private var customBgColor:  Color = .clear
+    @State private var customBgColor: Color = .clear
     @State private var customKeyColor: Color = .clear
     @Environment(\.appTheme) private var theme
 
@@ -212,7 +212,7 @@ struct KeyboardLayoutSettings: View {
         #endif
         .solidNavBar(theme.bg)
         .onAppear {
-            if !customBgHex.isEmpty,  let c = Color(hex: customBgHex)  { customBgColor  = c }
+            if !customBgHex.isEmpty, let c = Color(hex: customBgHex) { customBgColor  = c }
             if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { customKeyColor = c }
         }
     }
@@ -229,14 +229,14 @@ struct KeyboardLayoutSettings: View {
                 layoutCard(
                     title: NSLocalizedString("두벌식", comment: "Dubeolsik Korean keyboard layout name"),
                     layoutId: "dubeolsik",
-                    rows: [["ㅂ","ㅈ","ㄷ","ㄱ","ㅅ"],["ㅁ","ㄴ","ㅇ","ㄹ","ㅎ"],["ㅗ","ㅓ","ㅏ","ㅣ","ㅡ"]],
+                    rows: [["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ"], ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ"], ["ㅗ", "ㅓ", "ㅏ", "ㅣ", "ㅡ"]],
                     isSelected: koreanLayout == "dubeolsik"
                 )
                 // 천지인
                 layoutCard(
                     title: NSLocalizedString("천지인", comment: "Cheonjiin Korean keyboard layout name"),
                     layoutId: "cheonjiin",
-                    rows: [["ㅣ","ㆍ","ㅡ"],["ㄱㅋ","ㄴㄹ","ㄷㅌ"],["ㅂㅍ","ㅅㅎ","ㅈㅊ"]],
+                    rows: [["ㅣ", "ㆍ", "ㅡ"], ["ㄱㅋ", "ㄴㄹ", "ㄷㅌ"], ["ㅂㅍ", "ㅅㅎ", "ㅈㅊ"]],
                     isSelected: koreanLayout == "cheonjiin"
                 )
             }
@@ -293,12 +293,12 @@ struct KeyboardPreviewView: View {
 
     private let ud = UserDefaults(suiteName: AppGroup.identifier)
 
-    @AppStorage("keyboardColumnCount",    store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount:    Int    = 2
-    @AppStorage("keyboardButtonHeight",   store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight:   Double = 56.0
+    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount: Int    = 2
+    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 56.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors",store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors:Bool   = false
-    @AppStorage("keyboardCustomBgHex",    store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex:    String = ""
-    @AppStorage("keyboardCustomKeyHex",   store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex:   String = ""
+    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
+    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
 
     @State private var previewMemos: [Memo] = []
     @Environment(\.colorScheme) private var colorScheme
@@ -333,12 +333,12 @@ struct KeyboardPreviewView: View {
     }
 
     private func catIcon(_ key: String) -> String {
-        if key == "★all"       { return "square.grid.2x2.fill" }
+        if key == "★all" { return "square.grid.2x2.fill" }
         if key == "★favorites" { return "heart.fill" }
         return categorySymbol(for: key, in: allUserCats)
     }
     private func catColor(_ key: String) -> Color {
-        if key == "★all"       { return .blue }
+        if key == "★all" { return .blue }
         // 익스텐션의 colorForCategoryKey와 동일한 즐겨찾기 색 #FF4A9E
         if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
         return categoryTint(for: key, in: allUserCats)
@@ -511,7 +511,7 @@ struct SecurePINSetupView: View {
                 }
 
                 VStack(spacing: 12) {
-                    ForEach([[1,2,3],[4,5,6],[7,8,9]], id: \.first) { row in
+                    ForEach([[1, 2, 3], [4, 5, 6], [7, 8, 9]], id: \.first) { row in
                         HStack(spacing: 20) {
                             ForEach(row, id: \.self) { n in pinDigitButton(String(n)) }
                         }

@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-typealias KeyboardData = [String:String]
+typealias KeyboardData = [String: String]
 var clipKey: [String] = []
 var clipValue: [String] = []
 var clipMemoId: [UUID] = []  // 메모 ID 저장
@@ -34,7 +34,7 @@ class KeyboardViewController: UIInputViewController {
             button.backgroundColor = .systemGray2
             return button
         }()
-    
+
     let spaceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,7 @@ class KeyboardViewController: UIInputViewController {
         button.setTitleColor(UIColor.black, for: UIControl.State.normal)
         return button
     }()
-    
+
     let returnButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -76,25 +76,21 @@ class KeyboardViewController: UIInputViewController {
         textField.placeholder = "Enter text"
         return textField
     }()
-    
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-    }
-    
+
     private func configureNextKeyboardButton() {
         self.nextKeyboardButton = UIButton(type: .system)
         self.nextKeyboardButton.setTitle(NSLocalizedString("Next Keyboard", comment: "Title for 'Next Keyboard' button"), for: [])
         self.nextKeyboardButton.sizeToFit()
         self.nextKeyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        
+
         self.nextKeyboardButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
-        
+
         self.view.addSubview(self.nextKeyboardButton)
-        
+
         self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
-    
+
     /// SwiftUI에서 관찰하는 호스트 텍스트 필드 상태 — textDidChange에서 갱신
     private let documentState = KeyboardDocumentState()
     private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState)
@@ -451,13 +447,9 @@ class KeyboardViewController: UIInputViewController {
         deleteTimer?.invalidate()
         notificationTokens.forEach { NotificationCenter.default.removeObserver($0) }
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 
     override func viewWillLayoutSubviews() {
-        self.nextKeyboardButton.isHidden = true //!self.needsInputModeSwitchKey
+        self.nextKeyboardButton.isHidden = true // !self.needsInputModeSwitchKey
         super.viewWillLayoutSubviews()
     }
 
@@ -481,11 +473,11 @@ class KeyboardViewController: UIInputViewController {
         // 햅틱 엔진 사전 깨우기 — 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
     }
-    
+
     override func textWillChange(_ textInput: UITextInput?) {
-        
+
     }
-    
+
     override func textDidChange(_ textInput: UITextInput?) {
         var textColor: UIColor
         let proxy = self.textDocumentProxy
@@ -497,10 +489,6 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
         // SwiftUI 관찰 가능한 hasText 상태 갱신 — clearAll(X) 버튼 표시 여부에 사용
         updateHasTextState()
-    }
-
-    override func selectionWillChange(_ textInput: UITextInput?) {
-        super.selectionWillChange(textInput)
     }
 
     override func selectionDidChange(_ textInput: UITextInput?) {
@@ -524,7 +512,7 @@ class KeyboardViewController: UIInputViewController {
             }
         }
     }
-    
+
     private func loadMemos() {
         do {
             let allMemos = try MemoStore.shared.load(type: .memo)
@@ -645,8 +633,6 @@ class KeyboardViewController: UIInputViewController {
 
 }
 
-
-
 extension String {
     func textSize() -> CGFloat {
         let font: UIFont = UIFont(name: "Helvetica", size: 15) ?? .systemFont(ofSize: 15)
@@ -654,31 +640,30 @@ extension String {
     }
 }
 
-
 final class EmptyListView: UIView {
-    
+
     init() {
         super.init(frame: .zero)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
     }
-    
+
     private func setupView() {
         // Create the image view
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "eyes")
         imageView.contentMode = .scaleAspectFit
-        
+
         // Create the title label
         let titleLabel = UILabel()
         titleLabel.text = "Nothing to Paste"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
         titleLabel.textAlignment = .center
-        
+
         // Create the body label
         let bodyLabel = UILabel()
         bodyLabel.text = Constants.emptyDescription
@@ -686,21 +671,21 @@ final class EmptyListView: UIView {
         bodyLabel.textAlignment = .center
         bodyLabel.numberOfLines = 0
         bodyLabel.textColor = UIColor.black.withAlphaComponent(0.7)
-        
+
         // Create a vertical stack view
         let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel, bodyLabel])
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
-        
+
         // Constraints for the stack view
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30)
         ])
-        
+
         // Constraints for the image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -709,7 +694,6 @@ final class EmptyListView: UIView {
         ])
     }
 }
-
 
 extension UIView {
     func addKeyboardSubview(_ subview: UIView) {

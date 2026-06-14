@@ -132,16 +132,16 @@ struct MemoActionSheet: View {
     let onEdit: () -> Void
     let onDelete: () -> Void
     /// 메모를 다른 카테고리로 이동. nil이면 이동 행을 표시하지 않는다.
-    var onMoveToCategory: ((String) -> Void)? = nil
+    var onMoveToCategory: ((String) -> Void)?
     /// "새 카테고리에 추가" — 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
-    var onCreateNewCategory: (() -> Void)? = nil
+    var onCreateNewCategory: (() -> Void)?
     /// "순서 바꾸기" — 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
-    var onReorder: (() -> Void)? = nil
+    var onReorder: (() -> Void)?
     /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
-    var onMakeTemplate: (() -> Void)? = nil
+    var onMakeTemplate: (() -> Void)?
     /// "보안 메모로 설정 / 보안 해제" — 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
-    var onToggleSecure: (() -> Void)? = nil
+    var onToggleSecure: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -428,7 +428,7 @@ struct SwipePageIndicator: View {
 /// 이미지 메모용 배경 뷰 — 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
 struct MemoImageBackground: View {
     let fileName: String
-    @State private var image: UIImage? = nil
+    @State private var image: UIImage?
 
     var body: some View {
         ZStack {
@@ -747,7 +747,6 @@ struct SheetModifiers: ViewModifier {
             }
     }
 }
-
 
 // MARK: - Category Management Sheet
 

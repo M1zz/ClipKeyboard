@@ -71,14 +71,14 @@ let symbolCatalog: [SymbolSection] = [
     SymbolSection(id: "Security & Tech", symbols: [
         "lock.fill", "key.fill", "wifi", "iphone", "desktopcomputer",
         "gear", "qrcode", "shield.fill", "antenna.radiowaves.left.and.right"
-    ]),
+    ])
 ]
 
 // MARK: - Main View
 
 struct CategoryIconSettings: View {
     @State private var icons: [String: String] = loadCustomIcons()
-    @State private var pickingForCategory: String? = nil
+    @State private var pickingForCategory: String?
     @Environment(\.appTheme) private var theme
 
     private var categories: [String] {

@@ -287,9 +287,9 @@ struct ProFeatureManager {
     static func clipboardHistoryLimit() -> Int {
         return hasFullAccess ? 100 : freeClipboardHistoryLimit
     }
-    
+
     // MARK: - 제한 도달 정보
-    
+
     enum LimitType {
         case memo
         case combo
@@ -334,7 +334,7 @@ struct ProFeatureManager {
                 return NSLocalizedString("이미지 메모", comment: "Image memo")
             }
         }
-        
+
         var localizedDescription: String {
             switch self {
             case .memo:

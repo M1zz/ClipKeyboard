@@ -19,8 +19,8 @@ struct MemoRowView: View {
     var compact: Bool = false
 
     // VoiceOver 커스텀 액션 콜백 — 부모(ClipKeyboardList)에서 주입
-    var onFavoriteToggle: (() -> Void)? = nil
-    var onDelete: (() -> Void)? = nil
+    var onFavoriteToggle: (() -> Void)?
+    var onDelete: (() -> Void)?
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -177,7 +177,6 @@ struct MemoRowView: View {
 
         return parts.joined(separator: ", ")
     }
-
 
     // MARK: - Leading Icon
 

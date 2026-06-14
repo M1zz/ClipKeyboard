@@ -51,12 +51,12 @@ final class MemoAddViewModel: ObservableObject {
 
     @Published var detectedPlaceholders: [String] = []
     @Published var placeholderValues: [String: [String]] = [:]
-    @Published var showingPlaceholderEditor: String? = nil
+    @Published var showingPlaceholderEditor: String?
     @Published var newPlaceholderValue: String = ""
 
     // MARK: - 자동 분류 관련
 
-    @Published var autoDetectedType: ClipboardItemType? = nil
+    @Published var autoDetectedType: ClipboardItemType?
     @Published var autoDetectedConfidence: Double = 0.0
 
     // MARK: - 최근 사용 카테고리
@@ -65,9 +65,9 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - 클립보드 스마트 제안
 
-    @Published var clipboardContent: String? = nil
-    @Published var clipboardDetectedType: ClipboardItemType? = nil
-    @Published var clipboardHistory: SmartClipboardHistory? = nil
+    @Published var clipboardContent: String?
+    @Published var clipboardDetectedType: ClipboardItemType?
+    @Published var clipboardHistory: SmartClipboardHistory?
     @Published var showClipboardSuggestion: Bool = false
 
     // MARK: - UI 상태
@@ -83,7 +83,7 @@ final class MemoAddViewModel: ObservableObject {
     @Published var showToast: Bool = false
     @Published var toastMessage: String = ""
     @Published var showPaywall: Bool = false
-    @Published var paywallTrigger: ProFeatureManager.LimitType? = nil
+    @Published var paywallTrigger: ProFeatureManager.LimitType?
 
     // MARK: - 이미지 첨부
 
@@ -311,10 +311,7 @@ final class MemoAddViewModel: ObservableObject {
             // Analytics — 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String
-                if isTemplate { memoType = "template" }
-                else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" }
-                else if !imageFileNames.isEmpty { memoType = "image" }
-                else { memoType = "text" }
+                if isTemplate { memoType = "template" } else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" } else if !imageFileNames.isEmpty { memoType = "image" } else { memoType = "text" }
                 AnalyticsService.logMemoCreated(memoType: memoType, memoCount: loadedMemos.count)
             }
 
