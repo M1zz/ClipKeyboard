@@ -15,7 +15,6 @@ import FirebaseCore
 @main
 struct ClipKeyboardApp: App {
     @StateObject private var storeManager = StoreManager.shared
-    @StateObject private var deps = AppDependencies.shared
     @State private var showReviewRequest = false
     @State private var showAccessibilityGuide = false
     /// 기존 사용자에게 데모 샘플 체험을 1회 물어보는 알림
@@ -475,7 +474,6 @@ struct ClipKeyboardApp: App {
             AppThemedContainer {
             ClipKeyboardList()
                 .environmentObject(storeManager)
-                .environmentObject(deps)
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif
