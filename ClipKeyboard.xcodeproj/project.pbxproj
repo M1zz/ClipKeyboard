@@ -118,6 +118,9 @@
 		D353F4A236699D9A0F78E9DE /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
 		DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */; };
+		DB9369B530D061A24ABCD298 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D663A47B0F30561381AFD709 /* Foundation.framework */; };
+		DC74E10AEFDB32B44493A01E /* ClipKeyboardShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396EB22C5749F763307098D /* ShareViewController.swift */; };
 		E31CF82342F786CEF22B643B /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */; };
 		E93A9A4F98E99C1C0644B05E /* MemoSyncCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050AEED88220E19330F5B15C /* MemoSyncCore.swift */; };
@@ -156,6 +159,13 @@
 			remoteGlobalIDString = 587BDC4A2A1D0D40001464E4;
 			remoteInfo = ClipKeyboardExtension;
 		};
+		63C0EC2F1D3074A5E2EC0DBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A4A34AD566CBB66599037E0;
+			remoteInfo = ClipKeyboardShareExtension;
+		};
 		9CA0A4072F19D9B3004ABF40 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 58C473302A109F0C009D87BC /* Project object */;
@@ -174,6 +184,7 @@
 			files = (
 				587384982F2E7AD50042ECA4 /* widgetExtension.appex in Embed Foundation Extensions */,
 				587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */,
+				DC74E10AEFDB32B44493A01E /* ClipKeyboardShareExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,8 +195,13 @@
 		050AEED88220E19330F5B15C /* MemoSyncCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncCore.swift; sourceTree = "<group>"; };
 		0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconBackgroundScheduler.swift; sourceTree = "<group>"; };
 		11527193B51F40B39A530C1C /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
+		1396EB22C5749F763307098D /* ShareViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupStorage.swift; sourceTree = "<group>"; };
+		1B652AFA4FA9C14F52776488 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
+		2B0D50F9D6DDA68EB1F9AFC2 /* ClipKeyboardShareExtension.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardShareExtension.entitlements; sourceTree = "<group>"; };
+		2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A6331C8F171965DCD1F4345 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5802F40F2A2B3C91002825D6 /* ClipboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardList.swift; sourceTree = "<group>"; };
 		5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCaptureCard.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -263,6 +279,7 @@
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
 		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
+		D663A47B0F30561381AFD709 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
 		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
 		E80B27002654B5731B9DDCAF /* AppSymbol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSymbol.swift; sourceTree = "<group>"; };
@@ -338,6 +355,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		019AB53684CE5E3263565B6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB9369B530D061A24ABCD298 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5873847F2F2E7AD40042ECA4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -385,6 +410,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		178C7665A7A4609E05128882 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				D663A47B0F30561381AFD709 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		1B870C9374FF4EF98817D4B5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +453,7 @@
 				581D8A9B2F49E85000F2F032 /* StoreKit.framework */,
 				587384842F2E7AD40042ECA4 /* WidgetKit.framework */,
 				587384862F2E7AD40042ECA4 /* SwiftUI.framework */,
+				178C7665A7A4609E05128882 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -464,6 +498,7 @@
 				587384832F2E7AD40042ECA4 /* Frameworks */,
 				58C473392A109F0D009D87BC /* Products */,
 				581D8BAD2F49EE2600F2F032 /* Version.xcconfig */,
+				A49EE569B0022BCC6463292C /* ClipKeyboardShareExtension */,
 			);
 			sourceTree = "<group>";
 		};
@@ -475,6 +510,7 @@
 				58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */,
 				9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */,
 				587384822F2E7AD40042ECA4 /* widgetExtension.appex */,
+				2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -672,6 +708,18 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
+		A49EE569B0022BCC6463292C /* ClipKeyboardShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				1396EB22C5749F763307098D /* ShareViewController.swift */,
+				3A6331C8F171965DCD1F4345 /* Info.plist */,
+				2B0D50F9D6DDA68EB1F9AFC2 /* ClipKeyboardShareExtension.entitlements */,
+				1B652AFA4FA9C14F52776488 /* README.md */,
+			);
+			name = ClipKeyboardShareExtension;
+			path = ClipKeyboardShareExtension;
+			sourceTree = "<group>";
+		};
 		B3C4D5E6F7A8B9C0D1E2F303 /* ClipKeyboardList */ = {
 			isa = PBXGroup;
 			children = (
@@ -724,6 +772,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3A4A34AD566CBB66599037E0 /* ClipKeyboardShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC04635417D78973A90C7937 /* Build configuration list for PBXNativeTarget "ClipKeyboardShareExtension" */;
+			buildPhases = (
+				3759E070C7BD1D29ADAEFA00 /* Sources */,
+				019AB53684CE5E3263565B6E /* Frameworks */,
+				F50F0D89CA8C965E5709D475 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClipKeyboardShareExtension;
+			productName = ClipKeyboardShareExtension;
+			productReference = 2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		587384812F2E7AD40042ECA4 /* widgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5873849C2F2E7AD50042ECA4 /* Build configuration list for PBXNativeTarget "widgetExtension" */;
@@ -779,6 +844,7 @@
 			dependencies = (
 				587BDC512A1D0D40001464E4 /* PBXTargetDependency */,
 				587384972F2E7AD50042ECA4 /* PBXTargetDependency */,
+				80B8B907D8B6BE65F304AA8B /* PBXTargetDependency */,
 			);
 			name = ClipKeyboard;
 			packageProductDependencies = (
@@ -882,6 +948,7 @@
 				587384812F2E7AD40042ECA4 /* widgetExtension */,
 				58FBB9092ED9AD0B004231BE /* ClipKeyboard.tap */,
 				9CA0A4022F19D9B3004ABF40 /* ClipKeyboardTests */,
+				3A4A34AD566CBB66599037E0 /* ClipKeyboardShareExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -931,6 +998,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F50F0D89CA8C965E5709D475 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -956,6 +1030,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3759E070C7BD1D29ADAEFA00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5873847E2F2E7AD40042ECA4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1116,6 +1198,12 @@
 			target = 587BDC4A2A1D0D40001464E4 /* ClipKeyboardExtension */;
 			targetProxy = 587BDC502A1D0D40001464E4 /* PBXContainerItemProxy */;
 		};
+		80B8B907D8B6BE65F304AA8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ClipKeyboardShareExtension;
+			target = 3A4A34AD566CBB66599037E0 /* ClipKeyboardShareExtension */;
+			targetProxy = 63C0EC2F1D3074A5E2EC0DBE /* PBXContainerItemProxy */;
+		};
 		9CA0A4082F19D9B3004ABF40 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 58C473372A109F0C009D87BC /* ClipKeyboard */;
@@ -1147,6 +1235,33 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		52C4DD0D91AD786167F2844D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = ClipKeyboardShareExtension/ClipKeyboardShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 4.3.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		587384992F2E7AD50042ECA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1171,7 +1286,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1211,7 +1326,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1242,7 +1357,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1271,7 +1386,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.ClipKeyboardExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1439,7 +1554,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1481,7 +1596,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1523,7 +1638,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1567,7 +1682,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1581,6 +1696,32 @@
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
+		};
+		7349CD30C42B1057DFA9F8E1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = ClipKeyboardShareExtension/ClipKeyboardShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = QGAQ3AY3R3;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 4.3.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Ysoup.TokenMemo.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		9CA0A40A2F19D9B3004ABF40 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1596,7 +1737,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1625,7 +1766,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.3.3;
+				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
@@ -1691,6 +1832,15 @@
 			buildConfigurations = (
 				9CA0A40A2F19D9B3004ABF40 /* Debug */,
 				9CA0A40B2F19D9B3004ABF40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC04635417D78973A90C7937 /* Build configuration list for PBXNativeTarget "ClipKeyboardShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52C4DD0D91AD786167F2844D /* Release */,
+				7349CD30C42B1057DFA9F8E1 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

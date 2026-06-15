@@ -1,8 +1,12 @@
 # ClipKeyboardShareExtension
 
-iOS Share Sheet에서 텍스트/URL 받아 ClipKeyboard 메모로 빠르게 저장하는 익스텐션.
+iOS Share Sheet에서 텍스트/URL/이미지 받아 ClipKeyboard 메모로 빠르게 저장하는 익스텐션.
 
-## Xcode에서 타겟 등록 (수동, ~2분)
+> ✅ **타겟 등록 완료 (v4.3.4)** — `scripts/add_share_extension.rb`로 빌드 타겟에 등록됨
+> (번들 ID `com.Ysoup.TokenMemo.share`, App Group `group.com.Ysoup.TokenMemo`, 메인 앱에 임베드).
+> 아래 수동 등록 안내는 참고용 히스토리입니다.
+
+## (참고/히스토리) Xcode에서 타겟 등록 (수동, ~2분)
 
 이 폴더의 파일들은 모두 작성되어 있습니다. 다음 단계로 Xcode에 등록하세요:
 
