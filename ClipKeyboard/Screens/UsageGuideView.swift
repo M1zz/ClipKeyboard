@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 // MARK: - Model
 
@@ -131,7 +132,7 @@ private enum UsageScenarioData {
                     exampleKey: "오늘 총 {총금액}원이에요!\n{인원}명이니까 1인당 {1인금액}원 🙏\n카카오뱅크 {계좌번호} ({이름})으로 보내주세요~",
                     feature: .template,
                     personas: [.student, .general]
-                ),
+                )
             ]
         ),
 
@@ -168,7 +169,7 @@ private enum UsageScenarioData {
                     exampleKey: "안녕하세요 {담당자}님,\n\n{프로젝트}와 관련하여 협업을 제안드리고자 연락드립니다.\n저는 {회사/이름}에서 {업무}를 담당하고 있습니다.\n\n간단히 통화 가능하실까요? 편하신 시간 알려주세요.\n감사합니다.",
                     feature: .template,
                     personas: [.business, .nomad]
-                ),
+                )
             ]
         ),
 
@@ -198,7 +199,7 @@ private enum UsageScenarioData {
                     exampleKey: "죄송해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏",
                     feature: .template,
                     personas: [.general, .student, .business]
-                ),
+                )
             ]
         ),
 
@@ -228,7 +229,7 @@ private enum UsageScenarioData {
                     exampleKey: "안녕하세요 {이름}님,\n\n이번 프로젝트 함께해 주셔서 진심으로 감사드립니다.\n덕분에 좋은 결과를 낼 수 있었습니다.\n\n앞으로도 좋은 인연 이어갔으면 합니다 😊",
                     feature: .template,
                     personas: [.business, .nomad]
-                ),
+                )
             ]
         ),
 
@@ -255,9 +256,9 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "민감한 번호는 목록에서 ••••로 가려져 표시됩니다. 필요할 때만 탭해서 사용하세요.",
                     feature: .smartClipboard
-                ),
+                )
             ]
-        ),
+        )
     ]
 
     // MARK: - Indonesian Scenarios (id)
@@ -293,7 +294,7 @@ private enum UsageScenarioData {
                     contextKey: "Berapa bagian saya?",
                     exampleKey: "Total tadi Rp {total} untuk {jumlah} orang.\nJadi per orang Rp {perorang} ya 😊\nBisa transfer ke GoPay/OVO {nomor} a/n {nama}",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -326,7 +327,7 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "{Nama Lengkap}\n{Jabatan} | {Perusahaan}\n📧 {Email}\n📞 {No. HP}\n🌐 {Website}",
                     feature: .memo
-                ),
+                )
             ]
         ),
 
@@ -353,7 +354,7 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Halo, saya menerima pesanan {nama produk} dengan nomor order {nomor} namun {masalah}. Mohon bantuannya untuk proses {solusi yang diinginkan}. Terima kasih 🙏",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -380,7 +381,7 @@ private enum UsageScenarioData {
                     contextKey: "Kamu di mana?",
                     exampleKey: "Maaf ya {nama}, saya terlambat sekitar {menit} menit. Mohon tunggu sebentar 🙏",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -401,9 +402,9 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Nomor HP yang disalin otomatis ditandai sebagai 'Nomor Telepon'. Tidak perlu khawatir tercecer.",
                     feature: .smartClipboard
-                ),
+                )
             ]
-        ),
+        )
     ]
 
     // MARK: - English Scenarios (en / default)
@@ -433,7 +434,7 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ({email})",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -460,7 +461,7 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end.",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -499,7 +500,7 @@ private enum UsageScenarioData {
                     contextKey: "After successful project wrap-up",
                     exampleKey: "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy.",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -526,7 +527,7 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!",
                     feature: .combo
-                ),
+                )
             ]
         ),
 
@@ -547,7 +548,7 @@ private enum UsageScenarioData {
                     contextKey: "New client asks out of curiosity",
                     exampleKey: "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.",
                     feature: .template
-                ),
+                )
             ]
         ),
 
@@ -574,9 +575,9 @@ private enum UsageScenarioData {
                     contextKey: nil,
                     exampleKey: "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display.",
                     feature: .smartClipboard
-                ),
+                )
             ]
-        ),
+        )
     ]
 }
 

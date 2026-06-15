@@ -8,6 +8,14 @@
 
 import Foundation
 
+extension String {
+    /// {중괄호}만 떼어낸 자연스러운 문장 — 템플릿 미리보기·하이라이트 입력칸에서 공용.
+    /// (키보드 익스텐션 타겟에도 포함되는 파일이라 여기에 둔다.)
+    var strippingTemplateBraces: String {
+        replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
+    }
+}
+
 enum MemoPreviewFormatter {
 
     static let maxPreviewLength = 40
@@ -101,9 +109,11 @@ enum MemoPreviewFormatter {
     }
 
     private static func comboPreview(_ memo: Memo) -> String {
-        guard !memo.comboValues.isEmpty else { return truncate(singleLine(memo.value)) }
+        // 첫 번째 값을 앞세우고 개수는 꼬리로 — 템플릿 미리보기("첫 줄 · N variables")와 동일 스타일.
+        guard let first = memo.comboValues.first else { return truncate(singleLine(memo.value)) }
         let format = NSLocalizedString("%d items", comment: "Combo item count preview")
-        return String(format: format, memo.comboValues.count)
+        let count = String(format: format, memo.comboValues.count)
+        return "\(truncate(singleLine(first), max: 28)) · \(count)"
     }
 
     private static func imagePreview(count: Int) -> String {

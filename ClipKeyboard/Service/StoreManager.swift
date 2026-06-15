@@ -12,57 +12,57 @@ import StoreKit
 @MainActor
 class StoreManager: ObservableObject {
     static let shared = StoreManager()
-    
+
     // MARK: - Product IDs
-    
+
     static let proProductID = "com.Ysoup.TokenMemo.pro"
-    
+
     // MARK: - Published Properties
-    
+
     @Published var products: [Product] = []
     @Published var purchasedProductIDs: Set<String> = []
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String? = nil
-    
+    @Published var errorMessage: String?
+
     var proProduct: Product? {
         products.first { $0.id == Self.proProductID }
     }
-    
+
     var isPro: Bool {
         purchasedProductIDs.contains(Self.proProductID)
     }
-    
+
     // MARK: - Private
-    
-    private var updateListenerTask: Task<Void, Error>? = nil
-    
+
+    private var updateListenerTask: Task<Void, Error>?
+
     // MARK: - Init
-    
+
     private init() {
         updateListenerTask = listenForTransactions()
-        
+
         Task {
             await loadProducts()
             await updatePurchasedProducts()
         }
     }
-    
+
     deinit {
         updateListenerTask?.cancel()
     }
-    
+
     // MARK: - Public Methods
-    
+
     /// 상품 목록 로드
     func loadProducts() async {
         isLoading = true
         errorMessage = nil
-        
+
         do {
             let storeProducts = try await Product.products(for: [Self.proProductID])
             products = storeProducts
             print("✅ [StoreManager] 상품 로드 완료: \(storeProducts.count)개")
-            
+
             for product in storeProducts {
                 print("   - \(product.id): \(product.displayPrice)")
             }
@@ -70,10 +70,10 @@ class StoreManager: ObservableObject {
             print("❌ [StoreManager] 상품 로드 실패: \(error)")
             errorMessage = error.localizedDescription
         }
-        
+
         isLoading = false
     }
-    
+
     /// Pro 구매
     /// - Parameter triggeredBy: 어떤 한도/진입점이 paywall을 띄웠는지 (analytics 슬라이싱용)
     func purchasePro(triggeredBy: String? = nil) async -> Bool {
@@ -90,10 +90,10 @@ class StoreManager: ObservableObject {
     func purchase(_ product: Product, triggeredBy: String? = nil) async -> Bool {
         isLoading = true
         errorMessage = nil
-        
+
         do {
             let result = try await product.purchase()
-            
+
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
@@ -106,7 +106,7 @@ class StoreManager: ObservableObject {
 
                 // Analytics — Offer Code 여부 판별 (iOS 17.2+에서만 direct 검출 가능)
                 var isOfferCode = false
-                var offerCodeName: String? = nil
+                var offerCodeName: String?
                 if #available(iOS 17.2, *) {
                     if transaction.offer?.type == .code {
                         isOfferCode = true
@@ -125,7 +125,7 @@ class StoreManager: ObservableObject {
 
                 isLoading = false
                 return true
-                
+
             case .userCancelled:
                 print("ℹ️ [StoreManager] 사용자가 구매 취소")
                 AnalyticsService.logPurchaseCancelled(triggeredBy: triggeredBy)
@@ -152,12 +152,12 @@ class StoreManager: ObservableObject {
             return false
         }
     }
-    
+
     /// 구매 복원
     func restorePurchases() async {
         isLoading = true
         errorMessage = nil
-        
+
         do {
             try await AppStore.sync()
             await updatePurchasedProducts()
@@ -169,10 +169,10 @@ class StoreManager: ObservableObject {
             print("❌ [StoreManager] 구매 복원 실패: \(error)")
             errorMessage = error.localizedDescription
         }
-        
+
         isLoading = false
     }
-    
+
     // MARK: - Diagnostics
 
     /// 현재 계정의 Pro/구매 상태를 한눈에 보기 위한 진단 덤프.
@@ -216,8 +216,8 @@ class StoreManager: ObservableObject {
         print("🩺 [Diag]     trialDaysRemaining= \(ProFeatureManager.trialDaysRemaining)")
 
         // 3) App Group UserDefaults 원본 값
-        let d = UserDefaults(suiteName: ProFeatureManager.appGroupSuite)
-        print("🩺 [Diag] -- App Group UserDefaults (\(ProFeatureManager.appGroupSuite)) --")
+        let d = UserDefaults(suiteName: AppGroup.identifier)
+        print("🩺 [Diag] -- App Group UserDefaults (\(AppGroup.identifier)) --")
         func dump(_ key: String) {
             let raw = d?.object(forKey: key)
             print("🩺 [Diag]   \(key) = \(raw.map { "\($0)" } ?? "nil(미설정)")")
@@ -272,11 +272,11 @@ class StoreManager: ObservableObject {
     /// 구매 상태 업데이트
     private func updatePurchasedProducts() async {
         var purchasedIDs: Set<String> = []
-        
+
         for await result in Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
-                
+
                 // 비소모성 상품 (Pro)
                 if transaction.productType == .nonConsumable {
                     purchasedIDs.insert(transaction.productID)
@@ -285,7 +285,7 @@ class StoreManager: ObservableObject {
                 print("⚠️ [StoreManager] 트랜잭션 검증 실패: \(error)")
             }
         }
-        
+
         purchasedProductIDs = purchasedIDs
 
         // ProStatusManager에 알림
@@ -294,13 +294,13 @@ class StoreManager: ObservableObject {
 
         // v4.0 그랜드파더 Pro 플래그: Pro 이력 생기면 영구 기록
         if isPro {
-            UserDefaults(suiteName: ProFeatureManager.appGroupSuite)?
+            UserDefaults(suiteName: AppGroup.identifier)?
                 .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
         }
 
         print("📋 [StoreManager] 구매 상태 업데이트: isPro = \(isPro)")
     }
-    
+
     /// 트랜잭션 리스너
     private func listenForTransactions() -> Task<Void, Error> {
         return Task.detached { [weak self] in
@@ -316,7 +316,7 @@ class StoreManager: ObservableObject {
             }
         }
     }
-    
+
     /// 트랜잭션 검증
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
         switch result {
@@ -333,7 +333,7 @@ class StoreManager: ObservableObject {
 enum StoreError: Error, LocalizedError {
     case failedVerification
     case productNotFound
-    
+
     var errorDescription: String? {
         switch self {
         case .failedVerification:

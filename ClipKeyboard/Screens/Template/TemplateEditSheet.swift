@@ -7,6 +7,7 @@
 
 import SwiftUI
 import TipKit
+import LeeoKit
 
 // MARK: - Template Edit Sheet
 
@@ -24,9 +25,9 @@ struct TemplateEditSheet: View {
     @State private var editedText: String = ""
     @State private var isEditingText: Bool = false
     /// 미리보기 칩을 탭해 포커스가 옮겨진 placeholder (강조 테두리)
-    @State private var highlightedPlaceholder: String? = nil
+    @State private var highlightedPlaceholder: String?
     /// 자동 변수 칩을 탭했을 때 안내할 토큰 (예: {날짜})
-    @State private var autoVarTipToken: String? = nil
+    @State private var autoVarTipToken: String?
 
     /// 날짜 토큰 — 자동(오늘) 대신 사용자가 오늘/내일/다음 주/2주 뒤/직접 선택할 수 있다.
     private static let dateTokens: Set<String> = ["{날짜}", "{date}"]

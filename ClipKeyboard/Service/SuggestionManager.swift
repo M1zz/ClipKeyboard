@@ -24,7 +24,7 @@ final class SuggestionManager: ObservableObject {
     static let shared = SuggestionManager()
     private init() {}
 
-    @Published private(set) var occasionalSuggestion: SuggestionTemplate? = nil
+    @Published private(set) var occasionalSuggestion: SuggestionTemplate?
 
     private var defaults: UserDefaults? { AppConfig.sharedDefaults }
 
@@ -216,7 +216,7 @@ final class SuggestionManager: ObservableObject {
         PersonaSeed(stableID: 90034, emoji: "🍽️",
                     titleKey: "Restaurant recommendation",
                     content: "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요.",
-                    feature: .template, persona: .general, categoryKey: "Daily life"),
+                    feature: .template, persona: .general, categoryKey: "Daily life")
     ]
 
     // MARK: - Persistence helpers

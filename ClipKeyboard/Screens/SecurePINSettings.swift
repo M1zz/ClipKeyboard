@@ -18,7 +18,6 @@ struct SecurePINSettings: View {
     @State private var showDeletePINConfirm = false
 
     private let pinKey = "keyboard_secure_pin_hash"
-    private let appGroup = "group.com.Ysoup.TokenMemo"
 
     @Environment(\.appTheme) private var theme
 
@@ -84,7 +83,7 @@ struct SecurePINSettings: View {
         }
         .sheet(isPresented: $showPINSetup) {
             SecurePINSetupView { hash in
-                UserDefaults(suiteName: appGroup)?.set(hash, forKey: pinKey)
+                UserDefaults(suiteName: AppGroup.identifier)?.set(hash, forKey: pinKey)
                 pinIsSet = true
                 showPINSetup = false
             }
@@ -93,7 +92,7 @@ struct SecurePINSettings: View {
                isPresented: $showDeletePINConfirm) {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                UserDefaults(suiteName: appGroup)?.removeObject(forKey: pinKey)
+                UserDefaults(suiteName: AppGroup.identifier)?.removeObject(forKey: pinKey)
                 pinIsSet = false
             }
         } message: {
@@ -105,7 +104,7 @@ struct SecurePINSettings: View {
         #endif
         .solidNavBar(theme.bg)
         .onAppear {
-            let storedHash = UserDefaults(suiteName: appGroup)?.string(forKey: pinKey) ?? ""
+            let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: pinKey) ?? ""
             pinIsSet = !storedHash.isEmpty
         }
     }

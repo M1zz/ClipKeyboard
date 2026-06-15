@@ -21,16 +21,16 @@ final class DataManagerTests: XCTestCase {
         super.setUp()
         originalOnboarding = UserDefaults.standard.bool(forKey: "onboarding")
         originalUseCase = UserDefaults.standard.bool(forKey: "useCaseSelection")
-        originalEntries = UserDefaults(suiteName: AppConfig.appGroup)?.stringArray(forKey: "entries")
+        originalEntries = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: "entries")
     }
 
     override func tearDown() {
         UserDefaults.standard.set(originalOnboarding, forKey: "onboarding")
         UserDefaults.standard.set(originalUseCase, forKey: "useCaseSelection")
         if let entries = originalEntries {
-            UserDefaults(suiteName: AppConfig.appGroup)?.set(entries, forKey: "entries")
+            UserDefaults(suiteName: AppGroup.identifier)?.set(entries, forKey: "entries")
         } else {
-            UserDefaults(suiteName: AppConfig.appGroup)?.removeObject(forKey: "entries")
+            UserDefaults(suiteName: AppGroup.identifier)?.removeObject(forKey: "entries")
         }
         super.tearDown()
     }
@@ -61,12 +61,12 @@ final class DataManagerTests: XCTestCase {
         let manager = DataManager()
         manager.textEntries = ["entry1", "entry2"]
 
-        let stored = UserDefaults(suiteName: AppConfig.appGroup)?.stringArray(forKey: "entries")
+        let stored = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: "entries")
         XCTAssertEqual(stored, ["entry1", "entry2"])
     }
 
     func testTextEntries_LoadOnInit() {
-        UserDefaults(suiteName: AppConfig.appGroup)?.set(["preset1", "preset2", "preset3"], forKey: "entries")
+        UserDefaults(suiteName: AppGroup.identifier)?.set(["preset1", "preset2", "preset3"], forKey: "entries")
 
         let manager = DataManager()
         XCTAssertEqual(manager.textEntries, ["preset1", "preset2", "preset3"])
@@ -75,7 +75,7 @@ final class DataManagerTests: XCTestCase {
     // MARK: - AppConfig 상수
 
     func testAppGroup_ExpectedValue() {
-        XCTAssertEqual(AppConfig.appGroup, "group.com.Ysoup.TokenMemo")
+        XCTAssertEqual(AppGroup.identifier, "group.com.Ysoup.TokenMemo")
     }
 
     func testEmailSupport_NotEmpty() {

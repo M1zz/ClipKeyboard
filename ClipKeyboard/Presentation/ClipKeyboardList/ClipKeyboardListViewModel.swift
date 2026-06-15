@@ -8,6 +8,7 @@ import LocalAuthentication
 import TipKit
 #if os(iOS)
 import UIKit
+import LeeoKit
 #endif
 
 // MARK: - BuiltInCategory
@@ -145,8 +146,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Search & Filter
 
     @Published var searchQueryString = ""
-    @Published var selectedTypeFilter: ClipboardItemType? = nil
-    @Published var selectedCategoryFilter: String? = nil
+    @Published var selectedTypeFilter: ClipboardItemType?
+    @Published var selectedCategoryFilter: String?
     @Published var showFavoritesFilter: Bool = false
 
     // MARK: - Reorder (수동 순서 바꾸기)
@@ -162,12 +163,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// 사용자가 수동 순서를 한 번이라도 지정했는지. true면 sortMemos가 수동 순서를 따른다
     /// (즐겨찾기 맨 위 고정 해제 — 사용자가 둔 순서 그대로).
     private var manualOrderActive: Bool {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.bool(forKey: manualOrderActiveKey) ?? false
+        UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: manualOrderActiveKey) ?? false
     }
 
     /// 저장된 수동 순서(메모 id 배열).
     private var manualOrder: [UUID] {
-        let raw = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.stringArray(forKey: manualOrderKey) ?? []
+        let raw = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: manualOrderKey) ?? []
         return raw.compactMap { UUID(uuidString: $0) }
     }
 
@@ -186,7 +187,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// reorderList 순서를 디스크/UserDefaults에 영구 저장. 이후 sortMemos가 이 순서를 따른다.
     func commitReorder() {
         guard !reorderList.isEmpty else { return }
-        let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let ud = UserDefaults(suiteName: AppGroup.identifier)
         ud?.set(reorderList.map { $0.id.uuidString }, forKey: manualOrderKey)
         ud?.set(true, forKey: manualOrderActiveKey)
         loadedData = reorderList
@@ -367,7 +368,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func loadCustomCategories() {
-        let ud = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        let ud = UserDefaults(suiteName: AppGroup.identifier)
         // 카테고리는 기본 제공하지 않음 — 사용자가 직접 만든 목록만 로드.
         customCategories = ud?.stringArray(forKey: "userDefinedCategories_v1") ?? []
         let hidden = ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
@@ -382,7 +383,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func saveCustomCategories() {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        UserDefaults(suiteName: AppGroup.identifier)?
             .set(customCategories, forKey: "userDefinedCategories_v1")
     }
 
@@ -397,7 +398,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 selectedCategoryTab = .basic
             }
         }
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        UserDefaults(suiteName: AppGroup.identifier)?
             .set(Array(hiddenCategoryTabs), forKey: "hiddenCategoryTabs_v1")
     }
 
@@ -427,18 +428,18 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     @Published var showTemplateInputSheet: Bool = false
     @Published var showPlaceholderManagementSheet: Bool = false
-    @Published var selectedTemplateIdForSheet: UUID? = nil
-    @Published var selectedComboIdForSheet: UUID? = nil
+    @Published var selectedTemplateIdForSheet: UUID?
+    @Published var selectedComboIdForSheet: UUID?
     @Published var showAuthAlert: Bool = false
 
     // MARK: - Template Input
 
     @Published var templatePlaceholders: [String] = []
     @Published var templateInputs: [String: String] = [:]
-    @Published var currentTemplateMemo: Memo? = nil
+    @Published var currentTemplateMemo: Memo?
     /// v4.0.8: attachedTemplate 흐름에서 본 메모 (계좌번호 등). nil이면 일반 템플릿 흐름.
     /// 본 메모 + 입력값 치환된 템플릿을 줄바꿈으로 결합해 출력.
-    @Published var attachedTemplateBaseMemo: Memo? = nil
+    @Published var attachedTemplateBaseMemo: Memo?
 
     // MARK: - Toast
 
@@ -487,7 +488,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func onSceneResume() {
         checkFreshClipboard()
-        let newCount = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.integer(forKey: "keyboard_paste_count") ?? 0
+        let newCount = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: "keyboard_paste_count") ?? 0
         if lastKnownPasteCount == 0 && newCount > 0 {
             showActivationCard = false
             showCelebrationToast()
@@ -511,7 +512,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Activation Card
 
     private func checkActivationCard() {
-        let pasted = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.integer(forKey: "keyboard_paste_count") ?? 0
+        let pasted = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: "keyboard_paste_count") ?? 0
         lastKnownPasteCount = pasted
         guard pasted == 0 else {
             showActivationCard = false
@@ -624,7 +625,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     private func diagnoseMemoStorage() {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             print("🔴 [diagnosis] App Group 컨테이너를 찾을 수 없음")
             return

@@ -15,16 +15,16 @@ struct PaywallView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject private var store = StoreManager.shared
-    
+
     /// 어떤 제한 때문에 보여주는지 (nil이면 일반 업그레이드)
     var triggeredBy: ProFeatureManager.LimitType?
-    
+
     @State private var showSuccessAnimation = false
     /// trial 상태가 바뀌었음을 알려 view를 다시 그리게 하는 tick (ProFeatureManager가 struct라 직접 observe 불가)
     @State private var trialTick: Int = 0
     /// 전환 완료 여부 — 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
     @State private var didConvert = false
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -79,9 +79,9 @@ struct PaywallView: View {
             }
         }
     }
-    
+
     // MARK: - Header
-    
+
     private var headerSection: some View {
         VStack(spacing: 12) {
             Image(systemName: "crown.fill")
@@ -160,14 +160,14 @@ struct PaywallView: View {
         let minutes = Int(seconds / 60)
         return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), minutes)
     }
-    
+
     // MARK: - Limit Banner
-    
+
     private func limitBanner(_ limit: ProFeatureManager.LimitType) -> some View {
         HStack(spacing: 12) {
             Image(systemName: "info.circle.fill")
                 .foregroundStyle(.orange)
-            
+
             Text(limit.localizedDescription)
                 .font(.body)
                 .multilineTextAlignment(.leading)
@@ -177,9 +177,9 @@ struct PaywallView: View {
         .background(.orange.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
     }
-    
+
     // MARK: - Feature Comparison
-    
+
     private var featureComparison: some View {
         VStack(spacing: 0) {
             // 헤더
@@ -188,12 +188,12 @@ struct PaywallView: View {
                     .font(.body)
                     .fontWeight(.medium)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                
+
                 Text(NSLocalizedString("무료", comment: "Free"))
                     .font(.body)
                     .fontWeight(.medium)
                     .frame(width: 60)
-                
+
                 Text("Pro")
                     .font(.body)
                     .fontWeight(.bold)
@@ -203,7 +203,7 @@ struct PaywallView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
             .background(theme.surfaceAlt)
-            
+
             // 행들
             featureRow(NSLocalizedString("키보드에서 보이는 메모", comment: "Keyboard visible memos feature row"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), 10),
@@ -212,19 +212,19 @@ struct PaywallView: View {
             featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
-            
+
             featureRow(NSLocalizedString("콤보", comment: "Combo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeComboLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
-            
+
             featureRow(NSLocalizedString("템플릿", comment: "Template"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeTemplateLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
-            
+
             featureRow(NSLocalizedString("클립보드 기록", comment: "Clipboard"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeClipboardHistoryLimit),
                        pro: String(format: NSLocalizedString("%d개", comment: "count unit"), 100))
-            
+
             featureRow(NSLocalizedString("iCloud 백업", comment: "iCloud"),
                        free: "—", pro: "✓", isProOnly: true)
 
@@ -241,7 +241,7 @@ struct PaywallView: View {
                 .stroke(theme.surfaceAlt, lineWidth: 1)
         )
     }
-    
+
     private func featureRow(_ name: String, free: String, pro: String, isProOnly: Bool = false) -> some View {
         let freeLabel = free == "—"
             ? NSLocalizedString("미포함", comment: "Feature not included")
@@ -274,9 +274,9 @@ struct PaywallView: View {
                    name, freeLabel, proLabel)
         )
     }
-    
+
     // MARK: - Purchase
-    
+
     private var purchaseSection: some View {
         VStack(spacing: 12) {
             if ProFeatureManager.hasPermanentPro {
@@ -412,16 +412,16 @@ struct PaywallView: View {
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
         .accessibilityElement(children: .combine)
     }
-    
+
     private var priceText: String {
         if let product = store.proProduct {
             return String(format: NSLocalizedString("Pro 업그레이드 — %@", comment: "Price"), product.displayPrice)
         }
         return NSLocalizedString("Pro 업그레이드", comment: "Upgrade")
     }
-    
+
     // MARK: - Footer
-    
+
     private var footerSection: some View {
         VStack(spacing: 4) {
             Text(NSLocalizedString("일회성 결제 · 구독 없음 · 환불 가능", comment: "Purchase info"))
@@ -430,9 +430,9 @@ struct PaywallView: View {
         }
         .padding(.bottom, 20)
     }
-    
+
     // MARK: - Success Overlay
-    
+
     private var successOverlay: some View {
         ZStack {
             Color.black.opacity(0.3)
@@ -470,7 +470,7 @@ struct PaywallView: View {
 struct PaywallModifier: ViewModifier {
     @Binding var isPresented: Bool
     var limitType: ProFeatureManager.LimitType?
-    
+
     func body(content: Content) -> some View {
         content
             .sheet(isPresented: $isPresented) {

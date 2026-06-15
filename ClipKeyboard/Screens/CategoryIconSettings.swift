@@ -7,19 +7,19 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 // MARK: - Storage
 
-private let kAppGroup = "group.com.Ysoup.TokenMemo"
 private let kIconsKey  = "userCategoryIcons_v1"
 private let kCatsKey   = "userDefinedCategories_v1"
 
 private func loadCustomIcons() -> [String: String] {
-    UserDefaults(suiteName: kAppGroup)?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
+    UserDefaults(suiteName: AppGroup.identifier)?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
 }
 
 private func saveCustomIcons(_ dict: [String: String]) {
-    UserDefaults(suiteName: kAppGroup)?.set(dict, forKey: kIconsKey)
+    UserDefaults(suiteName: AppGroup.identifier)?.set(dict, forKey: kIconsKey)
 }
 
 // MARK: - Symbol Catalog
@@ -71,18 +71,18 @@ let symbolCatalog: [SymbolSection] = [
     SymbolSection(id: "Security & Tech", symbols: [
         "lock.fill", "key.fill", "wifi", "iphone", "desktopcomputer",
         "gear", "qrcode", "shield.fill", "antenna.radiowaves.left.and.right"
-    ]),
+    ])
 ]
 
 // MARK: - Main View
 
 struct CategoryIconSettings: View {
     @State private var icons: [String: String] = loadCustomIcons()
-    @State private var pickingForCategory: String? = nil
+    @State private var pickingForCategory: String?
     @Environment(\.appTheme) private var theme
 
     private var categories: [String] {
-        UserDefaults(suiteName: kAppGroup)?.stringArray(forKey: kCatsKey) ?? []
+        UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: kCatsKey) ?? []
     }
 
     var body: some View {
@@ -247,7 +247,7 @@ func defaultColor(for category: String, in list: [String]) -> Color {
 /// 카테고리 심볼 — 사용자 지정(userCategoryIcons_v1) 우선, 없으면 기본 팔레트.
 /// 카드·메뉴·키보드 프리뷰가 모두 이 한 가지 규칙을 공유한다.
 func categorySymbol(for category: String, in list: [String]) -> String {
-    if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+    if let custom = UserDefaults(suiteName: AppGroup.identifier)?
         .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
        let symbol = custom[category] {
         return symbol
@@ -257,7 +257,7 @@ func categorySymbol(for category: String, in list: [String]) -> String {
 
 /// 카테고리 색 — 사용자 지정(userCategoryColors_v1) 우선, 없으면 기본 팔레트.
 func categoryTint(for category: String, in list: [String]) -> Color {
-    if let custom = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+    if let custom = UserDefaults(suiteName: AppGroup.identifier)?
         .dictionary(forKey: "userCategoryColors_v1") as? [String: String],
        let hex = custom[category], let c = Color(hex: hex) {
         return c

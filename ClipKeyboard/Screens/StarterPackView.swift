@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 /// 스타터팩에 담길 한 항목 (활용 시나리오 1개).
 struct StarterPackItem: Identifiable {

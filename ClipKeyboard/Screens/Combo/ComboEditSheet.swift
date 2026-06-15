@@ -17,7 +17,7 @@ struct ComboPreviewSheet: View {
     let onDismiss: () -> Void
     @Environment(\.appTheme) private var theme
 
-    @State private var loadedMemo: Memo? = nil
+    @State private var loadedMemo: Memo?
 
     var body: some View {
         Group {

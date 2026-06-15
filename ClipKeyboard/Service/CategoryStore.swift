@@ -20,7 +20,6 @@ import Combine
 final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
 
-    private let appGroup = "group.com.Ysoup.TokenMemo"
     /// 단일 진실 공급원 — 키보드 리스트 페이지 탭(ClipKeyboardListViewModel)·아이콘/레이아웃
     /// 설정과 동일한 키. CategorySettings(이 store 사용)와 키보드 페이지가 같은 목록을 본다.
     private let storageKey = "userDefinedCategories_v1"
@@ -54,7 +53,7 @@ final class CategoryStore: ObservableObject {
     // MARK: - 기본 제공 카테고리 (타입별 모아보기)
 
     private func loadBuiltInState() {
-        enabledBuiltIns = Set(UserDefaults(suiteName: appGroup)?.stringArray(forKey: enabledBuiltInKey) ?? [])
+        enabledBuiltIns = Set(UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: enabledBuiltInKey) ?? [])
     }
 
     /// 해당 기본 제공 카테고리가 켜져 있는지.
@@ -65,7 +64,7 @@ final class CategoryStore: ObservableObject {
     /// 기본 제공 카테고리 켜기/끄기. App Group에 영구 저장 → 리스트 탭에 즉시 반영.
     func setBuiltInEnabled(_ rawValue: String, _ enabled: Bool) {
         if enabled { enabledBuiltIns.insert(rawValue) } else { enabledBuiltIns.remove(rawValue) }
-        UserDefaults(suiteName: appGroup)?.set(Array(enabledBuiltIns), forKey: enabledBuiltInKey)
+        UserDefaults(suiteName: AppGroup.identifier)?.set(Array(enabledBuiltIns), forKey: enabledBuiltInKey)
         print("\(enabled ? "✅" : "🚫") [CategoryStore] 기본 제공 카테고리 '\(rawValue)' \(enabled ? "켜짐" : "꺼짐")")
     }
 
@@ -73,7 +72,7 @@ final class CategoryStore: ObservableObject {
 
     /// 카테고리 기능 켜기. 메인 화면 탭/메모 추가 picker 노출.
     func enableFeature() {
-        UserDefaults(suiteName: appGroup)?.set(true, forKey: featureEnabledKey)
+        UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: featureEnabledKey)
         isFeatureEnabled = true
         print("✅ [CategoryStore] 카테고리 기능 활성화")
     }
@@ -81,14 +80,14 @@ final class CategoryStore: ObservableObject {
     /// 사용자가 "안 쓸래요" 선택 — 배너 영구 닫기. 추후 카테고리 관리 페이지에서
     /// 수동으로 다시 켤 수 있음.
     func dismissActivationBanner() {
-        UserDefaults(suiteName: appGroup)?.set(true, forKey: activationDismissedKey)
+        UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: activationDismissedKey)
         print("🙈 [CategoryStore] 활성화 배너 영구 닫힘")
     }
 
     /// 활성화 배너를 보여줄지 — 미활성 + 미dismiss + 메모 5개 이상일 때 true.
     func shouldShowActivationBanner(currentMemoCount: Int) -> Bool {
         guard !isFeatureEnabled else { return false }
-        let defaults = UserDefaults(suiteName: appGroup)
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
         if defaults?.bool(forKey: activationDismissedKey) == true { return false }
         return currentMemoCount >= 5
     }
@@ -96,7 +95,7 @@ final class CategoryStore: ObservableObject {
     /// 첫 실행 시 마이그레이션 — 기존 사용자(메모 중 category가 "기본"이 아닌 것이
     /// 1개라도 있으면 카테고리를 이미 쓰고 있던 것)는 자동 활성. 신규 설치는 OFF.
     func migrateFeatureEnabledIfNeeded(existingMemoCategories: [String]) {
-        let defaults = UserDefaults(suiteName: appGroup)
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
         guard defaults?.bool(forKey: featureMigratedKey) != true else { return }
         let hasNonDefault = existingMemoCategories.contains { $0 != "기본" && !$0.isEmpty }
         if hasNonDefault {
@@ -108,7 +107,7 @@ final class CategoryStore: ObservableObject {
     }
 
     private func loadFeatureEnabledState() {
-        isFeatureEnabled = UserDefaults(suiteName: appGroup)?.bool(forKey: featureEnabledKey) ?? false
+        isFeatureEnabled = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: featureEnabledKey) ?? false
     }
 
     // MARK: - Persona
@@ -116,7 +115,7 @@ final class CategoryStore: ObservableObject {
     /// 사용자가 온보딩에서 선택한 페르소나. nil이면 미선택.
     var selectedPersona: Persona? {
         get {
-            guard let raw = UserDefaults(suiteName: appGroup)?.string(forKey: personaKey) else {
+            guard let raw = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: personaKey) else {
                 return nil
             }
             return Persona(rawValue: raw)
@@ -126,7 +125,7 @@ final class CategoryStore: ObservableObject {
     /// 페르소나 선택을 저장한다. (카테고리는 기본 제공하지 않으므로 시드하지 않음 —
     /// 사용자가 직접 카테고리를 만들어 쓴다. persona 값은 제안/연습 등 다른 기능에서 사용.)
     func applyPersona(_ persona: Persona, language: String? = nil) {
-        UserDefaults(suiteName: appGroup)?.set(persona.rawValue, forKey: personaKey)
+        UserDefaults(suiteName: AppGroup.identifier)?.set(persona.rawValue, forKey: personaKey)
         print("👤 [CategoryStore] 페르소나 선택 저장: \(persona.rawValue)")
     }
 
@@ -190,13 +189,13 @@ final class CategoryStore: ObservableObject {
 
     /// 카테고리가 탭으로 표시되는지(숨김 집합에 없으면 표시).
     func isVisible(_ name: String) -> Bool {
-        let hidden = UserDefaults(suiteName: appGroup)?.stringArray(forKey: hiddenTabsKey) ?? []
+        let hidden = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: hiddenTabsKey) ?? []
         return !hidden.contains(name)
     }
 
     /// 카테고리 표시/숨김 설정.
     func setVisible(_ name: String, _ visible: Bool) {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         var hidden = Set(defaults.stringArray(forKey: hiddenTabsKey) ?? [])
         if visible { hidden.remove(name) } else { hidden.insert(name) }
         defaults.set(Array(hidden), forKey: hiddenTabsKey)
@@ -218,12 +217,12 @@ final class CategoryStore: ObservableObject {
 
     /// 사용자가 지정한 카테고리 색(hex). 미지정이면 nil.
     func colorHex(for name: String) -> String? {
-        (UserDefaults(suiteName: appGroup)?.dictionary(forKey: categoryColorsKey) as? [String: String])?[name]
+        (UserDefaults(suiteName: AppGroup.identifier)?.dictionary(forKey: categoryColorsKey) as? [String: String])?[name]
     }
 
     /// 카테고리 색 지정/해제. nil이면 기본 팔레트로 되돌린다.
     func setColorHex(_ hex: String?, for name: String) {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         var map = (defaults.dictionary(forKey: categoryColorsKey) as? [String: String]) ?? [:]
         if let hex { map[name] = hex } else { map.removeValue(forKey: name) }
         defaults.set(map, forKey: categoryColorsKey)
@@ -238,7 +237,7 @@ final class CategoryStore: ObservableObject {
     }
 
     private func load() {
-        guard let defaults = UserDefaults(suiteName: appGroup) else {
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else {
             categories = []
             return
         }
@@ -277,7 +276,7 @@ final class CategoryStore: ObservableObject {
     }
 
     private func persist() {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         defaults.set(categories, forKey: storageKey)
     }
 }

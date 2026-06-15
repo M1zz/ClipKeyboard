@@ -32,7 +32,7 @@ struct ClipboardClassificationSwiftTests {
         ("P123456789012", .declarationNumber),
         ("0x742d35Cc6634C0532925a3b844Bc454e4438f44e", .cryptoWallet),
         ("https://paypal.me/johndoe", .paypalLink),
-        ("M12345678", .passportNumber),
+        ("M12345678", .passportNumber)
     ])
     func classifiesToExpectedType(input: String, expected: ClipboardItemType) {
         let result = sut.classify(content: input)

@@ -19,7 +19,7 @@ struct ImageMemoButton: View {
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
 
-    @State private var image: UIImage? = nil
+    @State private var image: UIImage?
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -59,7 +59,6 @@ struct ImageMemoButton: View {
         }
     }
 }
-
 
 #Preview {
     KeyboardView()
@@ -293,7 +292,7 @@ struct PlaceholderInputView: View {
         VStack(spacing: 8) {
             // 전체 너비: [1][2][3][4][5][6][7][8][9][⌫]
             HStack(spacing: 6) {
-                ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { digit in
+                ForEach(["1", "2", "3", "4", "5", "6", "7", "8", "9"], id: \.self) { digit in
                     numericScrollKey(digit)
                 }
                 numericScrollBackspace
@@ -428,4 +427,3 @@ struct DisplayItem: Identifiable {
     let useTemplate: Bool
     var id: String { "\(memo.id.uuidString)-\(useTemplate ? "t" : "n")" }
 }
-

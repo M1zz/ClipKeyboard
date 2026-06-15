@@ -29,7 +29,7 @@ class MemoStore: ObservableObject {
 
     private static func fileURL(type: MemoType) throws -> URL? {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             return URL(string: "")
         }
@@ -109,7 +109,7 @@ class MemoStore: ObservableObject {
     private static let categorySidecarKey = "memoCategoryAssignments_v1"
     private static let defaultCategoryName = "기본"
     private static var sidecarDefaults: UserDefaults? {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        UserDefaults(suiteName: AppGroup.identifier)
     }
 
     /// 현재 메모들의 '비기본' 카테고리 할당을 사이드카에 통째로 덮어써 항상 최신 상태로 유지.
@@ -285,7 +285,7 @@ class MemoStore: ObservableObject {
     #if os(iOS)
     func saveImage(_ image: UIImage, fileName: String) throws {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
         }
@@ -303,7 +303,7 @@ class MemoStore: ObservableObject {
 
     func loadImage(fileName: String) -> UIImage? {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else { return nil }
 
         let fileURL = containerURL.appendingPathComponent("Images").appendingPathComponent(fileName)
@@ -313,7 +313,7 @@ class MemoStore: ObservableObject {
 
     func deleteImage(fileName: String) throws {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
         }
@@ -329,7 +329,7 @@ class MemoStore: ObservableObject {
 
     func loadPlaceholderValues(for placeholder: String) -> [PlaceholderValue] {
         let key = "placeholder_values_\(placeholder)"
-        guard let data = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.data(forKey: key) else {
+        guard let data = UserDefaults(suiteName: AppGroup.identifier)?.data(forKey: key) else {
             return []
         }
         return (try? JSONDecoder().decode([PlaceholderValue].self, from: data)) ?? []
@@ -338,8 +338,8 @@ class MemoStore: ObservableObject {
     func savePlaceholderValues(_ values: [PlaceholderValue], for placeholder: String) {
         let key = "placeholder_values_\(placeholder)"
         guard let data = try? JSONEncoder().encode(values) else { return }
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.set(data, forKey: key)
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.synchronize()
+        UserDefaults(suiteName: AppGroup.identifier)?.set(data, forKey: key)
+        UserDefaults(suiteName: AppGroup.identifier)?.synchronize()
     }
 
     func addPlaceholderValue(_ value: String, for placeholder: String, sourceMemoId: UUID, sourceMemoTitle: String) {
@@ -479,7 +479,7 @@ class MemoStore: ObservableObject {
     static let memoHistoryLimit = 10
 
     private static func historyFileURL() -> URL? {
-        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo")?
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?
             .appendingPathComponent("memo.history.data")
     }
 
@@ -568,7 +568,6 @@ struct MemoSnapshot: Codable, Identifiable {
 /// 메모 사용 시점에 `recordMemoUse(value:)` 호출. 키보드 익스텐션과 메인 앱 모두
 /// `MemoStore.incrementClipCount`를 거치므로 양쪽에서 일관되게 집계된다.
 enum KeyboardUsageTracker {
-    private static let appGroup = "group.com.Ysoup.TokenMemo"
     private static let timeSavedKey = "kb.timeSaved.totalSeconds"
     private static let dailyKeyPrefix = "kb.usage.daily."
 
@@ -579,7 +578,7 @@ enum KeyboardUsageTracker {
 
     /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp).
     static func recordMemoUse(value: String) {
-        guard let defaults = UserDefaults(suiteName: appGroup) else { return }
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
         let key = dailyKey(for: Date())
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
@@ -589,12 +588,12 @@ enum KeyboardUsageTracker {
 
     /// 특정 날짜의 사용 횟수 (기본: 오늘)
     static func dailyUsageCount(for date: Date = Date()) -> Int {
-        UserDefaults(suiteName: appGroup)?.integer(forKey: dailyKey(for: date)) ?? 0
+        UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: dailyKey(for: date)) ?? 0
     }
 
     /// 평생 누적 절약 시간 (초)
     static func totalTimeSavedSeconds() -> Double {
-        UserDefaults(suiteName: appGroup)?.double(forKey: timeSavedKey) ?? 0
+        UserDefaults(suiteName: AppGroup.identifier)?.double(forKey: timeSavedKey) ?? 0
     }
 
     private static func dailyKey(for date: Date) -> String {

@@ -40,7 +40,7 @@ struct QuickPattern: Identifiable {
         QuickPattern(icon: "wifi", title: "와이파이",
                      scaffold: "네트워크: \n비밀번호: "),
         QuickPattern(icon: "text.bubble.fill", title: "자기소개",
-                     scaffold: "안녕하세요, {이름}입니다.\n{소속/직함}\n연락처: {연락처}"),
+                     scaffold: "안녕하세요, {이름}입니다.\n{소속/직함}\n연락처: {연락처}")
     ]
 
     private static let english: [QuickPattern] = [
@@ -55,7 +55,7 @@ struct QuickPattern: Identifiable {
         QuickPattern(icon: "wifi", title: "Wi-Fi",
                      scaffold: "Network: \nPassword: "),
         QuickPattern(icon: "text.bubble.fill", title: "Intro",
-                     scaffold: "Hi, I'm {name}.\n{role / company}\nContact: {contact}"),
+                     scaffold: "Hi, I'm {name}.\n{role / company}\nContact: {contact}")
     ]
 
     private static let indonesian: [QuickPattern] = [
@@ -70,6 +70,6 @@ struct QuickPattern: Identifiable {
         QuickPattern(icon: "wifi", title: "Wi-Fi",
                      scaffold: "Jaringan: \nKata sandi: "),
         QuickPattern(icon: "text.bubble.fill", title: "Perkenalan",
-                     scaffold: "Halo, saya {nama}.\n{jabatan / perusahaan}\nKontak: {kontak}"),
+                     scaffold: "Halo, saya {nama}.\n{jabatan / perusahaan}\nKontak: {kontak}")
     ]
 }

@@ -118,7 +118,7 @@ struct TemplateVariableProcessorSwiftTests {
         ("{Price}", true),       // 대소문자 무시
         ("{이름}", false),
         ("{메모}", false),
-        ("{주소}", false),
+        ("{주소}", false)
     ])
     func numericTokenDetection(token: String, expected: Bool) {
         #expect(TemplateVariableProcessor.isNumericToken(token) == expected)

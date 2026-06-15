@@ -7,6 +7,7 @@
 
 import SwiftUI
 import TipKit
+import LeeoKit
 
 // MARK: - Template Input Sheet
 
@@ -218,9 +219,9 @@ struct TemplatePlaceholderRow: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var values: [PlaceholderValue] = []
-    @State private var showDeleteConfirm: PlaceholderValue? = nil
+    @State private var showDeleteConfirm: PlaceholderValue?
     @State private var showDeleteAlert: Bool = false
-    @State private var editingValue: PlaceholderValue? = nil
+    @State private var editingValue: PlaceholderValue?
     @State private var showEditAlert: Bool = false
     @State private var editText: String = ""
     @State private var isExpanded: Bool = false
@@ -378,7 +379,7 @@ struct TemplateSheetResolver: View {
     let onCancel: () -> Void
 
     @Environment(\.appTheme) private var theme
-    @State private var loadedMemo: Memo? = nil
+    @State private var loadedMemo: Memo?
     @State private var isLoading: Bool = false
 
     var body: some View {
@@ -666,7 +667,6 @@ struct TemplateFillSheet: View {
         }
     }
 
-
     // MARK: - Save entered values to history
 
     private func saveEnteredValues() {
@@ -717,7 +717,7 @@ private struct TemplateFillRow: View {
         VStack(spacing: 8) {
             // 입력값은 상단 "입력될 결과" 프리뷰에 실시간 반영되므로 여기서 다시 표시하지 않는다(중복 제거).
             HStack(spacing: 6) {
-                ForEach(["1","2","3","4","5","6","7","8","9"], id: \.self) { d in numericKey(d) }
+                ForEach(["1", "2", "3", "4", "5", "6", "7", "8", "9"], id: \.self) { d in numericKey(d) }
                 Button {
                     if !value.isEmpty { value.removeLast() }
                     HapticManager.shared.selection()
@@ -732,7 +732,7 @@ private struct TemplateFillRow: View {
             }
             HStack(spacing: 6) {
                 numericKey("0")
-                ForEach(["00","000","0000"], id: \.self) { z in numericKey(z) }
+                ForEach(["00", "000", "0000"], id: \.self) { z in numericKey(z) }
             }
             savedChips
         }

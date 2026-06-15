@@ -9,7 +9,7 @@ import SwiftUI
 import StoreKit
 
 struct SettingView: View {
-    
+
     @Environment(\.requestReview) var requestReview
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
@@ -18,7 +18,7 @@ struct SettingView: View {
     @State private var securePINSet = false
 
     private func refreshSecurePINState() {
-        let hash = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: "keyboard_secure_pin_hash") ?? ""
         securePINSet = !hash.isEmpty
     }
 
@@ -319,13 +319,14 @@ struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
     /// 메모 구분 표시 마스터 토글 — 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var visible: Bool = false
     /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 카드 내용 힌트 — 제목 아래 내용이 살며시 나타났다 사라지는 미리보기.
-    @AppStorage("contentHintEnabled") private var contentHintEnabled: Bool = true
-    @AppStorage("contentHintPace") private var contentHintPace: String = ContentHintPace.normal.rawValue
+    /// 카드 내용 힌트 — 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
+    /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
+    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
+    private var contentHintEnabled: Bool = true
 
     var body: some View {
         List {
@@ -372,24 +373,15 @@ struct DisplaySettingsView: View {
                     .font(.body)
             }
 
-            // 메모 내용 힌트 (제목 아래 살며시 나타나는 미리보기)
+            // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)
             Section {
                 Toggle(isOn: $contentHintEnabled) {
                     Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: "sparkles")
                 }
-                Picker(selection: $contentHintPace) {
-                    ForEach(ContentHintPace.allCases, id: \.rawValue) { pace in
-                        Text(pace.localizedName).tag(pace.rawValue)
-                    }
-                } label: {
-                    Label(NSLocalizedString("등장 빈도", comment: "Content hint pace"), systemImage: "timer")
-                }
-                .pickerStyle(.segmented)
-                .disabled(!contentHintEnabled)
             } header: {
                 Text(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"))
             } footer: {
-                Text(NSLocalizedString("메모 제목 아래에 내용이 이따금 살며시 나타났다 사라져요. 빈도를 고르거나 끌 수 있어요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
+                Text(NSLocalizedString("메모 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
                     .font(.body)
             }
         }
@@ -445,7 +437,7 @@ struct DisplaySettingsView: View {
 struct MemoHistoryView: View {
     @Environment(\.appTheme) private var theme
     @State private var snapshots: [MemoSnapshot] = []
-    @State private var pendingRestore: MemoSnapshot? = nil
+    @State private var pendingRestore: MemoSnapshot?
     @State private var showRestoredToast = false
 
     private var dateFormatter: DateFormatter {
@@ -811,13 +803,13 @@ struct ReviewWriteView: View {
 }
 
 struct TutorialView: View {
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     var body: some View {
         VStack {
             Button("Open Web Page") {
-                
+
             }
             .onAppear(perform: {
                 dismiss()
@@ -832,6 +824,7 @@ struct TutorialView: View {
 
 #if canImport(MessageUI)
 import MessageUI
+import LeeoKit
 
 class EmailController: NSObject, MFMailComposeViewControllerDelegate {
     public static let shared = EmailController()

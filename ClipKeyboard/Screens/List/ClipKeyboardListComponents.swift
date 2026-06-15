@@ -9,6 +9,7 @@
 import SwiftUI
 import TipKit
 import LocalAuthentication
+import LeeoKit
 
 // MARK: - Pro Value Nudge Banner
 
@@ -131,16 +132,16 @@ struct MemoActionSheet: View {
     let onEdit: () -> Void
     let onDelete: () -> Void
     /// 메모를 다른 카테고리로 이동. nil이면 이동 행을 표시하지 않는다.
-    var onMoveToCategory: ((String) -> Void)? = nil
+    var onMoveToCategory: ((String) -> Void)?
     /// "새 카테고리에 추가" — 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
-    var onCreateNewCategory: (() -> Void)? = nil
+    var onCreateNewCategory: (() -> Void)?
     /// "순서 바꾸기" — 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
-    var onReorder: (() -> Void)? = nil
+    var onReorder: (() -> Void)?
     /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
-    var onMakeTemplate: (() -> Void)? = nil
+    var onMakeTemplate: (() -> Void)?
     /// "보안 메모로 설정 / 보안 해제" — 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
-    var onToggleSecure: (() -> Void)? = nil
+    var onToggleSecure: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
@@ -427,7 +428,7 @@ struct SwipePageIndicator: View {
 /// 이미지 메모용 배경 뷰 — 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
 struct MemoImageBackground: View {
     let fileName: String
-    @State private var image: UIImage? = nil
+    @State private var image: UIImage?
 
     var body: some View {
         ZStack {
@@ -448,7 +449,7 @@ struct MemoImageBackground: View {
             DispatchQueue.global(qos: .userInitiated).async {
                 // 파일 경로 확인
                 let containerURL = FileManager.default.containerURL(
-                    forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+                    forSecurityApplicationGroupIdentifier: AppGroup.identifier
                 )
                 let filePath = containerURL?.appendingPathComponent("Images").appendingPathComponent(fileName).path ?? "nil"
                 let exists = FileManager.default.fileExists(atPath: filePath)
@@ -459,197 +460,6 @@ struct MemoImageBackground: View {
                 DispatchQueue.main.async { image = loaded }
             }
         }
-    }
-}
-
-// MARK: - Activation Card (첫 붙여넣기 유도)
-
-struct ActivationCard: View {
-    let onPractice: () -> Void
-    let onSnooze: () -> Void
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Text("⌨️")
-                    .font(.title3)
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("이제 다른 앱에서 써보세요", comment: "Activation card title"))
-                        .font(.body)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.text)
-                    Text(NSLocalizedString("아무 텍스트 필드 탭 → 🌐 눌러 전환 → 메모 탭", comment: "Activation card hint"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-                Spacer()
-            }
-
-            HStack(spacing: 10) {
-                Button(action: onPractice) {
-                    Text(NSLocalizedString("지금 연습하기", comment: "Activation card: start practice button"))
-                        .font(.body)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 9)
-                        .background(Color.accentColor)
-                        .cornerRadius(theme.radiusSm)
-                }
-
-                Button(action: onSnooze) {
-                    Text(NSLocalizedString("나중에", comment: "Activation card: snooze button"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 9)
-                        .background(theme.surfaceAlt)
-                        .cornerRadius(theme.radiusSm)
-                }
-            }
-        }
-        .padding(14)
-        .background(theme.surface)
-        .cornerRadius(theme.radiusMd)
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.accentColor.opacity(0.2), lineWidth: 1)
-        )
-        .padding(.horizontal, 16)
-        .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Template Hint Banner
-
-struct TemplateHintBanner: View {
-    let onDismiss: () -> Void
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Image(systemName: "doc.text.fill")
-                    .foregroundColor(.purple)
-                    .font(.body)
-                Text(NSLocalizedString("💡 템플릿으로 반복 입력을 자동화해보세요", comment: "Template hint banner title"))
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.text)
-                Spacer()
-                Button(action: onDismiss) {
-                    Image(systemName: "xmark")
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .padding(6)
-                        .background(theme.surfaceAlt)
-                        .clipShape(Circle())
-                }
-                .accessibilityLabel(NSLocalizedString("템플릿 힌트 닫기", comment: "Dismiss template hint banner"))
-            }
-
-            Text(NSLocalizedString("{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.", comment: "Template hint description"))
-                .font(.body)
-                .foregroundColor(theme.textMuted)
-
-            NavigationLink {
-                MemoAdd(insertedIsTemplate: true)
-            } label: {
-                Text(NSLocalizedString("첫 템플릿 만들기", comment: "Template hint CTA button"))
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 9)
-                    .background(Color.purple)
-                    .cornerRadius(theme.radiusSm)
-            }
-            .buttonStyle(.plain)
-            .simultaneousGesture(TapGesture().onEnded {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { onDismiss() }
-            })
-        }
-        .padding(14)
-        .background(theme.surface)
-        .cornerRadius(theme.radiusMd)
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.purple.opacity(0.2), lineWidth: 1)
-        )
-        .padding(.horizontal, 16)
-        .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Occasional Suggestion Banner
-
-struct OccasionalSuggestionBanner: View {
-    let suggestion: SuggestionTemplate
-    let onDismiss: () -> Void
-    let onAdd: () -> Void
-
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Image(systemName: "lightbulb.fill")
-                    .foregroundColor(.yellow)
-                    .font(.body)
-                Text(NSLocalizedString("이런 것도 써보실래요?", comment: "Occasional suggestion banner title"))
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .foregroundColor(theme.text)
-                Spacer()
-                Button(action: onDismiss) {
-                    Image(systemName: "xmark")
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .padding(6)
-                        .background(theme.surfaceAlt)
-                        .clipShape(Circle())
-                }
-                .accessibilityLabel(NSLocalizedString("제안 닫기", comment: "Dismiss suggestion banner"))
-            }
-
-            HStack(spacing: 10) {
-                Text(suggestion.emoji)
-                    .font(.title2)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(suggestion.title)
-                        .font(.body)
-                        .fontWeight(.medium)
-                        .foregroundColor(theme.text)
-                    Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .lineLimit(3)
-                }
-                Spacer()
-            }
-
-            Button(action: onAdd) {
-                Text(NSLocalizedString("지금 추가하기", comment: "Accept suggestion button"))
-                    .font(.body)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(theme.accent)
-                    .cornerRadius(theme.radiusSm)
-            }
-        }
-        .padding(14)
-        .background(theme.surface)
-        .cornerRadius(theme.radiusMd)
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
-        )
-        .padding(.horizontal, 16)
-        .padding(.vertical, 4)
     }
 }
 
@@ -938,7 +748,6 @@ struct SheetModifiers: ViewModifier {
     }
 }
 
-
 // MARK: - Category Management Sheet
 
 struct CategoryManagementSheet: View {
@@ -1053,50 +862,17 @@ struct CategoryManagementSheet: View {
 
 // MARK: - Content Hint (카드 속 은은한 내용 힌트)
 
-/// 메모 카드 제목 아래의 내용 힌트 — 움직임 없이 제자리에서 블러가 걷히며 살며시
-/// 맺혔다가(materialize), 잠시 머문 뒤 흩어지듯 사라진다(dissolve). iOS 알림 텍스트처럼
-/// 절제된 등장/퇴장만 쓰고 대부분의 시간은 빈 공간 — 카드의 심플함을 해치지 않는다.
-/// 카드(seed)마다 주기·위상이 달라 화면 전체가 동시에 깜빡이지 않는다.
-/// 내용 힌트의 등장 빈도 — 설정에서 선택. 주기(휴식 포함)가 달라진다.
-enum ContentHintPace: String, CaseIterable {
-    case relaxed   // 여유롭게 — 가장 뜸하게
-    case normal    // 보통 (기본)
-    case frequent  // 자주
-
-    /// 기본 주기(초). 시드별 jitter가 더해져 카드마다 조금씩 다르다.
-    var basePeriod: Double {
-        switch self {
-        case .relaxed:  return 38
-        case .normal:   return 24
-        case .frequent: return 14
-        }
-    }
-
-    var periodJitter: Double {
-        switch self {
-        case .relaxed:  return 10
-        case .normal:   return 7
-        case .frequent: return 5
-        }
-    }
-
-    var localizedName: String {
-        switch self {
-        case .relaxed:  return NSLocalizedString("여유롭게", comment: "Hint pace: relaxed")
-        case .normal:   return NSLocalizedString("보통", comment: "Medium")
-        case .frequent: return NSLocalizedString("자주", comment: "Hint pace: frequent")
-        }
-    }
-}
-
+/// 메모 카드 제목 아래의 내용 힌트 — 카드가 화면에 나타나고 2초쯤 머물면 그제야
+/// 블러가 걷히며 살며시 맺혔다가(materialize), 잠시 머문 뒤 흩어지듯 사라진다(dissolve).
+/// 사라진 뒤에도 4~10초 쉬었다가 다시 맺힌다 — 앱을 켜둔 동안 주기적으로 반복.
+/// 카드(seed)마다 등장 시점·머무는 시간·휴식이 조금씩 달라 화면 전체가 동시에
+/// 깜빡이지 않고, 하나둘 차례로 맺혔다 제각각 흩어진다.
 struct ContentHintPreview: View {
     let text: String
-    /// 카드별 위상 시드(메모 id 해시) — 카드들이 제각각의 타이밍으로 숨쉰다.
+    /// 카드별 위상 시드(메모 id 해시) — 등장 지연·머묾 시간에 결정적 편차를 준다.
     let seed: Int
     /// 컬러 카드(이미지·카테고리색) 위인지 — 텍스트 색 결정.
     let onColor: Bool
-    /// 등장 빈도(설정에서 선택) — 주기를 결정한다.
-    let pace: ContentHintPace
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -1104,62 +880,72 @@ struct ContentHintPreview: View {
     /// .body 한 줄이 들어가는 높이.
     static let zoneHeight: CGFloat = 22
 
+    /// 최소 2초는 머문 뒤에야 맺히기 시작한다(바닥값) — 여기에 카드별 편차가 더해진다.
+    static let baseRevealDelay: Double = 2.0
+    /// 맺힘/흩어짐 전환 시간.
+    static let fadeDuration: Double = 0.9
+
+    /// 등장 지연 2.0~3.6s — 카드들이 하나둘 차례로 맺힌다.
+    private var revealDelay: Double { Self.baseRevealDelay + unit(0) * 1.6 }
+    /// 머묾 3.6~5.4s — 먼저 맺힌 힌트가 꼭 먼저 사라지진 않도록 제각각.
+    private var holdDuration: Double { 3.6 + unit(1) * 1.8 }
+    /// 흩어진 뒤 휴식 4~10s — 쉬었다가 다시 맺힌다(주기 반복).
+    private var restDuration: Double { 4.0 + unit(2) * 6.0 }
+
+    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) — 같은 카드는 항상 같은 리듬.
+    private func unit(_ salt: UInt64) -> Double {
+        var h = UInt64(bitPattern: Int64(seed)) &+ (salt &+ 1) &* 0x9E3779B97F4A7C15
+        h ^= h >> 33
+        h = h &* 0xFF51AFD7ED558CCD
+        h ^= h >> 33
+        return Double(h % 1024) / 1024.0
+    }
+
+    /// 빈 공간 → 맺힘 → (머묾) → 흩어짐 → 휴식 → 다시 맺힘… 의 반복.
+    private enum Stage {
+        case waiting    // 빈 공간 (첫 대기·휴식 구간 — 다음 맺힘은 3pt 아래에서 시작)
+        case shown      // 또렷하게 읽히는 구간
+        case gone       // 흩어지는 중 (살짝 떠오르며 블러 속으로)
+    }
+
+    @State private var stage: Stage = .waiting
+
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1.0 / 20.0)) { timeline in
-            let t = timeline.date.timeIntervalSinceReferenceDate
-            let hint = state(at: t)
-            Text(text)
-                .font(.body)
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .foregroundColor(onColor ? .white.opacity(0.85) : .secondary)
-                .opacity(hint.opacity)
-                .blur(radius: reduceMotion ? 0 : hint.blur)
-                .offset(y: reduceMotion ? 0 : hint.rise)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        Text(text)
+            .font(.body)
+            .lineLimit(1)
+            .truncationMode(.tail)
+            .foregroundColor(onColor ? .white.opacity(0.85) : .secondary)
+            .opacity(stage == .shown ? 1 : 0)
+            .blur(radius: reduceMotion || stage == .shown ? 0 : 4)
+            .offset(y: reduceMotion ? 0 : rise)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(height: Self.zoneHeight)
+            .allowsHitTesting(false)        // 탭은 카드로 통과
+            .accessibilityHidden(true)      // VoiceOver는 카드 라벨이 안내 (일시 표시 요소 제외)
+            .task {
+                // 카드가 화면을 벗어나면 task가 취소되고, 다시 나타나면 처음부터 시작된다.
+                stage = .waiting
+                do {
+                    try await Task.sleep(for: .seconds(revealDelay))
+                    while !Task.isCancelled {
+                        withAnimation(.easeInOut(duration: Self.fadeDuration)) { stage = .shown }
+                        try await Task.sleep(for: .seconds(Self.fadeDuration + holdDuration))
+                        withAnimation(.easeInOut(duration: Self.fadeDuration)) { stage = .gone }
+                        try await Task.sleep(for: .seconds(Self.fadeDuration))
+                        stage = .waiting   // 보이지 않는 동안 시작 위치로 (애니메이션 없음)
+                        try await Task.sleep(for: .seconds(restDuration))
+                    }
+                } catch { /* 화면 이탈로 취소 — 다음 등장 때 다시 */ }
+            }
+    }
+
+    /// 맺힘은 3pt 아래에서 자리로 떠오르고, 흩어짐은 2pt 위로 떠오르며 사라진다.
+    private var rise: CGFloat {
+        switch stage {
+        case .waiting: return 3
+        case .shown:   return 0
+        case .gone:    return -2
         }
-        .frame(height: Self.zoneHeight)
-        .allowsHitTesting(false)        // 탭은 카드로 통과
-        .accessibilityHidden(true)      // VoiceOver는 카드 라벨이 안내 (깜빡이는 요소 제외)
     }
-
-    // MARK: 등장/퇴장 곡선 (seed 기반 결정적)
-
-    private struct HintState {
-        var opacity: Double = 0
-        var blur: CGFloat = 0
-        var rise: CGFloat = 0
-    }
-
-    /// 주기(pace 기반) 중 앞 6초만 보인다: 맺힘 0.9s → 머묾 4.2s → 흩어짐 0.9s → 휴식.
-    private func state(at t: TimeInterval) -> HintState {
-        let s = Double(abs(seed))
-        let period = pace.basePeriod + s.truncatingRemainder(dividingBy: pace.periodJitter)
-        let phase = (t + s.truncatingRemainder(dividingBy: 97.0) * 0.73)
-            .truncatingRemainder(dividingBy: period)
-        let appear = 0.9, hold = 4.2, vanish = 0.9
-        guard phase < appear + hold + vanish else { return HintState() }     // 휴식(빈 공간)
-
-        var hint = HintState()
-        if phase < appear {
-            // 맺힘: 블러가 걷히며 3pt 아래에서 자리로 떠오른다.
-            let p = smoothstep(phase / appear)
-            hint.opacity = p
-            hint.blur = (1 - p) * 4
-            hint.rise = (1 - p) * 3
-        } else if phase < appear + hold {
-            // 머묾: 또렷하게 읽히는 구간.
-            hint.opacity = 1
-        } else {
-            // 흩어짐: 살짝 떠오르며 블러 속으로 사라진다.
-            let p = smoothstep((phase - appear - hold) / vanish)
-            hint.opacity = 1 - p
-            hint.blur = p * 4
-            hint.rise = -p * 2
-        }
-        return hint
-    }
-
-    /// easeInOut — 시작과 끝이 부드러운 S-curve.
-    private func smoothstep(_ p: Double) -> Double { p * p * (3 - 2 * p) }
 }

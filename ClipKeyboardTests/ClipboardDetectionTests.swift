@@ -35,7 +35,7 @@ final class ClipboardDetectionTests: XCTestCase {
         let invalidEmails = [
             "not an email",
             "@example.com",
-            "user@",
+            "user@"
         ]
 
         // When & Then

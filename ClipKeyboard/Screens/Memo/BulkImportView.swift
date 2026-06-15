@@ -43,7 +43,7 @@ struct BulkImportView: View {
     @State private var pasteText: String = ""
     @State private var splitMode: SplitMode = .auto
     @State private var drafts: [Draft] = []
-    @State private var savedCount: Int? = nil
+    @State private var savedCount: Int?
     @State private var showSaveError = false
 
     var body: some View {

@@ -21,7 +21,7 @@ struct PlaceholderSelectorView: View {
 
     @State private var values: [PlaceholderValue] = []
     @State private var newValue: String = ""
-    @State private var showDeleteConfirm: PlaceholderValue? = nil
+    @State private var showDeleteConfirm: PlaceholderValue?
     @State private var showDeleteAlert: Bool = false
 
     /// v4.0.8: 토큰명에 금액/amount/price 등이 있으면 numberPad

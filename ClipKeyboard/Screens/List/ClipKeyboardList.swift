@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 import TipKit
 import UniformTypeIdentifiers
+import LeeoKit
 
 var fontSize: CGFloat = 20
 
@@ -76,7 +77,7 @@ struct ClipKeyboardList: View {
 
     @State private var isSearchBarVisible = false
     @FocusState private var isSearchFieldFocused: Bool
-    @State private var memoToDelete: Memo? = nil
+    @State private var memoToDelete: Memo?
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     // 가치 순간 Pro 넛지 — 1회·닫기 가능 (페이월 노출률 향상)
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: "proValueNudgeDismissed_v1")
@@ -84,13 +85,13 @@ struct ClipKeyboardList: View {
     @State private var showBulkImport: Bool = false
     @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
-    @State private var occasionalSuggestion_: SuggestionTemplate? = nil
+    @State private var occasionalSuggestion_: SuggestionTemplate?
     @State private var navigateToOccasionalAdd: Bool = false
 
     // 메모 구분 표시 마스터 토글 — 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: "group.com.Ysoup.TokenMemo"))
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var showVisualCues: Bool = false
     @State private var showCategoryBadgeNudge: Bool = false
 
@@ -101,31 +102,31 @@ struct ClipKeyboardList: View {
     }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기·빈도 조절.
-    @AppStorage("contentHintEnabled") private var contentHintEnabled: Bool = true
-    @AppStorage("contentHintPace") private var contentHintPace: String = ContentHintPace.normal.rawValue
+    /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
+    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
+    private var contentHintEnabled: Bool = true
 
     // Category
     @State private var showCategoryManagement: Bool = false
     @State private var showAddCategoryAlert: Bool = false
     @State private var newCategoryName: String = ""
-    @State private var categoryToDelete: String? = nil
+    @State private var categoryToDelete: String?
     // 롱프레스 컨텍스트에서 즉석 카테고리 생성+배정
-    @State private var memoForCategoryAssign: Memo? = nil
+    @State private var memoForCategoryAssign: Memo?
     @State private var newCategoryForMemo: String = ""
     @State private var showNewCategoryForMemoAlert: Bool = false
 
     // 롱프레스 테두리 애니메이션 + 액션 메뉴
-    @State private var longPressActiveMemo: Memo? = nil
+    @State private var longPressActiveMemo: Memo?
     @State private var longPressProgress: CGFloat = 0
-    @State private var memoForActions: Memo? = nil
+    @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
 
     // 탭 누름 바운스 — 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
     @State private var bounceTriggers: [UUID: Int] = [:]
 
     // 순서 바꾸기(흔들기/드래그 재정렬)
-    @State private var draggingMemo: Memo? = nil
+    @State private var draggingMemo: Memo?
     @State private var wiggle: Bool = false
 
     // 즐겨찾기 탭 전용
@@ -136,8 +137,8 @@ struct ClipKeyboardList: View {
     @State private var showStarterPack: Bool = false
 
     // 고스트 메모 제안 — 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
-    @State private var ghostSuggestion: QuickPattern? = nil
-    @State private var ghostAddPattern: QuickPattern? = nil
+    @State private var ghostSuggestion: QuickPattern?
+    @State private var ghostAddPattern: QuickPattern?
     private let dismissedGhostPatternsKey = "dismissedGhostPatterns_v1"
 
     // Sheet modals for MemoAdd
@@ -145,9 +146,9 @@ struct ClipKeyboardList: View {
     @State private var addMemoSheetCategory: String = ""
     @State private var showAddTemplateSheet: Bool = false
     @State private var showAddComboSheet: Bool = false
-    @State private var memoToEdit: Memo? = nil
+    @State private var memoToEdit: Memo?
     /// "템플릿으로 만들기" 원본 메모 — 이 메모 내용으로 채운 별도 새 메모를 만든다(원본은 그대로).
-    @State private var makeTemplateSource: Memo? = nil
+    @State private var makeTemplateSource: Memo?
 
     // TipKit
     private let welcomeTip = WelcomeTip()
@@ -191,8 +192,12 @@ struct ClipKeyboardList: View {
     }
 
     /// 카드 어항 미리보기 텍스트 — 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
-    /// ⚠️ 보안 메모는 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
+    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선(보안 메모도 — 직접 쓴 한 줄이라 안전).
+    /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
     private func fishbowlText(memo: Memo) -> String? {
+        if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
+            return custom
+        }
         guard !memo.isSecure else { return nil }
         let text = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
         return text.isEmpty ? nil : text
@@ -917,16 +922,14 @@ struct ClipKeyboardList: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            // 제목 아래 내용 힌트 — 블러가 걷히며 살며시 맺혔다가 흩어지듯 사라진다.
-            // 설정(메모 표시)에서 켜기/끄기·빈도 조절. 켜져 있으면 카드 높이 균일성을
-            // 위해 영역은 항상 확보(보안 메모 등은 빈 공간), 꺼져 있으면 영역 자체가 없다.
+            // 제목 아래 내용 힌트 — 카드가 화면에 2초쯤 머물면 한 번 살며시 맺혔다가
+            // 흩어지듯 사라진다(이번 등장에서는 끝). 설정(메모 표시)에서 켜기/끄기.
+            // 켜져 있으면 카드 높이 균일성을 위해 영역은 항상 확보(보안 메모 등은
+            // 빈 공간), 꺼져 있으면 영역 자체가 없다.
             if contentHintEnabled {
                 Spacer(minLength: 8)
                 if let hint = fishbowlText(memo: memo) {
-                    ContentHintPreview(text: hint,
-                                       seed: memo.id.hashValue,
-                                       onColor: onColor,
-                                       pace: ContentHintPace(rawValue: contentHintPace) ?? .normal)
+                    ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
                 } else {
                     Color.clear.frame(height: ContentHintPreview.zoneHeight)
                 }
@@ -978,8 +981,8 @@ struct ClipKeyboardList: View {
 
     private func memoTypeIconName(memo: Memo) -> String {
         if memo.isTemplate { return "wand.and.sparkles" }
-        if memo.isCombo    { return "square.stack.3d.up.fill" }
-        if memo.isSecure   { return "lock.fill" }
+        if memo.isCombo { return "square.stack.3d.up.fill" }
+        if memo.isSecure { return "lock.fill" }
         if memo.contentType == .image || memo.contentType == .mixed { return "photo.fill" }
         return "doc.fill"
     }
@@ -1599,7 +1602,6 @@ struct ClipKeyboardList: View {
         }
     }
 
-
     /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
     private func emptyStateWithAddCard(icon: String, message: String, tab: CategoryTab) -> some View {
         ZStack(alignment: .center) {
@@ -1865,7 +1867,7 @@ struct ClipKeyboardList: View {
                 }
 
                 #if os(iOS)
-                if (memo.contentType == .image || memo.contentType == .mixed),
+                if memo.contentType == .image || memo.contentType == .mixed,
                    let firstImageFileName = memo.imageFileNames.first,
                    let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
                     Image(uiImage: image)

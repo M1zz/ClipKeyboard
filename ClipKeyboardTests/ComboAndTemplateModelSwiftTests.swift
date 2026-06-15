@@ -43,7 +43,7 @@ struct ComboAndTemplateModelSwiftTests {
         var combo = Combo(title: "정렬", items: [
             ComboItem(type: .memo, referenceId: UUID(), order: 2),
             ComboItem(type: .memo, referenceId: UUID(), order: 0),
-            ComboItem(type: .template, referenceId: UUID(), order: 1),
+            ComboItem(type: .template, referenceId: UUID(), order: 1)
         ])
         combo.sortItems()
         #expect(combo.items.map(\.order) == [0, 1, 2])
@@ -55,7 +55,7 @@ struct ComboAndTemplateModelSwiftTests {
     func comboCodableRoundTrip() throws {
         let original = Combo(title: "콤보", items: [
             ComboItem(type: .memo, referenceId: UUID(), order: 0, displayValue: "값1"),
-            ComboItem(type: .clipboardHistory, referenceId: UUID(), order: 1),
+            ComboItem(type: .clipboardHistory, referenceId: UUID(), order: 1)
         ], interval: 1.0, useCount: 5)
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Combo.self, from: data)
