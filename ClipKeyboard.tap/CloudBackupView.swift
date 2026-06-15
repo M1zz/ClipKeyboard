@@ -25,7 +25,7 @@ struct CloudBackupView: View {
     private var macProGateView: some View {
         VStack(spacing: 20) {
             Spacer()
-            Image(systemName: "icloud.fill")
+            Image(systemName: AppSymbol.icloudFill)
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
             Text(NSLocalizedString("iCloud 백업은 Pro 기능입니다", comment: "Cloud backup pro"))
@@ -43,7 +43,7 @@ struct CloudBackupView: View {
             VStack(spacing: 24) {
             // 헤더
             VStack(spacing: 8) {
-                Image(systemName: "icloud.and.arrow.up.fill")
+                Image(systemName: AppSymbol.icloudAndArrowUpFill)
                     .font(.system(size: 50))
                     .foregroundStyle(.blue)
 
@@ -88,7 +88,7 @@ struct CloudBackupView: View {
             // 마지막 백업 정보
             if let lastBackupDate = cloudService.lastBackupDate {
                 HStack {
-                    Image(systemName: "clock.fill")
+                    Image(systemName: AppSymbol.clockFill)
                         .foregroundStyle(.blue)
 
                     Text(NSLocalizedString("마지막 백업:", comment: "Last backup label"))
@@ -119,7 +119,7 @@ struct CloudBackupView: View {
                             ProgressView()
                                 .scaleEffect(0.8)
                         } else {
-                            Image(systemName: "icloud.and.arrow.up")
+                            Image(systemName: AppSymbol.icloudAndArrowUp)
                         }
                         Text(cloudService.isBackingUp ? NSLocalizedString("백업 중...", comment: "Backing up status") : NSLocalizedString("백업하기", comment: "Backup button"))
                     }
@@ -137,7 +137,7 @@ struct CloudBackupView: View {
                             ProgressView()
                                 .scaleEffect(0.8)
                         } else {
-                            Image(systemName: "icloud.and.arrow.down")
+                            Image(systemName: AppSymbol.icloudAndArrowDown)
                         }
                         Text(cloudService.isRestoring ? NSLocalizedString("복구 중...", comment: "Restoring status") : NSLocalizedString("복구하기", comment: "Restore button"))
                     }
@@ -151,7 +151,7 @@ struct CloudBackupView: View {
                     performDelete()
                 } label: {
                     HStack {
-                        Image(systemName: "trash")
+                        Image(systemName: AppSymbol.trash)
                         Text(NSLocalizedString("백업 삭제", comment: "Delete backup button"))
                     }
                     .frame(maxWidth: .infinity)

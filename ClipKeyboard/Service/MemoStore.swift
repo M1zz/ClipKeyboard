@@ -36,13 +36,13 @@ class MemoStore: ObservableObject {
 
         switch type {
         case .memo:
-            return containerURL.appendingPathComponent("memos.data")
+            return containerURL.appendingPathComponent(StorageFile.memos)
         case .clipboardHistory:
-            return containerURL.appendingPathComponent("clipboard.history.data")
+            return containerURL.appendingPathComponent(StorageFile.clipboardHistory)
         case .smartClipboardHistory:
-            return containerURL.appendingPathComponent("smart.clipboard.history.data")
+            return containerURL.appendingPathComponent(StorageFile.smartClipboardHistory)
         case .combo:
-            return containerURL.appendingPathComponent("combos.data")
+            return containerURL.appendingPathComponent(StorageFile.combos)
         }
     }
 
@@ -59,14 +59,14 @@ class MemoStore: ObservableObject {
         if type == .memo {
             Self.writeCategorySidecar(memos)
         }
-        NotificationCenter.default.post(name: NSNotification.Name("MemoDataChanged"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
         try data.write(to: outfile)
-        NotificationCenter.default.post(name: NSNotification.Name("MemoDataChanged"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
     func load(type: MemoType) throws -> [Memo] {
@@ -189,7 +189,7 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
         try data.write(to: outfile)
-        NotificationCenter.default.post(name: NSNotification.Name("MemoDataChanged"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
     func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
@@ -393,7 +393,7 @@ class MemoStore: ObservableObject {
         guard let outfile = try Self.fileURL(type: .combo) else { return }
         try data.write(to: outfile)
         DispatchQueue.main.async { [weak self] in self?.combos = combos }
-        NotificationCenter.default.post(name: NSNotification.Name("MemoDataChanged"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
     func loadCombos() throws -> [Combo] {
@@ -480,7 +480,7 @@ class MemoStore: ObservableObject {
 
     private static func historyFileURL() -> URL? {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?
-            .appendingPathComponent("memo.history.data")
+            .appendingPathComponent(StorageFile.memoHistory)
     }
 
     /// 사용량(clipCount/lastUsedAt/lastEdited)만 다른 저장은 스냅샷하지 않도록 비교용 서명 생성.

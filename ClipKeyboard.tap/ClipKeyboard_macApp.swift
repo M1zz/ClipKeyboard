@@ -101,7 +101,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         Task {
             await CloudKitBackupService.shared.autoRestoreIfLocalEmpty()
             await MainActor.run { MacSampleSeeder.seedIfNeeded() }
+            // 첫 부팅 부트스트랩(autoRestore) 이후에는 실시간 동기화 엔진이 인계한다.
+            await MainActor.run { MemoSyncEngine.shared.startIfEnabled() }
         }
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        // 맥앱이 다시 활성화되면 즉시 동기화 — 아이폰의 최신 변경을 바로 반영.
+        // (다른 기기에서 토글이 켜져 KV로 전파된 경우 여기서 비로소 시작될 수 있어 start 먼저 호출.)
+        MemoSyncEngine.shared.startIfEnabled()
+        MemoSyncEngine.shared.syncNow()
     }
 
     func applicationWillTerminate(_ notification: Notification) {

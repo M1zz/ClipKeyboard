@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Image(systemName: "doc.on.clipboard")
+                Image(systemName: AppSymbol.docOnClipboard)
                     .font(.system(size: 60))
                     .foregroundStyle(.blue)
 
@@ -34,7 +34,7 @@ struct ContentView: View {
 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        Image(systemName: "keyboard")
+                        Image(systemName: AppSymbol.keyboard)
                         Text(NSLocalizedString("전역 단축키: ⌃⌥K", comment: "Global hotkey description"))
                         Spacer()
                         Text(NSLocalizedString("메모 목록 표시", comment: "Show memo list label"))
@@ -42,7 +42,7 @@ struct ContentView: View {
                     }
 
                     HStack {
-                        Image(systemName: "menubar.rectangle")
+                        Image(systemName: AppSymbol.menubarRectangle)
                         Text(NSLocalizedString("메뉴바 아이콘: 🛶", comment: "Menu bar icon description"))
                         Spacer()
                         Text(NSLocalizedString("언제든지 접근 가능", comment: "Always accessible label"))
@@ -50,7 +50,7 @@ struct ContentView: View {
                     }
 
                     HStack {
-                        Image(systemName: "command")
+                        Image(systemName: AppSymbol.command)
                         Text(NSLocalizedString("앱 메뉴: 클립키보드", comment: "App menu description"))
                         Spacer()
                         Text(NSLocalizedString("모든 기능 사용", comment: "All features label"))

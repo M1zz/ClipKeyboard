@@ -13,8 +13,8 @@ import SwiftUI
 
 enum TemplateVariableProcessor {
 
-    static let userTimezoneKey = "clipkeyboard_user_timezone"
-    static let userCurrencyKey = "clipkeyboard_user_currency"
+    static let userTimezoneKey = DefaultsKey.userTimezone
+    static let userCurrencyKey = DefaultsKey.userCurrency
 
     /// 모든 자동 변수 토큰. 커스텀 플레이스홀더 추출 시 이 집합은 제외한다.
     static let autoVariableTokens: Set<String> = [

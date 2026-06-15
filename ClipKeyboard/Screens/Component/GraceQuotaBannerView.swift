@@ -14,7 +14,7 @@ struct GraceQuotaBannerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 10) {
-                Image(systemName: "checkmark.shield.fill")
+                Image(systemName: AppSymbol.checkmarkShieldFill)
                     .foregroundColor(.blue)
                     .font(.system(.body))
 
@@ -40,7 +40,7 @@ struct GraceQuotaBannerView: View {
                 Button {
                     onDismiss()
                 } label: {
-                    Image(systemName: "xmark")
+                    Image(systemName: AppSymbol.xmark)
                         .font(.body.weight(.semibold))
                         .foregroundColor(theme.textMuted)
                         .padding(6)

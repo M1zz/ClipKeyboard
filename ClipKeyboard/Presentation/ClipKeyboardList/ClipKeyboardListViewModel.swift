@@ -370,11 +370,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func loadCustomCategories() {
         let ud = UserDefaults(suiteName: AppGroup.identifier)
         // 카테고리는 기본 제공하지 않음 — 사용자가 직접 만든 목록만 로드.
-        customCategories = ud?.stringArray(forKey: "userDefinedCategories_v1") ?? []
-        let hidden = ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
+        customCategories = ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
+        let hidden = ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         hiddenCategoryTabs = Set(hidden)
         // 기본 제공 카테고리 — allCases 순서를 유지해 탭 순서가 항상 일정하게.
-        let enabledRaw = Set(ud?.stringArray(forKey: "enabledBuiltInCategories_v1") ?? [])
+        let enabledRaw = Set(ud?.stringArray(forKey: DefaultsKey.enabledBuiltInCategoriesV1) ?? [])
         enabledBuiltInCategories = BuiltInCategory.allCases.filter { enabledRaw.contains($0.rawValue) }
         // 관리 화면에서 끈 카테고리가 현재 선택 탭이면 전체로 되돌린다(빈 탭에 머무는 것 방지).
         if !allCategoryTabs.contains(selectedCategoryTab) {
@@ -384,7 +384,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func saveCustomCategories() {
         UserDefaults(suiteName: AppGroup.identifier)?
-            .set(customCategories, forKey: "userDefinedCategories_v1")
+            .set(customCategories, forKey: DefaultsKey.userDefinedCategoriesV1)
     }
 
     func setCategoryVisible(_ key: String, visible: Bool) {
@@ -399,7 +399,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             }
         }
         UserDefaults(suiteName: AppGroup.identifier)?
-            .set(Array(hiddenCategoryTabs), forKey: "hiddenCategoryTabs_v1")
+            .set(Array(hiddenCategoryTabs), forKey: DefaultsKey.hiddenCategoryTabsV1)
     }
 
     func isCategoryVisible(_ key: String) -> Bool {
@@ -488,7 +488,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func onSceneResume() {
         checkFreshClipboard()
-        let newCount = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: "keyboard_paste_count") ?? 0
+        let newCount = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
         if lastKnownPasteCount == 0 && newCount > 0 {
             showActivationCard = false
             showCelebrationToast()
@@ -512,7 +512,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Activation Card
 
     private func checkActivationCard() {
-        let pasted = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: "keyboard_paste_count") ?? 0
+        let pasted = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
         lastKnownPasteCount = pasted
         guard pasted == 0 else {
             showActivationCard = false
@@ -641,7 +641,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
 
         // 2. memos.data JSON에 imageFileName 키가 존재하는지 raw 검색
-        let memoFile = containerURL.appendingPathComponent("memos.data")
+        let memoFile = containerURL.appendingPathComponent(StorageFile.memos)
         if let data = try? Data(contentsOf: memoFile),
            let json = String(data: data, encoding: .utf8) {
             let hasImageField = json.contains("imageFileName")

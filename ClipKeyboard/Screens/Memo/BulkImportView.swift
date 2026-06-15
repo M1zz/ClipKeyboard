@@ -106,7 +106,7 @@ struct BulkImportView: View {
                     }
                 } label: {
                     Label(NSLocalizedString("Paste from clipboard", comment: "Bulk import: paste"),
-                          systemImage: "doc.on.clipboard")
+                          systemImage: AppSymbol.docOnClipboard)
                 }
                 Spacer()
                 Picker("", selection: $splitMode) {
@@ -176,7 +176,7 @@ struct BulkImportView: View {
     private var successSection: some View {
         Section {
             VStack(spacing: 12) {
-                Image(systemName: "checkmark.circle.fill")
+                Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 44))
                     .foregroundColor(.green)
                 Text(String(format: NSLocalizedString("Imported %d memos", comment: "Bulk import success"), savedCount ?? 0))

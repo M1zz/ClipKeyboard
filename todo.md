@@ -690,3 +690,83 @@
 - [x] iOS 전체 테스트 스위트 (CloudKitBackupIntegrityTests 포함) 그린
 - [x] (부수 수정) KeyboardUsageTrackerTests 날짜 잔존값 격리 버그 수정
       — 전날 실행이 남긴 어제 키 때문에 다음 날 반드시 깨지던 테스트
+
+---
+
+# 정적 리터럴 중앙화 + 미사용 import 정리 (2026-06-15)
+
+## 미사용 import 제거
+- [x] `ColorExtension.swift`의 `import LeeoKit` 제거 (실제 사용 0건, 주석만 LeeoKit 언급).
+      나머지 20개 파일은 LeeoKit 심볼을 실제 사용 중 → 유지. AppTheme stale 주석 정정.
+
+## 정적 문자열·이미지 심볼 단일 출처화 (AppGroup.swift 패턴, 3개 타겟 공유 enum)
+- [x] `AppSymbol.swift` — SF Symbol 125종(systemName/systemImage 290곳 치환).
+- [x] `DefaultsKey.swift` — UserDefaults 키 36종(forKey 92곳) + 프로/그랜드파더링/템플릿
+      키 10종(iOS·Mac 중복 정의 제거, 정의를 DefaultsKey로 위임).
+- [x] `AppNotification.swift` — Notification.Name 19종 통합. 기존 분산 선언
+      (NotificationExtension.swift ×2, ComboExecutionService extension) 제거.
+- [x] `StorageFile.swift` — App Group 저장 파일명 5종. AppGroupStorage.FileKey는
+      raw-value enum → computed `fileName`(StorageFile 위임)으로 변경.
+- [x] pbxproj: 4개 파일을 ClipKeyboard/Extension/.tap 3개 타겟에 등록(xcodeproj gem).
+- [x] iOS·macOS 빌드 그린 + 전체 테스트 스위트 그린.
+- [x] 재현용 도구: `scripts/centralize/` (gen_constants.py, add_files.rb, replace_literals.py).
+
+---
+
+# 검색 결과 없음 — 빈 화면 개선 (2026-06-15)
+
+- 요청: 검색 결과가 없을 때 "결과 없음"을 분명히 알리고 "이런 걸 만들어 보는 건
+  어떠세요?"라고 제안. 단, 제안 모습이 우리가 쓰는 실제 메모 카드와 같아야 함
+  (지금은 완전 다른 메모가 보임).
+- [x] `tabPageView` 최상단에서 "검색 중 + 결과 0" 가로채기 → 모든 탭 일괄 처리.
+      기존 switch는 `tabPageContent(for:filtered:)`로 분리.
+- [x] `searchNoResultsView` — "'검색어' 검색 결과가 없어요" + "이런 메모를 만들어
+      보는 건 어떠세요?" 피드백. 메모 0개용 EmptyListView(다른 디자인) 대신 사용.
+- [x] `searchSuggestionCard(query:)` — ghostMemoCell과 동일 비주얼(실제 메모 카드
+      치수·제목 스타일 + 반투명·점선). 2열 그리드에 배치해 진짜 카드처럼 보임.
+      탭 시 검색어를 키워드로 채운 편집기 진입(기존 ghostAddPattern 시트 재사용).
+- [x] xcstrings 신규 키 5개(ko 소스 + en/id 번역).
+- [x] iOS 빌드 그린 + 전체 테스트 그린.
+
+---
+
+# 메모 실시간 동기화 (iPhone ↔ Mac) — CKSyncEngine (2026-06-15)
+
+목표: App Group이 기기별이라 갈라지던 메모를 CloudKit으로 근실시간 동기화. Pro 전용,
+메모만(이미지·보안메모 암호문·콤보 포함). 저장소는 기존 JSON 유지.
+
+- [x] `MemoSyncCore.swift`(순수 로직) — id 단위 최신우선 병합 + 툼스톤(소프트 삭제) +
+      섀도 diff. `MemoSyncCoreTests` 10케이스 그린(병합/충돌/삭제 경쟁/되살림).
+- [x] `MemoSyncEngine.swift` — CKSyncEngine 래퍼. 커스텀 존 `MemosZone`, 레코드타입
+      `Memo`(payload/lastEdited/deletedAt + 이미지 CKAsset). push(저장 훅→섀도 diff→enqueue)
+      / pull(수신→merge→MemoStore.save→.dataRestored). 에코 루프 차단(isApplyingRemoteChanges).
+      상태/섀도/툼스톤은 App Group에 영속. **플래그 OFF 기본**(DefaultsKey.memoSyncEnabled) + Pro 게이팅.
+- [x] iOS 엔티틀먼트 `aps-environment`=development + Info.plist `remote-notification` 백그라운드.
+- [x] 트리거: iOS onAppear `startIfEnabled` + scenePhase active `syncNow`; Mac autoRestore 후
+      start + `applicationDidBecomeActive` syncNow. Mac `MemoStore.save`가 `.memoDataChanged` 발행 추가.
+- [x] 초기 정합화: 시작 시 빈 섀도 대비 전체 업서트 + fetch로 자연 수렴.
+- [x] iOS·Mac 빌드 그린 + 전체 테스트 그린.
+- [x] **활성화 UI**: 설정 → "데이터 & 보안" 아래 "기기 간 동기화 (베타)" 섹션에 토글 추가.
+      Pro 게이팅(비Pro는 페이월), 켜면 즉시 `startIfEnabled`. 플래그는 App Group + **iCloud KV**
+      양쪽 기록 → 한 기기에서 켜면 다른 기기로 전파(Pro 상태와 동일). 포그라운드 핸들러가
+      `startIfEnabled` 먼저 호출해 막 켜진 기기도 활성화. xcstrings 신규 3키(ko+en/id).
+- [ ] **남은 검증**: 실제 동기화는 iCloud 2대 필요(샌드박스 검증 불가). 푸시 실시간 전달은
+      CKSyncEngine 자동 구독에 의존 — 기기 검증 필요(포그라운드 동기화는 동작). 검증 후
+      `aps-environment`=production 전환 + (원하면) 기본 ON.
+
+---
+
+# 백업/복원에 이미지 포함 (2026-06-15)
+
+문제: 기존 CloudKitBackupService 백업은 메모/콤보/스마트클립보드 JSON만 담고, 첨부 PNG는
+빠져 있었음 → 새 아이폰·맥 복원 시 이미지 메모가 그림 없이 깨짐.
+
+- [x] iOS·Mac `CloudKitBackupService`에 `attachImages(to:memos:)` / `restoreImages(from:)` 추가.
+      메모가 참조하는 PNG(App Group Images/)를 백업 레코드에 `imageAssets`(\[CKAsset\]) +
+      `imageNames`(\[String\])로 첨부, 복원 시 본문 저장 **전에** Images/에 기록(깨진 참조 방지).
+      이미지 없으면 필드 비워 잔존 이미지 정리.
+- [x] iOS·Mac 빌드 그린 + 전체 테스트 그린(CloudKitBackupIntegrityTests 포함).
+- [x] **새 기기 첫 실행 안내**(자동 복원 대신 일회성 안내): 시작 시 ① 안내 미표시 ②
+      로컬에 내 메모 없음 ③ iCloud에 실제 백업 존재 → "기존 메모를 불러올 수 있어요" 알림
+      1회 노출. "불러오기"→백업/복원 화면 시트. 표시 시 `restoreHintShown_v1` 기록(1회).
+      백업 없으면 안 뜸(신규 유저 보호). xcstrings 신규 3키. iOS 빌드+테스트 그린.

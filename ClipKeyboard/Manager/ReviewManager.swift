@@ -176,10 +176,10 @@ class ReviewManager {
 
     /// 리뷰 배너 표시 여부 확인
     var shouldShowBanner: Bool {
-        let dismissed = UserDefaults.standard.bool(forKey: "review_banner_dismissed")
+        let dismissed = UserDefaults.standard.bool(forKey: DefaultsKey.reviewBannerDismissed)
         if dismissed { return false }
 
-        let laterDate = UserDefaults.standard.double(forKey: "review_banner_later_date")
+        let laterDate = UserDefaults.standard.double(forKey: DefaultsKey.reviewBannerLaterDate)
         if laterDate > 0 && Date().timeIntervalSince1970 < laterDate { return false }
 
         return UserDefaults.standard.integer(forKey: keyClipSaveCount) >= 5
@@ -188,13 +188,13 @@ class ReviewManager {
     /// 배너에서 "나중에" 선택
     func dismissBannerTemporarily() {
         let laterDate = Date().addingTimeInterval(7 * 86400).timeIntervalSince1970
-        UserDefaults.standard.set(laterDate, forKey: "review_banner_later_date")
+        UserDefaults.standard.set(laterDate, forKey: DefaultsKey.reviewBannerLaterDate)
         print("📊 [ReviewManager] 배너 7일 후 다시 표시")
     }
 
     /// 배너에서 "리뷰 남기기" 선택
     func dismissBannerPermanently() {
-        UserDefaults.standard.set(true, forKey: "review_banner_dismissed")
+        UserDefaults.standard.set(true, forKey: DefaultsKey.reviewBannerDismissed)
         print("📊 [ReviewManager] 배너 영구 닫기")
     }
 
@@ -245,7 +245,7 @@ class ReviewManager {
     private func syncKeyboardUseCount() {
         guard let groupDefaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
 
-        let groupCount = groupDefaults.integer(forKey: "keyboard_paste_count")
+        let groupCount = groupDefaults.integer(forKey: DefaultsKey.keyboardPasteCount)
         let localCount = UserDefaults.standard.integer(forKey: keyKeyboardUseCount)
 
         if groupCount > localCount {
@@ -326,8 +326,8 @@ class ReviewManager {
         UserDefaults.standard.removeObject(forKey: keyPowerUserReview)
         UserDefaults.standard.removeObject(forKey: keyKeyboardUseCount)
         UserDefaults.standard.removeObject(forKey: keyClipSaveCount)
-        UserDefaults.standard.removeObject(forKey: "review_banner_dismissed")
-        UserDefaults.standard.removeObject(forKey: "review_banner_later_date")
+        UserDefaults.standard.removeObject(forKey: DefaultsKey.reviewBannerDismissed)
+        UserDefaults.standard.removeObject(forKey: DefaultsKey.reviewBannerLaterDate)
         print("🔄 [ReviewManager] 리뷰 요청 데이터 초기화 완료")
     }
 }

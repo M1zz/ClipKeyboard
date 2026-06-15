@@ -59,7 +59,7 @@ struct MemoListView: View {
                 // 컴팩트 헤더
                 VStack(spacing: 6) {
                     HStack {
-                        Image(systemName: "doc.on.clipboard.fill")
+                        Image(systemName: AppSymbol.docOnClipboardFill)
                             .font(.system(.body))
                             .foregroundStyle(.blue)
 
@@ -85,7 +85,7 @@ struct MemoListView: View {
 
                     // 컴팩트 검색 바
                     HStack(spacing: 4) {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: AppSymbol.magnifyingglass)
                             .font(.caption)
                             .foregroundStyle(.secondary)
 
@@ -97,7 +97,7 @@ struct MemoListView: View {
                             Button {
                                 searchText = ""
                             } label: {
-                                Image(systemName: "xmark.circle.fill")
+                                Image(systemName: AppSymbol.xmarkCircleFill)
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -115,7 +115,7 @@ struct MemoListView: View {
                 // 무료 유저: 숨겨진 메모 배너
                 if isFreeUser && hiddenMemoCount > 0 {
                     HStack(spacing: 6) {
-                        Image(systemName: "lock.fill")
+                        Image(systemName: AppSymbol.lockFill)
                             .font(.system(.caption))
                         Text(String(format: NSLocalizedString("%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
                             .font(.system(.caption))

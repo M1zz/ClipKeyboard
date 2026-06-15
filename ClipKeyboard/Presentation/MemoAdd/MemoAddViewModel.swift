@@ -254,7 +254,7 @@ final class MemoAddViewModel: ObservableObject {
         loadPlaceholderValues()
 
         // 최근 사용 카테고리 로드
-        recentlyUsedCategories = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
+        recentlyUsedCategories = UserDefaults.standard.stringArray(forKey: DefaultsKey.recentlyUsedCategories) ?? []
     }
 
     // MARK: - 이어지는 메모(콤보 단계)
@@ -407,11 +407,11 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - 최근 사용 카테고리
 
     func updateRecentlyUsedCategories(_ category: String) {
-        var recent = UserDefaults.standard.stringArray(forKey: "recentlyUsedCategories") ?? []
+        var recent = UserDefaults.standard.stringArray(forKey: DefaultsKey.recentlyUsedCategories) ?? []
         recent.removeAll { $0 == category }
         recent.insert(category, at: 0)
         recent = Array(recent.prefix(5))
-        UserDefaults.standard.set(recent, forKey: "recentlyUsedCategories")
+        UserDefaults.standard.set(recent, forKey: DefaultsKey.recentlyUsedCategories)
         recentlyUsedCategories = recent
     }
 

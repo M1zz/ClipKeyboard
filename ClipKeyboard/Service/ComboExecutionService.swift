@@ -201,10 +201,4 @@ class ComboExecutionService: ObservableObject {
 }
 
 // MARK: - Notification Names
-
-extension Notification.Name {
-    static let comboItemExecuted = Notification.Name("comboItemExecuted")
-    static let comboCompleted = Notification.Name("comboCompleted")
-    static let reviewTriggerComboCompleted = Notification.Name("reviewTriggerComboCompleted")
-    static let reviewTriggerClipSaved = Notification.Name("reviewTriggerClipSaved")
-}
+// 통합: Notification.Name 상수는 AppNotification.swift 단일 출처에서 관리.

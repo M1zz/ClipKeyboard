@@ -10,7 +10,6 @@
 
 import SwiftUI
 import UIKit
-import LeeoKit
 
 extension Color {
     // MARK: - App-specific Design System Colors (ClipKeyboard 고유 — 공유하지 않음)

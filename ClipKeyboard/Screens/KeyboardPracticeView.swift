@@ -63,7 +63,7 @@ struct KeyboardPracticeView: View {
         VStack(alignment: .leading, spacing: 14) {
             Label(
                 NSLocalizedString("이렇게 연습하세요", comment: "Practice instructions header"),
-                systemImage: "keyboard"
+                systemImage: AppSymbol.keyboard
             )
             .font(.headline)
             .foregroundColor(theme.text)
@@ -97,7 +97,7 @@ struct KeyboardPracticeView: View {
 
             ForEach(sampleMemos) { memo in
                 HStack(spacing: 10) {
-                    Image(systemName: "doc.text")
+                    Image(systemName: AppSymbol.docText)
                         .font(.body)
                         .foregroundColor(theme.accent)
                         .frame(width: 20)
@@ -212,7 +212,7 @@ struct KeyboardPracticeSheet: View {
         VStack(spacing: 0) {
             Spacer()
 
-            Image(systemName: "keyboard.fill")
+            Image(systemName: AppSymbol.keyboardFill)
                 .font(.system(size: 64))
                 .foregroundStyle(
                     LinearGradient(

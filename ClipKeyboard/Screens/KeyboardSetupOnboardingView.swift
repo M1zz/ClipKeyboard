@@ -34,7 +34,7 @@ struct KeyboardSetupOnboardingView: View {
                 HStack {
                     Spacer()
                     Button(action: exitAction) {
-                        Image(systemName: "xmark")
+                        Image(systemName: AppSymbol.xmark)
                             .font(.callout.weight(.semibold))
                             .foregroundColor(theme.textMuted)
                             .padding(9)
@@ -77,7 +77,7 @@ struct KeyboardSetupOnboardingView: View {
                         if currentPage == 1 || currentPage == 2 {
                             Button(action: openSettings) {
                                 HStack(spacing: 6) {
-                                    Image(systemName: "gear")
+                                    Image(systemName: AppSymbol.gear)
                                         .accessibilityHidden(true)
                                     Text(NSLocalizedString("설정 열기", comment: "Open Settings button"))
                                 }
@@ -129,7 +129,7 @@ struct KeyboardSetupOnboardingView: View {
             guard isWaitingForReturn, currentPage == 2 else { return }
             isWaitingForReturn = false
             setupStatus = .checking
-            let loaded = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: "keyboard_extension_did_load") ?? false
+            let loaded = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
             withAnimation(.easeInOut(duration: 0.3)) {
                 setupStatus = loaded ? .confirmed : .notFound
             }
@@ -337,7 +337,7 @@ private struct StepPageView: View {
         switch setupStatus {
         case .confirmed:
             HStack(spacing: 8) {
-                Image(systemName: "checkmark.circle.fill")
+                Image(systemName: AppSymbol.checkmarkCircleFill)
                     .foregroundColor(theme.success)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("키보드가 확인됐어요! 다음으로 넘어갈게요.", comment: "Setup confirmed"))
@@ -351,7 +351,7 @@ private struct StepPageView: View {
 
         case .notFound:
             HStack(spacing: 8) {
-                Image(systemName: "exclamationmark.circle.fill")
+                Image(systemName: AppSymbol.exclamationmarkCircleFill)
                     .foregroundColor(theme.warn)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?", comment: "Setup not found"))
@@ -372,7 +372,7 @@ private struct StepPageView: View {
 
     private var privacyNote: some View {
         HStack(spacing: 8) {
-            Image(systemName: "lock.shield.fill")
+            Image(systemName: AppSymbol.lockShieldFill)
                 .font(.body)
                 .foregroundColor(theme.textFaint)
                 .accessibilityHidden(true)
@@ -395,7 +395,7 @@ private struct SettingsPathIllustration: View {
             ForEach(Array(path.enumerated()), id: \.offset) { i, label in
                 HStack {
                     if i == 0 {
-                        Image(systemName: "gear")
+                        Image(systemName: AppSymbol.gear)
                             .font(.body)
                             .foregroundColor(.white)
                             .frame(width: 28, height: 28)
@@ -459,7 +459,7 @@ private struct KeyboardListIllustration: View {
                         .font(.body)
                         .foregroundColor(theme.text)
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    Image(systemName: AppSymbol.chevronRight)
                         .font(.body)
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
@@ -475,7 +475,7 @@ private struct KeyboardListIllustration: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(theme.accent)
                 Spacer()
-                Image(systemName: "arrow.left.circle.fill")
+                Image(systemName: AppSymbol.arrowLeftCircleFill)
                     .foregroundColor(theme.accent)
                     .accessibilityHidden(true)
             }
@@ -497,7 +497,7 @@ private struct FullAccessIllustration: View {
         VStack(spacing: 0) {
             // Header row
             HStack {
-                Image(systemName: "keyboard")
+                Image(systemName: AppSymbol.keyboard)
                     .font(.title3)
                     .foregroundColor(theme.accent)
                     .accessibilityHidden(true)
@@ -561,7 +561,7 @@ private struct DoneIllustration: View {
                     .scaleEffect(appeared ? 1 : 0.5)
                     .opacity(appeared ? 1 : 0)
 
-                Image(systemName: "checkmark")
+                Image(systemName: AppSymbol.checkmark)
                     .font(.system(size: 44, weight: .bold))
                     .foregroundColor(theme.accent)
                     .scaleEffect(appeared ? 1 : 0.3)
@@ -569,7 +569,7 @@ private struct DoneIllustration: View {
             }
 
             HStack(spacing: 8) {
-                Image(systemName: "globe")
+                Image(systemName: AppSymbol.globe)
                     .font(.title3)
                     .foregroundColor(theme.textMuted)
                     .accessibilityHidden(true)
@@ -770,7 +770,7 @@ struct PersonaSelectionView: View {
 
                 // 안내: 페르소나를 골라도 메모/값이 추가되는 게 아니라, 그에 맞는 추천만 바뀐다.
                 HStack(spacing: 6) {
-                    Image(systemName: "info.circle")
+                    Image(systemName: AppSymbol.infoCircle)
                         .accessibilityHidden(true)
                     Text(NSLocalizedString("페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다.", comment: "Persona is recommendation-only note"))
                 }

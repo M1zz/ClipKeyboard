@@ -36,20 +36,21 @@ struct ProFeatureManager {
 
     // MARK: - App Group UserDefaults 키 (키보드 익스텐션과 공유)
 
-    static let proStatusKey = "clipkeyboard_is_pro"
+    // 키 리터럴은 DefaultsKey 단일 출처에서 관리.
+    static let proStatusKey = DefaultsKey.proStatus
     /// v4.0 업그레이드 시점에 v3.x Pro 구매 이력이 확인되면 영구 true.
-    static let grandfatheredPurchaseKey = "clipkeyboard_was_pro_at_v3"
+    static let grandfatheredPurchaseKey = DefaultsKey.wasProAtV3
     /// v4.0 업그레이드 시점에 메모를 1개 이상 가진 기존 유저를 표시. 키보드 익스텐션 등의
     /// 기존 가용 기능은 유지하고, 신규 추가만 새 제한을 적용한다.
-    static let existingFreeUserKey = "clipkeyboard_existing_free_user"
+    static let existingFreeUserKey = DefaultsKey.existingFreeUser
     /// v4.0 업그레이드 시 메모 보유량이 새 한도를 초과해 grace 상태가 된 유저.
-    static let graceMemoQuotaKey = "clipkeyboard_v4_grace_memos"
+    static let graceMemoQuotaKey = DefaultsKey.v4GraceMemos
     /// v4.0 grace 배너를 이미 닫은 유저.
-    static let graceBannerDismissedKey = "clipkeyboard_v4_grace_banner_dismissed"
+    static let graceBannerDismissedKey = DefaultsKey.v4GraceBannerDismissed
     /// 7일 무료 체험 시작 timestamp (epoch). 한 번 설정되면 다시 설정하지 않음 (1회 한정).
-    static let trialStartedAtKey = "clipkeyboard_trial_started_at"
+    static let trialStartedAtKey = DefaultsKey.trialStartedAt
     /// 시계 조작 방어용 마지막 본 시점 (epoch). 매 launch마다 max(now, lastSeen)로 갱신.
-    static let trialLastSeenKey = "clipkeyboard_trial_last_seen"
+    static let trialLastSeenKey = DefaultsKey.trialLastSeen
 
     /// 무료 체험 기간 (일)
     static let trialDurationDays = 7
@@ -180,6 +181,25 @@ struct ProFeatureManager {
     /// 신규 제한을 적용하지 않아야 하는 경우 true.
     static var isGrandfathered: Bool {
         hasGrandfatheredPurchase || wasExistingFreeUser
+    }
+
+    // MARK: - Diagnostics
+
+    /// "실제 접근 권한"을 결제 외 경로까지 한 줄로 찍는다.
+    /// StoreManager.isPro / ProStatusManager는 **IAP 구매 권한만** 보므로 false여도,
+    /// 앱이 Pro로 보이는 진짜 이유(TestFlight·그랜드파더·체험)를 로그에서 바로 알 수 있게 한다.
+    /// → "구매=false인데 왜 Pro로 보이지?" 혼동 제거용.
+    static func logAccessResolution(_ context: String) {
+        let purchased = groupDefaults?.bool(forKey: proStatusKey) ?? false
+        let reason: String
+        if purchased { reason = "구매(IAP)" }
+        else if isTestFlight { reason = "TestFlight/Xcode" }
+        else if hasGrandfatheredPurchase { reason = "그랜드파더(v3.x 유료구매)" }
+        else if wasExistingFreeUser { reason = "기존 무료유저(v3.x)" }
+        else if isInTrial { reason = "7일 체험" }
+        else { reason = "없음(무료)" }
+        print("🔑 [ProFeature] \(context) — 접근권한: \(hasFullAccess ? "Pro ✅" : "무료") · 경로=\(reason) " +
+              "[구매IAP=\(purchased) TestFlight=\(isTestFlight) 그랜드파더구매=\(hasGrandfatheredPurchase) 기존무료=\(wasExistingFreeUser) 체험=\(isInTrial)]")
     }
 
     // MARK: - 7일 무료 체험 (Trial)

@@ -49,7 +49,7 @@ struct ComboPreviewSheet: View {
         VStack(alignment: .leading, spacing: 0) {
             // 헤더 — 콤보 제목
             HStack(spacing: 8) {
-                Image(systemName: "square.stack.3d.up.fill")
+                Image(systemName: AppSymbol.squareStack3dUpFill)
                     .foregroundColor(theme.accent)
                     .accessibilityHidden(true)
                 Text(memo.title)
@@ -64,7 +64,7 @@ struct ComboPreviewSheet: View {
 
             // 복사됨 안내
             HStack(spacing: 6) {
-                Image(systemName: "checkmark.circle.fill")
+                Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.footnote)
                     .foregroundColor(.green)
                     .accessibilityHidden(true)
@@ -105,7 +105,7 @@ struct ComboPreviewSheet: View {
 
             // 키보드 안내
             HStack(spacing: 6) {
-                Image(systemName: "keyboard")
+                Image(systemName: AppSymbol.keyboard)
                     .font(.caption)
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)

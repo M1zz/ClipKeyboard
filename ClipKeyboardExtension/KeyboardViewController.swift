@@ -29,7 +29,7 @@ class KeyboardViewController: UIInputViewController {
             button.heightAnchor.constraint(equalToConstant: 38).isActive = true
             button.widthAnchor.constraint(equalToConstant: 45).isActive = true
             button.layer.cornerRadius = AppTheme.paperLight.radiusXs  // 키캡 코너 (xs=6, 테마 불변)
-            button.setImage(UIImage(systemName: "globe"), for: .normal)
+            button.setImage(UIImage(systemName: AppSymbol.globe), for: .normal)
             button.tintColor = .black
             button.backgroundColor = .systemGray2
             return button
@@ -106,7 +106,7 @@ class KeyboardViewController: UIInputViewController {
         setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
 
         UserDefaults(suiteName: AppGroup.identifier)?
-            .set(true, forKey: "keyboard_extension_did_load")
+            .set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
 
         print("✅ viewDidLoad 완료 — fullscreen SwiftUI keyboard")
     }
@@ -118,7 +118,7 @@ class KeyboardViewController: UIInputViewController {
         overlay.translatesAutoresizingMaskIntoConstraints = false
         overlay.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.98)
 
-        let lockIcon = UIImageView(image: UIImage(systemName: "lock.fill"))
+        let lockIcon = UIImageView(image: UIImage(systemName: AppSymbol.lockFill))
         lockIcon.tintColor = .systemBlue
         lockIcon.contentMode = .scaleAspectFit
         lockIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -238,16 +238,16 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func setupNotificationObservers() {
-        let t1 = NotificationCenter.default.addObserver(forName: NSNotification.Name("filterChanged"), object: nil, queue: nil) { [weak self] _ in
+        let t1 = NotificationCenter.default.addObserver(forName: Notification.Name.filterChanged, object: nil, queue: nil) { [weak self] _ in
             self?.loadMemos()
         }
-        let t2 = NotificationCenter.default.addObserver(forName: NSNotification.Name("addTextEntry"), object: nil, queue: nil) { [weak self] notification in
+        let t2 = NotificationCenter.default.addObserver(forName: Notification.Name.addTextEntry, object: nil, queue: nil) { [weak self] notification in
             self?.handleAddTextEntry(notification)
         }
-        let t3 = NotificationCenter.default.addObserver(forName: NSNotification.Name("templateInputComplete"), object: nil, queue: .main) { [weak self] notification in
+        let t3 = NotificationCenter.default.addObserver(forName: Notification.Name.templateInputComplete, object: nil, queue: .main) { [weak self] notification in
             self?.handleTemplateInputComplete(notification)
         }
-        let t4 = NotificationCenter.default.addObserver(forName: NSNotification.Name("openMainAppPaywall"), object: nil, queue: .main) { [weak self] _ in
+        let t4 = NotificationCenter.default.addObserver(forName: Notification.Name.openMainAppPaywall, object: nil, queue: .main) { [weak self] _ in
             self?.openMainAppPaywall()
         }
         notificationTokens = [t1, t2, t3, t4]
@@ -273,7 +273,7 @@ class KeyboardViewController: UIInputViewController {
         if !customPlaceholders.isEmpty {
             print("✅ 템플릿 입력 오버레이 표시")
             NotificationCenter.default.post(
-                name: NSNotification.Name("showTemplateInput"),
+                name: Notification.Name.showTemplateInput,
                 object: nil,
                 userInfo: ["text": text, "placeholders": customPlaceholders, "memoId": memoId]
             )
@@ -426,8 +426,8 @@ class KeyboardViewController: UIInputViewController {
     /// memoId가 주어지면 해당 메모의 clipCount + lastUsedAt도 업데이트한다.
     private func trackKeyboardPaste(memoId: UUID? = nil) {
         if let groupDefaults = UserDefaults(suiteName: AppGroup.identifier) {
-            let count = groupDefaults.integer(forKey: "keyboard_paste_count") + 1
-            groupDefaults.set(count, forKey: "keyboard_paste_count")
+            let count = groupDefaults.integer(forKey: DefaultsKey.keyboardPasteCount) + 1
+            groupDefaults.set(count, forKey: DefaultsKey.keyboardPasteCount)
             print("📊 [Keyboard] 붙여넣기 카운트: \(count)")
         }
 
@@ -655,7 +655,7 @@ final class EmptyListView: UIView {
     private func setupView() {
         // Create the image view
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "eyes")
+        imageView.image = UIImage(systemName: AppSymbol.eyes)
         imageView.contentMode = .scaleAspectFit
 
         // Create the title label

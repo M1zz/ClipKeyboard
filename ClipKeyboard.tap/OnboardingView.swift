@@ -33,7 +33,7 @@ struct OnboardingView: View {
                             .fill(Color.white.opacity(0.2))
                             .frame(width: 100, height: 100)
 
-                        Image(systemName: "doc.on.clipboard.fill")
+                        Image(systemName: AppSymbol.docOnClipboardFill)
                             .font(.system(size: 50))
                             .foregroundColor(.white)
                     }
@@ -92,7 +92,7 @@ struct OnboardingView: View {
                         HStack(spacing: 10) {
                             Text(NSLocalizedString("시작하기", comment: "Get started button"))
                                 .font(.system(.body).weight(.semibold))
-                            Image(systemName: "arrow.right")
+                            Image(systemName: AppSymbol.arrowRight)
                                 .font(.system(.callout).weight(.semibold))
                         }
                         .foregroundColor(.blue)
@@ -114,7 +114,7 @@ struct OnboardingView: View {
     }
 
     private func completeOnboarding() {
-        UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        UserDefaults.standard.set(true, forKey: DefaultsKey.hasCompletedOnboarding)
         onComplete()
     }
 }

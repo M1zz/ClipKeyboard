@@ -298,7 +298,7 @@ class StoreManager: ObservableObject {
                 .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
         }
 
-        print("📋 [StoreManager] 구매 상태 업데이트: isPro = \(isPro)")
+        print("📋 [StoreManager] IAP 구매 권한 업데이트: 구매=\(isPro) (실제 접근권한은 위 🔑 ProFeature 로그 참고)")
     }
 
     /// 트랜잭션 리스너

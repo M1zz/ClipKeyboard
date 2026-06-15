@@ -27,7 +27,7 @@ struct ClipboardHistoryView: View {
                 // 헤더
                 VStack(spacing: 12) {
                     HStack {
-                        Image(systemName: "clock.arrow.circlepath")
+                        Image(systemName: AppSymbol.clockArrowCirclepath)
                             .font(.system(size: 40))
                             .foregroundStyle(.blue)
 
@@ -46,7 +46,7 @@ struct ClipboardHistoryView: View {
                         Button {
                             clearAll()
                         } label: {
-                            Label(NSLocalizedString("전체 삭제", comment: "Clear all"), systemImage: "trash")
+                            Label(NSLocalizedString("전체 삭제", comment: "Clear all"), systemImage: AppSymbol.trash)
                         }
                         .buttonStyle(.bordered)
                         .tint(.red)
@@ -55,7 +55,7 @@ struct ClipboardHistoryView: View {
 
                     // 검색 바
                     HStack {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: AppSymbol.magnifyingglass)
                             .foregroundStyle(.secondary)
 
                         TextField(NSLocalizedString("검색...", comment: "Search placeholder"), text: $searchText)
@@ -65,7 +65,7 @@ struct ClipboardHistoryView: View {
                             Button {
                                 searchText = ""
                             } label: {
-                                Image(systemName: "xmark.circle.fill")
+                                Image(systemName: AppSymbol.xmarkCircleFill)
                                     .foregroundStyle(.secondary)
                             }
                             .buttonStyle(.plain)
@@ -262,7 +262,7 @@ struct ClipboardItemRow: View {
                             .cornerRadius(MacRadius.sm)
                     } else {
                         HStack(spacing: 8) {
-                            Image(systemName: "photo")
+                            Image(systemName: AppSymbol.photo)
                                 .foregroundStyle(.secondary)
                             Text(NSLocalizedString("이미지를 불러올 수 없습니다", comment: "Image load error"))
                                 .font(.caption)
@@ -279,7 +279,7 @@ struct ClipboardItemRow: View {
 
                 HStack(spacing: 12) {
                     HStack(spacing: 4) {
-                        Image(systemName: "clock")
+                        Image(systemName: AppSymbol.clock)
                             .font(.caption)
                         Text(formatDate(item.copiedAt))
                             .font(.caption)
@@ -314,7 +314,7 @@ struct ClipboardItemRow: View {
                     Button {
                         onSave()
                     } label: {
-                        Image(systemName: "square.and.arrow.down")
+                        Image(systemName: AppSymbol.squareAndArrowDown)
                             .foregroundStyle(.green)
                     }
                     .buttonStyle(.plain)
@@ -323,7 +323,7 @@ struct ClipboardItemRow: View {
                     Button {
                         onCopy()
                     } label: {
-                        Image(systemName: "doc.on.doc")
+                        Image(systemName: AppSymbol.docOnDoc)
                             .foregroundStyle(.blue)
                     }
                     .buttonStyle(.plain)
@@ -332,7 +332,7 @@ struct ClipboardItemRow: View {
                     Button {
                         onDelete()
                     } label: {
-                        Image(systemName: "trash")
+                        Image(systemName: AppSymbol.trash)
                             .foregroundStyle(.red)
                     }
                     .buttonStyle(.plain)

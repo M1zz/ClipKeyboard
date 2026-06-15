@@ -634,12 +634,12 @@ struct UsageGuideView: View {
                 showStarterPack = true
             } label: {
                 HStack(spacing: 8) {
-                    Image(systemName: "square.stack.3d.up.fill")
+                    Image(systemName: AppSymbol.squareStack3dUpFill)
                         .accessibilityHidden(true)
                     Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
                         .font(.body.weight(.semibold))
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    Image(systemName: AppSymbol.chevronRight)
                         .font(.caption.weight(.semibold))
                         .accessibilityHidden(true)
                 }
@@ -736,7 +736,7 @@ struct UsageGuideView: View {
 
             if let context = scenario.context {
                 HStack(spacing: 6) {
-                    Image(systemName: "quote.opening")
+                    Image(systemName: AppSymbol.quoteOpening)
                         .font(.system(.caption2))
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
@@ -770,7 +770,7 @@ struct UsageGuideView: View {
                     )
                 } label: {
                     HStack(spacing: 4) {
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: AppSymbol.plusCircleFill)
                             .font(.body)
                         Text(NSLocalizedString("Save as memo", comment: "CTA: save scenario as memo"))
                             .font(.body.weight(.semibold))

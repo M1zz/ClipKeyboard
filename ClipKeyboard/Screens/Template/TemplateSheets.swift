@@ -65,7 +65,7 @@ struct TemplateInputSheet: View {
                     Section {
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 6) {
-                                Image(systemName: "eye.fill")
+                                Image(systemName: AppSymbol.eyeFill)
                                     .font(.body)
                                     .foregroundColor(.green)
                                 Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
@@ -168,7 +168,7 @@ struct TemplateDetailPlaceholderView: View {
 
                 if placeholders.isEmpty {
                     VStack(spacing: 12) {
-                        Image(systemName: "checkmark.circle.fill")
+                        Image(systemName: AppSymbol.checkmarkCircleFill)
                             .font(.system(size: 40))
                             .foregroundColor(.green)
                         Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
@@ -337,7 +337,7 @@ struct TemplatePlaceholderRow: View {
                                 editText = value.value
                                 showEditAlert = true
                             } label: {
-                                Image(systemName: "pencil.circle.fill")
+                                Image(systemName: AppSymbol.pencilCircleFill)
                                     .font(.system(.title))
                                     .foregroundColor(.blue)
                             }
@@ -348,7 +348,7 @@ struct TemplatePlaceholderRow: View {
                                 showDeleteConfirm = value
                                 showDeleteAlert = true
                             } label: {
-                                Image(systemName: "trash.circle.fill")
+                                Image(systemName: AppSymbol.trashCircleFill)
                                     .font(.system(.title))
                                     .foregroundColor(.red)
                             }
@@ -459,7 +459,7 @@ struct DatePlaceholderSelector: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 6) {
-                Image(systemName: "calendar")
+                Image(systemName: AppSymbol.calendar)
                 Text(token.strippingTemplateBraces).fontWeight(.semibold)
                 Spacer()
                 Text(effectiveValue).fontWeight(.semibold).foregroundColor(theme.accent)
@@ -600,7 +600,7 @@ struct TemplateFillSheet: View {
                 // 칩으로 표시한다(templateChipAttributed).
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
-                        Image(systemName: "eye.fill")
+                        Image(systemName: AppSymbol.eyeFill)
                             .font(.footnote)
                             .foregroundColor(.green)
                         Text(NSLocalizedString("입력될 결과", comment: "Live preview header"))
@@ -650,7 +650,7 @@ struct TemplateFillSheet: View {
                         HapticManager.shared.success()
                         onCopy(resolvedValue)
                     } label: {
-                        Label(NSLocalizedString("복사", comment: "Copy"), systemImage: "doc.on.doc")
+                        Label(NSLocalizedString("복사", comment: "Copy"), systemImage: AppSymbol.docOnDoc)
                             .fontWeight(.semibold)
                     }
                     .disabled(!allFilled)
@@ -722,7 +722,7 @@ private struct TemplateFillRow: View {
                     if !value.isEmpty { value.removeLast() }
                     HapticManager.shared.selection()
                 } label: {
-                    Image(systemName: "delete.left")
+                    Image(systemName: AppSymbol.deleteLeft)
                         .font(.headline)
                         .frame(maxWidth: .infinity, minHeight: 44)
                         .background(Color(UIColor.systemGray4))

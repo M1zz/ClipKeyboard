@@ -164,7 +164,7 @@ struct MemoFloatingPanelView: View {
 
     private var header: some View {
         HStack(spacing: 8) {
-            Image(systemName: "doc.on.clipboard.fill")
+            Image(systemName: AppSymbol.docOnClipboardFill)
                 .foregroundColor(.accentColor)
                 .font(.system(.subheadline).weight(.semibold))
             Text(NSLocalizedString("ClipKeyboard", comment: "App menu name"))
@@ -177,7 +177,7 @@ struct MemoFloatingPanelView: View {
             Button {
                 onDismiss()
             } label: {
-                Image(systemName: "xmark.circle.fill")
+                Image(systemName: AppSymbol.xmarkCircleFill)
                     .font(.system(.subheadline))
                     .foregroundColor(.secondary)
             }
@@ -224,7 +224,7 @@ struct MemoFloatingPanelView: View {
 
     private var emptyState: some View {
         VStack(spacing: 8) {
-            Image(systemName: "doc.on.clipboard")
+            Image(systemName: AppSymbol.docOnClipboard)
                 .font(.system(size: 28))
                 .foregroundColor(.secondary)
             Text(NSLocalizedString("No memos yet", comment: "Popover empty state"))
@@ -249,7 +249,7 @@ private struct FloatingMemoRow: View {
         Button(action: onTap) {
             HStack(spacing: 10) {
                 if memo.isFavorite {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: AppSymbol.heartFill)
                         .foregroundColor(.pink)
                         .font(.system(.caption))
                         .frame(width: 16, height: 16)

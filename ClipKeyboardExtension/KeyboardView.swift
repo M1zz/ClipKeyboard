@@ -277,19 +277,19 @@ struct KeyboardView: View {
     /// App Group UserDefaults에서 같은 flag/배열을 읽어 동일 동작 보장.
     private var isCategoryFeatureEnabled: Bool {
         UserDefaults(suiteName: AppGroup.identifier)?
-            .bool(forKey: "category.feature.enabled.v1") ?? false
+            .bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false
     }
 
     /// iOS 앱 ClipKeyboardListViewModel과 같은 키 — 완전 동기화
     private var sharedUserCategories: [String] {
         UserDefaults(suiteName: AppGroup.identifier)?
-            .stringArray(forKey: "userDefinedCategories_v1") ?? []
+            .stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
     }
 
     /// iOS 앱에서 숨긴 탭 목록 — "__favorites__" 또는 카테고리 이름
     private var sharedHiddenCategoryTabs: Set<String> {
         let arr = UserDefaults(suiteName: AppGroup.identifier)?
-            .stringArray(forKey: "hiddenCategoryTabs_v1") ?? []
+            .stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         return Set(arr)
     }
 
@@ -298,7 +298,7 @@ struct KeyboardView: View {
     private static let builtInOrder = ["templates", "textMemos", "images", "combos"]
     private var sharedEnabledBuiltIns: [String] {
         let enabled = Set(UserDefaults(suiteName: AppGroup.identifier)?
-            .stringArray(forKey: "enabledBuiltInCategories_v1") ?? [])
+            .stringArray(forKey: DefaultsKey.enabledBuiltInCategoriesV1) ?? [])
         return Self.builtInOrder.filter { enabled.contains($0) }
     }
 
@@ -423,7 +423,7 @@ struct KeyboardView: View {
             KeyboardHaptics.mediumTap()
             proxy.clearAll()
         } label: {
-            Image(systemName: "xmark.circle")
+            Image(systemName: AppSymbol.xmarkCircle)
                 .font(.subheadline.weight(.semibold))
                 .foregroundColor(theme.textMuted)
                 .frame(width: 36, height: 28)
@@ -550,7 +550,7 @@ struct KeyboardView: View {
 
             guard templateObserverToken == nil else { return }
             // 템플릿 입력 알림 구독
-            templateObserverToken = NotificationCenter.default.addObserver(forName: NSNotification.Name("showTemplateInput"), object: nil, queue: .main) { notification in
+            templateObserverToken = NotificationCenter.default.addObserver(forName: Notification.Name.showTemplateInput, object: nil, queue: .main) { notification in
                 if let userInfo = notification.userInfo,
                    let text = userInfo["text"] as? String,
                    let placeholders = userInfo["placeholders"] as? [String],
@@ -614,15 +614,15 @@ struct KeyboardView: View {
     private var freeUpgradeBanner: some View {
         Button {
             // KeyboardViewController가 이 알림을 받아 URL scheme으로 메인 앱 열기
-            NotificationCenter.default.post(name: NSNotification.Name("openMainAppPaywall"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name.openMainAppPaywall, object: nil)
         } label: {
             HStack(spacing: 6) {
-                Image(systemName: "lock.fill")
+                Image(systemName: AppSymbol.lockFill)
                     .font(.caption2)
                 Text(upgradeBannerText)
                     .font(.caption2.weight(.medium))
                 Spacer()
-                Image(systemName: "chevron.right")
+                Image(systemName: AppSymbol.chevronRight)
                     .font(.caption2)
             }
             .foregroundColor(.white)
@@ -654,7 +654,7 @@ struct KeyboardView: View {
     /// 키보드 상단 검색 바 — 탭하면 미니 QWERTY 펼침.
     private var searchBar: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
+            Image(systemName: AppSymbol.magnifyingglass)
                 .font(.footnote)
                 .foregroundColor(.secondary)
                 .accessibilityHidden(true)
@@ -672,7 +672,7 @@ struct KeyboardView: View {
                     searchQuery = ""
                     isSearching = false
                 } label: {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: AppSymbol.xmarkCircleFill)
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
@@ -736,7 +736,7 @@ struct KeyboardView: View {
                     escapeAction.handler()
                 } label: {
                     HStack(spacing: 4) {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: AppSymbol.xmarkCircleFill)
                             .font(.caption)
                         Text(escapeAction.label)
                             .font(.footnote.weight(.semibold))
@@ -843,7 +843,7 @@ struct KeyboardView: View {
         } label: {
             HStack {
                 Spacer()
-                Image(systemName: "space")
+                Image(systemName: AppSymbol.space)
                     .font(.caption2)
                     .foregroundColor(theme.textMuted)
                 Spacer()
@@ -860,7 +860,7 @@ struct KeyboardView: View {
             KeyboardHaptics.tap()
             if !searchQuery.isEmpty { searchQuery.removeLast() }
         } label: {
-            Image(systemName: "delete.left.fill")
+            Image(systemName: AppSymbol.deleteLeftFill)
                 .font(.footnote.weight(.semibold))
                 .foregroundColor(theme.text)
                 .frame(width: 56, height: 28)
@@ -949,7 +949,7 @@ struct KeyboardView: View {
     private var recentSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 5) {
-                Image(systemName: "clock.arrow.circlepath")
+                Image(systemName: AppSymbol.clockArrowCirclepath)
                     .font(.caption2.weight(.semibold))
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)
@@ -1018,7 +1018,7 @@ struct KeyboardView: View {
                     UIPasteboard.general.string = memo.value
                     KeyboardHaptics.tap()
                 } label: {
-                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
                 }
             } preview: { memoLongPressPreview(memo: memo) }
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
@@ -1034,7 +1034,7 @@ struct KeyboardView: View {
                     UIPasteboard.general.string = memo.value
                     KeyboardHaptics.tap()
                 } label: {
-                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: "doc.on.doc")
+                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
                 }
             } preview: {
                 memoLongPressPreview(memo: memo)
@@ -1177,7 +1177,7 @@ struct KeyboardView: View {
     }
 
     private func authenticateAndInsert(memo: Memo, bypassTemplate: Bool = false) {
-        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         guard !storedHash.isEmpty else {
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
             withAnimation { showPinNotSetToast = true }
@@ -1196,7 +1196,7 @@ struct KeyboardView: View {
     private func verifyPIN() {
         let digest = SHA256.hash(data: Data(enteredPIN.utf8))
         let hash = digest.compactMap { String(format: "%02x", $0) }.joined()
-        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         if hash == storedHash {
             showPINEntry = false
             if let memo = pendingSecureMemo { insertMemo(memo, bypassTemplate: pendingBypassTemplate) }
@@ -1260,7 +1260,7 @@ struct KeyboardView: View {
             // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
             HStack(spacing: 4) {
                 if memo.isSecure {
-                    Image(systemName: "lock.fill")
+                    Image(systemName: AppSymbol.lockFill)
                         .font(.system(size: buttonFontSize * 0.82, weight: .semibold))
                         .foregroundColor(theme.textMuted)
                 }
@@ -1348,7 +1348,7 @@ struct KeyboardView: View {
             VStack(spacing: 8) {
                 // Header
                 HStack(spacing: 6) {
-                    Image(systemName: "lock.fill")
+                    Image(systemName: AppSymbol.lockFill)
                         .font(.caption.weight(.semibold))
                         .foregroundColor(.orange)
                     Text(NSLocalizedString("보안 PIN 입력", comment: "PIN entry overlay title"))
@@ -1443,7 +1443,7 @@ struct KeyboardView: View {
             KeyboardHaptics.tap()
             if !enteredPIN.isEmpty { enteredPIN.removeLast() }
         } label: {
-            Image(systemName: "delete.left")
+            Image(systemName: AppSymbol.deleteLeft)
                 .font(.subheadline.weight(.medium))
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity)
@@ -1483,13 +1483,13 @@ struct KeyboardView: View {
     /// 사용자 커스텀 아이콘 — userCategoryIcons_v1 에서 로드
     private var customCategoryIcons: [String: String] {
         UserDefaults(suiteName: AppGroup.identifier)?
-            .dictionary(forKey: "userCategoryIcons_v1") as? [String: String] ?? [:]
+            .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String] ?? [:]
     }
 
     /// 사용자가 지정한 카테고리 색 — userCategoryColors_v1 에서 로드(앱과 동일 키).
     private var customCategoryColors: [String: String] {
         UserDefaults(suiteName: AppGroup.identifier)?
-            .dictionary(forKey: "userCategoryColors_v1") as? [String: String] ?? [:]
+            .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String] ?? [:]
     }
 
     /// 커스텀 > 인덱스 팔레트 순으로 폴백 (iOS 앱과 동일)

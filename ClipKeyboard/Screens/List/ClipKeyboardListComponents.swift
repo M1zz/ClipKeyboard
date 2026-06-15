@@ -24,7 +24,7 @@ struct ProValueNudgeBanner: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 10) {
-                Image(systemName: "crown.fill")
+                Image(systemName: AppSymbol.crownFill)
                     .font(.title3)
                     .foregroundStyle(.yellow)
                     .accessibilityHidden(true)
@@ -40,7 +40,7 @@ struct ProValueNudgeBanner: View {
                 }
                 Spacer(minLength: 8)
                 Button(action: onDismiss) {
-                    Image(systemName: "xmark")
+                    Image(systemName: AppSymbol.xmark)
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(theme.textFaint)
                         .padding(6)
@@ -74,7 +74,7 @@ struct CategoryActivationBanner: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 10) {
-                Image(systemName: "folder.badge.plus")
+                Image(systemName: AppSymbol.folderBadgePlus)
                     .font(.title3)
                     .foregroundColor(.blue)
                 VStack(alignment: .leading, spacing: 2) {
@@ -164,7 +164,7 @@ struct MemoActionSheet: View {
             VStack(spacing: 0) {
                 actionRow(
                     label: NSLocalizedString("복사", comment: "Action: copy"),
-                    systemImage: "doc.on.doc"
+                    systemImage: AppSymbol.docOnDoc
                 ) {
                     onCopy()
                     dismiss()
@@ -209,7 +209,7 @@ struct MemoActionSheet: View {
                                 dismiss()
                                 onCreateNewCategory()
                             } label: {
-                                Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"), systemImage: "folder.badge.plus")
+                                Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"), systemImage: AppSymbol.folderBadgePlus)
                             }
                         }
                         if hasCategory {
@@ -218,7 +218,7 @@ struct MemoActionSheet: View {
                                 onMoveToCategory("기본")
                                 dismiss()
                             } label: {
-                                Label(NSLocalizedString("카테고리에서 빼기", comment: "Action: remove memo from its category"), systemImage: "tray")
+                                Label(NSLocalizedString("카테고리에서 빼기", comment: "Action: remove memo from its category"), systemImage: AppSymbol.tray)
                             }
                         }
                     } label: {
@@ -226,7 +226,7 @@ struct MemoActionSheet: View {
                             label: hasCategory
                                 ? NSLocalizedString("카테고리 이동", comment: "Action: move to category")
                                 : NSLocalizedString("카테고리에 추가", comment: "Action: add to category"),
-                            systemImage: "folder"
+                            systemImage: AppSymbol.folder
                         )
                     }
                 }
@@ -234,7 +234,7 @@ struct MemoActionSheet: View {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("순서 바꾸기", comment: "Action: reorder memos"),
-                        systemImage: "arrow.up.arrow.down"
+                        systemImage: AppSymbol.arrowUpArrowDown
                     ) {
                         dismiss()
                         onReorder()
@@ -243,7 +243,7 @@ struct MemoActionSheet: View {
                 Divider().padding(.leading, 56)
                 actionRow(
                     label: NSLocalizedString("수정", comment: "Action: edit"),
-                    systemImage: "pencil"
+                    systemImage: AppSymbol.pencil
                 ) {
                     dismiss()
                     onEdit()
@@ -254,7 +254,7 @@ struct MemoActionSheet: View {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("템플릿으로 만들기", comment: "Action: turn memo into a template"),
-                        systemImage: "wand.and.sparkles"
+                        systemImage: AppSymbol.wandAndSparkles
                     ) {
                         dismiss()
                         onMakeTemplate()
@@ -276,7 +276,7 @@ struct MemoActionSheet: View {
                 Divider().padding(.leading, 56)
                 actionRow(
                     label: NSLocalizedString("삭제", comment: "Action: delete"),
-                    systemImage: "trash",
+                    systemImage: AppSymbol.trash,
                     isDestructive: true
                 ) {
                     dismiss()
@@ -370,7 +370,7 @@ struct CategorySuggestionTip: Tip {
     }
 
     var image: Image? {
-        Image(systemName: "folder.badge.plus")
+        Image(systemName: AppSymbol.folderBadgePlus)
     }
 
     var actions: [Tips.Action] {
@@ -393,7 +393,7 @@ struct PersonaCategoryTip: Tip {
         Text(NSLocalizedString("선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요.", comment: "Persona category suggestion tip message"))
     }
     var image: Image? {
-        Image(systemName: "folder.badge.plus")
+        Image(systemName: AppSymbol.folderBadgePlus)
     }
     var actions: [Tips.Action] {
         suggestions.map { name in Tips.Action(id: name) { Text(name) } }
@@ -438,7 +438,7 @@ struct MemoImageBackground: View {
                     .resizable()
                     .scaledToFill()
             } else {
-                Image(systemName: "photo")
+                Image(systemName: AppSymbol.photo)
                     .font(.title3)
                     .foregroundColor(Color(uiColor: .systemGray3))
             }
@@ -766,7 +766,7 @@ struct CategoryManagementSheet: View {
                         Label {
                             Text(NSLocalizedString("전체", comment: "Category: all"))
                         } icon: {
-                            Image(systemName: "square.grid.2x2.fill")
+                            Image(systemName: AppSymbol.squareGrid2x2Fill)
                                 .foregroundColor(.blue)
                         }
                         Spacer()
@@ -782,7 +782,7 @@ struct CategoryManagementSheet: View {
                         Label {
                             Text(NSLocalizedString("즐겨찾기", comment: "Category: favorites"))
                         } icon: {
-                            Image(systemName: "heart.fill")
+                            Image(systemName: AppSymbol.heartFill)
                                 .foregroundColor(.clipFavorite)
                         }
                     }
@@ -815,7 +815,7 @@ struct CategoryManagementSheet: View {
                     } label: {
                         Label(
                             NSLocalizedString("새 카테고리 추가", comment: "Add new category button"),
-                            systemImage: "plus.circle.fill"
+                            systemImage: AppSymbol.plusCircleFill
                         )
                     }
                 }

@@ -421,9 +421,9 @@ class MemoStore: ObservableObject {
         let fileURL: URL
         switch type {
         case .memo:
-            fileURL = containerURL.appendingPathComponent("memos.data")
+            fileURL = containerURL.appendingPathComponent(StorageFile.memos)
         case .clipboardHistory:
-            fileURL = containerURL.appendingPathComponent("clipboard.history.data")
+            fileURL = containerURL.appendingPathComponent(StorageFile.clipboardHistory)
         }
 
         return fileURL
@@ -433,6 +433,11 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
         try data.write(to: outfile)
+        // 메모 변경을 알려 동기화 엔진(MemoSyncEngine)이 변경분을 클라우드로 올리게 한다.
+        // (iOS MemoStore.save와 동일한 신호. 콜러가 메인 스레드가 아닐 수 있어 메인에서 post.)
+        if type == .memo {
+            DispatchQueue.main.async { NotificationCenter.default.post(name: .memoDataChanged, object: nil) }
+        }
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
@@ -598,7 +603,7 @@ class MemoStore: ObservableObject {
             print("❌ [MemoStore.smartClipboardFileURL] App Group 컨테이너를 찾을 수 없음!")
             return nil
         }
-        return containerURL.appendingPathComponent("smart.clipboard.history.data")
+        return containerURL.appendingPathComponent(StorageFile.smartClipboardHistory)
     }
 
     func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
@@ -624,7 +629,7 @@ class MemoStore: ObservableObject {
             print("❌ [MemoStore.combosFileURL] App Group 컨테이너를 찾을 수 없음!")
             return nil
         }
-        return containerURL.appendingPathComponent("combos.data")
+        return containerURL.appendingPathComponent(StorageFile.combos)
     }
 
     func loadCombos() throws -> [Combo] {
@@ -649,7 +654,7 @@ class MemoStore: ObservableObject {
 /// iOS 구매 상태를 iCloud KV Store로 동기화받아 macOS Pro 여부 판단.
 /// iCloud KV Store 우선, 없으면 App Group UserDefaults 폴백.
 struct MacProManager {
-    static let proStatusKey = "clipkeyboard_is_pro"
+    static let proStatusKey = DefaultsKey.proStatus
 
     static let freeMemoLimit = 10
     static let freeClipboardLimit = 50

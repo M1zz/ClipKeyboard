@@ -57,7 +57,7 @@ struct PaywallView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: AppSymbol.xmarkCircleFill)
                             .foregroundStyle(.secondary)
                     }
                     .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paywall"))
@@ -84,7 +84,7 @@ struct PaywallView: View {
 
     private var headerSection: some View {
         VStack(spacing: 12) {
-            Image(systemName: "crown.fill")
+            Image(systemName: AppSymbol.crownFill)
                 .font(.system(size: 48))
                 .foregroundStyle(.yellow.gradient)
 
@@ -114,7 +114,7 @@ struct PaywallView: View {
             // 개인화된 증거 — 이미 절약한 시간(있을 때만). 가장 강력한 전환 훅.
             if let proof = timeSavedProof {
                 HStack(spacing: 10) {
-                    Image(systemName: "clock.arrow.circlepath")
+                    Image(systemName: AppSymbol.clockArrowCirclepath)
                         .font(.title3)
                         .foregroundStyle(.green)
                         .accessibilityHidden(true)
@@ -165,7 +165,7 @@ struct PaywallView: View {
 
     private func limitBanner(_ limit: ProFeatureManager.LimitType) -> some View {
         HStack(spacing: 12) {
-            Image(systemName: "info.circle.fill")
+            Image(systemName: AppSymbol.infoCircleFill)
                 .foregroundStyle(.orange)
 
             Text(limit.localizedDescription)
@@ -282,7 +282,7 @@ struct PaywallView: View {
             if ProFeatureManager.hasPermanentPro {
                 // 이미 Pro (구매 / 그랜드파더 / TestFlight) — store.isPro만 보면 그랜드파더 누락
                 Label(NSLocalizedString("Pro 활성화됨", comment: "Pro active"),
-                      systemImage: "checkmark.seal.fill")
+                      systemImage: AppSymbol.checkmarkSealFill)
                     .font(.headline)
                     .foregroundStyle(.green)
                     .padding()
@@ -378,7 +378,7 @@ struct PaywallView: View {
             }
         } label: {
             HStack(spacing: 8) {
-                Image(systemName: "gift.fill")
+                Image(systemName: AppSymbol.giftFill)
                 Text(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays))
                     .fontWeight(.semibold)
             }
@@ -398,7 +398,7 @@ struct PaywallView: View {
     /// 활성 trial 상태 배지
     private var trialActiveBadge: some View {
         HStack(spacing: 8) {
-            Image(systemName: "clock.badge.checkmark.fill")
+            Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                 .foregroundStyle(.green)
                 .accessibilityHidden(true)
             Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
@@ -439,7 +439,7 @@ struct PaywallView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
-                Image(systemName: "checkmark.circle.fill")
+                Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 64))
                     .foregroundStyle(.green)
 

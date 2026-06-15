@@ -36,7 +36,7 @@ struct ClipboardSuggestionBanner: View {
                         )
                 } else {
                     // 텍스트 아이콘
-                    Image(systemName: "doc.on.clipboard.fill")
+                    Image(systemName: AppSymbol.docOnClipboardFill)
                         .font(.title2)
                         .foregroundColor(.white)
                         .frame(width: 44, height: 44)
@@ -86,7 +86,7 @@ struct ClipboardSuggestionBanner: View {
                         onAccept()
                     } label: {
                         HStack(spacing: 4) {
-                            Image(systemName: "checkmark")
+                            Image(systemName: AppSymbol.checkmark)
                                 .font(.body)
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("사용", comment: "Use"))
@@ -104,7 +104,7 @@ struct ClipboardSuggestionBanner: View {
                         onDismiss()
                     } label: {
                         HStack(spacing: 4) {
-                            Image(systemName: "xmark")
+                            Image(systemName: AppSymbol.xmark)
                                 .font(.body)
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("무시", comment: "Ignore"))

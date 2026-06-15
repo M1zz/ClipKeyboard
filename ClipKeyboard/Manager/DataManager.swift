@@ -17,26 +17,26 @@ class DataManager: ObservableObject {
         didSet { saveTextEntries() }
     }
 
-    @Published var didShowOnboarding: Bool = UserDefaults.standard.bool(forKey: "onboarding") {
+    @Published var didShowOnboarding: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.onboarding) {
         didSet {
             print("📝 [DataManager] didShowOnboarding 변경: \(didShowOnboarding)")
-            UserDefaults.standard.setValue(didShowOnboarding, forKey: "onboarding")
+            UserDefaults.standard.setValue(didShowOnboarding, forKey: DefaultsKey.onboarding)
             UserDefaults.standard.synchronize()
         }
     }
 
-    @Published var didShowUseCaseSelection: Bool = UserDefaults.standard.bool(forKey: "useCaseSelection") {
+    @Published var didShowUseCaseSelection: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.useCaseSelection) {
         didSet {
             print("📝 [DataManager] didShowUseCaseSelection 변경: \(didShowUseCaseSelection)")
-            UserDefaults.standard.setValue(didShowUseCaseSelection, forKey: "useCaseSelection")
+            UserDefaults.standard.setValue(didShowUseCaseSelection, forKey: DefaultsKey.useCaseSelection)
             UserDefaults.standard.synchronize()
         }
     }
 
-    static var didRemoveAds: Bool = UserDefaults.standard.bool(forKey: "didRemoveAds") {
+    static var didRemoveAds: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.didRemoveAds) {
         didSet {
             print("📝 [DataManager] didRemoveAds 변경: \(didRemoveAds)")
-            UserDefaults.standard.setValue(didRemoveAds, forKey: "didRemoveAds")
+            UserDefaults.standard.setValue(didRemoveAds, forKey: DefaultsKey.didRemoveAds)
             UserDefaults.standard.synchronize()
         }
     }
@@ -44,17 +44,17 @@ class DataManager: ObservableObject {
     /// Fetch saved entries
     init() {
         print("🔧 [DataManager] init() 시작")
-        let savedOnboarding = UserDefaults.standard.bool(forKey: "onboarding")
+        let savedOnboarding = UserDefaults.standard.bool(forKey: DefaultsKey.onboarding)
         print("📖 [DataManager] 온보딩 상태 로드: \(savedOnboarding)")
 
-        textEntries = AppConfig.sharedDefaults?.stringArray(forKey: "entries") ?? []
+        textEntries = AppConfig.sharedDefaults?.stringArray(forKey: DefaultsKey.entries) ?? []
         print("📖 [DataManager] textEntries 로드 완료: \(textEntries.count)개")
         print("✅ [DataManager] init() 완료")
     }
 
     /// Save text entries to `UserDefaults`
     private func saveTextEntries() {
-        AppConfig.sharedDefaults?.setValue(textEntries, forKey: "entries")
+        AppConfig.sharedDefaults?.setValue(textEntries, forKey: DefaultsKey.entries)
         AppConfig.sharedDefaults?.synchronize()
     }
 }

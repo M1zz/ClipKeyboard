@@ -57,7 +57,7 @@ struct MemoRowView: View {
 
                 if !compact, let hint = memo.hint, !hint.isEmpty {
                     HStack(spacing: 3) {
-                        Image(systemName: "lightbulb.fill")
+                        Image(systemName: AppSymbol.lightbulbFill)
                             .font(.caption2)
                             .foregroundColor(.yellow.opacity(0.7))
                         Text(hint)
@@ -80,7 +80,7 @@ struct MemoRowView: View {
 
             // 즐겨찾기 하트 표시 (구분 표시 ON일 때만)
             if visualCuesVisible, memo.isFavorite {
-                Image(systemName: "heart.fill")
+                Image(systemName: AppSymbol.heartFill)
                     .font(.body)
                     .foregroundColor(.pink)
                     .accessibilityHidden(true)
@@ -124,7 +124,7 @@ struct MemoRowView: View {
                     TagBadge(label: NSLocalizedString("New", comment: "Badge: new memo within 24h"), tint: .green)
                 }
                 if memo.isSecure {
-                    Image(systemName: "lock.fill")
+                    Image(systemName: AppSymbol.lockFill)
                         .font(.caption2)
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
@@ -213,7 +213,7 @@ struct FavoriteNudgeHeart: View {
     @State private var appear = false
 
     var body: some View {
-        Image(systemName: "heart.fill")
+        Image(systemName: AppSymbol.heartFill)
             .font(.title3)
             .foregroundColor(.pink)
             .opacity(appear ? 1 : 0)

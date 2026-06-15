@@ -210,7 +210,7 @@ struct FeedbackView: View {
         let isDisabled = message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         return Button(action: sendFeedback) {
             HStack(spacing: 8) {
-                Image(systemName: "paperplane.fill")
+                Image(systemName: AppSymbol.paperplaneFill)
                 Text(NSLocalizedString("보내기", comment: "Send feedback button"))
                     .fontWeight(.semibold)
             }
@@ -231,7 +231,7 @@ struct FeedbackView: View {
 
     private var sentConfirmation: some View {
         VStack(spacing: 16) {
-            Image(systemName: "checkmark.circle.fill")
+            Image(systemName: AppSymbol.checkmarkCircleFill)
                 .font(.system(size: 56))
                 .foregroundColor(.green)
             Text(NSLocalizedString("피드백을 보냈습니다!\n소중한 의견 감사합니다 🙏", comment: "Feedback sent confirmation message"))

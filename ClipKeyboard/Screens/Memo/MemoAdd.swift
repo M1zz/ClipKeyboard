@@ -282,10 +282,10 @@ struct MemoAdd: View {
             withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
         } label: {
             HStack {
-                Image(systemName: "slider.horizontal.3")
+                Image(systemName: AppSymbol.sliderHorizontal3)
                 Text(NSLocalizedString("더 설정하기", comment: "Show advanced options"))
                 Spacer()
-                Image(systemName: "chevron.right")
+                Image(systemName: AppSymbol.chevronRight)
             }
             .font(.body)
             .foregroundColor(theme.textMuted)
@@ -378,7 +378,7 @@ struct MemoAdd: View {
                             }
                         } label: {
                             HStack {
-                                Image(systemName: "arrow.counterclockwise")
+                                Image(systemName: AppSymbol.arrowCounterclockwise)
                                     .accessibilityHidden(true)
                                 Text(NSLocalizedString("초기화", comment: "Reset"))
                             }
@@ -402,7 +402,7 @@ struct MemoAdd: View {
                             } label: {
                                 HStack {
                                     Text(NSLocalizedString("다음", comment: "Next field button in bottom bar"))
-                                    Image(systemName: "arrow.forward")
+                                    Image(systemName: AppSymbol.arrowForward)
                                         .accessibilityHidden(true)
                                 }
                                 .font(.body)
@@ -418,7 +418,7 @@ struct MemoAdd: View {
                                 viewModel.saveMemo { dismiss() }
                             } label: {
                                 HStack {
-                                    Image(systemName: "checkmark")
+                                    Image(systemName: AppSymbol.checkmark)
                                         .accessibilityHidden(true)
                                     Text(NSLocalizedString("저장", comment: "Save"))
                                 }
@@ -534,7 +534,7 @@ struct MemoAdd: View {
     private var continuationsSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
-                Image(systemName: "arrow.turn.down.right")
+                Image(systemName: AppSymbol.arrowTurnDownRight)
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                 Text(NSLocalizedString("이어지는 메모", comment: "Continuation memos section"))
@@ -553,7 +553,7 @@ struct MemoAdd: View {
                     Button {
                         viewModel.removeContinuation(at: idx)
                     } label: {
-                        Image(systemName: "minus.circle.fill")
+                        Image(systemName: AppSymbol.minusCircleFill)
                             .foregroundColor(theme.textFaint)
                     }
                     .buttonStyle(.plain)
@@ -566,7 +566,7 @@ struct MemoAdd: View {
                 viewModel.addContinuation()
             } label: {
                 HStack(spacing: 6) {
-                    Image(systemName: "plus.circle")
+                    Image(systemName: AppSymbol.plusCircle)
                     Text(NSLocalizedString("이어지는 메모 추가", comment: "Add continuation memo"))
                 }
                 .font(.body)
@@ -586,7 +586,7 @@ struct MemoAdd: View {
         if !viewModel.detectedPlaceholders.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 8) {
-                    Image(systemName: "info.circle.fill")
+                    Image(systemName: AppSymbol.infoCircleFill)
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                     Text(NSLocalizedString("템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요", comment: "Template variable instruction"))
@@ -617,7 +617,7 @@ struct MemoAdd: View {
                     // 타입 범례
                     HStack(spacing: 12) {
                         HStack(spacing: 4) {
-                            Image(systemName: "number")
+                            Image(systemName: AppSymbol.number)
                                 .font(.system(.caption2))
                                 .foregroundColor(.blue)
                             Text(NSLocalizedString("숫자 입력 (키보드에서 숫자패드 표시)", comment: "Numeric token legend"))
@@ -625,7 +625,7 @@ struct MemoAdd: View {
                                 .foregroundColor(.secondary)
                         }
                         HStack(spacing: 4) {
-                            Image(systemName: "list.bullet")
+                            Image(systemName: AppSymbol.listBullet)
                                 .font(.system(.caption2))
                                 .foregroundColor(.green)
                             Text(NSLocalizedString("선택지 (저장된 값 중 선택)", comment: "Selection token legend"))
@@ -641,7 +641,7 @@ struct MemoAdd: View {
             if !viewModel.detectedPlaceholders.isEmpty {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 8) {
-                        Image(systemName: "list.bullet.rectangle")
+                        Image(systemName: AppSymbol.listBulletRectangle)
                             .font(.body)
                             .foregroundColor(.blue)
                         Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))

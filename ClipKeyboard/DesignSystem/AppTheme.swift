@@ -326,7 +326,7 @@ private struct ClipRoundedField: ViewModifier {
 }
 
 // MARK: - File-scope helper
-// ColorExtension.swift 정의의 `Color.init?(hex:)`는 Optional을 반환.
+// LeeoKit 정의의 `Color.init?(hex:)`는 Optional을 반환.
 // AppTheme static 상수에서는 항상 유효한 hex를 전달하므로 non-optional이 필요.
 // 파일 스코프에서 강제 unwrap으로 감싸 간결하게 사용.
 private func hx(_ hex: String) -> Color {

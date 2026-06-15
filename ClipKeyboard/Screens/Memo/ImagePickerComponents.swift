@@ -79,7 +79,7 @@ struct ImageAttachmentView: View {
                 Button {
                     onRemove()
                 } label: {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: AppSymbol.xmarkCircleFill)
                         .font(.title3)
                         .foregroundStyle(.white)
                         .background(Circle().fill(Color.red).frame(width: 20, height: 20))
@@ -88,7 +88,7 @@ struct ImageAttachmentView: View {
                 Button {
                     onCopy()
                 } label: {
-                    Image(systemName: "doc.on.doc.fill")
+                    Image(systemName: AppSymbol.docOnDocFill)
                         .font(.body)
                         .foregroundStyle(.white)
                         .background(Circle().fill(Color.blue).frame(width: 20, height: 20))

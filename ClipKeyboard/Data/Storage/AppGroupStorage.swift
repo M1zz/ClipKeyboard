@@ -17,11 +17,21 @@ final class AppGroupStorage {
 
     private init() {}
 
-    enum FileKey: String {
-        case memos = "memos.data"
-        case legacyClipboard = "clipboard.history.data"
-        case smartClipboard = "smart.clipboard.history.data"
-        case combos = "combos.data"
+    enum FileKey {
+        case memos
+        case legacyClipboard
+        case smartClipboard
+        case combos
+
+        /// 파일명은 StorageFile 단일 출처에서 위임.
+        var fileName: String {
+            switch self {
+            case .memos: return StorageFile.memos
+            case .legacyClipboard: return StorageFile.clipboardHistory
+            case .smartClipboard: return StorageFile.smartClipboardHistory
+            case .combos: return StorageFile.combos
+            }
+        }
     }
 
     var containerURL: URL {
@@ -34,7 +44,7 @@ final class AppGroupStorage {
     }
 
     func fileURL(for key: FileKey) throws -> URL {
-        try containerURL.appendingPathComponent(key.rawValue)
+        try containerURL.appendingPathComponent(key.fileName)
     }
 
     func read(key: FileKey) throws -> Data {

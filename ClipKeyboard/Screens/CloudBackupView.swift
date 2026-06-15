@@ -22,7 +22,7 @@ struct CloudBackupView: View {
             // 무료 유저: Pro 유도
             VStack(spacing: 20) {
                 Spacer()
-                Image(systemName: "icloud.fill")
+                Image(systemName: AppSymbol.icloudFill)
                     .font(.system(size: 48))
                     .foregroundStyle(.secondary)
                 Text(NSLocalizedString("iCloud 백업은 Pro 기능입니다", comment: "Cloud backup pro"))
@@ -102,7 +102,7 @@ struct CloudBackupView: View {
 
                             Spacer()
 
-                            Image(systemName: "checkmark.circle.fill")
+                            Image(systemName: AppSymbol.checkmarkCircleFill)
                                 .foregroundColor(.green)
                                 .font(.title2)
                         }
@@ -119,7 +119,7 @@ struct CloudBackupView: View {
 
                             Spacer()
 
-                            Image(systemName: "exclamationmark.circle.fill")
+                            Image(systemName: AppSymbol.exclamationmarkCircleFill)
                                 .foregroundColor(.orange)
                                 .font(.title2)
                         }
@@ -165,7 +165,7 @@ struct CloudBackupView: View {
                         performBackup()
                     } label: {
                         HStack {
-                            Image(systemName: "arrow.up.doc.fill")
+                            Image(systemName: AppSymbol.arrowUpDocFill)
                                 .foregroundColor(.blue)
                                 .font(.title3)
 
@@ -193,7 +193,7 @@ struct CloudBackupView: View {
                         showRestoreConfirmation = true
                     } label: {
                         HStack {
-                            Image(systemName: "arrow.down.doc.fill")
+                            Image(systemName: AppSymbol.arrowDownDocFill)
                                 .foregroundColor(.green)
                                 .font(.title3)
 
@@ -222,7 +222,7 @@ struct CloudBackupView: View {
                             showDeleteConfirmation = true
                         } label: {
                             HStack {
-                                Image(systemName: "trash.fill")
+                                Image(systemName: AppSymbol.trashFill)
                                     .font(.title3)
 
                                 VStack(alignment: .leading, spacing: 4) {

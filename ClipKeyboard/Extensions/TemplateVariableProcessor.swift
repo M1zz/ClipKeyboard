@@ -16,8 +16,8 @@ enum TemplateVariableProcessor {
 
     /// App Group UserDefaults keys for user-configured values (set in onboarding).
     /// When empty, falls back to Locale/TimeZone.current.
-    static let userTimezoneKey = "clipkeyboard_user_timezone"
-    static let userCurrencyKey = "clipkeyboard_user_currency"
+    static let userTimezoneKey = DefaultsKey.userTimezone
+    static let userCurrencyKey = DefaultsKey.userCurrency
 
     /// All auto-variable tokens the processor substitutes. Callers that extract
     /// custom placeholders should skip anything in this set.

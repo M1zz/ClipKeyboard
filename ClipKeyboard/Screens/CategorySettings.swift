@@ -23,7 +23,7 @@ struct CategorySettings: View {
             Section {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
-                        Image(systemName: "tag.fill")
+                        Image(systemName: AppSymbol.tagFill)
                             .font(.title2)
                             .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
@@ -115,7 +115,7 @@ struct CategorySettings: View {
                         showResetAlert = true
                     } label: {
                         HStack(spacing: 6) {
-                            Image(systemName: "trash")
+                            Image(systemName: AppSymbol.trash)
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("Remove all categories", comment: "Remove all categories button"))
                         }
@@ -174,7 +174,7 @@ struct CategorySettings: View {
                     .foregroundColor(isProtected ? .secondary : .primary)
                 Spacer()
                 if isProtected {
-                    Image(systemName: "lock.fill")
+                    Image(systemName: AppSymbol.lockFill)
                         .font(.body)
                         .foregroundColor(.secondary)
                         .accessibilityLabel(NSLocalizedString("기본 카테고리 (삭제 불가)", comment: "Protected category lock icon"))
@@ -183,7 +183,7 @@ struct CategorySettings: View {
                         renaming = category
                         renameText = category
                     } label: {
-                        Image(systemName: "pencil")
+                        Image(systemName: AppSymbol.pencil)
                             .font(.body)
                             .foregroundColor(.accentColor)
                     }

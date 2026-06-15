@@ -11,7 +11,7 @@ struct WelcomeTip: Tip {
         Text(NSLocalizedString("스니펫을 탭해보세요. 클립보드에 바로 복사돼요.", comment: "Welcome tip message"))
     }
     var image: Image? {
-        Image(systemName: "doc.on.clipboard.fill")
+        Image(systemName: AppSymbol.docOnClipboardFill)
     }
 }
 
@@ -28,7 +28,7 @@ struct AddMemoTip: Tip {
         Text(NSLocalizedString("+ 버튼으로 자주 쓰는 텍스트를 저장할 수 있어요.", comment: "Add memo tip message"))
     }
     var image: Image? {
-        Image(systemName: "plus.circle.fill")
+        Image(systemName: AppSymbol.plusCircleFill)
     }
 
     var rules: [Rule] {
@@ -49,7 +49,7 @@ struct KeyboardTip: Tip {
         Text(NSLocalizedString("ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.", comment: "Keyboard tip message"))
     }
     var image: Image? {
-        Image(systemName: "keyboard.fill")
+        Image(systemName: AppSymbol.keyboardFill)
     }
 
     var rules: [Rule] {
@@ -74,7 +74,7 @@ struct CleanUpSamplesTip: Tip {
         Text(NSLocalizedString("직접 만든 스니펫이 생겼어요. 처음에 넣어준 예제들을 정리할까요?", comment: "Clean up samples tip message"))
     }
     var image: Image? {
-        Image(systemName: "trash.circle.fill")
+        Image(systemName: AppSymbol.trashCircleFill)
     }
 
     var rules: [Rule] {
@@ -100,7 +100,7 @@ struct ComboInfoTip: Tip {
         Text(NSLocalizedString("탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.", comment: "Combo info tip message"))
     }
     var image: Image? {
-        Image(systemName: "repeat")
+        Image(systemName: AppSymbol.`repeat`)
     }
 }
 
@@ -115,7 +115,7 @@ struct TemplateInfoTip: Tip {
         Text(NSLocalizedString("강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.", comment: "Template info tip message"))
     }
     var image: Image? {
-        Image(systemName: "curlybraces")
+        Image(systemName: AppSymbol.curlybraces)
     }
 }
 
@@ -130,7 +130,7 @@ struct AttachedTemplateTip: Tip {
         Text(NSLocalizedString("이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
     }
     var image: Image? {
-        Image(systemName: "doc.badge.plus")
+        Image(systemName: AppSymbol.docBadgePlus)
     }
 }
 

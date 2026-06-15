@@ -140,13 +140,13 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func loadLastBackupDate() {
-        if let timestamp = UserDefaults.standard.object(forKey: "lastBackupDate") as? Date {
+        if let timestamp = UserDefaults.standard.object(forKey: DefaultsKey.lastBackupDate) as? Date {
             self.lastBackupDate = timestamp
         }
     }
 
     private func saveLastBackupDate(_ date: Date) {
-        UserDefaults.standard.set(date, forKey: "lastBackupDate")
+        UserDefaults.standard.set(date, forKey: DefaultsKey.lastBackupDate)
         self.lastBackupDate = date
     }
 
@@ -155,11 +155,11 @@ class CloudKitBackupService: ObservableObject {
         // 자동 백업 기본값 ON: 한 번도 설정한 적 없으면 켠다. 다른 기기(맥)에서
         // 시작 시 바로 복원할 수 있도록 항상 최신 백업이 존재하게 한다.
         // 이미 켜거나 끈 사용자의 명시적 선택은 그대로 존중한다.
-        if defaults.object(forKey: "autoBackupEnabled") == nil {
-            defaults.set(true, forKey: "autoBackupEnabled")
+        if defaults.object(forKey: DefaultsKey.autoBackupEnabled) == nil {
+            defaults.set(true, forKey: DefaultsKey.autoBackupEnabled)
             print("🔄 [CloudKit] 자동 백업 기본 활성화 (최초 실행)")
         }
-        self.autoBackupEnabled = defaults.bool(forKey: "autoBackupEnabled")
+        self.autoBackupEnabled = defaults.bool(forKey: DefaultsKey.autoBackupEnabled)
         if autoBackupEnabled {
             startAutoBackupTimer()
             performInitialBackupIfNeeded()
@@ -194,7 +194,7 @@ class CloudKitBackupService: ObservableObject {
 
     func enableAutoBackup() {
         print("🔄 [CloudKit] 자동 백업 활성화")
-        UserDefaults.standard.set(true, forKey: "autoBackupEnabled")
+        UserDefaults.standard.set(true, forKey: DefaultsKey.autoBackupEnabled)
         DispatchQueue.main.async { [weak self] in
             self?.autoBackupEnabled = true
         }
@@ -203,7 +203,7 @@ class CloudKitBackupService: ObservableObject {
 
     func disableAutoBackup() {
         print("⏸️ [CloudKit] 자동 백업 비활성화")
-        UserDefaults.standard.set(false, forKey: "autoBackupEnabled")
+        UserDefaults.standard.set(false, forKey: DefaultsKey.autoBackupEnabled)
         DispatchQueue.main.async { [weak self] in
             self?.autoBackupEnabled = false
         }
@@ -240,7 +240,7 @@ class CloudKitBackupService: ObservableObject {
     private func setupDataChangeListener() {
         // MemoStore에서 데이터 변경 알림을 받으면 자동 백업 트리거
         NotificationCenter.default.addObserver(
-            forName: NSNotification.Name("MemoDataChanged"),
+            forName: Notification.Name.memoDataChanged,
             object: nil,
             queue: .main
         ) { [weak self] _ in
@@ -291,6 +291,63 @@ class CloudKitBackupService: ObservableObject {
         return CKAsset(fileURL: fileURL)
     }
 
+    // MARK: - Image Backup (App Group Images/ ↔ CKAsset)
+
+    /// App Group 내 이미지 폴더.
+    private var imagesBackupDirectory: URL? {
+        FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?
+            .appendingPathComponent("Images")
+    }
+
+    /// 메모들이 참조하는 PNG들을 백업 레코드에 CKAsset 배열로 첨부(존재하는 파일만).
+    /// 이미지가 없으면 필드를 비워 이전 백업의 잔존 이미지를 정리한다.
+    private func attachImages(to record: inout CKRecord, memos: [Memo]) {
+        var names = Set<String>()
+        for memo in memos {
+            names.formUnion(memo.imageFileNames)
+            if let single = memo.imageFileName, !single.isEmpty { names.insert(single) }
+        }
+        guard let dir = imagesBackupDirectory else { return }
+        var assets: [CKAsset] = []
+        var attachedNames: [String] = []
+        for name in names.sorted() {
+            let url = dir.appendingPathComponent(name)
+            if FileManager.default.fileExists(atPath: url.path) {
+                assets.append(CKAsset(fileURL: url))
+                attachedNames.append(name)
+            }
+        }
+        if assets.isEmpty {
+            record["imageAssets"] = nil
+            record["imageNames"] = nil
+        } else {
+            record["imageAssets"] = assets as CKRecordValue
+            record["imageNames"] = attachedNames as CKRecordValue
+        }
+        print("🖼️ [CloudKit] 백업 이미지: \(attachedNames.count)개")
+    }
+
+    /// 백업 레코드의 이미지 CKAsset들을 App Group Images/에 복원(덮어쓰기).
+    private func restoreImages(from record: CKRecord) {
+        guard let assets = record["imageAssets"] as? [CKAsset],
+              let names = record["imageNames"] as? [String],
+              let dir = imagesBackupDirectory else {
+            print("ℹ️ [CloudKit] 복원할 이미지 없음")
+            return
+        }
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        var restored = 0
+        for (asset, name) in zip(assets, names) {
+            guard let src = asset.fileURL else { continue }
+            let dest = dir.appendingPathComponent(name)
+            try? FileManager.default.removeItem(at: dest)   // 덮어쓰기
+            do { try FileManager.default.copyItem(at: src, to: dest); restored += 1 }
+            catch { print("⚠️ [CloudKit] 이미지 복원 실패 \(name): \(error)") }
+        }
+        print("🖼️ [CloudKit] 이미지 \(restored)개 복원 완료")
+    }
+
     /// CKAsset에서 Data 읽기
     private func readAsset(_ asset: CKAsset) throws -> Data {
         guard let fileURL = asset.fileURL else {
@@ -328,6 +385,7 @@ class CloudKitBackupService: ObservableObject {
             )
             var record = try await fetchOrCreateRecord()
             try configureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
+            attachImages(to: &record, memos: memos)   // 첨부 이미지(PNG)도 함께 백업
 
             _ = try await saveRecordWithRetry(record, maxRetries: 3)
 
@@ -487,6 +545,8 @@ class CloudKitBackupService: ObservableObject {
             let smartClipboard = fetchSmartClipboardHistory(from: record)
             let combos = fetchCombos(from: record)
 
+            // 메모 본문을 저장하기 전에 첨부 이미지를 Images/에 먼저 복원(깨진 참조 방지).
+            restoreImages(from: record)
             try saveRestoredData(memos: memos, smartClipboard: smartClipboard, combos: combos)
             print("🎉 [CloudKit] 전체 복구 완료!")
 
@@ -579,7 +639,7 @@ class CloudKitBackupService: ObservableObject {
         // 콤보 통합 마이그레이션 플래그를 리셋해 다음 실행 시 신 모델(childMemoIds)로 재변환되게 한다.
         // (마이그레이션은 hasLegacyComboData()로도 자동 감지하지만, 플래그 리셋으로 명시 보장.)
         UserDefaults(suiteName: AppGroup.identifier)?
-            .set(false, forKey: "comboModelUnifyMigrated_v1")
+            .set(false, forKey: DefaultsKey.comboModelUnifyMigratedV1)
     }
 
     // MARK: - Check Backup Existence
@@ -605,7 +665,7 @@ class CloudKitBackupService: ObservableObject {
 
             await MainActor.run {
                 lastBackupDate = nil
-                UserDefaults.standard.removeObject(forKey: "lastBackupDate")
+                UserDefaults.standard.removeObject(forKey: DefaultsKey.lastBackupDate)
             }
 
             print("✅ [CloudKit] 백업 삭제 완료")

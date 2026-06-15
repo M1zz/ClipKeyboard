@@ -162,7 +162,7 @@ struct PlaceholderValueEditor: View {
                                 Button {
                                     values.removeAll { $0 == value }
                                 } label: {
-                                    Image(systemName: "xmark.circle.fill")
+                                    Image(systemName: AppSymbol.xmarkCircleFill)
                                         .font(.caption2)
                                         .foregroundColor(.red)
                                 }
@@ -252,7 +252,7 @@ struct ContentInputSection: View {
                     Button {
                         pasteImageFromClipboard()
                     } label: {
-                        Image(systemName: "doc.on.clipboard")
+                        Image(systemName: AppSymbol.docOnClipboard)
                             .font(.body)
                             .padding(6)
                             .background(Color.purple.opacity(0.1))
@@ -264,7 +264,7 @@ struct ContentInputSection: View {
                     Button {
                         showImagePicker = true
                     } label: {
-                        Image(systemName: "photo")
+                        Image(systemName: AppSymbol.photo)
                             .font(.body)
                             .padding(6)
                             .background(Color.blue.opacity(0.1))
@@ -294,7 +294,7 @@ struct ContentInputSection: View {
                                 showImagePicker = true
                             } label: {
                                 HStack {
-                                    Image(systemName: "photo.badge.plus")
+                                    Image(systemName: AppSymbol.photoBadgePlus)
                                     Text(NSLocalizedString("이미지 변경", comment: "Change image"))
                                 }
                                 .font(.body)
@@ -309,7 +309,7 @@ struct ContentInputSection: View {
                                 withAnimation(reduceMotion ? nil : .default) { attachedImages.removeAll() }
                             } label: {
                                 HStack {
-                                    Image(systemName: "trash")
+                                    Image(systemName: AppSymbol.trash)
                                     Text(NSLocalizedString("이미지 제거", comment: "Remove image"))
                                 }
                                 .font(.body)
@@ -328,7 +328,7 @@ struct ContentInputSection: View {
                         showImagePicker = true
                     } label: {
                         VStack(spacing: 16) {
-                            Image(systemName: "photo.on.rectangle.angled")
+                            Image(systemName: AppSymbol.photoOnRectangleAngled)
                                 .font(.system(size: 60))
                                 .foregroundColor(.gray.opacity(0.5))
 
@@ -371,14 +371,14 @@ struct ContentInputSection: View {
                                 Button {
                                     showImagePicker = true
                                 } label: {
-                                    Label(NSLocalizedString("변경", comment: "Change image"), systemImage: "photo.badge.plus")
+                                    Label(NSLocalizedString("변경", comment: "Change image"), systemImage: AppSymbol.photoBadgePlus)
                                         .font(.body)
                                         .foregroundColor(.blue)
                                 }
                                 Button {
                                     withAnimation(reduceMotion ? nil : .default) { attachedImages.removeAll() }
                                 } label: {
-                                    Label(NSLocalizedString("제거", comment: "Remove image"), systemImage: "trash")
+                                    Label(NSLocalizedString("제거", comment: "Remove image"), systemImage: AppSymbol.trash)
                                         .font(.body)
                                         .foregroundColor(.red)
                                 }
@@ -394,7 +394,7 @@ struct ContentInputSection: View {
                 // v4.0.8: 샘플 값이면 안내 배너 — "수정해서 사용하세요"
                 if isSampleValue {
                     HStack(spacing: 8) {
-                        Image(systemName: "pencil.tip")
+                        Image(systemName: AppSymbol.pencilTip)
                             .font(.body)
                             .foregroundColor(.orange)
                         Text(NSLocalizedString("샘플 — 수정해서 사용하세요", comment: "Sample value hint"))
@@ -472,7 +472,7 @@ struct ContentInputSection: View {
                         showImagePicker = true
                     } label: {
                         HStack(spacing: 8) {
-                            Image(systemName: "photo.badge.plus")
+                            Image(systemName: AppSymbol.photoBadgePlus)
                                 .font(.body)
                             Text(NSLocalizedString("이미지 추가", comment: "Add image button on memo add screen"))
                                 .font(.body)

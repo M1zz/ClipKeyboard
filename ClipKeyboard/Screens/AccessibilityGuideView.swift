@@ -128,7 +128,7 @@ struct AccessibilityGuideView: View {
         VStack(alignment: .leading, spacing: 12) {
             Label(
                 NSLocalizedString("테스트 방법", comment: "Accessibility testing section header"),
-                systemImage: "checkmark.shield.fill"
+                systemImage: AppSymbol.checkmarkShieldFill
             )
             .font(.headline)
             .foregroundColor(theme.text)
@@ -136,7 +136,7 @@ struct AccessibilityGuideView: View {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(testSteps, id: \.self) { step in
                     HStack(alignment: .top, spacing: 10) {
-                        Image(systemName: "chevron.right.circle.fill")
+                        Image(systemName: AppSymbol.chevronRightCircleFill)
                             .font(.body)
                             .foregroundColor(theme.accent)
                             .padding(.top, 2)
@@ -217,7 +217,7 @@ private struct FeatureCard: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: 6) {
-                Image(systemName: "gear")
+                Image(systemName: AppSymbol.gear)
                     .font(.caption2)
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)

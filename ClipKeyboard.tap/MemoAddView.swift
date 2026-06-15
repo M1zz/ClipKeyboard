@@ -24,7 +24,7 @@ struct MemoAddView: View {
             // 헤더
             VStack(spacing: 12) {
                 HStack {
-                    Image(systemName: "square.and.pencil")
+                    Image(systemName: AppSymbol.squareAndPencil)
                         .font(.system(size: 32))
                         .foregroundStyle(.blue)
 
@@ -37,7 +37,7 @@ struct MemoAddView: View {
                     Button {
                         closeWindow()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: AppSymbol.xmarkCircleFill)
                             .font(.title3)
                             .foregroundStyle(.secondary)
                     }
@@ -73,7 +73,7 @@ struct MemoAddView: View {
                     // 텍스트 입력
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Image(systemName: "text.alignleft")
+                            Image(systemName: AppSymbol.textAlignleft)
                                 .foregroundStyle(.blue)
                             Text(NSLocalizedString("내용", comment: "Content section header"))
                                 .font(.headline)
@@ -103,7 +103,7 @@ struct MemoAddView: View {
                     // 이미지 첨부 영역
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Image(systemName: "photo")
+                            Image(systemName: AppSymbol.photo)
                                 .foregroundStyle(.purple)
                             Text(NSLocalizedString("이미지 첨부", comment: "Image attachment section header"))
                                 .font(.headline)
@@ -122,14 +122,14 @@ struct MemoAddView: View {
                             Button {
                                 selectImageFromFile()
                             } label: {
-                                Label(NSLocalizedString("파일에서 선택", comment: "Pick from file"), systemImage: "folder")
+                                Label(NSLocalizedString("파일에서 선택", comment: "Pick from file"), systemImage: AppSymbol.folder)
                             }
                             .buttonStyle(.bordered)
 
                             Button {
                                 pasteImageFromClipboard()
                             } label: {
-                                Label(NSLocalizedString("클립보드에서 붙여넣기", comment: "Paste from clipboard"), systemImage: "doc.on.clipboard")
+                                Label(NSLocalizedString("클립보드에서 붙여넣기", comment: "Paste from clipboard"), systemImage: AppSymbol.docOnClipboard)
                             }
                             .buttonStyle(.bordered)
                         }
@@ -150,7 +150,7 @@ struct MemoAddView: View {
                             HStack {
                                 Spacer()
                                 VStack(spacing: 8) {
-                                    Image(systemName: "photo.on.rectangle.angled")
+                                    Image(systemName: AppSymbol.photoOnRectangleAngled)
                                         .font(.system(size: 40))
                                         .foregroundStyle(.secondary)
                                     Text(NSLocalizedString("이미지를 추가해보세요", comment: "Empty image hint"))
@@ -399,7 +399,7 @@ struct ImageAttachmentView: View {
                 Button {
                     onRemove()
                 } label: {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: AppSymbol.xmarkCircleFill)
                         .font(.title3)
                         .foregroundStyle(.white)
                         .background(Circle().fill(Color.red))

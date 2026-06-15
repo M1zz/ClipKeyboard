@@ -19,7 +19,7 @@ struct ReviewRequestView: View {
             Spacer()
 
             // Simple icon
-            Image(systemName: "heart.fill")
+            Image(systemName: AppSymbol.heartFill)
                 .font(.system(size: 60))
                 .foregroundColor(.orange)
                 .padding(.bottom, 8)

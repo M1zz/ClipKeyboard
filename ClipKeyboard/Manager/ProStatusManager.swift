@@ -121,7 +121,9 @@ class ProStatusManager: ObservableObject {
     func setProStatus(_ isPro: Bool) {
         self.isPro = isPro
         saveProStatus()
-        print("✅ [ProStatusManager] Pro 상태 변경: \(isPro)")
+        print("✅ [ProStatusManager] IAP 구매 권한 변경: \(isPro)")
+        // 결제 외 경로(TestFlight/그랜드파더/체험)까지 합친 실제 접근권한을 함께 찍어 혼동 제거.
+        ProFeatureManager.logAccessResolution("구매 권한 변경 후")
     }
 
     /// Pro 상태 복원 (앱 시작 시 또는 구매 복원 시)
@@ -134,7 +136,7 @@ class ProStatusManager: ObservableObject {
 
     private func loadProStatus() {
         isPro = userDefaults?.bool(forKey: proStatusKey) ?? false
-        print("📥 [ProStatusManager] Pro 상태 로드: \(isPro)")
+        print("📥 [ProStatusManager] IAP 구매 권한 로드: \(isPro)")
     }
 
     private func saveProStatus() {
@@ -143,6 +145,6 @@ class ProStatusManager: ObservableObject {
         // macOS 앱과 Pro 상태 동기화 (iCloud KV Store)
         NSUbiquitousKeyValueStore.default.set(isPro, forKey: proStatusKey)
         NSUbiquitousKeyValueStore.default.synchronize()
-        print("💾 [ProStatusManager] Pro 상태 저장: \(isPro)")
+        print("💾 [ProStatusManager] IAP 구매 권한 저장: \(isPro)")
     }
 }

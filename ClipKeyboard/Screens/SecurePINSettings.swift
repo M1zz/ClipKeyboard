@@ -26,7 +26,7 @@ struct SecurePINSettings: View {
             Section {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
-                        Image(systemName: "lock.shield.fill")
+                        Image(systemName: AppSymbol.lockShieldFill)
                             .font(.title2)
                             .foregroundColor(.orange)
                             .accessibilityHidden(true)
@@ -43,7 +43,7 @@ struct SecurePINSettings: View {
             Section {
                 if pinIsSet {
                     HStack {
-                        Image(systemName: "checkmark.circle.fill")
+                        Image(systemName: AppSymbol.checkmarkCircleFill)
                             .foregroundColor(.green)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("보안 PIN이 설정되어 있습니다", comment: "Secure PIN is set"))
@@ -59,7 +59,7 @@ struct SecurePINSettings: View {
                         showDeletePINConfirm = true
                     } label: {
                         HStack(spacing: 6) {
-                            Image(systemName: "trash")
+                            Image(systemName: AppSymbol.trash)
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("PIN 삭제", comment: "Delete PIN button"))
                         }
@@ -71,7 +71,7 @@ struct SecurePINSettings: View {
                         showPINSetup = true
                     } label: {
                         HStack(spacing: 6) {
-                            Image(systemName: "plus.circle")
+                            Image(systemName: AppSymbol.plusCircle)
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("보안 PIN 설정", comment: "Set secure PIN button"))
                         }

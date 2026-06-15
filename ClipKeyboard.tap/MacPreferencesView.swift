@@ -18,16 +18,16 @@ struct MacPreferencesView: View {
     var body: some View {
         TabView {
             generalTab
-                .tabItem { Label(NSLocalizedString("General", comment: "Prefs: general"), systemImage: "gear") }
+                .tabItem { Label(NSLocalizedString("General", comment: "Prefs: general"), systemImage: AppSymbol.gear) }
 
             shortcutsTab
-                .tabItem { Label(NSLocalizedString("Shortcuts", comment: "Prefs: shortcuts"), systemImage: "command") }
+                .tabItem { Label(NSLocalizedString("Shortcuts", comment: "Prefs: shortcuts"), systemImage: AppSymbol.command) }
 
             proTab
-                .tabItem { Label(NSLocalizedString("Pro", comment: "Prefs: pro"), systemImage: "star.fill") }
+                .tabItem { Label(NSLocalizedString("Pro", comment: "Prefs: pro"), systemImage: AppSymbol.starFill) }
 
             aboutTab
-                .tabItem { Label(NSLocalizedString("About", comment: "Prefs: about"), systemImage: "info.circle") }
+                .tabItem { Label(NSLocalizedString("About", comment: "Prefs: about"), systemImage: AppSymbol.infoCircle) }
         }
         .frame(minWidth: 520, minHeight: 400)
         .padding()
@@ -176,7 +176,7 @@ struct MacPreferencesView: View {
 
     private var aboutTab: some View {
         VStack(spacing: 12) {
-            Image(systemName: "doc.on.clipboard.fill")
+            Image(systemName: AppSymbol.docOnClipboardFill)
                 .font(.system(size: 48))
                 .foregroundStyle(.tint)
                 .padding(.top, 12)

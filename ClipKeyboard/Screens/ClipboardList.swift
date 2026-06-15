@@ -35,7 +35,7 @@ struct ClipboardList: View {
     @State private var showClearAllConfirm: Bool = false
 
     // 붙여넣기 허용 팁
-    @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: "pasteTipDismissed")
+    @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
 
     var filteredHistory: [SmartClipboardHistory] {
         if let filter = selectedFilter {
@@ -58,7 +58,7 @@ struct ClipboardList: View {
                         withAnimation(.easeInOut(duration: 0.25)) {
                             showPasteTip = false
                         }
-                        UserDefaults.standard.set(true, forKey: "pasteTipDismissed")
+                        UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
                     }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
@@ -159,7 +159,7 @@ struct ClipboardList: View {
                             Button {
                                 isSelectingForCombo = true
                             } label: {
-                                Label(NSLocalizedString("Combo 생성", comment: "Create combo from clipboard items"), systemImage: "arrow.triangle.2.circlepath.circle")
+                                Label(NSLocalizedString("Combo 생성", comment: "Create combo from clipboard items"), systemImage: AppSymbol.arrowTriangle2CirclepathCircle)
                             }
 
                             Divider()
@@ -167,16 +167,16 @@ struct ClipboardList: View {
                             Button(role: .destructive) {
                                 showClearAllConfirm = true
                             } label: {
-                                Label(NSLocalizedString("전체 삭제", comment: "Clear all clipboard history"), systemImage: "trash")
+                                Label(NSLocalizedString("전체 삭제", comment: "Clear all clipboard history"), systemImage: AppSymbol.trash)
                             }
 
                             Button {
                                 selectedFilter = nil
                             } label: {
-                                Label(NSLocalizedString("필터 초기화", comment: "Reset filter"), systemImage: "line.3.horizontal.decrease.circle")
+                                Label(NSLocalizedString("필터 초기화", comment: "Reset filter"), systemImage: AppSymbol.line3HorizontalDecreaseCircle)
                             }
                         } label: {
-                            Image(systemName: "ellipsis.circle")
+                            Image(systemName: AppSymbol.ellipsisCircle)
                         }
                     }
                 }
@@ -202,7 +202,7 @@ struct ClipboardList: View {
                                 showToast = false
                             }
                         }) {
-                            Image(systemName: "xmark.circle.fill")
+                            Image(systemName: AppSymbol.xmarkCircleFill)
                                 .foregroundColor(.white.opacity(0.7))
                                 .font(.body)
                         }
@@ -565,11 +565,11 @@ struct ClipboardItemRow: View {
                                     .font(.caption2)
 
                                 if item.userCorrectedType != nil {
-                                    Image(systemName: "checkmark.circle.fill")
+                                    Image(systemName: AppSymbol.checkmarkCircleFill)
                                         .font(.caption2)
                                         .accessibilityHidden(true)
                                 } else if item.confidence > 0.8 {
-                                    Image(systemName: "sparkles")
+                                    Image(systemName: AppSymbol.sparkles)
                                         .font(.caption2)
                                         .accessibilityHidden(true)
                                 }
@@ -627,7 +627,7 @@ struct ClipboardItemRow: View {
             Button {
                 onSave()
             } label: {
-                Label(NSLocalizedString("저장", comment: "Save clipboard item as memo"), systemImage: "square.and.arrow.down")
+                Label(NSLocalizedString("저장", comment: "Save clipboard item as memo"), systemImage: AppSymbol.squareAndArrowDown)
             }
             .tint(.green)
         }
@@ -641,7 +641,7 @@ struct ClipboardItemRow: View {
                     }
                 }
             } label: {
-                Label(NSLocalizedString("타입 변경", comment: "Change item type"), systemImage: "tag")
+                Label(NSLocalizedString("타입 변경", comment: "Change item type"), systemImage: AppSymbol.tag)
             }
             .tint(.blue)
         }
@@ -779,7 +779,7 @@ struct CreateComboSheet: View {
                 }
 
                 Section {
-                    Label(String(format: NSLocalizedString("%d개 항목이 순서대로 실행됩니다", comment: ""), itemCount), systemImage: "info.circle")
+                    Label(String(format: NSLocalizedString("%d개 항목이 순서대로 실행됩니다", comment: ""), itemCount), systemImage: AppSymbol.infoCircle)
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -813,7 +813,7 @@ private struct PasteTipBanner: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 10) {
-                Image(systemName: "doc.on.clipboard.fill")
+                Image(systemName: AppSymbol.docOnClipboardFill)
                     .font(.body)
                     .foregroundColor(theme.accent)
                     .padding(.top, 1)
@@ -833,7 +833,7 @@ private struct PasteTipBanner: View {
                 Spacer(minLength: 0)
 
                 Button(action: onDismiss) {
-                    Image(systemName: "xmark")
+                    Image(systemName: AppSymbol.xmark)
                         .font(.caption2)
                         .foregroundColor(theme.textFaint)
                         .padding(6)

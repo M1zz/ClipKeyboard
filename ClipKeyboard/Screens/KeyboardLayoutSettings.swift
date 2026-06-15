@@ -115,8 +115,8 @@ struct KeyboardLayoutSettings: View {
                 if koreanEnabled {
                 // 기본 언어 — Apple-style Picker (NavigationLink)
                 Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
-                    Label("English", systemImage: "globe").tag("english")
-                    Label(NSLocalizedString("한국어", comment: "Korean language option"), systemImage: "globe.asia.australia.fill").tag("korean")
+                    Label("English", systemImage: AppSymbol.globe).tag("english")
+                    Label(NSLocalizedString("한국어", comment: "Korean language option"), systemImage: AppSymbol.globeAsiaAustraliaFill).tag("korean")
                 }
 
                 // 한국어 레이아웃 — Apple-style Picker (NavigationLink)
@@ -189,7 +189,7 @@ struct KeyboardLayoutSettings: View {
                         customBgHex  = ""; customKeyHex  = ""
                         customBgColor = .clear; customKeyColor = .clear
                     } label: {
-                        Label(NSLocalizedString("색상 초기화", comment: "Reset colors"), systemImage: "arrow.uturn.backward")
+                        Label(NSLocalizedString("색상 초기화", comment: "Reset colors"), systemImage: AppSymbol.arrowUturnBackward)
                             .foregroundColor(theme.accent).font(.footnote)
                     }
                 }
@@ -200,7 +200,7 @@ struct KeyboardLayoutSettings: View {
             // ── 6. 전체 초기화 ─────────────────────────────────────────
             Section {
                 Button(role: .destructive) { resetToDefaults() } label: {
-                    Label(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults"), systemImage: "arrow.counterclockwise")
+                    Label(NSLocalizedString("기본값으로 되돌리기", comment: "Reset to defaults"), systemImage: AppSymbol.arrowCounterclockwise)
                 }
             }
             }
@@ -317,9 +317,9 @@ struct KeyboardPreviewView: View {
     }
 
     // 카테고리 탭 (익스텐션과 동일 로직)
-    private var categoryFeatureEnabled: Bool { ud?.bool(forKey: "category.feature.enabled.v1") ?? false }
-    private var allUserCats: [String] { ud?.stringArray(forKey: "userDefinedCategories_v1") ?? [] }
-    private var hiddenCats: Set<String> { Set(ud?.stringArray(forKey: "hiddenCategoryTabs_v1") ?? []) }
+    private var categoryFeatureEnabled: Bool { ud?.bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false }
+    private var allUserCats: [String] { ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? [] }
+    private var hiddenCats: Set<String> { Set(ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []) }
     private var categoryPages: [String] {
         guard categoryFeatureEnabled else { return [] }
         var pages = ["★all"]
@@ -483,7 +483,7 @@ struct SecurePINSetupView: View {
         NavigationStack {
             VStack(spacing: 28) {
                 VStack(spacing: 10) {
-                    Image(systemName: "lock.shield.fill")
+                    Image(systemName: AppSymbol.lockShieldFill)
                         .font(.system(size: 44))
                         .foregroundColor(.orange)
                     Text(step == .enter
@@ -523,7 +523,7 @@ struct SecurePINSetupView: View {
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                             if !currentPIN.isEmpty { currentPIN.removeLast() }
                         } label: {
-                            Image(systemName: "delete.left.fill")
+                            Image(systemName: AppSymbol.deleteLeftFill)
                                 .font(.system(size: 22)).foregroundColor(.primary)
                                 .frame(width: 80, height: 60)
                         }

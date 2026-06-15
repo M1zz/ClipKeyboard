@@ -96,7 +96,7 @@ struct MenuBarPopoverView: View {
 
     private var searchBar: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
+            Image(systemName: AppSymbol.magnifyingglass)
                 .foregroundColor(.secondary)
                 .font(.system(.subheadline))
 
@@ -118,7 +118,7 @@ struct MenuBarPopoverView: View {
                 Button {
                     viewModel.searchText = ""
                 } label: {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: AppSymbol.xmarkCircleFill)
                         .foregroundColor(.secondary)
                         .font(.system(.subheadline))
                 }
@@ -174,7 +174,7 @@ struct MenuBarPopoverView: View {
 
     private var emptyState: some View {
         VStack(spacing: 8) {
-            Image(systemName: "doc.on.clipboard")
+            Image(systemName: AppSymbol.docOnClipboard)
                 .font(.system(size: 28))
                 .foregroundColor(.secondary)
             Text(
@@ -291,7 +291,7 @@ private struct PopoverRow: View {
             HStack(spacing: 10) {
                 // 즐겨찾기 하트 / 인덱스 배지
                 if memo.isFavorite {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: AppSymbol.heartFill)
                         .foregroundColor(.pink)
                         .font(.system(.caption))
                         .frame(width: 16, height: 16)

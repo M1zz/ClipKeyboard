@@ -33,7 +33,7 @@ enum EmojiCategory: String, CaseIterable {
     var emojis: [String] {
         switch self {
         case .recent:
-            return UserDefaults.standard.stringArray(forKey: "recentEmojis") ?? []
+            return UserDefaults.standard.stringArray(forKey: DefaultsKey.recentEmojis) ?? []
         case .smileys:
             return ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "😚", "😙", "🥲", "😋", "😛", "😜", "🤪", "😝", "🤑", "🤗", "🤭", "🤫", "🤔", "🤐", "🤨", "😐", "😑", "😶", "😏", "😒", "🙄", "😬", "😌", "😔", "😪", "🤤", "😴", "😷", "🤒", "🤕", "🥵", "🥶", "😎", "🤓", "🧐"]
         case .gestures:
@@ -124,13 +124,13 @@ struct EmojiPicker: View {
     }
 
     private func selectEmoji(_ emoji: String) {
-        var recents = UserDefaults.standard.stringArray(forKey: "recentEmojis") ?? []
+        var recents = UserDefaults.standard.stringArray(forKey: DefaultsKey.recentEmojis) ?? []
         recents.removeAll { $0 == emoji }
         recents.insert(emoji, at: 0)
         if recents.count > 30 {
             recents = Array(recents.prefix(30))
         }
-        UserDefaults.standard.set(recents, forKey: "recentEmojis")
+        UserDefaults.standard.set(recents, forKey: DefaultsKey.recentEmojis)
 
         onEmojiSelected(emoji)
         dismiss()

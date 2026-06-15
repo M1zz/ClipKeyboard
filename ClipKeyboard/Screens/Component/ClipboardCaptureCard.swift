@@ -90,7 +90,7 @@ struct ClipboardCaptureCard: View {
                 .clipShape(Capsule())
 
             if confidence > 0.8 {
-                Image(systemName: "sparkles")
+                Image(systemName: AppSymbol.sparkles)
                     .font(.system(.caption2))
                     .foregroundColor(.yellow)
                     .accessibilityHidden(true)
@@ -116,7 +116,7 @@ struct ClipboardCaptureCard: View {
                 .foregroundColor(theme.textFaint)
 
             HStack(spacing: 4) {
-                Image(systemName: "key.fill")
+                Image(systemName: AppSymbol.keyFill)
                     .font(.system(.caption2))
                     .accessibilityHidden(true)
                 Text(suggestedTitle)
@@ -142,7 +142,7 @@ struct ClipboardCaptureCard: View {
             // 한 탭 즉시 저장 — 제안된 제목으로 바로 메모 생성.
             Button(action: onSaveDirect) {
                 HStack(spacing: 4) {
-                    Image(systemName: "plus.circle.fill")
+                    Image(systemName: AppSymbol.plusCircleFill)
                         .font(.body)
                         .accessibilityHidden(true)
                     Text(NSLocalizedString("메모로 저장", comment: "Inline capture card: save as memo (one tap)"))

@@ -152,7 +152,7 @@ struct TemplateEditSheet: View {
     private var placeholderSection: some View {
         if customPlaceholders.isEmpty && dateTokensInTemplate.isEmpty {
             VStack(spacing: 8) {
-                Image(systemName: "checkmark.circle.fill")
+                Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 30))
                     .foregroundColor(.green)
                 Text(NSLocalizedString("설정할 값이 없습니다", comment: "No values to set"))
@@ -175,7 +175,7 @@ struct TemplateEditSheet: View {
                         .foregroundColor(theme.textMuted)
                     Spacer()
                     HStack(spacing: 4) {
-                        Image(systemName: "info.circle.fill")
+                        Image(systemName: AppSymbol.infoCircleFill)
                             .font(.body)
                             .foregroundColor(.blue)
                         Text(NSLocalizedString("값을 선택하세요", comment: "Select a value hint"))

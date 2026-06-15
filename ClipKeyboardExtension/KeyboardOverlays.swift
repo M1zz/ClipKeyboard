@@ -129,7 +129,7 @@ struct TemplateInputOverlay: View {
                             state.currentFocusedPlaceholder = nil
                         }
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: AppSymbol.xmarkCircleFill)
                             .font(.title2)
                             .foregroundColor(.gray)
                     }
@@ -155,7 +155,7 @@ struct TemplateInputOverlay: View {
                     VStack(spacing: 16) {
                         if state.placeholders.isEmpty {
                             VStack(spacing: 12) {
-                                Image(systemName: "questionmark.circle")
+                                Image(systemName: AppSymbol.questionmarkCircle)
                                     .font(.largeTitle)
                                     .foregroundColor(.gray)
                                 Text(NSLocalizedString("No template variables", comment: "Empty state: no template variables"))
@@ -241,7 +241,7 @@ struct TemplateInputOverlay: View {
         if let baseId = state.baseMemoId { userInfo["baseMemoId"] = baseId }
         if let templateId = state.templateId { userInfo["memoId"] = templateId }
         NotificationCenter.default.post(
-            name: NSNotification.Name("templateInputComplete"),
+            name: Notification.Name.templateInputComplete,
             object: nil,
             userInfo: userInfo
         )
@@ -350,7 +350,7 @@ struct PlaceholderInputView: View {
             if !selectedValue.isEmpty { selectedValue.removeLast() }
             KeyboardHaptics.tap()
         } label: {
-            Image(systemName: "delete.left")
+            Image(systemName: AppSymbol.deleteLeft)
                 .font(.headline)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color(UIColor.systemGray4))
@@ -366,7 +366,7 @@ struct PlaceholderInputView: View {
         if predefinedValues.isEmpty {
             VStack(spacing: 8) {
                 HStack(spacing: 6) {
-                    Image(systemName: "exclamationmark.triangle.fill")
+                    Image(systemName: AppSymbol.exclamationmarkTriangleFill)
                         .font(.caption)
                         .foregroundColor(.orange)
                     Text(NSLocalizedString("No saved values", comment: "Placeholder values empty title"))

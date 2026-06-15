@@ -101,7 +101,7 @@ struct CategoryIconSettings: View {
                             Text(cat)
                                 .foregroundColor(.primary)
                             Spacer()
-                            Image(systemName: "chevron.right")
+                            Image(systemName: AppSymbol.chevronRight)
                                 .font(.body)
                                 .foregroundColor(.secondary)
                                 .accessibilityHidden(true)
@@ -120,7 +120,7 @@ struct CategoryIconSettings: View {
                         icons = [:]
                         saveCustomIcons([:])
                     } label: {
-                        Label(NSLocalizedString("기본값으로 초기화", comment: "Reset icons to default"), systemImage: "arrow.counterclockwise")
+                        Label(NSLocalizedString("기본값으로 초기화", comment: "Reset icons to default"), systemImage: AppSymbol.arrowCounterclockwise)
                     }
                 }
             }
@@ -248,7 +248,7 @@ func defaultColor(for category: String, in list: [String]) -> Color {
 /// 카드·메뉴·키보드 프리뷰가 모두 이 한 가지 규칙을 공유한다.
 func categorySymbol(for category: String, in list: [String]) -> String {
     if let custom = UserDefaults(suiteName: AppGroup.identifier)?
-        .dictionary(forKey: "userCategoryIcons_v1") as? [String: String],
+        .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String],
        let symbol = custom[category] {
         return symbol
     }
@@ -258,7 +258,7 @@ func categorySymbol(for category: String, in list: [String]) -> String {
 /// 카테고리 색 — 사용자 지정(userCategoryColors_v1) 우선, 없으면 기본 팔레트.
 func categoryTint(for category: String, in list: [String]) -> Color {
     if let custom = UserDefaults(suiteName: AppGroup.identifier)?
-        .dictionary(forKey: "userCategoryColors_v1") as? [String: String],
+        .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String],
        let hex = custom[category], let c = Color(hex: hex) {
         return c
     }

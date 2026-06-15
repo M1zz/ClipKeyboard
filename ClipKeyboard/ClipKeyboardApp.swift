@@ -15,10 +15,16 @@ import FirebaseCore
 @main
 struct ClipKeyboardApp: App {
     @StateObject private var storeManager = StoreManager.shared
+    @Environment(\.scenePhase) private var scenePhase
     @State private var showReviewRequest = false
     @State private var showAccessibilityGuide = false
     /// 기존 사용자에게 데모 샘플 체험을 1회 물어보는 알림
     @State private var showDemoSampleOffer = false
+    /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
+    @State private var showRestoreHint = false
+    /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
+    @State private var showCloudBackupSheet = false
+    private let restoreHintShownKey = "restoreHintShown_v1"
 
     /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -54,7 +60,7 @@ struct ClipKeyboardApp: App {
 
         // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
         let keyboardActive = (UserDefaults(suiteName: AppGroup.identifier)?
-            .double(forKey: "kb.beacon.lastUse") ?? 0) > 0
+            .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
         AnalyticsService.applyLaunchUserProperties(
             isPro: ProFeatureManager.hasFullAccess,
             persona: CategoryStore.shared.selectedPersona?.rawValue,
@@ -106,7 +112,7 @@ struct ClipKeyboardApp: App {
     private func bootstrapV4GrandfatherFlags() {
         // 이미 한 번 초기화됐으면 skip
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
-        let initKey = "clipkeyboard_v4_grandfather_bootstrap_done"
+        let initKey = DefaultsKey.v4GrandfatherBootstrapDone
         if defaults?.bool(forKey: initKey) == true { return }
 
         let currentMemoCount: Int
@@ -167,19 +173,19 @@ struct ClipKeyboardApp: App {
     /// 토글이 갑자기 사라지지 않도록 1회 자동 활성화한다. (영어 기본 사용자는 OFF 유지 → 한 안 보임)
     private func migrateKoreanEnabledIfNeeded() {
         let g = UserDefaults(suiteName: AppGroup.identifier)
-        guard g?.bool(forKey: "koreanEnabledMigrated_v1") != true else { return }
-        if g?.string(forKey: "keyboardTypingLang") == "korean" {
-            g?.set(true, forKey: "keyboardKoreanEnabled")
+        guard g?.bool(forKey: DefaultsKey.koreanEnabledMigratedV1) != true else { return }
+        if g?.string(forKey: DefaultsKey.keyboardTypingLang) == "korean" {
+            g?.set(true, forKey: DefaultsKey.keyboardKoreanEnabled)
             print("🔄 [APP INIT] 기존 한국어 사용자 — 한국어 입력 자동 활성화")
         }
-        g?.set(true, forKey: "koreanEnabledMigrated_v1")
+        g?.set(true, forKey: DefaultsKey.koreanEnabledMigratedV1)
     }
 
     /// 기존 평문 보안 메모를 암호화한다(1회). 암호화 키가 아직 없으면 생성된다.
     /// 키 확보 실패(키체인 불가) 시 플래그를 세우지 않아 다음 실행에서 재시도.
     private func migrateSecureMemoEncryptionIfNeeded() {
         let g = UserDefaults(suiteName: AppGroup.identifier)
-        guard g?.bool(forKey: "secureMemoEncryptionMigrated_v1") != true else { return }
+        guard g?.bool(forKey: DefaultsKey.secureMemoEncryptionMigratedV1) != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             var changed = false
@@ -194,7 +200,7 @@ struct ClipKeyboardApp: App {
             }
             if changed { try MemoStore.shared.save(memos: memos, type: .memo) }
             if allEncrypted {
-                g?.set(true, forKey: "secureMemoEncryptionMigrated_v1")
+                g?.set(true, forKey: DefaultsKey.secureMemoEncryptionMigratedV1)
                 print("🔐 [APP INIT] 보안 메모 암호화 마이그레이션 완료 (변경: \(changed))")
             } else {
                 print("⏳ [APP INIT] 보안 키 미확보 — 다음 실행에서 보안 메모 암호화 재시도")
@@ -210,7 +216,7 @@ struct ClipKeyboardApp: App {
     /// SampleMemoStorage가 추적하는 샘플 메모로만 범위를 한정한다.
     private func migrateSampleTemplateFlagsIfNeeded() {
         let g = UserDefaults(suiteName: AppGroup.identifier)
-        guard g?.bool(forKey: "sampleTemplateFlagsMigrated_v1") != true else { return }
+        guard g?.bool(forKey: DefaultsKey.sampleTemplateFlagsMigratedV1) != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             let sampleIds = SampleMemoStorage.load()
@@ -225,7 +231,7 @@ struct ClipKeyboardApp: App {
                 }
             }
             if changed { try MemoStore.shared.save(memos: memos, type: .memo) }
-            g?.set(true, forKey: "sampleTemplateFlagsMigrated_v1")
+            g?.set(true, forKey: DefaultsKey.sampleTemplateFlagsMigratedV1)
             print("🔄 [APP MIGRATION] 샘플 템플릿 플래그 마이그레이션 완료 (변경=\(changed))")
         } catch {
             print("❌ [APP MIGRATION] 샘플 템플릿 플래그 마이그레이션 실패: \(error)")
@@ -258,12 +264,12 @@ struct ClipKeyboardApp: App {
     /// CloudKit으로 옛 백업을 복원한 경우처럼 플래그가 이미 set돼 있어도 재변환이 필요한 상황을 잡아낸다.
     private func hasLegacyComboData() -> Bool {
         // 1) 플랫 콤보 파일이 비어있지 않게 존재
-        if let url = appGroupContainerURL?.appendingPathComponent("combos.data"),
+        if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.combos),
            let d = try? Data(contentsOf: url), d.count > 2 {
             return true
         }
         // 2) 메모 원본에 레거시 콤보/attached 키가 살아있음 (신 모델 save 후엔 사라짐)
-        if let url = appGroupContainerURL?.appendingPathComponent("memos.data"),
+        if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.memos),
            let d = try? Data(contentsOf: url),
            let s = String(data: d, encoding: .utf8) {
             if s.contains("\"isCombo\":true") { return true }
@@ -284,14 +290,14 @@ struct ClipKeyboardApp: App {
     /// - 단일 save로 원자적 적용. 실패 시 플래그 미set → 다음 기회에 재시도.
     private func migrateComboModelIfNeeded() {
         let g = UserDefaults(suiteName: AppGroup.identifier)
-        let alreadyMigrated = (g?.bool(forKey: "comboModelUnifyMigrated_v1") == true)
+        let alreadyMigrated = (g?.bool(forKey: DefaultsKey.comboModelUnifyMigratedV1) == true)
         // 이미 변환됐고 남은 레거시 데이터도 없으면 빠르게 종료.
         guard !alreadyMigrated || hasLegacyComboData() else { return }
         do {
             // 1) 원본 JSON에서 레거시 필드 먼저 읽기 (이후 save로 사라지기 전에).
             //    OldMemo 등 과거 포맷도 id만 있으면 디코드됨(콤보 필드는 기본값).
             var legacyById: [UUID: LegacyMemoFields] = [:]
-            if let url = appGroupContainerURL?.appendingPathComponent("memos.data"),
+            if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.memos),
                let data = try? Data(contentsOf: url),
                let legacy = try? JSONDecoder().decode([LegacyMemoFields].self, from: data) {
                 for l in legacy { legacyById[l.id] = l }
@@ -351,10 +357,10 @@ struct ClipKeyboardApp: App {
             }
 
             // 4) combos.data 삭제(없으면 무시) + 플래그
-            if let url = appGroupContainerURL?.appendingPathComponent("combos.data") {
+            if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.combos) {
                 try? FileManager.default.removeItem(at: url)
             }
-            g?.set(true, forKey: "comboModelUnifyMigrated_v1")
+            g?.set(true, forKey: DefaultsKey.comboModelUnifyMigratedV1)
             print("🔄 [APP MIGRATION] 콤보 모델 통합 완료 (변경=\(converted))")
         } catch {
             print("❌ [APP MIGRATION] 콤보 모델 마이그레이션 실패: \(error)")
@@ -365,11 +371,11 @@ struct ClipKeyboardApp: App {
     /// showVisualCues(App Group)로 1회 승계. 켜둔 사용자는 계속 구분 표시가 보이도록.
     private func migrateVisualCuesIfNeeded() {
         let std = UserDefaults.standard
-        guard !std.bool(forKey: "visualCuesMigrated_v1") else { return }
-        if std.object(forKey: "categoryBadgeVisible") as? Bool == true {
-            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: "showVisualCues")
+        guard !std.bool(forKey: DefaultsKey.visualCuesMigratedV1) else { return }
+        if std.object(forKey: DefaultsKey.categoryBadgeVisible) as? Bool == true {
+            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.showVisualCues)
         }
-        std.set(true, forKey: "visualCuesMigrated_v1")
+        std.set(true, forKey: DefaultsKey.visualCuesMigratedV1)
     }
 
     private func insertDefaultSamplesIfNeeded() {
@@ -386,6 +392,24 @@ struct ClipKeyboardApp: App {
               !UserDefaults.standard.bool(forKey: demoOfferResolvedKey) else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             showDemoSampleOffer = true
+        }
+    }
+
+    /// 새 기기(또는 재설치) 첫 실행에서 "기존에 쓰던 메모를 불러올 수 있어요"를 1회 안내한다.
+    /// 조건: ① 아직 안내 안 함, ② 시작 시 로컬에 내 메모가 없었음(새 기기 신호),
+    ///       ③ iCloud에 실제 백업이 존재함(복원할 게 있을 때만 안내 — 신규 유저에겐 안 뜸).
+    /// 안내는 한 번만(표시 시 플래그 기록). 백업이 아직 확인 안 되면 다음 실행에서 재시도.
+    private func offerRestoreHintIfNeeded(localWasEmpty: Bool) {
+        guard !UserDefaults.standard.bool(forKey: restoreHintShownKey) else { return }
+        guard localWasEmpty else { return }   // 이미 내 메모가 있는 기기면 안내 불필요
+        Task {
+            let hasBackup = await CloudKitBackupService.shared.hasBackup()
+            guard hasBackup else { return }   // 복원할 백업이 없으면 안내하지 않음(플래그도 유지)
+            await MainActor.run {
+                guard !showDemoSampleOffer else { return }   // 다른 모달과 중첩 방지
+                UserDefaults.standard.set(true, forKey: restoreHintShownKey)
+                showRestoreHint = true
+            }
         }
     }
 
@@ -480,6 +504,10 @@ struct ClipKeyboardApp: App {
                     handleOpenURL(url)
                 }
                 .onAppear {
+                    // 샘플 삽입 전에 "이 기기에 원래 내 메모가 있었는지"를 먼저 본다.
+                    // (없으면 새 기기일 가능성 → 백업 복원 안내 대상)
+                    let localWasEmpty = ((try? MemoStore.shared.load(type: .memo)) ?? []).isEmpty
+
                     migrateComboModelIfNeeded()
                     migrateVisualCuesIfNeeded()
                     migrateKoreanEnabledIfNeeded()
@@ -487,6 +515,10 @@ struct ClipKeyboardApp: App {
                     insertDefaultSamplesIfNeeded()
                     migrateSampleTemplateFlagsIfNeeded()
                     offerDemoSamplesToExistingUserIfNeeded()
+                    offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
+
+                    // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
+                    MemoSyncEngine.shared.startIfEnabled()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
@@ -505,6 +537,14 @@ struct ClipKeyboardApp: App {
                     )
                 ) { _ in
                     checkVoiceOverAndNudge()
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    // 앱이 다시 앞으로 오면 즉시 동기화 — 다른 기기의 최신 메모를 바로 반영.
+                    // (start는 멱등 — 토글이 KV로 전파돼 막 켜진 경우 여기서 시작될 수 있음.)
+                    if phase == .active {
+                        MemoSyncEngine.shared.startIfEnabled()
+                        MemoSyncEngine.shared.syncNow()
+                    }
                 }
                 .sheet(isPresented: $showReviewRequest) {
                     ReviewRequestView()
@@ -527,6 +567,20 @@ struct ClipKeyboardApp: App {
                     }
                 } message: {
                     Text(NSLocalizedString("템플릿·콤보·메모+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 메모는 그대로 유지돼요.", comment: "Demo samples offer message"))
+                }
+                .alert(
+                    NSLocalizedString("기존 메모를 불러올 수 있어요", comment: "Restore hint title"),
+                    isPresented: $showRestoreHint
+                ) {
+                    Button(NSLocalizedString("불러오기", comment: "Restore hint: open restore")) {
+                        showCloudBackupSheet = true
+                    }
+                    Button(NSLocalizedString("나중에", comment: "Restore hint: dismiss"), role: .cancel) { }
+                } message: {
+                    Text(NSLocalizedString("기존에 쓰던 메모를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요.", comment: "Restore hint message"))
+                }
+                .sheet(isPresented: $showCloudBackupSheet) {
+                    NavigationStack { CloudBackupView() }
                 }
         } // AppThemedContainer
             } // else (비테스트 실행)

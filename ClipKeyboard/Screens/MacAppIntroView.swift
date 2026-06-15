@@ -37,7 +37,7 @@ struct MacAppIntroView: View {
 
     private var heroSection: some View {
         VStack(spacing: 12) {
-            Image(systemName: "macbook")
+            Image(systemName: AppSymbol.macbook)
                 .font(.system(size: 56))
                 .foregroundStyle(.tint)
 
@@ -91,7 +91,7 @@ struct MacAppIntroView: View {
 
     private var purchaseNote: some View {
         HStack(alignment: .top, spacing: 10) {
-            Image(systemName: "checkmark.seal.fill")
+            Image(systemName: AppSymbol.checkmarkSealFill)
                 .foregroundColor(.green)
                 .font(.system(.body))
             VStack(alignment: .leading, spacing: 4) {
@@ -119,7 +119,7 @@ struct MacAppIntroView: View {
             openMacAppStore()
         } label: {
             HStack(spacing: 10) {
-                Image(systemName: "arrow.up.forward.app.fill")
+                Image(systemName: AppSymbol.arrowUpForwardAppFill)
                 Text(NSLocalizedString("Open on Mac App Store", comment: "Open Mac App Store button"))
                     .fontWeight(.semibold)
             }

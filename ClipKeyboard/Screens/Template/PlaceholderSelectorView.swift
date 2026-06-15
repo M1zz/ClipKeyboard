@@ -98,7 +98,7 @@ struct PlaceholderSelectorView: View {
                                         showDeleteConfirm = placeholderValue
                                         showDeleteAlert = true
                                     } label: {
-                                        Image(systemName: "xmark.circle.fill")
+                                        Image(systemName: AppSymbol.xmarkCircleFill)
                                             .font(.body)
                                             .foregroundColor(.red)
                                     }
@@ -191,7 +191,7 @@ struct PlaceholderManagementSheet: View {
         NavigationStack {
             if templateMemos.isEmpty {
                 VStack(spacing: 12) {
-                    Image(systemName: "doc.text.magnifyingglass")
+                    Image(systemName: AppSymbol.docTextMagnifyingglass)
                         .font(.system(size: 50))
                         .foregroundColor(theme.textFaint)
                     Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))

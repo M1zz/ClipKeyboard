@@ -16,9 +16,12 @@ struct SettingView: View {
     @State private var showPaywall = false
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
+    /// 기기 간 메모 동기화(실험적) — App Group에 저장해 엔진/맥과 공유.
+    @AppStorage(DefaultsKey.memoSyncEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var memoSyncEnabled: Bool = false
 
     private func refreshSecurePINState() {
-        let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: "keyboard_secure_pin_hash") ?? ""
+        let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         securePINSet = !hash.isEmpty
     }
 
@@ -31,7 +34,7 @@ struct SettingView: View {
             if ProFeatureManager.hasPermanentPro {
                 Section {
                     HStack {
-                        Image(systemName: "checkmark.seal.fill")
+                        Image(systemName: AppSymbol.checkmarkSealFill)
                             .font(.title2)
                             .foregroundColor(.green)
                             .accessibilityHidden(true)
@@ -46,7 +49,7 @@ struct SettingView: View {
                 Section {
                     Button { showPaywall = true } label: {
                         HStack {
-                            Image(systemName: "clock.badge.checkmark.fill")
+                            Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                                 .font(.title2)
                                 .foregroundStyle(.green.gradient)
                                 .accessibilityHidden(true)
@@ -57,7 +60,7 @@ struct SettingView: View {
                                     .font(.body).foregroundColor(theme.textMuted)
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.body)
+                            Image(systemName: AppSymbol.chevronRight).font(.body)
                                 .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
@@ -66,7 +69,7 @@ struct SettingView: View {
                     Button {
                         Task { await proManager.restorePurchases() }
                     } label: {
-                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: "arrow.clockwise")
+                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
                             .foregroundStyle(Color.secondary)
                     }
                     .disabled(proManager.isLoading)
@@ -77,7 +80,7 @@ struct SettingView: View {
                 Section {
                     Button { showPaywall = true } label: {
                         HStack {
-                            Image(systemName: "star.circle.fill")
+                            Image(systemName: AppSymbol.starCircleFill)
                                 .font(.title2)
                                 .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .accessibilityHidden(true)
@@ -90,7 +93,7 @@ struct SettingView: View {
                                     .font(.body).foregroundColor(theme.textMuted)
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.body)
+                            Image(systemName: AppSymbol.chevronRight).font(.body)
                                 .foregroundColor(theme.textMuted).accessibilityHidden(true)
                         }
                     }
@@ -99,7 +102,7 @@ struct SettingView: View {
                     Button {
                         Task { await proManager.restorePurchases() }
                     } label: {
-                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: "arrow.clockwise")
+                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
                             .foregroundStyle(Color.secondary)
                     }
                     .disabled(proManager.isLoading)
@@ -130,12 +133,12 @@ struct SettingView: View {
                             Text(NSLocalizedString("키보드 설정 가이드", comment: "Keyboard setup guide"))
                                 .foregroundStyle(Color.primary)
                         } icon: {
-                            Image(systemName: "keyboard.badge.eye")
+                            Image(systemName: AppSymbol.keyboardBadgeEye)
                         }
                         Spacer()
                         // 시스템 디스클로저 인디케이터와 동일한 톤·크기로 맞춤
                         // (형제 NavigationLink 행들의 기본 chevron과 일치시키기 위함)
-                        Image(systemName: "chevron.forward")
+                        Image(systemName: AppSymbol.chevronForward)
                             .font(.footnote.weight(.semibold))
                             .foregroundStyle(Color(uiColor: .tertiaryLabel))
                             .accessibilityHidden(true)
@@ -145,11 +148,11 @@ struct SettingView: View {
 
                 NavigationLink(destination: KeyboardPracticeView()) {
                     Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
-                          systemImage: "hand.tap")
+                          systemImage: AppSymbol.handTap)
                 }
                 NavigationLink(destination: KeyboardLayoutSettings()) {
                     Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
-                          systemImage: "rectangle.3.group")
+                          systemImage: AppSymbol.rectangle3Group)
                 }
             }
 
@@ -167,7 +170,7 @@ struct SettingView: View {
                             }
                         }
                     } icon: {
-                        Image(systemName: "person.crop.circle.badge.checkmark")
+                        Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
                     }
                 }
             }
@@ -177,7 +180,7 @@ struct SettingView: View {
             Section(NSLocalizedString("디스플레이", comment: "Settings section: display")) {
                 NavigationLink(destination: DisplaySettingsView()) {
                     Label(NSLocalizedString("메모 표시", comment: "Memo display settings entry"),
-                          systemImage: "rectangle.grid.1x2")
+                          systemImage: AppSymbol.rectangleGrid1x2)
                 }
             }
 
@@ -186,12 +189,12 @@ struct SettingView: View {
                 // 카테고리 관리 — 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
                 NavigationLink(destination: CategorySettings()) {
                     Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
-                          systemImage: "folder.badge.gearshape")
+                          systemImage: AppSymbol.folderBadgeGearshape)
                 }
                 // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정
                 NavigationLink(destination: CategoryIconSettings()) {
                     Label(NSLocalizedString("카테고리 아이콘", comment: "Category icon settings"),
-                          systemImage: "square.grid.2x2.fill")
+                          systemImage: AppSymbol.squareGrid2x2Fill)
                 }
             }
 
@@ -200,16 +203,16 @@ struct SettingView: View {
             Section(NSLocalizedString("데이터 & 보안", comment: "Settings section: data and security")) {
                 NavigationLink(destination: CloudBackupView()) {
                     Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
-                          systemImage: "icloud.and.arrow.up")
+                          systemImage: AppSymbol.icloudAndArrowUp)
                 }
                 NavigationLink(destination: MemoHistoryView()) {
                     Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),
-                          systemImage: "clock.arrow.circlepath")
+                          systemImage: AppSymbol.clockArrowCirclepath)
                 }
                 NavigationLink(destination: SecurePINSettings()) {
                     HStack {
                         Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
-                              systemImage: "lock.shield")
+                              systemImage: AppSymbol.lockShield)
                         Spacer()
                         Text(securePINSet
                              ? NSLocalizedString("설정됨", comment: "PIN is set")
@@ -219,8 +222,34 @@ struct SettingView: View {
                 }
                 NavigationLink(destination: CopyPasteView()) {
                     Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
-                          systemImage: "doc.on.clipboard")
+                          systemImage: AppSymbol.docOnClipboard)
                 }
+            }
+
+            // MARK: 기기 간 메모 동기화 (실험적, Pro 전용)
+            Section {
+                Toggle(isOn: Binding(
+                    get: { memoSyncEnabled },
+                    set: { newValue in
+                        if newValue && !ProFeatureManager.hasFullAccess {
+                            // 비Pro는 결제 유도하고 토글은 켜지 않는다.
+                            showPaywall = true
+                        } else {
+                            memoSyncEnabled = newValue            // App Group(이 기기) 즉시 반영
+                            MemoSyncFlags.setEnabled(newValue)    // iCloud KV로 다른 기기에도 전파
+                            // 켜면 즉시 동기화 시작(끄면 다음 실행부터 비활성).
+                            if newValue { MemoSyncEngine.shared.startIfEnabled() }
+                        }
+                    }
+                )) {
+                    Label(NSLocalizedString("기기 간 메모 동기화", comment: "Cross-device memo sync toggle"),
+                          systemImage: AppSymbol.icloudAndArrowDown)
+                }
+            } header: {
+                Text(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
+            } footer: {
+                Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 메모를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 메모는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
+                    .font(.body)
             }
 
             // MARK: 도움말
@@ -228,15 +257,15 @@ struct SettingView: View {
             Section(NSLocalizedString("도움말", comment: "Settings section: help")) {
                 NavigationLink(destination: UsageGuideView()) {
                     Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
-                          systemImage: "lightbulb")
+                          systemImage: AppSymbol.lightbulb)
                 }
                 NavigationLink(destination: TutorialView()) {
                     Label(NSLocalizedString("사용 가이드", comment: "User guide"),
-                          systemImage: "book.closed")
+                          systemImage: AppSymbol.bookClosed)
                 }
                 NavigationLink(destination: AccessibilityGuideView()) {
                     Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
-                          systemImage: "figure.walk.circle")
+                          systemImage: AppSymbol.figureWalkCircle)
                 }
             }
 
@@ -245,11 +274,11 @@ struct SettingView: View {
             Section(NSLocalizedString("지원", comment: "Settings section: support")) {
                 NavigationLink(destination: ReviewWriteView()) {
                     Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
-                          systemImage: "star")
+                          systemImage: AppSymbol.star)
                 }
                 NavigationLink(destination: FeedbackView()) {
                     Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
-                          systemImage: "envelope.badge")
+                          systemImage: AppSymbol.envelopeBadge)
                 }
             }
 
@@ -262,7 +291,7 @@ struct SettingView: View {
                             RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .frame(width: 32, height: 32)
-                            Image(systemName: "macbook")
+                            Image(systemName: AppSymbol.macbook)
                                 .font(.body.weight(.semibold))
                                 .foregroundColor(.white)
                                 .accessibilityHidden(true)
@@ -351,7 +380,7 @@ struct DisplaySettingsView: View {
                     Text(NSLocalizedString("보통", comment: "Medium")).tag(140.0)
                     Text(NSLocalizedString("크게", comment: "Large")).tag(180.0)
                 } label: {
-                    Label(NSLocalizedString("메모 높이", comment: "Memo cell height"), systemImage: "arrow.up.and.down")
+                    Label(NSLocalizedString("메모 높이", comment: "Memo cell height"), systemImage: AppSymbol.arrowUpAndDown)
                 }
                 .pickerStyle(.segmented)
             } header: {
@@ -364,7 +393,7 @@ struct DisplaySettingsView: View {
             // 메모 구분 표시 (마스터 토글)
             Section {
                 Toggle(isOn: $visible) {
-                    Label(NSLocalizedString("메모 구분 표시", comment: "Show visual cues toggle"), systemImage: "square.grid.2x2")
+                    Label(NSLocalizedString("메모 구분 표시", comment: "Show visual cues toggle"), systemImage: AppSymbol.squareGrid2x2)
                 }
             } header: {
                 Text(NSLocalizedString("메모 구분 표시", comment: "Visual cues section"))
@@ -376,7 +405,7 @@ struct DisplaySettingsView: View {
             // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)
             Section {
                 Toggle(isOn: $contentHintEnabled) {
-                    Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: "sparkles")
+                    Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: AppSymbol.sparkles)
                 }
             } header: {
                 Text(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"))
@@ -398,11 +427,11 @@ struct DisplaySettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
                 // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼, 같은 색·왼쪽 정렬)
-                Image(systemName: "doc.fill")
+                Image(systemName: AppSymbol.docFill)
                     .font(.title3)
                     .foregroundColor(.white.opacity(0.9))
                 if plusTemplate {
-                    Image(systemName: "wand.and.sparkles")
+                    Image(systemName: AppSymbol.wandAndSparkles)
                         .font(.title3)
                         .foregroundColor(.white.opacity(0.9))
                 }
@@ -472,7 +501,7 @@ struct MemoHistoryView: View {
                                         .foregroundColor(theme.textMuted)
                                 }
                                 Spacer()
-                                Image(systemName: "arrow.uturn.backward")
+                                Image(systemName: AppSymbol.arrowUturnBackward)
                                     .foregroundColor(theme.accent)
                                     .accessibilityHidden(true)
                             }
@@ -588,35 +617,35 @@ struct CopyPasteView: View {
             Section(header: Text(NSLocalizedString("설정 경로", comment: "Settings path section header"))) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
-                        Image(systemName: "gear")
+                        Image(systemName: AppSymbol.gear)
                             .foregroundColor(.blue)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("설정", comment: "Settings"))
                             .fontWeight(.medium)
                     }
 
-                    Image(systemName: "chevron.down")
+                    Image(systemName: AppSymbol.chevronDown)
                         .font(.body)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
                         .accessibilityHidden(true)
 
                     HStack(spacing: 8) {
-                        Image(systemName: "app.fill")
+                        Image(systemName: AppSymbol.appFill)
                             .foregroundColor(.blue)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
 
-                    Image(systemName: "chevron.down")
+                    Image(systemName: AppSymbol.chevronDown)
                         .font(.body)
                         .foregroundColor(theme.textFaint)
                         .padding(.leading, 8)
                         .accessibilityHidden(true)
 
                     HStack(spacing: 8) {
-                        Image(systemName: "doc.on.clipboard")
+                        Image(systemName: AppSymbol.docOnClipboard)
                             .foregroundColor(.blue)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("다른 앱에서 붙여넣기", comment: "Paste from other apps"))
@@ -630,7 +659,7 @@ struct CopyPasteView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // 묻기
                     HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: "questionmark.circle.fill")
+                        Image(systemName: AppSymbol.questionmarkCircleFill)
                             .foregroundColor(.orange)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
@@ -646,7 +675,7 @@ struct CopyPasteView: View {
 
                     // 거부
                     HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: "xmark.circle.fill")
+                        Image(systemName: AppSymbol.xmarkCircleFill)
                             .foregroundColor(.red)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
@@ -662,7 +691,7 @@ struct CopyPasteView: View {
 
                     // 허용 (권장)
                     HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: "checkmark.circle.fill")
+                        Image(systemName: AppSymbol.checkmarkCircleFill)
                             .foregroundColor(.green)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
@@ -693,10 +722,10 @@ struct CopyPasteView: View {
                     }
                 }) {
                     HStack {
-                        Image(systemName: "gear")
+                        Image(systemName: AppSymbol.gear)
                         Text(NSLocalizedString("설정으로 이동", comment: "Go to Settings button"))
                         Spacer()
-                        Image(systemName: "arrow.up.forward.app")
+                        Image(systemName: AppSymbol.arrowUpForwardApp)
                     }
                 }
             }
@@ -737,7 +766,7 @@ struct ReviewWriteView: View {
                     }
                 }) {
                     HStack {
-                        Image(systemName: "star.fill")
+                        Image(systemName: AppSymbol.starFill)
                             .foregroundColor(.yellow)
                             .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
@@ -749,7 +778,7 @@ struct ReviewWriteView: View {
                                 .foregroundColor(theme.textMuted)
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Image(systemName: AppSymbol.chevronRight)
                             .font(.body)
                             .foregroundColor(theme.textMuted)
                             .accessibilityHidden(true)
@@ -768,7 +797,7 @@ struct ReviewWriteView: View {
                     }
                 }) {
                     HStack {
-                        Image(systemName: "link")
+                        Image(systemName: AppSymbol.link)
                             .foregroundColor(.blue)
                             .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
@@ -780,7 +809,7 @@ struct ReviewWriteView: View {
                                 .foregroundColor(theme.textMuted)
                         }
                         Spacer()
-                        Image(systemName: "arrow.up.forward.app")
+                        Image(systemName: AppSymbol.arrowUpForwardApp)
                             .font(.body)
                             .foregroundColor(theme.textMuted)
                             .accessibilityHidden(true)

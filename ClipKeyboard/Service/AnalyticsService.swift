@@ -134,9 +134,9 @@ enum AnalyticsService {
     /// 카운트 = 0이면 (= 비콘 미발생) 이벤트 생략. 보고 후 카운트 0으로 리셋.
     static func flushKeyboardBeacon() {
         guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
-        let count = defaults.integer(forKey: "kb.beacon.pendingCount")
+        let count = defaults.integer(forKey: DefaultsKey.kbBeaconPendingCount)
         guard count > 0 else { return }
-        let lastUseEpoch = defaults.double(forKey: "kb.beacon.lastUse")
+        let lastUseEpoch = defaults.double(forKey: DefaultsKey.kbBeaconLastUse)
         let hoursSince = lastUseEpoch > 0
             ? Int((Date().timeIntervalSince1970 - lastUseEpoch) / 3600)
             : -1
@@ -145,7 +145,7 @@ enum AnalyticsService {
             .hoursSinceLastUse: hoursSince
         ])
         // 보고 완료 — 카운트만 리셋 (lastUse는 그대로 두어 cohort 분석 가능)
-        defaults.set(0, forKey: "kb.beacon.pendingCount")
+        defaults.set(0, forKey: DefaultsKey.kbBeaconPendingCount)
     }
 
     /// 일괄 가져오기로 메모 N개 저장
