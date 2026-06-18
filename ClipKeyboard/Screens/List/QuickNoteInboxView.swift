@@ -185,6 +185,35 @@ private struct QuickNoteRow: View {
     }
 }
 
+// MARK: - Inbox Banner Container (런치 경로 밖에서 안전하게 관찰)
+
+/// 배너를 런치 렌더에서 분리하기 위한 컨테이너. 내부에서만 QuickNoteStore를 관찰하므로,
+/// 이 뷰가 계층에 추가되는 시점(첫 화면이 뜬 뒤)에야 스토어에 접근한다.
+struct QuickNoteInboxBannerContainer: View {
+    @ObservedObject private var store = QuickNoteStore.shared
+    @Binding var dismissCount: Int
+    let onOpen: () -> Void
+
+    init(dismissCount: Binding<Int>, onOpen: @escaping () -> Void) {
+        self._dismissCount = dismissCount
+        self.onOpen = onOpen
+    }
+
+    var body: some View {
+        if store.count > dismissCount {
+            QuickNoteInboxBanner(
+                count: store.count,
+                onTap: onOpen,
+                onDismiss: { withAnimation { dismissCount = store.count } }
+            )
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
+            .padding(.bottom, 4)
+            .transition(.move(edge: .top).combined(with: .opacity))
+        }
+    }
+}
+
 // MARK: - Inbox Banner (메인 리스트 상단 노출)
 
 /// 보관함에 분류 대기 항목이 있을 때 메인 리스트 상단에 뜨는 배너.

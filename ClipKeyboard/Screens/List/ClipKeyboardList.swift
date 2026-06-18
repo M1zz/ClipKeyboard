@@ -72,7 +72,9 @@ struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
     @ObservedObject private var suggestionManager = SuggestionManager.shared
-    @ObservedObject private var quickNoteStore = QuickNoteStore.shared
+    /// 빠른 메모(Inbox) UI를 런치 렌더에서 빼고 첫 화면이 뜬 뒤 표시하기 위한 게이트.
+    /// QuickNoteStore.shared 접근·배너 렌더를 launch 경로 밖으로 미뤄 런치 안정성을 확보한다.
+    @State private var quickNoteUIReady = false
 
     // MARK: - View-only State
 
@@ -234,22 +236,12 @@ struct ClipKeyboardList: View {
                     categoryLargeTitle
 
                     // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 메뉴에 숨기지 않고 상단에 노출.
-                    // 닫으면 현재 개수를 기억했다가, 새 캡처로 더 쌓이면 다시 나타난다.
-                    if quickNoteStore.count > inboxBannerDismissCount {
-                        QuickNoteInboxBanner(
-                            count: quickNoteStore.count,
-                            onTap: {
-                                HapticManager.shared.light()
-                                showInboxFromIntent = true
-                            },
-                            onDismiss: {
-                                withAnimation { inboxBannerDismissCount = quickNoteStore.count }
-                            }
-                        )
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                    // 런치 렌더에서는 그리지 않고(quickNoteUIReady), 첫 화면이 뜬 뒤 표시한다.
+                    if quickNoteUIReady {
+                        QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
+                            HapticManager.shared.light()
+                            showInboxFromIntent = true
+                        }
                     }
 
                     // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
@@ -665,9 +657,15 @@ struct ClipKeyboardList: View {
                         hasAppeared = true
                     }
                 }
-                // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
-                if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
-                    QuickNoteInboxTip.engaged = true
+                // 빠른 메모 UI(배너·스토어)는 런치 렌더에서 빼고, 첫 화면이 안정된 뒤 켠다.
+                if !quickNoteUIReady {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        quickNoteUIReady = true
+                        // 캡처 팁(engaged)도 이 시점에 — QuickNoteStore 접근을 런치 밖으로 미룬 뒤.
+                        if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
+                            QuickNoteInboxTip.engaged = true
+                        }
+                    }
                 }
             }
     }
@@ -702,6 +700,14 @@ struct ClipKeyboardList: View {
         NavigationStack {
             screenL8
         }
+    }
+
+    /// 더보기 메뉴의 보관함 항목 라벨(개수 배지). 런치 이후에만 QuickNoteStore.shared를 읽는다.
+    private var inboxMenuTitle: String {
+        let count = quickNoteUIReady ? QuickNoteStore.shared.count : 0
+        return count > 0
+            ? String(format: NSLocalizedString("Inbox (%d)", comment: "Menu: quick note inbox with count"), count)
+            : NSLocalizedString("Inbox", comment: "Menu: quick note inbox")
     }
 
     /// Control Center 컨트롤이 켜둔 "보관함 열기" 보류 플래그를 소비해 Inbox 화면으로 이동.
@@ -2193,12 +2199,7 @@ struct ClipKeyboardList: View {
             NavigationLink {
                 QuickNoteInboxView()
             } label: {
-                Label(
-                    quickNoteStore.count > 0
-                        ? String(format: NSLocalizedString("Inbox (%d)", comment: "Menu: quick note inbox with count"), quickNoteStore.count)
-                        : NSLocalizedString("Inbox", comment: "Menu: quick note inbox"),
-                    systemImage: AppSymbol.trayFull
-                )
+                Label(inboxMenuTitle, systemImage: AppSymbol.trayFull)
             }
 
             NavigationLink {
