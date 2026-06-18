@@ -260,7 +260,7 @@ struct QuickNoteInboxBanner: View {
 
 // MARK: - Edit / Add Sheet
 
-private struct QuickNoteEditSheet: View {
+struct QuickNoteEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var draft: QuickNote
     let onSave: (QuickNote) -> Void

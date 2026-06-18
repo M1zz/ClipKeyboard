@@ -5199,9 +5199,7 @@
         }
       }
     },
-    "English" : {
-
-    },
+    "English" : {},
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -27129,6 +27127,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
+          }
+        }
+      }
+    },
+    "빠른 메모 담기" : {
+      "comment" : "Menu: add quick note to inbox",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture a quick note"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 메모 담기"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap catatan cepat"
           }
         }
       }

@@ -83,6 +83,8 @@ struct ClipKeyboardList: View {
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
     @State private var showPaywallFromKeyboard: Bool = false
     @State private var showBulkImport: Bool = false
+    /// + 메뉴에서 "빠른 메모 담기" → 보관함(Inbox) 추가 시트
+    @State private var showQuickNoteAdd: Bool = false
     /// App Intent·Control Center·딥링크로 빠른 메모 보관함(Inbox)을 직접 열 때 사용.
     @State private var showInboxFromIntent: Bool = false
     /// Inbox 배너를 닫은 시점의 항목 수. 이보다 더 쌓이면(=새 캡처) 배너가 다시 나타난다.
@@ -2269,6 +2271,13 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
+            // 빠른 메모 — 키보드 메모로 쓸지 미정인 것을 일단 보관함(Inbox)에 담아둔다.
+            Button {
+                HapticManager.shared.light()
+                showQuickNoteAdd = true
+            } label: {
+                Label(NSLocalizedString("빠른 메모 담기", comment: "Menu: add quick note to inbox"), systemImage: AppSymbol.trayAndArrowDownFill)
+            }
             Divider()
             Button {
                 showBulkImport = true
@@ -2285,6 +2294,17 @@ struct ClipKeyboardList: View {
         .popoverTip(addMemoTip)
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
+        }
+        .sheet(isPresented: $showQuickNoteAdd) {
+            QuickNoteEditSheet(note: QuickNote()) { newNote in
+                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                QuickNoteStore.shared.add(newNote)
+            } onPromote: { newNote in
+                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                QuickNoteStore.shared.add(newNote)
+                QuickNoteStore.shared.promoteToMemo(newNote)
+                viewModel.loadMemos()
+            }
         }
         .sheet(isPresented: $showCategoryManagement) {
             CategoryManagementSheet(viewModel: viewModel)
