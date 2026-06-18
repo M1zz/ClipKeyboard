@@ -232,84 +232,102 @@ struct ClipKeyboardList: View {
 
     @ViewBuilder
     private var mainColumn: some View {
-                VStack(spacing: 0) {
-                    categoryLargeTitle
+        // ⚠️ 런타임 타입 메타데이터 폭발 방지(중요):
+        // VStack에 조건부 자식이 많아지면 거대한 중첩 제네릭 타입이 만들어지고,
+        // 기기에서 런타임이 그 타입 메타데이터를 인스턴스화하다 스택을 넘겨 죽는다
+        // (__swift_instantiateConcreteTypeFromMangledName 재귀 → mainColumn.getter 크래시).
+        // 자식들을 AnyView로 타입 소거해 부모 타입을 평탄화하여 이를 막는다.
+        VStack(spacing: 0) {
+            categoryLargeTitle
+            topBanners
+            categoryContent
+        }
+    }
 
-                    // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 메뉴에 숨기지 않고 상단에 노출.
-                    // 런치 렌더에서는 그리지 않고(quickNoteUIReady), 첫 화면이 뜬 뒤 표시한다.
-                    if quickNoteUIReady {
-                        QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
-                            HapticManager.shared.light()
-                            showInboxFromIntent = true
-                        }
-                    }
-
-                    // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
-                    // 페이월을 영영 안 보던 캐주얼 무료 유저에게 노출을 만들어줌.
-                    if shouldShowProValueNudge {
-                        ProValueNudgeBanner(
-                            message: proValueNudgeMessage,
-                            onTap: {
-                                HapticManager.shared.light()
-                                AnalyticsService.logProNudge(.proNudgeTapped, source: proNudgeSource)
-                                showPaywallFromKeyboard = true
-                            },
-                            onDismiss: {
-                                UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
-                                withAnimation { proNudgeDismissed = true }
-                            }
-                        )
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                        .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
-                    }
-
-                    if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
-                        CategoryActivationBanner(
-                            onEnable: {
-                                withAnimation { CategoryStore.shared.enableFeature() }
-                                HapticManager.shared.success()
-                            },
-                            onDismiss: {
-                                withAnimation { CategoryStore.shared.dismissActivationBanner() }
-                            }
-                        )
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                    }
-
-                    // 페르소나 기반 카테고리 이름 제안 (TipKit). 선택한 사용 패턴에 맞는
-                    // 카테고리 이름을 부드럽게 추천 — 탭하면 만들어서 정리. (값/메모는 추가 안 함)
-                    if shouldShowPersonaCategoryTip {
-                        personaCategorySuggestionTip()
-                            .padding(.horizontal, 16)
-                            .padding(.top, 8)
-                            .padding(.bottom, 4)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                    }
-
-                    // 메모를 보고 카테고리 생성을 제안 (TipKit). 자동 분류된 메모가 임계치 이상
-                    // 쌓였는데 아직 그 카테고리가 없으면 부드럽게 안내.
-                    if CategoryStore.shared.isFeatureEnabled,
-                       let suggestion = viewModel.suggestedCategory {
-                        categorySuggestionTip(name: suggestion.name, count: suggestion.count)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 8)
-                            .padding(.bottom, 4)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                    }
-
-                    // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
-                    if CategoryStore.shared.isFeatureEnabled {
-                        categoryTabView
-                    } else {
-                        tabPageView(for: .all)
+    /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
+    /// AnyView로 타입 소거 — mainColumn VStack의 제네릭 중첩 깊이를 줄이는 핵심.
+    private var topBanners: some View {
+        AnyView(
+            VStack(spacing: 0) {
+                // 빠른 메모(Inbox) 배너 — 런치 렌더 밖(quickNoteUIReady)에서 표시.
+                if quickNoteUIReady {
+                    QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
+                        HapticManager.shared.light()
+                        showInboxFromIntent = true
                     }
                 }
+
+                // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
+                if shouldShowProValueNudge {
+                    ProValueNudgeBanner(
+                        message: proValueNudgeMessage,
+                        onTap: {
+                            HapticManager.shared.light()
+                            AnalyticsService.logProNudge(.proNudgeTapped, source: proNudgeSource)
+                            showPaywallFromKeyboard = true
+                        },
+                        onDismiss: {
+                            UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
+                            withAnimation { proNudgeDismissed = true }
+                        }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
+                }
+
+                if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
+                    CategoryActivationBanner(
+                        onEnable: {
+                            withAnimation { CategoryStore.shared.enableFeature() }
+                            HapticManager.shared.success()
+                        },
+                        onDismiss: {
+                            withAnimation { CategoryStore.shared.dismissActivationBanner() }
+                        }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
+                // 페르소나 기반 카테고리 이름 제안 (TipKit).
+                if shouldShowPersonaCategoryTip {
+                    personaCategorySuggestionTip()
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
+                // 메모를 보고 카테고리 생성을 제안 (TipKit).
+                if CategoryStore.shared.isFeatureEnabled,
+                   let suggestion = viewModel.suggestedCategory {
+                    categorySuggestionTip(name: suggestion.name, count: suggestion.count)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+        )
+    }
+
+    /// 카테고리 탭/단일 페이지 — 가장 깊은 단일 요소라 AnyView로 타입 소거.
+    private var categoryContent: some View {
+        AnyView(
+            Group {
+                // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
+                if CategoryStore.shared.isFeatureEnabled {
+                    categoryTabView
+                } else {
+                    tabPageView(for: .all)
+                }
+            }
+        )
     }
 
     private var screenBody: some View {
