@@ -26,6 +26,7 @@
 		5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */; };
 		581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
+		QKN0XCSTRINGSSHARE000001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550632AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
 		581550642AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
 		581D8A952F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
@@ -46,6 +47,11 @@
 		587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
+		QKN0BUILD000000000000001 /* QuickNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000001 /* QuickNote.swift */; };
+		QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000002 /* QuickNoteStore.swift */; };
+		QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */; };
+		QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */; };
+		QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000005 /* WhatsNewView.swift */; };
 		58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
 		58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
@@ -243,6 +249,11 @@
 		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		QKN0FILE0000000000000001 /* QuickNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNote.swift; sourceTree = "<group>"; };
+		QKN0FILE0000000000000002 /* QuickNoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteStore.swift; sourceTree = "<group>"; };
+		QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteInboxView.swift; sourceTree = "<group>"; };
+		QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteAppIntents.swift; sourceTree = "<group>"; };
+		QKN0FILE0000000000000005 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
@@ -544,6 +555,7 @@
 				A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */,
 				759E1C51E0141D0101328417 /* AppNotification.swift */,
 				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
+				QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */,
 			);
 			path = ClipKeyboard;
 			sourceTree = "<group>";
@@ -600,6 +612,7 @@
 			isa = PBXGroup;
 			children = (
 				58F8FBBE2A127D3C00F5446E /* Memo.swift */,
+				QKN0FILE0000000000000001 /* QuickNote.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -610,6 +623,7 @@
 				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
+				QKN0FILE0000000000000002 /* QuickNoteStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
 				0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */,
 				F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */,
@@ -642,6 +656,7 @@
 				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
+				QKN0FILE0000000000000005 /* WhatsNewView.swift */,
 				STP00022F0000000000000002 /* StarterPackView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
 				58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */,
@@ -684,6 +699,7 @@
 			isa = PBXGroup;
 			children = (
 				58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */,
+				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
 				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
 			);
@@ -1002,6 +1018,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				QKN0XCSTRINGSSHARE000001 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,6 +1101,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
+				QKN0BUILD000000000000001 /* QuickNote.swift in Sources */,
+				QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */,
+				QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */,
+				QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */,
+				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
@@ -1245,7 +1267,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1279,7 +1301,7 @@
 				INFOPLIST_FILE = widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1319,7 +1341,7 @@
 				INFOPLIST_FILE = widget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1351,7 +1373,7 @@
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1380,7 +1402,7 @@
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1453,7 +1475,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1514,7 +1536,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1549,7 +1571,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1591,7 +1613,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1707,7 +1729,7 @@
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1735,7 +1757,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;
@@ -1764,7 +1786,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 4.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ysoup.ClipKeyboardTests;

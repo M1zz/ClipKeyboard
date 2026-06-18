@@ -134,6 +134,30 @@ struct AttachedTemplateTip: Tip {
     }
 }
 
+// MARK: - QuickNoteInboxTip
+// 빠른 메모(Inbox) 캡처를 가르치는 팁. 앱을 어느 정도 써본(engaged) 사용자에게,
+// "어디서든 담아 보관함에 모인다"는 외부 캡처 진입점을 자연스럽게 안내한다.
+// 더보기(⋯) 메뉴 버튼에 popoverTip으로 부착된다.
+
+struct QuickNoteInboxTip: Tip {
+    @Parameter
+    static var engaged: Bool = false
+
+    var title: Text {
+        Text(NSLocalizedString("어디서든 빠르게 담으세요", comment: "Quick note inbox tip title"))
+    }
+    var message: Text? {
+        Text(NSLocalizedString("공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요.", comment: "Quick note inbox tip message"))
+    }
+    var image: Image? {
+        Image(systemName: AppSymbol.trayAndArrowDownFill)
+    }
+
+    var rules: [Rule] {
+        #Rule(Self.$engaged) { $0 == true }
+    }
+}
+
 // MARK: - Sample UUID Storage
 
 enum SampleMemoStorage {

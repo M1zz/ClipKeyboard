@@ -20,7 +20,11 @@ extension Notification.Name {
     static let filterChanged = Notification.Name("filterChanged")
     static let memoDataChanged = Notification.Name("MemoDataChanged")
     static let openMainAppPaywall = Notification.Name("openMainAppPaywall")
+    /// 빠른 메모(Inbox) 보관함이 변경됨(추가/삭제/승격) → 열려 있는 화면·배지 새로고침.
+    static let quickNotesChanged = Notification.Name("quickNotesChanged")
     static let openMemoListWindow = Notification.Name("openMemoListWindow")
+    /// 빠른 메모(Inbox) 보관함 화면을 연다(App Intent·Control Center·딥링크에서 트리거).
+    static let openQuickNoteInbox = Notification.Name("openQuickNoteInbox")
     static let reviewTriggerClipSaved = Notification.Name("reviewTriggerClipSaved")
     static let reviewTriggerComboCompleted = Notification.Name("reviewTriggerComboCompleted")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")

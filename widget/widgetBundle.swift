@@ -12,5 +12,8 @@ import SwiftUI
 struct ClipKeyboardWidgetBundle: WidgetBundle {
     var body: some Widget {
         FavoriteMemoWidget()
+        if #available(iOS 18.0, *) {
+            QuickNoteInboxControl()
+        }
     }
 }

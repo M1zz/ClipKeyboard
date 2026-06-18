@@ -770,3 +770,91 @@
       로컬에 내 메모 없음 ③ iCloud에 실제 백업 존재 → "기존 메모를 불러올 수 있어요" 알림
       1회 노출. "불러오기"→백업/복원 화면 시트. 표시 시 `restoreHintShown_v1` 기록(1회).
       백업 없으면 안 뜸(신규 유저 보호). xcstrings 신규 3키. iOS 빌드+테스트 그린.
+
+---
+
+# 빠른 메모(Quick Note / Inbox) 기능 (2026-06-18)
+
+애플 메모앱의 "빠른 메모"처럼 어디서든 빠르게 캡처 → 보관함(Inbox)에 보류 →
+나중에 "키보드 메모로 저장(승격)/삭제" 결정. 정식 Memo 와 분리된 별도 저장소.
+
+## A. 기반 (공유) ✅
+- [x] `StorageFile.quickNotes = "quicknotes.data"`
+- [x] `AppNotification`: `.quickNotesChanged`, `.openQuickNoteInbox`
+- [x] `AppSymbol`: trayFull, trayAndArrowDownFill
+- [x] `DefaultsKey.pendingOpenQuickNoteInbox`
+- [x] `Model/QuickNote.swift` — 관용 Codable(createdAt=epoch Double), toMemo() 승격
+- [x] `Service/QuickNoteStore.swift` — add/update/remove/promoteToMemo, App Group 파일
+
+## B. 앱 내 Inbox UI ✅
+- [x] `Screens/List/QuickNoteInboxView.swift` — 목록·편집/추가 시트·빈상태·스와이프(승격/삭제)
+- [x] 메인 리스트 "더보기" 메뉴에 보관함 진입(배지 카운트)
+
+## C. 공유 익스텐션 → Inbox ✅
+- [x] ShareViewController: memos.data 직접 저장 → quicknotes.data(Inbox) 보류 저장
+- [x] (부수) 기존 공유 익스텐션의 contentType/날짜 스키마 버그 회피(올바른 rawValue/epoch)
+- [x] 공유 시트 문구 "Add to Inbox"로 변경
+
+## D. Shortcuts / 액션 버튼 ✅
+- [x] `QuickNoteAppIntents.swift` — AddQuickNoteIntent(백그라운드), OpenQuickNoteInboxIntent, AppShortcutsProvider
+
+## E. Control Center / 잠금화면 (iOS 18) ✅
+- [x] `widget/QuickNoteControl.swift` — ControlWidget + 인텐트(App Group 플래그 → 앱이 활성화 시 소비)
+- [x] widgetBundle 등록, 앱 didBecomeActive 에서 보류 플래그 소비
+
+## 다국어 ✅
+- [x] Localizable.xcstrings 신규 키 28개 ko/en/id 추가
+- [x] 공유 익스텐션 타겟에 Localizable.xcstrings 멤버십 추가(공유 시트 현지화)
+
+## 빌드 ✅
+- [x] xcodebuild ClipKeyboard 스킴 BUILD SUCCEEDED (앱+위젯+공유 익스텐션 임베드)
+
+## TODO / 후속
+- [ ] 위젯/Control 자체 문자열은 위젯 번들에 카탈로그가 없어 미현지화(컨트롤 라벨 일부) — 필요 시 위젯 타겟에도 카탈로그 추가
+- [ ] 실기기에서 Control Center 컨트롤 추가→앱 열림→Inbox 이동 동작 확인
+- [ ] Shortcuts/Siri/액션 버튼에서 AddQuickNoteIntent 동작 확인
+
+---
+
+# 빠른 메모 발견성(Discovery) 3종 (2026-06-18)
+
+"기능을 어떻게 알릴까" — TipKit 단독이 아니라 3층 구조로 구현.
+
+## ① 가시성: Inbox 상단 배너 ✅
+- [x] `QuickNoteInboxBanner`(QuickNoteInboxView.swift) — 메인 리스트 상단, "Inbox · N개 정리 대기"
+- [x] ClipKeyboardList mainColumn에 배치(categoryLargeTitle 아래, 첫 배너)
+- [x] 닫으면 현재 개수 기억(inboxBannerDismissCount) → 새 캡처로 더 쌓이면 재노출
+- [x] 메뉴 배지 카운트는 기존 구현(B단계) 유지
+
+## ② TipKit 맥락 팁 ✅
+- [x] `QuickNoteInboxTip`(Tips.swift) — rule: engaged==true(앱 2회 이상 실행)
+- [x] 더보기(⋯) 메뉴 버튼에 popoverTip 부착, "어디서든 담아 보관함에 모여요" 외부 캡처 안내
+- [x] onAppear에서 appLaunchCount>=2면 engaged=true
+
+## ③ What's-New 시트 ✅
+- [x] `WhatsNewView.swift`(Screens) — 빠른 메모 3가지 설명 + "보관함 열기"/"나중에"
+- [x] `WhatsNewContent.version="4.3.4"`, `DefaultsKey.lastSeenWhatsNewVersion`/`appLaunchCount`
+- [x] ClipKeyboardApp.maybeShowWhatsNew(): 첫 실행(신규설치)은 표시만, 업데이트 유저(launch>=2)·미열람·타 모달 없을 때 1회 노출
+
+## 다국어 ✅
+- [x] Localizable.xcstrings 신규 키 12개 ko/en/id 추가 (총 1450)
+
+## 빌드/테스트 ✅
+- [x] BUILD SUCCEEDED + TEST SUCCEEDED
+
+---
+
+# 버그픽스: 앱이 실기기에서 실행 안 됨 (2026-06-18)
+
+## 증상
+- 빌드는 성공하나 실기기/구버전 시뮬레이터에서 설치·실행 안 됨.
+
+## 원인
+- `IPHONEOS_DEPLOYMENT_TARGET = 26.0` (12개 빌드 config 전부) — iOS 26 이상에서만 설치 가능.
+  최신 SDK(26.x) 시뮬레이터에서만 돌아가서 "빌드만 성공"으로 보였음.
+- CLAUDE.md 명시 최소 지원 = iOS 17, RECOMMENDED=15.0 → 26.0은 (공유 익스텐션 추가 등으로) 잘못 올라간 값.
+
+## 수정
+- [x] IPHONEOS_DEPLOYMENT_TARGET 26.0 → 17.0 (12개 config 전부)
+- [x] 빌드 검증: 17.0 타겟에서 BUILD SUCCEEDED (iOS 18+ API 미가드 사용 없음 확인)
+- [x] Control Center 컨트롤은 @available(iOS 18) 가드되어 17.0에서도 안전

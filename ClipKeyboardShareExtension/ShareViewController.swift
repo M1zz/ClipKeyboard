@@ -104,7 +104,7 @@ class ShareViewController: UIViewController {
                 initialTitle: detectedTitle,
                 category: detectedCategory,
                 onSave: { [weak self] title, value in
-                    self?.saveMemo(title: title, value: value)
+                    self?.saveToInbox(title: title, value: value)
                 },
                 onCancel: { [weak self] in
                     self?.cancel()
@@ -115,27 +115,30 @@ class ShareViewController: UIViewController {
         present(host, animated: true)
     }
 
-    private func saveMemo(title: String, value: String) {
+    /// 공유받은 항목을 빠른 메모(Inbox) 보관함에 보류 저장한다.
+    /// 정식 메모로 바로 만들지 않고, 사용자가 메인 앱에서 "메모로 저장"을 결정하게 한다.
+    ///
+    /// ⚠️ 스키마는 메인 앱의 `QuickNote` Codable 과 정확히 일치해야 한다(키/타입):
+    ///    - `createdAt` 은 epoch 초(Double)
+    ///    - `contentType` 은 ClipboardContentType rawValue("text"/"image"/"mixed")
+    ///    하드코딩 문자열은 앱 코드를 공유하지 않는 익스텐션 타겟이라 불가피하다.
+    private func saveToInbox(title: String, value: String) {
         let appGroup = "group.com.Ysoup.TokenMemo"
         guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
             cancel()
             return
         }
-        let memoURL = containerURL.appendingPathComponent("memos.data")
+        let inboxURL = containerURL.appendingPathComponent("quicknotes.data")
 
-        var memos: [[String: Any]] = []
-        if let data = try? Data(contentsOf: memoURL),
+        var notes: [[String: Any]] = []
+        if let data = try? Data(contentsOf: inboxURL),
            let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
-            memos = decoded
+            notes = decoded
         }
 
         let id = UUID().uuidString
-        let iso = ISO8601DateFormatter().string(from: Date())
 
         var imageFileNames: [String] = []
-        // ClipboardContentType rawValue: text="텍스트", image="이미지"
-        var contentType = "텍스트"
-
         if !sharedImages.isEmpty {
             let imagesDir = containerURL.appendingPathComponent("Images")
             try? FileManager.default.createDirectory(at: imagesDir, withIntermediateDirectories: true)
@@ -149,36 +152,29 @@ class ShareViewController: UIViewController {
                     imageFileNames.append(fileName)
                 }
             }
-            if !imageFileNames.isEmpty {
-                contentType = "이미지"
-            }
         }
 
-        let newMemo: [String: Any] = [
+        let hasImages = !imageFileNames.isEmpty
+        let hasText = !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let contentType = hasImages ? (hasText ? "mixed" : "image") : "text"
+
+        let newNote: [String: Any] = [
             "id": id,
-            "title": title,
-            "value": value,
-            "isChecked": false,
-            "lastEdited": iso,
-            "isFavorite": false,
-            "category": detectedCategory,
-            "isSecure": false,
-            "isTemplate": false,
-            "templateVariables": [],
-            "placeholderValues": [:] as [String: Any],
-            "isCombo": false,
-            "comboValues": [],
-            "currentComboIndex": 0,
+            "text": value,
             "imageFileNames": imageFileNames,
-            "contentType": contentType
+            "contentType": contentType,
+            "createdAt": Date().timeIntervalSince1970,
+            "source": "share",
+            "suggestedTitle": title,
+            "suggestedCategory": detectedCategory
         ]
-        memos.append(newMemo)
+        notes.append(newNote)
 
-        if let data = try? JSONSerialization.data(withJSONObject: memos, options: []) {
-            try? data.write(to: memoURL)
+        if let data = try? JSONSerialization.data(withJSONObject: notes, options: []) {
+            try? data.write(to: inboxURL)
         }
 
-        UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "share.lastSavedAt")
+        UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "quicknote.lastSavedAt")
 
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         extensionContext?.completeRequest(returningItems: nil)
@@ -242,17 +238,19 @@ private struct ShareSaveView: View {
 
                 Section {
                     HStack {
-                        Image(systemName: "tag")
+                        Image(systemName: "tray.and.arrow.down.fill")
                             .foregroundColor(.secondary)
-                        Text(NSLocalizedString("Category", comment: "Category"))
+                        Text(NSLocalizedString("Saved to Inbox", comment: "Destination label in share sheet"))
                             .foregroundColor(.secondary)
                         Spacer()
                         Text(category)
                             .foregroundColor(.primary)
                     }
+                } footer: {
+                    Text(NSLocalizedString("It's kept in your inbox so you can decide later whether to save it as a keyboard memo.", comment: "Share sheet inbox explanation"))
                 }
             }
-            .navigationTitle(NSLocalizedString("Save to ClipKeyboard", comment: "Share extension title"))
+            .navigationTitle(NSLocalizedString("Add to Inbox", comment: "Share extension title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

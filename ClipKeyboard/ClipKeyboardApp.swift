@@ -25,6 +25,8 @@ struct ClipKeyboardApp: App {
     /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
     @State private var showCloudBackupSheet = false
     private let restoreHintShownKey = "restoreHintShown_v1"
+    /// 업데이트 후 "새로운 기능"(빠른 메모) 시트를 1회 노출
+    @State private var showWhatsNew = false
 
     /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -129,6 +131,30 @@ struct ClipKeyboardApp: App {
 
         defaults?.set(true, forKey: initKey)
         print("✅ [APP INIT] v4.0 그랜드파더 부트스트랩 완료 (memos=\(currentMemoCount), isPro=\(ProFeatureManager.isPro))")
+    }
+
+    // MARK: - What's New (업데이트 1회 안내)
+
+    /// 업데이트한 기존 사용자에게 "새로운 기능" 시트를 1회 노출한다.
+    /// - 신규 설치(첫 실행)는 새 기능이 아니므로 노출하지 않고 본 것으로 표시만 한다.
+    /// - 데이터성 알림(복원/데모)·리뷰 요청이 떠 있으면 양보한다(모달 중첩 방지).
+    private func maybeShowWhatsNew() {
+        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+        let defaults = UserDefaults.standard
+        let current = WhatsNewContent.version
+        let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
+
+        // 첫 실행(신규 설치)은 안내 대상이 아님 — 본 것으로 표시만 하고 끝.
+        if launchCount <= 1 {
+            defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
+            return
+        }
+
+        guard defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion) != current else { return }
+        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest, !showWhatsNew else { return }
+
+        defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
+        showWhatsNew = true
     }
 
     // MARK: - Default Sample Data
@@ -530,6 +556,10 @@ struct ClipKeyboardApp: App {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         checkVoiceOverAndNudge()
                     }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        maybeShowWhatsNew()
+                    }
                 }
                 .onReceive(
                     NotificationCenter.default.publisher(
@@ -581,6 +611,19 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
+                }
+                .sheet(isPresented: $showWhatsNew) {
+                    WhatsNewView(
+                        onClose: { showWhatsNew = false },
+                        onOpenInbox: {
+                            showWhatsNew = false
+                            // 시트 닫힘 후 보관함 열기 (메인 리스트가 .openQuickNoteInbox 수신)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
+                            }
+                        }
+                    )
+                    .presentationDetents([.large])
                 }
         } // AppThemedContainer
             } // else (비테스트 실행)

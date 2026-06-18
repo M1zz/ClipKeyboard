@@ -17,9 +17,12 @@ enum DefaultsKey {
     static let comboModelUnifyMigratedV1 = "comboModelUnifyMigrated_v1"
     static let didRemoveAds = "didRemoveAds"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
+    static let appLaunchCount = "appLaunchCount"
     static let entries = "entries"
     static let fontSize = "fontSize"
     static let hasCompletedOnboarding = "hasCompletedOnboarding"
+    /// What's-New(새 기능) 시트를 마지막으로 보여준 기능 버전. 다르면 업데이트 유저에게 1회 노출.
+    static let lastSeenWhatsNewVersion = "lastSeenWhatsNewVersion"
     static let hiddenCategoryTabsV1 = "hiddenCategoryTabs_v1"
     static let kbBeaconLastUse = "kb.beacon.lastUse"
     static let kbBeaconPendingCount = "kb.beacon.pendingCount"
@@ -33,6 +36,8 @@ enum DefaultsKey {
     static let memoCopyCount = "memoCopyCount"
     static let onboarding = "onboarding"
     static let pasteTipDismissed = "pasteTipDismissed"
+    /// Control Center 컨트롤이 켠 "보관함 열기" 보류 플래그(앱이 활성화될 때 소비). 위젯 타겟에서도 같은 문자열 사용.
+    static let pendingOpenQuickNoteInbox = "pendingOpenQuickNoteInbox"
     static let proValueNudgeDismissedV1 = "proValueNudgeDismissed_v1"
     static let recentEmojis = "recentEmojis"
     static let recentlyUsedCategories = "recentlyUsedCategories"

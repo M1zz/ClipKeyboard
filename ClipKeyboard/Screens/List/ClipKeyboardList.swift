@@ -72,6 +72,7 @@ struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
     @ObservedObject private var suggestionManager = SuggestionManager.shared
+    @ObservedObject private var quickNoteStore = QuickNoteStore.shared
 
     // MARK: - View-only State
 
@@ -83,6 +84,10 @@ struct ClipKeyboardList: View {
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
     @State private var showPaywallFromKeyboard: Bool = false
     @State private var showBulkImport: Bool = false
+    /// App Intent·Control Center·딥링크로 빠른 메모 보관함(Inbox)을 직접 열 때 사용.
+    @State private var showInboxFromIntent: Bool = false
+    /// Inbox 배너를 닫은 시점의 항목 수. 이보다 더 쌓이면(=새 캡처) 배너가 다시 나타난다.
+    @State private var inboxBannerDismissCount: Int = 0
     @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
     @State private var occasionalSuggestion_: SuggestionTemplate?
@@ -154,6 +159,7 @@ struct ClipKeyboardList: View {
     private let welcomeTip = WelcomeTip()
     private let addMemoTip = AddMemoTip()
     private let cleanUpTip = CleanUpSamplesTip()
+    private let quickNoteInboxTip = QuickNoteInboxTip()
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -226,6 +232,25 @@ struct ClipKeyboardList: View {
     private var mainColumn: some View {
                 VStack(spacing: 0) {
                     categoryLargeTitle
+
+                    // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 메뉴에 숨기지 않고 상단에 노출.
+                    // 닫으면 현재 개수를 기억했다가, 새 캡처로 더 쌓이면 다시 나타난다.
+                    if quickNoteStore.count > inboxBannerDismissCount {
+                        QuickNoteInboxBanner(
+                            count: quickNoteStore.count,
+                            onTap: {
+                                HapticManager.shared.light()
+                                showInboxFromIntent = true
+                            },
+                            onDismiss: {
+                                withAnimation { inboxBannerDismissCount = quickNoteStore.count }
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                    }
 
                     // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
                     // 페이월을 영영 안 보던 캐주얼 무료 유저에게 노출을 만들어줌.
@@ -640,6 +665,10 @@ struct ClipKeyboardList: View {
                         hasAppeared = true
                     }
                 }
+                // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
+                if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
+                    QuickNoteInboxTip.engaged = true
+                }
             }
     }
 
@@ -651,6 +680,7 @@ struct ClipKeyboardList: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 viewModel.onSceneResume()
+                consumePendingInboxOpen()
             }
     }
 
@@ -660,12 +690,26 @@ struct ClipKeyboardList: View {
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
+            .navigationDestination(isPresented: $showInboxFromIntent) {
+                QuickNoteInboxView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
+                showInboxFromIntent = true
+            }
     }
 
     var body: some View {
         NavigationStack {
             screenL8
         }
+    }
+
+    /// Control Center 컨트롤이 켜둔 "보관함 열기" 보류 플래그를 소비해 Inbox 화면으로 이동.
+    private func consumePendingInboxOpen() {
+        let store = UserDefaults(suiteName: AppGroup.identifier)
+        guard store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true else { return }
+        store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
+        showInboxFromIntent = true
     }
 
     // MARK: - View Sections
@@ -2147,6 +2191,17 @@ struct ClipKeyboardList: View {
             }
 
             NavigationLink {
+                QuickNoteInboxView()
+            } label: {
+                Label(
+                    quickNoteStore.count > 0
+                        ? String(format: NSLocalizedString("Inbox (%d)", comment: "Menu: quick note inbox with count"), quickNoteStore.count)
+                        : NSLocalizedString("Inbox", comment: "Menu: quick note inbox"),
+                    systemImage: AppSymbol.trayFull
+                )
+            }
+
+            NavigationLink {
                 ClipboardList()
             } label: {
                 Label(
@@ -2189,6 +2244,7 @@ struct ClipKeyboardList: View {
             Image(systemName: AppSymbol.ellipsisCircle)
                 .foregroundColor(theme.textMuted)
         }
+        .popoverTip(quickNoteInboxTip)
         .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu label"))
         .accessibilityHint(NSLocalizedString("클립보드 히스토리, 플레이스홀더 관리, 설정 메뉴를 엽니다", comment: "More options menu hint"))
 
