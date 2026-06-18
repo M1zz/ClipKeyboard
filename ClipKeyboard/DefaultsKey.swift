@@ -38,6 +38,8 @@ enum DefaultsKey {
     static let pasteTipDismissed = "pasteTipDismissed"
     /// Control Center 컨트롤이 켠 "보관함 열기" 보류 플래그(앱이 활성화될 때 소비). 위젯 타겟에서도 같은 문자열 사용.
     static let pendingOpenQuickNoteInbox = "pendingOpenQuickNoteInbox"
+    /// Control Center 빠른 메모 컨트롤이 켠 "빠른 메모 입력 시트 열기" 보류 플래그. 위젯 타겟과 같은 문자열.
+    static let pendingQuickNoteAdd = "pendingQuickNoteAdd"
     static let proValueNudgeDismissedV1 = "proValueNudgeDismissed_v1"
     static let recentEmojis = "recentEmojis"
     static let recentlyUsedCategories = "recentlyUsedCategories"

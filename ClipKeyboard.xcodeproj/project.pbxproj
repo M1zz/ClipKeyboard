@@ -27,6 +27,7 @@
 		581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		QKN0XCSTRINGSSHARE000001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
+		QKN0XCSTRINGSWIDGET00001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		581550632AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
 		581550642AD5321F00A6115B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550622AD5321F00A6115B /* Constants.swift */; };
 		581D8A952F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
@@ -974,6 +975,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				QKN0XCSTRINGSWIDGET00001 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

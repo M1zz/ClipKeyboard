@@ -721,12 +721,18 @@ struct ClipKeyboardList: View {
             : NSLocalizedString("Inbox", comment: "Menu: quick note inbox")
     }
 
-    /// Control Center 컨트롤이 켜둔 "보관함 열기" 보류 플래그를 소비해 Inbox 화면으로 이동.
+    /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
+    /// - 빠른 메모 컨트롤: 입력 시트 표시 / - 보관함 열기 컨트롤: Inbox 화면 이동.
     private func consumePendingInboxOpen() {
         let store = UserDefaults(suiteName: AppGroup.identifier)
-        guard store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true else { return }
-        store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
-        showInboxFromIntent = true
+        if store?.bool(forKey: DefaultsKey.pendingQuickNoteAdd) == true {
+            store?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
+            showQuickNoteAdd = true
+        }
+        if store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true {
+            store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
+            showInboxFromIntent = true
+        }
     }
 
     // MARK: - View Sections
@@ -2276,7 +2282,7 @@ struct ClipKeyboardList: View {
                 HapticManager.shared.light()
                 showQuickNoteAdd = true
             } label: {
-                Label(NSLocalizedString("빠른 메모 담기", comment: "Menu: add quick note to inbox"), systemImage: AppSymbol.trayAndArrowDownFill)
+                Label(NSLocalizedString("빠른 메모 담기", comment: "Menu: add quick note to inbox"), systemImage: AppSymbol.noteTextBadgePlus)
             }
             Divider()
             Button {
