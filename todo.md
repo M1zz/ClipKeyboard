@@ -858,3 +858,25 @@
 - [x] IPHONEOS_DEPLOYMENT_TARGET 26.0 → 17.0 (12개 config 전부)
 - [x] 빌드 검증: 17.0 타겟에서 BUILD SUCCEEDED (iOS 18+ API 미가드 사용 없음 확인)
 - [x] Control Center 컨트롤은 @available(iOS 18) 가드되어 17.0에서도 안전
+
+---
+
+# 버그픽스: 실기기 런치 크래시 (타입 메타데이터 스택오버플로) (2026-06-19)
+
+## 증상
+- iOS 26.0 실기기 런치 직후 크래시. 시뮬(26.2) 재현 불가.
+- 백트레이스: __swift_instantiateConcreteTypeFromMangledNameV2 → mainColumn.getter(VStack)
+  → decodeMangledType↔decodeGenericArgs 100겹+ 재귀 → 스택오버플로.
+
+## 원인
+- mainColumn VStack의 조건부 자식(배너 5종+탭뷰)이 거대 중첩 제네릭 타입 생성 →
+  기기 런타임이 타입 메타데이터 인스턴스화하다 스택 초과. (빠른 메모 배너가 마지막 한 방울)
+
+## 수정 (909b4a3)
+- [x] mainColumn → categoryLargeTitle / topBanners / categoryContent 3슬롯
+- [x] topBanners(배너 5종)·categoryContent(탭뷰)를 AnyView로 타입 소거 → 중첩 깊이↓
+- [x] 동작/레이아웃 불변(시뮬 렌더 확인), 빠른 메모 deferral 유지
+- [x] 메모리 기록: swiftui_type_metadata_limit
+
+## 곁다리 수정(앞서)
+- [x] 배포 타깃 26.0 유지(요청), QuickNoteStore 블록 옵저버, 배너 중첩 버튼 제거

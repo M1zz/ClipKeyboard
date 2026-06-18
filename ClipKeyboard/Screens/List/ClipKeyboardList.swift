@@ -72,9 +72,6 @@ struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
     @ObservedObject private var suggestionManager = SuggestionManager.shared
-    /// 빠른 메모(Inbox) UI를 런치 렌더에서 빼고 첫 화면이 뜬 뒤 표시하기 위한 게이트.
-    /// QuickNoteStore.shared 접근·배너 렌더를 launch 경로 밖으로 미뤄 런치 안정성을 확보한다.
-    @State private var quickNoteUIReady = false
 
     // MARK: - View-only State
 
@@ -249,12 +246,12 @@ struct ClipKeyboardList: View {
     private var topBanners: some View {
         AnyView(
             VStack(spacing: 0) {
-                // 빠른 메모(Inbox) 배너 — 런치 렌더 밖(quickNoteUIReady)에서 표시.
-                if quickNoteUIReady {
-                    QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
-                        HapticManager.shared.light()
-                        showInboxFromIntent = true
-                    }
+                // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 상단에 즉시 노출.
+                // (컨테이너가 내부에서 QuickNoteStore를 관찰하고, 비었으면 아무것도 안 그린다.
+                //  타입은 topBanners의 AnyView로 소거되어 mainColumn 타입 복잡도에 영향 없음.)
+                QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
+                    HapticManager.shared.light()
+                    showInboxFromIntent = true
                 }
 
                 // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
@@ -675,15 +672,9 @@ struct ClipKeyboardList: View {
                         hasAppeared = true
                     }
                 }
-                // 빠른 메모 UI(배너·스토어)는 런치 렌더에서 빼고, 첫 화면이 안정된 뒤 켠다.
-                if !quickNoteUIReady {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        quickNoteUIReady = true
-                        // 캡처 팁(engaged)도 이 시점에 — QuickNoteStore 접근을 런치 밖으로 미룬 뒤.
-                        if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
-                            QuickNoteInboxTip.engaged = true
-                        }
-                    }
+                // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
+                if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
+                    QuickNoteInboxTip.engaged = true
                 }
             }
     }
@@ -720,9 +711,9 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 더보기 메뉴의 보관함 항목 라벨(개수 배지). 런치 이후에만 QuickNoteStore.shared를 읽는다.
+    /// 더보기 메뉴의 보관함 항목 라벨(개수 배지). 메뉴는 열릴 때 다시 만들어지므로 직접 읽어도 충분.
     private var inboxMenuTitle: String {
-        let count = quickNoteUIReady ? QuickNoteStore.shared.count : 0
+        let count = QuickNoteStore.shared.count
         return count > 0
             ? String(format: NSLocalizedString("Inbox (%d)", comment: "Menu: quick note inbox with count"), count)
             : NSLocalizedString("Inbox", comment: "Menu: quick note inbox")
