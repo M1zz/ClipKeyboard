@@ -25,6 +25,8 @@ extension Notification.Name {
     static let openMemoListWindow = Notification.Name("openMemoListWindow")
     /// 빠른 메모(Inbox) 보관함 화면을 연다(App Intent·Control Center·딥링크에서 트리거).
     static let openQuickNoteInbox = Notification.Name("openQuickNoteInbox")
+    /// 빠른 메모 입력 시트를 연다(Control Center 컨트롤의 clipkeyboard://quicknote 딥링크).
+    static let openQuickNoteAdd = Notification.Name("openQuickNoteAdd")
     static let reviewTriggerClipSaved = Notification.Name("reviewTriggerClipSaved")
     static let reviewTriggerComboCompleted = Notification.Name("reviewTriggerComboCompleted")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")

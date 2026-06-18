@@ -705,6 +705,9 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 showInboxFromIntent = true
             }
+            .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteAdd)) { _ in
+                showQuickNoteAdd = true
+            }
     }
 
     var body: some View {

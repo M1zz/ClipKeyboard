@@ -711,6 +711,9 @@ struct ClipKeyboardApp: App {
         } else if url.host == "paywall" {
             // 키보드 익스텐션에서 paywall 직행 요청 (v4.0)
             NotificationCenter.default.post(name: .showPaywall, object: nil)
+        } else if url.host == "quicknote" {
+            // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기
+            NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
         }
     }
 

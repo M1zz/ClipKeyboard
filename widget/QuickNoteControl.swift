@@ -18,12 +18,13 @@ import AppIntents
 struct AddQuickNoteControlIntent: AppIntent {
     static var title: LocalizedStringResource = "Quick Note"
     static var description = IntentDescription("Capture a quick note into ClipKeyboard.")
-    static var openAppWhenRun: Bool = true
 
-    func perform() async throws -> some IntentResult {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
-            .set(true, forKey: "pendingQuickNoteAdd")
-        return .result()
+    // openAppWhenRun 은 제어센터 컨트롤에서 앱을 안 여는 경우가 있어,
+    // 확실히 앱이 열리는 URL 딥링크(clipkeyboard://quicknote)로 연다.
+    // (위젯의 copy 딥링크가 이미 같은 스킴으로 앱을 여는 게 검증됨.)
+    func perform() async throws -> some IntentResult & OpensIntent {
+        let url = URL(string: "clipkeyboard://quicknote")!
+        return .result(opensIntent: OpenURLIntent(url))
     }
 }
 
