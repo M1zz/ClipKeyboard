@@ -1178,6 +1178,29 @@
         }
       }
     },
+    "%d images" : {
+      "comment" : "Image count label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d images"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d gambar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 %d장"
+          }
+        }
+      }
+    },
     "%d items" : {
       "comment" : "Combo item count preview"
     },
@@ -1293,6 +1316,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "변수 %d개"
+          }
+        }
+      }
+    },
+    "%d waiting to be sorted" : {
+      "comment" : "Inbox banner subtitle with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d waiting to be sorted"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d menunggu disortir"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정리 대기 %d개"
           }
         }
       }
@@ -2818,6 +2864,29 @@
         }
       }
     },
+    "Add Quick Note" : {
+      "comment" : "Add quick note button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Quick Note"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah Catatan Cepat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 메모 추가"
+          }
+        }
+      }
+    },
     "Add snippets in the main app — they'll appear here in seconds." : {
       "comment" : "Empty hint: zero memos",
       "localizations" : {
@@ -2837,6 +2906,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "메인 앱에서 스니펫 추가하면 여기에 즉시 표시됩니다."
+          }
+        }
+      }
+    },
+    "Add to Inbox" : {
+      "comment" : "Share extension title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah ke Kotak Masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함에 추가"
           }
         }
       }
@@ -3483,6 +3575,75 @@
         }
       }
     },
+    "Capture anything in a tap — decide later whether to keep it as a keyboard memo." : {
+      "comment" : "What's new subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture anything in a tap — decide later whether to keep it as a keyboard memo."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap apa saja dengan satu ketukan — putuskan nanti apakah akan disimpan sebagai memo keyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "탭 한 번으로 무엇이든 담고, 키보드 메모로 쓸지는 나중에 정하세요."
+          }
+        }
+      }
+    },
+    "Capture from anywhere" : {
+      "comment" : "What's new feature 1 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture from anywhere"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap dari mana saja"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어디서든 캡처"
+          }
+        }
+      }
+    },
+    "Captured items are kept in the inbox with no rush — nothing is auto-deleted." : {
+      "comment" : "What's new feature 2 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captured items are kept in the inbox with no rush — nothing is auto-deleted."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item yang ditangkap tetap berada di kotak masuk tanpa terburu-buru — tidak ada yang terhapus otomatis."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "담은 항목은 서두르지 않아도 보관함에 남아요 — 자동으로 삭제되지 않아요."
+          }
+        }
+      }
+    },
     "Card" : {
       "comment" : "Category: card",
       "localizations" : {
@@ -3513,6 +3674,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "comment" : "Category",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
           }
         },
         "id" : {
@@ -4244,6 +4429,29 @@
         }
       }
     },
+    "Content" : {
+      "comment" : "Content section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konten"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내용"
+          }
+        }
+      }
+    },
     "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history." : {
       "comment" : "Smart clipboard hint — Stripe URL auto-tag",
       "extractionState" : "manual",
@@ -4672,6 +4880,52 @@
         }
       }
     },
+    "Delete" : {
+      "comment" : "Delete",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제"
+          }
+        }
+      }
+    },
+    "Delete this quick note?" : {
+      "comment" : "Delete quick note confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this quick note?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus catatan cepat ini?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 빠른 메모를 삭제할까요?"
+          }
+        }
+      }
+    },
     "Delivery delay heads-up" : {
       "comment" : "Scenario title — delay",
       "extractionState" : "manual",
@@ -4945,7 +5199,9 @@
         }
       }
     },
-    "English" : {},
+    "English" : {
+
+    },
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -5914,6 +6170,29 @@
         }
       }
     },
+    "Image" : {
+      "comment" : "Default title for image memo\nDefault title for image quick note\nImage section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gambar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지"
+          }
+        }
+      }
+    },
     "Imported %d memos" : {
       "comment" : "Bulk import success",
       "localizations" : {
@@ -5933,6 +6212,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "메모 %d개 가져왔습니다"
+          }
+        }
+      }
+    },
+    "Inbox" : {
+      "comment" : "Menu: quick note inbox\nQuick note inbox screen title\nQuick note inbox title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak Masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함"
+          }
+        }
+      }
+    },
+    "Inbox (%d)" : {
+      "comment" : "Menu: quick note inbox with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inbox (%d)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak Masuk (%d)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함 (%d)"
           }
         }
       }
@@ -6168,6 +6493,52 @@
         }
       }
     },
+    "It waits in your inbox" : {
+      "comment" : "What's new feature 2 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It waits in your inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menunggu di kotak masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함에서 기다려요"
+          }
+        }
+      }
+    },
+    "It's kept in your inbox so you can decide later whether to save it as a keyboard memo." : {
+      "comment" : "Share sheet inbox explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's kept in your inbox so you can decide later whether to save it as a keyboard memo."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan di kotak masuk Anda sehingga Anda bisa memutuskan nanti apakah akan menyimpannya sebagai memo keyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함에 담아두면 나중에 키보드 메모로 저장할지 결정할 수 있어요."
+          }
+        }
+      }
+    },
     "Just copied" : {
       "comment" : "Inline capture card: just copied hint",
       "localizations" : {
@@ -6210,6 +6581,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "방금 전 %@ 꺼냈어요"
+          }
+        }
+      }
+    },
+    "Keep in Inbox" : {
+      "comment" : "Save quick note to inbox",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep in Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan di Kotak Masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함에 보관"
           }
         }
       }
@@ -6985,6 +7379,29 @@
         }
       }
     },
+    "New: Quick Note" : {
+      "comment" : "What's new title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New: Quick Note"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baru: Catatan Cepat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 기능: 빠른 메모"
+          }
+        }
+      }
+    },
     "Next Keyboard" : {
       "comment" : "Title for 'Next Keyboard' button",
       "localizations" : {
@@ -7261,6 +7678,75 @@
         }
       }
     },
+    "Not now" : {
+      "comment" : "Dismiss what's new",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti saja"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나중에"
+          }
+        }
+      }
+    },
+    "Note" : {
+      "comment" : "Quick note intent parameter title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모"
+          }
+        }
+      }
+    },
+    "Nothing to save." : {
+      "comment" : "Quick note intent empty dialog",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to save."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada yang disimpan."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장할 내용이 없어요."
+          }
+        }
+      }
+    },
     "Office hours request" : {
       "comment" : "Seed title",
       "extractionState" : "manual",
@@ -7354,6 +7840,29 @@
         }
       }
     },
+    "Open Inbox" : {
+      "comment" : "Open inbox button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka Kotak Masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함 열기"
+          }
+        }
+      }
+    },
     "Open memo list" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -7420,6 +7929,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱에서 플레이스홀더 관리에 들어가 '%@' 값을 추가해주세요"
+          }
+        }
+      }
+    },
+    "Open the ClipKeyboard inbox of quick notes." : {
+      "comment" : "OpenQuickNoteInboxIntent description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the ClipKeyboard inbox of quick notes."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka kotak masuk catatan cepat ClipKeyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 빠른 메모 보관함을 엽니다."
           }
         }
       }
@@ -8265,6 +8797,29 @@
         }
       }
     },
+    "Promote when you're ready" : {
+      "comment" : "What's new feature 3 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Promote when you're ready"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan saat Anda siap"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "준비되면 저장하세요"
+          }
+        }
+      }
+    },
     "Proposal follow-up (3 days silent)" : {
       "comment" : "Scenario title — proposal follow-up",
       "extractionState" : "manual",
@@ -8313,6 +8868,52 @@
         }
       }
     },
+    "Quick note" : {
+      "comment" : "Quick note text field placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick note"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan cepat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 메모"
+          }
+        }
+      }
+    },
+    "Quick Note" : {
+      "comment" : "Default title for empty quick note\nQuick note edit title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Note"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan Cepat"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빠른 메모"
+          }
+        }
+      }
+    },
     "Quick Paste Panel" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -8357,6 +8958,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "타임존 빠른 답장"
+          }
+        }
+      }
+    },
+    "Quickly capture anything from the Share Sheet, Shortcuts, or Control Center. Decide later whether to keep it as a keyboard memo." : {
+      "comment" : "Empty inbox description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quickly capture anything from the Share Sheet, Shortcuts, or Control Center. Decide later whether to keep it as a keyboard memo."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap apa saja dengan cepat dari Lembar Berbagi, Pintasan, atau Pusat Kontrol. Putuskan nanti apakah akan disimpan sebagai memo keyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "공유 시트, 단축어, 제어 센터에서 무엇이든 빠르게 담아두세요. 키보드 메모로 쓸지는 나중에 결정하면 됩니다."
+          }
+        }
+      }
+    },
+    "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo." : {
+      "comment" : "AddQuickNoteIntent description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap teks dengan cepat ke kotak masuk ClipKeyboard untuk memutuskan nanti apakah akan disimpan sebagai memo keyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 보관함에 텍스트를 빠르게 담아두고, 키보드 메모로 쓸지는 나중에 결정하세요."
           }
         }
       }
@@ -8711,6 +9358,29 @@
         }
       }
     },
+    "Save as Memo" : {
+      "comment" : "Promote quick note to memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save as Memo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan sebagai Memo"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모로 저장"
+          }
+        }
+      }
+    },
     "Save your IBAN once. Paste forever." : {
       "comment" : "Empty: zero memos",
       "localizations" : {
@@ -8799,6 +9469,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장된 항목"
+          }
+        }
+      }
+    },
+    "Saved to Inbox" : {
+      "comment" : "Destination label in share sheet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan ke Kotak Masuk"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함에 저장됨"
+          }
+        }
+      }
+    },
+    "Saved to your ClipKeyboard inbox." : {
+      "comment" : "Quick note intent success dialog",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to your ClipKeyboard inbox."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan ke kotak masuk ClipKeyboard Anda."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 보관함에 저장했어요."
           }
         }
       }
@@ -8988,6 +9704,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Send Feedback"
+          }
+        }
+      }
+    },
+    "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app." : {
+      "comment" : "What's new feature 1 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirim teks atau gambar dari Lembar Berbagi, Pintasan, Siri, atau tombol Pusat Kontrol — tanpa membuka aplikasi."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "공유 시트·단축어·Siri·제어 센터 버튼으로 앱을 열지 않고 텍스트나 이미지를 담으세요."
           }
         }
       }
@@ -9324,6 +10063,29 @@
         }
       }
     },
+    "Swipe to save an item as a keyboard memo, or delete it. You decide later." : {
+      "comment" : "What's new feature 3 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe to save an item as a keyboard memo, or delete it. You decide later."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geser untuk menyimpan item sebagai memo keyboard, atau hapus. Anda yang menentukan nanti."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "밀어서 키보드 메모로 저장하거나 삭제하세요. 결정은 나중에 하면 돼요."
+          }
+        }
+      }
+    },
     "Syncs via iCloud" : {
       "comment" : "Mac feature: iCloud sync",
       "localizations" : {
@@ -9366,6 +10128,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "시스템 따름"
+          }
+        }
+      }
+    },
+    "Tap to edit · Swipe right to save as a keyboard memo" : {
+      "comment" : "Inbox list hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to edit · Swipe right to save as a keyboard memo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk mengedit · Geser kanan untuk menyimpan sebagai memo keyboard"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "탭하여 편집 · 오른쪽으로 밀어 키보드 메모로 저장"
           }
         }
       }
@@ -9458,6 +10243,29 @@
         }
       }
     },
+    "The text to capture." : {
+      "comment" : "Quick note intent parameter description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text to capture."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teks yang akan ditangkap."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "담을 텍스트입니다."
+          }
+        }
+      }
+    },
     "Theme" : {
       "comment" : "Settings: theme picker",
       "extractionState" : "stale",
@@ -9501,6 +10309,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이번 달"
+          }
+        }
+      }
+    },
+    "This quick note will be permanently removed from your inbox." : {
+      "comment" : "Delete quick note message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This quick note will be permanently removed from your inbox."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan cepat ini akan dihapus permanen dari kotak masuk Anda."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 빠른 메모가 보관함에서 영구적으로 삭제됩니다."
           }
         }
       }
@@ -10253,6 +11084,29 @@
         }
       }
     },
+    "What do you want to capture?" : {
+      "comment" : "Quick note intent value prompt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do you want to capture?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apa yang ingin Anda tangkap?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무엇을 담을까요?"
+          }
+        }
+      }
+    },
     "When can we jump on a call?" : {
       "comment" : "Scenario title — call availability",
       "extractionState" : "manual",
@@ -10551,6 +11405,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "기존 항목은 그대로 유지돼요"
+          }
+        }
+      }
+    },
+    "Your inbox is empty" : {
+      "comment" : "Empty inbox title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your inbox is empty"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak masuk Anda kosong"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관함이 비어 있어요"
           }
         }
       }
@@ -11185,6 +12062,29 @@
         }
       }
     },
+    "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요." : {
+      "comment" : "Quick note inbox tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items captured via the Share Sheet, Shortcuts, or Control Center collect in the inbox under the ⋯ menu. Save them as keyboard memos later."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item yang ditangkap melalui Lembar Berbagi, Pintasan, atau Pusat Kontrol terkumpul di kotak masuk pada menu ⋯. Simpan sebagai memo keyboard nanti."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요."
+          }
+        }
+      }
+    },
     "괜찮아요" : {
       "comment" : "Decline category activation",
       "extractionState" : "manual",
@@ -11669,17 +12569,6 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끔" : {
       "comment" : "Toggle state: off",
       "localizations" : {
@@ -11692,6 +12581,17 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -18028,6 +18928,29 @@
         }
       }
     },
+    "어디서든 빠르게 담으세요" : {
+      "comment" : "Quick note inbox tip title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture anything, anywhere"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangkap apa saja, di mana saja"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어디서든 빠르게 담으세요"
+          }
+        }
+      }
+    },
     "어떤 기능이 있으면 좋겠나요?\n예) 메모를 폴더로 묶는 기능이 필요해요." : {
       "comment" : "Feature request placeholder",
       "localizations" : {
@@ -20635,17 +21558,6 @@
         }
       }
     },
-    "저장된 메모 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Memos (shown in keyboard)"
-          }
-        }
-      }
-    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -20700,6 +21612,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal simpan: %@"
+          }
+        }
+      }
+    },
+    "저장된 메모 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Memos (shown in keyboard)"
           }
         }
       }
@@ -22560,6 +23483,24 @@
         }
       }
     },
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktif"
+          }
+        }
+      }
+    },
     "켬" : {
       "comment" : "Toggle state: on",
       "localizations" : {
@@ -22590,24 +23531,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
-          }
-        }
-      }
-    },
-    "켜짐" : {
-      "comment" : "On",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktif"
           }
         }
       }
@@ -26206,927 +27129,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "%d images" : {
-      "comment" : "Image count label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d images"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d gambar"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지 %d장"
-          }
-        }
-      }
-    },
-    "%d waiting to be sorted" : {
-      "comment" : "Inbox banner subtitle with count",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d waiting to be sorted"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "정리 대기 %d개"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d menunggu disortir"
-          }
-        }
-      }
-    },
-    "Add Quick Note" : {
-      "comment" : "Add quick note button",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Quick Note"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tambah Catatan Cepat"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "빠른 메모 추가"
-          }
-        }
-      }
-    },
-    "Add to Inbox" : {
-      "comment" : "Share extension title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to Inbox"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tambah ke Kotak Masuk"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함에 추가"
-          }
-        }
-      }
-    },
-    "Capture anything in a tap — decide later whether to keep it as a keyboard memo." : {
-      "comment" : "What's new subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Capture anything in a tap — decide later whether to keep it as a keyboard memo."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "탭 한 번으로 무엇이든 담고, 키보드 메모로 쓸지는 나중에 정하세요."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tangkap apa saja dengan satu ketukan — putuskan nanti apakah akan disimpan sebagai memo keyboard."
-          }
-        }
-      }
-    },
-    "Capture from anywhere" : {
-      "comment" : "What's new feature 1 title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Capture from anywhere"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "어디서든 캡처"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tangkap dari mana saja"
-          }
-        }
-      }
-    },
-    "Captured items are kept in the inbox with no rush — nothing is auto-deleted." : {
-      "comment" : "What's new feature 2 detail",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Captured items are kept in the inbox with no rush — nothing is auto-deleted."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "담은 항목은 서두르지 않아도 보관함에 남아요 — 자동으로 삭제되지 않아요."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Item yang ditangkap tetap berada di kotak masuk tanpa terburu-buru — tidak ada yang terhapus otomatis."
-          }
-        }
-      }
-    },
-    "Category" : {
-      "comment" : "Category",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Category"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kategori"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "카테고리"
-          }
-        }
-      }
-    },
-    "Content" : {
-      "comment" : "Content section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Content"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konten"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내용"
-          }
-        }
-      }
-    },
-    "Delete" : {
-      "comment" : "Delete",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hapus"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "삭제"
-          }
-        }
-      }
-    },
-    "Delete this quick note?" : {
-      "comment" : "Delete quick note confirmation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete this quick note?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hapus catatan cepat ini?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 빠른 메모를 삭제할까요?"
-          }
-        }
-      }
-    },
-    "Image" : {
-      "comment" : "Default title for image memo\nDefault title for image quick note\nImage section",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gambar"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지"
-          }
-        }
-      }
-    },
-    "Inbox" : {
-      "comment" : "Menu: quick note inbox\nQuick note inbox screen title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inbox"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotak Masuk"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함"
-          }
-        }
-      }
-    },
-    "Inbox (%d)" : {
-      "comment" : "Menu: quick note inbox with count",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inbox (%d)"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotak Masuk (%d)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함 (%d)"
-          }
-        }
-      }
-    },
-    "It waits in your inbox" : {
-      "comment" : "What's new feature 2 title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It waits in your inbox"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함에서 기다려요"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menunggu di kotak masuk"
-          }
-        }
-      }
-    },
-    "It's kept in your inbox so you can decide later whether to save it as a keyboard memo." : {
-      "comment" : "Share sheet inbox explanation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It's kept in your inbox so you can decide later whether to save it as a keyboard memo."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disimpan di kotak masuk Anda sehingga Anda bisa memutuskan nanti apakah akan menyimpannya sebagai memo keyboard."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함에 담아두면 나중에 키보드 메모로 저장할지 결정할 수 있어요."
-          }
-        }
-      }
-    },
-    "Keep in Inbox" : {
-      "comment" : "Save quick note to inbox",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keep in Inbox"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan di Kotak Masuk"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함에 보관"
-          }
-        }
-      }
-    },
-    "New: Quick Note" : {
-      "comment" : "What's new title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New: Quick Note"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "새 기능: 빠른 메모"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baru: Catatan Cepat"
-          }
-        }
-      }
-    },
-    "Not now" : {
-      "comment" : "Dismiss what's new",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not now"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "나중에"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nanti saja"
-          }
-        }
-      }
-    },
-    "Note" : {
-      "comment" : "Quick note intent parameter title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Note"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catatan"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메모"
-          }
-        }
-      }
-    },
-    "Nothing to save." : {
-      "comment" : "Quick note intent empty dialog",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nothing to save."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tidak ada yang disimpan."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장할 내용이 없어요."
-          }
-        }
-      }
-    },
-    "Open Inbox" : {
-      "comment" : "Open inbox app intent title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Inbox"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buka Kotak Masuk"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함 열기"
-          }
-        }
-      }
-    },
-    "Open the ClipKeyboard inbox of quick notes." : {
-      "comment" : "OpenQuickNoteInboxIntent description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the ClipKeyboard inbox of quick notes."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buka kotak masuk catatan cepat ClipKeyboard."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 빠른 메모 보관함을 엽니다."
-          }
-        }
-      }
-    },
-    "Promote when you're ready" : {
-      "comment" : "What's new feature 3 title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Promote when you're ready"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "준비되면 저장하세요"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan saat Anda siap"
-          }
-        }
-      }
-    },
-    "Quick Note" : {
-      "comment" : "Default title for empty quick note\nQuick note edit title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quick Note"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catatan Cepat"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "빠른 메모"
-          }
-        }
-      }
-    },
-    "Quick note" : {
-      "comment" : "Quick note text field placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quick note"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catatan cepat"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "빠른 메모"
-          }
-        }
-      }
-    },
-    "Quickly capture anything from the Share Sheet, Shortcuts, or Control Center. Decide later whether to keep it as a keyboard memo." : {
-      "comment" : "Empty inbox description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quickly capture anything from the Share Sheet, Shortcuts, or Control Center. Decide later whether to keep it as a keyboard memo."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tangkap apa saja dengan cepat dari Lembar Berbagi, Pintasan, atau Pusat Kontrol. Putuskan nanti apakah akan disimpan sebagai memo keyboard."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공유 시트, 단축어, 제어 센터에서 무엇이든 빠르게 담아두세요. 키보드 메모로 쓸지는 나중에 결정하면 됩니다."
-          }
-        }
-      }
-    },
-    "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo." : {
-      "comment" : "AddQuickNoteIntent description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tangkap teks dengan cepat ke kotak masuk ClipKeyboard untuk memutuskan nanti apakah akan disimpan sebagai memo keyboard."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 보관함에 텍스트를 빠르게 담아두고, 키보드 메모로 쓸지는 나중에 결정하세요."
-          }
-        }
-      }
-    },
-    "Save as Memo" : {
-      "comment" : "Promote quick note to memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save as Memo"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan sebagai Memo"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메모로 저장"
-          }
-        }
-      }
-    },
-    "Saved to Inbox" : {
-      "comment" : "Destination label in share sheet",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved to Inbox"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disimpan ke Kotak Masuk"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함에 저장됨"
-          }
-        }
-      }
-    },
-    "Saved to your ClipKeyboard inbox." : {
-      "comment" : "Quick note intent success dialog",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved to your ClipKeyboard inbox."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disimpan ke kotak masuk ClipKeyboard Anda."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 보관함에 저장했어요."
-          }
-        }
-      }
-    },
-    "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app." : {
-      "comment" : "What's new feature 1 detail",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공유 시트·단축어·Siri·제어 센터 버튼으로 앱을 열지 않고 텍스트나 이미지를 담으세요."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kirim teks atau gambar dari Lembar Berbagi, Pintasan, Siri, atau tombol Pusat Kontrol — tanpa membuka aplikasi."
-          }
-        }
-      }
-    },
-    "Swipe to save an item as a keyboard memo, or delete it. You decide later." : {
-      "comment" : "What's new feature 3 detail",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swipe to save an item as a keyboard memo, or delete it. You decide later."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "밀어서 키보드 메모로 저장하거나 삭제하세요. 결정은 나중에 하면 돼요."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geser untuk menyimpan item sebagai memo keyboard, atau hapus. Anda yang menentukan nanti."
-          }
-        }
-      }
-    },
-    "Tap to edit · Swipe right to save as a keyboard memo" : {
-      "comment" : "Inbox list hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to edit · Swipe right to save as a keyboard memo"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk untuk mengedit · Geser kanan untuk menyimpan sebagai memo keyboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "탭하여 편집 · 오른쪽으로 밀어 키보드 메모로 저장"
-          }
-        }
-      }
-    },
-    "The text to capture." : {
-      "comment" : "Quick note intent parameter description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The text to capture."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teks yang akan ditangkap."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "담을 텍스트입니다."
-          }
-        }
-      }
-    },
-    "This quick note will be permanently removed from your inbox." : {
-      "comment" : "Delete quick note message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This quick note will be permanently removed from your inbox."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catatan cepat ini akan dihapus permanen dari kotak masuk Anda."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 빠른 메모가 보관함에서 영구적으로 삭제됩니다."
-          }
-        }
-      }
-    },
-    "What do you want to capture?" : {
-      "comment" : "Quick note intent value prompt",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What do you want to capture?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apa yang ingin Anda tangkap?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "무엇을 담을까요?"
-          }
-        }
-      }
-    },
-    "Your inbox is empty" : {
-      "comment" : "Empty inbox title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your inbox is empty"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kotak masuk Anda kosong"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보관함이 비어 있어요"
-          }
-        }
-      }
-    },
-    "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요." : {
-      "comment" : "Quick note inbox tip message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Items captured via the Share Sheet, Shortcuts, or Control Center collect in the inbox under the ⋯ menu. Save them as keyboard memos later."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Item yang ditangkap melalui Lembar Berbagi, Pintasan, atau Pusat Kontrol terkumpul di kotak masuk pada menu ⋯. Simpan sebagai memo keyboard nanti."
-          }
-        }
-      }
-    },
-    "어디서든 빠르게 담으세요" : {
-      "comment" : "Quick note inbox tip title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Capture anything, anywhere"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "어디서든 빠르게 담으세요"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tangkap apa saja, di mana saja"
           }
         }
       }

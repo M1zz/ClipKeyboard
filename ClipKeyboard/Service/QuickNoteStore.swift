@@ -18,13 +18,17 @@ final class QuickNoteStore: ObservableObject {
 
     @Published var quickNotes: [QuickNote] = []
 
+    private var changeObserver: NSObjectProtocol?
+
     private init() {
         reload()
         // 다른 타겟/화면이 보관함을 바꿨을 때(공유 익스텐션 저장 등) 다시 읽어온다.
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(reload),
-            name: .quickNotesChanged, object: nil
-        )
+        // 블록 기반 옵저버 사용 — NSObject 비상속 클래스에서 #selector 디스패치를 피한다.
+        changeObserver = NotificationCenter.default.addObserver(
+            forName: .quickNotesChanged, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.reload()
+        }
     }
 
     // MARK: - File
@@ -39,7 +43,7 @@ final class QuickNoteStore: ObservableObject {
     // MARK: - Load / Save
 
     /// 디스크에서 다시 읽어 published 배열을 최신화(최신 항목이 위로 오도록 생성 역순 정렬).
-    @objc func reload() {
+    func reload() {
         let notes = Self.loadFromDisk()
         DispatchQueue.main.async { [weak self] in
             self?.quickNotes = notes

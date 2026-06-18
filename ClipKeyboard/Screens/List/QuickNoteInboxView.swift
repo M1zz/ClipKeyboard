@@ -195,40 +195,37 @@ struct QuickNoteInboxBanner: View {
     let onDismiss: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 12) {
-                Image(systemName: AppSymbol.trayFull)
-                    .font(.title3)
-                    .foregroundStyle(.tint)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("Inbox", comment: "Quick note inbox title"))
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(.primary)
-                    Text(String(format: NSLocalizedString("%d waiting to be sorted", comment: "Inbox banner subtitle with count"), count))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                Spacer(minLength: 8)
-                Image(systemName: AppSymbol.chevronRight)
-                    .font(.caption.weight(.semibold))
+        HStack(spacing: 12) {
+            Image(systemName: AppSymbol.trayFull)
+                .font(.title3)
+                .foregroundColor(.accentColor)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(NSLocalizedString("Inbox", comment: "Quick note inbox title"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(.primary)
+                Text(String(format: NSLocalizedString("%d waiting to be sorted", comment: "Inbox banner subtitle with count"), count))
+                    .font(.caption)
                     .foregroundColor(.secondary)
-                Button {
-                    onDismiss()
-                } label: {
-                    Image(systemName: AppSymbol.xmarkCircleFill)
-                        .foregroundColor(.secondary.opacity(0.6))
-                }
-                .buttonStyle(.plain)
-                .accessibilityLabel(NSLocalizedString("Dismiss", comment: "Dismiss banner"))
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 14)
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.accentColor.opacity(0.10))
-            )
+            Spacer(minLength: 8)
+            Image(systemName: AppSymbol.chevronRight)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.secondary)
+            // 닫기 — 행 탭과 분리된 단일 버튼(중첩 버튼 회피)
+            Image(systemName: AppSymbol.xmarkCircleFill)
+                .foregroundColor(Color.secondary.opacity(0.6))
+                .contentShape(Rectangle())
+                .onTapGesture { onDismiss() }
+                .accessibilityLabel(NSLocalizedString("Dismiss", comment: "Dismiss banner"))
         }
-        .buttonStyle(.plain)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 14)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color.accentColor.opacity(0.10))
+        )
+        .contentShape(Rectangle())
+        .onTapGesture { onTap() }
     }
 }
 
