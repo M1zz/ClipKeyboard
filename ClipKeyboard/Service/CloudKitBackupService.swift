@@ -182,7 +182,7 @@ class CloudKitBackupService: ObservableObject {
                 return
             }
             do {
-                try await self.backupData()
+                try await self.backupData(isAutomatic: true)
                 print("✅ [CloudKit] 시작 직후 초기 백업 완료")
             } catch {
                 print("⚠️ [CloudKit] 시작 초기 백업 실패: \(error.localizedDescription)")
@@ -220,7 +220,7 @@ class CloudKitBackupService: ObservableObject {
             Task { [weak self] in
                 guard let self else { return }
                 do {
-                    try await self.backupData()
+                    try await self.backupData(isAutomatic: true)
                     print("✅ [CloudKit] 자동 백업 성공")
                 } catch {
                     print("⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
@@ -267,7 +267,7 @@ class CloudKitBackupService: ObservableObject {
             Task { [weak self] in
                 guard let self else { return }
                 do {
-                    try await self.backupData()
+                    try await self.backupData(isAutomatic: true)
                     print("✅ [CloudKit] 변경사항 자동 백업 완료")
                 } catch {
                     print("⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
@@ -370,8 +370,11 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    func backupData() async throws {
-        print("☁️ [CloudKit] 백업 시작...")
+    /// - Parameter isAutomatic: 자동 백업(시작/타이머/데이터변경) 여부.
+    ///   자동 백업은 기존 백업을 크게 축소(절반 이하)할 수 없다 — 대량 삭제·부분 로드·재설치
+    ///   등으로 인한 자동 데이터 손실을 구조적으로 차단한다. 수동 백업은 사용자 명시 의도라 허용.
+    func backupData(isAutomatic: Bool = false) async throws {
+        print("☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic))")
 
         try await ensureAuthenticated()
 
@@ -397,7 +400,19 @@ class CloudKitBackupService: ObservableObject {
                 memos: memos, smartClipboard: smartClipboard, combos: combos
             )
             var record = try await fetchOrCreateRecord()
+
+            // ⚠️ 데이터 보호 2: 자동 백업은 기존 백업을 "절반 이하"로 축소할 수 없다.
+            // 기존 백업에 메모 N개가 있는데 지금 백업하려는 게 N/2 미만이면(대량 삭제·부분
+            // 로드 실패·환경 꼬임 등 데이터 손실 정황) 자동 백업을 건너뛰어 기존 백업을 지킨다.
+            // 수동 백업은 사용자 명시 의도라 통과시킨다.
+            if isAutomatic, let existingCount = Self.existingMemoCount(from: record),
+               existingCount >= 4, memos.count * 2 < existingCount {
+                print("🛑 [CloudKit] 자동 백업 보호: 로컬 \(memos.count)개 < 기존 백업 \(existingCount)개의 절반 — 건너뜀(기존 백업 보존)")
+                return
+            }
+
             try configureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
+            record["memoCount"] = memos.count as CKRecordValue  // 다음 백업의 축소 가드용(저렴한 비교 필드)
             attachImages(to: &record, memos: memos)   // 첨부 이미지(PNG)도 함께 백업
 
             _ = try await saveRecordWithRetry(record, maxRetries: 3)
@@ -443,6 +458,19 @@ class CloudKitBackupService: ObservableObject {
         print("📊 [CloudKit] 스마트 클립보드 크기: \(ByteCountFormatter.string(fromByteCount: Int64(smartClipboardData.count), countStyle: .file))")
         print("📊 [CloudKit] Combo 데이터 크기: \(ByteCountFormatter.string(fromByteCount: Int64(combosData.count), countStyle: .file))")
         return (memosData, smartClipboardData, combosData)
+    }
+
+    /// 기존 백업 레코드의 메모 개수. memoCount 필드(빠름) 우선, 없으면(레거시 백업) memosAsset/
+    /// memos를 디코드해 센다. 알 수 없으면 nil(가드 미적용 → 통과).
+    private static func existingMemoCount(from record: CKRecord) -> Int? {
+        if let n = record["memoCount"] as? Int { return n }
+        var data: Data?
+        if let asset = record["memosAsset"] as? CKAsset, let url = asset.fileURL {
+            data = try? Data(contentsOf: url)
+        }
+        if data == nil, let legacy = record["memos"] as? Data { data = legacy }
+        guard let d = data, let memos = try? JSONDecoder().decode([Memo].self, from: d) else { return nil }
+        return memos.count
     }
 
     private func fetchOrCreateRecord() async throws -> CKRecord {

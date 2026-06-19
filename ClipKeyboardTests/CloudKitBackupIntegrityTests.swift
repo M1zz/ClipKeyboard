@@ -160,6 +160,63 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         XCTAssertEqual(backedUp[0].title, "v2")
     }
 
+    // MARK: - 데이터 손실 방지 가드 (자동 백업이 기존 백업을 파괴하지 못하게)
+
+    private func backedUpMemoCount() throws -> Int {
+        let record = try XCTUnwrap(mockDB.records[backupRecordID])
+        let asset = try XCTUnwrap(record["memosAsset"] as? CKAsset)
+        let data = try Data(contentsOf: try XCTUnwrap(asset.fileURL))
+        return try JSONDecoder().decode([Memo].self, from: data).count
+    }
+
+    /// 빈 로컬(재설치 직후)에서 자동 백업은 기존 백업을 덮어쓰면 안 된다.
+    func testAutoBackup_EmptyLocal_DoesNotOverwriteExistingBackup() async throws {
+        try memoStore.save(memos: [makeRichMemo()], type: .memo)
+        try await sut.backupData()
+        let savesAfterFirst = mockDB.saveCallCount
+
+        clearLocalData()
+        try await sut.backupData(isAutomatic: true)
+
+        XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst, "빈 로컬 자동 백업은 저장하면 안 됨")
+        XCTAssertEqual(try backedUpMemoCount(), 1, "기존 백업이 빈 데이터로 덮어써지면 안 됨")
+    }
+
+    /// 시드 샘플만 있는 로컬(재설치 첫 실행)에서 자동 백업은 기존 백업을 덮어쓰면 안 된다.
+    func testAutoBackup_SampleOnly_DoesNotOverwriteExistingBackup() async throws {
+        try memoStore.save(memos: [makeRichMemo(), makeRichMemo()], type: .memo)
+        try await sut.backupData()
+        let savesAfterFirst = mockDB.saveCallCount
+
+        let samples = [Memo(title: "샘플1", value: "s1"), Memo(title: "샘플2", value: "s2")]
+        try memoStore.save(memos: samples, type: .memo)
+        SampleMemoStorage.save(ids: samples.map { $0.id })
+        defer { SampleMemoStorage.clear() }
+        try await sut.backupData(isAutomatic: true)
+
+        XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst, "샘플뿐 자동 백업은 저장하면 안 됨")
+        XCTAssertEqual(try backedUpMemoCount(), 2, "샘플뿐인 상태가 기존 백업을 덮어쓰면 안 됨")
+    }
+
+    /// 자동 백업은 기존 백업을 절반 이하로 축소할 수 없다. 단, 수동 백업은 사용자 의도라 허용.
+    func testAutoBackup_DrasticShrink_Blocked_ButManualAllowed() async throws {
+        let many = (0..<10).map { Memo(title: "m\($0)", value: "v\($0)") }
+        try memoStore.save(memos: many, type: .memo)
+        try await sut.backupData()
+        let savesAfterFirst = mockDB.saveCallCount
+
+        // 자동 백업: 10 → 1 급감은 차단
+        try memoStore.save(memos: [Memo(title: "only", value: "v")], type: .memo)
+        try await sut.backupData(isAutomatic: true)
+        XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst, "급감 자동 백업은 차단되어야 함")
+        XCTAssertEqual(try backedUpMemoCount(), 10, "기존 백업 10개가 유지되어야 함")
+
+        // 수동 백업: 같은 상태라도 사용자 의도라 통과(축소 반영)
+        try await sut.backupData()
+        XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst + 1, "수동 백업은 통과해야 함")
+        XCTAssertEqual(try backedUpMemoCount(), 1, "수동 백업은 축소도 반영")
+    }
+
     // MARK: - 라운드트립 무결성 (핵심)
 
     func testBackupThenRestore_PreservesAllMemoFields() async throws {
