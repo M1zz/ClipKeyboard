@@ -83,6 +83,14 @@ protocol CloudKitBackupDatabase {
 
 extension CKDatabase: CloudKitBackupDatabase {}
 
+/// 버전 백업(타임머신) 한 항목의 메타데이터 — 복원 화면의 날짜별 목록에 쓰인다.
+struct BackupSnapshotInfo: Codable, Identifiable, Equatable {
+    var id: String { recordName }
+    let recordName: String
+    let date: Date
+    let memoCount: Int
+}
+
 class CloudKitBackupService: ObservableObject {
     static let shared = CloudKitBackupService()
 
@@ -98,6 +106,12 @@ class CloudKitBackupService: ObservableObject {
 
     private var autoBackupTimer: Timer?
     private let autoBackupInterval: TimeInterval = 300 // 5분마다 자동 백업
+
+    // MARK: - Version Snapshots (타임머신)
+    /// 스냅샷 목록(이름·날짜·개수)을 담는 인덱스 레코드. CKQuery 없이 단일 레코드 fetch로 목록을 읽는다.
+    private let snapshotIndexRecordID = CKRecord.ID(recordName: "TokenMemoBackupIndex")
+    /// 보관할 최대 스냅샷 개수(이보다 오래된 건 백업 시 자동 정리).
+    private let maxSnapshots = 15
 
     private init() {
         let container = CKContainer(identifier: "iCloud.com.Ysoup.TokenMemo")
@@ -419,6 +433,17 @@ class CloudKitBackupService: ObservableObject {
 
             let backupDate = Date()
             await MainActor.run { saveLastBackupDate(backupDate) }
+
+            // 버전 스냅샷(타임머신) 보관 — 메인 백업 성공 직후 타임스탬프 스냅샷을 쌓는다.
+            // 실패해도 메인 백업은 정상 처리(스냅샷은 추가 안전망일 뿐 메인 백업을 막지 않는다).
+            do {
+                try await writeVersionSnapshot(
+                    memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData,
+                    memos: memos, memoCount: memos.count, date: backupDate
+                )
+            } catch {
+                print("⚠️ [CloudKit] 버전 스냅샷 저장 실패(메인 백업은 정상): \(error.localizedDescription)")
+            }
             print("✅ [CloudKit] 백업 완료: \(backupDate)")
 
         } catch let error as CKError {
@@ -554,8 +579,61 @@ class CloudKitBackupService: ObservableObject {
 
     /// 복원 (기존 데이터 덮어쓰기 여부를 외부에서 확인 필요)
     /// - Parameter forceOverwrite: true면 확인 없이 덮어쓰기, false면 호출 전에 hasLocalData()로 확인 필요
-    func restoreData(forceOverwrite: Bool = false) async throws {
-        print("☁️ [CloudKit] 복구 시작...")
+    // MARK: - Version Snapshots (타임머신)
+
+    /// 보관 중인 버전 스냅샷 목록(최신순). 복원 화면의 날짜별 목록에 사용.
+    func listSnapshots() async -> [BackupSnapshotInfo] {
+        await loadSnapshotIndex()
+    }
+
+    /// 메인 백업 성공 후 타임스탬프 스냅샷을 따로 저장하고, 최신 maxSnapshots개만 남기고 정리한다.
+    /// 단일 레코드를 덮어쓰던 구조의 약점(이전 백업 소실)을 보완 — 잘못된 백업이 끼어도 과거로 복원 가능.
+    private func writeVersionSnapshot(memosData: Data, smartClipboardData: Data, combosData: Data,
+                                      memos: [Memo], memoCount: Int, date: Date) async throws {
+        let snapName = "TokenMemoBackup_snap_\(UUID().uuidString)"
+        var snap = CKRecord(recordType: "BackupSnapshot", recordID: CKRecord.ID(recordName: snapName))
+        // 스냅샷마다 고유 파일명으로 asset 생성(임시파일 충돌 방지).
+        snap["memosAsset"] = try createAsset(from: memosData, filename: "\(snapName)_memos.json")
+        snap["smartClipboardAsset"] = try createAsset(from: smartClipboardData, filename: "\(snapName)_smart.json")
+        snap["combosAsset"] = try createAsset(from: combosData, filename: "\(snapName)_combos.json")
+        snap["backupDate"] = date as CKRecordValue
+        snap["memoCount"] = memoCount as CKRecordValue
+        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+        snap["version"] = appVersion as CKRecordValue
+        attachImages(to: &snap, memos: memos)
+        _ = try await saveRecordWithRetry(snap, maxRetries: 2)
+
+        // 인덱스 갱신 + 오래된 스냅샷 정리(최신 maxSnapshots개 유지).
+        var infos = await loadSnapshotIndex()
+        infos.append(BackupSnapshotInfo(recordName: snapName, date: date, memoCount: memoCount))
+        infos.sort { $0.date > $1.date }
+        let keep = Array(infos.prefix(maxSnapshots))
+        for old in infos.dropFirst(maxSnapshots) {
+            try? await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
+        }
+        try await saveSnapshotIndex(keep)
+        print("📚 [CloudKit] 버전 스냅샷 저장(메모 \(memoCount)개) · 보관 \(keep.count)개")
+    }
+
+    private func loadSnapshotIndex() async -> [BackupSnapshotInfo] {
+        guard let record = try? await database.record(for: snapshotIndexRecordID),
+              let data = record["snapshots"] as? Data,
+              let infos = try? JSONDecoder().decode([BackupSnapshotInfo].self, from: data) else {
+            return []
+        }
+        return infos.sorted { $0.date > $1.date }
+    }
+
+    private func saveSnapshotIndex(_ infos: [BackupSnapshotInfo]) async throws {
+        let record = (try? await database.record(for: snapshotIndexRecordID))
+            ?? CKRecord(recordType: "BackupIndex", recordID: snapshotIndexRecordID)
+        record["snapshots"] = try JSONEncoder().encode(infos) as CKRecordValue
+        _ = try await saveRecordWithRetry(record, maxRetries: 2)
+    }
+
+    /// - Parameter snapshotName: 특정 버전 스냅샷에서 복원할 때 그 레코드명. nil이면 최신 백업.
+    func restoreData(forceOverwrite: Bool = false, snapshotName: String? = nil) async throws {
+        print("☁️ [CloudKit] 복구 시작... (스냅샷=\(snapshotName ?? "최신"))")
 
         try await ensureAuthenticated()
 
@@ -575,7 +653,7 @@ class CloudKitBackupService: ObservableObject {
         defer { Task { @MainActor [weak self] in self?.isRestoring = false } }
 
         do {
-            let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
+            let recordID = CKRecord.ID(recordName: snapshotName ?? "TokenMemoBackup")
             let record = try await database.record(for: recordID)
             print("📦 [CloudKit] 백업 레코드 찾음")
             if let version = record["version"] as? String {

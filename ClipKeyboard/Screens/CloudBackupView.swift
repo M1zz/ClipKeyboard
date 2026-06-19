@@ -216,6 +216,30 @@ struct CloudBackupView: View {
                     }
                     .disabled(backupService.isBackingUp || backupService.isRestoring)
 
+                    // 버전(타임머신)에서 복원 — 날짜별 스냅샷 선택
+                    NavigationLink {
+                        BackupVersionsView()
+                    } label: {
+                        HStack {
+                            Image(systemName: AppSymbol.clockArrowCirclepath)
+                                .foregroundColor(.green)
+                                .font(.title3)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(NSLocalizedString("이전 버전에서 복원", comment: "Restore from a previous version"))
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                Text(NSLocalizedString("날짜별 백업에서 골라서 복원합니다", comment: "Restore from dated snapshots description"))
+                                    .font(.body)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            Spacer()
+                        }
+                        .padding(.vertical, 8)
+                    }
+                    .disabled(backupService.isBackingUp || backupService.isRestoring)
+
                     // 백업 삭제 버튼
                     if backupService.lastBackupDate != nil {
                         Button(role: .destructive) {
@@ -350,6 +374,107 @@ struct CloudBackupView: View {
             } catch {
                 await MainActor.run {
                     alertTitle = NSLocalizedString("삭제 실패", comment: "Deletion failed")
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
+    }
+}
+
+// MARK: - 버전(타임머신) 복원 화면
+
+/// 보관 중인 백업 스냅샷을 날짜별로 보여주고, 선택한 시점으로 복원한다.
+struct BackupVersionsView: View {
+    @ObservedObject private var backupService = CloudKitBackupService.shared
+    @State private var snapshots: [BackupSnapshotInfo] = []
+    @State private var isLoading = true
+    @State private var pendingRestore: BackupSnapshotInfo?
+    @State private var showConfirm = false
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+
+    var body: some View {
+        List {
+            if isLoading {
+                HStack { Spacer(); ProgressView(); Spacer() }
+            } else if snapshots.isEmpty {
+                Text(NSLocalizedString("저장된 버전이 없습니다", comment: "No backup versions available"))
+                    .foregroundColor(.secondary)
+            } else {
+                Section {
+                    ForEach(snapshots) { snap in
+                        Button {
+                            pendingRestore = snap
+                            showConfirm = true
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(snap.date.formatted(date: .abbreviated, time: .shortened))
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    Text(String(format: NSLocalizedString("메모 %d개", comment: "Memo count in a backup snapshot"), snap.memoCount))
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Image(systemName: AppSymbol.arrowDownDocFill)
+                                    .foregroundColor(.green)
+                            }
+                            .padding(.vertical, 4)
+                        }
+                        .disabled(backupService.isRestoring)
+                    }
+                } footer: {
+                    Text(NSLocalizedString("선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다.", comment: "Version restore footer"))
+                }
+            }
+        }
+        .navigationTitle(NSLocalizedString("버전에서 복원", comment: "Restore from a version — screen title"))
+        .task { await load() }
+        .confirmationDialog(
+            NSLocalizedString("이 버전으로 복원할까요?", comment: "Restore this version confirmation"),
+            isPresented: $showConfirm, titleVisibility: .visible
+        ) {
+            Button(NSLocalizedString("복원", comment: "Restore"), role: .destructive) {
+                if let snap = pendingRestore { restore(snap) }
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+        } message: {
+            if let snap = pendingRestore {
+                Text(String(format: NSLocalizedString("%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다.", comment: "Version restore confirm message"),
+                            snap.date.formatted(date: .abbreviated, time: .shortened), snap.memoCount))
+            }
+        }
+        .alert(alertTitle, isPresented: $showAlert) {
+            Button(NSLocalizedString("확인", comment: "OK")) {}
+        } message: {
+            Text(alertMessage)
+        }
+    }
+
+    private func load() async {
+        let snaps = await backupService.listSnapshots()
+        await MainActor.run {
+            snapshots = snaps
+            isLoading = false
+        }
+    }
+
+    private func restore(_ snap: BackupSnapshotInfo) {
+        Task {
+            do {
+                try await backupService.restoreData(forceOverwrite: true, snapshotName: snap.recordName)
+                await MainActor.run {
+                    NotificationCenter.default.post(name: .dataRestored, object: nil)
+                    alertTitle = NSLocalizedString("복구 완료", comment: "Restore completed")
+                    alertMessage = NSLocalizedString("데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.", comment: "Data successfully restored")
+                    showAlert = true
+                }
+            } catch {
+                await MainActor.run {
+                    alertTitle = NSLocalizedString("복구 실패", comment: "Restore failed")
                     alertMessage = error.localizedDescription
                     showAlert = true
                 }

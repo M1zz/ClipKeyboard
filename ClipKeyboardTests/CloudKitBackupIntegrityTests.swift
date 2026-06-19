@@ -121,8 +121,9 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         // When
         try await sut.backupData()
 
-        // Then — 레코드 1개에 3개 Asset + 메타데이터
-        XCTAssertEqual(mockDB.records.count, 1)
+        // Then — 메인 백업 레코드(Backup)는 1개에 3개 Asset + 메타데이터
+        // (버전 스냅샷/인덱스는 별도 recordType이므로 메인 Backup만 센다)
+        XCTAssertEqual(mockDB.records.values.filter { $0.recordType == "Backup" }.count, 1)
         let record = try XCTUnwrap(mockDB.records[backupRecordID])
         XCTAssertNotNil(record["memosAsset"] as? CKAsset)
         XCTAssertNotNil(record["smartClipboardAsset"] as? CKAsset)
@@ -150,8 +151,8 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         try memoStore.save(memos: [Memo(title: "v2", value: "값2"), Memo(title: "v2-2", value: "값")], type: .memo)
         try await sut.backupData()
 
-        // Then — 레코드는 여전히 1개, 내용은 최신
-        XCTAssertEqual(mockDB.records.count, 1)
+        // Then — 메인 백업 레코드(Backup)는 여전히 1개(덮어쓰기), 내용은 최신
+        XCTAssertEqual(mockDB.records.values.filter { $0.recordType == "Backup" }.count, 1)
         let record = try XCTUnwrap(mockDB.records[backupRecordID])
         let asset = try XCTUnwrap(record["memosAsset"] as? CKAsset)
         let data = try Data(contentsOf: try XCTUnwrap(asset.fileURL))
@@ -213,8 +214,63 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
 
         // 수동 백업: 같은 상태라도 사용자 의도라 통과(축소 반영)
         try await sut.backupData()
-        XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst + 1, "수동 백업은 통과해야 함")
+        XCTAssertGreaterThan(mockDB.saveCallCount, savesAfterFirst, "수동 백업은 저장돼야 함")
         XCTAssertEqual(try backedUpMemoCount(), 1, "수동 백업은 축소도 반영")
+    }
+
+    // MARK: - 버전 백업(타임머신) 스냅샷
+
+    func testBackup_CreatesVersionSnapshot() async throws {
+        try memoStore.save(memos: [Memo(title: "a", value: "1"), Memo(title: "b", value: "2")], type: .memo)
+        try await sut.backupData()
+
+        let snaps = await sut.listSnapshots()
+        XCTAssertEqual(snaps.count, 1)
+        XCTAssertEqual(snaps.first?.memoCount, 2)
+    }
+
+    func testBackup_PrunesToMaxSnapshots() async throws {
+        for i in 0..<17 {
+            try memoStore.save(memos: [Memo(title: "m\(i)", value: "v")], type: .memo)
+            try await sut.backupData()
+        }
+        let snaps = await sut.listSnapshots()
+        XCTAssertEqual(snaps.count, 15, "최신 15개만 보관(오래된 건 정리)")
+    }
+
+    /// 타임머신: 과거 스냅샷으로 그 시점 상태를 복원할 수 있다.
+    func testRestore_FromOldSnapshot_RecoversThatVersion() async throws {
+        let v1 = [Memo(title: "v1a", value: "1"), Memo(title: "v1b", value: "2"), Memo(title: "v1c", value: "3")]
+        try memoStore.save(memos: v1, type: .memo)
+        try await sut.backupData()
+        let firstSnaps = await sut.listSnapshots()
+        let oldSnap = try XCTUnwrap(firstSnaps.first)
+
+        // 이후 1개로 줄여 다시 백업(수동)
+        try memoStore.save(memos: [Memo(title: "v2", value: "x")], type: .memo)
+        try await sut.backupData()
+
+        // 과거 스냅샷(3개)으로 복원
+        clearLocalData()
+        try await sut.restoreData(forceOverwrite: true, snapshotName: oldSnap.recordName)
+        XCTAssertEqual(try memoStore.load(type: .memo).count, 3, "과거 버전(3개)으로 복원돼야 함")
+    }
+
+    /// 잘못된(축소) 백업이 끼어도 과거 스냅샷은 남아 복원 가능 — 핵심 안전망.
+    func testShrinkBackup_KeepsOldSnapshotRecoverable() async throws {
+        let many = (0..<10).map { Memo(title: "m\($0)", value: "v") }
+        try memoStore.save(memos: many, type: .memo)
+        try await sut.backupData()
+        let bigSnaps = await sut.listSnapshots()
+        let bigSnap = try XCTUnwrap(bigSnaps.first)
+
+        // 수동으로 1개만 백업(메인은 덮어써지지만 과거 스냅샷은 보존)
+        try memoStore.save(memos: [Memo(title: "only", value: "v")], type: .memo)
+        try await sut.backupData()
+
+        clearLocalData()
+        try await sut.restoreData(forceOverwrite: true, snapshotName: bigSnap.recordName)
+        XCTAssertEqual(try memoStore.load(type: .memo).count, 10, "과거 10개 스냅샷에서 복원 가능해야 함")
     }
 
     // MARK: - 라운드트립 무결성 (핵심)
@@ -420,7 +476,9 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         try await sut.backupData()
 
         // Then — 1회 재시도 후 성공, 레코드 저장됨
-        XCTAssertEqual(mockDB.saveCallCount, 2)
+        // (saveCallCount는 메인+스냅샷+인덱스 저장을 모두 포함하므로 정확한 값 대신 의도를 검증)
+        XCTAssertGreaterThanOrEqual(mockDB.saveCallCount, 2, "전송 실패 1회 후 재시도해야 함")
+        XCTAssertTrue(mockDB.saveErrorQueue.isEmpty, "주입한 전송 오류가 소비(재시도)돼야 함")
         XCTAssertNotNil(mockDB.records[backupRecordID])
     }
 

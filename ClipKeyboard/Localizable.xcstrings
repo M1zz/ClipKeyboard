@@ -5207,9 +5207,7 @@
         }
       }
     },
-    "English" : {
-
-    },
+    "English" : {},
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -27172,6 +27170,167 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
+          }
+        }
+      }
+    },
+    "이전 버전에서 복원" : {
+      "comment" : "Restore from a previous version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore from a previous version"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전 버전에서 복원"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan dari versi sebelumnya"
+          }
+        }
+      }
+    },
+    "날짜별 백업에서 골라서 복원합니다" : {
+      "comment" : "Restore from dated snapshots description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a backup by date and restore it"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "날짜별 백업에서 골라서 복원합니다"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih cadangan berdasarkan tanggal lalu pulihkan"
+          }
+        }
+      }
+    },
+    "저장된 버전이 없습니다" : {
+      "comment" : "No backup versions available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No saved versions yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 버전이 없습니다"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum ada versi tersimpan"
+          }
+        }
+      }
+    },
+    "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다." : {
+      "comment" : "Version restore footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restores the data from the selected point in time. Your current data will be replaced."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memulihkan data dari titik waktu yang dipilih. Data Anda saat ini akan diganti."
+          }
+        }
+      }
+    },
+    "버전에서 복원" : {
+      "comment" : "Restore from a version — screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore a Version"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전에서 복원"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan Versi"
+          }
+        }
+      }
+    },
+    "이 버전으로 복원할까요?" : {
+      "comment" : "Restore this version confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore this version?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 버전으로 복원할까요?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan versi ini?"
+          }
+        }
+      }
+    },
+    "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다." : {
+      "comment" : "Version restore confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$d memos — your current data will be replaced with this version."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$d memo — data Anda saat ini akan diganti dengan versi ini."
           }
         }
       }
