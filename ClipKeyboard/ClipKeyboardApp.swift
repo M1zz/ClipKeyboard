@@ -543,6 +543,12 @@ struct ClipKeyboardApp: App {
                     offerDemoSamplesToExistingUserIfNeeded()
                     offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
 
+                    // 자동 백업 서비스를 런치 시 초기화한다.
+                    // (기존엔 iCloud 백업 화면을 열 때만 생성돼, 화면을 안 본 사용자는
+                    //  데이터 변경 리스너·타이머·시작 백업이 전혀 안 돌아 "마지막 백업"이 멈춰 있었다.)
+                    // .shared 접근만으로 계정확인·자동백업 타이머·변경 리스너·시작 백업이 시작된다.
+                    _ = CloudKitBackupService.shared
+
                     // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
                     MemoSyncEngine.shared.startIfEnabled()
 
