@@ -380,6 +380,16 @@ class CloudKitBackupService: ObservableObject {
 
         do {
             let (memos, smartClipboard, combos) = try loadDataForBackup()
+
+            // ⚠️ 데이터 보호(매우 중요): 로컬 메모가 0개면 백업하지 않는다.
+            // 백업은 단일 레코드("TokenMemoBackup")를 매번 덮어쓰므로, 재설치 직후 등
+            // 빈 상태에서 자동 백업이 돌면 기존의 정상 백업을 빈 데이터로 덮어써
+            // 영구 손실된다. 0개면 "백업할 게 없음"이므로 건너뛰는 게 항상 안전하다.
+            if memos.isEmpty {
+                print("🛑 [CloudKit] 로컬 메모 0개 — 백업 건너뜀(빈 데이터로 기존 백업 덮어쓰기 방지)")
+                return
+            }
+
             let (memosData, smartClipboardData, combosData) = try encodeDataForBackup(
                 memos: memos, smartClipboard: smartClipboard, combos: combos
             )
