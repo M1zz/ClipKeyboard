@@ -664,7 +664,13 @@ struct MacProManager {
         return UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: proStatusKey) ?? false
     }
 
-    static var isCloudBackupAvailable: Bool { isPro }
+    static var isCloudBackupAvailable: Bool {
+        #if DEBUG
+        return true   // 디버그 빌드: 백업 잠금 해제(그랜드파더 Pro 사용자 데이터 복구용). 릴리스/앱스토어 빌드엔 영향 없음.
+        #else
+        return isPro
+        #endif
+    }
 
     static var memoDisplayLimit: Int { isPro ? Int.max : freeMemoLimit }
     static var clipboardDisplayLimit: Int { isPro ? 100 : freeClipboardLimit }
