@@ -199,23 +199,32 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         XCTAssertEqual(try backedUpMemoCount(), 2, "샘플뿐인 상태가 기존 백업을 덮어쓰면 안 됨")
     }
 
-    /// 자동 백업은 기존 백업을 절반 이하로 축소할 수 없다. 단, 수동 백업은 사용자 의도라 허용.
-    func testAutoBackup_DrasticShrink_Blocked_ButManualAllowed() async throws {
+    /// 자동 백업은 급감 시 차단. 수동 백업은 동의 없이는 backupWouldReduceData를 던지고, 동의(allowReduce)하면 진행.
+    func testDrasticShrink_AutoBlocks_ManualNeedsConsent() async throws {
         let many = (0..<10).map { Memo(title: "m\($0)", value: "v\($0)") }
         try memoStore.save(memos: many, type: .memo)
         try await sut.backupData()
         let savesAfterFirst = mockDB.saveCallCount
 
-        // 자동 백업: 10 → 1 급감은 차단
+        // 자동 백업: 10 → 1 급감은 조용히 차단
         try memoStore.save(memos: [Memo(title: "only", value: "v")], type: .memo)
         try await sut.backupData(isAutomatic: true)
         XCTAssertEqual(mockDB.saveCallCount, savesAfterFirst, "급감 자동 백업은 차단되어야 함")
         XCTAssertEqual(try backedUpMemoCount(), 10, "기존 백업 10개가 유지되어야 함")
 
-        // 수동 백업: 같은 상태라도 사용자 의도라 통과(축소 반영)
-        try await sut.backupData()
-        XCTAssertGreaterThan(mockDB.saveCallCount, savesAfterFirst, "수동 백업은 저장돼야 함")
-        XCTAssertEqual(try backedUpMemoCount(), 1, "수동 백업은 축소도 반영")
+        // 수동 백업(동의 전): 데이터 손실 경고를 던져야 함(저장 안 함)
+        do {
+            try await sut.backupData()
+            XCTFail("동의 없는 축소 수동 백업은 backupWouldReduceData를 던져야 함")
+        } catch CloudKitError.backupWouldReduceData(let existing, let new) {
+            XCTAssertEqual(existing, 10)
+            XCTAssertEqual(new, 1)
+        }
+        XCTAssertEqual(try backedUpMemoCount(), 10, "동의 전에는 기존 백업이 유지돼야 함")
+
+        // 수동 백업(동의함): 축소 반영
+        try await sut.backupData(allowReduce: true)
+        XCTAssertEqual(try backedUpMemoCount(), 1, "동의 후 수동 백업은 축소 반영")
     }
 
     // MARK: - 버전 백업(타임머신) 스냅샷
@@ -264,9 +273,9 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         let bigSnaps = await sut.listSnapshots()
         let bigSnap = try XCTUnwrap(bigSnaps.first)
 
-        // 수동으로 1개만 백업(메인은 덮어써지지만 과거 스냅샷은 보존)
+        // 수동으로 1개만 백업(동의 후 — 메인은 덮어써지지만 과거 스냅샷은 보존)
         try memoStore.save(memos: [Memo(title: "only", value: "v")], type: .memo)
-        try await sut.backupData()
+        try await sut.backupData(allowReduce: true)
 
         clearLocalData()
         try await sut.restoreData(forceOverwrite: true, snapshotName: bigSnap.recordName)

@@ -14,6 +14,12 @@ struct CloudBackupView: View {
     @State private var alertMessage = ""
     @State private var showRestoreConfirmation = false
     @State private var showDeleteConfirmation = false
+    // 백업이 기존 데이터를 줄일 때(빈/대폭축소) 사용자 동의를 받기 위한 상태
+    @State private var showReduceConfirm = false
+    @State private var reduceExisting = 0
+    @State private var reduceNew = 0
+    /// 현재 iCloud 백업에 들어있는 메모 개수("무엇이 백업돼 있는지" 확인용)
+    @State private var backupMemoCount: Int? = nil
     @State private var showPaywall = false
     @Environment(\.appTheme) private var theme
 
@@ -98,6 +104,11 @@ struct CloudBackupView: View {
                                 Text(lastBackup, style: .date)
                                     .font(.body)
                                     .foregroundColor(.secondary)
+                                if let count = backupMemoCount {
+                                    Text(String(format: NSLocalizedString("메모 %d개 백업됨", comment: "Backed-up memo count"), count))
+                                        .font(.caption)
+                                        .foregroundColor(count == 0 ? .orange : .secondary)
+                                }
                             }
 
                             Spacer()
@@ -298,6 +309,14 @@ struct CloudBackupView: View {
                 Text(NSLocalizedString("백업 데이터를 복구합니다.", comment: "Restore empty device message"))
             }
         }
+        .confirmationDialog(NSLocalizedString("정말 백업할까요?", comment: "Backup reduce confirm title"), isPresented: $showReduceConfirm, titleVisibility: .visible) {
+            Button(NSLocalizedString("그래도 백업", comment: "Back up anyway"), role: .destructive) {
+                performBackup(allowReduce: true)
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel button"), role: .cancel) { }
+        } message: {
+            Text(String(format: NSLocalizedString("기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)", comment: "Backup reduce confirm message"), reduceExisting, reduceNew))
+        }
         .confirmationDialog(NSLocalizedString("백업 삭제", comment: "Delete backup dialog title"), isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
             Button(NSLocalizedString("삭제", comment: "Delete button"), role: .destructive) {
                 performDelete()
@@ -306,19 +325,30 @@ struct CloudBackupView: View {
         } message: {
             Text(NSLocalizedString("iCloud의 백업 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.", comment: "Delete confirmation message"))
         }
+        .task {
+            // 현재 백업에 메모가 몇 개 들어있는지 불러와 표시(무엇이 백업돼 있는지 확인).
+            backupMemoCount = await backupService.currentBackupMemoCount()
+        }
         } // else (Pro 유저)
     }
 
     // MARK: - Actions
 
-    private func performBackup() {
+    private func performBackup(allowReduce: Bool = false) {
         Task {
             do {
-                try await backupService.backupData()
+                try await backupService.backupData(allowReduce: allowReduce)
                 await MainActor.run {
                     alertTitle = NSLocalizedString("백업 완료", comment: "Backup completed")
                     alertMessage = NSLocalizedString("데이터가 성공적으로 백업되었습니다.", comment: "Data successfully backed up")
                     showAlert = true
+                }
+            } catch CloudKitError.backupWouldReduceData(let existing, let new) {
+                // 데이터 손실 위험 → 바로 백업하지 않고 사용자 동의를 받는다.
+                await MainActor.run {
+                    reduceExisting = existing
+                    reduceNew = new
+                    showReduceConfirm = true
                 }
             } catch let error as CloudKitError {
                 await MainActor.run {

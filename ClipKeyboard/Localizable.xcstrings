@@ -27334,6 +27334,121 @@
           }
         }
       }
+    },
+    "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다." : {
+      "comment" : "Backup would reduce data warning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're about to overwrite the existing backup (%1$d memos) with %2$d. The removed data will be lost from the backup."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda akan menimpa cadangan yang ada (%1$d memo) dengan %2$d. Data yang berkurang akan hilang dari cadangan."
+          }
+        }
+      }
+    },
+    "정말 백업할까요?" : {
+      "comment" : "Backup reduce confirm title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up anyway?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정말 백업할까요?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetap cadangkan?"
+          }
+        }
+      }
+    },
+    "그래도 백업" : {
+      "comment" : "Back up anyway",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up anyway"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그래도 백업"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetap cadangkan"
+          }
+        }
+      }
+    },
+    "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)" : {
+      "comment" : "Backup reduce confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The existing backup (%1$d memos) will shrink to %2$d.\nThe removed data will disappear from the backup.\n(You can roll back later via Restore from a previous version.)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cadangan yang ada (%1$d memo) akan menyusut menjadi %2$d.\nData yang berkurang akan hilang dari cadangan.\n(Anda bisa mengembalikannya nanti via Pulihkan dari versi sebelumnya.)"
+          }
+        }
+      }
+    },
+    "메모 %d개 백업됨" : {
+      "comment" : "Backed-up memo count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d memos backed up"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 %d개 백업됨"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d memo dicadangkan"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

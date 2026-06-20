@@ -16,6 +16,8 @@ enum CloudKitError: Error {
     case noBackupFound
     case encodingFailed
     case decodingFailed
+    /// 이 백업이 기존 백업을 빈/훨씬 적은 데이터로 덮어써 데이터 손실 위험이 있을 때(수동 백업에서 사용자 동의 필요).
+    case backupWouldReduceData(existing: Int, new: Int)
 
     var localizedDescription: String {
         switch self {
@@ -35,6 +37,8 @@ enum CloudKitError: Error {
         case .decodingFailed:
             return NSLocalizedString("백업 데이터를 읽을 수 없습니다. 최신 버전의 앱을 사용하고 있는지 확인해주세요.",
                                    comment: "Data decoding failed error message")
+        case .backupWouldReduceData(let existing, let new):
+            return String(format: NSLocalizedString("기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다.", comment: "Backup would reduce data warning"), existing, new)
         }
     }
 
@@ -384,11 +388,15 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    /// - Parameter isAutomatic: 자동 백업(시작/타이머/데이터변경) 여부.
-    ///   자동 백업은 기존 백업을 크게 축소(절반 이하)할 수 없다 — 대량 삭제·부분 로드·재설치
-    ///   등으로 인한 자동 데이터 손실을 구조적으로 차단한다. 수동 백업은 사용자 명시 의도라 허용.
-    func backupData(isAutomatic: Bool = false) async throws {
-        print("☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic))")
+    /// - Parameters:
+    ///   - isAutomatic: 자동 백업(시작/타이머/데이터변경) 여부.
+    ///   - allowReduce: 기존 백업을 빈/훨씬 적은 데이터로 덮어쓰는 것을 사용자가 동의했는지(수동 백업에서 확인 후 true).
+    ///
+    ///   데이터 손실 방지 정책:
+    ///   · 자동 백업: 기존 백업을 빈/대폭(절반 이하)으로 축소하지 못한다(조용히 건너뜀).
+    ///   · 수동 백업: 같은 상황이면 `backupWouldReduceData`를 던져 **사용자 동의**를 받는다(동의 시 allowReduce=true로 재호출).
+    func backupData(isAutomatic: Bool = false, allowReduce: Bool = false) async throws {
+        print("☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic), 축소동의=\(allowReduce))")
 
         try await ensureAuthenticated()
 
@@ -398,33 +406,42 @@ class CloudKitBackupService: ObservableObject {
         do {
             let (memos, smartClipboard, combos) = try loadDataForBackup()
 
-            // ⚠️ 데이터 보호(매우 중요): "실데이터"가 없으면 백업하지 않는다.
-            // 백업은 단일 레코드("TokenMemoBackup")를 매번 덮어쓴다. 재설치 직후엔 로컬이
-            // 비어 있거나 시드 샘플 4개뿐인데, 이 상태로 자동 백업이 돌면 기존의 정상 백업을
-            // (사용자가 복원하기도 전에) 빈/샘플 데이터로 덮어써 영구 손실된다.
-            // → 시드 샘플을 제외한 실제 메모가 하나도 없으면 백업을 건너뛴다(기존 백업 보존).
+            // 시드 샘플을 제외한 "실데이터" 개수.
             let sampleIDs = SampleMemoStorage.load()
             let realMemos = memos.filter { !sampleIDs.contains($0.id) }
-            if realMemos.isEmpty {
-                print("🛑 [CloudKit] 실데이터 없음(빈/샘플뿐, \(memos.count)개) — 백업 건너뜀(기존 백업 보호)")
+            let newCount = memos.count
+
+            var record = try await fetchOrCreateRecord()
+            let existingCount = Self.existingMemoCount(from: record) ?? 0
+
+            // ⚠️ 데이터 손실 방지 정책 (백업은 단일 레코드를 덮어쓰므로):
+            //  · 빈/샘플뿐 + 기존 백업 없음 → 백업할 게 없으니 건너뜀.
+            //  · "파괴적"(실데이터 0 또는 기존 백업의 절반 이하로 축소) →
+            //      - 자동 백업: 조용히 건너뜀(절대 기존 백업을 망가뜨리지 않음).
+            //      - 수동 백업: backupWouldReduceData를 던져 사용자 동의를 받음(allowReduce로 재호출).
+            let nothingReal = realMemos.isEmpty
+            let drasticReduce = existingCount >= 4 && newCount * 2 < existingCount
+            let destructive = nothingReal || drasticReduce
+
+            if nothingReal && existingCount == 0 {
+                print("🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음 — 백업할 것 없음")
                 return
+            }
+            if destructive {
+                if isAutomatic {
+                    print("🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)) — 건너뜀(기존 백업 보존)")
+                    return
+                }
+                if !allowReduce {
+                    print("⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소 — 사용자 동의 필요")
+                    throw CloudKitError.backupWouldReduceData(existing: existingCount, new: newCount)
+                }
+                print("✅ [CloudKit] 사용자 동의됨 — 축소 백업 진행(\(existingCount)→\(newCount))")
             }
 
             let (memosData, smartClipboardData, combosData) = try encodeDataForBackup(
                 memos: memos, smartClipboard: smartClipboard, combos: combos
             )
-            var record = try await fetchOrCreateRecord()
-
-            // ⚠️ 데이터 보호 2: 자동 백업은 기존 백업을 "절반 이하"로 축소할 수 없다.
-            // 기존 백업에 메모 N개가 있는데 지금 백업하려는 게 N/2 미만이면(대량 삭제·부분
-            // 로드 실패·환경 꼬임 등 데이터 손실 정황) 자동 백업을 건너뛰어 기존 백업을 지킨다.
-            // 수동 백업은 사용자 명시 의도라 통과시킨다.
-            if isAutomatic, let existingCount = Self.existingMemoCount(from: record),
-               existingCount >= 4, memos.count * 2 < existingCount {
-                print("🛑 [CloudKit] 자동 백업 보호: 로컬 \(memos.count)개 < 기존 백업 \(existingCount)개의 절반 — 건너뜀(기존 백업 보존)")
-                return
-            }
-
             try configureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
             record["memoCount"] = memos.count as CKRecordValue  // 다음 백업의 축소 가드용(저렴한 비교 필드)
             attachImages(to: &record, memos: memos)   // 첨부 이미지(PNG)도 함께 백업
@@ -446,6 +463,9 @@ class CloudKitBackupService: ObservableObject {
             }
             print("✅ [CloudKit] 백업 완료: \(backupDate)")
 
+        } catch let ckError as CloudKitError {
+            // 정책상 던진 CloudKitError(backupWouldReduceData 등)는 그대로 전달(backupFailed로 감싸지 않음).
+            throw ckError
         } catch let error as CKError {
             print("❌ [CloudKit] 백업 실패: \(error)")
             print("   코드: \(error.code.rawValue)")
@@ -584,6 +604,12 @@ class CloudKitBackupService: ObservableObject {
     /// 보관 중인 버전 스냅샷 목록(최신순). 복원 화면의 날짜별 목록에 사용.
     func listSnapshots() async -> [BackupSnapshotInfo] {
         await loadSnapshotIndex()
+    }
+
+    /// 현재 iCloud 백업(최신 레코드)에 들어있는 메모 개수 — "무엇이 백업돼 있는지" 한눈에 확인용.
+    func currentBackupMemoCount() async -> Int? {
+        guard let record = try? await database.record(for: CKRecord.ID(recordName: "TokenMemoBackup")) else { return nil }
+        return Self.existingMemoCount(from: record)
     }
 
     /// 메인 백업 성공 후 타임스탬프 스냅샷을 따로 저장하고, 최신 maxSnapshots개만 남기고 정리한다.
