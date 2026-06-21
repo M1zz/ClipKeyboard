@@ -27481,6 +27481,215 @@
           }
         }
       }
+    },
+    "파일로 내보내기" : {
+      "comment" : "Export to file button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export to File"
+          }
+        }
+      }
+    },
+    "모든 데이터를 파일 한 개로 저장합니다 (iCloud 불필요)" : {
+      "comment" : "Export to file description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save all your data into a single file (no iCloud needed)"
+          }
+        }
+      }
+    },
+    "파일에서 가져오기" : {
+      "comment" : "Import from file button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from File"
+          }
+        }
+      }
+    },
+    "내보낸 파일에서 데이터를 되살립니다 (기존 데이터는 보존)" : {
+      "comment" : "Import from file description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore data from an exported file (your current data is kept)"
+          }
+        }
+      }
+    },
+    "파일 백업" : {
+      "comment" : "File backup section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Backup"
+          }
+        }
+      }
+    },
+    "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)" : {
+      "comment" : "File backup info",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• The most reliable way to keep your data — as a file, independent of iCloud\\n• Importing merges into your current data without erasing it (newest version wins for matching items)"
+          }
+        }
+      }
+    },
+    "📁 파일 백업은 iCloud와 별개로 데이터를 파일로 보관하는 가장 확실한 방법입니다. 가져오기는 현재 데이터를 지우지 않고 합칩니다." : {
+      "comment" : "File backup info",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📁 File backup is the most reliable way to keep your data as a file, independent of iCloud. Importing merges into your current data without erasing it."
+          }
+        }
+      }
+    },
+    "내보내기 완료" : {
+      "comment" : "Export completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Complete"
+          }
+        }
+      }
+    },
+    "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요." : {
+      "comment" : "Export success message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your data has been saved to a file. Keep it somewhere safe."
+          }
+        }
+      }
+    },
+    "내보내기 실패" : {
+      "comment" : "Export failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Failed"
+          }
+        }
+      }
+    },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
+          }
+        }
+      }
+    },
+    "메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다." : {
+      "comment" : "Import summary message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added %1$d memos, updated %2$d (%3$d total).\\nImported %4$d combos and %5$d images."
+          }
+        }
+      }
+    },
+    "저장소를 찾을 수 없습니다." : {
+      "comment" : "App Group container missing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage could not be found."
+          }
+        }
+      }
+    },
+    "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다." : {
+      "comment" : "Unrecognized backup file",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This isn’t a ClipKeyboard backup file, or it’s damaged."
+          }
+        }
+      }
+    },
+    "백업할 내용 없음" : {
+      "comment" : "Nothing to back up title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to Back Up"
+          }
+        }
+      }
+    },
+    "백업할 데이터가 없습니다. 메모를 추가한 뒤 다시 시도해주세요." : {
+      "comment" : "Nothing to back up message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s no data to back up. Add a memo and try again."
+          }
+        }
+      }
+    },
+    "백업 건너뜀" : {
+      "comment" : "Backup skipped title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup Skipped"
+          }
+        }
+      }
+    },
+    "기존 백업(메모 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다." : {
+      "comment" : "Backup skipped to protect existing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped this backup (%2$d memos) to protect your existing backup (%1$d memos)."
+          }
+        }
+      }
+    },
+    "메모 %d개를 iCloud에 백업했습니다." : {
+      "comment" : "Backup success with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backed up %d memos to iCloud."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
