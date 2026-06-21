@@ -54,7 +54,7 @@ class MemoStore: ObservableObject {
         }
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
         // 다운그레이드로 유실되지 않도록 카테고리 할당을 사이드카에도 보관.
         if type == .memo {
             Self.writeCategorySidecar(memos)
@@ -65,7 +65,7 @@ class MemoStore: ObservableObject {
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
         NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
@@ -188,7 +188,7 @@ class MemoStore: ObservableObject {
     func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
         NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
 
@@ -298,7 +298,7 @@ class MemoStore: ObservableObject {
         guard let imageData = image.pngData() else {
             throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "이미지를 PNG로 변환할 수 없음"])
         }
-        try imageData.write(to: imagesDirectory.appendingPathComponent(fileName))
+        try imageData.write(to: imagesDirectory.appendingPathComponent(fileName), options: .atomic)
     }
 
     func loadImage(fileName: String) -> UIImage? {
@@ -391,7 +391,7 @@ class MemoStore: ObservableObject {
     func saveCombos(_ combos: [Combo]) throws {
         let data = try JSONEncoder().encode(combos)
         guard let outfile = try Self.fileURL(type: .combo) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
         DispatchQueue.main.async { [weak self] in self?.combos = combos }
         NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
     }
@@ -506,7 +506,7 @@ class MemoStore: ObservableObject {
     private func saveMemoHistory(_ snapshots: [MemoSnapshot]) {
         guard let url = Self.historyFileURL() else { return }
         if let data = try? JSONEncoder().encode(snapshots) {
-            try? data.write(to: url)
+            try? data.write(to: url, options: .atomic)
         }
     }
 

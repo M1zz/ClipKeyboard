@@ -3,7 +3,7 @@
 ## 프로젝트 개요
 
 - **프로젝트명**: ClipKeyboard
-- **현재 버전**: 3.0.1
+- **현재 버전**: 4.3.4
 - **언어**: Swift
 - **UI 프레임워크**: SwiftUI
 - **최소 지원 버전**: iOS 17+
@@ -387,6 +387,7 @@ if let dict = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.dictionaryRe
 
 ## 버전 히스토리
 
+- **4.3.4**: iCloud 백업 안정성 보완 — 파일 내보내기/가져오기(escape hatch), 원본 보호용 atomic 저장, 백업 결과 정확 표시(조용한 실패 제거), 맥 백업 실패 수정
 - **3.0.1**: 다국어 지원 추가
 - **3.0.0**: Combo 시스템, 스마트 클립보드 분류
 - **2.x**: 템플릿 시스템, CloudKit 백업

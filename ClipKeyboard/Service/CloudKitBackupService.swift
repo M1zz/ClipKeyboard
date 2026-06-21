@@ -9,6 +9,14 @@ import Foundation
 import CloudKit
 import Combine
 
+/// 백업 시도의 실제 결과. "백업했다"고 뭉뚱그리지 않고, 실제로 올라간 개수/건너뛴
+/// 이유를 사용자에게 정확히 알려 조용한 실패(성공처럼 보이는 무동작)를 없앤다.
+enum BackupOutcome {
+    case backedUp(memoCount: Int)
+    case nothingToBackUp
+    case skippedToProtectExisting(existing: Int, new: Int)
+}
+
 enum CloudKitError: Error {
     case notAuthenticated
     case backupFailed(Error)
@@ -395,7 +403,8 @@ class CloudKitBackupService: ObservableObject {
     ///   데이터 손실 방지 정책:
     ///   · 자동 백업: 기존 백업을 빈/대폭(절반 이하)으로 축소하지 못한다(조용히 건너뜀).
     ///   · 수동 백업: 같은 상황이면 `backupWouldReduceData`를 던져 **사용자 동의**를 받는다(동의 시 allowReduce=true로 재호출).
-    func backupData(isAutomatic: Bool = false, allowReduce: Bool = false) async throws {
+    @discardableResult
+    func backupData(isAutomatic: Bool = false, allowReduce: Bool = false) async throws -> BackupOutcome {
         print("☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic), 축소동의=\(allowReduce))")
 
         try await ensureAuthenticated()
@@ -425,12 +434,12 @@ class CloudKitBackupService: ObservableObject {
 
             if nothingReal && existingCount == 0 {
                 print("🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음 — 백업할 것 없음")
-                return
+                return .nothingToBackUp
             }
             if destructive {
                 if isAutomatic {
                     print("🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)) — 건너뜀(기존 백업 보존)")
-                    return
+                    return .skippedToProtectExisting(existing: existingCount, new: newCount)
                 }
                 if !allowReduce {
                     print("⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소 — 사용자 동의 필요")
@@ -462,6 +471,7 @@ class CloudKitBackupService: ObservableObject {
                 print("⚠️ [CloudKit] 버전 스냅샷 저장 실패(메인 백업은 정상): \(error.localizedDescription)")
             }
             print("✅ [CloudKit] 백업 완료: \(backupDate)")
+            return .backedUp(memoCount: memos.count)
 
         } catch let ckError as CloudKitError {
             // 정책상 던진 CloudKitError(backupWouldReduceData 등)는 그대로 전달(backupFailed로 감싸지 않음).

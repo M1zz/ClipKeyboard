@@ -148,7 +148,7 @@ class ShareViewController: UIViewController {
                 let fileURL = imagesDir.appendingPathComponent(fileName)
                 let resized = resized(image, maxDimension: 1024)
                 if let data = resized.jpegData(compressionQuality: 0.7) {
-                    try? data.write(to: fileURL)
+                    try? data.write(to: fileURL, options: .atomic)
                     imageFileNames.append(fileName)
                 }
             }
@@ -171,7 +171,7 @@ class ShareViewController: UIViewController {
         notes.append(newNote)
 
         if let data = try? JSONSerialization.data(withJSONObject: notes, options: []) {
-            try? data.write(to: inboxURL)
+            try? data.write(to: inboxURL, options: .atomic)
         }
 
         UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "quicknote.lastSavedAt")

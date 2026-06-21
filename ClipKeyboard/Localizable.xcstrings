@@ -16101,7 +16101,15 @@
       }
     },
     "복사 될 값" : {
-      "comment" : "Value to copy parameter"
+      "comment" : "Value to copy parameter",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value to copy"
+          }
+        }
+      }
     },
     "복사 후 붙여넣기" : {
       "comment" : "Copy then paste",
@@ -18090,7 +18098,15 @@
       }
     },
     "설정해주세요" : {
-      "comment" : "Memo entity placeholder"
+      "comment" : "Memo entity placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please select"
+          }
+        }
+      }
     },
     "세금번호" : {
       "comment" : "Tax ID",
@@ -19880,7 +19896,15 @@
       }
     },
     "위젯에 표시할 즐겨찾기 메모를 선택합니다" : {
-      "comment" : "Select memo intent description"
+      "comment" : "Select memo intent description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a favorite memo to show in the widget"
+          }
+        }
+      }
     },
     "유지" : {
       "comment" : "Nudge: keep on",
@@ -22276,7 +22300,15 @@
       }
     },
     "즐겨찾기 메모 선택" : {
-      "comment" : "Select favorite memo intent"
+      "comment" : "Select favorite memo intent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Favorite Memo"
+          }
+        }
+      }
     },
     "즐겨찾기 메모 추가" : {
       "comment" : "Add favorite memo card a11y",

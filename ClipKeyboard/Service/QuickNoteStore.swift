@@ -60,7 +60,7 @@ final class QuickNoteStore: ObservableObject {
     private func persist(_ notes: [QuickNote]) {
         let sorted = notes.sorted { $0.createdAt > $1.createdAt }
         if let url = Self.fileURL(), let data = try? JSONEncoder().encode(sorted) {
-            try? data.write(to: url)
+            try? data.write(to: url, options: .atomic)
         }
         DispatchQueue.main.async { [weak self] in
             self?.quickNotes = sorted

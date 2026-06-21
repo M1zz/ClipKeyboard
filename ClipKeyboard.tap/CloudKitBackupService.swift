@@ -338,7 +338,8 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    func backupData() async throws {
+    @discardableResult
+    func backupData() async throws -> Int {
         print("☁️ [CloudKit] 백업 시작...")
 
         try await ensureAuthenticated()
@@ -360,6 +361,7 @@ class CloudKitBackupService: ObservableObject {
             let backupDate = Date()
             await MainActor.run { saveLastBackupDate(backupDate) }
             print("✅ [CloudKit] 백업 완료: \(backupDate)")
+            return memos.count
 
         } catch let error as CKError {
             print("❌ [CloudKit] 백업 실패: \(error)")

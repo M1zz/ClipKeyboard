@@ -432,7 +432,7 @@ class MemoStore: ObservableObject {
     func save(memos: [Memo], type: MemoType) throws {
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
         // 메모 변경을 알려 동기화 엔진(MemoSyncEngine)이 변경분을 클라우드로 올리게 한다.
         // (iOS MemoStore.save와 동일한 신호. 콜러가 메인 스레드가 아닐 수 있어 메인에서 post.)
         if type == .memo {
@@ -443,7 +443,7 @@ class MemoStore: ObservableObject {
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
     }
 
     func load(type: MemoType) throws -> [Memo] {
@@ -565,7 +565,7 @@ class MemoStore: ObservableObject {
             throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "이미지를 PNG로 변환할 수 없음"])
         }
 
-        try pngData.write(to: fileURL)
+        try pngData.write(to: fileURL, options: .atomic)
     }
 
     // 이미지 로드
@@ -619,7 +619,7 @@ class MemoStore: ObservableObject {
     func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.smartClipboardFileURL() else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
     }
 
     // MARK: - Combo Methods
@@ -645,7 +645,7 @@ class MemoStore: ObservableObject {
     func saveCombos(_ combos: [Combo]) throws {
         let data = try JSONEncoder().encode(combos)
         guard let outfile = try Self.combosFileURL() else { return }
-        try data.write(to: outfile)
+        try data.write(to: outfile, options: .atomic)
     }
 }
 
