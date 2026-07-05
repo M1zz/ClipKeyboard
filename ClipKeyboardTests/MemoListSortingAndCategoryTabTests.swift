@@ -116,6 +116,53 @@ final class MemoListSortingTests: XCTestCase {
         let resorted = freshViewModel.sortMemos([a, b, c])
         XCTAssertEqual(resorted.map(\.title), ["C", "A", "B"])
     }
+
+    // MARK: 카테고리 범위 재정렬 (현재 탭 메모만 재정렬 → 전체 순서에 병합)
+
+    func testCommitReorder_SubsetOnly_MergesIntoGlobalOrder_KeepingOthersInPlace() {
+        // Given — 전체 표시 순서 [A(여행), B(기본), C(여행), D(기본)]에서 여행 탭만 [C, A]로 재정렬
+        var a = memo("A", editedDaysAgo: 4); a.category = "여행"
+        let b = memo("B", editedDaysAgo: 3)
+        var c = memo("C", editedDaysAgo: 2); c.category = "여행"
+        let d = memo("D", editedDaysAgo: 1)
+        viewModel.loadedData = [a, b, c, d]
+        viewModel.reorderList = [c, a]
+
+        // When
+        viewModel.commitReorder()
+
+        // Then — 여행 메모가 있던 슬롯(0, 2번째)만 [C, A]로 치환, B·D 위치는 그대로
+        XCTAssertEqual(viewModel.loadedData.map(\.title), ["C", "B", "A", "D"])
+        XCTAssertEqual(groupDefaults?.stringArray(forKey: manualOrderKey),
+                       [c, b, a, d].map { $0.id.uuidString })
+        XCTAssertEqual(groupDefaults?.bool(forKey: manualOrderActiveKey), true)
+    }
+
+    func testReorderScope_CustomTab_ContainsOnlyThatCategory_InDisplayOrder() {
+        // Given — 표시 순서 [C(여행), B(기본), A(여행)]
+        var a = memo("A", editedDaysAgo: 2); a.category = "여행"
+        let b = memo("B", editedDaysAgo: 1)
+        var c = memo("C", editedDaysAgo: 0); c.category = "여행"
+        viewModel.loadedData = [c, b, a]
+        viewModel.customCategories = ["여행"]
+
+        // Then — 여행 탭 재정렬 대상은 여행 메모만, 화면과 같은 순서
+        let scoped = viewModel.reorderScopeMemos(for: .custom("여행"))
+        XCTAssertEqual(scoped.map(\.title), ["C", "A"])
+    }
+
+    func testReorderScope_BasicTab_ExcludesCustomCategoryAndFavorites() {
+        // Given — 여행 카테고리 메모 + 즐겨찾기 + 일반
+        var trip = memo("여행메모", editedDaysAgo: 0); trip.category = "여행"
+        let fav = memo("즐겨찾기", favorite: true, editedDaysAgo: 1)
+        let plain = memo("일반", editedDaysAgo: 2)
+        viewModel.loadedData = [trip, fav, plain]
+        viewModel.customCategories = ["여행"]
+
+        // Then — 기본 탭 재정렬 대상은 일반 메모뿐 (여행·즐겨찾기는 각자 탭에서)
+        let scoped = viewModel.reorderScopeMemos(for: .basic)
+        XCTAssertEqual(scoped.map(\.title), ["일반"])
+    }
 }
 
 // MARK: - 기본 제공 카테고리 (타입별 모아보기)

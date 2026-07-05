@@ -34,11 +34,16 @@ enum DefaultsKey {
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"
     static let lastBackupDate = "lastBackupDate"
     static let memoCopyCount = "memoCopyCount"
+    /// '순서 바꾸기'로 지정한 수동 순서(메모 id 문자열 배열). App Group — 키보드 익스텐션도 이 순서를 따른다.
+    static let memoManualOrderV1 = "memoManualOrder_v1"
+    /// 수동 순서 활성 여부. true면 즐겨찾기 상단 고정 대신 저장된 순서 그대로 정렬.
+    static let memoManualOrderActiveV1 = "memoManualOrderActive_v1"
     static let onboarding = "onboarding"
     static let pasteTipDismissed = "pasteTipDismissed"
-    /// Control Center 컨트롤이 켠 "보관함 열기" 보류 플래그(앱이 활성화될 때 소비). 위젯 타겟에서도 같은 문자열 사용.
+    /// Siri/단축어 OpenQuickNoteInboxIntent가 켠 "보관함 열기" 보류 플래그(앱 활성화/onAppear 시 소비).
     static let pendingOpenQuickNoteInbox = "pendingOpenQuickNoteInbox"
-    /// Control Center 빠른 메모 컨트롤이 켠 "빠른 메모 입력 시트 열기" 보류 플래그. 위젯 타겟과 같은 문자열.
+    /// Control Center 빠른 메모 컨트롤·quicknote 딥링크가 켠 "빠른 메모 입력 시트 열기" 보류 플래그.
+    /// 위젯 타겟은 같은 문자열 리터럴 사용(QuickNoteControl.swift).
     static let pendingQuickNoteAdd = "pendingQuickNoteAdd"
     static let proValueNudgeDismissedV1 = "proValueNudgeDismissed_v1"
     static let recentEmojis = "recentEmojis"

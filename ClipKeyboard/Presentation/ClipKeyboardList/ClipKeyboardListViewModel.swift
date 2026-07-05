@@ -154,11 +154,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     /// 그리드 흔들기/드래그 재정렬 모드 여부.
     @Published var isReorderMode: Bool = false
-    /// 재정렬 모드에서 드래그로 실시간 바뀌는 작업용 전체 목록(전체 한 벌).
+    /// 재정렬 모드에서 드래그로 실시간 바뀌는 작업용 목록.
+    /// 카테고리 기능이 켜져 있으면 현재 탭의 메모만, 아니면 전체 한 벌.
     @Published var reorderList: [Memo] = []
 
-    private let manualOrderKey = "memoManualOrder_v1"
-    private let manualOrderActiveKey = "memoManualOrderActive_v1"
+    private let manualOrderKey = DefaultsKey.memoManualOrderV1
+    private let manualOrderActiveKey = DefaultsKey.memoManualOrderActiveV1
 
     /// 사용자가 수동 순서를 한 번이라도 지정했는지. true면 sortMemos가 수동 순서를 따른다
     /// (즐겨찾기 맨 위 고정 해제 — 사용자가 둔 순서 그대로).
@@ -172,10 +173,35 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return raw.compactMap { UUID(uuidString: $0) }
     }
 
-    /// 재정렬 모드 진입 — 현재 전체 목록을 작업용 목록으로 복제.
+    /// 재정렬 모드 진입 — 카테고리 기능이 켜져 있으면 현재 탭의 메모만,
+    /// 아니면 전체 목록을 작업용 목록으로 복제. (메모가 많아도 지금 보는 카테고리만 재정렬)
     func enterReorderMode() {
-        reorderList = loadedData
+        reorderList = CategoryStore.shared.isFeatureEnabled
+            ? reorderScopeMemos(for: selectedCategoryTab)
+            : loadedData
         withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = true }
+    }
+
+    /// 재정렬 대상 — 탭 기준으로만 모은다(검색·타입 필터는 무시해 탭의 모든 메모를 포함).
+    /// loadedData가 이미 표시 순서(sortMemos)라 부분집합도 화면과 같은 순서로 나온다.
+    func reorderScopeMemos(for tab: CategoryTab) -> [Memo] {
+        switch tab {
+        case .all:
+            return loadedData
+        case .basic:
+            return loadedData.filter { !customCategories.contains($0.category) && !$0.isFavorite }
+        case .favorites:
+            return loadedData.filter { $0.isFavorite }
+        case .builtIn(let b):
+            return loadedData.filter { b.matches($0) }
+        case .custom(let name):
+            return loadedData.filter { $0.category == name }
+        }
+    }
+
+    /// 재정렬 화면 안내용 현재 카테고리 탭 이름. 카테고리 기능이 꺼져 있으면 nil(전체 재정렬).
+    var reorderScopeName: String? {
+        CategoryStore.shared.isFeatureEnabled ? selectedCategoryTab.displayName : nil
     }
 
     /// 재정렬 모드 종료 — 현재 순서를 영구 저장하고 닫는다.
@@ -185,15 +211,31 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     /// reorderList 순서를 디스크/UserDefaults에 영구 저장. 이후 sortMemos가 이 순서를 따른다.
+    /// 현재 탭의 메모만 재정렬한 경우, 전체 순서에서 그 메모들이 차지하던 슬롯만 새 순서로
+    /// 치환한다 — 다른 카테고리 메모의 상대 순서는 그대로 유지.
     func commitReorder() {
         guard !reorderList.isEmpty else { return }
+        let subsetIds = Set(reorderList.map(\.id))
+        var newOrder = reorderList.makeIterator()
+        var merged: [Memo] = []
+        merged.reserveCapacity(loadedData.count)
+        for memo in loadedData {
+            if subsetIds.contains(memo.id) {
+                if let next = newOrder.next() { merged.append(next) }
+            } else {
+                merged.append(memo)
+            }
+        }
+        // 방어: loadedData에 없던 재정렬 항목이 남으면 뒤에 덧붙인다(유실 방지).
+        while let leftover = newOrder.next() { merged.append(leftover) }
+
         let ud = UserDefaults(suiteName: AppGroup.identifier)
-        ud?.set(reorderList.map { $0.id.uuidString }, forKey: manualOrderKey)
+        ud?.set(merged.map { $0.id.uuidString }, forKey: manualOrderKey)
         ud?.set(true, forKey: manualOrderActiveKey)
-        loadedData = reorderList
+        loadedData = merged
         do {
             try MemoStore.shared.save(memos: loadedData, type: .memo)
-            print("✅ [commitReorder] 수동 순서 \(loadedData.count)개 저장")
+            print("✅ [commitReorder] 수동 순서 저장 — 재정렬 \(reorderList.count)개 / 전체 \(loadedData.count)개")
         } catch {
             print("❌ [commitReorder] 저장 실패: \(error)")
         }

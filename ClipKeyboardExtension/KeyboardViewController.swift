@@ -598,6 +598,24 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func sortMemos(_ memos: [Memo]) -> [Memo] {
+        // 메인 앱 '순서 바꾸기'로 지정한 수동 순서가 있으면 앱과 동일하게 그 순서를 따른다.
+        // (ClipKeyboardListViewModel.sortMemos와 같은 규칙 — 순서 미등록 새 메모는 맨 위)
+        let ud = UserDefaults(suiteName: AppGroup.identifier)
+        if ud?.bool(forKey: DefaultsKey.memoManualOrderActiveV1) == true {
+            let ids = ud?.stringArray(forKey: DefaultsKey.memoManualOrderV1) ?? []
+            let order = ids.compactMap { UUID(uuidString: $0) }
+            let rank = Dictionary(order.enumerated().map { ($1, $0) }, uniquingKeysWith: { first, _ in first })
+            print("   🔀 수동 순서 적용 - 저장된 순서 \(order.count)개")
+            return memos.sorted { a, b in
+                switch (rank[a.id], rank[b.id]) {
+                case let (ra?, rb?): return ra < rb
+                case (nil, _?):      return true
+                case (_?, nil):      return false
+                case (nil, nil):     return a.lastEdited > b.lastEdited
+                }
+            }
+        }
+        // 기본: 즐겨찾기 먼저 → 최근 수정순
         return memos.sorted { (memo1, memo2) -> Bool in
             if memo1.isFavorite != memo2.isFavorite {
                 return memo1.isFavorite && !memo2.isFavorite
