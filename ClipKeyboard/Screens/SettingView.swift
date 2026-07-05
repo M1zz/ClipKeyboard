@@ -280,6 +280,11 @@ struct SettingView: View {
                     Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                           systemImage: AppSymbol.envelopeBadge)
                 }
+                // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)
+                Link(destination: URL(string: "https://instagram.com/lee25_ios")!) {
+                    Label(NSLocalizedString("인스타그램 DM (@lee25_ios)", comment: "Instagram DM contact entry"),
+                          systemImage: AppSymbol.paperplaneFill)
+                }
             }
 
             // MARK: 다른 기기에서 사용 (iOS 전용)

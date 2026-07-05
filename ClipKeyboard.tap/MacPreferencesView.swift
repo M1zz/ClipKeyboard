@@ -203,6 +203,9 @@ struct MacPreferencesView: View {
 
                 Link(NSLocalizedString("Send Feedback", comment: "About: feedback"),
                      destination: URL(string: "mailto:leeo@kakao.com")!)
+
+                Link(NSLocalizedString("Instagram DM (@lee25_ios)", comment: "About: instagram DM"),
+                     destination: URL(string: "https://instagram.com/lee25_ios")!)
             }
             .font(.subheadline)
 

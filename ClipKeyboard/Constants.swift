@@ -164,7 +164,7 @@ struct Constants {
     static let appStoreURL = "https://apps.apple.com/app/id\(appStoreID)"
 
     /// 개발자 이메일
-    static let developerEmail = "clipkeyboard@gmail.com"
+    static let developerEmail = "leeo@kakao.com"
 
     /// 튜토리얼 URL
     static let tutorialURL = "https://m1zz.github.io/ClipKeyboard/tutorial.html"
