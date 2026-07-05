@@ -718,7 +718,10 @@ struct ClipKeyboardApp: App {
             // 키보드 익스텐션에서 paywall 직행 요청 (v4.0)
             NotificationCenter.default.post(name: .showPaywall, object: nil)
         } else if url.host == "quicknote" {
-            // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기
+            // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
+            // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어
+            // 보류 플래그도 함께 켠다(리스트가 활성화/onAppear에서 소비, 소비 시 해제라 중복 없음).
+            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
             NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
         }
     }

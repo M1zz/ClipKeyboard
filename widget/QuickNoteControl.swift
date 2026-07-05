@@ -23,6 +23,10 @@ struct AddQuickNoteControlIntent: AppIntent {
     // 확실히 앱이 열리는 URL 딥링크(clipkeyboard://quicknote)로 연다.
     // (위젯의 copy 딥링크가 이미 같은 스킴으로 앱을 여는 게 검증됨.)
     func perform() async throws -> some IntentResult & OpensIntent {
+        // 콜드 런치에선 URL → 인앱 NotificationCenter 신호가 구독자 설치 전에 유실될 수 있다.
+        // App Group 보류 플래그를 함께 켜서, 앱이 어떤 경로로 뜨든 리스트가 소비해 시트를 띄우게 한다.
+        // (키 문자열은 앱 타겟 DefaultsKey.pendingQuickNoteAdd와 동일 — 위젯 타겟은 리터럴 사용)
+        UserDefaults(suiteName: SharedMemoLoader.appGroupID)?.set(true, forKey: "pendingQuickNoteAdd")
         let url = URL(string: "clipkeyboard://quicknote")!
         return .result(opensIntent: OpenURLIntent(url))
     }
