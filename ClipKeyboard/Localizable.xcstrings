@@ -336,6 +336,23 @@
         }
       }
     },
+    "'%@'의 카드를 끌어 순서를 바꾸세요" : {
+      "comment" : "Reorder mode hint scoped to current category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag cards in '%@' to reorder"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seret kartu di '%@' untuk mengatur ulang"
+          }
+        }
+      }
+    },
     "'+' 버튼을 탭하면 iMessage, Mail 또는 기타 앱에서 쉽게 접근할 수 있는 문구나 일반 텍스트를 추가할 수 있습니다." : {
       "comment" : "Empty state description",
       "localizations" : {
@@ -742,6 +759,29 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@\n%2$@"
+          }
+        }
+      }
+    },
+    "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다." : {
+      "comment" : "Version restore confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$d memos — your current data will be replaced with this version."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$d memo — data Anda saat ini akan diganti dengan versi ini."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다."
           }
         }
       }
@@ -1816,6 +1856,21 @@
         }
       }
     },
+    "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)" : {
+      "comment" : "File backup info"
+    },
+    "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)" : {
+      "comment" : "File backup info",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• The most reliable way to keep your data — as a file, independent of iCloud\\n• Importing merges into your current data without erasing it (newest version wins for matching items)"
+          }
+        }
+      }
+    },
     "• 백업 데이터는 iCloud에 안전하게 저장됩니다" : {
       "comment" : "Backup info 3",
       "localizations" : {
@@ -2311,6 +2366,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "💼 사업자번호"
+          }
+        }
+      }
+    },
+    "📁 파일 백업은 iCloud와 별개로 데이터를 파일로 보관하는 가장 확실한 방법입니다. 가져오기는 현재 데이터를 지우지 않고 합칩니다." : {
+      "comment" : "File backup info",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "📁 File backup is the most reliable way to keep your data as a file, independent of iCloud. Importing merges into your current data without erasing it."
           }
         }
       }
@@ -5207,7 +5274,9 @@
         }
       }
     },
-    "English" : {},
+    "English" : {
+
+    },
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -11479,7 +11548,7 @@
       }
     },
     "가져오기 실패" : {
-      "comment" : "Bulk import failed alert title",
+      "comment" : "Bulk import failed alert title\nImport failed",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11491,6 +11560,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal mengimpor"
+          }
+        }
+      }
+    },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
           }
         }
       }
@@ -12191,6 +12271,29 @@
         }
       }
     },
+    "그래도 백업" : {
+      "comment" : "Back up anyway",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up anyway"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetap cadangkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그래도 백업"
+          }
+        }
+      }
+    },
     "그리드 레이아웃" : {
       "comment" : "Section: grid layout",
       "localizations" : {
@@ -12505,6 +12608,63 @@
         }
       }
     },
+    "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다." : {
+      "comment" : "Backup would reduce data warning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're about to overwrite the existing backup (%1$d memos) with %2$d. The removed data will be lost from the backup."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda akan menimpa cadangan yang ada (%1$d memo) dengan %2$d. Data yang berkurang akan hilang dari cadangan."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다."
+          }
+        }
+      }
+    },
+    "기존 백업(메모 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다." : {
+      "comment" : "Backup skipped to protect existing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skipped this backup (%2$d memos) to protect your existing backup (%1$d memos)."
+          }
+        }
+      }
+    },
+    "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)" : {
+      "comment" : "Backup reduce confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The existing backup (%1$d memos) will shrink to %2$d.\nThe removed data will disappear from the backup.\n(You can roll back later via Restore from a previous version.)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cadangan yang ada (%1$d memo) akan menyusut menjadi %2$d.\nData yang berkurang akan hilang dari cadangan.\n(Anda bisa mengembalikannya nanti via Pulihkan dari versi sebelumnya.)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)"
+          }
+        }
+      }
+    },
     "기존에 쓰던 메모를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요." : {
       "comment" : "Restore hint message",
       "localizations" : {
@@ -12665,6 +12825,29 @@
         }
       }
     },
+    "날짜별 백업에서 골라서 복원합니다" : {
+      "comment" : "Restore from dated snapshots description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a backup by date and restore it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih cadangan berdasarkan tanggal lalu pulihkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "날짜별 백업에서 골라서 복원합니다"
+          }
+        }
+      }
+    },
     "내 %@" : {
       "comment" : "Suggested memo title: My <type>",
       "localizations" : {
@@ -12689,6 +12872,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save your own"
+          }
+        }
+      }
+    },
+    "내보내기 실패" : {
+      "comment" : "Export failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Failed"
+          }
+        }
+      }
+    },
+    "내보내기 완료" : {
+      "comment" : "Export completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export Complete"
+          }
+        }
+      }
+    },
+    "내보낸 파일에서 데이터를 되살립니다 (기존 데이터는 보존)" : {
+      "comment" : "Import from file description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore data from an exported file (your current data is kept)"
           }
         }
       }
@@ -13279,6 +13495,7 @@
     },
     "데이터가 성공적으로 백업되었습니다." : {
       "comment" : "Data successfully backed up",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13365,6 +13582,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terjadi kesalahan saat menyiapkan data. Restart aplikasi dan coba lagi."
+          }
+        }
+      }
+    },
+    "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요." : {
+      "comment" : "Export success message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your data has been saved to a file. Keep it somewhere safe."
           }
         }
       }
@@ -13869,13 +14097,62 @@
         }
       }
     },
+    "메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다." : {
+      "comment" : "Import summary message"
+    },
+    "메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다." : {
+      "comment" : "Import summary message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added %1$d memos, updated %2$d (%3$d total).\\nImported %4$d combos and %5$d images."
+          }
+        }
+      }
+    },
     "메모 %d개" : {
-      "comment" : "Snapshot memo count",
+      "comment" : "Memo count in a backup snapshot\nSnapshot memo count",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d memos"
+          }
+        }
+      }
+    },
+    "메모 %d개 백업됨" : {
+      "comment" : "Backed-up memo count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d memos backed up"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d memo dicadangkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메모 %d개 백업됨"
+          }
+        }
+      }
+    },
+    "메모 %d개를 iCloud에 백업했습니다." : {
+      "comment" : "Backup success with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backed up %d memos to iCloud."
           }
         }
       }
@@ -14452,6 +14729,23 @@
         }
       }
     },
+    "메모로 저장했어요" : {
+      "comment" : "Toast after quick note promoted to memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved as a memo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan sebagai memo"
+          }
+        }
+      }
+    },
     "메모를 가져오지 못했습니다. 잠시 후 다시 시도해주세요." : {
       "comment" : "Bulk import failed alert message",
       "localizations" : {
@@ -14699,6 +14993,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모든 기능을 사용할 수 있습니다."
+          }
+        }
+      }
+    },
+    "모든 데이터를 파일 한 개로 저장합니다 (iCloud 불필요)" : {
+      "comment" : "Export to file description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save all your data into a single file (no iCloud needed)"
           }
         }
       }
@@ -15175,6 +15480,17 @@
         }
       }
     },
+    "백업 건너뜀" : {
+      "comment" : "Backup skipped title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup Skipped"
+          }
+        }
+      }
+    },
     "백업 관리" : {
       "comment" : "Backup management section header",
       "localizations" : {
@@ -15444,6 +15760,28 @@
         }
       }
     },
+    "백업할 내용 없음" : {
+      "comment" : "Nothing to back up title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to Back Up"
+          }
+        }
+      }
+    },
+    "백업할 데이터가 없습니다. 메모를 추가한 뒤 다시 시도해주세요." : {
+      "comment" : "Nothing to back up message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s no data to back up. Add a memo and try again."
+          }
+        }
+      }
+    },
     "버그 신고" : {
       "comment" : "Feedback type: bug report",
       "localizations" : {
@@ -15474,6 +15812,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versi"
+          }
+        }
+      }
+    },
+    "버전에서 복원" : {
+      "comment" : "Restore from a version — screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore a Version"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan Versi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전에서 복원"
           }
         }
       }
@@ -16228,6 +16589,9 @@
         }
       }
     },
+    "복원" : {
+      "comment" : "Restore"
+    },
     "불러오기" : {
       "comment" : "Restore hint: open restore",
       "localizations" : {
@@ -16491,6 +16855,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "빠른 메모 담기"
+          }
+        }
+      }
+    },
+    "빠른 메모를 보관함에 담았어요" : {
+      "comment" : "Toast after quick note saved to inbox",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disimpan ke Kotak Masuk"
           }
         }
       }
@@ -17651,6 +18032,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ini cocok dengan cara Anda memakai aplikasi. Ketuk salah satu untuk membuatnya dan mengumpulkan memo Anda di satu tempat."
+          }
+        }
+      }
+    },
+    "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다." : {
+      "comment" : "Version restore footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restores the data from the selected point in time. Your current data will be replaced."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memulihkan data dari titik waktu yang dipilih. Data Anda saat ini akan diganti."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다."
           }
         }
       }
@@ -20031,6 +20435,29 @@
         }
       }
     },
+    "이 버전으로 복원할까요?" : {
+      "comment" : "Restore this version confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore this version?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan versi ini?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 버전으로 복원할까요?"
+          }
+        }
+      }
+    },
     "이 사이즈로 내용이 보입니다." : {
       "comment" : "Font size preview text",
       "extractionState" : "stale",
@@ -20198,6 +20625,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Template ini siap digunakan"
+          }
+        }
+      }
+    },
+    "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다." : {
+      "comment" : "Unrecognized backup file",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This isn’t a ClipKeyboard backup file, or it’s damaged."
           }
         }
       }
@@ -20800,6 +21238,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pulihkan Pembelian Sebelumnya"
+          }
+        }
+      }
+    },
+    "이전 버전에서 복원" : {
+      "comment" : "Restore from a previous version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore from a previous version"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulihkan dari versi sebelumnya"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전 버전에서 복원"
           }
         }
       }
@@ -21637,6 +22098,23 @@
         }
       }
     },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
+          }
+        }
+      }
+    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -21707,19 +22185,25 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
+    "저장된 버전이 없습니다" : {
+      "comment" : "No backup versions available",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete the saved security PIN"
+            "value" : "No saved versions yet"
           }
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
+            "state" : "translated",
+            "value" : "Belum ada versi tersimpan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 버전이 없습니다"
           }
         }
       }
@@ -21754,6 +22238,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tersimpan"
+          }
+        }
+      }
+    },
+    "저장소를 찾을 수 없습니다." : {
+      "comment" : "App Group container missing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage could not be found."
           }
         }
       }
@@ -22086,6 +22581,29 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Collapsed"
+          }
+        }
+      }
+    },
+    "정말 백업할까요?" : {
+      "comment" : "Backup reduce confirm title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up anyway?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetap cadangkan?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정말 백업할까요?"
           }
         }
       }
@@ -23219,6 +23737,40 @@
         }
       }
     },
+    "이 카테고리에는 순서를 바꿀 메모가 없어요" : {
+      "comment" : "Reorder empty state title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No memos to reorder in this category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada memo untuk diurutkan di kategori ini"
+          }
+        }
+      }
+    },
+    "다른 카테고리 탭에서 순서 바꾸기를 열어 보세요" : {
+      "comment" : "Reorder empty state subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Reorder from another category tab"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka Ubah Urutan dari tab kategori lain"
+          }
+        }
+      }
+    },
     "카드를 끌어 순서를 바꾸세요" : {
       "comment" : "Reorder mode hint",
       "localizations" : {
@@ -23573,6 +24125,23 @@
         }
       }
     },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
+          }
+        }
+      }
+    },
     "켜짐" : {
       "comment" : "On",
       "extractionState" : "stale",
@@ -23587,23 +24156,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktif"
-          }
-        }
-      }
-    },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
           }
         }
       }
@@ -25992,6 +26544,39 @@
         }
       }
     },
+    "파일 백업" : {
+      "comment" : "File backup section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Backup"
+          }
+        }
+      }
+    },
+    "파일로 내보내기" : {
+      "comment" : "Export to file button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export to File"
+          }
+        }
+      }
+    },
+    "파일에서 가져오기" : {
+      "comment" : "Import from file button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from File"
+          }
+        }
+      }
+    },
     "파일에서 선택" : {
       "comment" : "Pick from file",
       "extractionState" : "manual",
@@ -26455,22 +27040,6 @@
         }
       }
     },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        }
-      }
-    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -26587,6 +27156,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
           }
         }
       }
@@ -27202,491 +27787,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "이전 버전에서 복원" : {
-      "comment" : "Restore from a previous version",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore from a previous version"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이전 버전에서 복원"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulihkan dari versi sebelumnya"
-          }
-        }
-      }
-    },
-    "날짜별 백업에서 골라서 복원합니다" : {
-      "comment" : "Restore from dated snapshots description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pick a backup by date and restore it"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "날짜별 백업에서 골라서 복원합니다"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pilih cadangan berdasarkan tanggal lalu pulihkan"
-          }
-        }
-      }
-    },
-    "저장된 버전이 없습니다" : {
-      "comment" : "No backup versions available",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No saved versions yet"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장된 버전이 없습니다"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Belum ada versi tersimpan"
-          }
-        }
-      }
-    },
-    "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다." : {
-      "comment" : "Version restore footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restores the data from the selected point in time. Your current data will be replaced."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택한 시점의 데이터로 복원됩니다. 현재 데이터는 교체됩니다."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memulihkan data dari titik waktu yang dipilih. Data Anda saat ini akan diganti."
-          }
-        }
-      }
-    },
-    "버전에서 복원" : {
-      "comment" : "Restore from a version — screen title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore a Version"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "버전에서 복원"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulihkan Versi"
-          }
-        }
-      }
-    },
-    "이 버전으로 복원할까요?" : {
-      "comment" : "Restore this version confirmation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore this version?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 버전으로 복원할까요?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pulihkan versi ini?"
-          }
-        }
-      }
-    },
-    "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다." : {
-      "comment" : "Version restore confirm message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ · %2$d memos — your current data will be replaced with this version."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ · %2$d memo — data Anda saat ini akan diganti dengan versi ini."
-          }
-        }
-      }
-    },
-    "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다." : {
-      "comment" : "Backup would reduce data warning",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You're about to overwrite the existing backup (%1$d memos) with %2$d. The removed data will be lost from the backup."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anda akan menimpa cadangan yang ada (%1$d memo) dengan %2$d. Data yang berkurang akan hilang dari cadangan."
-          }
-        }
-      }
-    },
-    "정말 백업할까요?" : {
-      "comment" : "Backup reduce confirm title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back up anyway?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "정말 백업할까요?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tetap cadangkan?"
-          }
-        }
-      }
-    },
-    "그래도 백업" : {
-      "comment" : "Back up anyway",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back up anyway"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그래도 백업"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tetap cadangkan"
-          }
-        }
-      }
-    },
-    "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)" : {
-      "comment" : "Backup reduce confirm message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The existing backup (%1$d memos) will shrink to %2$d.\nThe removed data will disappear from the backup.\n(You can roll back later via Restore from a previous version.)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cadangan yang ada (%1$d memo) akan menyusut menjadi %2$d.\nData yang berkurang akan hilang dari cadangan.\n(Anda bisa mengembalikannya nanti via Pulihkan dari versi sebelumnya.)"
-          }
-        }
-      }
-    },
-    "메모 %d개 백업됨" : {
-      "comment" : "Backed-up memo count",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d memos backed up"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메모 %d개 백업됨"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d memo dicadangkan"
-          }
-        }
-      }
-    },
-    "파일로 내보내기" : {
-      "comment" : "Export to file button label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export to File"
-          }
-        }
-      }
-    },
-    "모든 데이터를 파일 한 개로 저장합니다 (iCloud 불필요)" : {
-      "comment" : "Export to file description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save all your data into a single file (no iCloud needed)"
-          }
-        }
-      }
-    },
-    "파일에서 가져오기" : {
-      "comment" : "Import from file button label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import from File"
-          }
-        }
-      }
-    },
-    "내보낸 파일에서 데이터를 되살립니다 (기존 데이터는 보존)" : {
-      "comment" : "Import from file description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore data from an exported file (your current data is kept)"
-          }
-        }
-      }
-    },
-    "파일 백업" : {
-      "comment" : "File backup section header",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File Backup"
-          }
-        }
-      }
-    },
-    "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)" : {
-      "comment" : "File backup info",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• The most reliable way to keep your data — as a file, independent of iCloud\\n• Importing merges into your current data without erasing it (newest version wins for matching items)"
-          }
-        }
-      }
-    },
-    "📁 파일 백업은 iCloud와 별개로 데이터를 파일로 보관하는 가장 확실한 방법입니다. 가져오기는 현재 데이터를 지우지 않고 합칩니다." : {
-      "comment" : "File backup info",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "📁 File backup is the most reliable way to keep your data as a file, independent of iCloud. Importing merges into your current data without erasing it."
-          }
-        }
-      }
-    },
-    "내보내기 완료" : {
-      "comment" : "Export completed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export Complete"
-          }
-        }
-      }
-    },
-    "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요." : {
-      "comment" : "Export success message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your data has been saved to a file. Keep it somewhere safe."
-          }
-        }
-      }
-    },
-    "내보내기 실패" : {
-      "comment" : "Export failed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export Failed"
-          }
-        }
-      }
-    },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import Complete"
-          }
-        }
-      }
-    },
-    "메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다." : {
-      "comment" : "Import summary message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Added %1$d memos, updated %2$d (%3$d total).\\nImported %4$d combos and %5$d images."
-          }
-        }
-      }
-    },
-    "저장소를 찾을 수 없습니다." : {
-      "comment" : "App Group container missing",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Storage could not be found."
-          }
-        }
-      }
-    },
-    "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다." : {
-      "comment" : "Unrecognized backup file",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This isn’t a ClipKeyboard backup file, or it’s damaged."
-          }
-        }
-      }
-    },
-    "백업할 내용 없음" : {
-      "comment" : "Nothing to back up title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nothing to Back Up"
-          }
-        }
-      }
-    },
-    "백업할 데이터가 없습니다. 메모를 추가한 뒤 다시 시도해주세요." : {
-      "comment" : "Nothing to back up message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There’s no data to back up. Add a memo and try again."
-          }
-        }
-      }
-    },
-    "백업 건너뜀" : {
-      "comment" : "Backup skipped title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backup Skipped"
-          }
-        }
-      }
-    },
-    "기존 백업(메모 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다." : {
-      "comment" : "Backup skipped to protect existing",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Skipped this backup (%2$d memos) to protect your existing backup (%1$d memos)."
-          }
-        }
-      }
-    },
-    "메모 %d개를 iCloud에 백업했습니다." : {
-      "comment" : "Backup success with count",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Backed up %d memos to iCloud."
           }
         }
       }

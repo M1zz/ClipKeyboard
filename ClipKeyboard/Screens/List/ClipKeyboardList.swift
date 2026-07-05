@@ -691,6 +691,9 @@ struct ClipKeyboardList: View {
                 viewModel.onSceneResume()
                 consumePendingInboxOpen()
             }
+            // 콜드 런치에서 didBecomeActive가 위 구독 설치보다 먼저 지나간 경우의 폴백.
+            // (Control Center 컨트롤이 켠 보류 플래그를 첫 표시 시점에 소비 — 멱등이라 중복 무해)
+            .onAppear { consumePendingInboxOpen() }
     }
 
     private var screenL8: some View {
@@ -703,9 +706,12 @@ struct ClipKeyboardList: View {
                 QuickNoteInboxView()
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
+                // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
+                UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
                 showInboxFromIntent = true
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteAdd)) { _ in
+                UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
                 showQuickNoteAdd = true
             }
     }
@@ -946,7 +952,9 @@ struct ClipKeyboardList: View {
     }
 
     /// 메모 카드의 순수 비주얼(제스처 없음). memoGridCell(탭/롱프레스)과 재정렬 모드 셀이 공유.
-    private func memoCardSurface(memo: Memo) -> some View {
+    /// - Parameter lightweight: 재정렬 그리드용 경량 렌더링 — 그림자와 내용 힌트 애니메이션을
+    ///   생략한다. 흔들림(repeatForever 회전)과 매 프레임 경합하는 비용을 줄여 드래그를 매끄럽게.
+    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> some View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
@@ -985,7 +993,8 @@ struct ClipKeyboardList: View {
                         .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
                         .accessibilityHidden(true)
                 }
-                Text(memo.title)
+                // 템플릿 변수 {…}는 카드 제목에서도 원문이 아닌 칩(하이라이트)으로.
+                Text(memo.title.templateAwareAttributed(theme: theme, font: .title2.weight(.semibold)))
                     .font(.title2.weight(.semibold))
                     .foregroundColor(onColor ? .white : theme.text)
                     .lineLimit(2)
@@ -998,7 +1007,8 @@ struct ClipKeyboardList: View {
             // 빈 공간), 꺼져 있으면 영역 자체가 없다.
             if contentHintEnabled {
                 Spacer(minLength: 8)
-                if let hint = fishbowlText(memo: memo) {
+                // 경량 모드에선 힌트 애니메이션 생략(높이 균일성 위해 영역만 확보).
+                if !lightweight, let hint = fishbowlText(memo: memo) {
                     ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
                 } else {
                     Color.clear.frame(height: ContentHintPreview.zoneHeight)
@@ -1018,7 +1028,10 @@ struct ClipKeyboardList: View {
                               style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
                                                  dash: memoTypeBorder(memo).dash))
         )
-        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
+        // 경량 모드(재정렬)에선 그림자 생략 — 회전하는 카드의 그림자는 매 프레임 오프스크린
+        // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
+        .shadow(color: lightweight ? .clear : .black.opacity(0.10),
+                radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
     }
 
     /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용.
@@ -1492,15 +1505,42 @@ struct ClipKeyboardList: View {
         #endif
     }
 
-    /// 순서 바꾸기 전용 화면 — 전체 메모를 흔들리는 그리드로 보여주고 드래그로 재정렬.
+    /// 재정렬 안내 문구 — 카테고리 범위 재정렬이면 어느 카테고리인지 함께 보여준다.
+    private var reorderHintText: String {
+        if let scope = viewModel.reorderScopeName {
+            return String(format: NSLocalizedString("'%@'의 카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint scoped to current category"), scope)
+        }
+        return NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint")
+    }
+
+    /// 순서 바꾸기 전용 화면 — 현재 카테고리 탭의 메모(기능 꺼짐 시 전체)를
+    /// 흔들리는 그리드로 보여주고 드래그로 재정렬.
     private var reorderModeView: some View {
         NavigationStack {
             ScrollView {
-                Text(NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint"))
+                Text(reorderHintText)
                     .font(.footnote)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 12)
+
+                // 현재 탭에 재정렬할 메모가 없으면 빈 그리드 대신 이유를 설명한다.
+                // (카테고리 범위 재정렬이라 다른 탭의 메모는 여기 나오지 않는 게 정상)
+                if viewModel.reorderList.isEmpty {
+                    VStack(spacing: 8) {
+                        Image(systemName: AppSymbol.trayFull)
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                        Text(NSLocalizedString("이 카테고리에는 순서를 바꿀 메모가 없어요", comment: "Reorder empty state title"))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.secondary)
+                        Text(NSLocalizedString("다른 카테고리 탭에서 순서 바꾸기를 열어 보세요", comment: "Reorder empty state subtitle"))
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 80)
+                }
 
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     ForEach(Array(viewModel.reorderList.enumerated()), id: \.element.id) { index, memo in
@@ -1514,6 +1554,8 @@ struct ClipKeyboardList: View {
                 .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
             }
             .background(theme.bg.ignoresSafeArea())
+            // 그리드 밖(스크롤 영역 아무 곳)에 드롭돼도 드래그 상태를 정리하는 최후 안전망.
+            .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
             .navigationTitle(NSLocalizedString("순서 바꾸기", comment: "Reorder mode title"))
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -1537,14 +1579,31 @@ struct ClipKeyboardList: View {
             wiggle = false
             draggingMemo = nil
         }
+        // 드래그 세션이 끝나면(정상 드롭·취소 모두) 흔들림을 다시 켠다.
+        // repeatForever는 value 변경 시에만 붙으므로 wiggle을 토글해 재시작한다.
+        .onChange(of: draggingMemo?.id) { _, newValue in
+            if newValue != nil {
+                wiggle = false
+            } else if !reduceMotion {
+                withAnimation { wiggle = true }
+            }
+        }
     }
 
     /// 재정렬 그리드의 한 셀 — 흔들림 + onDrag/onDrop 라이브 재배치.
     private func reorderCardCell(memo: Memo, index: Int) -> some View {
         let isDragging = draggingMemo?.id == memo.id
-        return memoCardSurface(memo: memo)
-            // 드래그 중인 카드는 원위치를 비워(투명) 떠 있는 느낌을 준다.
-            .opacity(isDragging ? 0.001 : 1.0)
+        // 드래그 세션 동안엔 모든 카드의 흔들림을 멈춘다 — repeatForever 회전이 재배치
+        // 스프링 애니메이션·스크롤과 매 프레임 경합해 버벅임의 주원인이었다.
+        let dragActive = draggingMemo != nil
+        // 흔들림 위상은 index가 아닌 id 기반 고정값 — 재배치로 index가 바뀔 때마다
+        // 애니메이션이 리셋되어 깜빡이던 문제 방지.
+        let phase = Double(abs(memo.id.hashValue) % 6) * 0.045
+        return memoCardSurface(memo: memo, lightweight: true)
+            // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 — 드롭이 시스템에서
+            // 취소돼 콜백이 안 와도 카드가 "사라진" 채 남지 않는다.
+            .opacity(isDragging ? 0.3 : 1.0)
+            .scaleEffect(isDragging ? 0.95 : 1.0)
             .overlay(alignment: .topLeading) {
                 // 흔들기 모드 식별용 작은 그립 배지.
                 Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
@@ -1562,7 +1621,7 @@ struct ClipKeyboardList: View {
                 return NSItemProvider(object: memo.id.uuidString as NSString)
             } preview: {
                 // 손가락을 따라오는 미리보기는 항상 또렷하게(원본 dim과 분리).
-                memoCardSurface(memo: memo)
+                memoCardSurface(memo: memo, lightweight: true)
                     .frame(width: reorderPreviewWidth, height: memoCardHeight)
             }
             .onDrop(of: [.text], delegate: MemoReorderDropDelegate(
@@ -1570,12 +1629,12 @@ struct ClipKeyboardList: View {
                 list: $viewModel.reorderList,
                 dragging: $draggingMemo
             ))
-            // 흔들림 — 드래그 중인 카드는 흔들지 않음. reduceMotion이면 정지.
-            .rotationEffect(.degrees((reduceMotion || isDragging) ? 0 : (wiggle ? 1.4 : -1.4)))
+            // 흔들림 — 드래그 세션 중엔 전체 정지, reduceMotion이면 항상 정지.
+            .rotationEffect(.degrees((reduceMotion || dragActive) ? 0 : (wiggle ? 1.4 : -1.4)))
             .animation(
-                (reduceMotion || isDragging)
+                (reduceMotion || dragActive)
                     ? nil
-                    : .easeInOut(duration: 0.14).repeatForever(autoreverses: true).delay(Double(index % 6) * 0.045),
+                    : .easeInOut(duration: 0.22).repeatForever(autoreverses: true).delay(phase),
                 value: wiggle
             )
             .accessibilityElement(children: .ignore)
@@ -2011,7 +2070,7 @@ struct ClipKeyboardList: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 10) {
-                    Text(memo.title)
+                    Text(memo.title.templateAwareAttributed(theme: theme, font: .headline.weight(.semibold)))
                         .font(.headline.weight(.semibold))
                         .foregroundColor(theme.text)
                     if memo.isTemplate {
@@ -2041,7 +2100,7 @@ struct ClipKeyboardList: View {
                 #endif
 
                 if !memo.value.isEmpty {
-                    Text(memo.value)
+                    Text(memo.value.templateAwareAttributed(theme: theme, font: .body.weight(.semibold)))
                         .font(.body)
                         .foregroundColor(theme.text)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -2308,11 +2367,14 @@ struct ClipKeyboardList: View {
             QuickNoteEditSheet(note: QuickNote()) { newNote in
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
                 QuickNoteStore.shared.add(newNote)
+                // 담긴 위치를 바로 알려준다 — 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
+                viewModel.showPlainToast(NSLocalizedString("빠른 메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
             } onPromote: { newNote in
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
                 QuickNoteStore.shared.add(newNote)
                 QuickNoteStore.shared.promoteToMemo(newNote)
                 viewModel.loadMemos()
+                viewModel.showPlainToast(NSLocalizedString("메모로 저장했어요", comment: "Toast after quick note promoted to memo"))
             }
         }
         .sheet(isPresented: $showCategoryManagement) {
