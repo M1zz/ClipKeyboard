@@ -149,7 +149,7 @@ struct MemoActionSheet: View {
         VStack(spacing: 0) {
             // 헤더 — 메모 제목
             HStack {
-                Text(memo.title)
+                Text(memo.title.templateAwareAttributed(theme: theme, font: .headline))
                     .font(.headline)
                     .foregroundColor(theme.text)
                     .lineLimit(2)

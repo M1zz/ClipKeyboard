@@ -504,7 +504,8 @@ struct DatePlaceholderSelector: View {
 extension String {
     /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
     /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
-    func templateChipAttributed(theme: AppTheme) -> AttributedString {
+    /// - Parameter font: 칩 텍스트에 적용할 폰트 — 주변 텍스트와 크기를 맞추기 위해 호출부가 지정.
+    func templateChipAttributed(theme: AppTheme, font: Font = .body.weight(.semibold)) -> AttributedString {
         guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
             return AttributedString(self)
         }
@@ -522,7 +523,7 @@ extension String {
             var chip = AttributedString("\u{2009}\(name)\u{2009}")
             chip.foregroundColor = theme.accent
             chip.backgroundColor = theme.accentSoft
-            chip.font = .body.weight(.semibold)
+            chip.font = font
             out += chip
             cursor = full.location + full.length
         }
@@ -530,6 +531,13 @@ extension String {
             out += AttributedString(ns.substring(from: cursor))
         }
         return out
+    }
+
+    /// `{변수}`가 있으면 칩으로, 없으면 그대로 반환 — 제목·본문 등 모든 노출면에서 부담 없이
+    /// 쓰는 진입점(중괄호가 없는 대다수 문자열은 정규식 비용 없이 즉시 반환).
+    /// "플레이스홀더는 어디서든 원문 {중괄호}가 아닌 하이라이트로 보인다" 규칙의 구현.
+    func templateAwareAttributed(theme: AppTheme, font: Font) -> AttributedString {
+        contains("{") ? templateChipAttributed(theme: theme, font: font) : AttributedString(self)
     }
 
     func extractTemplatePlaceholders() -> [String] {

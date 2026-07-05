@@ -970,7 +970,7 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.caption2)
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title)
+                Text(memo.title.kbTemplateAwareAttributed(font: .caption.weight(.medium)))
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
                     .lineLimit(1)
@@ -1078,7 +1078,7 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.footnote.weight(.semibold))
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title)
+                Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold)))
                     .font(.callout.weight(.semibold))
                     .foregroundColor(theme.text)
                 Spacer(minLength: 0)
@@ -1121,7 +1121,7 @@ struct KeyboardView: View {
                     }
                 }
             } else {
-                Text(memo.value)
+                Text(memo.value.kbTemplateAwareAttributed(font: .footnote.weight(.semibold)))
                     .font(.footnote)
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -1580,7 +1580,7 @@ struct MemoTitleHintSwap: View {
 
     var body: some View {
         ZStack {
-            Text(title)
+            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold)))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingHint ? 0 : 1)
@@ -1613,3 +1613,36 @@ struct MemoTitleHintSwap: View {
 }
 
 // MARK: - Image Memo Button
+
+// MARK: - Template Chip Rendering (키보드 전용)
+
+extension String {
+    /// `{변수}`가 있으면 중괄호 없는 하이라이트 칩으로, 없으면 그대로 반환.
+    /// 앱 타겟 String.templateChipAttributed와 동일 규칙 — 타깃 분리로 확장을 공유하지 못해
+    /// 키보드 전용으로 복제(색은 시스템 블루 고정). "플레이스홀더는 어디서든 하이라이트" 규칙.
+    func kbTemplateAwareAttributed(font: Font) -> AttributedString {
+        guard contains("{"), let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
+            return AttributedString(self)
+        }
+        let ns = self as NSString
+        var out = AttributedString()
+        var cursor = 0
+        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
+            let full = match.range
+            if full.location > cursor {
+                out += AttributedString(ns.substring(with: NSRange(location: cursor, length: full.location - cursor)))
+            }
+            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
+            var chip = AttributedString("\u{2009}\(ns.substring(with: match.range(at: 1)))\u{2009}")
+            chip.foregroundColor = .blue
+            chip.backgroundColor = Color.blue.opacity(0.12)
+            chip.font = font
+            out += chip
+            cursor = full.location + full.length
+        }
+        if cursor < ns.length {
+            out += AttributedString(ns.substring(from: cursor))
+        }
+        return out
+    }
+}

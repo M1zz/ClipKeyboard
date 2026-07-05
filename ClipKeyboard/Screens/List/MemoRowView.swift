@@ -37,7 +37,8 @@ struct MemoRowView: View {
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(memo.title)
+                Text(memo.title.templateAwareAttributed(
+                    theme: theme, font: theme.bodyFont(style: .subheadline, weight: .semibold)))
                     .font(theme.bodyFont(style: .subheadline, weight: .semibold))
                     .foregroundColor(theme.text)
 
