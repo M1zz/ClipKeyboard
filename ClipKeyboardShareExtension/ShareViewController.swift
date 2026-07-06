@@ -9,6 +9,11 @@
 import UIKit
 import SwiftUI
 import UniformTypeIdentifiers
+import os
+
+/// 익스텐션은 print가 Console에 안 잡힘 — Console.app에서
+/// subsystem:com.Ysoup.TokenMemo.share 필터로 확인.
+private let shareLog = Logger(subsystem: "com.Ysoup.TokenMemo.share", category: "share")
 
 @objc(ShareViewController)
 class ShareViewController: UIViewController {
@@ -39,7 +44,7 @@ class ShareViewController: UIViewController {
         for provider in providers {
             if provider.hasItemConformingToTypeIdentifier(imageType) {
                 group.enter()
-                provider.loadItem(forTypeIdentifier: imageType, options: nil) { [weak self] item, _ in
+                provider.loadItem(forTypeIdentifier: imageType, options: nil) { [weak self] item, error in
                     defer { group.leave() }
                     if let image = item as? UIImage {
                         self?.sharedImages.append(image)
@@ -47,6 +52,12 @@ class ShareViewController: UIViewController {
                               let data = try? Data(contentsOf: url),
                               let image = UIImage(data: data) {
                         self?.sharedImages.append(image)
+                    } else if let data = item as? Data,
+                              let image = UIImage(data: data) {
+                        // 일부 앱(스크린샷 공유 등)은 이미지를 Data로 넘긴다.
+                        self?.sharedImages.append(image)
+                    } else {
+                        shareLog.error("📤 [Share] 이미지 로드 실패: item=\(String(describing: type(of: item))), error=\(String(describing: error))")
                     }
                 }
             } else if provider.hasItemConformingToTypeIdentifier(textType) {
@@ -125,6 +136,7 @@ class ShareViewController: UIViewController {
     private func saveToInbox(title: String, value: String) {
         let appGroup = "group.com.Ysoup.TokenMemo"
         guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            shareLog.error("📤 [Share] App Group 컨테이너 접근 실패 — 저장 불가")
             cancel()
             return
         }
@@ -170,8 +182,12 @@ class ShareViewController: UIViewController {
         ]
         notes.append(newNote)
 
-        if let data = try? JSONSerialization.data(withJSONObject: notes, options: []) {
-            try? data.write(to: inboxURL, options: .atomic)
+        do {
+            let data = try JSONSerialization.data(withJSONObject: notes, options: [])
+            try data.write(to: inboxURL, options: .atomic)
+            shareLog.info("📤 [Share] 보관함 저장 완료 — 총 \(notes.count)개, contentType=\(contentType)")
+        } catch {
+            shareLog.error("📤 [Share] 보관함 저장 실패: \(error)")
         }
 
         UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "quicknote.lastSavedAt")
