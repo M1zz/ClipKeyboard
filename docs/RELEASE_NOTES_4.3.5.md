@@ -1,0 +1,41 @@
+ClipKeyboard v4.3.5
+
+한국어
+
+- 제어센터에서 바로 빠른 메모, 제어센터에 "Quick Note" 버튼을 추가해두면 어떤 앱을 쓰다가도 한 번의 탭으로 빠른 메모 입력이 열립니다 — 버튼을 눌러도 반응이 없던 문제를 수정했어요 (제어 항목 편집에서 버튼을 다시 추가해 주세요)
+- 잠금 화면·홈 화면에 빠른 메모 위젯, 잠금 화면의 동그란 위젯이나 홈 화면의 작은 위젯을 탭하면 곧바로 캡처가 시작됩니다 — 애플 메모의 "빠른 메모"처럼, 앱을 찾아 들어갈 필요가 없어요
+- 카테고리에서 추가하면 그 카테고리로 저장, 카테고리 탭에서 메모를 추가하면 이제 자동 분류가 카테고리를 바꿔치기하지 않고 지금 보고 있는 카테고리에 그대로 저장됩니다 — 클립보드 제안을 수락해도 마찬가지예요
+- 순서 바꾸기가 부드러워졌습니다, 드래그 중 화면 전체가 흔들리던 것을 정리하고 카드 이동이 매끄러워졌어요 — 카테고리 안에서 순서를 바꾸면 키보드에도 같은 순서로 반영됩니다
+- 템플릿 {변수}가 한눈에, 메모 목록과 편집 화면 곳곳에서 {이름}, {날짜} 같은 변수가 하이라이트되어 어떤 메모가 템플릿인지 바로 보입니다
+- 빠른 메모 저장 확인, 보관함에 담거나 메모로 승격하면 토스트로 결과를 알려줍니다
+- 공유하기 안정화, 일부 앱에서 이미지를 공유하면 저장되지 않던 문제를 수정했어요
+- 인스타그램으로 문의하세요, 설정과 Mac 환경설정에 개발자 인스타그램 DM(@lee25_ios) 링크를 추가했습니다
+
+English
+
+- Quick Note right from Control Center, add the "Quick Note" button to Control Center and one tap opens quick capture from any app — fixed the button not responding when tapped (please re-add the button in Control Center editing)
+- Quick Note widgets for Lock Screen and Home Screen, tap the circular Lock Screen widget or the small Home Screen widget and capture starts immediately — like Apple Notes' Quick Note, no need to hunt for the app
+- Memos stay in the category you add them to, adding a memo from a category tab now saves it to that category instead of letting auto-classification override it — accepting a clipboard suggestion keeps your category too
+- Smoother reordering, cleaned up the screen-wide jiggle while dragging so cards move fluidly — reorder within a category and the keyboard follows the same order
+- Template {variables} at a glance, placeholders like {name} and {date} are now highlighted across the memo list and editors so templates stand out instantly
+- Quick note save confirmation, capturing to the inbox or promoting to a memo now shows a toast so you know it worked
+- Steadier sharing, fixed images not being saved when shared from some apps
+- Reach us on Instagram, added a developer Instagram DM (@lee25_ios) link in Settings and Mac Preferences
+
+---
+
+App Store 제출용 요약 (한국어)
+
+• 제어센터 "Quick Note" 버튼 수정 — 어디서든 한 번의 탭으로 빠른 메모 (버튼 재추가 필요)
+• 잠금 화면·홈 화면 빠른 메모 위젯 추가 — 탭하면 바로 캡처 시작
+• 카테고리에서 추가한 메모가 그 카테고리에 저장되도록 수정
+• 순서 바꾸기 드래그 개선 + 키보드 순서 동기화, 템플릿 {변수} 하이라이트
+• 일부 앱에서 이미지 공유가 저장되지 않던 문제 수정
+
+App Store Summary (English)
+
+• Fixed the Control Center "Quick Note" button — capture from anywhere with one tap (re-add the button)
+• New Quick Note widgets for Lock Screen and Home Screen — tap to start capturing
+• Memos added from a category now stay in that category
+• Smoother reordering with keyboard order sync, template {variable} highlighting
+• Fixed images not saving when shared from some apps
