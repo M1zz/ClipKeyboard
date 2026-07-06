@@ -12,6 +12,7 @@ import SwiftUI
 struct ClipKeyboardWidgetBundle: WidgetBundle {
     var body: some Widget {
         FavoriteMemoWidget()
+        QuickNoteLockWidget()
         if #available(iOS 18.0, *) {
             QuickNoteControl()
         }

@@ -287,7 +287,20 @@ var localizedName: String {
 guard let imageData = image.jpegData(compressionQuality: 0.7) else { return }
 ```
 
-### 9. 다국어 지원 누락
+### 9. 제어센터 컨트롤(ControlWidget)에서 앱 열기
+```swift
+// ❌ BAD - iOS 26 SDK에서 deprecated, 조용히 무시됨
+static var openAppWhenRun: Bool = true
+
+// ✅ GOOD - iOS 26 방식 + 같은 인텐트 타입을 "앱 타겟에도" 반드시 포함
+static var supportedModes: IntentModes { .foreground }
+```
+- 포그라운드 인텐트는 **메인 앱 프로세스에서 실행**되므로 위젯 타겟에만 두면 탭이 조용히 무시됨
+- 위젯 측 `widget/QuickNoteControl.swift` ↔ 앱 측 `ClipKeyboard/QuickNoteControlIntent.swift` 타입명·동작 일치 유지
+- 인텐트 시그니처 변경 시 컨트롤 kind 도 새 문자열로 (죽은 컨트롤 캐시 방지)
+- 상세 기록: `docs/CONTROL_CENTER_APP_LAUNCH.md`
+
+### 10. 다국어 지원 누락
 ```swift
 // ❌ BAD - 하드코딩된 문자열
 Text("메모 추가")

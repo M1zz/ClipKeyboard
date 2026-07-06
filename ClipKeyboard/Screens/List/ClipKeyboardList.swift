@@ -736,10 +736,12 @@ struct ClipKeyboardList: View {
         let store = UserDefaults(suiteName: AppGroup.identifier)
         if store?.bool(forKey: DefaultsKey.pendingQuickNoteAdd) == true {
             store?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
+            print("🎛️ [ClipKeyboardList] 제어센터 보류 플래그 소비 → 빠른 메모 입력 시트")
             showQuickNoteAdd = true
         }
         if store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true {
             store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
+            print("🎛️ [ClipKeyboardList] 제어센터 보류 플래그 소비 → 보관함 열기")
             showInboxFromIntent = true
         }
     }

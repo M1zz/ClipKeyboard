@@ -5270,7 +5270,9 @@
         }
       }
     },
-    "English" : {},
+    "English" : {
+
+    },
     "Explaining your time, once." : {
       "comment" : "Usage category description — timezone",
       "extractionState" : "manual",
@@ -6333,6 +6335,7 @@
     },
     "Instagram DM (@lee25_ios)" : {
       "comment" : "About: instagram DM",
+      "extractionState" : "stale",
       "localizations" : {
         "id" : {
           "stringUnit" : {
@@ -11541,23 +11544,6 @@
         }
       }
     },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nilai"
-          }
-        }
-      }
-    },
     "가져오기 실패" : {
       "comment" : "Bulk import failed alert title\nImport failed",
       "localizations" : {
@@ -11600,6 +11586,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interval"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai"
           }
         }
       }
@@ -12746,17 +12749,6 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끔" : {
       "comment" : "Toggle state: off",
       "localizations" : {
@@ -12769,6 +12761,17 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -13159,6 +13162,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tempel di aplikasi lain"
+          }
+        }
+      }
+    },
+    "다른 카테고리 탭에서 순서 바꾸기를 열어 보세요" : {
+      "comment" : "Reorder empty state subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Reorder from another category tab"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka Ubah Urutan dari tab kategori lain"
           }
         }
       }
@@ -20576,6 +20596,23 @@
         }
       }
     },
+    "이 카테고리에는 순서를 바꿀 메모가 없어요" : {
+      "comment" : "Reorder empty state title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No memos to reorder in this category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada memo untuk diurutkan di kategori ini"
+          }
+        }
+      }
+    },
     "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다." : {
       "comment" : "Auto variable tip message",
       "localizations" : {
@@ -21356,23 +21393,6 @@
         }
       }
     },
-    "인식된 텍스트가 없어요" : {
-      "comment" : "OCR: no text recognized toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No text recognized"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tidak ada teks yang dikenali"
-          }
-        }
-      }
-    },
     "인스타그램 DM (@lee25_ios)" : {
       "comment" : "Instagram DM contact entry",
       "localizations" : {
@@ -21386,6 +21406,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "DM Instagram (@lee25_ios)"
+          }
+        }
+      }
+    },
+    "인식된 텍스트가 없어요" : {
+      "comment" : "OCR: no text recognized toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No text recognized"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada teks yang dikenali"
           }
         }
       }
@@ -22113,40 +22150,6 @@
         }
       }
     },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
-          }
-        }
-      }
-    },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
-          }
-        }
-      }
-    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -22167,6 +22170,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
+          }
+        }
+      }
+    },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
           }
         }
       }
@@ -22236,6 +22256,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장된 버전이 없습니다"
+          }
+        }
+      }
+    },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
           }
         }
       }
@@ -23769,40 +23806,6 @@
         }
       }
     },
-    "이 카테고리에는 순서를 바꿀 메모가 없어요" : {
-      "comment" : "Reorder empty state title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No memos to reorder in this category"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tidak ada memo untuk diurutkan di kategori ini"
-          }
-        }
-      }
-    },
-    "다른 카테고리 탭에서 순서 바꾸기를 열어 보세요" : {
-      "comment" : "Reorder empty state subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Reorder from another category tab"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buka Ubah Urutan dari tab kategori lain"
-          }
-        }
-      }
-    },
     "카드를 끌어 순서를 바꾸세요" : {
       "comment" : "Reorder mode hint",
       "localizations" : {
@@ -24140,23 +24143,6 @@
         }
       }
     },
-    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
-      "comment" : "Enable Korean input subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on to also type Korean on the keyboard"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
-          }
-        }
-      }
-    },
     "켬" : {
       "comment" : "Toggle state: on",
       "localizations" : {
@@ -24170,6 +24156,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "On"
+          }
+        }
+      }
+    },
+    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
+      "comment" : "Enable Korean input subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on to also type Korean on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
           }
         }
       }

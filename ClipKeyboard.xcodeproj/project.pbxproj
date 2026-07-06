@@ -52,6 +52,7 @@
 		QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000002 /* QuickNoteStore.swift */; };
 		QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */; };
 		QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */; };
+		QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */; };
 		QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000005 /* WhatsNewView.swift */; };
 		58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
 		58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
@@ -254,6 +255,7 @@
 		QKN0FILE0000000000000002 /* QuickNoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteStore.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteInboxView.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteAppIntents.swift; sourceTree = "<group>"; };
+		QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteControlIntent.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000005 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -557,6 +559,7 @@
 				759E1C51E0141D0101328417 /* AppNotification.swift */,
 				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
 				QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */,
+				QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */,
 			);
 			path = ClipKeyboard;
 			sourceTree = "<group>";
@@ -1107,6 +1110,7 @@
 				QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */,
 				QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */,
 				QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */,
+				QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */,
 				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,

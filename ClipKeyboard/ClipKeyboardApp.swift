@@ -7,6 +7,7 @@
 
 import SwiftUI
 import TipKit
+import WidgetKit
 // 키보드 ext에서는 Firebase 미사용 (KEYBOARD_EXTENSION 플래그로 제외)
 #if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
 import FirebaseCore
@@ -542,6 +543,14 @@ struct ClipKeyboardApp: App {
                     migrateSampleTemplateFlagsIfNeeded()
                     offerDemoSamplesToExistingUserIfNeeded()
                     offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
+
+                    // 제어센터 컨트롤 재등록 — 업데이트로 인텐트 타입이 바뀌어도
+                    // 이미 추가된 컨트롤이 죽은 채 남지 않게 런치마다 갱신한다.
+                    #if os(iOS) && !targetEnvironment(macCatalyst)
+                    if #available(iOS 18.0, *) {
+                        ControlCenter.shared.reloadAllControls()
+                    }
+                    #endif
 
                     // 자동 백업 서비스를 런치 시 초기화한다.
                     // (기존엔 iCloud 백업 화면을 열 때만 생성돼, 화면을 안 본 사용자는
