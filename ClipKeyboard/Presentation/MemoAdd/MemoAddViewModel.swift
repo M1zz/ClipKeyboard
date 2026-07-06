@@ -188,8 +188,12 @@ final class MemoAddViewModel: ObservableObject {
         if !insertedValue.isEmpty {
             value = insertedValue
 
-            // 클립보드에서 온 새로운 메모인 경우 자동 분류 수행
-            if editingMemo == nil || insertedCategory == "텍스트" {
+            if insertedCategory != "텍스트" {
+                // 명시적 카테고리로 진입(카테고리 추가 카드·템플릿으로 만들기 등) —
+                // 자동 분류로 덮어쓰지 않고 진입한 카테고리를 그대로 사용.
+                selectedCategory = insertedCategory
+            } else {
+                // 기본 카테고리로 진입한 경우만 자동 분류 수행 (클립보드에서 온 새 메모 등)
                 let classification = ClipboardClassificationService.shared.classify(content: insertedValue)
                 autoDetectedType = classification.type
                 autoDetectedConfidence = classification.confidence
@@ -645,7 +649,11 @@ final class MemoAddViewModel: ObservableObject {
             print("✅ [MemoAddViewModel] 클립보드에서 이미지를 가져왔습니다")
         }
         #endif
-        selectedCategory = "이미지"
+        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지 —
+        // 기본값("텍스트")일 때만 자동 설정. (determineFinalCategory의 재분류 규칙과 동일)
+        if selectedCategory == "텍스트" {
+            selectedCategory = "이미지"
+        }
         autoDetectedType = .image
         autoDetectedConfidence = 1.0
         persistImageHistory(history)
@@ -667,7 +675,11 @@ final class MemoAddViewModel: ObservableObject {
 
     private func acceptTextClipboardSuggestion(_ content: String, _ detectedType: ClipboardItemType) {
         value = content
-        selectedCategory = Constants.themeForClipboardType(detectedType)
+        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지 —
+        // 기본값("텍스트")일 때만 자동 분류로 대체. (determineFinalCategory의 재분류 규칙과 동일)
+        if selectedCategory == "텍스트" {
+            selectedCategory = Constants.themeForClipboardType(detectedType)
+        }
         autoDetectedType = detectedType
         autoDetectedConfidence = ClipboardClassificationService.shared.classify(content: content).confidence
         let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
