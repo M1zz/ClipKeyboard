@@ -1,3 +1,25 @@
+# ClipKeyboard 진행 상황
+
+## 🎯 마케팅 (2026-07-07 시작) — 상세: docs/MARKETING_PLAN_2026-07.md
+
+### Claude가 완료한 것
+- [x] 시장/경쟁/채널 리서치 (KR 4.7★/13리뷰, 최대 병목=리뷰 수, 차별화=구독 없음)
+- [x] 랜딩페이지 가격 오류 수정 (docs/index.html: ₩14,900 일시불 → 무료+Pro ₩17,000) — **커밋/푸시 대기**
+- [x] ASO 카피 팩 작성 (docs/ASO_2026-07.md)
+- [x] 한국 커뮤니티 포스트 4종 (docs/KR_COMMUNITY_POSTS.md)
+- [x] Product Hunt 런칭 킷 (docs/PRODUCT_HUNT_LAUNCH.md)
+- [x] Apple 피처링 신청서 (docs/APPLE_FEATURING_PITCH.md)
+
+### 사용자(leeo)가 해야 하는 것 — 우선순위: 글로벌 먼저 (2026-07-07 결정)
+- [ ] ASC 프로모션 텍스트 교체 (심사 불필요, 오늘 가능)
+- [ ] Apple 피처링 신청 제출 (10분)
+- [ ] 새 Offer Code 발급 (APRIL 만료됨) + 캠페인 링크 pt/ct 발급
+- [ ] 스크린샷 6종 + 데모 GIF 실기기 캡처 (ASO/PH/Reddit 공용 — 글로벌 런칭 블로커)
+- [ ] Product Hunt 런칭 → Reddit(r/digitalnomad, r/freelance) → Show HN
+- [ ] 이후 한국 커뮤니티 (디스콰이엇 → 루리웹 → 클리앙 → 뽐뿌, 각 1일+ 간격)
+
+---
+
 # ClipKeyboard 리팩토링 진행 상황
 
 ## Phase 1: Foundation (Storage + Repository) ✅ 완료
