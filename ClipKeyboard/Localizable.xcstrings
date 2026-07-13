@@ -28898,6 +28898,91 @@
           }
         }
       }
+    },
+    "새 피드백 알림" : {
+      "comment" : "Feedback inbox: push notification toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Feedback Alerts"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifikasi Masukan Baru"
+          }
+        }
+      }
+    },
+    "새 피드백이 접수되면 이 기기로 푸시 알림이 와요. CloudKit admin 역할의 read 권한 설정 후에 동작해요." : {
+      "comment" : "Feedback inbox: push notification footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get a push notification on this device when new feedback arrives. Works after the CloudKit admin role's read permission is set up."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dapatkan notifikasi push di perangkat ini saat masukan baru tiba. Berfungsi setelah izin baca peran admin CloudKit disiapkan."
+          }
+        }
+      }
+    },
+    "새 피드백이 도착했어요 📬" : {
+      "comment" : "New feedback push title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New feedback arrived 📬"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukan baru tiba 📬"
+          }
+        }
+      }
+    },
+    "사용자가 의견을 남겼어요. 인박스에서 확인해 보세요." : {
+      "comment" : "New feedback push body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A user left feedback. Check it in your inbox."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seorang pengguna meninggalkan masukan. Periksa di kotak masuk Anda."
+          }
+        }
+      }
+    },
+    "알림 권한이 꺼져 있어요. iOS 설정 > 클립키보드 > 알림에서 허용해 주세요." : {
+      "comment" : "Feedback notification permission denied",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are turned off. Please allow them in iOS Settings > ClipKeyboard > Notifications."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifikasi dimatikan. Izinkan di Pengaturan iOS > ClipKeyboard > Notifikasi."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -19,6 +19,16 @@ CloudKit 제출이 실패하면 기존 이메일(leeo@kakao.com) 경로로 폴�
 5. **완료 표시**: 오른쪽으로 스와이프 (status="done" 필드 기록, 완료 배지 표시)
    **삭제**: 왼쪽으로 스와이프 → 확인 알림 → 서버에서 영구 삭제
 
+## 새 피드백 푸시 알림 (개발자 기기)
+
+- 인박스 상단 **"새 피드백 알림"** 토글 ON → 알림 권한 요청 후 CloudKit
+  `CKQuerySubscription`(`feedback-new-v1`)이 Public DB에 등록된다.
+- 이후 **어떤 사용자가 피드백을 제출하든** 이 iCloud 계정의 기기로 푸시가 온다
+  ("새 피드백이 도착했어요 📬"). 구독은 서버에 저장돼 재설치해도 유지.
+- 전제 조건: admin 역할 **read** 권한 (구독 매칭에 필요) + 알림 권한 허용.
+- 앱 재실행 시 마스터 모드면 APNs 재등록을 자동 수행 (`ClipKeyboardApp`).
+- 끄기: 같은 토글 OFF → 구독 삭제.
+
 ## 접수된 피드백 확인 방법 ② — CloudKit Dashboard
 
 1. https://icloud.developer.apple.com 접속 → Apple Developer 계정 로그인

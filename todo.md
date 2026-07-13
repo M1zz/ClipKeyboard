@@ -17,6 +17,8 @@
   (`FeedbackInboxView`, CloudKit Public DB 조회 + userRecordName 복사 UI)
 - [x] 메모 심볼 기본 숨김 — 상시 노출되던 보안 자물쇠(그리드 카드·키보드 셀)를 구분 표시 토글 뒤로,
   설정 미리보기 좌상단 심볼도 토글 연동, showVisualCues 1회 강제 OFF 리셋(v4.3.6 정책, 구 승계 마이그레이션 폐기)
+- [x] 인박스 완료 표시(status=done)·삭제 스와이프 + 새 피드백 푸시 알림(CKQuerySubscription 토글)
+- [x] 4.3.6 릴리즈 노트 (docs/RELEASE_NOTES_4.3.6.md)
 
 ### 사용자(leeo)가 해야 하는 것 — CloudKit 피드백 1회 설정 (docs/FEEDBACK_CLOUDKIT.md)
 - [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성

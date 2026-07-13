@@ -590,6 +590,12 @@ struct ClipKeyboardApp: App {
                     // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
                     MemoSyncEngine.shared.startIfEnabled()
 
+                    // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
+                    // 프롬프트 없이 조용히 동작 — 알림 권한은 인박스 토글에서 요청한다.
+                    if UserDefaults.standard.bool(forKey: DefaultsKey.masterModeEnabled) {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
                         if !showDemoSampleOffer, ReviewManager.shared.shouldShowReview() {

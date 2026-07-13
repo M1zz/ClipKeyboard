@@ -20,6 +20,9 @@ struct FeedbackInboxView: View {
     @State private var userRecordName: String?
     @State private var didCopyId = false
     @State private var pendingDelete: FeedbackService.FeedbackRecord?
+    // 새 피드백 푸시 알림 (CKQuerySubscription — 서버 기준 상태)
+    @State private var notifyEnabled = false
+    @State private var notifyLoaded = false
 
     private var dateFormatter: DateFormatter {
         let f = DateFormatter()
@@ -30,6 +33,21 @@ struct FeedbackInboxView: View {
 
     var body: some View {
         List {
+            // 새 피드백 푸시 알림 토글
+            Section {
+                Toggle(isOn: Binding(
+                    get: { notifyEnabled },
+                    set: { setNotify($0) }
+                )) {
+                    Label(NSLocalizedString("새 피드백 알림", comment: "Feedback inbox: push notification toggle"),
+                          systemImage: "bell.badge")
+                }
+                .disabled(!notifyLoaded)
+            } footer: {
+                Text(NSLocalizedString("새 피드백이 접수되면 이 기기로 푸시 알림이 와요. CloudKit admin 역할의 read 권한 설정 후에 동작해요.", comment: "Feedback inbox: push notification footer"))
+                    .font(.body)
+            }
+
             if isLoading && records.isEmpty {
                 Section {
                     HStack(spacing: 10) {
@@ -191,11 +209,32 @@ struct FeedbackInboxView: View {
         if userRecordName == nil {
             userRecordName = await FeedbackService.shared.currentUserRecordName()
         }
+        if !notifyLoaded {
+            notifyEnabled = await FeedbackService.shared.isNewFeedbackNotificationEnabled()
+            notifyLoaded = true
+        }
         do {
             records = try await FeedbackService.shared.fetchAll()
         } catch {
             print("❌ [FeedbackInboxView.load] \(error)")
             errorMessage = String(format: NSLocalizedString("피드백을 불러오지 못했어요: %@", comment: "Feedback inbox load error"), error.localizedDescription)
+        }
+    }
+
+    /// 새 피드백 푸시 알림 켜기/끄기 — CKQuerySubscription 등록/해제.
+    private func setNotify(_ enabled: Bool) {
+        Task {
+            do {
+                if enabled {
+                    try await FeedbackService.shared.enableNewFeedbackNotifications()
+                } else {
+                    try await FeedbackService.shared.disableNewFeedbackNotifications()
+                }
+                notifyEnabled = enabled
+            } catch {
+                print("❌ [FeedbackInboxView.setNotify] \(error)")
+                errorMessage = String(format: NSLocalizedString("처리하지 못했어요: %@", comment: "Feedback inbox action error"), error.localizedDescription)
+            }
         }
     }
 
