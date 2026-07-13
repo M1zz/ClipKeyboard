@@ -32,12 +32,18 @@
 - [ ] Apple 피처링 신청 제출 (APPLE_FEATURING_PITCH.md) — 🙋 사용자 (10분)
 - [ ] 새 Offer Code 발급: 예) $2.99, 1,000회, 2주 (기존 APRIL 만료됨) — 🙋 사용자
 - [ ] 캠페인 링크 pt/ct 발급 (LAUNCH_TODO.md §1) — 🙋 사용자
-- [ ] Reddit 계정 카르마 점검 (300+ 권장, REDDIT_LAUNCH_POST.md 체크리스트) — 🙋 사용자
+- [x] Reddit 계정 카르마 점검 (2026-07-07 확인: u/Ok-Soil3152 = **카르마 43**, 계정 1년차) → **300+까지 카르마 쌓기 필요.** 계정 나이는 통과, 카르마가 갭. 런칭 전 2~3주간 r/digitalnomad·r/freelance·r/iOSProgramming에서 도움 되는 댓글 활동 (SEEDING-GUIDE.md 모니터링 키워드 활용). 홍보 링크 없이 순수 답변만.
 
 ### Week 2 — 에셋 제작 (글로벌 런칭 블로커)
 - [ ] 스크린샷 6종 리뉴얼 (ASO/PH 공용, ASO_2026-07.md 표 참조) — 🙋 사용자 (실기기 캡처)
 - [ ] 키보드 입력 데모 GIF (PH 썸네일 + Reddit 본문 공용)
 - [ ] 랜딩페이지(영문 모드)에 실기기 스크린샷 삽입 (현재 이모지뿐)
+
+### 게시 완료 (2026-07-07)
+- [x] **r/iOSApps App Shelf 메가스레드** 댓글 (ABC 형식, 개발자 신분 공개) — https://www.reddit.com/r/iosapps/comments/1ukpe7t/megathread_the_app_shelf_july_2026/
+  - 참고: r/iOSApps 메인 피드는 리뷰 20+(현재 ~15) 또는 실명+개인정보처리방침&**이용약관** 페이지 필요. 이용약관 페이지 만들면 Transparency 경로로 메인 피드 게시 가능
+- [x] **r/SideProject** 빌드 스토리 포스트 — https://www.reddit.com/r/SideProject/comments/1upncdc/i_almost_sent_a_client_my_bank_account_number/
+- [ ] r/AppHunt — 스팸 필터 회피 위해 **24시간 이후** 게시 (계정에 이전 게시 이력 있음)
 
 ### Week 3 — 글로벌 런칭
 - [ ] Product Hunt 런칭 (PRODUCT_HUNT_LAUNCH.md, 화~목 00:01 PT)
