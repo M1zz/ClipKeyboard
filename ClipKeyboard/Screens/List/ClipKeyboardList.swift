@@ -988,8 +988,8 @@ struct ClipKeyboardList: View {
                 Spacer(minLength: 16)
             }
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                // 보안 메모는 제목 왼쪽에 자물쇠 심볼로 표시.
-                if memo.isSecure {
+                // 보안 메모 자물쇠 — 구분 표시 ON일 때만 (기본은 심볼 없이 제목만).
+                if visualCuesVisible, memo.isSecure {
                     Image(systemName: AppSymbol.lockFill)
                         .font(.title3)
                         .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)

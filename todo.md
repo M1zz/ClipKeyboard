@@ -15,6 +15,8 @@
 - [x] String Catalog 38개 키 추가 (ko/en/id), pbxproj 등록, iOS 빌드+전체 테스트+macOS 빌드 통과
 - [x] 마스터(개발자) 모드 — 설정 > 앱 정보 > 버전 7번 탭 → 지원 섹션에 "접수된 피드백" 인박스
   (`FeedbackInboxView`, CloudKit Public DB 조회 + userRecordName 복사 UI)
+- [x] 메모 심볼 기본 숨김 — 상시 노출되던 보안 자물쇠(그리드 카드·키보드 셀)를 구분 표시 토글 뒤로,
+  설정 미리보기 좌상단 심볼도 토글 연동, showVisualCues 1회 강제 OFF 리셋(v4.3.6 정책, 구 승계 마이그레이션 폐기)
 
 ### 사용자(leeo)가 해야 하는 것 — CloudKit 피드백 1회 설정 (docs/FEEDBACK_CLOUDKIT.md)
 - [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성

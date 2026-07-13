@@ -477,14 +477,17 @@ struct DisplaySettingsView: View {
     private func previewCell(title: String, symbol: String, color: Color, plusTemplate: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
-                // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼, 같은 색·왼쪽 정렬)
-                Image(systemName: AppSymbol.docFill)
-                    .font(.title3)
-                    .foregroundColor(.white.opacity(0.9))
-                if plusTemplate {
-                    Image(systemName: AppSymbol.wandAndSparkles)
+                // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼) — 실제 카드와 동일하게
+                // 구분 표시 ON일 때만. 기본(OFF)은 심볼 없이 제목만.
+                if visible {
+                    Image(systemName: AppSymbol.docFill)
                         .font(.title3)
                         .foregroundColor(.white.opacity(0.9))
+                    if plusTemplate {
+                        Image(systemName: AppSymbol.wandAndSparkles)
+                            .font(.title3)
+                            .foregroundColor(.white.opacity(0.9))
+                    }
                 }
                 Spacer()
                 // 우상단: 카테고리 심볼

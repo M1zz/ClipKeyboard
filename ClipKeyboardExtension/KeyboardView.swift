@@ -1256,10 +1256,10 @@ struct KeyboardView: View {
                 )
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
-            // 메모 칸 안 텍스트는 제목. 보안 메모는 제목 앞에 자물쇠 심볼(앱과 동일, 항상 표시).
+            // 메모 칸 안 텍스트는 제목. 보안 메모 자물쇠는 구분 표시 ON일 때만(앱과 동일, 기본 숨김).
             // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
             HStack(spacing: 4) {
-                if memo.isSecure {
+                if visualCuesVisible, memo.isSecure {
                     Image(systemName: AppSymbol.lockFill)
                         .font(.system(size: buttonFontSize * 0.82, weight: .semibold))
                         .foregroundColor(theme.textMuted)

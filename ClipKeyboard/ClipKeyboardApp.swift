@@ -421,15 +421,17 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    /// 구 "카테고리 심볼" 토글(categoryBadgeVisible, standard UD)을 신 마스터 토글
-    /// showVisualCues(App Group)로 1회 승계. 켜둔 사용자는 계속 구분 표시가 보이도록.
+    /// v4.3.6 정책: 메모 심볼은 **기본 숨김** — showVisualCues를 1회 강제 OFF로 리셋한다.
+    /// 구 카테고리 심볼 토글(categoryBadgeVisible) 승계 마이그레이션이 일부 사용자에게
+    /// 심볼을 되살리던 문제를 함께 정리. 원하는 사용자는 설정 > 메모 표시에서 다시 켠다.
+    /// (iOS '색상 없이 구별' 접근성이 켜져 있으면 토글과 무관하게 계속 표시된다.)
     private func migrateVisualCuesIfNeeded() {
         let std = UserDefaults.standard
-        guard !std.bool(forKey: DefaultsKey.visualCuesMigratedV1) else { return }
-        if std.object(forKey: DefaultsKey.categoryBadgeVisible) as? Bool == true {
-            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.showVisualCues)
-        }
-        std.set(true, forKey: DefaultsKey.visualCuesMigratedV1)
+        guard !std.bool(forKey: DefaultsKey.visualCuesDefaultOffV436) else { return }
+        UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.showVisualCues)
+        std.set(true, forKey: DefaultsKey.visualCuesDefaultOffV436)
+        std.set(true, forKey: DefaultsKey.visualCuesMigratedV1)   // 구 승계 마이그레이션도 종료 처리
+        print("🔄 [APP MIGRATION] 메모 심볼 기본 숨김 리셋 완료 (v4.3.6)")
     }
 
     private func insertDefaultSamplesIfNeeded() {

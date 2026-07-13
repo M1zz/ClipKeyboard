@@ -58,6 +58,8 @@ enum DefaultsKey {
     static let userCategoryIconsV1 = "userCategoryIcons_v1"
     static let userDefinedCategoriesV1 = "userDefinedCategories_v1"
     static let visualCuesMigratedV1 = "visualCuesMigrated_v1"
+    /// v4.3.6 "메모 심볼 기본 숨김" 1회 리셋 플래그 (standard UD)
+    static let visualCuesDefaultOffV436 = "visualCuesDefaultOff_v436"
 
     // MARK: - Pro / 그랜드파더링 / 템플릿 (iOS·macOS 공유 — 이전엔 타겟별 중복 정의)
     static let proStatus = "clipkeyboard_is_pro"
