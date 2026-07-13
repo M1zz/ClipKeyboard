@@ -48,6 +48,10 @@ final class FeedbackService {
         let locale: String
         let platform: String
         let createdAt: Date?
+        /// 처리 상태 — "done"이면 완료 (개발자가 인박스에서 표시)
+        var status: String?
+
+        var isDone: Bool { status == "done" }
 
         init(_ record: CKRecord) {
             self.id = record.recordID.recordName
@@ -58,6 +62,7 @@ final class FeedbackService {
             self.locale = record["locale"] as? String ?? ""
             self.platform = record["platform"] as? String ?? ""
             self.createdAt = record.creationDate
+            self.status = record["status"] as? String
         }
     }
 
@@ -82,6 +87,23 @@ final class FeedbackService {
     func currentUserRecordName() async -> String? {
         let container = CKContainer(identifier: Self.containerIdentifier)
         return try? await container.userRecordID().recordName
+    }
+
+    /// 피드백 완료/미완료 표시 (서버 반영).
+    /// ⚠️ 다른 사용자의 레코드 수정이라 admin 역할에 **Write** 권한이 필요하다.
+    func setDone(recordName: String, done: Bool) async throws {
+        let db = CKContainer(identifier: Self.containerIdentifier).publicCloudDatabase
+        let record = try await db.record(for: CKRecord.ID(recordName: recordName))
+        record["status"] = done ? "done" : nil
+        _ = try await db.save(record)
+        print("✅ [FeedbackService.setDone] \(recordName) → done=\(done)")
+    }
+
+    /// 피드백 삭제 (서버 반영). admin 역할 Write 권한 필요.
+    func delete(recordName: String) async throws {
+        let db = CKContainer(identifier: Self.containerIdentifier).publicCloudDatabase
+        _ = try await db.deleteRecord(withID: CKRecord.ID(recordName: recordName))
+        print("🗑️ [FeedbackService.delete] \(recordName) 삭제")
     }
 
     /// 피드백을 Public DB에 제출한다. 실패 시 throw — 호출부에서 이메일 폴백 처리.

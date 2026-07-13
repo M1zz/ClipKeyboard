@@ -22,7 +22,8 @@
 - [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성
 - [ ] CloudKit Dashboard에서 인덱스(createdTimestamp Queryable+Sortable) 추가
 - [ ] Security Roles: _world는 Create만 (Read 제거)
-- [ ] admin 역할 생성 + Feedback Read 권한 + 내 userRecordName 추가 (앱 인박스에서 ID 복사 가능)
+- [ ] Feedback 인덱스: recordName Queryable + createdTimestamp Sortable (인박스 조회용)
+- [ ] admin 역할 생성 + Feedback **Read+Write** 권한 + 내 userRecordName 추가 (Write는 완료표시·삭제용)
 - [ ] Schema를 Production으로 배포
 - [ ] 실기기(iOS 26, Apple Intelligence 기기)에서 AI 분류/제안/번역 확인
 

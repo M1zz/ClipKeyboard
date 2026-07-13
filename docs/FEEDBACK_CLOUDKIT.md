@@ -11,10 +11,13 @@ CloudKit 제출이 실패하면 기존 이메일(leeo@kakao.com) 경로로 폴�
 3. 처음에는 권한 오류가 정상 — 다른 사용자의 레코드를 읽으려면 아래 1회 설정 필요:
    - 인박스 화면 하단의 **내 사용자 ID**를 탭해 복사
    - CloudKit Dashboard → Schema → Security Roles → **새 역할 `admin` 생성**
-   - `admin`에 Feedback 레코드 타입 **Read** 권한 부여
+   - `admin`에 Feedback 레코드 타입 **Read + Write** 권한 부여
+     (Read = 목록 조회, Write = 완료 표시·삭제)
    - Dashboard → Data → Users에서 복사한 userRecordName 검색 → `admin` 역할에 추가
    - 스키마를 Production으로 배포
 4. 이후 pull-to-refresh로 최신 피드백을 앱에서 바로 확인
+5. **완료 표시**: 오른쪽으로 스와이프 (status="done" 필드 기록, 완료 배지 표시)
+   **삭제**: 왼쪽으로 스와이프 → 확인 알림 → 서버에서 영구 삭제
 
 ## 접수된 피드백 확인 방법 ② — CloudKit Dashboard
 

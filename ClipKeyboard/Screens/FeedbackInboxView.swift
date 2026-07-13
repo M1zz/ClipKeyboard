@@ -19,6 +19,7 @@ struct FeedbackInboxView: View {
     @State private var errorMessage: String?
     @State private var userRecordName: String?
     @State private var didCopyId = false
+    @State private var pendingDelete: FeedbackService.FeedbackRecord?
 
     private var dateFormatter: DateFormatter {
         let f = DateFormatter()
@@ -57,9 +58,31 @@ struct FeedbackInboxView: View {
                 Section {
                     ForEach(records) { record in
                         recordRow(record)
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    toggleDone(record)
+                                } label: {
+                                    Label(record.isDone
+                                          ? NSLocalizedString("완료 해제", comment: "Feedback inbox: unmark done")
+                                          : NSLocalizedString("완료 표시", comment: "Feedback inbox: mark done"),
+                                          systemImage: record.isDone ? "arrow.uturn.backward" : "checkmark")
+                                }
+                                .tint(record.isDone ? .orange : .green)
+                            }
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    pendingDelete = record
+                                } label: {
+                                    Label(NSLocalizedString("삭제", comment: "Delete"), systemImage: AppSymbol.trash)
+                                }
+                            }
                     }
                 } header: {
-                    Text(String(format: NSLocalizedString("접수 %d건", comment: "Feedback inbox count header"), records.count))
+                    Text(String(format: NSLocalizedString("접수 %d건 · 완료 %d건", comment: "Feedback inbox count header (total, done)"),
+                                records.count, records.filter(\.isDone).count))
+                } footer: {
+                    Text(NSLocalizedString("왼쪽으로 밀면 삭제, 오른쪽으로 밀면 완료 표시. 완료/삭제는 CloudKit admin 역할에 쓰기 권한이 있어야 반영돼요.", comment: "Feedback inbox actions footer"))
+                        .font(.body)
                 }
             }
 
@@ -100,20 +123,44 @@ struct FeedbackInboxView: View {
         .solidNavBar(theme.bg)
         .refreshable { await load() }
         .task { await load() }
+        .alert(
+            NSLocalizedString("이 피드백을 삭제할까요?", comment: "Feedback inbox delete confirm title"),
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            )
+        ) {
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                if let record = pendingDelete { deleteRecord(record) }
+                pendingDelete = nil
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text(NSLocalizedString("서버에서 완전히 삭제되며 되돌릴 수 없어요.", comment: "Feedback inbox delete confirm message"))
+        }
     }
 
     private func recordRow(_ record: FeedbackService.FeedbackRecord) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 6) {
                 let type = FeedbackType(rawValue: record.type)
-                Image(systemName: type?.icon ?? "ellipsis.bubble")
+                Image(systemName: record.isDone ? AppSymbol.checkmarkCircleFill : (type?.icon ?? "ellipsis.bubble"))
                     .font(.caption)
-                    .foregroundColor(theme.accent)
+                    .foregroundColor(record.isDone ? .green : theme.accent)
                     .accessibilityHidden(true)
                 Text(type?.localizedName ?? record.type)
                     .font(.caption)
                     .fontWeight(.semibold)
-                    .foregroundColor(theme.accent)
+                    .foregroundColor(record.isDone ? theme.textMuted : theme.accent)
+                if record.isDone {
+                    Text(NSLocalizedString("완료", comment: "Feedback inbox: done badge"))
+                        .font(.caption2.weight(.semibold))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 1)
+                        .background(Color.green.opacity(0.15))
+                        .foregroundColor(.green)
+                        .clipShape(Capsule())
+                }
                 Spacer()
                 if let createdAt = record.createdAt {
                     Text(dateFormatter.string(from: createdAt))
@@ -124,7 +171,7 @@ struct FeedbackInboxView: View {
 
             Text(record.message)
                 .font(.body)
-                .foregroundColor(theme.text)
+                .foregroundColor(record.isDone ? theme.textMuted : theme.text)
                 .textSelection(.enabled)
 
             Text(record.deviceInfo.isEmpty
@@ -149,6 +196,34 @@ struct FeedbackInboxView: View {
         } catch {
             print("❌ [FeedbackInboxView.load] \(error)")
             errorMessage = String(format: NSLocalizedString("피드백을 불러오지 못했어요: %@", comment: "Feedback inbox load error"), error.localizedDescription)
+        }
+    }
+
+    /// 완료/미완료 토글 — 서버 반영 후 로컬 목록 갱신. 실패 시 에러 표시(권한 안내 포함).
+    private func toggleDone(_ record: FeedbackService.FeedbackRecord) {
+        Task {
+            do {
+                try await FeedbackService.shared.setDone(recordName: record.id, done: !record.isDone)
+                if let index = records.firstIndex(where: { $0.id == record.id }) {
+                    records[index].status = record.isDone ? nil : "done"
+                }
+            } catch {
+                print("❌ [FeedbackInboxView.toggleDone] \(error)")
+                errorMessage = String(format: NSLocalizedString("처리하지 못했어요: %@", comment: "Feedback inbox action error"), error.localizedDescription)
+            }
+        }
+    }
+
+    /// 서버에서 레코드 삭제 후 로컬 목록에서 제거.
+    private func deleteRecord(_ record: FeedbackService.FeedbackRecord) {
+        Task {
+            do {
+                try await FeedbackService.shared.delete(recordName: record.id)
+                records.removeAll { $0.id == record.id }
+            } catch {
+                print("❌ [FeedbackInboxView.deleteRecord] \(error)")
+                errorMessage = String(format: NSLocalizedString("처리하지 못했어요: %@", comment: "Feedback inbox action error"), error.localizedDescription)
+            }
         }
     }
 }
