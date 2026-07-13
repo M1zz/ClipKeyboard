@@ -980,8 +980,9 @@ struct KeyboardView: View {
             .background(theme.surface)
             .clipShape(Capsule())
             .overlay(
+                // 카테고리색 테두리 — 구분 표시 ON일 때만 (기본은 테두리 없이).
                 Capsule()
-                    .stroke((categoryColorFor(memo) ?? .clear).opacity(0.3), lineWidth: 1)
+                    .stroke(((visualCuesVisible ? categoryColorFor(memo) : nil) ?? .clear).opacity(0.3), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -1275,10 +1276,10 @@ struct KeyboardView: View {
             .padding(10)
         }
         .frame(height: buttonHeight)
-        // 모든 메모 칸에 기본 테두리 — 칸 경계가 또렷하게 보이도록.
+        // 메모 칸 기본 테두리 — 구분 표시 ON일 때만 (기본은 배경·그림자만으로 깔끔하게).
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusMd)
-                .strokeBorder(theme.divider, lineWidth: 1)
+                .strokeBorder(visualCuesVisible ? theme.divider : .clear, lineWidth: 1)
         )
         // 타입 구분 테두리(템플릿/콤보/보안) — 색맹 친화, 기본 테두리 위에 덧입힌다.
         .overlay(
