@@ -36,6 +36,54 @@ final class FeedbackService {
         }
     }
 
+    // MARK: - 개발자 인박스 (마스터 모드 전용)
+
+    /// 접수된 피드백 한 건 (조회용 read model)
+    struct FeedbackRecord: Identifiable {
+        let id: String
+        let type: String
+        let message: String
+        let deviceInfo: String
+        let appVersion: String
+        let locale: String
+        let platform: String
+        let createdAt: Date?
+
+        init(_ record: CKRecord) {
+            self.id = record.recordID.recordName
+            self.type = record["type"] as? String ?? "-"
+            self.message = record["message"] as? String ?? ""
+            self.deviceInfo = record["deviceInfo"] as? String ?? ""
+            self.appVersion = record["appVersion"] as? String ?? ""
+            self.locale = record["locale"] as? String ?? ""
+            self.platform = record["platform"] as? String ?? ""
+            self.createdAt = record.creationDate
+        }
+    }
+
+    /// 접수된 피드백 전체 조회 (최신순, 최대 limit개).
+    /// ⚠️ 개발자 계정 전용 — CloudKit Dashboard에서 admin 역할에 read 권한과
+    /// 본인 userRecordName을 등록해야 다른 사용자의 레코드를 읽을 수 있다.
+    func fetchAll(limit: Int = 100) async throws -> [FeedbackRecord] {
+        let container = CKContainer(identifier: Self.containerIdentifier)
+        let query = CKQuery(recordType: Self.recordType, predicate: NSPredicate(value: true))
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+
+        let (results, _) = try await container.publicCloudDatabase.records(
+            matching: query, resultsLimit: limit)
+        let records = results.compactMap { _, result in
+            (try? result.get()).map(FeedbackRecord.init)
+        }
+        print("📬 [FeedbackService.fetchAll] 피드백 \(records.count)건 로드")
+        return records
+    }
+
+    /// 현재 iCloud 계정의 CloudKit userRecordName — Dashboard admin 역할 등록에 필요.
+    func currentUserRecordName() async -> String? {
+        let container = CKContainer(identifier: Self.containerIdentifier)
+        return try? await container.userRecordID().recordName
+    }
+
     /// 피드백을 Public DB에 제출한다. 실패 시 throw — 호출부에서 이메일 폴백 처리.
     func submit(type: String, message: String, deviceInfo: String) async throws {
         let container = CKContainer(identifier: Self.containerIdentifier)

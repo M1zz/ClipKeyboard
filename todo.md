@@ -13,11 +13,14 @@
 - [x] `Service/FeedbackService.swift` — 피드백 CloudKit Public DB 직접 제출 (실패 시 이메일 폴백)
 - [x] 피드백 넛지 — 10회째 실행 첫 노출, 이후 40회 간격, "다시 보지 않기" 지원
 - [x] String Catalog 38개 키 추가 (ko/en/id), pbxproj 등록, iOS 빌드+전체 테스트+macOS 빌드 통과
+- [x] 마스터(개발자) 모드 — 설정 > 앱 정보 > 버전 7번 탭 → 지원 섹션에 "접수된 피드백" 인박스
+  (`FeedbackInboxView`, CloudKit Public DB 조회 + userRecordName 복사 UI)
 
 ### 사용자(leeo)가 해야 하는 것 — CloudKit 피드백 1회 설정 (docs/FEEDBACK_CLOUDKIT.md)
 - [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성
 - [ ] CloudKit Dashboard에서 인덱스(createdTimestamp Queryable+Sortable) 추가
 - [ ] Security Roles: _world는 Create만 (Read 제거)
+- [ ] admin 역할 생성 + Feedback Read 권한 + 내 userRecordName 추가 (앱 인박스에서 ID 복사 가능)
 - [ ] Schema를 Production으로 배포
 - [ ] 실기기(iOS 26, Apple Intelligence 기기)에서 AI 분류/제안/번역 확인
 

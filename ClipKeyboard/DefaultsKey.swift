@@ -71,6 +71,9 @@ enum DefaultsKey {
     static let userTimezone = "clipkeyboard_user_timezone"
     static let userCurrency = "clipkeyboard_user_currency"
 
+    /// 마스터(개발자) 모드 — 설정 > 앱 정보의 버전 행 7번 탭으로 토글 (standard UD)
+    static let masterModeEnabled = "masterModeEnabled"
+
     // MARK: - 피드백 넛지
     /// 피드백 넛지 "다시 보지 않기" (standard UD)
     static let feedbackNudgeOptOut = "feedbackNudgeOptOut"

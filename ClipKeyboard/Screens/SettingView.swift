@@ -19,6 +19,10 @@ struct SettingView: View {
     /// 기기 간 메모 동기화(실험적) — App Group에 저장해 엔진/맥과 공유.
     @AppStorage(DefaultsKey.memoSyncEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
     private var memoSyncEnabled: Bool = false
+    /// 마스터(개발자) 모드 — 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
+    @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
+    @State private var versionTapCount = 0
+    @State private var showMasterModeAlert = false
 
     private func refreshSecurePINState() {
         let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
@@ -291,6 +295,13 @@ struct SettingView: View {
                     Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                           systemImage: AppSymbol.envelopeBadge)
                 }
+                // 마스터(개발자) 모드 전용 — 접수된 피드백 인박스
+                if masterModeEnabled {
+                    NavigationLink(destination: FeedbackInboxView()) {
+                        Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
+                              systemImage: "tray.full")
+                    }
+                }
                 // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)
                 Link(destination: URL(string: "https://instagram.com/lee25_ios")!) {
                     Label(NSLocalizedString("인스타그램 DM (@lee25_ios)", comment: "Instagram DM contact entry"),
@@ -333,6 +344,8 @@ struct SettingView: View {
                     Spacer()
                     Text(appVersion).foregroundColor(.primary)
                 }
+                .contentShape(Rectangle())
+                .onTapGesture { handleVersionTap() }
             }
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
@@ -349,6 +362,28 @@ struct SettingView: View {
             KeyboardSetupOnboardingView { showKeyboardGuide = false }
                 .presentationDetents([.large])
         }
+        .alert(
+            masterModeEnabled
+                ? NSLocalizedString("개발자 모드가 켜졌어요", comment: "Master mode enabled alert")
+                : NSLocalizedString("개발자 모드가 꺼졌어요", comment: "Master mode disabled alert"),
+            isPresented: $showMasterModeAlert
+        ) {
+            Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { }
+        } message: {
+            if masterModeEnabled {
+                Text(NSLocalizedString("지원 섹션에 '접수된 피드백' 메뉴가 나타납니다.", comment: "Master mode enabled message"))
+            }
+        }
+    }
+
+    /// 버전 행 7번 탭 → 마스터(개발자) 모드 토글.
+    private func handleVersionTap() {
+        versionTapCount += 1
+        guard versionTapCount >= 7 else { return }
+        versionTapCount = 0
+        masterModeEnabled.toggle()
+        HapticManager.shared.light()
+        showMasterModeAlert = true
     }
 
     // 앱 버전 정보를 Info.plist에서 자동으로 가져오기

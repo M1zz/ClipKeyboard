@@ -3070,6 +3070,40 @@
         }
       }
     },
+    "AI 모델을 준비하고 있어요. 잠시 후 다시 시도해 주세요" : {
+      "comment" : "AI availability: model not ready",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The AI model is getting ready. Please try again soon"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model AI sedang disiapkan. Silakan coba lagi nanti"
+          }
+        }
+      }
+    },
+    "AI 스마트 분류" : {
+      "comment" : "AI classification toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI Smart Classification"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasifikasi Cerdas AI"
+          }
+        }
+      }
+    },
     "All categories will be deleted. Your memos are kept (they just won't have a category tab)." : {
       "comment" : "Remove all categories alert message",
       "localizations" : {
@@ -3282,6 +3316,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "밝기 모드"
+          }
+        }
+      }
+    },
+    "Apple Intelligence" : {
+      "comment" : "AI settings status row title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Intelligence"
           }
         }
       }
@@ -6148,6 +6199,23 @@
         }
       }
     },
+    "iCloud에 로그인되어 있지 않아요" : {
+      "comment" : "Feedback error: iCloud unavailable",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're not signed in to iCloud"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda belum masuk ke iCloud"
+          }
+        }
+      }
+    },
     "iCloud에 로그인하세요" : {
       "comment" : "iCloud login prompt",
       "localizations" : {
@@ -6445,6 +6513,23 @@
         }
       }
     },
+    "iOS 26 이상에서 사용할 수 있어요" : {
+      "comment" : "AI availability: OS not supported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available on iOS 26 or later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersedia di iOS 26 atau lebih baru"
+          }
+        }
+      }
+    },
     "iOS 구매 시 자동 연동" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -6500,6 +6585,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Go to iOS Settings app"
+          }
+        }
+      }
+    },
+    "iOS 설정에서 Apple Intelligence를 켜주세요" : {
+      "comment" : "AI availability: Apple Intelligence off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on Apple Intelligence in iOS Settings"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan Apple Intelligence di Pengaturan iOS"
           }
         }
       }
@@ -11559,17 +11661,6 @@
         }
       }
     },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import Complete"
-          }
-        }
-      }
-    },
     "간격" : {
       "comment" : "Interval label\nInterval picker label",
       "extractionState" : "stale",
@@ -11601,6 +11692,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nilai"
+          }
+        }
+      }
+    },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
           }
         }
       }
@@ -12483,6 +12585,23 @@
         }
       }
     },
+    "기본 번역 언어" : {
+      "comment" : "Default translation language picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default Translation Language"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bahasa Terjemahan Default"
+          }
+        }
+      }
+    },
     "기본 언어" : {
       "comment" : "Default language picker label",
       "localizations" : {
@@ -13181,6 +13300,23 @@
         }
       }
     },
+    "다시 보지 않기" : {
+      "comment" : "Feedback nudge: never show again",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't Show Again"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jangan Tampilkan Lagi"
+          }
+        }
+      }
+    },
     "다음" : {
       "comment" : "Next button\nNext field button in bottom bar",
       "localizations" : {
@@ -13283,6 +13419,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Berikutnya: %lld"
+          }
+        }
+      }
+    },
+    "다음에" : {
+      "comment" : "Feedback nudge: later",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti"
           }
         }
       }
@@ -14721,7 +14874,7 @@
       }
     },
     "메모로 저장" : {
-      "comment" : "Inline capture card: save as memo (one tap)\nSave to memo sheet title",
+      "comment" : "Inline capture card: save as memo (one tap)\nPaste target action: save as memo\nSave to memo sheet title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14898,6 +15051,40 @@
         }
       }
     },
+    "메시지 보내기" : {
+      "comment" : "Paste target action: send message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send Message"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirim Pesan"
+          }
+        }
+      }
+    },
+    "메일 쓰기" : {
+      "comment" : "Paste target action: compose mail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compose Mail"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tulis Email"
+          }
+        }
+      }
+    },
     "메일 앱을 열 수 없습니다" : {
       "comment" : "Mail unavailable alert title",
       "localizations" : {
@@ -14946,6 +15133,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Semua"
+          }
+        }
+      }
+    },
+    "모든 AI 처리는 기기 안에서만 이루어져요. 텍스트가 기기 밖으로 전송되지 않습니다." : {
+      "comment" : "AI on-device privacy footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All AI processing happens on your device. Your text never leaves it."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semua pemrosesan AI dilakukan di perangkat Anda. Teks Anda tidak pernah keluar dari perangkat."
           }
         }
       }
@@ -15917,6 +16121,108 @@
         }
       }
     },
+    "번역" : {
+      "comment" : "Suggested action: translate",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terjemahkan"
+          }
+        }
+      }
+    },
+    "번역 결과" : {
+      "comment" : "Translation: result label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translation"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasil Terjemahan"
+          }
+        }
+      }
+    },
+    "번역 언어" : {
+      "comment" : "Translation target language picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target Language"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bahasa Tujuan"
+          }
+        }
+      }
+    },
+    "번역 원문: %@" : {
+      "comment" : "Translation source hint prefix",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translated from: %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diterjemahkan dari: %@"
+          }
+        }
+      }
+    },
+    "번역 중…" : {
+      "comment" : "Translating progress label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translating…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menerjemahkan…"
+          }
+        }
+      }
+    },
+    "번역하지 못했어요. 잠시 후 다시 시도해 주세요." : {
+      "comment" : "Translation failed error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't translate. Please try again soon."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak dapat menerjemahkan. Silakan coba lagi nanti."
+          }
+        }
+      }
+    },
     "변경" : {
       "comment" : "Change PIN button\nChange image",
       "localizations" : {
@@ -16085,6 +16391,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Send"
+          }
+        }
+      }
+    },
+    "보내는 중…" : {
+      "comment" : "Sending feedback progress",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengirim…"
           }
         }
       }
@@ -16470,7 +16793,7 @@
       }
     },
     "복사" : {
-      "comment" : "Action: copy\nCopy",
+      "comment" : "Action: copy\nCopy\nCopy translation button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16549,6 +16872,23 @@
         }
       }
     },
+    "복사됨!" : {
+      "comment" : "Copied confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied!"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disalin!"
+          }
+        }
+      }
+    },
     "복사한 내용을 자동으로 저장하고 관리" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -16610,6 +16950,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+          }
+        }
+      }
+    },
+    "복사한 텍스트를 어디에 붙여넣을지 예측해서 메일 쓰기, 메시지 보내기, 웹 검색 같은 단축 액션을 제안해요." : {
+      "comment" : "AI paste target footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Predicts where you'll paste copied text and suggests shortcuts like composing mail, sending a message, or searching the web."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memprediksi ke mana Anda akan menempel teks dan menyarankan tindakan cepat seperti menulis email, mengirim pesan, atau mencari di web."
           }
         }
       }
@@ -16711,6 +17068,23 @@
         }
       }
     },
+    "붙여넣기 앱 제안" : {
+      "comment" : "AI paste target suggestion toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste Destination Suggestions"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saran Aplikasi Tempel"
+          }
+        }
+      }
+    },
     "붙여넣기 팝업 없애는 방법" : {
       "comment" : "Paste tip banner title",
       "localizations" : {
@@ -16765,6 +17139,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan konten yang akan ditempel. Untuk membuat kolom isian, bungkus nama variabel dengan kurung kurawal, mis. nama."
+          }
+        }
+      }
+    },
+    "브라우저에서 열기" : {
+      "comment" : "Suggested action: open in browser",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in Browser"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka di Browser"
           }
         }
       }
@@ -16963,6 +17354,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gunakan"
+          }
+        }
+      }
+    },
+    "사용 가능" : {
+      "comment" : "AI availability: available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersedia"
           }
         }
       }
@@ -20296,6 +20704,40 @@
         }
       }
     },
+    "원문" : {
+      "comment" : "Translation: source text label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teks Asli"
+          }
+        }
+      }
+    },
+    "웹 검색" : {
+      "comment" : "Paste target action: web search",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search the Web"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cari di Web"
+          }
+        }
+      }
+    },
     "위로 이동" : {
       "comment" : "Move combo value up",
       "extractionState" : "stale",
@@ -20423,6 +20865,23 @@
         }
       }
     },
+    "의견 남기기" : {
+      "comment" : "Feedback nudge: leave feedback",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave Feedback"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinggalkan Masukan"
+          }
+        }
+      }
+    },
     "이 값을 수정합니다" : {
       "comment" : "Edit value button hint",
       "localizations" : {
@@ -20436,6 +20895,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Edit this value."
+          }
+        }
+      }
+    },
+    "이 기기는 Apple Intelligence를 지원하지 않아요" : {
+      "comment" : "AI availability: device not eligible",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This device doesn't support Apple Intelligence"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perangkat ini tidak mendukung Apple Intelligence"
           }
         }
       }
@@ -22148,6 +22624,23 @@
         }
       }
     },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
+          }
+        }
+      }
+    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -22168,23 +22661,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
           }
         }
       }
@@ -22391,6 +22867,23 @@
         }
       }
     },
+    "전송에 실패했어요" : {
+      "comment" : "Feedback error: save failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to send"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gagal mengirim"
+          }
+        }
+      }
+    },
     "전역 단축키" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -22589,6 +23082,23 @@
         }
       }
     },
+    "전화 걸기" : {
+      "comment" : "Suggested action: call",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Call"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telepon"
+          }
+        }
+      }
+    },
     "전화번호" : {
       "comment" : "Phone Number",
       "localizations" : {
@@ -22648,6 +23158,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Collapsed"
+          }
+        }
+      }
+    },
+    "정규식으로 확신하기 어려운 클립보드 항목(주소, 이름, 송장번호 등)을 온디바이스 AI가 다시 분류해요." : {
+      "comment" : "AI classification footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On-device AI re-classifies clipboard items that pattern matching can't identify confidently (addresses, names, tracking numbers, and more)."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI di perangkat mengklasifikasi ulang item papan klip yang sulit diidentifikasi (alamat, nama, nomor resi, dll.)."
           }
         }
       }
@@ -23116,6 +23643,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Add now"
+          }
+        }
+      }
+    },
+    "지도에서 보기" : {
+      "comment" : "Suggested action: open in maps",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in Maps"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka di Peta"
           }
         }
       }
@@ -24095,6 +24639,23 @@
         }
       }
     },
+    "캘린더 열기" : {
+      "comment" : "Paste target action: open calendar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Calendar"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka Kalender"
+          }
+        }
+      }
+    },
     "커스텀" : {
       "comment" : "Category section: custom",
       "localizations" : {
@@ -24314,6 +24875,23 @@
         }
       }
     },
+    "클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요." : {
+      "comment" : "AI settings entry footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI clipboard classification, paste destination suggestions, and translation. Everything is processed on your device."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klasifikasi AI papan klip, saran aplikasi tempel, dan terjemahan. Semua diproses di perangkat Anda."
+          }
+        }
+      }
+    },
     "클립보드 감지" : {
       "comment" : "Clipboard detected",
       "localizations" : {
@@ -24465,6 +25043,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tidak ada riwayat clipboard"
+          }
+        }
+      }
+    },
+    "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 번역은 무료이며 오프라인에서도 동작해요." : {
+      "comment" : "AI translation footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapping 'Translate' on a clipboard text item translates it into this language. Translation is free and works offline."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengetuk 'Terjemahkan' pada item teks papan klip akan menerjemahkannya ke bahasa ini. Terjemahan gratis dan berfungsi offline."
           }
         }
       }
@@ -25564,6 +26159,23 @@
         }
       }
     },
+    "탭하면 개발자에게 바로 전송됩니다" : {
+      "comment" : "Send button enabled hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to send directly to the developer"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk mengirim langsung ke pengembang"
+          }
+        }
+      }
+    },
     "탭하면 그 시점의 메모 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요." : {
       "comment" : "Memo history footer",
       "localizations" : {
@@ -25612,6 +26224,7 @@
     },
     "탭하면 메일 앱으로 전송됩니다" : {
       "comment" : "Send button enabled hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27056,6 +27669,23 @@
         }
       }
     },
+    "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요." : {
+      "comment" : "Feedback nudge message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tell us what you need or what's inconvenient — the developer reads every message and will make it right."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beri tahu fitur yang Anda butuhkan atau ketidaknyamanan yang Anda alami — pengembang membaca setiap pesan dan pasti akan menindaklanjutinya."
+          }
+        }
+      }
+    },
     "필터 초기화" : {
       "comment" : "Reset filter",
       "localizations" : {
@@ -27474,6 +28104,23 @@
         }
       }
     },
+    "혹시 불편한 점이 있으세요?" : {
+      "comment" : "Feedback nudge title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anything bothering you?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ada yang mengganggu Anda?"
+          }
+        }
+      }
+    },
     "홍길동" : {
       "comment" : "Name placeholder",
       "localizations" : {
@@ -27824,648 +28471,206 @@
         }
       }
     },
-    "사용 가능" : {
-      "comment" : "AI availability: available",
+    "접수된 피드백" : {
+      "comment" : "Feedback inbox title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Available"
+            "value" : "Received Feedback"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tersedia"
+            "value" : "Masukan Diterima"
           }
         }
       }
     },
-    "iOS 26 이상에서 사용할 수 있어요" : {
-      "comment" : "AI availability: OS not supported",
+    "접수된 피드백 (개발자)" : {
+      "comment" : "Feedback inbox settings entry (developer)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Available on iOS 26 or later"
+            "value" : "Received Feedback (Developer)"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tersedia di iOS 26 atau lebih baru"
+            "value" : "Masukan Diterima (Pengembang)"
           }
         }
       }
     },
-    "이 기기는 Apple Intelligence를 지원하지 않아요" : {
-      "comment" : "AI availability: device not eligible",
+    "불러오는 중…" : {
+      "comment" : "Feedback inbox loading",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This device doesn't support Apple Intelligence"
+            "value" : "Loading…"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Perangkat ini tidak mendukung Apple Intelligence"
+            "value" : "Memuat…"
           }
         }
       }
     },
-    "iOS 설정에서 Apple Intelligence를 켜주세요" : {
-      "comment" : "AI availability: Apple Intelligence off",
+    "아직 접수된 피드백이 없어요" : {
+      "comment" : "Feedback inbox empty",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turn on Apple Intelligence in iOS Settings"
+            "value" : "No feedback received yet"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktifkan Apple Intelligence di Pengaturan iOS"
+            "value" : "Belum ada masukan yang diterima"
           }
         }
       }
     },
-    "AI 모델을 준비하고 있어요. 잠시 후 다시 시도해 주세요" : {
-      "comment" : "AI availability: model not ready",
+    "접수 %d건" : {
+      "comment" : "Feedback inbox count header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The AI model is getting ready. Please try again soon"
+            "value" : "%d received"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model AI sedang disiapkan. Silakan coba lagi nanti"
+            "value" : "%d diterima"
           }
         }
       }
     },
-    "메일 쓰기" : {
-      "comment" : "Paste target action: compose mail",
+    "피드백을 불러오지 못했어요: %@" : {
+      "comment" : "Feedback inbox load error",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compose Mail"
+            "value" : "Couldn't load feedback: %@"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tulis Email"
+            "value" : "Tidak dapat memuat masukan: %@"
           }
         }
       }
     },
-    "메시지 보내기" : {
-      "comment" : "Paste target action: send message",
+    "권한 오류라면 CloudKit Dashboard에서 admin 역할에 read 권한과 아래 사용자 ID를 등록했는지 확인하세요." : {
+      "comment" : "Feedback inbox permission hint",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Send Message"
+            "value" : "If this is a permission error, check that the admin role in CloudKit Dashboard has read permission and includes your user ID below."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kirim Pesan"
+            "value" : "Jika ini kesalahan izin, pastikan peran admin di CloudKit Dashboard memiliki izin baca dan menyertakan ID pengguna Anda di bawah."
           }
         }
       }
     },
-    "캘린더 열기" : {
-      "comment" : "Paste target action: open calendar",
+    "내 사용자 ID" : {
+      "comment" : "Feedback inbox: my user record id header",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Calendar"
+            "value" : "My User ID"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buka Kalender"
+            "value" : "ID Pengguna Saya"
           }
         }
       }
     },
-    "웹 검색" : {
-      "comment" : "Paste target action: web search",
+    "CloudKit Dashboard의 admin 역할에 이 ID를 추가하면 앱에서 모든 피드백을 읽을 수 있어요. 탭하면 복사됩니다." : {
+      "comment" : "Feedback inbox: user record id footer",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search the Web"
+            "value" : "Add this ID to the admin role in CloudKit Dashboard to read all feedback in the app. Tap to copy."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cari di Web"
+            "value" : "Tambahkan ID ini ke peran admin di CloudKit Dashboard untuk membaca semua masukan di aplikasi. Ketuk untuk menyalin."
           }
         }
       }
     },
-    "번역하지 못했어요. 잠시 후 다시 시도해 주세요." : {
-      "comment" : "Translation failed error",
+    "개발자 모드가 켜졌어요" : {
+      "comment" : "Master mode enabled alert",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Couldn't translate. Please try again soon."
+            "value" : "Developer mode is on"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tidak dapat menerjemahkan. Silakan coba lagi nanti."
+            "value" : "Mode pengembang aktif"
           }
         }
       }
     },
-    "iCloud에 로그인되어 있지 않아요" : {
-      "comment" : "Feedback error: iCloud unavailable",
+    "개발자 모드가 꺼졌어요" : {
+      "comment" : "Master mode disabled alert",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You're not signed in to iCloud"
+            "value" : "Developer mode is off"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anda belum masuk ke iCloud"
+            "value" : "Mode pengembang nonaktif"
           }
         }
       }
     },
-    "전송에 실패했어요" : {
-      "comment" : "Feedback error: save failed",
+    "지원 섹션에 '접수된 피드백' 메뉴가 나타납니다." : {
+      "comment" : "Master mode enabled message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Failed to send"
+            "value" : "A 'Received Feedback' menu appears in the Support section."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gagal mengirim"
-          }
-        }
-      }
-    },
-    "브라우저에서 열기" : {
-      "comment" : "Suggested action: open in browser",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open in Browser"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buka di Browser"
-          }
-        }
-      }
-    },
-    "전화 걸기" : {
-      "comment" : "Suggested action: call",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Call"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telepon"
-          }
-        }
-      }
-    },
-    "지도에서 보기" : {
-      "comment" : "Suggested action: open in maps",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open in Maps"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Buka di Peta"
-          }
-        }
-      }
-    },
-    "번역" : {
-      "comment" : "Suggested action: translate",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translate"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terjemahkan"
-          }
-        }
-      }
-    },
-    "원문" : {
-      "comment" : "Translation: source text label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Original"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teks Asli"
-          }
-        }
-      }
-    },
-    "번역 언어" : {
-      "comment" : "Translation target language picker",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Target Language"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bahasa Tujuan"
-          }
-        }
-      }
-    },
-    "번역 중…" : {
-      "comment" : "Translating progress label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translating…"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menerjemahkan…"
-          }
-        }
-      }
-    },
-    "번역 결과" : {
-      "comment" : "Translation: result label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translation"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hasil Terjemahan"
-          }
-        }
-      }
-    },
-    "번역 원문: %@" : {
-      "comment" : "Translation source hint prefix",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translated from: %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diterjemahkan dari: %@"
-          }
-        }
-      }
-    },
-    "복사됨!" : {
-      "comment" : "Copied confirmation",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copied!"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Disalin!"
-          }
-        }
-      }
-    },
-    "Apple Intelligence" : {
-      "comment" : "AI settings status row title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple Intelligence"
-          }
-        }
-      }
-    },
-    "모든 AI 처리는 기기 안에서만 이루어져요. 텍스트가 기기 밖으로 전송되지 않습니다." : {
-      "comment" : "AI on-device privacy footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All AI processing happens on your device. Your text never leaves it."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semua pemrosesan AI dilakukan di perangkat Anda. Teks Anda tidak pernah keluar dari perangkat."
-          }
-        }
-      }
-    },
-    "AI 스마트 분류" : {
-      "comment" : "AI classification toggle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI Smart Classification"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasifikasi Cerdas AI"
-          }
-        }
-      }
-    },
-    "정규식으로 확신하기 어려운 클립보드 항목(주소, 이름, 송장번호 등)을 온디바이스 AI가 다시 분류해요." : {
-      "comment" : "AI classification footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On-device AI re-classifies clipboard items that pattern matching can't identify confidently (addresses, names, tracking numbers, and more)."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI di perangkat mengklasifikasi ulang item papan klip yang sulit diidentifikasi (alamat, nama, nomor resi, dll.)."
-          }
-        }
-      }
-    },
-    "붙여넣기 앱 제안" : {
-      "comment" : "AI paste target suggestion toggle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paste Destination Suggestions"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saran Aplikasi Tempel"
-          }
-        }
-      }
-    },
-    "복사한 텍스트를 어디에 붙여넣을지 예측해서 메일 쓰기, 메시지 보내기, 웹 검색 같은 단축 액션을 제안해요." : {
-      "comment" : "AI paste target footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Predicts where you'll paste copied text and suggests shortcuts like composing mail, sending a message, or searching the web."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memprediksi ke mana Anda akan menempel teks dan menyarankan tindakan cepat seperti menulis email, mengirim pesan, atau mencari di web."
-          }
-        }
-      }
-    },
-    "기본 번역 언어" : {
-      "comment" : "Default translation language picker",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default Translation Language"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bahasa Terjemahan Default"
-          }
-        }
-      }
-    },
-    "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 번역은 무료이며 오프라인에서도 동작해요." : {
-      "comment" : "AI translation footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tapping 'Translate' on a clipboard text item translates it into this language. Translation is free and works offline."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mengetuk 'Terjemahkan' pada item teks papan klip akan menerjemahkannya ke bahasa ini. Terjemahan gratis dan berfungsi offline."
-          }
-        }
-      }
-    },
-    "클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요." : {
-      "comment" : "AI settings entry footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "AI clipboard classification, paste destination suggestions, and translation. Everything is processed on your device."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Klasifikasi AI papan klip, saran aplikasi tempel, dan terjemahan. Semua diproses di perangkat Anda."
-          }
-        }
-      }
-    },
-    "혹시 불편한 점이 있으세요?" : {
-      "comment" : "Feedback nudge title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anything bothering you?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ada yang mengganggu Anda?"
-          }
-        }
-      }
-    },
-    "의견 남기기" : {
-      "comment" : "Feedback nudge: leave feedback",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leave Feedback"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tinggalkan Masukan"
-          }
-        }
-      }
-    },
-    "다음에" : {
-      "comment" : "Feedback nudge: later",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Later"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nanti"
-          }
-        }
-      }
-    },
-    "다시 보지 않기" : {
-      "comment" : "Feedback nudge: never show again",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Don't Show Again"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jangan Tampilkan Lagi"
-          }
-        }
-      }
-    },
-    "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요." : {
-      "comment" : "Feedback nudge message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tell us what you need or what's inconvenient — the developer reads every message and will make it right."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beri tahu fitur yang Anda butuhkan atau ketidaknyamanan yang Anda alami — pengembang membaca setiap pesan dan pasti akan menindaklanjutinya."
-          }
-        }
-      }
-    },
-    "보내는 중…" : {
-      "comment" : "Sending feedback progress",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sending…"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mengirim…"
-          }
-        }
-      }
-    },
-    "탭하면 개발자에게 바로 전송됩니다" : {
-      "comment" : "Send button enabled hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to send directly to the developer"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk untuk mengirim langsung ke pengembang"
+            "value" : "Menu 'Masukan Diterima' muncul di bagian Dukungan."
           }
         }
       }

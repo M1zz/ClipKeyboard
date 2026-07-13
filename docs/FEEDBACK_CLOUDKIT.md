@@ -4,7 +4,19 @@
 **CloudKit Public Database**에 `Feedback` 레코드로 저장된다. 메일 앱 없이도 동작하며,
 CloudKit 제출이 실패하면 기존 이메일(leeo@kakao.com) 경로로 폴백한다.
 
-## 접수된 피드백 확인 방법 (개발자)
+## 접수된 피드백 확인 방법 ① — 앱 안에서 (마스터 모드, 권장)
+
+1. 설정 → **앱 정보 → 버전 행을 7번 탭** → "개발자 모드가 켜졌어요"
+2. 설정 → 지원 → **접수된 피드백 (개발자)** 진입 (`Screens/FeedbackInboxView.swift`)
+3. 처음에는 권한 오류가 정상 — 다른 사용자의 레코드를 읽으려면 아래 1회 설정 필요:
+   - 인박스 화면 하단의 **내 사용자 ID**를 탭해 복사
+   - CloudKit Dashboard → Schema → Security Roles → **새 역할 `admin` 생성**
+   - `admin`에 Feedback 레코드 타입 **Read** 권한 부여
+   - Dashboard → Data → Users에서 복사한 userRecordName 검색 → `admin` 역할에 추가
+   - 스키마를 Production으로 배포
+4. 이후 pull-to-refresh로 최신 피드백을 앱에서 바로 확인
+
+## 접수된 피드백 확인 방법 ② — CloudKit Dashboard
 
 1. https://icloud.developer.apple.com 접속 → Apple Developer 계정 로그인
 2. 컨테이너 **iCloud.com.Ysoup.TokenMemo** 선택
