@@ -1,5 +1,28 @@
 # ClipKeyboard 진행 상황
 
+## 🤖 v4.3.6 — Apple Intelligence + CloudKit 피드백 (2026-07-14)
+
+### Claude가 완료한 것
+- [x] 버전 4.3.6으로 상향 (Version.xcconfig)
+- [x] `Service/AppleIntelligenceService.swift` — Foundation Models(온디바이스 AI, iOS 26+) 래퍼
+  - AI 클립보드 재분류 (정규식 신뢰도 <0.7 항목, tags "ai"로 재분류 방지, 세션당 최대 10개)
+  - "붙여넣을 앱" 예측 (mail/messages/calendar/webSearch/notes)
+  - 온디바이스 번역 (16개 언어, 무료/오프라인)
+- [x] `Screens/Component/AIComponents.swift` — 단축 액션 칩(타입 기반 + AI 예측) + 번역 시트
+- [x] `Screens/AISettingsView.swift` — 설정 > Apple Intelligence (토글 2종 + 기본 번역 언어)
+- [x] `Service/FeedbackService.swift` — 피드백 CloudKit Public DB 직접 제출 (실패 시 이메일 폴백)
+- [x] 피드백 넛지 — 10회째 실행 첫 노출, 이후 40회 간격, "다시 보지 않기" 지원
+- [x] String Catalog 38개 키 추가 (ko/en/id), pbxproj 등록, iOS 빌드+전체 테스트+macOS 빌드 통과
+
+### 사용자(leeo)가 해야 하는 것 — CloudKit 피드백 1회 설정 (docs/FEEDBACK_CLOUDKIT.md)
+- [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성
+- [ ] CloudKit Dashboard에서 인덱스(createdTimestamp Queryable+Sortable) 추가
+- [ ] Security Roles: _world는 Create만 (Read 제거)
+- [ ] Schema를 Production으로 배포
+- [ ] 실기기(iOS 26, Apple Intelligence 기기)에서 AI 분류/제안/번역 확인
+
+---
+
 ## 🎯 마케팅 (2026-07-07 시작) — 상세: docs/MARKETING_PLAN_2026-07.md
 
 ### Claude가 완료한 것

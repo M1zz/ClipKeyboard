@@ -198,6 +198,17 @@ struct SettingView: View {
                 }
             }
 
+            // MARK: Apple Intelligence (온디바이스 AI, iOS 26+)
+            Section {
+                NavigationLink(destination: AISettingsView()) {
+                    Label(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"),
+                          systemImage: AppSymbol.sparkles)
+                }
+            } footer: {
+                Text(NSLocalizedString("클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요.", comment: "AI settings entry footer"))
+                    .font(.body)
+            }
+
             // MARK: 데이터 & 보안
             // 실제 앱 동작에 영향을 주는 설정
             Section(NSLocalizedString("데이터 & 보안", comment: "Settings section: data and security")) {

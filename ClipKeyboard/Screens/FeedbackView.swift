@@ -47,6 +47,7 @@ struct FeedbackView: View {
     @State private var message: String = ""
     @State private var showMailFallback = false
     @State private var didSend = false
+    @State private var isSending = false
 
     private let deviceInfo: String = {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "-"
@@ -207,11 +208,18 @@ struct FeedbackView: View {
     // MARK: - Send Button
 
     private var sendButton: some View {
-        let isDisabled = message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let isDisabled = message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSending
         return Button(action: sendFeedback) {
             HStack(spacing: 8) {
-                Image(systemName: AppSymbol.paperplaneFill)
-                Text(NSLocalizedString("보내기", comment: "Send feedback button"))
+                if isSending {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Image(systemName: AppSymbol.paperplaneFill)
+                }
+                Text(isSending
+                     ? NSLocalizedString("보내는 중…", comment: "Sending feedback progress")
+                     : NSLocalizedString("보내기", comment: "Send feedback button"))
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: .infinity)
@@ -224,7 +232,7 @@ struct FeedbackView: View {
         .accessibilityLabel(NSLocalizedString("피드백 보내기", comment: "Send feedback a11y label"))
         .accessibilityHint(isDisabled
             ? NSLocalizedString("내용을 입력하면 활성화됩니다", comment: "Send button disabled hint")
-            : NSLocalizedString("탭하면 메일 앱으로 전송됩니다", comment: "Send button enabled hint"))
+            : NSLocalizedString("탭하면 개발자에게 바로 전송됩니다", comment: "Send button enabled hint"))
     }
 
     // MARK: - Sent Confirmation Overlay
@@ -249,7 +257,32 @@ struct FeedbackView: View {
 
     // MARK: - Send Logic
 
+    /// 1차: CloudKit Public DB로 직접 제출 (메일 앱 불필요, iCloud 로그인만 필요).
+    /// 실패 시 폴백: 기존 이메일 경로.
     private func sendFeedback() {
+        isSending = true
+        Task {
+            do {
+                try await FeedbackService.shared.submit(
+                    type: selectedType.rawValue,
+                    message: message,
+                    deviceInfo: deviceInfo
+                )
+                await MainActor.run {
+                    isSending = false
+                    handleSent()
+                }
+            } catch {
+                print("⚠️ [FeedbackView.sendFeedback] CloudKit 제출 실패 → 이메일 폴백: \(error)")
+                await MainActor.run {
+                    isSending = false
+                    sendViaEmail()
+                }
+            }
+        }
+    }
+
+    private func sendViaEmail() {
         let body = buildEmailBody()
         #if os(iOS)
         if EmailController.canSendMail {

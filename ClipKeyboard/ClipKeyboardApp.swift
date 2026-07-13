@@ -28,6 +28,10 @@ struct ClipKeyboardApp: App {
     private let restoreHintShownKey = "restoreHintShown_v1"
     /// 업데이트 후 "새로운 기능"(빠른 메모) 시트를 1회 노출
     @State private var showWhatsNew = false
+    /// 가끔 "불편한 점 남겨주세요" 피드백 넛지 (10회째 실행 첫 노출, 이후 40회 간격)
+    @State private var showFeedbackNudge = false
+    /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
+    @State private var showFeedbackSheet = false
 
     /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -156,6 +160,29 @@ struct ClipKeyboardApp: App {
 
         defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
         showWhatsNew = true
+    }
+
+    // MARK: - Feedback Nudge (가끔 의견 요청)
+
+    /// 사용자에게 가끔 "불편한 점/필요한 기능을 남겨주세요"를 묻는다.
+    /// - 10회째 실행에서 처음, 이후 40회 실행 간격으로 노출
+    /// - "다시 보지 않기"를 누르면 영구 중단
+    /// - 다른 모달(리뷰 요청·What's New 등)이 떠 있으면 양보한다
+    private func maybeShowFeedbackNudge() {
+        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+        let defaults = UserDefaults.standard
+        guard !defaults.bool(forKey: DefaultsKey.feedbackNudgeOptOut) else { return }
+
+        let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
+        let lastShown = defaults.integer(forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
+        let due = (lastShown == 0 && launchCount >= 10)
+            || (lastShown > 0 && launchCount - lastShown >= 40)
+        guard due else { return }
+        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest,
+              !showWhatsNew, !showFeedbackNudge else { return }
+
+        defaults.set(launchCount, forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
+        showFeedbackNudge = true
     }
 
     // MARK: - Default Sample Data
@@ -575,6 +602,10 @@ struct ClipKeyboardApp: App {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                         maybeShowWhatsNew()
                     }
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                        maybeShowFeedbackNudge()
+                    }
                 }
                 .onReceive(
                     NotificationCenter.default.publisher(
@@ -626,6 +657,23 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
+                }
+                .alert(
+                    NSLocalizedString("혹시 불편한 점이 있으세요?", comment: "Feedback nudge title"),
+                    isPresented: $showFeedbackNudge
+                ) {
+                    Button(NSLocalizedString("의견 남기기", comment: "Feedback nudge: leave feedback")) {
+                        showFeedbackSheet = true
+                    }
+                    Button(NSLocalizedString("다음에", comment: "Feedback nudge: later"), role: .cancel) { }
+                    Button(NSLocalizedString("다시 보지 않기", comment: "Feedback nudge: never show again")) {
+                        UserDefaults.standard.set(true, forKey: DefaultsKey.feedbackNudgeOptOut)
+                    }
+                } message: {
+                    Text(NSLocalizedString("필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.", comment: "Feedback nudge message"))
+                }
+                .sheet(isPresented: $showFeedbackSheet) {
+                    FeedbackView()
                 }
                 .sheet(isPresented: $showWhatsNew) {
                     WhatsNewView(

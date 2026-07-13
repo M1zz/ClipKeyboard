@@ -71,6 +71,20 @@ enum DefaultsKey {
     static let userTimezone = "clipkeyboard_user_timezone"
     static let userCurrency = "clipkeyboard_user_currency"
 
+    // MARK: - 피드백 넛지
+    /// 피드백 넛지 "다시 보지 않기" (standard UD)
+    static let feedbackNudgeOptOut = "feedbackNudgeOptOut"
+    /// 피드백 넛지를 마지막으로 보여준 실행 횟수 (standard UD)
+    static let feedbackNudgeLastShownLaunch = "feedbackNudgeLastShownLaunch"
+
+    // MARK: - Apple Intelligence (온디바이스 AI, iOS 26+)
+    /// AI 클립보드 재분류 토글 (App Group, 기본 ON — 지원 기기에서만 동작)
+    static let aiClassificationEnabled = "aiClassificationEnabled"
+    /// 붙여넣을 앱 예측 → 단축 액션 제안 토글 (App Group, 기본 ON)
+    static let aiActionSuggestionsEnabled = "aiActionSuggestionsEnabled"
+    /// 기본 번역 대상 언어 (AITranslationLanguage rawValue, App Group)
+    static let aiTranslationTargetLang = "aiTranslationTargetLang"
+
     // MARK: - 메모 실시간 동기화 (CKSyncEngine)
     static let memoSyncEnabled = "memoSyncEnabled"
     static let syncEngineState = "sync.engine.state"

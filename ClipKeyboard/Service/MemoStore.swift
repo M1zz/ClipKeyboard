@@ -228,6 +228,26 @@ class MemoStore: ObservableObject {
         }
     }
 
+    /// AI 재분류 결과를 반영한다. 사용자가 수동으로 타입을 고친 항목은 건드리지 않는다.
+    /// tags에 "ai"를 남겨 앱 재시작 후 같은 항목을 다시 분류하지 않도록 한다.
+    func updateClipboardItemClassification(id: UUID, type: ClipboardItemType, confidence: Double) throws {
+        var history = try loadSmartClipboardHistory()
+
+        guard let index = history.firstIndex(where: { $0.id == id }),
+              history[index].userCorrectedType == nil else { return }
+
+        history[index].detectedType = type
+        history[index].confidence = confidence
+        if !history[index].tags.contains("ai") {
+            history[index].tags.append("ai")
+        }
+        try saveSmartClipboardHistory(history: history)
+        DispatchQueue.main.async { [weak self] in
+            self?.smartClipboardHistory = history
+        }
+        print("🤖 [MemoStore.updateClipboardItemClassification] AI 재분류 반영: \(type.rawValue)")
+    }
+
     func updateClipboardItemType(id: UUID, correctedType: ClipboardItemType) throws {
         var history = try loadSmartClipboardHistory()
 

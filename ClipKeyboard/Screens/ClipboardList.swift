@@ -37,6 +37,11 @@ struct ClipboardList: View {
     // 붙여넣기 허용 팁
     @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
 
+    // AI 번역 시트 대상 항목
+    @State private var itemToTranslate: SmartClipboardHistory?
+    // 이번 세션에서 AI 재분류를 시도한 항목 (중복 요청 방지)
+    @State private var aiRefinedIds: Set<UUID> = []
+
     var filteredHistory: [SmartClipboardHistory] {
         if let filter = selectedFilter {
             return clipboardHistory.filter { $0.detectedType == filter }
@@ -108,6 +113,11 @@ struct ClipboardList: View {
                                         onTypeChange: { newType in
                                             if !isSelectingForCombo {
                                                 updateItemType(item: item, newType: newType)
+                                            }
+                                        },
+                                        onTranslate: {
+                                            if !isSelectingForCombo {
+                                                itemToTranslate = item
                                             }
                                         }
                                     )
@@ -184,6 +194,7 @@ struct ClipboardList: View {
             .onAppear {
                 checkAndAddCurrentClipboard()
                 loadHistory()
+                refineLowConfidenceItemsWithAI()
             }
 
             // Toast 메시지
@@ -229,6 +240,11 @@ struct ClipboardList: View {
                     }
                     showSaveDialog = false
                 }
+            }
+        }
+        .sheet(item: $itemToTranslate) { item in
+            TranslationSheet(sourceText: item.content) { translated in
+                saveTranslationAsMemo(original: item, translated: translated)
             }
         }
         .sheet(isPresented: $showComboCreation) {
@@ -354,6 +370,54 @@ struct ClipboardList: View {
             clipboardHistory = try MemoStore.shared.loadSmartClipboardHistory()
         } catch {
             print("❌ [ClipboardList.loadHistory] \(error)")
+        }
+    }
+
+    // MARK: - Apple Intelligence
+
+    /// 정규식 신뢰도가 낮은 텍스트 항목을 온디바이스 AI로 재분류한다 (iOS 26+, 설정 ON일 때).
+    /// 비용 제한: 사용자가 수동 수정한 항목·이미 AI를 거친 항목(tags "ai") 제외, 한 번에 최대 10개.
+    private func refineLowConfidenceItemsWithAI() {
+        guard AppleIntelligenceService.shared.isAvailable,
+              AppleIntelligenceService.classificationEnabled else { return }
+
+        let candidates = clipboardHistory.filter { item in
+            item.contentType == .text
+                && item.confidence < 0.7
+                && item.userCorrectedType == nil
+                && !item.tags.contains("ai")
+                && !aiRefinedIds.contains(item.id)
+        }.prefix(10)
+        guard !candidates.isEmpty else { return }
+
+        aiRefinedIds.formUnion(candidates.map(\.id))
+        Task {
+            for item in candidates {
+                guard let result = await AppleIntelligenceService.shared.classify(item.content),
+                      result.type != item.detectedType else { continue }
+                try? MemoStore.shared.updateClipboardItemClassification(
+                    id: item.id, type: result.type, confidence: result.confidence)
+            }
+            await MainActor.run { loadHistory() }
+        }
+    }
+
+    /// 번역 결과를 새 메모로 저장한다 (원문은 힌트로 보존).
+    private func saveTranslationAsMemo(original: SmartClipboardHistory, translated: String) {
+        do {
+            var memos = try MemoStore.shared.load(type: .memo)
+            let newMemo = Memo(
+                title: String(translated.prefix(30)),
+                value: translated,
+                lastEdited: Date(),
+                hint: String(format: NSLocalizedString("번역 원문: %@", comment: "Translation source hint prefix"),
+                             String(original.content.prefix(50)))
+            )
+            memos.append(newMemo)
+            try MemoStore.shared.save(memos: memos, type: .memo)
+            showToast(message: NSLocalizedString("메모로 저장되었습니다", comment: "Clipboard item saved as memo"))
+        } catch {
+            print("❌ [ClipboardList.saveTranslationAsMemo] \(error)")
         }
     }
 
@@ -532,6 +596,8 @@ struct ClipboardItemRow: View {
     let onTap: () -> Void
     let onSave: () -> Void
     let onTypeChange: (ClipboardItemType) -> Void
+    /// AI 번역 시트 열기 (미지원 기기에서는 칩이 표시되지 않아 호출되지 않는다)
+    var onTranslate: () -> Void = {}
     @Environment(\.appTheme) private var theme
 
     var displayType: ClipboardItemType {
@@ -596,6 +662,13 @@ struct ClipboardItemRow: View {
                                     .cornerRadius(theme.radiusXs)
                             }
                         }
+
+                        // 단축 액션 칩 (타입 기반 + AI 붙여넣기 예측 + 번역)
+                        SuggestedActionChips(
+                            item: item,
+                            onSaveAsMemo: onSave,
+                            onTranslate: onTranslate
+                        )
                     }
                 }
             }

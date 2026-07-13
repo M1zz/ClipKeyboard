@@ -20,6 +20,10 @@
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		35C046AF1E731F7B35F7A00E /* AppSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80B27002654B5731B9DDCAF /* AppSymbol.swift */; };
 		3C3B3D294118E400D9D57513 /* MemoSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */; };
+		AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */; };
+		FBS0BUILD000000000000002 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* FeedbackService.swift */; };
+		AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIV0FILE0000000000000003 /* AISettingsView.swift */; };
+		AIC0BUILD000000000000004 /* AIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIC0FILE0000000000000004 /* AIComponents.swift */; };
 		4529CCE57CBA4F2DB972FE27 /* AppSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80B27002654B5731B9DDCAF /* AppSymbol.swift */; };
 		4CB4DCDC24E0246DFFA5BD97 /* LeeoKit in Frameworks */ = {isa = PBXBuildFile; productRef = AFE2EA82E9F770F198C9B228 /* LeeoKit */; };
 		5802F4102A2B3C91002825D6 /* ClipboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802F40F2A2B3C91002825D6 /* ClipboardList.swift */; };
@@ -291,6 +295,10 @@
 		AA00001700000001F3B00006 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
+		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
+		FBS0FILE0000000000000002 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
+		AIV0FILE0000000000000003 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
+		AIC0FILE0000000000000004 /* AIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIComponents.swift; sourceTree = "<group>"; };
 		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
 		D663A47B0F30561381AFD709 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -457,6 +465,7 @@
 				5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */,
 				AA00000100000001F3B00001 /* ReviewRequestView.swift */,
 				58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */,
+				AIC0FILE0000000000000004 /* AIComponents.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -638,6 +647,8 @@
 				58SV00022F9A1B0100000002 /* OCRService.swift */,
 				050AEED88220E19330F5B15C /* MemoSyncCore.swift */,
 				C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */,
+				AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */,
+				FBS0FILE0000000000000002 /* FeedbackService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -657,6 +668,7 @@
 				5802F4112A2B42D3002825D6 /* Component */,
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
+				AIV0FILE0000000000000003 /* AISettingsView.swift */,
 				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
@@ -1187,6 +1199,10 @@
 				6B027BD2B54D0EA86FB83EE4 /* StorageFile.swift in Sources */,
 				E93A9A4F98E99C1C0644B05E /* MemoSyncCore.swift in Sources */,
 				3C3B3D294118E400D9D57513 /* MemoSyncEngine.swift in Sources */,
+				AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */,
+				FBS0BUILD000000000000002 /* FeedbackService.swift in Sources */,
+				AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */,
+				AIC0BUILD000000000000004 /* AIComponents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
