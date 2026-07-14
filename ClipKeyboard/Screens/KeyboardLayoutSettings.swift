@@ -302,8 +302,12 @@ struct KeyboardPreviewView: View {
 
     @State private var previewMemos: [Memo] = []
     @Environment(\.colorScheme) private var colorScheme
-    /// 실제 키보드와 동일하게 — "색상 없이 구별"이 켜진 경우에만 타입 테두리 미리보기.
+    /// 실제 키보드와 동일하게 — "색상 없이 구별" 또는 "메모 구분 표시" 토글이 켜진 경우 타입 테두리 미리보기.
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
+    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
+    private var showVisualCues: Bool = false
+    /// 실제 키보드(KeyboardView)의 visualCuesVisible와 동일한 판정.
+    private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
 
     private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
 
@@ -353,7 +357,7 @@ struct KeyboardPreviewView: View {
     /// 메모 타입별 테두리 스타일(익스텐션 typeStyle과 동일 — 색맹 보조 이중 큐).
     /// iOS "색상 없이 구별"이 켜진 경우에만 노출(실제 키보드 동작과 일치).
     private func typeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
-        guard differentiateWithoutColor else { return (.clear, 0, []) }
+        guard visualCuesVisible else { return (.clear, 0, []) }
         if memo.isTemplate || !memo.templateVariables.isEmpty {
             return (.purple, 1.5, [])
         }

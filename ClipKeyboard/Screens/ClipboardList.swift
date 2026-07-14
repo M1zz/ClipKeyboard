@@ -36,6 +36,8 @@ struct ClipboardList: View {
 
     // 붙여넣기 허용 팁
     @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
+    // 붙여넣기 허용 안내 알림 (첫 진입 1회)
+    @State private var showPastePermissionAlert: Bool = false
 
     // AI 번역 시트 대상 항목
     @State private var itemToTranslate: SmartClipboardHistory?
@@ -59,12 +61,15 @@ struct ClipboardList: View {
 
                 // 붙여넣기 허용 팁 배너
                 if showPasteTip {
-                    PasteTipBanner {
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            showPasteTip = false
+                    PasteTipBanner(
+                        onOpenSettings: { openAppSettings() },
+                        onDismiss: {
+                            withAnimation(.easeInOut(duration: 0.25)) {
+                                showPasteTip = false
+                            }
+                            UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
                         }
-                        UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
-                    }
+                    )
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
@@ -195,6 +200,18 @@ struct ClipboardList: View {
                 checkAndAddCurrentClipboard()
                 loadHistory()
                 refineLowConfidenceItemsWithAI()
+                maybeShowPastePermissionPrompt()
+            }
+            .alert(
+                NSLocalizedString("붙여넣기를 허용해 주세요", comment: "Paste permission alert title"),
+                isPresented: $showPastePermissionAlert
+            ) {
+                Button(NSLocalizedString("설정 열기", comment: "Open Settings button")) {
+                    openAppSettings()
+                }
+                Button(NSLocalizedString("나중에", comment: "Later button"), role: .cancel) {}
+            } message: {
+                Text(NSLocalizedString("설정 → 클립키보드 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요.", comment: "Paste permission alert message"))
             }
 
             // Toast 메시지
@@ -288,6 +305,26 @@ struct ClipboardList: View {
         }
         .multilineTextAlignment(.center)
         .padding(30)
+    }
+
+    // MARK: - Paste Permission
+
+    /// 클립보드 화면 첫 진입 시 1회만 붙여넣기 허용을 안내한다.
+    /// iOS가 붙여넣기 권한 상태를 API로 노출하지 않아 상태 감지 대신 최초 1회 안내한다.
+    private func maybeShowPastePermissionPrompt() {
+        guard !UserDefaults.standard.bool(forKey: DefaultsKey.pastePermissionPromptShownV1) else { return }
+        UserDefaults.standard.set(true, forKey: DefaultsKey.pastePermissionPromptShownV1)
+        // 화면 진입 애니메이션과 겹치지 않도록 한 박자 뒤에 표시.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            showPastePermissionAlert = true
+        }
+    }
+
+    /// iOS 설정의 이 앱 페이지(‘다른 앱에서 붙여넣기’ 토글 포함)를 연다.
+    private func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 
     // MARK: - Actions
@@ -881,6 +918,7 @@ struct CreateComboSheet: View {
 
 private struct PasteTipBanner: View {
     @Environment(\.appTheme) private var theme
+    let onOpenSettings: () -> Void
     let onDismiss: () -> Void
 
     var body: some View {
@@ -916,13 +954,26 @@ private struct PasteTipBanner: View {
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paste tip"))
             }
 
-            Button(action: onDismiss) {
-                Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
-                    .font(.body)
-                    .fontWeight(.medium)
+            HStack(spacing: 18) {
+                Button(action: onOpenSettings) {
+                    HStack(spacing: 4) {
+                        Text(NSLocalizedString("허용하러 가기", comment: "Go to Settings to allow paste"))
+                            .font(.body)
+                            .fontWeight(.semibold)
+                        Image(systemName: AppSymbol.arrowUpForwardApp)
+                            .font(.caption)
+                    }
                     .foregroundColor(theme.accent)
+                }
+                .buttonStyle(.plain)
+
+                Button(action: onDismiss) {
+                    Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .padding(14)
         .background(theme.accentSoft)

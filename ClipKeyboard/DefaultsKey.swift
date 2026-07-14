@@ -40,6 +40,8 @@ enum DefaultsKey {
     static let memoManualOrderActiveV1 = "memoManualOrderActive_v1"
     static let onboarding = "onboarding"
     static let pasteTipDismissed = "pasteTipDismissed"
+    /// 클립보드 화면 첫 진입 시 붙여넣기 허용 안내 알림을 한 번 띄웠는지 여부.
+    static let pastePermissionPromptShownV1 = "pastePermissionPromptShown_v1"
     /// Siri/단축어 OpenQuickNoteInboxIntent가 켠 "보관함 열기" 보류 플래그(앱 활성화/onAppear 시 소비).
     static let pendingOpenQuickNoteInbox = "pendingOpenQuickNoteInbox"
     /// Control Center 빠른 메모 컨트롤·quicknote 딥링크가 켠 "빠른 메모 입력 시트 열기" 보류 플래그.

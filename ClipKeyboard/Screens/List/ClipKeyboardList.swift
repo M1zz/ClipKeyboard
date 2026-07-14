@@ -146,6 +146,10 @@ struct ClipKeyboardList: View {
     @State private var ghostSuggestion: QuickPattern?
     @State private var ghostAddPattern: QuickPattern?
     private let dismissedGhostPatternsKey = "dismissedGhostPatterns_v1"
+    // X로 닫으면 이번 앱 실행(세션) 동안은 다음 제안을 띄우지 않는다.
+    // (앱을 재실행하면 리셋되어 남은 제안 1개가 다시 등장 — 온보딩 성격은 유지하되
+    //  닫자마자 다음 게 튀어나오는 불편함 제거)
+    private static var ghostSuppressedThisSession = false
 
     // Sheet modals for MemoAdd
     @State private var showAddMemoSheet: Bool = false
@@ -806,17 +810,13 @@ struct ClipKeyboardList: View {
                 Button {
                     HapticManager.shared.soft()
                     dismissGhostPattern(pattern)
+                    // 닫으면 이번 세션은 더 이상 제안하지 않는다 (다음 것이 즉시 튀어나오지 않음).
+                    Self.ghostSuppressedThisSession = true
                     if reduceMotion {
-                        refreshGhostSuggestion()
+                        ghostSuggestion = nil
                     } else {
-                        // 1) 현재 제안이 점차 작아지면서 사라짐
+                        // 현재 제안이 점차 작아지면서 사라진다. (다음 제안을 부르지 않음)
                         withAnimation(.easeIn(duration: 0.22)) { ghostSuggestion = nil }
-                        // 2) 다음 제안이 있으면 작은 네모부터 커지면서 등장
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
-                            withAnimation(.spring(response: 0.42, dampingFraction: 0.62)) {
-                                refreshGhostSuggestion()
-                            }
-                        }
                     }
                 } label: {
                     Image(systemName: AppSymbol.xmark)
@@ -2045,7 +2045,8 @@ struct ClipKeyboardList: View {
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    .stroke(Color.blue.opacity(0.12), lineWidth: 1)
+                    // 메모 구분 표시 토글을 따른다 (OFF면 테두리 숨김).
+                    .stroke(visualCuesVisible ? Color.blue.opacity(0.12) : .clear, lineWidth: 1)
             )
             .contentShape(Rectangle())
         }
@@ -2550,7 +2551,12 @@ struct ClipKeyboardList: View {
     // MARK: - Ghost Memo Suggestion
 
     /// 닫지 않았고 아직 같은 제목의 메모가 없는 패턴 하나를 골라 제안한다.
+    /// 이번 세션에 사용자가 X로 닫았다면(ghostSuppressedThisSession) 제안하지 않는다.
     private func refreshGhostSuggestion() {
+        guard !Self.ghostSuppressedThisSession else {
+            ghostSuggestion = nil
+            return
+        }
         let dismissed = Set(UserDefaults.standard.stringArray(forKey: dismissedGhostPatternsKey) ?? [])
         let existingTitles = Set(viewModel.memos.map { $0.title })
         ghostSuggestion = QuickPattern.defaults.first {

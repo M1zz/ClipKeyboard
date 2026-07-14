@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
+    "붙여넣기를 허용해 주세요" : {
+      "comment" : "Paste permission alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please allow paste"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Izinkan tempel"
+          }
+        }
+      }
+    },
+    "설정 → 클립키보드 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요." : {
+      "comment" : "Paste permission alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to Settings → ClipKeyboard → 'Paste from Other Apps' and choose 'Allow' so copied text is organized instantly without a popup."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buka Pengaturan → ClipKeyboard → 'Tempel dari Aplikasi Lain' lalu pilih 'Izinkan' agar teks yang disalin langsung tertata tanpa popup."
+          }
+        }
+      }
+    },
+    "허용하러 가기" : {
+      "comment" : "Go to Settings to allow paste",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Izinkan sekarang"
+          }
+        }
+      }
+    },
     "" : {
       "localizations" : {
         "en" : {
