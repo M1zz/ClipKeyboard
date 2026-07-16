@@ -74,6 +74,8 @@ struct AppThemedContainer<Content: View>: View {
             .environmentObject(prefs)
             .environment(\.appTheme, theme)
             .preferredColorScheme(prefs.preferredColorScheme)
-            .themedNavigationTitle(theme)
+            // ⚠️ .themedNavigationTitle(전역 UINavigationBar.appearance 폰트 오버라이드)를 제거함.
+            // iOS 26: 커스텀 appearance 객체가 설정된 바는 시스템 Liquid Glass에서 제외(구형
+            // 렌더링 강등)되어 앱 전체 네비바가 불투명해 보이는 원인이었다. 순정 glass 우선.
     }
 }
