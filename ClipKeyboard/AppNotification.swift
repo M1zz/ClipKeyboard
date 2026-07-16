@@ -17,6 +17,7 @@ extension Notification.Name {
     static let dataRestored = Notification.Name("dataRestored")
     /// 기존 사용자가 데모 샘플 체험을 수락해 샘플이 삽입됨 → 리스트 리로드 트리거
     static let demoSamplesInserted = Notification.Name("demoSamplesInserted")
+    static let draftsChanged = Notification.Name("draftsChanged")
     static let filterChanged = Notification.Name("filterChanged")
     static let memoDataChanged = Notification.Name("MemoDataChanged")
     static let openMainAppPaywall = Notification.Name("openMainAppPaywall")

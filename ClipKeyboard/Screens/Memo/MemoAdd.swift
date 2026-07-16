@@ -38,6 +38,8 @@ struct MemoAdd: View {
     var insertedComboValues: [String] = []
     var insertedHint: String = ""
     var insertedIsFavorite: Bool = false
+    /// "임시 저장 보기"에서 이어쓰기로 진입했을 때 그 드래프트 id — 저장/폐기 시 해당 드래프트를 정리한다.
+    var resumeDraftId: UUID? = nil
     /// "템플릿으로 만들기"로 진입했을 때 true — 본문에 포커스를 줘 변수 삽입바를 바로 노출.
     var startInTemplateMode: Bool = false
 
@@ -142,6 +144,7 @@ struct MemoAdd: View {
         }
         #endif
         .onAppear {
+            viewModel.resumedDraftId = resumeDraftId
             viewModel.onAppear(
                 memoId: memoId,
                 insertedKeyword: insertedKeyword,
@@ -163,6 +166,11 @@ struct MemoAdd: View {
             }
         }
         .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
+        .onDisappear {
+            // 저장 없이 화면을 떠나면 사용자가 직접 입력한 내용을 자동 임시저장(드래프트)한다.
+            // (정식 저장·기존 메모 편집·샘플 그대로 등은 VM 내부에서 걸러진다.)
+            viewModel.saveDraftIfNeeded()
+        }
         .sheet(isPresented: $showNewTemplateSheet) {
             NavigationView {
                 MemoAdd(insertedIsTemplate: true)

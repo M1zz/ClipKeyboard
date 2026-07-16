@@ -12,6 +12,7 @@ import Foundation
 enum StorageFile {
     static let clipboardHistory = "clipboard.history.data"
     static let combos = "combos.data"
+    static let drafts = "drafts.data"
     static let memoHistory = "memo.history.data"
     static let memos = "memos.data"
     /// 빠른 메모(Inbox) — 키보드 메모로 쓸지 결정 보류 중인 의도적 캡처 보관함.

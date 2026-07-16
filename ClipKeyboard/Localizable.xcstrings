@@ -1,6 +1,176 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
+    "새 단축어 만들기" : {
+      "comment" : "Menu: new memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Shortcut"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat Pintasan Baru"
+          }
+        }
+      }
+    },
+    "한번에 많은 메모 정리하기" : {
+      "comment" : "Menu: bulk import",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize Many at Once"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapikan Banyak Sekaligus"
+          }
+        }
+      }
+    },
+    "임시 저장 보기" : {
+      "comment" : "Menu: view drafts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Drafts"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat Draf"
+          }
+        }
+      }
+    },
+    "임시 저장 (%d)" : {
+      "comment" : "Menu: drafts with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts (%d)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draf (%d)"
+          }
+        }
+      }
+    },
+    "임시 저장" : {
+      "comment" : "Drafts screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draf"
+          }
+        }
+      }
+    },
+    "제목 없음" : {
+      "comment" : "Draft without a title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untitled"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanpa Judul"
+          }
+        }
+      }
+    },
+    "임시 저장된 항목이 없어요" : {
+      "comment" : "Drafts empty state title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No drafts yet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum ada draf"
+          }
+        }
+      }
+    },
+    "단축어를 만들다 저장하지 않고 나가면 여기에 자동으로 보관돼요." : {
+      "comment" : "Drafts empty state subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you leave while making a shortcut without saving, it's kept here automatically."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jika keluar saat membuat pintasan tanpa menyimpan, otomatis tersimpan di sini."
+          }
+        }
+      }
+    },
+    "빠른 메모 보관함" : {
+      "comment" : "Menu: quick note inbox",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Note Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak Masuk Cepat"
+          }
+        }
+      }
+    },
+    "빠른 메모 보관함 (%d)" : {
+      "comment" : "Menu: quick note inbox with count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quick Note Inbox (%d)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak Masuk Cepat (%d)"
+          }
+        }
+      }
+    },
     "붙여넣기를 허용해 주세요" : {
       "comment" : "Paste permission alert title",
       "localizations" : {

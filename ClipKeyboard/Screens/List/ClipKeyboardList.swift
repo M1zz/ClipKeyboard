@@ -76,6 +76,7 @@ struct ClipKeyboardList: View {
     // MARK: - View-only State
 
     @State private var isSearchBarVisible = false
+    @State private var showDraftList = false
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
@@ -146,9 +147,9 @@ struct ClipKeyboardList: View {
     @State private var ghostSuggestion: QuickPattern?
     @State private var ghostAddPattern: QuickPattern?
     private let dismissedGhostPatternsKey = "dismissedGhostPatterns_v1"
+    // X로 한 번 닫으면 고스트 예시 제안을 영구히 끈다(앱 재실행해도 "또 다른 옵션"이 안 뜸).
+    private let ghostSuggestionsOffKey = "ghostSuggestionsOff_v1"
     // X로 닫으면 이번 앱 실행(세션) 동안은 다음 제안을 띄우지 않는다.
-    // (앱을 재실행하면 리셋되어 남은 제안 1개가 다시 등장 — 온보딩 성격은 유지하되
-    //  닫자마자 다음 게 튀어나오는 불편함 제거)
     private static var ghostSuppressedThisSession = false
 
     // Sheet modals for MemoAdd
@@ -726,12 +727,20 @@ struct ClipKeyboardList: View {
         }
     }
 
+    /// + 메뉴의 "임시 저장" 항목 라벨(개수 배지).
+    private var draftMenuTitle: String {
+        let count = DraftStore.shared.count
+        return count > 0
+            ? String(format: NSLocalizedString("임시 저장 (%d)", comment: "Menu: drafts with count"), count)
+            : NSLocalizedString("임시 저장 보기", comment: "Menu: view drafts")
+    }
+
     /// 더보기 메뉴의 보관함 항목 라벨(개수 배지). 메뉴는 열릴 때 다시 만들어지므로 직접 읽어도 충분.
     private var inboxMenuTitle: String {
         let count = QuickNoteStore.shared.count
         return count > 0
-            ? String(format: NSLocalizedString("Inbox (%d)", comment: "Menu: quick note inbox with count"), count)
-            : NSLocalizedString("Inbox", comment: "Menu: quick note inbox")
+            ? String(format: NSLocalizedString("빠른 메모 보관함 (%d)", comment: "Menu: quick note inbox with count"), count)
+            : NSLocalizedString("빠른 메모 보관함", comment: "Menu: quick note inbox")
     }
 
     /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
@@ -810,8 +819,9 @@ struct ClipKeyboardList: View {
                 Button {
                     HapticManager.shared.soft()
                     dismissGhostPattern(pattern)
-                    // 닫으면 이번 세션은 더 이상 제안하지 않는다 (다음 것이 즉시 튀어나오지 않음).
+                    // 닫으면 이번 세션 + 이후 영구히 제안하지 않는다 (다음 것/재실행 후에도 안 뜸).
                     Self.ghostSuppressedThisSession = true
+                    UserDefaults.standard.set(true, forKey: ghostSuggestionsOffKey)
                     if reduceMotion {
                         ghostSuggestion = nil
                     } else {
@@ -2340,20 +2350,20 @@ struct ClipKeyboardList: View {
                 if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
                 showAddMemoSheet = true
             } label: {
-                Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
+                Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
-            // 빠른 메모 — 키보드 메모로 쓸지 미정인 것을 일단 보관함(Inbox)에 담아둔다.
+            // 임시 저장 — 만들다 저장하지 않고 나간 미완성 단축어를 이어서 작성.
             Button {
                 HapticManager.shared.light()
-                showQuickNoteAdd = true
+                showDraftList = true
             } label: {
-                Label(NSLocalizedString("빠른 메모 담기", comment: "Menu: add quick note to inbox"), systemImage: AppSymbol.noteTextBadgePlus)
+                Label(draftMenuTitle, systemImage: "clock.arrow.circlepath")
             }
             Divider()
             Button {
                 showBulkImport = true
             } label: {
-                Label(NSLocalizedString("텍스트 가져오기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
+                Label(NSLocalizedString("한번에 많은 메모 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
         } label: {
             Image(systemName: AppSymbol.plusCircleFill)
@@ -2365,6 +2375,16 @@ struct ClipKeyboardList: View {
         .popoverTip(addMemoTip)
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
+        }
+        .sheet(isPresented: $showDraftList) {
+            NavigationStack {
+                DraftListView()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(NSLocalizedString("완료", comment: "Done")) { showDraftList = false }
+                        }
+                    }
+            }
         }
         .sheet(isPresented: $showQuickNoteAdd) {
             QuickNoteEditSheet(note: QuickNote()) { newNote in
@@ -2509,22 +2529,7 @@ struct ClipKeyboardList: View {
                 }
                 .accessibilityHint(NSLocalizedString("추천 메모를 골라 한 번에 추가합니다", comment: "VoiceOver: starter pack hint"))
 
-                Button {
-                    showAddMemoSheet = true
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: AppSymbol.plus)
-                        Text(NSLocalizedString("직접 추가하기", comment: "Add memo manually button"))
-                            .fontWeight(.medium)
-                    }
-                    .font(.body)
-                    .foregroundColor(theme.accent)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-                    .background(theme.accent.opacity(0.1))
-                    .cornerRadius(theme.radiusSm)
-                    .padding(.horizontal, 16)
-                }
+                // (제거) "직접 추가하기" — 우하단 + 버튼과 중복이라 삭제.
 
                 // 활용 사례 갤러리 전체 보기 — 발견성 (기존엔 설정 깊숙이만 있었음)
                 NavigationLink {
@@ -2553,7 +2558,8 @@ struct ClipKeyboardList: View {
     /// 닫지 않았고 아직 같은 제목의 메모가 없는 패턴 하나를 골라 제안한다.
     /// 이번 세션에 사용자가 X로 닫았다면(ghostSuppressedThisSession) 제안하지 않는다.
     private func refreshGhostSuggestion() {
-        guard !Self.ghostSuppressedThisSession else {
+        guard !Self.ghostSuppressedThisSession,
+              !UserDefaults.standard.bool(forKey: ghostSuggestionsOffKey) else {
             ghostSuggestion = nil
             return
         }
@@ -2682,7 +2688,8 @@ struct ClipKeyboardList: View {
                     .fontWeight(.semibold)
                     .foregroundColor(theme.text)
 
-                Text(suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
+                Text((suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
+                    .templateAwareAttributed(theme: theme, font: .body))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                     .lineLimit(3)
