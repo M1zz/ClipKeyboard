@@ -95,6 +95,18 @@ protocol CloudKitBackupDatabase {
 
 extension CKDatabase: CloudKitBackupDatabase {}
 
+#if targetEnvironment(simulator)
+/// 시뮬레이터 전용 no-op DB. 시뮬레이터에서는 iCloud 컨테이너/엔타이틀먼트가 적용되지 않아
+/// CKContainer(identifier:)가 os_crash로 앱을 죽이므로, CloudKit을 아예 건드리지 않고
+/// 타입만 만족시켜 UI/스크린샷 개발이 가능하게 한다. 실제 접근은 항상 실패로 처리.
+private struct SimulatorNoopDatabase: CloudKitBackupDatabase {
+    struct Unavailable: Error {}
+    func record(for recordID: CKRecord.ID) async throws -> CKRecord { throw Unavailable() }
+    @discardableResult func save(_ record: CKRecord) async throws -> CKRecord { throw Unavailable() }
+    @discardableResult func deleteRecord(withID recordID: CKRecord.ID) async throws -> CKRecord.ID { throw Unavailable() }
+}
+#endif
+
 /// 버전 백업(타임머신) 한 항목의 메타데이터 — 복원 화면의 날짜별 목록에 쓰인다.
 struct BackupSnapshotInfo: Codable, Identifiable, Equatable {
     var id: String { recordName }
@@ -126,6 +138,15 @@ class CloudKitBackupService: ObservableObject {
     private let maxSnapshots = 15
 
     private init() {
+        #if targetEnvironment(simulator)
+        // 시뮬레이터에서는 iCloud 컨테이너/엔타이틀먼트가 적용되지 않아 CKContainer(identifier:)가
+        // CloudKit 내부 os_crash(EXC_BREAKPOINT)로 앱을 런치 즉시 죽인다(try?로도 못 막음).
+        // 백업은 실기기 전용 기능이므로, 시뮬레이터에서는 CloudKit 초기화·타이머·리스너를 전부
+        // 건너뛰고 저장 프로퍼티만 세팅한다. 실기기/앱스토어 빌드에는 전혀 영향 없음.
+        self.container = nil
+        self.database = SimulatorNoopDatabase()
+        self.fetchAccountStatus = { .couldNotDetermine }
+        #else
         let container = CKContainer(identifier: "iCloud.com.Ysoup.TokenMemo")
         self.container = container
         self.database = container.privateCloudDatabase
@@ -137,6 +158,7 @@ class CloudKitBackupService: ObservableObject {
 
         // 데이터 변경 알림 리스너 등록
         setupDataChangeListener()
+        #endif
     }
 
     /// 테스트 전용: mock DB/계정 상태를 주입한다.
