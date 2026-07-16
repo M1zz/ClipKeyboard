@@ -237,11 +237,9 @@ struct ClipboardList: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
-                    .background(
-                        Capsule()
-                            .fill(Color.black.opacity(0.8))
-                            .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
-                    )
+                    // Liquid Glass 토스트 — 어둡게 틴트한 glass 캡슐(흰 글자 가독성 유지). (iOS 26)
+                    .glassEffect(.regular.tint(Color.black.opacity(0.65)), in: Capsule())
+                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
                     .transition(.move(edge: .bottom).combined(with: .opacity))

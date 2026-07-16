@@ -77,6 +77,9 @@ struct ClipKeyboardList: View {
 
     @State private var isSearchBarVisible = false
     @State private var showDraftList = false
+    // 붙여넣기 허용 안내 팁 — 앱을 열 때마다 "붙여넣기 허용" 팝업이 뜨는 사용자를 설정으로 안내.
+    // 클립보드 화면 배너와 dismiss 키(pasteTipDismissed)를 공유해, 어느 쪽에서 닫든 함께 사라진다.
+    @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
@@ -103,9 +106,10 @@ struct ClipKeyboardList: View {
     @State private var showCategoryBadgeNudge: Bool = false
 
     /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부.
-    /// iOS "색상 없이 구별"(접근성) ON 또는 설정 "메모 구분 표시" 토글 ON일 때 표시.
+    /// 오직 설정 "메모 구분 표시" 토글만 따른다 — iOS "색상 없이 구별"(접근성)이 켜져 있어도
+    /// 토글이 꺼져 있으면 표시하지 않는다(토글을 단일 스위치로).
     private var visualCuesVisible: Bool {
-        differentiateWithoutColor || showVisualCues
+        showVisualCues
     }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
@@ -169,8 +173,6 @@ struct ClipKeyboardList: View {
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    /// iOS "색상 없이 구별"(Differentiate Without Color)이 켜졌을 때만 메모 타입 테두리를 표시.
-    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -215,23 +217,17 @@ struct ClipKeyboardList: View {
         return text.isEmpty ? nil : text
     }
 
-    /// 화면 상단 large title — 현재 보고 있는 카테고리 이름.
-    /// 페이저(categoryTabView) 위에 두어 스와이프로 페이지가 바뀌면 함께 갱신된다.
-    /// 카테고리 기능이 꺼져 있으면 단일 "전체" 페이지이므로 그 이름을 표시.
-    private var categoryLargeTitle: some View {
+    /// 페이지 상단 헤더 — 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
+    /// 제목은 여기 두지 않는다 — 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
+    /// AnyView 타입 소거 — LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
+    private func pageHeader(for tab: CategoryTab) -> AnyView {
+        AnyView(topBanners)
+    }
+
+    /// 네비게이션 바 인라인 타이틀 — 현재 카테고리 이름(스와이프 시 갱신).
+    private var currentCategoryTitle: String {
         let tab: CategoryTab = CategoryStore.shared.isFeatureEnabled ? viewModel.selectedCategoryTab : .all
-        return Text(tab.displayName)
-            .font(.largeTitle.weight(.bold))
-            .foregroundColor(theme.text)
-            .lineLimit(1)
-            .minimumScaleFactor(0.7)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 16)
-            .padding(.top, 12)
-            .padding(.bottom, 4)
-            .contentTransition(.opacity)
-            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: viewModel.selectedCategoryTab)
-            .accessibilityAddTraits(.isHeader)
+        return tab.displayName
     }
 
     @ViewBuilder
@@ -242,10 +238,12 @@ struct ClipKeyboardList: View {
         // (__swift_instantiateConcreteTypeFromMangledName 재귀 → mainColumn.getter 크래시).
         // 자식들을 AnyView로 타입 소거해 부모 타입을 평탄화하여 이를 막는다.
         VStack(spacing: 0) {
-            categoryLargeTitle
-            topBanners
+            // v4.3.9: 제목·배너는 pageHeader(for:)로 각 페이지 스크롤 안에 들어간다.
+            // 상단에 고정 크롬이 없어 콘텐츠가 화면을 온전히 쓴다.
             categoryContent
         }
+        // 순정 Liquid Glass: 상·하단 스크롤 엣지 효과는 시스템 기본에 맡긴다
+        // (네비바·플로팅 탭바가 콘텐츠와 만날 때 soft glass 처리).
     }
 
     /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
@@ -253,6 +251,24 @@ struct ClipKeyboardList: View {
     private var topBanners: some View {
         AnyView(
             VStack(spacing: 0) {
+                // 붙여넣기 허용 안내 — 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
+                // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
+                if showPasteTip {
+                    PastePermissionTipBanner(
+                        onOpenSettings: { openAppSettings() },
+                        onDismiss: {
+                            UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
+                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
+                                showPasteTip = false
+                            }
+                        }
+                    )
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+
                 // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 상단에 즉시 노출.
                 // (컨테이너가 내부에서 QuickNoteStore를 관찰하고, 비었으면 아무것도 안 그린다.
                 //  타입은 topBanners의 AnyView로 소거되어 mainColumn 타입 복잡도에 영향 없음.)
@@ -320,6 +336,13 @@ struct ClipKeyboardList: View {
         )
     }
 
+    /// iOS 설정의 이 앱 페이지(‘다른 앱에서 붙여넣기’ 토글 포함)를 연다.
+    private func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+
     /// 카테고리 탭/단일 페이지 — 가장 깊은 단일 요소라 AnyView로 타입 소거.
     private var categoryContent: some View {
         AnyView(
@@ -351,13 +374,7 @@ struct ClipKeyboardList: View {
             // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
             .simultaneousGesture(TapGesture().onEnded { isSearchFieldFocused = false })
             .scrollDismissesKeyboard(.immediately)
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                if isSearchBarVisible {
-                    searchBarInlineSection
-                        .background(.regularMaterial)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
-            }
+            // 검색은 순정 .searchable(검색 탭)로 이전 — 커스텀 하단 검색바 제거.
             .alert(
                 NSLocalizedString("새 카테고리", comment: "Add category alert title"),
                 isPresented: $showAddCategoryAlert
@@ -452,19 +469,18 @@ struct ClipKeyboardList: View {
             .toolbar {
                 toolbarContent
             }
-            // 하단 툴바 — iOS 26: 배경 hidden으로 Liquid Glass pill이 콘텐츠 위에 플로팅
-            // iOS 17-25: thin material 유지
-            .toolbarBackground(.hidden, for: .bottomBar)
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
                 toastOverlay
             }
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // Navigation 설정 — 네비게이션 바 완전히 숨김. 그리팅이 상단 앵커 역할.
-            .navigationTitle("")
+            // Navigation 설정 — 순정 Inline Large 타이틀(현재 카테고리 이름).
+            // 큰 글씨 제목이 바에 고정되어 스크롤을 따라 올라가지 않고,
+            // 콘텐츠는 그 아래로 흐른다(스크롤 시 glass 처리). Apple Sports/피트니스 스타일.
+            .navigationTitle(currentCategoryTitle)
             #if os(iOS)
-            .toolbar(.hidden, for: .navigationBar)
+            .toolbarTitleDisplayMode(.inlineLarge)
             #endif
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
     }
@@ -1084,7 +1100,7 @@ struct ClipKeyboardList: View {
 
     /// 메모 타입별 테두리 — 키보드 익스텐션 typeStyle과 정확히 동일.
     /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
-    /// 색맹 보조용이므로 iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 깔끔한 카드).
+    /// "메모 구분 표시" 토글이 켜진 경우에만 노출(기본은 깔끔한 카드).
     private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
         guard visualCuesVisible else { return (.clear, 0, []) }
         if memo.isTemplate || !memo.templateVariables.isEmpty {
@@ -1378,9 +1394,20 @@ struct ClipKeyboardList: View {
         // 검색 중인데 결과가 하나도 없으면, 메모가 아예 없을 때의 빈 화면(EmptyListView 등)
         // 대신 "검색 결과 없음" 피드백 + 실제 메모 모양의 제안 카드를 보여준다.
         if isSearching && filtered.isEmpty {
-            searchNoResultsView
+            VStack(spacing: 0) {
+                pageHeader(for: tab)
+                searchNoResultsView
+            }
         } else {
             tabPageContent(for: tab, filtered: filtered)
+        }
+    }
+
+    /// 빈 상태 화면 위에 페이지 헤더(제목+배너)를 얹는다 — 스크롤 콘텐츠가 없으니 고정이어도 무방.
+    private func emptyPage<Content: View>(for tab: CategoryTab, @ViewBuilder content: () -> Content) -> some View {
+        VStack(spacing: 0) {
+            pageHeader(for: tab)
+            content()
         }
     }
 
@@ -1391,41 +1418,45 @@ struct ClipKeyboardList: View {
             if !filtered.isEmpty {
                 allTabScrollView(memos: filtered, tab: .basic)
             } else {
-                EmptyListView
+                emptyPage(for: tab) { EmptyListView }
             }
         case .all:
             if !viewModel.memos.isEmpty {
                 allTabScrollView(memos: viewModel.memos, tab: .all)
             } else {
-                EmptyListView
+                emptyPage(for: tab) { EmptyListView }
             }
         case .favorites:
             if !filtered.isEmpty {
                 filteredTabScrollView(memos: filtered, tab: tab)
             } else {
-                favoritesEmptyStateView
+                emptyPage(for: tab) { favoritesEmptyStateView }
             }
         case .builtIn(let b):
             if !filtered.isEmpty {
                 filteredTabScrollView(memos: filtered, tab: tab)
             } else {
                 // 비어 있어도 "추가" 카드를 함께 보여 바로 만들 수 있게.
-                emptyStateWithAddCard(
-                    icon: b.icon,
-                    message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName),
-                    tab: tab
-                )
+                emptyPage(for: tab) {
+                    emptyStateWithAddCard(
+                        icon: b.icon,
+                        message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName),
+                        tab: tab
+                    )
+                }
             }
         case .custom(let name):
             if !filtered.isEmpty {
                 filteredTabScrollView(memos: filtered, tab: tab)
             } else {
                 // 커스텀 탭은 메모 1개 이상일 때만 노출되지만, 안전망으로 추가 카드 포함.
-                emptyStateWithAddCard(
-                    icon: "folder",
-                    message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name),
-                    tab: tab
-                )
+                emptyPage(for: tab) {
+                    emptyStateWithAddCard(
+                        icon: "folder",
+                        message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name),
+                        tab: tab
+                    )
+                }
             }
         }
     }
@@ -1657,7 +1688,10 @@ struct ClipKeyboardList: View {
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                // 상단 여백 — Dynamic Island 아래 숨 쉬는 공간
+                // 큰 제목 + 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(상단 크롬 없음).
+                pageHeader(for: tab)
+
+                // 상단 여백 — 제목과 팁/그리드 사이 숨 쉬는 공간
                 Color.clear.frame(height: 16)
 
                 // TipKit 팁들
@@ -1717,23 +1751,27 @@ struct ClipKeyboardList: View {
                                 .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                                 .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                         }
-                        // 다른 카테고리 탭처럼 그리드 끝에 "추가" 카드 — 기본 탭에서도 추가를 유도.
-                        addCard(for: tab)
+                        // 다른 카테고리 탭은 그리드 끝에 "추가" 카드를 두지만, 기본(basic) 탭에서는
+                        // 하단 툴바의 + 메뉴로 추가하도록 유도하고 그리드 끝 카드는 숨긴다.
+                        if tab != .basic {
+                            addCard(for: tab)
+                        }
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 }
             }
-            // 하단 safe area + 툴바 높이 확보: Liquid Glass pill 뒤로 콘텐츠가 흐름
-            .padding(.bottom, 120)
+            // 하단 여백 — 플로팅 탭바 위 숨 쉬는 공간(인셋은 시스템이 처리).
+            .padding(.bottom, 24)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
         }
-        .ignoresSafeArea(.container, edges: .bottom)
     }
 
     private func filteredTabScrollView(memos: [Memo], tab: CategoryTab) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
+                // 큰 제목 + 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(상단 크롬 없음).
+                pageHeader(for: tab)
                 Color.clear.frame(height: 16)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
@@ -1748,9 +1786,8 @@ struct ClipKeyboardList: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
             }
-            .padding(.bottom, 120)
+            .padding(.bottom, 24)
         }
-        .ignoresSafeArea(.container, edges: .bottom)
     }
 
     /// 즐겨찾기 탭 전용(하위 호환). 내부적으로 공통 addCard 사용.
@@ -2232,7 +2269,9 @@ struct ClipKeyboardList: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         #if os(iOS)
-        ToolbarItemGroup(placement: .bottomBar) {
+        // 순정 iOS 26: 네비게이션 바 트레일링 — 시스템이 버튼을 glass에 자동으로 담는다.
+        // (검색은 검색 탭, 클립보드·설정은 탭바로 이전되어 하단 툴바는 없앴다.)
+        ToolbarItemGroup(placement: .topBarTrailing) {
             toolbarButtons
         }
         #else
@@ -2243,31 +2282,9 @@ struct ClipKeyboardList: View {
     }
 
     /// Toolbar 버튼들 (iOS/macOS 공통)
-    /// 구성: [검색 토글] [더보기 메뉴(히스토리·플레이스홀더·설정)]  ···  [+ 추가]
-    /// "클립보드 앱의 주어는 '꺼내기'"라는 관점에서 검색/추가를 시각적으로 주연으로.
+    /// 구성: [더보기 메뉴(활용사례·보관함·카테고리·플레이스홀더)] [+ 추가]
     @ViewBuilder
     private var toolbarButtons: some View {
-        Button {
-            HapticManager.shared.light()
-            withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7)) {
-                isSearchBarVisible.toggle()
-                if !isSearchBarVisible {
-                    viewModel.searchQueryString = ""
-                }
-            }
-            // 검색바가 열리면 자동으로 키보드를 띄움 (TextField가 화면에 마운트된 뒤 포커스)
-            if isSearchBarVisible {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                    isSearchFieldFocused = true
-                }
-            } else {
-                isSearchFieldFocused = false
-            }
-        } label: {
-            Image(systemName: AppSymbol.magnifyingglass)
-                .foregroundColor(isSearchBarVisible ? .blue : .secondary)
-        }
-
         Menu {
             NavigationLink {
                 UsageGuideView()
@@ -2294,15 +2311,6 @@ struct ClipKeyboardList: View {
                 Label(inboxMenuTitle, systemImage: AppSymbol.trayFull)
             }
 
-            NavigationLink {
-                ClipboardList()
-            } label: {
-                Label(
-                    NSLocalizedString("클립보드 히스토리", comment: "Menu: clipboard history"),
-                    systemImage: AppSymbol.clockArrowCirclepath
-                )
-            }
-
             Button {
                 HapticManager.shared.light()
                 showCategoryManagement = true
@@ -2322,26 +2330,12 @@ struct ClipKeyboardList: View {
                     systemImage: AppSymbol.listBullet
                 )
             }
-
-            Divider()
-
-            NavigationLink {
-                SettingView()
-            } label: {
-                Label(
-                    NSLocalizedString("설정", comment: "Menu: settings"),
-                    systemImage: AppSymbol.gearshape
-                )
-            }
         } label: {
             Image(systemName: AppSymbol.ellipsisCircle)
-                .foregroundColor(theme.textMuted)
         }
         .popoverTip(quickNoteInboxTip)
         .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu label"))
-        .accessibilityHint(NSLocalizedString("클립보드 히스토리, 플레이스홀더 관리, 설정 메뉴를 엽니다", comment: "More options menu hint"))
-
-        Spacer()
+        .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
 
         Menu {
             // 통합 모델: 사용자는 "메모"만 만든다. 변수({…})를 넣으면 템플릿, 이어지는 메모를 더하면 콤보가 된다.
@@ -2350,9 +2344,9 @@ struct ClipKeyboardList: View {
                 if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
                 showAddMemoSheet = true
             } label: {
-                Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
+                Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
-            // 임시 저장 — 만들다 저장하지 않고 나간 미완성 단축어를 이어서 작성.
+            // 임시 저장 — 만들다 저장하지 않고 나간 미완성 메모를 이어서 작성.
             Button {
                 HapticManager.shared.light()
                 showDraftList = true
@@ -2366,9 +2360,8 @@ struct ClipKeyboardList: View {
                 Label(NSLocalizedString("한번에 많은 메모 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
         } label: {
-            Image(systemName: AppSymbol.plusCircleFill)
-                .font(.title2)
-                .foregroundColor(.blue)
+            // 순정 스타일: 시스템이 glass에 담는 plain plus 글리프 (틴트는 시스템 액센트).
+            Image(systemName: AppSymbol.plus)
         }
         .accessibilityLabel(NSLocalizedString("메모 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 메모를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
@@ -2446,8 +2439,12 @@ struct ClipKeyboardList: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
-                .background(Color.toastBackground)
-                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                // Liquid Glass 토스트 — 어둡게 틴트한 glass라 흰 글자 가독성 유지,
+                // 뒤 콘텐츠가 은은히 비쳐 떠 있는 컨트롤 레이어로 읽힌다. (iOS 26)
+                .glassEffect(
+                    .regular.tint(Color.toastBackground.opacity(0.75)),
+                    in: RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                )
                 .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
                 .onTapGesture {
                     HapticManager.shared.soft()

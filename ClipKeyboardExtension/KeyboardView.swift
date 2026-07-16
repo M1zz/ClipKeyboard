@@ -183,8 +183,9 @@ struct KeyboardView: View {
     /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
     @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var contentHintEnabled: Bool = true
 
-    /// 메모 구분 장치 노출 여부 — iOS "색상 없이 구별" 또는 설정 토글 ON.
-    private var visualCuesVisible: Bool { differentiateWithoutColor || showVisualCues }
+    /// 메모 구분 장치 노출 여부 — 오직 설정 "메모 구분 표시" 토글만 따른다
+    /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
+    private var visualCuesVisible: Bool { showVisualCues }
 
     /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
@@ -227,8 +228,6 @@ struct KeyboardView: View {
     @State private var pendingBypassTemplate: Bool = false
 
     @Environment(\.colorScheme) var colorScheme
-    /// iOS "색상 없이 구별"(Differentiate Without Color)이 켜졌을 때만 타입 테두리를 표시.
-    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     enum SearchLang { case english, korean }
 

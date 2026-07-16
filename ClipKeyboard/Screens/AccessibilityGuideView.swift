@@ -105,8 +105,8 @@ struct AccessibilityGuideView: View {
             iconColor: .green,
             title: NSLocalizedString("색상 없이 구별", comment: "Feature: Differentiate Without Color"),
             body: NSLocalizedString(
-                "이 설정을 켜면 '메모 구분 표시'가 자동으로 켜져, 색에만 의존하지 않도록 메모 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 표시됩니다. 앱 설정 → 디스플레이 → 메모 표시에서 직접 켤 수도 있어요.",
-                comment: "Differentiate Without Color feature description"
+                "색에만 의존하지 않고 메모를 구분하고 싶다면, 앱 설정 → 디스플레이 → 메모 표시에서 '메모 구분 표시'를 켜세요. 메모 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
+                comment: "Differentiate Without Color feature description v2"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 색상 없이 구별", comment: "Differentiate Without Color settings path")
         ),

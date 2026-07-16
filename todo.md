@@ -1,5 +1,39 @@
 # ClipKeyboard 진행 상황
 
+## ✨ UX 폴리시 (2026-07-16)
+
+### Claude가 완료한 것 — iOS 빌드 통과
+- [x] Liquid Glass 시야 확보(상단) — 큰 제목·배너를 고정 크롬이 아닌 **각 페이지 스크롤 콘텐츠**로 이동
+      (`pageHeader(for:)`), 스크롤하면 함께 올라가 화면 전체가 콘텐츠. 상단 엣지는 시스템 soft glass 유지
+- [x] 순정(네이티브) IA 개편 — 사용자 선택 4건 반영 (iOS·macOS 빌드 통과, 시뮬레이터 시각 확인)
+      - 루트를 순정 플로팅 glass TabView로: 메모 / 클립보드 / 설정 + 검색 탭(Tab role: .search),
+        tabBarMinimizeBehavior(.onScrollDown). `MainTabView`·`MemoSearchView` (ClipKeyboardApp.swift)
+      - 검색: 커스텀 하단 검색바 제거 → 검색 탭 + 순정 .searchable (보안 메모는 내용검색·복사 제외)
+      - 메인 제목: 스크롤 콘텐츠 제목 제거("같이 올라가는 것 별로" 피드백) → 순정 인라인 네비바 타이틀
+        (현재 카테고리명, 스와이프 시 갱신), pageHeader는 배너만
+      - 하단 툴바 폐지 → ⋯·+ 를 네비바 트레일링으로(시스템 glass 알약), + 글리프는 plain plus
+      - ⋯ 메뉴에서 클립보드 히스토리·설정 제거(탭으로 이전), scrollEdgeEffectHidden 제거(순정 엣지 복원)
+      - 잔여 데드코드: searchBarInlineSection·isSearchBarVisible·searchNoResultsView (다음 정리 대상)
+- [x] Liquid Glass 전면 적용 (iOS 26, iOS·macOS 빌드 통과)
+      - `solidNavBar` 불투명 강제 해제(정의 1곳 수정 → 27개 화면 네비바 일괄 glass 전환)
+      - `ThemedNavTitleModifier` 전역 UINavigationBar appearance의 opaque 배경 제거(앱 전체 glass를 죽이던 주범),
+        폰트만 오버라이드 + scrollEdge는 투명(시스템과 동일: 맨 위 투명 → 스크롤 시 glass)
+      - 토스트 2곳(메인 리스트·클립보드) → 다크 틴트 glass (`glassEffect(.regular.tint(...))`)
+      - SwipePageIndicator → glass 캡슐, 하단 검색바 → glass 바
+      - 의도적 제외: 콘텐츠 카드·배너(Apple 가이드: glass는 플로팅 컨트롤 레이어 전용),
+        키보드 익스텐션(시스템 glass 크롬 없음 + ~60MB 메모리 한도)
+- [x] 하단 툴바 버튼 유리 배경 제거 — `ToolbarItemGroup.sharedBackgroundVisibility(.hidden)` (검색·⋯ 알약 제거)
+      ※ + 버튼의 파란 원은 배경이 아니라 `plusCircleFill` 글리프 자체
+- [x] 메모 구분 표시 토글 단일화 — `visualCuesVisible = showVisualCues`만 (iOS '색상 없이 구별' 강제 연동 제거,
+      4곳: ClipKeyboardList/MemoRowView/KeyboardView/KeyboardLayoutSettings + 설정·접근성 가이드 문구 갱신)
+- [x] 하단 툴바 회색 스크롤 엣지 제거 — `scrollEdgeEffectHidden(true, for: .bottom)`로 더 넓은 시야 (iOS 26+)
+- [x] 메인 화면 붙여넣기 허용 팁 배너 추가 — 앱 진입 시 팝업 뜨는 지점(topBanners)에서 설정으로 바로 안내
+      (`PastePermissionTipBanner`, `pasteTipDismissed` 키를 클립보드 화면 배너와 공유)
+- [x] 메모/단축어 용어 통일 — 사용자 항목을 가리키는 "단축어"→"메모" (Apple 단축어 앱 의미는 유지)
+- [x] 활용 사례 화면 → 페르소나 스토리로 개편 — 4개 페르소나(nomad/business/student/general)×10개
+      활용법, 공감 pain→예시→"이렇게 달라져요" 3단, ko/en/id 전체 (`PersonaGuideData.swift`, pbxproj 등록)
+- [x] 기본(basic) 탭 그리드 끝 "메모 추가" 카드 제거 (하단 + 메뉴로 유도)
+
 ## 🤖 v4.3.6 — Apple Intelligence + CloudKit 피드백 (2026-07-14)
 
 ### Claude가 완료한 것

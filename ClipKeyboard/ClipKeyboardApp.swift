@@ -8,6 +8,7 @@
 import SwiftUI
 import TipKit
 import WidgetKit
+import LeeoKit
 // 키보드 ext에서는 Firebase 미사용 (KEYBOARD_EXTENSION 플래그로 제외)
 #if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
 import FirebaseCore
@@ -424,7 +425,7 @@ struct ClipKeyboardApp: App {
     /// v4.3.6 정책: 메모 심볼은 **기본 숨김** — showVisualCues를 1회 강제 OFF로 리셋한다.
     /// 구 카테고리 심볼 토글(categoryBadgeVisible) 승계 마이그레이션이 일부 사용자에게
     /// 심볼을 되살리던 문제를 함께 정리. 원하는 사용자는 설정 > 메모 표시에서 다시 켠다.
-    /// (iOS '색상 없이 구별' 접근성이 켜져 있으면 토글과 무관하게 계속 표시된다.)
+    /// (심볼 노출은 오직 이 토글만 따른다 — iOS '색상 없이 구별' 접근성과 무관.)
     private func migrateVisualCuesIfNeeded() {
         let std = UserDefaults.standard
         guard !std.bool(forKey: DefaultsKey.visualCuesDefaultOffV436) else { return }
@@ -551,7 +552,7 @@ struct ClipKeyboardApp: App {
                 Color.clear
             } else {
             AppThemedContainer {
-            ClipKeyboardList()
+            MainTabView()
                 .environmentObject(storeManager)
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
@@ -838,4 +839,81 @@ struct ClipKeyboardApp: App {
         }
     }
     #endif
+}
+
+// MARK: - Main Tab View (iOS 26 순정 플로팅 glass 탭바)
+
+/// 앱 루트 — 순정 TabView: 메모 / 클립보드 / 설정 + 검색 탭(role: .search).
+/// 각 탭은 자기 NavigationStack을 가진다(ClipKeyboardList는 자체 스택 보유).
+/// 스크롤을 내리면 탭바가 자동 축소(tabBarMinimizeBehavior)되어 시야를 넓힌다.
+struct MainTabView: View {
+    var body: some View {
+        TabView {
+            Tab(NSLocalizedString("메모", comment: "Tab: memos"), systemImage: "square.grid.2x2") {
+                ClipKeyboardList()
+            }
+            Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"), systemImage: AppSymbol.clockArrowCirclepath) {
+                NavigationStack { ClipboardList() }
+            }
+            Tab(NSLocalizedString("설정", comment: "Menu: settings"), systemImage: AppSymbol.gearshape) {
+                NavigationStack { SettingView() }
+            }
+            Tab(NSLocalizedString("검색", comment: "Search"), systemImage: AppSymbol.magnifyingglass, role: .search) {
+                NavigationStack { MemoSearchView() }
+            }
+        }
+        #if os(iOS) && !targetEnvironment(macCatalyst)
+        .tabBarMinimizeBehavior(.onScrollDown)
+        #endif
+    }
+}
+
+// MARK: - Memo Search (검색 탭, 순정 .searchable)
+
+/// 검색 탭 — iOS 26 Tab(role: .search)와 짝을 이루는 순정 .searchable 화면.
+/// 탭을 누르면 탭바가 검색 필드로 모핑되고, 여기서는 메모 제목/내용을 필터한다.
+/// 보안 메모는 내용 검색·탭 복사에서 제외(값 노출 방지) — 제목으로만 찾을 수 있다.
+struct MemoSearchView: View {
+    @State private var query: String = ""
+    @State private var memos: [Memo] = []
+    @Environment(\.appTheme) private var theme
+
+    private var results: [Memo] {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !q.isEmpty else { return memos }
+        return memos.filter { memo in
+            memo.title.localizedCaseInsensitiveContains(q)
+                || (!memo.isSecure && memo.value.localizedCaseInsensitiveContains(q))
+        }
+    }
+
+    var body: some View {
+        List(results) { memo in
+            Button {
+                copy(memo)
+            } label: {
+                MemoRowView(memo: memo, fontSize: 15)
+            }
+            .buttonStyle(.plain)
+            .disabled(memo.isSecure)
+        }
+        .listStyle(.plain)
+        .navigationTitle(NSLocalizedString("검색", comment: "Search"))
+        .searchable(text: $query, prompt: NSLocalizedString("검색", comment: "Search"))
+        .onAppear {
+            memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        }
+    }
+
+    /// 비보안 메모만 복사(보안 메모는 버튼 자체가 비활성).
+    private func copy(_ memo: Memo) {
+        #if os(iOS)
+        UIPasteboard.general.string = memo.value
+        HapticManager.shared.success()
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: String(format: NSLocalizedString("[%@] 복사됨", comment: ""), memo.title)
+        )
+        #endif
+    }
 }

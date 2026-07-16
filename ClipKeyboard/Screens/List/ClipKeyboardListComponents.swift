@@ -62,6 +62,79 @@ struct ProValueNudgeBanner: View {
     }
 }
 
+// MARK: - Paste Permission Tip Banner (메인 화면)
+
+/// 앱을 열 때마다 iOS "붙여넣기 허용" 팝업이 뜨는 사용자를 위한 안내.
+/// 클립보드를 읽어 최근 복사 카드를 만드는 지점(메인 리스트)이 곧 팝업이 뜨는 지점이라
+/// 여기에서 바로 설정으로 안내한다. 설정 → 앱 → '다른 앱에서 붙여넣기' → 허용.
+/// "허용하러 가기" → 앱 설정 열기, "다시 안 보기" → 영구 닫힘(pasteTipDismissed 공유).
+struct PastePermissionTipBanner: View {
+    let onOpenSettings: () -> Void
+    let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: AppSymbol.docOnClipboardFill)
+                    .font(.body)
+                    .foregroundColor(theme.accent)
+                    .padding(.top, 1)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(NSLocalizedString("붙여넣기 팝업이 자꾸 뜨나요?", comment: "Paste permission main tip title"))
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.text)
+
+                    Text(NSLocalizedString("설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 바꾸면 팝업 없이 바로 정리돼요.", comment: "Paste permission main tip body"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer(minLength: 0)
+
+                Button(action: onDismiss) {
+                    Image(systemName: AppSymbol.xmark)
+                        .font(.caption2)
+                        .foregroundColor(theme.textFaint)
+                        .padding(6)
+                        .background(theme.divider)
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
+            }
+
+            HStack(spacing: 18) {
+                Button(action: onOpenSettings) {
+                    HStack(spacing: 4) {
+                        Text(NSLocalizedString("허용하러 가기", comment: "Go to Settings to allow paste"))
+                            .font(.body)
+                            .fontWeight(.semibold)
+                        Image(systemName: AppSymbol.arrowUpForwardApp)
+                            .font(.caption)
+                    }
+                    .foregroundColor(theme.accent)
+                }
+                .buttonStyle(.plain)
+
+                Button(action: onDismiss) {
+                    Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(14)
+        .background(theme.accentSoft)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
+    }
+}
+
 // MARK: - Category Activation Banner (v4.1.0)
 
 /// 카테고리 기능이 미활성일 때 메모가 5개 이상이면 상단에 노출.
@@ -419,7 +492,8 @@ struct SwipePageIndicator: View {
         .animation(.easeInOut(duration: 0.3), value: accentColor)
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
-        .background(.ultraThinMaterial, in: Capsule())
+        // 콘텐츠 위에 떠 있는 인디케이터 — Liquid Glass 캡슐. (iOS 26)
+        .glassEffect(in: Capsule())
     }
 }
 

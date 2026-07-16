@@ -17,17 +17,13 @@ extension View {
         modifier(ThemedNavTitleModifier(theme: theme))
     }
 
-    /// 네비게이션 바를 테마 배경색으로 불투명하게 — 여러 시트/화면에서 반복되던
-    /// toolbarBackground 2줄 보일러플레이트를 한 줄로.
+    /// (구) 네비게이션 바를 테마 배경색으로 불투명하게 만들던 모디파이어.
+    /// iOS 26 Liquid Glass 전환: 불투명 강제를 걷어내고 시스템 기본(맨 위 투명 →
+    /// 스크롤 시 glass)에 맡긴다. 27개 호출부를 유지한 채 이 한 곳만 바꿔
+    /// 앱 전체 네비게이션 바가 한 번에 glass로 전환된다.
     @ViewBuilder
     func solidNavBar(_ color: Color) -> some View {
-        #if os(iOS)
         self
-            .toolbarBackground(color, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
-        #else
-        self
-        #endif
     }
 }
 
@@ -45,9 +41,12 @@ struct ThemedNavTitleModifier: ViewModifier {
 
     #if os(iOS)
     private func applyNavBarFont(_ theme: AppTheme) {
+        // ⚠️ Liquid Glass(iOS 26): 배경은 절대 건드리지 않는다.
+        // configureWithOpaqueBackground()+backgroundColor를 전역 appearance에 넣으면
+        // 앱의 모든 네비게이션 바가 불투명해져 시스템 glass가 통째로 죽는다.
+        // 폰트(테마 서체)만 오버라이드하고 배경은 시스템 기본에 맡긴다.
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(theme.bg)
+        appearance.configureWithDefaultBackground()
 
         if theme.kind == .paper, let font = UIFont(name: "Fraunces-Bold", size: 34) {
             appearance.largeTitleTextAttributes = [
@@ -70,8 +69,15 @@ struct ThemedNavTitleModifier: ViewModifier {
             .foregroundColor: UIColor(theme.text)
         ]
 
+        // 스크롤 최상단(콘텐츠가 바에 안 닿았을 때)은 투명 — 시스템과 동일한
+        // "맨 위 투명 → 스크롤하면 glass" 동작을 폰트 오버라이드와 함께 유지.
+        let edge = UINavigationBarAppearance()
+        edge.configureWithTransparentBackground()
+        edge.largeTitleTextAttributes = appearance.largeTitleTextAttributes
+        edge.titleTextAttributes = appearance.titleTextAttributes
+
         UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = edge
         UINavigationBar.appearance().compactAppearance = appearance
     }
     #endif
