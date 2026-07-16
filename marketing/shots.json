@@ -1,0 +1,24 @@
+{
+  "_주석": "여기서 App Store 스크린샷을 한 번에 정의합니다. defaults 는 모든 컷 공통값, shots 는 컷별 값(덮어쓰기). raw/ 의 캡처 파일명을 screenshot 에 씁니다.",
+  "defaults": {
+    "size": [1290, 2796],
+    "frame_style": "clean",
+    "bg_top": "#16181D",
+    "bg_bottom": "#0E0F12",
+    "accent": "#4FACFE",
+    "title_color": "#FFFFFF",
+    "title_size": 104,
+    "eyebrow_size": 50,
+    "phone_scale": 0.86,
+    "text_top": 0.055,
+    "phone_top": 0.30
+  },
+  "shots": [
+    {
+      "screenshot": "raw/screen1.png",
+      "out": "out/01.png",
+      "eyebrow": "키보드에서 바로 꺼내 쓰는",
+      "title": "자주 쓰는 문장,\n한 번의 탭으로"
+    }
+  ]
+}
