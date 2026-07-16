@@ -586,7 +586,8 @@ private enum UsageScenarioData {
 struct UsageGuideView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var expanded: Set<UUID> = Set(usageCategories.prefix(1).map { $0.id })
+    // 페르소나 단위로 펼침/접힘 관리 (PersonaGuide.id == persona.rawValue).
+    @State private var expanded: Set<String> = Set(personaGuides.prefix(1).map { $0.id })
     @State private var showStarterPack: Bool = false
 
     var body: some View {
@@ -594,8 +595,8 @@ struct UsageGuideView: View {
             VStack(alignment: .leading, spacing: 20) {
                 heroHeader
 
-                ForEach(usageCategories) { category in
-                    categorySection(category: category)
+                ForEach(personaGuides) { guide in
+                    personaSection(guide)
                 }
 
                 Spacer(minLength: 40)
@@ -618,10 +619,10 @@ struct UsageGuideView: View {
     private var heroHeader: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 6) {
-                Text(NSLocalizedString("Your day as a remote freelancer", comment: "Usage guide hero title"))
+                Text(NSLocalizedString("이런 분들이 매일 아낍니다", comment: "Persona guide hero title"))
                     .font(.system(.title2, design: .serif, weight: .semibold))
                     .foregroundColor(theme.text)
-                Text(NSLocalizedString("18 moments where ClipKeyboard saves you minutes — or rescues a mistake.", comment: "Usage guide hero subtitle"))
+                Text(NSLocalizedString("당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 메모가 됩니다.", comment: "Persona guide hero subtitle"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
             }
@@ -660,63 +661,69 @@ struct UsageGuideView: View {
         .padding(.vertical, 8)
     }
 
-    private func categorySection(category: UsageCategory) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
+    private func personaSection(_ guide: PersonaGuide) -> some View {
+        let isOpen = expanded.contains(guide.id)
+        return VStack(alignment: .leading, spacing: 0) {
             Button {
                 HapticManager.shared.soft()
-                let isExpanding = !expanded.contains(category.id)
                 let animation: Animation = reduceMotion
                     ? .linear(duration: 0.1)
                     : .easeInOut(duration: 0.22)
                 withAnimation(animation) {
-                    if expanded.contains(category.id) {
-                        expanded.remove(category.id)
-                    } else {
-                        expanded.insert(category.id)
-                    }
+                    if isOpen { expanded.remove(guide.id) } else { expanded.insert(guide.id) }
                 }
-                // VoiceOver: 펼침/접힘 상태 알림
                 #if os(iOS)
                 if UIAccessibility.isVoiceOverRunning {
-                    let state = isExpanding
-                        ? NSLocalizedString("펼침", comment: "VoiceOver: expanded")
-                        : NSLocalizedString("접힘", comment: "VoiceOver: collapsed")
-                    UIAccessibility.post(notification: .announcement, argument: "\(category.title), \(state)")
+                    let state = isOpen
+                        ? NSLocalizedString("접힘", comment: "VoiceOver: collapsed")
+                        : NSLocalizedString("펼침", comment: "VoiceOver: expanded")
+                    UIAccessibility.post(notification: .announcement, argument: "\(guide.persona.localizedTitle), \(state)")
                 }
                 #endif
             } label: {
-                HStack(spacing: 10) {
-                    Text(category.emoji)
-                        .font(.system(.title2))
-                        .accessibilityHidden(true)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(category.title)
-                            .font(.callout.weight(.semibold))
-                            .foregroundColor(theme.text)
-                        Text(category.desc)
-                            .font(.body)
-                            .foregroundColor(theme.textMuted)
-                            .lineLimit(2)
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 12) {
+                        Image(systemName: guide.persona.icon)
+                            .font(.system(.title3, weight: .semibold))
+                            .foregroundColor(.blue)
+                            .frame(width: 34, height: 34)
+                            .background(Color.blue.opacity(0.12))
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(guide.persona.localizedTitle)
+                                .font(.callout.weight(.semibold))
+                                .foregroundColor(theme.text)
+                            Text(String(format: NSLocalizedString("%d가지 활용법", comment: "Persona: N use cases"), guide.scenarios.count))
+                                .font(.caption)
+                                .foregroundColor(theme.textFaint)
+                        }
+                        Spacer()
+                        Image(systemName: isOpen ? "chevron.up" : "chevron.down")
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(theme.textFaint)
+                            .accessibilityHidden(true)
                     }
-                    Spacer()
-                    Image(systemName: expanded.contains(category.id) ? "chevron.up" : "chevron.down")
-                        .font(.body.weight(.semibold))
-                        .foregroundColor(theme.textFaint)
-                        .accessibilityHidden(true)
+                    // 페르소나 공감 인트로 — 펼쳤을 때만 전문 노출, 접혔을 땐 2줄 미리보기.
+                    Text(guide.intro)
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(isOpen ? nil : 2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(14)
                 .background(theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             }
             .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(category.title)
-            .accessibilityHint(category.desc)
-            .accessibilityAddTraits(expanded.contains(category.id) ? [.isButton] : [.isButton])
+            .accessibilityLabel(guide.persona.localizedTitle)
+            .accessibilityHint(guide.intro)
 
-            if expanded.contains(category.id) {
+            if isOpen {
                 VStack(spacing: 10) {
-                    ForEach(category.scenarios) { scenario in
-                        scenarioCard(scenario)
+                    ForEach(guide.scenarios) { scenario in
+                        personaScenarioCard(scenario)
                     }
                 }
                 .padding(.top, 10)
@@ -724,7 +731,7 @@ struct UsageGuideView: View {
         }
     }
 
-    private func scenarioCard(_ scenario: UsageScenario) -> some View {
+    private func personaScenarioCard(_ scenario: PersonaScenario) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 8) {
                 Text(scenario.title)
@@ -734,17 +741,17 @@ struct UsageGuideView: View {
                 featureBadge(scenario.feature)
             }
 
-            if let context = scenario.context {
-                HStack(spacing: 6) {
-                    Image(systemName: AppSymbol.quoteOpening)
-                        .font(.system(.caption2))
-                        .foregroundColor(theme.textFaint)
-                        .accessibilityHidden(true)
-                    Text(context)
-                        .font(.body.weight(.medium))
-                        .foregroundColor(theme.textMuted)
-                        .italic()
-                }
+            // 공감 맥락 — "이런 순간, 불편했죠"
+            HStack(alignment: .top, spacing: 6) {
+                Image(systemName: AppSymbol.quoteOpening)
+                    .font(.system(.caption2))
+                    .foregroundColor(theme.textFaint)
+                    .accessibilityHidden(true)
+                Text(scenario.pain)
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+                    .italic()
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             // {플레이스홀더}는 템플릿 화면과 동일하게 칩으로 표시 (날것 [] / {} 노출 방지)
@@ -757,9 +764,26 @@ struct UsageGuideView: View {
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
                 .textSelection(.enabled)
 
+            // 이렇게 달라져요 — 만들어지는 차이
+            HStack(alignment: .top, spacing: 6) {
+                Image(systemName: AppSymbol.sparkles)
+                    .font(.system(.caption2))
+                    .foregroundColor(.green)
+                    .accessibilityHidden(true)
+                Text(scenario.impact)
+                    .font(.callout)
+                    .foregroundColor(theme.text)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.green.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
+            .accessibilityLabel(String(format: NSLocalizedString("이렇게 달라져요: %@", comment: "VoiceOver: the difference it makes"), scenario.impact))
+
             HStack(spacing: 8) {
                 NavigationLink {
-                    // v4.0.8: 시나리오의 feature에 따라 메모 추가 화면의 토글도 미리 ON.
+                    // 시나리오의 feature에 따라 메모 추가 화면의 토글도 미리 ON.
                     // .template → 템플릿 토글, .combo → Combo 토글, 그 외(.memo/.smartClipboard)는 일반 메모
                     MemoAdd(
                         insertedKeyword: scenario.title,

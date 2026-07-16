@@ -100,6 +100,7 @@
 		A8D416BFF3390523346663DC /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000001F3B00001 /* ReviewRequestView.swift */; };
 		AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000600000001F3B00002 /* UsageGuideView.swift */; };
+		AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000800000001F3B00002 /* PersonaGuideData.swift */; };
 		AA00000700000001F3B00003 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
 		AA00000800000001F3B00003 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		AA00001000000001F3B00004 /* HangulComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001100000001F3B00004 /* HangulComposer.swift */; };
@@ -290,6 +291,7 @@
 		A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DefaultsKey.swift; sourceTree = "<group>"; };
 		AA00000100000001F3B00001 /* ReviewRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRequestView.swift; sourceTree = "<group>"; };
 		AA00000600000001F3B00002 /* UsageGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageGuideView.swift; sourceTree = "<group>"; };
+		AA00000800000001F3B00002 /* PersonaGuideData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaGuideData.swift; sourceTree = "<group>"; };
 		AA00001100000001F3B00004 /* HangulComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulComposer.swift; sourceTree = "<group>"; };
 		AA00001300000001F3B00004 /* TypingKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingKeyboardView.swift; sourceTree = "<group>"; };
 		AA00001500000001F3B00005 /* CheonjiinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheonjiinInput.swift; sourceTree = "<group>"; };
@@ -683,6 +685,7 @@
 				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
+				AA00000800000001F3B00002 /* PersonaGuideData.swift */,
 				QKN0FILE0000000000000005 /* WhatsNewView.swift */,
 				STP00022F0000000000000002 /* StarterPackView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
@@ -1146,6 +1149,7 @@
 				KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */,
+				AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */,
 				STP00012F0000000000000001 /* StarterPackView.swift in Sources */,
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
