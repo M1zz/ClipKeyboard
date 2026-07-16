@@ -2,6 +2,19 @@
 
 ## ✨ UX 폴리시 (2026-07-16)
 
+### Liquid Glass 마지막 차단막 제거 (커밋 대기) — iOS 빌드 통과
+- [x] ThemedNavTitleModifier(전역 UINavigationBar.appearance 폰트 오버라이드) 완전 삭제
+      — iOS 26에선 커스텀 appearance 객체 설정만으로 해당 바가 시스템 glass에서 제외됨(불투명해 보이던 진짜 원인)
+      — 트레이드오프: Paper 테마 네비바 Fraunces 서체 포기(시스템 서체), 콘텐츠 내 serif 텍스트는 무관
+- [ ] 기기에서 확인: 네비바(맨 위 투명→스크롤 시 glass), 탭바 pill 뒤로 콘텐츠 굴절
+
+### 용어 전면 재통일 (커밋 대기) — iOS·macOS 빌드 통과, 시뮬 확인
+- [x] 저장 항목(키-밸류) = **단축어** (en/id: Snippet) — 복합어 포함 전부 (보안 단축어, 단축어 구분 표시 등)
+- [x] 미분류 빠른 캡처 = **메모** (en: Note, id: Catatan) — "빠른 메모"에서 "빠른" 제거, 보관함·제어센터·공유시트·Siri 포함
+- [x] 카탈로그 179개 키 리네임 + 값(ko/en/id) 교체, 코드 48개 파일(.tap 포함) 키 동기화
+- [x] ⚠️ ComboItemType rawValue "메모"는 저장 데이터라 동결 — localizedName switch로 표시만 분리 (iOS+.tap)
+- [x] ScenarioFeature.memo → .snippet (rawValue 미저장 확인), 카탈로그 'Memo'→'Snippet', 'Save as memo'→'Save as snippet'
+
 ### Claude가 완료한 것 — iOS 빌드 통과
 - [x] Liquid Glass 시야 확보(상단) — 큰 제목·배너를 고정 크롬이 아닌 **각 페이지 스크롤 콘텐츠**로 이동
       (`pageHeader(for:)`), 스크롤하면 함께 올라가 화면 전체가 콘텐츠. 상단 엣지는 시스템 soft glass 유지

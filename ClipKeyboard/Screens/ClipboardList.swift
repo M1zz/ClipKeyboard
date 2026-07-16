@@ -251,7 +251,7 @@ struct ClipboardList: View {
             if let item = itemToSave {
                 SaveToMemoSheet(item: item) { savedSuccessfully in
                     if savedSuccessfully {
-                        showToast(message: NSLocalizedString("메모로 저장되었습니다", comment: "Clipboard item saved as memo"))
+                        showToast(message: NSLocalizedString("단축어로 저장되었습니다", comment: "Clipboard item saved as memo"))
                     }
                     showSaveDialog = false
                 }
@@ -450,7 +450,7 @@ struct ClipboardList: View {
             )
             memos.append(newMemo)
             try MemoStore.shared.save(memos: memos, type: .memo)
-            showToast(message: NSLocalizedString("메모로 저장되었습니다", comment: "Clipboard item saved as memo"))
+            showToast(message: NSLocalizedString("단축어로 저장되었습니다", comment: "Clipboard item saved as memo"))
         } catch {
             print("❌ [ClipboardList.saveTranslationAsMemo] \(error)")
         }
@@ -794,12 +794,12 @@ struct SaveToMemoSheet: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(NSLocalizedString("메모 정보", comment: "Memo info section header")) {
+                Section(NSLocalizedString("단축어 정보", comment: "Memo info section header")) {
                     TextField(NSLocalizedString("제목", comment: "Title field placeholder"), text: $title)
 
                     // 카테고리는 아래 "자동 분류 정보"의 감지 타입으로 자동 결정됨 (수동 선택 제거).
 
-                    Toggle(NSLocalizedString("보안 메모", comment: "Secure memo toggle"), isOn: $isSecure)
+                    Toggle(NSLocalizedString("보안 단축어", comment: "Secure memo toggle"), isOn: $isSecure)
                 }
 
                 Section(NSLocalizedString("내용", comment: "Content section header")) {
@@ -821,7 +821,7 @@ struct SaveToMemoSheet: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("메모로 저장", comment: "Save to memo sheet title"))
+            .navigationTitle(NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

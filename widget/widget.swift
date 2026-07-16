@@ -109,7 +109,7 @@ struct FavoriteMemoWidgetView: View {
                     Text(NSLocalizedString("즐겨찾기 없음", comment: "No favorites widget"))
                         .font(.headline)
                 }
-                Text(NSLocalizedString("메모를 즐겨찾기에 추가하세요", comment: "Add memo to favorites"))
+                Text(NSLocalizedString("단축어를 즐겨찾기에 추가하세요", comment: "Add memo to favorites"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -174,7 +174,7 @@ struct FavoriteMemoWidgetView: View {
                     Text(NSLocalizedString("즐겨찾기 없음", comment: "No favorites widget"))
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text(NSLocalizedString("메모를 즐겨찾기에 추가하세요", comment: "Add memo to favorites"))
+                    Text(NSLocalizedString("단축어를 즐겨찾기에 추가하세요", comment: "Add memo to favorites"))
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
                     Spacer()
@@ -210,10 +210,10 @@ struct FavoriteMemoWidget: Widget {
                 .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName(
-            NSLocalizedString("즐겨찾기 메모", comment: "Favorite memo widget name")
+            NSLocalizedString("즐겨찾기 단축어", comment: "Favorite memo widget name")
         )
         .description(
-            NSLocalizedString("즐겨찾기 메모를 탭하여 바로 복사합니다. 메모를 왼쪽으로 밀어 즐겨찾기를 설정하세요.", comment: "Favorite memo widget description")
+            NSLocalizedString("즐겨찾기 단축어를 탭하여 바로 복사합니다. 단축어를 왼쪽으로 밀어 즐겨찾기를 설정하세요.", comment: "Favorite memo widget description")
         )
         .supportedFamilies([
             .accessoryCircular,

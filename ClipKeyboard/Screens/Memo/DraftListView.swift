@@ -89,7 +89,7 @@ struct DraftListView: View {
             Text(NSLocalizedString("임시 저장된 항목이 없어요", comment: "Drafts empty state title"))
                 .font(.headline)
                 .foregroundColor(theme.text)
-            Text(NSLocalizedString("메모를 만들다 저장하지 않고 나가면 여기에 자동으로 보관돼요.", comment: "Drafts empty state subtitle"))
+            Text(NSLocalizedString("단축어를 만들다 저장하지 않고 나가면 여기에 자동으로 보관돼요.", comment: "Drafts empty state subtitle"))
                 .font(.subheadline)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)

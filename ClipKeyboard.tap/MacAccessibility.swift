@@ -14,9 +14,9 @@ extension Memo {
         var parts: [String] = [title]
         if isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Favorites")) }
         if isSecure {
-            parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge"))
+            parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge"))
         } else if contentType == .image || contentType == .mixed {
-            parts.append(NSLocalizedString("이미지 메모", comment: "VoiceOver: image memo badge"))
+            parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo badge"))
         }
         if isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
         if isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }

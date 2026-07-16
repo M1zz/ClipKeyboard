@@ -76,12 +76,6 @@ struct PastePermissionTipBanner: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 10) {
-                Image(systemName: AppSymbol.docOnClipboardFill)
-                    .font(.body)
-                    .foregroundColor(theme.accent)
-                    .padding(.top, 1)
-                    .accessibilityHidden(true)
-
                 VStack(alignment: .leading, spacing: 4) {
                     Text(NSLocalizedString("붙여넣기 팝업이 자꾸 뜨나요?", comment: "Paste permission main tip title"))
                         .font(.body)
@@ -151,7 +145,7 @@ struct CategoryActivationBanner: View {
                     .font(.title3)
                     .foregroundColor(.blue)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(NSLocalizedString("메모가 늘었어요", comment: "Category activation banner title"))
+                    Text(NSLocalizedString("단축어가 늘었어요", comment: "Category activation banner title"))
                         .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
@@ -339,7 +333,7 @@ struct MemoActionSheet: View {
                     actionRow(
                         label: memo.isSecure
                             ? NSLocalizedString("보안 해제", comment: "Action: remove secure lock from memo")
-                            : NSLocalizedString("보안 메모로 설정", comment: "Action: make memo secure"),
+                            : NSLocalizedString("보안 단축어로 설정", comment: "Action: make memo secure"),
                         systemImage: memo.isSecure ? "lock.open" : "lock"
                     ) {
                         dismiss()
@@ -433,7 +427,7 @@ struct CategorySuggestionTip: Tip {
     var id: String { "category-suggestion-\(categoryRawName)" }
 
     var title: Text {
-        Text(String(format: NSLocalizedString("'%@' 메모가 %d개 있어요", comment: "Category suggestion tip title — category name, memo count"),
+        Text(String(format: NSLocalizedString("'%@' 단축어가 %d개 있어요", comment: "Category suggestion tip title — category name, memo count"),
                     displayName, count))
     }
 
@@ -463,7 +457,7 @@ struct PersonaCategoryTip: Tip {
         Text(NSLocalizedString("이런 카테고리는 어때요?", comment: "Persona category suggestion tip title"))
     }
     var message: Text? {
-        Text(NSLocalizedString("선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 메모를 한곳에 모을 수 있어요.", comment: "Persona category suggestion tip message"))
+        Text(NSLocalizedString("선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 단축어를 한곳에 모을 수 있어요.", comment: "Persona category suggestion tip message"))
     }
     var image: Image? {
         Image(systemName: AppSymbol.folderBadgePlus)
@@ -921,7 +915,7 @@ struct CategoryManagementSheet: View {
             }
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { newName = "" }
         } message: {
-            Text(NSLocalizedString("메모를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
+            Text(NSLocalizedString("단축어를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
         }
     }
 

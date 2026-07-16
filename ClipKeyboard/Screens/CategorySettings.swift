@@ -54,7 +54,7 @@ struct CategorySettings: View {
             } header: {
                 Text(NSLocalizedString("기본 제공 카테고리", comment: "Built-in categories section header"))
             } footer: {
-                Text(NSLocalizedString("앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 메모만 모아 볼 수 있어요.", comment: "Built-in categories section footer"))
+                Text(NSLocalizedString("앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.", comment: "Built-in categories section footer"))
                     .font(.body)
             }
 
@@ -120,7 +120,7 @@ struct CategorySettings: View {
                             Text(NSLocalizedString("Remove all categories", comment: "Remove all categories button"))
                         }
                     }
-                    .accessibilityHint(NSLocalizedString("모든 카테고리를 삭제합니다. 메모는 유지됩니다.", comment: "Remove all categories hint"))
+                    .accessibilityHint(NSLocalizedString("모든 카테고리를 삭제합니다. 단축어는 유지됩니다.", comment: "Remove all categories hint"))
                 }
             }
         }

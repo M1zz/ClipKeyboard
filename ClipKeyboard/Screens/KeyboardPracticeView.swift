@@ -78,7 +78,7 @@ struct KeyboardPracticeView: View {
                             text: isNomad
                                 ? NSLocalizedString("저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요",
                                                     comment: "Practice step 3 for nomad persona")
-                                : NSLocalizedString("메모를 탭하면 입력창에 바로 붙여넣어져요",
+                                : NSLocalizedString("단축어를 탭하면 입력창에 바로 붙여넣어져요",
                                                     comment: "Practice step 3"))
         }
         .padding(16)
@@ -90,7 +90,7 @@ struct KeyboardPracticeView: View {
 
     private var memoHintsCard: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(NSLocalizedString("저장된 메모 (키보드에서 보임)",
+            Text(NSLocalizedString("저장된 단축어 (키보드에서 보임)",
                                    comment: "Saved memos hint label"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -146,7 +146,7 @@ struct KeyboardPracticeView: View {
                     )
 
                 if practiceText.isEmpty {
-                    Text(NSLocalizedString("여기를 탭하고 ClipKeyboard에서 메모를 붙여넣어 보세요…",
+                    Text(NSLocalizedString("여기를 탭하고 ClipKeyboard에서 단축어를 붙여넣어 보세요…",
                                           comment: "Practice editor placeholder"))
                         .font(.body)
                         .foregroundColor(theme.textFaint)
@@ -232,7 +232,7 @@ struct KeyboardPracticeSheet: View {
                 .padding(.bottom, 12)
 
             Text(NSLocalizedString(
-                "ClipKeyboard 설치가 완료됐어요!\n저장한 메모를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요.",
+                "ClipKeyboard 설치가 완료됐어요!\n저장한 단축어를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요.",
                 comment: "Practice prompt description"
             ))
             .font(.body)

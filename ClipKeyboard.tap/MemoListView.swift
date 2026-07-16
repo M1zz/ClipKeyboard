@@ -63,7 +63,7 @@ struct MemoListView: View {
                             .font(.system(.body))
                             .foregroundStyle(.blue)
 
-                        Text(NSLocalizedString("메모", comment: "Memos section header"))
+                        Text(NSLocalizedString("단축어", comment: "Snippets section header"))
                             .font(.headline)
                             .bold()
 
@@ -117,7 +117,7 @@ struct MemoListView: View {
                     HStack(spacing: 6) {
                         Image(systemName: AppSymbol.lockFill)
                             .font(.system(.caption))
-                        Text(String(format: NSLocalizedString("%d개 메모 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
+                        Text(String(format: NSLocalizedString("%d개 단축어 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
                             .font(.system(.caption))
                         Spacer()
                     }
@@ -187,7 +187,7 @@ struct MemoListView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(.secondary)
 
-            Text(searchText.isEmpty ? NSLocalizedString("메모 없음", comment: "No memos") : NSLocalizedString("검색 결과 없음", comment: "No search results"))
+            Text(searchText.isEmpty ? NSLocalizedString("단축어 없음", comment: "No memos") : NSLocalizedString("검색 결과 없음", comment: "No search results"))
                 .font(.caption)
                 .bold()
                 .foregroundStyle(.secondary)

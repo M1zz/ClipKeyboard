@@ -202,7 +202,7 @@ struct ClipKeyboardList: View {
             return String(format: NSLocalizedString("이미 %d분을 아꼈어요 — Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
         }
         let left = max(0, ProFeatureManager.freeMemoLimit - viewModel.memos.count)
-        return String(format: NSLocalizedString("무료 메모 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
+        return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
     /// 카드 어항 미리보기 텍스트 — 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
@@ -388,7 +388,7 @@ struct ClipKeyboardList: View {
                     newCategoryName = ""
                 }
             } message: {
-                Text(NSLocalizedString("메모를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
+                Text(NSLocalizedString("단축어를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
             }
             .alert(
                 NSLocalizedString("카테고리 삭제", comment: "Delete category alert title"),
@@ -401,7 +401,7 @@ struct ClipKeyboardList: View {
                 Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { categoryToDelete = nil }
             } message: {
                 if let name = categoryToDelete {
-                    Text(String(format: NSLocalizedString("'%@' 카테고리를 삭제하시겠습니까? 메모는 유지됩니다.", comment: "Delete category confirm message"), name))
+                    Text(String(format: NSLocalizedString("'%@' 카테고리를 삭제하시겠습니까? 단축어는 유지됩니다.", comment: "Delete category confirm message"), name))
                 }
             }
             .alert(
@@ -423,7 +423,7 @@ struct ClipKeyboardList: View {
                     memoForCategoryAssign = nil
                 }
             } message: {
-                Text(NSLocalizedString("카테고리가 생성되고 이 메모가 바로 이동됩니다.", comment: "Create category and assign message"))
+                Text(NSLocalizedString("카테고리가 생성되고 이 단축어가 바로 이동됩니다.", comment: "Create category and assign message"))
             }
     }
 
@@ -501,11 +501,11 @@ struct ClipKeyboardList: View {
             .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $viewModel.showAuthAlert) {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
             } message: {
-                Text(NSLocalizedString("보안 메모에 접근하려면 생체 인증이 필요합니다", comment: "Biometric auth required"))
+                Text(NSLocalizedString("보안 단축어에 접근하려면 생체 인증이 필요합니다", comment: "Biometric auth required"))
             }
             // 메모 삭제 확인 Alert
             .alert(
-                NSLocalizedString("메모 삭제", comment: "Delete memo alert title"),
+                NSLocalizedString("단축어 삭제", comment: "Delete memo alert title"),
                 isPresented: Binding(
                     get: { memoToDelete != nil },
                     set: { if !$0 { memoToDelete = nil } }
@@ -616,7 +616,7 @@ struct ClipKeyboardList: View {
                 }
                 Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
             } message: {
-                Text(NSLocalizedString("즐겨찾기 메모를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
+                Text(NSLocalizedString("즐겨찾기 단축어를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
             }
     }
 
@@ -755,8 +755,8 @@ struct ClipKeyboardList: View {
     private var inboxMenuTitle: String {
         let count = QuickNoteStore.shared.count
         return count > 0
-            ? String(format: NSLocalizedString("빠른 메모 보관함 (%d)", comment: "Menu: quick note inbox with count"), count)
-            : NSLocalizedString("빠른 메모 보관함", comment: "Menu: quick note inbox")
+            ? String(format: NSLocalizedString("메모 보관함 (%d)", comment: "Menu: quick note inbox with count"), count)
+            : NSLocalizedString("메모 보관함", comment: "Menu: quick note inbox")
     }
 
     /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
@@ -791,8 +791,8 @@ struct ClipKeyboardList: View {
                 .submitLabel(.search)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
-                .accessibilityLabel(NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
-                .accessibilityHint(NSLocalizedString("메모 제목 또는 내용으로 검색합니다", comment: "Search field accessibility hint"))
+                .accessibilityLabel(NSLocalizedString("단축어 검색", comment: "Search field accessibility label"))
+                .accessibilityHint(NSLocalizedString("단축어 제목 또는 내용으로 검색합니다", comment: "Search field accessibility hint"))
 
             if !viewModel.searchQueryString.isEmpty {
                 Button(action: {
@@ -880,7 +880,7 @@ struct ClipKeyboardList: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isButton)
-        .accessibilityLabel(String(format: NSLocalizedString("추천 메모 %@", comment: "VoiceOver: suggested memo"), pattern.title))
+        .accessibilityLabel(String(format: NSLocalizedString("추천 단축어 %@", comment: "VoiceOver: suggested memo"), pattern.title))
         .accessibilityHint(NSLocalizedString("눌러서 채워서 추가해보기", comment: "VoiceOver: ghost memo hint"))
         // 제안 교체 시 작은 네모에서 커지며 등장 / 닫으면 작아지며 사라지는 트랜지션.
         // 패턴이 바뀌면 id가 달라져 퇴장→등장이 분리되어 애니메이션된다.
@@ -1079,9 +1079,9 @@ struct ClipKeyboardList: View {
         var parts: [String] = [memo.title]
         if memo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Category: favorites")) }
         if memo.contentType == .image || memo.contentType == .mixed {
-            parts.append(NSLocalizedString("이미지 메모", comment: "VoiceOver: image memo badge"))
+            parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo badge"))
         }
-        if memo.isSecure { parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge")) }
+        if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
         if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
         if CategoryStore.shared.isFeatureEnabled, viewModel.customCategories.contains(memo.category) {
@@ -1440,7 +1440,7 @@ struct ClipKeyboardList: View {
                 emptyPage(for: tab) {
                     emptyStateWithAddCard(
                         icon: b.icon,
-                        message: String(format: NSLocalizedString("'%@'에 해당하는 메모가 없습니다", comment: "Built-in category empty state"), b.displayName),
+                        message: String(format: NSLocalizedString("'%@'에 해당하는 단축어가 없습니다", comment: "Built-in category empty state"), b.displayName),
                         tab: tab
                     )
                 }
@@ -1453,7 +1453,7 @@ struct ClipKeyboardList: View {
                 emptyPage(for: tab) {
                     emptyStateWithAddCard(
                         icon: "folder",
-                        message: String(format: NSLocalizedString("'%@'에 메모가 없습니다", comment: "Custom category empty state"), name),
+                        message: String(format: NSLocalizedString("'%@'에 단축어가 없습니다", comment: "Custom category empty state"), name),
                         tab: tab
                     )
                 }
@@ -1476,7 +1476,7 @@ struct ClipKeyboardList: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text(NSLocalizedString("이런 메모를 만들어 보는 건 어떠세요?", comment: "Search empty state: suggestion subhead"))
+                    Text(NSLocalizedString("이런 단축어를 만들어 보는 건 어떠세요?", comment: "Search empty state: suggestion subhead"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -1533,8 +1533,8 @@ struct ClipKeyboardList: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isButton)
-        .accessibilityLabel(String(format: NSLocalizedString("'%@' 메모 만들기", comment: "VoiceOver: create memo from search query"), query))
-        .accessibilityHint(NSLocalizedString("눌러서 이 이름으로 메모를 추가합니다", comment: "VoiceOver: search suggestion hint"))
+        .accessibilityLabel(String(format: NSLocalizedString("'%@' 단축어 만들기", comment: "VoiceOver: create memo from search query"), query))
+        .accessibilityHint(NSLocalizedString("눌러서 이 이름으로 단축어를 추가합니다", comment: "VoiceOver: search suggestion hint"))
     }
 
     // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
@@ -1574,7 +1574,7 @@ struct ClipKeyboardList: View {
                         Image(systemName: AppSymbol.trayFull)
                             .font(.largeTitle)
                             .foregroundColor(.secondary)
-                        Text(NSLocalizedString("이 카테고리에는 순서를 바꿀 메모가 없어요", comment: "Reorder empty state title"))
+                        Text(NSLocalizedString("이 카테고리에는 순서를 바꿀 단축어가 없어요", comment: "Reorder empty state title"))
                             .font(.subheadline.weight(.semibold))
                             .foregroundColor(.secondary)
                         Text(NSLocalizedString("다른 카테고리 탭에서 순서 바꾸기를 열어 보세요", comment: "Reorder empty state subtitle"))
@@ -1833,13 +1833,13 @@ struct ClipKeyboardList: View {
         case .basic, .all:
             // 기본/전체 탭에서도 다른 카테고리처럼 추가를 유도하는 카드.
             addMemoCard(
-                label: NSLocalizedString("메모 추가", comment: "Add memo card"),
-                accessibility: NSLocalizedString("메모 추가", comment: "Add memo card")
+                label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
+                accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
             ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
         case .favorites:
             addMemoCard(
                 label: NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"),
-                accessibility: NSLocalizedString("즐겨찾기 메모 추가", comment: "Add favorite memo card a11y")
+                accessibility: NSLocalizedString("즐겨찾기 단축어 추가", comment: "Add favorite memo card a11y")
             ) { showAddFavoriteMemoSheet = true }
         case .builtIn(let b):
             switch b {
@@ -1855,19 +1855,19 @@ struct ClipKeyboardList: View {
                 ) { showAddComboSheet = true }
             case .images:
                 addMemoCard(
-                    label: NSLocalizedString("이미지 메모 추가", comment: "Add image memo card"),
-                    accessibility: NSLocalizedString("이미지 메모 추가", comment: "Add image memo card")
+                    label: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card"),
+                    accessibility: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card")
                 ) { addMemoSheetCategory = "이미지"; showAddMemoSheet = true }
             case .textMemos:
                 addMemoCard(
-                    label: NSLocalizedString("메모 추가", comment: "Add memo card"),
-                    accessibility: NSLocalizedString("메모 추가", comment: "Add memo card")
+                    label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
+                    accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
                 ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
             }
         case .custom(let name):
             addMemoCard(
                 label: String(format: NSLocalizedString("'%@' 추가", comment: "Add memo to this category card"), name),
-                accessibility: String(format: NSLocalizedString("'%@' 카테고리에 메모 추가", comment: "Add memo to category a11y"), name)
+                accessibility: String(format: NSLocalizedString("'%@' 카테고리에 단축어 추가", comment: "Add memo to category a11y"), name)
             ) { addMemoSheetCategory = name; showAddMemoSheet = true }
         }
     }
@@ -1904,7 +1904,7 @@ struct ClipKeyboardList: View {
                 Image(systemName: AppSymbol.heartSlash)
                     .font(.system(size: 44))
                     .foregroundColor(theme.textFaint)
-                Text(NSLocalizedString("즐겨찾기한 메모가 없습니다.\n메모를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"))
+                Text(NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)
@@ -2344,7 +2344,7 @@ struct ClipKeyboardList: View {
                 if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
                 showAddMemoSheet = true
             } label: {
-                Label(NSLocalizedString("새 메모 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
+                Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
             // 임시 저장 — 만들다 저장하지 않고 나간 미완성 메모를 이어서 작성.
             Button {
@@ -2357,14 +2357,14 @@ struct ClipKeyboardList: View {
             Button {
                 showBulkImport = true
             } label: {
-                Label(NSLocalizedString("한번에 많은 메모 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
+                Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
         } label: {
             // 순정 스타일: 시스템이 glass에 담는 plain plus 글리프 (틴트는 시스템 액센트).
             Image(systemName: AppSymbol.plus)
         }
-        .accessibilityLabel(NSLocalizedString("메모 추가", comment: "Add memo menu label"))
-        .accessibilityHint(NSLocalizedString("새 메모를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
+        .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add memo menu label"))
+        .accessibilityHint(NSLocalizedString("새 단축어를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
         .popoverTip(addMemoTip)
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
@@ -2384,13 +2384,13 @@ struct ClipKeyboardList: View {
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
                 QuickNoteStore.shared.add(newNote)
                 // 담긴 위치를 바로 알려준다 — 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
-                viewModel.showPlainToast(NSLocalizedString("빠른 메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
+                viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
             } onPromote: { newNote in
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
                 QuickNoteStore.shared.add(newNote)
                 QuickNoteStore.shared.promoteToMemo(newNote)
                 viewModel.loadMemos()
-                viewModel.showPlainToast(NSLocalizedString("메모로 저장했어요", comment: "Toast after quick note promoted to memo"))
+                viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
             }
         }
         .sheet(isPresented: $showCategoryManagement) {
@@ -2473,7 +2473,7 @@ struct ClipKeyboardList: View {
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
-                    Text(NSLocalizedString("탭해서 바로 내 메모로 추가할 수 있어요", comment: "Empty state suggestion subhead"))
+                    Text(NSLocalizedString("탭해서 바로 내 단축어로 추가할 수 있어요", comment: "Empty state suggestion subhead"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -2502,7 +2502,7 @@ struct ClipKeyboardList: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
                                 .font(.body.weight(.semibold))
-                            Text(NSLocalizedString("바로 쓸 수 있는 메모를 한 번에", comment: "Empty state: add starter pack subtitle"))
+                            Text(NSLocalizedString("바로 쓸 수 있는 단축어를 한 번에", comment: "Empty state: add starter pack subtitle"))
                                 .font(.caption)
                                 .opacity(0.9)
                         }
@@ -2524,7 +2524,7 @@ struct ClipKeyboardList: View {
                     .cornerRadius(theme.radiusMd)
                     .padding(.horizontal, 16)
                 }
-                .accessibilityHint(NSLocalizedString("추천 메모를 골라 한 번에 추가합니다", comment: "VoiceOver: starter pack hint"))
+                .accessibilityHint(NSLocalizedString("추천 단축어를 골라 한 번에 추가합니다", comment: "VoiceOver: starter pack hint"))
 
                 // (제거) "직접 추가하기" — 우하단 + 버튼과 중복이라 삭제.
 
@@ -2590,7 +2590,7 @@ struct ClipKeyboardList: View {
             print("🗑️ [ClipKeyboardList] 샘플 메모 \(sampleIds.count)개 삭제 완료")
         } catch {
             print("❌ [ClipKeyboardList.deleteSampleMemos] 샘플 메모 삭제 실패: \(error)")
-            viewModel.showPlainToast(NSLocalizedString("샘플 메모를 삭제하지 못했습니다", comment: "Sample memo delete failed toast"))
+            viewModel.showPlainToast(NSLocalizedString("샘플 단축어를 삭제하지 못했습니다", comment: "Sample memo delete failed toast"))
         }
     }
 
@@ -2655,7 +2655,7 @@ struct ClipKeyboardList: View {
         switch suggestion.feature {
         case .template:      add.insertedIsTemplate = true
         case .combo:         add.insertedIsCombo    = true
-        case .memo, .smartClipboard: break
+        case .snippet, .smartClipboard: break
         }
         return add
     }
@@ -2698,8 +2698,8 @@ struct ClipKeyboardList: View {
             .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 메모 추가", comment: "Suggestion card a11y label"), suggestion.title))
-        .accessibilityHint(NSLocalizedString("탭하면 이 예시로 메모를 만들 수 있어요", comment: "Suggestion card a11y hint"))
+        .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 단축어 추가", comment: "Suggestion card a11y label"), suggestion.title))
+        .accessibilityHint(NSLocalizedString("탭하면 이 예시로 단축어를 만들 수 있어요", comment: "Suggestion card a11y hint"))
     }
 }
 

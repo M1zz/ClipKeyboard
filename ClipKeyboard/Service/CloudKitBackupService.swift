@@ -46,7 +46,7 @@ enum CloudKitError: Error {
             return NSLocalizedString("백업 데이터를 읽을 수 없습니다. 최신 버전의 앱을 사용하고 있는지 확인해주세요.",
                                    comment: "Data decoding failed error message")
         case .backupWouldReduceData(let existing, let new):
-            return String(format: NSLocalizedString("기존 백업(메모 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다.", comment: "Backup would reduce data warning"), existing, new)
+            return String(format: NSLocalizedString("기존 백업(단축어 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다.", comment: "Backup would reduce data warning"), existing, new)
         }
     }
 

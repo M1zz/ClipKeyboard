@@ -25,7 +25,7 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .bold()
 
-                Text(NSLocalizedString("macOS 전용 메모 앱", comment: "App tagline"))
+                Text(NSLocalizedString("macOS 전용 단축어 앱", comment: "App tagline"))
                     .font(.title3)
                     .foregroundStyle(.secondary)
 
@@ -37,7 +37,7 @@ struct ContentView: View {
                         Image(systemName: AppSymbol.keyboard)
                         Text(NSLocalizedString("전역 단축키: ⌃⌥K", comment: "Global hotkey description"))
                         Spacer()
-                        Text(NSLocalizedString("메모 목록 표시", comment: "Show memo list label"))
+                        Text(NSLocalizedString("단축어 목록 표시", comment: "Show memo list label"))
                             .foregroundStyle(.secondary)
                     }
 
@@ -72,7 +72,7 @@ struct ContentView: View {
             .navigationTitle(NSLocalizedString("클립키보드", comment: "App name"))
         }
         .sheet(isPresented: $showNewMemoSheet) {
-            Text(NSLocalizedString("새 메모 화면", comment: "New memo screen placeholder"))
+            Text(NSLocalizedString("새 단축어 화면", comment: "New memo screen placeholder"))
                 .frame(width: 400, height: 300)
         }
         .sheet(isPresented: $showClipboardHistorySheet) {

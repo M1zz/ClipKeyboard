@@ -12,12 +12,12 @@ import LeeoKit
 // MARK: - Model
 
 /// 각 시나리오 하나.
-/// internal — 메모 추가 화면(MemoAdd)의 활용사례 토글에서 재사용.
+/// internal — 단축어 추가 화면(MemoAdd)의 활용사례 토글에서 재사용.
 struct UsageScenario: Identifiable {
     let id = UUID()
     let titleKey: String       // 상황 제목
     let contextKey: String?    // 상대방이 던진 질문·맥락 (없으면 숨김)
-    let exampleKey: String     // 보낼 내용 예시 (메모 저장 시 value로 사용)
+    let exampleKey: String     // 보낼 내용 예시 (단축어 저장 시 value로 사용)
     let feature: ScenarioFeature
     /// v4.1.0: 어느 페르소나에 적합한지. 비어있으면 universal (모든 페르소나에 노출).
     /// SuggestionManager가 페르소나 선택 시 이 set 매칭만 풀에 포함.
@@ -47,11 +47,11 @@ struct UsageScenario: Identifiable {
 }
 
 enum ScenarioFeature: String {
-    case memo, template, combo, smartClipboard
+    case snippet, template, combo, smartClipboard
 
     var label: String {
         switch self {
-        case .memo: return NSLocalizedString("Memo", comment: "Feature tag: memo")
+        case .snippet: return NSLocalizedString("Snippet", comment: "Feature tag: snippet")
         case .template: return NSLocalizedString("Template", comment: "Feature tag: template")
         case .combo: return NSLocalizedString("Combo", comment: "Feature tag: combo")
         case .smartClipboard: return NSLocalizedString("Smart Clipboard", comment: "Feature tag: smart clipboard")
@@ -60,7 +60,7 @@ enum ScenarioFeature: String {
 
     var color: Color {
         switch self {
-        case .memo: return .blue
+        case .snippet: return .blue
         case .template: return .orange
         case .combo: return .purple
         case .smartClipboard: return .green
@@ -109,7 +109,7 @@ private enum UsageScenarioData {
                     titleKey: "계좌번호 공유",
                     contextKey: "계좌번호 알려주세요",
                     exampleKey: "은행: 카카오뱅크\n예금주: {이름}\n계좌번호: {계좌번호}\n\n(토스/카카오페이도 가능합니다 🙏)",
-                    feature: .memo,
+                    feature: .snippet,
                     personas: [.business, .student, .general]
                 ),
                 UsageScenario(
@@ -183,7 +183,7 @@ private enum UsageScenarioData {
                     titleKey: "배송지 주소",
                     contextKey: "배송지 주소 알려주세요",
                     exampleKey: "{우편번호}\n{주소}\n{상세주소}\n\n받는 분: {이름}\n연락처: {전화번호}",
-                    feature: .memo,
+                    feature: .snippet,
                     personas: [.general, .student]
                 ),
                 UsageScenario(
@@ -213,14 +213,14 @@ private enum UsageScenarioData {
                     titleKey: "자기소개",
                     contextKey: nil,
                     exampleKey: "안녕하세요, {이름}입니다.\n{직함/소속}에서 {업무}를 맡고 있습니다.\n연락처: {이메일} / {전화번호}\n\n잘 부탁드립니다 🙏",
-                    feature: .memo,
+                    feature: .snippet,
                     personas: [.business, .student, .general]
                 ),
                 UsageScenario(
                     titleKey: "이메일 서명",
                     contextKey: nil,
                     exampleKey: "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}",
-                    feature: .memo,
+                    feature: .snippet,
                     personas: [.business, .student]
                 ),
                 UsageScenario(
@@ -275,7 +275,7 @@ private enum UsageScenarioData {
                     titleKey: "Nomor rekening bank",
                     contextKey: "Bisa kirim nomor rekeningnya?",
                     exampleKey: "Bank: BCA / Mandiri / BNI\nA/N: {Nama Lengkap}\nNo. Rekening: {Nomor Rekening}\n\nBisa juga transfer ke GoPay/OVO: {Nomor HP} 🙏",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "Tagihan bulanan",
@@ -308,7 +308,7 @@ private enum UsageScenarioData {
                     titleKey: "Perkenalan diri",
                     contextKey: nil,
                     exampleKey: "Halo, saya {Nama}.\nSaya bekerja sebagai {Jabatan} di {Perusahaan}.\nBisa dihubungi di {Email} atau {No. HP}.\n\nSenang berkenalan! 😊",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "Izin tidak masuk",
@@ -326,7 +326,7 @@ private enum UsageScenarioData {
                     titleKey: "Tanda tangan email",
                     contextKey: nil,
                     exampleKey: "{Nama Lengkap}\n{Jabatan} | {Perusahaan}\n📧 {Email}\n📞 {No. HP}\n🌐 {Website}",
-                    feature: .memo
+                    feature: .snippet
                 )
             ]
         ),
@@ -341,13 +341,13 @@ private enum UsageScenarioData {
                     titleKey: "Alamat pengiriman",
                     contextKey: "Alamat pengirimannya ke mana?",
                     exampleKey: "Nama: {Nama Lengkap}\nNo. HP: {Nomor HP}\nAlamat: {Jalan, No. Rumah}\nKelurahan: {Kelurahan}, Kecamatan: {Kecamatan}\nKota: {Kota}, Kode Pos: {Kode Pos}",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "Cek status pesanan",
                     contextKey: nil,
                     exampleKey: "Halo, saya mau menanyakan pesanan saya dengan nomor order {nomor}. Sudah sampai mana ya? Estimasi tiba kapan? Terima kasih 🙏",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "Komplain produk",
@@ -427,7 +427,7 @@ private enum UsageScenarioData {
                     titleKey: "Wise / PayPal quick share",
                     contextKey: "Can you send your Wise details?",
                     exampleKey: "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "Invoice summary",
@@ -541,7 +541,7 @@ private enum UsageScenarioData {
                     titleKey: "Wifi dropped — back online",
                     contextKey: "Client is waiting for you",
                     exampleKey: "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 UsageScenario(
                     titleKey: "\"Where are you based?\" answer",
@@ -622,7 +622,7 @@ struct UsageGuideView: View {
                 Text(NSLocalizedString("이런 분들이 매일 아낍니다", comment: "Persona guide hero title"))
                     .font(.system(.title2, design: .serif, weight: .semibold))
                     .foregroundColor(theme.text)
-                Text(NSLocalizedString("당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 메모가 됩니다.", comment: "Persona guide hero subtitle"))
+                Text(NSLocalizedString("당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.", comment: "Persona guide hero subtitle"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
             }
@@ -783,8 +783,8 @@ struct UsageGuideView: View {
 
             HStack(spacing: 8) {
                 NavigationLink {
-                    // 시나리오의 feature에 따라 메모 추가 화면의 토글도 미리 ON.
-                    // .template → 템플릿 토글, .combo → Combo 토글, 그 외(.memo/.smartClipboard)는 일반 메모
+                    // 시나리오의 feature에 따라 단축어 추가 화면의 토글도 미리 ON.
+                    // .template → 템플릿 토글, .combo → Combo 토글, 그 외(.snippet/.smartClipboard)는 일반 단축어
                     MemoAdd(
                         insertedKeyword: scenario.title,
                         insertedValue: scenario.example,
@@ -796,7 +796,7 @@ struct UsageGuideView: View {
                     HStack(spacing: 4) {
                         Image(systemName: AppSymbol.plusCircleFill)
                             .font(.body)
-                        Text(NSLocalizedString("Save as memo", comment: "CTA: save scenario as memo"))
+                        Text(NSLocalizedString("Save as snippet", comment: "CTA: save scenario as snippet"))
                             .font(.body.weight(.semibold))
                     }
                     .foregroundColor(.white)
@@ -807,7 +807,7 @@ struct UsageGuideView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .accessibilityLabel(
-                    String(format: NSLocalizedString("%@ 메모로 저장", comment: "VoiceOver: save scenario as memo"), scenario.title)
+                    String(format: NSLocalizedString("%@ 단축어로 저장", comment: "VoiceOver: save scenario as snippet"), scenario.title)
                 )
 
                 Button {

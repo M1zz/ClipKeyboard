@@ -176,9 +176,9 @@ struct FeedbackView: View {
     private var placeholderText: String {
         switch selectedType {
         case .bug:
-            return NSLocalizedString("어떤 상황에서 문제가 발생했는지 알려주세요.\n예) 메모를 저장할 때 앱이 종료됩니다.", comment: "Bug report placeholder")
+            return NSLocalizedString("어떤 상황에서 문제가 발생했는지 알려주세요.\n예) 단축어를 저장할 때 앱이 종료됩니다.", comment: "Bug report placeholder")
         case .feature:
-            return NSLocalizedString("어떤 기능이 있으면 좋겠나요?\n예) 메모를 폴더로 묶는 기능이 필요해요.", comment: "Feature request placeholder")
+            return NSLocalizedString("어떤 기능이 있으면 좋겠나요?\n예) 단축어를 폴더로 묶는 기능이 필요해요.", comment: "Feature request placeholder")
         case .question:
             return NSLocalizedString("어떤 부분이 궁금하신가요?\n예) 클립보드 히스토리는 어떻게 보나요?", comment: "Usage question placeholder")
         case .other:

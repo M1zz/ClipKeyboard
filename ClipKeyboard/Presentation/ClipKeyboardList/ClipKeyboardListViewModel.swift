@@ -25,8 +25,8 @@ enum BuiltInCategory: String, CaseIterable, Hashable {
     var displayName: String {
         switch self {
         case .templates: return NSLocalizedString("템플릿", comment: "Built-in category: templates only")
-        case .textMemos: return NSLocalizedString("메모+템플릿", comment: "Built-in category: text memos and templates")
-        case .images:    return NSLocalizedString("이미지 메모", comment: "Built-in category: image memos only")
+        case .textMemos: return NSLocalizedString("단축어+템플릿", comment: "Built-in category: text memos and templates")
+        case .images:    return NSLocalizedString("이미지 단축어", comment: "Built-in category: image memos only")
         case .combos:    return NSLocalizedString("콤보", comment: "Built-in category: combos only")
         }
     }
@@ -853,7 +853,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             loadedData = sortMemos(loadedData)
             applyFilters()
             showPlainToast(makeSecure
-                ? NSLocalizedString("보안 메모로 설정했어요", comment: "Memo locked toast")
+                ? NSLocalizedString("보안 단축어로 설정했어요", comment: "Memo locked toast")
                 : NSLocalizedString("보안을 해제했어요", comment: "Memo unlocked toast"))
         } catch {
             print("❌ [applySecure] 저장 실패: \(error)")
@@ -1040,7 +1040,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 .trimmingCharacters(in: .whitespaces) ?? value
             let snippet = String(firstLine.prefix(20))
             return snippet.isEmpty
-                ? NSLocalizedString("메모", comment: "Default memo title")
+                ? NSLocalizedString("단축어", comment: "Default snippet title")
                 : snippet
         }
         return clipboardDetectedType.suggestedMemoTitle
@@ -1074,7 +1074,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             #if os(iOS)
             HapticManager.shared.success()
             #endif
-            showPlainToast(String(format: NSLocalizedString("'%@' 메모로 저장했어요", comment: "Saved clipboard as memo toast"), title))
+            showPlainToast(String(format: NSLocalizedString("'%@' 단축어로 저장했어요", comment: "Saved clipboard as memo toast"), title))
             print("✅ [saveClipboardAsMemo] '\(title)' 저장 완료")
         } catch {
             print("❌ [saveClipboardAsMemo] 저장 실패: \(error)")
@@ -1161,7 +1161,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
         context.evaluatePolicy(
             .deviceOwnerAuthenticationWithBiometrics,
-            localizedReason: NSLocalizedString("보안 메모에 접근하려면 인증이 필요합니다", comment: "Biometric auth reason")
+            localizedReason: NSLocalizedString("보안 단축어에 접근하려면 인증이 필요합니다", comment: "Biometric auth reason")
         ) { [weak self] success, authError in
             DispatchQueue.main.async {
                 if success {

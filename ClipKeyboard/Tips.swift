@@ -124,10 +124,10 @@ struct TemplateInfoTip: Tip {
 
 struct AttachedTemplateTip: Tip {
     var title: Text {
-        Text(NSLocalizedString("메모 + 템플릿", comment: "Memo plus template header"))
+        Text(NSLocalizedString("단축어 + 템플릿", comment: "Memo plus template header"))
     }
     var message: Text? {
-        Text(NSLocalizedString("이 메모에 템플릿이 연결돼 있어요. 빈칸을 채우면 메모 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
+        Text(NSLocalizedString("이 단축어에 템플릿이 연결돼 있어요. 빈칸을 채우면 단축어 내용과 합쳐서 복사돼요. 아래 '입력될 결과'에서 미리 볼 수 있어요.", comment: "Attached template explanation"))
     }
     var image: Image? {
         Image(systemName: AppSymbol.docBadgePlus)
@@ -147,7 +147,7 @@ struct QuickNoteInboxTip: Tip {
         Text(NSLocalizedString("어디서든 빠르게 담으세요", comment: "Quick note inbox tip title"))
     }
     var message: Text? {
-        Text(NSLocalizedString("공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 메모로 저장하면 돼요.", comment: "Quick note inbox tip message"))
+        Text(NSLocalizedString("공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 단축어로 저장하면 돼요.", comment: "Quick note inbox tip message"))
     }
     var image: Image? {
         Image(systemName: AppSymbol.trayAndArrowDownFill)

@@ -187,13 +187,13 @@ struct MemoAdd: View {
         }
         .navigationTitle({
             if memoId != nil {
-                if insertedIsTemplate { return NSLocalizedString("메모 수정 타이틀_템플릿", comment: "Edit template navigation title") }
-                if insertedIsCombo { return NSLocalizedString("메모 수정 타이틀_콤보", comment: "Edit combo navigation title") }
-                return NSLocalizedString("메모 수정", comment: "Edit memo navigation title")
+                if insertedIsTemplate { return NSLocalizedString("단축어 수정 타이틀_템플릿", comment: "Edit template navigation title") }
+                if insertedIsCombo { return NSLocalizedString("단축어 수정 타이틀_콤보", comment: "Edit combo navigation title") }
+                return NSLocalizedString("단축어 수정", comment: "Edit memo navigation title")
             }
             if insertedIsTemplate { return NSLocalizedString("새 템플릿", comment: "New template navigation title") }
             if insertedIsCombo { return NSLocalizedString("새 콤보", comment: "New combo navigation title") }
-            return NSLocalizedString("새 메모", comment: "New memo navigation title")
+            return NSLocalizedString("새 단축어", comment: "New memo navigation title")
         }())
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
@@ -519,7 +519,7 @@ struct MemoAdd: View {
             ToggleOptionRow(
                 activeIcon: "lock.fill",
                 inactiveIcon: "lock",
-                title: NSLocalizedString("보안 메모", comment: "Secure memo toggle"),
+                title: NSLocalizedString("보안 단축어", comment: "Secure memo toggle"),
                 description: NSLocalizedString("Face ID로 보호", comment: "Face ID protection description"),
                 activeColor: .orange,
                 isOn: Binding(
@@ -545,7 +545,7 @@ struct MemoAdd: View {
                 Image(systemName: AppSymbol.arrowTurnDownRight)
                     .font(.body)
                     .foregroundColor(theme.textMuted)
-                Text(NSLocalizedString("이어지는 메모", comment: "Continuation memos section"))
+                Text(NSLocalizedString("이어지는 단축어", comment: "Continuation memos section"))
                     .font(.body).fontWeight(.semibold)
                     .foregroundColor(theme.textMuted)
             }
@@ -575,7 +575,7 @@ struct MemoAdd: View {
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: AppSymbol.plusCircle)
-                    Text(NSLocalizedString("이어지는 메모 추가", comment: "Add continuation memo"))
+                    Text(NSLocalizedString("이어지는 단축어 추가", comment: "Add continuation memo"))
                 }
                 .font(.body)
             }

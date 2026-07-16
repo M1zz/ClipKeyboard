@@ -59,7 +59,7 @@ enum PasteTargetPrediction: String {
         case .messages:  return NSLocalizedString("메시지 보내기", comment: "Paste target action: send message")
         case .calendar:  return NSLocalizedString("캘린더 열기", comment: "Paste target action: open calendar")
         case .webSearch: return NSLocalizedString("웹 검색", comment: "Paste target action: web search")
-        case .notes:     return NSLocalizedString("메모로 저장", comment: "Paste target action: save as memo")
+        case .notes:     return NSLocalizedString("단축어로 저장", comment: "Paste target action: save as memo")
         case .none:      return ""
         }
     }

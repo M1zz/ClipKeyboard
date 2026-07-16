@@ -92,8 +92,8 @@ struct SettingView: View {
                                 Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
                                     .font(.headline).foregroundColor(.primary)
                                 Text(ProFeatureManager.canStartTrial
-                                     ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 메모, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
-                                     : NSLocalizedString("무제한 메모, iCloud 백업 등", comment: "Pro features"))
+                                     ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 단축어, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
+                                     : NSLocalizedString("무제한 단축어, iCloud 백업 등", comment: "Pro features"))
                                     .font(.body).foregroundColor(theme.textMuted)
                             }
                             Spacer()
@@ -183,7 +183,7 @@ struct SettingView: View {
             // 메모 셀 높이·우상단 심볼 표시 등 화면 표시 전용 설정.
             Section(NSLocalizedString("디스플레이", comment: "Settings section: display")) {
                 NavigationLink(destination: DisplaySettingsView()) {
-                    Label(NSLocalizedString("메모 표시", comment: "Memo display settings entry"),
+                    Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
                           systemImage: AppSymbol.rectangleGrid1x2)
                 }
             }
@@ -226,7 +226,7 @@ struct SettingView: View {
                 }
                 NavigationLink(destination: SecurePINSettings()) {
                     HStack {
-                        Label(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"),
+                        Label(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN"),
                               systemImage: AppSymbol.lockShield)
                         Spacer()
                         Text(securePINSet
@@ -257,13 +257,13 @@ struct SettingView: View {
                         }
                     }
                 )) {
-                    Label(NSLocalizedString("기기 간 메모 동기화", comment: "Cross-device memo sync toggle"),
+                    Label(NSLocalizedString("기기 간 단축어 동기화", comment: "Cross-device memo sync toggle"),
                           systemImage: AppSymbol.icloudAndArrowDown)
                 }
             } header: {
                 Text(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
             } footer: {
-                Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 메모를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 메모는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
+                Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
                     .font(.body)
             }
 
@@ -413,9 +413,9 @@ struct DisplaySettingsView: View {
             // 라이브 미리보기 — 아래 설정을 바꾸면 즉시 반영된다(실제 메모 카드와 동일 모양).
             Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
                 HStack(spacing: 12) {
-                    previewCell(title: NSLocalizedString("메모", comment: "Memo"),
+                    previewCell(title: NSLocalizedString("단축어", comment: "Snippet (saved key-value item) display name"),
                                 symbol: "folder.fill", color: theme.accent, plusTemplate: false)
-                    previewCell(title: NSLocalizedString("메모 + 템플릿", comment: "Memo + template sample"),
+                    previewCell(title: NSLocalizedString("단축어 + 템플릿", comment: "Memo + template sample"),
                                 symbol: "doc.text.fill", color: .blue, plusTemplate: true)
                 }
                 .frame(maxWidth: .infinity)
@@ -431,41 +431,41 @@ struct DisplaySettingsView: View {
                     Text(NSLocalizedString("보통", comment: "Medium")).tag(140.0)
                     Text(NSLocalizedString("크게", comment: "Large")).tag(180.0)
                 } label: {
-                    Label(NSLocalizedString("메모 높이", comment: "Memo cell height"), systemImage: AppSymbol.arrowUpAndDown)
+                    Label(NSLocalizedString("단축어 높이", comment: "Memo cell height"), systemImage: AppSymbol.arrowUpAndDown)
                 }
                 .pickerStyle(.segmented)
             } header: {
-                Text(NSLocalizedString("메모 높이", comment: "Memo cell height"))
+                Text(NSLocalizedString("단축어 높이", comment: "Memo cell height"))
             } footer: {
-                Text(NSLocalizedString("리스트에서 메모 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.", comment: "Memo height explanation"))
+                Text(NSLocalizedString("리스트에서 단축어 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.", comment: "Memo height explanation"))
                     .font(.body)
             }
 
             // 메모 구분 표시 (마스터 토글)
             Section {
                 Toggle(isOn: $visible) {
-                    Label(NSLocalizedString("메모 구분 표시", comment: "Show visual cues toggle"), systemImage: AppSymbol.squareGrid2x2)
+                    Label(NSLocalizedString("단축어 구분 표시", comment: "Show visual cues toggle"), systemImage: AppSymbol.squareGrid2x2)
                 }
             } header: {
-                Text(NSLocalizedString("메모 구분 표시", comment: "Visual cues section"))
+                Text(NSLocalizedString("단축어 구분 표시", comment: "Visual cues section"))
             } footer: {
-                Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 메모 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
+                Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
                     .font(.body)
             }
 
             // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)
             Section {
                 Toggle(isOn: $contentHintEnabled) {
-                    Label(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"), systemImage: AppSymbol.sparkles)
+                    Label(NSLocalizedString("단축어 내용 힌트", comment: "Content hint toggle"), systemImage: AppSymbol.sparkles)
                 }
             } header: {
-                Text(NSLocalizedString("메모 내용 힌트", comment: "Content hint toggle"))
+                Text(NSLocalizedString("단축어 내용 힌트", comment: "Content hint toggle"))
             } footer: {
-                Text(NSLocalizedString("메모 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 메모의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
+                Text(NSLocalizedString("단축어 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 단축어의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
                     .font(.body)
             }
         }
-        .navigationTitle(NSLocalizedString("메모 표시", comment: "Memo display settings entry"))
+        .navigationTitle(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -535,7 +535,7 @@ struct MemoHistoryView: View {
         List {
             if snapshots.isEmpty {
                 Section {
-                    Text(NSLocalizedString("아직 저장된 변경 기록이 없어요. 메모를 추가·편집·삭제하면 직전 상태가 자동으로 여기에 보관돼요 (최근 10개).", comment: "Empty memo history"))
+                    Text(NSLocalizedString("아직 저장된 변경 기록이 없어요. 단축어를 추가·편집·삭제하면 직전 상태가 자동으로 여기에 보관돼요 (최근 10개).", comment: "Empty memo history"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -550,7 +550,7 @@ struct MemoHistoryView: View {
                                     Text(dateFormatter.string(from: snap.timestamp))
                                         .font(.body)
                                         .foregroundColor(theme.text)
-                                    Text(String(format: NSLocalizedString("메모 %d개", comment: "Snapshot memo count"), snap.memoCount))
+                                    Text(String(format: NSLocalizedString("단축어 %d개", comment: "Snapshot memo count"), snap.memoCount))
                                         .font(.caption)
                                         .foregroundColor(theme.textMuted)
                                 }
@@ -564,7 +564,7 @@ struct MemoHistoryView: View {
                 } header: {
                     Text(NSLocalizedString("되돌릴 시점", comment: "Restore points header"))
                 } footer: {
-                    Text(NSLocalizedString("탭하면 그 시점의 메모 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요.", comment: "Memo history footer"))
+                    Text(NSLocalizedString("탭하면 그 시점의 단축어 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요.", comment: "Memo history footer"))
                         .font(.body)
                 }
             }
@@ -578,7 +578,7 @@ struct MemoHistoryView: View {
         .alert(item: $pendingRestore) { snap in
             Alert(
                 title: Text(NSLocalizedString("이 시점으로 되돌릴까요?", comment: "Restore confirm title")),
-                message: Text(String(format: NSLocalizedString("%@ 시점의 메모 %d개로 되돌립니다.", comment: "Restore confirm message"), dateFormatter.string(from: snap.timestamp), snap.memoCount)),
+                message: Text(String(format: NSLocalizedString("%@ 시점의 단축어 %d개로 되돌립니다.", comment: "Restore confirm message"), dateFormatter.string(from: snap.timestamp), snap.memoCount)),
                 primaryButton: .default(Text(NSLocalizedString("되돌리기", comment: "Restore"))) {
                     if MemoStore.shared.restoreMemoSnapshot(snap.id) {
                         snapshots = MemoStore.shared.loadMemoHistory()

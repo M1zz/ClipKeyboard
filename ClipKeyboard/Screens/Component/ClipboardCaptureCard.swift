@@ -145,7 +145,7 @@ struct ClipboardCaptureCard: View {
                     Image(systemName: AppSymbol.plusCircleFill)
                         .font(.body)
                         .accessibilityHidden(true)
-                    Text(NSLocalizedString("메모로 저장", comment: "Inline capture card: save as memo (one tap)"))
+                    Text(NSLocalizedString("단축어로 저장", comment: "Inline capture card: save as memo (one tap)"))
                         .font(.body.weight(.semibold))
                 }
                 .foregroundColor(.white)

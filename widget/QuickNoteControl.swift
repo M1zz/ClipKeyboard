@@ -90,7 +90,7 @@ struct QuickNoteWidgetView: View {
                 VStack(spacing: 6) {
                     Image(systemName: "note.text.badge.plus")
                         .font(.title)
-                    Text(NSLocalizedString("빠른 메모", comment: "Quick note widget title"))
+                    Text(NSLocalizedString("메모", comment: "Quick note widget title"))
                         .font(.caption)
                         .fontWeight(.medium)
                 }
@@ -112,8 +112,8 @@ struct QuickNoteLockWidget: Widget {
             QuickNoteWidgetView()
                 .containerBackground(.fill.tertiary, for: .widget)
         }
-        .configurationDisplayName(NSLocalizedString("빠른 메모", comment: "Quick note widget title"))
-        .description(NSLocalizedString("빠른 메모 담기", comment: "Menu: add quick note to inbox"))
+        .configurationDisplayName(NSLocalizedString("메모", comment: "Quick note widget title"))
+        .description(NSLocalizedString("메모 담기", comment: "Menu: add quick note to inbox"))
         .supportedFamilies([.accessoryCircular, .systemSmall])
     }
 }

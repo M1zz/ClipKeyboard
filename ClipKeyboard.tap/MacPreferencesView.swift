@@ -123,7 +123,7 @@ struct MacPreferencesView: View {
                         .font(.title3).fontWeight(.semibold)
                     Text(MacProManager.isPro
                          ? NSLocalizedString("모든 기능을 사용할 수 있습니다.", comment: "All features unlocked")
-                         : NSLocalizedString("메모 5개 · 클립보드 20개 제한", comment: "Free limits"))
+                         : NSLocalizedString("단축어 5개 · 클립보드 20개 제한", comment: "Free limits"))
                         .font(.subheadline).foregroundStyle(.secondary)
                 }
                 Spacer()
@@ -136,7 +136,7 @@ struct MacPreferencesView: View {
 
             // 기능 비교
             VStack(alignment: .leading, spacing: 10) {
-                featureRow(NSLocalizedString("메모", comment: "Feature: memos"),
+                featureRow(NSLocalizedString("단축어", comment: "Feature: snippets"),
                            free: NSLocalizedString("최대 5개", comment: "Free memo limit"),
                            pro: NSLocalizedString("무제한", comment: "Unlimited"))
                 featureRow(NSLocalizedString("클립보드 히스토리", comment: "Feature: clipboard"),

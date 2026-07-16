@@ -28,7 +28,7 @@ struct MemoAddView: View {
                         .font(.system(size: 32))
                         .foregroundStyle(.blue)
 
-                    Text(NSLocalizedString("새 메모", comment: "Add memo title"))
+                    Text(NSLocalizedString("새 단축어", comment: "Add memo title"))
                         .font(.title2)
                         .bold()
 
@@ -345,7 +345,7 @@ struct MemoAddView: View {
             try MemoStore.shared.save(memos: memos, type: .memo)
 
             print("✅ [MemoAdd] 메모 저장 완료")
-            showToastMessage(NSLocalizedString("메모가 저장되었습니다", comment: "Toast: memo saved"))
+            showToastMessage(NSLocalizedString("단축어가 저장되었습니다", comment: "Toast: memo saved"))
 
             // 저장 후 창 닫기
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

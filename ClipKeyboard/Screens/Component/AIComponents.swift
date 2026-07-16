@@ -310,7 +310,7 @@ struct TranslationSheet: View {
                     onSaveAsMemo(translatedText)
                     dismiss()
                 } label: {
-                    Label(NSLocalizedString("메모로 저장", comment: "Paste target action: save as memo"),
+                    Label(NSLocalizedString("단축어로 저장", comment: "Paste target action: save as memo"),
                           systemImage: AppSymbol.squareAndArrowDown)
                         .font(.body.weight(.medium))
                         .frame(maxWidth: .infinity)

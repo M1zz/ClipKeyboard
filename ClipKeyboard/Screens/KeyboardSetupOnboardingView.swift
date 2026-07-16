@@ -188,7 +188,7 @@ struct SetupStep {
         ),
         SetupStep(
             title: NSLocalizedString("전체 접근을 허용해요", comment: "Setup step 3 title"),
-            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 메모에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
+            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
             path: [
                 NSLocalizedString("ClipKeyboard", comment: "Keyboard name"),
                 NSLocalizedString("전체 접근 허용", comment: "Allow Full Access toggle")
@@ -197,7 +197,7 @@ struct SetupStep {
         ),
         SetupStep(
             title: NSLocalizedString("준비 완료!", comment: "Setup done title"),
-            description: NSLocalizedString("이제 키보드에서 메모를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요.", comment: "Setup done description"),
+            description: NSLocalizedString("이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요.", comment: "Setup done description"),
             path: [],
             kind: .done
         )
@@ -517,7 +517,7 @@ private struct FullAccessIllustration: View {
                     Text(NSLocalizedString("전체 접근 허용", comment: "Allow Full Access"))
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(theme.text)
-                    Text(NSLocalizedString("메모 접근에 필요합니다", comment: "Required for memo access"))
+                    Text(NSLocalizedString("단축어 접근에 필요합니다", comment: "Required for memo access"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -648,14 +648,14 @@ enum Persona: String, CaseIterable, Codable {
                 NSLocalizedString("🏦 IBAN", comment: "Nomad example tag: IBAN"),
                 NSLocalizedString("🛂 여권번호", comment: "Nomad example tag: passport"),
                 NSLocalizedString("✈️ 비자", comment: "Nomad example tag: visa"),
-                NSLocalizedString("💱 환전 메모", comment: "Nomad example tag: FX notes")
+                NSLocalizedString("💱 환전 단축어", comment: "Nomad example tag: FX notes")
             ]
         case .business:
             return [
                 NSLocalizedString("📧 회사 이메일", comment: "Business example tag: work email"),
                 NSLocalizedString("🪪 명함", comment: "Business example tag: business card"),
                 NSLocalizedString("💼 사업자번호", comment: "Business example tag: business number"),
-                NSLocalizedString("📋 미팅 메모", comment: "Business example tag: meeting notes")
+                NSLocalizedString("📋 미팅 단축어", comment: "Business example tag: meeting notes")
             ]
         case .student:
             return [
@@ -772,7 +772,7 @@ struct PersonaSelectionView: View {
                 HStack(spacing: 6) {
                     Image(systemName: AppSymbol.infoCircle)
                         .accessibilityHidden(true)
-                    Text(NSLocalizedString("페르소나를 골라도 메모가 추가되지 않아요. 여러분에게 맞는 추천(이런 메모 어때요? · 카테고리 이름)만 바뀝니다.", comment: "Persona is recommendation-only note"))
+                    Text(NSLocalizedString("페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.", comment: "Persona is recommendation-only note"))
                 }
                 .font(.footnote)
                 .foregroundStyle(.secondary)

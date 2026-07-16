@@ -32,7 +32,7 @@ enum MacSecureAccess {
         }
         context.evaluatePolicy(
             policy,
-            localizedReason: NSLocalizedString("보안 메모에 접근하려면 인증이 필요합니다", comment: "Mac secure memo auth reason")
+            localizedReason: NSLocalizedString("보안 단축어에 접근하려면 인증이 필요합니다", comment: "Mac secure memo auth reason")
         ) { success, _ in
             DispatchQueue.main.async {
                 guard success else { completion(nil); return }

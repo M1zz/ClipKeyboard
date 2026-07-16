@@ -90,8 +90,8 @@ private enum PersonaGuideCatalog {
                     title: "여권·비자 정보",
                     pain: "항공·숙소·비자 신청마다 여권번호와 만료일을 확인하러 서랍을 뒤집니다.",
                     example: "여권번호: {여권번호}\n영문 성명: {영문 이름}\n발급일/만료일: {발급일} / {만료일}\n국적: {국적}",
-                    impact: "보안 메모(생체인증)로 잠가두면, 필요할 때만 열어 안전하게 붙여넣기.",
-                    feature: .memo
+                    impact: "보안 단축어(생체인증)로 잠가두면, 필요할 때만 열어 안전하게 붙여넣기.",
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "\"어디 사세요?\" 답변",
@@ -105,7 +105,7 @@ private enum PersonaGuideCatalog {
                     pain: "통화 직전 코워킹 와이파이가 끊기면, 급하게 사과 메시지를 쥐어짜냅니다.",
                     example: "Hi team, wifi at my co-working just dropped. Moving to a backup spot — back online in {분}분. Ready to continue right after. 🙏",
                     impact: "당황한 순간에도 침착하고 신뢰감 있는 한 줄을 즉시 보냅니다.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "환율·견적 안내",
@@ -118,7 +118,7 @@ private enum PersonaGuideCatalog {
                     title: "신규 클라이언트 온보딩",
                     pain: "계약 직후 캘린들리·슬랙·결제·진행 방식을 매번 순서대로 안내합니다.",
                     example: "환영합니다, {클라이언트}님! 진행은 이렇게 해요:\n1. 첫 미팅 캘린들리: {링크}\n2. 결제(원할 시 송금 정보 첨부)\n3. 슬랙 초대 24시간 내 발송\n4. 매주 목요일 진행 데모\n\n잘 부탁드려요!",
-                    impact: "Combo로 여러 메모를 순서대로 자동 입력 — 온보딩 메일이 5분에서 5초로.",
+                    impact: "Combo로 여러 단축어를 순서대로 자동 입력 — 온보딩 메일이 5분에서 5초로.",
                     feature: .combo
                 ),
                 PersonaScenario(
@@ -162,21 +162,21 @@ private enum PersonaGuideCatalog {
                     pain: "처음 인사드리는 자리마다 소속·직함·연락처를 매번 다르게 적습니다.",
                     example: "안녕하세요, {이름}입니다.\n{소속}에서 {업무}를 맡고 있습니다.\n📧 {이메일} / 📞 {전화번호}\n잘 부탁드립니다 🙏",
                     impact: "일관된 소개로 신뢰를 주고, 오타 난 연락처로 연락이 끊길 일이 없어요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "이메일 서명",
                     pain: "회사 메일 앱마다 서명이 안 옮겨져, 매번 손으로 붙입니다.",
                     example: "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}",
                     impact: "어느 앱·기기에서 보내든 통일된 서명. 브랜드 인상이 흐트러지지 않아요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "세금계산서·입금 정보",
                     pain: "거래처가 계좌·사업자번호를 물을 때마다 회계 파일을 열어 확인합니다.",
                     example: "입금 계좌: {은행} {계좌번호} ({예금주})\n사업자등록번호: {사업자번호}\n상호: {상호}\n세금계산서 이메일: {이메일}",
                     impact: "요청 즉시 정확히 전달 — 정산 지연과 오류 입금이 사라집니다.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "외주·협업 제안",
@@ -219,7 +219,7 @@ private enum PersonaGuideCatalog {
                     pain: "수강신청·과제 제출·증명서 발급마다 학번과 이름을 다시 칩니다.",
                     example: "{학과} {학번} {이름}",
                     impact: "제출칸에 탭 한 번. 마감 직전 오타로 감점되는 일이 없어져요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "교수님께 보내는 메일",
@@ -247,7 +247,7 @@ private enum PersonaGuideCatalog {
                     pain: "배달·택배마다 상세주소와 공동현관 비번을 다시 입력합니다.",
                     example: "{우편번호}\n{주소}\n{상세주소}\n공동현관: {비밀번호}\n받는 분: {이름} / {전화번호}",
                     impact: "배달앱 주소칸에 탭 한 번. 잘못 간 택배로 헤맬 일이 없어요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "팀플·모임 N빵 정산",
@@ -268,14 +268,14 @@ private enum PersonaGuideCatalog {
                     pain: "모집 글을 여러 커뮤니티에 올릴 때마다 소개를 조금씩 다시 씁니다.",
                     example: "[{모임명}] 함께할 분을 찾아요! 🙌\n활동: {활동 내용}\n시간: {요일/시간}\n장소: {장소}\n신청: {링크/연락처}\n부담 없이 문의 주세요 😊",
                     impact: "여러 곳에 같은 글을 붙여넣기 한 번으로 — 모집이 훨씬 빨라져요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "인턴 지원 기본 정보",
                     pain: "지원서마다 이름·연락처·학력·링크를 반복 입력하다 지칩니다.",
                     example: "{이름} · {전화번호} · {이메일}\n{학교} {학과} ({학년})\n포트폴리오: {링크}\nGitHub/블로그: {링크}",
                     impact: "지원 폼 채우기가 빨라져, 더 많은 기회에 도전하게 됩니다.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "지각·약속 변경",
@@ -297,14 +297,14 @@ private enum PersonaGuideCatalog {
                     pain: "\"계좌 좀\" 한마디에 은행 앱을 열어 번호를 확인하고 옮겨 적습니다.",
                     example: "{은행} {계좌번호}\n예금주: {이름}\n(카카오페이/토스도 가능해요 🙏)",
                     impact: "탭 한 번으로 정확히 전달 — 자릿수 실수로 엉뚱한 곳에 갈 걱정이 없어요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "집 주소(배송)",
                     pain: "쇼핑·중고거래마다 상세주소와 연락처를 처음부터 다시 칩니다.",
                     example: "{우편번호}\n{주소}\n{상세주소}\n받는 분: {이름} / {전화번호}",
                     impact: "주소 입력이 한 번에 끝나, 오배송으로 시간 버릴 일이 줄어요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "약속 잡기",
@@ -325,21 +325,21 @@ private enum PersonaGuideCatalog {
                     pain: "축의·조의 계좌를 물어올 때, 급하게 번호를 찾아 전합니다.",
                     example: "마음 전해주셔서 감사합니다.\n{은행} {계좌번호} ({예금주})\n와주시는 것만으로 큰 힘이 됩니다 🙏",
                     impact: "경황 없는 순간에도, 실수 없이 정중하게 안내할 수 있어요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "중고거래 안내",
                     pain: "거래마다 가격·상태·직거래 장소를 비슷하게 다시 씁니다.",
                     example: "{상품명} 판매합니다.\n가격: {가격} (네고 {가능/불가})\n상태: {상태}\n거래: {직거래 장소} 또는 택배\n연락: {연락처}",
                     impact: "여러 플랫폼에 붙여넣기 한 번 — 문의 대응이 빨라집니다.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "긴급 연락처·가족 정보",
                     pain: "병원 접수·서류 작성 때 보호자 연락처와 정보를 매번 떠올립니다.",
                     example: "보호자: {이름} ({관계})\n연락처: {전화번호}\n혈액형: {혈액형}\n특이사항/알레르기: {내용}",
                     impact: "급한 순간에 정확한 정보를 바로 — 당황 대신 침착하게 대응합니다.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "병원·예약 정보",
@@ -353,7 +353,7 @@ private enum PersonaGuideCatalog {
                     pain: "손님이 올 때마다 공유기 비밀번호를 불러주거나 사진 찾아 헤맵니다.",
                     example: "WiFi: {네트워크 이름}\n비밀번호: {비밀번호}\n편하게 쓰세요 😊",
                     impact: "한 번에 공유 — \"비번 뭐예요\"를 세 번 반복하지 않아도 돼요.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "자주 쓰는 안부 인사",
@@ -409,8 +409,8 @@ private enum PersonaGuideCatalog {
                     title: "Passport & visa info",
                     pain: "Every flight, stay, or visa form has you hunting for your passport number and expiry.",
                     example: "Passport no: {passport}\nFull name: {name}\nIssued / Expires: {issued} / {expiry}\nNationality: {nationality}",
-                    impact: "Lock it behind Face ID as a secure memo — open only when you need it.",
-                    feature: .memo
+                    impact: "Lock it behind Face ID as a secure snippet — open only when you need it.",
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "\"Where are you based?\"",
@@ -424,7 +424,7 @@ private enum PersonaGuideCatalog {
                     pain: "The co-working wifi dies right before a call and you scramble for an apology.",
                     example: "Hi team, wifi at my co-working just dropped. Moving to a backup spot — back online in {min} min. Ready to continue right after. 🙏",
                     impact: "Even mid-panic, you send a calm, reassuring line in a second.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Currency & quote note",
@@ -437,7 +437,7 @@ private enum PersonaGuideCatalog {
                     title: "New client onboarding",
                     pain: "Right after signing, you walk every client through Calendly, Slack, payment, cadence.",
                     example: "Welcome aboard, {client}! Here's how we'll work:\n1. First sync — Calendly: {link}\n2. Payment (banking info attached if needed)\n3. Slack invite within 24h\n4. Progress demos every Thursday\n\nExcited to get started!",
-                    impact: "A Combo pastes several memos in order — onboarding drops from 5 minutes to 5 seconds.",
+                    impact: "A Combo pastes several snippets in order — onboarding drops from 5 minutes to 5 seconds.",
                     feature: .combo
                 ),
                 PersonaScenario(
@@ -481,21 +481,21 @@ private enum PersonaGuideCatalog {
                     pain: "Every first introduction has you re-typing your role, team, and contact.",
                     example: "Hi, I'm {name}.\nI handle {role} at {company}.\n📧 {email} / 📞 {phone}\nLooking forward to working together 🙏",
                     impact: "A consistent intro builds trust — and no dropped contact from a typo.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Email signature",
                     pain: "Signatures don't carry across mail apps, so you paste yours by hand.",
                     example: "{name}\n{title} | {company}\n📧 {email}\n📞 {phone}\n🌐 {website}",
                     impact: "One signature, any app or device — your brand impression stays sharp.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Payment & tax details",
                     pain: "Every time a vendor asks for account or tax info, you dig through finance files.",
                     example: "Account: {bank} {number} ({holder})\nTax ID: {tax id}\nCompany: {company}\nInvoice email: {email}",
                     impact: "Send it exactly right, instantly — no delayed or misdirected payments.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Partnership outreach",
@@ -538,7 +538,7 @@ private enum PersonaGuideCatalog {
                     pain: "Course registration, submissions, certificates — you re-type your ID and name each time.",
                     example: "{major} {student ID} {name}",
                     impact: "One tap into any field — no last-minute typo costing you points.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Email to a professor",
@@ -566,7 +566,7 @@ private enum PersonaGuideCatalog {
                     pain: "Every delivery has you re-entering the full address and door code.",
                     example: "{postcode}\n{address}\n{unit details}\nEntry code: {code}\nRecipient: {name} / {phone}",
                     impact: "One tap into the delivery app — no packages lost to a wrong address.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Splitting the bill",
@@ -587,14 +587,14 @@ private enum PersonaGuideCatalog {
                     pain: "Posting a recruit call across communities means rewriting the intro slightly each time.",
                     example: "[{group}] Looking for members! 🙌\nWhat we do: {activity}\nWhen: {day/time}\nWhere: {place}\nApply: {link/contact}\nReach out anytime 😊",
                     impact: "Paste the same post everywhere in one tap — recruiting moves much faster.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Internship application basics",
                     pain: "Every application repeats your name, contact, education, and links until you're worn out.",
                     example: "{name} · {phone} · {email}\n{school} {major} (year {year})\nPortfolio: {link}\nGitHub/blog: {link}",
                     impact: "Filling forms gets fast, so you apply to more opportunities.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Running late",
@@ -616,14 +616,14 @@ private enum PersonaGuideCatalog {
                     pain: "\"What's your account?\" and you open the bank app to check and copy the number.",
                     example: "{bank} {account number}\nHolder: {name}\n(Apple Pay / transfer also fine 🙏)",
                     impact: "One tap, exactly right — no wrong digits sending money astray.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Home address (delivery)",
                     pain: "Shopping and resale both make you re-type the full address and contact.",
                     example: "{postcode}\n{address}\n{unit details}\nRecipient: {name} / {phone}",
                     impact: "Address entry done in one go — fewer misdeliveries eating your time.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Making plans",
@@ -644,21 +644,21 @@ private enum PersonaGuideCatalog {
                     pain: "When someone asks for the gift or condolence account, you scramble for the number.",
                     example: "Thank you for the kind thought.\n{bank} {account number} ({holder})\nYour presence alone means so much 🙏",
                     impact: "Even in a hectic moment, you share it correctly and graciously.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Resale listing",
                     pain: "Every sale has you rewriting price, condition, and meet-up spot the same way.",
                     example: "Selling: {item}\nPrice: {price} (negotiable: {yes/no})\nCondition: {condition}\nMeet: {location} or shipping\nContact: {contact}",
                     impact: "Paste to any platform in one tap — you answer buyers faster.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Emergency & family info",
                     pain: "Hospital check-in and forms have you recalling guardian contact and details every time.",
                     example: "Guardian: {name} ({relation})\nPhone: {phone}\nBlood type: {blood type}\nNotes/allergies: {details}",
                     impact: "Accurate info in an urgent moment — calm response instead of panic.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Appointment / booking info",
@@ -672,7 +672,7 @@ private enum PersonaGuideCatalog {
                     pain: "Every guest means reading out the router password or hunting for a photo of it.",
                     example: "WiFi: {network name}\nPassword: {password}\nEnjoy 😊",
                     impact: "Share it once — no repeating \"what's the password?\" three times.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Go-to greetings",
@@ -728,8 +728,8 @@ private enum PersonaGuideCatalog {
                     title: "Data paspor & visa",
                     pain: "Tiap pesan tiket, hotel, atau visa, kamu cari nomor paspor dan tanggal kedaluwarsanya.",
                     example: "No. paspor: {paspor}\nNama lengkap: {nama}\nTerbit / Kedaluwarsa: {terbit} / {kedaluwarsa}\nKewarganegaraan: {kewarganegaraan}",
-                    impact: "Kunci sebagai memo aman (Face ID) — buka hanya saat perlu.",
-                    feature: .memo
+                    impact: "Kunci sebagai snippet aman (Face ID) — buka hanya saat perlu.",
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "\"Kamu tinggal di mana?\"",
@@ -743,7 +743,7 @@ private enum PersonaGuideCatalog {
                     pain: "Wifi co-working mati tepat sebelum call, kamu buru-buru menyusun permintaan maaf.",
                     example: "Hi team, wifi at my co-working just dropped. Pindah ke lokasi cadangan — online lagi dalam {menit} menit. Siap lanjut setelahnya. 🙏",
                     impact: "Meski panik, kamu kirim satu baris yang tenang dan meyakinkan seketika.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Catatan kurs & penawaran",
@@ -756,7 +756,7 @@ private enum PersonaGuideCatalog {
                     title: "Onboarding klien baru",
                     pain: "Sesudah deal, kamu memandu tiap klien soal Calendly, Slack, pembayaran, ritme kerja.",
                     example: "Selamat bergabung, {klien}! Beginilah kita bekerja:\n1. Sinkron pertama — Calendly: {tautan}\n2. Pembayaran (info rekening menyusul bila perlu)\n3. Undangan Slack dalam 24 jam\n4. Demo progres tiap Kamis\n\nSemangat mulai!",
-                    impact: "Combo menempel beberapa memo berurutan — onboarding dari 5 menit jadi 5 detik.",
+                    impact: "Combo menempel beberapa snippet berurutan — onboarding dari 5 menit jadi 5 detik.",
                     feature: .combo
                 ),
                 PersonaScenario(
@@ -800,21 +800,21 @@ private enum PersonaGuideCatalog {
                     pain: "Tiap perkenalan pertama, kamu mengetik ulang jabatan, tim, dan kontak.",
                     example: "Halo, saya {nama}.\nSaya menangani {peran} di {perusahaan}.\n📧 {email} / 📞 {telepon}\nSenang bisa bekerja sama 🙏",
                     impact: "Perkenalan konsisten membangun kepercayaan — tanpa kontak salah ketik.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Tanda tangan email",
                     pain: "Tanda tangan tak terbawa antar aplikasi email, jadi kamu tempel manual.",
                     example: "{nama}\n{jabatan} | {perusahaan}\n📧 {email}\n📞 {telepon}\n🌐 {website}",
                     impact: "Satu tanda tangan, aplikasi atau perangkat mana pun — kesan brand tetap rapi.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Info rekening & pajak",
                     pain: "Tiap vendor minta info rekening atau NPWP, kamu bongkar berkas keuangan.",
                     example: "Rekening: {bank} {nomor} a/n {pemilik}\nNPWP: {npwp}\nPerusahaan: {perusahaan}\nEmail invoice: {email}",
                     impact: "Kirim persis benar, seketika — tak ada bayaran telat atau salah tujuan.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Ajakan kerja sama",
@@ -857,7 +857,7 @@ private enum PersonaGuideCatalog {
                     pain: "KRS, pengumpulan tugas, surat keterangan — kamu ketik ulang NIM dan nama tiap kali.",
                     example: "{jurusan} {NIM} {nama}",
                     impact: "Satu ketukan ke kolom mana pun — tanpa salah ketik jelang tenggat.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Email ke dosen",
@@ -885,7 +885,7 @@ private enum PersonaGuideCatalog {
                     pain: "Tiap pesan antar, kamu masukkan lagi alamat lengkap dan kode pintu.",
                     example: "{kode pos}\n{alamat}\n{detail unit}\nKode masuk: {kode}\nPenerima: {nama} / {telepon}",
                     impact: "Satu ketukan ke aplikasi pesan-antar — tak ada paket nyasar.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Patungan kelompok",
@@ -906,14 +906,14 @@ private enum PersonaGuideCatalog {
                     pain: "Memposting ajakan ke banyak komunitas berarti menulis ulang perkenalan tiap kali.",
                     example: "[{nama grup}] Mencari anggota! 🙌\nKegiatan: {kegiatan}\nWaktu: {hari/jam}\nTempat: {tempat}\nDaftar: {tautan/kontak}\nJangan ragu bertanya 😊",
                     impact: "Tempel pesan yang sama ke mana-mana dalam satu ketukan — rekrutmen jauh lebih cepat.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Data lamaran magang",
                     pain: "Tiap lamaran mengulang nama, kontak, pendidikan, tautan sampai kamu lelah.",
                     example: "{nama} · {telepon} · {email}\n{kampus} {jurusan} (angkatan {tahun})\nPortofolio: {tautan}\nGitHub/blog: {tautan}",
                     impact: "Isi formulir jadi cepat, jadi kamu melamar ke lebih banyak peluang.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Terlambat / ubah janji",
@@ -935,14 +935,14 @@ private enum PersonaGuideCatalog {
                     pain: "\"Rekeningnya berapa?\" dan kamu buka app bank untuk cek lalu salin nomornya.",
                     example: "{bank} {nomor rekening}\nA/N: {nama}\n(Bisa juga GoPay/OVO 🙏)",
                     impact: "Satu ketukan, persis benar — tak ada salah digit bikin uang nyasar.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Alamat rumah (pengiriman)",
                     pain: "Belanja dan jual-beli sama-sama bikin kamu ketik ulang alamat lengkap dan kontak.",
                     example: "{kode pos}\n{alamat}\n{detail unit}\nPenerima: {nama} / {telepon}",
                     impact: "Isi alamat selesai sekali jalan — lebih sedikit salah kirim yang buang waktu.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Membuat janji",
@@ -963,21 +963,21 @@ private enum PersonaGuideCatalog {
                     pain: "Saat ada yang minta rekening kado atau duka, kamu buru-buru cari nomornya.",
                     example: "Terima kasih atas perhatiannya.\n{bank} {nomor rekening} a/n {nama}\nKehadiran Anda saja sudah sangat berarti 🙏",
                     impact: "Bahkan di momen sibuk, kamu berbagi dengan benar dan santun.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Iklan jual-beli",
                     pain: "Tiap jualan, kamu tulis ulang harga, kondisi, dan lokasi COD yang mirip.",
                     example: "Dijual: {barang}\nHarga: {harga} (nego: {bisa/tidak})\nKondisi: {kondisi}\nCOD: {lokasi} atau kirim\nKontak: {kontak}",
                     impact: "Tempel ke banyak platform sekali ketuk — kamu balas pembeli lebih cepat.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Kontak darurat & keluarga",
                     pain: "Pendaftaran rumah sakit dan formulir bikin kamu mengingat kontak wali tiap kali.",
                     example: "Wali: {nama} ({hubungan})\nTelepon: {telepon}\nGolongan darah: {golongan}\nCatatan/alergi: {detail}",
                     impact: "Info akurat di saat mendesak — tanggap dengan tenang, bukan panik.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Info janji / reservasi",
@@ -991,7 +991,7 @@ private enum PersonaGuideCatalog {
                     pain: "Tiap ada tamu, kamu bacakan sandi router atau cari-cari fotonya.",
                     example: "WiFi: {nama jaringan}\nSandi: {sandi}\nSilakan dipakai 😊",
                     impact: "Bagikan sekali — tak perlu ulang \"sandinya apa?\" tiga kali.",
-                    feature: .memo
+                    feature: .snippet
                 ),
                 PersonaScenario(
                     title: "Sapaan andalan",

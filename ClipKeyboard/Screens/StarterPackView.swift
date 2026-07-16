@@ -90,7 +90,7 @@ struct StarterPackView: View {
             ) {
                 Button(NSLocalizedString("확인", comment: "Confirm")) {}
             } message: {
-                Text(NSLocalizedString("메모를 추가하지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Starter pack add failed alert message"))
+                Text(NSLocalizedString("단축어를 추가하지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Starter pack add failed alert message"))
             }
         }
     }
@@ -99,7 +99,7 @@ struct StarterPackView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(NSLocalizedString("바로 쓸 수 있는 메모", comment: "Starter pack header"))
+            Text(NSLocalizedString("바로 쓸 수 있는 단축어", comment: "Starter pack header"))
                 .font(.system(.title2, weight: .bold))
                 .foregroundColor(theme.text)
             Text(NSLocalizedString("골라서 한 번에 추가하세요. 키보드에서 바로 꺼내 쓸 수 있어요.", comment: "Starter pack subtitle"))

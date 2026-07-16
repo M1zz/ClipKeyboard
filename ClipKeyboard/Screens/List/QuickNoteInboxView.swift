@@ -225,9 +225,6 @@ struct QuickNoteInboxBanner: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: AppSymbol.trayFull)
-                .font(.title3)
-                .foregroundColor(.accentColor)
             VStack(alignment: .leading, spacing: 2) {
                 Text(NSLocalizedString("Inbox", comment: "Quick note inbox title"))
                     .font(.subheadline.weight(.semibold))

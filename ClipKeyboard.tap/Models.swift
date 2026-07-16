@@ -342,15 +342,14 @@ enum ComboItemType: String, Codable {
     case template = "템플릿"
 
     // 다국어 지원 표시명
+    // 다국어 지원 표시명 — rawValue와 분리(용어 개편: 저장 항목은 '단축어').
+    // ⚠️ rawValue("메모")는 저장 데이터에 직렬화되므로 변경 금지.
     var localizedName: String {
-        return NSLocalizedString(self.rawValue, comment: "Combo item type")
-    }
-
-    // Xcode String Catalog이 문자열을 감지하도록 하는 헬퍼 함수
-    static func preloadLocalizedStrings() {
-        _ = NSLocalizedString("메모", comment: "Memo")
-        _ = NSLocalizedString("클립보드", comment: "Clipboard")
-        _ = NSLocalizedString("템플릿", comment: "Template")
+        switch self {
+        case .memo: return NSLocalizedString("단축어", comment: "Snippet (saved key-value item) display name")
+        case .clipboardHistory: return NSLocalizedString("클립보드", comment: "Clipboard")
+        case .template: return NSLocalizedString("템플릿", comment: "Template")
+        }
     }
 }
 

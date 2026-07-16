@@ -30,10 +30,10 @@ struct SecurePINSettings: View {
                             .font(.title2)
                             .foregroundColor(.orange)
                             .accessibilityHidden(true)
-                        Text(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN section header"))
+                        Text(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN section header"))
                             .font(.headline)
                     }
-                    Text(NSLocalizedString("보안 메모를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다.", comment: "Secure PIN section footer"))
+                    Text(NSLocalizedString("보안 단축어를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다.", comment: "Secure PIN section footer"))
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
@@ -96,9 +96,9 @@ struct SecurePINSettings: View {
                 pinIsSet = false
             }
         } message: {
-            Text(NSLocalizedString("PIN을 삭제하면 보안 메모 잠금이 해제됩니다. 계속하시겠습니까?", comment: "Delete PIN confirm message"))
+            Text(NSLocalizedString("PIN을 삭제하면 보안 단축어 잠금이 해제됩니다. 계속하시겠습니까?", comment: "Delete PIN confirm message"))
         }
-        .navigationTitle(NSLocalizedString("보안 메모 PIN", comment: "Secure memo PIN"))
+        .navigationTitle(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

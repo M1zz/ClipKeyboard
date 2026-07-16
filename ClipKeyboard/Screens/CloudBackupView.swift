@@ -111,7 +111,7 @@ struct CloudBackupView: View {
                                     .font(.body)
                                     .foregroundColor(.secondary)
                                 if let count = backupMemoCount {
-                                    Text(String(format: NSLocalizedString("메모 %d개 백업됨", comment: "Backed-up memo count"), count))
+                                    Text(String(format: NSLocalizedString("단축어 %d개 백업됨", comment: "Backed-up memo count"), count))
                                         .font(.caption)
                                         .foregroundColor(count == 0 ? .orange : .secondary)
                                 }
@@ -170,7 +170,7 @@ struct CloudBackupView: View {
                 } header: {
                     Text(NSLocalizedString("자동 백업 설정", comment: "Auto backup settings section header"))
                 } footer: {
-                    Text(NSLocalizedString("• 자동 백업이 활성화되면 메모, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다", comment: "Auto backup info"))
+                    Text(NSLocalizedString("• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다", comment: "Auto backup info"))
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
@@ -283,7 +283,7 @@ struct CloudBackupView: View {
                     Text(NSLocalizedString("백업 관리", comment: "Backup management section header"))
                 } footer: {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(NSLocalizedString("• 백업은 메모와 클립보드 히스토리를 모두 포함합니다", comment: "Backup info 1"))
+                        Text(NSLocalizedString("• 백업은 단축어와 클립보드 히스토리를 모두 포함합니다", comment: "Backup info 1"))
                         Text(NSLocalizedString("• 복구 시 현재 데이터는 백업 데이터로 교체됩니다", comment: "Backup info 2"))
                         Text(NSLocalizedString("• 백업 데이터는 iCloud에 안전하게 저장됩니다", comment: "Backup info 3"))
                     }
@@ -385,7 +385,7 @@ struct CloudBackupView: View {
             Button(NSLocalizedString("취소", comment: "Cancel button"), role: .cancel) { }
         } message: {
             if backupService.hasLocalData() {
-                Text(NSLocalizedString("⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 메모, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?", comment: "Restore with data warning message"))
+                Text(NSLocalizedString("⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?", comment: "Restore with data warning message"))
             } else {
                 Text(NSLocalizedString("백업 데이터를 복구합니다.", comment: "Restore empty device message"))
             }
@@ -396,7 +396,7 @@ struct CloudBackupView: View {
             }
             Button(NSLocalizedString("취소", comment: "Cancel button"), role: .cancel) { }
         } message: {
-            Text(String(format: NSLocalizedString("기존 백업(메모 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)", comment: "Backup reduce confirm message"), reduceExisting, reduceNew))
+            Text(String(format: NSLocalizedString("기존 백업(단축어 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)", comment: "Backup reduce confirm message"), reduceExisting, reduceNew))
         }
         .confirmationDialog(NSLocalizedString("백업 삭제", comment: "Delete backup dialog title"), isPresented: $showDeleteConfirmation, titleVisibility: .visible) {
             Button(NSLocalizedString("삭제", comment: "Delete button"), role: .destructive) {
@@ -423,13 +423,13 @@ struct CloudBackupView: View {
                     switch outcome {
                     case .backedUp(let memoCount):
                         alertTitle = NSLocalizedString("백업 완료", comment: "Backup completed")
-                        alertMessage = String(format: NSLocalizedString("메모 %d개를 iCloud에 백업했습니다.", comment: "Backup success with count"), memoCount)
+                        alertMessage = String(format: NSLocalizedString("단축어 %d개를 iCloud에 백업했습니다.", comment: "Backup success with count"), memoCount)
                     case .nothingToBackUp:
                         alertTitle = NSLocalizedString("백업할 내용 없음", comment: "Nothing to back up title")
-                        alertMessage = NSLocalizedString("백업할 데이터가 없습니다. 메모를 추가한 뒤 다시 시도해주세요.", comment: "Nothing to back up message")
+                        alertMessage = NSLocalizedString("백업할 데이터가 없습니다. 단축어를 추가한 뒤 다시 시도해주세요.", comment: "Nothing to back up message")
                     case .skippedToProtectExisting(let existing, let new):
                         alertTitle = NSLocalizedString("백업 건너뜀", comment: "Backup skipped title")
-                        alertMessage = String(format: NSLocalizedString("기존 백업(메모 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다.", comment: "Backup skipped to protect existing"), existing, new)
+                        alertMessage = String(format: NSLocalizedString("기존 백업(단축어 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다.", comment: "Backup skipped to protect existing"), existing, new)
                     }
                     backupMemoCount = nil
                     showAlert = true
@@ -581,7 +581,7 @@ struct BackupVersionsView: View {
                                     Text(snap.date.formatted(date: .abbreviated, time: .shortened))
                                         .font(.headline)
                                         .foregroundColor(.primary)
-                                    Text(String(format: NSLocalizedString("메모 %d개", comment: "Memo count in a backup snapshot"), snap.memoCount))
+                                    Text(String(format: NSLocalizedString("단축어 %d개", comment: "Memo count in a backup snapshot"), snap.memoCount))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -610,7 +610,7 @@ struct BackupVersionsView: View {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
         } message: {
             if let snap = pendingRestore {
-                Text(String(format: NSLocalizedString("%@ · 메모 %d개 — 현재 데이터는 이 시점으로 교체됩니다.", comment: "Version restore confirm message"),
+                Text(String(format: NSLocalizedString("%@ · 단축어 %d개 — 현재 데이터는 이 시점으로 교체됩니다.", comment: "Version restore confirm message"),
                             snap.date.formatted(date: .abbreviated, time: .shortened), snap.memoCount))
             }
         }
@@ -683,7 +683,7 @@ struct ImportSummary {
     var images: Int
 
     var localizedDescription: String {
-        String(format: NSLocalizedString("메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다.", comment: "Import summary message"),
+        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다.", comment: "Import summary message"),
                addedMemos, updatedMemos, totalMemos, addedCombos, images)
     }
 }

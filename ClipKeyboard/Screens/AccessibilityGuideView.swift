@@ -65,7 +65,7 @@ struct AccessibilityGuideView: View {
             iconColor: .blue,
             title: NSLocalizedString("VoiceOver", comment: "Feature: VoiceOver"),
             body: NSLocalizedString(
-                "메모 목록에서 한 번 탭하면 카테고리·제목·내용을 읽어줍니다. 이중 탭하면 클립보드에 복사됩니다.\n\n위아래로 쓸어 넘기면 '즐겨찾기 추가', '삭제' 같은 추가 액션을 선택할 수 있습니다.",
+                "단축어 목록에서 한 번 탭하면 카테고리·제목·내용을 읽어줍니다. 이중 탭하면 클립보드에 복사됩니다.\n\n위아래로 쓸어 넘기면 '즐겨찾기 추가', '삭제' 같은 추가 액션을 선택할 수 있습니다.",
                 comment: "VoiceOver feature description"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → VoiceOver", comment: "VoiceOver settings path")
@@ -75,7 +75,7 @@ struct AccessibilityGuideView: View {
             iconColor: .purple,
             title: NSLocalizedString("음성 명령", comment: "Feature: Voice Control"),
             body: NSLocalizedString(
-                "'탭 메모 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.",
+                "'탭 단축어 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.",
                 comment: "Voice Control feature description"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → 음성 명령", comment: "Voice Control settings path")
@@ -85,7 +85,7 @@ struct AccessibilityGuideView: View {
             iconColor: .orange,
             title: NSLocalizedString("더 큰 텍스트", comment: "Feature: Larger Text"),
             body: NSLocalizedString(
-                "시스템 텍스트 크기를 키우면 메모 제목·내용 미리보기·배지가 함께 커집니다. 앱 내 글꼴 크기 슬라이더로 키보드만 별도 조정도 가능합니다.",
+                "시스템 텍스트 크기를 키우면 단축어 제목·내용 미리보기·배지가 함께 커집니다. 앱 내 글꼴 크기 슬라이더로 키보드만 별도 조정도 가능합니다.",
                 comment: "Larger Text feature description"
             ),
             tip: NSLocalizedString("설정 → 디스플레이 및 밝기 → 텍스트 크기", comment: "Larger Text settings path")
@@ -105,7 +105,7 @@ struct AccessibilityGuideView: View {
             iconColor: .green,
             title: NSLocalizedString("색상 없이 구별", comment: "Feature: Differentiate Without Color"),
             body: NSLocalizedString(
-                "색에만 의존하지 않고 메모를 구분하고 싶다면, 앱 설정 → 디스플레이 → 메모 표시에서 '메모 구분 표시'를 켜세요. 메모 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
+                "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
                 comment: "Differentiate Without Color feature description v2"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 색상 없이 구별", comment: "Differentiate Without Color settings path")
@@ -156,15 +156,15 @@ struct AccessibilityGuideView: View {
 
     private var testSteps: [String] {[
         NSLocalizedString(
-            "VoiceOver: 메모 행에서 한 번 탭 → 읽기 확인. 이중 탭 → '복사됨' 알림 확인.",
+            "VoiceOver: 단축어 행에서 한 번 탭 → 읽기 확인. 이중 탭 → '복사됨' 알림 확인.",
             comment: "Test step: VoiceOver"
         ),
         NSLocalizedString(
-            "음성 명령: '탭 메모 검색' 또는 '확인 탭' 말하기 → 반응 확인.",
+            "음성 명령: '탭 단축어 검색' 또는 '확인 탭' 말하기 → 반응 확인.",
             comment: "Test step: Voice Control"
         ),
         NSLocalizedString(
-            "더 큰 텍스트: 설정에서 텍스트 크기 최대로 → 앱 메모 목록에서 텍스트 크기 확인.",
+            "더 큰 텍스트: 설정에서 텍스트 크기 최대로 → 앱 단축어 목록에서 텍스트 크기 확인.",
             comment: "Test step: Larger Text"
         ),
         NSLocalizedString(

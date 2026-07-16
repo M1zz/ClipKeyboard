@@ -319,8 +319,8 @@ struct KeyboardView: View {
     private func builtInDisplayName(_ raw: String) -> String {
         switch raw {
         case "templates": return NSLocalizedString("템플릿", comment: "Built-in category: templates only")
-        case "textMemos": return NSLocalizedString("메모+템플릿", comment: "Built-in category: text memos and templates")
-        case "images":    return NSLocalizedString("이미지 메모", comment: "Built-in category: image memos only")
+        case "textMemos": return NSLocalizedString("단축어+템플릿", comment: "Built-in category: text memos and templates")
+        case "images":    return NSLocalizedString("이미지 단축어", comment: "Built-in category: image memos only")
         case "combos":    return NSLocalizedString("콤보", comment: "Built-in category: combos only")
         default:          return raw
         }
@@ -635,10 +635,10 @@ struct KeyboardView: View {
     /// 배너 문구: hidden 메모가 있으면 그 개수, 없으면 한도까지 남은 개수
     private var upgradeBannerText: String {
         if hiddenMemoCount > 0 {
-            return String(format: NSLocalizedString("%d개 메모 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
+            return String(format: NSLocalizedString("%d개 단축어 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
         }
         let remaining = max(0, ProFeatureManager.freeMemoLimit - totalMemoCount)
-        return String(format: NSLocalizedString("메모 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
+        return String(format: NSLocalizedString("단축어 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
     }
 
     /// 한도 도달 임박 (남은 슬롯 2개 이하)
@@ -697,10 +697,10 @@ struct KeyboardView: View {
         }
         .accessibilityLabel(isSearching
             ? (searchQuery.isEmpty ? NSLocalizedString("검색 중", comment: "Search bar active empty") : searchQuery)
-            : NSLocalizedString("메모 검색", comment: "Search field accessibility label"))
+            : NSLocalizedString("단축어 검색", comment: "Search field accessibility label"))
         .accessibilityHint(isSearching
             ? NSLocalizedString("x 버튼을 탭하면 검색을 닫습니다", comment: "Search bar active hint")
-            : NSLocalizedString("탭하면 메모를 검색합니다", comment: "Search bar hint"))
+            : NSLocalizedString("탭하면 단축어를 검색합니다", comment: "Search bar hint"))
         .accessibilityAddTraits(isSearching ? [] : .isButton)
     }
 
@@ -1046,11 +1046,11 @@ struct KeyboardView: View {
 
     private func memoAccessibilityLabel(for memo: Memo) -> String {
         var parts: [String] = [memo.title]
-        if memo.isSecure { parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge")) }
+        if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
         if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
         if memo.contentType == .image || memo.contentType == .mixed {
-            parts.append(NSLocalizedString("이미지 메모", comment: "VoiceOver: image memo"))
+            parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo"))
         } else if !memo.value.isEmpty {
             let preview = String(memo.value.prefix(40))
             parts.append(preview)

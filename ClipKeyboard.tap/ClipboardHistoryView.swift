@@ -223,7 +223,7 @@ struct ClipboardHistoryView: View {
             memos.append(newMemo)
             try MemoStore.shared.save(memos: memos, type: .memo)
 
-            toastMessage = NSLocalizedString("메모로 저장되었습니다", comment: "Saved as memo toast")
+            toastMessage = NSLocalizedString("단축어로 저장되었습니다", comment: "Saved as memo toast")
             showToast = true
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -318,7 +318,7 @@ struct ClipboardItemRow: View {
                             .foregroundStyle(.green)
                     }
                     .buttonStyle(.plain)
-                    .help(NSLocalizedString("메모로 저장", comment: "Save as memo tooltip"))
+                    .help(NSLocalizedString("단축어로 저장", comment: "Save as memo tooltip"))
 
                     Button {
                         onCopy()

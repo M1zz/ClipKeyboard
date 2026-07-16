@@ -337,7 +337,7 @@ struct ProFeatureManager {
         var localizedTitle: String {
             switch self {
             case .memo:
-                return NSLocalizedString("메모 개수 제한", comment: "Memo limit")
+                return NSLocalizedString("단축어 개수 제한", comment: "Memo limit")
             case .combo:
                 return NSLocalizedString("콤보 개수 제한", comment: "Combo limit")
             case .template:
@@ -351,14 +351,14 @@ struct ProFeatureManager {
             case .themeCustomization:
                 return NSLocalizedString("테마 설정", comment: "Theme customization")
             case .imageMemo:
-                return NSLocalizedString("이미지 메모", comment: "Image memo")
+                return NSLocalizedString("이미지 단축어", comment: "Image memo")
             }
         }
 
         var localizedDescription: String {
             switch self {
             case .memo:
-                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 메모를 저장할 수 있습니다.", comment: "Memo limit desc"), freeMemoLimit)
+                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 단축어를 저장할 수 있습니다.", comment: "Memo limit desc"), freeMemoLimit)
             case .combo:
                 return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.", comment: "Combo limit desc"), freeComboLimit)
             case .template:
@@ -372,7 +372,7 @@ struct ProFeatureManager {
             case .themeCustomization:
                 return NSLocalizedString("Pro 버전에서 테마를 변경할 수 있습니다.", comment: "Theme desc")
             case .imageMemo:
-                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 이미지 메모를 저장할 수 있습니다.", comment: "Image memo limit desc"), freeImageMemoLimit)
+                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.", comment: "Image memo limit desc"), freeImageMemoLimit)
             }
         }
     }

@@ -152,14 +152,14 @@ struct KeyboardLayoutSettings: View {
                 Toggle(isOn: $showSearch) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("검색창", comment: "Show search bar toggle"))
-                        Text(NSLocalizedString("메모를 이름으로 빠르게 찾습니다", comment: "Search bar description"))
+                        Text(NSLocalizedString("단축어를 이름으로 빠르게 찾습니다", comment: "Search bar description"))
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
                 Toggle(isOn: $showRecent) {
                     VStack(alignment: .leading, spacing: 1) {
-                        Text(NSLocalizedString("최근 메모", comment: "Show recent snippets toggle"))
-                        Text(NSLocalizedString("최근 사용한 메모 5개를 상단에 표시합니다", comment: "Recent snippets description"))
+                        Text(NSLocalizedString("최근 단축어", comment: "Show recent snippets toggle"))
+                        Text(NSLocalizedString("최근 사용한 단축어 5개를 상단에 표시합니다", comment: "Recent snippets description"))
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
@@ -497,7 +497,7 @@ struct SecurePINSetupView: View {
                             .font(.caption).foregroundColor(.red)
                     } else {
                         Text(step == .enter
-                             ? NSLocalizedString("보안 메모 잠금에 사용할 PIN을 입력하세요.", comment: "PIN setup: enter hint")
+                             ? NSLocalizedString("보안 단축어 잠금에 사용할 PIN을 입력하세요.", comment: "PIN setup: enter hint")
                              : NSLocalizedString("동일한 PIN을 한 번 더 입력하세요.", comment: "PIN setup: confirm hint"))
                             .font(.caption).foregroundColor(.secondary)
                     }

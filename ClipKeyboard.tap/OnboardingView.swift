@@ -48,7 +48,7 @@ struct OnboardingView: View {
                             .multilineTextAlignment(.center)
                             .fixedSize(horizontal: false, vertical: true)
 
-                        Text(NSLocalizedString("macOS에서 가장 빠르고 편리한\n메모 및 클립보드 관리 앱", comment: "Welcome subtitle"))
+                        Text(NSLocalizedString("macOS에서 가장 빠르고 편리한\n단축어 및 클립보드 관리 앱", comment: "Welcome subtitle"))
                             .font(.system(.body))
                             .foregroundColor(.white.opacity(0.9))
                             .multilineTextAlignment(.center)
@@ -61,7 +61,7 @@ struct OnboardingView: View {
                     VStack(spacing: 14) {
                         MacFeatureRow(
                             icon: "square.and.pencil",
-                            title: NSLocalizedString("빠른 메모", comment: "Quick memo feature"),
+                            title: NSLocalizedString("단축어", comment: "Snippet feature"),
                             description: NSLocalizedString("자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기", comment: "Quick memo description")
                         )
 

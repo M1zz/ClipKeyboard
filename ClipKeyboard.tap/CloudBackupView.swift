@@ -254,7 +254,7 @@ struct CloudBackupView: View {
                 let memoCount = try await cloudService.backupData()
                 await MainActor.run {
                     alertTitle = NSLocalizedString("백업 완료", comment: "Backup completed")
-                    alertMessage = String(format: NSLocalizedString("메모 %d개를 iCloud에 백업했습니다.", comment: "Backup success with count"), memoCount)
+                    alertMessage = String(format: NSLocalizedString("단축어 %d개를 iCloud에 백업했습니다.", comment: "Backup success with count"), memoCount)
                     showAlert = true
                 }
             } catch {
@@ -370,7 +370,7 @@ struct ImportSummary {
     var images: Int
 
     var localizedDescription: String {
-        String(format: NSLocalizedString("메모 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다.", comment: "Import summary message"),
+        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다.", comment: "Import summary message"),
                addedMemos, updatedMemos, totalMemos, addedCombos, images)
     }
 }

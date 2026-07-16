@@ -152,7 +152,7 @@ struct MemoRowView: View {
 
         // 3. 상태 배지
         if memo.isSecure {
-            parts.append(NSLocalizedString("보안 메모", comment: "VoiceOver: secure memo badge"))
+            parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge"))
         }
         if memo.isTemplate {
             parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge"))

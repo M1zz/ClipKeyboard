@@ -51,7 +51,7 @@ enum DirectPasteHelper {
         DispatchQueue.main.async {
             let alert = NSAlert()
             alert.messageText = NSLocalizedString("접근성 권한 필요", comment: "macOS alert title: accessibility permission required")
-            alert.informativeText = NSLocalizedString("메모를 탭하면 즉시 붙여넣으려면 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용에서 ClipKeyboard를 켜 주세요.", comment: "macOS alert body: accessibility permission needed for tap-to-paste")
+            alert.informativeText = NSLocalizedString("단축어를 탭하면 즉시 붙여넣으려면 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용에서 ClipKeyboard를 켜 주세요.", comment: "macOS alert body: accessibility permission needed for tap-to-paste")
             alert.alertStyle = .informational
             alert.addButton(withTitle: NSLocalizedString("시스템 설정 열기", comment: "Button: open system settings"))
             alert.addButton(withTitle: NSLocalizedString("나중에", comment: "Later button"))

@@ -69,7 +69,7 @@ struct BulkImportView: View {
             ) {
                 Button(NSLocalizedString("확인", comment: "Confirm")) {}
             } message: {
-                Text(NSLocalizedString("메모를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Bulk import failed alert message"))
+                Text(NSLocalizedString("단축어를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.", comment: "Bulk import failed alert message"))
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

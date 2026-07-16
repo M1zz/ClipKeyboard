@@ -74,12 +74,12 @@ struct MemoOptionsProvider: DynamicOptionsProvider {
 
 struct SelectMemoIntent: WidgetConfigurationIntent {
     static var title: LocalizedStringResource {
-        LocalizedStringResource("즐겨찾기 메모 선택", comment: "Select favorite memo intent")
+        LocalizedStringResource("즐겨찾기 단축어 선택", comment: "Select favorite memo intent")
     }
 
     static var description: IntentDescription {
         IntentDescription(
-            LocalizedStringResource("위젯에 표시할 즐겨찾기 메모를 선택합니다", comment: "Select memo intent description")
+            LocalizedStringResource("위젯에 표시할 즐겨찾기 단축어를 선택합니다", comment: "Select memo intent description")
         )
     }
 

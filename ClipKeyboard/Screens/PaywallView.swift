@@ -134,7 +134,7 @@ struct PaywallView: View {
             valueRow("text.bubble.fill",
                      NSLocalizedString("프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게", comment: "Paywall value: english templates"))
             valueRow("icloud.fill",
-                     NSLocalizedString("iCloud 백업·콤보·보안 메모·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
+                     NSLocalizedString("iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -205,11 +205,11 @@ struct PaywallView: View {
             .background(theme.surfaceAlt)
 
             // 행들
-            featureRow(NSLocalizedString("키보드에서 보이는 메모", comment: "Keyboard visible memos feature row"),
+            featureRow(NSLocalizedString("키보드에서 보이는 단축어", comment: "Keyboard visible memos feature row"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), 10),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
 
-            featureRow(NSLocalizedString("메모 저장", comment: "Memo"),
+            featureRow(NSLocalizedString("단축어 저장", comment: "Memo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
 
@@ -231,7 +231,7 @@ struct PaywallView: View {
             featureRow(NSLocalizedString("생체인증 잠금", comment: "Biometric"),
                        free: "—", pro: "✓", isProOnly: true)
 
-            featureRow(NSLocalizedString("이미지 메모", comment: "Image"),
+            featureRow(NSLocalizedString("이미지 단축어", comment: "Image"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeImageMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
         }

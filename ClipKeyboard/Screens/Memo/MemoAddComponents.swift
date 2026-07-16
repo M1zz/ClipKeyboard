@@ -631,7 +631,7 @@ struct OCRTextPickerSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(NSLocalizedString("이미지에서 인식한 텍스트예요. 메모 값으로 담을 줄을 골라주세요.", comment: "OCR picker subtitle"))
+                    Text(NSLocalizedString("이미지에서 인식한 텍스트예요. 단축어 값으로 담을 줄을 골라주세요.", comment: "OCR picker subtitle"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                         .padding(.bottom, 4)

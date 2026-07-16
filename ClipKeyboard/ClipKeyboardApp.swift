@@ -651,10 +651,10 @@ struct ClipKeyboardApp: App {
                         UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
                     }
                 } message: {
-                    Text(NSLocalizedString("템플릿·콤보·메모+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 메모는 그대로 유지돼요.", comment: "Demo samples offer message"))
+                    Text(NSLocalizedString("템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.", comment: "Demo samples offer message"))
                 }
                 .alert(
-                    NSLocalizedString("기존 메모를 불러올 수 있어요", comment: "Restore hint title"),
+                    NSLocalizedString("기존 단축어를 불러올 수 있어요", comment: "Restore hint title"),
                     isPresented: $showRestoreHint
                 ) {
                     Button(NSLocalizedString("불러오기", comment: "Restore hint: open restore")) {
@@ -662,7 +662,7 @@ struct ClipKeyboardApp: App {
                     }
                     Button(NSLocalizedString("나중에", comment: "Restore hint: dismiss"), role: .cancel) { }
                 } message: {
-                    Text(NSLocalizedString("기존에 쓰던 메모를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요.", comment: "Restore hint message"))
+                    Text(NSLocalizedString("기존에 쓰던 단축어를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요.", comment: "Restore hint message"))
                 }
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
@@ -849,7 +849,7 @@ struct ClipKeyboardApp: App {
 struct MainTabView: View {
     var body: some View {
         TabView {
-            Tab(NSLocalizedString("메모", comment: "Tab: memos"), systemImage: "square.grid.2x2") {
+            Tab(NSLocalizedString("단축어", comment: "Tab: snippets"), systemImage: "square.grid.2x2") {
                 ClipKeyboardList()
             }
             Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"), systemImage: AppSymbol.clockArrowCirclepath) {
