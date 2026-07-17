@@ -220,6 +220,50 @@ struct ClipKeyboardList: View {
     /// 페이지 상단 헤더 — 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
     /// 제목은 여기 두지 않는다 — 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
     /// AnyView 타입 소거 — LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
+    /// 스크롤이 내려간 상태인지 — 타이틀 표시 모드 전환·상단 여백 측정 가드용.
+    @State private var showsInlineNavTitle = false
+
+    /// 타이틀 표시 모드. inlineLarge는 등장 시 접힌 채 시작하는 시스템 동작이 있어(실측)
+    /// 항상 펼쳐지는 .large로 시작한 뒤 등장 직후 .inlineLarge로 전환한다.
+    @State private var titleDisplayMode: ToolbarTitleDisplayMode = .large
+
+    /// 등장 후 inlineLarge로 정착했는지 — 이때부터만 상단 시작점을 측정한다.
+    /// (.large 시작 단계의 더 높은 바가 측정되면 여백이 커짐, 실측)
+    @State private var titleBarSettled = false
+
+    /// 등장 직후 .large → .inlineLarge 전환(펼침 상태 유지 확인용).
+    private func expandTitleOnAppear() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            if !showsInlineNavTitle {
+                titleDisplayMode = .inlineLarge
+            }
+            titleBarSettled = true
+        }
+    }
+
+    /// 세이프에어리어 무시 전 페이저의 상단 y(=네비바 하단). categoryContent에서 실측.
+    @State private var pageTopInset: CGFloat = 113
+
+    /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 — 페이저(UIKit 셀) 안 스크롤은
+    /// 네비바가 자동 추적하지 못하고, preference도 셀 경계에서 업데이트가 끊겨(실측)
+    /// onScrollGeometryChange(iOS 18+)를 쓴다. iOS 17은 전환 없이 inlineLarge 유지.
+    @ViewBuilder
+    private func trackPageScroll<V: View>(_ view: V) -> some View {
+        if #available(iOS 18.0, *) {
+            view.onScrollGeometryChange(for: Bool.self) { geo in
+                geo.contentOffset.y + geo.contentInsets.top > 44
+            } action: { _, scrolled in
+                guard scrolled != showsInlineNavTitle else { return }
+                withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
+                    showsInlineNavTitle = scrolled
+                    titleDisplayMode = scrolled ? .inline : .inlineLarge
+                }
+            }
+        } else {
+            view
+        }
+    }
+
     private func pageHeader(for tab: CategoryTab) -> AnyView {
         AnyView(topBanners)
     }
@@ -344,18 +388,39 @@ struct ClipKeyboardList: View {
     }
 
     /// 카테고리 탭/단일 페이지 — 가장 깊은 단일 요소라 AnyView로 타입 소거.
+    /// GeometryReader: 세이프에어리어를 무시하기 전의 상단 오프셋(=네비바 하단)을 재서
+    /// 각 페이지 스크롤 콘텐츠의 시작 위치(contentMargins)로 쓴다.
     private var categoryContent: some View {
         AnyView(
-            Group {
-                // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
-                if CategoryStore.shared.isFeatureEnabled {
-                    categoryTabView
-                } else {
-                    tabPageView(for: .all)
+            GeometryReader { geo in
+                let minY = geo.frame(in: .global).minY
+                Group {
+                    // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
+                    if CategoryStore.shared.isFeatureEnabled {
+                        categoryTabView
+                    } else {
+                        tabPageView(for: .all)
+                    }
+                }
+                // 콘텐츠 시작점 = 확장(inlineLarge) 상태의 바 하단.
+                // - 유효 범위(60~200) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단
+                //   (max 래치는 전환 애니메이션 중간의 과대값이 고정되어 여백이 커지는
+                //   문제가 있어 실시간 추적으로 변경, 실측)
+                // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
+                .onChange(of: minY, initial: true) { _, v in
+                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 200 { pageTopInset = v }
+                }
+                // 정착 시점에 minY가 이미 최종값이면 위 onChange가 다시 안 불리므로 한 번 더 측정.
+                .onChange(of: titleBarSettled) { _, settled in
+                    if settled, !showsInlineNavTitle, minY > 60, minY < 200 { pageTopInset = minY }
                 }
             }
         )
     }
+
+    /// 페이지 스크롤 콘텐츠의 상단 시작점 — 네비바 하단에서 10pt 끌어올려 타이틀과의
+    /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
+    private var pageContentTopMargin: CGFloat { max(pageTopInset - 10, 60) }
 
     private var screenBody: some View {
             ZStack {
@@ -465,6 +530,7 @@ struct ClipKeyboardList: View {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
                 AnalyticsService.setMemoBucket(viewModel.memos.count)
+                expandTitleOnAppear()
             }
             .toolbar {
                 toolbarContent
@@ -475,12 +541,18 @@ struct ClipKeyboardList: View {
             }
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // Navigation 설정 — 순정 Inline Large 타이틀(현재 카테고리 이름).
-            // 큰 글씨 제목이 바에 고정되어 스크롤을 따라 올라가지 않고,
-            // 콘텐츠는 그 아래로 흐른다(스크롤 시 glass 처리). Apple Sports/피트니스 스타일.
+            // 순정 Inline Large 타이틀 — 맨 위에선 큰 제목이 바에 표시되고,
+            // 스크롤이 내려가면 .inline(가운데 작은 제목)으로 전환(사용자 지정).
+            // 페이저 안 스크롤은 시스템이 자동 추적하지 못해 trackPageScroll이
+            // 오프셋을 보고 디스플레이 모드를 직접 전환한다.
+            // 타이틀 뒤 배경 밴드는 각 ScrollView의 scrollEdgeEffectHidden이 막는다.
             .navigationTitle(currentCategoryTitle)
             #if os(iOS)
-            .toolbarTitleDisplayMode(.inlineLarge)
+            .toolbarTitleDisplayMode(titleDisplayMode)
+            // [디자인 불변식] 상·하단 배경 언제나 투명 — 정의는 alwaysTransparentBars() 참고.
+            // TabView 전역 설정만으로는 이 화면의 스크롤뷰까지 확실히 닿지 않아
+            // (하단 탭바 뒤 콘텐츠가 뿌옇게 바래는 회귀 발생) 로컬에도 명시한다.
+            .alwaysTransparentBars()
             #endif
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
     }
@@ -1047,8 +1119,20 @@ struct ClipKeyboardList: View {
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
         .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        .background(memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage))
+        // 배경: 이미지 카드는 사진 그대로. 텍스트 카드는 리퀴드 글래스(아래 CardGlass)가
+        // 배경을 대신하되, 경량(재정렬) 모드에선 글래스가 프레임마다 비싸 단색으로 폴백.
+        .background {
+            if hasImage || lightweight {
+                memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
+            }
+        }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) — 카테고리 색은 tint로 유지.
+        .modifier(CardGlass(
+            active: !hasImage && !lightweight,
+            tint: cardGlassTint(memo: memo),
+            cornerRadius: theme.radiusXl
+        ))
         // 타입 테두리 — 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
@@ -1060,6 +1144,17 @@ struct ClipKeyboardList: View {
         // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
         .shadow(color: lightweight ? .clear : .black.opacity(0.10),
                 radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
+    }
+
+    /// 텍스트 카드의 글래스 tint — 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
+    /// 색이 없는 일반 카드는 nil(무색 프로스트 글래스).
+    private func cardGlassTint(memo: Memo) -> Color? {
+        if memo.isFavorite { return .clipFavorite }
+        if CategoryStore.shared.isFeatureEnabled,
+           viewModel.customCategories.contains(memo.category) {
+            return customCategoryColor(memo.category)
+        }
+        return nil
     }
 
     /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용.
@@ -1159,11 +1254,11 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 현재 탭에 맞는 배경색 — all=흰색, favorites=핑크, custom=팔레트색
+    /// 현재 탭에 맞는 배경색 — 기본/전체=투명(회색 없이 시스템 배경), favorites=핑크, custom=팔레트색
     private var tabBackgroundColor: Color {
         switch viewModel.selectedCategoryTab {
-        case .basic:     return theme.bg
-        case .all:       return theme.bg
+        case .basic:     return .clear
+        case .all:       return .clear
         case .favorites: return Color.clipFavorite.opacity(0.10)
         case .builtIn(let b): return b.tint.opacity(0.08)
         case .custom(let name): return customCategoryColor(name).opacity(0.08)
@@ -1371,6 +1466,25 @@ struct ClipKeyboardList: View {
                     }
                 }
         )
+        // 하단 그라데이션 베일 — 콘텐츠가 탭바 뒤로 지나가되, 카드 흰 배경이
+        // 탭바 주변에 어중간하게 걸쳐 보이지 않게 배경색으로 서서히 사라지게 한다.
+        // ignoresSafeArea보다 먼저 걸어 확장된 바닥(홈 인디케이터)까지 덮는다.
+        .overlay(alignment: .bottom) {
+            LinearGradient(
+                stops: [
+                    .init(color: tabBackgroundColor.opacity(0), location: 0),
+                    .init(color: tabBackgroundColor.opacity(0.9), location: 0.45),
+                    .init(color: tabBackgroundColor, location: 1)
+                ],
+                startPoint: .top, endPoint: .bottom
+            )
+            .frame(height: 130)
+            .allowsHitTesting(false)
+        }
+        // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 — 페이저를 화면 위아래 끝까지 확장.
+        // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
+        // 콘텐츠 시작 위치는 각 ScrollView의 contentMargins(.top, pageContentTopMargin)가 잡는다.
+        .ignoresSafeArea(.container, edges: .vertical)
         .overlay(alignment: .bottom) {
             if viewModel.allCategoryTabs.count > 1 {
                 SwipePageIndicator(
@@ -1378,7 +1492,8 @@ struct ClipKeyboardList: View {
                     selectedIndex: viewModel.selectedCategoryIndex,
                     accentColor: tabIndicatorColor
                 )
-                .padding(.bottom, 12)
+                // 오버레이는 세이프에어리어(탭바 상단) 기준으로 정렬되므로 살짝만 띄운다.
+                .padding(.bottom, 8)
             }
         }
     }
@@ -1409,6 +1524,8 @@ struct ClipKeyboardList: View {
             pageHeader(for: tab)
             content()
         }
+        // 페이저가 화면 끝까지 확장되므로(ignoresSafeArea) 시작점을 직접 잡는다.
+        .padding(.top, pageContentTopMargin)
     }
 
     @ViewBuilder
@@ -1686,13 +1803,13 @@ struct ClipKeyboardList: View {
     }
 
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
-        ScrollView {
+        trackPageScroll(ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                // 큰 제목 + 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(상단 크롬 없음).
+                // 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
 
                 // 상단 여백 — 제목과 팁/그리드 사이 숨 쉬는 공간
-                Color.clear.frame(height: 16)
+                Color.clear.frame(height: 8)
 
                 // TipKit 팁들
                 // ⚠️ 세로 패딩(top/bottom)을 이 블록에 붙이지 않는다.
@@ -1751,28 +1868,32 @@ struct ClipKeyboardList: View {
                                 .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                                 .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                         }
-                        // 다른 카테고리 탭은 그리드 끝에 "추가" 카드를 두지만, 기본(basic) 탭에서는
-                        // 하단 툴바의 + 메뉴로 추가하도록 유도하고 그리드 끝 카드는 숨긴다.
-                        if tab != .basic {
-                            addCard(for: tab)
-                        }
+                        // 그리드 끝 "추가" 카드는 두지 않는다 — 우상단 툴바 + 버튼이 있으므로
+                        // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 }
             }
-            // 하단 여백 — 플로팅 탭바 위 숨 쉬는 공간(인셋은 시스템이 처리).
-            .padding(.bottom, 24)
+            // 하단 여백 — 페이저가 화면 바닥까지 확장되므로(ignoresSafeArea)
+            // 마지막 카드가 플로팅 탭바에 가리지 않도록 탭바 높이 이상 확보.
+            .padding(.bottom, 110)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
         }
+        // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 — ScrollView 자체에 직접.
+        // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
+        // 하단 카드 걸침 문제는 categoryTabView의 그라데이션 베일이 처리.
+        .scrollEdgeEffectHidden(true, for: .all)
+        // 페이저가 화면 끝까지 확장되므로 콘텐츠 시작점은 여기서 잡는다(고정 타이틀 아래).
+        .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
     }
 
     private func filteredTabScrollView(memos: [Memo], tab: CategoryTab) -> some View {
-        ScrollView {
+        trackPageScroll(ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                // 큰 제목 + 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(상단 크롬 없음).
+                // 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
-                Color.clear.frame(height: 16)
+                Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
                         memoGridCell(memo: memo)
@@ -1780,14 +1901,18 @@ struct ClipKeyboardList: View {
                             .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                             .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                     }
-                    // 각 카테고리(즐겨찾기·커스텀·기본 제공)마다 끝에 "○○ 추가" 카드.
-                    addCard(for: tab)
+                    // 그리드 끝 "추가" 카드 없음 — 우상단 툴바 + 버튼으로 충분.
+                    // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
             }
-            .padding(.bottom, 24)
+            // 페이저 바닥 확장(ignoresSafeArea)에 맞춘 탭바 가림 방지 여백.
+            .padding(.bottom, 110)
         }
+        // [디자인 불변식] 엣지 이펙트 전부 숨김(위 allTabScrollView 참고).
+        .scrollEdgeEffectHidden(true, for: .all)
+        .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
     }
 
     /// 즐겨찾기 탭 전용(하위 호환). 내부적으로 공통 addCard 사용.
@@ -2269,11 +2394,19 @@ struct ClipKeyboardList: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         #if os(iOS)
-        // 순정 iOS 26: 네비게이션 바 트레일링 — 시스템이 버튼을 glass에 자동으로 담는다.
-        // (검색은 검색 탭, 클립보드·설정은 탭바로 이전되어 하단 툴바는 없앴다.)
-        ToolbarItemGroup(placement: .topBarTrailing) {
-            toolbarButtons
+        // 순정 iOS 26: 네비게이션 바 트레일링.
+        // sharedBackgroundVisibility(.hidden) — 버튼을 감싸던 공유 글래스 필(불투명해 보이는
+        // 흰 알약 배경)을 제거해 아이콘이 배경 위에 그대로 뜨게 한다(헤더 투명 불변식).
+        // 단일 ToolbarItem + HStack — 별도 아이템로 두면 시스템이 간격을 벌려
+        // 버튼이 뚝 떨어져 보이므로, 하나로 묶어 간격을 직접 제어한다.
+        // 음수 spacing: 시스템이 Menu 라벨 둘레에 넣는 내부 여백(~12pt)을 상쇄해
+        // 두 유리 서클이 살짝 붙어 보이게 한다(44pt 탭 영역은 유지).
+        ToolbarItem(placement: .topBarTrailing) {
+            HStack(spacing: -8) {
+                toolbarButtons
+            }
         }
+        .sharedBackgroundVisibility(.hidden)
         #else
         ToolbarItemGroup(placement: .automatic) {
             toolbarButtons
@@ -2331,7 +2464,12 @@ struct ClipKeyboardList: View {
                 )
             }
         } label: {
-            Image(systemName: AppSymbol.ellipsisCircle)
+            // 클리어 글래스 서클 — 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
+            Image(systemName: "ellipsis")
+                .font(.body.weight(.semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 44, height: 44)
+                .glassEffect(.clear.interactive(), in: Circle())
         }
         .popoverTip(quickNoteInboxTip)
         .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu label"))
@@ -2360,8 +2498,12 @@ struct ClipKeyboardList: View {
                 Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
         } label: {
-            // 순정 스타일: 시스템이 glass에 담는 plain plus 글리프 (틴트는 시스템 액센트).
+            // 클리어 글래스 서클 — 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
             Image(systemName: AppSymbol.plus)
+                .font(.body.weight(.semibold))
+                .foregroundColor(.blue)
+                .frame(width: 44, height: 44)
+                .glassEffect(.clear.interactive(), in: Circle())
         }
         .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 단축어를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
@@ -2700,6 +2842,33 @@ struct ClipKeyboardList: View {
         .buttonStyle(.plain)
         .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 단축어 추가", comment: "Suggestion card a11y label"), suggestion.title))
         .accessibilityHint(NSLocalizedString("탭하면 이 예시로 단축어를 만들 수 있어요", comment: "Suggestion card a11y hint"))
+    }
+}
+
+/// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
+/// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
+/// tint가 있으면 카테고리 색을 글래스에 입힌다 — 색=카테고리 정체성 유지.
+private struct CardGlass: ViewModifier {
+    let active: Bool
+    let tint: Color?
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        if active {
+            if let tint {
+                content.glassEffect(
+                    .regular.tint(tint).interactive(),
+                    in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                )
+            } else {
+                content.glassEffect(
+                    .regular.interactive(),
+                    in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                )
+            }
+        } else {
+            content
+        }
     }
 }
 

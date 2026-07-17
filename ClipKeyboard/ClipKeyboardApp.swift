@@ -843,28 +843,31 @@ struct ClipKeyboardApp: App {
 
 // MARK: - Main Tab View (iOS 26 순정 플로팅 glass 탭바)
 
-/// 앱 루트 — 순정 TabView: 메모 / 클립보드 / 설정 + 검색 탭(role: .search).
-/// 각 탭은 자기 NavigationStack을 가진다(ClipKeyboardList는 자체 스택 보유).
-/// 스크롤을 내리면 탭바가 자동 축소(tabBarMinimizeBehavior)되어 시야를 넓힌다.
+/// 앱 루트 — 순정 시스템 탭바(Liquid Glass 캡슐) 그대로 사용.
+/// 한때 캡슐 없는 커스텀 하단 바로 대체했으나 순정 대비 어색해서 네이티브로 원복.
 struct MainTabView: View {
     var body: some View {
         TabView {
-            Tab(NSLocalizedString("단축어", comment: "Tab: snippets"), systemImage: "square.grid.2x2") {
+            Tab(NSLocalizedString("단축어", comment: "Tab: snippets"),
+                systemImage: "square.grid.2x2") {
                 ClipKeyboardList()
             }
-            Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"), systemImage: AppSymbol.clockArrowCirclepath) {
-                NavigationStack { ClipboardList() }
+            Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"),
+                systemImage: AppSymbol.clockArrowCirclepath) {
+                NavigationStack { ClipboardList().alwaysTransparentBars() }
             }
-            Tab(NSLocalizedString("설정", comment: "Menu: settings"), systemImage: AppSymbol.gearshape) {
-                NavigationStack { SettingView() }
+            Tab(NSLocalizedString("설정", comment: "Menu: settings"),
+                systemImage: AppSymbol.gearshape) {
+                NavigationStack { SettingView().alwaysTransparentBars() }
             }
-            Tab(NSLocalizedString("검색", comment: "Search"), systemImage: AppSymbol.magnifyingglass, role: .search) {
-                NavigationStack { MemoSearchView() }
+            Tab(NSLocalizedString("검색", comment: "Search"),
+                systemImage: AppSymbol.magnifyingglass, role: .search) {
+                NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
-        #if os(iOS) && !targetEnvironment(macCatalyst)
-        .tabBarMinimizeBehavior(.onScrollDown)
-        #endif
+        // [디자인 불변식] 상·하단 바 배경 언제나 투명 — 스크롤 엣지 이펙트 전역 숨김.
+        // (각 탭 루트의 alwaysTransparentBars()와 함께 동작; 지우면 회귀)
+        .scrollEdgeEffectHidden(true, for: .all)
     }
 }
 
@@ -898,6 +901,8 @@ struct MemoSearchView: View {
             .disabled(memo.isSecure)
         }
         .listStyle(.plain)
+        // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
+        .scrollEdgeEffectHidden(true, for: .all)
         .navigationTitle(NSLocalizedString("검색", comment: "Search"))
         .searchable(text: $query, prompt: NSLocalizedString("검색", comment: "Search"))
         .onAppear {

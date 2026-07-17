@@ -353,6 +353,8 @@ struct SettingView: View {
         .onAppear { refreshSecurePINState() }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
+        // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
+        .scrollEdgeEffectHidden(true, for: .all)
         .background(theme.bg.ignoresSafeArea())
         .contentMargins(.top, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)

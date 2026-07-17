@@ -137,6 +137,8 @@ struct ClipboardList: View {
                     }
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
+                    // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
+                    .scrollEdgeEffectHidden(true, for: .all)
                     .background(theme.bg)
                     .onChange(of: recentlyAddedId) { _, newId in
                         if let id = newId {
