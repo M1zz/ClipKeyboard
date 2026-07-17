@@ -149,6 +149,8 @@ struct ClipboardList: View {
                     }
                 }
             }
+            // 붙여넣기 안내 배너 닫힘 애니메이션 — 배너 transition과 함께 컨테이너 레이아웃도 부드럽게.
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
             .navigationTitle(isSelectingForCombo
                 ? NSLocalizedString("Combo 생성", comment: "Clipboard list: combo creation mode title")
                 : NSLocalizedString("클립보드 히스토리", comment: "Clipboard list navigation title")

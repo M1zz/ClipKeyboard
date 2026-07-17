@@ -1879,6 +1879,9 @@ struct ClipKeyboardList: View {
             // 마지막 카드가 플로팅 탭바에 가리지 않도록 탭바 높이 이상 확보.
             .padding(.bottom, 110)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
+            // 붙여넣기 안내 배너 닫힘 애니메이션 — 배너의 transition만으로는
+            // LazyVStack 행 높이 변화가 스냅되므로 컨테이너에 값 기반 애니메이션 필요(실측).
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
         }
         // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 — ScrollView 자체에 직접.
         // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
@@ -1909,6 +1912,8 @@ struct ClipKeyboardList: View {
             }
             // 페이저 바닥 확장(ignoresSafeArea)에 맞춘 탭바 가림 방지 여백.
             .padding(.bottom, 110)
+            // 붙여넣기 안내 배너 닫힘 애니메이션(위 allTabScrollView 참고).
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
         }
         // [디자인 불변식] 엣지 이펙트 전부 숨김(위 allTabScrollView 참고).
         .scrollEdgeEffectHidden(true, for: .all)
