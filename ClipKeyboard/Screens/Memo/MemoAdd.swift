@@ -210,7 +210,9 @@ struct MemoAdd: View {
                         Text(NSLocalizedString("저장", comment: "Save"))
                             .fontWeight(.semibold)
                     }
-                    .disabled(viewModel.value.isEmpty)
+                    // 텍스트 또는 이미지 중 하나라도 있으면 저장 가능 — validateMemoInput과 동일 기준.
+                    // (기존엔 텍스트만 봐서 "이미지+이름"만 넣은 단축어가 저장 불가였음)
+                    .disabled(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
                 }
             }
         }

@@ -31,6 +31,11 @@ final class MemoAddViewModel: ObservableObject {
     var resumedDraftId: UUID?
     /// 정식 저장을 커밋했는지 — 저장 후 화면이 닫힐 때 임시저장이 다시 생기지 않게 하는 가드.
     private var didCommitSave = false
+    /// 진입 직후(onAppear 완료 시점)의 입력 스냅샷 — 제안 카드/템플릿 프리필을 "사용자 입력"으로
+    /// 오인해 드래프트를 만들지 않도록, 여기서 달라졌을 때만 새 드래프트를 생성한다.
+    private var initialKeyword = ""
+    private var initialValue = ""
+    private var initialHint = ""
 
     // MARK: - Input Fields (@Published)
 
@@ -266,6 +271,12 @@ final class MemoAddViewModel: ObservableObject {
 
         // 최근 사용 카테고리 로드
         recentlyUsedCategories = UserDefaults.standard.stringArray(forKey: DefaultsKey.recentlyUsedCategories) ?? []
+
+        // 드래프트 판정용 진입 스냅샷 — 프리필(제안 카드·샘플·이어쓰기)을 기준선으로 삼아,
+        // 이후 사용자가 실제로 고친 경우에만 새 드래프트가 생기게 한다.
+        initialKeyword = keyword
+        initialValue = value
+        initialHint = hint
     }
 
     // MARK: - 이어지는 메모(콤보 단계)
@@ -294,31 +305,40 @@ final class MemoAddViewModel: ObservableObject {
 
     /// 저장하지 않고 화면을 떠날 때 호출 — 사용자가 직접 입력한 의미있는 내용이 있으면 자동 임시저장한다.
     /// - 기존 메모 편집 중이거나(editingMemo != nil), 이미 정식 저장했으면(didCommitSave) 대상이 아니다.
-    /// - 본문이 비었거나 카테고리 샘플 그대로(=사용자가 손대지 않음)면 저장하지 않는다.
-    ///   이어쓰던 드래프트가 있는데 내용이 비워졌다면 그 드래프트를 정리한다.
+    /// - 새 작성: 진입 스냅샷에서 실제로 고쳤고(제안 카드/샘플 프리필 그대로면 제외) 본문이 있을 때만.
+    /// - 이어쓰기(resumedDraftId): 내용이 비워졌으면 드래프트 삭제, 아니면 수정 여부와 무관하게 보존/갱신.
     func saveDraftIfNeeded() {
         guard editingMemo == nil, !didCommitSave else { return }
 
         let trimmedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedKeyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
-        // 임시저장은 텍스트 기반(이미지는 보관하지 않음) — 본문을 직접 입력했을 때만 대상.
-        let hasUserContent = !trimmedValue.isEmpty && !isSampleValue
 
-        guard hasUserContent else {
-            if let draftId = resumedDraftId { DraftStore.shared.remove(draftId) }
+        func persistDraft(id: UUID) {
+            DraftStore.shared.save(SavedDraft(
+                id: id,
+                keyword: trimmedKeyword,
+                value: value,
+                hint: hint,
+                category: selectedCategory,
+                isSecure: isSecure,
+                isFavorite: isFavorite
+            ))
+        }
+
+        // 이어쓰기로 들어온 드래프트: 비우면 삭제, 아니면 항상 유지(안 고쳤어도 삭제되면 안 됨).
+        if let draftId = resumedDraftId {
+            if trimmedValue.isEmpty {
+                DraftStore.shared.remove(draftId)
+            } else {
+                persistDraft(id: draftId)
+            }
             return
         }
 
-        let draft = SavedDraft(
-            id: resumedDraftId ?? UUID(),
-            keyword: trimmedKeyword,
-            value: value,
-            hint: hint,
-            category: selectedCategory,
-            isSecure: isSecure,
-            isFavorite: isFavorite
-        )
-        DraftStore.shared.save(draft)
+        // 새 작성: 사용자가 진입 후 실제로 입력/수정한 경우에만. (임시저장은 텍스트 기반)
+        let edited = value != initialValue || keyword != initialKeyword || hint != initialHint
+        guard edited, !trimmedValue.isEmpty, !isSampleValue else { return }
+        persistDraft(id: UUID())
     }
 
     /// 내용의 첫 줄을 최대 20자로 잘라 제목을 자동 생성한다.
