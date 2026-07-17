@@ -167,12 +167,25 @@ struct ClipKeyboardApp: App {
 
     /// 사용자에게 가끔 "불편한 점/필요한 기능을 남겨주세요"를 묻는다.
     /// - 10회째 실행에서 처음, 이후 40회 실행 간격으로 노출
-    /// - "다시 보지 않기"를 누르면 영구 중단
+    /// - "다시 보지 않기"를 누르면 6개월 유예 후 다시 노출 대상이 된다(영구 아님)
     /// - 다른 모달(리뷰 요청·What's New 등)이 떠 있으면 양보한다
     private func maybeShowFeedbackNudge() {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
-        guard !defaults.bool(forKey: DefaultsKey.feedbackNudgeOptOut) else { return }
+
+        // 구버전 영구 옵트아웃(Bool) 마이그레이션 — 지금부터 6개월 유예로 전환.
+        if defaults.bool(forKey: DefaultsKey.feedbackNudgeOptOut) {
+            defaults.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
+            defaults.removeObject(forKey: DefaultsKey.feedbackNudgeOptOut)
+            return
+        }
+        // "다시 보지 않기" 유예: 6개월 안 지났으면 침묵, 지났으면 해제하고 다시 노출 대상.
+        let optOutAt = defaults.double(forKey: DefaultsKey.feedbackNudgeOptOutDate)
+        if optOutAt > 0 {
+            let sixMonths: TimeInterval = 60 * 60 * 24 * 182
+            guard Date().timeIntervalSince1970 - optOutAt >= sixMonths else { return }
+            defaults.removeObject(forKey: DefaultsKey.feedbackNudgeOptOutDate)
+        }
 
         let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
         let lastShown = defaults.integer(forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
@@ -676,7 +689,8 @@ struct ClipKeyboardApp: App {
                     }
                     Button(NSLocalizedString("다음에", comment: "Feedback nudge: later"), role: .cancel) { }
                     Button(NSLocalizedString("다시 보지 않기", comment: "Feedback nudge: never show again")) {
-                        UserDefaults.standard.set(true, forKey: DefaultsKey.feedbackNudgeOptOut)
+                        // 영구 중단이 아니라 6개월 유예 — maybeShowFeedbackNudge가 기간 판정.
+                        UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
                     }
                 } message: {
                     Text(NSLocalizedString("필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.", comment: "Feedback nudge message"))

@@ -79,8 +79,10 @@ enum DefaultsKey {
     static let masterModeEnabled = "masterModeEnabled"
 
     // MARK: - 피드백 넛지
-    /// 피드백 넛지 "다시 보지 않기" (standard UD)
+    /// 피드백 넛지 "다시 보지 않기" — 구버전 영구 옵트아웃 Bool(마이그레이션용으로만 읽음, standard UD)
     static let feedbackNudgeOptOut = "feedbackNudgeOptOut"
+    /// 피드백 넛지 "다시 보지 않기"를 누른 시각(timeIntervalSince1970) — 6개월 유예 후 재노출 (standard UD)
+    static let feedbackNudgeOptOutDate = "feedbackNudgeOptOutDate"
     /// 피드백 넛지를 마지막으로 보여준 실행 횟수 (standard UD)
     static let feedbackNudgeLastShownLaunch = "feedbackNudgeLastShownLaunch"
 
