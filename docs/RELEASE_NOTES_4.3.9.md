@@ -15,6 +15,9 @@ ClipKeyboard v4.3.9
 - 길게 눌렀을 때 뜨는 메뉴가 내용에 딱 맞게 열려요, 글자 크기를 크게 쓰거나 항목이 많아도 "보안 단축어로 설정"과 "삭제"가 잘리지 않고 항상 보입니다
 - "템플릿으로 만들기"에서 원본을 남길지 고를 수 있어요, "기존 단축어 남기기" 스위치를 끄면 새 단축어를 저장할 때 원본이 함께 정리됩니다 — 비슷한 단축어가 두 개 쌓이지 않아요
 - 처음 만나는 샘플이 더 친절해졌어요, 기본 제공되는 샘플마다 "탭 한 번이면 입력 끝", "값 여러 개를 순서대로 입력하는 콤보"처럼 어떤 종류의 단축어인지 알려주는 한 줄 힌트가 달렸습니다
+- 카드가 맑은 유리가 됐어요, 모든 텍스트 단축어 카드가 배경이 비치는 투명한 유리(iOS 26 Liquid Glass)로 바뀌고, 카테고리 색은 유리에 옅게 배어 유지됩니다 — 어떤 배경에서도 글자가 잘 보이도록 가독성 처리도 함께
+- 리스트에 배경 사진을 깔 수 있어요, 8가지 풍경 사진 중 골라 유리 카드 뒤로 비치게 할 수 있습니다 — 처음 한 번 써볼지 여쭤보고, 언제든 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요
+- 검색 탭이 새로워졌어요, 큼직한 글자와 타입 아이콘이 있는 카드 행으로 바뀌고, 복사 피드백과 안내 화면이 더해졌습니다
 - 번역을 다듬었어요, 한국어 화면에 영어로 남아 있던 문구들을 정리하고 새 기능의 영어·인도네시아어 번역을 채웠습니다
 
 English
@@ -32,6 +35,9 @@ Bring over account info scattered across other note apps — one paste or one ph
 - The long-press menu now fits its content, "Make Secure" and "Delete" stay visible even with large text sizes or many menu items
 - Choose whether to keep the original in "Make Template", turn off the "Keep Original Snippet" switch and the original is cleaned up when you save the new one — no more near-duplicate snippets
 - Friendlier starter samples, each built-in sample now carries a one-line hint like "one tap to type" or "a combo — types multiple values in order" so you instantly see what each snippet type does
+- Cards are now clear glass, every text snippet card becomes see-through Liquid Glass (iOS 26), with category colors softly tinting the glass — plus a legibility halo so titles stay readable on any background
+- Put a photo behind your list, choose from 8 scenic backgrounds that shine through the glass cards — we ask once if you'd like to try it, and you can change or turn it off anytime from the ⋯ menu
+- A refreshed Search tab, card-style rows with bigger type and type icons, copy feedback, and proper empty states
 - Polished translations, cleaned up English leftovers on Korean screens and filled in English and Indonesian translations for the new features
 
 ---
