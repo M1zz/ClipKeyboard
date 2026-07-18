@@ -29839,6 +29839,38 @@
           }
         }
       }
+    },
+    "제목이나 내용으로 저장한 단축어를 찾아보세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find your saved snippets by title or content."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temukan snippet tersimpan berdasarkan judul atau isi."
+          }
+        }
+      }
+    },
+    "보안 단축어는 목록에서 인증 후 사용할 수 있어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Secure snippets can be used from the list after authentication"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet aman dapat digunakan dari daftar setelah autentikasi"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

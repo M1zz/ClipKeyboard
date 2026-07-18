@@ -902,6 +902,8 @@ struct MainTabView: View {
 struct MemoSearchView: View {
     @State private var query: String = ""
     @State private var memos: [Memo] = []
+    /// 방금 복사한 메모 id — 행 오른쪽 아이콘을 잠시 체크로 바꿔 복사 피드백.
+    @State private var copiedMemoId: UUID?
     @Environment(\.appTheme) private var theme
 
     private var results: [Memo] {
@@ -914,18 +916,37 @@ struct MemoSearchView: View {
     }
 
     var body: some View {
-        List(results) { memo in
-            Button {
-                copy(memo)
-            } label: {
-                MemoRowView(memo: memo, fontSize: 15)
+        Group {
+            if results.isEmpty {
+                // 순정 빈 상태 — 검색어가 있으면 시스템 검색 빈 화면, 없으면 안내.
+                if query.isEmpty {
+                    ContentUnavailableView(
+                        NSLocalizedString("단축어 검색", comment: "Search empty state title"),
+                        systemImage: AppSymbol.magnifyingglass,
+                        description: Text(NSLocalizedString("제목이나 내용으로 저장한 단축어를 찾아보세요.", comment: "Search empty state description"))
+                    )
+                } else {
+                    ContentUnavailableView.search(text: query)
+                }
+            } else {
+                List(results) { memo in
+                    Button {
+                        copy(memo)
+                    } label: {
+                        searchRow(memo)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(memo.isSecure)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+                }
+                .listStyle(.plain)
+                // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
+                .scrollEdgeEffectHidden(true, for: .all)
             }
-            .buttonStyle(.plain)
-            .disabled(memo.isSecure)
         }
-        .listStyle(.plain)
-        // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
-        .scrollEdgeEffectHidden(true, for: .all)
+        .background(theme.bg.ignoresSafeArea())
         .navigationTitle(NSLocalizedString("검색", comment: "Search"))
         .searchable(text: $query, prompt: NSLocalizedString("검색", comment: "Search"))
         .onAppear {
@@ -933,11 +954,74 @@ struct MemoSearchView: View {
         }
     }
 
+    /// 검색 결과 행 — 메인 리스트와 같은 디자인 언어(테마 표면 카드, 타입 아이콘, 본문 크기 글자).
+    private func searchRow(_ memo: Memo) -> some View {
+        let style = typeStyle(memo)
+        return HStack(spacing: 12) {
+            Image(systemName: style.icon)
+                .font(.body.weight(.semibold))
+                .foregroundColor(style.color)
+                .frame(width: 38, height: 38)
+                .background(style.color.opacity(0.12))
+                .clipShape(Circle())
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(memo.title.templateAwareAttributed(theme: theme, font: .body.weight(.semibold)))
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(theme.text)
+                    .lineLimit(1)
+                let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
+                if !preview.isEmpty {
+                    Text(preview)
+                        .font(.subheadline)
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(1)
+                }
+            }
+
+            Spacer(minLength: 8)
+
+            // 보안 메모는 복사 불가(값 노출 방지) — 자물쇠로 이유를 보여준다.
+            if memo.isSecure {
+                Image(systemName: AppSymbol.lockFill)
+                    .font(.body)
+                    .foregroundColor(theme.textFaint)
+            } else {
+                Image(systemName: copiedMemoId == memo.id ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
+                    .font(.body)
+                    .foregroundColor(copiedMemoId == memo.id ? .green : theme.textFaint)
+            }
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 14)
+        .background(theme.surface)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .accessibilityHint(memo.isSecure
+                           ? NSLocalizedString("보안 단축어는 목록에서 인증 후 사용할 수 있어요", comment: "Search: secure row hint")
+                           : NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Clipboard item copy hint"))
+    }
+
+    /// 타입별 아이콘·색 — 카드/키보드와 동일한 구분 언어(보안 회색·템플릿 보라·콤보 주황·이미지 초록).
+    private func typeStyle(_ memo: Memo) -> (icon: String, color: Color) {
+        if memo.isSecure { return (AppSymbol.lockFill, .gray) }
+        if memo.isTemplate { return ("wand.and.stars", .purple) }
+        if memo.isCombo { return ("square.stack.3d.up.fill", .orange) }
+        if memo.contentType == .image || memo.contentType == .mixed { return ("photo.fill", .green) }
+        return ("doc.text.fill", .blue)
+    }
+
     /// 비보안 메모만 복사(보안 메모는 버튼 자체가 비활성).
     private func copy(_ memo: Memo) {
         #if os(iOS)
         UIPasteboard.general.string = memo.value
         HapticManager.shared.success()
+        withAnimation { copiedMemoId = memo.id }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            if copiedMemoId == memo.id {
+                withAnimation { copiedMemoId = nil }
+            }
+        }
         UIAccessibility.post(
             notification: .announcement,
             argument: String(format: NSLocalizedString("[%@] 복사됨", comment: ""), memo.title)
