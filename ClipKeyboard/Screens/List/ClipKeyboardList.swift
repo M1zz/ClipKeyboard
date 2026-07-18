@@ -2853,6 +2853,8 @@ struct ClipKeyboardList: View {
 /// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
 /// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
 /// tint가 있으면 카테고리 색을 글래스에 입힌다 — 색=카테고리 정체성 유지.
+/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** — 뒤 배경이
+/// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
 private struct CardGlass: ViewModifier {
     let active: Bool
     let tint: Color?
@@ -2867,7 +2869,7 @@ private struct CardGlass: ViewModifier {
                 )
             } else {
                 content.glassEffect(
-                    .regular.interactive(),
+                    .clear.interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             }
