@@ -245,7 +245,15 @@ final class CategoryStore: ObservableObject {
         migrateUnifyIfNeeded(defaults)
 
         if let stored = defaults.stringArray(forKey: storageKey), !stored.isEmpty {
-            categories = stored
+            // 레거시 시드가 남긴 보호 버킷 이름("기본"/"텍스트"/"이미지")은 사용자 카테고리가 아니다 —
+            // 전용 탭이 따로 있어 중복 노출되고, 영어 UI에도 한글 raw 문자열("기본" 칩)이 그대로
+            // 보이므로 목록에서 걸러내고 저장본도 정리한다. (메모의 category 값은 건드리지 않음)
+            let sanitized = stored.filter { !Self.protectedCategories.contains($0) }
+            if sanitized.count != stored.count {
+                defaults.set(sanitized, forKey: storageKey)
+                print("🔄 [CategoryStore] 레거시 보호 카테고리 이름 정리: \(stored.count - sanitized.count)개 제거")
+            }
+            categories = sanitized
         } else {
             // 기본 제공 카테고리 없음 — 사용자가 직접 만들어 쓴다.
             // (전체/즐겨찾기 탭은 카테고리 목록과 무관하게 항상 제공됨)
