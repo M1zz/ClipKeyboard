@@ -2869,8 +2869,10 @@ private struct CardGlass: ViewModifier {
     func body(content: Content) -> some View {
         if active {
             if let tint {
+                // 색 카테고리도 맑은 유리 — 프로스트 대신 색이 옅게 비치는 clear+tint.
+                // 색 정체성(즐겨찾기 분홍/커스텀 팔레트색)은 틴트로 유지된다.
                 content.glassEffect(
-                    .regular.tint(tint).interactive(),
+                    .clear.tint(tint).interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             } else {
