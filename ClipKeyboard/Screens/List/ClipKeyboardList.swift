@@ -2070,12 +2070,19 @@ struct ClipKeyboardList: View {
                     .minimumScaleFactor(0.8)
             }
             .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
-            .background(theme.surface.opacity(0.5))
+            // 배경 사진 위에서는 반투명 표면이 씻겨 보여 프로스트 유리로 받친다.
+            .background {
+                if listBackgroundImage.isEmpty {
+                    theme.surface.opacity(0.5)
+                } else {
+                    Rectangle().fill(.ultraThinMaterial)
+                }
+            }
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                     .strokeBorder(
-                        theme.textFaint.opacity(0.3),
+                        theme.textFaint.opacity(listBackgroundImage.isEmpty ? 0.3 : 0.5),
                         style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
                     )
             }
@@ -2130,19 +2137,32 @@ struct ClipKeyboardList: View {
         }
     }
 
+    /// 빈 상태 안내(아이콘+문구) — 배경 사진이 있으면 프로스트 유리 패널을 받쳐
+    /// 밝은 설경 같은 사진 위에서도 회색 안내가 씻겨 보이지 않게 한다.
+    private func emptyStateMessage(icon: String, message: String) -> some View {
+        VStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.system(size: 44))
+                .foregroundColor(theme.textFaint)
+            Text(message)
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .multilineTextAlignment(.center)
+        }
+        .padding(24)
+        .background {
+            if !listBackgroundImage.isEmpty {
+                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            }
+        }
+        .padding(.horizontal, 32)
+    }
+
     /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
     private func emptyStateWithAddCard(icon: String, message: String, tab: CategoryTab) -> some View {
         ZStack(alignment: .center) {
-            VStack(spacing: 14) {
-                Image(systemName: icon)
-                    .font(.system(size: 44))
-                    .foregroundColor(theme.textFaint)
-                Text(message)
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
+            emptyStateMessage(icon: icon, message: message)
             VStack {
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     addCard(for: tab)
@@ -2158,16 +2178,10 @@ struct ClipKeyboardList: View {
     private var favoritesEmptyStateView: some View {
         ZStack(alignment: .center) {
             // 화면 정 중앙 — 빈 상태 안내
-            VStack(spacing: 14) {
-                Image(systemName: AppSymbol.heartSlash)
-                    .font(.system(size: 44))
-                    .foregroundColor(theme.textFaint)
-                Text(NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"))
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
+            emptyStateMessage(
+                icon: AppSymbol.heartSlash,
+                message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint")
+            )
 
             // 상단 — 즐겨찾기 메모 추가 카드
             VStack {
