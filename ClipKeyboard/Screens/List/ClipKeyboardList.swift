@@ -1126,8 +1126,8 @@ struct ClipKeyboardList: View {
         // 테마색 글자(무색 유리)는 테마 배경색 할로 — 배경이 무엇이든 최소 대비 확보.
         // 이미지 카드는 자체 그라디언트가 가독성을 책임지므로 제외.
         .compositingGroup()
-        .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.38) : theme.bg.opacity(0.9)),
-                radius: 2.5, x: 0, y: 0)
+        .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.55) : theme.bg),
+                radius: 4, x: 0, y: 0)
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
