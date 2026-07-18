@@ -808,15 +808,130 @@ struct ClipKeyboardList: View {
             }
     }
 
+    // MARK: - 배경 이미지 (선택)
+
+    /// 제공되는 배경 이미지 에셋 이름들. 빈 문자열 = 배경 없음(예전 모습 그대로).
+    static let backgroundOptions: [String] = (1...8).map { String(format: "ListBackground%02d", $0) }
+
+    @AppStorage(DefaultsKey.listBackgroundImageV1, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var listBackgroundImage: String = ""
+    @AppStorage(DefaultsKey.backgroundOfferResolvedV1, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var backgroundOfferResolved: Bool = false
+    @State private var showBackgroundOffer = false
+    @State private var showBackgroundPicker = false
+
     var body: some View {
         NavigationStack {
             screenL8
-                // [GLASS DEMO] 유리 투명도 체감용 임시 배경 사진 — dev 머지 전 제거할 것.
+                // 배경 이미지(선택) — 유리 카드 뒤로 비치는 사진. 기본은 없음.
                 .background {
-                    Image("GlassDemoBackground")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
+                    if !listBackgroundImage.isEmpty {
+                        Image(listBackgroundImage)
+                            .resizable()
+                            .scaledToFill()
+                            .ignoresSafeArea()
+                    }
+                }
+                // 새 배경 기능 1회 제안 — 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
+                .alert(
+                    NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
+                    isPresented: $showBackgroundOffer
+                ) {
+                    Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
+                        backgroundOfferResolved = true
+                        withAnimation { listBackgroundImage = Self.backgroundOptions[0] }
+                        showBackgroundPicker = true
+                    }
+                    Button(NSLocalizedString("괜찮아요", comment: "Decline category activation"), role: .cancel) {
+                        backgroundOfferResolved = true
+                        listBackgroundImage = ""
+                    }
+                } message: {
+                    Text(NSLocalizedString("리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.", comment: "Background offer alert message"))
+                }
+                .sheet(isPresented: $showBackgroundPicker) {
+                    backgroundPickerSheet
+                }
+                .onAppear {
+                    guard !backgroundOfferResolved else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        showBackgroundOffer = true
+                    }
+                }
+        }
+    }
+
+    /// 배경 이미지 선택 시트 — 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
+    private var backgroundPickerSheet: some View {
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+                    // 없음(배경 끄기)
+                    Button {
+                        HapticManager.shared.selection()
+                        withAnimation { listBackgroundImage = "" }
+                    } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                                .fill(theme.surfaceAlt)
+                            VStack(spacing: 6) {
+                                Image(systemName: "slash.circle")
+                                    .font(.title2)
+                                Text(NSLocalizedString("없음", comment: "Background: none"))
+                                    .font(.footnote.weight(.medium))
+                            }
+                            .foregroundColor(theme.textMuted)
+                        }
+                        .frame(height: 150)
+                        .overlay(backgroundSelectionBadge(selected: listBackgroundImage.isEmpty))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
+
+                    ForEach(Self.backgroundOptions, id: \.self) { name in
+                        Button {
+                            HapticManager.shared.selection()
+                            withAnimation { listBackgroundImage = name }
+                        } label: {
+                            Image(name)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 150)
+                                .frame(maxWidth: .infinity)
+                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                                .overlay(backgroundSelectionBadge(selected: listBackgroundImage == name))
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
+                    }
+                }
+                .padding(16)
+            }
+            .background(theme.bg)
+            .navigationTitle(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("완료", comment: "Done")) { showBackgroundPicker = false }
+                        .fontWeight(.semibold)
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+    }
+
+    /// 선택된 썸네일 표시 — 파란 테두리 + 체크 뱃지.
+    @ViewBuilder
+    private func backgroundSelectionBadge(selected: Bool) -> some View {
+        if selected {
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                .strokeBorder(Color.accentColor, lineWidth: 3)
+                .overlay(alignment: .topTrailing) {
+                    Image(systemName: AppSymbol.checkmarkCircleFill)
+                        .font(.title3)
+                        .foregroundStyle(.white, Color.accentColor)
+                        .padding(6)
                 }
         }
     }
@@ -2469,6 +2584,16 @@ struct ClipKeyboardList: View {
                 Label(
                     NSLocalizedString("카테고리 관리", comment: "Menu: manage categories"),
                     systemImage: AppSymbol.folderBadgeGearshape
+                )
+            }
+
+            Button {
+                HapticManager.shared.light()
+                showBackgroundPicker = true
+            } label: {
+                Label(
+                    NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
+                    systemImage: "photo.on.rectangle.angled"
                 )
             }
 

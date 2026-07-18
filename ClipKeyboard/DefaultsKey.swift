@@ -99,4 +99,10 @@ enum DefaultsKey {
     static let syncEngineState = "sync.engine.state"
     static let syncShadow = "sync.shadow"
     static let syncTombstones = "sync.tombstones"
+
+    // MARK: - 리스트 배경 이미지
+    /// 선택된 배경 이미지 에셋 이름 (빈 문자열 = 배경 없음, App Group)
+    static let listBackgroundImageV1 = "listBackgroundImage_v1"
+    /// "새 배경 써보시겠어요?" 1회 제안을 이미 답했는지 (App Group)
+    static let backgroundOfferResolvedV1 = "backgroundOfferResolved_v1"
 }

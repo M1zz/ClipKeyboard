@@ -29871,6 +29871,54 @@
           }
         }
       }
+    },
+    "새로운 배경을 써보시겠어요?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try a new background?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba latar belakang baru?"
+          }
+        }
+      }
+    },
+    "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo behind your list makes the glass cards come alive. You can change or turn it off anytime from the ⋯ menu > Background Image."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto di belakang daftar membuat kartu kaca lebih hidup. Anda dapat mengubah atau mematikannya kapan saja dari menu ⋯ > Gambar Latar."
+          }
+        }
+      }
+    },
+    "배경 없음" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No background"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanpa latar"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
