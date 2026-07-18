@@ -811,6 +811,13 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
+                // [GLASS DEMO] 유리 투명도 체감용 임시 배경 사진 — dev 머지 전 제거할 것.
+                .background {
+                    Image("GlassDemoBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                }
         }
     }
 
