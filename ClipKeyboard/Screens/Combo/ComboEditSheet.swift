@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import LeeoKit
 
 // MARK: - Combo Preview Sheet (탭 시 즉시 복사 + 순차 입력될 값 미리보기)
 
@@ -18,6 +19,8 @@ struct ComboPreviewSheet: View {
     @Environment(\.appTheme) private var theme
 
     @State private var loadedMemo: Memo?
+    /// 방금 복사한 단계 인덱스 — 체크 표시 피드백용(1.5초 후 원복).
+    @State private var copiedStepIndex: Int?
 
     var body: some View {
         Group {
@@ -39,8 +42,9 @@ struct ComboPreviewSheet: View {
     }
 
     /// 단계 값(자동 변수 치환). 커스텀 토큰({이름} 등)은 키보드 동작과 동일하게 그대로 둔다.
+    /// 보안 콤보는 이 시트가 인증 후에 뜨므로 여기서 복호화해 보여준다.
     private func resolvedSteps(for memo: Memo) -> [String] {
-        memo.comboValues.map { TemplateVariableProcessor.process($0) }
+        SecureMemoCrypto.decryptSteps(memo.comboValues).map { TemplateVariableProcessor.process($0) }
     }
 
     @ViewBuilder
@@ -80,23 +84,7 @@ struct ComboPreviewSheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     ForEach(Array(steps.enumerated()), id: \.offset) { idx, step in
-                        HStack(alignment: .top, spacing: 12) {
-                            Text("\(idx + 1)")
-                                .font(.caption.weight(.bold))
-                                .foregroundColor(.white)
-                                .frame(width: 22, height: 22)
-                                .background(Circle().fill(theme.accent))
-                            Text(step.isEmpty ? "—" : step)
-                                .font(.body)
-                                .foregroundColor(theme.text)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .textSelection(.enabled)
-                        }
-                        .accessibilityElement(children: .combine)
-                        .accessibilityLabel(String(
-                            format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
-                            idx + 1, step.isEmpty ? "—" : step))
+                        stepRow(index: idx, step: step)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -119,6 +107,56 @@ struct ComboPreviewSheet: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(theme.bg)
+    }
+
+    /// 단계 하나 — 번호 뱃지 + 값 + 복사 버튼.
+    /// 앱에서는 순차 입력 대신 값 하나씩 복사해 쓰므로 각 단계에 복사 버튼을 단다.
+    private func stepRow(index idx: Int, step: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                Text("\(idx + 1)")
+                    .font(.caption.weight(.bold))
+                    .foregroundColor(.white)
+                    .frame(width: 22, height: 22)
+                    .background(Circle().fill(theme.accent))
+                Text(step.isEmpty ? "—" : step)
+                    .font(.body)
+                    .foregroundColor(theme.text)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .textSelection(.enabled)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(String(
+                format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
+                idx + 1, step.isEmpty ? "—" : step))
+
+            Button {
+                copyStep(step, at: idx)
+            } label: {
+                Image(systemName: copiedStepIndex == idx ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
+                    .font(.body)
+                    .foregroundColor(copiedStepIndex == idx ? .green : theme.textMuted)
+                    .frame(width: 30, height: 30)
+                    .background(theme.surfaceAlt)
+                    .clipShape(Circle())
+            }
+            .buttonStyle(.plain)
+            .disabled(step.isEmpty)
+            .accessibilityLabel(String(
+                format: NSLocalizedString("%d단계 복사", comment: "Copy combo step button"), idx + 1))
+        }
+    }
+
+    private func copyStep(_ step: String, at idx: Int) {
+        UIPasteboard.general.string = step
+        HapticManager.shared.selection()
+        withAnimation { copiedStepIndex = idx }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if copiedStepIndex == idx {
+                withAnimation { copiedStepIndex = nil }
+            }
+        }
     }
 
     private func loadMemo() {

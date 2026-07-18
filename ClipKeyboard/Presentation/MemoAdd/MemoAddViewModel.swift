@@ -29,6 +29,10 @@ final class MemoAddViewModel: ObservableObject {
 
     /// "임시 저장 보기"에서 이어쓰기로 진입했을 때 그 드래프트 id. 저장/폐기 시 이 드래프트를 정리한다.
     var resumedDraftId: UUID?
+    /// "템플릿으로 만들기"의 원본 단축어 id — keepOriginalSource가 꺼져 있으면 저장 시 원본을 함께 삭제한다.
+    var templateSourceMemoId: UUID?
+    /// 기존(원본) 단축어 남기기 — 기본 ON. 끄면 새 단축어 저장과 같은 쓰기에서 원본이 제거된다.
+    @Published var keepOriginalSource: Bool = true
     /// 정식 저장을 커밋했는지 — 저장 후 화면이 닫힐 때 임시저장이 다시 생기지 않게 하는 가드.
     private var didCommitSave = false
     /// 진입 직후(onAppear 완료 시점)의 입력 스냅샷 — 제안 카드/템플릿 프리필을 "사용자 입력"으로
@@ -245,8 +249,10 @@ final class MemoAddViewModel: ObservableObject {
             hint = existing.hint ?? ""
             hintShownOnKeyboard = existing.hintShownOnKeyboard
             if !existing.comboValues.isEmpty {
-                continuations = Array(existing.comboValues.dropFirst())
-                if value.isEmpty { value = existing.comboValues.first ?? "" }
+                // 보안 콤보면 단계 값이 암호문 — 편집용으로 복호화해 보여준다.
+                let steps = SecureMemoCrypto.decryptSteps(existing.comboValues)
+                continuations = Array(steps.dropFirst())
+                if value.isEmpty { value = steps.first ?? "" }
             }
         } else if !insertedHint.isEmpty {
             hint = insertedHint
@@ -366,6 +372,11 @@ final class MemoAddViewModel: ObservableObject {
                 imageFileNames: imageFileNames,
                 finalCategory: finalCategory
             )
+
+            // "템플릿으로 만들기" — 기존 단축어 남기기를 끈 경우 같은 쓰기에서 원본을 제거(원자적).
+            if !keepOriginalSource, let sourceId = templateSourceMemoId, sourceId != finalMemoId {
+                loadedMemos.removeAll { $0.id == sourceId }
+            }
 
             try memoRepository.save(loadedMemos)
             savePlaceholderValues(memoId: finalMemoId, memoTitle: finalMemoTitle)
@@ -572,18 +583,30 @@ final class MemoAddViewModel: ObservableObject {
             return .text
         }()
 
+        // 보안 단축어는 저장 시점에 값·콤보 단계를 암호화한다(편집 화면은 평문으로 다룸).
+        // 보안 해제 상태면 남아있을 수 있는 암호문을 평문으로 되돌린다. 모두 idempotent.
+        let storedValue: String
+        let storedComboValues: [String]
+        if isSecure {
+            storedValue = SecureMemoCrypto.encrypt(value) ?? value
+            storedComboValues = SecureMemoCrypto.encryptSteps(resolvedComboValues)
+        } else {
+            storedValue = SecureMemoCrypto.isEncrypted(value) ? (SecureMemoCrypto.decrypt(value) ?? value) : value
+            storedComboValues = SecureMemoCrypto.decryptSteps(resolvedComboValues)
+        }
+
         if let existing = editingMemo,
            let index = loadedMemos.firstIndex(where: { $0.id == existing.id }) {
             var updatedMemo = loadedMemos[index]
             updatedMemo.title = keyword
-            updatedMemo.value = value
+            updatedMemo.value = storedValue
             updatedMemo.hint = hint.isEmpty ? nil : hint
             updatedMemo.hintShownOnKeyboard = hintShownOnKeyboard
             updatedMemo.lastEdited = Date()
             updatedMemo.category = finalCategory
             updatedMemo.isSecure = isSecure
             updatedMemo.templateVariables = variables   // isTemplate은 계산형(변수 있으면 자동)
-            updatedMemo.comboValues = resolvedComboValues   // isCombo는 계산형(이어지는 단계 있으면 자동)
+            updatedMemo.comboValues = storedComboValues   // isCombo는 계산형(이어지는 단계 있으면 자동)
             updatedMemo.placeholderValues = placeholderValues
             updatedMemo.imageFileNames = imageFileNames
             updatedMemo.contentType = contentType
@@ -599,14 +622,14 @@ final class MemoAddViewModel: ObservableObject {
             let newMemo = Memo(
                 id: newId,
                 title: keyword,
-                value: value,
+                value: storedValue,
                 lastEdited: Date(),
                 isFavorite: isFavorite,
                 category: finalCategory,
                 isSecure: isSecure,
                 templateVariables: variables,   // isTemplate은 계산형(변수 있으면 자동)
                 placeholderValues: placeholderValues,
-                comboValues: resolvedComboValues,
+                comboValues: storedComboValues,
                 imageFileNames: imageFileNames,
                 contentType: contentType,
                 hint: hint.isEmpty ? nil : hint,

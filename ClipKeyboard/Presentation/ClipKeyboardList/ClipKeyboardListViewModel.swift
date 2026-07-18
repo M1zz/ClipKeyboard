@@ -839,12 +839,20 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 showPlainToast(NSLocalizedString("보안 설정에 실패했습니다", comment: "Make-secure failed toast"))
                 return
             }
+            // 콤보면 단계 값도 함께 암호화 — 하나라도 실패하면 전체 롤백(부분 암호화 방지).
+            let encSteps = SecureMemoCrypto.encryptSteps(SecureMemoCrypto.decryptSteps(memo.comboValues))
+            guard encSteps.allSatisfy({ SecureMemoCrypto.isEncrypted($0) }) || memo.comboValues.isEmpty else {
+                showPlainToast(NSLocalizedString("보안 설정에 실패했습니다", comment: "Make-secure failed toast"))
+                return
+            }
             memo.value = enc
+            memo.comboValues = encSteps
             memo.isSecure = true
         } else {
             if SecureMemoCrypto.isEncrypted(memo.value) {
                 memo.value = SecureMemoCrypto.decrypt(memo.value) ?? memo.value
             }
+            memo.comboValues = SecureMemoCrypto.decryptSteps(memo.comboValues)
             memo.isSecure = false
         }
         loadedData[idx] = memo
@@ -1180,7 +1188,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
             // 콤보 탭 → 순차 입력될 단계 값(자동 변수 치환)을 즉시 클립보드에 복사하고,
             // 어떤 값들이 입력될지 보여주는 미리보기 하프모달을 띄운다(편집은 롱프레스→수정).
             print("🔁 [processMemoAfterAuth] Combo 메모 - 즉시 복사 + 미리보기 하프모달")
-            let steps = memo.comboValues.map { TemplateVariableProcessor.process($0) }
+            // 보안 콤보는 인증 후 이 지점에 도달 — 단계 값을 복호화해 사용.
+            let steps = SecureMemoCrypto.decryptSteps(memo.comboValues).map { TemplateVariableProcessor.process($0) }
             finalizeCopy(memo: memo, processedValue: steps.joined(separator: "\n"), showToastAfter: false)
             selectedComboIdForSheet = memo.id
             return

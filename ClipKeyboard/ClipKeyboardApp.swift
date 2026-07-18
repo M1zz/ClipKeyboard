@@ -487,10 +487,12 @@ struct ClipKeyboardApp: App {
         let work = isKorean ? "업무" : "Work"
         let personal = isKorean ? "개인" : "Personal"
         // 1) 일반 메모 (즐겨찾기) — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
+        //    hint: 각 샘플이 "어떤 타입의 단축어인지"를 카드에서 살며시 알려주는 학습 장치.
         let memo = Memo(
             title: isKorean ? "내 이메일" : "My Email",
             value: "example@email.com",
-            isFavorite: true
+            isFavorite: true,
+            hint: isKorean ? "가장 단순한 단축어 — 탭 한 번이면 입력 끝" : "The simplest snippet — one tap to type"
         )
         // 2) 템플릿 — 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
         let template = Memo(
@@ -499,14 +501,16 @@ struct ClipKeyboardApp: App {
                 ? "{이름}님, 문의 주셔서 감사합니다.\n{날짜}까지 답변드릴게요."
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: work,
-            templateVariables: isKorean ? ["{이름}"] : ["{name}"]
+            templateVariables: isKorean ? ["{이름}"] : ["{name}"],
+            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template — fill in the {blanks}"
         )
         // 3) 콤보 — 메모 안에 순서 있는 단계들(comboValues)
         let combo = Memo(
             title: isKorean ? "이름 + 연락처" : "Name + Contact",
             value: "",
             category: personal,
-            comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"]
+            comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"],
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo — types multiple values in order"
         )
         // 4) 인사말 + 회신 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
         //    templateVariables를 넘기지 않으면 isTemplate=false가 되어 탭 시 {변수}가
@@ -515,7 +519,8 @@ struct ClipKeyboardApp: App {
             title: isKorean ? "인사말 + 회신" : "Greeting + Reply",
             value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
             category: work,
-            templateVariables: template.templateVariables
+            templateVariables: template.templateVariables,
+            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet — a snippet plus a template"
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
     }
@@ -531,13 +536,15 @@ struct ClipKeyboardApp: App {
             category: finance,
             templateVariables: isKorean
                 ? ["{금액}", "{수신인}", "{iban}", "{swift}", "{참조번호}"]
-                : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"]
+                : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"],
+            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template — fill in the {blanks}"
         )
         let combo = Memo(
             title: isKorean ? "내 연락처" : "My Contact",
             value: "",
             category: travel,
-            comboValues: isKorean ? ["이름", "이메일", "전화번호"] : ["Full Name", "Email", "Phone"]
+            comboValues: isKorean ? ["이름", "이메일", "전화번호"] : ["Full Name", "Email", "Phone"],
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo — types multiple values in order"
         )
         // 즐겨찾기 — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let checklist = Memo(
@@ -545,14 +552,16 @@ struct ClipKeyboardApp: App {
             value: isKorean
                 ? "여권 ✓\n비자 ✓\n여행자보험 ✓\n긴급 연락처: "
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
-            isFavorite: true
+            isFavorite: true,
+            hint: isKorean ? "가장 단순한 단축어 — 탭 한 번이면 입력 끝" : "The simplest snippet — one tap to type"
         )
         // 고정 안내문 + 송금 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
         let noteWithTemplate = Memo(
             title: isKorean ? "송금 안내 + 양식" : "Payment note + form",
             value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
             category: finance,
-            templateVariables: template.templateVariables
+            templateVariables: template.templateVariables,
+            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet — a snippet plus a template"
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
     }

@@ -211,8 +211,26 @@ struct MemoActionSheet: View {
     var onToggleSecure: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
+    /// 시트 높이 — 내용 실측으로 갱신. 고정 높이는 행 개수·Dynamic Type에 따라
+    /// 하단 행(보안 설정/삭제)이 잘려 보이지 않는 문제가 있었다.
+    @State private var contentHeight: CGFloat = 530
 
     var body: some View {
+        ScrollView {
+            sheetContent
+                .onGeometryChange(for: CGFloat.self) { proxy in
+                    proxy.size.height
+                } action: { newValue in
+                    contentHeight = newValue
+                }
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .background(theme.bg)
+        .presentationDetents([.height(contentHeight)])
+        .presentationDragIndicator(.visible)
+    }
+
+    private var sheetContent: some View {
         VStack(spacing: 0) {
             // 헤더 — 메모 제목
             HStack {
@@ -327,8 +345,8 @@ struct MemoActionSheet: View {
                         onMakeTemplate()
                     }
                 }
-                // 보안 메모 설정/해제 — 텍스트 메모에서만(이미지/콤보는 제외).
-                if let onToggleSecure, memo.contentType == .text, !memo.isCombo {
+                // 보안 메모 설정/해제 — 텍스트 메모에서만(이미지는 제외, 콤보는 단계 값까지 암호화).
+                if let onToggleSecure, memo.contentType == .text {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: memo.isSecure
@@ -372,7 +390,6 @@ struct MemoActionSheet: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 20)
         }
-        .background(theme.bg)
     }
 
     private func actionRow(

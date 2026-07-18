@@ -1106,7 +1106,10 @@ struct KeyboardView: View {
             }
 
             // 콤보면 자식 메모 값을 단계별로 모두 보여주기, 아니면 본문 통째로
-            let comboChildValues = memo.comboValues
+            // (보안 콤보는 값이 암호문이기도 하고 노출 금지 — 단계 수만 알리고 마스킹)
+            let comboChildValues = memo.isSecure
+                ? memo.comboValues.map { _ in "••••••" }
+                : memo.comboValues
             if !comboChildValues.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     ForEach(Array(comboChildValues.enumerated()), id: \.offset) { index, value in
