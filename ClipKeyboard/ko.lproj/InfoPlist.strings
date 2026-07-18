@@ -5,3 +5,9 @@
 
 /* App display name */
 "CFBundleDisplayName" = "클립키보드";
+
+/* Camera permission (bulk import OCR) */
+"NSCameraUsageDescription" = "카드나 문서를 촬영해 텍스트를 인식하기 위해 카메라 접근이 필요합니다.";
+
+/* Face ID permission (secure memos) */
+"NSFaceIDUsageDescription" = "보안 메모에 접근하기 위해 Face ID가 필요합니다.";

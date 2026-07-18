@@ -47,6 +47,18 @@ enum SecureMemoCrypto {
         return marker + combined.base64EncodedString()
     }
 
+    /// 콤보 단계 값들 일괄 암호화 — 이미 암호문인 항목은 그대로, 암호화 실패 항목은 평문 유지.
+    /// 저장 전 `allSatisfy(isEncrypted)`로 전체 성공 여부를 확인할 수 있다.
+    static func encryptSteps(_ steps: [String]) -> [String] {
+        steps.map { encrypt($0) ?? $0 }
+    }
+
+    /// 콤보 단계 값들 일괄 복호화 — 평문은 통과, 복호화 실패(키 미동기화) 항목은 암호문 그대로.
+    /// 소비 측은 `isEncrypted`가 남아있는 항목을 걸러 입력/노출을 중단해야 한다.
+    static func decryptSteps(_ steps: [String]) -> [String] {
+        steps.map { isEncrypted($0) ? (decrypt($0) ?? $0) : $0 }
+    }
+
     /// 암호문이면 복호화, 평문이면 그대로 반환. 복호화 실패(키 미동기화 등) 시 nil.
     static func decrypt(_ value: String) -> String? {
         guard isEncrypted(value) else { return value }

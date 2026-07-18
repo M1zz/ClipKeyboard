@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipKeyboard - 반복 입력은 그만, 탭 한 번이면 끝</title>
+    <title>ClipKeyboard — 반복 입력은 그만, 단축어 하나면 끝</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="자주 쓰는 메시지를 키보드에서 탭 한 번으로 입력하세요. 고객 응대, 이메일, 코드 리뷰까지 - 반복 타이핑 시간을 90% 절약합니다.">
-    <meta name="keywords" content="키보드 앱, 텍스트 단축키, 상용구, 템플릿 키보드, text expander, 빠른 답장, iOS 키보드, 생산성 앱, clip keyboard">
+    <meta name="description" content="계좌번호·주소·이메일 템플릿을 단축어로 저장하고 어떤 앱에서든 키보드에서 탭 한 번으로 입력하세요. 노마드·직장인·학생·일상, 40가지 실전 템플릿 무료 제공.">
+    <meta name="keywords" content="키보드 앱, 단축어, 스니펫, snippet keyboard, 텍스트 단축키, 상용구, 템플릿 키보드, text expander, 빠른 답장, iOS 키보드, 생산성 앱, clip keyboard">
     <meta name="author" content="Leeo">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ClipKeyboard - 반복 입력은 그만">
-    <meta property="og:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
+    <meta property="og:title" content="ClipKeyboard — 반복 입력은 그만, 단축어 하나면 끝">
+    <meta property="og:description" content="자주 쓰는 문구를 단축어로. 40가지 실전 템플릿을 지금 바로 복사해 쓰세요.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/">
     <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ClipKeyboard - 반복 입력은 그만">
-    <meta name="twitter:description" content="자주 쓰는 메시지를 탭 한 번으로. 반복 타이핑 시간 90% 절약.">
+    <meta name="twitter:title" content="ClipKeyboard — 반복 입력은 그만">
+    <meta name="twitter:description" content="자주 쓰는 문구를 단축어로. 40가지 실전 템플릿 무료.">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
@@ -28,14 +28,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #007AFF;
@@ -45,385 +41,213 @@
             --text-secondary: #6E6E73;
             --card-bg: #FFFFFF;
             --border: #E5E5E7;
+            --green: #34C759;
+            --green-bg: #EAF9EF;
+            --orange: #FF9500;
+            --purple: #AF52DE;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            word-break: keep-all;
         }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 1.25rem; }
 
         /* Language Toggle */
         .lang-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-            display: flex;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            position: fixed; top: 1rem; right: 1rem; z-index: 1000;
+            display: flex; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 100px;
+            overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
-
         .lang-btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 500;
-            font-family: inherit;
-            color: var(--text-secondary);
-            transition: all 0.2s;
+            padding: 0.5rem 1rem; border: none; background: transparent;
+            cursor: pointer; font-size: 0.875rem; font-weight: 500;
+            font-family: inherit; color: var(--text-secondary); transition: all 0.2s;
         }
+        .lang-btn.active { background: var(--primary); color: #fff; }
 
-        .lang-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .lang-btn:hover:not(.active) {
-            background: #F0F0F2;
-        }
-
-        /* Hero Section */
+        /* Hero */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            padding: 2rem;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
+            padding: 5.5rem 1.25rem 4rem;
+            background: linear-gradient(180deg, #F0F7FF 0%, var(--bg) 100%);
         }
-
         .hero-badge {
-            background: #E8F5E9;
-            color: #2E7D32;
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
+            display: inline-block; padding: 0.4rem 1rem; border-radius: 100px;
+            background: #E8F2FF; color: var(--primary-dark);
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
         }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            max-width: 800px;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(135deg, #007AFF, #5856D6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.125rem;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--card-bg);
-            color: var(--text);
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.125rem;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
         .app-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 27px;
-            margin-bottom: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 96px; height: 96px; border-radius: 22px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12); margin-bottom: 1.5rem;
         }
-
-        /* Problem Section */
-        .problem {
-            padding: 6rem 2rem;
-            background: var(--card-bg);
+        .hero h1 {
+            font-size: clamp(1.9rem, 5vw, 3rem);
+            font-weight: 800; letter-spacing: -0.02em; line-height: 1.25;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .hero h1 span { color: var(--primary); }
+        .hero-subtitle {
+            margin: 1.1rem auto 2rem; max-width: 560px;
+            color: var(--text-secondary); font-size: 1.1rem;
         }
+        .cta-buttons { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--primary); color: #fff; text-decoration: none;
+            padding: 0.85rem 1.6rem; border-radius: 14px;
+            font-weight: 600; font-size: 1rem; transition: background 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: var(--card-bg); color: var(--text); text-decoration: none;
+            padding: 0.85rem 1.6rem; border-radius: 14px; border: 1px solid var(--border);
+            font-weight: 600; font-size: 1rem; transition: border-color 0.2s, transform 0.1s;
+        }
+        .btn-secondary:hover { border-color: var(--primary); transform: translateY(-1px); }
 
+        /* Section base */
+        section { padding: 4.5rem 0; }
         .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 1rem;
+            text-align: center; font-size: clamp(1.5rem, 4vw, 2.1rem);
+            font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem;
         }
-
         .section-subtitle {
-            color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 4rem;
-            font-size: 1.125rem;
+            text-align: center; color: var(--text-secondary);
+            max-width: 640px; margin: 0 auto 2.75rem; font-size: 1.02rem;
         }
 
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+        /* How it works */
+        .how { background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+        .how-card {
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 18px; padding: 1.5rem;
+        }
+        .how-card .number {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: var(--primary); color: #fff; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem;
+        }
+        .how-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .how-card p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* Persona template library */
+        .persona-tabs {
+            display: flex; gap: 0.5rem; justify-content: flex-start;
+            overflow-x: auto; padding: 0.25rem 0.25rem 1.5rem;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .persona-tabs::-webkit-scrollbar { display: none; }
+        @media (min-width: 720px) { .persona-tabs { justify-content: center; } }
+        .persona-tab {
+            flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.45rem;
+            padding: 0.6rem 1.1rem; border-radius: 100px; border: 1px solid var(--border);
+            background: var(--card-bg); color: var(--text-secondary);
+            font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+            transition: all 0.15s; white-space: nowrap;
+        }
+        .persona-tab.active {
+            background: var(--primary); border-color: var(--primary); color: #fff;
+            box-shadow: 0 4px 14px rgba(0,122,255,0.28);
+        }
+        .persona-intro {
+            max-width: 720px; margin: 0 auto 2.25rem; text-align: center;
+            color: var(--text-secondary); font-size: 1rem;
+        }
+        .story-grid { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
+        @media (min-width: 820px) { .story-grid { grid-template-columns: 1fr 1fr; } }
+        .story-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 18px; padding: 1.35rem;
+            display: flex; flex-direction: column; gap: 0.8rem;
+        }
+        .story-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+        .story-title { font-size: 1.05rem; font-weight: 700; }
+        .badge {
+            flex: 0 0 auto; font-size: 0.72rem; font-weight: 700;
+            padding: 0.18rem 0.55rem; border-radius: 100px;
+        }
+        .badge-snippet { color: var(--primary); background: #E8F2FF; }
+        .badge-template { color: var(--orange); background: #FFF3E0; }
+        .badge-combo { color: var(--purple); background: #F5E9FC; }
+        .badge-smartClipboard { color: var(--green); background: var(--green-bg); }
+        .story-pain {
+            color: var(--text-secondary); font-size: 0.92rem; font-style: italic;
+            padding-left: 0.85rem; border-left: 3px solid var(--border);
+        }
+        .story-example {
+            position: relative; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 0.9rem 0.95rem; font-size: 0.92rem;
+            white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.55;
+        }
+        .chip {
+            display: inline-block; background: #E8F2FF; color: var(--primary-dark);
+            border-radius: 6px; padding: 0 0.35rem; font-weight: 600; font-size: 0.85em;
+        }
+        .copy-btn {
+            position: absolute; top: 0.55rem; right: 0.55rem;
+            border: 1px solid var(--border); background: var(--card-bg);
+            border-radius: 8px; padding: 0.28rem 0.65rem;
+            font-family: inherit; font-size: 0.78rem; font-weight: 600;
+            color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+        }
+        .copy-btn:hover { color: var(--primary); border-color: var(--primary); }
+        .copy-btn.copied { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+        .story-impact {
+            background: var(--green-bg); border-radius: 12px;
+            padding: 0.7rem 0.9rem; font-size: 0.9rem; color: #1B7A3D;
+        }
+        .library-note {
+            text-align: center; color: var(--text-secondary);
+            font-size: 0.95rem; margin-top: 2.25rem;
         }
 
-        .problem-card {
-            background: var(--bg);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-        }
-
-        .problem-card .emoji {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .problem-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .problem-card p {
-            color: var(--text-secondary);
-        }
-
-        /* Solution Section */
-        .solution {
-            padding: 6rem 2rem;
-            background: linear-gradient(180deg, #F5F5F7 0%, #FFFFFF 100%);
-        }
-
-        .solution-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .solution-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-        }
-
-        .solution-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .solution-card .number {
-            width: 48px;
-            height: 48px;
-            background: var(--primary);
-            color: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .solution-card h3 {
-            font-size: 1.375rem;
-            margin-bottom: 1rem;
-        }
-
-        .solution-card p {
-            color: var(--text-secondary);
-        }
-
-        /* Use Cases Section */
-        .use-cases {
-            padding: 6rem 2rem;
-            background: var(--card-bg);
-        }
-
-        .use-case-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .use-case {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .use-case h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .use-case p {
-            color: var(--text-secondary);
-            font-size: 0.9375rem;
-        }
-
-        /* Privacy Section */
+        /* Privacy */
         .privacy {
-            padding: 4rem 2rem;
-            background: #1D1D1F;
-            color: white;
-            text-align: center;
+            text-align: center; background: var(--card-bg);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
         }
-
-        .privacy h2 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .privacy p {
-            color: #A1A1A6;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
+        .privacy h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.6rem; }
+        .privacy p { color: var(--text-secondary); max-width: 560px; margin: 0 auto 1.25rem; }
         .privacy-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #2D2D2F;
-            padding: 0.75rem 1.5rem;
-            border-radius: 100px;
-            margin-top: 1.5rem;
-            font-weight: 500;
+            display: inline-block; padding: 0.5rem 1.1rem; border-radius: 100px;
+            background: var(--green-bg); color: #1B7A3D; font-weight: 600; font-size: 0.9rem;
         }
 
-        /* Pricing Section */
-        .pricing {
-            padding: 6rem 2rem;
-            text-align: center;
-        }
-
+        /* Pricing */
         .price-card {
-            background: var(--card-bg);
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            max-width: 460px; margin: 0 auto; background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 22px;
+            padding: 2.25rem 2rem; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
         }
-
-        .price {
-            font-size: 3.5rem;
-            font-weight: 700;
-        }
-
-        .price-desc {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .price-features {
-            text-align: left;
-            margin-bottom: 2rem;
-        }
-
+        .price { font-size: 2.6rem; font-weight: 800; color: var(--primary); }
+        .price-desc { color: var(--text-secondary); margin-bottom: 1.4rem; }
+        .price-features { list-style: none; text-align: left; margin-bottom: 1.6rem; }
         .price-features li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            list-style: none;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            padding: 0.5rem 0 0.5rem 1.7rem; position: relative;
+            border-bottom: 1px solid var(--bg); font-size: 0.96rem;
         }
-
         .price-features li::before {
-            content: "✓";
-            color: #34C759;
-            font-weight: 700;
+            content: "✓"; position: absolute; left: 0.2rem; color: var(--green); font-weight: 700;
         }
 
         /* Footer */
         footer {
-            padding: 3rem 2rem;
-            text-align: center;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border);
+            text-align: center; padding: 3rem 1.25rem 3.5rem;
+            color: var(--text-secondary); font-size: 0.95rem;
         }
-
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 4rem 1.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .btn-primary, .btn-secondary {
-                justify-content: center;
-            }
-
-            .lang-toggle {
-                top: 0.5rem;
-                right: 0.5rem;
-            }
-        }
+        footer a { color: var(--primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -437,10 +261,10 @@
     <section class="hero">
         <div class="hero-badge" data-i18n="heroBadge">🔒 데이터 수집 없음 · 완전한 프라이버시</div>
         <img src="app-icon.png" alt="ClipKeyboard" class="app-icon" onerror="this.style.display='none'">
-        <h1 data-i18n-html="heroTitle">폰 하나로 클라이언트 응대,<br><span>탭 한 번이면 끝</span></h1>
+        <h1 data-i18n-html="heroTitle">반복 입력은 그만,<br><span>단축어 하나면 끝</span></h1>
         <p class="hero-subtitle" data-i18n-html="heroSubtitle">
-            IBAN · SWIFT · 타임존 · 영어 템플릿<br>
-            한 번 저장, 어디서든 키보드에서 꺼내세요.
+            계좌번호 · 주소 · 자기소개 · 영어 템플릿 —<br>
+            한 번 저장하면, 어떤 앱에서든 키보드에서 탭 한 번.
         </p>
         <div class="cta-buttons">
             <a id="hero-cta" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
@@ -449,111 +273,56 @@
                 </svg>
                 <span data-i18n="heroCta">App Store에서 다운로드</span>
             </a>
-            <a href="tutorial.html" class="btn-secondary">
-                <span data-i18n="heroTutorial">사용 가이드 보기</span>
+            <a href="#templates" class="btn-secondary">
+                <span data-i18n="heroTemplates">📋 실전 템플릿 40개 바로 보기</span>
             </a>
         </div>
     </section>
 
-    <!-- Problem -->
-    <section class="problem">
+    <!-- How it works -->
+    <section class="how">
         <div class="container">
-            <h2 class="section-title" data-i18n="problemTitle">폰으로 일하는데 같은 것만 반복 입력하고 있나요?</h2>
-            <p class="section-subtitle" data-i18n="problemSubtitle">원격 프리랜서가 하루에 타이핑하는 것들</p>
-
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="emoji">🏦</div>
-                    <h3 data-i18n="problemCard1Title">결제 정보</h3>
-                    <p data-i18n-html="problemCard1Desc">IBAN · SWIFT · Wise · PayPal<br>매 클라이언트마다 같은 정보 반복</p>
-                </div>
-                <div class="problem-card">
-                    <div class="emoji">🌏</div>
-                    <h3 data-i18n="problemCard2Title">타임존 응대</h3>
-                    <p data-i18n-html="problemCard2Desc">"I'm in GMT+7, will reply in ~6h"<br>매 새 DM마다 다시 설명</p>
-                </div>
-                <div class="problem-card">
-                    <div class="emoji">✍️</div>
-                    <h3 data-i18n="problemCard3Title">비원어민 영어</h3>
-                    <p data-i18n-html="problemCard3Desc">제안 후속 · 입금 리마인더 · 일정 조정<br>"이 톤이 프로페셔널한가?" 매번 고민</p>
-                </div>
-                <div class="problem-card">
-                    <div class="emoji">📋</div>
-                    <h3 data-i18n="problemCard4Title">세금·서류</h3>
-                    <p data-i18n-html="problemCard4Desc">VAT · Tax ID · 사업자 주소<br>오타 한 번에 인보이스 반려</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Solution -->
-    <section class="solution">
-        <div class="container">
-            <h2 class="section-title" data-i18n="solutionTitle">ClipKeyboard로 해결하세요</h2>
-            <p class="section-subtitle" data-i18n="solutionSubtitle">폰 하나로 클라이언트 응대가 끝나는 이유</p>
-
-            <div class="solution-grid">
-                <div class="solution-card">
+            <h2 class="section-title" data-i18n="howTitle">단축어가 뭐예요?</h2>
+            <p class="section-subtitle" data-i18n="howSubtitle">자주 쓰는 문구에 이름을 붙여 저장한 것 — 그게 전부예요.</p>
+            <div class="how-grid">
+                <div class="how-card">
                     <div class="number">1</div>
-                    <h3 data-i18n="solutionCard1Title">금융 정보 한 번만 입력</h3>
-                    <p data-i18n="solutionCard1Desc">IBAN · SWIFT · VAT · Wise · PayPal. 한 번 저장해두면 Gmail · Slack · Upwork · Deel 어디서든 탭 한 번으로 입력.</p>
+                    <h3 data-i18n="how1Title">단축어로 저장</h3>
+                    <p data-i18n="how1Desc">"계좌번호" 같은 이름(키)에 실제 내용(밸류)을 붙여 한 번만 저장하세요.</p>
                 </div>
-                <div class="solution-card">
+                <div class="how-card">
                     <div class="number">2</div>
-                    <h3 data-i18n="solutionCard2Title">비원어민용 영어 템플릿 내장</h3>
-                    <p data-i18n="solutionCard2Desc">제안 후속 · 입금 리마인더 · 일정 조정 · 스코프 푸쉬백 — 프로페셔널한 영어 30종 기본 제공. 톤 고민 끝.</p>
+                    <h3 data-i18n="how2Title">키보드에서 탭</h3>
+                    <p data-i18n="how2Desc">카톡·메일·사파리 어디서든 ClipKeyboard로 전환하면 저장한 단축어가 키보드 위에. 탭 한 번이면 입력 끝.</p>
                 </div>
-                <div class="solution-card">
+                <div class="how-card">
                     <div class="number">3</div>
-                    <h3 data-i18n="solutionCard3Title">타임존·통화 자동 변수</h3>
-                    <p data-i18n="solutionCard3Desc">{timezone} · {response_time} · {currency} 같은 템플릿 변수로 매 메시지마다 자연스럽게 조정.</p>
+                    <h3 data-i18n="how3Title">템플릿·콤보로 확장</h3>
+                    <p data-i18n="how3Desc">{이름} {날짜} 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Use Cases -->
-    <section class="use-cases">
+    <!-- Persona Template Library -->
+    <section id="templates">
         <div class="container">
-            <h2 class="section-title" data-i18n="useCasesTitle">디지털 노마드 · 원격 프리랜서의 하루</h2>
-            <p class="section-subtitle" data-i18n="useCasesSubtitle">치앙마이·리스본·발리에서 폰으로 일하는 사람을 위해</p>
+            <h2 class="section-title" data-i18n="libTitle">이런 분들이 매일 아낍니다</h2>
+            <p class="section-subtitle" data-i18n="libSubtitle">당신과 닮은 사람의 하루에서 골라보세요. 마음에 드는 템플릿은 지금 바로 복사해 쓸 수 있어요 — 앱에 저장하면 키보드에서 꺼내 쓰게 됩니다.</p>
 
-            <div class="use-case-grid">
-                <div class="use-case">
-                    <h4 data-i18n="useCase1Title">💸 클라이언트 온보딩</h4>
-                    <p data-i18n="useCase1Desc">첫 DM에 IBAN · 주소 · Wise · 타임존 한 번에</p>
-                </div>
-                <div class="use-case">
-                    <h4 data-i18n="useCase2Title">📨 제안서 후속</h4>
-                    <p data-i18n="useCase2Desc">"Just following up on..." — 내장 영어 템플릿 탭</p>
-                </div>
-                <div class="use-case">
-                    <h4 data-i18n="useCase3Title">⏰ 시차 응대</h4>
-                    <p data-i18n="useCase3Desc">{timezone} 변수로 현재 위치·응답 시간 자동</p>
-                </div>
-                <div class="use-case">
-                    <h4 data-i18n="useCase4Title">🧾 인보이스 발송</h4>
-                    <p data-i18n="useCase4Desc">VAT · Tax ID · 결제 기한 한 번에</p>
-                </div>
-                <div class="use-case">
-                    <h4 data-i18n="useCase5Title">🗓 일정 조정</h4>
-                    <p data-i18n="useCase5Desc">Calendly 링크 · 리스케줄 문구 · 회의 확인</p>
-                </div>
-                <div class="use-case">
-                    <h4 data-i18n="useCase6Title">💰 입금 리마인더</h4>
-                    <p data-i18n="useCase6Desc">"Kind reminder about invoice #..." 프로페셔널 톤</p>
-                </div>
-            </div>
+            <div class="persona-tabs" id="persona-tabs"></div>
+            <p class="persona-intro" id="persona-intro"></p>
+            <div class="story-grid" id="story-grid"></div>
+
+            <p class="library-note" data-i18n="libNote">💡 {파란 칩}은 템플릿 변수예요 — 앱에서는 탭 한 번으로 값을 채워 넣습니다.</p>
         </div>
     </section>
 
     <!-- Privacy -->
     <section class="privacy">
         <h2 data-i18n="privacyTitle">🔒 당신의 데이터, 당신만의 것</h2>
-        <p data-i18n="privacyDesc">ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 문구는 오직 당신의 기기에만 존재합니다.</p>
-        <div class="privacy-badge" data-i18n="privacyBadge">
-            ✓ Apple 개인정보 보호 정책 준수
-        </div>
+        <p data-i18n="privacyDesc">ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 단축어는 오직 당신의 기기에만 존재합니다.</p>
+        <div class="privacy-badge" data-i18n="privacyBadge">✓ Apple 개인정보 보호 정책 준수</div>
     </section>
 
     <!-- Pricing -->
@@ -566,8 +335,8 @@
                 <div class="price" data-i18n="price">무료</div>
                 <p class="price-desc" data-i18n="priceDesc">Pro 업그레이드 ₩17,000 · 일시불 · 7일 무료 체험</p>
                 <ul class="price-features">
-                    <li data-i18n="priceFeature1">무료: 메모 10개 · 템플릿 3개 · 콤보 3개</li>
-                    <li data-i18n="priceFeature2">Pro: 무제한 저장 · iCloud 백업 · 보안 메모</li>
+                    <li data-i18n="priceFeature1">무료: 단축어 10개 · 템플릿 3개 · 콤보 3개</li>
+                    <li data-i18n="priceFeature2">Pro: 무제한 저장 · iCloud 백업 · 보안 단축어</li>
                     <li data-i18n="priceFeature3">iPhone, iPad, Mac, Vision Pro 지원</li>
                     <li data-i18n="priceFeature4">구독 없음 · 광고 없음</li>
                     <li data-i18n="priceFeature5">평생 무료 업데이트</li>
@@ -594,146 +363,192 @@
     </footer>
 
     <script>
+        // ===== 페르소나 스토리 데이터 (앱 PersonaGuideData.swift와 동일 원본) =====
+        const PERSONA_DATA = {"ko": [{"persona": "nomad", "intro": "카페와 코워킹 스페이스를 옮겨 다니며 해외 클라이언트와 일하는 당신. 시차, 국제 송금, 비자, 매번 비슷한 영어 이메일 — 필요한 정보를 다른 창에서 찾아 붙여넣는 사이 하루가 새어나갑니다. 한 번 저장해두면, 그다음부턴 탭 한 번이면 끝나요.", "scenarios": [{"title": "해외 송금 정보 요청", "pain": "\"Send me your banking details\" 한 줄에, IBAN·SWIFT를 은행 앱에서 다시 찾아 헤맵니다.", "example": "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {은행 주소}\nWise: {Wise 이메일}", "impact": "송금 요청이 올 때마다 30초 검색이 탭 한 번으로. 자릿수 틀릴 걱정도 사라집니다.", "feature": "combo"}, {"title": "시차 안내 한 줄", "pain": "새벽 2시에 온 \"Can we hop on a call?\"에 매번 시차를 설명하느라 지칩니다.", "example": "Hi {이름}, I'm in GMT+{시차} ({도시}) right now. I can do {가능 시간대}. Calendly: {링크}", "impact": "\"몇 시가 편하세요\" 왕복 3통이 한 통으로 줄어듭니다.", "feature": "template"}, {"title": "인보이스 발송", "pain": "인보이스 번호·금액·통화·기한을 매번 손으로 맞춰 적습니다.", "example": "Invoice #{번호} · {통화} {금액}\nDue: {기한}\nPayment: Wise ({이메일})\nThank you! 🙏", "impact": "빠뜨리기 쉬운 항목을 템플릿이 붙잡아줘, 재청구·정정 메일이 줄어요.", "feature": "template"}, {"title": "제안서 팔로업", "pain": "보낸 제안서에 3일째 답이 없을 때, 재촉 같지 않게 쓰는 게 매번 어렵습니다.", "example": "Hi {클라이언트}, just following up on the proposal I sent {요일}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {이름}", "impact": "정중한 팔로업을 고민 없이 즉시 발송 — 놓치던 계약을 되살립니다.", "feature": "template"}, {"title": "여권·비자 정보", "pain": "항공·숙소·비자 신청마다 여권번호와 만료일을 확인하러 서랍을 뒤집니다.", "example": "여권번호: {여권번호}\n영문 성명: {영문 이름}\n발급일/만료일: {발급일} / {만료일}\n국적: {국적}", "impact": "보안 단축어(생체인증)로 잠가두면, 필요할 때만 열어 안전하게 붙여넣기.", "feature": "snippet"}, {"title": "\"어디 사세요?\" 답변", "pain": "새 클라이언트의 가벼운 질문에, 노마드라는 걸 매번 길게 설명하게 됩니다.", "example": "Based nowhere in particular — currently in {도시}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "불안해 보이지 않게, 프로페셔널한 인상을 한 번에 전달합니다.", "feature": "template"}, {"title": "와이파이 끊김 알림", "pain": "통화 직전 코워킹 와이파이가 끊기면, 급하게 사과 메시지를 쥐어짜냅니다.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot — back online in {분}분. Ready to continue right after. 🙏", "impact": "당황한 순간에도 침착하고 신뢰감 있는 한 줄을 즉시 보냅니다.", "feature": "snippet"}, {"title": "환율·견적 안내", "pain": "통화가 다른 클라이언트에게 견적을 줄 때, 환율 안내 문구를 매번 새로 씁니다.", "example": "Quote: {통화} {금액} (≈ {환산액} at today's rate).\nInvoiced in {통화} via Wise to keep fees low for you.", "impact": "가격 오해를 미리 차단해, 정산 단계의 실랑이를 없앱니다.", "feature": "template"}, {"title": "신규 클라이언트 온보딩", "pain": "계약 직후 캘린들리·슬랙·결제·진행 방식을 매번 순서대로 안내합니다.", "example": "환영합니다, {클라이언트}님! 진행은 이렇게 해요:\n1. 첫 미팅 캘린들리: {링크}\n2. 결제(원할 시 송금 정보 첨부)\n3. 슬랙 초대 24시간 내 발송\n4. 매주 목요일 진행 데모\n\n잘 부탁드려요!", "impact": "Combo로 여러 단축어를 순서대로 자동 입력 — 온보딩 메일이 5분에서 5초로.", "feature": "combo"}, {"title": "하루 마감·오프라인 전환", "pain": "밤 10시 급한 DM에 '지금은 대응 어렵다'를 매번 예의 있게 쓰기 어렵습니다.", "example": "Hi! Signing off for the night ({시간} in {도시}). I'll reply first thing in my morning — thanks for your patience 🙏", "impact": "경계는 지키되 무례하지 않게 — 번아웃 없이 신뢰를 지킵니다.", "feature": "template"}]}, {"persona": "business", "intro": "회의, 보고, 회신 — 하루에도 수십 번 같은 문구를 다시 씁니다. '확인 부탁드립니다', 미팅 안내, 부재중 응답. 예의를 갖춘 반복 문구를 저장해두면, 손이 아니라 머리를 일에 씁니다.", "scenarios": [{"title": "부재중 자동응답", "pain": "휴가·출장 때마다 부재 안내를 새로 쓰고, 대체 담당자 연락처를 빠뜨립니다.", "example": "안녕하세요. {시작일}부터 {종료일}까지 부재중입니다.\n급한 업무는 {담당자}({연락처})에게 연락 주세요.\n복귀 후 순차적으로 회신드리겠습니다. 감사합니다.", "impact": "빠짐없는 안내로 업무 공백을 막고, 복귀 후 폭탄 회신을 줄입니다.", "feature": "template"}, {"title": "회의 일정 안내", "pain": "미팅을 잡을 때마다 일시·장소·안건 형식을 매번 새로 타이핑합니다.", "example": "안녕하세요 {이름}님,\n아래 일정으로 미팅 요청드립니다.\n📅 일시: {날짜} {시간}\n📍 장소: {장소}\n📌 안건: {안건}\n참석 가능 여부 회신 부탁드립니다 😊", "impact": "정돈된 안내로 재확인 메일이 줄고, 노쇼가 눈에 띄게 감소합니다.", "feature": "template"}, {"title": "주간 업무 보고", "pain": "매주 같은 양식의 보고를 빈 화면에서 다시 시작합니다.", "example": "안녕하세요. 금주 업무 보고드립니다.\n✅ 완료: {완료사항}\n🔄 진행 중: {진행중}\n📋 다음 주 예정: {예정사항}\n문의사항 있으시면 말씀해 주세요.", "impact": "양식은 고정, 내용만 채우면 끝 — 금요일 저녁이 가벼워집니다.", "feature": "template"}, {"title": "명함·자기소개", "pain": "처음 인사드리는 자리마다 소속·직함·연락처를 매번 다르게 적습니다.", "example": "안녕하세요, {이름}입니다.\n{소속}에서 {업무}를 맡고 있습니다.\n📧 {이메일} / 📞 {전화번호}\n잘 부탁드립니다 🙏", "impact": "일관된 소개로 신뢰를 주고, 오타 난 연락처로 연락이 끊길 일이 없어요.", "feature": "snippet"}, {"title": "이메일 서명", "pain": "회사 메일 앱마다 서명이 안 옮겨져, 매번 손으로 붙입니다.", "example": "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}", "impact": "어느 앱·기기에서 보내든 통일된 서명. 브랜드 인상이 흐트러지지 않아요.", "feature": "snippet"}, {"title": "세금계산서·입금 정보", "pain": "거래처가 계좌·사업자번호를 물을 때마다 회계 파일을 열어 확인합니다.", "example": "입금 계좌: {은행} {계좌번호} ({예금주})\n사업자등록번호: {사업자번호}\n상호: {상호}\n세금계산서 이메일: {이메일}", "impact": "요청 즉시 정확히 전달 — 정산 지연과 오류 입금이 사라집니다.", "feature": "snippet"}, {"title": "외주·협업 제안", "pain": "협업을 제안할 때, 나를 소개하고 용건을 정중히 여는 첫 메일이 늘 어렵습니다.", "example": "안녕하세요 {담당자}님,\n{프로젝트} 관련 협업을 제안드리고자 연락드립니다.\n저는 {회사/이름}에서 {업무}를 맡고 있습니다.\n간단히 통화 가능하실까요? 편하신 시간 알려주세요. 감사합니다.", "impact": "매번 고민하던 첫 문장을 즉시 발송 — 제안 횟수 자체가 늘어납니다.", "feature": "template"}, {"title": "회신 지연 양해", "pain": "답이 늦어질 때, 무성의해 보이지 않게 양해를 구하는 게 신경 쓰입니다.", "example": "안녕하세요 {이름}님, 회신이 늦어 죄송합니다. {사유}로 확인이 지연되었습니다. {일시}까지 정리해 다시 연락드리겠습니다. 양해 부탁드립니다.", "impact": "침묵 대신 신뢰를 주는 한 줄로, 관계가 상하지 않게 지킵니다.", "feature": "template"}, {"title": "프로젝트 마무리 감사", "pain": "잘 끝난 프로젝트일수록, 마무리 인사를 미루다 타이밍을 놓칩니다.", "example": "안녕하세요 {이름}님,\n이번 {프로젝트} 함께해 주셔서 진심으로 감사드립니다.\n덕분에 좋은 결과를 낼 수 있었습니다.\n앞으로도 좋은 인연 이어가고 싶습니다 😊", "impact": "관계를 다음 일로 잇는 인사를 놓치지 않게 — 재의뢰로 이어집니다.", "feature": "template"}, {"title": "정산·비용 청구", "pain": "월말마다 정산 내역과 계좌를 정리해 보내느라 손이 많이 갑니다.", "example": "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원 (VAT 포함)\n입금 계좌: {은행} {계좌번호} ({예금주})\n확인 부탁드립니다 😊", "impact": "형식 실수 없는 청구로 재작성이 사라지고, 입금이 빨라집니다.", "feature": "template"}]}, {"persona": "student", "intro": "학번, 학교 이메일, 과제 제출 양식, 조별과제 공지 — 학교 생활은 반복 입력의 연속입니다. 교수님 메일부터 팀플 정산, 자취방 주소까지 저장해두면, 그만큼 공부와 나에게 쓸 시간이 늘어나요.", "scenarios": [{"title": "학번+이름 세트", "pain": "수강신청·과제 제출·증명서 발급마다 학번과 이름을 다시 칩니다.", "example": "{학과} {학번} {이름}", "impact": "제출칸에 탭 한 번. 마감 직전 오타로 감점되는 일이 없어져요.", "feature": "snippet"}, {"title": "교수님께 보내는 메일", "pain": "교수님 메일은 예의를 갖춰야 해서, 첫 문장부터 매번 긴장됩니다.", "example": "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목}({분반}) 수강 중입니다.\n{용건}에 대해 여쭤보고자 메일 드립니다.\n바쁘신 중에 죄송합니다. 감사합니다.", "impact": "형식 걱정 없이 용건만 채우면 끝 — 메일 보내기가 미루지 않게 됩니다.", "feature": "template"}, {"title": "과제 표지·제출 양식", "pain": "과목마다 표지 양식이 달라, 제출 직전에 형식 맞추느라 시간을 씁니다.", "example": "과목명: {과목}\n담당 교수: {교수}\n제출자: {학과} {학번} {이름}\n제출일: {날짜}\n주제: {주제}", "impact": "양식은 저장, 내용만 갱신 — 마감 스트레스가 한 겹 줄어요.", "feature": "template"}, {"title": "조별과제 공지", "pain": "팀 단톡에 회의 일정·역할 분담을 정리해 올리는 게 매번 번거롭습니다.", "example": "[{과제}] 팀 공지 📢\n다음 회의: {날짜} {시간} @ {장소/링크}\n각자 준비: {준비물}\n마감: {마감일}\n확인하면 👍 눌러주세요!", "impact": "정돈된 공지로 '언제였지?' 되묻기가 사라지고 팀이 굴러갑니다.", "feature": "template"}, {"title": "자취방·기숙사 주소", "pain": "배달·택배마다 상세주소와 공동현관 비번을 다시 입력합니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n공동현관: {비밀번호}\n받는 분: {이름} / {전화번호}", "impact": "배달앱 주소칸에 탭 한 번. 잘못 간 택배로 헤맬 일이 없어요.", "feature": "snippet"}, {"title": "팀플·모임 N빵 정산", "pain": "회식·과제 재료비를 걷을 때, 금액과 계좌를 매번 계산해 올립니다.", "example": "오늘 총 {총금액}원! {인원}명이니까 1인당 {1인금액}원이에요 🙏\n{은행} {계좌번호} ({이름})으로 보내주세요~", "impact": "정산 메시지를 즉시 발송 — 돈 얘기 꺼내는 어색함이 줄어듭니다.", "feature": "template"}, {"title": "결석·사유 안내", "pain": "아프거나 사정이 생겼을 때, 교수님·조교께 알리는 문구가 급할수록 안 떠오릅니다.", "example": "안녕하세요 교수님, {학번} {이름}입니다.\n{날짜} {과목} 수업에 {사유}로 부득이 결석하게 되었습니다.\n관련 증빙은 {방법}으로 제출하겠습니다. 죄송합니다.", "impact": "당황한 순간에도 예의를 갖춘 연락을 즉시 — 불이익을 줄입니다.", "feature": "template"}, {"title": "동아리·스터디 모집", "pain": "모집 글을 여러 커뮤니티에 올릴 때마다 소개를 조금씩 다시 씁니다.", "example": "[{모임명}] 함께할 분을 찾아요! 🙌\n활동: {활동 내용}\n시간: {요일/시간}\n장소: {장소}\n신청: {링크/연락처}\n부담 없이 문의 주세요 😊", "impact": "여러 곳에 같은 글을 붙여넣기 한 번으로 — 모집이 훨씬 빨라져요.", "feature": "snippet"}, {"title": "인턴 지원 기본 정보", "pain": "지원서마다 이름·연락처·학력·링크를 반복 입력하다 지칩니다.", "example": "{이름} · {전화번호} · {이메일}\n{학교} {학과} ({학년})\n포트폴리오: {링크}\nGitHub/블로그: {링크}", "impact": "지원 폼 채우기가 빨라져, 더 많은 기회에 도전하게 됩니다.", "feature": "snippet"}, {"title": "지각·약속 변경", "pain": "수업·약속에 늦을 때, 미안한 마음에 문장이 자꾸 길어집니다.", "example": "미안해! {분}분 정도 늦을 것 같아. 거의 다 왔어 🙏", "impact": "짧고 확실한 연락으로, 기다리는 사람의 불안을 바로 덜어줍니다.", "feature": "template"}]}, {"persona": "general", "intro": "매일 쓰는 기본 정보 — 계좌번호, 집 주소, 전화번호, 자주 보내는 인사. 매번 기억을 더듬거나 예전 대화를 뒤지지 않아도, 필요한 순간 탭 한 번이면 됩니다. 사소해 보여도, 하루에 쌓이면 꽤 큰 시간이에요.", "scenarios": [{"title": "계좌번호 공유", "pain": "\"계좌 좀\" 한마디에 은행 앱을 열어 번호를 확인하고 옮겨 적습니다.", "example": "{은행} {계좌번호}\n예금주: {이름}\n(카카오페이/토스도 가능해요 🙏)", "impact": "탭 한 번으로 정확히 전달 — 자릿수 실수로 엉뚱한 곳에 갈 걱정이 없어요.", "feature": "snippet"}, {"title": "집 주소(배송)", "pain": "쇼핑·중고거래마다 상세주소와 연락처를 처음부터 다시 칩니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n받는 분: {이름} / {전화번호}", "impact": "주소 입력이 한 번에 끝나, 오배송으로 시간 버릴 일이 줄어요.", "feature": "snippet"}, {"title": "약속 잡기", "pain": "만날 때마다 시간·장소를 조율하는 메시지를 새로 씁니다.", "example": "{날짜} {시간}에 {장소} 어때요? 안 되면 편한 시간 알려줘요 😊", "impact": "제안을 먼저 던지는 한 줄로, 약속이 훨씬 빨리 정해집니다.", "feature": "template"}, {"title": "지각 알림", "pain": "늦을 때마다 미안함에 사과 문장을 길게 고쳐 씁니다.", "example": "미안해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏", "impact": "바로 보내는 짧은 알림이, 기다리는 사람 마음을 편하게 합니다.", "feature": "template"}, {"title": "경조사 계좌 안내", "pain": "축의·조의 계좌를 물어올 때, 급하게 번호를 찾아 전합니다.", "example": "마음 전해주셔서 감사합니다.\n{은행} {계좌번호} ({예금주})\n와주시는 것만으로 큰 힘이 됩니다 🙏", "impact": "경황 없는 순간에도, 실수 없이 정중하게 안내할 수 있어요.", "feature": "snippet"}, {"title": "중고거래 안내", "pain": "거래마다 가격·상태·직거래 장소를 비슷하게 다시 씁니다.", "example": "{상품명} 판매합니다.\n가격: {가격} (네고 {가능/불가})\n상태: {상태}\n거래: {직거래 장소} 또는 택배\n연락: {연락처}", "impact": "여러 플랫폼에 붙여넣기 한 번 — 문의 대응이 빨라집니다.", "feature": "snippet"}, {"title": "긴급 연락처·가족 정보", "pain": "병원 접수·서류 작성 때 보호자 연락처와 정보를 매번 떠올립니다.", "example": "보호자: {이름} ({관계})\n연락처: {전화번호}\n혈액형: {혈액형}\n특이사항/알레르기: {내용}", "impact": "급한 순간에 정확한 정보를 바로 — 당황 대신 침착하게 대응합니다.", "feature": "snippet"}, {"title": "병원·예약 정보", "pain": "예약 문의·접수 때 이름·생년월일·증상을 매번 정리해 전합니다.", "example": "예약 문의드립니다.\n이름: {이름} / 생년월일: {생년월일}\n증상: {증상}\n희망 일시: {날짜} {시간}", "impact": "정리된 문의로 통화가 짧아지고, 원하는 시간을 잡기 쉬워집니다.", "feature": "template"}, {"title": "와이파이 비번 공유", "pain": "손님이 올 때마다 공유기 비밀번호를 불러주거나 사진 찾아 헤맵니다.", "example": "WiFi: {네트워크 이름}\n비밀번호: {비밀번호}\n편하게 쓰세요 😊", "impact": "한 번에 공유 — \"비번 뭐예요\"를 세 번 반복하지 않아도 돼요.", "feature": "snippet"}, {"title": "자주 쓰는 안부 인사", "pain": "명절·생일마다 비슷한 안부를, 매번 처음부터 고민해 씁니다.", "example": "{이름}님, {행사} 잘 보내고 계세요? 늘 건강하고 좋은 일만 가득하시길 바라요 😊", "impact": "마음은 담되 시간은 아껴, 챙길 사람을 더 많이 챙기게 됩니다.", "feature": "template"}]}], "en": [{"persona": "nomad", "intro": "You hop between cafés and co-working spaces, working with clients across the world. Timezones, international transfers, visas, near-identical English emails — your day leaks away hunting for the same details in another tab. Save each one once, and from then on it's a single tap.", "scenarios": [{"title": "\"Send your banking details\"", "pain": "One line from a client sends you digging through your bank app for the IBAN and SWIFT again.", "example": "Name: {your name}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {bank address}\nWise: {Wise email}", "impact": "A 30-second hunt becomes one tap — and no more transposed digits.", "feature": "combo"}, {"title": "Timezone reply", "pain": "A 2 a.m. \"Can we hop on a call?\" and you're explaining your timezone yet again.", "example": "Hi {client}, I'm in GMT+{offset} ({city}) right now. I can do {time window}. Calendly: {link}", "impact": "Three back-and-forth messages collapse into one clear answer.", "feature": "template"}, {"title": "Sending an invoice", "pain": "You re-type the invoice number, amount, currency, and due date every single time.", "example": "Invoice #{no} · {currency} {amount}\nDue: {due date}\nPayment: Wise ({email})\nThank you! 🙏", "impact": "The template catches the fields you'd forget — fewer re-bills and corrections.", "feature": "template"}, {"title": "Proposal follow-up", "pain": "Three days of silence, and writing a nudge that doesn't feel pushy is hard every time.", "example": "Hi {client}, just following up on the proposal I sent {day}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}", "impact": "A polite follow-up you send instantly — rescuing deals you used to let slip.", "feature": "template"}, {"title": "Passport & visa info", "pain": "Every flight, stay, or visa form has you hunting for your passport number and expiry.", "example": "Passport no: {passport}\nFull name: {name}\nIssued / Expires: {issued} / {expiry}\nNationality: {nationality}", "impact": "Lock it behind Face ID as a secure snippet — open only when you need it.", "feature": "snippet"}, {"title": "\"Where are you based?\"", "pain": "A new client asks casually, and you over-explain the nomad thing every time.", "example": "Based nowhere in particular — currently in {city}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "One confident, professional answer instead of sounding unsettled.", "feature": "template"}, {"title": "Wifi dropped", "pain": "The co-working wifi dies right before a call and you scramble for an apology.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot — back online in {min} min. Ready to continue right after. 🙏", "impact": "Even mid-panic, you send a calm, reassuring line in a second.", "feature": "snippet"}, {"title": "Currency & quote note", "pain": "Quoting a client in another currency means re-writing the FX caveat each time.", "example": "Quote: {currency} {amount} (≈ {converted} at today's rate).\nInvoiced in {currency} via Wise to keep fees low for you.", "impact": "Head off price confusion early — no haggling at payment time.", "feature": "template"}, {"title": "New client onboarding", "pain": "Right after signing, you walk every client through Calendly, Slack, payment, cadence.", "example": "Welcome aboard, {client}! Here's how we'll work:\n1. First sync — Calendly: {link}\n2. Payment (banking info attached if needed)\n3. Slack invite within 24h\n4. Progress demos every Thursday\n\nExcited to get started!", "impact": "A Combo pastes several snippets in order — onboarding drops from 5 minutes to 5 seconds.", "feature": "combo"}, {"title": "Signing off for the night", "pain": "A 10 p.m. urgent DM, and saying \"not now\" politely is awkward every time.", "example": "Hi! Signing off for the night ({time} in {city}). I'll reply first thing in my morning — thanks for your patience 🙏", "impact": "Hold your boundary without seeming rude — trust intact, burnout avoided.", "feature": "template"}]}, {"persona": "business", "intro": "Meetings, reports, replies — you rewrite the same phrases dozens of times a day. \"Please confirm,\" meeting invites, out-of-office notes. Save the polite, repeated lines once, and spend your focus on the work, not the wording.", "scenarios": [{"title": "Out-of-office reply", "pain": "Every trip means rewriting your away note — and forgetting the backup contact.", "example": "Hello, I'm out of office from {start} to {end}.\nFor anything urgent, please reach {contact} ({phone}).\nI'll reply in order once I'm back. Thank you.", "impact": "No gaps in coverage, and no inbox avalanche waiting when you return.", "feature": "template"}, {"title": "Meeting invite", "pain": "You retype the date / place / agenda format for every single meeting.", "example": "Hi {name},\nRequesting a meeting as follows:\n📅 {date} {time}\n📍 {place}\n📌 Agenda: {agenda}\nPlease confirm if you can join 😊", "impact": "A clean invite means fewer re-confirmations and far fewer no-shows.", "feature": "template"}, {"title": "Weekly status report", "pain": "Every week you start the same report format from a blank screen.", "example": "Hi team, this week's update:\n✅ Done: {done}\n🔄 In progress: {in progress}\n📋 Next week: {planned}\nHappy to discuss anything above.", "impact": "Format fixed, just fill the content — Friday evenings get lighter.", "feature": "template"}, {"title": "Intro & business card", "pain": "Every first introduction has you re-typing your role, team, and contact.", "example": "Hi, I'm {name}.\nI handle {role} at {company}.\n📧 {email} / 📞 {phone}\nLooking forward to working together 🙏", "impact": "A consistent intro builds trust — and no dropped contact from a typo.", "feature": "snippet"}, {"title": "Email signature", "pain": "Signatures don't carry across mail apps, so you paste yours by hand.", "example": "{name}\n{title} | {company}\n📧 {email}\n📞 {phone}\n🌐 {website}", "impact": "One signature, any app or device — your brand impression stays sharp.", "feature": "snippet"}, {"title": "Payment & tax details", "pain": "Every time a vendor asks for account or tax info, you dig through finance files.", "example": "Account: {bank} {number} ({holder})\nTax ID: {tax id}\nCompany: {company}\nInvoice email: {email}", "impact": "Send it exactly right, instantly — no delayed or misdirected payments.", "feature": "snippet"}, {"title": "Partnership outreach", "pain": "Proposing a collaboration, that polite opening line is always the hard part.", "example": "Hi {name},\nReaching out about a possible collaboration on {project}.\nI handle {role} at {company/name}.\nWould a quick call work? Let me know a time that suits you. Thanks!", "impact": "The first sentence you agonized over is ready — so you actually reach out more.", "feature": "template"}, {"title": "Apologizing for a late reply", "pain": "When you're slow to respond, asking forgiveness without sounding careless is delicate.", "example": "Hi {name}, apologies for the delayed reply. {reason} held things up. I'll get back to you with details by {date}. Thanks for your patience.", "impact": "A line that earns trust instead of silence — the relationship stays intact.", "feature": "template"}, {"title": "Project wrap-up thanks", "pain": "The better the project went, the more you delay the thank-you and miss the moment.", "example": "Hi {name},\nThank you sincerely for working together on {project}.\nWe reached a great outcome because of you.\nI'd love to keep the door open for what's next 😊", "impact": "Never miss the note that turns a project into the next one — repeat work follows.", "feature": "template"}, {"title": "Billing & settlement", "pain": "Month-end means assembling the statement and account details by hand again.", "example": "Hi! Here's the {month} statement.\nAmount: {amount} (incl. tax)\nAccount: {bank} {number} ({holder})\nPlease confirm 😊", "impact": "A format-perfect bill means no rewrites — and you get paid faster.", "feature": "template"}]}, {"persona": "student", "intro": "Student ID, school email, assignment cover sheets, group-project notices — campus life is one repeated form after another. Save your professor emails, group settle-ups, and apartment address, and you win back time for studying and for yourself.", "scenarios": [{"title": "Student ID + name", "pain": "Course registration, submissions, certificates — you re-type your ID and name each time.", "example": "{major} {student ID} {name}", "impact": "One tap into any field — no last-minute typo costing you points.", "feature": "snippet"}, {"title": "Email to a professor", "pain": "Professor emails demand a polite tone, so the first line makes you tense every time.", "example": "Dear Professor, this is {name} ({student ID}), from {major}.\nI'm enrolled in {course} (section {no}).\nI'm writing regarding {topic}.\nSorry to bother you, and thank you.", "impact": "Fill in the point, format's handled — you stop putting off emails.", "feature": "template"}, {"title": "Assignment cover sheet", "pain": "Every course wants a different cover format, so you fuss with it right before the deadline.", "example": "Course: {course}\nProfessor: {professor}\nSubmitted by: {major} {student ID} {name}\nDate: {date}\nTopic: {topic}", "impact": "Format saved, content refreshed — one layer of deadline stress gone.", "feature": "template"}, {"title": "Group-project notice", "pain": "Posting the meeting time and role split to the team chat is a chore every round.", "example": "[{assignment}] Team notice 📢\nNext meeting: {date} {time} @ {place/link}\nBring: {items}\nDeadline: {due}\nReact 👍 once you've seen this!", "impact": "A tidy notice ends the \"wait, when was it?\" and keeps the team moving.", "feature": "template"}, {"title": "Apartment / dorm address", "pain": "Every delivery has you re-entering the full address and door code.", "example": "{postcode}\n{address}\n{unit details}\nEntry code: {code}\nRecipient: {name} / {phone}", "impact": "One tap into the delivery app — no packages lost to a wrong address.", "feature": "snippet"}, {"title": "Splitting the bill", "pain": "Collecting money for supplies or a team dinner means recalculating and posting it each time.", "example": "Total was {total} for {people} people, so {per person} each 🙏\nSend to {bank} {number} ({name}) please~", "impact": "Send the split instantly — and the money talk feels a lot less awkward.", "feature": "template"}, {"title": "Absence notice", "pain": "When you're sick, the note to a professor or TA won't come to mind exactly when it's urgent.", "example": "Dear Professor, this is {name} ({student ID}).\nI have to miss {course} on {date} due to {reason}.\nI'll submit documentation via {method}. My apologies.", "impact": "Even flustered, you send a courteous heads-up right away — less penalty.", "feature": "template"}, {"title": "Club / study recruiting", "pain": "Posting a recruit call across communities means rewriting the intro slightly each time.", "example": "[{group}] Looking for members! 🙌\nWhat we do: {activity}\nWhen: {day/time}\nWhere: {place}\nApply: {link/contact}\nReach out anytime 😊", "impact": "Paste the same post everywhere in one tap — recruiting moves much faster.", "feature": "snippet"}, {"title": "Internship application basics", "pain": "Every application repeats your name, contact, education, and links until you're worn out.", "example": "{name} · {phone} · {email}\n{school} {major} (year {year})\nPortfolio: {link}\nGitHub/blog: {link}", "impact": "Filling forms gets fast, so you apply to more opportunities.", "feature": "snippet"}, {"title": "Running late", "pain": "When you're late to class or a friend, guilt makes the message longer and longer.", "example": "So sorry! I'll be about {min} min late. Almost there 🙏", "impact": "A short, sure message eases the waiting person right away.", "feature": "template"}]}, {"persona": "general", "intro": "The basics you use every day — account number, home address, phone number, the greetings you send often. No more digging through memory or old chats; when the moment comes, it's a single tap. Small on their own, these add up to real time across a day.", "scenarios": [{"title": "Sharing an account number", "pain": "\"What's your account?\" and you open the bank app to check and copy the number.", "example": "{bank} {account number}\nHolder: {name}\n(Apple Pay / transfer also fine 🙏)", "impact": "One tap, exactly right — no wrong digits sending money astray.", "feature": "snippet"}, {"title": "Home address (delivery)", "pain": "Shopping and resale both make you re-type the full address and contact.", "example": "{postcode}\n{address}\n{unit details}\nRecipient: {name} / {phone}", "impact": "Address entry done in one go — fewer misdeliveries eating your time.", "feature": "snippet"}, {"title": "Making plans", "pain": "Every meet-up means writing a fresh message to sort time and place.", "example": "How about {place} at {time} on {date}? If not, tell me what works 😊", "impact": "Leading with a concrete offer gets plans locked in much faster.", "feature": "template"}, {"title": "Running late", "pain": "Each time you're late, guilt has you rewriting the apology at length.", "example": "So sorry! I'll be about {min} min late. Go ahead without me 🙏", "impact": "A quick note sent right away puts the waiting person at ease.", "feature": "template"}, {"title": "Event account (gifts/condolences)", "pain": "When someone asks for the gift or condolence account, you scramble for the number.", "example": "Thank you for the kind thought.\n{bank} {account number} ({holder})\nYour presence alone means so much 🙏", "impact": "Even in a hectic moment, you share it correctly and graciously.", "feature": "snippet"}, {"title": "Resale listing", "pain": "Every sale has you rewriting price, condition, and meet-up spot the same way.", "example": "Selling: {item}\nPrice: {price} (negotiable: {yes/no})\nCondition: {condition}\nMeet: {location} or shipping\nContact: {contact}", "impact": "Paste to any platform in one tap — you answer buyers faster.", "feature": "snippet"}, {"title": "Emergency & family info", "pain": "Hospital check-in and forms have you recalling guardian contact and details every time.", "example": "Guardian: {name} ({relation})\nPhone: {phone}\nBlood type: {blood type}\nNotes/allergies: {details}", "impact": "Accurate info in an urgent moment — calm response instead of panic.", "feature": "snippet"}, {"title": "Appointment / booking info", "pain": "Booking calls have you assembling name, birth date, and symptoms each time.", "example": "I'd like to book an appointment.\nName: {name} / DOB: {DOB}\nReason: {reason}\nPreferred: {date} {time}", "impact": "A tidy request shortens the call and lands the time you want.", "feature": "template"}, {"title": "Sharing wifi password", "pain": "Every guest means reading out the router password or hunting for a photo of it.", "example": "WiFi: {network name}\nPassword: {password}\nEnjoy 😊", "impact": "Share it once — no repeating \"what's the password?\" three times.", "feature": "snippet"}, {"title": "Go-to greetings", "pain": "Holidays and birthdays have you drafting a similar note from scratch each time.", "example": "Hi {name}, hope your {occasion} is wonderful! Wishing you good health and only good things ahead 😊", "impact": "Heartfelt but quick — so you actually reach everyone you meant to.", "feature": "template"}]}]};
+
+        const PERSONA_META = {
+            ko: {
+                nomad:    { icon: "🌏", name: "노마드 · 프리랜서" },
+                business: { icon: "💼", name: "비즈니스 · 직장인" },
+                student:  { icon: "🎓", name: "학생" },
+                general:  { icon: "👤", name: "일상" }
+            },
+            en: {
+                nomad:    { icon: "🌏", name: "Nomad · Freelancer" },
+                business: { icon: "💼", name: "Business" },
+                student:  { icon: "🎓", name: "Student" },
+                general:  { icon: "👤", name: "Everyday" }
+            }
+        };
+
+        const BADGE_LABEL = {
+            ko: { snippet: "단축어", template: "템플릿", combo: "콤보", smartClipboard: "클립보드" },
+            en: { snippet: "Snippet", template: "Template", combo: "Combo", smartClipboard: "Clipboard" }
+        };
+
         const translations = {
             ko: {
-                // Meta
-                pageTitle: "ClipKeyboard — 폰으로 일하는 원격 프리랜서를 위한 iOS 키보드",
-                metaDescription: "IBAN · SWIFT · VAT · 타임존 · 비원어민 영어 템플릿까지. 원격 프리랜서의 반복 입력을 탭 한 번으로 끝내는 iOS 키보드 익스텐션.",
-                ogTitle: "ClipKeyboard — 디지털 노마드를 위한 iOS 키보드",
-                ogDescription: "IBAN, 타임존, 비원어민 영어 템플릿. 폰으로 클라이언트 응대하는 프리랜서용 키보드.",
-                // Hero
+                pageTitle: "ClipKeyboard — 반복 입력은 그만, 단축어 하나면 끝",
+                metaDescription: "계좌번호·주소·이메일 템플릿을 단축어로 저장하고 어떤 앱에서든 키보드에서 탭 한 번으로 입력하세요. 노마드·직장인·학생·일상, 40가지 실전 템플릿 무료 제공.",
+                ogTitle: "ClipKeyboard — 반복 입력은 그만, 단축어 하나면 끝",
+                ogDescription: "자주 쓰는 문구를 단축어로. 40가지 실전 템플릿을 지금 바로 복사해 쓰세요.",
                 heroBadge: "🔒 데이터 수집 없음 · 완전한 프라이버시",
-                heroTitle: '폰 하나로 클라이언트 응대,<br><span>탭 한 번이면 끝</span>',
-                heroSubtitle: 'IBAN · SWIFT · 타임존 · 영어 템플릿<br>한 번 저장, 어디서든 키보드에서 꺼내세요.',
+                heroTitle: '반복 입력은 그만,<br><span>단축어 하나면 끝</span>',
+                heroSubtitle: '계좌번호 · 주소 · 자기소개 · 영어 템플릿 —<br>한 번 저장하면, 어떤 앱에서든 키보드에서 탭 한 번.',
                 heroCta: "App Store에서 다운로드",
-                heroTutorial: "사용 가이드 보기",
-                // Problem
-                problemTitle: "폰으로 일하는데 같은 것만 반복 입력하고 있나요?",
-                problemSubtitle: "원격 프리랜서가 하루에 타이핑하는 것들",
-                problemCard1Title: "결제 정보",
-                problemCard1Desc: 'IBAN · SWIFT · Wise · PayPal<br>매 클라이언트마다 같은 정보 반복',
-                problemCard2Title: "타임존 응대",
-                problemCard2Desc: '"I\'m in GMT+7, will reply in ~6h"<br>매 새 DM마다 다시 설명',
-                problemCard3Title: "비원어민 영어",
-                problemCard3Desc: '제안 후속 · 입금 리마인더 · 일정 조정<br>"이 톤이 프로페셔널한가?" 매번 고민',
-                problemCard4Title: "세금·서류",
-                problemCard4Desc: 'VAT · Tax ID · 사업자 주소<br>오타 한 번에 인보이스 반려',
-                // Solution
-                solutionTitle: "ClipKeyboard로 해결하세요",
-                solutionSubtitle: "폰 하나로 클라이언트 응대가 끝나는 이유",
-                solutionCard1Title: "금융 정보 한 번만 입력",
-                solutionCard1Desc: "IBAN · SWIFT · VAT · Wise · PayPal. 한 번 저장해두면 Gmail · Slack · Upwork · Deel 어디서든 탭 한 번으로 입력.",
-                solutionCard2Title: "비원어민용 영어 템플릿 내장",
-                solutionCard2Desc: "제안 후속 · 입금 리마인더 · 일정 조정 · 스코프 푸쉬백 — 프로페셔널한 영어 30종 기본 제공. 톤 고민 끝.",
-                solutionCard3Title: "타임존·통화 자동 변수",
-                solutionCard3Desc: "{timezone} · {response_time} · {currency} 같은 템플릿 변수로 매 메시지마다 자연스럽게 조정.",
-                // Use Cases
-                useCasesTitle: "디지털 노마드 · 원격 프리랜서의 하루",
-                useCasesSubtitle: "치앙마이·리스본·발리에서 폰으로 일하는 사람을 위해",
-                useCase1Title: "💸 클라이언트 온보딩",
-                useCase1Desc: "첫 DM에 IBAN · 주소 · Wise · 타임존 한 번에",
-                useCase2Title: "📨 제안서 후속",
-                useCase2Desc: '"Just following up on..." — 내장 영어 템플릿 탭',
-                useCase3Title: "⏰ 시차 응대",
-                useCase3Desc: "{timezone} 변수로 현재 위치·응답 시간 자동",
-                useCase4Title: "🧾 인보이스 발송",
-                useCase4Desc: "VAT · Tax ID · 결제 기한 한 번에",
-                useCase5Title: "🗓 일정 조정",
-                useCase5Desc: "Calendly 링크 · 리스케줄 문구 · 회의 확인",
-                useCase6Title: "💰 입금 리마인더",
-                useCase6Desc: '"Kind reminder about invoice #..." 프로페셔널 톤',
-                // Privacy
+                heroTemplates: "📋 실전 템플릿 40개 바로 보기",
+                howTitle: "단축어가 뭐예요?",
+                howSubtitle: "자주 쓰는 문구에 이름을 붙여 저장한 것 — 그게 전부예요.",
+                how1Title: "단축어로 저장",
+                how1Desc: "\"계좌번호\" 같은 이름(키)에 실제 내용(밸류)을 붙여 한 번만 저장하세요.",
+                how2Title: "키보드에서 탭",
+                how2Desc: "카톡·메일·사파리 어디서든 ClipKeyboard로 전환하면 저장한 단축어가 키보드 위에. 탭 한 번이면 입력 끝.",
+                how3Title: "템플릿·콤보로 확장",
+                how3Desc: "{이름} {날짜} 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.",
+                libTitle: "이런 분들이 매일 아낍니다",
+                libSubtitle: "당신과 닮은 사람의 하루에서 골라보세요. 마음에 드는 템플릿은 지금 바로 복사해 쓸 수 있어요 — 앱에 저장하면 키보드에서 꺼내 쓰게 됩니다.",
+                libNote: "💡 파란 칩은 템플릿 변수예요 — 앱에서는 탭 한 번으로 값을 채워 넣습니다.",
+                copy: "복사",
+                copied: "복사됨 ✓",
+                impactPrefix: "✨ ",
                 privacyTitle: "🔒 당신의 데이터, 당신만의 것",
-                privacyDesc: "ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 정보(금융·영어 템플릿·타임존)는 오직 당신의 기기에만 존재합니다.",
+                privacyDesc: "ClipKeyboard는 어떤 데이터도 수집하지 않습니다. 저장한 단축어는 오직 당신의 기기에만 존재합니다.",
                 privacyBadge: "✓ Apple 개인정보 보호 정책 준수",
-                // Pricing
                 pricingTitle: "무료로 시작하세요",
                 pricingSubtitle: "다운로드 무료 · Pro는 단 한 번 결제, 구독 없음",
                 price: "무료",
                 priceDesc: "Pro 업그레이드 ₩17,000 · 일시불 · 7일 무료 체험",
-                priceFeature1: "무료: 메모 10개 · 템플릿 3개 · 콤보 3개",
-                priceFeature2: "Pro: 무제한 저장 · iCloud 백업 · 보안 메모",
+                priceFeature1: "무료: 단축어 10개 · 템플릿 3개 · 콤보 3개",
+                priceFeature2: "Pro: 무제한 저장 · iCloud 백업 · 보안 단축어",
                 priceFeature3: "iPhone, iPad, Mac, Vision Pro 지원",
                 priceFeature4: "구독 없음 · 광고 없음",
                 priceFeature5: "평생 무료 업데이트",
                 pricingCta: "무료로 다운로드",
-                // Footer
                 footerContact: "문의하기",
                 footerTutorial: "사용 가이드",
                 footerPrivacy: "개인정보 처리방침",
-                // App Store URL
                 appStoreUrl: "https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502"
             },
             en: {
-                // Meta
-                pageTitle: "ClipKeyboard — iOS keyboard for remote freelancers working from their phone",
-                metaDescription: "IBAN · SWIFT · VAT · timezone · built-in professional English templates. An iOS keyboard that ends the repetitive typing every remote freelancer does.",
-                ogTitle: "ClipKeyboard — iOS keyboard for digital nomads",
-                ogDescription: "IBAN, timezones, non-native English templates — saved once, tapped forever from any app.",
-                // Hero
+                pageTitle: "ClipKeyboard — Stop retyping. One snippet is all it takes",
+                metaDescription: "Save your bank details, addresses, and email templates as snippets, then type them with one tap from the keyboard in any app. 40 real-life templates for nomads, professionals, students, and everyday life — free.",
+                ogTitle: "ClipKeyboard — Stop retyping. One snippet is all it takes",
+                ogDescription: "Turn the phrases you repeat into snippets. Copy 40 ready-made templates right now.",
                 heroBadge: "🔒 No Data Collection · Complete Privacy",
-                heroTitle: 'Client work from your phone,<br><span>one tap at a time</span>',
-                heroSubtitle: 'IBAN · SWIFT · timezones · English templates.<br>Saved once, pulled from your keyboard anywhere.',
+                heroTitle: 'Stop retyping.<br><span>One snippet is all it takes</span>',
+                heroSubtitle: 'Bank details · addresses · intros · English templates —<br>saved once, typed with one tap from your keyboard in any app.',
                 heroCta: "Download on the App Store",
-                heroTutorial: "Read the Guide",
-                // Problem
-                problemTitle: "Working from your phone, retyping the same things?",
-                problemSubtitle: "What remote freelancers type every single day",
-                problemCard1Title: "Payment Info",
-                problemCard1Desc: 'IBAN · SWIFT · Wise · PayPal<br>Same info, every new client',
-                problemCard2Title: "Timezone Replies",
-                problemCard2Desc: '"I\'m in GMT+7, will reply in ~6h"<br>Typed in every new DM',
-                problemCard3Title: "Non-native English",
-                problemCard3Desc: 'Proposal follow-ups · payment reminders · reschedules<br>"Is this tone professional enough?"',
-                problemCard4Title: "Tax & Paperwork",
-                problemCard4Desc: 'VAT · Tax ID · business address<br>One typo = invoice bounced',
-                // Solution
-                solutionTitle: "Solve It with ClipKeyboard",
-                solutionSubtitle: "Why your phone is enough for client work",
-                solutionCard1Title: "Enter financial info once",
-                solutionCard1Desc: "IBAN · SWIFT · VAT · Wise · PayPal. Save once, tap to enter in Gmail, Slack, Upwork, Deel — anywhere.",
-                solutionCard2Title: "Built-in English templates",
-                solutionCard2Desc: "Proposal follow-ups, payment reminders, reschedules, scope pushbacks — 30 pro-tone English templates for non-native speakers.",
-                solutionCard3Title: "Timezone & currency variables",
-                solutionCard3Desc: "Template variables like {timezone} · {response_time} · {currency} adjust every message naturally.",
-                // Use Cases
-                useCasesTitle: "A remote freelancer's day",
-                useCasesSubtitle: "For people working on their phone from Chiang Mai, Lisbon, Bali",
-                useCase1Title: "💸 Client onboarding",
-                useCase1Desc: "First DM: IBAN, address, Wise, timezone — all ready",
-                useCase2Title: "📨 Proposal follow-ups",
-                useCase2Desc: '"Just following up on..." — tap a built-in English template',
-                useCase3Title: "⏰ Handling time zones",
-                useCase3Desc: "{timezone} variable auto-fills your current location & reply time",
-                useCase4Title: "🧾 Invoicing",
-                useCase4Desc: "VAT, tax ID, due date — entered in one shot",
-                useCase5Title: "🗓 Scheduling",
-                useCase5Desc: "Calendly links · reschedule lines · meeting confirmations",
-                useCase6Title: "💰 Payment reminders",
-                useCase6Desc: '"Kind reminder about invoice #..." — professional tone built in',
-                // Privacy
+                heroTemplates: "📋 Browse 40 real-life templates",
+                howTitle: "What's a snippet?",
+                howSubtitle: "A phrase you use often, saved under a name. That's it.",
+                how1Title: "Save it as a snippet",
+                how1Desc: 'Give it a name (the key) like "Bank info" and attach the actual text (the value). Save once.',
+                how2Title: "Tap it from the keyboard",
+                how2Desc: "Switch to ClipKeyboard in Messages, Mail, Safari — anywhere. Your snippets sit right on the keyboard. One tap, typed.",
+                how3Title: "Grow into templates & combos",
+                how3Desc: "Add variables like {name} {date} to make templates; chain snippets into combos. Whole routines disappear.",
+                libTitle: "People like you, saving time daily",
+                libSubtitle: "Pick the day that looks like yours. Copy any template right now — save it in the app and it lives on your keyboard.",
+                libNote: "💡 The blue chips are template variables — in the app you fill them in with a tap.",
+                copy: "Copy",
+                copied: "Copied ✓",
+                impactPrefix: "✨ ",
                 privacyTitle: "🔒 Your Data, Your Device Only",
-                privacyDesc: "ClipKeyboard collects no data whatsoever. Your saved info (financial, English templates, timezones) exists only on your device.",
+                privacyDesc: "ClipKeyboard collects no data whatsoever. Your saved snippets exist only on your device.",
                 privacyBadge: "✓ Apple Privacy Policy Compliant",
-                // Pricing
                 pricingTitle: "Start Free",
                 pricingSubtitle: "Free to download · Pro is a one-time purchase, no subscriptions",
                 price: "Free",
                 priceDesc: "Pro upgrade $9.99 · one-time · 7-day free trial",
-                priceFeature1: "Free: 10 memos · 3 templates · 3 combos",
-                priceFeature2: "Pro: unlimited storage · iCloud backup · secure memos",
+                priceFeature1: "Free: 10 snippets · 3 templates · 3 combos",
+                priceFeature2: "Pro: unlimited storage · iCloud backup · secure snippets",
                 priceFeature3: "iPhone, iPad, Mac, Vision Pro",
                 priceFeature4: "No subscription · No ads",
                 priceFeature5: "Free lifetime updates",
                 pricingCta: "Download Free",
-                // Footer
                 footerContact: "Contact Us",
                 footerTutorial: "Tutorial",
                 footerPrivacy: "Privacy Policy",
-                // App Store URL
                 appStoreUrl: "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
             }
         };
+
+        let currentLang = 'en';
+        let currentPersona = 'nomad';
+
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // {변수} → 파란 칩
+        function renderExample(text) {
+            return escapeHtml(text).replace(/\{([^{}\n]+)\}/g, '<span class="chip">$1</span>');
+        }
+
+        function renderPersonaTabs() {
+            const tabs = document.getElementById('persona-tabs');
+            const meta = PERSONA_META[currentLang];
+            tabs.innerHTML = '';
+            PERSONA_DATA[currentLang].forEach(function(guide) {
+                const m = meta[guide.persona] || { icon: '👤', name: guide.persona };
+                const btn = document.createElement('button');
+                btn.className = 'persona-tab' + (guide.persona === currentPersona ? ' active' : '');
+                btn.textContent = m.icon + ' ' + m.name;
+                btn.onclick = function() { currentPersona = guide.persona; renderPersonaTabs(); renderStories(); };
+                tabs.appendChild(btn);
+            });
+        }
+
+        function renderStories() {
+            const t = translations[currentLang];
+            const guide = PERSONA_DATA[currentLang].find(function(g) { return g.persona === currentPersona; })
+                       || PERSONA_DATA[currentLang][0];
+            document.getElementById('persona-intro').textContent = guide.intro;
+
+            const grid = document.getElementById('story-grid');
+            grid.innerHTML = '';
+            guide.scenarios.forEach(function(s) {
+                const card = document.createElement('div');
+                card.className = 'story-card';
+
+                const badgeCls = 'badge badge-' + s.feature;
+                const badgeLabel = (BADGE_LABEL[currentLang] || {})[s.feature] || s.feature;
+
+                card.innerHTML =
+                    '<div class="story-head">' +
+                        '<div class="story-title">' + escapeHtml(s.title) + '</div>' +
+                        '<span class="' + badgeCls + '">' + escapeHtml(badgeLabel) + '</span>' +
+                    '</div>' +
+                    '<div class="story-pain">' + escapeHtml(s.pain) + '</div>' +
+                    '<div class="story-example">' + renderExample(s.example) +
+                        '<button class="copy-btn">' + escapeHtml(t.copy) + '</button>' +
+                    '</div>' +
+                    '<div class="story-impact">' + escapeHtml(t.impactPrefix + s.impact) + '</div>';
+
+                const btn = card.querySelector('.copy-btn');
+                btn.onclick = function() { copyText(s.example, btn); };
+                grid.appendChild(card);
+            });
+        }
+
+        function copyText(text, btn) {
+            const done = function() {
+                btn.textContent = translations[currentLang].copied;
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = translations[currentLang].copy;
+                    btn.classList.remove('copied');
+                }, 1600);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text; document.body.appendChild(ta);
+                ta.select(); document.execCommand('copy');
+                document.body.removeChild(ta); done();
+            }
+        }
 
         function setLanguage(lang) {
             localStorage.setItem('clipkb-lang', lang);
@@ -743,11 +558,9 @@
         function applyLanguage(lang) {
             const t = translations[lang];
             if (!t) return;
+            currentLang = lang;
 
-            // Update html lang attribute
             document.documentElement.lang = lang;
-
-            // Update meta tags
             document.title = t.pageTitle;
             document.querySelector('meta[name="description"]').setAttribute('content', t.metaDescription);
             document.querySelector('meta[property="og:title"]').setAttribute('content', t.ogTitle);
@@ -755,46 +568,37 @@
             document.querySelector('meta[name="twitter:title"]').setAttribute('content', t.ogTitle);
             document.querySelector('meta[name="twitter:description"]').setAttribute('content', t.ogDescription);
 
-            // Update text content (data-i18n)
             document.querySelectorAll('[data-i18n]').forEach(function(el) {
-                var key = el.getAttribute('data-i18n');
-                if (t[key] !== undefined) {
-                    el.textContent = t[key];
-                }
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
             });
-
-            // Update HTML content (data-i18n-html) for elements with <br>/<span>
             document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
-                var key = el.getAttribute('data-i18n-html');
-                if (t[key] !== undefined) {
-                    el.innerHTML = t[key];
-                }
+                const key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
             });
 
-            // Update App Store links
-            var storeUrl = t.appStoreUrl;
-            var heroCta = document.getElementById('hero-cta');
-            var pricingCta = document.getElementById('pricing-cta');
-            var footerAppstore = document.getElementById('footer-appstore');
-            if (heroCta) heroCta.href = storeUrl;
-            if (pricingCta) pricingCta.href = storeUrl;
-            if (footerAppstore) footerAppstore.href = storeUrl;
+            const storeUrl = t.appStoreUrl;
+            ['hero-cta', 'pricing-cta', 'footer-appstore'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) el.href = storeUrl;
+            });
 
-            // Update toggle buttons
             document.querySelectorAll('.lang-btn').forEach(function(btn) {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
+
+            renderPersonaTabs();
+            renderStories();
         }
 
         // Initialize language on page load
         (function() {
-            var saved = localStorage.getItem('clipkb-lang');
+            const saved = localStorage.getItem('clipkb-lang');
             if (saved) {
                 applyLanguage(saved);
             } else {
-                var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-                var lang = browserLang.startsWith('ko') ? 'ko' : 'en';
-                applyLanguage(lang);
+                const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+                applyLanguage(browserLang.indexOf('ko') === 0 ? 'ko' : 'en');
             }
         })();
     </script>

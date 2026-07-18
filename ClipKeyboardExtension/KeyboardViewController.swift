@@ -291,8 +291,14 @@ class KeyboardViewController: UIInputViewController {
     /// - Returns: Combo 처리를 했으면 true
     private func handleComboMemoIfNeeded(text: String, memoId: UUID) -> Bool {
         guard let memo = clipMemos.first(where: { $0.id == memoId }), !memo.comboValues.isEmpty else { return false }
-        let values = memo.comboValues
+        // 보안 콤보 — 단계 값 복호화(PIN 인증은 KeyboardView에서 이미 통과).
+        // 키 미동기화로 암호문이 남으면 암호문을 타이핑하지 않도록 중단한다.
+        let values = SecureMemoCrypto.decryptSteps(memo.comboValues)
         guard !values.isEmpty else { return false }
+        if values.contains(where: { SecureMemoCrypto.isEncrypted($0) }) {
+            print("🔒 [handleComboMemoIfNeeded] 보안 키 미동기화 - 콤보 복호화 불가, 입력 중단")
+            return true
+        }
 
         print("🔄 Combo 메모 '\(memo.title)' - 자식 \(values.count)개 순차 입력 (간격 \(memo.comboInterval)s)")
         insertComboValuesSequentially(values, interval: memo.comboInterval, index: 0)

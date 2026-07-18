@@ -5,3 +5,9 @@
 
 /* App display name */
 "CFBundleDisplayName" = "ClipKeyboard";
+
+/* Camera permission (bulk import OCR) */
+"NSCameraUsageDescription" = "Akses kamera diperlukan untuk memotret kartu atau dokumen dan mengenali teksnya.";
+
+/* Face ID permission (secure memos) */
+"NSFaceIDUsageDescription" = "Face ID diperlukan untuk mengakses memo aman.";

@@ -221,6 +221,9 @@ struct ContentInputSection: View {
     /// v4.0.8: 키보드 toolbar "다음" 버튼 — 다음 필드(제목)로 focus 이동.
     /// nil이면 버튼 숨김.
     var onNext: (() -> Void)?
+    /// "+" 칩 — 내용(값)을 하나 더 추가. 값이 여러 개면 콤보가 된다는 걸
+    /// 입력 전부터 알려주는 힌트 버튼. nil이면 숨김.
+    var onAddContent: (() -> Void)?
     /// 템플릿 작성 모드 — 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
 
@@ -247,31 +250,51 @@ struct ContentInputSection: View {
 
                 Spacer()
 
-                // 이미지 첨부 버튼 — 항상 표시
+                // 값 채우기 버튼 — 라벨 칩으로 역할을 명시.
+                // [붙여넣기] = 클립보드의 텍스트/이미지를 값으로, [이미지] = 사진 선택.
                 HStack(spacing: 8) {
                     Button {
-                        pasteImageFromClipboard()
+                        pasteFromClipboard()
                     } label: {
-                        Image(systemName: AppSymbol.docOnClipboard)
-                            .font(.body)
-                            .padding(6)
+                        Label(NSLocalizedString("붙여넣기", comment: "Paste clipboard value chip"),
+                              systemImage: AppSymbol.docOnClipboard)
+                            .font(.footnote.weight(.medium))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
                             .background(Color.purple.opacity(0.1))
                             .foregroundColor(.purple)
                             .cornerRadius(theme.radiusXs)
                     }
-                    .accessibilityLabel(NSLocalizedString("클립보드에서 이미지 붙여넣기", comment: "Paste image from clipboard"))
+                    .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
 
                     Button {
                         showImagePicker = true
                     } label: {
-                        Image(systemName: AppSymbol.photo)
-                            .font(.body)
-                            .padding(6)
+                        Label(NSLocalizedString("이미지", comment: "Add image chip"),
+                              systemImage: AppSymbol.photo)
+                            .font(.footnote.weight(.medium))
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 6)
                             .background(Color.blue.opacity(0.1))
                             .foregroundColor(.blue)
                             .cornerRadius(theme.radiusXs)
                     }
                     .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
+
+                    // "+" — 값을 하나 더. 입력 전부터 "여러 개 = 콤보"를 알려주는 힌트.
+                    if let onAddContent, attachedImages.isEmpty {
+                        Button(action: onAddContent) {
+                            Image(systemName: AppSymbol.plusCircle)
+                                .font(.footnote.weight(.semibold))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(Color.green.opacity(0.1))
+                                .foregroundColor(.green)
+                                .cornerRadius(theme.radiusXs)
+                        }
+                        .accessibilityLabel(NSLocalizedString("내용 추가", comment: "Add another content value button"))
+                        .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
+                    }
                 }
             }
 
@@ -465,33 +488,8 @@ struct ContentInputSection: View {
                 #endif
                 }
 
-                // 일반 카테고리에서 이미지 미첨부 시 큰 "이미지 추가" 탭 버튼.
-                // 헤더 우측 작은 아이콘만으로는 인지율이 낮아 별도 노출.
-                if attachedImages.isEmpty {
-                    Button {
-                        showImagePicker = true
-                    } label: {
-                        HStack(spacing: 8) {
-                            Image(systemName: AppSymbol.photoBadgePlus)
-                                .font(.body)
-                            Text(NSLocalizedString("이미지 추가", comment: "Add image button on memo add screen"))
-                                .font(.body)
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(.blue)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(theme.surfaceAlt)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: theme.radiusMd)
-                                .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4]))
-                        )
-                        .cornerRadius(theme.radiusMd)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(NSLocalizedString("이미지 추가", comment: "Add image button on memo add screen"))
-                    .padding(.top, 4)
-                }
+                // 큰 "이미지 추가" 버튼은 "내용 추가"(콤보 단계 추가, MemoAdd 쪽)로 대체됨.
+                // 이미지 첨부는 헤더 우측 아이콘(클립보드/사진 라이브러리)으로 계속 가능.
             }
         }
         .sheet(isPresented: $showImagePicker) {
@@ -524,10 +522,17 @@ struct ContentInputSection: View {
         )
     }
 
-    private func pasteImageFromClipboard() {
+    /// 클립보드 값 가져오기 — 텍스트가 있으면 값으로 넣고, 이미지면 이미지로 첨부한다.
+    private func pasteFromClipboard() {
         #if os(iOS)
+        if let text = UIPasteboard.general.string,
+           !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            value = text
+            showToastMessage(NSLocalizedString("클립보드 값을 가져왔습니다", comment: "Pasted clipboard text into value toast"))
+            return
+        }
         guard UIPasteboard.general.hasImages else {
-            showToastMessage(NSLocalizedString("클립보드에 이미지가 없습니다", comment: ""))
+            showToastMessage(NSLocalizedString("클립보드가 비어 있습니다", comment: "Clipboard empty toast"))
             return
         }
 

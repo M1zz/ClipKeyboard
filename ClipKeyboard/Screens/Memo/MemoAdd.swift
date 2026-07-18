@@ -42,6 +42,9 @@ struct MemoAdd: View {
     var resumeDraftId: UUID? = nil
     /// "템플릿으로 만들기"로 진입했을 때 true — 본문에 포커스를 줘 변수 삽입바를 바로 노출.
     var startInTemplateMode: Bool = false
+    /// "템플릿으로 만들기"의 원본 단축어 id — 있으면 "기존 단축어 남기기" 토글이 노출되고,
+    /// 끄면 저장할 때 원본이 함께 삭제된다(중복 방지).
+    var templateSourceMemoId: UUID? = nil
 
     // MARK: - View-only State
 
@@ -145,6 +148,7 @@ struct MemoAdd: View {
         #endif
         .onAppear {
             viewModel.resumedDraftId = resumeDraftId
+            viewModel.templateSourceMemoId = templateSourceMemoId
             viewModel.onAppear(
                 memoId: memoId,
                 insertedKeyword: insertedKeyword,
@@ -246,7 +250,10 @@ struct MemoAdd: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
-                    // 1) 붙여넣을 내용(VALUE) + 이미지 — 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
+                    // 1) 키보드에 표시할 이름(KEY) — 단축어의 정체성이므로 맨 위. 핵심.
+                    titleInputSection
+
+                    // 2) 붙여넣을 내용(VALUE) + 이미지 — 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
                     ContentInputSection(
                         value: $viewModel.value,
                         selectedCategory: viewModel.selectedCategory,
@@ -254,15 +261,15 @@ struct MemoAdd: View {
                         autoDetectedType: $viewModel.autoDetectedType,
                         autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                         attachedImages: $viewModel.attachedImages,
-                        onNext: {
-                            isFocused = false
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { isTitleFocused = true }
+                        onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 — 입력 종료
+                        onAddContent: {
+                            // 퀵 모드엔 이어지는 내용 칸이 없어 전체 모드로 전환하며 2번째 칸을 연다.
+                            HapticManager.shared.light()
+                            withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
+                            viewModel.addContinuation()
                         },
                         forceTextKeyboard: startInTemplateMode
                     )
-
-                    // 2) 키보드에 표시할 이름(KEY) — 이 메모가 키보드에서 보일 제목. 핵심.
-                    titleInputSection
 
                     // 3) 더 설정하기 (보안·템플릿·콤보)
                     quickAdvancedButton
@@ -332,6 +339,9 @@ struct MemoAdd: View {
                         // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
                         // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
+                        // 📌 키보드에 표시할 이름 — 단축어의 정체성이므로 맨 위
+                        titleInputSection
+
                         // 📌 붙여넣을 내용
                         ContentInputSection(
                             value: $viewModel.value,
@@ -340,18 +350,17 @@ struct MemoAdd: View {
                             autoDetectedType: $viewModel.autoDetectedType,
                             autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                             attachedImages: $viewModel.attachedImages,
-                            onNext: {
-                                isFocused = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                    isTitleFocused = true
-                                }
+                            onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 — 입력 종료
+                            onAddContent: {
+                                HapticManager.shared.light()
+                                viewModel.addContinuation()
                             },
                             forceTextKeyboard: startInTemplateMode
                         )
                         .id("contentField")
 
-                        // 📌 키보드에 표시할 이름
-                        titleInputSection
+                        // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 — 더하면 콤보
+                        continuationsSection
 
                         // 📌 내용 힌트 (카드·키보드에서 살며시 보일 한 줄, 선택)
                         hintInputSection
@@ -360,8 +369,6 @@ struct MemoAdd: View {
                         additionalOptionsSection
                         // 변수가 있으면 자동으로 템플릿 도우미 노출
                         templateSection
-                        // 이어지는 메모를 더하면 콤보
-                        continuationsSection
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
@@ -403,16 +410,13 @@ struct MemoAdd: View {
                         .accessibilityHint(NSLocalizedString("입력한 내용, 이름, 카테고리를 모두 지웁니다", comment: "Reset button hint"))
 
                         if isFocused {
-                            // 내용 입력 중: 다음 필드(이름)로 이동
+                            // 내용 입력 중: 입력을 마치고 키보드를 내린다 (이름은 위에 있어 "다음"이 없음)
                             Button {
                                 isFocused = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                    isTitleFocused = true
-                                }
                             } label: {
                                 HStack {
-                                    Text(NSLocalizedString("다음", comment: "Next field button in bottom bar"))
-                                    Image(systemName: AppSymbol.arrowForward)
+                                    Text(NSLocalizedString("완료", comment: "Done"))
+                                    Image(systemName: "keyboard.chevron.compact.down")
                                         .accessibilityHidden(true)
                                 }
                                 .font(.body)
@@ -473,6 +477,12 @@ struct MemoAdd: View {
                 .font(.title3)
                 .fontWeight(.semibold)
                 .focused($isTitleFocused)
+                // 이름이 맨 위 필드 — 리턴 키로 아래 내용 입력칸으로 자연스럽게 이동.
+                .submitLabel(.next)
+                .onSubmit {
+                    isTitleFocused = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { isFocused = true }
+                }
                 .padding(.vertical, 12)
                 .padding(.horizontal, 16)
                 .background(theme.surfaceAlt)
@@ -536,59 +546,80 @@ struct MemoAdd: View {
                     }
                 )
             )
+
+            // "템플릿으로 만들기"로 들어온 경우 — 원본 단축어를 남길지 선택.
+            // 끄면 저장할 때 원본이 함께 삭제된다(비슷한 단축어 중복 방지).
+            if templateSourceMemoId != nil {
+                ToggleOptionRow(
+                    activeIcon: "square.on.square",
+                    inactiveIcon: "square.on.square.dashed",
+                    title: NSLocalizedString("기존 단축어 남기기", comment: "Keep original snippet toggle"),
+                    description: NSLocalizedString("끄면 저장할 때 원본 단축어가 삭제돼요", comment: "Keep original snippet toggle description"),
+                    activeColor: .blue,
+                    isOn: $viewModel.keepOriginalSource
+                )
+            }
         }
     }
 
-    /// "이어지는 메모" 단계 — 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
+    /// "내용 추가" — 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
+    /// 내용 입력칸 바로 아래에 배치 — 예전 큰 "이미지 추가" 버튼 자리를 대체한다.
+    /// (이미지 첨부는 내용 헤더의 아이콘으로 가능; 이미지 메모는 콤보가 될 수 없어 숨긴다.)
     @ViewBuilder
     private var continuationsSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Image(systemName: AppSymbol.arrowTurnDownRight)
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                Text(NSLocalizedString("이어지는 단축어", comment: "Continuation memos section"))
-                    .font(.body).fontWeight(.semibold)
-                    .foregroundColor(theme.textMuted)
-            }
-
-            ForEach(viewModel.continuations.indices, id: \.self) { idx in
-                HStack(spacing: 8) {
-                    Text("\(idx + 2).")
-                        .font(.system(.callout, design: .monospaced))
-                        .foregroundColor(theme.textFaint)
-                    TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
-                              text: $viewModel.continuations[idx], axis: .vertical)
-                        .textFieldStyle(.roundedBorder)
-                    Button {
-                        viewModel.removeContinuation(at: idx)
-                    } label: {
-                        Image(systemName: AppSymbol.minusCircleFill)
+        if viewModel.attachedImages.isEmpty {
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(viewModel.continuations.indices, id: \.self) { idx in
+                    HStack(spacing: 8) {
+                        Text("\(idx + 2).")
+                            .font(.system(.callout, design: .monospaced))
                             .foregroundColor(theme.textFaint)
+                        TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
+                                  text: $viewModel.continuations[idx], axis: .vertical)
+                            .textFieldStyle(.roundedBorder)
+                        Button {
+                            viewModel.removeContinuation(at: idx)
+                        } label: {
+                            Image(systemName: AppSymbol.minusCircleFill)
+                                .foregroundColor(theme.textFaint)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(NSLocalizedString("이 단계 삭제", comment: "Delete continuation step"))
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(NSLocalizedString("이 단계 삭제", comment: "Delete continuation step"))
                 }
-            }
 
-            Button {
-                HapticManager.shared.light()
-                viewModel.addContinuation()
-            } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: AppSymbol.plusCircle)
-                    Text(NSLocalizedString("이어지는 단축어 추가", comment: "Add continuation memo"))
+                Button {
+                    HapticManager.shared.light()
+                    viewModel.addContinuation()
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: AppSymbol.plusCircle)
+                            .font(.body)
+                        Text(NSLocalizedString("내용 추가", comment: "Add another content value button"))
+                            .font(.body)
+                            .fontWeight(.medium)
+                    }
+                    .foregroundColor(.blue)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(theme.surfaceAlt)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: theme.radiusMd)
+                            .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4]))
+                    )
+                    .cornerRadius(theme.radiusMd)
                 }
-                .font(.body)
-            }
+                .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("내용 추가", comment: "Add another content value button"))
+                .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
 
-            if !viewModel.continuations.isEmpty {
-                Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
-                    .font(.caption)
-                    .foregroundColor(theme.textFaint)
+                if !viewModel.continuations.isEmpty {
+                    Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                }
             }
         }
-        .padding()
     }
 
     @ViewBuilder

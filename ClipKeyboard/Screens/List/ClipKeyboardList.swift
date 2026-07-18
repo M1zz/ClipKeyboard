@@ -653,8 +653,6 @@ struct ClipKeyboardList: View {
                             viewModel.toggleSecure(memoId: memo.id)
                         }
                     )
-                    .presentationDetents([.height(530)])
-                    .presentationDragIndicator(.visible)
                 }
             }
             // 순서 바꾸기 — 전체 메모 흔들기/드래그 재정렬 (전체화면)
@@ -719,7 +717,8 @@ struct ClipKeyboardList: View {
                         insertedKeyword: src.title,
                         insertedValue: src.value,
                         insertedCategory: src.category,
-                        startInTemplateMode: true
+                        startInTemplateMode: true,
+                        templateSourceMemoId: src.id
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {

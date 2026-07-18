@@ -1303,6 +1303,18 @@
             "state" : "translated",
             "value" : "%d items"
           }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d item"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d개"
+          }
         }
       }
     },
@@ -1623,6 +1635,23 @@
         }
       }
     },
+    "%d단계 복사" : {
+      "comment" : "Copy combo step button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy step %d"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin langkah %d"
+          }
+        }
+      }
+    },
     "%d단계 중 %d단계" : {
       "comment" : "Step X of Y",
       "localizations" : {
@@ -1865,6 +1894,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld."
+          }
+        }
+      }
+    },
+    "%lld. %@" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
           }
         }
       }
@@ -3783,6 +3822,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Capture a quick note into ClipKeyboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan catatan cepat ke ClipKeyboard."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립키보드에 빠른 메모를 남깁니다."
           }
         }
       }
@@ -9722,14 +9773,14 @@
         },
         "id" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Saved %dh %dm so far"
+            "state" : "translated",
+            "value" : "Hemat %1$d jam %2$d menit sejauh ini"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Saved %1$dh %2$dm so far"
+            "state" : "translated",
+            "value" : "지금까지 %1$d시간 %2$d분 아꼈어요"
           }
         }
       }
@@ -11803,6 +11854,17 @@
         }
       }
     },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
+          }
+        }
+      }
+    },
     "간격" : {
       "comment" : "Interval label\nInterval picker label",
       "extractionState" : "stale",
@@ -11838,13 +11900,19 @@
         }
       }
     },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
+    "값 %d" : {
+      "comment" : "Bulk import: generic value label with number",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Complete"
+            "value" : "Value %d"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai %d"
           }
         }
       }
@@ -12933,6 +13001,23 @@
         }
       }
     },
+    "기존 단축어 남기기" : {
+      "comment" : "Keep original snippet toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep Original Snippet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan Snippet Asli"
+          }
+        }
+      }
+    },
     "기존 단축어를 불러올 수 있어요" : {
       "comment" : "Restore hint title",
       "localizations" : {
@@ -13122,6 +13207,23 @@
         }
       }
     },
+    "끄면 저장할 때 원본 단축어가 삭제돼요" : {
+      "comment" : "Keep original snippet toggle description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off to delete the original snippet when saving"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matikan untuk menghapus snippet asli saat menyimpan"
+          }
+        }
+      }
+    },
     "나중에" : {
       "comment" : "Later button\nRestore hint: dismiss",
       "localizations" : {
@@ -13302,6 +13404,23 @@
         }
       }
     },
+    "내용 추가" : {
+      "comment" : "Add another content value button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Content"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah Konten"
+          }
+        }
+      }
+    },
     "내용 힌트 (선택)" : {
       "comment" : "Custom content hint label",
       "localizations" : {
@@ -13315,6 +13434,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk isi (opsional)"
+          }
+        }
+      }
+    },
+    "내용을 더 추가하면 콤보 단축어가 됩니다" : {
+      "comment" : "Add content button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more content to turn this into a combo snippet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan konten lagi untuk menjadikannya Snippet combo"
           }
         }
       }
@@ -13563,7 +13699,7 @@
       }
     },
     "다음" : {
-      "comment" : "Next button\nNext field button in bottom bar",
+      "comment" : "Next button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15404,6 +15540,23 @@
         }
       }
     },
+    "메모 스크린샷이나 카드 사진의 텍스트를 인식해 위 입력창에 추가합니다. 카드 사진은 카드번호와 유효기간을 자동으로 찾아냅니다." : {
+      "comment" : "Bulk import: OCR section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recognizes text from a notes screenshot or card photo and adds it to the input above. For card photos, the card number and expiry date are detected automatically."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengenali teks dari tangkapan layar catatan atau foto kartu dan menambahkannya ke kolom di atas. Untuk foto kartu, nomor kartu dan tanggal kedaluwarsa terdeteksi otomatis."
+          }
+        }
+      }
+    },
     "메모를 보관함에 담았어요" : {
       "comment" : "Toast after quick note saved to inbox",
       "localizations" : {
@@ -16936,6 +17089,23 @@
         }
       }
     },
+    "보안 단축어 해제" : {
+      "comment" : "Bulk import: turn off secure",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Secure Lock"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus Kunci Aman"
+          }
+        }
+      }
+    },
     "보안 단축어로 설정" : {
       "comment" : "Action: make memo secure",
       "localizations" : {
@@ -17438,8 +17608,7 @@
       }
     },
     "붙여넣기" : {
-      "comment" : "Paste",
-      "extractionState" : "stale",
+      "comment" : "Paste clipboard value chip",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17594,6 +17763,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buka di Browser"
+          }
+        }
+      }
+    },
+    "비밀번호" : {
+      "comment" : "Bulk import: inferred label for password",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kata Sandi"
           }
         }
       }
@@ -17916,6 +18102,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select from photo library"
+          }
+        }
+      }
+    },
+    "사진에서 가져오기" : {
+      "comment" : "Bulk import: OCR section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import from Photos"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impor dari Foto"
+          }
+        }
+      }
+    },
+    "사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요." : {
+      "comment" : "OCR empty alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No text was recognized in the photo. Try again with a clearer photo."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak ada teks yang dikenali dari foto. Coba lagi dengan foto yang lebih jelas."
+          }
+        }
+      }
+    },
+    "사진에서 텍스트 추출" : {
+      "comment" : "Bulk import: OCR from photo library",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extract Text from Photo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekstrak Teks dari Foto"
           }
         }
       }
@@ -18480,6 +18717,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dapatkan notifikasi push di perangkat ini saat masukan baru tiba. Berfungsi setelah izin baca peran admin CloudKit disiapkan."
+          }
+        }
+      }
+    },
+    "새로 시작" : {
+      "comment" : "Bulk import: start fresh (discard restored draft)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Fresh"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai Baru"
           }
         }
       }
@@ -20076,6 +20330,23 @@
         }
       }
     },
+    "아이디" : {
+      "comment" : "Bulk import: inferred label for login id",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nama Pengguna"
+          }
+        }
+      }
+    },
     "아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?" : {
       "comment" : "Setup not found feedback",
       "extractionState" : "manual",
@@ -21333,6 +21604,23 @@
         }
       }
     },
+    "위 항목과 콤보로 묶기" : {
+      "comment" : "Bulk import: merge with previous item into combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merge into Combo with Item Above"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gabungkan sebagai Combo dengan Item di Atas"
+          }
+        }
+      }
+    },
     "위로 이동" : {
       "comment" : "Move combo value up",
       "extractionState" : "stale",
@@ -21404,6 +21692,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Simpan"
+          }
+        }
+      }
+    },
+    "유효기간" : {
+      "comment" : "Bulk import: card expiry label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiry Date"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanggal Kedaluwarsa"
           }
         }
       }
@@ -22065,7 +22370,7 @@
       }
     },
     "이미지" : {
-      "comment" : "Image",
+      "comment" : "Add image chip\nImage",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22203,6 +22508,7 @@
     },
     "이미지 추가" : {
       "comment" : "Add image button on memo add screen",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22378,6 +22684,7 @@
     },
     "이어지는 단축어" : {
       "comment" : "Continuation memos section",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22389,6 +22696,7 @@
     },
     "이어지는 단축어 추가" : {
       "comment" : "Add continuation memo",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23168,6 +23476,41 @@
         }
       }
     },
+    "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다." : {
+      "comment" : "Bulk import: secure footer",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items with the lock turned on are encrypted and saved as secure snippets."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item dengan gembok aktif akan dienkripsi dan disimpan sebagai Snippet Aman."
+          }
+        }
+      }
+    },
+    "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요." : {
+      "comment" : "Bulk import: secure + combo merge footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a combo with the item above, or split a combo apart."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item dengan kunci aktif dienkripsi dan disimpan sebagai snippet aman. Tekan lama sebuah item untuk menggabungkannya sebagai combo dengan item di atasnya, atau memisahkan combo."
+          }
+        }
+      }
+    },
     "자유롭게 의견을 남겨주세요." : {
       "comment" : "Other feedback placeholder",
       "localizations" : {
@@ -23304,6 +23647,23 @@
         }
       }
     },
+    "작성하던 내용을 불러왔어요" : {
+      "comment" : "Bulk import: draft restored notice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restored your unfinished draft"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draf yang belum selesai dipulihkan"
+          }
+        }
+      }
+    },
     "잘 쓰고 계신가요?" : {
       "comment" : "Review question",
       "localizations" : {
@@ -23339,30 +23699,6 @@
         }
       }
     },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -23393,6 +23729,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal simpan: %@"
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersimpan"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
           }
         }
       }
@@ -23479,23 +23856,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "All saved clipboard items will be deleted. This action cannot be undone."
-          }
-        }
-      }
-    },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tersimpan"
           }
         }
       }
@@ -25202,7 +25562,7 @@
       }
     },
     "카드번호" : {
-      "comment" : "Card Number",
+      "comment" : "Bulk import: card number label\nCard Number",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25249,6 +25609,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satu baris yang tampil perlahan di kartu — ringkasan otomatis jika kosong"
+          }
+        }
+      }
+    },
+    "카메라로 촬영해 추출" : {
+      "comment" : "Bulk import: OCR from camera",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capture with Camera"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambil dengan Kamera"
           }
         }
       }
@@ -25659,6 +26036,23 @@
         }
       }
     },
+    "콤보 풀기" : {
+      "comment" : "Bulk import: split combo back into items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Split Combo"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pisahkan Combo"
+          }
+        }
+      }
+    },
     "콤보가 순서대로 입력되는 흐름을 연습해 봅니다" : {
       "comment" : "Practice disclosure hint",
       "extractionState" : "stale",
@@ -25741,6 +26135,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deteksi Clipboard"
+          }
+        }
+      }
+    },
+    "클립보드 값 가져오기" : {
+      "comment" : "Paste value from clipboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste from Clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempel dari Papan Klip"
+          }
+        }
+      }
+    },
+    "클립보드 값을 가져왔습니다" : {
+      "comment" : "Pasted clipboard text into value toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasted from clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ditempel dari papan klip"
           }
         }
       }
@@ -25901,6 +26329,23 @@
         }
       }
     },
+    "클립보드가 비어 있습니다" : {
+      "comment" : "Clipboard empty toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipboard is empty"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papan klip kosong"
+          }
+        }
+      }
+    },
     "클립보드에 복사" : {
       "comment" : "Copy to clipboard button tooltip",
       "extractionState" : "stale",
@@ -25931,6 +26376,7 @@
       }
     },
     "클립보드에 이미지가 없습니다" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27601,6 +28047,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mengenali teks..."
+          }
+        }
+      }
+    },
+    "텍스트 인식 중…" : {
+      "comment" : "Bulk import: OCR in progress",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recognizing text…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengenali teks…"
+          }
+        }
+      }
+    },
+    "텍스트를 찾지 못했습니다" : {
+      "comment" : "OCR empty alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Text Found"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teks Tidak Ditemukan"
           }
         }
       }

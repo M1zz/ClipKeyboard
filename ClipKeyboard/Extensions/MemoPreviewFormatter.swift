@@ -113,6 +113,8 @@ enum MemoPreviewFormatter {
         guard let first = memo.comboValues.first else { return truncate(singleLine(memo.value)) }
         let format = NSLocalizedString("%d items", comment: "Combo item count preview")
         let count = String(format: format, memo.comboValues.count)
+        // 보안 콤보 — 값(암호문 포함)을 노출하지 않고 개수만 보여준다.
+        if memo.isSecure { return count }
         return "\(truncate(singleLine(first), max: 28)) · \(count)"
     }
 
