@@ -101,8 +101,10 @@ enum DefaultsKey {
     static let syncTombstones = "sync.tombstones"
 
     // MARK: - 리스트 배경 이미지
-    /// 선택된 배경 이미지 에셋 이름 (빈 문자열 = 배경 없음, App Group)
+    /// 선택된 배경 이미지 에셋 이름 (빈 문자열 = 배경 없음, App Group) — 모든 탭 기본값
     static let listBackgroundImageV1 = "listBackgroundImage_v1"
+    /// 탭별 배경 덮어쓰기 [CategoryTab.storageKey: 에셋 이름] ("" = 이 탭만 배경 없음, App Group)
+    static let listBackgroundPerTabV1 = "listBackgroundPerTab_v1"
     /// "새 배경 써보시겠어요?" 1회 제안을 이미 답했는지 (App Group)
     static let backgroundOfferResolvedV1 = "backgroundOfferResolved_v1"
 }

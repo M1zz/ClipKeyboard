@@ -13190,23 +13190,6 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끄면 저장할 때 원본 단축어가 삭제돼요" : {
       "comment" : "Keep original snippet toggle description",
       "localizations" : {
@@ -13220,6 +13203,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Matikan untuk menghapus snippet asli saat menyimpan"
+          }
+        }
+      }
+    },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Off"
           }
         }
       }
@@ -14016,7 +14016,7 @@
       }
     },
     "단축어 검색" : {
-      "comment" : "Search field accessibility label",
+      "comment" : "Search empty state title\nSearch field accessibility label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15384,6 +15384,23 @@
         }
       }
     },
+    "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요." : {
+      "comment" : "Background offer alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo behind your list makes the glass cards come alive. You can change or turn it off anytime from the ⋯ menu > Background Image."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto di belakang daftar membuat kartu kaca lebih hidup. Anda dapat mengubah atau mematikannya kapan saja dari menu ⋯ > Gambar Latar."
+          }
+        }
+      }
+    },
     "리스트에서 단축어 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로." : {
       "comment" : "Memo height explanation",
       "localizations" : {
@@ -16187,6 +16204,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Warna Latar"
+          }
+        }
+      }
+    },
+    "배경 없음" : {
+      "comment" : "Background: none a11y",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No background"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanpa latar"
           }
         }
       }
@@ -17102,6 +17136,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hapus Kunci Aman"
+          }
+        }
+      }
+    },
+    "보안 단축어는 목록에서 인증 후 사용할 수 있어요" : {
+      "comment" : "Search: secure row hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Secure snippets can be used from the list after authentication"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet aman dapat digunakan dari daftar setelah autentikasi"
           }
         }
       }
@@ -18769,6 +18820,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Create a new Combo"
+          }
+        }
+      }
+    },
+    "새로운 배경을 써보시겠어요?" : {
+      "comment" : "Background offer alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try a new background?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba latar belakang baru?"
           }
         }
       }
@@ -20845,7 +20913,7 @@
       }
     },
     "없음" : {
-      "comment" : "PIN not set / none",
+      "comment" : "Background: none\nPIN not set / none",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23733,47 +23801,6 @@
         }
       }
     },
-    "저장됨" : {
-      "comment" : "Saved toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tersimpan"
-          }
-        }
-      }
-    },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장된 단축어 (키보드에서 보임)" : {
       "comment" : "Saved memos hint label",
       "localizations" : {
@@ -23803,6 +23830,47 @@
         }
       }
     },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장된 버전이 없습니다" : {
       "comment" : "No backup versions available",
       "localizations" : {
@@ -23826,23 +23894,6 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
-          }
-        }
-      }
-    },
     "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
       "comment" : "Clear all confirm message",
       "localizations" : {
@@ -23856,6 +23907,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
+    "저장됨" : {
+      "comment" : "Saved toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tersimpan"
           }
         }
       }
@@ -24423,6 +24491,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan judul"
+          }
+        }
+      }
+    },
+    "제목이나 내용으로 저장한 단축어를 찾아보세요." : {
+      "comment" : "Search empty state description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find your saved snippets by title or content."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temukan snippet tersimpan berdasarkan judul atau isi."
           }
         }
       }
@@ -25915,23 +26000,6 @@
         }
       }
     },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -25945,6 +26013,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
+          }
+        }
+      }
+    },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
           }
         }
       }
@@ -29038,6 +29123,40 @@
         }
       }
     },
+    "학교 이메일 (선택 사항)" : {
+      "comment" : "Student quick add: school email label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "School Email (optional)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학교 이메일 (선택 사항)"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        }
+      }
+    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -29070,24 +29189,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학교 이메일"
-          }
-        }
-      }
-    },
-    "학교 이메일 (선택 사항)" : {
-      "comment" : "Student quick add: school email label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "School Email (optional)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "학교 이메일 (선택 사항)"
           }
         }
       }
@@ -29154,22 +29255,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
-          }
-        }
-      }
-    },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
           }
         }
       }
@@ -29840,82 +29925,34 @@
         }
       }
     },
-    "제목이나 내용으로 저장한 단축어를 찾아보세요." : {
+    "'%@' 탭만" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Find your saved snippets by title or content."
+            "value" : "'%@' tab only"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Temukan snippet tersimpan berdasarkan judul atau isi."
+            "value" : "Hanya tab '%@'"
           }
         }
       }
     },
-    "보안 단축어는 목록에서 인증 후 사용할 수 있어요" : {
+    "모든 탭" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Secure snippets can be used from the list after authentication"
+            "value" : "All Tabs"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Snippet aman dapat digunakan dari daftar setelah autentikasi"
-          }
-        }
-      }
-    },
-    "새로운 배경을 써보시겠어요?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try a new background?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coba latar belakang baru?"
-          }
-        }
-      }
-    },
-    "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A photo behind your list makes the glass cards come alive. You can change or turn it off anytime from the ⋯ menu > Background Image."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foto di belakang daftar membuat kartu kaca lebih hidup. Anda dapat mengubah atau mematikannya kapan saja dari menu ⋯ > Gambar Latar."
-          }
-        }
-      }
-    },
-    "배경 없음" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No background"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tanpa latar"
+            "value" : "Semua Tab"
           }
         }
       }

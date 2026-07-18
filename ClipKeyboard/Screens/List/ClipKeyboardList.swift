@@ -820,18 +820,62 @@ struct ClipKeyboardList: View {
     @State private var showBackgroundOffer = false
     @State private var showBackgroundPicker = false
 
+    /// 탭별 배경 덮어쓰기 [CategoryTab.storageKey: 에셋 이름]. ""는 "이 탭만 배경 없음".
+    /// 항목이 없는 탭은 전체 기본값(listBackgroundImage)을 따른다.
+    @State private var perTabBackgrounds: [String: String] = [:]
+    /// 배경 선택 시트의 적용 범위 — 현재 탭만 / 모든 탭.
+    @State private var backgroundScopeAllTabs = false
+
+    /// 현재 탭에 실제로 보여줄 배경 — 탭 덮어쓰기 우선, 없으면 전체 기본값.
+    private var resolvedBackgroundImage: String {
+        perTabBackgrounds[viewModel.selectedCategoryTab.storageKey] ?? listBackgroundImage
+    }
+
+    private func loadPerTabBackgrounds() {
+        perTabBackgrounds = (UserDefaults(suiteName: AppGroup.identifier)?
+            .dictionary(forKey: DefaultsKey.listBackgroundPerTabV1) as? [String: String]) ?? [:]
+    }
+
+    private func persistPerTabBackgrounds() {
+        UserDefaults(suiteName: AppGroup.identifier)?
+            .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
+    }
+
+    /// 배경 선택 적용 — 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
+    private func applyBackground(_ name: String) {
+        HapticManager.shared.selection()
+        withAnimation(.easeInOut(duration: 0.25)) {
+            if backgroundScopeAllTabs {
+                listBackgroundImage = name
+                perTabBackgrounds = [:]
+            } else {
+                perTabBackgrounds[viewModel.selectedCategoryTab.storageKey] = name
+            }
+        }
+        persistPerTabBackgrounds()
+    }
+
+    /// 썸네일 선택 표시 기준 — 현재 범위에서 그 이미지가 적용돼 있는지.
+    private func isBackgroundSelected(_ name: String) -> Bool {
+        backgroundScopeAllTabs ? (listBackgroundImage == name) : (resolvedBackgroundImage == name)
+    }
+
     var body: some View {
         NavigationStack {
             screenL8
                 // 배경 이미지(선택) — 유리 카드 뒤로 비치는 사진. 기본은 없음.
+                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
                 .background {
-                    if !listBackgroundImage.isEmpty {
-                        Image(listBackgroundImage)
+                    if !resolvedBackgroundImage.isEmpty {
+                        Image(resolvedBackgroundImage)
                             .resizable()
                             .scaledToFill()
                             .ignoresSafeArea()
+                            .transition(.opacity)
+                            .id(resolvedBackgroundImage)
                     }
                 }
+                .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
                 // 새 배경 기능 1회 제안 — 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
@@ -853,6 +897,7 @@ struct ClipKeyboardList: View {
                     backgroundPickerSheet
                 }
                 .onAppear {
+                    loadPerTabBackgrounds()
                     guard !backgroundOfferResolved else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         showBackgroundOffer = true
@@ -862,47 +907,57 @@ struct ClipKeyboardList: View {
     }
 
     /// 배경 이미지 선택 시트 — 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
+    /// 적용 범위: 현재 탭만(탭별 덮어쓰기) 또는 모든 탭(기본값 교체 + 덮어쓰기 초기화).
     private var backgroundPickerSheet: some View {
         NavigationStack {
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
-                    // 없음(배경 끄기)
-                    Button {
-                        HapticManager.shared.selection()
-                        withAnimation { listBackgroundImage = "" }
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                                .fill(theme.surfaceAlt)
-                            VStack(spacing: 6) {
-                                Image(systemName: "slash.circle")
-                                    .font(.title2)
-                                Text(NSLocalizedString("없음", comment: "Background: none"))
-                                    .font(.footnote.weight(.medium))
-                            }
-                            .foregroundColor(theme.textMuted)
-                        }
-                        .frame(height: 150)
-                        .overlay(backgroundSelectionBadge(selected: listBackgroundImage.isEmpty))
+                VStack(spacing: 14) {
+                    Picker("", selection: $backgroundScopeAllTabs) {
+                        Text(String(format: NSLocalizedString("'%@' 탭만", comment: "Background scope: current tab only, with tab name"),
+                                    viewModel.selectedCategoryTab.displayName))
+                            .tag(false)
+                        Text(NSLocalizedString("모든 탭", comment: "Background scope: all tabs"))
+                            .tag(true)
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
+                    .pickerStyle(.segmented)
 
-                    ForEach(Self.backgroundOptions, id: \.self) { name in
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
+                        // 없음(배경 끄기)
                         Button {
-                            HapticManager.shared.selection()
-                            withAnimation { listBackgroundImage = name }
+                            applyBackground("")
                         } label: {
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 150)
-                                .frame(maxWidth: .infinity)
-                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                                .overlay(backgroundSelectionBadge(selected: listBackgroundImage == name))
+                            ZStack {
+                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                                    .fill(theme.surfaceAlt)
+                                VStack(spacing: 6) {
+                                    Image(systemName: "slash.circle")
+                                        .font(.title2)
+                                    Text(NSLocalizedString("없음", comment: "Background: none"))
+                                        .font(.footnote.weight(.medium))
+                                }
+                                .foregroundColor(theme.textMuted)
+                            }
+                            .frame(height: 150)
+                            .overlay(backgroundSelectionBadge(selected: isBackgroundSelected("")))
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
+                        .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
+
+                        ForEach(Self.backgroundOptions, id: \.self) { name in
+                            Button {
+                                applyBackground(name)
+                            } label: {
+                                Image(name)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(height: 150)
+                                    .frame(maxWidth: .infinity)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
+                        }
                     }
                 }
                 .padding(16)
@@ -2072,7 +2127,7 @@ struct ClipKeyboardList: View {
             .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
             // 배경 사진 위에서는 반투명 표면이 씻겨 보여 프로스트 유리로 받친다.
             .background {
-                if listBackgroundImage.isEmpty {
+                if resolvedBackgroundImage.isEmpty {
                     theme.surface.opacity(0.5)
                 } else {
                     Rectangle().fill(.ultraThinMaterial)
@@ -2082,7 +2137,7 @@ struct ClipKeyboardList: View {
             .overlay {
                 RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                     .strokeBorder(
-                        theme.textFaint.opacity(listBackgroundImage.isEmpty ? 0.3 : 0.5),
+                        theme.textFaint.opacity(resolvedBackgroundImage.isEmpty ? 0.3 : 0.5),
                         style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
                     )
             }
@@ -2151,7 +2206,7 @@ struct ClipKeyboardList: View {
         }
         .padding(24)
         .background {
-            if !listBackgroundImage.isEmpty {
+            if !resolvedBackgroundImage.isEmpty {
                 RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
                     .fill(.ultraThinMaterial)
             }
