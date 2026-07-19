@@ -221,6 +221,23 @@
         }
       }
     },
+    "'%@' 탭만" : {
+      "comment" : "Background scope: current tab only, with tab name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@' tab only"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanya tab '%@'"
+          }
+        }
+      }
+    },
     "'%@'에 단축어가 없습니다" : {
       "comment" : "Custom category empty state",
       "localizations" : {
@@ -13179,17 +13196,6 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끄면 저장할 때 원본 단축어가 삭제돼요" : {
       "comment" : "Keep original snippet toggle description",
       "localizations" : {
@@ -13219,6 +13225,17 @@
         "id" : {
           "stringUnit" : {
             "state" : "needs_review",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Off"
           }
         }
@@ -15784,6 +15801,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Removes all categories. Your snippets are kept."
+          }
+        }
+      }
+    },
+    "모든 탭" : {
+      "comment" : "Background scope: all tabs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Tabs"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semua Tab"
           }
         }
       }
@@ -23767,6 +23801,30 @@
         }
       }
     },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -23830,47 +23888,6 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Delete the saved security PIN"
-          }
-        }
-      }
-    },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장된 버전이 없습니다" : {
       "comment" : "No backup versions available",
       "localizations" : {
@@ -23890,6 +23907,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장된 버전이 없습니다"
+          }
+        }
+      }
+    },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Delete the saved security PIN"
           }
         }
       }
@@ -29123,40 +29157,6 @@
         }
       }
     },
-    "학교 이메일 (선택 사항)" : {
-      "comment" : "Student quick add: school email label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "School Email (optional)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "학교 이메일 (선택 사항)"
-          }
-        }
-      }
-    },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        }
-      }
-    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -29189,6 +29189,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학교 이메일"
+          }
+        }
+      }
+    },
+    "학교 이메일 (선택 사항)" : {
+      "comment" : "Student quick add: school email label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "School Email (optional)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학교 이메일 (선택 사항)"
           }
         }
       }
@@ -29255,6 +29273,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
           }
         }
       }
@@ -29921,38 +29955,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "'%@' 탭만" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "'%@' tab only"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hanya tab '%@'"
-          }
-        }
-      }
-    },
-    "모든 탭" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All Tabs"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semua Tab"
           }
         }
       }

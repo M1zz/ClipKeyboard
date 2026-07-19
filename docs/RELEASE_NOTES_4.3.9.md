@@ -17,6 +17,7 @@ ClipKeyboard v4.3.9
 - 처음 만나는 샘플이 더 친절해졌어요, 기본 제공되는 샘플마다 "탭 한 번이면 입력 끝", "값 여러 개를 순서대로 입력하는 콤보"처럼 어떤 종류의 단축어인지 알려주는 한 줄 힌트가 달렸습니다
 - 카드가 맑은 유리가 됐어요, 모든 텍스트 단축어 카드가 배경이 비치는 투명한 유리(iOS 26 Liquid Glass)로 바뀌고, 카테고리 색은 유리에 옅게 배어 유지됩니다 — 어떤 배경에서도 글자가 잘 보이도록 가독성 처리도 함께
 - 리스트에 배경 사진을 깔 수 있어요, 8가지 풍경 사진 중 골라 유리 카드 뒤로 비치게 할 수 있습니다 — 처음 한 번 써볼지 여쭤보고, 언제든 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요
+- 탭마다 다른 배경도 됩니다, 즐겨찾기엔 꽃밭, 업무 카테고리엔 안개 숲처럼 탭별로 다른 사진을 고를 수 있고, 탭을 넘기면 배경이 부드럽게 바뀝니다
 - 검색 탭이 새로워졌어요, 큼직한 글자와 타입 아이콘이 있는 카드 행으로 바뀌고, 복사 피드백과 안내 화면이 더해졌습니다
 - 번역을 다듬었어요, 한국어 화면에 영어로 남아 있던 문구들을 정리하고 새 기능의 영어·인도네시아어 번역을 채웠습니다
 
@@ -37,6 +38,7 @@ Bring over account info scattered across other note apps — one paste or one ph
 - Friendlier starter samples, each built-in sample now carries a one-line hint like "one tap to type" or "a combo — types multiple values in order" so you instantly see what each snippet type does
 - Cards are now clear glass, every text snippet card becomes see-through Liquid Glass (iOS 26), with category colors softly tinting the glass — plus a legibility halo so titles stay readable on any background
 - Put a photo behind your list, choose from 8 scenic backgrounds that shine through the glass cards — we ask once if you'd like to try it, and you can change or turn it off anytime from the ⋯ menu
+- Different backgrounds per tab, give Favorites a poppy field and your Work category a misty forest — the background cross-fades as you swipe between tabs
 - A refreshed Search tab, card-style rows with bigger type and type icons, copy feedback, and proper empty states
 - Polished translations, cleaned up English leftovers on Korean screens and filled in English and Indonesian translations for the new features
 
@@ -44,18 +46,18 @@ Bring over account info scattered across other note apps — one paste or one ph
 
 App Store 제출용 요약 (한국어)
 
+• 맑은 유리 카드 + 배경 사진 — 8가지 풍경을 탭마다 다르게, 유리 너머로 비쳐요
 • 한번에 가져오기 개편 — 메모를 붙여넣으면 서비스명·아이디·비밀번호를 알아서 분리
 • 비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로
 • 사진·카메라에서 텍스트를 인식해 가져오기 — 카드 사진은 카드번호·유효기간만 쏙
-• "내용 추가"로 값을 이어 붙이면 콤보로 — 앱에서는 단계마다 복사 버튼 제공
-• 길게 누르기 메뉴가 내용에 맞게 열려 "보안 설정"·"삭제"가 항상 보여요
-• 한국어 화면에 남아 있던 영어 문구 정리 등 번역 다듬기
+• 콤보가 쉬워졌어요 — "내용 추가"로 값을 이어 붙이고, 보안 콤보로 암호화 저장까지
+• 검색 탭 새 단장 — 큼직한 글자와 타입 아이콘, 복사 피드백
 
 App Store Summary (English)
 
+• Clear glass cards + photo backgrounds — 8 scenic photos, different per tab, shining through the glass
 • Smarter bulk import — paste your notes and titles, usernames, and passwords are split automatically
 • Passwords, PINs, and certificates import as encrypted secure snippets from the start
 • Import text from photos or the camera — card photos extract just the number and expiry date
-• "Add Content" chains multiple values into a combo — with a copy button per step in the app
-• The long-press menu now fits its content, so "Make Secure" and "Delete" are always visible
-• Translation polish, including cleaned-up English leftovers on Korean screens
+• Combos made easy — chain values with "Add Content", now with encrypted secure combos
+• A refreshed Search tab — bigger type, type icons, and copy feedback
