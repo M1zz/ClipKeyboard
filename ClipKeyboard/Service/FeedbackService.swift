@@ -23,7 +23,7 @@ final class FeedbackService {
     private init() {}
 
     /// CloudKitBackupService와 동일한 컨테이너 사용
-    private static let containerIdentifier = "iCloud.com.Ysoup.TokenMemo"
+    static let containerIdentifier = "iCloud.com.Ysoup.TokenMemo"
     static let recordType = "Feedback"
 
     enum FeedbackError: LocalizedError {
@@ -70,13 +70,20 @@ final class FeedbackService {
         }
     }
 
+    /// 인박스 조회 쿼리 — TRUEPREDICATE라 Production에 recordName Queryable 인덱스가,
+    /// 정렬에 createdTimestamp Sortable 인덱스가 배포되어 있어야 한다.
+    static func makeFetchQuery() -> CKQuery {
+        let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return query
+    }
+
     /// 접수된 피드백 전체 조회 (최신순, 최대 limit개).
     /// ⚠️ 개발자 계정 전용 — CloudKit Dashboard에서 admin 역할에 read 권한과
     /// 본인 userRecordName을 등록해야 다른 사용자의 레코드를 읽을 수 있다.
     func fetchAll(limit: Int = 100) async throws -> [FeedbackRecord] {
         let container = CKContainer(identifier: Self.containerIdentifier)
-        let query = CKQuery(recordType: Self.recordType, predicate: NSPredicate(value: true))
-        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        let query = Self.makeFetchQuery()
 
         let (results, _) = try await container.publicCloudDatabase.records(
             matching: query, resultsLimit: limit)
@@ -167,18 +174,9 @@ final class FeedbackService {
         print("🔕 [FeedbackService.disableNewFeedbackNotifications] 구독 해제 완료")
     }
 
-    /// 피드백을 Public DB에 제출한다. 실패 시 throw — 호출부에서 이메일 폴백 처리.
-    func submit(type: String, message: String, deviceInfo: String) async throws {
-        let container = CKContainer(identifier: Self.containerIdentifier)
-
-        // Public DB 쓰기도 iCloud 로그인이 필요하다.
-        let status = try await container.accountStatus()
-        guard status == .available else {
-            print("⚠️ [FeedbackService.submit] iCloud 계정 없음: \(status)")
-            throw FeedbackError.iCloudUnavailable
-        }
-
-        let record = CKRecord(recordType: Self.recordType)
+    /// 제출용 CKRecord 구성 — 필드 키는 Dashboard 스키마·FeedbackRecord 읽기 모델과 1:1 대응.
+    static func makeRecord(type: String, message: String, deviceInfo: String) -> CKRecord {
+        let record = CKRecord(recordType: recordType)
         record["type"] = type
         record["message"] = message
         record["deviceInfo"] = deviceInfo
@@ -191,6 +189,21 @@ final class FeedbackService {
             return "iOS"
             #endif
         }()
+        return record
+    }
+
+    /// 피드백을 Public DB에 제출한다. 실패 시 throw — 호출부에서 이메일 폴백 처리.
+    func submit(type: String, message: String, deviceInfo: String) async throws {
+        let container = CKContainer(identifier: Self.containerIdentifier)
+
+        // Public DB 쓰기도 iCloud 로그인이 필요하다.
+        let status = try await container.accountStatus()
+        guard status == .available else {
+            print("⚠️ [FeedbackService.submit] iCloud 계정 없음: \(status)")
+            throw FeedbackError.iCloudUnavailable
+        }
+
+        let record = Self.makeRecord(type: type, message: message, deviceInfo: deviceInfo)
 
         do {
             _ = try await container.publicCloudDatabase.save(record)

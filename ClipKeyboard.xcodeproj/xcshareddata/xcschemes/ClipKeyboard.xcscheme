@@ -34,17 +34,6 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9CA0A3F52F19D685004ABF40"
-               BuildableName = "WeekAheadTodoUITests.xctest"
-               BlueprintName = "WeekAheadTodoUITests"
-               ReferencedContainer = "container:ClipKeyboard.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "9CA0A4022F19D9B3004ABF40"
                BuildableName = "ClipKeyboardTests.xctest"
                BlueprintName = "ClipKeyboardTests"
