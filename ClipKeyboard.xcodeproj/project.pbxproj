@@ -135,8 +135,7 @@
 		F426424E03B0996E9B925514 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
 		FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA000002000000000000AAA1 /* NavigationThemeModifier.swift */; };
 		FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00001A2F0000000000000001 /* FeedbackView.swift */; };
-		FBI0BUILD000000000000005 /* FeedbackInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBI0FILE0000000000000005 /* FeedbackInboxView.swift */; };
-		FBS0BUILD000000000000002 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* FeedbackService.swift */; };
+		FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */; };
 		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
 		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
@@ -312,8 +311,7 @@
 		F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardBeacon.swift; sourceTree = "<group>"; };
 		FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
 		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
-		FBI0FILE0000000000000005 /* FeedbackInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackInboxView.swift; sourceTree = "<group>"; };
-		FBS0FILE0000000000000002 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
+		FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardSpec.swift; sourceTree = "<group>"; };
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -659,7 +657,7 @@
 				050AEED88220E19330F5B15C /* MemoSyncCore.swift */,
 				C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */,
 				AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */,
-				FBS0FILE0000000000000002 /* FeedbackService.swift */,
+				FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */,
 				6A875E559BF8538E7E299AB9 /* DraftStore.swift */,
 			);
 			path = Service;
@@ -680,7 +678,6 @@
 				5802F4112A2B42D3002825D6 /* Component */,
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
-				FBI0FILE0000000000000005 /* FeedbackInboxView.swift */,
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
 				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -984,7 +981,7 @@
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
 				58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */,
+				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
@@ -1216,10 +1213,9 @@
 				E93A9A4F98E99C1C0644B05E /* MemoSyncCore.swift in Sources */,
 				3C3B3D294118E400D9D57513 /* MemoSyncEngine.swift in Sources */,
 				AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */,
-				FBS0BUILD000000000000002 /* FeedbackService.swift in Sources */,
+				FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */,
 				AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */,
 				AIC0BUILD000000000000004 /* AIComponents.swift in Sources */,
-				FBI0BUILD000000000000005 /* FeedbackInboxView.swift in Sources */,
 				27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */,
 				F31844F53A9D5BB7B30ADF4A /* DraftStore.swift in Sources */,
 				3E5846FE833B2A6EC5105545 /* DraftListView.swift in Sources */,
@@ -1898,13 +1894,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
+		588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../LeeoKit;
 		};
 		58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -1919,7 +1911,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
 			productName = LeeoKit;
 		};
 		58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */ = {
@@ -1944,7 +1936,7 @@
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
 			productName = LeeoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
