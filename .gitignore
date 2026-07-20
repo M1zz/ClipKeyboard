@@ -15,3 +15,8 @@ Packages/
 # Claude Code
 .claude/
 .sprintcommander/
+
+# fastlane
+fastlane/report.xml
+fastlane/*.ipa
+fastlane/*.dSYM.zip
