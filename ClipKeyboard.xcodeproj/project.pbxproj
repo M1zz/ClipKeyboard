@@ -981,7 +981,7 @@
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
 				58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */,
+				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
@@ -1301,7 +1301,6 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardShareExtension/ClipKeyboardShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
@@ -1330,7 +1329,6 @@
 				CODE_SIGN_ENTITLEMENTS = widget/widget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1369,7 +1367,6 @@
 				CODE_SIGN_ENTITLEMENTS = widget/widget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1403,7 +1400,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
@@ -1431,7 +1427,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardExtension/ClipKeyboardExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ClipKeyboardExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClipKeyboard;
@@ -1588,7 +1583,6 @@
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboard/ClipKeyboard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipKeyboard/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -1629,7 +1623,6 @@
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboard/ClipKeyboard.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipKeyboard/Preview Content\"";
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_PREVIEWS = YES;
@@ -1671,7 +1664,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1714,7 +1706,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1752,7 +1743,6 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = ClipKeyboardShareExtension/ClipKeyboardShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = ClipKeyboardShareExtension/Info.plist;
@@ -1778,7 +1768,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1806,7 +1795,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = QGAQ3AY3R3;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1893,11 +1881,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */ = {
+/* Begin XCLocalSwiftPackageReference section */
+		588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../LeeoKit;
 		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
 		58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1911,7 +1902,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 		58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */ = {
@@ -1936,7 +1927,7 @@
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
