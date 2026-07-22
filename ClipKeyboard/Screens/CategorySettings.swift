@@ -38,6 +38,34 @@ struct CategorySettings: View {
                 .padding(.vertical, 8)
             }
 
+            // 기본 탭 — 앱이 항상 제공하는 탭(전체/즐겨찾기)의 표시 여부.
+            // (구 카테고리 관리 시트에 있던 즐겨찾기 토글을 이 단일 화면으로 통합)
+            Section {
+                HStack {
+                    Label {
+                        Text(NSLocalizedString("전체", comment: "Category: all"))
+                    } icon: {
+                        Image(systemName: AppSymbol.squareGrid2x2Fill)
+                            .foregroundColor(.blue)
+                    }
+                    Spacer()
+                    Text(NSLocalizedString("항상 표시", comment: "Category always visible"))
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+                Toggle(isOn: favoritesVisibleBinding) {
+                    Label {
+                        Text(NSLocalizedString("즐겨찾기", comment: "Category: favorites"))
+                    } icon: {
+                        Image(systemName: AppSymbol.heartFill)
+                            .foregroundColor(.clipFavorite)
+                    }
+                }
+                .accessibilityLabel(NSLocalizedString("즐겨찾기 탭 표시", comment: "Favorites tab visibility toggle a11y"))
+            } header: {
+                Text(NSLocalizedString("기본", comment: "Category section: built-in"))
+            }
+
             // 기본 제공 카테고리 (타입별 모아보기) — 앱이 미리 만들어 둔 카테고리. 켜면 탭으로 노출.
             Section {
                 ForEach(BuiltInCategory.allCases, id: \.self) { builtIn in
@@ -212,6 +240,14 @@ struct CategorySettings: View {
         Binding(
             get: { store.isVisible(category) },
             set: { store.setVisible(category, $0) }
+        )
+    }
+
+    /// 즐겨찾기 탭 표시 여부 — 커스텀 카테고리와 동일한 hidden 집합("__favorites__" 키)을 쓴다.
+    private var favoritesVisibleBinding: Binding<Bool> {
+        Binding(
+            get: { store.isVisible("__favorites__") },
+            set: { store.setVisible("__favorites__", $0) }
         )
     }
 

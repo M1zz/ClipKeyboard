@@ -2747,9 +2747,23 @@ struct ClipKeyboardList: View {
                 viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
             }
         }
-        .sheet(isPresented: $showCategoryManagement) {
-            CategoryManagementSheet(viewModel: viewModel)
-                .presentationDetents([.medium, .large])
+        // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용 —
+        // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
+        .sheet(isPresented: $showCategoryManagement, onDismiss: {
+            viewModel.loadCustomCategories()
+            viewModel.applyFilters()
+        }) {
+            NavigationStack {
+                CategorySettings()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(NSLocalizedString("닫기", comment: "Close sheet")) {
+                                showCategoryManagement = false
+                            }
+                        }
+                    }
+            }
+            .presentationDetents([.large])
         }
         .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos() }) {
             NavigationStack {
