@@ -261,10 +261,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
         for b in enabledBuiltInCategories {
             tabs.append(.builtIn(b))
         }
-        // 사용자 카테고리는 해당 카테고리에 속한 메모가 1개 이상일 때만 탭 노출
-        for cat in customCategories
-        where !hiddenCategoryTabs.contains(cat)
-              && loadedData.contains(where: { $0.category == cat }) {
+        // 사용자 카테고리는 카테고리 관리에서 토글을 켠(= 숨기지 않은) 것이면 노출.
+        // 메모가 없어(빈 화면) 도 탭으로 보여 스와이프로 이동할 수 있게 한다.
+        for cat in customCategories where !hiddenCategoryTabs.contains(cat) {
             tabs.append(.custom(cat))
         }
         return tabs
