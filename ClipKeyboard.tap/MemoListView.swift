@@ -29,11 +29,12 @@ struct MemoListView: View {
     }
 
     var filteredMemos: [Memo] {
-        var filtered = memos
+        // 사용자가 지정한 수동 순서(있으면) → 없으면 즐겨찾기 먼저, 최근순. iOS와 순서 공유.
+        var filtered = MacMemoOrder.sorted(memos)
 
         // 무료 유저: 표시 한도 적용 (정렬 후 상위 N개만)
         if isFreeUser {
-            filtered = Array(filtered.sorted { $0.lastEdited > $1.lastEdited }.prefix(MacProManager.freeMemoLimit))
+            filtered = Array(filtered.prefix(MacProManager.freeMemoLimit))
         }
 
         // 카테고리 필터
@@ -50,9 +51,11 @@ struct MemoListView: View {
             }
         }
 
-        if isFreeUser { return filtered }
-        return filtered.sorted { $0.lastEdited > $1.lastEdited }
+        return filtered
     }
+
+    /// 드래그 순서 변경 가능 여부 — 검색 중일 땐 결과 순서를 흐트러뜨리지 않도록 잠근다.
+    private var canReorder: Bool { searchText.isEmpty }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -148,8 +151,22 @@ struct MemoListView: View {
                                 }
                             }
                         }
+                        // 드래그로 순서 변경 — 지정한 순서는 App Group을 통해 iOS·키보드와 공유된다.
+                        .onMove(perform: canReorder ? moveMemos : nil)
                     }
                     .listStyle(.plain)
+
+                    // 순서 변경 안내 — 검색 중이 아닐 때만.
+                    if canReorder && filteredMemos.count > 1 {
+                        HStack(spacing: 4) {
+                            Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
+                            Text(NSLocalizedString("드래그하여 순서를 바꿀 수 있어요", comment: "Mac reorder hint"))
+                        }
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 5)
+                    }
                 }
         }
         .frame(minWidth: 360, minHeight: 420)
@@ -196,6 +213,16 @@ struct MemoListView: View {
     }
 
     // MARK: - Actions
+
+    /// 드래그로 바뀐 순서를 App Group에 저장한다. 현재 보이는(카테고리/한도 적용된) 목록만
+    /// 재정렬하고, 전체 순서에서 그 항목들의 슬롯만 치환한다 — iOS 순서 바꾸기와 동일 규칙.
+    private func moveMemos(from source: IndexSet, to destination: Int) {
+        var visible = filteredMemos
+        visible.move(fromOffsets: source, toOffset: destination)
+        MacMemoOrder.commit(reordered: visible, within: memos)
+        // 저장된 수동 순서를 반영해 목록을 다시 로드(다음 filteredMemos가 새 순서로 정렬됨).
+        loadMemos()
+    }
 
     private func loadMemos() {
         print("📂 [MemoListView] loadMemos - 메모 로드 시작")

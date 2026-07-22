@@ -306,10 +306,8 @@ final class PanelListViewModel: ObservableObject {
     func reload() {
         do {
             let loaded = try MemoStore.shared.load(type: .memo)
-            memos = loaded.sorted { a, b in
-                if a.isFavorite != b.isFavorite { return a.isFavorite && !b.isFavorite }
-                return a.lastEdited > b.lastEdited
-            }
+            // 사용자가 지정한 수동 순서(있으면) → 없으면 즐겨찾기 먼저, 최근순. iOS와 순서 공유.
+            memos = MacMemoOrder.sorted(loaded)
         } catch {
             print("⚠️ [Panel] 메모 로드 실패: \(error)")
         }
