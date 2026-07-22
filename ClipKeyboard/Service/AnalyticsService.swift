@@ -2,20 +2,15 @@
 //  AnalyticsService.swift
 //  ClipKeyboard
 //
-//  Firebase Analytics 이벤트 호출 wrapper.
-//  - 메인 앱(ClipKeyboard) 타겟에서만 동작 (키보드 ext / widget은 메모리 한계로 제외)
-//  - 사용자가 IDFA 설정에 동의 안 해도 익명 식별자 기반 집계 (no AdSupport)
-//  - Firebase가 SDK 미설치 환경에선 no-op (canImport guards)
+//  Analytics 이벤트 호출 wrapper.
+//  - Firebase 제거됨: 현재 모든 로깅은 콘솔 print만 수행하는 no-op.
+//  - 이벤트/파라미터 taxonomy는 향후 다른 백엔드로 교체할 때 그대로 재사용하려고 유지한다.
+//  - 실제 백엔드를 붙일 땐 log()/setUserProperty() 본문만 바꾸면 모든 호출부가 그대로 동작한다.
 //
 
 import Foundation
-// 키보드 익스텐션에서는 Firebase를 절대 link하지 않는다 (메모리 한계 + 미링크 심볼).
-// SWIFT_ACTIVE_COMPILATION_CONDITIONS = KEYBOARD_EXTENSION 플래그로 ext 빌드 제외.
-#if !KEYBOARD_EXTENSION && canImport(FirebaseAnalytics)
-import FirebaseAnalytics
-#endif
 
-/// 추적할 이벤트 이름 — Firebase 표준 이름 (snake_case, 40자 이내)
+/// 추적할 이벤트 이름 — 표준 이름 (snake_case, 40자 이내)
 enum AnalyticsEvent: String {
     /// Paywall 화면 노출
     case paywallView = "paywall_view"
@@ -70,18 +65,13 @@ enum AnalyticsService {
         let stringKeyParams = parameters.reduce(into: [String: Any]()) { result, pair in
             result[pair.key.rawValue] = pair.value
         }
-        #if !KEYBOARD_EXTENSION && canImport(FirebaseAnalytics)
-        Analytics.logEvent(event.rawValue, parameters: stringKeyParams)
-        #endif
-        // dev 빌드 콘솔 확인용
+        // Firebase 제거됨 — 현재는 콘솔 로깅만 (백엔드 교체 지점)
         print("📊 [Analytics] \(event.rawValue) \(stringKeyParams)")
     }
 
     /// 사용자가 의도적으로 분석 거부 — UserDefaults 토글로 제어 가능 (향후 옵션)
     static func setCollectionEnabled(_ enabled: Bool) {
-        #if !KEYBOARD_EXTENSION && canImport(FirebaseAnalytics)
-        Analytics.setAnalyticsCollectionEnabled(enabled)
-        #endif
+        print("📊 [Analytics] setCollectionEnabled=\(enabled)")
     }
 
     // MARK: - Convenience
@@ -203,9 +193,7 @@ enum AnalyticsService {
     }
 
     private static func setUserProperty(_ value: String, forName name: String) {
-        #if !KEYBOARD_EXTENSION && canImport(FirebaseAnalytics)
-        Analytics.setUserProperty(value, forName: name)
-        #endif
+        // Firebase 제거됨 — 현재는 콘솔 로깅만 (백엔드 교체 지점)
         print("📊 [Analytics] userProperty \(name)=\(value)")
     }
 }

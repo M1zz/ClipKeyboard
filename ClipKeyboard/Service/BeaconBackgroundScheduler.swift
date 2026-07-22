@@ -3,8 +3,8 @@
 //  ClipKeyboard
 //
 //  키보드 익스텐션이 App Group에 쌓은 사용 비콘을 메인 앱이 백그라운드에서
-//  주기적으로 깨어나 Firebase로 flush. 메인 앱 launch에 의존하지 않아도
-//  키보드만 사용하는 유저의 DAU/WAU 추적 가능.
+//  주기적으로 깨어나 flush (AnalyticsService, 현재 no-op). 메인 앱 launch에
+//  의존하지 않아도 키보드만 사용하는 유저의 DAU/WAU 추적 가능.
 //
 //  iOS는 사용자 행동 패턴 + 배터리 상태 등을 고려해 task 실행 빈도를
 //  자체 결정 (보통 하루 1~2회). 항상 즉시 실행되지 않으니 메인 앱 launch
@@ -61,7 +61,7 @@ enum BeaconBackgroundScheduler {
         // 다음 task는 무조건 미리 예약 (이번 task가 실패하더라도 체인 유지)
         scheduleNext()
 
-        // 비콘 flush — Firebase Analytics로 keyboard_used 이벤트 전송
+        // 비콘 flush — keyboard_used 이벤트 (AnalyticsService, 현재 no-op)
         AnalyticsService.flushKeyboardBeacon()
 
         task.setTaskCompleted(success: true)

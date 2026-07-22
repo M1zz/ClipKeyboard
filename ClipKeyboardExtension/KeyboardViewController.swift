@@ -474,7 +474,7 @@ class KeyboardViewController: UIInputViewController {
         view.layoutIfNeeded()
         // 호스트 필드가 이미 텍스트를 가진 채로 키보드가 떴을 때도 X 버튼이 즉시 보이도록 초기 상태 반영
         updateHasTextState()
-        // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Firebase로 전송)
+        // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)
         KeyboardBeacon.recordUse()
         // 햅틱 엔진 사전 깨우기 — 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()

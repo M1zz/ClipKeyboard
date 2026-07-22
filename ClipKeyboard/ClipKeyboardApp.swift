@@ -9,10 +9,6 @@ import SwiftUI
 import TipKit
 import WidgetKit
 import LeeoKit
-// 키보드 ext에서는 Firebase 미사용 (KEYBOARD_EXTENSION 플래그로 제외)
-#if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
-import FirebaseCore
-#endif
 
 @main
 struct ClipKeyboardApp: App {
@@ -36,7 +32,7 @@ struct ClipKeyboardApp: App {
 
     /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
-    /// 일반 실행에는 없다. 테스트 중에는 Firebase·스케줄러·마이그레이션 등 무거운
+    /// 일반 실행에는 없다. 테스트 중에는 스케줄러·마이그레이션 등 무거운
     /// 런치 작업을 건너뛰어 테스트 러너가 곧바로 연결되게 한다.
     static let isRunningUnitTests: Bool =
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
@@ -54,16 +50,7 @@ struct ClipKeyboardApp: App {
         // 레거시 키(isCombo/comboValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
         migrateComboModelIfNeeded()
 
-        // Firebase 초기화 — GoogleService-Info.plist 자동 로드
-        // Analytics 데이터 수집 여부는 Firebase Console 설정에 따름
-        #if !KEYBOARD_EXTENSION && canImport(FirebaseCore)
-        if FirebaseApp.app() == nil {
-            FirebaseApp.configure()
-            print("🔥 [APP INIT] FirebaseApp 초기화 완료")
-        }
-        #endif
-
-        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 Firebase로 보냄
+        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (Analytics는 현재 no-op)
         AnalyticsService.flushKeyboardBeacon()
 
         // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.

@@ -48,18 +48,12 @@
 		587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
-		58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
-		58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
 		58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */; };
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
-		58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */; };
-		58CC36AE2F9E6A880010DE3E /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AD2F9E6A880010DE3E /* FirebaseAnalyticsCore */; };
-		58CC36B02F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36AF2F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport */; };
-		58CC36B22F9E6A880010DE3E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 58CC36B12F9E6A880010DE3E /* FirebaseCore */; };
 		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
 		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
 		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
@@ -240,7 +234,6 @@
 		587BDC4F2A1D0D40001464E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		587BDC5A2A1FCA10001464E4 /* ClipKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboard.entitlements; sourceTree = "<group>"; };
 		587BDC5B2A1FCA1B001464E4 /* ClipKeyboardExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardExtension.entitlements; sourceTree = "<group>"; };
-		58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		58AA11112B4D1A2100000005 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		58C473382A109F0D009D87BC /* ClipKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardApp.swift; sourceTree = "<group>"; };
@@ -414,10 +407,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58CC36B02F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport in Frameworks */,
-				58CC36B22F9E6A880010DE3E /* FirebaseCore in Frameworks */,
-				58CC36AC2F9E6A880010DE3E /* FirebaseAnalytics in Frameworks */,
-				58CC36AE2F9E6A880010DE3E /* FirebaseAnalyticsCore in Frameworks */,
 				581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */,
 				AE5842069AF6EFC0CDB0199E /* LeeoKit in Frameworks */,
 			);
@@ -549,7 +538,6 @@
 		58C4733A2A109F0D009D87BC /* ClipKeyboard */ = {
 			isa = PBXGroup;
 			children = (
-				58A7F1D42F9E52B300636B7B /* GoogleService-Info.plist */,
 				5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */,
 				587BDC5A2A1FCA10001464E4 /* ClipKeyboard.entitlements */,
 				581550622AD5321F00A6115B /* Constants.swift */,
@@ -980,7 +968,6 @@
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
-				58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
@@ -1013,7 +1000,6 @@
 				58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */,
 				581550612AD52D6800A6115C /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF2 /* InfoPlist.strings in Resources */,
-				58A7F1D62F9E52B300636B7B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1025,7 +1011,6 @@
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
-				58A7F1D52F9E52B300636B7B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1888,42 +1873,11 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 12.12.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
-		};
-		58CC36AB2F9E6A880010DE3E /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		58CC36AD2F9E6A880010DE3E /* FirebaseAnalyticsCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsCore;
-		};
-		58CC36AF2F9E6A880010DE3E /* FirebaseAnalyticsIdentitySupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsIdentitySupport;
-		};
-		58CC36B12F9E6A880010DE3E /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 58CC36AA2F9E6A880010DE3E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;

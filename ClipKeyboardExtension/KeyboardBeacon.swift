@@ -3,7 +3,7 @@
 //  ClipKeyboardExtension
 //
 //  키보드 익스텐션 사용 비콘 — App Group UserDefaults에 timestamp만 기록.
-//  메인 앱이 launch 시 읽어 Firebase Analytics로 전송 (KeyboardBeaconReader).
+//  메인 앱이 launch 시 읽어 Analytics로 전송 (KeyboardBeaconReader, 현재 no-op).
 //
 //  익스텐션은 분석 SDK 없이 단순 write만 — 메모리·심사·프라이버시 리스크 회피.
 //
