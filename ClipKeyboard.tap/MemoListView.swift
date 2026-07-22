@@ -57,117 +57,22 @@ struct MemoListView: View {
     /// 드래그 순서 변경 가능 여부 — 검색 중일 땐 결과 순서를 흐트러뜨리지 않도록 잠근다.
     private var canReorder: Bool { searchText.isEmpty }
 
+    /// onMove 핸들러 — MainActor 격리 메서드(moveMemos)와 타입을 일치시키려 @MainActor로 명시.
+    /// 삼항(메서드 참조 vs nil) 공통타입 추론 실패를 막는다.
+    private var reorderHandler: (@MainActor (IndexSet, Int) -> Void)? {
+        if canReorder {
+            return moveMemos
+        } else {
+            return nil
+        }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
-                // 컴팩트 헤더
-                VStack(spacing: 6) {
-                    HStack {
-                        Image(systemName: AppSymbol.docOnClipboardFill)
-                            .font(.system(.body))
-                            .foregroundStyle(.blue)
-
-                        Text(NSLocalizedString("단축어", comment: "Snippets section header"))
-                            .font(.headline)
-                            .bold()
-
-                        Spacer()
-
-                        Text("\(filteredMemos.count)")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        // 카테고리 선택
-                        Picker("", selection: $selectedCategory) {
-                            ForEach(categories, id: \.self) { category in
-                                Text(category == "전체" ? NSLocalizedString("전체", comment: "All categories") : (ClipboardItemType(rawValue: category)?.localizedName ?? category)).tag(category)
-                            }
-                        }
-                        .frame(width: 80)
-                        .controlSize(.small)
-                    }
-
-                    // 컴팩트 검색 바
-                    HStack(spacing: 4) {
-                        Image(systemName: AppSymbol.magnifyingglass)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-
-                        TextField(NSLocalizedString("검색", comment: "Search placeholder"), text: $searchText)
-                            .textFieldStyle(.plain)
-                            .font(.caption)
-
-                        if !searchText.isEmpty {
-                            Button {
-                                searchText = ""
-                            } label: {
-                                Image(systemName: AppSymbol.xmarkCircleFill)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(4)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(MacRadius.xs)
-                }
-                .padding(8)
-
-                Divider()
-
-                // 무료 유저: 숨겨진 메모 배너
-                if isFreeUser && hiddenMemoCount > 0 {
-                    HStack(spacing: 6) {
-                        Image(systemName: AppSymbol.lockFill)
-                            .font(.system(.caption))
-                        Text(String(format: NSLocalizedString("%d개 단축어 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
-                            .font(.system(.caption))
-                        Spacer()
-                    }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 5)
-                    .background(Color.orange.opacity(0.85))
-                }
-
-                // 리스트
-                if filteredMemos.isEmpty {
-                    CompactEmptyListView
-                } else {
-                    List {
-                        ForEach(filteredMemos) { memo in
-                            CompactMemoItemRow(memo: memo) {
-                                if memo.contentType == .image {
-                                    copyImageToClipboard(memo)
-                                } else if memo.isSecure {
-                                    // 보안 메모: Touch ID 인증 + 복호화 후 복사
-                                    MacSecureAccess.resolveForPaste(memo) { resolved in
-                                        if let resolved { copyToClipboard(resolved) }
-                                    }
-                                } else if memo.hasCustomPlaceholders {
-                                    fillMemo = memo
-                                } else {
-                                    copyToClipboard(memo.resolvedForPaste())
-                                }
-                            }
-                        }
-                        // 드래그로 순서 변경 — 지정한 순서는 App Group을 통해 iOS·키보드와 공유된다.
-                        .onMove(perform: canReorder ? moveMemos : nil)
-                    }
-                    .listStyle(.plain)
-
-                    // 순서 변경 안내 — 검색 중이 아닐 때만.
-                    if canReorder && filteredMemos.count > 1 {
-                        HStack(spacing: 4) {
-                            Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
-                            Text(NSLocalizedString("드래그하여 순서를 바꿀 수 있어요", comment: "Mac reorder hint"))
-                        }
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 5)
-                    }
-                }
+            headerSection
+            Divider()
+            lockedBanner
+            listSection
         }
         .frame(minWidth: 360, minHeight: 420)
         .sheet(item: $fillMemo) { memo in
@@ -193,6 +98,146 @@ struct MemoListView: View {
             print("⚠️ [MemoListView] onDisappear - 뷰 비활성화 시작")
             isViewActive = false
             print("✅ [MemoListView] onDisappear - 뷰 비활성화 완료")
+        }
+    }
+
+    // MARK: - Sections (타입체커 부하 분산 — body를 작은 서브뷰로 분리)
+
+    /// 컴팩트 헤더 (타이틀·개수·카테고리 Picker + 검색 바)
+    private var headerSection: some View {
+        VStack(spacing: 6) {
+            HStack {
+                Image(systemName: AppSymbol.docOnClipboardFill)
+                    .font(.system(.body))
+                    .foregroundStyle(.blue)
+
+                Text(NSLocalizedString("단축어", comment: "Snippets section header"))
+                    .font(.headline)
+                    .bold()
+
+                Spacer()
+
+                Text("\(filteredMemos.count)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                categoryPicker
+            }
+
+            searchBar
+        }
+        .padding(8)
+    }
+
+    /// 카테고리 선택 Picker
+    private var categoryPicker: some View {
+        Picker("", selection: $selectedCategory) {
+            ForEach(categories, id: \.self) { category in
+                categoryLabel(category).tag(category)
+            }
+        }
+        .frame(width: 80)
+        .controlSize(.small)
+    }
+
+    /// Picker 항목 라벨 — 중첩 삼항/옵셔널 체인을 헬퍼로 분리해 타입체커 부담을 낮춘다.
+    private func categoryLabel(_ category: String) -> Text {
+        if category == "전체" {
+            return Text(NSLocalizedString("전체", comment: "All categories"))
+        }
+        let localized = ClipboardItemType(rawValue: category)?.localizedName ?? category
+        return Text(localized)
+    }
+
+    /// 컴팩트 검색 바
+    private var searchBar: some View {
+        HStack(spacing: 4) {
+            Image(systemName: AppSymbol.magnifyingglass)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            TextField(NSLocalizedString("검색", comment: "Search placeholder"), text: $searchText)
+                .textFieldStyle(.plain)
+                .font(.caption)
+
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                } label: {
+                    Image(systemName: AppSymbol.xmarkCircleFill)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(4)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(MacRadius.xs)
+    }
+
+    /// 무료 유저: 숨겨진 메모 잠금 배너 (조건 미충족 시 빈 뷰)
+    @ViewBuilder
+    private var lockedBanner: some View {
+        if isFreeUser && hiddenMemoCount > 0 {
+            HStack(spacing: 6) {
+                Image(systemName: AppSymbol.lockFill)
+                    .font(.system(.caption))
+                Text(String(format: NSLocalizedString("%d개 단축어 잠김 — iOS에서 Pro 구매 시 동기화됩니다", comment: "Locked memos banner"), hiddenMemoCount))
+                    .font(.system(.caption))
+                Spacer()
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 5)
+            .background(Color.orange.opacity(0.85))
+        }
+    }
+
+    /// 메모 리스트 (비었으면 빈 상태, 아니면 List + 순서변경 안내)
+    @ViewBuilder
+    private var listSection: some View {
+        if filteredMemos.isEmpty {
+            CompactEmptyListView
+        } else {
+            List {
+                ForEach(filteredMemos) { memo in
+                    CompactMemoItemRow(memo: memo) {
+                        handleMemoTap(memo)
+                    }
+                }
+                // 드래그로 순서 변경 — 지정한 순서는 App Group을 통해 iOS·키보드와 공유된다.
+                .onMove(perform: reorderHandler)
+            }
+            .listStyle(.plain)
+
+            // 순서 변경 안내 — 검색 중이 아닐 때만.
+            if canReorder && filteredMemos.count > 1 {
+                HStack(spacing: 4) {
+                    Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
+                    Text(NSLocalizedString("드래그하여 순서를 바꿀 수 있어요", comment: "Mac reorder hint"))
+                }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 5)
+            }
+        }
+    }
+
+    /// 메모 탭 시 동작 — 이미지/보안/플레이스홀더/일반 분기.
+    private func handleMemoTap(_ memo: Memo) {
+        if memo.contentType == .image {
+            copyImageToClipboard(memo)
+        } else if memo.isSecure {
+            // 보안 메모: Touch ID 인증 + 복호화 후 복사
+            MacSecureAccess.resolveForPaste(memo) { resolved in
+                if let resolved { copyToClipboard(resolved) }
+            }
+        } else if memo.hasCustomPlaceholders {
+            fillMemo = memo
+        } else {
+            copyToClipboard(memo.resolvedForPaste())
         }
     }
 
