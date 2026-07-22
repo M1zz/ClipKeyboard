@@ -353,17 +353,6 @@
 			path = widget;
 			sourceTree = "<group>";
 		};
-		58FBB90B2ED9AD0B004231BE /* ClipKeyboard.tap */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = ClipKeyboard.tap;
-			sourceTree = "<group>";
-		};
 		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -409,13 +398,6 @@
 			files = (
 				581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */,
 				AE5842069AF6EFC0CDB0199E /* LeeoKit in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58FBB9072ED9AD0B004231BE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,7 +494,6 @@
 			children = (
 				58C4733A2A109F0D009D87BC /* ClipKeyboard */,
 				587BDC4C2A1D0D40001464E4 /* ClipKeyboardExtension */,
-				58FBB90B2ED9AD0B004231BE /* ClipKeyboard.tap */,
 				9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */,
 				587384882F2E7AD40042ECA4 /* widget */,
 				587384832F2E7AD40042ECA4 /* Frameworks */,
@@ -886,26 +867,6 @@
 			productReference = 58C473382A109F0D009D87BC /* ClipKeyboard.app */;
 			productType = "com.apple.product-type.application";
 		};
-		58FBB9092ED9AD0B004231BE /* ClipKeyboard.tap */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 58FBB9142ED9AD0C004231BE /* Build configuration list for PBXNativeTarget "ClipKeyboard.tap" */;
-			buildPhases = (
-				58FBB9062ED9AD0B004231BE /* Sources */,
-				58FBB9072ED9AD0B004231BE /* Frameworks */,
-				58FBB9082ED9AD0B004231BE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				58FBB90B2ED9AD0B004231BE /* ClipKeyboard.tap */,
-			);
-			name = ClipKeyboard.tap;
-			productName = ClipKeyboard.tap;
-			productReference = 58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */;
-			productType = "com.apple.product-type.application";
-		};
 		9CA0A4022F19D9B3004ABF40 /* ClipKeyboardTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9CA0A4092F19D9B3004ABF40 /* Build configuration list for PBXNativeTarget "ClipKeyboardTests" */;
@@ -977,7 +938,6 @@
 				58C473372A109F0C009D87BC /* ClipKeyboard */,
 				587BDC4A2A1D0D40001464E4 /* ClipKeyboardExtension */,
 				587384812F2E7AD40042ECA4 /* widgetExtension */,
-				58FBB9092ED9AD0B004231BE /* ClipKeyboard.tap */,
 				9CA0A4022F19D9B3004ABF40 /* ClipKeyboardTests */,
 				3A4A34AD566CBB66599037E0 /* ClipKeyboardShareExtension */,
 			);
@@ -1011,13 +971,6 @@
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58FBB9082ED9AD0B004231BE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1204,20 +1157,6 @@
 				27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */,
 				F31844F53A9D5BB7B30ADF4A /* DraftStore.swift in Sources */,
 				3E5846FE833B2A6EC5105545 /* DraftListView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		58FBB9062ED9AD0B004231BE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F426424E03B0996E9B925514 /* AppGroup.swift in Sources */,
-				11548674315F558BE77AC6F4 /* AppSymbol.swift in Sources */,
-				057348AF13593E8FA5040ECB /* DefaultsKey.swift in Sources */,
-				E31CF82342F786CEF22B643B /* AppNotification.swift in Sources */,
-				A8D416BFF3390523346663DC /* StorageFile.swift in Sources */,
-				8BFE3420AEF7D36B02A8202D /* MemoSyncCore.swift in Sources */,
-				AE69AC36C8576267E4F526D1 /* MemoSyncEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1833,15 +1772,6 @@
 			buildConfigurations = (
 				58C4735D2A109F0E009D87BC /* Debug */,
 				58C4735E2A109F0E009D87BC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		58FBB9142ED9AD0C004231BE /* Build configuration list for PBXNativeTarget "ClipKeyboard.tap" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				58FBB9122ED9AD0C004231BE /* Debug */,
-				58FBB9132ED9AD0C004231BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
