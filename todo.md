@@ -3,7 +3,7 @@
 ## 📂 빈 카테고리 탭 스와이프 이동 + 4.4.0 빌드7 (2026-07-22, 커밋 대기)
 - [x] 카테고리 관리에서 토글 켠 사용자 카테고리는 **메모가 없어도** 탭 노출(스와이프 이동 가능) — `allCategoryTabs`에서 메모 ≥1 조건 제거 (빈 상태 화면·추가 카드는 기존 것 그대로)
 - [x] 버전: Version.xcconfig 빌드번호 6→7 (마케팅 4.4.0 유지)
-- [ ] ⚠️ stale 고아 `Config/Version.xcconfig`(4.3.4/5) 발견 — 어디서도 참조 안 됨. 삭제 여부 확인 필요
+- [x] stale 고아 `Config/Version.xcconfig`(4.3.4/5) 삭제 — 정본은 root Version.xcconfig 단일 소스
 
 ## 🐛 피드백 완료 처리 "WRITE not permitted" 수정 (2026-07-22, LeeoKit 커밋 대기)
 - [x] 원인: 완료 처리가 공개 DB의 **남이 만든 레코드**에 `status="done"` 서버 저장 시도 → permissionFailure(WRITE not permitted)
