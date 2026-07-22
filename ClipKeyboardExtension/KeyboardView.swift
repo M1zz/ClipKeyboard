@@ -214,6 +214,8 @@ struct KeyboardView: View {
     @State private var searchQuery: String = ""
     @State private var isSearching: Bool = false
     @State private var searchKeyboardLang: SearchLang = .english
+    /// 검색창 한글 조합기 — 자모 버튼 입력을 음절로 결합해 searchQuery에 반영(그대로 append 시 "ㅇㅣㄴㅅㅏ" 깨짐 방지).
+    @State private var hangul = HangulSearchController()
 
     // v4.1.0: 카테고리 swipe 현재 페이지 인덱스 (즐겨찾기 별 토글은 제거됨)
     @State private var currentCategoryPage: Int = 0
@@ -668,6 +670,7 @@ struct KeyboardView: View {
                 Spacer(minLength: 0)
                 Button {
                     KeyboardHaptics.softTap()
+                    hangul.reset()
                     searchQuery = ""
                     isSearching = false
                 } label: {
@@ -756,6 +759,7 @@ struct KeyboardView: View {
     private var emptyStateEscape: (label: String, handler: () -> Void)? {
         if !searchQuery.isEmpty {
             return (NSLocalizedString("Clear search", comment: "Empty escape: clear search"), {
+                hangul.reset()
                 searchQuery = ""
                 isSearching = false
             })
@@ -824,7 +828,9 @@ struct KeyboardView: View {
     private func searchKey(letter: String) -> some View {
         Button {
             KeyboardHaptics.tap()
-            searchQuery.append(letter)
+            // 자모/영문 모두 조합기로 라우팅 — 한글은 음절로 결합, 영문은 현재 음절 확정 후 삽입.
+            if let ch = letter.first { hangul.input(ch) }
+            searchQuery = hangul.buffer
         } label: {
             Text(letter)
                 .font(.subheadline.weight(.medium))
@@ -838,7 +844,8 @@ struct KeyboardView: View {
     private var spaceKey: some View {
         Button {
             KeyboardHaptics.tap()
-            searchQuery.append(" ")
+            hangul.input(" ")   // 현재 조합 중인 음절을 확정하고 공백 삽입.
+            searchQuery = hangul.buffer
         } label: {
             HStack {
                 Spacer()
@@ -857,7 +864,8 @@ struct KeyboardView: View {
     private var backspaceKey: some View {
         Button {
             KeyboardHaptics.tap()
-            if !searchQuery.isEmpty { searchQuery.removeLast() }
+            hangul.backspace()   // 조합 중이면 한 단계 되돌리고, 아니면 마지막 글자 삭제.
+            searchQuery = hangul.buffer
         } label: {
             Image(systemName: AppSymbol.deleteLeftFill)
                 .font(.footnote.weight(.semibold))
@@ -872,6 +880,7 @@ struct KeyboardView: View {
     private var langToggleKey: some View {
         Button {
             KeyboardHaptics.softTap()
+            hangul.commitComposition()   // 전환 전 진행 중이던 음절을 확정(반쪽 음절이 다른 언어와 이어지지 않게).
             searchKeyboardLang = (searchKeyboardLang == .english) ? .korean : .english
         } label: {
             Text(searchKeyboardLang == .english ? "한" : "EN")
@@ -1141,6 +1150,7 @@ struct KeyboardView: View {
 
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
+                hangul.reset()
                 searchQuery = ""
                 isSearching = false
             }
@@ -1648,4 +1658,37 @@ extension String {
         }
         return out
     }
+}
+
+// MARK: - Search Hangul Composition
+
+/// 검색창 한글 조합 컨트롤러.
+/// 검색 미니 키보드는 자모 버튼을 직접 누르는 방식이라, 자모를 그대로 append하면
+/// "인사"가 "ㅇㅣㄴㅅㅏ"처럼 깨진다. 메인 입력과 동일한 `HangulComposer`(2벌식 오토마타)에
+/// 통과시켜 자모를 음절로 조합한 뒤 `buffer`(가시 검색 텍스트)에 반영한다.
+final class HangulSearchController: HangulInputProxy {
+    /// 조합 결과가 반영된 검색 문자열 — 화면에 보이는 텍스트와 항상 일치.
+    private(set) var buffer: String = ""
+    private let composer = HangulComposer()
+
+    init() { composer.proxy = self }
+
+    /// 키 한 글자 입력 — 한글 자모는 조합되고, 영문·숫자·기호·스페이스는 현재 음절을 확정 후 그대로 삽입.
+    func input(_ character: Character) { composer.input(character) }
+
+    /// 백스페이스 — 조합 중이면 한 단계 되돌리고, 아니면 마지막 글자 삭제.
+    func backspace() { composer.backspace() }
+
+    /// 진행 중인 조합만 확정(버퍼는 유지) — 입력 언어 전환 시 반쪽 음절이 이어지지 않게 한다.
+    func commitComposition() { composer.commit() }
+
+    /// 검색 초기화 — 조합 상태와 버퍼를 모두 비운다.
+    func reset() {
+        composer.commit()
+        buffer = ""
+    }
+
+    // MARK: HangulInputProxy
+    func insertText(_ text: String) { buffer.append(text) }
+    func deleteBackward() { if !buffer.isEmpty { buffer.removeLast() } }
 }
