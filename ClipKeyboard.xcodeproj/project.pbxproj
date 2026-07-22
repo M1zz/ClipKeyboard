@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		057348AF13593E8FA5040ECB /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		06B3FF70D58722B3CBDDA128 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		077DAE30BB547E3CBF3CDCAA /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */; };
 		0A839CB4770AA10B52CBAA72 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
 		0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616238CD1282F3D06FC7E369 /* BulkImportView.swift */; };
 		11527193B51F40B39A530C1D /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11527193B51F40B39A530C1C /* MemoRepository.swift */; };
-		11548674315F558BE77AC6F4 /* AppSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80B27002654B5731B9DDCAF /* AppSymbol.swift */; };
 		1752832F621F4C72961F0FA1 /* AppGroupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */; };
 		256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
@@ -84,14 +82,12 @@
 		77878F9F433DEDEF41AF32DB /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
 		82DB8CDD2D0F443CAE408631 /* MemoRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */; };
 		8BA9C9627290F74A1AADD0EB /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
-		8BFE3420AEF7D36B02A8202D /* MemoSyncCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050AEED88220E19330F5B15C /* MemoSyncCore.swift */; };
 		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
 		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
 		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
 		9D0BB0BE6D68341619045BC3 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11Y00012F0000000000000000 /* AccessibilityGuideView.swift */; };
 		A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
-		A8D416BFF3390523346663DC /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000001F3B00001 /* ReviewRequestView.swift */; };
 		AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000600000001F3B00002 /* UsageGuideView.swift */; };
 		AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000800000001F3B00002 /* PersonaGuideData.swift */; };
@@ -106,7 +102,6 @@
 		AA00002100000001F3B00007 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
 		AB64057C0B952E134F0ECE06 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
 		AE5842069AF6EFC0CDB0199E /* LeeoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 200BEA660FD1597D062B0754 /* LeeoKit */; };
-		AE69AC36C8576267E4F526D1 /* MemoSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */; };
 		AIC0BUILD000000000000004 /* AIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIC0FILE0000000000000004 /* AIComponents.swift */; };
 		AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */; };
 		AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIV0FILE0000000000000003 /* AISettingsView.swift */; };
@@ -121,12 +116,10 @@
 		DB9369B530D061A24ABCD298 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D663A47B0F30561381AFD709 /* Foundation.framework */; };
 		DC74E10AEFDB32B44493A01E /* ClipKeyboardShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396EB22C5749F763307098D /* ShareViewController.swift */; };
-		E31CF82342F786CEF22B643B /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */; };
 		E93A9A4F98E99C1C0644B05E /* MemoSyncCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050AEED88220E19330F5B15C /* MemoSyncCore.swift */; };
 		EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EP00001A2F0000000000000003 /* EmojiPicker.swift */; };
 		F31844F53A9D5BB7B30ADF4A /* DraftStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A875E559BF8538E7E299AB9 /* DraftStore.swift */; };
-		F426424E03B0996E9B925514 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
 		FA000002000000000000BBB1 /* NavigationThemeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA000002000000000000AAA1 /* NavigationThemeModifier.swift */; };
 		FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00001A2F0000000000000001 /* FeedbackView.swift */; };
 		FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */; };
@@ -850,7 +843,6 @@
 				58C473352A109F0C009D87BC /* Frameworks */,
 				58C473362A109F0C009D87BC /* Resources */,
 				587BDC392A1A7934001464E4 /* Embed Foundation Extensions */,
-				58CK00042B5E1A2100000003 /* Remove Keyboard Extension for Mac Catalyst */,
 			);
 			buildRules = (
 			);
@@ -990,28 +982,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		58CK00042B5E1A2100000003 /* Remove Keyboard Extension for Mac Catalyst */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove Keyboard Extension for Mac Catalyst";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Remove keyboard extension when building for Mac Catalyst\nif [ \"$SDKROOT\" == *\"MacOSX\"* ] || [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-maccatalyst\" ]; then\n    echo \"Building for Mac Catalyst - removing keyboard extension\"\n    rm -rf \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Contents/PlugIns/ClipKeyboardExtension.appex\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3759E070C7BD1D29ADAEFA00 /* Sources */ = {
@@ -1575,89 +1545,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		58FBB9122ED9AD0C004231BE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClipKeyboard.tap/ClipKeyboard.tap.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = macosx;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		58FBB9132ED9AD0C004231BE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClipKeyboard.tap/ClipKeyboard.tap.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEAD_CODE_STRIPPING = YES;
-				ENABLE_APP_SANDBOX = YES;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "클립키보드";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 26.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ysoup.TokenMemo-tap";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = macosx;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
