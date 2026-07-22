@@ -1,5 +1,31 @@
 # ClipKeyboard 진행 상황
 
+## 📂 빈 카테고리 탭 스와이프 이동 + 4.4.0 빌드7 (2026-07-22, 커밋 대기)
+- [x] 카테고리 관리에서 토글 켠 사용자 카테고리는 **메모가 없어도** 탭 노출(스와이프 이동 가능) — `allCategoryTabs`에서 메모 ≥1 조건 제거 (빈 상태 화면·추가 카드는 기존 것 그대로)
+- [x] 버전: Version.xcconfig 빌드번호 6→7 (마케팅 4.4.0 유지)
+- [ ] ⚠️ stale 고아 `Config/Version.xcconfig`(4.3.4/5) 발견 — 어디서도 참조 안 됨. 삭제 여부 확인 필요
+
+## 🐛 피드백 완료 처리 "WRITE not permitted" 수정 (2026-07-22, LeeoKit 커밋 대기)
+- [x] 원인: 완료 처리가 공개 DB의 **남이 만든 레코드**에 `status="done"` 서버 저장 시도 → permissionFailure(WRITE not permitted)
+- [x] B안: 완료 상태를 **이 기기 로컬(UserDefaults)** 에 저장 — `LeeoFeedbackService.setDoneLocal/isDoneLocally/loadLocalDoneIDs`, `fetchAll`에서 오버레이(레거시 서버 done 1회 흡수 후 로컬 단일 소스)
+- [x] `LeeoFeedbackInboxView.toggleDone` 서버 호출 제거 → 로컬 저장(에러 경로 없음), 안내 문구/카탈로그(ko/en/id/ja) 갱신
+- [x] `swift build` (LeeoKit 패키지) 통과 — 실제 타입 검증
+- [ ] ⚠️ 이 수정은 **LeeoKit 저장소(/Users/leeo/.../LeeoKit)** 에 있음 — 별도 커밋 필요. 앱은 로컬 패키지 참조라 앱 코드 변경 없음
+- [ ] 기기 확인: 인박스에서 완료 표시/해제 → 에러 없이 반영, 앱 재실행 후에도 유지 / 삭제는 여전히 admin 쓰기 권한 필요(별개)
+
+## ⌨️ 키보드 검색 한글 조합 깨짐 수정 (2026-07-22, 커밋 대기) — 피드백 반영
+- [x] 원인: 키보드 익스텐션 검색 미니 키보드가 자모를 조합 없이 `searchQuery.append` → "인사"가 "ㅇㅣㄴㅅㅏ"로 깨짐
+- [x] 수정: 기존 `HangulComposer`(2벌식 오토마타)를 검색 문자열용 `HangulSearchController`로 재사용 — 모든 검색 키 입력을 조합기로 라우팅(자모→음절 결합, 영문/공백은 확정 후 삽입), 백스페이스/언어전환/초기화 3곳도 조합기 경유
+- [x] syntax parse 통과 + 조합 로직 수기 추적 검증
+- [ ] 기기 확인: 키보드 검색에서 "한" 모드로 한글 입력 → 음절 정상 조합 + 검색 매칭 / 백스페이스 단계별 되돌림 / EN↔한 전환
+
+## 🖥️ 맥에서도 단축어 순서 바꾸기 (2026-07-22, 커밋 대기) — 피드백 반영
+- [x] 공유 헬퍼 `MacMemoOrder`(Models.swift) — App Group `memoManualOrder_v1` 읽기/쓰기, iOS `sortMemos`/`commitReorder`와 동일 규칙
+- [x] 세 화면 모두 iOS 수동 순서 반영: 메뉴바 팝오버·⌃⌥K 플로팅 패널·메인 창(`MemoListView`)
+- [x] 메인 창 `MemoListView`에 드래그 순서 변경(`.onMove`) + 안내 문구 — 바꾼 순서는 App Group 통해 iOS·키보드까지 공유
+- [ ] ⚠️ 빌드 검증 대기: 이 환경엔 `../LeeoKit` 로컬 패키지가 없어 full build 불가 → syntax parse만 통과. Xcode에서 macOS 타겟 빌드/실행 확인 필요
+- [ ] 기기 확인: 아이폰에서 순서 변경 → 맥 세 화면 반영 / 맥에서 드래그 → 아이폰·키보드 반영
+
 ## 🌐 랜딩페이지 전면 개편 (2026-07-17, 커밋 대기)
 - [x] docs/index.html 싹 개편 — 페르소나 템플릿 라이브러리 중심
   - 앱 PersonaGuideData.swift에서 스토리 자동 추출(ko/en × 4페르소나 × 10개) → JS 렌더링
