@@ -238,16 +238,10 @@ struct MemoAdd: View {
                     onAccept: { viewModel.acceptClipboardSuggestion() },
                     onDismiss: { viewModel.showClipboardSuggestion = false }
                 )
-                // 슬라이드로 들어오고, 5초 후 페이드 아웃으로 사라진다.
+                // 슬라이드로 들어오고, 사용/무시를 누를 때까지 유지된다(자동 사라짐 제거).
                 .transition(.asymmetric(
                     insertion: .move(edge: .top).combined(with: .opacity),
                     removal: .opacity))
-                .task {
-                    try? await Task.sleep(nanoseconds: 5_000_000_000)
-                    withAnimation(.easeOut(duration: 0.5)) {
-                        viewModel.showClipboardSuggestion = false
-                    }
-                }
             }
 
             ScrollView {
@@ -651,13 +645,20 @@ struct MemoAdd: View {
     private var templateSection: some View {
         if !viewModel.detectedPlaceholders.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 8) {
-                    Image(systemName: AppSymbol.infoCircleFill)
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                    Text(NSLocalizedString("템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요", comment: "Template variable instruction"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 8) {
+                        Image(systemName: AppSymbol.infoCircleFill)
+                            .font(.body)
+                            .foregroundColor(theme.textMuted)
+                        Text(NSLocalizedString("{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요", comment: "Template token explanation title"))
+                            .font(.body)
+                            .fontWeight(.semibold)
+                            .foregroundColor(theme.textMuted)
+                    }
+                    Text(NSLocalizedString("예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.", comment: "Template token vs plain text example"))
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 // 빠른 삽입 — 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
@@ -747,6 +748,12 @@ struct MemoAdd: View {
     private var variableTokenBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
+                // 이 버튼들은 "고정 텍스트"가 아니라 "쓸 때마다 채우는 칸"을 넣는다는 걸 명시.
+                Text(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
+                    .font(.caption)
+                    .foregroundColor(theme.textFaint)
+                    .fixedSize()
+                Divider().frame(height: 16)
                 templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: "{금액}")
                 templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: "{수량}")
                 templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: "{이름}")

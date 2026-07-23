@@ -30154,6 +30154,57 @@
           }
         }
       }
+    },
+    "쓸 때 채우는 칸": {
+      "comment": "Fill-in field label prefix for token bar",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fill-in field"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "쓸 때 채우는 칸"
+          }
+        }
+      }
+    },
+    "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요": {
+      "comment": "Template token explanation title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text inside { } becomes a blank you fill in each time you use it"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요"
+          }
+        }
+      }
+    },
+    "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
+      "comment": "Template token vs plain text example",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. “Deposit {amount}” → reuse the snippet, entering a new amount each time. Plain text like ‘amount’ stays fixed."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다."
+          }
+        }
+      }
     }
   },
   "version": "1.1"
