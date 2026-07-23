@@ -58,6 +58,8 @@ struct MemoAdd: View {
     @State private var showResetConfirm = false
     /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
     @State private var showAdvancedOptions: Bool = false
+    /// 기존 단축어를 골라 값으로 가져오는 시트.
+    @State private var showComboImport: Bool = false
 
     private var isQuickMode: Bool {
         // "템플릿으로 만들기"로 들어온 새 메모는 변수 삽입바가 있는 전체 모드로 시작한다.
@@ -612,10 +614,35 @@ struct MemoAdd: View {
                 .accessibilityLabel(NSLocalizedString("내용 더 넣기", comment: "Add another content value button"))
                 .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
 
+                // 기존 단축어 값 가져오기 — 이미 만든 단축어들을 골라 그 값을 이 콤보에 복사한다.
+                Button {
+                    HapticManager.shared.light()
+                    showComboImport = true
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "square.stack.3d.up")
+                        Text(NSLocalizedString("기존 단축어에서 가져오기", comment: "Import values from existing snippets"))
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(theme.textMuted)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: theme.radiusMd)
+                            .strokeBorder(theme.divider, lineWidth: 1)
+                    )
+                }
+                .buttonStyle(.plain)
+
                 if !viewModel.continuations.isEmpty {
                     Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
                         .font(.caption)
                         .foregroundColor(theme.textFaint)
+                }
+            }
+            .sheet(isPresented: $showComboImport) {
+                ComboImportSheet { values in
+                    viewModel.continuations.append(contentsOf: values)
                 }
             }
     }

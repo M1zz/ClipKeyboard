@@ -165,3 +165,86 @@ struct ComboPreviewSheet: View {
         loadedMemo = memos.first(where: { $0.id == comboId })
     }
 }
+
+// MARK: - Combo Import Sheet (기존 단축어를 골라 값으로 가져오기)
+
+/// 이미 만든 단축어들을 골라 그 값을 새 콤보의 값(단계)으로 복사한다.
+/// 값 복사 방식 — 원본과 링크되지 않는다(원본을 고쳐도 콤보는 그대로).
+struct ComboImportSheet: View {
+    /// 선택한 단축어들의 값(순서대로).
+    let onPick: ([String]) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+
+    @State private var memos: [Memo] = []
+    @State private var selected: Set<UUID> = []
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if memos.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "tray")
+                            .font(.system(size: 40))
+                            .foregroundColor(theme.textFaint)
+                        Text(NSLocalizedString("가져올 단축어가 없어요", comment: "No snippets to import"))
+                            .font(.body)
+                            .foregroundColor(theme.textMuted)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    List {
+                        ForEach(memos) { memo in
+                            Button {
+                                if selected.contains(memo.id) { selected.remove(memo.id) }
+                                else { selected.insert(memo.id) }
+                            } label: {
+                                HStack(spacing: 10) {
+                                    Image(systemName: selected.contains(memo.id) ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(selected.contains(memo.id) ? .accentColor : theme.textFaint)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(memo.title)
+                                            .font(.body)
+                                            .foregroundColor(theme.text)
+                                            .lineLimit(1)
+                                        Text(memo.value)
+                                            .font(.caption)
+                                            .foregroundColor(theme.textMuted)
+                                            .lineLimit(1)
+                                    }
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+            }
+            .navigationTitle(NSLocalizedString("기존 단축어 가져오기", comment: "Import from existing snippets title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("취소", comment: "Cancel button")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("추가", comment: "Add")) {
+                        // 선택 순서가 아니라 목록 순서로 값 복사.
+                        let values = memos.filter { selected.contains($0.id) }.map { $0.value }
+                        onPick(values)
+                        dismiss()
+                    }
+                    .disabled(selected.isEmpty)
+                }
+            }
+            .onAppear {
+                let all = (try? MemoStore.shared.load(type: .memo)) ?? []
+                // 텍스트 단축어만 — 보안(암호문)·이미지·콤보는 값 복사가 애매해 제외.
+                memos = all.filter {
+                    !$0.isSecure && $0.imageFileNames.isEmpty && !$0.isCombo
+                        && $0.contentType == .text && !$0.value.isEmpty
+                }
+            }
+        }
+    }
+}
