@@ -1010,8 +1010,9 @@ struct KeyboardView: View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let bypass = false
 
-        if isImageMemo && !imageFileName.isEmpty {
-            // 이미지 메모: 전체 배경으로 이미지 표시
+        if isImageMemo && !imageFileName.isEmpty && !(memo.isCombo && !memo.isSecure) {
+            // 이미지 메모(콤보 아님): 전체 배경으로 이미지 표시.
+            // 이미지+여러 값(콤보)이면 아래 분할 버튼으로 값을 넣게 하고, 이미지는 롱프레스로 복사.
             Button {
                 memoButtonAction(for: memo)
             } label: {

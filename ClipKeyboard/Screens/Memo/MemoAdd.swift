@@ -564,12 +564,9 @@ struct MemoAdd: View {
         }
     }
 
-    /// "내용 추가" — 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
-    /// 내용 입력칸 바로 아래에 배치 — 예전 큰 "이미지 추가" 버튼 자리를 대체한다.
-    /// (이미지 첨부는 내용 헤더의 아이콘으로 가능; 이미지 메모는 콤보가 될 수 없어 숨긴다.)
-    @ViewBuilder
+    /// "내용 더 넣기" — 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
+    /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
     private var continuationsSection: some View {
-        if viewModel.attachedImages.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(viewModel.continuations.indices, id: \.self) { idx in
                     HStack(spacing: 8) {
@@ -621,7 +618,6 @@ struct MemoAdd: View {
                         .foregroundColor(theme.textFaint)
                 }
             }
-        }
     }
 
     @ViewBuilder
