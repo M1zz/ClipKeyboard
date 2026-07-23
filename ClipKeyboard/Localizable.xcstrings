@@ -687,6 +687,23 @@
         }
       }
     },
+    "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요": {
+      "comment": "Template token explanation title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text inside { } becomes a blank you fill in each time you use it"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요"
+          }
+        }
+      }
+    },
     "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.": {
       "comment": "Template hint description",
       "extractionState": "manual",
@@ -11872,6 +11889,51 @@
         }
       }
     },
+    "가져오기 실패": {
+      "comment": "Bulk import failed alert title\nImport failed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import failed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gagal mengimpor"
+          }
+        }
+      }
+    },
+    "가져오기 완료": {
+      "comment": "Import completed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import Complete"
+          }
+        }
+      }
+    },
+    "가져올 단축어가 없어요": {
+      "comment": "No snippets to import",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No snippets to import"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가져올 단축어가 없어요"
+          }
+        }
+      }
+    },
     "간격": {
       "comment": "Interval label\nInterval picker label",
       "extractionState": "stale",
@@ -11903,34 +11965,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nilai"
-          }
-        }
-      }
-    },
-    "가져오기 실패": {
-      "comment": "Bulk import failed alert title\nImport failed",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Import failed"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gagal mengimpor"
-          }
-        }
-      }
-    },
-    "가져오기 완료": {
-      "comment": "Import completed",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Import Complete"
           }
         }
       }
@@ -13055,6 +13089,23 @@
         }
       }
     },
+    "기존 단축어 가져오기": {
+      "comment": "Import from existing snippets title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import from existing snippets"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기존 단축어 가져오기"
+          }
+        }
+      }
+    },
     "기존 단축어 남기기": {
       "comment": "Keep original snippet toggle",
       "localizations": {
@@ -13085,6 +13136,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Anda dapat memulihkan snippet Anda"
+          }
+        }
+      }
+    },
+    "기존 단축어에서 가져오기": {
+      "comment": "Import values from existing snippets",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import from existing snippets"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "기존 단축어에서 가져오기"
           }
         }
       }
@@ -13234,17 +13302,6 @@
         }
       }
     },
-    "끄기": {
-      "comment": "Nudge: turn off",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Off"
-          }
-        }
-      }
-    },
     "끄면 저장할 때 원본 단축어가 삭제돼요": {
       "comment": "Keep original snippet toggle description",
       "localizations": {
@@ -13274,6 +13331,17 @@
         "id": {
           "stringUnit": {
             "state": "needs_review",
+            "value": "Off"
+          }
+        }
+      }
+    },
+    "끄기": {
+      "comment": "Nudge: turn off",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
             "value": "Off"
           }
         }
@@ -20423,6 +20491,23 @@
         }
       }
     },
+    "쓸 때 채우는 칸": {
+      "comment": "Fill-in field label prefix for token bar",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fill-in field"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "쓸 때 채우는 칸"
+          }
+        }
+      }
+    },
     "아래 버튼을 누르면 Combo 값이 순서대로 입력되는 걸 볼 수 있어요": {
       "comment": "Practice preview placeholder",
       "extractionState": "stale",
@@ -21492,6 +21577,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "예: 회사 이메일, 송금 계좌"
+          }
+        }
+      }
+    },
+    "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
+      "comment": "Template token vs plain text example",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. “Deposit {amount}” → reuse the snippet, entering a new amount each time. Plain text like ‘amount’ stays fixed."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다."
           }
         }
       }
@@ -23936,17 +24038,6 @@
         }
       }
     },
-    "저장된 단축어 (키보드에서 보임)": {
-      "comment": "Saved memos hint label",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Your Snippets (shown in keyboard)"
-          }
-        }
-      }
-    },
     "저장된 단축어 목록 모드로 전환합니다": {
       "comment": "Memo mode tab hint",
       "extractionState": "stale",
@@ -23961,6 +24052,58 @@
           "stringUnit": {
             "state": "translated",
             "value": "Switch to saved snippet list mode."
+          }
+        }
+      }
+    },
+    "저장에 실패했습니다. 다시 시도해주세요.": {
+      "comment": "Memo save failed toast",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to save. Please try again."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gagal menyimpan. Silakan coba lagi."
+          }
+        }
+      }
+    },
+    "전": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ago"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전"
+          }
+        }
+      }
+    },
+    "저장된 단축어 (키보드에서 보임)": {
+      "comment": "Saved memos hint label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Snippets (shown in keyboard)"
           }
         }
       }
@@ -24050,23 +24193,6 @@
         }
       }
     },
-    "저장에 실패했습니다. 다시 시도해주세요.": {
-      "comment": "Memo save failed toast",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Failed to save. Please try again."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gagal menyimpan. Silakan coba lagi."
-          }
-        }
-      }
-    },
     "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요": {
       "comment": "Practice step 3 for nomad persona",
       "extractionState": "manual",
@@ -24081,30 +24207,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
-          }
-        }
-      }
-    },
-    "전": {
-      "comment": "Auto-registered",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ago"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "전"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "전"
           }
         }
       }
@@ -26157,24 +26259,6 @@
         }
       }
     },
-    "켜짐": {
-      "comment": "On",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "On"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aktif"
-          }
-        }
-      }
-    },
     "켬": {
       "comment": "Toggle state: on",
       "localizations": {
@@ -26205,6 +26289,24 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktifkan untuk juga mengetik bahasa Korea di keyboard"
+          }
+        }
+      }
+    },
+    "켜짐": {
+      "comment": "On",
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktif"
           }
         }
       }
@@ -28493,6 +28595,7 @@
     },
     "템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요": {
       "comment": "Template variable instruction",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -30104,104 +30207,155 @@
         }
       }
     },
-    "기존 단축어에서 가져오기": {
-      "comment": "Import values from existing snippets",
+    "{금액}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Import from existing snippets"
+            "value": "{amount}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "기존 단축어에서 가져오기"
+            "value": "{금액}"
           }
         }
       }
     },
-    "기존 단축어 가져오기": {
-      "comment": "Import from existing snippets title",
+    "{수량}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Import from existing snippets"
+            "value": "{quantity}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "기존 단축어 가져오기"
+            "value": "{수량}"
           }
         }
       }
     },
-    "가져올 단축어가 없어요": {
-      "comment": "No snippets to import",
+    "{가격}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No snippets to import"
+            "value": "{price}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "가져올 단축어가 없어요"
+            "value": "{가격}"
           }
         }
       }
     },
-    "쓸 때 채우는 칸": {
-      "comment": "Fill-in field label prefix for token bar",
+    "{이름}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fill-in field"
+            "value": "{name}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "쓸 때 채우는 칸"
+            "value": "{이름}"
           }
         }
       }
     },
-    "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요": {
-      "comment": "Template token explanation title",
+    "{메모}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Text inside { } becomes a blank you fill in each time you use it"
+            "value": "{memo}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요"
+            "value": "{메모}"
           }
         }
       }
     },
-    "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
-      "comment": "Template token vs plain text example",
+    "{주소}": {
+      "comment": "Template token variable",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "e.g. “Deposit {amount}” → reuse the snippet, entering a new amount each time. Plain text like ‘amount’ stays fixed."
+            "value": "{address}"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다."
+            "value": "{주소}"
+          }
+        }
+      }
+    },
+    "{날짜}": {
+      "comment": "Template token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{date}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{날짜}"
+          }
+        }
+      }
+    },
+    "{시간}": {
+      "comment": "Template token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{time}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{시간}"
+          }
+        }
+      }
+    },
+    "{전화}": {
+      "comment": "Template token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{phone}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{전화}"
           }
         }
       }

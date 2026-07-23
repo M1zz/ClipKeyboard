@@ -697,6 +697,8 @@ private struct TemplateFillRow: View {
 
     @Environment(\.appTheme) private var theme
     @State private var savedValues: [String] = []
+    /// "추가"용 입력칸 — 채울 값(value)과 분리해, 추가하면 비워진다.
+    @State private var newValue: String = ""
 
     private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
 
@@ -774,42 +776,44 @@ private struct TemplateFillRow: View {
 
     @ViewBuilder
     private var textSection: some View {
-        // 이름 등을 치고 "추가"를 누르면 아래 저장 칩으로 남아 다음에 바로 고를 수 있다.
-        // (예전엔 추가 버튼이 없어 툴바 '복사'만 활성화돼 헷갈렸음.)
+        // 값을 치고 "추가"를 누르면 저장 칩으로 남고, 방금 값이 채울 값으로 선택되며 입력칸은 비워진다.
         HStack(spacing: 8) {
-            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
+            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $newValue)
                 .textFieldStyle(.roundedBorder)
+                .onSubmit { addNewValue() }
             Button {
-                addCurrentValue()
+                addNewValue()
             } label: {
                 Text(NSLocalizedString("추가", comment: "Add button"))
                     .font(.body.weight(.semibold))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
-                    .background(canAddCurrent ? theme.accent : Color.gray.opacity(0.5))
-                    .foregroundColor(canAddCurrent ? theme.accentFg : .white)
+                    .background(canAddNew ? theme.accent : Color.gray.opacity(0.5))
+                    .foregroundColor(canAddNew ? theme.accentFg : .white)
                     .clipShape(Capsule())
             }
-            .disabled(!canAddCurrent)
+            .disabled(!canAddNew)
             .accessibilityHint(NSLocalizedString("입력한 값을 목록에 추가합니다", comment: "Add typed value to list hint"))
         }
         savedChips
     }
 
-    /// 입력값이 비어있지 않고 아직 저장 목록에 없을 때만 추가 가능.
-    private var canAddCurrent: Bool {
-        let v = value.trimmingCharacters(in: .whitespaces)
-        return !v.isEmpty && !savedValues.contains(v)
+    /// 입력칸이 비어있지 않으면 추가 가능.
+    private var canAddNew: Bool {
+        !newValue.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
-    /// 입력한 값을 저장 목록에 추가 — 칩으로 남고, 현재 값으로 선택 유지.
-    private func addCurrentValue() {
-        let v = value.trimmingCharacters(in: .whitespaces)
-        guard !v.isEmpty, !savedValues.contains(v) else { return }
-        MemoStore.shared.addPlaceholderValue(v, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+    /// 입력한 값을 저장 목록에 추가하고, 채울 값으로 선택한 뒤 입력칸을 비운다.
+    private func addNewValue() {
+        let v = newValue.trimmingCharacters(in: .whitespaces)
+        guard !v.isEmpty else { return }
+        if !savedValues.contains(v) {
+            MemoStore.shared.addPlaceholderValue(v, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+        }
+        value = v          // 방금 추가한 값을 채울 값으로 선택
+        newValue = ""      // 입력칸 비우기 (기본 동작)
         HapticManager.shared.selection()
         loadSaved()
-        value = v
     }
 
     // MARK: 저장값 칩 (공통)

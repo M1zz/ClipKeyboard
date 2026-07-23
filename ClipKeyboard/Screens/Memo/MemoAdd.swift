@@ -670,14 +670,14 @@ struct MemoAdd: View {
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            // 숫자 입력 타입
-                            quickInsertToken("{금액}", isNumeric: true)
-                            quickInsertToken("{수량}", isNumeric: true)
-                            quickInsertToken("{가격}", isNumeric: true)
+                            // 숫자 입력 타입 — 삽입 토큰도 로케일에 맞춤(영어는 {amount} 등).
+                            quickInsertToken(NSLocalizedString("{금액}", comment: "Amount token variable"), isNumeric: true)
+                            quickInsertToken(NSLocalizedString("{수량}", comment: "Quantity token variable"), isNumeric: true)
+                            quickInsertToken(NSLocalizedString("{가격}", comment: "Price token variable"), isNumeric: true)
                             // 텍스트 선택 타입
-                            quickInsertToken("{이름}", isNumeric: false)
-                            quickInsertToken("{메모}", isNumeric: false)
-                            quickInsertToken("{주소}", isNumeric: false)
+                            quickInsertToken(NSLocalizedString("{이름}", comment: "Name token variable"), isNumeric: false)
+                            quickInsertToken(NSLocalizedString("{메모}", comment: "Memo token variable"), isNumeric: false)
+                            quickInsertToken(NSLocalizedString("{주소}", comment: "Address token variable"), isNumeric: false)
                         }
                     }
 
@@ -754,13 +754,14 @@ struct MemoAdd: View {
                     .foregroundColor(theme.textFaint)
                     .fixedSize()
                 Divider().frame(height: 16)
-                templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: "{금액}")
-                templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: "{수량}")
-                templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: "{이름}")
-                templateButton(title: NSLocalizedString("날짜", comment: "Date token button"), variable: "{날짜}")
-                templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: "{시간}")
-                templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: "{주소}")
-                templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: "{전화}")
+                // 삽입되는 토큰도 로케일에 맞춘다 (영어는 {amount} 등). 프로세서가 양쪽 인식.
+                templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: NSLocalizedString("{금액}", comment: "Amount token variable"))
+                templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: NSLocalizedString("{수량}", comment: "Quantity token variable"))
+                templateButton(title: NSLocalizedString("이름", comment: "Name token button"), variable: NSLocalizedString("{이름}", comment: "Name token variable"))
+                templateButton(title: NSLocalizedString("날짜", comment: "Date token button"), variable: NSLocalizedString("{날짜}", comment: "Date token variable"))
+                templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: NSLocalizedString("{시간}", comment: "Time token variable"))
+                templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: NSLocalizedString("{주소}", comment: "Address token variable"))
+                templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: NSLocalizedString("{전화}", comment: "Phone token variable"))
             }
             .padding(.horizontal, 20)
         }
