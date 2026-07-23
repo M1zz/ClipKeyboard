@@ -265,7 +265,9 @@ class KeyboardViewController: UIInputViewController {
         print("📝 텍스트: \(text)")
         print("🆔 메모 ID: \(memoId)")
 
-        if handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
+        // skipCombo=true면(콤보 분할 버튼에서 값 하나만 삽입) 순차 자동입력을 건너뛴다.
+        let skipCombo = (userInfo["skipCombo"] as? Bool) ?? false
+        if !skipCombo, handleComboMemoIfNeeded(text: text, memoId: memoId) { return }
 
         let customPlaceholders = extractCustomPlaceholders(from: text)
         print("🔍 발견된 커스텀 플레이스홀더: \(customPlaceholders)")

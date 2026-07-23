@@ -30071,6 +30071,23 @@
           }
         }
       }
+    },
+    "왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요": {
+      "comment": "Combo split button hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the left to insert the current value; the arrow switches to the next value"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

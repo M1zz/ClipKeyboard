@@ -1032,6 +1032,21 @@ struct KeyboardView: View {
             } preview: { memoLongPressPreview(memo: memo) }
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
+        } else if memo.isCombo && !memo.isSecure {
+            // 여러 값(콤보) — 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
+            comboSplitButton(for: memo, catColor: catColor)
+                .contextMenu {
+                    Button {
+                        UIPasteboard.general.string = memo.comboValues.first ?? memo.value
+                        KeyboardHaptics.tap()
+                    } label: {
+                        Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
+                    }
+                } preview: {
+                    memoLongPressPreview(memo: memo)
+                }
+                .accessibilityLabel(memoAccessibilityLabel(for: memo))
+                .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
         } else {
             Button {
                 memoButtonAction(for: memo, bypassTemplate: bypass)
@@ -1051,6 +1066,100 @@ struct KeyboardView: View {
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         }
+    }
+
+    // MARK: - Combo Split Button (여러 값: 왼쪽 현재 값 삽입 / 오른쪽 → 다음 값)
+
+    /// 콤보(여러 값) 메모의 현재 선택 값 인덱스 — 메모별로 기억.
+    @State private var comboValueIndex: [UUID: Int] = [:]
+
+    private func comboSplitButton(for memo: Memo, catColor: Color?) -> some View {
+        let values = memo.comboValues.isEmpty ? [memo.value] : memo.comboValues
+        let idx = min(max(comboValueIndex[memo.id] ?? 0, 0), values.count - 1)
+        let current = values[idx]
+        return HStack(spacing: 0) {
+            // 왼쪽 2/3 — 현재 값 삽입
+            Button {
+                insertComboValue(memo: memo, value: current)
+            } label: {
+                VStack(spacing: 2) {
+                    Text(memo.title)
+                        .font(.system(size: buttonFontSize * 0.72, weight: .semibold))
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(1)
+                    Text(current.isEmpty ? "—" : current)
+                        .font(.system(size: buttonFontSize))
+                        .foregroundColor(theme.text)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 8)
+                .frame(height: buttonHeight)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlainButtonStyle())
+
+            Divider().frame(height: buttonHeight * 0.5)
+
+            // 오른쪽 1/3 — 다음 값으로 전환
+            Button {
+                advanceComboValue(memo: memo, count: values.count)
+            } label: {
+                VStack(spacing: 1) {
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: buttonFontSize * 0.9, weight: .semibold))
+                    Text("\(idx + 1)/\(values.count)")
+                        .font(.system(size: buttonFontSize * 0.6, weight: .medium))
+                }
+                .foregroundColor(theme.textMuted)
+                .frame(width: max(46, buttonHeight))
+                .frame(height: buttonHeight)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .foregroundColor(keyColor)
+                .overlay(
+                    Group {
+                        if let catColor {
+                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                                .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
+                        }
+                    }
+                )
+                .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusMd)
+                .strokeBorder(.orange, style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
+        )
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+    }
+
+    private func insertComboValue(memo: Memo, value: String) {
+        KeyboardHaptics.tap()
+        if isSearching {
+            withAnimation(.easeOut(duration: 0.18)) {
+                hangul.reset()
+                searchQuery = ""
+                isSearching = false
+            }
+        }
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "addTextEntry"),
+            object: value,
+            userInfo: ["memoId": memo.id, "skipCombo": true]
+        )
+    }
+
+    private func advanceComboValue(memo: Memo, count: Int) {
+        guard count > 0 else { return }
+        KeyboardHaptics.softTap()
+        let cur = comboValueIndex[memo.id] ?? 0
+        comboValueIndex[memo.id] = (cur + 1) % count
     }
 
     private func memoAccessibilityLabel(for memo: Memo) -> String {
