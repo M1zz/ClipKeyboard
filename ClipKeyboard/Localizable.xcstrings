@@ -704,6 +704,125 @@
         }
       }
     },
+    "{가격}": {
+      "comment": "Price token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{price}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{가격}"
+          }
+        }
+      }
+    },
+    "{금액}": {
+      "comment": "Amount token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{amount}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{금액}"
+          }
+        }
+      }
+    },
+    "{날짜}": {
+      "comment": "Date token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{date}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{날짜}"
+          }
+        }
+      }
+    },
+    "{메모}": {
+      "comment": "Memo token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{memo}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{메모}"
+          }
+        }
+      }
+    },
+    "{수량}": {
+      "comment": "Quantity token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{quantity}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{수량}"
+          }
+        }
+      }
+    },
+    "{시간}": {
+      "comment": "Time token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{time}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{시간}"
+          }
+        }
+      }
+    },
+    "{이름}": {
+      "comment": "Name token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{name}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{이름}"
+          }
+        }
+      }
+    },
     "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.": {
       "comment": "Template hint description",
       "extractionState": "manual",
@@ -718,6 +837,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요."
+          }
+        }
+      }
+    },
+    "{전화}": {
+      "comment": "Phone token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{phone}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{전화}"
+          }
+        }
+      }
+    },
+    "{주소}": {
+      "comment": "Address token variable",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{address}"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "{주소}"
           }
         }
       }
@@ -13302,19 +13455,13 @@
         }
       }
     },
-    "끄면 저장할 때 원본 단축어가 삭제돼요": {
-      "comment": "Keep original snippet toggle description",
+    "끄기": {
+      "comment": "Nudge: turn off",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Turn off to delete the original snippet when saving"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Matikan untuk menghapus snippet asli saat menyimpan"
+            "value": "Off"
           }
         }
       }
@@ -13336,13 +13483,19 @@
         }
       }
     },
-    "끄기": {
-      "comment": "Nudge: turn off",
+    "끄면 저장할 때 원본 단축어가 삭제돼요": {
+      "comment": "Keep original snippet toggle description",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Off"
+            "value": "Turn off to delete the original snippet when saving"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matikan untuk menghapus snippet asli saat menyimpan"
           }
         }
       }
@@ -23566,6 +23719,23 @@
         }
       }
     },
+    "입력한 값을 목록에 추가합니다": {
+      "comment": "Add typed value to list hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adds the entered value to the list"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입력한 값을 목록에 추가합니다"
+          }
+        }
+      }
+    },
     "입력한 내용, 이름, 카테고리를 모두 지웁니다": {
       "comment": "Reset button hint",
       "localizations": {
@@ -24004,6 +24174,30 @@
         }
       }
     },
+    "전": {
+      "comment": "Auto-registered",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ago"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "전"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "전"
+          }
+        }
+      }
+    },
     "저장": {
       "comment": "Save\nSave button\nSave clipboard item as memo",
       "localizations": {
@@ -24038,6 +24232,17 @@
         }
       }
     },
+    "저장된 단축어 (키보드에서 보임)": {
+      "comment": "Saved memos hint label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Snippets (shown in keyboard)"
+          }
+        }
+      }
+    },
     "저장된 단축어 목록 모드로 전환합니다": {
       "comment": "Memo mode tab hint",
       "extractionState": "stale",
@@ -24052,58 +24257,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Switch to saved snippet list mode."
-          }
-        }
-      }
-    },
-    "저장에 실패했습니다. 다시 시도해주세요.": {
-      "comment": "Memo save failed toast",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Failed to save. Please try again."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gagal menyimpan. Silakan coba lagi."
-          }
-        }
-      }
-    },
-    "전": {
-      "comment": "Auto-registered",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ago"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "전"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "전"
-          }
-        }
-      }
-    },
-    "저장된 단축어 (키보드에서 보임)": {
-      "comment": "Saved memos hint label",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Your Snippets (shown in keyboard)"
           }
         }
       }
@@ -24189,6 +24342,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Storage could not be found."
+          }
+        }
+      }
+    },
+    "저장에 실패했습니다. 다시 시도해주세요.": {
+      "comment": "Memo save failed toast",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Failed to save. Please try again."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gagal menyimpan. Silakan coba lagi."
           }
         }
       }
@@ -26259,23 +26429,6 @@
         }
       }
     },
-    "켬": {
-      "comment": "Toggle state: on",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "On"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "On"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요": {
       "comment": "Enable Korean input subtitle",
       "localizations": {
@@ -26307,6 +26460,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktif"
+          }
+        }
+      }
+    },
+    "켬": {
+      "comment": "Toggle state: on",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "On"
           }
         }
       }
@@ -30203,159 +30373,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Petunjuk (opsional)"
-          }
-        }
-      }
-    },
-    "{금액}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{amount}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{금액}"
-          }
-        }
-      }
-    },
-    "{수량}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{quantity}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{수량}"
-          }
-        }
-      }
-    },
-    "{가격}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{price}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{가격}"
-          }
-        }
-      }
-    },
-    "{이름}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{name}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{이름}"
-          }
-        }
-      }
-    },
-    "{메모}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{memo}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{메모}"
-          }
-        }
-      }
-    },
-    "{주소}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{address}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{주소}"
-          }
-        }
-      }
-    },
-    "{날짜}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{date}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{날짜}"
-          }
-        }
-      }
-    },
-    "{시간}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{time}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{시간}"
-          }
-        }
-      }
-    },
-    "{전화}": {
-      "comment": "Template token variable",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{phone}"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "{전화}"
           }
         }
       }
