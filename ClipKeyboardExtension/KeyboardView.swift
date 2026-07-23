@@ -1073,27 +1073,26 @@ struct KeyboardView: View {
 
     /// 콤보(여러 값) 메모의 현재 선택 값 인덱스 — 메모별로 기억.
     @State private var comboValueIndex: [UUID: Int] = [:]
+    /// → 누를 때마다 증가 — 값을 잠깐 보여줬다 사라지는 디졸브를 트리거한다.
+    @State private var comboFlash: [UUID: Int] = [:]
 
     private func comboSplitButton(for memo: Memo, catColor: Color?) -> some View {
         let values = memo.comboValues.isEmpty ? [memo.value] : memo.comboValues
         let idx = min(max(comboValueIndex[memo.id] ?? 0, 0), values.count - 1)
         let current = values[idx]
         return HStack(spacing: 0) {
-            // 왼쪽 2/3 — 현재 값 삽입
+            // 왼쪽 2/3 — 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
             Button {
                 insertComboValue(memo: memo, value: current)
             } label: {
-                VStack(spacing: 2) {
-                    Text(memo.title)
-                        .font(.system(size: buttonFontSize * 0.72, weight: .semibold))
-                        .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
-                    Text(current.isEmpty ? "—" : current)
-                        .font(.system(size: buttonFontSize))
-                        .foregroundColor(theme.text)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                }
+                ComboKeyValueLabel(
+                    title: memo.title,
+                    value: current,
+                    fontSize: buttonFontSize,
+                    titleColor: theme.text,
+                    valueColor: theme.textMuted,
+                    flashToken: comboFlash[memo.id] ?? 0
+                )
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 8)
                 .frame(height: buttonHeight)
@@ -1103,7 +1102,7 @@ struct KeyboardView: View {
 
             Divider().frame(height: buttonHeight * 0.5)
 
-            // 오른쪽 1/3 — 다음 값으로 전환
+            // 오른쪽 1/3 — 다음 값으로 전환(값이 잠깐 보였다 사라짐).
             Button {
                 advanceComboValue(memo: memo, count: values.count)
             } label: {
@@ -1133,9 +1132,11 @@ struct KeyboardView: View {
                 )
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
         )
+        // 점선 테두리(콤보 구분) — "메모 구분 표시" 설정이 켜졌을 때만(iOS와 동일하게 기본 심플).
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusMd)
-                .strokeBorder(.orange, style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
+                .strokeBorder(visualCuesVisible ? Color.orange : .clear,
+                              style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
     }
@@ -1161,6 +1162,8 @@ struct KeyboardView: View {
         KeyboardHaptics.softTap()
         let cur = comboValueIndex[memo.id] ?? 0
         comboValueIndex[memo.id] = (cur + 1) % count
+        // 값을 잠깐 보여줬다 사라지게(디졸브) 트리거.
+        comboFlash[memo.id] = (comboFlash[memo.id] ?? 0) + 1
     }
 
     private func memoAccessibilityLabel(for memo: Memo) -> String {
@@ -1669,6 +1672,51 @@ struct KeyboardView: View {
 /// 부드럽게 바뀌었다가, 잠시 후 다시 제목으로 돌아온다. 이번 등장에서 한 번만 —
 /// 셀이 화면 밖으로 나갔다 다시 들어오면 처음부터(앱 카드 힌트와 동일 기준).
 /// 셀(seed)마다 바뀌는 시점·읽히는 시간이 조금씩 달라 키보드 전체가 동시에 변하지 않는다.
+/// 콤보 분할 버튼 왼쪽 라벨 — 평소엔 키(제목), flashToken이 바뀌면(→ 누르거나 처음 나타날 때)
+/// 현재 값이 디졸브(블러+페이드)로 잠깐 보였다가 다시 키로 돌아온다. iOS의 값 미리보기와 같은 경험.
+/// 여러 값이면 → 를 누를 때마다 값1·값2… 가 차례로 스쳐 보인다.
+struct ComboKeyValueLabel: View {
+    let title: String
+    let value: String
+    let fontSize: Double
+    let titleColor: Color
+    let valueColor: Color
+    /// → 를 누르거나 처음 나타날 때 증가 — 디졸브 미리보기를 트리거하는 토큰.
+    let flashToken: Int
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var showingValue = false
+
+    var body: some View {
+        ZStack {
+            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold)))
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundColor(titleColor)
+                .opacity(showingValue ? 0 : 1)
+                .blur(radius: !reduceMotion && showingValue ? 3 : 0)
+            Text(value.isEmpty ? "—" : value)
+                .font(.system(size: fontSize * 0.92))
+                .foregroundColor(valueColor)
+                .opacity(showingValue ? 1 : 0)
+                .blur(radius: !reduceMotion && !showingValue ? 3 : 0)
+        }
+        .lineLimit(1)
+        .truncationMode(.tail)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(title)
+        // flashToken 변경(→ 또는 최초 등장) 때마다: 값을 잠깐 보여줬다 다시 키로.
+        .task(id: flashToken) {
+            showingValue = false
+            do {
+                try await Task.sleep(for: .seconds(0.2))
+                withAnimation(.easeInOut(duration: 0.45)) { showingValue = true }
+                try await Task.sleep(for: .seconds(1.5))
+                withAnimation(.easeInOut(duration: 0.5)) { showingValue = false }
+            } catch { showingValue = false }
+        }
+    }
+}
+
 struct MemoTitleHintSwap: View {
     let title: String
     /// nil이면(설정 OFF·보안 메모·빈 내용) 스왑 없이 제목만 표시한다.
