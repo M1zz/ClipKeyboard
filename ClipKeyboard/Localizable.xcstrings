@@ -30037,6 +30037,40 @@
           }
         }
       }
+    },
+    "값을 눌러 복사하세요": {
+      "comment": "Combo preview: tap a value to copy",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a value to copy"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "값을 눌러 복사하세요"
+          }
+        }
+      }
+    },
+    "탭하면 이 값을 복사합니다": {
+      "comment": "Combo step copy hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to copy this value"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "탭하면 이 값을 복사합니다"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

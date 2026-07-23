@@ -66,13 +66,13 @@ struct ComboPreviewSheet: View {
             .padding(.top, 24)
             .padding(.bottom, 4)
 
-            // 복사됨 안내
+            // 값 선택 안내 — 값을 눌러 하나를 복사한다.
             HStack(spacing: 6) {
-                Image(systemName: AppSymbol.checkmarkCircleFill)
+                Image(systemName: AppSymbol.docOnDoc)
                     .font(.footnote)
-                    .foregroundColor(.green)
+                    .foregroundColor(theme.textMuted)
                     .accessibilityHidden(true)
-                Text(NSLocalizedString("클립보드에 복사됐어요", comment: "Combo preview: copied to clipboard"))
+                Text(NSLocalizedString("값을 눌러 복사하세요", comment: "Combo preview: tap a value to copy"))
                     .font(.footnote)
                     .foregroundColor(theme.textMuted)
             }
@@ -112,7 +112,10 @@ struct ComboPreviewSheet: View {
     /// 단계 하나 — 번호 뱃지 + 값 + 복사 버튼.
     /// 앱에서는 순차 입력 대신 값 하나씩 복사해 쓰므로 각 단계에 복사 버튼을 단다.
     private func stepRow(index idx: Int, step: String) -> some View {
-        HStack(alignment: .top, spacing: 12) {
+        // 행 전체가 탭 대상 — 값 하나를 골라 복사한다.
+        Button {
+            copyStep(step, at: idx)
+        } label: {
             HStack(alignment: .top, spacing: 12) {
                 Text("\(idx + 1)")
                     .font(.caption.weight(.bold))
@@ -124,16 +127,6 @@ struct ComboPreviewSheet: View {
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
-                    .textSelection(.enabled)
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(String(
-                format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
-                idx + 1, step.isEmpty ? "—" : step))
-
-            Button {
-                copyStep(step, at: idx)
-            } label: {
                 Image(systemName: copiedStepIndex == idx ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
                     .font(.body)
                     .foregroundColor(copiedStepIndex == idx ? .green : theme.textMuted)
@@ -141,11 +134,15 @@ struct ComboPreviewSheet: View {
                     .background(theme.surfaceAlt)
                     .clipShape(Circle())
             }
-            .buttonStyle(.plain)
-            .disabled(step.isEmpty)
-            .accessibilityLabel(String(
-                format: NSLocalizedString("%d단계 복사", comment: "Copy combo step button"), idx + 1))
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .disabled(step.isEmpty)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(String(
+            format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
+            idx + 1, step.isEmpty ? "—" : step))
+        .accessibilityHint(NSLocalizedString("탭하면 이 값을 복사합니다", comment: "Combo step copy hint"))
     }
 
     private func copyStep(_ step: String, at idx: Int) {

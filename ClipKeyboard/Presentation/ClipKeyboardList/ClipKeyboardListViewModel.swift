@@ -1184,12 +1184,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     private func processMemoAfterAuth(_ memo: Memo) {
         if memo.isCombo {
-            // 콤보 탭 → 순차 입력될 단계 값(자동 변수 치환)을 즉시 클립보드에 복사하고,
-            // 어떤 값들이 입력될지 보여주는 미리보기 하프모달을 띄운다(편집은 롱프레스→수정).
-            print("🔁 [processMemoAfterAuth] Combo 메모 - 즉시 복사 + 미리보기 하프모달")
-            // 보안 콤보는 인증 후 이 지점에 도달 — 단계 값을 복호화해 사용.
-            let steps = SecureMemoCrypto.decryptSteps(memo.comboValues).map { TemplateVariableProcessor.process($0) }
-            finalizeCopy(memo: memo, processedValue: steps.joined(separator: "\n"), showToastAfter: false)
+            // 콤보(여러 값) 탭 → 값 목록 시트를 띄워 원하는 값 하나를 골라 복사하게 한다.
+            // (예전엔 전체를 합쳐 자동 복사했지만, 이제 값 선택 UI로 대체.)
+            print("🔁 [processMemoAfterAuth] Combo 메모 - 값 선택 시트 표시")
             selectedComboIdForSheet = memo.id
             return
         }
