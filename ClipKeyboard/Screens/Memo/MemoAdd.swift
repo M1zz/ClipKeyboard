@@ -660,7 +660,7 @@ struct MemoAdd: View {
                         HStack(spacing: 4) {
                             Image(systemName: AppSymbol.number)
                                 .font(.system(.caption2))
-                                .foregroundColor(.blue)
+                                .foregroundColor(.secondary)
                             Text(NSLocalizedString("숫자 입력 (키보드에서 숫자패드 표시)", comment: "Numeric token legend"))
                                 .font(.system(.caption2))
                                 .foregroundColor(.secondary)
@@ -668,7 +668,7 @@ struct MemoAdd: View {
                         HStack(spacing: 4) {
                             Image(systemName: AppSymbol.listBullet)
                                 .font(.system(.caption2))
-                                .foregroundColor(.green)
+                                .foregroundColor(.secondary)
                             Text(NSLocalizedString("선택지 (저장된 값 중 선택)", comment: "Selection token legend"))
                                 .font(.system(.caption2))
                                 .foregroundColor(.secondary)
@@ -684,7 +684,7 @@ struct MemoAdd: View {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.listBulletRectangle)
                             .font(.body)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.secondary)
                         Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))
                             .font(.body)
                             .fontWeight(.semibold)

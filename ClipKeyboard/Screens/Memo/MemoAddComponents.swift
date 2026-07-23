@@ -90,14 +90,14 @@ struct QuickInsertTokenButton: View {
                 Text(token.strippingTemplateBraces)
                     .font(.body.weight(.medium))
             }
-            .foregroundColor(isNumeric ? .blue : .green)
+            .foregroundColor(.secondary)
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background((isNumeric ? Color.blue : Color.green).opacity(0.1))
+            .background(Color.secondary.opacity(0.12))
             .cornerRadius(theme.radiusSm)
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusSm)
-                    .strokeBorder((isNumeric ? Color.blue : Color.green).opacity(0.25), lineWidth: 1)
+                    .strokeBorder(Color.secondary.opacity(0.25), lineWidth: 1)
             )
         }
         .accessibilityLabel(token)
@@ -131,10 +131,10 @@ struct PlaceholderValueEditor: View {
                          : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
                         .font(.system(.caption2, weight: .semibold))
                 }
-                .foregroundColor(isNumeric ? .blue : .green)
+                .foregroundColor(.secondary)
                 .padding(.horizontal, 7)
                 .padding(.vertical, 3)
-                .background((isNumeric ? Color.blue : Color.green).opacity(0.12))
+                .background(Color.secondary.opacity(0.12))
                 .cornerRadius(theme.radiusXs)
 
                 Spacer()
@@ -261,8 +261,8 @@ struct ContentInputSection: View {
                             .font(.footnote.weight(.medium))
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
-                            .background(Color.purple.opacity(0.1))
-                            .foregroundColor(.purple)
+                            .background(Color.secondary.opacity(0.12))
+                            .foregroundColor(.secondary)
                             .cornerRadius(theme.radiusXs)
                     }
                     .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
@@ -275,26 +275,13 @@ struct ContentInputSection: View {
                             .font(.footnote.weight(.medium))
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
-                            .background(Color.blue.opacity(0.1))
-                            .foregroundColor(.blue)
+                            .background(Color.secondary.opacity(0.12))
+                            .foregroundColor(.secondary)
                             .cornerRadius(theme.radiusXs)
                     }
                     .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
 
-                    // "+" — 값을 하나 더. 입력 전부터 "여러 개 = 콤보"를 알려주는 힌트.
-                    if let onAddContent, attachedImages.isEmpty {
-                        Button(action: onAddContent) {
-                            Image(systemName: AppSymbol.plusCircle)
-                                .font(.footnote.weight(.semibold))
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 6)
-                                .background(Color.green.opacity(0.1))
-                                .foregroundColor(.green)
-                                .cornerRadius(theme.radiusXs)
-                        }
-                        .accessibilityLabel(NSLocalizedString("내용 추가", comment: "Add another content value button"))
-                        .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
-                    }
+                    // "+" 칩은 제거됨 — 내용 입력칸 아래 "내용 더 넣기" 버튼(continuationsSection)이 대체.
                 }
             }
 
