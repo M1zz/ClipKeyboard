@@ -633,6 +633,7 @@ struct TemplateFillSheet: View {
                             TemplateFillRow(
                                 placeholder: ph,
                                 templateId: memo.id,
+                                templateTitle: memo.title,
                                 value: Binding(
                                     get: { inputs[ph] ?? "" },
                                     set: { inputs[ph] = $0 }
@@ -691,6 +692,7 @@ struct TemplateFillSheet: View {
 private struct TemplateFillRow: View {
     let placeholder: String
     let templateId: UUID
+    let templateTitle: String
     @Binding var value: String
 
     @Environment(\.appTheme) private var theme
@@ -772,9 +774,42 @@ private struct TemplateFillRow: View {
 
     @ViewBuilder
     private var textSection: some View {
-        TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
-            .textFieldStyle(.roundedBorder)
+        // 이름 등을 치고 "추가"를 누르면 아래 저장 칩으로 남아 다음에 바로 고를 수 있다.
+        // (예전엔 추가 버튼이 없어 툴바 '복사'만 활성화돼 헷갈렸음.)
+        HStack(spacing: 8) {
+            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
+                .textFieldStyle(.roundedBorder)
+            Button {
+                addCurrentValue()
+            } label: {
+                Text(NSLocalizedString("추가", comment: "Add button"))
+                    .font(.body.weight(.semibold))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(canAddCurrent ? theme.accent : Color.gray.opacity(0.5))
+                    .foregroundColor(canAddCurrent ? theme.accentFg : .white)
+                    .clipShape(Capsule())
+            }
+            .disabled(!canAddCurrent)
+            .accessibilityHint(NSLocalizedString("입력한 값을 목록에 추가합니다", comment: "Add typed value to list hint"))
+        }
         savedChips
+    }
+
+    /// 입력값이 비어있지 않고 아직 저장 목록에 없을 때만 추가 가능.
+    private var canAddCurrent: Bool {
+        let v = value.trimmingCharacters(in: .whitespaces)
+        return !v.isEmpty && !savedValues.contains(v)
+    }
+
+    /// 입력한 값을 저장 목록에 추가 — 칩으로 남고, 현재 값으로 선택 유지.
+    private func addCurrentValue() {
+        let v = value.trimmingCharacters(in: .whitespaces)
+        guard !v.isEmpty, !savedValues.contains(v) else { return }
+        MemoStore.shared.addPlaceholderValue(v, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+        HapticManager.shared.selection()
+        loadSaved()
+        value = v
     }
 
     // MARK: 저장값 칩 (공통)
