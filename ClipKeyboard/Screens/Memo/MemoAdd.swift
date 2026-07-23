@@ -263,13 +263,15 @@ struct MemoAdd: View {
                         attachedImages: $viewModel.attachedImages,
                         onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 — 입력 종료
                         onAddContent: {
-                            // 퀵 모드엔 이어지는 내용 칸이 없어 전체 모드로 전환하며 2번째 칸을 연다.
                             HapticManager.shared.light()
-                            withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
                             viewModel.addContinuation()
                         },
                         forceTextKeyboard: startInTemplateMode
                     )
+
+                    // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 — 더하면 콤보.
+                    // 심플 모드에서도 "내용 더 넣기"가 보이도록(더 설정하기 누르기 전부터).
+                    continuationsSection
 
                     // 3) 더 설정하기 (보안·템플릿·콤보)
                     quickAdvancedButton

@@ -242,47 +242,42 @@ struct ContentInputSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
-                    .font(.body)
-                    .fontWeight(.medium)
-                    .foregroundColor(theme.textMuted)
+            // 라벨 — 이 값이 단축어를 탭했을 때 붙여넣어지는 내용.
+            Text(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
+                .font(.body)
+                .fontWeight(.medium)
+                .foregroundColor(theme.textMuted)
 
-                Spacer()
-
-                // 값 채우기 버튼 — 라벨 칩으로 역할을 명시.
-                // [붙여넣기] = 클립보드의 텍스트/이미지를 값으로, [이미지] = 사진 선택.
-                HStack(spacing: 8) {
-                    Button {
-                        pasteFromClipboard()
-                    } label: {
-                        Label(NSLocalizedString("붙여넣기", comment: "Paste clipboard value chip"),
-                              systemImage: AppSymbol.docOnClipboard)
-                            .font(.footnote.weight(.medium))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.secondary.opacity(0.12))
-                            .foregroundColor(.secondary)
-                            .cornerRadius(theme.radiusXs)
-                    }
-                    .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
-
-                    Button {
-                        showImagePicker = true
-                    } label: {
-                        Label(NSLocalizedString("이미지", comment: "Add image chip"),
-                              systemImage: AppSymbol.photo)
-                            .font(.footnote.weight(.medium))
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.secondary.opacity(0.12))
-                            .foregroundColor(.secondary)
-                            .cornerRadius(theme.radiusXs)
-                    }
-                    .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
-
-                    // "+" 칩은 제거됨 — 내용 입력칸 아래 "내용 더 넣기" 버튼(continuationsSection)이 대체.
+            // 값 채우기 버튼 — 각자 한 줄 폭을 반씩 차지하는 명확한 보더 버튼.
+            // (예전엔 라벨과 한 줄에 눌려 폭이 없어 글자가 세로로 깨졌음.)
+            HStack(spacing: 10) {
+                Button {
+                    pasteFromClipboard()
+                } label: {
+                    Label(NSLocalizedString("붙여넣기", comment: "Paste clipboard value chip"),
+                          systemImage: AppSymbol.docOnClipboard)
+                        .font(.subheadline.weight(.medium))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
                 }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+                .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
+
+                Button {
+                    showImagePicker = true
+                } label: {
+                    Label(NSLocalizedString("이미지", comment: "Add image chip"),
+                          systemImage: AppSymbol.photo)
+                        .font(.subheadline.weight(.medium))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+                .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
             }
 
             if selectedCategory == "이미지" {
