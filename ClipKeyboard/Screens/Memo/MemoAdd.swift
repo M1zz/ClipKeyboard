@@ -595,22 +595,22 @@ struct MemoAdd: View {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.plusCircle)
                             .font(.body)
-                        Text(NSLocalizedString("내용 추가", comment: "Add another content value button"))
+                        Text(NSLocalizedString("내용 더 넣기", comment: "Add another content value button"))
                             .font(.body)
                             .fontWeight(.medium)
                     }
-                    .foregroundColor(.blue)
+                    .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .overlay(
                         RoundedRectangle(cornerRadius: theme.radiusMd)
-                            .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [4]))
+                            .strokeBorder(Color.secondary.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [4]))
                     )
                     .cornerRadius(theme.radiusMd)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(NSLocalizedString("내용 추가", comment: "Add another content value button"))
+                .accessibilityLabel(NSLocalizedString("내용 더 넣기", comment: "Add another content value button"))
                 .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
 
                 if !viewModel.continuations.isEmpty {
