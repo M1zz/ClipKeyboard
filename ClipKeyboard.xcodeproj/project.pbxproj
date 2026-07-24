@@ -31,7 +31,6 @@
 		581D8A952F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
 		581D8A962F49B4DD00F2F032 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A942F49B4DD00F2F032 /* StoreManager.swift */; };
 		581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */; };
-		581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A942F49B4DD00F2F032 /* StoreManager.swift */; };
 		581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A992F49B4E900F2F032 /* PaywallView.swift */; };
 		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
@@ -1018,7 +1017,6 @@
 				A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */,
 				581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
 				58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */,
-				581D8A982F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,

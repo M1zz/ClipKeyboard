@@ -12,9 +12,9 @@ import LeeoKit
 
 final class ClipKeyboardSpecTests: XCTestCase {
 
-    func testContainerIdentifierMatchesBackupContainer() {
-        // CloudKitBackupService와 같은 컨테이너를 써야 Dashboard 한 곳에서 관리된다
-        XCTAssertEqual(ClipKeyboardSpec.feedback.containerIdentifier, "iCloud.com.Ysoup.TokenMemo")
+    func testContainerIdentifierMatchesEntitlements() {
+        // 공용 피드백 허브(FeedbackHub)로 전환됨 — entitlements와 어긋나면 제출이 조용히 실패한다
+        XCTAssertEqual(ClipKeyboardSpec.feedback.containerIdentifier, "iCloud.com.Ysoup.FeedbackHub")
     }
 
     func testRecordTypeIsStable() {
@@ -27,9 +27,9 @@ final class ClipKeyboardSpecTests: XCTestCase {
         XCTAssertEqual(ClipKeyboardSpec.feedback.subscriptionID, "feedback-new-v1")
     }
 
-    func testAppIdentifierStaysNilForLegacySchema() {
-        // appId 필드는 Production 스키마에 없다 — 공용 허브 전환 전까지 nil 유지
-        XCTAssertNil(ClipKeyboardSpec.feedback.appIdentifier)
+    func testAppIdentifierForSharedHub() {
+        // 공용 허브 전환 완료 — appIdentifier로 앱을 구분한다
+        XCTAssertEqual(ClipKeyboardSpec.feedback.appIdentifier, "com.Ysoup.TokenMemo")
     }
 
     func testAppNameAndDeveloperEmail() {
