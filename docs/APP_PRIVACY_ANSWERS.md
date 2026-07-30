@@ -29,13 +29,14 @@ https://icloud.developer.apple.com → `iCloud.com.Ysoup.FeedbackHub`
 
 App Store Connect → 앱 → **App Privacy** → Data Types
 
-### 수집한다고 답할 항목 (6개)
+### 수집한다고 답할 항목 (7개)
 
 | App Privacy 항목 | 매니페스트 키 | 사용자와 연결 | 추적 | 목적 | 실제 데이터 |
 |---|---|:---:|:---:|---|---|
 | **Product Interaction** | `…ProductInteraction` | ❌ No | ❌ No | Analytics | 이벤트 이름(`app_open`, `memo_created` 등), 실행 횟수, 설치당 개수 지표 |
 | **Purchases** | `…PurchaseHistory` | ❌ No | ❌ No | Analytics | `flag.isPro` (Pro 보유 0/1) 하나뿐 |
 | **Device ID** | `…DeviceID` | ❌ No | ❌ No | Analytics | 앱이 만든 무작위 설치 UUID(`leeo.usage.installID`) |
+| **Crash Data** | `…CrashData` | ❌ No | ❌ No | App Functionality | MetricKit 크래시·행 진단(콜스택·앱버전·OS). 설치 식별자도 안 붙인다 |
 | **Customer Support** | `…CustomerSupport` | ✅ Yes | ❌ No | App Functionality | 사용자가 보낸 피드백 본문 |
 | **Email Address** | `…EmailAddress` | ✅ Yes | ❌ No | App Functionality | 피드백에서 **직접 입력한 경우에만** |
 | **Name** | `…Name` | ✅ Yes | ❌ No | App Functionality | 피드백에서 **직접 입력한 경우에만** |

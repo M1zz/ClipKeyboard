@@ -110,6 +110,11 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// Pro + 플래그가 켜져 있을 때만 동기화를 시작한다. 멱등.
     func startIfEnabled() {
         guard MemoSyncFlags.enabled else { log.info("sync disabled by flag"); return }
+        // 원격 킬스위치 — 동기화가 사고를 냈을 때 심사 없이 끌 수 있는 경로.
+        // 조회 실패 시엔 true(켬)라 네트워크가 없다고 동기화가 막히지는 않는다.
+        guard RemoteFlagsService.cachedValue(.syncEnabled) else {
+            log.info("sync disabled by remote flag"); return
+        }
         guard isProUser else { log.info("sync gated: not Pro"); return }
         guard !started else { return }
         started = true

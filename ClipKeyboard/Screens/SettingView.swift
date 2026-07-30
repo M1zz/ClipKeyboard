@@ -23,6 +23,10 @@ struct SettingView: View {
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
+    /// 모든 데이터 삭제 — 되돌릴 수 없어 2단계로 확인받는다.
+    @State private var showWipeConfirm = false      // 1단계: 무엇이 지워지는지 안내
+    @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
+    @State private var wipeResultMessage: String?
 
     private func refreshSecurePINState() {
         let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
@@ -239,6 +243,14 @@ struct SettingView: View {
                     Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
                           systemImage: AppSymbol.docOnClipboard)
                 }
+                // 되돌릴 수 없는 작업 — 2단계 확인을 거친다.
+                // 개인정보 처리방침이 약속한 "앱 내에서 데이터 삭제" 경로이기도 하다.
+                Button(role: .destructive) {
+                    showWipeConfirm = true
+                } label: {
+                    Label(NSLocalizedString("모든 데이터 삭제", comment: "Delete all data settings entry"),
+                          systemImage: AppSymbol.trash)
+                }
             }
 
             // MARK: 기기 간 메모 동기화 (실험적, Pro 전용)
@@ -313,6 +325,24 @@ struct SettingView: View {
                 }
             }
 
+            // MARK: 약관 및 개인정보
+            // 인앱결제가 있는 앱은 약관·처리방침을 앱 안에서 볼 수 있어야 한다(심사 대비).
+            // 처리방침 주소는 App Store Connect 에 등록한 것과 같아야 한다.
+            Section(NSLocalizedString("약관 및 개인정보", comment: "Settings section: legal")) {
+                if let url = URL(string: Constants.privacyPolicyURL) {
+                    Link(destination: url) {
+                        Label(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy settings entry"),
+                              systemImage: AppSymbol.lockShield)
+                    }
+                }
+                if let url = URL(string: Constants.termsOfUseURL) {
+                    Link(destination: url) {
+                        Label(NSLocalizedString("이용약관", comment: "Terms of use settings entry"),
+                              systemImage: AppSymbol.docText)
+                    }
+                }
+            }
+
             // MARK: 다른 기기에서 사용 (iOS 전용)
             #if !targetEnvironment(macCatalyst)
             Section(NSLocalizedString("다른 기기에서 사용", comment: "Cross-device section")) {
@@ -379,6 +409,37 @@ struct SettingView: View {
             if masterModeEnabled {
                 Text(NSLocalizedString("지원 섹션에 '접수된 피드백' 메뉴가 나타납니다.", comment: "Master mode enabled message"))
             }
+        }
+        // MARK: 모든 데이터 삭제 — 2단계 확인
+        // 1단계: 무엇이 지워지고 무엇이 남는지 알린다(구매는 유지된다는 점이 중요).
+        .alert(NSLocalizedString("모든 데이터를 삭제할까요?", comment: "Wipe all data confirm title"),
+               isPresented: $showWipeConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("계속", comment: "Continue to final confirmation"), role: .destructive) {
+                showWipeFinalConfirm = true
+            }
+        } message: {
+            Text(NSLocalizedString("단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.", comment: "Wipe all data confirm message"))
+        }
+        // 2단계: 실수 방지를 위한 마지막 확인.
+        .alert(NSLocalizedString("정말 삭제할까요?", comment: "Wipe all data final confirm title"),
+               isPresented: $showWipeFinalConfirm) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("삭제", comment: "Delete confirm"), role: .destructive) {
+                let result = DataWipeService.wipeAll()
+                wipeResultMessage = result.isCompleteSuccess
+                    ? NSLocalizedString("모든 데이터를 삭제했어요.", comment: "Wipe success message")
+                    : NSLocalizedString("일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.", comment: "Wipe partial failure message")
+            }
+        } message: {
+            Text(NSLocalizedString("이 작업은 되돌릴 수 없습니다.", comment: "Wipe all data final confirm message"))
+        }
+        .alert(NSLocalizedString("삭제 완료", comment: "Wipe result alert title"),
+               isPresented: Binding(get: { wipeResultMessage != nil },
+                                    set: { if !$0 { wipeResultMessage = nil } })) {
+            Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { wipeResultMessage = nil }
+        } message: {
+            Text(wipeResultMessage ?? "")
         }
     }
 

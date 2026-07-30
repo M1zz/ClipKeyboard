@@ -168,4 +168,11 @@ struct Constants {
 
     /// 튜토리얼 URL
     static let tutorialURL = "https://m1zz.github.io/ClipKeyboard/tutorial.html"
+
+    /// 개인정보 처리방침 — App Store Connect 에 등록한 것과 **같은 주소여야 한다**.
+    static let privacyPolicyURL = "https://m1zz.github.io/ClipKeyboard/privacy.html"
+
+    /// 이용약관(EULA). Apple 표준 사용권 계약 + 이 앱에만 해당하는 조항.
+    /// 인앱결제가 있는 앱은 약관을 앱 안에서 볼 수 있어야 심사에서 안전하다.
+    static let termsOfUseURL = "https://m1zz.github.io/ClipKeyboard/terms.html"
 }

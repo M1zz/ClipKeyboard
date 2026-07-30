@@ -27,6 +27,10 @@ struct ClipKeyboardApp: App {
     @State private var showWhatsNew = false
     /// 가끔 "불편한 점 남겨주세요" 피드백 넛지 (10회째 실행 첫 노출, 이후 40회 간격)
     @State private var showFeedbackNudge = false
+    /// 저장 파일을 못 읽었을 때 띄우는 복구 안내(전역 폴백).
+    /// 조용히 빈 목록을 보여주면 사용자는 "데이터가 날아갔다"고 오해하고,
+    /// 그 상태에서 저장하면 실제로 덮어써진다.
+    @State private var showDataRecovery = false
     /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
     @State private var showFeedbackSheet = false
 
@@ -69,6 +73,14 @@ struct ClipKeyboardApp: App {
         // 백그라운드 새로고침 task 등록 — 메인 앱이 안 열려도 주기적으로 비콘 flush
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
+
+        // 원격 기능 플래그 갱신(6시간 쓰로틀, 실패해도 무시) — 문제 기능을 심사 없이 끄기 위한 장치.
+        // 이번 실행은 캐시된 값으로 동작하고, 여기서 받은 값은 다음 실행부터 반영된다.
+        Task { @MainActor in RemoteFlagsService.shared.refreshInBackground() }
+
+        // 크래시·행 진단 구독(MetricKit) — 구독만 하고 즉시 반환하므로 런치 비용이 없다.
+        // 페이로드는 iOS가 하루 한 번꼴로 묶어서 준다(실시간 아님).
+        DiagnosticsService.shared.start()
 
         // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
         UsageReportingService.reportLaunch()
@@ -581,6 +593,13 @@ struct ClipKeyboardApp: App {
                     // (없으면 새 기기일 가능성 → 백업 복원 안내 대상)
                     let localWasEmpty = ((try? MemoStore.shared.load(type: .memo)) ?? []).isEmpty
 
+                    // 위 load 과정에서 파일 손상이 감지됐다면 복구 안내를 먼저 띄운다.
+                    // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 — 이 상태에서 샘플을
+                    //    넣으면 읽지 못한 파일을 덮어쓸 수 있다.
+                    if MemoStore.hasDetectedCorruption {
+                        showDataRecovery = true
+                    }
+
                     migrateComboModelIfNeeded()
                     migrateVisualCuesIfNeeded()
                     migrateKoreanEnabledIfNeeded()
@@ -650,6 +669,10 @@ struct ClipKeyboardApp: App {
                         MemoSyncEngine.shared.startIfEnabled()
                         MemoSyncEngine.shared.syncNow()
                     }
+                }
+                // 데이터 손상 복구 안내 — 다른 시트보다 먼저 붙여 우선 노출시킨다.
+                .sheet(isPresented: $showDataRecovery) {
+                    DataRecoveryView()
                 }
                 .sheet(isPresented: $showReviewRequest) {
                     ReviewRequestView()

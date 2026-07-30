@@ -31226,6 +31226,422 @@
           }
         }
       }
+    },
+    "약관 및 개인정보": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legal & Privacy"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketentuan & Privasi"
+          }
+        }
+      }
+    },
+    "개인정보 처리방침": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kebijakan Privasi"
+          }
+        }
+      }
+    },
+    "이용약관": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms of Use"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketentuan Penggunaan"
+          }
+        }
+      }
+    },
+    "모든 데이터 삭제": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete All Data"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hapus Semua Data"
+          }
+        }
+      }
+    },
+    "모든 데이터를 삭제할까요?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all data?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hapus semua data?"
+          }
+        }
+      }
+    },
+    "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your snippets, clipboard history, combos, images, and drafts will all be erased from this device. This can't be undone.\n\nYour Pro purchase and iCloud backup are kept."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan, riwayat papan klip, kombo, gambar, dan draf akan dihapus dari perangkat ini. Tindakan ini tidak dapat dibatalkan.\n\nPembelian Pro dan cadangan iCloud Anda tetap ada."
+          }
+        }
+      }
+    },
+    "계속": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lanjutkan"
+          }
+        }
+      }
+    },
+    "정말 삭제할까요?": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete for good?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakin ingin menghapus?"
+          }
+        }
+      }
+    },
+    "이 작업은 되돌릴 수 없습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This action cannot be undone."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tindakan ini tidak dapat dibatalkan."
+          }
+        }
+      }
+    },
+    "모든 데이터를 삭제했어요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All data has been deleted."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semua data telah dihapus."
+          }
+        }
+      }
+    },
+    "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some items couldn't be deleted. Please relaunch the app and try again."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beberapa item tidak dapat dihapus. Silakan buka ulang aplikasi dan coba lagi."
+          }
+        }
+      }
+    },
+    "저장된 내용을 불러오지 못했어요": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We couldn't load your saved data"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami tidak dapat memuat data tersimpan"
+          }
+        }
+      }
+    },
+    "단축어가 삭제된 게 아니라, 저장 파일을 읽지 못한 상태예요. 원본은 그대로 보관해 두었습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your snippets weren't deleted — we just couldn't read the file. The original has been kept safe."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan Anda tidak terhapus — kami hanya tidak dapat membaca berkasnya. Berkas asli tetap kami simpan."
+          }
+        }
+      }
+    },
+    "새 단축어를 만들기 전에 먼저 복원을 시도해 주세요. 지금 저장하면 읽지 못한 파일을 덮어쓸 수 있어요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Please try restoring before creating anything new — saving now may overwrite the file we couldn't read."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coba pulihkan sebelum membuat yang baru — menyimpan sekarang dapat menimpa berkas yang gagal dibaca."
+          }
+        }
+      }
+    },
+    "복원 방법": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to restore"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cara memulihkan"
+          }
+        }
+      }
+    },
+    "iCloud 백업에서 복원": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore from iCloud Backup"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pulihkan dari Cadangan iCloud"
+          }
+        }
+      }
+    },
+    "변경 기록에서 되돌리기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roll back from change history"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kembalikan dari riwayat perubahan"
+          }
+        }
+      }
+    },
+    "보관된 원본": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kept original"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berkas asli tersimpan"
+          }
+        }
+      }
+    },
+    "복구가 어려우면 이 파일명과 함께 문의해 주세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If recovery doesn't work, contact us with this file name."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika pemulihan gagal, hubungi kami dengan nama berkas ini."
+          }
+        }
+      }
+    },
+    "복구 안내": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recovery"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pemulihan"
+          }
+        }
+      }
+    },
+    "페이월 노출": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paywall shown"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paywall ditampilkan"
+          }
+        }
+      }
+    },
+    "구매 버튼 탭": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tapped purchase"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk beli"
+          }
+        }
+      }
+    },
+    "구매 완료": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchased"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pembelian selesai"
+          }
+        }
+      }
+    },
+    "그냥 닫음": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Just dismissed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditutup begitu saja"
+          }
+        }
+      }
+    },
+    "결제 취소": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase cancelled"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pembayaran dibatalkan"
+          }
+        }
+      }
+    },
+    "결제 실패": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase failed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pembayaran gagal"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

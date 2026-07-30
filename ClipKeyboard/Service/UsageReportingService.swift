@@ -39,6 +39,13 @@ enum UsageReportingService {
     /// 스냅샷의 lastActiveAt은 덮어쓰기라 날짜별 이력이 남지 않아, 하루 1건 이벤트로 대신한다.
     static let appOpenEvent = "app_open"
 
+    /// 원격 킬스위치 — 사용자가 끄는 옵트아웃은 없지만, **개발자는 원격으로 멈출 수 있어야 한다**.
+    /// 심사(5.1.1(ii))나 GDPR 지적을 받으면 심사 없이 즉시 수집을 중단하는 안전판.
+    /// 조회 실패 시엔 true(켬)라 네트워크 문제로 수집이 임의로 멈추지는 않는다.
+    private static var isReportingAllowed: Bool {
+        RemoteFlagsService.cachedValue(.usageReportingEnabled)
+    }
+
     /// 앱 실행 시 1회. 실행 횟수를 기록하고(로컬), 설치 스냅샷을 갱신한다(12시간 쓰로틀은 LeeoKit이 담당).
     static func reportLaunch() {
         LeeoEngagement.shared.registerLaunch()
@@ -46,7 +53,7 @@ enum UsageReportingService {
         // 하루 1건 — 일/주/월/연 차트의 "활동한 사용자"가 실제 접속을 반영하게 한다.
         record(event: appOpenEvent, minInterval: 20 * 3600)
 
-        guard !isRunningTests else { return }
+        guard !isRunningTests, isReportingAllowed else { return }
         Task(priority: .utility) {
             await reporter.report(metrics: currentMetrics())
         }
@@ -64,7 +71,7 @@ enum UsageReportingService {
            Date().timeIntervalSince(last) < minInterval { return }
         UserDefaults.standard.set(Date(), forKey: key)
 
-        guard !isRunningTests else { return }
+        guard !isRunningTests, isReportingAllowed else { return }
         reporter.logEventInBackground(String(name.prefix(60)))
     }
 

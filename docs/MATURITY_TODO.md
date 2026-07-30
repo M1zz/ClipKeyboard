@@ -3,6 +3,10 @@
 > 근거: `app-portfolio` 완성도 체크리스트 8개 영역 + 2026-07-30 리포지토리 실사
 > 설계 배경: `docs/SERVICE_MATURITY_PLAN.md` · 이 문서는 그 **실행 목록**이다
 > 각 항목은 **PR 하나 크기**를 목표로 쪼갰다.
+>
+> **진행 상태 (2026-07-31)**: `[x]` 완료 · `[~]` 부분 완료(뒤에 남은 일 명시) · `[ ]` 미착수.
+> P1·P2 코드 항목과 P3 집계 로직은 완료. 남은 큰 덩어리는 **P0(콘솔 수동 작업)**,
+> P3 화면 표시, P4 마케팅 발행이다.
 
 ## 0. 리포트와 달라진 점 (먼저 읽을 것)
 
@@ -47,42 +51,42 @@
 
 ## P1 · 🛟 장애 가시성 + 🧪 QA 자동화
 
-- [ ] **MetricKit 진단 수집** — `MXMetricManager` 구독 → crash/hang/diskWrite 페이로드에서 콜스택·앱버전·OS만 추출 → FeedbackHub에 `CrashReport` 레코드.
+- [x] **MetricKit 진단 수집** ✅ `DiagnosticsService` (⚠️ 실기기 검증 남음 — 시뮬레이터엔 페이로드가 거의 안 온다) — `MXMetricManager` 구독 → crash/hang/diskWrite 페이로드에서 콜스택·앱버전·OS만 추출 → FeedbackHub에 `CrashReport` 레코드.
       외부 SDK 0개 유지, 개인정보 신고 항목 증가 없음. **키보드 익스텐션 jetsam(메모리 종료)까지 잡히는 게 핵심**
 - [ ] **안정성 화면** — `UsageStatsView` 옆 탭. 버전별 크래시 건수·상위 콜스택 (마스터 모드 전용)
-- [ ] **성능 지표 수집** — 같은 MetricKit 페이로드의 `MXMetricPayload`(앱 시작시간·메모리·배터리)도 함께 적재. 위 작업에 얹으면 추가 비용 거의 없음
-- [ ] **GitHub Actions CI** — `.github/workflows/ci.yml`: build(앱·키보드·위젯) → test → `scripts/check_localization.py`.
+- [~] **성능 지표 수집** — `MXMetricPayload` 수신·로그까지만. 허브 적재는 크래시 가시성이 자리잡은 뒤 — 같은 MetricKit 페이로드의 `MXMetricPayload`(앱 시작시간·메모리·배터리)도 함께 적재. 위 작업에 얹으면 추가 비용 거의 없음
+- [x] **GitHub Actions CI** ✅ `.github/workflows/ci.yml` — `predeploy.sh` 호출로 게이트 단일화 — `.github/workflows/ci.yml`: build(앱·키보드·위젯) → test → `scripts/check_localization.py`.
       `scripts/predeploy.sh` 내용을 워크플로로 승격하는 게 최단 경로
-- [ ] **SwiftLint 도입 (3개 규칙만)** — `force_try` / `force_unwrapping` / `file_length`.
+- [x] **SwiftLint 도입 (3개 규칙만)** ✅ `.swiftlint.yml` — 프로덕션 위반 13건(강제 언랩 11·파일 길이 2). 테스트는 대상 제외 — `force_try` / `force_unwrapping` / `file_length`.
       145개 파일에 전체 규칙을 걸면 경고 폭탄 → 아무도 안 본다. 초기엔 non-blocking
-- [ ] **경고 0 유지 장치** — CI에서 신규 경고 발생 시 실패. 현재 경고 0이라 지금이 거는 최적 시점
+- [~] **경고 0 유지 장치** — 현재 컴파일 경고 0 유지 중. CI의 lint 잡은 아직 non-blocking(위반 13건 해소 후 전환) — CI에서 신규 경고 발생 시 실패. 현재 경고 0이라 지금이 거는 최적 시점
 
 ## P2 · 🛟 복원력 + 🗄️ 데이터 안정성 + 🔐 보안
 
-- [ ] **원격 킬스위치** — FeedbackHub public DB에 `RemoteFlags` 레코드 1건. 런치 시 fetch, 실패하면 **로컬 기본값 = 전부 켬**(가용성 우선).
+- [x] **원격 킬스위치** ✅ `RemoteFlagsService` — 동기화·통계 게이트 연결, 테스트 5개. ⚠️ CloudKit에 `RemoteFlags` 레코드 생성은 남음 — FeedbackHub public DB에 `RemoteFlags` 레코드 1건. 런치 시 fetch, 실패하면 **로컬 기본값 = 전부 켬**(가용성 우선).
       최소 플래그: `syncEnabled` · `usageReportingEnabled`(옵트아웃 없는 설계의 안전판) · `paywallEnabled`.
       CloudKit 접근 코드는 `UsageReportingService`의 것을 재사용
-- [ ] **전역 에러 핸들링·폴백 화면** — 최상위에서 치명적 실패를 잡아 "데이터를 불러오지 못했어요 + 복구 시도" 화면 제공. 현재는 빈 화면으로 보일 수 있음
+- [x] **전역 에러 핸들링·폴백 화면** ✅ `DataRecoveryView` + `MemoStore` 손상 격리 — 조용한 데이터 유실 경로를 막았다 — 최상위에서 치명적 실패를 잡아 "데이터를 불러오지 못했어요 + 복구 시도" 화면 제공. 현재는 빈 화면으로 보일 수 있음
 - [ ] **`try?` 데이터 경로 트리아지** — 127개 전부가 아니라 `MemoStore`·`CategoryStore`·마이그레이션·`CloudKitBackupService`·`MemoSyncEngine`만.
       규칙: **읽기 실패는 폴백 허용, 쓰기 실패는 반드시 표면화**
 - [ ] **구조적 로깅 전환** — `print` 33개 파일 → `Logger(subsystem:category:)`. 우선 동기화·백업·마이그레이션 3개 모듈.
       이모지 컨벤션(📁✅❌)은 메시지 안에 유지 → 기존 디버깅 팁이 그대로 동작
-- [ ] **마이그레이션 테스트 신설** — 구버전 JSON 픽스처 → 현재 모델 디코딩 검증. 대상: `MemoStore`·`CategoryStore`·`ProStatusManager`·`SmartClipboard`
+- [x] **마이그레이션 테스트 신설** ✅ `MigrationCompatibilityTests` 9개 + `DataCorruptionDetectionTests` 7개 — 구버전 JSON 픽스처 → 현재 모델 디코딩 검증. 대상: `MemoStore`·`CategoryStore`·`ProStatusManager`·`SmartClipboard`
 - [ ] **동기화 충돌 테스트 보강** — "id 단위 최신 우선 + 툼스톤" 정책을 테스트로 고정 (양쪽 수정 / 삭제 vs 수정 / 시계 역전)
-- [ ] **메모 전체 삭제 경로** — 설정에 "모든 데이터 삭제"(2단계 확인). GDPR 삭제권 대응 + 리뷰어가 찾는 항목
-- [ ] **이용약관(EULA) 페이지** — `docs/terms.html` 신설 + 앱 설정·페이월에서 링크. IAP 앱 권장 항목
+- [x] **메모 전체 삭제 경로** ✅ `DataWipeService` + 설정 2단계 확인 (구매·iCloud 백업은 보존) — 설정에 "모든 데이터 삭제"(2단계 확인). GDPR 삭제권 대응 + 리뷰어가 찾는 항목
+- [x] **이용약관(EULA) 페이지** ✅ `docs/terms.html` + 설정 '약관 및 개인정보' 섹션(처리방침 링크 포함) — `docs/terms.html` 신설 + 앱 설정·페이월에서 링크. IAP 앱 권장 항목
 - [ ] **파일 보호 등급 확인·문서화** — 현재 명시 설정 없음(iOS 기본값).
       ⚠️ 키보드 익스텐션은 잠금 상태 접근이 필요할 수 있어 **무턱대고 올리면 깨진다** — 확인 후 결정·기록만
 
 ## P3 · 🔭 관측 심화 + 📈 성장
 
-- [ ] **전환 퍼널 화면** — `paywall_view` → `paywall_cta_tapped` → `paywall_purchase` / `purchase_cancelled` 단계별 전환율.
+- [~] **전환 퍼널 화면** — 집계 `UsageInsights.paywallFunnel` + 테스트 완료. **화면 표시는 남음**(P0 후 실데이터로 검증) — `paywall_view` → `paywall_cta_tapped` → `paywall_purchase` / `purchase_cancelled` 단계별 전환율.
       **이벤트는 이미 다 있다** — 집계·표시만 추가
-- [ ] **리텐션 코호트** — `UsageSnapshot.installDate` + `app_open` 이벤트로 D1/D7/D30. 새 이벤트 불필요
+- [~] **리텐션 코호트** — 집계 `UsageInsights.weeklyRetention` + 테스트 완료. **화면 표시는 남음** — `UsageSnapshot.installDate` + `app_open` 이벤트로 D1/D7/D30. 새 이벤트 불필요
 - [ ] **핵심지표 대시보드 정리** — 위 둘 + 기존 추이 차트를 한 화면에. "이번 주 봐야 할 숫자" 상단 고정
 - [ ] **리뷰 요청 타이밍 최적화** — `ReviewManager`는 이미 있음. `timeSavedMin` 임계 돌파 직후(가치 순간)로 조정하고 P3-1 데이터로 검증. 목표 평가 13개 → 50개
 - [ ] **A/B 테스트 기반** — 원격 플래그 인프라(P2) 재사용. 첫 실험은 페이월 문구
-- [ ] **위젯 iPad 지원** — `TARGETED_DEVICE_FAMILY` `1` → `1,2` + iPad 크기 대응 확인
+- [x] **위젯 iPad 지원** ✅ `TARGETED_DEVICE_FAMILY` 1 → 1,2 — `TARGETED_DEVICE_FAMILY` `1` → `1,2` + iPad 크기 대응 확인
 
 ## P4 · 📣 마케팅 발행
 

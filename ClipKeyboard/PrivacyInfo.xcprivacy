@@ -74,7 +74,22 @@
             </array>
         </dict>
 
-        <!-- ④ 고객 지원 — 사용자가 직접 쓴 피드백 본문.
+        <!-- ④ 크래시 데이터 — MetricKit이 주는 크래시·행 진단(콜스택·앱버전·OS).
+             DiagnosticsService 가 허브로 보낸다. 설치 식별자조차 붙이지 않는다. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeCrashData</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+
+        <!-- ⑤ 고객 지원 — 사용자가 직접 쓴 피드백 본문.
              연락처를 함께 남기면 신원과 연결될 수 있으므로 Linked = true. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
@@ -89,7 +104,7 @@
             </array>
         </dict>
 
-        <!-- ⑤ 이메일 — 피드백에서 답장을 원할 때만 사용자가 직접 입력(선택). -->
+        <!-- ⑥ 이메일 — 피드백에서 답장을 원할 때만 사용자가 직접 입력(선택). -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
             <string>NSPrivacyCollectedDataTypeEmailAddress</string>
@@ -103,7 +118,7 @@
             </array>
         </dict>
 
-        <!-- ⑥ 이름 — 위와 동일, 피드백의 선택 입력값. -->
+        <!-- ⑦ 이름 — 위와 동일, 피드백의 선택 입력값. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
             <string>NSPrivacyCollectedDataTypeName</string>

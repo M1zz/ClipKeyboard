@@ -1,0 +1,40 @@
+# SwiftLint — 최소 규칙으로 시작한다.
+#
+# ⚠️ 의도적으로 3개만 켠다. 145개 파일에 전체 규칙을 걸면 수천 건 경고가 쏟아지고,
+#    그러면 아무도 안 본다. 여기 있는 규칙은 "나오면 반드시 고친다"는 뜻이다.
+#    규칙을 늘릴 땐 한 번에 하나씩, 기존 위반을 0으로 만든 뒤에 추가할 것.
+#
+# 실행: swiftlint            (경고 확인)
+#       swiftlint --strict   (CI — 경고도 실패 처리)
+
+only_rules:
+  - force_try          # try! — 현재 0건. 새로 들어오는 것만 막으면 된다
+  - force_unwrapping   # 옵셔널 강제 언랩. 크래시 1순위 원인
+  - file_length        # 파일 비대화 방지
+
+included:
+  - ClipKeyboard
+  - ClipKeyboardExtension
+  - ClipKeyboardShareExtension
+  - widget
+  - Shared
+# ClipKeyboardTests 는 제외한다 — 테스트에서 강제 언랩은 "여기서 바로 실패하라"는
+# 관용적 표현이라 프로덕션 코드와 같은 잣대로 볼 이유가 없다.
+
+excluded:
+  - build
+  - DerivedData
+  - .build
+  - fastlane
+  - docs
+  - scripts
+
+file_length:
+  # 현재 초과 4개(ClipKeyboardList 3118 · KeyboardView 1852 ·
+  # ClipKeyboardListViewModel 1221 · ClipKeyboardApp 1029)를 줄여가는 게 목표.
+  # 800으로 조이면 15개가 한꺼번에 걸려 실효가 없어 1000에서 시작한다.
+  warning: 1000
+  error: 4000
+  ignore_comment_only_lines: true
+
+reporter: "xcode"
