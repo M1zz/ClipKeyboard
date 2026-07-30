@@ -12,6 +12,13 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+# 맥 앱은 2026-07 부터 별도 리포다 — 모델 사본 위치(환경변수로 덮어쓰기 가능).
+MAC_REPO="${MAC_REPO:-$HOME/Documents/workspace/code/ClipKeyboardMac}"
+MAC_MODELS="$MAC_REPO/ClipKeyboard.tap/Models.swift"
+if [ ! -f "$MAC_MODELS" ]; then
+  echo "❌ 맥 모델을 찾을 수 없습니다: $MAC_MODELS (MAC_REPO 환경변수로 지정)"
+  exit 1
+fi
 WORK_DIR="$(mktemp -d /tmp/ck_roundtrip.XXXXXX)"
 trap 'rm -rf "$WORK_DIR"' EXIT
 
@@ -23,7 +30,12 @@ echo "🔧 iOS 모델(Memo.swift) 드라이버 컴파일..."
 swiftc -o "$WORK_DIR/ios_driver" "$REPO_ROOT/ClipKeyboard/Model/Memo.swift" "$WORK_DIR/ios/main.swift"
 
 echo "🔧 macOS 모델(Models.swift) 드라이버 컴파일..."
-swiftc -o "$WORK_DIR/mac_driver" "$REPO_ROOT/ClipKeyboard.tap/Models.swift" "$WORK_DIR/mac/main.swift"
+# Models.swift 는 공유 상수(AppGroup/DefaultsKey/StorageFile/AppNotification)를 참조하므로 함께 컴파일한다.
+MAC_SHARED="$MAC_REPO/Shared"
+swiftc -o "$WORK_DIR/mac_driver" "$MAC_MODELS" \
+  "$MAC_SHARED/AppGroup.swift" "$MAC_SHARED/DefaultsKey.swift" \
+  "$MAC_SHARED/StorageFile.swift" "$MAC_SHARED/AppNotification.swift" \
+  "$WORK_DIR/mac/main.swift"
 
 "$WORK_DIR/ios_driver" encode "$WORK_DIR/data"
 "$WORK_DIR/mac_driver" roundtrip "$WORK_DIR/data"
