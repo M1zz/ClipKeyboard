@@ -1415,6 +1415,40 @@
         }
       }
     },
+    "%1$d%% (%2$d)": {
+      "comment": "Usage stats: percent and count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d%% (%2$d)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d%% (%2$d)"
+          }
+        }
+      }
+    },
+    "%1$d건 · 설치 %2$d곳": {
+      "comment": "Usage stats: event count and installs",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d events · %2$d installs"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d peristiwa · %2$d pemasangan"
+          }
+        }
+      }
+    },
     "%d categories": {
       "comment": "Categories count header",
       "localizations": {
@@ -9233,6 +9267,23 @@
         }
       }
     },
+    "Pro 사용자": {
+      "comment": "Usage metric: pro users",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro users"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna Pro"
+          }
+        }
+      }
+    },
     "Pro 업그레이드": {
       "comment": "Pro upgrade\nUpgrade",
       "localizations": {
@@ -12794,6 +12845,7 @@
     },
     "구매 검증에 실패했습니다": {
       "comment": "Verification failed",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -12811,6 +12863,7 @@
     },
     "구매 승인 대기 중입니다": {
       "comment": "Purchase pending",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -13455,17 +13508,6 @@
         }
       }
     },
-    "끄기": {
-      "comment": "Nudge: turn off",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Off"
-          }
-        }
-      }
-    },
     "끔": {
       "comment": "Toggle state: off",
       "localizations": {
@@ -13478,6 +13520,17 @@
         "id": {
           "stringUnit": {
             "state": "needs_review",
+            "value": "Off"
+          }
+        }
+      }
+    },
+    "끄기": {
+      "comment": "Nudge: turn off",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
             "value": "Off"
           }
         }
@@ -13843,6 +13896,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Periksa koneksi jaringan dan coba lagi."
+          }
+        }
+      }
+    },
+    "누적 사용 횟수": {
+      "comment": "Usage metric: total uses",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total uses"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total penggunaan"
+          }
+        }
+      }
+    },
+    "누적 실행": {
+      "comment": "Usage stats: total launches",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total launches"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Total peluncuran"
           }
         }
       }
@@ -14446,6 +14533,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hapus Snippet"
+          }
+        }
+      }
+    },
+    "단축어 수": {
+      "comment": "Usage metric: shortcuts",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan"
           }
         }
       }
@@ -15305,6 +15409,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Help"
+          }
+        }
+      }
+    },
+    "동기화 켠 사용자": {
+      "comment": "Usage metric: sync enabled users",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Users with sync on"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna dengan sinkronisasi aktif"
           }
         }
       }
@@ -16919,6 +17040,23 @@
         }
       }
     },
+    "버전 분포": {
+      "comment": "Usage stats section: version distribution",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version distribution"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distribusi versi"
+          }
+        }
+      }
+    },
     "버전에서 복원": {
       "comment": "Restore from a version — screen title",
       "localizations": {
@@ -17944,8 +18082,7 @@
       }
     },
     "불러오는 중…": {
-      "comment": "Feedback inbox loading",
-      "extractionState": "stale",
+      "comment": "Loading usage stats",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -17957,6 +18094,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Memuat…"
+          }
+        }
+      }
+    },
+    "불러오지 못했어요: %@": {
+      "comment": "Usage stats load failed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't load: %@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gagal memuat: %@"
           }
         }
       }
@@ -18384,6 +18538,57 @@
         }
       }
     },
+    "사용 중인 사람 (설치)": {
+      "comment": "Usage stats: total installs",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "People using it (installs)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna (pemasangan)"
+          }
+        }
+      }
+    },
+    "사용 통계": {
+      "comment": "Usage stats title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usage Stats"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistik Penggunaan"
+          }
+        }
+      }
+    },
+    "사용 통계 (개발자)": {
+      "comment": "Usage stats settings entry (developer)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usage Stats (Developer)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statistik Penggunaan (Pengembang)"
+          }
+        }
+      }
+    },
     "사용 패턴": {
       "comment": "Persona setting row title",
       "extractionState": "manual",
@@ -18428,6 +18633,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "사용 패턴 변경"
+          }
+        }
+      }
+    },
+    "사용자": {
+      "comment": "Usage stats section: users",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Users"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna"
+          }
+        }
+      }
+    },
+    "사용자 비율": {
+      "comment": "Usage stats section: user share",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "User share"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Proporsi pengguna"
           }
         }
       }
@@ -20113,6 +20352,40 @@
         }
       }
     },
+    "설치당 평균": {
+      "comment": "Usage stats section: per-install averages",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Average per install"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rata-rata per pemasangan"
+          }
+        }
+      }
+    },
+    "설치마다 익명 스냅샷 1건이라, 설치 수 = 이 앱을 쓰는 기기 수예요.": {
+      "comment": "Usage stats users footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One anonymous snapshot per install, so the install count equals the number of devices using the app."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satu snapshot anonim per pemasangan, jadi jumlah pemasangan sama dengan jumlah perangkat yang memakai app ini."
+          }
+        }
+      }
+    },
     "세금번호": {
       "comment": "Tax ID",
       "localizations": {
@@ -20760,6 +21033,23 @@
         }
       }
     },
+    "아직 기록된 사용 내용이 없어요.": {
+      "comment": "Usage stats: no events yet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No usage recorded yet."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belum ada aktivitas yang tercatat."
+          }
+        }
+      }
+    },
     "아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?": {
       "comment": "Setup not found feedback",
       "extractionState": "manual",
@@ -20803,6 +21093,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Belum ada masukan yang diterima"
+          }
+        }
+      }
+    },
+    "아직 처리 안 함": {
+      "comment": "Usage stats: feedback not done",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not handled yet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belum ditangani"
           }
         }
       }
@@ -20934,6 +21241,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "앱 메뉴: 클립키보드"
+          }
+        }
+      }
+    },
+    "앱 사용 내용": {
+      "comment": "Usage stats section: what people do",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What people do"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktivitas pengguna"
           }
         }
       }
@@ -22876,6 +23200,23 @@
         }
       }
     },
+    "이미지 단축어 수": {
+      "comment": "Usage metric: image shortcuts",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Image shortcuts"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan gambar"
+          }
+        }
+      }
+    },
     "이미지 단축어 추가": {
       "comment": "Add image memo card",
       "localizations": {
@@ -24174,6 +24515,23 @@
         }
       }
     },
+    "저장": {
+      "comment": "Save\nSave button\nSave clipboard item as memo",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simpan"
+          }
+        }
+      }
+    },
     "전": {
       "comment": "Auto-registered",
       "extractionState": "manual",
@@ -24194,23 +24552,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "전"
-          }
-        }
-      }
-    },
-    "저장": {
-      "comment": "Save\nSave button\nSave clipboard item as memo",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simpan"
           }
         }
       }
@@ -24616,6 +24957,23 @@
         }
       }
     },
+    "전체 통계를 읽으려면 CloudKit 컨테이너의 read 권한과 UsageSnapshot·UsageEvent 스키마 배포가 필요해요.": {
+      "comment": "Usage stats permission footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading the full stats needs read access on the CloudKit container plus the UsageSnapshot/UsageEvent schema deployed."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Membaca statistik lengkap memerlukan akses baca pada kontainer CloudKit dan skema UsageSnapshot/UsageEvent yang sudah di-deploy."
+          }
+        }
+      }
+    },
     "전화": {
       "comment": "Phone token button",
       "localizations": {
@@ -24663,6 +25021,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nomor Telepon"
+          }
+        }
+      }
+    },
+    "절약한 시간 (분)": {
+      "comment": "Usage metric: time saved minutes",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time saved (min)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waktu dihemat (mnt)"
           }
         }
       }
@@ -24733,8 +25108,7 @@
       }
     },
     "접수된 피드백": {
-      "comment": "Feedback inbox title",
-      "extractionState": "stale",
+      "comment": "Usage stats: feedback count",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -25138,6 +25512,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Show favorite snippets only or show all."
+          }
+        }
+      }
+    },
+    "즐겨찾기 수": {
+      "comment": "Usage metric: favorites",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorites"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Favorit"
           }
         }
       }
@@ -25770,6 +26161,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Terbaru"
+          }
+        }
+      }
+    },
+    "최근 7일 신규": {
+      "comment": "Usage stats: new installs last 7 days",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New in last 7 days"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baru 7 hari terakhir"
+          }
+        }
+      }
+    },
+    "최근 7일 활성": {
+      "comment": "Usage stats: active last 7 days",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active in last 7 days"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktif 7 hari terakhir"
+          }
+        }
+      }
+    },
+    "최근 30일 활성": {
+      "comment": "Usage stats: active last 30 days",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active in last 30 days"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktif 30 hari terakhir"
+          }
+        }
+      }
+    },
+    "최근 100건 기준이에요. 완료 표시는 이 기기에만 저장됩니다.": {
+      "comment": "Usage stats feedback footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Based on the latest 100 items. Done marks are stored on this device only."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berdasarkan 100 item terbaru. Tanda selesai hanya disimpan di perangkat ini."
           }
         }
       }
@@ -26533,6 +26992,23 @@
         }
       }
     },
+    "콤보 수": {
+      "comment": "Usage metric: combos",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Combos"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kombo"
+          }
+        }
+      }
+    },
     "콤보 추가": {
       "comment": "Add combo card",
       "localizations": {
@@ -27224,6 +27700,23 @@
         }
       }
     },
+    "키보드 사용 횟수": {
+      "comment": "Usage metric: keyboard uses",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard uses"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Penggunaan keyboard"
+          }
+        }
+      }
+    },
     "키보드 설정": {
       "comment": "Keyboard settings nav title",
       "extractionState": "stale",
@@ -27424,6 +27917,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Try the Keyboard Now?"
+          }
+        }
+      }
+    },
+    "키보드를 쓰는 사용자": {
+      "comment": "Usage metric: keyboard active users",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Users with keyboard"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna dengan keyboard"
           }
         }
       }
@@ -28840,6 +29350,23 @@
         }
       }
     },
+    "템플릿 수": {
+      "comment": "Usage metric: templates",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Templates"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Templat"
+          }
+        }
+      }
+    },
     "템플릿 입력": {
       "comment": "Template input title",
       "localizations": {
@@ -29343,6 +29870,23 @@
         }
       }
     },
+    "플랫폼": {
+      "comment": "Usage stats section: platform distribution",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platform"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Platform"
+          }
+        }
+      }
+    },
     "플레이스홀더 (%d개)": {
       "comment": "Placeholder count",
       "localizations": {
@@ -29412,6 +29956,23 @@
         }
       }
     },
+    "피드백": {
+      "comment": "Usage stats section: feedback",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feedback"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masukan"
+          }
+        }
+      }
+    },
     "피드백 내용": {
       "comment": "Feedback content field a11y label",
       "extractionState": "stale",
@@ -29477,6 +30038,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Feedback type"
+          }
+        }
+      }
+    },
+    "피드백 전부 보기": {
+      "comment": "Usage stats: open feedback inbox",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See all feedback"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lihat semua masukan"
           }
         }
       }
@@ -30373,6 +30951,278 @@
           "stringUnit": {
             "state": "translated",
             "value": "Petunjuk (opsional)"
+          }
+        }
+      }
+    },
+    "최근 이벤트 3,000건 기준이에요. 같은 이벤트는 설치당 6시간에 한 번만 기록되니, 건수보다 '설치 몇 곳이 쓰는지'를 보세요.": {
+      "comment": "Usage stats events footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Based on the latest 3,000 events. The same event is recorded at most once every 6 hours per install, so read the install count rather than the raw event count."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berdasarkan 3.000 peristiwa terbaru. Peristiwa yang sama hanya dicatat sekali tiap 6 jam per pemasangan, jadi lihat jumlah pemasangan, bukan jumlah peristiwa."
+          }
+        }
+      }
+    },
+    "기간별 추이": {
+      "comment": "Usage stats section: trend over time",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trend over time"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tren dari waktu ke waktu"
+          }
+        }
+      }
+    },
+    "일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동합니다.": {
+      "comment": "Usage stats trend footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grouped by day, week, month or year. Swipe the chart sideways to move back one unit at a time."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikelompokkan per hari, minggu, bulan, atau tahun. Geser grafik ke samping untuk mundur satu satuan."
+          }
+        }
+      }
+    },
+    "일간": {
+      "comment": "Chart bucket: daily",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daily"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Harian"
+          }
+        }
+      }
+    },
+    "주간": {
+      "comment": "Chart bucket: weekly",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mingguan"
+          }
+        }
+      }
+    },
+    "월간": {
+      "comment": "Chart bucket: monthly",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bulanan"
+          }
+        }
+      }
+    },
+    "연간": {
+      "comment": "Chart bucket: yearly",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yearly"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahunan"
+          }
+        }
+      }
+    },
+    "활동한 사용자": {
+      "comment": "Chart metric: active installs",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active users"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna aktif"
+          }
+        }
+      }
+    },
+    "사용 건수": {
+      "comment": "Chart metric: event count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usage count"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jumlah penggunaan"
+          }
+        }
+      }
+    },
+    "신규 사용자": {
+      "comment": "Chart metric: new installs",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New users"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pengguna baru"
+          }
+        }
+      }
+    },
+    "기간 단위": {
+      "comment": "Chart bucket unit picker label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period unit"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satuan periode"
+          }
+        }
+      }
+    },
+    "표시할 값": {
+      "comment": "Chart metric picker label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metric"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Metrik"
+          }
+        }
+      }
+    },
+    "기간": {
+      "comment": "Chart axis: period",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Period"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Periode"
+          }
+        }
+      }
+    },
+    "아직 그릴 데이터가 없어요.": {
+      "comment": "Chart: no data yet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No data to chart yet."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belum ada data untuk grafik."
+          }
+        }
+      }
+    },
+    "이 구간 합계 %1$@ %2$d": {
+      "comment": "Chart: total in visible range",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ in view: %2$d"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ terlihat: %2$d"
+          }
+        }
+      }
+    },
+    "좌우로 넘겨서 다른 기간을 보세요.": {
+      "comment": "Chart: scroll hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe sideways to see other periods."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geser ke samping untuk melihat periode lain."
           }
         }
       }

@@ -108,6 +108,7 @@
 		B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */; };
 		B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */; };
 		CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */; };
+		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
 		CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */; };
 		D353F4A236699D9A0F78E9DE /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		D879B4601DD1A12745791C7A /* ComboEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3875D8CD57527397640A15F /* ComboEditSheet.swift */; };
@@ -144,6 +145,8 @@
 		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
 		TPS0002A2F0000000000000002 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPS0001A2F0000000000000001 /* Tips.swift */; };
 		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
+		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
+		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,7 +202,7 @@
 		11527193B51F40B39A530C1C /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
 		1396EB22C5749F763307098D /* ShareViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupStorage.swift; sourceTree = "<group>"; };
-		1B652AFA4FA9C14F52776488 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		1B652AFA4FA9C14F52776488 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComboExecutionService.swift; sourceTree = "<group>"; };
 		2B0D50F9D6DDA68EB1F9AFC2 /* ClipKeyboardShareExtension.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = ClipKeyboardShareExtension.entitlements; sourceTree = "<group>"; };
 		2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +289,7 @@
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
 		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
+		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
 		D663A47B0F30561381AFD709 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
@@ -320,10 +324,12 @@
 		STP00022F0000000000000002 /* StarterPackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterPackView.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		TSH00022F0000000000000002 /* TemplateSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSheets.swift; sourceTree = "<group>"; };
+		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
+		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
+		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -333,29 +339,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = widget;
-			sourceTree = "<group>";
-		};
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = ClipKeyboardTests;
-			sourceTree = "<group>";
-		};
+		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,6 +422,7 @@
 				AA00000100000001F3B00001 /* ReviewRequestView.swift */,
 				58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */,
 				AIC0FILE0000000000000004 /* AIComponents.swift */,
+				US00001C2F0000000000000005 /* UsageTrendChartView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -608,6 +594,7 @@
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				QKN0FILE0000000000000002 /* QuickNoteStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
+				US00001B2F0000000000000003 /* UsageReportingService.swift */,
 				0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */,
 				F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */,
 				58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */,
@@ -639,6 +626,7 @@
 				5802F4112A2B42D3002825D6 /* Component */,
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
+				US00001A2F0000000000000001 /* UsageStatsView.swift */,
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
 				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -721,7 +709,6 @@
 				2B0D50F9D6DDA68EB1F9AFC2 /* ClipKeyboardShareExtension.entitlements */,
 				1B652AFA4FA9C14F52776488 /* README.md */,
 			);
-			name = ClipKeyboardShareExtension;
 			path = ClipKeyboardShareExtension;
 			sourceTree = "<group>";
 		};
@@ -898,9 +885,6 @@
 					58C473372A109F0C009D87BC = {
 						CreatedOnToolsVersion = 14.3;
 					};
-					58FBB9092ED9AD0B004231BE = {
-						CreatedOnToolsVersion = 26.0;
-					};
 					9CA0A4022F19D9B3004ABF40 = {
 						CreatedOnToolsVersion = 26.2;
 						LastSwiftMigration = 2620;
@@ -920,7 +904,7 @@
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
-				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */,
+				588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
@@ -1048,6 +1032,8 @@
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
 				9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */,
 				TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */,
+				US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */,
+				US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */,
 				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
 				KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
@@ -1069,6 +1055,7 @@
 				5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */,
 				581550632AD5321F00A6115B /* Constants.swift in Sources */,
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
+				US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */,
 				CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */,
 				CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */,
 				EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */,
@@ -1681,22 +1668,26 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LeeoKit;
+/* Begin XCRemoteSwiftPackageReference section */
+		588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 /* End XCSwiftPackageProductDependency section */

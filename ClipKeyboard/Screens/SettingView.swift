@@ -295,11 +295,15 @@ struct SettingView: View {
                     Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                           systemImage: AppSymbol.envelopeBadge)
                 }
-                // 마스터(개발자) 모드 전용 — 접수된 피드백 인박스
+                // 마스터(개발자) 모드 전용 — 접수된 피드백 인박스 + 허브 사용 통계
                 if masterModeEnabled {
                     NavigationLink(destination: FeedbackInboxView()) {
                         Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
-                              systemImage: "tray.full")
+                              systemImage: AppSymbol.trayFull)
+                    }
+                    NavigationLink(destination: UsageStatsView()) {
+                        Label(NSLocalizedString("사용 통계 (개발자)", comment: "Usage stats settings entry (developer)"),
+                              systemImage: AppSymbol.chartBarXaxis)
                     }
                 }
                 // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)

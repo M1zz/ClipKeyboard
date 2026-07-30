@@ -50,7 +50,11 @@ struct ClipKeyboardApp: App {
         // 레거시 키(isCombo/comboValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
         migrateComboModelIfNeeded()
 
-        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (Analytics는 현재 no-op)
+        // 익명 사용 통계 → 공용 허브(FeedbackHub). 이벤트 훅을 먼저 꽂아야 이후 로그가 전달된다.
+        // (키보드 익스텐션 타겟은 이 훅이 nil이라 콘솔 로깅만 한다 — CloudKit 쓰기 없음)
+        AnalyticsService.eventSink = { UsageReportingService.record(event: $0) }
+
+        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
         AnalyticsService.flushKeyboardBeacon()
 
         // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
@@ -65,6 +69,9 @@ struct ClipKeyboardApp: App {
         // 백그라운드 새로고침 task 등록 — 메인 앱이 안 열려도 주기적으로 비콘 flush
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
+
+        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀, 옵트아웃 시 no-op.
+        UsageReportingService.reportLaunch()
 
         // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행
         Task { await ProFeatureManager.bootstrapIsTestFlight() }
@@ -598,6 +605,9 @@ struct ClipKeyboardApp: App {
                     _ = CloudKitBackupService.shared
 
                     // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
+                    // 시작 전에 실제 접근 권한을 공유 키에 미러링한다 — 안 하면 그랜드파더/TestFlight
+                    // 사용자는 토글이 켜져 있어도 엔진이 "not Pro"로 거부한다.
+                    ProFeatureManager.mirrorSyncEntitlement()
                     MemoSyncEngine.shared.startIfEnabled()
 
                     // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
@@ -636,6 +646,7 @@ struct ClipKeyboardApp: App {
                     // 앱이 다시 앞으로 오면 즉시 동기화 — 다른 기기의 최신 메모를 바로 반영.
                     // (start는 멱등 — 토글이 KV로 전파돼 막 켜진 경우 여기서 시작될 수 있음.)
                     if phase == .active {
+                        ProFeatureManager.mirrorSyncEntitlement()
                         MemoSyncEngine.shared.startIfEnabled()
                         MemoSyncEngine.shared.syncNow()
                     }

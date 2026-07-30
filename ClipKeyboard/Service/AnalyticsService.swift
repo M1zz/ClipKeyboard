@@ -3,9 +3,12 @@
 //  ClipKeyboard
 //
 //  Analytics 이벤트 호출 wrapper.
-//  - Firebase 제거됨: 현재 모든 로깅은 콘솔 print만 수행하는 no-op.
+//  - Firebase 제거됨: 콘솔 print + (메인 앱에서 켜 주면) 익명 사용 통계 허브 전송.
 //  - 이벤트/파라미터 taxonomy는 향후 다른 백엔드로 교체할 때 그대로 재사용하려고 유지한다.
 //  - 실제 백엔드를 붙일 땐 log()/setUserProperty() 본문만 바꾸면 모든 호출부가 그대로 동작한다.
+//
+//  ⚠️ 이 파일은 키보드 익스텐션 타겟에도 포함된다 — LeeoKit/CloudKit을 여기서 직접 참조하지 말 것.
+//     전송은 메인 앱이 런치 시 `eventSink`를 꽂아 주는 방식으로만 연결한다(UsageReportingService).
 //
 
 import Foundation
@@ -60,13 +63,21 @@ enum AnalyticsParam: String {
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
 enum AnalyticsService {
 
+    /// 이벤트 전송 훅 — 메인 앱이 런치 시 UsageReportingService를 연결한다.
+    /// 키보드 익스텐션에서는 nil로 남아 콘솔 로깅만 수행한다.
+    static var eventSink: ((String) -> Void)?
+
     /// 일반 이벤트 로깅
     static func log(_ event: AnalyticsEvent, parameters: [AnalyticsParam: Any] = [:]) {
         let stringKeyParams = parameters.reduce(into: [String: Any]()) { result, pair in
             result[pair.key.rawValue] = pair.value
         }
-        // Firebase 제거됨 — 현재는 콘솔 로깅만 (백엔드 교체 지점)
         print("📊 [Analytics] \(event.rawValue) \(stringKeyParams)")
+
+        // 허브 전송 — 이름 + 슬라이스 한 조각(triggeredBy > source)만. 값 자체는 보내지 않는다.
+        guard let eventSink else { return }
+        let slice = (parameters[.triggeredBy] as? String) ?? (parameters[.source] as? String)
+        eventSink(slice.map { "\(event.rawValue):\($0)" } ?? event.rawValue)
     }
 
     /// 사용자가 의도적으로 분석 거부 — UserDefaults 토글로 제어 가능 (향후 옵션)
@@ -135,6 +146,9 @@ enum AnalyticsService {
             .hoursSinceLastUse: hoursSince
         ])
         // 보고 완료 — 카운트만 리셋 (lastUse는 그대로 두어 cohort 분석 가능)
+        // 누적 사용 횟수는 따로 쌓아 사용 통계 스냅샷 지표(keyboardUses)로 보낸다.
+        let total = defaults.integer(forKey: DefaultsKey.kbBeaconTotalCount) + count
+        defaults.set(total, forKey: DefaultsKey.kbBeaconTotalCount)
         defaults.set(0, forKey: DefaultsKey.kbBeaconPendingCount)
     }
 
