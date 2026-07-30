@@ -1,5 +1,95 @@
 # ClipKeyboard 진행 상황
 
+## 📈 사용 통계를 FeedbackHub로 (2026-07-30, 커밋 대기)
+- [x] `UsageReportingService` 신설 — 피드백과 **같은 컨테이너**(iCloud.com.Ysoup.FeedbackHub)로 익명 통계 전송. 엔진은 LeeoKit `LeeoUsageReporter`(v2.6.0에 이미 포함, 패키지 버전 그대로)
+  - `UsageSnapshot`: 설치당 1건 upsert(12h 쓰로틀) → **사용 인원(설치 수)·7/30일 활성** 집계
+  - `UsageEvent`: 주요 행동 스트림, **이름당 6h 쓰로틀** → **앱 사용 내용**
+  - `metrics`: shortcuts/combos/templates/images/favorites/uses/timeSavedMin/keyboardUses + flag.isPro·flag.keyboardActive·flag.syncOn + persona.*
+- [x] `AnalyticsService.eventSink` 훅 — 기존 14개 이벤트 호출부를 그대로 재사용(`paywall_view:memo` 처럼 슬라이스 한 조각만 덧붙임).
+      ⚠️ AnalyticsService는 키보드 익스텐션 타겟에도 포함돼 LeeoKit 직접 참조 금지 → 메인 앱이 런치 시 훅을 꽂는 방식
+- [x] 키보드 비콘 누적 카운터 `kb.beacon.totalCount` 추가 (flush 때 합산) — 키보드만 쓰는 사용자도 지표에 반영
+- [x] `UsageStatsView` (설정 > 지원 > **사용 통계**, 마스터 모드 전용) — 허브에서 실제로 읽어와 표시:
+      사용자/활성/신규 · 이벤트별 건수·설치 수 · 설치당 평균 지표 · Pro·키보드·동기화 비율 · 버전/플랫폼 분포 · 피드백 건수 + 인박스 링크
+- [x] **기간별 추이 차트** (`UsageTrendChartView`, Swift Charts) — 일간/주간/월간/연간 전환 + 좌우 스크롤로 그 단위만큼 과거 이동(묶음 경계 스냅). 표시값 3종: 활동한 사용자 / 사용 건수 / 신규 사용자. 보이는 구간 합계·기간 라벨 표시
+  - `trend(unit:events:snapshots:)`가 빈 구간까지 채워 차트가 끊기지 않게 함 (Calendar 주입 가능 → 테스트 가능)
+  - 이벤트 조회는 CloudKit 커서로 최대 3,000건까지 이어 받음(단일 요청 상한 회피)
+  - **`app_open` 이벤트(20시간 쓰로틀)** 추가 — 스냅샷 lastActiveAt은 덮어쓰기라 날짜별 이력이 없어서, 일간 활성 사용자가 실제 접속을 반영하도록
+- [x] ~~옵트아웃 토글~~ **제거** — 사용자가 끌 수 없게(항상 수집). 설정 토글·`usageReportingEnabled` 키·관련 문자열 전부 삭제
+  - ⚠️ 심사 5.1.1(ii)/GDPR 지적 여지 있는 선택 — 리젝 시 토글 복구가 가장 빠른 해법(문서에 기록)
+- [x] 신규 문자열 51개 ko/en/id 추가(토글 문구 2개는 제거), `check_localization.py` 통과
+- [x] 테스트 14개 추가(쓰로틀(기본/커스텀)·지표 키/PII 없음·훅 규약·이름별 집계·일/주/월/연 버킷팅·빈 구간 채움) · 전체 스위트 TEST SUCCEEDED · 빌드 그린
+- [ ] ⚠️ **CloudKit Dashboard 선행 작업**: FeedbackHub에 `UsageSnapshot`·`UsageEvent` 스키마 생성 → 인덱스(recordName Queryable, UsageEvent는 createdTimestamp Sortable) → admin read 권한 → **Production 배포**. 절차: `docs/USAGE_STATS_HUB.md`
+- [ ] ⚠️ App Store **App Privacy** 갱신 필요(Usage Data / Product Interaction, 사용자와 미연결·추적 아님) + "외부로 아무 통계도 보내지 않음" 문구가 있는 릴리즈 노트·개인정보 처리방침 수정
+- [ ] 실기기에서 스냅샷 1건 올라가는지 → 통계 화면에서 카운트·차트 보이는지 확인 (차트는 유닛 테스트·빌드까지만 검증, 실데이터 렌더링 미확인 — Xcode 캔버스용 `UsageTrendChartView_Previews` 있음)
+
+## 🔖 버전 4.4.3 (2026-07-30, 커밋 대기)
+- [x] iOS `Version.xcconfig` 4.4.2(1) → **4.4.3(1)** — 4.4.2는 미출시(커밋 전)라 그대로 4.4.3으로 올림
+- [x] `CLAUDE.md` 현재 버전 4.4.0 → 4.4.3 (오래 방치돼 있던 값)
+- [x] iOS 릴리즈 노트 `RELEASE_NOTES_4.4.2.md` → `RELEASE_NOTES_4.4.3.md` 이름·제목 변경
+- [ ] 릴리즈 노트에 "익명 사용 통계 수집 시작" 문구 추가 여부 결정 (수집 사실 고지 — App Privacy 갱신과 세트)
+- [ ] 맥 `Version.xcconfig`도 4.4.3으로 맞출지 (맥 빌드번호는 절대 리셋 금지, 전역 단조 증가)
+
+## 🔖 iOS·맥 둘 다 4.4.2로 (2026-07-29, 커밋 대기 — 4.4.3으로 대체됨)
+- [x] iOS `Version.xcconfig` 4.4.1(1) → **4.4.2(1)** — 마케팅 버전 올릴 때 빌드번호 1로 시작하는 기존 관례 유지
+- [x] 맥 `Version.xcconfig` 4.4.1(11) → **4.4.2(12)** — (1)로 리셋했다가 업로드 거절됨: **macOS 는 마케팅 버전과 무관하게 빌드번호가 전역 단조 증가**해야 한다(iOS 는 버전 트레인별 리셋 허용). 맥 README 배포 섹션에 경고 추가
+- [x] 빌드 산출물 Info.plist 로 확인: iOS 4.4.2(1) / 맥 4.4.2(12)
+- [x] 맥 릴리즈 노트 `RELEASE_NOTES_4.4.1_macOS.md` → `RELEASE_NOTES_4.4.2_macOS.md` 로 이름·제목 변경(내용은 이번 릴리즈 그대로)
+- [x] iOS 릴리즈 노트 병합 — 미출시 4.4.1 내용(여러 값 단축어·키보드 2/3 분할·이미지+값·새 단축어 화면)을 `docs/RELEASE_NOTES_4.4.2.md` 로 옮기고, 이번에 고친 기기 간 동기화(베타) 항목 추가. 낡은 `RELEASE_NOTES_4.4.1.md` 는 삭제(git 이력에 남음)
+
+## 🗂 맥 카테고리 구분 + 하위호환 (2026-07-29, 커밋 대기)
+- [x] `MacCategoryStore` 신설 — iOS `CategoryStore` 와 **같은 App Group 키**(userDefinedCategories_v1 / hiddenCategoryTabs_v1 / userCategoryIcons_v1 / category.feature.enabled.v1)를 읽어 순서·숨김 규칙 공유
+- [x] 메인 창: 카테고리 필터 Picker 를 스토어 기반으로 교체(전체 센티넬 `__all__` 로 "전체"라는 사용자 카테고리와의 충돌 제거, 선택 값이 사라지면 전체로 복귀)
+- [x] 메뉴바 팝오버: 카테고리 칩 필터 추가(카테고리를 쓸 때만 노출)
+- [x] 단축어 추가 화면: 자유 입력 → **카테고리 선택기 + "새 카테고리…" 시트**(만들면 iOS 와 같은 목록에 등록)
+- [x] **하위호환 1** — 목록에 등록 안 된 "고아" 카테고리(메모에만 있는 값)를 필터·선택기에 항상 포함. 어떤 경우에도 메모의 `category` 값을 고쳐 쓰지 않음
+- [x] **하위호환 2** — 1회 마이그레이션(append 전용): 기존 메모가 쓰던 카테고리를 목록에 등록 + 비-기본 카테고리 사용 시 카테고리 기능 자동 활성(iOS `migrateFeatureEnabledIfNeeded` 와 동일 규칙)
+- [x] **하위호환 3** — 맥 `MemoStore` 에도 **카테고리 사이드카**(`memoCategoryAssignments_v1`) 도입: 저장 시 기록, 로드 시 유실분 복원·치유. iOS 와 키·규칙 동일(한쪽만 있으면 서로의 카테고리를 되돌릴 위험)
+- [x] 라운드트립 검증 통과 — iOS 인코딩 → 맥 디코드 → 맥 재인코딩 → iOS 검증(전 필드 + 레거시 키 + OldMemo 폴백)
+- [x] `scripts/roundtrip/run_roundtrip_test.sh` 경로 수정 — 맥 리포 분리 후 깨져 있던 것(`MAC_REPO` 환경변수) + 공유 상수 함께 컴파일
+- [ ] 맥에는 카테고리 **관리**(이름변경·삭제·순서·숨김)가 없음 — iOS 카테고리 관리 화면이 정본. 필요하면 맥에도 추가 검토
+
+## 🔌 iOS→맥 동기화 미작동 원인 4개 수정 (2026-07-29, 커밋 대기)
+- [x] **Pro 게이트**: 공유 `MemoSyncEngine.isProUser` 가 결제 키만 봐서, 그랜드파더/TestFlight/체험 사용자는 **토글이 켜져 있어도 엔진이 조용히 거부** → `wasProAtV3`·`existingFreeUser`·신규 `syncEntitled` 도 인정. iOS 는 `ProFeatureManager.mirrorSyncEntitlement()`(hasFullAccess 미러링)를 앱 시작·포그라운드 복귀 때 호출
+- [x] **전송 확정 전 섀도 갱신**: `enqueueLocalChanges` 가 큐에 넣자마자 섀도를 "보냄"으로 기록 → 전송 전 종료 시 그 변경이 영영 재전송 안 됨. `confirmSent`(sentRecordZoneChanges) 에서만 섀도 기록하도록 수정 — 실제로 맥이 이 상태에 빠져 있었음(shadow 4건, lastPushAt 없음)
+- [x] **존 생성 실패가 안 보이던 구멍**: `.sentDatabaseChanges.failedZoneSaves` 오류 기록 추가 — Production 스키마 미배포 등 "아무것도 못 올리는" 원인이 상태 화면에 표시됨
+- [x] **CloudKit 환경 불일치**: 맥 엔타이틀먼트의 `icloud-container-environment = Production` 고정 제거 → iOS 와 동일하게 빌드 방식을 따름(Xcode=Development, 스토어=Production). 상태 화면에 현재 환경 행 추가(`CloudKitEnvironment.current`, 엔타이틀먼트 직접 조회)
+- [x] 맥 예시 시드가 클라우드로 업로드돼 아이폰을 오염시키던 문제 — 동기화 켜져 있으면 시드 생략
+- [x] iOS 테스트 402개 통과 / 맥 빌드 성공 / drift-check 일치
+- [ ] ⚠️ **아이폰·맥 빌드 방식을 맞출 것** — 한쪽이 App Store·TestFlight(Production)면 다른 쪽도 그래야 함. Xcode 설치본끼리면 Development 로 만남
+- [ ] Production 으로 테스트할 경우 CloudKit Dashboard 에서 `MemosZone`/`Memo` 스키마 배포 여부 확인
+
+## 🚨 iOS 실행 즉시 크래시 수정 + 저장 경로 점검 (2026-07-29, 커밋 대기)
+- [x] **런치 크래시**: `ClipKeyboardSpec.paywall` 를 비옵셔널로 선언 → `LeeoAppSpec` 요구(`LeeoPaywallConfig?`)의 witness 가 못 돼 기본값 `nil` 이 쓰였고, `StoreManager.init` 의 `ClipKeyboardSpec.paywall!` 가 nil 강제 언랩 → `@StateObject StoreManager.shared` 생성 시점에 앱 사망. 타입을 `LeeoPaywallConfig?` 로 명시해 수정
+- [x] 로컬 LeeoKit 이 origin/main 보다 3커밋 뒤쳐져 `LeeoPaywallConfig` 자체가 없어 **clean 빌드 불가** 였음 → `git pull --ff-only` 로 f8e81c3 까지 동기화(로컬 전용 커밋 없었음)
+- [x] iOS 프로젝트도 LeeoKit 을 **원격 SPM**(`github.com/M1zz/LeeoKit.git`, upToNextMajor 2.6.0)으로 전환 — Xcode "Missing package product 'LeeoKit'" 해소, 맥 프로젝트와 같은 버전으로 통일. `Package.resolved`(신규) 커밋 필요
+- [x] 전체 테스트 402개 통과(ko 로케일) — 저장 경로(MemoStore/라운드트립/타임머신/동기화 코어) 34개 포함
+- [ ] ⚠️ `CloudKitBackupServiceTests` 2개는 **로케일 의존** — 한글 문구를 assert 해서 영어 시뮬레이터에선 실패(`-testLanguage ko` 로는 통과). 테스트를 로케일 독립적으로 고칠 것
+- [ ] 동기화 업로드 경로 위험: `enqueueLocalChanges` 가 전송 확정 전에 shadow 를 갱신 → 첫 전송 전에 앱이 죽으면 그 변경은 메모를 다시 고칠 때까지 영영 재전송 안 됨
+- [ ] 맥 첫 실행 시드 예시 4개가 동기화 켜져 있으면 클라우드로 업로드돼 아이폰까지 오염 — 시드 조건에 `MemoSyncFlags.enabled` 제외 검토
+
+## 🖥️ 맥 동기화 상태 화면 + 맥=Pro (2026-07-29, 커밋 대기) — 맥 리포 `~/Documents/workspace/code/ClipKeyboardMac`
+- [x] 공유 코드에 `MemoSyncStatus` 추가 — 마지막 수신/전송/확인 시각·건수·오류를 App Group에 기록 (iOS `Service/MemoSyncEngine.swift` 원본 + `DefaultsKey` 키 7개)
+- [x] 맥 `SyncStatusView` 신설 — 결론 배너 + 근거 9행(Pro·iCloud 계정·엔진·클라우드 개수·아직 안 받은 것·마지막 수신/전송/확인·로컬 개수) + 동기화 스위치 + "지금 동기화"
+- [x] 3분기 판정 `SyncCloudPeek` — 클라우드 존을 직접 조회(토큰 없이, desiredKeys=lastEdited/deletedAt로 경량)해 **가져올 게 없음 / 다 받음 / N개 아직 안 옴**을 구분. 로컬 툼스톤 반영(이미 지운 건 "받을 것"에서 제외)
+- [x] "왜 아이폰 데이터가 안 보이지" 안내 — 맥은 아이폰과 다른 기기라 자동으로 안 넘어옴을 사용자에게 설명
+  - 상태 화면 "이제 뭘 하면 되나요?" 카드(상태별 할 일 + 맥/아이폰 각각 할 일 + 버튼: 동기화 켜기·iCloud 설정 열기·지금 동기화·백업에서 가져오기)
+  - 메인 목록/메뉴바 팝오버 빈 상태에 "아이폰 단축어 가져오기" 진입점, 목록 상단 안내 배너
+  - `MacSampleSeeder.containsOnlySamples` — 첫 실행 예시만 있는 상태를 구분해 "이건 예시입니다" 명시(시드 ID 기록)
+  - `MacFirstRun.restoreOutcome` — 자동 복원이 조용히 실패하던 4가지 경우(백업없음/미로그인/실패/로컬있음)를 기록해 화면에 이유 표시
+- [x] 맥 피드백 UI 먹통 수정 — `LeeoSupportSection`은 NavigationLink 기반인데 환경설정에 NavigationStack이 없어 "피드백 보내기"·"접수된 피드백"이 눌러도 반응 없었음 → generalTab을 NavigationStack으로 감쌈
+- [x] 진입점: 메뉴 ⌃⇧Y · 메뉴바 우클릭 (WindowManager `sync-status` 창) / 환경설정 **Pro 탭은 버튼 없이 상태를 인라인 표시**(`SyncStatusView(scrolls: false)` — 창/인라인 겸용, 로직 중복 없음)
+- [x] 맥 = Pro: `MacProManager.isPro = true` (유료 앱, 과거 무료 다운로드도 그랜드파더) + 실행 시 **App Group에만** proStatus 기록 → 공유 동기화 엔진 게이트 통과. ⚠️ iCloud KV엔 쓰지 않음(아이폰까지 Pro 풀림 방지)
+- [x] 환경설정 Pro 탭을 "포함된 기능" 안내로 교체(무료 플랜/업그레이드 유도 제거), 아이폰 Pro는 별도라고 명시
+- [x] String Catalog 41개 키 ko/en 추가, 맥 4.4.1(빌드11) 확인, `docs/RELEASE_NOTES_4.4.1_macOS.md` 작성
+- [x] stale 경로 수정: `scripts/shared_files.sh` IOS_REPO → `~/Documents/workspace/code/ClipKeyboard` (드리프트 가드가 조용히 건너뛰던 문제)
+- [x] 빌드: 맥(서명 제외) · iOS 시뮬 모두 성공 / drift-check 7개 일치
+- [ ] ⚠️ 맥 서명 빌드는 프로비저닝 프로파일에 `iCloud.com.Ysoup.FeedbackHub` 컨테이너가 없어 실패 (기존 문제 — 개발자 계정에서 프로파일 갱신 필요)
+- [x] LeeoKit을 로컬 경로(`../LeeoKit`) → **원격 SPM**(`github.com/M1zz/LeeoKit.git`, upToNextMajor 2.6.0)으로 전환 — Xcode "Missing package product 'LeeoKit'" 해소, 2.6.0 resolve + 빌드 성공
+- [ ] `Package.resolved`(신규 파일) 커밋 필요 — 버전 고정본. 앞으로 LeeoKit 수정은 **push + 태그**해야 맥 앱에 반영됨
+- [ ] iOS 프로젝트는 여전히 로컬 `../LeeoKit` 참조 — 맥(2.6.0)과 버전이 갈릴 수 있음, 원격 전환할지 결정 필요
+- [ ] ⚠️ **피드백 전송/인박스는 프로비저닝 프로파일 갱신 전까진 런타임에서도 실패** — App ID에 `iCloud.com.Ysoup.FeedbackHub` 컨테이너 추가 후 프로파일 재발급 필요(개발자 포털 작업)
+- [ ] 기기 확인: 아이폰·맥 모두 동기화 켜기 → 아이폰에서 단축어 수정 → 맥 상태 화면 "받고 있어요" + 마지막 수신 갱신
+
 ## 📂 빈 카테고리 탭 스와이프 이동 + 4.4.0 빌드7 (2026-07-22, 커밋 대기)
 - [x] 카테고리 관리에서 토글 켠 사용자 카테고리는 **메모가 없어도** 탭 노출(스와이프 이동 가능) — `allCategoryTabs`에서 메모 ≥1 조건 제거 (빈 상태 화면·추가 카드는 기존 것 그대로)
 - [x] 버전: Version.xcconfig 빌드번호 6→7 (마케팅 4.4.0 유지)
