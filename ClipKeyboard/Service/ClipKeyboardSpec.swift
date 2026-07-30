@@ -32,7 +32,10 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     /// cacheSuiteName 을 앱 그룹으로 두어 권한 캐시(leeo.paywall.owned/grandfathered)가
     /// 공유 그룹에 저장되게 한다. (키보드 익스텐션이 읽는 Pro 키 `clipkeyboard_is_pro` 는
     /// 이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
-    static let paywall = LeeoPaywallConfig(
+    /// ⚠️ 타입을 반드시 옵셔널로 명시한다 — `LeeoAppSpec`의 요구사항이 `LeeoPaywallConfig?` 라
+    /// 비옵셔널로 선언하면 witness 로 인정되지 않고 프로토콜 기본값(`nil`)이 쓰인다.
+    /// 그러면 `StoreManager.init`의 `ClipKeyboardSpec.paywall!` 이 nil 을 강제 언랩해 **앱이 실행 즉시 크래시**한다.
+    static let paywall: LeeoPaywallConfig? = LeeoPaywallConfig(
         productIDs: [StoreManager.proProductID],
         cacheSuiteName: AppGroup.identifier
     )
