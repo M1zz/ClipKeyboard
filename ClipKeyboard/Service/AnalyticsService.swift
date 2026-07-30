@@ -41,6 +41,10 @@ enum AnalyticsEvent: String {
     case proNudgeShown = "pro_nudge_shown"
     /// 가치 순간 Pro 넛지 탭 → 페이월
     case proNudgeTapped = "pro_nudge_tapped"
+    /// 온보딩을 끝까지 마침 — 획득 퍼널의 첫 단계.
+    /// 설치는 했는데 여기서 끊기면 첫인상 문제이고, 여기는 통과했는데 단축어를
+    /// 안 만들면 가치 전달 문제다. 둘을 구분하려고 남긴다.
+    case onboardingCompleted = "onboarding_completed"
 }
 
 /// 이벤트 파라미터 키 — 분석 시 슬라이싱용

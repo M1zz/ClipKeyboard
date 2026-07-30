@@ -1064,9 +1064,13 @@ struct ClipKeyboardList: View {
 
     // MARK: - Grid
 
+    /// 단축어 카드 그리드.
+    /// ⚠️ 예전엔 `.flexible()` 2개로 **열 수가 고정**돼 있었다. 아이폰에선 맞지만
+    ///    아이패드(가로 1024pt+)에서는 카드 하나가 500pt 가까이 늘어나 제목만 덩그러니 남는다.
+    ///    `.adaptive(minimum:)` 은 폭에 맞춰 열 수를 늘리므로 아이폰은 그대로 2열,
+    ///    아이패드는 4~6열이 된다. (최소 폭은 기존 아이폰 2열 카드 폭에서 가져왔다)
     private let gridColumns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
+        GridItem(.adaptive(minimum: 150, maximum: 260), spacing: 12)
     ]
 
     /// 고스트(가상) 메모 셀 — 실제 메모 셀과 같은 치수·제목 스타일을 그대로 쓰되
@@ -1850,8 +1854,10 @@ struct ClipKeyboardList: View {
             .first { $0.activationState == .foregroundActive }?
             .windows.first { $0.isKeyWindow }?
             .bounds.width
-        // 씬을 못 찾는 경우(백그라운드 진입 등)엔 2열 그리드가 성립하는 최소 폭으로 폴백
-        return max(120, ((containerWidth ?? 320) - 44) / 2)
+        // ⚠️ 그리드가 `.adaptive(minimum: 150, maximum: 260)` 이므로 카드 폭도 그 범위에 갇힌다.
+        //    2열 가정으로 계산하면 아이패드에서 미리보기만 실제 카드보다 훨씬 커진다.
+        let twoColumnWidth = ((containerWidth ?? 320) - 44) / 2
+        return min(260, max(150, twoColumnWidth))
         #else
         return 160
         #endif

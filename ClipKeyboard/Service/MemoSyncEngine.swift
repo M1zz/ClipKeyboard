@@ -308,7 +308,16 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         isApplyingRemoteChanges = true
         defer { isApplyingRemoteChanges = false }
 
-        try? MemoStore.shared.save(memos: result.memos, type: .memo)
+        // ⚠️ 저장에 실패하면 **섀도/툼스톤을 갱신하면 안 된다.**
+        //    갱신해 버리면 "이미 반영했다"고 기록되어 다음 동기화에서 이 원격 변경을
+        //    다시 받아오지 않는다 → 사용자 눈에는 데이터가 조용히 사라진 것으로 보인다.
+        //    실패 시엔 그대로 두어 다음 동기화가 다시 시도하게 한다.
+        do {
+            try MemoStore.shared.save(memos: result.memos, type: .memo)
+        } catch {
+            log.error("원격 병합 결과 저장 실패 — 섀도 갱신을 건너뛰고 다음 동기화에서 재시도: \(error.localizedDescription, privacy: .public)")
+            return
+        }
         saveTombstones(result.tombstones)
         saveShadow(MemoSyncCore.buildShadow(result.memos))
 

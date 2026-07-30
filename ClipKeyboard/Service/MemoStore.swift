@@ -85,7 +85,7 @@ class MemoStore: ObservableObject {
                 // 다운그레이드 등으로 memos.data의 category가 유실된 흔적 →
                 // 사이드카에서 복원하고 파일도 치유(재저장, 스냅샷 폭주 방지 위해 recordHistory:false).
                 try? save(memos: memos, type: .memo, recordHistory: false)
-                print("🔄 [MemoStore.load] 유실된 메모 카테고리를 사이드카에서 복원·치유")
+                AppLog.info(.store, "🔄 [MemoStore.load] 유실된 메모 카테고리를 사이드카에서 복원·치유")
             } else if Self.categorySidecarMissing() {
                 // 기존 사용자 1회 부트스트랩 — 이후 다운그레이드에 대비해 사이드카를 채워둔다.
                 Self.writeCategorySidecar(memos)
@@ -125,9 +125,9 @@ class MemoStore: ObservableObject {
             if !FileManager.default.fileExists(atPath: quarantined.path) {
                 try FileManager.default.copyItem(at: url, to: quarantined)
             }
-            print("🚨 [MemoStore.quarantine] \(url.lastPathComponent) 디코딩 실패 → \(quarantined.lastPathComponent) 로 사본 보관")
+            AppLog.error(.store, "🚨 [MemoStore.quarantine] \(url.lastPathComponent) 디코딩 실패 → \(quarantined.lastPathComponent) 로 사본 보관")
         } catch {
-            print("❌ [MemoStore.quarantine] 사본 보관 실패: \(error.localizedDescription)")
+            AppLog.error(.store, "❌ [MemoStore.quarantine] 사본 보관 실패: \(error.localizedDescription)")
         }
 
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
@@ -294,7 +294,7 @@ class MemoStore: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.smartClipboardHistory = history
         }
-        print("🤖 [MemoStore.updateClipboardItemClassification] AI 재분류 반영: \(type.rawValue)")
+        AppLog.info(.store, "🤖 [MemoStore.updateClipboardItemClassification] AI 재분류 반영: \(type.rawValue)")
     }
 
     func updateClipboardItemType(id: UUID, correctedType: ClipboardItemType) throws {
@@ -574,8 +574,13 @@ class MemoStore: ObservableObject {
 
     private func saveMemoHistory(_ snapshots: [MemoSnapshot]) {
         guard let url = Self.historyFileURL() else { return }
-        if let data = try? JSONEncoder().encode(snapshots) {
-            try? data.write(to: url, options: .atomic)
+        // 되돌리기 이력 저장 실패는 앱을 멈출 일은 아니지만, 조용히 넘기면
+        // "되돌리기가 왜 비어 있지?"의 원인을 나중에 찾을 수 없다.
+        do {
+            let data = try JSONEncoder().encode(snapshots)
+            try data.write(to: url, options: .atomic)
+        } catch {
+            AppLog.error(.store, "❌ [MemoStore.saveMemoHistory] 변경 기록 저장 실패: \(error.localizedDescription)")
         }
     }
 
@@ -611,10 +616,10 @@ class MemoStore: ObservableObject {
         }
         do {
             try save(memos: snapshot.memos, type: .memo, recordHistory: false)
-            print("↩️ [MemoStore] 스냅샷 복원: \(snapshot.memoCount)개 (\(snapshot.timestamp))")
+            AppLog.info(.store, "↩️ [MemoStore] 스냅샷 복원: \(snapshot.memoCount)개 (\(snapshot.timestamp))")
             return true
         } catch {
-            print("❌ [MemoStore] 스냅샷 복원 실패: \(error)")
+            AppLog.error(.store, "❌ [MemoStore] 스냅샷 복원 실패: \(error)")
             return false
         }
     }

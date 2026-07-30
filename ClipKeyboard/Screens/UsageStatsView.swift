@@ -53,6 +53,8 @@ struct UsageStatsView: View {
                 }
                 usersSection
                 trendSection
+                funnelSection
+                retentionSection
                 usageSection
                 metricsSection
                 shareSection
@@ -100,6 +102,120 @@ struct UsageStatsView: View {
             Text(NSLocalizedString("일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동합니다.", comment: "Usage stats trend footer"))
                 .font(.body)
         }
+    }
+
+    // MARK: - 전환 퍼널 (페이월)
+
+    /// 페이월 노출 → 구매 버튼 탭 → 구매 완료. 각 단계는 **설치 수** 기준이다.
+    /// ⚠️ 이벤트에 6시간 쓰로틀이 걸려 있어 절대 수치는 실제보다 작다 —
+    ///    단계 **사이의 비율**을 보는 용도다.
+    @ViewBuilder
+    private var funnelSection: some View {
+        let stages = UsageInsights.paywallFunnel(from: eventSamples)
+        let dropoffs = UsageInsights.dropoffReasons(from: eventSamples)
+
+        if stages.first?.installs ?? 0 > 0 {
+            Section {
+                ForEach(stages) { stage in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(stage.name)
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.text)
+                            Spacer()
+                            Text(String(format: NSLocalizedString("설치 %d곳", comment: "Funnel: install count"), stage.installs))
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
+                        }
+                        // 첫 단계 대비 비율을 막대로 — 숫자만 있으면 감이 안 온다
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(theme.textFaint.opacity(0.2))
+                                Capsule().fill(Color.accentColor)
+                                    .frame(width: max(2, geo.size.width * stage.rateFromTop))
+                            }
+                        }
+                        .frame(height: 6)
+                        Text(String(format: NSLocalizedString("전체 대비 %1$@ · 직전 단계 대비 %2$@",
+                                                              comment: "Funnel: conversion rates"),
+                                    percent(stage.rateFromTop), percent(stage.rateFromPrevious)))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityElement(children: .combine)
+                }
+
+                ForEach(dropoffs.filter { $0.count > 0 }, id: \.name) { reason in
+                    HStack {
+                        Text(reason.name).font(.body).foregroundColor(theme.textMuted)
+                        Spacer()
+                        Text("\(reason.count)").font(.body).foregroundColor(theme.textMuted)
+                    }
+                }
+            } header: {
+                Text(NSLocalizedString("결제 전환 퍼널", comment: "Usage stats section: paywall funnel"))
+            } footer: {
+                Text(NSLocalizedString("같은 이벤트는 설치당 6시간에 한 번만 기록돼요. 절대 건수보다 단계 사이의 비율을 보세요.", comment: "Usage stats funnel footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 리텐션 코호트
+
+    /// 설치한 주별로 묶어 D1/D7/D30 잔존을 본다.
+    /// ⚠️ 아직 그날이 오지 않은 설치는 잔존으로 세지 않는다 → 최근 코호트의 D30은 낮게 보인다.
+    @ViewBuilder
+    private var retentionSection: some View {
+        let rows = UsageInsights.weeklyRetention(snapshots: snapshots, events: eventSamples)
+
+        if !rows.isEmpty {
+            Section {
+                ForEach(rows.prefix(8)) { row in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(cohortLabel(row.cohortStart))
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.text)
+                            Spacer()
+                            Text(String(format: NSLocalizedString("설치 %d곳", comment: "Cohort: install count"), row.size))
+                                .font(.caption)
+                                .foregroundColor(theme.textMuted)
+                        }
+                        HStack(spacing: 14) {
+                            retentionCell("D1", row.rate(row.day1))
+                            retentionCell("D7", row.rate(row.day7))
+                            retentionCell("D30", row.rate(row.day30))
+                        }
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityElement(children: .combine)
+                }
+            } header: {
+                Text(NSLocalizedString("리텐션 (주간 코호트)", comment: "Usage stats section: weekly retention"))
+            } footer: {
+                Text(NSLocalizedString("설치한 주별로 묶어 며칠 뒤에도 앱을 열었는지 봐요. 아직 그날이 오지 않은 설치는 세지 않으니, 최근 코호트의 D30은 낮게 보입니다.", comment: "Usage stats retention footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    private func retentionCell(_ label: String, _ rate: Double) -> some View {
+        VStack(spacing: 2) {
+            Text(label).font(.caption2).foregroundColor(theme.textMuted)
+            Text(percent(rate)).font(.body.weight(.medium)).foregroundColor(theme.text)
+        }
+    }
+
+    private func percent(_ value: Double) -> String {
+        String(format: "%.0f%%", value * 100)
+    }
+
+    private func cohortLabel(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = NSLocalizedString("M월 d일 주", comment: "Cohort week label format")
+        return formatter.string(from: date)
     }
 
     // MARK: - 앱 사용 내용 (이벤트)

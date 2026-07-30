@@ -41,7 +41,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
     /// 앱 실행 시 1회 호출. 구독만 하고 즉시 반환한다(런치 비용 없음).
     func start() {
         MXMetricManager.shared.add(self)
-        print("🩺 [DiagnosticsService.start] MetricKit 구독 시작")
+        AppLog.info(.diagnostics, "🩺 [DiagnosticsService.start] MetricKit 구독 시작")
     }
 
     // MARK: - MXMetricManagerSubscriber
@@ -75,7 +75,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
         }
 
         guard !reports.isEmpty else { return }
-        print("🩺 [DiagnosticsService] 진단 \(reports.count)건 수신 → 허브 전송")
+        AppLog.info(.diagnostics, "🩺 [DiagnosticsService] 진단 \(reports.count)건 수신 → 허브 전송")
         Task(priority: .utility) { await Self.upload(reports) }
     }
 
@@ -84,7 +84,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
     func didReceive(_ payloads: [MXMetricPayload]) {
         for payload in payloads {
             guard let launch = payload.applicationLaunchMetrics else { continue }
-            print("📈 [DiagnosticsService] 앱 시작 시간 분포: \(launch.histogrammedTimeToFirstDraw)")
+            AppLog.info(.diagnostics, "📈 [DiagnosticsService] 앱 시작 시간 분포: \(launch.histogrammedTimeToFirstDraw)")
         }
     }
 
@@ -122,7 +122,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
                 _ = try await database.save(record)
             } catch {
                 // 진단 전송 실패로 앱이 시끄러워질 이유는 없다 — 로그만 남기고 넘어간다.
-                print("⚠️ [DiagnosticsService.upload] \(report.kind) 전송 실패: \(error.localizedDescription)")
+                AppLog.warning(.diagnostics, "⚠️ [DiagnosticsService.upload] \(report.kind) 전송 실패: \(error.localizedDescription)")
             }
         }
     }

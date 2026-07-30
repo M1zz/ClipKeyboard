@@ -182,7 +182,7 @@ class CloudKitBackupService: ObservableObject {
         container.accountStatus { [weak self] status, _ in
             DispatchQueue.main.async {
                 self?.isAuthenticated = (status == .available)
-                print("📱 [CloudKit] Account Status: \(status.rawValue)")
+                AppLog.info(.backup, "📱 [CloudKit] Account Status: \(status.rawValue)")
             }
         }
     }
@@ -205,7 +205,7 @@ class CloudKitBackupService: ObservableObject {
         // 이미 켜거나 끈 사용자의 명시적 선택은 그대로 존중한다.
         if defaults.object(forKey: DefaultsKey.autoBackupEnabled) == nil {
             defaults.set(true, forKey: DefaultsKey.autoBackupEnabled)
-            print("🔄 [CloudKit] 자동 백업 기본 활성화 (최초 실행)")
+            AppLog.info(.backup, "🔄 [CloudKit] 자동 백업 기본 활성화 (최초 실행)")
         }
         self.autoBackupEnabled = defaults.bool(forKey: DefaultsKey.autoBackupEnabled)
         if autoBackupEnabled {
@@ -226,14 +226,14 @@ class CloudKitBackupService: ObservableObject {
             }
             guard self.autoBackupEnabled, self.isAuthenticated, !self.isBackingUp else { return }
             if let last = self.lastBackupDate, Date().timeIntervalSince(last) < 3600 {
-                print("ℹ️ [CloudKit] 최근 백업 존재 - 시작 초기 백업 생략")
+                AppLog.info(.backup, "ℹ️ [CloudKit] 최근 백업 존재 - 시작 초기 백업 생략")
                 return
             }
             do {
                 try await self.backupData(isAutomatic: true)
-                print("✅ [CloudKit] 시작 직후 초기 백업 완료")
+                AppLog.info(.backup, "✅ [CloudKit] 시작 직후 초기 백업 완료")
             } catch {
-                print("⚠️ [CloudKit] 시작 초기 백업 실패: \(error.localizedDescription)")
+                AppLog.warning(.backup, "⚠️ [CloudKit] 시작 초기 백업 실패: \(error.localizedDescription)")
             }
         }
     }
@@ -241,7 +241,7 @@ class CloudKitBackupService: ObservableObject {
     // MARK: - Auto Backup
 
     func enableAutoBackup() {
-        print("🔄 [CloudKit] 자동 백업 활성화")
+        AppLog.info(.backup, "🔄 [CloudKit] 자동 백업 활성화")
         UserDefaults.standard.set(true, forKey: DefaultsKey.autoBackupEnabled)
         DispatchQueue.main.async { [weak self] in
             self?.autoBackupEnabled = true
@@ -250,7 +250,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     func disableAutoBackup() {
-        print("⏸️ [CloudKit] 자동 백업 비활성화")
+        AppLog.info(.backup, "⏸️ [CloudKit] 자동 백업 비활성화")
         UserDefaults.standard.set(false, forKey: DefaultsKey.autoBackupEnabled)
         DispatchQueue.main.async { [weak self] in
             self?.autoBackupEnabled = false
@@ -269,20 +269,20 @@ class CloudKitBackupService: ObservableObject {
                 guard let self else { return }
                 do {
                     try await self.backupData(isAutomatic: true)
-                    print("✅ [CloudKit] 자동 백업 성공")
+                    AppLog.info(.backup, "✅ [CloudKit] 자동 백업 성공")
                 } catch {
-                    print("⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
+                    AppLog.warning(.backup, "⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
                 }
             }
         }
 
-        print("⏰ [CloudKit] 자동 백업 타이머 시작 (간격: \(Int(autoBackupInterval))초)")
+        AppLog.info(.backup, "⏰ [CloudKit] 자동 백업 타이머 시작 (간격: \(Int(autoBackupInterval))초)")
     }
 
     private func stopAutoBackupTimer() {
         autoBackupTimer?.invalidate()
         autoBackupTimer = nil
-        print("⏹️ [CloudKit] 자동 백업 타이머 중지")
+        AppLog.info(.backup, "⏹️ [CloudKit] 자동 백업 타이머 중지")
     }
 
     private func setupDataChangeListener() {
@@ -295,7 +295,7 @@ class CloudKitBackupService: ObservableObject {
             guard let self = self else { return }
             guard self.autoBackupEnabled && self.isAuthenticated && !self.isBackingUp else { return }
 
-            print("📢 [CloudKit] 데이터 변경 감지 - 자동 백업 예약")
+            AppLog.info(.backup, "📢 [CloudKit] 데이터 변경 감지 - 자동 백업 예약")
 
             // 변경사항이 연속으로 발생할 수 있으므로 디바운스 (5초 후 실행)
             self.scheduleAutoBackup()
@@ -316,9 +316,9 @@ class CloudKitBackupService: ObservableObject {
                 guard let self else { return }
                 do {
                     try await self.backupData(isAutomatic: true)
-                    print("✅ [CloudKit] 변경사항 자동 백업 완료")
+                    AppLog.info(.backup, "✅ [CloudKit] 변경사항 자동 백업 완료")
                 } catch {
-                    print("⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
+                    AppLog.warning(.backup, "⚠️ [CloudKit] 자동 백업 실패: \(error.localizedDescription)")
                 }
             }
         }
@@ -373,7 +373,7 @@ class CloudKitBackupService: ObservableObject {
             record["imageAssets"] = assets as CKRecordValue
             record["imageNames"] = attachedNames as CKRecordValue
         }
-        print("🖼️ [CloudKit] 백업 이미지: \(attachedNames.count)개")
+        AppLog.info(.backup, "🖼️ [CloudKit] 백업 이미지: \(attachedNames.count)개")
     }
 
     /// 백업 레코드의 이미지 CKAsset들을 App Group Images/에 복원(덮어쓰기).
@@ -381,7 +381,7 @@ class CloudKitBackupService: ObservableObject {
         guard let assets = record["imageAssets"] as? [CKAsset],
               let names = record["imageNames"] as? [String],
               let dir = imagesBackupDirectory else {
-            print("ℹ️ [CloudKit] 복원할 이미지 없음")
+            AppLog.info(.backup, "ℹ️ [CloudKit] 복원할 이미지 없음")
             return
         }
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
@@ -391,9 +391,9 @@ class CloudKitBackupService: ObservableObject {
             let dest = dir.appendingPathComponent(name)
             try? FileManager.default.removeItem(at: dest)   // 덮어쓰기
             do { try FileManager.default.copyItem(at: src, to: dest); restored += 1 }
-            catch { print("⚠️ [CloudKit] 이미지 복원 실패 \(name): \(error)") }
+            catch { AppLog.warning(.backup, "⚠️ [CloudKit] 이미지 복원 실패 \(name): \(error.localizedDescription)") }
         }
-        print("🖼️ [CloudKit] 이미지 \(restored)개 복원 완료")
+        AppLog.info(.backup, "🖼️ [CloudKit] 이미지 \(restored)개 복원 완료")
     }
 
     /// CKAsset에서 Data 읽기
@@ -413,7 +413,7 @@ class CloudKitBackupService: ObservableObject {
         let status = try await fetchAccountStatus()
         await MainActor.run { self.isAuthenticated = (status == .available) }
         guard status == .available else {
-            print("⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
+            AppLog.warning(.backup, "⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
             throw CloudKitError.notAuthenticated
         }
     }
@@ -427,7 +427,7 @@ class CloudKitBackupService: ObservableObject {
     ///   · 수동 백업: 같은 상황이면 `backupWouldReduceData`를 던져 **사용자 동의**를 받는다(동의 시 allowReduce=true로 재호출).
     @discardableResult
     func backupData(isAutomatic: Bool = false, allowReduce: Bool = false) async throws -> BackupOutcome {
-        print("☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic), 축소동의=\(allowReduce))")
+        AppLog.info(.backup, "☁️ [CloudKit] 백업 시작... (자동=\(isAutomatic), 축소동의=\(allowReduce))")
 
         try await ensureAuthenticated()
 
@@ -455,19 +455,19 @@ class CloudKitBackupService: ObservableObject {
             let destructive = nothingReal || drasticReduce
 
             if nothingReal && existingCount == 0 {
-                print("🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음 — 백업할 것 없음")
+                AppLog.info(.backup, "🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음 — 백업할 것 없음")
                 return .nothingToBackUp
             }
             if destructive {
                 if isAutomatic {
-                    print("🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)) — 건너뜀(기존 백업 보존)")
+                    AppLog.info(.backup, "🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)) — 건너뜀(기존 백업 보존)")
                     return .skippedToProtectExisting(existing: existingCount, new: newCount)
                 }
                 if !allowReduce {
-                    print("⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소 — 사용자 동의 필요")
+                    AppLog.warning(.backup, "⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소 — 사용자 동의 필요")
                     throw CloudKitError.backupWouldReduceData(existing: existingCount, new: newCount)
                 }
-                print("✅ [CloudKit] 사용자 동의됨 — 축소 백업 진행(\(existingCount)→\(newCount))")
+                AppLog.info(.backup, "✅ [CloudKit] 사용자 동의됨 — 축소 백업 진행(\(existingCount)→\(newCount))")
             }
 
             let (memosData, smartClipboardData, combosData) = try encodeDataForBackup(
@@ -490,24 +490,24 @@ class CloudKitBackupService: ObservableObject {
                     memos: memos, memoCount: memos.count, date: backupDate
                 )
             } catch {
-                print("⚠️ [CloudKit] 버전 스냅샷 저장 실패(메인 백업은 정상): \(error.localizedDescription)")
+                AppLog.warning(.backup, "⚠️ [CloudKit] 버전 스냅샷 저장 실패(메인 백업은 정상): \(error.localizedDescription)")
             }
-            print("✅ [CloudKit] 백업 완료: \(backupDate)")
+            AppLog.info(.backup, "✅ [CloudKit] 백업 완료: \(backupDate)")
             return .backedUp(memoCount: memos.count)
 
         } catch let ckError as CloudKitError {
             // 정책상 던진 CloudKitError(backupWouldReduceData 등)는 그대로 전달(backupFailed로 감싸지 않음).
             throw ckError
         } catch let error as CKError {
-            print("❌ [CloudKit] 백업 실패: \(error)")
-            print("   코드: \(error.code.rawValue)")
-            print("   설명: \(error.localizedDescription)")
+            AppLog.error(.backup, "❌ [CloudKit] 백업 실패: \(error)")
+            AppLog.info(.backup, "   코드: \(error.code.rawValue)")
+            AppLog.info(.backup, "   설명: \(error.localizedDescription)")
             if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? Error {
-                print("   Underlying Error: \(underlyingError)")
+                AppLog.info(.backup, "   Underlying Error: \(underlyingError)")
             }
             throw CloudKitError.backupFailed(error)
         } catch {
-            print("❌ [CloudKit] 백업 실패 (일반 에러): \(error)")
+            AppLog.error(.backup, "❌ [CloudKit] 백업 실패 (일반 에러): \(error)")
             throw CloudKitError.backupFailed(error)
         }
     }
@@ -516,9 +516,9 @@ class CloudKitBackupService: ObservableObject {
         let memos = try MemoStore.shared.load(type: .memo)
         let smartClipboard = try MemoStore.shared.loadSmartClipboardHistory()
         let combos = try MemoStore.shared.loadCombos()
-        print("📦 [CloudKit] 백업할 메모: \(memos.count)개")
-        print("📦 [CloudKit] 백업할 스마트 클립보드: \(smartClipboard.count)개")
-        print("📦 [CloudKit] 백업할 Combo: \(combos.count)개")
+        AppLog.info(.backup, "📦 [CloudKit] 백업할 메모: \(memos.count)개")
+        AppLog.info(.backup, "📦 [CloudKit] 백업할 스마트 클립보드: \(smartClipboard.count)개")
+        AppLog.info(.backup, "📦 [CloudKit] 백업할 Combo: \(combos.count)개")
         return (memos, smartClipboard, combos)
     }
 
@@ -528,12 +528,12 @@ class CloudKitBackupService: ObservableObject {
         guard let memosData = try? JSONEncoder().encode(memos),
               let smartClipboardData = try? JSONEncoder().encode(smartClipboard),
               let combosData = try? JSONEncoder().encode(combos) else {
-            print("❌ [CloudKit] JSON 인코딩 실패")
+            AppLog.error(.backup, "❌ [CloudKit] JSON 인코딩 실패")
             throw CloudKitError.encodingFailed
         }
-        print("📊 [CloudKit] 메모 데이터 크기: \(ByteCountFormatter.string(fromByteCount: Int64(memosData.count), countStyle: .file))")
-        print("📊 [CloudKit] 스마트 클립보드 크기: \(ByteCountFormatter.string(fromByteCount: Int64(smartClipboardData.count), countStyle: .file))")
-        print("📊 [CloudKit] Combo 데이터 크기: \(ByteCountFormatter.string(fromByteCount: Int64(combosData.count), countStyle: .file))")
+        AppLog.info(.backup, "📊 [CloudKit] 메모 데이터 크기: \(ByteCountFormatter.string(fromByteCount: Int64(memosData.count), countStyle: .file))")
+        AppLog.info(.backup, "📊 [CloudKit] 스마트 클립보드 크기: \(ByteCountFormatter.string(fromByteCount: Int64(smartClipboardData.count), countStyle: .file))")
+        AppLog.info(.backup, "📊 [CloudKit] Combo 데이터 크기: \(ByteCountFormatter.string(fromByteCount: Int64(combosData.count), countStyle: .file))")
         return (memosData, smartClipboardData, combosData)
     }
 
@@ -554,10 +554,10 @@ class CloudKitBackupService: ObservableObject {
         let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
         do {
             let record = try await database.record(for: recordID)
-            print("🔄 [CloudKit] 기존 백업 레코드 업데이트")
+            AppLog.info(.backup, "🔄 [CloudKit] 기존 백업 레코드 업데이트")
             return record
         } catch let error as CKError where error.code == .unknownItem {
-            print("✨ [CloudKit] 새 백업 레코드 생성")
+            AppLog.info(.backup, "✨ [CloudKit] 새 백업 레코드 생성")
             return CKRecord(recordType: "Backup", recordID: recordID)
         }
     }
@@ -569,7 +569,7 @@ class CloudKitBackupService: ObservableObject {
         record["backupDate"] = Date() as CKRecordValue
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
         record["version"] = appVersion as CKRecordValue
-        print("💾 [CloudKit] 레코드 데이터 업데이트 완료")
+        AppLog.info(.backup, "💾 [CloudKit] 레코드 데이터 업데이트 완료")
     }
 
     /// 재시도 로직이 포함된 레코드 저장
@@ -578,13 +578,13 @@ class CloudKitBackupService: ObservableObject {
 
         for attempt in 1...maxRetries {
             do {
-                print("💾 [CloudKit] 저장 시도 \(attempt)/\(maxRetries)...")
+                AppLog.info(.backup, "💾 [CloudKit] 저장 시도 \(attempt)/\(maxRetries)...")
                 let savedRecord = try await database.save(record)
-                print("✅ [CloudKit] 저장 성공 (시도 \(attempt))")
+                AppLog.info(.backup, "✅ [CloudKit] 저장 성공 (시도 \(attempt))")
                 return savedRecord
             } catch let error as CKError {
                 lastError = error
-                print("⚠️ [CloudKit] 저장 실패 (시도 \(attempt)): \(error.code.rawValue)")
+                AppLog.warning(.backup, "⚠️ [CloudKit] 저장 실패 (시도 \(attempt)): \(error.code.rawValue)")
 
                 // 재시도 가능한 에러인지 확인
                 switch error.code {
@@ -592,7 +592,7 @@ class CloudKitBackupService: ObservableObject {
                     if attempt < maxRetries {
                         // 지수 백오프: 1초, 2초, 4초
                         let delay = UInt64(pow(2.0, Double(attempt - 1)) * 1_000_000_000)
-                        print("   ⏳ \(attempt)초 후 재시도...")
+                        AppLog.info(.backup, "   ⏳ \(attempt)초 후 재시도...")
                         try await Task.sleep(nanoseconds: delay)
                         continue
                     }
@@ -620,11 +620,11 @@ class CloudKitBackupService: ObservableObject {
             let combos = try MemoStore.shared.loadCombos()
 
             let totalCount = memos.count + smartClipboard.count + combos.count
-            print("📊 [CloudKit] 로컬 데이터 확인: 메모 \(memos.count)개, 클립보드 \(smartClipboard.count)개, Combo \(combos.count)개")
+            AppLog.info(.backup, "📊 [CloudKit] 로컬 데이터 확인: 메모 \(memos.count)개, 클립보드 \(smartClipboard.count)개, Combo \(combos.count)개")
 
             return totalCount > 0
         } catch {
-            print("⚠️ [CloudKit] 로컬 데이터 확인 실패: \(error)")
+            AppLog.warning(.backup, "⚠️ [CloudKit] 로컬 데이터 확인 실패: \(error)")
             return false
         }
     }
@@ -672,11 +672,11 @@ class CloudKitBackupService: ObservableObject {
             do {
                 _ = try await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
             } catch {
-                print("⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)) — 고아 레코드로 남음: \(error.localizedDescription)")
+                AppLog.warning(.backup, "⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)) — 고아 레코드로 남음: \(error.localizedDescription)")
             }
         }
         try await saveSnapshotIndex(keep)
-        print("📚 [CloudKit] 버전 스냅샷 저장(메모 \(memoCount)개) · 보관 \(keep.count)개")
+        AppLog.info(.backup, "📚 [CloudKit] 버전 스냅샷 저장(메모 \(memoCount)개) · 보관 \(keep.count)개")
     }
 
     private func loadSnapshotIndex() async -> [BackupSnapshotInfo] {
@@ -697,12 +697,12 @@ class CloudKitBackupService: ObservableObject {
 
     /// - Parameter snapshotName: 특정 버전 스냅샷에서 복원할 때 그 레코드명. nil이면 최신 백업.
     func restoreData(forceOverwrite: Bool = false, snapshotName: String? = nil) async throws {
-        print("☁️ [CloudKit] 복구 시작... (스냅샷=\(snapshotName ?? "최신"))")
+        AppLog.info(.backup, "☁️ [CloudKit] 복구 시작... (스냅샷=\(snapshotName ?? "최신"))")
 
         try await ensureAuthenticated()
 
         if !forceOverwrite && hasLocalData() {
-            print("⚠️ [CloudKit] 기존 데이터 존재 - 사용자 확인 필요")
+            AppLog.warning(.backup, "⚠️ [CloudKit] 기존 데이터 존재 - 사용자 확인 필요")
             throw CloudKitError.restoreFailed(
                 NSError(domain: "CloudKitBackup", code: -2, userInfo: [
                     NSLocalizedDescriptionKey: NSLocalizedString(
@@ -719,9 +719,9 @@ class CloudKitBackupService: ObservableObject {
         do {
             let recordID = CKRecord.ID(recordName: snapshotName ?? "TokenMemoBackup")
             let record = try await database.record(for: recordID)
-            print("📦 [CloudKit] 백업 레코드 찾음")
+            AppLog.info(.backup, "📦 [CloudKit] 백업 레코드 찾음")
             if let version = record["version"] as? String {
-                print("📦 [CloudKit] 백업 버전: \(version)")
+                AppLog.info(.backup, "📦 [CloudKit] 백업 버전: \(version)")
             }
 
             let memos = try fetchMemos(from: record)
@@ -731,13 +731,13 @@ class CloudKitBackupService: ObservableObject {
             // 메모 본문을 저장하기 전에 첨부 이미지를 Images/에 먼저 복원(깨진 참조 방지).
             restoreImages(from: record)
             try saveRestoredData(memos: memos, smartClipboard: smartClipboard, combos: combos)
-            print("🎉 [CloudKit] 전체 복구 완료!")
+            AppLog.info(.backup, "🎉 [CloudKit] 전체 복구 완료!")
 
         } catch let error as CKError where error.code == .unknownItem {
-            print("❌ [CloudKit] 백업 데이터 없음")
+            AppLog.error(.backup, "❌ [CloudKit] 백업 데이터 없음")
             throw CloudKitError.noBackupFound
         } catch {
-            print("❌ [CloudKit] 복구 실패: \(error)")
+            AppLog.error(.backup, "❌ [CloudKit] 복구 실패: \(error)")
             throw CloudKitError.restoreFailed(error)
         }
     }
@@ -749,22 +749,22 @@ class CloudKitBackupService: ObservableObject {
 
         if let asset = record["memosAsset"] as? CKAsset {
             memosData = try? readAsset(asset)
-            print("📦 [CloudKit] 메모 데이터 (Asset): \(memosData != nil ? "성공" : "실패")")
+            AppLog.info(.backup, "📦 [CloudKit] 메모 데이터 (Asset): \(memosData != nil ? "성공" : "실패")")
         }
         if memosData == nil, let legacyData = record["memos"] as? Data {
             memosData = legacyData
-            print("📦 [CloudKit] 메모 데이터 (레거시): 성공")
+            AppLog.info(.backup, "📦 [CloudKit] 메모 데이터 (레거시): 성공")
         }
 
         guard let data = memosData else {
-            print("❌ [CloudKit] 메모 데이터 없음")
+            AppLog.error(.backup, "❌ [CloudKit] 메모 데이터 없음")
             throw CloudKitError.noBackupFound
         }
         guard let memos = try? JSONDecoder().decode([Memo].self, from: data) else {
-            print("❌ [CloudKit] 메모 디코딩 실패")
+            AppLog.error(.backup, "❌ [CloudKit] 메모 디코딩 실패")
             throw CloudKitError.decodingFailed
         }
-        print("📦 [CloudKit] 복구할 메모: \(memos.count)개")
+        AppLog.info(.backup, "📦 [CloudKit] 복구할 메모: \(memos.count)개")
         return memos
     }
 
@@ -772,15 +772,15 @@ class CloudKitBackupService: ObservableObject {
         if let asset = record["smartClipboardAsset"] as? CKAsset,
            let data = try? readAsset(asset),
            let decoded = try? JSONDecoder().decode([SmartClipboardHistory].self, from: data) {
-            print("📦 [CloudKit] 복구할 스마트 클립보드 (Asset): \(decoded.count)개")
+            AppLog.info(.backup, "📦 [CloudKit] 복구할 스마트 클립보드 (Asset): \(decoded.count)개")
             return decoded
         }
         if let legacyData = record["smartClipboardHistory"] as? Data,
            let decoded = try? JSONDecoder().decode([SmartClipboardHistory].self, from: legacyData) {
-            print("📦 [CloudKit] 복구할 스마트 클립보드 (레거시): \(decoded.count)개")
+            AppLog.info(.backup, "📦 [CloudKit] 복구할 스마트 클립보드 (레거시): \(decoded.count)개")
             return decoded
         }
-        print("ℹ️ [CloudKit] 스마트 클립보드 데이터 없음")
+        AppLog.info(.backup, "ℹ️ [CloudKit] 스마트 클립보드 데이터 없음")
         return []
     }
 
@@ -788,15 +788,15 @@ class CloudKitBackupService: ObservableObject {
         if let asset = record["combosAsset"] as? CKAsset,
            let data = try? readAsset(asset),
            let decoded = try? JSONDecoder().decode([Combo].self, from: data) {
-            print("📦 [CloudKit] 복구할 Combo (Asset): \(decoded.count)개")
+            AppLog.info(.backup, "📦 [CloudKit] 복구할 Combo (Asset): \(decoded.count)개")
             return decoded
         }
         if let legacyData = record["combos"] as? Data,
            let decoded = try? JSONDecoder().decode([Combo].self, from: legacyData) {
-            print("📦 [CloudKit] 복구할 Combo (레거시): \(decoded.count)개")
+            AppLog.info(.backup, "📦 [CloudKit] 복구할 Combo (레거시): \(decoded.count)개")
             return decoded
         }
-        print("ℹ️ [CloudKit] Combo 데이터 없음")
+        AppLog.info(.backup, "ℹ️ [CloudKit] Combo 데이터 없음")
         return []
     }
 
@@ -805,17 +805,17 @@ class CloudKitBackupService: ObservableObject {
         smartClipboard: [SmartClipboardHistory],
         combos: [Combo]
     ) throws {
-        print("💾 [CloudKit] 로컬 저장 시작...")
+        AppLog.info(.backup, "💾 [CloudKit] 로컬 저장 시작...")
         try MemoStore.shared.save(memos: memos, type: .memo)
-        print("✅ [CloudKit] 메모 \(memos.count)개 저장 완료")
+        AppLog.info(.backup, "✅ [CloudKit] 메모 \(memos.count)개 저장 완료")
 
         if !smartClipboard.isEmpty {
             try MemoStore.shared.saveSmartClipboardHistory(history: smartClipboard)
-            print("✅ [CloudKit] 스마트 클립보드 \(smartClipboard.count)개 저장 완료")
+            AppLog.info(.backup, "✅ [CloudKit] 스마트 클립보드 \(smartClipboard.count)개 저장 완료")
         }
         if !combos.isEmpty {
             try MemoStore.shared.saveCombos(combos)
-            print("✅ [CloudKit] Combo \(combos.count)개 저장 완료")
+            AppLog.info(.backup, "✅ [CloudKit] Combo \(combos.count)개 저장 완료")
         }
 
         // 옛 백업을 복원하면 레거시 포맷(combos.data / isCombo / attachedTemplateId)이 되살아날 수 있다.
@@ -840,7 +840,7 @@ class CloudKitBackupService: ObservableObject {
     // MARK: - Delete Backup
 
     func deleteBackup() async throws {
-        print("🗑️ [CloudKit] 백업 삭제 시작...")
+        AppLog.info(.backup, "🗑️ [CloudKit] 백업 삭제 시작...")
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
@@ -851,9 +851,9 @@ class CloudKitBackupService: ObservableObject {
                 UserDefaults.standard.removeObject(forKey: DefaultsKey.lastBackupDate)
             }
 
-            print("✅ [CloudKit] 백업 삭제 완료")
+            AppLog.info(.backup, "✅ [CloudKit] 백업 삭제 완료")
         } catch {
-            print("❌ [CloudKit] 백업 삭제 실패: \(error)")
+            AppLog.error(.backup, "❌ [CloudKit] 백업 삭제 실패: \(error)")
             throw error
         }
     }

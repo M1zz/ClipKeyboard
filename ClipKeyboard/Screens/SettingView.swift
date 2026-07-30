@@ -317,6 +317,10 @@ struct SettingView: View {
                         Label(NSLocalizedString("사용 통계 (개발자)", comment: "Usage stats settings entry (developer)"),
                               systemImage: AppSymbol.chartBarXaxis)
                     }
+                    NavigationLink(destination: CrashReportsView()) {
+                        Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
+                              systemImage: AppSymbol.exclamationmarkTriangleFill)
+                    }
                 }
                 // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)
                 Link(destination: URL(string: "https://instagram.com/lee25_ios")!) {

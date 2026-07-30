@@ -59,8 +59,15 @@ final class QuickNoteStore: ObservableObject {
     /// 보관함 전체를 디스크에 저장하고 변경 알림을 보낸다(observer 가 reload).
     private func persist(_ notes: [QuickNote]) {
         let sorted = notes.sorted { $0.createdAt > $1.createdAt }
-        if let url = Self.fileURL(), let data = try? JSONEncoder().encode(sorted) {
-            try? data.write(to: url, options: .atomic)
+        // 빠른 메모는 공유 시트·제어센터에서 들어온 "잃으면 안 되는 캡처"다.
+        // 저장 실패를 삼키면 사용자는 저장된 줄 알고 원본을 지운다.
+        if let url = Self.fileURL() {
+            do {
+                let data = try JSONEncoder().encode(sorted)
+                try data.write(to: url, options: .atomic)
+            } catch {
+                AppLog.error(.store, "❌ [QuickNoteStore.persist] 빠른 메모 저장 실패: \(error.localizedDescription)")
+            }
         }
         DispatchQueue.main.async { [weak self] in
             self?.quickNotes = sorted

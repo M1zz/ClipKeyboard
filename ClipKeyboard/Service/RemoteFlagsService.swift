@@ -102,14 +102,14 @@ final class RemoteFlagsService: ObservableObject {
                 defaults?.set(raw != 0, forKey: Self.cachePrefix + flag.rawValue)
             }
             defaults?.set(Date().timeIntervalSince1970, forKey: Self.lastFetchKey)
-            print("🎛 [RemoteFlagsService.fetch] 플래그 갱신 완료")
+            AppLog.info(.flags, "🎛 [RemoteFlagsService.fetch] 플래그 갱신 완료")
         } catch let error as CKError where error.code == .unknownItem {
             // 레코드를 아직 안 만든 정상 상태 — 전부 켬으로 두고 다음 주기까지 조용히 지낸다.
             defaults?.set(Date().timeIntervalSince1970, forKey: Self.lastFetchKey)
-            print("🎛 [RemoteFlagsService.fetch] 플래그 레코드 없음 — 전부 켬으로 동작")
+            AppLog.info(.flags, "🎛 [RemoteFlagsService.fetch] 플래그 레코드 없음 — 전부 켬으로 동작")
         } catch {
             // 네트워크·권한 실패. **캐시를 건드리지 않는다** — 마지막으로 알던 값을 유지.
-            print("⚠️ [RemoteFlagsService.fetch] 갱신 실패(기존 값 유지): \(error.localizedDescription)")
+            AppLog.warning(.flags, "⚠️ [RemoteFlagsService.fetch] 갱신 실패(기존 값 유지): \(error.localizedDescription)")
         }
     }
 }

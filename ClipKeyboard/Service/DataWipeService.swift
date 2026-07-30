@@ -62,7 +62,7 @@ enum DataWipeService {
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             result.failures.append("App Group 컨테이너 접근 실패")
-            print("❌ [DataWipeService.wipeAll] App Group 컨테이너를 찾을 수 없음")
+            AppLog.error(.wipe, "❌ [DataWipeService.wipeAll] App Group 컨테이너를 찾을 수 없음")
             return result
         }
 
@@ -75,7 +75,7 @@ enum DataWipeService {
                 result.deletedFiles.append(name)
             } catch {
                 result.failures.append(name)
-                print("❌ [DataWipeService.wipeAll] \(name) 삭제 실패: \(error.localizedDescription)")
+                AppLog.error(.wipe, "❌ [DataWipeService.wipeAll] \(name) 삭제 실패: \(error.localizedDescription)")
             }
         }
 
@@ -88,7 +88,7 @@ enum DataWipeService {
                 result.deletedImageCount = count
             } catch {
                 result.failures.append("Images")
-                print("❌ [DataWipeService.wipeAll] 이미지 폴더 삭제 실패: \(error.localizedDescription)")
+                AppLog.error(.wipe, "❌ [DataWipeService.wipeAll] 이미지 폴더 삭제 실패: \(error.localizedDescription)")
             }
         }
 
@@ -112,7 +112,7 @@ enum DataWipeService {
             store.combos = []
         }
 
-        print("🗑 [DataWipeService.wipeAll] 파일 \(result.deletedFiles.count)개 · 이미지 \(result.deletedImageCount)개 삭제, 실패 \(result.failures.count)건")
+        AppLog.info(.wipe, "🗑 [DataWipeService.wipeAll] 파일 \(result.deletedFiles.count)개 · 이미지 \(result.deletedImageCount)개 삭제, 실패 \(result.failures.count)건")
         return result
     }
 }

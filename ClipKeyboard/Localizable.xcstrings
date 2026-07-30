@@ -31642,6 +31642,294 @@
           }
         }
       }
+    },
+    "결제 전환 퍼널": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchase funnel"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Corong pembelian"
+          }
+        }
+      }
+    },
+    "설치 %d곳": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d installs"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d pemasangan"
+          }
+        }
+      }
+    },
+    "전체 대비 %1$@ · 직전 단계 대비 %2$@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ of all · %2$@ of previous step"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ dari total · %2$@ dari langkah sebelumnya"
+          }
+        }
+      }
+    },
+    "같은 이벤트는 설치당 6시간에 한 번만 기록돼요. 절대 건수보다 단계 사이의 비율을 보세요.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each event is recorded at most once per install every 6 hours. Read the ratios between steps, not the absolute counts."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setiap peristiwa dicatat maksimal sekali per pemasangan tiap 6 jam. Perhatikan rasio antarlangkah, bukan jumlah absolutnya."
+          }
+        }
+      }
+    },
+    "리텐션 (주간 코호트)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retention (weekly cohorts)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retensi (kohort mingguan)"
+          }
+        }
+      }
+    },
+    "설치한 주별로 묶어 며칠 뒤에도 앱을 열었는지 봐요. 아직 그날이 오지 않은 설치는 세지 않으니, 최근 코호트의 D30은 낮게 보입니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grouped by install week, showing who opened the app days later. Installs whose day hasn't arrived yet aren't counted, so recent cohorts show a low D30."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikelompokkan per minggu pemasangan, menunjukkan siapa yang membuka aplikasi beberapa hari kemudian. Pemasangan yang harinya belum tiba tidak dihitung, jadi D30 kohort terbaru terlihat rendah."
+          }
+        }
+      }
+    },
+    "M월 d일 주": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "'Week of' MMM d"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "'Minggu' d MMM"
+          }
+        }
+      }
+    },
+    "안정성": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stability"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stabilitas"
+          }
+        }
+      }
+    },
+    "안정성 (개발자)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stability (developer)"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stabilitas (pengembang)"
+          }
+        }
+      }
+    },
+    "크래시": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crash"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crash"
+          }
+        }
+      }
+    },
+    "멈춤": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hang"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macet"
+          }
+        }
+      }
+    },
+    "과도한 디스크 쓰기": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excessive disk writes"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Penulisan disk berlebihan"
+          }
+        }
+      }
+    },
+    "버전별 진단 건수": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reports per version"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laporan per versi"
+          }
+        }
+      }
+    },
+    "최근 진단": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent reports"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laporan terbaru"
+          }
+        }
+      }
+    },
+    "콜스택": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Call stack"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tumpukan panggilan"
+          }
+        }
+      }
+    },
+    "%d건": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d reports"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d laporan"
+          }
+        }
+      }
+    },
+    "아직 올라온 진단이 없어요. 크래시 정보는 iOS가 하루 한 번꼴로 묶어서 보내기 때문에, 방금 난 크래시는 바로 보이지 않습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No reports yet. iOS batches crash data roughly once a day, so a crash that just happened won't show up immediately."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belum ada laporan. iOS mengirim data crash sekitar sekali sehari, jadi crash yang baru terjadi tidak langsung muncul."
+          }
+        }
+      }
+    },
+    "MetricKit이 보내주는 익명 진단이에요. 콜스택·앱 버전·OS만 담기고 사용자 정보는 들어가지 않습니다.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anonymous diagnostics from MetricKit. Only the call stack, app version, and OS are included — no user information."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostik anonim dari MetricKit. Hanya tumpukan panggilan, versi aplikasi, dan OS yang disertakan — tanpa informasi pengguna."
+          }
+        }
+      }
     }
   },
   "version": "1.1"
