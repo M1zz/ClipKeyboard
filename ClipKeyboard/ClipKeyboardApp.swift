@@ -70,7 +70,7 @@ struct ClipKeyboardApp: App {
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
 
-        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀, 옵트아웃 시 no-op.
+        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
         UsageReportingService.reportLaunch()
 
         // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행

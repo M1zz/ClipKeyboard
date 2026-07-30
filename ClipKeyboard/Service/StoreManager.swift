@@ -26,7 +26,10 @@ class StoreManager: ObservableObject {
 
     // MARK: - Product IDs
 
-    static let proProductID = "com.Ysoup.TokenMemo.pro"
+    /// ⚠️ App Store Connect·기존 사용자 영수증과의 계약 — 변경 금지.
+    /// `nonisolated`: 불변 String 상수라 격리가 필요 없고, `ClipKeyboardSpec.paywall`(nonisolated static let)이
+    /// 이 값을 참조한다. 격리된 채로 두면 Swift 6 언어 모드에서 에러가 된다.
+    nonisolated static let proProductID = "com.Ysoup.TokenMemo.pro"
 
     // MARK: - 내부 공용 스토어
 

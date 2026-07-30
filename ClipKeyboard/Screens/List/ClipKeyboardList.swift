@@ -1515,9 +1515,6 @@ struct ClipKeyboardList: View {
         .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)
     }
 
-    /// 카테고리 생성 제안 TipKit 카드. 수락 시 카테고리 추가 + 해당 탭으로 이동.
-    /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
-    @ViewBuilder
     // MARK: - Persona Category Suggestion (TipKit)
 
     /// 선택한 페르소나에 맞는, 아직 안 만든 카테고리 이름 후보.
@@ -1535,6 +1532,8 @@ struct ClipKeyboardList: View {
             && !personaCategorySuggestions.isEmpty
     }
 
+    /// 카테고리 생성 제안 TipKit 카드. 수락 시 카테고리 추가 + 해당 탭으로 이동.
+    /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
     private func personaCategorySuggestionTip() -> some View {
         let tip = PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
         return TipView(tip) { action in
@@ -1840,9 +1839,19 @@ struct ClipKeyboardList: View {
     // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
 
     /// 2열 그리드 한 칸 너비 — onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
+    /// iOS 26에서 `UIScreen.main`이 deprecated — 활성 씬의 **윈도우** 너비를 쓴다.
+    /// 화면(screen)이 아니라 윈도우인 이유: 아이패드 분할뷰·스테이지 매니저·Mac Catalyst에서는
+    /// 앱이 화면 전체를 쓰지 않아 screen 기준이면 미리보기가 실제 카드보다 커진다.
+    @MainActor
     private var reorderPreviewWidth: CGFloat {
         #if os(iOS)
-        return max(120, (UIScreen.main.bounds.width - 44) / 2)
+        let containerWidth = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first { $0.activationState == .foregroundActive }?
+            .windows.first { $0.isKeyWindow }?
+            .bounds.width
+        // 씬을 못 찾는 경우(백그라운드 진입 등)엔 2열 그리드가 성립하는 최소 폭으로 폴백
+        return max(120, ((containerWidth ?? 320) - 44) / 2)
         #else
         return 160
         #endif

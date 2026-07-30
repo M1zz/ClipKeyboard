@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    PrivacyInfo.xcprivacy — ClipKeyboardExtension (커스텀 키보드)
+
+    수집 없음. 이 익스텐션은 **기기 밖으로 아무것도 보내지 않는다.**
+      · 입력한 텍스트·클립보드 내용은 저장하거나 전송하지 않는다.
+      · 사용 비콘(kb.beacon.*)은 App Group UserDefaults에 **숫자만** 남기고,
+        나중에 메인 앱이 자기 정책(UsageReportingService)에 따라 집계해 보낸다.
+        → 전송 주체는 메인 앱이므로 수집 신고도 메인 앱 매니페스트에 있다.
+      · AnalyticsService 는 이 타겟에도 포함되지만 eventSink 훅이 꽂히지 않아
+        콘솔 출력만 한다 (ClipKeyboard/Service/AnalyticsService.swift 주석 참고).
+-->
+<plist version="1.0">
+<dict>
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array/>
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <!-- App Group `group.com.Ysoup.TokenMemo` 공유 UserDefaults만 사용(1C8F.1).
+             이 타겟은 UserDefaults.standard 를 쓰지 않아 CA92.1 은 선언하지 않는다. -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>1C8F.1</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>

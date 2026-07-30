@@ -10,6 +10,7 @@ ClipKeyboard v4.4.3
 - 이미지와 여러 값을 함께 담아요, 이미지를 붙여도 "내용 더 넣기"가 유지돼 이미지와 여러 값을 한 단축어에 같이 넣을 수 있어요
 - 새 단축어 화면이 더 깔끔해졌어요, 값 채우기 버튼이 또렷해지고, 클립보드 감지 안내의 "사용" 버튼이 잘 보이도록 정리했어요. "쓸 때 채우는 칸"({금액} 같은 변수)이 무엇인지 예시로 설명하고, 값 추가 버튼도 매끄럽게 다듬었어요
 - 기기 간 단축어 동기화(베타)가 제대로 동작해요, 예전에 앱을 구매해 쓰시던 분들은 설정에서 동기화를 켜도 실제로는 시작되지 않던 문제를 고쳤어요. 전송이 확인된 변경만 "보냄"으로 처리하도록 바꿔서, 앱이 중간에 종료돼도 그 변경이 누락되지 않아요
+- 익명 사용 통계 수집을 시작해요, 어떤 기능이 실제로 쓰이는지 알아야 다음에 무엇을 고칠지 정할 수 있어서예요. 보내는 건 기능 사용 횟수·단축어 개수 같은 숫자와 기능 이름뿐이고, 단축어 내용·클립보드·이미지는 절대 보내지 않아요. 광고 식별자도 쓰지 않습니다 — 자세한 내용은 개인정보 처리방침을 봐주세요
 
 English
 
@@ -21,6 +22,7 @@ Put several values in one snippet and pick which to use — right in the app or 
 - Mix an image with multiple values, "Add more content" stays available even after attaching an image, so one snippet can hold both an image and several values
 - A cleaner new-snippet screen, clearer fill buttons and a more visible "Use" button on the clipboard suggestion. Fill-in fields (variables like {amount}) now come with a plain example, and the add-value button is smoother
 - Cross-device sync (beta) now works properly, if you bought the app back when it was paid, turning sync on in Settings didn't actually start it — that's fixed. Changes are only marked as sent once the upload is confirmed, so nothing goes missing when the app closes mid-sync
+- Anonymous usage statistics start with this version, knowing which features actually get used is how we decide what to fix next. We only send counts (how often a feature was used, how many snippets you have) and feature names — never your snippet contents, clipboard, or images, and no advertising identifiers. See the privacy policy for details
 
 ---
 
@@ -31,6 +33,7 @@ App Store 제출용 요약 (한국어)
 • 이미지 + 여러 값을 한 단축어에 함께
 • 새 단축어 화면 정리 — 채우기 버튼·클립보드 "사용" 버튼 가독성, 변수 설명·값 추가 개선
 • 기기 간 동기화(베타) 수정 — 기존 구매자도 정상 시작, 전송 확정 후에만 완료 처리해 누락 방지
+• 익명 사용 통계 수집 시작 — 기능 사용 횟수 같은 숫자만, 단축어 내용·클립보드는 보내지 않음
 
 App Store Summary (English)
 
@@ -39,3 +42,4 @@ App Store Summary (English)
 • Combine an image and multiple values in one snippet
 • Cleaner new-snippet screen — clearer fill buttons, a visible "Use" button, and better variable guidance
 • Cross-device sync (beta) fixes — starts correctly for long-time owners, and changes count as sent only once confirmed
+• Anonymous usage statistics begin — counts only, never your snippet contents or clipboard

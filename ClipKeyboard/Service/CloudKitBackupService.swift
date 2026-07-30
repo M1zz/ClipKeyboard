@@ -666,8 +666,14 @@ class CloudKitBackupService: ObservableObject {
         infos.append(BackupSnapshotInfo(recordName: snapName, date: date, memoCount: memoCount))
         infos.sort { $0.date > $1.date }
         let keep = Array(infos.prefix(maxSnapshots))
+        // 정리 실패는 백업 자체를 실패시키지 않는다(이미 저장은 끝났다) — 대신 반드시 로그로 남긴다.
+        // 삭제에 실패한 스냅샷은 인덱스에서 빠지므로 다시 정리되지 않는 고아 레코드로 남는다(용량만 차지, 데이터 손실 아님).
         for old in infos.dropFirst(maxSnapshots) {
-            try? await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
+            do {
+                _ = try await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
+            } catch {
+                print("⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)) — 고아 레코드로 남음: \(error.localizedDescription)")
+            }
         }
         try await saveSnapshotIndex(keep)
         print("📚 [CloudKit] 버전 스냅샷 저장(메모 \(memoCount)개) · 보관 \(keep.count)개")

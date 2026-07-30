@@ -30,7 +30,7 @@ enum UsageReportingService {
     /// 같은 이벤트 이름을 다시 보내기까지의 최소 간격 — 공개 DB 쓰기 폭주 방지.
     private static let eventThrottle: TimeInterval = 6 * 3600
 
-    /// 유닛 테스트 중에는 허브에 실제로 쓰지 않는다 (옵트아웃·쓰로틀 로직 자체는 그대로 검증된다).
+    /// 유닛 테스트 중에는 허브에 실제로 쓰지 않는다 (쓰로틀 로직 자체는 그대로 검증된다).
     private static var isRunningTests: Bool { ClipKeyboardApp.isRunningUnitTests }
 
     // MARK: - 전송
