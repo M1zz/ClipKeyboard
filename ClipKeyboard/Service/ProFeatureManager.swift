@@ -183,6 +183,17 @@ struct ProFeatureManager {
         hasGrandfatheredPurchase || wasExistingFreeUser
     }
 
+    /// 실제 접근 권한(`hasFullAccess`)을 App Group + iCloud KV 에 미러링한다.
+    /// 공유 동기화 엔진(`MemoSyncEngine`)은 iOS 전용 타입을 못 보므로 이 키로 게이트를 판단한다.
+    /// 앱 시작·구매 상태 변화 시 호출 — 안 부르면 그랜드파더/TestFlight/체험 사용자는
+    /// 토글을 켜도 엔진이 시작되지 않는다.
+    static func mirrorSyncEntitlement() {
+        let entitled = hasFullAccess
+        groupDefaults?.set(entitled, forKey: DefaultsKey.syncEntitled)
+        NSUbiquitousKeyValueStore.default.set(entitled, forKey: DefaultsKey.syncEntitled)
+        print("🔑 [ProFeatureManager] 동기화 권한 미러링: \(entitled)")
+    }
+
     // MARK: - Diagnostics
 
     /// "실제 접근 권한"을 결제 외 경로까지 한 줄로 찍는다.

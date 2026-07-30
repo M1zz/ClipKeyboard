@@ -32,6 +32,58 @@ enum MemoSyncFlags {
     }
 }
 
+/// 동기화가 실제로 돌고 있는지 보여주기 위한 최소 기록.
+/// "지금 다른 기기(아이폰) 데이터를 받아오고 있나?"에 답하는 화면(맥 앱의 동기화 상태)이 이 값을 읽는다.
+/// 마지막 수신/전송/확인/오류는 App Group에 남겨 앱을 다시 켜도 유지되고,
+/// 엔진 실행 여부만 프로세스 메모리에 둔다(실행 때마다 새로 시작하므로).
+enum MemoSyncStatus {
+    private static var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+
+    /// 이번 실행에서 엔진이 시작됐는지 — false면 게이트(플래그/Pro)에 막혀 아예 안 돌고 있는 것.
+    nonisolated(unsafe) private static var running = false
+    static var isRunning: Bool { running }
+
+    /// 마지막으로 원격 변경을 이 기기에 적용한 시각과 건수 — "받아오고 있다"의 직접 증거.
+    static var lastPullAt: Date? { defaults?.object(forKey: DefaultsKey.syncLastPullAt) as? Date }
+    static var lastPullCount: Int { defaults?.integer(forKey: DefaultsKey.syncLastPullCount) ?? 0 }
+    /// 마지막으로 이 기기 변경을 올린 시각과 건수.
+    static var lastPushAt: Date? { defaults?.object(forKey: DefaultsKey.syncLastPushAt) as? Date }
+    static var lastPushCount: Int { defaults?.integer(forKey: DefaultsKey.syncLastPushCount) ?? 0 }
+    /// 받을 게 없어도 갱신되는 마지막 확인 시각 — 연결이 살아있다는 근거.
+    static var lastCheckAt: Date? { defaults?.object(forKey: DefaultsKey.syncLastCheckAt) as? Date }
+    /// 마지막 오류(성공하면 지워진다).
+    static var lastError: String? { defaults?.string(forKey: DefaultsKey.syncLastError) }
+    static var lastErrorAt: Date? { defaults?.object(forKey: DefaultsKey.syncLastErrorAt) as? Date }
+
+    // MARK: - 기록 (엔진 전용)
+
+    static func markRunning() { running = true }
+
+    static func recordPull(count: Int, at date: Date = Date()) {
+        defaults?.set(date, forKey: DefaultsKey.syncLastPullAt)
+        defaults?.set(count, forKey: DefaultsKey.syncLastPullCount)
+    }
+
+    static func recordPush(count: Int, at date: Date = Date()) {
+        defaults?.set(date, forKey: DefaultsKey.syncLastPushAt)
+        defaults?.set(count, forKey: DefaultsKey.syncLastPushCount)
+    }
+
+    static func recordCheck(at date: Date = Date()) {
+        defaults?.set(date, forKey: DefaultsKey.syncLastCheckAt)
+    }
+
+    static func recordError(_ message: String, at date: Date = Date()) {
+        defaults?.set(message, forKey: DefaultsKey.syncLastError)
+        defaults?.set(date, forKey: DefaultsKey.syncLastErrorAt)
+    }
+
+    static func clearError() {
+        defaults?.removeObject(forKey: DefaultsKey.syncLastError)
+        defaults?.removeObject(forKey: DefaultsKey.syncLastErrorAt)
+    }
+}
+
 @available(iOS 17.0, macOS 14.0, *)
 final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     static let shared = MemoSyncEngine()
@@ -61,6 +113,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         guard isProUser else { log.info("sync gated: not Pro"); return }
         guard !started else { return }
         started = true
+        MemoSyncStatus.markRunning()
 
         let config = CKSyncEngine.Configuration(
             database: CKContainer(identifier: containerID).privateCloudDatabase,
@@ -83,10 +136,20 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     }
 
     /// Pro 여부 — ProFeatureManager의 키를 직접 읽어 양 타겟(맥은 자체 매니저) 의존을 피한다.
+    ///
+    /// ⚠️ 결제 키(`proStatus`) 하나만 보면 안 된다. 이 앱은 **결제 외 경로**로도 전체 접근 권한을 준다:
+    /// v4.0 이전 유료 구매자(`wasProAtV3`) · v3.x 기존 사용자(`existingFreeUser`) · TestFlight/체험
+    /// (`syncEntitled` 로 미러링). 설정의 동기화 토글은 `hasFullAccess` 로 열리는데 엔진만 결제를
+    /// 요구하던 탓에, 그랜드파더 사용자는 **토글이 켜져 있는데도 엔진이 조용히 거부**해
+    /// 아이폰에서 아무것도 올라가지 않았다.
     private var isProUser: Bool {
-        // App Group + iCloud KV 어느 쪽이든 Pro면 Pro로 간주(기존 백업 게이팅과 동일 취지).
-        if defaults?.bool(forKey: DefaultsKey.proStatus) == true { return true }
-        if NSUbiquitousKeyValueStore.default.bool(forKey: DefaultsKey.proStatus) { return true }
+        // App Group + iCloud KV 어느 쪽이든 켜져 있으면 인정(기존 백업 게이팅과 동일 취지).
+        let keys = [DefaultsKey.proStatus, DefaultsKey.wasProAtV3,
+                    DefaultsKey.existingFreeUser, DefaultsKey.syncEntitled]
+        for key in keys {
+            if defaults?.bool(forKey: key) == true { return true }
+            if NSUbiquitousKeyValueStore.default.bool(forKey: key) { return true }
+        }
         return false
     }
 
@@ -124,8 +187,9 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         for id in changes.newTombstones.keys { pending.append(.saveRecord(recordID(id))) }
         engine.state.add(pendingRecordZoneChanges: pending)
 
-        // 섀도를 현재 살아있는 상태로 갱신(전송 확정 전이라도, 지문이 안 바뀌면 재전송 안 됨).
-        saveShadow(MemoSyncCore.buildShadow(current))
+        // ⚠️ 여기서 섀도를 갱신하지 않는다 — 서버 저장이 확정된 뒤(confirmSent)에만 기록한다.
+        // 예전엔 큐에 넣자마자 갱신해서, 전송 전에 앱이 종료되면 큐는 사라지고 섀도는 "보냄"으로
+        // 남아 그 변경이 **영영 재전송되지 않았다**(메모를 다시 고치기 전까지 조용히 누락).
         log.info("enqueued \(changes.upserts.count) upserts, \(changes.newTombstones.count) deletes")
     }
 
@@ -141,7 +205,32 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         case .sentRecordZoneChanges(let e):
             if !e.failedRecordSaves.isEmpty {
                 log.error("failed record saves: \(e.failedRecordSaves.count)")
+                if let first = e.failedRecordSaves.first {
+                    MemoSyncStatus.recordError(first.error.localizedDescription)
+                }
             }
+            let sent = e.savedRecords.count + e.deletedRecordIDs.count
+            if sent > 0 { MemoSyncStatus.recordPush(count: sent) }
+            // 서버 저장이 확정된 것만 섀도에 반영한다.
+            if !e.savedRecords.isEmpty { confirmSent(e.savedRecords) }
+        case .sentDatabaseChanges(let e):
+            // 존(MemosZone) 생성 실패가 여기로 온다 — Production 스키마 미배포처럼
+            // "아무것도 못 올리는" 상황의 유일한 단서라 반드시 기록한다.
+            if let failure = e.failedZoneSaves.first {
+                log.error("failed zone save: \(failure.error.localizedDescription)")
+                MemoSyncStatus.recordError(failure.error.localizedDescription)
+            }
+        case .didFetchRecordZoneChanges(let e):
+            // 존 단위 fetch 결과 — 성공하면 이전 오류를 지워 상태 화면이 낡은 오류를 보여주지 않게 한다.
+            if let error = e.error {
+                log.error("fetch zone changes failed: \(error.localizedDescription)")
+                MemoSyncStatus.recordError(error.localizedDescription)
+            } else {
+                MemoSyncStatus.clearError()
+            }
+        case .didFetchChanges:
+            // 받을 변경이 없어도 도달한다 — "언제 마지막으로 확인했는지"의 근거.
+            MemoSyncStatus.recordCheck()
         case .accountChange(let e):
             handleAccountChange(e)
         default:
@@ -169,6 +258,22 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
                 return nil
             }
         }
+    }
+
+    /// 서버 저장이 확정된 레코드만 섀도에 기록한다 — 확정 전에는 계속 "보낼 것"으로 남겨 재시도되게 한다.
+    private func confirmSent(_ records: [CKRecord]) {
+        let current = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let byId = Dictionary(uniqueKeysWithValues: current.map { ($0.id, $0) })
+        var shadow = loadShadow()
+        for record in records {
+            guard let id = UUID(uuidString: record.recordID.recordName) else { continue }
+            if let memo = byId[id] {
+                shadow[id] = MemoSyncCore.fingerprint(memo)
+            } else {
+                shadow.removeValue(forKey: id)   // 툼스톤 확정 — 살아있는 목록에 없음
+            }
+        }
+        saveShadow(shadow)
     }
 
     // MARK: - Apply remote → local
@@ -207,6 +312,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
             engine.state.add(pendingRecordZoneChanges: result.toReupload.map { .saveRecord(recordID($0.id)) })
         }
 
+        MemoSyncStatus.recordPull(count: remotes.count)
         await MainActor.run { NotificationCenter.default.post(name: .dataRestored, object: nil) }
         log.info("applied remote: \(remotes.count) records → \(result.memos.count) local memos")
     }
