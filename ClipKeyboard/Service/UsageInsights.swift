@@ -84,6 +84,166 @@ enum UsageInsights {
         }
     }
 
+    // MARK: - 단축어 개수 분포 (막대)
+
+    struct DistributionBucket: Identifiable {
+        let label: String
+        /// 이 구간에 속한 설치 수.
+        let installs: Int
+        /// 정렬용 하한값.
+        let lowerBound: Int
+        var id: String { label }
+    }
+
+    /// "몇 개 쓰는 사람이 몇 명인지" — 설치를 단축어 개수 구간으로 나눈다.
+    /// 무료 한도(10개) 근처가 중요해서 그 앞뒤를 촘촘히 끊었다:
+    /// 한도 직전(7~9)에 몰려 있으면 한도가 전환을 만들고 있다는 뜻이고,
+    /// 1~3에 몰려 있으면 만들다 마는 것(가치 전달 실패)이다.
+    /// 화면용 편의 오버로드.
+    static func shortcutDistribution(snapshots: [UsageReportingService.Snapshot]) -> [DistributionBucket] {
+        shortcutDistribution(metrics: snapshots.map(\.metrics))
+    }
+
+    /// ⚠️ 지표 딕셔너리만 받는다 — `UsageSnapshot` 은 CKRecord 전용 생성자뿐이라
+    ///    그대로 받으면 유닛 테스트로 검증할 수 없다(리텐션에서 겪은 것과 같은 문제).
+    static func shortcutDistribution(metrics snapshots: [[String: Double]]) -> [DistributionBucket] {
+        let bounds: [(String, Int, Int)] = [
+            (NSLocalizedString("0개", comment: "Distribution bucket: none"), 0, 0),
+            ("1–3", 1, 3),
+            ("4–6", 4, 6),
+            ("7–9", 7, 9),
+            ("10–19", 10, 19),
+            (NSLocalizedString("20개 이상", comment: "Distribution bucket: 20 or more"), 20, Int.max)
+        ]
+        return bounds.map { label, lower, upper in
+            let count = snapshots.filter { metrics in
+                let n = Int(metrics["shortcuts"] ?? 0)
+                return n >= lower && n <= upper
+            }.count
+            return DistributionBucket(label: label, installs: count, lowerBound: lower)
+        }
+    }
+
+    // MARK: - 단축어 종류 (도넛)
+
+    struct TypeShare: Identifiable {
+        let name: String
+        let count: Int
+        /// 전체 대비 비율 (0.0 ~ 1.0).
+        let ratio: Double
+        var id: String { name }
+    }
+
+    /// 종류별 단축어 총합. `currentMetrics()` 가 **겹치지 않게** 세므로 합이 전체와 맞는다.
+    /// ⚠️ `texts` 는 4.4.3부터 수집한다 — 그 이전 스냅샷에는 없어서 0으로 잡힌다.
+    ///    옛 스냅샷이 섞이면 텍스트 비중이 실제보다 낮게 보인다(시간이 지나면 해소).
+    static func typeBreakdown(snapshots: [UsageReportingService.Snapshot]) -> [TypeShare] {
+        typeBreakdown(metrics: snapshots.map(\.metrics))
+    }
+
+    static func typeBreakdown(metrics snapshots: [[String: Double]]) -> [TypeShare] {
+        func total(_ key: String) -> Int {
+            snapshots.reduce(0) { $0 + Int($1[key] ?? 0) }
+        }
+        let raw: [(String, Int)] = [
+            (NSLocalizedString("텍스트", comment: "Shortcut type: plain text"), total("texts")),
+            (NSLocalizedString("템플릿", comment: "Shortcut type: template"), total("templates")),
+            (NSLocalizedString("콤보", comment: "Shortcut type: combo"), total("combos")),
+            (NSLocalizedString("이미지", comment: "Shortcut type: image"), total("images"))
+        ]
+        let sum = raw.reduce(0) { $0 + $1.1 }
+        guard sum > 0 else { return [] }
+        return raw.map { TypeShare(name: $0.0, count: $0.1, ratio: Double($0.1) / Double(sum)) }
+    }
+
+    // MARK: - 키보드 사용량
+
+    struct KeyboardUsage {
+        /// 키보드를 한 번이라도 쓴 설치 수.
+        let activeInstalls: Int
+        /// 전체 설치 수.
+        let totalInstalls: Int
+        /// 키보드 입력 총 횟수.
+        let totalUses: Int
+        /// 절약한 시간 합계(분).
+        let totalTimeSavedMin: Int
+
+        /// 키보드 활성화율 — **온보딩 성패를 가장 잘 보여주는 숫자**.
+        /// 앱은 깔았는데 키보드를 안 켰다면 이 앱의 핵심 가치를 아직 못 받은 것이다.
+        var adoptionRate: Double {
+            totalInstalls > 0 ? Double(activeInstalls) / Double(totalInstalls) : 0
+        }
+        /// 키보드를 쓰는 설치당 평균 입력 횟수.
+        var usesPerActiveInstall: Double {
+            activeInstalls > 0 ? Double(totalUses) / Double(activeInstalls) : 0
+        }
+    }
+
+    static func keyboardUsage(snapshots: [UsageReportingService.Snapshot]) -> KeyboardUsage {
+        keyboardUsage(metrics: snapshots.map(\.metrics))
+    }
+
+    static func keyboardUsage(metrics snapshots: [[String: Double]]) -> KeyboardUsage {
+        KeyboardUsage(
+            activeInstalls: snapshots.filter { ($0["flag.keyboardActive"] ?? 0) > 0 }.count,
+            totalInstalls: snapshots.count,
+            totalUses: snapshots.reduce(0) { $0 + Int($1["keyboardUses"] ?? 0) },
+            totalTimeSavedMin: snapshots.reduce(0) { $0 + Int($1["timeSavedMin"] ?? 0) }
+        )
+    }
+
+    // MARK: - 마케팅 지표
+
+    struct MarketingSignal: Identifiable {
+        let name: String
+        let value: String
+        /// 이 숫자를 어떻게 읽어야 하는지 — 숫자만 있으면 판단을 못 한다.
+        let hint: String
+        var id: String { name }
+    }
+
+    /// 마케팅·제품 판단에 바로 쓰이는 비율들.
+    static func marketingSignals(snapshots: [UsageReportingService.Snapshot]) -> [MarketingSignal] {
+        marketingSignals(metrics: snapshots.map(\.metrics))
+    }
+
+    static func marketingSignals(metrics snapshots: [[String: Double]]) -> [MarketingSignal] {
+        guard !snapshots.isEmpty else { return [] }
+        let n = Double(snapshots.count)
+
+        func ratio(_ predicate: ([String: Double]) -> Bool) -> String {
+            String(format: "%.0f%%", Double(snapshots.filter(predicate).count) / n * 100)
+        }
+        func average(_ key: String) -> String {
+            String(format: "%.1f", snapshots.reduce(0.0) { $0 + ($1[key] ?? 0) } / n)
+        }
+
+        let totalShortcuts = snapshots.reduce(0.0) { $0 + ($1["shortcuts"] ?? 0) }
+        let totalUnused = snapshots.reduce(0.0) { $0 + ($1["unusedShortcuts"] ?? 0) }
+        let unusedRate = totalShortcuts > 0 ? totalUnused / totalShortcuts * 100 : 0
+
+        return [
+            MarketingSignal(name: NSLocalizedString("Pro 전환율", comment: "Marketing: pro conversion"),
+                            value: ratio { ($0["flag.isPro"] ?? 0) > 0 },
+                            hint: NSLocalizedString("결제까지 간 비율이에요.", comment: "Marketing hint: pro")),
+            MarketingSignal(name: NSLocalizedString("카테고리 사용", comment: "Marketing: category adoption"),
+                            value: ratio { ($0["categories"] ?? 0) > 0 },
+                            hint: NSLocalizedString("정리 기능을 실제로 쓰는 비율이에요.", comment: "Marketing hint: category")),
+            MarketingSignal(name: NSLocalizedString("클립보드 사용", comment: "Marketing: clipboard adoption"),
+                            value: ratio { ($0["clips"] ?? 0) > 0 },
+                            hint: NSLocalizedString("클립보드 기록을 쓰는 비율이에요.", comment: "Marketing hint: clipboard")),
+            MarketingSignal(name: NSLocalizedString("동기화 사용", comment: "Marketing: sync adoption"),
+                            value: ratio { ($0["flag.syncOn"] ?? 0) > 0 },
+                            hint: NSLocalizedString("기기를 2대 이상 쓰는 신호예요.", comment: "Marketing hint: sync")),
+            MarketingSignal(name: NSLocalizedString("안 쓰는 단축어", comment: "Marketing: unused shortcuts"),
+                            value: String(format: "%.0f%%", unusedRate),
+                            hint: NSLocalizedString("만들어만 두고 안 쓰는 비율. 높으면 가치 전달이 덜 된 거예요.", comment: "Marketing hint: unused")),
+            MarketingSignal(name: NSLocalizedString("설치당 단축어", comment: "Marketing: shortcuts per install"),
+                            value: average("shortcuts"),
+                            hint: NSLocalizedString("평균 몇 개를 만드는지예요.", comment: "Marketing hint: avg shortcuts"))
+        ]
+    }
+
     // MARK: - 리텐션 코호트
 
     struct RetentionRow: Identifiable {

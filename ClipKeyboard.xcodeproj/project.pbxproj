@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */; };
 		06B3FF70D58722B3CBDDA128 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		077DAE30BB547E3CBF3CDCAA /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */; };
@@ -290,6 +291,7 @@
 		7B6F486B7BCD88857EFB5DDC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryProtocol.swift; sourceTree = "<group>"; };
 		845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDocumentState.swift; sourceTree = "<group>"; };
+		91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UsageBreakdownCharts.swift; sourceTree = "<group>"; };
 		98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettings.swift; sourceTree = "<group>"; };
 		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
@@ -450,6 +452,7 @@
 				58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */,
 				AIC0FILE0000000000000004 /* AIComponents.swift */,
 				US00001C2F0000000000000005 /* UsageTrendChartView.swift */,
+				91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -1166,6 +1169,7 @@
 				FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */,
 				3E8B4A7A1FB1AF9A661A4D1A /* ChangelogView.swift in Sources */,
 				1761A00B1625C4C0128A8D95 /* CategorySnapshot.swift in Sources */,
+				0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

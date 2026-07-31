@@ -114,11 +114,21 @@ final class QuickNoteStore: ObservableObject {
         let memo = note.toMemo()
         var memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         memos.insert(memo, at: 0)
-        try? MemoStore.shared.save(memos: memos, type: .memo)
+
+        // ⚠️ 저장이 실패하면 **원본을 지우면 안 된다.**
+        //    예전에는 try? 로 삼키고 아래에서 보관함 항목을 무조건 제거해서,
+        //    저장 실패 시 메모도 없고 보관함 원본도 없는 — 캡처가 통째로 사라지는 상태가 됐다.
+        do {
+            try MemoStore.shared.save(memos: memos, type: .memo)
+        } catch {
+            AppLog.error(.store, "❌ [QuickNoteStore.promoteToMemo] 승격 저장 실패 — 보관함 원본을 유지한다: \(error.localizedDescription)")
+            return memo
+        }
+
         DispatchQueue.main.async {
             MemoStore.shared.memos = memos
         }
-        // 원본 보관함 항목 제거(이미지는 메모가 참조하므로 보존).
+        // 저장이 확정된 뒤에만 원본 보관함 항목을 제거(이미지는 메모가 참조하므로 보존).
         remove(note.id, deleteImages: false)
         print("✅ [QuickNoteStore.promoteToMemo] 빠른 메모 → 메모 승격: \(memo.title)")
         return memo

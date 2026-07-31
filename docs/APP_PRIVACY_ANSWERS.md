@@ -12,13 +12,37 @@
 
 https://icloud.developer.apple.com → `iCloud.com.Ysoup.FeedbackHub`
 
-1. **Development에서 스키마 자동 생성** — 앱을 한 번 실행(→ `UsageSnapshot`), 주요 행동 한 번(→ `UsageEvent`)
+⚠️ **레코드 타입이 5개다.** 통계 2개만 배포하면 크래시 진단·킬스위치·카테고리 동기화가
+조용히 동작하지 않는다(앱은 에러 없이 그냥 아무 일도 안 한 것처럼 보인다).
+
+| 레코드 타입 | 무엇 | 없으면 |
+|---|---|---|
+| `UsageSnapshot` | 설치당 스냅샷 | 사용자 수·활성 집계 안 됨 |
+| `UsageEvent` | 행동 이벤트 스트림 | 추이·퍼널·리텐션 안 나옴 |
+| `CrashReport` | MetricKit 크래시·행 진단 | 안정성 화면이 비어 있음 |
+| `RemoteFlags` | 원격 킬스위치 | **전부 "켬"으로 동작**(안전 기본값이라 사고는 아님) |
+| `CategorySettings` | 카테고리 기기 간 동기화 | 카테고리가 다른 기기로 안 넘어감 |
+
+1. **Development에서 스키마 자동 생성** — 앱 실행(→ `UsageSnapshot`), 주요 행동(→ `UsageEvent`).
+   `CrashReport`·`CategorySettings`는 해당 동작이 일어나야 생기므로, 안 생기면
+   Dashboard에서 직접 만든다(필드는 코드 주석 참고).
+   `RemoteFlags`는 **직접 만들어야 한다** — 앱은 읽기만 한다.
 2. **인덱스**
    - `UsageSnapshot`: `recordName` **Queryable**
    - `UsageEvent`: `recordName` **Queryable** + `createdTimestamp` **Sortable**
+   - `CrashReport`: `recordName` **Queryable** + `createdTimestamp` **Sortable**
+   - `RemoteFlags` / `CategorySettings`: recordName 으로 직접 fetch 하므로 인덱스 불필요
    - `appId`는 인덱스 없이 클라이언트 필터 (인덱스 배포 최소화)
 3. **Security Roles** — `_world`는 create만, read 제거 / admin 역할에 read + 본인 userRecordName
-4. **Deploy Schema Changes to Production**
+   ⚠️ `RemoteFlags`는 **`_world` read 가 필요하다**(모든 기기가 읽어야 함).
+   ⚠️ 피드백(`Feedback`)의 `_world` **create** 권한을 실수로 막으면 피드백 전송이 통째로 끊긴다.
+4. **레코드 생성** — `RemoteFlags` 에 recordName `flags_com.Ysoup.TokenMemo` 레코드를 만들고
+   `syncEnabled`·`usageReportingEnabled`·`paywallEnabled` (Int64, 1=켬)을 넣는다.
+   필드를 안 만들어도 앱은 "켬"으로 동작한다(안전 기본값).
+5. **Deploy Schema Changes to Production**
+
+⚠️ **Development 와 Production 은 완전히 분리된 DB다.** Xcode 빌드는 Development,
+TestFlight·App Store 빌드는 Production 을 쓴다. 인박스가 비어 보이면 **환경부터 확인할 것**.
 
 절차 상세: `docs/USAGE_STATS_HUB.md`
 

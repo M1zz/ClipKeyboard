@@ -774,8 +774,14 @@ enum DataPortability {
             for (name, bytes) in bundle.images {
                 let dest = imagesDir.appendingPathComponent(name)
                 if !FileManager.default.fileExists(atPath: dest.path) {
-                    try? bytes.write(to: dest, options: .atomic)
-                    restoredImages += 1
+                    // 실패했는데 개수를 올리면 "이미지 N개 복원"이 거짓말이 된다.
+                    // 이 앱은 조용한 실패(성공처럼 보이는 무동작)를 없애는 걸 원칙으로 한다.
+                    do {
+                        try bytes.write(to: dest, options: .atomic)
+                        restoredImages += 1
+                    } catch {
+                        AppLog.error(.backup, "❌ [CloudBackupView] 이미지 복원 실패(\(name)): \(error.localizedDescription)")
+                    }
                 }
             }
         }

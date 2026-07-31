@@ -1461,6 +1461,23 @@
         }
       }
     },
+    "%1$d명 (%2$@)" : {
+      "comment" : "Count with ratio",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d (%2$@)"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d (%2$@)"
+          }
+        }
+      }
+    },
     "%d categories" : {
       "comment" : "Categories count header",
       "localizations" : {
@@ -1983,6 +2000,23 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$d번, %2$@, 다음 예정"
+          }
+        }
+      }
+    },
+    "%d분" : {
+      "comment" : "Minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d mnt"
           }
         }
       }
@@ -2952,6 +2986,23 @@
         }
       }
     },
+    "0개" : {
+      "comment" : "Distribution bucket: none",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0"
+          }
+        }
+      }
+    },
     "1초" : {
       "comment" : "1 second",
       "localizations" : {
@@ -3119,6 +3170,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ClipKeyboard가 시간을 아껴주거나 실수를 막아주는 18가지 순간."
+          }
+        }
+      }
+    },
+    "20개 이상" : {
+      "comment" : "Distribution bucket: 20 or more",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20+"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20+"
           }
         }
       }
@@ -9432,6 +9500,23 @@
         }
       }
     },
+    "Pro 전환율" : {
+      "comment" : "Marketing: pro conversion",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro conversion"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konversi Pro"
+          }
+        }
+      }
+    },
     "Pro 활성화 완료!" : {
       "comment" : "Pro activated\nPro activated announcement",
       "localizations" : {
@@ -12190,23 +12275,6 @@
         }
       }
     },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nilai"
-          }
-        }
-      }
-    },
     "가져오기 실패" : {
       "comment" : "Bulk import failed alert title\nImport failed",
       "localizations" : {
@@ -12220,6 +12288,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal mengimpor"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai"
           }
         }
       }
@@ -12620,6 +12705,23 @@
         }
       }
     },
+    "개수" : {
+      "comment" : "Chart value: count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Count"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumlah"
+          }
+        }
+      }
+    },
     "개인정보 처리방침" : {
       "comment" : "Privacy policy settings entry",
       "localizations" : {
@@ -12922,6 +13024,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pembayaran dibatalkan"
+          }
+        }
+      }
+    },
+    "결제까지 간 비율이에요." : {
+      "comment" : "Marketing hint: pro",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share that reached purchase."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporsi yang sampai membeli."
           }
         }
       }
@@ -13372,6 +13491,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Perbaikan sinkronisasi antarperangkat (beta) — perubahan dihitung terkirim hanya setelah dikonfirmasi"
+          }
+        }
+      }
+    },
+    "기기를 2대 이상 쓰는 신호예요." : {
+      "comment" : "Marketing hint: sync",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A signal of using two or more devices."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sinyal penggunaan dua perangkat atau lebih."
           }
         }
       }
@@ -13843,23 +13979,6 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끄기" : {
       "comment" : "Nudge: turn off",
       "localizations" : {
@@ -13884,6 +14003,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Matikan untuk menghapus snippet asli saat menyimpan"
+          }
+        }
+      }
+    },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Off"
           }
         }
       }
@@ -14717,6 +14853,40 @@
         }
       }
     },
+    "단축어 개수" : {
+      "comment" : "Chart axis: shortcut count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippets"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan"
+          }
+        }
+      }
+    },
+    "단축어 개수 분포" : {
+      "comment" : "Usage stats section: shortcut distribution",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippets per user"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan per pengguna"
+          }
+        }
+      }
+    },
     "단축어 개수 제한" : {
       "comment" : "Memo limit",
       "localizations" : {
@@ -14730,6 +14900,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batas Snippet"
+          }
+        }
+      }
+    },
+    "단축어 개수별 사용자 분포" : {
+      "comment" : "Chart a11y: shortcut distribution",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Users by number of snippets"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengguna menurut jumlah pintasan"
           }
         }
       }
@@ -15034,6 +15221,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masukkan judul snippet"
+          }
+        }
+      }
+    },
+    "단축어 종류" : {
+      "comment" : "Usage stats section: shortcut types",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet types"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jenis pintasan"
+          }
+        }
+      }
+    },
+    "단축어 종류별 비율" : {
+      "comment" : "Chart a11y: type breakdown",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share by snippet type"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporsi menurut jenis pintasan"
           }
         }
       }
@@ -15799,6 +16020,23 @@
         }
       }
     },
+    "동기화 사용" : {
+      "comment" : "Marketing: sync adoption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses sync"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memakai sinkronisasi"
+          }
+        }
+      }
+    },
     "동기화 켠 사용자" : {
       "comment" : "Usage metric: sync enabled users",
       "localizations" : {
@@ -16280,6 +16518,23 @@
         }
       }
     },
+    "마케팅 지표" : {
+      "comment" : "Usage stats section: marketing signals",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marketing signals"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sinyal pemasaran"
+          }
+        }
+      }
+    },
     "만들다 만 단축어만 임시저장 — 열어만 봐도 쌓이던 문제 정리" : {
       "comment" : "Changelog 4.3.8 item 3",
       "localizations" : {
@@ -16293,6 +16548,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Draf hanya tersimpan bila Anda benar-benar mengubah sesuatu"
+          }
+        }
+      }
+    },
+    "만들어만 두고 안 쓰는 비율. 높으면 가치 전달이 덜 된 거예요." : {
+      "comment" : "Marketing hint: unused",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created but never used. High means the value isn't landing."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dibuat tapi tak pernah dipakai. Tinggi berarti nilainya belum tersampaikan."
           }
         }
       }
@@ -16563,6 +16835,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "명함 정보"
+          }
+        }
+      }
+    },
+    "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요 — 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
+      "comment" : "Distribution footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many people have how many snippets. The buckets tighten around the free limit (10) — a cluster at 7–9 means the limit is driving purchases; a cluster at 1–3 means people start and stop."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Berapa banyak orang memiliki berapa pintasan. Rentang dipersempit di sekitar batas gratis (10) — penumpukan di 7–9 berarti batas mendorong pembelian; di 1–3 berarti orang berhenti di tengah."
           }
         }
       }
@@ -19397,6 +19686,23 @@
         }
       }
     },
+    "사용자 수" : {
+      "comment" : "Chart axis: install count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Users"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengguna"
+          }
+        }
+      }
+    },
     "사용자가 의견을 남겼어요. 인박스에서 확인해 보세요." : {
       "comment" : "New feedback push body",
       "extractionState" : "stale",
@@ -21146,6 +21452,23 @@
         }
       }
     },
+    "설치당 단축어" : {
+      "comment" : "Marketing: shortcuts per install",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippets per install"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan per pemasangan"
+          }
+        }
+      }
+    },
     "설치당 평균" : {
       "comment" : "Usage stats section: per-install averages",
       "localizations" : {
@@ -21989,6 +22312,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Belum ditangani"
+          }
+        }
+      }
+    },
+    "안 쓰는 단축어" : {
+      "comment" : "Marketing: unused shortcuts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unused snippets"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan tak terpakai"
           }
         }
       }
@@ -24182,7 +24522,7 @@
       }
     },
     "이미지" : {
-      "comment" : "Add image chip\nImage",
+      "comment" : "Add image chip\nImage\nShortcut type: image",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25649,6 +25989,58 @@
         }
       }
     },
+    "저장된 내용을 불러오지 못했어요" : {
+      "comment" : "Data recovery title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load your saved data"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami tidak dapat memuat data tersimpan"
+          }
+        }
+      }
+    },
+    "저장된 단축어 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Snippets (shown in keyboard)"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "전"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -25679,34 +26071,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal simpan: %@"
-          }
-        }
-      }
-    },
-    "저장된 내용을 불러오지 못했어요" : {
-      "comment" : "Data recovery title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We couldn't load your saved data"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kami tidak dapat memuat data tersimpan"
-          }
-        }
-      }
-    },
-    "저장된 단축어 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Snippets (shown in keyboard)"
           }
         }
       }
@@ -25867,30 +26231,6 @@
         }
       }
     },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "전"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "전부 다" : {
       "comment" : "Nomad focus: all types",
       "extractionState" : "manual",
@@ -25994,7 +26334,7 @@
       }
     },
     "전체" : {
-      "comment" : "All\nCategory tab: all\nCategory: all",
+      "comment" : "All\nCategory tab: all\nCategory: all\nDonut center: total",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -26210,6 +26550,23 @@
         }
       }
     },
+    "절약한 시간 합계" : {
+      "comment" : "Total time saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total time saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total waktu dihemat"
+          }
+        }
+      }
+    },
     "접근성 권한 필요" : {
       "comment" : "macOS alert title: accessibility permission required",
       "extractionState" : "stale",
@@ -26339,6 +26696,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "AI di perangkat mengklasifikasi ulang item papan klip yang sulit diidentifikasi (alamat, nama, nomor resi, dll.)."
+          }
+        }
+      }
+    },
+    "정리 기능을 실제로 쓰는 비율이에요." : {
+      "comment" : "Marketing hint: category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share actually using organization."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporsi yang benar-benar memakai pengaturan."
           }
         }
       }
@@ -27901,6 +28275,23 @@
         }
       }
     },
+    "카테고리 사용" : {
+      "comment" : "Marketing: category adoption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memakai kategori"
+          }
+        }
+      }
+    },
     "카테고리 삭제" : {
       "comment" : "Delete category alert title",
       "localizations" : {
@@ -28193,6 +28584,23 @@
         }
       }
     },
+    "켠 사용자당 평균 입력" : {
+      "comment" : "Uses per active install",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avg per enabled user"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rata-rata per pengguna aktif"
+          }
+        }
+      }
+    },
     "켬" : {
       "comment" : "Toggle state: on",
       "localizations" : {
@@ -28228,7 +28636,7 @@
       }
     },
     "콤보" : {
-      "comment" : "Built-in category: combos only\nCombo\nVoiceOver: combo badge",
+      "comment" : "Built-in category: combos only\nCombo\nShortcut type: combo\nVoiceOver: combo badge",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -28514,6 +28922,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riwayat Clipboard"
+          }
+        }
+      }
+    },
+    "클립보드 기록을 쓰는 비율이에요." : {
+      "comment" : "Marketing hint: clipboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share using clipboard history."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporsi yang memakai riwayat papan klip."
+          }
+        }
+      }
+    },
+    "클립보드 사용" : {
+      "comment" : "Marketing: clipboard adoption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memakai papan klip"
           }
         }
       }
@@ -29072,6 +29514,23 @@
         }
       }
     },
+    "키보드 사용량" : {
+      "comment" : "Usage stats section: keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard usage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penggunaan papan ketik"
+          }
+        }
+      }
+    },
     "키보드 설정" : {
       "comment" : "Keyboard settings nav title",
       "extractionState" : "stale",
@@ -29172,6 +29631,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Isi konten yang akan disisipkan"
+          }
+        }
+      }
+    },
+    "키보드 입력 횟수" : {
+      "comment" : "Keyboard total uses",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard insertions"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penyisipan papan ketik"
           }
         }
       }
@@ -29318,6 +29794,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silakan tambahkan keyboard"
+          }
+        }
+      }
+    },
+    "키보드를 켠 비율이 이 앱에서 가장 중요한 숫자예요. 앱만 깔고 키보드를 안 켰다면 핵심 가치를 아직 못 받은 거예요." : {
+      "comment" : "Keyboard section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The share that enabled the keyboard is this app's most important number. Installing without enabling it means the core value hasn't landed yet."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporsi yang mengaktifkan papan ketik adalah angka terpenting aplikasi ini. Memasang tanpa mengaktifkannya berarti nilai intinya belum tersampaikan."
+          }
+        }
+      }
+    },
+    "키보드를 켠 사용자" : {
+      "comment" : "Keyboard adoption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mengaktifkan papan ketik"
           }
         }
       }
@@ -30398,7 +30908,7 @@
       }
     },
     "텍스트" : {
-      "comment" : "Text",
+      "comment" : "Shortcut type: plain text\nText",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -30484,7 +30994,7 @@
       }
     },
     "템플릿" : {
-      "comment" : "Built-in category: templates only\nTemplate\nTemplate label\nVoiceOver: template badge",
+      "comment" : "Built-in category: templates only\nShortcut type: template\nTemplate\nTemplate label\nVoiceOver: template badge",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -31149,6 +31659,23 @@
         }
       }
     },
+    "평균 몇 개를 만드는지예요." : {
+      "comment" : "Marketing hint: avg shortcuts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many people create on average."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rata-rata berapa yang dibuat orang."
+          }
+        }
+      }
+    },
     "포함" : {
       "comment" : "Feature included",
       "localizations" : {
@@ -31674,6 +32201,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ko"
+          }
+        }
+      }
+    },
+    "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요." : {
+      "comment" : "Type breakdown footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each snippet counts as exactly one type (combo > template > image > text). Text counts start with 4.4.3, so older records mixed in can make text look lower than it is."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap pintasan dihitung sebagai satu jenis saja (kombo > template > gambar > teks). Hitungan teks dimulai dari 4.4.3, jadi data lama bisa membuat teks tampak lebih rendah."
           }
         }
       }

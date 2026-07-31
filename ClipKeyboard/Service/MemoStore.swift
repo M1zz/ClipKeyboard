@@ -84,8 +84,14 @@ class MemoStore: ObservableObject {
             if Self.restoreCategoriesFromSidecar(&memos) {
                 // 다운그레이드 등으로 memos.data의 category가 유실된 흔적 →
                 // 사이드카에서 복원하고 파일도 치유(재저장, 스냅샷 폭주 방지 위해 recordHistory:false).
-                try? save(memos: memos, type: .memo, recordHistory: false)
-                AppLog.info(.store, "🔄 [MemoStore.load] 유실된 메모 카테고리를 사이드카에서 복원·치유")
+                // 치유 저장 실패는 치명적이지 않다(다음 로드에서 다시 시도한다).
+                // 다만 조용히 넘기면 "왜 계속 복원되지?"의 원인을 못 찾으니 남긴다.
+                do {
+                    try save(memos: memos, type: .memo, recordHistory: false)
+                    AppLog.info(.store, "🔄 [MemoStore.load] 유실된 메모 카테고리를 사이드카에서 복원·치유")
+                } catch {
+                    AppLog.warning(.store, "⚠️ [MemoStore.load] 카테고리 치유 저장 실패(다음 로드에서 재시도): \(error.localizedDescription)")
+                }
             } else if Self.categorySidecarMissing() {
                 // 기존 사용자 1회 부트스트랩 — 이후 다운그레이드에 대비해 사이드카를 채워둔다.
                 Self.writeCategorySidecar(memos)

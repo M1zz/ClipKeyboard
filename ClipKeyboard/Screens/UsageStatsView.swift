@@ -53,6 +53,10 @@ struct UsageStatsView: View {
                 }
                 usersSection
                 trendSection
+                keyboardSection
+                distributionChartSection
+                typeChartSection
+                marketingSection
                 funnelSection
                 retentionSection
                 usageSection
@@ -101,6 +105,93 @@ struct UsageStatsView: View {
         } footer: {
             Text(NSLocalizedString("일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동합니다.", comment: "Usage stats trend footer"))
                 .font(.body)
+        }
+    }
+
+    // MARK: - 키보드 사용량
+
+    /// 차트가 아니라 숫자로 보여준다 — "얼마나 쓰나"는 한 값이라 막대를 그릴 이유가 없다.
+    @ViewBuilder
+    private var keyboardSection: some View {
+        let usage = UsageInsights.keyboardUsage(snapshots: snapshots)
+        if usage.totalInstalls > 0 {
+            Section {
+                statRow(NSLocalizedString("키보드를 켠 사용자", comment: "Keyboard adoption"),
+                        String(format: NSLocalizedString("%1$d명 (%2$@)", comment: "Count with ratio"),
+                               usage.activeInstalls, percent(usage.adoptionRate)))
+                statRow(NSLocalizedString("키보드 입력 횟수", comment: "Keyboard total uses"),
+                        "\(usage.totalUses)")
+                statRow(NSLocalizedString("켠 사용자당 평균 입력", comment: "Uses per active install"),
+                        String(format: "%.1f", usage.usesPerActiveInstall))
+                statRow(NSLocalizedString("절약한 시간 합계", comment: "Total time saved"),
+                        String(format: NSLocalizedString("%d분", comment: "Minutes"), usage.totalTimeSavedMin))
+            } header: {
+                Text(NSLocalizedString("키보드 사용량", comment: "Usage stats section: keyboard"))
+            } footer: {
+                Text(NSLocalizedString("키보드를 켠 비율이 이 앱에서 가장 중요한 숫자예요. 앱만 깔고 키보드를 안 켰다면 핵심 가치를 아직 못 받은 거예요.", comment: "Keyboard section footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 단축어 개수 분포 (막대)
+
+    @ViewBuilder
+    private var distributionChartSection: some View {
+        let buckets = UsageInsights.shortcutDistribution(snapshots: snapshots)
+        if !snapshots.isEmpty {
+            Section {
+                ShortcutDistributionChart(buckets: buckets)
+                    .padding(.vertical, 4)
+            } header: {
+                Text(NSLocalizedString("단축어 개수 분포", comment: "Usage stats section: shortcut distribution"))
+            } footer: {
+                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요 — 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 단축어 종류 (도넛)
+
+    @ViewBuilder
+    private var typeChartSection: some View {
+        let shares = UsageInsights.typeBreakdown(snapshots: snapshots)
+        if !shares.isEmpty {
+            Section {
+                ShortcutTypeDonutChart(shares: shares)
+                    .padding(.vertical, 4)
+            } header: {
+                Text(NSLocalizedString("단축어 종류", comment: "Usage stats section: shortcut types"))
+            } footer: {
+                Text(NSLocalizedString("한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.", comment: "Type breakdown footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 마케팅 지표
+
+    @ViewBuilder
+    private var marketingSection: some View {
+        let signals = UsageInsights.marketingSignals(snapshots: snapshots)
+        if !signals.isEmpty {
+            Section {
+                ForEach(signals) { signal in
+                    VStack(alignment: .leading, spacing: 2) {
+                        HStack {
+                            Text(signal.name).font(.body).foregroundColor(theme.text)
+                            Spacer()
+                            Text(signal.value).font(.body.weight(.medium)).foregroundColor(theme.text)
+                        }
+                        Text(signal.hint).font(.caption).foregroundColor(theme.textMuted)
+                    }
+                    .padding(.vertical, 1)
+                    .accessibilityElement(children: .combine)
+                }
+            } header: {
+                Text(NSLocalizedString("마케팅 지표", comment: "Usage stats section: marketing signals"))
+            }
         }
     }
 

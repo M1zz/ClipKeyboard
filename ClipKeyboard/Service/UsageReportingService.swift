@@ -82,12 +82,35 @@ enum UsageReportingService {
 
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         metrics["shortcuts"] = Double(memos.count)
-        metrics["combos"] = Double(memos.filter { !$0.childMemoIds.isEmpty }.count)
-        metrics["templates"] = Double(memos.filter(\.isTemplate).count)
-        metrics["images"] = Double(memos.filter { $0.imageFileName != nil || !$0.imageFileNames.isEmpty }.count)
+
+        // ⚠️ 종류는 **서로 겹치지 않게** 센다 — 도넛 차트가 "전체의 몫"을 그리는데
+        //    한 메모가 두 종류에 잡히면 합이 전체를 넘어 비율이 거짓말이 된다.
+        //    우선순위: 콤보 > 템플릿 > 이미지 > 텍스트 (더 구체적인 것 먼저).
+        var combos = 0, templates = 0, images = 0, texts = 0
+        for memo in memos {
+            if !memo.childMemoIds.isEmpty { combos += 1 }
+            else if memo.isTemplate { templates += 1 }
+            else if memo.imageFileName != nil || !memo.imageFileNames.isEmpty { images += 1 }
+            else { texts += 1 }
+        }
+        metrics["combos"] = Double(combos)
+        metrics["templates"] = Double(templates)
+        metrics["images"] = Double(images)
+        metrics["texts"] = Double(texts)
+
         metrics["favorites"] = Double(memos.filter(\.isFavorite).count)
         metrics["uses"] = Double(memos.reduce(0) { $0 + $1.clipCount })
         metrics["timeSavedMin"] = (KeyboardUsageTracker.totalTimeSavedSeconds() / 60).rounded()
+
+        // 마케팅 판단용 — 전부 개수/0·1 플래그다. 내용은 들어가지 않는다.
+        // 카테고리를 쓰는 사람 비율 → "정리 기능"을 얼마나 원하는지의 근거.
+        metrics["categories"] = Double(CategoryStore.shared.allCategories.count)
+        // 한 번도 안 쓴 단축어 비율 → 만들어만 두고 안 쓰는지(가치 전달 실패) 판단.
+        metrics["unusedShortcuts"] = Double(memos.filter { $0.clipCount == 0 }.count)
+        // 가장 많이 쓴 단축어의 사용 횟수 → 헤비 유저의 사용 깊이.
+        metrics["topUses"] = Double(memos.map(\.clipCount).max() ?? 0)
+        // 클립보드 기록 보유량 → 클립보드 기능을 실제로 쓰는지.
+        metrics["clips"] = Double((try? MemoStore.shared.loadSmartClipboardHistory().count) ?? 0)
 
         let group = UserDefaults(suiteName: AppGroup.identifier)
         metrics["keyboardUses"] = Double(group?.integer(forKey: DefaultsKey.kbBeaconTotalCount) ?? 0)
