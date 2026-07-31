@@ -176,11 +176,24 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         enqueueLocalChanges()
     }
 
+    /// 동기화 대상 메모 — **시드 샘플은 제외한다.**
+    ///
+    /// ⚠️ 샘플은 기기마다 **새 UUID로** 심기고 내용이 기기 언어를 따른다(영어 폰은 영어 샘플,
+    ///    한국어 폰은 한국어 샘플). 그대로 올리면 동기화가 서로 다른 메모로 보고 양쪽에
+    ///    퍼뜨려서, 폰 2대를 쓰면 "모르는 단축어가 섞여" 보인다.
+    ///    샘플은 온보딩 장식이지 사용자 데이터가 아니다 — 백업도 이미 실데이터에서 제외한다.
+    private func syncableMemos() -> [Memo] {
+        let all = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let sampleIDs = SampleMemoStorage.load()
+        guard !sampleIDs.isEmpty else { return all }
+        return all.filter { !sampleIDs.contains($0.id) }
+    }
+
     private func enqueueLocalChanges() {
         guard let engine else { return }
         enqueueCategorySettingsIfChanged()
 
-        let current = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let current = syncableMemos()
         let changes = MemoSyncCore.localChanges(
             current: current, shadow: loadShadow(),
             knownTombstones: loadTombstones(), now: Date())
@@ -250,7 +263,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
                                    syncEngine: CKSyncEngine) async -> CKSyncEngine.RecordZoneChangeBatch? {
         let scope = context.options.scope
         let pending = syncEngine.state.pendingRecordZoneChanges.filter { scope.contains($0) }
-        let current = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let current = syncableMemos()
         let byId = Dictionary(uniqueKeysWithValues: current.map { ($0.id, $0) })
         let tombstones = loadTombstones()
 
@@ -275,14 +288,14 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
 
     /// 서버 저장이 확정된 레코드만 섀도에 기록한다 — 확정 전에는 계속 "보낼 것"으로 남겨 재시도되게 한다.
     private func confirmSent(_ records: [CKRecord]) {
-        let current = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let current = syncableMemos()
         let byId = Dictionary(uniqueKeysWithValues: current.map { ($0.id, $0) })
         var shadow = loadShadow()
         for record in records {
             // 카테고리 설정 업로드 확정 — 지문을 기록해 같은 내용이 다시 올라가지 않게 한다.
             if record.recordID.recordName == Self.categoryRecordName {
                 UserDefaults(suiteName: AppGroup.identifier)?
-                    .set(categoryFingerprint(CategorySnapshotStore.current()), forKey: Self.categoryShadowKey)
+                    .set(categoryFingerprint(currentSyncableCategories()), forKey: Self.categoryShadowKey)
                 continue
             }
             guard let id = UUID(uuidString: record.recordID.recordName) else { continue }
@@ -389,6 +402,12 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// 마지막으로 올린 스냅샷 지문 — 안 바뀌었으면 다시 올리지 않는다(불필요한 쓰기 방지).
     private static let categoryShadowKey = "memo.sync.categoryShadow"
 
+    /// 동기화에 실을 카테고리 — 실제 쓰이는 것만(페르소나 시드·언어별 중복 방지).
+    private func currentSyncableCategories() -> CategorySnapshot {
+        CategorySnapshotStore.syncable(memos: (try? MemoStore.shared.load(type: .memo)) ?? [],
+                                       sampleIDs: SampleMemoStorage.load())
+    }
+
     private var categoryRecordID: CKRecord.ID {
         CKRecord.ID(recordName: Self.categoryRecordName, zoneID: zoneID)
     }
@@ -408,7 +427,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// 로컬 카테고리 설정이 바뀌었으면 업로드 큐에 올린다.
     private func enqueueCategorySettingsIfChanged() {
         guard let engine else { return }
-        let snapshot = CategorySnapshotStore.current()
+        let snapshot = currentSyncableCategories()
         guard !snapshot.isEmpty else { return }
 
         let fingerprint = categoryFingerprint(snapshot)
@@ -421,7 +440,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
 
     /// 업로드용 레코드. `nextRecordZoneChangeBatch` 에서 이 recordID 를 만나면 여기로 온다.
     private func makeCategoryRecord() -> CKRecord? {
-        var snapshot = CategorySnapshotStore.current()
+        var snapshot = currentSyncableCategories()
         guard !snapshot.isEmpty else { return nil }
         snapshot.updatedAt = Date()
         guard let payload = try? JSONEncoder().encode(snapshot) else { return nil }
@@ -442,9 +461,8 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
 
         CategorySnapshotStore.apply(snapshot, strategy: .merge)
         // 방금 받은 상태를 그대로 섀도에 기록 — 받자마자 되올리는 핑퐁을 막는다.
-        let merged = CategorySnapshotStore.current()
         UserDefaults(suiteName: AppGroup.identifier)?
-            .set(categoryFingerprint(merged), forKey: Self.categoryShadowKey)
+            .set(categoryFingerprint(currentSyncableCategories()), forKey: Self.categoryShadowKey)
         log.info("remote category settings applied")
     }
 

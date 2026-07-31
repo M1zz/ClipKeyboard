@@ -76,7 +76,31 @@ enum CategorySnapshotStore {
 
     private static var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
 
-    /// 현재 기기의 카테고리 설정을 읽어 스냅샷으로 만든다.
+    /// 기기 간 **동기화용** 스냅샷 — 실제로 쓰이는 카테고리만 담는다.
+    ///
+    /// ⚠️ 왜 거르나: 첫 실행 온보딩에서 고른 페르소나에 따라 카테고리가 자동으로 심기는데,
+    ///    **그 이름이 기기 언어별로 다르다**(회사 이메일 / Work Email / Email Kantor).
+    ///    거르지 않고 합치면 폰 2대를 쓸 때 같은 뜻의 카테고리가 언어별로 중복되고,
+    ///    서로 다른 페르소나를 골랐다면 양쪽 세트가 통째로 합쳐진다.
+    ///
+    /// 기준: **비샘플 메모가 하나라도 붙어 있는 카테고리**만 동기화한다.
+    /// 사용자가 실제로 쓰기 시작한 것만 다른 기기로 넘어간다.
+    /// (백업은 `current()` 로 전부 담는다 — 백업은 "이 기기 상태를 그대로 되살리기"라
+    ///  아직 안 쓴 카테고리도 남아 있어야 한다.)
+    static func syncable(memos: [Memo], sampleIDs: Set<UUID>) -> CategorySnapshot {
+        var snapshot = current()
+        let usedNames = Set(
+            memos.filter { !sampleIDs.contains($0.id) }
+                 .map(\.category)
+                 .filter { !$0.isEmpty }
+        )
+        snapshot.categories = snapshot.categories.filter { usedNames.contains($0) }
+        snapshot.icons = snapshot.icons.filter { usedNames.contains($0.key) }
+        snapshot.hiddenTabs = snapshot.hiddenTabs.filter { usedNames.contains($0) }
+        return snapshot
+    }
+
+    /// 현재 기기의 카테고리 설정을 읽어 스냅샷으로 만든다. (백업용 — 전부 담는다)
     static func current() -> CategorySnapshot {
         guard let d = defaults else { return CategorySnapshot() }
         return CategorySnapshot(

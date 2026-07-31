@@ -172,4 +172,38 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertTrue(added.isEmpty)
         XCTAssertNil(defaults.stringArray(forKey: CategorySnapshotStore.categoriesKey))
     }
+
+    // MARK: - 동기화 대상 추리기 (폰 2대·다국어 오염 방지)
+
+    /// 온보딩 페르소나가 심은 카테고리는 **기기 언어별로 이름이 다르다**
+    /// (회사 이메일 / Work Email). 안 쓰는 것까지 동기화하면 폰 2대에서 중복이 쌓인다.
+    /// → 비샘플 메모가 붙은 카테고리만 동기화한다.
+    func testSyncableKeepsOnlyCategoriesInUse() {
+        defaults.set(["업무", "안쓰는시드"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["업무": "briefcase", "안쓰는시드": "star"], forKey: CategorySnapshotStore.iconsKey)
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [memo("a", category: "업무")], sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+        XCTAssertNil(snapshot.icons["안쓰는시드"], "안 쓰는 카테고리의 아이콘도 함께 빠져야 한다")
+    }
+
+    /// 샘플 메모에만 붙은 카테고리는 동기화하지 않는다.
+    /// 샘플은 기기 언어를 따라 심기므로 그대로 올리면 언어별 중복이 생긴다.
+    func testSyncableExcludesCategoriesUsedOnlyBySamples() {
+        defaults.set(["샘플전용"], forKey: CategorySnapshotStore.categoriesKey)
+        let sample = memo("s", category: "샘플전용")
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [sample], sampleIDs: [sample.id])
+
+        XCTAssertTrue(snapshot.categories.isEmpty)
+    }
+
+    /// 백업(`current`)은 전부 담는다 — "이 기기 상태를 그대로 되살리기"라
+    /// 아직 안 쓴 카테고리도 남아야 한다. 동기화와 기준이 다르다.
+    func testCurrentKeepsUnusedCategoriesForBackup() {
+        defaults.set(["업무", "아직안씀"], forKey: CategorySnapshotStore.categoriesKey)
+
+        XCTAssertEqual(CategorySnapshotStore.current().categories, ["업무", "아직안씀"])
+    }
 }
