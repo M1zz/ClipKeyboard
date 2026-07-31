@@ -173,6 +173,8 @@ struct ClipKeyboardList: View {
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// 카드 열 수 결정용 — 아이패드·맥에서 `.regular` 가 된다.
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -1064,14 +1066,18 @@ struct ClipKeyboardList: View {
 
     // MARK: - Grid
 
-    /// 단축어 카드 그리드.
-    /// ⚠️ 예전엔 `.flexible()` 2개로 **열 수가 고정**돼 있었다. 아이폰에선 맞지만
-    ///    아이패드(가로 1024pt+)에서는 카드 하나가 500pt 가까이 늘어나 제목만 덩그러니 남는다.
-    ///    `.adaptive(minimum:)` 은 폭에 맞춰 열 수를 늘리므로 아이폰은 그대로 2열,
-    ///    아이패드는 4~6열이 된다. (최소 폭은 기존 아이폰 2열 카드 폭에서 가져왔다)
-    private let gridColumns = [
-        GridItem(.adaptive(minimum: 150, maximum: 260), spacing: 12)
-    ]
+    /// 한 줄에 놓을 카드 수. 아이폰 2열 / 아이패드·맥 4열.
+    ///
+    /// ⚠️ `.adaptive(minimum:)` 을 쓰면 **안 된다.** 이 그리드는 `TabView(.page)` 안의
+    ///    `ScrollView` 에 들어 있는데, 그 조합에서는 LazyVGrid 에 폭이 제대로 제안되지 않아
+    ///    `.adaptive` 가 열 수를 1로 계산해 카드가 화면 전체로 늘어난다(실제로 그렇게 깨졌다).
+    ///    `.flexible()` 은 폭 측정 없이 "가용 공간을 n등분"이라 이 문제가 없다.
+    ///    그래서 열 수는 **측정이 아니라 size class 로** 정한다.
+    private var gridColumnCount: Int { horizontalSizeClass == .regular ? 4 : 2 }
+
+    private var gridColumns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 12), count: gridColumnCount)
+    }
 
     /// 고스트(가상) 메모 셀 — 실제 메모 셀과 같은 치수·제목 스타일을 그대로 쓰되
     /// 반투명 + 점선 테두리로 "아직 실재하지 않는 제안"임을 표현. 탭하면 채워서
@@ -1854,10 +1860,12 @@ struct ClipKeyboardList: View {
             .first { $0.activationState == .foregroundActive }?
             .windows.first { $0.isKeyWindow }?
             .bounds.width
-        // ⚠️ 그리드가 `.adaptive(minimum: 150, maximum: 260)` 이므로 카드 폭도 그 범위에 갇힌다.
-        //    2열 가정으로 계산하면 아이패드에서 미리보기만 실제 카드보다 훨씬 커진다.
-        let twoColumnWidth = ((containerWidth ?? 320) - 44) / 2
-        return min(260, max(150, twoColumnWidth))
+        // 실제 그리드와 같은 열 수로 나눠야 미리보기와 카드 크기가 일치한다.
+        // (좌우 패딩 16+16 + 열 사이 간격 12×(n-1))
+        let columns = CGFloat(gridColumnCount)
+        let spacing = 12 * (columns - 1)
+        let usable = (containerWidth ?? 320) - 32 - spacing
+        return max(100, usable / columns)
         #else
         return 160
         #endif

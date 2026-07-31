@@ -294,6 +294,11 @@ struct SettingView: View {
                     Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
                           systemImage: AppSymbol.figureWalkCircle)
                 }
+                // 업데이트 직후 1회 뜨는 WhatsNew 와 달리 언제든 다시 볼 수 있는 기록.
+                NavigationLink(destination: ChangelogView()) {
+                    Label(NSLocalizedString("변경사항", comment: "Changelog settings entry"),
+                          systemImage: AppSymbol.clockArrowCirclepath)
+                }
             }
 
             // MARK: 지원

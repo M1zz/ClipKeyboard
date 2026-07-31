@@ -566,6 +566,11 @@ class CloudKitBackupService: ObservableObject {
         record["memosAsset"] = try createAsset(from: memosData, filename: "memos.json")
         record["smartClipboardAsset"] = try createAsset(from: smartClipboardData, filename: "smartClipboard.json")
         record["combosAsset"] = try createAsset(from: combosData, filename: "combos.json")
+        // 카테고리 설정(목록·아이콘·순서·숨김)은 App Group UserDefaults 에만 있어
+        // 예전엔 백업에서 통째로 빠졌다 → 새 기기 복원 시 탭이 사라졌다.
+        if let categoryData = try? JSONEncoder().encode(CategorySnapshotStore.current()) {
+            record["categoriesAsset"] = try createAsset(from: categoryData, filename: "categories.json")
+        }
         record["backupDate"] = Date() as CKRecordValue
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
         record["version"] = appVersion as CKRecordValue
@@ -731,6 +736,9 @@ class CloudKitBackupService: ObservableObject {
             // 메모 본문을 저장하기 전에 첨부 이미지를 Images/에 먼저 복원(깨진 참조 방지).
             restoreImages(from: record)
             try saveRestoredData(memos: memos, smartClipboard: smartClipboard, combos: combos)
+            // 카테고리는 메모를 저장한 **뒤에** 복원한다 — 옛 백업 폴백이 메모의
+            // category 값을 읽어 역산하므로 메모가 먼저 자리를 잡아야 한다.
+            restoreCategories(from: record, memos: memos)
             AppLog.info(.backup, "🎉 [CloudKit] 전체 복구 완료!")
 
         } catch let error as CKError where error.code == .unknownItem {
@@ -743,6 +751,28 @@ class CloudKitBackupService: ObservableObject {
     }
 
     // MARK: - restoreData Helpers
+
+    /// 카테고리 설정 복원.
+    /// ① 백업에 `categoriesAsset` 이 있으면 그대로 적용(순서·아이콘·숨김까지 살아난다)
+    /// ② 없으면(= 이 기능 이전에 만든 옛 백업) 메모의 `category` 값에서 이름만 역산해 구제
+    private func restoreCategories(from record: CKRecord, memos: [Memo]) {
+        if let asset = record["categoriesAsset"] as? CKAsset,
+           let data = try? readAsset(asset),
+           let snapshot = try? JSONDecoder().decode(CategorySnapshot.self, from: data),
+           !snapshot.isEmpty {
+            // 복원은 "이 백업 상태로 되돌린다"는 뜻이므로 순서까지 그대로 가져온다.
+            CategorySnapshotStore.apply(snapshot, strategy: .replace)
+            AppLog.info(.backup, "🗂 [CloudKit] 카테고리 설정 복원: \(snapshot.categories.count)개")
+            return
+        }
+
+        let rebuilt = CategorySnapshotStore.rebuildFromMemos(memos)
+        if rebuilt.isEmpty {
+            AppLog.info(.backup, "🗂 [CloudKit] 백업에 카테고리 정보 없음 — 메모에서도 복구할 것 없음")
+        } else {
+            AppLog.info(.backup, "🗂 [CloudKit] 옛 백업 — 메모에서 카테고리 \(rebuilt.count)개 복구")
+        }
+    }
 
     private func fetchMemos(from record: CKRecord) throws -> [Memo] {
         var memosData: Data?

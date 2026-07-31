@@ -13,6 +13,7 @@
 
 import Foundation
 import CloudKit
+import CryptoKit   // 카테고리 스냅샷 지문(SHA256) — 실행 간 안정적인 해시가 필요하다
 import os
 
 enum MemoSyncFlags {
@@ -177,6 +178,8 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
 
     private func enqueueLocalChanges() {
         guard let engine else { return }
+        enqueueCategorySettingsIfChanged()
+
         let current = (try? MemoStore.shared.load(type: .memo)) ?? []
         let changes = MemoSyncCore.localChanges(
             current: current, shadow: loadShadow(),
@@ -252,7 +255,12 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         let tombstones = loadTombstones()
 
         return await CKSyncEngine.RecordZoneChangeBatch(pendingChanges: pending) { [weak self] recordID in
-            guard let self, let id = UUID(uuidString: recordID.recordName) else { return nil }
+            guard let self else { return nil }
+            // 카테고리 설정은 UUID 가 아닌 고정 이름이라 메모 경로보다 먼저 가른다.
+            if recordID.recordName == Self.categoryRecordName {
+                return self.makeCategoryRecord()
+            }
+            guard let id = UUID(uuidString: recordID.recordName) else { return nil }
             if let memo = byId[id] {
                 return self.makeRecord(id: recordID, memo: memo, deletedAt: nil)
             } else if let at = tombstones[id] {
@@ -271,6 +279,12 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         let byId = Dictionary(uniqueKeysWithValues: current.map { ($0.id, $0) })
         var shadow = loadShadow()
         for record in records {
+            // 카테고리 설정 업로드 확정 — 지문을 기록해 같은 내용이 다시 올라가지 않게 한다.
+            if record.recordID.recordName == Self.categoryRecordName {
+                UserDefaults(suiteName: AppGroup.identifier)?
+                    .set(categoryFingerprint(CategorySnapshotStore.current()), forKey: Self.categoryShadowKey)
+                continue
+            }
             guard let id = UUID(uuidString: record.recordID.recordName) else { continue }
             if let memo = byId[id] {
                 shadow[id] = MemoSyncCore.fingerprint(memo)
@@ -287,6 +301,11 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         guard !modifications.isEmpty || !deletionIDs.isEmpty else { return }
         var remotes: [RemoteMemo] = []
         for record in modifications {
+            // 카테고리 설정 레코드는 메모가 아니므로 따로 처리하고 넘어간다.
+            if record.recordID.recordName == Self.categoryRecordName {
+                applyRemoteCategories(record)
+                continue
+            }
             guard let id = UUID(uuidString: record.recordID.recordName) else { continue }
             if let deletedAt = record["deletedAt"] as? Date {
                 remotes.append(RemoteMemo(id: id, memo: nil, lastEdited: deletedAt))
@@ -357,6 +376,76 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
             return nil
         }
         return record
+    }
+
+    // MARK: - 카테고리 설정 동기화
+    //
+    // 메모 레코드는 id(UUID)당 하나지만, 카테고리 설정은 **기기당 하나**의 단일 레코드로
+    // 같은 존에 올린다. 목록·아이콘·순서·숨김이 메모와 함께 기기 간에 따라다니게 하기 위함이다.
+    // (예전엔 App Group UserDefaults 에만 있어 새 기기에서 탭이 통째로 사라졌다.)
+
+    static let categoryRecordType = "CategorySettings"
+    private static let categoryRecordName = "category-settings"
+    /// 마지막으로 올린 스냅샷 지문 — 안 바뀌었으면 다시 올리지 않는다(불필요한 쓰기 방지).
+    private static let categoryShadowKey = "memo.sync.categoryShadow"
+
+    private var categoryRecordID: CKRecord.ID {
+        CKRecord.ID(recordName: Self.categoryRecordName, zoneID: zoneID)
+    }
+
+    private func categoryFingerprint(_ snapshot: CategorySnapshot) -> String {
+        // updatedAt 은 매번 달라지므로 지문에서 뺀다 — 넣으면 내용이 같아도 계속 올라간다.
+        var stable = snapshot
+        stable.updatedAt = .distantPast
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]   // 딕셔너리 키 순서까지 결정적으로
+        let data = (try? encoder.encode(stable)) ?? Data()
+        // ⚠️ `hashValue` 를 쓰면 안 된다 — Swift 의 Hasher 는 프로세스마다 시드가 달라
+        //    실행할 때마다 값이 바뀌고, 그러면 내용이 그대로여도 매 실행 재업로드된다.
+        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+    }
+
+    /// 로컬 카테고리 설정이 바뀌었으면 업로드 큐에 올린다.
+    private func enqueueCategorySettingsIfChanged() {
+        guard let engine else { return }
+        let snapshot = CategorySnapshotStore.current()
+        guard !snapshot.isEmpty else { return }
+
+        let fingerprint = categoryFingerprint(snapshot)
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        guard defaults?.string(forKey: Self.categoryShadowKey) != fingerprint else { return }
+
+        engine.state.add(pendingRecordZoneChanges: [.saveRecord(categoryRecordID)])
+        log.info("category settings queued for upload")
+    }
+
+    /// 업로드용 레코드. `nextRecordZoneChangeBatch` 에서 이 recordID 를 만나면 여기로 온다.
+    private func makeCategoryRecord() -> CKRecord? {
+        var snapshot = CategorySnapshotStore.current()
+        guard !snapshot.isEmpty else { return nil }
+        snapshot.updatedAt = Date()
+        guard let payload = try? JSONEncoder().encode(snapshot) else { return nil }
+
+        let record = CKRecord(recordType: Self.categoryRecordType, recordID: categoryRecordID)
+        record["payload"] = payload as CKRecordValue
+        record["updatedAt"] = snapshot.updatedAt as CKRecordValue
+        return record
+    }
+
+    /// 원격 카테고리 설정을 로컬에 반영한다.
+    /// ⚠️ 병합(merge) 전략을 쓴다 — 이 기기에만 있는 카테고리를 원격이 지우면 안 된다.
+    ///    다른 기기에서 지운 카테고리는 여기서 되살아날 수 있지만, **지워지는 것보다
+    ///    남는 쪽이 안전하다**(이름만 남을 뿐 메모는 그대로다).
+    private func applyRemoteCategories(_ record: CKRecord) {
+        guard let payload = record["payload"] as? Data,
+              let snapshot = try? JSONDecoder().decode(CategorySnapshot.self, from: payload) else { return }
+
+        CategorySnapshotStore.apply(snapshot, strategy: .merge)
+        // 방금 받은 상태를 그대로 섀도에 기록 — 받자마자 되올리는 핑퐁을 막는다.
+        let merged = CategorySnapshotStore.current()
+        UserDefaults(suiteName: AppGroup.identifier)?
+            .set(categoryFingerprint(merged), forKey: Self.categoryShadowKey)
+        log.info("remote category settings applied")
     }
 
     // MARK: - Images (App Group Images/ ↔ CKAsset)
