@@ -175,10 +175,20 @@ private struct PracticeStepRow: View {
                 .clipShape(Circle())
                 .accessibilityHidden(true)
 
-            Text(text)
+            stepText(text)
                 .font(.body)
                 .foregroundColor(theme.text)
         }
+    }
+
+    /// 문장 속 🌐 자리표시를 SF Symbol(globe)로 치환해 합성한다.
+    /// 일부 시뮬레이터/기기에서 이모지가 tofu(⍰)로 렌더링되는 문제 회피 +
+    /// 실제 키보드 지구본 키와 같은 모양이라 안내가 더 정확하다.
+    /// (ko/en 문자열 모두 🌐를 마커로 포함하므로 언어에 무관하게 동작.)
+    private func stepText(_ s: String) -> Text {
+        let parts = s.components(separatedBy: "🌐")
+        guard parts.count == 2 else { return Text(s) }
+        return Text(parts[0]) + Text(Image(systemName: "globe")) + Text(parts[1])
     }
 }
 

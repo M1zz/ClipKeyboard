@@ -19,6 +19,30 @@
       "out": "out/01.png",
       "eyebrow": "키보드에서 바로 꺼내 쓰는",
       "title": "자주 쓰는 문장,\n한 번의 탭으로"
+    },
+    {
+      "screenshot": "raw/screen4.png",
+      "out": "out/02.png",
+      "eyebrow": "어떤 앱에서든",
+      "title": "키보드에서 탭,\n바로 입력"
+    },
+    {
+      "screenshot": "raw/screen3.png",
+      "out": "out/03.png",
+      "eyebrow": "복사만 해도 알아서 정리",
+      "title": "클립보드가\n스스로 분류돼요"
+    },
+    {
+      "screenshot": "raw/screen2.png",
+      "out": "out/04.png",
+      "eyebrow": "이름·금액만 바꿔 넣는",
+      "title": "회신 템플릿,\n30초면 완성"
+    },
+    {
+      "screenshot": "raw/screen5.png",
+      "out": "out/05.png",
+      "eyebrow": "매일 쓰는 건 맨 앞에",
+      "title": "즐겨찾기는\n한 스와이프 거리"
     }
   ]
 }
