@@ -24,6 +24,10 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.textContainerInset = .init(top: 12, left: 8, bottom: 12, right: 8)
         tv.isScrollEnabled = true
         tv.keyboardType = keyboardType
+        // 그대로 붙여넣을 원문(이메일·계좌·주소)을 담는 필드 — 첫 글자 자동 대문자가
+        // "leeo@…"를 "Leeo@…"로 조용히 바꿔 저장하던 문제. 자동 수정도 원문을 훼손한다.
+        tv.autocapitalizationType = .none
+        tv.autocorrectionType = .no
         tv.textStorage.delegate = context.coordinator
         tv.attributedText = Self.highlight(text)
         tv.accessibilityLabel = NSLocalizedString("내용", comment: "Content section header")

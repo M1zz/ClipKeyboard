@@ -909,9 +909,11 @@ struct MainTabView: View {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
-        // [디자인 불변식] 상·하단 바 배경 언제나 투명 — 스크롤 엣지 이펙트 전역 숨김.
+        // [디자인 불변식] 하단(탭바) 배경 언제나 투명 — 스크롤 엣지 이펙트는 하단만 숨김.
+        // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면
+        // 인라인 타이틀이 콘텐츠와 겹치고 네비바 영역 터치가 막힌다.
         // (각 탭 루트의 alwaysTransparentBars()와 함께 동작; 지우면 회귀)
-        .scrollEdgeEffectHidden(true, for: .all)
+        .scrollEdgeEffectHidden(true, for: .bottom)
     }
 }
 
@@ -963,8 +965,8 @@ struct MemoSearchView: View {
                     .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
                 }
                 .listStyle(.plain)
-                // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
-                .scrollEdgeEffectHidden(true, for: .all)
+                // 하단만 숨김 — 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
+                .scrollEdgeEffectHidden(true, for: .bottom)
             }
         }
         .background(theme.bg.ignoresSafeArea())

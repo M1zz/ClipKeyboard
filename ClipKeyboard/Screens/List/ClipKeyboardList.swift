@@ -3056,8 +3056,10 @@ struct ClipKeyboardList: View {
             occasionalSuggestion_ = suggestion
             navigateToOccasionalAdd = true
         } label: {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 6) {
+            // 실제 메모 카드(memoCardSurface)와 같은 규격 — 유리 배경·radiusXl·동일 최소
+            // 높이·제목 서체까지 맞춰, 예시 카드가 "추가되면 이렇게 보인다"를 그대로 보여준다.
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 6) {
                     Text(suggestion.emoji)
                         .font(.title2)
                     Spacer()
@@ -3070,23 +3072,30 @@ struct ClipKeyboardList: View {
                         .background(suggestion.feature.color.opacity(0.12))
                         .cornerRadius(theme.radiusXs)
                 }
+                Spacer(minLength: 16)
 
                 Text(suggestion.title)
-                    .font(.body)
-                    .fontWeight(.semibold)
+                    .font(.title2.weight(.semibold))
                     .foregroundColor(theme.text)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Spacer(minLength: 8)
 
                 Text((suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
                     .templateAwareAttributed(theme: theme, font: .body))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
-                    .lineLimit(3)
+                    .lineLimit(2)
             }
-            .padding(14)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(theme.surface)
-            .cornerRadius(theme.radiusMd)
-            .shadow(color: Color.black.opacity(0.04), radius: 4, x: 0, y: 2)
+            // 유리 위 글자 가독성 할로 — memoCardSurface와 동일.
+            .compositingGroup()
+            .shadow(color: theme.bg, radius: 4, x: 0, y: 0)
+            .padding(16)
+            .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+            .modifier(CardGlass(active: true, tint: nil, cornerRadius: theme.radiusXl))
+            .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 단축어 추가", comment: "Suggestion card a11y label"), suggestion.title))

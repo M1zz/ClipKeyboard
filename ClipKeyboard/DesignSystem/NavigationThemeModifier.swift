@@ -20,17 +20,16 @@ extension View {
         self
     }
 
-    /// [디자인 불변식] 상단(네비 타이틀)·하단(탭바) 배경 언제나 투명.
-    /// 스크롤 엣지 이펙트(콘텐츠가 바 밑으로 들어갈 때 생기는 블러/베일)와
-    /// 바 자체 배경을 모두 숨긴다. TabView 전역 설정만으로는 각 탭의 스크롤뷰까지
-    /// 확실히 닿지 않으므로, 각 탭 루트 콘텐츠에 이 모디파이어를 직접 건다.
-    /// 이걸 지우면 스크롤 시 상·하단이 다시 불투명해지는 회귀가 생긴다.
+    /// [디자인 불변식] 하단(탭바) 배경 언제나 투명 — 플로팅 유리 필이 탭바를 대신한다.
+    /// 상단(네비 타이틀)은 시스템 기본에 맡긴다: 맨 위에선 투명, 콘텐츠가 바 밑으로
+    /// 들어가면 glass 베일. 상단까지 숨기면 인라인 타이틀이 스크롤된 행 위에 그대로
+    /// 겹쳐 그려지고, 투명 네비바 영역이 행 터치까지 삼키는 문제가 생긴다(설정 탭에서
+    /// "백업 및 복원"이 안 눌리던 버그).
     @ViewBuilder
     func alwaysTransparentBars() -> some View {
         #if os(iOS)
         self
-            .scrollEdgeEffectHidden(true, for: .all)
-            .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
+            .scrollEdgeEffectHidden(true, for: .bottom)
             .toolbarBackgroundVisibility(.hidden, for: .tabBar)
         #else
         self

@@ -137,8 +137,8 @@ struct ClipboardList: View {
                     }
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
-                    // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
-                    .scrollEdgeEffectHidden(true, for: .all)
+                    // 하단만 숨김 — 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
+                    .scrollEdgeEffectHidden(true, for: .bottom)
                     .background(theme.bg)
                     .onChange(of: recentlyAddedId) { _, newId in
                         if let id = newId {
@@ -245,7 +245,9 @@ struct ClipboardList: View {
                     .glassEffect(.regular.tint(Color.black.opacity(0.65)), in: Capsule())
                     .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    // 플로팅 탭바(하단 유리 필) 위로 띄운다 — 20이면 필 뒤에 완전히 가려져
+                    // 복사 피드백이 아예 안 보인다.
+                    .padding(.bottom, 90)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }

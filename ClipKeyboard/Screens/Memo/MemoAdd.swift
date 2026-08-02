@@ -572,6 +572,9 @@ struct MemoAdd: View {
                         TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
                                   text: $viewModel.continuations[idx], axis: .vertical)
                             .textFieldStyle(.roundedBorder)
+                            // 본문 편집기와 동일 — 붙여넣을 원문이라 자동 대문자/수정 금지.
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
                         Button {
                             viewModel.removeContinuation(at: idx)
                         } label: {

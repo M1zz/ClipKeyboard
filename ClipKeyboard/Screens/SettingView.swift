@@ -396,8 +396,10 @@ struct SettingView: View {
         .onAppear { refreshSecurePINState() }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        // [디자인 불변식] 스크롤 엣지 이펙트 숨김은 List 자체에 직접 — 래퍼에만 걸면 베일 생김.
-        .scrollEdgeEffectHidden(true, for: .all)
+        // 상단은 시스템 엣지 이펙트를 살린다 — 인라인 "설정" 타이틀이 스크롤된 행 위에
+        // 그대로 겹쳐 그려지고, 투명 네비바 영역이 행 터치까지 삼키던 문제(글래스 베일이
+        // 있어야 "바 아래로 들어갔다"가 시각적으로 전달됨). 하단(탭바)만 계속 숨긴다.
+        .scrollEdgeEffectHidden(true, for: .bottom)
         .background(theme.bg.ignoresSafeArea())
         .contentMargins(.top, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)

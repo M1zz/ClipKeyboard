@@ -455,6 +455,8 @@ struct ContentInputSection: View {
                 TextField(placeholderText, text: $value, axis: .vertical)
                     .font(.body)
                     .lineLimit(2...10)
+                    // 붙여넣을 원문 — 자동 수정이 내용을 훼손하지 않게.
+                    .autocorrectionDisabled()
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
