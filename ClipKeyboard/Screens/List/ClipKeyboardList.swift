@@ -79,7 +79,10 @@ struct ClipKeyboardList: View {
     @State private var showDraftList = false
     // 붙여넣기 허용 안내 팁 — 앱을 열 때마다 "붙여넣기 허용" 팝업이 뜨는 사용자를 설정으로 안내.
     // 클립보드 화면 배너와 dismiss 키(pasteTipDismissed)를 공유해, 어느 쪽에서 닫든 함께 사라진다.
+    // 설치 직후엔 iOS 설정에 '다른 앱에서 붙여넣기' 항목이 아직 없어 안내가 헛돌므로,
+    // 3번째 실행부터 노출한다(PastePermissionGuidance).
     @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
+        && PastePermissionGuidance.isReady
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner

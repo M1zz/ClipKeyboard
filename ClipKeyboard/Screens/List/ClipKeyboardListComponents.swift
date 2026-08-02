@@ -64,10 +64,22 @@ struct ProValueNudgeBanner: View {
 
 // MARK: - Paste Permission Tip Banner (메인 화면)
 
+/// '다른 앱에서 붙여넣기' 안내를 띄워도 되는 시점인지 판단한다.
+/// iOS 설정의 이 토글은 설치 직후엔 없고, 앱이 붙여넣기를 몇 차례 시도한 뒤에야
+/// 설정 앱에 나타난다. 설치하자마자 안내하면 설정에 항목이 없어 사용자가 헤매므로,
+/// 시스템 팝업을 몇 번 겪었을 시점(3번째 실행)부터 안내한다.
+/// 메인 배너·클립보드 탭 배너·클립보드 첫 진입 알럿이 모두 이 게이트를 공유한다.
+enum PastePermissionGuidance {
+    static var isReady: Bool {
+        UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 3
+    }
+}
+
 /// 앱을 열 때마다 iOS "붙여넣기 허용" 팝업이 뜨는 사용자를 위한 안내.
 /// 클립보드를 읽어 최근 복사 카드를 만드는 지점(메인 리스트)이 곧 팝업이 뜨는 지점이라
 /// 여기에서 바로 설정으로 안내한다. 설정 → 앱 → '다른 앱에서 붙여넣기' → 허용.
 /// "허용하러 가기" → 앱 설정 열기, "다시 안 보기" → 영구 닫힘(pasteTipDismissed 공유).
+/// 노출 시점은 PastePermissionGuidance.isReady가 판단한다(설치 직후 제외).
 struct PastePermissionTipBanner: View {
     let onOpenSettings: () -> Void
     let onDismiss: () -> Void

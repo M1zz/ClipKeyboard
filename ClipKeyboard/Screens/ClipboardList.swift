@@ -35,7 +35,10 @@ struct ClipboardList: View {
     @State private var showClearAllConfirm: Bool = false
 
     // 붙여넣기 허용 팁
+    // 설치 직후엔 iOS 설정에 '다른 앱에서 붙여넣기' 항목이 아직 없어 안내가 헛돌므로,
+    // 3번째 실행부터 노출한다(PastePermissionGuidance — 메인 배너와 동일 게이트).
     @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
+        && PastePermissionGuidance.isReady
     // 붙여넣기 허용 안내 알림 (첫 진입 1회)
     @State private var showPastePermissionAlert: Bool = false
 
@@ -313,9 +316,12 @@ struct ClipboardList: View {
 
     // MARK: - Paste Permission
 
-    /// 클립보드 화면 첫 진입 시 1회만 붙여넣기 허용을 안내한다.
+    /// 클립보드 화면 진입 시 1회만 붙여넣기 허용을 안내한다.
     /// iOS가 붙여넣기 권한 상태를 API로 노출하지 않아 상태 감지 대신 최초 1회 안내한다.
+    /// 설치 직후엔 iOS 설정에 토글이 아직 없으므로 3번째 실행부터 안내한다
+    /// (게이트를 통과하기 전엔 shown 플래그를 남기지 않아, 시점이 되면 정상 노출).
     private func maybeShowPastePermissionPrompt() {
+        guard PastePermissionGuidance.isReady else { return }
         guard !UserDefaults.standard.bool(forKey: DefaultsKey.pastePermissionPromptShownV1) else { return }
         UserDefaults.standard.set(true, forKey: DefaultsKey.pastePermissionPromptShownV1)
         // 화면 진입 애니메이션과 겹치지 않도록 한 박자 뒤에 표시.

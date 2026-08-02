@@ -180,8 +180,11 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     ///
     /// ⚠️ 샘플은 기기마다 **새 UUID로** 심기고 내용이 기기 언어를 따른다(영어 폰은 영어 샘플,
     ///    한국어 폰은 한국어 샘플). 그대로 올리면 동기화가 서로 다른 메모로 보고 양쪽에
-    ///    퍼뜨려서, 폰 2대를 쓰면 "모르는 단축어가 섞여" 보인다.
+    ///    퍼뜨려서, 폰 2대를 쓰거나 맥·아이폰을 함께 쓰면 "모르는 단축어가 섞여" 보인다.
     ///    샘플은 온보딩 장식이지 사용자 데이터가 아니다 — 백업도 이미 실데이터에서 제외한다.
+    ///
+    /// ⚠️ **병합(applyFetched)의 기준 목록에는 쓰지 말 것.** 거기서 샘플을 빼면
+    ///    병합 결과를 저장할 때 로컬 샘플이 통째로 지워진다. 업로드 산출에만 쓴다.
     private func syncableMemos() -> [Memo] {
         let all = (try? MemoStore.shared.load(type: .memo)) ?? []
         let sampleIDs = SampleMemoStorage.load()

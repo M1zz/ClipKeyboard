@@ -24,6 +24,7 @@
 
 import Foundation
 import CloudKit
+import Combine   // ObservableObject — 맥 타겟엔 SwiftUI 경유 암묵 임포트가 없어 명시한다.
 
 @MainActor
 final class RemoteFlagsService: ObservableObject {
@@ -43,6 +44,17 @@ final class RemoteFlagsService: ObservableObject {
     }
 
     private static let recordType = "RemoteFlags"
+
+    /// 킬스위치 레코드가 사는 공용 허브 컨테이너 — 피드백·통계와 동일.
+    /// ⚠️ 앱의 `LeeoAppSpec`(iOS `ClipKeyboardSpec` / 맥 `ClipKeyboardTapSpec`)을 참조하지 않는다.
+    ///    타입 이름이 타겟마다 달라, 참조하면 이 파일을 두 앱이 공유할 수 없다.
+    private static let flagsContainerID = "iCloud.com.Ysoup.FeedbackHub"
+
+    /// ⚠️ 맥 앱(`com.ysoup.TokenMemo-tap`)도 **이 레코드 하나**를 함께 읽는다.
+    ///    동기화는 iOS↔맥 공용 프로토콜이라, 한쪽만 끄면 나머지 한쪽이 계속 올려서
+    ///    상태가 어긋난다(끄나 마나가 된다). Dashboard 에서 여기만 바꾸면 두 앱이 같이 멈춘다.
+    private static let flagsRecordName = "flags_com.Ysoup.TokenMemo"
+
     /// `nonisolated`: 아래 `cachedValue(_:)`가 메인 액터 밖(키보드·백그라운드)에서도
     /// 읽어야 한다. 불변 String 상수라 격리가 필요 없고, 격리된 채 두면 Swift 6에서 에러가 된다.
     nonisolated private static let cachePrefix = "remote.flag."
@@ -90,12 +102,10 @@ final class RemoteFlagsService: ObservableObject {
 
     /// 실제 조회. 성공한 필드만 캐시에 반영한다(부분 성공 허용).
     func fetch() async {
-        let config = ClipKeyboardSpec.feedback
-        let database = CKContainer(identifier: config.containerIdentifier).publicCloudDatabase
-        let recordName = "flags_\(config.appIdentifier ?? "default")"
+        let database = CKContainer(identifier: Self.flagsContainerID).publicCloudDatabase
 
         do {
-            let record = try await database.record(for: CKRecord.ID(recordName: recordName))
+            let record = try await database.record(for: CKRecord.ID(recordName: Self.flagsRecordName))
             for flag in Flag.allCases {
                 // 필드가 없으면 건드리지 않는다 — 기존 캐시(또는 기본 켬)를 유지.
                 guard let raw = record[flag.rawValue] as? Int64 else { continue }
