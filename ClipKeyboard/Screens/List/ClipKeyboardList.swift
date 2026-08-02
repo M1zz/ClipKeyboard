@@ -408,16 +408,22 @@ struct ClipKeyboardList: View {
                     }
                 }
                 // 콘텐츠 시작점 = 확장(inlineLarge) 상태의 바 하단.
-                // - 유효 범위(60~200) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단
-                //   (max 래치는 전환 애니메이션 중간의 과대값이 고정되어 여백이 커지는
-                //   문제가 있어 실시간 추적으로 변경, 실측)
+                // - 유효 범위(60~160) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단.
+                //   상한을 200→160으로 좁힘 — .large→.inlineLarge 전환 중간의 과대값(~199)이
+                //   latch되면 그리드가 화면 중앙부터 시작하는 버그가 됨(실측: inlineLarge 바
+                //   하단은 100~130 언저리라 160이면 큰 글씨 설정까지 여유 있음).
                 // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
                 .onChange(of: minY, initial: true) { _, v in
-                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 200 { pageTopInset = v }
+                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 { pageTopInset = v }
                 }
                 // 정착 시점에 minY가 이미 최종값이면 위 onChange가 다시 안 불리므로 한 번 더 측정.
                 .onChange(of: titleBarSettled) { _, settled in
-                    if settled, !showsInlineNavTitle, minY > 60, minY < 200 { pageTopInset = minY }
+                    if settled, !showsInlineNavTitle, minY > 60, minY < 160 { pageTopInset = minY }
+                }
+                // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 — 어떤 경로로든 오염된 값을
+                // 사용자가 맨 위로 돌아오는 순간 자가 치유한다.
+                .onChange(of: showsInlineNavTitle) { _, inline in
+                    if !inline, titleBarSettled, minY > 60, minY < 160 { pageTopInset = minY }
                 }
             }
         )
@@ -425,7 +431,9 @@ struct ClipKeyboardList: View {
 
     /// 페이지 스크롤 콘텐츠의 상단 시작점 — 네비바 하단에서 10pt 끌어올려 타이틀과의
     /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
-    private var pageContentTopMargin: CGFloat { max(pageTopInset - 10, 60) }
+    /// 상한 150 클램프: 측정값이 어떤 경로로든 오염돼도(전환 중간값 latch 등)
+    /// 그리드가 화면 중앙부터 시작하는 최악의 표시는 막는다.
+    private var pageContentTopMargin: CGFloat { min(max(pageTopInset - 10, 60), 150) }
 
     private var screenBody: some View {
             ZStack {
