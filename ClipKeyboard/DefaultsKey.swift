@@ -127,4 +127,9 @@ enum DefaultsKey {
     static let listBackgroundPerTabV1 = "listBackgroundPerTab_v1"
     /// "새 배경 써보시겠어요?" 1회 제안을 이미 답했는지 (App Group)
     static let backgroundOfferResolvedV1 = "backgroundOfferResolved_v1"
+
+    // MARK: - 데모 데이터
+    /// 데모(샘플 페르소나) 데이터가 켜져 있는지 (App Group — 키보드도 같은 데이터를 본다).
+    /// 켤 때 원본을 demo.backup.data로 백업하고, 끄면 복원한다. DemoDataService 참고.
+    static let demoDataActive = "demoDataActive_v1"
 }

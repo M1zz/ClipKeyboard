@@ -1,0 +1,79 @@
+{
+  "defaults": {
+    "size": [
+      2064,
+      2752
+    ],
+    "frame_style": "clean",
+    "title_size": 150,
+    "eyebrow_size": 70,
+    "phone_scale": 0.66,
+    "text_top": 0.05,
+    "phone_top": 0.33,
+    "screen_radius_ratio": 0.045,
+    "bezel_ratio": 0.02
+  },
+  "shots": [
+    {
+      "screenshot": "raw/ipad-en/screen1.png",
+      "out": "out/ipad-en/01.png",
+      "eyebrow": "Straight from your keyboard",
+      "title": "Your go-to lines,\none tap away",
+      "bg_top": "#16181D",
+      "bg_bottom": "#0E0F12",
+      "accent": "#4FACFE",
+      "title_color": "#FFFFFF",
+      "phone_rotate": 0.0,
+      "phone_x": 0.5
+    },
+    {
+      "screenshot": "raw/ipad-en/screen4.png",
+      "out": "out/ipad-en/02.png",
+      "eyebrow": "In any app",
+      "title": "Tap in the keyboard,\ntyped instantly",
+      "bg_top": "#3E8EF7",
+      "bg_bottom": "#1F5FD6",
+      "accent": "#D8E9FF",
+      "title_color": "#FFFFFF",
+      "phone_rotate": -3.6,
+      "phone_x": 0.56
+    },
+    {
+      "screenshot": "raw/ipad-en/screen3.png",
+      "out": "out/ipad-en/03.png",
+      "eyebrow": "Copy it — it sorts itself",
+      "title": "A clipboard that\norganizes itself",
+      "bg_top": "#F5F6F8",
+      "bg_bottom": "#FFFFFF",
+      "accent": "#2E6BE6",
+      "title_color": "#111318",
+      "phone_rotate": 0.0,
+      "phone_x": 0.5
+    },
+    {
+      "screenshot": "raw/ipad-en/screen2.png",
+      "out": "out/ipad-en/04.png",
+      "eyebrow": "Swap the name and price",
+      "title": "Reply templates,\ndone in 30 seconds",
+      "bg_top": "#FFF3E3",
+      "bg_bottom": "#FFE2C2",
+      "accent": "#E8762B",
+      "title_color": "#2B1A0E",
+      "phone_rotate": 3.6,
+      "phone_x": 0.44
+    },
+    {
+      "screenshot": "raw/ipad-en/screen5.png",
+      "out": "out/ipad-en/05.png",
+      "eyebrow": "Daily ones up front",
+      "title": "Favorites are\none swipe away",
+      "bg_top": "#FFE1EC",
+      "bg_bottom": "#FFF6FA",
+      "accent": "#F04E93",
+      "title_color": "#3D1226",
+      "phone_rotate": -1.8,
+      "phone_x": 0.52
+    }
+  ],
+  "_주석": "make_shot.py --config <이 파일> 로 생성. defaults 공통값 + shots 컷별 덮어쓰기."
+}

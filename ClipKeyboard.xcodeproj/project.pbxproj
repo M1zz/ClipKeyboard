@@ -79,6 +79,8 @@
 		58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
 		58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
+		58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
+		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58SV00052F9A1B0100000005 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00022F9A1B0100000002 /* OCRService.swift */; };
 		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
@@ -277,6 +279,7 @@
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
 		58PS00012B5E1A2100000001 /* ProStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStatusManager.swift; sourceTree = "<group>"; };
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
+		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
@@ -634,6 +637,7 @@
 				256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */,
 				SG00001A2F0000000000000001 /* SuggestionManager.swift */,
 				58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */,
+				58DM00012FAA1B0100000001 /* DemoDataService.swift */,
 				58SV00022F9A1B0100000002 /* OCRService.swift */,
 				050AEED88220E19330F5B15C /* MemoSyncCore.swift */,
 				C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */,
@@ -1048,6 +1052,7 @@
 				581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
 				58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */,
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
+				58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
@@ -1091,6 +1096,7 @@
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
+				58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */,
 				58SV00052F9A1B0100000005 /* OCRService.swift in Sources */,
 				587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */,
 				B563C16987407051299C9A64 /* SecurePINSettings.swift in Sources */,

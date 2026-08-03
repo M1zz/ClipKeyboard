@@ -1,75 +1,77 @@
 {
   "defaults": {
     "size": [
-      1242,
-      2688
+      2064,
+      2752
     ],
     "frame_style": "clean",
-    "title_size": 104,
-    "eyebrow_size": 50,
-    "phone_scale": 0.86,
-    "text_top": 0.055,
-    "phone_top": 0.3
+    "title_size": 150,
+    "eyebrow_size": 70,
+    "phone_scale": 0.66,
+    "text_top": 0.05,
+    "phone_top": 0.33,
+    "screen_radius_ratio": 0.045,
+    "bezel_ratio": 0.02
   },
   "shots": [
     {
-      "screenshot": "raw/screen1.png",
-      "out": "out/01.png",
+      "screenshot": "raw/ipad/screen1.png",
+      "out": "out/ipad-ko/01.png",
       "eyebrow": "키보드에서 바로 꺼내 쓰는",
       "title": "자주 쓰는 문장,\n한 번의 탭으로",
       "bg_top": "#16181D",
       "bg_bottom": "#0E0F12",
       "accent": "#4FACFE",
       "title_color": "#FFFFFF",
-      "phone_rotate": 0,
+      "phone_rotate": 0.0,
       "phone_x": 0.5
     },
     {
-      "screenshot": "raw/screen4.png",
-      "out": "out/02.png",
+      "screenshot": "raw/ipad/screen4.png",
+      "out": "out/ipad-ko/02.png",
       "eyebrow": "어떤 앱에서든",
       "title": "키보드에서 탭,\n바로 입력",
       "bg_top": "#3E8EF7",
       "bg_bottom": "#1F5FD6",
       "accent": "#D8E9FF",
       "title_color": "#FFFFFF",
-      "phone_rotate": -6,
+      "phone_rotate": -3.6,
       "phone_x": 0.56
     },
     {
-      "screenshot": "raw/screen3.png",
-      "out": "out/03.png",
+      "screenshot": "raw/ipad/screen3.png",
+      "out": "out/ipad-ko/03.png",
       "eyebrow": "복사만 해도 알아서 정리",
       "title": "클립보드가\n스스로 분류돼요",
       "bg_top": "#F5F6F8",
       "bg_bottom": "#FFFFFF",
       "accent": "#2E6BE6",
       "title_color": "#111318",
-      "phone_rotate": 0,
+      "phone_rotate": 0.0,
       "phone_x": 0.5
     },
     {
-      "screenshot": "raw/screen2.png",
-      "out": "out/04.png",
+      "screenshot": "raw/ipad/screen2.png",
+      "out": "out/ipad-ko/04.png",
       "eyebrow": "이름·금액만 바꿔 넣는",
       "title": "회신 템플릿,\n30초면 완성",
       "bg_top": "#FFF3E3",
       "bg_bottom": "#FFE2C2",
       "accent": "#E8762B",
       "title_color": "#2B1A0E",
-      "phone_rotate": 6,
+      "phone_rotate": 3.6,
       "phone_x": 0.44
     },
     {
-      "screenshot": "raw/screen5.png",
-      "out": "out/05.png",
+      "screenshot": "raw/ipad/screen5.png",
+      "out": "out/ipad-ko/05.png",
       "eyebrow": "매일 쓰는 건 맨 앞에",
       "title": "즐겨찾기는\n한 스와이프 거리",
       "bg_top": "#FFE1EC",
       "bg_bottom": "#FFF6FA",
       "accent": "#F04E93",
       "title_color": "#3D1226",
-      "phone_rotate": -3,
+      "phone_rotate": -1.8,
       "phone_x": 0.52
     }
   ],

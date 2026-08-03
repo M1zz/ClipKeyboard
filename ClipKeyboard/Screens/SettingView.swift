@@ -27,6 +27,42 @@ struct SettingView: View {
     @State private var showWipeConfirm = false      // 1단계: 무엇이 지워지는지 안내
     @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
     @State private var wipeResultMessage: String?
+    /// 데모 데이터 토글 — 켜면 샘플 페르소나 데이터, 끄면 내 데이터 복원(DemoDataService).
+    @AppStorage(DefaultsKey.demoDataActive, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var demoDataActive: Bool = false
+    @State private var demoResultMessage: String?
+
+    // MARK: 데모 데이터 섹션
+    // 앱을 처음 둘러보거나 스크린샷·영상을 찍을 때, 잘 짜인 샘플 한 벌을 즉시 켜고 끌 수 있게 한다.
+    // 켤 때 내 데이터는 백업되고 끄면 그대로 복원된다(DemoDataService).
+    // ⚠️ body의 List 안에 인라인으로 두면 타입 체크 시간이 폭발한다(빌드 실패) — 반드시 분리 유지.
+    @ViewBuilder
+    private var demoSection: some View {
+        Section {
+            Toggle(isOn: Binding(
+                get: { demoDataActive },
+                set: { newValue in
+                    let ok = newValue ? DemoDataService.shared.enable()
+                                      : DemoDataService.shared.disable()
+                    // 서비스가 App Group 플래그를 갱신하므로 @AppStorage가 자동 반영된다.
+                    // 실패했을 때만 알린다(성공은 화면 변화로 충분).
+                    if !ok && newValue {
+                        demoResultMessage = NSLocalizedString(
+                            "데모 데이터를 켜지 못했어요. 잠시 후 다시 시도해 주세요.",
+                            comment: "Demo data enable failed message")
+                    }
+                }
+            )) {
+                Label(NSLocalizedString("데모 데이터 사용", comment: "Demo data toggle"),
+                      systemImage: AppSymbol.sparkles)
+            }
+        } header: {
+            Text(NSLocalizedString("데모", comment: "Settings section: demo"))
+        } footer: {
+            Text(NSLocalizedString("샘플 단축어와 클립보드 기록을 채워 앱을 바로 체험해 봅니다. 켜는 순간 내 데이터는 안전하게 보관되고, 끄면 그대로 돌아옵니다.", comment: "Demo data section explanation"))
+                .font(.body)
+        }
+    }
 
     private func refreshSecurePINState() {
         let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
@@ -279,6 +315,8 @@ struct SettingView: View {
                     .font(.body)
             }
 
+            demoSection
+
             // MARK: 도움말
             // 사용법 안내 및 정보 전달
             Section(NSLocalizedString("도움말", comment: "Settings section: help")) {
@@ -451,6 +489,14 @@ struct SettingView: View {
             Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { wipeResultMessage = nil }
         } message: {
             Text(wipeResultMessage ?? "")
+        }
+        // 데모 데이터 적용 실패 안내 (성공은 화면 변화로 충분해 알리지 않는다).
+        .alert(NSLocalizedString("데모 데이터", comment: "Demo data alert title"),
+               isPresented: Binding(get: { demoResultMessage != nil },
+                                    set: { if !$0 { demoResultMessage = nil } })) {
+            Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { demoResultMessage = nil }
+        } message: {
+            Text(demoResultMessage ?? "")
         }
     }
 

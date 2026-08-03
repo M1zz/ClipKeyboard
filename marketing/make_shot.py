@@ -144,12 +144,15 @@ def build_framed_phone(mockup_path: str, screenshot_path: str) -> Image.Image:
 
 
 def build_clean_phone(screenshot_path: str, width: int = 1000,
-                      bezel_color: str = "#0B0B0D") -> Image.Image:
-    """스톡 목업 없이 코드로 그린 깔끔한 아이폰 프레임에 스크린샷을 끼운다.
+                      bezel_color: str = "#0B0B0D",
+                      screen_radius_ratio: float = 0.135,
+                      bezel_ratio: float = 0.028) -> Image.Image:
+    """스톡 목업 없이 코드로 그린 깔끔한 디바이스 프레임에 스크린샷을 끼운다.
 
     워터마크가 없고 임의 해상도로 선명하며, 모서리 반경을 앱 화면에 맞춰 클리핑이
     생기지 않는다. 스크린샷에 이미 iOS 상태바(다이나믹 아일랜드)가 포함돼 있으므로
     아일랜드는 별도로 그리지 않는다.
+    아이패드는 screen_radius_ratio(≈0.045)·bezel_ratio(≈0.02)를 줄여 iPad 베젤 비율로.
     """
     ss = 2  # supersampling (안티에일리어싱)
     shot = Image.open(screenshot_path).convert("RGBA")
@@ -157,8 +160,8 @@ def build_clean_phone(screenshot_path: str, width: int = 1000,
 
     inner_w = width * ss
     inner_h = round(inner_w * aspect)
-    bezel = round(inner_w * 0.028)
-    inner_r = round(inner_w * 0.135)         # 화면 모서리 반경
+    bezel = round(inner_w * bezel_ratio)
+    inner_r = round(inner_w * screen_radius_ratio)   # 화면 모서리 반경
     outer_w, outer_h = inner_w + 2 * bezel, inner_h + 2 * bezel
     outer_r = inner_r + bezel
 
@@ -264,6 +267,11 @@ class Shot:
     phone_top: float = 0.30             # 캔버스 높이 대비 폰 상단 y
     frame_style: str = "clean"          # "clean"(코드 프레임) | "mockup"(PNG 목업)
     bezel_color: str = "#0B0B0D"
+    # 디자인 다양화 옵션
+    phone_rotate: float = 0.0           # 폰 기울기(도, +는 시계방향)
+    phone_x: float = 0.5                # 폰 중심의 가로 위치(캔버스 폭 대비 0~1)
+    screen_radius_ratio: float = 0.135  # 화면 모서리 반경 비율 (아이패드 ≈0.045)
+    bezel_ratio: float = 0.028          # 베젤 두께 비율 (아이패드 ≈0.02)
 
     def resolve(self, base_dir: str):
         for k in ("screenshot", "mockup", "out"):
@@ -284,15 +292,22 @@ def render(spec: Shot) -> str:
     if spec.frame_style == "mockup":
         phone = build_framed_phone(spec.mockup, spec.screenshot)
     else:
-        phone = build_clean_phone(spec.screenshot, bezel_color=spec.bezel_color)
+        phone = build_clean_phone(spec.screenshot, bezel_color=spec.bezel_color,
+                                  screen_radius_ratio=spec.screen_radius_ratio,
+                                  bezel_ratio=spec.bezel_ratio)
     target_w = int(W * spec.phone_scale)
     scale = target_w / phone.width
     phone = phone.resize((target_w, int(phone.height * scale)), Image.LANCZOS)
 
+    # 기울기 — 컷마다 다른 표정. expand=True 로 잘림 없이 회전.
+    if spec.phone_rotate:
+        phone = phone.rotate(-spec.phone_rotate, expand=True,
+                             resample=Image.BICUBIC)
+
     # 은은한 그림자
     shadow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     sh_alpha = phone.split()[3].point(lambda a: int(a * 0.45))
-    px = (W - phone.width) // 2
+    px = int(W * spec.phone_x - phone.width / 2)
     py = int(H * spec.phone_top)
     shd = Image.new("RGBA", phone.size, (0, 0, 0, 255))
     shd.putalpha(sh_alpha)
