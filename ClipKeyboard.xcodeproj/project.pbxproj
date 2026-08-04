@@ -164,6 +164,13 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
+		58DL00012F0000000000000101 /* DelightMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00012F0000000000000001 /* DelightMotion.swift */; };
+		58DL00022F0000000000000102 /* StampMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00022F0000000000000002 /* StampMark.swift */; };
+		58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00032F0000000000000003 /* VerificationSealView.swift */; };
+		58DL00042F0000000000000104 /* WaxSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00042F0000000000000004 /* WaxSealView.swift */; };
+		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
+		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
+		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,6 +365,13 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		58DL00012F0000000000000001 /* DelightMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelightMotion.swift; sourceTree = "<group>"; };
+		58DL00022F0000000000000002 /* StampMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampMark.swift; sourceTree = "<group>"; };
+		58DL00032F0000000000000003 /* VerificationSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationSealView.swift; sourceTree = "<group>"; };
+		58DL00042F0000000000000004 /* WaxSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaxSealView.swift; sourceTree = "<group>"; };
+		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
+		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
+		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -592,6 +606,17 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		58DL00002F0000000000000000 /* Delight */ = {
+			isa = PBXGroup;
+			children = (
+				58DL00012F0000000000000001 /* DelightMotion.swift */,
+				58DL00022F0000000000000002 /* StampMark.swift */,
+				58DL00032F0000000000000003 /* VerificationSealView.swift */,
+				58DL00042F0000000000000004 /* WaxSealView.swift */,
+			);
+			path = Delight;
+			sourceTree = "<group>";
+		};
 		58DS00112F0000000000000011 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +624,7 @@
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
+				58DL00002F0000000000000000 /* Delight */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -650,7 +676,9 @@
 				52306EEE06035B083C937FF4 /* UsageInsights.swift */,
 				7427CED7AE75EED7C96E8587 /* ExperimentService.swift */,
 				24CD8B81F083063C5634B606 /* CategorySnapshot.swift */,
-			);
+							58DL00052F0000000000000005 /* ChecksumVerifier.swift */,
+				58DL00062F0000000000000006 /* UsagePassport.swift */,
+);
 			path = Service;
 			sourceTree = "<group>";
 		};
@@ -684,7 +712,8 @@
 				DC80C83D38691863F9E226D5 /* DataRecoveryView.swift */,
 				B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */,
 				155207159BAB0913906509F4 /* ChangelogView.swift */,
-			);
+							58DL00072F0000000000000007 /* UsagePassportView.swift */,
+);
 			path = Screens;
 			sourceTree = "<group>";
 		};
@@ -1176,7 +1205,14 @@
 				3E8B4A7A1FB1AF9A661A4D1A /* ChangelogView.swift in Sources */,
 				1761A00B1625C4C0128A8D95 /* CategorySnapshot.swift in Sources */,
 				0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */,
-			);
+							58DL00012F0000000000000101 /* DelightMotion.swift in Sources */,
+				58DL00022F0000000000000102 /* StampMark.swift in Sources */,
+				58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */,
+				58DL00042F0000000000000104 /* WaxSealView.swift in Sources */,
+				58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */,
+				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
+				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
+);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9CA0A3FF2F19D9B3004ABF40 /* Sources */ = {

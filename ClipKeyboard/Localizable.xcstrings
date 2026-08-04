@@ -118,6 +118,23 @@
         }
       }
     },
+    "%1$@, %2$d회 사용": {
+      "comment": "Stamp card accessibility label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, used %2$d times"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, dipakai %2$d kali"
+          }
+        }
+      }
+    },
     "%1$d%% (%2$d)": {
       "comment": "Usage stats: percent and count",
       "localizations": {
@@ -1151,6 +1168,23 @@
         }
       }
     },
+    "%d번": {
+      "comment": "Usage passport: times count",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d"
+          }
+        }
+      }
+    },
     "%d번, %@": {
       "comment": "Combo row",
       "extractionState": "stale",
@@ -1212,6 +1246,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d mnt"
+          }
+        }
+      }
+    },
+    "%d시간 %d분": {
+      "comment": "Duration: hours and minutes",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$dh %2$dm"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$d j %2$d mnt"
           }
         }
       }
@@ -1315,6 +1366,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "%d points"
+          }
+        }
+      }
+    },
+    "%d회": {
+      "comment": "Usage count suffix",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d×"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d×"
           }
         }
       }
@@ -12615,6 +12683,23 @@
         }
       }
     },
+    "검증됨": {
+      "comment": "Stamp label: verified",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verified"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terverifikasi"
+          }
+        }
+      }
+    },
     "결과 미리보기": {
       "comment": "Preview Result",
       "extractionState": "stale",
@@ -14209,6 +14294,23 @@
         }
       }
     },
+    "다시 치지 않은 횟수": {
+      "comment": "Usage passport: headline label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Times you didn't retype"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berapa kali tidak perlu ketik ulang"
+          }
+        }
+      }
+    },
     "다음": {
       "comment": "Next button",
       "localizations": {
@@ -15371,6 +15473,23 @@
         }
       }
     },
+    "대략 %@을 아꼈어요.": {
+      "comment": "Usage passport: time saved sentence",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That's about %@ saved."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Itu sekitar %@ yang dihemat."
+          }
+        }
+      }
+    },
     "더 보기": {
       "comment": "More options menu label",
       "localizations": {
@@ -15856,6 +15975,40 @@
         }
       }
     },
+    "두 번 탭하면 다시 봉인합니다.": {
+      "comment": "Wax seal hint: lock again",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double tap to seal it again."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk dua kali untuk menyegel kembali."
+          }
+        }
+      }
+    },
+    "두 번 탭하면 생체인증으로 엽니다.": {
+      "comment": "Wax seal hint: unlock",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Double tap to open with biometrics."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk dua kali untuk membuka dengan biometrik."
+          }
+        }
+      }
+    },
     "두벌식": {
       "comment": "Dubeolsik Korean keyboard layout name\nKorean layout: dubeolsik",
       "localizations": {
@@ -16218,6 +16371,23 @@
         }
       }
     },
+    "마지막 자리가 맞지 않아요. 사업자등록증과 다시 맞춰보세요.": {
+      "comment": "Repair hint when business number checksum fails",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The last digit doesn't match. Compare it with your registration certificate."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digit terakhir tidak cocok. Cocokkan dengan sertifikat pendaftaran Anda."
+          }
+        }
+      }
+    },
     "마케팅 지표": {
       "comment": "Usage stats section: marketing signals",
       "localizations": {
@@ -16265,6 +16435,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dibuat tapi tak pernah dipakai. Tinggi berarti nilainya belum tersampaikan."
+          }
+        }
+      }
+    },
+    "많이 쓴 문구": {
+      "comment": "Usage passport: top shortcuts section",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Most used"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paling sering dipakai"
           }
         }
       }
@@ -16978,6 +17165,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Snippet tak terbatas, cadangan iCloud, dan lainnya"
+          }
+        }
+      }
+    },
+    "문구를 넣을 때의 진동과 짧은 연출이에요. 끄면 조용히 입력만 돼요.": {
+      "comment": "Delight effects toggle footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The tap you feel and the brief mark you see when a snippet goes in. Turn it off to insert silently."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Getaran dan tanda singkat saat cuplikan dimasukkan. Matikan untuk memasukkan tanpa suara."
           }
         }
       }
@@ -18694,6 +18898,57 @@
         }
       }
     },
+    "봉인됨": {
+      "comment": "Wax seal state: sealed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sealed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tersegel"
+          }
+        }
+      }
+    },
+    "봉인을 열었어요": {
+      "comment": "Memo unlocked toast",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seal opened"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segel dibuka"
+          }
+        }
+      }
+    },
+    "봉인했어요": {
+      "comment": "Memo locked toast",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sealed"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tersegel"
+          }
+        }
+      }
+    },
     "불러오기": {
       "comment": "Restore hint: open restore",
       "localizations": {
@@ -19108,6 +19363,23 @@
         }
       }
     },
+    "사업자등록번호": {
+      "comment": "Checksum subject: Korean business registration number",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Business number"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nomor bisnis"
+          }
+        }
+      }
+    },
     "사용": {
       "comment": "Use",
       "localizations": {
@@ -19172,6 +19444,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jumlah penggunaan"
+          }
+        }
+      }
+    },
+    "사용 기록": {
+      "comment": "Usage passport screen title / settings entry",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your record"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rekam jejak"
           }
         }
       }
@@ -21477,6 +21766,23 @@
         }
       }
     },
+    "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
+      "comment": "Repair hint when card checksum fails",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One digit is off. Compare it with the number on your card."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ada satu digit yang salah. Cocokkan lagi dengan nomor di kartu Anda."
+          }
+        }
+      }
+    },
     "스니펫을 탭해보세요. 클립보드에 바로 복사돼요.": {
       "comment": "Welcome tip message",
       "localizations": {
@@ -21946,6 +22252,23 @@
         }
       }
     },
+    "아직 백지예요": {
+      "comment": "Usage passport empty state title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Still a blank page"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masih halaman kosong"
+          }
+        }
+      }
+    },
     "아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?": {
       "comment": "Setup not found feedback",
       "extractionState": "manual",
@@ -22023,6 +22346,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Belum ditangani"
+          }
+        }
+      }
+    },
+    "아직 한 번도 안 쓴 문구가 %d개 있어요.": {
+      "comment": "Usage passport: unused shortcuts hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d snippets haven't been used yet."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d cuplikan belum pernah dipakai."
           }
         }
       }
@@ -22128,6 +22468,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Notifikasi dimatikan. Izinkan di Pengaturan iOS > ClipKeyboard > Notifikasi."
+          }
+        }
+      }
+    },
+    "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
+      "comment": "Repair hint when IBAN checksum fails",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check the first 4 characters (country code + check digits). The rest looks right."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Periksa 4 karakter pertama (kode negara + digit cek). Sisanya sudah benar."
           }
         }
       }
@@ -22883,6 +23240,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jumlah Kolom"
+          }
+        }
+      }
+    },
+    "열림": {
+      "comment": "Wax seal state: opened",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opened"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terbuka"
           }
         }
       }
@@ -23771,6 +24145,23 @@
         }
       }
     },
+    "이 숫자는 기기 안에서만 계산돼요. 어디에도 보내지 않아요.": {
+      "comment": "Usage passport: privacy note",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Counted on your device only. Nothing is sent anywhere."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dihitung hanya di perangkat Anda. Tidak dikirim ke mana pun."
+          }
+        }
+      }
+    },
     "이 시점으로 되돌릴까요?": {
       "comment": "Restore confirm title",
       "localizations": {
@@ -24125,6 +24516,23 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Rename"
+          }
+        }
+      }
+    },
+    "이름 없는 문구": {
+      "comment": "Passport stamp label for an untitled shortcut",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Untitled snippet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuplikan tanpa judul"
           }
         }
       }
@@ -25080,6 +25488,23 @@
         }
       }
     },
+    "입력 반응": {
+      "comment": "Delight effects toggle title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input feedback"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umpan balik masukan"
+          }
+        }
+      }
+    },
     "입력 언어 전환": {
       "comment": "Toggle input language key",
       "localizations": {
@@ -25678,6 +26103,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Apakah aplikasinya bermanfaat?"
+          }
+        }
+      }
+    },
+    "잠긴 문구": {
+      "comment": "Passport stamp label for a locked (secure) shortcut",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Locked snippet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuplikan terkunci"
           }
         }
       }
@@ -27379,6 +27821,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "첫 템플릿 만들기"
+          }
+        }
+      }
+    },
+    "체크섬을 통과했어요.": {
+      "comment": "Message when a checksum passes",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checksum passed."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checksum lolos."
           }
         }
       }
@@ -29616,6 +30075,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ditampilkan di pratinjau saat Anda menekan lama di papan ketik"
+          }
+        }
+      }
+    },
+    "키보드에서 문구를 한 번 쓰면 여기에 자국이 남기 시작해요.": {
+      "comment": "Usage passport empty state body",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a snippet from the keyboard once and marks will start showing up here."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pakai cuplikan dari keyboard sekali dan jejaknya akan mulai muncul di sini."
           }
         }
       }
@@ -32372,6 +32848,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "OK"
+          }
+        }
+      }
+    },
+    "확인 필요": {
+      "comment": "Stamp label: needs checking",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needs checking"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perlu dicek"
           }
         }
       }

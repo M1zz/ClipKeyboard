@@ -357,6 +357,12 @@ struct MemoAdd: View {
                         )
                         .id("contentField")
 
+                        // 검증 각인 — 체크섬이 있는 값이면 "맞았다"를 눈에 보이게.
+                        // 확실할 때만 뜬다(형식이 모호하면 nil) — ChecksumVerifier 주석 참고.
+                        if let verification = ChecksumVerifier.verify(viewModel.value) {
+                            VerificationSealView(result: verification)
+                        }
+
                         // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 — 더하면 콤보
                         continuationsSection
 

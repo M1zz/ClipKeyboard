@@ -79,6 +79,13 @@ struct MemoRowView: View {
 
             Spacer()
 
+            // 날인 자국 — 많이 쓴 문구일수록 잉크가 진해진다.
+            // 숫자 배지가 아니라 흔적으로 보여주는 이유는 DelightMotion.inkOpacity 주석 참고.
+            // 다른 구분 표시와 같은 게이트를 따른다(기본 OFF = 제목 위주).
+            if visualCuesVisible, memo.clipCount > 0 {
+                StampMark(useCount: memo.clipCount, size: 20, angle: stampAngle)
+            }
+
             // 즐겨찾기 하트 표시 (구분 표시 ON일 때만)
             if visualCuesVisible, memo.isFavorite {
                 Image(systemName: AppSymbol.heartFill)
@@ -125,9 +132,9 @@ struct MemoRowView: View {
                     TagBadge(label: NSLocalizedString("New", comment: "Badge: new memo within 24h"), tint: .green)
                 }
                 if memo.isSecure {
-                    Image(systemName: AppSymbol.lockFill)
-                        .font(.caption2)
-                        .foregroundColor(theme.textFaint)
+                    // 자물쇠 아이콘 대신 봉랍 — 잠겨 있다는 사실이 감각으로 읽히게.
+                    // 행 자체가 탭 대상이라 여기서는 장식(onTap 없음)으로만 쓴다.
+                    WaxSealView(isSealed: true, size: 16)
                         .accessibilityHidden(true)
                 }
             }
@@ -176,7 +183,19 @@ struct MemoRowView: View {
             parts.append(relative)
         }
 
+        // 6. 사용 횟수 — 날인 자국은 시각 요소라 VoiceOver에는 숫자로 읽어 준다.
+        if memo.clipCount > 0 {
+            parts.append(String(format: NSLocalizedString("%d회 사용", comment: "VoiceOver: use count"), memo.clipCount))
+        }
+
         return parts.joined(separator: ", ")
+    }
+
+    /// 날인 각도 — 행마다 조금씩 달라야 손으로 찍은 것처럼 보인다.
+    /// 메모 id에서 뽑으므로 스크롤·리렌더에도 값이 흔들리지 않는다.
+    private var stampAngle: Double {
+        let bucket = abs(memo.id.hashValue % 5)
+        return [-9.0, -4.0, 0.0, 5.0, 9.0][bucket]
     }
 
     // MARK: - Leading Icon

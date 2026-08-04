@@ -65,5 +65,27 @@ enum KeyboardHaptics {
         medium.impactOccurred()
         medium.prepare()
     }
+
+    // MARK: - 날인
+
+    /// 연출·햅틱 마스터 스위치. 메인 앱의 `Delight.isEnabled`와 **같은 키**를 읽는다.
+    /// (익스텐션은 LeeoKit을 참조할 수 없어 값을 직접 읽는다 — 키는 DefaultsKey 단일 출처)
+    static var delightEnabled: Bool {
+        guard let value = UserDefaults(suiteName: AppGroup.identifier)?
+            .object(forKey: DefaultsKey.delightEffectsEnabled) as? Bool else { return true }
+        return value
+    }
+
+    /// 문구가 입력된 순간 = 도장을 찍은 순간.
+    ///
+    /// 이전에는 `UINotificationFeedbackGenerator(.success)`를 썼는데, 그건 "작업이 끝났다"는
+    /// 알림 패턴이라 두세 번 울리는 느낌이 나고 하루 수십 번 반복하기엔 과하다.
+    /// 도장은 가벼운 물건이 아니므로 **medium 한 번**으로 묵직하게 끝낸다.
+    @inline(__always)
+    static func stamp() {
+        guard delightEnabled else { return }
+        medium.impactOccurred()
+        medium.prepare()
+    }
 }
 #endif

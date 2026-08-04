@@ -90,6 +90,7 @@ enum AppSymbol {
     static let listBullet = "list.bullet"
     static let listBulletRectangle = "list.bullet.rectangle"
     static let lockFill = "lock.fill"
+    static let lockOpenFill = "lock.open.fill"
     static let lockShield = "lock.shield"
     static let lockShieldFill = "lock.shield.fill"
     static let macbook = "macbook"

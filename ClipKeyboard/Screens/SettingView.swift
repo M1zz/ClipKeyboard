@@ -31,6 +31,9 @@ struct SettingView: View {
     @AppStorage(DefaultsKey.demoDataActive, store: UserDefaults(suiteName: AppGroup.identifier))
     private var demoDataActive: Bool = false
     @State private var demoResultMessage: String?
+    /// 날인·봉인 등 입력 반응 마스터 스위치. App Group — 키보드 익스텐션도 같은 값을 읽는다.
+    @AppStorage(DefaultsKey.delightEffectsEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var delightEffectsEnabled: Bool = true
 
     // MARK: 데모 데이터 섹션
     // 앱을 처음 둘러보거나 스크린샷·영상을 찍을 때, 잘 짜인 샘플 한 벌을 즉시 켜고 끌 수 있게 한다.
@@ -67,6 +70,34 @@ struct SettingView: View {
     private func refreshSecurePINState() {
         let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         securePINSet = !hash.isEmpty
+    }
+
+    /// 디스플레이 섹션 — 메모 셀 표시 방식 + 사용 기록 + 입력 반응.
+    /// ⚠️ body 안에 인라인으로 두면 타입 체커가 시간 초과로 컴파일을 포기한다
+    ///    (body 표현식 하나가 감당하는 뷰 트리 깊이에 한계가 있다).
+    ///    이 화면에 섹션을 더할 때는 이렇게 계산 프로퍼티로 빼낼 것.
+    private var displaySection: some View {
+        Section {
+            NavigationLink(destination: DisplaySettingsView()) {
+                Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
+                      systemImage: AppSymbol.rectangleGrid1x2)
+            }
+            NavigationLink(destination: UsagePassportView()) {
+                Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                      systemImage: AppSymbol.checkmarkSealFill)
+            }
+            // @AppStorage가 App Group에 직접 쓴다 — Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
+            Toggle(isOn: $delightEffectsEnabled) {
+                Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
+                      systemImage: AppSymbol.handTap)
+            }
+        } header: {
+            Text(NSLocalizedString("디스플레이", comment: "Settings section: display"))
+        } footer: {
+            Text(NSLocalizedString("문구를 넣을 때의 진동과 짧은 연출이에요. 끄면 조용히 입력만 돼요.",
+                                   comment: "Delight effects toggle footer"))
+                .font(.body)
+        }
     }
 
     var body: some View {
@@ -220,13 +251,7 @@ struct SettingView: View {
             }
 
             // MARK: 디스플레이 (이 앱에서만의 메모 표시 방식)
-            // 메모 셀 높이·우상단 심볼 표시 등 화면 표시 전용 설정.
-            Section(NSLocalizedString("디스플레이", comment: "Settings section: display")) {
-                NavigationLink(destination: DisplaySettingsView()) {
-                    Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
-                          systemImage: AppSymbol.rectangleGrid1x2)
-                }
-            }
+            displaySection
 
             // MARK: 카테고리 (공용 — 메모·키보드 양쪽에서 사용)
             Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {

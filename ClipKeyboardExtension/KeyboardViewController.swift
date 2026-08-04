@@ -284,7 +284,7 @@ class KeyboardViewController: UIInputViewController {
             let processedText = processTemplateVariables(in: text)
             print("💬 입력할 텍스트: \(processedText)")
             textDocumentProxy.insertText(processedText)
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            KeyboardHaptics.stamp()
             trackKeyboardPaste(memoId: memoId)
         }
     }
@@ -321,7 +321,7 @@ class KeyboardViewController: UIInputViewController {
             }
         } else {
             // 마지막 항목 — 완료 패턴 햅틱
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            KeyboardHaptics.stamp()
         }
     }
 
@@ -350,13 +350,13 @@ class KeyboardViewController: UIInputViewController {
             let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
             print("🔗 [attachedTemplate] 결합 출력: \(combined)")
             textDocumentProxy.insertText(combined)
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            KeyboardHaptics.stamp()
             trackKeyboardPaste(memoId: baseId)
         } else {
             print("   최종 텍스트: \(processedText)")
             print("📝 textDocumentProxy.insertText 호출")
             textDocumentProxy.insertText(processedText)
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            KeyboardHaptics.stamp()
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")

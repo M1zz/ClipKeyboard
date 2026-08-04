@@ -1,5 +1,32 @@
 # ClipKeyboard 진행 상황
 
+## 🔖 DOSSIER delight 레이어 (2026-08-04, `feat/dossier-delight` 브랜치)
+> 컨셉: "나에 관한 건, 두 번 치지 않는다" — 클립보드 앱이 아니라 **개인 신원·말투 서류철**.
+> 인앱은 Native Neutral 유지(AppTheme 토큰만 사용). 여권/지폐 무드는 마케팅 표면 전용.
+> 시안: 컨셉 보드 + delight 동작 데모(HTML)를 먼저 만들고 확정 후 구현.
+
+- [x] `Delight`(DelightMotion.swift) — **모션 예산 단일 출처**. 연출은 빈도의 역수로 배분한다:
+      매일(0.18s·무음) / 가끔(0.42s) / 한 번(0.90s). reduce-motion·사용자 토글 모두 존중.
+      동작별 햅틱 래퍼(stamp/filed/verified/rejected/sealed/unsealed) — 세기가 아니라 동작으로 부른다
+- [x] **날인** — 입력 순간 햅틱을 `UINotificationFeedbackGenerator(.success)` → `KeyboardHaptics.stamp()`(medium 1회)로 교체(4곳).
+      알림 패턴은 두세 번 울리는 느낌이라 하루 수십 번 반복엔 과했음. `KeycapButtonStyle`로 문구 버튼이 실제로 눌림(2pt↓)
+- [x] **잉크 농도** — `clipCount`를 숫자 배지가 아니라 자국 농도로(`Delight.inkOpacity`, 100회에서 상한 0.5).
+      `MemoRowView`에 `StampMark` 추가 — **showVisualCues 게이트 준수**(기본 OFF). VoiceOver엔 숫자로 읽어 줌
+- [x] **검증 각인** — `ChecksumVerifier` 신설(IBAN mod-97 / 카드 Luhn / 사업자등록번호).
+      ⚠️ 핵심 규약: **확실할 때만 말한다.** 형식이 명백할 때만 실패를 단언하고, 모호하면 성공만 말하고 침묵(nil).
+      붙여 쓴 16자리는 계좌번호일 수 있어 통과 시에만 표시. 분류 로직은 건드리지 않음(표시 전용 API)
+      ⚠️ 실패 햅틱 없음 — 입력 중 미완성 값에 진동을 붙이면 타이핑 내내 손을 때리는 꼴
+- [x] **비자 페이지** — `UsagePassport`(순수 집계) + `UsagePassportView`. 설정 > 디스플레이 > 사용 기록.
+      새로 수집하는 것 0 (`clipCount`/`lastUsedAt`/`KeyboardUsageTracker` 재사용). **보안 문구는 제목도 노출 안 함**
+- [x] **봉인** — `WaxSealView`. 리스트의 자물쇠 아이콘을 봉랍으로 교체, 보안 설정/해제에 rigid/soft 햅틱 + 토스트 문구 교체
+- [x] 설정 > 디스플레이에 **입력 반응** 마스터 토글(App Group — 키보드 익스텐션도 같은 키를 읽음)
+- [x] 신규 파일 7개 pbxproj 수동 등록(메인 앱 그룹은 동기화 그룹이 아님) + `plutil -lint` 통과
+- [x] 신규 문자열 29개 ko/en/id 추가 · `check_localization.py` 통과
+- [x] 테스트 27개 추가(ChecksumVerifierTests 14 / UsagePassportTests 13) · **전체 스위트 TEST SUCCEEDED · 빌드 그린**
+- [ ] 실기기에서 햅틱 세기·키캡 프레스 체감 확인 (시뮬레이터는 햅틱이 안 옴)
+- [ ] 온보딩 "발급 절차" 재설계 — delight 6번째 항목. 유일하게 **키보드 활성화율 지표를 직접 움직이는** 작업이라 별도 진행
+- [ ] 마케팅 표면(스토어 프로모션 텍스트·스크린샷 6컷·랜딩 히어로)에 DOSSIER 무드 반영 — 코드와 무관, 먼저 가능
+
 ## 📈 사용 통계를 FeedbackHub로 (2026-07-30, 커밋 대기)
 - [x] `UsageReportingService` 신설 — 피드백과 **같은 컨테이너**(iCloud.com.Ysoup.FeedbackHub)로 익명 통계 전송. 엔진은 LeeoKit `LeeoUsageReporter`(v2.6.0에 이미 포함, 패키지 버전 그대로)
   - `UsageSnapshot`: 설치당 1건 upsert(12h 쓰로틀) → **사용 인원(설치 수)·7/30일 활성** 집계

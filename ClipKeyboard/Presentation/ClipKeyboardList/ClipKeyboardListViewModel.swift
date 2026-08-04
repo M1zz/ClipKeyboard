@@ -859,9 +859,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
             try MemoStore.shared.save(memos: loadedData, type: .memo)
             loadedData = sortMemos(loadedData)
             applyFilters()
+            // 봉함/개봉 — 잠금이 체크박스가 아니라 만지는 동작으로 느껴지도록.
+            if makeSecure { Delight.sealed() } else { Delight.unsealed() }
             showPlainToast(makeSecure
-                ? NSLocalizedString("보안 단축어로 설정했어요", comment: "Memo locked toast")
-                : NSLocalizedString("보안을 해제했어요", comment: "Memo unlocked toast"))
+                ? NSLocalizedString("봉인했어요", comment: "Memo locked toast")
+                : NSLocalizedString("봉인을 열었어요", comment: "Memo unlocked toast"))
         } catch {
             print("❌ [applySecure] 저장 실패: \(error)")
             loadedData = backup

@@ -1023,6 +1023,7 @@ struct KeyboardView: View {
                     buttonFontSize: buttonFontSize
                 )
             }
+            .buttonStyle(KeycapButtonStyle())
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
@@ -1054,6 +1055,7 @@ struct KeyboardView: View {
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
+            .buttonStyle(KeycapButtonStyle())
             .contextMenu {
                 Button {
                     UIPasteboard.general.string = memo.value
@@ -1784,6 +1786,28 @@ struct MemoTitleHintSwap: View {
 }
 
 // MARK: - Image Memo Button
+
+// MARK: - Keycap Press (날인)
+
+/// 문구 버튼이 **실제로 눌리는** 스타일.
+///
+/// 이 앱의 입력은 도장을 찍는 동작과 같다 — 한 번 눌러서, 흔적을 남기고, 끝.
+/// 그래서 버튼이 그림자를 잃으며 아래로 내려가고, 뗄 때 제자리로 돌아온다.
+///
+/// ⚠️ 하루 20~50번 반복되는 연출이라 0.18초를 넘기지 않는다(메인 앱 `Delight.Tier.daily`와 동일).
+///    타겟이 분리돼 상수를 공유할 수 없어 값만 맞춰 둔다.
+/// ⚠️ 접근성 '동작 줄이기'와 사용자 토글을 모두 존중한다.
+struct KeycapButtonStyle: ButtonStyle {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    func makeBody(configuration: Configuration) -> some View {
+        let active = configuration.isPressed && KeyboardHaptics.delightEnabled && !reduceMotion
+        configuration.label
+            .offset(y: active ? 2 : 0)
+            .scaleEffect(active ? 0.98 : 1.0)
+            .animation(.easeOut(duration: 0.18), value: active)
+    }
+}
 
 // MARK: - Template Chip Rendering (키보드 전용)
 

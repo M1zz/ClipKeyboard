@@ -15,6 +15,9 @@ enum DefaultsKey {
     static let categoryBadgeVisible = "categoryBadgeVisible"
     static let categoryFeatureEnabledV1 = "category.feature.enabled.v1"
     static let comboModelUnifyMigratedV1 = "comboModelUnifyMigrated_v1"
+    /// 날인·편철·봉인 등 delight 연출과 햅틱의 마스터 스위치. 값이 없으면 켜짐(기본).
+    /// App Group — 키보드 익스텐션도 같은 값을 읽어 입력 햅틱을 끈다.
+    static let delightEffectsEnabled = "delight.effects.enabled.v1"
     static let didRemoveAds = "didRemoveAds"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
     static let appLaunchCount = "appLaunchCount"
