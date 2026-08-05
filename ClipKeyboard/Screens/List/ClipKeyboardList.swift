@@ -3119,6 +3119,13 @@ struct ClipKeyboardList: View {
 /// tint가 있으면 카테고리 색을 글래스에 입힌다 — 색=카테고리 정체성 유지.
 /// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** — 뒤 배경이
 /// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
+/// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
+///
+/// ⚠️ `.regular` 을 쓴다. 예전에는 `.clear` 였는데 **너무 투명해서** 카드가 배경에 묻히고
+///    글자 대비를 할로 그림자로 억지로 벌어야 했다. `.clear` 는 애플이
+///    "뒤 콘텐츠를 보여주는 게 목적일 때"를 위해 둔 변형이라, 뒤에 어두운 딤 레이어가
+///    깔려 있는 상황(사진 위 컨트롤 등)을 전제한다. 우리 카드는 그 반대다 —
+///    카드 자체가 주인공이고 뒤는 단색 배경이라 `.regular` 가 맞다.
 private struct CardGlass: ViewModifier {
     let active: Bool
     let tint: Color?
@@ -3127,15 +3134,14 @@ private struct CardGlass: ViewModifier {
     func body(content: Content) -> some View {
         if active {
             if let tint {
-                // 색 카테고리도 맑은 유리 — 프로스트 대신 색이 옅게 비치는 clear+tint.
                 // 색 정체성(즐겨찾기 분홍/커스텀 팔레트색)은 틴트로 유지된다.
                 content.glassEffect(
-                    .clear.tint(tint).interactive(),
+                    .regular.tint(tint).interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             } else {
                 content.glassEffect(
-                    .clear.interactive(),
+                    .regular.interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             }
