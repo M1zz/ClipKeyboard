@@ -33,6 +33,9 @@ enum DefaultsKey {
     static let kbBeaconTotalCount = "kb.beacon.totalCount"
     static let keyboardExtensionDidLoad = "keyboard_extension_did_load"
     static let keyboardKoreanEnabled = "keyboardKoreanEnabled"
+    /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
+    /// App Group — 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
+    static let keyboardSkin = "keyboardSkin.v1"
     static let keyboardPasteCount = "keyboard_paste_count"
     static let keyboardSecurePinHash = "keyboard_secure_pin_hash"
     static let keyboardTypingLang = "keyboardTypingLang"

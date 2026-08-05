@@ -23,6 +23,9 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    /// 키캡 물성 프리셋 — 익스텐션이 같은 키를 읽는다.
+    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch: Bool   = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecent: Bool   = false
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanLayout: String = "dubeolsik"
@@ -167,6 +170,9 @@ struct KeyboardLayoutSettings: View {
                 Text(NSLocalizedString("표시 옵션", comment: "Section: display options"))
             }
 
+            // ── 4.5 키캡 스킨 ──────────────────────────────────────────
+            skinSection
+
             // ── 5. 색상 ────────────────────────────────────────────────
             Section {
                 Toggle(isOn: $useCustomColors) {
@@ -214,6 +220,49 @@ struct KeyboardLayoutSettings: View {
         .onAppear {
             if !customBgHex.isEmpty, let c = Color(hex: customBgHex) { customBgColor  = c }
             if !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { customKeyColor = c }
+        }
+    }
+
+    // MARK: - 키캡 스킨
+
+    /// 스킨은 **색이 아니라 물성**을 고른다 — 두께·빛·모서리·눌림.
+    /// 그래서 아래 색상 섹션(커스텀 키 색)과 겹치지 않고, 어떤 색을 골라도 그대로 유지된다.
+    private var skinSection: some View {
+        Section {
+            ForEach(KeyboardSkin.allCases) { candidate in
+                Button {
+                    HapticManager.shared.light()
+                    keyboardSkinRaw = candidate.rawValue
+                } label: {
+                    HStack(spacing: 14) {
+                        // 실제 키캡과 같은 규칙으로 그린 미리보기 — 설명 대신 물건을 보여준다.
+                        KeycapPreview(skin: candidate, isDark: theme.isDark)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(candidate.localizedName)
+                                .font(.body.weight(.semibold))
+                                .foregroundColor(theme.text)
+                            Text(candidate.localizedDescription)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer(minLength: 0)
+                        if keyboardSkinRaw == candidate.rawValue {
+                            Image(systemName: AppSymbol.checkmark)
+                                .font(.body.weight(.semibold))
+                                .foregroundColor(theme.accent)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(keyboardSkinRaw == candidate.rawValue ? [.isSelected] : [])
+            }
+        } header: {
+            Text(NSLocalizedString("키캡 스킨", comment: "Section: keycap skin"))
+        } footer: {
+            Text(NSLocalizedString("키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.",
+                                   comment: "Keycap skin section footer"))
         }
     }
 
@@ -282,6 +331,7 @@ struct KeyboardLayoutSettings: View {
         customBgColor = .clear; customKeyColor = .clear
         showSearch = false; showRecent = false
         koreanLayout = "dubeolsik"; defaultLang = "english"
+        keyboardSkinRaw = KeyboardSkin.standard.rawValue
     }
 }
 
@@ -299,6 +349,8 @@ struct KeyboardPreviewView: View {
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
 
     @State private var previewMemos: [Memo] = []
     @Environment(\.colorScheme) private var colorScheme
@@ -352,17 +404,18 @@ struct KeyboardPreviewView: View {
         return catColor(memo.category)
     }
 
-    /// 메모 타입별 테두리 스타일(익스텐션 typeStyle과 동일 — 색맹 보조 이중 큐).
-    /// "메모 구분 표시" 토글이 켜진 경우에만 노출(실제 키보드 동작과 일치).
-    private func typeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
-        guard visualCuesVisible else { return (.clear, 0, []) }
-        if memo.isTemplate || !memo.templateVariables.isEmpty {
-            return (.purple, 1.5, [])
-        }
-        if memo.isCombo { return (.orange, 1.5, [5, 3]) }
-        if memo.isSecure { return (.gray, 1.5, [1, 3]) }
-        return (.clear, 0, [])
+    /// 실제 키보드·앱 카드와 **같은 규칙**을 본다 (DesignSystem/MemoTypeStyle.swift).
+    /// 미리보기가 실물과 다르면 설정을 고르고 나서 "이게 아닌데"가 된다.
+    private func typeBorder(_ memo: Memo) -> TypeVisualStyle {
+        MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
     }
+
+    /// 사용자가 고른 키캡 물성 — 실제 키보드와 같은 값을 읽는다.
+    private var skin: KeyboardSkin {
+        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .standard
+    }
+
+    private var keycapRadius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
 
     private var gridColumns: [GridItem] {
         // 익스텐션 LazyVGrid spacing 10과 동일
@@ -376,17 +429,31 @@ struct KeyboardPreviewView: View {
         let cat = memoCatColor(memo)
         let border = typeBorder(memo)
         ZStack {
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            // 스커트(키캡 옆면) — 실제 키와 같은 두께를 미리 보여준다.
+            RoundedRectangle(cornerRadius: keycapRadius)
+                .fill(Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark)))
+                .offset(y: skin.skirtDepth)
+
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .foregroundColor(keyColor)
                 .overlay(
                     Group {
                         if let cat {
-                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                            RoundedRectangle(cornerRadius: keycapRadius)
                                 .fill(cat.opacity(theme.isDark ? 0.22 : 0.14))
                         }
                     }
                 )
-                .shadow(color: .black.opacity(0.08), radius: 2, y: 1)
+                .overlay(
+                    RoundedRectangle(cornerRadius: keycapRadius)
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.white.opacity(skin.sheenOpacity(isDark: theme.isDark)), .clear],
+                                startPoint: .top, endPoint: .center
+                            )
+                        )
+                )
+                .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
 
             Text(memo.title)
                 .foregroundColor(theme.text)
@@ -398,7 +465,7 @@ struct KeyboardPreviewView: View {
         }
         .frame(height: buttonHeight)
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(border.color,
                               style: StrokeStyle(lineWidth: border.lineWidth, dash: border.dash))
         )
@@ -569,4 +636,69 @@ struct SecurePINSetupView: View {
 
 #Preview {
     NavigationStack { KeyboardLayoutSettings() }
+}
+
+// MARK: - 키캡 미리보기
+
+/// 스킨 선택 행에 붙는 작은 키캡.
+///
+/// ⚠️ 실제 키(`KeycapButtonStyle`)와 **같은 규칙**으로 그린다 — 스커트를 아래로 빼고,
+///    윗면에 빛을 얹고, 스킨이 정한 모서리를 쓴다. 미리보기가 실물과 다르면
+///    고르고 나서 "이게 아닌데"가 된다.
+///
+/// 눌러 보면 실제와 같은 곡선으로 내려앉는다 — 설명 대신 만져 보게 한다.
+private struct KeycapPreview: View {
+    let skin: KeyboardSkin
+    let isDark: Bool
+
+    @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var pressed = false
+
+    private var size: CGSize { CGSize(width: 46, height: 34) }
+    private var radius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
+
+    var body: some View {
+        ZStack {
+            // 스커트(옆면)
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+                .fill(Color.black.opacity(skin.skirtOpacity(isDark: isDark)))
+                .frame(width: size.width, height: size.height)
+                .offset(y: pressed ? 0 : skin.skirtDepth)
+
+            // 윗면 + 표면광
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+                .fill(theme.surface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: radius, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.white.opacity(skin.sheenOpacity(isDark: isDark)), .clear],
+                                startPoint: .top, endPoint: .center
+                            )
+                        )
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: radius, style: .continuous)
+                        .strokeBorder(theme.divider, lineWidth: 0.5)
+                )
+                .frame(width: size.width, height: size.height)
+                .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
+                .offset(y: pressed ? skin.skirtDepth : 0)
+        }
+        // 스커트가 아래로 삐져나온 만큼 자리를 확보해 행 높이가 흔들리지 않게 한다.
+        .frame(width: size.width, height: size.height + skin.skirtDepth, alignment: .top)
+        .contentShape(Rectangle())
+        .onTapGesture { tap() }
+        .accessibilityHidden(true)
+    }
+
+    private func tap() {
+        guard skin.skirtDepth > 0, !reduceMotion else { return }
+        withAnimation(.easeOut(duration: skin.pressDuration)) { pressed = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + skin.pressDuration + 0.04) {
+            withAnimation(.spring(response: skin.releaseResponse,
+                                  dampingFraction: skin.releaseDamping)) { pressed = false }
+        }
+    }
 }

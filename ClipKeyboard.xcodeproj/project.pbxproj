@@ -70,6 +70,10 @@
 		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
 		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
 		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
+		58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
+		58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
+		58DL00942F0000000000000094 /* KeyboardSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00932F0000000000000093 /* KeyboardSkin.swift */; };
+		58DL00952F0000000000000095 /* KeyboardSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00932F0000000000000093 /* KeyboardSkin.swift */; };
 		58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
@@ -171,8 +175,6 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
-		58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
-		58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -281,6 +283,8 @@
 		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
 		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
 		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
+		58DL00902F0000000000000090 /* MemoTypeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTypeStyle.swift; sourceTree = "<group>"; };
+		58DL00932F0000000000000093 /* KeyboardSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSkin.swift; sourceTree = "<group>"; };
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
@@ -374,7 +378,6 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
-		58DL00902F0000000000000090 /* MemoTypeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTypeStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -628,8 +631,9 @@
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
 				58DL00002F0000000000000000 /* Delight */,
-							58DL00902F0000000000000090 /* MemoTypeStyle.swift */,
-);
+				58DL00902F0000000000000090 /* MemoTypeStyle.swift */,
+				58DL00932F0000000000000093 /* KeyboardSkin.swift */,
+			);
 			path = DesignSystem;
 			sourceTree = "<group>";
 		};
@@ -1097,8 +1101,9 @@
 				077DAE30BB547E3CBF3CDCAA /* AppNotification.swift in Sources */,
 				9D0BB0BE6D68341619045BC3 /* StorageFile.swift in Sources */,
 				24C6CCB448B337DFC53362F1 /* AppLog.swift in Sources */,
-							58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */,
-);
+				58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */,
+				58DL00952F0000000000000095 /* KeyboardSkin.swift in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		58C473342A109F0C009D87BC /* Sources */ = {
@@ -1217,8 +1222,9 @@
 				58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */,
 				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
-							58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,
-);
+				58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,
+				58DL00942F0000000000000094 /* KeyboardSkin.swift in Sources */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9CA0A3FF2F19D9B3004ABF40 /* Sources */ = {

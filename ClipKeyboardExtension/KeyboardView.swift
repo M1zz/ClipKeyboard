@@ -169,6 +169,9 @@ struct KeyboardView: View {
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool = false
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    /// 키캡 물성 프리셋 — 색이 아니라 두께·빛·모서리·눌림만 정한다.
+    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
 
     // 옵션 토글 — 기본 OFF로 화면 공간 확보
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearchBar: Bool = false
@@ -1071,7 +1074,7 @@ struct KeyboardView: View {
                     buttonFontSize: buttonFontSize
                 )
             }
-            .buttonStyle(KeycapButtonStyle(cornerRadius: theme.radiusMd, skirtColor: keycapSkirtColor))
+            .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .contextMenu {
                 Button {
                     copyTextToClipboard(memo.value)
@@ -1101,7 +1104,7 @@ struct KeyboardView: View {
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
-            .buttonStyle(KeycapButtonStyle(cornerRadius: theme.radiusMd, skirtColor: keycapSkirtColor))
+            .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .contextMenu {
                 Button {
                     copyTextToClipboard(memo.value)
@@ -1169,26 +1172,26 @@ struct KeyboardView: View {
             .buttonStyle(PlainButtonStyle())
         }
         .background(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .foregroundColor(keyColor)
                 .overlay(
                     Group {
                         if let catColor {
-                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                            RoundedRectangle(cornerRadius: keycapRadius)
                                 .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
                         }
                     }
                 )
                 .overlay(keycapSheen)
-                .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
+                .shadow(color: Color.black.opacity(skin.shadowOpacity), radius: 2, y: 1)
         )
         // 점선 테두리(콤보 구분) — "메모 구분 표시" 설정이 켜졌을 때만(iOS와 동일하게 기본 심플).
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(visualCuesVisible ? Color.orange : .clear,
                               style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        .clipShape(RoundedRectangle(cornerRadius: keycapRadius))
     }
 
     private func insertComboValue(memo: Memo, value: String) {
@@ -1452,18 +1455,18 @@ struct KeyboardView: View {
         return ZStack {
             // 기본 키 색(커스텀 색 설정 존중) 위에, 사용자 카테고리가 있을 때만 그 색을 옅게 틴트.
             // 제목 가독성을 위해 라이트 0.14 / 다크 0.22로 약하게만 입힌다.
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .foregroundColor(keyColor)
                 .overlay(
                     Group {
                         if let catColor {
-                            RoundedRectangle(cornerRadius: theme.radiusMd)
+                            RoundedRectangle(cornerRadius: keycapRadius)
                                 .fill(catColor.opacity(theme.isDark ? 0.22 : 0.14))
                         }
                     }
                 )
                 .overlay(keycapSheen)
-                .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
+                .shadow(color: Color.black.opacity(skin.shadowOpacity), radius: 2, y: 1)
 
             // 메모 칸 안 텍스트는 제목. 보안 메모 자물쇠는 구분 표시 ON일 때만(앱과 동일, 기본 숨김).
             // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
@@ -1491,12 +1494,12 @@ struct KeyboardView: View {
         .frame(height: buttonHeight)
         // 메모 칸 기본 테두리 — 구분 표시 ON일 때만 (기본은 배경·그림자만으로 깔끔하게).
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(visualCuesVisible ? theme.divider : .clear, lineWidth: 1)
         )
         // 타입 구분 테두리(템플릿/콤보/보안) — 색맹 친화, 기본 테두리 위에 덧입힌다.
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
+            RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(style.color,
                               style: StrokeStyle(lineWidth: style.lineWidth, dash: style.dash))
         )
@@ -1519,10 +1522,20 @@ struct KeyboardView: View {
     /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
     /// iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 칸 경계 테두리만).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
+    /// 사용자가 고른 키캡 물성 프리셋. 색은 건드리지 않는다(테마·커스텀 색이 담당).
+    private var skin: KeyboardSkin {
+        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .standard
+    }
+
+    /// 키캡 모서리 — 테마 스케일을 스킨 비율로 조정한다.
+    private var keycapRadius: CGFloat {
+        skin.cornerRadius(base: theme.radiusMd)
+    }
+
     /// 키캡 옆면(스커트) 색 — 키가 얹혀 있는 두께.
     /// 사용자가 키 색을 바꿔도 항상 "그 색의 그늘"이 되도록 검정을 깔아 만든다.
     private var keycapSkirtColor: Color {
-        Color.black.opacity(theme.isDark ? 0.55 : 0.20)
+        Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark))
     }
 
     /// 키캡 표면광 — 앱 카드의 유리에 대응하는 "빛을 받는 물성".
@@ -1533,10 +1546,10 @@ struct KeyboardView: View {
     ///    윗면이 밝고 아래로 갈수록 어두워지는 **키캡**으로 간다.
     ///    (눌리는 동작은 `KeycapButtonStyle` 이 담당한다)
     private var keycapSheen: some View {
-        RoundedRectangle(cornerRadius: theme.radiusMd)
+        RoundedRectangle(cornerRadius: keycapRadius)
             .fill(
                 LinearGradient(
-                    colors: [Color.white.opacity(theme.isDark ? 0.07 : 0.5), .clear],
+                    colors: [Color.white.opacity(skin.sheenOpacity(isDark: theme.isDark)), .clear],
                     startPoint: .top, endPoint: .center
                 )
             )
@@ -1909,9 +1922,8 @@ struct MemoTitleHintSwap: View {
 ///    타겟이 분리돼 상수를 공유할 수 없어 값만 맞춰 둔다.
 /// ⚠️ 접근성 '동작 줄이기'와 사용자 토글을 모두 존중한다.
 struct KeycapButtonStyle: ButtonStyle {
-    /// 키가 내려앉는 거리(pt). **스커트 두께와 같아야** 눌렀을 때 딱 맞물려 바닥에 닿는다.
-    static let travel: CGFloat = 3
-
+    /// 두께·눌림 곡선을 정하는 물성 프리셋.
+    let skin: KeyboardSkin
     let cornerRadius: CGFloat
     /// 키캡 옆면(스커트) 색. 키 색에 상관없이 어둡게 깔아 두께를 만든다.
     let skirtColor: Color
@@ -1919,8 +1931,10 @@ struct KeycapButtonStyle: ButtonStyle {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
-        let enabled = KeyboardHaptics.delightEnabled && !reduceMotion
+        // 두께가 0인 스킨(납작)은 눌림도 없다 — 내려앉을 바닥이 없기 때문.
+        let enabled = KeyboardHaptics.delightEnabled && !reduceMotion && skin.skirtDepth > 0
         let pressed = configuration.isPressed && enabled
+        let travel = skin.skirtDepth
 
         return configuration.label
             // 스커트 — 평소엔 키 아래로 삐져나와 **두께**를 만들고,
@@ -1928,12 +1942,13 @@ struct KeycapButtonStyle: ButtonStyle {
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(skirtColor)
-                    .offset(y: (pressed || !enabled) ? 0 : Self.travel)
+                    .offset(y: (pressed || !enabled) ? 0 : travel)
             )
-            .offset(y: pressed ? Self.travel : 0)
+            .offset(y: pressed ? travel : 0)
             // 내려갈 땐 즉각(기계식 키는 travel이 거의 없다), 올라올 땐 살짝 튕기며.
-            .animation(pressed ? .easeOut(duration: 0.045)
-                               : .spring(response: 0.20, dampingFraction: 0.55),
+            .animation(pressed
+                       ? .easeOut(duration: skin.pressDuration)
+                       : .spring(response: skin.releaseResponse, dampingFraction: skin.releaseDamping),
                        value: pressed)
     }
 }
