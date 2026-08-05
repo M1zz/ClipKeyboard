@@ -771,6 +771,14 @@ struct MemoAdd: View {
                 templateButton(title: NSLocalizedString("시간", comment: "Time token button"), variable: NSLocalizedString("{시간}", comment: "Time token variable"))
                 templateButton(title: NSLocalizedString("주소", comment: "Address token button"), variable: NSLocalizedString("{주소}", comment: "Address token variable"))
                 templateButton(title: NSLocalizedString("전화", comment: "Phone token button"), variable: NSLocalizedString("{전화}", comment: "Phone token variable"))
+
+                // 아래 둘은 "채우는 칸"이 아니라 동작 토큰이라 구분선을 둔다.
+                // 여기에 없으면 사용자가 존재 자체를 모른다.
+                Divider().frame(height: 16)
+                templateButton(title: NSLocalizedString("복사한 것", comment: "Clipboard token button"),
+                               variable: NSLocalizedString("{클립보드}", comment: "Clipboard token variable"))
+                templateButton(title: NSLocalizedString("커서", comment: "Cursor token button"),
+                               variable: NSLocalizedString("{커서}", comment: "Cursor token variable"))
             }
             .padding(.horizontal, 20)
         }

@@ -34,14 +34,63 @@ enum TemplateVariableProcessor {
         "{currency}", "{통화}",
         "{greeting_time}", "{인사}",
         // v4.0.3 city
-        "{city}", "{도시}"
+        "{city}", "{도시}",
+        // v4.4.4 클립보드 — 복사해 둔 것을 문장 안에 그대로 꽂는다
+        "{clipboard}", "{클립보드}",
+        // v4.4.4 커서 — 값이 아니라 **위치**를 가리키는 제어 토큰.
+        // 여기 들어 있어야 "값을 입력하세요" 오버레이가 뜨지 않는다(모든 추출부가 이 집합을 제외한다).
+        "{cursor}", "{커서}"
     ]
+
+    /// 클립보드 토큰 (ko/en).
+    static let clipboardTokens: [String] = ["{clipboard}", "{클립보드}"]
+
+    /// 커서 위치 토큰 (ko/en).
+    static let cursorTokens: [String] = ["{cursor}", "{커서}"]
+
+    /// 이 텍스트가 클립보드 값을 필요로 하는가.
+    ///
+    /// 호출부는 이걸 먼저 확인하고 **필요할 때만** `UIPasteboard`를 읽어야 한다.
+    /// iOS 16+ 는 클립보드를 읽을 때마다 붙여넣기 허용 프롬프트를 띄우므로,
+    /// 토큰이 없는데 미리 읽어 두면 아무 이유 없이 프롬프트가 뜬다.
+    static func containsClipboardToken(_ text: String) -> Bool {
+        clipboardTokens.contains { text.contains($0) }
+    }
+
+    /// 이 텍스트가 커서 위치를 지정하는가.
+    static func containsCursorToken(_ text: String) -> Bool {
+        cursorTokens.contains { text.contains($0) }
+    }
 
     /// Substitute all known auto-variables in `text`. Custom placeholders ({이름},
     /// {name}, etc.) are left untouched — they're handled elsewhere after the
     /// user provides values.
-    static func process(_ text: String, at reference: Date = Date()) -> String {
+    ///
+    /// - Parameters:
+    ///   - clipboard: `{clipboard}` 에 꽂을 값. 호출부가 `containsClipboardToken`으로
+    ///     **필요할 때만** 읽어서 넘긴다(무조건 읽으면 붙여넣기 프롬프트가 뜬다).
+    ///     nil이면 토큰을 빈 문자열로 지운다 — 문장에 `{clipboard}` 가 그대로 남는 것보다 낫다.
+    ///   - keepCursorToken: 커서 토큰을 남길지. **기본은 false(제거)** 다.
+    ///     커서를 옮길 수 있는 곳은 키보드 익스텐션뿐이고, 나머지 경로(클립보드 복사·미리보기·
+    ///     콤보 실행)에서 토큰이 살아 있으면 사용자 눈에 `{커서}` 가 그대로 붙여넣어진다.
+    ///     즉 **안전한 쪽이 기본**이고, 키보드만 true로 열어 쓴다.
+    static func process(_ text: String,
+                        at reference: Date = Date(),
+                        clipboard: String? = nil,
+                        keepCursorToken: Bool = false) -> String {
         var result = text
+
+        // 클립보드 — 값이 없으면 지운다(빈칸이 남는 게 토큰이 노출되는 것보다 낫다).
+        let clipboardValue = clipboard ?? ""
+        for token in clipboardTokens {
+            result = result.replacingOccurrences(of: token, with: clipboardValue)
+        }
+
+        if !keepCursorToken {
+            for token in cursorTokens {
+                result = result.replacingOccurrences(of: token, with: "")
+            }
+        }
 
         let calendar = Calendar.current
         let year = String(calendar.component(.year, from: reference))
@@ -214,4 +263,56 @@ extension TemplateVariableProcessor {
 
 private extension String {
     var nonEmpty: String? { isEmpty ? nil : self }
+}
+
+// MARK: - 커서 위치 토큰 (v4.4.4)
+
+extension TemplateVariableProcessor {
+
+    /// 커서 토큰을 해석한 결과.
+    struct CursorPlacement: Equatable {
+        /// 실제로 입력할 텍스트 (토큰 제거됨).
+        let text: String
+        /// 입력이 끝난 뒤 캐럿을 **끝에서 몇 글자 앞으로** 옮길지. 0이면 이동 없음.
+        let offsetFromEnd: Int
+
+        var needsCursorMove: Bool { offsetFromEnd > 0 }
+    }
+
+    /// `{커서}` / `{cursor}` 를 해석해 "넣을 텍스트"와 "캐럿을 되돌릴 거리"로 나눈다.
+    ///
+    /// 삽입 후 커서를 빈칸으로 보내주는 것만으로 체감이 크게 달라진다 —
+    /// "{이름}님 안녕하세요"를 넣고 나서 캐럿이 문장 끝에 남으면 결국 손으로 되돌아가야 한다.
+    ///
+    /// 규칙:
+    /// - **첫 번째** 토큰만 커서 위치로 쓴다. 캐럿은 하나뿐이라 두 개를 지정할 수 없다.
+    /// - 나머지 토큰은 조용히 지운다(사용자 눈에 `{커서}` 가 남으면 안 된다).
+    /// - 토큰이 없으면 offsetFromEnd = 0.
+    ///
+    /// ⚠️ 거리는 `Character` 개수로 센다. `adjustTextPosition(byCharacterOffset:)` 이
+    ///    받는 단위와 맞추기 위해서다. 이모지 같은 결합 문자가 토큰 **뒤에** 오면
+    ///    시스템이 세는 단위와 어긋날 수 있다(알려진 한계 — 한글·영문에서는 일치).
+    static func resolveCursor(in text: String) -> CursorPlacement {
+        // 가장 앞선 토큰 하나를 고른다(ko/en 어느 쪽이 먼저 나오든).
+        var firstRange: Range<String.Index>?
+        for token in cursorTokens {
+            guard let range = text.range(of: token) else { continue }
+            if firstRange == nil || range.lowerBound < firstRange!.lowerBound {
+                firstRange = range
+            }
+        }
+
+        guard let cursorRange = firstRange else {
+            return CursorPlacement(text: text, offsetFromEnd: 0)
+        }
+
+        let before = String(text[text.startIndex..<cursorRange.lowerBound])
+        // 뒷부분에 남은 토큰들은 위치로 쓰지 않고 제거만 한다.
+        var after = String(text[cursorRange.upperBound...])
+        for token in cursorTokens {
+            after = after.replacingOccurrences(of: token, with: "")
+        }
+
+        return CursorPlacement(text: before + after, offsetFromEnd: after.count)
+    }
 }

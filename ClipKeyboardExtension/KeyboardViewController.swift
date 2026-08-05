@@ -281,10 +281,7 @@ class KeyboardViewController: UIInputViewController {
             )
         } else {
             print("⚡ 자동 변수만 치환해서 바로 입력")
-            let processedText = processTemplateVariables(in: text)
-            print("💬 입력할 텍스트: \(processedText)")
-            textDocumentProxy.insertText(processedText)
-            KeyboardHaptics.stamp()
+            insertProcessedText(text)
             trackKeyboardPaste(memoId: memoId)
         }
     }
@@ -311,17 +308,19 @@ class KeyboardViewController: UIInputViewController {
     /// 콤보 자식 값들을 interval 간격으로 하나씩 입력(정책 A). 자동변수 치환 포함.
     private func insertComboValuesSequentially(_ values: [String], interval: TimeInterval, index: Int) {
         guard index < values.count else { return }
-        let processed = processTemplateVariables(in: values[index])
-        textDocumentProxy.insertText(processed)
 
         if index < values.count - 1 {
+            // 중간 단계 — 커서를 옮기면 다음 단계가 엉뚱한 자리에 들어간다.
+            // 그래서 마지막 단계에서만 커서 토큰을 살린다.
+            let processed = TemplateVariableProcessor.resolveCursor(in: processTemplateVariables(in: values[index])).text
+            textDocumentProxy.insertText(processed)
             KeyboardHaptics.mediumTap()
             DispatchQueue.main.asyncAfter(deadline: .now() + interval) { [weak self] in
                 self?.insertComboValuesSequentially(values, interval: interval, index: index + 1)
             }
         } else {
-            // 마지막 항목 — 완료 패턴 햅틱
-            KeyboardHaptics.stamp()
+            // 마지막 항목 — 여기서만 커서 위치를 반영하고 날인으로 마무리.
+            insertProcessedText(values[index])
         }
     }
 
@@ -349,14 +348,12 @@ class KeyboardViewController: UIInputViewController {
            let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
             let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
             print("🔗 [attachedTemplate] 결합 출력: \(combined)")
-            textDocumentProxy.insertText(combined)
-            KeyboardHaptics.stamp()
+            insertResolvedText(combined)
             trackKeyboardPaste(memoId: baseId)
         } else {
             print("   최종 텍스트: \(processedText)")
             print("📝 textDocumentProxy.insertText 호출")
-            textDocumentProxy.insertText(processedText)
-            KeyboardHaptics.stamp()
+            insertResolvedText(processedText)
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")
@@ -457,12 +454,20 @@ class KeyboardViewController: UIInputViewController {
     }
 
     override func viewWillLayoutSubviews() {
-        self.nextKeyboardButton.isHidden = true // !self.needsInputModeSwitchKey
+        // 이 UIKit 버튼은 SwiftUI 호스팅 뷰에 완전히 가려 어차피 보이지 않는다.
+        // 다음 키보드 전환은 KeyboardView의 지구본 버튼(categoryTabRow)이 담당한다.
+        // 버튼 자체는 `handleInputModeList` 타깃 때문에 남겨 두고 숨기기만 한다.
+        self.nextKeyboardButton.isHidden = true
         super.viewWillLayoutSubviews()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // iOS "전체 접근 허용" 상태를 익스텐션 전역에 반영.
+        // 여기서 갱신하는 이유: 사용자가 설정에서 토글하면 익스텐션이 재시작되므로
+        // 키보드가 뜰 때마다 읽으면 항상 최신이다.
+        KeyboardCapability.update(hasFullAccess: hasFullAccess,
+                                  needsInputModeSwitchKey: needsInputModeSwitchKey)
         // 레이아웃을 미리 계산하여 튀는 현상 방지
         view.layoutIfNeeded()
         // 새 텍스트 필드에 키보드가 나타날 때마다 한글 컴포저 상태를 초기화.
@@ -654,7 +659,43 @@ class KeyboardViewController: UIInputViewController {
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        TemplateVariableProcessor.process(text)
+        // 클립보드는 **토큰이 있을 때만** 읽는다. iOS 16+ 는 읽을 때마다 붙여넣기 프롬프트를
+        // 띄우므로 미리 읽어 두면 아무 이유 없이 프롬프트가 뜬다.
+        var clipboard: String?
+        if TemplateVariableProcessor.containsClipboardToken(text) {
+            if KeyboardCapability.hasFullAccess {
+                clipboard = UIPasteboard.general.string
+            } else {
+                // 전체 접근이 없으면 클립보드를 못 읽는다. 조용히 빈칸을 넣으면
+                // 사용자는 "왜 아무것도 안 들어왔지"만 알게 되므로 이유를 알려 준다.
+                print("⚠️ [processTemplateVariables] 전체 접근 꺼짐 - {clipboard} 치환 불가")
+                NotificationCenter.default.post(name: .needsFullAccess, object: nil)
+            }
+        }
+        // 커서 토큰은 남긴다 — 바로 아래 insertProcessedText가 위치 계산에 쓴다.
+        return TemplateVariableProcessor.process(text, clipboard: clipboard, keepCursorToken: true)
+    }
+
+    /// 문구를 실제로 넣는 단 하나의 경로.
+    ///
+    /// 자동 변수 치환 → 커서 위치 해석 → 삽입 → 캐럿 되돌리기 → 날인 순.
+    /// 삽입 지점이 여러 곳(일반·템플릿·attached)이라 여기로 모아 두지 않으면
+    /// 커서 토큰이 어떤 경로에서만 동작하는 사태가 난다.
+    private func insertProcessedText(_ raw: String) {
+        insertResolvedText(processTemplateVariables(in: raw))
+    }
+
+    /// 치환이 이미 끝난 텍스트를 커서 토큰만 해석해서 넣는다.
+    /// (플레이스홀더 입력을 거친 경로는 치환을 자기가 하므로 이쪽으로 들어온다)
+    private func insertResolvedText(_ processed: String) {
+        let placement = TemplateVariableProcessor.resolveCursor(in: processed)
+
+        textDocumentProxy.insertText(placement.text)
+        if placement.needsCursorMove {
+            // 삽입 직후 캐럿은 문장 끝에 있다 — 토큰이 있던 자리까지 되돌린다.
+            textDocumentProxy.adjustTextPosition(byCharacterOffset: -placement.offsetFromEnd)
+        }
+        KeyboardHaptics.stamp()
     }
 
 }

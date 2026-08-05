@@ -209,6 +209,8 @@ struct KeyboardView: View {
     @State private var templateObserverToken: NSObjectProtocol?
     @State private var showImageCopiedToast = false
     @State private var showPinNotSetToast = false
+    /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
+    @State private var showFullAccessToast = false
 
     // 검색 상태
     @State private var searchQuery: String = ""
@@ -545,6 +547,25 @@ struct KeyboardView: View {
                     .padding(.bottom, 8)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
+            if showFullAccessToast {
+                // 무엇을 켜야 하는지·어디서 켜는지를 한 줄에 담는다.
+                // 이 토스트가 없으면 클립보드 동작이 조용히 실패해 앱이 고장 난 것처럼 보인다.
+                Text(NSLocalizedString("설정 > 키보드에서 '전체 접근 허용'을 켜주세요", comment: "Full Access required toast"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.orange.opacity(0.9))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
+        // {clipboard} 치환이 전체 접근 때문에 막혔을 때 KeyboardViewController가 알려 준다.
+        .onReceive(NotificationCenter.default.publisher(for: .needsFullAccess)) { _ in
+            showFullAccessNotice()
         }
         .onAppear {
             loadAllMemos()
@@ -914,6 +935,33 @@ struct KeyboardView: View {
     // MARK: - Category Tab Row
 
     private var categoryTabRow: some View {
+        HStack(spacing: 6) {
+            // 지구본(다음 키보드) — 스크롤 밖에 고정한다.
+            // 커스텀 키보드는 다른 키보드로 넘어갈 수단을 반드시 제공해야 한다(심사 요건).
+            // 예전에는 UIKit 버튼이 SwiftUI 호스팅 뷰에 가려 보이지 않아 아예 숨겨져 있었다.
+            if KeyboardCapability.needsInputModeSwitchKey, let proxy = typingProxy {
+                Button {
+                    KeyboardHaptics.tap()
+                    proxy.advanceToNextInputMode()
+                } label: {
+                    Image(systemName: "globe")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(theme.textMuted)
+                        .frame(width: 32, height: 28)
+                        .background(theme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(NSLocalizedString("다음 키보드", comment: "Next keyboard button"))
+                .padding(.leading, 8)
+            }
+
+            categoryTabScroller
+        }
+        .padding(.vertical, 5)
+    }
+
+    private var categoryTabScroller: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
                 ForEach(Array(categoryPages.enumerated()), id: \.offset) { index, key in
@@ -936,7 +984,6 @@ struct KeyboardView: View {
                 }
             }
             .padding(.horizontal, 8)
-            .padding(.vertical, 5)
         }
     }
 
@@ -1026,8 +1073,7 @@ struct KeyboardView: View {
             .buttonStyle(KeycapButtonStyle())
             .contextMenu {
                 Button {
-                    UIPasteboard.general.string = memo.value
-                    KeyboardHaptics.tap()
+                    copyTextToClipboard(memo.value)
                 } label: {
                     Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
                 }
@@ -1039,8 +1085,7 @@ struct KeyboardView: View {
             comboSplitButton(for: memo, catColor: catColor)
                 .contextMenu {
                     Button {
-                        UIPasteboard.general.string = memo.comboValues.first ?? memo.value
-                        KeyboardHaptics.tap()
+                        copyTextToClipboard(memo.comboValues.first ?? memo.value)
                     } label: {
                         Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
                     }
@@ -1058,8 +1103,7 @@ struct KeyboardView: View {
             .buttonStyle(KeycapButtonStyle())
             .contextMenu {
                 Button {
-                    UIPasteboard.general.string = memo.value
-                    KeyboardHaptics.tap()
+                    copyTextToClipboard(memo.value)
                 } label: {
                     Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
                 }
@@ -1340,6 +1384,7 @@ struct KeyboardView: View {
     }
 
     private func copyImageToClipboard(memo: Memo) {
+        guard requireFullAccess() else { return }
         let fileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         guard !fileName.isEmpty,
               let image = MemoStore.shared.loadImage(fileName: fileName) else {
@@ -1352,6 +1397,35 @@ struct KeyboardView: View {
         withAnimation { showImageCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             withAnimation { showImageCopiedToast = false }
+        }
+    }
+
+    /// 클립보드를 만지기 전에 반드시 통과해야 하는 관문.
+    ///
+    /// 전체 접근이 꺼져 있으면 `UIPasteboard` 접근을 iOS가 막는데 **에러도 예외도 없다.**
+    /// 확인 없이 호출하면 사용자에게는 "눌렀는데 아무 일도 안 일어남"으로만 보인다.
+    /// - Returns: 진행해도 되면 true. false면 이미 안내 토스트를 띄웠다.
+    private func requireFullAccess() -> Bool {
+        guard KeyboardCapability.hasFullAccess else {
+            print("⚠️ [KeyboardView] 전체 접근 꺼짐 - 클립보드 동작 차단")
+            showFullAccessNotice()
+            return false
+        }
+        return true
+    }
+
+    /// 롱프레스 메뉴의 "클립보드에 복사" — 전체 접근이 있어야 동작한다.
+    private func copyTextToClipboard(_ text: String) {
+        guard requireFullAccess() else { return }
+        UIPasteboard.general.string = text
+        KeyboardHaptics.tap()
+    }
+
+    private func showFullAccessNotice() {
+        KeyboardHaptics.softTap()
+        withAnimation { showFullAccessToast = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            withAnimation { showFullAccessToast = false }
         }
     }
 

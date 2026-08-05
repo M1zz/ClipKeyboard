@@ -20,6 +20,9 @@ extension Notification.Name {
     static let draftsChanged = Notification.Name("draftsChanged")
     static let filterChanged = Notification.Name("filterChanged")
     static let memoDataChanged = Notification.Name("MemoDataChanged")
+    /// 키보드에서 "전체 접근 허용"이 필요한 동작을 시도했으나 꺼져 있음 → 안내 토스트.
+    /// (클립보드 읽기·쓰기는 iOS가 전체 접근 없이는 막는다. 안내가 없으면 조용히 실패한다.)
+    static let needsFullAccess = Notification.Name("needsFullAccess")
     static let openMainAppPaywall = Notification.Name("openMainAppPaywall")
     /// 빠른 메모(Inbox) 보관함이 변경됨(추가/삭제/승격) → 열려 있는 화면·배지 새로고침.
     static let quickNotesChanged = Notification.Name("quickNotesChanged")

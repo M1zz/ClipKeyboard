@@ -1214,10 +1214,18 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // 계산형(!templateVariables.isEmpty)으로 바뀌며 자동 변수만 있는 메모는
         // templateVariables=[] → isTemplate=false → 이 일반 경로로 떨어져 {날짜}가 raw로
         // 복사됐다. process()는 자동 변수만 치환하고 커스텀 토큰/일반 텍스트는 그대로 둔다.
-        finalizeCopy(memo: memo, processedValue: TemplateVariableProcessor.process(value))
+        finalizeCopy(memo: memo, processedValue: processTemplateVariables(in: value))
     }
 
     private func processTemplateVariables(in text: String) -> String {
-        TemplateVariableProcessor.process(text)
+        // {clipboard}가 있을 때만 클립보드를 읽는다.
+        // iOS 16+는 읽을 때마다 붙여넣기 허용 프롬프트를 띄우므로, 토큰이 없는 대다수 메모에서
+        // 미리 읽어 두면 아무 이유 없이 프롬프트가 뜬다.
+        let clipboard = TemplateVariableProcessor.containsClipboardToken(text)
+            ? UIPasteboard.general.string
+            : nil
+        // keepCursorToken은 기본값(false) — 여기는 클립보드로 복사하는 경로라
+        // 캐럿을 옮길 수 없다. 토큰이 남으면 "{커서}"가 그대로 붙여넣어진다.
+        return TemplateVariableProcessor.process(text, clipboard: clipboard)
     }
 }

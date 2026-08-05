@@ -32,6 +32,32 @@ enum KeyboardBeacon {
     }
 }
 
+/// iOS "전체 접근 허용" 상태 — 익스텐션 전역에서 읽는 단일 출처.
+///
+/// ⚠️ **`ProFeatureManager.hasFullAccess` 와 혼동 금지.** 그쪽은 Pro 결제 판정
+///    (`isPro || isGrandfathered || isInTrial`)이고, 이쪽은 iOS 설정의 키보드 권한이다.
+///    이름이 비슷해 지금까지 익스텐션이 진짜 권한을 한 번도 확인하지 않고 있었다.
+///
+/// 왜 필요한가: 전체 접근이 꺼져 있으면 `UIPasteboard` 읽기·쓰기가 iOS 차원에서 막힌다.
+/// 확인 없이 호출하면 **아무 일도 안 일어나고 에러도 없다** — 사용자는 앱이 고장 난 줄 안다.
+///
+/// 값은 `KeyboardViewController` 가 `hasFullAccess`(UIInputViewController 프로퍼티)로 채운다.
+/// 익스텐션은 한 프로세스에 하나뿐이라 static 으로 충분하다.
+enum KeyboardCapability {
+    private(set) static var hasFullAccess = false
+
+    /// 지구본(다음 키보드) 키를 우리가 그려야 하는지.
+    ///
+    /// iOS가 시스템 차원에서 전환 UI를 제공하는 상황(예: 기기에 키보드가 하나뿐)에서는 false다.
+    /// 커스텀 키보드는 이 값이 true일 때 **반드시** 전환 수단을 제공해야 한다(심사 요건).
+    private(set) static var needsInputModeSwitchKey = false
+
+    static func update(hasFullAccess granted: Bool, needsInputModeSwitchKey needsSwitch: Bool) {
+        hasFullAccess = granted
+        needsInputModeSwitchKey = needsSwitch
+    }
+}
+
 #if os(iOS)
 /// 키 입력 햅틱 공유 인스턴스. UIImpactFeedbackGenerator를 매 키 입력마다 새로
 /// 생성하면 첫 발생에 warm-up 비용이 누적되어 빠른 타이핑이 버벅임. 공유 인스턴스를

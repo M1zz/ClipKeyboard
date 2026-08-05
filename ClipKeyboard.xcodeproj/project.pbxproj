@@ -63,6 +63,15 @@
 		58CK00072B5E1A2100000005 /* MenuBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00062B5E1A2100000005 /* MenuBarManager.swift */; };
 		58CK00092B5E1A2100000006 /* GlobalHotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */; };
 		58D9D52E2A3B23900086BE1A /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D9D52D2A3B23900086BE1A /* DataManager.swift */; };
+		58DL00012F0000000000000101 /* DelightMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00012F0000000000000001 /* DelightMotion.swift */; };
+		58DL00022F0000000000000102 /* StampMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00022F0000000000000002 /* StampMark.swift */; };
+		58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00032F0000000000000003 /* VerificationSealView.swift */; };
+		58DL00042F0000000000000104 /* WaxSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00042F0000000000000004 /* WaxSealView.swift */; };
+		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
+		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
+		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
+		58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
+		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
 		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
 		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
@@ -79,8 +88,6 @@
 		58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
 		58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
-		58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
-		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58SV00052F9A1B0100000005 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00022F9A1B0100000002 /* OCRService.swift */; };
 		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
@@ -164,13 +171,6 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
-		58DL00012F0000000000000101 /* DelightMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00012F0000000000000001 /* DelightMotion.swift */; };
-		58DL00022F0000000000000102 /* StampMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00022F0000000000000002 /* StampMark.swift */; };
-		58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00032F0000000000000003 /* VerificationSealView.swift */; };
-		58DL00042F0000000000000104 /* WaxSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00042F0000000000000004 /* WaxSealView.swift */; };
-		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
-		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
-		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,6 +272,14 @@
 		58CK00062B5E1A2100000005 /* MenuBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarManager.swift; sourceTree = "<group>"; };
 		58CK00082B5E1A2100000006 /* GlobalHotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotkeyManager.swift; sourceTree = "<group>"; };
 		58D9D52D2A3B23900086BE1A /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		58DL00012F0000000000000001 /* DelightMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelightMotion.swift; sourceTree = "<group>"; };
+		58DL00022F0000000000000002 /* StampMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampMark.swift; sourceTree = "<group>"; };
+		58DL00032F0000000000000003 /* VerificationSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationSealView.swift; sourceTree = "<group>"; };
+		58DL00042F0000000000000004 /* WaxSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaxSealView.swift; sourceTree = "<group>"; };
+		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
+		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
+		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
+		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
 		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
@@ -286,7 +294,6 @@
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
 		58PS00012B5E1A2100000001 /* ProStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStatusManager.swift; sourceTree = "<group>"; };
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
-		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
@@ -365,13 +372,6 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
-		58DL00012F0000000000000001 /* DelightMotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelightMotion.swift; sourceTree = "<group>"; };
-		58DL00022F0000000000000002 /* StampMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampMark.swift; sourceTree = "<group>"; };
-		58DL00032F0000000000000003 /* VerificationSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationSealView.swift; sourceTree = "<group>"; };
-		58DL00042F0000000000000004 /* WaxSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaxSealView.swift; sourceTree = "<group>"; };
-		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
-		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
-		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -676,9 +676,9 @@
 				52306EEE06035B083C937FF4 /* UsageInsights.swift */,
 				7427CED7AE75EED7C96E8587 /* ExperimentService.swift */,
 				24CD8B81F083063C5634B606 /* CategorySnapshot.swift */,
-							58DL00052F0000000000000005 /* ChecksumVerifier.swift */,
+				58DL00052F0000000000000005 /* ChecksumVerifier.swift */,
 				58DL00062F0000000000000006 /* UsagePassport.swift */,
-);
+			);
 			path = Service;
 			sourceTree = "<group>";
 		};
@@ -712,8 +712,8 @@
 				DC80C83D38691863F9E226D5 /* DataRecoveryView.swift */,
 				B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */,
 				155207159BAB0913906509F4 /* ChangelogView.swift */,
-							58DL00072F0000000000000007 /* UsagePassportView.swift */,
-);
+				58DL00072F0000000000000007 /* UsagePassportView.swift */,
+			);
 			path = Screens;
 			sourceTree = "<group>";
 		};
@@ -1205,14 +1205,14 @@
 				3E8B4A7A1FB1AF9A661A4D1A /* ChangelogView.swift in Sources */,
 				1761A00B1625C4C0128A8D95 /* CategorySnapshot.swift in Sources */,
 				0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */,
-							58DL00012F0000000000000101 /* DelightMotion.swift in Sources */,
+				58DL00012F0000000000000101 /* DelightMotion.swift in Sources */,
 				58DL00022F0000000000000102 /* StampMark.swift in Sources */,
 				58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */,
 				58DL00042F0000000000000104 /* WaxSealView.swift in Sources */,
 				58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */,
 				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
-);
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9CA0A3FF2F19D9B3004ABF40 /* Sources */ = {

@@ -217,14 +217,15 @@ struct BulkImportView: View {
                 .font(.body)
                 .onChange(of: pasteText) { _, _ in regenerate() }
             HStack(spacing: 8) {
-                Button {
-                    if let s = UIPasteboard.general.string {
-                        pasteText = s
-                    }
-                } label: {
-                    Label(NSLocalizedString("Paste from clipboard", comment: "Bulk import: paste"),
-                          systemImage: AppSymbol.docOnClipboard)
+                // PasteButton — 시스템이 붙여넣기를 대신 처리하므로 **허용 프롬프트가 뜨지 않는다.**
+                // `UIPasteboard.general.string`을 직접 읽으면 iOS 16+에서 매번 "붙여넣기 허용?"이
+                // 뜨는데, 사용자가 스스로 누른 버튼에서까지 묻는 건 불필요한 마찰이다.
+                PasteButton(payloadType: String.self) { strings in
+                    guard let first = strings.first else { return }
+                    pasteText = first
                 }
+                .labelStyle(.titleAndIcon)
+                .buttonBorderShape(.capsule)
                 Spacer()
                 Picker("", selection: $splitMode) {
                     ForEach(SplitMode.allCases, id: \.self) { mode in
