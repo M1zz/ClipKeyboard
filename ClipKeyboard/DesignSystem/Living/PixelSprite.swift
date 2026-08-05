@@ -43,6 +43,21 @@ struct PixelSprite: Equatable, Identifiable {
 
     static let size = 8
 
+    /// 빈 땅 — 아직 한 번도 안 쓴 문구. 흙만 있고 아무것도 자라지 않았다.
+    ///
+    /// ⚠️ 이게 없으면 안 쓴 카드에는 **아무것도 안 그려져서** 스킨을 켠 줄도 모른다.
+    ///    빈 땅은 "여기서 자랄 것"이라는 초대이기도 하다.
+    static let plot = PixelSprite(rows: [
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        "..kkk..."
+    ], id: "plot")
+
     /// 새싹 — 한 번이라도 쓰면 돋는다.
     static let sprout = PixelSprite(rows: [
         "........",
@@ -103,7 +118,8 @@ enum PixelVillage {
     /// 새싹 1회 · 꽃 4회 · 나무 10회 · 집 25회 — 큰 것부터 채우고 남는 만큼 작은 것을 세운다.
     /// 그래서 27회짜리 문구는 "집 한 채 + 새싹 둘"이 되어 **한눈에 규모가 읽힌다.**
     static func plan(useCount: Int) -> [PixelSprite] {
-        guard useCount > 0 else { return [] }
+        // 안 쓴 문구도 빈 땅은 보여준다 — 아무것도 안 그리면 스킨이 켜졌는지조차 알 수 없다.
+        guard useCount > 0 else { return [.plot] }
 
         var remaining = useCount
         var out: [PixelSprite] = []
@@ -167,10 +183,10 @@ struct PixelSpriteStrip: View {
     }
 }
 
-/// 카드 위에 얹히는 마을. 사용 횟수가 0이면 아무것도 그리지 않는다.
+/// 카드 위에 얹히는 마을. 한 번도 안 쓴 문구에는 빈 땅만 놓인다.
 struct VillageStrip: View {
     let useCount: Int
-    var pixel: CGFloat = 2
+    var pixel: CGFloat = 3
 
     var body: some View {
         let sprites = PixelVillage.plan(useCount: useCount)

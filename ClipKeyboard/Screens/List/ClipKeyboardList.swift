@@ -119,6 +119,9 @@ struct ClipKeyboardList: View {
     /// 생활 레이어 프리셋 — 카드 위에 사는 것(없음/마을/눈/새/고양이).
     @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var livingSkinRaw: String = LivingSkin.none.rawValue
+    /// 키캡 물성 — 설정에서 바꾸면 이 화면도 바로 따라야 한다.
+    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
     @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
@@ -770,6 +773,7 @@ struct ClipKeyboardList: View {
                     viewModel.loadMemos()
                 }
             ))
+            .onChange(of: livingSkinRaw) { _, _ in startGuestsIfNeeded() }
             .onAppear {
                 startGuestsIfNeeded()
                 viewModel.onAppear()
@@ -1354,9 +1358,9 @@ struct ClipKeyboardList: View {
                 theme.surface.opacity(CardGlass.backingOpacity)
             }
         }
-        // 생활 레이어(마을·눈+발자국) — 유리 아래, 카드 표면 위.
-        // 유리 위에 얹으면 유리가 아니라 스티커처럼 보인다.
-        .overlay {
+        // 생활 레이어(마을·눈+발자국) — **글자 뒤, 카드 표면 위.**
+        // overlay로 얹으면 눈 베일과 발자국이 제목을 덮어 글이 묻힌다.
+        .background {
             livingLayer(memo: memo, lightweight: lightweight)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
@@ -1405,10 +1409,11 @@ struct ClipKeyboardList: View {
             switch livingSkin {
             case .village:
                 // 사용 기록이 그대로 마을이 된다 — 움직이지 않으므로 스크린샷에 남는다.
+                // 카드 **아래쪽**에 세운다. 위는 제목 자리라 겹치면 둘 다 안 읽힌다.
                 VillageStrip(useCount: memo.clipCount)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                     .padding(.leading, 18)
-                    .padding(.top, 10)
+                    .padding(.bottom, 12)
             case .snow:
                 ZStack {
                     SnowTexture(seed: memo.id.hashValue)
@@ -1424,7 +1429,12 @@ struct ClipKeyboardList: View {
 
     /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다 —
     /// 따로 고르게 하면 설정만 늘고 두 화면이 안 맞는다.
-    private var keycapSkin: KeyboardSkin { KeyboardSkin.current }
+    ///
+    /// ⚠️ `KeyboardSkin.current`(UserDefaults 직접 읽기)가 아니라 @AppStorage를 쓴다.
+    ///    직접 읽으면 설정에서 바꿔도 이 화면이 다시 그려지지 않아 "골라도 반응이 없다".
+    private var keycapSkin: KeyboardSkin {
+        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .classic
+    }
 
     /// 카드가 얹혀 있는 두께. 0이면 스커트를 아예 그리지 않는다.
     /// 재정렬(경량) 모드에선 회전하는 카드마다 레이어가 하나 더 늘어 버벅임을 만들므로 뺀다.

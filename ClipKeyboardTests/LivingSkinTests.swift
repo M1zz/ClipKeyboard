@@ -12,6 +12,7 @@
 //
 
 import Testing
+import SwiftUI
 @testable import ClipKeyboard
 
 @Suite("LivingSkin — 생활 레이어")
@@ -72,10 +73,17 @@ struct LivingSkinTests {
 
     // MARK: - 픽셀 마을
 
-    @Test("한 번도 안 쓴 문구에는 아무것도 자라지 않는다")
-    func nothingGrowsWithoutUse() {
-        #expect(PixelVillage.plan(useCount: 0).isEmpty)
-        #expect(PixelVillage.plan(useCount: -3).isEmpty)
+    /// 빈 카드에 아무것도 안 그리면 **스킨을 켠 줄도 모른다.**
+    /// 빈 땅은 "여기서 자랄 것"이라는 초대이기도 하다.
+    @Test("한 번도 안 쓴 문구에는 빈 땅만 놓인다")
+    func emptyPlotBeforeFirstUse() {
+        #expect(PixelVillage.plan(useCount: 0) == [.plot])
+        #expect(PixelVillage.plan(useCount: -3) == [.plot])
+    }
+
+    @Test("한 번 쓰는 순간 빈 땅이 사라지고 싹이 돋는다")
+    func plotBecomesSprout() {
+        #expect(!PixelVillage.plan(useCount: 1).contains(.plot))
     }
 
     @Test("한 번 쓰면 새싹이 돋는다")
@@ -114,7 +122,7 @@ struct LivingSkinTests {
 
     @Test("모든 스프라이트는 8×8 이다")
     func spritesAreWellFormed() {
-        for sprite in [PixelSprite.sprout, .flower, .tree, .house] {
+        for sprite in [PixelSprite.plot, .sprout, .flower, .tree, .house] {
             #expect(sprite.rows.count == PixelSprite.size)
             for row in sprite.rows {
                 #expect(row.count == PixelSprite.size, "\(sprite.id) 줄 길이가 안 맞는다")
@@ -177,5 +185,70 @@ struct LivingSkinTests {
         for skin in LivingSkin.allCases where skin != .none {
             #expect(skin.localizedTrait != nil)
         }
+    }
+}
+
+// MARK: - 실제로 그려지는가
+
+/// 순수 함수(계획)가 맞아도 **화면에 안 그려지면 소용이 없다.**
+/// 시뮬레이터 UI 없이 뷰를 비트맵으로 굽고 픽셀이 실제로 찍혔는지 본다.
+/// (Canvas 경로가 조용히 죽는 사고를 잡기 위한 것 — 계획 테스트로는 안 잡힌다)
+@MainActor
+struct LivingSkinRenderTests {
+
+    /// 렌더링 결과에서 **투명하지 않은 픽셀 수**를 센다.
+    private func opaquePixelCount<V: View>(_ view: V, size: CGSize) -> Int {
+        let renderer = ImageRenderer(content: view.frame(width: size.width, height: size.height))
+        renderer.scale = 1
+        guard let cg = renderer.cgImage else { return 0 }
+
+        let width = cg.width, height = cg.height
+        var pixels = [UInt8](repeating: 0, count: width * height * 4)
+        guard let ctx = CGContext(data: &pixels, width: width, height: height,
+                                  bitsPerComponent: 8, bytesPerRow: width * 4,
+                                  space: CGColorSpaceCreateDeviceRGB(),
+                                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        else { return 0 }
+        ctx.draw(cg, in: CGRect(x: 0, y: 0, width: width, height: height))
+
+        var count = 0
+        for index in stride(from: 3, to: pixels.count, by: 4) where pixels[index] > 0 {
+            count += 1
+        }
+        return count
+    }
+
+    @Test("마을이 실제로 픽셀을 찍는다")
+    func villageDraws() {
+        let drawn = opaquePixelCount(VillageStrip(useCount: 27, pixel: 3),
+                                     size: CGSize(width: 120, height: 24))
+        #expect(drawn > 50, "마을이 한 픽셀도 안 그려졌다 — Canvas 경로가 죽었다")
+    }
+
+    @Test("안 쓴 문구도 빈 땅만큼은 그려진다")
+    func emptyPlotDraws() {
+        let drawn = opaquePixelCount(VillageStrip(useCount: 0, pixel: 3),
+                                     size: CGSize(width: 30, height: 24))
+        #expect(drawn > 0, "빈 땅이 안 그려지면 스킨을 켠 줄도 모른다")
+    }
+
+    @Test("많이 쓴 문구가 적게 쓴 문구보다 더 많이 그려진다")
+    func moreUseDrawsMore() {
+        let few = opaquePixelCount(VillageStrip(useCount: 1, pixel: 3),
+                                   size: CGSize(width: 120, height: 24))
+        let many = opaquePixelCount(VillageStrip(useCount: 27, pixel: 3),
+                                    size: CGSize(width: 120, height: 24))
+        #expect(many > few, "쓸수록 자라야 한다")
+    }
+
+    @Test("눈 질감과 발자국이 실제로 그려진다")
+    func snowAndFootprintsDraw() {
+        let snow = opaquePixelCount(SnowTexture(seed: 7),
+                                    size: CGSize(width: 80, height: 60))
+        #expect(snow > 100, "눈 질감이 안 그려졌다")
+
+        let paws = opaquePixelCount(FootprintLayer(useCount: 5),
+                                    size: CGSize(width: 80, height: 60))
+        #expect(paws > 20, "발자국이 안 그려졌다")
     }
 }
