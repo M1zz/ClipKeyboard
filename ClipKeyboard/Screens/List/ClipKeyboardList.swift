@@ -1328,6 +1328,10 @@ struct ClipKeyboardList: View {
         .background {
             if hasImage || lightweight {
                 memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
+            } else {
+                // 맑은 유리 뒤에 깔리는 옅은 판 — 유리가 배경에 묻히지 않게 잡아 준다.
+                // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
+                theme.surface.opacity(CardGlass.backingOpacity)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
@@ -3121,12 +3125,20 @@ struct ClipKeyboardList: View {
 /// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
 /// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
 ///
-/// ⚠️ `.regular` 을 쓴다. 예전에는 `.clear` 였는데 **너무 투명해서** 카드가 배경에 묻히고
-///    글자 대비를 할로 그림자로 억지로 벌어야 했다. `.clear` 는 애플이
-///    "뒤 콘텐츠를 보여주는 게 목적일 때"를 위해 둔 변형이라, 뒤에 어두운 딤 레이어가
-///    깔려 있는 상황(사진 위 컨트롤 등)을 전제한다. 우리 카드는 그 반대다 —
-///    카드 자체가 주인공이고 뒤는 단색 배경이라 `.regular` 가 맞다.
+/// ⚠️ **투명도를 바꾸려면 `backingOpacity` 하나만 만지면 된다.**
+///
+/// `Glass` 에는 `.regular` / `.clear` / `.identity` 세 변형뿐이고 그 사이를 나타낼
+/// 불투명도 인자가 없다. 그래서 두 가지를 조합해 원하는 지점을 만든다:
+///   - 유리는 `.clear` (가장 맑은 변형)
+///   - 그 **뒤에** 카드 표면색을 아주 옅게 깐다 → 이 판의 불투명도가 곧 다이얼
+///
+/// `backingOpacity` 0.0 이면 순정 `.clear`(배경에 묻힐 만큼 투명),
+/// 0.5 를 넘어가면 체감상 `.regular` 와 비슷해진다. 그 사이를 취한다.
 private struct CardGlass: ViewModifier {
+    /// 유리 뒤에 깔리는 판의 불투명도 — **투명도 조절 다이얼**.
+    /// 올리면 더 불투명(뚜렷)해지고, 내리면 더 맑아진다.
+    static let backingOpacity: Double = 0.22
+
     let active: Bool
     let tint: Color?
     let cornerRadius: CGFloat
@@ -3136,12 +3148,12 @@ private struct CardGlass: ViewModifier {
             if let tint {
                 // 색 정체성(즐겨찾기 분홍/커스텀 팔레트색)은 틴트로 유지된다.
                 content.glassEffect(
-                    .regular.tint(tint).interactive(),
+                    .clear.tint(tint).interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             } else {
                 content.glassEffect(
-                    .regular.interactive(),
+                    .clear.interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             }
