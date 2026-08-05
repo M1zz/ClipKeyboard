@@ -807,3 +807,15 @@ extension KeyboardViewController: TypingInputProxy {
         updateHasTextState()
     }
 }
+
+// MARK: - 키 클릭음
+
+/// iOS에 "이 입력 뷰는 키 클릭음을 낸다"고 알린다.
+///
+/// 이걸 채택하지 않으면 `UIDevice.current.playInputClick()` 을 아무리 호출해도
+/// **조용히 무시된다.** 반대로 채택했다고 항상 울리는 것도 아니다 —
+/// 실제 재생 여부는 사용자의 **설정 > 사운드 및 햅틱 > 키보드 클릭음** 이 정한다.
+/// 우리가 켜고 끄는 게 아니라 사용자가 이미 정해 둔 취향을 따르는 구조다.
+extension KeyboardViewController: UIInputViewAudioFeedback {
+    var enableInputClicksWhenVisible: Bool { true }
+}

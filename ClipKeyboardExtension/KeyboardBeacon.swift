@@ -74,8 +74,27 @@ enum KeyboardHaptics {
         medium.prepare()
     }
 
+    // MARK: - 키 클릭음
+
+    /// 시스템 키 클릭음. **또깍.**
+    ///
+    /// ⚠️ 커스텀 사운드 파일을 재생하지 않는다. `playInputClick()` 은 iOS가
+    ///    **사용자의 설정 > 사운드 > 키보드 클릭음** 을 보고 재생 여부를 결정한다.
+    ///    즉 소리를 꺼 둔 사람에게는 아무 일도 일어나지 않는다 — 회의 중에 우리 앱만
+    ///    떠드는 사태가 구조적으로 불가능하다. (키보드에서 무단 사운드가 금물인 이유)
+    ///
+    /// ⚠️ 이게 동작하려면 입력 뷰 컨트롤러가 `UIInputViewAudioFeedback` 을 채택하고
+    ///    `enableInputClicksWhenVisible` 을 true로 돌려줘야 한다.
+    ///    (KeyboardViewController 하단 확장 참고)
+    @inline(__always)
+    static func click() {
+        guard delightEnabled else { return }
+        UIDevice.current.playInputClick()
+    }
+
     @inline(__always)
     static func tap() {
+        click()
         light.impactOccurred()
         light.prepare()
     }
@@ -110,6 +129,7 @@ enum KeyboardHaptics {
     @inline(__always)
     static func stamp() {
         guard delightEnabled else { return }
+        UIDevice.current.playInputClick()
         medium.impactOccurred()
         medium.prepare()
     }

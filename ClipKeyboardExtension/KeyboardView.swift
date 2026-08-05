@@ -1071,7 +1071,7 @@ struct KeyboardView: View {
                     buttonFontSize: buttonFontSize
                 )
             }
-            .buttonStyle(KeycapButtonStyle())
+            .buttonStyle(KeycapButtonStyle(cornerRadius: theme.radiusMd, skirtColor: keycapSkirtColor))
             .contextMenu {
                 Button {
                     copyTextToClipboard(memo.value)
@@ -1101,7 +1101,7 @@ struct KeyboardView: View {
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
-            .buttonStyle(KeycapButtonStyle())
+            .buttonStyle(KeycapButtonStyle(cornerRadius: theme.radiusMd, skirtColor: keycapSkirtColor))
             .contextMenu {
                 Button {
                     copyTextToClipboard(memo.value)
@@ -1519,6 +1519,12 @@ struct KeyboardView: View {
     /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
     /// iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 칸 경계 테두리만).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
+    /// 키캡 옆면(스커트) 색 — 키가 얹혀 있는 두께.
+    /// 사용자가 키 색을 바꿔도 항상 "그 색의 그늘"이 되도록 검정을 깔아 만든다.
+    private var keycapSkirtColor: Color {
+        Color.black.opacity(theme.isDark ? 0.55 : 0.20)
+    }
+
     /// 키캡 표면광 — 앱 카드의 유리에 대응하는 "빛을 받는 물성".
     ///
     /// ⚠️ 여기에는 일부러 `glassEffect` 를 쓰지 않는다. 유리는 뒤가 비쳐야 의미가 있는데
@@ -1903,14 +1909,32 @@ struct MemoTitleHintSwap: View {
 ///    타겟이 분리돼 상수를 공유할 수 없어 값만 맞춰 둔다.
 /// ⚠️ 접근성 '동작 줄이기'와 사용자 토글을 모두 존중한다.
 struct KeycapButtonStyle: ButtonStyle {
+    /// 키가 내려앉는 거리(pt). **스커트 두께와 같아야** 눌렀을 때 딱 맞물려 바닥에 닿는다.
+    static let travel: CGFloat = 3
+
+    let cornerRadius: CGFloat
+    /// 키캡 옆면(스커트) 색. 키 색에 상관없이 어둡게 깔아 두께를 만든다.
+    let skirtColor: Color
+
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
-        let active = configuration.isPressed && KeyboardHaptics.delightEnabled && !reduceMotion
-        configuration.label
-            .offset(y: active ? 2 : 0)
-            .scaleEffect(active ? 0.98 : 1.0)
-            .animation(.easeOut(duration: 0.18), value: active)
+        let enabled = KeyboardHaptics.delightEnabled && !reduceMotion
+        let pressed = configuration.isPressed && enabled
+
+        return configuration.label
+            // 스커트 — 평소엔 키 아래로 삐져나와 **두께**를 만들고,
+            // 누르면 키가 그 위로 내려앉아 가려진다. 이 한 겹이 "또깍"의 정체다.
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(skirtColor)
+                    .offset(y: (pressed || !enabled) ? 0 : Self.travel)
+            )
+            .offset(y: pressed ? Self.travel : 0)
+            // 내려갈 땐 즉각(기계식 키는 travel이 거의 없다), 올라올 땐 살짝 튕기며.
+            .animation(pressed ? .easeOut(duration: 0.045)
+                               : .spring(response: 0.20, dampingFraction: 0.55),
+                       value: pressed)
     }
 }
 
