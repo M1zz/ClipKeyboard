@@ -172,6 +172,8 @@ struct KeyboardView: View {
     /// 키캡 물성 프리셋 — 색이 아니라 두께·빛·모서리·눌림만 정한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
+    /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // 옵션 토글 — 기본 OFF로 화면 공간 확보
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearchBar: Bool = false
@@ -1125,11 +1127,20 @@ struct KeyboardView: View {
     @State private var comboValueIndex: [UUID: Int] = [:]
     /// → 누를 때마다 증가 — 값을 잠깐 보여줬다 사라지는 디졸브를 트리거한다.
     @State private var comboFlash: [UUID: Int] = [:]
+    /// 지금 눌려 있는 콤보 키. 좌·우 어느 쪽을 눌러도 **키캡 하나**가 통째로 내려앉는다.
+    /// (동시에 두 키를 누를 수는 없으므로 단일 값으로 충분)
+    @State private var pressedComboId: UUID?
 
     private func comboSplitButton(for memo: Memo, catColor: Color?) -> some View {
         let values = memo.comboValues.isEmpty ? [memo.value] : memo.comboValues
         let idx = min(max(comboValueIndex[memo.id] ?? 0, 0), values.count - 1)
         let current = values[idx]
+        // 좌·우 어느 쪽을 눌러도 **키캡 하나**가 통째로 내려앉는다.
+        let pressedBinding = Binding<Bool>(
+            get: { pressedComboId == memo.id },
+            set: { pressedComboId = $0 ? memo.id : nil }
+        )
+
         return HStack(spacing: 0) {
             // 왼쪽 2/3 — 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
             Button {
@@ -1150,9 +1161,12 @@ struct KeyboardView: View {
                 .frame(height: buttonHeight)
                 .contentShape(Rectangle())
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
 
-            Divider().frame(height: buttonHeight * 0.5)
+            // 두 키 사이의 '틈'이 아니라 하나의 캡에 파인 '홈'으로 읽히도록 옅게.
+            Rectangle()
+                .fill(theme.divider.opacity(0.6))
+                .frame(width: 1, height: buttonHeight * 0.42)
 
             // 오른쪽 1/3 — 다음 값으로 전환(값이 잠깐 보였다 사라짐).
             Button {
@@ -1169,7 +1183,7 @@ struct KeyboardView: View {
                 .frame(height: buttonHeight)
                 .contentShape(Rectangle())
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
         }
         .background(
             RoundedRectangle(cornerRadius: keycapRadius)
@@ -1192,10 +1206,15 @@ struct KeyboardView: View {
                               style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
         .clipShape(RoundedRectangle(cornerRadius: keycapRadius))
+        // 통짜 키캡 — 좌·우 어디를 눌러도 한 덩어리로 내려앉는다.
+        .modifier(KeycapSurface(skin: skin,
+                                cornerRadius: keycapRadius,
+                                skirtColor: keycapSkirtColor,
+                                pressed: pressedComboId == memo.id,
+                                enabled: keycapPressEnabled))
     }
 
     private func insertComboValue(memo: Memo, value: String) {
-        KeyboardHaptics.tap()
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
                 hangul.reset()
@@ -1314,7 +1333,9 @@ struct KeyboardView: View {
     }
 
     private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
-        KeyboardHaptics.tap()
+        // ⚠️ 여기서 햅틱을 울리지 않는다. 각 종착지가 자기 피드백을 갖고 있어서
+        //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
+        //    (일반 삽입 → stamp / 이미지 → 복사 완료 / 보안 → 인증 UI)
 
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
@@ -1530,6 +1551,12 @@ struct KeyboardView: View {
     /// 키캡 모서리 — 테마 스케일을 스킨 비율로 조정한다.
     private var keycapRadius: CGFloat {
         skin.cornerRadius(base: theme.radiusMd)
+    }
+
+    /// 눌림을 그릴 수 있는 상태인가. `KeycapButtonStyle`과 같은 조건 —
+    /// 연출 토글이 꺼졌거나, 동작 줄이기가 켜졌거나, 두께가 0인 스킨이면 내려앉지 않는다.
+    private var keycapPressEnabled: Bool {
+        KeyboardHaptics.delightEnabled && !reduceMotion && skin.skirtDepth > 0
     }
 
     /// 키캡 옆면(스커트) 색 — 키가 얹혀 있는 두께.
@@ -1921,11 +1948,45 @@ struct MemoTitleHintSwap: View {
 /// ⚠️ 하루 20~50번 반복되는 연출이라 0.18초를 넘기지 않는다(메인 앱 `Delight.Tier.daily`와 동일).
 ///    타겟이 분리돼 상수를 공유할 수 없어 값만 맞춰 둔다.
 /// ⚠️ 접근성 '동작 줄이기'와 사용자 토글을 모두 존중한다.
+/// 키캡의 **두께와 눌림**을 입히는 단 하나의 규칙.
+///
+/// 스커트는 제자리에 두고 캡만 내려앉게 하려고 offset을 두 겹으로 건다:
+/// 스커트를 먼저 배경으로 붙인 뒤 전체를 내리면, 스커트의 절대 위치는 그대로이고
+/// 캡만 그 위로 덮인다. (`.background` → `.offset` 순서가 핵심이다)
+struct KeycapSurface: ViewModifier {
+    let skin: KeyboardSkin
+    let cornerRadius: CGFloat
+    /// 키캡 옆면(스커트) 색. 키 색에 상관없이 어둡게 깔아 두께를 만든다.
+    let skirtColor: Color
+    let pressed: Bool
+    /// 눌림을 그릴 수 있는 상태인가(연출 토글·동작 줄이기·두께 0 스킨 반영).
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        let travel = skin.skirtDepth
+        let down = pressed && enabled
+
+        content
+            // 스커트 — 평소엔 키 아래로 삐져나와 **두께**를 만들고,
+            // 누르면 키가 그 위로 내려앉아 가려진다. 이 한 겹이 "또깍"의 정체다.
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .fill(skirtColor)
+                    .offset(y: (down || !enabled) ? 0 : travel)
+            )
+            .offset(y: down ? travel : 0)
+            // 내려갈 땐 즉각(기계식 키는 travel이 거의 없다), 올라올 땐 살짝 튕기며.
+            .animation(down
+                       ? .easeOut(duration: skin.pressDuration)
+                       : .spring(response: skin.releaseResponse, dampingFraction: skin.releaseDamping),
+                       value: down)
+    }
+}
+
 struct KeycapButtonStyle: ButtonStyle {
     /// 두께·눌림 곡선을 정하는 물성 프리셋.
     let skin: KeyboardSkin
     let cornerRadius: CGFloat
-    /// 키캡 옆면(스커트) 색. 키 색에 상관없이 어둡게 깔아 두께를 만든다.
     let skirtColor: Color
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -1933,23 +1994,28 @@ struct KeycapButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         // 두께가 0인 스킨(납작)은 눌림도 없다 — 내려앉을 바닥이 없기 때문.
         let enabled = KeyboardHaptics.delightEnabled && !reduceMotion && skin.skirtDepth > 0
-        let pressed = configuration.isPressed && enabled
-        let travel = skin.skirtDepth
-
         return configuration.label
-            // 스커트 — 평소엔 키 아래로 삐져나와 **두께**를 만들고,
-            // 누르면 키가 그 위로 내려앉아 가려진다. 이 한 겹이 "또깍"의 정체다.
-            .background(
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(skirtColor)
-                    .offset(y: (pressed || !enabled) ? 0 : travel)
-            )
-            .offset(y: pressed ? travel : 0)
-            // 내려갈 땐 즉각(기계식 키는 travel이 거의 없다), 올라올 땐 살짝 튕기며.
-            .animation(pressed
-                       ? .easeOut(duration: skin.pressDuration)
-                       : .spring(response: skin.releaseResponse, dampingFraction: skin.releaseDamping),
-                       value: pressed)
+            .modifier(KeycapSurface(skin: skin,
+                                    cornerRadius: cornerRadius,
+                                    skirtColor: skirtColor,
+                                    pressed: configuration.isPressed,
+                                    enabled: enabled))
+    }
+}
+
+/// 자기 눌림 상태를 부모에게 알려 주기만 하는 스타일.
+///
+/// 콤보 키는 좌·우 두 영역이 각각 눌리지만 **키캡은 하나**다. 두 버튼이 각자
+/// 내려앉으면 한 덩어리가 반으로 쪼개져 보인다. 그래서 눌림 표현은 부모가 통짜로
+/// 그리고, 이 스타일은 "지금 눌렸다"는 사실만 올려보낸다.
+struct KeycapPressReporter: ButtonStyle {
+    @Binding var pressed: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle())
+            // 뷰 갱신 중이 아니라 갱신 이후에 반영된다 — 상태 변경 경고를 피한다.
+            .onChange(of: configuration.isPressed) { _, now in pressed = now }
     }
 }
 
