@@ -25,6 +25,13 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
     case flat
     /// 말랑 — 아주 둥근 모서리에 부드러운 빛, 느리게 되돌아온다.
     case soft
+    /// 예전 방식 — 키캡 작업(4.4.4) 이전의 모습 그대로.
+    /// 두께도 표면광도 없고, 카드는 눌리는 대신 푹신하게 부풀었다 돌아온다.
+    ///
+    /// ⚠️ **돌아갈 길**이다. 키캡은 취향이 갈리는 변화라, 예전이 더 좋았던 사람이
+    ///    설정 하나로 원래대로 되돌릴 수 있어야 한다. 값을 바꾸지 말 것 —
+    ///    "예전 그대로"라는 약속이 이 케이스의 존재 이유다.
+    case classic
 
     var id: String { rawValue }
 
@@ -47,6 +54,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return 5
         case .flat:       return 0
         case .soft:       return 2
+        case .classic:    return 0        // 예전엔 두께가 없었다
         }
     }
 
@@ -56,6 +64,12 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         skirtDepth > 0 ? skirtDepth + 1 : 0
     }
 
+    /// 카드가 **예전 방식(푹신하게 부풀었다 돌아오기)** 으로 반응해야 하는가.
+    ///
+    /// 두께가 0인 스킨은 카드가 내려앉을 바닥이 없다. 그대로 두면 눌러도 아무 반응이
+    /// 없는 죽은 카드가 되므로, 키캡 이전에 쓰던 스케일 바운스로 되돌린다.
+    var usesLegacyCardBounce: Bool { cardSkirtDepth == 0 }
+
     /// 스커트(옆면)의 그늘 농도. 키 색과 무관하게 검정을 깔아 만든다.
     func skirtOpacity(isDark: Bool) -> Double {
         switch self {
@@ -63,6 +77,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return isDark ? 0.70 : 0.30
         case .flat:       return 0
         case .soft:       return isDark ? 0.40 : 0.14
+        case .classic:    return 0
         }
     }
 
@@ -73,6 +88,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return isDark ? 0.10 : 0.62
         case .flat:       return 0
         case .soft:       return isDark ? 0.05 : 0.38
+        case .classic:    return 0        // 표면광도 없었다
         }
     }
 
@@ -83,6 +99,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return 0.14
         case .flat:       return 0
         case .soft:       return 0.06
+        case .classic:    return 0.08     // 예전 그림자 값 그대로
         }
     }
 
@@ -94,6 +111,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return base * 0.55   // 각지게
         case .flat:       return base * 0.8
         case .soft:       return base * 1.5    // 아주 둥글게
+        case .classic:    return base          // 테마 값 그대로 — 예전과 동일
         }
     }
 
@@ -106,6 +124,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return 0.03
         case .flat:       return 0.06
         case .soft:       return 0.09
+        case .classic:    return 0.06
         }
     }
 
@@ -116,6 +135,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return 0.16
         case .flat:       return 0.14
         case .soft:       return 0.34
+        case .classic:    return 0.14
         }
     }
 
@@ -125,6 +145,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         case .mechanical: return 0.45   // 더 통통 튄다
         case .flat:       return 0.95   // 거의 안 튄다
         case .soft:       return 0.68
+        case .classic:    return 0.95
         }
     }
 
@@ -140,6 +161,8 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
             return NSLocalizedString("납작", comment: "Keyboard skin name: flat")
         case .soft:
             return NSLocalizedString("말랑", comment: "Keyboard skin name: soft")
+        case .classic:
+            return NSLocalizedString("예전 방식", comment: "Keyboard skin name: classic")
         }
     }
 
@@ -153,6 +176,8 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
             return NSLocalizedString("두께도 그림자도 없어요. 가장 조용합니다.", comment: "Keyboard skin description: flat")
         case .soft:
             return NSLocalizedString("둥글고 부드럽게, 느리게 돌아와요.", comment: "Keyboard skin description: soft")
+        case .classic:
+            return NSLocalizedString("키캡이 생기기 전 모습이에요. 카드가 푹신하게 반응해요.", comment: "Keyboard skin description: classic")
         }
     }
 }

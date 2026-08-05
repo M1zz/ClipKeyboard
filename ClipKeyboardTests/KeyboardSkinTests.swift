@@ -113,6 +113,39 @@ struct KeyboardSkinTests {
         }
     }
 
+    // MARK: - 돌아갈 길 (가장 중요)
+
+    /// 키캡은 취향이 갈리는 변화다. 예전이 더 좋았던 사람이 설정 하나로
+    /// **정확히 원래 모습**으로 돌아갈 수 있어야 한다.
+    @Test("예전 방식은 키캡 이전 값을 그대로 복원한다")
+    func classicRestoresPreviousLook() {
+        let classic = KeyboardSkin.classic
+        #expect(classic.skirtDepth == 0, "예전엔 두께가 없었다")
+        #expect(classic.cardSkirtDepth == 0)
+        #expect(classic.sheenOpacity(isDark: false) == 0, "예전엔 표면광이 없었다")
+        #expect(classic.sheenOpacity(isDark: true) == 0)
+        #expect(classic.shadowOpacity == 0.08, "예전 그림자 값 그대로여야 한다")
+        #expect(classic.cornerRadius(base: 18) == 18, "모서리는 테마 값 그대로였다")
+    }
+
+    /// 두께가 없으면 카드가 내려앉을 바닥이 없다 —
+    /// 그대로 두면 눌러도 아무 반응이 없는 죽은 카드가 된다.
+    @Test("두께 없는 스킨은 카드가 예전 방식으로 반응한다")
+    func zeroDepthFallsBackToLegacyBounce() {
+        #expect(KeyboardSkin.classic.usesLegacyCardBounce)
+        #expect(KeyboardSkin.flat.usesLegacyCardBounce)
+        #expect(!KeyboardSkin.standard.usesLegacyCardBounce)
+        #expect(!KeyboardSkin.mechanical.usesLegacyCardBounce)
+        #expect(!KeyboardSkin.soft.usesLegacyCardBounce)
+    }
+
+    @Test("두께 유무와 예전 방식 반응은 항상 반대다")
+    func bounceMatchesDepth() {
+        for skin in KeyboardSkin.allCases {
+            #expect(skin.usesLegacyCardBounce == (skin.cardSkirtDepth == 0))
+        }
+    }
+
     @Test("선택지가 하나뿐이면 설정 화면을 만들 이유가 없다")
     func hasMultipleChoices() {
         #expect(KeyboardSkin.allCases.count >= 3)

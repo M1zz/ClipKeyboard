@@ -1189,21 +1189,18 @@ struct ClipKeyboardList: View {
             }
         }
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 키캡 누름 — 탭하면 바닥까지 즉각 내려앉았다가 제자리로 돌아온다.
+        // 누름 — 스킨에 따라 두 방식으로 갈린다.
         //
-        // ⚠️ 예전에는 scaleEffect로 0.92 → 1.05 → 1.0 하는 "푹신한" 바운스였다.
-        //    크기가 변하는 건 고무처럼 읽혀서, 두께를 가진 키캡과 앞뒤가 안 맞는다.
-        //    키캡은 커졌다 작아지지 않고 **내려갔다 올라온다**.
-        .keyframeAnimator(initialValue: 0.0, trigger: bounceTriggers[memo.id] ?? 0) { view, dy in
-            view
-                .background(cardSkirt(depth: skirtDepth, offsetY: dy))
-                .offset(y: dy)
-        } keyframes: { _ in
-            KeyframeTrack(\.self) {
-                CubicKeyframe(skirtDepth, duration: keycapSkin.pressDuration)  // 바닥까지
-                CubicKeyframe(0, duration: 0.22)                                // 제자리로
-            }
-        }
+        // 두께가 있으면 **키캡처럼** 바닥까지 내려앉았다 돌아온다.
+        // 두께가 없으면(납작·예전 방식) 내려앉을 바닥이 없으므로 **예전의 푹신한 바운스**로
+        // 되돌린다 — 그러지 않으면 눌러도 아무 반응이 없는 죽은 카드가 된다.
+        .modifier(CardPressEffect(
+            trigger: bounceTriggers[memo.id] ?? 0,
+            legacyBounce: keycapSkin.usesLegacyCardBounce,
+            depth: skirtDepth,
+            pressDuration: keycapSkin.pressDuration,
+            skirt: { dy in cardSkirt(depth: skirtDepth, offsetY: dy) }
+        ))
         .onTapGesture {
             HapticManager.shared.selection() // 탭: 선택 햅틱
             if !reduceMotion { bounceTriggers[memo.id, default: 0] += 1 } // 푹신 바운스 재생
@@ -3257,5 +3254,49 @@ private struct CardGlass: ViewModifier {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+// MARK: - 카드 누름 효과
+
+/// 카드가 탭에 반응하는 방식. 스킨에 따라 **두 갈래**로 갈린다.
+///
+/// - 두께가 있는 스킨: 키캡처럼 바닥까지 내려앉았다 돌아온다(스커트가 제자리에 남는다).
+/// - 두께가 없는 스킨(납작·예전 방식): 키캡 이전에 쓰던 **푹신한 스케일 바운스**.
+///   0.92로 쑥 들어갔다가 1.05까지 부풀고 제자리로 — 키프레임으로 1.05 peak를 보장해
+///   빠르게 연타해도 항상 보인다.
+///
+/// ⚠️ 두 방식을 한 뷰에서 분기하는 이유: 예전 동작을 **버리지 않고 남겨 두기 위해서**다.
+///    키캡은 취향이 갈리는 변화라, 설정 하나로 원래대로 돌아갈 수 있어야 한다.
+private struct CardPressEffect<Skirt: View>: ViewModifier {
+    let trigger: Int
+    let legacyBounce: Bool
+    let depth: CGFloat
+    let pressDuration: Double
+    @ViewBuilder let skirt: (CGFloat) -> Skirt
+
+    func body(content: Content) -> some View {
+        if legacyBounce {
+            content.keyframeAnimator(initialValue: 1.0, trigger: trigger) { view, scale in
+                view.scaleEffect(scale)
+            } keyframes: { _ in
+                KeyframeTrack(\.self) {
+                    CubicKeyframe(0.92, duration: 0.12)   // 부드럽게 쑥 들어감
+                    CubicKeyframe(1.05, duration: 0.17)   // 원래보다 크게 튀어나옴
+                    CubicKeyframe(1.0, duration: 0.22)    // 원래 크기로 안착
+                }
+            }
+        } else {
+            content.keyframeAnimator(initialValue: 0.0, trigger: trigger) { view, dy in
+                view
+                    .background(skirt(dy))
+                    .offset(y: dy)
+            } keyframes: { _ in
+                KeyframeTrack(\.self) {
+                    CubicKeyframe(depth, duration: pressDuration)  // 바닥까지
+                    CubicKeyframe(0, duration: 0.22)               // 제자리로
+                }
+            }
+        }
     }
 }

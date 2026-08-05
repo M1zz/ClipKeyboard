@@ -23923,6 +23923,23 @@
         }
       }
     },
+    "예전 방식": {
+      "comment": "Keyboard skin name: classic",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klasik"
+          }
+        }
+      }
+    },
     "예제를 지울까요?": {
       "comment": "Clean up samples tip title",
       "localizations": {
@@ -30783,6 +30800,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skin keycap"
+          }
+        }
+      }
+    },
+    "키캡이 생기기 전 모습이에요. 카드가 푹신하게 반응해요.": {
+      "comment": "Keyboard skin description: classic",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How it looked before keycaps. Cards respond with a soft bounce."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilan sebelum ada keycap. Kartu merespons dengan pantulan lembut."
           }
         }
       }
