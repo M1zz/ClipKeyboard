@@ -116,6 +116,11 @@ struct ClipKeyboardList: View {
     }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
+    /// 생활 레이어 프리셋 — 카드 위에 사는 것(없음/마을/눈/새/고양이).
+    @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var livingSkinRaw: String = LivingSkin.none.rawValue
+    /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
+    @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
     @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
     private var contentHintEnabled: Bool = true
@@ -766,6 +771,7 @@ struct ClipKeyboardList: View {
                 }
             ))
             .onAppear {
+                startGuestsIfNeeded()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
                 // v4.1.0: 카테고리 기능 마이그레이션 — 기존 사용자 자동 활성
@@ -1171,6 +1177,17 @@ struct ClipKeyboardList: View {
         let skirtDepth = cardSkirtDepth(lightweight: false)
 
         return memoCardSurface(memo: memo)
+        // 손님(새·고양이)은 카드 밖으로 넘쳐야 해서 clip 바깥에 얹는다.
+        // 카드 한 장 위에서만 벌어진다 — 격자는 스크롤·재정렬되므로 전역 경로를 못 쓴다.
+        .overlay(alignment: .topLeading) {
+            if livingSkin.isVisitor, guestScheduler.hostId == memo.id {
+                GeometryReader { geo in
+                    GuestCreature(kind: livingSkin, cardWidth: geo.size.width)
+                        .position(x: geo.size.width * 0.32, y: 0)
+                }
+                .allowsHitTesting(false)
+            }
+        }
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 키캡 누름 — 탭하면 바닥까지 즉각 내려앉았다가 제자리로 돌아온다.
         //
@@ -1340,6 +1357,11 @@ struct ClipKeyboardList: View {
                 theme.surface.opacity(CardGlass.backingOpacity)
             }
         }
+        // 생활 레이어(마을·눈+발자국) — 유리 아래, 카드 표면 위.
+        // 유리 위에 얹으면 유리가 아니라 스티커처럼 보인다.
+        .overlay {
+            livingLayer(memo: memo, lightweight: lightweight)
+        }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) — 카테고리 색은 tint로 유지.
         .modifier(CardGlass(
@@ -1358,6 +1380,47 @@ struct ClipKeyboardList: View {
         // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
         .shadow(color: lightweight ? .clear : .black.opacity(0.10),
                 radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
+    }
+
+    // MARK: - 생활 레이어
+
+    /// 손님 스케줄러를 현재 스킨에 맞춰 켜거나 끈다.
+    /// 스케줄러가 저전력 모드·동작 줄이기를 스스로 확인하므로 여기서는 재료만 넘긴다.
+    private func startGuestsIfNeeded() {
+        guestScheduler.start(
+            skin: livingSkin,
+            // 화면 위쪽 카드들만 후보 — 스크롤 밖에서 손님이 오가면 아무도 못 본다.
+            candidates: { viewModel.memos.prefix(12).map(\.id) },
+            reduceMotion: reduceMotion
+        )
+    }
+
+    /// 카드 위에 사는 것 — 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
+    private var livingSkin: LivingSkin {
+        LivingSkin(rawValue: livingSkinRaw) ?? .none
+    }
+
+    /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다 —
+    /// 회전하는 카드마다 Canvas가 하나씩 더 붙으면 드래그가 눈에 띄게 무거워진다.
+    @ViewBuilder
+    private func livingLayer(memo: Memo, lightweight: Bool) -> some View {
+        if !lightweight, Delight.isEnabled {
+            switch livingSkin {
+            case .village:
+                // 사용 기록이 그대로 마을이 된다 — 움직이지 않으므로 스크린샷에 남는다.
+                VillageStrip(useCount: memo.clipCount)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding(.leading, 18)
+                    .padding(.top, 10)
+            case .snow:
+                ZStack {
+                    SnowTexture(seed: memo.id.hashValue)
+                    FootprintLayer(useCount: memo.clipCount)
+                }
+            case .none, .bird, .cat:
+                EmptyView()
+            }
+        }
     }
 
     // MARK: - 카드 키캡

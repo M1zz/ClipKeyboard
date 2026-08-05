@@ -74,6 +74,10 @@
 		58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
 		58DL00942F0000000000000094 /* KeyboardSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00932F0000000000000093 /* KeyboardSkin.swift */; };
 		58DL00952F0000000000000095 /* KeyboardSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00932F0000000000000093 /* KeyboardSkin.swift */; };
+		58DL00B12F00000000000000B1 /* LivingSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00A12F00000000000000A1 /* LivingSkin.swift */; };
+		58DL00B22F00000000000000B2 /* PixelSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00A22F00000000000000A2 /* PixelSprite.swift */; };
+		58DL00B32F00000000000000B3 /* FootprintTrail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00A32F00000000000000A3 /* FootprintTrail.swift */; };
+		58DL00B42F00000000000000B4 /* GuestCreature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00A42F00000000000000A4 /* GuestCreature.swift */; };
 		58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
@@ -285,6 +289,10 @@
 		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
 		58DL00902F0000000000000090 /* MemoTypeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTypeStyle.swift; sourceTree = "<group>"; };
 		58DL00932F0000000000000093 /* KeyboardSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSkin.swift; sourceTree = "<group>"; };
+		58DL00A12F00000000000000A1 /* LivingSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingSkin.swift; sourceTree = "<group>"; };
+		58DL00A22F00000000000000A2 /* PixelSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelSprite.swift; sourceTree = "<group>"; };
+		58DL00A32F00000000000000A3 /* FootprintTrail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintTrail.swift; sourceTree = "<group>"; };
+		58DL00A42F00000000000000A4 /* GuestCreature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCreature.swift; sourceTree = "<group>"; };
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
@@ -623,6 +631,17 @@
 			path = Delight;
 			sourceTree = "<group>";
 		};
+		58DL00A02F00000000000000A0 /* Living */ = {
+			isa = PBXGroup;
+			children = (
+				58DL00A12F00000000000000A1 /* LivingSkin.swift */,
+				58DL00A22F00000000000000A2 /* PixelSprite.swift */,
+				58DL00A32F00000000000000A3 /* FootprintTrail.swift */,
+				58DL00A42F00000000000000A4 /* GuestCreature.swift */,
+			);
+			path = Living;
+			sourceTree = "<group>";
+		};
 		58DS00112F0000000000000011 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -633,6 +652,7 @@
 				58DL00002F0000000000000000 /* Delight */,
 				58DL00902F0000000000000090 /* MemoTypeStyle.swift */,
 				58DL00932F0000000000000093 /* KeyboardSkin.swift */,
+				58DL00A02F00000000000000A0 /* Living */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -1224,6 +1244,10 @@
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
 				58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,
 				58DL00942F0000000000000094 /* KeyboardSkin.swift in Sources */,
+				58DL00B12F00000000000000B1 /* LivingSkin.swift in Sources */,
+				58DL00B22F00000000000000B2 /* PixelSprite.swift in Sources */,
+				58DL00B32F00000000000000B3 /* FootprintTrail.swift in Sources */,
+				58DL00B42F00000000000000B4 /* GuestCreature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

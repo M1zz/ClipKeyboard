@@ -33,6 +33,9 @@ enum DefaultsKey {
     static let kbBeaconTotalCount = "kb.beacon.totalCount"
     static let keyboardExtensionDidLoad = "keyboard_extension_did_load"
     static let keyboardKoreanEnabled = "keyboardKoreanEnabled"
+    /// 생활 레이어 프리셋(LivingSkin rawValue) — 카드 위에 사는 것. 값이 없으면 `.none`.
+    /// ⚠️ 앱 전용이다. 키보드 익스텐션은 메모리 상한 때문에 이 레이어를 그리지 않는다.
+    static let livingSkin = "livingSkin.v1"
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group — 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"
