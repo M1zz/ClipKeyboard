@@ -209,14 +209,29 @@ class MemoStore: ObservableObject {
 
     // MARK: - Clip Count
 
-    func incrementClipCount(for memoId: UUID) throws {
+    /// - Parameter copiedText: 실제로 클립보드에 들어간 글. 콤보처럼 **여러 값 중 하나**를
+    ///   골라 쓰는 경우 메모 본문만 봐서는 무엇이 복사됐는지 알 수 없어서 호출자가 알려준다.
+    ///   (붙여넣기 연습이 "복사한 그것"과 맞는지 볼 때 쓴다.)
+    func incrementClipCount(for memoId: UUID, copiedText: String? = nil) throws {
         var memos = try load(type: .memo)
         if let index = memos.firstIndex(where: { $0.id == memoId }) {
             memos[index].clipCount += 1
             memos[index].lastUsedAt = Date()
             try save(memos: memos, type: .memo)
-            // 일일 카운트 + 평생 절약 시간 갱신 (메모 길이 기반)
-            KeyboardUsageTracker.recordMemoUse(value: memos[index].value)
+            // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
+            KeyboardUsageTracker.recordMemoUse(value: memos[index].value, memoID: memoId)
+
+            // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후 —
+            // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
+            // 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.
+            NotificationCenter.default.post(
+                name: .memoUsed,
+                object: nil,
+                userInfo: [MemoUsedKey.memoID: memoId,
+                           MemoUsedKey.earnedSeconds: KeyboardUsageTracker.earnedSeconds(
+                            characterCount: memos[index].value.count, useCount: 1),
+                           MemoUsedKey.copiedText: copiedText ?? memos[index].value]
+            )
         }
     }
 
@@ -639,6 +654,20 @@ struct MemoSnapshot: Codable, Identifiable {
     var memos: [Memo]
 }
 
+// MARK: - 사용 신호
+
+extension Notification.Name {
+    /// 문구를 실제로 한 번 썼다(`MemoStore.incrementClipCount` 성공).
+    static let memoUsed = Notification.Name("clipkeyboard.memoUsed")
+}
+
+enum MemoUsedKey {
+    static let memoID = "memoID"
+    static let earnedSeconds = "earnedSeconds"
+    /// 실제로 클립보드에 들어간 글.
+    static let copiedText = "copiedText"
+}
+
 // MARK: - KeyboardUsageTracker
 
 /// 키보드/메모 사용 통계 — App Group UserDefaults 기반.
@@ -656,14 +685,33 @@ enum KeyboardUsageTracker {
     /// 메모 탭+선택에 드는 오버헤드 (초). 실제 절약 시간에서 차감.
     private static let memoTapOverheadSeconds: Double = 1.0
 
-    /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp).
-    static func recordMemoUse(value: String) {
+    /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp),
+    /// 그리고 월 원장에 문구별로 같은 금액을 적는다.
+    ///
+    /// ⚠️ 셋을 **한 곳에서** 갱신한다. 따로 부르게 두면 어느 하나가 빠진 경로가 생기고,
+    ///    그러면 잔고·영수증·기간 합계가 서로 다른 말을 하기 시작한다.
+    /// - Parameter memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
+    static func recordMemoUse(value: String, memoID: UUID? = nil, on date: Date = Date()) {
         guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
-        let key = dailyKey(for: Date())
+        let key = dailyKey(for: date)
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
-        let saved = max(0, Double(value.count) / charsPerSecond - memoTapOverheadSeconds)
+        let saved = earnedSeconds(characterCount: value.count, useCount: 1)
         defaults.set(defaults.double(forKey: timeSavedKey) + saved, forKey: timeSavedKey)
+
+        if let memoID {
+            RefundLedger.record(memoID: memoID, seconds: saved, on: date)
+        }
+    }
+
+    /// 문구 하나가 지금까지 돌려준 시간(초).
+    ///
+    /// ⚠️ **누적과 같은 식이어야 한다.** 카드에 쌓인 동전, 영수증의 줄 금액, 잔고 합계가
+    ///    각자 계산하면 서로 안 맞고, 그러면 셋 중 둘은 거짓말이 된다. 그래서 여기 하나만 둔다.
+    static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
+        guard useCount > 0 else { return 0 }
+        let perUse = max(0, Double(characterCount) / charsPerSecond - memoTapOverheadSeconds)
+        return perUse * Double(useCount)
     }
 
     /// 특정 날짜의 사용 횟수 (기본: 오늘)

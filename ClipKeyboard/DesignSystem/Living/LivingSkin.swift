@@ -23,6 +23,10 @@ import SwiftUI
 enum LivingSkin: String, CaseIterable, Identifiable {
     /// 아무것도 살지 않음 (기본).
     case none
+    /// 쓸수록 카드 위에 동전이 쌓인다 — 아낀 시간이 잔고가 된다.
+    case vault
+    /// 세 번 쓸 때마다 돌이 깨지고 보석이 하나 나온다.
+    case geode
     /// 쓸수록 카드 위에 픽셀 마을이 자란다.
     case village
     /// 눈 덮인 카드에 발자국이 하나씩 남는다.
@@ -47,7 +51,7 @@ enum LivingSkin: String, CaseIterable, Identifiable {
     /// 사용 기록에서 그려지는가(= 정지 화면, 스크린샷에 남음, 배터리 0).
     var isPersistent: Bool {
         switch self {
-        case .village, .snow: return true
+        case .vault, .geode, .village, .snow: return true
         case .none, .bird, .cat: return false
         }
     }
@@ -56,7 +60,7 @@ enum LivingSkin: String, CaseIterable, Identifiable {
     var isVisitor: Bool {
         switch self {
         case .bird, .cat: return true
-        case .none, .village, .snow: return false
+        case .none, .vault, .geode, .village, .snow: return false
         }
     }
 
@@ -86,6 +90,8 @@ enum LivingSkin: String, CaseIterable, Identifiable {
     var localizedName: String {
         switch self {
         case .none:    return NSLocalizedString("없음", comment: "Living skin name: none")
+        case .vault:   return NSLocalizedString("금고", comment: "Living skin name: vault")
+        case .geode:   return NSLocalizedString("정동석", comment: "Living skin name: geode")
         case .village: return NSLocalizedString("픽셀 마을", comment: "Living skin name: pixel village")
         case .snow:    return NSLocalizedString("눈과 발자국", comment: "Living skin name: snow and footprints")
         case .bird:    return NSLocalizedString("새", comment: "Living skin name: bird")
@@ -97,6 +103,10 @@ enum LivingSkin: String, CaseIterable, Identifiable {
         switch self {
         case .none:
             return NSLocalizedString("카드만 깔끔하게 보여요.", comment: "Living skin description: none")
+        case .vault:
+            return NSLocalizedString("아낀 시간이 동전으로 쌓여요. 오래 쓴 문구일수록 금괴가 늘어나요.", comment: "Living skin description: vault")
+        case .geode:
+            return NSLocalizedString("쓸 때마다 돌에 금이 가고, 세 번째에 깨지면서 보석이 나와요.", comment: "Living skin description: geode")
         case .village:
             return NSLocalizedString("쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.", comment: "Living skin description: village")
         case .snow:
@@ -111,6 +121,10 @@ enum LivingSkin: String, CaseIterable, Identifiable {
     /// 목록에 함께 보여줄 성격 꼬리표 — 고르기 전에 무엇을 얻고 잃는지 알려준다.
     var localizedTrait: String? {
         switch self {
+        case .vault:
+            return NSLocalizedString("아낀 시간만큼 쌓여요", comment: "Living skin trait: vault balance")
+        case .geode:
+            return NSLocalizedString("세 번마다 보석 하나", comment: "Living skin trait: geode")
         case .village, .snow:
             return NSLocalizedString("사용 기록으로 남아요", comment: "Living skin trait: persistent")
         case .bird, .cat:

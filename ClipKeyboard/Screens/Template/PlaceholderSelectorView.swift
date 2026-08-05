@@ -56,7 +56,7 @@ struct PlaceholderSelectorView: View {
             if isNumericToken {
                 // 금액 등 숫자 토큰: 저장하지 않고 입력값을 바로 사용한다.
                 // (다시 쓸 일 없는 1회성 값이라 저장 목록을 만들지 않음)
-                TextField(NSLocalizedString("값 입력", comment: "Direct value input placeholder"), text: $selectedValue)
+                TextField(NSLocalizedString("값을 입력해주세요", comment: "Direct value input placeholder"), text: $selectedValue)
                     .clipRoundedField()
                     .font(.body)
                     #if os(iOS)
@@ -65,13 +65,64 @@ struct PlaceholderSelectorView: View {
             } else {
                 // 값 목록 (저장된 값 칩)
                 if values.isEmpty {
-                    Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
-                        .font(.body)
-                        .foregroundColor(.orange)
-                        .padding(12)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.orange.opacity(0.1))
-                        .cornerRadius(theme.radiusSm)
+                    // ⚠️ 예전에는 주황색 경고문 한 줄만 있었다. 처음 만든 템플릿을 눌러보면
+                    //    빈칸에 뭘 넣어야 하는지 알 수 없어서 여기서 멈춘다.
+                    //    **어떻게 생긴 값인지 보여 주는 것**이 설명보다 빠르다.
+                    let examples = PlaceholderExamples.suggestions(for: placeholder)
+                    if examples.isEmpty {
+                        // 빈칸 이름을 못 알아본 경우. 엉뚱한 예시를 지어내느니 안내만 한다.
+                        Text(NSLocalizedString("아래에서 값을 추가하세요", comment: "Add value hint"))
+                            .font(.body)
+                            .foregroundColor(theme.textMuted)
+                            .padding(12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(theme.surfaceAlt)
+                            .cornerRadius(theme.radiusSm)
+                    } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(NSLocalizedString("이런 값을 넣어요", comment: "Placeholder examples header"))
+                            .font(.footnote.weight(.semibold))
+                            .foregroundColor(theme.textMuted)
+
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 8) {
+                                ForEach(examples, id: \.self) { example in
+                                    Button {
+                                        // 예시는 **누를 때에만** 내 값이 된다. 미리 넣어 두면
+                                        // 쓴 적 없는 값이 목록에 쌓인다.
+                                        MemoStore.shared.addPlaceholderValue(
+                                            example, for: placeholder,
+                                            sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle
+                                        )
+                                        loadValues()
+                                        selectedValue = example
+                                    } label: {
+                                        Text(example)
+                                            .font(.body)
+                                            .foregroundColor(theme.textMuted)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 8)
+                                            .background(
+                                                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                                                    .strokeBorder(theme.divider,
+                                                                  style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                                            )
+                                    }
+                                    .accessibilityHint(NSLocalizedString("탭하면 이 값으로 저장됩니다",
+                                                                        comment: "Placeholder example chip hint"))
+                                }
+                            }
+                        }
+
+                        Text(NSLocalizedString("예시예요. 누르면 내 값으로 저장돼요.", comment: "Placeholder examples footnote"))
+                            .font(.caption)
+                            .foregroundColor(theme.textFaint)
+                    }
+                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(theme.surfaceAlt)
+                    .cornerRadius(theme.radiusSm)
+                    }
                 } else {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
@@ -112,7 +163,7 @@ struct PlaceholderSelectorView: View {
 
                 // 값 추가 입력 (저장형 토큰만)
                 HStack(spacing: 8) {
-                    TextField(NSLocalizedString("새 값 입력", comment: "New value input placeholder"), text: $newValue)
+                    TextField(NSLocalizedString("새로운 값을 추가해주세요", comment: "New value input placeholder"), text: $newValue)
                         .clipRoundedField()
                         .font(.body)
 

@@ -137,6 +137,21 @@ enum DefaultsKey {
     /// "새 배경 써보시겠어요?" 1회 제안을 이미 답했는지 (App Group)
     static let backgroundOfferResolvedV1 = "backgroundOfferResolved_v1"
 
+    // MARK: - 첫 단축어 온보딩
+    /// 첫 단축어 만들기를 끝냈거나 건너뛰었는지. 안 끝났으면 빈 목록 자리에 광부가 선다.
+    static let firstShortcutDone = "firstShortcut.done.v1"
+    /// 4.4.4 기본 스킨 씨앗을 이미 뿌렸는지(1회). 두 번 뿌리면 사용자가 바꾼 걸 되돌린다.
+    static let skinSeededV444 = "skinSeeded.v444"
+    /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 샘플 생략이
+    /// 같은 판단을 근거로 움직이게 하는 표식이다.
+    static let startedFreshV444 = "startedFresh.v444"
+    /// 콤보 튜토리얼을 끝냈거나 거절했는지. 거절도 답이라 다시 묻지 않는다.
+    static let tutorialComboDone = "tutorial.combo.done.v1"
+    /// 템플릿 튜토리얼을 끝냈거나 거절했는지.
+    static let tutorialTemplateDone = "tutorial.template.done.v1"
+    /// "있는 단축어를 템플릿으로 바꾸기" 튜토리얼을 끝냈거나 거절했는지.
+    static let tutorialMakeTemplateDone = "tutorial.makeTemplate.done.v1"
+
     // MARK: - 데모 데이터
     /// 데모(샘플 페르소나) 데이터가 켜져 있는지 (App Group — 키보드도 같은 데이터를 본다).
     /// 켤 때 원본을 demo.backup.data로 백업하고, 끄면 복원한다. DemoDataService 참고.

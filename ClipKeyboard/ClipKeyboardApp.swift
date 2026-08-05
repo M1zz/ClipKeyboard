@@ -41,11 +41,47 @@ struct ClipKeyboardApp: App {
     static let isRunningUnitTests: Bool =
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
+    /// 4.4.4 부터 **새로 시작하는 사람만** 금고 스킨으로 연다.
+    ///
+    /// ⚠️ 쓰던 사람의 화면은 건드리지 않는다. 업데이트했다는 이유로 남의 카드에 갑자기
+    ///    다이얼이 생기고 툴바에 금고가 서 있으면, 고른 적 없는 것이 얹힌 셈이다.
+    ///    (`LivingSkin` 파일 머리말의 "기본값은 .none" 원칙과 같은 이유다 —
+    ///     여기서 예외를 두는 건 **첫 화면을 처음 보는 사람**뿐이다.)
+    ///
+    /// 새 설치를 가리는 표식은 **설치일이 아직 없다**는 사실이다. 설치일은 첫 실행에
+    /// 기록되므로, 이 시점에 이미 있으면 지난 버전에서 쓰던 사람이다.
+    static func seedDefaultSkinForNewInstalls() {
+        let standard = UserDefaults.standard
+        // 한 번만 뿌린다. 두 번 뿌리면 사용자가 '없음'으로 바꾼 걸 되돌려 버린다.
+        guard !standard.bool(forKey: DefaultsKey.skinSeededV444) else { return }
+        standard.set(true, forKey: DefaultsKey.skinSeededV444)
+
+        guard standard.object(forKey: "app_install_date") == nil else {
+            print("🎨 [APP INIT] 기존 사용자 — 스킨·샘플 그대로 둠")
+            return
+        }
+
+        // 이 기기가 4.4.4 에서 처음 시작했다는 사실을 남긴다.
+        // 스킨 기본값과 샘플 생략이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
+        standard.set(true, forKey: DefaultsKey.startedFreshV444)
+
+        guard let group = UserDefaults(suiteName: AppGroup.identifier),
+              group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
+
+        group.set(LivingSkin.vault.rawValue, forKey: DefaultsKey.livingSkin)
+        print("🎨 [APP INIT] 새 설치 — 금고 스킨으로 시작")
+    }
+
     init() {
         if ClipKeyboardApp.isRunningUnitTests {
             print("🧪 [APP INIT] 유닛 테스트 모드 — 무거운 초기화 스킵")
             return
         }
+
+        // ⚠️ **다른 어떤 초기화보다 먼저.** 설치일(app_install_date)이 아직 없다는 사실로
+        //    새 설치를 가려내는데, ReviewManager 가 한 번이라도 먼저 깨어나면 그 값을 써 버려서
+        //    기존 사용자와 구분이 안 된다.
+        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
 
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
         print("📱 [APP INIT] DataManager 생성됨")
@@ -84,6 +120,11 @@ struct ClipKeyboardApp: App {
 
         // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
         UsageReportingService.reportLaunch()
+
+        // 오래된 월 원장·일별 키 정리 — 하루 한 번만 실제로 돈다.
+        // ⚠️ 반드시 **앱에서만**. 전체 사전을 훑는 일이라 키보드 익스텐션의 입력 경로에 두면
+        //    메모리 상한(약 60MB) 안에서 매 입력마다 값을 치르게 된다.
+        RefundLedger.pruneIfNeeded()
 
         // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행
         Task { await ProFeatureManager.bootstrapIsTestFlight() }
@@ -456,6 +497,20 @@ struct ClipKeyboardApp: App {
 
     private func insertDefaultSamplesIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
+
+        // ⚠️ 4.4.4 부터 새로 시작하는 사람에게는 샘플을 넣지 않는다.
+        //
+        //    넣으면 목록이 비어 있지 않게 되고, 빈 목록 자리에 서는 **온보딩이 아예 안 뜬다.**
+        //    (첫 단축어를 자기 손으로 만드는 것이 이 버전 온보딩의 전부다.)
+        //    다시 안 돌게 플래그는 세워 둔다 — 나중에 하나를 지워 목록이 비었다고
+        //    그제야 샘플이 쏟아지면 안 된다.
+        if UserDefaults.standard.bool(forKey: DefaultsKey.startedFreshV444) {
+            UserDefaults.standard.set(true, forKey: samplesInsertedKey)
+            UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
+            print("🌱 [APP INIT] 새 설치 — 샘플 대신 온보딩으로 시작")
+            return
+        }
+
         if performSampleInsertion() {
             UserDefaults.standard.set(true, forKey: samplesInsertedKey)
             UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)

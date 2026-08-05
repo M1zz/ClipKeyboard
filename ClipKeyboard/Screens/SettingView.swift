@@ -14,6 +14,9 @@ struct SettingView: View {
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
+    /// 예전 목록 화면 ⋯ 메뉴에 있던 것들. 바가 넘쳐서 여기로 옮겼다.
+    @State private var showStarterPack = false
+    @State private var showPlaceholderManagement = false
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
     /// 기기 간 메모 동기화(실험적) — App Group에 저장해 엔진/맥과 공유.
@@ -88,7 +91,7 @@ struct SettingView: View {
             }
             // 목록 화면 꾸밈이라 '키보드 레이아웃'이 아니라 여기(디스플레이)에 둔다.
             NavigationLink(destination: LivingSkinSettings()) {
-                Label(NSLocalizedString("생활 레이어", comment: "Section: living skin"),
+                Label(NSLocalizedString("단축어 스킨", comment: "Section: shortcut card skin"),
                       systemImage: AppSymbol.sparkles)
             }
             // @AppStorage가 App Group에 직접 쓴다 — Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
@@ -257,6 +260,43 @@ struct SettingView: View {
 
             // MARK: 디스플레이 (이 앱에서만의 메모 표시 방식)
             displaySection
+
+            // MARK: 단축어 관리
+            //
+            // ⚠️ 예전에는 목록 화면 오른쪽 위 ⋯ 메뉴에 있던 것들이다. 바에 ⋯ 와 + 와
+            //    금고를 다 두려니 시스템이 넘친다고 보고 오버플로 ⋯ 를 하나 더 만들어서
+            //    ⋯ 가 둘로 보였고, 금고는 그 안에 접혀 사라졌다. 자주 안 여는 것들은
+            //    설정에 있는 편이 찾기도 쉽다.
+            Section(NSLocalizedString("단축어 관리", comment: "Settings section: shortcut management")) {
+                NavigationLink(destination: UsageGuideView()) {
+                    Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                          systemImage: AppSymbol.sparkles)
+                }
+                NavigationLink(destination: QuickNoteInboxView()) {
+                    Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
+                          systemImage: AppSymbol.trayFull)
+                }
+                NavigationLink(destination: ListBackgroundSettings()) {
+                    Label(NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
+                          systemImage: "photo.on.rectangle.angled")
+                }
+                Button {
+                    HapticManager.shared.light()
+                    showStarterPack = true
+                } label: {
+                    Label(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
+                          systemImage: AppSymbol.squareStack3dUpFill)
+                        .foregroundColor(theme.text)
+                }
+                Button {
+                    HapticManager.shared.light()
+                    showPlaceholderManagement = true
+                } label: {
+                    Label(NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                          systemImage: AppSymbol.listBullet)
+                        .foregroundColor(theme.text)
+                }
+            }
 
             // MARK: 카테고리 (공용 — 메모·키보드 양쪽에서 사용)
             Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
@@ -473,6 +513,12 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
+        .sheet(isPresented: $showStarterPack) { StarterPackView { _ in } }
+        .sheet(isPresented: $showPlaceholderManagement) {
+            PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
         .sheet(isPresented: $showKeyboardGuide) {
             KeyboardSetupOnboardingView { showKeyboardGuide = false }
                 .presentationDetents([.large])

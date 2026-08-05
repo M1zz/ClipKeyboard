@@ -13,6 +13,9 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
+import LeeoKit
+#endif
 
 struct UsagePassportView: View {
 
@@ -20,12 +23,21 @@ struct UsagePassportView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var summary: UsagePassport.Summary?
+    /// 영수증을 뽑은 순간. 발행 시각을 고정해야 시트에서 기간을 바꿔도 시각이 안 흔들린다.
+    @State private var receiptRequest: ReceiptRequest?
+
+    private struct ReceiptRequest: Identifiable {
+        let id = UUID()
+        let issuedAt: Date
+        let memos: [Memo]
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 if let summary, summary.totalUses > 0 {
                     header(summary)
+                    receiptButton(summary)
                     stampsSection(summary)
                     footnote(summary)
                 } else {
@@ -38,6 +50,45 @@ struct UsagePassportView: View {
         .navigationTitle(NSLocalizedString("사용 기록", comment: "Usage passport screen title"))
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: reload)
+        .sheet(item: $receiptRequest) { request in
+            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt)
+        }
+    }
+
+    // MARK: - 영수증 뽑기
+
+    /// 영수증은 **버튼을 눌러야** 나온다. 화면에 항상 펼쳐두면 종이가 아니라 배경이 되고,
+    /// 뽑는 동작이 없으면 "가지고 있다"는 감각도 생기지 않는다.
+    private func receiptButton(_ summary: UsagePassport.Summary) -> some View {
+        Button {
+            HapticManager.shared.light()
+            receiptRequest = ReceiptRequest(issuedAt: Date(),
+                                            memos: (try? MemoStore.shared.load(type: .memo)) ?? [])
+        } label: {
+            HStack(spacing: 12) {
+                VaultSpriteStrip(sprites: [.receipt], pixel: 3)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(NSLocalizedString("영수증 뽑기", comment: "Button: print refund receipt"))
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("돌려받은 시간을 한 장으로 저장해 두세요.", comment: "Button subtitle: refund receipt"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: AppSymbol.chevronRight)
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(theme.textFaint)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .fill(theme.surface)
+            )
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - 머리말

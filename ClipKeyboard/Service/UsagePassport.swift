@@ -28,6 +28,8 @@ enum UsagePassport {
         let useCount: Int
         /// 마지막으로 쓴 날. 없으면 기록 이전에 쓰인 것.
         let lastUsedAt: Date?
+        /// 이 문구가 지금까지 돌려준 시간(초) — 영수증의 줄 금액.
+        let earnedSeconds: Double
     }
 
     // MARK: - 한 기간의 기록
@@ -85,7 +87,9 @@ enum UsagePassport {
                 Stamp(id: memo.id,
                       label: displayLabel(for: memo),
                       useCount: memo.clipCount,
-                      lastUsedAt: memo.lastUsedAt)
+                      lastUsedAt: memo.lastUsedAt,
+                      earnedSeconds: KeyboardUsageTracker.earnedSeconds(
+                        characterCount: memo.value.count, useCount: memo.clipCount))
             }
         )
     }

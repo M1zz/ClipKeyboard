@@ -116,9 +116,59 @@ struct ClipKeyboardList: View {
     }
     /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 생활 레이어 프리셋 — 카드 위에 사는 것(없음/마을/눈/새/고양이).
+    /// 단축어 스킨 프리셋 — 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
     @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var livingSkinRaw: String = LivingSkin.none.rawValue
+    /// 동전이 어디서 날아 어디로 들어가는지를 쥐고 있는 것.
+    @StateObject private var vaultDeposit = VaultDeposit()
+    /// 금고에 쌓인 시간(초) — 입금할 때마다 갱신해 잔고 알약이 바로 늘어난다.
+    @State private var vaultSeconds: Double = 0
+    /// 금고 화면 열기.
+    @State private var showVault = false
+    /// 첫 단축어 만들기를 끝냈거나 건너뛰었는지.
+    @AppStorage(DefaultsKey.firstShortcutDone)
+    private var firstShortcutDone: Bool = false
+    /// 이 기기가 4.4.4 에서 처음 시작했는지 — 온보딩을 보여줄 사람인지 가른다.
+    @AppStorage(DefaultsKey.startedFreshV444)
+    private var startedFreshV444: Bool = false
+    /// 방금 만든 단축어 — 한 번 써 볼 때까지 "눌러보세요"를 띄운다.
+    @State private var coachMemoID: UUID?
+    /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
+    @State private var coachRect: CGRect = .zero
+    /// 복사까지 해 본 직후 이어지는 붙여넣기 연습. 복사만 시키고 끝내면
+    /// "복사됐다"로 끝나고, 값어치는 **그 다음에 안 친 것**에 있다.
+    @State private var pastePractice: PastePracticeRequest?
+
+    private struct PastePracticeRequest: Identifiable {
+        let id = UUID()
+        let value: String
+    }
+
+    /// 콤보/템플릿 튜토리얼을 끝냈는지. 한 번 한 사람에게 다시 권하지 않는다.
+    @AppStorage(DefaultsKey.tutorialComboDone)
+    private var tutorialComboDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialTemplateDone)
+    private var tutorialTemplateDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeTemplateDone)
+    private var tutorialMakeTemplateDone: Bool = false
+    /// "템플릿으로 만들기" 시트가 튜토리얼로 열렸는지 — 닫힐 때 다음 장으로 이어주려고 본다.
+    @State private var awaitingMakeTemplate = false
+    /// "이어서 해볼까요?" 를 띄우는 중인 장.
+    @State private var tutorialInvite: TutorialChapter?
+    /// 만들기 화면을 띄우는 중인 장.
+    @State private var tutorialMaking: TutorialChapter?
+    /// 지금 코치가 가리키는 장 — 안내 문구가 장마다 다르다.
+    @State private var coachChapter: TutorialChapter?
+    /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
+    @State private var lastTapPoint: CGPoint = .zero
+    /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
+    @State private var coinBadgeMemoID: UUID?
+    /// 지금 막 깨지고 있는 지오드. 부서진 모습을 잠깐 붙잡아 둔다 —
+    /// 곧장 새 돌로 넘어가면 무엇이 나왔는지 못 보고 지나간다.
+    @State private var burstingMemoID: UUID?
+    /// 모달이 닫히기를 기다리는 입금. 콤보·템플릿은 시트가 떠 있는 동안 사용이 확정되는데,
+    /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
+    @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
     /// 키캡 물성 — 설정에서 바꾸면 이 화면도 바로 따라야 한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
@@ -179,7 +229,6 @@ struct ClipKeyboardList: View {
     // TipKit
     private let welcomeTip = WelcomeTip()
     private let addMemoTip = AddMemoTip()
-    private let cleanUpTip = CleanUpSamplesTip()
     private let quickNoteInboxTip = QuickNoteInboxTip()
 
     @Environment(\.appTheme) private var theme
@@ -552,9 +601,74 @@ struct ClipKeyboardList: View {
                 refreshGhostSuggestion()
                 AnalyticsService.setMemoBucket(viewModel.memos.count)
                 expandTitleOnAppear()
+                vaultSeconds = KeyboardUsageTracker.totalTimeSavedSeconds()
             }
             .toolbar {
                 toolbarContent
+            }
+            // 동전 비행 + 코치를 한 겹으로 얹는다.
+            // (오버레이를 여러 겹 쌓으면 이 화면의 뷰 체인이 길어져 타입 검사가 터진다.)
+            .overlay { floatingLayer }
+            .onPreferenceChange(CoachAnchorKey.self) { rect in
+                coachRect = rect
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .memoUsed)) { note in
+                handleMemoUsed(note)
+            }
+            // 시트가 다 닫히면 기다리던 동전을 날린다. 닫히는 애니메이션이 끝나야
+            // 동전이 시트 뒤에서 튀어나오는 것처럼 보이지 않는다.
+            .onChange(of: anyModalUp) { _, isUp in
+                guard !isUp, let pending = pendingDeposit else { return }
+                pendingDeposit = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    showCoinThenFly(memoID: pending.memoID,
+                                    seconds: pending.seconds,
+                                    from: pending.point)
+                }
+            }
+            .navigationDestination(isPresented: $showVault) {
+                VaultScreen()
+            }
+            // 온보딩의 마지막 걸음 — 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
+            .fullScreenCover(item: $pastePractice) { request in
+                PastePracticeView(expected: request.value) {
+                    pastePractice = nil
+                    inviteNextChapter(after: 0.5)     // 붙여넣기까지 됐으면 다음 장을 권한다
+                }
+            }
+            .fullScreenCover(item: $tutorialInvite) { chapter in
+                TutorialInviteView(chapter: chapter) {
+                    tutorialInvite = nil
+                    // 시트가 겹치지 않게 한 박자 뒤에 다음 화면을 연다.
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                        if chapter == .makeTemplate {
+                            // 새 화면을 만들지 않는다 — 이미 있는 "템플릿으로 만들기"를 그대로 태운다.
+                            // 튜토리얼에서만 보는 특별한 화면을 배워봐야, 정작 평소에 쓰는
+                            // 메뉴는 여전히 낯설다.
+                            awaitingMakeTemplate = true
+                            makeTemplateSource = convertibleShortcut
+                        } else {
+                            tutorialMaking = chapter
+                        }
+                    }
+                } onDecline: {
+                    tutorialInvite = nil
+                    // 거절도 답이다 — 다시 묻지 않는다. 붙잡으면 다음에 안 온다.
+                    markDone(chapter)
+                }
+            }
+            .fullScreenCover(item: $tutorialMaking) { chapter in
+                switch chapter {
+                case .combo:
+                    ComboTutorialView(onCreated: { tutorialCreated($0, chapter: .combo) },
+                                      onSkip: { tutorialMaking = nil; tutorialComboDone = true })
+                case .template:
+                    TemplateTutorialView(onCreated: { tutorialCreated($0, chapter: .template) },
+                                         onSkip: { tutorialMaking = nil; tutorialTemplateDone = true })
+                case .makeTemplate:
+                    // 여기로 오지 않는다(위에서 기존 화면으로 보낸다). 안전망.
+                    Color.clear.onAppear { tutorialMaking = nil }
+                }
             }
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
@@ -732,7 +846,16 @@ struct ClipKeyboardList: View {
             }
             // "템플릿으로 만들기" — 원본 내용으로 채운 별도 새 메모(memoId=nil). 본문 포커스로
             // 변수 삽입바를 바로 띄우고, 저장하면 원본은 그대로 둔 채 새 템플릿 메모가 생긴다.
-            .sheet(item: $makeTemplateSource, onDismiss: { viewModel.loadMemos() }) { src in
+            .sheet(item: $makeTemplateSource, onDismiss: {
+                viewModel.loadMemos()
+                // 튜토리얼로 열었던 거라면 여기서 그 장이 끝난다 — 저장했든 취소했든,
+                // 이 화면을 한 번 본 것만으로 "있는 걸 바꿀 수 있다"는 건 전달됐다.
+                if awaitingMakeTemplate {
+                    awaitingMakeTemplate = false
+                    tutorialMakeTemplateDone = true
+                    inviteNextChapter(after: 0.5)
+                }
+            }) { src in
                 NavigationStack {
                     MemoAdd(
                         insertedKeyword: src.title,
@@ -878,6 +1001,28 @@ struct ClipKeyboardList: View {
         persistPerTabBackgrounds()
     }
 
+    /// 배경 제안을 꺼낼 때가 됐는지.
+    ///
+    /// ⚠️ 예전에는 **설치 첫날 1초 만에** 물었다. 아직 뭐 하는 앱인지도 모르는 사람에게
+    ///    "배경 사진 깔아볼래요?"를 들이미는 셈이라, 대부분 그냥 닫고 그걸로 끝이었다
+    ///    (한 번 닫으면 다시 안 뜬다 — 가장 좋은 기능을 첫날에 태워 없앤 것).
+    ///
+    /// 두 가지를 모두 만족해야 꺼낸다:
+    ///  ① 설치 후 **최소 일주일** — 꾸미기는 도구가 손에 익은 다음의 즐거움이다.
+    ///  ② 단축어가 어느 정도 쌓였을 것 — 카드가 몇 장 없는 화면에 배경을 깔면
+    ///     살아나기는커녕 휑한 게 더 드러난다.
+    private static let backgroundOfferMinDays: Double = 7
+    private static let backgroundOfferMinMemos = 3
+
+    private var isReadyForBackgroundOffer: Bool {
+        guard viewModel.memos.count >= Self.backgroundOfferMinMemos else { return false }
+        // 설치일이 없으면(아직 기록 전) 아직 이르다고 본다 — 일찍 묻느니 늦게 묻는다.
+        guard let installed = UserDefaults.standard.object(forKey: "app_install_date") as? Date else {
+            return false
+        }
+        return Date().timeIntervalSince(installed) >= Self.backgroundOfferMinDays * 86_400
+    }
+
     /// 썸네일 선택 표시 기준 — 현재 범위에서 그 이미지가 적용돼 있는지.
     private func isBackgroundSelected(_ name: String) -> Bool {
         backgroundScopeAllTabs ? (listBackgroundImage == name) : (resolvedBackgroundImage == name)
@@ -921,7 +1066,7 @@ struct ClipKeyboardList: View {
                 }
                 .onAppear {
                     loadPerTabBackgrounds()
-                    guard !backgroundOfferResolved else { return }
+                    guard !backgroundOfferResolved, isReadyForBackgroundOffer else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         showBackgroundOffer = true
                     }
@@ -1106,9 +1251,13 @@ struct ClipKeyboardList: View {
     private func ghostMemoCell(pattern: QuickPattern) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
+                // 아이콘을 그냥 띄워 두면 붕 뜬다 — 원형 배지에 담아야 만들다 만 게 아니라
+                // 만들어 둔 것으로 보인다.
                 Image(systemName: AppSymbol.sparkles)
-                    .font(.title3)
-                    .foregroundColor(.blue.opacity(0.8))
+                    .font(.footnote.weight(.bold))
+                    .foregroundColor(theme.accent)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(theme.accent.opacity(0.14)))
                     .accessibilityHidden(true)
                 Spacer()
                 Button {
@@ -1138,21 +1287,34 @@ struct ClipKeyboardList: View {
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-            Text(NSLocalizedString("눌러서 추가해보기", comment: "Ghost memo: tap to try"))
-                .font(.caption)
-                .foregroundColor(theme.textFaint)
-                .padding(.top, 4)
+            // 흐린 안내문 대신 **누를 것**처럼 생긴 알약. 이 카드의 일은 눌리는 것이다.
+            HStack(spacing: 4) {
+                Image(systemName: AppSymbol.plus)
+                    .font(.caption2.weight(.bold))
+                Text(NSLocalizedString("눌러서 추가해보기", comment: "Ghost memo: tap to try"))
+                    .font(.caption.weight(.semibold))
+            }
+            .foregroundColor(theme.accent)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(Capsule().fill(theme.accent.opacity(0.12)))
+            .padding(.top, 8)
         }
         .padding(16)
         .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        .background(theme.surface.opacity(0.5))
+        // ⚠️ 반투명 위에 또 반투명을 얹지 않는다. 예전에는 surface 0.5 에 opacity 0.85 까지
+        //    겹쳐서 두 번 흐려졌고, 옅은 회색 점선까지 더해져 **만들다 만 카드**로 보였다.
+        //    제안은 흐릿한 게 아니라 **아직 안 만든 것**이다 — 또렷하되 색으로 구분한다.
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .fill(theme.accent.opacity(0.07))
+        )
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(theme.divider, style: StrokeStyle(lineWidth: 1.5, dash: [6, 5]))
+                .strokeBorder(theme.accent.opacity(0.28), lineWidth: 1.5)
         )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .opacity(0.85)
         .onTapGesture {
             HapticManager.shared.selection()
             ghostAddPattern = pattern
@@ -1192,6 +1354,16 @@ struct ClipKeyboardList: View {
                 .allowsHitTesting(false)
             }
         }
+        // 코치가 가리킬 카드의 자리를 알려준다 — 안내를 화면 아래에 고정해 두면
+        // 무엇을 누르라는 건지 이어지지 않는다.
+        .background(
+            GeometryReader { geo in
+                Color.clear.preference(
+                    key: CoachAnchorKey.self,
+                    value: coachMemoID == memo.id ? geo.frame(in: .global) : .zero
+                )
+            }
+        )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 누름 — 스킨에 따라 두 방식으로 갈린다.
         //
@@ -1205,9 +1377,17 @@ struct ClipKeyboardList: View {
             pressDuration: keycapSkin.pressDuration,
             skirt: { dy in cardSkirt(depth: skirtDepth, offsetY: dy) }
         ))
-        .onTapGesture {
+        // 좌표를 받는 탭 — 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
+        // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.
+        //
+        // ⚠️ `.global` 이라야 한다. 이름 붙인 좌표계는 카드가 ScrollView 안쪽 깊이 있어
+        //    닿지 않았고, 그 바람에 어느 카드를 눌러도 동전이 화면 왼쪽 위에서 날아갔다.
+        .onTapGesture(coordinateSpace: .global) { location in
             HapticManager.shared.selection() // 탭: 선택 햅틱
             if !reduceMotion { bounceTriggers[memo.id, default: 0] += 1 } // 푹신 바운스 재생
+            // 동전은 여기서 날리지 않는다. 콤보·템플릿은 아직 **쓴 게 아니라** 시트가 뜰 뿐이라,
+            // 실제 사용이 확정될 때(.memoUsed) 날린다. 자리만 기억해 둔다.
+            lastTapPoint = location
             viewModel.copyMemo(memo: memo)
             checkCategoryBadgeNudge()
             #if os(iOS)
@@ -1328,8 +1508,17 @@ struct ClipKeyboardList: View {
             // 빈 공간), 꺼져 있으면 영역 자체가 없다.
             if contentHintEnabled {
                 Spacer(minLength: 8)
-                // 경량 모드에선 힌트 애니메이션 생략(높이 균일성 위해 영역만 확보).
-                if !lightweight, let hint = fishbowlText(memo: memo) {
+                // 방금 쓴 카드는 이 자리에 **내용 대신 동전**을 보여준다.
+                // 겹쳐 얹으면 내용이 안 읽히고, 옆에 두면 카드 높이가 흔들린다.
+                // 같은 자리를 번갈아 쓰면 둘 다 해결된다.
+                if !lightweight, showsCoin(memo) {
+                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
+                        characterCount: memo.value.count, useCount: memo.clipCount),
+                                   onColor: onColor)
+                        .frame(height: ContentHintPreview.zoneHeight, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .transition(.opacity.combined(with: .scale(scale: 0.7, anchor: .leading)))
+                } else if !lightweight, let hint = fishbowlText(memo: memo) {
                     ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
                 } else {
                     Color.clear.frame(height: ContentHintPreview.zoneHeight)
@@ -1401,12 +1590,173 @@ struct ClipKeyboardList: View {
         LivingSkin(rawValue: livingSkinRaw) ?? .none
     }
 
+    // MARK: - 금고
+
+    /// 네비게이션 바 왼쪽에 서 있는 작은 금고. 동전의 목적지이자 금고 화면으로 가는 문.
+    ///
+    /// ⚠️ 처음에는 목록 위에 **띄워** 뒀는데 지저분했다. 스크롤되는 카드 위에 붙박이로
+    ///    떠 있는 물건은 어디에 두든 무언가를 가린다. 바에 들어가면 자리를 다투지 않는다.
+    ///    (본문 좌표계 밖이라 예전엔 못 넣었지만, 좌표를 전부 global 로 바꾼 뒤로는 된다.)
+    ///
+    /// ⚠️ 금고 스킨을 고른 사람에게만 보인다. 마을을 고른 사람의 바에 금고가 서 있으면
+    ///    자기가 고른 것과 다른 것이 얹힌 셈이다.
+    @ViewBuilder
+    private var vaultEntrance: some View {
+        if livingSkin == .vault || livingSkin == .geode {
+            // 금고는 시간을, 지오드는 보석을 센다 — 모이는 자리는 같고 세는 것만 다르다.
+            VaultButton(savedSeconds: vaultSeconds,
+                        collects: livingSkin == .geode ? .gem : .coin,
+                        deposit: vaultDeposit) {
+                HapticManager.shared.light()
+                showVault = true
+            }
+        }
+    }
+
+    /// 지금 무언가 시트가 떠 있는가. 떠 있으면 동전은 기다린다.
+    private var anyModalUp: Bool {
+        viewModel.selectedComboIdForSheet != nil
+            || viewModel.selectedTemplateIdForSheet != nil
+            || viewModel.showTemplateInputSheet
+    }
+
+    /// 카드에 동전을 잠깐 보여주는 시간(초). 이 동안 그 카드는 내용 대신 동전을 보여준다.
+    private static let coinBadgeDwell: Double = 0.9
+
+    /// 문구를 실제로 썼다는 신호를 받았다.
+    ///
+    /// 탭 시점이 아니라 **사용 확정 시점**에 불린다. 탭에서 처리하면 콤보·템플릿처럼
+    /// 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.
+    private func handleMemoUsed(_ note: Notification) {
+        guard let memoID = note.userInfo?[MemoUsedKey.memoID] as? UUID else { return }
+
+        if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
+
+        // 만든 걸 실제로 써 봤다 → 붙여넣기까지 이어서 데려간다.
+        //
+        // ⚠️ 클립보드를 읽어 값을 알아내지 않는다. iOS 16+ 는 읽을 때마다
+        //    "붙여넣기 허용" 프롬프트를 띄워서, 가르치려던 동작을 시스템 팝업으로 가로챈다.
+        //    이 연습은 온보딩에서 만든 평범한 문구에만 붙으므로 memo.value 가 곧 복사된 값이다.
+        if coachMemoID == memoID {
+            let chapter = coachChapter
+            withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil; coachChapter = nil }
+
+            // 복사했으면 **어느 장이든** 붙여넣기까지 데려간다.
+            // 복사는 앱이 해 준 일이고, 값어치는 그다음에 안 친 것에 있다 — 그건 콤보도 같다.
+            let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
+            if let chapter { markDone(chapter) }
+            if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                    pastePractice = PastePracticeRequest(value: copied)
+                }
+            } else {
+                inviteNextChapter(after: 0.6)
+            }
+        }
+
+        guard livingSkin == .vault else { return }
+        let seconds = note.userInfo?[MemoUsedKey.earnedSeconds] as? Double ?? 0
+
+        vaultSeconds = KeyboardUsageTracker.totalTimeSavedSeconds()
+
+        // 시트가 떠 있으면 동전은 그 뒤에 가려 보이지 않는다. 다 닫힌 뒤에 날린다.
+        guard !anyModalUp else {
+            pendingDeposit = (memoID, seconds, lastTapPoint)
+            return
+        }
+        showCoinThenFly(memoID: memoID, seconds: seconds, from: lastTapPoint)
+    }
+
+    /// 지오드를 한 단계 깨뜨린다. 세 번째면 터뜨리고 보석을 날려 보낸다.
+    ///
+    /// 단계는 사용 횟수에서 계산하므로 여기서 따로 저장할 것이 없다 —
+    /// 저장하면 언젠가 화면과 기록이 어긋난다.
+    private func handleGeodeUse(memoID: UUID) {
+        guard let memo = viewModel.memos.first(where: { $0.id == memoID }) else { return }
+        // ⚠️ 알림은 저장 직후·목록 갱신 **전에** 온다(finalizeCopy 참고). 그래서 여기 있는
+        //    clipCount 는 이번 사용을 아직 안 센 값이다. 하나를 더해야 맞다.
+        guard GeodeStage.yieldsGem(afterUseCount: memo.clipCount + 1) else { return }
+
+        guard Delight.isEnabled, !reduceMotion else {
+            vaultDeposit.arriveSilently()
+            return
+        }
+
+        let point = lastTapPoint
+        withAnimation { burstingMemoID = memoID }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            if burstingMemoID == memoID { withAnimation { burstingMemoID = nil } }
+            vaultDeposit.launch(from: point, seconds: 0, payload: .gem)
+        }
+    }
+
+    /// 카드에 동전을 먼저 보여주고, 사라지면서 금고로 날린다.
+    ///
+    /// 순서가 값어치다 — 동전과 내용이 **같은 자리를 동시에 쓰지 않는다.**
+    /// 처음엔 둘을 겹쳐 놨는데 내용이 읽히질 않았다.
+    private func showCoinThenFly(memoID: UUID, seconds: Double, from point: CGPoint) {
+        // 동작 줄이기·저전력에서는 날리지 않는다. 그래도 입금은 알려야
+        // "안 들어갔나" 싶지 않다.
+        guard Delight.isEnabled, !reduceMotion else {
+            vaultDeposit.arriveSilently()
+            return
+        }
+
+        withAnimation(.easeOut(duration: 0.18)) { coinBadgeMemoID = memoID }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.coinBadgeDwell) {
+            // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 — 뺏지 않는다.
+            if coinBadgeMemoID == memoID {
+                withAnimation(.easeIn(duration: 0.16)) { coinBadgeMemoID = nil }
+            }
+            vaultDeposit.launch(from: point, seconds: seconds)
+        }
+    }
+
+    /// 이 카드가 지금 내용 대신 동전을 보여줄 차례인가.
+    private func showsCoin(_ memo: Memo) -> Bool {
+        livingSkin == .vault && coinBadgeMemoID == memo.id
+    }
+
     /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다 —
     /// 회전하는 카드마다 Canvas가 하나씩 더 붙으면 드래그가 눈에 띄게 무거워진다.
     @ViewBuilder
     private func livingLayer(memo: Memo, lightweight: Bool) -> some View {
         if !lightweight, Delight.isEnabled {
             switch livingSkin {
+            case .vault:
+                // 내용 힌트 자리를 번갈아 쓰는 게 기본이라(위 memoCardSurface 참고) 여기서는
+                // **그 자리가 아예 없을 때만** 구석에 잠깐 띄운다.
+                //
+                // ⚠️ 동전을 상시로 늘어놓지 않는다. 처음엔 마을처럼 아래쪽에 쭉 깔았는데,
+                //    마을은 새싹처럼 성긴 그림이라 글이 비쳐 보였지만 동전은 꽉 찬 원이라
+                //    제목과 내용을 통째로 덮어버렸다.
+                ZStack {
+                    // 카드를 금고 문으로 — 경첩·다이얼·이음새는 전부 가장자리에 있어
+                    // 글과 자리를 다투지 않는다.
+                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(
+                        characterCount: memo.value.count, useCount: memo.clipCount))
+
+                    if !contentHintEnabled, showsCoin(memo) {
+                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
+                            characterCount: memo.value.count, useCount: memo.clipCount))
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                            .padding(.trailing, 12)
+                            .padding(.bottom, 10)
+                            .transition(.opacity)
+                    }
+                }
+            case .geode:
+                // 세 번 쓸 때마다 깨진다. 금고 동전과 같은 이유로 **구석**에만 둔다 —
+                // 가운데에 크게 놓으면 제목과 내용을 덮는다.
+                // ⚠️ 금고 다이얼과 **같은 자리**(오른쪽 가운데)에 둔다.
+                //    카드에서 눈이 가는 자리는 여기다. 아래 구석에 뒀더니 있는 줄도 몰랐다.
+                //    제목은 왼쪽 정렬이라 이 자리는 비어 있다.
+                GeodeBadge(useCount: memo.clipCount,
+                           bursting: burstingMemoID == memo.id,
+                           size: 38)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+                    .padding(.trailing, 6)
             case .village:
                 // 사용 기록이 그대로 마을이 된다 — 움직이지 않으므로 스크린샷에 남는다.
                 // 카드 **아래쪽**에 세운다. 위는 제목 자리라 겹치면 둘 다 안 읽힌다.
@@ -1922,9 +2272,13 @@ struct ClipKeyboardList: View {
     private func searchSuggestionCard(query: String) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
+                // 아이콘을 그냥 띄워 두면 붕 뜬다 — 원형 배지에 담아야 만들다 만 게 아니라
+                // 만들어 둔 것으로 보인다.
                 Image(systemName: AppSymbol.sparkles)
-                    .font(.title3)
-                    .foregroundColor(.blue.opacity(0.8))
+                    .font(.footnote.weight(.bold))
+                    .foregroundColor(theme.accent)
+                    .frame(width: 26, height: 26)
+                    .background(Circle().fill(theme.accent.opacity(0.14)))
                     .accessibilityHidden(true)
                 Spacer()
             }
@@ -2136,19 +2490,13 @@ struct ClipKeyboardList: View {
                 // 세로 패딩은 빈 상태에서도 남아, 첫 페이지 그리드만 다른 페이지보다 아래에서
                 // 시작하는 정렬 어긋남을 만든다. 가로 패딩만 두고, 팁이 보일 때의 위쪽 간격은
                 // 상단 16pt 여백이, 그리드와의 간격은 그리드 자체의 .padding(.top, 8)이 담당한다.
+                // ⚠️ "예제를 지울까요?" 팁은 뺐다. 4.4.4 부터 새로 시작하는 사람은
+                //    샘플을 받지 않고 **자기 손으로 첫 단축어를 만든다**(온보딩).
+                //    지울 예제가 없는 사람에게 예제를 지우라고 묻는 팁이었다.
                 VStack(spacing: 12) {
                     TipView(welcomeTip)
                         .tipBackground(theme.surface)
                         .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
-                    TipView(cleanUpTip) { action in
-                        if action.id == "delete" {
-                            deleteSampleMemos()
-                            cleanUpTip.invalidate(reason: .actionPerformed)
-                        } else {
-                            cleanUpTip.invalidate(reason: .actionPerformed)
-                        }
-                    }
-                    .tipBackground(theme.surface)
                 }
                 .padding(.horizontal, 16)
 
@@ -2739,6 +3087,12 @@ struct ClipKeyboardList: View {
         // 버튼이 뚝 떨어져 보이므로, 하나로 묶어 간격을 직접 제어한다.
         // 음수 spacing: 시스템이 Menu 라벨 둘레에 넣는 내부 여백(~12pt)을 상쇄해
         // 두 유리 서클이 살짝 붙어 보이게 한다(44pt 탭 영역은 유지).
+        // 금고는 **왼쪽**에 따로 둔다. 오른쪽은 이미 메뉴+추가가 붙어 있어
+        // 거기 하나를 더 끼우면 셋이 뭉쳐 보인다.
+        //
+        // ⚠️ 스킨이 금고가 아닐 때는 ToolbarItem 자체를 만들지 않는다. 안이 빈 아이템도
+        //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
+        //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: -8) {
                 toolbarButtons
@@ -2747,6 +3101,7 @@ struct ClipKeyboardList: View {
         .sharedBackgroundVisibility(.hidden)
         #else
         ToolbarItemGroup(placement: .automatic) {
+            vaultEntrance
             toolbarButtons
         }
         #endif
@@ -2756,71 +3111,12 @@ struct ClipKeyboardList: View {
     /// 구성: [더보기 메뉴(활용사례·보관함·카테고리·플레이스홀더)] [+ 추가]
     @ViewBuilder
     private var toolbarButtons: some View {
-        Menu {
-            NavigationLink {
-                UsageGuideView()
-            } label: {
-                Label(
-                    NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
-                    systemImage: AppSymbol.sparkles
-                )
-            }
+        // ⚠️ 예전 ⋯ 메뉴는 설정으로 옮겼다(활용 사례·보관함·스타터팩·플레이스홀더·배경).
+        //    바에 ⋯ 와 + 와 금고를 다 두려니 시스템이 넘친다고 보고 오른쪽에 오버플로 ⋯ 를
+        //    하나 더 만들어서, ⋯ 가 둘로 보이고 금고는 그 안에 접혀 사라졌다.
+        //    바에는 **자주 쓰는 둘**만 남긴다 — 금고와 추가.
+        vaultEntrance
 
-            Button {
-                HapticManager.shared.light()
-                showStarterPack = true
-            } label: {
-                Label(
-                    NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
-                    systemImage: AppSymbol.squareStack3dUpFill
-                )
-            }
-
-            NavigationLink {
-                QuickNoteInboxView()
-            } label: {
-                Label(inboxMenuTitle, systemImage: AppSymbol.trayFull)
-            }
-
-            Button {
-                HapticManager.shared.light()
-                showCategoryManagement = true
-            } label: {
-                Label(
-                    NSLocalizedString("카테고리 관리", comment: "Menu: manage categories"),
-                    systemImage: AppSymbol.folderBadgeGearshape
-                )
-            }
-
-            Button {
-                HapticManager.shared.light()
-                showBackgroundPicker = true
-            } label: {
-                Label(
-                    NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
-                    systemImage: "photo.on.rectangle.angled"
-                )
-            }
-
-            Button {
-                HapticManager.shared.light()
-                viewModel.showPlaceholderManagementSheet = true
-            } label: {
-                Label(
-                    NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
-                    systemImage: AppSymbol.listBullet
-                )
-            }
-        } label: {
-            // 클리어 글래스 서클 — 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
-            Image(systemName: "ellipsis")
-                .font(.body.weight(.semibold))
-                .foregroundColor(theme.text)
-                .frame(width: 44, height: 44)
-                .glassEffect(.clear.interactive(), in: Circle())
-        }
-        .popoverTip(quickNoteInboxTip)
-        .accessibilityLabel(NSLocalizedString("더 보기", comment: "More options menu label"))
         .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
 
         Menu {
@@ -2968,91 +3264,124 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// Empty list — locale-aware suggestion card grid
+    /// 빈 목록 — **광부와 함께 첫 단축어를 하나 만든다.**
+    ///
+    /// ⚠️ 예전에는 여기에 "이런 방법으로 쓸 수 있어요" 카드 격자 + 스타터팩 배너가 있었다.
+    ///    걷어낸 이유: 그 화면은 **읽을 거리만 주고 아무것도 시키지 않았다.**
+    ///    활용 사례를 아무리 잘 써 놔도 한 번도 안 만들어 본 사람에게는 남의 이야기고,
+    ///    만들어서 써 본 사람만 다음 날 다시 온다.
+    ///    (스타터팩 자체는 남아 있다 — 더보기 메뉴에서 여전히 쓸 수 있다.)
     private var EmptyListView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(NSLocalizedString("이런 방법으로 쓸 수 있어요", comment: "Empty state suggestion header"))
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.text)
-                    Text(NSLocalizedString("탭해서 바로 내 단축어로 추가할 수 있어요", comment: "Empty state suggestion subhead"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-
-                LazyVGrid(
-                    columns: [GridItem(.flexible()), GridItem(.flexible())],
-                    spacing: 12
-                ) {
-                    ForEach(suggestionManager.emptyStateSuggestions) { suggestion in
-                        suggestionCard(suggestion)
-                    }
-                }
-                .padding(.horizontal, 16)
-
-                // 추천 스타터팩 — 바로 쓸 수 있는 묶음을 한 번에 추가 (첫인상 aha)
-                Button {
-                    HapticManager.shared.light()
-                    showStarterPack = true
-                } label: {
-                    HStack(spacing: 10) {
-                        Image(systemName: AppSymbol.sparkles)
-                            .font(.title3)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
-                                .font(.body.weight(.semibold))
-                            Text(NSLocalizedString("바로 쓸 수 있는 단축어를 한 번에", comment: "Empty state: add starter pack subtitle"))
-                                .font(.caption)
-                                .opacity(0.9)
-                        }
-                        Spacer()
-                        Image(systemName: AppSymbol.chevronRight)
-                            .font(.caption.weight(.semibold))
-                            .accessibilityHidden(true)
-                    }
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 14)
-                    .background(
-                        LinearGradient(
-                            colors: [Color.blue, Color.purple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .cornerRadius(theme.radiusMd)
-                    .padding(.horizontal, 16)
-                }
-                .accessibilityHint(NSLocalizedString("추천 단축어를 골라 한 번에 추가합니다", comment: "VoiceOver: starter pack hint"))
-
-                // (제거) "직접 추가하기" — 우하단 + 버튼과 중복이라 삭제.
-
-                // 활용 사례 갤러리 전체 보기 — 발견성 (기존엔 설정 깊숙이만 있었음)
-                NavigationLink {
-                    UsageGuideView()
-                } label: {
-                    HStack(spacing: 4) {
-                        Text(NSLocalizedString("이걸로 할 수 있는 것 모두 보기", comment: "Empty state: browse all use cases"))
-                            .font(.body.weight(.medium))
-                        Image(systemName: AppSymbol.arrowRight)
-                            .font(.caption.weight(.semibold))
-                            .accessibilityHidden(true)
-                    }
-                    .foregroundColor(theme.textMuted)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                }
-
-                Spacer(minLength: 40)
+        Group {
+            // ⚠️ 온보딩은 **4.4.4 에서 처음 시작한 사람에게만** 보인다.
+            //    이 조건이 없으면 몇 년 쓴 사람이 단축어를 정리해 목록을 비우는 순간
+            //    "매번 똑같은 걸 치고 있지는 않나요?"가 뜬다 — 그 사람에겐 헛소리다.
+            if firstShortcutDone || !startedFreshV444 {
+                minimalEmptyState
+            } else {
+                FirstShortcutOnboardingView(
+                    onCreated: { memo in
+                        firstShortcutDone = true
+                        viewModel.loadMemos()
+                        // 만들기만 하고 끝내면 "저장했다"로 끝난다. 한 번 **써 봐야** 값어치를 안다.
+                        coachMemoID = memo.id
+                    },
+                    onSkip: { firstShortcutDone = true }
+                )
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+
+    /// 아직 안 해 본 다음 장을 권한다. 없으면 아무 일도 안 일어난다.
+    ///
+    /// ⚠️ 한 번에 셋을 다 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를
+    ///    다 설명하면 하나도 안 남는다. 하나 만들고 → 써 보고 → 그다음 것을 권한다.
+    private func inviteNextChapter(after delay: Double) {
+        // 순서가 곧 배우는 차례다 — 템플릿을 만들어 본 다음이라야
+        // "있는 걸 템플릿으로 바꾼다"는 말이 통한다.
+        let next = TutorialChapter.allCases.first { chapter in
+            switch chapter {
+            case .template:     return !tutorialTemplateDone
+            // 바꿀 단축어가 없으면 이 장은 건너뛴다 — 없는 걸 바꾸라고 할 수는 없다.
+            case .makeTemplate: return !tutorialMakeTemplateDone && convertibleShortcut != nil
+            case .combo:        return !tutorialComboDone
+            }
+        }
+        guard let next else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            tutorialInvite = next
+        }
+    }
+
+    /// 템플릿으로 바꿀 만한 단축어 — 아직 템플릿도 콤보도 아닌 평범한 글.
+    private var convertibleShortcut: Memo? {
+        viewModel.memos.first {
+            !$0.isTemplate && !$0.isCombo && $0.contentType == .text
+                && !$0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+    }
+
+    /// 장을 끝난 것으로 표시한다.
+    private func markDone(_ chapter: TutorialChapter) {
+        switch chapter {
+        case .template:     tutorialTemplateDone = true
+        case .makeTemplate: tutorialMakeTemplateDone = true
+        case .combo:        tutorialComboDone = true
+        }
+    }
+
+    /// 튜토리얼에서 만든 것을 목록에 반영하고 "눌러보세요"로 이어준다.
+    private func tutorialCreated(_ memo: Memo, chapter: TutorialChapter) {
+        tutorialMaking = nil
+        viewModel.loadMemos()
+        coachMemoID = memo.id
+        coachChapter = chapter
+    }
+
+    /// "만든 걸 눌러보세요" — 연습의 마지막 한 걸음.
+    ///
+    /// 만들기만 하고 끝내면 "저장했다"로 끝난다. 한 번 눌러 봐야 **왜 저장했는지**를 안다.
+    /// 그래서 이 안내는 닫기 버튼이 없다 — 대신 한 번 쓰면 스스로 사라진다.
+    /// 카드 위에 떠 있는 것들 — 날아가는 동전과 코치.
+    private var floatingLayer: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .top) {
+                CoinFlightLayer(deposit: vaultDeposit)
+
+                if coachMemoID != nil, coachRect != .zero {
+                    // ⚠️ 화면 맨 아래에 고정하지 않는다. 가리키는 카드는 위에 있는데 안내가
+                    //    아래에 있으면 무엇을 누르라는 건지 이어지지 않는다.
+                    //    카드 **바로 아래**에 꼭지를 위로 달고 붙인다.
+                    let top = coachRect.maxY - geo.frame(in: .global).minY + 10
+                    FirstUseCoachChip(
+                        line: coachChapter?.coachLine
+                            ?? NSLocalizedString("만든 걸 눌러보세요. 바로 복사돼요.",
+                                                 comment: "First-use coach: tap the shortcut you made"),
+                        pointsUp: true
+                    )
+                    .frame(maxWidth: geo.size.width - 32)
+                    .offset(y: min(top, geo.size.height - 120))
+                    .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .top)))
+                }
+            }
+        }
+        .allowsHitTesting(false)
+    }
+
+    /// 다 지워서 비었을 때. 첫 온보딩을 이미 지난 사람에게 안내를 다시 깔지 않는다.
+    private var minimalEmptyState: some View {
+        VStack(spacing: 16) {
+            MinerScene(height: 180)
+                .frame(maxWidth: 260)
+            Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .multilineTextAlignment(.center)
+        }
+        .padding(24)
+    }
+
 
     // MARK: - Ghost Memo Suggestion
 

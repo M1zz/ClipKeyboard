@@ -17,6 +17,7 @@ struct ComboPreviewSheet: View {
     let allMemos: [Memo]
     let onDismiss: () -> Void
     @Environment(\.appTheme) private var theme
+    @Environment(\.dismiss) private var dismiss
 
     @State private var loadedMemo: Memo?
     /// 방금 복사한 단계 인덱스 — 체크 표시 피드백용(1.5초 후 원복).
@@ -149,10 +150,16 @@ struct ComboPreviewSheet: View {
         UIPasteboard.general.string = step
         HapticManager.shared.selection()
         withAnimation { copiedStepIndex = idx }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            if copiedStepIndex == idx {
-                withAnimation { copiedStepIndex = nil }
-            }
+
+        // 콤보 값을 골라 쓴 것도 **쓴 것**이다. 여기서 안 세면 콤보만 사용 기록에서 빠져
+        // 금고에도 안 쌓이고 영수증에도 안 오른다(지금까지 그랬다).
+        // 어느 값을 골랐는지 함께 알린다 — 붙여넣기 연습이 "복사한 그것"과 맞는지 봐야 한다.
+        try? MemoStore.shared.incrementClipCount(for: comboId, copiedText: step)
+
+        // 복사했으면 시트는 물러난다. 체크 표시를 볼 만큼만 두고 닫는다 —
+        // 바로 닫으면 어느 값을 복사했는지 확인할 새가 없다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            dismiss()
         }
     }
 

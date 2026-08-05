@@ -1473,6 +1473,23 @@
         }
       }
     },
+    "%@부터 센 금액이에요." : {
+      "comment" : "Receipt: partial coverage note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Counted from %@."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dihitung sejak %@."
+          }
+        }
+      }
+    },
     "%1$@, %2$d회 사용" : {
       "comment" : "Stamp card accessibility label",
       "localizations" : {
@@ -2186,6 +2203,23 @@
         }
       }
     },
+    "%d초" : {
+      "comment" : "Duration: seconds only",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d sec"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d dtk"
+          }
+        }
+      }
+    },
     "%d초 간격" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2573,6 +2607,23 @@
         }
       }
     },
+    "×%d" : {
+      "comment" : "Receipt: use count multiplier",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "×%d"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "×%d"
+          }
+        }
+      }
+    },
     "⌃⌥K로 어디서나 빠르게 접근" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -2616,6 +2667,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⌘⇧N 새 단축어, ⌘⇧H 클립보드 기록 등 Mac 네이티브 단축키."
+          }
+        }
+      }
+    },
+    "○○은행 123-456-789" : {
+      "comment" : "Onboarding seed placeholder: account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank 123-456-789"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank 123-456-789"
+          }
+        }
+      }
+    },
+    "○○주식회사" : {
+      "comment" : "Placeholder example: company",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acme Inc."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PT Contoh"
           }
         }
       }
@@ -7874,6 +7959,9 @@
         }
       }
     },
+    "me@example.com" : {
+      "comment" : "Onboarding seed placeholder: email"
+    },
     "Meeting delay reply" : {
       "comment" : "Seed title",
       "extractionState" : "manual",
@@ -12390,51 +12478,6 @@
         }
       }
     },
-    "가끔 고양이가 카드 사이를 지나가요." : {
-      "comment" : "Living skin description: cat",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now and then a cat wanders past the cards."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sesekali kucing lewat di antara kartu."
-          }
-        }
-      }
-    },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import Complete"
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nilai"
-          }
-        }
-      }
-    },
     "가끔 새가 날아와 카드에 앉았다 가요." : {
       "comment" : "Living skin description: bird",
       "localizations" : {
@@ -12452,19 +12495,19 @@
         }
       }
     },
-    "가끔 잠깐 나타나요" : {
-      "comment" : "Living skin trait: occasional visitor",
+    "가져가기" : {
+      "comment" : "Share/save the receipt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shows up now and then"
+            "value" : "Save"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Muncul sesekali"
+            "value" : "Simpan"
           }
         }
       }
@@ -12482,6 +12525,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gagal mengimpor"
+          }
+        }
+      }
+    },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
           }
         }
       }
@@ -12517,6 +12571,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interval"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai"
+          }
+        }
+      }
+    },
+    "가끔 고양이가 카드 사이를 지나가요." : {
+      "comment" : "Living skin description: cat",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now and then a cat wanders past the cards."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesekali kucing lewat di antara kartu."
+          }
+        }
+      }
+    },
+    "가끔 잠깐 나타나요" : {
+      "comment" : "Living skin trait: occasional visitor",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows up now and then"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muncul sesekali"
+          }
+        }
+      }
+    },
+    "가입할 때마다 오타 나던 그거요." : {
+      "comment" : "Onboarding seed hint: email",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The one you keep typoing at signup."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang selalu salah ketik saat daftar."
           }
         }
       }
@@ -12607,18 +12729,18 @@
       }
     },
     "값 입력" : {
-      "comment" : "Direct value input placeholder\nPlaceholder value input\nTemplate value text field placeholder",
+      "comment" : "Placeholder value input\nTemplate value text field placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter Value"
+            "value" : "Enter a value"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Masukkan Nilai"
+            "value" : "Masukkan nilai"
           }
         }
       }
@@ -12712,6 +12834,23 @@
     "값을 입력하세요" : {
       "comment" : "Combo: empty value warning",
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan nilai"
+          }
+        }
+      }
+    },
+    "값을 입력해주세요" : {
+      "comment" : "Direct value input placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12833,6 +12972,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Setiap peristiwa dicatat maksimal sekali per pemasangan tiap 6 jam. Perhatikan rasio antarlangkah, bukan jumlah absolutnya."
+          }
+        }
+      }
+    },
+    "같이 쓰는 것들을 묶어 둘게요" : {
+      "comment" : "Combo tutorial: headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's bundle what goes together"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mari satukan yang sering dipakai bersama"
           }
         }
       }
@@ -13005,8 +13161,7 @@
       }
     },
     "건너뛰기" : {
-      "comment" : "Skip nomad wizard\nSkip persona quick add",
-      "extractionState" : "stale",
+      "comment" : "Paste practice: skip",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13246,7 +13401,7 @@
       }
     },
     "계좌번호" : {
-      "comment" : "Account Number",
+      "comment" : "Account Number\nOnboarding seed: bank account",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13508,6 +13663,23 @@
         }
       }
     },
+    "그 밖에 문구 %d개" : {
+      "comment" : "Receipt: remaining shortcuts line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "And %d more phrases"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dan %d frasa lainnya"
+          }
+        }
+      }
+    },
     "그냥 닫음" : {
       "comment" : "Dropoff: dismissed",
       "localizations" : {
@@ -13576,6 +13748,23 @@
         }
       }
     },
+    "금고" : {
+      "comment" : "Living skin name: vault\nVault button accessibility label\nVault screen title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vault"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brankas"
+          }
+        }
+      }
+    },
     "금액" : {
       "comment" : "Amount token button",
       "localizations" : {
@@ -13593,8 +13782,25 @@
         }
       }
     },
+    "금요일" : {
+      "comment" : "Placeholder example: weekday 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friday"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumat"
+          }
+        }
+      }
+    },
     "기간" : {
-      "comment" : "Chart axis: period",
+      "comment" : "Chart axis: period\nRefund period picker label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13708,6 +13914,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Perbaikan sinkronisasi antarperangkat (beta) — perubahan dihitung terkirim hanya setelah dikonfirmasi"
+          }
+        }
+      }
+    },
+    "기기 안에서만 계산돼요. 어디에도 보내지 않아요." : {
+      "comment" : "Vault: privacy note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated on this device only. Nothing is sent anywhere."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dihitung hanya di perangkat ini. Tidak ada yang dikirim ke mana pun."
+          }
+        }
+      }
+    },
+    "기기 안에서만 계산했어요. 어디에도 보내지 않았어요." : {
+      "comment" : "Receipt: privacy footnote",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calculated on this device only. Nothing was sent anywhere."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dihitung hanya di perangkat ini. Tidak ada yang dikirim ke mana pun."
           }
         }
       }
@@ -14178,6 +14418,23 @@
         }
       }
     },
+    "김민수" : {
+      "comment" : "Placeholder example: person name 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "John Smith"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siti"
+          }
+        }
+      }
+    },
     "꺼짐" : {
       "comment" : "Off",
       "extractionState" : "stale",
@@ -14258,8 +14515,25 @@
         }
       }
     },
+    "나중에 필요한 값만 골라서 쓸 수 있어요." : {
+      "comment" : "Combo tutorial: subline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later you can pick just the value you need."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti Anda bisa memilih nilai yang diperlukan saja."
+          }
+        }
+      }
+    },
     "나중에 할게요" : {
-      "comment" : "Skip practice button",
+      "comment" : "Onboarding: skip\nSkip practice button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14385,6 +14659,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ID Pengguna Saya"
+          }
+        }
+      }
+    },
+    "내 소개" : {
+      "comment" : "Combo tutorial: created combo title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About me"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentang saya"
+          }
+        }
+      }
+    },
+    "내 주소" : {
+      "comment" : "Onboarding seed: home address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My address"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alamat saya"
           }
         }
       }
@@ -14588,6 +14896,23 @@
         }
       }
     },
+    "네, 해볼게요" : {
+      "comment" : "Tutorial invite: accept",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes, let's do it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya, ayo"
+          }
+        }
+      }
+    },
     "네트워크 연결을 확인하고 다시 시도해주세요." : {
       "comment" : "Network error message",
       "localizations" : {
@@ -14635,6 +14960,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total peluncuran"
+          }
+        }
+      }
+    },
+    "누적 환급 합계" : {
+      "comment" : "Receipt: total label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total refunded"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total pengembalian"
           }
         }
       }
@@ -14741,6 +15083,23 @@
         }
       }
     },
+    "다 됐어요" : {
+      "comment" : "Paste practice: finish",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All set"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selesai"
+          }
+        }
+      }
+    },
     "다른 기기에서 사용" : {
       "comment" : "Cross-device section",
       "localizations" : {
@@ -14834,6 +15193,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Berapa kali tidak perlu ketik ulang"
+          }
+        }
+      }
+    },
+    "다시 치지 않은 횟수 %d번" : {
+      "comment" : "Receipt: total uses line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d times you didn't retype"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d kali Anda tidak mengetik ulang"
           }
         }
       }
@@ -15240,6 +15616,23 @@
         }
       }
     },
+    "단축어 관리" : {
+      "comment" : "Settings section: shortcut management",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcuts"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pintasan"
+          }
+        }
+      }
+    },
     "단축어 구분 표시" : {
       "comment" : "Show visual cues toggle\nVisual cues section",
       "localizations" : {
@@ -15442,6 +15835,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit Template"
+          }
+        }
+      }
+    },
+    "단축어 스킨" : {
+      "comment" : "Section: shortcut card skin",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcut Skin"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skin Pintasan"
           }
         }
       }
@@ -16000,8 +16410,25 @@
         }
       }
     },
+    "단축어를 탭해보세요. 클립보드에 바로 복사돼요." : {
+      "comment" : "Welcome tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a shortcut — it copies straight to your clipboard."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk pintasan — langsung tersalin ke papan klip."
+          }
+        }
+      }
+    },
     "닫기" : {
-      "comment" : "Close\nClose / dismiss\nClose paste tip\nClose paywall\nClose sheet",
+      "comment" : "Close\nClose / dismiss\nClose button\nClose paste tip\nClose paywall\nClose sheet",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16053,6 +16480,7 @@
     },
     "더 보기" : {
       "comment" : "More options menu label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16396,6 +16824,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Help"
+          }
+        }
+      }
+    },
+    "돌려받은 시간을 한 장으로 저장해 두세요." : {
+      "comment" : "Button subtitle: refund receipt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep the time you got back on a single slip."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan waktu yang Anda dapatkan kembali dalam satu lembar."
           }
         }
       }
@@ -17017,6 +17462,57 @@
         }
       }
     },
+    "만든 걸 눌러보세요. 바로 복사돼요." : {
+      "comment" : "First-use coach: tap the shortcut you made",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap what you made — it copies instantly."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk yang Anda buat — langsung tersalin."
+          }
+        }
+      }
+    },
+    "만든 콤보를 눌러보세요. 값을 골라 쓸 수 있어요." : {
+      "comment" : "Coach line: combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the combo you made — pick the value you need."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk kombo yang Anda buat — pilih nilai yang dibutuhkan."
+          }
+        }
+      }
+    },
+    "만든 템플릿을 눌러보세요. 빈칸만 채우면 돼요." : {
+      "comment" : "Coach line: template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the template you made — just fill in the blank."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk templat yang Anda buat — tinggal isi bagian kosongnya."
+          }
+        }
+      }
+    },
     "만들다 만 단축어만 임시저장 — 열어만 봐도 쌓이던 문제 정리" : {
       "comment" : "Changelog 4.3.8 item 3",
       "localizations" : {
@@ -17098,6 +17594,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kartu kaca bening + latar foto — 8 pemandangan, berbeda tiap tab"
+          }
+        }
+      }
+    },
+    "매번 똑같은 걸 치고 있지는 않나요? 도와드릴게요." : {
+      "comment" : "Onboarding line: greeting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing the same thing over and over? Let me help."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sering mengetik hal yang sama? Biar saya bantu."
+          }
+        }
+      }
+    },
+    "매번 한 군데만 바뀌는 문구는 빈칸으로 남겨 둘 수 있어요." : {
+      "comment" : "Tutorial invite body: template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When only one part changes each time, leave it blank."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalau hanya satu bagian yang berubah, biarkan kosong."
           }
         }
       }
@@ -17885,6 +18415,23 @@
         }
       }
     },
+    "뭐부터 도와드릴까요?" : {
+      "comment" : "Onboarding line: pick a seed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What should we start with?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulai dari mana?"
+          }
+        }
+      }
+    },
     "미리보기" : {
       "comment" : "Preview",
       "localizations" : {
@@ -17954,6 +18501,23 @@
         }
       }
     },
+    "바뀌는 곳만 빈칸으로 둘게요" : {
+      "comment" : "Template tutorial: headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave the changing part blank"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biarkan bagian yang berubah kosong"
+          }
+        }
+      }
+    },
     "바로 쓸 수 있는 단축어" : {
       "comment" : "Starter pack header",
       "localizations" : {
@@ -17973,6 +18537,7 @@
     },
     "바로 쓸 수 있는 단축어를 한 번에" : {
       "comment" : "Empty state: add starter pack subtitle",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18819,6 +19384,23 @@
         }
       }
     },
+    "보관함" : {
+      "comment" : "Quick note inbox entry",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inbox"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kotak masuk"
+          }
+        }
+      }
+    },
     "보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다" : {
       "comment" : "More options menu hint v2",
       "localizations" : {
@@ -18868,6 +19450,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mengirim…"
+          }
+        }
+      }
+    },
+    "보셨죠? 한 글자도 안 쳤어요." : {
+      "comment" : "Paste practice: success headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See? You didn't type a single character."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat? Anda tidak mengetik satu huruf pun."
           }
         }
       }
@@ -20692,23 +21291,6 @@
         }
       }
     },
-    "새 값 입력" : {
-      "comment" : "New value input placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter new value"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Masukkan nilai baru"
-          }
-        }
-      }
-    },
     "새 값을 목록에 추가합니다" : {
       "comment" : "Add value button hint",
       "localizations" : {
@@ -21144,6 +21726,23 @@
         }
       }
     },
+    "새로운 값을 추가해주세요" : {
+      "comment" : "New value input placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a new value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambahkan nilai baru"
+          }
+        }
+      }
+    },
     "새로운 배경을 써보시겠어요?" : {
       "comment" : "Background offer alert title",
       "localizations" : {
@@ -21270,6 +21869,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Untuk membedakan snippet tanpa hanya mengandalkan warna, aktifkan 'Tampilkan penanda visual' di Pengaturan aplikasi → Tampilan → Tampilan snippet. Ikon jenis snippet (Templat/Combo/Aman) dan garis tepi, serta simbol favorit dan kategori akan muncul."
+          }
+        }
+      }
+    },
+    "색이 칠해진 곳이 쓸 때마다 채우는 칸이에요." : {
+      "comment" : "Template tutorial: subline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The highlighted part is what you fill in each time."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bagian yang disorot adalah yang Anda isi tiap kali."
           }
         }
       }
@@ -21430,6 +22046,7 @@
     },
     "생활 레이어" : {
       "comment" : "Section: living skin",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21470,6 +22087,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Akan dihapus permanen dari server dan tidak dapat dibatalkan."
+          }
+        }
+      }
+    },
+    "서울시 …" : {
+      "comment" : "Onboarding seed placeholder: address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123 Main St…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jl. Utama 123…"
+          }
+        }
+      }
+    },
+    "서울시 강남구 …" : {
+      "comment" : "Placeholder example: address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123 Main St…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jl. Utama 123…"
           }
         }
       }
@@ -22236,6 +22887,23 @@
         }
       }
     },
+    "세 번마다 보석 하나" : {
+      "comment" : "Living skin trait: geode",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One gem every three uses"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satu permata tiap tiga kali"
+          }
+        }
+      }
+    },
     "세금번호" : {
       "comment" : "Tax ID",
       "localizations" : {
@@ -22495,17 +23163,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ada satu digit yang salah. Cocokkan lagi dengan nomor di kartu Anda."
-          }
-        }
-      }
-    },
-    "스니펫을 탭해보세요. 클립보드에 바로 복사돼요." : {
-      "comment" : "Welcome tip message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap a snippet — it copies straight to your clipboard."
           }
         }
       }
@@ -22818,6 +23475,23 @@
         }
       }
     },
+    "쓸 때마다 돌에 금이 가고, 세 번째에 깨지면서 보석이 나와요." : {
+      "comment" : "Living skin description: geode",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each use cracks the stone; the third one breaks it open and a gem comes out."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiap pemakaian meretakkan batu; yang ketiga memecahkannya dan permata keluar."
+          }
+        }
+      }
+    },
     "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요." : {
       "comment" : "Living skin description: village",
       "localizations" : {
@@ -22831,6 +23505,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Makin sering dipakai, tunas tumbuh jadi pohon dan rumah."
+          }
+        }
+      }
+    },
+    "아낀 시간만큼 쌓여요" : {
+      "comment" : "Living skin trait: vault balance",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piles up with the time you save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menumpuk seiring waktu yang Anda hemat"
+          }
+        }
+      }
+    },
+    "아낀 시간이 동전으로 쌓여요. 오래 쓴 문구일수록 금괴가 늘어나요." : {
+      "comment" : "Living skin description: vault",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved time piles up as coins. The longer a phrase has been in use, the more gold bars it earns."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang dihemat menumpuk jadi koin. Makin lama sebuah frasa dipakai, makin banyak batangan emasnya."
           }
         }
       }
@@ -22985,6 +23693,23 @@
         }
       }
     },
+    "아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요." : {
+      "comment" : "Empty list: no shortcuts yet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No shortcuts yet. Tap + above to make one."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum ada pintasan. Ketuk + di atas untuk membuat."
+          }
+        }
+      }
+    },
     "아직 백지예요" : {
       "comment" : "Usage passport empty state title",
       "localizations" : {
@@ -22998,6 +23723,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Masih halaman kosong"
+          }
+        }
+      }
+    },
+    "아직 비어 있어요" : {
+      "comment" : "Vault button empty value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still empty"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masih kosong"
           }
         }
       }
@@ -23100,6 +23842,23 @@
         }
       }
     },
+    "아직 환급된 줄이 없어요" : {
+      "comment" : "Receipt: empty line items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No refunds yet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum ada pengembalian"
+          }
+        }
+      }
+    },
     "안 쓰는 단축어" : {
       "comment" : "Marketing: unused shortcuts",
       "localizations" : {
@@ -23149,6 +23908,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Halo, saya pengguna ClipKeyboard."
+          }
+        }
+      }
+    },
+    "안녕하세요, {%@}님. 확인 부탁드립니다." : {
+      "comment" : "Template tutorial: example body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {%@}, could you take a look?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halo {%@}, boleh dicek?"
           }
         }
       }
@@ -23773,6 +24549,23 @@
         }
       }
     },
+    "여기에 붙여넣어 보세요" : {
+      "comment" : "Paste practice: headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try pasting it here"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba tempel di sini"
+          }
+        }
+      }
+    },
     "여러 단축어를 순서대로 자동 입력하는\nCombo를 만들어보세요" : {
       "comment" : "Empty combo list description",
       "extractionState" : "stale",
@@ -23924,6 +24717,23 @@
         }
       }
     },
+    "연락처" : {
+      "comment" : "Combo tutorial field: contact",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontak"
+          }
+        }
+      }
+    },
     "연습" : {
       "comment" : "Practice section label",
       "extractionState" : "stale",
@@ -23990,6 +24800,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terbuka"
+          }
+        }
+      }
+    },
+    "영수증 뽑기" : {
+      "comment" : "Button: print refund receipt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Print Receipt"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cetak Struk"
           }
         }
       }
@@ -24250,6 +25077,23 @@
         }
       }
     },
+    "예시예요. 누르면 내 값으로 저장돼요." : {
+      "comment" : "Placeholder examples footnote",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just examples — tap one to save it as yours."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanya contoh — ketuk untuk menyimpannya."
+          }
+        }
+      }
+    },
     "예약번호" : {
       "comment" : "Confirmation Code",
       "localizations" : {
@@ -24285,17 +25129,6 @@
         }
       }
     },
-    "예제를 지울까요?" : {
-      "comment" : "Clean up samples tip title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear the examples?"
-          }
-        }
-      }
-    },
     "오늘" : {
       "comment" : "Date option: today",
       "localizations" : {
@@ -24309,6 +25142,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hari ini"
+          }
+        }
+      }
+    },
+    "온라인" : {
+      "comment" : "Placeholder example: place online",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Online"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daring"
           }
         }
       }
@@ -24540,6 +25390,23 @@
         }
       }
     },
+    "월요일" : {
+      "comment" : "Placeholder example: weekday",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monday"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Senin"
+          }
+        }
+      }
+    },
     "웹 검색" : {
       "comment" : "Paste target action: web search",
       "localizations" : {
@@ -24634,6 +25501,7 @@
     },
     "유지하기" : {
       "comment" : "Tip action: keep",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24765,6 +25633,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ terlihat: %2$d"
+          }
+        }
+      }
+    },
+    "이 기간 환급 합계" : {
+      "comment" : "Receipt: period total label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refunded this period"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengembalian periode ini"
           }
         }
       }
@@ -25089,8 +25974,26 @@
         }
       }
     },
+    "이걸로 만들기" : {
+      "comment" : "Onboarding: save the first shortcut",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat ini"
+          }
+        }
+      }
+    },
     "이걸로 할 수 있는 것 모두 보기" : {
       "comment" : "Empty state: browse all use cases",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25102,6 +26005,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lihat semua yang bisa Anda lakukan"
+          }
+        }
+      }
+    },
+    "이런 값을 넣어요" : {
+      "comment" : "Placeholder examples header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Values like these"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contoh nilainya"
           }
         }
       }
@@ -25160,6 +26080,7 @@
     },
     "이런 방법으로 쓸 수 있어요" : {
       "comment" : "Empty state suggestion header",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25238,7 +26159,7 @@
       }
     },
     "이름" : {
-      "comment" : "Name\nName token button",
+      "comment" : "Combo tutorial field: name\nName\nName token button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25288,8 +26209,25 @@
         }
       }
     },
+    "이름·연락처처럼 늘 같이 쓰는 것들을 하나로 묶어 둘 수 있어요." : {
+      "comment" : "Tutorial invite body: combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Things you always use together — like a name and a phone number — can live in one place."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hal yang selalu dipakai bersama — nama dan nomor telepon — bisa jadi satu."
+          }
+        }
+      }
+    },
     "이메일" : {
-      "comment" : "Email",
+      "comment" : "Email\nOnboarding seed: email",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -25744,6 +26682,23 @@
         }
       }
     },
+    "이번 달" : {
+      "comment" : "Refund period: this month",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This month"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulan ini"
+          }
+        }
+      }
+    },
     "이어서 입력할 내용" : {
       "comment" : "Continuation field placeholder",
       "localizations" : {
@@ -25861,6 +26816,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "이제 다른 앱에서 써보세요"
+          }
+        }
+      }
+    },
+    "이제 어디서든 이렇게 쓰면 돼요." : {
+      "comment" : "Paste practice: success subline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That's it — anywhere you need it."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Begitu saja — di mana pun Anda butuh."
           }
         }
       }
@@ -26472,6 +27444,23 @@
         }
       }
     },
+    "있는 단축어를 템플릿으로 바꿔볼까요?" : {
+      "comment" : "Tutorial invite title: make template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn a shortcut you already have into a template?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah pintasan yang sudah ada jadi templat?"
+          }
+        }
+      }
+    },
     "자동 백업" : {
       "comment" : "Auto backup label",
       "localizations" : {
@@ -26858,6 +27847,23 @@
         }
       }
     },
+    "잘 안 되면 여기를 눌러요" : {
+      "comment" : "Paste practice: fallback paste button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stuck? Tap here instead"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kesulitan? Ketuk di sini saja"
+          }
+        }
+      }
+    },
     "잠긴 문구" : {
       "comment" : "Passport stamp label for a locked (secure) shortcut",
       "localizations" : {
@@ -26893,6 +27899,34 @@
         }
       }
     },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
+          }
+        }
+      }
+    },
+    "저장된 단축어 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Snippets (shown in keyboard)"
+          }
+        }
+      }
+    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -26913,23 +27947,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
           }
         }
       }
@@ -26964,17 +27981,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kami tidak dapat memuat data tersimpan"
-          }
-        }
-      }
-    },
-    "저장된 단축어 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Snippets (shown in keyboard)"
           }
         }
       }
@@ -27238,7 +28244,7 @@
       }
     },
     "전체" : {
-      "comment" : "All\nCategory tab: all\nCategory: all\nDonut center: total",
+      "comment" : "All\nCategory tab: all\nCategory: all\nDonut center: total\nRefund period: all time",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27250,6 +28256,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Semua"
+          }
+        }
+      }
+    },
+    "전체 기간" : {
+      "comment" : "Refund receipt period: all time",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All Time"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sepanjang Waktu"
           }
         }
       }
@@ -27604,6 +28627,23 @@
         }
       }
     },
+    "정동석" : {
+      "comment" : "Living skin name: geode",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geode"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geode"
+          }
+        }
+      }
+    },
     "정리 기능을 실제로 쓰는 비율이에요." : {
       "comment" : "Marketing hint: category",
       "localizations" : {
@@ -27675,6 +28715,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tentang"
+          }
+        }
+      }
+    },
+    "정산할 때마다 메모장을 열지 않아도 돼요." : {
+      "comment" : "Onboarding seed hint: account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No more opening your notes app to split a bill."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tak perlu buka aplikasi catatan tiap kali bagi tagihan."
           }
         }
       }
@@ -27790,6 +28847,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Judul yang disarankan: %@"
+          }
+        }
+      }
+    },
+    "좋아요" : {
+      "comment" : "Onboarding: start button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's go"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayo mulai"
           }
         }
       }
@@ -28208,6 +29282,23 @@
         }
       }
     },
+    "지금까지 쌓인 시간" : {
+      "comment" : "Vault: balance label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time piled up so far"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang terkumpul sejauh ini"
+          }
+        }
+      }
+    },
     "지금까지의 기본 생김새예요." : {
       "comment" : "Keyboard skin description: standard",
       "extractionState" : "stale",
@@ -28222,6 +29313,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tampilan yang selama ini Anda pakai."
+          }
+        }
+      }
+    },
+    "지난달" : {
+      "comment" : "Refund period: last month",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last month"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulan lalu"
           }
         }
       }
@@ -28267,6 +29375,23 @@
         }
       }
     },
+    "지운 문구" : {
+      "comment" : "Receipt line for deleted shortcuts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleted phrases"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa yang dihapus"
+          }
+        }
+      }
+    },
     "지원" : {
       "comment" : "Settings section: support",
       "localizations" : {
@@ -28295,17 +29420,6 @@
         }
       }
     },
-    "직접 만든 스니펫이 생겼어요. 처음에 넣어준 예제들을 정리할까요?" : {
-      "comment" : "Clean up samples tip message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You've created your own snippets. Want to clear out the starter examples?"
-          }
-        }
-      }
-    },
     "직접 선택" : {
       "comment" : "Pick a specific date",
       "localizations" : {
@@ -28319,6 +29433,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pilih tanggal"
+          }
+        }
+      }
+    },
+    "직접 입력하지 마세요. 꾹 누르고 '붙여넣기'를 고르면 돼요." : {
+      "comment" : "Paste practice: subline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't type it. Press and hold, then choose Paste."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jangan diketik. Tekan lama, lalu pilih Tempel."
           }
         }
       }
@@ -28435,6 +29566,23 @@
         }
       }
     },
+    "채울 칸 이름" : {
+      "comment" : "Template tutorial: blank name label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name of the blank"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nama bagian kosong"
+          }
+        }
+      }
+    },
     "채울 칸이 있는 템플릿을 만들면\n그 값들을 여기서 관리할 수 있어요" : {
       "comment" : "No templates description",
       "localizations" : {
@@ -28483,6 +29631,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tidak dapat menyelesaikan tindakan: %@"
+          }
+        }
+      }
+    },
+    "처음에 만든 단축어, 새로 쓰지 않고 그대로 템플릿으로 바꿀 수 있어요." : {
+      "comment" : "Tutorial invite body: make template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No need to retype — the one you made can become a template as is."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tak perlu mengetik ulang — yang sudah dibuat bisa langsung jadi templat."
           }
         }
       }
@@ -28981,6 +30146,7 @@
     },
     "추천 단축어를 골라 한 번에 추가합니다" : {
       "comment" : "VoiceOver: starter pack hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -29210,7 +30376,7 @@
       }
     },
     "카테고리 관리" : {
-      "comment" : "Manage categories settings entry\nMenu: manage categories",
+      "comment" : "Manage categories settings entry",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -29742,6 +30908,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kombo jadi mudah — rangkai nilai, kini dengan kombo aman terenkripsi"
+          }
+        }
+      }
+    },
+    "콤보도 만들어 볼까요?" : {
+      "comment" : "Tutorial invite title: combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to make a combo too?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mau buat kombo juga?"
           }
         }
       }
@@ -31288,6 +32471,23 @@
         }
       }
     },
+    "택배·배달 주문할 때마다 치는 그 주소예요." : {
+      "comment" : "Onboarding seed hint: address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The address you retype for every delivery."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alamat yang Anda ketik ulang tiap kali pesan antar."
+          }
+        }
+      }
+    },
     "탭마다 다음 값 입력" : {
       "comment" : "Combo description",
       "extractionState" : "stale",
@@ -31599,6 +32799,23 @@
         }
       }
     },
+    "탭하면 이 값으로 저장됩니다" : {
+      "comment" : "Placeholder example chip hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to save this value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk menyimpan nilai ini"
+          }
+        }
+      }
+    },
     "탭하면 이 값을 복사합니다" : {
       "comment" : "Combo step copy hint",
       "localizations" : {
@@ -31844,6 +33061,7 @@
     },
     "탭해서 바로 내 단축어로 추가할 수 있어요" : {
       "comment" : "Empty state suggestion subhead",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -32394,6 +33612,23 @@
         }
       }
     },
+    "템플릿도 만들어 볼까요?" : {
+      "comment" : "Tutorial invite title: template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to make a template too?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mau buat templat juga?"
+          }
+        }
+      }
+    },
     "템플릿으로 만들기" : {
       "comment" : "Action: turn memo into a template",
       "localizations" : {
@@ -32861,6 +34096,23 @@
         }
       }
     },
+    "프리랜서" : {
+      "comment" : "Placeholder example: freelancer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freelance"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freelance"
+          }
+        }
+      }
+    },
     "프리셋" : {
       "comment" : "Presets section",
       "extractionState" : "stale",
@@ -33179,24 +34431,6 @@
         }
       }
     },
-    "하세요" : {
-      "comment" : "Preview key 2",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hello"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selamat"
-          }
-        }
-      }
-    },
     "학교 이메일" : {
       "comment" : "Student memo category: school email",
       "extractionState" : "manual",
@@ -33211,24 +34445,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학교 이메일"
-          }
-        }
-      }
-    },
-    "학교 이메일 (선택 사항)" : {
-      "comment" : "Student quick add: school email label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "School Email (optional)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "학교 이메일 (선택 사항)"
           }
         }
       }
@@ -33275,6 +34491,58 @@
         }
       }
     },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        }
+      }
+    },
+    "하세요" : {
+      "comment" : "Preview key 2",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat"
+          }
+        }
+      }
+    },
+    "학교 이메일 (선택 사항)" : {
+      "comment" : "Student quick add: school email label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "School Email (optional)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학교 이메일 (선택 사항)"
+          }
+        }
+      }
+    },
     "학생" : {
       "comment" : "Persona: Student title",
       "extractionState" : "manual",
@@ -33295,22 +34563,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
-          }
-        }
-      }
-    },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
           }
         }
       }
@@ -33700,7 +34952,7 @@
       }
     },
     "홍길동" : {
-      "comment" : "Name placeholder",
+      "comment" : "Name placeholder\nPlaceholder example: person name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -33775,6 +35027,23 @@
         }
       }
     },
+    "확인 요청" : {
+      "comment" : "Template tutorial: created template title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review request"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permintaan cek"
+          }
+        }
+      }
+    },
     "확인 필요" : {
       "comment" : "Stamp label: needs checking",
       "localizations" : {
@@ -33806,6 +35075,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dimengerti. Akan saya review dan jawab"
+          }
+        }
+      }
+    },
+    "환급 영수증" : {
+      "comment" : "Refund receipt title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refund Receipt"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Struk Pengembalian"
+          }
+        }
+      }
+    },
+    "환급 영수증. 누적 환급 합계 %1$@, 다시 치지 않은 횟수 %2$d번." : {
+      "comment" : "Receipt accessibility summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refund receipt. Total refunded %1$@, %2$d times you didn't retype."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Struk pengembalian. Total pengembalian %1$@, %2$d kali Anda tidak mengetik ulang."
           }
         }
       }
@@ -34043,6 +35346,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saya terlambat 10 menit untuk rapat"
+          }
+        }
+      }
+    },
+    "회의실 A" : {
+      "comment" : "Placeholder example: place",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Room A"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruang A"
           }
         }
       }

@@ -627,7 +627,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
             checkTemplateHintIfNeeded()
-            updateCleanUpTipParameter(memos: loadedMemos)
             // 데이터·카테고리가 로드된 뒤 1회 — 마지막 본 탭으로 복원.
             restoreSelectedCategoryTabIfNeeded()
         } catch {
@@ -656,11 +655,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return result
     }
 
-    private func updateCleanUpTipParameter(memos: [Memo]) {
-        let sampleIds = SampleMemoStorage.load()
-        let userCount = memos.filter { !sampleIds.contains($0.id) }.count
-        CleanUpSamplesTip.userCreatedMemoCount = userCount
-    }
 
     // MARK: - Storage Diagnosis
 

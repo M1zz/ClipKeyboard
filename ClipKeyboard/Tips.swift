@@ -8,7 +8,7 @@ struct WelcomeTip: Tip {
         Text(NSLocalizedString("탭하면 바로 복사돼요", comment: "Welcome tip title"))
     }
     var message: Text? {
-        Text(NSLocalizedString("스니펫을 탭해보세요. 클립보드에 바로 복사돼요.", comment: "Welcome tip message"))
+        Text(NSLocalizedString("단축어를 탭해보세요. 클립보드에 바로 복사돼요.", comment: "Welcome tip message"))
     }
     var image: Image? {
         Image(systemName: AppSymbol.docOnClipboardFill)
@@ -63,31 +63,6 @@ struct KeyboardTip: Tip {
 
 // MARK: - CleanUpSamplesTip
 
-struct CleanUpSamplesTip: Tip {
-    @Parameter
-    static var userCreatedMemoCount: Int = 0
-
-    var title: Text {
-        Text(NSLocalizedString("예제를 지울까요?", comment: "Clean up samples tip title"))
-    }
-    var message: Text? {
-        Text(NSLocalizedString("직접 만든 스니펫이 생겼어요. 처음에 넣어준 예제들을 정리할까요?", comment: "Clean up samples tip message"))
-    }
-    var image: Image? {
-        Image(systemName: AppSymbol.trashCircleFill)
-    }
-
-    var rules: [Rule] {
-        #Rule(Self.$userCreatedMemoCount) { $0 >= 2 }
-    }
-
-    var actions: [Action] {
-        [
-            Action(id: "delete", title: NSLocalizedString("지우기", comment: "Tip action: delete")),
-            Action(id: "keep", title: NSLocalizedString("유지하기", comment: "Tip action: keep"))
-        ]
-    }
-}
 
 // MARK: - ComboInfoTip
 // 콤보 메모를 탭해서 ComboEditSheet를 처음 열었을 때 동작 방식을 설명.

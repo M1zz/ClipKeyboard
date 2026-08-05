@@ -2,7 +2,8 @@
 //  LivingSkinSettings.swift
 //  ClipKeyboard
 //
-//  생활 레이어 고르기 — 카드 위에 무엇이 사는지.
+//  **단축어 스킨** 고르기 — 단축어 카드 위에 무엇이 얹히는지.
+//  (내부 타입 이름은 LivingSkin 그대로다. UI 명칭만 바꿨다.)
 //
 //  ⚠️ 이 설정은 **단축어 목록 화면**에 대한 것이라 '키보드 레이아웃'이 아니라
 //     '디스플레이' 아래에 둔다. 처음에는 키캡 스킨 옆에 뒀는데, 키보드 설정을 열어야
@@ -33,7 +34,7 @@ struct LivingSkinSettings: View {
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle(NSLocalizedString("생활 레이어", comment: "Section: living skin"))
+        .navigationTitle(NSLocalizedString("단축어 스킨", comment: "Section: shortcut card skin"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -94,6 +95,16 @@ struct LivingSkinPreview: View {
             switch skin {
             case .none:
                 EmptyView()
+            case .vault:
+                // 이미 벌어들인 모습으로 — 빈 자리를 보여주면 무엇인지 알 수 없다.
+                // 카드에 실제로 붙는 모양 그대로여야 고르고 나서 "이게 아닌데"가 없다.
+                VaultCardBadge(savedSeconds: 3600 * 3)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .padding(4)
+            case .geode:
+                // 이미 금이 간 모습으로 — 온전한 돌만 보여주면 무엇이 일어나는지 알 수 없다.
+                GeodeBadge(useCount: 2, size: 30)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .village:
                 VillageStrip(useCount: 27, pixel: 1.5)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
