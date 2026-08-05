@@ -163,6 +163,9 @@ struct ClipKeyboardList: View {
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
     @State private var coinBadgeMemoID: UUID?
+    /// 방금 일한 카드 — 테두리가 잠깐 켜진다. 동전·보석이 날아간 **뒤에**
+    /// "이 카드가 방금 일했다"를 뒤따라 말해 준다.
+    @State private var glowMemoID: UUID?
     /// 지금 막 깨지고 있는 지오드. 부서진 모습을 잠깐 붙잡아 둔다 —
     /// 곧장 새 돌로 넘어가면 무엇이 나왔는지 못 보고 지나간다.
     @State private var burstingMemoID: UUID?
@@ -1354,6 +1357,15 @@ struct ClipKeyboardList: View {
                 .allowsHitTesting(false)
             }
         }
+        // 방금 쓴 카드에 잠깐 켜지는 테두리.
+        // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다 —
+        //    끼웠다 빼면 나타날 때 끊겨 보이고, 사라질 때 애니메이션이 안 걸린다.
+        .overlay {
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .strokeBorder(theme.accent, lineWidth: 2.5)
+                .opacity(glowMemoID == memo.id ? 1 : 0)
+                .allowsHitTesting(false)
+        }
         // 코치가 가리킬 카드의 자리를 알려준다 — 안내를 화면 아래에 고정해 두면
         // 무엇을 누르라는 건지 이어지지 않는다.
         .background(
@@ -1631,6 +1643,7 @@ struct ClipKeyboardList: View {
         guard let memoID = note.userInfo?[MemoUsedKey.memoID] as? UUID else { return }
 
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
+        lightUpCard(memoID)
 
         // 만든 걸 실제로 써 봤다 → 붙여넣기까지 이어서 데려간다.
         //
@@ -1665,6 +1678,25 @@ struct ClipKeyboardList: View {
             return
         }
         showCoinThenFly(memoID: memoID, seconds: seconds, from: lastTapPoint)
+    }
+
+    /// 방금 쓴 카드의 테두리를 1초 뒤에 켰다가 서서히 끈다.
+    ///
+    /// 왜 바로가 아니라 1초 뒤인가: 누른 순간에는 이미 눌림·햅틱·동전이 한꺼번에 일어난다.
+    /// 거기 테두리까지 겹치면 무엇 하나 안 읽힌다. 동전이 금고에 닿을 즈음 뒤늦게 켜져야
+    /// **"방금 그 카드가 일했다"**가 따로 읽힌다.
+    private func lightUpCard(_ memoID: UUID) {
+        guard Delight.isEnabled else { return }
+        let fadeIn: Animation? = reduceMotion ? nil : .easeOut(duration: 0.25)
+        let fadeOut: Animation? = reduceMotion ? nil : .easeIn(duration: 0.6)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            withAnimation(fadeIn) { glowMemoID = memoID }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 — 뺏지 않는다.
+                if glowMemoID == memoID { withAnimation(fadeOut) { glowMemoID = nil } }
+            }
+        }
     }
 
     /// 지오드를 한 단계 깨뜨린다. 세 번째면 터뜨리고 보석을 날려 보낸다.
