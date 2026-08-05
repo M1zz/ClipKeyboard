@@ -179,6 +179,7 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
+		58DL00C22F00000000000000C2 /* LivingSkinSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -386,6 +387,7 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingSkinSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -741,7 +743,8 @@
 				B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */,
 				155207159BAB0913906509F4 /* ChangelogView.swift */,
 				58DL00072F0000000000000007 /* UsagePassportView.swift */,
-			);
+							58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */,
+);
 			path = Screens;
 			sourceTree = "<group>";
 		};
@@ -1248,7 +1251,8 @@
 				58DL00B22F00000000000000B2 /* PixelSprite.swift in Sources */,
 				58DL00B32F00000000000000B3 /* FootprintTrail.swift in Sources */,
 				58DL00B42F00000000000000B4 /* GuestCreature.swift in Sources */,
-			);
+							58DL00C22F00000000000000C2 /* LivingSkinSettings.swift in Sources */,
+);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9CA0A3FF2F19D9B3004ABF40 /* Sources */ = {

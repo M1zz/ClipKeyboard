@@ -10,14 +10,22 @@
 //     그래서 스킨이 정하는 건 **두께·빛·모서리·눌림**뿐이다.
 //     덕분에 어떤 스킨을 골라도 사용자가 고른 색이 그대로 유지된다.
 //
-//  ⚠️ 기본값은 `.standard` — 지금까지의 생김새 그대로다. 업데이트했다고 남의 키보드
+//  ⚠️ 기본값은 `.classic` — 키캡 이전의 생김새 그대로다. 키캡은 취향이 갈리는 변화라
+//     **기본을 예전 모습에 두고 원하는 사람만 켜게** 한다. 업데이트했다고 남의 키보드
 //     모양이 멋대로 바뀌면 안 된다.
 //
 
 import SwiftUI
 
 enum KeyboardSkin: String, CaseIterable, Identifiable {
-    /// 지금까지의 기본 생김새.
+    /// **기본값.** 키캡 이전(4.4.3)의 모습 그대로 — 두께도 표면광도 없고,
+    /// 카드는 눌리는 대신 푹신하게 부풀었다 돌아온다.
+    ///
+    /// ⚠️ 값을 바꾸지 말 것. "예전 그대로"라는 약속이 이 케이스의 존재 이유다(테스트로 고정).
+    /// ⚠️ 키캡은 취향이 갈리는 변화라 **기본을 예전 모습에 두고 원하는 사람만 켜게** 한다.
+    ///    쓰던 사람의 화면이 업데이트로 멋대로 바뀌지 않는 쪽이 항상 옳다.
+    case classic
+    /// 키캡 — 적당한 두께와 표면광.
     case standard
     /// 기계식 키보드 — 두꺼운 스커트, 각진 모서리, 깊게 떨어지는 그늘.
     case mechanical
@@ -25,13 +33,6 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
     case flat
     /// 말랑 — 아주 둥근 모서리에 부드러운 빛, 느리게 되돌아온다.
     case soft
-    /// 예전 방식 — 키캡 작업(4.4.4) 이전의 모습 그대로.
-    /// 두께도 표면광도 없고, 카드는 눌리는 대신 푹신하게 부풀었다 돌아온다.
-    ///
-    /// ⚠️ **돌아갈 길**이다. 키캡은 취향이 갈리는 변화라, 예전이 더 좋았던 사람이
-    ///    설정 하나로 원래대로 되돌릴 수 있어야 한다. 값을 바꾸지 말 것 —
-    ///    "예전 그대로"라는 약속이 이 케이스의 존재 이유다.
-    case classic
 
     var id: String { rawValue }
 
@@ -41,7 +42,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
     static var current: KeyboardSkin {
         let raw = UserDefaults(suiteName: AppGroup.identifier)?
             .string(forKey: DefaultsKey.keyboardSkin) ?? ""
-        return KeyboardSkin(rawValue: raw) ?? .standard
+        return KeyboardSkin(rawValue: raw) ?? .classic
     }
 
     // MARK: - 물성
@@ -153,31 +154,31 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
 
     var localizedName: String {
         switch self {
+        case .classic:
+            return NSLocalizedString("기본", comment: "Keyboard skin name: classic (default)")
         case .standard:
-            return NSLocalizedString("기본", comment: "Keyboard skin name: standard")
+            return NSLocalizedString("키캡", comment: "Keyboard skin name: keycap")
         case .mechanical:
             return NSLocalizedString("기계식", comment: "Keyboard skin name: mechanical")
         case .flat:
             return NSLocalizedString("납작", comment: "Keyboard skin name: flat")
         case .soft:
             return NSLocalizedString("말랑", comment: "Keyboard skin name: soft")
-        case .classic:
-            return NSLocalizedString("예전 방식", comment: "Keyboard skin name: classic")
         }
     }
 
     var localizedDescription: String {
         switch self {
+        case .classic:
+            return NSLocalizedString("평평한 기본 모습이에요. 카드가 푹신하게 반응해요.", comment: "Keyboard skin description: classic")
         case .standard:
-            return NSLocalizedString("지금까지의 기본 생김새예요.", comment: "Keyboard skin description: standard")
+            return NSLocalizedString("키가 도톰해지고 누르면 내려앉아요.", comment: "Keyboard skin description: keycap")
         case .mechanical:
             return NSLocalizedString("두껍고 각진 키. 누르는 맛이 가장 큽니다.", comment: "Keyboard skin description: mechanical")
         case .flat:
             return NSLocalizedString("두께도 그림자도 없어요. 가장 조용합니다.", comment: "Keyboard skin description: flat")
         case .soft:
             return NSLocalizedString("둥글고 부드럽게, 느리게 돌아와요.", comment: "Keyboard skin description: soft")
-        case .classic:
-            return NSLocalizedString("키캡이 생기기 전 모습이에요. 카드가 푹신하게 반응해요.", comment: "Keyboard skin description: classic")
         }
     }
 }

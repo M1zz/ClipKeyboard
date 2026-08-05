@@ -23331,7 +23331,7 @@
       }
     },
     "없음": {
-      "comment": "Background: none\nPIN not set / none",
+      "comment": "Background: none\nLiving skin name: none\nPIN not set / none",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -29991,6 +29991,23 @@
         }
       }
     },
+    "키가 도톰해지고 누르면 내려앉아요.": {
+      "comment": "Keyboard skin description: keycap",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keys gain depth and sink when pressed."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tombol jadi tebal dan turun saat ditekan."
+          }
+        }
+      }
+    },
     "키보드": {
       "comment": "Keyboard\nKeyboard list header\nSettings section: keyboard\niOS Settings: Keyboard",
       "localizations": {
@@ -30783,6 +30800,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hanya ketebalan dan rasa tekanan yang berubah. Pilih warna secara terpisah di bawah."
+          }
+        }
+      }
+    },
+    "키캡": {
+      "comment": "Keyboard skin name: keycap",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keycap"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keycap"
           }
         }
       }
@@ -32367,6 +32401,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rata-rata berapa yang dibuat orang."
+          }
+        }
+      }
+    },
+    "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
+      "comment": "Keyboard skin description: classic",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Flat and plain. Cards respond with a soft bounce."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datar dan sederhana. Kartu merespons dengan pantulan lembut."
           }
         }
       }

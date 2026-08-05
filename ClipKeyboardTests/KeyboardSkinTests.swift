@@ -5,8 +5,8 @@
 //  키캡 스킨의 계약을 고정한다.
 //
 //  가장 중요한 두 지점:
-//   ① **기본값은 항상 `.standard`** — 업데이트했다고 남의 키보드 모양이 멋대로 바뀌면 안 된다.
-//      저장된 값이 없거나, 깨졌거나, 예전 버전이 쓰던 모르는 값이어도 기본으로 떨어져야 한다.
+//   ① **기본값은 항상 `.classic`(예전 모습)** — 키캡은 취향이 갈리는 변화라 원하는 사람만 켠다.
+//      저장된 값이 없거나, 깨졌거나, 모르는 값이어도 예전 모습으로 떨어져야 한다.
 //   ② **스킨은 색을 정하지 않는다** — 색은 테마와 커스텀 키 색이 담당한다.
 //      스킨이 색까지 건드리기 시작하면 셋이 서로 덮어쓰며 싸운다.
 //
@@ -33,13 +33,19 @@ struct KeyboardSkinTests {
         }
     }
 
-    @Test("기본 스킨은 지금까지의 값을 그대로 유지한다")
-    func standardKeepsExistingLook() {
-        let standard = KeyboardSkin.standard
-        // 이 값들이 바뀌면 기존 사용자의 키보드 생김새가 말없이 달라진다.
-        #expect(standard.skirtDepth == 3)
-        #expect(standard.shadowOpacity == 0.08)
-        #expect(standard.cornerRadius(base: 14) == 14)   // 테마 값 그대로
+    /// 값이 없거나 깨졌을 때 어디로 떨어지는지가 **기본 경험**을 정한다.
+    @Test("기본값은 예전 모습(classic)이다 — 키캡은 원하는 사람만 켠다")
+    func defaultIsClassic() {
+        #expect(KeyboardSkin(rawValue: "gundam") ?? .classic == .classic)
+        #expect(KeyboardSkin.allCases.first == .classic, "기본이 목록 맨 위에 있어야 한다")
+    }
+
+    @Test("키캡 스킨은 도톰한 값을 갖는다")
+    func keycapSkinHasDepth() {
+        let keycap = KeyboardSkin.standard
+        #expect(keycap.skirtDepth == 3)
+        #expect(keycap.shadowOpacity == 0.08)
+        #expect(keycap.cornerRadius(base: 14) == 14)   // 테마 값 그대로
     }
 
     // MARK: - 물성 일관성
@@ -117,7 +123,7 @@ struct KeyboardSkinTests {
 
     /// 키캡은 취향이 갈리는 변화다. 예전이 더 좋았던 사람이 설정 하나로
     /// **정확히 원래 모습**으로 돌아갈 수 있어야 한다.
-    @Test("예전 방식은 키캡 이전 값을 그대로 복원한다")
+    @Test("기본(classic)은 키캡 이전 값을 그대로 유지한다")
     func classicRestoresPreviousLook() {
         let classic = KeyboardSkin.classic
         #expect(classic.skirtDepth == 0, "예전엔 두께가 없었다")
@@ -149,6 +155,5 @@ struct KeyboardSkinTests {
     @Test("선택지가 하나뿐이면 설정 화면을 만들 이유가 없다")
     func hasMultipleChoices() {
         #expect(KeyboardSkin.allCases.count >= 3)
-        #expect(KeyboardSkin.allCases.first == .standard, "기본이 목록 맨 위에 있어야 한다")
     }
 }

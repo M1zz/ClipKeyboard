@@ -86,6 +86,11 @@ struct SettingView: View {
                 Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
                       systemImage: AppSymbol.checkmarkSealFill)
             }
+            // 목록 화면 꾸밈이라 '키보드 레이아웃'이 아니라 여기(디스플레이)에 둔다.
+            NavigationLink(destination: LivingSkinSettings()) {
+                Label(NSLocalizedString("생활 레이어", comment: "Section: living skin"),
+                      systemImage: AppSymbol.sparkles)
+            }
             // @AppStorage가 App Group에 직접 쓴다 — Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
             Toggle(isOn: $delightEffectsEnabled) {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),

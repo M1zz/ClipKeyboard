@@ -171,7 +171,7 @@ struct KeyboardView: View {
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
     /// 키캡 물성 프리셋 — 색이 아니라 두께·빛·모서리·눌림만 정한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
-    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
+    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 

@@ -25,10 +25,7 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
     /// 키캡 물성 프리셋 — 익스텐션이 같은 키를 읽는다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
-    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
-    /// 생활 레이어 — 앱 목록 화면 전용(익스텐션은 안 그린다).
-    @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
-    private var livingSkinRaw: String = LivingSkin.none.rawValue
+    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch: Bool   = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecent: Bool   = false
     @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanLayout: String = "dubeolsik"
@@ -176,8 +173,6 @@ struct KeyboardLayoutSettings: View {
             // ── 4.5 키캡 스킨 ──────────────────────────────────────────
             skinSection
 
-            // ── 4.6 생활 레이어 ────────────────────────────────────────
-            livingSection
 
             // ── 5. 색상 ────────────────────────────────────────────────
             Section {
@@ -272,53 +267,6 @@ struct KeyboardLayoutSettings: View {
         }
     }
 
-    // MARK: - 생활 레이어
-
-    /// 카드 위에 사는 것. 물성 스킨과 **다른 층**이라 둘을 같이 고를 수 있다
-    /// (기계식 키캡 위에 픽셀 마을이 자라도 된다).
-    private var livingSection: some View {
-        Section {
-            ForEach(LivingSkin.allCases) { candidate in
-                Button {
-                    HapticManager.shared.light()
-                    livingSkinRaw = candidate.rawValue
-                } label: {
-                    HStack(spacing: 14) {
-                        LivingSkinPreview(skin: candidate)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(candidate.localizedName)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(candidate.localizedDescription)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                            if let trait = candidate.localizedTrait {
-                                Text(trait)
-                                    .font(.caption2)
-                                    .foregroundColor(theme.accent)
-                            }
-                        }
-                        Spacer(minLength: 0)
-                        if livingSkinRaw == candidate.rawValue {
-                            Image(systemName: AppSymbol.checkmark)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.accent)
-                        }
-                    }
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(livingSkinRaw == candidate.rawValue ? [.isSelected] : [])
-            }
-        } header: {
-            Text(NSLocalizedString("생활 레이어", comment: "Section: living skin"))
-        } footer: {
-            Text(NSLocalizedString("단축어 목록 화면에만 나타나요. 키보드는 그대로예요. '동작 줄이기'나 저전력 모드에서는 움직이는 것들이 쉬어요.",
-                                   comment: "Living skin section footer"))
-        }
-    }
-
     // MARK: - Korean Layout Visual Guide
 
     private var koreanLayoutGuide: some View {
@@ -384,8 +332,7 @@ struct KeyboardLayoutSettings: View {
         customBgColor = .clear; customKeyColor = .clear
         showSearch = false; showRecent = false
         koreanLayout = "dubeolsik"; defaultLang = "english"
-        keyboardSkinRaw = KeyboardSkin.standard.rawValue
-        livingSkinRaw = LivingSkin.none.rawValue
+        keyboardSkinRaw = KeyboardSkin.classic.rawValue
     }
 }
 
@@ -404,7 +351,7 @@ struct KeyboardPreviewView: View {
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
-    private var keyboardSkinRaw: String = KeyboardSkin.standard.rawValue
+    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
 
     @State private var previewMemos: [Memo] = []
     @Environment(\.colorScheme) private var colorScheme
@@ -754,54 +701,5 @@ private struct KeycapPreview: View {
             withAnimation(.spring(response: skin.releaseResponse,
                                   dampingFraction: skin.releaseDamping)) { pressed = false }
         }
-    }
-}
-
-// MARK: - 생활 레이어 미리보기
-
-/// 스킨 행에 붙는 작은 카드 — 무엇이 사는지 그림으로 보여준다.
-/// 설명을 읽게 하는 대신 **결과를 보여주는** 쪽이 고르기 쉽다.
-private struct LivingSkinPreview: View {
-    let skin: LivingSkin
-
-    @Environment(\.appTheme) private var theme
-
-    private var size: CGSize { CGSize(width: 46, height: 34) }
-
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .fill(theme.surfaceAlt)
-
-            switch skin {
-            case .none:
-                EmptyView()
-            case .village:
-                // 자란 모습을 보여준다 — 빈 카드를 보여주면 무엇인지 알 수 없다.
-                VillageStrip(useCount: 27, pixel: 1.5)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                    .padding(4)
-            case .snow:
-                ZStack {
-                    SnowTexture(seed: 7)
-                    FootprintLayer(useCount: 4, size: 6)
-                }
-            case .bird:
-                Image(systemName: AppSymbol.birdFill)
-                    .font(.system(size: 15))
-                    .foregroundColor(theme.text.opacity(0.75))
-            case .cat:
-                Image(systemName: AppSymbol.pawprintFill)
-                    .font(.system(size: 15))
-                    .foregroundColor(theme.text.opacity(0.75))
-            }
-        }
-        .frame(width: size.width, height: size.height)
-        .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 9, style: .continuous)
-                .strokeBorder(theme.divider, lineWidth: 0.5)
-        )
-        .accessibilityHidden(true)
     }
 }
