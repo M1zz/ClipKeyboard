@@ -1168,17 +1168,23 @@ struct ClipKeyboardList: View {
         // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
         // 그대로 유지 (button trait 명시 + tap 햅틱).
+        let skirtDepth = cardSkirtDepth(lightweight: false)
+
         return memoCardSurface(memo: memo)
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 푹신한 누름 — 탭하면 부드럽게 들어갔다가(0.92) 원래보다 살짝 큰 1.05배로 튀어나온 뒤
-        // 원래 크기로 안착. 키프레임으로 1.05 peak를 정확히 보장(빠른 탭에도 항상 보임).
-        .keyframeAnimator(initialValue: 1.0, trigger: bounceTriggers[memo.id] ?? 0) { view, scale in
-            view.scaleEffect(scale)
+        // 키캡 누름 — 탭하면 바닥까지 즉각 내려앉았다가 제자리로 돌아온다.
+        //
+        // ⚠️ 예전에는 scaleEffect로 0.92 → 1.05 → 1.0 하는 "푹신한" 바운스였다.
+        //    크기가 변하는 건 고무처럼 읽혀서, 두께를 가진 키캡과 앞뒤가 안 맞는다.
+        //    키캡은 커졌다 작아지지 않고 **내려갔다 올라온다**.
+        .keyframeAnimator(initialValue: 0.0, trigger: bounceTriggers[memo.id] ?? 0) { view, dy in
+            view
+                .background(cardSkirt(depth: skirtDepth, offsetY: dy))
+                .offset(y: dy)
         } keyframes: { _ in
             KeyframeTrack(\.self) {
-                CubicKeyframe(0.92, duration: 0.12)   // 부드럽게 쑥 들어감
-                CubicKeyframe(1.05, duration: 0.17)   // 원래보다 크게 튀어나옴
-                CubicKeyframe(1.0, duration: 0.22)    // 원래 크기로 안착
+                CubicKeyframe(skirtDepth, duration: keycapSkin.pressDuration)  // 바닥까지
+                CubicKeyframe(0, duration: 0.22)                                // 제자리로
             }
         }
         .onTapGesture {
@@ -1352,6 +1358,36 @@ struct ClipKeyboardList: View {
         // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
         .shadow(color: lightweight ? .clear : .black.opacity(0.10),
                 radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
+    }
+
+    // MARK: - 카드 키캡
+
+    /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다 —
+    /// 따로 고르게 하면 설정만 늘고 두 화면이 안 맞는다.
+    private var keycapSkin: KeyboardSkin { KeyboardSkin.current }
+
+    /// 카드가 얹혀 있는 두께. 0이면 스커트를 아예 그리지 않는다.
+    /// 재정렬(경량) 모드에선 회전하는 카드마다 레이어가 하나 더 늘어 버벅임을 만들므로 뺀다.
+    private func cardSkirtDepth(lightweight: Bool) -> CGFloat {
+        guard !lightweight, Delight.isEnabled else { return 0 }
+        return keycapSkin.cardSkirtDepth
+    }
+
+    /// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다 —
+    /// 유리는 표면이고 스커트는 두께라 서로 싸우지 않는다.
+    ///
+    /// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
+    ///    키는 누르고 있는 동안(`isPressed`) 내려가 있고, 카드는 탭 한 번에
+    ///    키프레임으로 내려갔다 올라온다(리스트는 롱프레스가 따로 있어 press 상태를 못 쓴다).
+    @ViewBuilder
+    private func cardSkirt(depth: CGFloat, offsetY: CGFloat) -> some View {
+        if depth > 0 {
+            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                .fill(Color.black.opacity(keycapSkin.skirtOpacity(isDark: theme.isDark)))
+                // 캡이 dy만큼 내려가면 스커트는 그만큼 덜 내려가 **절대 위치가 고정**된다.
+                // (합이 항상 depth → 바닥은 가만히 있고 캡만 눌린다)
+                .offset(y: depth - offsetY)
+        }
     }
 
     /// 텍스트 카드의 글래스 tint — 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).

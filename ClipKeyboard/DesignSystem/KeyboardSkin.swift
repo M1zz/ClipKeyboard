@@ -50,6 +50,12 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         }
     }
 
+    /// 앱 카드용 두께. 카드는 키보다 크므로 한 단계 두껍게 잡아야 같은 비율로 보인다.
+    /// 두께가 0인 스킨(납작)은 카드에서도 0 — 앱과 키보드가 같은 성격을 유지한다.
+    var cardSkirtDepth: CGFloat {
+        skirtDepth > 0 ? skirtDepth + 1 : 0
+    }
+
     /// 스커트(옆면)의 그늘 농도. 키 색과 무관하게 검정을 깔아 만든다.
     func skirtOpacity(isDark: Bool) -> Double {
         switch self {
