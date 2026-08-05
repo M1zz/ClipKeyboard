@@ -408,15 +408,9 @@ struct PlaceholderInputView: View {
     }
 }
 
-// MARK: - Type Visual Style (색맹 보조 — 색 + dash 패턴)
-
-/// 메모 타입 시각 표현. 테두리 색 + dash 패턴 차이로 색약·색맹 사용자도
-/// 패턴만으로 구분 가능.
-struct TypeVisualStyle {
-    let color: Color
-    let lineWidth: CGFloat
-    let dash: [CGFloat]
-}
+// MARK: - Type Visual Style
+// `TypeVisualStyle` 과 타입별 규칙은 DesignSystem/MemoTypeStyle.swift 로 옮겼다.
+// 앱 카드와 키보드 키가 같은 파일을 봐야 두 화면이 갈라지지 않는다.
 
 // MARK: - DisplayItem
 

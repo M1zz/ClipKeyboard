@@ -1393,25 +1393,17 @@ struct ClipKeyboardList: View {
         return parts.joined(separator: ", ")
     }
 
+    /// 키보드 키와 **같은 그림**을 쓴다 (DesignSystem/MemoTypeStyle.swift).
     private func memoTypeIconName(memo: Memo) -> String {
-        if memo.isTemplate { return "wand.and.sparkles" }
-        if memo.isCombo { return "square.stack.3d.up.fill" }
-        if memo.isSecure { return "lock.fill" }
-        if memo.contentType == .image || memo.contentType == .mixed { return "photo.fill" }
-        return "doc.fill"
+        MemoTypeStyle.symbolName(for: memo)
     }
 
-    /// 메모 타입별 테두리 — 키보드 익스텐션 typeStyle과 정확히 동일.
+    /// 메모 타입별 테두리 — 키보드 익스텐션과 같은 규칙을 공유한다.
     /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
     /// "메모 구분 표시" 토글이 켜진 경우에만 노출(기본은 깔끔한 카드).
     private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
-        guard visualCuesVisible else { return (.clear, 0, []) }
-        if memo.isTemplate || !memo.templateVariables.isEmpty {
-            return (.purple, 1.5, [])
-        }
-        if memo.isCombo { return (.orange, 1.5, [5, 3]) }
-        if memo.isSecure { return (.gray, 1.5, [1, 3]) }
-        return (.clear, 0, [])
+        let style = MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
+        return (style.color, style.lineWidth, style.dash)
     }
 
     private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {

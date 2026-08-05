@@ -104,6 +104,7 @@ enum AppSymbol {
     static let pencilTip = "pencil.tip"
     static let personCropCircleBadgeCheckmark = "person.crop.circle.badge.checkmark"
     static let photo = "photo"
+    static let photoFill = "photo.fill"
     static let photoBadgePlus = "photo.badge.plus"
     static let photoOnRectangleAngled = "photo.on.rectangle.angled"
     static let plus = "plus"

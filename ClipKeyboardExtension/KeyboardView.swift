@@ -1025,7 +1025,8 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.caption2)
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title.kbTemplateAwareAttributed(font: .caption.weight(.medium)))
+                Text(memo.title.kbTemplateAwareAttributed(font: .caption.weight(.medium),
+                                                          accent: theme.accent, accentSoft: theme.accentSoft))
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
                     .lineLimit(1)
@@ -1137,6 +1138,8 @@ struct KeyboardView: View {
                     fontSize: buttonFontSize,
                     titleColor: theme.text,
                     valueColor: theme.textMuted,
+                    accent: theme.accent,
+                    accentSoft: theme.accentSoft,
                     flashToken: comboFlash[memo.id] ?? 0
                 )
                 .frame(maxWidth: .infinity)
@@ -1176,6 +1179,7 @@ struct KeyboardView: View {
                         }
                     }
                 )
+                .overlay(keycapSheen)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
         )
         // 점선 테두리(콤보 구분) — "메모 구분 표시" 설정이 켜졌을 때만(iOS와 동일하게 기본 심플).
@@ -1246,7 +1250,8 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.footnote.weight(.semibold))
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold)))
+                Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold),
+                                                          accent: theme.accent, accentSoft: theme.accentSoft))
                     .font(.callout.weight(.semibold))
                     .foregroundColor(theme.text)
                 Spacer(minLength: 0)
@@ -1292,7 +1297,8 @@ struct KeyboardView: View {
                     }
                 }
             } else {
-                Text(memo.value.kbTemplateAwareAttributed(font: .footnote.weight(.semibold)))
+                Text(memo.value.kbTemplateAwareAttributed(font: .footnote.weight(.semibold),
+                                                          accent: theme.accent, accentSoft: theme.accentSoft))
                     .font(.footnote)
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -1456,22 +1462,28 @@ struct KeyboardView: View {
                         }
                     }
                 )
+                .overlay(keycapSheen)
                 .shadow(color: Color.black.opacity(0.08), radius: 2, y: 1)
 
             // 메모 칸 안 텍스트는 제목. 보안 메모 자물쇠는 구분 표시 ON일 때만(앱과 동일, 기본 숨김).
             // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
             HStack(spacing: 4) {
-                if visualCuesVisible, memo.isSecure {
-                    Image(systemName: AppSymbol.lockFill)
+                // 타입 심볼 — 앱 카드와 **같은 그림**(MemoTypeStyle). 예전에는 자물쇠만 있어서
+                // 같은 템플릿 단축어가 앱에서는 지팡이, 키보드에서는 아무 표시도 없었다.
+                if visualCuesVisible, MemoTypeStyle.hasDistinctType(memo, forceTemplate: useTemplate) {
+                    Image(systemName: MemoTypeStyle.symbolName(for: memo, forceTemplate: useTemplate))
                         .font(.system(size: buttonFontSize * 0.82, weight: .semibold))
                         .foregroundColor(theme.textMuted)
+                        .accessibilityHidden(true)
                 }
                 MemoTitleHintSwap(title: memo.title,
                                   hint: keyboardHintText(for: memo),
                                   seed: memo.id.hashValue,
                                   fontSize: buttonFontSize,
                                   titleColor: theme.text,
-                                  hintColor: theme.textMuted)
+                                  hintColor: theme.textMuted,
+                                  accent: theme.accent,
+                                  accentSoft: theme.accentSoft)
             }
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(10)
@@ -1507,18 +1519,29 @@ struct KeyboardView: View {
     /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
     /// iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 칸 경계 테두리만).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
+    /// 키캡 표면광 — 앱 카드의 유리에 대응하는 "빛을 받는 물성".
+    ///
+    /// ⚠️ 여기에는 일부러 `glassEffect` 를 쓰지 않는다. 유리는 뒤가 비쳐야 의미가 있는데
+    ///    키보드 배경은 불투명해서 비칠 것이 없다. 비용(익스텐션 메모리·GPU)만 내고
+    ///    납작한 반투명 판이 될 뿐이다. 대신 같은 언어의 다른 재질 — 위에서 빛을 받아
+    ///    윗면이 밝고 아래로 갈수록 어두워지는 **키캡**으로 간다.
+    ///    (눌리는 동작은 `KeycapButtonStyle` 이 담당한다)
+    private var keycapSheen: some View {
+        RoundedRectangle(cornerRadius: theme.radiusMd)
+            .fill(
+                LinearGradient(
+                    colors: [Color.white.opacity(theme.isDark ? 0.07 : 0.5), .clear],
+                    startPoint: .top, endPoint: .center
+                )
+            )
+            .allowsHitTesting(false)
+    }
+
+    /// 앱 카드와 **같은 규칙**을 본다 (DesignSystem/MemoTypeStyle.swift).
     private func typeStyle(for memo: Memo, useTemplate: Bool) -> TypeVisualStyle {
-        guard visualCuesVisible else { return TypeVisualStyle(color: .clear, lineWidth: 0, dash: []) }
-        if useTemplate || memo.isTemplate || !memo.templateVariables.isEmpty {
-            return TypeVisualStyle(color: .purple, lineWidth: 1.5, dash: [])
-        }
-        if memo.isCombo {
-            return TypeVisualStyle(color: .orange, lineWidth: 1.5, dash: [5, 3])
-        }
-        if memo.isSecure {
-            return TypeVisualStyle(color: .gray, lineWidth: 1.5, dash: [1, 3])
-        }
-        return TypeVisualStyle(color: .clear, lineWidth: 0, dash: [])
+        MemoTypeStyle.border(for: memo,
+                             visualCuesVisible: visualCuesVisible,
+                             forceTemplate: useTemplate)
     }
 
     // MARK: - Data Loading
@@ -1757,6 +1780,9 @@ struct ComboKeyValueLabel: View {
     let fontSize: Double
     let titleColor: Color
     let valueColor: Color
+    /// 변수 칩 색 — 앱 카드와 같은 테마 토큰을 받는다.
+    let accent: Color
+    let accentSoft: Color
     /// → 를 누르거나 처음 나타날 때 증가 — 디졸브 미리보기를 트리거하는 토큰.
     let flashToken: Int
 
@@ -1765,7 +1791,8 @@ struct ComboKeyValueLabel: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold)))
+            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
+                                                 accent: accent, accentSoft: accentSoft))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingValue ? 0 : 1)
@@ -1802,6 +1829,9 @@ struct MemoTitleHintSwap: View {
     let fontSize: Double
     let titleColor: Color
     let hintColor: Color
+    /// 변수 칩 색 — 앱 카드와 같은 테마 토큰을 받는다.
+    let accent: Color
+    let accentSoft: Color
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showingHint = false
@@ -1827,7 +1857,8 @@ struct MemoTitleHintSwap: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold)))
+            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
+                                                 accent: accent, accentSoft: accentSoft))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingHint ? 0 : 1)
@@ -1889,7 +1920,13 @@ extension String {
     /// `{변수}`가 있으면 중괄호 없는 하이라이트 칩으로, 없으면 그대로 반환.
     /// 앱 타겟 String.templateChipAttributed와 동일 규칙 — 타깃 분리로 확장을 공유하지 못해
     /// 키보드 전용으로 복제(색은 시스템 블루 고정). "플레이스홀더는 어디서든 하이라이트" 규칙.
-    func kbTemplateAwareAttributed(font: Font) -> AttributedString {
+    /// - Parameters:
+    ///   - accent / accentSoft: 앱의 `templateChipAttributed` 와 **같은 테마 토큰**을 받는다.
+    ///     예전에는 여기서만 시스템 블루로 고정돼 있어서, 테마를 바꾸면 앱 카드의 변수 칩과
+    ///     키보드 키의 변수 칩 색이 서로 달라졌다.
+    func kbTemplateAwareAttributed(font: Font,
+                                   accent: Color,
+                                   accentSoft: Color) -> AttributedString {
         guard contains("{"), let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
             return AttributedString(self)
         }
@@ -1903,8 +1940,8 @@ extension String {
             }
             // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
             var chip = AttributedString("\u{2009}\(ns.substring(with: match.range(at: 1)))\u{2009}")
-            chip.foregroundColor = .blue
-            chip.backgroundColor = Color.blue.opacity(0.12)
+            chip.foregroundColor = accent
+            chip.backgroundColor = accentSoft
             chip.font = font
             out += chip
             cursor = full.location + full.length
