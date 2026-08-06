@@ -252,6 +252,9 @@ struct MemoActionSheet: View {
     /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
     var onMakeTemplate: (() -> Void)?
+    /// 튜토리얼이 지금 이 줄을 고르라고 안내하는 중인가 — 색과 한 줄 안내로 가리킨다.
+    /// ⚠️ 메뉴 안에서는 코치 말풍선을 얹을 수 없다. 줄 자체가 스스로 도드라져야 한다.
+    var highlightsMakeTemplate: Bool = false
     /// "보안 메모로 설정 / 보안 해제" — 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
     var onToggleSecure: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
@@ -388,6 +391,18 @@ struct MemoActionSheet: View {
                     ) {
                         dismiss()
                         onMakeTemplate()
+                    }
+                    .background(highlightsMakeTemplate ? Color.accentColor.opacity(0.12) : .clear)
+                    .overlay(alignment: .trailing) {
+                        if highlightsMakeTemplate {
+                            Text(NSLocalizedString("여기예요", comment: "Tutorial pointer in action sheet"))
+                                .font(.caption.weight(.bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Capsule().fill(Color.accentColor))
+                                .padding(.trailing, 16)
+                        }
                     }
                 }
                 // 보안 메모 설정/해제 — 텍스트 메모에서만(이미지는 제외, 콤보는 단계 값까지 암호화).

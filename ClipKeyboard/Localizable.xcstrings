@@ -12790,6 +12790,17 @@
         }
       }
     },
+    "매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요.": {
+      "comment": "Tutorial hint inside the make-template editor",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick the part that changes and wrap it with 'Variable' below. Save when you're done."
+          }
+        }
+      }
+    },
     "매번 한 군데만 바뀌는 문구, 있죠?": {
       "comment": "Template tutorial: headline",
       "localizations": {
@@ -17973,6 +17984,17 @@
         }
       }
     },
+    "여기예요": {
+      "comment": "Tutorial pointer in action sheet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This one"
+          }
+        }
+      }
+    },
     "여러 단축어를 순서대로 자동 입력하는\nCombo를 만들어보세요": {
       "comment": "Empty combo list description",
       "extractionState": "stale",
@@ -18959,6 +18981,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Delete this saved value."
+          }
+        }
+      }
+    },
+    "이 카드를 길게 눌러 보세요": {
+      "comment": "Coach line: make template step 1",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press and hold this card"
           }
         }
       }

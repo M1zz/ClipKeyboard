@@ -828,6 +828,7 @@ struct ClipKeyboardList: View {
                                 makeTemplateSource = memo
                             }
                         },
+                        highlightsMakeTemplate: awaitingMakeTemplate,
                         onToggleSecure: {
                             HapticManager.shared.selection()
                             viewModel.toggleSecure(memoId: memo.id)
@@ -909,7 +910,12 @@ struct ClipKeyboardList: View {
                         insertedValue: src.value,
                         insertedCategory: src.category,
                         startInTemplateMode: true,
-                        templateSourceMemoId: src.id
+                        templateSourceMemoId: src.id,
+                        // 튜토리얼로 들어온 길에서만 안내 한 줄 — 평소 편집에는 안 붙는다.
+                        tutorialHint: awaitingMakeTemplate
+                            ? NSLocalizedString("매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요.",
+                                                comment: "Tutorial hint inside the make-template editor")
+                            : nil
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
@@ -1438,6 +1444,10 @@ struct ClipKeyboardList: View {
             longPressProgress = 0
             memoForActions = memo
             showMemoActions = true
+            // 메뉴가 덮으므로 카드 옆 안내는 물러난다 — 이제 가리킬 곳은 메뉴 안이다.
+            if coachChapter == .makeTemplate {
+                withAnimation(.easeOut(duration: 0.2)) { coachMemoID = nil; coachChapter = nil }
+            }
         } onPressingChanged: { isPressing in
             if isPressing {
                 longPressActiveMemo = memo
@@ -1954,9 +1964,11 @@ struct ClipKeyboardList: View {
         switch viewModel.selectedCategoryTab {
         case .basic:     return .clear
         case .all:       return .clear
-        case .favorites: return Color.clipFavorite.opacity(0.10)
-        case .builtIn(let b): return b.tint.opacity(0.08)
-        case .custom(let name): return customCategoryColor(name).opacity(0.08)
+        // ⚠️ 예전(0.08~0.10)은 **흰 바탕** 위에 얹히던 값이다. 지금은 테마색 바닥 위라
+        //    같은 값으로는 눈에 안 보인다 — 색이 사라진 게 아니라 묻혔던 것이다.
+        case .favorites: return Color.clipFavorite.opacity(0.13)
+        case .builtIn(let b): return b.tint.opacity(0.11)
+        case .custom(let name): return customCategoryColor(name).opacity(0.11)
         }
     }
 
@@ -2170,10 +2182,9 @@ struct ClipKeyboardList: View {
         // 않는다 — 시작점을 직접 잡는다(pageContentTopMargin 과 다른 이유, 그쪽 주석 참고).
         .padding(.top, emptyPageTopMargin)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        // ⚠️ 배경을 여기서 깐다. 안 그러면 위 여백(pageContentTopMargin)과 네비바 자리는
-        //    아무도 안 칠해 시스템 흰색이 그대로 나오고, 그 아래 내용물이 칠한 테마색과
-        //    **가로줄로 갈린다**(비어 있을 때만 보이던 두 색 화면의 원인).
-        .background(theme.bg.ignoresSafeArea())
+        // ⚠️ 여기서 배경을 칠하지 않는다. 바닥은 탭 껍데기(SnippetsTab)가 깔고, 그 위에
+        //    카테고리 틴트가 얹힌다 — 여기서 한 겹 더 칠하면 **그 틴트를 덮어** 버린다
+        //    (카테고리 색이 사라졌던 원인).
     }
 
     @ViewBuilder
@@ -3146,9 +3157,16 @@ struct ClipKeyboardList: View {
         let d = UserDefaults.standard
         guard d.bool(forKey: DefaultsKey.pendingMakeTemplateTutorial) else { return }
         d.set(false, forKey: DefaultsKey.pendingMakeTemplateTutorial)
+        // ⚠️ 화면을 **대신 열어 주지 않는다.** 대신 열어 주면 그 순간엔 배운 것 같지만
+        //    나중에 혼자 하려 할 때 어디서 시작하는지를 모른다.
+        //    길게 누르는 것부터 손이 직접 하게 하고, 우리는 어디를 눌러야 하는지만 가리킨다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            guard let target = convertibleShortcut else { return }
             awaitingMakeTemplate = true
-            makeTemplateSource = convertibleShortcut
+            withAnimation(.easeOut(duration: 0.25)) {
+                coachMemoID = target.id
+                coachChapter = .makeTemplate
+            }
         }
     }
 

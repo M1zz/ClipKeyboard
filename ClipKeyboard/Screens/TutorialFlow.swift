@@ -68,8 +68,9 @@ enum TutorialChapter: String, Identifiable, CaseIterable {
             return NSLocalizedString("만든 콤보를 눌러보세요. 값을 골라 쓸 수 있어요.",
                                      comment: "Coach line: combo")
         case .makeTemplate:
-            // 기존 편집 화면을 그대로 태우므로 우리가 안내할 단계가 없다.
-            return nil
+            // ⚠️ 이 장은 **손이 직접** 해야 한다. 대신 열어 주면 그 순간엔 배운 것 같지만
+            //    혼자 하려 할 때 어디서 시작하는지를 모른다. 시작점(길게 누르기)을 가리킨다.
+            return NSLocalizedString("이 카드를 길게 눌러 보세요", comment: "Coach line: make template step 1")
         }
     }
 }
