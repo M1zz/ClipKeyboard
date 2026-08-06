@@ -272,16 +272,10 @@ struct SnippetsTab: View {
         .fullScreenCover(item: $tutorialMaking) { chapter in
             switch chapter {
             case .template:
-                TemplateTutorialView(onCreated: { memo in
-                                        TutorialCreations.remember(memo.id)
-                                        finishChapter(.template)
-                                     },
+                TemplateTutorialView(onCreated: { chapterCreated($0, chapter: .template) },
                                      onSkip: { finishChapter(.template) })
             case .combo:
-                ComboTutorialView(onCreated: { memo in
-                                     TutorialCreations.remember(memo.id)
-                                     finishChapter(.combo)
-                                  },
+                ComboTutorialView(onCreated: { chapterCreated($0, chapter: .combo) },
                                   onSkip: { finishChapter(.combo) })
             case .makeTemplate:
                 // 여기로 오지 않는다(위에서 목록으로 보낸다). 안전망.
@@ -335,7 +329,9 @@ struct SnippetsTab: View {
         withAnimation(.easeInOut(duration: 0.28)) { firstShortcutDone = true }
     }
 
-    /// 가리킨 키를 실제로 눌렀다 — 첫 걸음 끝. 다음은 목록 쪽 챕터들이다.
+    /// 가리킨 키를 실제로 눌렀다 — 이 장 끝. 곧바로 다음 장을 권한다.
+    ///
+    /// 첫 단축어든 방금 만든 템플릿·콤보든 같은 규칙이다 — **만들고 한 번 써 봐야** 끝난다.
     ///
     /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다 —
     ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
@@ -384,7 +380,21 @@ struct SnippetsTab: View {
         }
     }
 
-    /// 장을 마쳤다(만들었든 건너뛰었든) — 한 박자 뒤 다음 장으로.
+    /// 장에서 **무언가를 만들었다** — 다음 장으로 곧장 넘기지 않는다.
+    ///
+    /// ⚠️ 만들기만 하고 넘어가면 "저장했다"로 끝난다. 첫 단축어에 세운 규칙과 같다 —
+    ///    **한 번 눌러 봐야** 왜 만들었는지를 안다. 그래서 무대에서 그 키를 가리키고,
+    ///    누르는 순간(`completeFirstUse`) 다음 장을 권한다.
+    private func chapterCreated(_ memo: Memo, chapter: TutorialChapter) {
+        TutorialCreations.remember(memo.id)
+        tutorialMaking = nil
+        markChapterDone(chapter)
+        firstUseMemoIdRaw = memo.id.uuidString
+        // 가리킨 키를 보려면 무대에 있어야 한다.
+        styleRaw = SnippetsTabStyle.keyboard.rawValue
+    }
+
+    /// 장을 마쳤다(건너뛰었거나 만들 것이 없었다) — 한 박자 뒤 다음 장으로.
     private func finishChapter(_ chapter: TutorialChapter) {
         tutorialMaking = nil
         markChapterDone(chapter)

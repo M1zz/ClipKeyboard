@@ -63,9 +63,11 @@ struct InAppKeyboardStage: View {
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
                 if !keyboardReady { keyboardSetupBanner }
-                tutorialCue
                 conversation
                 composer
+                // ⚠️ 안내는 **가리키는 것 바로 옆**에 둔다. 화면 맨 위에 두었더니 빛나는 키와
+                //    멀어서 둘이 같은 이야기인 줄 몰랐다 — 눈이 글에서 키로 바로 건너가야 한다.
+                tutorialCue
                 // 진짜 키보드와 같은 뷰. 높이는 실제 키보드가 차지하는 만큼(화면의 절반쯤).
                 KeyboardView(typingProxy: host,
                              documentState: host.documentState,
@@ -207,16 +209,21 @@ struct InAppKeyboardStage: View {
     private var tutorialCue: some View {
         if highlightedMemoId != nil {
             HStack(spacing: 8) {
+                Spacer(minLength: 0)
                 Image(systemName: "hand.tap.fill")
-                    .foregroundColor(.accentColor)
-                Text(NSLocalizedString("방금 만든 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(theme.text)
+                Text(NSLocalizedString("방금 만든 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
+                    .font(.subheadline.weight(.bold))
+                // 아래를 가리킨다 — 글과 빛나는 키 사이를 눈이 건너갈 길을 만든다.
+                Image(systemName: "arrow.down")
+                    .font(.caption.weight(.bold))
                 Spacer(minLength: 0)
             }
+            .foregroundColor(.white)
             .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .background(Color.accentColor.opacity(0.10))
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
         }
     }
 
