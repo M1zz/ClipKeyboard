@@ -2,7 +2,7 @@
 //  FirstShortcutOnboardingView.swift
 //  ClipKeyboard
 //
-//  **첫 단축어 만들기** — 광부와 함께 하나를 실제로 만들어 보는 자리.
+//  **첫 단축어 만들기** — 하나를 실제로 만들어 보는 자리.
 //
 //  ⚠️ 예전 빈 화면(활용 사례 카드 격자 + 스타터팩 배너)을 대신한다.
 //     그 화면의 문제는 **읽을 거리만 주고 아무것도 시키지 않았다**는 것이다.
@@ -66,7 +66,6 @@ struct FirstShortcutOnboardingView: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
-            miner
             speech
             content
             Spacer(minLength: 0)
@@ -77,16 +76,7 @@ struct FirstShortcutOnboardingView: View {
         .background(theme.bg.ignoresSafeArea())
     }
 
-    // MARK: - 광부
-
-    /// 화면의 주인공. **크게 세운다** — 온보딩에서 캐릭터가 작으면 장식이 되고,
-    /// 장식은 아무도 안 따라 한다.
-    private var miner: some View {
-        MinerScene(height: step == .fill ? 170 : 250)
-            .animation(Delight.motion(.once, reduceMotion: reduceMotion), value: step)
-    }
-
-    /// 광부가 하는 말. 단계마다 한 문장씩만 — 두 문장이 되면 안 읽는다.
+    /// 첫 화면이 건네는 말. 단계마다 한 문장씩만 — 두 문장이 되면 안 읽는다.
     private var speech: some View {
         Text(line)
             .font(.title3.weight(.semibold))

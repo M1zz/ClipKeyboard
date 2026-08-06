@@ -14,7 +14,6 @@
 		0A839CB4770AA10B52CBAA72 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
 		0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616238CD1282F3D06FC7E369 /* BulkImportView.swift */; };
 		11527193B51F40B39A530C1D /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11527193B51F40B39A530C1C /* MemoRepository.swift */; };
-		167276F8FA0C57F6F213769A /* MinerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7650C2933755BB4B973BD29D /* MinerScene.swift */; };
 		1752832F621F4C72961F0FA1 /* AppGroupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */; };
 		1761A00B1625C4C0128A8D95 /* CategorySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD8B81F083063C5634B606 /* CategorySnapshot.swift */; };
 		2201788124E72E2C4D2B2672 /* DataRecoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC80C83D38691863F9E226D5 /* DataRecoveryView.swift */; };
@@ -112,7 +111,6 @@
 		71169FEF7AFE438A9D148359 /* SaveMemoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */; };
 		7555A77DDD320163098A7DF4 /* UsageInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52306EEE06035B083C937FF4 /* UsageInsights.swift */; };
 		77878F9F433DEDEF41AF32DB /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
-		814F96DC5E8653BDE30D5E06 /* miner_idle.mov in Resources */ = {isa = PBXBuildFile; fileRef = ADA90476AC6A85FFB0D43163 /* miner_idle.mov */; };
 		82DB8CDD2D0F443CAE408631 /* MemoRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */; };
 		861BD8933577BC4FEB3FB12E /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7340554588DBC6AB85710E /* AppLog.swift */; };
 		8BA9C9627290F74A1AADD0EB /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
@@ -171,8 +169,19 @@
 		FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */; };
 		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
 		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
+		INAPPKBD0000000000000001 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
+		INAPPKBD0000000000000002 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
+		INAPPKBD0000000000000003 /* TypingKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001300000001F3B00004 /* TypingKeyboardView.swift */; };
+		INAPPKBD0000000000000004 /* HangulComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001100000001F3B00004 /* HangulComposer.swift */; };
+		INAPPKBD0000000000000005 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
+		INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
+		INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
+		INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */; };
+		INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
+		KBFEED0B0000000000000001 /* KeyboardMemoFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */; };
+		KBFEED0B0000000000000002 /* KeyboardMemoFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */; };
 		KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
 		KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */; };
 		MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAC00022F0000000000000002 /* MemoAddComponents.swift */; };
@@ -188,6 +197,7 @@
 		SG00002A2F0000000000000002 /* SuggestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SG00001A2F0000000000000001 /* SuggestionManager.swift */; };
 		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
+		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
 		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
 		TPS0002A2F0000000000000002 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPS0001A2F0000000000000001 /* Tips.swift */; };
 		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
@@ -344,7 +354,6 @@
 		734374AB16A70898D2F69F48 /* AppGroup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		7427CED7AE75EED7C96E8587 /* ExperimentService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExperimentService.swift; sourceTree = "<group>"; };
 		759E1C51E0141D0101328417 /* AppNotification.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
-		7650C2933755BB4B973BD29D /* MinerScene.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MinerScene.swift; sourceTree = "<group>"; };
 		79D6A773619BB7884CEA27B8 /* RefundLedger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RefundLedger.swift; sourceTree = "<group>"; };
 		7B6F486B7BCD88857EFB5DDC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepositoryProtocol.swift; sourceTree = "<group>"; };
@@ -367,7 +376,6 @@
 		AA00001300000001F3B00004 /* TypingKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingKeyboardView.swift; sourceTree = "<group>"; };
 		AA00001500000001F3B00005 /* CheonjiinInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheonjiinInput.swift; sourceTree = "<group>"; };
 		AA00001700000001F3B00006 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
-		ADA90476AC6A85FFB0D43163 /* miner_idle.mov */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = video.quicktime; path = miner_idle.mov; sourceTree = "<group>"; };
 		AIC0FILE0000000000000004 /* AIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIComponents.swift; sourceTree = "<group>"; };
 		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
 		AIV0FILE0000000000000003 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
@@ -391,12 +399,15 @@
 		FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardSpec.swift; sourceTree = "<group>"; };
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
+		INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardHost.swift; sourceTree = "<group>"; };
+		INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardStage.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST003 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST004 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST005 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST006 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMemoFeed.swift; sourceTree = "<group>"; };
 		KBO00022F0000000000000002 /* KeyboardOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardOverlays.swift; sourceTree = "<group>"; };
 		KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPracticeView.swift; sourceTree = "<group>"; };
 		MAC00022F0000000000000002 /* MemoAddComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddComponents.swift; sourceTree = "<group>"; };
@@ -409,6 +420,7 @@
 		QKP00022F0000000000000002 /* QuickPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPatterns.swift; sourceTree = "<group>"; };
 		SG00001A2F0000000000000001 /* SuggestionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionManager.swift; sourceTree = "<group>"; };
 		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
+		SNIPTAB0R000000000000001 /* SnippetsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTab.swift; sourceTree = "<group>"; };
 		STP00022F0000000000000002 /* StarterPackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterPackView.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		TSH00022F0000000000000002 /* TemplateSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSheets.swift; sourceTree = "<group>"; };
@@ -418,7 +430,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
+		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -428,29 +440,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = widget;
-			sourceTree = "<group>";
-		};
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = ClipKeyboardTests;
-			sourceTree = "<group>";
-		};
+		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -501,9 +492,7 @@
 		03A5B4F86C963882100BF9AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				ADA90476AC6A85FFB0D43163 /* miner_idle.mov */,
 			);
-			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -568,6 +557,7 @@
 				AA00001100000001F3B00004 /* HangulComposer.swift */,
 				F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */,
 				845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */,
+				KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */,
 				AA00001500000001F3B00005 /* CheonjiinInput.swift */,
 				AA00001300000001F3B00004 /* TypingKeyboardView.swift */,
 				587BDC4F2A1D0D40001464E4 /* Info.plist */,
@@ -775,6 +765,9 @@
 		58F8FBC42A15278100F5446E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
+				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
+				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
 				5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */,
@@ -940,7 +933,6 @@
 				4B2BAD64480FDDD9FD723377 /* VaultSprite.swift */,
 				0EC655D3FF25C0B1E0FF6661 /* RefundReceipt.swift */,
 				31FBA1FD9BD86FEB0A2DB82C /* VaultDeposit.swift */,
-				7650C2933755BB4B973BD29D /* MinerScene.swift */,
 				3318F59B862C85F419B001EA /* GeodeSkin.swift */,
 			);
 			path = Vault;
@@ -1133,7 +1125,6 @@
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
 				8DC34C94DFB6A0B59259AEE6 /* PrivacyInfo.xcprivacy in Resources */,
-				814F96DC5E8653BDE30D5E06 /* miner_idle.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1166,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				KBFEED0B0000000000000002 /* KeyboardMemoFeed.swift in Sources */,
 				587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */,
 				587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */,
 				587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */,
@@ -1213,6 +1205,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */,
+				KBFEED0B0000000000000001 /* KeyboardMemoFeed.swift in Sources */,
+				INAPPKBD0000000000000001 /* KeyboardView.swift in Sources */,
+				INAPPKBD0000000000000002 /* KeyboardOverlays.swift in Sources */,
+				INAPPKBD0000000000000003 /* TypingKeyboardView.swift in Sources */,
+				INAPPKBD0000000000000004 /* HangulComposer.swift in Sources */,
+				INAPPKBD0000000000000005 /* CheonjiinInput.swift in Sources */,
+				INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */,
+				INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */,
+				INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */,
+				INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */,
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
 				QKN0BUILD000000000000001 /* QuickNote.swift in Sources */,
 				QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */,
@@ -1338,7 +1341,6 @@
 				522895AA07E790D75C0A8EEB /* VaultDeposit.swift in Sources */,
 				F4D02850F071DD2B52FD1AEC /* VaultScreen.swift in Sources */,
 				282748E17940F587E6441F41 /* FirstShortcutOnboardingView.swift in Sources */,
-				167276F8FA0C57F6F213769A /* MinerScene.swift in Sources */,
 				5D5FC1F549C20F256F7B40BA /* PastePracticeView.swift in Sources */,
 				C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */,
 				AF23D3A3CD2BBE56EEB15F80 /* PlaceholderExamples.swift in Sources */,

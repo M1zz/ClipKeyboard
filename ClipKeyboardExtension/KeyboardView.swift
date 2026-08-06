@@ -199,9 +199,15 @@ struct KeyboardView: View {
     /// nil이면 (preview 등) 항상 표시.
     @ObservedObject var documentState: KeyboardDocumentState
 
-    init(typingProxy: TypingInputProxy? = nil, documentState: KeyboardDocumentState = KeyboardDocumentState()) {
+    /// 누가 이 키보드를 띄우고 있는가 — 앱 안이면 키마다 복사 버튼이 하나 더 붙는다.
+    let hostKind: KeyboardHostKind
+
+    init(typingProxy: TypingInputProxy? = nil,
+         documentState: KeyboardDocumentState = KeyboardDocumentState(),
+         hostKind: KeyboardHostKind = .keyboardExtension) {
         self.typingProxy = typingProxy
         self.documentState = documentState
+        self.hostKind = hostKind
     }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
@@ -216,6 +222,8 @@ struct KeyboardView: View {
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
+    /// 앱 안에서 복사 버튼을 눌렀다는 확인. (익스텐션에는 복사 버튼이 없어 뜰 일이 없다)
+    @State private var showCopiedToast = false
 
     // 검색 상태
     @State private var searchQuery: String = ""
@@ -284,7 +292,11 @@ struct KeyboardView: View {
     /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
     /// App Group UserDefaults에서 같은 flag/배열을 읽어 동일 동작 보장.
     private var isCategoryFeatureEnabled: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        // 앱 안 무대에서는 카테고리를 항상 켠 것으로 본다 — 처음부터 탭이 보여야 하고,
+        // 페이지만 보여주고 거르지 않으면 **골라도 반응이 없는** 죽은 탭이 된다.
+        // (탭 노출과 필터가 같은 값을 봐야 하는 이유)
+        if hostKind == .inApp { return true }
+        return UserDefaults(suiteName: AppGroup.identifier)?
             .bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false
     }
 
@@ -455,15 +467,22 @@ struct KeyboardView: View {
 
             // 상단 헤더 — 카테고리 탭 + clear 버튼
             HStack(spacing: 0) {
-                if categoryPages.count > 1 {
+                // 앱 안에서는 탭이 하나뿐이어도 보여준다 — 카테고리가 **처음부터** 있어야
+                // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
+                if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
                     categoryTabRow
                 } else {
                     Spacer()
                 }
-                if let proxy = typingProxy, documentState.hasText {
+                // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
+                // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+                if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
                     clearAllButton(proxy: proxy)
                         .padding(.trailing, 4)
                         .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                        // 빈 칸에서는 눌러도 지울 게 없다 — 있지만 흐리게.
+                        .opacity(documentState.hasText ? 1 : 0.4)
+                        .disabled(!documentState.hasText)
                 }
             }
             .animation(.easeOut(duration: 0.18), value: documentState.hasText)
@@ -489,6 +508,14 @@ struct KeyboardView: View {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
                                 memoButton(for: item.memo, useTemplate: item.useTemplate)
+                                    // 앱 안에서는 키 하나에 두 가지 일이 있다 —
+                                    // **누르면 입력창에**, **복사 버튼은 클립보드에**.
+                                    // (익스텐션에는 붙지 않는다. 거기선 키가 곧 입력이다)
+                                    .overlay(alignment: .topTrailing) {
+                                        if hostKind == .inApp {
+                                            inAppCopyButton(for: item.memo)
+                                        }
+                                    }
                             }
                         }
                         .padding(.horizontal, 12)
@@ -532,6 +559,17 @@ struct KeyboardView: View {
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showCopiedToast {
+                Text(NSLocalizedString("복사됨 · 다른 앱에 붙여넣기 하세요", comment: "Copied to clipboard toast (in-app keyboard)"))
                     .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -1444,6 +1482,53 @@ struct KeyboardView: View {
         return true
     }
 
+    // MARK: - 앱 안에서만 있는 복사 버튼
+
+    /// 키 오른쪽 위에 붙는 작은 복사 버튼. **앱 안(`hostKind == .inApp`)에서만** 나타난다.
+    ///
+    /// 앱에서 키를 누르면 무대의 입력창에 들어간다 — 그건 키보드를 미리 보여주는 일이고,
+    /// 예전부터 앱이 해 오던 "눌러서 클립보드에 복사"는 그것대로 남아 있어야 한다.
+    /// 두 가지를 한 손가락에 몰아넣으면(길게 누르기 등) 어느 쪽도 발견되지 않는다.
+    ///
+    /// ⚠️ 보안 문구에는 붙이지 않는다. 복사는 PIN 없이 값을 꺼내는 길이 되어 버린다
+    ///    (키를 누르는 경로는 PIN을 거친다).
+    @ViewBuilder
+    private func inAppCopyButton(for memo: Memo) -> some View {
+        if !memo.isSecure {
+            Button {
+                copyMemoInApp(memo)
+            } label: {
+                Image(systemName: AppSymbol.docOnDoc)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(theme.textMuted)
+                    .frame(width: 24, height: 24)
+                    .background(Circle().fill(theme.surface.opacity(0.92)))
+                    .overlay(Circle().strokeBorder(theme.divider.opacity(0.5), lineWidth: 0.5))
+            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(3)
+            .accessibilityLabel(String(format: NSLocalizedString("%@ 클립보드에 복사",
+                                                                comment: "Accessibility: copy memo to clipboard"),
+                                       memo.title))
+        }
+    }
+
+    /// 복사 버튼의 동작 — 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.
+    private func copyMemoInApp(_ memo: Memo) {
+        if memo.contentType == .image || memo.contentType == .mixed,
+           !(memo.imageFileNames.first ?? memo.imageFileName ?? "").isEmpty {
+            copyImageToClipboard(memo: memo)
+            return
+        }
+        guard requireFullAccess() else { return }
+        UIPasteboard.general.string = memo.value
+        KeyboardHaptics.tap()
+        withAnimation { showCopiedToast = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showCopiedToast = false }
+        }
+    }
+
     /// 롱프레스 메뉴의 "클립보드에 복사" — 전체 접근이 있어야 동작한다.
     private func copyTextToClipboard(_ text: String) {
         guard requireFullAccess() else { return }
@@ -1545,7 +1630,7 @@ struct KeyboardView: View {
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
     /// 사용자가 고른 키캡 물성 프리셋. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     private var skin: KeyboardSkin {
-        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .standard
+        KeyboardSkin.resolved(keyboardSkinRaw)
     }
 
     /// 키캡 모서리 — 테마 스케일을 스킨 비율로 조정한다.

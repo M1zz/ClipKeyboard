@@ -39,9 +39,6 @@ struct PastePracticeView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            MinerScene(height: 150)
-                .frame(maxWidth: 240)
-
             Text(headline)
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)

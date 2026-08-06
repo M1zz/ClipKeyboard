@@ -37,6 +37,10 @@ struct SettingView: View {
     /// 날인·봉인 등 입력 반응 마스터 스위치. App Group — 키보드 익스텐션도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.delightEffectsEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
     private var delightEffectsEnabled: Bool = true
+    /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
+    /// ⚠️ 기본값은 목록 — 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
+    @AppStorage(DefaultsKey.snippetsTabStyle)
+    private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
 
     // MARK: 데모 데이터 섹션
     // 앱을 처음 둘러보거나 스크린샷·영상을 찍을 때, 잘 짜인 샘플 한 벌을 즉시 켜고 끌 수 있게 한다.
@@ -79,6 +83,51 @@ struct SettingView: View {
     /// ⚠️ body 안에 인라인으로 두면 타입 체커가 시간 초과로 컴파일을 포기한다
     ///    (body 표현식 하나가 감당하는 뷰 트리 깊이에 한계가 있다).
     ///    이 화면에 섹션을 더할 때는 이렇게 계산 프로퍼티로 빼낼 것.
+    /// 단축어 탭이 무엇을 보여줄지 — 목록이냐 키보드 무대냐.
+    ///
+    /// ⚠️ 두 줄 다 **실물을 짧게 설명**한다. 이름만 두면(목록 / 키보드) 뭐가 달라지는지
+    ///    눌러 보기 전에는 알 수 없고, 첫 화면은 눌러 보고 되돌리기가 번거로운 설정이다.
+    private var firstScreenSection: some View {
+        Section {
+            ForEach(SnippetsTabStyle.allCases) { candidate in
+                Button {
+                    HapticManager.shared.light()
+                    snippetsTabStyleRaw = candidate.rawValue
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: candidate.symbolName)
+                            .font(.title3)
+                            .foregroundColor(theme.accent)
+                            .frame(width: 28)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(candidate.localizedName)
+                                .font(.body.weight(.semibold))
+                                .foregroundColor(theme.text)
+                            Text(candidate.localizedDescription)
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer(minLength: 0)
+                        if snippetsTabStyleRaw == candidate.rawValue {
+                            Image(systemName: AppSymbol.checkmark)
+                                .font(.body.weight(.semibold))
+                                .foregroundColor(theme.accent)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])
+            }
+        } header: {
+            Text(NSLocalizedString("첫 화면", comment: "Settings section: first screen"))
+        } footer: {
+            Text(NSLocalizedString("단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.",
+                                   comment: "First screen section footer"))
+        }
+    }
+
     private var displaySection: some View {
         Section {
             NavigationLink(destination: DisplaySettingsView()) {
@@ -89,10 +138,13 @@ struct SettingView: View {
                 Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
                       systemImage: AppSymbol.checkmarkSealFill)
             }
-            // 목록 화면 꾸밈이라 '키보드 레이아웃'이 아니라 여기(디스플레이)에 둔다.
-            NavigationLink(destination: LivingSkinSettings()) {
-                Label(NSLocalizedString("단축어 스킨", comment: "Section: shortcut card skin"),
-                      systemImage: AppSymbol.sparkles)
+            // 단축어 스킨(생활 레이어)은 지금 감춰 둔다 — LivingSkin.isEnabled = false.
+            // 되살리려면 그 값을 true 로. 화면(LivingSkinSettings)은 그대로 남아 있다.
+            if LivingSkin.isEnabled {
+                NavigationLink(destination: LivingSkinSettings()) {
+                    Label(NSLocalizedString("단축어 스킨", comment: "Section: shortcut card skin"),
+                          systemImage: AppSymbol.sparkles)
+                }
             }
             // @AppStorage가 App Group에 직접 쓴다 — Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
             Toggle(isOn: $delightEffectsEnabled) {
@@ -257,6 +309,9 @@ struct SettingView: View {
                     }
                 }
             }
+
+            // MARK: 첫 화면 (단축어 탭이 무엇을 보여줄지)
+            firstScreenSection
 
             // MARK: 디스플레이 (이 앱에서만의 메모 표시 방식)
             displaySection

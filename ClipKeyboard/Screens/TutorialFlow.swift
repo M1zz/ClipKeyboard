@@ -88,9 +88,6 @@ struct TutorialInviteView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            MinerScene(height: 190)
-                .frame(maxWidth: 260)
-
             Text(chapter.inviteTitle)
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
@@ -238,9 +235,6 @@ struct ComboTutorialView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            MinerScene(height: 150)
-                .frame(maxWidth: 220)
-
             Text(NSLocalizedString("같이 쓰는 것들을 묶어 둘게요", comment: "Combo tutorial: headline"))
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
@@ -356,9 +350,6 @@ struct TemplateTutorialView: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
-
-            MinerScene(height: 150)
-                .frame(maxWidth: 220)
 
             Text(NSLocalizedString("바뀌는 곳만 빈칸으로 둘게요", comment: "Template tutorial: headline"))
                 .font(.title3.weight(.semibold))

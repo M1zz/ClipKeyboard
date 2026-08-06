@@ -38,12 +38,29 @@ enum LivingSkin: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    // MARK: - 지금은 꺼져 있다
+
+    /// 생활 레이어를 고를 수 있는가.
+    ///
+    /// ⚠️ **지금은 꺼져 있다.** 설정에서 고르는 자리를 감췄고, 저장된 값이 무엇이든
+    ///    `.none`으로 보인다. (자세한 이유는 `KeyboardSkin.isEnabled` 참고 —
+    ///    고를 수 없는데 화면만 달라져 있으면 안 된다)
+    ///
+    /// 되살릴 때는 이 값 하나를 `true` 로. 마을·발자국·손님 코드는 그대로 남아 있다.
+    static let isEnabled = false
+
+    /// 저장된 값을 지금 규칙에 맞게 해석한다. **읽는 곳은 전부 이걸 거친다.**
+    static func resolved(_ raw: String) -> LivingSkin {
+        guard isEnabled else { return .none }
+        return LivingSkin(rawValue: raw) ?? .none
+    }
+
     // MARK: - 저장
 
     static var current: LivingSkin {
         let raw = UserDefaults(suiteName: AppGroup.identifier)?
             .string(forKey: DefaultsKey.livingSkin) ?? ""
-        return LivingSkin(rawValue: raw) ?? .none
+        return resolved(raw)
     }
 
     // MARK: - 성격

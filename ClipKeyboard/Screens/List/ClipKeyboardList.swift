@@ -1599,7 +1599,7 @@ struct ClipKeyboardList: View {
 
     /// 카드 위에 사는 것 — 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
     private var livingSkin: LivingSkin {
-        LivingSkin(rawValue: livingSkinRaw) ?? .none
+        LivingSkin.resolved(livingSkinRaw)
     }
 
     // MARK: - 금고
@@ -1815,7 +1815,7 @@ struct ClipKeyboardList: View {
     /// ⚠️ `KeyboardSkin.current`(UserDefaults 직접 읽기)가 아니라 @AppStorage를 쓴다.
     ///    직접 읽으면 설정에서 바꿔도 이 화면이 다시 그려지지 않아 "골라도 반응이 없다".
     private var keycapSkin: KeyboardSkin {
-        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .classic
+        KeyboardSkin.resolved(keyboardSkinRaw)
     }
 
     /// 카드가 얹혀 있는 두께. 0이면 스커트를 아예 그리지 않는다.
@@ -2213,6 +2213,11 @@ struct ClipKeyboardList: View {
         }
         // 페이저가 화면 끝까지 확장되므로(ignoresSafeArea) 시작점을 직접 잡는다.
         .padding(.top, pageContentTopMargin)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        // ⚠️ 배경을 여기서 깐다. 안 그러면 위 여백(pageContentTopMargin)과 네비바 자리는
+        //    아무도 안 칠해 시스템 흰색이 그대로 나오고, 그 아래 내용물이 칠한 테마색과
+        //    **가로줄로 갈린다**(비어 있을 때만 보이던 두 색 화면의 원인).
+        .background(theme.bg.ignoresSafeArea())
     }
 
     @ViewBuilder
@@ -3404,8 +3409,6 @@ struct ClipKeyboardList: View {
     /// 다 지워서 비었을 때. 첫 온보딩을 이미 지난 사람에게 안내를 다시 깔지 않는다.
     private var minimalEmptyState: some View {
         VStack(spacing: 16) {
-            MinerScene(height: 180)
-                .frame(maxWidth: 260)
             Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)

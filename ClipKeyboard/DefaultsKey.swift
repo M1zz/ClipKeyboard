@@ -36,6 +36,12 @@ enum DefaultsKey {
     /// 생활 레이어 프리셋(LivingSkin rawValue) — 카드 위에 사는 것. 값이 없으면 `.none`.
     /// ⚠️ 앱 전용이다. 키보드 익스텐션은 메모리 상한 때문에 이 레이어를 그리지 않는다.
     static let livingSkin = "livingSkin.v1"
+    /// 단축어 탭이 무엇을 보여주는가 — `SnippetsTabStyle` rawValue("list" / "keyboard").
+    /// ⚠️ 기존 사용자는 값이 없으면 **목록**이다. 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
+    ///    새 설치에만 첫 실행에서 `keyboard`를 뿌린다(ClipKeyboardApp.seedSnippetsTabStyle).
+    static let snippetsTabStyle = "snippetsTabStyle.v1"
+    /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
+    static let keyboardStageOffered = "keyboardStageOffered.v1"
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group — 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"

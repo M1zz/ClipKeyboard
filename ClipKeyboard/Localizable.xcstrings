@@ -1276,6 +1276,29 @@
         }
       }
     },
+    "%@ 클립보드에 복사" : {
+      "comment" : "Accessibility: copy memo to clipboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy %@ to clipboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin %@ ke papan klip"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 클립보드에 복사"
+          }
+        }
+      }
+    },
     "%@ 타입 없음" : {
       "comment" : "No items of type",
       "localizations" : {
@@ -12478,6 +12501,40 @@
         }
       }
     },
+    "가끔 고양이가 카드 사이를 지나가요." : {
+      "comment" : "Living skin description: cat",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now and then a cat wanders past the cards."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sesekali kucing lewat di antara kartu."
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai"
+          }
+        }
+      }
+    },
     "가끔 새가 날아와 카드에 앉았다 가요." : {
       "comment" : "Living skin description: bird",
       "localizations" : {
@@ -12491,6 +12548,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sesekali burung hinggap di kartu, lalu pergi."
+          }
+        }
+      }
+    },
+    "가끔 잠깐 나타나요" : {
+      "comment" : "Living skin trait: occasional visitor",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows up now and then"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muncul sesekali"
+          }
+        }
+      }
+    },
+    "가입할 때마다 오타 나던 그거요." : {
+      "comment" : "Onboarding seed hint: email",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The one you keep typoing at signup."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang selalu salah ketik saat daftar."
           }
         }
       }
@@ -12571,74 +12662,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interval"
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nilai"
-          }
-        }
-      }
-    },
-    "가끔 고양이가 카드 사이를 지나가요." : {
-      "comment" : "Living skin description: cat",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now and then a cat wanders past the cards."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sesekali kucing lewat di antara kartu."
-          }
-        }
-      }
-    },
-    "가끔 잠깐 나타나요" : {
-      "comment" : "Living skin trait: occasional visitor",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shows up now and then"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Muncul sesekali"
-          }
-        }
-      }
-    },
-    "가입할 때마다 오타 나던 그거요." : {
-      "comment" : "Onboarding seed hint: email",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The one you keep typoing at signup."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yang selalu salah ketik saat daftar."
           }
         }
       }
@@ -13413,6 +13436,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nomor Rekening"
+          }
+        }
+      }
+    },
+    "계좌번호 좀 보내줄래?" : {
+      "comment" : "In-app keyboard stage: sample incoming message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can you send me your account number?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bisa kirim nomor rekeningmu?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계좌번호 좀 보내줄래?"
           }
         }
       }
@@ -14453,23 +14499,6 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "끄기" : {
       "comment" : "Nudge: turn off",
       "localizations" : {
@@ -14494,6 +14523,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Matikan untuk menghapus snippet asli saat menyimpan"
+          }
+        }
+      }
+    },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Off"
           }
         }
       }
@@ -15129,6 +15175,29 @@
         }
       }
     },
+    "다른 앱에서 보이는 그대로예요" : {
+      "comment" : "In-app keyboard stage subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exactly how it looks in other apps"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persis seperti tampilannya di aplikasi lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱에서 보이는 그대로예요"
+          }
+        }
+      }
+    },
     "다른 앱에서 붙여넣기" : {
       "comment" : "Paste from other apps",
       "localizations" : {
@@ -15142,6 +15211,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tempel di aplikasi lain"
+          }
+        }
+      }
+    },
+    "다른 앱에서 키보드가 올라온 모습 그대로 보여줘요. 언제든 설정 > 첫 화면에서 목록으로 되돌릴 수 있어요." : {
+      "comment" : "Keyboard stage offer message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It shows exactly how the keyboard looks in other apps. You can switch back to the list anytime in Settings › First screen."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan persis seperti papan ketik di aplikasi lain. Anda bisa kembali ke daftar kapan saja di Pengaturan › Layar pertama."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱에서 키보드가 올라온 모습 그대로 보여줘요. 언제든 설정 > 첫 화면에서 목록으로 되돌릴 수 있어요."
+          }
+        }
+      }
+    },
+    "다른 앱에서 키보드가 올라온 모습 그대로예요. 눌러서 바로 써 볼 수 있어요." : {
+      "comment" : "Snippets tab style description: keyboard stage",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exactly how the keyboard looks in other apps. Tap to try it right away."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Persis seperti papan ketik di aplikasi lain. Ketuk untuk mencobanya."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱에서 키보드가 올라온 모습 그대로예요. 눌러서 바로 써 볼 수 있어요."
           }
         }
       }
@@ -15696,6 +15811,29 @@
         }
       }
     },
+    "단축어 목록" : {
+      "comment" : "Snippets tab style: list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet list"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daftar pintasan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 목록"
+          }
+        }
+      }
+    },
     "단축어 목록 표시" : {
       "comment" : "Show memo list label",
       "extractionState" : "manual",
@@ -16048,6 +16186,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saat kartu snippet berada di layar sekitar dua detik, isinya muncul perlahan sekali di bawah judul, lalu menghilang. Di keyboard, judul berubah sebentar menjadi isi lalu kembali. Isi snippet aman tidak pernah ditampilkan."
+          }
+        }
+      }
+    },
+    "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요." : {
+      "comment" : "First screen section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you see when you open the Snippets tab. Your saved snippets stay the same either way."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang Anda lihat saat membuka tab Pintasan. Pintasan tersimpan tetap sama."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요."
           }
         }
       }
@@ -18116,6 +18277,29 @@
         }
       }
     },
+    "목록" : {
+      "comment" : "Open the snippet list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daftar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록"
+          }
+        }
+      }
+    },
     "무료" : {
       "comment" : "Free",
       "localizations" : {
@@ -19419,8 +19603,7 @@
       }
     },
     "보내기" : {
-      "comment" : "Send feedback button",
-      "extractionState" : "stale",
+      "comment" : "Send composed message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19997,6 +20180,29 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Copied"
+          }
+        }
+      }
+    },
+    "복사됨 · 다른 앱에 붙여넣기 하세요" : {
+      "comment" : "Copied to clipboard toast (in-app keyboard)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied · paste it in another app"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disalin · tempel di aplikasi lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사됨 · 다른 앱에 붙여넣기 하세요"
           }
         }
       }
@@ -21527,6 +21733,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Combo Baru"
+          }
+        }
+      }
+    },
+    "새 키보드 화면을 써보시겠어요?" : {
+      "comment" : "Keyboard stage offer title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try the new keyboard screen?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba layar papan ketik baru?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 키보드 화면을 써보시겠어요?"
           }
         }
       }
@@ -23572,6 +23801,29 @@
         }
       }
     },
+    "아래 키보드에서 단축어를 눌러 보세요." : {
+      "comment" : "In-app keyboard stage: sample incoming hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a snippet on the keyboard below."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk pintasan di papan ketik di bawah."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래 키보드에서 단축어를 눌러 보세요."
+          }
+        }
+      }
+    },
     "아래로 이동" : {
       "comment" : "Move combo value down",
       "extractionState" : "stale",
@@ -23689,6 +23941,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Belum ada aktivitas yang tercatat."
+          }
+        }
+      }
+    },
+    "아직 다른 앱에서는 못 써요" : {
+      "comment" : "Keyboard not set up banner title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available in other apps yet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum bisa dipakai di aplikasi lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 다른 앱에서는 못 써요"
           }
         }
       }
@@ -24562,6 +24837,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coba tempel di sini"
+          }
+        }
+      }
+    },
+    "여기에 입력돼요" : {
+      "comment" : "In-app keyboard composer placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your text goes here"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teks Anda muncul di sini"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기에 입력돼요"
           }
         }
       }
@@ -27315,6 +27613,29 @@
         }
       }
     },
+    "입력창" : {
+      "comment" : "Composer field accessibility label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text field"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bidang teks"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력창"
+          }
+        }
+      }
+    },
     "입력하기" : {
       "comment" : "Insert with template button",
       "extractionState" : "manual",
@@ -27899,34 +28220,6 @@
         }
       }
     },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simpan"
-          }
-        }
-      }
-    },
-    "저장된 단축어 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Snippets (shown in keyboard)"
-          }
-        }
-      }
-    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -27947,6 +28240,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
+          }
+        }
+      }
+    },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simpan"
           }
         }
       }
@@ -27981,6 +28291,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kami tidak dapat memuat data tersimpan"
+          }
+        }
+      }
+    },
+    "저장된 단축어 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Snippets (shown in keyboard)"
           }
         }
       }
@@ -29759,6 +30080,29 @@
         }
       }
     },
+    "첫 화면" : {
+      "comment" : "Settings section: first screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First screen"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layar pertama"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "첫 화면"
+          }
+        }
+      }
+    },
     "체크섬을 통과했어요." : {
       "comment" : "Message when a checksum passes",
       "localizations" : {
@@ -30237,6 +30581,29 @@
         }
       }
     },
+    "카드 목록이에요. 여기서 만들고 고칩니다." : {
+      "comment" : "Snippets tab style description: list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The card list. This is where you create and edit."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daftar kartu. Di sinilah Anda membuat dan mengedit."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카드 목록이에요. 여기서 만들고 고칩니다."
+          }
+        }
+      }
+    },
     "카드 오른쪽 점이 카테고리를 표시해요. 끄시겠어요?" : {
       "comment" : "Nudge: category badge message",
       "localizations" : {
@@ -30688,6 +31055,46 @@
         }
       }
     },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "켜기" : {
+      "comment" : "Turn on the keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜기"
+          }
+        }
+      }
+    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -30736,23 +31143,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rata-rata per pengguna aktif"
-          }
-        }
-      }
-    },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "On"
           }
         }
       }
@@ -31653,6 +32043,29 @@
         }
       }
     },
+    "키보드 미리보기" : {
+      "comment" : "In-app keyboard stage title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard preview"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pratinjau papan ketik"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 미리보기"
+          }
+        }
+      }
+    },
     "키보드 버튼 문구" : {
       "comment" : "Keyboard button text",
       "localizations" : {
@@ -31896,6 +32309,29 @@
         }
       }
     },
+    "키보드 화면" : {
+      "comment" : "Back to the in-app keyboard stage\nSnippets tab style: keyboard stage",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard view"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tampilan papan ketik"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 화면"
+          }
+        }
+      }
+    },
     "키보드가 확인됐어요! 다음으로 넘어갈게요." : {
       "comment" : "Setup confirmed feedback",
       "extractionState" : "manual",
@@ -31967,6 +32403,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silakan tambahkan keyboard"
+          }
+        }
+      }
+    },
+    "키보드를 켜면 어디서든 이 화면이 올라와요" : {
+      "comment" : "Keyboard not set up banner body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn the keyboard on and this screen comes up anywhere"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan papan ketik dan layar ini muncul di mana saja"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드를 켜면 어디서든 이 화면이 올라와요"
           }
         }
       }
@@ -34431,6 +34890,24 @@
         }
       }
     },
+    "하세요" : {
+      "comment" : "Preview key 2",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat"
+          }
+        }
+      }
+    },
     "학교 이메일" : {
       "comment" : "Student memo category: school email",
       "extractionState" : "manual",
@@ -34445,6 +34922,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학교 이메일"
+          }
+        }
+      }
+    },
+    "학교 이메일 (선택 사항)" : {
+      "comment" : "Student quick add: school email label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "School Email (optional)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학교 이메일 (선택 사항)"
           }
         }
       }
@@ -34491,58 +34986,6 @@
         }
       }
     },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        }
-      }
-    },
-    "하세요" : {
-      "comment" : "Preview key 2",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hello"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selamat"
-          }
-        }
-      }
-    },
-    "학교 이메일 (선택 사항)" : {
-      "comment" : "Student quick add: school email label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "School Email (optional)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "학교 이메일 (선택 사항)"
-          }
-        }
-      }
-    },
     "학생" : {
       "comment" : "Persona: Student title",
       "extractionState" : "manual",
@@ -34563,6 +35006,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "학생"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
           }
         }
       }

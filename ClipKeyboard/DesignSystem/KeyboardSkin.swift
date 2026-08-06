@@ -36,13 +36,30 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    // MARK: - 지금은 꺼져 있다
+
+    /// 스킨 고르기가 살아 있는가.
+    ///
+    /// ⚠️ **지금은 꺼져 있다.** 설정에서 고르는 자리를 감췄고, 저장된 값이 무엇이든
+    ///    모두 `.classic`(예전 모습)으로 보인다. 고를 수 없는데 남의 화면만 달라져 있으면
+    ///    "왜 내 것만 이렇지"가 되므로, 감추는 것과 되돌리는 것은 **함께** 일어나야 한다.
+    ///
+    /// 되살릴 때는 이 값 하나를 `true` 로. 스킨 코드·테스트는 그대로 남아 있다.
+    static let isEnabled = false
+
+    /// 저장된 값을 지금 규칙에 맞게 해석한다. **읽는 곳은 전부 이걸 거친다.**
+    static func resolved(_ raw: String) -> KeyboardSkin {
+        guard isEnabled else { return .classic }
+        return KeyboardSkin(rawValue: raw) ?? .classic
+    }
+
     // MARK: - 저장
 
     /// 현재 선택된 스킨. App Group에 있어 익스텐션도 같은 값을 읽는다.
     static var current: KeyboardSkin {
         let raw = UserDefaults(suiteName: AppGroup.identifier)?
             .string(forKey: DefaultsKey.keyboardSkin) ?? ""
-        return KeyboardSkin(rawValue: raw) ?? .classic
+        return resolved(raw)
     }
 
     // MARK: - 물성

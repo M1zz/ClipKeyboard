@@ -65,6 +65,18 @@ struct ClipKeyboardApp: App {
         // 스킨 기본값과 샘플 생략이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
         standard.set(true, forKey: DefaultsKey.startedFreshV444)
 
+        // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 — 이 앱의 값어치가 거기 있다.
+        // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
+        //    (SnippetsTab.offerKeyboardStageIfNeeded).
+        standard.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
+        // 이미 무대로 시작하므로 다시 권할 일이 없다.
+        standard.set(true, forKey: DefaultsKey.keyboardStageOffered)
+        print("🎬 [APP INIT] 새 설치 — 키보드 화면으로 시작")
+
+        // 생활 레이어가 꺼져 있는 동안에는 아무것도 뿌리지 않는다 — 고를 수 없는 것을
+        // 미리 켜 두면 나중에 되살렸을 때 "고른 적 없는 것"이 이미 얹혀 있게 된다.
+        guard LivingSkin.isEnabled else { return }
+
         guard let group = UserDefaults(suiteName: AppGroup.identifier),
               group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
 
@@ -947,9 +959,11 @@ struct ClipKeyboardApp: App {
 struct MainTabView: View {
     var body: some View {
         TabView {
+            // 목록이냐 키보드 무대냐는 **사용자가 고른다**(설정 > 첫 화면).
+            // 쓰던 사람의 기본은 목록 — 업데이트했다고 첫 화면이 바뀌면 안 된다.
             Tab(NSLocalizedString("단축어", comment: "Tab: snippets"),
                 systemImage: "square.grid.2x2") {
-                ClipKeyboardList()
+                SnippetsTab()
             }
             Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"),
                 systemImage: AppSymbol.clockArrowCirclepath) {

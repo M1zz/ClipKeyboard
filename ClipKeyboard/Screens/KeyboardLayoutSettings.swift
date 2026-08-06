@@ -171,7 +171,9 @@ struct KeyboardLayoutSettings: View {
             }
 
             // ── 4.5 키캡 스킨 ──────────────────────────────────────────
-            skinSection
+            // 지금은 감춰 둔다(KeyboardSkin.isEnabled = false) — 모두 예전 모습으로 보인다.
+            // 되살리려면 그 값을 true 로 바꾸고 이 줄의 주석을 풀면 된다.
+            if KeyboardSkin.isEnabled { skinSection }
 
 
             // ── 5. 색상 ────────────────────────────────────────────────
@@ -413,7 +415,7 @@ struct KeyboardPreviewView: View {
 
     /// 사용자가 고른 키캡 물성 — 실제 키보드와 같은 값을 읽는다.
     private var skin: KeyboardSkin {
-        KeyboardSkin(rawValue: keyboardSkinRaw) ?? .standard
+        KeyboardSkin.resolved(keyboardSkinRaw)
     }
 
     private var keycapRadius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
