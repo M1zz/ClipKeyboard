@@ -256,7 +256,7 @@ struct InAppKeyboardStage: View {
         let mine = message.side == .outgoing
         return HStack {
             if mine { Spacer(minLength: 40) }
-            Text(message.text)
+            Text(message.text.templateAwareAttributed(theme: theme, font: .callout))
                 .font(.callout)
                 .foregroundColor(mine ? .white : theme.text)
                 .padding(.horizontal, 13)
@@ -323,12 +323,36 @@ struct InAppKeyboardStage: View {
 
     /// 캐럿을 사이에 낀 본문. 깜빡이지 않는다 —
     /// 하루에도 여러 번 여는 화면에서 상시 타이머는 소음이고 배터리다.
+    ///
+    /// ⚠️ `{변수}` 는 여기서도 **칩으로** 보여야 한다. 이 앱의 규칙은
+    ///    "플레이스홀더는 어디서든 원문 중괄호가 아닌 하이라이트로 보인다" 인데,
+    ///    이 입력창만 원문을 그대로 그려서 미리보기에 `{이름}` 이 노출됐다.
     private var composedText: Text {
         let chars = Array(host.text)
         let cut = min(max(host.caret, 0), chars.count)
-        return Text(String(chars[0..<cut])).foregroundColor(theme.text)
-            + caretGlyph
-            + Text(String(chars[cut...])).foregroundColor(theme.text)
+        // 캐럿이 `{…}` **안쪽**에 들어가면 거기서 문자열이 잘려 중괄호가 도로 드러난다.
+        // 보이기만 옮긴다 — host.caret 자체는 건드리지 않는다(입력 위치는 그대로여야 한다).
+        let safe = caretCutOutsidePlaceholder(chars: chars, cut: cut)
+
+        var out = String(chars[0..<safe]).templateAwareAttributed(theme: theme, font: .callout)
+        var caret = AttributedString("\u{258F}")
+        caret.foregroundColor = .accentColor
+        out += caret
+        out += String(chars[safe...]).templateAwareAttributed(theme: theme, font: .callout)
+        return Text(out)
+    }
+
+    /// 캐럿이 `{…}` 안이면 그 칸의 끝으로 밀어 낸다(그리기용).
+    private func caretCutOutsidePlaceholder(chars: [Character], cut: Int) -> Int {
+        var openedAt: Int?
+        for (i, c) in chars.enumerated() {
+            if c == "{" { openedAt = i }
+            else if c == "}" {
+                if let open = openedAt, cut > open, cut <= i { return i + 1 }
+                openedAt = nil
+            }
+        }
+        return cut
     }
 
     private var caretGlyph: Text {

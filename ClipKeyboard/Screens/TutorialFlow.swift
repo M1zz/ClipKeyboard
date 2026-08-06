@@ -220,6 +220,59 @@ private struct Triangle: Shape {
     }
 }
 
+// MARK: - 다음 장까지
+
+/// 장과 장 사이에 도는 5초 원.
+///
+/// ⚠️ 왜 그냥 기다리지 않고 원을 보여주나: 방금 하나를 끝냈는데 화면이 잠시 아무것도 안 하면
+///    **끝난 건지 멈춘 건지** 알 수 없다. 남은 시간이 보이면 그 몇 초가 '기다림'이 아니라
+///    '숨 고르기'가 된다 — 곧 뭔가 온다는 걸 알고 쉬는 것과 모르고 멈춰 있는 건 다르다.
+///
+/// ⚠️ 시간이 지나면 스스로 사라진다. 닫는 버튼은 없다 — 누를 것이 하나 더 생기면
+///    쉬라고 만든 자리가 또 하나의 할 일이 된다.
+struct NextChapterCountdown: View {
+    let endsAt: Date
+    let total: Double
+
+    @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    private let ring: CGFloat = 46
+
+    var body: some View {
+        TimelineView(.animation) { context in
+            let remaining = max(0, endsAt.timeIntervalSince(context.date))
+            let progress = total > 0 ? remaining / total : 0
+
+            HStack(spacing: 10) {
+                ZStack {
+                    Circle()
+                        .stroke(theme.divider, lineWidth: 3)
+                    Circle()
+                        .trim(from: 0, to: progress)
+                        .stroke(theme.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                        .rotationEffect(.degrees(-90))   // 12시 방향에서 줄어들게
+                    Text("\(Int(remaining.rounded(.up)))")
+                        .font(.footnote.weight(.bold))
+                        .monospacedDigit()
+                        .foregroundColor(theme.text)
+                }
+                .frame(width: ring, height: ring)
+
+                Text(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(Capsule().fill(.ultraThinMaterial))
+            .overlay(Capsule().strokeBorder(theme.divider, lineWidth: 0.5))
+        }
+        .allowsHitTesting(false)
+        .accessibilityLabel(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
+    }
+}
+
 // MARK: - 콤보 만들기
 
 /// 콤보 한 개를 만든다. 칸을 **둘만** 둔다 — 온보딩에서 세 칸을 채우게 하면 거기서 나간다.
@@ -430,6 +483,14 @@ struct TemplateTutorialView: View {
                         .fill(theme.surface)
                 )
 
+            // 빈칸이 무슨 역할인지는 **말로 하면 안 와닿는다.** 같은 문장을 값만 바꿔
+            // 두 줄로 보여주면, 무엇이 고정이고 무엇이 갈아 끼우는 자리인지 한눈에 들어온다.
+            if step != .value, !trimmedValue.isEmpty {
+                roleDemo
+                    .padding(.top, 10)
+                    .transition(.opacity)
+            }
+
             HStack(spacing: 10) {
                 Text(fieldLabel)
                     .font(.footnote)
@@ -485,6 +546,49 @@ struct TemplateTutorialView: View {
         .onAppear { focused = true }
     }
 
+    // MARK: - 빈칸이 하는 일 보여주기
+
+    /// 같은 문장을 값만 바꿔 두 줄로. 바뀌는 부분만 색이 켜진다.
+    private var roleDemo: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(NSLocalizedString("쓸 때마다 여기만 갈아 끼워요", comment: "Template tutorial: role demo header"))
+                .font(.caption.weight(.semibold))
+                .foregroundColor(theme.textMuted)
+            filledSentence(with: trimmedValue)
+                .font(.footnote)
+            filledSentence(with: alternateValue)
+                .font(.footnote)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                .fill(theme.surfaceAlt)
+        )
+    }
+
+    /// 사용자가 넣은 값과 **다른** 값 하나 — 같은 값이 두 줄이면 아무것도 안 보여준 셈이다.
+    private var alternateValue: String {
+        let candidates = [
+            NSLocalizedString("김민수", comment: "Placeholder example: person name 2"),
+            NSLocalizedString("박서연", comment: "Template tutorial: alternate example name")
+        ]
+        return candidates.first { $0 != trimmedValue } ?? candidates[0]
+    }
+
+    /// 문장 하나를 값만 끼워 그린다. 바뀌는 부분만 색을 켜서 **무엇이 고정인지**를 보여준다.
+    private func filledSentence(with value: String) -> Text {
+        let format = NSLocalizedString("안녕하세요, %@님. 확인 부탁드립니다.",
+                                       comment: "Template tutorial: example body (plain)")
+        let parts = format.components(separatedBy: "%@")
+        guard parts.count == 2 else {
+            return Text(String(format: format, value)).foregroundColor(theme.textMuted)
+        }
+        return Text(parts[0]).foregroundColor(theme.textMuted)
+            + Text(value).foregroundColor(theme.accent).fontWeight(.bold)
+            + Text(parts[1]).foregroundColor(theme.textMuted)
+    }
+
     // MARK: - 걸음마다 달라지는 말
 
     private var fieldBinding: Binding<String> {
@@ -512,7 +616,7 @@ struct TemplateTutorialView: View {
             return NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 오늘은 그 자리에 뭐라고 넣으시겠어요?",
                                      comment: "Template tutorial: value step subline")
         case .name:
-            return String(format: NSLocalizedString("'%@'처럼 매번 달라지는 자리예요. 이름을 붙여 두면 다음에 쓸 때 무엇을 채우는 칸인지 바로 알아봐요.",
+            return String(format: NSLocalizedString("나머지 문장은 그대로 두고 '%@' 자리만 매번 바뀌어요. 이름을 붙여 두면 쓸 때 무엇을 채우는 칸인지 바로 알아봐요.",
                                                     comment: "Template tutorial: name step subline"),
                           trimmedValue)
         case .title:

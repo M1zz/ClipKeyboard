@@ -165,6 +165,8 @@ struct SnippetsTab: View {
     @State private var showOffer = false
     /// 지금 권하고 있는 장(템플릿·템플릿으로 만들기·콤보).
     @State private var tutorialInvite: TutorialChapter?
+    /// 다음 장까지 도는 원이 끝나는 시각. nil 이면 안 보인다.
+    @State private var countdownEndsAt: Date?
     /// 지금 만들고 있는 장.
     @State private var tutorialMaking: TutorialChapter?
     /// 튜토리얼이 끝난 뒤 "만든 것 지울까요?" 를 한 번만 묻는다.
@@ -194,9 +196,9 @@ struct SnippetsTab: View {
     /// 누른 뒤 **입력된 걸 보여주는** 시간(초).
     private let dwellAfterUse: Double = 0.9
     /// 첫 튜토리얼을 끝낸 뒤 다음을 권하기까지(초, 누른 시점 기준).
-    private static let firstTutorialBreather: Double = 5.0
     /// 그 뒤의 장 사이 간격(초) — 리듬을 이미 아는 사람에겐 짧아도 된다.
-    private static let nextChapterGap: Double = 0.45
+    /// 장과 장 사이 쉼(초). 이 동안 카운트다운 원이 돈다.
+    static let chapterBreather: Double = 5.0
 
     /// 아직 안 눌러 본 튜토리얼 단축어.
     private var highlightedMemoId: UUID? {
@@ -244,6 +246,15 @@ struct SnippetsTab: View {
                 }
             }
         }
+        // 장과 장 사이의 원 — 아래쪽에 잠깐 떠 있다가 스스로 사라진다.
+        // 무대 위에 얹되 누를 수 없어서, 뒤에서 하던 것을 가리지 않는다.
+        .overlay(alignment: .bottom) {
+            if let endsAt = countdownEndsAt {
+                NextChapterCountdown(endsAt: endsAt, total: Self.chapterBreather)
+                    .padding(.bottom, 92)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: onboardingStep)
         // 두 화면은 **같은 자리에서 갈아 끼우는 것**이라 서로 밀어내지 않는다 —
         // 밀려 들어오면 어디로 이동한 것처럼 보이고, 여기서는 이동한 게 아니라 모습이 바뀐 것이다.
@@ -256,7 +267,7 @@ struct SnippetsTab: View {
             withAnimation(.easeInOut(duration: 0.28)) {
                 styleRaw = SnippetsTabStyle.keyboard.rawValue
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { inviteNextChapter() }
+            scheduleNextChapter()
         }
         // ⚠️ 다음 장을 권하는 건 **하프 모달**이다. 전체 화면으로 덮으면 하던 일이 사라져
         //    "또 뭘 시키나" 가 되지만, 반쯤 올라오면 뒤에 방금 만든 것이 보인 채로 묻는다 —
@@ -359,9 +370,6 @@ struct SnippetsTab: View {
         guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
               used == highlightedMemoId else { return }
 
-        // 아직 아무 장도 안 지났으면 이번이 **첫 번째** 튜토리얼이다.
-        let isFirstTutorial = !tutorialTemplateDone && !tutorialMakeTemplateDone && !tutorialComboDone
-
         // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
         //    일어났는지 못 보고 지나간다 — 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
         DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
@@ -369,13 +377,10 @@ struct SnippetsTab: View {
             // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
             //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에** 열린다.
             //
-            // ⚠️ 첫 번째 뒤에는 **한 박자 더 쉰다**(눌렀을 때부터 5초). 방금 처음으로
-            //    "눌렀더니 글이 들어갔다"를 본 참인데 곧바로 다음 걸 권하면 그 장면을
-            //    음미할 틈이 없고, 배우는 게 아니라 떠밀리는 느낌이 된다.
-            let breather = isFirstTutorial
-                ? Self.firstTutorialBreather - dwellAfterUse
-                : Self.nextChapterGap
-            DispatchQueue.main.asyncAfter(deadline: .now() + breather) { inviteNextChapter() }
+            // ⚠️ 곧바로 다음 걸 권하지 않는다. 방금 "눌렀더니 글이 들어갔다"를 본 참인데
+            //    바로 다음이 올라오면 그 장면을 음미할 틈이 없고, 배우는 게 아니라
+            //    떠밀리는 느낌이 된다. 쉬는 동안은 카운트다운 원이 대신 말해 준다.
+            scheduleNextChapter()
         }
     }
 
@@ -389,6 +394,25 @@ struct SnippetsTab: View {
             case .makeTemplate: return !tutorialMakeTemplateDone
             case .combo:        return !tutorialComboDone
             }
+        }
+    }
+
+    /// 장과 장 사이의 쉼. 남은 시간을 원으로 보여주고, 다 돌면 다음 장을 권한다.
+    ///
+    /// ⚠️ 예전에는 곳마다 0.45~0.6초씩 제각각 기다렸다가 곧바로 다음 걸 띄웠다.
+    ///    그 사이 화면은 아무 말도 안 해서 끝난 건지 멈춘 건지 알 수 없었고,
+    ///    쉴 새 없이 다음이 올라와 배우는 게 아니라 떠밀리는 느낌이었다.
+    ///    이제 **모든 장 사이가 같은 5초**이고, 그동안 원이 돈다.
+    private func scheduleNextChapter() {
+        guard nextChapter != nil else {
+            inviteNextChapter()      // 더 없으면 곧바로 마무리한다 — 셀 이유가 없다.
+            return
+        }
+        let gap = Self.chapterBreather
+        countdownEndsAt = Date().addingTimeInterval(gap)
+        DispatchQueue.main.asyncAfter(deadline: .now() + gap) {
+            withAnimation(.easeOut(duration: 0.2)) { countdownEndsAt = nil }
+            inviteNextChapter()
         }
     }
 
@@ -428,7 +452,7 @@ struct SnippetsTab: View {
     private func finishChapter(_ chapter: TutorialChapter) {
         tutorialMaking = nil
         markChapterDone(chapter)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { inviteNextChapter() }
+        scheduleNextChapter()
     }
 
     /// 튜토리얼을 다 지났고 만든 것이 남아 있으면 **한 번만** 묻는다.
