@@ -37,7 +37,10 @@ struct InAppKeyboardStage: View {
     init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
-        KeyboardMemoFeed.reload()
+        // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
+        //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
+        //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
+        if clipMemos.isEmpty { KeyboardMemoFeed.reload() }
         _loadedIds = State(initialValue: clipMemos.map(\.id))
     }
 

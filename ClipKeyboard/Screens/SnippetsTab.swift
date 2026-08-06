@@ -223,14 +223,15 @@ struct SnippetsTab: View {
                     onSkip: { advanceFromFirstShortcut(created: nil) }
                 )
                 .transition(screenTransition)
-            case .tryInKeyboard:
-                // 무대에서 그 키가 빛난다. 누르는 순간(.memoUsed) 다음 걸음으로.
-                InAppKeyboardStage(styleRaw: $styleRaw, highlightedMemoId: highlightedMemoId)
-                    .transition(screenTransition)
             case .keyboardSetup:
                 KeyboardSetupOnboardingView { keyboardSetupDone = true }
                     .transition(screenTransition)
-            case .chapters, .done:
+
+            // ⚠️ 이 셋을 **한 분기로 묶는다.** 나눠 두면 단계가 바뀔 때 SwiftUI가 무대를
+            //    다른 뷰로 보고 새로 만든다 — 그 순간 입력창을 들고 있던 객체도 새것이 되어
+            //    **방금 넣은 글이 사라진다.** 눌러서 배운 결과가 눈앞에서 지워지는 셈이다.
+            //    (가리키는 키는 뷰를 갈아 끼우지 않고 `highlightedMemoId` 값만 바뀌면 된다)
+            case .tryInKeyboard, .chapters, .done:
                 switch style {
                 case .list:
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
@@ -238,7 +239,7 @@ struct SnippetsTab: View {
                     ClipKeyboardList()
                         .transition(screenTransition)
                 case .keyboard:
-                    InAppKeyboardStage(styleRaw: $styleRaw)
+                    InAppKeyboardStage(styleRaw: $styleRaw, highlightedMemoId: highlightedMemoId)
                         .transition(screenTransition)
                 }
             }
