@@ -228,8 +228,11 @@ struct KeyboardView: View {
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
-    /// 앱 안에서 복사 버튼을 눌렀다는 확인. (익스텐션에는 복사 버튼이 없어 뜰 일이 없다)
+    /// 앱 안에서 길게 눌러 복사했다는 확인. (익스텐션에서는 뜰 일이 없다)
     @State private var showCopiedToast = false
+    /// 길게 눌러 복사한 직후의 키 — 이어서 들어오는 탭을 한 번 무시한다.
+    /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
+    @State private var suppressTapAfterLongPress: UUID?
 
     // 검색 상태
     @State private var searchQuery: String = ""
@@ -514,14 +517,19 @@ struct KeyboardView: View {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
                                 memoButton(for: item.memo, useTemplate: item.useTemplate)
-                                    // 앱 안에서는 키 하나에 두 가지 일이 있다 —
-                                    // **누르면 입력창에**, **복사 버튼은 클립보드에**.
-                                    // (익스텐션에는 붙지 않는다. 거기선 키가 곧 입력이다)
-                                    .overlay(alignment: .topTrailing) {
-                                        if hostKind == .inApp {
-                                            inAppCopyButton(for: item.memo)
-                                        }
-                                    }
+                                    // 앱 안에서는 키 하나가 두 가지 일을 한다 —
+                                    // **짧게 누르면 입력창에, 길게 누르면 클립보드에.**
+                                    //
+                                    // ⚠️ 예전에는 키마다 작은 복사 버튼을 얹었는데, 좁은 키에
+                                    //    누를 곳이 둘이라 잘못 누르기 쉬웠고 제목도 가렸다.
+                                    //    길게 누르기는 자리를 차지하지 않는다.
+                                    //    (익스텐션은 그대로 — 거기선 롱프레스가 이미 메뉴를 연다)
+                                    .modifier(InAppLongPressCopy(
+                                        enabled: hostKind == .inApp,
+                                        onCopy: { copyMemoInApp(item.memo) },
+                                        suppressed: $suppressTapAfterLongPress,
+                                        memoId: item.memo.id
+                                    ))
                                     // 튜토리얼이 가리키는 키 — **여기를 누르면 된다**를
                                     // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
                                     .overlay {
@@ -1387,6 +1395,13 @@ struct KeyboardView: View {
     }
 
     private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
+        // 길게 눌러 복사한 직후에 들어온 탭은 무시한다 —
+        // 복사만 하려 했는데 글까지 입력되면 지우는 일이 하나 더 생긴다.
+        if suppressTapAfterLongPress == memo.id {
+            suppressTapAfterLongPress = nil
+            return
+        }
+
         // ⚠️ 여기서 햅틱을 울리지 않는다. 각 종착지가 자기 피드백을 갖고 있어서
         //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
         //    (일반 삽입 → stamp / 이미지 → 복사 완료 / 보안 → 인증 UI)
@@ -1498,34 +1513,33 @@ struct KeyboardView: View {
         return true
     }
 
-    // MARK: - 앱 안에서만 있는 복사 버튼
+    // MARK: - 앱 안에서의 복사(길게 누르기)
 
-    /// 키 오른쪽 위에 붙는 작은 복사 버튼. **앱 안(`hostKind == .inApp`)에서만** 나타난다.
+    /// 길게 누르면 클립보드로 — **앱 안에서만.**
     ///
-    /// 앱에서 키를 누르면 무대의 입력창에 들어간다 — 그건 키보드를 미리 보여주는 일이고,
-    /// 예전부터 앱이 해 오던 "눌러서 클립보드에 복사"는 그것대로 남아 있어야 한다.
-    /// 두 가지를 한 손가락에 몰아넣으면(길게 누르기 등) 어느 쪽도 발견되지 않는다.
-    ///
-    /// ⚠️ 보안 문구에는 붙이지 않는다. 복사는 PIN 없이 값을 꺼내는 길이 되어 버린다
-    ///    (키를 누르는 경로는 PIN을 거친다).
-    @ViewBuilder
-    private func inAppCopyButton(for memo: Memo) -> some View {
-        if !memo.isSecure {
-            Button {
-                copyMemoInApp(memo)
-            } label: {
-                Image(systemName: AppSymbol.docOnDoc)
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(theme.textMuted)
-                    .frame(width: 24, height: 24)
-                    .background(Circle().fill(theme.surface.opacity(0.92)))
-                    .overlay(Circle().strokeBorder(theme.divider.opacity(0.5), lineWidth: 0.5))
+    /// 익스텐션에서는 롱프레스가 이미 컨텍스트 메뉴를 연다(미리보기 + 복사). 앱 무대에서는
+    /// 메뉴를 한 겹 더 여는 대신 바로 복사한다 — 여기서 할 일이 그것 하나뿐이기 때문이다.
+    /// **고치는 일은 목록 화면에서** 한다. 무대는 써 보는 자리다.
+    private struct InAppLongPressCopy: ViewModifier {
+        let enabled: Bool
+        let onCopy: () -> Void
+        @Binding var suppressed: UUID?
+        let memoId: UUID
+
+        func body(content: Content) -> some View {
+            if enabled {
+                content
+                    .onLongPressGesture(minimumDuration: 0.45) {
+                        suppressed = memoId
+                        onCopy()
+                    }
+                    // 길게 누르기를 모르는 사람도, 손이 불편한 사람도 쓸 수 있게.
+                    .accessibilityAction(named: Text(NSLocalizedString("클립보드에 복사", comment: "Accessibility action: copy"))) {
+                        onCopy()
+                    }
+            } else {
+                content
             }
-            .buttonStyle(PlainButtonStyle())
-            .padding(3)
-            .accessibilityLabel(String(format: NSLocalizedString("%@ 클립보드에 복사",
-                                                                comment: "Accessibility: copy memo to clipboard"),
-                                       memo.title))
         }
     }
 

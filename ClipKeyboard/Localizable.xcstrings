@@ -507,6 +507,7 @@
     },
     "%@ 클립보드에 복사": {
       "comment": "Accessibility: copy memo to clipboard",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -23697,6 +23698,29 @@
         }
       }
     },
+    "아래 키보드에서 단축어를 눌러 보세요. 길게 누르면 복사돼요.": {
+      "comment": "In-app keyboard stage: sample incoming hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap a snippet on the keyboard below. Press and hold to copy it."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk pintasan di papan ketik di bawah. Tekan lama untuk menyalin."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "아래 키보드에서 단축어를 눌러 보세요. 길게 누르면 복사돼요."
+          }
+        }
+      }
+    },
     "아래로 이동": {
       "comment": "Move combo value down",
       "extractionState": "stale",
@@ -29030,6 +29054,7 @@
     },
     "정산할 때마다 메모장을 열지 않아도 돼요.": {
       "comment": "Onboarding seed hint: account",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -31720,8 +31745,7 @@
       }
     },
     "클립보드에 복사": {
-      "comment": "Copy to clipboard button tooltip",
-      "extractionState": "stale",
+      "comment": "Accessibility action: copy",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -33127,6 +33151,7 @@
     },
     "택배·배달 주문할 때마다 치는 그 주소예요.": {
       "comment": "Onboarding seed hint: address",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {

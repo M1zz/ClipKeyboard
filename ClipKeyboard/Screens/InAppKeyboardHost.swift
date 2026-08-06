@@ -43,8 +43,10 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         .init(side: .incoming,
               text: NSLocalizedString("계좌번호 좀 보내줄래?",
                                       comment: "In-app keyboard stage: sample incoming message")),
+        // ⚠️ 길게 누르기는 **눈에 안 보이는 동작**이다. 화면에 버튼을 더 두지 않는 대신
+        //    이 줄로 알린다 — 안 알리면 아무도 모르는 기능이 된다.
         .init(side: .incoming,
-              text: NSLocalizedString("아래 키보드에서 단축어를 눌러 보세요.",
+              text: NSLocalizedString("아래 키보드에서 단축어를 눌러 보세요. 길게 누르면 복사돼요.",
                                       comment: "In-app keyboard stage: sample incoming hint"))
     ]
 
