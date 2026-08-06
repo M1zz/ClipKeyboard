@@ -70,8 +70,42 @@ struct ProValueNudgeBanner: View {
 /// 시스템 팝업을 몇 번 겪었을 시점(3번째 실행)부터 안내한다.
 /// 메인 배너·클립보드 탭 배너·클립보드 첫 진입 알럿이 모두 이 게이트를 공유한다.
 enum PastePermissionGuidance {
+
+    /// 설치하고 **며칠**이 지나야 클립보드를 건드리는가.
+    ///
+    /// ⚠️ iOS는 앱이 클립보드를 **읽는 순간** "붙여넣기 허용?" 팝업을 띄운다.
+    ///    설치 첫날 그게 뜨면 신규 사용자가 이 앱에서 보는 첫 다이얼로그가 권한 요청이 된다 —
+    ///    무엇을 하는 앱인지 알기도 전에 거절할지를 묻는 셈이다.
+    ///    며칠 써 보고 "복사한 게 여기 모이는구나"를 안 다음이라야 허용할 이유가 생긴다.
+    static let warmUpDays = 3
+
+    /// 설치일. 없으면 **지금을 설치일로 찍는다** — 모르는 채로 곧장 팝업을 부르는 것보다
+    /// 며칠 기다리는 쪽이 안전하다. (보통은 ReviewManager가 첫 실행에 이미 찍어 둔다)
+    private static var installDate: Date {
+        let key = "app_install_date"
+        if let saved = UserDefaults.standard.object(forKey: key) as? Date { return saved }
+        let now = Date()
+        UserDefaults.standard.set(now, forKey: key)
+        return now
+    }
+
+    /// 설치 후 `warmUpDays` 가 지났는가. **클립보드를 자동으로 읽어도 되는 때**의 기준.
+    static var isWarmedUp: Bool {
+        Date().timeIntervalSince(installDate) >= Double(warmUpDays) * 24 * 60 * 60
+    }
+
+    /// 클립보드를 **알아서** 읽어도 되는가(= iOS 팝업을 불러도 되는가).
+    ///
+    /// ⚠️ 사용자가 직접 누른 붙여넣기는 이 관문을 거치지 않는다. 자기가 누른 팝업은
+    ///    이유가 분명하고, 막으면 기능이 죽는다. 막는 건 **묻지도 않았는데 읽는 것**뿐이다.
+    static var mayAutoReadClipboard: Bool { isWarmedUp }
+
+    /// 우리 안내(배너·알림)를 띄워도 되는가.
+    ///
+    /// 설치 직후엔 iOS 설정에 '다른 앱에서 붙여넣기' 항목이 아직 없어 안내가 헛돈다.
+    /// 그래서 **며칠 지났고 + 몇 번 열어 본** 다음에만 말을 건다.
     static var isReady: Bool {
-        UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 3
+        isWarmedUp && UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 3
     }
 }
 

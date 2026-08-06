@@ -99,3 +99,43 @@ struct SkinDisabledTests {
         }
     }
 }
+
+@Suite("SnippetsOnboardingStep — 처음 쓰는 사람이 지나는 길")
+struct SnippetsOnboardingStepTests {
+
+    private func step(fresh: Bool = true,
+                      shortcut: Bool = false,
+                      setup: Bool = false,
+                      usable: Bool = false) -> SnippetsOnboardingStep {
+        .current(startedFresh: fresh,
+                 firstShortcutDone: shortcut,
+                 keyboardSetupDone: setup,
+                 keyboardUsable: usable)
+    }
+
+    @Test("쓰던 사람은 이 길을 걷지 않는다 — 업데이트했다고 튜토리얼이 뜨면 안 된다")
+    func existingUserSkipsEverything() {
+        #expect(step(fresh: false) == .done)
+        #expect(step(fresh: false, shortcut: false, setup: false, usable: false) == .done)
+    }
+
+    @Test("처음이면 단축어 만들기부터")
+    func startsWithFirstShortcut() {
+        #expect(step() == .firstShortcut)
+    }
+
+    @Test("만들고 나면 **곧바로** 키보드 켜기로 이어진다 — 여기서 끊기면 다른 앱에서 못 쓴다")
+    func chainsIntoKeyboardSetup() {
+        #expect(step(shortcut: true) == .keyboardSetup)
+    }
+
+    @Test("이미 켜 둔 사람에게 켜는 법을 가르치지 않는다")
+    func skipsSetupWhenKeyboardAlreadyUsable() {
+        #expect(step(shortcut: true, usable: true) == .done)
+    }
+
+    @Test("건너뛴 사람을 붙잡지 않는다 — 한 번 지나갔으면 끝")
+    func doesNotRepeatSetupOnceSeen() {
+        #expect(step(shortcut: true, setup: true) == .done)
+    }
+}

@@ -31,6 +31,19 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "4.4.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요", comment: "Changelog 4.4.4 item 1"),
+                NSLocalizedString("설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)", comment: "Changelog 4.4.4 item 2"),
+                NSLocalizedString("처음 쓰신다면 단축어 만들기 → 키보드 켜기 → 눌러보기까지 한 번에 이어져요", comment: "Changelog 4.4.4 item 3"),
+                NSLocalizedString("키보드 화면에서는 키마다 복사 버튼이 있어요 — 누르면 입력, 복사 버튼은 클립보드로", comment: "Changelog 4.4.4 item 4"),
+                NSLocalizedString("카테고리 탭과 좌우 넘기기가 처음부터 보여요", comment: "Changelog 4.4.4 item 5"),
+                NSLocalizedString("붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요 — 설치하자마자 묻지 않아요", comment: "Changelog 4.4.4 item 6"),
+                NSLocalizedString("키보드를 켰는데도 안내가 남아 있던 문제, 목록이 화면 중앙에서 시작하던 문제를 고쳤어요", comment: "Changelog 4.4.4 item 7")
+            ]
+        ),
+        ChangelogEntry(
             version: "4.4.3",
             released: "2026-07-30",
             highlights: [

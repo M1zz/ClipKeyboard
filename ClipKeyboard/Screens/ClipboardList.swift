@@ -301,8 +301,15 @@ struct ClipboardList: View {
             if selectedFilter == nil {
                 Text(NSLocalizedString("클립보드 히스토리 없음", comment: "No clipboard history"))
                     .font(.system(.title2)).bold()
-                Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
-                    .opacity(0.7)
+                // 아직 자동으로 안 모으는 기간에는 그렇다고 말한다 —
+                // "자동으로 저장됩니다"라고 해 두면 안 모이는 며칠 동안 고장 난 것처럼 보인다.
+                if PastePermissionGuidance.mayAutoReadClipboard {
+                    Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
+                        .opacity(0.7)
+                } else {
+                    Text(NSLocalizedString("며칠 써 보신 뒤부터 복사한 내용을 자동으로 모아요.\n그때 iOS가 붙여넣기를 허용할지 한 번 물어봐요.", comment: "Clipboard history empty description during warm-up"))
+                        .opacity(0.7)
+                }
             } else {
                 Text(String(format: NSLocalizedString("%@ 타입 없음", comment: "No items of type"), selectedFilter!.localizedName))
                     .font(.system(.title2)).bold()
@@ -340,6 +347,14 @@ struct ClipboardList: View {
     // MARK: - Actions
 
     private func checkAndAddCurrentClipboard() {
+        // ⚠️ 여기가 **iOS "붙여넣기 허용?" 팝업이 뜨는 지점**이다(클립보드를 읽는 순간).
+        //    설치 직후에 이 화면을 열면 그 팝업이 앱의 첫인상이 된다 — 무엇을 하는 앱인지
+        //    알기도 전에 거절할지를 묻는 셈이라, 며칠 써 본 뒤로 미룬다.
+        //    (사용자가 직접 누르는 붙여넣기는 이 관문과 무관하게 그대로 동작한다)
+        guard PastePermissionGuidance.mayAutoReadClipboard else {
+            print("⏳ [ClipboardList] 설치 후 \(PastePermissionGuidance.warmUpDays)일 전 — 클립보드 자동 읽기 보류")
+            return
+        }
         guard !isCheckingClipboard else { return }
         isCheckingClipboard = true
         defer { isCheckingClipboard = false }

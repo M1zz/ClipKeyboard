@@ -128,6 +128,9 @@ struct ClipKeyboardList: View {
     /// 첫 단축어 만들기를 끝냈거나 건너뛰었는지.
     @AppStorage(DefaultsKey.firstShortcutDone)
     private var firstShortcutDone: Bool = false
+    /// 단축어 탭이 무엇을 보여줄지(목록 / 키보드 미리보기). 툴바의 전환 버튼이 이 값을 뒤집는다.
+    @AppStorage(DefaultsKey.snippetsTabStyle)
+    private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
     /// 이 기기가 4.4.4 에서 처음 시작했는지 — 온보딩을 보여줄 사람인지 가른다.
     @AppStorage(DefaultsKey.startedFreshV444)
     private var startedFreshV444: Bool = false
@@ -473,17 +476,30 @@ struct ClipKeyboardList: View {
                 //   latch되면 그리드가 화면 중앙부터 시작하는 버그가 됨(실측: inlineLarge 바
                 //   하단은 100~130 언저리라 160이면 큰 글씨 설정까지 여유 있음).
                 // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
+                //
+                // ⚠️ **커지는 쪽으로는 절대 안 움직인다.** 이 버그의 실패 방식은 언제나
+                //    "너무 큼"이었다 — 큰 타이틀이 완전히 펼쳐진 순간의 값(150~160)이 latch되면
+                //    그리드가 화면 한복판에서 시작한다. 반대로 작아서 생기는 사고는 없었다
+                //    (바 하단에는 타이틀 쿠션이 넉넉해 몇 pt 붙어도 겹치지 않는다, 실측).
+                //    범위 가드만으로는 못 막는다 — 유효 범위 안의 값 중에서도 **가장 작은 것**이
+                //    우리가 원하는 상태(inlineLarge)의 바 하단이다.
                 .onChange(of: minY, initial: true) { _, v in
-                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 { pageTopInset = v }
+                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 {
+                        pageTopInset = min(pageTopInset, v)
+                    }
                 }
                 // 정착 시점에 minY가 이미 최종값이면 위 onChange가 다시 안 불리므로 한 번 더 측정.
                 .onChange(of: titleBarSettled) { _, settled in
-                    if settled, !showsInlineNavTitle, minY > 60, minY < 160 { pageTopInset = minY }
+                    if settled, !showsInlineNavTitle, minY > 60, minY < 160 {
+                        pageTopInset = min(pageTopInset, minY)
+                    }
                 }
                 // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 — 어떤 경로로든 오염된 값을
                 // 사용자가 맨 위로 돌아오는 순간 자가 치유한다.
                 .onChange(of: showsInlineNavTitle) { _, inline in
-                    if !inline, titleBarSettled, minY > 60, minY < 160 { pageTopInset = minY }
+                    if !inline, titleBarSettled, minY > 60, minY < 160 {
+                        pageTopInset = min(pageTopInset, minY)
+                    }
                 }
             }
         )
@@ -493,7 +509,31 @@ struct ClipKeyboardList: View {
     /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
     /// 상한 150 클램프: 측정값이 어떤 경로로든 오염돼도(전환 중간값 latch 등)
     /// 그리드가 화면 중앙부터 시작하는 최악의 표시는 막는다.
-    private var pageContentTopMargin: CGFloat { min(max(pageTopInset - 10, 60), 150) }
+    /// **스크롤 페이지의 위 여백 — 경로에 따라 다르다.**
+    ///
+    /// ⚠️ 여기에 두 가지 화면이 섞여 있었고, 둘의 사정이 **정반대**라 값 하나로는 못 맞춘다.
+    ///
+    ///  ① **카테고리 페이저(TabView)** — 시스템이 바 아래로 안 밀어 준다.
+    ///     우리가 잰 바 하단(100~130)을 그대로 줘야 한다. 안 주면 카드가 타이틀·툴바를 덮는다.
+    ///  ② **단일 페이지**(카테고리 기능이 꺼진 '전체' 한 장) — ScrollView 를 시스템이
+    ///     알아서 바 아래로 밀어 준다. 여기에 잰 값을 또 얹으면 여백이 **두 번** 들어가
+    ///     그리드가 화면 중앙쯤에서 시작한다(오래된 "그리드가 안 올라간다" 버그의 정체).
+    ///     실측: 0으로 두면 타이틀 아래 36pt 에 정확히 붙는다.
+    ///
+    /// 그래서 **어느 경로로 그려지는지**를 그대로 따라간다(categoryContent 의 분기와 같은 조건).
+    private var pageContentTopMargin: CGFloat {
+        CategoryStore.shared.isFeatureEnabled ? measuredBarBottomMargin : 8
+    }
+
+    /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
+    /// 경로에서만 쓴다. 상한 130: 측정이 오염돼도 최악(화면 중앙 시작)은 막는다.
+    private var measuredBarBottomMargin: CGFloat { min(max(pageTopInset - 10, 60), 130) }
+
+    /// **스크롤이 없는 페이지(빈 화면)의 위 여백.**
+    ///
+    /// 이쪽도 시스템이 안 밀어 준다 — ScrollView 가 아니라 그냥 VStack 이다.
+    /// 직접 재서 바 아래로 내려야 네비바에 글이 가려지지 않는다.
+    private var emptyPageTopMargin: CGFloat { measuredBarBottomMargin }
 
     private var screenBody: some View {
             ZStack {
@@ -2211,8 +2251,9 @@ struct ClipKeyboardList: View {
             pageHeader(for: tab)
             content()
         }
-        // 페이저가 화면 끝까지 확장되므로(ignoresSafeArea) 시작점을 직접 잡는다.
-        .padding(.top, pageContentTopMargin)
+        // 페이저가 화면 끝까지 확장되고, 이 경로엔 ScrollView 가 없어 시스템이 밀어 주지도
+        // 않는다 — 시작점을 직접 잡는다(pageContentTopMargin 과 다른 이유, 그쪽 주석 참고).
+        .padding(.top, emptyPageTopMargin)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         // ⚠️ 배경을 여기서 깐다. 안 그러면 위 여백(pageContentTopMargin)과 네비바 자리는
         //    아무도 안 칠해 시스템 흰색이 그대로 나오고, 그 아래 내용물이 칠한 테마색과
@@ -3155,6 +3196,10 @@ struct ClipKeyboardList: View {
         vaultEntrance
 
         .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
+
+        // 화면 전환 — **+ 바로 왼쪽**. 누르면 키보드 미리보기로 건너가고,
+        // 그쪽 머리말의 같은 자리에서 격자 모양으로 바뀌어 되돌아올 수 있다.
+        SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw)
 
         Menu {
             // 통합 모델: 사용자는 "메모"만 만든다. 변수({…})를 넣으면 템플릿, 이어지는 메모를 더하면 콤보가 된다.

@@ -12,6 +12,43 @@ import UIKit
 
 // MARK: - Main View
 
+/// 이 기기에서 우리 키보드를 **쓸 수 있는 상태인가.**
+///
+/// ⚠️ 신호가 두 개이고 **둘 다 봐야 한다.**
+///  ① iOS 설정에서 켰는가 — `AppleKeyboards`(켜 둔 키보드 목록)에 우리 번들이 있는지.
+///     설정에서 켜자마자 참이 된다.
+///  ② 실제로 한 번 떠 봤는가 — 익스텐션이 처음 뜰 때 App Group에 남기는 표식.
+///     켜 두기만 하고 아직 아무 앱에서도 안 불러냈다면 거짓이다.
+///
+/// 예전에는 ②만 봤다. 그래서 **설정에서 켜고 전체 접근까지 허용하고 돌아와도**
+/// "아직 다른 앱에서는 못 써요" 가 그대로 남아 있었다 — 켰는데 안 켜졌다고 우기는 꼴이다.
+/// 어느 쪽이든 참이면 쓸 수 있는 상태로 본다.
+enum KeyboardInstallState {
+
+    /// 키보드 익스텐션 번들 ID. 앱 번들 ID + `.ClipKeyboardExtension`.
+    static let extensionBundleID = "com.Ysoup.TokenMemo.ClipKeyboardExtension"
+
+    /// iOS 설정에서 이 키보드를 켜 두었는가.
+    ///
+    /// `AppleKeyboards` 는 시스템이 각 앱의 표준 UserDefaults 에 비춰 주는 값이라
+    /// 별도 권한 없이 읽을 수 있다. 못 읽는 상황이면 판단을 미루고 `false`.
+    static var isEnabledInSettings: Bool {
+        guard let keyboards = UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String] else {
+            return false
+        }
+        return keyboards.contains(extensionBundleID)
+    }
+
+    /// 익스텐션이 한 번이라도 떠 본 적 있는가(App Group 표식).
+    static var didLoadOnce: Bool {
+        UserDefaults(suiteName: AppGroup.identifier)?
+            .bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
+    }
+
+    /// 둘 중 하나라도 참이면 "쓸 수 있다"로 본다.
+    static var isUsable: Bool { isEnabledInSettings || didLoadOnce }
+}
+
 struct KeyboardSetupOnboardingView: View {
     var exitAction: () -> Void
 
@@ -129,7 +166,8 @@ struct KeyboardSetupOnboardingView: View {
             guard isWaitingForReturn, currentPage == 2 else { return }
             isWaitingForReturn = false
             setupStatus = .checking
-            let loaded = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
+            // 설정에서 켜기만 해도 확인된 것으로 본다(KeyboardInstallState 머리말 참고).
+            let loaded = KeyboardInstallState.isUsable
             withAnimation(.easeInOut(duration: 0.3)) {
                 setupStatus = loaded ? .confirmed : .notFound
             }

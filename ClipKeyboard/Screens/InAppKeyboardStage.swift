@@ -20,12 +20,25 @@ import SwiftUI
 import LeeoKit
 
 struct InAppKeyboardStage: View {
+    /// 지금 어느 화면을 보고 있는가 — 머리말의 전환 버튼이 이 값을 뒤집는다.
+    /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
+    @Binding var styleRaw: String
+
+    /// 키보드에 실린 문구 id 목록 — 바뀌었을 때만 키보드를 다시 만든다.
+    @State private var loadedIds: [UUID]
+
+    /// ⚠️ 문구를 **여기서** 읽는다. 예전에는 `onAppear` 에서 읽고 곧바로 `feedToken` 을 올려
+    ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
+    ///    (목록 → 미리보기 방향만 이상했던 이유 — 반대 방향엔 다시 만들 일이 없다).
+    ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
+    init(styleRaw: Binding<String>) {
+        self._styleRaw = styleRaw
+        KeyboardMemoFeed.reload()
+        _loadedIds = State(initialValue: clipMemos.map(\.id))
+    }
+
     @StateObject private var host = InAppKeyboardHost()
     @Environment(\.appTheme) private var theme
-
-    /// 예전 화면(카드 목록) — 여기서 문구를 만들고 고친다.
-    /// ⚠️ 반드시 남겨 둘 것. 무대에는 문구를 **만드는** 길이 없다.
-    @State private var showsList = false
 
     /// 문구 목록이 바뀔 때마다 올린다 — `KeyboardView`는 등장할 때 한 번만 목록을 읽으므로
     /// (익스텐션에서는 키보드가 뜰 때마다 새 프로세스라 그걸로 충분했다),
@@ -34,6 +47,8 @@ struct InAppKeyboardStage: View {
 
     /// 키보드 설치 안내(`KeyboardSetupOnboardingView`)를 띄우는 중인가.
     @State private var showsKeyboardSetup = false
+    /// 새 단축어 만들기 시트.
+    @State private var showsAddMemo = false
     /// 이 무대를 볼 때마다 다시 확인한다 — 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
@@ -72,25 +87,35 @@ struct InAppKeyboardStage: View {
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             reloadFeed()
         }
-        .fullScreenCover(isPresented: $showsList, onDismiss: reloadFeed) {
-            listCover
+        // 만들고 나면 무대의 키보드에 바로 그 키가 있어야 한다 — 닫힐 때 다시 읽는다.
+        .sheet(isPresented: $showsAddMemo, onDismiss: reloadFeed) {
+            NavigationStack {
+                MemoAdd(insertedCategory: "텍스트")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(NSLocalizedString("취소", comment: "Cancel")) { showsAddMemo = false }
+                        }
+                    }
+            }
         }
     }
 
     /// 저장소 → `clipMemos` → 키보드 뷰 순으로 새로 읽는다.
+    ///
+    /// ⚠️ **바뀐 게 없으면 키보드를 다시 만들지 않는다.** 다시 만들면 그 순간 화면이 튀고,
+    ///    검색어·콤보 위치 같은 그때그때의 상태도 함께 날아간다.
     private func reloadFeed() {
         KeyboardMemoFeed.reload()
+        let ids = clipMemos.map(\.id)
+        guard ids != loadedIds else { return }
+        loadedIds = ids
         feedToken += 1
     }
 
-    /// 진짜 키보드가 한 번이라도 떠 본 적 있는가.
-    ///
-    /// 익스텐션은 처음 뜰 때 App Group에 표식을 남긴다(`keyboardExtensionDidLoad`).
-    /// iOS는 "이 키보드가 켜져 있는가"를 앱에 알려주지 않으므로, **떠 본 적 있는가**가
-    /// 우리가 알 수 있는 가장 가까운 사실이다. 아직 없다면 아직 못 쓰고 있는 것이다.
+    /// 진짜 키보드를 쓸 수 있는 상태인가 — 판단은 `KeyboardInstallState` 한 곳에서만 한다.
+    /// (설정에서 켰거나, 익스텐션이 한 번이라도 떴으면 쓸 수 있는 것으로 본다)
     private func refreshKeyboardReady() {
-        keyboardReady = UserDefaults(suiteName: AppGroup.identifier)?
-            .bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
+        keyboardReady = KeyboardInstallState.isUsable
     }
 
     /// 무대 아래 띠 — 마지막 한 걸음(진짜 키보드 켜기)으로 데려간다.
@@ -105,7 +130,7 @@ struct InAppKeyboardStage: View {
             HStack(spacing: 10) {
                 Image(systemName: "keyboard.badge.ellipsis")
                     .font(.title3)
-                    .foregroundColor(theme.accent)
+                    .foregroundColor(.accentColor)
                 VStack(alignment: .leading, spacing: 1) {
                     Text(NSLocalizedString("아직 다른 앱에서는 못 써요", comment: "Keyboard not set up banner title"))
                         .font(.subheadline.weight(.semibold))
@@ -120,40 +145,44 @@ struct InAppKeyboardStage: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 7)
-                    .background(Capsule().fill(theme.accent))
+                    .background(Capsule().fill(Color.accentColor))
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .background(theme.accentSoft)
+        .background(Color.accentColor.opacity(0.10))
     }
 
     // MARK: - 머리말
 
+    /// 제목 하나에 갈 곳 둘 — **목록**(있는 걸 고치러)과 **+**(새로 만들러).
+    ///
+    /// ⚠️ 설명 문구("다른 앱에서 보이는 그대로예요")는 뺐다. 아래에 진짜 키보드가
+    ///    올라와 있는데 그걸 말로 또 설명하면, 매일 여는 화면에서 한 줄이 늘 자리만 차지한다.
+    ///
+    /// ⚠️ **+ 가 없으면 이 화면에서는 단축어를 만들 길이 없다.** 무대는 쓰는 자리이지
+    ///    만드는 자리가 아니어서 목록으로만 보냈는데, 만들려면 두 번 건너가야 했다.
     private var stageHeader: some View {
-        HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 1) {
-                Text(NSLocalizedString("키보드 미리보기", comment: "In-app keyboard stage title"))
-                    .font(.headline)
-                    .foregroundColor(theme.text)
-                Text(NSLocalizedString("다른 앱에서 보이는 그대로예요", comment: "In-app keyboard stage subtitle"))
-                    .font(.caption)
-                    .foregroundColor(theme.textMuted)
-            }
+        HStack(spacing: 14) {
+            Text(NSLocalizedString("키보드 미리보기", comment: "In-app keyboard stage title"))
+                .font(.headline)
+                .foregroundColor(theme.text)
             Spacer(minLength: 0)
+            SnippetsStyleSwitchButton(styleRaw: $styleRaw)
             Button {
                 HapticManager.shared.light()
-                showsList = true
+                showsAddMemo = true
             } label: {
-                Label(NSLocalizedString("목록", comment: "Open the snippet list"),
-                      systemImage: "square.grid.2x2")
-                    .font(.subheadline.weight(.semibold))
-                    .labelStyle(.titleAndIcon)
+                Image(systemName: AppSymbol.plus)
+                    .font(.title3.weight(.semibold))
+                    .foregroundColor(.accentColor)
+                    .frame(width: 32, height: 32)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .foregroundColor(theme.accent)
+            .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
@@ -196,7 +225,7 @@ struct InAppKeyboardStage: View {
                 .foregroundColor(mine ? .white : theme.text)
                 .padding(.horizontal, 13)
                 .padding(.vertical, 9)
-                .background(mine ? theme.accent : theme.surface)
+                .background(mine ? Color.accentColor : theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
                 .textSelection(.enabled)
             if !mine { Spacer(minLength: 40) }
@@ -217,7 +246,7 @@ struct InAppKeyboardStage: View {
             } label: {
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundColor(host.text.isEmpty ? theme.textMuted.opacity(0.5) : theme.accent)
+                    .foregroundColor(host.text.isEmpty ? theme.textMuted.opacity(0.5) : .accentColor)
             }
             .buttonStyle(.plain)
             .disabled(host.text.isEmpty)
@@ -267,31 +296,7 @@ struct InAppKeyboardStage: View {
     }
 
     private var caretGlyph: Text {
-        Text(verbatim: "\u{258F}").foregroundColor(theme.accent)
+        Text(verbatim: "\u{258F}").foregroundColor(.accentColor)
     }
 
-    // MARK: - 목록으로 가는 문
-
-    /// 예전 화면을 그대로 띄운다. 목록 쪽 코드는 손대지 않고, 돌아오는 버튼만 아래에 얹는다
-    /// (목록 화면은 이미 위아래가 꽉 차 있어 새 버튼을 끼울 자리가 없다).
-    private var listCover: some View {
-        ZStack(alignment: .bottom) {
-            ClipKeyboardList()
-            Button {
-                HapticManager.shared.light()
-                showsList = false
-            } label: {
-                Label(NSLocalizedString("키보드 화면", comment: "Back to the in-app keyboard stage"),
-                      systemImage: "keyboard")
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 11)
-                    .background(Capsule().fill(theme.accent))
-                    .shadow(color: .black.opacity(0.18), radius: 8, y: 3)
-            }
-            .buttonStyle(.plain)
-            .padding(.bottom, 18)
-        }
-    }
 }

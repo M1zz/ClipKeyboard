@@ -106,8 +106,24 @@ final class CategoryStore: ObservableObject {
         defaults?.set(true, forKey: featureMigratedKey)
     }
 
+    /// 카테고리 기능은 **처음부터 켜져 있다.**
+    ///
+    /// ⚠️ 예전에는 꺼진 채로 시작해서, 메모가 5개 넘어야 뜨는 배너를 눌러야 켜졌다.
+    ///    그 사이 화면은 '전체' 한 장뿐 — 탭도 스와이프도 없어서 **이 앱에 카테고리가
+    ///    있다는 사실 자체를 알 수 없었다.** 켠 뒤에야 보이는 기능은 없는 기능과 같다.
+    ///
+    /// ⚠️ 다만 **직접 끈 사람의 선택은 존중한다.** 저장된 값이 있으면 그대로 따르고,
+    ///    값이 아예 없을 때(= 아직 고른 적 없음)만 켜진 것으로 본다.
     private func loadFeatureEnabledState() {
-        isFeatureEnabled = UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: featureEnabledKey) ?? false
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        if let stored = defaults?.object(forKey: featureEnabledKey) as? Bool {
+            isFeatureEnabled = stored
+        } else {
+            isFeatureEnabled = true
+            // 값을 **적어 둔다.** 키보드 익스텐션은 이 키를 직접 읽어서(앱 코드를 못 본다)
+            // 안 적어 두면 앱에는 탭이 보이고 키보드에는 안 보이는 어긋남이 생긴다.
+            defaults?.set(true, forKey: featureEnabledKey)
+        }
     }
 
     // MARK: - Persona
