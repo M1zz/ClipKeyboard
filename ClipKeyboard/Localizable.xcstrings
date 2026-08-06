@@ -25848,17 +25848,6 @@
         }
       }
     },
-    "확인 요청": {
-      "comment": "Template tutorial: created template title",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Review request"
-          }
-        }
-      }
-    },
     "확인 필요": {
       "comment": "Stamp label: needs checking",
       "localizations": {

@@ -525,14 +525,18 @@ struct TemplateTutorialView: View {
         let text = templateBody.trimmingCharacters(in: .whitespacesAndNewlines)
         // ⚠️ templateVariables 를 넣지 않으면 isTemplate=false 가 되어
         //    탭했을 때 {이름}이 그대로 복사된다.
+        // ⚠️ 제목은 **사용자가 지은 이름**이다. 예전에는 "확인 요청"으로 고정돼 있어서,
+        //    자기가 이름을 지어 놓고도 목록에서 그 이름을 못 찾았다 —
+        //    방금 한 일이 화면에 남지 않으면 무엇을 배운 건지 알 수 없다.
+        let blank = trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank
         var memo = Memo(
-            title: NSLocalizedString("확인 요청", comment: "Template tutorial: created template title"),
+            title: blank,
             value: text,
             templateVariables: TemplateVariableProcessor.extractCustomTokens(in: text)
         )
         // 방금 넣어 본 값을 **그 칸의 기억**으로 남긴다 — 다음에 쓸 때 제안으로 뜬다.
         // 배운 것이 화면 안에 흔적으로 남아야 "그래서 뭐가 달라졌지"가 안 된다.
-        let token = "{\(trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)}"
+        let token = "{\(blank)}"
         memo.placeholderValues = [token: [trimmedValue]]
         TutorialStore.insert(memo, onCreated: onCreated, onFailure: onSkip)
     }

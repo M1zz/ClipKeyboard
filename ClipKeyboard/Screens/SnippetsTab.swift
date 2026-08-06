@@ -191,6 +191,13 @@ struct SnippetsTab: View {
                  keyboardUsable: KeyboardInstallState.isUsable)
     }
 
+    /// 누른 뒤 **입력된 걸 보여주는** 시간(초).
+    private let dwellAfterUse: Double = 0.9
+    /// 첫 튜토리얼을 끝낸 뒤 다음을 권하기까지(초, 누른 시점 기준).
+    private static let firstTutorialBreather: Double = 5.0
+    /// 그 뒤의 장 사이 간격(초) — 리듬을 이미 아는 사람에겐 짧아도 된다.
+    private static let nextChapterGap: Double = 0.45
+
     /// 아직 안 눌러 본 튜토리얼 단축어.
     private var highlightedMemoId: UUID? {
         firstUseMemoIdRaw.isEmpty ? nil : UUID(uuidString: firstUseMemoIdRaw)
@@ -339,13 +346,23 @@ struct SnippetsTab: View {
         guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
               used == highlightedMemoId else { return }
 
+        // 아직 아무 장도 안 지났으면 이번이 **첫 번째** 튜토리얼이다.
+        let isFirstTutorial = !tutorialTemplateDone && !tutorialMakeTemplateDone && !tutorialComboDone
+
         // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
         //    일어났는지 못 보고 지나간다 — 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
             withAnimation(.easeInOut(duration: 0.28)) { firstUseMemoIdRaw = "" }
             // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
             //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에** 열린다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { inviteNextChapter() }
+            //
+            // ⚠️ 첫 번째 뒤에는 **한 박자 더 쉰다**(눌렀을 때부터 5초). 방금 처음으로
+            //    "눌렀더니 글이 들어갔다"를 본 참인데 곧바로 다음 걸 권하면 그 장면을
+            //    음미할 틈이 없고, 배우는 게 아니라 떠밀리는 느낌이 된다.
+            let breather = isFirstTutorial
+                ? Self.firstTutorialBreather - dwellAfterUse
+                : Self.nextChapterGap
+            DispatchQueue.main.asyncAfter(deadline: .now() + breather) { inviteNextChapter() }
         }
     }
 
