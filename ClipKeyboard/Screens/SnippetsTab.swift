@@ -242,10 +242,6 @@ struct SnippetsTab: View {
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
-        // 배울 장이 더 없다 — 마지막 걸음(키보드 설정)으로.
-        .onReceive(NotificationCenter.default.publisher(for: .tutorialChaptersFinished)) { _ in
-            withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
-        }
         .fullScreenCover(item: $tutorialInvite) { chapter in
             TutorialInviteView(chapter: chapter) {
                 tutorialInvite = nil

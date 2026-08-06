@@ -238,7 +238,6 @@ struct ClipKeyboardList: View {
     // TipKit
     private let welcomeTip = WelcomeTip()
     private let addMemoTip = AddMemoTip()
-    private let quickNoteInboxTip = QuickNoteInboxTip()
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -1221,13 +1220,6 @@ struct ClipKeyboardList: View {
             : NSLocalizedString("임시 저장 보기", comment: "Menu: view drafts")
     }
 
-    /// 더보기 메뉴의 보관함 항목 라벨(개수 배지). 메뉴는 열릴 때 다시 만들어지므로 직접 읽어도 충분.
-    private var inboxMenuTitle: String {
-        let count = QuickNoteStore.shared.count
-        return count > 0
-            ? String(format: NSLocalizedString("메모 보관함 (%d)", comment: "Menu: quick note inbox with count"), count)
-            : NSLocalizedString("메모 보관함", comment: "Menu: quick note inbox")
-    }
 
     /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
     /// - 빠른 메모 컨트롤: 입력 시트 표시 / - 보관함 열기 컨트롤: Inbox 화면 이동.
@@ -1247,42 +1239,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - View Sections
 
-    /// 검색 바 섹션 (인라인)
-    private var searchBarInlineSection: some View {
-        HStack(spacing: 8) {
-            Image(systemName: AppSymbol.magnifyingglass)
-                .foregroundColor(theme.textFaint)
-                .font(.body)
-                .accessibilityHidden(true)
-
-            TextField(NSLocalizedString("검색", comment: "Search"), text: $viewModel.searchQueryString)
-                .textFieldStyle(PlainTextFieldStyle())
-                .focused($isSearchFieldFocused)
-                .submitLabel(.search)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-                .accessibilityLabel(NSLocalizedString("단축어 검색", comment: "Search field accessibility label"))
-                .accessibilityHint(NSLocalizedString("단축어 제목 또는 내용으로 검색합니다", comment: "Search field accessibility hint"))
-
-            if !viewModel.searchQueryString.isEmpty {
-                Button(action: {
-                    HapticManager.shared.soft()
-                    viewModel.searchQueryString = ""
-                }) {
-                    Image(systemName: AppSymbol.xmarkCircleFill)
-                        .foregroundColor(theme.textFaint)
-                        .font(.body)
-                }
-                .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search field"))
-            }
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(theme.surfaceAlt)
-        .cornerRadius(theme.radiusSm)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-    }
 
     // MARK: - Grid
 
@@ -2018,58 +1974,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab Bar
 
-    private var categoryTabBar: some View {
-        ScrollViewReader { proxy in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(viewModel.allCategoryTabs, id: \.self) { tab in
-                        categoryTabChip(tab: tab, proxy: proxy)
-                    }
-                    // "+" 추가 버튼
-                    Button {
-                        HapticManager.shared.light()
-                        showAddCategoryAlert = true
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: AppSymbol.plus)
-                                .font(.caption.weight(.semibold))
-                            Text(NSLocalizedString("추가", comment: "Add category button"))
-                                .font(.caption.weight(.semibold))
-                        }
-                        .foregroundColor(theme.textMuted)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 7)
-                        .background(
-                            Capsule().strokeBorder(theme.textFaint.opacity(0.4), lineWidth: 1)
-                        )
-                    }
-                    .accessibilityLabel(NSLocalizedString("카테고리 추가", comment: "Add category accessibility label"))
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-            }
-            .background {
-                // iOS 26+ : Liquid Glass / 이하 : ultraThinMaterial
-                // ignoresSafeArea로 상태바 아래까지 확장해 카드처럼 떠있는 느낌 제거
-                if #available(iOS 26, *) {
-                    Rectangle()
-                        .glassEffect()
-                        .ignoresSafeArea(edges: .top)
-                } else {
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                        .ignoresSafeArea(edges: .top)
-                }
-            }
-            .onChange(of: viewModel.selectedCategoryTab) { _, newTab in
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    proxy.scrollTo(newTab, anchor: .center)
-                }
-            }
-        }
-        // 하단 경계 — 미세한 그림자로 자연스러운 분리
-        .shadow(color: .black.opacity(0.06), radius: 6, x: 0, y: 3)
-    }
 
     // MARK: - Persona Category Suggestion (TipKit)
 
@@ -2826,15 +2730,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - Ambient Top Block
 
-    /// 상단 통합 블록: 시간대 인사 + 스마트 컨텍스트 + 액션 카드 하나.
-    /// 기존에 분산돼 있던 "방금 복사 캡처 / 컨텍스트 부제 / 히어로 카드"가
-    /// 사용자 상태에 따라 자연스럽게 하나로 합쳐져 표시된다.
-    private var ambientTopBlock: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            greetingHeader
-            contextActionCard
-        }
-    }
 
     /// 시간대 인사말 + 상태 한 줄 통계.
     private var greetingHeader: some View {
@@ -2932,20 +2827,7 @@ struct ClipKeyboardList: View {
 
     // MARK: - Scroll Fade (Notes-style)
 
-    /// 상단 그리팅 영역의 스크롤 오프셋을 기록하는 GeometryReader.
-    private var scrollOffsetReader: some View {
-        GeometryReader { proxy in
-            Color.clear.preference(
-                key: ScrollOffsetPreferenceKey.self,
-                value: -proxy.frame(in: .named("listScroll")).minY
-            )
-        }
-    }
 
-    /// 스크롤 오프셋 기반 fade — 80pt 넘게 스크롤하면 완전 투명.
-    private var greetingOpacity: Double {
-        1 - Double(min(max(scrollOffset / 80, 0), 1))
-    }
 
     /// 그리팅 아래 한 줄 — 상황 기반 스마트 문구.
     /// 우선순위: 오늘 사용 횟수 표시 → 최근 1시간 사용한 메모 → 기본 개수 표시
@@ -3002,139 +2884,13 @@ struct ClipKeyboardList: View {
 
     // MARK: - Recency Fade
 
-    /// 메모의 최근 사용 시점에 따라 행 opacity를 부드럽게 감쇠.
-    /// 섹션 헤더 없이도 "최근 것은 생생하고 오래된 것은 조용히 뒤로 물러나는" 느낌.
-    private func recencyOpacity(for memo: Memo) -> Double {
-        let reference = memo.lastUsedAt ?? memo.lastEdited
-        let interval = Date().timeIntervalSince(reference)
-        if interval < 60 * 60 { return 1.0 }                 // 1시간 이내
-        if interval < 60 * 60 * 24 { return 0.95 }           // 오늘
-        if interval < 60 * 60 * 24 * 7 { return 0.88 }       // 이번 주
-        return 0.78                                           // 그 이상
-    }
 
     // MARK: - Context Menu Preview (Mail-style)
 
-    /// 길게 눌렀을 때 떠오르는 플로팅 미리보기 — 실제 콘텐츠 전체 보기.
-    private func memoContextPreview(memo: Memo) -> some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(spacing: 10) {
-                    Text(memo.title.templateAwareAttributed(theme: theme, font: .headline.weight(.semibold)))
-                        .font(.headline.weight(.semibold))
-                        .foregroundColor(theme.text)
-                    if memo.isTemplate {
-                        TagBadge(label: NSLocalizedString("Template", comment: "Tag: template"))
-                    }
-                    if memo.isCombo {
-                        TagBadge(label: NSLocalizedString("Combo", comment: "Tag: combo"))
-                    }
-                    if memo.isSecure {
-                        Image(systemName: AppSymbol.lockFill)
-                            .font(.body)
-                            .foregroundColor(theme.textFaint)
-                    }
-                    Spacer(minLength: 0)
-                }
-
-                #if os(iOS)
-                if memo.contentType == .image || memo.contentType == .mixed,
-                   let firstImageFileName = memo.imageFileNames.first,
-                   let image = MemoStore.shared.loadImage(fileName: firstImageFileName) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                }
-                #endif
-
-                if !memo.value.isEmpty {
-                    Text(memo.value.templateAwareAttributed(theme: theme, font: .body.weight(.semibold)))
-                        .font(.body)
-                        .foregroundColor(theme.text)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .textSelection(.enabled)
-                }
-
-                HStack(spacing: 8) {
-                    if memo.clipCount > 0 {
-                        HStack(spacing: 4) {
-                            Image(systemName: AppSymbol.docOnDocFill)
-                                .font(.caption2)
-                            Text(String(format: NSLocalizedString("Used %d×", comment: "Preview: total use count"), memo.clipCount))
-                                .font(.caption2.weight(.medium))
-                        }
-                        .foregroundColor(theme.textMuted)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(theme.surfaceAlt)
-                        .clipShape(Capsule())
-                    }
-                    if memo.isFavorite {
-                        HStack(spacing: 4) {
-                            Image(systemName: AppSymbol.heartFill)
-                                .font(.caption2)
-                            Text(NSLocalizedString("Favorite", comment: "Preview: favorite badge"))
-                                .font(.caption2.weight(.medium))
-                        }
-                        .foregroundColor(.clipFavorite)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background(Color.clipFavorite.opacity(0.12))
-                        .clipShape(Capsule())
-                    }
-                    Spacer(minLength: 0)
-                }
-            }
-            .padding(20)
-        }
-        .frame(minWidth: 320, idealWidth: 360, maxWidth: 420, minHeight: 120, idealHeight: 260, maxHeight: 520)
-        .background(theme.surface)
-    }
 
     // MARK: - Time Divider (day boundary)
 
-    /// 이전 메모와 날짜 버킷(오늘/어제/이번주/이번달…)이 바뀔 때만 divider 라벨 반환.
-    private func dayBoundaryLabel(for memo: Memo, previousMemo: Memo?) -> String? {
-        let cal = Calendar.current
-        let reference = memo.lastUsedAt ?? memo.lastEdited
 
-        guard let prev = previousMemo else {
-            return relativeDateLabel(reference)
-        }
-        let prevRef = prev.lastUsedAt ?? prev.lastEdited
-
-        // 같은 날이거나 같은 버킷(예: 둘 다 "This week")이면 헤더 불필요
-        if cal.isDate(reference, inSameDayAs: prevRef) { return nil }
-        let currentLabel = relativeDateLabel(reference)
-        let prevLabel = relativeDateLabel(prevRef)
-        if currentLabel == prevLabel { return nil }
-        return currentLabel
-    }
-
-    /// 초미니멀 day divider — 얇은 수평선 + 작은 라벨.
-    private func timeDivider(label: String) -> some View {
-        HStack(spacing: 8) {
-            Rectangle()
-                .fill(theme.divider)
-                .frame(height: 0.5)
-                .accessibilityHidden(true)
-            Text(label)
-                .font(.caption2.weight(.medium))
-                .foregroundColor(theme.textFaint)
-                .textCase(.uppercase)
-                .tracking(0.5)
-            Rectangle()
-                .fill(theme.divider)
-                .frame(height: 0.5)
-                .accessibilityHidden(true)
-        }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(label)
-        .accessibilityAddTraits(.isHeader)
-    }
 
     /// 캘린더 기준 상대적 날짜 라벨.
     private func relativeDateLabel(_ date: Date) -> String {
@@ -3155,14 +2911,6 @@ struct ClipKeyboardList: View {
         return NSLocalizedString("Earlier", comment: "Divider label: earlier than a month")
     }
 
-    /// 타입 필터 바 섹션 (인라인)
-    private var typeFilterBarInlineSection: some View {
-        MemoTypeFilterBar(
-            selectedFilter: $viewModel.selectedTypeFilter,
-            showFavorites: $viewModel.showFavoritesFilter,
-            memos: viewModel.loadedData
-        )
-    }
 
     /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
     /// Toolbar 컨텐츠
@@ -3404,14 +3152,7 @@ struct ClipKeyboardList: View {
             case .combo:        return !tutorialComboDone
             }
         }
-        // 더 권할 것이 없다 = 배우는 차례가 끝났다.
-        // ⚠️ 이 사실을 알려야 한다. 어떤 장은 조건이 안 되면(바꿀 단축어가 없는 등) 조용히
-        //    건너뛰므로, 완료 표식만 보고 판단하면 **영영 안 끝난 것으로 남는다** —
-        //    그러면 마지막 걸음(키보드 설정)이 오지 않는다.
-        guard let next else {
-            NotificationCenter.default.post(name: .tutorialChaptersFinished, object: nil)
-            return
-        }
+        guard let next else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             tutorialInvite = next
         }
@@ -3594,56 +3335,6 @@ struct ClipKeyboardList: View {
         return add
     }
 
-    private func suggestionCard(_ suggestion: SuggestionTemplate) -> some View {
-        Button {
-            occasionalSuggestion_ = suggestion
-            navigateToOccasionalAdd = true
-        } label: {
-            // 실제 메모 카드(memoCardSurface)와 같은 규격 — 유리 배경·radiusXl·동일 최소
-            // 높이·제목 서체까지 맞춰, 예시 카드가 "추가되면 이렇게 보인다"를 그대로 보여준다.
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 6) {
-                    Text(suggestion.emoji)
-                        .font(.title2)
-                    Spacer()
-                    Text(suggestion.feature.label)
-                        .font(.caption2)
-                        .fontWeight(.medium)
-                        .foregroundColor(suggestion.feature.color)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(suggestion.feature.color.opacity(0.12))
-                        .cornerRadius(theme.radiusXs)
-                }
-                Spacer(minLength: 16)
-
-                Text(suggestion.title)
-                    .font(.title2.weight(.semibold))
-                    .foregroundColor(theme.text)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Spacer(minLength: 8)
-
-                Text((suggestion.content.components(separatedBy: "\n").first ?? suggestion.content)
-                    .templateAwareAttributed(theme: theme, font: .body))
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                    .lineLimit(2)
-            }
-            // 유리 위 글자 가독성 할로 — memoCardSurface와 동일.
-            .compositingGroup()
-            .shadow(color: theme.bg, radius: 4, x: 0, y: 0)
-            .padding(16)
-            .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-            .modifier(CardGlass(active: true, tint: nil, cornerRadius: theme.radiusXl))
-            .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 4)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(String(format: NSLocalizedString("%@ 예시 단축어 추가", comment: "Suggestion card a11y label"), suggestion.title))
-        .accessibilityHint(NSLocalizedString("탭하면 이 예시로 단축어를 만들 수 있어요", comment: "Suggestion card a11y hint"))
-    }
 }
 
 /// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).

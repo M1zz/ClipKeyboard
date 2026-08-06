@@ -12,7 +12,6 @@ import Foundation
 enum DefaultsKey {
     static let autoBackupEnabled = "autoBackupEnabled"
     static let categoryBadgeNudgeDismissed = "categoryBadgeNudgeDismissed"
-    static let categoryBadgeVisible = "categoryBadgeVisible"
     static let categoryFeatureEnabledV1 = "category.feature.enabled.v1"
     static let comboModelUnifyMigratedV1 = "comboModelUnifyMigrated_v1"
     /// 날인·편철·봉인 등 delight 연출과 햅틱의 마스터 스위치. 값이 없으면 켜짐(기본).
@@ -23,7 +22,6 @@ enum DefaultsKey {
     static let appLaunchCount = "appLaunchCount"
     static let entries = "entries"
     static let fontSize = "fontSize"
-    static let hasCompletedOnboarding = "hasCompletedOnboarding"
     /// What's-New(새 기능) 시트를 마지막으로 보여준 기능 버전. 다르면 업데이트 유저에게 1회 노출.
     static let lastSeenWhatsNewVersion = "lastSeenWhatsNewVersion"
     static let hiddenCategoryTabsV1 = "hiddenCategoryTabs_v1"

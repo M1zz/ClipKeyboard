@@ -1,5 +1,24 @@
 # ClipKeyboard 진행 상황
 
+## 🧹 안 쓰는 코드 정리 (2026-08-06)
+
+- [x] `ClipKeyboardList` 에서 **아무도 안 부르는 private 선언 13개 삭제**(약 300줄)
+      — quickNoteInboxTip · inboxMenuTitle · searchBarInlineSection · categoryTabBar ·
+      ambientTopBlock · scrollOffsetReader · greetingOpacity · recencyOpacity ·
+      memoContextPreview · dayBoundaryLabel · timeDivider · typeFilterBarInlineSection · suggestionCard
+      · ⚠️ 이 화면은 뷰 트리 깊이 한계로 기기에서 무너진 적이 있다 — 죽은 선언을 걷어내는 건
+        보기 좋아지는 일이 아니라 **그 한계에서 멀어지는 일**이다(3742 → 3441줄)
+- [x] 이번 세션에 내가 만든 불필요한 결합 제거 — `.tutorialChaptersFinished` 알림.
+      챕터가 끝났는지는 그 흐름을 **소유한 쪽**(SnippetsTab)이 직접 판단하면 된다.
+      목록이 알려줄 필요가 없어졌는데 알림만 남으면 다음 사람이 "이건 왜 있지"를 묻게 된다
+- [x] 아무도 안 읽는 `DefaultsKey` 2개 삭제(categoryBadgeVisible · hasCompletedOnboarding)
+- [x] 두 타깃 빌드 그린 · 전체 스위트 TEST SUCCEEDED
+- [ ] 남겨 둔 것: 안 쓰이는 알림 이름 5개(comboCompleted·comboItemExecuted·filterChanged 등).
+      `AppNotification.swift` 는 **맥 저장소와 공유하는 파일**이라 여기서 지우면 드리프트가 커진다.
+      정리하려면 양쪽을 같이 봐야 한다
+- [ ] 남겨 둔 것: 스킨 코드(KeyboardSkin·LivingSkin·Geode·Vault) — 지금 꺼져 있을 뿐
+      **의도적으로 남긴** 것이라 죽은 코드가 아니다(되살릴 때 값 하나만 true)
+
 ## 🧩 템플릿 튜토리얼 두 걸음 + 연습 정리 + 다국어 감사 (2026-08-06)
 
 - [x] **템플릿 튜토리얼을 두 걸음으로** — ① 칸에 **이름**을 붙이고 ② 그 칸에 **값**을 넣어 본다.

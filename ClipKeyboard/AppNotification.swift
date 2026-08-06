@@ -39,8 +39,6 @@ extension Notification.Name {
     static let showNewMemo = Notification.Name("showNewMemo")
     static let showPaywall = Notification.Name("showPaywall")
     static let showSettings = Notification.Name("showSettings")
-    /// 배울 장이 더 남지 않았다 — 마지막 걸음(키보드 설정)으로 넘어가도 된다.
-    static let tutorialChaptersFinished = Notification.Name("tutorialChaptersFinished")
     /// '템플릿으로 만들기' 장을 목록 화면에서 시작한다 — 그 장만은 고치는 일이라 목록에서 한다.
     static let startMakeTemplateTutorial = Notification.Name("startMakeTemplateTutorial")
     static let showTemplateInput = Notification.Name("showTemplateInput")
