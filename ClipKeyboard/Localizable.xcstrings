@@ -13529,6 +13529,17 @@
         }
       }
     },
+    "방금 정한 건 바뀌는 자리의 이름이고, 이번엔 이 문구 자체의 이름이에요. 목록과 키보드에 이 이름으로 보여요.": {
+      "comment": "Template tutorial: title step subline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That last one named the changing spot; this one names the message itself. It's the name you'll see in your list and on the keyboard."
+          }
+        }
+      }
+    },
     "배경 색상": {
       "comment": "Background color",
       "extractionState": "stale",
@@ -19007,6 +19018,17 @@
         }
       }
     },
+    "이 템플릿의 이름은요?": {
+      "comment": "Template tutorial: title step headline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "And what's this template called?"
+          }
+        }
+      }
+    },
     "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다.": {
       "comment": "Unrecognized backup file",
       "localizations": {
@@ -20143,6 +20165,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Turn a shortcut you already have into a template?"
+          }
+        }
+      }
+    },
+    "자기소개": {
+      "comment": "Template tutorial: suggested template name",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About me"
           }
         }
       }
@@ -24696,6 +24729,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Templates"
+          }
+        }
+      }
+    },
+    "템플릿 이름": {
+      "comment": "Template tutorial: title label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Template name"
           }
         }
       }

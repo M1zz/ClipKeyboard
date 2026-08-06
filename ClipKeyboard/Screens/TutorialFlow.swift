@@ -341,13 +341,18 @@ struct TemplateTutorialView: View {
     ///    완성되는지가 눈에 들어오고, 그다음에야 "그럼 이 자리는 뭐라고 부를까"가
     ///    자연스러운 물음이 된다. 반대로 하면 이름부터 지으라는 말이라 무엇을 적으라는
     ///    건지 알 수 없고, 실제로 그 자리에 값을 적어 넣는 일이 벌어졌다.
-    private enum Step { case value, name }
+    /// ⚠️ **이름이 둘이다.** 하나는 바뀌는 자리를 부르는 말(변수 이름, "소개하는 이름"),
+    ///    다른 하나는 이 템플릿 자체의 이름("자기소개")이다. 같은 걸로 두면 목록에
+    ///    "소개하는 이름"이라는 카드가 생겨 무엇을 쓰는 문구인지 알 수 없다.
+    private enum Step { case value, name, title }
     @State private var step: Step = .value
 
     /// 채울 칸의 **이름**(= 무엇이 바뀌는 자리인가). 사용자가 고친다.
     @State private var blankName: String = ""
     /// 그 칸에 넣어 볼 **값**. 만들어진 템플릿에 기억돼 다음에 제안으로 뜬다.
     @State private var sampleValue: String = ""
+    /// 이 템플릿 자체의 이름 — 목록과 키보드에 이 이름으로 보인다.
+    @State private var templateName: String = ""
     @FocusState private var focused: Bool
 
     private var trimmedBlank: String {
@@ -356,6 +361,12 @@ struct TemplateTutorialView: View {
             .replacingOccurrences(of: "}", with: "")
     }
     private var trimmedValue: String { sampleValue.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var trimmedTitle: String { templateName.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+    /// 제안하는 템플릿 이름 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
+    private var defaultTemplateName: String {
+        NSLocalizedString("자기소개", comment: "Template tutorial: suggested template name")
+    }
 
     /// 저장 형식(중괄호)은 여기서만 만든다 — 화면에는 칩으로만 보인다.
     private var templateBody: String {
@@ -378,7 +389,11 @@ struct TemplateTutorialView: View {
     }
 
     private var ready: Bool {
-        step == .value ? !trimmedValue.isEmpty : !trimmedBlank.isEmpty
+        switch step {
+        case .value: return !trimmedValue.isEmpty
+        case .name:  return !trimmedBlank.isEmpty
+        case .title: return !trimmedTitle.isEmpty
+        }
     }
 
     var body: some View {
@@ -418,8 +433,7 @@ struct TemplateTutorialView: View {
                 Text(fieldLabel)
                     .font(.footnote)
                     .foregroundColor(theme.textMuted)
-                TextField(fieldPlaceholder,
-                          text: step == .value ? $sampleValue : $blankName)
+                TextField(fieldPlaceholder, text: fieldBinding)
                     .textFieldStyle(.plain)
                     .font(.body)
                     .focused($focused)
@@ -436,9 +450,9 @@ struct TemplateTutorialView: View {
             .padding(.top, 12)
 
             Button(action: advance) {
-                Text(step == .value
-                     ? NSLocalizedString("다음", comment: "Next button")
-                     : NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
+                Text(step == .title
+                     ? NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut")
+                     : NSLocalizedString("다음", comment: "Next button"))
                     .font(.body.weight(.semibold))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -472,12 +486,22 @@ struct TemplateTutorialView: View {
 
     // MARK: - 걸음마다 달라지는 말
 
+    private var fieldBinding: Binding<String> {
+        switch step {
+        case .value: return $sampleValue
+        case .name:  return $blankName
+        case .title: return $templateName
+        }
+    }
+
     private var headline: String {
         switch step {
         case .value:
             return NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline")
         case .name:
             return NSLocalizedString("이 자리를 뭐라고 부를까요?", comment: "Template tutorial: name step headline")
+        case .title:
+            return NSLocalizedString("이 템플릿의 이름은요?", comment: "Template tutorial: title step headline")
         }
     }
 
@@ -490,47 +514,57 @@ struct TemplateTutorialView: View {
             return String(format: NSLocalizedString("'%@'처럼 매번 달라지는 자리예요. 이름을 붙여 두면 다음에 쓸 때 무엇을 채우는 칸인지 바로 알아봐요.",
                                                     comment: "Template tutorial: name step subline"),
                           trimmedValue)
+        case .title:
+            return NSLocalizedString("방금 정한 건 바뀌는 자리의 이름이고, 이번엔 이 문구 자체의 이름이에요. 목록과 키보드에 이 이름으로 보여요.",
+                                     comment: "Template tutorial: title step subline")
         }
     }
 
     private var fieldLabel: String {
-        step == .value
-            ? NSLocalizedString("여기에 넣을 말", comment: "Template tutorial: value label")
-            : NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
+        switch step {
+        case .value: return NSLocalizedString("여기에 넣을 말", comment: "Template tutorial: value label")
+        case .name:  return NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
+        case .title: return NSLocalizedString("템플릿 이름", comment: "Template tutorial: title label")
+        }
     }
 
     private var fieldPlaceholder: String {
-        step == .value
-            ? NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
-            : defaultBlankName
+        switch step {
+        case .value: return NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
+        case .name:  return defaultBlankName
+        case .title: return defaultTemplateName
+        }
     }
 
     // MARK: - 진행
 
     private func advance() {
         guard ready else { return }
-        if step == .value {
-            // 이름 짓는 칸에 들어설 때 제안을 채워 둔다 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
-            if blankName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                blankName = defaultBlankName
-            }
+        switch step {
+        case .value:
+            // 다음 칸에 들어설 때 제안을 채워 둔다 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
+            if trimmedBlank.isEmpty { blankName = defaultBlankName }
             withAnimation(.easeOut(duration: 0.25)) { step = .name }
             focused = true
-            return
+        case .name:
+            if trimmedTitle.isEmpty { templateName = defaultTemplateName }
+            withAnimation(.easeOut(duration: 0.25)) { step = .title }
+            focused = true
+        case .title:
+            save()
         }
-        save()
     }
 
     private func save() {
         let text = templateBody.trimmingCharacters(in: .whitespacesAndNewlines)
         // ⚠️ templateVariables 를 넣지 않으면 isTemplate=false 가 되어
         //    탭했을 때 {이름}이 그대로 복사된다.
-        // ⚠️ 제목은 **사용자가 지은 이름**이다. 예전에는 "확인 요청"으로 고정돼 있어서,
-        //    자기가 이름을 지어 놓고도 목록에서 그 이름을 못 찾았다 —
-        //    방금 한 일이 화면에 남지 않으면 무엇을 배운 건지 알 수 없다.
+        // ⚠️ **이름이 둘**이라는 걸 저장에서도 지킨다 — 카드 제목은 템플릿의 이름("자기소개"),
+        //    본문 안의 칸 이름은 변수 이름("소개하는 이름")이다. 섞으면 목록에서
+        //    무엇을 쓰는 문구인지 알아볼 수 없다.
         let blank = trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank
         var memo = Memo(
-            title: blank,
+            title: trimmedTitle.isEmpty ? defaultTemplateName : trimmedTitle,
             value: text,
             templateVariables: TemplateVariableProcessor.extractCustomTokens(in: text)
         )
@@ -538,7 +572,19 @@ struct TemplateTutorialView: View {
         // 배운 것이 화면 안에 흔적으로 남아야 "그래서 뭐가 달라졌지"가 안 된다.
         let token = "{\(blank)}"
         memo.placeholderValues = [token: [trimmedValue]]
-        TutorialStore.insert(memo, onCreated: onCreated, onFailure: onSkip)
+
+        TutorialStore.insert(memo, onCreated: { created in
+            // ⚠️ 값이 사는 곳이 **둘**이다 — 메모 안(`placeholderValues`)과 앱 전체가 함께 보는
+            //    저장소(`placeholder_values_{이름}`). 실제 입력 화면은 **뒤엣것**을 읽는다.
+            //    메모에만 넣어 두면 목록에서 그 템플릿을 써 볼 때 제안이 하나도 안 뜬다
+            //    (튜토리얼에서 분명히 넣었는데 없다 — 데이터가 갈라져 보이는 지점이었다).
+            //    앱의 다른 화면들이 쓰는 길(MemoAddViewModel.savePlaceholderValues)과 같은 길로 쓴다.
+            MemoStore.shared.addPlaceholderValue(trimmedValue,
+                                                 for: token,
+                                                 sourceMemoId: created.id,
+                                                 sourceMemoTitle: created.title)
+            onCreated(created)
+        }, onFailure: onSkip)
     }
 }
 
