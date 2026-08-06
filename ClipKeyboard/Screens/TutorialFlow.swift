@@ -88,11 +88,18 @@ struct TutorialInviteView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
+            // "하나 더 있다"를 먼저 알린다 — 방금 하나를 끝낸 사람에게 필요한 건
+            // 새 제목이 아니라 **이게 몇 번째인지**다.
+            Text(NSLocalizedString("튜토리얼이 하나 더 있어요", comment: "Tutorial invite: eyebrow"))
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+                .padding(.top, 8)
+
             Text(chapter.inviteTitle)
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
-                .padding(.top, 16)
+                .padding(.top, 6)
 
             Text(chapter.inviteBody)
                 .font(.subheadline)
@@ -328,13 +335,14 @@ struct TemplateTutorialView: View {
 
     @Environment(\.appTheme) private var theme
 
-    /// 두 걸음이다 — **칸에 이름을 붙이고**, **그 칸에 값을 한 번 넣어 본다.**
+    /// 두 걸음이다 — **값을 먼저 넣고**, 그다음 **그 자리를 뭐라고 부를지** 정한다.
     ///
-    /// ⚠️ 한 걸음이었을 때는 칸 이름 자리에 사람들이 곧장 자기 이름을 적었다.
-    ///    "이름"이라고 써 있으니 값을 넣으라는 말로 읽힌 것이다. 그래서 **이름과 값을
-    ///    각각 한 번씩** 넣어 보게 한다 — 둘이 다른 것이라는 걸 말로 설명할 필요가 없어진다.
-    private enum Step { case name, value }
-    @State private var step: Step = .name
+    /// ⚠️ 순서에 뜻이 있다. 손에 잡히는 것("이영훈")을 먼저 넣어 보면 문장이 어떻게
+    ///    완성되는지가 눈에 들어오고, 그다음에야 "그럼 이 자리는 뭐라고 부를까"가
+    ///    자연스러운 물음이 된다. 반대로 하면 이름부터 지으라는 말이라 무엇을 적으라는
+    ///    건지 알 수 없고, 실제로 그 자리에 값을 적어 넣는 일이 벌어졌다.
+    private enum Step { case value, name }
+    @State private var step: Step = .value
 
     /// 채울 칸의 **이름**(= 무엇이 바뀌는 자리인가). 사용자가 고친다.
     @State private var blankName: String = ""
@@ -356,10 +364,13 @@ struct TemplateTutorialView: View {
                trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
     }
 
-    /// 값까지 넣었을 때 **실제로 나가는 문장**.
-    private var filledBody: String {
-        guard !trimmedValue.isEmpty else { return templateBody }
-        return templateBody.replacingOccurrences(of: "{\(trimmedBlank)}", with: trimmedValue)
+    /// 값을 넣는 동안 보여줄 문장 — 아직 이름을 안 지었으니 자리는 중립적인 말로 둔다.
+    private var valueStepBody: String {
+        let slot = trimmedValue.isEmpty
+            ? "{\(NSLocalizedString("여기", comment: "Template tutorial: neutral slot label"))}"
+            : trimmedValue
+        return String(format: NSLocalizedString("안녕하세요, %@님. 확인 부탁드립니다.",
+                                                comment: "Template tutorial: example body (plain)"), slot)
     }
 
     private var defaultBlankName: String {
@@ -367,7 +378,7 @@ struct TemplateTutorialView: View {
     }
 
     private var ready: Bool {
-        step == .name ? !trimmedBlank.isEmpty : !trimmedValue.isEmpty
+        step == .value ? !trimmedValue.isEmpty : !trimmedBlank.isEmpty
     }
 
     var body: some View {
@@ -392,7 +403,7 @@ struct TemplateTutorialView: View {
             // ⚠️ 중괄호를 **그대로 보여주지 않는다.** `{}` 는 저장 형식이지 사용자가 배울 문법이 아니다.
             //    칸 이름을 정하는 동안엔 칩으로, 값을 넣는 동안엔 **채워진 문장**으로 보여준다 —
             //    같은 문장이 어떻게 달라지는지가 이 튜토리얼의 전부다.
-            Text((step == .name ? templateBody : filledBody)
+            Text((step == .value ? valueStepBody : templateBody)
                     .templateAwareAttributed(theme: theme, font: .body))
                 .font(.body)
                 .foregroundColor(theme.text)
@@ -408,7 +419,7 @@ struct TemplateTutorialView: View {
                     .font(.footnote)
                     .foregroundColor(theme.textMuted)
                 TextField(fieldPlaceholder,
-                          text: step == .name ? $blankName : $sampleValue)
+                          text: step == .value ? $sampleValue : $blankName)
                     .textFieldStyle(.plain)
                     .font(.body)
                     .focused($focused)
@@ -425,7 +436,7 @@ struct TemplateTutorialView: View {
             .padding(.top, 12)
 
             Button(action: advance) {
-                Text(step == .name
+                Text(step == .value
                      ? NSLocalizedString("다음", comment: "Next button")
                      : NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
                     .font(.body.weight(.semibold))
@@ -456,54 +467,54 @@ struct TemplateTutorialView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.bg.ignoresSafeArea())
         .animation(.easeOut(duration: 0.25), value: step)
-        .onAppear {
-            // 빈칸에서 시작하면 무엇을 적으라는 건지 모른다 — **제안을 채워 둔다.**
-            if blankName.isEmpty { blankName = defaultBlankName }
-            focused = true
-        }
+        .onAppear { focused = true }
     }
 
     // MARK: - 걸음마다 달라지는 말
 
     private var headline: String {
         switch step {
-        case .name:
-            return NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline")
         case .value:
-            return NSLocalizedString("그 자리에 오늘은 뭘 넣을까요?", comment: "Template tutorial: value step headline")
+            return NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline")
+        case .name:
+            return NSLocalizedString("이 자리를 뭐라고 부를까요?", comment: "Template tutorial: name step headline")
         }
     }
 
     private var subline: String {
         switch step {
-        case .name:
-            return NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 바뀌는 자리에 이름표를 붙여 둡니다 — 무엇이 들어갈 자리인지 나중에 알아보려고요.",
-                                     comment: "Template tutorial: subline")
         case .value:
-            return String(format: NSLocalizedString("'%@' 자리에 실제로 넣을 값이에요. 한 번 넣어 두면 다음에 쓸 때 제안으로 떠요.",
-                                                    comment: "Template tutorial: value step subline"),
-                          trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
+            return NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 오늘은 그 자리에 뭐라고 넣으시겠어요?",
+                                     comment: "Template tutorial: value step subline")
+        case .name:
+            return String(format: NSLocalizedString("'%@'처럼 매번 달라지는 자리예요. 이름을 붙여 두면 다음에 쓸 때 무엇을 채우는 칸인지 바로 알아봐요.",
+                                                    comment: "Template tutorial: name step subline"),
+                          trimmedValue)
         }
     }
 
     private var fieldLabel: String {
-        step == .name
-            ? NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
-            : (trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
+        step == .value
+            ? NSLocalizedString("여기에 넣을 말", comment: "Template tutorial: value label")
+            : NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
     }
 
     private var fieldPlaceholder: String {
-        step == .name
-            ? defaultBlankName
-            : NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
+        step == .value
+            ? NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
+            : defaultBlankName
     }
 
     // MARK: - 진행
 
     private func advance() {
         guard ready else { return }
-        if step == .name {
-            withAnimation(.easeOut(duration: 0.25)) { step = .value }
+        if step == .value {
+            // 이름 짓는 칸에 들어설 때 제안을 채워 둔다 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
+            if blankName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                blankName = defaultBlankName
+            }
+            withAnimation(.easeOut(duration: 0.25)) { step = .name }
             focused = true
             return
         }

@@ -242,7 +242,10 @@ struct SnippetsTab: View {
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
-        .fullScreenCover(item: $tutorialInvite) { chapter in
+        // ⚠️ 다음 장을 권하는 건 **하프 모달**이다. 전체 화면으로 덮으면 하던 일이 사라져
+        //    "또 뭘 시키나" 가 되지만, 반쯤 올라오면 뒤에 방금 만든 것이 보인 채로 묻는다 —
+        //    권유는 이어지는 말이지 새 화면이 아니다.
+        .sheet(item: $tutorialInvite) { chapter in
             TutorialInviteView(chapter: chapter) {
                 tutorialInvite = nil
                 // 시트가 겹치지 않게 한 박자 뒤에.
@@ -263,6 +266,8 @@ struct SnippetsTab: View {
                 // 거절도 답이다 — 다시 묻지 않고 다음 장으로.
                 finishChapter(chapter)
             }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
         .fullScreenCover(item: $tutorialMaking) { chapter in
             switch chapter {
