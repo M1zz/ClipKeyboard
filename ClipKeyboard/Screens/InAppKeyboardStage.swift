@@ -20,6 +20,9 @@ import SwiftUI
 import LeeoKit
 
 struct InAppKeyboardStage: View {
+    /// 튜토리얼이 가리키는 키 — 방금 만든 문구. 누르면 첫 걸음이 끝난다.
+    var highlightedMemoId: UUID? = nil
+
     /// 지금 어느 화면을 보고 있는가 — 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
     @Binding var styleRaw: String
@@ -31,8 +34,9 @@ struct InAppKeyboardStage: View {
     ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
     ///    (목록 → 미리보기 방향만 이상했던 이유 — 반대 방향엔 다시 만들 일이 없다).
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
-    init(styleRaw: Binding<String>) {
+    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil) {
         self._styleRaw = styleRaw
+        self.highlightedMemoId = highlightedMemoId
         KeyboardMemoFeed.reload()
         _loadedIds = State(initialValue: clipMemos.map(\.id))
     }
@@ -59,12 +63,14 @@ struct InAppKeyboardStage: View {
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
                 if !keyboardReady { keyboardSetupBanner }
+                tutorialCue
                 conversation
                 composer
                 // 진짜 키보드와 같은 뷰. 높이는 실제 키보드가 차지하는 만큼(화면의 절반쯤).
                 KeyboardView(typingProxy: host,
                              documentState: host.documentState,
-                             hostKind: .inApp)
+                             hostKind: .inApp,
+                             highlightedMemoId: highlightedMemoId)
                     .frame(height: min(max(geo.size.height * 0.5, 260), 430))
                     .id(feedToken)
             }
@@ -194,6 +200,25 @@ struct InAppKeyboardStage: View {
     }
 
     // MARK: - 대화
+
+    /// 튜토리얼이 가리키는 중이면 대화 위에 한 줄 더 얹는다 — 무엇을 하라는 건지
+    /// 빛만으로는 모를 수 있다. 빛은 **어디**를, 이 줄은 **무엇을** 알려 준다.
+    @ViewBuilder
+    private var tutorialCue: some View {
+        if highlightedMemoId != nil {
+            HStack(spacing: 8) {
+                Image(systemName: "hand.tap.fill")
+                    .foregroundColor(.accentColor)
+                Text(NSLocalizedString("방금 만든 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(Color.accentColor.opacity(0.10))
+        }
+    }
 
     private var conversation: some View {
         ScrollViewReader { proxy in

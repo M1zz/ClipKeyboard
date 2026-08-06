@@ -73,19 +73,32 @@ enum SnippetsTabStyle: String, CaseIterable, Identifiable {
 /// ⚠️ 쓰던 사람은 이 길을 걷지 않는다(`startedFresh`). 목록 쪽도 자기 빈 화면에서 같은
 ///    첫 단계를 띄우므로, 이 길은 **무대 쪽에서만** 쓴다 — 안 그러면 두 번 나온다.
 enum SnippetsOnboardingStep: Equatable {
-    /// 첫 단축어 만들기.
+    /// ① 첫 단축어 만들기.
     case firstShortcut
-    /// 진짜 키보드 켜기 — 이미 켜져 있으면 건너뛴다.
+    /// ② 무대에서 **방금 만든 그 키를 눌러 본다.** 만들기만 하고 끝나면 아무것도 안 배운 것이다.
+    case tryInKeyboard
+    /// ③~⑤ 템플릿 → 있는 걸 템플릿으로 → 콤보. 목록 화면의 챕터 기계가 맡는다.
+    case chapters
+    /// ⑥ 마지막에 진짜 키보드 켜기 — 이미 켜져 있으면 건너뛴다.
     case keyboardSetup
     /// 다 지났다. 평소 화면으로.
     case done
 
+    /// 순서: 단축어 → **눌러보기** → 템플릿 → 템플릿으로 만들기 → 콤보 → 키보드 설정.
+    ///
+    /// ⚠️ 키보드 설정이 **맨 뒤**인 이유: 설정 앱으로 나갔다 오는 일이라 흐름이 가장 크게 끊긴다.
+    ///    배울 것을 다 배운 뒤에 "이제 다른 앱에서도 쓰려면" 으로 이어져야 나갔다 돌아올 이유가 분명하다.
     static func current(startedFresh: Bool,
                         firstShortcutDone: Bool,
+                        firstUsePending: Bool,
+                        chaptersDone: Bool,
                         keyboardSetupDone: Bool,
                         keyboardUsable: Bool) -> SnippetsOnboardingStep {
         guard startedFresh else { return .done }
         if !firstShortcutDone { return .firstShortcut }
+        // 만들어 놓고 아직 안 눌러 봤다 — 무대에서 그 키를 가리킨다.
+        if firstUsePending { return .tryInKeyboard }
+        if !chaptersDone { return .chapters }
         // 이미 켜 둔 사람에게 켜는 법을 가르치지 않는다.
         if !keyboardSetupDone, !keyboardUsable { return .keyboardSetup }
         return .done
@@ -140,6 +153,12 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
     /// 키보드 켜기 안내까지 지나왔는가(끝냈든 건너뛰었든).
     @AppStorage(DefaultsKey.keyboardSetupTutorialDone) private var keyboardSetupDone: Bool = false
+    /// 튜토리얼에서 만든 단축어 id — 아직 안 눌러 봤으면 값이 남아 있다.
+    @AppStorage(DefaultsKey.tutorialFirstUseMemoId) private var firstUseMemoIdRaw: String = ""
+    /// 목록 쪽 챕터(템플릿 → 템플릿으로 만들기 → 콤보) 완료 표식.
+    @AppStorage(DefaultsKey.tutorialTemplateDone) private var tutorialTemplateDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeTemplateDone) private var tutorialMakeTemplateDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialComboDone) private var tutorialComboDone: Bool = false
 
     @State private var showOffer = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -152,13 +171,19 @@ struct SnippetsTab: View {
 
     private var style: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
 
-    /// 지금 첫 흐름의 어디쯤인가. 무대 쪽에서만 걷는 길이다(위 `SnippetsOnboardingStep` 참고).
+    /// 지금 첫 흐름의 어디쯤인가(위 `SnippetsOnboardingStep` 참고).
     private var onboardingStep: SnippetsOnboardingStep {
-        guard style == .keyboard else { return .done }
-        return .current(startedFresh: startedFresh,
-                        firstShortcutDone: firstShortcutDone,
-                        keyboardSetupDone: keyboardSetupDone,
-                        keyboardUsable: KeyboardInstallState.isUsable)
+        .current(startedFresh: startedFresh,
+                 firstShortcutDone: firstShortcutDone,
+                 firstUsePending: highlightedMemoId != nil,
+                 chaptersDone: tutorialTemplateDone && tutorialMakeTemplateDone && tutorialComboDone,
+                 keyboardSetupDone: keyboardSetupDone,
+                 keyboardUsable: KeyboardInstallState.isUsable)
+    }
+
+    /// 아직 안 눌러 본 튜토리얼 단축어.
+    private var highlightedMemoId: UUID? {
+        firstUseMemoIdRaw.isEmpty ? nil : UUID(uuidString: firstUseMemoIdRaw)
     }
 
     var body: some View {
@@ -176,15 +201,19 @@ struct SnippetsTab: View {
             switch onboardingStep {
             case .firstShortcut:
                 FirstShortcutOnboardingView(
-                    // 만들었으면 **곧바로** 다음 걸음(키보드 켜기)으로 이어진다.
-                    onCreated: { _ in advanceFromFirstShortcut() },
-                    onSkip: { advanceFromFirstShortcut() }
+                    // 만든 그 문구를 **무대에서 가리킨다** — 만들기만 하고 끝나면 아무것도 안 배운다.
+                    onCreated: { memo in advanceFromFirstShortcut(created: memo) },
+                    onSkip: { advanceFromFirstShortcut(created: nil) }
                 )
                 .transition(screenTransition)
+            case .tryInKeyboard:
+                // 무대에서 그 키가 빛난다. 누르는 순간(.memoUsed) 다음 걸음으로.
+                InAppKeyboardStage(styleRaw: $styleRaw, highlightedMemoId: highlightedMemoId)
+                    .transition(screenTransition)
             case .keyboardSetup:
                 KeyboardSetupOnboardingView { keyboardSetupDone = true }
                     .transition(screenTransition)
-            case .done:
+            case .chapters, .done:
                 switch style {
                 case .list:
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
@@ -202,6 +231,7 @@ struct SnippetsTab: View {
         // 밀려 들어오면 어디로 이동한 것처럼 보이고, 여기서는 이동한 게 아니라 모습이 바뀐 것이다.
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
+        .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
         .onAppear(perform: offerKeyboardStageIfNeeded)
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
@@ -216,9 +246,30 @@ struct SnippetsTab: View {
     }
 
     /// 첫 단축어를 만들었거나 건너뛴 뒤 — **끊지 않고** 다음 걸음으로 넘긴다.
-    /// 키보드가 이미 켜져 있으면 `SnippetsOnboardingStep` 이 알아서 무대로 보낸다.
-    private func advanceFromFirstShortcut() {
+    ///
+    /// 만들었으면 그 문구를 무대에서 가리키고(눌러 봐야 끝난다), 건너뛰었으면 가리킬 것이 없으니
+    /// 바로 다음 걸음으로 간다.
+    private func advanceFromFirstShortcut(created memo: Memo?) {
+        if let memo {
+            firstUseMemoIdRaw = memo.id.uuidString
+            // 만든 것을 눌러 보려면 무대에 있어야 한다.
+            styleRaw = SnippetsTabStyle.keyboard.rawValue
+        }
         withAnimation(.easeInOut(duration: 0.28)) { firstShortcutDone = true }
+    }
+
+    /// 가리킨 키를 실제로 눌렀다 — 첫 걸음 끝. 다음은 목록 쪽 챕터들이다.
+    ///
+    /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다 —
+    ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
+    private func completeFirstUse(_ note: Notification) {
+        guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
+              used == highlightedMemoId else { return }
+        withAnimation(.easeInOut(duration: 0.28)) {
+            firstUseMemoIdRaw = ""
+            // 배우는 곳은 목록이다 — 템플릿·콤보를 만드는 화면이 거기 있다.
+            styleRaw = SnippetsTabStyle.list.rawValue
+        }
     }
 
     /// 쓰던 사람에게 **한 번만** 권한다.

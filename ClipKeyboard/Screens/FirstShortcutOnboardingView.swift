@@ -39,8 +39,18 @@ struct FirstShortcutOnboardingView: View {
 
     /// 캘 만한 것들. 자주 쓰면서 **매번 치기 귀찮은** 것으로만 고른다 —
     /// 한 번 쓰고 말 문구는 아무리 예뻐도 다음 날 이 앱을 다시 열 이유가 안 된다.
+    ///
+    /// ⚠️ 고르는 자리에는 **상황**을 보여준다("지인에게 내 주소 알려주기").
+    ///    "내 주소"만 있으면 그게 뭘 하는 건지, 왜 저장해 두면 좋은지가 안 보인다 —
+    ///    처음 온 사람에게 필요한 건 항목 이름이 아니라 **언제 쓰는 물건인가**이다.
+    ///
+    /// ⚠️ 다만 **만들어지는 단축어 이름은 짧게**(`title`) 남긴다. 상황 문장을 그대로 이름으로
+    ///    쓰면 카드와 키에 "지인에게 내 주소 알려주기"가 박혀 정작 목록에서 못 알아본다.
     struct Seed: Identifiable, Equatable {
         let id: String
+        /// 고르는 자리에 보이는 **상황** 한 줄.
+        let situation: String
+        /// 실제로 만들어질 단축어 이름 — 카드·키에 박히므로 짧게.
         let title: String
         let placeholder: String
         let hint: String
@@ -49,14 +59,17 @@ struct FirstShortcutOnboardingView: View {
     private var seeds: [Seed] {
         [
             Seed(id: "address",
+                 situation: NSLocalizedString("지인에게 내 주소 알려주기", comment: "Onboarding situation: share my address"),
                  title: NSLocalizedString("내 주소", comment: "Onboarding seed: home address"),
                  placeholder: NSLocalizedString("서울시 …", comment: "Onboarding seed placeholder: address"),
-                 hint: NSLocalizedString("택배·배달 주문할 때마다 치는 그 주소예요.", comment: "Onboarding seed hint: address")),
+                 hint: NSLocalizedString("택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요.", comment: "Onboarding seed hint: address")),
             Seed(id: "account",
+                 situation: NSLocalizedString("입금받으려고 계좌번호 알려주기", comment: "Onboarding situation: share bank account"),
                  title: NSLocalizedString("계좌번호", comment: "Onboarding seed: bank account"),
                  placeholder: NSLocalizedString("○○은행 123-456-789", comment: "Onboarding seed placeholder: account"),
-                 hint: NSLocalizedString("정산할 때마다 메모장을 열지 않아도 돼요.", comment: "Onboarding seed hint: account")),
+                 hint: NSLocalizedString("정산할 때마다 메모장을 열어 찾지 않아도 돼요.", comment: "Onboarding seed hint: account")),
             Seed(id: "email",
+                 situation: NSLocalizedString("가입할 때 이메일 적기", comment: "Onboarding situation: type email when signing up"),
                  title: NSLocalizedString("이메일", comment: "Onboarding seed: email"),
                  placeholder: NSLocalizedString("me@example.com", comment: "Onboarding seed placeholder: email"),
                  hint: NSLocalizedString("가입할 때마다 오타 나던 그거요.", comment: "Onboarding seed hint: email"))
@@ -123,10 +136,18 @@ struct FirstShortcutOnboardingView: View {
                         withAnimation(.easeOut(duration: 0.25)) { step = .fill }
                         typing = true
                     } label: {
-                        HStack {
-                            Text(seed.title)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.text)
+                        HStack(spacing: 10) {
+                            // 상황이 먼저 읽히고, 만들어질 이름은 그 아래에 작게.
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(seed.situation)
+                                    .font(.body.weight(.semibold))
+                                    .foregroundColor(theme.text)
+                                    .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(seed.title)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                            }
                             Spacer(minLength: 0)
                             Image(systemName: AppSymbol.chevronRight)
                                 .font(.caption.weight(.semibold))

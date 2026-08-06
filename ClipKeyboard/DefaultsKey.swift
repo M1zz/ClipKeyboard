@@ -42,6 +42,9 @@ enum DefaultsKey {
     static let snippetsTabStyle = "snippetsTabStyle.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
+    /// 튜토리얼에서 방금 만든 단축어 id(UUID 문자열). 무대에서 이 키가 빛나고,
+    /// **그걸 눌러야** 첫 걸음이 끝난다. 누르면 비운다.
+    static let tutorialFirstUseMemoId = "tutorialFirstUseMemoId.v1"
     /// 첫 흐름에서 **키보드 켜기 안내까지** 지나왔는가(끝냈든 건너뛰었든).
     /// 없으면 첫 단축어를 만든 직후 키보드 설치 안내가 곧바로 이어진다.
     static let keyboardSetupTutorialDone = "keyboardSetupTutorialDone.v1"

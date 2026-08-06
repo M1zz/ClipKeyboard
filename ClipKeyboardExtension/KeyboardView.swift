@@ -202,12 +202,18 @@ struct KeyboardView: View {
     /// 누가 이 키보드를 띄우고 있는가 — 앱 안이면 키마다 복사 버튼이 하나 더 붙는다.
     let hostKind: KeyboardHostKind
 
+    /// 지금 **눌러 보라고 가리키는** 키. 튜토리얼에서 방금 만든 문구다.
+    /// nil이면 아무것도 가리키지 않는다(평소).
+    let highlightedMemoId: UUID?
+
     init(typingProxy: TypingInputProxy? = nil,
          documentState: KeyboardDocumentState = KeyboardDocumentState(),
-         hostKind: KeyboardHostKind = .keyboardExtension) {
+         hostKind: KeyboardHostKind = .keyboardExtension,
+         highlightedMemoId: UUID? = nil) {
         self.typingProxy = typingProxy
         self.documentState = documentState
         self.hostKind = hostKind
+        self.highlightedMemoId = highlightedMemoId
     }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
@@ -514,6 +520,16 @@ struct KeyboardView: View {
                                     .overlay(alignment: .topTrailing) {
                                         if hostKind == .inApp {
                                             inAppCopyButton(for: item.memo)
+                                        }
+                                    }
+                                    // 튜토리얼이 가리키는 키 — **여기를 누르면 된다**를
+                                    // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
+                                    .overlay {
+                                        if item.memo.id == highlightedMemoId {
+                                            RoundedRectangle(cornerRadius: keycapRadius)
+                                                .strokeBorder(theme.accent, lineWidth: 3)
+                                                .shadow(color: theme.accent.opacity(0.7), radius: 8)
+                                                .allowsHitTesting(false)
                                         }
                                     }
                             }

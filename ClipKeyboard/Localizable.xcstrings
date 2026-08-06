@@ -3376,6 +3376,7 @@
     },
     "Capture anything in a tap — decide later whether to keep it as a keyboard memo.": {
       "comment": "What's new subtitle",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3399,6 +3400,7 @@
     },
     "Capture from anywhere": {
       "comment": "What's new feature 1 title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -3422,6 +3424,7 @@
     },
     "Captured items are kept in the inbox with no rush — nothing is auto-deleted.": {
       "comment": "What's new feature 2 detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -5926,6 +5929,7 @@
     },
     "It waits in your inbox": {
       "comment": "What's new feature 2 title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -6776,6 +6780,7 @@
     },
     "New: Quick Note": {
       "comment": "What's new title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -8229,6 +8234,7 @@
     },
     "Promote when you're ready": {
       "comment": "What's new feature 3 title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -9181,6 +9187,7 @@
     },
     "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app.": {
       "comment": "What's new feature 1 detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -9512,6 +9519,7 @@
     },
     "Swipe to save an item as a keyboard memo, or delete it. You decide later.": {
       "comment": "What's new feature 3 detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -12204,6 +12212,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Muncul sesekali"
+          }
+        }
+      }
+    },
+    "가입할 때 이메일 적기": {
+      "comment": "Onboarding situation: type email when signing up",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Typing my email when signing up"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mengetik email saat mendaftar"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "가입할 때 이메일 적기"
           }
         }
       }
@@ -18483,6 +18514,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Snippet siap pakai, sekaligus"
+          }
+        }
+      }
+    },
+    "방금 만든 단축어를 눌러 보세요": {
+      "comment": "Tutorial cue on the stage",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the snippet you just made"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk pintasan yang baru Anda buat"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "방금 만든 단축어를 눌러 보세요"
           }
         }
       }
@@ -27356,6 +27410,29 @@
         }
       }
     },
+    "입금받으려고 계좌번호 알려주기": {
+      "comment": "Onboarding situation: share bank account",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sending someone my account number to get paid"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mengirim nomor rekening agar dibayar"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "입금받으려고 계좌번호 알려주기"
+          }
+        }
+      }
+    },
     "입력": {
       "comment": "Tap-to-insert hint",
       "extractionState": "manual",
@@ -28928,6 +29005,29 @@
         }
       }
     },
+    "정산할 때마다 메모장을 열어 찾지 않아도 돼요.": {
+      "comment": "Onboarding seed hint: account",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No more digging through notes every time you split a bill."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tak perlu buka catatan tiap kali bagi tagihan."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "정산할 때마다 메모장을 열어 찾지 않아도 돼요."
+          }
+        }
+      }
+    },
     "정산할 때마다 메모장을 열지 않아도 돼요.": {
       "comment": "Onboarding seed hint: account",
       "localizations": {
@@ -29625,6 +29725,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Menu 'Masukan Diterima' muncul di bagian Dukungan."
+          }
+        }
+      }
+    },
+    "지인에게 내 주소 알려주기": {
+      "comment": "Onboarding situation: share my address",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telling a friend where I live"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memberi tahu teman alamat saya"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지인에게 내 주소 알려주기"
           }
         }
       }
@@ -32975,6 +33098,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tipe diubah menjadi %@"
+          }
+        }
+      }
+    },
+    "택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요.": {
+      "comment": "Onboarding seed hint: address",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The address you retype for every delivery."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alamat yang Anda ketik ulang setiap kali kirim paket."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요."
           }
         }
       }
