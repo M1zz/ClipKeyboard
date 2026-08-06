@@ -159,6 +159,8 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialTemplateDone) private var tutorialTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialMakeTemplateDone) private var tutorialMakeTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialComboDone) private var tutorialComboDone: Bool = false
+    /// 목록의 챕터 기계가 "더 권할 것이 없다"고 알려주면 켜진다.
+    @AppStorage(DefaultsKey.tutorialChaptersDone) private var chaptersFinished: Bool = false
 
     @State private var showOffer = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -176,7 +178,8 @@ struct SnippetsTab: View {
         .current(startedFresh: startedFresh,
                  firstShortcutDone: firstShortcutDone,
                  firstUsePending: highlightedMemoId != nil,
-                 chaptersDone: tutorialTemplateDone && tutorialMakeTemplateDone && tutorialComboDone,
+                 chaptersDone: chaptersFinished
+                     || (tutorialTemplateDone && tutorialMakeTemplateDone && tutorialComboDone),
                  keyboardSetupDone: keyboardSetupDone,
                  keyboardUsable: KeyboardInstallState.isUsable)
     }
@@ -232,6 +235,10 @@ struct SnippetsTab: View {
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
+        // 배울 장이 더 없다 — 마지막 걸음(키보드 설정)으로.
+        .onReceive(NotificationCenter.default.publisher(for: .tutorialChaptersFinished)) { _ in
+            withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
+        }
         .onAppear(perform: offerKeyboardStageIfNeeded)
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
@@ -265,10 +272,21 @@ struct SnippetsTab: View {
     private func completeFirstUse(_ note: Notification) {
         guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
               used == highlightedMemoId else { return }
-        withAnimation(.easeInOut(duration: 0.28)) {
-            firstUseMemoIdRaw = ""
-            // 배우는 곳은 목록이다 — 템플릿·콤보를 만드는 화면이 거기 있다.
-            styleRaw = SnippetsTabStyle.list.rawValue
+
+        // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
+        //    일어났는지 못 보고 지나간다 — 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            withAnimation(.easeInOut(duration: 0.28)) {
+                firstUseMemoIdRaw = ""
+                // 배우는 곳은 목록이다 — 템플릿·콤보를 만드는 화면이 거기 있다.
+                styleRaw = SnippetsTabStyle.list.rawValue
+            }
+            // ⚠️ 여기서 **다음 장을 직접 불러야 한다.** 목록으로 보내기만 하면 도착만 하고
+            //    아무 일도 안 일어난다 — 사용자에게는 튜토리얼이 그냥 끊긴 것으로 보인다.
+            //    (목록의 챕터 기계는 스스로 시작하지 않고 사건을 기다린다)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                NotificationCenter.default.post(name: .startTutorialChapter, object: nil)
+            }
         }
     }
 

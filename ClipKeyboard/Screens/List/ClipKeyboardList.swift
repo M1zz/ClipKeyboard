@@ -979,6 +979,11 @@ struct ClipKeyboardList: View {
 
     private var screenL8: some View {
         screenL7
+            // 무대에서 첫 단축어를 눌러 본 직후 — 다음 배울 것을 이어서 권한다.
+            // (이 연결이 없으면 목록에 도착만 하고 튜토리얼이 끊긴 것처럼 보인다)
+            .onReceive(NotificationCenter.default.publisher(for: .startTutorialChapter)) { _ in
+                inviteNextChapter(after: 0.5)
+            }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
@@ -3390,7 +3395,14 @@ struct ClipKeyboardList: View {
             case .combo:        return !tutorialComboDone
             }
         }
-        guard let next else { return }
+        // 더 권할 것이 없다 = 배우는 차례가 끝났다.
+        // ⚠️ 이 사실을 알려야 한다. 어떤 장은 조건이 안 되면(바꿀 단축어가 없는 등) 조용히
+        //    건너뛰므로, 완료 표식만 보고 판단하면 **영영 안 끝난 것으로 남는다** —
+        //    그러면 마지막 걸음(키보드 설정)이 오지 않는다.
+        guard let next else {
+            NotificationCenter.default.post(name: .tutorialChaptersFinished, object: nil)
+            return
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             tutorialInvite = next
         }

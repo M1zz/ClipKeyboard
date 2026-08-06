@@ -42,6 +42,10 @@ enum DefaultsKey {
     static let snippetsTabStyle = "snippetsTabStyle.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
+    /// 배우는 장(템플릿·템플릿으로 만들기·콤보)을 다 지났는가.
+    /// ⚠️ 개별 완료 표식만으로는 판단하지 않는다 — 조건이 안 되어 조용히 건너뛴 장이 있으면
+    ///    영영 안 끝난 것으로 남는다. 목록의 챕터 기계가 "더 없다"고 알려줄 때 켠다.
+    static let tutorialChaptersDone = "tutorialChaptersDone.v1"
     /// 튜토리얼에서 방금 만든 단축어 id(UUID 문자열). 무대에서 이 키가 빛나고,
     /// **그걸 눌러야** 첫 걸음이 끝난다. 누르면 비운다.
     static let tutorialFirstUseMemoId = "tutorialFirstUseMemoId.v1"
