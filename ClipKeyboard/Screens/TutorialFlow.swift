@@ -351,12 +351,12 @@ struct TemplateTutorialView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            Text(NSLocalizedString("바뀌는 곳만 빈칸으로 둘게요", comment: "Template tutorial: headline"))
+            Text(NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline"))
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
                 .padding(.top, 14)
 
-            Text(NSLocalizedString("색이 칠해진 곳이 쓸 때마다 채우는 칸이에요.", comment: "Template tutorial: subline"))
+            Text(NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요.", comment: "Template tutorial: subline"))
                 .font(.subheadline)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
@@ -380,7 +380,7 @@ struct TemplateTutorialView: View {
             // 채울 칸의 이름만 고치게 한다 — 문장 전체를 고치게 하면 중괄호를 지워 놓고
             // "왜 빈칸이 안 생기죠"가 된다.
             HStack(spacing: 10) {
-                Text(NSLocalizedString("채울 칸 이름", comment: "Template tutorial: blank name label"))
+                Text(NSLocalizedString("무엇이 바뀌나요?", comment: "Template tutorial: blank name label"))
                     .font(.footnote)
                     .foregroundColor(theme.textMuted)
                 TextField(NSLocalizedString("이름", comment: "Combo tutorial field: name"), text: $blankName)
@@ -451,6 +451,32 @@ struct TemplateTutorialView: View {
 }
 
 // MARK: - 저장
+
+/// 튜토리얼을 **처음부터 다시** 할 수 있게 표식을 지운다.
+///
+/// ⚠️ 한 번 배우고 끝이 아니다. 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지, 콤보를 어떻게
+///    만들었는지 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
+///
+/// ⚠️ `startedFresh` 도 함께 켠다 — 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
+///    꺼져 있어서 켜 주지 않으면 다시 하기를 눌러도 아무 일도 안 일어난다.
+enum TutorialReset {
+
+    /// 지워지는 것은 **표식뿐이다.** 만들어 둔 단축어·템플릿·콤보는 그대로 남는다.
+    static func restartAll() {
+        let d = UserDefaults.standard
+        d.set(true, forKey: DefaultsKey.startedFreshV444)
+        d.set(false, forKey: DefaultsKey.firstShortcutDone)
+        d.set(false, forKey: DefaultsKey.tutorialTemplateDone)
+        d.set(false, forKey: DefaultsKey.tutorialMakeTemplateDone)
+        d.set(false, forKey: DefaultsKey.tutorialComboDone)
+        d.set(false, forKey: DefaultsKey.tutorialChaptersDone)
+        d.set(false, forKey: DefaultsKey.keyboardSetupTutorialDone)
+        d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
+        // 튜토리얼은 무대에서 시작한다 — 목록에 있으면 첫 걸음이 열리지 않는다.
+        d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
+        print("🎓 [TutorialReset] 튜토리얼 표식 초기화 — 처음부터 다시")
+    }
+}
 
 enum TutorialStore {
     /// 튜토리얼에서 만든 것을 목록 맨 위에 넣는다.

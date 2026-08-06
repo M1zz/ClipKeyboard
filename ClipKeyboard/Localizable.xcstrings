@@ -15064,6 +15064,29 @@
         }
       }
     },
+    "다시 하기": {
+      "comment": "Restart tutorial confirm",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ulangi"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다시 하기"
+          }
+        }
+      }
+    },
     "다음": {
       "comment": "Next button",
       "localizations": {
@@ -15524,6 +15547,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tinggi snippet"
+          }
+        }
+      }
+    },
+    "단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요.": {
+      "comment": "Restart tutorial alert message",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We'll walk you through it again, from making a snippet to turning the keyboard on. Everything you've already made stays."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami akan memandu lagi dari awal, dari membuat pintasan hingga mengaktifkan papan ketik. Semua yang sudah Anda buat tetap ada."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요."
           }
         }
       }
@@ -17511,6 +17557,29 @@
         }
       }
     },
+    "매번 한 군데만 바뀌는 문구, 있죠?": {
+      "comment": "Template tutorial: headline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got a message where only one part changes?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Punya pesan yang hanya satu bagiannya berubah?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "매번 한 군데만 바뀌는 문구, 있죠?"
+          }
+        }
+      }
+    },
     "매번 한 군데만 바뀌는 문구는 빈칸으로 남겨 둘 수 있어요.": {
       "comment": "Tutorial invite body: template",
       "localizations": {
@@ -18260,6 +18329,29 @@
         }
       }
     },
+    "무엇이 바뀌나요?": {
+      "comment": "Template tutorial: blank name label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What changes?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apa yang berubah?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "무엇이 바뀌나요?"
+          }
+        }
+      }
+    },
     "무제한": {
       "comment": "Unlimited",
       "localizations": {
@@ -18463,23 +18555,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mint"
-          }
-        }
-      }
-    },
-    "바뀌는 곳만 빈칸으로 둘게요": {
-      "comment": "Template tutorial: headline",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Leave the changing part blank"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Biarkan bagian yang berubah kosong"
           }
         }
       }
@@ -21949,23 +22024,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Untuk membedakan snippet tanpa hanya mengandalkan warna, aktifkan 'Tampilkan penanda visual' di Pengaturan aplikasi → Tampilan → Tampilan snippet. Ikon jenis snippet (Templat/Combo/Aman) dan garis tepi, serta simbol favorit dan kategori akan muncul."
-          }
-        }
-      }
-    },
-    "색이 칠해진 곳이 쓸 때마다 채우는 칸이에요.": {
-      "comment": "Template tutorial: subline",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The highlighted part is what you fill in each time."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bagian yang disorot adalah yang Anda isi tiap kali."
           }
         }
       }
@@ -26491,6 +26549,29 @@
         }
       }
     },
+    "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요.": {
+      "comment": "Template tutorial: subline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Like a notice where you only swap the name. Leave that spot blank and you fill just that part each time — the coloured part below is the blank."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seperti pemberitahuan yang hanya nama­nya diganti. Kosongkan bagian itu dan Anda cukup mengisinya tiap kali — bagian berwarna di bawah adalah kolom kosongnya."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요."
+          }
+        }
+      }
+    },
     "이메일": {
       "comment": "Email\nOnboarding seed: email",
       "localizations": {
@@ -29920,23 +30001,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "창을 닫아도 앱은 백그라운드에서 계속 실행됩니다"
-          }
-        }
-      }
-    },
-    "채울 칸 이름": {
-      "comment": "Template tutorial: blank name label",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Name of the blank"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nama bagian kosong"
           }
         }
       }
@@ -34426,6 +34490,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "툴바 버튼으로 목록과 키보드 화면을 오갈 수 있고, 설정 > 첫 화면에서 시작 화면을 고를 수 있어요."
+          }
+        }
+      }
+    },
+    "튜토리얼 다시 하기": {
+      "comment": "Restart the tutorial",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart the tutorial"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ulangi tutorial"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "튜토리얼 다시 하기"
+          }
+        }
+      }
+    },
+    "튜토리얼을 다시 할까요?": {
+      "comment": "Restart tutorial alert title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restart the tutorial?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ulangi tutorial?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "튜토리얼을 다시 할까요?"
           }
         }
       }

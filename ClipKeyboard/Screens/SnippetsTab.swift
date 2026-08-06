@@ -163,6 +163,10 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialChaptersDone) private var chaptersFinished: Bool = false
 
     @State private var showOffer = false
+    /// 지금 권하고 있는 장(템플릿·템플릿으로 만들기·콤보).
+    @State private var tutorialInvite: TutorialChapter?
+    /// 지금 만들고 있는 장.
+    @State private var tutorialMaking: TutorialChapter?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.appTheme) private var theme
 
@@ -239,6 +243,41 @@ struct SnippetsTab: View {
         .onReceive(NotificationCenter.default.publisher(for: .tutorialChaptersFinished)) { _ in
             withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
         }
+        .fullScreenCover(item: $tutorialInvite) { chapter in
+            TutorialInviteView(chapter: chapter) {
+                tutorialInvite = nil
+                // 시트가 겹치지 않게 한 박자 뒤에.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                    if chapter == .makeTemplate {
+                        // ⚠️ 이 장만은 목록에서 한다 — **고치는 일은 목록에서**라는 규칙 그대로다.
+                        //    이미 있는 "템플릿으로 만들기" 화면을 그대로 태운다(전용 화면을 새로
+                        //    배워봐야 정작 평소에 쓰는 메뉴는 여전히 낯설다).
+                        styleRaw = SnippetsTabStyle.list.rawValue
+                        markChapterDone(.makeTemplate)
+                        NotificationCenter.default.post(name: .startMakeTemplateTutorial, object: nil)
+                    } else {
+                        tutorialMaking = chapter
+                    }
+                }
+            } onDecline: {
+                tutorialInvite = nil
+                // 거절도 답이다 — 다시 묻지 않고 다음 장으로.
+                finishChapter(chapter)
+            }
+        }
+        .fullScreenCover(item: $tutorialMaking) { chapter in
+            switch chapter {
+            case .template:
+                TemplateTutorialView(onCreated: { _ in finishChapter(.template) },
+                                     onSkip: { finishChapter(.template) })
+            case .combo:
+                ComboTutorialView(onCreated: { _ in finishChapter(.combo) },
+                                  onSkip: { finishChapter(.combo) })
+            case .makeTemplate:
+                // 여기로 오지 않는다(위에서 목록으로 보낸다). 안전망.
+                Color.clear.onAppear { tutorialMaking = nil }
+            }
+        }
         .onAppear(perform: offerKeyboardStageIfNeeded)
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
@@ -276,18 +315,49 @@ struct SnippetsTab: View {
         // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
         //    일어났는지 못 보고 지나간다 — 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-            withAnimation(.easeInOut(duration: 0.28)) {
-                firstUseMemoIdRaw = ""
-                // 배우는 곳은 목록이다 — 템플릿·콤보를 만드는 화면이 거기 있다.
-                styleRaw = SnippetsTabStyle.list.rawValue
-            }
-            // ⚠️ 여기서 **다음 장을 직접 불러야 한다.** 목록으로 보내기만 하면 도착만 하고
-            //    아무 일도 안 일어난다 — 사용자에게는 튜토리얼이 그냥 끊긴 것으로 보인다.
-            //    (목록의 챕터 기계는 스스로 시작하지 않고 사건을 기다린다)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                NotificationCenter.default.post(name: .startTutorialChapter, object: nil)
+            withAnimation(.easeInOut(duration: 0.28)) { firstUseMemoIdRaw = "" }
+            // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
+            //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에** 열린다.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { inviteNextChapter() }
+        }
+    }
+
+    // MARK: - 배우는 장들 (무대 위에서 연다)
+
+    /// 아직 안 지난 다음 장. 없으면 nil.
+    private var nextChapter: TutorialChapter? {
+        TutorialChapter.allCases.first { chapter in
+            switch chapter {
+            case .template:     return !tutorialTemplateDone
+            case .makeTemplate: return !tutorialMakeTemplateDone
+            case .combo:        return !tutorialComboDone
             }
         }
+    }
+
+    /// 다음 장을 권한다. 더 없으면 배우는 차례가 끝난 것으로 표시한다
+    /// (그래야 마지막 걸음인 키보드 설정으로 넘어간다).
+    private func inviteNextChapter() {
+        guard let next = nextChapter else {
+            withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
+            return
+        }
+        tutorialInvite = next
+    }
+
+    private func markChapterDone(_ chapter: TutorialChapter) {
+        switch chapter {
+        case .template:     tutorialTemplateDone = true
+        case .makeTemplate: tutorialMakeTemplateDone = true
+        case .combo:        tutorialComboDone = true
+        }
+    }
+
+    /// 장을 마쳤다(만들었든 건너뛰었든) — 한 박자 뒤 다음 장으로.
+    private func finishChapter(_ chapter: TutorialChapter) {
+        tutorialMaking = nil
+        markChapterDone(chapter)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { inviteNextChapter() }
     }
 
     /// 쓰던 사람에게 **한 번만** 권한다.

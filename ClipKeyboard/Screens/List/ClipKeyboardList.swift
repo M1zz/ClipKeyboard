@@ -154,6 +154,9 @@ struct ClipKeyboardList: View {
     private var tutorialTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialMakeTemplateDone)
     private var tutorialMakeTemplateDone: Bool = false
+    /// 처음 배우는 차례가 끝났는가 — 안 끝났으면 챕터 초대는 무대가 이끈다.
+    @AppStorage(DefaultsKey.tutorialChaptersDone)
+    private var tutorialChaptersDone: Bool = false
     /// "템플릿으로 만들기" 시트가 튜토리얼로 열렸는지 — 닫힐 때 다음 장으로 이어주려고 본다.
     @State private var awaitingMakeTemplate = false
     /// "이어서 해볼까요?" 를 띄우는 중인 장.
@@ -979,10 +982,13 @@ struct ClipKeyboardList: View {
 
     private var screenL8: some View {
         screenL7
-            // 무대에서 첫 단축어를 눌러 본 직후 — 다음 배울 것을 이어서 권한다.
-            // (이 연결이 없으면 목록에 도착만 하고 튜토리얼이 끊긴 것처럼 보인다)
-            .onReceive(NotificationCenter.default.publisher(for: .startTutorialChapter)) { _ in
-                inviteNextChapter(after: 0.5)
+            // '템플릿으로 만들기' 장만 목록에서 한다(고치는 일은 목록에서).
+            // 무대가 이 알림을 쏘면 이미 있는 그 화면을 그대로 태운다.
+            .onReceive(NotificationCenter.default.publisher(for: .startMakeTemplateTutorial)) { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    awaitingMakeTemplate = true
+                    makeTemplateSource = convertibleShortcut
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
@@ -3385,6 +3391,9 @@ struct ClipKeyboardList: View {
     /// ⚠️ 한 번에 셋을 다 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를
     ///    다 설명하면 하나도 안 남는다. 하나 만들고 → 써 보고 → 그다음 것을 권한다.
     private func inviteNextChapter(after delay: Double) {
+        // ⚠️ 처음 배우는 중이라면 **여기서 권하지 않는다.** 그 흐름은 무대(SnippetsTab)가
+        //    이끌고 있고, 양쪽이 같이 권하면 같은 장이 두 번 뜬다.
+        guard !(startedFreshV444 && !tutorialChaptersDone) else { return }
         // 순서가 곧 배우는 차례다 — 템플릿을 만들어 본 다음이라야
         // "있는 걸 템플릿으로 바꾼다"는 말이 통한다.
         let next = TutorialChapter.allCases.first { chapter in

@@ -27,6 +27,8 @@ struct SettingView: View {
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
     /// 모든 데이터 삭제 — 되돌릴 수 없어 2단계로 확인받는다.
+    /// 튜토리얼 다시 하기 확인 — 무엇이 지워지고 무엇이 남는지 먼저 알린다.
+    @State private var showTutorialRestartConfirm = false
     @State private var showWipeConfirm = false      // 1단계: 무엇이 지워지는지 안내
     @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
     @State private var wipeResultMessage: String?
@@ -327,6 +329,16 @@ struct SettingView: View {
                     Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
                           systemImage: AppSymbol.sparkles)
                 }
+                // 한 번 배우고 끝이 아니다 — 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지
+                // 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
+                Button {
+                    HapticManager.shared.light()
+                    showTutorialRestartConfirm = true
+                } label: {
+                    Label(NSLocalizedString("튜토리얼 다시 하기", comment: "Restart the tutorial"),
+                          systemImage: "graduationcap")
+                        .foregroundColor(theme.text)
+                }
                 NavigationLink(destination: QuickNoteInboxView()) {
                     Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
                           systemImage: AppSymbol.trayFull)
@@ -553,6 +565,15 @@ struct SettingView: View {
                 .contentShape(Rectangle())
                 .onTapGesture { handleVersionTap() }
             }
+        }
+        .alert(NSLocalizedString("튜토리얼을 다시 할까요?", comment: "Restart tutorial alert title"),
+               isPresented: $showTutorialRestartConfirm) {
+            Button(NSLocalizedString("다시 하기", comment: "Restart tutorial confirm")) {
+                TutorialReset.restartAll()
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)

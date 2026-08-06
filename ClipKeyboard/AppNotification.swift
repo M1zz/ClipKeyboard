@@ -41,10 +41,8 @@ extension Notification.Name {
     static let showSettings = Notification.Name("showSettings")
     /// 배울 장이 더 남지 않았다 — 마지막 걸음(키보드 설정)으로 넘어가도 된다.
     static let tutorialChaptersFinished = Notification.Name("tutorialChaptersFinished")
-    /// 첫 단축어를 눌러 본 직후 — **다음 배울 것**(템플릿 → 템플릿으로 만들기 → 콤보)을 이어서 권한다.
-    /// 무대에서 목록으로 넘긴 뒤 이 알림을 쏘지 않으면, 목록에 도착만 하고 아무 일도 안 일어난다
-    /// (사용자에게는 "튜토리얼이 끊겼다"로 보인다).
-    static let startTutorialChapter = Notification.Name("startTutorialChapter")
+    /// '템플릿으로 만들기' 장을 목록 화면에서 시작한다 — 그 장만은 고치는 일이라 목록에서 한다.
+    static let startMakeTemplateTutorial = Notification.Name("startMakeTemplateTutorial")
     static let showTemplateInput = Notification.Name("showTemplateInput")
     static let templateInputComplete = Notification.Name("templateInputComplete")
 }
