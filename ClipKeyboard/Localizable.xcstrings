@@ -14717,6 +14717,29 @@
         }
       }
     },
+    "눌러 보고 익히세요": {
+      "comment": "What's new 4.4.4 feature 1 title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn it by tapping"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pelajari dengan mengetuk"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "눌러 보고 익히세요"
+          }
+        }
+      }
+    },
     "눌러서 이 이름으로 단축어를 추가합니다": {
       "comment": "VoiceOver: search suggestion hint",
       "localizations": {
@@ -14868,6 +14891,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tempel di aplikasi lain"
+          }
+        }
+      }
+    },
+    "다른 앱에서 키보드가 올라온 그 화면이 앱 안에 그대로 있어요. 눌러서 어떻게 입력되는지 바로 볼 수 있어요.": {
+      "comment": "What's new 4.4.4 feature 1 detail",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The keyboard you see in other apps is now inside the app too. Tap a key and watch exactly what gets typed."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Papan ketik yang muncul di aplikasi lain kini ada di dalam aplikasi. Ketuk dan lihat apa yang diketik."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "다른 앱에서 키보드가 올라온 그 화면이 앱 안에 그대로 있어요. 눌러서 어떻게 입력되는지 바로 볼 수 있어요."
           }
         }
       }
@@ -17977,6 +18023,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "목록"
+          }
+        }
+      }
+    },
+    "목록도 그대로 있어요": {
+      "comment": "What's new 4.4.4 feature 3 title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your list is still here"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daftar Anda tetap ada"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "목록도 그대로 있어요"
           }
         }
       }
@@ -21733,6 +21802,29 @@
         }
       }
     },
+    "새로워진 첫 화면": {
+      "comment": "What's new title 4.4.4",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new first screen"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Layar pertama yang baru"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "새로워진 첫 화면"
+          }
+        }
+      }
+    },
     "색상": {
       "comment": "Section: colors",
       "localizations": {
@@ -24211,6 +24303,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요"
+          }
+        }
+      }
+    },
+    "앱을 열면 키보드가 올라온 모습 그대로 보여요. 눌러서 바로 써 볼 수 있어요.": {
+      "comment": "What's new subtitle 4.4.4",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the app and the keyboard is right there — tap to try it straight away."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka aplikasi dan papan ketik langsung ada — ketuk untuk mencobanya."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "앱을 열면 키보드가 올라온 모습 그대로 보여요. 눌러서 바로 써 볼 수 있어요."
           }
         }
       }
@@ -31746,6 +31861,52 @@
         }
       }
     },
+    "키를 누르면 입력창에, 복사 버튼을 누르면 클립보드로 갑니다. 예전처럼 복사해 쓰는 방법도 그대로예요.": {
+      "comment": "What's new 4.4.4 feature 2 detail",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the key to type it, tap copy to put it on the clipboard — the way you've always used it still works."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ketuk tombol untuk mengetik, ketuk salin untuk papan klip — cara lama tetap berfungsi."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키를 누르면 입력창에, 복사 버튼을 누르면 클립보드로 갑니다. 예전처럼 복사해 쓰는 방법도 그대로예요."
+          }
+        }
+      }
+    },
+    "키마다 복사 버튼": {
+      "comment": "What's new 4.4.4 feature 2 title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A copy button on every key"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tombol salin di setiap tombol"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키마다 복사 버튼"
+          }
+        }
+      }
+    },
     "키보드": {
       "comment": "Keyboard\nKeyboard list header\nSettings section: keyboard\niOS Settings: Keyboard",
       "localizations": {
@@ -32147,6 +32308,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "키보드 화면"
+          }
+        }
+      }
+    },
+    "키보드 화면 보기": {
+      "comment": "What's new 4.4.4 primary button",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show me the keyboard screen"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tampilkan layar papan ketik"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "키보드 화면 보기"
           }
         }
       }
@@ -34047,6 +34231,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mata uang"
+          }
+        }
+      }
+    },
+    "툴바 버튼으로 목록과 키보드 화면을 오갈 수 있고, 설정 > 첫 화면에서 시작 화면을 고를 수 있어요.": {
+      "comment": "What's new 4.4.4 feature 3 detail",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch between the list and the keyboard from the toolbar, and pick your starting screen in Settings › First screen."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beralih antara daftar dan papan ketik dari bilah alat, dan pilih layar awal di Pengaturan › Layar pertama."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "툴바 버튼으로 목록과 키보드 화면을 오갈 수 있고, 설정 > 첫 화면에서 시작 화면을 고를 수 있어요."
           }
         }
       }

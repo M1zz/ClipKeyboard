@@ -11,27 +11,31 @@ import SwiftUI
 /// What's-New 콘텐츠 + 버전. 새 안내가 필요할 때 `version`을 올리면 그 버전 사용자에게 1회 노출된다.
 enum WhatsNewContent {
     /// 이 안내가 소개하는 기능 버전. 무관한 버전 범프에서는 다시 뜨지 않도록 콘텐츠 기준 버전으로 고정.
-    static let version = "4.3.4"
+    ///
+    /// ⚠️ **내용을 바꿀 때 이 값도 같이 올릴 것.** 안 올리면 업데이트한 사람은 이미 본 것으로
+    ///    기록돼 있어 새 안내를 **한 번도 못 본다** — 새 기능이 있어도 있는 줄 모른다.
+    static let version = "4.4.4"
 }
 
 struct WhatsNewView: View {
     let onClose: () -> Void
-    /// "보관함 열기"를 누르면 닫은 뒤 Inbox를 연다.
-    let onOpenInbox: () -> Void
+    /// 큰 버튼을 누르면 닫은 뒤 그 기능으로 데려간다(이번 버전은 키보드 화면).
+    /// ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** — 읽고 닫으면 아무것도 안 달라진다.
+    let onPrimaryAction: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 10) {
-                        Image(systemName: AppSymbol.trayAndArrowDownFill)
+                        Image(systemName: "keyboard")
                             .font(.system(size: 48))
                             .foregroundStyle(.tint)
                             .padding(.top, 28)
-                        Text(NSLocalizedString("New: Quick Note", comment: "What's new title"))
+                        Text(NSLocalizedString("새로워진 첫 화면", comment: "What's new title 4.4.4"))
                             .font(.title.bold())
                             .multilineTextAlignment(.center)
-                        Text(NSLocalizedString("Capture anything in a tap — decide later whether to keep it as a keyboard memo.", comment: "What's new subtitle"))
+                        Text(NSLocalizedString("앱을 열면 키보드가 올라온 모습 그대로 보여요. 눌러서 바로 써 볼 수 있어요.", comment: "What's new subtitle 4.4.4"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -40,19 +44,19 @@ struct WhatsNewView: View {
 
                     VStack(spacing: 18) {
                         featureRow(
-                            symbol: AppSymbol.squareAndArrowUp,
-                            title: NSLocalizedString("Capture from anywhere", comment: "What's new feature 1 title"),
-                            detail: NSLocalizedString("Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app.", comment: "What's new feature 1 detail")
+                            symbol: "keyboard",
+                            title: NSLocalizedString("눌러 보고 익히세요", comment: "What's new 4.4.4 feature 1 title"),
+                            detail: NSLocalizedString("다른 앱에서 키보드가 올라온 그 화면이 앱 안에 그대로 있어요. 눌러서 어떻게 입력되는지 바로 볼 수 있어요.", comment: "What's new 4.4.4 feature 1 detail")
                         )
                         featureRow(
-                            symbol: AppSymbol.trayFull,
-                            title: NSLocalizedString("It waits in your inbox", comment: "What's new feature 2 title"),
-                            detail: NSLocalizedString("Captured items are kept in the inbox with no rush — nothing is auto-deleted.", comment: "What's new feature 2 detail")
+                            symbol: AppSymbol.docOnDoc,
+                            title: NSLocalizedString("키마다 복사 버튼", comment: "What's new 4.4.4 feature 2 title"),
+                            detail: NSLocalizedString("키를 누르면 입력창에, 복사 버튼을 누르면 클립보드로 갑니다. 예전처럼 복사해 쓰는 방법도 그대로예요.", comment: "What's new 4.4.4 feature 2 detail")
                         )
                         featureRow(
-                            symbol: AppSymbol.squareAndPencil,
-                            title: NSLocalizedString("Promote when you're ready", comment: "What's new feature 3 title"),
-                            detail: NSLocalizedString("Swipe to save an item as a keyboard memo, or delete it. You decide later.", comment: "What's new feature 3 detail")
+                            symbol: "square.grid.2x2",
+                            title: NSLocalizedString("목록도 그대로 있어요", comment: "What's new 4.4.4 feature 3 title"),
+                            detail: NSLocalizedString("툴바 버튼으로 목록과 키보드 화면을 오갈 수 있고, 설정 > 첫 화면에서 시작 화면을 고를 수 있어요.", comment: "What's new 4.4.4 feature 3 detail")
                         )
                     }
                     .padding(.horizontal, 24)
@@ -62,9 +66,9 @@ struct WhatsNewView: View {
 
             VStack(spacing: 10) {
                 Button {
-                    onOpenInbox()
+                    onPrimaryAction()
                 } label: {
-                    Text(NSLocalizedString("Open Inbox", comment: "Open inbox button"))
+                    Text(NSLocalizedString("키보드 화면 보기", comment: "What's new 4.4.4 primary button"))
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)

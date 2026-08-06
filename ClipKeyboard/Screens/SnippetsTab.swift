@@ -115,11 +115,13 @@ struct SnippetsStyleSwitchButton: View {
             HapticManager.shared.light()
             withAnimation(.easeInOut(duration: 0.2)) { styleRaw = target.rawValue }
         } label: {
+            // 툴바의 + 와 **같은 유리 언어** — 클리어 글래스 서클(하단 탭바와도 같다).
+            // 옆에 나란히 선 버튼이 하나만 맨몸이면 그것만 다른 앱에서 온 것처럼 보인다.
             Image(systemName: target.symbolName)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.accentColor)
                 .frame(width: 44, height: 44)
-                .contentShape(Rectangle())
+                .glassEffect(.clear.interactive(), in: Circle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(target.localizedName)

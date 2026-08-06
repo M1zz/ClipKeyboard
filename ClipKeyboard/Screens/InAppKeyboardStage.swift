@@ -175,11 +175,12 @@ struct InAppKeyboardStage: View {
                 HapticManager.shared.light()
                 showsAddMemo = true
             } label: {
+                // 목록 툴바의 + 와 같은 규격·같은 유리 서클.
                 Image(systemName: AppSymbol.plus)
-                    .font(.title3.weight(.semibold))
+                    .font(.body.weight(.semibold))
                     .foregroundColor(.accentColor)
-                    .frame(width: 32, height: 32)
-                    .contentShape(Rectangle())
+                    .frame(width: 44, height: 44)
+                    .glassEffect(.clear.interactive(), in: Circle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))

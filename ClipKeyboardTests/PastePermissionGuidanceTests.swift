@@ -60,26 +60,12 @@ struct PastePermissionGuidanceTests {
         }
     }
 
-    @Test("우리 안내는 며칠 **그리고** 몇 번 열어 본 다음에만 — 둘 다 필요하다")
-    func guidanceNeedsBothDaysAndLaunches() {
-        let d = UserDefaults.standard
-        let savedCount = d.integer(forKey: DefaultsKey.appLaunchCount)
-        defer { d.set(savedCount, forKey: DefaultsKey.appLaunchCount) }
-
-        // 날짜는 찼지만 아직 몇 번 안 열어 봤다 → 말 걸지 않는다.
-        withInstallDate(daysAgo: 10) {
-            d.set(1, forKey: DefaultsKey.appLaunchCount)
-            #expect(PastePermissionGuidance.isReady == false)
-            d.set(3, forKey: DefaultsKey.appLaunchCount)
-            #expect(PastePermissionGuidance.isReady)
-        }
-
-        // 많이 열어 봤어도 날짜가 안 찼으면 말 걸지 않는다.
-        withInstallDate(daysAgo: 0) {
-            d.set(99, forKey: DefaultsKey.appLaunchCount)
-            #expect(PastePermissionGuidance.isReady == false)
-        }
-    }
+    // ⚠️ `isReady`(며칠 + 몇 번 열어 봤는가)는 여기서 검사하지 않는다.
+    //    실행 횟수(`appLaunchCount`)는 **다른 테스트도 쓰는 전역 키**라, 여기서 값을 바꾸면
+    //    나란히 도는 리뷰 요청 테스트의 "초기화되면 0" 검사를 무너뜨린다(실제로 깨졌다).
+    //    한쪽 테스트를 통과시키려고 다른 쪽을 흔드는 건 검사가 아니라 소음이다.
+    //    날짜 경계(이 파일의 나머지)가 이 기능의 핵심이고, 실행 횟수 조건은
+    //    `PastePermissionGuidance.isReady` 구현 한 줄로 읽어서 확인할 수 있다.
 
     // ⚠️ "설치일 기록이 없을 때" 는 여기서 검사하지 않는다.
     //    시뮬레이터의 cfprefsd 가 지운 키를 곧바로 되살려 놔서(외부에서 한 번 써 넣은 값이

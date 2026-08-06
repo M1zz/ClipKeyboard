@@ -79,14 +79,13 @@ enum PastePermissionGuidance {
     ///    며칠 써 보고 "복사한 게 여기 모이는구나"를 안 다음이라야 허용할 이유가 생긴다.
     static let warmUpDays = 3
 
-    /// 설치일. 없으면 **지금을 설치일로 찍는다** — 모르는 채로 곧장 팝업을 부르는 것보다
+    /// 설치일. 없으면 **지금으로 친다** — 모르는 채로 곧장 팝업을 부르는 것보다
     /// 며칠 기다리는 쪽이 안전하다. (보통은 ReviewManager가 첫 실행에 이미 찍어 둔다)
+    ///
+    /// ⚠️ 여기서 **값을 쓰지 않는다.** 읽기만 하는 자리에서 쓰면 남의 정리(테스트·초기화)를
+    ///    조용히 되돌려 놓는다 — 실제로 리뷰 데이터 초기화 테스트가 이 부작용으로 깨졌다.
     private static var installDate: Date {
-        let key = "app_install_date"
-        if let saved = UserDefaults.standard.object(forKey: key) as? Date { return saved }
-        let now = Date()
-        UserDefaults.standard.set(now, forKey: key)
-        return now
+        UserDefaults.standard.object(forKey: "app_install_date") as? Date ?? Date()
     }
 
     /// 설치 후 `warmUpDays` 가 지났는가. **클립보드를 자동으로 읽어도 되는 때**의 기준.

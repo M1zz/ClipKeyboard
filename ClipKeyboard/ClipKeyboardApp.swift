@@ -56,8 +56,15 @@ struct ClipKeyboardApp: App {
         guard !standard.bool(forKey: DefaultsKey.skinSeededV444) else { return }
         standard.set(true, forKey: DefaultsKey.skinSeededV444)
 
-        guard standard.object(forKey: "app_install_date") == nil else {
-            print("🎨 [APP INIT] 기존 사용자 — 스킨·샘플 그대로 둠")
+        // **새 설치인가**를 가르는 표식은 실행 횟수다.
+        //
+        // ⚠️ 예전에는 설치일(`app_install_date`)이 비어 있는지로 봤는데, 그 값은 이 시점보다
+        //    **먼저 쓰일 수 있다**(ReviewManager 등이 다른 경로로 깨어나면 자기가 찍는다).
+        //    그러면 방금 지우고 깐 사람이 '기존 사용자'로 판정돼 튜토리얼이 통째로 사라진다.
+        //    실행 횟수는 이 아래 `incrementAppLaunchCount()` 한 곳에서만 오르므로,
+        //    **이 시점에 0이면 이번이 첫 실행**이라는 뜻이 흔들리지 않는다.
+        guard standard.integer(forKey: DefaultsKey.appLaunchCount) == 0 else {
+            print("🎨 [APP INIT] 기존 사용자 — 스킨·샘플·첫 화면 그대로 둠")
             return
         }
 
@@ -798,12 +805,11 @@ struct ClipKeyboardApp: App {
                 .sheet(isPresented: $showWhatsNew) {
                     WhatsNewView(
                         onClose: { showWhatsNew = false },
-                        onOpenInbox: {
+                        onPrimaryAction: {
                             showWhatsNew = false
-                            // 시트 닫힘 후 보관함 열기 (메인 리스트가 .openQuickNoteInbox 수신)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
-                            }
+                            // 읽고 닫으면 아무것도 안 달라진다 — 소개한 그 화면으로 직접 데려간다.
+                            UserDefaults.standard.set(SnippetsTabStyle.keyboard.rawValue,
+                                                      forKey: DefaultsKey.snippetsTabStyle)
                         }
                     )
                     .presentationDetents([.large])
