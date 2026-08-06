@@ -36,11 +36,14 @@ enum ChangelogData {
             highlights: [
                 NSLocalizedString("앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요", comment: "Changelog 4.4.4 item 1"),
                 NSLocalizedString("설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)", comment: "Changelog 4.4.4 item 2"),
-                NSLocalizedString("처음 쓰신다면 단축어 만들기 → 키보드 켜기 → 눌러보기까지 한 번에 이어져요", comment: "Changelog 4.4.4 item 3"),
-                NSLocalizedString("키보드 화면에서는 키마다 복사 버튼이 있어요 — 누르면 입력, 복사 버튼은 클립보드로", comment: "Changelog 4.4.4 item 4"),
+                NSLocalizedString("짧게 누르면 입력창에, 길게 누르면 클립보드로 — 앱 안에서요", comment: "Changelog 4.4.4 item 4"),
+                NSLocalizedString("처음 쓰신다면 단축어를 직접 하나 만들고, 눌러 써 봐야 다음으로 넘어가요", comment: "Changelog 4.4.4 item 3"),
+                NSLocalizedString("템플릿 → 있는 걸 템플릿으로 바꾸기 → 콤보까지 차례로 익혀요(\"나중에\"를 고르면 다시 묻지 않아요)", comment: "Changelog 4.4.4 item 8"),
+                NSLocalizedString("채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요 — { } 기호는 어디서도 안 보여요", comment: "Changelog 4.4.4 item 9"),
+                NSLocalizedString("연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)", comment: "Changelog 4.4.4 item 10"),
                 NSLocalizedString("카테고리 탭과 좌우 넘기기가 처음부터 보여요", comment: "Changelog 4.4.4 item 5"),
                 NSLocalizedString("붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요 — 설치하자마자 묻지 않아요", comment: "Changelog 4.4.4 item 6"),
-                NSLocalizedString("키보드를 켰는데도 안내가 남아 있던 문제, 목록이 화면 중앙에서 시작하던 문제를 고쳤어요", comment: "Changelog 4.4.4 item 7")
+                NSLocalizedString("눌러 넣은 글이 사라지던 문제, 안내가 중간에 끊기던 문제, 카테고리 배경색이 없어진 문제를 고쳤어요", comment: "Changelog 4.4.4 item 7")
             ]
         ),
         ChangelogEntry(

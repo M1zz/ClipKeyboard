@@ -24,6 +24,8 @@ struct KeyboardLayoutSettings: View {
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
     /// 키캡 물성 프리셋 — 익스텐션이 같은 키를 읽는다.
+    @AppStorage(DefaultsKey.keyLabelTruncation, store: UserDefaults(suiteName: AppGroup.identifier))
+    private var truncationRaw: String = KeyLabelTruncation.middle.rawValue
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch: Bool   = false
@@ -36,6 +38,10 @@ struct KeyboardLayoutSettings: View {
     @State private var customBgColor: Color = .clear
     @State private var customKeyColor: Color = .clear
     @Environment(\.appTheme) private var theme
+
+    private var selectedTruncation: KeyLabelTruncation {
+        KeyLabelTruncation(rawValue: truncationRaw) ?? .middle
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -53,6 +59,40 @@ struct KeyboardLayoutSettings: View {
                 .background(theme.bg)
 
             List {
+            // ── 1. 긴 이름 접기 ────────────────────────────────────────
+            // 키 폭은 레이아웃이 정하고 이름은 그 안에서 잘린다. 자르지 않을 방법은 없으니
+            // 남는 문제는 **어디를 자를 것인가**이고, 그걸 고르게 한다.
+            Section {
+                Picker(NSLocalizedString("긴 이름", comment: "Long key label section title"),
+                       selection: $truncationRaw) {
+                    ForEach(KeyLabelTruncation.allCases) { style in
+                        Text(style.localizedName).tag(style.rawValue)
+                    }
+                }
+                .pickerStyle(.segmented)
+
+                // 고르기 전에 결과를 보여준다 — 이름만으로는 무엇이 달라지는지 알 수 없다.
+                HStack {
+                    Text(KeyLabelTruncation.sampleTitle)
+                        .font(.system(size: buttonFontSize, weight: .semibold))
+                        .keyLabelTruncation(selectedTruncation)
+                        .frame(maxWidth: 120)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                                .fill(theme.surfaceAlt)
+                        )
+                    Spacer(minLength: 0)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } header: {
+                Text(NSLocalizedString("긴 이름", comment: "Long key label section title"))
+            } footer: {
+                Text(selectedTruncation.localizedDescription)
+                    .font(.body)
+            }
+
             // ── 2. 그리드 레이아웃 ─────────────────────────────────────
             Section {
                 // 열 개수 — segmented

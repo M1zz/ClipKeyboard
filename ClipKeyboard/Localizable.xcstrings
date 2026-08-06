@@ -21752,23 +21752,6 @@
         }
       }
     },
-    "처음 쓰신다면 단축어 만들기 → 키보드 켜기 → 눌러보기까지 한 번에 이어져요" : {
-      "comment" : "Changelog 4.4.4 item 3",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New here? Creating your first snippet now leads straight into turning the keyboard on and trying it"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "처음 쓰신다면 단축어 만들기 → 키보드 켜기 → 눌러보기까지 한 번에 이어져요"
-          }
-        }
-      }
-    },
     "처음에 만든 단축어, 새로 쓰지 않고 그대로 템플릿으로 바꿀 수 있어요." : {
       "comment" : "Tutorial invite body: make template",
       "localizations" : {
@@ -23541,23 +23524,6 @@
         }
       }
     },
-    "키보드 화면에서는 키마다 복사 버튼이 있어요 — 누르면 입력, 복사 버튼은 클립보드로" : {
-      "comment" : "Changelog 4.4.4 item 4",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Every key on the keyboard screen has a copy button — tap the key to type it, tap copy for the clipboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "키보드 화면에서는 키마다 복사 버튼이 있어요 — 누르면 입력, 복사 버튼은 클립보드로"
-          }
-        }
-      }
-    },
     "키보드가 확인됐어요! 다음으로 넘어갈게요." : {
       "comment" : "Setup confirmed feedback",
       "extractionState" : "manual",
@@ -23656,23 +23622,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enabled the keyboard"
-          }
-        }
-      }
-    },
-    "키보드를 켰는데도 안내가 남아 있던 문제, 목록이 화면 중앙에서 시작하던 문제를 고쳤어요" : {
-      "comment" : "Changelog 4.4.4 item 7",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fixed: the setup notice lingering after you enabled the keyboard, and the list starting halfway down the screen"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "키보드를 켰는데도 안내가 남아 있던 문제, 목록이 화면 중앙에서 시작하던 문제를 고쳤어요"
           }
         }
       }
@@ -26579,6 +26528,160 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pelajaran berikutnya"
+          }
+        }
+      }
+    },
+    "짧게 누르면 입력창에, 길게 누르면 클립보드로 — 앱 안에서요" : {
+      "comment" : "Changelog 4.4.4 item 4",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to type, press and hold to copy — inside the app"
+          }
+        }
+      }
+    },
+    "처음 쓰신다면 단축어를 직접 하나 만들고, 눌러 써 봐야 다음으로 넘어가요" : {
+      "comment" : "Changelog 4.4.4 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New here? You make one snippet yourself, and you move on only after you've used it"
+          }
+        }
+      }
+    },
+    "템플릿 → 있는 걸 템플릿으로 바꾸기 → 콤보까지 차례로 익혀요(\"나중에\"를 고르면 다시 묻지 않아요)" : {
+      "comment" : "Changelog 4.4.4 item 8",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Templates, turning what you have into a template, then combos — one at a time (\"later\" means we won't ask again)"
+          }
+        }
+      }
+    },
+    "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요 — { } 기호는 어디서도 안 보여요" : {
+      "comment" : "Changelog 4.4.4 item 9",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See what a fill-in field does: the same sentence, twice, with different values — and no { } anywhere"
+          }
+        }
+      }
+    },
+    "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)" : {
+      "comment" : "Changelog 4.4.4 item 10",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We ask once whether to delete what you made for practice (and you can replay it from Settings)"
+          }
+        }
+      }
+    },
+    "눌러 넣은 글이 사라지던 문제, 안내가 중간에 끊기던 문제, 카테고리 배경색이 없어진 문제를 고쳤어요" : {
+      "comment" : "Changelog 4.4.4 item 7",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed: inserted text disappearing, the tutorial stopping midway, and missing category background colors"
+          }
+        }
+      }
+    },
+    "가운데 접기" : {
+      "comment" : "Key label truncation: middle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shorten the middle"
+          }
+        }
+      }
+    },
+    "두 줄로" : {
+      "comment" : "Key label truncation: two lines",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Two lines"
+          }
+        }
+      }
+    },
+    "글자 줄이기" : {
+      "comment" : "Key label truncation: shrink to fit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shrink to fit"
+          }
+        }
+      }
+    },
+    "앞뒤를 남기고 가운데만 줄여요. 앞이 비슷한 이름끼리도 구분돼요." : {
+      "comment" : "Key label truncation description: middle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keeps the start and the end, shortening the middle — so names that start alike stay tellable apart."
+          }
+        }
+      }
+    },
+    "두 줄까지 보여줘요. 더 많이 보이지만 키가 답답해질 수 있어요." : {
+      "comment" : "Key label truncation description: two lines",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows up to two lines. You see more, but keys can feel cramped."
+          }
+        }
+      }
+    },
+    "한 줄을 지키면서 글자를 조금 줄여요." : {
+      "comment" : "Key label truncation description: shrink",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keeps one line and shrinks the text a little."
+          }
+        }
+      }
+    },
+    "신한 계좌번호 예금주" : {
+      "comment" : "Key label truncation preview sample",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chase account no. holder"
+          }
+        }
+      }
+    },
+    "긴 이름" : {
+      "comment" : "Long key label section title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long names"
           }
         }
       }

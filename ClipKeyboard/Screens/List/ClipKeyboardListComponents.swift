@@ -942,9 +942,14 @@ struct ContentHintPreview: View {
     }
 
     @State private var stage: Stage = .waiting
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
-        Text(text)
+        // ⚠️ 원문을 그대로 그리면 `{이름}` 이 중괄호째 나온다.
+        //    미리보기 문자열은 `isTemplate` 일 때만 중괄호를 벗기는데, 값에 `{}` 가 있어도
+        //    templateVariables 가 비면 isTemplate 이 false 라 그 손질을 못 받는다.
+        //    "플레이스홀더는 어디서든 하이라이트로 보인다"는 규칙을 여기서도 지킨다.
+        Text(text.templateAwareAttributed(theme: theme, font: .body))
             .font(.body)
             .lineLimit(1)
             .truncationMode(.tail)

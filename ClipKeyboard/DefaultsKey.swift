@@ -61,6 +61,9 @@ enum DefaultsKey {
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group — 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"
+    /// 키 이름이 길 때 접는 방식(KeyLabelTruncation rawValue). 값이 없으면 `.middle`.
+    /// App Group — 익스텐션이 렌더에 쓴다.
+    static let keyLabelTruncation = "keyLabelTruncation.v1"
     static let keyboardPasteCount = "keyboard_paste_count"
     static let keyboardSecurePinHash = "keyboard_secure_pin_hash"
     static let keyboardTypingLang = "keyboardTypingLang"

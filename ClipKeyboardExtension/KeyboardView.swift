@@ -1964,8 +1964,8 @@ struct ComboKeyValueLabel: View {
                 .opacity(showingValue ? 1 : 0)
                 .blur(radius: !reduceMotion && !showingValue ? 3 : 0)
         }
-        .lineLimit(1)
-        .truncationMode(.tail)
+        // 이름이 길 때 어디를 접을지는 설정을 따른다(기본: 가운데 접기).
+        .keyLabelTruncation(KeyLabelTruncation.current)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(title)
         // flashToken 변경(→ 또는 최초 등장) 때마다: 값을 잠깐 보여줬다 다시 키로.
@@ -2032,7 +2032,7 @@ struct MemoTitleHintSwap: View {
                     .blur(radius: !reduceMotion && !showingHint ? 3 : 0)
             }
         }
-        .lineLimit(2)
+        .keyLabelTruncation(KeyLabelTruncation.current)
         .multilineTextAlignment(.center)
         // VoiceOver는 셀 버튼의 accessibilityLabel(제목+내용)이 안내 — 일시 표시는 숨김.
         .accessibilityElement(children: .ignore)
