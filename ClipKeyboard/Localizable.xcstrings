@@ -12217,25 +12217,25 @@
         }
       }
     },
-    "가입할 때 이메일 적기": {
+    "가입할 때 %@ 적기": {
       "comment": "Onboarding situation: type email when signing up",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Typing my email when signing up"
+            "value": "%@ — type it when signing up"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mengetik email saat mendaftar"
+            "value": "%@ — ketik saat mendaftar"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "가입할 때 이메일 적기"
+            "value": "가입할 때 %@ 적기"
           }
         }
       }
@@ -23677,6 +23677,7 @@
     },
     "아래 키보드에서 단축어를 눌러 보세요.": {
       "comment": "In-app keyboard stage: sample incoming hint",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -27434,25 +27435,25 @@
         }
       }
     },
-    "입금받으려고 계좌번호 알려주기": {
+    "입금받으려고 %@ 알려주기": {
       "comment": "Onboarding situation: share bank account",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sending someone my account number to get paid"
+            "value": "%@ — send it to get paid"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mengirim nomor rekening agar dibayar"
+            "value": "%@ — kirim agar dibayar"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "입금받으려고 계좌번호 알려주기"
+            "value": "입금받으려고 %@ 알려주기"
           }
         }
       }
@@ -29754,25 +29755,25 @@
         }
       }
     },
-    "지인에게 내 주소 알려주기": {
+    "지인에게 %@ 알려주기": {
       "comment": "Onboarding situation: share my address",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Telling a friend where I live"
+            "value": "%@ — share it with a friend"
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Memberi tahu teman alamat saya"
+            "value": "%@ — bagikan ke teman"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "지인에게 내 주소 알려주기"
+            "value": "지인에게 %@ 알려주기"
           }
         }
       }

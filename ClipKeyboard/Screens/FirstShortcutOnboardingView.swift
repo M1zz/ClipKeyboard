@@ -48,8 +48,12 @@ struct FirstShortcutOnboardingView: View {
     ///    쓰면 카드와 키에 "지인에게 내 주소 알려주기"가 박혀 정작 목록에서 못 알아본다.
     struct Seed: Identifiable, Equatable {
         let id: String
-        /// 고르는 자리에 보이는 **상황** 한 줄.
-        let situation: String
+        /// 고르는 자리에 보이는 **상황** 한 줄. `%@` 자리에 `title` 이 들어가고,
+        /// 그 부분만 색이 켜진다 — 문장 안에서 **무엇을 저장하는지**가 바로 보인다.
+        ///
+        /// ⚠️ 형식 문자열로 두는 이유: 언어마다 어순이 다르다. "내 주소"를 문장 앞뒤 어디에
+        ///    두든 번역이 `%@` 위치만 옮기면 되고, 색칠 규칙은 그대로 통한다.
+        let situationFormat: String
         /// 실제로 만들어질 단축어 이름 — 카드·키에 박히므로 짧게.
         let title: String
         let placeholder: String
@@ -59,21 +63,34 @@ struct FirstShortcutOnboardingView: View {
     private var seeds: [Seed] {
         [
             Seed(id: "address",
-                 situation: NSLocalizedString("지인에게 내 주소 알려주기", comment: "Onboarding situation: share my address"),
+                 situationFormat: NSLocalizedString("지인에게 %@ 알려주기", comment: "Onboarding situation: share my address"),
                  title: NSLocalizedString("내 주소", comment: "Onboarding seed: home address"),
                  placeholder: NSLocalizedString("서울시 …", comment: "Onboarding seed placeholder: address"),
                  hint: NSLocalizedString("택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요.", comment: "Onboarding seed hint: address")),
             Seed(id: "account",
-                 situation: NSLocalizedString("입금받으려고 계좌번호 알려주기", comment: "Onboarding situation: share bank account"),
+                 situationFormat: NSLocalizedString("입금받으려고 %@ 알려주기", comment: "Onboarding situation: share bank account"),
                  title: NSLocalizedString("계좌번호", comment: "Onboarding seed: bank account"),
                  placeholder: NSLocalizedString("○○은행 123-456-789", comment: "Onboarding seed placeholder: account"),
                  hint: NSLocalizedString("정산할 때마다 메모장을 열어 찾지 않아도 돼요.", comment: "Onboarding seed hint: account")),
             Seed(id: "email",
-                 situation: NSLocalizedString("가입할 때 이메일 적기", comment: "Onboarding situation: type email when signing up"),
+                 situationFormat: NSLocalizedString("가입할 때 %@ 적기", comment: "Onboarding situation: type email when signing up"),
                  title: NSLocalizedString("이메일", comment: "Onboarding seed: email"),
                  placeholder: NSLocalizedString("me@example.com", comment: "Onboarding seed placeholder: email"),
                  hint: NSLocalizedString("가입할 때마다 오타 나던 그거요.", comment: "Onboarding seed hint: email"))
         ]
+    }
+
+    /// 상황 한 줄에서 **저장할 것**만 색을 켠다.
+    /// 번역이 `%@` 를 잃어버렸더라도 문장은 그대로 보이게 한다(색만 안 켜질 뿐).
+    private func situationText(_ seed: Seed) -> Text {
+        let parts = seed.situationFormat.components(separatedBy: "%@")
+        guard parts.count == 2 else {
+            return Text(String(format: seed.situationFormat, seed.title))
+                .foregroundColor(theme.text)
+        }
+        return Text(parts[0]).foregroundColor(theme.text)
+            + Text(seed.title).foregroundColor(theme.accent)
+            + Text(parts[1]).foregroundColor(theme.text)
     }
 
     var body: some View {
@@ -137,17 +154,13 @@ struct FirstShortcutOnboardingView: View {
                         typing = true
                     } label: {
                         HStack(spacing: 10) {
-                            // 상황이 먼저 읽히고, 만들어질 이름은 그 아래에 작게.
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(seed.situation)
-                                    .font(.body.weight(.semibold))
-                                    .foregroundColor(theme.text)
-                                    .multilineTextAlignment(.leading)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Text(seed.title)
-                                    .font(.caption)
-                                    .foregroundColor(theme.textMuted)
-                            }
+                            // 한 줄로 읽히되, 저장할 것(내 주소·계좌번호…)만 색이 켜진다.
+                            // 작은 글씨를 아래에 덧붙이면 같은 말을 두 번 하는 셈이고,
+                            // 줄이 늘어난 만큼 고르는 일이 느려진다.
+                            situationText(seed)
+                                .font(.body.weight(.semibold))
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
                             Spacer(minLength: 0)
                             Image(systemName: AppSymbol.chevronRight)
                                 .font(.caption.weight(.semibold))
