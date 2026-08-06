@@ -1664,6 +1664,23 @@
         }
       }
     },
+    "'%@' 자리에 실제로 넣을 값이에요. 한 번 넣어 두면 다음에 쓸 때 제안으로 떠요.": {
+      "comment": "Template tutorial: value step subline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is what actually goes in the '%@' spot. Enter it once and it'll be suggested next time."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ini yang benar-benar masuk ke bagian '%@'. Isi sekali dan akan disarankan lain kali."
+          }
+        }
+      }
+    },
     "'%@' 추가": {
       "comment": "Add memo to this category card",
       "localizations": {
@@ -13414,6 +13431,23 @@
         }
       }
     },
+    "그 자리에 오늘은 뭘 넣을까요?": {
+      "comment": "Template tutorial: value step headline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What goes in that spot today?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apa yang masuk ke bagian itu hari ini?"
+          }
+        }
+      }
+    },
     "그냥 닫음": {
       "comment": "Dropoff: dismissed",
       "localizations": {
@@ -13427,6 +13461,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ditutup begitu saja"
+          }
+        }
+      }
+    },
+    "그대로 둘게요": {
+      "comment": "Keep tutorial creations",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep them"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simpan saja"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "그대로 둘게요"
           }
         }
       }
@@ -18331,6 +18388,7 @@
     },
     "무엇이 바뀌나요?": {
       "comment": "Template tutorial: blank name label",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -23082,6 +23140,23 @@
         }
       }
     },
+    "소개하는 이름": {
+      "comment": "Template tutorial: suggested blank name",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name I introduce"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama yang saya sebut"
+          }
+        }
+      }
+    },
     "손쉬운 사용": {
       "comment": "Accessibility guide navigation title\nAccessibility guide settings entry",
       "localizations": {
@@ -25052,6 +25127,29 @@
         }
       }
     },
+    "연습으로 만든 단축어를 지울까요?": {
+      "comment": "Tutorial cleanup alert title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete the snippets from the walkthrough?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hapus pintasan dari panduan?"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "연습으로 만든 단축어를 지울까요?"
+          }
+        }
+      }
+    },
     "연습을 처음부터 다시 시작합니다": {
       "comment": "Reset practice hint",
       "extractionState": "stale",
@@ -25295,6 +25393,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "예: student@university.ac.kr"
+          }
+        }
+      }
+    },
+    "예: 이영훈": {
+      "comment": "Template tutorial: value placeholder",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "e.g. Alex"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "mis. Budi"
           }
         }
       }
@@ -26109,6 +26224,23 @@
         }
       }
     },
+    "이 자리의 이름": {
+      "comment": "Template tutorial: blank name label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name of this spot"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nama bagian ini"
+          }
+        }
+      }
+    },
     "이 작업은 되돌릴 수 없습니다.": {
       "comment": "Wipe all data final confirm message",
       "localizations": {
@@ -26551,6 +26683,7 @@
     },
     "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요.": {
       "comment": "Template tutorial: subline",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -26568,6 +26701,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요."
+          }
+        }
+      }
+    },
+    "이름만 바꿔 보내는 안내문처럼요. 바뀌는 자리에 이름표를 붙여 둡니다 — 무엇이 들어갈 자리인지 나중에 알아보려고요.": {
+      "comment": "Template tutorial: subline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Like a notice where you only swap the name. We put a label on the part that changes, so you can tell later what belongs there."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seperti pemberitahuan yang hanya namanya diganti. Kami memberi label pada bagian yang berubah agar nanti Anda tahu apa isinya."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이름만 바꿔 보내는 안내문처럼요. 바뀌는 자리에 이름표를 붙여 둡니다 — 무엇이 들어갈 자리인지 나중에 알아보려고요."
           }
         }
       }
@@ -34536,6 +34692,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "튜토리얼을 다시 할까요?"
+          }
+        }
+      }
+    },
+    "튜토리얼을 따라 하며 만든 것들이에요. 계속 쓸 거면 그대로 두세요.": {
+      "comment": "Tutorial cleanup alert message",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These are what you made while following the walkthrough. Keep them if you'll use them."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ini yang Anda buat saat mengikuti panduan. Simpan jika akan dipakai."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "튜토리얼을 따라 하며 만든 것들이에요. 계속 쓸 거면 그대로 두세요."
           }
         }
       }

@@ -328,35 +328,60 @@ struct TemplateTutorialView: View {
 
     @Environment(\.appTheme) private var theme
 
-    /// 채울 칸의 이름. 사용자가 고치는 건 이것뿐이다.
-    @State private var blankName: String = ""
-    @FocusState private var focused: Bool
+    /// 두 걸음이다 — **칸에 이름을 붙이고**, **그 칸에 값을 한 번 넣어 본다.**
+    ///
+    /// ⚠️ 한 걸음이었을 때는 칸 이름 자리에 사람들이 곧장 자기 이름을 적었다.
+    ///    "이름"이라고 써 있으니 값을 넣으라는 말로 읽힌 것이다. 그래서 **이름과 값을
+    ///    각각 한 번씩** 넣어 보게 한다 — 둘이 다른 것이라는 걸 말로 설명할 필요가 없어진다.
+    private enum Step { case name, value }
+    @State private var step: Step = .name
 
-    /// 미리보기용 본문. 저장 형식(중괄호)은 여기서만 만들고 화면에는 칩으로만 보인다.
-    private var body_: String {
-        String(format: NSLocalizedString("안녕하세요, {%@}님. 확인 부탁드립니다.",
-                                         comment: "Template tutorial: example body"),
-               trimmedBlank.isEmpty ? NSLocalizedString("이름", comment: "Combo tutorial field: name") : trimmedBlank)
-    }
+    /// 채울 칸의 **이름**(= 무엇이 바뀌는 자리인가). 사용자가 고친다.
+    @State private var blankName: String = ""
+    /// 그 칸에 넣어 볼 **값**. 만들어진 템플릿에 기억돼 다음에 제안으로 뜬다.
+    @State private var sampleValue: String = ""
+    @FocusState private var focused: Bool
 
     private var trimmedBlank: String {
         blankName.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "{", with: "")
             .replacingOccurrences(of: "}", with: "")
     }
+    private var trimmedValue: String { sampleValue.trimmingCharacters(in: .whitespacesAndNewlines) }
 
-    private var ready: Bool { !trimmedBlank.isEmpty }
+    /// 저장 형식(중괄호)은 여기서만 만든다 — 화면에는 칩으로만 보인다.
+    private var templateBody: String {
+        String(format: NSLocalizedString("안녕하세요, {%@}님. 확인 부탁드립니다.",
+                                         comment: "Template tutorial: example body"),
+               trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
+    }
+
+    /// 값까지 넣었을 때 **실제로 나가는 문장**.
+    private var filledBody: String {
+        guard !trimmedValue.isEmpty else { return templateBody }
+        return templateBody.replacingOccurrences(of: "{\(trimmedBlank)}", with: trimmedValue)
+    }
+
+    private var defaultBlankName: String {
+        NSLocalizedString("소개하는 이름", comment: "Template tutorial: suggested blank name")
+    }
+
+    private var ready: Bool {
+        step == .name ? !trimmedBlank.isEmpty : !trimmedValue.isEmpty
+    }
 
     var body: some View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            Text(NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline"))
+            Text(headline)
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 14)
 
-            Text(NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요.", comment: "Template tutorial: subline"))
+            Text(subline)
                 .font(.subheadline)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
@@ -365,9 +390,10 @@ struct TemplateTutorialView: View {
                 .padding(.bottom, 22)
 
             // ⚠️ 중괄호를 **그대로 보여주지 않는다.** `{}` 는 저장 형식이지 사용자가 배울 문법이 아니다.
-            //    카드에서도 칩으로 강조해 보여주므로, 여기만 원문을 노출하면 같은 것이
-            //    두 얼굴로 보인다. 여기서는 완성된 모습만 미리 보여준다.
-            Text(body_.templateAwareAttributed(theme: theme, font: .body))
+            //    칸 이름을 정하는 동안엔 칩으로, 값을 넣는 동안엔 **채워진 문장**으로 보여준다 —
+            //    같은 문장이 어떻게 달라지는지가 이 튜토리얼의 전부다.
+            Text((step == .name ? templateBody : filledBody)
+                    .templateAwareAttributed(theme: theme, font: .body))
                 .font(.body)
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -377,13 +403,12 @@ struct TemplateTutorialView: View {
                         .fill(theme.surface)
                 )
 
-            // 채울 칸의 이름만 고치게 한다 — 문장 전체를 고치게 하면 중괄호를 지워 놓고
-            // "왜 빈칸이 안 생기죠"가 된다.
             HStack(spacing: 10) {
-                Text(NSLocalizedString("무엇이 바뀌나요?", comment: "Template tutorial: blank name label"))
+                Text(fieldLabel)
                     .font(.footnote)
                     .foregroundColor(theme.textMuted)
-                TextField(NSLocalizedString("이름", comment: "Combo tutorial field: name"), text: $blankName)
+                TextField(fieldPlaceholder,
+                          text: step == .name ? $blankName : $sampleValue)
                     .textFieldStyle(.plain)
                     .font(.body)
                     .focused($focused)
@@ -399,8 +424,10 @@ struct TemplateTutorialView: View {
             }
             .padding(.top, 12)
 
-            Button(action: save) {
-                Text(NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
+            Button(action: advance) {
+                Text(step == .name
+                     ? NSLocalizedString("다음", comment: "Next button")
+                     : NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
                     .font(.body.weight(.semibold))
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -428,24 +455,74 @@ struct TemplateTutorialView: View {
         .padding(.horizontal, 24)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.bg.ignoresSafeArea())
+        .animation(.easeOut(duration: 0.25), value: step)
         .onAppear {
-            if blankName.isEmpty {
-                blankName = NSLocalizedString("이름", comment: "Combo tutorial field: name")
-            }
+            // 빈칸에서 시작하면 무엇을 적으라는 건지 모른다 — **제안을 채워 둔다.**
+            if blankName.isEmpty { blankName = defaultBlankName }
             focused = true
         }
     }
 
-    private func save() {
+    // MARK: - 걸음마다 달라지는 말
+
+    private var headline: String {
+        switch step {
+        case .name:
+            return NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline")
+        case .value:
+            return NSLocalizedString("그 자리에 오늘은 뭘 넣을까요?", comment: "Template tutorial: value step headline")
+        }
+    }
+
+    private var subline: String {
+        switch step {
+        case .name:
+            return NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 바뀌는 자리에 이름표를 붙여 둡니다 — 무엇이 들어갈 자리인지 나중에 알아보려고요.",
+                                     comment: "Template tutorial: subline")
+        case .value:
+            return String(format: NSLocalizedString("'%@' 자리에 실제로 넣을 값이에요. 한 번 넣어 두면 다음에 쓸 때 제안으로 떠요.",
+                                                    comment: "Template tutorial: value step subline"),
+                          trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
+        }
+    }
+
+    private var fieldLabel: String {
+        step == .name
+            ? NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
+            : (trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
+    }
+
+    private var fieldPlaceholder: String {
+        step == .name
+            ? defaultBlankName
+            : NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
+    }
+
+    // MARK: - 진행
+
+    private func advance() {
         guard ready else { return }
-        let text = body_.trimmingCharacters(in: .whitespacesAndNewlines)
+        if step == .name {
+            withAnimation(.easeOut(duration: 0.25)) { step = .value }
+            focused = true
+            return
+        }
+        save()
+    }
+
+    private func save() {
+        let text = templateBody.trimmingCharacters(in: .whitespacesAndNewlines)
         // ⚠️ templateVariables 를 넣지 않으면 isTemplate=false 가 되어
         //    탭했을 때 {이름}이 그대로 복사된다.
-        let memo = Memo(
+        var memo = Memo(
             title: NSLocalizedString("확인 요청", comment: "Template tutorial: created template title"),
             value: text,
             templateVariables: TemplateVariableProcessor.extractCustomTokens(in: text)
         )
+        // 방금 넣어 본 값을 **그 칸의 기억**으로 남긴다 — 다음에 쓸 때 제안으로 뜬다.
+        // 배운 것이 화면 안에 흔적으로 남아야 "그래서 뭐가 달라졌지"가 안 된다.
+        let token = "{\(trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)}"
+        memo.placeholderValues = [token: [trimmedValue]]
         TutorialStore.insert(memo, onCreated: onCreated, onFailure: onSkip)
     }
 }
@@ -459,6 +536,52 @@ struct TemplateTutorialView: View {
 ///
 /// ⚠️ `startedFresh` 도 함께 켠다 — 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
 ///    꺼져 있어서 켜 주지 않으면 다시 하기를 눌러도 아무 일도 안 일어난다.
+/// 튜토리얼에서 **만든 것**을 기억하고, 끝난 뒤 지울지 물어보기 위한 자리.
+///
+/// ⚠️ 여기서 만드는 것도 전부 진짜다 — 그래서 함부로 지우지 않는다. 다만 연습 삼아 만든
+///    것이 목록에 남아 거슬리는 사람도 있어, **끝나고 한 번 물어보고** 그때만 지운다.
+enum TutorialCreations {
+
+    static func remember(_ id: UUID) {
+        var ids = all
+        guard !ids.contains(id) else { return }
+        ids.append(id)
+        UserDefaults.standard.set(ids.map(\.uuidString).joined(separator: ","),
+                                  forKey: DefaultsKey.tutorialCreatedMemoIds)
+    }
+
+    static var all: [UUID] {
+        (UserDefaults.standard.string(forKey: DefaultsKey.tutorialCreatedMemoIds) ?? "")
+            .split(separator: ",")
+            .compactMap { UUID(uuidString: String($0)) }
+    }
+
+    static func forget() {
+        UserDefaults.standard.set("", forKey: DefaultsKey.tutorialCreatedMemoIds)
+    }
+
+    /// 기억해 둔 것들을 지운다. **그 사이 사용자가 고쳐 쓰고 있을 수도 있으므로**
+    /// 지운 개수를 돌려준다(안내 문구에 쓴다).
+    @discardableResult
+    static func deleteAll() -> Int {
+        let ids = Set(all)
+        guard !ids.isEmpty else { return 0 }
+        do {
+            let memos = try MemoStore.shared.load(type: .memo)
+            let kept = memos.filter { !ids.contains($0.id) }
+            let removed = memos.count - kept.count
+            try MemoStore.shared.save(memos: kept, type: .memo)
+            forget()
+            NotificationCenter.default.post(name: .memoDataChanged, object: nil)
+            print("🧹 [TutorialCreations] 튜토리얼 단축어 \(removed)개 삭제")
+            return removed
+        } catch {
+            print("❌ [TutorialCreations.deleteAll] \(error)")
+            return 0
+        }
+    }
+}
+
 enum TutorialReset {
 
     /// 지워지는 것은 **표식뿐이다.** 만들어 둔 단축어·템플릿·콤보는 그대로 남는다.
@@ -472,6 +595,8 @@ enum TutorialReset {
         d.set(false, forKey: DefaultsKey.tutorialChaptersDone)
         d.set(false, forKey: DefaultsKey.keyboardSetupTutorialDone)
         d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
+        d.set(false, forKey: DefaultsKey.tutorialCleanupAsked)
+        TutorialCreations.forget()
         // 튜토리얼은 무대에서 시작한다 — 목록에 있으면 첫 걸음이 열리지 않는다.
         d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         print("🎓 [TutorialReset] 튜토리얼 표식 초기화 — 처음부터 다시")

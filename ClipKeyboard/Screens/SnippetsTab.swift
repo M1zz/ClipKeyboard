@@ -167,6 +167,9 @@ struct SnippetsTab: View {
     @State private var tutorialInvite: TutorialChapter?
     /// 지금 만들고 있는 장.
     @State private var tutorialMaking: TutorialChapter?
+    /// 튜토리얼이 끝난 뒤 "만든 것 지울까요?" 를 한 번만 묻는다.
+    @AppStorage(DefaultsKey.tutorialCleanupAsked) private var cleanupAsked: Bool = false
+    @State private var showCleanupPrompt = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.appTheme) private var theme
 
@@ -268,17 +271,43 @@ struct SnippetsTab: View {
         .fullScreenCover(item: $tutorialMaking) { chapter in
             switch chapter {
             case .template:
-                TemplateTutorialView(onCreated: { _ in finishChapter(.template) },
+                TemplateTutorialView(onCreated: { memo in
+                                        TutorialCreations.remember(memo.id)
+                                        finishChapter(.template)
+                                     },
                                      onSkip: { finishChapter(.template) })
             case .combo:
-                ComboTutorialView(onCreated: { _ in finishChapter(.combo) },
+                ComboTutorialView(onCreated: { memo in
+                                     TutorialCreations.remember(memo.id)
+                                     finishChapter(.combo)
+                                  },
                                   onSkip: { finishChapter(.combo) })
             case .makeTemplate:
                 // 여기로 오지 않는다(위에서 목록으로 보낸다). 안전망.
                 Color.clear.onAppear { tutorialMaking = nil }
             }
         }
-        .onAppear(perform: offerKeyboardStageIfNeeded)
+        .onAppear {
+            offerKeyboardStageIfNeeded()
+            askCleanupIfFinished()
+        }
+        .onChange(of: onboardingStep) { _, step in
+            guard step == .done else { return }
+            // 마지막 걸음이 끝난 **그때** 묻는다 — 나중에 물으면 무엇에 대한 물음인지 모른다.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { askCleanupIfFinished() }
+        }
+        .alert(NSLocalizedString("연습으로 만든 단축어를 지울까요?", comment: "Tutorial cleanup alert title"),
+               isPresented: $showCleanupPrompt) {
+            Button(NSLocalizedString("지우기", comment: "Delete"), role: .destructive) {
+                TutorialCreations.deleteAll()
+            }
+            Button(NSLocalizedString("그대로 둘게요", comment: "Keep tutorial creations"), role: .cancel) {
+                TutorialCreations.forget()
+            }
+        } message: {
+            Text(NSLocalizedString("튜토리얼을 따라 하며 만든 것들이에요. 계속 쓸 거면 그대로 두세요.",
+                                   comment: "Tutorial cleanup alert message"))
+        }
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
             Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
@@ -297,6 +326,7 @@ struct SnippetsTab: View {
     /// 바로 다음 걸음으로 간다.
     private func advanceFromFirstShortcut(created memo: Memo?) {
         if let memo {
+            TutorialCreations.remember(memo.id)
             firstUseMemoIdRaw = memo.id.uuidString
             // 만든 것을 눌러 보려면 무대에 있어야 한다.
             styleRaw = SnippetsTabStyle.keyboard.rawValue
@@ -358,6 +388,16 @@ struct SnippetsTab: View {
         tutorialMaking = nil
         markChapterDone(chapter)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { inviteNextChapter() }
+    }
+
+    /// 튜토리얼을 다 지났고 만든 것이 남아 있으면 **한 번만** 묻는다.
+    ///
+    /// ⚠️ 만든 것이 없으면(전부 건너뛴 경우) 묻지 않는다 — 지울 것도 없는데 물으면
+    ///    무엇을 지운다는 건지 모를 물음이 된다.
+    private func askCleanupIfFinished() {
+        guard !cleanupAsked, onboardingStep == .done, !TutorialCreations.all.isEmpty else { return }
+        cleanupAsked = true
+        showCleanupPrompt = true
     }
 
     /// 쓰던 사람에게 **한 번만** 권한다.
