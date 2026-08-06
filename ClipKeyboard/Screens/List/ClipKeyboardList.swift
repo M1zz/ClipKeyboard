@@ -898,6 +898,8 @@ struct ClipKeyboardList: View {
                 if awaitingMakeTemplate {
                     awaitingMakeTemplate = false
                     tutorialMakeTemplateDone = true
+                    // 처음 배우는 중이면 다음 장은 무대가 이어 간다(여기서 권하면 두 번 뜬다).
+                    NotificationCenter.default.post(name: .makeTemplateTutorialFinished, object: nil)
                     inviteNextChapter(after: 0.5)
                 }
             }) { src in
@@ -984,11 +986,9 @@ struct ClipKeyboardList: View {
             // '템플릿으로 만들기' 장만 목록에서 한다(고치는 일은 목록에서).
             // 무대가 이 알림을 쏘면 이미 있는 그 화면을 그대로 태운다.
             .onReceive(NotificationCenter.default.publisher(for: .startMakeTemplateTutorial)) { _ in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    awaitingMakeTemplate = true
-                    makeTemplateSource = convertibleShortcut
-                }
+                startMakeTemplateTutorialIfPending()
             }
+            .onAppear { startMakeTemplateTutorialIfPending() }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
@@ -3138,6 +3138,20 @@ struct ClipKeyboardList: View {
     ///
     /// ⚠️ 한 번에 셋을 다 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를
     ///    다 설명하면 하나도 안 남는다. 하나 만들고 → 써 보고 → 그다음 것을 권한다.
+    /// 무대가 남긴 예약이 있으면 '템플릿으로 만들기' 화면을 띄운다.
+    ///
+    /// ⚠️ 알림만으로는 안 된다 — 무대에서 목록으로 넘어오는 그 순간 이 화면은 아직 없어서
+    ///    알림을 받을 사람이 없다. 표식을 남겨 두고 **떠 있을 때 스스로 확인**한다.
+    private func startMakeTemplateTutorialIfPending() {
+        let d = UserDefaults.standard
+        guard d.bool(forKey: DefaultsKey.pendingMakeTemplateTutorial) else { return }
+        d.set(false, forKey: DefaultsKey.pendingMakeTemplateTutorial)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            awaitingMakeTemplate = true
+            makeTemplateSource = convertibleShortcut
+        }
+    }
+
     private func inviteNextChapter(after delay: Double) {
         // ⚠️ 처음 배우는 중이라면 **여기서 권하지 않는다.** 그 흐름은 무대(SnippetsTab)가
         //    이끌고 있고, 양쪽이 같이 권하면 같은 장이 두 번 뜬다.

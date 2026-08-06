@@ -40,6 +40,10 @@ enum DefaultsKey {
     static let snippetsTabStyle = "snippetsTabStyle.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
+    /// '단축어를 템플릿으로' 장을 목록에서 시작해야 한다는 예약 표식.
+    /// ⚠️ 알림으로만 알리면 **목록이 아직 안 떠 있어 아무도 못 받는다** — 그 장이 통째로 사라진다.
+    ///    화면이 뜬 뒤 스스로 확인할 수 있게 표식으로 남긴다.
+    static let pendingMakeTemplateTutorial = "pendingMakeTemplateTutorial.v1"
     /// 튜토리얼에서 **만든** 단축어 id 목록(쉼표 구분). 끝난 뒤 "지울까요?"에 쓴다.
     static let tutorialCreatedMemoIds = "tutorialCreatedMemoIds.v1"
     /// 그 물음을 이미 했는가 — 한 번만 묻는다.

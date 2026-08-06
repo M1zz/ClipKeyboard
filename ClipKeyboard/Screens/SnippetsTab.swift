@@ -250,6 +250,14 @@ struct SnippetsTab: View {
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
+        // 목록에서 '템플릿으로 만들기' 장이 끝났다 — 무대로 돌아와 다음 장으로 잇는다.
+        .onReceive(NotificationCenter.default.publisher(for: .makeTemplateTutorialFinished)) { _ in
+            tutorialMakeTemplateDone = true
+            withAnimation(.easeInOut(duration: 0.28)) {
+                styleRaw = SnippetsTabStyle.keyboard.rawValue
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { inviteNextChapter() }
+        }
         // ⚠️ 다음 장을 권하는 건 **하프 모달**이다. 전체 화면으로 덮으면 하던 일이 사라져
         //    "또 뭘 시키나" 가 되지만, 반쯤 올라오면 뒤에 방금 만든 것이 보인 채로 묻는다 —
         //    권유는 이어지는 말이지 새 화면이 아니다.
@@ -262,8 +270,12 @@ struct SnippetsTab: View {
                         // ⚠️ 이 장만은 목록에서 한다 — **고치는 일은 목록에서**라는 규칙 그대로다.
                         //    이미 있는 "템플릿으로 만들기" 화면을 그대로 태운다(전용 화면을 새로
                         //    배워봐야 정작 평소에 쓰는 메뉴는 여전히 낯설다).
+                        //
+                        // ⚠️ **여기서 끝난 것으로 표시하지 않는다.** 목록이 그 화면을 실제로
+                        //    띄우고 닫았을 때가 끝이다. 미리 찍어 두면 화면이 안 떠도
+                        //    지나간 것이 되어 그 장이 통째로 사라진다.
+                        UserDefaults.standard.set(true, forKey: DefaultsKey.pendingMakeTemplateTutorial)
                         styleRaw = SnippetsTabStyle.list.rawValue
-                        markChapterDone(.makeTemplate)
                         NotificationCenter.default.post(name: .startMakeTemplateTutorial, object: nil)
                     } else {
                         tutorialMaking = chapter
