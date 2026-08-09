@@ -52,6 +52,18 @@ enum SnippetsTabStyle: String, CaseIterable, Identifiable {
         }
     }
 
+    /// 하단 탭바에 적히는 **짧은** 이름.
+    ///
+    /// ⚠️ `localizedName`("단축어 목록"·"키보드 화면")과 일부러 다르다. 그쪽은 설정에서
+    ///    두 선택지를 견주어 고르는 자리라 길어도 되지만, 탭바는 네 칸을 나눠 쓰는 자리라
+    ///    긴 이름은 말줄임으로 잘려 오히려 무슨 화면인지 알 수 없게 된다.
+    var tabName: String {
+        switch self {
+        case .list:     return NSLocalizedString("목록", comment: "Tab: snippets showing the list")
+        case .keyboard: return NSLocalizedString("키보드", comment: "Tab: snippets showing the keyboard stage")
+        }
+    }
+
     var symbolName: String {
         switch self {
         case .list:     return "square.grid.2x2"
@@ -118,6 +130,16 @@ enum SnippetsOnboardingStep: Equatable {
 ///
 /// 고른 값은 그대로 저장된다(설정 > 첫 화면과 같은 값) — 다음에 열면 마지막에 본 쪽이 나온다.
 struct SnippetsStyleSwitchButton: View {
+    /// 유리 서클 버튼들 사이 간격 — **목록 툴바와 무대 머리말이 같은 값을 쓴다.**
+    ///
+    /// ⚠️ 두 곳이 제각각이던 것을 여기로 모았다. 목록은 `-8`(서클이 8pt 겹침),
+    ///    무대는 `14`(넉넉히 떨어짐)라, 같은 버튼 쌍이 화면마다 다른 물건처럼 보였다.
+    ///    음수 간격은 44pt 서클끼리 실제로 겹쳐서 두 개가 한 덩어리로 읽힌다.
+    static let clusterSpacing: CGFloat = 6
+
+    /// 유리 서클의 지름 — 버튼을 새로 만들 때 이 값을 쓸 것.
+    static let diameter: CGFloat = 44
+
     @Binding var styleRaw: String
 
     private var current: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
@@ -133,7 +155,7 @@ struct SnippetsStyleSwitchButton: View {
             Image(systemName: target.symbolName)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.accentColor)
-                .frame(width: 44, height: 44)
+                .frame(width: Self.diameter, height: Self.diameter)
                 .glassEffect(.clear.interactive(), in: Circle())
         }
         .buttonStyle(.plain)

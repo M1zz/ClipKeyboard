@@ -528,6 +528,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Scene Resume (앱 포그라운드 복귀 시 호출)
 
     func onSceneResume() {
+        reloadIfChangedOutsideApp()
         checkFreshClipboard()
         let newCount = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
         if lastKnownPasteCount == 0 && newCount > 0 {
@@ -537,6 +538,27 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
         lastKnownPasteCount = newCount
         checkActivationCard()
+    }
+
+    /// 앱 **밖에서**(공유 익스텐션) `memos.data` 가 바뀌었으면 다시 읽는다.
+    ///
+    /// ⚠️ 이걸 안 하면 밖에서 넣은 단축어가 **조용히 사라진다.** `memos.data` 는 앱이
+    ///    통째로 덮어쓰는 파일이라, 낡은 목록을 들고 있다가 아무 편집이나 저장하는 순간
+    ///    밖에서 덧붙인 것이 지워진다. 사용자에겐 "공유했는데 없어졌다"로만 보인다.
+    ///
+    /// 매번 읽지 않고 표식이 바뀐 때만 읽는다 — 앞으로 올 때마다 파일을 훑을 이유는 없다.
+    private func reloadIfChangedOutsideApp() {
+        let changedAt = UserDefaults(suiteName: AppGroup.identifier)?
+            .double(forKey: DefaultsKey.memosExternalChangeAt) ?? 0
+        guard changedAt > 0 else { return }
+
+        let seenAt = UserDefaults.standard.double(forKey: DefaultsKey.memosExternalChangeSeenAt)
+        guard changedAt > seenAt else { return }
+
+        UserDefaults.standard.set(changedAt, forKey: DefaultsKey.memosExternalChangeSeenAt)
+        print("🔄 [ViewModel] 앱 밖에서 단축어가 바뀌었다 — 다시 읽는다")
+        loadMemos()
+        loadCustomCategories()
     }
 
     private func showCelebrationToast() {

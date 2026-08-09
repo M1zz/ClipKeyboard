@@ -176,10 +176,17 @@ struct InAppKeyboardStage: View {
     /// ⚠️ **+ 가 없으면 이 화면에서는 단축어를 만들 길이 없다.** 무대는 쓰는 자리이지
     ///    만드는 자리가 아니어서 목록으로만 보냈는데, 만들려면 두 번 건너가야 했다.
     private var stageHeader: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: SnippetsStyleSwitchButton.clusterSpacing) {
+            // ⚠️ 이건 **화면 제목**이다. 목록 쪽은 진짜 `navigationTitle` 이라 크게 나오는데
+            //    여기만 `.headline`(본문과 같은 크기)이라, 같은 탭을 오갈 때 한쪽만
+            //    제목이 사라진 것처럼 보였다. 무대는 네비게이션 바가 없어 머리말을 직접
+            //    그리므로, 크기도 직접 제목만큼 준다.
             Text(NSLocalizedString("키보드 미리보기", comment: "In-app keyboard stage title"))
-                .font(.headline)
+                .font(.title2.weight(.bold))
                 .foregroundColor(theme.text)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+                .accessibilityAddTraits(.isHeader)
             Spacer(minLength: 0)
             SnippetsStyleSwitchButton(styleRaw: $styleRaw)
             Button {
@@ -190,7 +197,8 @@ struct InAppKeyboardStage: View {
                 Image(systemName: AppSymbol.plus)
                     .font(.body.weight(.semibold))
                     .foregroundColor(.accentColor)
-                    .frame(width: 44, height: 44)
+                    .frame(width: SnippetsStyleSwitchButton.diameter,
+                           height: SnippetsStyleSwitchButton.diameter)
                     .glassEffect(.clear.interactive(), in: Circle())
             }
             .buttonStyle(.plain)

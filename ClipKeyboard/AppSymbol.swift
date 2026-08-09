@@ -38,6 +38,9 @@ enum AppSymbol {
     static let chevronForward = "chevron.forward"
     static let chevronRight = "chevron.right"
     static let chevronRightCircleFill = "chevron.right.circle.fill"
+    /// 단축어 마트 — 차려 둔 것에서 골라 담는 자리.
+    static let bagFill = "bag.fill"
+    static let circle = "circle"
     static let circleFill = "circle.fill"
     static let clock = "clock"
     static let clockArrowCirclepath = "clock.arrow.circlepath"
@@ -133,6 +136,9 @@ enum AppSymbol {
     static let tag = "tag"
     static let tagFill = "tag.fill"
     static let textAlignleft = "text.alignleft"
+    /// 사진 속 글자를 읽어 값으로 넣는 자리에 쓴다(일괄 가져오기·단축어 내용).
+    static let textViewfinder = "text.viewfinder"
+    static let cameraViewfinder = "camera.viewfinder"
     static let trash = "trash"
     static let trashCircleFill = "trash.circle.fill"
     static let trashFill = "trash.fill"

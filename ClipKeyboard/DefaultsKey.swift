@@ -29,6 +29,19 @@ enum DefaultsKey {
     static let kbBeaconPendingCount = "kb.beacon.pendingCount"
     /// 키보드 비콘 누적 사용 횟수 (App Group) — flush 때마다 pendingCount를 더한다. 사용 통계 지표용.
     static let kbBeaconTotalCount = "kb.beacon.totalCount"
+    /// 앱 **밖에서** `memos.data` 를 고친 시각 (App Group, epoch 초).
+    /// ⚠️ 지금은 공유 익스텐션이 찍는다. `memos.data` 는 메인 앱이 통째로 덮어쓰는 파일이라,
+    ///    앱이 낡은 목록을 들고 있다가 저장하면 밖에서 넣은 단축어가 **사라진다.**
+    ///    앱은 돌아올 때 이 값을 보고 다시 읽는다(`ClipKeyboardListViewModel.onSceneResume`).
+    static let memosExternalChangeAt = "memos.externalChangeAt"
+    /// 앱이 마지막으로 위 변경을 반영한 시각 (standard UD) — 같은 변경을 두 번 읽지 않기 위한 표식.
+    static let memosExternalChangeSeenAt = "memos.externalChangeSeenAt"
+
+    /// 키보드를 쓴 **날짜별** 횟수 (App Group, `"yyyy-MM-dd"` → Int).
+    /// ⚠️ pendingCount와 역할이 다르다 — 저쪽엔 "언제"가 없어서, 앱을 2주 만에 열면
+    ///    그 2주가 통째로 '앱을 연 날 하루'로 뭉친다. 키보드만 쓰는 사람의 활동일을
+    ///    소급해서 복원하려고 날짜를 따로 남긴다. 자세한 건 `KeyboardDayLedger`.
+    static let kbBeaconDayCounts = "kb.beacon.dayCounts"
     static let keyboardExtensionDidLoad = "keyboard_extension_did_load"
     static let keyboardKoreanEnabled = "keyboardKoreanEnabled"
     /// 생활 레이어 프리셋(LivingSkin rawValue) — 카드 위에 사는 것. 값이 없으면 `.none`.

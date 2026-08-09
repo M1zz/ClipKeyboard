@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<!-- 공유 시트 아래 목록에 적히는 줄 이름. 윗줄의 공유 확장(=앱 이름)과 일부러 다르게 둔다 —
+	     같은 시트에 'ClipKeyboard'가 두 번 나오면 무엇이 다른지 알 수 없다. -->
+	<key>CFBundleDisplayName</key>
+	<string>단축어로 저장</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionAttributes</key>
+		<dict>
+			<key>NSExtensionActivationRule</key>
+			<dict>
+				<key>NSExtensionActivationSupportsText</key>
+				<true/>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>1</integer>
+				<key>NSExtensionActivationSupportsImageWithMaxCount</key>
+				<integer>10</integer>
+			</dict>
+			<!-- 화면을 띄우지 않는다 — 누르면 저장되고 시트가 그대로 닫힌다. -->
+			<key>NSExtensionActionWantsFullScreenPresentation</key>
+			<false/>
+		</dict>
+		<!-- ⚠️ 공유 확장과 다른 지점. share-services 는 시트 윗줄(앱), ui-services 는 아래 목록(동작). -->
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.ui-services</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>$(PRODUCT_MODULE_NAME).ActionViewController</string>
+	</dict>
+</dict>
+</plist>

@@ -54,7 +54,26 @@ struct BulkImportView: View {
         var value: String { values.first ?? "" }
     }
 
+    /// 정리된 항목을 무엇으로 보여줄까 — 들어갈 자리(키보드)냐, 다듬는 자리(목록)냐.
+    enum PreviewMode: String, CaseIterable {
+        /// **기본값.** 저장하면 키보드가 어떻게 되는지 그 모습 그대로 보여주고, 눌러서 고른다.
+        case keyboard
+        /// 제목 고치기·보안 토글·콤보 묶기 — 키 모양으로는 할 수 없는 손질.
+        case list
+
+        var label: String {
+            switch self {
+            case .keyboard: return NSLocalizedString("키보드", comment: "Bulk import preview mode: keyboard")
+            case .list: return NSLocalizedString("목록", comment: "Bulk import preview mode: list")
+            }
+        }
+    }
+
     @State private var pasteText: String = ""
+    @State private var previewMode: PreviewMode = .keyboard
+    /// 묶기 모드 — 키에 체크가 나오고, 고른 것들을 콤보 하나로 합친다.
+    @State private var isBundling = false
+    @State private var bundleSelection: Set<UUID> = []
     @State private var splitMode: SplitMode = .auto
     @State private var drafts: [Draft] = []
     @State private var savedCount: Int?
@@ -277,20 +296,60 @@ struct BulkImportView: View {
 
     private var previewSection: some View {
         Section {
-            ForEach($drafts) { $draft in
-                draftRow(draft: $draft)
+            // 보기 전환 — 어느 쪽이든 고르는 대상(`drafts`)은 하나다.
+            Picker("", selection: $previewMode) {
+                ForEach(PreviewMode.allCases, id: \.self) { mode in
+                    Text(mode.label).tag(mode)
+                }
             }
-            .onMove { from, to in
-                drafts.move(fromOffsets: from, toOffset: to)
+            .pickerStyle(.segmented)
+            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+
+            if previewMode == .keyboard {
+                // 키보드 배경을 행 끝까지 칠하려면 기본 여백·배경을 걷어내야 한다.
+                BulkImportKeyPreview(drafts: $drafts,
+                                     isBundling: isBundling,
+                                     bundleSelection: $bundleSelection)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+
+                if isBundling {
+                    bundleActionRow
+                }
+            } else {
+                ForEach($drafts) { $draft in
+                    draftRow(draft: $draft)
+                }
+                .onMove { from, to in
+                    drafts.move(fromOffsets: from, toOffset: to)
+                }
             }
         } header: {
             HStack {
                 Text(String(format: NSLocalizedString("%d memos detected", comment: "Bulk import preview header"), drafts.count))
                 Spacer()
                 // 순서 바꾸기(드래그 핸들) 토글 — 콤보로 묶기 전에 항목을 이웃하게 배치.
-                EditButton()
+                // 키 모양에서는 끌어 옮길 손잡이가 없어 목록에서만 내놓는다.
+                if previewMode == .list {
+                    EditButton()
+                        .font(.body)
+                }
+                // 묶기 모드 — 키 모양에서만. 목록에는 길게 눌러 묶는 길이 이미 있다.
+                if previewMode == .keyboard {
+                    Button(isBundling
+                           ? NSLocalizedString("완료", comment: "Done bundling")
+                           : NSLocalizedString("묶기", comment: "Bulk import: enter combo bundling mode")) {
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            isBundling.toggle()
+                            bundleSelection = []
+                        }
+                    }
                     .font(.body)
-                if drafts.contains(where: { !$0.include }) {
+                }
+                // 묶기 중에는 넣고빼기를 건드리지 않는다 — 지금 체크는 '묶을 것'이지 '넣을 것'이 아니다.
+                if isBundling {
+                    EmptyView()
+                } else if drafts.contains(where: { !$0.include }) {
                     Button(NSLocalizedString("Select all", comment: "Bulk import: select all")) {
                         for i in drafts.indices { drafts[i].include = true }
                     }
@@ -303,9 +362,91 @@ struct BulkImportView: View {
                 }
             }
         } footer: {
-            Text(NSLocalizedString("자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.",
-                                   comment: "Bulk import: secure + combo merge footer"))
+            if previewMode == .keyboard, isBundling {
+                Text(NSLocalizedString("함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.",
+                                       comment: "Bulk import: bundling mode footer"))
+            } else if previewMode == .keyboard {
+                Text(NSLocalizedString("저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠는 목록에서 손보세요.",
+                                       comment: "Bulk import: keyboard preview footer"))
+            } else {
+                Text(NSLocalizedString("자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.",
+                                       comment: "Bulk import: secure + combo merge footer"))
+            }
         }
+    }
+
+    // MARK: - 묶기 모드 (컬렉션에서 체크해서 콤보 만들기)
+
+    /// 고른 것으로 무엇을 할 수 있는지 알려주고 실행하는 줄.
+    /// 아무것도 안 골랐을 땐 무엇을 해야 하는지만 말한다 — 빈 바가 떠 있으면 고장으로 보인다.
+    @ViewBuilder
+    private var bundleActionRow: some View {
+        let picked = drafts.filter { bundleSelection.contains($0.id) }
+
+        HStack(spacing: 12) {
+            if picked.isEmpty {
+                Text(NSLocalizedString("함께 쓸 것들을 눌러 고르세요", comment: "Bulk import: bundling empty hint"))
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            } else {
+                Text(String(format: NSLocalizedString("%d개 선택", comment: "Bulk import: bundling selected count"), picked.count))
+                    .font(.subheadline.weight(.medium))
+            }
+
+            Spacer()
+
+            // 콤보 하나만 골랐으면 푸는 것이 자연스러운 다음 행동이다.
+            if picked.count == 1, picked[0].isCombo {
+                Button(NSLocalizedString("콤보 풀기", comment: "Bulk import: split combo back into items")) {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        splitCombo(picked[0].id)
+                        bundleSelection = []
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+            }
+
+            if picked.count >= 2 {
+                Button(NSLocalizedString("콤보로 묶기", comment: "Bulk import: bundle selected into one combo")) {
+                    withAnimation(.easeInOut(duration: 0.2)) { mergeSelected() }
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    private func mergeSelected() {
+        let result = Self.merging(drafts, selection: bundleSelection)
+        drafts = result.drafts
+        bundleSelection = result.mergedID.map { [$0] } ?? []
+    }
+
+    /// 고른 것들을 **하나의 콤보**로 합친 결과를 돌려준다 (화면과 무관한 순수 규칙).
+    ///
+    /// ⚠️ 이웃이 아니어도 묶인다. 예전에는 바로 위 항목과만 합칠 수 있어서, 떨어져 있는
+    ///    아이디와 비밀번호를 묶으려면 먼저 순서를 바꿔 붙여 놓아야 했다.
+    ///
+    /// 규칙 세 가지 — 전부 조용히 깨질 수 있어 테스트로 고정한다:
+    ///  · 합친 자리와 단계 차례는 **화면에 놓인 순서**를 따른다(고른 순서가 아니다).
+    ///    눈에 보이는 차례가 곧 콤보의 차례여야 결과를 예상할 수 있다.
+    ///  · 하나라도 보안이면 합친 콤보도 보안 — 지키던 것을 합치다가 풀어버리면 안 된다.
+    ///  · 넣기로 한 것이 하나라도 있으면 결과도 넣는다.
+    static func merging(_ drafts: [Draft], selection: Set<UUID>) -> (drafts: [Draft], mergedID: UUID?) {
+        let indices = drafts.indices.filter { selection.contains(drafts[$0].id) }
+        guard indices.count >= 2, let anchor = indices.first else { return (drafts, nil) }
+
+        var result = drafts
+        result[anchor].values = indices.flatMap { drafts[$0].values }
+        result[anchor].isSecure = indices.contains { drafts[$0].isSecure }
+        result[anchor].include = indices.contains { drafts[$0].include }
+
+        for index in indices.dropFirst().reversed() {
+            result.remove(at: index)
+        }
+        return (result, result[anchor].id)
     }
 
     // MARK: - 콤보 묶기/풀기

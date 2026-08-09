@@ -46,25 +46,92 @@ enum UsageReportingService {
         RemoteFlagsService.cachedValue(.usageReportingEnabled)
     }
 
-    /// 앱 실행 시 1회. 실행 횟수를 기록하고(로컬), 설치 스냅샷을 갱신한다(12시간 쓰로틀은 LeeoKit이 담당).
-    static func reportLaunch() {
-        LeeoEngagement.shared.registerLaunch()
+    /// 키보드만 쓴 날을 소급해서 남기는 이벤트 이름 — `appOpenEvent`와 짝이다.
+    /// 앱을 연 날은 `app_open`, 키보드만 쓴 날은 이쪽. 둘을 합치면 진짜 활성 사용자다.
+    static let keyboardActiveDayEvent = "keyboard_active_day"
 
-        // 하루 1건 — 일/주/월/연 차트의 "활동한 사용자"가 실제 접속을 반영하게 한다.
-        record(event: appOpenEvent, minInterval: 20 * 3600)
+    /// 한 번에 소급 전송할 날짜 수 상한 — 백그라운드 task의 짧은 실행 시간 안에 끝내려고 자른다.
+    /// 남은 날은 원장에 그대로 있다가 다음 기회에 이어서 간다.
+    private static let backfillBatchLimit = 40
 
+    /// **프로세스가 뜰 때** 1회. 설치 스냅샷을 갱신한다(12시간 쓰로틀은 LeeoKit이 담당).
+    ///
+    /// ⚠️ 여기에 "사람이 앱을 열었다"는 신호를 두지 말 것. 백그라운드 새로고침으로
+    ///    깨어난 경우에도 이 경로는 돈다 — 앱을 열지도 않은 사람이 접속한 것으로
+    ///    잡히면, 하필 지금 가려내려는 "키보드만 쓰는 사람"이 앱 사용자로 둔갑한다.
+    ///    사람이 앞으로 가져온 순간은 `reportForegroundOpen()`이 맡는다.
+    static func reportProcessStart() {
         guard !isRunningTests, isReportingAllowed else { return }
         Task(priority: .utility) {
             await reporter.report(metrics: currentMetrics())
         }
     }
 
-    /// 주요 행동 1건. 로컬 참여도 카운터는 항상 올리고, 허브 쓰기는 이름당 쓰로틀 간격에 한 번만.
+    /// 사람이 앱을 실제로 앞으로 가져온 순간. 콜드 런치와 백그라운드 복귀 양쪽에서 불린다.
+    static func reportForegroundOpen() {
+        // 실행 횟수는 프로세스당 1회만 — 리뷰 요청 타이밍이 복귀할 때마다 앞당겨지면 안 된다.
+        if !didRegisterLaunch {
+            didRegisterLaunch = true
+            LeeoEngagement.shared.registerLaunch()
+        }
+
+        // 하루 1건 — 일/주/월/연 차트의 "활동한 사용자"가 실제 접속을 반영하게 한다.
+        // 프로세스가 며칠씩 살아 있어도 복귀할 때마다 확인하므로 날짜를 놓치지 않는다.
+        record(event: appOpenEvent, minInterval: 20 * 3600, countsAsEngagement: false)
+    }
+
+    private static var didRegisterLaunch = false
+
+    /// 키보드 익스텐션이 쌓아 둔 활동일을 **그날 날짜 그대로** 허브에 남긴다.
+    ///
+    /// 익스텐션은 네트워크를 쓰지 않으므로(메모리 상한·심사 리스크) 활동일이 App Group에만
+    /// 쌓인다. 앱이 열리거나 백그라운드 새로고침이 돌 때 여기서 몰아 보내되, 각 이벤트의
+    /// `occurredAt`을 실제 사용일로 찍어 2주 만에 열어도 그 2주가 차트에 복원되게 한다.
+    ///
+    /// **오늘은 보내지 않는다.** 오늘 치를 보내고 원장에서 지우면, 오늘 키보드를 더 쓸 때
+    /// 같은 날이 다시 쌓여 중복 이벤트가 된다. 오늘 앱을 열었다면 어차피 `app_open`이
+    /// 활동을 증명하고, 안 열었다면 내일 이후 이 경로가 소급해서 메운다.
+    static func reportKeyboardActiveDays() async {
+        guard !isRunningTests, isReportingAllowed else { return }
+
+        let today = KeyboardDayLedger.dayKey(for: Date())
+        let pending = KeyboardDayLedger.pendingDays().filter { $0 < today }
+        guard !pending.isEmpty else { return }
+
+        // 루프 밖에서 한 번만 만든다 — `reporter`는 접근할 때마다 새 인스턴스를 뽑는 계산 프로퍼티다.
+        let reporter = Self.reporter
+
+        var sent: [String] = []
+        for key in pending.prefix(backfillBatchLimit) {
+            // 백그라운드 task 만료 — 여기까지 보낸 건 확정하고 나머지는 다음 기회에.
+            if Task.isCancelled { break }
+
+            // 날짜를 못 읽는 항목은 되살릴 방법이 없으니 원장에서 치운다(무한 재시도 방지).
+            guard let occurredAt = KeyboardDayLedger.date(fromDayKey: key) else {
+                sent.append(key)
+                continue
+            }
+            // 실패하면 **거기서 멈춘다.** 남은 날은 원장에 그대로 두고 다음 기회에 이어 간다.
+            guard await reporter.logEvent(keyboardActiveDayEvent, occurredAt: occurredAt) else { break }
+            sent.append(key)
+        }
+
+        KeyboardDayLedger.removeDays(sent)
+        let remaining = pending.count - sent.count
+        print("📈 [UsageReportingService] 키보드 활동일 \(sent.count)일 소급 전송, \(remaining)일 남음")
+    }
+
+    /// 주요 행동 1건. 로컬 참여도 카운터를 올리고, 허브 쓰기는 이름당 쓰로틀 간격에 한 번만.
     /// - Parameters:
     ///   - name: 이벤트 이름(snake_case). 슬라이스가 있으면 `paywall_view:memo` 형태.
     ///   - minInterval: 같은 이름을 다시 보내기까지의 최소 간격 (기본 6시간).
-    static func record(event name: String, minInterval: TimeInterval = eventThrottle) {
-        LeeoEngagement.shared.registerSignificantEvent()
+    ///   - countsAsEngagement: 참여도 카운터(`eventCount` 지표)를 올릴지.
+    ///     앱을 앞으로 가져온 것 자체는 "주요 행동"이 아니다 — 그건 실행 횟수가 이미 센다.
+    ///     쓰로틀보다 자주 불리는 신호가 여기로 들어오면 지표가 조용히 부풀어 오른다.
+    static func record(event name: String,
+                       minInterval: TimeInterval = eventThrottle,
+                       countsAsEngagement: Bool = true) {
+        if countsAsEngagement { LeeoEngagement.shared.registerSignificantEvent() }
 
         let key = DefaultsKey.usageEventLastSentPrefix + name
         if let last = UserDefaults.standard.object(forKey: key) as? Date,
@@ -178,9 +245,13 @@ enum UsageReportingService {
 
             for record in page.matchResults.compactMap({ try? $0.1.get() }) {
                 guard config.appIdentifier == nil || (record["appId"] as? String) == config.appIdentifier else { continue }
+                // ⚠️ creationDate는 서버가 "쓴 시각"으로 찍는다. 키보드 활동일처럼 소급
+                //    전송된 건 보낸 날로 뭉치므로, 실제 발생 시각(occurredAt)을 우선 본다.
+                //    구버전이 남긴 레코드엔 이 필드가 없어 creationDate로 떨어진다.
+                let occurredAt = (record["occurredAt"] as? Date) ?? record.creationDate ?? Date()
                 samples.append(EventSample(name: (record["event"] as? String) ?? "-",
                                            installID: record["installID"] as? String,
-                                           date: record.creationDate ?? Date()))
+                                           date: occurredAt))
             }
             cursor = page.queryCursor
         } while cursor != nil && samples.count < limit

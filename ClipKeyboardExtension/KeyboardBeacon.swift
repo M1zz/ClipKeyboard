@@ -23,12 +23,17 @@ enum KeyboardBeacon {
     static let pendingUseCountKey = "kb.beacon.pendingCount"
 
     /// 키보드가 사용됨을 기록. viewDidAppear에서 한 번 호출.
-    /// 비용: UserDefaults write 2개. 네트워크·SDK 사용 없음.
+    /// 비용: UserDefaults write 3개. 네트워크·SDK 사용 없음.
     static func recordUse() {
         guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
-        defaults.set(Date().timeIntervalSince1970, forKey: lastUseKey)
+        let now = Date()
+        defaults.set(now.timeIntervalSince1970, forKey: lastUseKey)
         let prev = defaults.integer(forKey: pendingUseCountKey)
         defaults.set(prev + 1, forKey: pendingUseCountKey)
+
+        // 날짜별 원장 — 위 카운터엔 "언제"가 없어서 앱을 오랜만에 열면 그 사이 활동이
+        // 하루로 뭉친다. 키보드만 쓰는 사람의 활동일은 이쪽으로만 살아남는다.
+        KeyboardDayLedger.recordUse(at: now)
     }
 }
 

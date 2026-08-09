@@ -13,6 +13,68 @@
 
 import Foundation
 
+/// 키보드를 쓴 **날짜별** 원장 — 익스텐션이 쌓고, 메인 앱이 비우며 허브로 소급 전송한다.
+///
+/// 왜 카운터 하나로 부족한가: `kbBeaconPendingCount`에는 "언제"가 없다. 앱을 2주 만에
+/// 열면 그 2주치 활동이 전부 '앱을 연 날 하루'로 뭉쳐, 키보드만 쓰는 사람의 활동일이
+/// 활성 사용자 추이에서 통째로 사라진다. 지금 메우려는 사각지대가 정확히 그것이다.
+///
+/// ⚠️ **앱과 키보드 익스텐션 양쪽에서 컴파일된다.** 익스텐션은 메모리 상한(약 60MB)
+///    안에서 도니 무거운 의존을 들이지 말 것. 여기 있는 건 UserDefaults 읽기·쓰기뿐이다.
+enum KeyboardDayLedger {
+
+    /// 원장 보관 한도. 앱을 이보다 오래 안 열면 가장 오래된 날부터 버린다.
+    /// (넉넉히 잡되 무한정 쌓이지는 않게 — 익스텐션이 매번 통째로 읽고 쓰는 사전이다)
+    static let maxDays = 120
+
+    /// 로컬 달력 기준 날짜 키. 사전순 = 시간순이라 오래된 날 정리에 그대로 쓴다.
+    /// DateFormatter를 쓰지 않는 이유: 캐시하면 사용자가 시간대를 옮겼을 때 낡은 값이
+    /// 남고, 매번 만들면 키보드가 뜰 때마다 값을 치른다.
+    static func dayKey(for date: Date, calendar: Calendar = .current) -> String {
+        let c = calendar.dateComponents([.year, .month, .day], from: date)
+        return String(format: "%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)
+    }
+
+    /// 날짜 키 → 그날 **정오**. 자정이 아니라 정오인 건, 시간대가 바뀌어도
+    /// 앞뒤 날짜로 넘어가지 않게 하려는 것이다(집계 묶음이 하루씩 밀리는 걸 막는다).
+    static func date(fromDayKey key: String, calendar: Calendar = .current) -> Date? {
+        let parts = key.split(separator: "-").compactMap { Int($0) }
+        guard parts.count == 3 else { return nil }
+        return calendar.date(from: DateComponents(year: parts[0], month: parts[1], day: parts[2], hour: 12))
+    }
+
+    /// 키보드를 한 번 썼다고 기록. 익스텐션이 키보드가 뜰 때마다 호출한다.
+    static func recordUse(at date: Date = Date()) {
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        var days = (defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]) ?? [:]
+        days[dayKey(for: date), default: 0] += 1
+        if days.count > maxDays {
+            for key in days.keys.sorted().prefix(days.count - maxDays) { days[key] = nil }
+        }
+        defaults.set(days, forKey: DefaultsKey.kbBeaconDayCounts)
+    }
+
+    /// 아직 허브로 보내지 않은 날짜들 (오래된 순).
+    static func pendingDays() -> [String] {
+        guard let defaults = UserDefaults(suiteName: AppGroup.identifier),
+              let days = defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]
+        else { return [] }
+        return days.keys.sorted()
+    }
+
+    /// 전송을 확정한 날짜만 원장에서 지운다.
+    /// ⚠️ 보내기 **전에** 지우지 말 것 — iCloud 미로그인이나 네트워크 실패로 못 보낸
+    ///    날을 지우면 그 사람의 활동은 영영 복구되지 않는다.
+    static func removeDays(_ keys: [String]) {
+        guard !keys.isEmpty,
+              let defaults = UserDefaults(suiteName: AppGroup.identifier),
+              var days = defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]
+        else { return }
+        for key in keys { days[key] = nil }
+        defaults.set(days, forKey: DefaultsKey.kbBeaconDayCounts)
+    }
+}
+
 /// 추적할 이벤트 이름 — 표준 이름 (snake_case, 40자 이내)
 enum AnalyticsEvent: String {
     /// Paywall 화면 노출

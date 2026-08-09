@@ -14,7 +14,7 @@ enum WhatsNewContent {
     ///
     /// ⚠️ **내용을 바꿀 때 이 값도 같이 올릴 것.** 안 올리면 업데이트한 사람은 이미 본 것으로
     ///    기록돼 있어 새 안내를 **한 번도 못 본다** — 새 기능이 있어도 있는 줄 모른다.
-    static let version = "4.4.4"
+    static let version = "4.4.5"
 }
 
 struct WhatsNewView: View {
@@ -57,6 +57,11 @@ struct WhatsNewView: View {
                             symbol: "square.grid.2x2",
                             title: NSLocalizedString("목록도 그대로 있어요", comment: "What's new 4.4.4 feature 3 title"),
                             detail: NSLocalizedString("툴바 버튼으로 목록과 키보드 화면을 오갈 수 있고, 설정 > 첫 화면에서 시작 화면을 고를 수 있어요.", comment: "What's new 4.4.4 feature 3 detail")
+                        )
+                        featureRow(
+                            symbol: "rectangle.stack.badge.plus",
+                            title: NSLocalizedString("한꺼번에 가져오기도 미리 보고", comment: "What's new 4.4.5 feature title"),
+                            detail: NSLocalizedString("여러 개를 한 번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 됩니다.", comment: "What's new 4.4.5 feature detail")
                         )
                     }
                     .padding(.horizontal, 24)

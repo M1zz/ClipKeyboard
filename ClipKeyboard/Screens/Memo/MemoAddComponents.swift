@@ -240,6 +240,15 @@ struct ContentInputSection: View {
     @State private var showToast = false
     @State private var toastMessage = ""
 
+    // 사진 속 글자로 값 채우기 — 사진을 **붙이는** 것(attachedImages)과 다른 일이다.
+    // 저쪽은 그림을 값으로 삼고, 이쪽은 그림에서 글자만 꺼내 텍스트 값으로 넣는다.
+    @State private var showTextPhotoLibrary = false
+    @State private var showTextCamera = false
+    @State private var isRecognizingText = false
+    /// 읽어낸 줄들 — 값이 있으면 고르는 시트가 뜬다.
+    @State private var recognizedLines: [String]?
+    @State private var showNoTextFound = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // 라벨 — 이 값이 단축어를 탭했을 때 붙여넣어지는 내용.
@@ -265,6 +274,40 @@ struct ContentInputSection: View {
                 .tint(.secondary)
                 .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
 
+                // 사진 속 글자 → 값. 계좌번호·카드번호처럼 **보고 옮겨 적던 것**이
+                // 이 앱에 들어오는 가장 흔한 경로라, 붙여넣기 바로 옆에 둔다.
+                Menu {
+                    Button {
+                        showTextPhotoLibrary = true
+                    } label: {
+                        Label(NSLocalizedString("사진 보관함에서", comment: "Read text from photo library"),
+                              systemImage: AppSymbol.photo)
+                    }
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button {
+                            showTextCamera = true
+                        } label: {
+                            Label(NSLocalizedString("카메라로 찍어서", comment: "Read text using the camera"),
+                                  systemImage: AppSymbol.cameraViewfinder)
+                        }
+                    }
+                } label: {
+                    // ⚠️ 칩 하나에 4글자를 넘기지 말 것 — 세 칸으로 나눈 폭이라 말줄임으로 잘린다.
+                    //    "사진 …"류를 쓰지 않는 이유는 하나 더 있다: 옆 칩이 '이미지'라
+                    //    둘 다 사진 이야기로 읽혀 무엇이 다른지 흐려진다. 여기는 **글자**를 가져온다.
+                    Label(NSLocalizedString("글자 읽기", comment: "Fill the value from text in a photo"),
+                          systemImage: AppSymbol.textViewfinder)
+                        .font(.subheadline.weight(.medium))
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.bordered)
+                .tint(.secondary)
+                .disabled(isRecognizingText)
+                .accessibilityLabel(NSLocalizedString("사진에서 글자를 읽어 값으로 넣기",
+                                                      comment: "Fill value from text in a photo (a11y)"))
+
                 Button {
                     showImagePicker = true
                 } label: {
@@ -278,6 +321,17 @@ struct ContentInputSection: View {
                 .buttonStyle(.bordered)
                 .tint(.secondary)
                 .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
+            }
+
+            // 인식은 몇 초 걸릴 수 있다 — 아무 반응이 없으면 눌린 줄 모르고 다시 누른다.
+            if isRecognizingText {
+                HStack(spacing: 8) {
+                    ProgressView()
+                    Text(NSLocalizedString("사진에서 글자를 읽는 중…", comment: "Recognizing text in photo"))
+                        .font(.subheadline)
+                        .foregroundColor(theme.textMuted)
+                }
+                .accessibilityElement(children: .combine)
             }
 
             if selectedCategory == "이미지" {
@@ -486,6 +540,38 @@ struct ContentInputSection: View {
                 }
             }
         }
+        // 사진 속 글자 읽기 — 고른 사진은 **첨부하지 않는다.** 글자만 꺼내 쓰고 사진은 버린다.
+        .sheet(isPresented: $showTextPhotoLibrary) {
+            ImagePickerView { image in recognizeText(in: image) }
+        }
+        .sheet(isPresented: $showTextCamera) {
+            ImagePickerView(sourceType: .camera) { image in recognizeText(in: image) }
+        }
+        .sheet(isPresented: Binding(
+            get: { recognizedLines != nil },
+            set: { if !$0 { recognizedLines = nil } }
+        )) {
+            if let lines = recognizedLines {
+                PhotoValuePicker(
+                    lines: lines,
+                    onPick: { picked in
+                        value = picked
+                        showToastMessage(NSLocalizedString("사진에서 값을 넣었습니다", comment: "Filled value from photo toast"))
+                    },
+                    onAppend: { line in
+                        // 두 줄짜리 주소처럼 여러 줄이 한 값일 때 — 줄바꿈으로 잇는다.
+                        value = value.isEmpty ? line : value + "\n" + line
+                    }
+                )
+            }
+        }
+        .alert(NSLocalizedString("글자를 찾지 못했어요", comment: "No text found in photo alert title"),
+               isPresented: $showNoTextFound) {
+            Button(NSLocalizedString("확인", comment: "Confirm")) {}
+        } message: {
+            Text(NSLocalizedString("사진에서 읽을 수 있는 글자가 없었어요. 글자가 크고 또렷하게 나온 사진으로 다시 해보세요.",
+                                   comment: "No text found in photo alert message"))
+        }
         .overlay(
             // Toast 메시지
             VStack {
@@ -504,6 +590,30 @@ struct ContentInputSection: View {
             }
             .animation(.easeInOut, value: showToast)
         )
+    }
+
+    /// 고른 사진에서 글자를 읽어 **고르는 시트**로 넘긴다.
+    ///
+    /// ⚠️ 읽은 것을 값에 곧바로 쏟아붓지 않는다. 카드 한 장에서도 카드사 이름·영문 이름·
+    ///    유효기간이 함께 읽히는데, 전부 넣으면 사용자가 지우는 일을 하게 된다 —
+    ///    손으로 치는 것보다 나을 게 없다. 줄을 늘어놓고 **하나를 집게** 해야 사진이 입력을 대신한다.
+    ///
+    /// ⚠️ 사진 자체는 첨부하지 않는다. 여기서 사진은 글자를 담아 온 그릇일 뿐이고,
+    ///    첨부는 옆의 '이미지' 버튼이 하는 다른 일이다.
+    private func recognizeText(in image: UIImage?) {
+        guard let image else { return }
+        isRecognizingText = true
+        OCRService.shared.recognizeText(from: image) { texts in
+            isRecognizingText = false
+            let lines = texts
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+            guard !lines.isEmpty else {
+                showNoTextFound = true
+                return
+            }
+            recognizedLines = lines
+        }
     }
 
     /// 클립보드 값 가져오기 — 텍스트가 있으면 값으로 넣고, 이미지면 이미지로 첨부한다.

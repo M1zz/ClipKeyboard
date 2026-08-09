@@ -1,0 +1,8 @@
+/*
+  InfoPlist.strings
+  ClipKeyboardActionExtension (English)
+
+  Row label in the share sheet's action list. The share extension above shows the app
+  name, so this one names the action instead — two identical rows would be unreadable.
+*/
+"CFBundleDisplayName" = "Save as Shortcut";

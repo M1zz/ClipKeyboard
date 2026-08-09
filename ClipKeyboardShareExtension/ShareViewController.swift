@@ -86,25 +86,10 @@ class ShareViewController: UIViewController {
     }
 
     private func computeDefaults() {
-        if !sharedImages.isEmpty {
-            detectedTitle = NSLocalizedString("Image", comment: "Default title for image memo")
-            return
-        }
-        let s = sharedText
-        if s.contains("@") && s.contains(".") {
-            detectedCategory = "이메일"
-            detectedTitle = "Email"
-        } else if s.lowercased().hasPrefix("http") {
-            detectedCategory = "URL"
-            detectedTitle = "URL"
-        } else if s.range(of: #"^[A-Z]{2}\d{2}[A-Z0-9]{10,30}$"#, options: .regularExpression) != nil {
-            detectedCategory = "IBAN"
-            detectedTitle = "IBAN"
-        } else {
-            detectedCategory = "기본"
-            let firstLine = s.split(separator: "\n", maxSplits: 1).first.map(String.init) ?? s
-            detectedTitle = firstLine.count <= 30 ? firstLine : String(firstLine.prefix(27)) + "…"
-        }
+        // 판정 규칙은 동작 확장과 **같은 곳**에 있다 — 두 곳이 다르게 이름 지으면 안 된다.
+        let detected = QuickShortcutSave.detect(text: sharedText, hasImages: !sharedImages.isEmpty)
+        detectedTitle = detected.title
+        detectedCategory = detected.category
     }
 
     private func presentSheet() {
@@ -114,8 +99,11 @@ class ShareViewController: UIViewController {
                 images: sharedImages,
                 initialTitle: detectedTitle,
                 category: detectedCategory,
-                onSave: { [weak self] title, value in
-                    self?.saveToInbox(title: title, value: value)
+                onSave: { [weak self] title, value, destination in
+                    switch destination {
+                    case .shortcut: self?.saveAsShortcut(title: title, value: value)
+                    case .inbox:    self?.saveToInbox(title: title, value: value)
+                    }
                 },
                 onCancel: { [weak self] in
                     self?.cancel()
@@ -126,83 +114,27 @@ class ShareViewController: UIViewController {
         present(host, animated: true)
     }
 
-    /// 공유받은 항목을 빠른 메모(Inbox) 보관함에 보류 저장한다.
-    /// 정식 메모로 바로 만들지 않고, 사용자가 메인 앱에서 "메모로 저장"을 결정하게 한다.
-    ///
-    /// ⚠️ 스키마는 메인 앱의 `QuickNote` Codable 과 정확히 일치해야 한다(키/타입):
-    ///    - `createdAt` 은 epoch 초(Double)
-    ///    - `contentType` 은 ClipboardContentType rawValue("text"/"image"/"mixed")
-    ///    하드코딩 문자열은 앱 코드를 공유하지 않는 익스텐션 타겟이라 불가피하다.
-    private func saveToInbox(title: String, value: String) {
-        let appGroup = "group.com.Ysoup.TokenMemo"
-        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
-            shareLog.error("📤 [Share] App Group 컨테이너 접근 실패 — 저장 불가")
-            cancel()
-            return
-        }
-        let inboxURL = containerURL.appendingPathComponent("quicknotes.data")
-
-        var notes: [[String: Any]] = []
-        if let data = try? Data(contentsOf: inboxURL),
-           let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
-            notes = decoded
-        }
-
-        let id = UUID().uuidString
-
-        var imageFileNames: [String] = []
-        if !sharedImages.isEmpty {
-            let imagesDir = containerURL.appendingPathComponent("Images")
-            try? FileManager.default.createDirectory(at: imagesDir, withIntermediateDirectories: true)
-
-            for (index, image) in sharedImages.enumerated() {
-                let fileName = index == 0 ? "\(id).jpg" : "\(id)_\(index).jpg"
-                let fileURL = imagesDir.appendingPathComponent(fileName)
-                let resized = resized(image, maxDimension: 1024)
-                if let data = resized.jpegData(compressionQuality: 0.7) {
-                    try? data.write(to: fileURL, options: .atomic)
-                    imageFileNames.append(fileName)
-                }
-            }
-        }
-
-        let hasImages = !imageFileNames.isEmpty
-        let hasText = !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let contentType = hasImages ? (hasText ? "mixed" : "image") : "text"
-
-        let newNote: [String: Any] = [
-            "id": id,
-            "text": value,
-            "imageFileNames": imageFileNames,
-            "contentType": contentType,
-            "createdAt": Date().timeIntervalSince1970,
-            "source": "share",
-            "suggestedTitle": title,
-            "suggestedCategory": detectedCategory
-        ]
-        notes.append(newNote)
-
-        do {
-            let data = try JSONSerialization.data(withJSONObject: notes, options: [])
-            try data.write(to: inboxURL, options: .atomic)
-            shareLog.info("📤 [Share] 보관함 저장 완료 — 총 \(notes.count)개, contentType=\(contentType)")
-        } catch {
-            shareLog.error("📤 [Share] 보관함 저장 실패: \(error)")
-        }
-
-        UserDefaults(suiteName: appGroup)?.set(Date().timeIntervalSince1970, forKey: "quicknote.lastSavedAt")
-
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-        extensionContext?.completeRequest(returningItems: nil)
+    /// 바로 쓸 수 있는 단축어로 저장 — 실제 쓰기는 `QuickShortcutSave` 가 한다.
+    private func saveAsShortcut(title: String, value: String) {
+        let outcome = QuickShortcutSave.saveAsShortcut(title: title, value: value,
+                                                       category: detectedCategory, images: sharedImages)
+        finish(outcome)
     }
 
-    private func resized(_ image: UIImage, maxDimension: CGFloat) -> UIImage {
-        let size = image.size
-        guard size.width > maxDimension || size.height > maxDimension else { return image }
-        let ratio = min(maxDimension / size.width, maxDimension / size.height)
-        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-        let renderer = UIGraphicsImageRenderer(size: newSize)
-        return renderer.image { _ in image.draw(in: CGRect(origin: .zero, size: newSize)) }
+    /// 나중에 정하도록 보관함에 담는다.
+    private func saveToInbox(title: String, value: String) {
+        let outcome = QuickShortcutSave.saveToInbox(title: title, value: value,
+                                                    category: detectedCategory, images: sharedImages)
+        finish(outcome)
+    }
+
+    private func finish(_ outcome: QuickShortcutSave.Outcome) {
+        guard outcome != .failed else {
+            shareLog.error("📤 [Share] 저장 실패 — 시트를 닫지 않는다")
+            return
+        }
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        extensionContext?.completeRequest(returningItems: nil)
     }
 
     private func cancel() {
@@ -212,19 +144,52 @@ class ShareViewController: UIViewController {
 
 // MARK: - SwiftUI sheet
 
+/// 공유받은 것을 어디에 둘까.
+enum ShareDestination: String, CaseIterable, Identifiable {
+    /// **기본값.** 바로 쓸 수 있는 단축어 — 키보드에 곧장 올라온다.
+    case shortcut
+    /// 나중에 정하기 — 보관함에 두고 앱에서 추린다.
+    case inbox
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .shortcut: return NSLocalizedString("단축어", comment: "Share destination: save as a shortcut right away")
+        case .inbox:    return NSLocalizedString("보관함", comment: "Share destination: keep in the inbox for later")
+        }
+    }
+
+    var explanation: String {
+        switch self {
+        case .shortcut:
+            return NSLocalizedString("바로 키보드에 올라와요. 다른 앱에서 곧장 꺼내 쓸 수 있어요.",
+                                     comment: "Share destination explanation: shortcut")
+        case .inbox:
+            return NSLocalizedString("보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요.",
+                                     comment: "Share destination explanation: inbox")
+        }
+    }
+}
+
 private struct ShareSaveView: View {
     let text: String
     let images: [UIImage]
     @State var title: String
     let category: String
-    let onSave: (String, String) -> Void
+    let onSave: (String, String, ShareDestination) -> Void
     let onCancel: () -> Void
+
+    /// ⚠️ 기본은 **단축어**다. 사파리에서 계좌번호를 잡아 공유한 사람은 그걸 쓰려고 온 것이지
+    ///    나중에 추리려고 온 것이 아니다. 예전에는 무조건 보관함이라, 앱에 들어가
+    ///    "메모로 저장"을 한 번 더 눌러야 했다.
+    @State private var destination: ShareDestination = .shortcut
 
     private var isImageShare: Bool { !images.isEmpty }
     private var canSave: Bool { isImageShare || !text.isEmpty }
 
     init(text: String, images: [UIImage], initialTitle: String, category: String,
-         onSave: @escaping (String, String) -> Void,
+         onSave: @escaping (String, String, ShareDestination) -> Void,
          onCancel: @escaping () -> Void) {
         self.text = text
         self.images = images
@@ -253,20 +218,33 @@ private struct ShareSaveView: View {
                 }
 
                 Section {
+                    Picker(NSLocalizedString("어디에 담을까요?", comment: "Share sheet: destination picker"),
+                           selection: $destination) {
+                        ForEach(ShareDestination.allCases) { option in
+                            Text(option.label).tag(option)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
                     HStack {
-                        Image(systemName: "tray.and.arrow.down.fill")
+                        Image(systemName: destination == .shortcut ? "keyboard" : "tray.and.arrow.down.fill")
                             .foregroundColor(.secondary)
-                        Text(NSLocalizedString("Saved to Inbox", comment: "Destination label in share sheet"))
+                        Text(destination.explanation)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                        Spacer(minLength: 0)
+                    }
+
+                    HStack {
+                        Text(NSLocalizedString("분류", comment: "Share sheet: detected category label"))
                             .foregroundColor(.secondary)
                         Spacer()
                         Text(category)
                             .foregroundColor(.primary)
                     }
-                } footer: {
-                    Text(NSLocalizedString("It's kept in your inbox so you can decide later whether to save it as a keyboard memo.", comment: "Share sheet inbox explanation"))
                 }
             }
-            .navigationTitle(NSLocalizedString("Add to Inbox", comment: "Share extension title"))
+            .navigationTitle(NSLocalizedString("ClipKeyboard에 담기", comment: "Share extension title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -274,7 +252,7 @@ private struct ShareSaveView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(NSLocalizedString("Save", comment: "Save")) {
-                        onSave(title, text)
+                        onSave(title, text, destination)
                     }
                     .fontWeight(.semibold)
                     .disabled(!canSave)

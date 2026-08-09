@@ -90,6 +90,8 @@ struct ClipKeyboardList: View {
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
     @State private var showPaywallFromKeyboard: Bool = false
     @State private var showBulkImport: Bool = false
+    /// + 메뉴에서 "단축어 마트" → 차려 둔 것에서 골라 빈칸만 채워 담는 시트
+    @State private var showShortcutMart: Bool = false
     /// + 메뉴에서 "빠른 메모 담기" → 보관함(Inbox) 추가 시트
     @State private var showQuickNoteAdd: Bool = false
     /// App Intent·Control Center·딥링크로 빠른 메모 보관함(Inbox)을 직접 열 때 사용.
@@ -2942,7 +2944,9 @@ struct ClipKeyboardList: View {
         //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
         //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
         ToolbarItem(placement: .topBarTrailing) {
-            HStack(spacing: -8) {
+            // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
+            //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
+            HStack(spacing: SnippetsStyleSwitchButton.clusterSpacing) {
                 toolbarButtons
             }
         }
@@ -2988,6 +2992,14 @@ struct ClipKeyboardList: View {
                 Label(draftMenuTitle, systemImage: "clock.arrow.circlepath")
             }
             Divider()
+            // 빈 화면 앞에서 "뭘 만들지"부터 떠올리지 않아도 되게 — 차려 둔 것에서 골라 온다.
+            Button {
+                HapticManager.shared.light()
+                showShortcutMart = true
+            } label: {
+                Label(NSLocalizedString("단축어 마트에서 고르기", comment: "Menu: shortcut mart"),
+                      systemImage: AppSymbol.bagFill)
+            }
             Button {
                 showBulkImport = true
             } label: {
@@ -3006,6 +3018,10 @@ struct ClipKeyboardList: View {
         .popoverTip(addMemoTip)
         .sheet(isPresented: $showBulkImport) {
             BulkImportView()
+        }
+        .sheet(isPresented: $showShortcutMart) {
+            // 담을 때마다 목록이 갱신되도록 — 마트는 여러 개를 이어서 담을 수 있다.
+            ShortcutMartView { _ in viewModel.loadMemos() }
         }
         .sheet(isPresented: $showDraftList) {
             NavigationStack {

@@ -31,9 +31,16 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
-            version: "4.4.4",
+            version: "4.4.5",
             released: nil,
             highlights: [
+                NSLocalizedString("한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요 — 키를 눌러 뺄 것만 빼면 돼요", comment: "Changelog 4.4.5 item 1"),
+                NSLocalizedString("사진 속 글자를 값으로 바로 넣을 수 있어요 — 읽은 줄에서 필요한 것만 고르면 돼요", comment: "Changelog 4.4.5 item 2"),
+                NSLocalizedString("단축어 마트가 생겼어요 — 상황을 고르고 빈칸만 내 것으로 채우면 바로 키보드에 들어가요", comment: "Changelog 4.4.5 item 4"),
+                NSLocalizedString("제어센터와 위젯에서 앱을 열지 않고 바로 복사돼요 — 제어센터에 '값 복사' 버튼을 추가해 보세요", comment: "Changelog 4.4.5 item 5"),
+                NSLocalizedString("사파리 등에서 공유하면 바로 단축어로 담겨요 — 앱에 들어가 한 번 더 누르지 않아도 돼요", comment: "Changelog 4.4.5 item 6"),
+                NSLocalizedString("공유 시트 아래 목록의 '단축어로 저장'을 누르면 화면 없이 한 번에 담겨요", comment: "Changelog 4.4.5 item 7"),
+                NSLocalizedString("체크해서 함께 쓰는 값들을 콤보 한 키로 묶을 수 있어요 — 떨어져 있어도 묶여요", comment: "Changelog 4.4.5 item 3"),
                 NSLocalizedString("앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요", comment: "Changelog 4.4.4 item 1"),
                 NSLocalizedString("설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)", comment: "Changelog 4.4.4 item 2"),
                 NSLocalizedString("짧게 누르면 입력창에, 길게 누르면 클립보드로 — 앱 안에서요", comment: "Changelog 4.4.4 item 4"),

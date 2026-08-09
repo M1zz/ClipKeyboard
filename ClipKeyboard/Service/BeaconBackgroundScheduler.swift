@@ -51,20 +51,26 @@ enum BeaconBackgroundScheduler {
     }
 
     #if canImport(BackgroundTasks)
-    /// 백그라운드 task 실행 — 비콘 flush + 다음 task 재예약.
+    /// 백그라운드 task 실행 — 비콘 flush + 활동일 소급 전송 + 다음 task 재예약.
     private static func handleBeaconFlush(task: BGAppRefreshTask) {
-        // 작업 만료 핸들러 — iOS가 시간 부족하면 호출됨
-        task.expirationHandler = {
-            task.setTaskCompleted(success: false)
-        }
-
         // 다음 task는 무조건 미리 예약 (이번 task가 실패하더라도 체인 유지)
         scheduleNext()
 
-        // 비콘 flush — keyboard_used 이벤트 (AnalyticsService, 현재 no-op)
-        AnalyticsService.flushKeyboardBeacon()
+        // ⚠️ 소급 전송이 끝난 **뒤에** 완료를 알린다. 예전엔 여기서 바로 setTaskCompleted를
+        //    불러, 허브로 나가던 CloudKit 쓰기가 시작하자마자 잘렸다 — 앱을 안 여는
+        //    사용자를 세려고 만든 경로가 정작 아무것도 못 보내고 있었다.
+        //    (flushKeyboardBeacon 의 keyboard_used 는 여전히 fire-and-forget 이라 잘릴 수
+        //     있지만, 횟수 자체는 totalCount 로 남아 다음 스냅샷에 실려 유실되지 않는다)
+        let work = Task { @MainActor in
+            defer { task.setTaskCompleted(success: !Task.isCancelled) }
 
-        task.setTaskCompleted(success: true)
+            AnalyticsService.flushKeyboardBeacon()
+            await UsageReportingService.reportKeyboardActiveDays()
+        }
+
+        // 만료되면 취소만 한다 — 완료 통보는 위 defer가 한 번만 부른다(이중 호출 방지).
+        // 소급 전송 루프가 날짜 사이마다 취소를 확인하므로 곧바로 빠져나온다.
+        task.expirationHandler = { work.cancel() }
     }
     #endif
 }

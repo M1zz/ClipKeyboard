@@ -138,7 +138,9 @@ struct ClipKeyboardApp: App {
         DiagnosticsService.shared.start()
 
         // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
-        UsageReportingService.reportLaunch()
+        // ⚠️ 여기는 백그라운드 새로고침으로 깨어난 경우에도 돈다. "앱을 열었다"는 신호는
+        //    화면이 실제로 뜨는 곳(scenePhase)에서 따로 남긴다 — 아래 reportForegroundOpen.
+        UsageReportingService.reportProcessStart()
 
         // 오래된 월 원장·일별 키 정리 — 하루 한 번만 실제로 돈다.
         // ⚠️ 반드시 **앱에서만**. 전체 사전을 훑는 일이라 키보드 익스텐션의 입력 경로에 두면
@@ -674,6 +676,11 @@ struct ClipKeyboardApp: App {
                         showDataRecovery = true
                     }
 
+                    // 콜드 런치 — scenePhase 변화만 믿으면 이미 .active 인 채로 첫 화면이
+                    // 뜬 경우를 놓친다. 양쪽에서 불러도 실행 횟수는 프로세스당 1회,
+                    // app_open 은 20시간 쓰로틀이라 중복으로 세지 않는다.
+                    reportForegroundActivity()
+
                     migrateComboModelIfNeeded()
                     migrateVisualCuesIfNeeded()
                     migrateKoreanEnabledIfNeeded()
@@ -742,6 +749,7 @@ struct ClipKeyboardApp: App {
                         ProFeatureManager.mirrorSyncEntitlement()
                         MemoSyncEngine.shared.startIfEnabled()
                         MemoSyncEngine.shared.syncNow()
+                        reportForegroundActivity()
                     }
                 }
                 // 데이터 손상 복구 안내 — 다른 시트보다 먼저 붙여 우선 노출시킨다.
@@ -886,6 +894,20 @@ struct ClipKeyboardApp: App {
         #endif
     }
 
+    // MARK: - 사용 통계 (사람이 앱을 앞으로 가져온 순간)
+
+    /// 화면이 실제로 떴을 때만 불린다 — 백그라운드 새로고침으로 프로세스만 깨어난 경우는 제외.
+    /// 그래야 "앱을 여는 사람"과 "키보드만 쓰는 사람"이 통계에서 섞이지 않는다.
+    private func reportForegroundActivity() {
+        UsageReportingService.reportForegroundOpen()
+
+        // 키보드 익스텐션이 App Group에만 쌓아 둔 활동일을 그날 날짜 그대로 소급 전송.
+        // 앱을 오랜만에 열었어도 그 사이 키보드를 쓴 날들이 추이 차트에 복원된다.
+        Task(priority: .utility) {
+            await UsageReportingService.reportKeyboardActiveDays()
+        }
+    }
+
     // MARK: - URL Scheme Handler
 
     private func handleOpenURL(_ url: URL) {
@@ -963,12 +985,24 @@ struct ClipKeyboardApp: App {
 /// 앱 루트 — 순정 시스템 탭바(Liquid Glass 캡슐) 그대로 사용.
 /// 한때 캡슐 없는 커스텀 하단 바로 대체했으나 순정 대비 어색해서 네이티브로 원복.
 struct MainTabView: View {
+    /// 단축어 탭이 지금 무엇을 보여주고 있는가 — 탭 이름·아이콘이 이 값을 따라간다.
+    /// (`SnippetsTab` 이 쓰는 것과 **같은 키·같은 저장소**라 전환 버튼을 누르면 여기도 바뀐다)
+    @AppStorage(DefaultsKey.snippetsTabStyle) private var snippetsStyleRaw: String = SnippetsTabStyle.list.rawValue
+
+    private var snippetsStyle: SnippetsTabStyle {
+        SnippetsTabStyle(rawValue: snippetsStyleRaw) ?? .list
+    }
+
     var body: some View {
         TabView {
             // 목록이냐 키보드 무대냐는 **사용자가 고른다**(설정 > 첫 화면).
             // 쓰던 사람의 기본은 목록 — 업데이트했다고 첫 화면이 바뀌면 안 된다.
-            Tab(NSLocalizedString("단축어", comment: "Tab: snippets"),
-                systemImage: "square.grid.2x2") {
+            //
+            // ⚠️ 탭 이름과 아이콘이 **지금 보고 있는 화면**을 따라간다. 예전에는 늘 "단축어"에
+            //    격자 아이콘이라, 키보드 무대를 보는 중에도 탭바만 격자를 가리켜 어긋났다.
+            //    탭바는 "여기가 어디인지"를 말하는 자리이므로 화면과 같은 말을 해야 한다.
+            Tab(snippetsStyle.tabName,
+                systemImage: snippetsStyle.symbolName) {
                 SnippetsTab()
             }
             Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"),
