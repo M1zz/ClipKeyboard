@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 내부 문서 — 제품 랜딩 페이지 옆에 검색 결과로 뜨지 않게 한다. -->
+<meta name="robots" content="noindex, nofollow">
+<title>ClipKeyboard 4.4.5 QA — 액션과 목적</title>
+</head>
+<body>
+<style>
+  :root {
+    --ground: #F6F8FB;
+    --surface: #FFFFFF;
+    --surface-2: #EEF2F7;
+    --ink: #181C22;
+    --ink-2: #3D4551;
+    --muted: #68707E;
+    --line: #DCE2EA;
+    --line-strong: #C3CCD8;
+    --accent: #2F6FED;
+    --accent-soft: #E4EDFD;
+    --block: #C0362C;
+    --block-soft: #FBE9E7;
+    --core: #A66A00;
+    --core-soft: #FBF0DC;
+    --reg: #37785A;
+    --reg-soft: #E4F1EA;
+    --judge: #6B4EA8;
+    --judge-soft: #EDE8F8;
+    --shadow: 0 1px 2px rgba(24, 28, 34, .06), 0 1px 1px rgba(24, 28, 34, .04);
+
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+            "Helvetica Neue", "Malgun Gothic", sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #12151A;
+      --surface: #191D24;
+      --surface-2: #212730;
+      --ink: #E9EDF3;
+      --ink-2: #C3CBD6;
+      --muted: #929BA9;
+      --line: #2B323C;
+      --line-strong: #3A424E;
+      --accent: #6E9CFF;
+      --accent-soft: #1C2739;
+      --block: #F08279;
+      --block-soft: #33201E;
+      --core: #E0A54B;
+      --core-soft: #302512;
+      --reg: #6FBF95;
+      --reg-soft: #16291F;
+      --judge: #B79BE8;
+      --judge-soft: #241D33;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #12151A;
+    --surface: #191D24;
+    --surface-2: #212730;
+    --ink: #E9EDF3;
+    --ink-2: #C3CBD6;
+    --muted: #929BA9;
+    --line: #2B323C;
+    --line-strong: #3A424E;
+    --accent: #6E9CFF;
+    --accent-soft: #1C2739;
+    --block: #F08279;
+    --block-soft: #33201E;
+    --core: #E0A54B;
+    --core-soft: #302512;
+    --reg: #6FBF95;
+    --reg-soft: #16291F;
+    --judge: #B79BE8;
+    --judge-soft: #241D33;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 40px 24px 96px; }
+
+  header { display: flex; flex-direction: column; gap: 14px; margin-bottom: 30px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  h1 {
+    margin: 0; font-size: clamp(28px, 4.4vw, 40px); line-height: 1.12;
+    letter-spacing: -.024em; font-weight: 800; text-wrap: balance;
+  }
+
+  .lede { margin: 0; max-width: 66ch; color: var(--ink-2); }
+
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 12px; }
+  .meta span {
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 5px; padding: 3px 8px; color: var(--ink-2);
+  }
+
+  /* ── 콘솔 ─────────────────────────────── */
+  .console {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    margin: 0 -24px 28px; padding: 12px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px;
+  }
+  .gauge { display: flex; align-items: center; gap: 10px; min-width: 210px; flex: 1 1 210px; }
+  .gauge-track { flex: 1; height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .gauge-fill { height: 100%; width: 0%; background: var(--accent); transition: width .25s ease; }
+  .gauge-num {
+    font-family: var(--mono); font-size: 12.5px;
+    font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap;
+  }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filters button {
+    font: inherit; font-size: 12.5px; font-family: var(--mono);
+    padding: 5px 10px; border: 1px solid var(--line-strong);
+    background: var(--surface); color: var(--ink-2); border-radius: 6px; cursor: pointer;
+  }
+  .filters button:hover { border-color: var(--accent); color: var(--accent); }
+  .filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filters button:focus-visible, .reset:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .reset {
+    font: inherit; font-size: 12.5px; font-family: var(--mono);
+    background: none; border: none; color: var(--muted);
+    text-decoration: underline; cursor: pointer; padding: 4px;
+  }
+  .reset:hover { color: var(--block); }
+
+  /* ── 열 머리 ───────────────────────────── */
+  .legend {
+    display: grid; grid-template-columns: 34px 88px 1fr 1fr; gap: 0 16px;
+    padding: 0 16px 8px; margin-bottom: -1px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .legend span:nth-child(3) { color: var(--accent); }
+
+  /* ── 스위트 ────────────────────────────── */
+  section { margin-bottom: 40px; scroll-margin-top: 80px; }
+
+  .suite-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .suite-head h2 { margin: 0; font-size: 20px; letter-spacing: -.018em; font-weight: 750; }
+  .tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .05em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 4px; font-weight: 600;
+  }
+  .tag.block { background: var(--block-soft); color: var(--block); }
+  .tag.core  { background: var(--core-soft);  color: var(--core); }
+  .tag.reg   { background: var(--reg-soft);   color: var(--reg); }
+  .tag.judge { background: var(--judge-soft); color: var(--judge); }
+  .suite-note { margin: 0 0 14px; color: var(--muted); font-size: 14px; max-width: 70ch; }
+
+  /* ── 행 ────────────────────────────────── */
+  .rows {
+    border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    background: var(--surface); box-shadow: var(--shadow);
+  }
+  .row {
+    display: grid; grid-template-columns: 34px 88px 1fr 1fr; gap: 4px 16px;
+    padding: 14px 16px; border-top: 1px solid var(--line); align-items: start;
+  }
+  .row:first-child { border-top: none; }
+  .row.done { background: var(--surface-2); }
+  .row.done .act { color: var(--muted); text-decoration: line-through; }
+  .row.done code { opacity: .55; }
+
+  .row input[type="checkbox"] {
+    width: 19px; height: 19px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer;
+  }
+  .row input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .rid {
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    color: var(--muted); padding-top: 3px;
+  }
+
+  .act { font-size: 15px; color: var(--ink); min-width: 0; }
+  .act ol { margin: 6px 0 0; padding-left: 17px; display: grid; gap: 3px; font-size: 14.5px; }
+  .act ol li::marker { color: var(--accent); font-family: var(--mono); font-size: 12px; }
+
+  .why { font-size: 14px; color: var(--ink-2); min-width: 0; }
+  .why b { color: var(--ink); font-weight: 650; }
+  .why .fail {
+    display: block; margin-top: 6px; font-size: 13.5px; color: var(--muted);
+    border-left: 2px solid var(--line-strong); padding-left: 10px;
+  }
+  .why .fail::before {
+    content: "어긋나면"; display: block;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em;
+    color: var(--block); margin-bottom: 1px;
+  }
+
+  code {
+    font-family: var(--mono); font-size: .875em;
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 4px; padding: 1px 4px; word-break: break-word;
+  }
+
+  /* ── 못 하는 것 ────────────────────────── */
+  .cannot {
+    border: 1px dashed var(--line-strong); border-radius: 10px;
+    padding: 20px 22px; background: transparent;
+  }
+  .cannot h2 { margin: 0 0 4px; font-size: 17px; }
+  .cannot p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .cannot ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; font-size: 14.5px; color: var(--ink-2); }
+
+  footer {
+    margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 13px;
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  @media (max-width: 780px) {
+    .legend { display: none; }
+    .row { grid-template-columns: 30px 1fr; }
+    .rid { grid-column: 2; padding-top: 0; }
+    .act, .why { grid-column: 2; }
+    .why {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px dashed var(--line);
+    }
+    .why::before {
+      content: "목적"; display: block;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em;
+      color: var(--muted); margin-bottom: 3px;
+    }
+    .console { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
+    .wrap { padding: 28px 16px 72px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">QA · 액션 / 목적</div>
+    <h1>ClipKeyboard 4.4.5</h1>
+    <p class="lede">
+      왼쪽은 <strong>손으로 하는 일</strong>, 오른쪽은 <strong>그걸로 무엇이 증명되는가</strong>입니다.
+      4.4.4가 출시되지 않은 채 합쳐져서 사용자는 4.4.3에서 곧장 넘어옵니다 — 두 버전 분량을 함께 봐야 합니다.
+    </p>
+    <div class="meta">
+      <span>MARKETING_VERSION 4.4.5</span>
+      <span>실기기 필수</span>
+      <span>타겟 5개</span>
+      <span>액션 45개</span>
+    </div>
+  </header>
+
+  <div class="console">
+    <div class="gauge">
+      <div class="gauge-track"><div class="gauge-fill" id="fill"></div></div>
+      <span class="gauge-num" id="num">0 / 0</span>
+    </div>
+    <div class="filters" role="group" aria-label="보기 필터">
+      <button type="button" data-filter="all" aria-pressed="true">전체</button>
+      <button type="button" data-filter="block" aria-pressed="false">배포 차단</button>
+      <button type="button" data-filter="judge" aria-pressed="false">판단 필요</button>
+      <button type="button" data-filter="todo" aria-pressed="false">미완료</button>
+    </div>
+    <button type="button" class="reset" id="reset">체크 초기화</button>
+  </div>
+
+  <div class="legend">
+    <span></span><span>ID</span><span>내가 할 액션</span><span>목적</span>
+  </div>
+
+  <!-- ═══ 준비 ═══ -->
+  <section id="prep">
+    <div class="suite-head">
+      <h2>먼저 해둘 일</h2>
+      <span class="tag block">선행</span>
+    </div>
+    <p class="suite-note">이게 어긋난 채로 아래를 돌리면 절반이 엉뚱하게 실패하고, 원인이 안 보입니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="PRE-01">
+        <span class="rid">PRE-01</span>
+        <span class="act">
+          CloudKit Dashboard에서 <code>occurredAt</code> 배포
+          <ol>
+            <li>Development 환경으로 새 빌드를 한 번 실행하고 아무 행동이나 하기</li>
+            <li>Dashboard › <code>iCloud.com.Ysoup.FeedbackHub</code> › <code>UsageEvent</code>에 <code>occurredAt</code>이 생겼는지 확인</li>
+            <li>Schema › Deploy Schema Changes to Production</li>
+          </ol>
+        </span>
+        <span class="why">
+          Production 스키마는 잠겨 있어서, 없는 필드를 담아 저장하면 <b>그 저장이 실패</b>합니다.
+          <span class="fail">앱이 먼저 나가면 <code>app_open</code>까지 포함해 사용 통계가 전멸합니다. 스냅샷만 살아남아 "사용자는 있는데 아무도 안 쓴다"로 보입니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="PRE-02">
+        <span class="rid">PRE-02</span>
+        <span class="act">
+          기기 2대 준비 — 4.4.3에서 <b>업데이트한 것</b>과 <b>새로 설치한 것</b>
+        </span>
+        <span class="why">
+          첫 화면·튜토리얼이 두 경우로 갈립니다. 쓰던 사람에게는 튜토리얼을 다시 깔지 않는 것이 규칙이라, 한 대만으로는 절반을 못 봅니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="PRE-03">
+        <span class="rid">PRE-03</span>
+        <span class="act">
+          iCloud 로그인 · 키보드 추가 · <b>전체 접근 허용</b>까지 켜기
+        </span>
+        <span class="why">
+          전체 접근이 없으면 클립보드 동작이 <b>아무 반응 없이</b> 실패합니다. iCloud 로그아웃이면 통계가 조용히 건너뜁니다 — 둘 다 정상 동작이라 버그로 오인하기 쉽습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="PRE-04">
+        <span class="rid">PRE-04</span>
+        <span class="act">
+          기기 언어를 영어로 바꿀 수 있게 준비 (또는 영어 기기 1대)
+        </span>
+        <span class="why">
+          이번에 새 문자열이 60개 넘게 들어갔고, 위젯·확장 타겟 문자열은 앱 화면과 따로 놉니다.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 데이터가 사라지는가 ═══ -->
+  <section id="data">
+    <div class="suite-head">
+      <h2>데이터가 사라지지 않는가</h2>
+      <span class="tag block">배포 차단</span>
+    </div>
+    <p class="suite-note">이번 버전은 <b>앱 밖에서도</b> 같은 저장소에 씁니다. 여기가 이번 릴리즈에서 가장 위험한 자리입니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="DATA-01">
+        <span class="rid">DATA-01</span>
+        <span class="act">
+          공유로 넣은 것이 살아남는지
+          <ol>
+            <li>사파리에서 텍스트 선택 → 공유 → ClipKeyboard → 단축어로 저장</li>
+            <li>앱을 열어 목록에 보이는지 확인</li>
+            <li><b>아무 단축어나 편집해서 저장</b></li>
+            <li>목록 다시 확인</li>
+          </ol>
+        </span>
+        <span class="why">
+          앱은 <code>memos.data</code>를 <b>통째로 덮어씁니다.</b> 복귀 시 다시 읽지 않으면 밖에서 넣은 것이 다음 저장에 지워집니다.
+          <span class="fail">3번을 건너뛰면 통과처럼 보입니다. 사용자에겐 "공유했는데 없어졌다"로만 보이고, 재현 조건을 못 찾습니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="DATA-02">
+        <span class="rid">DATA-02</span>
+        <span class="act">
+          4.4.3 기기에 덮어 설치하고 단축어 수 · 카테고리 · 콤보 · 즐겨찾기 · 보안 단축어를 <b>업데이트 전 숫자와 대조</b>
+        </span>
+        <span class="why">
+          확장이 쓴 JSON에 스키마가 어긋난 항목이 하나라도 있으면 <b>배열 전체</b> 디코딩이 실패해, 제목·값만 남는 구버전으로 떨어집니다.
+          <span class="fail">카테고리·콤보·즐겨찾기가 통째로 날아갑니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="DATA-03">
+        <span class="rid">DATA-03</span>
+        <span class="act">
+          공유로 넣은 단축어가 <b>최근순 정렬에서 맨 위</b>에 오는지
+        </span>
+        <span class="why">
+          확장은 앱 코드를 못 써서 날짜를 손으로 적습니다. 기준이 어긋나면 31년 밀립니다.
+          <span class="fail">맨 아래에 처박힙니다. 화면에는 "왜 여기 있지"로만 보여서 원인을 짐작하기 어렵습니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="block">
+        <input type="checkbox" data-id="DATA-04">
+        <span class="rid">DATA-04</span>
+        <span class="act">
+          iCloud 백업 → 다른 기기에서 복원 (이미지가 든 단축어 포함)
+        </span>
+        <span class="why">
+          이미지 파일명이 App Group 컨테이너 경로에 묶여 있어, 저장 경로를 건드린 변경 뒤에는 늘 확인해야 합니다.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 값을 넣는 길 ═══ -->
+  <section id="in">
+    <div class="suite-head">
+      <h2>값이 앱에 들어오는가</h2>
+      <span class="tag core">이번 릴리즈의 본론</span>
+    </div>
+    <p class="suite-note">이번 버전이 한 일은 "값을 넣는 길목마다 한 걸음씩 걷어낸 것"입니다. 그 걸음이 실제로 줄었는지 봅니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-01">
+        <span class="rid">IN-01</span>
+        <span class="act">
+          <b>마트</b> — <code>+</code> › 단축어 마트 › "계좌번호 공유" › <b>이름만</b> 채우고 계좌번호는 비운 채 이거 쓰기
+        </span>
+        <span class="why">
+          채운 것은 박히고 <b>비운 칸은 변수로 남는</b>지. 매번 달라지는 값(금액·날짜)을 지금 정하라고 강요하지 않는 것이 이 화면의 핵심입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-02">
+        <span class="rid">IN-02</span>
+        <span class="act">
+          이어서 <code>{이름}</code>이 든 <b>다른</b> 마트 항목 열기
+        </span>
+        <span class="why">
+          방금 적은 값이 칩으로 떠서 <b>두 번째부터는 타이핑이 없는</b>지. 마트를 쓸수록 빨라지는 구조가 실제로 도는지 보는 항목입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-03">
+        <span class="rid">IN-03</span>
+        <span class="act">
+          페르소나를 <b>고르지 않은</b> 계정으로 마트 열기 / <b>직장인</b>으로 열어 전체 전환
+        </span>
+        <span class="why">
+          페르소나가 없을 때 세그먼트 대신 안내가 나오는지, 있을 때 실제로 걸러지는지. 52개를 통째로 늘어놓으면 고르는 일이 또 하나의 숙제가 됩니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-04">
+        <span class="rid">IN-04</span>
+        <span class="act">
+          <b>사진</b> — 단축어 만들기 › 붙여넣을 내용 › 글자 읽기 › 실물 카드 촬영
+        </span>
+        <span class="why">
+          "찾은 값"에 카드번호가 하이픈까지 정리돼 뜨고 유효기간이 <code>MM/YY</code>만 뽑히는지. 여기가 안 되면 그냥 OCR 덤프라 손으로 치는 것과 다를 게 없습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-05">
+        <span class="rid">IN-05</span>
+        <span class="act">
+          주소가 <b>두 줄</b>로 적힌 사진(명함·송장)으로 글자 읽기
+        </span>
+        <span class="why">
+          합쳐진 주소가 위에 뜨면서 <b>원본 줄도 아래 그대로 남는</b>지. 알아본 값이 틀렸을 때 원본이 사라져 있으면 결국 손으로 쳐야 합니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-06">
+        <span class="rid">IN-06</span>
+        <span class="act">
+          읽은 줄 오른쪽 <code>+</code>를 두 줄 연달아 누르기 / 글자 없는 사진으로도 한 번
+        </span>
+        <span class="why">
+          시트가 안 닫히고 줄바꿈으로 이어 붙는지, 글자가 없으면 안내가 뜨고 값은 그대로인지.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-07">
+        <span class="rid">IN-07</span>
+        <span class="act">
+          옆의 <b>이미지</b> 버튼과 비교 — 각각 실행 후 저장된 단축어 확인
+        </span>
+        <span class="why">
+          <b>이미지</b>는 사진을 첨부하고 <b>글자 읽기</b>는 첨부하지 않는지. 두 버튼이 나란히 있어서 헷갈리면 안 되는 자리입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-08">
+        <span class="rid">IN-08</span>
+        <span class="act">
+          <b>일괄</b> — 여러 줄 붙여넣고 키보드 보기에서 키 몇 개 눌러 빼기
+        </span>
+        <span class="why">
+          뺀 것이 점선 빈자리로 바뀌고 저장 버튼 숫자가 줄어드는지. 무엇이 들어가고 무엇이 빠지는지 한눈에 읽혀야 합니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-09">
+        <span class="rid">IN-09</span>
+        <span class="act">
+          설정에서 키보드 <b>열 수 · 키 높이 · 스킨</b>을 바꾼 뒤 미리보기 다시 보기
+        </span>
+        <span class="why">
+          미리보기가 바뀐 설정을 따라가는지. <b>"저장하면 키보드가 이 모습"</b>이라는 약속이 이 화면의 존재 이유라, 어긋나면 화면 자체가 거짓말이 됩니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-10">
+        <span class="rid">IN-10</span>
+        <span class="act">
+          <b>묶기</b> › <b>떨어져 있는</b> 두 항목(사이에 다른 게 낀) 체크 › 콤보로 묶기
+        </span>
+        <span class="why">
+          이웃이 아니어도 묶이는지, 사이에 낀 항목이 그대로 남는지. 예전에는 순서를 먼저 바꿔 붙여 놔야 했습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-11">
+        <span class="rid">IN-11</span>
+        <span class="act">
+          자물쇠가 켜진 항목을 일반 항목과 함께 묶기 / 묶은 콤보 하나만 체크해 풀기
+        </span>
+        <span class="why">
+          합친 콤보가 자물쇠를 유지하는지. <b>지키던 것을 합치다가 풀어버리면 안 됩니다.</b>
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-12">
+        <span class="rid">IN-12</span>
+        <span class="act">
+          일괄 저장 후 <b>다른 앱에서</b> 실제 키보드를 띄워 확인
+        </span>
+        <span class="why">
+          미리보기에서 본 배치·콤보가 실제와 같은지. 미리보기와 실물이 다르면 미리보기를 없애는 게 나은 상황이 됩니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-13">
+        <span class="rid">IN-13</span>
+        <span class="act">
+          <b>공유 윗줄</b> — 사파리에서 텍스트 드래그 선택 › 공유 › 앱 줄을 왼쪽으로 밀어 ClipKeyboard 찾기
+        </span>
+        <span class="why">
+          아이콘이 실제로 뜨는지. 안 보이면 줄 끝 <b>기타</b>에서 켜야 합니다 — 없어진 게 아니라 iOS가 감춘 것입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-14">
+        <span class="rid">IN-14</span>
+        <span class="act">
+          그 시트에서 <b>목적지가 무엇으로 선택돼 있는지</b> 보고 저장
+        </span>
+        <span class="why">
+          기본이 <b>단축어</b>인지. 예전엔 무조건 보관함이라 앱에 들어가 한 번 더 눌러야 했고, 그 한 걸음이 공유의 값어치를 대부분 없앴습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-15">
+        <span class="rid">IN-15</span>
+        <span class="act">
+          <b>공유 아래 목록</b> — 같은 시트를 내려 <b>단축어로 저장</b> 찾아 누르기
+        </span>
+        <span class="why">
+          화면 없이 진동 한 번으로 닫히고 앱에 단축어가 생겼는지. 이번에 새로 만든 별도 타겟이라 <b>처음엔 목록 맨 아래 편집에서 켜야 할 수</b> 있습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="IN-16">
+        <span class="rid">IN-16</span>
+        <span class="act">
+          이메일 · URL · 일반 문장 · 이미지를 각각 공유
+        </span>
+        <span class="why">
+          분류가 자동으로 붙는지, 이미지가 썸네일로 뜨고 저장 후에도 보이는지.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 값을 꺼내는 길 ═══ -->
+  <section id="out">
+    <div class="suite-head">
+      <h2>값이 앱 밖으로 나가는가</h2>
+      <span class="tag core">신규</span>
+    </div>
+    <div class="rows">
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="OUT-01">
+        <span class="rid">OUT-01</span>
+        <span class="act">
+          제어센터 편집 › <b>값 복사</b> 추가 › 길게 눌러 단축어 고르기 › 누르기 › 다른 앱에 붙여넣기
+        </span>
+        <span class="why">
+          앱이 뜨지 않고 그 자리에서 복사되는지.
+          <span class="fail">눌러도 아무 일이 없으면 시스템의 죽은 등록 캐시입니다 — 컨트롤을 <b>제거 후 재추가</b>하세요. 이 앱에서 이미 한 번 겪은 문제입니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="OUT-02">
+        <span class="rid">OUT-02</span>
+        <span class="act">
+          홈화면 Small 위젯 탭 / 잠금화면 원형 · 직사각형도 각각
+        </span>
+        <span class="why">
+          앱이 안 뜨고 복사되며, 잠깐 <b>복사됨</b>(원형은 체크)으로 바뀌었다 돌아오는지. 위젯은 토스트를 못 띄워서 이게 유일한 확인 신호입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="OUT-03">
+        <span class="rid">OUT-03</span>
+        <span class="act">
+          앱에서 그 단축어의 <b>내용을 고친 뒤</b> 위젯을 다시 탭
+        </span>
+        <span class="why">
+          고친 새 값이 복사되는지. 위젯이 값을 들고 다니면 낡은 값을 계속 복사하게 됩니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="OUT-04">
+        <span class="rid">OUT-04</span>
+        <span class="act">
+          보안 단축어를 즐겨찾기로 지정하고 위젯 설정 목록 확인 / 즐겨찾기를 하나도 없게 만들고 위젯 확인
+        </span>
+        <span class="why">
+          보안 단축어는 아예 안 나오는지, 즐겨찾기가 없으면 안내가 뜨고 그때는 앱이 열리는지.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 화면 ═══ -->
+  <section id="ui">
+    <div class="suite-head">
+      <h2>화면이 서로 같은 말을 하는가</h2>
+      <span class="tag core">변경</span>
+    </div>
+    <div class="rows">
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="UI-01">
+        <span class="rid">UI-01</span>
+        <span class="act">
+          툴바 전환 버튼으로 목록 ↔ 키보드를 오가며 <b>하단 탭바</b> 보기
+        </span>
+        <span class="why">
+          이름과 아이콘이 <b>목록</b>/격자 ↔ <b>키보드</b>/키보드로 함께 바뀌는지. 예전엔 키보드를 보는 중에도 탭바만 격자를 가리켰습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="UI-02">
+        <span class="rid">UI-02</span>
+        <span class="act">
+          두 화면의 오른쪽 위 유리 버튼 <b>간격</b>과 키보드 화면 <b>제목 크기</b> 비교
+        </span>
+        <span class="why">
+          간격이 같고 서로 겹치지 않는지, 제목이 목록 쪽과 견줘 어색하지 않은지. 두 화면이 값을 따로 정하던 것을 한 곳으로 모았습니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="UI-03">
+        <span class="rid">UI-03</span>
+        <span class="act">
+          기기 언어를 <b>영어로</b> 바꾸고 — 제어센터 버튼 · 공유 시트 두 줄 · 마트 · 사진 값 고르기를 한 번씩 열기
+        </span>
+        <span class="why">
+          한국어가 한 글자도 안 보이는지.
+          <span class="fail">커밋 직전 자동 검사가 제어센터 문자열 4개를 잡았습니다. 위젯·확장 타겟은 앱 화면과 따로 놀아 늦게 걸립니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="UI-04">
+        <span class="rid">UI-04</span>
+        <span class="act">
+          업데이트한 기기에서 <b>"새로운 기능"</b> 시트 확인 후 닫고 다시 열기
+        </span>
+        <span class="why">
+          한 번만 뜨는지, 변경 이력에 4.4.5 항목이 보이는지. 4.4.4를 못 본 사람에게 그 내용까지 전해져야 합니다.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 통계 ═══ -->
+  <section id="stat">
+    <div class="suite-head">
+      <h2>키보드만 쓰는 사람이 잡히는가</h2>
+      <span class="tag core">신규</span>
+    </div>
+    <p class="suite-note">설정 › 사용 통계 (마스터 모드 — 앱 정보의 버전 행을 7번 탭). 확인에 하루 이상 걸립니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="STAT-01">
+        <span class="rid">STAT-01</span>
+        <span class="act">
+          앱을 한 번 열고 통계 화면에서 이벤트 목록 확인
+        </span>
+        <span class="why">
+          <code>app_open</code>이 기록되는지 — 수집 경로가 살아 있다는 최소 신호입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="STAT-02">
+        <span class="rid">STAT-02</span>
+        <span class="act">
+          앱을 <b>열지 않고</b> 다른 앱에서 키보드만 쓰기 — 기기 날짜를 하루씩 넘기며 3일치
+          <ol>
+            <li>날짜를 하루 앞으로 → 키보드로 단축어 한 번 사용</li>
+            <li>세 번 반복</li>
+            <li>그 다음에 앱 열고 통계 확인</li>
+          </ol>
+        </span>
+        <span class="why">
+          <code>keyboard_active_day</code>가 <b>날짜별로 나뉘어</b> 들어오는지 — 앱 연 날 하루로 뭉치지 않아야 합니다. 이번 릴리즈의 통계 작업이 통째로 이 한 줄을 위한 것입니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="core">
+        <input type="checkbox" data-id="STAT-03">
+        <span class="rid">STAT-03</span>
+        <span class="act">
+          iCloud 로그아웃 상태로 며칠 쓰다가 다시 로그인
+        </span>
+        <span class="why">
+          로그아웃 기간의 활동일이 <b>나중에 들어오는</b>지. 전송이 확정된 날만 지우도록 만든 부분이라, 여기서 유실되면 설계가 안 도는 것입니다.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 회귀 ═══ -->
+  <section id="reg">
+    <div class="suite-head">
+      <h2>원래 되던 것이 그대로인가</h2>
+      <span class="tag reg">회귀</span>
+    </div>
+    <p class="suite-note">직접 건드리진 않았지만 같은 파일·같은 저장소를 지나갑니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-01">
+        <span class="rid">REG-01</span>
+        <span class="act">
+          앱에서 단축어 추가 → 다른 앱 키보드에서 확인 → 키보드에서 사용 → 앱에서 사용 횟수 증가 확인
+        </span>
+        <span class="why">App Group 양방향 공유. 이번에 익스텐션이 App Group에 쓰는 항목이 하나 늘었습니다.</span>
+      </label>
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-02">
+        <span class="rid">REG-02</span>
+        <span class="act">
+          주민등록번호 · 사업자번호 · 카드번호 · 계좌번호 · <b>통관부호</b>를 각각 복사
+        </span>
+        <span class="why">분류 우선순위. 주민등록번호가 계좌번호로, 통관부호가 계좌번호로 잘못 잡히지 않는지 — 예전에 실제로 났던 문제입니다.</span>
+      </label>
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-03">
+        <span class="rid">REG-03</span>
+        <span class="act">
+          템플릿 단축어를 키보드에서 눌러 값 채워 넣기
+        </span>
+        <span class="why"><code>{ }</code> 기호가 어디에도 안 보이는지, 채운 값이 히스토리에 남는지. 마트가 같은 저장소를 씁니다.</span>
+      </label>
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-04">
+        <span class="rid">REG-04</span>
+        <span class="act">
+          보안 단축어를 키보드에서 사용 (PIN · 생체인증)
+        </span>
+        <span class="why">인증을 거쳐야 값이 나오는지, 암호문이 그대로 입력되지 않는지.</span>
+      </label>
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-05">
+        <span class="rid">REG-05</span>
+        <span class="act">
+          <b>새 설치</b> 기기에서 온보딩 끝까지 — 첫 단축어 → 눌러 보기 → 템플릿 → 콤보 → 키보드 켜기
+        </span>
+        <span class="why">중간에 끊기지 않는지, 끝나면 연습으로 만든 것을 지울지 <b>한 번만</b> 묻는지.</span>
+      </label>
+
+      <label class="row" data-sev="reg">
+        <input type="checkbox" data-id="REG-06">
+        <span class="rid">REG-06</span>
+        <span class="act">
+          키보드로 긴 문장을 빠르게 여러 번 입력
+        </span>
+        <span class="why">
+          익스텐션은 약 60MB 안에서 돕니다. 이번에 <b>입력 경로에 날짜 원장 쓰기가 하나 늘었습니다.</b>
+          <span class="fail">키보드가 죽거나 다시 뜨면 그 쓰기가 원인일 가능성이 높습니다.</span>
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <!-- ═══ 판단 ═══ -->
+  <section id="judge">
+    <div class="suite-head">
+      <h2>내가 정해야 하는 것</h2>
+      <span class="tag judge">판단</span>
+    </div>
+    <p class="suite-note">통과/실패가 아닙니다. 동작은 의도대로인데, 그 의도를 그대로 낼지가 결정 사항입니다.</p>
+    <div class="rows">
+
+      <label class="row" data-sev="judge">
+        <input type="checkbox" data-id="JUDGE-01">
+        <span class="rid">JUDGE-01</span>
+        <span class="act">
+          잠금화면 위젯에 즐겨찾기를 올리고 <b>잠근 채로</b> 눌러 본 뒤, 이대로 낼지 정하기
+        </span>
+        <span class="why">
+          잠금 해제 없이 복사됩니다 — 요청하신 편의가 정확히 이것이지만, <b>남이 잠긴 폰으로 즐겨찾기 값을 클립보드에 담을 수 있다</b>는 뜻이기도 합니다. 보안 단축어는 대상에서 빠집니다.
+          <span class="fail">막기로 하면 App Group 플래그 하나로 잠금 상태 복사를 끄는 것이 가장 빠릅니다.</span>
+        </span>
+      </label>
+
+      <label class="row" data-sev="judge">
+        <input type="checkbox" data-id="JUDGE-02">
+        <span class="rid">JUDGE-02</span>
+        <span class="act">
+          공유 시트 아래 목록에서 <b>단축어로 저장</b> 줄의 아이콘을 다른 앱들과 나란히 놓고 보기
+        </span>
+        <span class="why">
+          전용 아이콘을 넣지 않아 앱 아이콘이 실루엣으로 나옵니다. 어색하면 단색 템플릿 아이콘을 따로 만들어야 합니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="judge">
+        <input type="checkbox" data-id="JUDGE-03">
+        <span class="rid">JUDGE-03</span>
+        <span class="act">
+          <b>인도네시아어</b>를 버릴지 되살릴지 정하기
+        </span>
+        <span class="why">
+          프로젝트 설정에 <code>id</code>가 남아 있는데 실제 번역은 4개뿐입니다. 그대로 두면 앱스토어에 <b>지원 언어로 표시되는데 실제로는 문구 4개만</b> 번역된 상태가 됩니다.
+        </span>
+      </label>
+
+      <label class="row" data-sev="judge">
+        <input type="checkbox" data-id="JUDGE-04">
+        <span class="rid">JUDGE-04</span>
+        <span class="act">
+          묶은 콤보의 <b>이름</b>을 그대로 둘지 정하기 — 일괄에서 두 개를 묶어 보고 판단
+        </span>
+        <span class="why">
+          첫 항목 이름을 그대로 씁니다("네이버 아이디" + "네이버 비밀번호" → "네이버 아이디"). 목록 보기에서 고칠 수 있지만, 묶는 순간 이름을 물어보는 게 나을지는 판단이 갈립니다.
+        </span>
+      </label>
+
+    </div>
+  </section>
+
+  <div class="cannot">
+    <h2>이 목록으로 못 잡는 것</h2>
+    <p>알고 넘어가야 나중에 "왜 안 봤냐"가 안 됩니다.</p>
+    <ul>
+      <li><strong>백그라운드 새로고침이 실제로 도는지</strong> — iOS가 실행 시점을 정하고 보장하지 않습니다. 앱을 거의 안 여는 사용자일수록 덜 돕니다. 출시 후 통계에서 며칠 지켜보는 수밖에 없습니다.</li>
+      <li><strong>설치 후 앱을 영영 안 여는 사용자</strong> — 익스텐션이 직접 네트워크를 쓰지 않는 한 구조적으로 셀 수 없습니다. 의도한 한계입니다.</li>
+      <li><strong>맥 앱(별도 저장소)</strong> — 공유 파일이 겹칩니다. iOS 전용 키만 늘었지만 맥에서도 한 번 열어 보는 편이 안전합니다.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>실패는 ID로 리포트 — 예: <code>IN-15 실패, 아래 목록에 안 뜸</code></span>
+    <span>체크 상태는 이 브라우저에 저장됩니다</span>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var KEY = "ck-qa-445-v2";
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.row input[type="checkbox"]'));
+    var fill = document.getElementById("fill");
+    var num = document.getElementById("num");
+    var saved = {};
+
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+
+    function persist() {
+      var out = {};
+      boxes.forEach(function (b) { if (b.checked) { out[b.dataset.id] = 1; } });
+      try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+    }
+
+    function paint() {
+      var done = 0;
+      boxes.forEach(function (b) {
+        b.closest(".row").classList.toggle("done", b.checked);
+        if (b.checked) { done++; }
+      });
+      var pct = boxes.length ? Math.round((done / boxes.length) * 100) : 0;
+      fill.style.width = pct + "%";
+      num.textContent = done + " / " + boxes.length + "  (" + pct + "%)";
+    }
+
+    boxes.forEach(function (b) {
+      if (saved[b.dataset.id]) { b.checked = true; }
+      b.addEventListener("change", function () { persist(); paint(); applyFilter(); });
+    });
+
+    var mode = "all";
+    function applyFilter() {
+      document.querySelectorAll(".row").forEach(function (r) {
+        var box = r.querySelector('input[type="checkbox"]');
+        var show = mode === "all"
+          || (mode === "block" && r.dataset.sev === "block")
+          || (mode === "judge" && r.dataset.sev === "judge")
+          || (mode === "todo" && !box.checked);
+        r.style.display = show ? "" : "none";
+      });
+      document.querySelectorAll("section").forEach(function (s) {
+        var any = Array.prototype.slice.call(s.querySelectorAll(".row"))
+          .some(function (r) { return r.style.display !== "none"; });
+        s.style.display = any ? "" : "none";
+      });
+    }
+
+    document.querySelectorAll(".filters button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        mode = btn.dataset.filter;
+        document.querySelectorAll(".filters button").forEach(function (b) {
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
+        applyFilter();
+      });
+    });
+
+    document.getElementById("reset").addEventListener("click", function () {
+      boxes.forEach(function (b) { b.checked = false; });
+      persist(); paint(); applyFilter();
+    });
+
+    paint();
+  })();
+</script>
+</body>
+</html>
