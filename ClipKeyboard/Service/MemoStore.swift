@@ -93,14 +93,14 @@ class MemoStore: ObservableObject {
                     AppLog.warning(.store, "⚠️ [MemoStore.load] 카테고리 치유 저장 실패(다음 로드에서 재시도): \(error.localizedDescription)")
                 }
             } else if Self.categorySidecarMissing() {
-                // 기존 사용자 1회 부트스트랩 — 이후 다운그레이드에 대비해 사이드카를 채워둔다.
+                // 기존 사용자 1회 부트스트랩 - 이후 다운그레이드에 대비해 사이드카를 채워둔다.
                 Self.writeCategorySidecar(memos)
             }
         }
         return memos
     }
 
-    /// 디코딩 결과. **nil = 손상**(빈 배열과 구분해야 한다 —
+    /// 디코딩 결과. **nil = 손상**(빈 배열과 구분해야 한다
     /// 메모가 0개인 정상 상태와 파일이 깨진 상태는 완전히 다른 사건이다).
     private func decodeMemosFromData(_ data: Data) -> [Memo]? {
         if let memos = try? JSONDecoder().decode([Memo].self, from: data) {
@@ -114,20 +114,20 @@ class MemoStore: ObservableObject {
 
     // MARK: - 손상 격리
 
-    /// 손상 감지 플래그 — 앱이 읽어 복구 안내를 띄운다. (키보드 익스텐션도 같은 키를 쓴다)
+    /// 손상 감지 플래그 - 앱이 읽어 복구 안내를 띄운다. (키보드 익스텐션도 같은 키를 쓴다)
     static let corruptionFlagKey = "data.corruption.detectedAt"
-    /// 격리된 원본 파일명 — 복구 안내에서 "원본은 보관돼 있다"고 알려주기 위해.
+    /// 격리된 원본 파일명 - 복구 안내에서 "원본은 보관돼 있다"고 알려주기 위해.
     static let corruptionFileKey = "data.corruption.quarantinedFile"
 
     /// 깨진 파일을 **지우지 않고** 사본으로 격리한 뒤 플래그를 세운다.
-    /// ⚠️ 원본을 삭제하거나 덮어쓰지 않는다 — 사용자 데이터를 되살릴 마지막 단서다.
+    /// ⚠️ 원본을 삭제하거나 덮어쓰지 않는다 - 사용자 데이터를 되살릴 마지막 단서다.
     private static func quarantineCorruptFile(at url: URL, type: MemoType) {
         let stamp = Int(Date().timeIntervalSince1970)
         let quarantined = url.deletingLastPathComponent()
             .appendingPathComponent("\(url.lastPathComponent).corrupt-\(stamp)")
 
         do {
-            // 복사(이동 아님) — 원본을 그대로 두어야 다른 경로에서 복구를 시도할 수 있다.
+            // 복사(이동 아님) - 원본을 그대로 두어야 다른 경로에서 복구를 시도할 수 있다.
             if !FileManager.default.fileExists(atPath: quarantined.path) {
                 try FileManager.default.copyItem(at: url, to: quarantined)
             }
@@ -146,7 +146,7 @@ class MemoStore: ObservableObject {
         (UserDefaults(suiteName: AppGroup.identifier)?.double(forKey: corruptionFlagKey) ?? 0) > 0
     }
 
-    /// 사용자가 안내를 확인했을 때 호출 — 플래그만 지운다(격리 사본은 남긴다).
+    /// 사용자가 안내를 확인했을 때 호출 - 플래그만 지운다(격리 사본은 남긴다).
     static func clearCorruptionFlag() {
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
         defaults?.removeObject(forKey: corruptionFlagKey)
@@ -221,7 +221,7 @@ class MemoStore: ObservableObject {
             // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
             KeyboardUsageTracker.recordMemoUse(value: memos[index].value, memoID: memoId)
 
-            // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후 —
+            // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
             // 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.
             NotificationCenter.default.post(
@@ -609,7 +609,7 @@ class MemoStore: ObservableObject {
     private func captureMemoHistoryIfMeaningful(newMemos: [Memo]) {
         guard let url = try? Self.fileURL(type: .memo),
               let data = try? Data(contentsOf: url) else { return }   // 기존 데이터 없으면 스냅샷 불필요
-        // 디코딩 실패(nil)면 스냅샷을 만들지 않는다 — 깨진 내용을 이력에 남길 이유가 없다.
+        // 디코딩 실패(nil)면 스냅샷을 만들지 않는다 - 깨진 내용을 이력에 남길 이유가 없다.
         guard let current = decodeMemosFromData(data), !current.isEmpty else { return }
         guard historySignature(current) != historySignature(newMemos) else { return }  // 사용량만 변경 → skip
         pushMemoSnapshot(current)
@@ -670,7 +670,7 @@ enum MemoUsedKey {
 
 // MARK: - KeyboardUsageTracker
 
-/// 키보드/메모 사용 통계 — App Group UserDefaults 기반.
+/// 키보드/메모 사용 통계 - App Group UserDefaults 기반.
 /// - 일일 카운트: `kb.usage.daily.YYYY-MM-DD` (사용자 로컬 자정 기준 자연 초기화)
 /// - 평생 절약 시간: `kb.timeSaved.totalSeconds` (Double 누적)
 ///

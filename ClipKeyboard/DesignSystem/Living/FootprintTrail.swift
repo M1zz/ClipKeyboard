@@ -6,7 +6,7 @@
 //
 //  ⚠️ **눈은 내리지 않는다.** 원래 아이디어는 "눈이 내리는 질감"이었지만, 상시 낙하 애니메이션은
 //     배터리를 계속 먹으면서 정작 스크린샷에는 아무것도 안 남긴다. 이 스킨의 값어치는
-//     눈이 아니라 **발자국** — 흐르는 것이 아니라 **남는 것**이다.
+//     눈이 아니라 **발자국** - 흐르는 것이 아니라 **남는 것**이다.
 //     그래서 눈은 정지 질감으로 깔고, 발자국만 사용 기록에 따라 쌓는다.
 //     (앞서 만든 날인 자국·픽셀 마을과 같은 성격)
 //
@@ -16,7 +16,7 @@
 
 import SwiftUI
 
-// MARK: - 발자국 배치 (순수 함수 — 테스트 가능)
+// MARK: - 발자국 배치 (순수 함수 - 테스트 가능)
 
 enum FootprintTrail {
 
@@ -41,7 +41,7 @@ enum FootprintTrail {
 
         return (0..<count).map { index in
             let t = Double(index) / Double(max(1, maxMarks - 1))
-            // 걸음마다 좌우로 살짝 엇갈리게 — 한 줄로 곧게 찍히면 도장 자국처럼 보인다.
+            // 걸음마다 좌우로 살짝 엇갈리게 - 한 줄로 곧게 찍히면 도장 자국처럼 보인다.
             let sway = (index % 2 == 0) ? -0.035 : 0.035
             return Mark(
                 x: 0.13 + t * 0.70 + sway,
@@ -56,7 +56,7 @@ enum FootprintTrail {
 
 // MARK: - 눈 질감
 
-/// 카드에 깔리는 정지 눈 — 위가 밝고 아래로 갈수록 원래 표면이 비친다.
+/// 카드에 깔리는 정지 눈 - 위가 밝고 아래로 갈수록 원래 표면이 비친다.
 /// 알갱이는 시드 기반이라 스크롤해도 같은 자리에 있다.
 struct SnowTexture: View {
     /// 카드마다 다른 알갱이 배치를 위한 시드(메모 id 해시).
@@ -77,7 +77,7 @@ struct SnowTexture: View {
                 endPoint: CGPoint(x: 0, y: size.height)
             ))
 
-            // 알갱이 — 결정적 난수(시드)로 흩뿌린다.
+            // 알갱이 - 결정적 난수(시드)로 흩뿌린다.
             var state = UInt64(bitPattern: Int64(seed)) | 1
             for _ in 0..<Self.grainCount {
                 let px = Double(next(&state) % 1000) / 1000.0
@@ -93,7 +93,7 @@ struct SnowTexture: View {
         .accessibilityHidden(true)
     }
 
-    /// xorshift — Foundation 난수와 달리 시드를 넣으면 항상 같은 수열이 나온다.
+    /// xorshift - Foundation 난수와 달리 시드를 넣으면 항상 같은 수열이 나온다.
     private func next(_ state: inout UInt64) -> UInt64 {
         state ^= state << 13
         state ^= state >> 7
@@ -125,7 +125,7 @@ struct FootprintLayer: View {
     }
 }
 
-/// 발바닥 — 패드 하나와 발가락 셋.
+/// 발바닥 - 패드 하나와 발가락 셋.
 private struct PawShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()

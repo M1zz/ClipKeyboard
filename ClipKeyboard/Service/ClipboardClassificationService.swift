@@ -384,7 +384,7 @@ class ClipboardClassificationService {
 
     // MARK: - v4.0 Global Detectors
 
-    /// IBAN (International Bank Account Number) 검증 — ISO 13616 mod-97 체크섬
+    /// IBAN (International Bank Account Number) 검증 - ISO 13616 mod-97 체크섬
     private func detectIBAN(_ text: String) -> (ClipboardItemType, Double)? {
         let normalized = text
             .replacingOccurrences(of: " ", with: "")
@@ -422,7 +422,7 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// SWIFT/BIC 코드 — 8자 또는 11자 (AAAA BB CC [DDD])
+    /// SWIFT/BIC 코드 - 8자 또는 11자 (AAAA BB CC [DDD])
     private func detectSWIFT(_ text: String) -> (ClipboardItemType, Double)? {
         let normalized = text.trimmingCharacters(in: .whitespaces).uppercased()
         let pattern = "^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$"
@@ -443,7 +443,7 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// Crypto 지갑 주소 — BTC (legacy, bech32), ETH (0x 시작 40 hex).
+    /// Crypto 지갑 주소 - BTC (legacy, bech32), ETH (0x 시작 40 hex).
     private func detectCryptoWallet(_ text: String) -> (ClipboardItemType, Double)? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
 
@@ -466,7 +466,7 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// PayPal.me 링크 — paypal.me/username.
+    /// PayPal.me 링크 - paypal.me/username.
     private func detectPayPalLink(_ text: String) -> (ClipboardItemType, Double)? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
         let pattern = "^(https?://)?(www\\.)?paypal\\.me/[A-Za-z0-9_.-]+/?$"

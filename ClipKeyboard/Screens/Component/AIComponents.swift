@@ -85,7 +85,7 @@ struct SuggestedActionChips: View {
         var actions: [SuggestedAction] = []
         let content = item.content.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // 1) 타입 기반 즉시 액션 (AI 불필요 — 모든 기기에서 동작)
+        // 1) 타입 기반 즉시 액션 (AI 불필요 - 모든 기기에서 동작)
         switch displayType {
         case .url:
             actions.append(SuggestedAction(
@@ -114,13 +114,13 @@ struct SuggestedActionChips: View {
                 icon: "map"
             ) { openURL(URL(string: "https://maps.apple.com/?q=\(query)")) })
         default:
-            // 2) 일반 텍스트 — AI 예측 결과가 있으면 칩 추가
+            // 2) 일반 텍스트 - AI 예측 결과가 있으면 칩 추가
             if let prediction = aiPrediction, prediction != .none {
                 actions.append(aiAction(for: prediction, content: content))
             }
         }
 
-        // 3) 번역 칩 — AI 사용 가능하면 모든 텍스트 항목에 제공
+        // 3) 번역 칩 - AI 사용 가능하면 모든 텍스트 항목에 제공
         if AppleIntelligenceService.shared.isAvailable, !content.isEmpty {
             actions.append(SuggestedAction(
                 label: NSLocalizedString("번역", comment: "Suggested action: translate"),
@@ -143,7 +143,7 @@ struct SuggestedActionChips: View {
                 openURL(URL(string: "sms:&body=\(encoded)"))
             }
         case .calendar:
-            // 이벤트 프리필은 불가 — 텍스트를 클립보드에 두고 캘린더만 연다.
+            // 이벤트 프리필은 불가 - 텍스트를 클립보드에 두고 캘린더만 연다.
             return SuggestedAction(label: prediction.actionLabel, icon: prediction.icon) {
                 UIPasteboard.general.string = content
                 openURL(URL(string: "calshow:"))
@@ -185,7 +185,7 @@ struct SuggestedActionChips: View {
 
 // MARK: - Translation Sheet
 
-/// 온디바이스 번역 시트 — 원문/번역 결과 표시, 언어 선택, 복사/메모 저장.
+/// 온디바이스 번역 시트 - 원문/번역 결과 표시, 언어 선택, 복사/메모 저장.
 struct TranslationSheet: View {
     let sourceText: String
     /// 번역 결과를 메모로 저장할 때 호출 (nil이면 저장 버튼 숨김)

@@ -16,7 +16,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SRC_DIRS = ["ClipKeyboard", "ClipKeyboardExtension", "ClipKeyboard.tap"]
 GEN_DIR = os.path.join(ROOT, "ClipKeyboard")  # next to AppGroup.swift
 
-# Files we generate — never scan/replace inside these.
+# Files we generate - never scan/replace inside these.
 GEN_FILES = {"AppSymbol.swift", "DefaultsKey.swift", "AppNotification.swift", "StorageFile.swift"}
 
 SWIFT_KEYWORDS = {
@@ -71,7 +71,7 @@ SYM_RE = re.compile(r'system(?:Name|Image):\s*"([^"]+)"')
 NOTIF_RE = re.compile(r'(?:NS)?Notification\.Name\("([^"]+)"\)')
 DATA_RE = re.compile(r'"([A-Za-z0-9._]+\.data)"')
 
-# Known UserDefaults keys — exact set, only these forKey: literals get replaced.
+# Known UserDefaults keys - exact set, only these forKey: literals get replaced.
 UD_KEYS = [
  "autoBackupEnabled","category.feature.enabled.v1","categoryBadgeNudgeDismissed",
  "categoryBadgeVisible","comboModelUnifyMigrated_v1","didRemoveAds",
@@ -120,7 +120,7 @@ HEADER = """//
 //  {name}
 //  ClipKeyboard
 //
-//  자동 생성 가능 — 정적 {what} 단일 출처(Single Source of Truth).
+//  자동 생성 가능 - 정적 {what} 단일 출처(Single Source of Truth).
 //  메인앱·키보드(ClipKeyboardExtension)·macOS(.tap) 3개 타겟이 공유한다.
 //  하드코딩 리터럴 대신 항상 이 상수를 사용할 것.
 //

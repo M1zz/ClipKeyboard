@@ -2,14 +2,14 @@
 //  QuickNoteControl.swift
 //  widget
 //
-//  Control Center / 잠금화면 컨트롤 — 탭하면 ClipKeyboard 를 열어 빠른 메모 입력 시트를 띄운다.
+//  Control Center / 잠금화면 컨트롤 - 탭하면 ClipKeyboard 를 열어 빠른 메모 입력 시트를 띄운다.
 //  애플 "빠른 메모"처럼 앱을 일일이 찾지 않고 어디서든 바로 캡처를 시작하게 한다.
 //
-//  ⚠️ 동작 원리 (iOS 26 — 자세한 트러블슈팅 기록은 docs/CONTROL_CENTER_APP_LAUNCH.md):
+//  ⚠️ 동작 원리 (iOS 26 - 자세한 트러블슈팅 기록은 docs/CONTROL_CENTER_APP_LAUNCH.md):
 //  1. 포그라운드 모드 인텐트는 위젯 프로세스가 아니라 "메인 앱 프로세스"에서 실행된다.
 //     따라서 이 인텐트와 동일한 타입이 앱 타겟(ClipKeyboard/QuickNoteControlIntent.swift)에도
 //     반드시 존재해야 한다. 없으면 시스템이 실행 대상을 못 찾아 탭이 조용히 무시된다.
-//  2. iOS 26 SDK 부터 openAppWhenRun 은 deprecated — supportedModes(.foreground)가 대체.
+//  2. iOS 26 SDK 부터 openAppWhenRun 은 deprecated - supportedModes(.foreground)가 대체.
 //  3. 화면 라우팅은 App Group 보류 플래그 + NotificationCenter 로 한다
 //     (ClipKeyboardList 가 onAppear/didBecomeActive 에서 소비, 멱등).
 //
@@ -19,7 +19,7 @@ import SwiftUI
 import AppIntents
 import os
 
-/// 위젯 익스텐션은 print가 Console에 안 잡힘 — Console.app에서
+/// 위젯 익스텐션은 print가 Console에 안 잡힘 - Console.app에서
 /// subsystem:com.Ysoup.TokenMemo.widget 필터로 확인.
 private let controlLog = Logger(subsystem: "com.Ysoup.TokenMemo.widget", category: "control")
 
@@ -31,13 +31,13 @@ struct AddQuickNoteControlIntent: AppIntent {
     static var title: LocalizedStringResource = "Quick Note"
     static var description = IntentDescription("Capture a quick note into ClipKeyboard.")
 
-    // iOS 26: openAppWhenRun 은 deprecated — supportedModes 가 대체.
+    // iOS 26: openAppWhenRun 은 deprecated - supportedModes 가 대체.
     // supportedModes 미선언 인텐트는 백그라운드 전용 취급돼 앱 열기가 조용히 무시된다.
     static var supportedModes: IntentModes { .foreground }
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        controlLog.info("🎛️ [QuickNoteControl] perform — 보류 플래그 기록 후 앱 오픈")
+        controlLog.info("🎛️ [QuickNoteControl] perform, 보류 플래그 기록 후 앱 오픈")
         // 키 문자열은 앱 타겟 DefaultsKey.pendingQuickNoteAdd 와 동일 (위젯 타겟은 리터럴 사용)
         UserDefaults(suiteName: SharedMemoLoader.appGroupID)?.set(true, forKey: "pendingQuickNoteAdd")
         return .result()
@@ -63,7 +63,7 @@ struct QuickNoteControl: ControlWidget {
     }
 }
 
-// MARK: - 빠른 메모 잠금화면/홈 위젯 — widgetURL 경로로 앱을 연다
+// MARK: - 빠른 메모 잠금화면/홈 위젯 - widgetURL 경로로 앱을 연다
 // (컨트롤과 별개의 안정 진입점. 위젯 탭 → 앱 열기는 어떤 iOS 버전에서도 동작.)
 struct QuickNoteWidgetEntry: TimelineEntry {
     let date: Date

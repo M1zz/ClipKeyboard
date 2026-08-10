@@ -44,8 +44,8 @@ ClipKeyboard는 **메모 + 스마트 클립보드 + 커스텀 키보드 + 자동
 | 필드 | 타입 | 기본값 | 설명 |
 |------|------|--------|------|
 | `id` | UUID | 자동 생성 | 식별자 |
-| `title` | String | — | 메모 제목 |
-| `value` | String | — | 본문 (또는 템플릿 본문) |
+| `title` | String || 메모 제목 |
+| `value` | String || 본문 (또는 템플릿 본문) |
 | `isChecked` | Bool | false | 체크 상태 |
 | `lastEdited` | Date | now | 마지막 수정 시각 |
 | `isFavorite` | Bool | false | 즐겨찾기 |
@@ -267,8 +267,8 @@ class ComboExecutionService: ObservableObject {
 | 기능 | 동작 |
 |------|------|
 | 계정 확인 | `checkAccountStatus()` → `isAuthenticated` 갱신 |
-| 백업 | `backupData() async throws` — 메모/스마트클립/Combo를 별도 CKAsset으로 업로드. 이미지 포함. |
-| 복구 | `restoreData() async throws` — 다운로드 후 MemoStore에 반영. |
+| 백업 | `backupData() async throws`, 메모/스마트클립/Combo를 별도 CKAsset으로 업로드. 이미지 포함. |
+| 복구 | `restoreData() async throws`, 다운로드 후 MemoStore에 반영. |
 | 자동 백업 | `enableAutoBackup()` / `disableAutoBackup()` |
 | 삭제 | `deleteBackup() async throws` |
 | 게이팅 | `ProFeatureManager.isCloudBackupAvailable` (`hasFullAccess` 한정) |

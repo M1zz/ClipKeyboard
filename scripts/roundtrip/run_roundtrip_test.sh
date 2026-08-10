@@ -12,7 +12,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-# 맥 앱은 2026-07 부터 별도 리포다 — 모델 사본 위치(환경변수로 덮어쓰기 가능).
+# 맥 앱은 2026-07 부터 별도 리포다 - 모델 사본 위치(환경변수로 덮어쓰기 가능).
 MAC_REPO="${MAC_REPO:-$HOME/Documents/workspace/code/ClipKeyboardMac}"
 MAC_MODELS="$MAC_REPO/ClipKeyboard.tap/Models.swift"
 if [ ! -f "$MAC_MODELS" ]; then

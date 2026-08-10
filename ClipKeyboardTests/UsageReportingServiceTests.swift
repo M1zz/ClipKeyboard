@@ -2,7 +2,7 @@
 //  UsageReportingServiceTests.swift
 //  ClipKeyboardTests
 //
-//  익명 사용 통계(FeedbackHub 전송) 정책 테스트 — 네트워크 없이 검증 가능한 부분만.
+//  익명 사용 통계(FeedbackHub 전송) 정책 테스트 - 네트워크 없이 검증 가능한 부분만.
 //   · 같은 이벤트가 6시간 안에 두 번 나가지 않는지 (app_open은 20시간)
 //   · 스냅샷 지표에 PII가 아닌 약속된 키만 담기는지
 //   · AnalyticsService 훅이 이벤트 이름 + 슬라이스를 규약대로 넘기는지
@@ -45,7 +45,7 @@ final class UsageReportingServiceTests: XCTestCase {
         let key = DefaultsKey.usageEventLastSentPrefix + UsageReportingService.appOpenEvent
         defer { UserDefaults.standard.removeObject(forKey: key) }
 
-        // 8시간 전 — 기본 6시간 창은 지났지만 app_open 의 20시간 창 안이라 다시 나가면 안 된다.
+        // 8시간 전 - 기본 6시간 창은 지났지만 app_open 의 20시간 창 안이라 다시 나가면 안 된다.
         let eightHoursAgo = Date(timeIntervalSinceNow: -8 * 3600)
         UserDefaults.standard.set(eightHoursAgo, forKey: key)
 
@@ -78,7 +78,7 @@ final class UsageReportingServiceTests: XCTestCase {
             XCTAssertNotNil(metrics[key], "약속된 지표 키 \(key)가 빠졌다")
         }
 
-        // 값은 전부 숫자이고 음수가 아니다 — 내용/식별자가 섞여 들어갈 여지가 없어야 한다.
+        // 값은 전부 숫자이고 음수가 아니다 - 내용/식별자가 섞여 들어갈 여지가 없어야 한다.
         for (key, value) in metrics {
             XCTAssertGreaterThanOrEqual(value, 0, "\(key) 지표가 음수")
             XCTAssertTrue(value.isFinite, "\(key) 지표가 유한값이 아님")

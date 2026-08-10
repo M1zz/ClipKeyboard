@@ -36,7 +36,7 @@ struct ClipboardList: View {
 
     // 붙여넣기 허용 팁
     // 설치 직후엔 iOS 설정에 '다른 앱에서 붙여넣기' 항목이 아직 없어 안내가 헛돌므로,
-    // 3번째 실행부터 노출한다(PastePermissionGuidance — 메인 배너와 동일 게이트).
+    // 3번째 실행부터 노출한다(PastePermissionGuidance - 메인 배너와 동일 게이트).
     @State private var showPasteTip: Bool = !UserDefaults.standard.bool(forKey: DefaultsKey.pasteTipDismissed)
         && PastePermissionGuidance.isReady
     // 붙여넣기 허용 안내 알림 (첫 진입 1회)
@@ -140,7 +140,7 @@ struct ClipboardList: View {
                     }
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
-                    // 하단만 숨김 — 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
+                    // 하단만 숨김 - 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
                     .scrollEdgeEffectHidden(true, for: .bottom)
                     .background(theme.bg)
                     .onChange(of: recentlyAddedId) { _, newId in
@@ -152,7 +152,7 @@ struct ClipboardList: View {
                     }
                 }
             }
-            // 붙여넣기 안내 배너 닫힘 애니메이션 — 배너 transition과 함께 컨테이너 레이아웃도 부드럽게.
+            // 붙여넣기 안내 배너 닫힘 애니메이션 - 배너 transition과 함께 컨테이너 레이아웃도 부드럽게.
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
             .navigationTitle(isSelectingForCombo
                 ? NSLocalizedString("Combo 생성", comment: "Clipboard list: combo creation mode title")
@@ -244,11 +244,11 @@ struct ClipboardList: View {
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
-                    // Liquid Glass 토스트 — 어둡게 틴트한 glass 캡슐(흰 글자 가독성 유지). (iOS 26)
+                    // Liquid Glass 토스트 - 어둡게 틴트한 glass 캡슐(흰 글자 가독성 유지). (iOS 26)
                     .glassEffect(.regular.tint(Color.black.opacity(0.65)), in: Capsule())
                     .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 5)
                     .padding(.horizontal, 20)
-                    // 플로팅 탭바(하단 유리 필) 위로 띄운다 — 20이면 필 뒤에 완전히 가려져
+                    // 플로팅 탭바(하단 유리 필) 위로 띄운다 - 20이면 필 뒤에 완전히 가려져
                     // 복사 피드백이 아예 안 보인다.
                     .padding(.bottom, 90)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -301,7 +301,7 @@ struct ClipboardList: View {
             if selectedFilter == nil {
                 Text(NSLocalizedString("클립보드 히스토리 없음", comment: "No clipboard history"))
                     .font(.system(.title2)).bold()
-                // 아직 자동으로 안 모으는 기간에는 그렇다고 말한다 —
+                // 아직 자동으로 안 모으는 기간에는 그렇다고 말한다
                 // "자동으로 저장됩니다"라고 해 두면 안 모이는 며칠 동안 고장 난 것처럼 보인다.
                 if PastePermissionGuidance.mayAutoReadClipboard {
                     Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
@@ -348,11 +348,11 @@ struct ClipboardList: View {
 
     private func checkAndAddCurrentClipboard() {
         // ⚠️ 여기가 **iOS "붙여넣기 허용?" 팝업이 뜨는 지점**이다(클립보드를 읽는 순간).
-        //    설치 직후에 이 화면을 열면 그 팝업이 앱의 첫인상이 된다 — 무엇을 하는 앱인지
+        //    설치 직후에 이 화면을 열면 그 팝업이 앱의 첫인상이 된다 - 무엇을 하는 앱인지
         //    알기도 전에 거절할지를 묻는 셈이라, 며칠 써 본 뒤로 미룬다.
         //    (사용자가 직접 누르는 붙여넣기는 이 관문과 무관하게 그대로 동작한다)
         guard PastePermissionGuidance.mayAutoReadClipboard else {
-            print("⏳ [ClipboardList] 설치 후 \(PastePermissionGuidance.warmUpDays)일 전 — 클립보드 자동 읽기 보류")
+            print("⏳ [ClipboardList] 설치 후 \(PastePermissionGuidance.warmUpDays)일 전, 클립보드 자동 읽기 보류")
             return
         }
         guard !isCheckingClipboard else { return }
@@ -670,7 +670,7 @@ struct ClipboardItemRow: View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top, spacing: 12) {
-                    // 타입 아이콘 — VoiceOver에서는 합성 레이블이 타입을 포함하므로 숨김
+                    // 타입 아이콘 - VoiceOver에서는 합성 레이블이 타입을 포함하므로 숨김
                     Image(systemName: displayType.icon)
                         .font(.title3)
                         .foregroundColor(Color.fromName(displayType.color))

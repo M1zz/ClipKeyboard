@@ -31,7 +31,7 @@
 - 앱 열 때 메모가 **차례로 부드럽게 나타나는** 스태거 애니메이션
 
 **마이크로 인터랙션**
-- 메모 탭 시 **햅틱 피드백** — 입력된 느낌 확실히
+- 메모 탭 시 **햅틱 피드백**, 입력된 느낌 확실히
 - 필터 전환 시 부드러운 crossfade
 - 길게 누르면 **큰 미리보기 플로팅 팝업** (Mail 앱 스타일)
 - 스크롤 시 상단 그리팅이 부드럽게 fade-out (Notes 앱 스타일)
@@ -43,7 +43,7 @@
 
 #### 🔐 개인정보 처리방침 & 웹 가이드
 
-- 개인정보 처리방침 페이지 신설 — GDPR·CCPA 대응
+- 개인정보 처리방침 페이지 신설, GDPR·CCPA 대응
 - 웹 튜토리얼 페이지 오픈: `m1zz.github.io/ClipKeyboard/tutorial.html`
 
 #### 🌍 통일성
@@ -71,7 +71,7 @@ Redesigned from the ground up for remote freelancers and digital nomads. ✨
 **📋 Inline Capture Card**
 - Automatically detects freshly copied text and shows a card at the top
 - Already classified (IBAN, email, URL, etc.) with a "Save as memo" button
-- Dismiss once — the same value won't reappear
+- Dismiss once: the same value won't reappear
 
 **☀️ Time-aware greeting**
 - Greeting and emoji that match your time of day (morning / afternoon / evening / night)
@@ -85,7 +85,7 @@ Redesigned from the ground up for remote freelancers and digital nomads. ✨
 - Items slide in smoothly when the app opens (stagger animation)
 
 **Micro-interactions**
-- Haptic feedback on every memo tap — confirms the input
+- Haptic feedback on every memo tap, confirms the input
 - Filter transitions now crossfade smoothly
 - Long-press reveals a **large floating preview** (Mail-style)
 - Greeting fades as you scroll (Notes-style)
@@ -97,7 +97,7 @@ Redesigned from the ground up for remote freelancers and digital nomads. ✨
 
 #### 🔐 Privacy & Web Guide
 
-- New Privacy Policy page — GDPR & CCPA compliant
+- New Privacy Policy page. GDPR & CCPA compliant
 - Web tutorial now live at: `m1zz.github.io/ClipKeyboard/tutorial.html`
 
 #### 🌍 Consistency
@@ -116,7 +116,7 @@ Redesigned from the ground up for remote freelancers and digital nomads. ✨
 원격 프리랜서와 디지털 노마드를 위해 처음부터 다시 설계했어요. ✨
 
 NEW: 활용 사례 가이드 (19개 시나리오)
-- IBAN 공유, 타임존 응대, 제안 후속, 입금 독촉 — 탭 한 번으로 메모 저장
+- IBAN 공유, 타임존 응대, 제안 후속, 입금 독촉: 탭 한 번으로 메모 저장
 - 설정 → 활용 사례
 
 NEW: 상단 캡처 카드
@@ -139,11 +139,11 @@ NEW: 감성 리디자인
 Redesigned from the ground up for remote freelancers and digital nomads. ✨
 
 NEW: Use Cases Guide (19 scenarios)
-- IBAN sharing, timezone replies, proposal follow-ups, payment reminders — save any scenario as a memo in one tap
+- IBAN sharing, timezone replies, proposal follow-ups, payment reminders: save any scenario as a memo in one tap
 - Settings → Use Cases
 
 NEW: Inline Capture Card
-- Detects freshly copied text automatically and classifies it (IBAN, email, URL, etc.) — save in one tap
+- Detects freshly copied text automatically and classifies it (IBAN, email, URL, etc.): save in one tap
 
 NEW: Seamless redesign
 - Time-aware greeting (☀️ 🌤 🌅 🌙)

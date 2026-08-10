@@ -18,7 +18,7 @@ final class ReviewManagerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sut = ReviewManager.shared
-        // 깨끗한 시작점 — resetReviewRequestData는 hasRespondedToReview를 클리어하지 않으므로 직접 제거
+        // 깨끗한 시작점 - resetReviewRequestData는 hasRespondedToReview를 클리어하지 않으므로 직접 제거
         sut.resetReviewRequestData()
         UserDefaults.standard.removeObject(forKey: "hasRespondedToReview")
     }

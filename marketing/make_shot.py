@@ -299,7 +299,7 @@ def render(spec: Shot) -> str:
     scale = target_w / phone.width
     phone = phone.resize((target_w, int(phone.height * scale)), Image.LANCZOS)
 
-    # 기울기 — 컷마다 다른 표정. expand=True 로 잘림 없이 회전.
+    # 기울기 - 컷마다 다른 표정. expand=True 로 잘림 없이 회전.
     if spec.phone_rotate:
         phone = phone.rotate(-spec.phone_rotate, expand=True,
                              resample=Image.BICUBIC)

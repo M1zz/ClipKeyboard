@@ -12,7 +12,7 @@
 //  ⚠️ **키보드를 흉내 내지 않는다.** 키캡의 물성·모서리·눌림은 익스텐션과 같은
 //     `KeycapButtonStyle`/`KeyboardSkin`을, 이름 접기는 같은 `KeyLabelTruncation`을,
 //     열 수·키 높이·글자 크기·색은 **같은 App Group 설정 키**를 읽는다.
-//     여기서 새로 정하는 값은 하나도 없다 — 설정을 바꾸면 이 미리보기도 같이 변한다.
+//     여기서 새로 정하는 값은 하나도 없다 - 설정을 바꾸면 이 미리보기도 같이 변한다.
 //
 //  ⚠️ 진짜 `KeyboardView`를 그대로 띄우지 않는 이유: 그건 **저장된** `clipMemos` 전역을
 //     읽고 입력·템플릿·PIN·카테고리 탭까지 얹힌 물건이다. 아직 저장되지 않은 초안을
@@ -24,10 +24,10 @@ import SwiftUI
 
 struct BulkImportKeyPreview: View {
 
-    /// 고를 대상 — 누르면 `include`가 뒤집힌다(묶기 모드에서는 선택이 뒤집힌다).
+    /// 고를 대상 - 누르면 `include`가 뒤집힌다(묶기 모드에서는 선택이 뒤집힌다).
     @Binding var drafts: [BulkImportView.Draft]
 
-    /// **묶기 모드**인가 — 키에 체크가 나오고, 누르면 넣고빼기 대신 묶을 것을 고른다.
+    /// **묶기 모드**인가 - 키에 체크가 나오고, 누르면 넣고빼기 대신 묶을 것을 고른다.
     ///
     /// ⚠️ 체크를 상시로 얹지 않는 이유: 이 화면의 약속은 "저장하면 키보드가 이 모습"이다.
     ///    키마다 동그라미가 박혀 있으면 그 약속이 깨진다. 묶는 일은 가끔 하는 일이니
@@ -89,13 +89,13 @@ struct BulkImportKeyPreview: View {
         } label: {
             ZStack {
                 if d.include {
-                    // 들어갈 것 — 키보드에 실제로 생길 키의 모습 그대로.
+                    // 들어갈 것 - 키보드에 실제로 생길 키의 모습 그대로.
                     RoundedRectangle(cornerRadius: keycapRadius)
                         .foregroundColor(keyColor)
                         .overlay(keycapSheen)
                         .shadow(color: Color.black.opacity(skin.shadowOpacity), radius: 2, y: 1)
                 } else {
-                    // 빠질 것 — 키가 아니라 **빈자리**로 그린다. 흐리게만 처리하면
+                    // 빠질 것 - 키가 아니라 **빈자리**로 그린다. 흐리게만 처리하면
                     // "연한 키"로 보여서 들어가는지 마는지가 애매해진다.
                     RoundedRectangle(cornerRadius: keycapRadius)
                         .strokeBorder(theme.divider,
@@ -103,7 +103,7 @@ struct BulkImportKeyPreview: View {
                 }
 
                 HStack(spacing: 4) {
-                    // 묶기 중에는 체크가 타입 심볼 자리를 대신한다 — 둘 다 넣으면 이름 쓸 폭이 없다.
+                    // 묶기 중에는 체크가 타입 심볼 자리를 대신한다 - 둘 다 넣으면 이름 쓸 폭이 없다.
                     if isBundling {
                         Image(systemName: checked ? AppSymbol.checkmarkCircleFill : AppSymbol.circle)
                             .font(.system(size: buttonFontSize * 0.9, weight: .semibold))
@@ -138,7 +138,7 @@ struct BulkImportKeyPreview: View {
                 .opacity(d.include ? 1.0 : 0.55)
             }
             .frame(height: buttonHeight)
-            // 타입 구분 테두리(콤보·보안) — 앱 카드·키보드와 같은 규칙.
+            // 타입 구분 테두리(콤보·보안) - 앱 카드·키보드와 같은 규칙.
             // 빠질 키는 이미 점선 빈자리라 덧그리지 않는다.
             .overlay(
                 RoundedRectangle(cornerRadius: keycapRadius)
@@ -147,7 +147,7 @@ struct BulkImportKeyPreview: View {
                                                      dash: typeBorder(for: memo).dash))
             )
         }
-        // 빠진 키는 눌러도 내려앉지 않는다 — 바닥에 얹힌 키캡이 아니라 빈자리니까.
+        // 빠진 키는 눌러도 내려앉지 않는다 - 바닥에 얹힌 키캡이 아니라 빈자리니까.
         .buttonStyle(KeycapButtonStyle(skin: d.include ? skin : .flat,
                                        cornerRadius: keycapRadius,
                                        skirtColor: keycapSkirtColor))
@@ -167,7 +167,7 @@ struct BulkImportKeyPreview: View {
         .accessibilityAddTraits((isBundling ? checked : d.include) ? [.isSelected] : [])
     }
 
-    /// 화면을 못 보는 사람에게도 **단축어인지 콤보인지**가 들려야 한다 —
+    /// 화면을 못 보는 사람에게도 **단축어인지 콤보인지**가 들려야 한다
     /// 눈으로는 주황 숫자 배지가 그 일을 한다.
     private func accessibilityLabel(for draft: BulkImportView.Draft) -> String {
         let name = draft.title.isEmpty ? draft.value : draft.title
@@ -176,7 +176,7 @@ struct BulkImportKeyPreview: View {
                       name, draft.values.count)
     }
 
-    /// 키에 적힐 이름. 제목을 아직 안 지은 항목은 값 앞부분을 빌려 쓴다 —
+    /// 키에 적힐 이름. 제목을 아직 안 지은 항목은 값 앞부분을 빌려 쓴다
     /// 빈 키가 나열되면 무엇을 빼야 할지 판단할 수가 없다.
     private func displayTitle(for draft: BulkImportView.Draft) -> String {
         let title = draft.title.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -187,14 +187,14 @@ struct BulkImportKeyPreview: View {
 
     /// 초안을 **저장 후 모습**의 임시 `Memo`로 바꾼다. 타입 표시(콤보·보안·템플릿)를
     /// 앱·키보드와 똑같은 규칙으로 판정하려면 같은 타입에 물어보는 편이 안전하다.
-    /// ⚠️ 저장하지 않는다. 값도 암호화하지 않는다 — 화면에 그릴 용도로만 만든다.
+    /// ⚠️ 저장하지 않는다. 값도 암호화하지 않는다 - 화면에 그릴 용도로만 만든다.
     private func previewMemo(for draft: BulkImportView.Draft) -> Memo {
         draft.isCombo
             ? Memo(title: draft.title, value: "", isSecure: draft.isSecure, comboValues: draft.values)
             : Memo(title: draft.title, value: draft.value, isSecure: draft.isSecure)
     }
 
-    /// 타입 테두리는 "색상 없이 구별"(구분 표시)이 켜졌을 때만 그린다 — 키보드와 같은 기준.
+    /// 타입 테두리는 "색상 없이 구별"(구분 표시)이 켜졌을 때만 그린다 - 키보드와 같은 기준.
     private func typeBorder(for memo: Memo) -> TypeVisualStyle {
         MemoTypeStyle.border(for: memo, visualCuesVisible: showVisualCues)
     }

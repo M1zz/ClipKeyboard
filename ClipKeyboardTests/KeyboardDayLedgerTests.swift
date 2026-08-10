@@ -2,13 +2,13 @@
 //  KeyboardDayLedgerTests.swift
 //  ClipKeyboardTests
 //
-//  키보드 활동일 원장 테스트 — 앱을 안 여는 사람의 활동을 소급 복원하는 경로다.
+//  키보드 활동일 원장 테스트 - 앱을 안 여는 사람의 활동을 소급 복원하는 경로다.
 //   · 같은 날은 한 칸에 모이고, 날이 바뀌면 칸이 갈린다 (활동일이 뭉치지 않는지)
 //   · 보관 한도를 넘으면 **오래된 날부터** 버린다
 //   · 전송이 확정된 날만 지워진다 (실패한 날이 유실되지 않는지)
 //   · 날짜 키 ↔ 시각 왕복이 시간대가 달라져도 하루씩 밀리지 않는지
 //
-//  ⚠️ 실제 CloudKit 전송은 여기서 검증하지 않는다 — 네트워크 없이 확인 가능한 정책만.
+//  ⚠️ 실제 CloudKit 전송은 여기서 검증하지 않는다 - 네트워크 없이 확인 가능한 정책만.
 //
 
 import XCTest
@@ -46,7 +46,7 @@ final class KeyboardDayLedgerTests: XCTestCase {
         XCTAssertEqual(counts()[KeyboardDayLedger.dayKey(for: day)], 3)
     }
 
-    /// 이 테스트가 이 기능의 존재 이유다 — 예전 카운터 하나로는 아래 3일이 구분되지 않았다.
+    /// 이 테스트가 이 기능의 존재 이유다 - 예전 카운터 하나로는 아래 3일이 구분되지 않았다.
     func testUsesOnDifferentDaysStaySeparate() {
         let now = Date()
         let days = [now, now.addingTimeInterval(-86_400), now.addingTimeInterval(-2 * 86_400)]
@@ -118,7 +118,7 @@ final class KeyboardDayLedgerTests: XCTestCase {
         XCTAssertEqual(KeyboardDayLedger.dayKey(for: restored), key)
     }
 
-    /// 정오로 환산하는 이유 — 기록한 기기와 집계를 보는 기기의 시간대가 달라도
+    /// 정오로 환산하는 이유 - 기록한 기기와 집계를 보는 기기의 시간대가 달라도
     /// 앞뒤 날짜로 넘어가면 안 된다. 자정으로 잡으면 조금만 밀려도 전날이 된다.
     ///
     /// 기준을 UTC로 고정해 테스트가 도는 기기의 시간대에 좌우되지 않게 한다.

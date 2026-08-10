@@ -25,7 +25,7 @@ final class AppThemePreference: ObservableObject {
     }
 
     init() {
-        // v4.3: 테마/화면모드 선택 기능 제거 — 앱은 Paper 테마 + 시스템 라이트/다크를 따른다.
+        // v4.3: 테마/화면모드 선택 기능 제거 - 앱은 Paper 테마 + 시스템 라이트/다크를 따른다.
         // (다크모드를 완벽 지원하므로 별도 모드 선택이 불필요.)
         self.kind = .paper
         self.mode = .system

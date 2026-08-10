@@ -3,7 +3,7 @@
 //  ClipKeyboardTests
 //
 //  Created by Claude Code on 2026-06-11.
-//  iCloud 백업/복원 무결성 테스트 — 네트워크 없이 mock DB로 전체 경로 검증.
+//  iCloud 백업/복원 무결성 테스트 - 네트워크 없이 mock DB로 전체 경로 검증.
 //
 //  CloudKitBackupService에 CloudKitBackupDatabase(프로토콜)를 주입해
 //  실제 CKDatabase 호출만 인메모리로 대체하고, 인코딩→CKRecord/CKAsset 구성→
@@ -84,7 +84,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         try? memoStore.saveCombos([])
     }
 
-    /// 모든 의미 있는 필드를 채운 메모 — 라운드트립에서 어느 필드가 유실돼도 잡아낸다.
+    /// 모든 의미 있는 필드를 채운 메모 - 라운드트립에서 어느 필드가 유실돼도 잡아낸다.
     private func makeRichMemo() -> Memo {
         var memo = Memo(
             title: "계좌 안내",
@@ -121,7 +121,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         // When
         try await sut.backupData()
 
-        // Then — 메인 백업 레코드(Backup)는 1개에 3개 Asset + 메타데이터
+        // Then - 메인 백업 레코드(Backup)는 1개에 3개 Asset + 메타데이터
         // (버전 스냅샷/인덱스는 별도 recordType이므로 메인 Backup만 센다)
         XCTAssertEqual(mockDB.records.values.filter { $0.recordType == "Backup" }.count, 1)
         let record = try XCTUnwrap(mockDB.records[backupRecordID])
@@ -143,15 +143,15 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testBackup_SecondBackupUpdatesExistingRecord() async throws {
-        // Given — 1차 백업
+        // Given - 1차 백업
         try memoStore.save(memos: [Memo(title: "v1", value: "값1")], type: .memo)
         try await sut.backupData()
 
-        // When — 데이터 변경 후 2차 백업
+        // When - 데이터 변경 후 2차 백업
         try memoStore.save(memos: [Memo(title: "v2", value: "값2"), Memo(title: "v2-2", value: "값")], type: .memo)
         try await sut.backupData()
 
-        // Then — 메인 백업 레코드(Backup)는 여전히 1개(덮어쓰기), 내용은 최신
+        // Then - 메인 백업 레코드(Backup)는 여전히 1개(덮어쓰기), 내용은 최신
         XCTAssertEqual(mockDB.records.values.filter { $0.recordType == "Backup" }.count, 1)
         let record = try XCTUnwrap(mockDB.records[backupRecordID])
         let asset = try XCTUnwrap(record["memosAsset"] as? CKAsset)
@@ -265,7 +265,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         XCTAssertEqual(try memoStore.load(type: .memo).count, 3, "과거 버전(3개)으로 복원돼야 함")
     }
 
-    /// 잘못된(축소) 백업이 끼어도 과거 스냅샷은 남아 복원 가능 — 핵심 안전망.
+    /// 잘못된(축소) 백업이 끼어도 과거 스냅샷은 남아 복원 가능 - 핵심 안전망.
     func testShrinkBackup_KeepsOldSnapshotRecoverable() async throws {
         let many = (0..<10).map { Memo(title: "m\($0)", value: "v") }
         try memoStore.save(memos: many, type: .memo)
@@ -273,7 +273,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         let bigSnaps = await sut.listSnapshots()
         let bigSnap = try XCTUnwrap(bigSnaps.first)
 
-        // 수동으로 1개만 백업(동의 후 — 메인은 덮어써지지만 과거 스냅샷은 보존)
+        // 수동으로 1개만 백업(동의 후 - 메인은 덮어써지지만 과거 스냅샷은 보존)
         try memoStore.save(memos: [Memo(title: "only", value: "v")], type: .memo)
         try await sut.backupData(allowReduce: true)
 
@@ -285,7 +285,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     // MARK: - 라운드트립 무결성 (핵심)
 
     func testBackupThenRestore_PreservesAllMemoFields() async throws {
-        // Given — 모든 필드가 채워진 메모 + 클립보드 + 콤보
+        // Given - 모든 필드가 채워진 메모 + 클립보드 + 콤보
         let original = makeRichMemo()
         let clipboard = SmartClipboardHistory(content: "010-1234-5678", detectedType: .phone, confidence: 0.9)
         let combo = Combo(title: "출근 콤보", items: [
@@ -296,13 +296,13 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         try memoStore.saveSmartClipboardHistory(history: [clipboard])
         try memoStore.saveCombos([combo])
 
-        // When — 백업 → 로컬 전체 삭제(기기 변경 시나리오) → 복원
+        // When - 백업 → 로컬 전체 삭제(기기 변경 시나리오) → 복원
         try await sut.backupData()
         clearLocalData()
         XCTAssertTrue(try memoStore.load(type: .memo).isEmpty, "사전 조건: 로컬이 비어 있어야 함")
         try await sut.restoreData(forceOverwrite: true)
 
-        // Then — 메모의 모든 필드가 보존되어야 함
+        // Then - 메모의 모든 필드가 보존되어야 함
         let restored = try memoStore.load(type: .memo)
         XCTAssertEqual(restored.count, 1)
         let memo = try XCTUnwrap(restored.first)
@@ -345,7 +345,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testRestore_ResetsComboMigrationFlag() async throws {
-        // Given — 마이그레이션 완료 상태에서 옛 백업을 복원하는 상황
+        // Given - 마이그레이션 완료 상태에서 옛 백업을 복원하는 상황
         appGroupDefaults?.set(true, forKey: "comboModelUnifyMigrated_v1")
         try memoStore.save(memos: [Memo(title: "백업", value: "값")], type: .memo)
         try await sut.backupData()
@@ -353,20 +353,20 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         // When
         try await sut.restoreData(forceOverwrite: true)
 
-        // Then — 복원된 레거시 데이터가 다음 실행에 재변환되도록 플래그 리셋
+        // Then - 복원된 레거시 데이터가 다음 실행에 재변환되도록 플래그 리셋
         XCTAssertEqual(appGroupDefaults?.bool(forKey: "comboModelUnifyMigrated_v1"), false)
     }
 
     // MARK: - 복원: 사용자 보호 장치
 
     func testRestore_WithLocalData_RequiresConfirmationAndKeepsData() async throws {
-        // Given — 백업 존재 + 로컬에 다른 데이터 존재
+        // Given - 백업 존재 + 로컬에 다른 데이터 존재
         try memoStore.save(memos: [Memo(title: "백업본", value: "값")], type: .memo)
         try await sut.backupData()
         let localOnly = [Memo(title: "로컬 신규 메모", value: "아직 백업 안 됨")]
         try memoStore.save(memos: localOnly, type: .memo)
 
-        // When/Then — forceOverwrite 없이 복원하면 거부(사용자 확인 필요)
+        // When/Then - forceOverwrite 없이 복원하면 거부(사용자 확인 필요)
         do {
             try await sut.restoreData(forceOverwrite: false)
             XCTFail("로컬 데이터가 있으면 확인 없이 덮어쓰면 안 됨")
@@ -379,7 +379,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testRestore_NoBackup_ThrowsNoBackupFound() async throws {
-        // Given — mock DB에 레코드 없음
+        // Given - mock DB에 레코드 없음
         // When/Then
         do {
             try await sut.restoreData(forceOverwrite: true)
@@ -392,7 +392,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testRestore_CorruptedMemoAsset_FailsAndKeepsLocalData() async throws {
-        // Given — 깨진 JSON이 든 백업 레코드 + 로컬 데이터
+        // Given - 깨진 JSON이 든 백업 레코드 + 로컬 데이터
         let record = CKRecord(recordType: "Backup", recordID: backupRecordID)
         let corruptURL = FileManager.default.temporaryDirectory
             .appendingPathComponent("corrupt-memos.json")
@@ -403,7 +403,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         let sentinel = [Memo(title: "지켜야 할 메모", value: "값")]
         try memoStore.save(memos: sentinel, type: .memo)
 
-        // When/Then — 복원은 실패하고 로컬 데이터는 손대지 않아야 함
+        // When/Then - 복원은 실패하고 로컬 데이터는 손대지 않아야 함
         do {
             try await sut.restoreData(forceOverwrite: true)
             XCTFail("깨진 백업은 복원에 실패해야 함")
@@ -417,7 +417,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     // MARK: - 레거시 백업 포맷 호환
 
     func testRestore_LegacyDataFieldRecord_StillWorks() async throws {
-        // Given — CKAsset 도입 전, Data 필드에 직접 저장하던 옛 백업 레코드
+        // Given - CKAsset 도입 전, Data 필드에 직접 저장하던 옛 백업 레코드
         let legacyMemos = [Memo(title: "옛 백업 메모", value: "레거시 값", category: "여행")]
         let record = CKRecord(recordType: "Backup", recordID: backupRecordID)
         record["memos"] = try JSONEncoder().encode(legacyMemos) as NSData
@@ -443,7 +443,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     // MARK: - 인증
 
     func testBackup_NotAuthenticated_Throws() async throws {
-        // Given — iCloud 미로그인
+        // Given - iCloud 미로그인
         let unauthSut = CloudKitBackupService(database: mockDB, accountStatus: { .noAccount })
         try memoStore.save(memos: [Memo(title: "메모", value: "값")], type: .memo)
 
@@ -477,14 +477,14 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     // MARK: - 재시도 정책
 
     func testBackup_RetriesOnTransientNetworkFailure() async throws {
-        // Given — 첫 저장은 네트워크 실패, 두 번째는 성공
+        // Given - 첫 저장은 네트워크 실패, 두 번째는 성공
         mockDB.saveErrorQueue = [CKError(.networkFailure)]
         try memoStore.save(memos: [Memo(title: "재시도", value: "값")], type: .memo)
 
         // When
         try await sut.backupData()
 
-        // Then — 1회 재시도 후 성공, 레코드 저장됨
+        // Then - 1회 재시도 후 성공, 레코드 저장됨
         // (saveCallCount는 메인+스냅샷+인덱스 저장을 모두 포함하므로 정확한 값 대신 의도를 검증)
         XCTAssertGreaterThanOrEqual(mockDB.saveCallCount, 2, "전송 실패 1회 후 재시도해야 함")
         XCTAssertTrue(mockDB.saveErrorQueue.isEmpty, "주입한 전송 오류가 소비(재시도)돼야 함")
@@ -492,7 +492,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testBackup_NonRetryableError_FailsImmediately() async throws {
-        // Given — 권한 오류는 재시도해도 소용없음
+        // Given - 권한 오류는 재시도해도 소용없음
         mockDB.saveErrorQueue = [CKError(.permissionFailure)]
         try memoStore.save(memos: [Memo(title: "메모", value: "값")], type: .memo)
 
@@ -508,7 +508,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     // MARK: - 백업 존재 확인 / 삭제
 
     func testHasBackup_ReflectsRecordExistence() async throws {
-        // Given/When/Then — 백업 전엔 false
+        // Given/When/Then - 백업 전엔 false
         let before = await sut.hasBackup()
         XCTAssertFalse(before)
 
@@ -520,7 +520,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     }
 
     func testDeleteBackup_RemovesRecordAndClearsDate() async throws {
-        // Given — 백업 존재
+        // Given - 백업 존재
         try memoStore.save(memos: [Memo(title: "메모", value: "값")], type: .memo)
         try await sut.backupData()
         XCTAssertNotNil(sut.lastBackupDate)

@@ -2,7 +2,7 @@
 //  RefundReceipt.swift
 //  ClipKeyboard
 //
-//  **환급 영수증** — 금고 컨셉의 종이 쪽.
+//  **환급 영수증** - 금고 컨셉의 종이 쪽.
 //
 //  금고가 "얼마가 쌓였나"라면 영수증은 "무엇으로 벌었나"다. 잔고만 보여주면 숫자를 믿을
 //  근거가 없는데, 줄 단위로 쪼개 놓으면 사용자가 자기 손으로 검산할 수 있다.
@@ -20,11 +20,11 @@
 
 import SwiftUI
 
-// MARK: - 내용 (순수 값 — 테스트 가능)
+// MARK: - 내용 (순수 값 - 테스트 가능)
 
 struct RefundReceipt: Equatable, Identifiable {
 
-    /// 발행 시각이 곧 이 종이의 정체다 — 다시 뽑으면 다른 장이다.
+    /// 발행 시각이 곧 이 종이의 정체다 - 다시 뽑으면 다른 장이다.
     var id: Date { issuedAt }
 
     struct Line: Equatable, Identifiable {
@@ -39,13 +39,13 @@ struct RefundReceipt: Equatable, Identifiable {
     let issuedAt: Date
     /// 이 종이가 끊긴 기간.
     let period: RefundPeriod
-    /// 영수증에 찍히는 기간 이름 — "2026년 8월" 처럼 실제 달을 쓴다.
+    /// 영수증에 찍히는 기간 이름 - "2026년 8월" 처럼 실제 달을 쓴다.
     let periodLabel: String
     /// 다시 치지 않은 총 횟수.
     let totalUses: Int
     /// 환급 시간(초).
     let totalSeconds: Double
-    /// 줄 항목 — 많이 번 순.
+    /// 줄 항목 - 많이 번 순.
     let lines: [Line]
     /// 줄에 못 실린 나머지 문구 수. 0이면 안 찍는다.
     let remainderCount: Int
@@ -60,7 +60,7 @@ struct RefundReceipt: Equatable, Identifiable {
 
     /// 여권 요약에서 **전체 기간** 영수증을 뽑는다.
     ///
-    /// 정렬 기준이 여권(사용 횟수)과 **다르다**. 영수증은 금액 순이라야 말이 된다 —
+    /// 정렬 기준이 여권(사용 횟수)과 **다르다**. 영수증은 금액 순이라야 말이 된다
     /// 짧은 문구를 500번 쓴 것보다 긴 문구를 50번 쓴 쪽이 더 많이 돌려줬을 수 있다.
     static func make(from summary: UsagePassport.Summary,
                      issuedAt: Date,
@@ -87,7 +87,7 @@ struct RefundReceipt: Equatable, Identifiable {
                                    useCount: $0.useCount,
                                    earnedSeconds: $0.earnedSeconds) },
             remainderCount: max(0, earning.count - kept.count),
-            // 전체는 평생 누적을 그대로 쓰므로 언제나 완전하다 — 밝힐 게 없다.
+            // 전체는 평생 누적을 그대로 쓰므로 언제나 완전하다 - 밝힐 게 없다.
             coverageStartedAt: nil
         )
     }
@@ -96,9 +96,9 @@ struct RefundReceipt: Equatable, Identifiable {
     ///
     /// - Parameters:
     ///   - earned: 문구별 돌려준 초.
-    ///   - uses: 문구별 쓴 횟수. 초에서 역산하지 않는다 — 문구를 고친 순간부터 어긋난다.
+    ///   - uses: 문구별 쓴 횟수. 초에서 역산하지 않는다 - 문구를 고친 순간부터 어긋난다.
     ///   - memos: 이름을 붙이기 위한 현재 문구들. 그 사이 지운 문구는 이름 없이 합쳐진다.
-    ///   - totalUses: 그 달의 총 사용 횟수(일별 횟수 합). 줄 합과 다를 수 있다 —
+    ///   - totalUses: 그 달의 총 사용 횟수(일별 횟수 합). 줄 합과 다를 수 있다
     ///     원장 이전부터 쌓이던 값이라 더 완전하다.
     static func make(period: RefundPeriod,
                      periodLabel: String,
@@ -169,7 +169,7 @@ struct RefundReceipt: Equatable, Identifiable {
             return make(from: summary, issuedAt: now, periodLabel: period.label(from: now, calendar: calendar))
         }
 
-        // 원장이 이 달 중간에 시작했다면 합계가 달 전체를 못 덮는다 — 종이에 밝힌다.
+        // 원장이 이 달 중간에 시작했다면 합계가 달 전체를 못 덮는다 - 종이에 밝힌다.
         var coverage: Date?
         if let started = RefundLedger.startedAt,
            let interval = calendar.dateInterval(of: .month, for: month),
@@ -189,7 +189,7 @@ struct RefundReceipt: Equatable, Identifiable {
 
     // MARK: 표시 문구
 
-    /// "1시간 3분" · "26분" · "45초" — 줄 금액용 짧은 형식.
+    /// "1시간 3분" · "26분" · "45초" - 줄 금액용 짧은 형식.
     /// `UsagePassport.timeSavedText` 는 1분 미만을 nil 로 버리는데, 줄에서는
     /// 빈칸이 되면 안 되므로 초까지 적는다.
     static func durationText(seconds: Double) -> String {
@@ -210,7 +210,7 @@ struct RefundReceipt: Equatable, Identifiable {
 // MARK: - 종이 모양
 
 /// 아래위가 톱니로 잘린 영수증 종이.
-/// 모서리를 둥글게 하면 카드가 되어버린다 — 종이로 읽히게 하는 건 **찢긴 가장자리**다.
+/// 모서리를 둥글게 하면 카드가 되어버린다 - 종이로 읽히게 하는 건 **찢긴 가장자리**다.
 struct ReceiptPaperShape: Shape {
     /// 톱니 하나의 너비(pt).
     var tooth: CGFloat = 9
@@ -281,7 +281,7 @@ struct RefundReceiptView: View {
                 .kerning(2)
                 .foregroundColor(ink)
 
-            // 기간은 제목만큼 크게 — 나중에 이 종이를 다시 봤을 때 언제 것인지가 먼저 읽혀야 한다.
+            // 기간은 제목만큼 크게 - 나중에 이 종이를 다시 봤을 때 언제 것인지가 먼저 읽혀야 한다.
             Text(receipt.periodLabel)
                 .font(.system(.subheadline, design: .monospaced).weight(.semibold))
                 .foregroundColor(brand)
@@ -392,7 +392,7 @@ struct RefundReceiptView: View {
     // MARK: 부품
 
     private var divider: some View {
-        // 실선이 아니라 점선 — 영수증의 구분선은 도장 찍힌 종이가 아니라 인쇄된 점선이다.
+        // 실선이 아니라 점선 - 영수증의 구분선은 도장 찍힌 종이가 아니라 인쇄된 점선이다.
         Line()
             .stroke(style: StrokeStyle(lineWidth: 1, dash: [2, 3]))
             .foregroundColor(inkFaint.opacity(0.6))
@@ -427,11 +427,11 @@ struct RefundReceiptView: View {
 
 #if canImport(UIKit)
 
-/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다 —
+/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다
 /// 공유 시트 하나로 사진 저장·파일 저장·인쇄·전송이 전부 갈린다.
 struct RefundReceiptSheet: View {
     let memos: [Memo]
-    /// 발행 시각. 시트를 여는 동안 고정한다 — 기간을 바꿀 때마다 시각이 흔들리면
+    /// 발행 시각. 시트를 여는 동안 고정한다 - 기간을 바꿀 때마다 시각이 흔들리면
     /// 같은 자리에서 뽑은 종이들이 서로 다른 물건이 된다.
     let issuedAt: Date
     var initialPeriod: RefundPeriod = .thisMonth
@@ -496,7 +496,7 @@ struct RefundReceiptSheet: View {
                 }
             }
         }
-        // 기간을 바꾸면 굽은 이미지도 다시 굽는다 — 안 그러면 화면과 다른 종이를 내보낸다.
+        // 기간을 바꾸면 굽은 이미지도 다시 굽는다 - 안 그러면 화면과 다른 종이를 내보낸다.
         .task(id: period) {
             baked = nil                                  // 굽는 동안 옛 종이를 내보내지 않도록
             baked = RefundReceiptView.render(receipt)
@@ -507,7 +507,7 @@ struct RefundReceiptSheet: View {
 extension RefundReceiptView {
     /// 영수증을 이미지로 굽는다. 공유 시트에서 저장·인쇄·전송이 전부 여기서 갈린다.
     ///
-    /// ⚠️ `@MainActor` — ImageRenderer 는 뷰를 실제로 그린다.
+    /// ⚠️ `@MainActor` - ImageRenderer 는 뷰를 실제로 그린다.
     @MainActor
     static func render(_ receipt: RefundReceipt, scale: CGFloat = 3) -> UIImage? {
         let renderer = ImageRenderer(content: RefundReceiptView(receipt: receipt))

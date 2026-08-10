@@ -38,11 +38,11 @@ struct MemoAdd: View {
     var insertedComboValues: [String] = []
     var insertedHint: String = ""
     var insertedIsFavorite: Bool = false
-    /// "임시 저장 보기"에서 이어쓰기로 진입했을 때 그 드래프트 id — 저장/폐기 시 해당 드래프트를 정리한다.
+    /// "임시 저장 보기"에서 이어쓰기로 진입했을 때 그 드래프트 id - 저장/폐기 시 해당 드래프트를 정리한다.
     var resumeDraftId: UUID? = nil
-    /// "템플릿으로 만들기"로 진입했을 때 true — 본문에 포커스를 줘 변수 삽입바를 바로 노출.
+    /// "템플릿으로 만들기"로 진입했을 때 true - 본문에 포커스를 줘 변수 삽입바를 바로 노출.
     var startInTemplateMode: Bool = false
-    /// "템플릿으로 만들기"의 원본 단축어 id — 있으면 "기존 단축어 남기기" 토글이 노출되고,
+    /// "템플릿으로 만들기"의 원본 단축어 id - 있으면 "기존 단축어 남기기" 토글이 노출되고,
     /// 끄면 저장할 때 원본이 함께 삭제된다(중복 방지).
     var templateSourceMemoId: UUID? = nil
     /// 튜토리얼로 열렸을 때 화면 맨 위에 띄우는 한 줄 안내.
@@ -183,7 +183,7 @@ struct MemoAdd: View {
                 insertedHint: insertedHint,
                 insertedIsFavorite: insertedIsFavorite
             )
-            // "템플릿으로 만들기" 진입 — 시트가 안착한 뒤 본문에 포커스를 줘
+            // "템플릿으로 만들기" 진입 - 시트가 안착한 뒤 본문에 포커스를 줘
             // 변수 삽입바({이름}/{날짜}…)를 바로 띄운다.
             if startInTemplateMode {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
@@ -236,7 +236,7 @@ struct MemoAdd: View {
                         Text(NSLocalizedString("저장", comment: "Save"))
                             .fontWeight(.semibold)
                     }
-                    // 텍스트 또는 이미지 중 하나라도 있으면 저장 가능 — validateMemoInput과 동일 기준.
+                    // 텍스트 또는 이미지 중 하나라도 있으면 저장 가능 - validateMemoInput과 동일 기준.
                     // (기존엔 텍스트만 봐서 "이미지+이름"만 넣은 단축어가 저장 불가였음)
                     .disabled(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
                 }
@@ -266,10 +266,10 @@ struct MemoAdd: View {
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 22) {
-                    // 1) 키보드에 표시할 이름(KEY) — 단축어의 정체성이므로 맨 위. 핵심.
+                    // 1) 키보드에 표시할 이름(KEY) - 단축어의 정체성이므로 맨 위. 핵심.
                     titleInputSection
 
-                    // 2) 붙여넣을 내용(VALUE) + 이미지 — 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
+                    // 2) 붙여넣을 내용(VALUE) + 이미지 - 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
                     ContentInputSection(
                         value: $viewModel.value,
                         selectedCategory: viewModel.selectedCategory,
@@ -277,7 +277,7 @@ struct MemoAdd: View {
                         autoDetectedType: $viewModel.autoDetectedType,
                         autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                         attachedImages: $viewModel.attachedImages,
-                        onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 — 입력 종료
+                        onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 - 입력 종료
                         onAddContent: {
                             HapticManager.shared.light()
                             viewModel.addContinuation()
@@ -285,7 +285,7 @@ struct MemoAdd: View {
                         forceTextKeyboard: startInTemplateMode
                     )
 
-                    // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 — 더하면 콤보.
+                    // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 - 더하면 콤보.
                     // 심플 모드에서도 "내용 더 넣기"가 보이도록(더 설정하기 누르기 전부터).
                     continuationsSection
 
@@ -311,7 +311,7 @@ struct MemoAdd: View {
         }
     }
 
-    /// 퀵 모드 "더 설정하기" — 보안/템플릿/콤보 등 고급 옵션으로 전환.
+    /// 퀵 모드 "더 설정하기" - 보안/템플릿/콤보 등 고급 옵션으로 전환.
     private var quickAdvancedButton: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
@@ -357,7 +357,7 @@ struct MemoAdd: View {
                         // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
                         // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
 
-                        // 📌 키보드에 표시할 이름 — 단축어의 정체성이므로 맨 위
+                        // 📌 키보드에 표시할 이름 - 단축어의 정체성이므로 맨 위
                         titleInputSection
 
                         // 📌 붙여넣을 내용
@@ -368,7 +368,7 @@ struct MemoAdd: View {
                             autoDetectedType: $viewModel.autoDetectedType,
                             autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                             attachedImages: $viewModel.attachedImages,
-                            onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 — 입력 종료
+                            onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 - 입력 종료
                             onAddContent: {
                                 HapticManager.shared.light()
                                 viewModel.addContinuation()
@@ -377,13 +377,13 @@ struct MemoAdd: View {
                         )
                         .id("contentField")
 
-                        // 검증 각인 — 체크섬이 있는 값이면 "맞았다"를 눈에 보이게.
-                        // 확실할 때만 뜬다(형식이 모호하면 nil) — ChecksumVerifier 주석 참고.
+                        // 검증 각인 - 체크섬이 있는 값이면 "맞았다"를 눈에 보이게.
+                        // 확실할 때만 뜬다(형식이 모호하면 nil) - ChecksumVerifier 주석 참고.
                         if let verification = ChecksumVerifier.verify(viewModel.value) {
                             VerificationSealView(result: verification)
                         }
 
-                        // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 — 더하면 콤보
+                        // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 - 더하면 콤보
                         continuationsSection
 
                         // 📌 내용 힌트 (카드·키보드에서 살며시 보일 한 줄, 선택)
@@ -398,12 +398,12 @@ struct MemoAdd: View {
                     .padding(.top, 24)
                     .padding(.bottom, 24)
                 }
-                // 하단 버튼 영역 — 키보드 바로 위에 딱 붙는 영역
+                // 하단 버튼 영역 - 키보드 바로 위에 딱 붙는 영역
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                 VStack(spacing: 0) {
                     Divider()
 
-                    // 본문 포커스 시 변수 삽입 버튼 표시 — {변수}를 넣으면 자동으로 템플릿이 됨
+                    // 본문 포커스 시 변수 삽입 버튼 표시 - {변수}를 넣으면 자동으로 템플릿이 됨
                     if isFocused {
                         variableTokenBar
                         Divider()
@@ -492,7 +492,7 @@ struct MemoAdd: View {
 
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
+            Text(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label: what user sees on the keyboard"))
                 .font(.body)
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
@@ -501,7 +501,7 @@ struct MemoAdd: View {
                 .font(.title3)
                 .fontWeight(.semibold)
                 .focused($isTitleFocused)
-                // 이름이 맨 위 필드 — 리턴 키로 아래 내용 입력칸으로 자연스럽게 이동.
+                // 이름이 맨 위 필드 - 리턴 키로 아래 내용 입력칸으로 자연스럽게 이동.
                 .submitLabel(.next)
                 .onSubmit {
                     isTitleFocused = false
@@ -512,11 +512,11 @@ struct MemoAdd: View {
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
                 // VoiceOver가 placeholder 대신 필드의 의미("키보드에 표시할 이름")를 읽도록 명시.
-                .accessibilityLabel(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label — what user sees on the keyboard"))
+                .accessibilityLabel(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label: what user sees on the keyboard"))
         }
     }
 
-    /// 내용 힌트(선택) — 카드 힌트·키보드 스왑에서 자동 요약 대신 보여줄 한 줄을 직접 정한다.
+    /// 내용 힌트(선택) - 카드 힌트·키보드 스왑에서 자동 요약 대신 보여줄 한 줄을 직접 정한다.
     /// 힌트를 쓰면 "키보드에 표시할 이름과 같이 표시" 동기화 토글이 나타난다(기본 ON).
     private var hintInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -525,7 +525,7 @@ struct MemoAdd: View {
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
-            TextField(NSLocalizedString("카드에 살며시 보여줄 한 줄 — 비우면 자동 요약", comment: "Custom hint field placeholder"),
+            TextField(NSLocalizedString("카드에 살며시 보여줄 한 줄, 비우면 자동 요약", comment: "Custom hint field placeholder"),
                       text: $viewModel.hint)
                 .font(.body)
                 .padding(.vertical, 12)
@@ -571,7 +571,7 @@ struct MemoAdd: View {
                 )
             )
 
-            // "템플릿으로 만들기"로 들어온 경우 — 원본 단축어를 남길지 선택.
+            // "템플릿으로 만들기"로 들어온 경우 - 원본 단축어를 남길지 선택.
             // 끄면 저장할 때 원본이 함께 삭제된다(비슷한 단축어 중복 방지).
             if templateSourceMemoId != nil {
                 ToggleOptionRow(
@@ -586,7 +586,7 @@ struct MemoAdd: View {
         }
     }
 
-    /// "내용 더 넣기" — 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
+    /// "내용 더 넣기" - 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
     /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
     private var continuationsSection: some View {
             VStack(alignment: .leading, spacing: 10) {
@@ -598,7 +598,7 @@ struct MemoAdd: View {
                         TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
                                   text: $viewModel.continuations[idx], axis: .vertical)
                             .textFieldStyle(.roundedBorder)
-                            // 본문 편집기와 동일 — 붙여넣을 원문이라 자동 대문자/수정 금지.
+                            // 본문 편집기와 동일 - 붙여넣을 원문이라 자동 대문자/수정 금지.
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                         Button {
@@ -637,7 +637,7 @@ struct MemoAdd: View {
                 .accessibilityLabel(NSLocalizedString("내용 더 넣기", comment: "Add another content value button"))
                 .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
 
-                // 기존 단축어 값 가져오기 — 이미 만든 단축어들을 골라 그 값을 이 콤보에 복사한다.
+                // 기존 단축어 값 가져오기 - 이미 만든 단축어들을 골라 그 값을 이 콤보에 복사한다.
                 Button {
                     HapticManager.shared.light()
                     showComboImport = true
@@ -658,7 +658,7 @@ struct MemoAdd: View {
                 .buttonStyle(.plain)
 
                 if !viewModel.continuations.isEmpty {
-                    Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
+                    Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
                         .font(.caption)
                         .foregroundColor(theme.textFaint)
                 }
@@ -690,7 +690,7 @@ struct MemoAdd: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
-                // 빠른 삽입 — 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
+                // 빠른 삽입 - 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
                 VStack(alignment: .leading, spacing: 8) {
                     Text(NSLocalizedString("빠른 삽입", comment: "Quick insert label"))
                         .font(.body)
@@ -699,7 +699,7 @@ struct MemoAdd: View {
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 8) {
-                            // 숫자 입력 타입 — 삽입 토큰도 로케일에 맞춤(영어는 {amount} 등).
+                            // 숫자 입력 타입 - 삽입 토큰도 로케일에 맞춤(영어는 {amount} 등).
                             quickInsertToken(NSLocalizedString("{금액}", comment: "Amount token variable"), isNumeric: true)
                             quickInsertToken(NSLocalizedString("{수량}", comment: "Quantity token variable"), isNumeric: true)
                             quickInsertToken(NSLocalizedString("{가격}", comment: "Price token variable"), isNumeric: true)
@@ -772,7 +772,7 @@ struct MemoAdd: View {
 
     // 템플릿 변수 버튼
     @ViewBuilder
-    /// 키보드 위에 뜨는 템플릿 변수 옵션 바 — 본문(붙여넣을 내용) 입력 중에만 노출.
+    /// 키보드 위에 뜨는 템플릿 변수 옵션 바 - 본문(붙여넣을 내용) 입력 중에만 노출.
     /// 탭하면 커서 위치에 {변수}가 삽입되어 자동으로 템플릿이 된다.
     private var variableTokenBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {

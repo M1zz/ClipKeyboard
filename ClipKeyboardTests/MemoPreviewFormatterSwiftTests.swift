@@ -2,7 +2,7 @@
 //  MemoPreviewFormatterSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — 리스트 한 줄 미리보기(콤보/템플릿/이미지/보안 마스킹/
+//  Swift Testing 스위트 - 리스트 한 줄 미리보기(콤보/템플릿/이미지/보안 마스킹/
 //  URL/truncate)와 플레이스홀더 추출.
 //
 //  명세: docs/FEATURE_SPEC.md §5
@@ -12,7 +12,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("MemoPreviewFormatter — 미리보기")
+@Suite("MemoPreviewFormatter: 미리보기")
 struct MemoPreviewFormatterSwiftTests {
 
     // MARK: - 콤보 / 템플릿 / 이미지
@@ -22,7 +22,7 @@ struct MemoPreviewFormatterSwiftTests {
         let memo = Memo(title: "콤보", value: "A", comboValues: ["A", "B", "C"])
         let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: nil)
         #expect(!preview.isEmpty)
-        #expect(preview.contains("3"))   // "%d items" — 로케일 무관하게 숫자는 포함
+        #expect(preview.contains("3"))   // "%d items" - 로케일 무관하게 숫자는 포함
     }
 
     @Test("템플릿 미리보기는 중괄호를 제거하고 변수 개수를 덧붙인다")

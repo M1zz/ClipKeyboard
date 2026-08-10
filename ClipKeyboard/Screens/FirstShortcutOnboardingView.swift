@@ -2,7 +2,7 @@
 //  FirstShortcutOnboardingView.swift
 //  ClipKeyboard
 //
-//  **첫 단축어 만들기** — 하나를 실제로 만들어 보는 자리.
+//  **첫 단축어 만들기** - 하나를 실제로 만들어 보는 자리.
 //
 //  ⚠️ 예전 빈 화면(활용 사례 카드 격자 + 스타터팩 배너)을 대신한다.
 //     그 화면의 문제는 **읽을 거리만 주고 아무것도 시키지 않았다**는 것이다.
@@ -10,7 +10,7 @@
 //     남의 이야기다. 만들어서 써 본 사람만 다음 날 다시 온다.
 //
 //  ⚠️ 빈 칸부터 주지 않는다. 첫 화면에서 "제목:"과 커서를 마주하면 무엇을 써야 할지
-//     막막해서 대부분 나간다. 예시를 고르게 하고 **내용 한 칸만** 채우게 한다 —
+//     막막해서 대부분 나간다. 예시를 고르게 하고 **내용 한 칸만** 채우게 한다
 //     고르는 건 쉽고, 채운 것은 자기 것이 된다.
 //
 //  ⚠️ 여기서 만든 단축어는 진짜다. 연습용 가짜를 만들었다가 지우면 아무것도 안 남는다.
@@ -23,7 +23,7 @@ import LeeoKit
 
 struct FirstShortcutOnboardingView: View {
 
-    /// 만들어진 단축어를 알려준다 — 목록이 이걸 받아 "눌러보세요"를 띄운다.
+    /// 만들어진 단축어를 알려준다 - 목록이 이걸 받아 "눌러보세요"를 띄운다.
     let onCreated: (Memo) -> Void
     let onSkip: () -> Void
 
@@ -37,11 +37,11 @@ struct FirstShortcutOnboardingView: View {
 
     private enum Step { case greeting, pick, fill }
 
-    /// 캘 만한 것들. 자주 쓰면서 **매번 치기 귀찮은** 것으로만 고른다 —
+    /// 캘 만한 것들. 자주 쓰면서 **매번 치기 귀찮은** 것으로만 고른다
     /// 한 번 쓰고 말 문구는 아무리 예뻐도 다음 날 이 앱을 다시 열 이유가 안 된다.
     ///
     /// ⚠️ 고르는 자리에는 **상황**을 보여준다("지인에게 내 주소 알려주기").
-    ///    "내 주소"만 있으면 그게 뭘 하는 건지, 왜 저장해 두면 좋은지가 안 보인다 —
+    ///    "내 주소"만 있으면 그게 뭘 하는 건지, 왜 저장해 두면 좋은지가 안 보인다
     ///    처음 온 사람에게 필요한 건 항목 이름이 아니라 **언제 쓰는 물건인가**이다.
     ///
     /// ⚠️ 다만 **만들어지는 단축어 이름은 짧게**(`title`) 남긴다. 상황 문장을 그대로 이름으로
@@ -49,12 +49,12 @@ struct FirstShortcutOnboardingView: View {
     struct Seed: Identifiable, Equatable {
         let id: String
         /// 고르는 자리에 보이는 **상황** 한 줄. `%@` 자리에 `title` 이 들어가고,
-        /// 그 부분만 색이 켜진다 — 문장 안에서 **무엇을 저장하는지**가 바로 보인다.
+        /// 그 부분만 색이 켜진다 - 문장 안에서 **무엇을 저장하는지**가 바로 보인다.
         ///
         /// ⚠️ 형식 문자열로 두는 이유: 언어마다 어순이 다르다. "내 주소"를 문장 앞뒤 어디에
         ///    두든 번역이 `%@` 위치만 옮기면 되고, 색칠 규칙은 그대로 통한다.
         let situationFormat: String
-        /// 실제로 만들어질 단축어 이름 — 카드·키에 박히므로 짧게.
+        /// 실제로 만들어질 단축어 이름 - 카드·키에 박히므로 짧게.
         let title: String
         let placeholder: String
         let hint: String
@@ -106,7 +106,7 @@ struct FirstShortcutOnboardingView: View {
         .background(theme.bg.ignoresSafeArea())
     }
 
-    /// 첫 화면이 건네는 말. 단계마다 한 문장씩만 — 두 문장이 되면 안 읽는다.
+    /// 첫 화면이 건네는 말. 단계마다 한 문장씩만 - 두 문장이 되면 안 읽는다.
     private var speech: some View {
         Text(line)
             .font(.title3.weight(.semibold))
@@ -180,7 +180,7 @@ struct FirstShortcutOnboardingView: View {
         case .fill:
             VStack(spacing: 14) {
                 if let picked {
-                    // 제목은 이미 정해졌다 — 채울 칸을 **하나만** 남긴다.
+                    // 제목은 이미 정해졌다 - 채울 칸을 **하나만** 남긴다.
                     HStack {
                         Text(picked.title)
                             .font(.headline)

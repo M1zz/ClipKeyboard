@@ -2,7 +2,7 @@
 //  FeedbackView.swift
 //  ClipKeyboard
 //
-//  피드백 화면은 LeeoKit이 통째로 제공한다 — 여기는 앱 테마 주입용 얇은 래퍼만 남긴다.
+//  피드백 화면은 LeeoKit이 통째로 제공한다 - 여기는 앱 테마 주입용 얇은 래퍼만 남긴다.
 //  실제 구현: LeeoKit/Sources/LeeoKit/Feedback/
 //
 

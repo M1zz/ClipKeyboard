@@ -1,5 +1,5 @@
 #!/bin/sh
-# git 훅 설치 — 새 머신/클론에서 1회 실행: sh scripts/install-hooks.sh
+# git 훅 설치 - 새 머신/클론에서 1회 실행: sh scripts/install-hooks.sh
 # (.git/hooks 는 버전관리가 안 되므로 이 스크립트로 재설치한다)
 set -e
 ROOT="$(git rev-parse --show-toplevel)"

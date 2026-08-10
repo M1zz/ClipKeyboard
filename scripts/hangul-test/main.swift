@@ -47,13 +47,13 @@ func runDubeolsik() {
         ("ㅇㅏㅇㅣㄱㅗ", "아이고", "아이고"),
         ("ㄱㅗㅇㅣㅇㅑㅇㅇㅣ", "고이양이", "고이양이 (sequence)"),
         ("ㅇㅏㄴ", "안", "안"),
-        ("ㅇㅏㄴㅏ", "아나", "아나 — final ㄴ migrates"),
+        ("ㅇㅏㄴㅏ", "아나", "아나, final ㄴ migrates"),
         ("ㄱㅓㅂㅅㅗ", "겁소", "겁소 (ㅂ+ㅅ=ㅄ → migrate ㅅ)"),
         ("ㅎㅏㄴㄱㅜㄱㅇㅓ", "한국어", "한국어"),
-        ("ㅂㅏㄹㅂㅗㅇㄱㅏ", "발봉가", "발봉가 — multi finals"),
+        ("ㅂㅏㄹㅂㅗㅇㄱㅏ", "발봉가", "발봉가: multi finals"),
         ("ㅎㅏㄴㄱㅗㄱ", "한곡", "한곡"),
         ("ㄱㅏㄱㅏ", "가가", "가가"),
-        ("ㄱㅗㅏㅇ", "광", "광 — direct compound"),
+        ("ㄱㅗㅏㅇ", "광", "광: direct compound"),
         ("ㄱㅗㅏ", "과", "과"),
         ("ㅎㅗㅏㄱㄱㅗㅏ", "확과", "확과"),
         ("ㅁㅜㅓㅎㅗㅏㄱㅗㅏ", "뭐화과", "뭐화과 (ㅜ+ㅓ=ㅝ)"),
@@ -115,12 +115,12 @@ func runCheonjiin() {
         // 너와
         CJ(taps: ["ㄴㄹ","ㆍ","ㅣ","ㅇㅁ","ㆍ","ㅡ","ㅣ","ㆍ"], expected: "너와",
            desc: "너와", cycles: []),
-        // 무화과 — uses cycles, complex
+        // 무화과 - uses cycles, complex
         CJ(taps: ["ㅇㅁ","ㅇㅁ","ㅡ","ㆍ",   // 무
                   "ㅅㅎ","ㅅㅎ","ㆍ","ㅡ","ㅣ","ㆍ",  // 화
                   "ㄱㅋ","ㆍ","ㅡ","ㅣ","ㆍ"],   // 과
            expected: "무화과", desc: "무화과 (cycles + ㅘ ㅘ)", cycles: [1, 5]),
-        // 안녕 — first ㄴ is final of 안, second ㄴ is initial of 녕 (separate, NOT cycle)
+        // 안녕 - first ㄴ is final of 안, second ㄴ is initial of 녕 (separate, NOT cycle)
         CJ(taps: ["ㅇㅁ","ㅣ","ㆍ","ㄴㄹ","ㄴㄹ","ㆍ","ㆍ","ㅣ","ㅇㅁ"], expected: "안녕",
            desc: "안녕", cycles: []),
         // ㅑ/ㅕ extension
@@ -144,7 +144,7 @@ func runCheonjiin() {
         let consonantKeys: Set<String> = ["ㄱㅋ","ㄴㄹ","ㄷㅌ","ㅂㅍ","ㅅㅎ","ㅈㅊ","ㅇㅁ"]
         for (i, tap) in cj.taps.enumerated() {
             // Force timeout between same consonant-key taps unless explicitly cycling.
-            // Vowel strokes (ㅣ ㆍ ㅡ) NEVER need a wait — they accumulate naturally.
+            // Vowel strokes (ㅣ ㆍ ㅡ) NEVER need a wait - they accumulate naturally.
             if i > 0 && cj.taps[i-1] == tap && consonantKeys.contains(tap) && !cj.cycles.contains(i) {
                 Thread.sleep(forTimeInterval: 0.6)
             }

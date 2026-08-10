@@ -13,7 +13,7 @@
 //     access group 생략 → 그 그룹 사용). iOS 앱·키보드 익스텐션·맥 앱이 같은 그룹/계정을
 //     공유하므로 동일 키를 읽는다.
 //   - decrypt()는 평문(마커 없음)을 그대로 통과시켜 레거시/비보안 값에 안전하다.
-//   - 키가 아직 동기화되지 않았으면 decrypt는 nil — 호출부는 잠금 상태로 처리(데이터 보존).
+//   - 키가 아직 동기화되지 않았으면 decrypt는 nil - 호출부는 잠금 상태로 처리(데이터 보존).
 //
 
 import Foundation
@@ -47,13 +47,13 @@ enum SecureMemoCrypto {
         return marker + combined.base64EncodedString()
     }
 
-    /// 콤보 단계 값들 일괄 암호화 — 이미 암호문인 항목은 그대로, 암호화 실패 항목은 평문 유지.
+    /// 콤보 단계 값들 일괄 암호화 - 이미 암호문인 항목은 그대로, 암호화 실패 항목은 평문 유지.
     /// 저장 전 `allSatisfy(isEncrypted)`로 전체 성공 여부를 확인할 수 있다.
     static func encryptSteps(_ steps: [String]) -> [String] {
         steps.map { encrypt($0) ?? $0 }
     }
 
-    /// 콤보 단계 값들 일괄 복호화 — 평문은 통과, 복호화 실패(키 미동기화) 항목은 암호문 그대로.
+    /// 콤보 단계 값들 일괄 복호화 - 평문은 통과, 복호화 실패(키 미동기화) 항목은 암호문 그대로.
     /// 소비 측은 `isEncrypted`가 남아있는 항목을 걸러 입력/노출을 중단해야 한다.
     static func decryptSteps(_ steps: [String]) -> [String] {
         steps.map { isEncrypted($0) ? (decrypt($0) ?? $0) : $0 }
@@ -87,7 +87,7 @@ enum SecureMemoCrypto {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: keychainService,
             kSecAttrAccount as String: keychainAccount,
-            // iCloud 키체인 동기화 — 사용자의 모든 기기로 종단간 전파.
+            // iCloud 키체인 동기화 - 사용자의 모든 기기로 종단간 전파.
             kSecAttrSynchronizable as String: kCFBooleanTrue as Any
         ]
     }

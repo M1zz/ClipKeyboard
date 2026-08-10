@@ -1,4 +1,4 @@
-// iOS 측 드라이버 — 실제 ClipKeyboard/Model/Memo.swift와 함께 컴파일된다.
+// iOS 측 드라이버 - 실제 ClipKeyboard/Model/Memo.swift와 함께 컴파일된다.
 // encode 모드: iCloud 백업과 동일한 포맷(JSONEncoder().encode([Memo]) 등)으로 픽스처 기록
 // verify 모드: 맥앱이 재인코딩한 JSON을 iOS 디코더로 읽어 모든 필드 보존을 검증
 import Foundation
@@ -114,7 +114,7 @@ case "verify":
     let raw = try JSONSerialization.jsonObject(with: Data(contentsOf: URL(fileURLWithPath: dir + "/memos.json"))) as! [[String: Any]]
     for (i, obj) in raw.enumerated() {
         for key in ["isTemplate", "isCombo", "currentComboIndex"] {
-            check(obj[key] != nil, "memo[\(i)]에 레거시 키 '\(key)' 없음 — 구버전 다운그레이드 시 데이터 전멸")
+            check(obj[key] != nil, "memo[\(i)]에 레거시 키 '\(key)' 없음. 구버전 다운그레이드 시 데이터 전멸")
         }
     }
     print("✅ iOS verify 통과: 메모 3건 전 필드 + Combo + SmartClipboard + 레거시 키 보존 확인")

@@ -23,7 +23,7 @@ import os
 HANGUL = re.compile(r"[가-힣]")
 
 # en 값에 한글이 있어도 허용되는 정당한 케이스(부분 문자열 매칭).
-# 한국어 입력 토글/레이아웃 고유명사 등 — 추가 시 사유를 주석으로 남길 것.
+# 한국어 입력 토글/레이아웃 고유명사 등 - 추가 시 사유를 주석으로 남길 것.
 ALLOW_SUBSTRINGS = [
     "한/EN",        # 키보드 언어 전환 버튼 라벨(양언어 공통)
     "(한 toggle)",  # 위 토글을 설명하는 영어 코멘트성 문구
@@ -122,9 +122,9 @@ def main() -> int:
 
     prefix = "error: " if xcode else ""
     out = sys.stderr
-    print(f"{prefix}로컬라이제이션 검사 실패 — 영어 사용자에게 한국어가 노출됩니다 ({total}건)", file=out)
+    print(f"{prefix}로컬라이제이션 검사 실패 - 영어 사용자에게 한국어가 노출됩니다 ({total}건)", file=out)
     if en_has_korean:
-        print(f"\n[영어(en) 번역에 한글이 들어 있음 — 실제 영어로 번역 필요] {len(en_has_korean)}건", file=out)
+        print(f"\n[영어(en) 번역에 한글이 들어 있음 - 실제 영어로 번역 필요] {len(en_has_korean)}건", file=out)
         for k, v in en_has_korean:
             print(f"  • key={k[:50]!r}\n      en={v[:70]!r}", file=out)
     if missing_en:
@@ -132,7 +132,7 @@ def main() -> int:
         for k in missing_en:
             print(f"  • {k[:70]!r}", file=out)
     if hardcoded:
-        print(f"\n[하드코딩 한국어 — NSLocalizedString으로 감싸야 함] {len(hardcoded)}건", file=out)
+        print(f"\n[하드코딩 한국어 - NSLocalizedString으로 감싸야 함] {len(hardcoded)}건", file=out)
         for rel, ln, txt in hardcoded:
             print(f"  • {rel}:{ln}\n      {txt}", file=out)
     print("\n→ 카탈로그 en 값을 영어로 채우거나, UI 문자열을 NSLocalizedString으로 감싸세요.", file=out)

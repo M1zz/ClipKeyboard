@@ -2,7 +2,7 @@
 //  DemoDataService.swift
 //  ClipKeyboard
 //
-//  "데모 데이터" 토글의 실체 — 스크린샷·영상 촬영이나 앱 소개용으로
+//  "데모 데이터" 토글의 실체 - 스크린샷·영상 촬영이나 앱 소개용으로
 //  잘 짜인 페르소나(프리랜서 디자이너) 데이터 한 벌을 즉시 켜고 끌 수 있게 한다.
 //
 //  설계 원칙
@@ -22,7 +22,7 @@ final class DemoDataService {
     static let shared = DemoDataService()
     private init() {}
 
-    /// 데모 데이터가 켜져 있는지 (App Group — 키보드 익스텐션도 같은 데이터를 본다).
+    /// 데모 데이터가 켜져 있는지 (App Group - 키보드 익스텐션도 같은 데이터를 본다).
     var isActive: Bool {
         UserDefaults(suiteName: AppGroup.identifier)?
             .bool(forKey: DefaultsKey.demoDataActive) ?? false
@@ -36,7 +36,7 @@ final class DemoDataService {
     func enable() -> Bool {
         guard !isActive else { return true }
         guard backupCurrentData() else {
-            print("❌ [DemoDataService.enable] 백업 실패 — 데모 적용을 중단합니다")
+            print("❌ [DemoDataService.enable] 백업 실패, 데모 적용을 중단합니다")
             return false
         }
         do {
@@ -84,7 +84,7 @@ final class DemoDataService {
                 clipboard: (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
             )
             let data = try JSONEncoder().encode(payload)
-            // atomic — 쓰다 중단돼도 이전 백업/원본이 깨지지 않는다.
+            // atomic - 쓰다 중단돼도 이전 백업/원본이 깨지지 않는다.
             try data.write(to: url, options: .atomic)
             return true
         } catch {
@@ -134,7 +134,7 @@ extension DemoDataService {
         (Locale.preferredLanguages.first ?? "en").hasPrefix("ko")
     }
 
-    /// 시연용 단축어 6개 — 무료 한도(10) 안쪽이라 업셀 배너 없이 깔끔하게 보인다.
+    /// 시연용 단축어 6개 - 무료 한도(10) 안쪽이라 업셀 배너 없이 깔끔하게 보인다.
     /// 즐겨찾기 2개 + 템플릿 1개 + 콤보 1개 + 보안 1개로 앱의 기능 폭을 한 화면에 담는다.
     static func demoMemos() -> [Memo] {
         let now = Date()
@@ -188,7 +188,7 @@ extension DemoDataService {
                  hint: "Step by step at contract time", clips: 12, used: ago(hours: 26),
                  combo: ["Hi! Please find the contract attached.",
                          "Once signed, I'll lock in the start date.",
-                         "Thanks — have a great day!"]),
+                         "Thanks: have a great day!"]),
             make("Portfolio", "https://leeo.design",
                  hint: "Share before the first call", clips: 56, used: ago(hours: 3), type: .url),
             make("Passport number", "M12345678",
@@ -196,7 +196,7 @@ extension DemoDataService {
         ]
     }
 
-    /// 시연용 클립보드 6건 — 자동 분류가 한눈에 보이도록 타입을 골고루 섞었다.
+    /// 시연용 클립보드 6건 - 자동 분류가 한눈에 보이도록 타입을 골고루 섞었다.
     static func demoClipboard() -> [SmartClipboardHistory] {
         let now = Date()
         func ago(minutes: Double) -> Date { now.addingTimeInterval(-minutes * 60) }

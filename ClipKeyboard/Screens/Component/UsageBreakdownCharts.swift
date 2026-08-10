@@ -2,14 +2,14 @@
 //  UsageBreakdownCharts.swift
 //  ClipKeyboard
 //
-//  사용 통계 화면의 분포 차트 — 단축어 개수(막대)·종류(도넛).
+//  사용 통계 화면의 분포 차트 - 단축어 개수(막대)·종류(도넛).
 //
 //  색 선택 근거 (눈으로 고르지 않았다)
 //   · 도넛은 슬라이스끼리 **모두** 비교되므로 all-pairs 기준으로 검증했다.
 //   · 파랑·주황·청록 3색이 라이트/다크 양쪽에서 색각 이상(CVD) 및 일반 시야 분리 기준을
 //     통과한다. 여기에 네 번째 유채색을 더하면 다크 모드에서 하드 FAIL이 난다
 //     (보라↔파랑 ΔE 1.9, 자홍↔청록 ΔE 1.6). 그래서 **네 번째는 중립 회색**으로 둔다.
-//   · 회색은 "이미지"에 **고정** 배정한다 — 크기 순으로 색을 바꾸면 필터·기간을 바꿀 때마다
+//   · 회색은 "이미지"에 **고정** 배정한다 - 크기 순으로 색을 바꾸면 필터·기간을 바꿀 때마다
 //     같은 종류가 다른 색이 되어 읽는 사람이 헷갈린다(색은 순위가 아니라 대상을 따른다).
 //   · 청록은 라이트 배경에서 대비가 3:1 미만이라 **슬라이스마다 값을 직접 표시**해
 //     색만으로 구분하지 않게 한다.
@@ -19,7 +19,7 @@ import SwiftUI
 import Charts
 
 /// 검증된 카테고리 색.
-/// 라이트/다크 스텝을 각각 **선택**해서 둔다 — 밝기를 자동으로 뒤집으면 다크 배경에서
+/// 라이트/다크 스텝을 각각 **선택**해서 둔다 - 밝기를 자동으로 뒤집으면 다크 배경에서
 /// 대비와 색각 분리가 무너진다.
 enum ChartPalette {
     // #2a78d6 / #eb6834 / #1baf7a
@@ -56,7 +56,7 @@ struct ShortcutDistributionChart: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // 단일 계열이라 범례를 두지 않는다 — 제목이 곧 계열 이름이다.
+            // 단일 계열이라 범례를 두지 않는다 - 제목이 곧 계열 이름이다.
             Chart(buckets) { bucket in
                 BarMark(
                     x: .value(NSLocalizedString("단축어 개수", comment: "Chart axis: shortcut count"), bucket.label),
@@ -108,7 +108,7 @@ struct ShortcutTypeDonutChart: View {
             Chart(Array(shares.enumerated()), id: \.element.id) { index, share in
                 SectorMark(
                     angle: .value(NSLocalizedString("개수", comment: "Chart value: count"), share.count),
-                    innerRadius: .ratio(0.62),   // 도넛 — 가운데를 비워 합계를 넣는다
+                    innerRadius: .ratio(0.62),   // 도넛 - 가운데를 비워 합계를 넣는다
                     angularInset: 2              // 슬라이스 사이 2pt 간격
                 )
                 .foregroundStyle(color(for: index))

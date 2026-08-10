@@ -489,11 +489,11 @@
   <section id="sync">
     <h2>동기화 / 마이그레이션</h2>
     <ul class="note-list">
-      <li><b>CloudKitBackupService</b> — <code>[Memo]</code> · <code>[SmartClipboardHistory]</code> · <code>[Combo]</code> 를 CKAsset(JSON)으로 백업/복구. 자동 백업 5분 간격.</li>
-      <li><b>OldMemo → Memo</b> — <code>Memo(from:)</code> 변환 생성자. 누락 필드는 기본값으로 채움.</li>
-      <li><b>ClipboardHistory → SmartClipboardHistory</b> — 단순 히스토리에서 자동 분류 히스토리로 승격.</li>
-      <li><b>imageFileName → imageFileNames</b> — 단일→다중 이미지. 둘 다 디코딩 지원(하위 호환).</li>
-      <li><b>분류 우선순위</b> — 구체적 패턴 먼저: RRN → 사업자번호 → 카드번호 → 생년월일 → 계좌번호.</li>
+      <li><b>CloudKitBackupService</b><code>[Memo]</code> · <code>[SmartClipboardHistory]</code> · <code>[Combo]</code> 를 CKAsset(JSON)으로 백업/복구. 자동 백업 5분 간격.</li>
+      <li><b>OldMemo → Memo</b><code>Memo(from:)</code> 변환 생성자. 누락 필드는 기본값으로 채움.</li>
+      <li><b>ClipboardHistory → SmartClipboardHistory</b>, 단순 히스토리에서 자동 분류 히스토리로 승격.</li>
+      <li><b>imageFileName → imageFileNames</b>, 단일→다중 이미지. 둘 다 디코딩 지원(하위 호환).</li>
+      <li><b>분류 우선순위</b>, 구체적 패턴 먼저: RRN → 사업자번호 → 카드번호 → 생년월일 → 계좌번호.</li>
     </ul>
     <p class="meta" style="margin-top:14px">참고: iOS/macOS 공유본 <code>Shared/Models/SharedModels.swift</code> 가 동일 구조를 갖고, <code>Model/Memo.swift</code> 가 최신 정본입니다.</p>
   </section>

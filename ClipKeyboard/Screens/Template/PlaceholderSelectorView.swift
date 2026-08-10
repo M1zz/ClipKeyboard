@@ -15,7 +15,7 @@ struct PlaceholderSelectorView: View {
     @Binding var selectedValue: String
     /// 미리보기 칩을 탭해 이 박스로 포커스가 옮겨졌을 때 강조 테두리 표시
     var isHighlighted: Bool = false
-    /// Form 섹션 안에 넣을 때 — 자체 회색 카드/패딩을 끄고 섹션의 흰 카드에 자연스럽게 녹인다.
+    /// Form 섹션 안에 넣을 때 - 자체 회색 카드/패딩을 끄고 섹션의 흰 카드에 자연스럽게 녹인다.
     var embedded: Bool = false
     @Environment(\.appTheme) private var theme
 

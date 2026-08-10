@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-    PrivacyInfo.xcprivacy — ClipKeyboardExtension (커스텀 키보드)
+    PrivacyInfo.xcprivacy - ClipKeyboardExtension (커스텀 키보드)
 
     수집 없음. 이 익스텐션은 **기기 밖으로 아무것도 보내지 않는다.**
       · 입력한 텍스트·클립보드 내용은 저장하거나 전송하지 않는다.

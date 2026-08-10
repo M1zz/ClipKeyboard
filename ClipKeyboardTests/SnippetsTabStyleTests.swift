@@ -8,7 +8,7 @@
 //  저장된 값이 없다는 것은 "아직 고른 적 없다"이지 "새 화면을 원한다"가 아니다.
 //  새 설치에만 첫 실행에서 무대를 뿌리고, 기존 사용자에게는 1회 제안만 간다.
 //
-//  스킨 스위치도 함께 붙잡아 둔다 — 감추는 것(설정)과 되돌리는 것(화면)은 **함께**
+//  스킨 스위치도 함께 붙잡아 둔다 - 감추는 것(설정)과 되돌리는 것(화면)은 **함께**
 //  일어나야 한다. 고를 수 없는데 남의 화면만 달라져 있으면 "왜 내 것만 이렇지"가 된다.
 //
 
@@ -16,10 +16,10 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("SnippetsTabStyle — 첫 화면", .serialized)
+@Suite("SnippetsTabStyle: 첫 화면", .serialized)
 struct SnippetsTabStyleTests {
 
-    @Test("저장된 값이 없으면 **목록** — 쓰던 사람 쪽에 맞춘다")
+    @Test("저장된 값이 없으면 **목록**, 쓰던 사람 쪽에 맞춘다")
     func defaultsToList() {
         let d = UserDefaults.standard
         let saved = d.string(forKey: DefaultsKey.snippetsTabStyle)
@@ -29,7 +29,7 @@ struct SnippetsTabStyleTests {
         #expect(SnippetsTabStyle.current == .list)
     }
 
-    @Test("모르는 값이어도 목록으로 떨어진다 — 첫 화면이 비면 안 된다")
+    @Test("모르는 값이어도 목록으로 떨어진다. 첫 화면이 비면 안 된다")
     func unknownFallsBackToList() {
         let d = UserDefaults.standard
         let saved = d.string(forKey: DefaultsKey.snippetsTabStyle)
@@ -57,7 +57,7 @@ struct SnippetsTabStyleTests {
         }
     }
 
-    @Test("두 화면 다 이름과 설명이 있다 — 이름만으로는 뭐가 다른지 모른다")
+    @Test("두 화면 다 이름과 설명이 있다. 이름만으로는 뭐가 다른지 모른다")
     func bothStylesAreExplained() {
         for style in SnippetsTabStyle.allCases {
             #expect(!style.localizedName.isEmpty)
@@ -67,7 +67,7 @@ struct SnippetsTabStyleTests {
     }
 }
 
-@Suite("스킨 스위치 — 지금은 꺼져 있다")
+@Suite("스킨 스위치, 지금은 꺼져 있다")
 struct SkinDisabledTests {
 
     @Test("키캡 스킨은 저장된 값이 무엇이든 예전 모습으로 보인다")
@@ -88,7 +88,7 @@ struct SkinDisabledTests {
         #expect(LivingSkin.current == LivingSkin.none)
     }
 
-    @Test("되살릴 준비는 되어 있다 — rawValue 왕복은 그대로 살아 있다")
+    @Test("되살릴 준비는 되어 있다. rawValue 왕복은 그대로 살아 있다")
     func rawValuesStillRoundTrip() {
         // 스위치를 켜는 순간 예전 선택이 그대로 살아나야 한다(값을 지우지 않았다).
         for skin in KeyboardSkin.allCases {
@@ -100,7 +100,7 @@ struct SkinDisabledTests {
     }
 }
 
-@Suite("SnippetsOnboardingStep — 처음 쓰는 사람이 지나는 길")
+@Suite("SnippetsOnboardingStep, 처음 쓰는 사람이 지나는 길")
 struct SnippetsOnboardingStepTests {
 
     private func step(fresh: Bool = true,
@@ -117,7 +117,7 @@ struct SnippetsOnboardingStepTests {
                  keyboardUsable: usable)
     }
 
-    @Test("쓰던 사람은 이 길을 걷지 않는다 — 업데이트했다고 튜토리얼이 뜨면 안 된다")
+    @Test("쓰던 사람은 이 길을 걷지 않는다. 업데이트했다고 튜토리얼이 뜨면 안 된다")
     func existingUserSkipsEverything() {
         #expect(step(fresh: false) == .done)
         #expect(step(fresh: false, shortcut: true, firstUsePending: true) == .done)
@@ -128,12 +128,12 @@ struct SnippetsOnboardingStepTests {
         #expect(step() == .firstShortcut)
     }
 
-    @Test("만들었으면 **눌러 봐야** 끝난다 — 만들기만 하고 끝나면 아무것도 안 배운 것이다")
+    @Test("만들었으면 **눌러 봐야** 끝난다. 만들기만 하고 끝나면 아무것도 안 배운 것이다")
     func mustTryTheKeyBeforeMovingOn() {
         #expect(step(shortcut: true, firstUsePending: true) == .tryInKeyboard)
     }
 
-    @Test("누르고 나면 배우는 차례 — 템플릿·콤보 챕터로")
+    @Test("누르고 나면 배우는 차례: 템플릿·콤보 챕터로")
     func goesToChaptersAfterFirstUse() {
         #expect(step(shortcut: true) == .chapters)
     }
@@ -143,7 +143,7 @@ struct SnippetsOnboardingStepTests {
         #expect(step(shortcut: true, firstUsePending: false) == .chapters)
     }
 
-    @Test("**키보드 설정은 맨 뒤** — 배울 걸 다 배운 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
+    @Test("**키보드 설정은 맨 뒤**, 배울 걸 다 배운 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
     func keyboardSetupComesLast() {
         #expect(step(shortcut: true, chapters: true) == .keyboardSetup)
         // 챕터가 남아 있으면 아직 설정으로 보내지 않는다.
@@ -155,7 +155,7 @@ struct SnippetsOnboardingStepTests {
         #expect(step(shortcut: true, chapters: true, usable: true) == .done)
     }
 
-    @Test("건너뛴 사람을 붙잡지 않는다 — 한 번 지나갔으면 끝")
+    @Test("건너뛴 사람을 붙잡지 않는다. 한 번 지나갔으면 끝")
     func doesNotRepeatSetupOnceSeen() {
         #expect(step(shortcut: true, chapters: true, setup: true) == .done)
     }

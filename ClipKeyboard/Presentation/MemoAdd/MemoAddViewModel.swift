@@ -21,7 +21,7 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - Editing Context
 
-    /// 편집 대상 메모 — onAppear(memoId:)에서 repository 조회 후 할당.
+    /// 편집 대상 메모 - onAppear(memoId:)에서 repository 조회 후 할당.
     /// init 시점에는 nil이고, 편집 모드면 onAppear에서 채워진다.
     private(set) var editingMemo: Memo?
 
@@ -29,13 +29,13 @@ final class MemoAddViewModel: ObservableObject {
 
     /// "임시 저장 보기"에서 이어쓰기로 진입했을 때 그 드래프트 id. 저장/폐기 시 이 드래프트를 정리한다.
     var resumedDraftId: UUID?
-    /// "템플릿으로 만들기"의 원본 단축어 id — keepOriginalSource가 꺼져 있으면 저장 시 원본을 함께 삭제한다.
+    /// "템플릿으로 만들기"의 원본 단축어 id - keepOriginalSource가 꺼져 있으면 저장 시 원본을 함께 삭제한다.
     var templateSourceMemoId: UUID?
-    /// 기존(원본) 단축어 남기기 — 기본 ON. 끄면 새 단축어 저장과 같은 쓰기에서 원본이 제거된다.
+    /// 기존(원본) 단축어 남기기 - 기본 ON. 끄면 새 단축어 저장과 같은 쓰기에서 원본이 제거된다.
     @Published var keepOriginalSource: Bool = true
-    /// 정식 저장을 커밋했는지 — 저장 후 화면이 닫힐 때 임시저장이 다시 생기지 않게 하는 가드.
+    /// 정식 저장을 커밋했는지 - 저장 후 화면이 닫힐 때 임시저장이 다시 생기지 않게 하는 가드.
     private var didCommitSave = false
-    /// 진입 직후(onAppear 완료 시점)의 입력 스냅샷 — 제안 카드/템플릿 프리필을 "사용자 입력"으로
+    /// 진입 직후(onAppear 완료 시점)의 입력 스냅샷 - 제안 카드/템플릿 프리필을 "사용자 입력"으로
     /// 오인해 드래프트를 만들지 않도록, 여기서 달라졌을 때만 새 드래프트를 생성한다.
     private var initialKeyword = ""
     private var initialValue = ""
@@ -46,7 +46,7 @@ final class MemoAddViewModel: ObservableObject {
     @Published var keyword: String = ""
     @Published var value: String = ""
     @Published var hint: String = ""
-    /// 힌트를 키보드에서도 표시(제목과 잠시 스왑)할지 — 힌트가 비어있으면 무의미. 기본 ON.
+    /// 힌트를 키보드에서도 표시(제목과 잠시 스왑)할지 - 힌트가 비어있으면 무의미. 기본 ON.
     @Published var hintShownOnKeyboard: Bool = true
     @Published var selectedCategory: String = "텍스트"
     @Published var isSecure: Bool = false
@@ -93,7 +93,7 @@ final class MemoAddViewModel: ObservableObject {
     @Published var showDocumentScanner: Bool = false
     @Published var showImagePicker: Bool = false
     @Published var isProcessingOCR: Bool = false
-    /// OCR로 인식된 텍스트 후보들 — 사용자가 값으로 담을 줄을 직접 고른다.
+    /// OCR로 인식된 텍스트 후보들 - 사용자가 값으로 담을 줄을 직접 고른다.
     @Published var ocrCandidates: [String] = []
     @Published var showOCRPicker: Bool = false
     @Published var showToast: Bool = false
@@ -135,7 +135,7 @@ final class MemoAddViewModel: ObservableObject {
         applySampleIfAppropriate(newCategory: theme, previousCategory: previousCategory)
     }
 
-    /// v4.0.8: 백지 부담 줄이기 — 카테고리에 맞는 샘플 자동 채움 (value + keyword).
+    /// v4.0.8: 백지 부담 줄이기 - 카테고리에 맞는 샘플 자동 채움 (value + keyword).
     /// 1) value/keyword가 비어있거나
     /// 2) 이전 카테고리의 샘플 그대로(=사용자가 수정 안 함)일 때만 갱신.
     /// 사용자가 직접 입력한 값은 절대 덮어쓰지 않는다.
@@ -148,7 +148,7 @@ final class MemoAddViewModel: ObservableObject {
                 isSampleValue = true
             }
         }
-        // 2) 키보드에 표시할 이름 (keyword) — 카테고리 다국어명을 기본값으로
+        // 2) 키보드에 표시할 이름 (keyword) - 카테고리 다국어명을 기본값으로
         if let titleSample = Constants.sampleTitle(for: newCategory) {
             if keyword.isEmpty || Constants.isSampleTitle(keyword, forCategory: previousCategory) {
                 keyword = titleSample
@@ -162,7 +162,7 @@ final class MemoAddViewModel: ObservableObject {
     /// View에서 바인딩의 set 콜백에서 갱신해야 사용자 수정 즉시 false로 바뀜.
     @Published var isSampleValue: Bool = false
 
-    /// value 변경 시 호출 — 사용자가 입력하면 isSampleValue를 자동으로 false 처리.
+    /// value 변경 시 호출 - 사용자가 입력하면 isSampleValue를 자동으로 false 처리.
     /// View에서 TextEditor onChange에서 호출.
     func didChangeValue() {
         if isSampleValue && !Constants.isSampleValue(value, forCategory: selectedCategory) {
@@ -184,7 +184,7 @@ final class MemoAddViewModel: ObservableObject {
         insertedHint: String = "",
         insertedIsFavorite: Bool = false
     ) {
-        // 편집 대상 메모 해석 — memoId 있으면 repository에서 조회해 editingMemo 설정.
+        // 편집 대상 메모 해석 - memoId 있으면 repository에서 조회해 editingMemo 설정.
         // 이게 없으면 saveMemo가 "수정"이 아닌 "새 메모"로 처리하여 원본이 안 지워짐.
         if editingMemo == nil, let id = memoId,
            let resolved = (try? memoRepository.fetchAll())?.first(where: { $0.id == id }) {
@@ -205,7 +205,7 @@ final class MemoAddViewModel: ObservableObject {
             value = insertedValue
 
             if insertedCategory != "텍스트" {
-                // 명시적 카테고리로 진입(카테고리 추가 카드·템플릿으로 만들기 등) —
+                // 명시적 카테고리로 진입(카테고리 추가 카드·템플릿으로 만들기 등)
                 // 자동 분류로 덮어쓰지 않고 진입한 카테고리를 그대로 사용.
                 selectedCategory = insertedCategory
             } else {
@@ -249,7 +249,7 @@ final class MemoAddViewModel: ObservableObject {
             hint = existing.hint ?? ""
             hintShownOnKeyboard = existing.hintShownOnKeyboard
             if !existing.comboValues.isEmpty {
-                // 보안 콤보면 단계 값이 암호문 — 편집용으로 복호화해 보여준다.
+                // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
                 let steps = SecureMemoCrypto.decryptSteps(existing.comboValues)
                 continuations = Array(steps.dropFirst())
                 if value.isEmpty { value = steps.first ?? "" }
@@ -278,7 +278,7 @@ final class MemoAddViewModel: ObservableObject {
         // 최근 사용 카테고리 로드
         recentlyUsedCategories = UserDefaults.standard.stringArray(forKey: DefaultsKey.recentlyUsedCategories) ?? []
 
-        // 드래프트 판정용 진입 스냅샷 — 프리필(제안 카드·샘플·이어쓰기)을 기준선으로 삼아,
+        // 드래프트 판정용 진입 스냅샷 - 프리필(제안 카드·샘플·이어쓰기)을 기준선으로 삼아,
         // 이후 사용자가 실제로 고친 경우에만 새 드래프트가 생기게 한다.
         initialKeyword = keyword
         initialValue = value
@@ -309,7 +309,7 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - Draft (임시 저장)
 
-    /// 저장하지 않고 화면을 떠날 때 호출 — 사용자가 직접 입력한 의미있는 내용이 있으면 자동 임시저장한다.
+    /// 저장하지 않고 화면을 떠날 때 호출 - 사용자가 직접 입력한 의미있는 내용이 있으면 자동 임시저장한다.
     /// - 기존 메모 편집 중이거나(editingMemo != nil), 이미 정식 저장했으면(didCommitSave) 대상이 아니다.
     /// - 새 작성: 진입 스냅샷에서 실제로 고쳤고(제안 카드/샘플 프리필 그대로면 제외) 본문이 있을 때만.
     /// - 이어쓰기(resumedDraftId): 내용이 비워졌으면 드래프트 삭제, 아니면 수정 여부와 무관하게 보존/갱신.
@@ -373,7 +373,7 @@ final class MemoAddViewModel: ObservableObject {
                 finalCategory: finalCategory
             )
 
-            // "템플릿으로 만들기" — 기존 단축어 남기기를 끈 경우 같은 쓰기에서 원본을 제거(원자적).
+            // "템플릿으로 만들기" - 기존 단축어 남기기를 끈 경우 같은 쓰기에서 원본을 제거(원자적).
             if !keepOriginalSource, let sourceId = templateSourceMemoId, sourceId != finalMemoId {
                 loadedMemos.removeAll { $0.id == sourceId }
             }
@@ -381,11 +381,11 @@ final class MemoAddViewModel: ObservableObject {
             try memoRepository.save(loadedMemos)
             savePlaceholderValues(memoId: finalMemoId, memoTitle: finalMemoTitle)
 
-            // 정식 저장 성공 — 이어쓰던 임시저장이 있으면 정리하고, 종료 시 재-임시저장 방지.
+            // 정식 저장 성공 - 이어쓰던 임시저장이 있으면 정리하고, 종료 시 재-임시저장 방지.
             didCommitSave = true
             if let draftId = resumedDraftId { DraftStore.shared.remove(draftId) }
 
-            // Analytics — 새 메모일 때만 (수정은 제외)
+            // Analytics - 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String
                 if isTemplate { memoType = "template" } else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" } else if !imageFileNames.isEmpty { memoType = "image" } else { memoType = "text" }
@@ -399,7 +399,7 @@ final class MemoAddViewModel: ObservableObject {
             }
             print("✅ [MemoAddViewModel] 메모 저장 완료: \(finalMemoTitle)")
         } catch {
-            // 저장 실패 시 화면을 닫지 않는다(작성 내용 보존) — 토스트로 알리고 사용자가 재시도할 수 있게 한다.
+            // 저장 실패 시 화면을 닫지 않는다(작성 내용 보존) - 토스트로 알리고 사용자가 재시도할 수 있게 한다.
             print("❌ [MemoAddViewModel.saveMemo] 메모 저장 실패: \(error)")
             showToastMessage(NSLocalizedString("저장에 실패했습니다. 다시 시도해주세요.", comment: "Memo save failed toast"))
         }
@@ -463,7 +463,7 @@ final class MemoAddViewModel: ObservableObject {
                 return
             }
             print("✅ [OCR] 인식된 텍스트 후보 \(candidates.count)개")
-            // 자동으로 값에 쏟아붓지 않고 — 사용자가 담을 줄을 직접 고르게 한다.
+            // 자동으로 값에 쏟아붓지 않고 - 사용자가 담을 줄을 직접 고르게 한다.
             self.ocrCandidates = candidates
             self.showOCRPicker = true
         }
@@ -531,7 +531,7 @@ final class MemoAddViewModel: ObservableObject {
             }
         } catch {
             // 로드 실패 시 제한 체크를 건너뛰고 저장을 허용 (사용자 흐름 차단 방지)
-            print("⚠️ [MemoAddViewModel.checkProLimitsForNewMemo] 기존 메모 로드 실패 — Pro 제한 체크 건너뜀: \(error)")
+            print("⚠️ [MemoAddViewModel.checkProLimitsForNewMemo] 기존 메모 로드 실패, Pro 제한 체크 건너뜀: \(error)")
         }
         return true
     }
@@ -734,7 +734,7 @@ final class MemoAddViewModel: ObservableObject {
             print("✅ [MemoAddViewModel] 클립보드에서 이미지를 가져왔습니다")
         }
         #endif
-        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지 —
+        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지
         // 기본값("텍스트")일 때만 자동 설정. (determineFinalCategory의 재분류 규칙과 동일)
         if selectedCategory == "텍스트" {
             selectedCategory = "이미지"
@@ -760,7 +760,7 @@ final class MemoAddViewModel: ObservableObject {
 
     private func acceptTextClipboardSuggestion(_ content: String, _ detectedType: ClipboardItemType) {
         value = content
-        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지 —
+        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지
         // 기본값("텍스트")일 때만 자동 분류로 대체. (determineFinalCategory의 재분류 규칙과 동일)
         if selectedCategory == "텍스트" {
             selectedCategory = Constants.themeForClipboardType(detectedType)

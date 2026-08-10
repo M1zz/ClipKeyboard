@@ -15,13 +15,13 @@ import UIKit
 /// 이 기기에서 우리 키보드를 **쓸 수 있는 상태인가.**
 ///
 /// ⚠️ 신호가 두 개이고 **둘 다 봐야 한다.**
-///  ① iOS 설정에서 켰는가 — `AppleKeyboards`(켜 둔 키보드 목록)에 우리 번들이 있는지.
+///  ① iOS 설정에서 켰는가 - `AppleKeyboards`(켜 둔 키보드 목록)에 우리 번들이 있는지.
 ///     설정에서 켜자마자 참이 된다.
-///  ② 실제로 한 번 떠 봤는가 — 익스텐션이 처음 뜰 때 App Group에 남기는 표식.
+///  ② 실제로 한 번 떠 봤는가 - 익스텐션이 처음 뜰 때 App Group에 남기는 표식.
 ///     켜 두기만 하고 아직 아무 앱에서도 안 불러냈다면 거짓이다.
 ///
 /// 예전에는 ②만 봤다. 그래서 **설정에서 켜고 전체 접근까지 허용하고 돌아와도**
-/// "아직 다른 앱에서는 못 써요" 가 그대로 남아 있었다 — 켰는데 안 켜졌다고 우기는 꼴이다.
+/// "아직 다른 앱에서는 못 써요" 가 그대로 남아 있었다 - 켰는데 안 켜졌다고 우기는 꼴이다.
 /// 어느 쪽이든 참이면 쓸 수 있는 상태로 본다.
 enum KeyboardInstallState {
 
@@ -110,7 +110,7 @@ struct KeyboardSetupOnboardingView: View {
 
                     // Action buttons
                     HStack(spacing: 12) {
-                        // "설정 열기" 버튼 — step 2(index 1)와 step 3(index 2)에서 표시
+                        // "설정 열기" 버튼 - step 2(index 1)와 step 3(index 2)에서 표시
                         if currentPage == 1 || currentPage == 2 {
                             Button(action: openSettings) {
                                 HStack(spacing: 6) {
@@ -473,7 +473,7 @@ private struct SettingsPathIllustration: View {
 private struct KeyboardListIllustration: View {
     let theme: AppTheme
 
-    // iOS 설정의 키보드 목록을 흉내낸 예시 — 사용자 언어에 맞는 이름으로 표시(영어 유저는 Korean/English (US)/Emoji).
+    // iOS 설정의 키보드 목록을 흉내낸 예시 - 사용자 언어에 맞는 이름으로 표시(영어 유저는 Korean/English (US)/Emoji).
     private var keyboards: [String] {
         [NSLocalizedString("한국어", comment: "Keyboard name: Korean"),
          NSLocalizedString("영어(미국)", comment: "Keyboard name: English (US)"),

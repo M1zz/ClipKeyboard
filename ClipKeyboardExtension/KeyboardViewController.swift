@@ -91,7 +91,7 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 
-    /// SwiftUI에서 관찰하는 호스트 텍스트 필드 상태 — textDidChange에서 갱신
+    /// SwiftUI에서 관찰하는 호스트 텍스트 필드 상태 - textDidChange에서 갱신
     private let documentState = KeyboardDocumentState()
     private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState)
     private var hostingController: UIHostingController<KeyboardView>?
@@ -108,7 +108,7 @@ class KeyboardViewController: UIInputViewController {
         UserDefaults(suiteName: AppGroup.identifier)?
             .set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
 
-        print("✅ viewDidLoad 완료 — fullscreen SwiftUI keyboard")
+        print("✅ viewDidLoad 완료, fullscreen SwiftUI keyboard")
     }
 
     /// 키보드 익스텐션 잠금 오버레이.
@@ -214,7 +214,7 @@ class KeyboardViewController: UIInputViewController {
     }
 
     /// SwiftUI KeyboardView를 호스팅하고, 하단 bottomView를 생성하여 반환
-    /// SwiftUI KeyboardView를 화면 전체에 호스팅. 하단 UIKit 바 제거됨 —
+    /// SwiftUI KeyboardView를 화면 전체에 호스팅. 하단 UIKit 바 제거됨
     /// globe/space/backspace/return은 모두 SwiftUI 키보드 (특히 Type 탭) 안에 통합.
     private func setupHostingController() {
         let hostingVC = UIHostingController(rootView: keyboardView)
@@ -290,7 +290,7 @@ class KeyboardViewController: UIInputViewController {
     /// - Returns: Combo 처리를 했으면 true
     private func handleComboMemoIfNeeded(text: String, memoId: UUID) -> Bool {
         guard let memo = clipMemos.first(where: { $0.id == memoId }), !memo.comboValues.isEmpty else { return false }
-        // 보안 콤보 — 단계 값 복호화(PIN 인증은 KeyboardView에서 이미 통과).
+        // 보안 콤보 - 단계 값 복호화(PIN 인증은 KeyboardView에서 이미 통과).
         // 키 미동기화로 암호문이 남으면 암호문을 타이핑하지 않도록 중단한다.
         let values = SecureMemoCrypto.decryptSteps(memo.comboValues)
         guard !values.isEmpty else { return false }
@@ -310,7 +310,7 @@ class KeyboardViewController: UIInputViewController {
         guard index < values.count else { return }
 
         if index < values.count - 1 {
-            // 중간 단계 — 커서를 옮기면 다음 단계가 엉뚱한 자리에 들어간다.
+            // 중간 단계 - 커서를 옮기면 다음 단계가 엉뚱한 자리에 들어간다.
             // 그래서 마지막 단계에서만 커서 토큰을 살린다.
             let processed = TemplateVariableProcessor.resolveCursor(in: processTemplateVariables(in: values[index])).text
             textDocumentProxy.insertText(processed)
@@ -319,7 +319,7 @@ class KeyboardViewController: UIInputViewController {
                 self?.insertComboValuesSequentially(values, interval: interval, index: index + 1)
             }
         } else {
-            // 마지막 항목 — 여기서만 커서 위치를 반영하고 날인으로 마무리.
+            // 마지막 항목 - 여기서만 커서 위치를 반영하고 날인으로 마무리.
             insertProcessedText(values[index])
         }
     }
@@ -343,7 +343,7 @@ class KeyboardViewController: UIInputViewController {
 
         processedText = processTemplateVariables(in: processedText)
 
-        // v4.0.8: attached 흐름이면 base 메모 본문과 결합 (옵션 X — \n 이어붙이기)
+        // v4.0.8: attached 흐름이면 base 메모 본문과 결합 (옵션 X - \n 이어붙이기)
         if let baseId = baseMemoId,
            let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
             let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
@@ -481,9 +481,9 @@ class KeyboardViewController: UIInputViewController {
         view.layoutIfNeeded()
         // 호스트 필드가 이미 텍스트를 가진 채로 키보드가 떴을 때도 X 버튼이 즉시 보이도록 초기 상태 반영
         updateHasTextState()
-        // App Group 비콘 — 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)
+        // App Group 비콘 - 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)
         KeyboardBeacon.recordUse()
-        // 햅틱 엔진 사전 깨우기 — 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
+        // 햅틱 엔진 사전 깨우기 - 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
     }
 
@@ -500,7 +500,7 @@ class KeyboardViewController: UIInputViewController {
             textColor = UIColor.black
         }
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
-        // SwiftUI 관찰 가능한 hasText 상태 갱신 — clearAll(X) 버튼 표시 여부에 사용
+        // SwiftUI 관찰 가능한 hasText 상태 갱신 - clearAll(X) 버튼 표시 여부에 사용
         updateHasTextState()
     }
 
@@ -542,7 +542,7 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
-    /// 키보드에서 표시할 메모 필터 — 보안 메모는 표시하되 탭 시 인증 요구 (KeyboardView에서 처리)
+    /// 키보드에서 표시할 메모 필터 - 보안 메모는 표시하되 탭 시 인증 요구 (KeyboardView에서 처리)
     private func filterExcludedMemos(_ memos: [Memo]) -> [Memo] {
         return memos
     }
@@ -610,7 +610,7 @@ class KeyboardViewController: UIInputViewController {
         }
     }
 
-    /// 정렬 규칙은 앱 무대와 공유한다(KeyboardMemoFeed) — 두 곳에서 순서가 달라지지 않게.
+    /// 정렬 규칙은 앱 무대와 공유한다(KeyboardMemoFeed) - 두 곳에서 순서가 달라지지 않게.
     private func sortMemos(_ memos: [Memo]) -> [Memo] {
         KeyboardMemoFeed.sorted(memos)
     }
@@ -649,7 +649,7 @@ class KeyboardViewController: UIInputViewController {
                 NotificationCenter.default.post(name: .needsFullAccess, object: nil)
             }
         }
-        // 커서 토큰은 남긴다 — 바로 아래 insertProcessedText가 위치 계산에 쓴다.
+        // 커서 토큰은 남긴다 - 바로 아래 insertProcessedText가 위치 계산에 쓴다.
         return TemplateVariableProcessor.process(text, clipboard: clipboard, keepCursorToken: true)
     }
 
@@ -669,7 +669,7 @@ class KeyboardViewController: UIInputViewController {
 
         textDocumentProxy.insertText(placement.text)
         if placement.needsCursorMove {
-            // 삽입 직후 캐럿은 문장 끝에 있다 — 토큰이 있던 자리까지 되돌린다.
+            // 삽입 직후 캐럿은 문장 끝에 있다 - 토큰이 있던 자리까지 되돌린다.
             textDocumentProxy.adjustTextPosition(byCharacterOffset: -placement.offsetFromEnd)
         }
         KeyboardHaptics.stamp()
@@ -758,7 +758,7 @@ extension KeyboardViewController: TypingInputProxy {
     /// 키보드 host 앱 텍스트 필드에 문자 입력
     /// 자체 입력은 host의 textDidChange를 거치지 않으므로 hasText를 명시적으로 갱신.
     func insertText(_ text: String) {
-        print("⌨️ [TypingProxy.insertText] '\(text)' — hasInput=\(textDocumentProxy.hasText)")
+        print("⌨️ [TypingProxy.insertText] '\(text)': hasInput=\(textDocumentProxy.hasText)")
         textDocumentProxy.insertText(text)
         updateHasTextState()
     }
@@ -790,7 +790,7 @@ extension KeyboardViewController: TypingInputProxy {
 /// iOS에 "이 입력 뷰는 키 클릭음을 낸다"고 알린다.
 ///
 /// 이걸 채택하지 않으면 `UIDevice.current.playInputClick()` 을 아무리 호출해도
-/// **조용히 무시된다.** 반대로 채택했다고 항상 울리는 것도 아니다 —
+/// **조용히 무시된다.** 반대로 채택했다고 항상 울리는 것도 아니다
 /// 실제 재생 여부는 사용자의 **설정 > 사운드 및 햅틱 > 키보드 클릭음** 이 정한다.
 /// 우리가 켜고 끄는 게 아니라 사용자가 이미 정해 둔 취향을 따르는 구조다.
 extension KeyboardViewController: UIInputViewAudioFeedback {

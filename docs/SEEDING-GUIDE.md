@@ -1,4 +1,4 @@
-# 🌱 커뮤니티 시딩 가이드 — ClipKeyboard
+# 🌱 커뮤니티 시딩 가이드, ClipKeyboard
 
 ## 핵심 원칙
 
@@ -16,7 +16,7 @@
 |---|---|---|
 | **r/digitalnomad** | 1.5M+ | 장비·워크플로우·응대 팁 스레드에 자연스럽게 |
 | **r/freelance** | 500K+ | 결제·인보이스·클라이언트 응대 고민 스레드 |
-| **Twitter/X (build in public)** | — | #buildinpublic #indiedev 해시태그, 숫자·진행 공개 |
+| **Twitter/X (build in public)** || #buildinpublic #indiedev 해시태그, 숫자·진행 공개 |
 
 ### 🟡 2차 (카르마 쌓인 뒤)
 
@@ -30,16 +30,16 @@
 
 ### 🔴 3차 / 통로형 (한두 번 노출용)
 
-- **Product Hunt** — 런칭 1회성. 준비가 충분할 때만.
-- **Hacker News Show HN** — 1회성. 북미 개발자 타겟. 엄청나게 해석당함.
-- **r/apple** (5M) / **r/ios** (800K) — 글로벌 스케일은 크지만 A세그먼트 정확도는 낮음. 마지막 단계.
+- **Product Hunt**, 런칭 1회성. 준비가 충분할 때만.
+- **Hacker News Show HN**, 1회성. 북미 개발자 타겟. 엄청나게 해석당함.
+- **r/apple** (5M) / **r/ios** (800K), 글로벌 스케일은 크지만 A세그먼트 정확도는 낮음. 마지막 단계.
 
 ### ❌ 버린 채널 (타겟 안 맞음)
 
-- ~~클리앙·뽐뿌·블라인드·디시·맥쓰사~~ — 한국 시장 중심, A세그먼트 아님
-- ~~네이버 블로그·크몽 카페~~ — 동일 이유
-- ~~Facebook·Google 광고~~ — A세그먼트 CAC 회수 불가
-- ~~r/productivity · r/apple · r/ios 초기 공략~~ — 넓어서 전환율 낮음
+- ~~클리앙·뽐뿌·블라인드·디시·맥쓰사~~: 한국 시장 중심, A세그먼트 아님
+- ~~네이버 블로그·크몽 카페~~: 동일 이유
+- ~~Facebook·Google 광고~~, A세그먼트 CAC 회수 불가
+- ~~r/productivity · r/apple · r/ios 초기 공략~~, 넓어서 전환율 낮음
 
 ---
 
@@ -72,7 +72,7 @@
 
 ```
 Been using ClipKeyboard for this for a few months.
-It's an iOS keyboard extension so it works in any app — 
+It's an iOS keyboard extension so it works in any app
 tap a saved phrase and it types into whatever field you're in.
 Big thing for me as a remote freelancer: IBAN/SWIFT/Wise info 
 saved once, tapped from Gmail/Slack/Upwork.
@@ -90,8 +90,8 @@ Yeah this ate hours of my week too. I ended up storing all that
 stuff in ClipKeyboard (iOS keyboard extension).
 
 Now when a client asks "what's your banking info?" I just open 
-the keyboard and tap — IBAN, SWIFT, address, VAT all entered.
-Also has combos — e.g. "send banking info" fires all 4 at once.
+the keyboard and tap: IBAN, SWIFT, address, VAT all entered.
+Also has combos: e.g. "send banking info" fires all 4 at once.
 
 Saves me probably 5-10 min every new client.
 ```
@@ -106,7 +106,7 @@ in my keyboard app. Now I have:
 
 "Hi {client_name}, I'm in {timezone}, will get back to you in ~{response_time}."
 
-Tap once, filled in automatically. Use ClipKeyboard for this — 
+Tap once, filled in automatically. Use ClipKeyboard for this
 {timezone} stays current to wherever I am.
 ```
 
@@ -116,7 +116,7 @@ Tap once, filled in automatically. Use ClipKeyboard for this —
 
 ```
 Not a silver bullet but this helps: I keep my own set of reply
-templates in ClipKeyboard — proposal follow-ups, payment reminders,
+templates in ClipKeyboard: proposal follow-ups, payment reminders,
 scope pushback, invoice delays.
 
 Once a native-speaker friend helped me get them right, I stopped 
@@ -129,7 +129,7 @@ and having them pre-written means I don't have to regenerate it.
 
 ### 유형 5: "I built this" 빌드 스토리 (직접 글 게시 시)
 
-`REDDIT_LAUNCH_POST.md` 참조 — 1차 게시용 정형화된 본문 있음.
+`REDDIT_LAUNCH_POST.md` 참조, 1차 게시용 정형화된 본문 있음.
 
 ---
 
@@ -186,23 +186,23 @@ and having them pre-written means I don't have to regenerate it.
 
 ## ⚠️ 하지 말 것
 
-1. **직접 판매 글** — r/digitalnomad, r/freelance 둘 다 self-promotion 규칙 엄격. "I built this → buy" 톤은 즉시 제거 당함
-2. **같은 글 24h 내 여러 서브 복붙** — Reddit shadowban 트리거
-3. **경쟁사 비방** — TextExpander 나쁘다고 깎아내리기 금지. "다르다"로만 프레임
-4. **한국 시장 레거시 톤** — 원화, 한국 커뮤니티, 사업자번호 예시 등장 금지
-5. **제품에 없는 기능 주장** — IBAN 검증 미구현 상태에서 언급 금지
-6. **가짜 자작극 리뷰** — 들키면 앱 생명 끝
+1. **직접 판매 글**: r/digitalnomad, r/freelance 둘 다 self-promotion 규칙 엄격. "I built this → buy" 톤은 즉시 제거 당함
+2. **같은 글 24h 내 여러 서브 복붙**, Reddit shadowban 트리거
+3. **경쟁사 비방**, TextExpander 나쁘다고 깎아내리기 금지. "다르다"로만 프레임
+4. **한국 시장 레거시 톤**: 원화, 한국 커뮤니티, 사업자번호 예시 등장 금지
+5. **제품에 없는 기능 주장**, IBAN 검증 미구현 상태에서 언급 금지
+6. **가짜 자작극 리뷰**, 들키면 앱 생명 끝
 
 ---
 
 ## ✅ 해야 할 것
 
-1. **진정성** — 실제 페인에 대한 구체적 답변
-2. **페르소나 일관성** — 원격 프리랜서의 고민 안에서만 움직이기
-3. **가치 먼저** — 제품 안 팔아도 답변 자체가 유용
-4. **꾸준함** — 주 2~3회 페이스
-5. **피드백 통합** — 댓글에서 나온 기능 요청은 다음 업데이트에 반영하고 공지
-6. **수치 공유** — 건강한 숫자든 나쁜 숫자든 공유 (Twitter 인디 커뮤니티 신뢰 빌드업)
+1. **진정성**, 실제 페인에 대한 구체적 답변
+2. **페르소나 일관성**, 원격 프리랜서의 고민 안에서만 움직이기
+3. **가치 먼저**, 제품 안 팔아도 답변 자체가 유용
+4. **꾸준함**, 주 2~3회 페이스
+5. **피드백 통합**, 댓글에서 나온 기능 요청은 다음 업데이트에 반영하고 공지
+6. **수치 공유**, 건강한 숫자든 나쁜 숫자든 공유 (Twitter 인디 커뮤니티 신뢰 빌드업)
 
 ---
 

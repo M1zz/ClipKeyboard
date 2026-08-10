@@ -2,10 +2,10 @@
 //  BulkImportBundlingTests.swift
 //  ClipKeyboardTests
 //
-//  일괄 가져오기의 **콤보로 묶기** 규칙 — 컬렉션에서 체크한 것들을 키 하나로 합칠 때.
+//  일괄 가져오기의 **콤보로 묶기** 규칙 - 컬렉션에서 체크한 것들을 키 하나로 합칠 때.
 //   · 떨어져 있는 항목끼리도 묶인다 (예전엔 바로 위 항목과만 가능했다)
 //   · 합친 자리와 단계 차례는 **화면에 놓인 순서**를 따른다 (고른 순서가 아니다)
-//   · 하나라도 보안이면 결과도 보안 — 지키던 것을 합치다가 풀어버리면 안 된다
+//   · 하나라도 보안이면 결과도 보안 - 지키던 것을 합치다가 풀어버리면 안 된다
 //   · 넣기로 한 것이 하나라도 있으면 결과도 넣는다
 //
 
@@ -29,7 +29,7 @@ final class BulkImportBundlingTests: XCTestCase {
 
     func testMergesNonAdjacentDrafts() {
         let drafts = sample()
-        // 0번(아이디)과 2번(비밀번호) — 사이에 '메모'가 끼어 있다.
+        // 0번(아이디)과 2번(비밀번호) - 사이에 '메모'가 끼어 있다.
         let selection: Set<UUID> = [drafts[0].id, drafts[2].id]
 
         let result = BulkImportView.merging(drafts, selection: selection).drafts

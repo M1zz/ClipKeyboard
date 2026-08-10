@@ -47,7 +47,7 @@ class ComboExecutionService: ObservableObject {
         currentItemIndex = 0
 
         guard !currentValues.isEmpty else {
-            print("⚠️ Combo '\(memo.title)' 자식 메모 없음 — 실행 취소")
+            print("⚠️ Combo '\(memo.title)' 자식 메모 없음. 실행 취소")
             stopCombo()
             return
         }
@@ -142,7 +142,7 @@ class ComboExecutionService: ObservableObject {
         timer = nil
         state = .completed
 
-        // 청각 장애 접근성: Combo 완료 success 햅틱 (두 번 울리는 패턴 — 완료 신호)
+        // 청각 장애 접근성: Combo 완료 success 햅틱 (두 번 울리는 패턴 - 완료 신호)
         DispatchQueue.main.async {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
         }

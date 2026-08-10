@@ -2,7 +2,7 @@
 //  ActionViewController.swift
 //  ClipKeyboardActionExtension
 //
-//  공유 시트 **아래쪽 목록**(동작)에 뜨는 한 줄 — 누르면 화면 없이 그 자리에서 단축어가 된다.
+//  공유 시트 **아래쪽 목록**(동작)에 뜨는 한 줄 - 누르면 화면 없이 그 자리에서 단축어가 된다.
 //
 //  왜 따로 있는가: 공유 확장(`com.apple.share-services`)은 시트 **윗줄(앱)** 에만 나온다.
 //  아래 목록에 나오려면 동작 확장(`com.apple.ui-services`)이 별도로 있어야 한다.
@@ -12,7 +12,7 @@
 //     자리이고, 이쪽은 "그냥 넣어 둬"를 한 번에 끝내는 자리다. 둘 다 시트를 띄우면
 //     굳이 둘일 이유가 없다.
 //
-//  ⚠️ 저장 로직을 여기 두지 않는다 — `Shared/QuickShortcutSave.swift` 하나만 스키마를 안다.
+//  ⚠️ 저장 로직을 여기 두지 않는다 - `Shared/QuickShortcutSave.swift` 하나만 스키마를 안다.
 //     확장마다 한 벌씩 두면 한쪽만 고쳐지는 날이 반드시 온다.
 //
 
@@ -30,7 +30,7 @@ class ActionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 화면이 없다 — 시트가 그대로 닫히고 저장만 일어난다.
+        // 화면이 없다 - 시트가 그대로 닫히고 저장만 일어난다.
         view.backgroundColor = .clear
         loadInput()
     }

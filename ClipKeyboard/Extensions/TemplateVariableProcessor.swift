@@ -35,9 +35,9 @@ enum TemplateVariableProcessor {
         "{greeting_time}", "{인사}",
         // v4.0.3 city
         "{city}", "{도시}",
-        // v4.4.4 클립보드 — 복사해 둔 것을 문장 안에 그대로 꽂는다
+        // v4.4.4 클립보드 - 복사해 둔 것을 문장 안에 그대로 꽂는다
         "{clipboard}", "{클립보드}",
-        // v4.4.4 커서 — 값이 아니라 **위치**를 가리키는 제어 토큰.
+        // v4.4.4 커서 - 값이 아니라 **위치**를 가리키는 제어 토큰.
         // 여기 들어 있어야 "값을 입력하세요" 오버레이가 뜨지 않는다(모든 추출부가 이 집합을 제외한다).
         "{cursor}", "{커서}"
     ]
@@ -63,13 +63,13 @@ enum TemplateVariableProcessor {
     }
 
     /// Substitute all known auto-variables in `text`. Custom placeholders ({이름},
-    /// {name}, etc.) are left untouched — they're handled elsewhere after the
+    /// {name}, etc.) are left untouched - they're handled elsewhere after the
     /// user provides values.
     ///
     /// - Parameters:
     ///   - clipboard: `{clipboard}` 에 꽂을 값. 호출부가 `containsClipboardToken`으로
     ///     **필요할 때만** 읽어서 넘긴다(무조건 읽으면 붙여넣기 프롬프트가 뜬다).
-    ///     nil이면 토큰을 빈 문자열로 지운다 — 문장에 `{clipboard}` 가 그대로 남는 것보다 낫다.
+    ///     nil이면 토큰을 빈 문자열로 지운다 - 문장에 `{clipboard}` 가 그대로 남는 것보다 낫다.
     ///   - keepCursorToken: 커서 토큰을 남길지. **기본은 false(제거)** 다.
     ///     커서를 옮길 수 있는 곳은 키보드 익스텐션뿐이고, 나머지 경로(클립보드 복사·미리보기·
     ///     콤보 실행)에서 토큰이 살아 있으면 사용자 눈에 `{커서}` 가 그대로 붙여넣어진다.
@@ -80,7 +80,7 @@ enum TemplateVariableProcessor {
                         keepCursorToken: Bool = false) -> String {
         var result = text
 
-        // 클립보드 — 값이 없으면 지운다(빈칸이 남는 게 토큰이 노출되는 것보다 낫다).
+        // 클립보드 - 값이 없으면 지운다(빈칸이 남는 게 토큰이 노출되는 것보다 낫다).
         let clipboardValue = clipboard ?? ""
         for token in clipboardTokens {
             result = result.replacingOccurrences(of: token, with: clipboardValue)
@@ -140,12 +140,12 @@ enum TemplateVariableProcessor {
         result = result.replacingOccurrences(of: "{currency}", with: currencyValue)
         result = result.replacingOccurrences(of: "{통화}", with: currencyValue)
 
-        // Greeting time — "Good morning/afternoon/evening" (locale-aware)
+        // Greeting time - "Good morning/afternoon/evening" (locale-aware)
         let greeting = localizedGreeting(for: reference)
         result = result.replacingOccurrences(of: "{greeting_time}", with: greeting)
         result = result.replacingOccurrences(of: "{인사}", with: greeting)
 
-        // City — derived from timezone identifier (e.g. "Asia/Bangkok" → "Bangkok")
+        // City - derived from timezone identifier (e.g. "Asia/Bangkok" → "Bangkok")
         let city = cityFromTimezone(timezoneValue)
         result = result.replacingOccurrences(of: "{city}", with: city)
         result = result.replacingOccurrences(of: "{도시}", with: city)
@@ -166,11 +166,11 @@ enum TemplateVariableProcessor {
         let hour = Calendar.current.component(.hour, from: date)
         switch hour {
         case 5..<12:
-            return NSLocalizedString("Good morning", comment: "Greeting — morning")
+            return NSLocalizedString("Good morning", comment: "Greeting: morning")
         case 12..<18:
-            return NSLocalizedString("Good afternoon", comment: "Greeting — afternoon")
+            return NSLocalizedString("Good afternoon", comment: "Greeting: afternoon")
         default:
-            return NSLocalizedString("Good evening", comment: "Greeting — evening/night")
+            return NSLocalizedString("Good evening", comment: "Greeting: evening/night")
         }
     }
 }
@@ -178,7 +178,7 @@ enum TemplateVariableProcessor {
 // MARK: - Token kind detection (v4.0.8)
 
 extension TemplateVariableProcessor {
-    /// 토큰 종류 — 입력 UI에서 키패드 종류를 결정.
+    /// 토큰 종류 - 입력 UI에서 키패드 종류를 결정.
     enum TokenKind {
         case text
         case number
@@ -281,7 +281,7 @@ extension TemplateVariableProcessor {
 
     /// `{커서}` / `{cursor}` 를 해석해 "넣을 텍스트"와 "캐럿을 되돌릴 거리"로 나눈다.
     ///
-    /// 삽입 후 커서를 빈칸으로 보내주는 것만으로 체감이 크게 달라진다 —
+    /// 삽입 후 커서를 빈칸으로 보내주는 것만으로 체감이 크게 달라진다
     /// "{이름}님 안녕하세요"를 넣고 나서 캐럿이 문장 끝에 남으면 결국 손으로 되돌아가야 한다.
     ///
     /// 규칙:
@@ -291,7 +291,7 @@ extension TemplateVariableProcessor {
     ///
     /// ⚠️ 거리는 `Character` 개수로 센다. `adjustTextPosition(byCharacterOffset:)` 이
     ///    받는 단위와 맞추기 위해서다. 이모지 같은 결합 문자가 토큰 **뒤에** 오면
-    ///    시스템이 세는 단위와 어긋날 수 있다(알려진 한계 — 한글·영문에서는 일치).
+    ///    시스템이 세는 단위와 어긋날 수 있다(알려진 한계 - 한글·영문에서는 일치).
     static func resolveCursor(in text: String) -> CursorPlacement {
         // 가장 앞선 토큰 하나를 고른다(ko/en 어느 쪽이 먼저 나오든).
         var firstRange: Range<String.Index>?

@@ -57,7 +57,7 @@ class OCRService {
         }
     }
 
-    /// 문단(블록) 단위 텍스트 인식 — 줄 사이 세로 간격이 중간값 줄 높이보다 크면
+    /// 문단(블록) 단위 텍스트 인식 - 줄 사이 세로 간격이 중간값 줄 높이보다 크면
     /// 문단이 바뀐 것으로 보고 블록을 나눈다. 메모 앱 스크린샷처럼
     /// "빈 줄로 구분된 항목들"을 가져올 때 빈 줄 정보를 복원하는 용도.
     func recognizeBlocks(from image: UIImage, completion: @escaping ([[String]]) -> Void) {
@@ -73,7 +73,7 @@ class OCRService {
                 return
             }
 
-            // Vision 좌표계는 좌하단 원점 — 위에서 아래 순으로 정렬
+            // Vision 좌표계는 좌하단 원점 - 위에서 아래 순으로 정렬
             let sorted = observations.sorted { $0.boundingBox.midY > $1.boundingBox.midY }
             let heights = sorted.map { $0.boundingBox.height }.sorted()
             let medianHeight = heights.isEmpty ? 0 : heights[heights.count / 2]

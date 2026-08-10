@@ -2,7 +2,7 @@
 //  RefundLedger.swift
 //  ClipKeyboard
 //
-//  **월 원장** — 어느 달에 어떤 문구가 얼마를 돌려줬는지.
+//  **월 원장** - 어느 달에 어떤 문구가 얼마를 돌려줬는지.
 //
 //  왜 새로 쌓나: 기존에 기기에 있던 건 평생 누적(`kb.timeSaved.totalSeconds`)과
 //  일별 **횟수**뿐이었다. 둘 다 "이번 달에 얼마 돌려받았나"에 답하지 못한다.
@@ -28,14 +28,14 @@ enum RefundLedger {
 
     /// 달별 [문구 UUID: 돌려준 초].
     private static let monthKeyPrefix = "kb.ledger.month."
-    /// 달별 [문구 UUID: 쓴 횟수]. 초와 나눠 두는 건 영수증 줄의 "×N" 때문이다 —
+    /// 달별 [문구 UUID: 쓴 횟수]. 초와 나눠 두는 건 영수증 줄의 "×N" 때문이다
     /// 초를 회당 금액으로 나눠 역산하면 문구를 고친 순간부터 어긋난다.
     private static let usesKeyPrefix = "kb.ledger.uses."
     private static let startedAtKey = "kb.ledger.startedAt"
     private static let prunedOnKey = "kb.ledger.prunedOn"
     private static let dailyCountPrefix = "kb.usage.daily."
 
-    /// 보관할 달 수. 2년치 + 여유. 넘는 건 지운다 —
+    /// 보관할 달 수. 2년치 + 여유. 넘는 건 지운다
     /// App Group UserDefaults 는 키보드 익스텐션이 매번 통째로 읽어서, 무한히 불면 익스텐션이 느려진다.
     static let retainedMonths = 25
     /// 일별 횟수 키 보관 일수.
@@ -49,12 +49,12 @@ enum RefundLedger {
 
     /// 문구 하나가 이 시점에 돌려준 시간을 원장에 적는다.
     ///
-    /// `KeyboardUsageTracker.recordMemoUse` 안에서만 불린다 — 사용 기록과 원장이
+    /// `KeyboardUsageTracker.recordMemoUse` 안에서만 불린다 - 사용 기록과 원장이
     /// 따로 갱신되면 둘이 어긋나고, 그러면 잔고와 영수증이 서로 다른 말을 한다.
     static func record(memoID: UUID, seconds: Double, on date: Date = Date()) {
         guard let defaults else { return }
 
-        // 시작일은 벌이가 0이어도 남긴다 — "언제부터 셌나"는 금액과 무관한 사실이다.
+        // 시작일은 벌이가 0이어도 남긴다 - "언제부터 셌나"는 금액과 무관한 사실이다.
         if defaults.object(forKey: startedAtKey) == nil {
             defaults.set(date.timeIntervalSince1970, forKey: startedAtKey)
         }
@@ -102,7 +102,7 @@ enum RefundLedger {
         entries(forMonthOf: date).values.reduce(0, +)
     }
 
-    /// 이 달에 다시 치지 않은 횟수 — 일별 횟수를 더한다(원장 이전부터 쌓이던 값이다).
+    /// 이 달에 다시 치지 않은 횟수 - 일별 횟수를 더한다(원장 이전부터 쌓이던 값이다).
     static func useCount(forMonthOf date: Date, calendar: Calendar = .current) -> Int {
         guard let defaults, let interval = calendar.dateInterval(of: .month, for: date) else { return 0 }
 
@@ -127,7 +127,7 @@ enum RefundLedger {
     /// 오래된 달·날짜 키를 지운다.
     ///
     /// ⚠️ **앱에서만** 부른다. 전체 사전을 훑는 일이라 익스텐션의 입력 경로에 두면 안 된다.
-    /// ⚠️ 하루 한 번만 실제로 돈다 — 실행할 때마다 훑으면 켤 때마다 값을 치른다.
+    /// ⚠️ 하루 한 번만 실제로 돈다 - 실행할 때마다 훑으면 켤 때마다 값을 치른다.
     @discardableResult
     static func pruneIfNeeded(now: Date = Date(), calendar: Calendar = .current) -> Int {
         guard let defaults else { return 0 }
@@ -166,7 +166,7 @@ enum RefundLedger {
 
     static func monthKey(for date: Date) -> String { monthKeyPrefix + monthString(date) }
 
-    /// 날짜 → "yyyy-MM". `KeyboardUsageTracker` 와 같은 고정 로캘을 쓴다 —
+    /// 날짜 → "yyyy-MM". `KeyboardUsageTracker` 와 같은 고정 로캘을 쓴다
     /// 사용자 달력이 바뀌어도 키가 흔들리면 안 된다.
     private static func monthString(_ date: Date) -> String { formatted(date, "yyyy-MM") }
     private static func dayString(_ date: Date) -> String { formatted(date, "yyyy-MM-dd") }
@@ -185,14 +185,14 @@ enum RefundLedger {
 
 /// 영수증을 끊을 기간.
 ///
-/// ⚠️ 임의 구간(최근 7일 등)이 없는 건 게을러서가 아니다 — 월 원장에서 뽑으면 그 달 전체가
+/// ⚠️ 임의 구간(최근 7일 등)이 없는 건 게을러서가 아니다 - 월 원장에서 뽑으면 그 달 전체가
 ///    딸려와 **틀린 수**가 찍힌다. 정확하지 않은 기간은 아예 만들지 않는다.
 enum RefundPeriod: String, CaseIterable, Identifiable {
     /// 이번 달.
     case thisMonth
     /// 지난달.
     case lastMonth
-    /// 전체 — 원장 이전까지 포함한 평생 누적. 이건 예전 값이 있어서 언제나 완전하다.
+    /// 전체 - 원장 이전까지 포함한 평생 누적. 이건 예전 값이 있어서 언제나 완전하다.
     case allTime
 
     var id: String { rawValue }
@@ -214,7 +214,7 @@ enum RefundPeriod: String, CaseIterable, Identifiable {
         }
     }
 
-    /// 영수증에 찍히는 기간 이름 — "2026년 8월" 처럼 실제 달을 쓴다.
+    /// 영수증에 찍히는 기간 이름 - "2026년 8월" 처럼 실제 달을 쓴다.
     /// "이번 달"이라고 찍으면 나중에 그 종이를 다시 봤을 때 언제 것인지 알 수 없다.
     func label(from now: Date = Date(), calendar: Calendar = .current) -> String {
         guard let month = month(from: now, calendar: calendar) else {

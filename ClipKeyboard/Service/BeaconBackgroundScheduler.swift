@@ -21,7 +21,7 @@ enum BeaconBackgroundScheduler {
     /// Info.plist BGTaskSchedulerPermittedIdentifiers와 동일해야 함.
     static let taskIdentifier = "com.Ysoup.TokenMemo.beacon-flush"
 
-    /// 앱 launch 시 한 번 호출 — task 핸들러 등록 + 첫 스케줄 예약.
+    /// 앱 launch 시 한 번 호출 - task 핸들러 등록 + 첫 스케줄 예약.
     /// 등록은 앱 launch 사이클 초기 (UIScene/willConnect 또는 App init)에 해야 한다.
     static func registerAndScheduleIfNeeded() {
         #if canImport(BackgroundTasks)
@@ -35,7 +35,7 @@ enum BeaconBackgroundScheduler {
         #endif
     }
 
-    /// 다음 task 예약 — 핸들러 종료 시점 + 앱 launch 시점에 호출.
+    /// 다음 task 예약 - 핸들러 종료 시점 + 앱 launch 시점에 호출.
     /// earliestBeginDate를 4시간 뒤로 설정해 적당한 빈도 유도 (iOS는 더 늦출 수 있음).
     static func scheduleNext() {
         #if canImport(BackgroundTasks)
@@ -51,13 +51,13 @@ enum BeaconBackgroundScheduler {
     }
 
     #if canImport(BackgroundTasks)
-    /// 백그라운드 task 실행 — 비콘 flush + 활동일 소급 전송 + 다음 task 재예약.
+    /// 백그라운드 task 실행 - 비콘 flush + 활동일 소급 전송 + 다음 task 재예약.
     private static func handleBeaconFlush(task: BGAppRefreshTask) {
         // 다음 task는 무조건 미리 예약 (이번 task가 실패하더라도 체인 유지)
         scheduleNext()
 
         // ⚠️ 소급 전송이 끝난 **뒤에** 완료를 알린다. 예전엔 여기서 바로 setTaskCompleted를
-        //    불러, 허브로 나가던 CloudKit 쓰기가 시작하자마자 잘렸다 — 앱을 안 여는
+        //    불러, 허브로 나가던 CloudKit 쓰기가 시작하자마자 잘렸다 - 앱을 안 여는
         //    사용자를 세려고 만든 경로가 정작 아무것도 못 보내고 있었다.
         //    (flushKeyboardBeacon 의 keyboard_used 는 여전히 fire-and-forget 이라 잘릴 수
         //     있지만, 횟수 자체는 totalCount 로 남아 다음 스냅샷에 실려 유실되지 않는다)
@@ -68,7 +68,7 @@ enum BeaconBackgroundScheduler {
             await UsageReportingService.reportKeyboardActiveDays()
         }
 
-        // 만료되면 취소만 한다 — 완료 통보는 위 defer가 한 번만 부른다(이중 호출 방지).
+        // 만료되면 취소만 한다 - 완료 통보는 위 defer가 한 번만 부른다(이중 호출 방지).
         // 소급 전송 루프가 날짜 사이마다 취소를 확인하므로 곧바로 빠져나온다.
         task.expirationHandler = { work.cancel() }
     }

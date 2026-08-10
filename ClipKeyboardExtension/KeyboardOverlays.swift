@@ -73,7 +73,7 @@ struct TemplateInputOverlay: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // MARK: 헤더 — 항상 보임: [00][000][0000] + 입력 + 닫기
+            // MARK: 헤더 - 항상 보임: [00][000][0000] + 입력 + 닫기
             HStack(spacing: 8) {
                     Spacer()
 

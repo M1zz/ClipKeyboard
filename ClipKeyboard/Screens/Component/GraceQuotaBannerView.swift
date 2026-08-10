@@ -27,7 +27,7 @@ struct GraceQuotaBannerView: View {
                     .fontWeight(.semibold)
 
                     Text(NSLocalizedString(
-                        "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete.",
+                        "Free plan is now 5 items. Everything you've saved stays: just no new adds until you upgrade or delete.",
                         comment: "v4 grace banner description"
                     ))
                     .font(.body)

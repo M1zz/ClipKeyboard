@@ -16,14 +16,14 @@ import LeeoKit
 
 struct KeyboardLayoutSettings: View {
 
-    // MARK: AppStorage — App Group 공유 (익스텐션과 동일 키)
+    // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
     @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount: Int    = 2
     @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 56.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
-    /// 키캡 물성 프리셋 — 익스텐션이 같은 키를 읽는다.
+    /// 키캡 물성 프리셋 - 익스텐션이 같은 키를 읽는다.
     @AppStorage(DefaultsKey.keyLabelTruncation, store: UserDefaults(suiteName: AppGroup.identifier))
     private var truncationRaw: String = KeyLabelTruncation.middle.rawValue
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
@@ -45,7 +45,7 @@ struct KeyboardLayoutSettings: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // ── 상단 고정 실시간 미리보기 — 아래 설정을 바꾸면 즉시 반영된다 ──
+            // ── 상단 고정 실시간 미리보기 - 아래 설정을 바꾸면 즉시 반영된다 ──
             KeyboardPreviewView()
                 .frame(height: 200)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
@@ -71,7 +71,7 @@ struct KeyboardLayoutSettings: View {
                 }
                 .pickerStyle(.segmented)
 
-                // 고르기 전에 결과를 보여준다 — 이름만으로는 무엇이 달라지는지 알 수 없다.
+                // 고르기 전에 결과를 보여준다 - 이름만으로는 무엇이 달라지는지 알 수 없다.
                 HStack {
                     Text(KeyLabelTruncation.sampleTitle)
                         .font(.system(size: buttonFontSize, weight: .semibold))
@@ -95,7 +95,7 @@ struct KeyboardLayoutSettings: View {
 
             // ── 2. 그리드 레이아웃 ─────────────────────────────────────
             Section {
-                // 열 개수 — segmented
+                // 열 개수 - segmented
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(NSLocalizedString("열 개수", comment: "Column count label"))
@@ -146,7 +146,7 @@ struct KeyboardLayoutSettings: View {
 
             // ── 3. 언어 설정 ───────────────────────────────────────────
             Section {
-                // 한국어 입력 사용 — 기본 OFF. 켜야 키보드에 한/EN 토글과 한글 자판이 나타난다.
+                // 한국어 입력 사용 - 기본 OFF. 켜야 키보드에 한/EN 토글과 한글 자판이 나타난다.
                 Toggle(isOn: $koreanEnabled) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("한국어 입력", comment: "Enable Korean input toggle"))
@@ -156,13 +156,13 @@ struct KeyboardLayoutSettings: View {
                 }
 
                 if koreanEnabled {
-                // 기본 언어 — Apple-style Picker (NavigationLink)
+                // 기본 언어 - Apple-style Picker (NavigationLink)
                 Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
                     Label("English", systemImage: AppSymbol.globe).tag("english")
                     Label(NSLocalizedString("한국어", comment: "Korean language option"), systemImage: AppSymbol.globeAsiaAustraliaFill).tag("korean")
                 }
 
-                // 한국어 레이아웃 — Apple-style Picker (NavigationLink)
+                // 한국어 레이아웃 - Apple-style Picker (NavigationLink)
                 Picker(NSLocalizedString("한국어 레이아웃", comment: "Korean layout picker label"), selection: $koreanLayout) {
                     VStack(alignment: .leading) {
                         Text(NSLocalizedString("두벌식", comment: "Korean layout: dubeolsik"))
@@ -211,7 +211,7 @@ struct KeyboardLayoutSettings: View {
             }
 
             // ── 4.5 키캡 스킨 ──────────────────────────────────────────
-            // 지금은 감춰 둔다(KeyboardSkin.isEnabled = false) — 모두 예전 모습으로 보인다.
+            // 지금은 감춰 둔다(KeyboardSkin.isEnabled = false) - 모두 예전 모습으로 보인다.
             // 되살리려면 그 값을 true 로 바꾸고 이 줄의 주석을 풀면 된다.
             if KeyboardSkin.isEnabled { skinSection }
 
@@ -268,7 +268,7 @@ struct KeyboardLayoutSettings: View {
 
     // MARK: - 키캡 스킨
 
-    /// 스킨은 **색이 아니라 물성**을 고른다 — 두께·빛·모서리·눌림.
+    /// 스킨은 **색이 아니라 물성**을 고른다 - 두께·빛·모서리·눌림.
     /// 그래서 아래 색상 섹션(커스텀 키 색)과 겹치지 않고, 어떤 색을 골라도 그대로 유지된다.
     private var skinSection: some View {
         Section {
@@ -278,7 +278,7 @@ struct KeyboardLayoutSettings: View {
                     keyboardSkinRaw = candidate.rawValue
                 } label: {
                     HStack(spacing: 14) {
-                        // 실제 키캡과 같은 규칙으로 그린 미리보기 — 설명 대신 물건을 보여준다.
+                        // 실제 키캡과 같은 규칙으로 그린 미리보기 - 설명 대신 물건을 보여준다.
                         KeycapPreview(skin: candidate, isDark: theme.isDark)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(candidate.localizedName)
@@ -399,7 +399,7 @@ struct KeyboardPreviewView: View {
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var showVisualCues: Bool = false
-    /// 실제 키보드(KeyboardView)와 동일 — 오직 "메모 구분 표시" 토글만 따른다.
+    /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
     private var visualCuesVisible: Bool { showVisualCues }
 
     private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
@@ -453,7 +453,7 @@ struct KeyboardPreviewView: View {
         MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
     }
 
-    /// 사용자가 고른 키캡 물성 — 실제 키보드와 같은 값을 읽는다.
+    /// 사용자가 고른 키캡 물성 - 실제 키보드와 같은 값을 읽는다.
     private var skin: KeyboardSkin {
         KeyboardSkin.resolved(keyboardSkinRaw)
     }
@@ -465,14 +465,14 @@ struct KeyboardPreviewView: View {
         Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, columnCount)))
     }
 
-    /// 익스텐션 memoButtonLabel과 동일한 셀 — radiusMd, 카테고리 틴트, 타입 테두리,
+    /// 익스텐션 memoButtonLabel과 동일한 셀 - radiusMd, 카테고리 틴트, 타입 테두리,
     /// 중앙 2줄 제목. 프리뷰가 실제 키보드와 같은 모습이 되도록 한다.
     @ViewBuilder
     private func previewCell(_ memo: Memo) -> some View {
         let cat = memoCatColor(memo)
         let border = typeBorder(memo)
         ZStack {
-            // 스커트(키캡 옆면) — 실제 키와 같은 두께를 미리 보여준다.
+            // 스커트(키캡 옆면) - 실제 키와 같은 두께를 미리 보여준다.
             RoundedRectangle(cornerRadius: keycapRadius)
                 .fill(Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark)))
                 .offset(y: skin.skirtDepth)
@@ -685,11 +685,11 @@ struct SecurePINSetupView: View {
 
 /// 스킨 선택 행에 붙는 작은 키캡.
 ///
-/// ⚠️ 실제 키(`KeycapButtonStyle`)와 **같은 규칙**으로 그린다 — 스커트를 아래로 빼고,
+/// ⚠️ 실제 키(`KeycapButtonStyle`)와 **같은 규칙**으로 그린다 - 스커트를 아래로 빼고,
 ///    윗면에 빛을 얹고, 스킨이 정한 모서리를 쓴다. 미리보기가 실물과 다르면
 ///    고르고 나서 "이게 아닌데"가 된다.
 ///
-/// 눌러 보면 실제와 같은 곡선으로 내려앉는다 — 설명 대신 만져 보게 한다.
+/// 눌러 보면 실제와 같은 곡선으로 내려앉는다 - 설명 대신 만져 보게 한다.
 private struct KeycapPreview: View {
     let skin: KeyboardSkin
     let isDark: Bool

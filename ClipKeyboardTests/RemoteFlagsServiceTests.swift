@@ -60,7 +60,7 @@ final class RemoteFlagsServiceTests: XCTestCase {
         XCTAssertTrue(RemoteFlagsService.cachedValue(.paywallEnabled))
     }
 
-    /// 플래그는 서로 독립이어야 한다 — 하나를 끈다고 다른 게 꺼지면 사고가 커진다.
+    /// 플래그는 서로 독립이어야 한다 - 하나를 끈다고 다른 게 꺼지면 사고가 커진다.
     func testFlagsAreIndependent() {
         defaults.set(false, forKey: prefix + RemoteFlagsService.Flag.usageReportingEnabled.rawValue)
 

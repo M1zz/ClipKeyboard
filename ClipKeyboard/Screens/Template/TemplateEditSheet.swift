@@ -29,12 +29,12 @@ struct TemplateEditSheet: View {
     /// 자동 변수 칩을 탭했을 때 안내할 토큰 (예: {날짜})
     @State private var autoVarTipToken: String?
 
-    /// 날짜 토큰 — 자동(오늘) 대신 사용자가 오늘/내일/다음 주/2주 뒤/직접 선택할 수 있다.
+    /// 날짜 토큰 - 자동(오늘) 대신 사용자가 오늘/내일/다음 주/2주 뒤/직접 선택할 수 있다.
     private static let dateTokens: Set<String> = ["{날짜}", "{date}"]
     private var dateTokensInTemplate: [String] {
         Self.dateTokens.filter { memo.value.contains($0) }
     }
-    /// 날짜를 제외한 자동 변수(시간·타임존 등) — 그대로 자동 입력되며 탭 시 안내만 표시.
+    /// 날짜를 제외한 자동 변수(시간·타임존 등) - 그대로 자동 입력되며 탭 시 안내만 표시.
     private var autoVarsInTemplate: [String] {
         TemplateVariableProcessor.autoVariableTokens
             .subtracting(Self.dateTokens)
@@ -61,7 +61,7 @@ struct TemplateEditSheet: View {
                     if !customPlaceholders.isEmpty || !autoVarsInTemplate.isEmpty {
                         fillChipsRow(proxy)
                     }
-                    // 미리보기를 '값 선택'보다 위에 — 채우는 동안 결과가 바로 보이게.
+                    // 미리보기를 '값 선택'보다 위에 - 채우는 동안 결과가 바로 보이게.
                     previewSection
                     placeholderSection
                 }
@@ -198,7 +198,7 @@ struct TemplateEditSheet: View {
                     .id(placeholder)
                 }
 
-                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택
+                // 날짜 토큰 - 오늘/내일/다음 주/2주 뒤/직접 선택
                 ForEach(dateTokensInTemplate, id: \.self) { token in
                     DatePlaceholderSelector(
                         token: token,
@@ -316,7 +316,7 @@ struct TemplateEditSheet: View {
                 .mapValues { [$0] }
             try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
-            // 플레이스홀더 값 저장 실패는 치명적이지 않음(복사 기능 자체는 계속 동작) — 로그만 남김
+            // 플레이스홀더 값 저장 실패는 치명적이지 않음(복사 기능 자체는 계속 동작) - 로그만 남김
             print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 플레이스홀더 값 저장 실패: \(error)")
         }
     }

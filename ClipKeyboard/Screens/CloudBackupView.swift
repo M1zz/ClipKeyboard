@@ -22,7 +22,7 @@ struct CloudBackupView: View {
     /// 현재 iCloud 백업에 들어있는 메모 개수("무엇이 백업돼 있는지" 확인용)
     @State private var backupMemoCount: Int? = nil
     @State private var showPaywall = false
-    // 파일 백업(내보내기/가져오기) — CloudKit·Pro·로그인과 무관한 최후의 보루
+    // 파일 백업(내보내기/가져오기) - CloudKit·Pro·로그인과 무관한 최후의 보루
     @State private var showExporter = false
     @State private var showImporter = false
     @State private var exportDocument: BackupFileDocument? = nil
@@ -233,7 +233,7 @@ struct CloudBackupView: View {
                     }
                     .disabled(backupService.isBackingUp || backupService.isRestoring)
 
-                    // 버전(타임머신)에서 복원 — 날짜별 스냅샷 선택
+                    // 버전(타임머신)에서 복원 - 날짜별 스냅샷 선택
                     NavigationLink {
                         BackupVersionsView()
                     } label: {
@@ -293,7 +293,7 @@ struct CloudBackupView: View {
                 }
             }
 
-            // 파일 백업 섹션 — iCloud가 막혀도(미로그인/스키마 문제/네트워크) 데이터를
+            // 파일 백업 섹션 - iCloud가 막혀도(미로그인/스키마 문제/네트워크) 데이터를
             // 기기 파일로 직접 빼낼 수 있는 최후의 보루. 메모·클립보드·콤보·이미지를
             // 자기완결형 .json 한 파일로 내보내고, 그 파일에서 되살린다.
             Section {
@@ -598,7 +598,7 @@ struct BackupVersionsView: View {
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("버전에서 복원", comment: "Restore from a version — screen title"))
+        .navigationTitle(NSLocalizedString("버전에서 복원", comment: "Restore from a version: screen title"))
         .task { await load() }
         .confirmationDialog(
             NSLocalizedString("이 버전으로 복원할까요?", comment: "Restore this version confirmation"),
@@ -610,7 +610,7 @@ struct BackupVersionsView: View {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
         } message: {
             if let snap = pendingRestore {
-                Text(String(format: NSLocalizedString("%@ · 단축어 %d개 — 현재 데이터는 이 시점으로 교체됩니다.", comment: "Version restore confirm message"),
+                Text(String(format: NSLocalizedString("%@ · 단축어 %d개, 현재 데이터는 이 시점으로 교체됩니다.", comment: "Version restore confirm message"),
                             snap.date.formatted(date: .abbreviated, time: .shortened), snap.memoCount))
             }
         }
@@ -662,7 +662,7 @@ struct CloudBackupView_Previews: PreviewProvider {
 
 /// App Group에 저장된 모든 사용자 데이터를 담는 자기완결형 백업 번들.
 /// 이미지까지 base64로 동봉하므로 이 파일 하나로 전체 복원이 가능하다.
-/// (iCloud·Pro·로그인과 무관 — 데이터 유실에 대한 최후의 보루)
+/// (iCloud·Pro·로그인과 무관 - 데이터 유실에 대한 최후의 보루)
 struct ExportBundle: Codable {
     var formatVersion: Int
     var exportedAt: Date

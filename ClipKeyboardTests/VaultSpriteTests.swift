@@ -5,18 +5,18 @@
 //  금고 에셋의 계약을 고정한다.
 //
 //  가장 중요한 세 지점:
-//   ① **스프라이트는 정사각이고 모든 줄의 폭이 같다** — 한 칸만 밀려도 테두리에 계단이
+//   ① **스프라이트는 정사각이고 모든 줄의 폭이 같다** - 한 칸만 밀려도 테두리에 계단이
 //      생기는데, 길이만 맞으면 눈으로 보기 전엔 아무도 모른다. 실제로 두 번 밀렸다.
-//   ② **잔고는 절약한 시간(초)만으로 결정된다** — 난수를 쓰면 스크롤할 때마다 액수가
+//   ② **잔고는 절약한 시간(초)만으로 결정된다** - 난수를 쓰면 스크롤할 때마다 액수가
 //      바뀌어서 "내가 쌓은 돈"이 아니라 그냥 장식이 된다.
-//   ③ **카드에 올라가는 양에 상한이 있다** — 없으면 오래 쓴 문구가 동전밭이 된다.
+//   ③ **카드에 올라가는 양에 상한이 있다** - 없으면 오래 쓴 문구가 동전밭이 된다.
 //
 
 import Testing
 import SwiftUI
 @testable import ClipKeyboard
 
-@Suite("VaultSprite — 금고 에셋")
+@Suite("VaultSprite: 금고 에셋")
 struct VaultSpriteTests {
 
     /// 앱에 실제로 들어가는 모든 스프라이트.
@@ -33,10 +33,10 @@ struct VaultSpriteTests {
         for sprite in Self.all {
             let width = sprite.rows.first?.count ?? 0
             #expect(width == sprite.rows.count,
-                    "\(sprite.id): \(sprite.rows.count)행 × \(width)칸 — 정사각이 아니다")
+                    "\(sprite.id): \(sprite.rows.count)행 × \(width)칸: 정사각이 아니다")
             for (i, row) in sprite.rows.enumerated() {
                 #expect(row.count == width,
-                        "\(sprite.id) \(i)번째 줄: \(row.count)칸 (기대 \(width)) — '\(row)'")
+                        "\(sprite.id) \(i)번째 줄: \(row.count)칸 (기대 \(width))'\(row)'")
             }
         }
     }
@@ -48,7 +48,7 @@ struct VaultSpriteTests {
         }
     }
 
-    @Test("모든 문자가 팔레트에 있다 — 오타는 조용히 투명해진다")
+    @Test("모든 문자가 팔레트에 있다. 오타는 조용히 투명해진다")
     func everySymbolIsKnown() {
         for sprite in Self.all {
             for row in sprite.rows {
@@ -60,7 +60,7 @@ struct VaultSpriteTests {
         }
     }
 
-    @Test("빈 스프라이트는 없다 — 아무것도 안 그리면 스킨이 켜진 줄도 모른다")
+    @Test("빈 스프라이트는 없다. 아무것도 안 그리면 스킨이 켜진 줄도 모른다")
     func nothingIsBlank() {
         for sprite in Self.all {
             let painted = sprite.rows.joined().filter { $0 != "." }.count
@@ -70,7 +70,7 @@ struct VaultSpriteTests {
 
     // MARK: - 금고 속
 
-    @Test("금고 내부 좌표가 실제로 비어 있다 — 어긋나면 동전이 벽을 뚫는다")
+    @Test("금고 내부 좌표가 실제로 비어 있다. 어긋나면 동전이 벽을 뚫는다")
     func interiorIsActuallyHollow() {
         let rows = VaultSprite.openEmpty.rows
         let box = VaultSprite.interior
@@ -90,7 +90,7 @@ struct VaultSpriteTests {
         #expect(box.y >= 0 && box.y + box.height <= VaultSprite.openEmpty.size)
     }
 
-    @Test("속 빈 금고에는 금이 한 조각도 없다 — 안 번 사람 금고에 금괴가 있으면 거짓말이다")
+    @Test("속 빈 금고에는 금이 한 조각도 없다. 안 번 사람 금고에 금괴가 있으면 거짓말이다")
     func emptyVaultHoldsNoGold() {
         let box = VaultSprite.interior
         for y in box.y..<(box.y + box.height) {
@@ -114,7 +114,7 @@ struct VaultSpriteTests {
         #expect(VaultLedger.plan(savedSeconds: -100) == [.empty])
     }
 
-    @Test("큰 단위부터 채운다 — 1시간 12분은 금괴 하나 + 금화 하나 + 은화 둘")
+    @Test("큰 단위부터 채운다. 1시간 12분은 금괴 하나 + 금화 하나 + 은화 둘")
     func fillsLargestFirst() {
         let plan = VaultLedger.plan(savedSeconds: 3600 + 600 + 120)
         #expect(plan == [.ingot, .gold, .silver, .silver])
@@ -134,7 +134,7 @@ struct VaultSpriteTests {
         #expect(plan.count <= VaultLedger.maxSprites)
     }
 
-    @Test("같은 초를 넣으면 항상 같은 그림 — 난수가 섞이면 안 된다")
+    @Test("같은 초를 넣으면 항상 같은 그림, 난수가 섞이면 안 된다")
     func deterministic() {
         for seconds in stride(from: 0.0, through: 8000.0, by: 137.0) {
             #expect(VaultLedger.plan(savedSeconds: seconds) == VaultLedger.plan(savedSeconds: seconds))
@@ -166,13 +166,13 @@ struct VaultSpriteTests {
         #expect(VaultLedger.headline(savedSeconds: 30)?.sprite == .bronze)
     }
 
-    @Test("개수는 그 액면이 몇 개인지다 — 배지가 규모를 대신 말한다")
+    @Test("개수는 그 액면이 몇 개인지다. 배지가 규모를 대신 말한다")
     func headlineCountsThatDenomination() {
         #expect(VaultLedger.headline(savedSeconds: 3600 * 3 + 700)?.count == 3)
         #expect(VaultLedger.headline(savedSeconds: 1_200)?.count == 2)
     }
 
-    @Test("한 푼도 못 벌었으면 배지가 아예 없다 — 빈 배지는 카드만 어지럽힌다")
+    @Test("한 푼도 못 벌었으면 배지가 아예 없다. 빈 배지는 카드만 어지럽힌다")
     func headlineIsNilWhenNothingEarned() {
         #expect(VaultLedger.headline(savedSeconds: 0) == nil)
         #expect(VaultLedger.headline(savedSeconds: 9.9) == nil)
@@ -196,7 +196,7 @@ struct VaultSpriteTests {
 
     // MARK: - 이음새 (다음 동전까지)
 
-    @Test("이음새는 지금 액면 기준으로 찬다 — 늘 같은 단위로 재면 아무 말도 못 한다")
+    @Test("이음새는 지금 액면 기준으로 찬다. 늘 같은 단위로 재면 아무 말도 못 한다")
     func seamMeasuresAgainstCurrentDenomination() {
         // 동전(10초)을 모으는 문구: 15초 → 반쯤
         #expect(abs(VaultLedger.nextCoinProgress(savedSeconds: 15) - 0.5) < 0.001)
@@ -228,12 +228,12 @@ struct VaultSpriteTests {
         #expect(VaultLedger.earnedSeconds(characterCount: value.count, useCount: 10) == 90)
     }
 
-    @Test("한 번도 안 쓴 문구는 0원 — 만들기만 해서는 벌리지 않는다")
+    @Test("한 번도 안 쓴 문구는 0원, 만들기만 해서는 벌리지 않는다")
     func unusedEarnsNothing() {
         #expect(VaultLedger.earnedSeconds(characterCount: 500, useCount: 0) == 0)
     }
 
-    @Test("탭 오버헤드보다 짧은 문구는 벌이가 0 — 음수로 새지 않는다")
+    @Test("탭 오버헤드보다 짧은 문구는 벌이가 0, 음수로 새지 않는다")
     func shortMemoNeverGoesNegative() {
         #expect(VaultLedger.earnedSeconds(characterCount: 2, useCount: 100) == 0)
     }

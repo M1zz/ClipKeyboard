@@ -57,12 +57,12 @@ struct ProFeatureManager {
 
     // MARK: - Pro 전용 기능 플래그
 
-    /// 모든 Pro 기능에 무제한 접근 가능 — 구매(Pro) / v3.x 그랜드파더 / 활성 7일 체험
+    /// 모든 Pro 기능에 무제한 접근 가능 - 구매(Pro) / v3.x 그랜드파더 / 활성 7일 체험
     static var hasFullAccess: Bool {
         isPro || isGrandfathered || isInTrial
     }
 
-    /// 영구적인 Pro 권한 보유 여부 — 구매(Pro) / v3.x 그랜드파더 / TestFlight.
+    /// 영구적인 Pro 권한 보유 여부 - 구매(Pro) / v3.x 그랜드파더 / TestFlight.
     /// 체험(trial)은 일부러 제외한다(체험 유저에겐 "평생 Pro" 업셀을 계속 보여줘야 하므로).
     ///
     /// ⚠️ UI에서 "Pro 활성화됨 vs 업그레이드 유도"를 결정할 땐 반드시 이 값을 쓴다.
@@ -99,7 +99,7 @@ struct ProFeatureManager {
         UserDefaults(suiteName: AppGroup.identifier)
     }
 
-    /// TestFlight 빌드 여부 — 앱 시작 시 bootstrapIsTestFlight()로 설정.
+    /// TestFlight 빌드 여부 - 앱 시작 시 bootstrapIsTestFlight()로 설정.
     nonisolated(unsafe) static var isTestFlight: Bool = false
 
     /// AppTransaction으로 TestFlight/Sandbox 환경 감지 후 캐시 저장.
@@ -123,7 +123,7 @@ struct ProFeatureManager {
     /// 영구 Pro로 인정한다.
     ///
     /// 실제 출시: 2026-02-21 00:14 KST. 타임존/심사 전파 오차로 인해 유료 구매자가
-    /// 누락되는 일이 없도록 컷오프를 다음 날 자정(KST)으로 넉넉히 잡는다 — 유료 구매자
+    /// 누락되는 일이 없도록 컷오프를 다음 날 자정(KST)으로 넉넉히 잡는다 - 유료 구매자
     /// 누락(=0)을 최우선하고, 그 대가로 초기 무료 다운로더 극소수가 Pro가 될 수 있는 건 허용.
     /// 값: 2026-02-22 00:00:00 KST = 2026-02-21 15:00:00 UTC = epoch 1_771_686_000.
     static let freemiumReleaseDate = Date(timeIntervalSince1970: 1_771_686_000)
@@ -133,7 +133,7 @@ struct ProFeatureManager {
     /// - iOS의 `originalAppVersion`은 마케팅 버전이 아니라 빌드 번호라 신뢰 불가 →
     ///   `originalPurchaseDate`를 v4.0 출시일과 비교해 판별한다.
     /// - Apple ID 영수증 기반이라 재설치 / 기기 변경 / 데이터 초기화 후에도 유지된다.
-    /// - 이미 그랜드파더 상태면 즉시 종료 (idempotent — 매 실행 호출해도 안전).
+    /// - 이미 그랜드파더 상태면 즉시 종료 (idempotent - 매 실행 호출해도 안전).
     /// 호출 시점: ClipKeyboardApp.init() / 구매 복원 직후.
     static func grandfatherPaidUserIfNeeded() async {
         // 이미 그랜드파더면 재검증 불필요 (이전 실행에서 이미 부여됨)
@@ -142,7 +142,7 @@ struct ProFeatureManager {
         do {
             let result = try await AppTransaction.shared
             guard case .verified(let appTransaction) = result else {
-                print("⚠️ [ProFeatureManager] AppTransaction 미검증 — 유료 구매자 판별 보류")
+                print("⚠️ [ProFeatureManager] AppTransaction 미검증, 유료 구매자 판별 보류")
                 return
             }
 
@@ -154,10 +154,10 @@ struct ProFeatureManager {
                     ProStatusManager.shared.objectWillChange.send()
                 }
             } else {
-                print("ℹ️ [ProFeatureManager] v4.0 이후 최초 다운로드 — 그랜드파더 비대상 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+                print("ℹ️ [ProFeatureManager] v4.0 이후 최초 다운로드, 그랜드파더 비대상 (originalPurchase=\(appTransaction.originalPurchaseDate))")
             }
         } catch {
-            print("⚠️ [ProFeatureManager] AppTransaction 조회 실패 — 다음 실행에 재시도: \(error)")
+            print("⚠️ [ProFeatureManager] AppTransaction 조회 실패, 다음 실행에 재시도: \(error)")
         }
     }
 
@@ -185,7 +185,7 @@ struct ProFeatureManager {
 
     /// 실제 접근 권한(`hasFullAccess`)을 App Group + iCloud KV 에 미러링한다.
     /// 공유 동기화 엔진(`MemoSyncEngine`)은 iOS 전용 타입을 못 보므로 이 키로 게이트를 판단한다.
-    /// 앱 시작·구매 상태 변화 시 호출 — 안 부르면 그랜드파더/TestFlight/체험 사용자는
+    /// 앱 시작·구매 상태 변화 시 호출 - 안 부르면 그랜드파더/TestFlight/체험 사용자는
     /// 토글을 켜도 엔진이 시작되지 않는다.
     static func mirrorSyncEntitlement() {
         let entitled = hasFullAccess
@@ -209,13 +209,13 @@ struct ProFeatureManager {
         else if wasExistingFreeUser { reason = "기존 무료유저(v3.x)" }
         else if isInTrial { reason = "7일 체험" }
         else { reason = "없음(무료)" }
-        print("🔑 [ProFeature] \(context) — 접근권한: \(hasFullAccess ? "Pro ✅" : "무료") · 경로=\(reason) " +
+        print("🔑 [ProFeature] \(context), 접근권한: \(hasFullAccess ? "Pro ✅" : "무료") · 경로=\(reason) " +
               "[구매IAP=\(purchased) TestFlight=\(isTestFlight) 그랜드파더구매=\(hasGrandfatheredPurchase) 기존무료=\(wasExistingFreeUser) 체험=\(isInTrial)]")
     }
 
     // MARK: - 7일 무료 체험 (Trial)
 
-    /// 시계 조작 방어용 "현재 시점" — 항상 단조 증가하도록 max(now, lastSeen) 적용.
+    /// 시계 조작 방어용 "현재 시점" - 항상 단조 증가하도록 max(now, lastSeen) 적용.
     /// 사용자가 시계를 뒤로 돌려도 trial 잔여 시간이 늘어나지 않는다.
     /// 시계를 앞으로 돌리면 trial 만료가 빨라지지만, 그건 사용자가 손해 보는 방향이라 OK.
     private static var monotonicNow: TimeInterval {
@@ -256,7 +256,7 @@ struct ProFeatureManager {
         return Int(ceil(remainingSeconds / 86400))
     }
 
-    /// 체험 시작 가능 여부 — 아직 안 했고, 이미 Pro도 아니고, 그랜드파더도 아닌 경우
+    /// 체험 시작 가능 여부 - 아직 안 했고, 이미 Pro도 아니고, 그랜드파더도 아닌 경우
     static var canStartTrial: Bool {
         !hasStartedTrial && !isPro && !isGrandfathered
     }

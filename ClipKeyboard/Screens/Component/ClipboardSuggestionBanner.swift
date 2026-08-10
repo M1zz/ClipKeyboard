@@ -18,7 +18,7 @@ struct ClipboardSuggestionBanner: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                // 이미지일 때만 썸네일 표시. 텍스트는 아이콘 없이 내용부터(보라 그라데이션 심볼 제거 —
+                // 이미지일 때만 썸네일 표시. 텍스트는 아이콘 없이 내용부터(보라 그라데이션 심볼 제거
                 // 공간만 차지했음).
                 if let history = clipboardHistory,
                    history.contentType == .image,
@@ -66,7 +66,7 @@ struct ClipboardSuggestionBanner: View {
 
                 Spacer()
 
-                // 액션 버튼들 — "사용"이 주 동작이라 또렷하게, "무시"는 보조.
+                // 액션 버튼들 - "사용"이 주 동작이라 또렷하게, "무시"는 보조.
                 VStack(spacing: 8) {
                     Button {
                         onAccept()

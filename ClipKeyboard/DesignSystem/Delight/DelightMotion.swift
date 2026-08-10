@@ -2,7 +2,7 @@
 //  DelightMotion.swift
 //  ClipKeyboard
 //
-//  DOSSIER 컨셉의 delight 레이어 — **모션 예산 단일 출처**.
+//  DOSSIER 컨셉의 delight 레이어 - **모션 예산 단일 출처**.
 //
 //  핵심 규칙: delight는 빈도의 역수로 배분한다.
 //  이 앱의 핵심 동작(문구 입력)은 하루 20~50번 반복되므로,
@@ -23,11 +23,11 @@ enum Delight {
 
     /// 연출 등급. 값은 지속 시간(초).
     enum Tier {
-        /// 매일 20~50회 — 문구 입력, 자동 편철. 눈이 아니라 손끝에만 남는다.
+        /// 매일 20~50회 - 문구 입력, 자동 편철. 눈이 아니라 손끝에만 남는다.
         case daily
-        /// 주 1~2회 — 검증 통과, 봉인/개봉. 시선을 끌어도 되지만 작업을 멈추면 안 된다.
+        /// 주 1~2회 - 검증 통과, 봉인/개봉. 시선을 끌어도 되지만 작업을 멈추면 안 된다.
         case occasional
-        /// 평생 1~2회 — 발급 완료, 기간 요약. 여기서만 화면을 크게 써도 된다.
+        /// 평생 1~2회 - 발급 완료, 기간 요약. 여기서만 화면을 크게 써도 된다.
         case once
 
         var duration: Double {
@@ -71,39 +71,39 @@ enum Delight {
         AppLog.info(.usage, "🔖 [Delight.setEnabled] 연출 \(enabled ? "켬" : "끔")")
     }
 
-    // MARK: - 햅틱 (동작별 명명 — 세기를 부르지 않는다)
+    // MARK: - 햅틱 (동작별 명명 - 세기를 부르지 않는다)
 
-    /// 날인 — 문구가 입력된 순간. 도장은 가벼운 물건이 아니므로 medium 한 번.
+    /// 날인 - 문구가 입력된 순간. 도장은 가벼운 물건이 아니므로 medium 한 번.
     static func stamp() {
         guard isEnabled else { return }
         HapticManager.shared.medium()
     }
 
-    /// 편철 — 복사한 것이 제 칸에 꽂힌 순간.
+    /// 편철 - 복사한 것이 제 칸에 꽂힌 순간.
     static func filed() {
         guard isEnabled else { return }
         HapticManager.shared.selection()
     }
 
-    /// 검증 통과 — 체크섬이 맞았다.
+    /// 검증 통과 - 체크섬이 맞았다.
     static func verified() {
         guard isEnabled else { return }
         HapticManager.shared.success()
     }
 
-    /// 검증 실패 — 나무라지 않는다. error가 아니라 soft로 알린다.
+    /// 검증 실패 - 나무라지 않는다. error가 아니라 soft로 알린다.
     static func rejected() {
         guard isEnabled else { return }
         HapticManager.shared.soft()
     }
 
-    /// 봉함 — 보안 메모를 잠갔다.
+    /// 봉함 - 보안 메모를 잠갔다.
     static func sealed() {
         guard isEnabled else { return }
         HapticManager.shared.rigid()
     }
 
-    /// 개봉 — 생체인증으로 열었다.
+    /// 개봉 - 생체인증으로 열었다.
     static func unsealed() {
         guard isEnabled else { return }
         HapticManager.shared.soft()
@@ -113,7 +113,7 @@ enum Delight {
 // MARK: - 잉크 농도
 
 extension Delight {
-    /// 사용 횟수를 잉크 농도로 바꾼다 — 많이 쓴 문구일수록 자국이 진하다.
+    /// 사용 횟수를 잉크 농도로 바꾼다 - 많이 쓴 문구일수록 자국이 진하다.
     ///
     /// 숫자를 세어 보여주는 대신 농도로 보여주는 이유: 사용 흔적은 성과가 아니라 애착이다.
     /// 0회는 아예 자국이 없고(0.0), 100회 이상에서 상한(0.5)에 도달해 더는 진해지지 않는다.

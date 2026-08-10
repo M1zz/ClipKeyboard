@@ -2,7 +2,7 @@
 //  AppSymbol.swift
 //  ClipKeyboard
 //
-//  자동 생성 가능 — 정적 SF Symbol 이름 단일 출처(Single Source of Truth).
+//  자동 생성 가능 - 정적 SF Symbol 이름 단일 출처(Single Source of Truth).
 //  메인앱·키보드(ClipKeyboardExtension)·macOS(.tap) 3개 타겟이 공유한다.
 //  하드코딩 리터럴 대신 항상 이 상수를 사용할 것.
 //
@@ -38,7 +38,7 @@ enum AppSymbol {
     static let chevronForward = "chevron.forward"
     static let chevronRight = "chevron.right"
     static let chevronRightCircleFill = "chevron.right.circle.fill"
-    /// 단축어 마트 — 차려 둔 것에서 골라 담는 자리.
+    /// 단축어 마트 - 차려 둔 것에서 골라 담는 자리.
     static let bagFill = "bag.fill"
     static let circle = "circle"
     static let circleFill = "circle.fill"

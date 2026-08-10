@@ -2,7 +2,7 @@
 //  TemplateVariableProcessorSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — 자동 변수 치환, 커스텀 토큰 추출, 입력값 치환,
+//  Swift Testing 스위트 - 자동 변수 치환, 커스텀 토큰 추출, 입력값 치환,
 //  메모+템플릿 합성, 숫자 토큰 판정.
 //
 //  명세: docs/FEATURE_SPEC.md §3
@@ -12,7 +12,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("TemplateVariableProcessor — 변수 처리")
+@Suite("TemplateVariableProcessor: 변수 처리")
 struct TemplateVariableProcessorSwiftTests {
 
     /// 결정적 검증을 위한 고정 기준 시각 (현재 캘린더/타임존 기준 컴포넌트로 구성).

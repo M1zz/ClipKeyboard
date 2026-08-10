@@ -1,4 +1,4 @@
-# 🎯 ClipKeyboard 마케팅 마스터 플랜 — 2026-07
+# 🎯 ClipKeyboard 마케팅 마스터 플랜, 2026-07
 
 > 작성: 2026-07-07 (v4.3.5 출시 직후 리서치 기반)
 > 관련 문서: [ASO_2026-07.md](ASO_2026-07.md) · [KR_COMMUNITY_POSTS.md](KR_COMMUNITY_POSTS.md) · [PRODUCT_HUNT_LAUNCH.md](PRODUCT_HUNT_LAUNCH.md) · [APPLE_FEATURING_PITCH.md](APPLE_FEATURING_PITCH.md) · 기존 [SEEDING-GUIDE.md](SEEDING-GUIDE.md) · [REDDIT_LAUNCH_POST.md](REDDIT_LAUNCH_POST.md) · [LAUNCH_TODO.md](LAUNCH_TODO.md)
@@ -17,42 +17,42 @@
 
 **경쟁사 약점 = 구독 피로.** 메모복붙(주 ₩1,600 구독)은 "예고 없는 강제 구독 전환" 불만 리뷰가 다수. **"구독 없음 · 일시불"**이 가장 날카로운 차별화 메시지.
 
-## 2. 전략: 2트랙 (글로벌 먼저 — 사용자 결정 2026-07-07)
+## 2. 전략: 2트랙 (글로벌 먼저, 사용자 결정 2026-07-07)
 
 기존 SEEDING-GUIDE의 A세그먼트(글로벌 디지털 노마드) 집중 전략을 유지한다.
 
-- **Track 1 (지금~4주): 글로벌 런칭** — Product Hunt → Reddit(r/digitalnomad, r/freelance) → Show HN. 기존 REDDIT_LAUNCH_POST.md 그대로 사용 가능(Offer Code만 재발급). 선행 조건: 스크린샷/GIF 에셋 + Offer Code.
-- **Track 2 (글로벌 런칭 후): 한국 커뮤니티** — KR_COMMUNITY_POSTS.md 4종으로 리뷰 기반 보강 + Threads 지속.
+- **Track 1 (지금~4주): 글로벌 런칭**, Product Hunt → Reddit(r/digitalnomad, r/freelance) → Show HN. 기존 REDDIT_LAUNCH_POST.md 그대로 사용 가능(Offer Code만 재발급). 선행 조건: 스크린샷/GIF 에셋 + Offer Code.
+- **Track 2 (글로벌 런칭 후): 한국 커뮤니티**, KR_COMMUNITY_POSTS.md 4종으로 리뷰 기반 보강 + Threads 지속.
 
 ## 3. 4주 실행 캘린더
 
-### Week 1 — 기반 정비 + 런칭 준비 (비용 0)
+### Week 1, 기반 정비 + 런칭 준비 (비용 0)
 - [x] 랜딩페이지 가격 오류 수정 (₩14,900 일시불 → 무료+Pro ₩17,000)
-- [ ] App Store Connect **프로모션 텍스트** 즉시 교체 (ASO_2026-07.md, 심사 불필요) — 🙋 사용자
-- [ ] Apple 피처링 신청 제출 (APPLE_FEATURING_PITCH.md) — 🙋 사용자 (10분)
-- [ ] 새 Offer Code 발급: 예) $2.99, 1,000회, 2주 (기존 APRIL 만료됨) — 🙋 사용자
-- [ ] 캠페인 링크 pt/ct 발급 (LAUNCH_TODO.md §1) — 🙋 사용자
+- [ ] App Store Connect **프로모션 텍스트** 즉시 교체 (ASO_2026-07.md, 심사 불필요), 🙋 사용자
+- [ ] Apple 피처링 신청 제출 (APPLE_FEATURING_PITCH.md), 🙋 사용자 (10분)
+- [ ] 새 Offer Code 발급: 예) $2.99, 1,000회, 2주 (기존 APRIL 만료됨). 🙋 사용자
+- [ ] 캠페인 링크 pt/ct 발급 (LAUNCH_TODO.md §1), 🙋 사용자
 - [x] Reddit 계정 카르마 점검 (2026-07-07 확인: u/Ok-Soil3152 = **카르마 43**, 계정 1년차) → **300+까지 카르마 쌓기 필요.** 계정 나이는 통과, 카르마가 갭. 런칭 전 2~3주간 r/digitalnomad·r/freelance·r/iOSProgramming에서 도움 되는 댓글 활동 (SEEDING-GUIDE.md 모니터링 키워드 활용). 홍보 링크 없이 순수 답변만.
 
-### Week 2 — 에셋 제작 (글로벌 런칭 블로커)
-- [ ] 스크린샷 6종 리뉴얼 (ASO/PH 공용, ASO_2026-07.md 표 참조) — 🙋 사용자 (실기기 캡처)
+### Week 2, 에셋 제작 (글로벌 런칭 블로커)
+- [ ] 스크린샷 6종 리뉴얼 (ASO/PH 공용, ASO_2026-07.md 표 참조), 🙋 사용자 (실기기 캡처)
 - [ ] 키보드 입력 데모 GIF (PH 썸네일 + Reddit 본문 공용)
 - [ ] 랜딩페이지(영문 모드)에 실기기 스크린샷 삽입 (현재 이모지뿐)
 
 ### 게시 완료 (2026-07-07)
-- [x] **r/iOSApps App Shelf 메가스레드** 댓글 (ABC 형식, 개발자 신분 공개) — https://www.reddit.com/r/iosapps/comments/1ukpe7t/megathread_the_app_shelf_july_2026/
+- [x] **r/iOSApps App Shelf 메가스레드** 댓글 (ABC 형식, 개발자 신분 공개): https://www.reddit.com/r/iosapps/comments/1ukpe7t/megathread_the_app_shelf_july_2026/
   - 참고: r/iOSApps 메인 피드는 리뷰 20+(현재 ~15) 또는 실명+개인정보처리방침&**이용약관** 페이지 필요. 이용약관 페이지 만들면 Transparency 경로로 메인 피드 게시 가능
-- [x] **r/SideProject** 빌드 스토리 포스트 — https://www.reddit.com/r/SideProject/comments/1upncdc/i_almost_sent_a_client_my_bank_account_number/
-- [ ] r/AppHunt — 스팸 필터 회피 위해 **24시간 이후** 게시 (계정에 이전 게시 이력 있음)
+- [x] **r/SideProject** 빌드 스토리 포스트, https://www.reddit.com/r/SideProject/comments/1upncdc/i_almost_sent_a_client_my_bank_account_number/
+- [ ] r/AppHunt, 스팸 필터 회피 위해 **24시간 이후** 게시 (계정에 이전 게시 이력 있음)
 
-### Week 3 — 글로벌 런칭
+### Week 3: 글로벌 런칭
 - [ ] Product Hunt 런칭 (PRODUCT_HUNT_LAUNCH.md, 화~목 00:01 PT)
 - [ ] D+2: r/digitalnomad (REDDIT_LAUNCH_POST.md, Offer Code만 치환)
 - [ ] D+4: r/freelance
 - [ ] D+7: Show HN
 - [ ] 4.3.6 제출 시 ASO 제목/부제/키워드/설명 교체 (ASO_2026-07.md)
 
-### Week 4 — 한국 커뮤니티 (KR_COMMUNITY_POSTS.md 복붙)
+### Week 4, 한국 커뮤니티 (KR_COMMUNITY_POSTS.md 복붙)
 - [ ] D1: 디스콰이엇 런칭글 (PH 결과 스토리 포함 가능)
 - [ ] D2: 루리웹 홍보게시판
 - [ ] D4: 클리앙 아사모 사용기
@@ -63,7 +63,7 @@
 
 - ✅ `requestReview` 이미 구현됨 (SettingView, ReviewRequestView)
 - [ ] 트리거 최적화 검토: "키보드로 N번째 입력 성공 직후" 등 만족 순간에 노출되는지 확인
-- [ ] 커뮤니티 글 반응자에게 댓글로 리뷰 요청 (직접적 보상 제공은 스토어 규정 위반 — 부탁만)
+- [ ] 커뮤니티 글 반응자에게 댓글로 리뷰 요청 (직접적 보상 제공은 스토어 규정 위반, 부탁만)
 
 ## 5. KPI (주간 체크)
 
@@ -77,6 +77,6 @@
 
 ## 6. 하지 않기로 한 것
 
-- 유료 광고 (Apple Search Ads 포함) — 리뷰 50개 전에는 CAC 회수 불가. 리뷰 기반 생긴 뒤 소액 테스트
-- 인플루언서 협업 — 에셋(스크린샷·데모 GIF) 준비 후
-- "영어 템플릿 30종" 마케팅 — 미구현 기능 주장 금지 (구현되면 글로벌 트랙의 킬러 소재)
+- 유료 광고 (Apple Search Ads 포함). 리뷰 50개 전에는 CAC 회수 불가. 리뷰 기반 생긴 뒤 소액 테스트
+- 인플루언서 협업, 에셋(스크린샷·데모 GIF) 준비 후
+- "영어 템플릿 30종" 마케팅, 미구현 기능 주장 금지 (구현되면 글로벌 트랙의 킬러 소재)

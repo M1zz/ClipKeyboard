@@ -37,7 +37,7 @@ python3 make_shot.py        # → out/01.png, out/02.png ...
 ## 스타일 조정 (`shots.json` 의 `defaults` 또는 컷별)
 
 - `bg_top` / `bg_bottom` : 배경 그라디언트 (밝게: `#F5F5F7`→`#FFFFFF`, 어둡게: 기본값)
-- `accent` : 아이브로우(윗줄) 색 — 기본 `#4FACFE` (앱 브랜드 블루)
+- `accent` : 아이브로우(윗줄) 색, 기본 `#4FACFE` (앱 브랜드 블루)
 - `title_color` / `title_size` / `eyebrow_size`
 - `phone_scale` : 폰 크기(캔버스 폭 대비, 0.86)
 - `phone_top` : 폰 상단 위치(높을수록 아래로). 폰이 캔버스 하단으로 자연스럽게 bleed 됩니다.

@@ -5,8 +5,8 @@
 //  비자 페이지 집계 규칙을 고정한다. 순수 함수라 저장소 없이 검증된다.
 //
 //  특히 지켜야 하는 두 지점:
-//   ① 이 화면은 공유 대상이다 — **보안 문구는 제목조차 새어나가면 안 된다.**
-//   ② 정렬이 흔들리면 도장 순서가 매번 바뀐다 — 동점 처리까지 못 박는다.
+//   ① 이 화면은 공유 대상이다 - **보안 문구는 제목조차 새어나가면 안 된다.**
+//   ② 정렬이 흔들리면 도장 순서가 매번 바뀐다 - 동점 처리까지 못 박는다.
 //
 
 import XCTest
@@ -59,7 +59,7 @@ final class UsagePassportTests: XCTestCase {
         XCTAssertEqual(summary.stamps.map(\.label), ["많이", "중간", "적게"])
     }
 
-    /// 사용 횟수가 같으면 최근에 쓴 것이 앞에 온다 — 순서가 매번 흔들리면 안 된다.
+    /// 사용 횟수가 같으면 최근에 쓴 것이 앞에 온다 - 순서가 매번 흔들리면 안 된다.
     func testTiesBreakByRecency() {
         let old = Date(timeIntervalSince1970: 1_000)
         let recent = Date(timeIntervalSince1970: 9_000)

@@ -221,7 +221,7 @@ final class ClipboardDetectionTests: XCTestCase {
 
     // MARK: - Helper Method
 
-    /// 실제 ClipboardClassificationService를 호출 — 이전엔 자체 정규식이 약해 service 동작과 어긋났음
+    /// 실제 ClipboardClassificationService를 호출 - 이전엔 자체 정규식이 약해 service 동작과 어긋났음
     private func detectClipboardType(_ content: String) -> (type: ClipboardItemType, confidence: Double) {
         return ClipboardClassificationService.shared.classify(content: content)
     }

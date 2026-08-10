@@ -2,7 +2,7 @@
 //  VaultScreen.swift
 //  ClipKeyboard
 //
-//  **금고** — 지금까지 쌓인 것을 여는 자리.
+//  **금고** - 지금까지 쌓인 것을 여는 자리.
 //
 //  들어오면 금고가 닫혀 있다가 열린다. 왜 굳이 닫힌 걸 먼저 보여주나:
 //  열려 있는 그림을 바로 띄우면 그냥 삽화지만, 열리는 걸 보면 **내 것을 여는 일**이 된다.
@@ -183,7 +183,7 @@ struct VaultScreen: View {
 
 /// 열린 금고와 그 **안에 실제로 쌓인 것**.
 ///
-/// 내부 좌표는 `VaultSprite.interior` 하나만 본다 — 스프라이트를 고치면 여기도 따라 움직인다.
+/// 내부 좌표는 `VaultSprite.interior` 하나만 본다 - 스프라이트를 고치면 여기도 따라 움직인다.
 /// 숫자를 여기에 또 적으면 언젠가 동전이 벽을 뚫고 나온다.
 struct VaultInterior: View {
     let savedSeconds: Double

@@ -16,7 +16,7 @@ struct QuickPattern: Identifiable {
     let icon: String
     /// 제목(키) 제안.
     let title: String
-    /// 값 골격 — 라벨만 둔 빈칸 또는 {플레이스홀더}.
+    /// 값 골격 - 라벨만 둔 빈칸 또는 {플레이스홀더}.
     let scaffold: String
 
     static var defaults: [QuickPattern] {

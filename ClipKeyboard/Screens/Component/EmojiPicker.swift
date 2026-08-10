@@ -61,7 +61,7 @@ struct EmojiPicker: View {
     /// Dynamic Type에 맞춰 이모지 글자 크기를 함께 키운다(기본 32pt 기준).
     @ScaledMetric(relativeTo: .title) private var emojiSize: CGFloat = 32
 
-    /// 이모지 크기에 따라 열을 자동 재배치 — 큰 글자 크기에서 7열 고정으로 잘리지 않도록 adaptive.
+    /// 이모지 크기에 따라 열을 자동 재배치 - 큰 글자 크기에서 7열 고정으로 잘리지 않도록 adaptive.
     private var columns: [GridItem] {
         [GridItem(.adaptive(minimum: emojiSize + 12), spacing: 8)]
     }

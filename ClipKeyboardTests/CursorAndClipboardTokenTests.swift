@@ -5,9 +5,9 @@
 //  v4.4.4 신규 토큰 두 개의 규약을 고정한다.
 //
 //  가장 중요한 두 지점:
-//   ① 커서 토큰은 **값이 아니라 위치**다 — "값을 입력하세요" 오버레이가 뜨면 안 된다.
+//   ① 커서 토큰은 **값이 아니라 위치**다 - "값을 입력하세요" 오버레이가 뜨면 안 된다.
 //      (extractCustomTokens가 이 토큰을 건지면 문구를 누를 때마다 빈 폼이 뜬다)
-//   ② 커서 토큰은 **기본적으로 제거**된다 — 캐럿을 못 옮기는 경로(클립보드 복사·미리보기)에서
+//   ② 커서 토큰은 **기본적으로 제거**된다 - 캐럿을 못 옮기는 경로(클립보드 복사·미리보기)에서
 //      토큰이 살아남으면 사용자에게 "{커서}"가 그대로 붙여넣어진다.
 //
 
@@ -43,7 +43,7 @@ struct CursorAndClipboardTokenTests {
         #expect(placement.offsetFromEnd == ", thanks".count)
     }
 
-    @Test("맨 끝의 토큰은 이동이 필요 없다 — 캐럿이 이미 거기 있다")
+    @Test("맨 끝의 토큰은 이동이 필요 없다. 캐럿이 이미 거기 있다")
     func tokenAtEndNeedsNoMove() {
         let placement = TemplateVariableProcessor.resolveCursor(in: "계좌번호: {커서}")
         #expect(placement.text == "계좌번호: ")
@@ -79,7 +79,7 @@ struct CursorAndClipboardTokenTests {
 
     // MARK: - 제거가 기본 (가장 중요)
 
-    @Test("process는 기본적으로 커서 토큰을 지운다 — 복사 경로로 새면 안 된다")
+    @Test("process는 기본적으로 커서 토큰을 지운다. 복사 경로로 새면 안 된다")
     func processStripsCursorByDefault() {
         let out = TemplateVariableProcessor.process("계좌: {커서}입금")
         #expect(out == "계좌: 입금")
@@ -106,7 +106,7 @@ struct CursorAndClipboardTokenTests {
         #expect(out == "ABC 확인 부탁드려요")
     }
 
-    /// 전체 접근이 꺼져 있거나 클립보드가 비었을 때 — 빈칸이 남는 게
+    /// 전체 접근이 꺼져 있거나 클립보드가 비었을 때 - 빈칸이 남는 게
     /// "{clipboard}"가 그대로 붙여넣어지는 것보다 낫다.
     @Test("클립보드 값이 없으면 토큰을 지운다")
     func clipboardMissingLeavesBlank() {
@@ -148,7 +148,7 @@ struct CursorAndClipboardTokenTests {
     // MARK: - 커스텀 플레이스홀더로 오인되지 않을 것 (회귀 방지)
 
     /// 이게 깨지면 `{커서}`가 든 문구를 누를 때마다 "커서에 넣을 값"을 묻는
-    /// 빈 입력 폼이 뜬다 — 기능이 아니라 버그로 보인다.
+    /// 빈 입력 폼이 뜬다 - 기능이 아니라 버그로 보인다.
     @Test("새 토큰들은 사용자 입력 토큰으로 추출되지 않는다")
     func newTokensAreNotCustomPlaceholders() {
         let tokens = TemplateVariableProcessor.extractCustomTokens(in: "{이름}님 {커서} {cursor} {clipboard} {클립보드}")

@@ -79,7 +79,7 @@ final class SuggestionManager: ObservableObject {
             return allSuggestions
         }
 
-        // 1) usageCategories 시나리오 — personas set이 매칭하거나 비어있으면(universal) 포함
+        // 1) usageCategories 시나리오 - personas set이 매칭하거나 비어있으면(universal) 포함
         let fromUsageGuide = usageCategories.flatMap { category in
             category.scenarios
                 .filter { scenario in
@@ -97,7 +97,7 @@ final class SuggestionManager: ObservableObject {
                 }
         }
 
-        // 2) personaSeed — 선택된 페르소나 + general
+        // 2) personaSeed - 선택된 페르소나 + general
         let fromPersonaSeeds = Self.personaSeedSuggestions
             .filter { $0.persona == selected || $0.persona == .general }
             .map { seed in
@@ -118,7 +118,7 @@ final class SuggestionManager: ObservableObject {
 
     // MARK: - Persona seed pool (v4.0.8)
 
-    /// 페르소나별 친화 seed. 본문은 영어/한국어 mix — 페르소나 맥락에 맞춰 자연스럽게.
+    /// 페르소나별 친화 seed. 본문은 영어/한국어 mix - 페르소나 맥락에 맞춰 자연스럽게.
     private struct PersonaSeed {
         let stableID: Int
         let emoji: String
@@ -133,7 +133,7 @@ final class SuggestionManager: ObservableObject {
         // Digital Nomad / Freelancer (6)
         PersonaSeed(stableID: 90001, emoji: "💸",
                     titleKey: "Currency preference reply",
-                    content: "I invoice in USD or EUR (your choice). Wise gets it to me fastest — happy to share my details if you go with Wise.",
+                    content: "I invoice in USD or EUR (your choice). Wise gets it to me fastest, happy to share my details if you go with Wise.",
                     feature: .template, persona: .nomad, categoryKey: "Nomad essentials"),
         PersonaSeed(stableID: 90002, emoji: "🛂",
                     titleKey: "Visa run notice",
@@ -145,7 +145,7 @@ final class SuggestionManager: ObservableObject {
                     feature: .snippet, persona: .nomad, categoryKey: "Nomad essentials"),
         PersonaSeed(stableID: 90004, emoji: "🌐",
                     titleKey: "Async-first availability",
-                    content: "I work async-first — feel free to leave loom/voice notes. I'll batch-reply during my morning ({timezone}).",
+                    content: "I work async-first: feel free to leave loom/voice notes. I'll batch-reply during my morning ({timezone}).",
                     feature: .template, persona: .nomad, categoryKey: "Timezone & availability"),
         PersonaSeed(stableID: 90005, emoji: "💼",
                     titleKey: "Cross-border invoicing notice",
@@ -185,7 +185,7 @@ final class SuggestionManager: ObservableObject {
                     feature: .template, persona: .student, categoryKey: "Student"),
         PersonaSeed(stableID: 90022, emoji: "👥",
                     titleKey: "Group project kickoff",
-                    content: "Hi team, I'm {이름} ({학번}). Let's set up a kickoff — when works for everyone this week?",
+                    content: "Hi team, I'm {이름} ({학번}). Let's set up a kickoff, when works for everyone this week?",
                     feature: .template, persona: .student, categoryKey: "Student"),
         PersonaSeed(stableID: 90023, emoji: "📎",
                     titleKey: "Assignment submission",

@@ -67,19 +67,19 @@ private extension ClipCategory {
         }
     }
 
-    /// 배경색 — 옅은 틴트.
+    /// 배경색 - 옅은 틴트.
     func backgroundColor(isDark: Bool) -> Color {
         let h = hue
         if isDark {
-            // oklch(0.3, chroma*0.6, hue) 근사 — 어둡고 낮은 채도
+            // oklch(0.3, chroma*0.6, hue) 근사 - 어둡고 낮은 채도
             return Color(hue: h.hue, saturation: h.chroma * 2.0, brightness: 0.25)
         } else {
-            // oklch(0.92, chroma*0.5, hue) 근사 — 매우 옅은 틴트
+            // oklch(0.92, chroma*0.5, hue) 근사 - 매우 옅은 틴트
             return Color(hue: h.hue, saturation: h.chroma * 1.2, brightness: 0.96)
         }
     }
 
-    /// 전경(아이콘) 색 — 중간 채도.
+    /// 전경(아이콘) 색 - 중간 채도.
     func foregroundColor(isDark: Bool) -> Color {
         let h = hue
         if isDark {
@@ -107,7 +107,7 @@ struct CatIcon: View {
                 .foregroundColor(category.foregroundColor(isDark: theme.isDark))
         }
         .frame(width: size, height: size)
-        // 장식 요소 — 부모 행의 accessibilityLabel이 카테고리 정보를 포함하므로 숨김
+        // 장식 요소 - 부모 행의 accessibilityLabel이 카테고리 정보를 포함하므로 숨김
         .accessibilityHidden(true)
     }
 }

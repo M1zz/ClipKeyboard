@@ -3,7 +3,7 @@ name: CI
 # 로컬에서만 돌던 게이트(scripts/predeploy.sh)를 PR/푸시마다 자동으로 돌린다.
 # 테스트 396개와 다국어 검사가 이미 있는데 실행이 사람 손에 달려 있던 문제를 없앤다.
 #
-# 게이트 로직은 predeploy.sh 한 곳에만 둔다 — 여기서 명령을 복제하면
+# 게이트 로직은 predeploy.sh 한 곳에만 둔다 - 여기서 명령을 복제하면
 # 로컬과 CI가 갈라진다.
 
 on:
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # 같은 브랜치에 연속 푸시하면 이전 실행은 취소 — 러너 시간 절약
+  # 같은 브랜치에 연속 푸시하면 이전 실행은 취소 - 러너 시간 절약
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 

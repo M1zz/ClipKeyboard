@@ -11,7 +11,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import os
 
-/// 익스텐션은 print가 Console에 안 잡힘 — Console.app에서
+/// 익스텐션은 print가 Console에 안 잡힘 - Console.app에서
 /// subsystem:com.Ysoup.TokenMemo.share 필터로 확인.
 private let shareLog = Logger(subsystem: "com.Ysoup.TokenMemo.share", category: "share")
 
@@ -86,7 +86,7 @@ class ShareViewController: UIViewController {
     }
 
     private func computeDefaults() {
-        // 판정 규칙은 동작 확장과 **같은 곳**에 있다 — 두 곳이 다르게 이름 지으면 안 된다.
+        // 판정 규칙은 동작 확장과 **같은 곳**에 있다 - 두 곳이 다르게 이름 지으면 안 된다.
         let detected = QuickShortcutSave.detect(text: sharedText, hasImages: !sharedImages.isEmpty)
         detectedTitle = detected.title
         detectedCategory = detected.category
@@ -114,7 +114,7 @@ class ShareViewController: UIViewController {
         present(host, animated: true)
     }
 
-    /// 바로 쓸 수 있는 단축어로 저장 — 실제 쓰기는 `QuickShortcutSave` 가 한다.
+    /// 바로 쓸 수 있는 단축어로 저장 - 실제 쓰기는 `QuickShortcutSave` 가 한다.
     private func saveAsShortcut(title: String, value: String) {
         let outcome = QuickShortcutSave.saveAsShortcut(title: title, value: value,
                                                        category: detectedCategory, images: sharedImages)
@@ -130,7 +130,7 @@ class ShareViewController: UIViewController {
 
     private func finish(_ outcome: QuickShortcutSave.Outcome) {
         guard outcome != .failed else {
-            shareLog.error("📤 [Share] 저장 실패 — 시트를 닫지 않는다")
+            shareLog.error("📤 [Share] 저장 실패, 시트를 닫지 않는다")
             return
         }
         UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -146,9 +146,9 @@ class ShareViewController: UIViewController {
 
 /// 공유받은 것을 어디에 둘까.
 enum ShareDestination: String, CaseIterable, Identifiable {
-    /// **기본값.** 바로 쓸 수 있는 단축어 — 키보드에 곧장 올라온다.
+    /// **기본값.** 바로 쓸 수 있는 단축어 - 키보드에 곧장 올라온다.
     case shortcut
-    /// 나중에 정하기 — 보관함에 두고 앱에서 추린다.
+    /// 나중에 정하기 - 보관함에 두고 앱에서 추린다.
     case inbox
 
     var id: String { rawValue }

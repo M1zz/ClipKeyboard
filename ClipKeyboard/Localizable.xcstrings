@@ -23,7 +23,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "— separator"
+            "value" : "--- separator"
           }
         },
         "ko" : {
@@ -85,12 +85,12 @@
       }
     },
     "'%@' 단축어가 %d개 있어요" : {
-      "comment" : "Category suggestion tip title — category name, memo count",
+      "comment" : "Category suggestion tip title: category name, memo count",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "'%@' — %d snippets"
+            "value" : "'%@': %d snippets"
           }
         },
         "ko" : {
@@ -135,7 +135,7 @@
       }
     },
     "'%@' 카테고리를 만들어 한 곳에 모아드릴까요?" : {
-      "comment" : "Category suggestion tip message — category name",
+      "comment" : "Category suggestion tip message: category name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -374,7 +374,7 @@
       }
     },
     "\"Where are you based?\" answer" : {
-      "comment" : "Scenario title — based location answer",
+      "comment" : "Scenario title: based location answer",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -820,19 +820,19 @@
         }
       }
     },
-    "%@ · 단축어 %d개 — 현재 데이터는 이 시점으로 교체됩니다." : {
+    "%@ · 단축어 %d개, 현재 데이터는 이 시점으로 교체됩니다." : {
       "comment" : "Version restore confirm message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ · %2$d snippets — your current data will be replaced with this version."
+            "value" : "%1$@ · %2$d snippets: your current data will be replaced with this version."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ · 단축어 %d개 — 현재 데이터는 이 시점으로 교체됩니다."
+            "value" : "%@ · 단축어 %d개, 현재 데이터는 이 시점으로 교체됩니다."
           }
         }
       }
@@ -934,7 +934,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Restores to %@ — %d snippets."
+            "value" : "Restores to %@: %d snippets."
           }
         }
       }
@@ -1454,20 +1454,20 @@
         }
       }
     },
-    "%d개 단축어 잠김 — iOS에서 Pro 구매 시 동기화됩니다" : {
+    "%d개 단축어 잠김, iOS에서 Pro 구매 시 동기화됩니다" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d snippets locked — unlocks when you buy Pro on iOS"
+            "value" : "%d snippets locked: unlocks when you buy Pro on iOS"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d개 단축어 잠김 — iOS에서 Pro 구매 시 동기화됩니다"
+            "value" : "%d개 단축어 잠김, iOS에서 Pro 구매 시 동기화됩니다"
           }
         }
       }
@@ -1869,7 +1869,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "• The most reliable way to keep your data — as a file, independent of iCloud\n• Importing merges into your current data without erasing it (newest version wins for matching items)"
+            "value" : "• The most reliable way to keep your data, as a file, independent of iCloud\n• Importing merges into your current data without erasing it (newest version wins for matching items)"
           }
         }
       }
@@ -2621,14 +2621,14 @@
         }
       }
     },
-    "18 moments where ClipKeyboard saves you minutes — or rescues a mistake." : {
+    "18 moments where ClipKeyboard saves you minutes, or rescues a mistake." : {
       "comment" : "Usage guide hero subtitle",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "18 moments where ClipKeyboard saves you minutes — or saves you from a mistake."
+            "value" : "18 moments where ClipKeyboard saves you minutes, or saves you from a mistake."
           }
         },
         "ko" : {
@@ -2651,7 +2651,7 @@
       }
     },
     "30 non-native-speaker-friendly templates." : {
-      "comment" : "Usage category description — pro english",
+      "comment" : "Usage category description: pro english",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -2807,13 +2807,13 @@
         }
       }
     },
-    "Add snippets in the main app — they'll appear here in seconds." : {
+    "Add snippets in the main app, they'll appear here in seconds." : {
       "comment" : "Empty hint: zero memos",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add snippets in the main app — they'll appear here in seconds."
+            "value" : "Add snippets in the main app, they'll appear here in seconds."
           }
         },
         "ko" : {
@@ -2877,7 +2877,7 @@
       }
     },
     "After successful project wrap-up" : {
-      "comment" : "Scenario context — wrap up",
+      "comment" : "Scenario context: wrap up",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3090,7 +3090,7 @@
       }
     },
     "Asking for testimonial" : {
-      "comment" : "Scenario title — testimonial",
+      "comment" : "Scenario title: testimonial",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3160,20 +3160,20 @@
         }
       }
     },
-    "Auto-classifies what you copy — find it later instantly." : {
-      "comment" : "Usage category description — smart clipboard",
+    "Auto-classifies what you copy: find it later instantly." : {
+      "comment" : "Usage category description: smart clipboard",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auto-classifies what you copy — find it later instantly."
+            "value" : "Auto-classifies what you copy: find it later instantly."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "복사한 내용을 자동 분류 — 나중에 즉시 찾기"
+            "value" : "복사한 내용을 자동 분류, 나중에 즉시 찾기"
           }
         }
       }
@@ -3197,7 +3197,7 @@
       }
     },
     "Banking & Payments" : {
-      "comment" : "Usage category title — banking",
+      "comment" : "Usage category title: banking",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3214,20 +3214,20 @@
         }
       }
     },
-    "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable." : {
-      "comment" : "Example — call availability",
+    "Based nowhere in particular: currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable." : {
+      "comment" : "Example: call availability",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable."
+            "value" : "Based nowhere in particular: currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "정해진 거점은 없고 — 지금은 {city}에 있습니다. 비동기 우선 커뮤니케이션 환경으로 타임존이 큰 문제가 되지 않지만, 연락 가능한 시간대는 명확히 알려드리겠습니다."
+            "value" : "정해진 거점은 없고, 지금은 {city}에 있습니다. 비동기 우선 커뮤니케이션 환경으로 타임존이 큰 문제가 되지 않지만, 연락 가능한 시간대는 명확히 알려드리겠습니다."
           }
         }
       }
@@ -3249,20 +3249,20 @@
         }
       }
     },
-    "Both options off by default — your snippet grid gets more room. Toggle on as needed." : {
+    "Both options off by default, your snippet grid gets more room. Toggle on as needed." : {
       "comment" : "Section footer: keyboard sections",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Both options off by default — your snippet grid gets more room. Toggle on as needed."
+            "value" : "Both options off by default, your snippet grid gets more room. Toggle on as needed."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기본은 둘 다 OFF — 스니펫 그리드 공간 우선. 필요 시 켜세요."
+            "value" : "기본은 둘 다 OFF, 스니펫 그리드 공간 우선. 필요 시 켜세요."
           }
         }
       }
@@ -3321,7 +3321,7 @@
       }
     },
     "Can you send your Wise details?" : {
-      "comment" : "Scenario context — wise",
+      "comment" : "Scenario context: wise",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3373,14 +3373,14 @@
         }
       }
     },
-    "Capture anything in a tap — decide later whether to keep it as a keyboard memo." : {
+    "Capture anything in a tap, decide later whether to keep it as a keyboard memo." : {
       "comment" : "What's new subtitle",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Capture anything in a tap — decide later whether to keep it as a keyboard snippet."
+            "value" : "Capture anything in a tap, decide later whether to keep it as a keyboard snippet."
           }
         },
         "ko" : {
@@ -3409,20 +3409,20 @@
         }
       }
     },
-    "Captured items are kept in the inbox with no rush — nothing is auto-deleted." : {
+    "Captured items are kept in the inbox with no rush, nothing is auto-deleted." : {
       "comment" : "What's new feature 2 detail",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Captured items are kept in the inbox with no rush — nothing is auto-deleted."
+            "value" : "Captured items are kept in the inbox with no rush, nothing is auto-deleted."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "담은 항목은 서두르지 않아도 보관함에 남아요 — 자동으로 삭제되지 않아요."
+            "value" : "담은 항목은 서두르지 않아도 보관함에 남아요. 자동으로 삭제되지 않아요."
           }
         }
       }
@@ -3533,7 +3533,7 @@
       }
     },
     "Client is waiting for you" : {
-      "comment" : "Scenario context — client waiting",
+      "comment" : "Scenario context: client waiting",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3551,7 +3551,7 @@
       }
     },
     "Client requests something outside scope" : {
-      "comment" : "Scenario context — out of scope",
+      "comment" : "Scenario context: out of scope",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -3569,7 +3569,7 @@
       }
     },
     "Client's IBAN → filed automatically" : {
-      "comment" : "Scenario context — iban filed",
+      "comment" : "Scenario context: iban filed",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4031,7 +4031,7 @@
       }
     },
     "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history." : {
-      "comment" : "Smart clipboard hint — Stripe URL auto-tag",
+      "comment" : "Smart clipboard hint: Stripe URL auto-tag",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4049,7 +4049,7 @@
       }
     },
     "Copied Stripe URLs are auto-tagged as \\" : {
-      "comment" : "Smart clipboard hint — Stripe",
+      "comment" : "Smart clipboard hint: Stripe",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4083,14 +4083,14 @@
         }
       }
     },
-    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display." : {
-      "comment" : "Smart clipboard hint — VAT recognition",
+    "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display." : {
+      "comment" : "Smart clipboard hint: VAT recognition",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display."
+            "value" : "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display."
           }
         },
         "ko" : {
@@ -4101,14 +4101,14 @@
         }
       }
     },
-    "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\" : {
-      "comment" : "Smart clipboard hint — VAT",
+    "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \\" : {
+      "comment" : "Smart clipboard hint: VAT",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \\"
+            "value" : "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \\"
           }
         },
         "ko" : {
@@ -4137,14 +4137,14 @@
         }
       }
     },
-    "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching." : {
-      "comment" : "Smart clipboard hint — IBAN auto-tag",
+    "Copy any IBAN: the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching." : {
+      "comment" : "Smart clipboard hint: IBAN auto-tag",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching."
+            "value" : "Copy any IBAN: the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching."
           }
         },
         "ko" : {
@@ -4155,14 +4155,14 @@
         }
       }
     },
-    "Copy any IBAN — the app auto-tags it as \\" : {
-      "comment" : "Smart clipboard hint — IBAN",
+    "Copy any IBAN: the app auto-tags it as \\" : {
+      "comment" : "Smart clipboard hint: IBAN",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy any IBAN — the app auto-tags it as \\"
+            "value" : "Copy any IBAN: the app auto-tags it as \\"
           }
         },
         "ko" : {
@@ -4174,7 +4174,7 @@
       }
     },
     "Copy IBAN from Wise / Revolut" : {
-      "comment" : "Scenario title — copy iban",
+      "comment" : "Scenario title: copy iban",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4227,7 +4227,7 @@
       }
     },
     "Crossing borders update" : {
-      "comment" : "Scenario title — borders",
+      "comment" : "Scenario title: borders",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4385,7 +4385,7 @@
       }
     },
     "Delivery delay heads-up" : {
-      "comment" : "Scenario title — delay",
+      "comment" : "Scenario title: delay",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4596,7 +4596,7 @@
       }
     },
     "Explaining your time, once." : {
-      "comment" : "Usage category description — timezone",
+      "comment" : "Usage category description: timezone",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4660,13 +4660,13 @@
         }
       }
     },
-    "Free plan is now 5 items. Everything you've saved stays — just no new adds until you upgrade or delete." : {
+    "Free plan is now 5 items. Everything you've saved stays: just no new adds until you upgrade or delete." : {
       "comment" : "v4 grace banner description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The free plan is now limited to 5 items. Everything you've saved stays — you just can't add new ones until you upgrade or delete some."
+            "value" : "The free plan is now limited to 5 items. Everything you've saved stays: you just can't add new ones until you upgrade or delete some."
           }
         },
         "ko" : {
@@ -4731,7 +4731,7 @@
       }
     },
     "Gmail: new client onboarding" : {
-      "comment" : "Scenario title — gmail onboarding",
+      "comment" : "Scenario title: gmail onboarding",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4749,7 +4749,7 @@
       }
     },
     "Good afternoon" : {
-      "comment" : "Greeting — afternoon\nGreeting: afternoon",
+      "comment" : "Greeting: afternoon\nGreeting: afternoon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4766,7 +4766,7 @@
       }
     },
     "Good evening" : {
-      "comment" : "Greeting — evening/night\nGreeting: evening",
+      "comment" : "Greeting: evening/night\nGreeting: evening",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4783,7 +4783,7 @@
       }
     },
     "Good morning" : {
-      "comment" : "Greeting — morning\nGreeting: morning",
+      "comment" : "Greeting: morning\nGreeting: morning",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4835,62 +4835,62 @@
         }
       }
     },
-    "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?" : {
-      "comment" : "Example — upwork proposal",
+    "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference}, here's a quick overview: {portfolio}. Open to a 15-min chat?" : {
+      "comment" : "Example: upwork proposal",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?"
+            "value" : "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference}, here's a quick overview: {portfolio}. Open to a 15-min chat?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {client_name}님, {role} 포지션 채용 중이신 것을 보았습니다. {reference}에서 비슷한 프로젝트를 진행한 경험이 있으며 — 간단한 포트폴리오: {portfolio}. 15분 정도 짧은 대화 가능할까요?"
+            "value" : "안녕하세요 {client_name}님, {role} 포지션 채용 중이신 것을 보았습니다. {reference}에서 비슷한 프로젝트를 진행한 경험이 있으며, 간단한 포트폴리오: {portfolio}. 15분 정도 짧은 대화 가능할까요?"
           }
         }
       }
     },
-    "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark." : {
-      "comment" : "Example — delay",
+    "Hi {client}, giving you a heads-up: {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark." : {
+      "comment" : "Example: delay",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark."
+            "value" : "Hi {client}, giving you a heads-up: {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {client}님, 미리 알려드립니다 — {reason}으로 인해 납기를 {new_date}로 연기합니다. 진행 상황은 내일 미리 보여드려 답답하지 않도록 하겠습니다."
+            "value" : "안녕하세요 {client}님, 미리 알려드립니다. {reason}으로 인해 납기를 {new_date}로 연기합니다. 진행 상황은 내일 미리 보여드려 답답하지 않도록 하겠습니다."
           }
         }
       }
     },
-    "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?" : {
-      "comment" : "Example — scope pushback",
+    "Hi {client}, happy to take this on: it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?" : {
+      "comment" : "Example: scope pushback",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?"
+            "value" : "Hi {client}, happy to take this on: it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {client}님, 기꺼이 도와드리겠습니다 — 다만 원래 스코프({original_scope})를 벗어나는 작업이라 업데이트된 견적을 보내드리겠습니다. 괜찮을까요?"
+            "value" : "안녕하세요 {client}님, 기꺼이 도와드리겠습니다. 다만 원래 스코프({original_scope})를 벗어나는 작업이라 업데이트된 견적을 보내드리겠습니다. 괜찮을까요?"
           }
         }
       }
     },
     "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}" : {
-      "comment" : "Example — timezone reply",
+      "comment" : "Example: timezone reply",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4907,44 +4907,44 @@
         }
       }
     },
-    "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy." : {
-      "comment" : "Example — testimonial",
+    "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy." : {
+      "comment" : "Example: testimonial",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy."
+            "value" : "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {client}님, 함께 작업한 경험이 좋으셨다면 제 사이트에 올릴 짧은 추천사(2-3문장) 부탁드려도 될까요. 부담 가지지 마시고 — 간단히 가능하실 때만요."
+            "value" : "안녕하세요 {client}님, 함께 작업한 경험이 좋으셨다면 제 사이트에 올릴 짧은 추천사(2-3문장) 부탁드려도 될까요. 부담 가지지 마시고, 간단히 가능하실 때만요."
           }
         }
       }
     },
-    "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve." : {
-      "comment" : "Example — payment reminder",
+    "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end, happy to help resolve." : {
+      "comment" : "Example: payment reminder",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve."
+            "value" : "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end, happy to help resolve."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {client}님, 인보이스 #{invoice_no} 관련 정중히 리마인드 드립니다 (납기 {due_date}, 현재 {days}일 연체). 진행에 문제가 있으시면 알려주세요 — 함께 해결하겠습니다."
+            "value" : "안녕하세요 {client}님, 인보이스 #{invoice_no} 관련 정중히 리마인드 드립니다 (납기 {due_date}, 현재 {days}일 연체). 진행에 문제가 있으시면 알려주세요. 함께 해결하겠습니다."
           }
         }
       }
     },
     "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}" : {
-      "comment" : "Example — proposal follow-up",
+      "comment" : "Example: proposal follow-up",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4961,26 +4961,26 @@
         }
       }
     },
-    "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?" : {
-      "comment" : "Example — linkedin cold dm",
+    "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client}, here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?" : {
+      "comment" : "Example: linkedin cold dm",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?"
+            "value" : "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client}, here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "안녕하세요 {name}님, {company}의 {role} 채용 공고를 보았습니다. {reference_client}에서 비슷한 프로젝트를 진행한 경험이 있고 — 간단 소개: {portfolio_link}. 이번 주 15분 정도 짧은 대화 가능할까요?"
+            "value" : "안녕하세요 {name}님, {company}의 {role} 채용 공고를 보았습니다. {reference_client}에서 비슷한 프로젝트를 진행한 경험이 있고, 간단 소개: {portfolio_link}. 이번 주 15분 정도 짧은 대화 가능할까요?"
           }
         }
       }
     },
     "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are." : {
-      "comment" : "Example — wifi",
+      "comment" : "Example: wifi",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -4998,7 +4998,7 @@
       }
     },
     "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow." : {
-      "comment" : "Example — sign off",
+      "comment" : "Example: sign off",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -5068,13 +5068,13 @@
         }
       }
     },
-    "IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번" : {
+    "IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번" : {
       "comment" : "Paywall value: unlimited save",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save IBAN, timezone replies & account info without limits — one tap in any app"
+            "value" : "Save IBAN, timezone replies & account info without limits: one tap in any app"
           }
         }
       }
@@ -5161,7 +5161,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud backup, Combos, secure snippets & the macOS app — all included"
+            "value" : "iCloud backup, Combos, secure snippets & the macOS app: all included"
           }
         }
       }
@@ -5306,13 +5306,13 @@
         }
       }
     },
-    "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment." : {
+    "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment." : {
       "comment" : "Universal purchase description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you've purchased Pro on iOS, it works on Mac automatically — no extra payment."
+            "value" : "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment."
           }
         },
         "ko" : {
@@ -5429,7 +5429,7 @@
       }
     },
     "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])" : {
-      "comment" : "Example — invoice summary",
+      "comment" : "Example: invoice summary",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -5447,7 +5447,7 @@
       }
     },
     "Invoice is past due" : {
-      "comment" : "Scenario context — overdue",
+      "comment" : "Scenario context: overdue",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -5465,7 +5465,7 @@
       }
     },
     "Invoice summary" : {
-      "comment" : "Scenario title — invoice summary",
+      "comment" : "Scenario title: invoice summary",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -5482,13 +5482,13 @@
         }
       }
     },
-    "iOS 26 순정 디자인 전면 적용 — 유리 탭바와 투명한 상단" : {
+    "iOS 26 순정 디자인 전면 적용, 유리 탭바와 투명한 상단" : {
       "comment" : "Changelog 4.3.8 item 1",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Full native iOS 26 redesign — glass tab bar and a transparent top"
+            "value" : "Full native iOS 26 redesign, glass tab bar and a transparent top"
           }
         }
       }
@@ -5886,7 +5886,7 @@
       }
     },
     "LinkedIn cold DM" : {
-      "comment" : "Scenario title — linkedin",
+      "comment" : "Scenario title: linkedin",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6115,7 +6115,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anonymous diagnostics from MetricKit. Only the call stack, app version, and OS are included — no user information."
+            "value" : "Anonymous diagnostics from MetricKit. Only the call stack, app version, and OS are included: no user information."
           }
         }
       }
@@ -6150,7 +6150,7 @@
       }
     },
     "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]" : {
-      "comment" : "Example — wire transfer info",
+      "comment" : "Example: wire transfer info",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6219,7 +6219,7 @@
       }
     },
     "New client asks out of curiosity" : {
-      "comment" : "Scenario title — curiosity",
+      "comment" : "Scenario title: curiosity",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6237,7 +6237,7 @@
       }
     },
     "New client wire transfer info" : {
-      "comment" : "Scenario title — wire transfer",
+      "comment" : "Scenario title: wire transfer",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6494,7 +6494,7 @@
       }
     },
     "Nomad life essentials" : {
-      "comment" : "Usage category title — nomad",
+      "comment" : "Usage category title: nomad",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6875,7 +6875,7 @@
       }
     },
     "Payment reminder (overdue)" : {
-      "comment" : "Scenario title — payment reminder",
+      "comment" : "Scenario title: payment reminder",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -6927,7 +6927,7 @@
       }
     },
     "Per-platform shortcuts" : {
-      "comment" : "Usage category title — per platform",
+      "comment" : "Usage category title: per platform",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7099,7 +7099,7 @@
       }
     },
     "Please send your banking details for wire transfer." : {
-      "comment" : "Scenario context — banking",
+      "comment" : "Scenario context: banking",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7268,13 +7268,13 @@
         }
       }
     },
-    "Pro 업그레이드 — %@" : {
+    "Pro 업그레이드: %@" : {
       "comment" : "Price",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upgrade to Pro — %@"
+            "value" : "Upgrade to Pro: %@"
           }
         }
       }
@@ -7324,7 +7324,7 @@
       }
     },
     "Professional English" : {
-      "comment" : "Usage category title — pro english",
+      "comment" : "Usage category title: pro english",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7360,7 +7360,7 @@
       }
     },
     "Proposal follow-up (3 days silent)" : {
-      "comment" : "Scenario title — proposal follow-up",
+      "comment" : "Scenario title: proposal follow-up",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7378,7 +7378,7 @@
       }
     },
     "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end." : {
-      "comment" : "Example — borders",
+      "comment" : "Example: borders",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7448,7 +7448,7 @@
       }
     },
     "Quick timezone reply" : {
-      "comment" : "Scenario title — timezone reply",
+      "comment" : "Scenario title: timezone reply",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -7721,13 +7721,13 @@
         }
       }
     },
-    "Same snippets, same memos — available on macOS." : {
+    "Same snippets, same memos: available on macOS." : {
       "comment" : "Mac hero subtitle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Same snippets, same notes — available on macOS."
+            "value" : "Same snippets, same notes: available on macOS."
           }
         },
         "ko" : {
@@ -7910,7 +7910,7 @@
       }
     },
     "Scope pushback (politely)" : {
-      "comment" : "Scenario title — scope pushback",
+      "comment" : "Scenario title: scope pushback",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8050,14 +8050,14 @@
         }
       }
     },
-    "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app." : {
+    "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button: without opening the app." : {
       "comment" : "What's new feature 1 detail",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button — without opening the app."
+            "value" : "Send text or images from the Share Sheet, Shortcuts, Siri, or a Control Center button: without opening the app."
           }
         },
         "ko" : {
@@ -8069,7 +8069,7 @@
       }
     },
     "Sending payment confirmation link" : {
-      "comment" : "Scenario context — payment link",
+      "comment" : "Scenario context: payment link",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8087,7 +8087,7 @@
       }
     },
     "Sent a proposal but no reply yet" : {
-      "comment" : "Scenario context — proposal silent",
+      "comment" : "Scenario context: proposal silent",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8176,7 +8176,7 @@
       }
     },
     "Signing off for the night" : {
-      "comment" : "Scenario title — sign off",
+      "comment" : "Scenario title: sign off",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8281,7 +8281,7 @@
       }
     },
     "Stripe dashboard links" : {
-      "comment" : "Scenario title — stripe",
+      "comment" : "Scenario title: stripe",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8448,20 +8448,20 @@
         }
       }
     },
-    "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
+    "The quick paste panel (⌃⇧V) stays over your current app, click a memo and the text is pasted directly into the text field you were typing in, without losing focus." : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a snippet and the text is pasted directly into the text field you were typing in, without losing focus."
+            "value" : "The quick paste panel (⌃⇧V) stays over your current app, click a snippet and the text is pasted directly into the text field you were typing in, without losing focus."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The quick paste panel (⌃⇧V) stays over your current app — click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
+            "value" : "The quick paste panel (⌃⇧V) stays over your current app, click a memo and the text is pasted directly into the text field you were typing in, without losing focus."
           }
         }
       }
@@ -8588,7 +8588,7 @@
       }
     },
     "Timezone & availability" : {
-      "comment" : "Usage category title — timezone",
+      "comment" : "Usage category title: timezone",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8779,7 +8779,7 @@
       }
     },
     "Upwork proposal intro" : {
-      "comment" : "Scenario title — upwork",
+      "comment" : "Scenario title: upwork",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8796,26 +8796,26 @@
         }
       }
     },
-    "Upwork, LinkedIn, Gmail — templates that ship." : {
-      "comment" : "Usage category description — per platform",
+    "Upwork, LinkedIn, Gmail: templates that ship." : {
+      "comment" : "Usage category description: per platform",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upwork, LinkedIn, Gmail — templates that ship."
+            "value" : "Upwork, LinkedIn, Gmail: templates that ship."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Upwork, LinkedIn, Gmail — 바로 보낼 수 있는 템플릿"
+            "value" : "Upwork, LinkedIn, Gmail: 바로 보낼 수 있는 템플릿"
           }
         }
       }
     },
     "Urgent DM at 10pm" : {
-      "comment" : "Scenario context — urgent dm",
+      "comment" : "Scenario context: urgent dm",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -8922,7 +8922,7 @@
       }
     },
     "VAT / Tax ID detection" : {
-      "comment" : "Scenario title — vat detect",
+      "comment" : "Scenario title: vat detect",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9057,7 +9057,7 @@
       }
     },
     "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!" : {
-      "comment" : "Example — gmail onboarding",
+      "comment" : "Example: gmail onboarding",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9110,7 +9110,7 @@
       }
     },
     "When can we jump on a call?" : {
-      "comment" : "Scenario title — call availability",
+      "comment" : "Scenario title: call availability",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9145,26 +9145,26 @@
         }
       }
     },
-    "Wifi dropped — back online" : {
-      "comment" : "Scenario title — wifi",
+    "Wifi dropped: back online" : {
+      "comment" : "Scenario title: wifi",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wifi dropped — back online"
+            "value" : "Wifi dropped: back online"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "와이파이 끊김 — 복귀 알림"
+            "value" : "와이파이 끊김: 복귀 알림"
           }
         }
       }
     },
     "Wifi drops, visa runs, location questions." : {
-      "comment" : "Usage category description — nomad",
+      "comment" : "Usage category description: nomad",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9181,26 +9181,26 @@
         }
       }
     },
-    "Wire transfers, VAT, invoicing — save once, tap forever." : {
-      "comment" : "Usage category description — banking",
+    "Wire transfers, VAT, invoicing: save once, tap forever." : {
+      "comment" : "Usage category description: banking",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wire transfers, VAT, invoicing — save once, tap forever."
+            "value" : "Wire transfers, VAT, invoicing: save once, tap forever."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "송금, VAT, 인보이스 — 한 번 저장하고 평생 탭 한 번으로"
+            "value" : "송금, VAT, 인보이스: 한 번 저장하고 평생 탭 한 번으로"
           }
         }
       }
     },
     "Wise / PayPal quick share" : {
-      "comment" : "Scenario title — wise paypal",
+      "comment" : "Scenario title: wise paypal",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9217,26 +9217,26 @@
         }
       }
     },
-    "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})" : {
-      "comment" : "Example — wise paypal",
+    "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise, faster + lower fees for {currency})" : {
+      "comment" : "Example: wise paypal",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})"
+            "value" : "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise, faster + lower fees for {currency})"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wise 이메일: you@example.com\nPayPal: you@example.com\n(Wise 선호 — {currency} 기준 더 빠르고 수수료 저렴)"
+            "value" : "Wise 이메일: you@example.com\nPayPal: you@example.com\n(Wise 선호, {currency} 기준 더 빠르고 수수료 저렴)"
           }
         }
       }
     },
     "Writing cover letters in bulk" : {
-      "comment" : "Scenario context — bulk cover letters",
+      "comment" : "Scenario context: bulk cover letters",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -9429,7 +9429,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ — type it when signing up"
+            "value" : "%@: type it when signing up"
           }
         },
         "ko" : {
@@ -9733,7 +9733,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just fill in the highlighted slots — the rest of the text completes itself. Enter your go-to formats in a flash."
+            "value" : "Just fill in the highlighted slots, the rest of the text completes itself. Enter your go-to formats in a flash."
           }
         }
       }
@@ -9744,7 +9744,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically syncs snippets between an iPhone and Mac signed in to the same iCloud account. Pro only, and experimental — please verify it works across both devices first. Secure snippets stay encrypted while syncing."
+            "value" : "Automatically syncs snippets between an iPhone and Mac signed in to the same iCloud account. Pro only, and experimental: please verify it works across both devices first. Secure snippets stay encrypted while syncing."
           }
         }
       }
@@ -10471,13 +10471,13 @@
         }
       }
     },
-    "기기 간 동기화(베타) 수정 — 전송이 확정된 뒤에만 완료 처리해 누락을 막아요" : {
+    "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요" : {
       "comment" : "Changelog 4.4.3 item 5",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cross-device sync (beta) fixes — changes count as sent only once confirmed, so nothing goes missing"
+            "value" : "Cross-device sync (beta) fixes: changes count as sent only once confirmed, so nothing goes missing"
           }
         }
       }
@@ -10668,7 +10668,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "By default, cards show just the title — no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells."
+            "value" : "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells."
           }
         }
       }
@@ -10680,7 +10680,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "By default, cards show just the title — no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells. It turns on automatically with the iOS 'Differentiate Without Color' accessibility setting."
+            "value" : "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells. It turns on automatically with the iOS 'Differentiate Without Color' accessibility setting."
           }
         }
       }
@@ -10815,7 +10815,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There's a way to bring back the snippets you used before — you can restore them from your iCloud backup."
+            "value" : "There's a way to bring back the snippets you used before, you can restore them from your iCloud backup."
           }
         }
       }
@@ -10917,13 +10917,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The rest of the sentence stays put — only the '%@' spot changes. Name it and you'll know what to fill in next time."
+            "value" : "The rest of the sentence stays put, only the '%@' spot changes. Name it and you'll know what to fill in next time."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sisa kalimatnya tetap — hanya bagian '%@' yang berubah. Beri nama agar Anda tahu apa yang diisi nanti."
+            "value" : "Sisa kalimatnya tetap: hanya bagian '%@' yang berubah. Beri nama agar Anda tahu apa yang diisi nanti."
           }
         }
       }
@@ -11173,13 +11173,13 @@
         }
       }
     },
-    "내용을 이어 더하면 콤보가 돼요 — 키보드에서 순서대로 입력됩니다." : {
+    "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다." : {
       "comment" : "Continuation/combo explanation",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add more steps to make it a combo — they're entered in order from the keyboard."
+            "value" : "Add more steps to make it a combo, they're entered in order from the keyboard."
           }
         }
       }
@@ -11907,13 +11907,13 @@
         }
       }
     },
-    "단축어 마트가 생겼어요 — 상황을 고르고 빈칸만 내 것으로 채우면 바로 키보드에 들어가요" : {
+    "단축어 마트가 생겼어요. 상황을 고르고 빈칸만 내 것으로 채우면 바로 키보드에 들어가요" : {
       "comment" : "Changelog 4.4.5 item 4",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There's a Shortcut Mart now — pick a situation, fill in only your own bits, and it's on your keyboard"
+            "value" : "There's a Shortcut Mart now: pick a situation, fill in only your own bits, and it's on your keyboard"
           }
         }
       }
@@ -11999,7 +11999,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Only on the snippet list — your keyboard stays the same. Moving things rest under Reduce Motion or Low Power Mode."
+            "value" : "Only on the snippet list, your keyboard stays the same. Moving things rest under Reduce Motion or Low Power Mode."
           }
         }
       }
@@ -12315,7 +12315,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your snippets weren't deleted — we just couldn't read the file. The original has been kept safe."
+            "value" : "Your snippets weren't deleted: we just couldn't read the file. The original has been kept safe."
           }
         }
       }
@@ -12491,7 +12491,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap a shortcut — it copies straight to your clipboard."
+            "value" : "Tap a shortcut: it copies straight to your clipboard."
           }
         }
       }
@@ -13287,7 +13287,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap what you made — it copies instantly."
+            "value" : "Tap what you made: it copies instantly."
           }
         }
       }
@@ -13298,7 +13298,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap the combo you made — pick the value you need."
+            "value" : "Tap the combo you made, pick the value you need."
           }
         }
       }
@@ -13309,18 +13309,18 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap the template you made — just fill in the blank."
+            "value" : "Tap the template you made, just fill in the blank."
           }
         }
       }
     },
-    "만들다 만 단축어만 임시저장 — 열어만 봐도 쌓이던 문제 정리" : {
+    "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리" : {
       "comment" : "Changelog 4.3.8 item 3",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Drafts only save when you actually made changes — no more draft pile-up"
+            "value" : "Drafts only save when you actually made changes, no more draft pile-up"
           }
         }
       }
@@ -13358,13 +13358,13 @@
         }
       }
     },
-    "맑은 유리 카드와 배경 사진 — 8가지 풍경이 탭마다 다르게 비쳐요" : {
+    "맑은 유리 카드와 배경 사진, 8가지 풍경이 탭마다 다르게 비쳐요" : {
       "comment" : "Changelog 4.3.9 item 1",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clear glass cards + photo backgrounds — 8 scenic photos, different per tab"
+            "value" : "Clear glass cards + photo backgrounds: 8 scenic photos, different per tab"
           }
         }
       }
@@ -13613,13 +13613,13 @@
         }
       }
     },
-    "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요 — 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
+    "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
       "comment" : "Distribution footer",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "How many people have how many snippets. The buckets tighten around the free limit (10) — a cluster at 7–9 means the limit is driving purchases; a cluster at 1–3 means people start and stop."
+            "value" : "How many people have how many snippets. The buckets tighten around the free limit (10), a cluster at 7–9 means the limit is driving purchases; a cluster at 1–3 means people start and stop."
           }
         }
       }
@@ -13823,13 +13823,13 @@
         }
       }
     },
-    "무료 단축어 %d칸 남았어요 — Pro로 무제한" : {
+    "무료 단축어 %d칸 남았어요. Pro로 무제한" : {
       "comment" : "Pro nudge: slots left",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d free snippet slots left — go Pro for unlimited"
+            "value" : "%d free snippet slots left, go Pro for unlimited"
           }
         }
       }
@@ -14506,7 +14506,7 @@
       }
     },
     "버전에서 복원" : {
-      "comment" : "Restore from a version — screen title",
+      "comment" : "Restore from a version: screen title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -15495,30 +15495,30 @@
         }
       }
     },
-    "붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요 — 설치하자마자 묻지 않아요" : {
+    "붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요. 설치하자마자 묻지 않아요" : {
       "comment" : "Changelog 4.4.4 item 6",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The paste permission prompt now waits a few days — it no longer greets you right after install"
+            "value" : "The paste permission prompt now waits a few days, it no longer greets you right after install"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요 — 설치하자마자 묻지 않아요"
+            "value" : "붙여넣기 허용 팝업을 며칠 써 보신 뒤로 미뤘어요. 설치하자마자 묻지 않아요"
           }
         }
       }
     },
-    "붙여넣기 허용을 한 번에 — 클립보드 화면에서 iOS 설정으로 바로 이동" : {
+    "붙여넣기 허용을 한 번에, 클립보드 화면에서 iOS 설정으로 바로 이동" : {
       "comment" : "Changelog 4.3.7 item 3",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allow paste in one tap — jump straight to the iOS Settings paste option"
+            "value" : "Allow paste in one tap, jump straight to the iOS Settings paste option"
           }
         }
       }
@@ -15535,7 +15535,7 @@
       }
     },
     "붙여넣을 내용" : {
-      "comment" : "Content label — what gets pasted when user taps the memo",
+      "comment" : "Content label: what gets pasted when user taps the memo",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -16006,24 +16006,24 @@
         }
       }
     },
-    "사진 속 글자를 값으로 바로 넣을 수 있어요 — 읽은 줄에서 필요한 것만 고르면 돼요" : {
+    "사진 속 글자를 값으로 바로 넣을 수 있어요. 읽은 줄에서 필요한 것만 고르면 돼요" : {
       "comment" : "Changelog 4.4.5 item 2",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fill a value straight from text in a photo — just pick the line you need"
+            "value" : "Fill a value straight from text in a photo, just pick the line you need"
           }
         }
       }
     },
-    "사진·카메라에서 텍스트를 인식해 가져오기 — 카드 사진은 번호와 유효기간만" : {
+    "사진·카메라에서 텍스트를 인식해 가져오기, 카드 사진은 번호와 유효기간만" : {
       "comment" : "Changelog 4.3.9 item 4",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import text from photos or the camera — card photos extract just the number and expiry date"
+            "value" : "Import text from photos or the camera, card photos extract just the number and expiry date"
           }
         }
       }
@@ -16116,13 +16116,13 @@
         }
       }
     },
-    "사파리 등에서 공유하면 바로 단축어로 담겨요 — 앱에 들어가 한 번 더 누르지 않아도 돼요" : {
+    "사파리 등에서 공유하면 바로 단축어로 담겨요. 앱에 들어가 한 번 더 누르지 않아도 돼요" : {
       "comment" : "Changelog 4.4.5 item 6",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Share from Safari and it becomes a shortcut right away — no second step inside the app"
+            "value" : "Share from Safari and it becomes a shortcut right away, no second step inside the app"
           }
         }
       }
@@ -16325,13 +16325,13 @@
         }
       }
     },
-    "새 단축어 화면 정리 — 채우기 버튼과 변수 설명이 또렷해졌어요" : {
+    "새 단축어 화면 정리, 채우기 버튼과 변수 설명이 또렷해졌어요" : {
       "comment" : "Changelog 4.4.3 item 4",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A cleaner new-snippet screen — clearer fill buttons and better variable guidance"
+            "value" : "A cleaner new-snippet screen: clearer fill buttons and better variable guidance"
           }
         }
       }
@@ -16342,7 +16342,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please try restoring before creating anything new — saving now may overwrite the file we couldn't read."
+            "value" : "Please try restoring before creating anything new, saving now may overwrite the file we couldn't read."
           }
         }
       }
@@ -16728,20 +16728,20 @@
         }
       }
     },
-    "샘플 — 수정해서 사용하세요" : {
+    "샘플: 수정해서 사용하세요" : {
       "comment" : "Sample value hint",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sample — please edit before using"
+            "value" : "Sample: please edit before using"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "샘플 — 수정해서 사용하세요"
+            "value" : "샘플: 수정해서 사용하세요"
           }
         }
       }
@@ -17158,7 +17158,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In Settings → ClipKeyboard → Paste from Other Apps → Allow, and copied text is organized instantly — no popup."
+            "value" : "In Settings → ClipKeyboard → Paste from Other Apps → Allow, and copied text is organized instantly: no popup."
           }
         }
       }
@@ -17191,7 +17191,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose your first screen — snippet list or keyboard view — in Settings › First screen, or switch instantly from the toolbar"
+            "value" : "Choose your first screen (snippet list or keyboard view) in Settings › First screen, or switch instantly from the toolbar"
           }
         },
         "ko" : {
@@ -18342,7 +18342,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keeps the start and the end, shortening the middle — so names that start alike stay tellable apart."
+            "value" : "Keeps the start and the end, shortening the middle, so names that start alike stay tellable apart."
           }
         }
       }
@@ -18479,19 +18479,19 @@
         }
       }
     },
-    "앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요" : {
+    "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요" : {
       "comment" : "Changelog 4.4.4 item 1",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open the app and see the keyboard exactly as it appears elsewhere — tap to try it right away"
+            "value" : "Open the app and see the keyboard exactly as it appears elsewhere, tap to try it right away"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱을 열면 키보드가 올라온 모습 그대로 — 눌러서 바로 써 볼 수 있어요"
+            "value" : "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요"
           }
         }
       }
@@ -18502,7 +18502,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open the app and the keyboard is right there — tap to try it straight away."
+            "value" : "Open the app and the keyboard is right there, tap to try it straight away."
           }
         },
         "ko" : {
@@ -19335,7 +19335,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Just examples — tap one to save it as yours."
+            "value" : "Just examples: tap one to save it as yours."
           }
         }
       }
@@ -20196,25 +20196,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Things you always use together — like a name and a phone number — can live in one place."
+            "value" : "Things you always use together (like a name and a phone number) can live in one place."
           }
         }
       }
     },
-    "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요." : {
+    "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요. 아래에서 색칠된 곳이 그 자리예요." : {
       "comment" : "Template tutorial: subline",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Like a notice where you only swap the name. Leave that spot blank and you fill just that part each time — the coloured part below is the blank."
+            "value" : "Like a notice where you only swap the name. Leave that spot blank and you fill just that part each time, the coloured part below is the blank."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요 — 아래에서 색칠된 곳이 그 자리예요."
+            "value" : "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요. 아래에서 색칠된 곳이 그 자리예요."
           }
         }
       }
@@ -20263,13 +20263,13 @@
         }
       }
     },
-    "이미 %d분을 아꼈어요 — Pro로 무제한으로 계속" : {
+    "이미 %d분을 아꼈어요. Pro로 무제한으로 계속" : {
       "comment" : "Pro nudge: time saved",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You've already saved %d minutes — go Pro for unlimited"
+            "value" : "You've already saved %d minutes, go Pro for unlimited"
           }
         }
       }
@@ -20656,7 +20656,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "That's it — anywhere you need it."
+            "value" : "That's it: anywhere you need it."
           }
         }
       }
@@ -20914,7 +20914,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ — send it to get paid"
+            "value" : "%@: send it to get paid"
           }
         },
         "ko" : {
@@ -22205,13 +22205,13 @@
         }
       }
     },
-    "제어센터와 위젯에서 앱을 열지 않고 바로 복사돼요 — 제어센터에 '값 복사' 버튼을 추가해 보세요" : {
+    "제어센터와 위젯에서 앱을 열지 않고 바로 복사돼요. 제어센터에 '값 복사' 버튼을 추가해 보세요" : {
       "comment" : "Changelog 4.4.5 item 5",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Control Center and widgets now copy without opening the app — try adding the Copy Value button"
+            "value" : "Control Center and widgets now copy without opening the app, try adding the Copy Value button"
           }
         }
       }
@@ -22629,7 +22629,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ — share it with a friend"
+            "value" : "%@: share it with a friend"
           }
         },
         "ko" : {
@@ -22708,13 +22708,13 @@
         }
       }
     },
-    "짧게 누르면 입력창에, 길게 누르면 클립보드로 — 앱 안에서요" : {
+    "짧게 누르면 입력창에, 길게 누르면 클립보드로: 앱 안에서요" : {
       "comment" : "Changelog 4.4.4 item 4",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap to type, press and hold to copy — inside the app"
+            "value" : "Tap to type, press and hold to copy: inside the app"
           }
         }
       }
@@ -22782,13 +22782,13 @@
         }
       }
     },
-    "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요 — { } 기호는 어디서도 안 보여요" : {
+    "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요. { } 기호는 어디서도 안 보여요" : {
       "comment" : "Changelog 4.4.4 item 9",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "See what a fill-in field does: the same sentence, twice, with different values — and no { } anywhere"
+            "value" : "See what a fill-in field does: the same sentence, twice, with different values, and no { } anywhere"
           }
         }
       }
@@ -22799,7 +22799,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nothing to fill in — ready to use."
+            "value" : "Nothing to fill in: ready to use."
           }
         }
       }
@@ -22855,7 +22855,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No need to retype — the one you made can become a template as is."
+            "value" : "No need to retype: the one you made can become a template as is."
           }
         }
       }
@@ -22977,13 +22977,13 @@
         }
       }
     },
-    "체크해서 함께 쓰는 값들을 콤보 한 키로 묶을 수 있어요 — 떨어져 있어도 묶여요" : {
+    "체크해서 함께 쓰는 값들을 콤보 한 키로 묶을 수 있어요. 떨어져 있어도 묶여요" : {
       "comment" : "Changelog 4.4.5 item 3",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check the values you use together to bundle them into one combo key — even if they're not next to each other"
+            "value" : "Check the values you use together to bundle them into one combo key, even if they're not next to each other"
           }
         }
       }
@@ -22999,13 +22999,13 @@
         }
       }
     },
-    "체험 활성 — %d일 남음" : {
+    "체험 활성: %d일 남음" : {
       "comment" : "Trial active days remaining",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trial active — %d days remaining"
+            "value" : "Trial active: %d days remaining"
           }
         }
       }
@@ -23282,7 +23282,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recommended categories are added — off at first, so turn on only the ones you want in Manage Categories."
+            "value" : "Recommended categories are added: off at first, so turn on only the ones you want in Manage Categories."
           }
         }
       }
@@ -23389,13 +23389,13 @@
         }
       }
     },
-    "카드에 살며시 보여줄 한 줄 — 비우면 자동 요약" : {
+    "카드에 살며시 보여줄 한 줄, 비우면 자동 요약" : {
       "comment" : "Custom hint field placeholder",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A line to gently show on the card — auto summary if empty"
+            "value" : "A line to gently show on the card, auto summary if empty"
           }
         }
       }
@@ -23863,13 +23863,13 @@
         }
       }
     },
-    "콤보가 쉬워졌어요 — 값을 이어 붙이고 보안 콤보로 암호화 저장까지" : {
+    "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지" : {
       "comment" : "Changelog 4.3.9 item 5",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Combos made easy — chain values together, now with encrypted secure combos"
+            "value" : "Combos made easy: chain values together, now with encrypted secure combos"
           }
         }
       }
@@ -24317,7 +24317,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap the key to type it, tap copy to put it on the clipboard — the way you've always used it still works."
+            "value" : "Tap the key to type it, tap copy to put it on the clipboard: the way you've always used it still works."
           }
         },
         "ko" : {
@@ -24374,13 +24374,13 @@
         }
       }
     },
-    "키보드 검색에서 한글이 흩어지던 문제 수정 — 이제 정확히 조합돼 찾아져요" : {
+    "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요" : {
       "comment" : "Changelog 4.4.0 item 3",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fixed Korean scattering in keyboard search — it now composes and matches correctly"
+            "value" : "Fixed Korean scattering in keyboard search, it now composes and matches correctly"
           }
         }
       }
@@ -24786,7 +24786,7 @@
       }
     },
     "키보드에 표시할 이름" : {
-      "comment" : "Memo title label — what user sees on the keyboard",
+      "comment" : "Memo title label: what user sees on the keyboard",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -24815,7 +24815,7 @@
       }
     },
     "키보드에서 길게 누르면 미리보기에 함께 표시돼요" : {
-      "comment" : "Combo description hint — shown in long-press preview",
+      "comment" : "Combo description hint: shown in long-press preview",
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
@@ -25712,7 +25712,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Templates, turning what you have into a template, then combos — one at a time (\"later\" means we won't ask again)"
+            "value" : "Templates, turning what you have into a template, then combos: one at a time (\"later\" means we won't ask again)"
           }
         }
       }
@@ -25935,7 +25935,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add 4 examples — template, combo, and snippet + template — to try them out. Your existing snippets stay untouched."
+            "value" : "Add 4 examples (template, combo, and snippet + template) to try them out. Your existing snippets stay untouched."
           }
         }
       }
@@ -26360,13 +26360,13 @@
         }
       }
     },
-    "프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게" : {
+    "프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게" : {
       "comment" : "Paywall value: english templates",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unlimited professional English templates — sound fluent, even as a non-native"
+            "value" : "Unlimited professional English templates: sound fluent, even as a non-native"
           }
         }
       }
@@ -26576,7 +26576,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tell us what you need or what's inconvenient — the developer reads every message and will make it right."
+            "value" : "Tell us what you need or what's inconvenient: the developer reads every message and will make it right."
           }
         }
       }
@@ -26715,13 +26715,13 @@
         }
       }
     },
-    "한 단축어에 여러 값 — \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능" : {
+    "한 단축어에 여러 값: \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능" : {
       "comment" : "Changelog 4.4.3 item 1",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Multiple values per snippet — store them with \"Add more content\", or pull values from snippets you already made"
+            "value" : "Multiple values per snippet: store them with \"Add more content\", or pull values from snippets you already made"
           }
         }
       }
@@ -26781,13 +26781,13 @@
         }
       }
     },
-    "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요 — 키를 눌러 뺄 것만 빼면 돼요" : {
+    "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요" : {
       "comment" : "Changelog 4.4.5 item 1",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Batch imports now preview as your keyboard before saving — tap a key to leave it out"
+            "value" : "Batch imports now preview as your keyboard before saving, tap a key to leave it out"
           }
         }
       }
@@ -26814,13 +26814,13 @@
         }
       }
     },
-    "한번에 가져오기 개편 — 붙여넣으면 서비스명·아이디·비밀번호를 알아서 분리" : {
+    "한번에 가져오기 개편, 붙여넣으면 서비스명·아이디·비밀번호를 알아서 분리" : {
       "comment" : "Changelog 4.3.9 item 2",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Smarter bulk import — paste your notes and titles, usernames, and passwords are split automatically"
+            "value" : "Smarter bulk import: paste your notes and titles, usernames, and passwords are split automatically"
           }
         }
       }

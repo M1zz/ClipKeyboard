@@ -2,7 +2,7 @@
 //  BulkImportView.swift
 //  ClipKeyboard
 //
-//  타 메모장에서 와장창 옮길 때 — 텍스트 통째로 붙여넣거나 사진(OCR)에서 추출해
+//  타 메모장에서 와장창 옮길 때 - 텍스트 통째로 붙여넣거나 사진(OCR)에서 추출해
 //  자동 분할·자동 라벨링으로 일괄 저장.
 //
 //  분할 규칙 (우선순위 내림차순):
@@ -18,7 +18,7 @@
 //  - 비밀번호·패스·PIN·인증서류 값은 보안 단축어(암호화)로 기본 설정
 //
 //  사진 가져오기:
-//  - OCRService.recognizeBlocks — 줄 간격으로 문단을 복원해 블록 단위로 추가
+//  - OCRService.recognizeBlocks - 줄 간격으로 문단을 복원해 블록 단위로 추가
 //  - 카드 사진이면 카드번호/유효기간을 자동 추출해 정형 블록으로 대체
 //
 
@@ -44,7 +44,7 @@ struct BulkImportView: View {
     struct Draft: Identifiable {
         let id = UUID()
         var title: String
-        /// 값 목록 — 1개면 일반 단축어, 2개 이상이면 콤보로 저장된다.
+        /// 값 목록 - 1개면 일반 단축어, 2개 이상이면 콤보로 저장된다.
         var values: [String]
         var include: Bool = true
         var isSecure: Bool = false
@@ -54,11 +54,11 @@ struct BulkImportView: View {
         var value: String { values.first ?? "" }
     }
 
-    /// 정리된 항목을 무엇으로 보여줄까 — 들어갈 자리(키보드)냐, 다듬는 자리(목록)냐.
+    /// 정리된 항목을 무엇으로 보여줄까 - 들어갈 자리(키보드)냐, 다듬는 자리(목록)냐.
     enum PreviewMode: String, CaseIterable {
         /// **기본값.** 저장하면 키보드가 어떻게 되는지 그 모습 그대로 보여주고, 눌러서 고른다.
         case keyboard
-        /// 제목 고치기·보안 토글·콤보 묶기 — 키 모양으로는 할 수 없는 손질.
+        /// 제목 고치기·보안 토글·콤보 묶기 - 키 모양으로는 할 수 없는 손질.
         case list
 
         var label: String {
@@ -71,14 +71,14 @@ struct BulkImportView: View {
 
     @State private var pasteText: String = ""
     @State private var previewMode: PreviewMode = .keyboard
-    /// 묶기 모드 — 키에 체크가 나오고, 고른 것들을 콤보 하나로 합친다.
+    /// 묶기 모드 - 키에 체크가 나오고, 고른 것들을 콤보 하나로 합친다.
     @State private var isBundling = false
     @State private var bundleSelection: Set<UUID> = []
     @State private var splitMode: SplitMode = .auto
     @State private var drafts: [Draft] = []
     @State private var savedCount: Int?
     @State private var showSaveError = false
-    // 임시저장(이어서 작성) — 저장 없이 닫으면 스냅샷을 남기고, 다음에 열 때 복원한다.
+    // 임시저장(이어서 작성) - 저장 없이 닫으면 스냅샷을 남기고, 다음에 열 때 복원한다.
     @State private var showRestoredNotice = false
     @State private var suppressRegenerate = false
     // OCR
@@ -154,7 +154,7 @@ struct BulkImportView: View {
 
     // MARK: - 임시저장 (이어서 작성)
 
-    /// 저장 없이 닫힌 작성 내용의 스냅샷 — 붙여넣은 원문 + 정리한 항목들(제목·묶음·보안 포함).
+    /// 저장 없이 닫힌 작성 내용의 스냅샷 - 붙여넣은 원문 + 정리한 항목들(제목·묶음·보안 포함).
     private struct Snapshot: Codable {
         struct Item: Codable {
             var title: String
@@ -236,7 +236,7 @@ struct BulkImportView: View {
                 .font(.body)
                 .onChange(of: pasteText) { _, _ in regenerate() }
             HStack(spacing: 8) {
-                // PasteButton — 시스템이 붙여넣기를 대신 처리하므로 **허용 프롬프트가 뜨지 않는다.**
+                // PasteButton - 시스템이 붙여넣기를 대신 처리하므로 **허용 프롬프트가 뜨지 않는다.**
                 // `UIPasteboard.general.string`을 직접 읽으면 iOS 16+에서 매번 "붙여넣기 허용?"이
                 // 뜨는데, 사용자가 스스로 누른 버튼에서까지 묻는 건 불필요한 마찰이다.
                 PasteButton(payloadType: String.self) { strings in
@@ -296,7 +296,7 @@ struct BulkImportView: View {
 
     private var previewSection: some View {
         Section {
-            // 보기 전환 — 어느 쪽이든 고르는 대상(`drafts`)은 하나다.
+            // 보기 전환 - 어느 쪽이든 고르는 대상(`drafts`)은 하나다.
             Picker("", selection: $previewMode) {
                 ForEach(PreviewMode.allCases, id: \.self) { mode in
                     Text(mode.label).tag(mode)
@@ -328,13 +328,13 @@ struct BulkImportView: View {
             HStack {
                 Text(String(format: NSLocalizedString("%d memos detected", comment: "Bulk import preview header"), drafts.count))
                 Spacer()
-                // 순서 바꾸기(드래그 핸들) 토글 — 콤보로 묶기 전에 항목을 이웃하게 배치.
+                // 순서 바꾸기(드래그 핸들) 토글 - 콤보로 묶기 전에 항목을 이웃하게 배치.
                 // 키 모양에서는 끌어 옮길 손잡이가 없어 목록에서만 내놓는다.
                 if previewMode == .list {
                     EditButton()
                         .font(.body)
                 }
-                // 묶기 모드 — 키 모양에서만. 목록에는 길게 눌러 묶는 길이 이미 있다.
+                // 묶기 모드 - 키 모양에서만. 목록에는 길게 눌러 묶는 길이 이미 있다.
                 if previewMode == .keyboard {
                     Button(isBundling
                            ? NSLocalizedString("완료", comment: "Done bundling")
@@ -346,7 +346,7 @@ struct BulkImportView: View {
                     }
                     .font(.body)
                 }
-                // 묶기 중에는 넣고빼기를 건드리지 않는다 — 지금 체크는 '묶을 것'이지 '넣을 것'이 아니다.
+                // 묶기 중에는 넣고빼기를 건드리지 않는다 - 지금 체크는 '묶을 것'이지 '넣을 것'이 아니다.
                 if isBundling {
                     EmptyView()
                 } else if drafts.contains(where: { !$0.include }) {
@@ -378,7 +378,7 @@ struct BulkImportView: View {
     // MARK: - 묶기 모드 (컬렉션에서 체크해서 콤보 만들기)
 
     /// 고른 것으로 무엇을 할 수 있는지 알려주고 실행하는 줄.
-    /// 아무것도 안 골랐을 땐 무엇을 해야 하는지만 말한다 — 빈 바가 떠 있으면 고장으로 보인다.
+    /// 아무것도 안 골랐을 땐 무엇을 해야 하는지만 말한다 - 빈 바가 떠 있으면 고장으로 보인다.
     @ViewBuilder
     private var bundleActionRow: some View {
         let picked = drafts.filter { bundleSelection.contains($0.id) }
@@ -429,10 +429,10 @@ struct BulkImportView: View {
     /// ⚠️ 이웃이 아니어도 묶인다. 예전에는 바로 위 항목과만 합칠 수 있어서, 떨어져 있는
     ///    아이디와 비밀번호를 묶으려면 먼저 순서를 바꿔 붙여 놓아야 했다.
     ///
-    /// 규칙 세 가지 — 전부 조용히 깨질 수 있어 테스트로 고정한다:
+    /// 규칙 세 가지 - 전부 조용히 깨질 수 있어 테스트로 고정한다:
     ///  · 합친 자리와 단계 차례는 **화면에 놓인 순서**를 따른다(고른 순서가 아니다).
     ///    눈에 보이는 차례가 곧 콤보의 차례여야 결과를 예상할 수 있다.
-    ///  · 하나라도 보안이면 합친 콤보도 보안 — 지키던 것을 합치다가 풀어버리면 안 된다.
+    ///  · 하나라도 보안이면 합친 콤보도 보안 - 지키던 것을 합치다가 풀어버리면 안 된다.
     ///  · 넣기로 한 것이 하나라도 있으면 결과도 넣는다.
     static func merging(_ drafts: [Draft], selection: Set<UUID>) -> (drafts: [Draft], mergedID: UUID?) {
         let indices = drafts.indices.filter { selection.contains(drafts[$0].id) }
@@ -498,7 +498,7 @@ struct BulkImportView: View {
                     }
                 }
                 if d.isCombo {
-                    // 콤보 — 단계 값을 번호와 함께 표시 (보안이면 마스킹)
+                    // 콤보 - 단계 값을 번호와 함께 표시 (보안이면 마스킹)
                     ForEach(Array(d.values.enumerated()), id: \.offset) { i, v in
                         Text("\(i + 1). \(d.isSecure ? String(repeating: "•", count: min(max(v.count, 4), 12)) : v)")
                             .font(.footnote)
@@ -518,7 +518,7 @@ struct BulkImportView: View {
 
             Spacer(minLength: 0)
 
-            // 보안 토글 — 켜면 암호화 저장 + 값 마스킹 (콤보는 단계 값까지 암호화)
+            // 보안 토글 - 켜면 암호화 저장 + 값 마스킹 (콤보는 단계 값까지 암호화)
             Button {
                 draft.wrappedValue.isSecure.toggle()
             } label: {
@@ -532,7 +532,7 @@ struct BulkImportView: View {
                                 : NSLocalizedString("보안 단축어로 설정", comment: "Action: make memo secure"))
         }
         .padding(.vertical, 4)
-        // 길게 눌러 오거나이즈 — 위 항목과 콤보로 묶기 / 콤보 풀기
+        // 길게 눌러 오거나이즈 - 위 항목과 콤보로 묶기 / 콤보 풀기
         .contextMenu {
             if drafts.first?.id != d.id {
                 Button {
@@ -577,7 +577,7 @@ struct BulkImportView: View {
     }
 
     private func regenerate() {
-        // 임시저장 복원 직후의 pasteText 변경은 무시 — 복원된 항목(묶음·제목 수정)을 보존.
+        // 임시저장 복원 직후의 pasteText 변경은 무시 - 복원된 항목(묶음·제목 수정)을 보존.
         if suppressRegenerate {
             suppressRegenerate = false
             return
@@ -614,7 +614,7 @@ struct BulkImportView: View {
         }
     }
 
-    /// 정규식 기반 분할 (NSRegularExpression — iOS 13+ 호환).
+    /// 정규식 기반 분할 (NSRegularExpression - iOS 13+ 호환).
     private func splitByRegex(_ text: String, pattern: String) -> [String] {
         guard let regex = try? NSRegularExpression(pattern: pattern) else {
             return [text]
@@ -647,13 +647,13 @@ struct BulkImportView: View {
             return [Draft(title: makeTitle(for: line), values: [line])]
         }
 
-        // 첫 줄이 서비스명(라벨)인지 — 짧고, 값 타입으로 분류되지 않는 텍스트.
+        // 첫 줄이 서비스명(라벨)인지 - 짧고, 값 타입으로 분류되지 않는 텍스트.
         let first = lines[0]
         let firstIsLabel = isLabelLine(first)
         let values = firstIsLabel ? Array(lines.dropFirst()) : lines
         let base = firstIsLabel ? first : ""
 
-        // 긴 설명 문장이 섞인 블록은 쪼개지 않는다 — 맥락이 사라진다.
+        // 긴 설명 문장이 섞인 블록은 쪼개지 않는다 - 맥락이 사라진다.
         let hasProse = values.contains { $0.count > 32 && $0.contains(" ") }
         if hasProse || values.isEmpty {
             let value = values.isEmpty ? chunk : values.joined(separator: "\n")
@@ -699,7 +699,7 @@ struct BulkImportView: View {
         }
     }
 
-    /// 라벨 줄 판정 — 짧고(25자 이하) 값 타입으로 분류되지 않으면 서비스명으로 본다.
+    /// 라벨 줄 판정 - 짧고(25자 이하) 값 타입으로 분류되지 않으면 서비스명으로 본다.
     private func isLabelLine(_ text: String) -> Bool {
         guard text.count <= 25 else { return false }
         return ClipboardClassificationService.shared.classify(content: text).confidence < 0.7
@@ -716,7 +716,7 @@ struct BulkImportView: View {
             .contains { lowered.contains($0) }
     }
 
-    /// 비밀번호처럼 보이는 값 — 공백 없는 4~32자 + 숫자 포함.
+    /// 비밀번호처럼 보이는 값 - 공백 없는 4~32자 + 숫자 포함.
     private func looksLikeSecret(_ value: String) -> Bool {
         value.count >= 4 && value.count <= 32
             && !value.contains(" ")
@@ -787,8 +787,8 @@ struct BulkImportView: View {
                     ? d.value.prefix(20).trimmingCharacters(in: .whitespacesAndNewlines)
                     : title
 
-                // 묶인 항목은 콤보로 저장 (value는 비우고 comboValues에 단계 나열 — 샘플과 동일 패턴).
-                // 보안 콤보는 단계 값을 각각 암호화 — 하나라도 실패하면 일반 콤보로 폴백.
+                // 묶인 항목은 콤보로 저장 (value는 비우고 comboValues에 단계 나열 - 샘플과 동일 패턴).
+                // 보안 콤보는 단계 값을 각각 암호화 - 하나라도 실패하면 일반 콤보로 폴백.
                 if d.isCombo {
                     var steps = d.values
                     var isSecure = d.isSecure
@@ -811,7 +811,7 @@ struct BulkImportView: View {
 
                 let detected = ClipboardClassificationService.shared.classify(content: d.value)
                 let category = detected.confidence >= 0.7 ? detected.type.rawValue : "기본"
-                // 보안 항목은 암호화해서 저장 — 키를 못 만들면 일반 단축어로 폴백.
+                // 보안 항목은 암호화해서 저장 - 키를 못 만들면 일반 단축어로 폴백.
                 var value = d.value
                 var isSecure = d.isSecure
                 if isSecure {
@@ -833,7 +833,7 @@ struct BulkImportView: View {
             AnalyticsService.logBulkImported(count: toSave.count)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
             savedCount = toSave.count
-            UserDefaults.standard.removeObject(forKey: Self.snapshotKey)   // 저장 완료 — 임시저장 정리
+            UserDefaults.standard.removeObject(forKey: Self.snapshotKey)   // 저장 완료 - 임시저장 정리
         } catch {
             print("❌ [BulkImportView.saveAll] 일괄 가져오기 저장 실패: \(error)")
             UINotificationFeedbackGenerator().notificationOccurred(.error)

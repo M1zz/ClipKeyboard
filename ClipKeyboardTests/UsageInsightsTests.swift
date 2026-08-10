@@ -6,7 +6,7 @@
 //
 //  특히 틀리기 쉬운 두 지점을 못 박는다:
 //   ① 이벤트 이름에 붙는 슬라이스(`paywall_view:memo`)를 같은 단계로 셀 것
-//   ② 아직 오지 않은 날(D7 전에 조회)은 **이탈로 세지 말 것** — 세면 리텐션이
+//   ② 아직 오지 않은 날(D7 전에 조회)은 **이탈로 세지 말 것** - 세면 리텐션이
 //      실제보다 낮게 나와 잘못된 결론으로 이어진다
 //
 
@@ -122,7 +122,7 @@ final class UsageInsightsTests: XCTestCase {
         XCTAssertEqual(rows[0].day7, 0)
     }
 
-    /// ⚠️ 아직 D7이 오지 않았으면 이탈이 아니다 — 0으로 세되, 그건 "아직 모름"이다.
+    /// ⚠️ 아직 D7이 오지 않았으면 이탈이 아니다 - 0으로 세되, 그건 "아직 모름"이다.
     /// (이 테스트는 미래 날짜를 잔존으로 잘못 세지 않는지를 본다.)
     func testFutureDaysAreNotCountedAsRetained() throws {
         let cal = makeCalendar()

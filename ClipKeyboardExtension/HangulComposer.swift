@@ -42,7 +42,7 @@ final class HangulComposer {
         "ㅡ": ["ㅣ": "ㅢ"]
     ]
 
-    /// 자음 종성 결합 (ㄱ+ㅅ=ㄳ 등) — 종성 한정
+    /// 자음 종성 결합 (ㄱ+ㅅ=ㄳ 등) - 종성 한정
     private static let finalCombines: [Character: [Character: Character]] = [
         "ㄱ": ["ㅅ": "ㄳ"],
         "ㄴ": ["ㅈ": "ㄵ", "ㅎ": "ㄶ"],
@@ -70,7 +70,7 @@ final class HangulComposer {
     /// 외부 (CheonjiinInput)에서 현재 medial 존재 여부를 확인할 때 사용.
     var medialIsSet: Bool { medial != nil }
 
-    /// 강한 참조 — adapter가 임시 인스턴스인 경우가 많아 weak이면 즉시 dealloc된다.
+    /// 강한 참조 - adapter가 임시 인스턴스인 경우가 많아 weak이면 즉시 dealloc된다.
     /// retain cycle 위험 없음 (proxy → KeyboardViewController, controller는 view를 value로만 보유).
     var proxy: HangulInputProxy?
 
@@ -85,13 +85,13 @@ final class HangulComposer {
         } else if Self.medials.contains(jamo) {
             handleVowel(jamo)
         } else {
-            // Hangul jamo가 아닌 문자 (영문·숫자·기호) — 현재 syllable commit 후 그대로 입력
+            // Hangul jamo가 아닌 문자 (영문·숫자·기호) - 현재 syllable commit 후 그대로 입력
             commitAndReset()
             proxy?.insertText(String(jamo))
         }
     }
 
-    /// 백스페이스 — 컴포지션 중이면 한 단계 되돌리기, 아니면 host에 deleteBackward 전달.
+    /// 백스페이스 - 컴포지션 중이면 한 단계 되돌리기, 아니면 host에 deleteBackward 전달.
     func backspace() {
         if final != nil {
             // 종성이 결합된 경우 분해 가능한지 확인

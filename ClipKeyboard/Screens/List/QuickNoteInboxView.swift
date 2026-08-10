@@ -2,7 +2,7 @@
 //  QuickNoteInboxView.swift
 //  ClipKeyboard
 //
-//  빠른 메모(Inbox) 보관함 화면 — 어디서든 빠르게 담아둔 결정-보류 항목들을 모아 보여주고,
+//  빠른 메모(Inbox) 보관함 화면 - 어디서든 빠르게 담아둔 결정-보류 항목들을 모아 보여주고,
 //  사용자가 항목별로 "메모로 저장"(승격)하거나 "삭제"하도록 한다.
 //  애플 메모앱의 "빠른 메모"를 본떠, 키보드 메모로 쓸지 여부를 나중에 결정하게 하는 받은편지함.
 //
@@ -237,7 +237,7 @@ struct QuickNoteInboxBanner: View {
             Image(systemName: AppSymbol.chevronRight)
                 .font(.caption.weight(.semibold))
                 .foregroundColor(.secondary)
-            // 닫기 — 행 탭과 분리된 단일 버튼(중첩 버튼 회피)
+            // 닫기 - 행 탭과 분리된 단일 버튼(중첩 버튼 회피)
             Image(systemName: AppSymbol.xmarkCircleFill)
                 .foregroundColor(Color.secondary.opacity(0.6))
                 .contentShape(Rectangle())

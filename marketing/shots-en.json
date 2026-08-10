@@ -39,7 +39,7 @@
     {
       "screenshot": "raw/en/screen3.png",
       "out": "out/en/03.png",
-      "eyebrow": "Copy it — it sorts itself",
+      "eyebrow": "Copy it: it sorts itself",
       "title": "A clipboard that\norganizes itself",
       "bg_top": "#F5F6F8",
       "bg_bottom": "#FFFFFF",

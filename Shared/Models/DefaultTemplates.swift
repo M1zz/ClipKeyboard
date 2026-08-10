@@ -101,7 +101,7 @@ struct DefaultTemplates {
             ),
             Memo(
                 title: "Delay / running late",
-                value: "Hey {client_name}, running a bit late — I'll send {deliverable} by end of {date}. Apologies for the shift.",
+                value: "Hey {client_name}, running a bit late. I'll send {deliverable} by end of {date}. Apologies for the shift.",
                 category: "text",
                 isTemplate: true,
                 templateVariables: ["client_name", "deliverable"]
@@ -129,7 +129,7 @@ struct DefaultTemplates {
             ),
             Memo(
                 title: "Polite decline",
-                value: "Thanks for considering me, {client_name}. Unfortunately I can't take this on right now — my calendar is full through {date}.",
+                value: "Thanks for considering me, {client_name}. Unfortunately I can't take this on right now, my calendar is full through {date}.",
                 category: "text",
                 isTemplate: true,
                 templateVariables: ["client_name"]
@@ -150,7 +150,7 @@ struct DefaultTemplates {
             ),
             Memo(
                 title: "File delivery",
-                value: "Delivered: {link}\nPassword: {password}\nPlease review by {date} — revisions go into the next round.",
+                value: "Delivered: {link}\nPassword: {password}\nPlease review by {date}, revisions go into the next round.",
                 category: "text",
                 isTemplate: true,
                 templateVariables: ["link", "password"]

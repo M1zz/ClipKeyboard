@@ -41,7 +41,7 @@ final class KeyboardUsageTrackerTests: XCTestCase {
 
     private func clearStats() {
         groupDefaults?.removeObject(forKey: todayKey)
-        // 어제 키도 정리 — 전날 테스트 실행이 남긴 잔존값이 시뮬레이터에 누적되어
+        // 어제 키도 정리 - 전날 테스트 실행이 남긴 잔존값이 시뮬레이터에 누적되어
         // testDailyUsageCount_IsScopedToDate의 "어제 = 0" 단언을 다음 날 깨뜨린다.
         if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) {
             groupDefaults?.removeObject(forKey: dailyKey(for: yesterday))
@@ -59,7 +59,7 @@ final class KeyboardUsageTrackerTests: XCTestCase {
     }
 
     func testRecordMemoUse_AccumulatesTimeSaved() {
-        // Given — 40자 메모: 40자 ÷ 4자/초 - 1초(탭 오버헤드) = 9초 절약
+        // Given - 40자 메모: 40자 ÷ 4자/초 - 1초(탭 오버헤드) = 9초 절약
         let fortyChars = String(repeating: "가", count: 40)
 
         // When
@@ -71,19 +71,19 @@ final class KeyboardUsageTrackerTests: XCTestCase {
     }
 
     func testRecordMemoUse_ShortValue_NeverGoesNegative() {
-        // Given — 2자 메모: 0.5초 - 1초 = 음수 → 0으로 clamp
+        // Given - 2자 메모: 0.5초 - 1초 = 음수 → 0으로 clamp
         KeyboardUsageTracker.recordMemoUse(value: "안녕")
 
-        // Then — 절약 시간은 음수가 되면 안 됨 (통계 화면에 마이너스 노출 방지)
+        // Then - 절약 시간은 음수가 되면 안 됨 (통계 화면에 마이너스 노출 방지)
         XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(), 0.0, accuracy: 0.001)
         XCTAssertEqual(KeyboardUsageTracker.dailyUsageCount(), 1, "횟수는 그래도 1 증가")
     }
 
     func testDailyUsageCount_IsScopedToDate() {
-        // Given — 오늘 1회 사용
+        // Given - 오늘 1회 사용
         KeyboardUsageTracker.recordMemoUse(value: "오늘 메모")
 
-        // Then — 어제 날짜로 조회하면 0 (자정에 자연 초기화되는 구조)
+        // Then - 어제 날짜로 조회하면 0 (자정에 자연 초기화되는 구조)
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
         XCTAssertEqual(KeyboardUsageTracker.dailyUsageCount(for: yesterday), 0)
         XCTAssertEqual(KeyboardUsageTracker.dailyUsageCount(), 1)

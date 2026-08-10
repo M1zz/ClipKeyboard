@@ -244,7 +244,7 @@ func defaultColor(for category: String, in list: [String]) -> Color {
     return palette[idx % palette.count]
 }
 
-/// 카테고리 심볼 — 사용자 지정(userCategoryIcons_v1) 우선, 없으면 기본 팔레트.
+/// 카테고리 심볼 - 사용자 지정(userCategoryIcons_v1) 우선, 없으면 기본 팔레트.
 /// 카드·메뉴·키보드 프리뷰가 모두 이 한 가지 규칙을 공유한다.
 func categorySymbol(for category: String, in list: [String]) -> String {
     if let custom = UserDefaults(suiteName: AppGroup.identifier)?
@@ -255,7 +255,7 @@ func categorySymbol(for category: String, in list: [String]) -> String {
     return defaultIcon(for: category, in: list)
 }
 
-/// 카테고리 색 — 사용자 지정(userCategoryColors_v1) 우선, 없으면 기본 팔레트.
+/// 카테고리 색 - 사용자 지정(userCategoryColors_v1) 우선, 없으면 기본 팔레트.
 func categoryTint(for category: String, in list: [String]) -> Color {
     if let custom = UserDefaults(suiteName: AppGroup.identifier)?
         .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String],

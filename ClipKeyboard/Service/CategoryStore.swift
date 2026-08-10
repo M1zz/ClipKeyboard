@@ -20,10 +20,10 @@ import Combine
 final class CategoryStore: ObservableObject {
     static let shared = CategoryStore()
 
-    /// 단일 진실 공급원 — 키보드 리스트 페이지 탭(ClipKeyboardListViewModel)·아이콘/레이아웃
+    /// 단일 진실 공급원 - 키보드 리스트 페이지 탭(ClipKeyboardListViewModel)·아이콘/레이아웃
     /// 설정과 동일한 키. CategorySettings(이 store 사용)와 키보드 페이지가 같은 목록을 본다.
     private let storageKey = "userDefinedCategories_v1"
-    /// v4.2 이전 CategoryStore 전용 키 — 통일 시 이 store/키보드 키로 머지된다.
+    /// v4.2 이전 CategoryStore 전용 키 - 통일 시 이 store/키보드 키로 머지된다.
     private let legacyStorageKey = "user.categories.v1"
     /// 두 카테고리 키 통일 머지 1회 완료 플래그.
     private let unifiedMigrationKey = "category.store.unified.v1"
@@ -31,9 +31,9 @@ final class CategoryStore: ObservableObject {
     private let personaKey = "user.selected_persona.v1"
     /// v4.1.0: 카테고리 기능 활성화 플래그. 기본 OFF, 사용자가 명시적으로 활성화.
     private let featureEnabledKey = "category.feature.enabled.v1"
-    /// 활성화 배너를 사용자가 "안 쓸래요"로 닫은 적이 있는지 — 다시 표시 안 함.
+    /// 활성화 배너를 사용자가 "안 쓸래요"로 닫은 적이 있는지 - 다시 표시 안 함.
     private let activationDismissedKey = "category.activation.banner.dismissed.v1"
-    /// 마이그레이션 완료 flag — 기존 사용자(category != "기본"인 메모 보유)는 자동 활성.
+    /// 마이그레이션 완료 flag - 기존 사용자(category != "기본"인 메모 보유)는 자동 활성.
     private let featureMigratedKey = "category.feature.migrated.v1"
 
     /// 기본 제공 카테고리(타입별 모아보기) 활성화 목록. 키보드 리스트와 동일 키 공유.
@@ -77,14 +77,14 @@ final class CategoryStore: ObservableObject {
         print("✅ [CategoryStore] 카테고리 기능 활성화")
     }
 
-    /// 사용자가 "안 쓸래요" 선택 — 배너 영구 닫기. 추후 카테고리 관리 페이지에서
+    /// 사용자가 "안 쓸래요" 선택 - 배너 영구 닫기. 추후 카테고리 관리 페이지에서
     /// 수동으로 다시 켤 수 있음.
     func dismissActivationBanner() {
         UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: activationDismissedKey)
         print("🙈 [CategoryStore] 활성화 배너 영구 닫힘")
     }
 
-    /// 활성화 배너를 보여줄지 — 미활성 + 미dismiss + 메모 5개 이상일 때 true.
+    /// 활성화 배너를 보여줄지 - 미활성 + 미dismiss + 메모 5개 이상일 때 true.
     func shouldShowActivationBanner(currentMemoCount: Int) -> Bool {
         guard !isFeatureEnabled else { return false }
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
@@ -92,7 +92,7 @@ final class CategoryStore: ObservableObject {
         return currentMemoCount >= 5
     }
 
-    /// 첫 실행 시 마이그레이션 — 기존 사용자(메모 중 category가 "기본"이 아닌 것이
+    /// 첫 실행 시 마이그레이션 - 기존 사용자(메모 중 category가 "기본"이 아닌 것이
     /// 1개라도 있으면 카테고리를 이미 쓰고 있던 것)는 자동 활성. 신규 설치는 OFF.
     func migrateFeatureEnabledIfNeeded(existingMemoCategories: [String]) {
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
@@ -109,7 +109,7 @@ final class CategoryStore: ObservableObject {
     /// 카테고리 기능은 **처음부터 켜져 있다.**
     ///
     /// ⚠️ 예전에는 꺼진 채로 시작해서, 메모가 5개 넘어야 뜨는 배너를 눌러야 켜졌다.
-    ///    그 사이 화면은 '전체' 한 장뿐 — 탭도 스와이프도 없어서 **이 앱에 카테고리가
+    ///    그 사이 화면은 '전체' 한 장뿐 - 탭도 스와이프도 없어서 **이 앱에 카테고리가
     ///    있다는 사실 자체를 알 수 없었다.** 켠 뒤에야 보이는 기능은 없는 기능과 같다.
     ///
     /// ⚠️ 다만 **직접 끈 사람의 선택은 존중한다.** 저장된 값이 있으면 그대로 따르고,
@@ -138,7 +138,7 @@ final class CategoryStore: ObservableObject {
         }
     }
 
-    /// 페르소나 선택을 저장한다. (카테고리는 기본 제공하지 않으므로 시드하지 않음 —
+    /// 페르소나 선택을 저장한다. (카테고리는 기본 제공하지 않으므로 시드하지 않음
     /// 사용자가 직접 카테고리를 만들어 쓴다. persona 값은 제안/연습 등 다른 기능에서 사용.)
     func applyPersona(_ persona: Persona, language: String? = nil) {
         UserDefaults(suiteName: AppGroup.identifier)?.set(persona.rawValue, forKey: personaKey)
@@ -147,7 +147,7 @@ final class CategoryStore: ObservableObject {
 
     // MARK: - Public API
 
-    /// 사용자가 보는 전체 카테고리 목록 — 순서대로.
+    /// 사용자가 보는 전체 카테고리 목록 - 순서대로.
     var allCategories: [String] { categories }
 
     /// 새 카테고리 추가. 중복 시 무시.
@@ -195,7 +195,7 @@ final class CategoryStore: ObservableObject {
         persist()
     }
 
-    /// 보호 카테고리 — 삭제 불가.
+    /// 보호 카테고리 - 삭제 불가.
     static let protectedCategories: Set<String> = ["기본", "텍스트", "이미지"]
 
     // MARK: - Visibility (표시/숨김 토글)
@@ -217,7 +217,7 @@ final class CategoryStore: ObservableObject {
         defaults.set(Array(hidden), forKey: hiddenTabsKey)
     }
 
-    /// 카테고리 추가 후 표시 토글을 OFF(숨김)로 둔다 — 페르소나 변경 등으로 자동 추가될 때
+    /// 카테고리 추가 후 표시 토글을 OFF(숨김)로 둔다 - 페르소나 변경 등으로 자동 추가될 때
     /// 사용자가 카테고리 관리에서 직접 켜기 전까지 탭을 어지럽히지 않도록.
     @discardableResult
     func addHidden(_ name: String) -> Bool {
@@ -261,7 +261,7 @@ final class CategoryStore: ObservableObject {
         migrateUnifyIfNeeded(defaults)
 
         if let stored = defaults.stringArray(forKey: storageKey), !stored.isEmpty {
-            // 레거시 시드가 남긴 보호 버킷 이름("기본"/"텍스트"/"이미지")은 사용자 카테고리가 아니다 —
+            // 레거시 시드가 남긴 보호 버킷 이름("기본"/"텍스트"/"이미지")은 사용자 카테고리가 아니다
             // 전용 탭이 따로 있어 중복 노출되고, 영어 UI에도 한글 raw 문자열("기본" 칩)이 그대로
             // 보이므로 목록에서 걸러내고 저장본도 정리한다. (메모의 category 값은 건드리지 않음)
             let sanitized = stored.filter { !Self.protectedCategories.contains($0) }
@@ -271,7 +271,7 @@ final class CategoryStore: ObservableObject {
             }
             categories = sanitized
         } else {
-            // 기본 제공 카테고리 없음 — 사용자가 직접 만들어 쓴다.
+            // 기본 제공 카테고리 없음 - 사용자가 직접 만들어 쓴다.
             // (전체/즐겨찾기 탭은 카테고리 목록과 무관하게 항상 제공됨)
             categories = []
             defaults.set(true, forKey: seededFlagKey)

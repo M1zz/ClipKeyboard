@@ -2,12 +2,12 @@
 //  AppleIntelligenceService.swift
 //  ClipKeyboard
 //
-//  Apple Foundation Models(온디바이스 AI) 래퍼 — iOS 26+ Apple Intelligence 기기 전용.
+//  Apple Foundation Models(온디바이스 AI) 래퍼 - iOS 26+ Apple Intelligence 기기 전용.
 //  1) 클립보드 자동 분류 보강: 정규식 신뢰도가 낮은 항목을 온디바이스 LLM으로 재분류
 //  2) 붙여넣을 앱 예측: "이 텍스트는 어디에 붙여넣을 가능성이 높은가" → 단축 액션 제안
 //  3) 온디바이스 번역: Apple Intelligence 지원 언어 간 무료 번역
 //
-//  ⚠️ 모든 처리는 온디바이스 — 텍스트가 기기를 떠나지 않는다.
+//  ⚠️ 모든 처리는 온디바이스 - 텍스트가 기기를 떠나지 않는다.
 //  ⚠️ 메인 앱 타겟 전용. 키보드 익스텐션은 메모리 제한 때문에 사용하지 않는다.
 //
 
@@ -44,7 +44,7 @@ enum AIAvailability {
 
 // MARK: - Paste Target (붙여넣을 앱 예측)
 
-/// AI가 예측한 "이 텍스트를 붙여넣을 가능성이 높은 곳" — 단축 액션으로 변환된다.
+/// AI가 예측한 "이 텍스트를 붙여넣을 가능성이 높은 곳" - 단축 액션으로 변환된다.
 enum PasteTargetPrediction: String {
     case mail        // 메일 초안 느낌의 텍스트
     case messages    // 짧은 대화체 텍스트
@@ -99,7 +99,7 @@ enum AITranslationLanguage: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    /// 원어 표기 — 언어 선택 UI에서 번역 없이 그대로 노출한다.
+    /// 원어 표기 - 언어 선택 UI에서 번역 없이 그대로 노출한다.
     var displayName: String {
         switch self {
         case .korean:             return "한국어"
@@ -212,10 +212,10 @@ final class AppleIntelligenceService {
     private var targetCache: [Int: PasteTargetPrediction] = [:]
     private let cacheQueue = DispatchQueue(label: "com.Ysoup.TokenMemo.ai.cache")
 
-    /// AI 분류에 부여하는 고정 신뢰도 — 정규식 강매치(0.9+)보다는 낮고 UI 강조선(0.8)보다는 높게.
+    /// AI 분류에 부여하는 고정 신뢰도 - 정규식 강매치(0.9+)보다는 낮고 UI 강조선(0.8)보다는 높게.
     static let aiConfidence: Double = 0.85
 
-    // MARK: - Settings (App Group — 설정 화면과 공유)
+    // MARK: - Settings (App Group - 설정 화면과 공유)
 
     static var classificationEnabled: Bool {
         UserDefaults(suiteName: AppGroup.identifier)?
@@ -260,7 +260,7 @@ final class AppleIntelligenceService {
     // MARK: - 1) 클립보드 자동 분류 보강
 
     /// 정규식 분류 신뢰도가 낮은 텍스트를 온디바이스 LLM으로 재분류한다.
-    /// - Returns: (타입, 신뢰도) — 사용 불가/실패/plainText 판정이면 nil
+    /// - Returns: (타입, 신뢰도) - 사용 불가/실패/plainText 판정이면 nil
     func classify(_ content: String) async -> (type: ClipboardItemType, confidence: Double)? {
         #if canImport(FoundationModels)
         guard #available(iOS 26.0, macCatalyst 26.0, *), isAvailable else { return nil }
@@ -306,13 +306,13 @@ final class AppleIntelligenceService {
         case .personName:       return .name
         case .streetAddress:    return .address
         case .url:              return .url
-        case .sourceCode:       return nil   // 전용 타입 없음 — 텍스트 유지
+        case .sourceCode:       return nil   // 전용 타입 없음 - 텍스트 유지
         case .trackingNumber:   return .trackingNumber
         case .confirmationCode: return .confirmationCode
         case .membershipNumber: return .membershipNumber
         case .bankAccount:      return .bankAccount
         case .dateOrBirthDate:  return .birthDate
-        case .plainText:        return nil   // 재분류 무의미 — 기존 결과 유지
+        case .plainText:        return nil   // 재분류 무의미 - 기존 결과 유지
         }
     }
     #endif

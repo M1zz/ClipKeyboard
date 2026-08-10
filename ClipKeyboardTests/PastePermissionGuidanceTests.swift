@@ -5,7 +5,7 @@
 //  **설치 첫날에는 클립보드를 건드리지 않는다**는 약속을 고정한다.
 //
 //  iOS는 앱이 클립보드를 읽는 순간 "붙여넣기 허용?" 팝업을 띄운다. 설치 당일 그게 뜨면
-//  신규 사용자가 이 앱에서 보는 첫 다이얼로그가 권한 요청이 된다 — 무엇을 하는 앱인지
+//  신규 사용자가 이 앱에서 보는 첫 다이얼로그가 권한 요청이 된다 - 무엇을 하는 앱인지
 //  알기도 전에 거절할지를 묻는 셈이다. 며칠 써 본 뒤라야 허용할 이유가 생긴다.
 //
 //  ⚠️ 이 계약이 깨지는 방식은 조용하다. 팝업은 시뮬레이터·테스트에서 안 보이고
@@ -16,7 +16,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("PastePermissionGuidance — 붙여넣기 팝업 시점", .serialized)
+@Suite("PastePermissionGuidance, 붙여넣기 팝업 시점", .serialized)
 struct PastePermissionGuidanceTests {
 
     private static let installKey = "app_install_date"
@@ -33,7 +33,7 @@ struct PastePermissionGuidanceTests {
         body()
     }
 
-    @Test("설치 당일에는 클립보드를 읽지 않는다 — 팝업이 앱의 첫인상이 되면 안 된다")
+    @Test("설치 당일에는 클립보드를 읽지 않는다. 팝업이 앱의 첫인상이 되면 안 된다")
     func doesNotReadOnInstallDay() {
         withInstallDate(daysAgo: 0) {
             #expect(PastePermissionGuidance.isWarmedUp == false)
@@ -71,15 +71,15 @@ struct PastePermissionGuidanceTests {
     //    시뮬레이터의 cfprefsd 가 지운 키를 곧바로 되살려 놔서(외부에서 한 번 써 넣은 값이
     //    앱 프로세스의 removeObject 뒤에도 다시 나타난다) **삭제 상태를 만들 수가 없다.**
     //    억지로 통과시키려고 구현을 비틀면 테스트가 코드를 망가뜨리는 쪽이 된다.
-    //    (그 경로의 규칙 자체는 `PastePermissionGuidance.installDate` 주석에 남겨 두었다 —
+    //    (그 경로의 규칙 자체는 `PastePermissionGuidance.installDate` 주석에 남겨 두었다
     //     모르면 지금을 설치일로 찍고, 즉 **기다리는 쪽**으로 붙는다)
 
 }
 
-@Suite("KeyboardInstallState — 키보드를 쓸 수 있는 상태인가")
+@Suite("KeyboardInstallState, 키보드를 쓸 수 있는 상태인가")
 struct KeyboardInstallStateTests {
 
-    @Test("익스텐션 번들 ID는 앱 번들 아래에 있어야 한다 — 틀리면 영영 '못 쓴다'가 된다")
+    @Test("익스텐션 번들 ID는 앱 번들 아래에 있어야 한다. 틀리면 영영 '못 쓴다'가 된다")
     func extensionBundleIDIsCorrect() {
         #expect(KeyboardInstallState.extensionBundleID.hasPrefix("com.Ysoup.TokenMemo."))
         #expect(KeyboardInstallState.extensionBundleID == "com.Ysoup.TokenMemo.ClipKeyboardExtension")

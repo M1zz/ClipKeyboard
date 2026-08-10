@@ -5,7 +5,7 @@
 # 아래 동작 목록에 나오려면 동작 확장(com.apple.ui-services)이 별도 타겟이어야 한다.
 #
 # 소스/Info.plist/entitlements는 이미 작성돼 있고 타겟만 없는 상태에서 돌린다.
-# (add_share_extension.rb 와 같은 방식 — 그쪽 설정을 그대로 따른다)
+# (add_share_extension.rb 와 같은 방식 - 그쪽 설정을 그대로 따른다)
 require "xcodeproj"
 
 PROJ = "ClipKeyboard.xcodeproj"
@@ -17,7 +17,7 @@ app  = proj.targets.find { |t| t.name == "ClipKeyboard" }
 raise "main app target not found" unless app
 
 if proj.targets.any? { |t| t.name == NAME }
-  puts "already registered — nothing to do"; exit 0
+  puts "already registered - nothing to do"; exit 0
 end
 
 # 1) 앱 익스텐션 타겟 생성 (.appex)
@@ -29,7 +29,7 @@ vc  = grp.new_reference("ActionViewController.swift")
 grp.new_reference("Info.plist")
 grp.new_reference("#{NAME}.entitlements")
 
-# 3) 저장 로직은 공유 확장과 **같은 파일**을 쓴다 — 스키마를 아는 곳은 하나여야 한다.
+# 3) 저장 로직은 공유 확장과 **같은 파일**을 쓴다 - 스키마를 아는 곳은 하나여야 한다.
 shared_grp = proj.main_group.find_subpath("Shared", true)
 shared_grp.set_source_tree("<group>")
 shared_grp.set_path("Shared")
@@ -46,7 +46,7 @@ if share && share.source_build_phase.files.none? { |f| f.file_ref&.path == "Quic
   puts "  + QuickShortcutSave.swift → ClipKeyboardShareExtension"
 end
 
-# 4) 문자열 카탈로그 — 목록에 적히는 이름이 번역되도록 리소스로 넣는다.
+# 4) 문자열 카탈로그 - 목록에 적히는 이름이 번역되도록 리소스로 넣는다.
 strings = proj.files.find { |f| f.path&.end_with?("Localizable.xcstrings") }
 ext.resources_build_phase.add_file_reference(strings) if strings
 

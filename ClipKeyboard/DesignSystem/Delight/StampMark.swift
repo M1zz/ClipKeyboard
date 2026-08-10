@@ -2,12 +2,12 @@
 //  StampMark.swift
 //  ClipKeyboard
 //
-//  날인 자국 — 사용 흔적을 숫자가 아니라 잉크 농도로 보여준다.
+//  날인 자국 - 사용 흔적을 숫자가 아니라 잉크 농도로 보여준다.
 //
 //  왜 숫자가 아닌가: "132회 사용"은 성과 지표처럼 읽히고, 적은 쪽에 죄책감을 만든다.
 //  자국은 그냥 흔적이라 많이 쓴 문구가 자연스럽게 손에 익은 것처럼 보인다.
 //
-//  ⚠️ 색은 테마 accent를 쓴다 — 인앱은 Native Neutral 유지.
+//  ⚠️ 색은 테마 accent를 쓴다 - 인앱은 Native Neutral 유지.
 //
 
 import SwiftUI
@@ -86,7 +86,7 @@ struct StampPressOverlay: View {
     private func press() {
         guard Delight.isEnabled else { return }
         guard !reduceMotion else {
-            // 모션을 끈 사용자에게도 "찍혔다"는 사실은 전한다 — 잠깐 보였다 사라진다.
+            // 모션을 끈 사용자에게도 "찍혔다"는 사실은 전한다 - 잠깐 보였다 사라진다.
             opacity = 0.9
             withAnimation(.linear(duration: 0.01).delay(0.5)) { opacity = 0 }
             return

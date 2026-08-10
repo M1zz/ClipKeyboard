@@ -2,7 +2,7 @@
 //  SecurePINSettings.swift
 //  ClipKeyboard
 //
-//  보안 메모 PIN 설정 — 키보드 익스텐션이 보안 메모 입력 시 인증에 사용.
+//  보안 메모 PIN 설정 - 키보드 익스텐션이 보안 메모 입력 시 인증에 사용.
 //  4자리 PIN을 SHA-256으로 해시해서 App Group UserDefaults에 저장.
 //
 

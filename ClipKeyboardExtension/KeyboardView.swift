@@ -142,7 +142,7 @@ class TemplateInputState: ObservableObject {
     @Published var templateId: UUID?  // 현재 편집 중인 템플릿 ID
     /// v4.0.8: attachedTemplate 흐름에서 본 메모(계좌번호 등)의 ID. nil이면 일반 템플릿 흐름.
     @Published var baseMemoId: UUID?
-    /// v4.0.8: 본 메모 본문 — preview 표시용으로 매번 MemoStore 조회 안 하도록 캐싱.
+    /// v4.0.8: 본 메모 본문 - preview 표시용으로 매번 MemoStore 조회 안 하도록 캐싱.
     @Published var baseMemoValue: String = ""
 
     func updateAllPlaceholdersFilled() {
@@ -165,17 +165,17 @@ struct KeyboardView: View {
     @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
 
-    // 색상 커스터마이즈 — 기본은 false (Paper 테마 사용), true면 hex 오버라이드
+    // 색상 커스터마이즈 - 기본은 false (Paper 테마 사용), true면 hex 오버라이드
     @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool = false
     @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
     @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
-    /// 키캡 물성 프리셋 — 색이 아니라 두께·빛·모서리·눌림만 정한다.
+    /// 키캡 물성 프리셋 - 색이 아니라 두께·빛·모서리·눌림만 정한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    // 옵션 토글 — 기본 OFF로 화면 공간 확보
+    // 옵션 토글 - 기본 OFF로 화면 공간 확보
     @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearchBar: Bool = false
     @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecentSection: Bool = false
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
@@ -184,22 +184,22 @@ struct KeyboardView: View {
     @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: AppGroup.identifier)) private var defaultTypingLang: String = "english"
     /// 메모 구분 표시 마스터 토글(메인 앱과 공유). 기본 OFF = 키도 심플(타입 테두리·카테고리 틴트 숨김).
     @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier)) private var showVisualCues: Bool = false
-    /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) — 키보드에서는 셀이 2초 머물면
+    /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) - 키보드에서는 셀이 2초 머물면
     /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
     @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var contentHintEnabled: Bool = true
 
-    /// 메모 구분 장치 노출 여부 — 오직 설정 "메모 구분 표시" 토글만 따른다
+    /// 메모 구분 장치 노출 여부 - 오직 설정 "메모 구분 표시" 토글만 따른다
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
     private var visualCuesVisible: Bool { showVisualCues }
 
-    /// KeyboardViewController가 init으로 주입 (let — SwiftUI 재렌더에도 유지)
+    /// KeyboardViewController가 init으로 주입 (let - SwiftUI 재렌더에도 유지)
     let typingProxy: TypingInputProxy?
 
-    /// 호스트 텍스트 필드 상태 — clearAll(X) 버튼은 hasText일 때만 노출.
+    /// 호스트 텍스트 필드 상태 - clearAll(X) 버튼은 hasText일 때만 노출.
     /// nil이면 (preview 등) 항상 표시.
     @ObservedObject var documentState: KeyboardDocumentState
 
-    /// 누가 이 키보드를 띄우고 있는가 — 앱 안이면 키마다 복사 버튼이 하나 더 붙는다.
+    /// 누가 이 키보드를 띄우고 있는가 - 앱 안이면 키마다 복사 버튼이 하나 더 붙는다.
     let hostKind: KeyboardHostKind
 
     /// 지금 **눌러 보라고 가리키는** 키. 튜토리얼에서 방금 만든 문구다.
@@ -230,7 +230,7 @@ struct KeyboardView: View {
     @State private var showFullAccessToast = false
     /// 앱 안에서 길게 눌러 복사했다는 확인. (익스텐션에서는 뜰 일이 없다)
     @State private var showCopiedToast = false
-    /// 길게 눌러 복사한 직후의 키 — 이어서 들어오는 탭을 한 번 무시한다.
+    /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
     /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
     @State private var suppressTapAfterLongPress: UUID?
 
@@ -238,7 +238,7 @@ struct KeyboardView: View {
     @State private var searchQuery: String = ""
     @State private var isSearching: Bool = false
     @State private var searchKeyboardLang: SearchLang = .english
-    /// 검색창 한글 조합기 — 자모 버튼 입력을 음절로 결합해 searchQuery에 반영(그대로 append 시 "ㅇㅣㄴㅅㅏ" 깨짐 방지).
+    /// 검색창 한글 조합기 - 자모 버튼 입력을 음절로 결합해 searchQuery에 반영(그대로 append 시 "ㅇㅣㄴㅅㅏ" 깨짐 방지).
     @State private var hangul = HangulSearchController()
 
     // v4.1.0: 카테고리 swipe 현재 페이지 인덱스 (즐겨찾기 별 토글은 제거됨)
@@ -257,7 +257,7 @@ struct KeyboardView: View {
 
     enum SearchLang { case english, korean }
 
-    /// iOS 앱과 동일한 Paper 테마 — light/dark는 시스템 모드 따름
+    /// iOS 앱과 동일한 Paper 테마 - light/dark는 시스템 모드 따름
     private var theme: AppTheme {
         AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark)
     }
@@ -265,7 +265,7 @@ struct KeyboardView: View {
     // MARK: - Computed Properties
 
     /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
-    /// 별 토글은 v4.1.0에서 제거됨 — 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
+    /// 별 토글은 v4.1.0에서 제거됨 - 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
     private var filteredMemos: [Memo] {
         var result = allMemos
 
@@ -278,7 +278,7 @@ struct KeyboardView: View {
             case "★favorites":
                 result = result.filter { $0.isFavorite }
             case "★all":
-                break   // (레거시 안전장치 — 현재 페이지 목록엔 없음) 전체 표시
+                break   // (레거시 안전장치 - 현재 페이지 목록엔 없음) 전체 표시
             case let c where c.hasPrefix(Self.builtInPrefix):
                 let raw = String(c.dropFirst(Self.builtInPrefix.count))
                 result = result.filter { builtInMatches(raw, $0) }
@@ -301,7 +301,7 @@ struct KeyboardView: View {
     /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
     /// App Group UserDefaults에서 같은 flag/배열을 읽어 동일 동작 보장.
     private var isCategoryFeatureEnabled: Bool {
-        // 앱 안 무대에서는 카테고리를 항상 켠 것으로 본다 — 처음부터 탭이 보여야 하고,
+        // 앱 안 무대에서는 카테고리를 항상 켠 것으로 본다 - 처음부터 탭이 보여야 하고,
         // 페이지만 보여주고 거르지 않으면 **골라도 반응이 없는** 죽은 탭이 된다.
         // (탭 노출과 필터가 같은 값을 봐야 하는 이유)
         if hostKind == .inApp { return true }
@@ -309,20 +309,20 @@ struct KeyboardView: View {
             .bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false
     }
 
-    /// iOS 앱 ClipKeyboardListViewModel과 같은 키 — 완전 동기화
+    /// iOS 앱 ClipKeyboardListViewModel과 같은 키 - 완전 동기화
     private var sharedUserCategories: [String] {
         UserDefaults(suiteName: AppGroup.identifier)?
             .stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
     }
 
-    /// iOS 앱에서 숨긴 탭 목록 — "__favorites__" 또는 카테고리 이름
+    /// iOS 앱에서 숨긴 탭 목록 - "__favorites__" 또는 카테고리 이름
     private var sharedHiddenCategoryTabs: Set<String> {
         let arr = UserDefaults(suiteName: AppGroup.identifier)?
             .stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         return Set(arr)
     }
 
-    /// iOS 앱에서 켠 기본 제공 카테고리 rawValue 목록(allCases 순서 유지) — 앱 BuiltInCategory와 동일.
+    /// iOS 앱에서 켠 기본 제공 카테고리 rawValue 목록(allCases 순서 유지) - 앱 BuiltInCategory와 동일.
     /// (타깃 분리로 enum을 공유하지 못해 rawValue 문자열로 인라인 처리.)
     private static let builtInOrder = ["templates", "textMemos", "images", "combos"]
     private var sharedEnabledBuiltIns: [String] {
@@ -386,7 +386,7 @@ struct KeyboardView: View {
         return categoryPages[index]
     }
 
-    /// 카테고리 페이지 목록 — iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 완전 동일.
+    /// 카테고리 페이지 목록 - iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 완전 동일.
     /// 순서: 기본(★basic) → 즐겨찾기(숨김 아니면 항상) → 기본 제공(켠 것) → 사용자 카테고리(메모 있는 것).
     /// "전체(★all)" 탭은 앱에서 제거됐으므로 키보드에서도 노출하지 않는다.
     private var categoryPages: [String] {
@@ -397,7 +397,7 @@ struct KeyboardView: View {
         if !hidden.contains("__favorites__") {
             pages.append("★favorites")
         }
-        // 기본 제공 카테고리 — 사용자가 켠 것만(타입 기준이라 메모 유무 무관).
+        // 기본 제공 카테고리 - 사용자가 켠 것만(타입 기준이라 메모 유무 무관).
         for b in sharedEnabledBuiltIns {
             pages.append(Self.builtInPrefix + b)
         }
@@ -411,12 +411,12 @@ struct KeyboardView: View {
         return pages
     }
 
-    /// 그리드 표시 항목 — 메모 하나당 셀 하나.
+    /// 그리드 표시 항목 - 메모 하나당 셀 하나.
     private var displayItems: [DisplayItem] {
         filteredMemos.map { DisplayItem(memo: $0, useTemplate: false) }
     }
 
-    /// 최근 사용 메모 5개 — lastUsedAt 기준 1주 이내, 최신순
+    /// 최근 사용 메모 5개 - lastUsedAt 기준 1주 이내, 최신순
     private var recentMemos: [Memo] {
         let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
         return allMemos
@@ -426,7 +426,7 @@ struct KeyboardView: View {
             .map { $0 }
     }
 
-    /// 최근 사용 섹션 노출 조건 — 검색 비활성일 때만
+    /// 최근 사용 섹션 노출 조건 - 검색 비활성일 때만
     private var shouldShowRecentSection: Bool {
         searchQuery.isEmpty && !recentMemos.isEmpty
     }
@@ -474,9 +474,9 @@ struct KeyboardView: View {
                 freeUpgradeBanner
             }
 
-            // 상단 헤더 — 카테고리 탭 + clear 버튼
+            // 상단 헤더 - 카테고리 탭 + clear 버튼
             HStack(spacing: 0) {
-                // 앱 안에서는 탭이 하나뿐이어도 보여준다 — 카테고리가 **처음부터** 있어야
+                // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
                 // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
                 if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
                     categoryTabRow
@@ -489,19 +489,19 @@ struct KeyboardView: View {
                     clearAllButton(proxy: proxy)
                         .padding(.trailing, 4)
                         .transition(.opacity.combined(with: .scale(scale: 0.85)))
-                        // 빈 칸에서는 눌러도 지울 게 없다 — 있지만 흐리게.
+                        // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
                         .opacity(documentState.hasText ? 1 : 0.4)
                         .disabled(!documentState.hasText)
                 }
             }
             .animation(.easeOut(duration: 0.18), value: documentState.hasText)
 
-            // 검색 바 — 사용자 토글 ON일 때만
+            // 검색 바 - 사용자 토글 ON일 때만
             if showSearchBar {
                 searchBar
             }
 
-            // 최근 사용 섹션 — 사용자 토글 ON + 검색 비활성일 때만
+            // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
             if showRecentSection && !isSearching && shouldShowRecentSection {
                 recentSection
             }
@@ -517,20 +517,20 @@ struct KeyboardView: View {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
                                 memoButton(for: item.memo, useTemplate: item.useTemplate)
-                                    // 앱 안에서는 키 하나가 두 가지 일을 한다 —
+                                    // 앱 안에서는 키 하나가 두 가지 일을 한다
                                     // **짧게 누르면 입력창에, 길게 누르면 클립보드에.**
                                     //
                                     // ⚠️ 예전에는 키마다 작은 복사 버튼을 얹었는데, 좁은 키에
                                     //    누를 곳이 둘이라 잘못 누르기 쉬웠고 제목도 가렸다.
                                     //    길게 누르기는 자리를 차지하지 않는다.
-                                    //    (익스텐션은 그대로 — 거기선 롱프레스가 이미 메뉴를 연다)
+                                    //    (익스텐션은 그대로 - 거기선 롱프레스가 이미 메뉴를 연다)
                                     .modifier(InAppLongPressCopy(
                                         enabled: hostKind == .inApp,
                                         onCopy: { copyMemoInApp(item.memo) },
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
                                     ))
-                                    // 튜토리얼이 가리키는 키 — **여기를 누르면 된다**를
+                                    // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
                                     // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
                                     .overlay {
                                         if item.memo.id == highlightedMemoId {
@@ -564,9 +564,9 @@ struct KeyboardView: View {
                     )
                 }
             }
-            // 인디케이터 점 제거 — 상단 categoryTabRow에서 심볼 버튼으로 이동
+            // 인디케이터 점 제거 - 상단 categoryTabRow에서 심볼 버튼으로 이동
 
-            // 미니 검색 키보드 — 검색 중일 때만
+            // 미니 검색 키보드 - 검색 중일 때만
             if isSearching {
                 miniSearchKeyboard
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -740,7 +740,7 @@ struct KeyboardView: View {
 
     // MARK: - Search Bar
 
-    /// 키보드 상단 검색 바 — 탭하면 미니 QWERTY 펼침.
+    /// 키보드 상단 검색 바 - 탭하면 미니 QWERTY 펼침.
     private var searchBar: some View {
         HStack(spacing: 8) {
             Image(systemName: AppSymbol.magnifyingglass)
@@ -819,7 +819,7 @@ struct KeyboardView: View {
                     .padding(.horizontal, 20)
             }
 
-            // 빠져나갈 액션 — 검색·필터·콤보 탭에서 항상 명시적 escape 제공
+            // 빠져나갈 액션 - 검색·필터·콤보 탭에서 항상 명시적 escape 제공
             if let escapeAction = emptyStateEscape {
                 Button {
                     KeyboardHaptics.softTap()
@@ -883,12 +883,12 @@ struct KeyboardView: View {
         if selectedCategoryFilter == "★favorites" {
             return NSLocalizedString("Mark snippets as favorite in the main app to see them here.", comment: "Empty hint: favorites")
         }
-        return NSLocalizedString("Add snippets in the main app — they'll appear here in seconds.", comment: "Empty hint: zero memos")
+        return NSLocalizedString("Add snippets in the main app, they'll appear here in seconds.", comment: "Empty hint: zero memos")
     }
 
     // MARK: - Mini Search Keyboard
 
-    /// 검색 전용 미니 QWERTY (높이 ~120pt). TextField 사용 X — 자체 버튼이 searchQuery 문자열에 append.
+    /// 검색 전용 미니 QWERTY (높이 ~120pt). TextField 사용 X - 자체 버튼이 searchQuery 문자열에 append.
     private var miniSearchKeyboard: some View {
         VStack(spacing: 4) {
             ForEach(Array(currentRows.enumerated()), id: \.offset) { _, row in
@@ -916,7 +916,7 @@ struct KeyboardView: View {
     private func searchKey(letter: String) -> some View {
         Button {
             KeyboardHaptics.tap()
-            // 자모/영문 모두 조합기로 라우팅 — 한글은 음절로 결합, 영문은 현재 음절 확정 후 삽입.
+            // 자모/영문 모두 조합기로 라우팅 - 한글은 음절로 결합, 영문은 현재 음절 확정 후 삽입.
             if let ch = letter.first { hangul.input(ch) }
             searchQuery = hangul.buffer
         } label: {
@@ -1003,7 +1003,7 @@ struct KeyboardView: View {
 
     private var categoryTabRow: some View {
         HStack(spacing: 6) {
-            // 지구본(다음 키보드) — 스크롤 밖에 고정한다.
+            // 지구본(다음 키보드) - 스크롤 밖에 고정한다.
             // 커스텀 키보드는 다른 키보드로 넘어갈 수단을 반드시 제공해야 한다(심사 요건).
             // 예전에는 UIKit 버튼이 SwiftUI 호스팅 뷰에 가려 보이지 않아 아예 숨겨져 있었다.
             if KeyboardCapability.needsInputModeSwitchKey, let proxy = typingProxy {
@@ -1067,7 +1067,7 @@ struct KeyboardView: View {
 
     // MARK: - Recent Section
 
-    /// 최근 1주 사용한 메모 5개 — 헤더 없이 가로 스크롤 미니 카드만 (공간 절약)
+    /// 최근 1주 사용한 메모 5개 - 헤더 없이 가로 스크롤 미니 카드만 (공간 절약)
     private var recentSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 5) {
@@ -1103,7 +1103,7 @@ struct KeyboardView: View {
             .background(theme.surface)
             .clipShape(Capsule())
             .overlay(
-                // 카테고리색 테두리 — 구분 표시 ON일 때만 (기본은 테두리 없이).
+                // 카테고리색 테두리 - 구분 표시 ON일 때만 (기본은 테두리 없이).
                 Capsule()
                     .stroke(((visualCuesVisible ? categoryColorFor(memo) : nil) ?? .clear).opacity(0.3), lineWidth: 1)
             )
@@ -1149,7 +1149,7 @@ struct KeyboardView: View {
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         } else if memo.isCombo && !memo.isSecure {
-            // 여러 값(콤보) — 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
+            // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
                 .contextMenu {
                     Button {
@@ -1185,9 +1185,9 @@ struct KeyboardView: View {
 
     // MARK: - Combo Split Button (여러 값: 왼쪽 현재 값 삽입 / 오른쪽 → 다음 값)
 
-    /// 콤보(여러 값) 메모의 현재 선택 값 인덱스 — 메모별로 기억.
+    /// 콤보(여러 값) 메모의 현재 선택 값 인덱스 - 메모별로 기억.
     @State private var comboValueIndex: [UUID: Int] = [:]
-    /// → 누를 때마다 증가 — 값을 잠깐 보여줬다 사라지는 디졸브를 트리거한다.
+    /// → 누를 때마다 증가 - 값을 잠깐 보여줬다 사라지는 디졸브를 트리거한다.
     @State private var comboFlash: [UUID: Int] = [:]
     /// 지금 눌려 있는 콤보 키. 좌·우 어느 쪽을 눌러도 **키캡 하나**가 통째로 내려앉는다.
     /// (동시에 두 키를 누를 수는 없으므로 단일 값으로 충분)
@@ -1204,7 +1204,7 @@ struct KeyboardView: View {
         )
 
         return HStack(spacing: 0) {
-            // 왼쪽 2/3 — 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
+            // 왼쪽 2/3 - 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
             Button {
                 insertComboValue(memo: memo, value: current)
             } label: {
@@ -1230,7 +1230,7 @@ struct KeyboardView: View {
                 .fill(theme.divider.opacity(0.6))
                 .frame(width: 1, height: buttonHeight * 0.42)
 
-            // 오른쪽 1/3 — 다음 값으로 전환(값이 잠깐 보였다 사라짐).
+            // 오른쪽 1/3 - 다음 값으로 전환(값이 잠깐 보였다 사라짐).
             Button {
                 advanceComboValue(memo: memo, count: values.count)
             } label: {
@@ -1261,14 +1261,14 @@ struct KeyboardView: View {
                 .overlay(keycapSheen)
                 .shadow(color: Color.black.opacity(skin.shadowOpacity), radius: 2, y: 1)
         )
-        // 점선 테두리(콤보 구분) — "메모 구분 표시" 설정이 켜졌을 때만(iOS와 동일하게 기본 심플).
+        // 점선 테두리(콤보 구분) - "메모 구분 표시" 설정이 켜졌을 때만(iOS와 동일하게 기본 심플).
         .overlay(
             RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(visualCuesVisible ? Color.orange : .clear,
                               style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
         .clipShape(RoundedRectangle(cornerRadius: keycapRadius))
-        // 통짜 키캡 — 좌·우 어디를 눌러도 한 덩어리로 내려앉는다.
+        // 통짜 키캡 - 좌·우 어디를 눌러도 한 덩어리로 내려앉는다.
         .modifier(KeycapSurface(skin: skin,
                                 cornerRadius: keycapRadius,
                                 skirtColor: keycapSkirtColor,
@@ -1326,8 +1326,8 @@ struct KeyboardView: View {
         }
     }
 
-    /// attachedTemplateId가 있는 메모용 분할 버튼 — 왼쪽: 메모값만 입력, 오른쪽: 템플릿 포함 입력
-    /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 — Mail 스타일
+    /// attachedTemplateId가 있는 메모용 분할 버튼 - 왼쪽: 메모값만 입력, 오른쪽: 템플릿 포함 입력
+    /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 - Mail 스타일
     private func memoLongPressPreview(memo: Memo) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
@@ -1363,7 +1363,7 @@ struct KeyboardView: View {
             }
 
             // 콤보면 자식 메모 값을 단계별로 모두 보여주기, 아니면 본문 통째로
-            // (보안 콤보는 값이 암호문이기도 하고 노출 금지 — 단계 수만 알리고 마스킹)
+            // (보안 콤보는 값이 암호문이기도 하고 노출 금지 - 단계 수만 알리고 마스킹)
             let comboChildValues = memo.isSecure
                 ? memo.comboValues.map { _ in "••••••" }
                 : memo.comboValues
@@ -1395,7 +1395,7 @@ struct KeyboardView: View {
     }
 
     private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
-        // 길게 눌러 복사한 직후에 들어온 탭은 무시한다 —
+        // 길게 눌러 복사한 직후에 들어온 탭은 무시한다
         // 복사만 하려 했는데 글까지 입력되면 지우는 일이 하나 더 생긴다.
         if suppressTapAfterLongPress == memo.id {
             suppressTapAfterLongPress = nil
@@ -1515,10 +1515,10 @@ struct KeyboardView: View {
 
     // MARK: - 앱 안에서의 복사(길게 누르기)
 
-    /// 길게 누르면 클립보드로 — **앱 안에서만.**
+    /// 길게 누르면 클립보드로 - **앱 안에서만.**
     ///
     /// 익스텐션에서는 롱프레스가 이미 컨텍스트 메뉴를 연다(미리보기 + 복사). 앱 무대에서는
-    /// 메뉴를 한 겹 더 여는 대신 바로 복사한다 — 여기서 할 일이 그것 하나뿐이기 때문이다.
+    /// 메뉴를 한 겹 더 여는 대신 바로 복사한다 - 여기서 할 일이 그것 하나뿐이기 때문이다.
     /// **고치는 일은 목록 화면에서** 한다. 무대는 써 보는 자리다.
     private struct InAppLongPressCopy: ViewModifier {
         let enabled: Bool
@@ -1543,7 +1543,7 @@ struct KeyboardView: View {
         }
     }
 
-    /// 복사 버튼의 동작 — 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.
+    /// 복사 버튼의 동작 - 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.
     private func copyMemoInApp(_ memo: Memo) {
         if memo.contentType == .image || memo.contentType == .mixed,
            !(memo.imageFileNames.first ?? memo.imageFileName ?? "").isEmpty {
@@ -1559,7 +1559,7 @@ struct KeyboardView: View {
         }
     }
 
-    /// 롱프레스 메뉴의 "클립보드에 복사" — 전체 접근이 있어야 동작한다.
+    /// 롱프레스 메뉴의 "클립보드에 복사" - 전체 접근이 있어야 동작한다.
     private func copyTextToClipboard(_ text: String) {
         guard requireFullAccess() else { return }
         UIPasteboard.general.string = text
@@ -1574,7 +1574,7 @@ struct KeyboardView: View {
         }
     }
 
-    /// T/C/S 같은 글자 뱃지 — 메모 셀의 type 표시 (심볼 대신 통일된 작은 라벨).
+    /// T/C/S 같은 글자 뱃지 - 메모 셀의 type 표시 (심볼 대신 통일된 작은 라벨).
     @ViewBuilder
     private func badgeLetter(_ letter: String, color: Color) -> some View {
         Text(letter)
@@ -1607,7 +1607,7 @@ struct KeyboardView: View {
             // 메모 칸 안 텍스트는 제목. 보안 메모 자물쇠는 구분 표시 ON일 때만(앱과 동일, 기본 숨김).
             // 내용 힌트가 켜져 있으면 셀이 2초 머문 뒤 제목이 잠시 내용으로 바뀌었다 돌아온다.
             HStack(spacing: 4) {
-                // 타입 심볼 — 앱 카드와 **같은 그림**(MemoTypeStyle). 예전에는 자물쇠만 있어서
+                // 타입 심볼 - 앱 카드와 **같은 그림**(MemoTypeStyle). 예전에는 자물쇠만 있어서
                 // 같은 템플릿 단축어가 앱에서는 지팡이, 키보드에서는 아무 표시도 없었다.
                 if visualCuesVisible, MemoTypeStyle.hasDistinctType(memo, forceTemplate: useTemplate) {
                     Image(systemName: MemoTypeStyle.symbolName(for: memo, forceTemplate: useTemplate))
@@ -1628,12 +1628,12 @@ struct KeyboardView: View {
             .padding(10)
         }
         .frame(height: buttonHeight)
-        // 메모 칸 기본 테두리 — 구분 표시 ON일 때만 (기본은 배경·그림자만으로 깔끔하게).
+        // 메모 칸 기본 테두리 - 구분 표시 ON일 때만 (기본은 배경·그림자만으로 깔끔하게).
         .overlay(
             RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(visualCuesVisible ? theme.divider : .clear, lineWidth: 1)
         )
-        // 타입 구분 테두리(템플릿/콤보/보안) — 색맹 친화, 기본 테두리 위에 덧입힌다.
+        // 타입 구분 테두리(템플릿/콤보/보안) - 색맹 친화, 기본 테두리 위에 덧입힌다.
         .overlay(
             RoundedRectangle(cornerRadius: keycapRadius)
                 .strokeBorder(style.color,
@@ -1641,7 +1641,7 @@ struct KeyboardView: View {
         )
     }
 
-    /// 키보드 셀 내용 힌트 텍스트 — 설정 OFF면 nil(스왑 없음).
+    /// 키보드 셀 내용 힌트 텍스트 - 설정 OFF면 nil(스왑 없음).
     /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선이되, 메모별 동기화 토글
     /// (hintShownOnKeyboard)이 꺼져 있으면 키보드에서는 스왑하지 않는다.
     /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(값이 암호문이기도 함) → nil. 앱 카드와 동일 기준.
@@ -1655,7 +1655,7 @@ struct KeyboardView: View {
         return text.isEmpty ? nil : text
     }
 
-    /// 메모 타입 시각 스타일 — 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
+    /// 메모 타입 시각 스타일 - 테두리 색·dash 패턴. 색맹 보조용 (색 + 패턴 이중 큐).
     /// iOS "색상 없이 구별"이 켜진 경우에만 노출(기본은 칸 경계 테두리만).
     /// 우선순위: useTemplate(템플릿 적용 셀) > 콤보 > 보안 > 본체 템플릿.
     /// 사용자가 고른 키캡 물성 프리셋. 색은 건드리지 않는다(테마·커스텀 색이 담당).
@@ -1663,28 +1663,28 @@ struct KeyboardView: View {
         KeyboardSkin.resolved(keyboardSkinRaw)
     }
 
-    /// 키캡 모서리 — 테마 스케일을 스킨 비율로 조정한다.
+    /// 키캡 모서리 - 테마 스케일을 스킨 비율로 조정한다.
     private var keycapRadius: CGFloat {
         skin.cornerRadius(base: theme.radiusMd)
     }
 
-    /// 눌림을 그릴 수 있는 상태인가. `KeycapButtonStyle`과 같은 조건 —
+    /// 눌림을 그릴 수 있는 상태인가. `KeycapButtonStyle`과 같은 조건
     /// 연출 토글이 꺼졌거나, 동작 줄이기가 켜졌거나, 두께가 0인 스킨이면 내려앉지 않는다.
     private var keycapPressEnabled: Bool {
         KeyboardHaptics.delightEnabled && !reduceMotion && skin.skirtDepth > 0
     }
 
-    /// 키캡 옆면(스커트) 색 — 키가 얹혀 있는 두께.
+    /// 키캡 옆면(스커트) 색 - 키가 얹혀 있는 두께.
     /// 사용자가 키 색을 바꿔도 항상 "그 색의 그늘"이 되도록 검정을 깔아 만든다.
     private var keycapSkirtColor: Color {
         Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark))
     }
 
-    /// 키캡 표면광 — 앱 카드의 유리에 대응하는 "빛을 받는 물성".
+    /// 키캡 표면광 - 앱 카드의 유리에 대응하는 "빛을 받는 물성".
     ///
     /// ⚠️ 여기에는 일부러 `glassEffect` 를 쓰지 않는다. 유리는 뒤가 비쳐야 의미가 있는데
     ///    키보드 배경은 불투명해서 비칠 것이 없다. 비용(익스텐션 메모리·GPU)만 내고
-    ///    납작한 반투명 판이 될 뿐이다. 대신 같은 언어의 다른 재질 — 위에서 빛을 받아
+    ///    납작한 반투명 판이 될 뿐이다. 대신 같은 언어의 다른 재질 - 위에서 빛을 받아
     ///    윗면이 밝고 아래로 갈수록 어두워지는 **키캡**으로 간다.
     ///    (눌리는 동작은 `KeycapButtonStyle` 이 담당한다)
     private var keycapSheen: some View {
@@ -1846,11 +1846,11 @@ struct KeyboardView: View {
     /// 카테고리가 없으면(자동 분류값만 있는 경우 포함) nil → 색을 입히지 않는다.
     /// (이전엔 자동 분류 타입에도 색을 반환해, 사용자 카테고리가 없는데도 메모에 색이
     ///  칠해지는 버그가 있었음. 카테고리는 이제 사용자가 직접 만들어 쓰므로 그 색만 사용.)
-    /// 앱 Color.clipFavorite(#FF4A9E)와 동일 — 타깃 분리로 인라인.
+    /// 앱 Color.clipFavorite(#FF4A9E)와 동일 - 타깃 분리로 인라인.
     private var favoritePink: Color { Color(red: 1.0, green: 0.29, blue: 0.62) }
 
     private func categoryColorFor(_ memo: Memo) -> Color? {
-        // 즐겨찾기는 카테고리처럼 분홍색 정체성을 갖는다 — 카테고리 색보다 우선(앱과 동일).
+        // 즐겨찾기는 카테고리처럼 분홍색 정체성을 갖는다 - 카테고리 색보다 우선(앱과 동일).
         if memo.isFavorite { return favoritePink }
         guard let idx = sharedUserCategories.firstIndex(of: memo.category) else { return nil }
         if let hex = customCategoryColors[memo.category], let c = Color(hex: hex) { return c }
@@ -1866,13 +1866,13 @@ struct KeyboardView: View {
     }
 
     /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
-    /// 사용자 커스텀 아이콘 — userCategoryIcons_v1 에서 로드
+    /// 사용자 커스텀 아이콘 - userCategoryIcons_v1 에서 로드
     private var customCategoryIcons: [String: String] {
         UserDefaults(suiteName: AppGroup.identifier)?
             .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String] ?? [:]
     }
 
-    /// 사용자가 지정한 카테고리 색 — userCategoryColors_v1 에서 로드(앱과 동일 키).
+    /// 사용자가 지정한 카테고리 색 - userCategoryColors_v1 에서 로드(앱과 동일 키).
     private var customCategoryColors: [String: String] {
         UserDefaults(suiteName: AppGroup.identifier)?
             .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String] ?? [:]
@@ -1927,12 +1927,12 @@ struct KeyboardView: View {
 
 // MARK: - Memo Title ↔ Content Hint Swap
 
-/// 키보드 메모 셀의 제목 ↔ 내용 힌트 스왑 — 키보드는 공간이 좁아 앱 카드처럼 별도 줄을
+/// 키보드 메모 셀의 제목 ↔ 내용 힌트 스왑 - 키보드는 공간이 좁아 앱 카드처럼 별도 줄을
 /// 두는 대신 제목 자리를 잠시 빌린다. 셀이 화면에 나타나 2초쯤 머물면 제목이 내용으로
-/// 부드럽게 바뀌었다가, 잠시 후 다시 제목으로 돌아온다. 이번 등장에서 한 번만 —
+/// 부드럽게 바뀌었다가, 잠시 후 다시 제목으로 돌아온다. 이번 등장에서 한 번만
 /// 셀이 화면 밖으로 나갔다 다시 들어오면 처음부터(앱 카드 힌트와 동일 기준).
 /// 셀(seed)마다 바뀌는 시점·읽히는 시간이 조금씩 달라 키보드 전체가 동시에 변하지 않는다.
-/// 콤보 분할 버튼 왼쪽 라벨 — 평소엔 키(제목), flashToken이 바뀌면(→ 누르거나 처음 나타날 때)
+/// 콤보 분할 버튼 왼쪽 라벨 - 평소엔 키(제목), flashToken이 바뀌면(→ 누르거나 처음 나타날 때)
 /// 현재 값이 디졸브(블러+페이드)로 잠깐 보였다가 다시 키로 돌아온다. iOS의 값 미리보기와 같은 경험.
 /// 여러 값이면 → 를 누를 때마다 값1·값2… 가 차례로 스쳐 보인다.
 struct ComboKeyValueLabel: View {
@@ -1941,10 +1941,10 @@ struct ComboKeyValueLabel: View {
     let fontSize: Double
     let titleColor: Color
     let valueColor: Color
-    /// 변수 칩 색 — 앱 카드와 같은 테마 토큰을 받는다.
+    /// 변수 칩 색 - 앱 카드와 같은 테마 토큰을 받는다.
     let accent: Color
     let accentSoft: Color
-    /// → 를 누르거나 처음 나타날 때 증가 — 디졸브 미리보기를 트리거하는 토큰.
+    /// → 를 누르거나 처음 나타날 때 증가 - 디졸브 미리보기를 트리거하는 토큰.
     let flashToken: Int
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -1958,7 +1958,7 @@ struct ComboKeyValueLabel: View {
                 .foregroundColor(titleColor)
                 .opacity(showingValue ? 0 : 1)
                 .blur(radius: !reduceMotion && showingValue ? 3 : 0)
-            Text(value.isEmpty ? "—" : value)
+            Text(value.isEmpty ? "" : value)
                 .font(.system(size: fontSize * 0.92))
                 .foregroundColor(valueColor)
                 .opacity(showingValue ? 1 : 0)
@@ -1985,29 +1985,29 @@ struct MemoTitleHintSwap: View {
     let title: String
     /// nil이면(설정 OFF·보안 메모·빈 내용) 스왑 없이 제목만 표시한다.
     let hint: String?
-    /// 셀별 위상 시드(메모 id 해시) — 스왑 시점·머묾 시간에 결정적 편차를 준다.
+    /// 셀별 위상 시드(메모 id 해시) - 스왑 시점·머묾 시간에 결정적 편차를 준다.
     let seed: Int
     let fontSize: Double
     let titleColor: Color
     let hintColor: Color
-    /// 변수 칩 색 — 앱 카드와 같은 테마 토큰을 받는다.
+    /// 변수 칩 색 - 앱 카드와 같은 테마 토큰을 받는다.
     let accent: Color
     let accentSoft: Color
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var showingHint = false
 
-    /// 최소 2초는 머문 뒤에 바뀐다(바닥값, 앱 카드 힌트와 동일) — 카드별 편차가 더해진다.
+    /// 최소 2초는 머문 뒤에 바뀐다(바닥값, 앱 카드 힌트와 동일) - 카드별 편차가 더해진다.
     static let baseRevealDelay: Double = 2.0
-    /// 제목 ↔ 내용 전환 시간 — 키보드는 시선 바로 아래라 확 바뀌면 어지럽다. 천천히 녹아들게.
+    /// 제목 ↔ 내용 전환 시간 - 키보드는 시선 바로 아래라 확 바뀌면 어지럽다. 천천히 녹아들게.
     static let swapDuration: Double = 1.0
 
-    /// 스왑 시점 2.0~3.6s — 셀들이 하나둘 차례로 바뀐다.
+    /// 스왑 시점 2.0~3.6s - 셀들이 하나둘 차례로 바뀐다.
     private var revealDelay: Double { Self.baseRevealDelay + unit(0) * 1.6 }
-    /// 내용이 읽히는 시간 3.2~4.6s — 전환이 느려진 만큼 읽는 시간도 살짝 여유 있게.
+    /// 내용이 읽히는 시간 3.2~4.6s - 전환이 느려진 만큼 읽는 시간도 살짝 여유 있게.
     private var holdDuration: Double { 3.2 + unit(1) * 1.4 }
 
-    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) — 같은 셀은 항상 같은 리듬.
+    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) - 같은 셀은 항상 같은 리듬.
     private func unit(_ salt: UInt64) -> Double {
         var h = UInt64(bitPattern: Int64(seed)) &+ (salt &+ 1) &* 0x9E3779B97F4A7C15
         h ^= h >> 33
@@ -2034,7 +2034,7 @@ struct MemoTitleHintSwap: View {
         }
         .keyLabelTruncation(KeyLabelTruncation.current)
         .multilineTextAlignment(.center)
-        // VoiceOver는 셀 버튼의 accessibilityLabel(제목+내용)이 안내 — 일시 표시는 숨김.
+        // VoiceOver는 셀 버튼의 accessibilityLabel(제목+내용)이 안내 - 일시 표시는 숨김.
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(title)
         .task {
@@ -2046,7 +2046,7 @@ struct MemoTitleHintSwap: View {
                 withAnimation(.easeInOut(duration: Self.swapDuration)) { showingHint = true }
                 try await Task.sleep(for: .seconds(Self.swapDuration + holdDuration))
                 withAnimation(.easeInOut(duration: Self.swapDuration)) { showingHint = false }
-            } catch { /* 화면 이탈로 취소 — 다음 등장 때 다시 */ }
+            } catch { /* 화면 이탈로 취소 - 다음 등장 때 다시 */ }
         }
     }
 }
@@ -2057,7 +2057,7 @@ struct MemoTitleHintSwap: View {
 
 /// 문구 버튼이 **실제로 눌리는** 스타일.
 ///
-/// 이 앱의 입력은 도장을 찍는 동작과 같다 — 한 번 눌러서, 흔적을 남기고, 끝.
+/// 이 앱의 입력은 도장을 찍는 동작과 같다 - 한 번 눌러서, 흔적을 남기고, 끝.
 /// 그래서 버튼이 그림자를 잃으며 아래로 내려가고, 뗄 때 제자리로 돌아온다.
 ///
 /// ⚠️ 하루 20~50번 반복되는 연출이라 0.18초를 넘기지 않는다(메인 앱 `Delight.Tier.daily`와 동일).
@@ -2082,7 +2082,7 @@ struct KeycapSurface: ViewModifier {
         let down = pressed && enabled
 
         content
-            // 스커트 — 평소엔 키 아래로 삐져나와 **두께**를 만들고,
+            // 스커트 - 평소엔 키 아래로 삐져나와 **두께**를 만들고,
             // 누르면 키가 그 위로 내려앉아 가려진다. 이 한 겹이 "또깍"의 정체다.
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
@@ -2107,7 +2107,7 @@ struct KeycapButtonStyle: ButtonStyle {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
-        // 두께가 0인 스킨(납작)은 눌림도 없다 — 내려앉을 바닥이 없기 때문.
+        // 두께가 0인 스킨(납작)은 눌림도 없다 - 내려앉을 바닥이 없기 때문.
         let enabled = KeyboardHaptics.delightEnabled && !reduceMotion && skin.skirtDepth > 0
         return configuration.label
             .modifier(KeycapSurface(skin: skin,
@@ -2129,7 +2129,7 @@ struct KeycapPressReporter: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .contentShape(Rectangle())
-            // 뷰 갱신 중이 아니라 갱신 이후에 반영된다 — 상태 변경 경고를 피한다.
+            // 뷰 갱신 중이 아니라 갱신 이후에 반영된다 - 상태 변경 경고를 피한다.
             .onChange(of: configuration.isPressed) { _, now in pressed = now }
     }
 }
@@ -2138,7 +2138,7 @@ struct KeycapPressReporter: ButtonStyle {
 
 extension String {
     /// `{변수}`가 있으면 중괄호 없는 하이라이트 칩으로, 없으면 그대로 반환.
-    /// 앱 타겟 String.templateChipAttributed와 동일 규칙 — 타깃 분리로 확장을 공유하지 못해
+    /// 앱 타겟 String.templateChipAttributed와 동일 규칙 - 타깃 분리로 확장을 공유하지 못해
     /// 키보드 전용으로 복제(색은 시스템 블루 고정). "플레이스홀더는 어디서든 하이라이트" 규칙.
     /// - Parameters:
     ///   - accent / accentSoft: 앱의 `templateChipAttributed` 와 **같은 테마 토큰**을 받는다.
@@ -2180,22 +2180,22 @@ extension String {
 /// "인사"가 "ㅇㅣㄴㅅㅏ"처럼 깨진다. 메인 입력과 동일한 `HangulComposer`(2벌식 오토마타)에
 /// 통과시켜 자모를 음절로 조합한 뒤 `buffer`(가시 검색 텍스트)에 반영한다.
 final class HangulSearchController: HangulInputProxy {
-    /// 조합 결과가 반영된 검색 문자열 — 화면에 보이는 텍스트와 항상 일치.
+    /// 조합 결과가 반영된 검색 문자열 - 화면에 보이는 텍스트와 항상 일치.
     private(set) var buffer: String = ""
     private let composer = HangulComposer()
 
     init() { composer.proxy = self }
 
-    /// 키 한 글자 입력 — 한글 자모는 조합되고, 영문·숫자·기호·스페이스는 현재 음절을 확정 후 그대로 삽입.
+    /// 키 한 글자 입력 - 한글 자모는 조합되고, 영문·숫자·기호·스페이스는 현재 음절을 확정 후 그대로 삽입.
     func input(_ character: Character) { composer.input(character) }
 
-    /// 백스페이스 — 조합 중이면 한 단계 되돌리고, 아니면 마지막 글자 삭제.
+    /// 백스페이스 - 조합 중이면 한 단계 되돌리고, 아니면 마지막 글자 삭제.
     func backspace() { composer.backspace() }
 
-    /// 진행 중인 조합만 확정(버퍼는 유지) — 입력 언어 전환 시 반쪽 음절이 이어지지 않게 한다.
+    /// 진행 중인 조합만 확정(버퍼는 유지) - 입력 언어 전환 시 반쪽 음절이 이어지지 않게 한다.
     func commitComposition() { composer.commit() }
 
-    /// 검색 초기화 — 조합 상태와 버퍼를 모두 비운다.
+    /// 검색 초기화 - 조합 상태와 버퍼를 모두 비운다.
     func reset() {
         composer.commit()
         buffer = ""

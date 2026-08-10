@@ -26,7 +26,7 @@ class StoreManager: ObservableObject {
 
     // MARK: - Product IDs
 
-    /// ⚠️ App Store Connect·기존 사용자 영수증과의 계약 — 변경 금지.
+    /// ⚠️ App Store Connect·기존 사용자 영수증과의 계약 - 변경 금지.
     /// `nonisolated`: 불변 String 상수라 격리가 필요 없고, `ClipKeyboardSpec.paywall`(nonisolated static let)이
     /// 이 값을 참조한다. 격리된 채로 두면 Swift 6 언어 모드에서 에러가 된다.
     nonisolated static let proProductID = "com.Ysoup.TokenMemo.pro"
@@ -36,7 +36,7 @@ class StoreManager: ObservableObject {
     private let store: LeeoStore
     private var cancellables = Set<AnyCancellable>()
 
-    // MARK: - 공개 상태 (기존 API 유지 — 내부 LeeoStore 로 위임)
+    // MARK: - 공개 상태 (기존 API 유지 - 내부 LeeoStore 로 위임)
 
     /// 로드된 판매 상품.
     var products: [Product] { store.products }
@@ -44,7 +44,7 @@ class StoreManager: ObservableObject {
     /// 현재 유효한 권한을 가진 상품 ID 집합.
     var purchasedProductIDs: Set<String> { store.purchasedProductIDs }
 
-    /// 로딩 스피너용 — 상품 로드/구매/복원 중 하나라도 진행 중이면 true.
+    /// 로딩 스피너용 - 상품 로드/구매/복원 중 하나라도 진행 중이면 true.
     var isLoading: Bool {
         store.isLoadingProducts || store.purchasingProductID != nil || store.isRestoring
     }
@@ -115,7 +115,7 @@ class StoreManager: ObservableObject {
         if success {
             print("✅ [StoreManager] 구매 성공: \(product.id)")
 
-            // Analytics — Offer Code 여부 판별 (iOS 17.2+에서만 direct 검출 가능).
+            // Analytics - Offer Code 여부 판별 (iOS 17.2+에서만 direct 검출 가능).
             // LeeoStore 가 트랜잭션을 finish 하므로, 방금 완료된 트랜잭션은 latest 로 조회한다.
             var isOfferCode = false
             var offerCodeName: String?
@@ -199,7 +199,7 @@ class StoreManager: ObservableObject {
                 print("🩺 [Diag]   freemium 컷오프      = \(ProFeatureManager.freemiumReleaseDate)")
                 print("🩺 [Diag]   → 그랜드파더 대상?    = \(tx.originalPurchaseDate < ProFeatureManager.freemiumReleaseDate)")
             case .unverified(_, let error):
-                print("🩺 [Diag] AppTransaction: UNVERIFIED — \(error)")
+                print("🩺 [Diag] AppTransaction: UNVERIFIED: \(error)")
             }
         } catch {
             print("🩺 [Diag] AppTransaction 조회 실패: \(error)")
@@ -238,7 +238,7 @@ class StoreManager: ObservableObject {
         print("🩺 [Diag]   purchasedProductIDs = \(purchasedProductIDs.isEmpty ? "(없음)" : purchasedProductIDs.joined(separator: ", "))")
         print("🩺 [Diag]   StoreManager.isPro  = \(isPro)")
 
-        // 5) 실제 보유 권한 (Transaction.currentEntitlements) — 프로모/복원이 실제로 들어왔는지 확인
+        // 5) 실제 보유 권한 (Transaction.currentEntitlements) - 프로모/복원이 실제로 들어왔는지 확인
         print("🩺 [Diag] -- Transaction.currentEntitlements (실제 보유 권한) --")
         var count = 0
         for await result in Transaction.currentEntitlements {
@@ -258,11 +258,11 @@ class StoreManager: ObservableObject {
                 print("🩺 [Diag]      environment   = \(tx.environment.rawValue)")
                 print("🩺 [Diag]      offer         = \(offerInfo)")
             case .unverified(let tx, let error):
-                print("🩺 [Diag]   #\(count) UNVERIFIED — productID=\(tx.productID) error=\(error)")
+                print("🩺 [Diag]   #\(count) UNVERIFIED: productID=\(tx.productID) error=\(error)")
             }
         }
         if count == 0 {
-            print("🩺 [Diag]   (보유 권한 없음 — 프로모션/복원이 한 번도 성공하지 않았다는 뜻)")
+            print("🩺 [Diag]   (보유 권한 없음. 프로모션/복원이 한 번도 성공하지 않았다는 뜻)")
         }
 
         print("🩺 [Diag] === 진단 끝 ===")

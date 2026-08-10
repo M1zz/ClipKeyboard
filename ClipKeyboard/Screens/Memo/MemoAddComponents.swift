@@ -121,7 +121,7 @@ struct PlaceholderValueEditor: View {
                     .font(.body)
                     .fontWeight(.semibold)
 
-                // 타입 뱃지 — 숫자 입력 vs 선택지
+                // 타입 뱃지 - 숫자 입력 vs 선택지
                 HStack(spacing: 4) {
                     Image(systemName: isNumeric ? "number" : "list.bullet")
                         .font(.system(.caption2, weight: .semibold))
@@ -218,19 +218,19 @@ struct ContentInputSection: View {
     @Binding var autoDetectedType: ClipboardItemType?
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
-    /// v4.0.8: 키보드 toolbar "다음" 버튼 — 다음 필드(제목)로 focus 이동.
+    /// v4.0.8: 키보드 toolbar "다음" 버튼 - 다음 필드(제목)로 focus 이동.
     /// nil이면 버튼 숨김.
     var onNext: (() -> Void)?
-    /// "+" 칩 — 내용(값)을 하나 더 추가. 값이 여러 개면 콤보가 된다는 걸
+    /// "+" 칩 - 내용(값)을 하나 더 추가. 값이 여러 개면 콤보가 된다는 걸
     /// 입력 전부터 알려주는 힌트 버튼. nil이면 숨김.
     var onAddContent: (() -> Void)?
-    /// 템플릿 작성 모드 — 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
+    /// 템플릿 작성 모드 - 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    /// v4.0.8: 현재 value가 카테고리의 샘플 값과 동일한지 — 매번 판정.
+    /// v4.0.8: 현재 value가 카테고리의 샘플 값과 동일한지 - 매번 판정.
     /// 사용자가 수정하면 자동으로 false. 우연히 샘플과 같아지면 다시 true (드문 케이스).
     private var isSampleValue: Bool {
         Constants.isSampleValue(value, forCategory: selectedCategory)
@@ -240,24 +240,24 @@ struct ContentInputSection: View {
     @State private var showToast = false
     @State private var toastMessage = ""
 
-    // 사진 속 글자로 값 채우기 — 사진을 **붙이는** 것(attachedImages)과 다른 일이다.
+    // 사진 속 글자로 값 채우기 - 사진을 **붙이는** 것(attachedImages)과 다른 일이다.
     // 저쪽은 그림을 값으로 삼고, 이쪽은 그림에서 글자만 꺼내 텍스트 값으로 넣는다.
     @State private var showTextPhotoLibrary = false
     @State private var showTextCamera = false
     @State private var isRecognizingText = false
-    /// 읽어낸 줄들 — 값이 있으면 고르는 시트가 뜬다.
+    /// 읽어낸 줄들 - 값이 있으면 고르는 시트가 뜬다.
     @State private var recognizedLines: [String]?
     @State private var showNoTextFound = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // 라벨 — 이 값이 단축어를 탭했을 때 붙여넣어지는 내용.
-            Text(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
+            // 라벨 - 이 값이 단축어를 탭했을 때 붙여넣어지는 내용.
+            Text(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
                 .font(.body)
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
-            // 값 채우기 버튼 — 각자 한 줄 폭을 반씩 차지하는 명확한 보더 버튼.
+            // 값 채우기 버튼 - 각자 한 줄 폭을 반씩 차지하는 명확한 보더 버튼.
             // (예전엔 라벨과 한 줄에 눌려 폭이 없어 글자가 세로로 깨졌음.)
             HStack(spacing: 10) {
                 Button {
@@ -292,7 +292,7 @@ struct ContentInputSection: View {
                         }
                     }
                 } label: {
-                    // ⚠️ 칩 하나에 4글자를 넘기지 말 것 — 세 칸으로 나눈 폭이라 말줄임으로 잘린다.
+                    // ⚠️ 칩 하나에 4글자를 넘기지 말 것 - 세 칸으로 나눈 폭이라 말줄임으로 잘린다.
                     //    "사진 …"류를 쓰지 않는 이유는 하나 더 있다: 옆 칩이 '이미지'라
                     //    둘 다 사진 이야기로 읽혀 무엇이 다른지 흐려진다. 여기는 **글자**를 가져온다.
                     Label(NSLocalizedString("글자 읽기", comment: "Fill the value from text in a photo"),
@@ -323,7 +323,7 @@ struct ContentInputSection: View {
                 .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
             }
 
-            // 인식은 몇 초 걸릴 수 있다 — 아무 반응이 없으면 눌린 줄 모르고 다시 누른다.
+            // 인식은 몇 초 걸릴 수 있다 - 아무 반응이 없으면 눌린 줄 모르고 다시 누른다.
             if isRecognizingText {
                 HStack(spacing: 8) {
                     ProgressView()
@@ -382,7 +382,7 @@ struct ContentInputSection: View {
                     }
                     .padding(.vertical, 12)
                 } else {
-                    // 아직 이미지 미선택 — 큰 placeholder
+                    // 아직 이미지 미선택 - 큰 placeholder
                     Button {
                         showImagePicker = true
                     } label: {
@@ -450,13 +450,13 @@ struct ContentInputSection: View {
                     .cornerRadius(theme.radiusMd)
                 }
 
-                // v4.0.8: 샘플 값이면 안내 배너 — "수정해서 사용하세요"
+                // v4.0.8: 샘플 값이면 안내 배너 - "수정해서 사용하세요"
                 if isSampleValue {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.pencilTip)
                             .font(.body)
                             .foregroundColor(.orange)
-                        Text(NSLocalizedString("샘플 — 수정해서 사용하세요", comment: "Sample value hint"))
+                        Text(NSLocalizedString("샘플: 수정해서 사용하세요", comment: "Sample value hint"))
                             .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(.orange)
@@ -479,10 +479,10 @@ struct ContentInputSection: View {
                     .cornerRadius(theme.radiusSm)
                 }
 
-                // 이미지를 값으로 첨부하면 텍스트 값 입력은 비활성화(숨김) — 이미지가 곧 값.
+                // 이미지를 값으로 첨부하면 텍스트 값 입력은 비활성화(숨김) - 이미지가 곧 값.
                 if attachedImages.isEmpty {
                 // 텍스트 테마: syntax highlighting + 동적 높이 입력칸.
-                // [Your Name] 같은 더미 placeholder는 빨간 굵은 글씨로 강조 — 사용자가
+                // [Your Name] 같은 더미 placeholder는 빨간 굵은 글씨로 강조 - 사용자가
                 // "여기는 직접 수정해야 한다"는 걸 즉시 인지. iOS TextField는 attributed
                 // 표시를 지원 안 해 UITextView wrapper로 처리.
                 #if os(iOS)
@@ -497,7 +497,7 @@ struct ContentInputSection: View {
                 .padding(.vertical, 4)
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
-                .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
+                .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
                 .onChange(of: value) { _, newValue in
                     if !newValue.isEmpty {
                         let classification = ClipboardClassificationService.shared.classify(content: newValue)
@@ -509,13 +509,13 @@ struct ContentInputSection: View {
                 TextField(placeholderText, text: $value, axis: .vertical)
                     .font(.body)
                     .lineLimit(2...10)
-                    // 붙여넣을 원문 — 자동 수정이 내용을 훼손하지 않게.
+                    // 붙여넣을 원문 - 자동 수정이 내용을 훼손하지 않게.
                     .autocorrectionDisabled()
                     .padding(.horizontal, 12)
                     .padding(.vertical, 12)
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
-                    .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label — what gets pasted when user taps the memo"))
+                    .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
                     .onChange(of: value) { _, newValue in
                         if !newValue.isEmpty {
                             let classification = ClipboardClassificationService.shared.classify(content: newValue)
@@ -540,7 +540,7 @@ struct ContentInputSection: View {
                 }
             }
         }
-        // 사진 속 글자 읽기 — 고른 사진은 **첨부하지 않는다.** 글자만 꺼내 쓰고 사진은 버린다.
+        // 사진 속 글자 읽기 - 고른 사진은 **첨부하지 않는다.** 글자만 꺼내 쓰고 사진은 버린다.
         .sheet(isPresented: $showTextPhotoLibrary) {
             ImagePickerView { image in recognizeText(in: image) }
         }
@@ -559,7 +559,7 @@ struct ContentInputSection: View {
                         showToastMessage(NSLocalizedString("사진에서 값을 넣었습니다", comment: "Filled value from photo toast"))
                     },
                     onAppend: { line in
-                        // 두 줄짜리 주소처럼 여러 줄이 한 값일 때 — 줄바꿈으로 잇는다.
+                        // 두 줄짜리 주소처럼 여러 줄이 한 값일 때 - 줄바꿈으로 잇는다.
                         value = value.isEmpty ? line : value + "\n" + line
                     }
                 )
@@ -595,7 +595,7 @@ struct ContentInputSection: View {
     /// 고른 사진에서 글자를 읽어 **고르는 시트**로 넘긴다.
     ///
     /// ⚠️ 읽은 것을 값에 곧바로 쏟아붓지 않는다. 카드 한 장에서도 카드사 이름·영문 이름·
-    ///    유효기간이 함께 읽히는데, 전부 넣으면 사용자가 지우는 일을 하게 된다 —
+    ///    유효기간이 함께 읽히는데, 전부 넣으면 사용자가 지우는 일을 하게 된다
     ///    손으로 치는 것보다 나을 게 없다. 줄을 늘어놓고 **하나를 집게** 해야 사진이 입력을 대신한다.
     ///
     /// ⚠️ 사진 자체는 첨부하지 않는다. 여기서 사진은 글자를 담아 온 그릇일 뿐이고,
@@ -616,7 +616,7 @@ struct ContentInputSection: View {
         }
     }
 
-    /// 클립보드 값 가져오기 — 텍스트가 있으면 값으로 넣고, 이미지면 이미지로 첨부한다.
+    /// 클립보드 값 가져오기 - 텍스트가 있으면 값으로 넣고, 이미지면 이미지로 첨부한다.
     private func pasteFromClipboard() {
         #if os(iOS)
         if let text = UIPasteboard.general.string,

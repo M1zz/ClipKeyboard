@@ -2,7 +2,7 @@
 //  QuickNoteAppIntents.swift
 //  ClipKeyboard
 //
-//  빠른 메모(Inbox) 캡처를 위한 App Intents — Shortcuts·Siri·액션 버튼·Spotlight 어디서든
+//  빠른 메모(Inbox) 캡처를 위한 App Intents - Shortcuts·Siri·액션 버튼·Spotlight 어디서든
 //  앱을 켜지 않고 보관함에 던져 넣을 수 있게 한다(애플 "빠른 메모"의 시스템-전역 캡처에 대응).
 //
 

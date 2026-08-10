@@ -2,7 +2,7 @@
 //  ShortcutMartView.swift
 //  ClipKeyboard
 //
-//  **단축어 마트** — 남이 차려 둔 단축어를 둘러보고, 빈칸만 내 것으로 채워 가져간다.
+//  **단축어 마트** - 남이 차려 둔 단축어를 둘러보고, 빈칸만 내 것으로 채워 가져간다.
 //
 //  왜 필요한가: 빈 화면 앞에서 "뭘 만들지"부터 떠올려야 하는 것이 이 앱의 가장 큰 문턱이다.
 //  쓸 만한 문장은 이미 52개나 갖고 있으면서(활용 사례), 그건 **읽는 자료**로만 있었다.
@@ -25,7 +25,7 @@ struct ShortcutMartItem: Identifiable {
     let emoji: String
     let categoryTitle: String
     let title: String
-    /// 저장될 본문 — `{변수}`가 그대로 들어 있다.
+    /// 저장될 본문 - `{변수}`가 그대로 들어 있다.
     let example: String
     let feature: ScenarioFeature
 
@@ -41,7 +41,7 @@ struct ShortcutMartView: View {
     /// 담은 뒤 알린다(개수). 목록이 토스트·갱신에 쓴다.
     var onAdded: (Int) -> Void = { _ in }
 
-    /// 내 페르소나에 맞는 것만 볼지. 기본은 **맞는 것만** —
+    /// 내 페르소나에 맞는 것만 볼지. 기본은 **맞는 것만**
     /// 52개를 통째로 늘어놓으면 고르는 일이 또 하나의 숙제가 된다.
     @State private var onlyMine = true
     @State private var query = ""
@@ -92,7 +92,7 @@ struct ShortcutMartView: View {
 
     // MARK: - 진열대
 
-    /// 페르소나 띠 — 지금 무엇을 기준으로 걸러 보고 있는지 늘 보이게 한다.
+    /// 페르소나 띠 - 지금 무엇을 기준으로 걸러 보고 있는지 늘 보이게 한다.
     /// 검색만 있고 이 띠가 없으면 "왜 아까 본 게 안 보이지"가 된다.
     private var personaFilterBar: some View {
         HStack(spacing: 8) {
@@ -103,7 +103,7 @@ struct ShortcutMartView: View {
                 }
                 .pickerStyle(.segmented)
             } else {
-                // 페르소나를 안 고른 사람에겐 거를 기준이 없다 — 띠 대신 안내 한 줄.
+                // 페르소나를 안 고른 사람에겐 거를 기준이 없다 - 띠 대신 안내 한 줄.
                 Text(NSLocalizedString("설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요",
                                        comment: "Shortcut mart: no persona hint"))
                     .font(.caption)
@@ -127,7 +127,7 @@ struct ShortcutMartView: View {
                         .foregroundColor(theme.text)
                     featureBadge(item.feature)
                     Spacer(minLength: 0)
-                    // 채울 것이 몇 개인지 — 고르기 전에 품이 얼마나 드는지 알려준다.
+                    // 채울 것이 몇 개인지 - 고르기 전에 품이 얼마나 드는지 알려준다.
                     if !item.blanks.isEmpty {
                         Text(String(format: NSLocalizedString("빈칸 %d", comment: "Shortcut mart: blank count"),
                                     item.blanks.count))
@@ -186,7 +186,7 @@ struct ShortcutMartView: View {
         let items: [ShortcutMartItem]
     }
 
-    /// ⚠️ 안내성 시나리오(`smartClipboard`)는 저장할 본문이 없다 — 진열대에 올리면
+    /// ⚠️ 안내성 시나리오(`smartClipboard`)는 저장할 본문이 없다 - 진열대에 올리면
     ///    "이거 쓰기"를 눌러도 아무것도 안 생긴다.
     private var visibleCategories: [Group] {
         let needle = query.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
@@ -196,7 +196,7 @@ struct ShortcutMartView: View {
                 .filter { $0.feature != .smartClipboard }
                 .filter { scenario in
                     guard onlyMine, let persona else { return true }
-                    // personas 가 비어 있으면 누구에게나 맞는 것 — 걸러내지 않는다.
+                    // personas 가 비어 있으면 누구에게나 맞는 것 - 걸러내지 않는다.
                     return scenario.personas.isEmpty || scenario.personas.contains(persona)
                 }
                 .filter { scenario in

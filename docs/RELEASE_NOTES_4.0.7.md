@@ -24,7 +24,7 @@ English
 - The Business persona seeds Work Email, Business Address, Tax/EIN, Business Card Info, Meeting Notes, and more
 - The Student persona seeds Student ID, School Email, Library Card, Assignment Template, and more
 - Persona-seeded categories are automatically localized for Korean, English, and Indonesian
-- Persona seeds are just a starting point — you can freely edit categories anytime
+- Persona seeds are just a starting point, you can freely edit categories anytime
 - Existing users are unaffected; the persona picker only appears for fresh installs
 - iCloud backup error messages are more actionable now, with the exact Settings path to fix the issue
 - The macOS app UI is more thoroughly localized

@@ -13,7 +13,7 @@
 import XCTest
 @testable import ClipKeyboard
 
-/// textDocumentProxy 대역 — insertText/deleteBackward를 텍스트 버퍼로 재현.
+/// textDocumentProxy 대역 - insertText/deleteBackward를 텍스트 버퍼로 재현.
 final class FakeHangulProxy: HangulInputProxy {
     private(set) var text = ""
     func insertText(_ t: String) { text += t }

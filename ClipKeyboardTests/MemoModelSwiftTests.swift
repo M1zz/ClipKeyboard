@@ -2,7 +2,7 @@
 //  MemoModelSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — Memo 모델의 계산형 성질(isTemplate/isCombo),
+//  Swift Testing 스위트 - Memo 모델의 계산형 성질(isTemplate/isCombo),
 //  Codable 라운드트립, 그리고 리팩터로 제거된 키(attachedTemplateId/
 //  currentComboIndex/저장형 isTemplate)에 대한 하위 호환 디코딩을 검증한다.
 //
@@ -13,7 +13,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("Memo 모델 — 계산형 성질 & 마이그레이션")
+@Suite("Memo 모델, 계산형 성질 & 마이그레이션")
 struct MemoModelSwiftTests {
 
     // MARK: - 기본값 / 계산형 판정
@@ -94,7 +94,7 @@ struct MemoModelSwiftTests {
         #expect(legacy.hintShownOnKeyboard == true)
     }
 
-    @Test("콤보 메모 Codable 라운드트립 — comboValues 보존")
+    @Test("콤보 메모 Codable 라운드트립: comboValues 보존")
     func comboCodableRoundTrip() throws {
         let original = Memo(title: "콤보", value: "A",
                             comboValues: ["A", "B", "C"], comboInterval: 0.5)
@@ -118,7 +118,7 @@ struct MemoModelSwiftTests {
         // 구버전에 존재하던, 이제는 제거된 키들을 주입.
         dict["attachedTemplateId"] = UUID().uuidString
         dict["currentComboIndex"] = 3
-        dict["isTemplate"] = true   // 저장형 isTemplate(true) — 계산형이 무시해야 함
+        dict["isTemplate"] = true   // 저장형 isTemplate(true) - 계산형이 무시해야 함
 
         let legacyData = try JSONSerialization.data(withJSONObject: dict)
         let decoded = try JSONDecoder().decode(Memo.self, from: legacyData)
@@ -140,7 +140,7 @@ struct MemoModelSwiftTests {
         dict["childMemoIds"] = [UUID().uuidString, UUID().uuidString]
         let legacyData = try JSONSerialization.data(withJSONObject: dict)
         let decoded = try JSONDecoder().decode(Memo.self, from: legacyData)
-        // 콤보 판정은 comboValues 기반 — childMemoIds만으론 콤보가 아님.
+        // 콤보 판정은 comboValues 기반 - childMemoIds만으론 콤보가 아님.
         #expect(decoded.isCombo == false)
     }
 

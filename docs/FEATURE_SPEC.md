@@ -1,6 +1,6 @@
 # ClipKeyboard 기능 명세 (Feature Specification)
 
-> 대상 버전: 4.3.x (dev) — 데이터 모델 통합 리팩터 이후 기준
+> 대상 버전: 4.3.x (dev), 데이터 모델 통합 리팩터 이후 기준
 > 이 문서는 **현재 코드에 실제로 존재하는 동작**을 명세하며, `ClipKeyboardTests`의
 > Swift Testing 스위트(`*SwiftTests.swift`)가 이 명세를 검증한다.
 
@@ -20,14 +20,14 @@
 ### 1.1 주요 필드
 - `id: UUID`, `title: String`, `value: String`
 - `category: String = "기본"`, `isFavorite`, `isSecure`
-- `templateVariables: [String]` — 템플릿 변수 토큰(중괄호 포함, 예 `{이름}`)
-- `placeholderValues: [String: [String]]` — 변수별 입력값 히스토리
-- `comboValues: [String]` — 콤보 단계(본문=1단계, 이후 단계가 배열에 누적)
-- `comboInterval: TimeInterval = 2.0` — 콤보 단계 간 지연
+- `templateVariables: [String]`: 템플릿 변수 토큰(중괄호 포함, 예 `{이름}`)
+- `placeholderValues: [String: [String]]`, 변수별 입력값 히스토리
+- `comboValues: [String]`: 콤보 단계(본문=1단계, 이후 단계가 배열에 누적)
+- `comboInterval: TimeInterval = 2.0`, 콤보 단계 간 지연
 - `contentType: ClipboardContentType` (.text/.image/.emoji/.mixed)
-- `imageFileNames: [String]` — 다중 이미지
-- `autoDetectedType: ClipboardItemType?` — 자동 분류 캐시
-- `childMemoIds: [UUID]` — **레거시(디코드 전용)**, 신규 로직 미사용
+- `imageFileNames: [String]`: 다중 이미지
+- `autoDetectedType: ClipboardItemType?`, 자동 분류 캐시
+- `childMemoIds: [UUID]`: **레거시(디코드 전용)**, 신규 로직 미사용
 
 ### 1.2 하위 호환 (마이그레이션)
 - 구버전 JSON의 제거된 키(`attachedTemplateId`, `currentComboIndex`, 저장형 `isTemplate`)는
@@ -58,14 +58,14 @@
 
 ## 3. 템플릿 변수 처리 (`TemplateVariableProcessor`)
 
-- `process(_:at:)` — 자동 변수 치환. `{날짜}`/`{date}`→`yyyy-MM-dd`,
+- `process(_:at:)`, 자동 변수 치환. `{날짜}`/`{date}`→`yyyy-MM-dd`,
   `{시간}`/`{time}`→`HH:mm:ss`, `{연도}`/`{월}`/`{일}`, 그리고 `{timezone}`,
   `{currency}`, `{greeting_time}`, `{city}` 등 글로벌 토큰.
-- `extractCustomTokens(in:)` — 사용자 정의 토큰만 추출(자동 변수 제외, 중복 제거,
+- `extractCustomTokens(in:)`: 사용자 정의 토큰만 추출(자동 변수 제외, 중복 제거,
   등장 순서 보존, 중괄호 포함).
-- `substitute(_:with:)` — 사용자 입력값으로 토큰 치환 후 자동 변수까지 처리.
-- `compose(memoValue:templateBody:templateInputs:)` — 메모 본문 + 줄바꿈 + 치환된 템플릿.
-- `tokenKind(_:)` / `isNumericToken(_:)` — 토큰이 숫자 입력 의도인지 판정
+- `substitute(_:with:)`, 사용자 입력값으로 토큰 치환 후 자동 변수까지 처리.
+- `compose(memoValue:templateBody:templateInputs:)`, 메모 본문 + 줄바꿈 + 치환된 템플릿.
+- `tokenKind(_:)` / `isNumericToken(_:)`, 토큰이 숫자 입력 의도인지 판정
   (`금액/수량/가격/번호/amount/price...` 키워드 부분 매칭).
 
 **검증:** `TemplateVariableProcessorSwiftTests.swift`
@@ -92,7 +92,7 @@
   이미지 → "N image(s)".
 - 보안 메모 + 마스킹 가능 타입(카드/계좌/여권 등) → `•••• 1234`(끝자리만 노출).
 - URL → 호스트+경로, 그 외 → 40자 truncate + `…`.
-- `extractPlaceholders(in:)` — 변수명만(중괄호 제거) 중복 제거 추출.
+- `extractPlaceholders(in:)`, 변수명만(중괄호 제거) 중복 제거 추출.
 
 **검증:** `MemoPreviewFormatterSwiftTests.swift`
 
@@ -101,12 +101,12 @@
 ## 6. 무료/Pro 제한 (`ProFeatureManager`)
 
 - 무료 한도: 메모 10, 콤보 3, 템플릿 3, 이미지 메모 5, 클립보드 히스토리 50.
-- `canAddMemo/Combo/Template/ImageMemo(currentCount:)` — 풀 액세스면 무제한,
+- `canAddMemo/Combo/Template/ImageMemo(currentCount:)`, 풀 액세스면 무제한,
   아니면 한도 미만일 때만 `true`.
 - `hasFullAccess = isPro || isGrandfathered || isInTrial`.
 - 7일 무료 체험(`startTrial`/`isInTrial`/`trialDaysRemaining`), v4.0 이전 구매자
   grandfathering.
-- `clipboardHistoryLimit()` — 풀 액세스 100, 무료 50.
+- `clipboardHistoryLimit()`: 풀 액세스 100, 무료 50.
 
 **검증:** `ProFeatureLimitsSwiftTests.swift` (+ 기존 `ProFeatureManagerTests.swift`)
 
@@ -116,7 +116,7 @@
 
 - 사용자 카테고리 CRUD(`add/rename/remove/move`), 보호 카테고리
   `["기본","텍스트","이미지"]`는 삭제/개명 불가.
-- 카테고리별 지정색(`colorHex(for:)`/`setColorHex(_:for:)`) — **항상 표시**
+- 카테고리별 지정색(`colorHex(for:)`/`setColorHex(_:for:)`): **항상 표시**
   (구분 표시 토글과 무관, 카테고리 정체성).
 - 즐겨찾기는 하나의 카테고리로 취급 → 즐겨찾기한 메모는 "기본" 버킷에서 제외.
 - 기능 토글(`isFeatureEnabled`/`enableFeature`) 및 활성화 배너.
@@ -144,7 +144,7 @@
 |------|----------------------|-------------|
 | Memo 모델/계산형/마이그레이션 | `MemoModelSwiftTests` | `ModelTests` |
 | 템플릿 변수 처리 | `TemplateVariableProcessorSwiftTests` | `AttachedTemplateTests` |
-| 미리보기 포매터 | `MemoPreviewFormatterSwiftTests` | — |
+| 미리보기 포매터 | `MemoPreviewFormatterSwiftTests` ||
 | 클립보드 분류 | `ClipboardClassificationSwiftTests` | `ClipboardClassificationServiceTests`, `ClipboardDetectionTests` |
 | Pro 제한 | `ProFeatureLimitsSwiftTests` | `ProFeatureManagerTests` |
 | 콤보 상태 머신 | `ComboAndTemplateModelSwiftTests` | `ComboExecutionServiceTests` |

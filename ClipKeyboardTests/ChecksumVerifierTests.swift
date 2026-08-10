@@ -21,7 +21,7 @@ struct ChecksumVerifierTests {
         #expect(result?.isValid == true)
     }
 
-    @Test("체크 자리가 틀린 IBAN은 실패로 단언한다 — 형식이 고유해서 말해도 된다")
+    @Test("체크 자리가 틀린 IBAN은 실패로 단언한다. 형식이 고유해서 말해도 된다")
     func invalidIBANFails() {
         let result = ChecksumVerifier.verify("DE88 3704 0044 0532 0130 00")
         #expect(result?.subject == .iban)
@@ -62,9 +62,9 @@ struct ChecksumVerifierTests {
         #expect(result?.isValid == false)
     }
 
-    @Test("붙여 쓴 숫자 뭉치가 Luhn을 통과 못 하면 아무 말도 하지 않는다 — 계좌번호일 수 있다")
+    @Test("붙여 쓴 숫자 뭉치가 Luhn을 통과 못 하면 아무 말도 하지 않는다. 계좌번호일 수 있다")
     func packedNonCardStaysSilent() {
-        // 16자리지만 카드가 아닌 숫자 — 여기서 "체크섬 불일치"를 띄우면 잘못된 고발이다.
+        // 16자리지만 카드가 아닌 숫자 - 여기서 "체크섬 불일치"를 띄우면 잘못된 고발이다.
         #expect(ChecksumVerifier.verify("1234567890123456") == nil)
     }
 
@@ -91,7 +91,7 @@ struct ChecksumVerifierTests {
         #expect(result?.isValid == false)
     }
 
-    @Test("붙여 쓴 10자리가 체크섬을 못 넘기면 침묵한다 — 전화번호일 수 있다")
+    @Test("붙여 쓴 10자리가 체크섬을 못 넘기면 침묵한다. 전화번호일 수 있다")
     func packedTenDigitsStaySilent() {
         #expect(ChecksumVerifier.verifyBusinessNumber("0212345678") == nil)
     }

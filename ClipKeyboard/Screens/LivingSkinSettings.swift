@@ -2,7 +2,7 @@
 //  LivingSkinSettings.swift
 //  ClipKeyboard
 //
-//  **단축어 스킨** 고르기 — 단축어 카드 위에 무엇이 얹히는지.
+//  **단축어 스킨** 고르기 - 단축어 카드 위에 무엇이 얹히는지.
 //  (내부 타입 이름은 LivingSkin 그대로다. UI 명칭만 바꿨다.)
 //
 //  ⚠️ 이 설정은 **단축어 목록 화면**에 대한 것이라 '키보드 레이아웃'이 아니라
@@ -77,9 +77,9 @@ struct LivingSkinSettings: View {
 
 // MARK: - 미리보기
 
-/// 스킨 행에 붙는 작은 카드 — 무엇이 사는지 그림으로 보여준다.
+/// 스킨 행에 붙는 작은 카드 - 무엇이 사는지 그림으로 보여준다.
 /// 설명을 읽게 하는 대신 **결과를 보여주는** 쪽이 고르기 쉽다
-/// (마을은 이미 자란 모습으로 그린다 — 빈 카드를 보여주면 무엇인지 알 수 없다).
+/// (마을은 이미 자란 모습으로 그린다 - 빈 카드를 보여주면 무엇인지 알 수 없다).
 struct LivingSkinPreview: View {
     let skin: LivingSkin
 
@@ -96,13 +96,13 @@ struct LivingSkinPreview: View {
             case .none:
                 EmptyView()
             case .vault:
-                // 이미 벌어들인 모습으로 — 빈 자리를 보여주면 무엇인지 알 수 없다.
+                // 이미 벌어들인 모습으로 - 빈 자리를 보여주면 무엇인지 알 수 없다.
                 // 카드에 실제로 붙는 모양 그대로여야 고르고 나서 "이게 아닌데"가 없다.
                 VaultCardBadge(savedSeconds: 3600 * 3)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .padding(4)
             case .geode:
-                // 이미 금이 간 모습으로 — 온전한 돌만 보여주면 무엇이 일어나는지 알 수 없다.
+                // 이미 금이 간 모습으로 - 온전한 돌만 보여주면 무엇이 일어나는지 알 수 없다.
                 GeodeBadge(useCount: 2, size: 30)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             case .village:

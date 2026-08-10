@@ -2,7 +2,7 @@
 //  UsageInsights.swift
 //  ClipKeyboard
 //
-//  전환 퍼널 + 리텐션 코호트 — **이미 쌓고 있는 데이터만으로** 계산한다.
+//  전환 퍼널 + 리텐션 코호트 - **이미 쌓고 있는 데이터만으로** 계산한다.
 //  새 이벤트를 추가하지 않는다(수집 항목이 늘면 개인정보 신고도 같이 늘어난다).
 //
 //  퍼널 근거: AnalyticsEvent 의 기존 이벤트들
@@ -71,7 +71,7 @@ enum UsageInsights {
         return stages
     }
 
-    /// 이탈 사유별 건수 — 퍼널만으로는 "왜 안 샀는지"가 안 보인다.
+    /// 이탈 사유별 건수 - 퍼널만으로는 "왜 안 샀는지"가 안 보인다.
     static func dropoffReasons(from samples: [UsageReportingService.EventSample]) -> [(name: String, count: Int)] {
         let reasons: [(String, String)] = [
             (NSLocalizedString("그냥 닫음", comment: "Dropoff: dismissed"), AnalyticsEvent.paywallDismissed.rawValue),
@@ -95,7 +95,7 @@ enum UsageInsights {
         var id: String { label }
     }
 
-    /// "몇 개 쓰는 사람이 몇 명인지" — 설치를 단축어 개수 구간으로 나눈다.
+    /// "몇 개 쓰는 사람이 몇 명인지" - 설치를 단축어 개수 구간으로 나눈다.
     /// 무료 한도(10개) 근처가 중요해서 그 앞뒤를 촘촘히 끊었다:
     /// 한도 직전(7~9)에 몰려 있으면 한도가 전환을 만들고 있다는 뜻이고,
     /// 1~3에 몰려 있으면 만들다 마는 것(가치 전달 실패)이다.
@@ -104,7 +104,7 @@ enum UsageInsights {
         shortcutDistribution(metrics: snapshots.map(\.metrics))
     }
 
-    /// ⚠️ 지표 딕셔너리만 받는다 — `UsageSnapshot` 은 CKRecord 전용 생성자뿐이라
+    /// ⚠️ 지표 딕셔너리만 받는다 - `UsageSnapshot` 은 CKRecord 전용 생성자뿐이라
     ///    그대로 받으면 유닛 테스트로 검증할 수 없다(리텐션에서 겪은 것과 같은 문제).
     static func shortcutDistribution(metrics snapshots: [[String: Double]]) -> [DistributionBucket] {
         let bounds: [(String, Int, Int)] = [
@@ -135,7 +135,7 @@ enum UsageInsights {
     }
 
     /// 종류별 단축어 총합. `currentMetrics()` 가 **겹치지 않게** 세므로 합이 전체와 맞는다.
-    /// ⚠️ `texts` 는 4.4.3부터 수집한다 — 그 이전 스냅샷에는 없어서 0으로 잡힌다.
+    /// ⚠️ `texts` 는 4.4.3부터 수집한다 - 그 이전 스냅샷에는 없어서 0으로 잡힌다.
     ///    옛 스냅샷이 섞이면 텍스트 비중이 실제보다 낮게 보인다(시간이 지나면 해소).
     static func typeBreakdown(snapshots: [UsageReportingService.Snapshot]) -> [TypeShare] {
         typeBreakdown(metrics: snapshots.map(\.metrics))
@@ -168,7 +168,7 @@ enum UsageInsights {
         /// 절약한 시간 합계(분).
         let totalTimeSavedMin: Int
 
-        /// 키보드 활성화율 — **온보딩 성패를 가장 잘 보여주는 숫자**.
+        /// 키보드 활성화율 - **온보딩 성패를 가장 잘 보여주는 숫자**.
         /// 앱은 깔았는데 키보드를 안 켰다면 이 앱의 핵심 가치를 아직 못 받은 것이다.
         var adoptionRate: Double {
             totalInstalls > 0 ? Double(activeInstalls) / Double(totalInstalls) : 0
@@ -197,7 +197,7 @@ enum UsageInsights {
     struct MarketingSignal: Identifiable {
         let name: String
         let value: String
-        /// 이 숫자를 어떻게 읽어야 하는지 — 숫자만 있으면 판단을 못 한다.
+        /// 이 숫자를 어떻게 읽어야 하는지 - 숫자만 있으면 판단을 못 한다.
         let hint: String
         var id: String { name }
     }
@@ -268,7 +268,7 @@ enum UsageInsights {
         let installDate: Date?
     }
 
-    /// 화면에서 쓰는 편의 오버로드 — 스냅샷을 최소 입력으로 옮겨준다.
+    /// 화면에서 쓰는 편의 오버로드 - 스냅샷을 최소 입력으로 옮겨준다.
     static func weeklyRetention(snapshots: [UsageReportingService.Snapshot],
                                 events: [UsageReportingService.EventSample],
                                 calendar: Calendar = .current,

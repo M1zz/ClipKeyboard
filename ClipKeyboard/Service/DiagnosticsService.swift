@@ -2,12 +2,12 @@
 //  DiagnosticsService.swift
 //  ClipKeyboard
 //
-//  크래시·행(hang)·성능 가시성 — MetricKit으로 받아 FeedbackHub에 쌓는다.
+//  크래시·행(hang)·성능 가시성 - MetricKit으로 받아 FeedbackHub에 쌓는다.
 //
 //  왜 Sentry/Crashlytics가 아닌가
 //   · 외부 SDK 0개 원칙을 유지한다(개인정보 신고 항목이 늘지 않고, SDK 자체의 수집도 없다).
 //   · 피드백·통계가 쓰는 CloudKit 공개 DB가 이미 있어 새 인프라 비용이 사실상 0이다.
-//   · **키보드 익스텐션의 메모리 종료(jetsam)까지 잡힌다** — 이 앱에서 가장 위험한 실패
+//   · **키보드 익스텐션의 메모리 종료(jetsam)까지 잡힌다** - 이 앱에서 가장 위험한 실패
 //     모드이고, 서드파티 SDK를 익스텐션에 넣는 건 메모리 예산상 부담이 크다.
 //
 //  한계 (알고 쓰는 것)
@@ -17,7 +17,7 @@
 //   · iOS 전용. Mac Catalyst 에서는 MetricKit 진단 페이로드를 주지 않아 비활성이다.
 //
 //  ⚠️ 개인정보: 콜스택·앱 버전·OS 버전만 보낸다. 사용자 데이터나 식별자는 넣지 않는다.
-//     (설치 UUID조차 붙이지 않는다 — 크래시 집계에 필요 없다.)
+//     (설치 UUID조차 붙이지 않는다 - 크래시 집계에 필요 없다.)
 //     App Privacy 신고는 `NSPrivacyCollectedDataTypeCrashData`(미연결·비추적)로 다룬다.
 //
 
@@ -31,7 +31,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
     static let shared = DiagnosticsService()
 
     private static let recordType = "CrashReport"
-    /// 한 페이로드에서 올리는 최대 진단 건수 — 공개 DB 쓰기 폭주 방지.
+    /// 한 페이로드에서 올리는 최대 진단 건수 - 공개 DB 쓰기 폭주 방지.
     private static let maxReportsPerPayload = 5
     /// 콜스택 문자열 상한 (CloudKit 레코드 비대화 방지).
     private static let maxStackLength = 4000
@@ -80,7 +80,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
     }
 
     /// 성능 지표 페이로드. 지금은 요약만 로그로 남긴다.
-    /// (지표 적재는 크래시 가시성이 자리잡은 뒤 별도로 — 한 번에 다 넣으면 잡음만 는다.)
+    /// (지표 적재는 크래시 가시성이 자리잡은 뒤 별도로 - 한 번에 다 넣으면 잡음만 는다.)
     func didReceive(_ payloads: [MXMetricPayload]) {
         for payload in payloads {
             guard let launch = payload.applicationLaunchMetrics else { continue }
@@ -121,7 +121,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
             do {
                 _ = try await database.save(record)
             } catch {
-                // 진단 전송 실패로 앱이 시끄러워질 이유는 없다 — 로그만 남기고 넘어간다.
+                // 진단 전송 실패로 앱이 시끄러워질 이유는 없다 - 로그만 남기고 넘어간다.
                 AppLog.warning(.diagnostics, "⚠️ [DiagnosticsService.upload] \(report.kind) 전송 실패: \(error.localizedDescription)")
             }
         }
@@ -130,7 +130,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
 
 #else
 
-/// MetricKit이 없는 플랫폼(macOS Catalyst 등)용 빈 구현 — 호출부를 #if로 감싸지 않아도 되게 한다.
+/// MetricKit이 없는 플랫폼(macOS Catalyst 등)용 빈 구현 - 호출부를 #if로 감싸지 않아도 되게 한다.
 final class DiagnosticsService {
     static let shared = DiagnosticsService()
     private init() {}

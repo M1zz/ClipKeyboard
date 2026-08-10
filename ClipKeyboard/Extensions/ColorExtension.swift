@@ -12,7 +12,7 @@ import SwiftUI
 import UIKit
 
 extension Color {
-    // MARK: - App-specific Design System Colors (ClipKeyboard 고유 — 공유하지 않음)
+    // MARK: - App-specific Design System Colors (ClipKeyboard 고유 - 공유하지 않음)
 
     /// Toast background color
     static var toastBackground: Color {

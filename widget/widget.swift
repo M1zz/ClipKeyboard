@@ -30,7 +30,7 @@ struct FavoriteMemoProvider: AppIntentTimelineProvider {
         let memo = loadSelectedMemo(configuration: configuration)
         let copied = memo.map { CopyFeedback.justCopied(memoID: $0.id.uuidString, now: now) } ?? false
 
-        // 방금 복사했으면 **두 칸**을 만든다 — 지금은 "복사됨", 잠시 뒤 원래 모습으로.
+        // 방금 복사했으면 **두 칸**을 만든다 - 지금은 "복사됨", 잠시 뒤 원래 모습으로.
         // 한 칸만 두면 확인 문구가 다음 갱신(15분)까지 남아 거짓말이 된다.
         var entries = [FavoriteMemoEntry(date: now, memo: memo, configuration: configuration, justCopied: copied)]
         if copied {
@@ -58,7 +58,7 @@ struct FavoriteMemoEntry: TimelineEntry {
     let date: Date
     let memo: WidgetMemo?
     let configuration: SelectMemoIntent
-    /// 방금 복사했는가 — 위젯은 토스트를 띄울 수 없어 잠깐 문구를 바꿔 알린다.
+    /// 방금 복사했는가 - 위젯은 토스트를 띄울 수 없어 잠깐 문구를 바꿔 알린다.
     var justCopied: Bool = false
 }
 
@@ -138,7 +138,7 @@ struct FavoriteMemoWidgetView: View {
     }
 
     // MARK: - 잠금화면: 인라인
-    // ⚠️ 인라인은 글자 한 줄만 허용해 버튼을 얹을 수 없다 — 여기만 앱을 여는 방식으로 남는다.
+    // ⚠️ 인라인은 글자 한 줄만 허용해 버튼을 얹을 수 없다 - 여기만 앱을 여는 방식으로 남는다.
     private var accessoryInlineView: some View {
         Group {
             if let memo = entry.memo {
@@ -219,7 +219,7 @@ struct FavoriteMemoWidgetView: View {
     /// ⚠️ 예전에는 `widgetURL` 로 앱을 띄운 뒤 복사했다. 계좌번호 하나 붙여넣자고
     ///    하던 일에서 튕겨 나갔다 돌아와야 했으니, 앱을 직접 여는 것과 별 차이가 없었다.
     ///
-    /// 즐겨찾기가 없을 때만 앱을 연다 — 그때는 만들러 가야 하니 앱이 맞다.
+    /// 즐겨찾기가 없을 때만 앱을 연다 - 그때는 만들러 가야 하니 앱이 맞다.
     @ViewBuilder
     private func copyTap<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         if let memo = entry.memo, !memo.isSecure {

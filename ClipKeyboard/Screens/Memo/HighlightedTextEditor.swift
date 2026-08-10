@@ -24,7 +24,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.textContainerInset = .init(top: 12, left: 8, bottom: 12, right: 8)
         tv.isScrollEnabled = true
         tv.keyboardType = keyboardType
-        // 그대로 붙여넣을 원문(이메일·계좌·주소)을 담는 필드 — 첫 글자 자동 대문자가
+        // 그대로 붙여넣을 원문(이메일·계좌·주소)을 담는 필드 - 첫 글자 자동 대문자가
         // "leeo@…"를 "Leeo@…"로 조용히 바꿔 저장하던 문제. 자동 수정도 원문을 훼손한다.
         tv.autocapitalizationType = .none
         tv.autocorrectionType = .no
@@ -44,7 +44,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
             uiView.attributedText = Self.highlight(text)
             let newLength = (text as NSString).length
             if text.hasPrefix(oldText) && newLength > (oldText as NSString).length {
-                // 변수/이모지 삽입처럼 끝에 덧붙은 경우 — 커서를 새 텍스트 끝으로 옮겨
+                // 변수/이모지 삽입처럼 끝에 덧붙은 경우 - 커서를 새 텍스트 끝으로 옮겨
                 // 곧바로 이어서 입력할 수 있게 한다(이전엔 커서가 앞으로 튀던 문제).
                 uiView.selectedRange = NSRange(location: newLength, length: 0)
             } else {
@@ -81,9 +81,9 @@ struct HighlightedTextEditor: UIViewRepresentable {
         return result
     }
 
-    /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 — 강조색 + 은은한 배경.
+    /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 - 강조색 + 은은한 배경.
     /// 편집 가능한 입력칸이므로 중괄호는 텍스트에 남기되, `{`·`}` 글자만 투명색으로 처리해
-    /// 화면에는 칩 배경 안에 변수명만 보이게 한다(4.3.0 스타일 — 중괄호 노출 X).
+    /// 화면에는 칩 배경 안에 변수명만 보이게 한다(4.3.0 스타일 - 중괄호 노출 X).
     static func applyTemplateVariableHighlight(to storage: NSMutableAttributedString) {
         let pattern = "\\{[^}]+\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
@@ -96,7 +96,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
                 .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.12),
                 .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
             ], range: range)
-            // 여는/닫는 중괄호 글자만 투명 처리 — 배경(칩)은 유지되어 좌우 여백처럼 보인다.
+            // 여는/닫는 중괄호 글자만 투명 처리 - 배경(칩)은 유지되어 좌우 여백처럼 보인다.
             storage.addAttribute(.foregroundColor, value: UIColor.clear,
                                  range: NSRange(location: range.location, length: 1))
             storage.addAttribute(.foregroundColor, value: UIColor.clear,

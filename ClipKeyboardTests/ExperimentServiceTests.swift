@@ -45,7 +45,7 @@ final class ExperimentServiceTests: XCTestCase {
         }
     }
 
-    /// 설치 ID를 못 읽으면 대조군(a)으로 떨어진다 — 실험 대상에서 조용히 빠지는 게
+    /// 설치 ID를 못 읽으면 대조군(a)으로 떨어진다 - 실험 대상에서 조용히 빠지는 게
     /// 잘못된 그룹에 넣는 것보다 안전하다.
     func testFallsBackToControlWithoutInstallID() {
         UserDefaults.standard.removeObject(forKey: key)
@@ -56,7 +56,7 @@ final class ExperimentServiceTests: XCTestCase {
     // MARK: - ② 분포
 
     /// 설치가 여러 개면 두 그룹에 나뉘어야 한다. 한쪽으로 다 몰리면 해시가 망가진 것이다.
-    /// (완벽한 50:50을 요구하지 않는다 — 표본 200에서 양쪽 모두 20% 이상이면 정상)
+    /// (완벽한 50:50을 요구하지 않는다 - 표본 200에서 양쪽 모두 20% 이상이면 정상)
     func testVariantsAreDistributed() {
         var counts: [ExperimentService.Variant: Int] = [.a: 0, .b: 0]
 
@@ -65,8 +65,8 @@ final class ExperimentServiceTests: XCTestCase {
             counts[ExperimentService.variant(for: .paywallCopy), default: 0] += 1
         }
 
-        XCTAssertGreaterThan(counts[.a] ?? 0, 40, "A 그룹이 너무 적다 — 해시 편향 의심")
-        XCTAssertGreaterThan(counts[.b] ?? 0, 40, "B 그룹이 너무 적다 — 해시 편향 의심")
+        XCTAssertGreaterThan(counts[.a] ?? 0, 40, "A 그룹이 너무 적다. 해시 편향 의심")
+        XCTAssertGreaterThan(counts[.b] ?? 0, 40, "B 그룹이 너무 적다. 해시 편향 의심")
         XCTAssertEqual((counts[.a] ?? 0) + (counts[.b] ?? 0), 200)
     }
 
@@ -82,7 +82,7 @@ final class ExperimentServiceTests: XCTestCase {
         XCTAssertTrue(slice.hasSuffix("_a") || slice.hasSuffix("_b"))
     }
 
-    /// 이벤트 이름 길이 상한(60자)을 넘지 않아야 한다 —
+    /// 이벤트 이름 길이 상한(60자)을 넘지 않아야 한다
     /// `UsageReportingService.record` 가 앞 60자로 자르기 때문에 잘리면 그룹이 뭉개진다.
     func testSliceFitsEventNameLimit() {
         UserDefaults.standard.set("fixed-install-id", forKey: key)

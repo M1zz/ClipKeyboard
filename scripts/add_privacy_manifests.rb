@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # PrivacyInfo.xcprivacy 를 각 타겟의 Copy Bundle Resources 에 등록한다.
-# xcodeproj gem 사용 — 손편집보다 안전. 멱등(이미 있으면 건너뜀).
+# xcodeproj gem 사용 - 손편집보다 안전. 멱등(이미 있으면 건너뜀).
 #
 # 매니페스트는 **번들에 복사돼야** 심사·개인정보 리포트에서 인식된다.
 # 타겟마다 파일이 따로 있어야 한다(앱 하나에 몰아넣으면 익스텐션 것은 비어 있는 것으로 처리됨).
@@ -10,7 +10,7 @@ PROJECT = 'ClipKeyboard.xcodeproj'
 
 # 타겟명 => 매니페스트 경로(프로젝트 루트 기준)
 #
-# ⚠️ widgetExtension 은 여기 없다 — `widget/` 이 Xcode 16 동기화 그룹
+# ⚠️ widgetExtension 은 여기 없다 - `widget/` 이 Xcode 16 동기화 그룹
 #    (PBXFileSystemSynchronizedRootGroup)이라 폴더 안의 파일이 자동으로 타겟에 포함된다.
 #    (예외는 membershipExceptions 의 Info.plist 하나뿐)
 #    즉 widget/PrivacyInfo.xcprivacy 는 **파일을 두는 것만으로** 번들에 들어간다.

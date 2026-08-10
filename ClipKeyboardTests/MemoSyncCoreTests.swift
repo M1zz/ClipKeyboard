@@ -10,7 +10,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("MemoSyncCore — 섀도 diff & 최신 우선 병합")
+@Suite("MemoSyncCore, 섀도 diff & 최신 우선 병합")
 struct MemoSyncCoreTests {
 
     private func memo(_ id: UUID, title: String = "t", value: String = "v",
@@ -83,7 +83,7 @@ struct MemoSyncCoreTests {
         #expect(result.memos.map(\.id) == [r.id])
     }
 
-    @Test("최신 우선 — 원격이 더 최신이면 교체, 더 오래면 로컬 유지")
+    @Test("최신 우선: 원격이 더 최신이면 교체, 더 오래면 로컬 유지")
     func mergeLastWriterWins() {
         let id = UUID()
         let localOld = memo(id, title: "local", edited: .init(timeIntervalSince1970: 100))

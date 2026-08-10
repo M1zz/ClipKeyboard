@@ -132,7 +132,7 @@ struct Constants {
         return category
     }
 
-    /// 주어진 keyword가 카테고리의 샘플 keyword와 동일한지 — 자동 갱신 가능 여부 판정.
+    /// 주어진 keyword가 카테고리의 샘플 keyword와 동일한지 - 자동 갱신 가능 여부 판정.
     static func isSampleTitle(_ title: String, forCategory category: String) -> Bool {
         guard let sample = sampleTitle(for: category) else { return false }
         return title == sample
@@ -169,7 +169,7 @@ struct Constants {
     /// 튜토리얼 URL
     static let tutorialURL = "https://m1zz.github.io/ClipKeyboard/tutorial.html"
 
-    /// 개인정보 처리방침 — App Store Connect 에 등록한 것과 **같은 주소여야 한다**.
+    /// 개인정보 처리방침 - App Store Connect 에 등록한 것과 **같은 주소여야 한다**.
     static let privacyPolicyURL = "https://m1zz.github.io/ClipKeyboard/privacy.html"
 
     /// 이용약관(EULA). Apple 표준 사용권 계약 + 이 앱에만 해당하는 조항.

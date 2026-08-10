@@ -2,7 +2,7 @@
 //  ClipboardClassificationSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — classify(content:)의 타입 판정과 우선순위.
+//  Swift Testing 스위트 - classify(content:)의 타입 판정과 우선순위.
 //  기존 XCTest(ClipboardClassificationServiceTests)와 상호 보완하며,
 //  파라미터라이즈드 테이블로 핵심 타입을 한눈에 검증한다.
 //
@@ -13,7 +13,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("ClipboardClassificationService — 자동 분류")
+@Suite("ClipboardClassificationService: 자동 분류")
 struct ClipboardClassificationSwiftTests {
 
     private var sut: ClipboardClassificationService { .shared }

@@ -5,7 +5,7 @@
 //  사진에서 읽은 글자 중 **값으로 넣을 것을 고르는** 자리.
 //
 //  왜 고르게 하는가: 카드 한 장을 찍으면 카드사 이름·영문 이름·유효기간·카드번호가 한꺼번에
-//  읽힌다. 그걸 전부 값에 쏟아부으면 사용자는 결국 지우는 일을 하게 된다 — 손으로 치는 것보다
+//  읽힌다. 그걸 전부 값에 쏟아부으면 사용자는 결국 지우는 일을 하게 된다 - 손으로 치는 것보다
 //  나을 게 없다. 읽은 것을 **줄 단위로 늘어놓고 하나만 집게** 해야 사진이 입력을 대신한다.
 //
 //  ⚠️ 인식 순서를 흐트러뜨리지 않는다. 사진에 보이는 위→아래 순서가 그대로여야
@@ -31,7 +31,7 @@ struct PhotoValuePicker: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
-    /// 이어 붙이기로 담은 줄 — 사용자가 무엇을 이미 넣었는지 흐리게 표시한다.
+    /// 이어 붙이기로 담은 줄 - 사용자가 무엇을 이미 넣었는지 흐리게 표시한다.
     @State private var appended: Set<String> = []
 
     var body: some View {
@@ -81,7 +81,7 @@ struct PhotoValuePicker: View {
         }
     }
 
-    /// 한 줄 — 누르면 값이 되고, 오른쪽 +를 누르면 이어 붙는다.
+    /// 한 줄 - 누르면 값이 되고, 오른쪽 +를 누르면 이어 붙는다.
     private func row(text: String, label: String?) -> some View {
         HStack(spacing: 12) {
             Button {
@@ -121,7 +121,7 @@ struct PhotoValuePicker: View {
         .accessibilityElement(children: .combine)
     }
 
-    /// 사진 종류를 알아본 값 — 카드번호·유효기간·주소. 없으면 빈 배열.
+    /// 사진 종류를 알아본 값 - 카드번호·유효기간·주소. 없으면 빈 배열.
     /// ⚠️ 읽은 줄에서 **덜어내지 않는다.** 알아본 게 틀렸을 때 원본 줄이 사라져 있으면
     ///    사용자는 손으로 칠 수밖에 없다. 위에 얹어 두고 아래는 그대로 남긴다.
     private var smartPicks: [(label: String, value: String)] {
@@ -141,7 +141,7 @@ struct PhotoValuePicker: View {
             picks.append((NSLocalizedString("주소", comment: "Photo value picker: parsed address label"), address))
         }
 
-        // 알아본 값이 원본 줄과 똑같으면 같은 것이 두 번 보인다 — 그건 얹을 이유가 없다.
+        // 알아본 값이 원본 줄과 똑같으면 같은 것이 두 번 보인다 - 그건 얹을 이유가 없다.
         return picks.filter { !lines.contains($0.1) }
     }
 }

@@ -22,7 +22,7 @@ class DataManager: ObservableObject {
             AppLog.info(.store, "📝 [DataManager] didShowOnboarding 변경: \(didShowOnboarding)")
             UserDefaults.standard.setValue(didShowOnboarding, forKey: DefaultsKey.onboarding)
             UserDefaults.standard.synchronize()
-            // 온보딩을 끝까지 본 설치만 이벤트를 남긴다 — 퍼널의 첫 단계.
+            // 온보딩을 끝까지 본 설치만 이벤트를 남긴다 - 퍼널의 첫 단계.
             // (false → true 로 바뀔 때만. 초기화 시점에는 didSet 이 안 불린다)
             if didShowOnboarding, !oldValue {
                 AnalyticsService.log(.onboardingCompleted)

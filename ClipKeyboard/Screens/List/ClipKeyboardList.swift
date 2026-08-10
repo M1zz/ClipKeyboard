@@ -14,7 +14,7 @@ import LeeoKit
 var fontSize: CGFloat = 20
 
 extension Color {
-    /// 즐겨찾기 지정색 — 시스템 핑크보다 더 선명한 분홍(#FF4A9E).
+    /// 즐겨찾기 지정색 - 시스템 핑크보다 더 선명한 분홍(#FF4A9E).
     static let clipFavorite = Color(red: 1.0, green: 0.29, blue: 0.62)
 }
 
@@ -31,7 +31,7 @@ private struct ScrollOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-/// 순서 바꾸기 그리드의 드롭 델리게이트 — 드래그가 다른 카드 위로 들어오면 그 자리로 즉시 이동.
+/// 순서 바꾸기 그리드의 드롭 델리게이트 - 드래그가 다른 카드 위로 들어오면 그 자리로 즉시 이동.
 /// `.onDrag`가 손가락을 따라오는 네이티브 미리보기를 제공하고, dropEntered에서 라이브 재배치한다.
 private struct MemoReorderDropDelegate: DropDelegate {
     let item: Memo
@@ -77,7 +77,7 @@ struct ClipKeyboardList: View {
 
     @State private var isSearchBarVisible = false
     @State private var showDraftList = false
-    // 붙여넣기 허용 안내 팁 — 앱을 열 때마다 "붙여넣기 허용" 팝업이 뜨는 사용자를 설정으로 안내.
+    // 붙여넣기 허용 안내 팁 - 앱을 열 때마다 "붙여넣기 허용" 팝업이 뜨는 사용자를 설정으로 안내.
     // 클립보드 화면 배너와 dismiss 키(pasteTipDismissed)를 공유해, 어느 쪽에서 닫든 함께 사라진다.
     // 설치 직후엔 iOS 설정에 '다른 앱에서 붙여넣기' 항목이 아직 없어 안내가 헛돌므로,
     // 3번째 실행부터 노출한다(PastePermissionGuidance).
@@ -86,7 +86,7 @@ struct ClipKeyboardList: View {
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
-    // 가치 순간 Pro 넛지 — 1회·닫기 가능 (페이월 노출률 향상)
+    // 가치 순간 Pro 넛지 - 1회·닫기 가능 (페이월 노출률 향상)
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
     @State private var showPaywallFromKeyboard: Bool = false
     @State private var showBulkImport: Bool = false
@@ -103,7 +103,7 @@ struct ClipKeyboardList: View {
     @State private var occasionalSuggestion_: SuggestionTemplate?
     @State private var navigateToOccasionalAdd: Bool = false
 
-    // 메모 구분 표시 마스터 토글 — 기본 OFF(제목만, 가장 심플).
+    // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
     @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
@@ -111,19 +111,19 @@ struct ClipKeyboardList: View {
     @State private var showCategoryBadgeNudge: Bool = false
 
     /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부.
-    /// 오직 설정 "메모 구분 표시" 토글만 따른다 — iOS "색상 없이 구별"(접근성)이 켜져 있어도
+    /// 오직 설정 "메모 구분 표시" 토글만 따른다 - iOS "색상 없이 구별"(접근성)이 켜져 있어도
     /// 토글이 꺼져 있으면 표시하지 않는다(토글을 단일 스위치로).
     private var visualCuesVisible: Bool {
         showVisualCues
     }
-    /// 디스플레이 설정 — 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
+    /// 디스플레이 설정 - 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 단축어 스킨 프리셋 — 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
+    /// 단축어 스킨 프리셋 - 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
     @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var livingSkinRaw: String = LivingSkin.none.rawValue
     /// 동전이 어디서 날아 어디로 들어가는지를 쥐고 있는 것.
     @StateObject private var vaultDeposit = VaultDeposit()
-    /// 금고에 쌓인 시간(초) — 입금할 때마다 갱신해 잔고 알약이 바로 늘어난다.
+    /// 금고에 쌓인 시간(초) - 입금할 때마다 갱신해 잔고 알약이 바로 늘어난다.
     @State private var vaultSeconds: Double = 0
     /// 금고 화면 열기.
     @State private var showVault = false
@@ -133,10 +133,10 @@ struct ClipKeyboardList: View {
     /// 단축어 탭이 무엇을 보여줄지(목록 / 키보드 미리보기). 툴바의 전환 버튼이 이 값을 뒤집는다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
     private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
-    /// 이 기기가 4.4.4 에서 처음 시작했는지 — 온보딩을 보여줄 사람인지 가른다.
+    /// 이 기기가 4.4.4 에서 처음 시작했는지 - 온보딩을 보여줄 사람인지 가른다.
     @AppStorage(DefaultsKey.startedFreshV444)
     private var startedFreshV444: Bool = false
-    /// 방금 만든 단축어 — 한 번 써 볼 때까지 "눌러보세요"를 띄운다.
+    /// 방금 만든 단축어 - 한 번 써 볼 때까지 "눌러보세요"를 띄운다.
     @State private var coachMemoID: UUID?
     /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
     @State private var coachRect: CGRect = .zero
@@ -156,36 +156,36 @@ struct ClipKeyboardList: View {
     private var tutorialTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialMakeTemplateDone)
     private var tutorialMakeTemplateDone: Bool = false
-    /// 처음 배우는 차례가 끝났는가 — 안 끝났으면 챕터 초대는 무대가 이끈다.
+    /// 처음 배우는 차례가 끝났는가 - 안 끝났으면 챕터 초대는 무대가 이끈다.
     @AppStorage(DefaultsKey.tutorialChaptersDone)
     private var tutorialChaptersDone: Bool = false
-    /// "템플릿으로 만들기" 시트가 튜토리얼로 열렸는지 — 닫힐 때 다음 장으로 이어주려고 본다.
+    /// "템플릿으로 만들기" 시트가 튜토리얼로 열렸는지 - 닫힐 때 다음 장으로 이어주려고 본다.
     @State private var awaitingMakeTemplate = false
     /// "이어서 해볼까요?" 를 띄우는 중인 장.
     @State private var tutorialInvite: TutorialChapter?
     /// 만들기 화면을 띄우는 중인 장.
     @State private var tutorialMaking: TutorialChapter?
-    /// 지금 코치가 가리키는 장 — 안내 문구가 장마다 다르다.
+    /// 지금 코치가 가리키는 장 - 안내 문구가 장마다 다르다.
     @State private var coachChapter: TutorialChapter?
     /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
     @State private var coinBadgeMemoID: UUID?
-    /// 방금 일한 카드 — 테두리가 잠깐 켜진다. 동전·보석이 날아간 **뒤에**
+    /// 방금 일한 카드 - 테두리가 잠깐 켜진다. 동전·보석이 날아간 **뒤에**
     /// "이 카드가 방금 일했다"를 뒤따라 말해 준다.
     @State private var glowMemoID: UUID?
-    /// 지금 막 깨지고 있는 지오드. 부서진 모습을 잠깐 붙잡아 둔다 —
+    /// 지금 막 깨지고 있는 지오드. 부서진 모습을 잠깐 붙잡아 둔다
     /// 곧장 새 돌로 넘어가면 무엇이 나왔는지 못 보고 지나간다.
     @State private var burstingMemoID: UUID?
     /// 모달이 닫히기를 기다리는 입금. 콤보·템플릿은 시트가 떠 있는 동안 사용이 확정되는데,
     /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
     @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
-    /// 키캡 물성 — 설정에서 바꾸면 이 화면도 바로 따라야 한다.
+    /// 키캡 물성 - 설정에서 바꾸면 이 화면도 바로 따라야 한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
     @StateObject private var guestScheduler = GuestScheduler()
-    /// 카드 내용 힌트 — 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
+    /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
     @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
     private var contentHintEnabled: Bool = true
 
@@ -205,7 +205,7 @@ struct ClipKeyboardList: View {
     @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
 
-    // 탭 누름 바운스 — 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
+    // 탭 누름 바운스 - 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
     @State private var bounceTriggers: [UUID: Int] = [:]
 
     // 순서 바꾸기(흔들기/드래그 재정렬)
@@ -216,10 +216,10 @@ struct ClipKeyboardList: View {
     @State private var showAddFavoriteMemoSheet: Bool = false
     @State private var showSwipeCategoryDialog: Bool = false
 
-    // 스타터팩 — 추천 묶음 일괄 추가 시트
+    // 스타터팩 - 추천 묶음 일괄 추가 시트
     @State private var showStarterPack: Bool = false
 
-    // 고스트 메모 제안 — 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
+    // 고스트 메모 제안 - 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
     @State private var ghostSuggestion: QuickPattern?
     @State private var ghostAddPattern: QuickPattern?
     private let dismissedGhostPatternsKey = "dismissedGhostPatterns_v1"
@@ -234,7 +234,7 @@ struct ClipKeyboardList: View {
     @State private var showAddTemplateSheet: Bool = false
     @State private var showAddComboSheet: Bool = false
     @State private var memoToEdit: Memo?
-    /// "템플릿으로 만들기" 원본 메모 — 이 메모 내용으로 채운 별도 새 메모를 만든다(원본은 그대로).
+    /// "템플릿으로 만들기" 원본 메모 - 이 메모 내용으로 채운 별도 새 메모를 만든다(원본은 그대로).
     @State private var makeTemplateSource: Memo?
 
     // TipKit
@@ -243,7 +243,7 @@ struct ClipKeyboardList: View {
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    /// 카드 열 수 결정용 — 아이패드·맥에서 `.regular` 가 된다.
+    /// 카드 열 수 결정용 - 아이패드·맥에서 `.regular` 가 된다.
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var shouldShowGraceBanner: Bool {
@@ -261,7 +261,7 @@ struct ClipKeyboardList: View {
         return savedEnough || nearLimit
     }
 
-    /// 넛지 메시지 종류 — Analytics source 슬라이싱용.
+    /// 넛지 메시지 종류 - Analytics source 슬라이싱용.
     private var proNudgeSource: String {
         KeyboardUsageTracker.totalTimeSavedSeconds() >= 600 ? "time_saved" : "slots_left"
     }
@@ -271,14 +271,14 @@ struct ClipKeyboardList: View {
         let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
         if saved >= 600 {
             let minutes = Int(saved / 60)
-            return String(format: NSLocalizedString("이미 %d분을 아꼈어요 — Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
+            return String(format: NSLocalizedString("이미 %d분을 아꼈어요. Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
         }
         let left = max(0, ProFeatureManager.freeMemoLimit - viewModel.memos.count)
-        return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요 — Pro로 무제한", comment: "Pro nudge: slots left"), left)
+        return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요. Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
-    /// 카드 어항 미리보기 텍스트 — 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
-    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선(보안 메모도 — 직접 쓴 한 줄이라 안전).
+    /// 카드 어항 미리보기 텍스트 - 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
+    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선(보안 메모도 - 직접 쓴 한 줄이라 안전).
     /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
     private func fishbowlText(memo: Memo) -> String? {
         if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
@@ -289,17 +289,17 @@ struct ClipKeyboardList: View {
         return text.isEmpty ? nil : text
     }
 
-    /// 페이지 상단 헤더 — 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
-    /// 제목은 여기 두지 않는다 — 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
-    /// AnyView 타입 소거 — LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
-    /// 스크롤이 내려간 상태인지 — 타이틀 표시 모드 전환·상단 여백 측정 가드용.
+    /// 페이지 상단 헤더 - 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
+    /// 제목은 여기 두지 않는다 - 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
+    /// AnyView 타입 소거 - LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
+    /// 스크롤이 내려간 상태인지 - 타이틀 표시 모드 전환·상단 여백 측정 가드용.
     @State private var showsInlineNavTitle = false
 
     /// 타이틀 표시 모드. inlineLarge는 등장 시 접힌 채 시작하는 시스템 동작이 있어(실측)
     /// 항상 펼쳐지는 .large로 시작한 뒤 등장 직후 .inlineLarge로 전환한다.
     @State private var titleDisplayMode: ToolbarTitleDisplayMode = .large
 
-    /// 등장 후 inlineLarge로 정착했는지 — 이때부터만 상단 시작점을 측정한다.
+    /// 등장 후 inlineLarge로 정착했는지 - 이때부터만 상단 시작점을 측정한다.
     /// (.large 시작 단계의 더 높은 바가 측정되면 여백이 커짐, 실측)
     @State private var titleBarSettled = false
 
@@ -316,7 +316,7 @@ struct ClipKeyboardList: View {
     /// 세이프에어리어 무시 전 페이저의 상단 y(=네비바 하단). categoryContent에서 실측.
     @State private var pageTopInset: CGFloat = 113
 
-    /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 — 페이저(UIKit 셀) 안 스크롤은
+    /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 - 페이저(UIKit 셀) 안 스크롤은
     /// 네비바가 자동 추적하지 못하고, preference도 셀 경계에서 업데이트가 끊겨(실측)
     /// onScrollGeometryChange(iOS 18+)를 쓴다. iOS 17은 전환 없이 inlineLarge 유지.
     @ViewBuilder
@@ -340,7 +340,7 @@ struct ClipKeyboardList: View {
         AnyView(topBanners)
     }
 
-    /// 네비게이션 바 인라인 타이틀 — 현재 카테고리 이름(스와이프 시 갱신).
+    /// 네비게이션 바 인라인 타이틀 - 현재 카테고리 이름(스와이프 시 갱신).
     private var currentCategoryTitle: String {
         let tab: CategoryTab = CategoryStore.shared.isFeatureEnabled ? viewModel.selectedCategoryTab : .all
         return tab.displayName
@@ -363,11 +363,11 @@ struct ClipKeyboardList: View {
     }
 
     /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
-    /// AnyView로 타입 소거 — mainColumn VStack의 제네릭 중첩 깊이를 줄이는 핵심.
+    /// AnyView로 타입 소거 - mainColumn VStack의 제네릭 중첩 깊이를 줄이는 핵심.
     private var topBanners: some View {
         AnyView(
             VStack(spacing: 0) {
-                // 붙여넣기 허용 안내 — 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
+                // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
                 if showPasteTip {
                     PastePermissionTipBanner(
@@ -385,7 +385,7 @@ struct ClipKeyboardList: View {
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
-                // 빠른 메모(Inbox) 배너 — 분류 대기 항목이 있으면 상단에 즉시 노출.
+                // 빠른 메모(Inbox) 배너 - 분류 대기 항목이 있으면 상단에 즉시 노출.
                 // (컨테이너가 내부에서 QuickNoteStore를 관찰하고, 비었으면 아무것도 안 그린다.
                 //  타입은 topBanners의 AnyView로 소거되어 mainColumn 타입 복잡도에 영향 없음.)
                 QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
@@ -393,7 +393,7 @@ struct ClipKeyboardList: View {
                     showInboxFromIntent = true
                 }
 
-                // 가치 순간 Pro 넛지 — 무료 유저가 가치를 느낀 시점에 1회 노출.
+                // 가치 순간 Pro 넛지 - 무료 유저가 가치를 느낀 시점에 1회 노출.
                 if shouldShowProValueNudge {
                     ProValueNudgeBanner(
                         message: proValueNudgeMessage,
@@ -459,7 +459,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 카테고리 탭/단일 페이지 — 가장 깊은 단일 요소라 AnyView로 타입 소거.
+    /// 카테고리 탭/단일 페이지 - 가장 깊은 단일 요소라 AnyView로 타입 소거.
     /// GeometryReader: 세이프에어리어를 무시하기 전의 상단 오프셋(=네비바 하단)을 재서
     /// 각 페이지 스크롤 콘텐츠의 시작 위치(contentMargins)로 쓴다.
     private var categoryContent: some View {
@@ -476,16 +476,16 @@ struct ClipKeyboardList: View {
                 }
                 // 콘텐츠 시작점 = 확장(inlineLarge) 상태의 바 하단.
                 // - 유효 범위(60~160) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단.
-                //   상한을 200→160으로 좁힘 — .large→.inlineLarge 전환 중간의 과대값(~199)이
+                //   상한을 200→160으로 좁힘 - .large→.inlineLarge 전환 중간의 과대값(~199)이
                 //   latch되면 그리드가 화면 중앙부터 시작하는 버그가 됨(실측: inlineLarge 바
                 //   하단은 100~130 언저리라 160이면 큰 글씨 설정까지 여유 있음).
                 // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
                 //
                 // ⚠️ **커지는 쪽으로는 절대 안 움직인다.** 이 버그의 실패 방식은 언제나
-                //    "너무 큼"이었다 — 큰 타이틀이 완전히 펼쳐진 순간의 값(150~160)이 latch되면
+                //    "너무 큼"이었다 - 큰 타이틀이 완전히 펼쳐진 순간의 값(150~160)이 latch되면
                 //    그리드가 화면 한복판에서 시작한다. 반대로 작아서 생기는 사고는 없었다
                 //    (바 하단에는 타이틀 쿠션이 넉넉해 몇 pt 붙어도 겹치지 않는다, 실측).
-                //    범위 가드만으로는 못 막는다 — 유효 범위 안의 값 중에서도 **가장 작은 것**이
+                //    범위 가드만으로는 못 막는다 - 유효 범위 안의 값 중에서도 **가장 작은 것**이
                 //    우리가 원하는 상태(inlineLarge)의 바 하단이다.
                 .onChange(of: minY, initial: true) { _, v in
                     if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 {
@@ -498,7 +498,7 @@ struct ClipKeyboardList: View {
                         pageTopInset = min(pageTopInset, minY)
                     }
                 }
-                // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 — 어떤 경로로든 오염된 값을
+                // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 - 어떤 경로로든 오염된 값을
                 // 사용자가 맨 위로 돌아오는 순간 자가 치유한다.
                 .onChange(of: showsInlineNavTitle) { _, inline in
                     if !inline, titleBarSettled, minY > 60, minY < 160 {
@@ -509,17 +509,17 @@ struct ClipKeyboardList: View {
         )
     }
 
-    /// 페이지 스크롤 콘텐츠의 상단 시작점 — 네비바 하단에서 10pt 끌어올려 타이틀과의
+    /// 페이지 스크롤 콘텐츠의 상단 시작점 - 네비바 하단에서 10pt 끌어올려 타이틀과의
     /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
     /// 상한 150 클램프: 측정값이 어떤 경로로든 오염돼도(전환 중간값 latch 등)
     /// 그리드가 화면 중앙부터 시작하는 최악의 표시는 막는다.
-    /// **스크롤 페이지의 위 여백 — 경로에 따라 다르다.**
+    /// **스크롤 페이지의 위 여백 - 경로에 따라 다르다.**
     ///
     /// ⚠️ 여기에 두 가지 화면이 섞여 있었고, 둘의 사정이 **정반대**라 값 하나로는 못 맞춘다.
     ///
-    ///  ① **카테고리 페이저(TabView)** — 시스템이 바 아래로 안 밀어 준다.
+    ///  ① **카테고리 페이저(TabView)** - 시스템이 바 아래로 안 밀어 준다.
     ///     우리가 잰 바 하단(100~130)을 그대로 줘야 한다. 안 주면 카드가 타이틀·툴바를 덮는다.
-    ///  ② **단일 페이지**(카테고리 기능이 꺼진 '전체' 한 장) — ScrollView 를 시스템이
+    ///  ② **단일 페이지**(카테고리 기능이 꺼진 '전체' 한 장) - ScrollView 를 시스템이
     ///     알아서 바 아래로 밀어 준다. 여기에 잰 값을 또 얹으면 여백이 **두 번** 들어가
     ///     그리드가 화면 중앙쯤에서 시작한다(오래된 "그리드가 안 올라간다" 버그의 정체).
     ///     실측: 0으로 두면 타이틀 아래 36pt 에 정확히 붙는다.
@@ -535,7 +535,7 @@ struct ClipKeyboardList: View {
 
     /// **스크롤이 없는 페이지(빈 화면)의 위 여백.**
     ///
-    /// 이쪽도 시스템이 안 밀어 준다 — ScrollView 가 아니라 그냥 VStack 이다.
+    /// 이쪽도 시스템이 안 밀어 준다 - ScrollView 가 아니라 그냥 VStack 이다.
     /// 직접 재서 바 아래로 내려야 네비바에 글이 가려지지 않는다.
     private var emptyPageTopMargin: CGFloat { measuredBarBottomMargin }
 
@@ -556,7 +556,7 @@ struct ClipKeyboardList: View {
             // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
             .simultaneousGesture(TapGesture().onEnded { isSearchFieldFocused = false })
             .scrollDismissesKeyboard(.immediately)
-            // 검색은 순정 .searchable(검색 탭)로 이전 — 커스텀 하단 검색바 제거.
+            // 검색은 순정 .searchable(검색 탭)로 이전 - 커스텀 하단 검색바 제거.
             .alert(
                 NSLocalizedString("새 카테고리", comment: "Add category alert title"),
                 isPresented: $showAddCategoryAlert
@@ -676,7 +676,7 @@ struct ClipKeyboardList: View {
             .navigationDestination(isPresented: $showVault) {
                 VaultScreen()
             }
-            // 온보딩의 마지막 걸음 — 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
+            // 온보딩의 마지막 걸음 - 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
             .fullScreenCover(item: $pastePractice) { request in
                 PastePracticeView(expected: request.value) {
                     pastePractice = nil
@@ -689,7 +689,7 @@ struct ClipKeyboardList: View {
                     // 시트가 겹치지 않게 한 박자 뒤에 다음 화면을 연다.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
                         if chapter == .makeTemplate {
-                            // 새 화면을 만들지 않는다 — 이미 있는 "템플릿으로 만들기"를 그대로 태운다.
+                            // 새 화면을 만들지 않는다 - 이미 있는 "템플릿으로 만들기"를 그대로 태운다.
                             // 튜토리얼에서만 보는 특별한 화면을 배워봐야, 정작 평소에 쓰는
                             // 메뉴는 여전히 낯설다.
                             awaitingMakeTemplate = true
@@ -700,7 +700,7 @@ struct ClipKeyboardList: View {
                     }
                 } onDecline: {
                     tutorialInvite = nil
-                    // 거절도 답이다 — 다시 묻지 않는다. 붙잡으면 다음에 안 온다.
+                    // 거절도 답이다 - 다시 묻지 않는다. 붙잡으면 다음에 안 온다.
                     markDone(chapter)
                 }
             }
@@ -723,7 +723,7 @@ struct ClipKeyboardList: View {
             }
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.5), value: viewModel.showToast)
 
-            // 순정 Inline Large 타이틀 — 맨 위에선 큰 제목이 바에 표시되고,
+            // 순정 Inline Large 타이틀 - 맨 위에선 큰 제목이 바에 표시되고,
             // 스크롤이 내려가면 .inline(가운데 작은 제목)으로 전환(사용자 지정).
             // 페이저 안 스크롤은 시스템이 자동 추적하지 못해 trackPageScroll이
             // 오프셋을 보고 디스플레이 모드를 직접 전환한다.
@@ -731,7 +731,7 @@ struct ClipKeyboardList: View {
             .navigationTitle(currentCategoryTitle)
             #if os(iOS)
             .toolbarTitleDisplayMode(titleDisplayMode)
-            // [디자인 불변식] 상·하단 배경 언제나 투명 — 정의는 alwaysTransparentBars() 참고.
+            // [디자인 불변식] 상·하단 배경 언제나 투명 - 정의는 alwaysTransparentBars() 참고.
             // TabView 전역 설정만으로는 이 화면의 스크롤뷰까지 확실히 닿지 않아
             // (하단 탭바 뒤 콘텐츠가 뿌옇게 바래는 회귀 발생) 로컬에도 명시한다.
             .alwaysTransparentBars()
@@ -838,7 +838,7 @@ struct ClipKeyboardList: View {
                     )
                 }
             }
-            // 순서 바꾸기 — 전체 메모 흔들기/드래그 재정렬 (전체화면)
+            // 순서 바꾸기 - 전체 메모 흔들기/드래그 재정렬 (전체화면)
     }
 
     private var screenL5: some View {
@@ -846,7 +846,7 @@ struct ClipKeyboardList: View {
             .fullScreenCover(isPresented: $viewModel.isReorderMode) {
                 reorderModeView
             }
-            // 즐겨찾기 탭 + 버튼 — 즐겨찾기로 바로 저장
+            // 즐겨찾기 탭 + 버튼 - 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
                 NavigationStack {
                     MemoAdd(insertedIsFavorite: true)
@@ -892,11 +892,11 @@ struct ClipKeyboardList: View {
                     }
                 }
             }
-            // "템플릿으로 만들기" — 원본 내용으로 채운 별도 새 메모(memoId=nil). 본문 포커스로
+            // "템플릿으로 만들기" - 원본 내용으로 채운 별도 새 메모(memoId=nil). 본문 포커스로
             // 변수 삽입바를 바로 띄우고, 저장하면 원본은 그대로 둔 채 새 템플릿 메모가 생긴다.
             .sheet(item: $makeTemplateSource, onDismiss: {
                 viewModel.loadMemos()
-                // 튜토리얼로 열었던 거라면 여기서 그 장이 끝난다 — 저장했든 취소했든,
+                // 튜토리얼로 열었던 거라면 여기서 그 장이 끝난다 - 저장했든 취소했든,
                 // 이 화면을 한 번 본 것만으로 "있는 걸 바꿀 수 있다"는 건 전달됐다.
                 if awaitingMakeTemplate {
                     awaitingMakeTemplate = false
@@ -913,7 +913,7 @@ struct ClipKeyboardList: View {
                         insertedCategory: src.category,
                         startInTemplateMode: true,
                         templateSourceMemoId: src.id,
-                        // 튜토리얼로 들어온 길에서만 안내 한 줄 — 평소 편집에는 안 붙는다.
+                        // 튜토리얼로 들어온 길에서만 안내 한 줄 - 평소 편집에는 안 붙는다.
                         tutorialHint: awaitingMakeTemplate
                             ? NSLocalizedString("매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요.",
                                                 comment: "Tutorial hint inside the make-template editor")
@@ -956,7 +956,7 @@ struct ClipKeyboardList: View {
                 startGuestsIfNeeded()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
-                // v4.1.0: 카테고리 기능 마이그레이션 — 기존 사용자 자동 활성
+                // v4.1.0: 카테고리 기능 마이그레이션 - 기존 사용자 자동 활성
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
@@ -985,7 +985,7 @@ struct ClipKeyboardList: View {
                 consumePendingInboxOpen()
             }
             // 콜드 런치에서 didBecomeActive가 위 구독 설치보다 먼저 지나간 경우의 폴백.
-            // (Control Center 컨트롤이 켠 보류 플래그를 첫 표시 시점에 소비 — 멱등이라 중복 무해)
+            // (Control Center 컨트롤이 켠 보류 플래그를 첫 표시 시점에 소비 - 멱등이라 중복 무해)
             .onAppear { consumePendingInboxOpen() }
     }
 
@@ -1030,10 +1030,10 @@ struct ClipKeyboardList: View {
     /// 탭별 배경 덮어쓰기 [CategoryTab.storageKey: 에셋 이름]. ""는 "이 탭만 배경 없음".
     /// 항목이 없는 탭은 전체 기본값(listBackgroundImage)을 따른다.
     @State private var perTabBackgrounds: [String: String] = [:]
-    /// 배경 선택 시트의 적용 범위 — 현재 탭만 / 모든 탭.
+    /// 배경 선택 시트의 적용 범위 - 현재 탭만 / 모든 탭.
     @State private var backgroundScopeAllTabs = false
 
-    /// 현재 탭에 실제로 보여줄 배경 — 탭 덮어쓰기 우선, 없으면 전체 기본값.
+    /// 현재 탭에 실제로 보여줄 배경 - 탭 덮어쓰기 우선, 없으면 전체 기본값.
     private var resolvedBackgroundImage: String {
         perTabBackgrounds[viewModel.selectedCategoryTab.storageKey] ?? listBackgroundImage
     }
@@ -1048,7 +1048,7 @@ struct ClipKeyboardList: View {
             .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
     }
 
-    /// 배경 선택 적용 — 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
+    /// 배경 선택 적용 - 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
     private func applyBackground(_ name: String) {
         HapticManager.shared.selection()
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -1066,25 +1066,25 @@ struct ClipKeyboardList: View {
     ///
     /// ⚠️ 예전에는 **설치 첫날 1초 만에** 물었다. 아직 뭐 하는 앱인지도 모르는 사람에게
     ///    "배경 사진 깔아볼래요?"를 들이미는 셈이라, 대부분 그냥 닫고 그걸로 끝이었다
-    ///    (한 번 닫으면 다시 안 뜬다 — 가장 좋은 기능을 첫날에 태워 없앤 것).
+    ///    (한 번 닫으면 다시 안 뜬다 - 가장 좋은 기능을 첫날에 태워 없앤 것).
     ///
     /// 두 가지를 모두 만족해야 꺼낸다:
-    ///  ① 설치 후 **최소 일주일** — 꾸미기는 도구가 손에 익은 다음의 즐거움이다.
-    ///  ② 단축어가 어느 정도 쌓였을 것 — 카드가 몇 장 없는 화면에 배경을 깔면
+    ///  ① 설치 후 **최소 일주일** - 꾸미기는 도구가 손에 익은 다음의 즐거움이다.
+    ///  ② 단축어가 어느 정도 쌓였을 것 - 카드가 몇 장 없는 화면에 배경을 깔면
     ///     살아나기는커녕 휑한 게 더 드러난다.
     private static let backgroundOfferMinDays: Double = 7
     private static let backgroundOfferMinMemos = 3
 
     private var isReadyForBackgroundOffer: Bool {
         guard viewModel.memos.count >= Self.backgroundOfferMinMemos else { return false }
-        // 설치일이 없으면(아직 기록 전) 아직 이르다고 본다 — 일찍 묻느니 늦게 묻는다.
+        // 설치일이 없으면(아직 기록 전) 아직 이르다고 본다 - 일찍 묻느니 늦게 묻는다.
         guard let installed = UserDefaults.standard.object(forKey: "app_install_date") as? Date else {
             return false
         }
         return Date().timeIntervalSince(installed) >= Self.backgroundOfferMinDays * 86_400
     }
 
-    /// 썸네일 선택 표시 기준 — 현재 범위에서 그 이미지가 적용돼 있는지.
+    /// 썸네일 선택 표시 기준 - 현재 범위에서 그 이미지가 적용돼 있는지.
     private func isBackgroundSelected(_ name: String) -> Bool {
         backgroundScopeAllTabs ? (listBackgroundImage == name) : (resolvedBackgroundImage == name)
     }
@@ -1092,7 +1092,7 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
-                // 배경 이미지(선택) — 유리 카드 뒤로 비치는 사진. 기본은 없음.
+                // 배경 이미지(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
                 // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
                 .background {
                     if !resolvedBackgroundImage.isEmpty {
@@ -1105,7 +1105,7 @@ struct ClipKeyboardList: View {
                     }
                 }
                 .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
-                // 새 배경 기능 1회 제안 — 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
+                // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
                     isPresented: $showBackgroundOffer
@@ -1135,7 +1135,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 배경 이미지 선택 시트 — 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
+    /// 배경 이미지 선택 시트 - 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
     /// 적용 범위: 현재 탭만(탭별 덮어쓰기) 또는 모든 탭(기본값 교체 + 덮어쓰기 초기화).
     private var backgroundPickerSheet: some View {
         NavigationStack {
@@ -1205,7 +1205,7 @@ struct ClipKeyboardList: View {
         .presentationDragIndicator(.visible)
     }
 
-    /// 선택된 썸네일 표시 — 파란 테두리 + 체크 뱃지.
+    /// 선택된 썸네일 표시 - 파란 테두리 + 체크 뱃지.
     @ViewBuilder
     private func backgroundSelectionBadge(selected: Bool) -> some View {
         if selected {
@@ -1263,13 +1263,13 @@ struct ClipKeyboardList: View {
         Array(repeating: GridItem(.flexible(), spacing: 12), count: gridColumnCount)
     }
 
-    /// 고스트(가상) 메모 셀 — 실제 메모 셀과 같은 치수·제목 스타일을 그대로 쓰되
+    /// 고스트(가상) 메모 셀 - 실제 메모 셀과 같은 치수·제목 스타일을 그대로 쓰되
     /// 반투명 + 점선 테두리로 "아직 실재하지 않는 제안"임을 표현. 탭하면 채워서
     /// 추가하는 편집기로 진입(사용자가 한 번 눌러보고 판단).
     private func ghostMemoCell(pattern: QuickPattern) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
-                // 아이콘을 그냥 띄워 두면 붕 뜬다 — 원형 배지에 담아야 만들다 만 게 아니라
+                // 아이콘을 그냥 띄워 두면 붕 뜬다 - 원형 배지에 담아야 만들다 만 게 아니라
                 // 만들어 둔 것으로 보인다.
                 Image(systemName: AppSymbol.sparkles)
                     .font(.footnote.weight(.bold))
@@ -1322,7 +1322,7 @@ struct ClipKeyboardList: View {
         .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
         // ⚠️ 반투명 위에 또 반투명을 얹지 않는다. 예전에는 surface 0.5 에 opacity 0.85 까지
         //    겹쳐서 두 번 흐려졌고, 옅은 회색 점선까지 더해져 **만들다 만 카드**로 보였다.
-        //    제안은 흐릿한 게 아니라 **아직 안 만든 것**이다 — 또렷하되 색으로 구분한다.
+        //    제안은 흐릿한 게 아니라 **아직 안 만든 것**이다 - 또렷하되 색으로 구분한다.
         .background(
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                 .fill(theme.accent.opacity(0.07))
@@ -1350,7 +1350,7 @@ struct ClipKeyboardList: View {
     private func memoGridCell(memo: Memo) -> some View {
         let isActive = longPressActiveMemo?.id == memo.id
         let holdDuration: Double = 0.65
-        // progress fill을 trigger보다 살짝 짧게 — 시뮬 환경에서 onLongPressGesture가
+        // progress fill을 trigger보다 살짝 짧게 - 시뮬 환경에서 onLongPressGesture가
         // 미세하게 일찍 fire되는 경우가 있어 "원이 아직 안 찼는데 시트 뜸" 현상을
         // 방지하기 위함. 사용자는 0.5s에 원이 가득 차는 걸 보고 0.65s까지 누르면 시트.
         let progressFillDuration: Double = 0.5
@@ -1362,7 +1362,7 @@ struct ClipKeyboardList: View {
 
         return memoCardSurface(memo: memo)
         // 손님(새·고양이)은 카드 밖으로 넘쳐야 해서 clip 바깥에 얹는다.
-        // 카드 한 장 위에서만 벌어진다 — 격자는 스크롤·재정렬되므로 전역 경로를 못 쓴다.
+        // 카드 한 장 위에서만 벌어진다 - 격자는 스크롤·재정렬되므로 전역 경로를 못 쓴다.
         .overlay(alignment: .topLeading) {
             if livingSkin.isVisitor, guestScheduler.hostId == memo.id {
                 GeometryReader { geo in
@@ -1373,7 +1373,7 @@ struct ClipKeyboardList: View {
             }
         }
         // 방금 쓴 카드에 잠깐 켜지는 테두리.
-        // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다 —
+        // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다
         //    끼웠다 빼면 나타날 때 끊겨 보이고, 사라질 때 애니메이션이 안 걸린다.
         .overlay {
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
@@ -1381,7 +1381,7 @@ struct ClipKeyboardList: View {
                 .opacity(glowMemoID == memo.id ? 1 : 0)
                 .allowsHitTesting(false)
         }
-        // 코치가 가리킬 카드의 자리를 알려준다 — 안내를 화면 아래에 고정해 두면
+        // 코치가 가리킬 카드의 자리를 알려준다 - 안내를 화면 아래에 고정해 두면
         // 무엇을 누르라는 건지 이어지지 않는다.
         .background(
             GeometryReader { geo in
@@ -1392,11 +1392,11 @@ struct ClipKeyboardList: View {
             }
         )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 누름 — 스킨에 따라 두 방식으로 갈린다.
+        // 누름 - 스킨에 따라 두 방식으로 갈린다.
         //
         // 두께가 있으면 **키캡처럼** 바닥까지 내려앉았다 돌아온다.
         // 두께가 없으면(납작·예전 방식) 내려앉을 바닥이 없으므로 **예전의 푹신한 바운스**로
-        // 되돌린다 — 그러지 않으면 눌러도 아무 반응이 없는 죽은 카드가 된다.
+        // 되돌린다 - 그러지 않으면 눌러도 아무 반응이 없는 죽은 카드가 된다.
         .modifier(CardPressEffect(
             trigger: bounceTriggers[memo.id] ?? 0,
             legacyBounce: keycapSkin.usesLegacyCardBounce,
@@ -1404,7 +1404,7 @@ struct ClipKeyboardList: View {
             pressDuration: keycapSkin.pressDuration,
             skirt: { dy in cardSkirt(depth: skirtDepth, offsetY: dy) }
         ))
-        // 좌표를 받는 탭 — 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
+        // 좌표를 받는 탭 - 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
         // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.
         //
         // ⚠️ `.global` 이라야 한다. 이름 붙인 좌표계는 카드가 ScrollView 안쪽 깊이 있어
@@ -1440,13 +1440,13 @@ struct ClipKeyboardList: View {
                 .allowsHitTesting(false)
         }
         .onLongPressGesture(minimumDuration: holdDuration, maximumDistance: 20) {
-            // 완료 — 진행 완료 햅틱 후 액션 메뉴 표시
+            // 완료 - 진행 완료 햅틱 후 액션 메뉴 표시
             HapticManager.shared.heavy()
             longPressActiveMemo = nil
             longPressProgress = 0
             memoForActions = memo
             showMemoActions = true
-            // 메뉴가 덮으므로 카드 옆 안내는 물러난다 — 이제 가리킬 곳은 메뉴 안이다.
+            // 메뉴가 덮으므로 카드 옆 안내는 물러난다 - 이제 가리킬 곳은 메뉴 안이다.
             if coachChapter == .makeTemplate {
                 withAnimation(.easeOut(duration: 0.2)) { coachMemoID = nil; coachChapter = nil }
             }
@@ -1468,7 +1468,7 @@ struct ClipKeyboardList: View {
                     longPressProgress = 1.0
                 }
             } else {
-                // 중간에 뗌 — 테두리 되감기
+                // 중간에 뗌 - 테두리 되감기
                 withAnimation(.easeOut(duration: 0.18)) {
                     longPressProgress = 0
                 }
@@ -1484,7 +1484,7 @@ struct ClipKeyboardList: View {
     }
 
     /// 메모 카드의 순수 비주얼(제스처 없음). memoGridCell(탭/롱프레스)과 재정렬 모드 셀이 공유.
-    /// - Parameter lightweight: 재정렬 그리드용 경량 렌더링 — 그림자와 내용 힌트 애니메이션을
+    /// - Parameter lightweight: 재정렬 그리드용 경량 렌더링 - 그림자와 내용 힌트 애니메이션을
     ///   생략한다. 흔들림(repeatForever 회전)과 매 프레임 경합하는 비용을 줄여 드래그를 매끄럽게.
     private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> some View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
@@ -1518,7 +1518,7 @@ struct ClipKeyboardList: View {
                 Spacer(minLength: 16)
             }
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                // 보안 메모 자물쇠 — 구분 표시 ON일 때만 (기본은 심볼 없이 제목만).
+                // 보안 메모 자물쇠 - 구분 표시 ON일 때만 (기본은 심볼 없이 제목만).
                 if visualCuesVisible, memo.isSecure {
                     Image(systemName: AppSymbol.lockFill)
                         .font(.title3)
@@ -1533,7 +1533,7 @@ struct ClipKeyboardList: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            // 제목 아래 내용 힌트 — 카드가 화면에 2초쯤 머물면 한 번 살며시 맺혔다가
+            // 제목 아래 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 맺혔다가
             // 흩어지듯 사라진다(이번 등장에서는 끝). 설정(메모 표시)에서 켜기/끄기.
             // 켜져 있으면 카드 높이 균일성을 위해 영역은 항상 확보(보안 메모 등은
             // 빈 공간), 꺼져 있으면 영역 자체가 없다.
@@ -1556,9 +1556,9 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        // 유리 카드 글자 가독성 — 맑은 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
+        // 유리 카드 글자 가독성 - 맑은 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
         // 글 내용 뒤에 은은한 할로를 깐다. 흰 글자(색 유리)는 어두운 할로,
-        // 테마색 글자(무색 유리)는 테마 배경색 할로 — 배경이 무엇이든 최소 대비 확보.
+        // 테마색 글자(무색 유리)는 테마 배경색 할로 - 배경이 무엇이든 최소 대비 확보.
         // 이미지 카드는 자체 그라디언트가 가독성을 책임지므로 제외.
         .compositingGroup()
         .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.55) : theme.bg),
@@ -1573,31 +1573,31 @@ struct ClipKeyboardList: View {
             if hasImage || lightweight {
                 memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
             } else {
-                // 맑은 유리 뒤에 깔리는 옅은 판 — 유리가 배경에 묻히지 않게 잡아 준다.
+                // 맑은 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
                 // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
                 theme.surface.opacity(CardGlass.backingOpacity)
             }
         }
-        // 생활 레이어(마을·눈+발자국) — **글자 뒤, 카드 표면 위.**
+        // 생활 레이어(마을·눈+발자국) - **글자 뒤, 카드 표면 위.**
         // overlay로 얹으면 눈 베일과 발자국이 제목을 덮어 글이 묻힌다.
         .background {
             livingLayer(memo: memo, lightweight: lightweight)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) — 카테고리 색은 tint로 유지.
+        // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) - 카테고리 색은 tint로 유지.
         .modifier(CardGlass(
             active: !hasImage && !lightweight,
             tint: cardGlassTint(memo: memo),
             cornerRadius: theme.radiusXl
         ))
-        // 타입 테두리 — 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
+        // 타입 테두리 - 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                 .strokeBorder(memoTypeBorder(memo).color,
                               style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
                                                  dash: memoTypeBorder(memo).dash))
         )
-        // 경량 모드(재정렬)에선 그림자 생략 — 회전하는 카드의 그림자는 매 프레임 오프스크린
+        // 경량 모드(재정렬)에선 그림자 생략 - 회전하는 카드의 그림자는 매 프레임 오프스크린
         // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
         .shadow(color: lightweight ? .clear : .black.opacity(0.10),
                 radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
@@ -1610,13 +1610,13 @@ struct ClipKeyboardList: View {
     private func startGuestsIfNeeded() {
         guestScheduler.start(
             skin: livingSkin,
-            // 화면 위쪽 카드들만 후보 — 스크롤 밖에서 손님이 오가면 아무도 못 본다.
+            // 화면 위쪽 카드들만 후보 - 스크롤 밖에서 손님이 오가면 아무도 못 본다.
             candidates: { viewModel.memos.prefix(12).map(\.id) },
             reduceMotion: reduceMotion
         )
     }
 
-    /// 카드 위에 사는 것 — 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
+    /// 카드 위에 사는 것 - 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
     private var livingSkin: LivingSkin {
         LivingSkin.resolved(livingSkinRaw)
     }
@@ -1634,7 +1634,7 @@ struct ClipKeyboardList: View {
     @ViewBuilder
     private var vaultEntrance: some View {
         if livingSkin == .vault || livingSkin == .geode {
-            // 금고는 시간을, 지오드는 보석을 센다 — 모이는 자리는 같고 세는 것만 다르다.
+            // 금고는 시간을, 지오드는 보석을 센다 - 모이는 자리는 같고 세는 것만 다르다.
             VaultButton(savedSeconds: vaultSeconds,
                         collects: livingSkin == .geode ? .gem : .coin,
                         deposit: vaultDeposit) {
@@ -1674,7 +1674,7 @@ struct ClipKeyboardList: View {
             withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil; coachChapter = nil }
 
             // 복사했으면 **어느 장이든** 붙여넣기까지 데려간다.
-            // 복사는 앱이 해 준 일이고, 값어치는 그다음에 안 친 것에 있다 — 그건 콤보도 같다.
+            // 복사는 앱이 해 준 일이고, 값어치는 그다음에 안 친 것에 있다 - 그건 콤보도 같다.
             let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
             if let chapter { markDone(chapter) }
             if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -1712,7 +1712,7 @@ struct ClipKeyboardList: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation(fadeIn) { glowMemoID = memoID }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 — 뺏지 않는다.
+                // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 - 뺏지 않는다.
                 if glowMemoID == memoID { withAnimation(fadeOut) { glowMemoID = nil } }
             }
         }
@@ -1720,7 +1720,7 @@ struct ClipKeyboardList: View {
 
     /// 지오드를 한 단계 깨뜨린다. 세 번째면 터뜨리고 보석을 날려 보낸다.
     ///
-    /// 단계는 사용 횟수에서 계산하므로 여기서 따로 저장할 것이 없다 —
+    /// 단계는 사용 횟수에서 계산하므로 여기서 따로 저장할 것이 없다
     /// 저장하면 언젠가 화면과 기록이 어긋난다.
     private func handleGeodeUse(memoID: UUID) {
         guard let memo = viewModel.memos.first(where: { $0.id == memoID }) else { return }
@@ -1743,7 +1743,7 @@ struct ClipKeyboardList: View {
 
     /// 카드에 동전을 먼저 보여주고, 사라지면서 금고로 날린다.
     ///
-    /// 순서가 값어치다 — 동전과 내용이 **같은 자리를 동시에 쓰지 않는다.**
+    /// 순서가 값어치다 - 동전과 내용이 **같은 자리를 동시에 쓰지 않는다.**
     /// 처음엔 둘을 겹쳐 놨는데 내용이 읽히질 않았다.
     private func showCoinThenFly(memoID: UUID, seconds: Double, from point: CGPoint) {
         // 동작 줄이기·저전력에서는 날리지 않는다. 그래도 입금은 알려야
@@ -1756,7 +1756,7 @@ struct ClipKeyboardList: View {
         withAnimation(.easeOut(duration: 0.18)) { coinBadgeMemoID = memoID }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.coinBadgeDwell) {
-            // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 — 뺏지 않는다.
+            // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 - 뺏지 않는다.
             if coinBadgeMemoID == memoID {
                 withAnimation(.easeIn(duration: 0.16)) { coinBadgeMemoID = nil }
             }
@@ -1769,7 +1769,7 @@ struct ClipKeyboardList: View {
         livingSkin == .vault && coinBadgeMemoID == memo.id
     }
 
-    /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다 —
+    /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다
     /// 회전하는 카드마다 Canvas가 하나씩 더 붙으면 드래그가 눈에 띄게 무거워진다.
     @ViewBuilder
     private func livingLayer(memo: Memo, lightweight: Bool) -> some View {
@@ -1783,7 +1783,7 @@ struct ClipKeyboardList: View {
                 //    마을은 새싹처럼 성긴 그림이라 글이 비쳐 보였지만 동전은 꽉 찬 원이라
                 //    제목과 내용을 통째로 덮어버렸다.
                 ZStack {
-                    // 카드를 금고 문으로 — 경첩·다이얼·이음새는 전부 가장자리에 있어
+                    // 카드를 금고 문으로 - 경첩·다이얼·이음새는 전부 가장자리에 있어
                     // 글과 자리를 다투지 않는다.
                     VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(
                         characterCount: memo.value.count, useCount: memo.clipCount))
@@ -1798,7 +1798,7 @@ struct ClipKeyboardList: View {
                     }
                 }
             case .geode:
-                // 세 번 쓸 때마다 깨진다. 금고 동전과 같은 이유로 **구석**에만 둔다 —
+                // 세 번 쓸 때마다 깨진다. 금고 동전과 같은 이유로 **구석**에만 둔다
                 // 가운데에 크게 놓으면 제목과 내용을 덮는다.
                 // ⚠️ 금고 다이얼과 **같은 자리**(오른쪽 가운데)에 둔다.
                 //    카드에서 눈이 가는 자리는 여기다. 아래 구석에 뒀더니 있는 줄도 몰랐다.
@@ -1809,7 +1809,7 @@ struct ClipKeyboardList: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
                     .padding(.trailing, 6)
             case .village:
-                // 사용 기록이 그대로 마을이 된다 — 움직이지 않으므로 스크린샷에 남는다.
+                // 사용 기록이 그대로 마을이 된다 - 움직이지 않으므로 스크린샷에 남는다.
                 // 카드 **아래쪽**에 세운다. 위는 제목 자리라 겹치면 둘 다 안 읽힌다.
                 VillageStrip(useCount: memo.clipCount)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
@@ -1828,7 +1828,7 @@ struct ClipKeyboardList: View {
 
     // MARK: - 카드 키캡
 
-    /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다 —
+    /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다
     /// 따로 고르게 하면 설정만 늘고 두 화면이 안 맞는다.
     ///
     /// ⚠️ `KeyboardSkin.current`(UserDefaults 직접 읽기)가 아니라 @AppStorage를 쓴다.
@@ -1844,7 +1844,7 @@ struct ClipKeyboardList: View {
         return keycapSkin.cardSkirtDepth
     }
 
-    /// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다 —
+    /// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다
     /// 유리는 표면이고 스커트는 두께라 서로 싸우지 않는다.
     ///
     /// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
@@ -1861,7 +1861,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 텍스트 카드의 글래스 tint — 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
+    /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
     /// 색이 없는 일반 카드는 nil(무색 프로스트 글래스).
     private func cardGlassTint(memo: Memo) -> Color? {
         if memo.isFavorite { return .clipFavorite }
@@ -1872,8 +1872,8 @@ struct ClipKeyboardList: View {
         return nil
     }
 
-    /// 카드 배경이 짙은 색(컬러드)인지 여부 — 텍스트/아이콘 색상 결정에 사용.
-    /// 색은 '카테고리'를 의미한다 — 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
+    /// 카드 배경이 짙은 색(컬러드)인지 여부 - 텍스트/아이콘 색상 결정에 사용.
+    /// 색은 '카테고리'를 의미한다 - 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
     private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
         if hasImage { return true }
         // 카테고리/즐겨찾기 색은 '카테고리 정체성'이라 항상 표시(구분 표시 토글과 무관).
@@ -1884,7 +1884,7 @@ struct ClipKeyboardList: View {
         return false
     }
 
-    /// 그리드 셀 VoiceOver 합성 라벨 — 제목 + 상태(즐겨찾기/이미지/보안/템플릿/콤보/카테고리).
+    /// 그리드 셀 VoiceOver 합성 라벨 - 제목 + 상태(즐겨찾기/이미지/보안/템플릿/콤보/카테고리).
     private func memoGridAccessibilityLabel(_ memo: Memo) -> String {
         var parts: [String] = [memo.title]
         if memo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Category: favorites")) }
@@ -1905,7 +1905,7 @@ struct ClipKeyboardList: View {
         MemoTypeStyle.symbolName(for: memo)
     }
 
-    /// 메모 타입별 테두리 — 키보드 익스텐션과 같은 규칙을 공유한다.
+    /// 메모 타입별 테두리 - 키보드 익스텐션과 같은 규칙을 공유한다.
     /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
     /// "메모 구분 표시" 토글이 켜진 경우에만 노출(기본은 깔끔한 카드).
     private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
@@ -1942,14 +1942,14 @@ struct ClipKeyboardList: View {
             // 색 = 카테고리 (항상 표시)
             customCategoryColor(memo.category)
         } else {
-            // 보안 메모도 카테고리 색(없으면 기본 표면색)을 따른다 — 회색으로 칠하지 않는다.
+            // 보안 메모도 카테고리 색(없으면 기본 표면색)을 따른다 - 회색으로 칠하지 않는다.
             theme.surface
         }
     }
 
     // MARK: - Tab Background Color
 
-    /// 하단 인디케이터 선택 dot 색상 — 탭 배경색과 시각적으로 매칭.
+    /// 하단 인디케이터 선택 dot 색상 - 탭 배경색과 시각적으로 매칭.
     /// 즐겨찾기는 분홍, 커스텀 카테고리는 그 카테고리 색, 전체는 무채색.
     private var tabIndicatorColor: Color {
         switch viewModel.selectedCategoryTab {
@@ -1961,13 +1961,13 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 현재 탭에 맞는 배경색 — 기본/전체=투명(회색 없이 시스템 배경), favorites=핑크, custom=팔레트색
+    /// 현재 탭에 맞는 배경색 - 기본/전체=투명(회색 없이 시스템 배경), favorites=핑크, custom=팔레트색
     private var tabBackgroundColor: Color {
         switch viewModel.selectedCategoryTab {
         case .basic:     return .clear
         case .all:       return .clear
         // ⚠️ 예전(0.08~0.10)은 **흰 바탕** 위에 얹히던 값이다. 지금은 테마색 바닥 위라
-        //    같은 값으로는 눈에 안 보인다 — 색이 사라진 게 아니라 묻혔던 것이다.
+        //    같은 값으로는 눈에 안 보인다 - 색이 사라진 게 아니라 묻혔던 것이다.
         case .favorites: return Color.clipFavorite.opacity(0.13)
         case .builtIn(let b): return b.tint.opacity(0.11)
         case .custom(let name): return customCategoryColor(name).opacity(0.11)
@@ -2083,7 +2083,7 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab View (Page Swipe)
 
-    /// TabView.page 방식 — ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
+    /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
     private var categoryTabView: some View {
         let binding = Binding<CategoryTab>(
@@ -2122,7 +2122,7 @@ struct ClipKeyboardList: View {
                     }
                 }
         )
-        // 하단 그라데이션 베일 — 콘텐츠가 탭바 뒤로 지나가되, 카드 흰 배경이
+        // 하단 그라데이션 베일 - 콘텐츠가 탭바 뒤로 지나가되, 카드 흰 배경이
         // 탭바 주변에 어중간하게 걸쳐 보이지 않게 배경색으로 서서히 사라지게 한다.
         // ignoresSafeArea보다 먼저 걸어 확장된 바닥(홈 인디케이터)까지 덮는다.
         .overlay(alignment: .bottom) {
@@ -2137,7 +2137,7 @@ struct ClipKeyboardList: View {
             .frame(height: 130)
             .allowsHitTesting(false)
         }
-        // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 — 페이저를 화면 위아래 끝까지 확장.
+        // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 - 페이저를 화면 위아래 끝까지 확장.
         // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
         // 콘텐츠 시작 위치는 각 ScrollView의 contentMargins(.top, pageContentTopMargin)가 잡는다.
         .ignoresSafeArea(.container, edges: .vertical)
@@ -2154,7 +2154,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 검색어가 비어 있지 않은(공백 제외) 상태 — 검색 결과 없음 분기 판단에 사용.
+    /// 검색어가 비어 있지 않은(공백 제외) 상태 - 검색 결과 없음 분기 판단에 사용.
     private var isSearching: Bool {
         !viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
@@ -2174,18 +2174,18 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 빈 상태 화면 위에 페이지 헤더(제목+배너)를 얹는다 — 스크롤 콘텐츠가 없으니 고정이어도 무방.
+    /// 빈 상태 화면 위에 페이지 헤더(제목+배너)를 얹는다 - 스크롤 콘텐츠가 없으니 고정이어도 무방.
     private func emptyPage<Content: View>(for tab: CategoryTab, @ViewBuilder content: () -> Content) -> some View {
         VStack(spacing: 0) {
             pageHeader(for: tab)
             content()
         }
         // 페이저가 화면 끝까지 확장되고, 이 경로엔 ScrollView 가 없어 시스템이 밀어 주지도
-        // 않는다 — 시작점을 직접 잡는다(pageContentTopMargin 과 다른 이유, 그쪽 주석 참고).
+        // 않는다 - 시작점을 직접 잡는다(pageContentTopMargin 과 다른 이유, 그쪽 주석 참고).
         .padding(.top, emptyPageTopMargin)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         // ⚠️ 여기서 배경을 칠하지 않는다. 바닥은 탭 껍데기(SnippetsTab)가 깔고, 그 위에
-        //    카테고리 틴트가 얹힌다 — 여기서 한 겹 더 칠하면 **그 틴트를 덮어** 버린다
+        //    카테고리 틴트가 얹힌다 - 여기서 한 겹 더 칠하면 **그 틴트를 덮어** 버린다
         //    (카테고리 색이 사라졌던 원인).
     }
 
@@ -2261,7 +2261,7 @@ struct ClipKeyboardList: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 24)
 
-                // 실제 메모 그리드와 동일한 2열 레이아웃 — 제안 카드도 진짜 메모 카드처럼 보인다.
+                // 실제 메모 그리드와 동일한 2열 레이아웃 - 제안 카드도 진짜 메모 카드처럼 보인다.
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     searchSuggestionCard(query: query)
                 }
@@ -2278,7 +2278,7 @@ struct ClipKeyboardList: View {
     private func searchSuggestionCard(query: String) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
-                // 아이콘을 그냥 띄워 두면 붕 뜬다 — 원형 배지에 담아야 만들다 만 게 아니라
+                // 아이콘을 그냥 띄워 두면 붕 뜬다 - 원형 배지에 담아야 만들다 만 게 아니라
                 // 만들어 둔 것으로 보인다.
                 Image(systemName: AppSymbol.sparkles)
                     .font(.footnote.weight(.bold))
@@ -2321,8 +2321,8 @@ struct ClipKeyboardList: View {
 
     // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
 
-    /// 2열 그리드 한 칸 너비 — onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
-    /// iOS 26에서 `UIScreen.main`이 deprecated — 활성 씬의 **윈도우** 너비를 쓴다.
+    /// 2열 그리드 한 칸 너비 - onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
+    /// iOS 26에서 `UIScreen.main`이 deprecated - 활성 씬의 **윈도우** 너비를 쓴다.
     /// 화면(screen)이 아니라 윈도우인 이유: 아이패드 분할뷰·스테이지 매니저·Mac Catalyst에서는
     /// 앱이 화면 전체를 쓰지 않아 screen 기준이면 미리보기가 실제 카드보다 커진다.
     @MainActor
@@ -2344,7 +2344,7 @@ struct ClipKeyboardList: View {
         #endif
     }
 
-    /// 재정렬 안내 문구 — 카테고리 범위 재정렬이면 어느 카테고리인지 함께 보여준다.
+    /// 재정렬 안내 문구 - 카테고리 범위 재정렬이면 어느 카테고리인지 함께 보여준다.
     private var reorderHintText: String {
         if let scope = viewModel.reorderScopeName {
             return String(format: NSLocalizedString("'%@'의 카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint scoped to current category"), scope)
@@ -2352,7 +2352,7 @@ struct ClipKeyboardList: View {
         return NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint")
     }
 
-    /// 순서 바꾸기 전용 화면 — 현재 카테고리 탭의 메모(기능 꺼짐 시 전체)를
+    /// 순서 바꾸기 전용 화면 - 현재 카테고리 탭의 메모(기능 꺼짐 시 전체)를
     /// 흔들리는 그리드로 보여주고 드래그로 재정렬.
     private var reorderModeView: some View {
         NavigationStack {
@@ -2429,17 +2429,17 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 재정렬 그리드의 한 셀 — 흔들림 + onDrag/onDrop 라이브 재배치.
+    /// 재정렬 그리드의 한 셀 - 흔들림 + onDrag/onDrop 라이브 재배치.
     private func reorderCardCell(memo: Memo, index: Int) -> some View {
         let isDragging = draggingMemo?.id == memo.id
-        // 드래그 세션 동안엔 모든 카드의 흔들림을 멈춘다 — repeatForever 회전이 재배치
+        // 드래그 세션 동안엔 모든 카드의 흔들림을 멈춘다 - repeatForever 회전이 재배치
         // 스프링 애니메이션·스크롤과 매 프레임 경합해 버벅임의 주원인이었다.
         let dragActive = draggingMemo != nil
-        // 흔들림 위상은 index가 아닌 id 기반 고정값 — 재배치로 index가 바뀔 때마다
+        // 흔들림 위상은 index가 아닌 id 기반 고정값 - 재배치로 index가 바뀔 때마다
         // 애니메이션이 리셋되어 깜빡이던 문제 방지.
         let phase = Double(abs(memo.id.hashValue) % 6) * 0.045
         return memoCardSurface(memo: memo, lightweight: true)
-            // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 — 드롭이 시스템에서
+            // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 - 드롭이 시스템에서
             // 취소돼 콜백이 안 와도 카드가 "사라진" 채 남지 않는다.
             .opacity(isDragging ? 0.3 : 1.0)
             .scaleEffect(isDragging ? 0.95 : 1.0)
@@ -2468,7 +2468,7 @@ struct ClipKeyboardList: View {
                 list: $viewModel.reorderList,
                 dragging: $draggingMemo
             ))
-            // 흔들림 — 드래그 세션 중엔 전체 정지, reduceMotion이면 항상 정지.
+            // 흔들림 - 드래그 세션 중엔 전체 정지, reduceMotion이면 항상 정지.
             .rotationEffect(.degrees((reduceMotion || dragActive) ? 0 : (wiggle ? 1.4 : -1.4)))
             .animation(
                 (reduceMotion || dragActive)
@@ -2484,10 +2484,10 @@ struct ClipKeyboardList: View {
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
         trackPageScroll(ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                // 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
+                // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
 
-                // 상단 여백 — 제목과 팁/그리드 사이 숨 쉬는 공간
+                // 상단 여백 - 제목과 팁/그리드 사이 숨 쉬는 공간
                 Color.clear.frame(height: 8)
 
                 // TipKit 팁들
@@ -2526,11 +2526,11 @@ struct ClipKeyboardList: View {
 
                 // 전체 메모를 하나의 그리드로.
                 // 정렬: 즐겨찾기 먼저 + lastEdited 내림차순 (viewModel.memos = sortMemos 결과).
-                // 사용량(lastUsedAt) 기반 재정렬은 의도적으로 적용하지 않음 — 사용자가 위치를
+                // 사용량(lastUsedAt) 기반 재정렬은 의도적으로 적용하지 않음 - 사용자가 위치를
                 // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
-                        // 고스트(가상) 메모 — 실제 메모 셀과 같은 모양, 흐릿하게.
+                        // 고스트(가상) 메모 - 실제 메모 셀과 같은 모양, 흐릿하게.
                         // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
                         if let ghost = ghostSuggestion {
                             ghostMemoCell(pattern: ghost)
@@ -2541,22 +2541,22 @@ struct ClipKeyboardList: View {
                                 .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                                 .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                         }
-                        // 그리드 끝 "추가" 카드는 두지 않는다 — 우상단 툴바 + 버튼이 있으므로
+                        // 그리드 끝 "추가" 카드는 두지 않는다 - 우상단 툴바 + 버튼이 있으므로
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                 }
             }
-            // 하단 여백 — 페이저가 화면 바닥까지 확장되므로(ignoresSafeArea)
+            // 하단 여백 - 페이저가 화면 바닥까지 확장되므로(ignoresSafeArea)
             // 마지막 카드가 플로팅 탭바에 가리지 않도록 탭바 높이 이상 확보.
             .padding(.bottom, 110)
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: viewModel.selectedTypeFilter)
-            // 붙여넣기 안내 배너 닫힘 애니메이션 — 배너의 transition만으로는
+            // 붙여넣기 안내 배너 닫힘 애니메이션 - 배너의 transition만으로는
             // LazyVStack 행 높이 변화가 스냅되므로 컨테이너에 값 기반 애니메이션 필요(실측).
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
         }
-        // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 — ScrollView 자체에 직접.
+        // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 - ScrollView 자체에 직접.
         // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
         // 하단 카드 걸침 문제는 categoryTabView의 그라데이션 베일이 처리.
         .scrollEdgeEffectHidden(true, for: .all)
@@ -2567,7 +2567,7 @@ struct ClipKeyboardList: View {
     private func filteredTabScrollView(memos: [Memo], tab: CategoryTab) -> some View {
         trackPageScroll(ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
-                // 배너 — 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
+                // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
                 Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
@@ -2577,7 +2577,7 @@ struct ClipKeyboardList: View {
                             .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
                             .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
                     }
-                    // 그리드 끝 "추가" 카드 없음 — 우상단 툴바 + 버튼으로 충분.
+                    // 그리드 끝 "추가" 카드 없음 - 우상단 툴바 + 버튼으로 충분.
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
                 }
                 .padding(.horizontal, 16)
@@ -2636,7 +2636,7 @@ struct ClipKeyboardList: View {
         .accessibilityLabel(accessibility)
     }
 
-    /// 현재 탭에 맞는 "추가" 카드 — 탭한 카테고리에 곧바로 들어가도록 생성 흐름을 연다.
+    /// 현재 탭에 맞는 "추가" 카드 - 탭한 카테고리에 곧바로 들어가도록 생성 흐름을 연다.
     @ViewBuilder
     private func addCard(for tab: CategoryTab) -> some View {
         switch tab {
@@ -2682,7 +2682,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 빈 상태 안내(아이콘+문구) — 배경 사진이 있으면 프로스트 유리 패널을 받쳐
+    /// 빈 상태 안내(아이콘+문구) - 배경 사진이 있으면 프로스트 유리 패널을 받쳐
     /// 밝은 설경 같은 사진 위에서도 회색 안내가 씻겨 보이지 않게 한다.
     private func emptyStateMessage(icon: String, message: String) -> some View {
         VStack(spacing: 14) {
@@ -2722,13 +2722,13 @@ struct ClipKeyboardList: View {
 
     private var favoritesEmptyStateView: some View {
         ZStack(alignment: .center) {
-            // 화면 정 중앙 — 빈 상태 안내
+            // 화면 정 중앙 - 빈 상태 안내
             emptyStateMessage(
                 icon: AppSymbol.heartSlash,
                 message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint")
             )
 
-            // 상단 — 즐겨찾기 메모 추가 카드
+            // 상단 - 즐겨찾기 메모 추가 카드
             VStack {
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     addFavoriteMemoCard
@@ -2767,7 +2767,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 평생 누적 절약 시간 배지 — 10분 미만이면 숨김.
+    /// 평생 누적 절약 시간 배지 - 10분 미만이면 숨김.
     private var timeSavedBadgeText: String? {
         let total = KeyboardUsageTracker.totalTimeSavedSeconds()
         guard total >= 600 else { return nil }
@@ -2809,7 +2809,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 시간대 기반 인사말 + 이모지 — 아침/낮/저녁/밤.
+    /// 시간대 기반 인사말 + 이모지 - 아침/낮/저녁/밤.
     /// 이모지는 일출·낮·일몰·밤을 근사 (실제 일출/일몰 시간은 위치 권한 피하려 시간대로 근사).
     private var timeGreeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -2842,7 +2842,7 @@ struct ClipKeyboardList: View {
 
 
 
-    /// 그리팅 아래 한 줄 — 상황 기반 스마트 문구.
+    /// 그리팅 아래 한 줄 - 상황 기반 스마트 문구.
     /// 우선순위: 오늘 사용 횟수 표시 → 최근 1시간 사용한 메모 → 기본 개수 표시
     /// 일일 카운트는 KeyboardUsageTracker (사용자 로컬 자정 기준 자연 초기화).
     private var contextLine: String {
@@ -2931,9 +2931,9 @@ struct ClipKeyboardList: View {
     private var toolbarContent: some ToolbarContent {
         #if os(iOS)
         // 순정 iOS 26: 네비게이션 바 트레일링.
-        // sharedBackgroundVisibility(.hidden) — 버튼을 감싸던 공유 글래스 필(불투명해 보이는
+        // sharedBackgroundVisibility(.hidden) - 버튼을 감싸던 공유 글래스 필(불투명해 보이는
         // 흰 알약 배경)을 제거해 아이콘이 배경 위에 그대로 뜨게 한다(헤더 투명 불변식).
-        // 단일 ToolbarItem + HStack — 별도 아이템로 두면 시스템이 간격을 벌려
+        // 단일 ToolbarItem + HStack - 별도 아이템로 두면 시스템이 간격을 벌려
         // 버튼이 뚝 떨어져 보이므로, 하나로 묶어 간격을 직접 제어한다.
         // 음수 spacing: 시스템이 Menu 라벨 둘레에 넣는 내부 여백(~12pt)을 상쇄해
         // 두 유리 서클이 살짝 붙어 보이게 한다(44pt 탭 영역은 유지).
@@ -2966,12 +2966,12 @@ struct ClipKeyboardList: View {
         // ⚠️ 예전 ⋯ 메뉴는 설정으로 옮겼다(활용 사례·보관함·스타터팩·플레이스홀더·배경).
         //    바에 ⋯ 와 + 와 금고를 다 두려니 시스템이 넘친다고 보고 오른쪽에 오버플로 ⋯ 를
         //    하나 더 만들어서, ⋯ 가 둘로 보이고 금고는 그 안에 접혀 사라졌다.
-        //    바에는 **자주 쓰는 둘**만 남긴다 — 금고와 추가.
+        //    바에는 **자주 쓰는 둘**만 남긴다 - 금고와 추가.
         vaultEntrance
 
         .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
 
-        // 화면 전환 — **+ 바로 왼쪽**. 누르면 키보드 미리보기로 건너가고,
+        // 화면 전환 - **+ 바로 왼쪽**. 누르면 키보드 미리보기로 건너가고,
         // 그쪽 머리말의 같은 자리에서 격자 모양으로 바뀌어 되돌아올 수 있다.
         SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw)
 
@@ -2984,7 +2984,7 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
-            // 임시 저장 — 만들다 저장하지 않고 나간 미완성 메모를 이어서 작성.
+            // 임시 저장 - 만들다 저장하지 않고 나간 미완성 메모를 이어서 작성.
             Button {
                 HapticManager.shared.light()
                 showDraftList = true
@@ -2992,7 +2992,7 @@ struct ClipKeyboardList: View {
                 Label(draftMenuTitle, systemImage: "clock.arrow.circlepath")
             }
             Divider()
-            // 빈 화면 앞에서 "뭘 만들지"부터 떠올리지 않아도 되게 — 차려 둔 것에서 골라 온다.
+            // 빈 화면 앞에서 "뭘 만들지"부터 떠올리지 않아도 되게 - 차려 둔 것에서 골라 온다.
             Button {
                 HapticManager.shared.light()
                 showShortcutMart = true
@@ -3006,7 +3006,7 @@ struct ClipKeyboardList: View {
                 Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
         } label: {
-            // 클리어 글래스 서클 — 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
+            // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
             Image(systemName: AppSymbol.plus)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.blue)
@@ -3020,7 +3020,7 @@ struct ClipKeyboardList: View {
             BulkImportView()
         }
         .sheet(isPresented: $showShortcutMart) {
-            // 담을 때마다 목록이 갱신되도록 — 마트는 여러 개를 이어서 담을 수 있다.
+            // 담을 때마다 목록이 갱신되도록 - 마트는 여러 개를 이어서 담을 수 있다.
             ShortcutMartView { _ in viewModel.loadMemos() }
         }
         .sheet(isPresented: $showDraftList) {
@@ -3037,7 +3037,7 @@ struct ClipKeyboardList: View {
             QuickNoteEditSheet(note: QuickNote()) { newNote in
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
                 QuickNoteStore.shared.add(newNote)
-                // 담긴 위치를 바로 알려준다 — 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
+                // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
                 viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
             } onPromote: { newNote in
                 guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
@@ -3047,7 +3047,7 @@ struct ClipKeyboardList: View {
                 viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
             }
         }
-        // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용 —
+        // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용
         // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
         .sheet(isPresented: $showCategoryManagement, onDismiss: {
             viewModel.loadCustomCategories()
@@ -3107,7 +3107,7 @@ struct ClipKeyboardList: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
-                // Liquid Glass 토스트 — 어둡게 틴트한 glass라 흰 글자 가독성 유지,
+                // Liquid Glass 토스트 - 어둡게 틴트한 glass라 흰 글자 가독성 유지,
                 // 뒤 콘텐츠가 은은히 비쳐 떠 있는 컨트롤 레이어로 읽힌다. (iOS 26)
                 .glassEffect(
                     .regular.tint(Color.toastBackground.opacity(0.75)),
@@ -3132,18 +3132,18 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 빈 목록 — **광부와 함께 첫 단축어를 하나 만든다.**
+    /// 빈 목록 - **광부와 함께 첫 단축어를 하나 만든다.**
     ///
     /// ⚠️ 예전에는 여기에 "이런 방법으로 쓸 수 있어요" 카드 격자 + 스타터팩 배너가 있었다.
     ///    걷어낸 이유: 그 화면은 **읽을 거리만 주고 아무것도 시키지 않았다.**
     ///    활용 사례를 아무리 잘 써 놔도 한 번도 안 만들어 본 사람에게는 남의 이야기고,
     ///    만들어서 써 본 사람만 다음 날 다시 온다.
-    ///    (스타터팩 자체는 남아 있다 — 더보기 메뉴에서 여전히 쓸 수 있다.)
+    ///    (스타터팩 자체는 남아 있다 - 더보기 메뉴에서 여전히 쓸 수 있다.)
     private var EmptyListView: some View {
         Group {
             // ⚠️ 온보딩은 **4.4.4 에서 처음 시작한 사람에게만** 보인다.
             //    이 조건이 없으면 몇 년 쓴 사람이 단축어를 정리해 목록을 비우는 순간
-            //    "매번 똑같은 걸 치고 있지는 않나요?"가 뜬다 — 그 사람에겐 헛소리다.
+            //    "매번 똑같은 걸 치고 있지는 않나요?"가 뜬다 - 그 사람에겐 헛소리다.
             if firstShortcutDone || !startedFreshV444 {
                 minimalEmptyState
             } else {
@@ -3167,7 +3167,7 @@ struct ClipKeyboardList: View {
     ///    다 설명하면 하나도 안 남는다. 하나 만들고 → 써 보고 → 그다음 것을 권한다.
     /// 무대가 남긴 예약이 있으면 '템플릿으로 만들기' 화면을 띄운다.
     ///
-    /// ⚠️ 알림만으로는 안 된다 — 무대에서 목록으로 넘어오는 그 순간 이 화면은 아직 없어서
+    /// ⚠️ 알림만으로는 안 된다 - 무대에서 목록으로 넘어오는 그 순간 이 화면은 아직 없어서
     ///    알림을 받을 사람이 없다. 표식을 남겨 두고 **떠 있을 때 스스로 확인**한다.
     private func startMakeTemplateTutorialIfPending() {
         let d = UserDefaults.standard
@@ -3190,12 +3190,12 @@ struct ClipKeyboardList: View {
         // ⚠️ 처음 배우는 중이라면 **여기서 권하지 않는다.** 그 흐름은 무대(SnippetsTab)가
         //    이끌고 있고, 양쪽이 같이 권하면 같은 장이 두 번 뜬다.
         guard !(startedFreshV444 && !tutorialChaptersDone) else { return }
-        // 순서가 곧 배우는 차례다 — 템플릿을 만들어 본 다음이라야
+        // 순서가 곧 배우는 차례다 - 템플릿을 만들어 본 다음이라야
         // "있는 걸 템플릿으로 바꾼다"는 말이 통한다.
         let next = TutorialChapter.allCases.first { chapter in
             switch chapter {
             case .template:     return !tutorialTemplateDone
-            // 바꿀 단축어가 없으면 이 장은 건너뛴다 — 없는 걸 바꾸라고 할 수는 없다.
+            // 바꿀 단축어가 없으면 이 장은 건너뛴다 - 없는 걸 바꾸라고 할 수는 없다.
             case .makeTemplate: return !tutorialMakeTemplateDone && convertibleShortcut != nil
             case .combo:        return !tutorialComboDone
             }
@@ -3206,7 +3206,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 템플릿으로 바꿀 만한 단축어 — 아직 템플릿도 콤보도 아닌 평범한 글.
+    /// 템플릿으로 바꿀 만한 단축어 - 아직 템플릿도 콤보도 아닌 평범한 글.
     private var convertibleShortcut: Memo? {
         viewModel.memos.first {
             !$0.isTemplate && !$0.isCombo && $0.contentType == .text
@@ -3231,11 +3231,11 @@ struct ClipKeyboardList: View {
         coachChapter = chapter
     }
 
-    /// "만든 걸 눌러보세요" — 연습의 마지막 한 걸음.
+    /// "만든 걸 눌러보세요" - 연습의 마지막 한 걸음.
     ///
     /// 만들기만 하고 끝내면 "저장했다"로 끝난다. 한 번 눌러 봐야 **왜 저장했는지**를 안다.
-    /// 그래서 이 안내는 닫기 버튼이 없다 — 대신 한 번 쓰면 스스로 사라진다.
-    /// 카드 위에 떠 있는 것들 — 날아가는 동전과 코치.
+    /// 그래서 이 안내는 닫기 버튼이 없다 - 대신 한 번 쓰면 스스로 사라진다.
+    /// 카드 위에 떠 있는 것들 - 날아가는 동전과 코치.
     private var floatingLayer: some View {
         GeometryReader { geo in
             ZStack(alignment: .top) {
@@ -3317,7 +3317,7 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 메모 복사 시 호출 — 3회 이상이면 카테고리 배지 끄기 넛지 표시 (1회)
+    /// 메모 복사 시 호출 - 3회 이상이면 카테고리 배지 끄기 넛지 표시 (1회)
     private func checkCategoryBadgeNudge() {
         guard showVisualCues else { return }
         guard !UserDefaults.standard.bool(forKey: DefaultsKey.categoryBadgeNudgeDismissed) else { return }
@@ -3387,8 +3387,8 @@ struct ClipKeyboardList: View {
 
 /// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
 /// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
-/// tint가 있으면 카테고리 색을 글래스에 입힌다 — 색=카테고리 정체성 유지.
-/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** — 뒤 배경이
+/// tint가 있으면 카테고리 색을 글래스에 입힌다 - 색=카테고리 정체성 유지.
+/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** - 뒤 배경이
 /// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
 /// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
 ///
@@ -3402,7 +3402,7 @@ struct ClipKeyboardList: View {
 /// `backingOpacity` 0.0 이면 순정 `.clear`(배경에 묻힐 만큼 투명),
 /// 0.5 를 넘어가면 체감상 `.regular` 와 비슷해진다. 그 사이를 취한다.
 private struct CardGlass: ViewModifier {
-    /// 유리 뒤에 깔리는 판의 불투명도 — **투명도 조절 다이얼**.
+    /// 유리 뒤에 깔리는 판의 불투명도 - **투명도 조절 다이얼**.
     /// 올리면 더 불투명(뚜렷)해지고, 내리면 더 맑아진다.
     static let backingOpacity: Double = 0.22
 
@@ -3442,7 +3442,7 @@ struct ClipKeyboardList_Previews: PreviewProvider {
 ///
 /// - 두께가 있는 스킨: 키캡처럼 바닥까지 내려앉았다 돌아온다(스커트가 제자리에 남는다).
 /// - 두께가 없는 스킨(납작·예전 방식): 키캡 이전에 쓰던 **푹신한 스케일 바운스**.
-///   0.92로 쑥 들어갔다가 1.05까지 부풀고 제자리로 — 키프레임으로 1.05 peak를 보장해
+///   0.92로 쑥 들어갔다가 1.05까지 부풀고 제자리로 - 키프레임으로 1.05 peak를 보장해
 ///   빠르게 연타해도 항상 보인다.
 ///
 /// ⚠️ 두 방식을 한 뷰에서 분기하는 이유: 예전 동작을 **버리지 않고 남겨 두기 위해서**다.

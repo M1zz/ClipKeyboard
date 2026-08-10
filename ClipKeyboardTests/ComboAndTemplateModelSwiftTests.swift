@@ -2,7 +2,7 @@
 //  ComboAndTemplateModelSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — 콤보 실행 상태 머신(ComboExecutionState) 및
+//  Swift Testing 스위트 - 콤보 실행 상태 머신(ComboExecutionState) 및
 //  레거시 Combo/ComboItem 구조(정렬·Codable).
 //
 //  명세: docs/FEATURE_SPEC.md §4
@@ -75,7 +75,7 @@ struct ComboAndTemplateModelSwiftTests {
         #expect(ComboItemType.template.rawValue == "템플릿")
     }
 
-    // MARK: - 콤보 메모(통합 모델) — comboValues 기반
+    // MARK: - 콤보 메모(통합 모델) - comboValues 기반
 
     @Test("통합 모델에서 콤보 단계는 comboValues 순서를 유지한다")
     func unifiedComboPreservesOrder() {

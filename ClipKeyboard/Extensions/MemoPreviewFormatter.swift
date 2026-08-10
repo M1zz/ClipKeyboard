@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    /// {중괄호}만 떼어낸 자연스러운 문장 — 템플릿 미리보기·하이라이트 입력칸에서 공용.
+    /// {중괄호}만 떼어낸 자연스러운 문장 - 템플릿 미리보기·하이라이트 입력칸에서 공용.
     /// (키보드 익스텐션 타겟에도 포함되는 파일이라 여기에 둔다.)
     var strippingTemplateBraces: String {
         replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
@@ -99,7 +99,7 @@ enum MemoPreviewFormatter {
     // MARK: - Type-specific renderers
 
     private static func templatePreview(_ memo: Memo) -> String {
-        // 리스트 행에서는 {중괄호}를 떼고 자연스럽게 — 변수 개수는 "· N variables"로 안내된다.
+        // 리스트 행에서는 {중괄호}를 떼고 자연스럽게 - 변수 개수는 "· N variables"로 안내된다.
         let first = truncate(singleLine(memo.value).strippingTemplateBraces, max: 28)
         let placeholders = extractPlaceholders(in: memo.value)
         guard !placeholders.isEmpty else { return first }
@@ -109,11 +109,11 @@ enum MemoPreviewFormatter {
     }
 
     private static func comboPreview(_ memo: Memo) -> String {
-        // 첫 번째 값을 앞세우고 개수는 꼬리로 — 템플릿 미리보기("첫 줄 · N variables")와 동일 스타일.
+        // 첫 번째 값을 앞세우고 개수는 꼬리로 - 템플릿 미리보기("첫 줄 · N variables")와 동일 스타일.
         guard let first = memo.comboValues.first else { return truncate(singleLine(memo.value)) }
         let format = NSLocalizedString("%d items", comment: "Combo item count preview")
         let count = String(format: format, memo.comboValues.count)
-        // 보안 콤보 — 값(암호문 포함)을 노출하지 않고 개수만 보여준다.
+        // 보안 콤보 - 값(암호문 포함)을 노출하지 않고 개수만 보여준다.
         if memo.isSecure { return count }
         return "\(truncate(singleLine(first), max: 28)) · \(count)"
     }

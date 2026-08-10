@@ -1,4 +1,4 @@
-# 🍎 Apple 피처링 신청 — 제출용 텍스트
+# 🍎 Apple 피처링 신청, 제출용 텍스트
 
 > 제출처: https://developer.apple.com/app-store/promote/ (App Store Featuring Nomination)
 > 소요: 10분. 비용 0원. 인디 앱도 접근성·최신 OS 대응이 좋으면 실제로 선정됨.
@@ -13,8 +13,8 @@
 **What makes your app unique?**
 ```
 ClipKeyboard is a clipboard manager that lives inside the iOS keyboard itself.
-Users save frequently typed content once — bank details, addresses, canned
-replies — and insert it with one tap in any app. Everything copied is
+Users save frequently typed content once: bank details, addresses, canned
+replies: and insert it with one tap in any app. Everything copied is
 auto-classified into 15 semantic types (email, phone, IBAN with ISO 13616
 checksum validation, addresses) entirely on-device. Templates support
 {variable} placeholders, and Combos insert multiple snippets in sequence.
@@ -39,7 +39,7 @@ Korean, English, and Indonesian.
 
 **Business model**
 ```
-Free to start, with a one-time $9.99 Pro purchase — no subscription.
+Free to start, with a one-time $9.99 Pro purchase: no subscription.
 Existing paid-app customers were grandfathered into Pro for free when
 the app moved to freemium.
 ```
@@ -56,7 +56,7 @@ inbox fed by the Share Sheet and App Intents, widget support, and
 ## 제출 팁
 
 - 폼은 영어로 제출 (한국 에디토리얼 팀도 영문 폼을 읽음)
-- "다가오는 업데이트"와 묶어 제출하면 선정 확률↑ — 다음 메이저 기능 출시 4~6주 전 제출이 최적
+- "다가오는 업데이트"와 묶어 제출하면 선정 확률↑, 다음 메이저 기능 출시 4~6주 전 제출이 최적
 - 선정 여부 통보 없음. 3개월마다 재제출 가능
 - 한국 스토어 "오늘" 탭 인디 코너(우리가 사랑한 앱)도 동일 폼으로 커버됨
 ```

@@ -199,7 +199,7 @@ struct StarterPackView: View {
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             for item in chosen {
-                // {플레이스홀더}가 있으면 템플릿으로 — 탭하면 값 채우기 UX.
+                // {플레이스홀더}가 있으면 템플릿으로 - 탭하면 값 채우기 UX.
                 // {플레이스홀더}가 있으면 templateVariables가 채워져 자동으로 템플릿이 된다.
                 let vars = item.example.contains("{") ? item.example.extractTemplatePlaceholders() : []
                 let memo = Memo(
@@ -219,7 +219,7 @@ struct StarterPackView: View {
             onComplete(chosen.count)
             dismiss()
         } catch {
-            // 저장 실패 시 시트를 닫지 않는다 — 선택을 보존하고 사용자가 재시도할 수 있도록 알린다.
+            // 저장 실패 시 시트를 닫지 않는다 - 선택을 보존하고 사용자가 재시도할 수 있도록 알린다.
             print("❌ [StarterPack.addSelected] 메모 추가 저장 실패: \(error)")
             #if os(iOS)
             HapticManager.shared.error()

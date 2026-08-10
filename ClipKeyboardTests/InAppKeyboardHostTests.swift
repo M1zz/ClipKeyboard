@@ -17,10 +17,10 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-// ⚠️ `.serialized` — 문구 삽입은 **알림**으로 전달된다(익스텐션과 같은 경로).
+// ⚠️ `.serialized` - 문구 삽입은 **알림**으로 전달된다(익스텐션과 같은 경로).
 //    병렬로 돌리면 A 테스트가 쏜 알림을 B 테스트의 무대가 받아 서로의 입력창에 글이 섞인다.
 //    실제 앱에서는 무대가 한 번에 하나뿐이라 생기지 않는 상황이다.
-@Suite("InAppKeyboardHost — 앱 안 키보드가 글을 넣는 자리", .serialized)
+@Suite("InAppKeyboardHost, 앱 안 키보드가 글을 넣는 자리", .serialized)
 @MainActor
 struct InAppKeyboardHostTests {
 
@@ -34,7 +34,7 @@ struct InAppKeyboardHostTests {
         #expect(host.caret == 2)
     }
 
-    @Test("지우기는 캐럿 **앞** 글자를 지운다 — 문장 끝이 아니라")
+    @Test("지우기는 캐럿 **앞** 글자를 지운다. 문장 끝이 아니라")
     func deleteRemovesBeforeCaret() {
         let host = InAppKeyboardHost()
         host.insertText("가나다")
@@ -81,7 +81,7 @@ struct InAppKeyboardHostTests {
     func cursorRightStopsAtEnd() {
         let host = InAppKeyboardHost()
         host.insertText("가나")
-        host.cursorRight()                  // 이미 끝 — 그대로
+        host.cursorRight()                  // 이미 끝 - 그대로
         #expect(host.caret == 2)
     }
 
@@ -109,14 +109,14 @@ struct InAppKeyboardHostTests {
         #expect(host.caret == host.text.count - " 드림".count)
     }
 
-    @Test("사용자가 채워야 할 변수가 있으면 **바로 넣지 않는다** — 물어보러 간다")
+    @Test("사용자가 채워야 할 변수가 있으면 **바로 넣지 않는다**, 물어보러 간다")
     func placeholderDefersInsertion() async {
         let host = InAppKeyboardHost()
         NotificationCenter.default.post(name: .addTextEntry,
                                         object: "{이름}님 안녕하세요",
                                         userInfo: ["memoId": UUID()])
         await settle()
-        // 값을 묻는 오버레이가 뜨는 경로 — 입력창은 아직 비어 있어야 한다.
+        // 값을 묻는 오버레이가 뜨는 경로 - 입력창은 아직 비어 있어야 한다.
         // (여기서 넣어 버리면 "{이름}" 이 그대로 붙여넣어진다)
         #expect(host.text.isEmpty)
     }
@@ -147,7 +147,7 @@ struct InAppKeyboardHostTests {
         #expect(host.text.isEmpty)
     }
 
-    @Test("빈 입력은 보내지지 않는다 — 빈 말풍선이 쌓이면 안 된다")
+    @Test("빈 입력은 보내지지 않는다. 빈 말풍선이 쌓이면 안 된다")
     func sendIgnoresEmpty() {
         let host = InAppKeyboardHost()
         let before = host.messages.count
@@ -159,7 +159,7 @@ struct InAppKeyboardHostTests {
 
     // MARK: - 앱에서는 클립보드가 항상 열려 있다
 
-    @Test("무대를 만들면 전체 접근이 켜진 것으로 본다 — 앱에는 그 제한이 없다")
+    @Test("무대를 만들면 전체 접근이 켜진 것으로 본다. 앱에는 그 제한이 없다")
     func appHostHasFullAccess() {
         _ = InAppKeyboardHost()
         #expect(KeyboardCapability.hasFullAccess)

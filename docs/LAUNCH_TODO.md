@@ -1,4 +1,4 @@
-# 🚀 ClipKeyboard 런칭 체크리스트 — A세그먼트 (글로벌 디지털 노마드)
+# 🚀 ClipKeyboard 런칭 체크리스트, A세그먼트 (글로벌 디지털 노마드)
 
 > 타겟: 글로벌 원격 프리랜서 · 디지털 노마드 (비원어민)
 > 런칭 타이밍: 제품 기능 완성 후 (IBAN 검증 · 타임존 변수 · 영어 템플릿 30종)
@@ -10,10 +10,10 @@
 
 제품에 없는 기능을 스크린샷·글에서 주장하면 **심사 리젝 + 리뷰 테러**. 최소 3개 중 하나는 반드시 있어야 함:
 
-- [ ] **IBAN/SWIFT/VAT 포맷 검증** — 복사 시 자동 인식 + 체크섬 검증
+- [ ] **IBAN/SWIFT/VAT 포맷 검증**, 복사 시 자동 인식 + 체크섬 검증
 - [ ] **타임존 템플릿 변수** (`{timezone}`, `{response_time}`, `{currency}`, `{greeting_time}`)
 - [ ] **비원어민 영어 템플릿 30종 내장** (Proposal follow-up · Payment reminder · Reschedule · Scope pushback · Invoice delay …)
-  - ⭐ **숨은 킬러** — A세그먼트가 돈 내는 가장 큰 이유
+  - ⭐ **숨은 킬러**, A세그먼트가 돈 내는 가장 큰 이유
 
 > 권장: 3개 중 최소 2개 구현 후 런칭. 영어 템플릿 30종은 기술 부담 없이 데이터만 만들면 되니 가장 쉬움.
 
@@ -21,7 +21,7 @@
 
 ## 🟠 앱 스토어 세팅 (런칭 D-7 ~ D-3)
 
-### 1. 캠페인 링크 (`pt/ct`) — **제일 먼저**
+### 1. 캠페인 링크 (`pt/ct`), **제일 먼저**
 
 없으면 Reddit·Twitter·랜딩 중 어디서 다운로드 나왔는지 구분 불가.
 
@@ -60,18 +60,18 @@
 
 **프로모션 텍스트 (영어, 170자 이내)**:
 ```
-The iOS keyboard for remote freelancers. Save IBAN, SWIFT, timezone replies, and 30 pro English templates once — tap to insert into any app. $0.99 launch deal until May 3.
+The iOS keyboard for remote freelancers. Save IBAN, SWIFT, timezone replies, and 30 pro English templates once: tap to insert into any app. $0.99 launch deal until May 3.
 ```
 
 **스크린샷 7장 (iPhone 6.5", 1242 × 2688px)**:
 | # | 제목 오버레이 | 내용 |
 |---|------|------|
-| 1 | **IBAN in one tap** — "Stop typing your banking info to every client" | 메모 리스트 + 상단 "방금 복사" 카드에 IBAN |
-| 2 | **30 pro English templates** — "Non-native speaker? We got you." | 템플릿 리스트 (Proposal Follow-up 등) |
-| 3 | **Timezone replies, automated** — `{timezone}` adjusts | 템플릿 편집 `Hi {client}, I'm in {timezone}...` |
+| 1 | **IBAN in one tap**"Stop typing your banking info to every client" | 메모 리스트 + 상단 "방금 복사" 카드에 IBAN |
+| 2 | **30 pro English templates**"Non-native speaker? We got you." | 템플릿 리스트 (Proposal Follow-up 등) |
+| 3 | **Timezone replies, automated**: `{timezone}` adjusts | 템플릿 편집 `Hi {client}, I'm in {timezone}...` |
 | 4 | **Works in Gmail, Slack, Upwork** | 실제 앱에서 키보드 열려서 IBAN 탭 |
 | 5 | **Smart clipboard, classified** | 스마트 클립보드 자동 분류 배지 |
-| 6 (선택) | **One-time $9.99** — "No subscriptions. Ever." | 가격/설정 |
+| 6 (선택) | **One-time $9.99**"No subscriptions. Ever." | 가격/설정 |
 | 7 (선택) | **Privacy first** | 프라이버시 설명 |
 
 **딥링크**: 비워둘 것 (현재 랜딩 라우팅 미구현)
@@ -93,11 +93,11 @@ The iOS keyboard for remote freelancers. Save IBAN, SWIFT, timezone replies, and
 
 **프로모션 (영어, 146자)**:
 ```
-Invoices, VAT, payment info, proposal follow-ups — save once, tap forever. The iOS keyboard freelancers use from their phone. $0.99 until May 3.
+Invoices, VAT, payment info, proposal follow-ups: save once, tap forever. The iOS keyboard freelancers use from their phone. $0.99 until May 3.
 ```
 
 **스크린샷 순서만 조정** (인보이스 1번으로):
-1. **Invoice + VAT** — "Stop retyping your tax ID"
+1. **Invoice + VAT**"Stop retyping your tax ID"
 2. **30 pro English templates**
 3. IBAN (디지털노마드 페이지의 1번을 3번으로)
 4. 4~5번 동일
@@ -117,7 +117,7 @@ Invoices, VAT, payment info, proposal follow-ups — save once, tap forever. The
 
 **프로모션 (영어, 155자)**:
 ```
-Save phrases, financial info, and email templates to your keyboard. Tap once to insert anywhere. iOS keyboard extension. One-time purchase — no subscription.
+Save phrases, financial info, and email templates to your keyboard. Tap once to insert anywhere. iOS keyboard extension. One-time purchase: no subscription.
 ```
 
 **스크린샷**: 기존 메인 재활용 OK
@@ -144,7 +144,7 @@ App Store 검색 결과에 이벤트 카드로 노출. 오가닉 유입 증가.
 - [ ] 설정:
   - **이름**: "Launch Deal for Remote Freelancers"
   - **기간**: 2026-04-28 ~ 2026-05-03 (심사 2~3일 감안)
-  - **프로모션 카피**: "$0.99 for limited time — save phrases, IBAN, timezone replies"
+  - **프로모션 카피**: "$0.99 for limited time: save phrases, IBAN, timezone replies"
   - **타겟**: 신규 + 기존 양쪽
   - **이미지**: 이벤트 카드용 배너 (규격 확인 필요)
 - [ ] 심사 제출 → 통과 후 자동 게시
@@ -192,9 +192,9 @@ $9.99 Pro unlock을 App Store 페이지에 배지처럼 노출. 검색 결과에
 
 Apple이 최근 추가한 2개 지표 비교:
 
-- [ ] **Download-to-Paid Conversion (D35)** — D+35 이후 첫 유의미 비교 가능
-- [ ] **Revenue Per Download** — 동종 Freemium/Premium iOS 유틸 대비 위치
-- [ ] 크래시 레이트 — 세션당 0.1% 이하 유지 여부
+- [ ] **Download-to-Paid Conversion (D35)**, D+35 이후 첫 유의미 비교 가능
+- [ ] **Revenue Per Download**, 동종 Freemium/Premium iOS 유틸 대비 위치
+- [ ] 크래시 레이트, 세션당 0.1% 이하 유지 여부
 
 ### 11. 리딤 · 전환 데이터로 전략 재정렬
 
@@ -206,10 +206,10 @@ Apple이 최근 추가한 2개 지표 비교:
 
 ## ❌ 하지 말 것 / 영구 스킵
 
-- ❌ **구독 분석** — 구독 상품 없음, 영구 회색
-- ❌ **App Clips** — 키보드 앱 핏 안 맞음
-- ❌ **3rd-party analytics** (Firebase/Mixpanel) — "No data collection" 프라이버시 약속과 충돌
-- ❌ **Facebook/Google 광고** — A세그먼트 CAC 회수 불가
+- ❌ **구독 분석**: 구독 상품 없음, 영구 회색
+- ❌ **App Clips**, 키보드 앱 핏 안 맞음
+- ❌ **3rd-party analytics** (Firebase/Mixpanel)"No data collection" 프라이버시 약속과 충돌
+- ❌ **Facebook/Google 광고**, A세그먼트 CAC 회수 불가
 
 ---
 
@@ -250,10 +250,10 @@ Apple이 최근 추가한 2개 지표 비교:
 
 ## 📝 참고 문서
 
-- `docs/REDDIT_LAUNCH_POST.md` — Reddit 게시글 초안 (r/digitalnomad + r/freelance)
-- `docs/SEEDING-GUIDE.md` — 커뮤니티 시딩 가이드
-- `docs/tutorial.html` — 사용 가이드 랜딩
-- `docs/index.html` — 메인 랜딩
+- `docs/REDDIT_LAUNCH_POST.md`, Reddit 게시글 초안 (r/digitalnomad + r/freelance)
+- `docs/SEEDING-GUIDE.md`, 커뮤니티 시딩 가이드
+- `docs/tutorial.html`, 사용 가이드 랜딩
+- `docs/index.html`: 메인 랜딩
 
 ---
 

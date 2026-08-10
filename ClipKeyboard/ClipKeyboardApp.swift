@@ -34,7 +34,7 @@ struct ClipKeyboardApp: App {
     /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
     @State private var showFeedbackSheet = false
 
-    /// 유닛 테스트 실행 중인지 — `XCTestConfigurationFilePath`는 xcodebuild test로
+    /// 유닛 테스트 실행 중인지 - `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
     /// 일반 실행에는 없다. 테스트 중에는 스케줄러·마이그레이션 등 무거운
     /// 런치 작업을 건너뛰어 테스트 러너가 곧바로 연결되게 한다.
@@ -45,7 +45,7 @@ struct ClipKeyboardApp: App {
     ///
     /// ⚠️ 쓰던 사람의 화면은 건드리지 않는다. 업데이트했다는 이유로 남의 카드에 갑자기
     ///    다이얼이 생기고 툴바에 금고가 서 있으면, 고른 적 없는 것이 얹힌 셈이다.
-    ///    (`LivingSkin` 파일 머리말의 "기본값은 .none" 원칙과 같은 이유다 —
+    ///    (`LivingSkin` 파일 머리말의 "기본값은 .none" 원칙과 같은 이유다
     ///     여기서 예외를 두는 건 **첫 화면을 처음 보는 사람**뿐이다.)
     ///
     /// 새 설치를 가리는 표식은 **설치일이 아직 없다**는 사실이다. 설치일은 첫 실행에
@@ -64,7 +64,7 @@ struct ClipKeyboardApp: App {
         //    실행 횟수는 이 아래 `incrementAppLaunchCount()` 한 곳에서만 오르므로,
         //    **이 시점에 0이면 이번이 첫 실행**이라는 뜻이 흔들리지 않는다.
         guard standard.integer(forKey: DefaultsKey.appLaunchCount) == 0 else {
-            print("🎨 [APP INIT] 기존 사용자 — 스킨·샘플·첫 화면 그대로 둠")
+            print("🎨 [APP INIT] 기존 사용자, 스킨·샘플·첫 화면 그대로 둠")
             return
         }
 
@@ -72,15 +72,15 @@ struct ClipKeyboardApp: App {
         // 스킨 기본값과 샘플 생략이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
         standard.set(true, forKey: DefaultsKey.startedFreshV444)
 
-        // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 — 이 앱의 값어치가 거기 있다.
+        // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
         // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
         //    (SnippetsTab.offerKeyboardStageIfNeeded).
         standard.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         // 이미 무대로 시작하므로 다시 권할 일이 없다.
         standard.set(true, forKey: DefaultsKey.keyboardStageOffered)
-        print("🎬 [APP INIT] 새 설치 — 키보드 화면으로 시작")
+        print("🎬 [APP INIT] 새 설치, 키보드 화면으로 시작")
 
-        // 생활 레이어가 꺼져 있는 동안에는 아무것도 뿌리지 않는다 — 고를 수 없는 것을
+        // 생활 레이어가 꺼져 있는 동안에는 아무것도 뿌리지 않는다 - 고를 수 없는 것을
         // 미리 켜 두면 나중에 되살렸을 때 "고른 적 없는 것"이 이미 얹혀 있게 된다.
         guard LivingSkin.isEnabled else { return }
 
@@ -88,12 +88,12 @@ struct ClipKeyboardApp: App {
               group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
 
         group.set(LivingSkin.vault.rawValue, forKey: DefaultsKey.livingSkin)
-        print("🎨 [APP INIT] 새 설치 — 금고 스킨으로 시작")
+        print("🎨 [APP INIT] 새 설치, 금고 스킨으로 시작")
     }
 
     init() {
         if ClipKeyboardApp.isRunningUnitTests {
-            print("🧪 [APP INIT] 유닛 테스트 모드 — 무거운 초기화 스킵")
+            print("🧪 [APP INIT] 유닛 테스트 모드, 무거운 초기화 스킵")
             return
         }
 
@@ -105,18 +105,18 @@ struct ClipKeyboardApp: App {
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
         print("📱 [APP INIT] DataManager 생성됨")
 
-        // 콤보/attached 데이터 모델 통합 마이그레이션 — 다른 어떤 load/save보다 먼저 실행해
+        // 콤보/attached 데이터 모델 통합 마이그레이션 - 다른 어떤 load/save보다 먼저 실행해
         // 레거시 키(isCombo/comboValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
         migrateComboModelIfNeeded()
 
         // 익명 사용 통계 → 공용 허브(FeedbackHub). 이벤트 훅을 먼저 꽂아야 이후 로그가 전달된다.
-        // (키보드 익스텐션 타겟은 이 훅이 nil이라 콘솔 로깅만 한다 — CloudKit 쓰기 없음)
+        // (키보드 익스텐션 타겟은 이 훅이 nil이라 콘솔 로깅만 한다 - CloudKit 쓰기 없음)
         AnalyticsService.eventSink = { UsageReportingService.record(event: $0) }
 
         // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
         AnalyticsService.flushKeyboardBeacon()
 
-        // 세그먼트 유저 속성 — 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
+        // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
         let keyboardActive = (UserDefaults(suiteName: AppGroup.identifier)?
             .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
         AnalyticsService.applyLaunchUserProperties(
@@ -125,29 +125,29 @@ struct ClipKeyboardApp: App {
             keyboardActive: keyboardActive
         )
 
-        // 백그라운드 새로고침 task 등록 — 메인 앱이 안 열려도 주기적으로 비콘 flush
+        // 백그라운드 새로고침 task 등록 - 메인 앱이 안 열려도 주기적으로 비콘 flush
         // (키보드만 쓰는 유저의 DAU 추적용)
         BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
 
-        // 원격 기능 플래그 갱신(6시간 쓰로틀, 실패해도 무시) — 문제 기능을 심사 없이 끄기 위한 장치.
+        // 원격 기능 플래그 갱신(6시간 쓰로틀, 실패해도 무시) - 문제 기능을 심사 없이 끄기 위한 장치.
         // 이번 실행은 캐시된 값으로 동작하고, 여기서 받은 값은 다음 실행부터 반영된다.
         Task { @MainActor in RemoteFlagsService.shared.refreshInBackground() }
 
-        // 크래시·행 진단 구독(MetricKit) — 구독만 하고 즉시 반환하므로 런치 비용이 없다.
+        // 크래시·행 진단 구독(MetricKit) - 구독만 하고 즉시 반환하므로 런치 비용이 없다.
         // 페이로드는 iOS가 하루 한 번꼴로 묶어서 준다(실시간 아님).
         DiagnosticsService.shared.start()
 
-        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 — 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
+        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 - 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
         // ⚠️ 여기는 백그라운드 새로고침으로 깨어난 경우에도 돈다. "앱을 열었다"는 신호는
-        //    화면이 실제로 뜨는 곳(scenePhase)에서 따로 남긴다 — 아래 reportForegroundOpen.
+        //    화면이 실제로 뜨는 곳(scenePhase)에서 따로 남긴다 - 아래 reportForegroundOpen.
         UsageReportingService.reportProcessStart()
 
-        // 오래된 월 원장·일별 키 정리 — 하루 한 번만 실제로 돈다.
+        // 오래된 월 원장·일별 키 정리 - 하루 한 번만 실제로 돈다.
         // ⚠️ 반드시 **앱에서만**. 전체 사전을 훑는 일이라 키보드 익스텐션의 입력 경로에 두면
         //    메모리 상한(약 60MB) 안에서 매 입력마다 값을 치르게 된다.
         RefundLedger.pruneIfNeeded()
 
-        // TestFlight 여부 비동기 감지 — isPro 체크 전에 완료되도록 최우선 실행
+        // TestFlight 여부 비동기 감지 - isPro 체크 전에 완료되도록 최우선 실행
         Task { await ProFeatureManager.bootstrapIsTestFlight() }
 
         // v4.0 이전 유료 앱 구매자 그랜드파더 (AppTransaction 영수증 기반).
@@ -171,7 +171,7 @@ struct ClipKeyboardApp: App {
         // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
         bootstrapV4GrandfatherFlags()
 
-        // TipKit 설정 — 온보딩 대신 상황에 맞는 팁으로 안내
+        // TipKit 설정 - 온보딩 대신 상황에 맞는 팁으로 안내
         try? Tips.configure([
             .datastoreLocation(.applicationDefault)
         ])
@@ -218,7 +218,7 @@ struct ClipKeyboardApp: App {
         let current = WhatsNewContent.version
         let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
 
-        // 첫 실행(신규 설치)은 안내 대상이 아님 — 본 것으로 표시만 하고 끝.
+        // 첫 실행(신규 설치)은 안내 대상이 아님 - 본 것으로 표시만 하고 끝.
         if launchCount <= 1 {
             defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
             return
@@ -241,7 +241,7 @@ struct ClipKeyboardApp: App {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
 
-        // 구버전 영구 옵트아웃(Bool) 마이그레이션 — 지금부터 6개월 유예로 전환.
+        // 구버전 영구 옵트아웃(Bool) 마이그레이션 - 지금부터 6개월 유예로 전환.
         if defaults.bool(forKey: DefaultsKey.feedbackNudgeOptOut) {
             defaults.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
             defaults.removeObject(forKey: DefaultsKey.feedbackNudgeOptOut)
@@ -312,7 +312,7 @@ struct ClipKeyboardApp: App {
         guard g?.bool(forKey: DefaultsKey.koreanEnabledMigratedV1) != true else { return }
         if g?.string(forKey: DefaultsKey.keyboardTypingLang) == "korean" {
             g?.set(true, forKey: DefaultsKey.keyboardKoreanEnabled)
-            print("🔄 [APP INIT] 기존 한국어 사용자 — 한국어 입력 자동 활성화")
+            print("🔄 [APP INIT] 기존 한국어 사용자, 한국어 입력 자동 활성화")
         }
         g?.set(true, forKey: DefaultsKey.koreanEnabledMigratedV1)
     }
@@ -339,7 +339,7 @@ struct ClipKeyboardApp: App {
                 g?.set(true, forKey: DefaultsKey.secureMemoEncryptionMigratedV1)
                 print("🔐 [APP INIT] 보안 메모 암호화 마이그레이션 완료 (변경: \(changed))")
             } else {
-                print("⏳ [APP INIT] 보안 키 미확보 — 다음 실행에서 보안 메모 암호화 재시도")
+                print("⏳ [APP INIT] 보안 키 미확보, 다음 실행에서 보안 메모 암호화 재시도")
             }
         } catch {
             print("❌ [APP INIT] 보안 메모 암호화 마이그레이션 실패: \(error)")
@@ -503,10 +503,10 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    /// v4.3.6 정책: 메모 심볼은 **기본 숨김** — showVisualCues를 1회 강제 OFF로 리셋한다.
+    /// v4.3.6 정책: 메모 심볼은 **기본 숨김** - showVisualCues를 1회 강제 OFF로 리셋한다.
     /// 구 카테고리 심볼 토글(categoryBadgeVisible) 승계 마이그레이션이 일부 사용자에게
     /// 심볼을 되살리던 문제를 함께 정리. 원하는 사용자는 설정 > 메모 표시에서 다시 켠다.
-    /// (심볼 노출은 오직 이 토글만 따른다 — iOS '색상 없이 구별' 접근성과 무관.)
+    /// (심볼 노출은 오직 이 토글만 따른다 - iOS '색상 없이 구별' 접근성과 무관.)
     private func migrateVisualCuesIfNeeded() {
         let std = UserDefaults.standard
         guard !std.bool(forKey: DefaultsKey.visualCuesDefaultOffV436) else { return }
@@ -523,12 +523,12 @@ struct ClipKeyboardApp: App {
         //
         //    넣으면 목록이 비어 있지 않게 되고, 빈 목록 자리에 서는 **온보딩이 아예 안 뜬다.**
         //    (첫 단축어를 자기 손으로 만드는 것이 이 버전 온보딩의 전부다.)
-        //    다시 안 돌게 플래그는 세워 둔다 — 나중에 하나를 지워 목록이 비었다고
+        //    다시 안 돌게 플래그는 세워 둔다 - 나중에 하나를 지워 목록이 비었다고
         //    그제야 샘플이 쏟아지면 안 된다.
         if UserDefaults.standard.bool(forKey: DefaultsKey.startedFreshV444) {
             UserDefaults.standard.set(true, forKey: samplesInsertedKey)
             UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
-            print("🌱 [APP INIT] 새 설치 — 샘플 대신 온보딩으로 시작")
+            print("🌱 [APP INIT] 새 설치, 샘플 대신 온보딩으로 시작")
             return
         }
 
@@ -549,7 +549,7 @@ struct ClipKeyboardApp: App {
 
     /// 새 기기(또는 재설치) 첫 실행에서 "기존에 쓰던 메모를 불러올 수 있어요"를 1회 안내한다.
     /// 조건: ① 아직 안내 안 함, ② 시작 시 로컬에 내 메모가 없었음(새 기기 신호),
-    ///       ③ iCloud에 실제 백업이 존재함(복원할 게 있을 때만 안내 — 신규 유저에겐 안 뜸).
+    ///       ③ iCloud에 실제 백업이 존재함(복원할 게 있을 때만 안내 - 신규 유저에겐 안 뜸).
     /// 안내는 한 번만(표시 시 플래그 기록). 백업이 아직 확인 안 되면 다음 실행에서 재시도.
     private func offerRestoreHintIfNeeded(localWasEmpty: Bool) {
         guard !UserDefaults.standard.bool(forKey: restoreHintShownKey) else { return }
@@ -568,15 +568,15 @@ struct ClipKeyboardApp: App {
     private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
         let work = isKorean ? "업무" : "Work"
         let personal = isKorean ? "개인" : "Personal"
-        // 1) 일반 메모 (즐겨찾기) — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
+        // 1) 일반 메모 (즐겨찾기) - 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         //    hint: 각 샘플이 "어떤 타입의 단축어인지"를 카드에서 살며시 알려주는 학습 장치.
         let memo = Memo(
             title: isKorean ? "내 이메일" : "My Email",
             value: "example@email.com",
             isFavorite: true,
-            hint: isKorean ? "가장 단순한 단축어 — 탭 한 번이면 입력 끝" : "The simplest snippet — one tap to type"
+            hint: isKorean ? "가장 단순한 단축어, 탭 한 번이면 입력 끝" : "The simplest snippet: one tap to type"
         )
-        // 2) 템플릿 — 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
+        // 2) 템플릿 - 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
         let template = Memo(
             title: isKorean ? "회신 템플릿" : "Reply Template",
             value: isKorean
@@ -584,17 +584,17 @@ struct ClipKeyboardApp: App {
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: work,
             templateVariables: isKorean ? ["{이름}"] : ["{name}"],
-            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template — fill in the {blanks}"
+            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
-        // 3) 콤보 — 메모 안에 순서 있는 단계들(comboValues)
+        // 3) 콤보 - 메모 안에 순서 있는 단계들(comboValues)
         let combo = Memo(
             title: isKorean ? "이름 + 연락처" : "Name + Contact",
             value: "",
             category: personal,
             comboValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"],
-            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo — types multiple values in order"
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo: types multiple values in order"
         )
-        // 4) 인사말 + 회신 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
+        // 4) 인사말 + 회신 양식을 한 메모로 합침 - 본문에 {변수}가 있으므로 템플릿이어야 한다.
         //    templateVariables를 넘기지 않으면 isTemplate=false가 되어 탭 시 {변수}가
         //    그대로 복사되는 버그가 생긴다. 합쳐진 본문의 커스텀 토큰을 그대로 사용.
         let memoWithTemplate = Memo(
@@ -602,7 +602,7 @@ struct ClipKeyboardApp: App {
             value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
             category: work,
             templateVariables: template.templateVariables,
-            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet — a snippet plus a template"
+            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
     }
@@ -619,31 +619,31 @@ struct ClipKeyboardApp: App {
             templateVariables: isKorean
                 ? ["{금액}", "{수신인}", "{iban}", "{swift}", "{참조번호}"]
                 : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"],
-            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template — fill in the {blanks}"
+            hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
         let combo = Memo(
             title: isKorean ? "내 연락처" : "My Contact",
             value: "",
             category: travel,
             comboValues: isKorean ? ["이름", "이메일", "전화번호"] : ["Full Name", "Email", "Phone"],
-            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo — types multiple values in order"
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo: types multiple values in order"
         )
-        // 즐겨찾기 — 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
+        // 즐겨찾기 - 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let checklist = Memo(
             title: isKorean ? "여행 체크리스트" : "Travel Checklist",
             value: isKorean
                 ? "여권 ✓\n비자 ✓\n여행자보험 ✓\n긴급 연락처: "
                 : "Passport ✓\nVisa ✓\nTravel Insurance ✓\nEmergency Contact: ",
             isFavorite: true,
-            hint: isKorean ? "가장 단순한 단축어 — 탭 한 번이면 입력 끝" : "The simplest snippet — one tap to type"
+            hint: isKorean ? "가장 단순한 단축어, 탭 한 번이면 입력 끝" : "The simplest snippet: one tap to type"
         )
-        // 고정 안내문 + 송금 양식을 한 메모로 합침 — 본문에 {변수}가 있으므로 템플릿이어야 한다.
+        // 고정 안내문 + 송금 양식을 한 메모로 합침 - 본문에 {변수}가 있으므로 템플릿이어야 한다.
         let noteWithTemplate = Memo(
             title: isKorean ? "송금 안내 + 양식" : "Payment note + form",
             value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
             category: finance,
             templateVariables: template.templateVariables,
-            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet — a snippet plus a template"
+            hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
     }
@@ -670,13 +670,13 @@ struct ClipKeyboardApp: App {
                     let localWasEmpty = ((try? MemoStore.shared.load(type: .memo)) ?? []).isEmpty
 
                     // 위 load 과정에서 파일 손상이 감지됐다면 복구 안내를 먼저 띄운다.
-                    // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 — 이 상태에서 샘플을
+                    // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 - 이 상태에서 샘플을
                     //    넣으면 읽지 못한 파일을 덮어쓸 수 있다.
                     if MemoStore.hasDetectedCorruption {
                         showDataRecovery = true
                     }
 
-                    // 콜드 런치 — scenePhase 변화만 믿으면 이미 .active 인 채로 첫 화면이
+                    // 콜드 런치 - scenePhase 변화만 믿으면 이미 .active 인 채로 첫 화면이
                     // 뜬 경우를 놓친다. 양쪽에서 불러도 실행 횟수는 프로세스당 1회,
                     // app_open 은 20시간 쓰로틀이라 중복으로 세지 않는다.
                     reportForegroundActivity()
@@ -690,7 +690,7 @@ struct ClipKeyboardApp: App {
                     offerDemoSamplesToExistingUserIfNeeded()
                     offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
 
-                    // 제어센터 컨트롤 재등록 — 업데이트로 인텐트 타입이 바뀌어도
+                    // 제어센터 컨트롤 재등록 - 업데이트로 인텐트 타입이 바뀌어도
                     // 이미 추가된 컨트롤이 죽은 채 남지 않게 런치마다 갱신한다.
                     #if os(iOS) && !targetEnvironment(macCatalyst)
                     if #available(iOS 18.0, *) {
@@ -705,13 +705,13 @@ struct ClipKeyboardApp: App {
                     _ = CloudKitBackupService.shared
 
                     // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
-                    // 시작 전에 실제 접근 권한을 공유 키에 미러링한다 — 안 하면 그랜드파더/TestFlight
+                    // 시작 전에 실제 접근 권한을 공유 키에 미러링한다 - 안 하면 그랜드파더/TestFlight
                     // 사용자는 토글이 켜져 있어도 엔진이 "not Pro"로 거부한다.
                     ProFeatureManager.mirrorSyncEntitlement()
                     MemoSyncEngine.shared.startIfEnabled()
 
                     // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
-                    // 프롬프트 없이 조용히 동작 — 알림 권한은 인박스 토글에서 요청한다.
+                    // 프롬프트 없이 조용히 동작 - 알림 권한은 인박스 토글에서 요청한다.
                     if UserDefaults.standard.bool(forKey: DefaultsKey.masterModeEnabled) {
                         UIApplication.shared.registerForRemoteNotifications()
                     }
@@ -743,8 +743,8 @@ struct ClipKeyboardApp: App {
                     checkVoiceOverAndNudge()
                 }
                 .onChange(of: scenePhase) { _, phase in
-                    // 앱이 다시 앞으로 오면 즉시 동기화 — 다른 기기의 최신 메모를 바로 반영.
-                    // (start는 멱등 — 토글이 KV로 전파돼 막 켜진 경우 여기서 시작될 수 있음.)
+                    // 앱이 다시 앞으로 오면 즉시 동기화 - 다른 기기의 최신 메모를 바로 반영.
+                    // (start는 멱등 - 토글이 KV로 전파돼 막 켜진 경우 여기서 시작될 수 있음.)
                     if phase == .active {
                         ProFeatureManager.mirrorSyncEntitlement()
                         MemoSyncEngine.shared.startIfEnabled()
@@ -752,7 +752,7 @@ struct ClipKeyboardApp: App {
                         reportForegroundActivity()
                     }
                 }
-                // 데이터 손상 복구 안내 — 다른 시트보다 먼저 붙여 우선 노출시킨다.
+                // 데이터 손상 복구 안내 - 다른 시트보다 먼저 붙여 우선 노출시킨다.
                 .sheet(isPresented: $showDataRecovery) {
                     DataRecoveryView()
                 }
@@ -801,7 +801,7 @@ struct ClipKeyboardApp: App {
                     }
                     Button(NSLocalizedString("다음에", comment: "Feedback nudge: later"), role: .cancel) { }
                     Button(NSLocalizedString("다시 보지 않기", comment: "Feedback nudge: never show again")) {
-                        // 영구 중단이 아니라 6개월 유예 — maybeShowFeedbackNudge가 기간 판정.
+                        // 영구 중단이 아니라 6개월 유예 - maybeShowFeedbackNudge가 기간 판정.
                         UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
                     }
                 } message: {
@@ -815,7 +815,7 @@ struct ClipKeyboardApp: App {
                         onClose: { showWhatsNew = false },
                         onPrimaryAction: {
                             showWhatsNew = false
-                            // 읽고 닫으면 아무것도 안 달라진다 — 소개한 그 화면으로 직접 데려간다.
+                            // 읽고 닫으면 아무것도 안 달라진다 - 소개한 그 화면으로 직접 데려간다.
                             UserDefaults.standard.set(SnippetsTabStyle.keyboard.rawValue,
                                                       forKey: DefaultsKey.snippetsTabStyle)
                         }
@@ -896,7 +896,7 @@ struct ClipKeyboardApp: App {
 
     // MARK: - 사용 통계 (사람이 앱을 앞으로 가져온 순간)
 
-    /// 화면이 실제로 떴을 때만 불린다 — 백그라운드 새로고침으로 프로세스만 깨어난 경우는 제외.
+    /// 화면이 실제로 떴을 때만 불린다 - 백그라운드 새로고침으로 프로세스만 깨어난 경우는 제외.
     /// 그래야 "앱을 여는 사람"과 "키보드만 쓰는 사람"이 통계에서 섞이지 않는다.
     private func reportForegroundActivity() {
         UsageReportingService.reportForegroundOpen()
@@ -982,10 +982,10 @@ struct ClipKeyboardApp: App {
 
 // MARK: - Main Tab View (iOS 26 순정 플로팅 glass 탭바)
 
-/// 앱 루트 — 순정 시스템 탭바(Liquid Glass 캡슐) 그대로 사용.
+/// 앱 루트 - 순정 시스템 탭바(Liquid Glass 캡슐) 그대로 사용.
 /// 한때 캡슐 없는 커스텀 하단 바로 대체했으나 순정 대비 어색해서 네이티브로 원복.
 struct MainTabView: View {
-    /// 단축어 탭이 지금 무엇을 보여주고 있는가 — 탭 이름·아이콘이 이 값을 따라간다.
+    /// 단축어 탭이 지금 무엇을 보여주고 있는가 - 탭 이름·아이콘이 이 값을 따라간다.
     /// (`SnippetsTab` 이 쓰는 것과 **같은 키·같은 저장소**라 전환 버튼을 누르면 여기도 바뀐다)
     @AppStorage(DefaultsKey.snippetsTabStyle) private var snippetsStyleRaw: String = SnippetsTabStyle.list.rawValue
 
@@ -996,7 +996,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             // 목록이냐 키보드 무대냐는 **사용자가 고른다**(설정 > 첫 화면).
-            // 쓰던 사람의 기본은 목록 — 업데이트했다고 첫 화면이 바뀌면 안 된다.
+            // 쓰던 사람의 기본은 목록 - 업데이트했다고 첫 화면이 바뀌면 안 된다.
             //
             // ⚠️ 탭 이름과 아이콘이 **지금 보고 있는 화면**을 따라간다. 예전에는 늘 "단축어"에
             //    격자 아이콘이라, 키보드 무대를 보는 중에도 탭바만 격자를 가리켜 어긋났다.
@@ -1018,7 +1018,7 @@ struct MainTabView: View {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
-        // [디자인 불변식] 하단(탭바) 배경 언제나 투명 — 스크롤 엣지 이펙트는 하단만 숨김.
+        // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면
         // 인라인 타이틀이 콘텐츠와 겹치고 네비바 영역 터치가 막힌다.
         // (각 탭 루트의 alwaysTransparentBars()와 함께 동작; 지우면 회귀)
@@ -1028,13 +1028,13 @@ struct MainTabView: View {
 
 // MARK: - Memo Search (검색 탭, 순정 .searchable)
 
-/// 검색 탭 — iOS 26 Tab(role: .search)와 짝을 이루는 순정 .searchable 화면.
+/// 검색 탭 - iOS 26 Tab(role: .search)와 짝을 이루는 순정 .searchable 화면.
 /// 탭을 누르면 탭바가 검색 필드로 모핑되고, 여기서는 메모 제목/내용을 필터한다.
-/// 보안 메모는 내용 검색·탭 복사에서 제외(값 노출 방지) — 제목으로만 찾을 수 있다.
+/// 보안 메모는 내용 검색·탭 복사에서 제외(값 노출 방지) - 제목으로만 찾을 수 있다.
 struct MemoSearchView: View {
     @State private var query: String = ""
     @State private var memos: [Memo] = []
-    /// 방금 복사한 메모 id — 행 오른쪽 아이콘을 잠시 체크로 바꿔 복사 피드백.
+    /// 방금 복사한 메모 id - 행 오른쪽 아이콘을 잠시 체크로 바꿔 복사 피드백.
     @State private var copiedMemoId: UUID?
     @Environment(\.appTheme) private var theme
 
@@ -1050,7 +1050,7 @@ struct MemoSearchView: View {
     var body: some View {
         Group {
             if results.isEmpty {
-                // 순정 빈 상태 — 검색어가 있으면 시스템 검색 빈 화면, 없으면 안내.
+                // 순정 빈 상태 - 검색어가 있으면 시스템 검색 빈 화면, 없으면 안내.
                 if query.isEmpty {
                     ContentUnavailableView(
                         NSLocalizedString("단축어 검색", comment: "Search empty state title"),
@@ -1074,7 +1074,7 @@ struct MemoSearchView: View {
                     .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
                 }
                 .listStyle(.plain)
-                // 하단만 숨김 — 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
+                // 하단만 숨김 - 상단은 시스템 glass 베일 유지(타이틀·콘텐츠 겹침 방지).
                 .scrollEdgeEffectHidden(true, for: .bottom)
             }
         }
@@ -1086,7 +1086,7 @@ struct MemoSearchView: View {
         }
     }
 
-    /// 검색 결과 행 — 메인 리스트와 같은 디자인 언어(테마 표면 카드, 타입 아이콘, 본문 크기 글자).
+    /// 검색 결과 행 - 메인 리스트와 같은 디자인 언어(테마 표면 카드, 타입 아이콘, 본문 크기 글자).
     private func searchRow(_ memo: Memo) -> some View {
         let style = typeStyle(memo)
         return HStack(spacing: 12) {
@@ -1114,7 +1114,7 @@ struct MemoSearchView: View {
 
             Spacer(minLength: 8)
 
-            // 보안 메모는 복사 불가(값 노출 방지) — 자물쇠로 이유를 보여준다.
+            // 보안 메모는 복사 불가(값 노출 방지) - 자물쇠로 이유를 보여준다.
             if memo.isSecure {
                 Image(systemName: AppSymbol.lockFill)
                     .font(.body)
@@ -1134,7 +1134,7 @@ struct MemoSearchView: View {
                            : NSLocalizedString("탭하면 클립보드에 복사됩니다", comment: "Clipboard item copy hint"))
     }
 
-    /// 타입별 아이콘·색 — 카드/키보드와 동일한 구분 언어(보안 회색·템플릿 보라·콤보 주황·이미지 초록).
+    /// 타입별 아이콘·색 - 카드/키보드와 동일한 구분 언어(보안 회색·템플릿 보라·콤보 주황·이미지 초록).
     private func typeStyle(_ memo: Memo) -> (icon: String, color: Color) {
         if memo.isSecure { return (AppSymbol.lockFill, .gray) }
         if memo.isTemplate { return ("wand.and.stars", .purple) }

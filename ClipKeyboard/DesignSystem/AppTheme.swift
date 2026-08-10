@@ -2,7 +2,7 @@
 //  AppTheme.swift
 //  ClipKeyboard
 //
-//  Design handoff 기반 — Dusk (default) + Paper 두 테마, 각각 light/dark.
+//  Design handoff 기반 - Dusk (default) + Paper 두 테마, 각각 light/dark.
 //  SwiftUI Environment으로 주입해 전 화면에서 동일 토큰 사용.
 //
 
@@ -68,7 +68,7 @@ struct AppTheme: Equatable {
     let heroGradientStops: [Color]
     let heroGradientAngle: Double  // degrees
 
-    // Radius scale — 화면 코너의 단일 소스. raw 숫자 대신 이 토큰만 사용한다.
+    // Radius scale - 화면 코너의 단일 소스. raw 숫자 대신 이 토큰만 사용한다.
     //  xs: 배지·칩·작은 인디케이터 / sm: 버튼·인풋·작은 컨테이너
     //  md: 카드·시트 본문·주요 버튼 / lg: 큰 카드·강조 컨테이너 / xl: 히어로·풀시트
     let radiusXs: CGFloat
@@ -248,7 +248,7 @@ struct AppTheme: Equatable {
 }
 
 extension Font.TextStyle {
-    /// 포인트 크기에서 가장 가까운 TextStyle을 반환 — Dynamic Type 스케일링에 사용.
+    /// 포인트 크기에서 가장 가까운 TextStyle을 반환 - Dynamic Type 스케일링에 사용.
     static func nearest(to size: CGFloat) -> Font.TextStyle {
         switch size {
         case ..<11.5: return .caption2

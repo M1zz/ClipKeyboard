@@ -172,7 +172,7 @@ final class CheonjiinInputTests: XCTestCase {
     }
 
     func testCommit_DiscardsUnresolvedTentativeStroke() {
-        // 미완성 raw 획(단독 ㆍ)은 commit 시 폐기 — 쓰레기 문자가 남으면 안 됨
+        // 미완성 raw 획(단독 ㆍ)은 commit 시 폐기 - 쓰레기 문자가 남으면 안 됨
         cheonjiin.tap("ㄱㅋ")
         cheonjiin.tap("ㅣ")
         cheonjiin.tap("ㆍ")     // "가"

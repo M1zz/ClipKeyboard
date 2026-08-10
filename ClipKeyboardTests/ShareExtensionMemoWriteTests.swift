@@ -2,7 +2,7 @@
 //  ShareExtensionMemoWriteTests.swift
 //  ClipKeyboardTests
 //
-//  공유 익스텐션이 손으로 쓴 JSON 을 앱이 제대로 읽는지 — **두 타겟이 코드를 공유하지 않아서**
+//  공유 익스텐션이 손으로 쓴 JSON 을 앱이 제대로 읽는지 - **두 타겟이 코드를 공유하지 않아서**
 //  스키마가 어긋나도 컴파일러가 잡아 주지 못하는 자리다.
 //
 //  특히 날짜: 앱은 기본 `JSONEncoder` 를 쓰므로 Date 가 **2001 기준 초**로 저장된다.
@@ -16,7 +16,7 @@ import XCTest
 final class ShareExtensionMemoWriteTests: XCTestCase {
 
     /// 공유 익스텐션(`ShareViewController.saveAsShortcut`)이 만드는 것과 **같은 모양**의 딕셔너리.
-    /// ⚠️ 저쪽을 고치면 여기도 같이 고칠 것 — 이 테스트가 두 타겟을 잇는 유일한 끈이다.
+    /// ⚠️ 저쪽을 고치면 여기도 같이 고칠 것 - 이 테스트가 두 타겟을 잇는 유일한 끈이다.
     private func shareExtensionPayload(id: String = UUID().uuidString,
                                        title: String = "계좌번호",
                                        value: String = "110-234-567890",
@@ -55,7 +55,7 @@ final class ShareExtensionMemoWriteTests: XCTestCase {
         XCTAssertFalse(memos[0].isFavorite)
     }
 
-    /// 31년 어긋남을 막는 테스트 — epoch 로 적었다면 여기서 걸린다.
+    /// 31년 어긋남을 막는 테스트 - epoch 로 적었다면 여기서 걸린다.
     func testLastEditedUsesReferenceDateNotEpoch() throws {
         let now = Date()
         let memos = try decode([shareExtensionPayload(now: now)])
@@ -65,13 +65,13 @@ final class ShareExtensionMemoWriteTests: XCTestCase {
                        accuracy: 1,
                        "공유로 넣은 단축어의 시각이 지금과 같아야 최근순에서 맨 위에 온다")
 
-        // epoch 로 적었을 때 얼마나 어긋나는지 — 실수하면 30년 이상 벌어진다.
+        // epoch 로 적었을 때 얼마나 어긋나는지 - 실수하면 30년 이상 벌어진다.
         let epochMistake = try decode([[
             "id": UUID().uuidString, "title": "t", "value": "v",
             "lastEdited": now.timeIntervalSince1970
         ]])
         XCTAssertGreaterThan(epochMistake[0].lastEdited.timeIntervalSince(now), 60 * 60 * 24 * 365 * 20,
-                             "epoch 로 적으면 20년 이상 미래로 밀린다 — 이 테스트가 그 실수를 잡는다")
+                             "epoch 로 적으면 20년 이상 미래로 밀린다. 이 테스트가 그 실수를 잡는다")
     }
 
     // MARK: - 관용적 디코더가 실제로 관용적인가

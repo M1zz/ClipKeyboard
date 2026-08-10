@@ -47,7 +47,7 @@ final class ClipboardClassificationServiceTests: XCTestCase {
     // MARK: - IBAN
 
     func testClassify_ValidIBAN_GB() {
-        // GB82 WEST 1234 5698 7654 32 — 표준 mod-97 검증 통과 테스트 IBAN
+        // GB82 WEST 1234 5698 7654 32 - 표준 mod-97 검증 통과 테스트 IBAN
         let result = sut.classify(content: "GB82WEST12345698765432")
         XCTAssertEqual(result.type, .iban)
         XCTAssertGreaterThan(result.confidence, 0.9)

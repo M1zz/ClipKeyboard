@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # LeeoKit 로컬 SPM 패키지를 ClipKeyboard 프로젝트의 지정 타겟에 연결한다.
-# xcodeproj gem 사용 — 손편집보다 안전. 멱등(이미 있으면 건너뜀).
+# xcodeproj gem 사용 - 손편집보다 안전. 멱등(이미 있으면 건너뜀).
 require 'xcodeproj'
 
 PROJECT = 'ClipKeyboard.xcodeproj'

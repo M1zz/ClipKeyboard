@@ -2,7 +2,7 @@
 //  CopyValueControl.swift
 //  widget
 //
-//  **앱을 열지 않고** 미리 정해 둔 값을 클립보드에 넣는다 — 제어센터 버튼과 위젯 탭이 함께 쓴다.
+//  **앱을 열지 않고** 미리 정해 둔 값을 클립보드에 넣는다 - 제어센터 버튼과 위젯 탭이 함께 쓴다.
 //
 //  왜 필요한가: 지금까지 위젯은 `widgetURL` 로 앱을 띄운 다음에야 복사했다. 계좌번호 하나
 //  붙여넣자고 하던 일(카톡·폼 작성)에서 튕겨 나갔다가 돌아와야 했으니, 앱을 여는 것보다
@@ -11,16 +11,16 @@
 //  ⚠️ **포그라운드 모드로 만들지 말 것.** `supportedModes` 를 선언하지 않으면 백그라운드
 //     전용으로 취급되는데, 이 인텐트에는 그게 맞다. `.foreground` 를 붙이는 순간 앱이 떠서
 //     이 기능의 존재 이유가 사라진다. (제어센터 인텐트 일반론은
-//     docs/CONTROL_CENTER_APP_LAUNCH.md — 저건 **앱을 여는** 인텐트 이야기다)
+//     docs/CONTROL_CENTER_APP_LAUNCH.md - 저건 **앱을 여는** 인텐트 이야기다)
 //
 //  ⚠️ 앱 타겟에 같은 타입을 두지 않는다. 앱 프로세스에서 실행될 일이 없기 때문이다.
-//     (`AddQuickNoteControlIntent` 는 포그라운드라 앱 타겟에도 있어야 했다 — 사정이 다르다)
+//     (`AddQuickNoteControlIntent` 는 포그라운드라 앱 타겟에도 있어야 했다 - 사정이 다르다)
 //
 //  ⚠️ 보안 단축어는 복사하지 않는다. 값이 암호문이라 붙여넣어 봐야 쓸 수 없고,
 //     잠금화면 위젯에서 잠금 해제 없이 꺼내지는 일도 없어야 한다.
 //
 //  ⚠️ **잠금화면에서의 의미가 달라졌다.** 예전에는 위젯을 눌러도 앱이 뜨느라 잠금 해제를
-//     거쳐야 값이 복사됐다. 이제는 잠긴 채로도 복사된다 — 잠금화면 위젯을 둔 사람에게는
+//     거쳐야 값이 복사됐다. 이제는 잠긴 채로도 복사된다 - 잠금화면 위젯을 둔 사람에게는
 //     그게 요청받은 편의지만, 남이 잠긴 폰을 집어 들면 즐겨찾기 값을 클립보드에 담을 수는
 //     있다는 뜻이기도 하다. 그래서 대상은 **사용자가 직접 즐겨찾기한 비보안 값**으로만 한정한다.
 //     민감한 것은 보안 단축어로 두면 이 경로에 아예 오르지 않는다.
@@ -100,14 +100,14 @@ enum CopyFeedback {
 
 // MARK: - 제어센터 컨트롤
 
-/// 어느 값을 복사할지 고르는 설정 — 제어센터 버튼을 길게 눌러 바꾼다.
+/// 어느 값을 복사할지 고르는 설정 - 제어센터 버튼을 길게 눌러 바꾼다.
 @available(iOS 18.0, *)
 struct CopyValueControlConfiguration: ControlConfigurationIntent {
     static var title: LocalizedStringResource {
         LocalizedStringResource("복사할 값 고르기", comment: "Copy value control configuration title")
     }
 
-    /// 즐겨찾기만 고를 수 있다(`MemoOptionsProvider`) — "미리 정해 둔 값"이 곧 즐겨찾기다.
+    /// 즐겨찾기만 고를 수 있다(`MemoOptionsProvider`) - "미리 정해 둔 값"이 곧 즐겨찾기다.
     @Parameter(title: LocalizedStringResource("단축어", comment: "Copy value control: memo parameter"),
                optionsProvider: MemoOptionsProvider())
     var memo: MemoEntity?
@@ -115,7 +115,7 @@ struct CopyValueControlConfiguration: ControlConfigurationIntent {
 
 @available(iOS 18.0, *)
 struct CopyValueControl: ControlWidget {
-    /// ⚠️ 인텐트 시그니처가 바뀌면 이 문자열을 올릴 것 — 시스템이 죽은 등록을 캐시해
+    /// ⚠️ 인텐트 시그니처가 바뀌면 이 문자열을 올릴 것 - 시스템이 죽은 등록을 캐시해
     ///    눌러도 아무 일이 안 일어나는 사고가 이 앱에서 이미 한 번 있었다
     ///    (QuickNoteControl 의 kind 가 v4 까지 간 이유).
     static let kind = "com.Ysoup.TokenMemo.CopyValueControl.v1"
@@ -145,7 +145,7 @@ struct CopyValueControl: ControlWidget {
         }
 
         func currentValue(configuration: CopyValueControlConfiguration) async throws -> Value {
-            // 고른 것이 없으면 첫 즐겨찾기로 — 버튼을 추가하자마자 쓸 수 있어야 한다.
+            // 고른 것이 없으면 첫 즐겨찾기로 - 버튼을 추가하자마자 쓸 수 있어야 한다.
             if let picked = configuration.memo {
                 return Value(id: picked.id, title: picked.title)
             }

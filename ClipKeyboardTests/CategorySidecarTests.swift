@@ -61,14 +61,14 @@ final class CategorySidecarTests: XCTestCase {
         // When
         try sut.save(memos: [travel, basic], type: .memo)
 
-        // Then — 비기본 카테고리만 사이드카에 기록 (기본은 제외)
+        // Then - 비기본 카테고리만 사이드카에 기록 (기본은 제외)
         let map = try XCTUnwrap(groupDefaults?.dictionary(forKey: sidecarKey) as? [String: String])
         XCTAssertEqual(map[travel.id.uuidString], "여행")
         XCTAssertNil(map[basic.id.uuidString])
     }
 
     func testRestoreFromSidecar_FillsLostCategoriesOnly() {
-        // Given — 사이드카엔 "여행", memos.data 쪽은 유실(기본)
+        // Given - 사이드카엔 "여행", memos.data 쪽은 유실(기본)
         let lost = Memo(title: "유실됨", value: "값", category: "기본")
         let intact = Memo(title: "안 유실됨", value: "값", category: "금융")
         groupDefaults?.set([lost.id.uuidString: "여행",
@@ -78,14 +78,14 @@ final class CategorySidecarTests: XCTestCase {
         var memos = [lost, intact]
         let changed = MemoStore.restoreCategoriesFromSidecar(&memos)
 
-        // Then — 기본(유실 신호)만 복원, 사용자가 신버전에서 바꾼 "금융"은 보존
+        // Then - 기본(유실 신호)만 복원, 사용자가 신버전에서 바꾼 "금융"은 보존
         XCTAssertTrue(changed)
         XCTAssertEqual(memos[0].category, "여행")
         XCTAssertEqual(memos[1].category, "금융", "비기본 카테고리는 사이드카가 덮어쓰면 안 됨")
     }
 
     func testRestoreFromSidecar_NoSidecar_ReturnsFalse() {
-        // Given — 사이드카 없음
+        // Given - 사이드카 없음
         var memos = [Memo(title: "메모", value: "값", category: "기본")]
 
         // When/Then
@@ -96,16 +96,16 @@ final class CategorySidecarTests: XCTestCase {
     // MARK: - 다운그레이드 → 재업그레이드 왕복 (핵심 시나리오)
 
     func testDowngradeRewrite_ThenLoad_HealsCategoriesFromSidecar() throws {
-        // Given — 신버전에서 카테고리 지정 저장 (사이드카 기록됨)
+        // Given - 신버전에서 카테고리 지정 저장 (사이드카 기록됨)
         let travel = Memo(title: "여행", value: "값", category: "여행")
         let finance = Memo(title: "금융", value: "값", category: "금융")
         try sut.save(memos: [travel, finance], type: .memo)
 
-        // When — 구버전이 category를 날려먹고 재저장 → 다시 신버전으로 load
+        // When - 구버전이 category를 날려먹고 재저장 → 다시 신버전으로 load
         try simulateDowngradeRewrite(of: [travel, finance])
         let healed = try sut.load(type: .memo)
 
-        // Then — 사이드카에서 복원
+        // Then - 사이드카에서 복원
         XCTAssertEqual(healed.first { $0.id == travel.id }?.category, "여행")
         XCTAssertEqual(healed.first { $0.id == finance.id }?.category, "금융")
 
@@ -115,32 +115,32 @@ final class CategorySidecarTests: XCTestCase {
     }
 
     func testIntentionalMoveToBasic_IsNotResurrectedBySidecar() throws {
-        // Given — "여행" 메모가 사이드카에 기록된 상태
+        // Given - "여행" 메모가 사이드카에 기록된 상태
         var memo = Memo(title: "메모", value: "값", category: "여행")
         try sut.save(memos: [memo], type: .memo)
 
-        // When — 사용자가 신버전에서 의도적으로 "기본"으로 이동 (save가 사이드카도 갱신)
+        // When - 사용자가 신버전에서 의도적으로 "기본"으로 이동 (save가 사이드카도 갱신)
         memo.category = "기본"
         try sut.save(memos: [memo], type: .memo)
         let loaded = try sut.load(type: .memo)
 
-        // Then — 사이드카가 옛 "여행"을 되살리면 안 됨
+        // Then - 사이드카가 옛 "여행"을 되살리면 안 됨
         XCTAssertEqual(loaded[0].category, "기본")
         let map = groupDefaults?.dictionary(forKey: sidecarKey) as? [String: String]
         XCTAssertNil(map?[memo.id.uuidString], "기본으로 옮기면 사이드카에서도 제거")
     }
 
     func testLoad_BootstrapsSidecarForExistingUsers() throws {
-        // Given — 사이드카가 없던 기존 사용자 (메모는 파일에 직접 존재)
+        // Given - 사이드카가 없던 기존 사용자 (메모는 파일에 직접 존재)
         let memo = Memo(title: "기존 메모", value: "값", category: "업무")
         let data = try JSONEncoder().encode([memo])
         try data.write(to: XCTUnwrap(memosFileURL))
         groupDefaults?.removeObject(forKey: sidecarKey)
 
-        // When — 신버전 첫 로드
+        // When - 신버전 첫 로드
         _ = try sut.load(type: .memo)
 
-        // Then — 이후 다운그레이드에 대비해 사이드카가 채워져야 함
+        // Then - 이후 다운그레이드에 대비해 사이드카가 채워져야 함
         let map = groupDefaults?.dictionary(forKey: sidecarKey) as? [String: String]
         XCTAssertEqual(map?[memo.id.uuidString], "업무")
     }

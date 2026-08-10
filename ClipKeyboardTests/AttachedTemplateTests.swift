@@ -88,7 +88,7 @@ final class AttachedTemplateTests: XCTestCase {
         XCTAssertEqual(result, "홍길동님 {금액}원")
     }
 
-    // MARK: - Compose (option X — 이어 붙이기)
+    // MARK: - Compose (option X - 이어 붙이기)
 
     func testCompose_NoTemplate_ReturnsMemoOnly() {
         let result = TemplateVariableProcessor.compose(

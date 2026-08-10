@@ -8,7 +8,7 @@
 //     쓸 때 채우는 칸으로 남고, 늘 같은 것(내 이름·계좌번호)만 붙박이가 된다.
 //     전부 채우기를 강요하면 "이번 달 금액"을 지금 정해야 하는 이상한 일이 된다.
 //
-//  ⚠️ 채운 값은 플레이스홀더 값 저장소에 남긴다 — 다음에 같은 칸을 만나면 한 번 눌러 끝난다.
+//  ⚠️ 채운 값은 플레이스홀더 값 저장소에 남긴다 - 다음에 같은 칸을 만나면 한 번 눌러 끝난다.
 //     (`MemoStore.addPlaceholderValue`, 키는 `{이름}`처럼 중괄호를 포함한 토큰)
 //
 
@@ -17,7 +17,7 @@ import LeeoKit
 
 struct ShortcutMartFillView: View {
     let item: ShortcutMartItem
-    /// 담기 완료 — 마트가 개수를 센다.
+    /// 담기 완료 - 마트가 개수를 센다.
     var onUse: () -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -72,7 +72,7 @@ struct ShortcutMartFillView: View {
 
     // MARK: - 미리보기
 
-    /// 채우는 대로 문장이 완성돼 간다 — 무엇을 만들고 있는지 눈으로 확인되지 않으면
+    /// 채우는 대로 문장이 완성돼 간다 - 무엇을 만들고 있는지 눈으로 확인되지 않으면
     /// 빈칸 채우기는 그냥 서식 작성이 된다.
     private var previewSection: some View {
         Section {
@@ -94,7 +94,7 @@ struct ShortcutMartFillView: View {
     // MARK: - 빈칸 하나
 
     private func blankSection(_ blank: String) -> some View {
-        // 저장된 값이 있으면 눌러서 바로 채운다 — 두 번째부터는 타이핑이 필요 없다.
+        // 저장된 값이 있으면 눌러서 바로 채운다 - 두 번째부터는 타이핑이 필요 없다.
         let remembered = MemoStore.shared.loadPlaceholderValues(for: blank)
 
         return Section {
@@ -127,7 +127,7 @@ struct ShortcutMartFillView: View {
                 .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 8, trailing: 16))
             }
         } header: {
-            // 중괄호는 사용자에게 보여주지 않는다 — 앱 어디서도 `{ }`를 노출하지 않는 규칙.
+            // 중괄호는 사용자에게 보여주지 않는다 - 앱 어디서도 `{ }`를 노출하지 않는 규칙.
             Text(blank.trimmingCharacters(in: CharacterSet(charactersIn: "{}")))
         }
     }
@@ -147,7 +147,7 @@ struct ShortcutMartFillView: View {
 
     private func use() {
         let value = filledValue
-        // 남은 변수만 템플릿 변수로 — 다 채웠으면 평범한 단축어가 된다.
+        // 남은 변수만 템플릿 변수로 - 다 채웠으면 평범한 단축어가 된다.
         let remaining = TemplateVariableProcessor.extractCustomTokens(in: value)
         let memo = Memo(title: item.title, value: value, templateVariables: remaining)
 
@@ -156,7 +156,7 @@ struct ShortcutMartFillView: View {
             memos.insert(memo, at: 0)
             try MemoStore.shared.save(memos: memos, type: .memo)
 
-            // 적은 값을 기억해 둔다 — 다음에 같은 칸을 만나면 눌러서 끝난다.
+            // 적은 값을 기억해 둔다 - 다음에 같은 칸을 만나면 눌러서 끝난다.
             for blank in item.blanks {
                 let typed = (inputs[blank] ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
                 guard !typed.isEmpty else { continue }
@@ -174,7 +174,7 @@ struct ShortcutMartFillView: View {
             onUse()
             dismiss()
         } catch {
-            // 실패하면 닫지 않는다 — 채워 둔 것을 잃지 않게.
+            // 실패하면 닫지 않는다 - 채워 둔 것을 잃지 않게.
             print("❌ [ShortcutMart.use] 저장 실패: \(error)")
             #if os(iOS)
             HapticManager.shared.error()

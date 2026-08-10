@@ -1,5 +1,5 @@
 #!/bin/sh
-# 배포 전 게이트 — 다국어 검사 + 전체 테스트가 통과해야 아카이브를 만든다.
+# 배포 전 게이트 - 다국어 검사 + 전체 테스트가 통과해야 아카이브를 만든다.
 #
 # 사용법:
 #   sh scripts/predeploy.sh            # 검사 + 전체 테스트만 (게이트 확인)
@@ -30,7 +30,7 @@ xcodebuild test \
   -quiet
 
 echo ""
-echo "✅ 모든 검사·테스트 통과 — 배포 가능"
+echo "✅ 모든 검사·테스트 통과 - 배포 가능"
 
 if [ "$1" = "--archive" ]; then
   STAMP="$(date +%Y%m%d-%H%M)"
@@ -42,6 +42,6 @@ if [ "$1" = "--archive" ]; then
     -archivePath "$ARCHIVE" \
     -allowProvisioningUpdates \
     -quiet
-  echo "✅ 아카이브 완료 — Organizer에서 Distribute App으로 업로드하세요"
+  echo "✅ 아카이브 완료 - Organizer에서 Distribute App으로 업로드하세요"
   open "$ARCHIVE"
 fi

@@ -2,7 +2,7 @@
 //  ProFeatureLimitsSwiftTests.swift
 //  ClipKeyboardTests
 //
-//  Swift Testing 스위트 — 무료/Pro 한도 상수와 한도 판정 함수.
+//  Swift Testing 스위트 - 무료/Pro 한도 상수와 한도 판정 함수.
 //  Pro 상태(App Group)가 환경에 따라 다를 수 있으므로, 전역 상태에 의존하지
 //  않는 불변식(상수, hasFullAccess와 한도의 관계)을 검증한다.
 //
@@ -13,7 +13,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("ProFeatureManager — 무료/Pro 한도")
+@Suite("ProFeatureManager: 무료/Pro 한도")
 struct ProFeatureLimitsSwiftTests {
 
     // MARK: - 한도 상수

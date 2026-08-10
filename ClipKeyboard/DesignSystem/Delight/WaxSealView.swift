@@ -2,7 +2,7 @@
 //  WaxSealView.swift
 //  ClipKeyboard
 //
-//  봉인 — 보안 메모의 잠금 상태를 만질 수 있는 형태로 만든다.
+//  봉인 - 보안 메모의 잠금 상태를 만질 수 있는 형태로 만든다.
 //
 //  "보안 메모 잠금"은 지금까지 설정 화면의 체크박스였다. 봉랍 도장으로 바꾸면
 //  프라이버시가 설명이 아니라 감각이 된다. 눌러서 봉하고, 갈라서 연다.
@@ -47,7 +47,7 @@ struct WaxSealView: View {
             Circle()
                 .fill(theme.accent.opacity(isSealed ? 0.92 : 0.28))
 
-            // 봉인이 갈라진 자국 — 열렸을 때만 보인다.
+            // 봉인이 갈라진 자국 - 열렸을 때만 보인다.
             if !isSealed {
                 Capsule()
                     .fill(theme.surface)

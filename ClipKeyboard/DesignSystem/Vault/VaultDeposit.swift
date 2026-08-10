@@ -2,12 +2,12 @@
 //  VaultDeposit.swift
 //  ClipKeyboard
 //
-//  **입금** — 단축어를 누르면 동전이 톡 튀어 금고로 슉 들어간다.
+//  **입금** - 단축어를 누르면 동전이 톡 튀어 금고로 슉 들어간다.
 //
 //  이 모션이 하는 일은 장식이 아니라 **인과를 보여주는 것**이다. 잔고 숫자만 있으면
 //  "저 숫자가 왜 늘었지"를 설명해야 하지만, 동전이 손끝에서 금고로 날아가면 설명이 필요 없다.
 //
-//  ⚠️ 0.6초짜리 한 번짜리 연출이다. 상시 도는 것이 하나도 없다 —
+//  ⚠️ 0.6초짜리 한 번짜리 연출이다. 상시 도는 것이 하나도 없다
 //     하루에 수십 번 여는 도구에서 뭔가 늘 움직이면 셋째 날부터 소음이 된다.
 //
 //  ⚠️ '동작 줄이기'·저전력·Delight 끔에서는 **날리지 않는다.** 대신 금고만 한 번 튕긴다.
@@ -37,18 +37,18 @@ final class VaultDeposit: ObservableObject {
 
     struct Flight: Identifiable, Equatable {
         let id = UUID()
-        /// 손가락이 닿은 자리 — **global 좌표**.
+        /// 손가락이 닿은 자리 - **global 좌표**.
         let from: CGPoint
-        /// 이번에 돌려받은 시간(초). 액면가를 정한다 — 큰 문구는 은화가 날아간다.
+        /// 이번에 돌려받은 시간(초). 액면가를 정한다 - 큰 문구는 은화가 날아간다.
         let seconds: Double
         var payload: Payload = .coin
     }
 
     /// 날고 있는 동전들. 연타해도 각각 난다.
     @Published private(set) var flights: [Flight] = []
-    /// 금고 버튼의 중심 — **global 좌표**. 목적지.
+    /// 금고 버튼의 중심 - **global 좌표**. 목적지.
     @Published var vaultPoint: CGPoint = .zero
-    /// 동전이 도착할 때마다 오르는 값 — 금고가 이걸 보고 흔들린다.
+    /// 동전이 도착할 때마다 오르는 값 - 금고가 이걸 보고 흔들린다.
     @Published private(set) var arrivals = 0
 
     /// 한 번에 날 수 있는 동전 수. 연타로 화면이 동전밭이 되지 않게.
@@ -79,7 +79,7 @@ final class VaultDeposit: ObservableObject {
 
 /// 톡 튀어 올랐다가 금고로 슉 빨려 들어가는 동전 한 개.
 ///
-/// `TimelineView(.animation)` 으로 직접 시간을 굴린다 — `withAnimation` 으로는 중간 프레임을
+/// `TimelineView(.animation)` 으로 직접 시간을 굴린다 - `withAnimation` 으로는 중간 프레임을
 /// 못 보기 때문에 **동전이 구르는 3프레임**을 바꿔 끼울 수 없다. 구르지 않는 동전은
 /// 그냥 미끄러지는 원이라 금속으로 안 보인다.
 struct FlyingCoin: View {
@@ -102,7 +102,7 @@ struct FlyingCoin: View {
 
             Group {
                 if flight.payload == .gem {
-                    // 보석은 구르지 않는다 — 결정은 굴러가는 물건이 아니라 반짝이는 물건이다.
+                    // 보석은 구르지 않는다 - 결정은 굴러가는 물건이 아니라 반짝이는 물건이다.
                     GemView(size: 24)
                         .rotationEffect(.degrees(Double(elapsed) * 90))
                 } else {
@@ -122,7 +122,7 @@ struct FlyingCoin: View {
 
     // MARK: 시간 → 모습
 
-    /// 액면가는 이번에 돌려받은 시간이 정한다 — 긴 문구를 쓰면 은화가 난다.
+    /// 액면가는 이번에 돌려받은 시간이 정한다 - 긴 문구를 쓰면 은화가 난다.
     private var denomination: VaultSprite {
         if flight.seconds >= VaultLedger.goldSeconds { return .gold }
         if flight.seconds >= VaultLedger.silverSeconds { return .silver }
@@ -139,11 +139,11 @@ struct FlyingCoin: View {
 
     private func position(at t: Double) -> CGPoint {
         if t <= hop {
-            // 톡 — 제자리에서 살짝 솟는다.
+            // 톡 - 제자리에서 살짝 솟는다.
             let p = easeOut(t / hop)
             return CGPoint(x: flight.from.x, y: flight.from.y - 22 * p)
         }
-        // 슉 — 솟은 자리에서 금고까지 포물선으로.
+        // 슉 - 솟은 자리에서 금고까지 포물선으로.
         //
         // ⚠️ 베지어 제어점으로 호를 만들면 안 된다. 카드가 금고보다 위냐 아래냐에 따라
         //    실제로 솟는 높이가 18pt~110pt로 들쭉날쭉해져서, 어떤 카드는 호가 아예 안 보이고
@@ -161,7 +161,7 @@ struct FlyingCoin: View {
 
     private func scale(at t: Double) -> CGFloat {
         guard t > hop else { return 1 }
-        // 금고에 가까워질수록 작아진다 — 빨려 들어가는 느낌은 크기가 만든다.
+        // 금고에 가까워질수록 작아진다 - 빨려 들어가는 느낌은 크기가 만든다.
         return 1 - 0.45 * CGFloat(min(1, (t - hop) / fly))
     }
 
@@ -217,7 +217,7 @@ private extension CGPoint {
 struct VaultButton: View {
     /// 지금까지 쌓인 시간(초).
     let savedSeconds: Double
-    /// 무엇을 모으는 자리인가 — 금고(시간)냐 주머니(보석)냐.
+    /// 무엇을 모으는 자리인가 - 금고(시간)냐 주머니(보석)냐.
     var collects: VaultDeposit.Payload = .coin
     @ObservedObject var deposit: VaultDeposit
     let action: () -> Void
@@ -247,7 +247,7 @@ struct VaultButton: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        // 금고가 자기 중심을 알려준다 — 동전은 이 좌표로 날아온다.
+        // 금고가 자기 중심을 알려준다 - 동전은 이 좌표로 날아온다.
         //
         // ⚠️ PreferenceKey 로 올려보내지 않는다. 이 버튼은 네비게이션 바(툴바) 안에 사는데,
         //    툴바는 화면 본문과 다른 계층이라 preference 가 본문의 onPreferenceChange 까지

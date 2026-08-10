@@ -19,7 +19,7 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane check
 ```
 
-게이트만 실행 (테스트/검사) — 배포 없음
+게이트만 실행 (테스트/검사): 배포 없음
 
 ### beta
 

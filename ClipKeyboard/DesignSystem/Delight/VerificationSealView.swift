@@ -2,12 +2,12 @@
 //  VerificationSealView.swift
 //  ClipKeyboard
 //
-//  검증 각인 — "틀리지 않았다"를 눈에 보이게 만든다.
+//  검증 각인 - "틀리지 않았다"를 눈에 보이게 만든다.
 //
 //  mod-97·Luhn 검증은 예전부터 돌고 있었지만 사용자에게는 한 번도 보이지 않았다.
 //  조용히 맞히는 것과 "맞았습니다"라고 찍어 주는 것은 다른 경험이다.
 //
-//  실패했을 때가 더 중요하다 — 나무라지 않고 **어디를 고칠지**만 말한다.
+//  실패했을 때가 더 중요하다 - 나무라지 않고 **어디를 고칠지**만 말한다.
 //  그래서 실패 색도 danger가 아니라 warn 을 쓴다(오류가 아니라 확인 요청이다).
 //
 
@@ -64,7 +64,7 @@ struct VerificationSealView: View {
         )
         .scaleEffect(scale)
         .opacity(opacity)
-        // 색만으로 구분하지 않는다 — 아이콘·문구가 함께 상태를 말한다(접근성).
+        // 색만으로 구분하지 않는다 - 아이콘·문구가 함께 상태를 말한다(접근성).
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(result.subject.displayName) \(result.stampLabel). \(result.detail)")
         .onAppear { press() }
@@ -76,7 +76,7 @@ struct VerificationSealView: View {
     /// ⚠️ 햅틱은 **통과했을 때만** 울린다.
     ///    입력 중에는 값이 아직 미완성이라 실패 판정이 계속 뜨는데, 거기에 진동까지 붙이면
     ///    타이핑하는 내내 손을 때리는 꼴이 된다. 실패는 조용히 문구로만 알린다.
-    ///    (`Result`가 Equatable이라 같은 판정이 반복되면 onChange 자체가 안 불린다 —
+    ///    (`Result`가 Equatable이라 같은 판정이 반복되면 onChange 자체가 안 불린다
     ///     통과 햅틱도 유효/무효가 실제로 뒤집힐 때 한 번만 울린다)
     private func press() {
         if result.isValid { Delight.verified() }

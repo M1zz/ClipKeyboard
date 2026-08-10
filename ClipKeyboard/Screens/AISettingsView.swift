@@ -2,7 +2,7 @@
 //  AISettingsView.swift
 //  ClipKeyboard
 //
-//  Apple Intelligence(온디바이스 AI) 기능 설정 — iOS 26+ Apple Intelligence 기기 전용.
+//  Apple Intelligence(온디바이스 AI) 기능 설정 - iOS 26+ Apple Intelligence 기기 전용.
 //  분류 보강 / 붙여넣기 앱 제안 / 번역 기본 언어를 관리한다.
 //
 

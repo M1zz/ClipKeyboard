@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # ClipKeyboardShareExtension를 빌드 타겟으로 등록한다.
-# (소스/Info.plist/entitlements는 이미 작성돼 있고 타겟만 없던 상태 — README 참고)
+# (소스/Info.plist/entitlements는 이미 작성돼 있고 타겟만 없던 상태 - README 참고)
 require "xcodeproj"
 
 PROJ = "ClipKeyboard.xcodeproj"
@@ -10,7 +10,7 @@ app  = proj.targets.find { |t| t.name == "ClipKeyboard" }
 raise "main app target not found" unless app
 
 if proj.targets.any? { |t| t.name == "ClipKeyboardShareExtension" }
-  puts "already registered — nothing to do"; exit 0
+  puts "already registered - nothing to do"; exit 0
 end
 
 # 1) 앱 익스텐션 타겟 생성 (.appex)

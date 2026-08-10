@@ -20,7 +20,7 @@ struct ComboPreviewSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var loadedMemo: Memo?
-    /// 방금 복사한 단계 인덱스 — 체크 표시 피드백용(1.5초 후 원복).
+    /// 방금 복사한 단계 인덱스 - 체크 표시 피드백용(1.5초 후 원복).
     @State private var copiedStepIndex: Int?
 
     var body: some View {
@@ -52,7 +52,7 @@ struct ComboPreviewSheet: View {
     private func content(for memo: Memo) -> some View {
         let steps = resolvedSteps(for: memo)
         VStack(alignment: .leading, spacing: 0) {
-            // 헤더 — 콤보 제목
+            // 헤더 - 콤보 제목
             HStack(spacing: 8) {
                 Image(systemName: AppSymbol.squareStack3dUpFill)
                     .foregroundColor(theme.accent)
@@ -67,7 +67,7 @@ struct ComboPreviewSheet: View {
             .padding(.top, 24)
             .padding(.bottom, 4)
 
-            // 값 선택 안내 — 값을 눌러 하나를 복사한다.
+            // 값 선택 안내 - 값을 눌러 하나를 복사한다.
             HStack(spacing: 6) {
                 Image(systemName: AppSymbol.docOnDoc)
                     .font(.footnote)
@@ -110,10 +110,10 @@ struct ComboPreviewSheet: View {
         .background(theme.bg)
     }
 
-    /// 단계 하나 — 번호 뱃지 + 값 + 복사 버튼.
+    /// 단계 하나 - 번호 뱃지 + 값 + 복사 버튼.
     /// 앱에서는 순차 입력 대신 값 하나씩 복사해 쓰므로 각 단계에 복사 버튼을 단다.
     private func stepRow(index idx: Int, step: String) -> some View {
-        // 행 전체가 탭 대상 — 값 하나를 골라 복사한다.
+        // 행 전체가 탭 대상 - 값 하나를 골라 복사한다.
         Button {
             copyStep(step, at: idx)
         } label: {
@@ -123,7 +123,7 @@ struct ComboPreviewSheet: View {
                     .foregroundColor(.white)
                     .frame(width: 22, height: 22)
                     .background(Circle().fill(theme.accent))
-                Text(step.isEmpty ? "—" : step)
+                Text(step.isEmpty ? "" : step)
                     .font(.body)
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -142,7 +142,7 @@ struct ComboPreviewSheet: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(String(
             format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
-            idx + 1, step.isEmpty ? "—" : step))
+            idx + 1, step.isEmpty ? "" : step))
         .accessibilityHint(NSLocalizedString("탭하면 이 값을 복사합니다", comment: "Combo step copy hint"))
     }
 
@@ -153,10 +153,10 @@ struct ComboPreviewSheet: View {
 
         // 콤보 값을 골라 쓴 것도 **쓴 것**이다. 여기서 안 세면 콤보만 사용 기록에서 빠져
         // 금고에도 안 쌓이고 영수증에도 안 오른다(지금까지 그랬다).
-        // 어느 값을 골랐는지 함께 알린다 — 붙여넣기 연습이 "복사한 그것"과 맞는지 봐야 한다.
+        // 어느 값을 골랐는지 함께 알린다 - 붙여넣기 연습이 "복사한 그것"과 맞는지 봐야 한다.
         try? MemoStore.shared.incrementClipCount(for: comboId, copiedText: step)
 
-        // 복사했으면 시트는 물러난다. 체크 표시를 볼 만큼만 두고 닫는다 —
+        // 복사했으면 시트는 물러난다. 체크 표시를 볼 만큼만 두고 닫는다
         // 바로 닫으면 어느 값을 복사했는지 확인할 새가 없다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             dismiss()
@@ -176,7 +176,7 @@ struct ComboPreviewSheet: View {
 // MARK: - Combo Import Sheet (기존 단축어를 골라 값으로 가져오기)
 
 /// 이미 만든 단축어들을 골라 그 값을 새 콤보의 값(단계)으로 복사한다.
-/// 값 복사 방식 — 원본과 링크되지 않는다(원본을 고쳐도 콤보는 그대로).
+/// 값 복사 방식 - 원본과 링크되지 않는다(원본을 고쳐도 콤보는 그대로).
 struct ComboImportSheet: View {
     /// 선택한 단축어들의 값(순서대로).
     let onPick: ([String]) -> Void
@@ -246,7 +246,7 @@ struct ComboImportSheet: View {
             }
             .onAppear {
                 let all = (try? MemoStore.shared.load(type: .memo)) ?? []
-                // 텍스트 단축어만 — 보안(암호문)·이미지·콤보는 값 복사가 애매해 제외.
+                // 텍스트 단축어만 - 보안(암호문)·이미지·콤보는 값 복사가 애매해 제외.
                 memos = all.filter {
                     !$0.isSecure && $0.imageFileNames.isEmpty && !$0.isCombo
                         && $0.contentType == .text && !$0.value.isEmpty

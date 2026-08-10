@@ -2,7 +2,7 @@
 //  CrashReportsView.swift
 //  ClipKeyboard
 //
-//  안정성 화면 — `DiagnosticsService` 가 허브에 올린 크래시·행 진단을 읽어 본다.
+//  안정성 화면 - `DiagnosticsService` 가 허브에 올린 크래시·행 진단을 읽어 본다.
 //  (설정 > 지원 > 안정성, 마스터 모드 전용)
 //
 //  수집만 하고 볼 곳이 없으면 반쪽이다. 여기서 답해야 하는 질문은 하나다:
@@ -75,7 +75,7 @@ struct CrashReportsView: View {
         .refreshable { await load() }
     }
 
-    /// 버전별 건수 — "이번 버전에서 늘었나"를 한눈에.
+    /// 버전별 건수 - "이번 버전에서 늘었나"를 한눈에.
     private var versionSection: some View {
         let grouped = Dictionary(grouping: reports, by: \.appVersion)
             .map { (version: $0.key, count: $0.value.count) }
@@ -111,7 +111,7 @@ struct CrashReportsView: View {
                     if !report.detail.isEmpty && report.detail != "-" {
                         Text(report.detail).font(.caption).foregroundColor(theme.textMuted)
                     }
-                    // 콜스택은 길어서 접어둔다 — 필요할 때만 펼쳐 본다.
+                    // 콜스택은 길어서 접어둔다 - 필요할 때만 펼쳐 본다.
                     DisclosureGroup(NSLocalizedString("콜스택", comment: "Call stack disclosure")) {
                         Text(report.stack)
                             .font(.system(.caption2, design: .monospaced))
@@ -144,7 +144,7 @@ struct CrashReportsView: View {
 }
 
 /// 허브에서 크래시 리포트를 읽는다.
-/// ⚠️ `DiagnosticsService`(MetricKit 의존, iOS 전용)와 분리해 둔다 —
+/// ⚠️ `DiagnosticsService`(MetricKit 의존, iOS 전용)와 분리해 둔다
 ///    조회는 맥 카탈리스트에서도 되어야 하고, 수집과 조회는 수명주기가 다르다.
 enum CrashReportReader {
 
@@ -152,7 +152,7 @@ enum CrashReportReader {
         let config = ClipKeyboardSpec.feedback
         let database = CKContainer(identifier: config.containerIdentifier).publicCloudDatabase
 
-        // 통계 조회와 같은 방식 — appId 인덱스 없이 클라이언트에서 거른다.
+        // 통계 조회와 같은 방식 - appId 인덱스 없이 클라이언트에서 거른다.
         let query = CKQuery(recordType: "CrashReport", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 

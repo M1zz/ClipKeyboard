@@ -8,7 +8,7 @@
 import SwiftUI
 import StoreKit
 
-/// Paywall — Pro 업그레이드 화면
+/// Paywall - Pro 업그레이드 화면
 /// 제한 도달 시 자연스럽게 표시
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
@@ -22,7 +22,7 @@ struct PaywallView: View {
     @State private var showSuccessAnimation = false
     /// trial 상태가 바뀌었음을 알려 view를 다시 그리게 하는 tick (ProFeatureManager가 struct라 직접 observe 불가)
     @State private var trialTick: Int = 0
-    /// 전환 완료 여부 — 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
+    /// 전환 완료 여부 - 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
     @State private var didConvert = false
 
     var body: some View {
@@ -111,7 +111,7 @@ struct PaywallView: View {
 
     private var valueProps: some View {
         VStack(alignment: .leading, spacing: 12) {
-            // 개인화된 증거 — 이미 절약한 시간(있을 때만). 가장 강력한 전환 훅.
+            // 개인화된 증거 - 이미 절약한 시간(있을 때만). 가장 강력한 전환 훅.
             if let proof = timeSavedProof {
                 HStack(spacing: 10) {
                     Image(systemName: AppSymbol.clockArrowCirclepath)
@@ -130,9 +130,9 @@ struct PaywallView: View {
             }
 
             valueRow("checkmark.seal.fill",
-                     NSLocalizedString("IBAN·타임존·계좌 응대를 무제한 저장 — 어떤 앱에서든 탭 한 번", comment: "Paywall value: unlimited save"))
+                     NSLocalizedString("IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번", comment: "Paywall value: unlimited save"))
             valueRow("text.bubble.fill",
-                     NSLocalizedString("프로페셔널 영어 템플릿을 마음껏 — 비원어민도 유창하게", comment: "Paywall value: english templates"))
+                     NSLocalizedString("프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게", comment: "Paywall value: english templates"))
             valueRow("icloud.fill",
                      NSLocalizedString("iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
         }
@@ -153,7 +153,7 @@ struct PaywallView: View {
         }
     }
 
-    /// 이미 절약한 시간을 증거로 — 5분 이상일 때만 노출.
+    /// 이미 절약한 시간을 증거로 - 5분 이상일 때만 노출.
     private var timeSavedProof: String? {
         let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
         guard seconds >= 300 else { return nil }
@@ -226,10 +226,10 @@ struct PaywallView: View {
                        pro: String(format: NSLocalizedString("%d개", comment: "count unit"), 100))
 
             featureRow(NSLocalizedString("iCloud 백업", comment: "iCloud"),
-                       free: "—", pro: "✓", isProOnly: true)
+                       free: "", pro: "✓", isProOnly: true)
 
             featureRow(NSLocalizedString("생체인증 잠금", comment: "Biometric"),
-                       free: "—", pro: "✓", isProOnly: true)
+                       free: "", pro: "✓", isProOnly: true)
 
             featureRow(NSLocalizedString("이미지 단축어", comment: "Image"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeImageMemoLimit),
@@ -243,10 +243,10 @@ struct PaywallView: View {
     }
 
     private func featureRow(_ name: String, free: String, pro: String, isProOnly: Bool = false) -> some View {
-        let freeLabel = free == "—"
+        let freeLabel = free == ""
             ? NSLocalizedString("미포함", comment: "Feature not included")
             : free == "✓" ? NSLocalizedString("포함", comment: "Feature included") : free
-        let proLabel = pro == "—"
+        let proLabel = pro == ""
             ? NSLocalizedString("미포함", comment: "Feature not included")
             : pro == "✓" ? NSLocalizedString("포함", comment: "Feature included") : pro
 
@@ -280,7 +280,7 @@ struct PaywallView: View {
     private var purchaseSection: some View {
         VStack(spacing: 12) {
             if ProFeatureManager.hasPermanentPro {
-                // 이미 Pro (구매 / 그랜드파더 / TestFlight) — store.isPro만 보면 그랜드파더 누락
+                // 이미 Pro (구매 / 그랜드파더 / TestFlight) - store.isPro만 보면 그랜드파더 누락
                 Label(NSLocalizedString("Pro 활성화됨", comment: "Pro active"),
                       systemImage: AppSymbol.checkmarkSealFill)
                     .font(.headline)
@@ -401,7 +401,7 @@ struct PaywallView: View {
             Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                 .foregroundStyle(.green)
                 .accessibilityHidden(true)
-            Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+            Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
                 .font(.body)
                 .fontWeight(.medium)
             Spacer()
@@ -415,7 +415,7 @@ struct PaywallView: View {
 
     private var priceText: String {
         if let product = store.proProduct {
-            return String(format: NSLocalizedString("Pro 업그레이드 — %@", comment: "Price"), product.displayPrice)
+            return String(format: NSLocalizedString("Pro 업그레이드: %@", comment: "Price"), product.displayPrice)
         }
         return NSLocalizedString("Pro 업그레이드", comment: "Upgrade")
     }

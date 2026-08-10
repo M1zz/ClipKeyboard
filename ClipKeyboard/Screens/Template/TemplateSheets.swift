@@ -18,9 +18,9 @@ struct TemplateInputSheet: View {
     let onCancel: () -> Void
     /// v4.0.8: 미리보기 계산용. 빈 문자열이면 미리보기 미표시.
     var originalText: String = ""
-    /// v4.0.8: attachedTemplate 흐름이면 본 메모 본문 — preview 결합 표시용.
+    /// v4.0.8: attachedTemplate 흐름이면 본 메모 본문 - preview 결합 표시용.
     var baseMemoValue: String = ""
-    /// 저장값 귀속용 — PlaceholderSelectorView가 값 저장/로드 시 사용.
+    /// 저장값 귀속용 - PlaceholderSelectorView가 값 저장/로드 시 사용.
     var sourceMemoId: UUID = UUID()
     var sourceMemoTitle: String = ""
 
@@ -28,7 +28,7 @@ struct TemplateInputSheet: View {
     private let attachedTemplateTip = AttachedTemplateTip()
     private let templateInfoTip = TemplateInfoTip()
 
-    /// 템플릿에 든 날짜 토큰 — 자동(오늘) 대신 선택 가능.
+    /// 템플릿에 든 날짜 토큰 - 자동(오늘) 대신 선택 가능.
     private var dateTokensInInput: [String] {
         ["{날짜}", "{date}"].filter { originalText.contains($0) }
     }
@@ -46,7 +46,7 @@ struct TemplateInputSheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                // 상단 설명 — 다른 뷰들처럼 TipKit 팁으로(플로팅, 닫기 가능).
+                // 상단 설명 - 다른 뷰들처럼 TipKit 팁으로(플로팅, 닫기 가능).
                 Section {
                     Group {
                         if baseMemoValue.isEmpty {
@@ -60,7 +60,7 @@ struct TemplateInputSheet: View {
                     .listRowSeparator(.hidden)
                 } header: { EmptyView() }
 
-                // 실시간 결합 미리보기 — '값 선택'보다 위에 둬서 채우는 동안 결과가 바로 보인다.
+                // 실시간 결합 미리보기 - '값 선택'보다 위에 둬서 채우는 동안 결과가 바로 보인다.
                 if !previewText.isEmpty {
                     Section {
                         VStack(alignment: .leading, spacing: 6) {
@@ -87,7 +87,7 @@ struct TemplateInputSheet: View {
                 }
 
                 Section {
-                    // 값 선택 — 다른 섹션과 동일한 흰 카드 스타일(embedded: 자체 회색 카드 제거)
+                    // 값 선택 - 다른 섹션과 동일한 흰 카드 스타일(embedded: 자체 회색 카드 제거)
                     ForEach(placeholders, id: \.self) { placeholder in
                         PlaceholderSelectorView(
                             placeholder: placeholder,
@@ -104,7 +104,7 @@ struct TemplateInputSheet: View {
                     Text(NSLocalizedString("값 선택", comment: "Select value"))
                 }
 
-                // 날짜 토큰 — 오늘/내일/다음 주/2주 뒤/직접 선택 (다른 섹션과 동일한 흰 카드)
+                // 날짜 토큰 - 오늘/내일/다음 주/2주 뒤/직접 선택 (다른 섹션과 동일한 흰 카드)
                 if !dateTokensInInput.isEmpty {
                     Section {
                         ForEach(dateTokensInInput, id: \.self) { token in
@@ -504,7 +504,7 @@ struct DatePlaceholderSelector: View {
 extension String {
     /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
     /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
-    /// - Parameter font: 칩 텍스트에 적용할 폰트 — 주변 텍스트와 크기를 맞추기 위해 호출부가 지정.
+    /// - Parameter font: 칩 텍스트에 적용할 폰트 - 주변 텍스트와 크기를 맞추기 위해 호출부가 지정.
     func templateChipAttributed(theme: AppTheme, font: Font = .body.weight(.semibold)) -> AttributedString {
         guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
             return AttributedString(self)
@@ -533,7 +533,7 @@ extension String {
         return out
     }
 
-    /// `{변수}`가 있으면 칩으로, 없으면 그대로 반환 — 제목·본문 등 모든 노출면에서 부담 없이
+    /// `{변수}`가 있으면 칩으로, 없으면 그대로 반환 - 제목·본문 등 모든 노출면에서 부담 없이
     /// 쓰는 진입점(중괄호가 없는 대다수 문자열은 정규식 비용 없이 즉시 반환).
     /// "플레이스홀더는 어디서든 원문 {중괄호}가 아닌 하이라이트로 보인다" 규칙의 구현.
     func templateAwareAttributed(theme: AppTheme, font: Font) -> AttributedString {
@@ -579,7 +579,7 @@ struct TemplateFillSheet: View {
         TemplateVariableProcessor.substitute(memo.value, with: inputs)
     }
 
-    /// 미리보기용 — 아직 안 채운 변수는 그대로 남겨 칩으로 보이게 한다.
+    /// 미리보기용 - 아직 안 채운 변수는 그대로 남겨 칩으로 보이게 한다.
     /// (onAppear가 inputs를 빈 문자열("")로 초기화하므로, 빈 값까지 치환하면
     ///  {금액} 같은 미입력 변수가 빈칸으로 지워져 프리뷰에서 사라진다 → 빈 값은 제외.)
     private var previewValue: String {
@@ -587,7 +587,7 @@ struct TemplateFillSheet: View {
         return TemplateVariableProcessor.substitute(memo.value, with: filled)
     }
 
-    /// 제목 — 채울 변수가 하나뿐이면 변수명 기반("금액 입력")으로 더 구체적으로,
+    /// 제목 - 채울 변수가 하나뿐이면 변수명 기반("금액 입력")으로 더 구체적으로,
     /// 여러 개면 일반 "템플릿 입력"으로 표시.
     private var fillTitle: String {
         let custom = memo.value.extractTemplatePlaceholders()
@@ -603,7 +603,7 @@ struct TemplateFillSheet: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // MARK: 미리보기 — 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
+                // MARK: 미리보기 - 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
                 // 다른 화면(TemplateInputSheet/TemplateEditSheet)과 동일하게 중괄호 없는 강조색
                 // 칩으로 표시한다(templateChipAttributed).
                 VStack(alignment: .leading, spacing: 6) {
@@ -697,14 +697,14 @@ private struct TemplateFillRow: View {
 
     @Environment(\.appTheme) private var theme
     @State private var savedValues: [String] = []
-    /// "추가"용 입력칸 — 채울 값(value)과 분리해, 추가하면 비워진다.
+    /// "추가"용 입력칸 - 채울 값(value)과 분리해, 추가하면 비워진다.
     @State private var newValue: String = ""
 
     private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            // 토큰 이름 헤더 — 여러 변수일 때 어느 칸인지 구분.
+            // 토큰 이름 헤더 - 여러 변수일 때 어느 칸인지 구분.
             Text(placeholder.strippingTemplateBraces)
                 .font(.body.weight(.semibold))
                 .foregroundColor(theme.textMuted)
@@ -722,7 +722,7 @@ private struct TemplateFillRow: View {
         .onAppear { loadSaved() }
     }
 
-    // MARK: 숫자 입력 — 1-9 키패드 + ⌫ + 00/000/0000 + 저장값 칩
+    // MARK: 숫자 입력 - 1-9 키패드 + ⌫ + 00/000/0000 + 저장값 칩
 
     @ViewBuilder
     private var numericSection: some View {
@@ -772,7 +772,7 @@ private struct TemplateFillRow: View {
         }
     }
 
-    // MARK: 텍스트 입력 — TextField(직접 입력) + 저장값 빠른 선택 칩
+    // MARK: 텍스트 입력 - TextField(직접 입력) + 저장값 빠른 선택 칩
 
     @ViewBuilder
     private var textSection: some View {

@@ -243,7 +243,7 @@ struct Memo: Identifiable, Codable {
         case imageFileName, imageFileNames, contentType
     }
 
-    /// 관용 디코더 — 누락 키를 모두 기본값으로 허용한다. ⚠️ 하위호환 필수:
+    /// 관용 디코더 - 누락 키를 모두 기본값으로 허용한다. ⚠️ 하위호환 필수:
     /// 합성 Codable은 비옵셔널 키 누락 시 keyNotFound를 던져 [Memo] 전체 디코딩을
     /// 무너뜨린다. 메인 앱이 쓴 데이터(isTemplate 키 없음, comboValues 키 추가)나
     /// childMemoIds/comboInterval이 없던 구버전 데이터를 키보드·위젯이 읽어도

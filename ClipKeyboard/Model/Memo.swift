@@ -37,7 +37,7 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case employeeID = "사번/학번"
     case image = "이미지"
     case text = "텍스트"
-    // v4.0 글로벌 피봇 추가 — 영어 rawValue (신규 국제 결제/세무/크립토 식별자)
+    // v4.0 글로벌 피봇 추가 - 영어 rawValue (신규 국제 결제/세무/크립토 식별자)
     case iban = "IBAN"
     case swift = "SWIFT/BIC"
     case vat = "VAT Number"
@@ -251,7 +251,7 @@ struct Memo: Identifiable, Codable {
     var category: String = "기본"
     var isSecure: Bool = false
     var templateVariables: [String] = []
-    /// 템플릿 여부(계산형) — 본문에 {변수}가 있으면(=templateVariables 비어있지 않으면) 템플릿.
+    /// 템플릿 여부(계산형) - 본문에 {변수}가 있으면(=templateVariables 비어있지 않으면) 템플릿.
     /// 별도 토글/타입 없이 "변수 있으면 템플릿"으로 자동 판정.
     var isTemplate: Bool { !templateVariables.isEmpty }
 
@@ -259,11 +259,11 @@ struct Memo: Identifiable, Codable {
     var placeholderValues: [String: [String]] = [:]
 
     /// 콤보 = 메모 안의 순서 있는 텍스트 단계들("이어지는 메모"). 비어있지 않으면 콤보.
-    /// (출시본 4.3.x에도 있던 필드 — 기존 인라인 콤보 데이터와 그대로 호환.)
+    /// (출시본 4.3.x에도 있던 필드 - 기존 인라인 콤보 데이터와 그대로 호환.)
     var comboValues: [String] = []
     /// 콤보 순차 입력 시 단계 간 시간 간격(초).
     var comboInterval: TimeInterval = 2.0
-    /// 콤보 여부(계산형) — 단계가 하나라도 있으면 콤보.
+    /// 콤보 여부(계산형) - 단계가 하나라도 있으면 콤보.
     var isCombo: Bool { !comboValues.isEmpty }
     /// (레거시) 콤보=자식 메모 참조. 마이그레이션 디코드용으로만 보관. 신규 로직 미사용.
     var childMemoIds: [UUID] = []
@@ -281,7 +281,7 @@ struct Memo: Identifiable, Codable {
     /// 값이 있으면 카드 내용 힌트(자동 요약 대신)로도 쓰인다.
     /// Optional이라 기존 데이터와 완전 하위 호환 (없으면 nil).
     var hint: String?
-    /// 힌트를 키보드에서도 표시할지 — ON이면 키보드 셀의 "표시할 이름"이 잠시 힌트로
+    /// 힌트를 키보드에서도 표시할지 - ON이면 키보드 셀의 "표시할 이름"이 잠시 힌트로
     /// 바뀌었다 돌아온다(동기화). hint가 비어있으면 무의미. 기본 ON.
     var hintShownOnKeyboard: Bool = true
 
@@ -316,7 +316,7 @@ struct Memo: Identifiable, Codable {
         self.isFavorite = false
     }
 
-    /// 관용적 디코더 — 모든 필드를 `decodeIfPresent` + 기본값으로 읽는다.
+    /// 관용적 디코더 - 모든 필드를 `decodeIfPresent` + 기본값으로 읽는다.
     /// ⚠️ 매우 중요(하위호환): 합성 Codable은 CodingKeys의 비옵셔널 키가 JSON에
     /// 없으면 `keyNotFound`를 던져 **[Memo] 배열 전체 디코딩이 실패**한다. 그러면
     /// load 폴백이 OldMemo(title/value만)로 떨어져 카테고리·즐겨찾기·콤보 등이
@@ -407,7 +407,7 @@ struct Memo: Identifiable, Codable {
         try c.encodeIfPresent(hint, forKey: .hint)
         try c.encode(hintShownOnKeyboard, forKey: .hintShownOnKeyboard)
 
-        // 레거시 키도 함께 기록 — 구버전 디코더가 필수로 요구하는 키.
+        // 레거시 키도 함께 기록 - 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)
         try legacy.encode(isTemplate, forKey: .isTemplate)
         try legacy.encode(isCombo, forKey: .isCombo)
@@ -434,12 +434,12 @@ struct Memo: Identifiable, Codable {
 
 // Combo Item Type - 어떤 종류의 항목인지
 enum ComboItemType: String, Codable {
-    // ⚠️ rawValue는 저장 데이터에 직렬화됨 — 용어가 바뀌어도 절대 변경 금지("메모" 유지).
+    // ⚠️ rawValue는 저장 데이터에 직렬화됨 - 용어가 바뀌어도 절대 변경 금지("메모" 유지).
     case memo = "메모"
     case clipboardHistory = "클립보드"
     case template = "템플릿"
 
-    // 다국어 지원 표시명 — rawValue와 분리(용어 개편: 저장 항목은 '단축어').
+    // 다국어 지원 표시명 - rawValue와 분리(용어 개편: 저장 항목은 '단축어').
     var localizedName: String {
         switch self {
         case .memo: return NSLocalizedString("단축어", comment: "Snippet (saved key-value item) display name")

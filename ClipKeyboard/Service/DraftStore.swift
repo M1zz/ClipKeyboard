@@ -51,7 +51,7 @@ final class DraftStore: ObservableObject {
 
     private func persist(_ items: [SavedDraft]) {
         let sorted = items.sorted { $0.savedAt > $1.savedAt }
-        // 임시 저장본이 조용히 안 써지면 사용자는 작성 중이던 내용을 잃는다 —
+        // 임시 저장본이 조용히 안 써지면 사용자는 작성 중이던 내용을 잃는다
         // 실패를 로그로 남겨야 나중에 원인을 찾을 수 있다.
         if let url = Self.fileURL() {
             do {

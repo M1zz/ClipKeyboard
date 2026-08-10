@@ -2,11 +2,11 @@
 //  GuestCreature.swift
 //  ClipKeyboard
 //
-//  가끔 찾아오는 손님 — 새와 고양이.
+//  가끔 찾아오는 손님 - 새와 고양이.
 //
 //  ⚠️ **상시로 돌아다니지 않는다.** 원래 아이디어는 고양이가 계속 폴짝거리는 것이었지만,
 //     하루에 수십 번 여는 도구에서 무언가 늘 움직이면 셋째 날부터는 귀여움이 아니라
-//     소음이 된다. 그래서 둘 다 **어쩌다 마주치는 손님**으로 만든다 —
+//     소음이 된다. 그래서 둘 다 **어쩌다 마주치는 손님**으로 만든다
 //     한참 있다 한 번 와서 잠깐 머물고 간다. 반가움은 희소성에서 나온다.
 //
 //  ⚠️ 격자 전체를 가로지르지 않고 **카드 한 장 위에서** 벌어진다.
@@ -41,7 +41,7 @@ final class GuestScheduler: ObservableObject {
               !reduceMotion,
               !ProcessInfo.processInfo.isLowPowerModeEnabled else { return }
 
-        // 화면을 열자마자 오면 우연이 아니라 연출로 읽힌다 — 첫 방문도 한 박자 뒤에.
+        // 화면을 열자마자 오면 우연이 아니라 연출로 읽힌다 - 첫 방문도 한 박자 뒤에.
         schedule(after: skin.visitInterval * 0.35, candidates: candidates)
     }
 
@@ -86,7 +86,7 @@ final class GuestScheduler: ObservableObject {
 /// 카드 위에 나타나는 손님. `kind` 에 따라 새/고양이로 그려진다.
 struct GuestCreature: View {
     let kind: LivingSkin
-    /// 카드 너비 — 착지 지점을 정하는 데 쓴다.
+    /// 카드 너비 - 착지 지점을 정하는 데 쓴다.
     let cardWidth: CGFloat
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -139,7 +139,7 @@ struct GuestCreature: View {
 
 // MARK: - 실루엣
 
-/// 새 — 몸통 하나와 날개 한 장으로 읽히는 최소 형태.
+/// 새 - 몸통 하나와 날개 한 장으로 읽히는 최소 형태.
 private struct BirdShape: View {
     var body: some View {
         Canvas { context, size in
@@ -166,7 +166,7 @@ private struct BirdShape: View {
     }
 }
 
-/// 고양이 — 귀 둘, 몸통, 꼬리. 옆모습 실루엣.
+/// 고양이 - 귀 둘, 몸통, 꼬리. 옆모습 실루엣.
 private struct CatShape: View {
     var body: some View {
         Canvas { context, size in

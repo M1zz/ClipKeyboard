@@ -5,9 +5,9 @@
 //  키캡 스킨의 계약을 고정한다.
 //
 //  가장 중요한 두 지점:
-//   ① **기본값은 항상 `.classic`(예전 모습)** — 키캡은 취향이 갈리는 변화라 원하는 사람만 켠다.
+//   ① **기본값은 항상 `.classic`(예전 모습)** - 키캡은 취향이 갈리는 변화라 원하는 사람만 켠다.
 //      저장된 값이 없거나, 깨졌거나, 모르는 값이어도 예전 모습으로 떨어져야 한다.
-//   ② **스킨은 색을 정하지 않는다** — 색은 테마와 커스텀 키 색이 담당한다.
+//   ② **스킨은 색을 정하지 않는다** - 색은 테마와 커스텀 키 색이 담당한다.
 //      스킨이 색까지 건드리기 시작하면 셋이 서로 덮어쓰며 싸운다.
 //
 
@@ -15,7 +15,7 @@ import Testing
 import SwiftUI
 @testable import ClipKeyboard
 
-@Suite("KeyboardSkin — 키캡 물성")
+@Suite("KeyboardSkin: 키캡 물성")
 struct KeyboardSkinTests {
 
     // MARK: - 기본값
@@ -26,7 +26,7 @@ struct KeyboardSkinTests {
         #expect(KeyboardSkin(rawValue: "") == nil)
     }
 
-    @Test("모든 스킨은 rawValue로 왕복한다 — 저장·복원이 안전해야 한다")
+    @Test("모든 스킨은 rawValue로 왕복한다. 저장·복원이 안전해야 한다")
     func roundTrips() {
         for skin in KeyboardSkin.allCases {
             #expect(KeyboardSkin(rawValue: skin.rawValue) == skin)
@@ -34,7 +34,7 @@ struct KeyboardSkinTests {
     }
 
     /// 값이 없거나 깨졌을 때 어디로 떨어지는지가 **기본 경험**을 정한다.
-    @Test("기본값은 예전 모습(classic)이다 — 키캡은 원하는 사람만 켠다")
+    @Test("기본값은 예전 모습(classic)이다. 키캡은 원하는 사람만 켠다")
     func defaultIsClassic() {
         #expect(KeyboardSkin(rawValue: "gundam") ?? .classic == .classic)
         #expect(KeyboardSkin.allCases.first == .classic, "기본이 목록 맨 위에 있어야 한다")
@@ -50,7 +50,7 @@ struct KeyboardSkinTests {
 
     // MARK: - 물성 일관성
 
-    /// 두께가 0이면 눌릴 바닥이 없다 — 스커트 그늘도 0이어야 앞뒤가 맞는다.
+    /// 두께가 0이면 눌릴 바닥이 없다 - 스커트 그늘도 0이어야 앞뒤가 맞는다.
     @Test("납작 스킨은 두께·그늘·그림자가 모두 없다")
     func flatHasNoDepth() {
         let flat = KeyboardSkin.flat
@@ -134,7 +134,7 @@ struct KeyboardSkinTests {
         #expect(classic.cornerRadius(base: 18) == 18, "모서리는 테마 값 그대로였다")
     }
 
-    /// 두께가 없으면 카드가 내려앉을 바닥이 없다 —
+    /// 두께가 없으면 카드가 내려앉을 바닥이 없다
     /// 그대로 두면 눌러도 아무 반응이 없는 죽은 카드가 된다.
     @Test("두께 없는 스킨은 카드가 예전 방식으로 반응한다")
     func zeroDepthFallsBackToLegacyBounce() {

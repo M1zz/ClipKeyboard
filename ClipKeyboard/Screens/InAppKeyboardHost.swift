@@ -3,7 +3,7 @@
 //  ClipKeyboard
 //
 //  앱 안에서 키보드가 글을 넣을 **자리**. 익스텐션의 `KeyboardViewController`가 하는 일을
-//  앱 프로세스에서 그대로 한다 — 다만 종착지가 호스트 앱의 텍스트 필드가 아니라
+//  앱 프로세스에서 그대로 한다 - 다만 종착지가 호스트 앱의 텍스트 필드가 아니라
 //  우리가 들고 있는 문자열이다.
 //
 //  ⚠️ 삽입 경로를 새로 만들지 않는다. `KeyboardView`는 예나 지금이나 `.addTextEntry`
@@ -12,7 +12,7 @@
 //
 //  ⚠️ 키보드 사용 통계(`keyboardPasteCount`·비콘)는 **건드리지 않는다.** 앱 안에서 눌러 본 것은
 //     키보드를 쓴 게 아니다. 섞으면 "키보드를 얼마나 쓰는가"라는 지표가 의미를 잃는다.
-//     문구별 사용 횟수(clipCount)는 올린다 — 그건 실제로 그 문구를 쓴 것이 맞다.
+//     문구별 사용 횟수(clipCount)는 올린다 - 그건 실제로 그 문구를 쓴 것이 맞다.
 //
 
 import SwiftUI
@@ -44,23 +44,23 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
               text: NSLocalizedString("계좌번호 좀 보내줄래?",
                                       comment: "In-app keyboard stage: sample incoming message")),
         // ⚠️ 길게 누르기는 **눈에 안 보이는 동작**이다. 화면에 버튼을 더 두지 않는 대신
-        //    이 줄로 알린다 — 안 알리면 아무도 모르는 기능이 된다.
+        //    이 줄로 알린다 - 안 알리면 아무도 모르는 기능이 된다.
         .init(side: .incoming,
               text: NSLocalizedString("아래 키보드에서 단축어를 눌러 보세요. 길게 누르면 복사돼요.",
                                       comment: "In-app keyboard stage: sample incoming hint"))
     ]
 
-    /// `KeyboardView`가 구독하는 상태 — X(전체 삭제) 버튼 노출 여부를 여기서 본다.
+    /// `KeyboardView`가 구독하는 상태 - X(전체 삭제) 버튼 노출 여부를 여기서 본다.
     let documentState = KeyboardDocumentState()
 
     private var tokens: [NSObjectProtocol] = []
-    /// 콤보 순차 입력이 도는 중인지 — 무대를 떠나면 멈춘다.
+    /// 콤보 순차 입력이 도는 중인지 - 무대를 떠나면 멈춘다.
     private var comboWorkItems: [DispatchWorkItem] = []
 
     // MARK: - 생애
 
     init() {
-        // 앱에는 "전체 접근" 개념이 없다 — 클립보드는 언제나 열려 있다.
+        // 앱에는 "전체 접근" 개념이 없다 - 클립보드는 언제나 열려 있다.
         // 이 값을 켜 두지 않으면 KeyboardView가 클립보드 동작을 막고
         // "설정 > 키보드에서 전체 접근을 켜세요" 라는 엉뚱한 안내를 띄운다.
         // 지구본은 앱 안에서 갈 곳이 없으므로 끈다.
@@ -72,7 +72,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         tokens.forEach { NotificationCenter.default.removeObserver($0) }
     }
 
-    /// 화면을 떠날 때 — 돌고 있던 콤보 순차 입력을 세운다.
+    /// 화면을 떠날 때 - 돌고 있던 콤보 순차 입력을 세운다.
     func stop() {
         comboWorkItems.forEach { $0.cancel() }
         comboWorkItems.removeAll()
@@ -178,7 +178,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
             insertResolved(processVariables(in: raw))
             trackUse(memoId: memoId)
         } else {
-            // 값을 물어봐야 한다 — 오버레이는 KeyboardView가 띄우고,
+            // 값을 물어봐야 한다 - 오버레이는 KeyboardView가 띄우고,
             // 다 채우면 `.templateInputComplete` 로 돌아온다.
             NotificationCenter.default.post(
                 name: .showTemplateInput,
@@ -199,7 +199,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         }
         processed = processVariables(in: processed)
 
-        // 템플릿을 문구에 붙여 쓴 경우(base + 템플릿) — 본문 뒤에 이어 붙인다.
+        // 템플릿을 문구에 붙여 쓴 경우(base + 템플릿) - 본문 뒤에 이어 붙인다.
         if let baseId = info["baseMemoId"] as? UUID,
            let base = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
             insertResolved(base.value.isEmpty ? processed : "\(base.value)\n\(processed)")
@@ -230,7 +230,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         guard index < values.count else { return }
 
         if index < values.count - 1 {
-            // 중간 단계에서 캐럿을 옮기면 다음 값이 엉뚱한 자리에 들어간다 —
+            // 중간 단계에서 캐럿을 옮기면 다음 값이 엉뚱한 자리에 들어간다
             // 커서 토큰은 마지막 단계에서만 살린다(익스텐션과 같은 규칙).
             insert(TemplateVariableProcessor.resolveCursor(in: processVariables(in: values[index])).text)
             KeyboardHaptics.mediumTap()
@@ -269,11 +269,11 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
             clipboard = UIPasteboard.general.string
         }
         #endif
-        // 커서 토큰은 남긴다 — insertResolved가 위치 계산에 쓴다.
+        // 커서 토큰은 남긴다 - insertResolved가 위치 계산에 쓴다.
         return TemplateVariableProcessor.process(text, clipboard: clipboard, keepCursorToken: true)
     }
 
-    /// 문구를 실제로 썼다 — 사용 횟수만 올린다(`.memoUsed` 알림도 여기서 나간다).
+    /// 문구를 실제로 썼다 - 사용 횟수만 올린다(`.memoUsed` 알림도 여기서 나간다).
     private func trackUse(memoId: UUID?) {
         guard let memoId else { return }
         do {

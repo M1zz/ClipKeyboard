@@ -39,7 +39,7 @@ final class DataCorruptionDetectionTests: XCTestCase {
         XCTAssertTrue(MemoStore.hasDetectedCorruption)
     }
 
-    /// 확인 버튼은 플래그만 지운다 — 격리 사본 정보까지 지워도 되지만
+    /// 확인 버튼은 플래그만 지운다 - 격리 사본 정보까지 지워도 되지만
     /// 플래그가 남아 매번 안내가 뜨는 일은 없어야 한다.
     func testClearingFlagStopsPrompt() {
         defaults.set(Date().timeIntervalSince1970, forKey: MemoStore.corruptionFlagKey)

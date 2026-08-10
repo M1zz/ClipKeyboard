@@ -1,4 +1,4 @@
-// macOS 측 드라이버 — 실제 ClipKeyboard.tap/Models.swift와 함께 컴파일된다.
+// macOS 측 드라이버 - 실제 ClipKeyboard.tap/Models.swift와 함께 컴파일된다.
 // roundtrip 모드: iOS가 인코딩한 JSON을 맥 디코더로 읽고(=iCloud 복원),
 //               맥 인코더로 재기록(=맥에서 편집 후 저장/재백업)하여 같은 경로에 덮어쓴다.
 import Foundation
@@ -48,7 +48,7 @@ case "verify-old":
     // 1.x OldMemo 포맷 폴백이 맥에서도 동작하는지 (MemoStore.load와 동일 로직)
     let data = try Data(contentsOf: URL(fileURLWithPath: dir + "/old_memos.json"))
     if let memos = try? dec.decode([Memo].self, from: data), !memos.isEmpty, !memos[0].title.isEmpty {
-        // 관용 디코더가 그대로 읽을 수도 있음 — title 보존만 확인
+        // 관용 디코더가 그대로 읽을 수도 있음 - title 보존만 확인
         guard memos[0].title == "옛날 메모", memos[0].value == "old value" else {
             fail("OldMemo 직접 디코드 결과 필드 손실")
         }
@@ -60,7 +60,7 @@ case "verify-old":
         }
         print("✅ 맥 OldMemo 폴백 마이그레이션 통과")
     } else {
-        fail("맥에서 OldMemo 포맷을 어떤 경로로도 읽지 못함 — 데이터 손실")
+        fail("맥에서 OldMemo 포맷을 어떤 경로로도 읽지 못함. 데이터 손실")
     }
 
 default:

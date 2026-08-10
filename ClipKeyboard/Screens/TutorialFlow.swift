@@ -2,11 +2,11 @@
 //  TutorialFlow.swift
 //  ClipKeyboard
 //
-//  **이어지는 튜토리얼** — 단축어 다음에 콤보, 그다음에 템플릿.
+//  **이어지는 튜토리얼** - 단축어 다음에 콤보, 그다음에 템플릿.
 //
 //  세 개를 한 번에 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를 다 설명하면
 //  하나도 안 남는다. **하나 만들고 → 써 보고 → 그다음 것을 권한다.**
-//  권할 때마다 빠져나갈 수 있어야 한다 — 붙잡으면 다음에 안 온다.
+//  권할 때마다 빠져나갈 수 있어야 한다 - 붙잡으면 다음에 안 온다.
 //
 //  ⚠️ 여기서 만드는 것도 전부 **진짜**다. 연습용 가짜를 만들었다가 지우면 아무것도 안 남는다.
 //
@@ -26,7 +26,7 @@ import LeeoKit
 enum TutorialChapter: String, Identifiable, CaseIterable {
     /// 템플릿 하나를 새로 만든다.
     case template
-    /// 이미 만든 단축어를 템플릿으로 바꿔 본다 — 기존 "템플릿으로 만들기" 기능을 그대로 태운다.
+    /// 이미 만든 단축어를 템플릿으로 바꿔 본다 - 기존 "템플릿으로 만들기" 기능을 그대로 태운다.
     case makeTemplate
     /// 여러 값을 하나로 묶는 콤보.
     case combo
@@ -77,7 +77,7 @@ enum TutorialChapter: String, Identifiable, CaseIterable {
 
 // MARK: - 권유
 
-/// "이어서 해볼까요?" — 붙잡지 않는 권유.
+/// "이어서 해볼까요?" - 붙잡지 않는 권유.
 struct TutorialInviteView: View {
     let chapter: TutorialChapter
     let onAccept: () -> Void
@@ -89,7 +89,7 @@ struct TutorialInviteView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            // "하나 더 있다"를 먼저 알린다 — 방금 하나를 끝낸 사람에게 필요한 건
+            // "하나 더 있다"를 먼저 알린다 - 방금 하나를 끝낸 사람에게 필요한 건
             // 새 제목이 아니라 **이게 몇 번째인지**다.
             Text(NSLocalizedString("튜토리얼이 하나 더 있어요", comment: "Tutorial invite: eyebrow"))
                 .font(.footnote.weight(.semibold))
@@ -152,11 +152,11 @@ struct CoachAnchorKey: PreferenceKey {
 
 // MARK: - 코치
 
-/// "만든 걸 눌러보세요" — 목록 위에 뜨는 안내.
+/// "만든 걸 눌러보세요" - 목록 위에 뜨는 안내.
 ///
 /// ⚠️ 처음에는 작은 회색 알약이었는데 **아무도 못 봤다.** 이 안내는 온보딩의 마지막 걸음이라
 ///    놓치면 흐름이 거기서 끊긴다. 그래서 배경을 강조색으로 채우고, 글자를 키우고,
-///    천천히 맥박처럼 커졌다 작아지게 했다 — 화면에서 **유일하게 움직이는 것**이라야 눈이 간다.
+///    천천히 맥박처럼 커졌다 작아지게 했다 - 화면에서 **유일하게 움직이는 것**이라야 눈이 간다.
 ///
 /// ⚠️ 닫기 버튼은 없다. 한 번 쓰면 스스로 사라진다.
 struct FirstUseCoachChip: View {
@@ -171,7 +171,7 @@ struct FirstUseCoachChip: View {
     var body: some View {
         VStack(spacing: 0) {
             if pointsUp {
-                // 말풍선 꼬리 — 안내가 무엇을 가리키는지 화살표 하나가 문장보다 빠르다.
+                // 말풍선 꼬리 - 안내가 무엇을 가리키는지 화살표 하나가 문장보다 빠르다.
                 Triangle()
                     .fill(theme.accent)
                     .frame(width: 16, height: 9)
@@ -226,9 +226,9 @@ private struct Triangle: Shape {
 ///
 /// ⚠️ 왜 그냥 기다리지 않고 원을 보여주나: 방금 하나를 끝냈는데 화면이 잠시 아무것도 안 하면
 ///    **끝난 건지 멈춘 건지** 알 수 없다. 남은 시간이 보이면 그 몇 초가 '기다림'이 아니라
-///    '숨 고르기'가 된다 — 곧 뭔가 온다는 걸 알고 쉬는 것과 모르고 멈춰 있는 건 다르다.
+///    '숨 고르기'가 된다 - 곧 뭔가 온다는 걸 알고 쉬는 것과 모르고 멈춰 있는 건 다르다.
 ///
-/// ⚠️ 시간이 지나면 스스로 사라진다. 닫는 버튼은 없다 — 누를 것이 하나 더 생기면
+/// ⚠️ 시간이 지나면 스스로 사라진다. 닫는 버튼은 없다 - 누를 것이 하나 더 생기면
 ///    쉬라고 만든 자리가 또 하나의 할 일이 된다.
 struct NextChapterCountdown: View {
     let endsAt: Date
@@ -275,7 +275,7 @@ struct NextChapterCountdown: View {
 
 // MARK: - 콤보 만들기
 
-/// 콤보 한 개를 만든다. 칸을 **둘만** 둔다 — 온보딩에서 세 칸을 채우게 하면 거기서 나간다.
+/// 콤보 한 개를 만든다. 칸을 **둘만** 둔다 - 온보딩에서 세 칸을 채우게 하면 거기서 나간다.
 struct ComboTutorialView: View {
     let onCreated: (Memo) -> Void
     let onSkip: () -> Void
@@ -368,7 +368,7 @@ struct ComboTutorialView: View {
 
     private func save() {
         guard ready else { return }
-        // 콤보는 본문(value)이 비고 단계(comboValues)에 값이 들어간다 — isCombo 는 계산형이다.
+        // 콤보는 본문(value)이 비고 단계(comboValues)에 값이 들어간다 - isCombo 는 계산형이다.
         let memo = Memo(
             title: NSLocalizedString("내 소개", comment: "Combo tutorial: created combo title"),
             value: "",
@@ -381,7 +381,7 @@ struct ComboTutorialView: View {
 
 // MARK: - 템플릿 만들기
 
-/// 템플릿 한 개를 만든다. 빈 문장부터 쓰게 하지 않고 **예문을 주고 고치게** 한다 —
+/// 템플릿 한 개를 만든다. 빈 문장부터 쓰게 하지 않고 **예문을 주고 고치게** 한다
 /// `{}` 를 어디에 왜 쓰는지는 설명보다 보여주는 쪽이 빠르다.
 struct TemplateTutorialView: View {
     let onCreated: (Memo) -> Void
@@ -389,7 +389,7 @@ struct TemplateTutorialView: View {
 
     @Environment(\.appTheme) private var theme
 
-    /// 두 걸음이다 — **값을 먼저 넣고**, 그다음 **그 자리를 뭐라고 부를지** 정한다.
+    /// 두 걸음이다 - **값을 먼저 넣고**, 그다음 **그 자리를 뭐라고 부를지** 정한다.
     ///
     /// ⚠️ 순서에 뜻이 있다. 손에 잡히는 것("이영훈")을 먼저 넣어 보면 문장이 어떻게
     ///    완성되는지가 눈에 들어오고, 그다음에야 "그럼 이 자리는 뭐라고 부를까"가
@@ -405,7 +405,7 @@ struct TemplateTutorialView: View {
     @State private var blankName: String = ""
     /// 그 칸에 넣어 볼 **값**. 만들어진 템플릿에 기억돼 다음에 제안으로 뜬다.
     @State private var sampleValue: String = ""
-    /// 이 템플릿 자체의 이름 — 목록과 키보드에 이 이름으로 보인다.
+    /// 이 템플릿 자체의 이름 - 목록과 키보드에 이 이름으로 보인다.
     @State private var templateName: String = ""
     @FocusState private var focused: Bool
 
@@ -417,19 +417,19 @@ struct TemplateTutorialView: View {
     private var trimmedValue: String { sampleValue.trimmingCharacters(in: .whitespacesAndNewlines) }
     private var trimmedTitle: String { templateName.trimmingCharacters(in: .whitespacesAndNewlines) }
 
-    /// 제안하는 템플릿 이름 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
+    /// 제안하는 템플릿 이름 - 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
     private var defaultTemplateName: String {
         NSLocalizedString("자기소개", comment: "Template tutorial: suggested template name")
     }
 
-    /// 저장 형식(중괄호)은 여기서만 만든다 — 화면에는 칩으로만 보인다.
+    /// 저장 형식(중괄호)은 여기서만 만든다 - 화면에는 칩으로만 보인다.
     private var templateBody: String {
         String(format: NSLocalizedString("안녕하세요, {%@}님. 확인 부탁드립니다.",
                                          comment: "Template tutorial: example body"),
                trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
     }
 
-    /// 값을 넣는 동안 보여줄 문장 — 아직 이름을 안 지었으니 자리는 중립적인 말로 둔다.
+    /// 값을 넣는 동안 보여줄 문장 - 아직 이름을 안 지었으니 자리는 중립적인 말로 둔다.
     private var valueStepBody: String {
         let slot = trimmedValue.isEmpty
             ? "{\(NSLocalizedString("여기", comment: "Template tutorial: neutral slot label"))}"
@@ -470,7 +470,7 @@ struct TemplateTutorialView: View {
                 .padding(.bottom, 22)
 
             // ⚠️ 중괄호를 **그대로 보여주지 않는다.** `{}` 는 저장 형식이지 사용자가 배울 문법이 아니다.
-            //    칸 이름을 정하는 동안엔 칩으로, 값을 넣는 동안엔 **채워진 문장**으로 보여준다 —
+            //    칸 이름을 정하는 동안엔 칩으로, 값을 넣는 동안엔 **채워진 문장**으로 보여준다
             //    같은 문장이 어떻게 달라지는지가 이 튜토리얼의 전부다.
             Text((step == .value ? valueStepBody : templateBody)
                     .templateAwareAttributed(theme: theme, font: .body))
@@ -567,7 +567,7 @@ struct TemplateTutorialView: View {
         )
     }
 
-    /// 사용자가 넣은 값과 **다른** 값 하나 — 같은 값이 두 줄이면 아무것도 안 보여준 셈이다.
+    /// 사용자가 넣은 값과 **다른** 값 하나 - 같은 값이 두 줄이면 아무것도 안 보여준 셈이다.
     private var alternateValue: String {
         let candidates = [
             NSLocalizedString("김민수", comment: "Placeholder example: person name 2"),
@@ -647,7 +647,7 @@ struct TemplateTutorialView: View {
         guard ready else { return }
         switch step {
         case .value:
-            // 다음 칸에 들어설 때 제안을 채워 둔다 — 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
+            // 다음 칸에 들어설 때 제안을 채워 둔다 - 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
             if trimmedBlank.isEmpty { blankName = defaultBlankName }
             withAnimation(.easeOut(duration: 0.25)) { step = .name }
             focused = true
@@ -664,7 +664,7 @@ struct TemplateTutorialView: View {
         let text = templateBody.trimmingCharacters(in: .whitespacesAndNewlines)
         // ⚠️ templateVariables 를 넣지 않으면 isTemplate=false 가 되어
         //    탭했을 때 {이름}이 그대로 복사된다.
-        // ⚠️ **이름이 둘**이라는 걸 저장에서도 지킨다 — 카드 제목은 템플릿의 이름("자기소개"),
+        // ⚠️ **이름이 둘**이라는 걸 저장에서도 지킨다 - 카드 제목은 템플릿의 이름("자기소개"),
         //    본문 안의 칸 이름은 변수 이름("소개하는 이름")이다. 섞으면 목록에서
         //    무엇을 쓰는 문구인지 알아볼 수 없다.
         let blank = trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank
@@ -673,16 +673,16 @@ struct TemplateTutorialView: View {
             value: text,
             templateVariables: TemplateVariableProcessor.extractCustomTokens(in: text)
         )
-        // 방금 넣어 본 값을 **그 칸의 기억**으로 남긴다 — 다음에 쓸 때 제안으로 뜬다.
+        // 방금 넣어 본 값을 **그 칸의 기억**으로 남긴다 - 다음에 쓸 때 제안으로 뜬다.
         // 배운 것이 화면 안에 흔적으로 남아야 "그래서 뭐가 달라졌지"가 안 된다.
         let token = "{\(blank)}"
         memo.placeholderValues = [token: [trimmedValue]]
 
         TutorialStore.insert(memo, onCreated: { created in
-            // ⚠️ 값이 사는 곳이 **둘**이다 — 메모 안(`placeholderValues`)과 앱 전체가 함께 보는
+            // ⚠️ 값이 사는 곳이 **둘**이다 - 메모 안(`placeholderValues`)과 앱 전체가 함께 보는
             //    저장소(`placeholder_values_{이름}`). 실제 입력 화면은 **뒤엣것**을 읽는다.
             //    메모에만 넣어 두면 목록에서 그 템플릿을 써 볼 때 제안이 하나도 안 뜬다
-            //    (튜토리얼에서 분명히 넣었는데 없다 — 데이터가 갈라져 보이는 지점이었다).
+            //    (튜토리얼에서 분명히 넣었는데 없다 - 데이터가 갈라져 보이는 지점이었다).
             //    앱의 다른 화면들이 쓰는 길(MemoAddViewModel.savePlaceholderValues)과 같은 길로 쓴다.
             MemoStore.shared.addPlaceholderValue(trimmedValue,
                                                  for: token,
@@ -700,11 +700,11 @@ struct TemplateTutorialView: View {
 /// ⚠️ 한 번 배우고 끝이 아니다. 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지, 콤보를 어떻게
 ///    만들었는지 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
 ///
-/// ⚠️ `startedFresh` 도 함께 켠다 — 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
+/// ⚠️ `startedFresh` 도 함께 켠다 - 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
 ///    꺼져 있어서 켜 주지 않으면 다시 하기를 눌러도 아무 일도 안 일어난다.
 /// 튜토리얼에서 **만든 것**을 기억하고, 끝난 뒤 지울지 물어보기 위한 자리.
 ///
-/// ⚠️ 여기서 만드는 것도 전부 진짜다 — 그래서 함부로 지우지 않는다. 다만 연습 삼아 만든
+/// ⚠️ 여기서 만드는 것도 전부 진짜다 - 그래서 함부로 지우지 않는다. 다만 연습 삼아 만든
 ///    것이 목록에 남아 거슬리는 사람도 있어, **끝나고 한 번 물어보고** 그때만 지운다.
 enum TutorialCreations {
 
@@ -763,9 +763,9 @@ enum TutorialReset {
         d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
         d.set(false, forKey: DefaultsKey.tutorialCleanupAsked)
         TutorialCreations.forget()
-        // 튜토리얼은 무대에서 시작한다 — 목록에 있으면 첫 걸음이 열리지 않는다.
+        // 튜토리얼은 무대에서 시작한다 - 목록에 있으면 첫 걸음이 열리지 않는다.
         d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
-        print("🎓 [TutorialReset] 튜토리얼 표식 초기화 — 처음부터 다시")
+        print("🎓 [TutorialReset] 튜토리얼 표식 초기화, 처음부터 다시")
     }
 }
 

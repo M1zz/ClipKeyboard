@@ -47,7 +47,7 @@ struct MacAppIntroView: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text(NSLocalizedString("Same snippets, same memos — available on macOS.", comment: "Mac hero subtitle"))
+            Text(NSLocalizedString("Same snippets, same memos: available on macOS.", comment: "Mac hero subtitle"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
@@ -98,7 +98,7 @@ struct MacAppIntroView: View {
                 Text(NSLocalizedString("Universal Purchase", comment: "Mac universal purchase title"))
                     .font(.body)
                     .fontWeight(.semibold)
-                Text(NSLocalizedString("If you've purchased Pro on iOS, it works on Mac automatically — no extra payment.", comment: "Universal purchase description"))
+                Text(NSLocalizedString("If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.", comment: "Universal purchase description"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)

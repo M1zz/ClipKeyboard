@@ -15,7 +15,7 @@ final class UsageBreakdownTests: XCTestCase {
 
     // MARK: - 단축어 개수 분포
 
-    /// 구간 경계가 정확해야 한다 — 7·10 은 사용자가 직접 물어본 지점이다.
+    /// 구간 경계가 정확해야 한다 - 7·10 은 사용자가 직접 물어본 지점이다.
     func testDistributionBucketBoundaries() {
         let metrics: [[String: Double]] = [
             ["shortcuts": 0],   // 0개
@@ -83,7 +83,7 @@ final class UsageBreakdownTests: XCTestCase {
         XCTAssertEqual(shares.first(where: { $0.name == "콤보" })?.count, 4)
     }
 
-    /// 데이터가 없으면 빈 배열 — 0으로 나누지 않는다.
+    /// 데이터가 없으면 빈 배열 - 0으로 나누지 않는다.
     func testTypeBreakdownEmptyWhenNoData() {
         XCTAssertTrue(UsageInsights.typeBreakdown(metrics: [["texts": 0]]).isEmpty)
         XCTAssertTrue(UsageInsights.typeBreakdown(metrics: []).isEmpty)
@@ -139,12 +139,12 @@ final class UsageBreakdownTests: XCTestCase {
         XCTAssertEqual(value("카테고리 사용"), "50%")
         XCTAssertEqual(value("클립보드 사용"), "50%")
         XCTAssertEqual(value("동기화 사용"), "50%")
-        // 안 쓰는 단축어는 **설치 평균이 아니라 전체 단축어 대비** 비율이다 — (2+8)/20
+        // 안 쓰는 단축어는 **설치 평균이 아니라 전체 단축어 대비** 비율이다 - (2+8)/20
         XCTAssertEqual(value("안 쓰는 단축어"), "50%")
         XCTAssertEqual(value("설치당 단축어"), "10.0")
     }
 
-    /// 표본이 없으면 빈 배열 — 0으로 나누지 않는다.
+    /// 표본이 없으면 빈 배열 - 0으로 나누지 않는다.
     func testMarketingSignalsEmptyWithoutSnapshots() {
         XCTAssertTrue(UsageInsights.marketingSignals(metrics: []).isEmpty)
     }

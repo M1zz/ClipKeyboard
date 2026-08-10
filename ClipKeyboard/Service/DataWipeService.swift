@@ -2,7 +2,7 @@
 //  DataWipeService.swift
 //  ClipKeyboard
 //
-//  "모든 데이터 삭제" — 앱이 기기에 만든 것을 한 번에 지운다.
+//  "모든 데이터 삭제" - 앱이 기기에 만든 것을 한 번에 지운다.
 //
 //  왜 필요한가
 //   ① GDPR 삭제권 / CCPA 대응. 개인정보 처리방침이 "앱 내에서 데이터를 지우면 영구
@@ -10,8 +10,8 @@
 //   ② 심사에서 리뷰어가 찾는 항목이다(사용자 생성 데이터를 지울 수 있는 경로).
 //
 //  ⚠️ 되돌릴 수 없다. 호출부에서 반드시 2단계 확인을 받을 것.
-//  ⚠️ 지우지 **않는** 것: 구매(Pro) 권한 — StoreKit 영수증에 묶여 있어 앱이 지울 수도
-//     없고 지워서도 안 된다(사용자가 돈을 낸 것). iCloud 백업도 건드리지 않는다 —
+//  ⚠️ 지우지 **않는** 것: 구매(Pro) 권한 - StoreKit 영수증에 묶여 있어 앱이 지울 수도
+//     없고 지워서도 안 된다(사용자가 돈을 낸 것). iCloud 백업도 건드리지 않는다
 //     사용자가 명시적으로 만든 사본이므로 CloudBackupView 에서 따로 지운다.
 //
 
@@ -19,7 +19,7 @@ import Foundation
 
 enum DataWipeService {
 
-    /// 삭제 결과 — 화면에 무엇이 지워졌는지 보여주기 위한 요약.
+    /// 삭제 결과 - 화면에 무엇이 지워졌는지 보여주기 위한 요약.
     struct Result {
         var deletedFiles: [String] = []
         var deletedImageCount: Int = 0
@@ -46,7 +46,7 @@ enum DataWipeService {
         "hiddenCategoryTabs_v1",
         "userCategoryIcons_v1",
         "category.feature.enabled.v1",
-        "memoCategoryAssignments_v1"   // 카테고리 사이드카 — 남으면 삭제 후 되살아난다
+        "memoCategoryAssignments_v1"   // 카테고리 사이드카 - 남으면 삭제 후 되살아난다
     ]
 
     // MARK: - 실행
@@ -97,13 +97,13 @@ enum DataWipeService {
             for key in groupKeys { group.removeObject(forKey: key) }
         }
 
-        // ④ 플레이스홀더 값 — 키가 `placeholder_values_{이름}` 이라 접두사로 훑는다
+        // ④ 플레이스홀더 값 - 키가 `placeholder_values_{이름}` 이라 접두사로 훑는다
         let standard = UserDefaults.standard
         let placeholderKeys = standard.dictionaryRepresentation().keys
             .filter { $0.hasPrefix("placeholder_values_") }
         for key in placeholderKeys { standard.removeObject(forKey: key) }
 
-        // ⑤ 메모리 상태 비우기 — 화면이 지워진 데이터를 계속 들고 있지 않게
+        // ⑤ 메모리 상태 비우기 - 화면이 지워진 데이터를 계속 들고 있지 않게
         let store = MemoStore.shared
         DispatchQueue.main.async {
             store.memos = []

@@ -7,8 +7,8 @@
 //  원래 사고: 카테고리 목록은 App Group UserDefaults 에만 있어서 백업·동기화 어디에도
 //  실리지 않았다. 새 기기에서 복원하면 메모는 다 살아나는데 카테고리 탭이 전부 사라졌다.
 //  여기서 지켜야 하는 성질은 두 가지다:
-//   ① 있는 걸 옮긴다 — 목록·아이콘·순서·숨김이 스냅샷에 담기고 그대로 복원된다
-//   ② **없는 걸로 있는 걸 지우지 않는다** — 빈 스냅샷이 기존 설정을 날리면 더 큰 사고다
+//   ① 있는 걸 옮긴다 - 목록·아이콘·순서·숨김이 스냅샷에 담기고 그대로 복원된다
+//   ② **없는 걸로 있는 걸 지우지 않는다** - 빈 스냅샷이 기존 설정을 날리면 더 큰 사고다
 //
 
 import XCTest
@@ -58,7 +58,7 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertTrue(restored.featureEnabled)
     }
 
-    /// 구버전이 만든(필드가 빠진) JSON도 읽혀야 한다 — 다운그레이드·상위호환 대비.
+    /// 구버전이 만든(필드가 빠진) JSON도 읽혀야 한다 - 다운그레이드·상위호환 대비.
     func testDecodesSnapshotWithMissingFields() throws {
         let json = #"{"categories":["업무"]}"#
         let data = try XCTUnwrap(json.data(using: .utf8))
@@ -123,7 +123,7 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.categoriesKey), ["소중한카테고리"])
     }
 
-    /// 카테고리가 복원되면 기능도 켜 준다 — 꺼져 있으면 탭이 안 보여 "복원 실패"로 보인다.
+    /// 카테고리가 복원되면 기능도 켜 준다 - 꺼져 있으면 탭이 안 보여 "복원 실패"로 보인다.
     func testApplyEnablesFeatureWhenCategoriesExist() {
         CategorySnapshotStore.apply(CategorySnapshot(categories: ["업무"]), strategy: .replace)
 
@@ -199,7 +199,7 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertTrue(snapshot.categories.isEmpty)
     }
 
-    /// 백업(`current`)은 전부 담는다 — "이 기기 상태를 그대로 되살리기"라
+    /// 백업(`current`)은 전부 담는다 - "이 기기 상태를 그대로 되살리기"라
     /// 아직 안 쓴 카테고리도 남아야 한다. 동기화와 기준이 다르다.
     func testCurrentKeepsUnusedCategoriesForBackup() {
         defaults.set(["업무", "아직안씀"], forKey: CategorySnapshotStore.categoriesKey)

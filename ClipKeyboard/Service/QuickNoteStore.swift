@@ -23,7 +23,7 @@ final class QuickNoteStore: ObservableObject {
     private init() {
         reload()
         // 다른 타겟/화면이 보관함을 바꿨을 때(공유 익스텐션 저장 등) 다시 읽어온다.
-        // 블록 기반 옵저버 사용 — NSObject 비상속 클래스에서 #selector 디스패치를 피한다.
+        // 블록 기반 옵저버 사용 - NSObject 비상속 클래스에서 #selector 디스패치를 피한다.
         changeObserver = NotificationCenter.default.addObserver(
             forName: .quickNotesChanged, object: nil, queue: .main
         ) { [weak self] _ in
@@ -117,11 +117,11 @@ final class QuickNoteStore: ObservableObject {
 
         // ⚠️ 저장이 실패하면 **원본을 지우면 안 된다.**
         //    예전에는 try? 로 삼키고 아래에서 보관함 항목을 무조건 제거해서,
-        //    저장 실패 시 메모도 없고 보관함 원본도 없는 — 캡처가 통째로 사라지는 상태가 됐다.
+        //    저장 실패 시 메모도 없고 보관함 원본도 없는 - 캡처가 통째로 사라지는 상태가 됐다.
         do {
             try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
-            AppLog.error(.store, "❌ [QuickNoteStore.promoteToMemo] 승격 저장 실패 — 보관함 원본을 유지한다: \(error.localizedDescription)")
+            AppLog.error(.store, "❌ [QuickNoteStore.promoteToMemo] 승격 저장 실패, 보관함 원본을 유지한다: \(error.localizedDescription)")
             return memo
         }
 

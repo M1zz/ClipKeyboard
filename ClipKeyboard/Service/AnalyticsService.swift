@@ -7,13 +7,13 @@
 //  - 이벤트/파라미터 taxonomy는 향후 다른 백엔드로 교체할 때 그대로 재사용하려고 유지한다.
 //  - 실제 백엔드를 붙일 땐 log()/setUserProperty() 본문만 바꾸면 모든 호출부가 그대로 동작한다.
 //
-//  ⚠️ 이 파일은 키보드 익스텐션 타겟에도 포함된다 — LeeoKit/CloudKit을 여기서 직접 참조하지 말 것.
+//  ⚠️ 이 파일은 키보드 익스텐션 타겟에도 포함된다 - LeeoKit/CloudKit을 여기서 직접 참조하지 말 것.
 //     전송은 메인 앱이 런치 시 `eventSink`를 꽂아 주는 방식으로만 연결한다(UsageReportingService).
 //
 
 import Foundation
 
-/// 키보드를 쓴 **날짜별** 원장 — 익스텐션이 쌓고, 메인 앱이 비우며 허브로 소급 전송한다.
+/// 키보드를 쓴 **날짜별** 원장 - 익스텐션이 쌓고, 메인 앱이 비우며 허브로 소급 전송한다.
 ///
 /// 왜 카운터 하나로 부족한가: `kbBeaconPendingCount`에는 "언제"가 없다. 앱을 2주 만에
 /// 열면 그 2주치 활동이 전부 '앱을 연 날 하루'로 뭉쳐, 키보드만 쓰는 사람의 활동일이
@@ -24,7 +24,7 @@ import Foundation
 enum KeyboardDayLedger {
 
     /// 원장 보관 한도. 앱을 이보다 오래 안 열면 가장 오래된 날부터 버린다.
-    /// (넉넉히 잡되 무한정 쌓이지는 않게 — 익스텐션이 매번 통째로 읽고 쓰는 사전이다)
+    /// (넉넉히 잡되 무한정 쌓이지는 않게 - 익스텐션이 매번 통째로 읽고 쓰는 사전이다)
     static let maxDays = 120
 
     /// 로컬 달력 기준 날짜 키. 사전순 = 시간순이라 오래된 날 정리에 그대로 쓴다.
@@ -63,7 +63,7 @@ enum KeyboardDayLedger {
     }
 
     /// 전송을 확정한 날짜만 원장에서 지운다.
-    /// ⚠️ 보내기 **전에** 지우지 말 것 — iCloud 미로그인이나 네트워크 실패로 못 보낸
+    /// ⚠️ 보내기 **전에** 지우지 말 것 - iCloud 미로그인이나 네트워크 실패로 못 보낸
     ///    날을 지우면 그 사람의 활동은 영영 복구되지 않는다.
     static func removeDays(_ keys: [String]) {
         guard !keys.isEmpty,
@@ -75,7 +75,7 @@ enum KeyboardDayLedger {
     }
 }
 
-/// 추적할 이벤트 이름 — 표준 이름 (snake_case, 40자 이내)
+/// 추적할 이벤트 이름 - 표준 이름 (snake_case, 40자 이내)
 enum AnalyticsEvent: String {
     /// Paywall 화면 노출
     case paywallView = "paywall_view"
@@ -93,7 +93,7 @@ enum AnalyticsEvent: String {
     case trialStarted = "trial_started"
     /// Paywall을 구매 없이 닫음 (닫기율 = view 대비)
     case paywallDismissed = "paywall_dismissed"
-    /// Paywall에서 구매 버튼을 탭함 (StoreKit 시트 진입 전) — "안 누름 vs 누르고 이탈" 분리
+    /// Paywall에서 구매 버튼을 탭함 (StoreKit 시트 진입 전) - "안 누름 vs 누르고 이탈" 분리
     case paywallCtaTapped = "paywall_cta_tapped"
     /// StoreKit 결제 사용자 취소
     case purchaseCancelled = "purchase_cancelled"
@@ -103,13 +103,13 @@ enum AnalyticsEvent: String {
     case proNudgeShown = "pro_nudge_shown"
     /// 가치 순간 Pro 넛지 탭 → 페이월
     case proNudgeTapped = "pro_nudge_tapped"
-    /// 온보딩을 끝까지 마침 — 획득 퍼널의 첫 단계.
+    /// 온보딩을 끝까지 마침 - 획득 퍼널의 첫 단계.
     /// 설치는 했는데 여기서 끊기면 첫인상 문제이고, 여기는 통과했는데 단축어를
     /// 안 만들면 가치 전달 문제다. 둘을 구분하려고 남긴다.
     case onboardingCompleted = "onboarding_completed"
 }
 
-/// 이벤트 파라미터 키 — 분석 시 슬라이싱용
+/// 이벤트 파라미터 키 - 분석 시 슬라이싱용
 enum AnalyticsParam: String {
     case productId = "product_id"
     case priceTier = "price_tier"          // "regular" | "offer"
@@ -129,7 +129,7 @@ enum AnalyticsParam: String {
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
 enum AnalyticsService {
 
-    /// 이벤트 전송 훅 — 메인 앱이 런치 시 UsageReportingService를 연결한다.
+    /// 이벤트 전송 훅 - 메인 앱이 런치 시 UsageReportingService를 연결한다.
     /// 키보드 익스텐션에서는 nil로 남아 콘솔 로깅만 수행한다.
     static var eventSink: ((String) -> Void)?
 
@@ -140,20 +140,20 @@ enum AnalyticsService {
         }
         print("📊 [Analytics] \(event.rawValue) \(stringKeyParams)")
 
-        // 허브 전송 — 이름 + 슬라이스 한 조각(triggeredBy > source)만. 값 자체는 보내지 않는다.
+        // 허브 전송 - 이름 + 슬라이스 한 조각(triggeredBy > source)만. 값 자체는 보내지 않는다.
         guard let eventSink else { return }
         let slice = (parameters[.triggeredBy] as? String) ?? (parameters[.source] as? String)
         eventSink(slice.map { "\(event.rawValue):\($0)" } ?? event.rawValue)
     }
 
-    /// 사용자가 의도적으로 분석 거부 — UserDefaults 토글로 제어 가능 (향후 옵션)
+    /// 사용자가 의도적으로 분석 거부 - UserDefaults 토글로 제어 가능 (향후 옵션)
     static func setCollectionEnabled(_ enabled: Bool) {
         print("📊 [Analytics] setCollectionEnabled=\(enabled)")
     }
 
     // MARK: - Convenience
 
-    /// Pro 구매 성공 — 일반가 또는 Offer Code 모두
+    /// Pro 구매 성공 - 일반가 또는 Offer Code 모두
     static func logPaywallPurchase(productId: String, isOfferCode: Bool, offerCode: String? = nil, currency: String = "USD", revenue: Double? = nil, triggeredBy: String? = nil) {
         var params: [AnalyticsParam: Any] = [
             .productId: productId,
@@ -175,14 +175,14 @@ enum AnalyticsService {
         }
     }
 
-    /// Paywall 화면 노출 — 어떤 한도/진입점이 트리거했는지 기록
+    /// Paywall 화면 노출 - 어떤 한도/진입점이 트리거했는지 기록
     static func logPaywallView(triggeredBy: String?) {
         var params: [AnalyticsParam: Any] = [:]
         if let triggeredBy { params[.triggeredBy] = triggeredBy }
         log(.paywallView, parameters: params)
     }
 
-    /// 7일 무료 체험 시작 — 어떤 한도가 trial을 유도했는지 슬라이싱
+    /// 7일 무료 체험 시작 - 어떤 한도가 trial을 유도했는지 슬라이싱
     static func logTrialStarted(triggeredBy: String?) {
         var params: [AnalyticsParam: Any] = [:]
         if let triggeredBy { params[.triggeredBy] = triggeredBy }
@@ -197,7 +197,7 @@ enum AnalyticsService {
         ])
     }
 
-    /// 키보드 사용 비콘 — 메인 앱 launch 시 호출. App Group에 익스텐션이 기록한 timestamp/카운트를 읽어 전송.
+    /// 키보드 사용 비콘 - 메인 앱 launch 시 호출. App Group에 익스텐션이 기록한 timestamp/카운트를 읽어 전송.
     /// 카운트 = 0이면 (= 비콘 미발생) 이벤트 생략. 보고 후 카운트 0으로 리셋.
     static func flushKeyboardBeacon() {
         guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
@@ -211,7 +211,7 @@ enum AnalyticsService {
             .useCount: count,
             .hoursSinceLastUse: hoursSince
         ])
-        // 보고 완료 — 카운트만 리셋 (lastUse는 그대로 두어 cohort 분석 가능)
+        // 보고 완료 - 카운트만 리셋 (lastUse는 그대로 두어 cohort 분석 가능)
         // 누적 사용 횟수는 따로 쌓아 사용 통계 스냅샷 지표(keyboardUses)로 보낸다.
         let total = defaults.integer(forKey: DefaultsKey.kbBeaconTotalCount) + count
         defaults.set(total, forKey: DefaultsKey.kbBeaconTotalCount)
@@ -249,9 +249,9 @@ enum AnalyticsService {
         log(event, parameters: [.source: source])
     }
 
-    // MARK: - User Properties (세그먼트 — 모든 퍼널을 이 축으로 쪼갤 수 있게)
+    // MARK: - User Properties (세그먼트 - 모든 퍼널을 이 축으로 쪼갤 수 있게)
 
-    /// 런치 시 1회 — Pro 여부·페르소나·키보드 활성 여부를 유저 속성으로 설정.
+    /// 런치 시 1회 - Pro 여부·페르소나·키보드 활성 여부를 유저 속성으로 설정.
     /// 이걸 박아두면 GA4에서 "페르소나별 전환", "키보드 켠 유저의 전환" 같은 슬라이싱이 가능.
     static func applyLaunchUserProperties(isPro: Bool, persona: String?, keyboardActive: Bool) {
         setUserProperty(isPro ? "yes" : "no", forName: "is_pro")
@@ -259,7 +259,7 @@ enum AnalyticsService {
         setUserProperty(keyboardActive ? "yes" : "no", forName: "keyboard_active")
     }
 
-    /// 메모 보유량 버킷 — 활성도/한도근접 세그먼트.
+    /// 메모 보유량 버킷 - 활성도/한도근접 세그먼트.
     static func setMemoBucket(_ count: Int) {
         let bucket: String
         switch count {
@@ -273,7 +273,7 @@ enum AnalyticsService {
     }
 
     private static func setUserProperty(_ value: String, forName name: String) {
-        // Firebase 제거됨 — 현재는 콘솔 로깅만 (백엔드 교체 지점)
+        // Firebase 제거됨 - 현재는 콘솔 로깅만 (백엔드 교체 지점)
         print("📊 [Analytics] userProperty \(name)=\(value)")
     }
 }

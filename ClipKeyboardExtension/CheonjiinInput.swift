@@ -10,7 +10,7 @@ import Foundation
 
 final class CheonjiinInput {
 
-    /// 강한 참조 — TypingKeyboardView가 @State로 hangulComposer를 보유하므로 cycle 없음.
+    /// 강한 참조 - TypingKeyboardView가 @State로 hangulComposer를 보유하므로 cycle 없음.
     var composer: HangulComposer?
 
     // MARK: - State
@@ -67,7 +67,7 @@ final class CheonjiinInput {
         "ㆍㅣㅣ": "ㅔ",
         "ㅣㆍㆍㅣ": "ㅒ",
         "ㆍㆍㅣㅣ": "ㅖ",
-        // 복합 모음 (ㅘ/ㅙ/ㅝ/ㅞ) — ㅗ/ㅜ + ㅏ/ㅓ/ㅐ/ㅔ
+        // 복합 모음 (ㅘ/ㅙ/ㅝ/ㅞ) - ㅗ/ㅜ + ㅏ/ㅓ/ㅐ/ㅔ
         "ㆍㅡㅣㆍ": "ㅘ",
         "ㆍㅡㅣㆍㅣ": "ㅙ",
         "ㅡㆍㆍㅣ": "ㅝ",
@@ -85,7 +85,7 @@ final class CheonjiinInput {
         }
     }
 
-    /// commit — Composer commit + 자체 state reset
+    /// commit - Composer commit + 자체 state reset
     func commit() {
         // 미완성 raw stroke만 폐기. composer로 합성된 모음은 syllable에 포함되어 commit됨.
         cleanupTentative()
@@ -116,17 +116,17 @@ final class CheonjiinInput {
         }
     }
 
-    /// 백스페이스 — 진행 중인 cycle/stroke를 되돌리거나 composer에 위임
+    /// 백스페이스 - 진행 중인 cycle/stroke를 되돌리거나 composer에 위임
     func backspace() {
         if prevTentativeRawCount > 0 {
-            // 임시 raw 표시 중 — 마지막 raw + 마지막 stroke 제거
+            // 임시 raw 표시 중 - 마지막 raw + 마지막 stroke 제거
             composer?.proxy?.deleteBackward()
             prevTentativeRawCount -= 1
             if !vowelStrokes.isEmpty { vowelStrokes.removeLast() }
             return
         }
         if !vowelStrokes.isEmpty {
-            // 합성된 모음 stroke 진행 중 — 마지막 stroke 제거 + 남은 stroke 재렌더
+            // 합성된 모음 stroke 진행 중 - 마지막 stroke 제거 + 남은 stroke 재렌더
             vowelStrokes.removeLast()
             clearPreviousRender()
             if !vowelStrokes.isEmpty {
@@ -158,7 +158,7 @@ final class CheonjiinInput {
     // MARK: - Handlers
 
     private func handleConsonant(key: String, cycle: [Character]) {
-        // 미완성 raw 모음 정리 — composer-rendered 모음은 syllable에 포함되므로 유지.
+        // 미완성 raw 모음 정리 - composer-rendered 모음은 syllable에 포함되므로 유지.
         cleanupTentative()
         vowelStrokes.removeAll()
         lastVowelStrokeTime = nil
@@ -175,7 +175,7 @@ final class CheonjiinInput {
             composer?.backspace()
             composer?.input(cycle[consonantTapIndex])
         } else {
-            // 새 키 또는 timeout 후 — 새로 시작
+            // 새 키 또는 timeout 후 - 새로 시작
             consonantTapIndex = 0
             composer?.input(cycle[0])
         }
@@ -190,7 +190,7 @@ final class CheonjiinInput {
         consonantTapIndex = 0
 
         let now = Date()
-        // timeout 체크 — 지났으면 새 stroke sequence 시작
+        // timeout 체크 - 지났으면 새 stroke sequence 시작
         if let last = lastVowelStrokeTime, now.timeIntervalSince(last) > vowelTimeout {
             clearPreviousRender()
             vowelStrokes.removeAll()
@@ -198,7 +198,7 @@ final class CheonjiinInput {
         lastVowelStrokeTime = now
 
         vowelStrokes.append(stroke)
-        // 직전 render 완전히 되돌리고 현재 buffer로 새로 렌더 — state 일관성 보장.
+        // 직전 render 완전히 되돌리고 현재 buffer로 새로 렌더 - state 일관성 보장.
         clearPreviousRender()
         renderCurrentStrokes()
     }
@@ -236,7 +236,7 @@ final class CheonjiinInput {
             return
         }
 
-        // 4) 매치 불가 — 마지막 stroke 그대로 commit
+        // 4) 매치 불가 - 마지막 stroke 그대로 commit
         for ch in vowelStrokes {
             composer?.input(ch)
         }

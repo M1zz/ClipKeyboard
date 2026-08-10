@@ -52,7 +52,7 @@ final class MemoListSortingTests: XCTestCase {
     // MARK: 기본 정렬
 
     func testDefaultSort_FavoritesFirst_ThenMostRecent() {
-        // Given — 즐겨찾기는 오래됐고, 일반 메모가 더 최신
+        // Given - 즐겨찾기는 오래됐고, 일반 메모가 더 최신
         let favOld = memo("즐겨찾기(오래됨)", favorite: true, editedDaysAgo: 10)
         let newest = memo("최신", editedDaysAgo: 0)
         let older = memo("그 다음", editedDaysAgo: 3)
@@ -60,14 +60,14 @@ final class MemoListSortingTests: XCTestCase {
         // When
         let sorted = viewModel.sortMemos([older, newest, favOld])
 
-        // Then — 즐겨찾기 먼저, 나머지는 최근 수정순
+        // Then - 즐겨찾기 먼저, 나머지는 최근 수정순
         XCTAssertEqual(sorted.map(\.title), ["즐겨찾기(오래됨)", "최신", "그 다음"])
     }
 
     // MARK: 수동 순서
 
     func testManualOrder_FollowsSavedOrder_AndUnpinsFavorites() {
-        // Given — 수동 순서: [일반, 즐겨찾기] (즐겨찾기 고정 해제 확인용)
+        // Given - 수동 순서: [일반, 즐겨찾기] (즐겨찾기 고정 해제 확인용)
         let fav = memo("즐겨찾기", favorite: true, editedDaysAgo: 0)
         let plain = memo("일반", editedDaysAgo: 5)
         groupDefaults?.set([plain.id.uuidString, fav.id.uuidString], forKey: manualOrderKey)
@@ -76,12 +76,12 @@ final class MemoListSortingTests: XCTestCase {
         // When
         let sorted = viewModel.sortMemos([fav, plain])
 
-        // Then — 즐겨찾기여도 내가 둔 순서 그대로
+        // Then - 즐겨찾기여도 내가 둔 순서 그대로
         XCTAssertEqual(sorted.map(\.title), ["일반", "즐겨찾기"])
     }
 
     func testManualOrder_NewMemoNotInOrder_GoesToTop() {
-        // Given — 저장된 순서엔 A, B만 있음
+        // Given - 저장된 순서엔 A, B만 있음
         let a = memo("A", editedDaysAgo: 5)
         let b = memo("B", editedDaysAgo: 4)
         let newMemo = memo("새 메모", editedDaysAgo: 0)
@@ -91,22 +91,22 @@ final class MemoListSortingTests: XCTestCase {
         // When
         let sorted = viewModel.sortMemos([a, b, newMemo])
 
-        // Then — 순서 미등록 새 메모는 맨 위
+        // Then - 순서 미등록 새 메모는 맨 위
         XCTAssertEqual(sorted.map(\.title), ["새 메모", "A", "B"])
     }
 
     func testCommitReorder_PersistsOrderAcrossReload() throws {
-        // Given — 재정렬 모드에서 순서를 바꾼 상태
+        // Given - 재정렬 모드에서 순서를 바꾼 상태
         let a = memo("A", editedDaysAgo: 2)
         let b = memo("B", editedDaysAgo: 1)
         let c = memo("C", editedDaysAgo: 0)
         try MemoStore.shared.save(memos: [a, b, c], type: .memo)
         viewModel.reorderList = [c, a, b]
 
-        // When — 완료(영구 저장)
+        // When - 완료(영구 저장)
         viewModel.commitReorder()
 
-        // Then — UserDefaults에 순서+활성 플래그 저장, 이후 정렬이 이 순서를 따름
+        // Then - UserDefaults에 순서+활성 플래그 저장, 이후 정렬이 이 순서를 따름
         XCTAssertEqual(groupDefaults?.bool(forKey: manualOrderActiveKey), true)
         XCTAssertEqual(groupDefaults?.stringArray(forKey: manualOrderKey),
                        [c.id.uuidString, a.id.uuidString, b.id.uuidString])
@@ -120,7 +120,7 @@ final class MemoListSortingTests: XCTestCase {
     // MARK: 카테고리 범위 재정렬 (현재 탭 메모만 재정렬 → 전체 순서에 병합)
 
     func testCommitReorder_SubsetOnly_MergesIntoGlobalOrder_KeepingOthersInPlace() {
-        // Given — 전체 표시 순서 [A(여행), B(기본), C(여행), D(기본)]에서 여행 탭만 [C, A]로 재정렬
+        // Given - 전체 표시 순서 [A(여행), B(기본), C(여행), D(기본)]에서 여행 탭만 [C, A]로 재정렬
         var a = memo("A", editedDaysAgo: 4); a.category = "여행"
         let b = memo("B", editedDaysAgo: 3)
         var c = memo("C", editedDaysAgo: 2); c.category = "여행"
@@ -131,7 +131,7 @@ final class MemoListSortingTests: XCTestCase {
         // When
         viewModel.commitReorder()
 
-        // Then — 여행 메모가 있던 슬롯(0, 2번째)만 [C, A]로 치환, B·D 위치는 그대로
+        // Then - 여행 메모가 있던 슬롯(0, 2번째)만 [C, A]로 치환, B·D 위치는 그대로
         XCTAssertEqual(viewModel.loadedData.map(\.title), ["C", "B", "A", "D"])
         XCTAssertEqual(groupDefaults?.stringArray(forKey: manualOrderKey),
                        [c, b, a, d].map { $0.id.uuidString })
@@ -139,27 +139,27 @@ final class MemoListSortingTests: XCTestCase {
     }
 
     func testReorderScope_CustomTab_ContainsOnlyThatCategory_InDisplayOrder() {
-        // Given — 표시 순서 [C(여행), B(기본), A(여행)]
+        // Given - 표시 순서 [C(여행), B(기본), A(여행)]
         var a = memo("A", editedDaysAgo: 2); a.category = "여행"
         let b = memo("B", editedDaysAgo: 1)
         var c = memo("C", editedDaysAgo: 0); c.category = "여행"
         viewModel.loadedData = [c, b, a]
         viewModel.customCategories = ["여행"]
 
-        // Then — 여행 탭 재정렬 대상은 여행 메모만, 화면과 같은 순서
+        // Then - 여행 탭 재정렬 대상은 여행 메모만, 화면과 같은 순서
         let scoped = viewModel.reorderScopeMemos(for: .custom("여행"))
         XCTAssertEqual(scoped.map(\.title), ["C", "A"])
     }
 
     func testReorderScope_BasicTab_ExcludesCustomCategoryAndFavorites() {
-        // Given — 여행 카테고리 메모 + 즐겨찾기 + 일반
+        // Given - 여행 카테고리 메모 + 즐겨찾기 + 일반
         var trip = memo("여행메모", editedDaysAgo: 0); trip.category = "여행"
         let fav = memo("즐겨찾기", favorite: true, editedDaysAgo: 1)
         let plain = memo("일반", editedDaysAgo: 2)
         viewModel.loadedData = [trip, fav, plain]
         viewModel.customCategories = ["여행"]
 
-        // Then — 기본 탭 재정렬 대상은 일반 메모뿐 (여행·즐겨찾기는 각자 탭에서)
+        // Then - 기본 탭 재정렬 대상은 일반 메모뿐 (여행·즐겨찾기는 각자 탭에서)
         let scoped = viewModel.reorderScopeMemos(for: .basic)
         XCTAssertEqual(scoped.map(\.title), ["일반"])
     }
@@ -182,7 +182,7 @@ final class BuiltInCategoryTests: XCTestCase {
     }
 
     func testTextMemosCategory_IncludesTemplatesExcludesImageAndCombo() {
-        // "메모+템플릿" 탭 — 텍스트 기반이면 템플릿도 포함, 이미지·콤보는 제외
+        // "메모+템플릿" 탭 - 텍스트 기반이면 템플릿도 포함, 이미지·콤보는 제외
         XCTAssertTrue(BuiltInCategory.textMemos.matches(plain))
         XCTAssertTrue(BuiltInCategory.textMemos.matches(template))
         XCTAssertFalse(BuiltInCategory.textMemos.matches(combo))

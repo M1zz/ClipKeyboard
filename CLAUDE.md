@@ -159,6 +159,34 @@ class MemoStore: ObservableObject {
 - 큰 파일은 MARK 주석으로 섹션 구분
 - 재사용 가능한 컴포넌트는 별도 파일로 분리
 
+### 7. 문장부호: 엠대시(U+2014) 절대 금지
+
+⛔️ **U+2014 (em dash, 긴 줄표) 문자는 이 저장소 어디에도 쓰지 않는다.**
+이 문서에 그 글자를 예시로도 적지 않는 이유가 규칙 그 자체다.
+
+- 대상: 앱 UI 문자열, String Catalog, 웹 페이지(docs/), 릴리즈 노트, 문서, 코드 주석, 커밋 메시지 전부
+- 이유: AI가 쓴 글처럼 읽히고, 한국어 문장의 리듬을 어색하게 만든다
+- 대체: 문맥에 맞게 고른다
+  - 사용자에게 보이는 글: 쉼표(,) · 마침표(.) · 가운뎃점(·) · 콜론(:)
+  - 코드 주석: 하이픈(`-`)
+  - 끼워 넣는 말은 괄호로, 두 문장이면 마침표로 끊는다
+- U+2013 (en dash) 도 같은 이유로 피한다. 범위는 `~` 또는 `to`
+
+```swift
+// ❌ BAD  (U+2014 사용)
+Text(NSLocalizedString("단축어 10개 잠김 \u{2014} Pro 구매 시 동기화됩니다", comment: ""))
+
+// ✅ GOOD
+Text(NSLocalizedString("단축어 10개 잠김, Pro 구매 시 동기화됩니다", comment: ""))
+// 무대 - 앱을 열면 키보드가 보인다
+```
+
+**검사** (결과가 비어 있어야 한다):
+
+```bash
+grep -rn "$(printf '\u2014')" . --exclude-dir=.git --exclude-dir=build
+```
+
 ## 주요 패턴 및 규칙
 
 ### 1. App Group 사용
@@ -400,7 +428,7 @@ if let dict = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.dictionaryRe
 
 ## 버전 히스토리
 
-- **4.3.4**: iCloud 백업 안정성 보완 — 파일 내보내기/가져오기(escape hatch), 원본 보호용 atomic 저장, 백업 결과 정확 표시(조용한 실패 제거), 맥 백업 실패 수정
+- **4.3.4**: iCloud 백업 안정성 보완: 파일 내보내기/가져오기(escape hatch), 원본 보호용 atomic 저장, 백업 결과 정확 표시(조용한 실패 제거), 맥 백업 실패 수정
 - **3.0.1**: 다국어 지원 추가
 - **3.0.0**: Combo 시스템, 스마트 클립보드 분류
 - **2.x**: 템플릿 시스템, CloudKit 백업

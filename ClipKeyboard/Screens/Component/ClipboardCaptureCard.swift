@@ -32,12 +32,12 @@ struct ClipboardCaptureCard: View {
     let value: String
     let detectedType: ClipboardItemType
     let confidence: Double
-    /// 자동 제안된 제목(키) — 원탭 저장 시 그대로 사용.
+    /// 자동 제안된 제목(키) - 원탭 저장 시 그대로 사용.
     let suggestedTitle: String
     let onDismiss: () -> Void
     /// 한 탭 즉시 저장 (제안된 제목으로).
     let onSaveDirect: () -> Void
-    /// "편집"으로 진입 — 카드만 닫고 MemoAdd로 이동.
+    /// "편집"으로 진입 - 카드만 닫고 MemoAdd로 이동.
     let onEditTap: () -> Void
 
     var body: some View {
@@ -108,7 +108,7 @@ struct ClipboardCaptureCard: View {
             .fixedSize(horizontal: false, vertical: true)
     }
 
-    /// 자동 제안된 제목(키)을 칩으로 노출 — 무엇으로 저장될지 미리 보여준다.
+    /// 자동 제안된 제목(키)을 칩으로 노출 - 무엇으로 저장될지 미리 보여준다.
     private var suggestedTitleRow: some View {
         HStack(spacing: 6) {
             Text(NSLocalizedString("제목", comment: "Label: memo title (key)"))
@@ -139,7 +139,7 @@ struct ClipboardCaptureCard: View {
 
     private var actionRow: some View {
         HStack(spacing: 10) {
-            // 한 탭 즉시 저장 — 제안된 제목으로 바로 메모 생성.
+            // 한 탭 즉시 저장 - 제안된 제목으로 바로 메모 생성.
             Button(action: onSaveDirect) {
                 HStack(spacing: 4) {
                     Image(systemName: AppSymbol.plusCircleFill)
@@ -159,7 +159,7 @@ struct ClipboardCaptureCard: View {
                 String(format: NSLocalizedString("%@ 제목으로 바로 저장", comment: "VoiceOver hint: save with suggested title"), suggestedTitle)
             )
 
-            // 제목을 바꾸고 싶을 때만 — 편집 화면으로.
+            // 제목을 바꾸고 싶을 때만 - 편집 화면으로.
             NavigationLink {
                 MemoAdd(insertedKeyword: suggestedTitle, insertedValue: value)
             } label: {

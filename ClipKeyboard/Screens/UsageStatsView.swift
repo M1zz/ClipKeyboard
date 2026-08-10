@@ -2,9 +2,9 @@
 //  UsageStatsView.swift
 //  ClipKeyboard
 //
-//  개발자(마스터 모드) 전용 — 공용 허브(FeedbackHub)에서 실제 데이터를 읽어와 보여준다.
+//  개발자(마스터 모드) 전용 - 공용 허브(FeedbackHub)에서 실제 데이터를 읽어와 보여준다.
 //   ① 사용자 수·활성 사용자 (UsageSnapshot)
-//   ② 앱 사용 내용 — 이벤트별 발생 건수/설치 수 (UsageEvent)
+//   ② 앱 사용 내용 - 이벤트별 발생 건수/설치 수 (UsageEvent)
 //   ③ 접수된 피드백 요약 (Feedback) → 인박스로 이동
 //
 //  ⚠️ 남의 레코드를 읽는 화면이라 CloudKit 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
@@ -23,7 +23,7 @@ struct UsageStatsView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
 
-    /// 이벤트 표본을 이름별로 묶은 것 — 차트와 같은 원본을 쓴다.
+    /// 이벤트 표본을 이름별로 묶은 것 - 차트와 같은 원본을 쓴다.
     private var events: [UsageReportingService.EventStat] {
         UsageReportingService.eventStats(from: eventSamples)
     }
@@ -110,7 +110,7 @@ struct UsageStatsView: View {
 
     // MARK: - 키보드 사용량
 
-    /// 차트가 아니라 숫자로 보여준다 — "얼마나 쓰나"는 한 값이라 막대를 그릴 이유가 없다.
+    /// 차트가 아니라 숫자로 보여준다 - "얼마나 쓰나"는 한 값이라 막대를 그릴 이유가 없다.
     @ViewBuilder
     private var keyboardSection: some View {
         let usage = UsageInsights.keyboardUsage(snapshots: snapshots)
@@ -146,7 +146,7 @@ struct UsageStatsView: View {
             } header: {
                 Text(NSLocalizedString("단축어 개수 분포", comment: "Usage stats section: shortcut distribution"))
             } footer: {
-                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요 — 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
+                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
                     .font(.body)
             }
         }
@@ -198,7 +198,7 @@ struct UsageStatsView: View {
     // MARK: - 전환 퍼널 (페이월)
 
     /// 페이월 노출 → 구매 버튼 탭 → 구매 완료. 각 단계는 **설치 수** 기준이다.
-    /// ⚠️ 이벤트에 6시간 쓰로틀이 걸려 있어 절대 수치는 실제보다 작다 —
+    /// ⚠️ 이벤트에 6시간 쓰로틀이 걸려 있어 절대 수치는 실제보다 작다
     ///    단계 **사이의 비율**을 보는 용도다.
     @ViewBuilder
     private var funnelSection: some View {
@@ -218,7 +218,7 @@ struct UsageStatsView: View {
                                 .font(.body)
                                 .foregroundColor(theme.textMuted)
                         }
-                        // 첫 단계 대비 비율을 막대로 — 숫자만 있으면 감이 안 온다
+                        // 첫 단계 대비 비율을 막대로 - 숫자만 있으면 감이 안 온다
                         GeometryReader { geo in
                             ZStack(alignment: .leading) {
                                 Capsule().fill(theme.textFaint.opacity(0.2))
@@ -443,7 +443,7 @@ struct UsageStatsView: View {
             .sorted { $0.count > $1.count }
     }
 
-    /// 0/1 플래그가 아닌 수치 지표 — 값을 가진 설치들의 평균.
+    /// 0/1 플래그가 아닌 수치 지표 - 값을 가진 설치들의 평균.
     private struct MetricAvg { let key: String; let value: Double }
     private var metricAverages: [MetricAvg] {
         var sums: [String: (total: Double, n: Int)] = [:]
@@ -458,7 +458,7 @@ struct UsageStatsView: View {
             .sorted { $0.key < $1.key }
     }
 
-    /// 0/1 플래그(Pro·키보드 사용·페르소나) — 전체 설치 대비 비율.
+    /// 0/1 플래그(Pro·키보드 사용·페르소나) - 전체 설치 대비 비율.
     private struct FlagShare { let key: String; let value: Double; let count: Int }
     private var flagShares: [FlagShare] {
         guard !snapshots.isEmpty else { return [] }

@@ -12,7 +12,7 @@ import LeeoKit
 // MARK: - Model
 
 /// 각 시나리오 하나.
-/// internal — 단축어 추가 화면(MemoAdd)의 활용사례 토글에서 재사용.
+/// internal - 단축어 추가 화면(MemoAdd)의 활용사례 토글에서 재사용.
 struct UsageScenario: Identifiable {
     let id = UUID()
     let titleKey: String       // 상황 제목
@@ -103,7 +103,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "💰",
             titleKey: "송금 & 계좌",
-            descKey: "계좌번호, 카카오페이, 토스 — 한 번 저장, 탭으로 전달.",
+            descKey: "계좌번호, 카카오페이, 토스: 한 번 저장, 탭으로 전달.",
             scenarios: [
                 UsageScenario(
                     titleKey: "계좌번호 공유",
@@ -140,7 +140,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "💼",
             titleKey: "직장 & 업무",
-            descKey: "부재중 답장, 회의 안내, 업무 보고 — 반복 문구를 탭 한 번으로.",
+            descKey: "부재중 답장, 회의 안내, 업무 보고: 반복 문구를 탭 한 번으로.",
             scenarios: [
                 UsageScenario(
                     titleKey: "부재중 자동응답",
@@ -177,7 +177,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "🚚",
             titleKey: "일상 & 배달",
-            descKey: "배송지, 약속 잡기, 자주 쓰는 주소 — 저장해두면 편합니다.",
+            descKey: "배송지, 약속 잡기, 자주 쓰는 주소: 저장해두면 편합니다.",
             scenarios: [
                 UsageScenario(
                     titleKey: "배송지 주소",
@@ -207,7 +207,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "✍️",
             titleKey: "공식 & 소개",
-            descKey: "자기소개, 이메일 서명, 첫인사 — 인상을 남기는 문구를 저장.",
+            descKey: "자기소개, 이메일 서명, 첫인사: 인상을 남기는 문구를 저장.",
             scenarios: [
                 UsageScenario(
                     titleKey: "자기소개",
@@ -237,7 +237,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "🧠",
             titleKey: "스마트 클립보드",
-            descKey: "복사한 내용이 자동 분류돼요 — 나중에 필터로 바로 찾기.",
+            descKey: "복사한 내용이 자동 분류돼요. 나중에 필터로 바로 찾기.",
             scenarios: [
                 UsageScenario(
                     titleKey: "계좌번호 자동 인식",
@@ -269,7 +269,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "💰",
             titleKey: "Transfer & Pembayaran",
-            descKey: "Rekening BCA, GoPay, OVO — simpan sekali, kirim dengan satu ketukan.",
+            descKey: "Rekening BCA, GoPay, OVO: simpan sekali, kirim dengan satu ketukan.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Nomor rekening bank",
@@ -302,7 +302,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "💼",
             titleKey: "Profesional & Kerja",
-            descKey: "Perkenalan, izin, follow-up email — template siap pakai.",
+            descKey: "Perkenalan, izin, follow-up email: template siap pakai.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Perkenalan diri",
@@ -335,7 +335,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "🛒",
             titleKey: "Belanja & Pengiriman",
-            descKey: "Alamat pengiriman Tokopedia/Shopee — satu ketukan, langsung salin.",
+            descKey: "Alamat pengiriman Tokopedia/Shopee: satu ketukan, langsung salin.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Alamat pengiriman",
@@ -389,7 +389,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "🧠",
             titleKey: "Smart Clipboard",
-            descKey: "Teks yang disalin otomatis diklasifikasikan — temukan kapan saja.",
+            descKey: "Teks yang disalin otomatis diklasifikasikan, temukan kapan saja.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Nomor rekening terdeteksi otomatis",
@@ -415,7 +415,7 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "💰",
             titleKey: "Banking & Payments",
-            descKey: "Wire transfers, VAT, invoicing — save once, tap forever.",
+            descKey: "Wire transfers, VAT, invoicing: save once, tap forever.",
             scenarios: [
                 UsageScenario(
                     titleKey: "New client wire transfer info",
@@ -426,7 +426,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Wise / PayPal quick share",
                     contextKey: "Can you send your Wise details?",
-                    exampleKey: "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise — faster + lower fees for {currency})",
+                    exampleKey: "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise, faster + lower fees for {currency})",
                     feature: .snippet
                 ),
                 UsageScenario(
@@ -480,25 +480,25 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Payment reminder (overdue)",
                     contextKey: "Invoice is past due",
-                    exampleKey: "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end — happy to help resolve.",
+                    exampleKey: "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end, happy to help resolve.",
                     feature: .template
                 ),
                 UsageScenario(
                     titleKey: "Scope pushback (politely)",
                     contextKey: "Client requests something outside scope",
-                    exampleKey: "Hi {client}, happy to take this on — it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?",
+                    exampleKey: "Hi {client}, happy to take this on: it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?",
                     feature: .template
                 ),
                 UsageScenario(
                     titleKey: "Delivery delay heads-up",
                     contextKey: nil,
-                    exampleKey: "Hi {client}, giving you a heads-up — {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark.",
+                    exampleKey: "Hi {client}, giving you a heads-up: {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark.",
                     feature: .template
                 ),
                 UsageScenario(
                     titleKey: "Asking for testimonial",
                     contextKey: "After successful project wrap-up",
-                    exampleKey: "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all — only if it's easy.",
+                    exampleKey: "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy.",
                     feature: .template
                 )
             ]
@@ -508,18 +508,18 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "📧",
             titleKey: "Per-platform shortcuts",
-            descKey: "Upwork, LinkedIn, Gmail — templates that ship.",
+            descKey: "Upwork, LinkedIn, Gmail: templates that ship.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Upwork proposal intro",
                     contextKey: "Writing cover letters in bulk",
-                    exampleKey: "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference} — here's a quick overview: {portfolio}. Open to a 15-min chat?",
+                    exampleKey: "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference}, here's a quick overview: {portfolio}. Open to a 15-min chat?",
                     feature: .template
                 ),
                 UsageScenario(
                     titleKey: "LinkedIn cold DM",
                     contextKey: nil,
-                    exampleKey: "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client} — here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?",
+                    exampleKey: "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client}, here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?",
                     feature: .template
                 ),
                 UsageScenario(
@@ -538,7 +538,7 @@ private enum UsageScenarioData {
             descKey: "Wifi drops, visa runs, location questions.",
             scenarios: [
                 UsageScenario(
-                    titleKey: "Wifi dropped — back online",
+                    titleKey: "Wifi dropped: back online",
                     contextKey: "Client is waiting for you",
                     exampleKey: "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are.",
                     feature: .snippet
@@ -546,7 +546,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "\"Where are you based?\" answer",
                     contextKey: "New client asks out of curiosity",
-                    exampleKey: "Based nowhere in particular — currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.",
+                    exampleKey: "Based nowhere in particular: currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.",
                     feature: .template
                 )
             ]
@@ -556,12 +556,12 @@ private enum UsageScenarioData {
         UsageCategory(
             emoji: "🧠",
             titleKey: "Smart Clipboard",
-            descKey: "Auto-classifies what you copy — find it later instantly.",
+            descKey: "Auto-classifies what you copy: find it later instantly.",
             scenarios: [
                 UsageScenario(
                     titleKey: "Client's IBAN → filed automatically",
                     contextKey: "Copy IBAN from Wise / Revolut",
-                    exampleKey: "Copy any IBAN — the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching.",
+                    exampleKey: "Copy any IBAN: the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching.",
                     feature: .smartClipboard
                 ),
                 UsageScenario(
@@ -573,7 +573,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "VAT / Tax ID detection",
                     contextKey: nil,
-                    exampleKey: "Copy a VAT number in format PT123456789 or EU123456789 — the app recognizes it as \"VAT / Tax ID\" and masks on display.",
+                    exampleKey: "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.",
                     feature: .smartClipboard
                 )
             ]
@@ -629,7 +629,7 @@ struct UsageGuideView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
 
-            // 둘러보다가 바로 묶음으로 추가 — 갤러리에서도 스타터팩 진입.
+            // 둘러보다가 바로 묶음으로 추가 - 갤러리에서도 스타터팩 진입.
             Button {
                 HapticManager.shared.light()
                 showStarterPack = true
@@ -704,7 +704,7 @@ struct UsageGuideView: View {
                             .foregroundColor(theme.textFaint)
                             .accessibilityHidden(true)
                     }
-                    // 페르소나 공감 인트로 — 펼쳤을 때만 전문 노출, 접혔을 땐 2줄 미리보기.
+                    // 페르소나 공감 인트로 - 펼쳤을 때만 전문 노출, 접혔을 땐 2줄 미리보기.
                     Text(guide.intro)
                         .font(.body)
                         .foregroundColor(theme.textMuted)
@@ -741,7 +741,7 @@ struct UsageGuideView: View {
                 featureBadge(scenario.feature)
             }
 
-            // 공감 맥락 — "이런 순간, 불편했죠"
+            // 공감 맥락 - "이런 순간, 불편했죠"
             HStack(alignment: .top, spacing: 6) {
                 Image(systemName: AppSymbol.quoteOpening)
                     .font(.system(.caption2))
@@ -764,7 +764,7 @@ struct UsageGuideView: View {
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
                 .textSelection(.enabled)
 
-            // 이렇게 달라져요 — 만들어지는 차이
+            // 이렇게 달라져요 - 만들어지는 차이
             HStack(alignment: .top, spacing: 6) {
                 Image(systemName: AppSymbol.sparkles)
                     .font(.system(.caption2))
@@ -788,7 +788,7 @@ struct UsageGuideView: View {
                     MemoAdd(
                         insertedKeyword: scenario.title,
                         insertedValue: scenario.example,
-                        // {플레이스홀더}가 있으면 항상 템플릿으로 추가 — 탭하면 칩/값 채우기 UX
+                        // {플레이스홀더}가 있으면 항상 템플릿으로 추가 - 탭하면 칩/값 채우기 UX
                         insertedIsTemplate: scenario.feature == .template || scenario.example.contains("{"),
                         insertedIsCombo: scenario.feature == .combo
                     )

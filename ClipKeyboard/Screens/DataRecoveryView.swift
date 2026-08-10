@@ -2,7 +2,7 @@
 //  DataRecoveryView.swift
 //  ClipKeyboard
 //
-//  데이터 파일이 깨졌을 때 보여주는 복구 안내 — "전역 에러 폴백 화면".
+//  데이터 파일이 깨졌을 때 보여주는 복구 안내 - "전역 에러 폴백 화면".
 //
 //  왜 필요한가: 예전에는 저장 파일 디코딩이 실패하면 조용히 빈 목록이 떴다.
 //  사용자 눈에는 "메모가 전부 사라진" 것으로 보이고, 그 상태에서 뭐라도 저장하면
@@ -90,7 +90,7 @@ struct DataRecoveryView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(NSLocalizedString("확인", comment: "OK")) {
-                        // 플래그만 지운다 — 격리 사본은 남겨 문의·재시도에 대비.
+                        // 플래그만 지운다 - 격리 사본은 남겨 문의·재시도에 대비.
                         MemoStore.clearCorruptionFlag()
                         dismiss()
                     }

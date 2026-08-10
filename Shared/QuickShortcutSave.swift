@@ -10,7 +10,7 @@
 //     (앱이 읽을 수 있는지는 `ClipKeyboardTests/ShareExtensionMemoWriteTests` 가 지킨다)
 //
 //  ⚠️ 날짜는 **2001 기준 초**(`timeIntervalSinceReferenceDate`)로 적는다.
-//     메인 앱이 기본 `JSONEncoder` 를 쓰기 때문이다 — epoch(1970)로 적으면 31년 어긋난
+//     메인 앱이 기본 `JSONEncoder` 를 쓰기 때문이다 - epoch(1970)로 적으면 31년 어긋난
 //     시각이 되어 최근순 정렬이 무너지고, 화면에서는 "왜 맨 아래 있지"로만 보인다.
 //
 //  ⚠️ `memos.data` 는 **메인 앱이 통째로 덮어쓰는 파일**이다. 여기서 덧붙인 것을 앱이 모른 채
@@ -28,7 +28,7 @@ enum QuickShortcutSave {
 
     static let appGroupID = "group.com.Ysoup.TokenMemo"
 
-    /// 앱 밖 변경 표식 — 메인 앱의 `DefaultsKey.memosExternalChangeAt` 와 같은 문자열이어야 한다.
+    /// 앱 밖 변경 표식 - 메인 앱의 `DefaultsKey.memosExternalChangeAt` 와 같은 문자열이어야 한다.
     private static let externalChangeKey = "memos.externalChangeAt"
 
     enum Outcome {
@@ -63,7 +63,7 @@ enum QuickShortcutSave {
 
     // MARK: - 단축어로 저장
 
-    /// 바로 쓸 수 있는 단축어로 저장한다 — 키보드에 곧장 올라온다.
+    /// 바로 쓸 수 있는 단축어로 저장한다 - 키보드에 곧장 올라온다.
     /// 안전하지 않은 상황(파일을 읽지 못함·쓰기 실패)에서는 **덮어쓰지 않고** 보관함으로 물러선다.
     @discardableResult
     static func saveAsShortcut(title: String,
@@ -83,7 +83,7 @@ enum QuickShortcutSave {
             memos = decoded
         } else if FileManager.default.fileExists(atPath: memosURL.path) {
             // ⚠️ 읽지 못한 파일을 덮어쓰면 남의 단축어가 통째로 날아간다.
-            saveLog.error("📤 [QuickSave] memos.data 를 읽지 못함 — 덮어쓰지 않고 보관함으로 우회")
+            saveLog.error("📤 [QuickSave] memos.data 를 읽지 못함. 덮어쓰지 않고 보관함으로 우회")
             return saveToInbox(title: title, value: value, category: category, images: images)
         }
 
@@ -103,17 +103,17 @@ enum QuickShortcutSave {
             "imageFileNames": imageFileNames,
             "isFavorite": false
         ]
-        // 맨 앞에 둔다 — 방금 담은 것이 목록 위에 보여야 "들어갔구나"가 확인된다.
+        // 맨 앞에 둔다 - 방금 담은 것이 목록 위에 보여야 "들어갔구나"가 확인된다.
         memos.insert(newMemo, at: 0)
 
         do {
             let data = try JSONSerialization.data(withJSONObject: memos, options: [])
             try data.write(to: memosURL, options: .atomic)
             markExternalChange()
-            saveLog.info("📤 [QuickSave] 단축어로 저장 완료 — 총 \(memos.count)개")
+            saveLog.info("📤 [QuickSave] 단축어로 저장 완료, 총 \(memos.count)개")
             return .shortcut
         } catch {
-            saveLog.error("📤 [QuickSave] 단축어 저장 실패: \(error) — 보관함으로 우회")
+            saveLog.error("📤 [QuickSave] 단축어 저장 실패: \(error), 보관함으로 우회")
             return saveToInbox(title: title, value: value, category: category, images: images)
         }
     }
@@ -122,7 +122,7 @@ enum QuickShortcutSave {
 
     /// 나중에 정하도록 빠른 메모(Inbox)에 보류 저장한다.
     ///
-    /// ⚠️ 스키마는 메인 앱의 `QuickNote` Codable 과 정확히 일치해야 한다 —
+    /// ⚠️ 스키마는 메인 앱의 `QuickNote` Codable 과 정확히 일치해야 한다
     ///    `createdAt` 은 **epoch 초**이고, `contentType` 은 "text"/"image"/"mixed" 다.
     ///    (단축어 쪽과 날짜 기준이 다르다. 저쪽은 `Memo` 의 Date 라 2001 기준이다)
     @discardableResult
@@ -164,7 +164,7 @@ enum QuickShortcutSave {
             try data.write(to: inboxURL, options: .atomic)
             UserDefaults(suiteName: appGroupID)?.set(Date().timeIntervalSince1970,
                                                      forKey: "quicknote.lastSavedAt")
-            saveLog.info("📤 [QuickSave] 보관함 저장 완료 — 총 \(notes.count)개")
+            saveLog.info("📤 [QuickSave] 보관함 저장 완료, 총 \(notes.count)개")
             return .inbox
         } catch {
             saveLog.error("📤 [QuickSave] 보관함 저장 실패: \(error)")

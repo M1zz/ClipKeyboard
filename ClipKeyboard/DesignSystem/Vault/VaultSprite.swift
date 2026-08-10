@@ -2,14 +2,14 @@
 //  VaultSprite.swift
 //  ClipKeyboard
 //
-//  **금고** — "타수를 저축한다"는 컨셉의 픽셀 에셋.
+//  **금고** - "타수를 저축한다"는 컨셉의 픽셀 에셋.
 //
 //  이 앱이 아껴주는 시간은 원래 **증거가 안 남는** 이득이다. 그래서 해지된다.
 //  금고는 사라진 노동을 눈에 보이는 물건(동전·금괴)으로 바꿔서, 아꼈다가 아니라
 //  **불어났다**로 프레임을 옮긴다. 문구 하나를 만드는 데 든 20초가 원금이고,
 //  200번 꺼내 쓴 시간이 수익이다.
 //
-//  PixelSprite.swift 와 같은 규약이다 — 이미지 파일 없이 문자열 배열만으로 그린다.
+//  PixelSprite.swift 와 같은 규약이다 - 이미지 파일 없이 문자열 배열만으로 그린다.
 //  (에셋을 쓰면 @1x/@2x/@3x + 다크 모드용을 따로 넣어야 하고, 어느 배율에선 뭉갠다.)
 //
 //  ⚠️ PixelSprite 와 달리 **8×8 과 16×16 을 함께 쓴다.** 카드에 얹는 잔고는 8, 화면
@@ -23,7 +23,7 @@ import SwiftUI
 
 // MARK: - 팔레트
 
-/// 금고 팔레트. PixelPalette 에 없는 금속·종이 색만 정의하고 나머지는 넘긴다 —
+/// 금고 팔레트. PixelPalette 에 없는 금속·종이 색만 정의하고 나머지는 넘긴다
 /// 앱의 픽셀 언어는 하나여야 해서 마을과 금고가 같은 노랑(y)을 쓴다.
 ///
 /// 픽셀 아트는 색 수가 적고 서로의 대비로 형태를 만든다. 그래서 테마색을 쓰지 않는다.
@@ -32,18 +32,18 @@ enum VaultPalette {
     static func color(for symbol: Character) -> Color? {
         switch symbol {
         case "x": return Color(red: 0.15, green: 0.13, blue: 0.16)   // 외곽선
-        case "c": return Color(red: 0.72, green: 0.42, blue: 0.22)   // 동 — 어두운 면
-        case "C": return Color(red: 0.89, green: 0.62, blue: 0.36)   // 동 — 밝은 면
-        case "n": return Color(red: 0.55, green: 0.60, blue: 0.66)   // 은 — 어두운 면
-        case "N": return Color(red: 0.87, green: 0.90, blue: 0.93)   // 은 — 밝은 면
-        case "y": return Color(red: 0.91, green: 0.76, blue: 0.24)   // 금 — 어두운 면
-        case "Y": return Color(red: 1.00, green: 0.93, blue: 0.60)   // 금 — 밝은 면
-        case "m": return Color(red: 0.39, green: 0.42, blue: 0.47)   // 철 — 어두운 면
-        case "M": return Color(red: 0.62, green: 0.66, blue: 0.72)   // 철 — 밝은 면
+        case "c": return Color(red: 0.72, green: 0.42, blue: 0.22)   // 동 - 어두운 면
+        case "C": return Color(red: 0.89, green: 0.62, blue: 0.36)   // 동 - 밝은 면
+        case "n": return Color(red: 0.55, green: 0.60, blue: 0.66)   // 은 - 어두운 면
+        case "N": return Color(red: 0.87, green: 0.90, blue: 0.93)   // 은 - 밝은 면
+        case "y": return Color(red: 0.91, green: 0.76, blue: 0.24)   // 금 - 어두운 면
+        case "Y": return Color(red: 1.00, green: 0.93, blue: 0.60)   // 금 - 밝은 면
+        case "m": return Color(red: 0.39, green: 0.42, blue: 0.47)   // 철 - 어두운 면
+        case "M": return Color(red: 0.62, green: 0.66, blue: 0.72)   // 철 - 밝은 면
         case "v": return Color(red: 0.13, green: 0.36, blue: 0.27)   // 금고 명판 진녹(브랜드)
         case "t": return Color(red: 0.10, green: 0.09, blue: 0.11)   // 금고 내부 어둠
         case "w": return Color(red: 0.94, green: 0.91, blue: 0.85)   // 종이(영수증)
-        // 황동 — **밝은 유리 카드 위에 놓이는 철물 전용.**
+        // 황동 - **밝은 유리 카드 위에 놓이는 철물 전용.**
         // 카드가 흰색이라 회색 철(m/M)을 얹으면 물건이 아니라 때처럼 보인다.
         // 금속으로 읽히게 하는 건 광택이 아니라 **색**이다.
         case "a": return Color(red: 0.47, green: 0.35, blue: 0.08)   // 황동 어두운(외곽선)
@@ -64,9 +64,9 @@ struct VaultSprite: Equatable, Identifiable {
     /// 한 변의 픽셀 수. 8(잔고) 또는 16(히어로).
     var size: Int { rows.count }
 
-    // MARK: 잔고 사다리 — 카드에 얹히는 것
+    // MARK: 잔고 사다리 - 카드에 얹히는 것
 
-    /// 빈 자리 — 아직 아무것도 벌어들이지 않은 문구. 동전이 놓일 홈만 파여 있다.
+    /// 빈 자리 - 아직 아무것도 벌어들이지 않은 문구. 동전이 놓일 홈만 파여 있다.
     ///
     /// ⚠️ 이게 없으면 안 쓴 카드에는 **아무것도 안 그려져서** 스킨을 켠 줄도 모른다.
     ///    빈 자리는 "여기에 쌓일 것"이라는 초대이기도 하다.
@@ -81,14 +81,14 @@ struct VaultSprite: Equatable, Identifiable {
         "...m.m.."
     ], id: "empty")
 
-    /// 동전(동) — 10초.
+    /// 동전(동) - 10초.
     static let bronze = disc(dark: "c", light: "C", id: "bronze")
-    /// 은화 — 1분.
+    /// 은화 - 1분.
     static let silver = disc(dark: "n", light: "N", id: "silver")
-    /// 금화 — 10분.
+    /// 금화 - 10분.
     static let gold = disc(dark: "y", light: "Y", id: "gold")
 
-    /// 금괴 — 1시간. 동전 3종과 **실루엣이 달라야** 한눈에 규모가 읽힌다.
+    /// 금괴 - 1시간. 동전 3종과 **실루엣이 달라야** 한눈에 규모가 읽힌다.
     /// (색만 다르면 금화가 몇 개인지 세어야 알 수 있다.)
     static let ingot = VaultSprite(rows: [
         "........",
@@ -101,7 +101,7 @@ struct VaultSprite: Equatable, Identifiable {
         "........"
     ], id: "ingot")
 
-    /// 8×8 을 꽉 채운 원. 외곽선은 가장자리 1px 만 둔다 —
+    /// 8×8 을 꽉 채운 원. 외곽선은 가장자리 1px 만 둔다
     /// 테두리를 두껍게 두면 안이 4×4밖에 안 남아서 원이 아니라 **사각형으로 보인다.**
     private static func disc(dark: Character, light: Character, id: String) -> VaultSprite {
         let d = String(dark), l = String(light)
@@ -161,7 +161,7 @@ struct VaultSprite: Equatable, Identifiable {
     ///
     /// 처음에는 경첩 둘 + 다이얼을 10pt 크기로 흩어 놨는데, 흰 유리 카드 위에서
     /// 작은 회색 덩어리들이 하드웨어가 아니라 **때처럼** 보였다.
-    /// 작은 것 여럿보다 잘 그린 것 하나가 낫다 — 여럿은 노이즈고 하나는 의도다.
+    /// 작은 것 여럿보다 잘 그린 것 하나가 낫다 - 여럿은 노이즈고 하나는 의도다.
     static let dial = VaultSprite(rows: [
         "..aaaa..",
         ".aBBBBa.",
@@ -173,7 +173,7 @@ struct VaultSprite: Equatable, Identifiable {
         "..aaaa.."
     ], id: "dial")
 
-    // MARK: 동전 회전 3프레임 — 붙여넣을 때 *툭* 떨어지는 모션용
+    // MARK: 동전 회전 3프레임 - 붙여넣을 때 *툭* 떨어지는 모션용
 
     static let spin: [VaultSprite] = [gold, spinTilted, spinEdge]
 
@@ -201,7 +201,7 @@ struct VaultSprite: Equatable, Identifiable {
 
     // MARK: 히어로 금고 (16×16)
 
-    /// 닫힌 금고. 금고로 읽히게 하는 건 대칭이 아니라 **비대칭**이다 —
+    /// 닫힌 금고. 금고로 읽히게 하는 건 대칭이 아니라 **비대칭**이다
     /// 왼쪽 경첩 / 가운데왼쪽 다이얼 / 오른쪽 손잡이 / 아래 명판.
     /// 동심 사각형만 그리면 금고가 아니라 창틀처럼 보인다.
     static let closed = VaultSprite(rows: [
@@ -223,7 +223,7 @@ struct VaultSprite: Equatable, Identifiable {
         "..x..........x.."
     ], id: "vault_closed")
 
-    /// 속이 빈 열린 금고 — **내용물은 따로 얹는다.**
+    /// 속이 빈 열린 금고 - **내용물은 따로 얹는다.**
     ///
     /// 금괴를 스프라이트에 박아 넣으면 한 푼도 안 번 사람의 금고에도 금괴가 들어 있다.
     /// 그러면 이 화면 전체가 장식이 되고, 쌓였다는 말이 거짓이 된다.
@@ -247,10 +247,10 @@ struct VaultSprite: Equatable, Identifiable {
     ], id: "vault_open_empty")
 
     /// `openEmpty` 의 내부 공간(스프라이트 칸 단위). 여기에 잔고를 얹는다.
-    /// 값이 스프라이트와 어긋나면 동전이 벽을 뚫고 나온다 — 테스트가 잡는다.
+    /// 값이 스프라이트와 어긋나면 동전이 벽을 뚫고 나온다 - 테스트가 잡는다.
     static let interior = (x: 5, y: 3, width: 8, height: 10)
 
-    /// 열린 금고. 문이 몸통 **밖으로** 젖혀져야 열린 것으로 읽힌다 —
+    /// 열린 금고. 문이 몸통 **밖으로** 젖혀져야 열린 것으로 읽힌다
     /// 문을 몸통 안에 그리면 그냥 두꺼운 벽이 된다. 안에는 금괴 세 장.
     static let open = VaultSprite(rows: [
         "................",
@@ -272,7 +272,7 @@ struct VaultSprite: Equatable, Identifiable {
     ], id: "vault_open")
 }
 
-// MARK: - 잔고 계획 (순수 함수 — 테스트 가능)
+// MARK: - 잔고 계획 (순수 함수 - 테스트 가능)
 
 /// 절약한 시간을 **화폐 단위로** 환산한다.
 ///
@@ -283,7 +283,7 @@ enum VaultLedger {
     /// 한 카드에 올릴 수 있는 스프라이트 수. 넘치면 카드가 동전밭이 된다.
     static let maxSprites = 9
 
-    /// 액면가(초). 실제 화폐처럼 배수가 고르지 않다 — 10초·1분·10분·1시간.
+    /// 액면가(초). 실제 화폐처럼 배수가 고르지 않다 - 10초·1분·10분·1시간.
     static let bronzeSeconds: Double = 10
     static let silverSeconds: Double = 60
     static let goldSeconds: Double = 600
@@ -295,7 +295,7 @@ enum VaultLedger {
     /// - Parameter cap: 놓을 수 있는 최대 개수. 카드는 좁아서 9개지만
     ///   금고 화면은 넓어서 더 담을 수 있다.
     static func plan(savedSeconds: Double, cap: Int = maxSprites) -> [VaultSprite] {
-        // 아직 못 번 문구도 빈 자리는 보여준다 — 아무것도 안 그리면 스킨이 켜졌는지조차 알 수 없다.
+        // 아직 못 번 문구도 빈 자리는 보여준다 - 아무것도 안 그리면 스킨이 켜졌는지조차 알 수 없다.
         guard savedSeconds >= bronzeSeconds else { return [.empty] }
 
         var remaining = savedSeconds
@@ -336,7 +336,7 @@ enum VaultLedger {
 
     /// 다음 동전 한 닢까지 얼마나 왔나(0~1).
     ///
-    /// 지금 액면 기준으로 잰다 — 동전만 모으는 문구는 10초마다, 금괴를 모으는 문구는
+    /// 지금 액면 기준으로 잰다 - 동전만 모으는 문구는 10초마다, 금괴를 모으는 문구는
     /// 1시간마다 차오른다. 항상 같은 단위로 재면 큰 문구는 눈금이 안 움직이고
     /// 작은 문구는 늘 가득 차 있어서, 둘 다 아무 말도 안 하게 된다.
     static func nextCoinProgress(savedSeconds: Double) -> Double {
@@ -354,7 +354,7 @@ enum VaultLedger {
 
     /// 문구 하나가 지금까지 벌어들인 시간(초).
     ///
-    /// 식은 `KeyboardUsageTracker` 에 있는 하나를 그대로 쓴다 — 여기서 따로 세면
+    /// 식은 `KeyboardUsageTracker` 에 있는 하나를 그대로 쓴다 - 여기서 따로 세면
     /// 카드에 쌓인 동전과 잔고 화면 숫자가 어긋나서, 둘 중 하나는 거짓말이 된다.
     static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
         KeyboardUsageTracker.earnedSeconds(characterCount: characterCount, useCount: useCount)
@@ -415,7 +415,7 @@ struct VaultBalanceStrip: View {
     }
 }
 
-/// 단축어 카드를 **금고 문**으로 읽히게 하는 철물 — 왼쪽 경첩 둘, 오른쪽 다이얼,
+/// 단축어 카드를 **금고 문**으로 읽히게 하는 철물 - 왼쪽 경첩 둘, 오른쪽 다이얼,
 /// 아래 가장자리에 다음 동전까지의 이음새.
 ///
 /// ⚠️ 전부 **가장자리에만** 둔다. 카드 한가운데는 제목과 내용의 자리다.
@@ -435,12 +435,12 @@ struct VaultCardFrame: View {
 
     var body: some View {
         Canvas { context, size in
-            // 다이얼 하나 — 오른쪽 가장자리, 세로 가운데. 제목은 왼쪽 정렬이라 여기가 비어 있다.
+            // 다이얼 하나 - 오른쪽 가장자리, 세로 가운데. 제목은 왼쪽 정렬이라 여기가 비어 있다.
             draw(.dial,
                  at: CGPoint(x: size.width - 4 - unit, y: size.height / 2 - unit / 2),
                  in: &context)
 
-            // 아래 이음새 — 다음 동전까지 차오른다.
+            // 아래 이음새 - 다음 동전까지 차오른다.
             let track = CGRect(x: 20, y: size.height - 5, width: size.width - 40, height: 2.5)
             context.fill(Path(track), with: .color(Color(red: 0.69, green: 0.54, blue: 0.19).opacity(0.16)))
             let filled = CGRect(x: track.minX, y: track.minY,
@@ -465,7 +465,7 @@ struct VaultCardFrame: View {
     }
 }
 
-/// 단축어 카드 구석에 붙는 잔고 표시 — **액면 하나 + 개수**.
+/// 단축어 카드 구석에 붙는 잔고 표시 - **액면 하나 + 개수**.
 ///
 /// 동전을 늘어놓지 않는 이유는 `VaultLedger.headline` 에 적어 두었다.
 /// 한 줄로 요약하면: 글을 덮지 않으려고.

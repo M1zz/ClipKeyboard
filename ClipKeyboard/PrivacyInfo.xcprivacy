@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-    PrivacyInfo.xcprivacy — ClipKeyboard (메인 앱)
+    PrivacyInfo.xcprivacy - ClipKeyboard (메인 앱)
 
     ⚠️ 이 파일은 App Store Connect의 **App Privacy 설문과 한 글자도 어긋나면 안 된다.**
        설문을 바꾸면 이 파일도, 이 파일을 바꾸면 설문도 같이 바꾼다.
@@ -28,7 +28,7 @@
 
     <key>NSPrivacyCollectedDataTypes</key>
     <array>
-        <!-- ① 제품 상호작용 — 앱 실행·주요 행동 이벤트(이름만), 설치당 집계 수치.
+        <!-- ① 제품 상호작용 - 앱 실행·주요 행동 이벤트(이름만), 설치당 집계 수치.
              익명 설치 UUID로만 묶이고 신원과 연결하지 않는다. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
@@ -43,7 +43,7 @@
             </array>
         </dict>
 
-        <!-- ② 구매 이력 — metrics 의 `flag.isPro` (Pro 보유 여부 0/1) 한 개.
+        <!-- ② 구매 이력 - metrics 의 `flag.isPro` (Pro 보유 여부 0/1) 한 개.
              금액·영수증·상품 목록은 보내지 않지만, 구매 상태에서 파생된 값이라 정직하게 신고한다. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
@@ -58,7 +58,7 @@
             </array>
         </dict>
 
-        <!-- ③ 기기 ID — 앱이 만든 무작위 설치 UUID(leeo.usage.installID).
+        <!-- ③ 기기 ID - 앱이 만든 무작위 설치 UUID(leeo.usage.installID).
              재설치하면 새 값이 되고 앱 밖에서는 의미가 없지만, 한 설치의 이벤트를 묶는
              지속 식별자이므로 신고한다(FirebaseAnalytics 의 app-instance ID 와 같은 성격). -->
         <dict>
@@ -74,7 +74,7 @@
             </array>
         </dict>
 
-        <!-- ④ 크래시 데이터 — MetricKit이 주는 크래시·행 진단(콜스택·앱버전·OS).
+        <!-- ④ 크래시 데이터 - MetricKit이 주는 크래시·행 진단(콜스택·앱버전·OS).
              DiagnosticsService 가 허브로 보낸다. 설치 식별자조차 붙이지 않는다. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
@@ -89,7 +89,7 @@
             </array>
         </dict>
 
-        <!-- ⑤ 고객 지원 — 사용자가 직접 쓴 피드백 본문.
+        <!-- ⑤ 고객 지원 - 사용자가 직접 쓴 피드백 본문.
              연락처를 함께 남기면 신원과 연결될 수 있으므로 Linked = true. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
@@ -104,7 +104,7 @@
             </array>
         </dict>
 
-        <!-- ⑥ 이메일 — 피드백에서 답장을 원할 때만 사용자가 직접 입력(선택). -->
+        <!-- ⑥ 이메일 - 피드백에서 답장을 원할 때만 사용자가 직접 입력(선택). -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
             <string>NSPrivacyCollectedDataTypeEmailAddress</string>
@@ -118,7 +118,7 @@
             </array>
         </dict>
 
-        <!-- ⑦ 이름 — 위와 동일, 피드백의 선택 입력값. -->
+        <!-- ⑦ 이름 - 위와 동일, 피드백의 선택 입력값. -->
         <dict>
             <key>NSPrivacyCollectedDataType</key>
             <string>NSPrivacyCollectedDataTypeName</string>

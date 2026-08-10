@@ -5,17 +5,17 @@
 //  생활 레이어의 계약을 고정한다.
 //
 //  가장 중요한 세 지점:
-//   ① **기본값은 `.none`** — 업데이트했다고 남의 화면에 갑자기 새가 날아다니면 안 된다.
-//   ② **마을·발자국은 사용 횟수만으로 결정된다** — 난수를 쓰면 스크롤할 때마다 그림이
+//   ① **기본값은 `.none`** - 업데이트했다고 남의 화면에 갑자기 새가 날아다니면 안 된다.
+//   ② **마을·발자국은 사용 횟수만으로 결정된다** - 난수를 쓰면 스크롤할 때마다 그림이
 //      바뀌어서 "내가 쌓은 기록"이 아니라 그냥 장식으로 보인다.
-//   ③ **한 카드에 올라가는 양에 상한이 있다** — 없으면 많이 쓴 카드가 그림밭이 된다.
+//   ③ **한 카드에 올라가는 양에 상한이 있다** - 없으면 많이 쓴 카드가 그림밭이 된다.
 //
 
 import Testing
 import SwiftUI
 @testable import ClipKeyboard
 
-@Suite("LivingSkin — 생활 레이어")
+@Suite("LivingSkin: 생활 레이어")
 struct LivingSkinTests {
 
     // MARK: - 기본값·왕복
@@ -33,7 +33,7 @@ struct LivingSkinTests {
         }
     }
 
-    @Test("목록 맨 위는 '없음' — 기본이 먼저 보여야 한다")
+    @Test("목록 맨 위는 '없음', 기본이 먼저 보여야 한다")
     func noneComesFirst() {
         #expect(LivingSkin.allCases.first == LivingSkin.none)
     }
@@ -53,7 +53,7 @@ struct LivingSkinTests {
         #expect(!LivingSkin.none.isVisitor)
     }
 
-    /// 손님이 자주 오면 반갑지 않다 — 최소 1분 간격은 지킨다.
+    /// 손님이 자주 오면 반갑지 않다 - 최소 1분 간격은 지킨다.
     @Test("손님은 드물게 오고 짧게 머문다")
     func visitorsAreRare() {
         for skin in LivingSkin.allCases where skin.isVisitor {
@@ -91,7 +91,7 @@ struct LivingSkinTests {
         #expect(PixelVillage.plan(useCount: 1) == [.sprout])
     }
 
-    @Test("많이 쓸수록 큰 것이 선다 — 규모가 한눈에 읽혀야 한다")
+    @Test("많이 쓸수록 큰 것이 선다. 규모가 한눈에 읽혀야 한다")
     func biggerThingsAppearWithUse() {
         #expect(PixelVillage.plan(useCount: 4).contains(.flower))
         #expect(PixelVillage.plan(useCount: 10).contains(.tree))
@@ -113,7 +113,7 @@ struct LivingSkinTests {
         }
     }
 
-    @Test("같은 횟수는 항상 같은 마을을 만든다 — 스크롤해도 안 바뀐다")
+    @Test("같은 횟수는 항상 같은 마을을 만든다. 스크롤해도 안 바뀐다")
     func planIsDeterministic() {
         for count in [1, 7, 33, 120] {
             #expect(PixelVillage.plan(useCount: count) == PixelVillage.plan(useCount: count))
@@ -150,7 +150,7 @@ struct LivingSkinTests {
         #expect(FootprintTrail.marks(useCount: 6) == FootprintTrail.marks(useCount: 6))
     }
 
-    @Test("발자국은 대각선으로 — 오른쪽 위로 걸어간다")
+    @Test("발자국은 대각선으로, 오른쪽 위로 걸어간다")
     func footprintsWalkDiagonally() {
         let marks = FootprintTrail.marks(useCount: FootprintTrail.maxMarks)
         for (a, b) in zip(marks, marks.dropFirst()) {
@@ -192,7 +192,7 @@ struct LivingSkinTests {
 
 /// 순수 함수(계획)가 맞아도 **화면에 안 그려지면 소용이 없다.**
 /// 시뮬레이터 UI 없이 뷰를 비트맵으로 굽고 픽셀이 실제로 찍혔는지 본다.
-/// (Canvas 경로가 조용히 죽는 사고를 잡기 위한 것 — 계획 테스트로는 안 잡힌다)
+/// (Canvas 경로가 조용히 죽는 사고를 잡기 위한 것 - 계획 테스트로는 안 잡힌다)
 @MainActor
 struct LivingSkinRenderTests {
 
@@ -222,7 +222,7 @@ struct LivingSkinRenderTests {
     func villageDraws() {
         let drawn = opaquePixelCount(VillageStrip(useCount: 27, pixel: 3),
                                      size: CGSize(width: 120, height: 24))
-        #expect(drawn > 50, "마을이 한 픽셀도 안 그려졌다 — Canvas 경로가 죽었다")
+        #expect(drawn > 50, "마을이 한 픽셀도 안 그려졌다. Canvas 경로가 죽었다")
     }
 
     @Test("안 쓴 문구도 빈 땅만큼은 그려진다")

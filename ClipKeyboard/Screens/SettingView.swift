@@ -19,35 +19,35 @@ struct SettingView: View {
     @State private var showPlaceholderManagement = false
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
-    /// 기기 간 메모 동기화(실험적) — App Group에 저장해 엔진/맥과 공유.
+    /// 기기 간 메모 동기화(실험적) - App Group에 저장해 엔진/맥과 공유.
     @AppStorage(DefaultsKey.memoSyncEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
     private var memoSyncEnabled: Bool = false
-    /// 마스터(개발자) 모드 — 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
+    /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
-    /// 모든 데이터 삭제 — 되돌릴 수 없어 2단계로 확인받는다.
-    /// 튜토리얼 다시 하기 확인 — 무엇이 지워지고 무엇이 남는지 먼저 알린다.
+    /// 모든 데이터 삭제 - 되돌릴 수 없어 2단계로 확인받는다.
+    /// 튜토리얼 다시 하기 확인 - 무엇이 지워지고 무엇이 남는지 먼저 알린다.
     @State private var showTutorialRestartConfirm = false
     @State private var showWipeConfirm = false      // 1단계: 무엇이 지워지는지 안내
     @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
     @State private var wipeResultMessage: String?
-    /// 데모 데이터 토글 — 켜면 샘플 페르소나 데이터, 끄면 내 데이터 복원(DemoDataService).
+    /// 데모 데이터 토글 - 켜면 샘플 페르소나 데이터, 끄면 내 데이터 복원(DemoDataService).
     @AppStorage(DefaultsKey.demoDataActive, store: UserDefaults(suiteName: AppGroup.identifier))
     private var demoDataActive: Bool = false
     @State private var demoResultMessage: String?
-    /// 날인·봉인 등 입력 반응 마스터 스위치. App Group — 키보드 익스텐션도 같은 값을 읽는다.
+    /// 날인·봉인 등 입력 반응 마스터 스위치. App Group - 키보드 익스텐션도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.delightEffectsEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
     private var delightEffectsEnabled: Bool = true
     /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
-    /// ⚠️ 기본값은 목록 — 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
+    /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
     private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
 
     // MARK: 데모 데이터 섹션
     // 앱을 처음 둘러보거나 스크린샷·영상을 찍을 때, 잘 짜인 샘플 한 벌을 즉시 켜고 끌 수 있게 한다.
     // 켤 때 내 데이터는 백업되고 끄면 그대로 복원된다(DemoDataService).
-    // ⚠️ body의 List 안에 인라인으로 두면 타입 체크 시간이 폭발한다(빌드 실패) — 반드시 분리 유지.
+    // ⚠️ body의 List 안에 인라인으로 두면 타입 체크 시간이 폭발한다(빌드 실패) - 반드시 분리 유지.
     @ViewBuilder
     private var demoSection: some View {
         Section {
@@ -81,11 +81,11 @@ struct SettingView: View {
         securePINSet = !hash.isEmpty
     }
 
-    /// 디스플레이 섹션 — 메모 셀 표시 방식 + 사용 기록 + 입력 반응.
+    /// 디스플레이 섹션 - 메모 셀 표시 방식 + 사용 기록 + 입력 반응.
     /// ⚠️ body 안에 인라인으로 두면 타입 체커가 시간 초과로 컴파일을 포기한다
     ///    (body 표현식 하나가 감당하는 뷰 트리 깊이에 한계가 있다).
     ///    이 화면에 섹션을 더할 때는 이렇게 계산 프로퍼티로 빼낼 것.
-    /// 단축어 탭이 무엇을 보여줄지 — 목록이냐 키보드 무대냐.
+    /// 단축어 탭이 무엇을 보여줄지 - 목록이냐 키보드 무대냐.
     ///
     /// ⚠️ 두 줄 다 **실물을 짧게 설명**한다. 이름만 두면(목록 / 키보드) 뭐가 달라지는지
     ///    눌러 보기 전에는 알 수 없고, 첫 화면은 눌러 보고 되돌리기가 번거로운 설정이다.
@@ -140,7 +140,7 @@ struct SettingView: View {
                 Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
                       systemImage: AppSymbol.checkmarkSealFill)
             }
-            // 단축어 스킨(생활 레이어)은 지금 감춰 둔다 — LivingSkin.isEnabled = false.
+            // 단축어 스킨(생활 레이어)은 지금 감춰 둔다 - LivingSkin.isEnabled = false.
             // 되살리려면 그 값을 true 로. 화면(LivingSkinSettings)은 그대로 남아 있다.
             if LivingSkin.isEnabled {
                 NavigationLink(destination: LivingSkinSettings()) {
@@ -148,7 +148,7 @@ struct SettingView: View {
                           systemImage: AppSymbol.sparkles)
                 }
             }
-            // @AppStorage가 App Group에 직접 쓴다 — Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
+            // @AppStorage가 App Group에 직접 쓴다 - Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
             Toggle(isOn: $delightEffectsEnabled) {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
@@ -191,7 +191,7 @@ struct SettingView: View {
                                 .foregroundStyle(.green.gradient)
                                 .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(String(format: NSLocalizedString("체험 활성 — %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+                                Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
                                     .font(.headline).foregroundColor(.primary)
                                 Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
                                     .font(.body).foregroundColor(theme.textMuted)
@@ -260,7 +260,7 @@ struct SettingView: View {
                     .foregroundColor(theme.textFaint)
                     .textCase(.none)
             }) {
-                // 시트 버튼 — Label 텍스트에 .primary를 명시해 파란색 tint 방지
+                // 시트 버튼 - Label 텍스트에 .primary를 명시해 파란색 tint 방지
                 Button {
                     HapticManager.shared.light()
                     showKeyboardGuide = true
@@ -329,7 +329,7 @@ struct SettingView: View {
                     Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
                           systemImage: AppSymbol.sparkles)
                 }
-                // 한 번 배우고 끝이 아니다 — 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지
+                // 한 번 배우고 끝이 아니다 - 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지
                 // 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
                 Button {
                     HapticManager.shared.light()
@@ -365,9 +365,9 @@ struct SettingView: View {
                 }
             }
 
-            // MARK: 카테고리 (공용 — 메모·키보드 양쪽에서 사용)
+            // MARK: 카테고리 (공용 - 메모·키보드 양쪽에서 사용)
             Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
-                // 카테고리 관리 — 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
+                // 카테고리 관리 - 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
                 NavigationLink(destination: CategorySettings()) {
                     Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
                           systemImage: AppSymbol.folderBadgeGearshape)
@@ -416,7 +416,7 @@ struct SettingView: View {
                     Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
                           systemImage: AppSymbol.docOnClipboard)
                 }
-                // 되돌릴 수 없는 작업 — 2단계 확인을 거친다.
+                // 되돌릴 수 없는 작업 - 2단계 확인을 거친다.
                 // 개인정보 처리방침이 약속한 "앱 내에서 데이터 삭제" 경로이기도 하다.
                 Button(role: .destructive) {
                     showWipeConfirm = true
@@ -487,7 +487,7 @@ struct SettingView: View {
                     Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                           systemImage: AppSymbol.envelopeBadge)
                 }
-                // 마스터(개발자) 모드 전용 — 접수된 피드백 인박스 + 허브 사용 통계
+                // 마스터(개발자) 모드 전용 - 접수된 피드백 인박스 + 허브 사용 통계
                 if masterModeEnabled {
                     NavigationLink(destination: FeedbackInboxView()) {
                         Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
@@ -580,7 +580,7 @@ struct SettingView: View {
         .onAppear { refreshSecurePINState() }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
-        // 상단은 시스템 엣지 이펙트를 살린다 — 인라인 "설정" 타이틀이 스크롤된 행 위에
+        // 상단은 시스템 엣지 이펙트를 살린다 - 인라인 "설정" 타이틀이 스크롤된 행 위에
         // 그대로 겹쳐 그려지고, 투명 네비바 영역이 행 터치까지 삼키던 문제(글래스 베일이
         // 있어야 "바 아래로 들어갔다"가 시각적으로 전달됨). 하단(탭바)만 계속 숨긴다.
         .scrollEdgeEffectHidden(true, for: .bottom)
@@ -611,7 +611,7 @@ struct SettingView: View {
                 Text(NSLocalizedString("지원 섹션에 '접수된 피드백' 메뉴가 나타납니다.", comment: "Master mode enabled message"))
             }
         }
-        // MARK: 모든 데이터 삭제 — 2단계 확인
+        // MARK: 모든 데이터 삭제 - 2단계 확인
         // 1단계: 무엇이 지워지고 무엇이 남는지 알린다(구매는 유지된다는 점이 중요).
         .alert(NSLocalizedString("모든 데이터를 삭제할까요?", comment: "Wipe all data confirm title"),
                isPresented: $showWipeConfirm) {
@@ -670,23 +670,23 @@ struct SettingView: View {
 
 // MARK: - Display Settings
 
-/// 메모 표시 방식(이 앱 전용) — 메모 셀 높이 + 우상단 카테고리 심볼 표시.
+/// 메모 표시 방식(이 앱 전용) - 메모 셀 높이 + 우상단 카테고리 심볼 표시.
 struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
-    /// 메모 구분 표시 마스터 토글 — 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
+    /// 메모 구분 표시 마스터 토글 - 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
     @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
     private var visible: Bool = false
-    /// 메모 셀 높이 — 작게 110 / 보통 140 / 크게 180.
+    /// 메모 셀 높이 - 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
-    /// 카드 내용 힌트 — 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
+    /// 카드 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
     /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
     @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
     private var contentHintEnabled: Bool = true
 
     var body: some View {
         List {
-            // 라이브 미리보기 — 아래 설정을 바꾸면 즉시 반영된다(실제 메모 카드와 동일 모양).
+            // 라이브 미리보기 - 아래 설정을 바꾸면 즉시 반영된다(실제 메모 카드와 동일 모양).
             Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
                 HStack(spacing: 12) {
                     previewCell(title: NSLocalizedString("단축어", comment: "Snippet (saved key-value item) display name"),
@@ -753,7 +753,7 @@ struct DisplaySettingsView: View {
     private func previewCell(title: String, symbol: String, color: Color, plusTemplate: Bool) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
-                // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼) — 실제 카드와 동일하게
+                // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼) - 실제 카드와 동일하게
                 // 구분 표시 ON일 때만. 기본(OFF)은 심볼 없이 제목만.
                 if visible {
                     Image(systemName: AppSymbol.docFill)

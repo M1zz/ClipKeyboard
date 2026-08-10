@@ -7,7 +7,7 @@
 //  왜 필요한가: 마이그레이션 코드는 6곳(MemoStore·CategoryStore·ProStatusManager·
 //  SmartClipboard 등)에 있는데 전용 테스트가 없었다. 이 경로는 **개발 중에는 절대
 //  안 밟히고**(항상 최신 포맷으로 저장하니까) 실사용자 업데이트에서만 밟힌다.
-//  즉 깨져도 릴리즈 전에는 아무도 모른다 — 데이터 유실이 여기서 나온다.
+//  즉 깨져도 릴리즈 전에는 아무도 모른다 - 데이터 유실이 여기서 나온다.
 //
 //  픽스처는 실제 저장 포맷인 **JSON 문자열 리터럴**로 둔다. 모델 코드로 만들면
 //  모델이 바뀔 때 픽스처도 같이 바뀌어 "구버전 데이터"를 검증하지 못한다.
@@ -23,7 +23,7 @@ final class MigrationCompatibilityTests: XCTestCase {
         return try JSONDecoder().decode([Memo].self, from: data)
     }
 
-    // MARK: - Memo — 구버전 JSON 호환
+    // MARK: - Memo - 구버전 JSON 호환
 
     /// 가장 오래된 형식(OldMemo: title/value/isChecked만). 앱 1.x 시절 저장분.
     func testDecodesOldestMemoFormat() throws {
@@ -35,7 +35,7 @@ final class MigrationCompatibilityTests: XCTestCase {
         XCTAssertEqual(memos.count, 1)
         XCTAssertEqual(memos[0].title, "계좌")
         XCTAssertEqual(memos[0].value, "우리 1002-123")
-        // 없던 필드는 기본값으로 채워져야 한다 — nil/크래시가 아니라.
+        // 없던 필드는 기본값으로 채워져야 한다 - nil/크래시가 아니라.
         XCTAssertEqual(memos[0].category, "기본")
         XCTAssertFalse(memos[0].isFavorite)
         XCTAssertFalse(memos[0].isTemplate)   // templateVariables 가 비었으므로 false
@@ -47,7 +47,7 @@ final class MigrationCompatibilityTests: XCTestCase {
         XCTAssertTrue(memos[0].hintShownOnKeyboard)   // 없던 필드의 기본값은 true
     }
 
-    /// id가 아예 없던 저장분 — 새 UUID를 부여하고 살려야 한다(통째로 버리면 안 됨).
+    /// id가 아예 없던 저장분 - 새 UUID를 부여하고 살려야 한다(통째로 버리면 안 됨).
     func testDecodesMemoWithoutID() throws {
         let memos = try decodeMemos(#"[{"title":"인사","value":"안녕하세요"}]"#)
 

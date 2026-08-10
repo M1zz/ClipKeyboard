@@ -14,7 +14,7 @@ import LeeoKit
 // MARK: - Pro Value Nudge Banner
 
 /// 무료 유저가 가치를 느낀 순간(시간 절약 누적·한도 근접)에 1회 노출되는 Pro 넛지.
-/// 페이월 노출률을 높이는 상단 레버 — 탭하면 페이월, ×면 영구 닫힘.
+/// 페이월 노출률을 높이는 상단 레버 - 탭하면 페이월, ×면 영구 닫힘.
 struct ProValueNudgeBanner: View {
     let message: String
     let onTap: () -> Void
@@ -74,16 +74,16 @@ enum PastePermissionGuidance {
     /// 설치하고 **며칠**이 지나야 클립보드를 건드리는가.
     ///
     /// ⚠️ iOS는 앱이 클립보드를 **읽는 순간** "붙여넣기 허용?" 팝업을 띄운다.
-    ///    설치 첫날 그게 뜨면 신규 사용자가 이 앱에서 보는 첫 다이얼로그가 권한 요청이 된다 —
+    ///    설치 첫날 그게 뜨면 신규 사용자가 이 앱에서 보는 첫 다이얼로그가 권한 요청이 된다
     ///    무엇을 하는 앱인지 알기도 전에 거절할지를 묻는 셈이다.
     ///    며칠 써 보고 "복사한 게 여기 모이는구나"를 안 다음이라야 허용할 이유가 생긴다.
     static let warmUpDays = 3
 
-    /// 설치일. 없으면 **지금으로 친다** — 모르는 채로 곧장 팝업을 부르는 것보다
+    /// 설치일. 없으면 **지금으로 친다** - 모르는 채로 곧장 팝업을 부르는 것보다
     /// 며칠 기다리는 쪽이 안전하다. (보통은 ReviewManager가 첫 실행에 이미 찍어 둔다)
     ///
     /// ⚠️ 여기서 **값을 쓰지 않는다.** 읽기만 하는 자리에서 쓰면 남의 정리(테스트·초기화)를
-    ///    조용히 되돌려 놓는다 — 실제로 리뷰 데이터 초기화 테스트가 이 부작용으로 깨졌다.
+    ///    조용히 되돌려 놓는다 - 실제로 리뷰 데이터 초기화 테스트가 이 부작용으로 깨졌다.
     private static var installDate: Date {
         UserDefaults.standard.object(forKey: "app_install_date") as? Date ?? Date()
     }
@@ -245,21 +245,21 @@ struct MemoActionSheet: View {
     let onDelete: () -> Void
     /// 메모를 다른 카테고리로 이동. nil이면 이동 행을 표시하지 않는다.
     var onMoveToCategory: ((String) -> Void)?
-    /// "새 카테고리에 추가" — 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
+    /// "새 카테고리에 추가" - 즉석 생성 후 이 메모 이동 (호스트가 alert 표시).
     var onCreateNewCategory: (() -> Void)?
-    /// "순서 바꾸기" — 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
+    /// "순서 바꾸기" - 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
     var onReorder: (() -> Void)?
-    /// "템플릿으로 만들기" — 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
+    /// "템플릿으로 만들기" - 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
     var onMakeTemplate: (() -> Void)?
-    /// 튜토리얼이 지금 이 줄을 고르라고 안내하는 중인가 — 색과 한 줄 안내로 가리킨다.
+    /// 튜토리얼이 지금 이 줄을 고르라고 안내하는 중인가 - 색과 한 줄 안내로 가리킨다.
     /// ⚠️ 메뉴 안에서는 코치 말풍선을 얹을 수 없다. 줄 자체가 스스로 도드라져야 한다.
     var highlightsMakeTemplate: Bool = false
-    /// "보안 메모로 설정 / 보안 해제" — 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
+    /// "보안 메모로 설정 / 보안 해제" - 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
     var onToggleSecure: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
-    /// 시트 높이 — 내용 실측으로 갱신. 고정 높이는 행 개수·Dynamic Type에 따라
+    /// 시트 높이 - 내용 실측으로 갱신. 고정 높이는 행 개수·Dynamic Type에 따라
     /// 하단 행(보안 설정/삭제)이 잘려 보이지 않는 문제가 있었다.
     @State private var contentHeight: CGFloat = 530
 
@@ -280,7 +280,7 @@ struct MemoActionSheet: View {
 
     private var sheetContent: some View {
         VStack(spacing: 0) {
-            // 헤더 — 메모 제목
+            // 헤더 - 메모 제목
             HStack {
                 Text(memo.title.templateAwareAttributed(theme: theme, font: .headline))
                     .font(.headline)
@@ -312,13 +312,13 @@ struct MemoActionSheet: View {
                     onToggleFavorite()
                     dismiss()
                 }
-                // 카테고리 지정 — 미분류(흰 배경) 메모는 "추가", 이미 카테고리가 있으면 "이동".
+                // 카테고리 지정 - 미분류(흰 배경) 메모는 "추가", 이미 카테고리가 있으면 "이동".
                 if let onMoveToCategory {
                     // 카드가 실제로 색을 갖는 조건과 동일(기능 활성 + 커스텀 카테고리 소속)
                     let hasCategory = CategoryStore.shared.isFeatureEnabled && categories.contains(memo.category)
                     Divider().padding(.leading, 56)
                     Menu {
-                        // 즐겨찾기 — '전체' 탭은 지정 대상이 아니지만 즐겨찾기는 카테고리처럼 지정 가능.
+                        // 즐겨찾기 - '전체' 탭은 지정 대상이 아니지만 즐겨찾기는 카테고리처럼 지정 가능.
                         Button {
                             onToggleFavorite()
                             dismiss()
@@ -381,7 +381,7 @@ struct MemoActionSheet: View {
                     dismiss()
                     onEdit()
                 }
-                // 템플릿으로 만들기 — 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출
+                // 템플릿으로 만들기 - 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출
                 // (보안 메모는 값이 암호문이라 제외).
                 if let onMakeTemplate, !memo.isTemplate, !memo.isCombo, !memo.isSecure, memo.contentType == .text {
                     Divider().padding(.leading, 56)
@@ -405,7 +405,7 @@ struct MemoActionSheet: View {
                         }
                     }
                 }
-                // 보안 메모 설정/해제 — 텍스트 메모에서만(이미지는 제외, 콤보는 단계 값까지 암호화).
+                // 보안 메모 설정/해제 - 텍스트 메모에서만(이미지는 제외, 콤보는 단계 값까지 암호화).
                 if let onToggleSecure, memo.contentType == .text {
                     Divider().padding(.leading, 56)
                     actionRow(
@@ -464,7 +464,7 @@ struct MemoActionSheet: View {
         .buttonStyle(.plain)
     }
 
-    /// 행 라벨 비주얼 — Button과 Menu(카테고리 이동)가 공유.
+    /// 행 라벨 비주얼 - Button과 Menu(카테고리 이동)가 공유.
     private func actionRowLabel(
         label: String,
         systemImage: String,
@@ -485,7 +485,7 @@ struct MemoActionSheet: View {
         .contentShape(Rectangle())
     }
 
-    /// 카테고리 심볼 — 카드/키보드와 동일(사용자 지정 우선, 없으면 기본 팔레트).
+    /// 카테고리 심볼 - 카드/키보드와 동일(사용자 지정 우선, 없으면 기본 팔레트).
     private func categoryIcon(_ name: String) -> String {
         categorySymbol(for: name, in: categories)
     }
@@ -504,12 +504,12 @@ struct CategorySuggestionTip: Tip {
     var id: String { "category-suggestion-\(categoryRawName)" }
 
     var title: Text {
-        Text(String(format: NSLocalizedString("'%@' 단축어가 %d개 있어요", comment: "Category suggestion tip title — category name, memo count"),
+        Text(String(format: NSLocalizedString("'%@' 단축어가 %d개 있어요", comment: "Category suggestion tip title: category name, memo count"),
                     displayName, count))
     }
 
     var message: Text? {
-        Text(String(format: NSLocalizedString("'%@' 카테고리를 만들어 한 곳에 모아드릴까요?", comment: "Category suggestion tip message — category name"),
+        Text(String(format: NSLocalizedString("'%@' 카테고리를 만들어 한 곳에 모아드릴까요?", comment: "Category suggestion tip message: category name"),
                     displayName))
     }
 
@@ -563,14 +563,14 @@ struct SwipePageIndicator: View {
         .animation(.easeInOut(duration: 0.3), value: accentColor)
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
-        // 콘텐츠 위에 떠 있는 인디케이터 — Liquid Glass 캡슐. (iOS 26)
+        // 콘텐츠 위에 떠 있는 인디케이터 - Liquid Glass 캡슐. (iOS 26)
         .glassEffect(in: Capsule())
     }
 }
 
 // MARK: - Memo Image Background Helper
 
-/// 이미지 메모용 배경 뷰 — 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
+/// 이미지 메모용 배경 뷰 - 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
 struct MemoImageBackground: View {
     let fileName: String
     @State private var image: UIImage?
@@ -620,7 +620,7 @@ struct MemoTypeFilterBar: View {
 
     var favoritesCount: Int { memos.filter { $0.isFavorite }.count }
 
-    // resolvedType 기준으로 개수 계산 — 이미지/자동분류 타입까지 반영
+    // resolvedType 기준으로 개수 계산 - 이미지/자동분류 타입까지 반영
     var typeCounts: [ClipboardItemType: Int] {
         var counts: [ClipboardItemType: Int] = [:]
         for memo in memos {
@@ -860,7 +860,7 @@ struct SheetModifiers: ViewModifier {
                     .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
             }
-            // 템플릿 값 입력 하프모달 — 탭하면 키보드 익스텐션과 동일한 UX로
+            // 템플릿 값 입력 하프모달 - 탭하면 키보드 익스텐션과 동일한 UX로
             // 변수를 채우고 우상단 "복사"로 결과를 클립보드에 복사.
             .sheet(item: $selectedTemplateIdForSheet) { templateId in
                 if let memo = memos.first(where: { $0.id == templateId }) {
@@ -879,7 +879,7 @@ struct SheetModifiers: ViewModifier {
                     )
                 }
             }
-            // Combo 미리보기 하프모달 — 탭 시 즉시 복사되고, 순차 입력될 값들을 보여준다.
+            // Combo 미리보기 하프모달 - 탭 시 즉시 복사되고, 순차 입력될 값들을 보여준다.
             .sheet(item: $selectedComboIdForSheet) { comboId in
                 ComboPreviewSheet(
                     comboId: comboId,
@@ -895,16 +895,16 @@ struct SheetModifiers: ViewModifier {
 
 // MARK: - Content Hint (카드 속 은은한 내용 힌트)
 
-/// 메모 카드 제목 아래의 내용 힌트 — 카드가 화면에 나타나고 2초쯤 머물면 그제야
+/// 메모 카드 제목 아래의 내용 힌트 - 카드가 화면에 나타나고 2초쯤 머물면 그제야
 /// 블러가 걷히며 살며시 맺혔다가(materialize), 잠시 머문 뒤 흩어지듯 사라진다(dissolve).
-/// 사라진 뒤에도 4~10초 쉬었다가 다시 맺힌다 — 앱을 켜둔 동안 주기적으로 반복.
+/// 사라진 뒤에도 4~10초 쉬었다가 다시 맺힌다 - 앱을 켜둔 동안 주기적으로 반복.
 /// 카드(seed)마다 등장 시점·머무는 시간·휴식이 조금씩 달라 화면 전체가 동시에
 /// 깜빡이지 않고, 하나둘 차례로 맺혔다 제각각 흩어진다.
 struct ContentHintPreview: View {
     let text: String
-    /// 카드별 위상 시드(메모 id 해시) — 등장 지연·머묾 시간에 결정적 편차를 준다.
+    /// 카드별 위상 시드(메모 id 해시) - 등장 지연·머묾 시간에 결정적 편차를 준다.
     let seed: Int
-    /// 컬러 카드(이미지·카테고리색) 위인지 — 텍스트 색 결정.
+    /// 컬러 카드(이미지·카테고리색) 위인지 - 텍스트 색 결정.
     let onColor: Bool
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -913,19 +913,19 @@ struct ContentHintPreview: View {
     /// .body 한 줄이 들어가는 높이.
     static let zoneHeight: CGFloat = 22
 
-    /// 최소 2초는 머문 뒤에야 맺히기 시작한다(바닥값) — 여기에 카드별 편차가 더해진다.
+    /// 최소 2초는 머문 뒤에야 맺히기 시작한다(바닥값) - 여기에 카드별 편차가 더해진다.
     static let baseRevealDelay: Double = 2.0
     /// 맺힘/흩어짐 전환 시간.
     static let fadeDuration: Double = 0.9
 
-    /// 등장 지연 2.0~3.6s — 카드들이 하나둘 차례로 맺힌다.
+    /// 등장 지연 2.0~3.6s - 카드들이 하나둘 차례로 맺힌다.
     private var revealDelay: Double { Self.baseRevealDelay + unit(0) * 1.6 }
-    /// 머묾 3.6~5.4s — 먼저 맺힌 힌트가 꼭 먼저 사라지진 않도록 제각각.
+    /// 머묾 3.6~5.4s - 먼저 맺힌 힌트가 꼭 먼저 사라지진 않도록 제각각.
     private var holdDuration: Double { 3.6 + unit(1) * 1.8 }
-    /// 흩어진 뒤 휴식 4~10s — 쉬었다가 다시 맺힌다(주기 반복).
+    /// 흩어진 뒤 휴식 4~10s - 쉬었다가 다시 맺힌다(주기 반복).
     private var restDuration: Double { 4.0 + unit(2) * 6.0 }
 
-    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) — 같은 카드는 항상 같은 리듬.
+    /// seed에서 뽑은 결정적 0..<1 (salt로 서로 독립적인 값) - 같은 카드는 항상 같은 리듬.
     private func unit(_ salt: UInt64) -> Double {
         var h = UInt64(bitPattern: Int64(seed)) &+ (salt &+ 1) &* 0x9E3779B97F4A7C15
         h ^= h >> 33
@@ -936,7 +936,7 @@ struct ContentHintPreview: View {
 
     /// 빈 공간 → 맺힘 → (머묾) → 흩어짐 → 휴식 → 다시 맺힘… 의 반복.
     private enum Stage {
-        case waiting    // 빈 공간 (첫 대기·휴식 구간 — 다음 맺힘은 3pt 아래에서 시작)
+        case waiting    // 빈 공간 (첫 대기·휴식 구간 - 다음 맺힘은 3pt 아래에서 시작)
         case shown      // 또렷하게 읽히는 구간
         case gone       // 흩어지는 중 (살짝 떠오르며 블러 속으로)
     }
@@ -974,7 +974,7 @@ struct ContentHintPreview: View {
                         stage = .waiting   // 보이지 않는 동안 시작 위치로 (애니메이션 없음)
                         try await Task.sleep(for: .seconds(restDuration))
                     }
-                } catch { /* 화면 이탈로 취소 — 다음 등장 때 다시 */ }
+                } catch { /* 화면 이탈로 취소 - 다음 등장 때 다시 */ }
             }
     }
 

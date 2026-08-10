@@ -15,7 +15,7 @@ import LeeoKit
 
 /// 앱이 미리 만들어 제공하는 "기본 제공 카테고리". 사용자가 카테고리 관리에서 켜면 탭으로 노출된다.
 /// 일반(문자열) 카테고리와 달리 `memo.category` 문자열이 아니라 **메모의 타입**으로 멤버십을 판정한다.
-/// (요청: 필터가 아니라 카테고리로 — 사용자에겐 카테고리와 동일하게 보이되 멤버십만 타입 기준)
+/// (요청: 필터가 아니라 카테고리로 - 사용자에겐 카테고리와 동일하게 보이되 멤버십만 타입 기준)
 enum BuiltInCategory: String, CaseIterable, Hashable {
     case templates   // 템플릿만
     case textMemos   // 메모+템플릿 (이미지·콤보 제외)
@@ -50,7 +50,7 @@ enum BuiltInCategory: String, CaseIterable, Hashable {
         }
     }
 
-    /// 이 카테고리에 메모가 속하는지 — 타입 기준 판정.
+    /// 이 카테고리에 메모가 속하는지 - 타입 기준 판정.
     func matches(_ memo: Memo) -> Bool {
         switch self {
         case .templates: return memo.isTemplate
@@ -66,7 +66,7 @@ enum BuiltInCategory: String, CaseIterable, Hashable {
 // MARK: - CategoryTab
 
 enum CategoryTab: Hashable, Equatable {
-    /// "전체" 탭 제거 후 기본 홈 탭 — 어떤 사용자 카테고리에도 속하지 않은(기본/미분류) 메모 모음.
+    /// "전체" 탭 제거 후 기본 홈 탭 - 어떤 사용자 카테고리에도 속하지 않은(기본/미분류) 메모 모음.
     case basic
     /// 카테고리 기능이 꺼져 있을 때의 단일 "모든 메모" 페이지 전용. 탭 바에는 노출되지 않음.
     case all
@@ -125,7 +125,7 @@ enum CategoryTab: Hashable, Equatable {
         }
     }
 
-    /// 칩에 삭제(x) 버튼을 숨길지 — 사용자 정의(custom)만 칩에서 삭제 가능.
+    /// 칩에 삭제(x) 버튼을 숨길지 - 사용자 정의(custom)만 칩에서 삭제 가능.
     /// 기본 제공 카테고리는 카테고리 관리 화면의 토글로 끈다.
     var isBuiltIn: Bool {
         if case .custom = self { return false }
@@ -162,7 +162,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     private let manualOrderActiveKey = DefaultsKey.memoManualOrderActiveV1
 
     /// 사용자가 수동 순서를 한 번이라도 지정했는지. true면 sortMemos가 수동 순서를 따른다
-    /// (즐겨찾기 맨 위 고정 해제 — 사용자가 둔 순서 그대로).
+    /// (즐겨찾기 맨 위 고정 해제 - 사용자가 둔 순서 그대로).
     private var manualOrderActive: Bool {
         UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: manualOrderActiveKey) ?? false
     }
@@ -173,7 +173,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return raw.compactMap { UUID(uuidString: $0) }
     }
 
-    /// 재정렬 모드 진입 — 카테고리 기능이 켜져 있으면 현재 탭의 메모만,
+    /// 재정렬 모드 진입 - 카테고리 기능이 켜져 있으면 현재 탭의 메모만,
     /// 아니면 전체 목록을 작업용 목록으로 복제. (메모가 많아도 지금 보는 카테고리만 재정렬)
     func enterReorderMode() {
         reorderList = CategoryStore.shared.isFeatureEnabled
@@ -182,7 +182,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = true }
     }
 
-    /// 재정렬 대상 — 탭 기준으로만 모은다(검색·타입 필터는 무시해 탭의 모든 메모를 포함).
+    /// 재정렬 대상 - 탭 기준으로만 모은다(검색·타입 필터는 무시해 탭의 모든 메모를 포함).
     /// loadedData가 이미 표시 순서(sortMemos)라 부분집합도 화면과 같은 순서로 나온다.
     func reorderScopeMemos(for tab: CategoryTab) -> [Memo] {
         switch tab {
@@ -204,7 +204,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         CategoryStore.shared.isFeatureEnabled ? selectedCategoryTab.displayName : nil
     }
 
-    /// 재정렬 모드 종료 — 현재 순서를 영구 저장하고 닫는다.
+    /// 재정렬 모드 종료 - 현재 순서를 영구 저장하고 닫는다.
     func exitReorderMode() {
         commitReorder()
         withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = false }
@@ -212,7 +212,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     /// reorderList 순서를 디스크/UserDefaults에 영구 저장. 이후 sortMemos가 이 순서를 따른다.
     /// 현재 탭의 메모만 재정렬한 경우, 전체 순서에서 그 메모들이 차지하던 슬롯만 새 순서로
-    /// 치환한다 — 다른 카테고리 메모의 상대 순서는 그대로 유지.
+    /// 치환한다 - 다른 카테고리 메모의 상대 순서는 그대로 유지.
     func commitReorder() {
         guard !reorderList.isEmpty else { return }
         let subsetIds = Set(reorderList.map(\.id))
@@ -235,7 +235,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         loadedData = merged
         do {
             try MemoStore.shared.save(memos: loadedData, type: .memo)
-            print("✅ [commitReorder] 수동 순서 저장 — 재정렬 \(reorderList.count)개 / 전체 \(loadedData.count)개")
+            print("✅ [commitReorder] 수동 순서 저장, 재정렬 \(reorderList.count)개 / 전체 \(loadedData.count)개")
         } catch {
             print("❌ [commitReorder] 저장 실패: \(error)")
         }
@@ -253,7 +253,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     var allCategoryTabs: [CategoryTab] {
         var tabs: [CategoryTab] = [.basic]
-        // 즐겨찾기는 기본 제공 카테고리 — 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
+        // 즐겨찾기는 기본 제공 카테고리 - 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
         if !hiddenCategoryTabs.contains("__favorites__") {
             tabs.append(.favorites)
         }
@@ -275,14 +275,14 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func selectCategoryTab(_ tab: CategoryTab) {
         withAnimation(.easeInOut(duration: 0.22)) { selectedCategoryTab = tab }
-        // 마지막 본 탭 기억 — 다음 실행 시 이 화면에서 시작.
+        // 마지막 본 탭 기억 - 다음 실행 시 이 화면에서 시작.
         UserDefaults.standard.set(tab.storageKey, forKey: Self.selectedCategoryTabKey)
     }
 
     private static let selectedCategoryTabKey = "selectedCategoryTab_v1"
     private var didRestoreCategoryTab = false
 
-    /// 앱 시작 시 1회 — 마지막에 보던 카테고리 탭을 복원한다.
+    /// 앱 시작 시 1회 - 마지막에 보던 카테고리 탭을 복원한다.
     /// 카테고리 기능이 켜져 있고, 저장된 탭이 지금도 노출 가능한 경우에만 적용
     /// (삭제·숨김된 카테고리거나 기능이 꺼져 있으면 전체에서 시작).
     func restoreSelectedCategoryTabIfNeeded() {
@@ -316,12 +316,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
         memos(for: selectedCategoryTab)
     }
 
-    /// "기본" 탭에 모이는 메모 — 사용자가 만든 어떤 커스텀 카테고리에도 속하지 않은 모든 메모.
+    /// "기본" 탭에 모이는 메모 - 사용자가 만든 어떤 커스텀 카테고리에도 속하지 않은 모든 메모.
     /// (category == "기본", 빈값, 또는 삭제된 카테고리의 고아 메모까지 catch-all로 포함해
     /// "전체" 탭이 사라져도 어떤 메모도 화면에서 누락되지 않게 한다.)
     /// 검색·타입 필터가 반영된 `memos` 기준이라 다른 탭과 동작이 일관된다.
     var basicBucketMemos: [Memo] {
-        // 즐겨찾기도 하나의 카테고리 — 즐겨찾기한 메모는 기본 버킷에서 빠지고 즐겨찾기 탭에만 보인다.
+        // 즐겨찾기도 하나의 카테고리 - 즐겨찾기한 메모는 기본 버킷에서 빠지고 즐겨찾기 탭에만 보인다.
         memos.filter { !customCategories.contains($0.category) && !$0.isFavorite }
     }
 
@@ -339,7 +339,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             }
             return base.filter { $0.isFavorite }
         case .builtIn(let b):
-            // 기본 제공 카테고리 — 메모 타입 기준으로 필터. 검색은 그대로 적용.
+            // 기본 제공 카테고리 - 메모 타입 기준으로 필터. 검색은 그대로 적용.
             let base = searchQueryString.isEmpty ? loadedData : loadedData.filter {
                 $0.title.localizedStandardContains(searchQueryString)
             }
@@ -390,7 +390,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return (best.key, best.value)
     }
 
-    /// 제안 수락 — 카테고리를 추가하고 해당 탭으로 이동.
+    /// 제안 수락 - 카테고리를 추가하고 해당 탭으로 이동.
     /// 메모는 이미 분류돼 있어 추가 즉시 그 탭에 모인다.
     func acceptSuggestedCategory(_ name: String) {
         addCustomCategory(name)
@@ -410,11 +410,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func loadCustomCategories() {
         let ud = UserDefaults(suiteName: AppGroup.identifier)
-        // 카테고리는 기본 제공하지 않음 — 사용자가 직접 만든 목록만 로드.
+        // 카테고리는 기본 제공하지 않음 - 사용자가 직접 만든 목록만 로드.
         customCategories = ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
         let hidden = ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         hiddenCategoryTabs = Set(hidden)
-        // 기본 제공 카테고리 — allCases 순서를 유지해 탭 순서가 항상 일정하게.
+        // 기본 제공 카테고리 - allCases 순서를 유지해 탭 순서가 항상 일정하게.
         let enabledRaw = Set(ud?.stringArray(forKey: DefaultsKey.enabledBuiltInCategoriesV1) ?? [])
         enabledBuiltInCategories = BuiltInCategory.allCases.filter { enabledRaw.contains($0.rawValue) }
         // 관리 화면에서 끈 카테고리가 현재 선택 탭이면 전체로 되돌린다(빈 탭에 머무는 것 방지).
@@ -534,7 +534,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         if lastKnownPasteCount == 0 && newCount > 0 {
             showActivationCard = false
             showCelebrationToast()
-            print("🎉 [ViewModel] 첫 붙여넣기 감지 — 축하 토스트 표시")
+            print("🎉 [ViewModel] 첫 붙여넣기 감지, 축하 토스트 표시")
         }
         lastKnownPasteCount = newCount
         checkActivationCard()
@@ -546,7 +546,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    통째로 덮어쓰는 파일이라, 낡은 목록을 들고 있다가 아무 편집이나 저장하는 순간
     ///    밖에서 덧붙인 것이 지워진다. 사용자에겐 "공유했는데 없어졌다"로만 보인다.
     ///
-    /// 매번 읽지 않고 표식이 바뀐 때만 읽는다 — 앞으로 올 때마다 파일을 훑을 이유는 없다.
+    /// 매번 읽지 않고 표식이 바뀐 때만 읽는다 - 앞으로 올 때마다 파일을 훑을 이유는 없다.
     private func reloadIfChangedOutsideApp() {
         let changedAt = UserDefaults(suiteName: AppGroup.identifier)?
             .double(forKey: DefaultsKey.memosExternalChangeAt) ?? 0
@@ -556,7 +556,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         guard changedAt > seenAt else { return }
 
         UserDefaults.standard.set(changedAt, forKey: DefaultsKey.memosExternalChangeSeenAt)
-        print("🔄 [ViewModel] 앱 밖에서 단축어가 바뀌었다 — 다시 읽는다")
+        print("🔄 [ViewModel] 앱 밖에서 단축어가 바뀌었다. 다시 읽는다")
         loadMemos()
         loadCustomCategories()
     }
@@ -641,7 +641,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("📊 [loadMemos] 로드된 메모 개수: \(loadedMemos.count)")
             let noImageCount = loadedMemos.filter { ($0.imageFileNames.first ?? $0.imageFileName ?? "").isEmpty }.count
             print("🖼️ [loadMemos] 이미지 있는 메모: \(loadedMemos.count - noImageCount)개 / 전체: \(loadedMemos.count)개")
-            // "전체" 탭 제거에 따른 정리 — category가 비어 있는(미분류) 메모를 "기본"으로 정규화.
+            // "전체" 탭 제거에 따른 정리 - category가 비어 있는(미분류) 메모를 "기본"으로 정규화.
             // 멱등(idempotent)하므로 매 로드마다 수행해도 안전하고, 변경이 있을 때만 저장한다.
             let normalizedMemos = normalizeEmptyCategories(loadedMemos)
             memos = sortMemos(normalizedMemos)
@@ -649,7 +649,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
             checkTemplateHintIfNeeded()
-            // 데이터·카테고리가 로드된 뒤 1회 — 마지막 본 탭으로 복원.
+            // 데이터·카테고리가 로드된 뒤 1회 - 마지막 본 탭으로 복원.
             restoreSelectedCategoryTabIfNeeded()
         } catch {
             print("❌ [loadMemos] 메모 로드 실패: \(error.localizedDescription)")
@@ -785,7 +785,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 try MemoStore.shared.save(memos: loadedData, type: .memo)
                 applyFilters()
             } catch {
-                // 저장 실패로 앱을 크래시시키지 않는다 — 디스크 상태로 되돌려 UI 일관성을 유지하고 사용자에게 알린다.
+                // 저장 실패로 앱을 크래시시키지 않는다 - 디스크 상태로 되돌려 UI 일관성을 유지하고 사용자에게 알린다.
                 print("❌ [ClipKeyboardListViewModel.toggleFavorite] 즐겨찾기 저장 실패: \(error)")
                 loadMemos()
                 showPlainToast(NSLocalizedString("변경 사항을 저장하지 못했습니다", comment: "Save failed toast"))
@@ -814,7 +814,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func toggleSecure(memoId: UUID) {
         guard let memo = loadedData.first(where: { $0.id == memoId }) else { return }
         if memo.isSecure {
-            // 보안 해제 — 평문 노출이므로 인증을 먼저 요구.
+            // 보안 해제 - 평문 노출이므로 인증을 먼저 요구.
             authenticateForSecureChange { [weak self] in
                 self?.applySecure(memoId: memoId, makeSecure: false)
             }
@@ -841,7 +841,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     /// 보안 상태를 적용해 저장. makeSecure=true면 평문을 암호화, false면 암호문을 복호화.
-    /// (암복호화는 idempotent — 어떤 상태의 value가 와도 안전.)
+    /// (암복호화는 idempotent - 어떤 상태의 value가 와도 안전.)
     private func applySecure(memoId: UUID, makeSecure: Bool) {
         guard let idx = loadedData.firstIndex(where: { $0.id == memoId }) else { return }
         let backup = loadedData
@@ -854,7 +854,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 showPlainToast(NSLocalizedString("보안 설정에 실패했습니다", comment: "Make-secure failed toast"))
                 return
             }
-            // 콤보면 단계 값도 함께 암호화 — 하나라도 실패하면 전체 롤백(부분 암호화 방지).
+            // 콤보면 단계 값도 함께 암호화 - 하나라도 실패하면 전체 롤백(부분 암호화 방지).
             let encSteps = SecureMemoCrypto.encryptSteps(SecureMemoCrypto.decryptSteps(memo.comboValues))
             guard encSteps.allSatisfy({ SecureMemoCrypto.isEncrypted($0) }) || memo.comboValues.isEmpty else {
                 showPlainToast(NSLocalizedString("보안 설정에 실패했습니다", comment: "Make-secure failed toast"))
@@ -875,7 +875,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             try MemoStore.shared.save(memos: loadedData, type: .memo)
             loadedData = sortMemos(loadedData)
             applyFilters()
-            // 봉함/개봉 — 잠금이 체크박스가 아니라 만지는 동작으로 느껴지도록.
+            // 봉함/개봉 - 잠금이 체크박스가 아니라 만지는 동작으로 느껴지도록.
             if makeSecure { Delight.sealed() } else { Delight.unsealed() }
             showPlainToast(makeSecure
                 ? NSLocalizedString("봉인했어요", comment: "Memo locked toast")
@@ -927,7 +927,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         showTemplateInputSheet = false
     }
 
-    /// v4.0.8: attachedTemplate 입력 스킵 — 본 메모 단독 출력 (사용자가 시트에서 "템플릿 없이").
+    /// v4.0.8: attachedTemplate 입력 스킵 - 본 메모 단독 출력 (사용자가 시트에서 "템플릿 없이").
     func skipAttachedTemplate() {
         guard let base = attachedTemplateBaseMemo else { return }
         guard let baseValue = usableValue(of: base) else { showAuthAlert = true; return }
@@ -1072,7 +1072,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     /// 원탭 저장: 방금 복사한 클립보드를 제안된 제목으로 즉시 메모로 저장한다.
-    /// 제목 입력 없이 키보드에서 바로 꺼내 쓸 수 있게 — 이 앱의 핵심 마찰을 제거.
+    /// 제목 입력 없이 키보드에서 바로 꺼내 쓸 수 있게 - 이 앱의 핵심 마찰을 제거.
     func saveClipboardAsMemo() {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else {
@@ -1151,7 +1151,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 if memos[index].autoDetectedType == nil {
                     let classification = ClipboardClassificationService.shared.classify(content: memos[index].value)
                     memos[index].autoDetectedType = classification.type
-                    // ⚠️ category는 절대 자동 변경하지 않는다 — 사용자가 지정한 카테고리는 물론
+                    // ⚠️ category는 절대 자동 변경하지 않는다 - 사용자가 지정한 카테고리는 물론
                     // "기본" 버킷도 그대로 보존. autoDetectedType만 채워 타입 필터/빌트인 탭에 사용.
                     updated = true
                 }
@@ -1240,7 +1240,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         let clipboard = TemplateVariableProcessor.containsClipboardToken(text)
             ? UIPasteboard.general.string
             : nil
-        // keepCursorToken은 기본값(false) — 여기는 클립보드로 복사하는 경로라
+        // keepCursorToken은 기본값(false) - 여기는 클립보드로 복사하는 경로라
         // 캐럿을 옮길 수 없다. 토큰이 남으면 "{커서}"가 그대로 붙여넣어진다.
         return TemplateVariableProcessor.process(text, clipboard: clipboard)
     }

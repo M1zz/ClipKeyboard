@@ -11,7 +11,7 @@
 //     ("신한 계좌번호 예금주", "신한 계좌번호 이체용"). 꼬리를 자르면 둘 다
 //     "신한 계좌번호…"가 되어 **키만 보고는 구분할 수 없다.** 뒤를 살리면 구분된다.
 //
-//  ⚠️ App Group 에 저장한다 — 키보드 익스텐션이 렌더에 쓴다.
+//  ⚠️ App Group 에 저장한다 - 키보드 익스텐션이 렌더에 쓴다.
 //
 
 import SwiftUI
@@ -54,7 +54,7 @@ enum KeyLabelTruncation: String, CaseIterable, Identifiable {
         }
     }
 
-    /// 미리보기에 쓰는 보기 문구 — 고르기 전에 결과를 보여준다.
+    /// 미리보기에 쓰는 보기 문구 - 고르기 전에 결과를 보여준다.
     static let sampleTitle = NSLocalizedString("신한 계좌번호 예금주",
                                                comment: "Key label truncation preview sample")
 }

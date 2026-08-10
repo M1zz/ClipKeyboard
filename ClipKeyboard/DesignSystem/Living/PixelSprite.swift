@@ -2,7 +2,7 @@
 //  PixelSprite.swift
 //  ClipKeyboard
 //
-//  8×8 픽셀 스프라이트 — **이미지 파일 없이** 배열만으로 그린다.
+//  8×8 픽셀 스프라이트 - **이미지 파일 없이** 배열만으로 그린다.
 //
 //  왜 코드로 그리나: 에셋을 쓰면 @1x/@2x/@3x 세 벌을 넣어야 하고, 다크 모드용을 또 만들어야
 //  하고, 앱 용량이 늘고, 어느 배율에선 뭉갠다. 8×8 배열은 용량이 0이고 어떤 크기에서도
@@ -16,7 +16,7 @@ import SwiftUI
 
 // MARK: - 팔레트
 
-/// 스프라이트 문자 → 색. 테마와 무관한 고정 팔레트다 —
+/// 스프라이트 문자 → 색. 테마와 무관한 고정 팔레트다
 /// 픽셀 아트는 색 수가 적고 서로의 대비로 형태를 만들어서, 테마색으로 바꾸면 형태가 무너진다.
 enum PixelPalette {
     static func color(for symbol: Character) -> Color? {
@@ -43,7 +43,7 @@ struct PixelSprite: Equatable, Identifiable {
 
     static let size = 8
 
-    /// 빈 땅 — 아직 한 번도 안 쓴 문구. 흙만 있고 아무것도 자라지 않았다.
+    /// 빈 땅 - 아직 한 번도 안 쓴 문구. 흙만 있고 아무것도 자라지 않았다.
     ///
     /// ⚠️ 이게 없으면 안 쓴 카드에는 **아무것도 안 그려져서** 스킨을 켠 줄도 모른다.
     ///    빈 땅은 "여기서 자랄 것"이라는 초대이기도 하다.
@@ -58,7 +58,7 @@ struct PixelSprite: Equatable, Identifiable {
         "..kkk..."
     ], id: "plot")
 
-    /// 새싹 — 한 번이라도 쓰면 돋는다.
+    /// 새싹 - 한 번이라도 쓰면 돋는다.
     static let sprout = PixelSprite(rows: [
         "........",
         "........",
@@ -70,7 +70,7 @@ struct PixelSprite: Equatable, Identifiable {
         "..kkk..."
     ], id: "sprout")
 
-    /// 꽃 — 조금 익숙해진 문구.
+    /// 꽃 - 조금 익숙해진 문구.
     static let flower = PixelSprite(rows: [
         "........",
         "..yyy...",
@@ -82,7 +82,7 @@ struct PixelSprite: Equatable, Identifiable {
         "..kkk..."
     ], id: "flower")
 
-    /// 나무 — 손에 붙은 문구.
+    /// 나무 - 손에 붙은 문구.
     static let tree = PixelSprite(rows: [
         "..GGG...",
         ".GGGGG..",
@@ -94,7 +94,7 @@ struct PixelSprite: Equatable, Identifiable {
         "..kkk..."
     ], id: "tree")
 
-    /// 집 — 고비를 넘긴 문구.
+    /// 집 - 고비를 넘긴 문구.
     static let house = PixelSprite(rows: [
         "...r....",
         "..rrr...",
@@ -107,7 +107,7 @@ struct PixelSprite: Equatable, Identifiable {
     ], id: "house")
 }
 
-// MARK: - 마을 계획 (순수 함수 — 테스트 가능)
+// MARK: - 마을 계획 (순수 함수 - 테스트 가능)
 
 enum PixelVillage {
 
@@ -115,10 +115,10 @@ enum PixelVillage {
     static let maxSprites = 9
 
     /// 몇 회부터 무엇이 되는가.
-    /// 새싹 1회 · 꽃 4회 · 나무 10회 · 집 25회 — 큰 것부터 채우고 남는 만큼 작은 것을 세운다.
+    /// 새싹 1회 · 꽃 4회 · 나무 10회 · 집 25회 - 큰 것부터 채우고 남는 만큼 작은 것을 세운다.
     /// 그래서 27회짜리 문구는 "집 한 채 + 새싹 둘"이 되어 **한눈에 규모가 읽힌다.**
     static func plan(useCount: Int) -> [PixelSprite] {
-        // 안 쓴 문구도 빈 땅은 보여준다 — 아무것도 안 그리면 스킨이 켜졌는지조차 알 수 없다.
+        // 안 쓴 문구도 빈 땅은 보여준다 - 아무것도 안 그리면 스킨이 켜졌는지조차 알 수 없다.
         guard useCount > 0 else { return [.plot] }
 
         var remaining = useCount

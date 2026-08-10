@@ -107,7 +107,7 @@ private struct SimulatorNoopDatabase: CloudKitBackupDatabase {
 }
 #endif
 
-/// 버전 백업(타임머신) 한 항목의 메타데이터 — 복원 화면의 날짜별 목록에 쓰인다.
+/// 버전 백업(타임머신) 한 항목의 메타데이터 - 복원 화면의 날짜별 목록에 쓰인다.
 struct BackupSnapshotInfo: Codable, Identifiable, Equatable {
     var id: String { recordName }
     let recordName: String
@@ -214,7 +214,7 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    /// 시작 직후 최신 백업을 한 번 보장한다 — 맥/다른 기기가 바로 복원할 수 있게.
+    /// 시작 직후 최신 백업을 한 번 보장한다 - 맥/다른 기기가 바로 복원할 수 있게.
     /// 인증이 확정될 때까지 잠깐 대기하고, 최근(1시간 내) 백업이 있으면 생략한다.
     private func performInitialBackupIfNeeded() {
         Task { [weak self] in
@@ -455,19 +455,19 @@ class CloudKitBackupService: ObservableObject {
             let destructive = nothingReal || drasticReduce
 
             if nothingReal && existingCount == 0 {
-                AppLog.info(.backup, "🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음 — 백업할 것 없음")
+                AppLog.info(.backup, "🛑 [CloudKit] 실데이터 없음 + 기존 백업 없음. 백업할 것 없음")
                 return .nothingToBackUp
             }
             if destructive {
                 if isAutomatic {
-                    AppLog.info(.backup, "🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)) — 건너뜀(기존 백업 보존)")
+                    AppLog.info(.backup, "🛑 [CloudKit] 자동 백업 보호: 빈/대폭축소(기존 \(existingCount)→\(newCount)), 건너뜀(기존 백업 보존)")
                     return .skippedToProtectExisting(existing: existingCount, new: newCount)
                 }
                 if !allowReduce {
-                    AppLog.warning(.backup, "⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소 — 사용자 동의 필요")
+                    AppLog.warning(.backup, "⚠️ [CloudKit] 수동 백업이 기존 \(existingCount)→\(newCount)로 축소, 사용자 동의 필요")
                     throw CloudKitError.backupWouldReduceData(existing: existingCount, new: newCount)
                 }
-                AppLog.info(.backup, "✅ [CloudKit] 사용자 동의됨 — 축소 백업 진행(\(existingCount)→\(newCount))")
+                AppLog.info(.backup, "✅ [CloudKit] 사용자 동의됨. 축소 백업 진행(\(existingCount)→\(newCount))")
             }
 
             let (memosData, smartClipboardData, combosData) = try encodeDataForBackup(
@@ -482,7 +482,7 @@ class CloudKitBackupService: ObservableObject {
             let backupDate = Date()
             await MainActor.run { saveLastBackupDate(backupDate) }
 
-            // 버전 스냅샷(타임머신) 보관 — 메인 백업 성공 직후 타임스탬프 스냅샷을 쌓는다.
+            // 버전 스냅샷(타임머신) 보관 - 메인 백업 성공 직후 타임스탬프 스냅샷을 쌓는다.
             // 실패해도 메인 백업은 정상 처리(스냅샷은 추가 안전망일 뿐 메인 백업을 막지 않는다).
             do {
                 try await writeVersionSnapshot(
@@ -643,14 +643,14 @@ class CloudKitBackupService: ObservableObject {
         await loadSnapshotIndex()
     }
 
-    /// 현재 iCloud 백업(최신 레코드)에 들어있는 메모 개수 — "무엇이 백업돼 있는지" 한눈에 확인용.
+    /// 현재 iCloud 백업(최신 레코드)에 들어있는 메모 개수 - "무엇이 백업돼 있는지" 한눈에 확인용.
     func currentBackupMemoCount() async -> Int? {
         guard let record = try? await database.record(for: CKRecord.ID(recordName: "TokenMemoBackup")) else { return nil }
         return Self.existingMemoCount(from: record)
     }
 
     /// 메인 백업 성공 후 타임스탬프 스냅샷을 따로 저장하고, 최신 maxSnapshots개만 남기고 정리한다.
-    /// 단일 레코드를 덮어쓰던 구조의 약점(이전 백업 소실)을 보완 — 잘못된 백업이 끼어도 과거로 복원 가능.
+    /// 단일 레코드를 덮어쓰던 구조의 약점(이전 백업 소실)을 보완 - 잘못된 백업이 끼어도 과거로 복원 가능.
     private func writeVersionSnapshot(memosData: Data, smartClipboardData: Data, combosData: Data,
                                       memos: [Memo], memoCount: Int, date: Date) async throws {
         let snapName = "TokenMemoBackup_snap_\(UUID().uuidString)"
@@ -671,13 +671,13 @@ class CloudKitBackupService: ObservableObject {
         infos.append(BackupSnapshotInfo(recordName: snapName, date: date, memoCount: memoCount))
         infos.sort { $0.date > $1.date }
         let keep = Array(infos.prefix(maxSnapshots))
-        // 정리 실패는 백업 자체를 실패시키지 않는다(이미 저장은 끝났다) — 대신 반드시 로그로 남긴다.
+        // 정리 실패는 백업 자체를 실패시키지 않는다(이미 저장은 끝났다) - 대신 반드시 로그로 남긴다.
         // 삭제에 실패한 스냅샷은 인덱스에서 빠지므로 다시 정리되지 않는 고아 레코드로 남는다(용량만 차지, 데이터 손실 아님).
         for old in infos.dropFirst(maxSnapshots) {
             do {
                 _ = try await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
             } catch {
-                AppLog.warning(.backup, "⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)) — 고아 레코드로 남음: \(error.localizedDescription)")
+                AppLog.warning(.backup, "⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)), 고아 레코드로 남음: \(error.localizedDescription)")
             }
         }
         try await saveSnapshotIndex(keep)
@@ -736,7 +736,7 @@ class CloudKitBackupService: ObservableObject {
             // 메모 본문을 저장하기 전에 첨부 이미지를 Images/에 먼저 복원(깨진 참조 방지).
             restoreImages(from: record)
             try saveRestoredData(memos: memos, smartClipboard: smartClipboard, combos: combos)
-            // 카테고리는 메모를 저장한 **뒤에** 복원한다 — 옛 백업 폴백이 메모의
+            // 카테고리는 메모를 저장한 **뒤에** 복원한다 - 옛 백업 폴백이 메모의
             // category 값을 읽어 역산하므로 메모가 먼저 자리를 잡아야 한다.
             restoreCategories(from: record, memos: memos)
             AppLog.info(.backup, "🎉 [CloudKit] 전체 복구 완료!")
@@ -768,9 +768,9 @@ class CloudKitBackupService: ObservableObject {
 
         let rebuilt = CategorySnapshotStore.rebuildFromMemos(memos)
         if rebuilt.isEmpty {
-            AppLog.info(.backup, "🗂 [CloudKit] 백업에 카테고리 정보 없음 — 메모에서도 복구할 것 없음")
+            AppLog.info(.backup, "🗂 [CloudKit] 백업에 카테고리 정보 없음. 메모에서도 복구할 것 없음")
         } else {
-            AppLog.info(.backup, "🗂 [CloudKit] 옛 백업 — 메모에서 카테고리 \(rebuilt.count)개 복구")
+            AppLog.info(.backup, "🗂 [CloudKit] 옛 백업, 메모에서 카테고리 \(rebuilt.count)개 복구")
         }
     }
 

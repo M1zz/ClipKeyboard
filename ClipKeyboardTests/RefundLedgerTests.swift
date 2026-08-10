@@ -5,11 +5,11 @@
 //  월 원장의 계약을 고정한다.
 //
 //  가장 중요한 세 지점:
-//   ① **초와 횟수를 따로 쌓는다** — 초를 회당 금액으로 나눠 역산하면 문구를 고친 순간부터
+//   ① **초와 횟수를 따로 쌓는다** - 초를 회당 금액으로 나눠 역산하면 문구를 고친 순간부터
 //      "×N"이 어긋난다. 실제로 그래서 키를 하나 더 뒀다.
-//   ② **기간은 월 단위뿐이다** — 월 원장에서 임의 구간을 뽑으면 그 달 전체가 딸려와
+//   ② **기간은 월 단위뿐이다** - 월 원장에서 임의 구간을 뽑으면 그 달 전체가 딸려와
 //      틀린 수를 찍는다. 정확하지 않은 기간은 아예 만들지 않았다.
-//   ③ **원장 이전은 없다** — 예전부터 쓰던 사람의 지난달을 0원으로 찍으면 거짓말이라,
+//   ③ **원장 이전은 없다** - 예전부터 쓰던 사람의 지난달을 0원으로 찍으면 거짓말이라,
 //      시작일을 남겨 영수증이 "여기서부터 셌다"고 밝힌다.
 //
 
@@ -20,7 +20,7 @@ final class RefundLedgerTests: XCTestCase {
 
     private var defaults: UserDefaults? { UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") }
 
-    /// 테스트가 쓰는 달들 — 시뮬레이터에 잔존값이 남으면 다음 실행을 깨뜨린다.
+    /// 테스트가 쓰는 달들 - 시뮬레이터에 잔존값이 남으면 다음 실행을 깨뜨린다.
     private var touchedMonths: [Date] {
         let now = Date()
         return [now,
@@ -141,7 +141,7 @@ final class RefundLedgerTests: XCTestCase {
 
     func testPruneRunsOnlyOncePerDay() {
         XCTAssertGreaterThanOrEqual(RefundLedger.pruneIfNeeded(), 0)
-        // 두 번째 호출은 곧바로 빠져나온다 — 켤 때마다 전체 사전을 훑으면 안 된다.
+        // 두 번째 호출은 곧바로 빠져나온다 - 켤 때마다 전체 사전을 훑으면 안 된다.
         XCTAssertEqual(RefundLedger.pruneIfNeeded(), 0)
     }
 
@@ -158,7 +158,7 @@ final class RefundLedgerTests: XCTestCase {
 
     func testAllTimeHasNoMonth() {
         XCTAssertNil(RefundPeriod.allTime.month(from: Date()),
-                     "전체는 특정 달이 아니다 — 달을 주면 그 달 것만 세게 된다")
+                     "전체는 특정 달이 아니다. 달을 주면 그 달 것만 세게 된다")
     }
 
     func testEveryPeriodHasAName() {

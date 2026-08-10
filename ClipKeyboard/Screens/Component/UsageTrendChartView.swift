@@ -2,7 +2,7 @@
 //  UsageTrendChartView.swift
 //  ClipKeyboard
 //
-//  사용 통계 화면의 기간별 추이 차트 — 일/주/월/연 단위를 고르고, 그 단위만큼
+//  사용 통계 화면의 기간별 추이 차트 - 일/주/월/연 단위를 고르고, 그 단위만큼
 //  좌우로 스크롤하며 과거를 훑어볼 수 있다. 데이터는 허브(UsageEvent/UsageSnapshot)에서
 //  읽어온 것을 UsageReportingService.trend(...)가 빈 구간까지 채워 만든 묶음이다.
 //
@@ -51,7 +51,7 @@ struct UsageTrendChartView: View {
         UsageReportingService.trend(unit: unit, events: events, snapshots: snapshots)
     }
 
-    /// 스크롤 창 길이(초) — 보이는 묶음 개수만큼.
+    /// 스크롤 창 길이(초) - 보이는 묶음 개수만큼.
     private var visibleDomain: TimeInterval {
         let bucketSeconds: TimeInterval
         switch unit {
@@ -136,7 +136,7 @@ struct UsageTrendChartView: View {
         .animation(reduceMotion ? nil : .easeOut(duration: 0.2), value: metric)
     }
 
-    /// 스크롤이 묶음 경계에 딱 맞게 멈추도록 — 단위별 정렬 기준.
+    /// 스크롤이 묶음 경계에 딱 맞게 멈추도록 - 단위별 정렬 기준.
     private var scrollAlignment: DateComponents {
         switch unit {
         case .day: return DateComponents(hour: 0)
@@ -195,7 +195,7 @@ struct UsageTrendChartView: View {
 
 #if DEBUG
 struct UsageTrendChartView_Previews: PreviewProvider {
-    /// 최근 120일치 가짜 이벤트 — 일/주/월 단위 전환과 좌우 스크롤을 캔버스에서 확인용.
+    /// 최근 120일치 가짜 이벤트 - 일/주/월 단위 전환과 좌우 스크롤을 캔버스에서 확인용.
     private static var sampleEvents: [UsageReportingService.EventSample] {
         (0..<120).flatMap { dayOffset -> [UsageReportingService.EventSample] in
             let date = Date().addingTimeInterval(-Double(dayOffset) * 86_400)

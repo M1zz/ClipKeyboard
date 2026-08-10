@@ -1,9 +1,9 @@
-# 제어센터 컨트롤이 앱을 못 여는 문제 — 트러블슈팅 기록 (iOS 26)
+# 제어센터 컨트롤이 앱을 못 여는 문제, 트러블슈팅 기록 (iOS 26)
 
 > 2026-07-07 해결. 제어센터의 커스텀 컨트롤(ControlWidget) 버튼을 탭해도
 > 앱이 열리지 않던 문제의 원인 분석과 해결 과정 전체 기록.
 
-## TL;DR — 정답 두 가지
+## TL;DR, 정답 두 가지
 
 **1. iOS 26 SDK에서 `openAppWhenRun`은 deprecated. `supportedModes`로 대체해야 한다.**
 
@@ -20,14 +20,14 @@ SDK swiftinterface에 명시돼 있다:
 @available(iOS, deprecated: 26.0, message: "Please provide 'supportedModes' instead")
 ```
 
-**2. 포그라운드 모드 인텐트는 "메인 앱 프로세스"에서 실행된다 — 같은 타입이 앱 타겟에도 있어야 한다.**
+**2. 포그라운드 모드 인텐트는 "메인 앱 프로세스"에서 실행된다. 같은 타입이 앱 타겟에도 있어야 한다.**
 
 컨트롤 인텐트를 위젯 익스텐션 타겟에만 두면, 시스템이 포그라운드 실행 대상을
 찾지 못해 **탭이 조용히 무시된다** (에러도, 로그도 없음). 인터랙티브 위젯(iOS 17)
 버튼 인텐트를 앱+익스텐션 양쪽 타겟에 포함시키는 관행과 같은 원리다.
 
-- 위젯 측: `widget/QuickNoteControl.swift` — `AddQuickNoteControlIntent` (컨트롤 UI가 참조)
-- 앱 측: `ClipKeyboard/QuickNoteControlIntent.swift` — **동일 타입명**, 실제로 실행되는 쪽
+- 위젯 측: `widget/QuickNoteControl.swift`, `AddQuickNoteControlIntent` (컨트롤 UI가 참조)
+- 앱 측: `ClipKeyboard/QuickNoteControlIntent.swift`: **동일 타입명**, 실제로 실행되는 쪽
 - 두 정의의 타입명·supportedModes·동작을 항상 일치시킬 것
 
 화면 라우팅은 인텐트가 App Group 보류 플래그(`pendingQuickNoteAdd`)를 켜고
@@ -41,7 +41,7 @@ SDK swiftinterface에 명시돼 있다:
 | 토글형(SetValueIntent, 백그라운드) | ✅ 동작 | 익스텐션 인텐트 실행은 정상 |
 | `openAppWhenRun`만 | ❌ 무반응 | 포그라운드 실행 대상(앱 타겟 인텐트) 없음 |
 | `OpenURLIntent`만 반환 | ⚠️ 앱이 떴다가 즉시 닫힘 | 백그라운드 인텐트가 URL을 열지만 시스템이 포그라운드 전환을 회수 |
-| `OpenIntent`(공식 샘플) | ❌ 무반응 | 위와 동일 — 앱 타겟에 타입 없음 |
+| `OpenIntent`(공식 샘플) | ❌ 무반응 | 위와 동일, 앱 타겟에 타입 없음 |
 | `supportedModes(.foreground)` (위젯 타겟만) | ❌ 무반응 | 위와 동일 |
 | **`supportedModes` + 앱 타겟에 동일 인텐트** | ✅ **동작** | 정답 |
 | 홈/잠금화면 위젯 `widgetURL` 탭 | ✅ 동작 | 컨트롤과 다른 경로 (항상 안정적) |
@@ -56,8 +56,8 @@ SDK swiftinterface에 명시돼 있다:
    이미 추가된 버튼이 옛 인텐트를 참조한 채 죽는다. 인텐트 시그니처가 바뀌면
    **kind도 새 문자열로** 올리고, 사용자는 컨트롤을 제거 후 재추가해야 한다.
    앱 런치 시 `ControlCenter.shared.reloadAllControls()` 호출로 재등록을 돕는다.
-2. **시뮬레이터 제어센터는 신뢰 불가** — 컨트롤 검증은 반드시 실기기에서.
-3. **익스텐션의 print는 Console.app에 안 잡힌다** — `os.Logger` +
+2. **시뮬레이터 제어센터는 신뢰 불가**, 컨트롤 검증은 반드시 실기기에서.
+3. **익스텐션의 print는 Console.app에 안 잡힌다**, `os.Logger` +
    subsystem(`com.Ysoup.TokenMemo.widget`) 필터로 확인할 것.
 4. Debug/Release, 멀티 씬 설정, URL 스킴 등록 여부는 이 문제와 무관했다
    (모두 검증 후 배제).
@@ -90,7 +90,7 @@ python3 -c "import json; d=json.load(open('<App>.app/Metadata.appintents/extract
 
 ```
 widget/QuickNoteControl.swift        # 컨트롤 UI + 인텐트(위젯 측 정의)
-ClipKeyboard/QuickNoteControlIntent.swift  # 동일 인텐트(앱 측 — 실제 실행됨)
+ClipKeyboard/QuickNoteControlIntent.swift  # 동일 인텐트(앱 측, 실제 실행됨)
 widget/QuickNoteControl.swift 내 QuickNoteLockWidget  # 잠금화면/홈 위젯 (widgetURL 경로)
 ClipKeyboardList.consumePendingInboxOpen()  # 플래그 소비 → 시트 표시
 ClipKeyboardApp: ControlCenter.shared.reloadAllControls()  # 런치 시 컨트롤 재등록
