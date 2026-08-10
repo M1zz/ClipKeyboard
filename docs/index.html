@@ -211,6 +211,244 @@
             font-size: 0.95rem; margin-top: 2.25rem;
         }
 
+        /* ===== Interactive Keyboard Demo ===== */
+        .demo {
+            background: linear-gradient(180deg, #F0F7FF 0%, var(--card-bg) 55%);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+        }
+        .demo-layout { display: grid; grid-template-columns: 1fr; gap: 2.25rem; align-items: center; }
+        @media (min-width: 900px) {
+            .demo-layout { grid-template-columns: minmax(0, 350px) minmax(0, 1fr); gap: 3.25rem; }
+        }
+        .demo-tabs { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+
+        /* Phone shell */
+        .phone {
+            position: relative; width: min(330px, 100%); margin: 0 auto;
+            background: #0F0F12; border-radius: 46px; padding: 9px;
+            box-shadow: 0 26px 60px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.08);
+        }
+        .phone-screen {
+            position: relative; border-radius: 38px; overflow: hidden;
+            background: #EFEFF4; height: 638px; display: flex; flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Inter', sans-serif;
+            color: #1B1814;
+        }
+        .phone-island {
+            position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
+            width: 88px; height: 24px; border-radius: 20px; background: #0F0F12; z-index: 30;
+        }
+
+        /* Stage header (앱의 "키보드 미리보기" 머리말) */
+        .stage-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 42px 14px 9px; background: rgba(255,255,255,0.72);
+            border-bottom: 0.5px solid rgba(0,0,0,0.08);
+        }
+        .stage-header h4 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+        .stage-header .spacer { flex: 1; }
+        .stage-dot {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;
+            color: var(--primary);
+        }
+
+        /* Conversation */
+        .stage-convo {
+            flex: 1; overflow-y: auto; padding: 12px 12px 8px;
+            display: flex; flex-direction: column; gap: 7px; scrollbar-width: none;
+        }
+        .stage-convo::-webkit-scrollbar { display: none; }
+        .bubble {
+            max-width: 78%; padding: 8px 12px; border-radius: 17px;
+            font-size: 13.5px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere;
+            animation: bubbleIn 0.28s ease-out;
+        }
+        .bubble.inc { align-self: flex-start; background: #fff; color: #1B1814; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+        .bubble.out { align-self: flex-end; background: var(--primary); color: #fff; }
+        .bubble .chip-lite { background: rgba(255,255,255,0.28); border-radius: 5px; padding: 0 3px; }
+        @keyframes bubbleIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+        /* Composer */
+        .stage-composer {
+            display: flex; align-items: flex-end; gap: 8px; padding: 8px 12px;
+            background: rgba(255,255,255,0.72); border-top: 0.5px solid rgba(0,0,0,0.08);
+        }
+        .composer-field {
+            flex: 1; min-height: 34px; padding: 7px 12px; border-radius: 18px;
+            background: #EFEFF4; border: 0.5px solid rgba(0,0,0,0.10);
+            font-size: 13.5px; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere;
+            max-height: 92px; overflow-y: auto; scrollbar-width: none;
+        }
+        .composer-field::-webkit-scrollbar { display: none; }
+        .composer-field .ph { color: #8E8E93; }
+        .caret { color: var(--primary); font-weight: 300; }
+        .kb-chip {
+            display: inline-block; background: #E8F2FF; color: var(--primary-dark);
+            border-radius: 5px; padding: 0 3px; font-weight: 600;
+        }
+        .send-btn {
+            flex: 0 0 auto; width: 30px; height: 30px; border: none; padding: 0;
+            background: transparent; color: var(--primary); cursor: pointer;
+            transition: transform 0.12s, opacity 0.2s;
+        }
+        .send-btn[disabled] { color: #B8B8BE; cursor: default; }
+        .send-btn.glow { animation: sendPulse 1.4s ease-in-out infinite; }
+        @keyframes sendPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.16); } }
+
+        /* Tutorial cue (앱의 tutorialCue 띠) */
+        .stage-cue {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 9px 14px; background: var(--primary); color: #fff;
+            font-size: 12.5px; font-weight: 700; text-align: center;
+        }
+        .stage-cue.done { background: var(--green); }
+
+        /* Keyboard */
+        .kb {
+            position: relative; background: #D0D3DA; flex: 0 0 auto;
+            padding-bottom: 10px; height: 292px; display: flex; flex-direction: column;
+        }
+        .kb-tabs { display: flex; align-items: center; gap: 6px; padding: 6px 8px 4px; overflow-x: auto; scrollbar-width: none; }
+        .kb-tabs::-webkit-scrollbar { display: none; }
+        .kb-tab {
+            flex: 0 0 auto; width: 32px; height: 28px; border: none; border-radius: 6px;
+            background: #fff; color: #6A6358; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.15s, color 0.15s;
+        }
+        .kb-tab.active { color: #fff; }
+        .kb-tab.static { cursor: default; }
+        .kb-clear { margin-left: auto; flex: 0 0 auto; }
+        .kb-grid {
+            flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            padding: 6px 12px; overflow-y: auto; align-content: start; scrollbar-width: none;
+        }
+        .kb-grid::-webkit-scrollbar { display: none; }
+        .kb-key {
+            position: relative; height: 46px; border: none; border-radius: 12px;
+            background: #fff; color: #1B1814; font-family: inherit; font-size: 14.5px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px;
+            cursor: pointer; overflow: hidden; text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.18), 0 2px 0 rgba(0,0,0,0.07);
+            transition: transform 0.07s ease-out, box-shadow 0.07s ease-out;
+        }
+        .kb-key::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%);
+        }
+        .kb-key:active { transform: translateY(2px); box-shadow: 0 0 0 rgba(0,0,0,0); }
+        .kb-key .kb-key-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .kb-key .type-ic { flex: 0 0 auto; color: #6A6358; opacity: 0.75; }
+        .kb-key.glow { animation: keyGlow 1.5s ease-in-out infinite; }
+        @keyframes keyGlow {
+            0%, 100% { box-shadow: 0 0 0 2.5px var(--primary), 0 0 0 rgba(0,122,255,0); }
+            50% { box-shadow: 0 0 0 2.5px var(--primary), 0 0 14px 2px rgba(0,122,255,0.65); }
+        }
+        /* Combo split key */
+        /* 콤보는 키 두 개가 아니라 홈이 파인 키캡 하나로 읽혀야 한다 */
+        .kb-key.combo { padding: 0; gap: 0; }
+        .combo-main { flex: 1; min-width: 0; height: 100%; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 0 6px; }
+        .combo-div { width: 1px; height: 19px; background: rgba(0,0,0,0.12); flex: 0 0 auto; }
+        .combo-next {
+            flex: 0 0 auto; width: 46px; height: 100%; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 1px; color: #6A6358;
+        }
+        .combo-next small { font-size: 9px; font-weight: 600; }
+        .combo-flash { color: #6A6358; font-weight: 500; font-size: 12.5px; animation: flashIn 0.9s ease-out; }
+        @keyframes flashIn { 0% { opacity: 0; } 15% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+
+        /* Keyboard overlays (template / secure) */
+        .kb-overlay {
+            position: absolute; inset: 0; background: #fff; z-index: 20;
+            display: flex; flex-direction: column; animation: overlayUp 0.22s ease-out;
+        }
+        @keyframes overlayUp { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+        .tpl-head {
+            display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+            border-bottom: 0.5px solid rgba(0,0,0,0.1);
+        }
+        .tpl-head .spacer { flex: 1; }
+        .tpl-insert {
+            border: none; border-radius: 10px; padding: 7px 14px; cursor: pointer;
+            font-family: inherit; font-size: 12.5px; font-weight: 700; color: #fff; background: var(--primary);
+            transition: background 0.15s;
+        }
+        .tpl-insert[disabled] { background: #C3C3C8; cursor: default; }
+        .tpl-close { border: none; background: transparent; color: #B0B0B5; cursor: pointer; padding: 0; line-height: 0; }
+        .tpl-preview {
+            margin: 8px 12px 4px; padding: 8px 10px; border-radius: 8px; background: #F2F2F7;
+            font-size: 12.5px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere;
+            max-height: 78px; overflow-y: auto; scrollbar-width: none;
+        }
+        .tpl-preview::-webkit-scrollbar { display: none; }
+        .tpl-preview .filled { color: var(--primary); font-weight: 700; }
+        .tpl-body { flex: 1; overflow-y: auto; padding: 4px 12px 12px; scrollbar-width: none; }
+        .tpl-body::-webkit-scrollbar { display: none; }
+        .tpl-row { margin-bottom: 9px; }
+        .tpl-row-label { font-size: 11.5px; font-weight: 700; color: #6A6358; margin-bottom: 5px; }
+        .tpl-row-label .kb-chip { font-size: 12px; padding: 2px 7px; border-radius: 6px; }
+        .tpl-vals { display: flex; gap: 7px; flex-wrap: wrap; }
+        .tpl-val {
+            border: none; border-radius: 18px; padding: 7px 12px; cursor: pointer;
+            font-family: inherit; font-size: 12px; background: #E5E5EA; color: #1B1814;
+            transition: background 0.15s, color 0.15s;
+        }
+        .tpl-val.sel { background: var(--primary); color: #fff; font-weight: 700; }
+
+        .face-overlay {
+            position: absolute; inset: 0; z-index: 22; background: rgba(255,255,255,0.96);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+            animation: overlayUp 0.2s ease-out;
+        }
+        .face-icon { color: var(--primary); animation: faceScan 1s ease-in-out infinite; }
+        @keyframes faceScan { 0%,100% { opacity: 0.45; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1); } }
+        .face-overlay p { font-size: 13px; font-weight: 600; color: #6A6358; }
+        .face-overlay.ok .face-icon { animation: none; color: var(--green); }
+
+        .kb-toast {
+            position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+            background: rgba(0,0,0,0.78); color: #fff; font-size: 11.5px; font-weight: 500;
+            padding: 7px 14px; border-radius: 100px; z-index: 25; white-space: nowrap;
+            animation: bubbleIn 0.2s ease-out;
+        }
+
+        /* 동작 줄이기 — 앱의 KeycapButtonStyle과 같은 기준으로 연출을 끈다 */
+        @media (prefers-reduced-motion: reduce) {
+            .kb-key.glow, .send-btn.glow, .face-icon { animation: none; }
+            .kb-key.glow { box-shadow: 0 0 0 2.5px var(--primary); }
+            .bubble, .kb-overlay, .face-overlay, .kb-toast { animation: none; }
+            .kb-key, .send-btn { transition: none; }
+        }
+
+        /* Demo side panel */
+        .demo-panel { display: flex; flex-direction: column; gap: 1rem; }
+        .demo-brief {
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 16px; padding: 1.1rem 1.2rem;
+            color: var(--text-secondary); font-size: 0.95rem;
+        }
+        .demo-brief strong { color: var(--text); }
+        .demo-feature-list { list-style: none; display: grid; gap: 0.7rem; }
+        .demo-feature-list li {
+            display: flex; gap: 0.75rem; align-items: flex-start;
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; padding: 0.85rem 1rem;
+        }
+        .demo-feature-list .dot {
+            flex: 0 0 auto; width: 28px; height: 28px; border-radius: 9px;
+            display: flex; align-items: center; justify-content: center; color: #fff;
+        }
+        .demo-feature-list b { display: block; font-size: 0.96rem; color: var(--text); margin-bottom: 0.15rem; }
+        .demo-feature-list span { color: var(--text-secondary); font-size: 0.9rem; }
+        .demo-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+        .demo-reset {
+            border: 1px solid var(--border); background: var(--card-bg); color: var(--text-secondary);
+            border-radius: 12px; padding: 0.7rem 1.1rem; font-family: inherit;
+            font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: all 0.15s;
+        }
+        .demo-reset:hover { border-color: var(--primary); color: var(--primary); }
+        .demo-note { color: var(--text-secondary); font-size: 0.85rem; }
+
         /* Privacy */
         .privacy {
             text-align: center; background: var(--card-bg);
@@ -273,6 +511,9 @@
                 </svg>
                 <span data-i18n="heroCta">App Store에서 다운로드</span>
             </a>
+            <a href="#demo" class="btn-secondary">
+                <span data-i18n="heroDemo">⌨️ 키보드 30초 체험하기</span>
+            </a>
             <a href="#templates" class="btn-secondary">
                 <span data-i18n="heroTemplates">📋 실전 템플릿 40개 바로 보기</span>
             </a>
@@ -298,7 +539,34 @@
                 <div class="how-card">
                     <div class="number">3</div>
                     <h3 data-i18n="how3Title">템플릿·콤보로 확장</h3>
-                    <p data-i18n="how3Desc">{이름} {날짜} 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.</p>
+                    <p data-i18n-html="how3Desc"><span class="chip">이름</span> <span class="chip">날짜</span> 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Keyboard Demo -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2 class="section-title" data-i18n="demoTitle">여기서 직접 눌러보세요</h2>
+            <p class="section-subtitle" data-i18n="demoSubtitle">앱의 '키보드 미리보기' 화면을 그대로 옮겨왔어요. 실제로는 카톡·메일·사파리 어디서든 이 키보드가 올라옵니다.</p>
+
+            <div class="demo-tabs persona-tabs" id="demo-tabs" style="padding-bottom: 0;"></div>
+
+            <div class="demo-layout">
+                <div class="phone">
+                    <div class="phone-island"></div>
+                    <div class="phone-screen" id="demo-screen"></div>
+                </div>
+
+                <div class="demo-panel">
+                    <p class="demo-brief" data-i18n-html="demoBrief"></p>
+                    <ul class="demo-feature-list" id="demo-features"></ul>
+                    <div class="demo-actions">
+                        <a id="demo-cta" href="https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary" data-i18n="demoCta">내 문구로 시작하기</a>
+                        <button class="demo-reset" id="demo-reset" data-i18n="demoReset">처음부터 다시</button>
+                    </div>
+                    <p class="demo-note" data-i18n="demoNote">* 데모의 계좌·여권 정보는 모두 가짜 예시입니다. 실제 저장한 문구는 기기 밖으로 나가지 않아요.</p>
                 </div>
             </div>
         </div>
@@ -314,7 +582,7 @@
             <p class="persona-intro" id="persona-intro"></p>
             <div class="story-grid" id="story-grid"></div>
 
-            <p class="library-note" data-i18n="libNote">💡 {파란 칩}은 템플릿 변수예요 — 앱에서는 탭 한 번으로 값을 채워 넣습니다.</p>
+            <p class="library-note" data-i18n="libNote">💡 파란 칩은 템플릿 변수예요 — 앱에서는 탭 한 번으로 값을 채워 넣습니다.</p>
         </div>
     </section>
 
@@ -396,7 +664,34 @@
                 heroTitle: '반복 입력은 그만,<br><span>단축어 하나면 끝</span>',
                 heroSubtitle: '계좌번호 · 주소 · 자기소개 · 영어 템플릿 —<br>한 번 저장하면, 어떤 앱에서든 키보드에서 탭 한 번.',
                 heroCta: "App Store에서 다운로드",
+                heroDemo: "⌨️ 키보드 30초 체험하기",
                 heroTemplates: "📋 실전 템플릿 40개 바로 보기",
+                demoTitle: "여기서 직접 눌러보세요",
+                demoSubtitle: "앱의 '키보드 미리보기' 화면을 그대로 옮겨왔어요. 실제로는 카톡·메일·사파리 어디서든 이 키보드가 올라옵니다.",
+                demoBrief: "아래 키보드는 <strong>앱에 있는 그 화면</strong>이에요. 단축어를 누르면 입력창에 바로 들어가고, 보낸 뒤에도 계속 눌러볼 수 있어요.",
+                demoCta: "내 문구로 시작하기",
+                demoReset: "처음부터 다시",
+                demoNote: "* 데모의 계좌·여권 정보는 모두 가짜 예시입니다. 실제 저장한 문구는 기기 밖으로 나가지 않아요.",
+                demoStageTitle: "키보드 미리보기",
+                demoComposerPh: "여기에 입력돼요",
+                demoCueTap: "\"%@\" 키를 눌러 보세요",
+                demoCueSend: "들어왔죠? 보내기(↑)를 눌러 보세요",
+                demoCueDone: "이게 전부예요 — 다른 키도 눌러 보세요",
+                demoTplInsert: "입력하기",
+                demoTplPick: "값을 고르세요",
+                demoFaceScanning: "Face ID로 잠금 해제 중…",
+                demoFaceDone: "잠금 해제됨",
+                demoToastCombo: "다음 값으로 바꿨어요",
+                demoTabBasic: "기본",
+                demoTabFav: "즐겨찾기",
+                demoTabTemplate: "템플릿",
+                demoTabCombo: "콤보",
+                demoFeatures: [
+                    { k: "snippet", t: "단축어 — 탭 한 번이면 입력 끝", d: "저장해 둔 계좌번호·주소·서명이 그대로 들어갑니다." },
+                    { k: "template", t: "템플릿 — 빈칸만 골라서 완성", d: "{날짜} {시간} 같은 변수는 저장해 둔 값 중에서 탭으로 채워요." },
+                    { k: "combo", t: "콤보 — 여러 값을 →로 돌려가며", d: "은행 계좌 3개, 결제 수단 3개를 한 키에 담아 두고 골라 씁니다." },
+                    { k: "secure", t: "보안 단축어 — Face ID로 잠금", d: "여권번호·카드번호는 잠가 두고 필요할 때만 열어서 넣어요." }
+                ],
                 howTitle: "단축어가 뭐예요?",
                 howSubtitle: "자주 쓰는 문구에 이름을 붙여 저장한 것 — 그게 전부예요.",
                 how1Title: "단축어로 저장",
@@ -404,7 +699,7 @@
                 how2Title: "키보드에서 탭",
                 how2Desc: "카톡·메일·사파리 어디서든 ClipKeyboard로 전환하면 저장한 단축어가 키보드 위에. 탭 한 번이면 입력 끝.",
                 how3Title: "템플릿·콤보로 확장",
-                how3Desc: "{이름} {날짜} 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.",
+                how3Desc: '<span class="chip">이름</span> <span class="chip">날짜</span> 같은 변수를 넣으면 템플릿, 여러 단축어를 이어붙이면 콤보. 반복 업무가 통째로 사라져요.',
                 libTitle: "이런 분들이 매일 아낍니다",
                 libSubtitle: "당신과 닮은 사람의 하루에서 골라보세요. 마음에 드는 템플릿은 지금 바로 복사해 쓸 수 있어요 — 앱에 저장하면 키보드에서 꺼내 쓰게 됩니다.",
                 libNote: "💡 파란 칩은 템플릿 변수예요 — 앱에서는 탭 한 번으로 값을 채워 넣습니다.",
@@ -438,7 +733,34 @@
                 heroTitle: 'Stop retyping.<br><span>One snippet is all it takes</span>',
                 heroSubtitle: 'Bank details · addresses · intros · English templates —<br>saved once, typed with one tap from your keyboard in any app.',
                 heroCta: "Download on the App Store",
+                heroDemo: "⌨️ Try the keyboard — 30 seconds",
                 heroTemplates: "📋 Browse 40 real-life templates",
+                demoTitle: "Try it right here",
+                demoSubtitle: "This is the app's own \"Keyboard preview\" screen. In real life, this keyboard comes up in Messages, Mail, Safari — anywhere you type.",
+                demoBrief: "The keyboard below is <strong>the screen that ships in the app</strong>. Tap a snippet and it lands in the field — keep tapping after you send, too.",
+                demoCta: "Start with your own phrases",
+                demoReset: "Start over",
+                demoNote: "* Every account and passport detail in this demo is fake. Your real snippets never leave your device.",
+                demoStageTitle: "Keyboard preview",
+                demoComposerPh: "Your text lands here",
+                demoCueTap: "Tap the \"%@\" key",
+                demoCueSend: "There it is — now tap send (↑)",
+                demoCueDone: "That's the whole thing — try the other keys",
+                demoTplInsert: "Insert",
+                demoTplPick: "Pick a value",
+                demoFaceScanning: "Unlocking with Face ID…",
+                demoFaceDone: "Unlocked",
+                demoToastCombo: "Switched to the next value",
+                demoTabBasic: "Basic",
+                demoTabFav: "Favorites",
+                demoTabTemplate: "Templates",
+                demoTabCombo: "Combos",
+                demoFeatures: [
+                    { k: "snippet", t: "Snippet — one tap and it's typed", d: "Your saved bank details, address, or signature go in exactly as stored." },
+                    { k: "template", t: "Template — fill only the blanks", d: "Variables like {date} {time} get filled by tapping a value you saved before." },
+                    { k: "combo", t: "Combo — cycle values with →", d: "Three bank accounts or payment methods live on one key; pick as you go." },
+                    { k: "secure", t: "Secure snippet — locked behind Face ID", d: "Passport and card numbers stay locked until the moment you need them." }
+                ],
                 howTitle: "What's a snippet?",
                 howSubtitle: "A phrase you use often, saved under a name. That's it.",
                 how1Title: "Save it as a snippet",
@@ -446,7 +768,7 @@
                 how2Title: "Tap it from the keyboard",
                 how2Desc: "Switch to ClipKeyboard in Messages, Mail, Safari — anywhere. Your snippets sit right on the keyboard. One tap, typed.",
                 how3Title: "Grow into templates & combos",
-                how3Desc: "Add variables like {name} {date} to make templates; chain snippets into combos. Whole routines disappear.",
+                how3Desc: 'Add variables like <span class="chip">name</span> <span class="chip">date</span> to make templates; chain snippets into combos. Whole routines disappear.',
                 libTitle: "People like you, saving time daily",
                 libSubtitle: "Pick the day that looks like yours. Copy any template right now — save it in the app and it lives on your keyboard.",
                 libNote: "💡 The blue chips are template variables — in the app you fill them in with a tap.",
@@ -578,7 +900,7 @@
             });
 
             const storeUrl = t.appStoreUrl;
-            ['hero-cta', 'pricing-cta', 'footer-appstore'].forEach(function(id) {
+            ['hero-cta', 'pricing-cta', 'footer-appstore', 'demo-cta'].forEach(function(id) {
                 const el = document.getElementById(id);
                 if (el) el.href = storeUrl;
             });
@@ -589,7 +911,697 @@
 
             renderPersonaTabs();
             renderStories();
+
+            // 데모는 말풍선·키 이름까지 언어를 타므로 처음 상태로 되돌린 뒤 다시 그린다.
+            demoReset(true);
+            renderDemo();
         }
+
+        // ===== 키보드 체험 데모 =====
+        // 앱의 InAppKeyboardStage(대화 + 입력창 + 진짜 KeyboardView)를 웹으로 옮긴 것.
+        // 키 종류·동작(단축어/템플릿/콤보/보안)은 ClipKeyboardExtension/KeyboardView.swift와 같은 규칙.
+
+        const DEMO_ICON_PATHS = {
+            globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.4 3.6 5.3 3.6 8.5S14.4 18.1 12 20.5c-2.4-2.4-3.6-5.3-3.6-8.5S9.6 5.9 12 3.5z"/>',
+            star: '<path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z" fill="currentColor" stroke="none"/>',
+            wand: '<path d="M4 20L14.5 9.5"/><path d="M17 3.2l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1z" fill="currentColor" stroke="none"/><path d="M6.6 4.4l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5z" fill="currentColor" stroke="none"/>',
+            stack: '<path d="M12 2.6l8.6 4.4-8.6 4.4-8.6-4.4z" fill="currentColor" stroke="none"/><path d="M3.4 11.8L12 16.2l8.6-4.4"/><path d="M3.4 16.2L12 20.6l8.6-4.4"/>',
+            doc: '<rect x="5" y="3" width="14" height="18" rx="2.6"/><path d="M8.5 8.2h7M8.5 12h7M8.5 15.8h4"/>',
+            lock: '<rect x="4.8" y="10.4" width="14.4" height="10.2" rx="2.6" fill="currentColor" stroke="none"/><path d="M8.2 10.4V7.7a3.8 3.8 0 017.6 0v2.7"/>',
+            xmark: '<circle cx="12" cy="12" r="8.8"/><path d="M9.2 9.2l5.6 5.6M14.8 9.2l-5.6 5.6"/>',
+            send: '<circle cx="12" cy="12" r="10.2" fill="currentColor" stroke="none"/><path d="M12 16.8V7.9M8.3 11.6L12 7.9l3.7 3.7" stroke="#fff" stroke-width="1.9"/>',
+            arrowRight: '<path d="M4.8 12h12.4M12.9 7.6l4.4 4.4-4.4 4.4"/>',
+            arrowDown: '<path d="M12 5v13M7.4 13.4L12 18l4.6-4.6"/>',
+            hand: '<path d="M9 11.5V5.6a1.6 1.6 0 013.2 0v5.2m0-1.1a1.6 1.6 0 113.2 0v1.5m0-.7a1.6 1.6 0 113.2 0v3.9a6 6 0 01-6 6h-1.3a5.4 5.4 0 01-4.3-2.2L5.4 15a1.6 1.6 0 012.4-2.1l1.2 1.3"/>',
+            faceid: '<path d="M4 8.5V6.6A2.6 2.6 0 016.6 4H8.5M15.5 4h1.9A2.6 2.6 0 0120 6.6V8.5M20 15.5v1.9a2.6 2.6 0 01-2.6 2.6H15.5M8.5 20H6.6A2.6 2.6 0 014 17.4V15.5"/><path d="M9 9.6v1.8M15 9.6v1.8M12 9.6v3.6h-1.1M9.1 15.6c1.7 1.3 4.1 1.3 5.8 0"/>',
+            check: '<path d="M5 12.6l4.6 4.4L19 7.6"/>',
+            plus: '<path d="M12 5.2v13.6M5.2 12h13.6"/>',
+            key: '<circle cx="8.4" cy="12" r="3.6"/><path d="M11.9 11.4h8.2M17.4 11.4v3.4M20.1 11.4v2.6"/>'
+        };
+
+        function demoIcon(name, size, color) {
+            const path = DEMO_ICON_PATHS[name];
+            if (!path) return '';
+            return '<svg class="type-ic" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" ' +
+                   'fill="none" stroke="' + (color || 'currentColor') + '" stroke-width="1.6" ' +
+                   'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
+        }
+
+        const TINT = { fav: '#FF9F0A', template: '#AF52DE', combo: '#FF9500', secure: '#5E8BFF', work: '#34C759', life: '#007AFF' };
+
+        // 시나리오 — 각 화면은 "말을 걸어오는 사람 + 그 자리에 필요한 키들"로 이뤄진다.
+        const DEMO_SCENARIOS = {
+            ko: [
+                {
+                    id: 'daily', tab: '👤 일상',
+                    incoming: '오늘 회비 보낼게! 얼마 보내면 되고 계좌 어디야? 🙏',
+                    target: 'settle',
+                    keys: [
+                        { id: 'settle', title: '정산하기', type: 'template', tint: TINT.template,
+                          text: '오늘 총 {금액}원이야! 🙏\n{계좌} (이현호)로 보내주면 돼~',
+                          ph: [
+                            { name: '금액', values: ['15,000', '32,000', '48,000'] },
+                            { name: '계좌', values: ['국민 123456-01-789012', '카카오뱅크 3333-01-2345678', '토스 1000-12-345678'] }
+                          ] },
+                        { id: 'addr', title: '집 주소', fav: true, type: 'snippet', tint: TINT.life,
+                          value: '04524 서울 중구 세종대로 110\n101동 1203호 (받는 분: 이현호 / 010-1234-5678)' },
+                        { id: 'late', title: '늦어요', type: 'template', tint: TINT.template,
+                          text: '미안해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏',
+                          ph: [{ name: '분', values: ['5', '10', '20'] }] },
+                        { id: 'pay', title: '간편송금', type: 'combo', tint: TINT.combo,
+                          values: ['카카오페이 010-1234-5678', '토스 @leeo', '네이버페이 leeo@example.com'] },
+                        { id: 'wifi', title: '우리집 와이파이', fav: true, type: 'snippet', tint: TINT.life,
+                          value: 'WiFi: Home_5G\n비밀번호: welcome2026!' },
+                        { id: 'card', title: '카드번호', type: 'secure', tint: TINT.secure,
+                          value: '4212 3456 7890 7788 (12/29)' },
+                        { id: 'delivery', title: '배달 요청사항', type: 'snippet', tint: TINT.life,
+                          value: '문 앞에 놓아주세요 🙏\n공동현관 비밀번호: #1234\n벨은 누르지 말아주세요 (아이가 자고 있어요)' },
+                        { id: 'sale', title: '중고거래 안내', type: 'snippet', tint: TINT.life,
+                          value: '아이패드 에어 5세대 판매합니다.\n가격: 45만원 (네고 가능)\n상태: 생활기스 약간, 박스 있음\n거래: 합정역 또는 택배' }
+                    ]
+                },
+                {
+                    id: 'work', tab: '💼 직장인',
+                    incoming: '다음 주 미팅 일정 잡아서 공유 부탁드려요.',
+                    target: 'meet',
+                    keys: [
+                        { id: 'meet', title: '미팅 안내', type: 'template', tint: TINT.template,
+                          text: '안녕하세요, 아래 일정으로 미팅 요청드립니다.\n📅 {날짜} {시간}\n📍 {장소}\n참석 가능 여부 회신 부탁드립니다 😊',
+                          ph: [
+                            { name: '날짜', values: ['3월 12일(화)', '3월 14일(목)'] },
+                            { name: '시간', values: ['오전 10시', '오후 2시'] },
+                            { name: '장소', values: ['3층 회의실', 'Google Meet'] }
+                          ] },
+                        { id: 'sign', title: '메일 서명', fav: true, type: 'snippet', tint: TINT.fav,
+                          value: '이현호\n프로덕트 매니저 | Ysoup\n📧 leeo@example.com / 📞 010-1234-5678' },
+                        { id: 'ok', title: '확인 감사', fav: true, type: 'snippet', tint: TINT.work,
+                          value: '확인했습니다. 챙겨주셔서 감사합니다 🙏' },
+                        { id: 'ooo', title: '부재중 안내', type: 'template', tint: TINT.template,
+                          text: '{시작일}부터 {종료일}까지 부재중입니다.\n급한 업무는 김하나 대리(010-0000-0000)에게 연락 주세요.',
+                          ph: [
+                            { name: '시작일', values: ['3월 18일', '4월 1일'] },
+                            { name: '종료일', values: ['3월 22일', '4월 5일'] }
+                          ] },
+                        { id: 'biz', title: '입금·사업자 정보', type: 'combo', tint: TINT.combo,
+                          values: ['입금 계좌: 기업은행 010-123456-01-011 (주식회사 와이숩)',
+                                   '사업자등록번호: 123-45-67890',
+                                   '세금계산서 이메일: tax@example.com'] },
+                        { id: 'rrn', title: '주민등록번호', type: 'secure', tint: TINT.secure,
+                          value: '900101-1••••••' },
+                        { id: 'report', title: '주간 보고', type: 'template', tint: TINT.template,
+                          text: '금주 업무 보고드립니다.\n✅ 완료: {완료}\n🔄 진행 중: {진행중}\n📋 다음 주: {예정}',
+                          ph: [
+                            { name: '완료', values: ['4.5 배포', '결제 QA'] },
+                            { name: '진행중', values: ['위젯 개편', '리텐션 분석'] },
+                            { name: '예정', values: ['App Store 심사', '스프린트 회고'] }
+                          ] },
+                        { id: 'delay', title: '회신 지연 양해', type: 'snippet', tint: TINT.work,
+                          value: '회신이 늦어 죄송합니다. 내부 확인이 길어졌습니다.\n오늘 중으로 정리해서 다시 연락드리겠습니다 🙏' }
+                    ]
+                },
+                {
+                    id: 'nomad', tab: '🌏 노마드',
+                    incoming: "Great, let's start Monday! Could you send your banking details?",
+                    target: 'iban',
+                    keys: [
+                        { id: 'iban', title: 'IBAN · SWIFT', type: 'snippet', tint: TINT.fav,
+                          value: 'Name: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX' },
+                        { id: 'tz', title: '시차 안내', type: 'template', tint: TINT.template,
+                          text: "Hi, I'm in GMT+{시차} right now. I can do {가능 시간}. Calendly: cal.com/leeo",
+                          ph: [
+                            { name: '시차', values: ['9', '2'] },
+                            { name: '가능 시간', values: ['9–11am your time', 'anytime after 3pm'] }
+                          ] },
+                        { id: 'inv', title: '인보이스', type: 'template', tint: TINT.template,
+                          text: 'Invoice #{번호} · USD {금액}\nDue: {기한}\nPayment: Wise (leeo@example.com)\nThank you! 🙏',
+                          ph: [
+                            { name: '번호', values: ['2026-014', '2026-015'] },
+                            { name: '금액', values: ['2,400', '3,800'] },
+                            { name: '기한', values: ['Mar 31', 'Apr 15'] }
+                          ] },
+                        { id: 'pm', title: '결제 수단', fav: true, type: 'combo', tint: TINT.combo,
+                          values: ['Wise: leeo@example.com', 'PayPal: leeo@example.com', 'Stripe: stripe.me/leeo'] },
+                        { id: 'wifi2', title: '와이파이 끊김', fav: true, type: 'snippet', tint: TINT.life,
+                          value: 'Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏' },
+                        { id: 'pass', title: '여권 정보', type: 'secure', tint: TINT.secure,
+                          value: 'Passport: M12345678 · Exp. 2031-04-18' },
+                        { id: 'quote', title: '견적·환율 안내', type: 'snippet', tint: TINT.work,
+                          value: "Quote: USD 2,400 (≈ KRW 3.2M at today's rate).\nInvoiced in USD via Wise to keep fees low for you." },
+                        { id: 'signoff', title: '하루 마감 인사', type: 'snippet', tint: TINT.work,
+                          value: "Signing off for the night (11pm in Seoul). I'll reply first thing in my morning — thanks for your patience 🙏" }
+                    ]
+                }
+            ],
+            en: [
+                {
+                    id: 'daily', tab: '👤 Everyday',
+                    incoming: "Sending my share tonight — how much, and where do I send it? 🙏",
+                    target: 'settle',
+                    keys: [
+                        { id: 'settle', title: 'Settle up', type: 'template', tint: TINT.template,
+                          text: "Tonight comes to {amount} each 🙏\nSend it to {account} (Hyunho Lee)~",
+                          ph: [
+                            { name: 'amount', values: ['$12', '$25', '$38'] },
+                            { name: 'account', values: ['Chase 123456789', 'Venmo @leeo', 'Cash App $leeo'] }
+                          ] },
+                        { id: 'addr', title: 'Home address', fav: true, type: 'snippet', tint: TINT.life,
+                          value: '350 Fifth Ave, Apt 1203\nNew York, NY 10118\nRecipient: Hyunho Lee / +1 555 0134' },
+                        { id: 'late', title: 'Running late', type: 'template', tint: TINT.template,
+                          text: "So sorry! I'll be about {min} min late. Go ahead without me 🙏",
+                          ph: [{ name: 'min', values: ['5', '10', '20'] }] },
+                        { id: 'pay', title: 'Send money', type: 'combo', tint: TINT.combo,
+                          values: ['Venmo: @leeo', 'PayPal: leeo@example.com', 'Cash App: $leeo'] },
+                        { id: 'wifi', title: 'Home wifi', fav: true, type: 'snippet', tint: TINT.life,
+                          value: 'WiFi: Home_5G\nPassword: welcome2026!' },
+                        { id: 'card', title: 'Card number', type: 'secure', tint: TINT.secure,
+                          value: '4212 3456 7890 7788 (12/29)' },
+                        { id: 'delivery', title: 'Delivery notes', type: 'snippet', tint: TINT.life,
+                          value: 'Please leave it at the door 🙏\nGate code: #1234\nNo doorbell please — the baby is sleeping.' },
+                        { id: 'sale', title: 'Resale listing', type: 'snippet', tint: TINT.life,
+                          value: 'Selling: iPad Air (5th gen)\nPrice: $320 (negotiable)\nCondition: light scuffs, box included\nMeet: downtown or shipping' }
+                    ]
+                },
+                {
+                    id: 'work', tab: '💼 Business',
+                    incoming: 'Could you set up next week’s meeting and share the details?',
+                    target: 'meet',
+                    keys: [
+                        { id: 'meet', title: 'Meeting invite', type: 'template', tint: TINT.template,
+                          text: 'Hi, requesting a meeting as follows:\n📅 {date} {time}\n📍 {place}\nPlease confirm if you can join 😊',
+                          ph: [
+                            { name: 'date', values: ['Tue, Mar 12', 'Thu, Mar 14'] },
+                            { name: 'time', values: ['10:00 am', '2:00 pm'] },
+                            { name: 'place', values: ['Meeting room 3F', 'Google Meet'] }
+                          ] },
+                        { id: 'sign', title: 'Email signature', fav: true, type: 'snippet', tint: TINT.fav,
+                          value: 'Hyunho Lee\nProduct Manager | Ysoup\n📧 leeo@example.com / 📞 +1 555 0134' },
+                        { id: 'ok', title: 'Noted, thanks', fav: true, type: 'snippet', tint: TINT.work,
+                          value: 'Noted — thank you for taking care of it 🙏' },
+                        { id: 'ooo', title: 'Out of office', type: 'template', tint: TINT.template,
+                          text: "I'm out of office from {start} to {end}.\nFor anything urgent, please reach Hana Kim (+1 555 0199).",
+                          ph: [
+                            { name: 'start', values: ['Mar 18', 'Apr 1'] },
+                            { name: 'end', values: ['Mar 22', 'Apr 5'] }
+                          ] },
+                        { id: 'biz', title: 'Billing info', type: 'combo', tint: TINT.combo,
+                          values: ['Account: Chase 010-123456-01 (Ysoup Inc.)',
+                                   'Tax ID: 12-3456789',
+                                   'Invoice email: billing@example.com'] },
+                        { id: 'rrn', title: 'SSN', type: 'secure', tint: TINT.secure,
+                          value: '•••-••-6789' },
+                        { id: 'report', title: 'Weekly report', type: 'template', tint: TINT.template,
+                          text: "This week's update:\n✅ Done: {done}\n🔄 In progress: {wip}\n📋 Next week: {next}",
+                          ph: [
+                            { name: 'done', values: ['4.5 release', 'Checkout QA'] },
+                            { name: 'wip', values: ['Widget revamp', 'Retention analysis'] },
+                            { name: 'next', values: ['App Store review', 'Sprint retro'] }
+                          ] },
+                        { id: 'delay', title: 'Late reply', type: 'snippet', tint: TINT.work,
+                          value: "Apologies for the delayed reply — the internal review took longer than expected.\nI'll come back to you with details today 🙏" }
+                    ]
+                },
+                {
+                    id: 'nomad', tab: '🌏 Nomad',
+                    incoming: "Great, let's start Monday! Could you send your banking details?",
+                    target: 'iban',
+                    keys: [
+                        { id: 'iban', title: 'IBAN · SWIFT', type: 'snippet', tint: TINT.fav,
+                          value: 'Name: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX' },
+                        { id: 'tz', title: 'Timezone reply', type: 'template', tint: TINT.template,
+                          text: "Hi, I'm in GMT+{offset} right now. I can do {window}. Calendly: cal.com/leeo",
+                          ph: [
+                            { name: 'offset', values: ['9', '2'] },
+                            { name: 'window', values: ['9–11am your time', 'anytime after 3pm'] }
+                          ] },
+                        { id: 'inv', title: 'Invoice', type: 'template', tint: TINT.template,
+                          text: 'Invoice #{no} · USD {amount}\nDue: {due}\nPayment: Wise (leeo@example.com)\nThank you! 🙏',
+                          ph: [
+                            { name: 'no', values: ['2026-014', '2026-015'] },
+                            { name: 'amount', values: ['2,400', '3,800'] },
+                            { name: 'due', values: ['Mar 31', 'Apr 15'] }
+                          ] },
+                        { id: 'pm', title: 'Payment methods', fav: true, type: 'combo', tint: TINT.combo,
+                          values: ['Wise: leeo@example.com', 'PayPal: leeo@example.com', 'Stripe: stripe.me/leeo'] },
+                        { id: 'wifi2', title: 'Wifi dropped', fav: true, type: 'snippet', tint: TINT.life,
+                          value: 'Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏' },
+                        { id: 'pass', title: 'Passport info', type: 'secure', tint: TINT.secure,
+                          value: 'Passport: M12345678 · Exp. 2031-04-18' },
+                        { id: 'quote', title: 'Quote & FX note', type: 'snippet', tint: TINT.work,
+                          value: "Quote: USD 2,400 (≈ EUR 2,210 at today's rate).\nInvoiced in USD via Wise to keep fees low for you." },
+                        { id: 'signoff', title: 'Signing off', type: 'snippet', tint: TINT.work,
+                          value: "Signing off for the night (11pm here). I'll reply first thing in my morning — thanks for your patience 🙏" }
+                    ]
+                }
+            ]
+        };
+
+        const DEMO_TABS = [
+            { key: 'basic', icon: 'doc', color: '#5856D6', label: 'demoTabBasic' },
+            { key: 'fav', icon: 'star', color: '#FF9F0A', label: 'demoTabFav' },
+            { key: 'template', icon: 'wand', color: '#AF52DE', label: 'demoTabTemplate' },
+            { key: 'combo', icon: 'stack', color: '#FF9500', label: 'demoTabCombo' }
+        ];
+
+        const demo = {
+            scenario: 0,
+            tab: 'basic',
+            text: '',
+            messages: [],
+            step: 0,          // 0=키 누르기, 1=보내기, 2=자유 탐색
+            comboIndex: {},
+            comboFlash: null, // { id, value }
+            overlay: null,    // { kind:'template'|'face', keyId, values:{} , phase }
+            toast: null,
+            busy: false
+        };
+        let demoTimers = [];
+
+        function demoClearTimers() {
+            demoTimers.forEach(clearTimeout);
+            demoTimers = [];
+        }
+        function demoLater(fn, ms) {
+            const id = setTimeout(fn, ms);
+            demoTimers.push(id);
+            return id;
+        }
+
+        function demoScenario() {
+            const list = DEMO_SCENARIOS[currentLang] || DEMO_SCENARIOS.en;
+            return list[Math.min(demo.scenario, list.length - 1)];
+        }
+
+        function demoFindKey(id) {
+            return demoScenario().keys.find(function(k) { return k.id === id; });
+        }
+
+        function demoVisibleKeys() {
+            const keys = demoScenario().keys;
+            switch (demo.tab) {
+                case 'fav': return keys.filter(function(k) { return k.fav; });
+                case 'template': return keys.filter(function(k) { return k.type === 'template'; });
+                case 'combo': return keys.filter(function(k) { return k.type === 'combo'; });
+                default: return keys.filter(function(k) { return !k.fav; });
+            }
+        }
+
+        function demoReset(keepScenario) {
+            demoClearTimers();
+            if (!keepScenario) demo.scenario = 0;
+            demo.tab = 'basic';
+            demo.text = '';
+            demo.step = 0;
+            demo.comboIndex = {};
+            demo.comboFlash = null;
+            demo.overlay = null;
+            demo.toast = null;
+            demo.busy = false;
+            demo.messages = [{ side: 'in', text: demoScenario().incoming }];
+        }
+
+        // {변수} → 칩. 앱에서도 입력창의 플레이스홀더는 원문 중괄호가 아니라 칩으로 보인다.
+        function demoChips(text, cls) {
+            return escapeHtml(text).replace(/\{([^{}\n]+)\}/g,
+                '<span class="' + (cls || 'kb-chip') + '">$1</span>');
+        }
+
+        function demoFormat(template, value) {
+            return String(template).replace('%@', value);
+        }
+
+        // ===== 렌더 =====
+
+        function renderDemo() {
+            renderDemoTabs();
+            renderDemoScreen();
+            renderDemoPanel();
+        }
+
+        function renderDemoTabs() {
+            const wrap = document.getElementById('demo-tabs');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            DEMO_SCENARIOS[currentLang].forEach(function(sc, i) {
+                const btn = document.createElement('button');
+                btn.className = 'persona-tab' + (i === demo.scenario ? ' active' : '');
+                btn.textContent = sc.tab;
+                btn.onclick = function() {
+                    demo.scenario = i;
+                    demoReset(true);
+                    renderDemo();
+                };
+                wrap.appendChild(btn);
+            });
+        }
+
+        function renderDemoPanel() {
+            const list = document.getElementById('demo-features');
+            if (!list) return;
+            const t = translations[currentLang];
+            const iconFor = { snippet: 'doc', template: 'wand', combo: 'stack', secure: 'lock' };
+            const colorFor = { snippet: '#5856D6', template: '#AF52DE', combo: '#FF9500', secure: '#5E8BFF' };
+            list.innerHTML = '';
+            (t.demoFeatures || []).forEach(function(f) {
+                const li = document.createElement('li');
+                li.innerHTML =
+                    '<span class="dot" style="background:' + colorFor[f.k] + '">' +
+                        demoIcon(iconFor[f.k], 16, '#fff') +
+                    '</span>' +
+                    '<span><b>' + escapeHtml(f.t) + '</b><span>' + demoChips(f.d) + '</span></span>';
+                list.appendChild(li);
+            });
+        }
+
+        function renderDemoScreen() {
+            const screen = document.getElementById('demo-screen');
+            if (!screen) return;
+            const t = translations[currentLang];
+
+            screen.innerHTML =
+                demoHeaderHTML(t) +
+                '<div class="stage-convo" id="demo-convo">' + demoConvoHTML() + '</div>' +
+                demoComposerHTML(t) +
+                demoCueHTML(t) +
+                '<div class="kb" id="demo-kb">' +
+                    demoKbTabsHTML(t) +
+                    '<div class="kb-grid">' + demoKeysHTML() + '</div>' +
+                    demoOverlayHTML(t) +
+                    (demo.toast ? '<div class="kb-toast">' + escapeHtml(demo.toast) + '</div>' : '') +
+                '</div>';
+
+            bindDemoEvents();
+
+            const convo = document.getElementById('demo-convo');
+            if (convo) convo.scrollTop = convo.scrollHeight;
+        }
+
+        function demoHeaderHTML(t) {
+            return '<div class="stage-header">' +
+                '<h4>' + escapeHtml(t.demoStageTitle) + '</h4>' +
+                '<span class="spacer"></span>' +
+                '<span class="stage-dot">' + demoIcon('key', 15) + '</span>' +
+                '<span class="stage-dot">' + demoIcon('plus', 15) + '</span>' +
+            '</div>';
+        }
+
+        function demoConvoHTML() {
+            return demo.messages.map(function(m) {
+                return '<div class="bubble ' + (m.side === 'in' ? 'inc' : 'out') + '">' +
+                    demoChips(m.text, m.side === 'in' ? 'kb-chip' : 'chip-lite') + '</div>';
+            }).join('');
+        }
+
+        function demoComposerHTML(t) {
+            const caret = '<span class="caret">▏</span>';
+            const body = demo.text
+                ? demoChips(demo.text) + caret
+                : caret + '<span class="ph">' + escapeHtml(t.demoComposerPh) + '</span>';
+            const sendGlow = (demo.step === 1 && demo.text) ? ' glow' : '';
+            return '<div class="stage-composer">' +
+                '<div class="composer-field" id="demo-field">' + body + '</div>' +
+                '<button class="send-btn' + sendGlow + '" id="demo-send"' + (demo.text ? '' : ' disabled') + ' ' +
+                    'aria-label="send">' + demoIcon('send', 30) + '</button>' +
+            '</div>';
+        }
+
+        function demoCueHTML(t) {
+            let text, icon = 'hand', done = false;
+            if (demo.step === 0) {
+                const target = demoFindKey(demoScenario().target);
+                text = demoFormat(t.demoCueTap, target ? target.title : '');
+            } else if (demo.step === 1) {
+                text = t.demoCueSend;
+            } else {
+                text = t.demoCueDone; icon = 'check'; done = true;
+            }
+            // 무엇을 하라는 안내는 화면을 못 보는 사람에게도 읽혀야 한다.
+            return '<div class="stage-cue' + (done ? ' done' : '') + '" role="status" aria-live="polite">' +
+                demoIcon(icon, 14, '#fff') +
+                '<span>' + escapeHtml(text) + '</span>' +
+                (demo.step === 0 ? demoIcon('arrowDown', 12, '#fff') : '') +
+            '</div>';
+        }
+
+        function demoKbTabsHTML(t) {
+            const tabs = DEMO_TABS.map(function(tab) {
+                const active = demo.tab === tab.key;
+                return '<button class="kb-tab' + (active ? ' active' : '') + '" data-tab="' + tab.key + '" ' +
+                    'style="' + (active ? 'background:' + tab.color + ';' : '') + '" ' +
+                    'aria-label="' + escapeHtml(t[tab.label]) + '">' +
+                    demoIcon(tab.icon, 14) + '</button>';
+            }).join('');
+            return '<div class="kb-tabs">' +
+                '<button class="kb-tab static" aria-hidden="true" tabindex="-1">' + demoIcon('globe', 14) + '</button>' +
+                tabs +
+                '<button class="kb-tab kb-clear" id="demo-clear" style="opacity:' + (demo.text ? 1 : 0.4) + '">' +
+                    demoIcon('xmark', 15) + '</button>' +
+            '</div>';
+        }
+
+        function demoKeysHTML() {
+            const target = demoScenario().target;
+            return demoVisibleKeys().map(function(k) {
+                const glow = (demo.step === 0 && k.id === target) ? ' glow' : '';
+                const bg = k.tint
+                    ? 'background:linear-gradient(' + hexA(k.tint, 0.14) + ',' + hexA(k.tint, 0.14) + '),#fff;'
+                    : '';
+                const typeIc = k.type === 'template' ? demoIcon('wand', 13)
+                             : k.type === 'combo' ? demoIcon('stack', 13)
+                             : k.type === 'secure' ? demoIcon('lock', 13) : '';
+
+                if (k.type === 'combo') {
+                    const values = k.values;
+                    const idx = demo.comboIndex[k.id] || 0;
+                    const flashing = demo.comboFlash && demo.comboFlash.id === k.id;
+                    const main = flashing
+                        ? '<span class="combo-flash">' + escapeHtml(demoTrim(values[idx], 22)) + '</span>'
+                        : typeIc + '<span class="kb-key-label">' + escapeHtml(k.title) + '</span>';
+                    return '<div class="kb-key combo' + glow + '" style="' + bg + '">' +
+                        '<button class="combo-main" data-insert="' + k.id + '">' + main + '</button>' +
+                        '<span class="combo-div"></span>' +
+                        '<button class="combo-next" data-next="' + k.id + '">' +
+                            demoIcon('arrowRight', 14) +
+                            '<small>' + (idx + 1) + '/' + values.length + '</small>' +
+                        '</button>' +
+                    '</div>';
+                }
+                return '<button class="kb-key' + glow + '" style="' + bg + '" data-insert="' + k.id + '">' +
+                    typeIc + '<span class="kb-key-label">' + escapeHtml(k.title) + '</span>' +
+                '</button>';
+            }).join('');
+        }
+
+        function demoTrim(s, n) {
+            const one = String(s).replace(/\n/g, ' ');
+            return one.length > n ? one.slice(0, n - 1) + '…' : one;
+        }
+
+        function hexA(hex, alpha) {
+            const h = hex.replace('#', '');
+            const r = parseInt(h.slice(0, 2), 16), g = parseInt(h.slice(2, 4), 16), b = parseInt(h.slice(4, 6), 16);
+            return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+        }
+
+        function demoOverlayHTML(t) {
+            const ov = demo.overlay;
+            if (!ov) return '';
+            if (ov.kind === 'face') {
+                const ok = ov.phase === 'ok';
+                return '<div class="face-overlay' + (ok ? ' ok' : '') + '">' +
+                    '<span class="face-icon">' + demoIcon(ok ? 'check' : 'faceid', 56) + '</span>' +
+                    '<p>' + escapeHtml(ok ? t.demoFaceDone : t.demoFaceScanning) + '</p>' +
+                '</div>';
+            }
+            const key = demoFindKey(ov.keyId);
+            if (!key) return '';
+            const filled = key.ph.every(function(p) { return ov.values[p.name]; });
+
+            const preview = escapeHtml(key.text).replace(/\{([^{}\n]+)\}/g, function(_, name) {
+                const v = ov.values[name];
+                return v ? '<span class="filled">' + escapeHtml(v) + '</span>'
+                         : '<span class="kb-chip">' + escapeHtml(name) + '</span>';
+            });
+
+            const rows = key.ph.map(function(p) {
+                const vals = p.values.map(function(v) {
+                    const sel = ov.values[p.name] === v ? ' sel' : '';
+                    return '<button class="tpl-val' + sel + '" data-ph="' + escapeHtml(p.name) + '" ' +
+                        'data-val="' + escapeHtml(v) + '">' + escapeHtml(v) + '</button>';
+                }).join('');
+                return '<div class="tpl-row">' +
+                    // ⚠️ 여기에 `{금액}` 처럼 중괄호를 그대로 쓰면 코드처럼 보여 겁을 준다.
+                    //    입력창·미리보기와 **같은 칩**으로 보여 줘야 "고르면 되는 빈칸"으로 읽힌다.
+                    '<div class="tpl-row-label"><span class="kb-chip">' + escapeHtml(p.name) + '</span></div>' +
+                    '<div class="tpl-vals">' + vals + '</div>' +
+                '</div>';
+            }).join('');
+
+            return '<div class="kb-overlay">' +
+                '<div class="tpl-head">' +
+                    '<span class="tpl-row-label" style="margin:0">' + escapeHtml(t.demoTplPick) + '</span>' +
+                    '<span class="spacer"></span>' +
+                    '<button class="tpl-insert" id="demo-tpl-insert"' + (filled ? '' : ' disabled') + '>' +
+                        escapeHtml(t.demoTplInsert) + '</button>' +
+                    '<button class="tpl-close" id="demo-tpl-close" aria-label="close">' + demoIcon('xmark', 22) + '</button>' +
+                '</div>' +
+                '<div class="tpl-preview">' + preview + '</div>' +
+                '<div class="tpl-body">' + rows + '</div>' +
+            '</div>';
+        }
+
+        // ===== 동작 =====
+
+        function bindDemoEvents() {
+            document.querySelectorAll('#demo-kb [data-insert]').forEach(function(el) {
+                el.onclick = function() { demoKeyTap(el.getAttribute('data-insert')); };
+            });
+            document.querySelectorAll('#demo-kb [data-next]').forEach(function(el) {
+                el.onclick = function() { demoComboNext(el.getAttribute('data-next')); };
+            });
+            document.querySelectorAll('#demo-kb .kb-tab[data-tab]').forEach(function(el) {
+                el.onclick = function() {
+                    demo.tab = el.getAttribute('data-tab');
+                    renderDemoScreen();
+                };
+            });
+            document.querySelectorAll('#demo-kb .tpl-val').forEach(function(el) {
+                el.onclick = function() {
+                    demoPickValue(el.getAttribute('data-ph'), el.getAttribute('data-val'));
+                };
+            });
+            const insert = document.getElementById('demo-tpl-insert');
+            if (insert) insert.onclick = demoTemplateInsert;
+            const close = document.getElementById('demo-tpl-close');
+            if (close) close.onclick = function() { demo.overlay = null; renderDemoScreen(); };
+            const clear = document.getElementById('demo-clear');
+            if (clear) clear.onclick = function() {
+                if (!demo.text) return;
+                demo.text = '';
+                renderDemoScreen();
+            };
+            const send = document.getElementById('demo-send');
+            if (send) send.onclick = demoSend;
+        }
+
+        function demoKeyTap(id) {
+            if (demo.busy) return;
+            const key = demoFindKey(id);
+            if (!key) return;
+
+            if (key.type === 'template') {
+                demo.overlay = { kind: 'template', keyId: id, values: {} };
+                renderDemoScreen();
+                return;
+            }
+            if (key.type === 'secure') {
+                demo.busy = true;
+                demo.overlay = { kind: 'face', phase: 'scan' };
+                renderDemoScreen();
+                demoLater(function() {
+                    demo.overlay = { kind: 'face', phase: 'ok' };
+                    renderDemoScreen();
+                    demoLater(function() {
+                        demo.overlay = null;
+                        demo.busy = false;
+                        demoType(key.value);
+                    }, 480);
+                }, 1000);
+                return;
+            }
+            if (key.type === 'combo') {
+                const idx = demo.comboIndex[id] || 0;
+                demoType(key.values[idx]);
+                return;
+            }
+            demoType(key.value);
+        }
+
+        function demoComboNext(id) {
+            const key = demoFindKey(id);
+            if (!key || demo.busy) return;
+            const count = key.values.length;
+            demo.comboIndex[id] = ((demo.comboIndex[id] || 0) + 1) % count;
+            demo.comboFlash = { id: id };
+            renderDemoScreen();
+            demoLater(function() {
+                demo.comboFlash = null;
+                renderDemoScreen();
+            }, 900);
+        }
+
+        function demoPickValue(name, value) {
+            const ov = demo.overlay;
+            if (!ov || ov.kind !== 'template') return;
+            ov.values[name] = value;
+            renderDemoScreen();
+
+            // 앱과 같은 규칙 — 빈칸이 모두 채워지면 곧바로 입력된다.
+            const key = demoFindKey(ov.keyId);
+            if (key && key.ph.every(function(p) { return ov.values[p.name]; })) {
+                demo.busy = true;
+                demoLater(function() { demo.busy = false; demoTemplateInsert(); }, 380);
+            }
+        }
+
+        function demoTemplateInsert() {
+            const ov = demo.overlay;
+            if (!ov || ov.kind !== 'template') return;
+            const key = demoFindKey(ov.keyId);
+            if (!key) return;
+            if (!key.ph.every(function(p) { return ov.values[p.name]; })) return;
+            const text = key.text.replace(/\{([^{}\n]+)\}/g, function(m, name) {
+                return ov.values[name] || m;
+            });
+            demo.overlay = null;
+            demoType(text);
+        }
+
+        /// 한 글자씩 들어가는 모습 — 실제로도 키를 누르면 커서 자리에 글이 흘러 들어간다.
+        function demoType(text) {
+            if (demo.busy) return;
+            demo.busy = true;
+            const chars = Array.from(text);
+            const step = Math.max(1, Math.ceil(chars.length / 34));  // 길어도 ~0.6초 안에 끝난다
+            let i = 0;
+            const base = demo.text ? demo.text + '\n' : '';
+
+            // ⚠️ 글자마다 화면을 통째로 다시 그리지 않는다 — 키보드까지 34번 다시 그리면 끊긴다.
+            //    입력창만 고쳐 쓰다가, 다 들어간 뒤에 한 번만 제대로 그린다.
+            const field = document.getElementById('demo-field');
+            (function tick() {
+                i = Math.min(i + step, chars.length);
+                demo.text = base + chars.slice(0, i).join('');
+                if (field) {
+                    field.innerHTML = demoChips(demo.text) + '<span class="caret">▏</span>';
+                    field.scrollTop = field.scrollHeight;
+                } else {
+                    renderDemoScreen();
+                }
+                if (i < chars.length) {
+                    demoLater(tick, 18);
+                } else {
+                    demo.busy = false;
+                    if (demo.step === 0) demo.step = 1;
+                    renderDemoScreen();
+                }
+            })();
+        }
+
+        function demoSend() {
+            if (!demo.text || demo.busy) return;
+            demo.messages.push({ side: 'out', text: demo.text });
+            demo.text = '';
+            if (demo.step === 1) demo.step = 2;
+            renderDemoScreen();
+        }
+
+        (function initDemoControls() {
+            const reset = document.getElementById('demo-reset');
+            if (reset) reset.onclick = function() {
+                demoReset(true);
+                renderDemo();
+            };
+        })();
 
         // Initialize language on page load
         (function() {
