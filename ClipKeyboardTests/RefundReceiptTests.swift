@@ -149,7 +149,7 @@ struct RefundReceiptTests {
         #expect(made.lines.first?.useCount == 7)
     }
 
-    @Test("지운 문구는 한 줄로 합쳐진다'지운 문구'가 여러 줄이면 뭐가 뭔지 모른다")
+    @Test("지운 문구는 한 줄로 합쳐진다. '지운 문구'가 여러 줄이면 뭐가 뭔지 모른다")
     func deletedShortcutsMergeIntoOneLine() {
         let alive = memo("살아있음", uses: 0)
         let gone1 = UUID(), gone2 = UUID()
@@ -185,7 +185,7 @@ struct RefundReceiptTests {
         #expect(made.coverageStartedAt == nil)
     }
 
-    @Test("기간 이름이 종이에 실린다'이번 달'이라고만 찍으면 나중에 언제 것인지 모른다")
+    @Test("기간 이름이 종이에 실린다. '이번 달'이라고만 찍으면 나중에 언제 것인지 모른다")
     func periodLabelIsCarried() {
         let made = monthReceipt(earned: [:], uses: [:], memos: [])
         #expect(made.periodLabel == "2026년 8월")

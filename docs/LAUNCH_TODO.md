@@ -66,12 +66,12 @@ The iOS keyboard for remote freelancers. Save IBAN, SWIFT, timezone replies, and
 **스크린샷 7장 (iPhone 6.5", 1242 × 2688px)**:
 | # | 제목 오버레이 | 내용 |
 |---|------|------|
-| 1 | **IBAN in one tap**"Stop typing your banking info to every client" | 메모 리스트 + 상단 "방금 복사" 카드에 IBAN |
-| 2 | **30 pro English templates**"Non-native speaker? We got you." | 템플릿 리스트 (Proposal Follow-up 등) |
+| 1 | **IBAN in one tap**: "Stop typing your banking info to every client" | 메모 리스트 + 상단 "방금 복사" 카드에 IBAN |
+| 2 | **30 pro English templates**: "Non-native speaker? We got you." | 템플릿 리스트 (Proposal Follow-up 등) |
 | 3 | **Timezone replies, automated**: `{timezone}` adjusts | 템플릿 편집 `Hi {client}, I'm in {timezone}...` |
 | 4 | **Works in Gmail, Slack, Upwork** | 실제 앱에서 키보드 열려서 IBAN 탭 |
 | 5 | **Smart clipboard, classified** | 스마트 클립보드 자동 분류 배지 |
-| 6 (선택) | **One-time $9.99**"No subscriptions. Ever." | 가격/설정 |
+| 6 (선택) | **One-time $9.99**: "No subscriptions. Ever." | 가격/설정 |
 | 7 (선택) | **Privacy first** | 프라이버시 설명 |
 
 **딥링크**: 비워둘 것 (현재 랜딩 라우팅 미구현)
@@ -97,7 +97,7 @@ Invoices, VAT, payment info, proposal follow-ups: save once, tap forever. The iO
 ```
 
 **스크린샷 순서만 조정** (인보이스 1번으로):
-1. **Invoice + VAT**"Stop retyping your tax ID"
+1. **Invoice + VAT**: "Stop retyping your tax ID"
 2. **30 pro English templates**
 3. IBAN (디지털노마드 페이지의 1번을 3번으로)
 4. 4~5번 동일
@@ -208,7 +208,7 @@ Apple이 최근 추가한 2개 지표 비교:
 
 - ❌ **구독 분석**: 구독 상품 없음, 영구 회색
 - ❌ **App Clips**, 키보드 앱 핏 안 맞음
-- ❌ **3rd-party analytics** (Firebase/Mixpanel)"No data collection" 프라이버시 약속과 충돌
+- ❌ **3rd-party analytics** (Firebase/Mixpanel), "No data collection" 프라이버시 약속과 충돌
 - ❌ **Facebook/Google 광고**, A세그먼트 CAC 회수 불가
 
 ---

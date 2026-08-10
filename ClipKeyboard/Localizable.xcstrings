@@ -4749,7 +4749,7 @@
       }
     },
     "Good afternoon" : {
-      "comment" : "Greeting: afternoon\nGreeting: afternoon",
+      "comment" : "Greeting: afternoon",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4766,7 +4766,7 @@
       }
     },
     "Good evening" : {
-      "comment" : "Greeting: evening/night\nGreeting: evening",
+      "comment" : "Greeting: evening\nGreeting: evening/night",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4783,7 +4783,7 @@
       }
     },
     "Good morning" : {
-      "comment" : "Greeting: morning\nGreeting: morning",
+      "comment" : "Greeting: morning",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7268,17 +7268,6 @@
         }
       }
     },
-    "Pro 업그레이드: %@" : {
-      "comment" : "Price",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Upgrade to Pro: %@"
-          }
-        }
-      }
-    },
     "Pro 업그레이드 화면을 엽니다" : {
       "comment" : "Open paywall hint",
       "localizations" : {
@@ -7286,6 +7275,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Pro upgrade screen"
+          }
+        }
+      }
+    },
+    "Pro 업그레이드: %@" : {
+      "comment" : "Price",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to Pro: %@"
           }
         }
       }
@@ -9368,6 +9368,51 @@
         }
       }
     },
+    "가져가기" : {
+      "comment" : "Share/save the receipt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
+          }
+        }
+      }
+    },
+    "간격" : {
+      "comment" : "Interval label\nInterval picker label",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interval"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        }
+      }
+    },
     "가끔 고양이가 카드 사이를 지나가요." : {
       "comment" : "Living skin description: cat",
       "localizations" : {
@@ -9386,17 +9431,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Now and then a bird lands on a card, then leaves."
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
           }
         }
       }
@@ -9451,17 +9485,6 @@
         }
       }
     },
-    "가져가기" : {
-      "comment" : "Share/save the receipt",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        }
-      }
-    },
     "가져오기 실패" : {
       "comment" : "Bulk import failed alert title\nImport failed",
       "localizations" : {
@@ -9469,17 +9492,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import failed"
-          }
-        }
-      }
-    },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Import Complete"
           }
         }
       }
@@ -9497,18 +9509,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "가져올 단축어가 없어요"
-          }
-        }
-      }
-    },
-    "간격" : {
-      "comment" : "Interval label\nInterval picker label",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interval"
           }
         }
       }
@@ -10117,6 +10117,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pick a few and add them all at once. Pull them straight from your keyboard."
+          }
+        }
+      }
+    },
+    "공유 시트 아래 목록의 '단축어로 저장'을 누르면 화면 없이 한 번에 담겨요" : {
+      "comment" : "Changelog 4.4.5 item 7",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap \"Save as Shortcut\" in the share sheet's action list and it's saved in one go, no screen"
           }
         }
       }
@@ -10878,6 +10889,17 @@
         }
       }
     },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
     "끄기" : {
       "comment" : "Nudge: turn off",
       "localizations" : {
@@ -10896,17 +10918,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn off to delete the original snippet when saving"
-          }
-        }
-      }
-    },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
           }
         }
       }
@@ -16728,24 +16739,6 @@
         }
       }
     },
-    "샘플: 수정해서 사용하세요" : {
-      "comment" : "Sample value hint",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sample: please edit before using"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "샘플: 수정해서 사용하세요"
-          }
-        }
-      }
-    },
     "샘플 단축어를 삭제하지 못했습니다" : {
       "comment" : "Sample memo delete failed toast",
       "localizations" : {
@@ -16764,6 +16757,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fills the app with sample snippets and clipboard history so you can try it right away. Your own data is safely stored the moment you turn it on, and comes back exactly as it was when you turn it off."
+          }
+        }
+      }
+    },
+    "샘플: 수정해서 사용하세요" : {
+      "comment" : "Sample value hint",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample: please edit before using"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "샘플: 수정해서 사용하세요"
           }
         }
       }
@@ -18479,23 +18490,6 @@
         }
       }
     },
-    "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요" : {
-      "comment" : "Changelog 4.4.4 item 1",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the app and see the keyboard exactly as it appears elsewhere, tap to try it right away"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요"
-          }
-        }
-      }
-    },
     "앱을 열면 키보드가 올라온 모습 그대로 보여요. 눌러서 바로 써 볼 수 있어요." : {
       "comment" : "What's new subtitle 4.4.4",
       "localizations" : {
@@ -18509,6 +18503,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱을 열면 키보드가 올라온 모습 그대로 보여요. 눌러서 바로 써 볼 수 있어요."
+          }
+        }
+      }
+    },
+    "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요" : {
+      "comment" : "Changelog 4.4.4 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the app and see the keyboard exactly as it appears elsewhere, tap to try it right away"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요"
           }
         }
       }
@@ -21472,13 +21483,24 @@
         }
       }
     },
-    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
-      "comment" : "Clear all confirm message",
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
           }
         }
       }
@@ -21497,17 +21519,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "전"
-          }
-        }
-      }
-    },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
           }
         }
       }
@@ -21574,13 +21585,13 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
+    "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
+      "comment" : "Clear all confirm message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete the saved security PIN"
+            "value" : "All saved clipboard items will be deleted. This action cannot be undone."
           }
         }
       }
@@ -23711,23 +23722,6 @@
         }
       }
     },
-    "켜기" : {
-      "comment" : "Turn on the keyboard",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "켜기"
-          }
-        }
-      }
-    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -23735,6 +23729,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn on to also type Korean on the keyboard"
+          }
+        }
+      }
+    },
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
           }
         }
       }
@@ -23761,14 +23767,19 @@
         }
       }
     },
-    "켜짐" : {
-      "comment" : "On",
-      "extractionState" : "stale",
+    "켜기" : {
+      "comment" : "Turn on the keyboard",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On"
+            "value" : "Turn on"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜기"
           }
         }
       }
@@ -27346,17 +27357,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
-          }
-        }
-      }
-    },
-    "공유 시트 아래 목록의 '단축어로 저장'을 누르면 화면 없이 한 번에 담겨요" : {
-      "comment" : "Changelog 4.4.5 item 7",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap \"Save as Shortcut\" in the share sheet's action list and it's saved in one go, no screen"
           }
         }
       }

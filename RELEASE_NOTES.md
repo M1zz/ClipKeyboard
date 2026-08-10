@@ -18,7 +18,7 @@
 - **타입별 고유 아이콘**, 이메일·URL·카드·IBAN 등 22개 타입 각각 전용 아이콘과 컬러. 스캔 속도가 확 빨라집니다.
 - **시간 기반 섹션**, 방금 / 자주 쓰는 것 / 이번 주 / 더 오래. 오래된 메모가 자연스럽게 아래로 내려가요.
 - **히어로 카드**, 방금 쓴 메모가 리스트 상단에 부각되어 표시.
-- **상대 시간 + 사용 빈도**"3분 전", "오늘 2번" 같은 부드러운 신호.
+- **상대 시간 + 사용 빈도**: "3분 전", "오늘 2번" 같은 부드러운 신호.
 - **하단 툴바 재정의**: 검색과 새 메모를 주인공으로, 나머지는 ⋯ 메뉴로 정리.
 
 **글로벌 프리랜서 기능 추가**
@@ -53,7 +53,7 @@
 - **Type-specific icons** (Email, URL, card, IBAN and more) 22 types with their own icon + color. Scan-friendly.
 - **Time-based sections**: Just now / Frequent / This week / Older. Older items gracefully sink.
 - **Hero card**: The memo you just used floats to the top.
-- **Relative time + usage counts**"3 min ago", "Used 2× today" ambient signals.
+- **Relative time + usage counts**: "3 min ago", "Used 2× today" ambient signals.
 - **Bottom toolbar redesign**: Search and "+" get the spotlight. Everything else moves into a ⋯ menu.
 
 **Built for global freelancers**

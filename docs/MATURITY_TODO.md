@@ -133,4 +133,4 @@
 - [ ] `LeeoRemoteFlags` (킬스위치), FeedbackHub 쓰는 28개 앱
 - [ ] `PrivacyInfo.xcprivacy` 템플릿, 43개 앱 (이번 4개 파일이 원본)
 - [ ] `ci.yml` 워크플로 템플릿, 전체
-- [ ] 포트폴리오 판정 규칙 개정"자체 수집 파이프라인" 등급 추가 (`build-portfolio-status.py`)
+- [ ] 포트폴리오 판정 규칙 개정, "자체 수집 파이프라인" 등급 추가 (`build-portfolio-status.py`)

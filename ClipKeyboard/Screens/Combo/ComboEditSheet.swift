@@ -123,7 +123,7 @@ struct ComboPreviewSheet: View {
                     .foregroundColor(.white)
                     .frame(width: 22, height: 22)
                     .background(Circle().fill(theme.accent))
-                Text(step.isEmpty ? "" : step)
+                Text(step.isEmpty ? "-" : step)
                     .font(.body)
                     .foregroundColor(theme.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -142,7 +142,7 @@ struct ComboPreviewSheet: View {
         .accessibilityElement(children: .combine)
         .accessibilityLabel(String(
             format: NSLocalizedString("%d단계: %@", comment: "Combo preview step: order and value"),
-            idx + 1, step.isEmpty ? "" : step))
+            idx + 1, step.isEmpty ? "-" : step))
         .accessibilityHint(NSLocalizedString("탭하면 이 값을 복사합니다", comment: "Combo step copy hint"))
     }
 

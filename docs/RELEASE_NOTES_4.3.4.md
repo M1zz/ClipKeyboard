@@ -19,13 +19,13 @@ English
 App Store 제출용 요약 (한국어)
 
 • 파일로 내보내기·가져오기 추가, iCloud 없이도 메모·사진까지 파일 한 개로 보관/복원 (가져오기는 합치기)
-• 백업 결과를 정확히 안내"메모 N개 백업됨", 건너뜀 사유까지 표시해 조용한 실패 제거
+• 백업 결과를 정확히 안내: "메모 N개 백업됨", 건너뜀 사유까지 표시해 조용한 실패 제거
 • 저장 안정성 강화, 저장 도중 문제가 생겨도 원본 데이터가 손상되지 않음
 • 맥 iCloud 백업 실패 문제 해결 및 백업 경로 전반 안정화
 
 App Store Summary (English)
 
 • New Export/Import to a file, keep or restore memos and photos in a single file without iCloud (import merges)
-• Clear backup results"Backed up N memos" with skip reasons, ending silent failures
+• Clear backup results: "Backed up N memos" with skip reasons, ending silent failures
 • Safer saving: your original data won't be corrupted if something interrupts a save
 • Fixed Mac iCloud backup failures and hardened the backup path overall

@@ -226,10 +226,10 @@ struct PaywallView: View {
                        pro: String(format: NSLocalizedString("%d개", comment: "count unit"), 100))
 
             featureRow(NSLocalizedString("iCloud 백업", comment: "iCloud"),
-                       free: "", pro: "✓", isProOnly: true)
+                       free: "-", pro: "✓", isProOnly: true)
 
             featureRow(NSLocalizedString("생체인증 잠금", comment: "Biometric"),
-                       free: "", pro: "✓", isProOnly: true)
+                       free: "-", pro: "✓", isProOnly: true)
 
             featureRow(NSLocalizedString("이미지 단축어", comment: "Image"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeImageMemoLimit),
@@ -243,10 +243,10 @@ struct PaywallView: View {
     }
 
     private func featureRow(_ name: String, free: String, pro: String, isProOnly: Bool = false) -> some View {
-        let freeLabel = free == ""
+        let freeLabel = free == "-"
             ? NSLocalizedString("미포함", comment: "Feature not included")
             : free == "✓" ? NSLocalizedString("포함", comment: "Feature included") : free
-        let proLabel = pro == ""
+        let proLabel = pro == "-"
             ? NSLocalizedString("미포함", comment: "Feature not included")
             : pro == "✓" ? NSLocalizedString("포함", comment: "Feature included") : pro
 

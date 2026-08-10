@@ -21,7 +21,7 @@
   - 코드명(권장): **`2026JUNE`** ← 발급 후 다른 이름이면 이 문서·index.html·tutorial.html에서 일괄 치환
   - 리딤 횟수: 1,000회 / 만료일: **2026-06-14** *(← 본인이 ASC에서 확정. 글의 "Expires" 문구도 같이 맞출 것)*
   - 리딤 URL: `https://apps.apple.com/redeem?ctx=offercodes&id=1543660502&code=2026JUNE`
-- [ ] **허위 주장 제거 확인**"30개 내장 영어 템플릿"은 실제 시드 데이터 미구현이라 **이 글에서 삭제함**. 다시 넣지 말 것.
+- [ ] **허위 주장 제거 확인**, "30개 내장 영어 템플릿"은 실제 시드 데이터 미구현이라 **이 글에서 삭제함**. 다시 넣지 말 것.
 - [x] **실제로 구현되어 주장 가능한 기능** (글에 써도 거짓말 아님):
   - IBAN 자동분류 + ISO 13616 mod-97 체크섬 검증 (`ClipboardClassificationService.swift`)
   - `{timezone}` `{currency}` `{response_time}` 템플릿 변수 (`TemplateVariableProcessor.swift`)

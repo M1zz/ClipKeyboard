@@ -43,7 +43,7 @@ these things for me.
 ⌨️ A custom keyboard: tap any saved phrase into any app
 🧠 A smart clipboard: copies are auto-classified into 15 types (email,
    phone, IBAN with checksum validation, address…)
-📝 Templates with {variables}"Hi {name}, invoice {number} is due {date}"
+📝 Templates with {variables}: "Hi {name}, invoice {number} is due {date}"
 🔗 Combos: insert multiple snippets in sequence
 🖥 A Mac menu-bar companion app
 🔒 Zero data collection: everything stays on your device

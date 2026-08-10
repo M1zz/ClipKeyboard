@@ -1958,7 +1958,7 @@ struct ComboKeyValueLabel: View {
                 .foregroundColor(titleColor)
                 .opacity(showingValue ? 0 : 1)
                 .blur(radius: !reduceMotion && showingValue ? 3 : 0)
-            Text(value.isEmpty ? "" : value)
+            Text(value.isEmpty ? "-" : value)
                 .font(.system(size: fontSize * 0.92))
                 .foregroundColor(valueColor)
                 .opacity(showingValue ? 1 : 0)

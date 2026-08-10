@@ -31,7 +31,7 @@
 리포트는 코드 시그니처 스캔이라 두 가지를 구분하지 못한다.
 
 ### 2-1. 분석 0점은 절반만 사실이다
-리포트 판정은 `analyticsLocalOnly: true`"래퍼만 있고 전송 없음".
+리포트 판정은 `analyticsLocalOnly: true`, "래퍼만 있고 전송 없음".
 그러나 **커밋 `3ce5ccb`(2026-07-30)에서 `UsageReportingService`가 들어가면서 실제 전송이 구현됐다.**
 `ClipKeyboard/Service/UsageReportingService.swift` → LeeoKit `LeeoUsageReporter` → FeedbackHub(CloudKit public DB).
 스냅샷·이벤트·추이 차트(`UsageStatsView`, `UsageTrendChartView`)까지 있고 테스트 14개도 붙었다.
@@ -95,7 +95,7 @@ pbxproj 충돌은 보통 파일 참조 양쪽 유지로 해결되지만, 최근 
 - CloudKit Dashboard: `UsageSnapshot`·`UsageEvent` 스키마 → 인덱스(recordName Queryable, UsageEvent `createdTimestamp` Sortable) → admin read → **Production 배포**
 - 실기기 1대에서 스냅샷 1건 업로드 → `설정 > 지원 > 사용 통계`에서 카운트·차트 렌더링 육안 확인 (현재 유닛 테스트까지만 검증됨)
 - App Store Connect **App Privacy** → 답안 확정 완료: `docs/APP_PRIVACY_ANSWERS.md` (콘솔 입력만 남음)
-- ✅ 문구 정리 완료 (2026-07-30)"아무것도 수집 안 함" 주장이 있던 **6개 문서** 수정:
+- ✅ 문구 정리 완료 (2026-07-30), "아무것도 수집 안 함" 주장이 있던 **6개 문서** 수정:
   `privacy.html`(ko·en 사전 포함) · `index.html` · `tutorial.html` · `ASO_2026-07.md`(스토어 설명 원고) ·
   `README.md` · `RELEASE_NOTES_4.4.3.md`(수집 고지 추가)
 

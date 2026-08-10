@@ -17,7 +17,7 @@ import SwiftUI
 struct PersonaScenario: Identifiable {
     let id = UUID()
     let title: String        // 상황 제목
-    let pain: String         // 공감 맥락"이런 순간, 불편했죠"
+    let pain: String         // 공감 맥락: "이런 순간, 불편했죠"
     let example: String      // 저장할 문구 예시 ({플레이스홀더} 포함 가능)
     let impact: String       // "이렇게 달라져요" - 만들어지는 차이
     let feature: ScenarioFeature

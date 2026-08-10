@@ -36,7 +36,7 @@ struct VaultSpriteTests {
                     "\(sprite.id): \(sprite.rows.count)행 × \(width)칸: 정사각이 아니다")
             for (i, row) in sprite.rows.enumerated() {
                 #expect(row.count == width,
-                        "\(sprite.id) \(i)번째 줄: \(row.count)칸 (기대 \(width))'\(row)'")
+                        "\(sprite.id) \(i)번째 줄: \(row.count)칸 (기대 \(width)), '\(row)'")
             }
         }
     }
