@@ -15,20 +15,22 @@
     {
       "screenshot": "raw/en/screen1.png",
       "out": "out/en/01.png",
-      "eyebrow": "Straight from your keyboard",
-      "title": "Your go-to lines,\none tap away",
+      "eyebrow": "Works in every app",
+      "title": "Tap once,\nit types itself",
       "bg_top": "#16181D",
       "bg_bottom": "#0E0F12",
       "accent": "#4FACFE",
       "title_color": "#FFFFFF",
       "phone_rotate": 0,
-      "phone_x": 0.5
+      "phone_x": 0.5,
+      "phone_scale": 0.68,
+      "phone_top": 0.265
     },
     {
       "screenshot": "raw/en/screen4.png",
       "out": "out/en/02.png",
-      "eyebrow": "In any app",
-      "title": "Tap in the keyboard,\ntyped instantly",
+      "eyebrow": "Save it once",
+      "title": "Everything you\nretype, in one place",
       "bg_top": "#3E8EF7",
       "bg_bottom": "#1F5FD6",
       "accent": "#D8E9FF",
@@ -39,7 +41,7 @@
     {
       "screenshot": "raw/en/screen3.png",
       "out": "out/en/03.png",
-      "eyebrow": "Copy it: it sorts itself",
+      "eyebrow": "Copy it, it sorts itself",
       "title": "A clipboard that\norganizes itself",
       "bg_top": "#F5F6F8",
       "bg_bottom": "#FFFFFF",
@@ -51,14 +53,16 @@
     {
       "screenshot": "raw/en/screen2.png",
       "out": "out/en/04.png",
-      "eyebrow": "Swap the name and price",
-      "title": "Reply templates,\ndone in 30 seconds",
+      "eyebrow": "Swap the name and the number",
+      "title": "Client replies,\ndone in 5 seconds",
       "bg_top": "#FFF3E3",
       "bg_bottom": "#FFE2C2",
       "accent": "#E8762B",
       "title_color": "#2B1A0E",
       "phone_rotate": 6,
-      "phone_x": 0.44
+      "phone_x": 0.44,
+      "phone_scale": 0.68,
+      "phone_top": 0.265
     },
     {
       "screenshot": "raw/en/screen5.png",
