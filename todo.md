@@ -1,5 +1,24 @@
 # ClipKeyboard 진행 상황
 
+## 🩺 안정성 화면에 영문 서버 에러가 뜨던 것 (2026-08-12)
+> 증상: 설정 > 지원 > 안정성 에 "Did not find record type: CrashReport"
+
+- [x] **원인은 앱이 아니라 스키마다.** CloudKit 은 저장이 성공할 때만, 그것도 Development
+      환경에서만 레코드 타입을 만든다. 조회로는 안 만들어진다. 그런데 이 타입에 쓰는 유일한
+      경로인 `DiagnosticsService.upload` 는 실기기 + 실제 크래시 + 원격 플래그가 다 맞아야
+      돌아가서 **한 번도 성공한 적이 없었다.** 수집 코드와 화면만 있고 스키마 배포가 빠졌다
+- [x] **서버 원문을 그대로 화면에 붙이고 있었다.** `CrashReportsView.load` 가
+      `localizedDescription` 을 그대로 띄웠다. 사용자는 앱이 고장난 줄 안다
+      → `unknownItem`(타입 없음) / `invalidArguments`(인덱스 없음) 를
+      `CrashReportReader.isSchemaNotReady` 로 묶어 **스키마 미배포 상태**로 구분하고,
+      한국어 안내로 바꾼다. 원문은 `AppLog.warning(.diagnostics, ...)` 로만 남긴다
+- [x] 빌드 그린 (`xcodebuild -scheme ClipKeyboard` BUILD SUCCEEDED)
+- [ ] **남은 일: CloudKit Console 에서 스키마 배포.** 절차는 `docs/CRASH_REPORT_SCHEMA.md`
+      (필드 7개 + 인덱스 2개 + Security Roles + Production 배포).
+      배포 전까지는 위 안내 문구가 뜬다
+- [ ] ⚠️ 배포할 때 `_world` 에 read 주지 말 것. 콜스택은 admin 역할만 읽는다
+      (피드백·통계와 같은 규약)
+
 ## 🎨 카테고리 배경색이 묻혀 있던 것 + 템플릿 전환은 손이 직접 (2026-08-06)
 
 - [x] **카테고리 틴트가 안 보이던 원인 둘**

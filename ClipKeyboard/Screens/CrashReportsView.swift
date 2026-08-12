@@ -135,6 +135,12 @@ struct CrashReportsView: View {
         errorMessage = nil
         do {
             reports = try await CrashReportReader.fetch()
+        } catch let error where CrashReportReader.isSchemaNotReady(error) {
+            // 서버 원문("Did not find record type: CrashReport")을 그대로 띄우면
+            // 앱이 고장난 것처럼 보인다. 무엇을 해야 하는지로 바꿔 말한다.
+            reports = []
+            errorMessage = NSLocalizedString("진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.", comment: "Crash reports schema not deployed")
+            AppLog.warning(.diagnostics, "⚠️ [CrashReportsView.load] CrashReport 스키마 미배포: \(error.localizedDescription)")
         } catch {
             errorMessage = String(format: NSLocalizedString("불러오지 못했어요: %@", comment: "Crash reports load failure"),
                                   error.localizedDescription)
@@ -147,6 +153,17 @@ struct CrashReportsView: View {
 /// ⚠️ `DiagnosticsService`(MetricKit 의존, iOS 전용)와 분리해 둔다
 ///    조회는 맥 카탈리스트에서도 되어야 하고, 수집과 조회는 수명주기가 다르다.
 enum CrashReportReader {
+
+    /// 허브에 `CrashReport` 레코드 타입(또는 조회에 필요한 인덱스)이 아직 없는 상태인가.
+    ///
+    /// CloudKit 은 **저장이 성공할 때만, 그것도 development 환경에서만** 레코드 타입을 만든다.
+    /// 진단이 한 건도 안 올라온 컨테이너에서는 조회가 `unknownItem`("Did not find record type")으로,
+    /// 타입은 있는데 인덱스가 없으면 `invalidArguments`("not marked queryable")로 실패한다.
+    /// 둘 다 앱 버그가 아니라 스키마 배포가 안 끝난 상태다.
+    static func isSchemaNotReady(_ error: Error) -> Bool {
+        guard let ckError = error as? CKError else { return false }
+        return ckError.code == .unknownItem || ckError.code == .invalidArguments
+    }
 
     static func fetch(limit: Int = 200) async throws -> [CrashReportRecord] {
         let config = ClipKeyboardSpec.feedback

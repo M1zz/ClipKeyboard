@@ -22708,6 +22708,17 @@
         }
       }
     },
+    "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다." : {
+      "comment" : "Crash reports schema not deployed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The diagnostics schema isn't deployed to the hub yet. Deploy the CrashReport record type and its indexes in CloudKit Console and reports will show up here."
+          }
+        }
+      }
+    },
     "진료기록번호" : {
       "comment" : "Medical Record Number",
       "localizations" : {
