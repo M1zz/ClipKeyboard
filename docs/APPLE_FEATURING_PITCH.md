@@ -2,7 +2,10 @@
 
 > 제출처: https://developer.apple.com/app-store/promote/ (App Store Featuring Nomination)
 > 소요: 10분. 비용 0원. 인디 앱도 접근성·최신 OS 대응이 좋으면 실제로 선정됨.
-> ClipKeyboard의 어필 포인트: **접근성(VoiceOver·고대비) + visionOS 대응 + 프라이버시(데이터 수집 0) + 구독 없는 가격 모델**
+> ClipKeyboard의 어필 포인트: **접근성(VoiceOver·색 외 구분) + 온디바이스 AI + 프라이버시(데이터 수집 0) + 구독 없는 가격 모델**
+>
+> 📌 **앵글별 본문은 `docs/APPLE_FEATURING_STORIES.md`.** 이 파일은 폼 필드에 넣을 짧은 문안이고,
+> 저쪽은 시기·상황별로 골라 쓰는 Helpful Details 본문 아홉 가지다. 검증된 근거 표도 그쪽에 있다.
 
 ---
 
@@ -31,11 +34,15 @@ behind Face ID / Touch ID.
 
 **Accessibility**
 ```
-Full VoiceOver support across the app and keyboard, Dynamic Type,
-high-contrast and differentiate-without-color support (all visual
-differentiation cues have non-color alternatives), localized in
-Korean, English, and Indonesian.
+Full VoiceOver support across the app and keyboard (116 labels, 61 hints),
+Dynamic Type, and Differentiate Without Color support: every visual
+differentiation cue has a non-color alternative. Localized in Korean and
+English, written in Korean first rather than machine translated.
 ```
+
+> ⚠️ **인도네시아어를 쓰지 말 것.** 9317416 에서 제거했고 카탈로그에 4키만 잔재로 남아 있다.
+> **visionOS 도 쓰지 말 것.** `TARGETED_DEVICE_FAMILY = 1,2` (iPhone · iPad) 뿐이다.
+> 검증된 주장 목록은 `docs/APPLE_FEATURING_STORIES.md` 0절.
 
 **Business model**
 ```
