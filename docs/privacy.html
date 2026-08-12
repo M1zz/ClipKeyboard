@@ -646,6 +646,12 @@
         }
 
         (function() {
+            // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var requested = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
+            if (requested === 'en' || requested === 'ko') {
+                setLanguage(requested);
+                return;
+            }
             var saved = localStorage.getItem('clipkb-lang');
             if (saved) {
                 applyLanguage(saved);

@@ -664,6 +664,13 @@
         localStorage.setItem('clipkb-lang', lang);
     }
 
+    // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+    // setLang 은 저장을 하지 않으므로 여기서 직접 저장한다.
+    const requestedLang = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
+    if (requestedLang === 'en' || requestedLang === 'ko') {
+        localStorage.setItem('clipkb-lang', requestedLang);
+    }
+
     // Restore saved language preference
     const saved = localStorage.getItem('clipkb-lang');
     if (saved) setLang(saved);
