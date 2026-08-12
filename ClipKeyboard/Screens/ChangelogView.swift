@@ -31,9 +31,12 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
-            version: "4.4.5",
+            version: "4.4.6",
             released: nil,
             highlights: [
+                NSLocalizedString("설정을 하려는 일로 묶어 16개에서 8개로 정리했어요. 첫 화면은 한 줄로 접히고 현재 값이 보여요", comment: "Changelog 4.4.6 item 1"),
+                NSLocalizedString("카테고리 아이콘은 카테고리 관리 안에서 바로 고를 수 있어요", comment: "Changelog 4.4.6 item 2"),
+                NSLocalizedString("안정성 화면에 영문 오류 대신 지금 무엇을 기다리는 상태인지 알려드려요", comment: "Changelog 4.4.6 item 3"),
                 NSLocalizedString("한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요", comment: "Changelog 4.4.5 item 1"),
                 NSLocalizedString("사진 속 글자를 값으로 바로 넣을 수 있어요. 읽은 줄에서 필요한 것만 고르면 돼요", comment: "Changelog 4.4.5 item 2"),
                 NSLocalizedString("단축어 마트가 생겼어요. 상황을 고르고 빈칸만 내 것으로 채우면 바로 키보드에 들어가요", comment: "Changelog 4.4.5 item 4"),

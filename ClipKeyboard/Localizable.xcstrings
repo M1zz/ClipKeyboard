@@ -27404,6 +27404,39 @@
           }
         }
       }
+    },
+    "설정을 하려는 일로 묶어 16개에서 8개로 정리했어요. 첫 화면은 한 줄로 접히고 현재 값이 보여요" : {
+      "comment" : "Changelog 4.4.6 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings is grouped by what you want to do: sixteen sections became eight. The first screen folds into one row and shows your current choice."
+          }
+        }
+      }
+    },
+    "카테고리 아이콘은 카테고리 관리 안에서 바로 고를 수 있어요" : {
+      "comment" : "Changelog 4.4.6 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category icons are now chosen inside Manage categories."
+          }
+        }
+      }
+    },
+    "안정성 화면에 영문 오류 대신 지금 무엇을 기다리는 상태인지 알려드려요" : {
+      "comment" : "Changelog 4.4.6 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Stability screen now tells you what it is waiting for instead of showing a raw error."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
