@@ -136,6 +136,15 @@ struct CategorySettings: View {
                     .font(.body)
             }
 
+            // 카테고리 아이콘 - 예전에는 설정 화면에서 형제 행이었다. 카테고리를 만들다가
+            // 아이콘을 고르는 흐름이 자연스러워 여기로 들여왔다.
+            Section {
+                NavigationLink(destination: CategoryIconSettings()) {
+                    Label(NSLocalizedString("카테고리 아이콘", comment: "Category icon settings"),
+                          systemImage: AppSymbol.squareGrid2x2Fill)
+                }
+            }
+
             // Remove all
             if !store.allCategories.isEmpty {
                 Section {

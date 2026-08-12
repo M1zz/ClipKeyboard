@@ -81,64 +81,41 @@ struct SettingView: View {
         securePINSet = !hash.isEmpty
     }
 
-    /// 디스플레이 섹션 - 메모 셀 표시 방식 + 사용 기록 + 입력 반응.
-    /// ⚠️ body 안에 인라인으로 두면 타입 체커가 시간 초과로 컴파일을 포기한다
-    ///    (body 표현식 하나가 감당하는 뷰 트리 깊이에 한계가 있다).
-    ///    이 화면에 섹션을 더할 때는 이렇게 계산 프로퍼티로 빼낼 것.
-    /// 단축어 탭이 무엇을 보여줄지 - 목록이냐 키보드 무대냐.
+    /// 지금 고른 첫 화면. 저장된 값이 깨졌으면 목록으로 본다.
+    private var currentSnippetsTabStyle: SnippetsTabStyle {
+        SnippetsTabStyle(rawValue: snippetsTabStyleRaw) ?? .list
+    }
+
+    /// 첫 화면 - 고르는 일은 하위 화면(FirstScreenSettingsView)에서 한다.
     ///
-    /// ⚠️ 두 줄 다 **실물을 짧게 설명**한다. 이름만 두면(목록 / 키보드) 뭐가 달라지는지
-    ///    눌러 보기 전에는 알 수 없고, 첫 화면은 눌러 보고 되돌리기가 번거로운 설정이다.
-    private var firstScreenSection: some View {
-        Section {
-            ForEach(SnippetsTabStyle.allCases) { candidate in
-                Button {
-                    HapticManager.shared.light()
-                    snippetsTabStyleRaw = candidate.rawValue
-                } label: {
-                    HStack(spacing: 12) {
-                        Image(systemName: candidate.symbolName)
-                            .font(.title3)
-                            .foregroundColor(theme.accent)
-                            .frame(width: 28)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(candidate.localizedName)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(candidate.localizedDescription)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        Spacer(minLength: 0)
-                        if snippetsTabStyleRaw == candidate.rawValue {
-                            Image(systemName: AppSymbol.checkmark)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.accent)
-                        }
-                    }
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])
+    /// ⚠️ 예전에는 설명 붙은 선택 카드 두 장을 설정 목록에 그대로 펼쳐 두었다. 자리를 크게
+    ///    차지해서 한 행으로 접었지만, **현재 값은 행에 남긴다**. 값이 안 보이면 눌러 보기
+    ///    전에는 무엇으로 되어 있는지 알 수 없고, 첫 화면은 되돌리기가 번거로운 설정이다.
+    private var firstScreenRow: some View {
+        NavigationLink(destination: FirstScreenSettingsView()) {
+            HStack {
+                Label(NSLocalizedString("첫 화면", comment: "Settings section: first screen"),
+                      systemImage: currentSnippetsTabStyle.symbolName)
+                Spacer()
+                Text(currentSnippetsTabStyle.localizedName)
+                    .foregroundColor(theme.textMuted)
+                    .font(.body)
             }
-        } header: {
-            Text(NSLocalizedString("첫 화면", comment: "Settings section: first screen"))
-        } footer: {
-            Text(NSLocalizedString("단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.",
-                                   comment: "First screen section footer"))
         }
     }
 
-    private var displaySection: some View {
+    /// 화면과 표시 - 눈에 보이는 것을 바꾸는 설정을 한자리에 모은다.
+    /// 예전에는 "배경 이미지"만 단축어 관리에 떨어져 있어 같은 일을 두 군데서 찾아야 했다.
+    ///
+    /// ⚠️ body 안에 인라인으로 두면 타입 체커가 시간 초과로 컴파일을 포기한다
+    ///    (body 표현식 하나가 감당하는 뷰 트리 깊이에 한계가 있다).
+    ///    이 화면에 섹션을 더할 때는 이렇게 계산 프로퍼티로 빼낼 것.
+    private var appearanceSection: some View {
         Section {
+            firstScreenRow
             NavigationLink(destination: DisplaySettingsView()) {
                 Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
                       systemImage: AppSymbol.rectangleGrid1x2)
-            }
-            NavigationLink(destination: UsagePassportView()) {
-                Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                      systemImage: AppSymbol.checkmarkSealFill)
             }
             // 단축어 스킨(생활 레이어)은 지금 감춰 둔다 - LivingSkin.isEnabled = false.
             // 되살리려면 그 값을 true 로. 화면(LivingSkinSettings)은 그대로 남아 있다.
@@ -148,13 +125,17 @@ struct SettingView: View {
                           systemImage: AppSymbol.sparkles)
                 }
             }
+            NavigationLink(destination: ListBackgroundSettings()) {
+                Label(NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
+                      systemImage: "photo.on.rectangle.angled")
+            }
             // @AppStorage가 App Group에 직접 쓴다 - Delight.isEnabled / 키보드 익스텐션이 같은 키를 읽는다.
             Toggle(isOn: $delightEffectsEnabled) {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
         } header: {
-            Text(NSLocalizedString("디스플레이", comment: "Settings section: display"))
+            Text(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"))
         } footer: {
             Text(NSLocalizedString("문구를 넣을 때의 진동과 짧은 연출이에요. 끄면 조용히 입력만 돼요.",
                                    comment: "Delight effects toggle footer"))
@@ -162,95 +143,160 @@ struct SettingView: View {
         }
     }
 
-    var body: some View {
-        List {
+    // MARK: - 섹션
+    //
+    // ⚠️ 섹션은 반드시 계산 프로퍼티로 분리한다. body 의 List 안에 인라인으로 늘어놓으면
+    //    타입 체커가 시간 초과로 컴파일을 포기한다(이 화면에서 실제로 겪은 일이다).
 
-            // MARK: Pro 상태
-            // StoreManager.isPro(결제 entitlement만)가 아니라 hasPermanentPro를 본다.
-            // → 그랜드파더/TestFlight 유저도 "Pro 활성화됨"으로 올바르게 표시 (업그레이드 안내 X)
-            if ProFeatureManager.hasPermanentPro {
-                Section {
+    /// Pro 상태 - 결제 entitlement 만 보는 StoreManager.isPro 가 아니라 hasPermanentPro 를 본다.
+    /// → 그랜드파더/TestFlight 유저도 "Pro 활성화됨"으로 올바르게 표시(업그레이드 안내 X)
+    @ViewBuilder
+    private var proSection: some View {
+        if ProFeatureManager.hasPermanentPro {
+            Section {
+                HStack {
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.title2)
+                        .foregroundColor(.green)
+                        .accessibilityHidden(true)
+                    Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+                        .font(.headline)
+                    Spacer()
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+            }
+        } else if ProFeatureManager.isInTrial {
+            Section {
+                Button { showPaywall = true } label: {
                     HStack {
-                        Image(systemName: AppSymbol.checkmarkSealFill)
+                        Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                             .font(.title2)
-                            .foregroundColor(.green)
+                            .foregroundStyle(.green.gradient)
                             .accessibilityHidden(true)
-                        Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
-                            .font(.headline)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+                                .font(.headline).foregroundColor(.primary)
+                            Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
+                                .font(.body).foregroundColor(theme.textMuted)
+                        }
                         Spacer()
+                        Image(systemName: AppSymbol.chevronRight).font(.body)
+                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
                     }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                 }
-            } else if ProFeatureManager.isInTrial {
-                Section {
-                    Button { showPaywall = true } label: {
-                        HStack {
-                            Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
-                                .font(.title2)
-                                .foregroundStyle(.green.gradient)
-                                .accessibilityHidden(true)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
-                                    .font(.headline).foregroundColor(.primary)
-                                Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
-                                    .font(.body).foregroundColor(theme.textMuted)
-                            }
-                            Spacer()
-                            Image(systemName: AppSymbol.chevronRight).font(.body)
-                                .foregroundColor(theme.textMuted).accessibilityHidden(true)
-                        }
-                    }
-                    .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+                .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
 
-                    Button {
-                        Task { await proManager.restorePurchases() }
-                    } label: {
-                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
-                            .foregroundStyle(Color.secondary)
+                restorePurchasesButton
+            }
+        } else {
+            Section {
+                Button { showPaywall = true } label: {
+                    HStack {
+                        Image(systemName: AppSymbol.starCircleFill)
+                            .font(.title2)
+                            .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
+                                .font(.headline).foregroundColor(.primary)
+                            Text(ProFeatureManager.canStartTrial
+                                 ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 단축어, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
+                                 : NSLocalizedString("무제한 단축어, iCloud 백업 등", comment: "Pro features"))
+                                .font(.body).foregroundColor(theme.textMuted)
+                        }
+                        Spacer()
+                        Image(systemName: AppSymbol.chevronRight).font(.body)
+                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
                     }
-                    .disabled(proManager.isLoading)
-                    .accessibilityLabel(NSLocalizedString("이전 구매 복원", comment: "Restore"))
-                    .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
                 }
-            } else {
-                Section {
-                    Button { showPaywall = true } label: {
-                        HStack {
-                            Image(systemName: AppSymbol.starCircleFill)
-                                .font(.title2)
-                                .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .accessibilityHidden(true)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
-                                    .font(.headline).foregroundColor(.primary)
-                                Text(ProFeatureManager.canStartTrial
-                                     ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 단축어, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
-                                     : NSLocalizedString("무제한 단축어, iCloud 백업 등", comment: "Pro features"))
-                                    .font(.body).foregroundColor(theme.textMuted)
-                            }
-                            Spacer()
-                            Image(systemName: AppSymbol.chevronRight).font(.body)
-                                .foregroundColor(theme.textMuted).accessibilityHidden(true)
-                        }
-                    }
-                    .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+                .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
 
-                    Button {
-                        Task { await proManager.restorePurchases() }
-                    } label: {
-                        Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
-                            .foregroundStyle(Color.secondary)
+                restorePurchasesButton
+            }
+        }
+    }
+
+    /// 체험 중일 때와 아닐 때 같은 버튼이 필요하다 - 한 곳에서만 고치도록 빼 둔다.
+    private var restorePurchasesButton: some View {
+        Button {
+            Task { await proManager.restorePurchases() }
+        } label: {
+            Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
+                .foregroundStyle(Color.secondary)
+        }
+        .disabled(proManager.isLoading)
+        .accessibilityLabel(NSLocalizedString("이전 구매 복원", comment: "Restore"))
+        .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
+    }
+
+    /// 데모 토글을 보여줄지.
+    ///
+    /// 처음 둘러보는 동안에만 필요한 것이라 **2회 실행까지만** 보인다. 그 뒤에는 사라져서
+    /// 평소 설정 화면이 그만큼 짧아진다. 다만 두 가지 예외가 있다.
+    ///  · 켜 둔 상태라면 계속 보인다. 끌 길이 없으면 데모 데이터에 갇힌다.
+    ///  · 마스터 모드에서는 항상 보인다(스크린샷·영상 촬영용).
+    private var showsDemoSection: Bool {
+        if demoDataActive || masterModeEnabled { return true }
+        return UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) <= 2
+    }
+
+    /// 키보드 - 키보드로 입력할 때 일어나는 일을 전부 여기로 모은다.
+    /// 붙여넣기 알림은 예전에 "데이터 & 보안"에 있었지만 보안이 아니라 입력 동작이다.
+    private var keyboardSection: some View {
+        Section {
+            // 시트 버튼 - Label 텍스트에 .primary를 명시해 파란색 tint 방지
+            Button {
+                HapticManager.shared.light()
+                showKeyboardGuide = true
+            } label: {
+                HStack {
+                    Label {
+                        Text(NSLocalizedString("키보드 설정 가이드", comment: "Keyboard setup guide"))
+                            .foregroundStyle(Color.primary)
+                    } icon: {
+                        Image(systemName: AppSymbol.keyboardBadgeEye)
                     }
-                    .disabled(proManager.isLoading)
-                    .accessibilityLabel(NSLocalizedString("이전 구매 복원", comment: "Restore"))
-                    .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
+                    Spacer()
+                    // 시스템 디스클로저 인디케이터와 동일한 톤·크기로 맞춤
+                    // (형제 NavigationLink 행들의 기본 chevron과 일치시키기 위함)
+                    Image(systemName: AppSymbol.chevronForward)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color(uiColor: .tertiaryLabel))
+                        .accessibilityHidden(true)
                 }
             }
+            .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
 
-            // MARK: 키보드 (선택 기능)
-            // iOS 설정 > 일반 > 키보드에서 ClipKeyboard를 추가한 사용자를 위한 설정
-            Section(header: VStack(alignment: .leading, spacing: 4) {
+            NavigationLink(destination: KeyboardPracticeView()) {
+                Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
+                      systemImage: AppSymbol.handTap)
+            }
+            NavigationLink(destination: KeyboardLayoutSettings()) {
+                Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
+                      systemImage: AppSymbol.rectangle3Group)
+            }
+            NavigationLink(destination: CopyPasteView()) {
+                Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
+                      systemImage: AppSymbol.docOnClipboard)
+            }
+            // 온디바이스 AI(iOS 26+). 설명은 행 안에 둔다 - 예전에는 이 행 하나만을 위한
+            // 섹션이 따로 있었고, 섹션 머리말이 내용보다 길었다.
+            NavigationLink(destination: AISettingsView()) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"))
+                        Text(NSLocalizedString("클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요.", comment: "AI settings entry footer"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.sparkles)
+                }
+            }
+        } header: {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(NSLocalizedString("키보드", comment: "Settings section: keyboard"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
@@ -259,312 +305,271 @@ struct SettingView: View {
                     .font(.caption2)
                     .foregroundColor(theme.textFaint)
                     .textCase(.none)
-            }) {
-                // 시트 버튼 - Label 텍스트에 .primary를 명시해 파란색 tint 방지
-                Button {
-                    HapticManager.shared.light()
-                    showKeyboardGuide = true
-                } label: {
-                    HStack {
-                        Label {
-                            Text(NSLocalizedString("키보드 설정 가이드", comment: "Keyboard setup guide"))
-                                .foregroundStyle(Color.primary)
-                        } icon: {
-                            Image(systemName: AppSymbol.keyboardBadgeEye)
+            }
+        }
+    }
+
+    /// 단축어 - 무엇을 저장하고 어떻게 정리하는가.
+    ///
+    /// ⚠️ 예전에는 목록 화면 오른쪽 위 ⋯ 메뉴에 있던 것들이다. 바에 ⋯ 와 + 와
+    ///    금고를 다 두려니 시스템이 넘친다고 보고 오버플로 ⋯ 를 하나 더 만들어서
+    ///    ⋯ 가 둘로 보였고, 금고는 그 안에 접혀 사라졌다. 자주 안 여는 것들은
+    ///    설정에 있는 편이 찾기도 쉽다.
+    private var shortcutsSection: some View {
+        Section {
+            // 활용 사례는 페르소나로 고르는 화면이라 페르소나와 나란히 둔다.
+            // ⚠️ 예전에는 이 행이 "단축어 관리"와 "도움말" 양쪽에 있었다(같은 UsageGuideView).
+            //    같은 곳으로 가는 문이 둘이면 다른 화면인 줄 안다. 여기 하나만 남긴다.
+            NavigationLink(destination: UsageGuideView()) {
+                Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                      systemImage: AppSymbol.lightbulb)
+            }
+            NavigationLink(destination: PersonaSettingsContainer()) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("페르소나", comment: "Persona setting row title"))
+                        if let p = CategoryStore.shared.selectedPersona {
+                            Text(p.localizedTitle)
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
                         }
-                        Spacer()
-                        // 시스템 디스클로저 인디케이터와 동일한 톤·크기로 맞춤
-                        // (형제 NavigationLink 행들의 기본 chevron과 일치시키기 위함)
-                        Image(systemName: AppSymbol.chevronForward)
-                            .font(.footnote.weight(.semibold))
-                            .foregroundStyle(Color(uiColor: .tertiaryLabel))
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
+                }
+            }
+            Button {
+                HapticManager.shared.light()
+                showStarterPack = true
+            } label: {
+                Label(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
+                      systemImage: AppSymbol.squareStack3dUpFill)
+                    .foregroundColor(theme.text)
+            }
+            NavigationLink(destination: QuickNoteInboxView()) {
+                Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
+                      systemImage: AppSymbol.trayFull)
+            }
+            Button {
+                HapticManager.shared.light()
+                showPlaceholderManagement = true
+            } label: {
+                Label(NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                      systemImage: AppSymbol.listBullet)
+                    .foregroundColor(theme.text)
+            }
+            // 카테고리 아이콘은 이 화면 안에서 이어서 고른다(예전에는 형제 행이었다).
+            NavigationLink(destination: CategorySettings()) {
+                Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
+                      systemImage: AppSymbol.folderBadgeGearshape)
+            }
+        } header: {
+            Text(NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
+        }
+    }
+
+    /// 내 데이터 - 내 것이 어디에 있고 어떻게 지켜지는가.
+    /// 되돌릴 수 없는 삭제는 반드시 맨 아래에 둔다.
+    private var myDataSection: some View {
+        Section {
+            NavigationLink(destination: CloudBackupView()) {
+                Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
+                      systemImage: AppSymbol.icloudAndArrowUp)
+            }
+            // 기기 간 동기화(실험적, Pro 전용). 설명은 행 안에 둔다 - 예전에는 이 토글
+            // 하나만을 위한 섹션이 따로 있었다.
+            Toggle(isOn: Binding(
+                get: { memoSyncEnabled },
+                set: { newValue in
+                    if newValue && !ProFeatureManager.hasFullAccess {
+                        // 비Pro는 결제 유도하고 토글은 켜지 않는다.
+                        showPaywall = true
+                    } else {
+                        memoSyncEnabled = newValue            // App Group(이 기기) 즉시 반영
+                        MemoSyncFlags.setEnabled(newValue)    // iCloud KV로 다른 기기에도 전파
+                        // 켜면 즉시 동기화 시작(끄면 다음 실행부터 비활성).
+                        if newValue { MemoSyncEngine.shared.startIfEnabled() }
+                    }
+                }
+            )) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
+                        Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.icloudAndArrowDown)
+                }
+            }
+            NavigationLink(destination: MemoHistoryView()) {
+                Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),
+                      systemImage: AppSymbol.clockArrowCirclepath)
+            }
+            NavigationLink(destination: SecurePINSettings()) {
+                HStack {
+                    Label(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN"),
+                          systemImage: AppSymbol.lockShield)
+                    Spacer()
+                    Text(securePINSet
+                         ? NSLocalizedString("설정됨", comment: "PIN is set")
+                         : NSLocalizedString("없음", comment: "PIN not set / none"))
+                        .foregroundColor(theme.textMuted).font(.body)
+                }
+            }
+            // 표시 방식이 아니라 내 기록이다 - 예전에는 "디스플레이"에 있었다.
+            NavigationLink(destination: UsagePassportView()) {
+                Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                      systemImage: AppSymbol.checkmarkSealFill)
+            }
+            // 되돌릴 수 없는 작업 - 2단계 확인을 거친다.
+            // 개인정보 처리방침이 약속한 "앱 내에서 데이터 삭제" 경로이기도 하다.
+            Button(role: .destructive) {
+                showWipeConfirm = true
+            } label: {
+                Label(NSLocalizedString("모든 데이터 삭제", comment: "Delete all data settings entry"),
+                      systemImage: AppSymbol.trash)
+            }
+        } header: {
+            Text(NSLocalizedString("내 데이터", comment: "Settings section: my data"))
+        }
+    }
+
+    /// 도움말과 문의 - 막혔을 때 갈 곳.
+    /// 예전에는 배우는 길이 셋으로 흩어져 있었다(튜토리얼 다시 하기는 단축어 관리에,
+    /// 사용 가이드는 도움말에, 활용 사례는 양쪽에).
+    private var helpSection: some View {
+        Section {
+            NavigationLink(destination: TutorialView()) {
+                Label(NSLocalizedString("사용 가이드", comment: "User guide"),
+                      systemImage: AppSymbol.bookClosed)
+            }
+            // 한 번 배우고 끝이 아니다 - 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지
+            // 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
+            Button {
+                HapticManager.shared.light()
+                showTutorialRestartConfirm = true
+            } label: {
+                Label(NSLocalizedString("튜토리얼 다시 하기", comment: "Restart the tutorial"),
+                      systemImage: "graduationcap")
+                    .foregroundColor(theme.text)
+            }
+            NavigationLink(destination: AccessibilityGuideView()) {
+                Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
+                      systemImage: AppSymbol.figureWalkCircle)
+            }
+            // 업데이트 직후 1회 뜨는 WhatsNew 와 달리 언제든 다시 볼 수 있는 기록.
+            NavigationLink(destination: ChangelogView()) {
+                Label(NSLocalizedString("변경사항", comment: "Changelog settings entry"),
+                      systemImage: AppSymbol.clockArrowCirclepath)
+            }
+            NavigationLink(destination: FeedbackView()) {
+                Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
+                      systemImage: AppSymbol.envelopeBadge)
+            }
+            NavigationLink(destination: ReviewWriteView()) {
+                Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
+                      systemImage: AppSymbol.star)
+            }
+            // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)
+            Link(destination: URL(string: "https://instagram.com/lee25_ios")!) {
+                Label(NSLocalizedString("인스타그램 DM (@lee25_ios)", comment: "Instagram DM contact entry"),
+                      systemImage: AppSymbol.paperplaneFill)
+            }
+        } header: {
+            Text(NSLocalizedString("도움말과 문의", comment: "Settings section: help and contact"))
+        }
+    }
+
+    /// 앱 정보 - 읽고 끝나는 것들. Mac 안내가 약관 뒤에 있으면 아무도 못 본다.
+    ///
+    /// 인앱결제가 있는 앱은 약관·처리방침을 앱 안에서 볼 수 있어야 한다(심사 대비).
+    /// 처리방침 주소는 App Store Connect 에 등록한 것과 같아야 한다.
+    private var appInfoSection: some View {
+        Section {
+            #if !targetEnvironment(macCatalyst)
+            NavigationLink(destination: MacAppIntroView()) {
+                HStack(spacing: 12) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: theme.radiusSm)
+                            .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .frame(width: 32, height: 32)
+                        Image(systemName: AppSymbol.macbook)
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(.white)
                             .accessibilityHidden(true)
                     }
-                }
-                .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
-
-                NavigationLink(destination: KeyboardPracticeView()) {
-                    Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
-                          systemImage: AppSymbol.handTap)
-                }
-                NavigationLink(destination: KeyboardLayoutSettings()) {
-                    Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
-                          systemImage: AppSymbol.rectangle3Group)
-                }
-            }
-
-            // MARK: 개인화
-            // 사용자가 취향에 맞게 바꾸는 값
-            Section(NSLocalizedString("개인화", comment: "Settings section: personalization")) {
-                NavigationLink(destination: PersonaSettingsContainer()) {
-                    Label {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("페르소나", comment: "Persona setting row title"))
-                            if let p = CategoryStore.shared.selectedPersona {
-                                Text(p.localizedTitle)
-                                    .font(.body)
-                                    .foregroundColor(theme.textMuted)
-                            }
-                        }
-                    } icon: {
-                        Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
+                    .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
+                            .font(.body).fontWeight(.semibold)
+                        Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
+                            .font(.body).foregroundColor(theme.textMuted)
                     }
                 }
-            }
-
-            // MARK: 첫 화면 (단축어 탭이 무엇을 보여줄지)
-            firstScreenSection
-
-            // MARK: 디스플레이 (이 앱에서만의 메모 표시 방식)
-            displaySection
-
-            // MARK: 단축어 관리
-            //
-            // ⚠️ 예전에는 목록 화면 오른쪽 위 ⋯ 메뉴에 있던 것들이다. 바에 ⋯ 와 + 와
-            //    금고를 다 두려니 시스템이 넘친다고 보고 오버플로 ⋯ 를 하나 더 만들어서
-            //    ⋯ 가 둘로 보였고, 금고는 그 안에 접혀 사라졌다. 자주 안 여는 것들은
-            //    설정에 있는 편이 찾기도 쉽다.
-            Section(NSLocalizedString("단축어 관리", comment: "Settings section: shortcut management")) {
-                NavigationLink(destination: UsageGuideView()) {
-                    Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
-                          systemImage: AppSymbol.sparkles)
-                }
-                // 한 번 배우고 끝이 아니다 - 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지
-                // 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
-                Button {
-                    HapticManager.shared.light()
-                    showTutorialRestartConfirm = true
-                } label: {
-                    Label(NSLocalizedString("튜토리얼 다시 하기", comment: "Restart the tutorial"),
-                          systemImage: "graduationcap")
-                        .foregroundColor(theme.text)
-                }
-                NavigationLink(destination: QuickNoteInboxView()) {
-                    Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
-                          systemImage: AppSymbol.trayFull)
-                }
-                NavigationLink(destination: ListBackgroundSettings()) {
-                    Label(NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
-                          systemImage: "photo.on.rectangle.angled")
-                }
-                Button {
-                    HapticManager.shared.light()
-                    showStarterPack = true
-                } label: {
-                    Label(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
-                          systemImage: AppSymbol.squareStack3dUpFill)
-                        .foregroundColor(theme.text)
-                }
-                Button {
-                    HapticManager.shared.light()
-                    showPlaceholderManagement = true
-                } label: {
-                    Label(NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
-                          systemImage: AppSymbol.listBullet)
-                        .foregroundColor(theme.text)
-                }
-            }
-
-            // MARK: 카테고리 (공용 - 메모·키보드 양쪽에서 사용)
-            Section(NSLocalizedString("카테고리", comment: "Settings section: category")) {
-                // 카테고리 관리 - 추가/이름변경/색상/표시 토글 (설정 페이지 안으로 통합)
-                NavigationLink(destination: CategorySettings()) {
-                    Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
-                          systemImage: AppSymbol.folderBadgeGearshape)
-                }
-                // 카테고리 아이콘은 메모·키보드 양쪽에서 쓰는 공용 설정
-                NavigationLink(destination: CategoryIconSettings()) {
-                    Label(NSLocalizedString("카테고리 아이콘", comment: "Category icon settings"),
-                          systemImage: AppSymbol.squareGrid2x2Fill)
-                }
-            }
-
-            // MARK: Apple Intelligence (온디바이스 AI, iOS 26+)
-            Section {
-                NavigationLink(destination: AISettingsView()) {
-                    Label(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"),
-                          systemImage: AppSymbol.sparkles)
-                }
-            } footer: {
-                Text(NSLocalizedString("클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요.", comment: "AI settings entry footer"))
-                    .font(.body)
-            }
-
-            // MARK: 데이터 & 보안
-            // 실제 앱 동작에 영향을 주는 설정
-            Section(NSLocalizedString("데이터 & 보안", comment: "Settings section: data and security")) {
-                NavigationLink(destination: CloudBackupView()) {
-                    Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
-                          systemImage: AppSymbol.icloudAndArrowUp)
-                }
-                NavigationLink(destination: MemoHistoryView()) {
-                    Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),
-                          systemImage: AppSymbol.clockArrowCirclepath)
-                }
-                NavigationLink(destination: SecurePINSettings()) {
-                    HStack {
-                        Label(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN"),
-                              systemImage: AppSymbol.lockShield)
-                        Spacer()
-                        Text(securePINSet
-                             ? NSLocalizedString("설정됨", comment: "PIN is set")
-                             : NSLocalizedString("없음", comment: "PIN not set / none"))
-                            .foregroundColor(theme.textMuted).font(.body)
-                    }
-                }
-                NavigationLink(destination: CopyPasteView()) {
-                    Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
-                          systemImage: AppSymbol.docOnClipboard)
-                }
-                // 되돌릴 수 없는 작업 - 2단계 확인을 거친다.
-                // 개인정보 처리방침이 약속한 "앱 내에서 데이터 삭제" 경로이기도 하다.
-                Button(role: .destructive) {
-                    showWipeConfirm = true
-                } label: {
-                    Label(NSLocalizedString("모든 데이터 삭제", comment: "Delete all data settings entry"),
-                          systemImage: AppSymbol.trash)
-                }
-            }
-
-            // MARK: 기기 간 메모 동기화 (실험적, Pro 전용)
-            Section {
-                Toggle(isOn: Binding(
-                    get: { memoSyncEnabled },
-                    set: { newValue in
-                        if newValue && !ProFeatureManager.hasFullAccess {
-                            // 비Pro는 결제 유도하고 토글은 켜지 않는다.
-                            showPaywall = true
-                        } else {
-                            memoSyncEnabled = newValue            // App Group(이 기기) 즉시 반영
-                            MemoSyncFlags.setEnabled(newValue)    // iCloud KV로 다른 기기에도 전파
-                            // 켜면 즉시 동기화 시작(끄면 다음 실행부터 비활성).
-                            if newValue { MemoSyncEngine.shared.startIfEnabled() }
-                        }
-                    }
-                )) {
-                    Label(NSLocalizedString("기기 간 단축어 동기화", comment: "Cross-device memo sync toggle"),
-                          systemImage: AppSymbol.icloudAndArrowDown)
-                }
-            } header: {
-                Text(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
-            } footer: {
-                Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
-                    .font(.body)
-            }
-
-            demoSection
-
-            // MARK: 도움말
-            // 사용법 안내 및 정보 전달
-            Section(NSLocalizedString("도움말", comment: "Settings section: help")) {
-                NavigationLink(destination: UsageGuideView()) {
-                    Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
-                          systemImage: AppSymbol.lightbulb)
-                }
-                NavigationLink(destination: TutorialView()) {
-                    Label(NSLocalizedString("사용 가이드", comment: "User guide"),
-                          systemImage: AppSymbol.bookClosed)
-                }
-                NavigationLink(destination: AccessibilityGuideView()) {
-                    Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
-                          systemImage: AppSymbol.figureWalkCircle)
-                }
-                // 업데이트 직후 1회 뜨는 WhatsNew 와 달리 언제든 다시 볼 수 있는 기록.
-                NavigationLink(destination: ChangelogView()) {
-                    Label(NSLocalizedString("변경사항", comment: "Changelog settings entry"),
-                          systemImage: AppSymbol.clockArrowCirclepath)
-                }
-            }
-
-            // MARK: 지원
-            // 리뷰 및 개발자 소통
-            Section(NSLocalizedString("지원", comment: "Settings section: support")) {
-                NavigationLink(destination: ReviewWriteView()) {
-                    Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
-                          systemImage: AppSymbol.star)
-                }
-                NavigationLink(destination: FeedbackView()) {
-                    Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
-                          systemImage: AppSymbol.envelopeBadge)
-                }
-                // 마스터(개발자) 모드 전용 - 접수된 피드백 인박스 + 허브 사용 통계
-                if masterModeEnabled {
-                    NavigationLink(destination: FeedbackInboxView()) {
-                        Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
-                              systemImage: AppSymbol.trayFull)
-                    }
-                    NavigationLink(destination: UsageStatsView()) {
-                        Label(NSLocalizedString("사용 통계 (개발자)", comment: "Usage stats settings entry (developer)"),
-                              systemImage: AppSymbol.chartBarXaxis)
-                    }
-                    NavigationLink(destination: CrashReportsView()) {
-                        Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
-                              systemImage: AppSymbol.exclamationmarkTriangleFill)
-                    }
-                }
-                // 개발자 문의: 인스타그램 DM (이메일 문의는 위 피드백 보내기에서 처리)
-                Link(destination: URL(string: "https://instagram.com/lee25_ios")!) {
-                    Label(NSLocalizedString("인스타그램 DM (@lee25_ios)", comment: "Instagram DM contact entry"),
-                          systemImage: AppSymbol.paperplaneFill)
-                }
-            }
-
-            // MARK: 약관 및 개인정보
-            // 인앱결제가 있는 앱은 약관·처리방침을 앱 안에서 볼 수 있어야 한다(심사 대비).
-            // 처리방침 주소는 App Store Connect 에 등록한 것과 같아야 한다.
-            Section(NSLocalizedString("약관 및 개인정보", comment: "Settings section: legal")) {
-                if let url = URL(string: Constants.privacyPolicyURL) {
-                    Link(destination: url) {
-                        Label(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy settings entry"),
-                              systemImage: AppSymbol.lockShield)
-                    }
-                }
-                if let url = URL(string: Constants.termsOfUseURL) {
-                    Link(destination: url) {
-                        Label(NSLocalizedString("이용약관", comment: "Terms of use settings entry"),
-                              systemImage: AppSymbol.docText)
-                    }
-                }
-            }
-
-            // MARK: 다른 기기에서 사용 (iOS 전용)
-            #if !targetEnvironment(macCatalyst)
-            Section(NSLocalizedString("다른 기기에서 사용", comment: "Cross-device section")) {
-                NavigationLink(destination: MacAppIntroView()) {
-                    HStack(spacing: 12) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: theme.radiusSm)
-                                .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 32, height: 32)
-                            Image(systemName: AppSymbol.macbook)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(.white)
-                                .accessibilityHidden(true)
-                        }
-                        .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
-                                .font(.body).fontWeight(.semibold)
-                            Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
-                                .font(.body).foregroundColor(theme.textMuted)
-                        }
-                    }
-                    .padding(.vertical, 4)
-                }
+                .padding(.vertical, 4)
             }
             #endif
-
-            // MARK: 앱 정보
-            Section(NSLocalizedString("앱 정보", comment: "App info section")) {
-                HStack {
-                    Text(NSLocalizedString("버전", comment: "Version label"))
-                        .foregroundColor(theme.textMuted)
-                    Spacer()
-                    Text(appVersion).foregroundColor(.primary)
+            if let url = URL(string: Constants.privacyPolicyURL) {
+                Link(destination: url) {
+                    Label(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy settings entry"),
+                          systemImage: AppSymbol.lockShield)
                 }
-                .contentShape(Rectangle())
-                .onTapGesture { handleVersionTap() }
             }
+            if let url = URL(string: Constants.termsOfUseURL) {
+                Link(destination: url) {
+                    Label(NSLocalizedString("이용약관", comment: "Terms of use settings entry"),
+                          systemImage: AppSymbol.docText)
+                }
+            }
+            HStack {
+                Text(NSLocalizedString("버전", comment: "Version label"))
+                    .foregroundColor(theme.textMuted)
+                Spacer()
+                Text(appVersion).foregroundColor(.primary)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture { handleVersionTap() }
+        } header: {
+            Text(NSLocalizedString("앱 정보", comment: "App info section"))
+        }
+    }
+
+    /// 개발자 전용 - 버전 행을 7번 탭하면 열린다.
+    /// 머리말을 두지 않는다. 행마다 "(개발자)"가 붙어 있어 한 번 더 말할 필요가 없다.
+    private var developerSection: some View {
+        Section {
+            NavigationLink(destination: FeedbackInboxView()) {
+                Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
+                      systemImage: AppSymbol.trayFull)
+            }
+            NavigationLink(destination: UsageStatsView()) {
+                Label(NSLocalizedString("사용 통계 (개발자)", comment: "Usage stats settings entry (developer)"),
+                      systemImage: AppSymbol.chartBarXaxis)
+            }
+            NavigationLink(destination: CrashReportsView()) {
+                Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
+                      systemImage: AppSymbol.exclamationmarkTriangleFill)
+            }
+        }
+    }
+
+    // MARK: - Body
+
+    var body: some View {
+        List {
+            proSection
+            // 처음 둘러보는 사람에게만 보인다. 자세한 조건은 showsDemoSection 참고.
+            if showsDemoSection { demoSection }
+            keyboardSection
+            shortcutsSection
+            appearanceSection
+            myDataSection
+            helpSection
+            appInfoSection
+            if masterModeEnabled { developerSection }
         }
         .alert(NSLocalizedString("튜토리얼을 다시 할까요?", comment: "Restart tutorial alert title"),
                isPresented: $showTutorialRestartConfirm) {
@@ -1228,5 +1233,64 @@ class EmailController: NSObject {
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
         SettingView()
+    }
+}
+
+/// 첫 화면 고르기 - 단축어 탭을 열었을 때 목록을 볼지 키보드 무대를 볼지.
+///
+/// ⚠️ 두 줄 다 **실물을 짧게 설명**한다. 이름만 두면(목록 / 키보드) 뭐가 달라지는지
+///    눌러 보기 전에는 알 수 없고, 첫 화면은 눌러 보고 되돌리기가 번거로운 설정이다.
+///    그래서 설정 목록에서는 한 행으로 접되, 고르는 이 화면에서는 설명을 그대로 둔다.
+struct FirstScreenSettingsView: View {
+
+    @Environment(\.appTheme) private var theme
+    /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
+    @AppStorage(DefaultsKey.snippetsTabStyle)
+    private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
+
+    var body: some View {
+        List {
+            Section {
+                ForEach(SnippetsTabStyle.allCases) { candidate in
+                    Button {
+                        HapticManager.shared.light()
+                        snippetsTabStyleRaw = candidate.rawValue
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: candidate.symbolName)
+                                .font(.title3)
+                                .foregroundColor(theme.accent)
+                                .frame(width: 28)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(candidate.localizedName)
+                                    .font(.body.weight(.semibold))
+                                    .foregroundColor(theme.text)
+                                Text(candidate.localizedDescription)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            Spacer(minLength: 0)
+                            if snippetsTabStyleRaw == candidate.rawValue {
+                                Image(systemName: AppSymbol.checkmark)
+                                    .font(.body.weight(.semibold))
+                                    .foregroundColor(theme.accent)
+                            }
+                        }
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])
+                }
+            } footer: {
+                Text(NSLocalizedString("단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.",
+                                       comment: "First screen section footer"))
+            }
+        }
+        .navigationTitle(NSLocalizedString("첫 화면", comment: "Settings section: first screen"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
     }
 }

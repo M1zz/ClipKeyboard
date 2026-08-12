@@ -27371,6 +27371,39 @@
           }
         }
       }
+    },
+    "화면과 표시" : {
+      "comment" : "Settings section: appearance",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        }
+      }
+    },
+    "내 데이터" : {
+      "comment" : "Settings section: my data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My data"
+          }
+        }
+      }
+    },
+    "도움말과 문의" : {
+      "comment" : "Settings section: help and contact",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help & contact"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
