@@ -298,7 +298,7 @@ Open the app and the keyboard is right there, the way it looks everywhere else. 
 | 제품 ID | 유형 | 가격 | 여는 것 |
 |---|---|---|---|
 | `com.Ysoup.TokenMemo.pro.halfoff` | 비소모성 | $4.99 (정가의 절반) | 평생 전 기능 |
-| `com.Ysoup.TokenMemo.slots5` | 비소모성 | $2.99 | 단축어 5칸만 |
+| `com.Ysoup.TokenMemo.slots5` | 비소모성 | $1.99 | 단축어 5칸만 |
 
 ⚠️ 칸 추가는 Pro 권한이 아니다. `ClipKeyboardSpec` 의 `entitlementIDs` 에 평생 상품 둘만
 손으로 못박아 뒀고, 그게 깨지는 순간을 잡는 테스트(`testSlotPackNeverGrantsPro`)가 있다.

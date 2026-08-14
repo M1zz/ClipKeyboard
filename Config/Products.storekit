@@ -43,7 +43,7 @@
       "type": "NonConsumable"
     },
     {
-      "displayPrice": "2.99",
+      "displayPrice": "1.99",
       "familyShareable": true,
       "internalID": "slots5_unlock",
       "localizations": [
