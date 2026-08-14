@@ -7,6 +7,21 @@
 
 다운로드: https://apps.apple.com/kr/app/clip-keyboard-quick-phrases/id1543660502
 
+## 📎 별도 포스트 문서
+
+기능 소개형이 아니라 **문제 정의 → 해결 원칙 → 그 원칙의 구현체로 앱**을 배치하는 글은 아래에 따로 둔다.
+분량이 커서 이 파일에 인라인하지 않는다.
+
+| 문서 | 앵글 | 채널 |
+|---|---|---|
+| [POST_TIME_SAVING_SETUP.md](POST_TIME_SAVING_SETUP.md) | 시간 아끼는 환경 셋팅 (커뮤니티 긴 글) | 디스콰이엇 · 클리앙 |
+| [BLOG_TIME_SAVING_SETUP.md](BLOG_TIME_SAVING_SETUP.md) | 같은 앵글의 블로그 버전 (검색 유입용, 실전 셋팅 가이드 포함) | 브런치 · 티스토리 · velog · 네이버 |
+| [THREADS_TIME_SAVING_SETUP.md](THREADS_TIME_SAVING_SETUP.md) | 같은 앵글의 Threads 버전 | Threads (이어쓰기 8편 + 단독 4편 + 댓글 대응) |
+| [THREADS_LAUNCH_POST.md](THREADS_LAUNCH_POST.md) | 1인칭 일기 톤 (기존 문서) | Threads |
+
+재사용 골격(장면 → 문제 재정의 → 원칙 → 기본 해법과 한계 → 앱)은 위 문서 상단에 표로 정리되어 있다.
+후속 앵글 후보: 계좌번호 오타 / 같은 문장 반복 타이핑 / 클립보드 한 개 / 구독 피로.
+
 ---
 
 ## 1️⃣ 디스콰이엇 (disquiet.io), 메이커 런칭 포스트
