@@ -272,9 +272,17 @@ struct KeyboardView: View {
         if isCategoryFeatureEnabled, let category = selectedCategoryFilter {
             switch category {
             case "★basic":
-                // 기본 = 어떤 사용자 카테고리에도 속하지 않은 비즐겨찾기 메모(앱 basicBucketMemos와 동일).
-                let custom = Set(sharedUserCategories)
-                result = result.filter { !custom.contains($0.category) && !$0.isFavorite }
+                // 기본 = **갈 수 있는** 어떤 카테고리 페이지에도 속하지 않은 비즐겨찾기 메모.
+                // ⚠️ 판정은 앱과 **같은 함수**(`CategoryBucketRule`)로 한다. 두 벌로 적어 두었던
+                //    동안 양쪽 다 숨긴 카테고리를 빠뜨려, 그 안의 단축어가 어느 페이지에도
+                //    나타나지 않았다(검색은 고른 페이지 위에서 도므로 검색으로도 못 찾는다).
+                let visible = CategoryBucketRule.visibleCategories(all: sharedUserCategories,
+                                                                   hidden: sharedHiddenCategoryTabs)
+                result = result.filter {
+                    CategoryBucketRule.belongsToBasicBucket(category: $0.category,
+                                                            isFavorite: $0.isFavorite,
+                                                            visibleCustomCategories: visible)
+                }
             case "★favorites":
                 result = result.filter { $0.isFavorite }
             case "★all":
@@ -1493,6 +1501,17 @@ struct KeyboardView: View {
         UIPasteboard.general.image = image
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title)")
+
+        // 앱 무대에서는 복사에서 끝내지 않는다 - 입력창이 우리 것이라 붙여넣은 모습까지
+        // 보여줄 수 있다. 익스텐션에서는 남의 텍스트 필드라 넣을 길이 없어 복사가 끝이다.
+        if hostKind == .inApp {
+            NotificationCenter.default.post(
+                name: .addImageEntry,
+                object: fileName,
+                userInfo: ["memoId": memo.id]
+            )
+        }
+
         withAnimation { showImageCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             withAnimation { showImageCopiedToast = false }

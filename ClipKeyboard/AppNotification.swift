@@ -11,6 +11,11 @@ import Foundation
 
 extension Notification.Name {
     static let addTextEntry = Notification.Name("addTextEntry")
+    /// 이미지 단축어를 눌렀다 - **앱 안(무대)에서만** 쓴다.
+    /// object = 이미지 파일 이름(String), userInfo["memoId"] = UUID.
+    /// (익스텐션에는 이미지를 넣을 자리가 없어 클립보드 복사로 끝난다. 앱 무대에는
+    ///  입력창이 우리 것이라 붙여넣은 모습까지 보여줄 수 있다)
+    static let addImageEntry = Notification.Name("addImageEntry")
     static let comboCompleted = Notification.Name("comboCompleted")
     static let comboItemExecuted = Notification.Name("comboItemExecuted")
     /// iCloud에서 데이터를 복원(자동/수동)한 뒤 열려 있는 화면을 새로고침.

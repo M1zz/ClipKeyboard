@@ -15,6 +15,7 @@
 
 import Testing
 import Foundation
+import UIKit
 @testable import ClipKeyboard
 
 // ⚠️ `.serialized` - 문구 삽입은 **알림**으로 전달된다(익스텐션과 같은 경로).
@@ -155,6 +156,61 @@ struct InAppKeyboardHostTests {
         host.insertText("   ")
         host.send()
         #expect(host.messages.count == before)
+    }
+
+    @Test("무대 첫 줄은 하나뿐이다. 읽을 것이 둘이면 둘 다 안 읽힌다")
+    func stageOpensWithASingleIncomingLine() {
+        let host = InAppKeyboardHost()
+        #expect(host.messages.count == 1)
+        #expect(host.messages.first?.side == .incoming)
+    }
+
+    // MARK: - 이미지 붙여넣기
+
+    @Test("이미지 단축어를 누르면 입력창에 붙고, 보내면 말풍선으로 올라간다")
+    func imageEntryAttachesThenSends() async throws {
+        let host = InAppKeyboardHost()
+        let before = host.messages.count
+
+        // 실제 경로 그대로: 파일로 저장된 이미지를 이름으로 부른다(KeyboardView가 하는 것과 같다).
+        let fileName = "test-stage-\(UUID().uuidString).jpg"
+        try MemoStore.shared.saveImage(Self.solidImage(), fileName: fileName)
+        defer { try? MemoStore.shared.deleteImage(fileName: fileName) }
+
+        NotificationCenter.default.post(name: .addImageEntry, object: fileName,
+                                        userInfo: ["memoId": UUID()])
+        await settle()
+        #expect(host.attachedImage != nil)
+
+        // 글을 한 자도 안 썼어도 보낼 수 있어야 한다 - 눌러 본 결과를 보는 것이 무대의 일이다.
+        #expect(host.canSend)
+        host.send()
+        #expect(host.messages.count == before + 1)
+        #expect(host.messages.last?.image != nil)
+        #expect(host.attachedImage == nil, "보내고 나면 입력창의 첨부는 비워져야 한다")
+    }
+
+    @Test("붙인 이미지를 떼면 보낼 것이 없어진다")
+    func detachingImageClearsSendState() async throws {
+        let host = InAppKeyboardHost()
+        let fileName = "test-stage-\(UUID().uuidString).jpg"
+        try MemoStore.shared.saveImage(Self.solidImage(), fileName: fileName)
+        defer { try? MemoStore.shared.deleteImage(fileName: fileName) }
+
+        NotificationCenter.default.post(name: .addImageEntry, object: fileName,
+                                        userInfo: ["memoId": UUID()])
+        await settle()
+        host.detachImage()
+        #expect(host.attachedImage == nil)
+        #expect(host.canSend == false)
+    }
+
+    /// 1x1 짜리 단색 이미지 - 내용이 아니라 "이미지가 오갔는가"만 본다.
+    private static func solidImage() -> UIImage {
+        UIGraphicsImageRenderer(size: CGSize(width: 4, height: 4)).image { context in
+            UIColor.red.setFill()
+            context.fill(CGRect(x: 0, y: 0, width: 4, height: 4))
+        }
     }
 
     // MARK: - 앱에서는 클립보드가 항상 열려 있다

@@ -59,6 +59,12 @@ class StoreManager: ObservableObject {
         store.products.first { $0.id == Self.proProductID }
     }
 
+    /// 반값 상품 - App Store Connect 에 등록·승인되기 전에는 nil 이다.
+    /// 반값 제안 화면은 이 값이 있을 때만 뜬다(없는 할인을 광고하지 않는다).
+    var discountedProProduct: Product? {
+        store.products.first { $0.id == DiscountOfferManager.discountedProProductID }
+    }
+
     /// 결제 entitlement 기반 Pro 여부.
     /// (그랜드파더 / TestFlight / 체험은 ProFeatureManager 가 별도로 판단한다.)
     var isPro: Bool { store.hasPro }
@@ -100,6 +106,19 @@ class StoreManager: ObservableObject {
         if store.products.isEmpty { await store.loadProducts() }
         guard let product = proProduct else {
             print("❌ [StoreManager] Pro 상품을 찾을 수 없음")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        return await purchase(product, triggeredBy: triggeredBy)
+    }
+
+    /// 반값 Pro 구매 - 반값 제안 화면 전용.
+    /// ⚠️ 상품이 없으면 **정가로 대신 결제하지 않는다.** 반값이라 말한 화면에서 정가가
+    ///    빠져나가는 것은 사고다. 여기서는 실패로 끝내고, 화면은 애초에 뜨지도 않는다.
+    func purchaseDiscountedPro(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = discountedProProduct else {
+            print("❌ [StoreManager] 반값 상품을 찾을 수 없음: \(DiscountOfferManager.discountedProProductID)")
             errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }

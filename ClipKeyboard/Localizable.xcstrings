@@ -884,6 +884,17 @@
         }
       }
     },
+    "%@ 로 평생 사용" : {
+      "comment" : "Discount offer buy button with price",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy for life at %@"
+          }
+        }
+      }
+    },
     "%@ 복사됨" : {
       "comment" : "VoiceOver: copied announcement",
       "localizations" : {
@@ -969,6 +980,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save right away with the title %@"
+          }
+        }
+      }
+    },
+    "%@ 주 시작" : {
+      "comment" : "Chart readout: week starting on this date",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Week of %@"
           }
         }
       }
@@ -1195,6 +1217,17 @@
         }
       }
     },
+    "%1$@ %2$d" : {
+      "comment" : "Chart readout: metric name and exact value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$d"
+          }
+        }
+      }
+    },
     "%1$@, %2$d회 사용" : {
       "comment" : "Stamp card accessibility label",
       "localizations" : {
@@ -1206,6 +1239,28 @@
         }
       }
     },
+    "%1$@에 단축어 %2$d개가 있어요" : {
+      "comment" : "Category hide blocked title: name and count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ has %2$d snippets"
+          }
+        }
+      }
+    },
+    "%1$@에 있는 단축어 %2$d개를 옮길 곳을 고르세요" : {
+      "comment" : "Bulk move sheet description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose where to move the %2$d snippets in %1$@"
+          }
+        }
+      }
+    },
     "%1$d%% (%2$d)" : {
       "comment" : "Usage stats: percent and count",
       "localizations" : {
@@ -1213,6 +1268,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d%% (%2$d)"
+          }
+        }
+      }
+    },
+    "%1$d개를 %2$@(으)로 옮기고 %3$@ 탭을 숨겼어요" : {
+      "comment" : "Bulk move result",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moved %1$d to %2$@ and hid the %3$@ tab"
           }
         }
       }
@@ -2610,6 +2676,17 @@
         }
       }
     },
+    "9개" : {
+      "comment" : "Distribution bucket: exactly 9, one slot left before the free limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9"
+          }
+        }
+      }
+    },
     "12가1234" : {
       "comment" : "Vehicle plate placeholder",
       "localizations" : {
@@ -2664,6 +2741,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "비원어민도 어색하지 않은 영어 템플릿 30종"
+          }
+        }
+      }
+    },
+    "50% 할인" : {
+      "comment" : "Discount badge",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50% off"
           }
         }
       }
@@ -9368,13 +9456,35 @@
         }
       }
     },
-    "가져가기" : {
-      "comment" : "Share/save the receipt",
+    "가끔 잠깐 나타나요" : {
+      "comment" : "Living skin trait: occasional visitor",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save"
+            "value" : "Shows up now and then"
+          }
+        }
+      }
+    },
+    "가운데 접기" : {
+      "comment" : "Key label truncation: middle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shorten the middle"
+          }
+        }
+      }
+    },
+    "가져오기 실패" : {
+      "comment" : "Bulk import failed alert title\nImport failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import failed"
           }
         }
       }
@@ -9386,18 +9496,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import Complete"
-          }
-        }
-      }
-    },
-    "간격" : {
-      "comment" : "Interval label\nInterval picker label",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interval"
           }
         }
       }
@@ -9435,28 +9533,6 @@
         }
       }
     },
-    "가끔 잠깐 나타나요" : {
-      "comment" : "Living skin trait: occasional visitor",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shows up now and then"
-          }
-        }
-      }
-    },
-    "가운데 접기" : {
-      "comment" : "Key label truncation: middle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shorten the middle"
-          }
-        }
-      }
-    },
     "가입할 때 %@ 적기" : {
       "comment" : "Onboarding situation: type email when signing up",
       "localizations" : {
@@ -9485,13 +9561,13 @@
         }
       }
     },
-    "가져오기 실패" : {
-      "comment" : "Bulk import failed alert title\nImport failed",
+    "가져가기" : {
+      "comment" : "Share/save the receipt",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import failed"
+            "value" : "Save"
           }
         }
       }
@@ -9509,6 +9585,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "가져올 단축어가 없어요"
+          }
+        }
+      }
+    },
+    "간격" : {
+      "comment" : "Interval label\nInterval picker label",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interval"
           }
         }
       }
@@ -9876,6 +9964,7 @@
     },
     "개인화" : {
       "comment" : "Settings section: personalization",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10072,6 +10161,7 @@
     },
     "계좌번호 좀 보내줄래?" : {
       "comment" : "In-app keyboard stage: sample incoming message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10294,6 +10384,17 @@
         }
       }
     },
+    "그냥 둘게요" : {
+      "comment" : "Keep the category visible",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave it visible"
+          }
+        }
+      }
+    },
     "그대로 둘게요" : {
       "comment" : "Keep tutorial creations",
       "localizations" : {
@@ -10462,6 +10563,7 @@
     },
     "기기 간 단축어 동기화" : {
       "comment" : "Cross-device memo sync toggle",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11044,6 +11146,17 @@
         }
       }
     },
+    "내 데이터" : {
+      "comment" : "Settings section: my data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My data"
+          }
+        }
+      }
+    },
     "내 사용자 ID" : {
       "comment" : "Feedback inbox: my user record id header",
       "extractionState" : "stale",
@@ -11402,6 +11515,7 @@
     },
     "다른 기기에서 사용" : {
       "comment" : "Cross-device section",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11510,6 +11624,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Reorder from another category tab"
+          }
+        }
+      }
+    },
+    "다른 카테고리로 옮기기" : {
+      "comment" : "Move all snippets to another category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move to another category"
           }
         }
       }
@@ -11719,7 +11844,7 @@
       }
     },
     "단축어" : {
-      "comment" : "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
+      "comment" : "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11775,6 +11900,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Backed up %d snippets to iCloud."
+          }
+        }
+      }
+    },
+    "단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요." : {
+      "comment" : "Discount offer subtitle: why now",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've been using %d snippets for over a week. Half price, from this screen only."
           }
         }
       }
@@ -11841,6 +11977,17 @@
         }
       }
     },
+    "단축어 개수 제한이 사라져요" : {
+      "comment" : "Discount offer reason: unlimited shortcuts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No more limit on how many snippets you keep"
+          }
+        }
+      }
+    },
     "단축어 개수별 사용자 분포" : {
       "comment" : "Chart a11y: shortcut distribution",
       "localizations" : {
@@ -11865,6 +12012,7 @@
     },
     "단축어 관리" : {
       "comment" : "Settings section: shortcut management",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12665,6 +12813,7 @@
     },
     "데이터 & 보안" : {
       "comment" : "Settings section: data and security",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12791,11 +12940,23 @@
     },
     "도움말" : {
       "comment" : "Settings section: help",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Help"
+          }
+        }
+      }
+    },
+    "도움말과 문의" : {
+      "comment" : "Settings section: help and contact",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help & contact"
           }
         }
       }
@@ -13112,6 +13273,7 @@
     },
     "디스플레이" : {
       "comment" : "Settings section: display",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13626,11 +13788,23 @@
     },
     "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
       "comment" : "Distribution footer",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "How many people have how many snippets. The buckets tighten around the free limit (10), a cluster at 7–9 means the limit is driving purchases; a cluster at 1–3 means people start and stop."
+          }
+        }
+      }
+    },
+    "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
+      "comment" : "Distribution footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many people use how many snippets. The buckets are tight around the free limit (10). 9 is counted on its own: those people have one slot left, so the discount offer can reach them. A cluster at 1~3 means people start and give up."
           }
         }
       }
@@ -14169,6 +14343,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dewi"
+          }
+        }
+      }
+    },
+    "반값으로 평생 사용" : {
+      "comment" : "Discount offer buy button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buy for life at half price"
+          }
+        }
+      }
+    },
+    "반값으로 평생 쓰실래요?" : {
+      "comment" : "Discount offer title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want it for life, at half price?"
           }
         }
       }
@@ -14836,6 +15032,17 @@
         }
       }
     },
+    "보낸 이미지" : {
+      "comment" : "Stage bubble: sent image",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent image"
+          }
+        }
+      }
+    },
     "보셨죠? 한 글자도 안 쳤어요." : {
       "comment" : "Paste practice: success headline",
       "localizations" : {
@@ -15303,6 +15510,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "복사한 내용이 자동으로 여기에 저장됩니다\\n(최대 100개, 7일간 유지)"
+          }
+        }
+      }
+    },
+    "복사한 이미지 붙여넣기" : {
+      "comment" : "Paste copied image into the composer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste copied image"
           }
         }
       }
@@ -17387,6 +17605,17 @@
         }
       }
     },
+    "설정을 하려는 일로 묶어 16개에서 8개로 정리했어요. 첫 화면은 한 줄로 접히고 현재 값이 보여요" : {
+      "comment" : "Changelog 4.4.6 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings is grouped by what you want to do: sixteen sections became eight. The first screen folds into one row and shows your current choice."
+          }
+        }
+      }
+    },
     "설정할 값이 없습니다" : {
       "comment" : "No values to set",
       "localizations" : {
@@ -17602,6 +17831,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Drag to reorder"
+          }
+        }
+      }
+    },
+    "숨기면 이 단축어들이 탭에서 사라져서 찾기 어려워져요. 먼저 다른 카테고리로 옮기면 숨길 수 있어요." : {
+      "comment" : "Category hide blocked message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiding it removes these snippets from the tabs, making them hard to find. Move them to another category first, then you can hide it."
           }
         }
       }
@@ -18324,6 +18564,17 @@
         }
       }
     },
+    "안정성 화면에 영문 오류 대신 지금 무엇을 기다리는 상태인지 알려드려요" : {
+      "comment" : "Changelog 4.4.6 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Stability screen now tells you what it is waiting for instead of showing a raw error."
+          }
+        }
+      }
+    },
     "알림 권한이 꺼져 있어요. iOS 설정 > 클립키보드 > 알림에서 허용해 주세요." : {
       "comment" : "Feedback notification permission denied",
       "extractionState" : "stale",
@@ -18537,6 +18788,7 @@
     },
     "약관 및 개인정보" : {
       "comment" : "Settings section: legal",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19408,6 +19660,50 @@
         }
       }
     },
+    "옮겼어요" : {
+      "comment" : "Bulk move done title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moved"
+          }
+        }
+      }
+    },
+    "옮기고 나면 이 카테고리 탭은 숨겨져요. 단축어는 그대로 있어요." : {
+      "comment" : "Bulk move sheet footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After the move, this category tab is hidden. Your snippets are kept."
+          }
+        }
+      }
+    },
+    "옮기기" : {
+      "comment" : "Move",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move"
+          }
+        }
+      }
+    },
+    "옮길 곳" : {
+      "comment" : "Bulk move destination section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move to"
+          }
+        }
+      }
+    },
     "옵션 설명" : {
       "comment" : "Options description section header",
       "localizations" : {
@@ -19905,6 +20201,17 @@
         }
       }
     },
+    "이 제안은 한 번만 보여요. 나중에는 설정에서 정가로 구매할 수 있어요." : {
+      "comment" : "Discount offer: shown once notice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This offer appears only once. You can still buy at the regular price in Settings later."
+          }
+        }
+      }
+    },
     "이 카드를 길게 눌러 보세요" : {
       "comment" : "Coach line: make template step 1",
       "localizations" : {
@@ -20296,6 +20603,17 @@
         }
       }
     },
+    "이미 만든 단축어는 그대로 있어요" : {
+      "comment" : "Discount offer reason: keeps existing data",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything you've already made stays as it is"
+          }
+        }
+      }
+    },
     "이미 추가된 값입니다" : {
       "comment" : "Combo: duplicate value warning",
       "extractionState" : "stale",
@@ -20359,6 +20677,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add image snippet"
+          }
+        }
+      }
+    },
+    "이미지 단축어를 누르면 미리보기 입력창에 바로 붙고, 보내면 그대로 올라가요" : {
+      "comment" : "Changelog 4.4.7 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap an image snippet and it attaches right in the preview composer. Send it and it posts as is."
+          }
+        }
+      }
+    },
+    "이미지 떼기" : {
+      "comment" : "Remove the attached image",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove image"
           }
         }
       }
@@ -20443,6 +20783,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Image copied"
+          }
+        }
+      }
+    },
+    "이미지가 붙었어요. 보내면 올라가요" : {
+      "comment" : "Composer attachment hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image attached. Send it to post."
           }
         }
       }
@@ -20740,8 +21091,20 @@
         }
       }
     },
+    "일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동하고, 막대를 탭하면 그 기간의 정확한 날짜와 숫자가 나와요." : {
+      "comment" : "Usage stats trend footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grouped by day, week, month, or year. Swipe the chart to move back in time, and tap a bar to see that period's exact date and number."
+          }
+        }
+      }
+    },
     "일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동합니다." : {
       "comment" : "Usage stats trend footer",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21494,17 +21857,6 @@
         }
       }
     },
-    "저장된 보안 PIN을 삭제합니다" : {
-      "comment" : "Delete PIN hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the saved security PIN"
-          }
-        }
-      }
-    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -21581,6 +21933,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "저장된 버전이 없습니다"
+          }
+        }
+      }
+    },
+    "저장된 보안 PIN을 삭제합니다" : {
+      "comment" : "Delete PIN hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the saved security PIN"
           }
         }
       }
@@ -22020,6 +22383,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Collapsed"
+          }
+        }
+      }
+    },
+    "정가 %1$@, 지금은 50%% 할인된 %2$@" : {
+      "comment" : "Price accessibility: original and discounted",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regular price %1$@, now %2$@ at 50%% off"
           }
         }
       }
@@ -22561,6 +22935,17 @@
         }
       }
     },
+    "지금은 괜찮아요" : {
+      "comment" : "Discount offer decline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
     "지난달" : {
       "comment" : "Refund period: last month",
       "localizations" : {
@@ -22614,6 +22999,7 @@
     },
     "지원" : {
       "comment" : "Settings section: support",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23551,6 +23937,17 @@
         }
       }
     },
+    "카테고리 아이콘은 카테고리 관리 안에서 바로 고를 수 있어요" : {
+      "comment" : "Changelog 4.4.6 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category icons are now chosen inside Manage categories."
+          }
+        }
+      }
+    },
     "카테고리 이동" : {
       "comment" : "Action: move to category",
       "localizations" : {
@@ -23639,6 +24036,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "카테고리로 분류해서 빠르게 찾아볼까요?"
+          }
+        }
+      }
+    },
+    "카테고리에 단축어가 들어 있으면 탭을 숨기기 전에 알려드리고, 다른 카테고리로 한 번에 옮길 수 있어요" : {
+      "comment" : "Changelog 4.4.7 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If a category still holds snippets, we tell you before hiding its tab, and you can move them all to another category at once."
           }
         }
       }
@@ -23733,6 +24141,23 @@
         }
       }
     },
+    "켜기" : {
+      "comment" : "Turn on the keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜기"
+          }
+        }
+      }
+    },
     "켜면 키보드에서 한국어도 입력할 수 있어요" : {
       "comment" : "Enable Korean input subtitle",
       "localizations" : {
@@ -23774,23 +24199,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On"
-          }
-        }
-      }
-    },
-    "켜기" : {
-      "comment" : "Turn on the keyboard",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "켜기"
           }
         }
       }
@@ -25166,6 +25574,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter next value on each tap"
+          }
+        }
+      }
+    },
+    "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요" : {
+      "comment" : "Changelog 4.4.7 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed snippets in a hidden category showing up nowhere. Anything without a tab of its own now collects in the Basic tab."
           }
         }
       }
@@ -26748,6 +27167,17 @@
         }
       }
     },
+    "한 번에 옮기기" : {
+      "comment" : "Bulk move sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move all at once"
+          }
+        }
+      }
+    },
     "한 줄을 지키면서 글자를 조금 줄여요." : {
       "comment" : "Key label truncation description: shrink",
       "localizations" : {
@@ -26810,6 +27240,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batch imports now preview as your keyboard before saving, tap a key to leave it out"
+          }
+        }
+      }
+    },
+    "한번 결제하면 평생, 구독 아니에요" : {
+      "comment" : "Discount offer reason: one-time",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pay once, keep it forever. Not a subscription"
           }
         }
       }
@@ -27076,6 +27517,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Display mode"
+          }
+        }
+      }
+    },
+    "화면과 표시" : {
+      "comment" : "Settings section: appearance",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
           }
         }
       }
@@ -27368,72 +27820,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
-          }
-        }
-      }
-    },
-    "화면과 표시" : {
-      "comment" : "Settings section: appearance",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appearance"
-          }
-        }
-      }
-    },
-    "내 데이터" : {
-      "comment" : "Settings section: my data",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "My data"
-          }
-        }
-      }
-    },
-    "도움말과 문의" : {
-      "comment" : "Settings section: help and contact",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Help & contact"
-          }
-        }
-      }
-    },
-    "설정을 하려는 일로 묶어 16개에서 8개로 정리했어요. 첫 화면은 한 줄로 접히고 현재 값이 보여요" : {
-      "comment" : "Changelog 4.4.6 item 1",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings is grouped by what you want to do: sixteen sections became eight. The first screen folds into one row and shows your current choice."
-          }
-        }
-      }
-    },
-    "카테고리 아이콘은 카테고리 관리 안에서 바로 고를 수 있어요" : {
-      "comment" : "Changelog 4.4.6 item 2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Category icons are now chosen inside Manage categories."
-          }
-        }
-      }
-    },
-    "안정성 화면에 영문 오류 대신 지금 무엇을 기다리는 상태인지 알려드려요" : {
-      "comment" : "Changelog 4.4.6 item 3",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The Stability screen now tells you what it is waiting for instead of showing a raw error."
           }
         }
       }

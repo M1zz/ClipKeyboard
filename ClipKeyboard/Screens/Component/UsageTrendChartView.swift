@@ -24,6 +24,13 @@ struct UsageTrendChartView: View {
     @State private var metric: TrendMetric = .activeInstalls
     @State private var scrollPosition = Date()
 
+    /// 탭한 막대의 시각 - 정확한 날짜와 숫자를 읽으려고 고른 자리.
+    ///
+    /// ⚠️ 이 화면의 막대는 **눈으로 읽을 수가 없다.** y축 눈금이 4개뿐이라 "3인지 4인지"를
+    ///    막대 높이로 알아맞히게 되고, x축 라벨은 5개만 나와서 그 막대가 며칠인지도 모른다.
+    ///    그래서 탭한 자리의 값을 글자로 못박아 준다.
+    @State private var selectedDate: Date?
+
     // MARK: - 표시할 값
 
     enum TrendMetric: String, CaseIterable, Identifiable {
@@ -69,6 +76,44 @@ struct UsageTrendChartView: View {
         return points.filter { $0.date >= scrollPosition && $0.date < end }
     }
 
+    // MARK: - 고른 막대
+
+    /// 탭한 x 좌표에 해당하는 묶음.
+    ///
+    /// `chartXSelection` 이 주는 건 **누른 자리의 시각**이지 막대가 아니다. 그래서 그 시각이
+    /// 속한 묶음을 직접 찾는다 - 가장 가까운 것으로 고르면 묶음 사이 빈틈을 눌러도 답이 나온다.
+    private var selectedPoint: UsageReportingService.TrendPoint? {
+        guard let selectedDate else { return nil }
+        return points.min {
+            abs($0.date.timeIntervalSince(selectedDate)) < abs($1.date.timeIntervalSince(selectedDate))
+        }
+    }
+
+    private func isSelected(_ point: UsageReportingService.TrendPoint) -> Bool {
+        selectedPoint?.id == point.id
+    }
+
+    /// 고른 막대의 정확한 날짜와 숫자 - 이 차트를 탭하는 이유 그 자체다.
+    private func readout(for point: UsageReportingService.TrendPoint) -> some View {
+        VStack(alignment: .leading, spacing: 1) {
+            Text(Self.fullLabel(point.date, unit: unit))
+                .font(.caption2)
+                .foregroundColor(theme.textMuted)
+            Text(String(format: NSLocalizedString("%1$@ %2$d", comment: "Chart readout: metric name and exact value"),
+                        metric.localizedName, metric.value(point)))
+                .font(.caption.weight(.semibold))
+                .foregroundColor(theme.text)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
+        .background(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(theme.surface)
+                .shadow(color: .black.opacity(0.12), radius: 4, y: 1)
+        )
+        .accessibilityElement(children: .combine)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Picker("", selection: $unit) {
@@ -99,7 +144,11 @@ struct UsageTrendChartView: View {
         }
         .padding(.vertical, 4)
         .onAppear { scrollToLatest() }
-        .onChange(of: unit) { _, _ in scrollToLatest() }
+        // 단위가 바뀌면 고른 자리도 뜻이 달라진다(같은 날을 가리켜도 이제 '그 달'이다) - 지운다.
+        .onChange(of: unit) { _, _ in
+            selectedDate = nil
+            scrollToLatest()
+        }
         .onChange(of: points.count) { _, _ in scrollToLatest() }
     }
 
@@ -111,10 +160,22 @@ struct UsageTrendChartView: View {
                 x: .value(NSLocalizedString("기간", comment: "Chart axis: period"), point.date, unit: unit.calendarComponent),
                 y: .value(metric.localizedName, metric.value(point))
             )
+            // 고른 막대만 제 색으로 두고 나머지는 물린다 - 어느 것을 읽고 있는지 한눈에.
             .foregroundStyle(theme.accent.gradient)
+            .opacity(selectedPoint == nil || isSelected(point) ? 1 : 0.35)
             .accessibilityLabel(Self.axisLabel(point.date, unit: unit))
             .accessibilityValue("\(metric.value(point))")
+
+            if let selected = selectedPoint, isSelected(point) {
+                RuleMark(x: .value(NSLocalizedString("기간", comment: "Chart axis: period"), selected.date, unit: unit.calendarComponent))
+                    .foregroundStyle(theme.textMuted.opacity(0.35))
+                    .zIndex(-1)
+                    .annotation(position: .top, spacing: 4, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
+                        readout(for: selected)
+                    }
+            }
         }
+        .chartXSelection(value: $selectedDate)
         .chartXAxis {
             AxisMarks(values: .automatic(desiredCount: 5)) { value in
                 AxisGridLine()
@@ -167,10 +228,36 @@ struct UsageTrendChartView: View {
         }
         let start = Self.axisLabel(first, unit: unit)
         let end = Self.axisLabel(last, unit: unit)
-        return start == end ? start : "\(start) – \(end)"
+        // ⚠️ 붙임표(en dash)를 쓰지 않는다 - 저장소 규칙. 범위는 물결표로.
+        return start == end ? start : "\(start) ~ \(end)"
     }
 
     // MARK: - 라벨 / 스크롤 위치
+
+    /// 탭했을 때 보여줄 **정확한** 날짜.
+    ///
+    /// ⚠️ 축 라벨(`axisLabel`)과 다른 형식을 쓴다. 축은 자리가 좁아 연도를 뺀 "8/14"인데,
+    ///    탭해서 읽는 자리에서까지 연도를 빼면 몇 년 것인지 알 수 없다. 주 단위는 그 주가
+    ///    언제부터인지가 값의 뜻이라 "시작" 임을 밝힌다.
+    private static func fullLabel(_ date: Date, unit: UsageReportingService.BucketUnit) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        switch unit {
+        case .day:
+            formatter.setLocalizedDateFormatFromTemplate("yMMMd")
+            return formatter.string(from: date)
+        case .week:
+            formatter.setLocalizedDateFormatFromTemplate("yMMMd")
+            return String(format: NSLocalizedString("%@ 주 시작", comment: "Chart readout: week starting on this date"),
+                          formatter.string(from: date))
+        case .month:
+            formatter.setLocalizedDateFormatFromTemplate("yMMMM")
+            return formatter.string(from: date)
+        case .year:
+            formatter.setLocalizedDateFormatFromTemplate("y")
+            return formatter.string(from: date)
+        }
+    }
 
     private static func axisLabel(_ date: Date, unit: UsageReportingService.BucketUnit) -> String {
         let formatter = DateFormatter()

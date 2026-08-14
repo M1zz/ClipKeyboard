@@ -23,6 +23,26 @@
       "productID" : "com.Ysoup.TokenMemo.pro",
       "referenceName" : "ClipKeyboard Pro",
       "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.49",
+      "familyShareable" : true,
+      "internalID" : "pro_unlock_halfoff",
+      "localizations" : [
+        {
+          "description" : "Unlock all features forever, at half price.",
+          "displayName" : "ClipKeyboard Pro (50% off)",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "모든 기능을 반값으로 영구 잠금 해제합니다.",
+          "displayName" : "ClipKeyboard Pro (반값)",
+          "locale" : "ko"
+        }
+      ],
+      "productID" : "com.Ysoup.TokenMemo.pro.halfoff",
+      "referenceName" : "ClipKeyboard Pro (50% off)",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {

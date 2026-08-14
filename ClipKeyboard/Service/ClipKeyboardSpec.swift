@@ -25,18 +25,40 @@ enum ClipKeyboardSpec: LeeoAppSpec {
         appIdentifier: "com.Ysoup.TokenMemo"
     )
 
-    /// 인앱 결제(프로 일회성 잠금해제) - StoreKit 2 엔진은 LeeoKit(LeeoStore)이 담당한다.
-    /// StoreManager 파사드가 이 구성을 그대로 넘겨 상품 로드·구매·복원·권한 추적을 위임한다.
+    /// 법적·지원 링크 - LeeoKit 3.0 계약 필수 항목.
+    /// ⚠️ 개인정보 처리방침 주소는 **App Store Connect 에 등록한 것과 같아야 한다**
+    ///    (`Constants` 가 단일 출처이므로 여기서 다시 적지 않고 그 값을 쓴다).
+    static let legal = LeeoLegalConfig(
+        privacyURL: URL(string: Constants.privacyPolicyURL)!,
+        supportURL: URL(string: Constants.supportURL)!,
+        termsURL: URL(string: Constants.termsOfUseURL)!,
+        // 계정을 만들지 않는다 - 데이터는 사용자의 iCloud/기기에만 있다.
+        createsAccounts: false,
+        marketingURL: URL(string: Constants.supportURL)!
+    )
+
+    /// 수익모델 - 무료로 쓰다가 **한 번 사면 평생**(구독 아님).
+    ///
+    /// 이 한 줄에서 페이월 필요 여부·복원 의무·게이트 정책이 따라 나온다.
+    /// `paywall` 을 따로 선언하지 않는 이유가 그것이다(선언하면 이 값과 어긋날 수 있고,
+    /// 어긋나면 LeeoKit 프리플라이트가 `paywall.contradiction` 으로 잡는다).
     ///
     /// ⚠️ productID 는 App Store Connect·기존 사용자 영수증과의 계약이다 - 변경 금지.
-    /// cacheSuiteName 을 앱 그룹으로 두어 권한 캐시(leeo.paywall.owned/grandfathered)가
-    /// 공유 그룹에 저장되게 한다. (키보드 익스텐션이 읽는 Pro 키 `clipkeyboard_is_pro` 는
-    /// 이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
-    /// ⚠️ 타입을 반드시 옵셔널로 명시한다 - `LeeoAppSpec`의 요구사항이 `LeeoPaywallConfig?` 라
-    /// 비옵셔널로 선언하면 witness 로 인정되지 않고 프로토콜 기본값(`nil`)이 쓰인다.
-    /// 그러면 `StoreManager.init`의 `ClipKeyboardSpec.paywall!` 이 nil 을 강제 언랩해 **앱이 실행 즉시 크래시**한다.
-    static let paywall: LeeoPaywallConfig? = LeeoPaywallConfig(
-        productIDs: [StoreManager.proProductID],
-        cacheSuiteName: AppGroup.identifier
+    /// ⚠️ 반값 상품(`discountedProProductID`)도 **같이** 싣는다. 파는 물건은 둘이지만
+    ///    주는 권한은 하나라, 어느 쪽을 샀든 Pro 로 인정돼야 한다(entitlementIDs 기본값이
+    ///    productIDs 전체라 따로 적지 않아도 둘 다 권한으로 잡힌다).
+    ///    반값 상품이 App Store Connect 에 아직 없으면 그 ID만 로드되지 않고 정가 상품은 그대로 뜬다.
+    /// ⚠️ cacheSuiteName 을 앱 그룹으로 둬야 권한 캐시(leeo.paywall.owned/grandfathered)가
+    ///    공유 그룹에 저장된다. (키보드 익스텐션이 읽는 Pro 키 `clipkeyboard_is_pro` 는
+    ///    이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
+    static let monetization = LeeoMonetization.freemium(
+        LeeoPurchaseConfig(
+            productIDs: [StoreManager.proProductID, DiscountOfferManager.discountedProProductID],
+            gate: LeeoGatePolicy(
+                freeLimits: ["shortcut": ProFeatureManager.freeMemoLimit],
+                warnWhenRemaining: 3
+            ),
+            cacheSuiteName: AppGroup.identifier
+        )
     )
 }

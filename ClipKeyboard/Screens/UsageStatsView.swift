@@ -103,7 +103,7 @@ struct UsageStatsView: View {
         } header: {
             Text(NSLocalizedString("기간별 추이", comment: "Usage stats section: trend over time"))
         } footer: {
-            Text(NSLocalizedString("일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동합니다.", comment: "Usage stats trend footer"))
+            Text(NSLocalizedString("일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동하고, 막대를 탭하면 그 기간의 정확한 날짜와 숫자가 나와요.", comment: "Usage stats trend footer"))
                 .font(.body)
         }
     }
@@ -146,7 +146,7 @@ struct UsageStatsView: View {
             } header: {
                 Text(NSLocalizedString("단축어 개수 분포", comment: "Usage stats section: shortcut distribution"))
             } footer: {
-                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 7~9개에 몰려 있으면 한도가 결제를 만들고 있다는 뜻이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
+                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
                     .font(.body)
             }
         }

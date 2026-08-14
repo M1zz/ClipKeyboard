@@ -18,6 +18,12 @@ enum DefaultsKey {
     /// App Group - 키보드 익스텐션도 같은 값을 읽어 입력 햅틱을 끈다.
     static let delightEffectsEnabled = "delight.effects.enabled.v1"
     static let didRemoveAds = "didRemoveAds"
+    /// 단축어가 무료 한도 한 칸 앞(9개)에 **처음** 닿은 시각 (App Group, epoch 초).
+    /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를
+    /// 미끼로 쓴 것처럼 보이고, 아직 이 앱이 자기에게 필요한지도 모르는 때다.
+    static let discountOfferReachedLimitEdgeAt = "discount.offer.reachedLimitEdgeAt"
+    /// 반값 제안을 띄운 시각 (App Group, epoch 초). 값이 있으면 다시 띄우지 않는다.
+    static let discountOfferShownAt = "discount.offer.shownAt"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
     static let appLaunchCount = "appLaunchCount"
     static let entries = "entries"

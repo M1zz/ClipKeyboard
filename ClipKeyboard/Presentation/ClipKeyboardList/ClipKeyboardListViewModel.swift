@@ -189,7 +189,14 @@ final class ClipKeyboardListViewModel: ObservableObject {
         case .all:
             return loadedData
         case .basic:
-            return loadedData.filter { !customCategories.contains($0.category) && !$0.isFavorite }
+            // 기준은 `basicBucketMemos` 와 같아야 한다 - 화면에는 있는데 재정렬 목록에는 없으면
+            // 그 메모는 순서를 바꿀 방법이 없다.
+            let visible = visibleCustomCategories
+            return loadedData.filter {
+                CategoryBucketRule.belongsToBasicBucket(category: $0.category,
+                                                        isFavorite: $0.isFavorite,
+                                                        visibleCustomCategories: visible)
+            }
         case .favorites:
             return loadedData.filter { $0.isFavorite }
         case .builtIn(let b):
@@ -316,13 +323,28 @@ final class ClipKeyboardListViewModel: ObservableObject {
         memos(for: selectedCategoryTab)
     }
 
-    /// "기본" 탭에 모이는 메모 - 사용자가 만든 어떤 커스텀 카테고리에도 속하지 않은 모든 메모.
-    /// (category == "기본", 빈값, 또는 삭제된 카테고리의 고아 메모까지 catch-all로 포함해
-    /// "전체" 탭이 사라져도 어떤 메모도 화면에서 누락되지 않게 한다.)
+    /// 지금 탭 바에 **실제로 서 있는** 사용자 카테고리.
+    ///
+    /// ⚠️ `customCategories` 와 다르다. 저쪽은 만들어 둔 것 전부고, 이쪽은 갈 수 있는 것만이다.
+    ///    기본 버킷의 기준은 반드시 이쪽이어야 한다(`CategoryBucketRule` 참고).
+    var visibleCustomCategories: Set<String> {
+        CategoryBucketRule.visibleCategories(all: customCategories, hidden: hiddenCategoryTabs)
+    }
+
+    /// "기본" 탭에 모이는 메모 - **갈 수 있는 어떤 카테고리 탭에도 속하지 않은** 모든 메모.
+    /// (category == "기본", 빈값, 삭제된 카테고리의 고아 메모, 그리고 탭을 숨긴 카테고리의
+    /// 메모까지 catch-all로 포함해 "전체" 탭이 사라져도 어떤 메모도 화면에서 누락되지 않게 한다.)
     /// 검색·타입 필터가 반영된 `memos` 기준이라 다른 탭과 동작이 일관된다.
+    ///
+    /// ⚠️ 판정은 `CategoryBucketRule` 한 곳에서만 한다 - 키보드도 같은 함수를 부른다.
+    ///    이 규칙이 두 벌로 갈라져 있던 동안 양쪽 다 같은 구멍을 갖고 있었다.
     var basicBucketMemos: [Memo] {
-        // 즐겨찾기도 하나의 카테고리 - 즐겨찾기한 메모는 기본 버킷에서 빠지고 즐겨찾기 탭에만 보인다.
-        memos.filter { !customCategories.contains($0.category) && !$0.isFavorite }
+        let visible = visibleCustomCategories
+        return memos.filter {
+            CategoryBucketRule.belongsToBasicBucket(category: $0.category,
+                                                    isFavorite: $0.isFavorite,
+                                                    visibleCustomCategories: visible)
+        }
     }
 
     func memos(for tab: CategoryTab) -> [Memo] {

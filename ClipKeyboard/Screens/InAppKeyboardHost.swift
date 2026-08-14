@@ -22,11 +22,17 @@ import UIKit
 #endif
 
 /// 무대 위에 쌓이는 말풍선 한 개.
+///
+/// 글만 있는 것이 보통이고, 이미지 단축어를 붙여넣어 보낸 것은 `image`를 갖는다
+/// (둘 다 있으면 이미지 아래에 글이 붙는다 - 메시지 앱에서 하는 것과 같은 순서).
 struct StageMessage: Identifiable, Equatable {
     enum Side { case incoming, outgoing }
     let id = UUID()
     let side: Side
     let text: String
+    #if os(iOS)
+    var image: UIImage? = nil
+    #endif
 }
 
 @MainActor
@@ -38,17 +44,26 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     @Published private(set) var text: String = ""
     /// 캐럿 위치(문자 인덱스). `text.count`면 맨 뒤.
     @Published private(set) var caret: Int = 0
-    /// 무대에 쌓인 말풍선. 첫 두 개는 상대가 건네는 말(대화의 이유)이다.
+    /// 무대에 쌓인 말풍선.
+    ///
+    /// ⚠️ 상대가 건네는 말은 **한 줄이면 된다.** 예전에는 대화의 이유("계좌번호 좀 보내줄래?")를
+    ///    한 줄 더 깔았는데, 무대는 매일 여는 첫 화면이라 읽을 것이 두 줄이면 둘 다 안 읽힌다.
+    ///    무엇을 하라는 줄 하나만 남긴다.
     @Published private(set) var messages: [StageMessage] = [
-        .init(side: .incoming,
-              text: NSLocalizedString("계좌번호 좀 보내줄래?",
-                                      comment: "In-app keyboard stage: sample incoming message")),
         // ⚠️ 길게 누르기는 **눈에 안 보이는 동작**이다. 화면에 버튼을 더 두지 않는 대신
         //    이 줄로 알린다 - 안 알리면 아무도 모르는 기능이 된다.
         .init(side: .incoming,
               text: NSLocalizedString("아래 키보드에서 단축어를 눌러 보세요. 길게 누르면 복사돼요.",
                                       comment: "In-app keyboard stage: sample incoming hint"))
     ]
+
+    #if os(iOS)
+    /// 입력창에 붙어 있는 이미지 - 보내면 말풍선으로 올라가고 자리는 비워진다.
+    ///
+    /// 이미지 단축어는 글처럼 **캐럿 자리에 끼워 넣을 수가 없다.** 그래서 글과 같은 줄에
+    /// 두지 않고 입력창 위에 딸린 첨부로 둔다(메시지 앱들이 하는 것과 같은 모양).
+    @Published private(set) var attachedImage: UIImage?
+    #endif
 
     /// `KeyboardView`가 구독하는 상태 - X(전체 삭제) 버튼 노출 여부를 여기서 본다.
     let documentState = KeyboardDocumentState()
@@ -89,7 +104,12 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         ) { [weak self] note in
             MainActor.assumeIsolated { self?.handleTemplateInputComplete(note) }
         }
-        tokens = [t1, t2]
+        let t3 = NotificationCenter.default.addObserver(
+            forName: .addImageEntry, object: nil, queue: .main
+        ) { [weak self] note in
+            MainActor.assumeIsolated { self?.handleAddImageEntry(note) }
+        }
+        tokens = [t1, t2, t3]
     }
 
     // MARK: - TypingInputProxy (자판이 두드리는 자리)
@@ -132,13 +152,56 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     // MARK: - 무대 동작
 
-    /// 쓴 글을 말풍선으로 올린다.
+    /// 쓴 글(과 붙여넣은 이미지)을 말풍선으로 올린다.
+    ///
+    /// 이미지만 붙이고 글은 안 쓴 채로도 보낼 수 있다 - 이미지 단축어를 눌러 본 사람이
+    /// 결과를 보려고 굳이 글까지 써야 하는 것은 이유 없는 한 걸음이다.
     func send() {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard canSend else { return }
+        #if os(iOS)
+        messages.append(.init(side: .outgoing, text: text, image: attachedImage))
+        attachedImage = nil
+        #else
         messages.append(.init(side: .outgoing, text: text))
+        #endif
         clearAll()
     }
+
+    /// 보낼 것이 하나라도 있는가 - 보내기 버튼의 활성 조건이자 `send()`의 관문.
+    /// (공백만 친 것은 보낼 것이 없는 것으로 본다. 예전에는 버튼만 켜지고 눌러도
+    ///  아무 일이 없었다 - 눌리는데 안 되는 버튼은 고장으로 읽힌다)
+    var canSend: Bool {
+        let hasText = !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        #if os(iOS)
+        return hasText || attachedImage != nil
+        #else
+        return hasText
+        #endif
+    }
+
+    #if os(iOS)
+    /// 붙여 둔 이미지를 뗀다(첨부 칩의 x).
+    func detachImage() {
+        attachedImage = nil
+    }
+
+    /// 클립보드에 이미지가 있으면 입력창에 붙인다 - 입력창의 붙여넣기 버튼이 부른다.
+    ///
+    /// ⚠️ `hasImages` 로 **먼저 물어보고** 실제 읽기는 그 다음이다. iOS는 클립보드를 읽을 때마다
+    ///    붙여넣기 허용 팝업을 띄울 수 있어, 있는지도 모르는 채 읽으면 이유 없이 물어보게 된다.
+    /// - Returns: 붙였으면 true.
+    @discardableResult
+    func pasteImageFromClipboard() -> Bool {
+        guard UIPasteboard.general.hasImages,
+              let image = UIPasteboard.general.image else { return false }
+        attachedImage = image
+        KeyboardHaptics.stamp()
+        return true
+    }
+
+    /// 클립보드에 붙일 이미지가 있는가(읽지 않고 확인만).
+    var clipboardHasImage: Bool { UIPasteboard.general.hasImages }
+    #endif
 
     // MARK: - 삽입 (내부)
 
@@ -186,6 +249,20 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
                 userInfo: ["text": raw, "placeholders": custom, "memoId": memoId]
             )
         }
+    }
+
+    /// 이미지 단축어를 눌렀다 - 클립보드 복사는 `KeyboardView`가 이미 했고,
+    /// 여기서는 그 이미지를 입력창에 붙여 **눈에 보이게** 한다.
+    private func handleAddImageEntry(_ note: Notification) {
+        #if os(iOS)
+        guard let fileName = note.object as? String,
+              let image = MemoStore.shared.loadImage(fileName: fileName) else {
+            print("⚠️ [InAppKeyboardHost.handleAddImageEntry] 이미지 로드 실패")
+            return
+        }
+        attachedImage = image
+        trackUse(memoId: note.userInfo?["memoId"] as? UUID)
+        #endif
     }
 
     private func handleTemplateInputComplete(_ note: Notification) {

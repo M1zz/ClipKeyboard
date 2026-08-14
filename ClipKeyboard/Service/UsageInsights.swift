@@ -99,6 +99,10 @@ enum UsageInsights {
     /// 무료 한도(10개) 근처가 중요해서 그 앞뒤를 촘촘히 끊었다:
     /// 한도 직전(7~9)에 몰려 있으면 한도가 전환을 만들고 있다는 뜻이고,
     /// 1~3에 몰려 있으면 만들다 마는 것(가치 전달 실패)이다.
+    ///
+    /// ⚠️ **9개는 따로 센다.** 한 칸 남은 사람이 몇 명인지가 이 화면에서 가장 값진 숫자다
+    /// (할인 제안이 겨냥하는 바로 그 무리이고, 그 수가 곧 제안이 닿을 수 있는 사람의 수다).
+    /// 7~9로 뭉뚱그리면 7개인 사람과 섞여서 그 크기를 알 수 없다.
     /// 화면용 편의 오버로드.
     static func shortcutDistribution(snapshots: [UsageReportingService.Snapshot]) -> [DistributionBucket] {
         shortcutDistribution(metrics: snapshots.map(\.metrics))
@@ -107,12 +111,16 @@ enum UsageInsights {
     /// ⚠️ 지표 딕셔너리만 받는다 - `UsageSnapshot` 은 CKRecord 전용 생성자뿐이라
     ///    그대로 받으면 유닛 테스트로 검증할 수 없다(리텐션에서 겪은 것과 같은 문제).
     static func shortcutDistribution(metrics snapshots: [[String: Double]]) -> [DistributionBucket] {
+        // ⚠️ 라벨에 붙임표(en dash)를 쓰지 않는다 - 저장소 규칙. 범위는 물결표로.
         let bounds: [(String, Int, Int)] = [
             (NSLocalizedString("0개", comment: "Distribution bucket: none"), 0, 0),
-            ("1–3", 1, 3),
-            ("4–6", 4, 6),
-            ("7–9", 7, 9),
-            ("10–19", 10, 19),
+            ("1~3", 1, 3),
+            ("4~6", 4, 6),
+            ("7~8", 7, 8),
+            // ⚠️ 라벨은 짧게 - x축에 일곱 칸이 서므로 길면 다 잘린다.
+            //    "한 칸 남은 사람"이라는 뜻은 화면 아래 설명이 맡는다.
+            (NSLocalizedString("9개", comment: "Distribution bucket: exactly 9, one slot left before the free limit"), 9, 9),
+            ("10~19", 10, 19),
             (NSLocalizedString("20개 이상", comment: "Distribution bucket: 20 or more"), 20, Int.max)
         ]
         return bounds.map { label, lower, upper in

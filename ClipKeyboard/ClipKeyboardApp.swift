@@ -33,6 +33,8 @@ struct ClipKeyboardApp: App {
     @State private var showDataRecovery = false
     /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
     @State private var showFeedbackSheet = false
+    /// 한도 한 칸 앞(9개)에서 일주일을 지낸 사람에게 1회 노출하는 반값 제안
+    @State private var showDiscountOffer = false
 
     /// 유닛 테스트 실행 중인지 - `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -265,6 +267,51 @@ struct ClipKeyboardApp: App {
 
         defaults.set(launchCount, forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
         showFeedbackNudge = true
+    }
+
+    // MARK: - 반값 제안 (한도 한 칸 앞에서 일주일)
+
+    /// 지금 단축어가 몇 개인지 세어 "한 칸 앞에 닿은 시각"을 기록한다.
+    /// (판정과 저장은 `DiscountOfferManager` 가 한다 - 여기서는 개수만 넘긴다)
+    private func noteShortcutCountForDiscountOffer() {
+        let count = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
+        DiscountOfferManager.noteShortcutCount(count)
+    }
+
+    /// 조건이 다 맞으면 반값 제안을 1회 띄운다.
+    ///
+    /// ⚠️ 상품이 아직 안 왔으면 그냥 넘어간다 - **다음 실행에 다시 물어본다.** 여기서
+    ///    본 것으로 표시해 버리면, 네트워크가 느렸다는 이유만으로 제안을 영영 잃는다.
+    private func maybeShowDiscountOffer() {
+        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+        guard noOtherModalIsUp else { return }
+        // 때가 됐는지부터 본다 - 아닌 사람에게 스토어를 두드리지 않기 위해서다.
+        guard DiscountOfferManager.isDueIgnoringProduct else { return }
+
+        Task { @MainActor in
+            // ⚠️ 상품을 **여기서** 부른다. 이 앱은 런치에 상품을 미리 읽지 않아서
+            //    (페이월 화면이 필요할 때 읽는다) 미리 확인하면 언제나 "없음"이 된다.
+            if storeManager.discountedProProduct == nil {
+                await storeManager.loadProducts()
+            }
+            guard storeManager.discountedProProduct != nil else {
+                print("ℹ️ [DiscountOffer] 반값 상품 없음 - 이번엔 건너뛴다(다음 실행에 다시 본다)")
+                return
+            }
+            // 기다리는 동안 다른 안내가 떴을 수 있다.
+            guard noOtherModalIsUp else { return }
+
+            // 여는 그 자리에서 못박는다 - 어떻게 닫든 두 번은 없다.
+            DiscountOfferManager.markShown()
+            showDiscountOffer = true
+        }
+    }
+
+    /// 지금 화면에 다른 안내가 떠 있지 않은가 - 모달이 모달 위에 얹히는 것을 막는다.
+    /// (결제 창이 남의 위에 올라타면 가장 나쁘다)
+    private var noOtherModalIsUp: Bool {
+        !showDemoSampleOffer && !showRestoreHint && !showReviewRequest
+            && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showDiscountOffer
     }
 
     // MARK: - Default Sample Data
@@ -734,6 +781,17 @@ struct ClipKeyboardApp: App {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                         maybeShowFeedbackNudge()
                     }
+
+                    // 반값 제안은 맨 뒤에 - 앞의 안내들이 자리를 잡고 난 다음에야 물어본다.
+                    // (상품 로드가 늦을 수 있어 3초를 준다. 못 받으면 다음 실행에 다시 본다)
+                    noteShortcutCountForDiscountOffer()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                        maybeShowDiscountOffer()
+                    }
+                }
+                // 단축어를 만들거나 지울 때마다 개수를 다시 센다 - 9개에 닿는 순간이 시계의 시작이다.
+                .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+                    noteShortcutCountForDiscountOffer()
                 }
                 .onReceive(
                     NotificationCenter.default.publisher(
@@ -791,6 +849,11 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
+                }
+                // 반값 제안 - 조건은 maybeShowDiscountOffer 가 다 본다.
+                .sheet(isPresented: $showDiscountOffer) {
+                    DiscountOfferView()
+                        .presentationDetents([.large])
                 }
                 .alert(
                     NSLocalizedString("혹시 불편한 점이 있으세요?", comment: "Feedback nudge title"),

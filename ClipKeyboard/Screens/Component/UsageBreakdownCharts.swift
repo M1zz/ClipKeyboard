@@ -62,7 +62,10 @@ struct ShortcutDistributionChart: View {
                     x: .value(NSLocalizedString("단축어 개수", comment: "Chart axis: shortcut count"), bucket.label),
                     y: .value(NSLocalizedString("사용자 수", comment: "Chart axis: install count"), bucket.installs)
                 )
-                .foregroundStyle(ChartPalette.categorical(0, dark: colorScheme == .dark).gradient)
+                // 9개 칸만 다른 색 - 한 칸 남은 사람의 수는 이 화면에서 따로 보라고 만든 칸이다.
+                // 옆 칸과 같은 색이면 굳이 쪼갠 이유가 눈에 안 남는다.
+                .foregroundStyle(ChartPalette.categorical(bucket.lowerBound == 9 ? 1 : 0,
+                                                         dark: colorScheme == .dark).gradient)
                 .cornerRadius(4)   // 데이터 끝만 둥글게
                 // 값이 적을 때도 몇 명인지 바로 읽히도록 막대 위에 직접 표시.
                 .annotation(position: .top, alignment: .center) {

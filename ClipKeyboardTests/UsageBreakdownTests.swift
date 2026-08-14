@@ -16,28 +16,44 @@ final class UsageBreakdownTests: XCTestCase {
     // MARK: - 단축어 개수 분포
 
     /// 구간 경계가 정확해야 한다 - 7·10 은 사용자가 직접 물어본 지점이다.
+    /// 9는 **혼자 한 구간**이다(한 칸 남은 사람 수. 할인 제안이 겨냥하는 무리).
     func testDistributionBucketBoundaries() {
         let metrics: [[String: Double]] = [
             ["shortcuts": 0],   // 0개
-            ["shortcuts": 3],   // 1–3
-            ["shortcuts": 6],   // 4–6
-            ["shortcuts": 7],   // 7–9  ← 경계
-            ["shortcuts": 9],   // 7–9
-            ["shortcuts": 10],  // 10–19 ← 경계
-            ["shortcuts": 19],  // 10–19
+            ["shortcuts": 3],   // 1~3
+            ["shortcuts": 6],   // 4~6
+            ["shortcuts": 7],   // 7~8  ← 경계
+            ["shortcuts": 8],   // 7~8  ← 경계 (9로 새지 않아야 한다)
+            ["shortcuts": 9],   // 9개   ← 단독 구간
+            ["shortcuts": 10],  // 10~19 ← 경계
+            ["shortcuts": 19],  // 10~19
             ["shortcuts": 20],  // 20+  ← 경계
             ["shortcuts": 500]  // 20+
         ]
 
         let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
 
-        XCTAssertEqual(buckets.count, 6)
+        XCTAssertEqual(buckets.count, 7)
         XCTAssertEqual(buckets[0].installs, 1, "0개")
-        XCTAssertEqual(buckets[1].installs, 1, "1–3")
-        XCTAssertEqual(buckets[2].installs, 1, "4–6")
-        XCTAssertEqual(buckets[3].installs, 2, "7–9")
-        XCTAssertEqual(buckets[4].installs, 2, "10–19")
-        XCTAssertEqual(buckets[5].installs, 2, "20개 이상")
+        XCTAssertEqual(buckets[1].installs, 1, "1~3")
+        XCTAssertEqual(buckets[2].installs, 1, "4~6")
+        XCTAssertEqual(buckets[3].installs, 2, "7~8")
+        XCTAssertEqual(buckets[4].installs, 1, "9개 단독")
+        XCTAssertEqual(buckets[5].installs, 2, "10~19")
+        XCTAssertEqual(buckets[6].installs, 2, "20개 이상")
+    }
+
+    /// 9개인 사람은 9 구간에만 잡히고 7~8 로 새지 않아야 한다 - 이 숫자로 제안을 띄울지 정한다.
+    func testDistributionCountsExactlyNineOnItsOwn() {
+        let metrics: [[String: Double]] = [
+            ["shortcuts": 8], ["shortcuts": 9], ["shortcuts": 9], ["shortcuts": 10]
+        ]
+
+        let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
+        let nine = buckets.first { $0.lowerBound == 9 }
+
+        XCTAssertEqual(nine?.installs, 2)
+        XCTAssertEqual(buckets.first { $0.lowerBound == 7 }?.installs, 1)
     }
 
     /// 모든 설치가 정확히 한 구간에만 속해야 한다(중복/누락 없음).

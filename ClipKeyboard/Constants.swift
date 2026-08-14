@@ -172,6 +172,10 @@ struct Constants {
     /// 개인정보 처리방침 - App Store Connect 에 등록한 것과 **같은 주소여야 한다**.
     static let privacyPolicyURL = "https://m1zz.github.io/ClipKeyboard/privacy.html"
 
+    /// 지원(문의) 페이지 - App Store Connect 등록 필수 항목이자 LeeoKit 계약(`legal`)의 필수값.
+    /// 소개 페이지가 곧 지원 창구다(문의 경로는 그 안의 메일 주소와 앱 안 피드백 화면).
+    static let supportURL = "https://m1zz.github.io/ClipKeyboard/"
+
     /// 이용약관(EULA). Apple 표준 사용권 계약 + 이 앱에만 해당하는 조항.
     /// 인앱결제가 있는 앱은 약관을 앱 안에서 볼 수 있어야 심사에서 안전하다.
     static let termsOfUseURL = "https://m1zz.github.io/ClipKeyboard/terms.html"

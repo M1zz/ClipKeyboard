@@ -59,6 +59,11 @@ struct InAppKeyboardStage: View {
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
+    /// 클립보드에 붙일 이미지가 있는가 - 붙여넣기 버튼을 낼지 말지.
+    /// ⚠️ **그릴 때마다 묻지 않는다.** 화면에 들어올 때·앱으로 돌아올 때·이미지 키를 누른 뒤에만
+    ///    확인한다(`hasImages`는 팝업을 띄우지 않지만, 매 프레임 물어볼 이유도 없다).
+    @State private var clipboardHasImage = false
+
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
@@ -84,12 +89,19 @@ struct InAppKeyboardStage: View {
         .onAppear {
             reloadFeed()
             refreshKeyboardReady()
+            refreshClipboardImage()
         }
         .onDisappear { host.stop() }
         // 설정에서 키보드를 켜고 돌아오면 띠가 스스로 사라져야 한다.
         .onReceive(NotificationCenter.default.publisher(
             for: UIApplication.didBecomeActiveNotification)) { _ in
             refreshKeyboardReady()
+            refreshClipboardImage()
+        }
+        // 이미지 키를 누르면 클립보드에도 들어간다 - 뗐을 때 다시 붙일 수 있어야 하므로
+        // 그 직후에 한 번 더 확인한다.
+        .onReceive(NotificationCenter.default.publisher(for: .addImageEntry)) { _ in
+            refreshClipboardImage()
         }
         .fullScreenCover(isPresented: $showsKeyboardSetup, onDismiss: refreshKeyboardReady) {
             KeyboardSetupOnboardingView { showsKeyboardSetup = false }
@@ -127,6 +139,11 @@ struct InAppKeyboardStage: View {
     /// (설정에서 켰거나, 익스텐션이 한 번이라도 떴으면 쓸 수 있는 것으로 본다)
     private func refreshKeyboardReady() {
         keyboardReady = KeyboardInstallState.isUsable
+    }
+
+    /// 클립보드에 이미지가 있는지만 확인한다(내용은 읽지 않는다 - 읽으면 팝업이 뜬다).
+    private func refreshClipboardImage() {
+        clipboardHasImage = host.clipboardHasImage
     }
 
     /// 무대 아래 띠 - 마지막 한 걸음(진짜 키보드 켜기)으로 데려간다.
@@ -264,14 +281,27 @@ struct InAppKeyboardStage: View {
         let mine = message.side == .outgoing
         return HStack {
             if mine { Spacer(minLength: 40) }
-            Text(message.text.templateAwareAttributed(theme: theme, font: .callout))
-                .font(.callout)
-                .foregroundColor(mine ? .white : theme.text)
-                .padding(.horizontal, 13)
-                .padding(.vertical, 9)
-                .background(mine ? Color.accentColor : theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                .textSelection(.enabled)
+            VStack(alignment: mine ? .trailing : .leading, spacing: 6) {
+                if let image = message.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 200, maxHeight: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        .accessibilityLabel(NSLocalizedString("보낸 이미지", comment: "Stage bubble: sent image"))
+                }
+                // 이미지만 보낸 말풍선에는 글칸을 그리지 않는다 - 빈 칸이 남으면 덜 만든 것처럼 보인다.
+                if !message.text.isEmpty {
+                    Text(message.text.templateAwareAttributed(theme: theme, font: .callout))
+                        .font(.callout)
+                        .foregroundColor(mine ? .white : theme.text)
+                        .padding(.horizontal, 13)
+                        .padding(.vertical, 9)
+                        .background(mine ? Color.accentColor : theme.surface)
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        .textSelection(.enabled)
+                }
+            }
             if !mine { Spacer(minLength: 40) }
         }
         .transition(.opacity.combined(with: .move(edge: .bottom)))
@@ -282,19 +312,26 @@ struct InAppKeyboardStage: View {
     /// 시스템 키보드는 뜨지 않는다 - 이 칸은 **아래 우리 키보드만** 채운다.
     /// (진짜 `TextField`를 두면 탭할 때 시스템 키보드가 올라와 무대가 가려진다)
     private var composer: some View {
-        HStack(alignment: .bottom, spacing: 8) {
-            composerField
-            Button {
-                HapticManager.shared.light()
-                withAnimation(.easeOut(duration: 0.2)) { host.send() }
-            } label: {
-                Image(systemName: "arrow.up.circle.fill")
-                    .font(.system(size: 30))
-                    .foregroundColor(host.text.isEmpty ? theme.textMuted.opacity(0.5) : .accentColor)
+        VStack(spacing: 6) {
+            // 붙여 둔 이미지는 글 위에 - 이미지는 캐럿 자리에 끼울 수 없어 딸린 첨부로 둔다.
+            if let image = host.attachedImage {
+                attachmentChip(image)
             }
-            .buttonStyle(.plain)
-            .disabled(host.text.isEmpty)
-            .accessibilityLabel(NSLocalizedString("보내기", comment: "Send composed message"))
+            HStack(alignment: .bottom, spacing: 8) {
+                pasteImageButton
+                composerField
+                Button {
+                    HapticManager.shared.light()
+                    withAnimation(.easeOut(duration: 0.2)) { host.send() }
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(host.canSend ? .accentColor : theme.textMuted.opacity(0.5))
+                }
+                .buttonStyle(.plain)
+                .disabled(!host.canSend)
+                .accessibilityLabel(NSLocalizedString("보내기", comment: "Send composed message"))
+            }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
@@ -302,6 +339,59 @@ struct InAppKeyboardStage: View {
         .overlay(alignment: .top) {
             Rectangle().fill(theme.divider.opacity(0.5)).frame(height: 0.5)
         }
+        .animation(.easeOut(duration: 0.2), value: host.attachedImage)
+    }
+
+    /// 클립보드에 이미지가 있을 때만 나오는 붙여넣기 버튼.
+    ///
+    /// ⚠️ 이미지 단축어를 누르면 이미 알아서 붙는다. 이 버튼은 **다른 데서 복사해 온** 이미지
+    ///    (사진 앱·다른 앱)를 무대에서 붙여 볼 때를 위한 것이다. 늘 보이면 쓸 일 없는 버튼이
+    ///    자리만 차지하므로 클립보드에 이미지가 있을 때만 나타난다.
+    @ViewBuilder
+    private var pasteImageButton: some View {
+        if clipboardHasImage && host.attachedImage == nil {
+            Button {
+                HapticManager.shared.light()
+                withAnimation(.easeOut(duration: 0.2)) { _ = host.pasteImageFromClipboard() }
+            } label: {
+                Image(systemName: AppSymbol.photoOnRectangleAngled)
+                    .font(.system(size: 20))
+                    .foregroundColor(.accentColor)
+                    .frame(width: 30, height: 34)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(NSLocalizedString("복사한 이미지 붙여넣기", comment: "Paste copied image into the composer"))
+        }
+    }
+
+    /// 입력창 위에 붙은 이미지 한 장 - x 로 뗀다.
+    private func attachmentChip(_ image: UIImage) -> some View {
+        HStack(spacing: 8) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 44, height: 44)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            Text(NSLocalizedString("이미지가 붙었어요. 보내면 올라가요", comment: "Composer attachment hint"))
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+            Spacer(minLength: 0)
+            Button {
+                HapticManager.shared.light()
+                withAnimation(.easeOut(duration: 0.2)) { host.detachImage() }
+            } label: {
+                Image(systemName: AppSymbol.xmarkCircleFill)
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(NSLocalizedString("이미지 떼기", comment: "Remove the attached image"))
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+        .background(theme.bg)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
     private var composerField: some View {
