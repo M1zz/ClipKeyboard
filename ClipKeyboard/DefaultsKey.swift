@@ -22,8 +22,9 @@ enum DefaultsKey {
     /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를
     /// 미끼로 쓴 것처럼 보이고, 아직 이 앱이 자기에게 필요한지도 모르는 때다.
     static let discountOfferReachedLimitEdgeAt = "discount.offer.reachedLimitEdgeAt"
-    /// 반값 제안을 띄운 시각 (App Group, epoch 초). 값이 있으면 다시 띄우지 않는다.
-    static let discountOfferShownAt = "discount.offer.shownAt"
+    /// 반값 제안을 이미 띄운 **기회들**(App Group, `DiscountOfferManager.Occasion.rawValue` 배열).
+    /// 기회는 둘뿐이고(설치 직후·한도 한 칸 앞), 각각 한 번씩만 뜬다.
+    static let discountOfferShownOccasions = "discount.offer.shownOccasions"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
     static let appLaunchCount = "appLaunchCount"
     static let entries = "entries"

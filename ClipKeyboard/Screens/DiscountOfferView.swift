@@ -2,8 +2,13 @@
 //  DiscountOfferView.swift
 //  ClipKeyboard
 //
-//  **반값 제안 창** - 한도 한 칸 앞(9개)에서 일주일을 지낸 사람에게 한 번 건네는 화면.
+//  **반값 제안 창** - 평생 잠금해제를 반값에 건네는 화면. 두 자리에서 뜬다(`Occasion`).
+//   · firstRun  : 설치하고 얼마 안 된 사람에게
+//   · limitEdge : 한도 한 칸 앞(9개)에서 일주일을 지낸 사람에게
 //  뜰 조건은 전부 `DiscountOfferManager` 가 판정한다(이 화면은 그리기만 한다).
+//
+//  ⚠️ 두 자리는 **문구가 다르다.** 앞의 사람은 아직 아무것도 안 써 봤고, 뒤의 사람은 한도에
+//     닿아 봤다. 같은 말을 하면 한쪽에는 뜬금없고 다른 쪽에는 하나 마나 한 말이 된다.
 //
 //  ⚠️ 페이월(`PaywallView`)과 역할이 다르다.
 //   · PaywallView = 막혔을 때 여는 문. 기능 비교표까지 다 있는 큰 화면.
@@ -23,8 +28,12 @@ struct DiscountOfferView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject private var store = StoreManager.shared
 
-    /// 애널리틱스에서 이 창을 다른 페이월과 구분하는 이름.
-    private static let analyticsSource = "discount_offer_limit_edge"
+    /// 어떤 자리에서 온 제안인가 - 문구와 애널리틱스가 이 값을 따라간다.
+    var occasion: DiscountOfferManager.Occasion = .limitEdge
+
+    /// 애널리틱스에서 이 창을 다른 페이월과, 그리고 서로 구분하는 이름.
+    /// (두 기회의 전환율이 섞이면 어느 쪽이 먹히는지 영영 알 수 없다)
+    private var analyticsSource: String { "discount_offer_" + occasion.rawValue }
 
     @State private var showSuccess = false
     @State private var didConvert = false
@@ -47,11 +56,11 @@ struct DiscountOfferView: View {
         .background(theme.bg.ignoresSafeArea())
         .overlay { if showSuccess { successOverlay } }
         .onAppear {
-            AnalyticsService.logPaywallView(triggeredBy: Self.analyticsSource)
+            AnalyticsService.logPaywallView(triggeredBy: analyticsSource)
         }
         .onDisappear {
             if !didConvert {
-                AnalyticsService.logPaywallDismissed(triggeredBy: Self.analyticsSource)
+                AnalyticsService.logPaywallDismissed(triggeredBy: analyticsSource)
             }
         }
     }
@@ -86,21 +95,41 @@ struct DiscountOfferView: View {
             }
             .accessibilityHidden(true)
 
-            Text(NSLocalizedString("반값으로 평생 쓰실래요?", comment: "Discount offer title"))
+            Text(title)
                 .font(.title2.weight(.bold))
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
 
             // 왜 하필 지금 왔는지를 밝힌다 - 이유 없는 결제 창은 광고로만 읽힌다.
-            Text(String(format: NSLocalizedString("단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.",
-                                                  comment: "Discount offer subtitle: why now"),
-                        DiscountOfferManager.limitEdgeCount))
+            Text(subtitle)
                 .font(.callout)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.top, 4)
+    }
+
+    private var title: String {
+        switch occasion {
+        case .firstRun:
+            return NSLocalizedString("시작하는 김에, 반값으로 열어 둘래요?", comment: "Discount offer title: first run")
+        case .limitEdge:
+            return NSLocalizedString("반값으로 평생 쓰실래요?", comment: "Discount offer title")
+        }
+    }
+
+    private var subtitle: String {
+        switch occasion {
+        case .firstRun:
+            // 아직 아무것도 안 써 본 사람이다. 한도 이야기를 꺼내면 협박이 되므로 값만 말한다.
+            return NSLocalizedString("한번 결제하면 평생이에요. 지금 안 하셔도 앱은 그대로 다 쓰실 수 있어요.",
+                                     comment: "Discount offer subtitle: first run")
+        case .limitEdge:
+            return String(format: NSLocalizedString("단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.",
+                                                    comment: "Discount offer subtitle: why now"),
+                          DiscountOfferManager.limitEdgeCount)
+        }
     }
 
     // MARK: - 값
@@ -176,7 +205,7 @@ struct DiscountOfferView: View {
     private var buyButton: some View {
         VStack(spacing: 10) {
             Button {
-                AnalyticsService.logPaywallCtaTapped(triggeredBy: Self.analyticsSource, isTrial: false)
+                AnalyticsService.logPaywallCtaTapped(triggeredBy: analyticsSource, isTrial: false)
                 Task { await buy() }
             } label: {
                 Group {
@@ -224,7 +253,7 @@ struct DiscountOfferView: View {
     }
 
     private func buy() async {
-        let success = await store.purchaseDiscountedPro(triggeredBy: Self.analyticsSource)
+        let success = await store.purchaseDiscountedPro(triggeredBy: analyticsSource)
         guard success else { return }
         didConvert = true
         withAnimation(reduceMotion ? nil : .spring(response: 0.4)) { showSuccess = true }
@@ -243,9 +272,12 @@ struct DiscountOfferView: View {
             Text(NSLocalizedString("일회성 결제 · 구독 없음 · 환불 가능", comment: "Purchase info"))
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
-            // 놓쳐도 길이 있다는 것을 밝힌다 - 이 창은 다시 뜨지 않는다.
-            Text(NSLocalizedString("이 제안은 한 번만 보여요. 나중에는 설정에서 정가로 구매할 수 있어요.",
-                                   comment: "Discount offer: shown once notice"))
+            // 놓쳐도 길이 있다는 것을 밝힌다.
+            // ⚠️ 첫 화면에서는 "한 번만"이라고 말하지 않는다. 뒤에 기회가 한 번 더 있는데
+            //    마지막인 것처럼 말하면 거짓말이고, 그렇다고 다음 기회를 예고하면 아무도 지금
+            //    사지 않는다. 그래서 겁도 예고도 없이 "안 사도 된다"만 말한다.
+            Text(NSLocalizedString("지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.",
+                                   comment: "Discount offer: no pressure notice"))
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)

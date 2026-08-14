@@ -33,8 +33,10 @@ struct ClipKeyboardApp: App {
     @State private var showDataRecovery = false
     /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
     @State private var showFeedbackSheet = false
-    /// 한도 한 칸 앞(9개)에서 일주일을 지낸 사람에게 1회 노출하는 반값 제안
+    /// 반값 제안 시트 - 설치 직후·한도 한 칸 앞 두 자리에서 각각 1회 노출한다.
     @State private var showDiscountOffer = false
+    /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
+    @State private var discountOccasion: DiscountOfferManager.Occasion = .limitEdge
 
     /// 유닛 테스트 실행 중인지 - `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -278,7 +280,7 @@ struct ClipKeyboardApp: App {
         DiscountOfferManager.noteShortcutCount(count)
     }
 
-    /// 조건이 다 맞으면 반값 제안을 1회 띄운다.
+    /// 조건이 다 맞으면 반값 제안을 띄운다. 기회는 둘뿐이고 각각 한 번씩이다.
     ///
     /// ⚠️ 상품이 아직 안 왔으면 그냥 넘어간다 - **다음 실행에 다시 물어본다.** 여기서
     ///    본 것으로 표시해 버리면, 네트워크가 느렸다는 이유만으로 제안을 영영 잃는다.
@@ -286,7 +288,7 @@ struct ClipKeyboardApp: App {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         guard noOtherModalIsUp else { return }
         // 때가 됐는지부터 본다 - 아닌 사람에게 스토어를 두드리지 않기 위해서다.
-        guard DiscountOfferManager.isDueIgnoringProduct else { return }
+        guard DiscountOfferManager.isDueIgnoringProduct(isMidFirstShortcut: isMidFirstShortcut) else { return }
 
         Task { @MainActor in
             // ⚠️ 상품을 **여기서** 부른다. 이 앱은 런치에 상품을 미리 읽지 않아서
@@ -294,17 +296,31 @@ struct ClipKeyboardApp: App {
             if storeManager.discountedProProduct == nil {
                 await storeManager.loadProducts()
             }
-            guard storeManager.discountedProProduct != nil else {
-                print("ℹ️ [DiscountOffer] 반값 상품 없음 - 이번엔 건너뛴다(다음 실행에 다시 본다)")
+            // 상품이 온 뒤에 다시 판정한다 - 기다리는 동안 조건이 바뀌었을 수 있다.
+            guard let occasion = DiscountOfferManager.dueOccasionNow(
+                discountAvailable: storeManager.discountedProProduct != nil,
+                isMidFirstShortcut: isMidFirstShortcut
+            ) else {
+                print("ℹ️ [DiscountOffer] 지금은 띄우지 않는다(상품 없음이면 다음 실행에 다시 본다)")
                 return
             }
             // 기다리는 동안 다른 안내가 떴을 수 있다.
             guard noOtherModalIsUp else { return }
 
-            // 여는 그 자리에서 못박는다 - 어떻게 닫든 두 번은 없다.
-            DiscountOfferManager.markShown()
+            // 여는 그 자리에서 못박는다 - 어떻게 닫든 그 기회는 다시 오지 않는다.
+            DiscountOfferManager.markShown(occasion)
+            discountOccasion = occasion
             showDiscountOffer = true
         }
+    }
+
+    /// 첫 단축어를 아직 만들지도 건너뛰지도 않았는가.
+    /// ⚠️ 이때는 튜토리얼이 화면을 잡고 있다. 그 위에 결제 창을 얹으면 처음 쓰는 사람이
+    ///    무엇을 하라는 건지 보기도 전에 값부터 보게 된다.
+    private var isMidFirstShortcut: Bool {
+        let d = UserDefaults.standard
+        return d.bool(forKey: DefaultsKey.startedFreshV444)
+            && !d.bool(forKey: DefaultsKey.firstShortcutDone)
     }
 
     /// 지금 화면에 다른 안내가 떠 있지 않은가 - 모달이 모달 위에 얹히는 것을 막는다.
@@ -852,7 +868,7 @@ struct ClipKeyboardApp: App {
                 }
                 // 반값 제안 - 조건은 maybeShowDiscountOffer 가 다 본다.
                 .sheet(isPresented: $showDiscountOffer) {
-                    DiscountOfferView()
+                    DiscountOfferView(occasion: discountOccasion)
                         .presentationDetents([.large])
                 }
                 .alert(
