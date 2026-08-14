@@ -70,6 +70,11 @@ enum SnippetsTabStyle: String, CaseIterable, Identifiable {
         case .keyboard: return "keyboard"
         }
     }
+
+    /// 반대쪽 화면. 툴바의 전환 버튼과 탭바 다시 누르기가 **같은 규칙**을 쓰도록 여기 둔다.
+    var toggled: SnippetsTabStyle {
+        self == .list ? .keyboard : .list
+    }
 }
 
 // MARK: - 처음 쓰는 사람이 지나는 길
@@ -143,7 +148,9 @@ struct SnippetsStyleSwitchButton: View {
     @Binding var styleRaw: String
 
     private var current: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
-    private var target: SnippetsTabStyle { current == .list ? .keyboard : .list }
+    /// 탭바를 다시 누르는 것과 **같은 규칙**을 쓴다(`SnippetsTabStyle.toggled`).
+    /// 두 길이 다른 곳으로 가면 같은 자리에서 누를 때마다 결과가 달라진다.
+    private var target: SnippetsTabStyle { current.toggled }
 
     var body: some View {
         Button {

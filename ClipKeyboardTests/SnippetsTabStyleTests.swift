@@ -159,4 +159,15 @@ struct SnippetsOnboardingStepTests {
     func doesNotRepeatSetupOnceSeen() {
         #expect(step(shortcut: true, chapters: true, setup: true) == .done)
     }
+
+    // MARK: - 오가는 규칙
+
+    /// 툴바의 전환 버튼과 탭바 다시 누르기가 **같은 곳**으로 가야 한다.
+    /// 둘이 갈라지면 같은 자리에서 누를 때마다 결과가 달라진다.
+    @Test("전환은 두 화면을 오간다. 두 번 누르면 제자리")
+    func toggleGoesBothWays() {
+        #expect(SnippetsTabStyle.list.toggled == .keyboard)
+        #expect(SnippetsTabStyle.keyboard.toggled == .list)
+        #expect(SnippetsTabStyle.list.toggled.toggled == .list)
+    }
 }

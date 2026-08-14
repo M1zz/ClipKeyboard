@@ -1065,18 +1065,22 @@ struct MainTabView: View {
 
     /// 탭바가 값을 다시 써 넣을 때 **같은 값인지**를 본다.
     ///
-    /// 키보드 화면을 보는 중에 그 탭을 한 번 더 누르면 목록으로 돌아온다.
-    /// 탭바에서 돌아오는 길이 하나 더 생기는 셈이라, 툴바의 전환 버튼을 못 찾아도 빠져나올 수 있다.
-    /// 반대 방향(목록 → 키보드)은 만들지 않는다. 다시 누르기는 **되돌아오는** 동작이어야
-    /// 예측이 되고, 양방향이면 누를 때마다 화면이 뒤집혀 어디로 갈지 알 수 없다.
+    /// 단축어 탭을 보는 중에 그 탭을 한 번 더 누르면 목록 ↔ 키보드가 뒤집힌다.
+    /// 툴바의 전환 버튼과 같은 일을 하는 두 번째 길이라, 버튼을 못 찾아도 오갈 수 있다.
+    ///
+    /// ⚠️ 예전에는 **키보드 → 목록** 한 방향만 두었다. 다시 누르기는 되돌아오는 동작이어야
+    ///    예측이 된다고 봤기 때문이다. 지금은 양방향이다. 탭 이름과 아이콘이 지금 보는 화면을
+    ///    따라가므로(목록일 땐 격자, 키보드일 땐 키보드), 탭바만 봐도 다음에 어디로 갈지
+    ///    읽히기 때문이다. 한 방향만 되면 목록에서는 다시 눌러도 아무 일이 없어
+    ///    "이 탭은 원래 그런가" 로 끝난다.
     private var selectionBinding: Binding<MainTab> {
         Binding {
             selection
         } set: { tapped in
-            if tapped == .snippets, selection == .snippets, snippetsStyle == .keyboard {
+            if tapped == .snippets, selection == .snippets {
                 HapticManager.shared.light()
                 withAnimation(.easeInOut(duration: 0.2)) {
-                    snippetsStyleRaw = SnippetsTabStyle.list.rawValue
+                    snippetsStyleRaw = snippetsStyle.toggled.rawValue
                 }
             }
             selection = tapped
