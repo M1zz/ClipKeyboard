@@ -188,7 +188,9 @@ private struct PracticeStepRow: View {
     private func stepText(_ s: String) -> Text {
         let parts = s.components(separatedBy: "🌐")
         guard parts.count == 2 else { return Text(s) }
-        return Text(parts[0]) + Text(Image(systemName: "globe")) + Text(parts[1])
+        // 심볼을 문장 가운데 끼우는 방법은 보간뿐이다(AttributedString은 SF Symbol을 못 싣는다).
+        // `verbatim` 이라야 조각들이 새 번역 키로 추출되지 않는다.
+        return Text("\(Text(verbatim: parts[0]))\(Image(systemName: "globe"))\(Text(verbatim: parts[1]))")
     }
 }
 

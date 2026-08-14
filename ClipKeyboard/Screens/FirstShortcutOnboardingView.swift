@@ -83,14 +83,9 @@ struct FirstShortcutOnboardingView: View {
     /// 상황 한 줄에서 **저장할 것**만 색을 켠다.
     /// 번역이 `%@` 를 잃어버렸더라도 문장은 그대로 보이게 한다(색만 안 켜질 뿐).
     private func situationText(_ seed: Seed) -> Text {
-        let parts = seed.situationFormat.components(separatedBy: "%@")
-        guard parts.count == 2 else {
-            return Text(String(format: seed.situationFormat, seed.title))
-                .foregroundColor(theme.text)
-        }
-        return Text(parts[0]).foregroundColor(theme.text)
-            + Text(seed.title).foregroundColor(theme.accent)
-            + Text(parts[1]).foregroundColor(theme.text)
+        Text(seed.situationFormat.attributedHighlighting(seed.title,
+                                                         base: theme.text,
+                                                         accent: theme.accent))
     }
 
     var body: some View {

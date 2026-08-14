@@ -1402,7 +1402,12 @@ struct ClipKeyboardList: View {
             legacyBounce: keycapSkin.usesLegacyCardBounce,
             depth: skirtDepth,
             pressDuration: keycapSkin.pressDuration,
-            skirt: { dy in cardSkirt(depth: skirtDepth, offsetY: dy) }
+            // 스커트가 그려지는 곳은 `@Sendable` 클로저 안이라 테마·스킨을 거기서 읽을 수 없다.
+            // 지금 여기서 값으로 뽑아 넘긴다.
+            skirt: { [radius = theme.radiusXl,
+                      opacity = keycapSkin.skirtOpacity(isDark: theme.isDark)] dy in
+                CardSkirt(depth: skirtDepth, offsetY: dy, radius: radius, opacity: opacity)
+            }
         ))
         // 좌표를 받는 탭 - 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
         // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.
@@ -1850,15 +1855,11 @@ struct ClipKeyboardList: View {
     /// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
     ///    키는 누르고 있는 동안(`isPressed`) 내려가 있고, 카드는 탭 한 번에
     ///    키프레임으로 내려갔다 올라온다(리스트는 롱프레스가 따로 있어 press 상태를 못 쓴다).
-    @ViewBuilder
-    private func cardSkirt(depth: CGFloat, offsetY: CGFloat) -> some View {
-        if depth > 0 {
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .fill(Color.black.opacity(keycapSkin.skirtOpacity(isDark: theme.isDark)))
-                // 캡이 dy만큼 내려가면 스커트는 그만큼 덜 내려가 **절대 위치가 고정**된다.
-                // (합이 항상 depth → 바닥은 가만히 있고 캡만 눌린다)
-                .offset(y: depth - offsetY)
-        }
+    private func cardSkirt(depth: CGFloat, offsetY: CGFloat) -> CardSkirt {
+        CardSkirt(depth: depth,
+                  offsetY: offsetY,
+                  radius: theme.radiusXl,
+                  opacity: keycapSkin.skirtOpacity(isDark: theme.isDark))
     }
 
     /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
@@ -3447,12 +3448,40 @@ struct ClipKeyboardList_Previews: PreviewProvider {
 ///
 /// ⚠️ 두 방식을 한 뷰에서 분기하는 이유: 예전 동작을 **버리지 않고 남겨 두기 위해서**다.
 ///    키캡은 취향이 갈리는 변화라, 설정 하나로 원래대로 돌아갈 수 있어야 한다.
+/// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다
+/// 유리는 표면이고 스커트는 두께라 서로 싸우지 않는다.
+///
+/// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
+///    키는 누르고 있는 동안(`isPressed`) 내려가 있고, 카드는 탭 한 번에
+///    키프레임으로 내려갔다 올라온다(리스트는 롱프레스가 따로 있어 press 상태를 못 쓴다).
+///
+/// 색·반지름을 **값으로 받는** 이유: 이 뷰가 만들어지는 자리가 키프레임 애니메이터의
+/// `@Sendable` 클로저 안이라, 거기서 테마나 스킨을 다시 읽을 수 없다.
+private struct CardSkirt: View {
+    let depth: CGFloat
+    let offsetY: CGFloat
+    let radius: CGFloat
+    let opacity: Double
+
+    var body: some View {
+        if depth > 0 {
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+                .fill(Color.black.opacity(opacity))
+                // 캡이 dy만큼 내려가면 스커트는 그만큼 덜 내려가 **절대 위치가 고정**된다.
+                // (합이 항상 depth → 바닥은 가만히 있고 캡만 눌린다)
+                .offset(y: depth - offsetY)
+        }
+    }
+}
+
 private struct CardPressEffect<Skirt: View>: ViewModifier {
     let trigger: Int
     let legacyBounce: Bool
     let depth: CGFloat
     let pressDuration: Double
-    @ViewBuilder let skirt: (CGFloat) -> Skirt
+    // `keyframeAnimator` 의 content 클로저가 `@Sendable` 이라 여기도 같이 붙여야
+    // 메인 액터 격리 경고가 나지 않는다.
+    @ViewBuilder let skirt: @Sendable (CGFloat) -> Skirt
 
     func body(content: Content) -> some View {
         if legacyBounce {

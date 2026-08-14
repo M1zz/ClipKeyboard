@@ -398,8 +398,7 @@ struct InAppKeyboardStage: View {
         Group {
             if host.text.isEmpty {
                 // 빈칸일 때도 캐럿은 서 있어야 "여기로 들어간다"가 읽힌다.
-                (caretGlyph + Text(NSLocalizedString("여기에 입력돼요", comment: "In-app keyboard composer placeholder"))
-                    .foregroundColor(theme.textMuted))
+                placeholderText
             } else {
                 composedText
             }
@@ -433,9 +432,7 @@ struct InAppKeyboardStage: View {
         let safe = caretCutOutsidePlaceholder(chars: chars, cut: cut)
 
         var out = String(chars[0..<safe]).templateAwareAttributed(theme: theme, font: .callout)
-        var caret = AttributedString("\u{258F}")
-        caret.foregroundColor = .accentColor
-        out += caret
+        out += caretGlyph
         out += String(chars[safe...]).templateAwareAttributed(theme: theme, font: .callout)
         return Text(out)
     }
@@ -453,8 +450,19 @@ struct InAppKeyboardStage: View {
         return cut
     }
 
-    private var caretGlyph: Text {
-        Text(verbatim: "\u{258F}").foregroundColor(.accentColor)
+    /// 캐럿 한 획. 그리는 곳이 두 군데(빈칸일 때 · 글자가 있을 때)라 모양을 여기 한 곳에 둔다.
+    private var caretGlyph: AttributedString {
+        var caret = AttributedString("\u{258F}")
+        caret.foregroundColor = .accentColor
+        return caret
+    }
+
+    /// 빈칸 안내. 캐럿 뒤에 흐린 글씨로 붙는다.
+    private var placeholderText: Text {
+        var hint = AttributedString(NSLocalizedString("여기에 입력돼요",
+                                                      comment: "In-app keyboard composer placeholder"))
+        hint.foregroundColor = theme.textMuted
+        return Text(caretGlyph + hint)
     }
 
 }

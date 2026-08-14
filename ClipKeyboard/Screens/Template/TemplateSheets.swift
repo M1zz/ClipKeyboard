@@ -540,6 +540,34 @@ extension String {
         contains("{") ? templateChipAttributed(theme: theme, font: font) : AttributedString(self)
     }
 
+    /// 형식 문자열을 마커에서 갈라 **가운데 한 조각만** 다른 색으로 칠한다.
+    /// "무엇이 고정이고 무엇이 바뀌는지"를 색으로 보여주는 안내 문장이 여러 화면에 흩어져
+    /// 있어서, 같은 모양을 네 군데서 각자 만들던 것을 여기로 모았다.
+    ///
+    /// 번역이 마커를 잃어버렸더라도 문장은 그대로 보이게 한다(색만 안 켜질 뿐).
+    /// - Parameter strong: 가운데 조각을 굵게. 폰트를 지정하지 않고 강조 의도만 실어서
+    ///   호출한 뷰의 폰트를 덮어쓰지 않는다.
+    func attributedHighlighting(_ highlight: String,
+                                separatedBy marker: String = "%@",
+                                base: Color,
+                                accent: Color,
+                                strong: Bool = false) -> AttributedString {
+        func painted(_ text: String, _ color: Color) -> AttributedString {
+            var piece = AttributedString(text)
+            piece.foregroundColor = color
+            return piece
+        }
+
+        let parts = components(separatedBy: marker)
+        guard parts.count == 2 else {
+            return painted(String(format: self, highlight), base)
+        }
+
+        var middle = painted(highlight, accent)
+        if strong { middle.inlinePresentationIntent = .stronglyEmphasized }
+        return painted(parts[0], base) + middle + painted(parts[1], base)
+    }
+
     func extractTemplatePlaceholders() -> [String] {
         let pattern = "\\{([^}]+)\\}"
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }

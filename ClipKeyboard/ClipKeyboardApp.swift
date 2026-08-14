@@ -1052,12 +1052,39 @@ struct MainTabView: View {
     /// (`SnippetsTab` 이 쓰는 것과 **같은 키·같은 저장소**라 전환 버튼을 누르면 여기도 바뀐다)
     @AppStorage(DefaultsKey.snippetsTabStyle) private var snippetsStyleRaw: String = SnippetsTabStyle.list.rawValue
 
+    /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
+    @State private var selection: MainTab = .snippets
+
+    private enum MainTab: Hashable {
+        case snippets, clipboard, settings, search
+    }
+
     private var snippetsStyle: SnippetsTabStyle {
         SnippetsTabStyle(rawValue: snippetsStyleRaw) ?? .list
     }
 
+    /// 탭바가 값을 다시 써 넣을 때 **같은 값인지**를 본다.
+    ///
+    /// 키보드 화면을 보는 중에 그 탭을 한 번 더 누르면 목록으로 돌아온다.
+    /// 탭바에서 돌아오는 길이 하나 더 생기는 셈이라, 툴바의 전환 버튼을 못 찾아도 빠져나올 수 있다.
+    /// 반대 방향(목록 → 키보드)은 만들지 않는다. 다시 누르기는 **되돌아오는** 동작이어야
+    /// 예측이 되고, 양방향이면 누를 때마다 화면이 뒤집혀 어디로 갈지 알 수 없다.
+    private var selectionBinding: Binding<MainTab> {
+        Binding {
+            selection
+        } set: { tapped in
+            if tapped == .snippets, selection == .snippets, snippetsStyle == .keyboard {
+                HapticManager.shared.light()
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    snippetsStyleRaw = SnippetsTabStyle.list.rawValue
+                }
+            }
+            selection = tapped
+        }
+    }
+
     var body: some View {
-        TabView {
+        TabView(selection: selectionBinding) {
             // 목록이냐 키보드 무대냐는 **사용자가 고른다**(설정 > 첫 화면).
             // 쓰던 사람의 기본은 목록 - 업데이트했다고 첫 화면이 바뀌면 안 된다.
             //
@@ -1065,19 +1092,23 @@ struct MainTabView: View {
             //    격자 아이콘이라, 키보드 무대를 보는 중에도 탭바만 격자를 가리켜 어긋났다.
             //    탭바는 "여기가 어디인지"를 말하는 자리이므로 화면과 같은 말을 해야 한다.
             Tab(snippetsStyle.tabName,
-                systemImage: snippetsStyle.symbolName) {
+                systemImage: snippetsStyle.symbolName,
+                value: MainTab.snippets, role: nil) {
                 SnippetsTab()
             }
             Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"),
-                systemImage: AppSymbol.clockArrowCirclepath) {
+                systemImage: AppSymbol.clockArrowCirclepath,
+                value: MainTab.clipboard, role: nil) {
                 NavigationStack { ClipboardList().alwaysTransparentBars() }
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
-                systemImage: AppSymbol.gearshape) {
+                systemImage: AppSymbol.gearshape,
+                value: MainTab.settings, role: nil) {
                 NavigationStack { SettingView().alwaysTransparentBars() }
             }
             Tab(NSLocalizedString("검색", comment: "Search"),
-                systemImage: AppSymbol.magnifyingglass, role: .search) {
+                systemImage: AppSymbol.magnifyingglass,
+                value: MainTab.search, role: .search) {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }

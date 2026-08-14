@@ -580,13 +580,10 @@ struct TemplateTutorialView: View {
     private func filledSentence(with value: String) -> Text {
         let format = NSLocalizedString("안녕하세요, %@님. 확인 부탁드립니다.",
                                        comment: "Template tutorial: example body (plain)")
-        let parts = format.components(separatedBy: "%@")
-        guard parts.count == 2 else {
-            return Text(String(format: format, value)).foregroundColor(theme.textMuted)
-        }
-        return Text(parts[0]).foregroundColor(theme.textMuted)
-            + Text(value).foregroundColor(theme.accent).fontWeight(.bold)
-            + Text(parts[1]).foregroundColor(theme.textMuted)
+        return Text(format.attributedHighlighting(value,
+                                                  base: theme.textMuted,
+                                                  accent: theme.accent,
+                                                  strong: true))
     }
 
     // MARK: - 걸음마다 달라지는 말
