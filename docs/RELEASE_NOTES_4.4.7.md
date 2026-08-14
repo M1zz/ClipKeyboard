@@ -8,9 +8,10 @@
 > `docs/RELEASE_NOTES_4.4.4.md` · `docs/RELEASE_NOTES_4.4.5.md` · `docs/RELEASE_NOTES_4.4.6.md` 는
 > 기록용으로 남겨 둡니다. 심사에 올릴 문안은 이 파일입니다.
 >
-> 4.4.7 에서 새로 더해진 것은 세 가지입니다. 이미지 단축어 붙여넣기, 카테고리 탭을 숨기기 전 안내와
-> 한 번에 옮기기, 그리고 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제의 수정입니다.
-> 아래 한국어 문안에서는 "이미지 단축어" · "카테고리를 정리할 때" 절과 고친 것 목록의 첫 줄입니다.
+> 4.4.7 에서 새로 더해진 것은 아래 다섯 절입니다.
+> "이미지 단축어" · "키보드에서 길게 누르면" · "카테고리를 정리할 때" · "화면을 정리했어요" ·
+> "남은 칸이 보여요". 그리고 고친 것 목록의 앞 네 줄이 이번에 새로 고친 것입니다.
+> 그중 잠긴 단축어 보호는 보안 수정이라 문안에서도 앞에 둡니다.
 
 ---
 
@@ -31,6 +32,13 @@
 • 보내면 그대로 올라가요: 글을 한 자도 쓰지 않아도 보낼 수 있어요. 눌러 본 결과를 보는 것이 이 화면의 일이니까요.
 • 뗄 수도 있어요: 붙은 이미지 옆의 x 를 누르면 떨어집니다.
 • 다른 앱에서 복사해 온 이미지도 붙여넣을 수 있어요. 클립보드에 이미지가 있을 때만 입력창에 붙여넣기 버튼이 나타납니다.
+
+### 키보드에서 길게 누르면 값이 크게 보여요
+
+• 잘리지 않고 다 보여요: 키를 길게 누르면 그 단축어의 값이 키보드를 꽉 채워 나타납니다. 길면 스크롤해서 끝까지 읽을 수 있어요.
+• 콤보는 단계 순서대로: 여러 값이 든 키는 1, 2, 3 순서 그대로 펼쳐집니다.
+• 그 자리에서 복사: 판 아래 버튼으로 바로 클립보드에 담을 수 있어요.
+• 잠긴 단축어는 값을 보여주지 않아요. 눌러서 인증해야 입력됩니다.
 
 ### 카테고리를 정리할 때
 
@@ -97,14 +105,32 @@
 • 카테고리 아이콘은 카테고리 관리 안에서 고를 수 있어요. 만들다가 바로 고르는 흐름이 자연스러우니까요.
 • 데모 데이터 토글은 처음 둘러볼 때만 보여요. 켜 두셨다면 끌 수 있도록 계속 보입니다.
 
+### 화면을 정리했어요
+
+• 탭을 한 번 더 누르면 목록과 키보드가 오갑니다: 툴바 버튼을 찾지 않아도 됩니다.
+• 클립보드와 사용 기록이 자리를 바꿨어요: 클립보드는 키보드 안에서 꺼내 쓰는 것이라 설정 > 내 데이터로, 가끔 열어 보는 사용 기록은 탭으로 올라왔습니다.
+• 카드에 글이 맺혔다 사라지던 연출은 기본으로 꺼졌어요: 보고 싶으면 설정 > 화면과 표시에서 켜면 됩니다.
+• 데모 데이터는 화면과 표시 맨 아래로 내렸어요.
+• 활용 사례와 스타터팩이 같은 이야기를 씁니다: 읽은 상황을 그대로 담을 수 있어요.
+
+### 남은 칸이 보여요
+
+• 설정을 열면 단축어를 몇 개 더 만들 수 있는지 맨 위에 보입니다. 만들다 막히고 나서야 알게 되지 않도록요.
+• 다섯 칸만 더 필요하면 그만큼만 살 수 있어요: 평생 구매가 부담스러우면 칸만 늘리는 선택지가 생겼습니다. 개수만 늘고 다른 기능은 그대로예요.
+
 ### 그 밖에
 
+• 안정성 화면에서 진단 내용을 복사할 수 있어요: 문의를 보낼 때 화면을 찍지 않아도 됩니다.
 • 붙여넣기 허용 팝업을 미뤘어요: 설치하자마자 묻지 않고, 며칠 써 보신 뒤에 한 번 여쭤봅니다.
 • 문장을 다시 다듬었어요: 앱 곳곳의 안내 문구에서 긴 줄표를 걷어내고 문맥에 맞는 문장부호로 바꿨습니다. 읽는 리듬이 한결 자연스러워요.
 • 앱 용량이 약 5.2MB 줄었어요.
 
 ### 고친 것
 
+• 잠긴 단축어의 값이 길게 누르기로 보이거나 클립보드에 복사되던 문제. 인증을 거치지 않는 길에서는 이제 값이 나오지 않아요
+• 즐겨찾기 탭을 숨기면 즐겨찾기한 단축어가 어느 탭에도 안 보이던 문제
+• 목록에 들어갈 때 사진 카드가 검게 칠해졌다가 나타나던 문제
+• 카드 내용 힌트가 앱에서는 꺼져 있는데 키보드에서만 켜져 있던 문제
 • 탭을 숨긴 카테고리의 단축어가 앱에서도 키보드에서도 보이지 않던 문제. 이제 갈 수 있는 탭이 없는 단축어는 모두 기본 탭에 모입니다. 지워진 카테고리에 남아 있던 것도 마찬가지예요
 • 키보드를 켰는데도 "아직 다른 앱에서는 못 써요" 안내가 남아 있던 문제
 • 단축어 목록이 화면 중앙에서 시작하던 문제
@@ -135,6 +161,13 @@ Open the app and the keyboard is right there, the way it looks everywhere else. 
 • Send it as is: you don't have to type a single character first. Seeing what you tapped is the whole point of this screen.
 • Take it off anytime: tap the x next to the attached image.
 • Images copied from other apps work too: a paste button appears in the composer whenever your clipboard holds an image.
+
+### Long-press a key to see the value in full
+
+• Nothing gets cut off: press and hold a key and the value fills the keyboard. Long ones scroll, so you can read to the end.
+• Combos unfold in order: a key holding several values shows them as 1, 2, 3.
+• Copy right there: a button at the bottom of the panel puts it on the clipboard.
+• Locked shortcuts never show their value. Tap the key and authenticate to insert it.
 
 ### When you tidy up categories
 
@@ -201,14 +234,32 @@ Open the app and the keyboard is right there, the way it looks everywhere else. 
 • Category icons live inside Manage categories now, so you pick one right where you make it.
 • The demo data toggle only shows while you're still looking around. If you left it on, it stays visible so you can always turn it off.
 
+### A tidier app
+
+• Tap the tab again to switch between your list and the keyboard: no need to find the toolbar button.
+• Clipboard and Usage swapped places: the clipboard is something you pull from inside the keyboard, so it moved to Settings › My data, and Usage, which you open now and then, became a tab.
+• The hint that used to bead up on cards and fade away is off by default: turn it on in Settings › Display if you liked it.
+• Demo data moved to the bottom of Display.
+• Use cases and the starter pack now tell the same stories, so you can save what you just read about.
+
+### You can see how many slots are left
+
+• Open Settings and the number of shortcuts you can still make is right at the top. You shouldn't find out only when you're blocked.
+• Need just five more? Buy just those: if a lifetime purchase is more than you want, you can add slots instead. It adds slots only; other features stay as they are.
+
 ### Also
 
+• You can copy a diagnostic from the Stability screen: no screenshots needed when you write in.
 • The paste permission prompt waits: it no longer greets you right after install; we ask once after you've used the app for a few days.
 • Wording polished throughout: long dashes are gone from the app's copy, replaced with punctuation that fits each sentence. It simply reads better.
 • The app is about 5.2 MB smaller.
 
 ### Fixes
 
+• Locked shortcut values showing on long-press, and being copied to the clipboard. Paths that skip authentication no longer surface the value
+• Favorited shortcuts vanishing from every tab when the Favorites tab was hidden
+• Photo cards flashing black before the picture appeared
+• The card content hint being off in the app but on in the keyboard
 • Snippets in a category whose tab was hidden showing up nowhere, neither in the app nor on the keyboard. Any snippet without a tab of its own now collects in the Basic tab, including ones left behind by a deleted category
 • The "not available in other apps yet" notice lingering after you'd already enabled the keyboard
 • The snippet list starting halfway down the screen
@@ -237,10 +288,30 @@ Open the app and the keyboard is right there, the way it looks everywhere else. 
 - 반값 제안 창: 무료 사용자 중 단축어 9개에 닿고 일주일이 지난 사람에게 1회 노출된다.
   App Store 문안에는 넣지 않는다. 광고 문구를 릴리즈 노트에 적으면 기능 소개가 아니라 판매가 된다.
   반값 상품이 App Store Connect 에 등록되기 전에는 이 창이 아예 뜨지 않는다(아래 참고).
-- 사용 통계 화면의 변경(기간별 추이 탭해서 읽기, 단축어 개수 분포에서 9개 단독 집계): 개발자 전용 화면이라
-  사용자 문안에 넣지 않는다.
+- 사용 통계 화면의 변경(기간별 추이 탭해서 읽기, 단축어 개수 분포에서 9개 단독 집계,
+  사용 유형 일곱 무리, 이벤트 이름을 사람 말로): 개발자 전용 화면이라 사용자 문안에 넣지 않는다.
 
-### 배포 전에 반드시, 반값 상품 등록
+### 배포 전에 반드시, 새 상품 두 개 등록
+
+이번 버전은 상품이 둘 늘었다. 둘 다 비소모성이고, 4.4.7 빌드와 함께 제출한다.
+
+| 제품 ID | 유형 | 가격 | 여는 것 |
+|---|---|---|---|
+| `com.Ysoup.TokenMemo.pro.halfoff` | 비소모성 | $4.99 (정가의 절반) | 평생 전 기능 |
+| `com.Ysoup.TokenMemo.slots5` | 비소모성 | $2.99 | 단축어 5칸만 |
+
+⚠️ 칸 추가는 Pro 권한이 아니다. `ClipKeyboardSpec` 의 `entitlementIDs` 에 평생 상품 둘만
+손으로 못박아 뒀고, 그게 깨지는 순간을 잡는 테스트(`testSlotPackNeverGrantsPro`)가 있다.
+여기가 뚫리면 $3 결제로 평생 Pro 가 열리고, 한 번 준 권한은 되돌릴 방법이 없다.
+
+가족 공유는 세 상품을 같은 값으로 맞춘다. 다르면 산 상품에 따라 가족 공유가 되기도 하고
+안 되기도 해서 문의가 온다.
+
+로컬 확인은 App Store Connect 승인을 기다릴 필요가 없다. 스킴 편집 > Run > Options >
+StoreKit Configuration 을 `Config/StoreKit/ClipKeyboardProducts.storekit` 으로 두면 세 상품이
+그대로 뜬다.
+
+### 반값 상품에 대해 더
 
 새 비소모성 상품 `com.Ysoup.TokenMemo.pro.halfoff` 를 App Store Connect 에 등록해야 한다.
 StoreKit 은 비소모성 상품에 할인을 걸 수단이 없어서, 반값은 "다른 상품"으로만 팔 수 있다.
@@ -272,6 +343,21 @@ StoreKit 은 비소모성 상품에 할인을 걸 수단이 없어서, 반값은
 - LeeoKit 2.9.0 → 3.2.0. 계약 레이어(`legal` · `monetization`)가 필수가 되어 `ClipKeyboardSpec` 에
   두 항목을 넣었고, `paywall` 은 직접 선언하지 않고 `monetization` 에서 유도되게 바꿨다.
   프리플라이트 오류 0 (테스트로 고정: `ClipKeyboardSpecTests`).
+
+### Xcode Cloud 는 옛 이름을 부르고 있다 (임시 장치 있음)
+
+워크플로가 프로젝트 이름을 바꾸기 전(2026-01-31)에 만들어져 지금도 이렇게 부른다.
+
+`xcodebuild -resolvePackageDependencies -project 'Token memo.xcodeproj' -scheme 'Token memo'`
+
+프로젝트 경로는 제품(Product) 생성 시 고정되어 워크플로 편집으로는 못 바꾼다. 그래서
+저장소에 옛 이름을 받아 주는 장치를 뒀다.
+
+- `Token memo.xcodeproj` → `ClipKeyboard.xcodeproj` 심볼릭 링크
+- `xcshareddata/xcschemes/Token memo.xcscheme` (ClipKeyboard 스킴 복사본)
+- `scripts/predeploy.sh` 에 `-project` 명시 (루트에 프로젝트가 둘로 보이면 그 없이는 멈춘다)
+
+⚠️ 임시다. Xcode Cloud 제품을 지우고 다시 만들면 옛 이름이 사라지고, 그때 위 셋을 되돌린다.
 
 ### 이번에 고친 것 중 가장 큰 것
 
