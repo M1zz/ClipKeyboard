@@ -452,6 +452,21 @@ struct KeyboardView: View {
             if showPINEntry {
                 pinEntryOverlay
             }
+
+            // 길게 눌러 값을 크게 보는 판 - 시스템 컨텍스트 메뉴는 키보드 창에 갇혀
+            // 150pt 남짓으로 잘린다. 이 자리는 우리 것이라 꽉 채워 쓸 수 있다.
+            if let memo = peekMemo {
+                KeyboardMemoPeek(
+                    memo: memo,
+                    theme: theme,
+                    onCopy: {
+                        copyTextToClipboard(memo.comboValues.first ?? memo.value)
+                        peekMemo = nil
+                    },
+                    onClose: { peekMemo = nil }
+                )
+                .transition(.opacity)
+            }
         }
     }
 
@@ -1147,27 +1162,13 @@ struct KeyboardView: View {
                 )
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .contextMenu {
-                Button {
-                    copyTextToClipboard(memo.value)
-                } label: {
-                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
-                }
-            } preview: { memoLongPressPreview(memo: memo) }
+            .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         } else if memo.isCombo && !memo.isSecure {
             // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
-                .contextMenu {
-                    Button {
-                        copyTextToClipboard(memo.comboValues.first ?? memo.value)
-                    } label: {
-                        Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
-                    }
-                } preview: {
-                    memoLongPressPreview(memo: memo)
-                }
+                .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
         } else {
@@ -1177,21 +1178,26 @@ struct KeyboardView: View {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .contextMenu {
-                Button {
-                    copyTextToClipboard(memo.value)
-                } label: {
-                    Label(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"), systemImage: AppSymbol.docOnDoc)
-                }
-            } preview: {
-                memoLongPressPreview(memo: memo)
-            }
+            .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         }
     }
 
     // MARK: - Combo Split Button (여러 값: 왼쪽 현재 값 삽입 / 오른쪽 → 다음 값)
+
+    /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
+    @State private var peekMemo: Memo?
+
+    /// 길게 눌렀다 - 값을 크게 펼친다.
+    ///
+    /// ⚠️ 뒤이어 들어올 탭을 막아 둔다. 값을 보려고 눌렀는데 글까지 입력되면
+    ///    지우는 일이 하나 더 생긴다(`memoButtonAction` 이 이 표식을 본다).
+    private func showPeek(_ memo: Memo) {
+        suppressTapAfterLongPress = memo.id
+        KeyboardHaptics.mediumTap()
+        withAnimation(.easeOut(duration: 0.16)) { peekMemo = memo }
+    }
 
     /// 콤보(여러 값) 메모의 현재 선택 값 인덱스 - 메모별로 기억.
     @State private var comboValueIndex: [UUID: Int] = [:]
@@ -1336,95 +1342,6 @@ struct KeyboardView: View {
 
     /// attachedTemplateId가 있는 메모용 분할 버튼 - 왼쪽: 메모값만 입력, 오른쪽: 템플릿 포함 입력
     /// 키보드에서 메모 길게 누르면 떠오르는 미리보기 - Mail 스타일
-    private func memoLongPressPreview(memo: Memo) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: categoryIconFor(memo))
-                    .font(.footnote.weight(.semibold))
-                    .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold),
-                                                          accent: theme.accent, accentSoft: theme.accentSoft))
-                    .font(.callout.weight(.semibold))
-                    .foregroundColor(theme.text)
-                Spacer(minLength: 0)
-                if memo.isCombo {
-                    Text(NSLocalizedString("Combo", comment: "Tag: combo"))
-                        .font(.caption2.weight(.semibold))
-                        .foregroundColor(.orange)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.orange.opacity(0.15))
-                        .clipShape(Capsule())
-                }
-                if memo.isTemplate || !memo.templateVariables.isEmpty {
-                    Text(NSLocalizedString("Template", comment: "Tag: template"))
-                        .font(.caption2.weight(.semibold))
-                        .foregroundColor(.purple)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.purple.opacity(0.15))
-                        .clipShape(Capsule())
-                }
-                if memo.isSecure {
-                    badgeLetter("S", color: .gray)
-                }
-            }
-
-            // 콤보면 자식 메모 값을 단계별로 모두 보여주기, 아니면 본문 통째로
-            // (보안 콤보는 값이 암호문이기도 하고 노출 금지 - 단계 수만 알리고 마스킹)
-            let comboChildValues = memo.isSecure
-                ? memo.comboValues.map { _ in "••••••" }
-                : memo.comboValues
-            if !comboChildValues.isEmpty {
-                VStack(alignment: .leading, spacing: 6) {
-                    ForEach(Array(comboChildValues.enumerated()), id: \.offset) { index, value in
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("\(index + 1).")
-                                .font(.system(.caption, design: .monospaced, weight: .semibold))
-                                .foregroundColor(theme.textFaint)
-                            Text(value)
-                                .font(.footnote)
-                                .foregroundColor(theme.text)
-                        }
-                    }
-                }
-            } else if memo.isSecure {
-                // ⚠️ **보안 단축어의 값은 길게 눌러도 보이지 않는다.**
-                //    길게 누르기는 인증을 거치지 않는 길이다. 여기서 값을 그리면 잠가 둔
-                //    의미가 사라진다(어깨너머로 보는 사람에게는 잠금이 없는 것과 같다).
-                //    콤보 쪽은 원래부터 가리고 있었는데 이 한 줄만 빠져 있었다.
-                HStack(spacing: 8) {
-                    Image(systemName: AppSymbol.lockFill)
-                        .font(.footnote)
-                        .foregroundColor(theme.textMuted)
-                    Text(NSLocalizedString("잠긴 값이에요. 눌러서 인증하면 입력돼요.",
-                                           comment: "Long-press preview: secure memo value is hidden"))
-                        .font(.footnote)
-                        .foregroundColor(theme.textMuted)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            } else {
-                Text(memo.value.kbTemplateAwareAttributed(font: .footnote.weight(.semibold),
-                                                          accent: theme.accent, accentSoft: theme.accentSoft))
-                    .font(.footnote)
-                    .foregroundColor(theme.text)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-        .padding(16)
-        // ⚠️ 앱 무대와 익스텐션은 **쓸 수 있는 넓이가 다르다.** 익스텐션의 미리보기는
-        //    키보드 창 밖으로 나갈 수 없어 크게 잡아도 잘린다. 앱에서는 화면 전체가
-        //    우리 것이라 더 크게 보여줄 수 있다. 그래서 한 값으로 두지 않는다.
-        .frame(minWidth: 280,
-               idealWidth: hostKind == .inApp ? 380 : 340,
-               maxWidth: hostKind == .inApp ? 420 : 360,
-               minHeight: 120,
-               idealHeight: hostKind == .inApp ? 320 : 260,
-               maxHeight: hostKind == .inApp ? 520 : 400)
-        .background(theme.surface)
-    }
-
     private func memoButtonAction(for memo: Memo, bypassTemplate: Bool = false) {
         // 길게 눌러 복사한 직후에 들어온 탭은 무시한다
         // 복사만 하려 했는데 글까지 입력되면 지우는 일이 하나 더 생긴다.

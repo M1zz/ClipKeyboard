@@ -59,6 +59,25 @@ struct InAppKeyboardStage: View {
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
+    /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.
+    ///
+    /// ⚠️ 무대와 키보드는 한 화면이다. 무대만 `theme.bg` 로 칠하면, 키보드 색을 직접 고른
+    ///    사람의 화면에서 대화 영역과 키보드 사이에 **경계선이 생긴다.** 같은 값을 읽어
+    ///    같은 색을 칠한다(키 색은 키보드 몫이라 여기서 보지 않는다).
+    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults)
+    private var keyboardUseCustomColors: Bool = false
+    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults)
+    private var keyboardCustomBgHex: String = ""
+
+    /// 무대 전체가 깔고 앉는 색 - 아래 키보드의 배경색과 언제나 같다.
+    private var stageBackground: Color {
+        if keyboardUseCustomColors, !keyboardCustomBgHex.isEmpty,
+           let custom = Color(hex: keyboardCustomBgHex) {
+            return custom
+        }
+        return theme.bg
+    }
+
     /// 클립보드에 붙일 이미지가 있는가 - 붙여넣기 버튼을 낼지 말지.
     /// ⚠️ **그릴 때마다 묻지 않는다.** 화면에 들어올 때·앱으로 돌아올 때·이미지 키를 누른 뒤에만
     ///    확인한다(`hasImages`는 팝업을 띄우지 않지만, 매 프레임 물어볼 이유도 없다).
@@ -85,7 +104,7 @@ struct InAppKeyboardStage: View {
                     .id(feedToken)
             }
         }
-        .background(theme.bg.ignoresSafeArea())
+        .background(stageBackground.ignoresSafeArea())
         .onAppear {
             reloadFeed()
             refreshKeyboardReady()
@@ -299,10 +318,13 @@ struct InAppKeyboardStage: View {
                         .foregroundColor(mine ? .white : theme.text)
                         .padding(.horizontal, 13)
                         .padding(.vertical, 9)
-                        // ⚠️ 받은 말풍선은 **바탕보다 한 단 회색**이어야 한다. 예전에는 `surface`
-                        //    (밝은 테마에서 흰색)라 바탕과 거의 같은 밝기여서 풍선이 아니라
-                        //    글자만 떠 있는 것처럼 보였다. `surfaceAlt` 가 그 한 단이다.
-                        .background(mine ? Color.accentColor : theme.surfaceAlt)
+                        // ⚠️ 받은 말풍선은 **바탕과 확실히 달라야** 한다. 풍선이 안 보이면
+                        //    무대가 대화로 읽히지 않는다.
+                        //    · surface(흰색)  : 밝은 바탕(F4F1FA)과 밝기가 붙어 흐리다
+                        //    · surfaceAlt     : EDE7F7 로 바탕과 거의 같은 색이라 **풍선이 사라진다**
+                        //    그래서 테마 토큰이 아니라 중립 회색을 쓴다. 라벤더 계열 바탕에서도
+                        //    색이 달라 풍선으로 읽히고, 밝고 어두운 화면 모두에서 스스로 뒤집힌다.
+                        .background(mine ? Color.accentColor : Color(uiColor: .systemGray5))
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
                         .textSelection(.enabled)
                 }
@@ -339,7 +361,8 @@ struct InAppKeyboardStage: View {
             }
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 8)
+        // 칸 자체를 낮췄으니 띠도 같이 얇게 - 한쪽만 줄이면 여백만 남아 더 어색하다.
+        .padding(.vertical, 6)
         .background(theme.surface.opacity(0.6))
         .overlay(alignment: .top) {
             Rectangle().fill(theme.divider.opacity(0.5)).frame(height: 0.5)
@@ -399,6 +422,12 @@ struct InAppKeyboardStage: View {
         .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
+    /// 입력창 한 줄의 속 높이. 여기와 위아래 여백을 더한 것이 칸의 실제 높이다(26 + 4·2 = 34).
+    private static let composerLineHeight: CGFloat = 26
+    private static let composerVerticalPadding: CGFloat = 4
+    /// 반경은 칸 높이의 절반 - 높이를 바꿔도 알약 모양이 유지된다.
+    private static var composerRadius: CGFloat { (composerLineHeight + composerVerticalPadding * 2) / 2 }
+
     private var composerField: some View {
         Group {
             if host.text.isEmpty {
@@ -410,13 +439,16 @@ struct InAppKeyboardStage: View {
         }
         .font(.callout)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(minHeight: 34, alignment: .center)
+        // ⚠️ 한 줄짜리 칸이다. 예전에는 46pt(높이 34 + 위아래 6)라 글 한 줄에 비해
+        //    빈 위아래가 넓어, 아래 키보드와 나란히 놓으면 이 칸만 부풀어 보였다.
+        //    반경은 높이의 절반이라 값이 바뀌어도 늘 알약 모양이 된다.
+        .frame(minHeight: Self.composerLineHeight, alignment: .center)
         .padding(.horizontal, 12)
-        .padding(.vertical, 6)
+        .padding(.vertical, Self.composerVerticalPadding)
         .background(theme.bg)
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: Self.composerRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
+            RoundedRectangle(cornerRadius: Self.composerRadius, style: .continuous)
                 .strokeBorder(theme.divider.opacity(0.6), lineWidth: 0.5)
         )
         .accessibilityLabel(NSLocalizedString("입력창", comment: "Composer field accessibility label"))

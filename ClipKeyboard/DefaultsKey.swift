@@ -22,6 +22,9 @@ enum DefaultsKey {
     ///    없다. 보고 싶은 사람은 설정 > 화면과 표시에서 켠다.
     static let contentHintEnabled = "contentHintEnabled"
     static let didRemoveAds = "didRemoveAds"
+    /// 칸 추가 상품으로 얻은 추가 단축어 칸수 (App Group, Int).
+    /// ⚠️ 키보드 익스텐션은 StoreKit 을 못 보므로 앱이 결제 권한을 여기에 미러링한다.
+    static let purchasedExtraSlots = "purchased.extraSlots"
     /// 단축어가 무료 한도 한 칸 앞(9개)에 **처음** 닿은 시각 (App Group, epoch 초).
     /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를
     /// 미끼로 쓴 것처럼 보이고, 아직 이 앱이 자기에게 필요한지도 모르는 때다.

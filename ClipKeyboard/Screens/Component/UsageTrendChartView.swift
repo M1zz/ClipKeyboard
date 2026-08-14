@@ -93,27 +93,6 @@ struct UsageTrendChartView: View {
         selectedPoint?.id == point.id
     }
 
-    /// 고른 막대의 정확한 날짜와 숫자 - 이 차트를 탭하는 이유 그 자체다.
-    private func readout(for point: UsageReportingService.TrendPoint) -> some View {
-        VStack(alignment: .leading, spacing: 1) {
-            Text(Self.fullLabel(point.date, unit: unit))
-                .font(.caption2)
-                .foregroundColor(theme.textMuted)
-            Text(String(format: NSLocalizedString("%1$@ %2$d", comment: "Chart readout: metric name and exact value"),
-                        metric.localizedName, metric.value(point)))
-                .font(.caption.weight(.semibold))
-                .foregroundColor(theme.text)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 5)
-        .background(
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(theme.surface)
-                .shadow(color: .black.opacity(0.12), radius: 4, y: 1)
-        )
-        .accessibilityElement(children: .combine)
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Picker("", selection: $unit) {
@@ -167,12 +146,13 @@ struct UsageTrendChartView: View {
             .accessibilityValue("\(metric.value(point))")
 
             if let selected = selectedPoint, isSelected(point) {
+                // ⚠️ 값을 **차트 안 말풍선으로 띄우지 않는다.** 막대가 높으면 말풍선이
+                //    그림 영역 위로 넘어가 잘려서, 하이라이트만 되고 숫자는 안 보였다.
+                //    읽을 글은 차트 아래 고정된 자리(`summary`)에 둔다. 거기서는 어떤 막대를
+                //    골라도 같은 자리에 같은 크기로 나온다.
                 RuleMark(x: .value(NSLocalizedString("기간", comment: "Chart axis: period"), selected.date, unit: unit.calendarComponent))
                     .foregroundStyle(theme.textMuted.opacity(0.35))
                     .zIndex(-1)
-                    .annotation(position: .top, spacing: 4, overflowResolution: .init(x: .fit(to: .chart), y: .disabled)) {
-                        readout(for: selected)
-                    }
             }
         }
         .chartXSelection(value: $selectedDate)
@@ -209,16 +189,43 @@ struct UsageTrendChartView: View {
 
     // MARK: - 보이는 구간 요약
 
+    /// 차트 아래 고정된 한 자리.
+    ///
+    /// 막대를 고르면 **그 막대의 정확한 날짜와 값**을, 아무것도 안 고르면 보이는 구간의
+    /// 합계를 보여준다. 자리가 고정이라 어떤 막대를 눌러도 눈이 같은 곳으로 간다.
     private var summary: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(visibleRangeText)
-                .font(.caption)
-                .foregroundColor(theme.textMuted)
-            Text(String(format: NSLocalizedString("이 구간 합계 %1$@ %2$d", comment: "Chart: total in visible range"),
-                        metric.localizedName, visiblePoints.reduce(0) { $0 + metric.value($1) }))
-                .font(.body.weight(.semibold))
-                .foregroundColor(theme.text)
+            if let selected = selectedPoint {
+                Text(Self.fullLabel(selected.date, unit: unit))
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+                HStack(spacing: 8) {
+                    Text(String(format: NSLocalizedString("%1$@ %2$d", comment: "Chart readout: metric name and exact value"),
+                                metric.localizedName, metric.value(selected)))
+                        .font(.title3.weight(.bold))
+                        .foregroundColor(theme.text)
+                    Spacer(minLength: 0)
+                    // 고른 것을 놓는 길 - 안 그러면 합계로 돌아갈 방법이 없다.
+                    Button {
+                        selectedDate = nil
+                    } label: {
+                        Text(NSLocalizedString("선택 해제", comment: "Chart: clear the selected bar"))
+                            .font(.caption)
+                            .foregroundColor(theme.accent)
+                    }
+                    .buttonStyle(.plain)
+                }
+            } else {
+                Text(visibleRangeText)
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+                Text(String(format: NSLocalizedString("이 구간 합계 %1$@ %2$d", comment: "Chart: total in visible range"),
+                            metric.localizedName, visiblePoints.reduce(0) { $0 + metric.value($1) }))
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(theme.text)
+            }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
     }
 

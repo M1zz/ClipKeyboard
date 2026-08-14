@@ -19,8 +19,18 @@ struct ProFeatureManager {
     // 노마드 use case 기준 가치 검증 시간 확보를 위해 v4.1에서 한도 상향.
     // 기존 유저는 `isGrandfathered`로 신규 제한 우회 유지.
 
-    /// 무료 메모 최대 개수
+    /// 무료 메모 최대 개수 - **기본값.** 실제로 쓸 수 있는 개수는 `memoLimit` 이다.
+    /// (칸 추가 상품을 산 사람은 이 값보다 많다)
     static let freeMemoLimit = 10
+
+    /// 지금 이 사람이 쓸 수 있는 단축어 개수.
+    ///
+    /// Pro 면 무제한, 아니면 기본 한도에 **산 칸수**를 더한 값이다.
+    /// ⚠️ 한도를 묻는 곳은 전부 이 값을 봐야 한다. `freeMemoLimit` 을 직접 보면
+    ///    칸을 산 사람에게 "10개까지" 라고 말하게 된다.
+    static var memoLimit: Int {
+        hasFullAccess ? Int.max : freeMemoLimit + SlotPack.purchasedSlots
+    }
 
     /// 무료 콤보 최대 개수
     static let freeComboLimit = 3
