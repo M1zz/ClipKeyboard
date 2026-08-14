@@ -14,6 +14,9 @@ struct SettingView: View {
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
+    /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
+    /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
+    @State private var memoCountState = 0
     /// 예전 목록 화면 ⋯ 메뉴에 있던 것들. 바가 넘쳐서 여기로 옮겼다.
     @State private var showStarterPack = false
     @State private var showPlaceholderManagement = false
@@ -77,6 +80,10 @@ struct SettingView: View {
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
         }
+    }
+
+    private func refreshMemoCount() {
+        memoCountState = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
     }
 
     private func refreshSecurePINState() {
@@ -198,6 +205,7 @@ struct SettingView: View {
             }
         } else {
             Section {
+                remainingSlotsRow
                 Button { showPaywall = true } label: {
                     HStack {
                         Image(systemName: AppSymbol.starCircleFill)
@@ -223,6 +231,50 @@ struct SettingView: View {
             }
         }
     }
+
+    /// **몇 개 더 만들 수 있는가** - Pro 구매 자리 바로 위.
+    ///
+    /// 왜 여기에 두는가: 한도는 만들다 막혀야 알게 되는 것이었다. 열 개째를 만들려다
+    /// 막힌 사람에게 그때서야 "한도예요"라고 말하는 건 늦다. 설정을 열면 지금 몇 칸이
+    /// 남았는지 먼저 보이고, 바로 아래에 그 칸을 늘리는 길이 있다.
+    ///
+    /// ⚠️ 숫자는 `ProFeatureManager.memoLimit` 을 본다 - 칸을 산 사람은 15가 기준이다.
+    /// ⚠️ 겁을 주지 않는다. 남은 칸이 0이어도 "다 썼어요"가 아니라 몇 개 중 몇 개인지만 말한다.
+    @ViewBuilder
+    private var remainingSlotsRow: some View {
+        let used = memoCount
+        let limit = ProFeatureManager.memoLimit
+        let left = max(0, limit - used)
+        HStack(spacing: 12) {
+            Image(systemName: AppSymbol.trayFull)
+                .font(.title2)
+                .foregroundColor(left == 0 ? .orange : theme.accent)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(String(format: NSLocalizedString("단축어 %1$d칸 남았어요", comment: "Settings: remaining free shortcut slots"), left))
+                    .font(.headline)
+                    .foregroundColor(theme.text)
+                Text(String(format: NSLocalizedString("%1$d개 중 %2$d개를 쓰고 있어요", comment: "Settings: used of total shortcut slots"), limit, used))
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+            }
+            Spacer(minLength: 0)
+            // 남은 칸을 막대로도 - 숫자보다 먼저 눈에 들어온다.
+            ZStack(alignment: .leading) {
+                Capsule().fill(theme.surfaceAlt).frame(width: 54, height: 6)
+                Capsule()
+                    .fill(left == 0 ? Color.orange : theme.accent)
+                    .frame(width: max(2, 54 * CGFloat(min(used, limit)) / CGFloat(max(limit, 1))), height: 6)
+            }
+            .accessibilityHidden(true)
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
+    }
+
+    /// 지금 가진 단축어 개수 - 설정을 열 때와 데이터가 바뀔 때만 센다.
+    /// (계산 프로퍼티로 두면 화면을 그릴 때마다 파일을 읽는다)
+    private var memoCount: Int { memoCountState }
 
     /// 체험 중일 때와 아닐 때 같은 버튼이 필요하다 - 한 곳에서만 고치도록 빼 둔다.
     private var restorePurchasesButton: some View {
@@ -588,7 +640,14 @@ struct SettingView: View {
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { refreshSecurePINState() }
+        .onAppear {
+            refreshSecurePINState()
+            refreshMemoCount()
+        }
+        // 다른 화면에서 만들거나 지우면 남은 칸도 따라와야 한다.
+        .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+            refreshMemoCount()
+        }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         // 상단은 시스템 엣지 이펙트를 살린다 - 인라인 "설정" 타이틀이 스크롤된 행 위에

@@ -28318,6 +28318,26 @@
           }
         }
       }
+    },
+    "단축어 %1$d칸 남았어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d shortcut slots left"
+          }
+        }
+      }
+    },
+    "%1$d개 중 %2$d개를 쓰고 있어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Using %2$d of %1$d"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
