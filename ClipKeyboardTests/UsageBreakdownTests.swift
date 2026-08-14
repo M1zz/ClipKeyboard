@@ -72,6 +72,47 @@ final class UsageBreakdownTests: XCTestCase {
         XCTAssertEqual(buckets[0].installs, 1)
     }
 
+    // MARK: - 사용 유형
+
+    /// 한 사람은 **한 무리에만** 속해야 한다. 이게 깨지면 합이 전체를 넘어 비율이 거짓말이 된다.
+    func testSegmentsCoverEveryInstallExactlyOnce() {
+        let metrics: [[String: Double]] = [
+            [:],                                                        // 아직 안 만듦
+            ["shortcuts": 3],                                           // 만들고 안 씀
+            ["shortcuts": 12, "uses": 80],                              // 많이 씀
+            ["shortcuts": 2, "uses": 20],                               // 하나만 계속
+            ["shortcuts": 10, "uses": 6, "unusedShortcuts": 9],         // 쌓아만 둠
+            ["shortcuts": 5, "uses": 7],                                // 꾸준히
+            ["shortcuts": 4, "uses": 2]                                 // 막 써 보는 중
+        ]
+
+        let segments = UsageInsights.userSegments(metrics: metrics)
+
+        XCTAssertEqual(segments.reduce(0) { $0 + $1.installs }, metrics.count)
+        XCTAssertEqual(segments.reduce(0.0) { $0 + $1.ratio }, 1.0, accuracy: 0.0001)
+    }
+
+    /// 무리를 가르는 기준이 흔들리면 다음 버전의 판단이 통째로 흔들린다.
+    func testSegmentBoundaries() {
+        func kind(_ m: [String: Double]) -> UsageInsights.SegmentKind { UsageInsights.classify(m) }
+
+        XCTAssertEqual(kind([:]), .notStarted)
+        XCTAssertEqual(kind(["shortcuts": 0, "uses": 99]), .notStarted, "만든 게 없으면 쓴 것도 없다")
+        XCTAssertEqual(kind(["shortcuts": 5]), .lost, "만들고 한 번도 안 썼다")
+        XCTAssertEqual(kind(["shortcuts": 5, "keyboardUses": 1]), .dabbling, "키보드로 쓴 것도 사용이다")
+        XCTAssertEqual(kind(["shortcuts": 20, "uses": 50]), .heavy)
+        XCTAssertEqual(kind(["shortcuts": 3, "uses": 10]), .oneTrick)
+        XCTAssertEqual(kind(["shortcuts": 4, "uses": 10]), .regular, "4개부터는 '하나만'이 아니다")
+        XCTAssertEqual(kind(["shortcuts": 10, "uses": 6, "unusedShortcuts": 7]), .hoarder)
+        XCTAssertEqual(kind(["shortcuts": 10, "uses": 6, "unusedShortcuts": 6]), .regular,
+                       "70% 미만이면 쌓아 둔 게 아니다")
+    }
+
+    /// 많이 쓰는 사람은 안 쓴 단축어가 많아도 헤비다. 쓰고 있다는 사실이 먼저다.
+    func testHeavyWinsOverHoarder() {
+        XCTAssertEqual(UsageInsights.classify(["shortcuts": 30, "uses": 200, "unusedShortcuts": 28]), .heavy)
+    }
+
     // MARK: - 종류 (도넛)
 
     /// ⚠️ 도넛은 "전체의 몫"이라 **합이 100%** 여야 한다.

@@ -55,6 +55,7 @@ struct UsageStatsView: View {
                 trendSection
                 keyboardSection
                 distributionChartSection
+                segmentSection
                 typeChartSection
                 marketingSection
                 funnelSection
@@ -165,6 +166,54 @@ struct UsageStatsView: View {
                 Text(NSLocalizedString("단축어 종류", comment: "Usage stats section: shortcut types"))
             } footer: {
                 Text(NSLocalizedString("한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.", comment: "Type breakdown footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 사용 유형 (사람을 무리로)
+
+    /// 개수 분포가 "몇 개 가졌나"라면, 이쪽은 **"그래서 쓰고 있나"** 다.
+    /// 같은 5개라도 매일 꺼내 쓰는 사람과 만들어만 둔 사람은 다른 사람이고, 할 일도 다르다.
+    @ViewBuilder
+    private var segmentSection: some View {
+        let segments = UsageInsights.userSegments(snapshots: snapshots)
+        if !segments.isEmpty {
+            Section {
+                ForEach(segments) { segment in
+                    VStack(alignment: .leading, spacing: 3) {
+                        HStack {
+                            Text(segment.name)
+                                .font(.body)
+                                .foregroundColor(theme.text)
+                            Spacer()
+                            Text(String(format: NSLocalizedString("%1$d명 (%2$@)", comment: "Count with ratio"),
+                                        segment.installs, percent(segment.ratio)))
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.text)
+                        }
+                        // 막대 하나로 크기를 눈에 - 숫자만 늘어놓으면 어디가 큰지 안 읽힌다.
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(theme.surfaceAlt)
+                                Capsule()
+                                    .fill(theme.accent)
+                                    .frame(width: max(0, geo.size.width * segment.ratio))
+                            }
+                        }
+                        .frame(height: 4)
+                        Text(segment.hint)
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityElement(children: .combine)
+                }
+            } header: {
+                Text(NSLocalizedString("사용 유형", comment: "Usage stats section: user segments"))
+            } footer: {
+                Text(NSLocalizedString("한 사람은 한 무리에만 들어가요(합이 전체와 같아요). 위에서부터 걸리는 첫 무리로 정해져요. '만들고 안 쓴 사람'이 크면 키보드를 켜는 데까지 못 간 거고, '쌓아만 두는 사람'이 크면 만드는 것보다 꺼내 쓰는 게 어려운 거예요.", comment: "User segments footer"))
                     .font(.body)
             }
         }

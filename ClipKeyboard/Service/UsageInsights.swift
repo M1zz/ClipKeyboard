@@ -164,6 +164,122 @@ enum UsageInsights {
         return raw.map { TypeShare(name: $0.0, count: $0.1, ratio: Double($0.1) / Double(sum)) }
     }
 
+    // MARK: - 사용 유형 (사람을 무리로 나눈다)
+
+    /// 쓰는 모습으로 나눈 무리 하나.
+    struct UserSegment: Identifiable {
+        let kind: SegmentKind
+        /// 이 무리에 속한 설치 수.
+        let installs: Int
+        /// 전체 대비 비율 (0.0 ~ 1.0).
+        let ratio: Double
+        var id: String { kind.rawValue }
+        var name: String { kind.localizedName }
+        /// 이 무리에게 무엇을 해야 하는가 - 숫자만 보면 다음 할 일이 안 나온다.
+        var hint: String { kind.localizedHint }
+    }
+
+    /// ⚠️ 순서가 곧 판정 순서다. 위에서부터 걸리는 첫 무리가 그 사람의 무리이고,
+    ///    그래서 **한 사람은 정확히 한 무리에만** 속한다(합이 전체와 맞는다).
+    enum SegmentKind: String, CaseIterable {
+        /// 아직 하나도 안 만들었다.
+        case notStarted
+        /// 만들어 놓고 한 번도 안 썼다 - 이 앱의 값어치를 아직 못 봤다.
+        case lost
+        /// 많이 쓴다.
+        case heavy
+        /// 적게 만들고 그것만 계속 쓴다.
+        case oneTrick
+        /// 잔뜩 만들어 놓고 대부분 안 쓴다.
+        case hoarder
+        /// 꾸준히 쓴다.
+        case regular
+        /// 이제 막 써 보는 중.
+        case dabbling
+
+        var localizedName: String {
+            switch self {
+            case .notStarted: return NSLocalizedString("아직 안 만든 사람", comment: "User segment: created nothing yet")
+            case .lost:       return NSLocalizedString("만들고 안 쓴 사람", comment: "User segment: created but never used")
+            case .heavy:      return NSLocalizedString("많이 쓰는 사람", comment: "User segment: heavy user")
+            case .oneTrick:   return NSLocalizedString("하나만 계속 쓰는 사람", comment: "User segment: one shortcut, used a lot")
+            case .hoarder:    return NSLocalizedString("쌓아만 두는 사람", comment: "User segment: many shortcuts, mostly unused")
+            case .regular:    return NSLocalizedString("꾸준히 쓰는 사람", comment: "User segment: regular user")
+            case .dabbling:   return NSLocalizedString("이제 막 써 보는 사람", comment: "User segment: just getting started")
+            }
+        }
+
+        var localizedHint: String {
+            switch self {
+            case .notStarted:
+                return NSLocalizedString("첫 단축어까지 못 갔어요. 여기가 막히면 그 뒤는 전부 안 일어나요.", comment: "Segment hint: not started")
+            case .lost:
+                return NSLocalizedString("만들었는데 쓸 자리를 못 찾았어요. 키보드를 켜는 데까지 데려가야 해요.", comment: "Segment hint: lost")
+            case .heavy:
+                return NSLocalizedString("이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.", comment: "Segment hint: heavy")
+            case .oneTrick:
+                return NSLocalizedString("한 가지 일에 딱 맞게 쓰고 있어요. 두 번째 쓸모를 알려주면 늘어나요.", comment: "Segment hint: one trick")
+            case .hoarder:
+                return NSLocalizedString("만드는 건 쉬운데 꺼내 쓰는 게 어려운 거예요. 찾기와 순서를 봐야 해요.", comment: "Segment hint: hoarder")
+            case .regular:
+                return NSLocalizedString("자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요.", comment: "Segment hint: regular")
+            case .dabbling:
+                return NSLocalizedString("아직 판단 중이에요. 이 무리가 어디로 가는지가 다음 버전의 답이에요.", comment: "Segment hint: dabbling")
+            }
+        }
+    }
+
+    /// 화면용 편의 오버로드.
+    static func userSegments(snapshots: [UsageReportingService.Snapshot]) -> [UserSegment] {
+        userSegments(metrics: snapshots.map(\.metrics))
+    }
+
+    /// 설치를 쓰는 모습으로 나눈다.
+    ///
+    /// 개수 분포가 "몇 개 가졌나"를 본다면 이쪽은 **"그래서 쓰고 있나"** 를 본다.
+    /// 같은 5개라도 매일 꺼내 쓰는 사람과 만들어만 둔 사람은 전혀 다른 사람이고,
+    /// 해야 할 일도 다르다(전자는 결제 대상, 후자는 사용성 문제).
+    ///
+    /// ⚠️ 판정은 `SegmentKind.allCases` 순서대로 **첫 번째로 걸리는 것** 하나다.
+    ///    그래야 합이 전체와 맞고, "이 사람은 어느 무리인가"에 답이 하나로 나온다.
+    static func userSegments(metrics snapshots: [[String: Double]]) -> [UserSegment] {
+        guard !snapshots.isEmpty else { return [] }
+
+        var counts: [SegmentKind: Int] = [:]
+        for m in snapshots {
+            counts[classify(m), default: 0] += 1
+        }
+        let total = Double(snapshots.count)
+        return SegmentKind.allCases.map { kind in
+            let n = counts[kind] ?? 0
+            return UserSegment(kind: kind, installs: n, ratio: Double(n) / total)
+        }
+    }
+
+    /// 설치 하나가 어느 무리인가.
+    ///
+    /// 기준값은 눈대중이 아니라 이 앱의 구조에서 온다.
+    ///  · 무료 한도가 10이라 8개 이상이면 "많이 만든" 쪽이다.
+    ///  · 사용 50회는 하루 두 번씩 한 달쯤 쓴 양이다.
+    static func classify(_ m: [String: Double]) -> SegmentKind {
+        func v(_ key: String) -> Double { m[key] ?? 0 }
+
+        let shortcuts = v("shortcuts")
+        let uses = v("uses")
+        let keyboardUses = v("keyboardUses")
+        let unused = v("unusedShortcuts")
+        let totalUses = uses + keyboardUses
+
+        if shortcuts < 1 { return .notStarted }
+        if totalUses < 1 { return .lost }
+        if totalUses >= 50 { return .heavy }
+        if shortcuts <= 3, totalUses >= 10 { return .oneTrick }
+        // 많이 만들어 놓고 대부분(70% 이상) 한 번도 안 썼다.
+        if shortcuts >= 8, unused / shortcuts >= 0.7 { return .hoarder }
+        if totalUses >= 5 { return .regular }
+        return .dabbling
+    }
+
     // MARK: - 키보드 사용량
 
     struct KeyboardUsage {
