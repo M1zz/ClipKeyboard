@@ -186,7 +186,9 @@ struct KeyboardView: View {
     @AppStorage("showVisualCues", store: AppGroup.defaults) private var showVisualCues: Bool = false
     /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) - 키보드에서는 셀이 2초 머물면
     /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
-    @AppStorage("contentHintEnabled", store: AppGroup.defaults) private var contentHintEnabled: Bool = true
+    /// ⚠️ 기본값은 앱과 **같아야** 한다(꺼짐). 같은 App Group 키인데 기본값이 다르면
+    ///    토글을 만진 적 없는 사람에게 앱에서는 안 보이고 키보드에서만 보인다.
+    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults) private var contentHintEnabled: Bool = false
 
     /// 메모 구분 장치 노출 여부 - 오직 설정 "메모 구분 표시" 토글만 따른다
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
@@ -278,10 +280,12 @@ struct KeyboardView: View {
                 //    나타나지 않았다(검색은 고른 페이지 위에서 도므로 검색으로도 못 찾는다).
                 let visible = CategoryBucketRule.visibleCategories(all: sharedUserCategories,
                                                                    hidden: sharedHiddenCategoryTabs)
+                let favoritesVisible = !sharedHiddenCategoryTabs.contains(CategoryBucketRule.favoritesTabKey)
                 result = result.filter {
                     CategoryBucketRule.belongsToBasicBucket(category: $0.category,
                                                             isFavorite: $0.isFavorite,
-                                                            visibleCustomCategories: visible)
+                                                            visibleCustomCategories: visible,
+                                                            favoritesTabVisible: favoritesVisible)
                 }
             case "★favorites":
                 result = result.filter { $0.isFavorite }
@@ -546,7 +550,8 @@ struct KeyboardView: View {
                                     // ⚠️ 예전에는 키마다 작은 복사 버튼을 얹었는데, 좁은 키에
                                     //    누를 곳이 둘이라 잘못 누르기 쉬웠고 제목도 가렸다.
                                     //    길게 누르기는 자리를 차지하지 않는다.
-                                    //    (익스텐션은 그대로 - 거기선 롱프레스가 이미 메뉴를 연다)
+                                    //    (익스텐션에서는 같은 길게 누르기가 값을 크게 펼친다
+                                    //     `MemoPeekOnLongPress` - 한 손짓에 주인은 하나여야 한다)
                                     .modifier(InAppLongPressCopy(
                                         enabled: hostKind == .inApp,
                                         onCopy: { copyMemoInApp(item.memo) },
@@ -623,6 +628,20 @@ struct KeyboardView: View {
                     .padding(.vertical, 8)
                     .background(Color.black.opacity(0.75))
                     .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showSecureCopyBlockedToast {
+                Text(NSLocalizedString("잠긴 단축어라 복사되지 않아요. 눌러서 인증하면 입력돼요.",
+                                       comment: "Toast: secure memo cannot be copied by long press"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
                     .padding(.bottom, 8)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
@@ -1162,13 +1181,13 @@ struct KeyboardView: View {
                 )
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
+            .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         } else if memo.isCombo && !memo.isSecure {
             // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
-                .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
+                .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
         } else {
@@ -1178,7 +1197,7 @@ struct KeyboardView: View {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .modifier(MemoPeekOnLongPress(memo: memo, onPeek: showPeek))
+            .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         }
@@ -1188,6 +1207,8 @@ struct KeyboardView: View {
 
     /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
     @State private var peekMemo: Memo?
+    /// 보안 단축어를 길게 눌러 복사하려 했을 때의 안내.
+    @State private var showSecureCopyBlockedToast = false
 
     /// 길게 눌렀다 - 값을 크게 펼친다.
     ///
@@ -1476,8 +1497,8 @@ struct KeyboardView: View {
 
     /// 길게 누르면 클립보드로 - **앱 안에서만.**
     ///
-    /// 익스텐션에서는 롱프레스가 이미 컨텍스트 메뉴를 연다(미리보기 + 복사). 앱 무대에서는
-    /// 메뉴를 한 겹 더 여는 대신 바로 복사한다 - 여기서 할 일이 그것 하나뿐이기 때문이다.
+    /// 익스텐션에서는 같은 길게 누르기가 값을 크게 펼친다(`KeyboardMemoPeek`). 앱 무대에서는
+    /// 목록으로 건너가면 값을 볼 수 있으므로, 여기서는 바로 복사한다.
     /// **고치는 일은 목록 화면에서** 한다. 무대는 써 보는 자리다.
     private struct InAppLongPressCopy: ViewModifier {
         let enabled: Bool
@@ -1503,7 +1524,19 @@ struct KeyboardView: View {
     }
 
     /// 복사 버튼의 동작 - 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.
+    ///
+    /// ⚠️ **보안 단축어는 여기서 나가지 않는다.** 길게 누르기는 인증을 거치지 않는 길이라,
+    ///    값을 클립보드에 얹으면 잠가 둔 의미가 사라진다(화면에 안 보여줘도 붙여넣으면 나온다).
+    ///    입력은 PIN 을 받고 나서만 되는데 복사만 무료 통행이던 구멍을 막는다.
     private func copyMemoInApp(_ memo: Memo) {
+        guard !memo.isSecure else {
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            withAnimation { showSecureCopyBlockedToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+                withAnimation { showSecureCopyBlockedToast = false }
+            }
+            return
+        }
         if memo.contentType == .image || memo.contentType == .mixed,
            !(memo.imageFileNames.first ?? memo.imageFileName ?? "").isEmpty {
             copyImageToClipboard(memo: memo)
@@ -1531,18 +1564,6 @@ struct KeyboardView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation { showFullAccessToast = false }
         }
-    }
-
-    /// T/C/S 같은 글자 뱃지 - 메모 셀의 type 표시 (심볼 대신 통일된 작은 라벨).
-    @ViewBuilder
-    private func badgeLetter(_ letter: String, color: Color) -> some View {
-        Text(letter)
-            .font(.caption2.weight(.bold))
-            .foregroundColor(.white)
-            .padding(.horizontal, 4)
-            .padding(.vertical, 1)
-            .background(color)
-            .cornerRadius(theme.radiusXs)
     }
 
     private func memoButtonLabel(for memo: Memo, catColor: Color?, useTemplate: Bool = false) -> some View {

@@ -15,6 +15,7 @@
 
 import SwiftUI
 import CloudKit
+import LeeoKit   // HapticManager
 
 /// 크래시 리포트 한 건 (읽기 전용 표현).
 struct CrashReportRecord: Identifiable {
@@ -26,6 +27,22 @@ struct CrashReportRecord: Identifiable {
     let deviceType: String
     let stack: String
     let createdAt: Date?
+
+    /// 이 진단 하나를 그대로 붙여넣을 수 있는 글로.
+    ///
+    /// ⚠️ 화면에 보이는 것과 **같은 것**을 담는다(종류·버전·기기·설명·콜스택).
+    ///    복사한 글이 화면보다 적으면 결국 스크린샷을 다시 찍게 된다.
+    var copyText: String {
+        var lines = ["[\(kindLabel)] \(appVersion)"]
+        if let createdAt {
+            lines.append(DateFormatter.localizedString(from: createdAt, dateStyle: .medium, timeStyle: .short))
+        }
+        lines.append("\(deviceType) · iOS \(osVersion)")
+        if !detail.isEmpty, detail != "-" { lines.append(detail) }
+        lines.append("")
+        lines.append(stack)
+        return lines.joined(separator: "\n")
+    }
 
     /// 사람이 읽는 종류 이름.
     var kindLabel: String {
@@ -44,6 +61,8 @@ struct CrashReportsView: View {
     @State private var reports: [CrashReportRecord] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
+    /// "복사했어요" 알림 문구 - nil 이면 안 보인다.
+    @State private var copiedNotice: String?
 
     var body: some View {
         List {
@@ -71,8 +90,61 @@ struct CrashReportsView: View {
             }
         }
         .navigationTitle(NSLocalizedString("안정성", comment: "Stability screen title"))
+        .toolbar {
+            if !reports.isEmpty {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        copy(allReportsText, label: NSLocalizedString("전체 복사", comment: "Copy all diagnostics"))
+                    } label: {
+                        Image(systemName: AppSymbol.docOnDoc)
+                    }
+                    .accessibilityLabel(NSLocalizedString("전체 복사", comment: "Copy all diagnostics"))
+                }
+            }
+        }
+        // 복사한 것을 알린다 - 눌렀는데 아무 일도 안 일어나면 안 된 줄 안다.
+        .overlay(alignment: .bottom) {
+            if let copiedNotice {
+                Text(copiedNotice)
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(Capsule().fill(Color.black.opacity(0.75)))
+                    .padding(.bottom, 24)
+                    .transition(.opacity)
+            }
+        }
         .task { await load() }
         .refreshable { await load() }
+    }
+
+    // MARK: - 복사
+
+    /// 화면에 있는 것을 통째로 - 버전별 건수 요약 + 진단 목록.
+    private var allReportsText: String {
+        let grouped = Dictionary(grouping: reports, by: \.appVersion)
+            .map { "\($0.key): \($0.value.count)" }
+            .sorted(by: >)
+        var out = [NSLocalizedString("버전별 진단 건수", comment: "Crash reports section: per version")]
+        out.append(contentsOf: grouped)
+        out.append("")
+        out.append(contentsOf: reports.prefix(50).map(\.copyText))
+        return out.joined(separator: "\n")
+    }
+
+    private func copy(_ text: String, label: String) {
+        #if os(iOS)
+        UIPasteboard.general.string = text
+        #endif
+        HapticManager.shared.light()
+        withAnimation(.easeOut(duration: 0.15)) {
+            copiedNotice = String(format: NSLocalizedString("%@ 완료", comment: "Copied notice"), label)
+        }
+        Task {
+            try? await Task.sleep(nanoseconds: 1_400_000_000)
+            withAnimation(.easeOut(duration: 0.2)) { copiedNotice = nil }
+        }
     }
 
     /// 버전별 건수 - "이번 버전에서 늘었나"를 한눈에.
@@ -105,6 +177,16 @@ struct CrashReportsView: View {
                         Text(report.kindLabel).font(.body.weight(.medium)).foregroundColor(theme.text)
                         Spacer()
                         Text(report.appVersion).font(.caption).foregroundColor(theme.textMuted)
+                        // 이 진단 하나만 복사 - 콜스택을 펼쳐 손으로 긁지 않아도 된다.
+                        Button {
+                            copy(report.copyText, label: NSLocalizedString("복사", comment: "Copy"))
+                        } label: {
+                            Image(systemName: AppSymbol.docOnDoc)
+                                .font(.caption)
+                                .foregroundColor(theme.accent)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(NSLocalizedString("이 진단 복사", comment: "Copy this diagnostic"))
                     }
                     Text("\(report.deviceType) · iOS \(report.osVersion)")
                         .font(.caption).foregroundColor(theme.textMuted)

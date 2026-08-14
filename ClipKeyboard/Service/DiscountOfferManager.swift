@@ -60,9 +60,8 @@ enum DiscountOfferManager {
     private static var waitInterval: TimeInterval { TimeInterval(waitDays) * 86_400 }
     private static var firstRunWindow: TimeInterval { TimeInterval(firstRunWindowDays) * 86_400 }
 
-    private static var defaults: UserDefaults? {
-        UserDefaults(suiteName: AppGroup.identifier)
-    }
+    /// ⚠️ 공유 저장소로 가는 문은 `AppGroup.defaults` 하나다(매번 새로 만들지 않는다).
+    private static var defaults: UserDefaults? { AppGroup.defaults }
 
     // MARK: - 판정에 필요한 것들
 
@@ -151,7 +150,7 @@ enum DiscountOfferManager {
 
     /// 설치 시각 - 앱이 첫 실행에 찍어 두는 값(표준 UserDefaults).
     static var installedAt: Date? {
-        UserDefaults.standard.object(forKey: "app_install_date") as? Date
+        UserDefaults.standard.object(forKey: DefaultsKey.appInstallDate) as? Date
     }
 
     /// 이미 띄운 기회들.

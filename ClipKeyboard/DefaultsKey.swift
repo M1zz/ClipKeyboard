@@ -33,6 +33,9 @@ enum DefaultsKey {
     /// 기회는 둘뿐이고(설치 직후·한도 한 칸 앞), 각각 한 번씩만 뜬다.
     static let discountOfferShownOccasions = "discount.offer.shownOccasions"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
+    /// 앱을 처음 연 날 (standard UD, Date). 리뷰 요청·붙여넣기 안내·반값 제안이 모두 이 값을 본다.
+    /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
+    static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
     static let entries = "entries"
     static let fontSize = "fontSize"

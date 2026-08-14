@@ -128,6 +128,28 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
         // 즐겨찾기는 즐겨찾기 탭이 받는다.
         XCTAssertFalse(CategoryBucketRule.belongsToBasicBucket(
             category: "여행", isFavorite: true, visibleCustomCategories: visible))
+        // 즐겨찾기 탭을 숨겼으면 즐겨찾기도 기본이 받는다 - 갈 탭이 없으니까.
+        XCTAssertTrue(CategoryBucketRule.belongsToBasicBucket(
+            category: "여행", isFavorite: true, visibleCustomCategories: visible,
+            favoritesTabVisible: false))
+    }
+
+    /// 즐겨찾기 탭도 숨길 수 있다. 숨긴 사람의 즐겨찾기 단축어가 갈 곳이 없으면 같은 사고다.
+    func testFavoriteMemoIsReachableWhenFavoritesTabIsHidden() {
+        seed(categories: [], hidden: ["__favorites__"],
+             memos: [Memo(title: "숨긴 즐겨찾기", value: "값", isFavorite: true)])
+
+        XCTAssertTrue(isReachable("숨긴 즐겨찾기"),
+                      "즐겨찾기 탭을 숨겼는데 기본 탭도 안 받으면 그 단축어는 어디에도 없다")
+    }
+
+    /// 즐겨찾기 탭이 서 있으면 즐겨찾기는 거기에만 - 기본 탭까지 나오면 두 번 보인다.
+    func testFavoriteStaysInFavoritesTabWhenVisible() {
+        seed(categories: [], hidden: [],
+             memos: [Memo(title: "보이는 즐겨찾기", value: "값", isFavorite: true)])
+
+        XCTAssertFalse(viewModel.memos(for: .basic).contains { $0.title == "보이는 즐겨찾기" })
+        XCTAssertTrue(isReachable("보이는 즐겨찾기"))
     }
 
     func testReorderScopeAlsoCatchesHiddenCategoryMemos() {

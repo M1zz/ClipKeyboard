@@ -195,7 +195,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
             return loadedData.filter {
                 CategoryBucketRule.belongsToBasicBucket(category: $0.category,
                                                         isFavorite: $0.isFavorite,
-                                                        visibleCustomCategories: visible)
+                                                        visibleCustomCategories: visible,
+                                                        favoritesTabVisible: favoritesTabVisible)
             }
         case .favorites:
             return loadedData.filter { $0.isFavorite }
@@ -327,6 +328,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///
     /// ⚠️ `customCategories` 와 다르다. 저쪽은 만들어 둔 것 전부고, 이쪽은 갈 수 있는 것만이다.
     ///    기본 버킷의 기준은 반드시 이쪽이어야 한다(`CategoryBucketRule` 참고).
+    /// 즐겨찾기 탭이 지금 서 있는가 - 숨겼으면 즐겨찾기 단축어도 기본 칸이 받아야 한다.
+    var favoritesTabVisible: Bool {
+        !hiddenCategoryTabs.contains(CategoryBucketRule.favoritesTabKey)
+    }
+
     var visibleCustomCategories: Set<String> {
         CategoryBucketRule.visibleCategories(all: customCategories, hidden: hiddenCategoryTabs)
     }
@@ -343,7 +349,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return memos.filter {
             CategoryBucketRule.belongsToBasicBucket(category: $0.category,
                                                     isFavorite: $0.isFavorite,
-                                                    visibleCustomCategories: visible)
+                                                    visibleCustomCategories: visible,
+                                                    favoritesTabVisible: favoritesTabVisible)
         }
     }
 

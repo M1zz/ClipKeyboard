@@ -28,11 +28,21 @@ enum CategoryBucketRule {
     ///   - isFavorite: 즐겨찾기 여부 - 즐겨찾기도 하나의 칸이라 기본에서 빠진다.
     ///   - visibleCustomCategories: 지금 **탭/페이지가 서 있는** 사용자 카테고리.
     ///     ⚠️ 만들어 둔 카테고리 전부가 아니다. 숨긴 것을 여기 넣으면 위에 적은 그 사고가 그대로 난다.
+    /// - Parameter favoritesTabVisible: 즐겨찾기 탭이 지금 서 있는가.
+    ///   ⚠️ 즐겨찾기도 **숨길 수 있는 탭**이다("__favorites__" 가 같은 숨김 집합에 들어간다).
+    ///   이걸 무시하고 "즐겨찾기면 무조건 빠짐"으로 두면, 즐겨찾기 탭을 숨긴 사람의
+    ///   즐겨찾기 단축어는 갈 탭이 없어 또 사라진다 - 이 파일이 막으려던 바로 그 사고다.
     static func belongsToBasicBucket(category: String,
                                      isFavorite: Bool,
-                                     visibleCustomCategories: Set<String>) -> Bool {
-        !isFavorite && !visibleCustomCategories.contains(category)
+                                     visibleCustomCategories: Set<String>,
+                                     favoritesTabVisible: Bool = true) -> Bool {
+        if isFavorite, favoritesTabVisible { return false }
+        return !visibleCustomCategories.contains(category)
     }
+
+    /// 즐겨찾기 탭을 숨길 때 쓰는 키 - 사용자 카테고리 이름과 같은 집합에 들어간다.
+    static let favoritesTabKey = "__favorites__"
+
 
     /// 만들어 둔 카테고리 목록에서 **갈 수 있는 것만** 걸러낸다.
     static func visibleCategories(all: [String], hidden: Set<String>) -> Set<String> {

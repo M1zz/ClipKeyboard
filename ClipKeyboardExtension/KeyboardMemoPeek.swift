@@ -49,7 +49,8 @@ struct KeyboardMemoPeek: View {
 
     private var header: some View {
         HStack(spacing: 8) {
-            Text(memo.title)
+            Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold),
+                                                       accent: theme.accent, accentSoft: theme.accentSoft))
                 .font(.callout.weight(.semibold))
                 .foregroundColor(theme.text)
                 .lineLimit(1)
@@ -85,55 +86,60 @@ struct KeyboardMemoPeek: View {
                 Spacer(minLength: 0)
             }
             .frame(maxHeight: .infinity, alignment: .top)
-        } else if !memo.comboValues.isEmpty {
+        } else {
             ScrollView {
                 VStack(alignment: .leading, spacing: 8) {
-                    ForEach(Array(memo.comboValues.enumerated()), id: \.offset) { index, value in
-                        HStack(alignment: .top, spacing: 8) {
-                            Text("\(index + 1).")
-                                .font(.system(.footnote, design: .monospaced, weight: .semibold))
-                                .foregroundColor(theme.textFaint)
-                            Text(value)
-                                .font(.callout)
-                                .foregroundColor(theme.text)
-                                .textSelection(.enabled)
-                            Spacer(minLength: 0)
+                    if memo.comboValues.isEmpty {
+                        valueText(memo.value)
+                    } else {
+                        // 콤보는 단계 번호를 붙여 순서를 보여준다.
+                        ForEach(Array(memo.comboValues.enumerated()), id: \.offset) { index, value in
+                            HStack(alignment: .top, spacing: 8) {
+                                Text("\(index + 1).")
+                                    .font(.system(.footnote, design: .monospaced, weight: .semibold))
+                                    .foregroundColor(theme.textFaint)
+                                valueText(value)
+                            }
                         }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-        } else {
-            ScrollView {
-                Text(memo.value)
-                    .font(.callout)
-                    .foregroundColor(theme.text)
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
         }
+    }
+
+    /// 값 한 줄 - `{변수}` 는 여기서도 칩으로 보인다(값이 가장 크게 보이는 자리다).
+    private func valueText(_ value: String) -> some View {
+        Text(value.kbTemplateAwareAttributed(font: .callout,
+                                             accent: theme.accent, accentSoft: theme.accentSoft))
+            .font(.callout)
+            .foregroundColor(theme.text)
+            .textSelection(.enabled)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     // MARK: - 할 일
 
+    /// 보안 단축어에는 복사 버튼 자체를 두지 않는다.
+    /// (예전에는 opacity·disabled·frame 세 개를 맞춰 숨겼는데, 셋이 어긋나면 안 보이는
+    ///  버튼이 자리와 보이스오버 순서를 차지한다)
+    @ViewBuilder
     private var actions: some View {
-        Button(action: onCopy) {
-            HStack(spacing: 6) {
-                Image(systemName: AppSymbol.docOnDoc)
-                Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))
+        if !memo.isSecure {
+            Button(action: onCopy) {
+                HStack(spacing: 6) {
+                    Image(systemName: AppSymbol.docOnDoc)
+                    Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))
+                }
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 42)
+                .background(theme.accent)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
-            .font(.subheadline.weight(.semibold))
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .frame(height: 42)
-            .background(theme.accent)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
-        // 보안 단축어의 값은 보여주지도, 복사해 주지도 않는다.
-        .opacity(memo.isSecure ? 0 : 1)
-        .disabled(memo.isSecure)
-        .frame(height: memo.isSecure ? 0 : nil)
     }
 }
 
@@ -147,9 +153,17 @@ struct KeyboardMemoPeek: View {
 ///    (콤보 키처럼 안에 버튼이 둘인 경우에도 바깥에서 한 번에 잡을 수 있다)
 struct MemoPeekOnLongPress: ViewModifier {
     let memo: Memo
+    /// ⚠️ 앱 무대에서는 **꺼 둔다.** 거기서는 같은 길게 누르기가 이미 "클립보드로 복사"이고
+    ///    (무대 안내에도 그렇게 적혀 있다), 둘을 같이 걸면 한 번 눌렀는데 복사도 되고
+    ///    판도 열린다. 한 손짓에 주인은 하나여야 한다.
+    let enabled: Bool
     let onPeek: (Memo) -> Void
 
     func body(content: Content) -> some View {
+        if enabled { gestured(content) } else { content }
+    }
+
+    private func gestured(_ content: Content) -> some View {
         content
             .simultaneousGesture(
                 LongPressGesture(minimumDuration: 0.45)

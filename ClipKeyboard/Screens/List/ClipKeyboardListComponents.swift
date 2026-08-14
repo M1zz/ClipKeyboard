@@ -588,8 +588,21 @@ struct MemoImageBackground: View {
     @State private var image: UIImage?
 
     /// 이미 읽어 둔 사진. 화면을 떠나도 남으므로 두 번째부터는 빈 자리가 없다.
-    /// (메모리 압박 때는 시스템이 알아서 비운다)
-    private static let cache = NSCache<NSString, UIImage>()
+    ///
+    /// ⚠️ **상한을 반드시 준다.** 원본 사진은 3000x2000 이면 펼쳤을 때 24MB 쯤 되는데,
+    ///    카드 하나는 140pt짜리다. 상한 없이 원본을 담아 두면 사진 스무 장에 수백 MB가
+    ///    잡힌 채 시스템이 비명을 지를 때까지 안 빠진다(NSCache 는 비용을 안 알려주면
+    ///    스스로 덜어내지 못한다). 그래서 **카드 크기로 줄여서** 담고, 총량도 못박는다.
+    private static let cache: NSCache<NSString, UIImage> = {
+        let c = NSCache<NSString, UIImage>()
+        c.countLimit = 60
+        c.totalCostLimit = 32 * 1024 * 1024   // 32MB
+        return c
+    }()
+
+    /// 카드에 그릴 만한 크기 - 이보다 큰 사진은 줄여서 담는다.
+    /// (레티나 3배를 감안해도 카드 폭의 세 배면 넉넉하다)
+    private static let thumbnailMaxPixel: CGFloat = 600
 
     var body: some View {
         ZStack {
@@ -616,6 +629,21 @@ struct MemoImageBackground: View {
         .onAppear(perform: load)
     }
 
+    /// 카드에 필요한 만큼으로 줄인다. 이미 작으면 그대로 쓴다.
+    private static func downsized(_ image: UIImage) -> UIImage {
+        let longest = max(image.size.width, image.size.height)
+        guard longest > thumbnailMaxPixel else { return image }
+        let scale = thumbnailMaxPixel / longest
+        let target = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        return image.preparingThumbnail(of: target) ?? image
+    }
+
+    /// 캐시가 스스로 덜어낼 수 있도록 알려 주는 대략의 크기(바이트).
+    private static func byteCost(_ image: UIImage) -> Int {
+        let pixels = image.size.width * image.scale * image.size.height * image.scale
+        return Int(pixels * 4)
+    }
+
     private func load() {
         guard image == nil, !fileName.isEmpty else { return }
         // 캐시에 있으면 **그릴 때 바로** 얹는다 - 비동기로 미루면 빈 자리가 한 프레임 보인다.
@@ -624,9 +652,13 @@ struct MemoImageBackground: View {
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            let loaded = MemoStore.shared.loadImage(fileName: fileName)
-            if let loaded { Self.cache.setObject(loaded, forKey: fileName as NSString) }
-            DispatchQueue.main.async { image = loaded }
+            guard let loaded = MemoStore.shared.loadImage(fileName: fileName) else {
+                DispatchQueue.main.async { image = nil }
+                return
+            }
+            let shrunk = Self.downsized(loaded)
+            Self.cache.setObject(shrunk, forKey: fileName as NSString, cost: Self.byteCost(shrunk))
+            DispatchQueue.main.async { image = shrunk }
         }
     }
 }
