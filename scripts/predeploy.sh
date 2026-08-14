@@ -12,6 +12,9 @@ ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
 SCHEME="ClipKeyboard"
+# ⚠️ 저장소 루트에는 Xcode Cloud 호환용 심볼릭 링크("Token memo.xcodeproj")가 하나 더 있다.
+# -project 를 안 주면 xcodebuild 가 "프로젝트가 둘"이라며 멈춘다.
+PROJECT="ClipKeyboard.xcodeproj"
 
 echo "🌐 [1/2] 다국어 검사 (check_localization.py)"
 python3 scripts/check_localization.py
@@ -25,6 +28,7 @@ fi
 
 echo "🧪 [2/2] 전체 테스트 실행 (ClipKeyboardTests, 시뮬레이터 $DEST_ID)"
 xcodebuild test \
+  -project "$PROJECT" \
   -scheme "$SCHEME" \
   -destination "platform=iOS Simulator,id=$DEST_ID" \
   -quiet
@@ -37,6 +41,7 @@ if [ "$1" = "--archive" ]; then
   ARCHIVE="build/ClipKeyboard-$STAMP.xcarchive"
   echo "📦 아카이브 생성 중: $ARCHIVE"
   xcodebuild archive \
+    -project "$PROJECT" \
     -scheme "$SCHEME" \
     -destination 'generic/platform=iOS' \
     -archivePath "$ARCHIVE" \

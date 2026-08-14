@@ -45,6 +45,23 @@
 - [ ] 반값 상품이 준비되면 제안 창을 실기기에서 한 번 볼 것
       (`DiscountOfferManager.resetForTesting()` 으로 조건 초기화)
 
+## ☁️ Xcode Cloud 옛 이름 호환 (2026-08-15)
+
+> 2026-01-31 에 프로젝트 이름을 `Token memo` → `ClipKeyboard` 로 바꿨는데(bf6cd10a),
+> Xcode Cloud 워크플로는 그 전에 만들어져 아직 옛 이름을 부른다. 빌드 로그의 명령이 증거다.
+>
+> `xcodebuild -resolvePackageDependencies -project 'Token memo.xcodeproj' -scheme 'Token memo'`
+
+- [x] **임시 호환 장치**를 저장소에 뒀다. 옛 이름으로도 찾아지게만 한다.
+      - `Token memo.xcodeproj` → `ClipKeyboard.xcodeproj` 심볼릭 링크
+      - `xcshareddata/xcschemes/Token memo.xcscheme` (ClipKeyboard 스킴 복사본)
+      - 위 명령 그대로 로컬에서 확인: resolve · build 모두 통과
+- [x] `scripts/predeploy.sh` 에 `-project` 를 명시했다. 루트에 프로젝트가 둘로 보여서
+      `-project` 없는 xcodebuild 는 "프로젝트가 둘"이라며 멈춘다(배포 게이트가 그 형태였다)
+- [ ] **제대로 고치고 나면 이 둘을 지울 것.** Xcode 의 Integrate > Manage Workflows 에서
+      Xcode Cloud 제품을 지우고 다시 만들면(프로젝트 경로는 제품 생성 시 고정된다) 옛 이름이
+      사라진다. 그 뒤 심볼릭 링크와 스킴 복사본을 지우고 predeploy 의 `-project` 도 되돌리면 된다
+
 ## 📦 4.4.6 릴리즈 노트 (2026-08-12)
 > 4.4.4 · 4.4.5 가 App Store 에 안 나갔다. 사용자는 4.4.3 에서 곧장 넘어온다.
 

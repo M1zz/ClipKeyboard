@@ -48,13 +48,20 @@ final class ClipKeyboardSpecTests: XCTestCase {
         XCTAssertTrue(ClipKeyboardSpec.monetization.requiresRestore, "비소모성 판매 - 복원 경로는 심사 필수")
     }
 
-    /// 파는 물건은 둘(정가·반값), 주는 권한은 하나. 어느 쪽을 샀든 Pro 로 인정돼야 한다.
-    func testBothProductsGrantPro() {
+    /// 파는 물건은 셋(정가·반값·칸 추가), **Pro 권한은 평생 상품 둘뿐**이다.
+    ///
+    /// ⚠️ 이 테스트가 이 저장소에서 가장 비싼 사고를 막는다. LeeoKit 은 `entitlementIDs` 를
+    ///    안 주면 파는 상품 전체를 권한으로 보므로, 칸 추가가 권한에 섞이면 $3 결제로
+    ///    평생 Pro 가 열린다. 그리고 한 번 준 권한은 되돌릴 방법이 없다.
+    func testSlotPackNeverGrantsPro() {
         let paywall = ClipKeyboardSpec.paywall
         XCTAssertEqual(paywall?.productIDs, [StoreManager.proProductID,
-                                             DiscountOfferManager.discountedProProductID])
+                                             DiscountOfferManager.discountedProProductID,
+                                             SlotPack.productID])
         XCTAssertEqual(paywall?.entitlementIDs, [StoreManager.proProductID,
                                                  DiscountOfferManager.discountedProProductID])
+        XCTAssertFalse(paywall?.entitlementIDs.contains(SlotPack.productID) ?? true,
+                       "칸 추가가 Pro 권한이 되면 안 된다")
     }
 
     /// 권한 캐시는 앱 그룹에 있어야 한다 - 아니면 키보드 익스텐션이 오프라인에서 Pro 를 잊는다.

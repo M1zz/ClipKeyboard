@@ -53,7 +53,9 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     ///    이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
     static let monetization = LeeoMonetization.freemium(
         LeeoPurchaseConfig(
-            productIDs: [StoreManager.proProductID, DiscountOfferManager.discountedProProductID],
+            productIDs: [StoreManager.proProductID,
+                         DiscountOfferManager.discountedProProductID,
+                         SlotPack.productID],
             // ⚠️ **Pro 로 인정할 상품을 손으로 못박는다.** 기본값이 "파는 상품 전체"라,
             //    나중에 칸 추가 상품(`SlotPack.productID`)을 productIDs 에 한 줄 넣는 순간
             //    $3 결제가 평생 Pro 를 열어 버린다. 그 사고는 되돌릴 수도 없다

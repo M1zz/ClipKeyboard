@@ -1,110 +1,126 @@
 {
-  "identifier" : "F8A2B3C4-D5E6-7890-ABCD-EF1234567890",
-  "nonRenewingSubscriptions" : [
-
-  ],
-  "products" : [
+  "identifier": "F8A2B3C4-D5E6-7890-ABCD-EF1234567890",
+  "nonRenewingSubscriptions": [],
+  "products": [
     {
-      "displayPrice" : "9.99",
-      "familyShareable" : true,
-      "internalID" : "pro_unlock",
-      "localizations" : [
+      "displayPrice": "9.99",
+      "familyShareable": true,
+      "internalID": "pro_unlock",
+      "localizations": [
         {
-          "description" : "Unlock all features including unlimited memos, iCloud backup, and more.",
-          "displayName" : "ClipKeyboard Pro",
-          "locale" : "en_US"
+          "description": "Unlock all features including unlimited memos, iCloud backup, and more.",
+          "displayName": "ClipKeyboard Pro",
+          "locale": "en_US"
         },
         {
-          "description" : "무제한 메모, iCloud 백업 등 모든 기능을 잠금 해제합니다.",
-          "displayName" : "ClipKeyboard Pro",
-          "locale" : "ko"
+          "description": "\ubb34\uc81c\ud55c \uba54\ubaa8, iCloud \ubc31\uc5c5 \ub4f1 \ubaa8\ub4e0 \uae30\ub2a5\uc744 \uc7a0\uae08 \ud574\uc81c\ud569\ub2c8\ub2e4.",
+          "displayName": "ClipKeyboard Pro",
+          "locale": "ko"
         }
       ],
-      "productID" : "com.Ysoup.TokenMemo.pro",
-      "referenceName" : "ClipKeyboard Pro",
-      "type" : "NonConsumable"
+      "productID": "com.Ysoup.TokenMemo.pro",
+      "referenceName": "ClipKeyboard Pro",
+      "type": "NonConsumable"
     },
     {
-      "displayPrice" : "4.99",
-      "familyShareable" : true,
-      "internalID" : "pro_unlock_halfoff",
-      "localizations" : [
+      "displayPrice": "4.99",
+      "familyShareable": true,
+      "internalID": "pro_unlock_halfoff",
+      "localizations": [
         {
-          "description" : "Unlock all features forever, at half price.",
-          "displayName" : "ClipKeyboard Pro (50% off)",
-          "locale" : "en_US"
+          "description": "Unlock all features forever, at half price.",
+          "displayName": "ClipKeyboard Pro (50% off)",
+          "locale": "en_US"
         },
         {
-          "description" : "모든 기능을 반값으로 영구 잠금 해제합니다.",
-          "displayName" : "ClipKeyboard Pro (반값)",
-          "locale" : "ko"
+          "description": "\ubaa8\ub4e0 \uae30\ub2a5\uc744 \ubc18\uac12\uc73c\ub85c \uc601\uad6c \uc7a0\uae08 \ud574\uc81c\ud569\ub2c8\ub2e4.",
+          "displayName": "ClipKeyboard Pro (\ubc18\uac12)",
+          "locale": "ko"
         }
       ],
-      "productID" : "com.Ysoup.TokenMemo.pro.halfoff",
-      "referenceName" : "ClipKeyboard Pro (50% off)",
-      "type" : "NonConsumable"
+      "productID": "com.Ysoup.TokenMemo.pro.halfoff",
+      "referenceName": "ClipKeyboard Pro (50% off)",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": true,
+      "internalID": "slots5_unlock",
+      "localizations": [
+        {
+          "description": "Add 5 more shortcut slots. Other Pro features stay locked.",
+          "displayName": "5 more slots",
+          "locale": "en_US"
+        },
+        {
+          "description": "\ub2e8\ucd95\uc5b4 \uce78\uc744 5\uac1c \ub354 \ub298\ub9bd\ub2c8\ub2e4. \ub2e4\ub978 Pro \uae30\ub2a5\uc740 \uc5f4\ub9ac\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
+          "displayName": "\ub2e8\ucd95\uc5b4 5\uce78 \ucd94\uac00",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.slots5",
+      "referenceName": "ClipKeyboard +5 shortcut slots",
+      "type": "NonConsumable"
     }
   ],
-  "settings" : {
-    "_applicationInternalID" : "1234567890",
-    "_developerTeamID" : "YSOUP_TEAM",
-    "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 727790400,
-    "_locale" : "en_US",
-    "_storefront" : "USA",
-    "_storeKitErrors" : [
+  "settings": {
+    "_applicationInternalID": "1234567890",
+    "_developerTeamID": "YSOUP_TEAM",
+    "_failTransactionsEnabled": false,
+    "_lastSynchronizedDate": 727790400,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": [
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Load Products"
+        "current": null,
+        "enabled": false,
+        "name": "Load Products"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Purchase"
+        "current": null,
+        "enabled": false,
+        "name": "Purchase"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Verification"
+        "current": null,
+        "enabled": false,
+        "name": "Verification"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "App Store Sync"
+        "current": null,
+        "enabled": false,
+        "name": "App Store Sync"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Subscription Status"
+        "current": null,
+        "enabled": false,
+        "name": "Subscription Status"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "App Transaction"
+        "current": null,
+        "enabled": false,
+        "name": "App Transaction"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Manage Subscriptions Sheet"
+        "current": null,
+        "enabled": false,
+        "name": "Manage Subscriptions Sheet"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Refund Request Sheet"
+        "current": null,
+        "enabled": false,
+        "name": "Refund Request Sheet"
       },
       {
-        "current" : null,
-        "enabled" : false,
-        "name" : "Offer Code Redeem Sheet"
+        "current": null,
+        "enabled": false,
+        "name": "Offer Code Redeem Sheet"
       }
     ]
   },
-  "subscriptionGroups" : [
-
-  ],
-  "version" : {
-    "major" : 3,
-    "minor" : 0
+  "subscriptionGroups": [],
+  "version": {
+    "major": 3,
+    "minor": 0
   }
 }

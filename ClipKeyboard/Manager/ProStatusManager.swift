@@ -16,7 +16,7 @@ class ProStatusManager: ObservableObject {
     // Note: Source of truth는 ProFeatureManager.freeMemoLimit 등. 이 struct는 레거시 참조용.
 
     struct FreeLimits {
-        static var maxMemos: Int { ProFeatureManager.freeMemoLimit }
+        static var maxMemos: Int { ProFeatureManager.memoLimit }
         static var maxClipboardHistory: Int { ProFeatureManager.freeClipboardHistoryLimit }
         static var maxTemplates: Int { ProFeatureManager.freeTemplateLimit }
     }

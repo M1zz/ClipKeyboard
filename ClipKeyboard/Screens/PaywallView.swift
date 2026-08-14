@@ -339,6 +339,13 @@ struct PaywallView: View {
                 )
                 .accessibilityHint(store.isLoading ? "" : NSLocalizedString("탭하면 Pro를 구매합니다", comment: "Purchase button hint"))
 
+                // 작은 계단 - 평생이 부담스러운 사람에게 다섯 칸만 파는 길.
+                // ⚠️ Pro 버튼 **아래**에 둔다. 위에 두면 싼 것부터 눈에 들어와 평생 구매가
+                //    비교당하기만 한다. 이건 대안이지 추천이 아니다.
+                if !SlotPack.isPurchased, let slots = store.slotPackProduct {
+                    slotPackButton(slots)
+                }
+
                 // 복원 버튼
                 Button {
                     Task { await store.restorePurchases() }
@@ -357,6 +364,35 @@ struct PaywallView: View {
             }
         }
         .id(trialTick) // trial 시작 시 강제 redraw
+    }
+
+    /// 칸 추가 버튼 - 개수만 늘린다(다른 Pro 기능은 그대로 잠겨 있다).
+    private func slotPackButton(_ product: Product) -> some View {
+        Button {
+            AnalyticsService.logPaywallCtaTapped(triggeredBy: "slot_pack", isTrial: false)
+            Task {
+                if await store.purchaseSlotPack(triggeredBy: "slot_pack") {
+                    didConvert = true
+                    dismiss()
+                }
+            }
+        } label: {
+            VStack(spacing: 2) {
+                Text(String(format: NSLocalizedString("%1$@ 로 %2$d칸만 더 늘리기", comment: "Slot pack button"),
+                            product.displayPrice, SlotPack.slotsPerPack))
+                    .font(.headline)
+                // 무엇이 아닌지도 말한다 - 사고 나서 "이게 다야?" 가 되면 안 된다.
+                Text(NSLocalizedString("개수만 늘어요. 다른 Pro 기능은 열리지 않아요",
+                                       comment: "Slot pack button caption"))
+                    .font(.caption2)
+            }
+            .foregroundStyle(.orange)
+            .frame(height: 54)
+            .frame(maxWidth: .infinity)
+            .background(.orange.opacity(0.10))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        }
+        .disabled(store.isLoading)
     }
 
     /// "7일 무료 체험 시작" 버튼

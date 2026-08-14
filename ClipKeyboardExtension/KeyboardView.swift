@@ -769,14 +769,14 @@ struct KeyboardView: View {
         if hiddenMemoCount > 0 {
             return String(format: NSLocalizedString("%d개 단축어 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
         }
-        let remaining = max(0, ProFeatureManager.freeMemoLimit - totalMemoCount)
+        let remaining = max(0, ProFeatureManager.memoLimit - totalMemoCount)
         return String(format: NSLocalizedString("단축어 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
     }
 
     /// 한도 도달 임박 (남은 슬롯 2개 이하)
     private var isMemoLimitNear: Bool {
         guard isFreeUser else { return false }
-        let remaining = ProFeatureManager.freeMemoLimit - totalMemoCount
+        let remaining = ProFeatureManager.memoLimit - totalMemoCount
         return remaining > 0 && remaining <= 2
     }
 
@@ -1701,7 +1701,7 @@ struct KeyboardView: View {
     private var totalMemoCount: Int { clipMemos.count }
     private var hiddenMemoCount: Int {
         guard isFreeUser else { return 0 }
-        return max(0, totalMemoCount - ProFeatureManager.freeMemoLimit)
+        return max(0, totalMemoCount - ProFeatureManager.memoLimit)
     }
 
     // MARK: - PIN Entry Overlay

@@ -89,8 +89,19 @@ class StoreManager: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // 칸 추가 상품도 같은 방식으로 미러링한다 - 익스텐션은 StoreKit 을 못 보므로
+        // 이 값이 없으면 앱에서는 15칸, 키보드에서는 10칸으로 갈린다.
+        store.$purchasedProductIDs
+            .map { $0.contains(SlotPack.productID) }
+            .removeDuplicates()
+            .sink { boughtSlots in
+                Task { @MainActor in SlotPack.mirror(purchased: boughtSlots) }
+            }
+            .store(in: &cancellables)
+
         // 초기(캐시) 상태 즉시 미러링.
         mirrorProStatus(isPro: store.purchasedProductIDs.contains(Self.proProductID))
+        SlotPack.mirror(purchased: store.purchasedProductIDs.contains(SlotPack.productID))
     }
 
     // MARK: - Public Methods
@@ -119,6 +130,22 @@ class StoreManager: ObservableObject {
         if store.products.isEmpty { await store.loadProducts() }
         guard let product = discountedProProduct else {
             print("❌ [StoreManager] 반값 상품을 찾을 수 없음: \(DiscountOfferManager.discountedProProductID)")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        return await purchase(product, triggeredBy: triggeredBy)
+    }
+
+    /// 칸 추가 상품.
+    var slotPackProduct: Product? {
+        store.products.first { $0.id == SlotPack.productID }
+    }
+
+    /// 칸 추가 구매 - 페이월의 작은 계단.
+    func purchaseSlotPack(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = slotPackProduct else {
+            print("❌ [StoreManager] 칸 추가 상품을 찾을 수 없음: \(SlotPack.productID)")
             errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }

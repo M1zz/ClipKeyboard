@@ -99,9 +99,8 @@ struct ProFeatureManager {
     static var isKeyboardExtensionAvailable: Bool { true }
 
     /// 키보드에서 표시할 메모 최대 개수.
-    static var keyboardMemoDisplayLimit: Int {
-        hasFullAccess ? Int.max : freeMemoLimit
-    }
+    /// (칸을 산 사람은 그만큼 더 보인다 - `memoLimit` 이 이미 그 계산을 한다)
+    static var keyboardMemoDisplayLimit: Int { memoLimit }
 
     // MARK: - 상태 체크
 
@@ -300,10 +299,10 @@ struct ProFeatureManager {
 
     // MARK: - 제한 체크
 
-    /// 메모 추가 가능 여부
+    /// 메모 추가 가능 여부 - **저장을 막는 실제 관문.**
+    /// ⚠️ 여기가 `freeMemoLimit` 을 보면 칸을 산 사람이 11번째에서 그대로 막힌다.
     static func canAddMemo(currentCount: Int) -> Bool {
-        if hasFullAccess { return true }
-        return currentCount < freeMemoLimit
+        currentCount < memoLimit
     }
 
     /// 콤보 추가 가능 여부
@@ -379,7 +378,8 @@ struct ProFeatureManager {
         var localizedDescription: String {
             switch self {
             case .memo:
-                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 단축어를 저장할 수 있습니다.", comment: "Memo limit desc"), freeMemoLimit)
+                // 산 칸까지 더한 **지금 이 사람의** 한도를 말한다.
+                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 단축어를 저장할 수 있습니다.", comment: "Memo limit desc"), memoLimit)
             case .combo:
                 return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.", comment: "Combo limit desc"), freeComboLimit)
             case .template:

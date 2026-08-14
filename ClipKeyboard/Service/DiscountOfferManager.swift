@@ -45,8 +45,10 @@ enum DiscountOfferManager {
     ///    두 상품 모두 `ClipKeyboardSpec.monetization` 의 productIDs 에 있어 어느 쪽을 사도 Pro 다.
     static let discountedProProductID = "com.Ysoup.TokenMemo.pro.halfoff"
 
-    /// ② 기회가 겨냥하는 개수 - 무료 한도 한 칸 앞.
-    static var limitEdgeCount: Int { max(1, ProFeatureManager.freeMemoLimit - 1) }
+    /// ② 기회가 겨냥하는 개수 - **지금 이 사람의** 한도 한 칸 앞.
+    /// ⚠️ 기본 한도가 아니라 `memoLimit` 을 본다. 칸을 산 사람(15개)에게 9개에서
+    ///    "한 칸 남았다"고 말하면 거짓말이고, 정작 14개일 때는 아무 말도 안 하게 된다.
+    static var limitEdgeCount: Int { max(1, ProFeatureManager.memoLimit - 1) }
 
     /// ② 그 개수에 닿은 뒤 기다리는 날 수.
     static let waitDays = 7
