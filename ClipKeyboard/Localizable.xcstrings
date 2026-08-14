@@ -28060,6 +28060,166 @@
           }
         }
       }
+    },
+    "앱을 연 횟수" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App opened"
+          }
+        }
+      }
+    },
+    "단축어를 만듦" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcut created"
+          }
+        }
+      }
+    },
+    "키보드로 입력함" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typed with the keyboard"
+          }
+        }
+      }
+    },
+    "한꺼번에 가져옴" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulk imported"
+          }
+        }
+      }
+    },
+    "처음 안내를 끝냄" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished onboarding"
+          }
+        }
+      }
+    },
+    "페이월을 봄" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saw the paywall"
+          }
+        }
+      }
+    },
+    "구매 버튼을 누름" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapped the buy button"
+          }
+        }
+      }
+    },
+    "구매함" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchased"
+          }
+        }
+      }
+    },
+    "페이월을 닫음" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismissed the paywall"
+          }
+        }
+      }
+    },
+    "결제를 취소함" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelled the purchase"
+          }
+        }
+      }
+    },
+    "결제가 실패함" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase failed"
+          }
+        }
+      }
+    },
+    "체험을 시작함" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started the trial"
+          }
+        }
+      }
+    },
+    "오퍼 코드를 씀" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeemed an offer code"
+          }
+        }
+      }
+    },
+    "Pro 권유를 봄" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saw a Pro nudge"
+          }
+        }
+      }
+    },
+    "Pro 권유를 누름" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapped a Pro nudge"
+          }
+        }
+      }
+    },
+    "%1$@ (%2$@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ (%2$@)"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

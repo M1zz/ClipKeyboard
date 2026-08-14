@@ -219,6 +219,61 @@ struct UsageStatsView: View {
         }
     }
 
+    // MARK: - 이벤트 이름을 사람 말로
+
+    /// `app_open` 같은 기록용 id 를 읽을 수 있는 말로 바꾼다.
+    ///
+    /// ⚠️ 이름은 슬라이스를 달고 온다(`paywall_view:memo` = 메모 한도 때문에 뜬 페이월).
+    ///    앞의 이벤트 이름만 바꾸고 **꼬리는 그대로 살린다** - 그 꼬리가 "어느 한도가
+    ///    결제를 만드는가"의 답이라 지우면 안 된다.
+    ///
+    /// ⚠️ 모르는 이름은 **원문 그대로 둔다.** 여기 없는 이벤트가 화면에서 사라지면,
+    ///    새 이벤트를 넣고도 통계에서 못 찾는 일이 생긴다.
+    static func eventLabel(_ raw: String) -> String {
+        let parts = raw.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false)
+        let base = String(parts[0])
+        let slice = parts.count > 1 ? String(parts[1]) : nil
+
+        let named: String
+        switch base {
+        case UsageReportingService.appOpenEvent:
+            named = NSLocalizedString("앱을 연 횟수", comment: "Event label: app opened")
+        case AnalyticsEvent.memoCreated.rawValue:
+            named = NSLocalizedString("단축어를 만듦", comment: "Event label: shortcut created")
+        case AnalyticsEvent.keyboardUsed.rawValue:
+            named = NSLocalizedString("키보드로 입력함", comment: "Event label: keyboard used")
+        case AnalyticsEvent.bulkImported.rawValue:
+            named = NSLocalizedString("한꺼번에 가져옴", comment: "Event label: bulk imported")
+        case AnalyticsEvent.onboardingCompleted.rawValue:
+            named = NSLocalizedString("처음 안내를 끝냄", comment: "Event label: onboarding completed")
+        case AnalyticsEvent.paywallView.rawValue:
+            named = NSLocalizedString("페이월을 봄", comment: "Event label: paywall shown")
+        case AnalyticsEvent.paywallCtaTapped.rawValue:
+            named = NSLocalizedString("구매 버튼을 누름", comment: "Event label: purchase button tapped")
+        case AnalyticsEvent.paywallPurchase.rawValue:
+            named = NSLocalizedString("구매함", comment: "Event label: purchased")
+        case AnalyticsEvent.paywallDismissed.rawValue:
+            named = NSLocalizedString("페이월을 닫음", comment: "Event label: paywall dismissed")
+        case AnalyticsEvent.purchaseCancelled.rawValue:
+            named = NSLocalizedString("결제를 취소함", comment: "Event label: purchase cancelled")
+        case AnalyticsEvent.purchaseFailed.rawValue:
+            named = NSLocalizedString("결제가 실패함", comment: "Event label: purchase failed")
+        case AnalyticsEvent.trialStarted.rawValue:
+            named = NSLocalizedString("체험을 시작함", comment: "Event label: trial started")
+        case AnalyticsEvent.offerCodeRedeemed.rawValue:
+            named = NSLocalizedString("오퍼 코드를 씀", comment: "Event label: offer code redeemed")
+        case AnalyticsEvent.proNudgeShown.rawValue:
+            named = NSLocalizedString("Pro 권유를 봄", comment: "Event label: pro nudge shown")
+        case AnalyticsEvent.proNudgeTapped.rawValue:
+            named = NSLocalizedString("Pro 권유를 누름", comment: "Event label: pro nudge tapped")
+        default:
+            named = base
+        }
+
+        guard let slice else { return named }
+        return String(format: NSLocalizedString("%1$@ (%2$@)", comment: "Event label with slice"), named, slice)
+    }
+
     // MARK: - 마케팅 지표
 
     @ViewBuilder
@@ -370,7 +425,7 @@ struct UsageStatsView: View {
             } else {
                 ForEach(events) { event in
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(event.name)
+                        Text(Self.eventLabel(event.name))
                             .font(.body.weight(.medium))
                             .foregroundColor(theme.text)
                         Text(String(format: NSLocalizedString("%1$d건 · 설치 %2$d곳", comment: "Usage stats: event count and installs"),
