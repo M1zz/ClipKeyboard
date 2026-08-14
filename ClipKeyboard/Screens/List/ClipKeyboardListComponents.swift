@@ -571,39 +571,62 @@ struct SwipePageIndicator: View {
 // MARK: - Memo Image Background Helper
 
 /// 이미지 메모용 배경 뷰 - 로딩 중엔 회색 플레이스홀더, 완료 후 풀-블리드 표시
+/// 이미지 단축어 카드의 배경 - 사진과, 그 위에 글자가 읽히게 하는 그늘까지 함께 그린다.
+///
+/// ⚠️ **사진이 오기 전에는 그늘을 얹지 않는다.** 예전에는 회색 판 위에 검은 그라디언트가
+///    먼저 깔려서, 목록에 들어갈 때마다 카드가 **검게 칠해졌다가 사진으로 바뀌었다**
+///    (다크 모드의 systemGray5 는 거의 검정이라 더 그렇게 보였다). 그늘은 사진을 위한
+///    것이므로 사진과 운명을 같이해야 한다.
+///
+/// ⚠️ 한 번 읽은 사진은 캐시에 둔다. `loadImage` 는 매번 디스크에서 새로 읽어서,
+///    탭을 오갈 때마다 같은 사진을 다시 읽고 그때마다 빈 자리가 한 번씩 보였다.
 struct MemoImageBackground: View {
     let fileName: String
+
+    @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var image: UIImage?
+
+    /// 이미 읽어 둔 사진. 화면을 떠나도 남으므로 두 번째부터는 빈 자리가 없다.
+    /// (메모리 압박 때는 시스템이 알아서 비운다)
+    private static let cache = NSCache<NSString, UIImage>()
 
     var body: some View {
         ZStack {
-            Color(uiColor: .systemGray5)
+            // 사진이 오기 전 자리 - 카드 표면색. 배경과 같은 계열이라 튀지 않는다.
+            theme.surface
             if let image {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
+                // 글자가 읽히도록 사진 위아래에 그늘 - **사진이 있을 때만.**
+                LinearGradient(
+                    colors: [.black.opacity(0.15), .clear, .black.opacity(0.45)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
             } else {
                 Image(systemName: AppSymbol.photo)
                     .font(.title3)
-                    .foregroundColor(Color(uiColor: .systemGray3))
+                    .foregroundColor(theme.textFaint)
             }
         }
         .clipped()
-        .onAppear {
-            guard image == nil, !fileName.isEmpty else { return }
-            DispatchQueue.global(qos: .userInitiated).async {
-                // 파일 경로 확인
-                let containerURL = FileManager.default.containerURL(
-                    forSecurityApplicationGroupIdentifier: AppGroup.identifier
-                )
-                let filePath = containerURL?.appendingPathComponent("Images").appendingPathComponent(fileName).path ?? "nil"
-                let exists = FileManager.default.fileExists(atPath: filePath)
-                print("🖼️ [MemoImageBackground] fileName='\(fileName)' path='\(filePath)' exists=\(exists)")
+        .animation(reduceMotion ? nil : .easeOut(duration: 0.18), value: image != nil)
+        .onAppear(perform: load)
+    }
 
-                let loaded = MemoStore.shared.loadImage(fileName: fileName)
-                print("🖼️ [MemoImageBackground] loaded=\(loaded != nil ? "✅ \(Int(loaded!.size.width))x\(Int(loaded!.size.height))" : "❌ nil")")
-                DispatchQueue.main.async { image = loaded }
-            }
+    private func load() {
+        guard image == nil, !fileName.isEmpty else { return }
+        // 캐시에 있으면 **그릴 때 바로** 얹는다 - 비동기로 미루면 빈 자리가 한 프레임 보인다.
+        if let cached = Self.cache.object(forKey: fileName as NSString) {
+            image = cached
+            return
+        }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let loaded = MemoStore.shared.loadImage(fileName: fileName)
+            if let loaded { Self.cache.setObject(loaded, forKey: fileName as NSString) }
+            DispatchQueue.main.async { image = loaded }
         }
     }
 }

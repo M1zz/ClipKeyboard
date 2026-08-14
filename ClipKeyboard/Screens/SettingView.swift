@@ -686,8 +686,8 @@ struct DisplaySettingsView: View {
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
     /// 카드 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
     /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
-    @AppStorage("contentHintEnabled", store: AppGroup.defaults)
-    private var contentHintEnabled: Bool = true
+    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
+    private var contentHintEnabled: Bool = false
 
     var body: some View {
         List {

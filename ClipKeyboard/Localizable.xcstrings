@@ -27865,6 +27865,16 @@
           }
         }
       }
+    },
+    "잠긴 값이에요. 눌러서 인증하면 입력돼요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This value is locked. Tap the key and authenticate to insert it."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

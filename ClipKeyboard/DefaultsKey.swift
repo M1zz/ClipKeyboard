@@ -17,6 +17,10 @@ enum DefaultsKey {
     /// 날인·편철·봉인 등 delight 연출과 햅틱의 마스터 스위치. 값이 없으면 켜짐(기본).
     /// App Group - 키보드 익스텐션도 같은 값을 읽어 입력 햅틱을 끈다.
     static let delightEffectsEnabled = "delight.effects.enabled.v1"
+    /// 카드가 2초쯤 머물면 제목 아래에 내용이 살며시 맺혔다 사라지는 연출(App Group).
+    /// ⚠️ 기본값은 **꺼짐**이다. 목록을 훑는 동안 카드마다 글이 맺혔다 흩어지면 눈이 쉴 곳이
+    ///    없다. 보고 싶은 사람은 설정 > 화면과 표시에서 켠다.
+    static let contentHintEnabled = "contentHintEnabled"
     static let didRemoveAds = "didRemoveAds"
     /// 단축어가 무료 한도 한 칸 앞(9개)에 **처음** 닿은 시각 (App Group, epoch 초).
     /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를

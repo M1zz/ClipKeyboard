@@ -1388,6 +1388,21 @@ struct KeyboardView: View {
                         }
                     }
                 }
+            } else if memo.isSecure {
+                // ⚠️ **보안 단축어의 값은 길게 눌러도 보이지 않는다.**
+                //    길게 누르기는 인증을 거치지 않는 길이다. 여기서 값을 그리면 잠가 둔
+                //    의미가 사라진다(어깨너머로 보는 사람에게는 잠금이 없는 것과 같다).
+                //    콤보 쪽은 원래부터 가리고 있었는데 이 한 줄만 빠져 있었다.
+                HStack(spacing: 8) {
+                    Image(systemName: AppSymbol.lockFill)
+                        .font(.footnote)
+                        .foregroundColor(theme.textMuted)
+                    Text(NSLocalizedString("잠긴 값이에요. 눌러서 인증하면 입력돼요.",
+                                           comment: "Long-press preview: secure memo value is hidden"))
+                        .font(.footnote)
+                        .foregroundColor(theme.textMuted)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             } else {
                 Text(memo.value.kbTemplateAwareAttributed(font: .footnote.weight(.semibold),
                                                           accent: theme.accent, accentSoft: theme.accentSoft))
@@ -1398,7 +1413,15 @@ struct KeyboardView: View {
             }
         }
         .padding(16)
-        .frame(minWidth: 280, idealWidth: 320, maxWidth: 360, minHeight: 100, idealHeight: 200, maxHeight: 400)
+        // ⚠️ 앱 무대와 익스텐션은 **쓸 수 있는 넓이가 다르다.** 익스텐션의 미리보기는
+        //    키보드 창 밖으로 나갈 수 없어 크게 잡아도 잘린다. 앱에서는 화면 전체가
+        //    우리 것이라 더 크게 보여줄 수 있다. 그래서 한 값으로 두지 않는다.
+        .frame(minWidth: 280,
+               idealWidth: hostKind == .inApp ? 380 : 340,
+               maxWidth: hostKind == .inApp ? 420 : 360,
+               minHeight: 120,
+               idealHeight: hostKind == .inApp ? 320 : 260,
+               maxHeight: hostKind == .inApp ? 520 : 400)
         .background(theme.surface)
     }
 

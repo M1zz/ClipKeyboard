@@ -255,6 +255,8 @@ struct InAppKeyboardStage: View {
         }
     }
 
+    /// 대화 영역은 **무대와 같은 바탕**이다. 여기만 다른 색을 깔면 말풍선이 뜬 자리가
+    /// 판때기처럼 보이고, 아래 키보드와도 배경이 어긋난다.
     private var conversation: some View {
         ScrollViewReader { proxy in
             ScrollView {
@@ -297,7 +299,10 @@ struct InAppKeyboardStage: View {
                         .foregroundColor(mine ? .white : theme.text)
                         .padding(.horizontal, 13)
                         .padding(.vertical, 9)
-                        .background(mine ? Color.accentColor : theme.surface)
+                        // ⚠️ 받은 말풍선은 **바탕보다 한 단 회색**이어야 한다. 예전에는 `surface`
+                        //    (밝은 테마에서 흰색)라 바탕과 거의 같은 밝기여서 풍선이 아니라
+                        //    글자만 떠 있는 것처럼 보였다. `surfaceAlt` 가 그 한 단이다.
+                        .background(mine ? Color.accentColor : theme.surfaceAlt)
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
                         .textSelection(.enabled)
                 }

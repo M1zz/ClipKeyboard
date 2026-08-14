@@ -186,8 +186,8 @@ struct ClipKeyboardList: View {
     /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
     @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
-    @AppStorage("contentHintEnabled", store: AppGroup.defaults)
-    private var contentHintEnabled: Bool = true
+    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
+    private var contentHintEnabled: Bool = false
 
     // Category
     @State private var showCategoryManagement: Bool = false
@@ -1927,14 +1927,9 @@ struct ClipKeyboardList: View {
     @ViewBuilder
     private func memoCardBackground(memo: Memo, imageFileName: String, hasImage: Bool) -> some View {
         if hasImage {
-            ZStack {
-                MemoImageBackground(fileName: imageFileName)
-                LinearGradient(
-                    colors: [.black.opacity(0.15), .clear, .black.opacity(0.45)],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
+            // 그늘(가독성 그라디언트)은 `MemoImageBackground` 안으로 들어갔다.
+            // 여기서 얹으면 사진이 오기 전에도 깔려서 카드가 검게 보인다.
+            MemoImageBackground(fileName: imageFileName)
         } else if memo.isFavorite {
             // 즐겨찾기 = 분홍 (카테고리 색이므로 항상 표시)
             Color.clipFavorite
