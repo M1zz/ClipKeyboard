@@ -48,9 +48,12 @@ struct SettingView: View {
     // 앱을 처음 둘러보거나 스크린샷·영상을 찍을 때, 잘 짜인 샘플 한 벌을 즉시 켜고 끌 수 있게 한다.
     // 켤 때 내 데이터는 백업되고 끄면 그대로 복원된다(DemoDataService).
     // ⚠️ body의 List 안에 인라인으로 두면 타입 체크 시간이 폭발한다(빌드 실패) - 반드시 분리 유지.
+    /// 데모 토글 한 줄 - "화면과 표시" 섹션의 **맨 아래**에 붙는다.
+    /// ⚠️ 예전에는 자기 섹션(제목 "데모")을 따로 갖고 위에서 두 번째에 있었다. 둘러보기용
+    ///    가짜 데이터가 매일 쓰는 설정보다 먼저 보일 이유가 없다.
     @ViewBuilder
-    private var demoSection: some View {
-        Section {
+    private var demoToggleRow: some View {
+        VStack(alignment: .leading, spacing: 4) {
             Toggle(isOn: Binding(
                 get: { demoDataActive },
                 set: { newValue in
@@ -68,11 +71,11 @@ struct SettingView: View {
                 Label(NSLocalizedString("데모 데이터 사용", comment: "Demo data toggle"),
                       systemImage: AppSymbol.sparkles)
             }
-        } header: {
-            Text(NSLocalizedString("데모", comment: "Settings section: demo"))
-        } footer: {
+            // 섹션 꼬리말은 "입력 반응" 것이라, 이 줄의 설명은 바로 아래에 붙인다.
             Text(NSLocalizedString("샘플 단축어와 클립보드 기록을 채워 앱을 바로 체험해 봅니다. 켜는 순간 내 데이터는 안전하게 보관되고, 끄면 그대로 돌아옵니다.", comment: "Demo data section explanation"))
-                .font(.body)
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -134,6 +137,10 @@ struct SettingView: View {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
+            // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
+            //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
+            //    자리는 화면을 바꾸는 것들 뒤에 둔다(자주 안 만지는 것은 아래로).
+            if showsDemoSection { demoToggleRow }
         } header: {
             Text(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"))
         } footer: {
@@ -419,10 +426,11 @@ struct SettingView: View {
                         .foregroundColor(theme.textMuted).font(.body)
                 }
             }
-            // 표시 방식이 아니라 내 기록이다 - 예전에는 "디스플레이"에 있었다.
-            NavigationLink(destination: UsagePassportView()) {
-                Label(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                      systemImage: AppSymbol.checkmarkSealFill)
+            // ⚠️ 사용 기록과 자리를 맞바꿨다. 클립보드는 **키보드 안에서 꺼내 쓰는 것**이지
+            //    탭을 열어 들여다보는 것이 아니었고, 사용 기록은 가끔 열어 보는 것이라 탭이 맞다.
+            NavigationLink(destination: ClipboardList()) {
+                Label(NSLocalizedString("클립보드 기록", comment: "Clipboard history settings entry"),
+                      systemImage: AppSymbol.clockArrowCirclepath)
             }
             // 되돌릴 수 없는 작업 - 2단계 확인을 거친다.
             // 개인정보 처리방침이 약속한 "앱 내에서 데이터 삭제" 경로이기도 하다.
@@ -561,8 +569,6 @@ struct SettingView: View {
     var body: some View {
         List {
             proSection
-            // 처음 둘러보는 사람에게만 보인다. 자세한 조건은 showsDemoSection 참고.
-            if showsDemoSection { demoSection }
             keyboardSection
             shortcutsSection
             appearanceSection

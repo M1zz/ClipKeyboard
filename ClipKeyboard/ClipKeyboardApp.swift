@@ -1068,11 +1068,14 @@ struct MainTabView: View {
     /// (`SnippetsTab` 이 쓰는 것과 **같은 키·같은 저장소**라 전환 버튼을 누르면 여기도 바뀐다)
     @AppStorage(DefaultsKey.snippetsTabStyle) private var snippetsStyleRaw: String = SnippetsTabStyle.list.rawValue
 
+    /// 클립보드 기록 시트(맥 메뉴·딥링크에서 열린다).
+    @State private var showClipboardSheet = false
+
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
     @State private var selection: MainTab = .snippets
 
     private enum MainTab: Hashable {
-        case snippets, clipboard, settings, search
+        case snippets, usage, settings, search
     }
 
     private var snippetsStyle: SnippetsTabStyle {
@@ -1116,10 +1119,14 @@ struct MainTabView: View {
                 value: MainTab.snippets, role: nil) {
                 SnippetsTab()
             }
-            Tab(NSLocalizedString("클립보드", comment: "Tab: clipboard history"),
-                systemImage: AppSymbol.clockArrowCirclepath,
-                value: MainTab.clipboard, role: nil) {
-                NavigationStack { ClipboardList().alwaysTransparentBars() }
+            // ⚠️ 예전에는 이 자리가 **클립보드**였고 사용 기록은 설정 안에 있었다. 둘을 맞바꾼다.
+            //    클립보드는 키보드 안에서 꺼내 쓰는 것이지 탭을 열어 들여다보는 것이 아니었고,
+            //    사용 기록(내가 얼마나 아꼈나)은 오히려 가끔 열어 보는 자리라 탭이 어울린다.
+            //    클립보드는 설정 > 내 데이터에 있고, 맥 메뉴/딥링크는 아래 시트로 계속 닿는다.
+            Tab(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                systemImage: AppSymbol.checkmarkSealFill,
+                value: MainTab.usage, role: nil) {
+                NavigationStack { UsagePassportView().alwaysTransparentBars() }
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
                 systemImage: AppSymbol.gearshape,
@@ -1131,6 +1138,14 @@ struct MainTabView: View {
                 value: MainTab.search, role: .search) {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
+        }
+        // 맥 메뉴·딥링크의 "클립보드 기록"이 갈 곳 - 탭에서 내려온 뒤로도 길은 남긴다.
+        // ⚠️ 예전에는 이 알림을 **아무도 받지 않아** 메뉴를 눌러도 조용히 아무 일이 없었다.
+        .sheet(isPresented: $showClipboardSheet) {
+            NavigationStack { ClipboardList() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showClipboardHistory)) { _ in
+            showClipboardSheet = true
         }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면

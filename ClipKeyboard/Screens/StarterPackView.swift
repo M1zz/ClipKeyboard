@@ -13,7 +13,9 @@ import LeeoKit
 /// 스타터팩에 담길 한 항목 (활용 시나리오 1개).
 struct StarterPackItem: Identifiable {
     let id = UUID()
-    let emoji: String
+    /// 줄 앞에 서는 심볼 - 이 항목이 어느 페르소나의 이야기에서 왔는지.
+    /// (예전에는 이모지였는데, 활용 사례와 같은 데이터를 쓰면서 그쪽의 심볼을 그대로 따른다)
+    let icon: String
     let title: String
     let example: String
     let feature: ScenarioFeature
@@ -33,21 +35,27 @@ struct StarterPackView: View {
     init(onComplete: @escaping (Int) -> Void = { _ in }) {
         self.onComplete = onComplete
 
-        // 선택된 페르소나에 맞는 시나리오만 모아 스타터팩 구성.
-        // 안내성(smartClipboard) 시나리오는 저장 대상이 아니므로 제외.
+        // ⚠️ **활용 사례와 같은 글에서 가져온다**(`personaGuides`). 예전에는 이 화면만
+        //    옛 `usageCategories` 를 읽어서, 같은 "활용법"이 두 벌로 존재했다. 활용 사례에서
+        //    읽은 상황이 스타터팩에는 없고, 스타터팩에 있는 것이 활용 사례에는 없었다.
+        //    읽는 화면과 담는 화면이 같은 것을 말해야 "그거 담을게"가 성립한다.
+        //    (`usageCategories` 는 이제 제안(SuggestionManager) 쪽에서만 쓴다)
         let persona = CategoryStore.shared.selectedPersona
+        let guides = personaGuides
+        // 고른 페르소나의 것을 먼저, 없으면 전체에서.
+        let ordered = guides.filter { persona == nil || $0.persona == persona! }.isEmpty
+            ? guides
+            : guides.filter { persona == nil || $0.persona == persona! }
         var built: [StarterPackItem] = []
-        for category in usageCategories {
-            for sc in category.scenarios where sc.feature != .smartClipboard {
-                let matches = persona == nil || sc.personas.isEmpty || sc.personas.contains(persona!)
-                if matches {
-                    built.append(StarterPackItem(
-                        emoji: category.emoji,
-                        title: sc.title,
-                        example: sc.example,
-                        feature: sc.feature
-                    ))
-                }
+        for guide in ordered {
+            // 안내성(smartClipboard) 시나리오는 저장할 문구가 아니라 설명이라 제외한다.
+            for sc in guide.scenarios where sc.feature != .smartClipboard {
+                built.append(StarterPackItem(
+                    icon: guide.persona.icon,
+                    title: sc.title,
+                    example: sc.example,
+                    feature: sc.feature
+                ))
             }
         }
         let trimmed = Array(built.prefix(12))
@@ -118,8 +126,10 @@ struct StarterPackView: View {
             if isOn { selected.remove(item.id) } else { selected.insert(item.id) }
         } label: {
             HStack(alignment: .top, spacing: 12) {
-                Text(item.emoji)
-                    .font(.system(.title3))
+                Image(systemName: item.icon)
+                    .font(.title3)
+                    .foregroundColor(item.feature.color)
+                    .frame(width: 26)
                     .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 4) {

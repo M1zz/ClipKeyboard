@@ -962,6 +962,17 @@
         }
       }
     },
+    "%@ 완료" : {
+      "comment" : "Copied notice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ done"
+          }
+        }
+      }
+    },
     "%@ 입력" : {
       "comment" : "Template fill title for a single placeholder, e.g. 금액 입력",
       "localizations" : {
@@ -1225,6 +1236,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Counted from %@."
+          }
+        }
+      }
+    },
+    "%1$@ (%2$@)" : {
+      "comment" : "Event label with slice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ (%2$@)"
           }
         }
       }
@@ -7302,6 +7324,28 @@
         }
       }
     },
+    "Pro 권유를 누름" : {
+      "comment" : "Event label: pro nudge tapped",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapped a Pro nudge"
+          }
+        }
+      }
+    },
+    "Pro 권유를 봄" : {
+      "comment" : "Event label: pro nudge shown",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saw a Pro nudge"
+          }
+        }
+      }
+    },
     "Pro 버전에서 Face ID/Touch ID 잠금을 사용할 수 있습니다." : {
       "comment" : "Biometric desc",
       "localizations" : {
@@ -9479,6 +9523,40 @@
         }
       }
     },
+    "가져오기 완료" : {
+      "comment" : "Import completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Complete"
+          }
+        }
+      }
+    },
+    "간격" : {
+      "comment" : "Interval label\nInterval picker label",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interval"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        }
+      }
+    },
     "가끔 새가 날아와 카드에 앉았다 가요." : {
       "comment" : "Living skin description: bird",
       "localizations" : {
@@ -9512,57 +9590,6 @@
         }
       }
     },
-    "가져가기" : {
-      "comment" : "Share/save the receipt",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        }
-      }
-    },
-    "가져올 단축어가 없어요" : {
-      "comment" : "No snippets to import",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No snippets to import"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "가져올 단축어가 없어요"
-          }
-        }
-      }
-    },
-    "간격" : {
-      "comment" : "Interval label\nInterval picker label",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Interval"
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        }
-      }
-    },
     "가입할 때 %@ 적기" : {
       "comment" : "Onboarding situation: type email when signing up",
       "localizations" : {
@@ -9591,6 +9618,17 @@
         }
       }
     },
+    "가져가기" : {
+      "comment" : "Share/save the receipt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
     "가져오기 실패" : {
       "comment" : "Bulk import failed alert title\nImport failed",
       "localizations" : {
@@ -9602,13 +9640,19 @@
         }
       }
     },
-    "가져오기 완료" : {
-      "comment" : "Import completed",
+    "가져올 단축어가 없어요" : {
+      "comment" : "No snippets to import",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Import Complete"
+            "value" : "No snippets to import"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가져올 단축어가 없어요"
           }
         }
       }
@@ -9720,6 +9764,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add value"
+          }
+        }
+      }
+    },
+    "값 크게 보기" : {
+      "comment" : "Accessibility action: peek at the value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View value larger"
           }
         }
       }
@@ -10138,6 +10193,17 @@
         }
       }
     },
+    "결제가 실패함" : {
+      "comment" : "Event label: purchase failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase failed"
+          }
+        }
+      }
+    },
     "결제까지 간 비율이에요." : {
       "comment" : "Marketing hint: pro",
       "localizations" : {
@@ -10145,6 +10211,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Share that reached purchase."
+          }
+        }
+      }
+    },
+    "결제를 취소함" : {
+      "comment" : "Event label: purchase cancelled",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelled the purchase"
           }
         }
       }
@@ -10303,6 +10380,17 @@
         }
       }
     },
+    "구매 버튼을 누름" : {
+      "comment" : "Event label: purchase button tapped",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapped the buy button"
+          }
+        }
+      }
+    },
     "구매 승인 대기 중입니다" : {
       "comment" : "Purchase pending",
       "extractionState" : "stale",
@@ -10317,6 +10405,17 @@
     },
     "구매 완료" : {
       "comment" : "Funnel stage: purchase completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchased"
+          }
+        }
+      }
+    },
+    "구매함" : {
+      "comment" : "Event label: purchased",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11003,8 +11102,19 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
+    "꾸준히 쓰는 사람" : {
+      "comment" : "User segment: regular user",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regulars"
+          }
+        }
+      }
+    },
+    "끄기" : {
+      "comment" : "Nudge: turn off",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11014,8 +11124,8 @@
         }
       }
     },
-    "끄기" : {
-      "comment" : "Nudge: turn off",
+    "끔" : {
+      "comment" : "Toggle state: off",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12570,6 +12680,17 @@
         }
       }
     },
+    "단축어를 만듦" : {
+      "comment" : "Event label: shortcut created",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcut created"
+          }
+        }
+      }
+    },
     "단축어를 분류할 카테고리 이름을 입력하세요." : {
       "comment" : "Add category alert message",
       "localizations" : {
@@ -13466,6 +13587,17 @@
         }
       }
     },
+    "만드는 건 쉬운데 꺼내 쓰는 게 어려운 거예요. 찾기와 순서를 봐야 해요." : {
+      "comment" : "Segment hint: hoarder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Making is easy for them, retrieving is not. Look at search and ordering."
+          }
+        }
+      }
+    },
     "만든 걸 눌러보세요. 바로 복사돼요." : {
       "comment" : "First-use coach: tap the shortcut you made",
       "localizations" : {
@@ -13499,6 +13631,17 @@
         }
       }
     },
+    "만들고 안 쓴 사람" : {
+      "comment" : "User segment: created but never used",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created but never used"
+          }
+        }
+      }
+    },
     "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리" : {
       "comment" : "Changelog 4.3.8 item 3",
       "localizations" : {
@@ -13517,6 +13660,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Created but never used. High means the value isn't landing."
+          }
+        }
+      }
+    },
+    "만들었는데 쓸 자리를 못 찾았어요. 키보드를 켜는 데까지 데려가야 해요." : {
+      "comment" : "Segment hint: lost",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They made one but found nowhere to use it. They need to reach turning the keyboard on."
+          }
+        }
+      }
+    },
+    "많이 쓰는 사람" : {
+      "comment" : "User segment: heavy user",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heavy users"
           }
         }
       }
@@ -16087,6 +16252,17 @@
         }
       }
     },
+    "사용 유형" : {
+      "comment" : "Usage stats section: user segments",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User segments"
+          }
+        }
+      }
+    },
     "사용 중" : {
       "comment" : "Changelog: currently installed version badge",
       "localizations" : {
@@ -17154,6 +17330,17 @@
         }
       }
     },
+    "선택 해제" : {
+      "comment" : "Chart: clear the selected bar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear selection"
+          }
+        }
+      }
+    },
     "선택됨" : {
       "comment" : "Bulk import key preview: picked for bundling\nCombo checkbox: selected",
       "localizations" : {
@@ -18134,6 +18321,17 @@
         }
       }
     },
+    "쌓아만 두는 사람" : {
+      "comment" : "User segment: many shortcuts, mostly unused",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collectors (mostly unused)"
+          }
+        }
+      }
+    },
     "써볼게요" : {
       "comment" : "Accept category activation",
       "extractionState" : "manual",
@@ -18441,6 +18639,17 @@
         }
       }
     },
+    "아직 안 만든 사람" : {
+      "comment" : "User segment: created nothing yet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Created nothing yet"
+          }
+        }
+      }
+    },
     "아직 올라온 진단이 없어요. 크래시 정보는 iOS가 하루 한 번꼴로 묶어서 보내기 때문에, 방금 난 크래시는 바로 보이지 않습니다." : {
       "comment" : "Crash reports empty state",
       "localizations" : {
@@ -18482,6 +18691,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not handled yet"
+          }
+        }
+      }
+    },
+    "아직 판단 중이에요. 이 무리가 어디로 가는지가 다음 버전의 답이에요." : {
+      "comment" : "Segment hint: dabbling",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still deciding. Where this group goes is the answer for the next version."
           }
         }
       }
@@ -18760,6 +18980,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap in the app to pick a value from a list; on the keyboard, a 2/3 split inserts values one by one"
+          }
+        }
+      }
+    },
+    "앱을 연 횟수" : {
+      "comment" : "Event label: app opened",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App opened"
           }
         }
       }
@@ -19660,6 +19891,17 @@
         }
       }
     },
+    "오퍼 코드를 씀" : {
+      "comment" : "Event label: offer code redeemed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeemed an offer code"
+          }
+        }
+      }
+    },
     "온라인" : {
       "comment" : "Placeholder example: place online",
       "localizations" : {
@@ -20169,6 +20411,17 @@
         }
       }
     },
+    "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요." : {
+      "comment" : "Segment hint: heavy",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app is part of their day. Reviews and word of mouth come from here."
+          }
+        }
+      }
+    },
     "이 자리를 뭐라고 부를까요?" : {
       "comment" : "Template tutorial: name step headline",
       "localizations" : {
@@ -20232,6 +20485,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This offer appears only once. You can still buy at the regular price in Settings later."
+          }
+        }
+      }
+    },
+    "이 진단 복사" : {
+      "comment" : "Copy this diagnostic",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy this diagnostic"
           }
         }
       }
@@ -21036,6 +21300,17 @@
         }
       }
     },
+    "이제 막 써 보는 사람" : {
+      "comment" : "User segment: just getting started",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just getting started"
+          }
+        }
+      }
+    },
     "이제 어디서든 이렇게 쓰면 돼요." : {
       "comment" : "Paste practice: success subline",
       "localizations" : {
@@ -21684,6 +21959,17 @@
         }
       }
     },
+    "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요." : {
+      "comment" : "Segment hint: regular",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They've settled in. This is the group that converts when they hit the limit."
+          }
+        }
+      }
+    },
     "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다." : {
       "comment" : "Bulk import: secure footer",
       "extractionState" : "stale",
@@ -21858,6 +22144,17 @@
         }
       }
     },
+    "잠긴 단축어라 복사되지 않아요. 눌러서 인증하면 입력돼요." : {
+      "comment" : "Toast: secure memo cannot be copied by long press",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked shortcuts can't be copied. Tap the key and authenticate to insert it."
+          }
+        }
+      }
+    },
     "잠긴 문구" : {
       "comment" : "Passport stamp label for a locked (secure) shortcut",
       "localizations" : {
@@ -21881,6 +22178,34 @@
         }
       }
     },
+    "저장된 내용을 불러오지 못했어요" : {
+      "comment" : "Data recovery title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load your saved data"
+          }
+        }
+      }
+    },
+    "저장된 버전이 없습니다" : {
+      "comment" : "No backup versions available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No saved versions yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 버전이 없습니다"
+          }
+        }
+      }
+    },
     "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다." : {
       "comment" : "Clear all confirm message",
       "localizations" : {
@@ -21888,6 +22213,47 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All saved clipboard items will be deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
+    "저장에 실패했습니다. 다시 시도해주세요." : {
+      "comment" : "Memo save failed toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to save. Please try again."
+          }
+        }
+      }
+    },
+    "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
+      "comment" : "Practice step 3 for nomad persona",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap your saved IBAN or passport to fill in forms instantly"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
+          }
+        }
+      }
+    },
+    "저장할 텍스트를 입력하세요" : {
+      "comment" : "Quick add placeholder",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter text to save"
           }
         }
       }
@@ -21932,17 +22298,6 @@
         }
       }
     },
-    "저장된 내용을 불러오지 못했어요" : {
-      "comment" : "Data recovery title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We couldn't load your saved data"
-          }
-        }
-      }
-    },
     "저장된 단축어 (키보드에서 보임)" : {
       "comment" : "Saved memos hint label",
       "localizations" : {
@@ -21962,23 +22317,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Switch to saved snippet list mode."
-          }
-        }
-      }
-    },
-    "저장된 버전이 없습니다" : {
-      "comment" : "No backup versions available",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No saved versions yet"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장된 버전이 없습니다"
           }
         }
       }
@@ -22016,17 +22354,6 @@
         }
       }
     },
-    "저장에 실패했습니다. 다시 시도해주세요." : {
-      "comment" : "Memo save failed toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to save. Please try again."
-          }
-        }
-      }
-    },
     "저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠·콤보를 손보려면 목록으로 넘어가세요." : {
       "comment" : "Bulk import: keyboard preview footer",
       "extractionState" : "stale",
@@ -22046,36 +22373,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This is how your keyboard will look. Tap a key to leave it out; edit titles and locks in the list."
-          }
-        }
-      }
-    },
-    "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요" : {
-      "comment" : "Practice step 3 for nomad persona",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap your saved IBAN or passport to fill in forms instantly"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요"
-          }
-        }
-      }
-    },
-    "저장할 텍스트를 입력하세요" : {
-      "comment" : "Quick add placeholder",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter text to save"
           }
         }
       }
@@ -22187,6 +22484,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ of all · %2$@ of previous step"
+          }
+        }
+      }
+    },
+    "전체 복사" : {
+      "comment" : "Copy all diagnostics",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy all"
           }
         }
       }
@@ -23303,6 +23611,17 @@
         }
       }
     },
+    "처음 안내를 끝냄" : {
+      "comment" : "Event label: onboarding completed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished onboarding"
+          }
+        }
+      }
+    },
     "처음에 만든 단축어, 새로 쓰지 않고 그대로 템플릿으로 바꿀 수 있어요." : {
       "comment" : "Tutorial invite body: make template",
       "localizations" : {
@@ -23351,6 +23670,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "천지인 (3x3)"
+          }
+        }
+      }
+    },
+    "첫 단축어까지 못 갔어요. 여기가 막히면 그 뒤는 전부 안 일어나요." : {
+      "comment" : "Segment hint: not started",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They never made a first shortcut. If this is blocked, nothing after it happens."
           }
         }
       }
@@ -23460,6 +23790,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trial active: %d days remaining"
+          }
+        }
+      }
+    },
+    "체험을 시작함" : {
+      "comment" : "Event label: trial started",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started the trial"
           }
         }
       }
@@ -24187,40 +24528,6 @@
         }
       }
     },
-    "켜짐" : {
-      "comment" : "On",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        }
-      }
-    },
-    "켠 사용자당 평균 입력" : {
-      "comment" : "Uses per active install",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avg per enabled user"
-          }
-        }
-      }
-    },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        }
-      }
-    },
     "켜기" : {
       "comment" : "Turn on the keyboard",
       "localizations" : {
@@ -24245,6 +24552,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn on to also type Korean on the keyboard"
+          }
+        }
+      }
+    },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "켠 사용자당 평균 입력" : {
+      "comment" : "Uses per active install",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avg per enabled user"
           }
         }
       }
@@ -25166,6 +25507,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Try the Keyboard Now?"
+          }
+        }
+      }
+    },
+    "키보드로 입력함" : {
+      "comment" : "Event label: keyboard used",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typed with the keyboard"
           }
         }
       }
@@ -26735,6 +27087,28 @@
         }
       }
     },
+    "페이월을 닫음" : {
+      "comment" : "Event label: paywall dismissed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismissed the paywall"
+          }
+        }
+      }
+    },
+    "페이월을 봄" : {
+      "comment" : "Event label: paywall shown",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saw the paywall"
+          }
+        }
+      }
+    },
     "편집" : {
       "comment" : "Inline capture card: edit before saving",
       "localizations" : {
@@ -27079,6 +27453,17 @@
         }
       }
     },
+    "하나만 계속 쓰는 사람" : {
+      "comment" : "User segment: one shortcut, used a lot",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One shortcut, used a lot"
+          }
+        }
+      }
+    },
     "하세요" : {
       "comment" : "Preview key 2",
       "extractionState" : "stale",
@@ -27191,6 +27576,17 @@
         }
       }
     },
+    "한 가지 일에 딱 맞게 쓰고 있어요. 두 번째 쓸모를 알려주면 늘어나요." : {
+      "comment" : "Segment hint: one trick",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They use it for exactly one job. Show them a second use and it grows."
+          }
+        }
+      }
+    },
     "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요." : {
       "comment" : "Type breakdown footer",
       "localizations" : {
@@ -27220,6 +27616,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Move all at once"
+          }
+        }
+      }
+    },
+    "한 사람은 한 무리에만 들어가요(합이 전체와 같아요). 위에서부터 걸리는 첫 무리로 정해져요. '만들고 안 쓴 사람'이 크면 키보드를 켜는 데까지 못 간 거고, '쌓아만 두는 사람'이 크면 만드는 것보다 꺼내 쓰는 게 어려운 거예요." : {
+      "comment" : "User segments footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each person lands in exactly one group (the counts add up to the total), decided by the first rule that matches from the top. A large \"created but never used\" means people aren't reaching the keyboard; a large \"collectors\" means retrieving is harder than making."
           }
         }
       }
@@ -27286,6 +27693,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batch imports now preview as your keyboard before saving, tap a key to leave it out"
+          }
+        }
+      }
+    },
+    "한꺼번에 가져옴" : {
+      "comment" : "Event label: bulk imported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulk imported"
           }
         }
       }
@@ -27877,386 +28295,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
-          }
-        }
-      }
-    },
-    "값 크게 보기" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View value larger"
-          }
-        }
-      }
-    },
-    "선택 해제" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear selection"
-          }
-        }
-      }
-    },
-    "아직 안 만든 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Created nothing yet"
-          }
-        }
-      }
-    },
-    "만들고 안 쓴 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Created but never used"
-          }
-        }
-      }
-    },
-    "많이 쓰는 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Heavy users"
-          }
-        }
-      }
-    },
-    "하나만 계속 쓰는 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One shortcut, used a lot"
-          }
-        }
-      }
-    },
-    "쌓아만 두는 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collectors (mostly unused)"
-          }
-        }
-      }
-    },
-    "꾸준히 쓰는 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Regulars"
-          }
-        }
-      }
-    },
-    "이제 막 써 보는 사람" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Just getting started"
-          }
-        }
-      }
-    },
-    "첫 단축어까지 못 갔어요. 여기가 막히면 그 뒤는 전부 안 일어나요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "They never made a first shortcut. If this is blocked, nothing after it happens."
-          }
-        }
-      }
-    },
-    "만들었는데 쓸 자리를 못 찾았어요. 키보드를 켜는 데까지 데려가야 해요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "They made one but found nowhere to use it. They need to reach turning the keyboard on."
-          }
-        }
-      }
-    },
-    "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The app is part of their day. Reviews and word of mouth come from here."
-          }
-        }
-      }
-    },
-    "한 가지 일에 딱 맞게 쓰고 있어요. 두 번째 쓸모를 알려주면 늘어나요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "They use it for exactly one job. Show them a second use and it grows."
-          }
-        }
-      }
-    },
-    "만드는 건 쉬운데 꺼내 쓰는 게 어려운 거예요. 찾기와 순서를 봐야 해요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Making is easy for them, retrieving is not. Look at search and ordering."
-          }
-        }
-      }
-    },
-    "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "They've settled in. This is the group that converts when they hit the limit."
-          }
-        }
-      }
-    },
-    "아직 판단 중이에요. 이 무리가 어디로 가는지가 다음 버전의 답이에요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Still deciding. Where this group goes is the answer for the next version."
-          }
-        }
-      }
-    },
-    "사용 유형" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "User segments"
-          }
-        }
-      }
-    },
-    "한 사람은 한 무리에만 들어가요(합이 전체와 같아요). 위에서부터 걸리는 첫 무리로 정해져요. '만들고 안 쓴 사람'이 크면 키보드를 켜는 데까지 못 간 거고, '쌓아만 두는 사람'이 크면 만드는 것보다 꺼내 쓰는 게 어려운 거예요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Each person lands in exactly one group (the counts add up to the total), decided by the first rule that matches from the top. A large \"created but never used\" means people aren't reaching the keyboard; a large \"collectors\" means retrieving is harder than making."
-          }
-        }
-      }
-    },
-    "앱을 연 횟수" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App opened"
-          }
-        }
-      }
-    },
-    "단축어를 만듦" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shortcut created"
-          }
-        }
-      }
-    },
-    "키보드로 입력함" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Typed with the keyboard"
-          }
-        }
-      }
-    },
-    "한꺼번에 가져옴" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bulk imported"
-          }
-        }
-      }
-    },
-    "처음 안내를 끝냄" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finished onboarding"
-          }
-        }
-      }
-    },
-    "페이월을 봄" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saw the paywall"
-          }
-        }
-      }
-    },
-    "구매 버튼을 누름" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tapped the buy button"
-          }
-        }
-      }
-    },
-    "구매함" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Purchased"
-          }
-        }
-      }
-    },
-    "페이월을 닫음" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dismissed the paywall"
-          }
-        }
-      }
-    },
-    "결제를 취소함" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelled the purchase"
-          }
-        }
-      }
-    },
-    "결제가 실패함" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Purchase failed"
-          }
-        }
-      }
-    },
-    "체험을 시작함" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Started the trial"
-          }
-        }
-      }
-    },
-    "오퍼 코드를 씀" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Redeemed an offer code"
-          }
-        }
-      }
-    },
-    "Pro 권유를 봄" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saw a Pro nudge"
-          }
-        }
-      }
-    },
-    "Pro 권유를 누름" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tapped a Pro nudge"
-          }
-        }
-      }
-    },
-    "%1$@ (%2$@)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@ (%2$@)"
-          }
-        }
-      }
-    },
-    "전체 복사" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy all"
-          }
-        }
-      }
-    },
-    "이 진단 복사" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy this diagnostic"
-          }
-        }
-      }
-    },
-    "%@ 완료" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ done"
-          }
-        }
-      }
-    },
-    "잠긴 단축어라 복사되지 않아요. 눌러서 인증하면 입력돼요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Locked shortcuts can't be copied. Tap the key and authenticate to insert it."
           }
         }
       }
