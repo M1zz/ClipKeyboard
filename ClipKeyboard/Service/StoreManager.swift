@@ -189,7 +189,7 @@ class StoreManager: ObservableObject {
 
         // Pro 이력이 생기면 v4.0 그랜드파더 플래그를 영구 기록.
         if isPro {
-            UserDefaults(suiteName: AppGroup.identifier)?
+            AppGroup.defaults?
                 .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
         }
     }
@@ -237,7 +237,7 @@ class StoreManager: ObservableObject {
         print("🩺 [Diag]     trialDaysRemaining= \(ProFeatureManager.trialDaysRemaining)")
 
         // 3) App Group UserDefaults 원본 값
-        let d = UserDefaults(suiteName: AppGroup.identifier)
+        let d = AppGroup.defaults
         print("🩺 [Diag] -- App Group UserDefaults (\(AppGroup.identifier)) --")
         func dump(_ key: String) {
             let raw = d?.object(forKey: key)

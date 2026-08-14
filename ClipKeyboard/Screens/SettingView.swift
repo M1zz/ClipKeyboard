@@ -20,7 +20,7 @@ struct SettingView: View {
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
     /// 기기 간 메모 동기화(실험적) - App Group에 저장해 엔진/맥과 공유.
-    @AppStorage(DefaultsKey.memoSyncEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.memoSyncEnabled, store: AppGroup.defaults)
     private var memoSyncEnabled: Bool = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
@@ -33,11 +33,11 @@ struct SettingView: View {
     @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
     @State private var wipeResultMessage: String?
     /// 데모 데이터 토글 - 켜면 샘플 페르소나 데이터, 끄면 내 데이터 복원(DemoDataService).
-    @AppStorage(DefaultsKey.demoDataActive, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.demoDataActive, store: AppGroup.defaults)
     private var demoDataActive: Bool = false
     @State private var demoResultMessage: String?
     /// 날인·봉인 등 입력 반응 마스터 스위치. App Group - 키보드 익스텐션도 같은 값을 읽는다.
-    @AppStorage(DefaultsKey.delightEffectsEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.delightEffectsEnabled, store: AppGroup.defaults)
     private var delightEffectsEnabled: Bool = true
     /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
     /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
@@ -77,7 +77,7 @@ struct SettingView: View {
     }
 
     private func refreshSecurePINState() {
-        let hash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
+        let hash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         securePINSet = !hash.isEmpty
     }
 
@@ -680,13 +680,13 @@ struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
     /// 메모 구분 표시 마스터 토글 - 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("showVisualCues", store: AppGroup.defaults)
     private var visible: Bool = false
     /// 메모 셀 높이 - 작게 110 / 보통 140 / 크게 180.
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
     /// 카드 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
     /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
-    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("contentHintEnabled", store: AppGroup.defaults)
     private var contentHintEnabled: Bool = true
 
     var body: some View {

@@ -34,7 +34,7 @@ class PredefinedValuesStore {
         print("   Key: \(key)")
 
         // 새로운 형식으로 로드 시도
-        if let data = UserDefaults(suiteName: AppGroup.identifier)?.data(forKey: key) {
+        if let data = AppGroup.defaults?.data(forKey: key) {
             print("   ✅ 데이터 발견 - 크기: \(data.count) bytes")
 
             if let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
@@ -52,7 +52,7 @@ class PredefinedValuesStore {
         let oldKey = "predefined_\(placeholder)"
         print("   🔄 이전 형식 시도 - Key: \(oldKey)")
 
-        if let saved = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: oldKey) {
+        if let saved = AppGroup.defaults?.stringArray(forKey: oldKey) {
             print("   ✅ 이전 형식에서 로드 - \(saved.count)개 값: \(saved)")
             return saved
         } else {
@@ -112,7 +112,7 @@ class PredefinedValuesStore {
     private func getValuesFromUserDefaults(placeholder: String, templateId: UUID?) -> [String] {
         let key = "placeholder_values_\(placeholder)"
         print("   🔍 UserDefaults 확인 - Key: \(key)")
-        guard let userDefaults = UserDefaults(suiteName: AppGroup.identifier),
+        guard let userDefaults = AppGroup.defaults,
               let data = userDefaults.data(forKey: key),
               let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) else {
             print("   ⚠️ 저장된 플레이스홀더 값 없음 - iOS 앱에서 값을 추가하세요")
@@ -161,32 +161,32 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var keyboardColumnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
+    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var keyboardColumnCount: Int = 2
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
+    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
 
     // 색상 커스터마이즈 - 기본은 false (Paper 테마 사용), true면 hex 오버라이드
-    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool = false
-    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool = false
+    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
     /// 키캡 물성 프리셋 - 색이 아니라 두께·빛·모서리·눌림만 정한다.
-    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // 옵션 토글 - 기본 OFF로 화면 공간 확보
-    @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearchBar: Bool = false
-    @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecentSection: Bool = false
+    @AppStorage("keyboardShowSearch", store: AppGroup.defaults) private var showSearchBar: Bool = false
+    @AppStorage("keyboardShowRecent", store: AppGroup.defaults) private var showRecentSection: Bool = false
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
-    @AppStorage("keyboardKoreanEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanInputEnabled: Bool = false
-    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: AppGroup.identifier)) private var defaultTypingLang: String = "english"
+    @AppStorage("keyboardKoreanEnabled", store: AppGroup.defaults) private var koreanInputEnabled: Bool = false
+    @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultTypingLang: String = "english"
     /// 메모 구분 표시 마스터 토글(메인 앱과 공유). 기본 OFF = 키도 심플(타입 테두리·카테고리 틴트 숨김).
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier)) private var showVisualCues: Bool = false
+    @AppStorage("showVisualCues", store: AppGroup.defaults) private var showVisualCues: Bool = false
     /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) - 키보드에서는 셀이 2초 머물면
     /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
-    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var contentHintEnabled: Bool = true
+    @AppStorage("contentHintEnabled", store: AppGroup.defaults) private var contentHintEnabled: Bool = true
 
     /// 메모 구분 장치 노출 여부 - 오직 설정 "메모 구분 표시" 토글만 따른다
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
@@ -313,19 +313,19 @@ struct KeyboardView: View {
         // 페이지만 보여주고 거르지 않으면 **골라도 반응이 없는** 죽은 탭이 된다.
         // (탭 노출과 필터가 같은 값을 봐야 하는 이유)
         if hostKind == .inApp { return true }
-        return UserDefaults(suiteName: AppGroup.identifier)?
+        return AppGroup.defaults?
             .bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false
     }
 
     /// iOS 앱 ClipKeyboardListViewModel과 같은 키 - 완전 동기화
     private var sharedUserCategories: [String] {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
     }
 
     /// iOS 앱에서 숨긴 탭 목록 - "__favorites__" 또는 카테고리 이름
     private var sharedHiddenCategoryTabs: Set<String> {
-        let arr = UserDefaults(suiteName: AppGroup.identifier)?
+        let arr = AppGroup.defaults?
             .stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         return Set(arr)
     }
@@ -334,7 +334,7 @@ struct KeyboardView: View {
     /// (타깃 분리로 enum을 공유하지 못해 rawValue 문자열로 인라인 처리.)
     private static let builtInOrder = ["templates", "textMemos", "images", "combos"]
     private var sharedEnabledBuiltIns: [String] {
-        let enabled = Set(UserDefaults(suiteName: AppGroup.identifier)?
+        let enabled = Set(AppGroup.defaults?
             .stringArray(forKey: DefaultsKey.enabledBuiltInCategoriesV1) ?? [])
         return Self.builtInOrder.filter { enabled.contains($0) }
     }
@@ -1456,7 +1456,7 @@ struct KeyboardView: View {
     }
 
     private func authenticateAndInsert(memo: Memo, bypassTemplate: Bool = false) {
-        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
+        let storedHash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         guard !storedHash.isEmpty else {
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
             withAnimation { showPinNotSetToast = true }
@@ -1475,7 +1475,7 @@ struct KeyboardView: View {
     private func verifyPIN() {
         let digest = SHA256.hash(data: Data(enteredPIN.utf8))
         let hash = digest.compactMap { String(format: "%02x", $0) }.joined()
-        let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
+        let storedHash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         if hash == storedHash {
             showPINEntry = false
             if let memo = pendingSecureMemo { insertMemo(memo, bypassTemplate: pendingBypassTemplate) }
@@ -1887,13 +1887,13 @@ struct KeyboardView: View {
     /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
     /// 사용자 커스텀 아이콘 - userCategoryIcons_v1 에서 로드
     private var customCategoryIcons: [String: String] {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String] ?? [:]
     }
 
     /// 사용자가 지정한 카테고리 색 - userCategoryColors_v1 에서 로드(앱과 동일 키).
     private var customCategoryColors: [String: String] {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String] ?? [:]
     }
 

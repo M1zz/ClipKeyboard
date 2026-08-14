@@ -218,17 +218,17 @@ final class AppleIntelligenceService {
     // MARK: - Settings (App Group - 설정 화면과 공유)
 
     static var classificationEnabled: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .object(forKey: DefaultsKey.aiClassificationEnabled) as? Bool ?? true
     }
 
     static var actionSuggestionsEnabled: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .object(forKey: DefaultsKey.aiActionSuggestionsEnabled) as? Bool ?? true
     }
 
     static var translationTargetLanguage: AITranslationLanguage {
-        let raw = UserDefaults(suiteName: AppGroup.identifier)?
+        let raw = AppGroup.defaults?
             .string(forKey: DefaultsKey.aiTranslationTargetLang)
         return raw.flatMap(AITranslationLanguage.init(rawValue:)) ?? .systemDefault
     }

@@ -100,7 +100,7 @@ final class PersonaTests: XCTestCase {
         XCTAssertEqual(store.selectedPersona, .business)
 
         // cleanup
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        AppGroup.defaults?
             .removeObject(forKey: "user.selected_persona.v1")
     }
 
@@ -119,7 +119,7 @@ final class PersonaTests: XCTestCase {
         for seed in seeds {
             _ = store.remove(seed)
         }
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        AppGroup.defaults?
             .removeObject(forKey: "user.selected_persona.v1")
     }
 }

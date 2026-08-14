@@ -24,7 +24,7 @@ struct DataRecoveryView: View {
 
     /// 격리 보관된 원본 파일명 (있으면 사용자에게 보여준다).
     private var quarantinedFile: String? {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .string(forKey: MemoStore.corruptionFileKey)
     }
 

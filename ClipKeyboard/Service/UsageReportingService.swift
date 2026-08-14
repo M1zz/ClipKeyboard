@@ -179,7 +179,7 @@ enum UsageReportingService {
         // 클립보드 기록 보유량 → 클립보드 기능을 실제로 쓰는지.
         metrics["clips"] = Double((try? MemoStore.shared.loadSmartClipboardHistory().count) ?? 0)
 
-        let group = UserDefaults(suiteName: AppGroup.identifier)
+        let group = AppGroup.defaults
         metrics["keyboardUses"] = Double(group?.integer(forKey: DefaultsKey.kbBeaconTotalCount) ?? 0)
         metrics["flag.keyboardActive"] = (group?.double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0 ? 1 : 0
         metrics["flag.syncOn"] = (group?.bool(forKey: DefaultsKey.memoSyncEnabled) ?? false) ? 1 : 0

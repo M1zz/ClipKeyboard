@@ -18,7 +18,7 @@ import XCTest
 
 final class RefundLedgerTests: XCTestCase {
 
-    private var defaults: UserDefaults? { UserDefaults(suiteName: "group.com.Ysoup.TokenMemo") }
+    private var defaults: UserDefaults? { AppGroup.defaults }
 
     /// 테스트가 쓰는 달들 - 시뮬레이터에 잔존값이 남으면 다음 실행을 깨뜨린다.
     private var touchedMonths: [Date] {

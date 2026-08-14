@@ -45,7 +45,7 @@ enum KeyboardDayLedger {
 
     /// 키보드를 한 번 썼다고 기록. 익스텐션이 키보드가 뜰 때마다 호출한다.
     static func recordUse(at date: Date = Date()) {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        guard let defaults = AppGroup.defaults else { return }
         var days = (defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]) ?? [:]
         days[dayKey(for: date), default: 0] += 1
         if days.count > maxDays {
@@ -56,7 +56,7 @@ enum KeyboardDayLedger {
 
     /// 아직 허브로 보내지 않은 날짜들 (오래된 순).
     static func pendingDays() -> [String] {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier),
+        guard let defaults = AppGroup.defaults,
               let days = defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]
         else { return [] }
         return days.keys.sorted()
@@ -67,7 +67,7 @@ enum KeyboardDayLedger {
     ///    날을 지우면 그 사람의 활동은 영영 복구되지 않는다.
     static func removeDays(_ keys: [String]) {
         guard !keys.isEmpty,
-              let defaults = UserDefaults(suiteName: AppGroup.identifier),
+              let defaults = AppGroup.defaults,
               var days = defaults.dictionary(forKey: DefaultsKey.kbBeaconDayCounts) as? [String: Int]
         else { return }
         for key in keys { days[key] = nil }
@@ -200,7 +200,7 @@ enum AnalyticsService {
     /// 키보드 사용 비콘 - 메인 앱 launch 시 호출. App Group에 익스텐션이 기록한 timestamp/카운트를 읽어 전송.
     /// 카운트 = 0이면 (= 비콘 미발생) 이벤트 생략. 보고 후 카운트 0으로 리셋.
     static func flushKeyboardBeacon() {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        guard let defaults = AppGroup.defaults else { return }
         let count = defaults.integer(forKey: DefaultsKey.kbBeaconPendingCount)
         guard count > 0 else { return }
         let lastUseEpoch = defaults.double(forKey: DefaultsKey.kbBeaconLastUse)

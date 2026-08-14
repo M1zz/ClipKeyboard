@@ -57,7 +57,7 @@ enum Delight {
     /// 연출·햅틱 마스터 스위치. 기본 켜짐, 설정에서 끌 수 있다.
     /// App Group에 저장해 키보드 익스텐션도 같은 값을 읽는다.
     static var isEnabled: Bool {
-        let store = UserDefaults(suiteName: AppGroup.identifier)
+        let store = AppGroup.defaults
         // 값이 없으면(설치 직후) 켜짐이 기본이다.
         guard let value = store?.object(forKey: DefaultsKey.delightEffectsEnabled) as? Bool else {
             return true
@@ -66,7 +66,7 @@ enum Delight {
     }
 
     static func setEnabled(_ enabled: Bool) {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(enabled, forKey: DefaultsKey.delightEffectsEnabled)
         AppLog.info(.usage, "🔖 [Delight.setEnabled] 연출 \(enabled ? "켬" : "끔")")
     }

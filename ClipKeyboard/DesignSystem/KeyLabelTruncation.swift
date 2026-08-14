@@ -27,7 +27,7 @@ enum KeyLabelTruncation: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 
     static var current: KeyLabelTruncation {
-        let raw = UserDefaults(suiteName: AppGroup.identifier)?
+        let raw = AppGroup.defaults?
             .string(forKey: DefaultsKey.keyLabelTruncation) ?? ""
         return KeyLabelTruncation(rawValue: raw) ?? .middle
     }

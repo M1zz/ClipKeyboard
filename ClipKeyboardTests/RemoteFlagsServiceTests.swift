@@ -19,7 +19,7 @@ final class RemoteFlagsServiceTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        defaults = UserDefaults(suiteName: AppGroup.identifier)
+        defaults = AppGroup.defaults
         clearFlags()
     }
 

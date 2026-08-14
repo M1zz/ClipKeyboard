@@ -39,21 +39,21 @@ struct BulkImportKeyPreview: View {
 
     // MARK: - 키보드와 같은 설정 (App Group)
 
-    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardColumnCount", store: AppGroup.defaults)
     private var keyboardColumnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults)
     private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults)
     private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults)
     private var useCustomColors: Bool = false
-    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults)
     private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults)
     private var customKeyHex: String = ""
-    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("showVisualCues", store: AppGroup.defaults)
     private var showVisualCues: Bool = false
 
     @Environment(\.appTheme) private var theme

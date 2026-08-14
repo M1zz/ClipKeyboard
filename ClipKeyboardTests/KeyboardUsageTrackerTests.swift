@@ -15,7 +15,7 @@ import XCTest
 final class KeyboardUsageTrackerTests: XCTestCase {
 
     private var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        AppGroup.defaults
     }
 
     private func dailyKey(for date: Date) -> String {

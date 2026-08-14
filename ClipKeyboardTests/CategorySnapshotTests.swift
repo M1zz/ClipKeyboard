@@ -26,7 +26,7 @@ final class CategorySnapshotTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        defaults = UserDefaults(suiteName: AppGroup.identifier)
+        defaults = AppGroup.defaults
         allKeys.forEach { defaults.removeObject(forKey: $0) }
     }
 

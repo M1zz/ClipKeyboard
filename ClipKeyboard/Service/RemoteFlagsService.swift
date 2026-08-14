@@ -62,7 +62,7 @@ final class RemoteFlagsService: ObservableObject {
     private static let refreshInterval: TimeInterval = 6 * 3600
     private static let lastFetchKey = "remote.flags.lastFetchAt"
 
-    private var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+    private var defaults: UserDefaults? { AppGroup.defaults }
 
     private init() {}
 
@@ -81,7 +81,7 @@ final class RemoteFlagsService: ObservableObject {
     /// nonisolated 편의 접근자 - 키보드 익스텐션·백그라운드 코드에서 쓴다.
     /// (익스텐션에는 이 서비스가 없으므로 App Group 캐시만 직접 읽는다.)
     nonisolated static func cachedValue(_ flag: Flag) -> Bool {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier),
+        guard let defaults = AppGroup.defaults,
               defaults.object(forKey: cachePrefix + flag.rawValue) != nil else { return true }
         return defaults.bool(forKey: cachePrefix + flag.rawValue)
     }

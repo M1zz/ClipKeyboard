@@ -83,7 +83,7 @@ struct SecurePINSettings: View {
         }
         .sheet(isPresented: $showPINSetup) {
             SecurePINSetupView { hash in
-                UserDefaults(suiteName: AppGroup.identifier)?.set(hash, forKey: pinKey)
+                AppGroup.defaults?.set(hash, forKey: pinKey)
                 pinIsSet = true
                 showPINSetup = false
             }
@@ -92,7 +92,7 @@ struct SecurePINSettings: View {
                isPresented: $showDeletePINConfirm) {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
-                UserDefaults(suiteName: AppGroup.identifier)?.removeObject(forKey: pinKey)
+                AppGroup.defaults?.removeObject(forKey: pinKey)
                 pinIsSet = false
             }
         } message: {
@@ -104,7 +104,7 @@ struct SecurePINSettings: View {
         #endif
         .solidNavBar(theme.bg)
         .onAppear {
-            let storedHash = UserDefaults(suiteName: AppGroup.identifier)?.string(forKey: pinKey) ?? ""
+            let storedHash = AppGroup.defaults?.string(forKey: pinKey) ?? ""
             pinIsSet = !storedHash.isEmpty
         }
     }

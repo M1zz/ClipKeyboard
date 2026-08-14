@@ -106,7 +106,7 @@ struct ClipKeyboardList: View {
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("showVisualCues", store: AppGroup.defaults)
     private var showVisualCues: Bool = false
     @State private var showCategoryBadgeNudge: Bool = false
 
@@ -119,7 +119,7 @@ struct ClipKeyboardList: View {
     /// 디스플레이 설정 - 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
     /// 단축어 스킨 프리셋 - 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
-    @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.livingSkin, store: AppGroup.defaults)
     private var livingSkinRaw: String = LivingSkin.none.rawValue
     /// 동전이 어디서 날아 어디로 들어가는지를 쥐고 있는 것.
     @StateObject private var vaultDeposit = VaultDeposit()
@@ -181,12 +181,12 @@ struct ClipKeyboardList: View {
     /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
     @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
     /// 키캡 물성 - 설정에서 바꾸면 이 화면도 바로 따라야 한다.
-    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
     @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
-    @AppStorage("contentHintEnabled", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("contentHintEnabled", store: AppGroup.defaults)
     private var contentHintEnabled: Bool = true
 
     // Category
@@ -1006,11 +1006,11 @@ struct ClipKeyboardList: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
-                UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
+                AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
                 showInboxFromIntent = true
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteAdd)) { _ in
-                UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
+                AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
                 showQuickNoteAdd = true
             }
     }
@@ -1020,9 +1020,9 @@ struct ClipKeyboardList: View {
     /// 제공되는 배경 이미지 에셋 이름들. 빈 문자열 = 배경 없음(예전 모습 그대로).
     static let backgroundOptions: [String] = (1...8).map { String(format: "ListBackground%02d", $0) }
 
-    @AppStorage(DefaultsKey.listBackgroundImageV1, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.listBackgroundImageV1, store: AppGroup.defaults)
     private var listBackgroundImage: String = ""
-    @AppStorage(DefaultsKey.backgroundOfferResolvedV1, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.backgroundOfferResolvedV1, store: AppGroup.defaults)
     private var backgroundOfferResolved: Bool = false
     @State private var showBackgroundOffer = false
     @State private var showBackgroundPicker = false
@@ -1039,12 +1039,12 @@ struct ClipKeyboardList: View {
     }
 
     private func loadPerTabBackgrounds() {
-        perTabBackgrounds = (UserDefaults(suiteName: AppGroup.identifier)?
+        perTabBackgrounds = (AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.listBackgroundPerTabV1) as? [String: String]) ?? [:]
     }
 
     private func persistPerTabBackgrounds() {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
     }
 
@@ -1232,7 +1232,7 @@ struct ClipKeyboardList: View {
     /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
     /// - 빠른 메모 컨트롤: 입력 시트 표시 / - 보관함 열기 컨트롤: Inbox 화면 이동.
     private func consumePendingInboxOpen() {
-        let store = UserDefaults(suiteName: AppGroup.identifier)
+        let store = AppGroup.defaults
         if store?.bool(forKey: DefaultsKey.pendingQuickNoteAdd) == true {
             store?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
             print("🎛️ [ClipKeyboardList] 제어센터 보류 플래그 소비 → 빠른 메모 입력 시트")

@@ -40,7 +40,7 @@ enum KeyboardMemoFeed {
     /// 앱 '순서 바꾸기'로 지정한 수동 순서가 있으면 그 순서, 없으면 즐겨찾기 먼저 → 최근 수정순.
     /// (`ClipKeyboardListViewModel.sortMemos`와 같은 규칙)
     static func sorted(_ memos: [Memo]) -> [Memo] {
-        let ud = UserDefaults(suiteName: AppGroup.identifier)
+        let ud = AppGroup.defaults
         if ud?.bool(forKey: DefaultsKey.memoManualOrderActiveV1) == true {
             let ids = ud?.stringArray(forKey: DefaultsKey.memoManualOrderV1) ?? []
             let order = ids.compactMap { UUID(uuidString: $0) }

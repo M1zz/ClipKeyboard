@@ -19,7 +19,7 @@ final class SmartClipboardLifecycleTests: XCTestCase {
 
     private var containerURL: URL? {
         FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         )
     }
 

@@ -96,7 +96,7 @@ struct ProFeatureManager {
     // MARK: - 상태 체크
 
     private static var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: AppGroup.identifier)
+        AppGroup.defaults
     }
 
     /// TestFlight 빌드 여부 - 앱 시작 시 bootstrapIsTestFlight()로 설정.

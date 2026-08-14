@@ -18,7 +18,7 @@ final class DataCorruptionDetectionTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        defaults = UserDefaults(suiteName: AppGroup.identifier)
+        defaults = AppGroup.defaults
         MemoStore.clearCorruptionFlag()
     }
 

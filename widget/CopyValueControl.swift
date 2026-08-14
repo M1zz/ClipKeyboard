@@ -83,14 +83,14 @@ enum CopyFeedback {
     private static let idKey = "widget.lastCopiedMemoID"
 
     static func record(memoID: String) {
-        let defaults = UserDefaults(suiteName: SharedMemoLoader.appGroupID)
+        let defaults = AppGroup.defaults
         defaults?.set(Date().timeIntervalSince1970, forKey: key)
         defaults?.set(memoID, forKey: idKey)
     }
 
     /// 이 단축어를 방금 복사했는가.
     static func justCopied(memoID: String, now: Date = Date()) -> Bool {
-        let defaults = UserDefaults(suiteName: SharedMemoLoader.appGroupID)
+        let defaults = AppGroup.defaults
         guard defaults?.string(forKey: idKey) == memoID else { return false }
         let at = defaults?.double(forKey: key) ?? 0
         guard at > 0 else { return false }

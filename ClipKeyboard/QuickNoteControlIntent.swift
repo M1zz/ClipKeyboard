@@ -23,7 +23,7 @@ struct AddQuickNoteControlIntent: AppIntent {
         print("🎛️ [AddQuickNoteControlIntent] 앱 프로세스에서 실행, 빠른 메모 시트 요청")
         // 콜드 런치 대비 보류 플래그 + 이미 떠 있는 리스트 대비 알림, 양쪽 모두 건다.
         // (플래그는 ClipKeyboardList 가 onAppear/didBecomeActive 에서 소비하며 멱등)
-        UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
+        AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
         NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
         return .result()
     }

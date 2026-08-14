@@ -24,7 +24,7 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
 
     private var viewModel: ClipKeyboardListViewModel!
 
-    private var groupDefaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+    private var groupDefaults: UserDefaults? { AppGroup.defaults }
 
     override func setUp() {
         super.setUp()

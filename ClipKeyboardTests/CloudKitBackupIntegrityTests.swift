@@ -56,7 +56,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     var memoStore: MemoStore!
 
     private let backupRecordID = CKRecord.ID(recordName: "TokenMemoBackup")
-    private let appGroupDefaults = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+    private let appGroupDefaults = AppGroup.defaults
 
     override func setUp() {
         super.setUp()

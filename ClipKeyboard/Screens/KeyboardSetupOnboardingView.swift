@@ -41,7 +41,7 @@ enum KeyboardInstallState {
 
     /// 익스텐션이 한 번이라도 떠 본 적 있는가(App Group 표식).
     static var didLoadOnce: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
     }
 

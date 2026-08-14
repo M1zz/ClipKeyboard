@@ -22,7 +22,7 @@ final class MemoListSortingTests: XCTestCase {
     private let manualOrderKey = "memoManualOrder_v1"
     private let manualOrderActiveKey = "memoManualOrderActive_v1"
     private var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        AppGroup.defaults
     }
 
     override func setUp() {

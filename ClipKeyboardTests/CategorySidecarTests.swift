@@ -20,11 +20,11 @@ final class CategorySidecarTests: XCTestCase {
 
     private let sidecarKey = "memoCategoryAssignments_v1"
     private var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        AppGroup.defaults
     }
     private var memosFileURL: URL? {
         FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         )?.appendingPathComponent("memos.data")
     }
 

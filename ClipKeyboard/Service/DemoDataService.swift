@@ -24,7 +24,7 @@ final class DemoDataService {
 
     /// 데모 데이터가 켜져 있는지 (App Group - 키보드 익스텐션도 같은 데이터를 본다).
     var isActive: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .bool(forKey: DefaultsKey.demoDataActive) ?? false
     }
 
@@ -115,7 +115,7 @@ final class DemoDataService {
     }
 
     private func setActive(_ active: Bool) {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(active, forKey: DefaultsKey.demoDataActive)
     }
 

@@ -21,13 +21,13 @@ enum MemoSyncFlags {
     /// App Group(기기별) 또는 iCloud KV(기기 간 동기)에 켜져 있으면 활성
     /// 한 기기에서 켜면 KV를 통해 다른 기기에도 전파된다(Pro 상태와 동일 방식).
     static var enabled: Bool {
-        if UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: DefaultsKey.memoSyncEnabled) == true { return true }
+        if AppGroup.defaults?.bool(forKey: DefaultsKey.memoSyncEnabled) == true { return true }
         return NSUbiquitousKeyValueStore.default.bool(forKey: DefaultsKey.memoSyncEnabled)
     }
 
     /// 토글 시 양쪽(App Group + iCloud KV)에 기록 - 다른 기기로 전파.
     static func setEnabled(_ on: Bool) {
-        UserDefaults(suiteName: AppGroup.identifier)?.set(on, forKey: DefaultsKey.memoSyncEnabled)
+        AppGroup.defaults?.set(on, forKey: DefaultsKey.memoSyncEnabled)
         NSUbiquitousKeyValueStore.default.set(on, forKey: DefaultsKey.memoSyncEnabled)
         NSUbiquitousKeyValueStore.default.synchronize()
     }
@@ -38,7 +38,7 @@ enum MemoSyncFlags {
 /// 마지막 수신/전송/확인/오류는 App Group에 남겨 앱을 다시 켜도 유지되고,
 /// 엔진 실행 여부만 프로세스 메모리에 둔다(실행 때마다 새로 시작하므로).
 enum MemoSyncStatus {
-    private static var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+    private static var defaults: UserDefaults? { AppGroup.defaults }
 
     /// 이번 실행에서 엔진이 시작됐는지 - false면 게이트(플래그/Pro)에 막혀 아예 안 돌고 있는 것.
     nonisolated(unsafe) private static var running = false
@@ -104,7 +104,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// 원격 변경을 로컬에 적용하는 동안 true - 이 사이의 .memoDataChanged는 무시(에코 루프 차단).
     nonisolated(unsafe) private var isApplyingRemoteChanges = false
 
-    private var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+    private var defaults: UserDefaults? { AppGroup.defaults }
 
     // MARK: - Lifecycle
 
@@ -297,7 +297,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         for record in records {
             // 카테고리 설정 업로드 확정 - 지문을 기록해 같은 내용이 다시 올라가지 않게 한다.
             if record.recordID.recordName == Self.categoryRecordName {
-                UserDefaults(suiteName: AppGroup.identifier)?
+                AppGroup.defaults?
                     .set(categoryFingerprint(currentSyncableCategories()), forKey: Self.categoryShadowKey)
                 continue
             }
@@ -434,7 +434,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         guard !snapshot.isEmpty else { return }
 
         let fingerprint = categoryFingerprint(snapshot)
-        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        let defaults = AppGroup.defaults
         guard defaults?.string(forKey: Self.categoryShadowKey) != fingerprint else { return }
 
         engine.state.add(pendingRecordZoneChanges: [.saveRecord(categoryRecordID)])
@@ -464,7 +464,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
 
         CategorySnapshotStore.apply(snapshot, strategy: .merge)
         // 방금 받은 상태를 그대로 섀도에 기록 - 받자마자 되올리는 핑퐁을 막는다.
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(categoryFingerprint(currentSyncableCategories()), forKey: Self.categoryShadowKey)
         log.info("remote category settings applied")
     }

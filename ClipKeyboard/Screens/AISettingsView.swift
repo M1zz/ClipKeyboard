@@ -11,11 +11,11 @@ import SwiftUI
 struct AISettingsView: View {
     @Environment(\.appTheme) private var theme
 
-    @AppStorage(DefaultsKey.aiClassificationEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.aiClassificationEnabled, store: AppGroup.defaults)
     private var classificationEnabled: Bool = true
-    @AppStorage(DefaultsKey.aiActionSuggestionsEnabled, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.aiActionSuggestionsEnabled, store: AppGroup.defaults)
     private var actionSuggestionsEnabled: Bool = true
-    @AppStorage(DefaultsKey.aiTranslationTargetLang, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.aiTranslationTargetLang, store: AppGroup.defaults)
     private var translationTargetLang: String = AITranslationLanguage.systemDefault.rawValue
 
     private var availability: AIAvailability {

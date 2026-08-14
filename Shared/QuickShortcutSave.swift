@@ -26,8 +26,6 @@ private let saveLog = Logger(subsystem: "com.Ysoup.TokenMemo.share", category: "
 
 enum QuickShortcutSave {
 
-    static let appGroupID = "group.com.Ysoup.TokenMemo"
-
     /// 앱 밖 변경 표식 - 메인 앱의 `DefaultsKey.memosExternalChangeAt` 와 같은 문자열이어야 한다.
     private static let externalChangeKey = "memos.externalChangeAt"
 
@@ -71,7 +69,7 @@ enum QuickShortcutSave {
                                category: String,
                                images: [UIImage] = []) -> Outcome {
         guard let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
+            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             saveLog.error("📤 [QuickSave] App Group 컨테이너 접근 실패")
             return .failed
         }
@@ -131,7 +129,7 @@ enum QuickShortcutSave {
                             category: String,
                             images: [UIImage] = []) -> Outcome {
         guard let containerURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
+            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) else {
             saveLog.error("📤 [QuickSave] App Group 컨테이너 접근 실패")
             return .failed
         }
@@ -162,7 +160,7 @@ enum QuickShortcutSave {
         do {
             let data = try JSONSerialization.data(withJSONObject: notes, options: [])
             try data.write(to: inboxURL, options: .atomic)
-            UserDefaults(suiteName: appGroupID)?.set(Date().timeIntervalSince1970,
+            AppGroup.defaults?.set(Date().timeIntervalSince1970,
                                                      forKey: "quicknote.lastSavedAt")
             saveLog.info("📤 [QuickSave] 보관함 저장 완료, 총 \(notes.count)개")
             return .inbox
@@ -176,7 +174,7 @@ enum QuickShortcutSave {
 
     /// 앱이 돌아올 때 다시 읽도록 표식을 남긴다. 이게 없으면 앱이 낡은 목록으로 덮어쓴다.
     private static func markExternalChange() {
-        UserDefaults(suiteName: appGroupID)?.set(Date().timeIntervalSince1970, forKey: externalChangeKey)
+        AppGroup.defaults?.set(Date().timeIntervalSince1970, forKey: externalChangeKey)
     }
 
     private static func persistImages(_ images: [UIImage], id: String, containerURL: URL) -> [String] {

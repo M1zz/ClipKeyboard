@@ -39,7 +39,7 @@ enum DiscountOfferManager {
     private static var waitInterval: TimeInterval { TimeInterval(waitDays) * 86_400 }
 
     private static var defaults: UserDefaults? {
-        UserDefaults(suiteName: AppGroup.identifier)
+        AppGroup.defaults
     }
 
     // MARK: - 기록

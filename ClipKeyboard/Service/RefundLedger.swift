@@ -42,7 +42,7 @@ enum RefundLedger {
     static let retainedDays = 400
 
     private static var defaults: UserDefaults? {
-        UserDefaults(suiteName: AppGroup.identifier)
+        AppGroup.defaults
     }
 
     // MARK: - 쓰기

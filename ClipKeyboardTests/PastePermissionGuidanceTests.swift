@@ -87,7 +87,7 @@ struct KeyboardInstallStateTests {
 
     @Test("떠 본 적 있으면 설정 확인과 무관하게 쓸 수 있다")
     func didLoadOnceIsEnough() {
-        guard let group = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        guard let group = AppGroup.defaults else { return }
         let saved = group.object(forKey: DefaultsKey.keyboardExtensionDidLoad) as? Bool
         defer {
             if let saved { group.set(saved, forKey: DefaultsKey.keyboardExtensionDidLoad) }

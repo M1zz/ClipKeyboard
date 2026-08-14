@@ -17,7 +17,7 @@ import LeeoKit
 
 struct LivingSkinSettings: View {
 
-    @AppStorage(DefaultsKey.livingSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.livingSkin, store: AppGroup.defaults)
     private var livingSkinRaw: String = LivingSkin.none.rawValue
 
     @Environment(\.appTheme) private var theme

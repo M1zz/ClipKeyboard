@@ -17,23 +17,23 @@ import LeeoKit
 struct KeyboardLayoutSettings: View {
 
     // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
-    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 56.0
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
-    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
+    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
+    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
+    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
     /// 키캡 물성 프리셋 - 익스텐션이 같은 키를 읽는다.
-    @AppStorage(DefaultsKey.keyLabelTruncation, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.keyLabelTruncation, store: AppGroup.defaults)
     private var truncationRaw: String = KeyLabelTruncation.middle.rawValue
-    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-    @AppStorage("keyboardShowSearch", store: UserDefaults(suiteName: AppGroup.identifier)) private var showSearch: Bool   = false
-    @AppStorage("keyboardShowRecent", store: UserDefaults(suiteName: AppGroup.identifier)) private var showRecent: Bool   = false
-    @AppStorage("keyboardKoreanLayout", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanLayout: String = "dubeolsik"
-    @AppStorage("keyboardTypingLang", store: UserDefaults(suiteName: AppGroup.identifier)) private var defaultLang: String = "english"
+    @AppStorage("keyboardShowSearch", store: AppGroup.defaults) private var showSearch: Bool   = false
+    @AppStorage("keyboardShowRecent", store: AppGroup.defaults) private var showRecent: Bool   = false
+    @AppStorage("keyboardKoreanLayout", store: AppGroup.defaults) private var koreanLayout: String = "dubeolsik"
+    @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultLang: String = "english"
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
-    @AppStorage("keyboardKoreanEnabled", store: UserDefaults(suiteName: AppGroup.identifier)) private var koreanEnabled: Bool   = false
+    @AppStorage("keyboardKoreanEnabled", store: AppGroup.defaults) private var koreanEnabled: Bool   = false
 
     @State private var customBgColor: Color = .clear
     @State private var customKeyColor: Color = .clear
@@ -384,20 +384,20 @@ struct KeyboardLayoutSettings: View {
 /// AppStorage를 직접 읽어 슬라이더/토글 변경이 즉시 반영된다.
 struct KeyboardPreviewView: View {
 
-    private let ud = UserDefaults(suiteName: AppGroup.identifier)
+    private let ud = AppGroup.defaults
 
-    @AppStorage("keyboardColumnCount", store: UserDefaults(suiteName: AppGroup.identifier)) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonHeight: Double = 56.0
-    @AppStorage("keyboardButtonFontSize", store: UserDefaults(suiteName: AppGroup.identifier)) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: UserDefaults(suiteName: AppGroup.identifier)) private var useCustomColors: Bool   = false
-    @AppStorage("keyboardCustomBgHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: UserDefaults(suiteName: AppGroup.identifier)) private var customKeyHex: String = ""
-    @AppStorage(DefaultsKey.keyboardSkin, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
+    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
+    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
+    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
+    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
 
     @State private var previewMemos: [Memo] = []
     @Environment(\.colorScheme) private var colorScheme
-    @AppStorage("showVisualCues", store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage("showVisualCues", store: AppGroup.defaults)
     private var showVisualCues: Bool = false
     /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
     private var visualCuesVisible: Bool { showVisualCues }

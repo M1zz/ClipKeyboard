@@ -74,7 +74,7 @@ enum CategorySnapshotStore {
     static let enabledBuiltInsKey = "enabledBuiltInCategories_v1"
     static let featureEnabledKey = "category.feature.enabled.v1"
 
-    private static var defaults: UserDefaults? { UserDefaults(suiteName: AppGroup.identifier) }
+    private static var defaults: UserDefaults? { AppGroup.defaults }
 
     /// 기기 간 **동기화용** 스냅샷 - 실제로 쓰이는 카테고리만 담는다.
     ///

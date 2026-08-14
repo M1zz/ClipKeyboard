@@ -18,7 +18,7 @@ final class MemoTimeMachineTests: XCTestCase {
 
     private var historyFileURL: URL? {
         FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         )?.appendingPathComponent("memo.history.data")
     }
 

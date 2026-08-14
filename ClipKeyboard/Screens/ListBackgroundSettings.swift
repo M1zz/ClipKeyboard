@@ -22,7 +22,7 @@ struct ListBackgroundSettings: View {
 
     @Environment(\.appTheme) private var theme
 
-    @AppStorage(DefaultsKey.listBackgroundImageV1, store: UserDefaults(suiteName: AppGroup.identifier))
+    @AppStorage(DefaultsKey.listBackgroundImageV1, store: AppGroup.defaults)
     private var listBackgroundImage: String = ""
 
     private let columns = [GridItem(.adaptive(minimum: 96), spacing: 12)]
@@ -85,7 +85,7 @@ struct ListBackgroundSettings: View {
     private func apply(_ name: String) {
         listBackgroundImage = name
         // 탭별 덮어쓰기를 남겨 두면 여기서 고른 것이 어떤 탭에서는 안 보인다.
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .removeObject(forKey: DefaultsKey.listBackgroundPerTabV1)
     }
 }

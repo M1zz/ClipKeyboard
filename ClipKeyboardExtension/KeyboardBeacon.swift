@@ -25,7 +25,7 @@ enum KeyboardBeacon {
     /// 키보드가 사용됨을 기록. viewDidAppear에서 한 번 호출.
     /// 비용: UserDefaults write 3개. 네트워크·SDK 사용 없음.
     static func recordUse() {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        guard let defaults = AppGroup.defaults else { return }
         let now = Date()
         defaults.set(now.timeIntervalSince1970, forKey: lastUseKey)
         let prev = defaults.integer(forKey: pendingUseCountKey)
@@ -121,7 +121,7 @@ enum KeyboardHaptics {
     /// 연출·햅틱 마스터 스위치. 메인 앱의 `Delight.isEnabled`와 **같은 키**를 읽는다.
     /// (익스텐션은 LeeoKit을 참조할 수 없어 값을 직접 읽는다 - 키는 DefaultsKey 단일 출처)
     static var delightEnabled: Bool {
-        guard let value = UserDefaults(suiteName: AppGroup.identifier)?
+        guard let value = AppGroup.defaults?
             .object(forKey: DefaultsKey.delightEffectsEnabled) as? Bool else { return true }
         return value
     }

@@ -64,12 +64,11 @@ struct WidgetMemo: Identifiable, Codable {
 // MARK: - Shared Memo Loader
 
 struct SharedMemoLoader {
-    static let appGroupID = "group.com.Ysoup.TokenMemo"
 
     /// App Group 컨테이너에서 전체 메모를 로드
     static func loadAllMemos() -> [WidgetMemo] {
         guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: appGroupID
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
             print("❌ [Widget] App Group 컨테이너를 찾을 수 없음")
             return []

@@ -93,7 +93,7 @@ enum DataWipeService {
         }
 
         // ③ App Group UserDefaults
-        if let group = UserDefaults(suiteName: AppGroup.identifier) {
+        if let group = AppGroup.defaults {
             for key in groupKeys { group.removeObject(forKey: key) }
         }
 

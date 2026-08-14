@@ -18,11 +18,11 @@ final class DemoDataServiceTests: XCTestCase {
     private var store: MemoStore!
 
     private var groupDefaults: UserDefaults? {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")
+        AppGroup.defaults
     }
     private var backupURL: URL? {
         FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.Ysoup.TokenMemo"
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
         )?.appendingPathComponent("demo.backup.data")
     }
 

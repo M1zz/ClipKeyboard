@@ -164,12 +164,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// 사용자가 수동 순서를 한 번이라도 지정했는지. true면 sortMemos가 수동 순서를 따른다
     /// (즐겨찾기 맨 위 고정 해제 - 사용자가 둔 순서 그대로).
     private var manualOrderActive: Bool {
-        UserDefaults(suiteName: AppGroup.identifier)?.bool(forKey: manualOrderActiveKey) ?? false
+        AppGroup.defaults?.bool(forKey: manualOrderActiveKey) ?? false
     }
 
     /// 저장된 수동 순서(메모 id 배열).
     private var manualOrder: [UUID] {
-        let raw = UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: manualOrderKey) ?? []
+        let raw = AppGroup.defaults?.stringArray(forKey: manualOrderKey) ?? []
         return raw.compactMap { UUID(uuidString: $0) }
     }
 
@@ -236,7 +236,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // 방어: loadedData에 없던 재정렬 항목이 남으면 뒤에 덧붙인다(유실 방지).
         while let leftover = newOrder.next() { merged.append(leftover) }
 
-        let ud = UserDefaults(suiteName: AppGroup.identifier)
+        let ud = AppGroup.defaults
         ud?.set(merged.map { $0.id.uuidString }, forKey: manualOrderKey)
         ud?.set(true, forKey: manualOrderActiveKey)
         loadedData = merged
@@ -431,7 +431,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func loadCustomCategories() {
-        let ud = UserDefaults(suiteName: AppGroup.identifier)
+        let ud = AppGroup.defaults
         // 카테고리는 기본 제공하지 않음 - 사용자가 직접 만든 목록만 로드.
         customCategories = ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
         let hidden = ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
@@ -446,7 +446,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func saveCustomCategories() {
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(customCategories, forKey: DefaultsKey.userDefinedCategoriesV1)
     }
 
@@ -461,7 +461,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 selectedCategoryTab = .basic
             }
         }
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(Array(hiddenCategoryTabs), forKey: DefaultsKey.hiddenCategoryTabsV1)
     }
 
@@ -552,7 +552,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func onSceneResume() {
         reloadIfChangedOutsideApp()
         checkFreshClipboard()
-        let newCount = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
+        let newCount = AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
         if lastKnownPasteCount == 0 && newCount > 0 {
             showActivationCard = false
             showCelebrationToast()
@@ -570,7 +570,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///
     /// 매번 읽지 않고 표식이 바뀐 때만 읽는다 - 앞으로 올 때마다 파일을 훑을 이유는 없다.
     private func reloadIfChangedOutsideApp() {
-        let changedAt = UserDefaults(suiteName: AppGroup.identifier)?
+        let changedAt = AppGroup.defaults?
             .double(forKey: DefaultsKey.memosExternalChangeAt) ?? 0
         guard changedAt > 0 else { return }
 
@@ -597,7 +597,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Activation Card
 
     private func checkActivationCard() {
-        let pasted = UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
+        let pasted = AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
         lastKnownPasteCount = pasted
         guard pasted == 0 else {
             showActivationCard = false

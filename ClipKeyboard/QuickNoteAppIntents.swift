@@ -45,7 +45,7 @@ struct OpenQuickNoteInboxIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult {
         // 콜드 런치에선 알림 구독자가 아직 없을 수 있어 보류 플래그도 켠다(리스트가 소비 시 해제).
-        UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
+        AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
         NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
         return .result()
     }

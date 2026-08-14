@@ -851,7 +851,7 @@ class CloudKitBackupService: ObservableObject {
         // 옛 백업을 복원하면 레거시 포맷(combos.data / isCombo / attachedTemplateId)이 되살아날 수 있다.
         // 콤보 통합 마이그레이션 플래그를 리셋해 다음 실행 시 신 모델(childMemoIds)로 재변환되게 한다.
         // (마이그레이션은 hasLegacyComboData()로도 자동 감지하지만, 플래그 리셋으로 명시 보장.)
-        UserDefaults(suiteName: AppGroup.identifier)?
+        AppGroup.defaults?
             .set(false, forKey: DefaultsKey.comboModelUnifyMigratedV1)
     }
 

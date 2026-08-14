@@ -15,11 +15,11 @@ private let kIconsKey  = "userCategoryIcons_v1"
 private let kCatsKey   = "userDefinedCategories_v1"
 
 private func loadCustomIcons() -> [String: String] {
-    UserDefaults(suiteName: AppGroup.identifier)?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
+    AppGroup.defaults?.dictionary(forKey: kIconsKey) as? [String: String] ?? [:]
 }
 
 private func saveCustomIcons(_ dict: [String: String]) {
-    UserDefaults(suiteName: AppGroup.identifier)?.set(dict, forKey: kIconsKey)
+    AppGroup.defaults?.set(dict, forKey: kIconsKey)
 }
 
 // MARK: - Symbol Catalog
@@ -82,7 +82,7 @@ struct CategoryIconSettings: View {
     @Environment(\.appTheme) private var theme
 
     private var categories: [String] {
-        UserDefaults(suiteName: AppGroup.identifier)?.stringArray(forKey: kCatsKey) ?? []
+        AppGroup.defaults?.stringArray(forKey: kCatsKey) ?? []
     }
 
     var body: some View {
@@ -247,7 +247,7 @@ func defaultColor(for category: String, in list: [String]) -> Color {
 /// 카테고리 심볼 - 사용자 지정(userCategoryIcons_v1) 우선, 없으면 기본 팔레트.
 /// 카드·메뉴·키보드 프리뷰가 모두 이 한 가지 규칙을 공유한다.
 func categorySymbol(for category: String, in list: [String]) -> String {
-    if let custom = UserDefaults(suiteName: AppGroup.identifier)?
+    if let custom = AppGroup.defaults?
         .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String],
        let symbol = custom[category] {
         return symbol
@@ -257,7 +257,7 @@ func categorySymbol(for category: String, in list: [String]) -> String {
 
 /// 카테고리 색 - 사용자 지정(userCategoryColors_v1) 우선, 없으면 기본 팔레트.
 func categoryTint(for category: String, in list: [String]) -> Color {
-    if let custom = UserDefaults(suiteName: AppGroup.identifier)?
+    if let custom = AppGroup.defaults?
         .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String],
        let hex = custom[category], let c = Color(hex: hex) {
         return c

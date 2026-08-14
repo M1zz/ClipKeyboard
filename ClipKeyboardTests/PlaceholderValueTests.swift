@@ -20,12 +20,12 @@ final class PlaceholderValueTests: XCTestCase {
         super.setUp()
         sut = MemoStore.shared
         // 격리: 테스트용 키 초기화
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        AppGroup.defaults?
             .removeObject(forKey: "placeholder_values_\(testPlaceholder)")
     }
 
     override func tearDown() {
-        UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+        AppGroup.defaults?
             .removeObject(forKey: "placeholder_values_\(testPlaceholder)")
         sut = nil
         super.tearDown()

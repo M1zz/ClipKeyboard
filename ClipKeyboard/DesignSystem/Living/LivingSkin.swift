@@ -58,7 +58,7 @@ enum LivingSkin: String, CaseIterable, Identifiable {
     // MARK: - 저장
 
     static var current: LivingSkin {
-        let raw = UserDefaults(suiteName: AppGroup.identifier)?
+        let raw = AppGroup.defaults?
             .string(forKey: DefaultsKey.livingSkin) ?? ""
         return resolved(raw)
     }

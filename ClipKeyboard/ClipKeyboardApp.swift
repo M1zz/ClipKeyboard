@@ -86,7 +86,7 @@ struct ClipKeyboardApp: App {
         // 미리 켜 두면 나중에 되살렸을 때 "고른 적 없는 것"이 이미 얹혀 있게 된다.
         guard LivingSkin.isEnabled else { return }
 
-        guard let group = UserDefaults(suiteName: AppGroup.identifier),
+        guard let group = AppGroup.defaults,
               group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
 
         group.set(LivingSkin.vault.rawValue, forKey: DefaultsKey.livingSkin)
@@ -119,7 +119,7 @@ struct ClipKeyboardApp: App {
         AnalyticsService.flushKeyboardBeacon()
 
         // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
-        let keyboardActive = (UserDefaults(suiteName: AppGroup.identifier)?
+        let keyboardActive = (AppGroup.defaults?
             .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
         AnalyticsService.applyLaunchUserProperties(
             isPro: ProFeatureManager.hasFullAccess,
@@ -189,7 +189,7 @@ struct ClipKeyboardApp: App {
     /// - 메모가 새 freeMemoLimit 초과면 grace 플래그
     private func bootstrapV4GrandfatherFlags() {
         // 이미 한 번 초기화됐으면 skip
-        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        let defaults = AppGroup.defaults
         let initKey = DefaultsKey.v4GrandfatherBootstrapDone
         if defaults?.bool(forKey: initKey) == true { return }
 
@@ -355,7 +355,7 @@ struct ClipKeyboardApp: App {
     /// 한국어 입력 토글 기본값은 OFF지만, 기존에 키보드 기본 언어를 한국어로 쓰던 사용자는
     /// 토글이 갑자기 사라지지 않도록 1회 자동 활성화한다. (영어 기본 사용자는 OFF 유지 → 한 안 보임)
     private func migrateKoreanEnabledIfNeeded() {
-        let g = UserDefaults(suiteName: AppGroup.identifier)
+        let g = AppGroup.defaults
         guard g?.bool(forKey: DefaultsKey.koreanEnabledMigratedV1) != true else { return }
         if g?.string(forKey: DefaultsKey.keyboardTypingLang) == "korean" {
             g?.set(true, forKey: DefaultsKey.keyboardKoreanEnabled)
@@ -367,7 +367,7 @@ struct ClipKeyboardApp: App {
     /// 기존 평문 보안 메모를 암호화한다(1회). 암호화 키가 아직 없으면 생성된다.
     /// 키 확보 실패(키체인 불가) 시 플래그를 세우지 않아 다음 실행에서 재시도.
     private func migrateSecureMemoEncryptionIfNeeded() {
-        let g = UserDefaults(suiteName: AppGroup.identifier)
+        let g = AppGroup.defaults
         guard g?.bool(forKey: DefaultsKey.secureMemoEncryptionMigratedV1) != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
@@ -398,7 +398,7 @@ struct ClipKeyboardApp: App {
     /// 사용자가 직접 만든 메모(코드/JSON 안의 리터럴 중괄호 등)는 건드리지 않기 위해
     /// SampleMemoStorage가 추적하는 샘플 메모로만 범위를 한정한다.
     private func migrateSampleTemplateFlagsIfNeeded() {
-        let g = UserDefaults(suiteName: AppGroup.identifier)
+        let g = AppGroup.defaults
         guard g?.bool(forKey: DefaultsKey.sampleTemplateFlagsMigratedV1) != true else { return }
         do {
             var memos = try MemoStore.shared.load(type: .memo)
@@ -472,7 +472,7 @@ struct ClipKeyboardApp: App {
     /// - 플래그가 set돼 있어도 `hasLegacyComboData()`가 참이면 재실행(옛 백업 복원 대비).
     /// - 단일 save로 원자적 적용. 실패 시 플래그 미set → 다음 기회에 재시도.
     private func migrateComboModelIfNeeded() {
-        let g = UserDefaults(suiteName: AppGroup.identifier)
+        let g = AppGroup.defaults
         let alreadyMigrated = (g?.bool(forKey: DefaultsKey.comboModelUnifyMigratedV1) == true)
         // 이미 변환됐고 남은 레거시 데이터도 없으면 빠르게 종료.
         guard !alreadyMigrated || hasLegacyComboData() else { return }
@@ -557,7 +557,7 @@ struct ClipKeyboardApp: App {
     private func migrateVisualCuesIfNeeded() {
         let std = UserDefaults.standard
         guard !std.bool(forKey: DefaultsKey.visualCuesDefaultOffV436) else { return }
-        UserDefaults(suiteName: AppGroup.identifier)?.set(false, forKey: DefaultsKey.showVisualCues)
+        AppGroup.defaults?.set(false, forKey: DefaultsKey.showVisualCues)
         std.set(true, forKey: DefaultsKey.visualCuesDefaultOffV436)
         std.set(true, forKey: DefaultsKey.visualCuesMigratedV1)   // 구 승계 마이그레이션도 종료 처리
         print("🔄 [APP MIGRATION] 메모 심볼 기본 숨김 리셋 완료 (v4.3.6)")
@@ -989,7 +989,7 @@ struct ClipKeyboardApp: App {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어
             // 보류 플래그도 함께 켠다(리스트가 활성화/onAppear에서 소비, 소비 시 해제라 중복 없음).
-            UserDefaults(suiteName: AppGroup.identifier)?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
+            AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
             NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
         }
     }

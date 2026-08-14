@@ -136,19 +136,19 @@ class MemoStore: ObservableObject {
             AppLog.error(.store, "❌ [MemoStore.quarantine] 사본 보관 실패: \(error.localizedDescription)")
         }
 
-        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        let defaults = AppGroup.defaults
         defaults?.set(Date().timeIntervalSince1970, forKey: corruptionFlagKey)
         defaults?.set(quarantined.lastPathComponent, forKey: corruptionFileKey)
     }
 
     /// 복구 안내를 띄워야 하는가.
     static var hasDetectedCorruption: Bool {
-        (UserDefaults(suiteName: AppGroup.identifier)?.double(forKey: corruptionFlagKey) ?? 0) > 0
+        (AppGroup.defaults?.double(forKey: corruptionFlagKey) ?? 0) > 0
     }
 
     /// 사용자가 안내를 확인했을 때 호출 - 플래그만 지운다(격리 사본은 남긴다).
     static func clearCorruptionFlag() {
-        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        let defaults = AppGroup.defaults
         defaults?.removeObject(forKey: corruptionFlagKey)
         defaults?.removeObject(forKey: corruptionFileKey)
     }
@@ -164,7 +164,7 @@ class MemoStore: ObservableObject {
     private static let categorySidecarKey = "memoCategoryAssignments_v1"
     private static let defaultCategoryName = "기본"
     private static var sidecarDefaults: UserDefaults? {
-        UserDefaults(suiteName: AppGroup.identifier)
+        AppGroup.defaults
     }
 
     /// 현재 메모들의 '비기본' 카테고리 할당을 사이드카에 통째로 덮어써 항상 최신 상태로 유지.
@@ -419,7 +419,7 @@ class MemoStore: ObservableObject {
 
     func loadPlaceholderValues(for placeholder: String) -> [PlaceholderValue] {
         let key = "placeholder_values_\(placeholder)"
-        guard let data = UserDefaults(suiteName: AppGroup.identifier)?.data(forKey: key) else {
+        guard let data = AppGroup.defaults?.data(forKey: key) else {
             return []
         }
         return (try? JSONDecoder().decode([PlaceholderValue].self, from: data)) ?? []
@@ -428,8 +428,8 @@ class MemoStore: ObservableObject {
     func savePlaceholderValues(_ values: [PlaceholderValue], for placeholder: String) {
         let key = "placeholder_values_\(placeholder)"
         guard let data = try? JSONEncoder().encode(values) else { return }
-        UserDefaults(suiteName: AppGroup.identifier)?.set(data, forKey: key)
-        UserDefaults(suiteName: AppGroup.identifier)?.synchronize()
+        AppGroup.defaults?.set(data, forKey: key)
+        AppGroup.defaults?.synchronize()
     }
 
     func addPlaceholderValue(_ value: String, for placeholder: String, sourceMemoId: UUID, sourceMemoTitle: String) {
@@ -692,7 +692,7 @@ enum KeyboardUsageTracker {
     ///    그러면 잔고·영수증·기간 합계가 서로 다른 말을 하기 시작한다.
     /// - Parameter memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
     static func recordMemoUse(value: String, memoID: UUID? = nil, on date: Date = Date()) {
-        guard let defaults = UserDefaults(suiteName: AppGroup.identifier) else { return }
+        guard let defaults = AppGroup.defaults else { return }
         let key = dailyKey(for: date)
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
@@ -716,12 +716,12 @@ enum KeyboardUsageTracker {
 
     /// 특정 날짜의 사용 횟수 (기본: 오늘)
     static func dailyUsageCount(for date: Date = Date()) -> Int {
-        UserDefaults(suiteName: AppGroup.identifier)?.integer(forKey: dailyKey(for: date)) ?? 0
+        AppGroup.defaults?.integer(forKey: dailyKey(for: date)) ?? 0
     }
 
     /// 평생 누적 절약 시간 (초)
     static func totalTimeSavedSeconds() -> Double {
-        UserDefaults(suiteName: AppGroup.identifier)?.double(forKey: timeSavedKey) ?? 0
+        AppGroup.defaults?.double(forKey: timeSavedKey) ?? 0
     }
 
     private static func dailyKey(for date: Date) -> String {

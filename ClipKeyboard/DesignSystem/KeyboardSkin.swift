@@ -57,7 +57,7 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
 
     /// 현재 선택된 스킨. App Group에 있어 익스텐션도 같은 값을 읽는다.
     static var current: KeyboardSkin {
-        let raw = UserDefaults(suiteName: AppGroup.identifier)?
+        let raw = AppGroup.defaults?
             .string(forKey: DefaultsKey.keyboardSkin) ?? ""
         return resolved(raw)
     }

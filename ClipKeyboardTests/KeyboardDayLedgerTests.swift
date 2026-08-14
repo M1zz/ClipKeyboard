@@ -16,7 +16,7 @@ import XCTest
 
 final class KeyboardDayLedgerTests: XCTestCase {
 
-    private var defaults: UserDefaults! { UserDefaults(suiteName: AppGroup.identifier) }
+    private var defaults: UserDefaults! { AppGroup.defaults }
 
     override func setUp() {
         super.setUp()
