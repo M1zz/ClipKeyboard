@@ -136,8 +136,8 @@ final class UsageBreakdownTests: XCTestCase {
 
         let shares = UsageInsights.typeBreakdown(metrics: metrics)
 
-        XCTAssertEqual(shares.first(where: { $0.name == "텍스트" })?.count, 5)
-        XCTAssertEqual(shares.first(where: { $0.name == "콤보" })?.count, 4)
+        XCTAssertEqual(shares.first(where: { $0.name == localizedForTest("텍스트") })?.count, 5)
+        XCTAssertEqual(shares.first(where: { $0.name == localizedForTest("콤보") })?.count, 4)
     }
 
     /// 데이터가 없으면 빈 배열 - 0으로 나누지 않는다.
@@ -190,7 +190,7 @@ final class UsageBreakdownTests: XCTestCase {
         ]
 
         let signals = UsageInsights.marketingSignals(metrics: metrics)
-        func value(_ name: String) -> String? { signals.first(where: { $0.name == name })?.value }
+        func value(_ key: String) -> String? { signals.first(where: { $0.name == localizedForTest(key) })?.value }
 
         XCTAssertEqual(value("Pro 전환율"), "50%")
         XCTAssertEqual(value("카테고리 사용"), "50%")
@@ -210,6 +210,6 @@ final class UsageBreakdownTests: XCTestCase {
     func testUnusedRateHandlesZeroShortcuts() {
         let signals = UsageInsights.marketingSignals(metrics: [["shortcuts": 0, "unusedShortcuts": 0]])
 
-        XCTAssertEqual(signals.first(where: { $0.name == "안 쓰는 단축어" })?.value, "0%")
+        XCTAssertEqual(signals.first(where: { $0.name == localizedForTest("안 쓰는 단축어") })?.value, "0%")
     }
 }

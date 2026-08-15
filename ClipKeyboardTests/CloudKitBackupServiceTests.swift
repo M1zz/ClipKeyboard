@@ -101,8 +101,8 @@ final class CloudKitBackupServiceTests: XCTestCase {
         let error = CloudKitError.notAuthenticated
 
         // Then
-        XCTAssertTrue(error.localizedDescription.contains("iCloud"))
-        XCTAssertTrue(error.localizedDescription.contains("로그인"))
+        XCTAssertEqual(error.localizedDescription,
+                       localizedForTest("iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요."))
     }
 
     func testCloudKitError_BackupFailed() {
@@ -111,12 +111,10 @@ final class CloudKitBackupServiceTests: XCTestCase {
         let error = CloudKitError.backupFailed(underlyingError)
 
         // Then - 메시지가 비어있지 않고 사용자에게 actionable한 안내가 포함되어야 함
-        XCTAssertFalse(error.localizedDescription.isEmpty)
-        XCTAssertTrue(
-            error.localizedDescription.contains("네트워크") ||
-            error.localizedDescription.contains("iCloud") ||
-            error.localizedDescription.contains("문제")
-        )
+        // CKError 가 아니면 무엇을 해 보라는 일반 안내로 떨어진다.
+        // 조각을 contains 로 보면 번역된 언어에서 조각이 사라지므로 통째로 맞춘다.
+        XCTAssertEqual(error.localizedDescription,
+                       localizedForTest("문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요."))
     }
 
     func testCloudKitError_RestoreFailed() {
@@ -125,12 +123,10 @@ final class CloudKitBackupServiceTests: XCTestCase {
         let error = CloudKitError.restoreFailed(underlyingError)
 
         // Then
-        XCTAssertFalse(error.localizedDescription.isEmpty)
-        XCTAssertTrue(
-            error.localizedDescription.contains("네트워크") ||
-            error.localizedDescription.contains("iCloud") ||
-            error.localizedDescription.contains("문제")
-        )
+        // CKError 가 아니면 무엇을 해 보라는 일반 안내로 떨어진다.
+        // 조각을 contains 로 보면 번역된 언어에서 조각이 사라지므로 통째로 맞춘다.
+        XCTAssertEqual(error.localizedDescription,
+                       localizedForTest("문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요."))
     }
 
     func testCloudKitError_NoBackupFound() {
@@ -138,7 +134,8 @@ final class CloudKitBackupServiceTests: XCTestCase {
         let error = CloudKitError.noBackupFound
 
         // Then
-        XCTAssertTrue(error.localizedDescription.contains("백업"))
+        XCTAssertEqual(error.localizedDescription,
+                       localizedForTest("백업 데이터가 없습니다. 먼저 백업을 생성해주세요."))
     }
 
     // MARK: - Backup State Tests

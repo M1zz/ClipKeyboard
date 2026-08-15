@@ -98,20 +98,20 @@ struct RefundReceiptTests {
 
     @Test("줄 금액은 1분 미만이어도 빈칸이 되지 않는다")
     func shortDurationsStillPrint() {
-        #expect(RefundReceipt.durationText(seconds: 0) == "0초")
-        #expect(RefundReceipt.durationText(seconds: 45) == "45초")
+        #expect(RefundReceipt.durationText(seconds: 0) == localizedForTest("%d초", 0))
+        #expect(RefundReceipt.durationText(seconds: 45) == localizedForTest("%d초", 45))
     }
 
     @Test("분·시간 단위가 사람이 읽는 형태로 나온다")
     func durationFormatting() {
-        #expect(RefundReceipt.durationText(seconds: 60) == "1분")
-        #expect(RefundReceipt.durationText(seconds: 1_620) == "27분")
-        #expect(RefundReceipt.durationText(seconds: 3_780) == "1시간 3분")
+        #expect(RefundReceipt.durationText(seconds: 60) == localizedForTest("%d분", 1))
+        #expect(RefundReceipt.durationText(seconds: 1_620) == localizedForTest("%d분", 27))
+        #expect(RefundReceipt.durationText(seconds: 3_780) == localizedForTest("%d시간 %d분", 1, 3))
     }
 
     @Test("음수가 들어와도 음수 시간을 찍지 않는다")
     func negativeNeverPrints() {
-        #expect(RefundReceipt.durationText(seconds: -500) == "0초")
+        #expect(RefundReceipt.durationText(seconds: -500) == localizedForTest("%d초", 0))
     }
 
     // MARK: - 기간 영수증 (월 원장에서)
@@ -158,7 +158,7 @@ struct RefundReceiptTests {
                                 uses: [alive.id: 1, gone1: 5, gone2: 7],
                                 memos: [alive])
 
-        let deleted = made.lines.filter { $0.label == "지운 문구" }
+        let deleted = made.lines.filter { $0.label == localizedForTest("지운 문구") }
         #expect(deleted.count == 1)
         #expect(deleted.first?.earnedSeconds == 120)
         #expect(deleted.first?.useCount == 12)
@@ -214,6 +214,6 @@ struct RefundReceiptTests {
         let secure = memo("계좌 비밀번호", uses: 5, secure: true)
         let labels = receipt([secure]).lines.map(\.label)
         #expect(!labels.contains("계좌 비밀번호"))
-        #expect(labels == ["잠긴 문구"])
+        #expect(labels == [localizedForTest("잠긴 문구")])
     }
 }
