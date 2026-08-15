@@ -432,7 +432,7 @@ class ClipboardClassificationService {
         return nil
     }
 
-    /// VAT 번호 (EU + UK). 국가 prefix + 숫자/영숫자 8–12자.
+    /// VAT 번호 (EU + UK). 국가 prefix + 숫자/영숫자 8~12자.
     private func detectVAT(_ text: String) -> (ClipboardItemType, Double)? {
         let normalized = text.replacingOccurrences(of: " ", with: "").uppercased()
         let euCountries = "AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|GB|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK|XI"
@@ -447,7 +447,7 @@ class ClipboardClassificationService {
     private func detectCryptoWallet(_ text: String) -> (ClipboardItemType, Double)? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
 
-        // BTC legacy (P2PKH, P2SH): 1 또는 3으로 시작, Base58 26–35자
+        // BTC legacy (P2PKH, P2SH): 1 또는 3으로 시작, Base58 26~35자
         if trimmed.range(of: "^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", options: .regularExpression) != nil {
             return (.cryptoWallet, 0.9)
         }

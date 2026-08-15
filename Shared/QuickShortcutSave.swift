@@ -26,9 +26,6 @@ private let saveLog = Logger(subsystem: "com.Ysoup.TokenMemo.share", category: "
 
 enum QuickShortcutSave {
 
-    /// 앱 밖 변경 표식 - 메인 앱의 `DefaultsKey.memosExternalChangeAt` 와 같은 문자열이어야 한다.
-    private static let externalChangeKey = "memos.externalChangeAt"
-
     enum Outcome {
         /// 바로 쓸 수 있는 단축어로 저장됐다.
         case shortcut
@@ -174,7 +171,7 @@ enum QuickShortcutSave {
 
     /// 앱이 돌아올 때 다시 읽도록 표식을 남긴다. 이게 없으면 앱이 낡은 목록으로 덮어쓴다.
     private static func markExternalChange() {
-        AppGroup.defaults?.set(Date().timeIntervalSince1970, forKey: externalChangeKey)
+        AppGroup.defaults?.set(Date().timeIntervalSince1970, forKey: DefaultsKey.memosExternalChangeAt)
     }
 
     private static func persistImages(_ images: [UIImage], id: String, containerURL: URL) -> [String] {

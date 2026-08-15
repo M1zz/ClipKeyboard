@@ -6,7 +6,7 @@
 
 **Mac 앱이 완전히 새로워졌어요**
 - **빠른 붙여넣기 패널**: ⌃⇧V로 어디서든 메모 패널을 띄우고, 클릭하면 바로 원래 입력 중이던 곳에 붙여넣습니다. 포커스를 잃지 않아요.
-- **메뉴바 검색**: 메뉴바 아이콘을 클릭하면 즉시 검색 팝오버. Fuzzy 매치, ↑↓ 방향키로 이동, ⌘1–9로 상위 9개 즉시 선택.
+- **메뉴바 검색**: 메뉴바 아이콘을 클릭하면 즉시 검색 팝오버. Fuzzy 매치, ↑↓ 방향키로 이동, ⌘1~9로 상위 9개 즉시 선택.
 - **⌥Enter로 직접 붙여넣기**: Enter는 복사, ⌥Enter는 복사 후 전경 앱에 바로 ⌘V. Preferences에서 기본값을 "바로 붙여넣기"로 바꿀 수 있어요.
 - **로그인 시 자동 실행**, Preferences에서 토글 한 번.
 - **우클릭 컨텍스트 메뉴**, 메모 위에서 우클릭하면 복사·즐겨찾기·수정·삭제 바로 접근.
@@ -41,7 +41,7 @@
 
 **A brand-new Mac app**
 - **Quick Paste Panel**: Press ⌃⇧V anywhere. Click a memo and it's pasted right into the text field you were typing in. Focus stays where it was.
-- **Menu bar search**: Click the menu bar icon for an instant search popover. Fuzzy matching, arrow-key navigation, ⌘1–9 for top 9 picks.
+- **Menu bar search**: Click the menu bar icon for an instant search popover. Fuzzy matching, arrow-key navigation, ⌘1~9 for top 9 picks.
 - **⌥Enter for direct paste**: Enter copies, ⌥Enter copies and pastes into the frontmost app. Flip the default in Preferences.
 - **Launch at login**: One toggle in Preferences.
 - **Right-click context menu** (Copy, favorite, edit, delete) right on memos.

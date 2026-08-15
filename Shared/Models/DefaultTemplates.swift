@@ -178,7 +178,7 @@ struct DefaultTemplates {
             ),
             Memo(
                 title: "Out of office",
-                value: "I'm OOO {start_date}–{end_date}, limited availability. For urgent items: {backup_email}.",
+                value: "I'm OOO {start_date} to {end_date}, limited availability. For urgent items: {backup_email}.",
                 category: "text",
                 isTemplate: true,
                 templateVariables: ["start_date", "end_date", "backup_email"]

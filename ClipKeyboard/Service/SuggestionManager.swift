@@ -153,7 +153,7 @@ final class SuggestionManager: ObservableObject {
                     feature: .template, persona: .nomad, categoryKey: "Banking & Payments"),
         PersonaSeed(stableID: 90006, emoji: "✈️",
                     titleKey: "Travel days notice",
-                    content: "I'm in transit {date_from}–{date_to} ({route}). I'll be online from {hotel} starting {arrival_time}.",
+                    content: "I'm in transit {date_from} to {date_to} ({route}). I'll be online from {hotel} starting {arrival_time}.",
                     feature: .template, persona: .nomad, categoryKey: "Nomad essentials"),
 
         // Business / Office Worker (5)

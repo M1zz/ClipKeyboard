@@ -50,8 +50,8 @@ enum ClipCategory: String, CaseIterable {
 
 /// OKLCH 기반 hue/chroma를 HSB로 근사. handoff의 catHue map과 매칭.
 private struct CategoryHue {
-    let hue: Double       // 0.0–1.0 (SwiftUI HSB)
-    let chroma: Double    // 0.0–1.0 근사
+    let hue: Double       // 0.0~1.0 (SwiftUI HSB)
+    let chroma: Double    // 0.0~1.0 근사
 }
 
 private extension ClipCategory {

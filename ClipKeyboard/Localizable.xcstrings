@@ -5051,14 +5051,14 @@
         }
       }
     },
-    "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy." : {
+    "Hi {client}, if you enjoyed working together, a short testimonial (2 to 3 sentences) for my site would mean a lot. No pressure at all: only if it's easy." : {
       "comment" : "Example: testimonial",
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy."
+            "value" : "Hi {client}, if you enjoyed working together, a short testimonial (2 to 3 sentences) for my site would mean a lot. No pressure at all: only if it's easy."
           }
         },
         "ko" : {
@@ -14015,7 +14015,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "How many people have how many snippets. The buckets tighten around the free limit (10), a cluster at 7–9 means the limit is driving purchases; a cluster at 1–3 means people start and stop."
+            "value" : "How many people have how many snippets. The buckets tighten around the free limit (10), a cluster at 7 to 9 means the limit is driving purchases; a cluster at 1 to 3 means people start and stop."
           }
         }
       }

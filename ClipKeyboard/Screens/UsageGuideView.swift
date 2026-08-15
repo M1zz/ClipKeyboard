@@ -498,7 +498,7 @@ private enum UsageScenarioData {
                 UsageScenario(
                     titleKey: "Asking for testimonial",
                     contextKey: "After successful project wrap-up",
-                    exampleKey: "Hi {client}, if you enjoyed working together, a short testimonial (2–3 sentences) for my site would mean a lot. No pressure at all: only if it's easy.",
+                    exampleKey: "Hi {client}, if you enjoyed working together, a short testimonial (2 to 3 sentences) for my site would mean a lot. No pressure at all: only if it's easy.",
                     feature: .template
                 )
             ]

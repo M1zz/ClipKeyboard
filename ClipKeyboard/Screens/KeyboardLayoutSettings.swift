@@ -436,8 +436,7 @@ struct KeyboardPreviewView: View {
     }
     private func catColor(_ key: String) -> Color {
         if key == "★all" { return .blue }
-        // 익스텐션의 colorForCategoryKey와 동일한 즐겨찾기 색 #FF4A9E
-        if key == "★favorites" { return Color(red: 1.0, green: 0.29, blue: 0.62) }
+        if key == "★favorites" { return .clipFavorite }
         return categoryTint(for: key, in: allUserCats)
     }
 

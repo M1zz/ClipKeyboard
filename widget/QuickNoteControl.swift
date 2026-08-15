@@ -38,8 +38,7 @@ struct AddQuickNoteControlIntent: AppIntent {
     @MainActor
     func perform() async throws -> some IntentResult {
         controlLog.info("🎛️ [QuickNoteControl] perform, 보류 플래그 기록 후 앱 오픈")
-        // 키 문자열은 앱 타겟 DefaultsKey.pendingQuickNoteAdd 와 동일 (위젯 타겟은 리터럴 사용)
-        AppGroup.defaults?.set(true, forKey: "pendingQuickNoteAdd")
+        AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
         return .result()
     }
 }
