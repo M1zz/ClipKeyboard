@@ -95,94 +95,251 @@ struct ClipKeyboardApp: App {
         print("🎨 [APP INIT] 새 설치, 금고 스킨으로 시작")
     }
 
+    /// ⚠️ **여기에는 "앱이 뜨기 전에 반드시 끝나야 하는 것"만 둔다.**
+    ///
+    /// 이 함수는 `didFinishLaunching` 안에서 돌기 때문에, 여기서 오래 붙잡으면 워치독이
+    /// 앱을 죽이고(0x8badf00d) 그 기록은 크래시로 남는다. 여기서 죽으면 사용자는 화면을
+    /// 한 장도 못 본다. 그래서 통계·CloudKit·진단처럼 **화면을 띄우는 일과 무관한 것들은
+    /// 전부 첫 화면 뒤로 옮겼다** (`runLaunchSequence`).
+    ///
+    /// 남길 이유가 있는 것만 남았다.
+    ///  - 새 설치 씨앗: 첫 화면이 무엇인지를 정하므로 화면보다 먼저여야 한다.
+    ///  - 콤보 마이그레이션: 다른 어떤 load/save 보다 먼저여야 레거시 키가 살아 있다.
+    ///  - 백그라운드 작업 등록: iOS 가 런치 사이클 안에서만 받아 준다(늦으면 등록 자체가 무시된다).
     init() {
         if ClipKeyboardApp.isRunningUnitTests {
             print("🧪 [APP INIT] 유닛 테스트 모드, 무거운 초기화 스킵")
             return
         }
 
+        // 직전 런치가 끝까지 갔는지 판정한다. 못 갔으면 이번 런치는 세이프 모드로 열린다.
+        LaunchGuard.begin()
+
         // ⚠️ **다른 어떤 초기화보다 먼저.** 설치일(app_install_date)이 아직 없다는 사실로
         //    새 설치를 가려내는데, ReviewManager 가 한 번이라도 먼저 깨어나면 그 값을 써 버려서
         //    기존 사용자와 구분이 안 된다.
-        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        LaunchGuard.essential(.seed) {
+            ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        }
 
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
-        print("📱 [APP INIT] DataManager 생성됨")
 
         // 콤보/attached 데이터 모델 통합 마이그레이션 - 다른 어떤 load/save보다 먼저 실행해
         // 레거시 키(isCombo/comboValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
-        migrateComboModelIfNeeded()
+        LaunchGuard.essential(.comboMigration) {
+            migrateComboModelIfNeeded()
+        }
 
         // 익명 사용 통계 → 공용 허브(FeedbackHub). 이벤트 훅을 먼저 꽂아야 이후 로그가 전달된다.
-        // (키보드 익스텐션 타겟은 이 훅이 nil이라 콘솔 로깅만 한다 - CloudKit 쓰기 없음)
+        // (클로저 대입뿐이라 여기서 죽을 일이 없다. 실제 전송은 첫 화면 뒤로 미룬다)
         AnalyticsService.eventSink = { UsageReportingService.record(event: $0) }
-
-        // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
-        AnalyticsService.flushKeyboardBeacon()
-
-        // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
-        let keyboardActive = (AppGroup.defaults?
-            .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
-        AnalyticsService.applyLaunchUserProperties(
-            isPro: ProFeatureManager.hasFullAccess,
-            persona: CategoryStore.shared.selectedPersona?.rawValue,
-            keyboardActive: keyboardActive
-        )
 
         // 백그라운드 새로고침 task 등록 - 메인 앱이 안 열려도 주기적으로 비콘 flush
         // (키보드만 쓰는 유저의 DAU 추적용)
-        BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
-
-        // 원격 기능 플래그 갱신(6시간 쓰로틀, 실패해도 무시) - 문제 기능을 심사 없이 끄기 위한 장치.
-        // 이번 실행은 캐시된 값으로 동작하고, 여기서 받은 값은 다음 실행부터 반영된다.
-        Task { @MainActor in RemoteFlagsService.shared.refreshInBackground() }
-
-        // 크래시·행 진단 구독(MetricKit) - 구독만 하고 즉시 반환하므로 런치 비용이 없다.
-        // 페이로드는 iOS가 하루 한 번꼴로 묶어서 준다(실시간 아님).
-        DiagnosticsService.shared.start()
-
-        // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 - 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
-        // ⚠️ 여기는 백그라운드 새로고침으로 깨어난 경우에도 돈다. "앱을 열었다"는 신호는
-        //    화면이 실제로 뜨는 곳(scenePhase)에서 따로 남긴다 - 아래 reportForegroundOpen.
-        UsageReportingService.reportProcessStart()
-
-        // 오래된 월 원장·일별 키 정리 - 하루 한 번만 실제로 돈다.
-        // ⚠️ 반드시 **앱에서만**. 전체 사전을 훑는 일이라 키보드 익스텐션의 입력 경로에 두면
-        //    메모리 상한(약 60MB) 안에서 매 입력마다 값을 치르게 된다.
-        RefundLedger.pruneIfNeeded()
-
-        // TestFlight 여부 비동기 감지 - isPro 체크 전에 완료되도록 최우선 실행
-        Task { await ProFeatureManager.bootstrapIsTestFlight() }
-
-        // v4.0 이전 유료 앱 구매자 그랜드파더 (AppTransaction 영수증 기반).
-        // bootstrap_done 1회 가드와 무관하게 매 실행 검증 → 이미 업데이트 후 Pro를 잃은
-        // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
-        Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() }
-
-        // DEBUG 빌드에서만 계정/구매 상태 진단 덤프 (Xcode 콘솔에서 "🩺 [Diag]"로 검색)
-        #if DEBUG
-        Task {
-            // TestFlight 감지·그랜드파더 검증이 먼저 끝나도록 잠깐 양보
-            await ProFeatureManager.bootstrapIsTestFlight()
-            await ProFeatureManager.grandfatherPaidUserIfNeeded()
-            await StoreManager.shared.logAccountDiagnostics()
+        // ⚠️ 이것만은 미룰 수 없다. iOS 는 런치 사이클 안에서 등록한 핸들러만 인정한다.
+        LaunchGuard.optional(.backgroundTask) {
+            BeaconBackgroundScheduler.registerAndScheduleIfNeeded()
         }
-        #endif
+        // 등록을 건너뛴 런치에서는 예약도 걷어낸다 - 핸들러 없는 작업으로 깨어나면
+        // 그 백그라운드 런치는 그대로 종료 처리된다.
+        if LaunchGuard.isSafeMode {
+            BeaconBackgroundScheduler.cancelAll()
+        }
 
         // 앱 실행 횟수 증가
         ReviewManager.shared.incrementAppLaunchCount()
 
-        // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
-        bootstrapV4GrandfatherFlags()
-
         // TipKit 설정 - 온보딩 대신 상황에 맞는 팁으로 안내
-        try? Tips.configure([
-            .datastoreLocation(.applicationDefault)
-        ])
+        LaunchGuard.optional(.tips) {
+            try? Tips.configure([
+                .datastoreLocation(.applicationDefault)
+            ])
+        }
 
         #if targetEnvironment(macCatalyst)
         setupMacCatalystCommands()
         #endif
+    }
+
+    // MARK: - 첫 화면 뒤에 하는 일
+
+    /// 화면이 뜬 **다음에** 도는 런치 작업 전부.
+    ///
+    /// 여기 있는 것들은 하나도 첫 화면을 그리는 데 필요하지 않다. 그래서 늦게 해도 되고,
+    /// 늦게 해야 한다 - 런치를 붙잡으면 워치독에 걸리고, 여기서 죽으면 사용자는 이미
+    /// 자기 단축어를 보고 있는 상태다.
+    ///
+    /// 단계는 두 종류다.
+    ///  - `essential`: 데이터 무결성에 필요 - 세이프 모드에서도 돈다.
+    ///  - `optional`: 없어도 앱이 돈다 - 직전 런치가 못 끝났으면 통째로 쉰다.
+    ///    (되풀이해서 같은 단계가 멈추면 `LaunchGuard` 가 그 단계를 이 버전 동안 격리한다)
+    @MainActor
+    private func runLaunchSequence() async {
+        // 첫 프레임을 먼저 내보낸다. 아래 일들이 메인 스레드를 쓰긴 하지만, 그때는 이미
+        // 화면이 떠 있어서 "런치가 안 끝난 앱"으로 죽지 않는다.
+        await Task.yield()
+
+        // ① 데이터 - 세이프 모드에서도 돈다.
+        //    샘플 삽입 전에 "이 기기에 원래 내 메모가 있었는지"를 먼저 본다.
+        //    (없으면 새 기기일 가능성 → 백업 복원 안내 대상)
+        var localWasEmpty = false
+        LaunchGuard.essential(.dataMigrations) {
+            localWasEmpty = ((try? MemoStore.shared.load(type: .memo)) ?? []).isEmpty
+
+            // 위 load 과정에서 파일 손상이 감지됐다면 복구 안내를 먼저 띄운다.
+            // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 - 이 상태에서 샘플을
+            //    넣으면 읽지 못한 파일을 덮어쓸 수 있다.
+            if MemoStore.hasDetectedCorruption {
+                showDataRecovery = true
+            }
+
+            migrateComboModelIfNeeded()
+            migrateVisualCuesIfNeeded()
+            migrateKoreanEnabledIfNeeded()
+            migrateSecureMemoEncryptionIfNeeded()
+            insertDefaultSamplesIfNeeded()
+            migrateSampleTemplateFlagsIfNeeded()
+        }
+
+        // ② 결제 권한 - 세이프 모드에서도 돈다. 여기를 쉬면 산 사람이 Pro 를 잃는다.
+        LaunchGuard.essential(.entitlement) {
+            // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
+            bootstrapV4GrandfatherFlags()
+
+            // TestFlight 여부 비동기 감지 - isPro 체크 전에 완료되도록 최우선 실행
+            Task { await ProFeatureManager.bootstrapIsTestFlight() }
+
+            // v4.0 이전 유료 앱 구매자 그랜드파더 (AppTransaction 영수증 기반).
+            // bootstrap_done 1회 가드와 무관하게 매 실행 검증 → 이미 업데이트 후 Pro를 잃은
+            // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
+            Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() }
+
+            // DEBUG 빌드에서만 계정/구매 상태 진단 덤프 (Xcode 콘솔에서 "🩺 [Diag]"로 검색)
+            #if DEBUG
+            Task {
+                // TestFlight 감지·그랜드파더 검증이 먼저 끝나도록 잠깐 양보
+                await ProFeatureManager.bootstrapIsTestFlight()
+                await ProFeatureManager.grandfatherPaidUserIfNeeded()
+                await StoreManager.shared.logAccountDiagnostics()
+            }
+            #endif
+        }
+
+        // ③ 익명 사용 통계.
+        LaunchGuard.optional(.analytics) {
+            // 직전 런치가 멈췄다면 그 단계 이름을 여기서 한 번 보낸다.
+            // 재현 안 되는 런치 크래시를 남의 기기에서 알아내는 유일한 통로다.
+            LaunchGuard.reportStallIfNeeded()
+
+            // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
+            AnalyticsService.flushKeyboardBeacon()
+
+            // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
+            let keyboardActive = (AppGroup.defaults?
+                .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
+            AnalyticsService.applyLaunchUserProperties(
+                isPro: ProFeatureManager.hasFullAccess,
+                persona: CategoryStore.shared.selectedPersona?.rawValue,
+                keyboardActive: keyboardActive
+            )
+
+            // 설치 스냅샷(사용자 수·활성·앱 지표) 갱신 - 12시간 쓰로틀. 끄는 설정은 없다(항상 수집).
+            UsageReportingService.reportProcessStart()
+
+            // 콜드 런치 - scenePhase 변화만 믿으면 이미 .active 인 채로 첫 화면이
+            // 뜬 경우를 놓친다. 양쪽에서 불러도 실행 횟수는 프로세스당 1회,
+            // app_open 은 20시간 쓰로틀이라 중복으로 세지 않는다.
+            reportForegroundActivity()
+
+            // 오래된 월 원장·일별 키 정리 - 하루 한 번만 실제로 돈다.
+            // ⚠️ 반드시 **앱에서만**. 전체 사전을 훑는 일이라 키보드 익스텐션의 입력 경로에 두면
+            //    메모리 상한(약 60MB) 안에서 매 입력마다 값을 치르게 된다.
+            RefundLedger.pruneIfNeeded()
+        }
+
+        // ④ 원격 기능 플래그 갱신(6시간 쓰로틀, 실패해도 무시) - 문제 기능을 심사 없이 끄기 위한 장치.
+        //    이번 실행은 캐시된 값으로 동작하고, 여기서 받은 값은 다음 실행부터 반영된다.
+        LaunchGuard.optional(.remoteFlags) {
+            RemoteFlagsService.shared.refreshInBackground()
+        }
+
+        // ⑤ 크래시·행 진단 구독(MetricKit) - 구독만 하고 즉시 반환한다.
+        //    페이로드는 iOS가 하루 한 번꼴로 묶어서 준다(실시간 아님).
+        LaunchGuard.optional(.diagnostics) {
+            DiagnosticsService.shared.start()
+        }
+
+        // ⑥ 자동 백업 서비스를 런치 시 초기화한다.
+        //    (기존엔 iCloud 백업 화면을 열 때만 생성돼, 화면을 안 본 사용자는
+        //     데이터 변경 리스너·타이머·시작 백업이 전혀 안 돌아 "마지막 백업"이 멈춰 있었다.)
+        //    .shared 접근만으로 계정확인·자동백업 타이머·변경 리스너·시작 백업이 시작된다.
+        //    ⚠️ 시뮬레이터에서는 통째로 건너뛰는 경로다(CloudKitBackupService 참고).
+        //       즉 **실기기에서만 도는 코드**라 개발 중에는 한 번도 안 밟힌다.
+        LaunchGuard.optional(.cloudBackup) {
+            _ = CloudKitBackupService.shared
+        }
+
+        // ⑦ 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
+        //    시작 전에 실제 접근 권한을 공유 키에 미러링한다 - 안 하면 그랜드파더/TestFlight
+        //    사용자는 토글이 켜져 있어도 엔진이 "not Pro"로 거부한다.
+        LaunchGuard.optional(.sync) {
+            ProFeatureManager.mirrorSyncEntitlement()
+            MemoSyncEngine.shared.startIfEnabled()
+        }
+
+        // ⑧ 제어센터 컨트롤 재등록 - 업데이트로 인텐트 타입이 바뀌어도
+        //    이미 추가된 컨트롤이 죽은 채 남지 않게 런치마다 갱신한다.
+        LaunchGuard.optional(.controls) {
+            #if os(iOS) && !targetEnvironment(macCatalyst)
+            if #available(iOS 18.0, *) {
+                ControlCenter.shared.reloadAllControls()
+            }
+            #endif
+        }
+
+        // ⑨ 런치 직후 안내·제안.
+        LaunchGuard.optional(.prompts) {
+            offerDemoSamplesToExistingUserIfNeeded()
+            offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
+
+            // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
+            // 프롬프트 없이 조용히 동작 - 알림 권한은 인박스 토글에서 요청한다.
+            if UserDefaults.standard.bool(forKey: DefaultsKey.masterModeEnabled) {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
+                if !showDemoSampleOffer, ReviewManager.shared.shouldShowReview() {
+                    showReviewRequest = true
+                }
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                checkVoiceOverAndNudge()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                maybeShowWhatsNew()
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                maybeShowFeedbackNudge()
+            }
+
+            // 반값 제안은 맨 뒤에 - 앞의 안내들이 자리를 잡고 난 다음에야 물어본다.
+            // (상품 로드가 늦을 수 있어 3초를 준다. 못 받으면 다음 실행에 다시 본다)
+            noteShortcutCountForDiscountOffer()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                maybeShowDiscountOffer()
+            }
+        }
+
+        // ⚠️ 마지막 안내가 뜨는 자리(3.5초)까지 지켜본 뒤에 런치를 닫는다.
+        //    시트가 올라오다 죽는 것도 사용자에게는 똑같은 "런치 크래시"라, 그 구간을
+        //    빵부스러기 밖에 두면 정작 알고 싶은 사고를 못 잡는다.
+        try? await Task.sleep(for: .seconds(4))
+        LaunchGuard.finish()
     }
 
     /// v3.x → v4.0 업그레이드 유저에게 그랜드파더 상태를 부여한다.
@@ -727,83 +884,10 @@ struct ClipKeyboardApp: App {
                 .onOpenURL { url in
                     handleOpenURL(url)
                 }
-                .onAppear {
-                    // 샘플 삽입 전에 "이 기기에 원래 내 메모가 있었는지"를 먼저 본다.
-                    // (없으면 새 기기일 가능성 → 백업 복원 안내 대상)
-                    let localWasEmpty = ((try? MemoStore.shared.load(type: .memo)) ?? []).isEmpty
-
-                    // 위 load 과정에서 파일 손상이 감지됐다면 복구 안내를 먼저 띄운다.
-                    // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 - 이 상태에서 샘플을
-                    //    넣으면 읽지 못한 파일을 덮어쓸 수 있다.
-                    if MemoStore.hasDetectedCorruption {
-                        showDataRecovery = true
-                    }
-
-                    // 콜드 런치 - scenePhase 변화만 믿으면 이미 .active 인 채로 첫 화면이
-                    // 뜬 경우를 놓친다. 양쪽에서 불러도 실행 횟수는 프로세스당 1회,
-                    // app_open 은 20시간 쓰로틀이라 중복으로 세지 않는다.
-                    reportForegroundActivity()
-
-                    migrateComboModelIfNeeded()
-                    migrateVisualCuesIfNeeded()
-                    migrateKoreanEnabledIfNeeded()
-                    migrateSecureMemoEncryptionIfNeeded()
-                    insertDefaultSamplesIfNeeded()
-                    migrateSampleTemplateFlagsIfNeeded()
-                    offerDemoSamplesToExistingUserIfNeeded()
-                    offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
-
-                    // 제어센터 컨트롤 재등록 - 업데이트로 인텐트 타입이 바뀌어도
-                    // 이미 추가된 컨트롤이 죽은 채 남지 않게 런치마다 갱신한다.
-                    #if os(iOS) && !targetEnvironment(macCatalyst)
-                    if #available(iOS 18.0, *) {
-                        ControlCenter.shared.reloadAllControls()
-                    }
-                    #endif
-
-                    // 자동 백업 서비스를 런치 시 초기화한다.
-                    // (기존엔 iCloud 백업 화면을 열 때만 생성돼, 화면을 안 본 사용자는
-                    //  데이터 변경 리스너·타이머·시작 백업이 전혀 안 돌아 "마지막 백업"이 멈춰 있었다.)
-                    // .shared 접근만으로 계정확인·자동백업 타이머·변경 리스너·시작 백업이 시작된다.
-                    _ = CloudKitBackupService.shared
-
-                    // 메모 실시간 동기화 시작(Pro + 플래그 ON일 때만). 시작 시 원격을 당겨온다.
-                    // 시작 전에 실제 접근 권한을 공유 키에 미러링한다 - 안 하면 그랜드파더/TestFlight
-                    // 사용자는 토글이 켜져 있어도 엔진이 "not Pro"로 거부한다.
-                    ProFeatureManager.mirrorSyncEntitlement()
-                    MemoSyncEngine.shared.startIfEnabled()
-
-                    // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
-                    // 프롬프트 없이 조용히 동작 - 알림 권한은 인박스 토글에서 요청한다.
-                    if UserDefaults.standard.bool(forKey: DefaultsKey.masterModeEnabled) {
-                        UIApplication.shared.registerForRemoteNotifications()
-                    }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
-                        if !showDemoSampleOffer, ReviewManager.shared.shouldShowReview() {
-                            showReviewRequest = true
-                        }
-                    }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        checkVoiceOverAndNudge()
-                    }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        maybeShowWhatsNew()
-                    }
-
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                        maybeShowFeedbackNudge()
-                    }
-
-                    // 반값 제안은 맨 뒤에 - 앞의 안내들이 자리를 잡고 난 다음에야 물어본다.
-                    // (상품 로드가 늦을 수 있어 3초를 준다. 못 받으면 다음 실행에 다시 본다)
-                    noteShortcutCountForDiscountOffer()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-                        maybeShowDiscountOffer()
-                    }
+                // 런치 작업 전부를 **첫 화면 뒤로** 미룬다. `onAppear` 가 아니라 `task` 인 이유는
+                // 화면이 실제로 붙은 다음에 돌기 시작하고, 중간에 기다릴(await) 수 있어서다.
+                .task {
+                    await runLaunchSequence()
                 }
                 // 단축어를 만들거나 지울 때마다 개수를 다시 센다 - 9개에 닿는 순간이 시계의 시작이다.
                 .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
@@ -819,11 +903,19 @@ struct ClipKeyboardApp: App {
                 .onChange(of: scenePhase) { _, phase in
                     // 앱이 다시 앞으로 오면 즉시 동기화 - 다른 기기의 최신 메모를 바로 반영.
                     // (start는 멱등 - 토글이 KV로 전파돼 막 켜진 경우 여기서 시작될 수 있음.)
-                    if phase == .active {
+                    // ⚠️ 세이프 모드에서는 쉰다. 런치에서 죽은 원인이 이 근처일 수 있는데,
+                    //    복귀할 때마다 같은 것을 다시 부르면 세이프 모드의 뜻이 없어진다.
+                    if phase == .active, !LaunchGuard.isSafeMode {
                         ProFeatureManager.mirrorSyncEntitlement()
                         MemoSyncEngine.shared.startIfEnabled()
                         MemoSyncEngine.shared.syncNow()
                         reportForegroundActivity()
+                    }
+                    // 사용자가 앱을 뒤로 보냈다면 이 런치는 성공한 것이다 - 화면을 보고
+                    // 손으로 나간 것이니까. 여기서 런치를 닫아, 나중에 메모리 정리로
+                    // 죽더라도 "런치가 멈췄다"고 잘못 읽지 않게 한다.
+                    if phase == .background {
+                        LaunchGuard.finish()
                     }
                 }
                 // 데이터 손상 복구 안내 - 다른 시트보다 먼저 붙여 우선 노출시킨다.

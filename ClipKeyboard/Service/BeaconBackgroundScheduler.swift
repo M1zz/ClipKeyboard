@@ -35,6 +35,15 @@ enum BeaconBackgroundScheduler {
         #endif
     }
 
+    /// 예약을 전부 걷어낸다 - 세이프 모드처럼 **핸들러를 등록하지 않은 런치**에서 부른다.
+    /// 등록 없이 예약만 남아 있으면 iOS가 그 작업으로 앱을 깨웠을 때 받을 곳이 없다.
+    static func cancelAll() {
+        #if canImport(BackgroundTasks)
+        BGTaskScheduler.shared.cancelAllTaskRequests()
+        print("🧹 [BeaconBackgroundScheduler] 핸들러 미등록 런치, 예약을 걷어냈다")
+        #endif
+    }
+
     /// 다음 task 예약 - 핸들러 종료 시점 + 앱 launch 시점에 호출.
     /// earliestBeginDate를 4시간 뒤로 설정해 적당한 빈도 유도 (iOS는 더 늦출 수 있음).
     static func scheduleNext() {

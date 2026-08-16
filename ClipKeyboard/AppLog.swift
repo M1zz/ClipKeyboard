@@ -35,6 +35,7 @@ enum AppLog {
         case diagnostics = "Diagnostics"
         case flags = "RemoteFlags"
         case wipe = "DataWipe"
+        case launch = "Launch"
     }
 
     private static let subsystem = "com.Ysoup.TokenMemo"

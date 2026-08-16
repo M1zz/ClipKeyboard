@@ -107,6 +107,9 @@ enum AnalyticsEvent: String {
     /// 설치는 했는데 여기서 끊기면 첫인상 문제이고, 여기는 통과했는데 단축어를
     /// 안 만들면 가치 전달 문제다. 둘을 구분하려고 남긴다.
     case onboardingCompleted = "onboarding_completed"
+    /// 직전 런치가 끝까지 못 갔다 - `source` 에 멈춘 단계 이름이 실린다(LaunchGuard).
+    /// 재현이 안 되는 런치 크래시를 **남의 기기에서** 잡아내는 유일한 통로다.
+    case launchIncomplete = "launch_incomplete"
 }
 
 /// 이벤트 파라미터 키 - 분석 시 슬라이싱용

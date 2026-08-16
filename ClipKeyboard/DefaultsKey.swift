@@ -207,6 +207,19 @@ enum DefaultsKey {
     /// "있는 단축어를 템플릿으로 바꾸기" 튜토리얼을 끝냈거나 거절했는지.
     static let tutorialMakeTemplateDone = "tutorial.makeTemplate.done.v1"
 
+    // MARK: - 런치 안전장치 (LaunchGuard)
+    /// 지금 진행 중인 런치 단계 `"<tier>:<stage>"`. 런치를 끝내면 지운다 (App Group).
+    /// 다음 런치에 이 값이 남아 있으면 **직전 런치가 그 자리에서 죽었다**는 뜻이다.
+    static let launchStageInFlight = "launch.stage.inFlight"
+    /// 마지막으로 런치를 못 끝낸 단계 이름 - 같은 자리에서 되풀이하는지 판정한다 (App Group).
+    static let launchLastStalledStage = "launch.stage.lastStalled"
+    /// 연속으로 런치를 못 끝낸 횟수. 끝까지 가면 0으로 돌아간다 (App Group).
+    static let launchFailStreak = "launch.failStreak"
+    /// 되풀이해 멈춘 탓에 이번 빌드에서는 시작하지 않는 단계 이름들 (App Group).
+    static let launchQuarantinedStages = "launch.quarantinedStages"
+    /// 격리 목록을 기록한 앱 버전. 버전이 바뀌면 목록을 비우고 다시 시도한다 (App Group).
+    static let launchQuarantineVersion = "launch.quarantineVersion"
+
     // MARK: - 데모 데이터
     /// 데모(샘플 페르소나) 데이터가 켜져 있는지 (App Group - 키보드도 같은 데이터를 본다).
     /// 켤 때 원본을 demo.backup.data로 백업하고, 끄면 복원한다. DemoDataService 참고.
