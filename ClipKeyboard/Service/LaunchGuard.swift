@@ -44,6 +44,8 @@ enum LaunchGuard {
         case backgroundTask = "background-task"
         /// TipKit 설정.
         case tips = "tips"
+        /// 첫 화면(SwiftUI 가 `body` 를 처음 평가하는 구간).
+        case firstFrame = "first-frame"
         /// 결제 권한·그랜드파더 판정.
         case entitlement = "entitlement"
         /// 익명 사용 통계 훅과 첫 전송.
@@ -145,6 +147,20 @@ enum LaunchGuard {
         d.set(0, forKey: DefaultsKey.launchFailStreak)
         d.synchronize()
         AppLog.info(.launch, "✅ [LaunchGuard.finish] 런치 완료\(isSafeMode ? " (세이프 모드로 끝냄)" : "")")
+    }
+
+    /// 첫 화면을 그리기 시작한다는 표식. `init()` 맨 끝에서 1회.
+    ///
+    /// 여기서부터 `runLaunchSequence()` 의 첫 단계까지가 SwiftUI 가 `body` 를 처음
+    /// 평가하는 구간이고, **워치독의 `scene-create` 창이 정확히 이 구간이다.**
+    /// 4.4.6 이 죽은 자리도 여기였다(`docs/LAUNCH_WATCHDOG_4_4_6.md`).
+    ///
+    /// 표식이 없으면 그 죽음이 직전 단계(`tips`)의 것으로 기록된다. 그러면 두 번째
+    /// 사고에서 TipKit 이 격리되고 - 죄 없는 단계가 꺼지고, 진짜 원인은 계속 숨는다.
+    ///
+    /// ⚠️ essential 이다. 건너뛸 수 있는 일이 아니라 **구간 이름**이므로 격리 대상이 아니다.
+    static func markFirstFrame() {
+        mark(.firstFrame, tier: .essential)
     }
 
     // MARK: - 단계 실행

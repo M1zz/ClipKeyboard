@@ -105,7 +105,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
 
     private static func upload(_ reports: [Report]) async {
         let config = ClipKeyboardSpec.feedback
-        let database = CKContainer(identifier: config.containerIdentifier).publicCloudDatabase
+        let database = await CloudKitContainer.publicDatabase(config.containerIdentifier)
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "-"
 
         for report in reports {

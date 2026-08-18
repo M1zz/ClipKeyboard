@@ -159,6 +159,10 @@ struct ClipKeyboardApp: App {
         #if targetEnvironment(macCatalyst)
         setupMacCatalystCommands()
         #endif
+
+        // 여기서부터 SwiftUI 가 `body` 를 처음 평가한다 - 워치독의 `scene-create` 창이다.
+        // 이 표식이 없으면 첫 화면을 그리다 죽은 사고가 직전 단계(`tips`) 것으로 기록된다.
+        LaunchGuard.markFirstFrame()
     }
 
     // MARK: - 첫 화면 뒤에 하는 일

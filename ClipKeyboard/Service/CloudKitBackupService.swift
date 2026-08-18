@@ -118,9 +118,35 @@ struct BackupSnapshotInfo: Codable, Identifiable, Equatable {
 class CloudKitBackupService: ObservableObject {
     static let shared = CloudKitBackupService()
 
-    private let container: CKContainer?
-    private let database: CloudKitBackupDatabase
-    private let fetchAccountStatus: () async throws -> CKAccountStatus
+    /// CloudKit 배선 한 벌. 이걸 만드는 일이 곧 `CKContainer(identifier:)` 를 부르는 일이다.
+    private struct Backend {
+        let database: CloudKitBackupDatabase
+        let accountStatus: () async throws -> CKAccountStatus
+    }
+
+    /// 미리 꽂아 둔 배선(테스트 mock · 시뮬레이터 noop). 있으면 CloudKit 을 아예 만들지 않는다.
+    private let injectedBackend: Backend?
+
+    /// iCloud 컨테이너 식별자. 이 값으로 컨테이너를 만드는 자리는 `CloudKitContainer` 뿐이다.
+    private static let containerIdentifier = "iCloud.com.Ysoup.TokenMemo"
+
+    /// 실제로 쓸 배선. **처음 물어보는 순간 컨테이너가 만들어진다.**
+    ///
+    /// ⚠️ 저장 프로퍼티가 아니라 `async` 접근자인 것이 핵심이다. 저장 프로퍼티였을 때는
+    ///    `init()` 안에서 컨테이너를 만들었고, 그 `init()` 은 첫 화면을 그리는 메인 스레드에서
+    ///    `swift_once` 로 불렸다. cloudd 가 대답하지 않던 기기에서 앱은 22초를 기다리다
+    ///    워치독에 죽었다(4.4.6, `docs/LAUNCH_WATCHDOG_4_4_6.md`). 지금은 백업/복원처럼
+    ///    실제로 CloudKit 이 필요한 순간에, 메인 스레드 밖에서 만들어진다.
+    private var backend: Backend {
+        get async {
+            if let injectedBackend { return injectedBackend }
+            let container = await CloudKitContainer.resolve(Self.containerIdentifier)
+            return Backend(
+                database: container.privateCloudDatabase,
+                accountStatus: { try await container.accountStatus() }
+            )
+        }
+    }
 
     @Published var isAuthenticated: Bool = false
     @Published var lastBackupDate: Date?
@@ -137,20 +163,25 @@ class CloudKitBackupService: ObservableObject {
     /// 보관할 최대 스냅샷 개수(이보다 오래된 건 백업 시 자동 정리).
     private let maxSnapshots = 15
 
+    /// ⚠️ **여기서 CloudKit 을 만들지 않는다.**
+    ///
+    /// 이 `init()` 은 `static let shared` 의 `swift_once` 안에서 돈다. 즉 누가 처음
+    /// `.shared` 를 만지든 그 스레드가 여기를 통과해야 하고, 런치 경로에서 그 스레드는
+    /// 메인 스레드다. 4.4.6 은 이 자리에서 `CKContainer(identifier:)` 를 불렀고,
+    /// 그 한 줄이 첫 화면을 22초 붙잡아 워치독이 앱을 죽였다.
+    /// 남은 것은 UserDefaults 읽기와 알림 구독뿐이라 밀리초 안에 끝난다.
     private init() {
         #if targetEnvironment(simulator)
         // 시뮬레이터에서는 iCloud 컨테이너/엔타이틀먼트가 적용되지 않아 CKContainer(identifier:)가
         // CloudKit 내부 os_crash(EXC_BREAKPOINT)로 앱을 런치 즉시 죽인다(try?로도 못 막음).
         // 백업은 실기기 전용 기능이므로, 시뮬레이터에서는 CloudKit 초기화·타이머·리스너를 전부
         // 건너뛰고 저장 프로퍼티만 세팅한다. 실기기/앱스토어 빌드에는 전혀 영향 없음.
-        self.container = nil
-        self.database = SimulatorNoopDatabase()
-        self.fetchAccountStatus = { .couldNotDetermine }
+        self.injectedBackend = Backend(
+            database: SimulatorNoopDatabase(),
+            accountStatus: { .couldNotDetermine }
+        )
         #else
-        let container = CKContainer(identifier: "iCloud.com.Ysoup.TokenMemo")
-        self.container = container
-        self.database = container.privateCloudDatabase
-        self.fetchAccountStatus = { try await container.accountStatus() }
+        self.injectedBackend = nil
 
         checkAccountStatus()
         loadLastBackupDate()
@@ -165,9 +196,7 @@ class CloudKitBackupService: ObservableObject {
     /// 타이머·데이터 변경 리스너·초기 자동 백업 등 부작용 없이 순수 백업/복원 로직만 동작.
     init(database: CloudKitBackupDatabase,
          accountStatus: @escaping () async throws -> CKAccountStatus) {
-        self.container = nil
-        self.database = database
-        self.fetchAccountStatus = accountStatus
+        self.injectedBackend = Backend(database: database, accountStatus: accountStatus)
     }
 
     deinit {
@@ -177,11 +206,17 @@ class CloudKitBackupService: ObservableObject {
 
     // MARK: - Account Status
 
+    /// iCloud 로그인 상태를 확인해 `isAuthenticated` 에 반영한다.
+    ///
+    /// ⚠️ 예전에는 저장해 둔 컨테이너에 바로 물었다. 그러려면 컨테이너가 `init()` 시점에
+    ///    있어야 했고, 그것이 런치를 붙잡은 원인이었다. 지금은 배선을 얻는 일부터
+    ///    메인 스레드 밖에서 하고, 화면에 닿는 값만 메인으로 돌려준다.
     func checkAccountStatus() {
-        guard let container else { return }
-        container.accountStatus { [weak self] status, _ in
-            DispatchQueue.main.async {
-                self?.isAuthenticated = (status == .available)
+        Task { [weak self] in
+            guard let self else { return }
+            let status = (try? await self.backend.accountStatus()) ?? .couldNotDetermine
+            await MainActor.run {
+                self.isAuthenticated = (status == .available)
                 AppLog.info(.backup, "📱 [CloudKit] Account Status: \(status.rawValue)")
             }
         }
@@ -410,7 +445,7 @@ class CloudKitBackupService: ObservableObject {
     /// 호출 시점에 계정 상태를 새로 확인. init의 async 콜백이 아직 돌아오지
     /// 않은 상태에서 첫 버튼 클릭으로 .notAuthenticated 오탐이 나던 race를 제거.
     private func ensureAuthenticated() async throws {
-        let status = try await fetchAccountStatus()
+        let status = try await backend.accountStatus()
         await MainActor.run { self.isAuthenticated = (status == .available) }
         guard status == .available else {
             AppLog.warning(.backup, "⚠️ [CloudKit] accountStatus = \(status.rawValue) (not available)")
@@ -553,7 +588,7 @@ class CloudKitBackupService: ObservableObject {
     private func fetchOrCreateRecord() async throws -> CKRecord {
         let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
         do {
-            let record = try await database.record(for: recordID)
+            let record = try await backend.database.record(for: recordID)
             AppLog.info(.backup, "🔄 [CloudKit] 기존 백업 레코드 업데이트")
             return record
         } catch let error as CKError where error.code == .unknownItem {
@@ -584,7 +619,7 @@ class CloudKitBackupService: ObservableObject {
         for attempt in 1...maxRetries {
             do {
                 AppLog.info(.backup, "💾 [CloudKit] 저장 시도 \(attempt)/\(maxRetries)...")
-                let savedRecord = try await database.save(record)
+                let savedRecord = try await backend.database.save(record)
                 AppLog.info(.backup, "✅ [CloudKit] 저장 성공 (시도 \(attempt))")
                 return savedRecord
             } catch let error as CKError {
@@ -645,7 +680,7 @@ class CloudKitBackupService: ObservableObject {
 
     /// 현재 iCloud 백업(최신 레코드)에 들어있는 메모 개수 - "무엇이 백업돼 있는지" 한눈에 확인용.
     func currentBackupMemoCount() async -> Int? {
-        guard let record = try? await database.record(for: CKRecord.ID(recordName: "TokenMemoBackup")) else { return nil }
+        guard let record = try? await backend.database.record(for: CKRecord.ID(recordName: "TokenMemoBackup")) else { return nil }
         return Self.existingMemoCount(from: record)
     }
 
@@ -675,7 +710,7 @@ class CloudKitBackupService: ObservableObject {
         // 삭제에 실패한 스냅샷은 인덱스에서 빠지므로 다시 정리되지 않는 고아 레코드로 남는다(용량만 차지, 데이터 손실 아님).
         for old in infos.dropFirst(maxSnapshots) {
             do {
-                _ = try await database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
+                _ = try await backend.database.deleteRecord(withID: CKRecord.ID(recordName: old.recordName))
             } catch {
                 AppLog.warning(.backup, "⚠️ [CloudKitBackupService.writeVersionSnapshot] 오래된 스냅샷 삭제 실패(\(old.recordName)), 고아 레코드로 남음: \(error.localizedDescription)")
             }
@@ -685,7 +720,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func loadSnapshotIndex() async -> [BackupSnapshotInfo] {
-        guard let record = try? await database.record(for: snapshotIndexRecordID),
+        guard let record = try? await backend.database.record(for: snapshotIndexRecordID),
               let data = record["snapshots"] as? Data,
               let infos = try? JSONDecoder().decode([BackupSnapshotInfo].self, from: data) else {
             return []
@@ -694,7 +729,7 @@ class CloudKitBackupService: ObservableObject {
     }
 
     private func saveSnapshotIndex(_ infos: [BackupSnapshotInfo]) async throws {
-        let record = (try? await database.record(for: snapshotIndexRecordID))
+        let record = (try? await backend.database.record(for: snapshotIndexRecordID))
             ?? CKRecord(recordType: "BackupIndex", recordID: snapshotIndexRecordID)
         record["snapshots"] = try JSONEncoder().encode(infos) as CKRecordValue
         _ = try await saveRecordWithRetry(record, maxRetries: 2)
@@ -723,7 +758,7 @@ class CloudKitBackupService: ObservableObject {
 
         do {
             let recordID = CKRecord.ID(recordName: snapshotName ?? "TokenMemoBackup")
-            let record = try await database.record(for: recordID)
+            let record = try await backend.database.record(for: recordID)
             AppLog.info(.backup, "📦 [CloudKit] 백업 레코드 찾음")
             if let version = record["version"] as? String {
                 AppLog.info(.backup, "📦 [CloudKit] 백업 버전: \(version)")
@@ -860,7 +895,7 @@ class CloudKitBackupService: ObservableObject {
     func hasBackup() async -> Bool {
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
-            _ = try await database.record(for: recordID)
+            _ = try await backend.database.record(for: recordID)
             return true
         } catch {
             return false
@@ -874,7 +909,7 @@ class CloudKitBackupService: ObservableObject {
 
         do {
             let recordID = CKRecord.ID(recordName: "TokenMemoBackup")
-            _ = try await database.deleteRecord(withID: recordID)
+            _ = try await backend.database.deleteRecord(withID: recordID)
 
             await MainActor.run {
                 lastBackupDate = nil

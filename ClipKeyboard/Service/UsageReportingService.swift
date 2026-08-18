@@ -225,7 +225,7 @@ enum UsageReportingService {
     /// ⚠️ 남의 레코드를 읽으므로 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
     static func fetchEvents(limit: Int = 3000) async throws -> [EventSample] {
         let config = ClipKeyboardSpec.feedback
-        let database = CKContainer(identifier: config.containerIdentifier).publicCloudDatabase
+        let database = await CloudKitContainer.publicDatabase(config.containerIdentifier)
 
         // 허브 전체를 읽고 appId는 클라이언트에서 거른다 - appId Queryable 인덱스 없이 동작하게.
         let query = CKQuery(recordType: LeeoUsageReporter.eventType, predicate: NSPredicate(value: true))

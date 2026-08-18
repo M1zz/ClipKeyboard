@@ -101,6 +101,9 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     // 싱글톤 직렬 사용(메인 흐름 + CKSyncEngine 콜백). Sendable 경고 의도적 수용.
     nonisolated(unsafe) private var engine: CKSyncEngine?
     nonisolated(unsafe) private var started = false
+    /// 배선을 만드는 중인 작업. `engine` 이 생기는 시점이 `startIfEnabled()` 리턴보다
+    /// 뒤이므로, 곧바로 이어지는 `syncNow()` 가 이걸 기다렸다가 엔진을 본다.
+    nonisolated(unsafe) private var startTask: Task<Void, Never>?
     /// 원격 변경을 로컬에 적용하는 동안 true - 이 사이의 .memoDataChanged는 무시(에코 루프 차단).
     nonisolated(unsafe) private var isApplyingRemoteChanges = false
 
@@ -118,27 +121,40 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         }
         guard isProUser else { log.info("sync gated: not Pro"); return }
         guard !started else { return }
+        // ⚠️ 실제 시작은 아래 Task 안에서 끝나지만, 이 표식은 **여기서** 세운다.
+        //    포그라운드 복귀가 잇따라 오면 Task 가 뜨기 전에 다시 불릴 수 있고,
+        //    그러면 엔진이 두 개 만들어진다.
         started = true
         MemoSyncStatus.markRunning()
 
-        let config = CKSyncEngine.Configuration(
-            database: CKContainer(identifier: containerID).privateCloudDatabase,
-            stateSerialization: loadState(),
-            delegate: self
-        )
-        let engine = CKSyncEngine(config)
-        self.engine = engine
-        // 존 생성(이미 있으면 무시됨) - CKSyncEngine이 처리.
-        engine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: zoneID))])
+        // ⚠️ **CloudKit 배선을 메인 스레드에서 만들지 않는다.**
+        //    `CKContainer(identifier:)` 도 `CKSyncEngine(_:)` 도 cloudd 와 XPC 를 주고받는다.
+        //    이 메서드는 런치 시퀀스와 포그라운드 복귀(`scenePhase == .active`) 양쪽에서
+        //    메인 액터로 불리는데, 그 자리에서 데몬이 대답하지 않으면 화면이 통째로 멈춘다.
+        //    같은 종류의 한 줄이 4.4.6 런치를 22초 붙잡아 워치독에 죽었다.
+        //    기록: docs/LAUNCH_WATCHDOG_4_4_6.md
+        startTask = Task { [weak self] in
+            guard let self else { return }
+            let database = await CloudKitContainer.privateDatabase(self.containerID)
+            let config = CKSyncEngine.Configuration(
+                database: database,
+                stateSerialization: self.loadState(),
+                delegate: self
+            )
+            let engine = CKSyncEngine(config)
+            self.engine = engine
+            // 존 생성(이미 있으면 무시됨) - CKSyncEngine이 처리.
+            engine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: self.zoneID))])
 
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(localDataChanged),
-            name: .memoDataChanged, object: nil)
+            NotificationCenter.default.addObserver(
+                self, selector: #selector(self.localDataChanged),
+                name: .memoDataChanged, object: nil)
 
-        log.info("MemoSyncEngine started")
-        // 시작 시 한 번: 로컬 미동기 변경을 큐에 올리고, 원격을 당겨온다.
-        enqueueLocalChanges()
-        Task { try? await engine.fetchChanges() }
+            self.log.info("MemoSyncEngine started")
+            // 시작 시 한 번: 로컬 미동기 변경을 큐에 올리고, 원격을 당겨온다.
+            self.enqueueLocalChanges()
+            try? await engine.fetchChanges()
+        }
     }
 
     /// Pro 여부 - ProFeatureManager의 키를 직접 읽어 양 타겟(맥은 자체 매니저) 의존을 피한다.
@@ -160,10 +176,16 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     }
 
     /// 외부(포그라운드/푸시)에서 즉시 동기화를 요청.
+    ///
+    /// ⚠️ 엔진이 아직 만들어지는 중일 수 있다. 배선을 메인 스레드 밖으로 옮긴 뒤로
+    ///    `startIfEnabled()` 는 엔진을 만들기 전에 리턴한다. 기다리지 않으면 콜드 런치
+    ///    직후 첫 요청이 조용히 아무 일도 안 하고 끝난다.
     func syncNow() {
-        guard let engine else { return }
-        enqueueLocalChanges()
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
+            await self.startTask?.value
+            guard let engine = self.engine else { return }
+            self.enqueueLocalChanges()
             try? await engine.fetchChanges()
             try? await engine.sendChanges()
         }
@@ -402,7 +424,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// ⚠️ **반드시 서버가 준 레코드(변경 태그) 위에 얹어 올린다.** 태그 없는 새 CKRecord 로
     ///    이미 있는 레코드를 저장하면 CloudKit 이 `serverRecordChanged` 로 거절한다.
     ///    예전엔 매번 새 레코드를 만들었던 탓에 **첫 업로드만 성공하고, 그 뒤의 수정·삭제는
-    ///    조용히 버려졌다** — 아이폰에서 지운 단축어가 맥에서 영영 안 사라지고,
+    ///    조용히 버려졌다**. 아이폰에서 지운 단축어가 맥에서 영영 안 사라지고,
     ///    고친 내용도 반대편에 반영되지 않았다(사용자 눈엔 "추가만 되는 동기화").
     private func makeRecord(id: CKRecord.ID, memo: Memo?, deletedAt: Date?) -> CKRecord? {
         let record = cachedRecord(for: id) ?? CKRecord(recordType: Self.recordType, recordID: id)

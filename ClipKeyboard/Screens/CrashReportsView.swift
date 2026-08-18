@@ -249,7 +249,7 @@ enum CrashReportReader {
 
     static func fetch(limit: Int = 200) async throws -> [CrashReportRecord] {
         let config = ClipKeyboardSpec.feedback
-        let database = CKContainer(identifier: config.containerIdentifier).publicCloudDatabase
+        let database = await CloudKitContainer.publicDatabase(config.containerIdentifier)
 
         // 통계 조회와 같은 방식 - appId 인덱스 없이 클라이언트에서 거른다.
         let query = CKQuery(recordType: "CrashReport", predicate: NSPredicate(value: true))
