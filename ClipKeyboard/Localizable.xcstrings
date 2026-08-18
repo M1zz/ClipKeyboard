@@ -10728,6 +10728,17 @@
         }
       }
     },
+    "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요" : {
+      "comment" : "Changelog 4.4.8 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed sync between devices dropping every edit and deletion after the first upload."
+          }
+        }
+      }
+    },
     "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요" : {
       "comment" : "Changelog 4.4.3 item 5",
       "localizations" : {
@@ -18262,6 +18273,17 @@
         }
       }
     },
+    "시작하다 문제가 생겨도 다음 실행은 열려요. 걸린 부분만 쉬고 화면부터 띄워요" : {
+      "comment" : "Changelog 4.4.8 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If something goes wrong during startup, the next launch still opens. Only the part that got stuck sits out, and your screen comes up first."
+          }
+        }
+      }
+    },
     "시작하기" : {
       "comment" : "Get started button\nOnboarding continue button",
       "localizations" : {
@@ -19047,6 +19069,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App opened"
+          }
+        }
+      }
+    },
+    "앱을 열다가 멈추던 문제를 고쳤어요. iCloud 준비를 첫 화면 그리는 일에서 떼어 놓았어요" : {
+      "comment" : "Changelog 4.4.8 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed the app freezing while it opened. Getting iCloud ready no longer holds up the first screen."
           }
         }
       }

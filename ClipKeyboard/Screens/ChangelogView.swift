@@ -31,9 +31,12 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
-            version: "4.4.7",
+            version: "4.4.8",
             released: nil,
             highlights: [
+                NSLocalizedString("앱을 열다가 멈추던 문제를 고쳤어요. iCloud 준비를 첫 화면 그리는 일에서 떼어 놓았어요", comment: "Changelog 4.4.8 item 1"),
+                NSLocalizedString("시작하다 문제가 생겨도 다음 실행은 열려요. 걸린 부분만 쉬고 화면부터 띄워요", comment: "Changelog 4.4.8 item 2"),
+                NSLocalizedString("기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요", comment: "Changelog 4.4.8 item 3"),
                 NSLocalizedString("이미지 단축어를 누르면 미리보기 입력창에 바로 붙고, 보내면 그대로 올라가요", comment: "Changelog 4.4.7 item 1"),
                 NSLocalizedString("카테고리에 단축어가 들어 있으면 탭을 숨기기 전에 알려드리고, 다른 카테고리로 한 번에 옮길 수 있어요", comment: "Changelog 4.4.7 item 2"),
                 NSLocalizedString("탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요", comment: "Changelog 4.4.7 item 3"),

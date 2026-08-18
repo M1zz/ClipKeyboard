@@ -1,0 +1,386 @@
+# 4.4.8 릴리즈 노트
+
+앱 스토어 "이번 버전의 새로운 기능"에 그대로 붙여 넣을 수 있는 문안입니다.
+(앱 안 변경 이력은 `ChangelogView.swift` 의 `4.4.8` 항목, 문구가 서로 어긋나지 않게 함께 고칠 것)
+
+> 이 문서는 4.4.7 을 승계합니다. 4.4.4 · 4.4.5 · 4.4.6 · 4.4.7 이 모두 App Store 에 나가지 않았고,
+> 사용자는 4.4.3 에서 곧장 넘어옵니다. 그래서 아래 문안에는 그 네 버전의 내용이 그대로 들어 있습니다.
+> `docs/RELEASE_NOTES_4.4.4.md` ~ `docs/RELEASE_NOTES_4.4.7.md` 는 기록용으로 남겨 둡니다.
+> 심사에 올릴 문안은 이 파일입니다.
+>
+> **4.4.7 은 심사에서 "런치 크래시"로 막혔습니다.** 4.4.8 에서 새로 더해진 것은 그 원인을 실제로
+> 찾아 없앤 것과, 같은 사고가 다시 나도 사용자가 앱을 열 수 있게 한 장치입니다.
+> 문안에서는 "고친 것" 목록 맨 앞 세 줄이 그것입니다. 원인 분석은
+> `docs/LAUNCH_WATCHDOG_4_4_6.md` 에 있습니다.
+
+---
+
+## 한국어 (App Store)
+
+앱을 열면 키보드가 올라온 모습이 그대로 보입니다. 처음 쓰시는 분은 단축어 하나를 직접 만들고, 눌러서 써 보는 데까지 안내를 따라가면 됩니다.
+
+### 첫 화면
+
+• 키보드가 그대로 보여요: 다른 앱에서 키보드가 올라온 그 모습을 앱에서 보고, 눌러서 바로 써 볼 수 있어요.
+• 짧게 누르면 입력, 길게 누르면 복사: 앱 안에서는 키를 짧게 누르면 입력창에 들어가고, 길게 누르면 클립보드로 갑니다.
+• 목록도 그대로 있어요: 설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고르고, 툴바 버튼으로 언제든 오갈 수 있어요.
+• 카테고리 탭과 좌우 넘기기가 처음부터 보입니다.
+
+### 이미지 단축어, 눌러 보면 결과가 보여요
+
+• 눌러 보면 붙습니다: 미리보기에서 이미지 단축어를 누르면 입력창에 그 이미지가 바로 붙어요. 예전에는 복사만 되고 화면에서는 아무 일도 일어나지 않아서, 된 건지 안 된 건지 알 수가 없었습니다.
+• 보내면 그대로 올라가요: 글을 한 자도 쓰지 않아도 보낼 수 있어요. 눌러 본 결과를 보는 것이 이 화면의 일이니까요.
+• 뗄 수도 있어요: 붙은 이미지 옆의 x 를 누르면 떨어집니다.
+• 다른 앱에서 복사해 온 이미지도 붙여넣을 수 있어요. 클립보드에 이미지가 있을 때만 입력창에 붙여넣기 버튼이 나타납니다.
+
+### 키보드에서 길게 누르면 값이 크게 보여요
+
+• 잘리지 않고 다 보여요: 키를 길게 누르면 그 단축어의 값이 키보드를 꽉 채워 나타납니다. 길면 스크롤해서 끝까지 읽을 수 있어요.
+• 콤보는 단계 순서대로: 여러 값이 든 키는 1, 2, 3 순서 그대로 펼쳐집니다.
+• 그 자리에서 복사: 판 아래 버튼으로 바로 클립보드에 담을 수 있어요.
+• 잠긴 단축어는 값을 보여주지 않아요. 눌러서 인증해야 입력됩니다.
+
+### 카테고리를 정리할 때
+
+• 안에 든 것이 있으면 알려드려요: 단축어가 들어 있는 카테고리의 탭을 숨기려고 하면, 몇 개가 들어 있는지 먼저 말씀드립니다.
+• 한 번에 옮길 수 있어요: 옮길 곳을 고르면 그 카테고리의 단축어가 통째로 옮겨지고, 원래 하려던 대로 탭이 숨겨집니다.
+• 몇 개가 들어 있는지 목록에서 바로 보여요: 카테고리 관리 화면의 각 줄에 개수가 표시됩니다.
+• 빈 카테고리는 그대로 두셔도 됩니다. 막 만든 카테고리가 그 모습이고, 탭은 그대로 서 있어요.
+
+### 단축어 마트, 뭘 만들지 고민하지 마세요
+
+• 차려 둔 것에서 골라 오세요: `+` > 단축어 마트에 계좌번호 공유, 정산 요청, 부재중 자동응답처럼 바로 쓸 수 있는 상황이 모여 있어요.
+• 나에게 맞는 것부터: 고르신 유형(직장인·학생·노마드·일반)에 맞는 것을 먼저 보여드리고, 전체로 넘겨 더 둘러볼 수 있어요.
+• 빈칸만 내 것으로: "이거 쓰기"를 누르면 채울 칸만 나옵니다. 이름·계좌번호처럼 늘 같은 것만 지금 적으면 돼요.
+• 비운 칸은 그대로 남아요: 금액이나 날짜처럼 매번 달라지는 건 비워 두면 쓸 때마다 채우는 칸으로 남습니다.
+• 한 번 적은 값은 기억해요: 다음에 같은 칸을 만나면 눌러서 끝납니다.
+
+### 한꺼번에 가져올 때도 미리 보고 고르세요
+
+• 저장 전에 키보드 모습으로 보여줘요: 여러 개를 한 번에 가져오면, 저장하면 키보드가 어떻게 되는지 그 모습 그대로 나옵니다.
+• 키를 눌러 뺄 것만 빼면 돼요: 뺀 항목은 빈자리로 보여서, 무엇이 들어가고 무엇이 빠지는지 한눈에 읽힙니다.
+• 어떤 게 콤보인지 바로 보여요: 여러 값이 든 키에는 몇 단계인지 주황색 숫자가 붙습니다.
+• 체크해서 콤보로 묶으세요: "묶기"를 누르고 함께 쓰는 값들을 고르면 키 하나로 합쳐집니다. 떨어져 있어도 묶이고, 먼저 순서를 바꿔 붙여 놓을 필요가 없어요. 하나라도 자물쇠가 걸려 있으면 합친 키도 자물쇠를 유지합니다.
+• 제목을 고치거나 자물쇠를 손볼 때는 목록 보기로 넘어가면 됩니다.
+
+### 사파리에서 공유하면 바로 단축어가 돼요
+
+• 공유 > ClipKeyboard > 저장, 끝: 사파리나 메모 앱에서 글자를 잡아 공유하면 그대로 단축어가 됩니다. 앱에 들어가 한 번 더 누를 필요가 없어요.
+• 예전에는 보관함에 담아 두고 나중에 앱에서 "단축어로 만들기"를 눌러야 했어요. 이제 단축어가 기본이고, 나중에 정하고 싶으면 "보관함"을 고르면 됩니다.
+• 이메일·URL 같은 건 분류를 알아서 붙여 줍니다.
+• 공유 시트 두 자리 모두에 있어요: 윗줄(앱)에서는 제목을 고치고 담을 곳을 고를 수 있고, 아래 목록의 "단축어로 저장"을 누르면 화면 없이 한 번에 담깁니다.
+
+### 제어센터·위젯에서 앱을 열지 않고 복사
+
+• 제어센터에 "값 복사" 버튼: 제어센터를 편집해 추가하고, 길게 눌러 어느 값을 복사할지 고르세요. 누르면 그 자리에서 복사됩니다.
+• 위젯도 탭하면 바로: 예전에는 위젯을 눌러도 앱이 먼저 떴어요. 계좌번호 하나 붙여넣자고 하던 일에서 튕겨 나갔다 돌아와야 했죠. 이제 앱이 뜨지 않습니다.
+• 복사된 걸 알려줘요: 누르면 위젯이 잠깐 "복사됨"으로 바뀌었다가 돌아옵니다.
+• 고를 수 있는 건 즐겨찾기한 단축어예요. 보안 단축어는 이 경로에 올라오지 않습니다.
+
+### 보고 옮겨 적지 마세요. 사진으로 넣으면 됩니다
+
+• 글자 읽기: 단축어를 만들 때 사진 보관함에서 고르거나 카메라로 찍으면, 사진 속 글자를 읽어 값으로 넣어줍니다.
+• 필요한 줄만 고르세요: 읽은 것을 통째로 쏟아붓지 않아요. 사진에 보이는 순서 그대로 줄을 늘어놓고, 누른 것만 값이 됩니다.
+• 카드·주소는 알아서 정리해요: 카드번호와 유효기간을 찾아내고, 두 줄로 나뉜 주소는 합쳐서 맨 위에 보여줍니다. 잘못 알아봤으면 아래 원본 줄에서 직접 고르면 돼요.
+• 주소처럼 여러 줄이 한 값일 때는 + 로 이어 붙일 수 있어요.
+
+### 처음 쓰신다면
+
+• 직접 하나 만들어 봐요: "지인에게 내 주소 알려주기"처럼 상황을 고르면, 채울 칸은 하나뿐이에요.
+• 만들고 끝나지 않아요: 만든 단축어를 실제로 눌러 봐야 다음으로 넘어갑니다. 눌렀을 때 글이 들어가는 장면이 이 앱의 전부니까요.
+• 템플릿과 콤보까지 이어져요: 매번 한 군데만 바뀌는 문구(템플릿), 이미 만든 걸 템플릿으로 바꾸기, 여러 값을 묶는 콤보를 차례로 익힐 수 있어요. 각 단계는 앞 단계를 써 본 뒤에 권하고, "나중에"를 고르면 다시 묻지 않아요.
+• 연습으로 만든 건 정리해 드려요: 다 끝나면 지울지 한 번만 물어봅니다.
+• 언제든 다시: 설정에서 튜토리얼을 처음부터 다시 볼 수 있어요.
+
+### 채우는 칸이 뭔지 이제 보여요
+
+• 템플릿을 만들 때, 같은 문장이 값만 바뀌는 모습을 두 줄로 나란히 보여줍니다. 무엇이 고정이고 어디가 바뀌는 자리인지 설명 없이 바로 읽혀요.
+• `{ }` 같은 기호는 어디서도 보이지 않아요. 키보드 미리보기에서도 채우는 칸은 색이 켜진 조각으로 보입니다.
+
+### 설정이 8개 묶음으로 정리됐어요
+
+• 기능 종류가 아니라 하려는 일로 묶었어요: 키보드 / 단축어 / 화면과 표시 / 내 데이터 / 도움말과 문의 / 앱 정보 / 개발자. 섹션이 16개에서 8개로 줄었습니다.
+• 같은 곳으로 가는 문은 하나만: "활용 사례"가 두 군데에 있었어요. 문이 둘이면 다른 방인 줄 알게 되니까요.
+• 첫 화면은 한 줄로 접었어요: 대신 지금 무엇으로 되어 있는지 오른쪽에 보여드립니다. 값이 안 보이면 눌러 보기 전에는 알 수가 없으니까요.
+• 카테고리 아이콘은 카테고리 관리 안에서 고를 수 있어요. 만들다가 바로 고르는 흐름이 자연스러우니까요.
+• 데모 데이터 토글은 처음 둘러볼 때만 보여요. 켜 두셨다면 끌 수 있도록 계속 보입니다.
+
+### 화면을 정리했어요
+
+• 탭을 한 번 더 누르면 목록과 키보드가 오갑니다: 툴바 버튼을 찾지 않아도 됩니다.
+• 클립보드와 사용 기록이 자리를 바꿨어요: 클립보드는 키보드 안에서 꺼내 쓰는 것이라 설정 > 내 데이터로, 가끔 열어 보는 사용 기록은 탭으로 올라왔습니다.
+• 카드에 글이 맺혔다 사라지던 연출은 기본으로 꺼졌어요: 보고 싶으면 설정 > 화면과 표시에서 켜면 됩니다.
+• 데모 데이터는 화면과 표시 맨 아래로 내렸어요.
+• 활용 사례와 스타터팩이 같은 이야기를 씁니다: 읽은 상황을 그대로 담을 수 있어요.
+
+### 남은 칸이 보여요
+
+• 설정을 열면 단축어를 몇 개 더 만들 수 있는지 맨 위에 보입니다. 만들다 막히고 나서야 알게 되지 않도록요.
+• 다섯 칸만 더 필요하면 그만큼만 살 수 있어요: 평생 구매가 부담스러우면 칸만 늘리는 선택지가 생겼습니다. 개수만 늘고 다른 기능은 그대로예요.
+
+### 그 밖에
+
+• 안정성 화면에서 진단 내용을 복사할 수 있어요: 문의를 보낼 때 화면을 찍지 않아도 됩니다.
+• 붙여넣기 허용 팝업을 미뤘어요: 설치하자마자 묻지 않고, 며칠 써 보신 뒤에 한 번 여쭤봅니다.
+• 문장을 다시 다듬었어요: 앱 곳곳의 안내 문구에서 긴 줄표를 걷어내고 문맥에 맞는 문장부호로 바꿨습니다. 읽는 리듬이 한결 자연스러워요.
+• 앱 용량이 약 5.2MB 줄었어요.
+
+### 고친 것
+
+• **앱을 열다가 멈추던 문제.** iCloud 를 준비하는 일이 첫 화면을 그리는 일과 같은 줄에 서 있어서, iCloud 응답이 늦는 기기에서는 앱이 열리지 못하고 그대로 종료됐습니다. 이제 그 준비는 화면과 따로 진행돼 화면이 먼저 뜹니다
+• **시작하다 문제가 생겨도 다음 실행은 열립니다.** 걸렸던 부분만 쉬고 화면부터 띄웁니다. 같은 자리에서 두 번 걸리면 그 부분은 이번 버전 동안 아예 시작하지 않아요. 데이터를 지키는 일은 예외로 계속 돌아갑니다
+• **기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제.** 아이폰에서 지운 단축어가 맥에서 안 사라지고, 고친 내용도 반대편에 가지 않았습니다(눈에는 "추가만 되는 동기화"로 보였어요)
+• 잠긴 단축어의 값이 길게 누르기로 보이거나 클립보드에 복사되던 문제. 인증을 거치지 않는 길에서는 이제 값이 나오지 않아요
+• 즐겨찾기 탭을 숨기면 즐겨찾기한 단축어가 어느 탭에도 안 보이던 문제
+• 목록에 들어갈 때 사진 카드가 검게 칠해졌다가 나타나던 문제
+• 카드 내용 힌트가 앱에서는 꺼져 있는데 키보드에서만 켜져 있던 문제
+• 탭을 숨긴 카테고리의 단축어가 앱에서도 키보드에서도 보이지 않던 문제. 이제 갈 수 있는 탭이 없는 단축어는 모두 기본 탭에 모입니다. 지워진 카테고리에 남아 있던 것도 마찬가지예요
+• 키보드를 켰는데도 "아직 다른 앱에서는 못 써요" 안내가 남아 있던 문제
+• 단축어 목록이 화면 중앙에서 시작하던 문제
+• 눌러서 넣은 글이 사라지던 문제
+• 첫 단축어를 눌러 본 뒤 안내가 끊기던 문제
+• '단축어를 템플릿으로' 단계가 통째로 건너뛰어지던 문제
+• 템플릿을 만들 때 지은 이름이 목록에 그대로 안 쓰이던 문제
+• 카테고리 배경색이 사라졌던 문제
+• 빈 화면에서 배경이 두 색으로 갈리던 문제
+• 설정 > 지원 > 안정성 화면에 영문 오류 문구가 그대로 뜨던 문제. 이제 지금 무엇을 기다리는 상태인지 한국어로 알려드려요
+
+---
+
+## English (App Store)
+
+Open the app and the keyboard is right there, the way it looks everywhere else. New here? You'll make one snippet yourself and use it, step by step.
+
+### The first screen
+
+• The keyboard, as it really looks: see it the way it appears in other apps, and tap to try it right away.
+• Tap to type, hold to copy: inside the app, a short tap types the snippet and a long press puts it on the clipboard.
+• Your list is still here: pick your first screen in Settings › First screen, and switch anytime from the toolbar.
+• Category tabs and swipe paging are there from the start.
+
+### Image snippets: tap one and you see the result
+
+• Tap and it attaches: in the preview, tapping an image snippet puts that image right into the composer. It used to only copy, with nothing happening on screen, so you couldn't tell whether it had worked.
+• Send it as is: you don't have to type a single character first. Seeing what you tapped is the whole point of this screen.
+• Take it off anytime: tap the x next to the attached image.
+• Images copied from other apps work too: a paste button appears in the composer whenever your clipboard holds an image.
+
+### Long-press a key to see the value in full
+
+• Nothing gets cut off: press and hold a key and the value fills the keyboard. Long ones scroll, so you can read to the end.
+• Combos unfold in order: a key holding several values shows them as 1, 2, 3.
+• Copy right there: a button at the bottom of the panel puts it on the clipboard.
+• Locked shortcuts never show their value. Tap the key and authenticate to insert it.
+
+### When you tidy up categories
+
+• We tell you what's inside: try to hide the tab of a category that still holds snippets, and we'll first tell you how many are in there.
+• Move them all at once: pick a destination and the whole category moves, then the tab is hidden as you intended.
+• Counts are right there in the list: each row in Manage categories shows how many snippets it holds.
+• Empty categories are fine to keep. That's what a category looks like right after you make one, and its tab stays put.
+
+### The Shortcut Mart: don't start from a blank page
+
+• Take one off the shelf: `+` › Shortcut Mart has ready-made situations: sharing your account number, asking for a settlement, an out-of-office reply, and more.
+• Matches you first: we show what fits the type you picked (Work, Student, Nomad, Everyday), and you can switch to All to browse everything.
+• Only your own bits: tap "Use this" and you'll only see the blanks. Fill in the things that never change, like your name and account number.
+• Leave the rest blank: amounts and dates that change every time stay as fill-in fields, so you complete them as you use it.
+• We remember what you typed: next time the same blank comes up, one tap fills it.
+
+### Importing a batch? See it before you save
+
+• Shown as your keyboard: bring in several at once and you'll see exactly how your keyboard will look once saved.
+• Tap a key to leave it out: excluded items show as empty slots, so what's going in and what isn't reads at a glance.
+• You can see which ones are combos: a key holding several values gets an orange number showing how many steps it has.
+• Check them off to bundle a combo: tap "Bundle", pick the values you use together, and they become a single key. They don't have to be next to each other, and you don't have to reorder anything first. If any part was locked, the bundled key stays locked.
+• Switch to the list view when you want to edit titles or locks.
+
+### Share from Safari and it's already a shortcut
+
+• Share › ClipKeyboard › Save. Done. Select text in Safari or Notes, share it, and it becomes a shortcut. No second step inside the app.
+• It used to land in your inbox, waiting for you to open the app and turn it into a shortcut. Now Shortcut is the default, and "Inbox" is there when you'd rather decide later.
+• Emails, URLs and the like get categorized for you.
+• It's in both parts of the share sheet: the app row lets you edit the title and pick where it goes; "Save as Shortcut" in the action list below saves it in one tap, no screen at all.
+
+### Copy from Control Center and widgets without opening the app
+
+• A "Copy Value" button in Control Center: add it while editing Control Center, then long-press to choose which value it copies. One tap copies it on the spot.
+• Widgets copy on tap too: they used to open the app first, which meant leaving whatever you were doing just to paste an account number. Not anymore.
+• You'll know it worked: the widget briefly reads "Copied" and then goes back.
+• You can choose from your favorites. Locked snippets never appear here.
+
+### Stop copying things out by eye, use a photo
+
+• Scan text: while making a snippet, pick a photo or take one, and we'll read the text out of it and put it in the value.
+• Pick only the line you need: we don't dump everything in. The lines appear in the order they show up in the photo; only the one you tap becomes the value.
+• Cards and addresses are sorted out for you: we find the card number and expiry date, and join an address split across two lines. If we got it wrong, pick from the original lines below.
+• When several lines belong to one value, + appends them.
+
+### Getting started
+
+• Make one yourself: pick a situation like "Share my address with someone" and you'll have just one field to fill.
+• Making it isn't the end: you move on only after you actually tap what you made. That moment, when the text lands, is the whole point.
+• Templates and combos follow: a phrase where only one part changes (template), turning something you already made into a template, and bundling several values (combo). Each step is offered only after you've used the last one, and "later" means we won't ask again.
+• We'll tidy up after: when it's done, we ask once whether to delete what you made for practice.
+• Anytime again: you can replay the tutorial from Settings.
+
+### You can see what a fill-in field does
+
+• While building a template, the same sentence is shown twice with different values. What stays and what changes reads at a glance: no explanation needed.
+• You'll never see `{ }` anywhere. Even in the keyboard preview, fill-in fields appear as highlighted chips.
+
+### Settings, now eight groups instead of sixteen
+
+• Grouped by what you're trying to do, not by what kind of feature it is: Keyboard, Shortcuts, Display, My data, Help, About, Developer. Sixteen sections became eight.
+• One door per room: "Use cases" used to sit in two places. Two doors make you think there are two rooms.
+• First screen folds into a single row, with your current choice shown on the right. If the value is hidden you can't know what it's set to without opening it.
+• Category icons live inside Manage categories now, so you pick one right where you make it.
+• The demo data toggle only shows while you're still looking around. If you left it on, it stays visible so you can always turn it off.
+
+### A tidier app
+
+• Tap the tab again to switch between your list and the keyboard: no need to find the toolbar button.
+• Clipboard and Usage swapped places: the clipboard is something you pull from inside the keyboard, so it moved to Settings › My data, and Usage, which you open now and then, became a tab.
+• The hint that used to bead up on cards and fade away is off by default: turn it on in Settings › Display if you liked it.
+• Demo data moved to the bottom of Display.
+• Use cases and the starter pack now tell the same stories, so you can save what you just read about.
+
+### You can see how many slots are left
+
+• Open Settings and the number of shortcuts you can still make is right at the top. You shouldn't find out only when you're blocked.
+• Need just five more? Buy just those: if a lifetime purchase is more than you want, you can add slots instead. It adds slots only; other features stay as they are.
+
+### Also
+
+• You can copy a diagnostic from the Stability screen: no screenshots needed when you write in.
+• The paste permission prompt waits: it no longer greets you right after install; we ask once after you've used the app for a few days.
+• Wording polished throughout: long dashes are gone from the app's copy, replaced with punctuation that fits each sentence. It simply reads better.
+• The app is about 5.2 MB smaller.
+
+### Fixes
+
+• **The app freezing while it opened.** Getting iCloud ready sat on the same thread as drawing the first screen, so on devices where iCloud was slow to answer, the app never opened and was shut down. That preparation now runs apart from the screen, and the screen comes up first
+• **A failed startup no longer blocks the next one.** Whatever got stuck sits out, and your screen comes up first. If the same step gets stuck twice, it stays off for this version. Anything that protects your data keeps running regardless
+• **Sync between devices dropping every edit and deletion after the first upload.** A snippet deleted on iPhone stayed on the Mac, and edits never crossed over (it looked like sync that only ever added things)
+• Locked shortcut values showing on long-press, and being copied to the clipboard. Paths that skip authentication no longer surface the value
+• Favorited shortcuts vanishing from every tab when the Favorites tab was hidden
+• Photo cards flashing black before the picture appeared
+• The card content hint being off in the app but on in the keyboard
+• Snippets in a category whose tab was hidden showing up nowhere, neither in the app nor on the keyboard. Any snippet without a tab of its own now collects in the Basic tab, including ones left behind by a deleted category
+• The "not available in other apps yet" notice lingering after you'd already enabled the keyboard
+• The snippet list starting halfway down the screen
+• Text disappearing after you tapped to insert it
+• The tutorial stopping after you used your first snippet
+• The "turn a snippet into a template" step being skipped entirely
+• The name you gave a template not being used in the list
+• Category background colors going missing
+• The two-tone background on empty screens
+• Settings › Support › Stability showing a raw English server error. It now tells you what it's waiting for, in your language
+
+---
+
+## 심사·배포 메모 (내부)
+
+- 버전: `Version.xcconfig` 의 `MARKETING_VERSION = 4.4.7`. 빌드 번호(`CURRENT_PROJECT_VERSION`)는 1 그대로다.
+  마케팅 버전이 바뀌었으니 iOS 는 1이어도 업로드된다. 같은 4.4.7 로 두 번째 빌드를 올릴 때만 올릴 것.
+- 새 권한 없음. 추가된 권한·엔타이틀먼트 없음.
+- 4.4.4 의 심사 메모(붙여넣기 프롬프트 시점, 키보드 감지, 스킨 비노출, 자산 감소, 튜토리얼 상태 키,
+  인도네시아어 정리 미완, macOS 앱 호환성)는 전부 그대로 유효하다.
+  `docs/RELEASE_NOTES_4.4.4.md` · `docs/RELEASE_NOTES_4.4.5.md` 의 같은 절을 볼 것.
+  4.4.4 · 4.4.5 · 4.4.6 이 안 나갔으므로 이번에 함께 나간다.
+
+### 문안에 넣지 않은 것
+
+- 반값 제안 창: 무료 사용자 중 단축어 9개에 닿고 일주일이 지난 사람에게 1회 노출된다.
+  App Store 문안에는 넣지 않는다. 광고 문구를 릴리즈 노트에 적으면 기능 소개가 아니라 판매가 된다.
+  반값 상품이 App Store Connect 에 등록되기 전에는 이 창이 아예 뜨지 않는다(아래 참고).
+- 사용 통계 화면의 변경(기간별 추이 탭해서 읽기, 단축어 개수 분포에서 9개 단독 집계,
+  사용 유형 일곱 무리, 이벤트 이름을 사람 말로): 개발자 전용 화면이라 사용자 문안에 넣지 않는다.
+
+### 배포 전에 반드시, 새 상품 두 개 등록
+
+이번 버전은 상품이 둘 늘었다. 둘 다 비소모성이고, 4.4.7 빌드와 함께 제출한다.
+
+| 제품 ID | 유형 | 가격 | 여는 것 |
+|---|---|---|---|
+| `com.Ysoup.TokenMemo.pro.halfoff` | 비소모성 | $4.99 (정가의 절반) | 평생 전 기능 |
+| `com.Ysoup.TokenMemo.slots5` | 비소모성 | $1.99 | 단축어 5칸만 |
+
+⚠️ 칸 추가는 Pro 권한이 아니다. `ClipKeyboardSpec` 의 `entitlementIDs` 에 평생 상품 둘만
+손으로 못박아 뒀고, 그게 깨지는 순간을 잡는 테스트(`testSlotPackNeverGrantsPro`)가 있다.
+여기가 뚫리면 $3 결제로 평생 Pro 가 열리고, 한 번 준 권한은 되돌릴 방법이 없다.
+
+가족 공유는 세 상품을 같은 값으로 맞춘다. 다르면 산 상품에 따라 가족 공유가 되기도 하고
+안 되기도 해서 문의가 온다.
+
+로컬 확인은 App Store Connect 승인을 기다릴 필요가 없다. 스킴 편집 > Run > Options >
+StoreKit Configuration 을 `Config/StoreKit/ClipKeyboardProducts.storekit` 으로 두면 세 상품이
+그대로 뜬다.
+
+### 반값 상품에 대해 더
+
+새 비소모성 상품 `com.Ysoup.TokenMemo.pro.halfoff` 를 App Store Connect 에 등록해야 한다.
+StoreKit 은 비소모성 상품에 할인을 걸 수단이 없어서, 반값은 "다른 상품"으로만 팔 수 있다.
+
+- 가격은 정가(`com.Ysoup.TokenMemo.pro`)의 50%, 가족 공유는 정가 상품과 동일하게 켠다.
+- 두 상품 모두 Pro 권한으로 인정된다(`ClipKeyboardSpec.monetization` 의 productIDs 에 함께 있고,
+  entitlementIDs 기본값이 productIDs 전체다). 어느 쪽을 샀든 복원도 함께 동작한다.
+- 등록 전에는 반값 제안 창이 뜨지 않는다. 없는 할인을 광고하지 않으려고 `DiscountOfferManager` 가
+  상품 로드 여부까지 조건으로 본다. 즉 상품 없이 배포해도 사고는 나지 않고, 그 기능만 잠들어 있다.
+- 로컬 테스트용 `.storekit` 두 파일(`Config/Products.storekit`, `Config/StoreKit/ClipKeyboardProducts.storekit`)
+  에는 이미 들어 있다.
+
+### 배포 순서, CloudKit 스키마가 앱보다 먼저
+
+4.4.6 과 동일하게 그대로 유효하다. 익명 사용 통계 이벤트의 발생 시각(`occurredAt`) 필드가 Production
+스키마에 없으면 이벤트 전송이 통째로 실패한다(스냅샷은 무사).
+
+1. 새 빌드를 Development 환경에서 한 번 실행하고 주요 행동을 한 번 한다
+   → `UsageEvent` 에 `occurredAt` 필드가 자동 생성된다.
+2. CloudKit Dashboard 에서 필드가 생겼는지 확인한다.
+3. Schema → Deploy Schema Changes to Production.
+4. 그 다음에 심사에 올린다.
+
+백업·동기화 스키마(`categoriesAsset`, `deletedAt`)도 같은 자리에서 함께 확인할 것.
+자세한 배경은 `docs/USAGE_STATS_HUB.md` 와 `docs/RELEASE_NOTES_4.4.6.md` 의 같은 절.
+
+### 의존성
+
+- LeeoKit 2.9.0 → 3.2.0. 계약 레이어(`legal` · `monetization`)가 필수가 되어 `ClipKeyboardSpec` 에
+  두 항목을 넣었고, `paywall` 은 직접 선언하지 않고 `monetization` 에서 유도되게 바꿨다.
+  프리플라이트 오류 0 (테스트로 고정: `ClipKeyboardSpecTests`).
+
+### Xcode Cloud 는 옛 이름을 부르고 있다 (임시 장치 있음)
+
+워크플로가 프로젝트 이름을 바꾸기 전(2026-01-31)에 만들어져 지금도 이렇게 부른다.
+
+`xcodebuild -resolvePackageDependencies -project 'Token memo.xcodeproj' -scheme 'Token memo'`
+
+프로젝트 경로는 제품(Product) 생성 시 고정되어 워크플로 편집으로는 못 바꾼다. 그래서
+저장소에 옛 이름을 받아 주는 장치를 뒀다.
+
+- `Token memo.xcodeproj` → `ClipKeyboard.xcodeproj` 심볼릭 링크
+- `xcshareddata/xcschemes/Token memo.xcscheme` (ClipKeyboard 스킴 복사본)
+- `scripts/predeploy.sh` 에 `-project` 명시 (루트에 프로젝트가 둘로 보이면 그 없이는 멈춘다)
+
+⚠️ 임시다. Xcode Cloud 제품을 지우고 다시 만들면 옛 이름이 사라지고, 그때 위 셋을 되돌린다.
+
+### 이번에 고친 것 중 가장 큰 것
+
+4.4.6 이 실기기에서 런치 중에 죽었다(`0x8BADF00D`, `scene-create` 워치독).
+경과 22초 동안 앱이 쓴 CPU 는 0.135초. 느린 게 아니라 기다리다 죽은 것이다.
+
+리포트의 `binaryUUID` 가 로컬 아카이브 dSYM 과 맞아 심볼화했더니 한 줄로 나왔다.
+SwiftUI 가 `body` 를 처음 평가하다 `CloudKitBackupService.shared` 를 건드렸고,
+그 `swift_once` 안의 `init()` 이 `CKContainer(identifier:)` 를 불렀다.
+이 생성자는 cloudd 와 XPC 를 주고받는데, 그 데몬이 대답하지 않으면 부른 스레드가 그대로 선다.
+그 스레드가 첫 프레임을 그리는 메인 스레드였다.
+
+`CloudKitContainer` 관문(액터)을 만들어 컨테이너를 메인 스레드에서 만들 수 없게 했고,
+`CloudKitBackupService.init()` · `MemoSyncEngine.startIfEnabled()` 를 비롯한 호출처 여섯 곳을
+전부 그리로 돌렸다. `scripts/check_main_thread_cloudkit.sh` 가 pre-commit 과 배포 게이트에서
+관문 밖 생성을 막는다. `LaunchGuard` 에는 `first-frame` 구간을 추가했다.
+그게 없으면 첫 화면에서 죽은 사고가 직전 단계(`tips`) 것으로 기록돼 엉뚱한 단계가 격리된다.
+
+⚠️ **이 경로는 시뮬레이터에서 통째로 건너뛴다. 실기기 콜드 런치 확인 없이 올리지 말 것.**
+전체 기록: `docs/LAUNCH_WATCHDOG_4_4_6.md`

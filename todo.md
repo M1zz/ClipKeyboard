@@ -1,5 +1,46 @@
 # ClipKeyboard 진행 상황
 
+## 🔢 버전 4.4.8 (2026-08-18)
+
+- [x] `Version.xcconfig` 의 `MARKETING_VERSION` 을 `4.4.7` → `4.4.8` 로 올렸다.
+      pbxproj 와 확장 Info.plist 는 `$(MARKETING_VERSION)` 을 참조하므로 이 한 곳이면 전 타겟에 반영된다
+- [x] `CURRENT_PROJECT_VERSION` 은 1 그대로. 마케팅 버전이 바뀌었으니 iOS 는 1이어도 올라간다.
+      같은 4.4.8 로 두 번째 빌드를 올릴 때만 올린다
+- [x] `CLAUDE.md` 의 "현재 버전" 갱신
+- [ ] `ChangelogView` 에 `4.4.8` 항목 추가 (아직 없음). 4.4.7 태그 이후 들어온 것들:
+      동기화 수정, 런치 크래시 복구, 공용 상수 정리, 칸 추가 상품 $1.99
+- [ ] `docs/RELEASE_NOTES_4.4.8.md` 작성
+- [ ] Mac 앱(`~/workspace/code/ClipKeyboardMac`)의 `CFBundleVersion` 은 절대 되돌리지 않는다
+
+## 🚨 4.4.6 런치 워치독 크래시 수정 (2026-08-18)
+
+크래시 리포트: iPhone18,4 · iOS 26.6 · `0x8BADF00D` `scene-create` ·
+경과 22초에 앱 CPU 0.135초(느린 게 아니라 기다리다 죽었다는 뜻).
+
+- [x] **원인 확정.** 로컬 아카이브(4.4.6) dSYM 이 리포트의 `binaryUUID` 와 맞아 심볼화했다:
+      `ClipKeyboardApp.body.getter`(:705) → `swift_once`(shared) → `CloudKitBackupService.init()`(:150).
+      첫 화면을 그리는 메인 스레드에서 `CKContainer(identifier:)` 가 22초 멈춰 있었다
+- [x] `ClipKeyboard/Service/CloudKitContainerGate.swift` 추가. 컨테이너를 만드는 유일한 자리이고
+      안쪽이 **액터**라 메인 스레드에서 만들어질 수가 없다
+- [x] `CloudKitBackupService.init()` 에서 CloudKit 을 걷어냈다(배선을 `async` 접근자로).
+      테스트 mock 주입 경로는 그대로
+- [x] `MemoSyncEngine.startIfEnabled()` 도 같은 처리. 포그라운드 복귀마다 도는 자리라 더 위험했다.
+      `syncNow()` 는 배선이 끝나기를 기다렸다가 엔진을 본다(안 기다리면 첫 요청이 조용히 no-op)
+- [x] 나머지 4곳(RemoteFlags · Diagnostics · UsageReporting · CrashReports) 관문 경유.
+      특히 `RemoteFlagsService` 는 `@MainActor` 클래스라 위험했다
+- [x] `LaunchGuard` 에 `first-frame` 구간 추가. 이게 없으면 첫 화면에서 죽은 사고가
+      직전 단계(`tips`) 것으로 기록돼 죄 없는 TipKit 이 격리되고 진짜 원인은 계속 숨는다
+- [x] `scripts/check_main_thread_cloudkit.sh` + pre-commit 훅 + `predeploy.sh` 게이트.
+      위반 상태를 일부러 만들어 차단되는 것까지 확인했다
+- [x] `docs/LAUNCH_WATCHDOG_4_4_6.md` 기록. 심볼화 절차를 그대로 적어 뒀다
+- [x] 직전 커밋에서 새어 들어온 엠대시 1건(`MemoSyncEngine.swift:427`)도 같이 걷어냈다.
+      `ci_scripts/ci_post_clone.sh` 가 이걸로 CI 를 세운다
+- [ ] **실기기 확인 필수.** 이 경로는 시뮬레이터에서 통째로 건너뛰는 곳이라
+      테스트가 다 통과해도 증명이 안 된다. 아이폰에서 콜드 런치 → 백업 화면 → 동기화 토글까지
+- [ ] `NSUbiquitousKeyValueStore` 를 메인에서 읽는 Pro 게이팅 경로(`MemoSyncFlags.enabled` ·
+      `isProUser` · `mirrorSyncEntitlement`)는 이번에 두었다. 읽기가 로컬에서 끝나 위험이 작다고 봤다.
+      런치·복귀 행이 또 보이면 여기부터 볼 것
+
 ## 🔢 버전 4.4.7 (2026-08-14)
 
 - [x] `Version.xcconfig` 의 `MARKETING_VERSION` 을 `4.4.6` → `4.4.7` 로 올렸다.
