@@ -2175,6 +2175,7 @@
     },
     "○○은행 123-456-789" : {
       "comment" : "Onboarding seed placeholder: account",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6163,9 +6164,6 @@
         }
       }
     },
-    "me@example.com" : {
-      "comment" : "Onboarding seed placeholder: email"
-    },
     "Meeting delay reply" : {
       "comment" : "Seed title",
       "extractionState" : "manual",
@@ -9545,17 +9543,6 @@
         }
       }
     },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        }
-      }
-    },
     "가끔 새가 날아와 카드에 앉았다 가요." : {
       "comment" : "Living skin description: bird",
       "localizations" : {
@@ -9591,6 +9578,7 @@
     },
     "가입할 때 %@ 적기" : {
       "comment" : "Onboarding situation: type email when signing up",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9608,6 +9596,7 @@
     },
     "가입할 때마다 오타 나던 그거요." : {
       "comment" : "Onboarding seed hint: email",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9675,6 +9664,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interval"
+          }
+        }
+      }
+    },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
           }
         }
       }
@@ -9939,6 +9939,7 @@
     },
     "같이 쓰는 것들을 묶어 둘게요" : {
       "comment" : "Combo tutorial: headline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10271,7 +10272,7 @@
       }
     },
     "계좌번호" : {
-      "comment" : "Account Number\nOnboarding seed: bank account",
+      "comment" : "Account Number",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10541,6 +10542,7 @@
     },
     "그대로 둘게요" : {
       "comment" : "Keep tutorial creations",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10728,17 +10730,6 @@
         }
       }
     },
-    "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요" : {
-      "comment" : "Changelog 4.4.8 item 3",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fixed sync between devices dropping every edit and deletion after the first upload."
-          }
-        }
-      }
-    },
     "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요" : {
       "comment" : "Changelog 4.4.3 item 5",
       "localizations" : {
@@ -10746,6 +10737,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cross-device sync (beta) fixes: changes count as sent only once confirmed, so nothing goes missing"
+          }
+        }
+      }
+    },
+    "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요" : {
+      "comment" : "Changelog 4.4.8 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed sync between devices dropping every edit and deletion after the first upload."
           }
         }
       }
@@ -11157,6 +11159,17 @@
         }
       }
     },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
     "끄기" : {
       "comment" : "Nudge: turn off",
       "localizations" : {
@@ -11179,19 +11192,9 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        }
-      }
-    },
     "나머지 문장은 그대로 두고 '%@' 자리만 매번 바뀌어요. 이름을 붙여 두면 쓸 때 무엇을 채우는 칸인지 바로 알아봐요." : {
       "comment" : "Template tutorial: name step subline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11218,8 +11221,26 @@
         }
       }
     },
+    "나중에 볼게요" : {
+      "comment" : "Tutorial welcome: skip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maybe later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti saja"
+          }
+        }
+      }
+    },
     "나중에 필요한 값만 골라서 쓸 수 있어요." : {
       "comment" : "Combo tutorial: subline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11230,7 +11251,7 @@
       }
     },
     "나중에 할게요" : {
-      "comment" : "Onboarding: skip\nSkip practice button",
+      "comment" : "Skip practice button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11337,6 +11358,7 @@
     },
     "내 소개" : {
       "comment" : "Combo tutorial: created combo title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11348,6 +11370,7 @@
     },
     "내 주소" : {
       "comment" : "Onboarding seed: home address",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11510,6 +11533,7 @@
     },
     "네, 해볼게요" : {
       "comment" : "Tutorial invite: accept",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -11620,6 +11644,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "눌러 보고 익히세요"
+          }
+        }
+      }
+    },
+    "눌러볼게요" : {
+      "comment" : "Tutorial welcome: start",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's try one"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba sekarang"
+          }
+        }
+      }
+    },
+    "눌러서 그대로 입력하는 단축어" : {
+      "comment" : "Welcome: what a snippet is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A snippet you tap to type as is"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet yang diketuk untuk mengetik apa adanya"
           }
         }
       }
@@ -12267,6 +12325,7 @@
     },
     "단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요." : {
       "comment" : "Restart tutorial alert message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13632,6 +13691,23 @@
         }
       }
     },
+    "마지막은 콤보예요. 여러 개가 순서대로 들어가요." : {
+      "comment" : "Coach line: try the prepared combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last one is a combo. Several values go in, one after another."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terakhir, combo. Beberapa nilai masuk berurutan."
+          }
+        }
+      }
+    },
     "마케팅 지표" : {
       "comment" : "Usage stats section: marketing signals",
       "localizations" : {
@@ -13654,8 +13730,26 @@
         }
       }
     },
+    "만드는 법은 나중에 알아도 돼요. 먼저 눌러서 어떤 물건인지부터 보세요." : {
+      "comment" : "Tutorial welcome: body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Making your own can wait. Tap one first and see what it does."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membuat sendiri bisa nanti. Ketuk dulu dan lihat cara kerjanya."
+          }
+        }
+      }
+    },
     "만든 걸 눌러보세요. 바로 복사돼요." : {
       "comment" : "First-use coach: tap the shortcut you made",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13667,6 +13761,7 @@
     },
     "만든 콤보를 눌러보세요. 값을 골라 쓸 수 있어요." : {
       "comment" : "Coach line: combo",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13678,6 +13773,7 @@
     },
     "만든 템플릿을 눌러보세요. 빈칸만 채우면 돼요." : {
       "comment" : "Coach line: template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13777,6 +13873,7 @@
     },
     "매번 똑같은 걸 치고 있지는 않나요? 도와드릴게요." : {
       "comment" : "Onboarding line: greeting",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13788,6 +13885,7 @@
     },
     "매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요." : {
       "comment" : "Tutorial hint inside the make-template editor",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13799,6 +13897,7 @@
     },
     "매번 한 군데만 바뀌는 문구, 있죠?" : {
       "comment" : "Template tutorial: headline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -13816,6 +13915,7 @@
     },
     "매번 한 군데만 바뀌는 문구는 빈칸으로 남겨 둘 수 있어요." : {
       "comment" : "Tutorial invite body: template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14464,6 +14564,7 @@
     },
     "뭐부터 도와드릴까요?" : {
       "comment" : "Onboarding line: pick a seed",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14529,6 +14630,23 @@
         }
       }
     },
+    "바로 써 볼 수 있게 준비해 뒀어요" : {
+      "comment" : "Tutorial welcome: headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We set up a few things for you to try"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami sudah menyiapkan beberapa hal untuk dicoba"
+          }
+        }
+      }
+    },
     "바로 쓸 수 있는 단축어" : {
       "comment" : "Starter pack header",
       "localizations" : {
@@ -14565,6 +14683,7 @@
     },
     "박서연" : {
       "comment" : "Template tutorial: alternate example name",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14604,6 +14723,7 @@
     },
     "방금 만든 단축어를 눌러 보세요" : {
       "comment" : "Tutorial cue on the stage",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14621,6 +14741,7 @@
     },
     "방금 정한 건 바뀌는 자리의 이름이고, 이번엔 이 문구 자체의 이름이에요. 목록과 키보드에 이 이름으로 보여요." : {
       "comment" : "Template tutorial: title step subline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16127,6 +16248,23 @@
         }
       }
     },
+    "빈칸만 채워 쓰는 템플릿" : {
+      "comment" : "Welcome: what a template is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A template where you only fill the blanks"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template yang hanya perlu diisi bagian kosongnya"
+          }
+        }
+      }
+    },
     "빈칸을 탭해 채우세요" : {
       "comment" : "Tap a blank to fill it",
       "localizations" : {
@@ -16134,6 +16272,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap a blank to fill it in"
+          }
+        }
+      }
+    },
+    "빛나는 단축어를 눌러 보세요" : {
+      "comment" : "Tutorial cue on the stage",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the highlighted shortcut"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk pintasan yang menyala"
           }
         }
       }
@@ -17344,6 +17499,7 @@
     },
     "서울시 …" : {
       "comment" : "Onboarding seed placeholder: address",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17983,6 +18139,7 @@
     },
     "소개하는 이름" : {
       "comment" : "Template tutorial: suggested blank name",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18273,17 +18430,6 @@
         }
       }
     },
-    "시작하다 문제가 생겨도 다음 실행은 열려요. 걸린 부분만 쉬고 화면부터 띄워요" : {
-      "comment" : "Changelog 4.4.8 item 2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "If something goes wrong during startup, the next launch still opens. Only the part that got stuck sits out, and your screen comes up first."
-          }
-        }
-      }
-    },
     "시작하기" : {
       "comment" : "Get started button\nOnboarding continue button",
       "localizations" : {
@@ -18302,6 +18448,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Since you're here, unlock it at half price?"
+          }
+        }
+      }
+    },
+    "시작하다 문제가 생겨도 다음 실행은 열려요. 걸린 부분만 쉬고 화면부터 띄워요" : {
+      "comment" : "Changelog 4.4.8 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If something goes wrong during startup, the next launch still opens. Only the part that got stuck sits out, and your screen comes up first."
           }
         }
       }
@@ -18458,6 +18615,7 @@
     },
     "쓸 때마다 여기만 갈아 끼워요" : {
       "comment" : "Template tutorial: role demo header",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18843,6 +19001,7 @@
     },
     "안녕하세요, {%@}님. 확인 부탁드립니다." : {
       "comment" : "Template tutorial: example body",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18854,6 +19013,7 @@
     },
     "안녕하세요, %@님. 확인 부탁드립니다." : {
       "comment" : "Template tutorial: example body (plain)",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19418,6 +19578,7 @@
     },
     "여기" : {
       "comment" : "Template tutorial: neutral slot label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19440,6 +19601,7 @@
     },
     "여기에 넣을 말" : {
       "comment" : "Template tutorial: value label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19484,6 +19646,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This one"
+          }
+        }
+      }
+    },
+    "여러 값을 순서대로 넣는 콤보" : {
+      "comment" : "Welcome: what a combo is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A combo that types several values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combo yang mengetik beberapa nilai secara berurutan"
           }
         }
       }
@@ -19604,6 +19783,7 @@
     },
     "연락처" : {
       "comment" : "Combo tutorial field: contact",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19638,6 +19818,7 @@
     },
     "연습으로 만든 단축어를 지울까요?" : {
       "comment" : "Tutorial cleanup alert title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19855,6 +20036,7 @@
     },
     "예: 이영훈" : {
       "comment" : "Template tutorial: value placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20513,6 +20695,7 @@
     },
     "이 자리를 뭐라고 부를까요?" : {
       "comment" : "Template tutorial: name step headline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20524,6 +20707,7 @@
     },
     "이 자리의 이름" : {
       "comment" : "Template tutorial: blank name label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20591,6 +20775,7 @@
     },
     "이 카드를 길게 눌러 보세요" : {
       "comment" : "Coach line: make template step 1",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20657,6 +20842,7 @@
     },
     "이 템플릿의 이름은요?" : {
       "comment" : "Template tutorial: title step headline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20717,8 +20903,43 @@
         }
       }
     },
+    "이걸 눌러보세요. 바로 복사돼요." : {
+      "comment" : "First-use coach: tap this card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap this one. It copies right away."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk yang ini. Langsung tersalin."
+          }
+        }
+      }
+    },
+    "이걸 눌러보세요. 적힌 그대로 입력돼요." : {
+      "comment" : "Coach line: try the prepared snippet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap this one. It types exactly what it says."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk yang ini. Teksnya langsung masuk apa adanya."
+          }
+        }
+      }
+    },
     "이걸로 만들기" : {
       "comment" : "Onboarding: save the first shortcut",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20853,7 +21074,7 @@
       }
     },
     "이름" : {
-      "comment" : "Combo tutorial field: name\nName\nName token button",
+      "comment" : "Name\nName token button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20887,6 +21108,7 @@
     },
     "이름·연락처처럼 늘 같이 쓰는 것들을 하나로 묶어 둘 수 있어요." : {
       "comment" : "Tutorial invite body: combo",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20916,6 +21138,7 @@
     },
     "이름만 바꿔 보내는 안내문처럼요. 오늘은 그 자리에 뭐라고 넣으시겠어요?" : {
       "comment" : "Template tutorial: value step subline",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20926,7 +21149,7 @@
       }
     },
     "이메일" : {
-      "comment" : "Email\nOnboarding seed: email",
+      "comment" : "Email",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21282,6 +21505,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This month"
+          }
+        }
+      }
+    },
+    "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요." : {
+      "comment" : "Coach line: try the prepared template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This one is a template. Tap it and just fill the blanks."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang ini template. Ketuk, lalu isi bagian kosongnya."
           }
         }
       }
@@ -21672,6 +21912,7 @@
     },
     "입금받으려고 %@ 알려주기" : {
       "comment" : "Onboarding situation: share bank account",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21908,6 +22149,7 @@
     },
     "있는 단축어를 템플릿으로 바꿔볼까요?" : {
       "comment" : "Tutorial invite title: make template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21919,6 +22161,7 @@
     },
     "자기소개" : {
       "comment" : "Template tutorial: suggested template name",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22267,34 +22510,6 @@
         }
       }
     },
-    "저장된 단축어 (키보드에서 보임)" : {
-      "comment" : "Saved memos hint label",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Snippets (shown in keyboard)"
-          }
-        }
-      }
-    },
-    "저장된 버전이 없습니다" : {
-      "comment" : "No backup versions available",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No saved versions yet"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장된 버전이 없습니다"
-          }
-        }
-      }
-    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -22346,6 +22561,17 @@
         }
       }
     },
+    "저장된 단축어 (키보드에서 보임)" : {
+      "comment" : "Saved memos hint label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Snippets (shown in keyboard)"
+          }
+        }
+      }
+    },
     "저장된 단축어 목록 모드로 전환합니다" : {
       "comment" : "Memo mode tab hint",
       "extractionState" : "stale",
@@ -22354,6 +22580,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Switch to saved snippet list mode."
+          }
+        }
+      }
+    },
+    "저장된 버전이 없습니다" : {
+      "comment" : "No backup versions available",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No saved versions yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 버전이 없습니다"
           }
         }
       }
@@ -22905,6 +23148,7 @@
     },
     "정산할 때마다 메모장을 열어 찾지 않아도 돼요." : {
       "comment" : "Onboarding seed hint: account",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23035,6 +23279,7 @@
     },
     "좋아요" : {
       "comment" : "Onboarding: start button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23096,6 +23341,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All Set!"
+          }
+        }
+      }
+    },
+    "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
+      "comment" : "Restart tutorial alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll walk you through tapping the prepared snippet, template, and combo again. Nothing in your list is removed."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami akan memandu Anda mengetuk snippet, template, dan combo yang sudah disiapkan sekali lagi. Daftar Anda tidak akan berubah."
           }
         }
       }
@@ -23465,6 +23727,7 @@
     },
     "지인에게 %@ 알려주기" : {
       "comment" : "Onboarding situation: share my address",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -23713,6 +23976,7 @@
     },
     "처음에 만든 단축어, 새로 쓰지 않고 그대로 템플릿으로 바꿀 수 있어요." : {
       "comment" : "Tutorial invite body: make template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -24617,34 +24881,6 @@
         }
       }
     },
-    "켜기" : {
-      "comment" : "Turn on the keyboard",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "켜기"
-          }
-        }
-      }
-    },
-    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
-      "comment" : "Enable Korean input subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn on to also type Korean on the keyboard"
-          }
-        }
-      }
-    },
     "켜짐" : {
       "comment" : "On",
       "extractionState" : "stale",
@@ -24675,6 +24911,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On"
+          }
+        }
+      }
+    },
+    "켜기" : {
+      "comment" : "Turn on the keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜기"
+          }
+        }
+      }
+    },
+    "켜면 키보드에서 한국어도 입력할 수 있어요" : {
+      "comment" : "Enable Korean input subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on to also type Korean on the keyboard"
           }
         }
       }
@@ -24782,6 +25046,7 @@
     },
     "콤보도 만들어 볼까요?" : {
       "comment" : "Tutorial invite title: combo",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -26048,6 +26313,7 @@
     },
     "택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요." : {
       "comment" : "Onboarding seed hint: address",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -26830,6 +27096,7 @@
     },
     "템플릿 이름" : {
       "comment" : "Template tutorial: title label",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -26903,6 +27170,7 @@
     },
     "템플릿도 만들어 볼까요?" : {
       "comment" : "Tutorial invite title: template",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27033,6 +27301,7 @@
     },
     "튜토리얼을 따라 하며 만든 것들이에요. 계속 쓸 거면 그대로 두세요." : {
       "comment" : "Tutorial cleanup alert message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27050,6 +27319,7 @@
     },
     "튜토리얼이 하나 더 있어요" : {
       "comment" : "Tutorial invite: eyebrow",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -27797,17 +28067,6 @@
         }
       }
     },
-    "한꺼번에 가져오기도 미리 보고" : {
-      "comment" : "What's new 4.4.5 feature title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preview your batch imports"
-          }
-        }
-      }
-    },
     "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요" : {
       "comment" : "Changelog 4.4.5 item 1",
       "localizations" : {
@@ -27826,6 +28085,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bulk imported"
+          }
+        }
+      }
+    },
+    "한꺼번에 가져오기도 미리 보고" : {
+      "comment" : "What's new 4.4.5 feature title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview your batch imports"
           }
         }
       }
@@ -28417,227 +28687,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
-          }
-        }
-      }
-    },
-    "이걸 눌러보세요. 적힌 그대로 입력돼요." : {
-      "comment" : "Coach line: try the prepared snippet",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap this one. It types exactly what it says."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk yang ini. Teksnya langsung masuk apa adanya."
-          }
-        }
-      }
-    },
-    "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요." : {
-      "comment" : "Coach line: try the prepared template",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This one is a template. Tap it and just fill the blanks."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yang ini template. Ketuk, lalu isi bagian kosongnya."
-          }
-        }
-      }
-    },
-    "마지막은 콤보예요. 여러 개가 순서대로 들어가요." : {
-      "comment" : "Coach line: try the prepared combo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Last one is a combo. Several values go in, one after another."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terakhir, combo. Beberapa nilai masuk berurutan."
-          }
-        }
-      }
-    },
-    "눌러서 그대로 입력하는 단축어" : {
-      "comment" : "Welcome: what a snippet is",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A snippet you tap to type as is"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Snippet yang diketuk untuk mengetik apa adanya"
-          }
-        }
-      }
-    },
-    "빈칸만 채워 쓰는 템플릿" : {
-      "comment" : "Welcome: what a template is",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A template where you only fill the blanks"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Template yang hanya perlu diisi bagian kosongnya"
-          }
-        }
-      }
-    },
-    "여러 값을 순서대로 넣는 콤보" : {
-      "comment" : "Welcome: what a combo is",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A combo that types several values in order"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Combo yang mengetik beberapa nilai secara berurutan"
-          }
-        }
-      }
-    },
-    "바로 써 볼 수 있게 준비해 뒀어요" : {
-      "comment" : "Tutorial welcome: headline",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We set up a few things for you to try"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kami sudah menyiapkan beberapa hal untuk dicoba"
-          }
-        }
-      }
-    },
-    "만드는 법은 나중에 알아도 돼요. 먼저 눌러서 어떤 물건인지부터 보세요." : {
-      "comment" : "Tutorial welcome: body",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Making your own can wait. Tap one first and see what it does."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Membuat sendiri bisa nanti. Ketuk dulu dan lihat cara kerjanya."
-          }
-        }
-      }
-    },
-    "눌러볼게요" : {
-      "comment" : "Tutorial welcome: start",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let's try one"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coba sekarang"
-          }
-        }
-      }
-    },
-    "나중에 볼게요" : {
-      "comment" : "Tutorial welcome: skip",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maybe later"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nanti saja"
-          }
-        }
-      }
-    },
-    "빛나는 단축어를 눌러 보세요" : {
-      "comment" : "Tutorial cue on the stage",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap the highlighted shortcut"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk pintasan yang menyala"
-          }
-        }
-      }
-    },
-    "이걸 눌러보세요. 바로 복사돼요." : {
-      "comment" : "First-use coach: tap this card",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap this one. It copies right away."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk yang ini. Langsung tersalin."
-          }
-        }
-      }
-    },
-    "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
-      "comment" : "Restart tutorial alert message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We'll walk you through tapping the prepared snippet, template, and combo again. Nothing in your list is removed."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kami akan memandu Anda mengetuk snippet, template, dan combo yang sudah disiapkan sekali lagi. Daftar Anda tidak akan berubah."
           }
         }
       }
