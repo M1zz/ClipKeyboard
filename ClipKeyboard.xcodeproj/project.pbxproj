@@ -54,6 +54,7 @@
 		581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A992F49B4E900F2F032 /* PaywallView.swift */; };
 		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
+		MASCOTWAVEBUILD000000001 /* MascotWave.mov in Resources */ = {isa = PBXBuildFile; fileRef = MASCOTWAVEFILE0000000001 /* MascotWave.mov */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
@@ -327,6 +328,7 @@
 		5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCaptureCard.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5815505F2AD52D6800A6115B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		MASCOTWAVEFILE0000000001 /* MascotWave.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = MascotWave.mov; sourceTree = "<group>"; };
 		581550622AD5321F00A6115B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFeatureManager.swift; sourceTree = "<group>"; };
 		581D8A942F49B4DD00F2F032 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 		03A5B4F86C963882100BF9AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				MASCOTWAVEFILE0000000001 /* MascotWave.mov */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1266,6 +1269,7 @@
 			files = (
 				58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */,
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
+				MASCOTWAVEBUILD000000001 /* MascotWave.mov in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
 				8DC34C94DFB6A0B59259AEE6 /* PrivacyInfo.xcprivacy in Resources */,

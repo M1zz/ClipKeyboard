@@ -17,6 +17,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 #if canImport(UIKit)
 import LeeoKit
 #endif
@@ -121,6 +122,135 @@ enum TutorialScenarios {
     }
 }
 
+// MARK: - 마스코트
+
+/// 손 흔드는 악어 - 배경이 **비어 있는**(알파) HEVC 영상을 그대로 재생한다.
+///
+/// ⚠️ 원본 mp4 는 이름과 달리 옅은 회색 판 위에 그려져 있었다. 그대로 얹으면 라이트에서는
+///    화면보다 어두운 사각형이, 다크에서는 밝은 사각형이 캐릭터를 둘러싼다. 그래서 회색을
+///    빼고 **알파를 가진 HEVC**(`MascotWave.mov`)로 다시 굽었다. 이제 뒤에 무엇이 깔리든
+///    캐릭터만 뜬다 - 테마가 바뀌어도 배경색을 맞출 일이 없다.
+///
+/// ⚠️ 알파를 살리려면 레이어에 `pixelBufferAttributes` 로 BGRA 를 요구해야 한다.
+///    이것이 없으면 알파가 검게 합성되어 **캐릭터 뒤가 검은 사각형**이 된다.
+///
+/// ⚠️ 소리는 없다(트랙 자체를 뺐다). 온보딩에서 소리가 나면 놀라서 앱을 닫는다.
+struct MascotWaveView: UIViewRepresentable {
+    /// 움직임 줄이기를 켠 사람에게는 흔들지 않고 **첫 장면만** 세워 둔다.
+    var animates: Bool
+
+    static let resourceName = "MascotWave"
+
+    static var videoURL: URL? {
+        Bundle.main.url(forResource: resourceName, withExtension: "mov")
+    }
+
+    func makeUIView(context: Context) -> PlayerView {
+        let view = PlayerView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        view.load(url: Self.videoURL, animates: animates)
+        return view
+    }
+
+    func updateUIView(_ uiView: PlayerView, context: Context) {
+        uiView.setAnimating(animates)
+    }
+
+    static func dismantleUIView(_ uiView: PlayerView, coordinator: Coordinator) {
+        uiView.stop()
+    }
+
+    final class PlayerView: UIView {
+        override class var layerClass: AnyClass { AVPlayerLayer.self }
+        private var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
+        private var player: AVQueuePlayer?
+        /// 되풀이는 이 객체가 붙잡고 있어야 이어진다 - 놓으면 한 번 돌고 멈춘다.
+        private var looper: AVPlayerLooper?
+        /// 지금 움직여야 하는가. 아래 감시들이 모두 이 값 하나를 보고 판단한다.
+        private var wantsAnimation = true
+        private var rateObservation: NSKeyValueObservation?
+
+        deinit { NotificationCenter.default.removeObserver(self) }
+
+        func load(url: URL?, animates: Bool) {
+            guard let url else { return }
+            wantsAnimation = animates
+            let item = AVPlayerItem(url: url)
+            let queue = AVQueuePlayer()
+            queue.isMuted = true
+            // ⚠️ 다른 앱의 소리를 끊지 않는다. 음소거여도 세션을 건드리면 배경 음악이 멎는다.
+            queue.actionAtItemEnd = .none
+            // 로컬 파일이라 버퍼링을 기다릴 이유가 없다. 기다리게 두면 **첫 프레임에서 멈춘 채**
+            // 화면에 서 있다.
+            queue.automaticallyWaitsToMinimizeStalling = false
+            looper = AVPlayerLooper(player: queue, templateItem: item)
+            playerLayer.player = queue
+            playerLayer.videoGravity = .resizeAspect
+            // 알파를 살리는 유일한 열쇠 - 없으면 캐릭터 뒤가 검게 찬다.
+            playerLayer.pixelBufferAttributes = [
+                kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA
+            ]
+            player = queue
+
+            // ⚠️ **런치 중에 부른 play() 는 살아남지 못한다.**
+            //    앱이 아직 활성이 아닌 동안 시작한 재생은 시스템이 곧바로 멈춰 세우고,
+            //    그 뒤로는 스스로 되살아나지 않는다. 그래서 처음 온 사람에게는 악어가
+            //    **가만히 서 있다가** 뭔가를 누른 뒤에야(뷰가 갱신되며 play 가 다시 불려서)
+            //    손을 흔들기 시작했다. 맞이하는 그림이 맞이를 안 한 셈이다.
+            //
+            //    멈춤을 직접 지켜보고 되살린다 - 창에 붙을 때, 앱이 활성이 될 때,
+            //    그리고 누가 멈춰 세웠든 rate 가 0 이 될 때.
+            rateObservation = queue.observe(\.rate, options: [.new]) { [weak self] _, _ in
+                guard let self else { return }
+                DispatchQueue.main.async { self.resumeIfWanted() }
+            }
+            NotificationCenter.default.addObserver(
+                self, selector: #selector(appDidBecomeActive),
+                name: UIApplication.didBecomeActiveNotification, object: nil)
+
+            setAnimating(animates)
+        }
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            resumeIfWanted()
+        }
+
+        @objc private func appDidBecomeActive() {
+            resumeIfWanted()
+        }
+
+        /// 움직여야 하는데 멈춰 있으면 다시 굴린다.
+        private func resumeIfWanted() {
+            guard wantsAnimation, window != nil, let player, player.rate == 0 else { return }
+            player.play()
+        }
+
+        func setAnimating(_ animating: Bool) {
+            wantsAnimation = animating
+            guard let player else { return }
+            if animating {
+                player.play()
+            } else {
+                player.pause()
+                // 멈춘 채로도 캐릭터는 보여야 한다 - 빈 자리가 남으면 무엇이 빠진 것처럼 보인다.
+                player.seek(to: .zero)
+            }
+        }
+
+        func stop() {
+            wantsAnimation = false
+            rateObservation = nil
+            NotificationCenter.default.removeObserver(self)
+            player?.pause()
+            playerLayer.player = nil
+            looper = nil
+            player = nil
+        }
+    }
+}
+
 // MARK: - 환영
 
 /// 첫 화면 - **무엇을 넣어 뒀는지** 알리고 바로 써 보게 한다.
@@ -135,12 +265,36 @@ struct TutorialWelcomeView: View {
     let onSkip: () -> Void
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// 지금 목록에 실제로 있는 장들만 소개한다.
     ///
     /// ⚠️ 계산 프로퍼티로 두지 않는다 - body 가 그려질 때마다 저장소를 디스크에서 읽게 된다.
     ///    화면이 뜰 때 한 번만 읽고 붙잡아 둔다.
     @State private var chapters: [TutorialChapter] = TutorialChapter.allCases
+
+    /// 손 흔드는 마스코트. 영상이 없으면 손 흔드는 기호로 대신한다 -
+    /// 첫 화면이 통째로 비는 것보다 낫다.
+    @ViewBuilder
+    private var mascot: some View {
+        ZStack {
+            // 알파 영상이라 뒤가 비어 있다. 캐릭터가 허공에 뜬 것처럼 보이지 않게
+            // 브랜드색 옅은 원을 깔아 바닥을 만들어 준다(라이트·다크 각각의 accentSoft).
+            Circle()
+                .fill(theme.accentSoft)
+                .frame(width: 132, height: 132)
+
+            if MascotWaveView.videoURL != nil {
+                MascotWaveView(animates: !reduceMotion)
+                    .frame(width: 148, height: 148)
+            } else {
+                Image(systemName: "hand.wave.fill")
+                    .font(.largeTitle)
+                    .foregroundColor(theme.accent)
+            }
+        }
+        .accessibilityHidden(true)
+    }
 
     private func loadChapters() {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
@@ -152,10 +306,7 @@ struct TutorialWelcomeView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            Image(systemName: "hand.wave.fill")
-                .font(.largeTitle)
-                .foregroundColor(theme.accent)
-                .accessibilityHidden(true)
+            mascot
 
             Text(NSLocalizedString("바로 써 볼 수 있게 준비해 뒀어요",
                                    comment: "Tutorial welcome: headline"))
