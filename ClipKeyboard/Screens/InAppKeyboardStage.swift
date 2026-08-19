@@ -304,8 +304,13 @@ struct InAppKeyboardStage: View {
 
     private func bubble(_ message: StageMessage) -> some View {
         let mine = message.side == .outgoing
-        return HStack {
-            if mine { Spacer(minLength: 40) }
+        return HStack(alignment: .top, spacing: 8) {
+            if mine {
+                Spacer(minLength: 40)
+            } else {
+                // 말을 건네는 쪽의 얼굴. 누가 말하는지가 보이면 무대가 대화로 읽힌다.
+                mascotAvatar
+            }
             VStack(alignment: mine ? .trailing : .leading, spacing: 6) {
                 if let image = message.image {
                     Image(uiImage: image)
@@ -322,20 +327,41 @@ struct InAppKeyboardStage: View {
                         .foregroundColor(mine ? Color.accentForeground : theme.text)
                         .padding(.horizontal, 13)
                         .padding(.vertical, 9)
+                        // 꼬리가 붙는 쪽에 그만큼 자리를 비워 준다 - 안 비우면 글자가 꼬리에 물린다.
+                        .padding(mine ? .trailing : .leading, StageBubble.tailWidth)
                         // ⚠️ 받은 말풍선은 **바탕과 확실히 달라야** 한다. 풍선이 안 보이면
                         //    무대가 대화로 읽히지 않는다.
-                        //    · surface(흰색)  : 밝은 바탕(F4F1FA)과 밝기가 붙어 흐리다
-                        //    · surfaceAlt     : EDE7F7 로 바탕과 거의 같은 색이라 **풍선이 사라진다**
-                        //    그래서 테마 토큰이 아니라 중립 회색을 쓴다. 라벤더 계열 바탕에서도
-                        //    색이 달라 풍선으로 읽히고, 밝고 어두운 화면 모두에서 스스로 뒤집힌다.
-                        .background(mine ? Color.accentColor : Color(uiColor: .systemGray5))
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        //    · surface(흰색)  : 밝은 바탕과 밝기가 붙어 흐리다
+                        //    · surfaceAlt     : 바탕과 거의 같은 색이라 **풍선이 사라진다**
+                        //    그래서 테마 토큰이 아니라 중립 회색을 쓴다. 밝고 어두운 화면
+                        //    모두에서 스스로 뒤집힌다.
+                        .background(
+                            StageBubble(pointsLeft: !mine, radius: theme.radiusMd)
+                                .fill(mine ? Color.accentColor : Color(uiColor: .systemGray5))
+                        )
                         .textSelection(.enabled)
                 }
             }
             if !mine { Spacer(minLength: 40) }
         }
         .transition(.opacity.combined(with: .move(edge: .bottom)))
+    }
+
+    /// 말을 건네는 쪽의 프로필 - 마스코트 얼굴.
+    ///
+    /// ⚠️ 원 안에 얹는다. 캐릭터 그림은 배경이 비어 있어서 그냥 두면 허공에 뜬 것처럼
+    ///    보이는데, 브랜드색 옅은 원이 프로필 사진의 테두리 노릇을 한다.
+    private var mascotAvatar: some View {
+        Image("MascotAvatar")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 34, height: 34)
+            .background(Circle().fill(theme.accentSoft))
+            .clipShape(Circle())
+            .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
+            // 말풍선 꼭지와 눈높이를 맞춘다.
+            .padding(.top, 2)
+            .accessibilityHidden(true)
     }
 
     // MARK: - 입력창
@@ -506,4 +532,53 @@ struct InAppKeyboardStage: View {
         return Text(caretGlyph + hint)
     }
 
+}
+
+// MARK: - 말풍선 모양
+
+/// 꼬리가 달린 진짜 말풍선.
+///
+/// ⚠️ 예전에는 그냥 둥근 사각형이었다. 둥근 사각형은 카드로도, 버튼으로도, 입력칸으로도
+///    읽힌다 - 무대에서 이것이 **누가 건넨 말**이라는 걸 알려 주는 것이 없었다.
+///    꼬리 하나가 붙으면 그 순간 대화가 된다.
+///
+/// ⚠️ 꼬리는 **말한 쪽을 가리킨다.** 받은 말은 왼쪽(프로필 쪽), 보낸 말은 오른쪽.
+struct StageBubble: Shape {
+    /// 꼬리가 왼쪽을 향하는가(= 받은 말풍선).
+    let pointsLeft: Bool
+    let radius: CGFloat
+
+    /// 꼬리가 차지하는 가로 폭. 글자 여백도 이만큼 밀어 준다.
+    static let tailWidth: CGFloat = 11
+
+    func path(in rect: CGRect) -> Path {
+        let t = Self.tailWidth
+        // 몸통은 꼬리만큼 안쪽으로 물러난다.
+        let body = CGRect(x: pointsLeft ? rect.minX + t : rect.minX,
+                          y: rect.minY,
+                          width: rect.width - t,
+                          height: rect.height)
+        let r = min(radius, min(body.width, body.height) / 2)
+
+        var path = Path(roundedRect: body, cornerRadius: r, style: .continuous)
+
+        // 꼬리 - 위쪽에 붙는 부드러운 부리. 풍선이 짧아도 밖으로 나가지 않게 높이로 묶는다.
+        let top = min(rect.minY + 8, rect.maxY - 4)
+        let bottom = min(rect.minY + 26, rect.maxY - 2)
+        let tipY = (top + bottom) / 2 - 3
+        let edgeX = pointsLeft ? body.minX : body.maxX
+        let tipX = pointsLeft ? rect.minX : rect.maxX
+        let ctrl = pointsLeft ? edgeX - t * 0.35 : edgeX + t * 0.35
+
+        var tail = Path()
+        tail.move(to: CGPoint(x: edgeX, y: top))
+        tail.addQuadCurve(to: CGPoint(x: tipX, y: tipY),
+                          control: CGPoint(x: ctrl, y: top - 1))
+        tail.addQuadCurve(to: CGPoint(x: edgeX, y: bottom),
+                          control: CGPoint(x: ctrl, y: tipY + 7))
+        tail.closeSubpath()
+
+        path.addPath(tail)
+        return path
+    }
 }
