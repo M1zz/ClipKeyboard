@@ -46,6 +46,10 @@ extension Color {
     /// 브랜드 노랑 - 캐릭터 배 쪽 색(#FCBE35). 강조 배지·하이라이트용.
     static let clipBrandYellow = Color(red: 0xFC/255, green: 0xBE/255, blue: 0x35/255)
 
+    /// 악어 입 안쪽 - 마스코트 입속의 짙은 적갈색(#5A2A21).
+    /// 이빨 장치가 켜졌을 때 단축어 격자 뒤에 깔린다.
+    static let clipMouthInterior = Color(red: 0x5A/255, green: 0x2A/255, blue: 0x21/255)
+
     /// Toast background color
     static var toastBackground: Color {
         Color(UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 0.9))

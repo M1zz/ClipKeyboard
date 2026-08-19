@@ -199,3 +199,105 @@ enum KeyboardSkin: String, CaseIterable, Identifiable {
         }
     }
 }
+
+// MARK: - 악어 입속
+
+/// 단축어 줄을 **악어 입속 이빨처럼** 보이게 하는 장치.
+///
+/// ⚠️ 기본은 꺼짐이 아니라 **새로 시작한 사람만 켜짐**이다(`seedDefaultIfNeeded`).
+///    쓰던 사람의 키보드가 업데이트로 멋대로 바뀌면 안 된다는 규칙은 스킨과 같다.
+///    대신 새로 오는 사람에게는 이것이 이 앱의 첫인상이므로 켠 채로 시작한다.
+///
+/// ⚠️ **색은 건드리지 않는다.** 스킨과 같은 규칙이다 - 사용자가 고른 키 색이
+///    그대로 유지되어야 한다. 이 장치가 바꾸는 건 **키의 윤곽과 그 위의 잇몸**뿐이다.
+///    (흰 기본 키색이 이미 상아색으로 읽히므로 색을 덮을 이유도 없다)
+enum ToothStyle {
+
+    /// 지금 켜져 있는가. App Group 이라 익스텐션도 같은 값을 본다.
+    static var isOn: Bool {
+        AppGroup.defaults?.bool(forKey: DefaultsKey.keyboardToothStyle) ?? false
+    }
+
+    static func set(_ on: Bool) {
+        AppGroup.defaults?.set(on, forKey: DefaultsKey.keyboardToothStyle)
+    }
+
+    /// 새 설치에 한 번만 켜 준다. 쓰던 사람에게는 손대지 않는다.
+    static func seedDefaultIfNeeded(startedFresh: Bool) {
+        guard let d = AppGroup.defaults,
+              d.object(forKey: DefaultsKey.keyboardToothStyle) == nil else { return }
+        d.set(startedFresh, forKey: DefaultsKey.keyboardToothStyle)
+    }
+}
+
+/// 키캡 윤곽. 평소엔 둥근 사각형, 이빨 장치가 켜지면 **아래로 좁아지는 송곳니**.
+///
+/// ⚠️ 아래를 뾰족하게 깎지 않고 **살짝만 좁힌다.** 진짜 삼각형으로 만들면 키 이름이
+///    잘려 나가고, 좁은 화면에서 두 줄짜리 제목이 통째로 사라진다. 이빨로 읽히는 데에는
+///    아랫변이 조금 좁고 아래 모서리가 더 둥근 것으로 충분하다 - 나머지는 잇몸이 맡는다.
+struct KeycapShape: InsettableShape {
+    let radius: CGFloat
+    let tooth: Bool
+    /// `strokeBorder` 가 안쪽으로 물러날 때 쓰는 여백.
+    var inset: CGFloat = 0
+
+    func inset(by amount: CGFloat) -> KeycapShape {
+        KeycapShape(radius: radius, tooth: tooth, inset: inset + amount)
+    }
+
+    func path(in outer: CGRect) -> Path {
+        let rect = outer.insetBy(dx: inset, dy: inset)
+        guard tooth else {
+            return Path(roundedRect: rect, cornerRadius: radius, style: .continuous)
+        }
+        // 아랫변을 양쪽에서 조금씩 좁힌다. 좁은 키에서 과하게 좁아지지 않게 상한을 둔다.
+        let inset = min(rect.width * 0.09, 11)
+        let rTop = min(radius, rect.height / 2)
+        let rBot = min(radius * 1.5, (rect.width - inset * 2) / 2, rect.height / 2)
+
+        var p = Path()
+        p.move(to: CGPoint(x: rect.minX, y: rect.minY + rTop))
+        p.addQuadCurve(to: CGPoint(x: rect.minX + rTop, y: rect.minY),
+                       control: CGPoint(x: rect.minX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX - rTop, y: rect.minY))
+        p.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY + rTop),
+                       control: CGPoint(x: rect.maxX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX - inset, y: rect.maxY - rBot))
+        p.addQuadCurve(to: CGPoint(x: rect.maxX - inset - rBot, y: rect.maxY),
+                       control: CGPoint(x: rect.maxX - inset, y: rect.maxY))
+        p.addLine(to: CGPoint(x: rect.minX + inset + rBot, y: rect.maxY))
+        p.addQuadCurve(to: CGPoint(x: rect.minX + inset, y: rect.maxY - rBot),
+                       control: CGPoint(x: rect.minX + inset, y: rect.maxY))
+        p.closeSubpath()
+        return p
+    }
+}
+
+/// 이빨 줄 위에 얹히는 **잇몸**. 아랫변이 물결처럼 늘어져 그 아래 키들이 이빨로 읽힌다.
+///
+/// ⚠️ 물결 개수를 열 수에 맞추지 않는다. 열 수는 사용자가 1~5로 바꾸는데, 잇몸이
+///    거기 맞춰 출렁이면 열을 바꿀 때마다 다른 생물이 된다. 폭에 비례한 **일정한 간격**으로
+///    그려 어떤 열 수에서도 같은 입으로 보이게 한다.
+struct GumShape: Shape {
+    /// 물결 하나의 목표 폭(pt). 실제로는 폭에 맞춰 정수 개로 반올림된다.
+    static let scallopWidth: CGFloat = 26
+
+    func path(in rect: CGRect) -> Path {
+        let count = max(3, Int((rect.width / Self.scallopWidth).rounded()))
+        let w = rect.width / CGFloat(count)
+        let drop = min(rect.height * 0.55, 9)
+        let baseY = rect.maxY - drop
+
+        var p = Path()
+        p.move(to: CGPoint(x: rect.minX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        p.addLine(to: CGPoint(x: rect.maxX, y: baseY))
+        for i in stride(from: count - 1, through: 0, by: -1) {
+            let x0 = rect.minX + CGFloat(i) * w
+            p.addQuadCurve(to: CGPoint(x: x0, y: baseY),
+                           control: CGPoint(x: x0 + w / 2, y: baseY + drop * 2))
+        }
+        p.closeSubpath()
+        return p
+    }
+}

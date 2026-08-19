@@ -28690,6 +28690,40 @@
           }
         }
       }
+    },
+    "악어 입속" : {
+      "comment" : "Croc mouth keyboard toggle title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Croc mouth"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulut buaya"
+          }
+        }
+      }
+    },
+    "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요." : {
+      "comment" : "Appearance section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing feedback is the haptic and short animation when text goes in. Turn on Croc mouth and the shortcut rows look like teeth lined up between gums."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umpan balik ketikan adalah getaran dan animasi singkat saat teks dimasukkan. Aktifkan Mulut buaya dan baris pintasan akan tampak seperti gigi yang berjajar di antara gusi."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -80,6 +80,11 @@ enum DefaultsKey {
     /// 첫 흐름에서 **키보드 켜기 안내까지** 지나왔는가(끝냈든 건너뛰었든).
     /// 없으면 첫 단축어를 만든 직후 키보드 설치 안내가 곧바로 이어진다.
     static let keyboardSetupTutorialDone = "keyboardSetupTutorialDone.v1"
+    /// 단축어 줄을 악어 입속처럼 보이게 하는 장치가 켜져 있는가.
+    /// App Group - 익스텐션이 같은 값을 읽어야 앱과 키보드가 같은 입이 된다.
+    /// ⚠️ 값이 **없는 것**과 false 는 다르다. 없으면 아직 정하지 않았다는 뜻이라
+    ///    새 설치에만 한 번 켜 준다(`ToothStyle.seedDefaultIfNeeded`).
+    static let keyboardToothStyle = "keyboardToothStyle.v1"
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group - 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"
