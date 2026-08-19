@@ -99,7 +99,7 @@ struct QuickNoteInboxView: View {
                                 Label(NSLocalizedString("Save as Memo", comment: "Promote quick note to memo"),
                                       systemImage: AppSymbol.squareAndPencil)
                             }
-                            .tint(.blue)
+                            .tint(.accentColor)
                         }
                 }
             } header: {

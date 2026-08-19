@@ -188,7 +188,7 @@ struct FavoriteMemoWidgetView: View {
                             systemImage: entry.justCopied ? "checkmark.circle.fill" : "doc.on.doc"
                         )
                         .font(.caption2)
-                        .foregroundStyle(entry.justCopied ? .green : .blue)
+                        .foregroundStyle(entry.justCopied ? .green : Color.accentColor)
                     }
                 }
             } else {

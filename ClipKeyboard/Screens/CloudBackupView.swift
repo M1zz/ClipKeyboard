@@ -183,7 +183,7 @@ struct CloudBackupView: View {
                     } label: {
                         HStack {
                             Image(systemName: AppSymbol.arrowUpDocFill)
-                                .foregroundColor(.blue)
+                                .foregroundColor(.accentColor)
                                 .font(.title3)
 
                             VStack(alignment: .leading, spacing: 4) {

@@ -873,10 +873,10 @@ struct KeyboardView: View {
                         Text(escapeAction.label)
                             .font(.footnote.weight(.semibold))
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.accentFg)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 7)
-                    .background(Color.blue)
+                    .background(theme.accent)
                     .clipShape(Capsule())
                 }
                 .buttonStyle(PlainButtonStyle())

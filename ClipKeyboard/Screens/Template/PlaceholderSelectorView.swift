@@ -46,10 +46,12 @@ struct PlaceholderSelectorView: View {
                          : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
                         .font(.body.weight(.semibold))
                 }
-                .foregroundColor(isNumericToken ? .blue : .green)
+                // 키컬러가 녹색이 되면서 "선택지"의 시스템 녹색과 붙어 버렸다.
+                // 두 뱃지는 한눈에 갈려야 하므로 선택지 쪽을 인디고로 뗀다.
+                .foregroundColor(isNumericToken ? .accentColor : .indigo)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
-                .background((isNumericToken ? Color.blue : Color.green).opacity(0.12))
+                .background((isNumericToken ? Color.accentColor : Color.indigo).opacity(0.12))
                 .cornerRadius(theme.radiusXs)
             }
 
@@ -136,7 +138,7 @@ struct PlaceholderSelectorView: View {
                                             .font(.body.weight(isSelected ? .semibold : .regular))
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 8)
-                                            .background(isSelected ? Color.blue : theme.surfaceAlt)
+                                            .background(isSelected ? Color.accentColor : theme.surfaceAlt)
                                             .foregroundColor(isSelected ? .white : .primary)
                                             .cornerRadius(theme.radiusLg)
                                     }
@@ -185,7 +187,7 @@ struct PlaceholderSelectorView: View {
                             .fontWeight(.semibold)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
-                            .background(newValue.isEmpty ? Color.gray : Color.blue)
+                            .background(newValue.isEmpty ? Color.gray : Color.accentColor)
                             .foregroundColor(.white)
                             .cornerRadius(theme.radiusSm)
                     }

@@ -189,7 +189,7 @@ struct InAppKeyboardStage: View {
                 Spacer(minLength: 0)
                 Text(NSLocalizedString("켜기", comment: "Turn on the keyboard"))
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.accentForeground)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 7)
                     .background(Capsule().fill(Color.accentColor))
@@ -266,7 +266,7 @@ struct InAppKeyboardStage: View {
                     .font(.caption.weight(.bold))
                 Spacer(minLength: 0)
             }
-            .foregroundColor(.white)
+            .foregroundColor(Color.accentForeground)
             .padding(.horizontal, 16)
             .padding(.vertical, 11)
             .frame(maxWidth: .infinity)
@@ -315,7 +315,7 @@ struct InAppKeyboardStage: View {
                 if !message.text.isEmpty {
                     Text(message.text.templateAwareAttributed(theme: theme, font: .callout))
                         .font(.callout)
-                        .foregroundColor(mine ? .white : theme.text)
+                        .foregroundColor(mine ? Color.accentForeground : theme.text)
                         .padding(.horizontal, 13)
                         .padding(.vertical, 9)
                         // ⚠️ 받은 말풍선은 **바탕과 확실히 달라야** 한다. 풍선이 안 보이면

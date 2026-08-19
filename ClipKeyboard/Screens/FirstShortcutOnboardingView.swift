@@ -212,7 +212,7 @@ struct FirstShortcutOnboardingView: View {
     private func primaryLabel(_ text: String) -> some View {
         Text(text)
             .font(.body.weight(.semibold))
-            .foregroundColor(.white)
+            .foregroundColor(theme.accentFg)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 15)
             .background(

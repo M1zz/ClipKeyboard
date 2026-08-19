@@ -120,7 +120,7 @@ struct ComboPreviewSheet: View {
             HStack(alignment: .top, spacing: 12) {
                 Text("\(idx + 1)")
                     .font(.caption.weight(.bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.accentFg)
                     .frame(width: 22, height: 22)
                     .background(Circle().fill(theme.accent))
                 Text(step.isEmpty ? "-" : step)

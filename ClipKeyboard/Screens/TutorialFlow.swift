@@ -113,7 +113,7 @@ struct TutorialInviteView: View {
             Button(action: onAccept) {
                 Text(NSLocalizedString("네, 해볼게요", comment: "Tutorial invite: accept"))
                     .font(.body.weight(.semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.accentFg)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 15)
                     .background(
@@ -198,7 +198,7 @@ struct FirstUseCoachChip: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .multilineTextAlignment(.leading)
         }
-        .foregroundColor(.white)
+        .foregroundColor(theme.accentFg)
         .padding(.horizontal, 20)
         .padding(.vertical, 15)
         .background(
@@ -318,7 +318,7 @@ struct ComboTutorialView: View {
             Button(action: save) {
                 Text(NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
                     .font(.body.weight(.semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.accentFg)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 15)
                     .background(
@@ -516,7 +516,7 @@ struct TemplateTutorialView: View {
                      ? NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut")
                      : NSLocalizedString("다음", comment: "Next button"))
                     .font(.body.weight(.semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(theme.accentFg)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 15)
                     .background(

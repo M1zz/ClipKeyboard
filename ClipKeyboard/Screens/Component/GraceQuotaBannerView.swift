@@ -15,7 +15,7 @@ struct GraceQuotaBannerView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 10) {
                 Image(systemName: AppSymbol.checkmarkShieldFill)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                     .font(.system(.body))
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -56,7 +56,7 @@ struct GraceQuotaBannerView: View {
         .background(Color(.systemBlue).opacity(0.08))
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.blue.opacity(0.25), lineWidth: 1)
+                .stroke(Color.accentColor.opacity(0.25), lineWidth: 1)
         )
         .cornerRadius(theme.radiusMd)
         .padding(.horizontal, 16)

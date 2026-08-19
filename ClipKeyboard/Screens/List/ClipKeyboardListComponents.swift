@@ -188,7 +188,7 @@ struct CategoryActivationBanner: View {
             HStack(spacing: 10) {
                 Image(systemName: AppSymbol.folderBadgePlus)
                     .font(.title3)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(NSLocalizedString("단축어가 늘었어요", comment: "Category activation banner title"))
                         .font(.body)
@@ -215,10 +215,10 @@ struct CategoryActivationBanner: View {
                     Text(NSLocalizedString("써볼게요", comment: "Accept category activation"))
                         .font(.body)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.accentForeground)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 10)
-                        .background(Color.blue)
+                        .background(Color.accentColor)
                         .clipShape(Capsule())
                 }
             }
@@ -397,7 +397,7 @@ struct MemoActionSheet: View {
                         if highlightsMakeTemplate {
                             Text(NSLocalizedString("여기예요", comment: "Tutorial pointer in action sheet"))
                                 .font(.caption.weight(.bold))
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.accentForeground)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
                                 .background(Capsule().fill(Color.accentColor))
@@ -547,7 +547,7 @@ struct PersonaCategoryTip: Tip {
 struct SwipePageIndicator: View {
     let total: Int
     let selectedIndex: Int
-    var accentColor: Color = .blue
+    var accentColor: Color = Color.accentColor
 
     @Environment(\.appTheme) private var theme
 

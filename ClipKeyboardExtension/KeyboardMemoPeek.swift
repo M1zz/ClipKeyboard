@@ -132,7 +132,7 @@ struct KeyboardMemoPeek: View {
                     Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))
                 }
                 .font(.subheadline.weight(.semibold))
-                .foregroundColor(.white)
+                .foregroundColor(theme.accentFg)
                 .frame(maxWidth: .infinity)
                 .frame(height: 42)
                 .background(theme.accent)

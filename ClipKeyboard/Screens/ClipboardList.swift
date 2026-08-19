@@ -91,7 +91,7 @@ struct ClipboardList: View {
                                             toggleSelection(item.id)
                                         } label: {
                                             Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(isChecked ? .blue : .gray)
+                                                .foregroundColor(isChecked ? .accentColor : .gray)
                                                 .font(.title3)
                                         }
                                         .buttonStyle(.plain)
@@ -778,7 +778,7 @@ struct ClipboardItemRow: View {
             } label: {
                 Label(NSLocalizedString("타입 변경", comment: "Change item type"), systemImage: AppSymbol.tag)
             }
-            .tint(.blue)
+            .tint(.accentColor)
         }
     }
 

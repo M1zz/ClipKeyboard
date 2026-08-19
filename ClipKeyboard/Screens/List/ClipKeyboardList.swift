@@ -2006,7 +2006,7 @@ struct ClipKeyboardList: View {
             .padding(.vertical, 7)
             .background {
                 if isSelected {
-                    Capsule().fill(Color.blue)
+                    Capsule().fill(Color.accentColor)
                 } else {
                     // 비선택 칩: glass 환경에서 자연스럽게 녹아드는 반투명
                     if #available(iOS 26, *) {
@@ -2829,7 +2829,7 @@ struct ClipKeyboardList: View {
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
                     // 메모 구분 표시 토글을 따른다 (OFF면 테두리 숨김).
-                    .stroke(visualCuesVisible ? Color.blue.opacity(0.12) : .clear, lineWidth: 1)
+                    .stroke(visualCuesVisible ? Color.accentColor.opacity(0.12) : .clear, lineWidth: 1)
             )
             .contentShape(Rectangle())
         }
@@ -2950,7 +2950,7 @@ struct ClipKeyboardList: View {
             // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
             Image(systemName: AppSymbol.plus)
                 .font(.body.weight(.semibold))
-                .foregroundColor(.blue)
+                .foregroundColor(.accentColor)
                 .frame(width: 44, height: 44)
                 .glassEffect(.clear.interactive(), in: Circle())
         }
@@ -3274,7 +3274,7 @@ struct ClipKeyboardList: View {
         HStack(spacing: 12) {
             Image(systemName: AppSymbol.circleFill)
                 .font(.title3)
-                .foregroundColor(.blue)
+                .foregroundColor(.accentColor)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(NSLocalizedString("카테고리 심볼", comment: "Nudge: category symbol title"))
@@ -3292,10 +3292,10 @@ struct ClipKeyboardList: View {
                 } label: {
                     Text(NSLocalizedString("끄기", comment: "Nudge: turn off"))
                         .font(.caption.weight(.semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.accentForeground)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
-                        .background(Color.blue, in: Capsule())
+                        .background(Color.accentColor, in: Capsule())
                 }
                 Button {
                     UserDefaults.standard.set(true, forKey: DefaultsKey.categoryBadgeNudgeDismissed)

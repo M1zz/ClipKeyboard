@@ -87,7 +87,7 @@ struct MemoAdd: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
                 }
-                .foregroundColor(.white)
+                .foregroundColor(Color.accentForeground)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 11)
                 .frame(maxWidth: .infinity)
@@ -445,7 +445,7 @@ struct MemoAdd: View {
                                 }
                                 .font(.body)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.accentForeground)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
                                 .background(Color.accentColor)
@@ -462,7 +462,7 @@ struct MemoAdd: View {
                                 }
                                 .font(.body)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.accentForeground)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
                                 .background(Color.accentColor)
@@ -579,7 +579,7 @@ struct MemoAdd: View {
                     inactiveIcon: "square.on.square.dashed",
                     title: NSLocalizedString("기존 단축어 남기기", comment: "Keep original snippet toggle"),
                     description: NSLocalizedString("끄면 저장할 때 원본 단축어가 삭제돼요", comment: "Keep original snippet toggle description"),
-                    activeColor: .blue,
+                    activeColor: .accentColor,
                     isOn: $viewModel.keepOriginalSource
                 )
             }
@@ -817,7 +817,7 @@ struct MemoAdd: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.accentColor)
-                .foregroundColor(.white)
+                .foregroundColor(Color.accentForeground)
                 .cornerRadius(theme.radiusSm)
         }
         .accessibilityLabel(title)

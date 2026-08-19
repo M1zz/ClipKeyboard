@@ -169,7 +169,7 @@ private struct PracticeStepRow: View {
         HStack(alignment: .top, spacing: 12) {
             Text(number)
                 .font(.caption.weight(.bold))
-                .foregroundColor(.white)
+                .foregroundColor(theme.accentFg)
                 .frame(width: 22, height: 22)
                 .background(theme.accent)
                 .clipShape(Circle())
@@ -228,7 +228,7 @@ struct KeyboardPracticeSheet: View {
                 .font(.system(size: 64))
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.blue, .indigo],
+                        colors: [Color.clipBrand, Color.clipBrandDeep],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -262,7 +262,7 @@ struct KeyboardPracticeSheet: View {
                 } label: {
                     Text(NSLocalizedString("지금 연습하기", comment: "Start practice button"))
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(theme.accentFg)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(theme.accent)

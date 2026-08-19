@@ -554,7 +554,7 @@ struct SettingView: View {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: theme.radiusSm)
-                            .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(LinearGradient(colors: [Color.clipBrand, Color.clipBrandDeep], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 32, height: 32)
                         Image(systemName: AppSymbol.macbook)
                             .font(.body.weight(.semibold))
@@ -1018,7 +1018,7 @@ struct CopyPasteView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.gear)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("설정", comment: "Settings"))
                             .fontWeight(.medium)
@@ -1032,7 +1032,7 @@ struct CopyPasteView: View {
 
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.appFill)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
@@ -1046,7 +1046,7 @@ struct CopyPasteView: View {
 
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.docOnClipboard)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("다른 앱에서 붙여넣기", comment: "Paste from other apps"))
                             .fontWeight(.medium)
@@ -1198,7 +1198,7 @@ struct ReviewWriteView: View {
                 }) {
                     HStack {
                         Image(systemName: AppSymbol.link)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(NSLocalizedString("App Store에서 리뷰 작성", comment: "App Store review button"))

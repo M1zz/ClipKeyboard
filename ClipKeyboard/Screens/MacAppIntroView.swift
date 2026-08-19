@@ -123,10 +123,10 @@ struct MacAppIntroView: View {
                 Text(NSLocalizedString("Open on Mac App Store", comment: "Open Mac App Store button"))
                     .fontWeight(.semibold)
             }
-            .foregroundColor(.white)
+            .foregroundColor(Color.accentForeground)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 14)
-            .background(Color.blue)
+            .background(Color.accentColor)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         }
         .buttonStyle(PlainButtonStyle())

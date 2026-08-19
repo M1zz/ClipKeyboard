@@ -150,7 +150,7 @@ struct StarterPackView: View {
 
                 Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
                     .font(.system(.title3))
-                    .foregroundColor(isOn ? .blue : theme.textFaint)
+                    .foregroundColor(isOn ? .accentColor : theme.textFaint)
                     .accessibilityHidden(true)
             }
             .padding(14)
@@ -158,7 +158,7 @@ struct StarterPackView: View {
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .stroke(isOn ? Color.blue.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
+                    .stroke(isOn ? Color.accentColor.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -189,7 +189,7 @@ struct StarterPackView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 15)
-                .background(count > 0 ? Color.blue : Color.gray)
+                .background(count > 0 ? Color.accentColor : Color.gray)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
         }
         .buttonStyle(PlainButtonStyle())

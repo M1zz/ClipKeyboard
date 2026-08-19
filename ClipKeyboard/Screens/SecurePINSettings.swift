@@ -75,7 +75,7 @@ struct SecurePINSettings: View {
                                 .accessibilityHidden(true)
                             Text(NSLocalizedString("보안 PIN 설정", comment: "Set secure PIN button"))
                         }
-                        .foregroundColor(.blue)
+                        .foregroundColor(.accentColor)
                     }
                     .accessibilityHint(NSLocalizedString("4자리 보안 PIN을 새로 설정합니다", comment: "Set PIN hint"))
                 }

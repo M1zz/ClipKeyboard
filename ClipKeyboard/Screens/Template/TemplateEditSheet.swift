@@ -120,7 +120,7 @@ struct TemplateEditSheet: View {
                     Text(isEditingText ? NSLocalizedString("완료", comment: "Done") : NSLocalizedString("수정", comment: "Edit"))
                         .font(.body)
                         .fontWeight(.semibold)
-                        .foregroundColor(.blue)
+                        .foregroundColor(.accentColor)
                 }
                 .accessibilityHint(isEditingText
                     ? NSLocalizedString("편집을 완료하고 미리보기에 반영합니다", comment: "Done editing template hint")
@@ -177,7 +177,7 @@ struct TemplateEditSheet: View {
                     HStack(spacing: 4) {
                         Image(systemName: AppSymbol.infoCircleFill)
                             .font(.body)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                         Text(NSLocalizedString("값을 선택하세요", comment: "Select a value hint"))
                             .font(.body)
                             .foregroundColor(theme.textMuted)
@@ -288,7 +288,7 @@ struct TemplateEditSheet: View {
                 .font(.body)
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.blue.opacity(0.1))
+                .background(Color.accentColor.opacity(0.1))
                 .cornerRadius(theme.radiusMd)
         }
     }

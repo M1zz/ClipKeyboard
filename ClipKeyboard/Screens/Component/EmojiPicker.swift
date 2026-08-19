@@ -152,12 +152,12 @@ struct CategoryTabButton: View {
                 Text(category.localizedName)
                     .font(.caption2)
             }
-            .foregroundColor(isSelected ? .blue : .secondary)
+            .foregroundColor(isSelected ? .accentColor : .secondary)
             .frame(width: 60)
             .padding(.vertical, 8)
             .background(
                 RoundedRectangle(cornerRadius: theme.radiusSm)
-                    .fill(isSelected ? Color.blue.opacity(0.1) : Color.clear)
+                    .fill(isSelected ? Color.accentColor.opacity(0.1) : Color.clear)
             )
         }
         .buttonStyle(.plain)
