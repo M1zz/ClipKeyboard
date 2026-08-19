@@ -636,7 +636,7 @@ struct SettingView: View {
             }
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
         } message: {
-            Text(NSLocalizedString("단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
+            Text(NSLocalizedString("준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)

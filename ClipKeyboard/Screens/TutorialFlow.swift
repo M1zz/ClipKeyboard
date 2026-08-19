@@ -2,13 +2,18 @@
 //  TutorialFlow.swift
 //  ClipKeyboard
 //
-//  **이어지는 튜토리얼** - 단축어 다음에 콤보, 그다음에 템플릿.
+//  **써 보는 튜토리얼** - 단축어 다음에 템플릿, 그다음에 콤보.
 //
-//  세 개를 한 번에 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를 다 설명하면
-//  하나도 안 남는다. **하나 만들고 → 써 보고 → 그다음 것을 권한다.**
-//  권할 때마다 빠져나갈 수 있어야 한다 - 붙잡으면 다음에 안 온다.
+//  ⚠️ 여기서 **아무것도 만들게 하지 않는다.** 예전에는 첫 단축어·템플릿·콤보를 차례로
+//     직접 만들게 했는데, 처음 온 사람에게 빈 칸을 세 번 내미는 일이었다. 만드는 법은
+//     쓸 일이 생겼을 때 배우면 되고, 처음 필요한 것은 **이게 무엇을 해주는 물건인지**다.
 //
-//  ⚠️ 여기서 만드는 것도 전부 **진짜**다. 연습용 가짜를 만들었다가 지우면 아무것도 안 남는다.
+//  ⚠️ 대신 **우리가 시나리오를 넣어 둔다.** 설치 첫 실행에 단축어·템플릿·콤보가
+//     한 벌씩 목록에 들어가고(`performSampleInsertion`), 튜토리얼은 그것들을 차례로
+//     가리키며 눌러 보게 한다. 세 번 누르고 나면 셋이 어떻게 다른지 손이 안다.
+//
+//  ⚠️ 넣어 둔 것도 **진짜다.** 튜토리얼이 끝나도 지우지 않는다. 연습용 가짜를 만들었다가
+//     지우면 아무것도 안 남고, 남겨 두면 그날부터 바로 쓸 수 있는 세 개가 된다.
 //
 
 import SwiftUI
@@ -18,100 +23,180 @@ import LeeoKit
 
 // MARK: - 장
 
-/// 배우는 순서: 단축어(온보딩) → 템플릿 → **내 단축어를 템플릿으로** → 콤보.
+/// 써 보는 순서: 단축어 → 템플릿 → 콤보.
 ///
-/// ⚠️ 순서에 뜻이 있다. 템플릿을 한 번 만들어 본 다음이라야 "이미 있는 걸 템플릿으로
-///    바꿀 수도 있다"는 말이 통한다. 반대로 하면 바꾸는 법부터 배우게 되어 무엇으로
-///    바뀌는지를 모른다. 콤보는 성격이 달라(여러 값) 맨 뒤에 둔다.
+/// ⚠️ 순서에 뜻이 있다. 단축어는 누르면 그대로 들어가고, 템플릿은 빈칸을 한 번 채우고,
+///    콤보는 여러 개가 차례로 들어간다. **뒤로 갈수록 한 겹씩 얹히는** 순서라야
+///    "아까 것과 뭐가 다르지"가 매번 한 가지로 답해진다.
 enum TutorialChapter: String, Identifiable, CaseIterable {
-    /// 템플릿 하나를 새로 만든다.
+    /// 눌러서 그대로 입력되는 가장 단순한 것.
+    case snippet
+    /// 빈칸을 채워 쓰는 것.
     case template
-    /// 이미 만든 단축어를 템플릿으로 바꿔 본다 - 기존 "템플릿으로 만들기" 기능을 그대로 태운다.
-    case makeTemplate
-    /// 여러 값을 하나로 묶는 콤보.
+    /// 여러 값이 순서대로 들어가는 것.
     case combo
 
     var id: String { rawValue }
 
-    var inviteTitle: String {
+    /// 가리키는 카드·키 옆에 뜨는 안내 한 줄.
+    ///
+    /// ⚠️ "무엇을 누르라"가 아니라 **"누르면 무슨 일이 나는지"**를 적는다. 처음 온 사람은
+    ///    누르는 법을 모르는 게 아니라 눌러도 되는지를 모른다.
+    var coachLine: String {
         switch self {
+        case .snippet:
+            return NSLocalizedString("이걸 눌러보세요. 적힌 그대로 입력돼요.",
+                                     comment: "Coach line: try the prepared snippet")
         case .template:
-            return NSLocalizedString("템플릿도 만들어 볼까요?", comment: "Tutorial invite title: template")
-        case .makeTemplate:
-            return NSLocalizedString("있는 단축어를 템플릿으로 바꿔볼까요?", comment: "Tutorial invite title: make template")
+            return NSLocalizedString("이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요.",
+                                     comment: "Coach line: try the prepared template")
         case .combo:
-            return NSLocalizedString("콤보도 만들어 볼까요?", comment: "Tutorial invite title: combo")
+            return NSLocalizedString("마지막은 콤보예요. 여러 개가 순서대로 들어가요.",
+                                     comment: "Coach line: try the prepared combo")
         }
     }
 
-    var inviteBody: String {
+    /// 환영 화면에서 "이런 걸 넣어뒀어요"로 소개하는 한 줄.
+    var introLine: String {
         switch self {
+        case .snippet:
+            return NSLocalizedString("눌러서 그대로 입력하는 단축어",
+                                     comment: "Welcome: what a snippet is")
         case .template:
-            return NSLocalizedString("매번 한 군데만 바뀌는 문구는 빈칸으로 남겨 둘 수 있어요.",
-                                     comment: "Tutorial invite body: template")
-        case .makeTemplate:
-            return NSLocalizedString("처음에 만든 단축어, 새로 쓰지 않고 그대로 템플릿으로 바꿀 수 있어요.",
-                                     comment: "Tutorial invite body: make template")
+            return NSLocalizedString("빈칸만 채워 쓰는 템플릿",
+                                     comment: "Welcome: what a template is")
         case .combo:
-            return NSLocalizedString("이름·연락처처럼 늘 같이 쓰는 것들을 하나로 묶어 둘 수 있어요.",
-                                     comment: "Tutorial invite body: combo")
+            return NSLocalizedString("여러 값을 순서대로 넣는 콤보",
+                                     comment: "Welcome: what a combo is")
         }
     }
 
-    /// 만든 뒤 목록에 뜨는 안내. 없는 장은 안내 없이 넘어간다.
-    var coachLine: String? {
+    var symbolName: String {
         switch self {
-        case .template:
-            return NSLocalizedString("만든 템플릿을 눌러보세요. 빈칸만 채우면 돼요.",
-                                     comment: "Coach line: template")
-        case .combo:
-            return NSLocalizedString("만든 콤보를 눌러보세요. 값을 골라 쓸 수 있어요.",
-                                     comment: "Coach line: combo")
-        case .makeTemplate:
-            // ⚠️ 이 장은 **손이 직접** 해야 한다. 대신 열어 주면 그 순간엔 배운 것 같지만
-            //    혼자 하려 할 때 어디서 시작하는지를 모른다. 시작점(길게 누르기)을 가리킨다.
-            return NSLocalizedString("이 카드를 길게 눌러 보세요", comment: "Coach line: make template step 1")
+        case .snippet:  return "text.cursor"
+        case .template: return "square.dashed"
+        case .combo:    return "list.number"
         }
     }
 }
 
-// MARK: - 권유
+// MARK: - 넣어 둔 시나리오
 
-/// "이어서 해볼까요?" - 붙잡지 않는 권유.
-struct TutorialInviteView: View {
-    let chapter: TutorialChapter
-    let onAccept: () -> Void
-    let onDecline: () -> Void
+/// 첫 실행에 심어 둔 시나리오 중 **장마다 하나씩**을 찾아 준다.
+///
+/// ⚠️ 새로 만들지 않는다. 이미 목록에 들어가 있는 것(`SampleMemoStorage`)에서 고른다.
+///    튜토리얼이 자기 것을 따로 만들면, 화면에 보이는 카드와 튜토리얼이 가리키는 것이
+///    다른 물건이 되어 "그래서 뭘 누르라는 거지"가 된다.
+///
+/// ⚠️ 지운 것은 없는 것으로 친다. 심어 준 것을 사용자가 지웠을 수도 있고, 그때는
+///    그 장을 조용히 건너뛴다 - 없는 카드를 가리키며 누르라고 할 수는 없다.
+enum TutorialScenarios {
+
+    /// 장에 해당하는, 지금 목록에 실제로 있는 메모. 없으면 nil.
+    static func memo(for chapter: TutorialChapter, in memos: [Memo]) -> Memo? {
+        let seeded = SampleMemoStorage.load()
+        // 심어 둔 것 먼저, 없으면 목록 전체에서 같은 성격의 것을 찾는다.
+        // (튜토리얼을 다시 하는 사람은 심어 둔 것을 이미 지웠을 수 있다.)
+        let preferred = memos.filter { seeded.contains($0.id) }
+        return match(chapter, in: preferred) ?? match(chapter, in: memos)
+    }
+
+    private static func match(_ chapter: TutorialChapter, in memos: [Memo]) -> Memo? {
+        switch chapter {
+        case .snippet:
+            return memos.first {
+                !$0.isTemplate && !$0.isCombo && $0.contentType == .text
+                    && !$0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            }
+        case .template:
+            return memos.first { $0.isTemplate && !$0.isCombo }
+        case .combo:
+            return memos.first { $0.isCombo }
+        }
+    }
+
+    /// 지금 목록으로 **실제로 써 볼 수 있는** 장들. 환영 화면이 이걸로 목록을 그린다.
+    static func availableChapters(in memos: [Memo]) -> [TutorialChapter] {
+        TutorialChapter.allCases.filter { memo(for: $0, in: memos) != nil }
+    }
+}
+
+// MARK: - 환영
+
+/// 첫 화면 - **무엇을 넣어 뒀는지** 알리고 바로 써 보게 한다.
+///
+/// ⚠️ 여기서 기능을 설명하지 않는다. 셋을 다 설명하면 하나도 안 남는다. 이름만 대고
+///    "눌러 보면 안다"로 넘긴다 - 실제 설명은 누른 순간 화면이 대신 해 준다.
+struct TutorialWelcomeView: View {
+
+    /// 준비된 것을 써 보러 간다.
+    let onStart: () -> Void
+    /// 지금은 됐다 - 평소 화면으로.
+    let onSkip: () -> Void
 
     @Environment(\.appTheme) private var theme
+
+    /// 지금 목록에 실제로 있는 장들만 소개한다.
+    ///
+    /// ⚠️ 계산 프로퍼티로 두지 않는다 - body 가 그려질 때마다 저장소를 디스크에서 읽게 된다.
+    ///    화면이 뜰 때 한 번만 읽고 붙잡아 둔다.
+    @State private var chapters: [TutorialChapter] = TutorialChapter.allCases
+
+    private func loadChapters() {
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let available = TutorialScenarios.availableChapters(in: memos)
+        chapters = available.isEmpty ? TutorialChapter.allCases : available
+    }
 
     var body: some View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
 
-            // "하나 더 있다"를 먼저 알린다 - 방금 하나를 끝낸 사람에게 필요한 건
-            // 새 제목이 아니라 **이게 몇 번째인지**다.
-            Text(NSLocalizedString("튜토리얼이 하나 더 있어요", comment: "Tutorial invite: eyebrow"))
-                .font(.footnote.weight(.semibold))
+            Image(systemName: "hand.wave.fill")
+                .font(.largeTitle)
                 .foregroundColor(theme.accent)
-                .padding(.top, 8)
+                .accessibilityHidden(true)
 
-            Text(chapter.inviteTitle)
+            Text(NSLocalizedString("바로 써 볼 수 있게 준비해 뒀어요",
+                                   comment: "Tutorial welcome: headline"))
                 .font(.title3.weight(.semibold))
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
-                .padding(.top, 6)
+                .padding(.top, 14)
 
-            Text(chapter.inviteBody)
+            Text(NSLocalizedString("만드는 법은 나중에 알아도 돼요. 먼저 눌러서 어떤 물건인지부터 보세요.",
+                                   comment: "Tutorial welcome: body"))
                 .font(.subheadline)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 8)
-                .padding(.bottom, 26)
+                .padding(.horizontal, 8)
 
-            Button(action: onAccept) {
-                Text(NSLocalizedString("네, 해볼게요", comment: "Tutorial invite: accept"))
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(chapters) { chapter in
+                    HStack(spacing: 12) {
+                        Image(systemName: chapter.symbolName)
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(theme.accent)
+                            .frame(width: 26)
+                            .accessibilityHidden(true)
+                        Text(chapter.introLine)
+                            .font(.subheadline)
+                            .foregroundColor(theme.text)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer(minLength: 0)
+                    }
+                }
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(theme.surfaceAlt)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+            .padding(.top, 26)
+
+            Button(action: onStart) {
+                Text(NSLocalizedString("눌러볼게요", comment: "Tutorial welcome: start"))
                     .font(.body.weight(.semibold))
                     .foregroundColor(theme.accentFg)
                     .frame(maxWidth: .infinity)
@@ -122,20 +207,23 @@ struct TutorialInviteView: View {
                     )
             }
             .buttonStyle(.plain)
+            .padding(.top, 26)
 
-            Spacer(minLength: 0)
-
-            Button(action: onDecline) {
-                Text(NSLocalizedString("나중에 할게요", comment: "Onboarding: skip"))
-                    .font(.footnote)
-                    .foregroundColor(theme.textFaint)
+            // 빠져나갈 길은 언제나 열어 둔다 - 붙잡으면 다음에 안 온다.
+            Button(action: onSkip) {
+                Text(NSLocalizedString("나중에 볼게요", comment: "Tutorial welcome: skip"))
+                    .font(.subheadline)
+                    .foregroundColor(theme.textMuted)
+                    .padding(.vertical, 12)
             }
             .buttonStyle(.plain)
-            .padding(.vertical, 18)
+            .padding(.top, 2)
+
+            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 26)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(theme.bg.ignoresSafeArea())
+        .onAppear { loadChapters() }
     }
 }
 
@@ -152,9 +240,9 @@ struct CoachAnchorKey: PreferenceKey {
 
 // MARK: - 코치
 
-/// "만든 걸 눌러보세요" - 목록 위에 뜨는 안내.
+/// "이걸 눌러보세요" - 목록 위에 뜨는 안내.
 ///
-/// ⚠️ 처음에는 작은 회색 알약이었는데 **아무도 못 봤다.** 이 안내는 온보딩의 마지막 걸음이라
+/// ⚠️ 처음에는 작은 회색 알약이었는데 **아무도 못 봤다.** 이 안내는 튜토리얼의 전부라
 ///    놓치면 흐름이 거기서 끊긴다. 그래서 배경을 강조색으로 채우고, 글자를 키우고,
 ///    천천히 맥박처럼 커졌다 작아지게 했다 - 화면에서 **유일하게 움직이는 것**이라야 눈이 간다.
 ///
@@ -273,514 +361,32 @@ struct NextChapterCountdown: View {
     }
 }
 
-// MARK: - 콤보 만들기
-
-/// 콤보 한 개를 만든다. 칸을 **둘만** 둔다 - 온보딩에서 세 칸을 채우게 하면 거기서 나간다.
-struct ComboTutorialView: View {
-    let onCreated: (Memo) -> Void
-    let onSkip: () -> Void
-
-    @Environment(\.appTheme) private var theme
-
-    @State private var name = ""
-    @State private var contact = ""
-    @FocusState private var focused: Field?
-    private enum Field { case name, contact }
-
-    private var ready: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            && !contact.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 0)
-
-            Text(NSLocalizedString("같이 쓰는 것들을 묶어 둘게요", comment: "Combo tutorial: headline"))
-                .font(.title3.weight(.semibold))
-                .foregroundColor(theme.text)
-                .padding(.top, 14)
-
-            Text(NSLocalizedString("나중에 필요한 값만 골라서 쓸 수 있어요.", comment: "Combo tutorial: subline"))
-                .font(.subheadline)
-                .foregroundColor(theme.textMuted)
-                .multilineTextAlignment(.center)
-                .padding(.top, 6)
-                .padding(.bottom, 22)
-
-            VStack(spacing: 10) {
-                field(NSLocalizedString("이름", comment: "Combo tutorial field: name"),
-                      text: $name, tag: .name)
-                field(NSLocalizedString("연락처", comment: "Combo tutorial field: contact"),
-                      text: $contact, tag: .contact)
-            }
-
-            Button(action: save) {
-                Text(NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut"))
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(theme.accentFg)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 15)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                            .fill(theme.accent)
-                    )
-            }
-            .buttonStyle(.plain)
-            .disabled(!ready)
-            .opacity(ready ? 1 : 0.45)
-            .padding(.top, 18)
-
-            Spacer(minLength: 0)
-            skip
-        }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(theme.bg.ignoresSafeArea())
-        .onAppear { focused = .name }
-    }
-
-    private func field(_ label: String, text: Binding<String>, tag: Field) -> some View {
-        TextField(label, text: text)
-            .textFieldStyle(.plain)
-            .font(.body)
-            .focused($focused, equals: tag)
-            .padding(14)
-            .background(
-                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .fill(theme.surface)
-            )
-            #if os(iOS)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-            #endif
-    }
-
-    private var skip: some View {
-        Button(action: onSkip) {
-            Text(NSLocalizedString("나중에 할게요", comment: "Onboarding: skip"))
-                .font(.footnote)
-                .foregroundColor(theme.textFaint)
-        }
-        .buttonStyle(.plain)
-        .padding(.vertical, 18)
-    }
-
-    private func save() {
-        guard ready else { return }
-        // 콤보는 본문(value)이 비고 단계(comboValues)에 값이 들어간다 - isCombo 는 계산형이다.
-        let memo = Memo(
-            title: NSLocalizedString("내 소개", comment: "Combo tutorial: created combo title"),
-            value: "",
-            comboValues: [name.trimmingCharacters(in: .whitespacesAndNewlines),
-                          contact.trimmingCharacters(in: .whitespacesAndNewlines)]
-        )
-        TutorialStore.insert(memo, onCreated: onCreated, onFailure: onSkip)
-    }
-}
-
-// MARK: - 템플릿 만들기
-
-/// 템플릿 한 개를 만든다. 빈 문장부터 쓰게 하지 않고 **예문을 주고 고치게** 한다
-/// `{}` 를 어디에 왜 쓰는지는 설명보다 보여주는 쪽이 빠르다.
-struct TemplateTutorialView: View {
-    let onCreated: (Memo) -> Void
-    let onSkip: () -> Void
-
-    @Environment(\.appTheme) private var theme
-
-    /// 두 걸음이다 - **값을 먼저 넣고**, 그다음 **그 자리를 뭐라고 부를지** 정한다.
-    ///
-    /// ⚠️ 순서에 뜻이 있다. 손에 잡히는 것("이영훈")을 먼저 넣어 보면 문장이 어떻게
-    ///    완성되는지가 눈에 들어오고, 그다음에야 "그럼 이 자리는 뭐라고 부를까"가
-    ///    자연스러운 물음이 된다. 반대로 하면 이름부터 지으라는 말이라 무엇을 적으라는
-    ///    건지 알 수 없고, 실제로 그 자리에 값을 적어 넣는 일이 벌어졌다.
-    /// ⚠️ **이름이 둘이다.** 하나는 바뀌는 자리를 부르는 말(변수 이름, "소개하는 이름"),
-    ///    다른 하나는 이 템플릿 자체의 이름("자기소개")이다. 같은 걸로 두면 목록에
-    ///    "소개하는 이름"이라는 카드가 생겨 무엇을 쓰는 문구인지 알 수 없다.
-    private enum Step { case value, name, title }
-    @State private var step: Step = .value
-
-    /// 채울 칸의 **이름**(= 무엇이 바뀌는 자리인가). 사용자가 고친다.
-    @State private var blankName: String = ""
-    /// 그 칸에 넣어 볼 **값**. 만들어진 템플릿에 기억돼 다음에 제안으로 뜬다.
-    @State private var sampleValue: String = ""
-    /// 이 템플릿 자체의 이름 - 목록과 키보드에 이 이름으로 보인다.
-    @State private var templateName: String = ""
-    @FocusState private var focused: Bool
-
-    private var trimmedBlank: String {
-        blankName.trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: "{", with: "")
-            .replacingOccurrences(of: "}", with: "")
-    }
-    private var trimmedValue: String { sampleValue.trimmingCharacters(in: .whitespacesAndNewlines) }
-    private var trimmedTitle: String { templateName.trimmingCharacters(in: .whitespacesAndNewlines) }
-
-    /// 제안하는 템플릿 이름 - 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
-    private var defaultTemplateName: String {
-        NSLocalizedString("자기소개", comment: "Template tutorial: suggested template name")
-    }
-
-    /// 저장 형식(중괄호)은 여기서만 만든다 - 화면에는 칩으로만 보인다.
-    private var templateBody: String {
-        String(format: NSLocalizedString("안녕하세요, {%@}님. 확인 부탁드립니다.",
-                                         comment: "Template tutorial: example body"),
-               trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank)
-    }
-
-    /// 값을 넣는 동안 보여줄 문장 - 아직 이름을 안 지었으니 자리는 중립적인 말로 둔다.
-    private var valueStepBody: String {
-        let slot = trimmedValue.isEmpty
-            ? "{\(NSLocalizedString("여기", comment: "Template tutorial: neutral slot label"))}"
-            : trimmedValue
-        return String(format: NSLocalizedString("안녕하세요, %@님. 확인 부탁드립니다.",
-                                                comment: "Template tutorial: example body (plain)"), slot)
-    }
-
-    private var defaultBlankName: String {
-        NSLocalizedString("소개하는 이름", comment: "Template tutorial: suggested blank name")
-    }
-
-    private var ready: Bool {
-        switch step {
-        case .value: return !trimmedValue.isEmpty
-        case .name:  return !trimmedBlank.isEmpty
-        case .title: return !trimmedTitle.isEmpty
-        }
-    }
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Spacer(minLength: 0)
-
-            Text(headline)
-                .font(.title3.weight(.semibold))
-                .foregroundColor(theme.text)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 14)
-
-            Text(subline)
-                .font(.subheadline)
-                .foregroundColor(theme.textMuted)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 6)
-                .padding(.bottom, 22)
-
-            // ⚠️ 중괄호를 **그대로 보여주지 않는다.** `{}` 는 저장 형식이지 사용자가 배울 문법이 아니다.
-            //    칸 이름을 정하는 동안엔 칩으로, 값을 넣는 동안엔 **채워진 문장**으로 보여준다
-            //    같은 문장이 어떻게 달라지는지가 이 튜토리얼의 전부다.
-            Text((step == .value ? valueStepBody : templateBody)
-                    .templateAwareAttributed(theme: theme, font: .body))
-                .font(.body)
-                .foregroundColor(theme.text)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(14)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                        .fill(theme.surface)
-                )
-
-            // 빈칸이 무슨 역할인지는 **말로 하면 안 와닿는다.** 같은 문장을 값만 바꿔
-            // 두 줄로 보여주면, 무엇이 고정이고 무엇이 갈아 끼우는 자리인지 한눈에 들어온다.
-            if step != .value, !trimmedValue.isEmpty {
-                roleDemo
-                    .padding(.top, 10)
-                    .transition(.opacity)
-            }
-
-            HStack(spacing: 10) {
-                Text(fieldLabel)
-                    .font(.footnote)
-                    .foregroundColor(theme.textMuted)
-                TextField(fieldPlaceholder, text: fieldBinding)
-                    .textFieldStyle(.plain)
-                    .font(.body)
-                    .focused($focused)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 9)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                            .fill(theme.surfaceAlt)
-                    )
-                    #if os(iOS)
-                    .autocorrectionDisabled()
-                    #endif
-            }
-            .padding(.top, 12)
-
-            Button(action: advance) {
-                Text(step == .title
-                     ? NSLocalizedString("이걸로 만들기", comment: "Onboarding: save the first shortcut")
-                     : NSLocalizedString("다음", comment: "Next button"))
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(theme.accentFg)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 15)
-                    .background(
-                        RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                            .fill(theme.accent)
-                    )
-            }
-            .buttonStyle(.plain)
-            .disabled(!ready)
-            .opacity(ready ? 1 : 0.45)
-            .padding(.top, 16)
-
-            Spacer(minLength: 0)
-
-            Button(action: onSkip) {
-                Text(NSLocalizedString("나중에 할게요", comment: "Onboarding: skip"))
-                    .font(.footnote)
-                    .foregroundColor(theme.textFaint)
-            }
-            .buttonStyle(.plain)
-            .padding(.vertical, 18)
-        }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(theme.bg.ignoresSafeArea())
-        .animation(.easeOut(duration: 0.25), value: step)
-        .onAppear { focused = true }
-    }
-
-    // MARK: - 빈칸이 하는 일 보여주기
-
-    /// 같은 문장을 값만 바꿔 두 줄로. 바뀌는 부분만 색이 켜진다.
-    private var roleDemo: some View {
-        VStack(alignment: .leading, spacing: 5) {
-            Text(NSLocalizedString("쓸 때마다 여기만 갈아 끼워요", comment: "Template tutorial: role demo header"))
-                .font(.caption.weight(.semibold))
-                .foregroundColor(theme.textMuted)
-            filledSentence(with: trimmedValue)
-                .font(.footnote)
-            filledSentence(with: alternateValue)
-                .font(.footnote)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                .fill(theme.surfaceAlt)
-        )
-    }
-
-    /// 사용자가 넣은 값과 **다른** 값 하나 - 같은 값이 두 줄이면 아무것도 안 보여준 셈이다.
-    private var alternateValue: String {
-        let candidates = [
-            NSLocalizedString("김민수", comment: "Placeholder example: person name 2"),
-            NSLocalizedString("박서연", comment: "Template tutorial: alternate example name")
-        ]
-        return candidates.first { $0 != trimmedValue } ?? candidates[0]
-    }
-
-    /// 문장 하나를 값만 끼워 그린다. 바뀌는 부분만 색을 켜서 **무엇이 고정인지**를 보여준다.
-    private func filledSentence(with value: String) -> Text {
-        let format = NSLocalizedString("안녕하세요, %@님. 확인 부탁드립니다.",
-                                       comment: "Template tutorial: example body (plain)")
-        return Text(format.attributedHighlighting(value,
-                                                  base: theme.textMuted,
-                                                  accent: theme.accent,
-                                                  strong: true))
-    }
-
-    // MARK: - 걸음마다 달라지는 말
-
-    private var fieldBinding: Binding<String> {
-        switch step {
-        case .value: return $sampleValue
-        case .name:  return $blankName
-        case .title: return $templateName
-        }
-    }
-
-    private var headline: String {
-        switch step {
-        case .value:
-            return NSLocalizedString("매번 한 군데만 바뀌는 문구, 있죠?", comment: "Template tutorial: headline")
-        case .name:
-            return NSLocalizedString("이 자리를 뭐라고 부를까요?", comment: "Template tutorial: name step headline")
-        case .title:
-            return NSLocalizedString("이 템플릿의 이름은요?", comment: "Template tutorial: title step headline")
-        }
-    }
-
-    private var subline: String {
-        switch step {
-        case .value:
-            return NSLocalizedString("이름만 바꿔 보내는 안내문처럼요. 오늘은 그 자리에 뭐라고 넣으시겠어요?",
-                                     comment: "Template tutorial: value step subline")
-        case .name:
-            return String(format: NSLocalizedString("나머지 문장은 그대로 두고 '%@' 자리만 매번 바뀌어요. 이름을 붙여 두면 쓸 때 무엇을 채우는 칸인지 바로 알아봐요.",
-                                                    comment: "Template tutorial: name step subline"),
-                          trimmedValue)
-        case .title:
-            return NSLocalizedString("방금 정한 건 바뀌는 자리의 이름이고, 이번엔 이 문구 자체의 이름이에요. 목록과 키보드에 이 이름으로 보여요.",
-                                     comment: "Template tutorial: title step subline")
-        }
-    }
-
-    private var fieldLabel: String {
-        switch step {
-        case .value: return NSLocalizedString("여기에 넣을 말", comment: "Template tutorial: value label")
-        case .name:  return NSLocalizedString("이 자리의 이름", comment: "Template tutorial: blank name label")
-        case .title: return NSLocalizedString("템플릿 이름", comment: "Template tutorial: title label")
-        }
-    }
-
-    private var fieldPlaceholder: String {
-        switch step {
-        case .value: return NSLocalizedString("예: 이영훈", comment: "Template tutorial: value placeholder")
-        case .name:  return defaultBlankName
-        case .title: return defaultTemplateName
-        }
-    }
-
-    // MARK: - 진행
-
-    private func advance() {
-        guard ready else { return }
-        switch step {
-        case .value:
-            // 다음 칸에 들어설 때 제안을 채워 둔다 - 빈칸에서 시작하면 뭘 적으라는 건지 모른다.
-            if trimmedBlank.isEmpty { blankName = defaultBlankName }
-            withAnimation(.easeOut(duration: 0.25)) { step = .name }
-            focused = true
-        case .name:
-            if trimmedTitle.isEmpty { templateName = defaultTemplateName }
-            withAnimation(.easeOut(duration: 0.25)) { step = .title }
-            focused = true
-        case .title:
-            save()
-        }
-    }
-
-    private func save() {
-        let text = templateBody.trimmingCharacters(in: .whitespacesAndNewlines)
-        // ⚠️ templateVariables 를 넣지 않으면 isTemplate=false 가 되어
-        //    탭했을 때 {이름}이 그대로 복사된다.
-        // ⚠️ **이름이 둘**이라는 걸 저장에서도 지킨다 - 카드 제목은 템플릿의 이름("자기소개"),
-        //    본문 안의 칸 이름은 변수 이름("소개하는 이름")이다. 섞으면 목록에서
-        //    무엇을 쓰는 문구인지 알아볼 수 없다.
-        let blank = trimmedBlank.isEmpty ? defaultBlankName : trimmedBlank
-        var memo = Memo(
-            title: trimmedTitle.isEmpty ? defaultTemplateName : trimmedTitle,
-            value: text,
-            templateVariables: TemplateVariableProcessor.extractCustomTokens(in: text)
-        )
-        // 방금 넣어 본 값을 **그 칸의 기억**으로 남긴다 - 다음에 쓸 때 제안으로 뜬다.
-        // 배운 것이 화면 안에 흔적으로 남아야 "그래서 뭐가 달라졌지"가 안 된다.
-        let token = "{\(blank)}"
-        memo.placeholderValues = [token: [trimmedValue]]
-
-        TutorialStore.insert(memo, onCreated: { created in
-            // ⚠️ 값이 사는 곳이 **둘**이다 - 메모 안(`placeholderValues`)과 앱 전체가 함께 보는
-            //    저장소(`placeholder_values_{이름}`). 실제 입력 화면은 **뒤엣것**을 읽는다.
-            //    메모에만 넣어 두면 목록에서 그 템플릿을 써 볼 때 제안이 하나도 안 뜬다
-            //    (튜토리얼에서 분명히 넣었는데 없다 - 데이터가 갈라져 보이는 지점이었다).
-            //    앱의 다른 화면들이 쓰는 길(MemoAddViewModel.savePlaceholderValues)과 같은 길로 쓴다.
-            MemoStore.shared.addPlaceholderValue(trimmedValue,
-                                                 for: token,
-                                                 sourceMemoId: created.id,
-                                                 sourceMemoTitle: created.title)
-            onCreated(created)
-        }, onFailure: onSkip)
-    }
-}
-
-// MARK: - 저장
-
-/// 튜토리얼을 **처음부터 다시** 할 수 있게 표식을 지운다.
-///
-/// ⚠️ 한 번 배우고 끝이 아니다. 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지, 콤보를 어떻게
-///    만들었는지 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
-///
-/// ⚠️ `startedFresh` 도 함께 켠다 - 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
-///    꺼져 있어서 켜 주지 않으면 다시 하기를 눌러도 아무 일도 안 일어난다.
-/// 튜토리얼에서 **만든 것**을 기억하고, 끝난 뒤 지울지 물어보기 위한 자리.
-///
-/// ⚠️ 여기서 만드는 것도 전부 진짜다 - 그래서 함부로 지우지 않는다. 다만 연습 삼아 만든
-///    것이 목록에 남아 거슬리는 사람도 있어, **끝나고 한 번 물어보고** 그때만 지운다.
-enum TutorialCreations {
-
-    static func remember(_ id: UUID) {
-        var ids = all
-        guard !ids.contains(id) else { return }
-        ids.append(id)
-        UserDefaults.standard.set(ids.map(\.uuidString).joined(separator: ","),
-                                  forKey: DefaultsKey.tutorialCreatedMemoIds)
-    }
-
-    static var all: [UUID] {
-        (UserDefaults.standard.string(forKey: DefaultsKey.tutorialCreatedMemoIds) ?? "")
-            .split(separator: ",")
-            .compactMap { UUID(uuidString: String($0)) }
-    }
-
-    static func forget() {
-        UserDefaults.standard.set("", forKey: DefaultsKey.tutorialCreatedMemoIds)
-    }
-
-    /// 기억해 둔 것들을 지운다. **그 사이 사용자가 고쳐 쓰고 있을 수도 있으므로**
-    /// 지운 개수를 돌려준다(안내 문구에 쓴다).
-    @discardableResult
-    static func deleteAll() -> Int {
-        let ids = Set(all)
-        guard !ids.isEmpty else { return 0 }
-        do {
-            let memos = try MemoStore.shared.load(type: .memo)
-            let kept = memos.filter { !ids.contains($0.id) }
-            let removed = memos.count - kept.count
-            try MemoStore.shared.save(memos: kept, type: .memo)
-            forget()
-            NotificationCenter.default.post(name: .memoDataChanged, object: nil)
-            print("🧹 [TutorialCreations] 튜토리얼 단축어 \(removed)개 삭제")
-            return removed
-        } catch {
-            print("❌ [TutorialCreations.deleteAll] \(error)")
-            return 0
-        }
-    }
-}
+// MARK: - 다시 하기
 
 enum TutorialReset {
 
-    /// 지워지는 것은 **표식뿐이다.** 만들어 둔 단축어·템플릿·콤보는 그대로 남는다.
+    /// 튜토리얼을 **처음부터 다시** 할 수 있게 표식을 지운다.
+    ///
+    /// ⚠️ 한 번 배우고 끝이 아니다. 몇 달 만에 열어 본 사람은 템플릿이 뭐였는지, 콤보가
+    ///    무엇이었는지 기억하지 못한다. 그때 다시 볼 길이 없으면 "예전엔 됐는데"로 끝난다.
+    ///
+    /// ⚠️ 지워지는 것은 **표식뿐이다.** 목록의 단축어·템플릿·콤보는 그대로 남는다.
+    ///    튜토리얼은 그중에서 가리킬 것을 다시 고른다(`TutorialScenarios`).
+    ///
+    /// ⚠️ `startedFresh` 도 함께 켠다 - 이 흐름은 그 표식을 보고 도는데, 쓰던 사람에게는
+    ///    꺼져 있어서 켜 주지 않으면 다시 하기를 눌러도 아무 일도 안 일어난다.
     static func restartAll() {
         let d = UserDefaults.standard
         d.set(true, forKey: DefaultsKey.startedFreshV444)
-        d.set(false, forKey: DefaultsKey.firstShortcutDone)
+        d.set(false, forKey: DefaultsKey.tutorialWelcomeDone)
+        d.set(false, forKey: DefaultsKey.tutorialSnippetDone)
         d.set(false, forKey: DefaultsKey.tutorialTemplateDone)
-        d.set(false, forKey: DefaultsKey.tutorialMakeTemplateDone)
         d.set(false, forKey: DefaultsKey.tutorialComboDone)
         d.set(false, forKey: DefaultsKey.tutorialChaptersDone)
         d.set(false, forKey: DefaultsKey.keyboardSetupTutorialDone)
         d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
-        d.set(false, forKey: DefaultsKey.tutorialCleanupAsked)
-        TutorialCreations.forget()
         // 튜토리얼은 무대에서 시작한다 - 목록에 있으면 첫 걸음이 열리지 않는다.
         d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         print("🎓 [TutorialReset] 튜토리얼 표식 초기화, 처음부터 다시")
-    }
-}
-
-enum TutorialStore {
-    /// 튜토리얼에서 만든 것을 목록 맨 위에 넣는다.
-    static func insert(_ memo: Memo, onCreated: (Memo) -> Void, onFailure: () -> Void) {
-        do {
-            var memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-            memos.insert(memo, at: 0)
-            try MemoStore.shared.save(memos: memos, type: .memo)
-            #if canImport(UIKit)
-            HapticManager.shared.success()
-            #endif
-            onCreated(memo)
-        } catch {
-            print("❌ [TutorialStore.insert] 저장 실패: \(error)")
-            // 저장이 안 됐는데 "만들었어요"로 넘어가면 목록에 없는 걸 누르라고 하게 된다.
-            onFailure()
-        }
     }
 }

@@ -28420,6 +28420,227 @@
           }
         }
       }
+    },
+    "이걸 눌러보세요. 적힌 그대로 입력돼요." : {
+      "comment" : "Coach line: try the prepared snippet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap this one. It types exactly what it says."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk yang ini. Teksnya langsung masuk apa adanya."
+          }
+        }
+      }
+    },
+    "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요." : {
+      "comment" : "Coach line: try the prepared template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This one is a template. Tap it and just fill the blanks."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang ini template. Ketuk, lalu isi bagian kosongnya."
+          }
+        }
+      }
+    },
+    "마지막은 콤보예요. 여러 개가 순서대로 들어가요." : {
+      "comment" : "Coach line: try the prepared combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last one is a combo. Several values go in, one after another."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terakhir, combo. Beberapa nilai masuk berurutan."
+          }
+        }
+      }
+    },
+    "눌러서 그대로 입력하는 단축어" : {
+      "comment" : "Welcome: what a snippet is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A snippet you tap to type as is"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippet yang diketuk untuk mengetik apa adanya"
+          }
+        }
+      }
+    },
+    "빈칸만 채워 쓰는 템플릿" : {
+      "comment" : "Welcome: what a template is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A template where you only fill the blanks"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Template yang hanya perlu diisi bagian kosongnya"
+          }
+        }
+      }
+    },
+    "여러 값을 순서대로 넣는 콤보" : {
+      "comment" : "Welcome: what a combo is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A combo that types several values in order"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combo yang mengetik beberapa nilai secara berurutan"
+          }
+        }
+      }
+    },
+    "바로 써 볼 수 있게 준비해 뒀어요" : {
+      "comment" : "Tutorial welcome: headline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We set up a few things for you to try"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami sudah menyiapkan beberapa hal untuk dicoba"
+          }
+        }
+      }
+    },
+    "만드는 법은 나중에 알아도 돼요. 먼저 눌러서 어떤 물건인지부터 보세요." : {
+      "comment" : "Tutorial welcome: body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Making your own can wait. Tap one first and see what it does."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membuat sendiri bisa nanti. Ketuk dulu dan lihat cara kerjanya."
+          }
+        }
+      }
+    },
+    "눌러볼게요" : {
+      "comment" : "Tutorial welcome: start",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's try one"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba sekarang"
+          }
+        }
+      }
+    },
+    "나중에 볼게요" : {
+      "comment" : "Tutorial welcome: skip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maybe later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti saja"
+          }
+        }
+      }
+    },
+    "빛나는 단축어를 눌러 보세요" : {
+      "comment" : "Tutorial cue on the stage",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the highlighted shortcut"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk pintasan yang menyala"
+          }
+        }
+      }
+    },
+    "이걸 눌러보세요. 바로 복사돼요." : {
+      "comment" : "First-use coach: tap this card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap this one. It copies right away."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk yang ini. Langsung tersalin."
+          }
+        }
+      }
+    },
+    "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
+      "comment" : "Restart tutorial alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll walk you through tapping the prepared snippet, template, and combo again. Nothing in your list is removed."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami akan memandu Anda mengetuk snippet, template, dan combo yang sudah disiapkan sekali lagi. Daftar Anda tidak akan berubah."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

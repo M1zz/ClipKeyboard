@@ -22,6 +22,8 @@ import LeeoKit
 struct InAppKeyboardStage: View {
     /// 튜토리얼이 가리키는 키 - 방금 만든 문구. 누르면 첫 걸음이 끝난다.
     var highlightedMemoId: UUID? = nil
+    /// 가리키는 동안 대화 위에 얹을 안내 한 줄. 장마다 다르다(`TutorialChapter.coachLine`).
+    var tutorialLine: String? = nil
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -34,9 +36,10 @@ struct InAppKeyboardStage: View {
     ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
     ///    (목록 → 미리보기 방향만 이상했던 이유 - 반대 방향엔 다시 만들 일이 없다).
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
-    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil) {
+    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil, tutorialLine: String? = nil) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
+        self.tutorialLine = tutorialLine
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -259,7 +262,8 @@ struct InAppKeyboardStage: View {
                 Spacer(minLength: 0)
                 Image(systemName: "hand.tap.fill")
                     .font(.subheadline.weight(.semibold))
-                Text(NSLocalizedString("방금 만든 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
+                Text(tutorialLine
+                     ?? NSLocalizedString("빛나는 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
                     .font(.subheadline.weight(.bold))
                 // 아래를 가리킨다 - 글과 빛나는 키 사이를 눈이 건너갈 길을 만든다.
                 Image(systemName: "arrow.down")

@@ -25,7 +25,6 @@
 		256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		2574A4532CE38FCE6B309E62 /* RefundLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D6A773619BB7884CEA27B8 /* RefundLedger.swift */; };
 		27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
-		282748E17940F587E6441F41 /* FirstShortcutOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */; };
 		29187FD9B8AD5C0639E7FEDE /* DiscountOfferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */; };
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		2B647294E78814DF398CF307 /* CategoryBucketRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */; };
@@ -295,7 +294,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FirstShortcutOnboardingView.swift; sourceTree = "<group>"; };
 		050AEED88220E19330F5B15C /* MemoSyncCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncCore.swift; sourceTree = "<group>"; };
 		0622D45C06C97BE4FC38AC5B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0ADD191793C12DD7704034B4 /* VaultScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VaultScreen.swift; sourceTree = "<group>"; };
@@ -909,7 +907,6 @@
 				58DL00072F0000000000000007 /* UsagePassportView.swift */,
 				58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */,
 				0ADD191793C12DD7704034B4 /* VaultScreen.swift */,
-				0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */,
 				2619185DB1FDBE519DF7FB51 /* PastePracticeView.swift */,
 				B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */,
 				6F37D408E1783A0877821F5A /* ListBackgroundSettings.swift */,
@@ -1513,7 +1510,6 @@
 				2574A4532CE38FCE6B309E62 /* RefundLedger.swift in Sources */,
 				522895AA07E790D75C0A8EEB /* VaultDeposit.swift in Sources */,
 				F4D02850F071DD2B52FD1AEC /* VaultScreen.swift in Sources */,
-				282748E17940F587E6441F41 /* FirstShortcutOnboardingView.swift in Sources */,
 				5D5FC1F549C20F256F7B40BA /* PastePracticeView.swift in Sources */,
 				C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */,
 				AF23D3A3CD2BBE56EEB15F80 /* PlaceholderExamples.swift in Sources */,

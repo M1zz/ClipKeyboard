@@ -72,17 +72,14 @@ struct ClipKeyboardList: View {
     @State private var vaultSeconds: Double = 0
     /// 금고 화면 열기.
     @State private var showVault = false
-    /// 첫 단축어 만들기를 끝냈거나 건너뛰었는지.
-    @AppStorage(DefaultsKey.firstShortcutDone)
-    private var firstShortcutDone: Bool = false
     /// 단축어 탭이 무엇을 보여줄지(목록 / 키보드 미리보기). 툴바의 전환 버튼이 이 값을 뒤집는다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
     private var snippetsTabStyleRaw: String = SnippetsTabStyle.list.rawValue
-    /// 이 기기가 4.4.4 에서 처음 시작했는지 - 온보딩을 보여줄 사람인지 가른다.
-    @AppStorage(DefaultsKey.startedFreshV444)
-    private var startedFreshV444: Bool = false
-    /// 방금 만든 단축어 - 한 번 써 볼 때까지 "눌러보세요"를 띄운다.
+    /// 지금 코치가 가리키는 카드. 무대와 **같은 표식**(`tutorialFirstUseMemoId`)에서 온다 -
+    /// 튜토리얼 도중 목록으로 넘어와도 가리키는 것이 같아야 한다.
     @State private var coachMemoID: UUID?
+    @AppStorage(DefaultsKey.tutorialFirstUseMemoId)
+    private var tutorialTargetRaw: String = ""
     /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
     @State private var coachRect: CGRect = .zero
     /// 복사까지 해 본 직후 이어지는 붙여넣기 연습. 복사만 시키고 끝내면
@@ -94,24 +91,6 @@ struct ClipKeyboardList: View {
         let value: String
     }
 
-    /// 콤보/템플릿 튜토리얼을 끝냈는지. 한 번 한 사람에게 다시 권하지 않는다.
-    @AppStorage(DefaultsKey.tutorialComboDone)
-    private var tutorialComboDone: Bool = false
-    @AppStorage(DefaultsKey.tutorialTemplateDone)
-    private var tutorialTemplateDone: Bool = false
-    @AppStorage(DefaultsKey.tutorialMakeTemplateDone)
-    private var tutorialMakeTemplateDone: Bool = false
-    /// 처음 배우는 차례가 끝났는가 - 안 끝났으면 챕터 초대는 무대가 이끈다.
-    @AppStorage(DefaultsKey.tutorialChaptersDone)
-    private var tutorialChaptersDone: Bool = false
-    /// "템플릿으로 만들기" 시트가 튜토리얼로 열렸는지 - 닫힐 때 다음 장으로 이어주려고 본다.
-    @State private var awaitingMakeTemplate = false
-    /// "이어서 해볼까요?" 를 띄우는 중인 장.
-    @State private var tutorialInvite: TutorialChapter?
-    /// 만들기 화면을 띄우는 중인 장.
-    @State private var tutorialMaking: TutorialChapter?
-    /// 지금 코치가 가리키는 장 - 안내 문구가 장마다 다르다.
-    @State private var coachChapter: TutorialChapter?
     /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
@@ -625,41 +604,6 @@ struct ClipKeyboardList: View {
             .fullScreenCover(item: $pastePractice) { request in
                 PastePracticeView(expected: request.value) {
                     pastePractice = nil
-                    inviteNextChapter(after: 0.5)     // 붙여넣기까지 됐으면 다음 장을 권한다
-                }
-            }
-            .fullScreenCover(item: $tutorialInvite) { chapter in
-                TutorialInviteView(chapter: chapter) {
-                    tutorialInvite = nil
-                    // 시트가 겹치지 않게 한 박자 뒤에 다음 화면을 연다.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                        if chapter == .makeTemplate {
-                            // 새 화면을 만들지 않는다 - 이미 있는 "템플릿으로 만들기"를 그대로 태운다.
-                            // 튜토리얼에서만 보는 특별한 화면을 배워봐야, 정작 평소에 쓰는
-                            // 메뉴는 여전히 낯설다.
-                            awaitingMakeTemplate = true
-                            makeTemplateSource = convertibleShortcut
-                        } else {
-                            tutorialMaking = chapter
-                        }
-                    }
-                } onDecline: {
-                    tutorialInvite = nil
-                    // 거절도 답이다 - 다시 묻지 않는다. 붙잡으면 다음에 안 온다.
-                    markDone(chapter)
-                }
-            }
-            .fullScreenCover(item: $tutorialMaking) { chapter in
-                switch chapter {
-                case .combo:
-                    ComboTutorialView(onCreated: { tutorialCreated($0, chapter: .combo) },
-                                      onSkip: { tutorialMaking = nil; tutorialComboDone = true })
-                case .template:
-                    TemplateTutorialView(onCreated: { tutorialCreated($0, chapter: .template) },
-                                         onSkip: { tutorialMaking = nil; tutorialTemplateDone = true })
-                case .makeTemplate:
-                    // 여기로 오지 않는다(위에서 기존 화면으로 보낸다). 안전망.
-                    Color.clear.onAppear { tutorialMaking = nil }
                 }
             }
             // Toast 메시지 오버레이
@@ -775,7 +719,6 @@ struct ClipKeyboardList: View {
                                 makeTemplateSource = memo
                             }
                         },
-                        highlightsMakeTemplate: awaitingMakeTemplate,
                         onToggleSecure: {
                             HapticManager.shared.selection()
                             viewModel.toggleSecure(memoId: memo.id)
@@ -841,15 +784,6 @@ struct ClipKeyboardList: View {
             // 변수 삽입바를 바로 띄우고, 저장하면 원본은 그대로 둔 채 새 템플릿 메모가 생긴다.
             .sheet(item: $makeTemplateSource, onDismiss: {
                 viewModel.loadMemos()
-                // 튜토리얼로 열었던 거라면 여기서 그 장이 끝난다 - 저장했든 취소했든,
-                // 이 화면을 한 번 본 것만으로 "있는 걸 바꿀 수 있다"는 건 전달됐다.
-                if awaitingMakeTemplate {
-                    awaitingMakeTemplate = false
-                    tutorialMakeTemplateDone = true
-                    // 처음 배우는 중이면 다음 장은 무대가 이어 간다(여기서 권하면 두 번 뜬다).
-                    NotificationCenter.default.post(name: .makeTemplateTutorialFinished, object: nil)
-                    inviteNextChapter(after: 0.5)
-                }
             }) { src in
                 NavigationStack {
                     MemoAdd(
@@ -857,12 +791,7 @@ struct ClipKeyboardList: View {
                         insertedValue: src.value,
                         insertedCategory: src.category,
                         startInTemplateMode: true,
-                        templateSourceMemoId: src.id,
-                        // 튜토리얼로 들어온 길에서만 안내 한 줄 - 평소 편집에는 안 붙는다.
-                        tutorialHint: awaitingMakeTemplate
-                            ? NSLocalizedString("매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요.",
-                                                comment: "Tutorial hint inside the make-template editor")
-                            : nil
+                        templateSourceMemoId: src.id
                     )
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
@@ -936,12 +865,8 @@ struct ClipKeyboardList: View {
 
     private var screenL8: some View {
         screenL7
-            // '템플릿으로 만들기' 장만 목록에서 한다(고치는 일은 목록에서).
-            // 무대가 이 알림을 쏘면 이미 있는 그 화면을 그대로 태운다.
-            .onReceive(NotificationCenter.default.publisher(for: .startMakeTemplateTutorial)) { _ in
-                startMakeTemplateTutorialIfPending()
-            }
-            .onAppear { startMakeTemplateTutorialIfPending() }
+            .onAppear { syncCoachTarget() }
+            .onChange(of: tutorialTargetRaw) { _, _ in syncCoachTarget() }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
@@ -1396,10 +1321,6 @@ struct ClipKeyboardList: View {
             longPressProgress = 0
             memoForActions = memo
             showMemoActions = true
-            // 메뉴가 덮으므로 카드 옆 안내는 물러난다 - 이제 가리킬 곳은 메뉴 안이다.
-            if coachChapter == .makeTemplate {
-                withAnimation(.easeOut(duration: 0.2)) { coachMemoID = nil; coachChapter = nil }
-            }
         } onPressingChanged: { isPressing in
             if isPressing {
                 longPressActiveMemo = memo
@@ -1614,25 +1535,19 @@ struct ClipKeyboardList: View {
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
         lightUpCard(memoID)
 
-        // 만든 걸 실제로 써 봤다 → 붙여넣기까지 이어서 데려간다.
+        // 가리키던 카드를 실제로 눌렀다 → 복사한 것을 붙여넣기까지 이어서 데려간다.
         //
         // ⚠️ 클립보드를 읽어 값을 알아내지 않는다. iOS 16+ 는 읽을 때마다
         //    "붙여넣기 허용" 프롬프트를 띄워서, 가르치려던 동작을 시스템 팝업으로 가로챈다.
-        //    이 연습은 온보딩에서 만든 평범한 문구에만 붙으므로 memo.value 가 곧 복사된 값이다.
+        //    알림이 실어 온 복사값(copiedText)을 그대로 쓴다.
         if coachMemoID == memoID {
-            let chapter = coachChapter
-            withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil; coachChapter = nil }
+            withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil }
 
-            // 복사했으면 **어느 장이든** 붙여넣기까지 데려간다.
-            // 복사는 앱이 해 준 일이고, 값어치는 그다음에 안 친 것에 있다 - 그건 콤보도 같다.
             let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
-            if let chapter { markDone(chapter) }
             if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
                     pastePractice = PastePracticeRequest(value: copied)
                 }
-            } else {
-                inviteNextChapter(after: 0.6)
             }
         }
 
@@ -3073,109 +2988,29 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 빈 목록 - **광부와 함께 첫 단축어를 하나 만든다.**
+    /// 빈 목록.
     ///
-    /// ⚠️ 예전에는 여기에 "이런 방법으로 쓸 수 있어요" 카드 격자 + 스타터팩 배너가 있었다.
-    ///    걷어낸 이유: 그 화면은 **읽을 거리만 주고 아무것도 시키지 않았다.**
-    ///    활용 사례를 아무리 잘 써 놔도 한 번도 안 만들어 본 사람에게는 남의 이야기고,
-    ///    만들어서 써 본 사람만 다음 날 다시 온다.
-    ///    (스타터팩 자체는 남아 있다 - 더보기 메뉴에서 여전히 쓸 수 있다.)
+    /// ⚠️ 여기에 온보딩을 세우지 않는다. 처음 쓰는 사람의 목록은 **비어 있지 않다** -
+    ///    설치 첫 실행에 단축어·템플릿·콤보가 한 벌씩 들어가고(`performSampleInsertion`),
+    ///    튜토리얼은 그걸 가리키며 눌러 보게 한다(`SnippetsTab`).
+    ///    이 자리가 보이는 건 **다 지운 사람**뿐이고, 그 사람에게 필요한 건 안내가 아니라
+    ///    다시 만들 자리를 알려 주는 한 줄이다.
     private var EmptyListView: some View {
-        Group {
-            // ⚠️ 온보딩은 **4.4.4 에서 처음 시작한 사람에게만** 보인다.
-            //    이 조건이 없으면 몇 년 쓴 사람이 단축어를 정리해 목록을 비우는 순간
-            //    "매번 똑같은 걸 치고 있지는 않나요?"가 뜬다 - 그 사람에겐 헛소리다.
-            if firstShortcutDone || !startedFreshV444 {
-                minimalEmptyState
-            } else {
-                FirstShortcutOnboardingView(
-                    onCreated: { memo in
-                        firstShortcutDone = true
-                        viewModel.loadMemos()
-                        // 만들기만 하고 끝내면 "저장했다"로 끝난다. 한 번 **써 봐야** 값어치를 안다.
-                        coachMemoID = memo.id
-                    },
-                    onSkip: { firstShortcutDone = true }
-                )
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        minimalEmptyState
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    /// 아직 안 해 본 다음 장을 권한다. 없으면 아무 일도 안 일어난다.
+    /// 무대가 가리키는 것을 목록도 그대로 가리킨다.
     ///
-    /// ⚠️ 한 번에 셋을 다 가르치지 않는다. 첫 화면에서 "단축어·콤보·템플릿이 있어요"를
-    ///    다 설명하면 하나도 안 남는다. 하나 만들고 → 써 보고 → 그다음 것을 권한다.
-    /// 무대가 남긴 예약이 있으면 '템플릿으로 만들기' 화면을 띄운다.
-    ///
-    /// ⚠️ 알림만으로는 안 된다 - 무대에서 목록으로 넘어오는 그 순간 이 화면은 아직 없어서
-    ///    알림을 받을 사람이 없다. 표식을 남겨 두고 **떠 있을 때 스스로 확인**한다.
-    private func startMakeTemplateTutorialIfPending() {
-        let d = UserDefaults.standard
-        guard d.bool(forKey: DefaultsKey.pendingMakeTemplateTutorial) else { return }
-        d.set(false, forKey: DefaultsKey.pendingMakeTemplateTutorial)
-        // ⚠️ 화면을 **대신 열어 주지 않는다.** 대신 열어 주면 그 순간엔 배운 것 같지만
-        //    나중에 혼자 하려 할 때 어디서 시작하는지를 모른다.
-        //    길게 누르는 것부터 손이 직접 하게 하고, 우리는 어디를 눌러야 하는지만 가리킨다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            guard let target = convertibleShortcut else { return }
-            awaitingMakeTemplate = true
-            withAnimation(.easeOut(duration: 0.25)) {
-                coachMemoID = target.id
-                coachChapter = .makeTemplate
-            }
-        }
+    /// ⚠️ 튜토리얼은 무대에서 도는데, 사용자는 도중에 목록으로 넘어올 수 있다. 그때
+    ///    가리키는 것이 사라지면 하던 일이 끊긴 것처럼 보인다. 표식 하나를 두 화면이
+    ///    함께 읽어 **어느 쪽에 있든 같은 것**을 가리킨다.
+    private func syncCoachTarget() {
+        let target = tutorialTargetRaw.isEmpty ? nil : UUID(uuidString: tutorialTargetRaw)
+        withAnimation(.easeOut(duration: 0.25)) { coachMemoID = target }
     }
 
-    private func inviteNextChapter(after delay: Double) {
-        // ⚠️ 처음 배우는 중이라면 **여기서 권하지 않는다.** 그 흐름은 무대(SnippetsTab)가
-        //    이끌고 있고, 양쪽이 같이 권하면 같은 장이 두 번 뜬다.
-        guard !(startedFreshV444 && !tutorialChaptersDone) else { return }
-        // 순서가 곧 배우는 차례다 - 템플릿을 만들어 본 다음이라야
-        // "있는 걸 템플릿으로 바꾼다"는 말이 통한다.
-        let next = TutorialChapter.allCases.first { chapter in
-            switch chapter {
-            case .template:     return !tutorialTemplateDone
-            // 바꿀 단축어가 없으면 이 장은 건너뛴다 - 없는 걸 바꾸라고 할 수는 없다.
-            case .makeTemplate: return !tutorialMakeTemplateDone && convertibleShortcut != nil
-            case .combo:        return !tutorialComboDone
-            }
-        }
-        guard let next else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            tutorialInvite = next
-        }
-    }
-
-    /// 템플릿으로 바꿀 만한 단축어 - 아직 템플릿도 콤보도 아닌 평범한 글.
-    private var convertibleShortcut: Memo? {
-        viewModel.memos.first {
-            !$0.isTemplate && !$0.isCombo && $0.contentType == .text
-                && !$0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-    }
-
-    /// 장을 끝난 것으로 표시한다.
-    private func markDone(_ chapter: TutorialChapter) {
-        switch chapter {
-        case .template:     tutorialTemplateDone = true
-        case .makeTemplate: tutorialMakeTemplateDone = true
-        case .combo:        tutorialComboDone = true
-        }
-    }
-
-    /// 튜토리얼에서 만든 것을 목록에 반영하고 "눌러보세요"로 이어준다.
-    private func tutorialCreated(_ memo: Memo, chapter: TutorialChapter) {
-        tutorialMaking = nil
-        viewModel.loadMemos()
-        coachMemoID = memo.id
-        coachChapter = chapter
-    }
-
-    /// "만든 걸 눌러보세요" - 연습의 마지막 한 걸음.
-    ///
-    /// 만들기만 하고 끝내면 "저장했다"로 끝난다. 한 번 눌러 봐야 **왜 저장했는지**를 안다.
-    /// 그래서 이 안내는 닫기 버튼이 없다 - 대신 한 번 쓰면 스스로 사라진다.
+    /// "이걸 눌러보세요" - 안내는 닫기 버튼이 없다. 한 번 쓰면 스스로 사라진다.
     /// 카드 위에 떠 있는 것들 - 날아가는 동전과 코치.
     private var floatingLayer: some View {
         GeometryReader { geo in
@@ -3188,9 +3023,8 @@ struct ClipKeyboardList: View {
                     //    카드 **바로 아래**에 꼭지를 위로 달고 붙인다.
                     let top = coachRect.maxY - geo.frame(in: .global).minY + 10
                     FirstUseCoachChip(
-                        line: coachChapter?.coachLine
-                            ?? NSLocalizedString("만든 걸 눌러보세요. 바로 복사돼요.",
-                                                 comment: "First-use coach: tap the shortcut you made"),
+                        line: NSLocalizedString("이걸 눌러보세요. 바로 복사돼요.",
+                                                comment: "First-use coach: tap this card"),
                         pointsUp: true
                     )
                     .frame(maxWidth: geo.size.width - 32)

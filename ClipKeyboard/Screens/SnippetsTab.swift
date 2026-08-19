@@ -82,40 +82,37 @@ enum SnippetsTabStyle: String, CaseIterable, Identifiable {
 /// 첫 흐름의 **지금 어디쯤**인가.
 ///
 /// ⚠️ 세 걸음이 **끊기지 않고 이어져야** 한다
-///    ① 하나 만들고 ② 키보드를 켜고 ③ 그걸 눌러 본다.
-///    예전에는 ①이 끝나면 무대로 떨어뜨려 두고, ②는 띠를 눌러야만 시작됐다.
-///    거기서 끊기면 "만들긴 했는데 어디에 쓰는 거지"로 끝난다
-///    이 앱의 값어치는 ③에서만 드러나고, ②를 건너뛰면 ③이 영영 안 온다.
+///    ① 무엇이 준비돼 있는지 보고 ② 그것들을 하나씩 눌러 보고 ③ 키보드를 켠다.
 ///
-/// ⚠️ 쓰던 사람은 이 길을 걷지 않는다(`startedFresh`). 목록 쪽도 자기 빈 화면에서 같은
-///    첫 단계를 띄우므로, 이 길은 **무대 쪽에서만** 쓴다 - 안 그러면 두 번 나온다.
+/// ⚠️ 여기서 **아무것도 만들게 하지 않는다.** 예전에는 ①이 "첫 단축어 만들기"였고
+///    ②의 자리에 템플릿·콤보를 차례로 만드는 장이 셋 더 있었다. 처음 온 사람에게
+///    빈 칸을 네 번 내미는 일이었다 - 만드는 법보다 **무엇을 해주는 물건인지**가 먼저다.
+///    쓸 것은 설치 첫 실행에 이미 넣어 두었다(`performSampleInsertion`).
+///
+/// ⚠️ 쓰던 사람은 이 길을 걷지 않는다(`startedFresh`).
 enum SnippetsOnboardingStep: Equatable {
-    /// ① 첫 단축어 만들기.
-    case firstShortcut
-    /// ② 무대에서 **방금 만든 그 키를 눌러 본다.** 만들기만 하고 끝나면 아무것도 안 배운 것이다.
-    case tryInKeyboard
-    /// ③~⑤ 템플릿 → 있는 걸 템플릿으로 → 콤보. 목록 화면의 챕터 기계가 맡는다.
-    case chapters
-    /// ⑥ 마지막에 진짜 키보드 켜기 - 이미 켜져 있으면 건너뛴다.
+    /// ① 무엇을 넣어 뒀는지 알린다.
+    case welcome
+    /// ② 넣어 둔 것을 **무대에서 차례로 눌러 본다** (단축어 → 템플릿 → 콤보).
+    case tryScenarios
+    /// ③ 마지막에 진짜 키보드 켜기 - 이미 켜져 있으면 건너뛴다.
     case keyboardSetup
     /// 다 지났다. 평소 화면으로.
     case done
 
-    /// 순서: 단축어 → **눌러보기** → 템플릿 → 템플릿으로 만들기 → 콤보 → 키보드 설정.
+    /// 순서: 환영 → 써 보기 → 키보드 설정.
     ///
     /// ⚠️ 키보드 설정이 **맨 뒤**인 이유: 설정 앱으로 나갔다 오는 일이라 흐름이 가장 크게 끊긴다.
-    ///    배울 것을 다 배운 뒤에 "이제 다른 앱에서도 쓰려면" 으로 이어져야 나갔다 돌아올 이유가 분명하다.
+    ///    써 볼 것을 다 써 본 뒤에 "이제 다른 앱에서도 쓰려면" 으로 이어져야 나갔다 돌아올 이유가
+    ///    분명하다. (무대에서 눌러 보는 데에는 진짜 키보드가 켜져 있을 필요가 없다.)
     static func current(startedFresh: Bool,
-                        firstShortcutDone: Bool,
-                        firstUsePending: Bool,
+                        welcomeDone: Bool,
                         chaptersDone: Bool,
                         keyboardSetupDone: Bool,
                         keyboardUsable: Bool) -> SnippetsOnboardingStep {
         guard startedFresh else { return .done }
-        if !firstShortcutDone { return .firstShortcut }
-        // 만들어 놓고 아직 안 눌러 봤다 - 무대에서 그 키를 가리킨다.
-        if firstUsePending { return .tryInKeyboard }
-        if !chaptersDone { return .chapters }
+        if !welcomeDone { return .welcome }
+        if !chaptersDone { return .tryScenarios }
         // 이미 켜 둔 사람에게 켜는 법을 가르치지 않는다.
         if !keyboardSetupDone, !keyboardUsable { return .keyboardSetup }
         return .done
@@ -176,31 +173,24 @@ struct SnippetsStyleSwitchButton: View {
 struct SnippetsTab: View {
     @AppStorage(DefaultsKey.snippetsTabStyle) private var styleRaw: String = SnippetsTabStyle.list.rawValue
     @AppStorage(DefaultsKey.keyboardStageOffered) private var offered: Bool = false
-    /// 첫 단축어를 만들었거나 건너뛰었는가.
-    @AppStorage(DefaultsKey.firstShortcutDone) private var firstShortcutDone: Bool = false
+    /// 환영 화면을 지났는가(시작했든 나중에 보기로 했든).
+    @AppStorage(DefaultsKey.tutorialWelcomeDone) private var welcomeDone: Bool = false
     /// 이 기기가 4.4.4 이후로 처음 시작했는가 - 쓰던 사람에게 튜토리얼을 다시 깔지 않기 위한 표식.
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
     /// 키보드 켜기 안내까지 지나왔는가(끝냈든 건너뛰었든).
     @AppStorage(DefaultsKey.keyboardSetupTutorialDone) private var keyboardSetupDone: Bool = false
-    /// 튜토리얼에서 만든 단축어 id - 아직 안 눌러 봤으면 값이 남아 있다.
+    /// 지금 무대에서 가리키고 있는 단축어 id - 아직 안 눌러 봤으면 값이 남아 있다.
     @AppStorage(DefaultsKey.tutorialFirstUseMemoId) private var firstUseMemoIdRaw: String = ""
-    /// 목록 쪽 챕터(템플릿 → 템플릿으로 만들기 → 콤보) 완료 표식.
+    /// 써 보는 장(단축어 → 템플릿 → 콤보) 완료 표식.
+    @AppStorage(DefaultsKey.tutorialSnippetDone) private var tutorialSnippetDone: Bool = false
     @AppStorage(DefaultsKey.tutorialTemplateDone) private var tutorialTemplateDone: Bool = false
-    @AppStorage(DefaultsKey.tutorialMakeTemplateDone) private var tutorialMakeTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialComboDone) private var tutorialComboDone: Bool = false
-    /// 목록의 챕터 기계가 "더 권할 것이 없다"고 알려주면 켜진다.
+    /// 챕터 기계가 "더 가리킬 것이 없다"고 알려주면 켜진다.
     @AppStorage(DefaultsKey.tutorialChaptersDone) private var chaptersFinished: Bool = false
 
     @State private var showOffer = false
-    /// 지금 권하고 있는 장(템플릿·템플릿으로 만들기·콤보).
-    @State private var tutorialInvite: TutorialChapter?
     /// 다음 장까지 도는 원이 끝나는 시각. nil 이면 안 보인다.
     @State private var countdownEndsAt: Date?
-    /// 지금 만들고 있는 장.
-    @State private var tutorialMaking: TutorialChapter?
-    /// 튜토리얼이 끝난 뒤 "만든 것 지울까요?" 를 한 번만 묻는다.
-    @AppStorage(DefaultsKey.tutorialCleanupAsked) private var cleanupAsked: Bool = false
-    @State private var showCleanupPrompt = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.appTheme) private var theme
 
@@ -214,22 +204,19 @@ struct SnippetsTab: View {
     /// 지금 첫 흐름의 어디쯤인가(위 `SnippetsOnboardingStep` 참고).
     private var onboardingStep: SnippetsOnboardingStep {
         .current(startedFresh: startedFresh,
-                 firstShortcutDone: firstShortcutDone,
-                 firstUsePending: highlightedMemoId != nil,
+                 welcomeDone: welcomeDone,
                  chaptersDone: chaptersFinished
-                     || (tutorialTemplateDone && tutorialMakeTemplateDone && tutorialComboDone),
+                     || (tutorialSnippetDone && tutorialTemplateDone && tutorialComboDone),
                  keyboardSetupDone: keyboardSetupDone,
                  keyboardUsable: KeyboardInstallState.isUsable)
     }
 
     /// 누른 뒤 **입력된 걸 보여주는** 시간(초).
     private let dwellAfterUse: Double = 0.9
-    /// 첫 튜토리얼을 끝낸 뒤 다음을 권하기까지(초, 누른 시점 기준).
-    /// 그 뒤의 장 사이 간격(초) - 리듬을 이미 아는 사람에겐 짧아도 된다.
     /// 장과 장 사이 쉼(초). 이 동안 카운트다운 원이 돈다.
     static let chapterBreather: Double = 5.0
 
-    /// 아직 안 눌러 본 튜토리얼 단축어.
+    /// 아직 안 눌러 본, 지금 가리키는 단축어.
     private var highlightedMemoId: UUID? {
         firstUseMemoIdRaw.isEmpty ? nil : UUID(uuidString: firstUseMemoIdRaw)
     }
@@ -247,22 +234,21 @@ struct SnippetsTab: View {
     private var content: some View {
         Group {
             switch onboardingStep {
-            case .firstShortcut:
-                FirstShortcutOnboardingView(
-                    // 만든 그 문구를 **무대에서 가리킨다** - 만들기만 하고 끝나면 아무것도 안 배운다.
-                    onCreated: { memo in advanceFromFirstShortcut(created: memo) },
-                    onSkip: { advanceFromFirstShortcut(created: nil) }
+            case .welcome:
+                TutorialWelcomeView(
+                    onStart: { startTutorial() },
+                    onSkip: { skipTutorial() }
                 )
                 .transition(screenTransition)
             case .keyboardSetup:
                 KeyboardSetupOnboardingView { keyboardSetupDone = true }
                     .transition(screenTransition)
 
-            // ⚠️ 이 셋을 **한 분기로 묶는다.** 나눠 두면 단계가 바뀔 때 SwiftUI가 무대를
+            // ⚠️ 이 둘을 **한 분기로 묶는다.** 나눠 두면 단계가 바뀔 때 SwiftUI가 무대를
             //    다른 뷰로 보고 새로 만든다 - 그 순간 입력창을 들고 있던 객체도 새것이 되어
             //    **방금 넣은 글이 사라진다.** 눌러서 배운 결과가 눈앞에서 지워지는 셈이다.
             //    (가리키는 키는 뷰를 갈아 끼우지 않고 `highlightedMemoId` 값만 바뀌면 된다)
-            case .tryInKeyboard, .chapters, .done:
+            case .tryScenarios, .done:
                 switch style {
                 case .list:
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
@@ -270,7 +256,9 @@ struct SnippetsTab: View {
                     ClipKeyboardList()
                         .transition(screenTransition)
                 case .keyboard:
-                    InAppKeyboardStage(styleRaw: $styleRaw, highlightedMemoId: highlightedMemoId)
+                    InAppKeyboardStage(styleRaw: $styleRaw,
+                                       highlightedMemoId: highlightedMemoId,
+                                       tutorialLine: nextChapter?.coachLine)
                         .transition(screenTransition)
                 }
             }
@@ -289,80 +277,13 @@ struct SnippetsTab: View {
         // 밀려 들어오면 어디로 이동한 것처럼 보이고, 여기서는 이동한 게 아니라 모습이 바뀐 것이다.
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
-        .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeFirstUse)
-        // 목록에서 '템플릿으로 만들기' 장이 끝났다 - 무대로 돌아와 다음 장으로 잇는다.
-        .onReceive(NotificationCenter.default.publisher(for: .makeTemplateTutorialFinished)) { _ in
-            tutorialMakeTemplateDone = true
-            withAnimation(.easeInOut(duration: 0.28)) {
-                styleRaw = SnippetsTabStyle.keyboard.rawValue
-            }
-            scheduleNextChapter()
-        }
-        // ⚠️ 다음 장을 권하는 건 **하프 모달**이다. 전체 화면으로 덮으면 하던 일이 사라져
-        //    "또 뭘 시키나" 가 되지만, 반쯤 올라오면 뒤에 방금 만든 것이 보인 채로 묻는다
-        //    권유는 이어지는 말이지 새 화면이 아니다.
-        .sheet(item: $tutorialInvite) { chapter in
-            TutorialInviteView(chapter: chapter) {
-                tutorialInvite = nil
-                // 시트가 겹치지 않게 한 박자 뒤에.
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                    if chapter == .makeTemplate {
-                        // ⚠️ 이 장만은 목록에서 한다 - **고치는 일은 목록에서**라는 규칙 그대로다.
-                        //    이미 있는 "템플릿으로 만들기" 화면을 그대로 태운다(전용 화면을 새로
-                        //    배워봐야 정작 평소에 쓰는 메뉴는 여전히 낯설다).
-                        //
-                        // ⚠️ **여기서 끝난 것으로 표시하지 않는다.** 목록이 그 화면을 실제로
-                        //    띄우고 닫았을 때가 끝이다. 미리 찍어 두면 화면이 안 떠도
-                        //    지나간 것이 되어 그 장이 통째로 사라진다.
-                        UserDefaults.standard.set(true, forKey: DefaultsKey.pendingMakeTemplateTutorial)
-                        styleRaw = SnippetsTabStyle.list.rawValue
-                        NotificationCenter.default.post(name: .startMakeTemplateTutorial, object: nil)
-                    } else {
-                        tutorialMaking = chapter
-                    }
-                }
-            } onDecline: {
-                tutorialInvite = nil
-                // 거절도 답이다 - 다시 묻지 않고 다음 장으로.
-                finishChapter(chapter)
-            }
-            .presentationDetents([.medium])
-            .presentationDragIndicator(.visible)
-        }
-        .fullScreenCover(item: $tutorialMaking) { chapter in
-            switch chapter {
-            case .template:
-                TemplateTutorialView(onCreated: { chapterCreated($0, chapter: .template) },
-                                     onSkip: { finishChapter(.template) })
-            case .combo:
-                ComboTutorialView(onCreated: { chapterCreated($0, chapter: .combo) },
-                                  onSkip: { finishChapter(.combo) })
-            case .makeTemplate:
-                // 여기로 오지 않는다(위에서 목록으로 보낸다). 안전망.
-                Color.clear.onAppear { tutorialMaking = nil }
-            }
-        }
+        .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeChapter)
         .onAppear {
             offerKeyboardStageIfNeeded()
-            askCleanupIfFinished()
+            resumeTutorialIfStalled()
         }
-        .onChange(of: onboardingStep) { _, step in
-            guard step == .done else { return }
-            // 마지막 걸음이 끝난 **그때** 묻는다 - 나중에 물으면 무엇에 대한 물음인지 모른다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { askCleanupIfFinished() }
-        }
-        .alert(NSLocalizedString("연습으로 만든 단축어를 지울까요?", comment: "Tutorial cleanup alert title"),
-               isPresented: $showCleanupPrompt) {
-            Button(NSLocalizedString("지우기", comment: "Delete"), role: .destructive) {
-                TutorialCreations.deleteAll()
-            }
-            Button(NSLocalizedString("그대로 둘게요", comment: "Keep tutorial creations"), role: .cancel) {
-                TutorialCreations.forget()
-            }
-        } message: {
-            Text(NSLocalizedString("튜토리얼을 따라 하며 만든 것들이에요. 계속 쓸 거면 그대로 두세요.",
-                                   comment: "Tutorial cleanup alert message"))
-        }
+        // 걸음이 바뀌어 무대로 들어왔는데 가리키는 것이 없으면 여기서 이어 붙인다.
+        .onChange(of: onboardingStep) { _, _ in resumeTutorialIfStalled() }
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
             Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
@@ -375,123 +296,120 @@ struct SnippetsTab: View {
         }
     }
 
-    /// 첫 단축어를 만들었거나 건너뛴 뒤 - **끊지 않고** 다음 걸음으로 넘긴다.
-    ///
-    /// 만들었으면 그 문구를 무대에서 가리키고(눌러 봐야 끝난다), 건너뛰었으면 가리킬 것이 없으니
-    /// 바로 다음 걸음으로 간다.
-    private func advanceFromFirstShortcut(created memo: Memo?) {
-        if let memo {
-            TutorialCreations.remember(memo.id)
-            firstUseMemoIdRaw = memo.id.uuidString
-            // 만든 것을 눌러 보려면 무대에 있어야 한다.
-            styleRaw = SnippetsTabStyle.keyboard.rawValue
-        }
-        withAnimation(.easeInOut(duration: 0.28)) { firstShortcutDone = true }
-    }
-
-    /// 가리킨 키를 실제로 눌렀다 - 이 장 끝. 곧바로 다음 장을 권한다.
-    ///
-    /// 첫 단축어든 방금 만든 템플릿·콤보든 같은 규칙이다 - **만들고 한 번 써 봐야** 끝난다.
-    ///
-    /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다
-    ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
-    private func completeFirstUse(_ note: Notification) {
-        guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
-              used == highlightedMemoId else { return }
-
-        // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
-        //    일어났는지 못 보고 지나간다 - 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
-            withAnimation(.easeInOut(duration: 0.28)) { firstUseMemoIdRaw = "" }
-            // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
-            //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에** 열린다.
-            //
-            // ⚠️ 곧바로 다음 걸 권하지 않는다. 방금 "눌렀더니 글이 들어갔다"를 본 참인데
-            //    바로 다음이 올라오면 그 장면을 음미할 틈이 없고, 배우는 게 아니라
-            //    떠밀리는 느낌이 된다. 쉬는 동안은 카운트다운 원이 대신 말해 준다.
-            scheduleNextChapter()
-        }
-    }
-
-    // MARK: - 배우는 장들 (무대 위에서 연다)
+    // MARK: - 써 보는 장들 (무대 위에서 돈다)
 
     /// 아직 안 지난 다음 장. 없으면 nil.
     private var nextChapter: TutorialChapter? {
         TutorialChapter.allCases.first { chapter in
             switch chapter {
-            case .template:     return !tutorialTemplateDone
-            case .makeTemplate: return !tutorialMakeTemplateDone
-            case .combo:        return !tutorialComboDone
+            case .snippet:  return !tutorialSnippetDone
+            case .template: return !tutorialTemplateDone
+            case .combo:    return !tutorialComboDone
             }
         }
     }
 
-    /// 장과 장 사이의 쉼. 남은 시간을 원으로 보여주고, 다 돌면 다음 장을 권한다.
+    /// 앱을 껐다 켰는데 **가리키는 것이 없는 채로** 써 보는 차례에 서 있으면 이어 붙인다.
+    ///
+    /// ⚠️ 없으면 튜토리얼이 거기서 멈춘다. 장과 장 사이 5초 동안 앱을 끄면 가리키던 표식은
+    ///    이미 비워졌고 다음 장은 아직 안 켜졌다 - 다시 열었을 때 아무 일도 안 일어난다.
+    private func resumeTutorialIfStalled() {
+        guard onboardingStep == .tryScenarios,
+              highlightedMemoId == nil,
+              countdownEndsAt == nil else { return }
+        openNextChapter()
+    }
+
+    /// 환영 화면에서 "눌러볼게요" - 무대로 옮기고 첫 장을 연다.
+    private func startTutorial() {
+        withAnimation(.easeInOut(duration: 0.28)) {
+            welcomeDone = true
+            // 가리킨 키를 보려면 무대에 있어야 한다.
+            styleRaw = SnippetsTabStyle.keyboard.rawValue
+        }
+        openNextChapter()
+    }
+
+    /// "나중에 볼게요" - 남은 장을 다 지난 것으로 두고 평소 화면으로.
+    ///
+    /// ⚠️ 개별 표식을 켜지 않고 `chaptersFinished` 만 켠다. 나중에 설정에서 다시 하기를
+    ///    누르면 그 표식만 지우면 되므로, 건너뛴 사람과 다 해 본 사람의 길이 같아진다.
+    private func skipTutorial() {
+        withAnimation(.easeInOut(duration: 0.28)) {
+            welcomeDone = true
+            chaptersFinished = true
+        }
+    }
+
+    /// 다음 장을 연다 - **가리킬 카드를 찾아 무대의 그 키에 불을 켠다.**
+    ///
+    /// ⚠️ 가리킬 것이 없으면(사용자가 그 종류를 지웠다면) 조용히 건너뛴다. 없는 카드를
+    ///    가리키며 누르라고 하면 튜토리얼이 거기서 멈춘 것처럼 보인다.
+    private func openNextChapter() {
+        guard let chapter = nextChapter else {
+            withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
+            return
+        }
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        guard let memo = TutorialScenarios.memo(for: chapter, in: memos) else {
+            print("⏭️ [SnippetsTab] \(chapter.rawValue) 장에 가리킬 것이 없어 건너뜁니다")
+            markChapterDone(chapter)
+            openNextChapter()
+            return
+        }
+        withAnimation(.easeInOut(duration: 0.28)) {
+            firstUseMemoIdRaw = memo.id.uuidString
+        }
+    }
+
+    /// 가리킨 키를 실제로 눌렀다 - 이 장 끝. 한 박자 쉬고 다음 장으로.
+    ///
+    /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다
+    ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
+    private func completeChapter(_ note: Notification) {
+        guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
+              used == highlightedMemoId,
+              let chapter = nextChapter else { return }
+
+        // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
+        //    일어났는지 못 보고 지나간다 - 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
+            withAnimation(.easeInOut(duration: 0.28)) { firstUseMemoIdRaw = "" }
+            markChapterDone(chapter)
+            // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
+            //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에서** 이어진다.
+            //
+            // ⚠️ 곧바로 다음 걸 켜지 않는다. 방금 "눌렀더니 글이 들어갔다"를 본 참인데
+            //    바로 다음이 빛나면 그 장면을 음미할 틈이 없고, 배우는 게 아니라
+            //    떠밀리는 느낌이 된다. 쉬는 동안은 카운트다운 원이 대신 말해 준다.
+            scheduleNextChapter()
+        }
+    }
+
+    /// 장과 장 사이의 쉼. 남은 시간을 원으로 보여주고, 다 돌면 다음 장을 연다.
     ///
     /// ⚠️ 예전에는 곳마다 0.45~0.6초씩 제각각 기다렸다가 곧바로 다음 걸 띄웠다.
-    ///    그 사이 화면은 아무 말도 안 해서 끝난 건지 멈춘 건지 알 수 없었고,
-    ///    쉴 새 없이 다음이 올라와 배우는 게 아니라 떠밀리는 느낌이었다.
+    ///    그 사이 화면은 아무 말도 안 해서 끝난 건지 멈춘 건지 알 수 없었다.
     ///    이제 **모든 장 사이가 같은 5초**이고, 그동안 원이 돈다.
     private func scheduleNextChapter() {
         guard nextChapter != nil else {
-            inviteNextChapter()      // 더 없으면 곧바로 마무리한다 - 셀 이유가 없다.
+            openNextChapter()      // 더 없으면 곧바로 마무리한다 - 셀 이유가 없다.
             return
         }
         let gap = Self.chapterBreather
         countdownEndsAt = Date().addingTimeInterval(gap)
         DispatchQueue.main.asyncAfter(deadline: .now() + gap) {
             withAnimation(.easeOut(duration: 0.2)) { countdownEndsAt = nil }
-            inviteNextChapter()
+            openNextChapter()
         }
-    }
-
-    /// 다음 장을 권한다. 더 없으면 배우는 차례가 끝난 것으로 표시한다
-    /// (그래야 마지막 걸음인 키보드 설정으로 넘어간다).
-    private func inviteNextChapter() {
-        guard let next = nextChapter else {
-            withAnimation(.easeInOut(duration: 0.28)) { chaptersFinished = true }
-            return
-        }
-        tutorialInvite = next
     }
 
     private func markChapterDone(_ chapter: TutorialChapter) {
         switch chapter {
-        case .template:     tutorialTemplateDone = true
-        case .makeTemplate: tutorialMakeTemplateDone = true
-        case .combo:        tutorialComboDone = true
+        case .snippet:  tutorialSnippetDone = true
+        case .template: tutorialTemplateDone = true
+        case .combo:    tutorialComboDone = true
         }
-    }
-
-    /// 장에서 **무언가를 만들었다** - 다음 장으로 곧장 넘기지 않는다.
-    ///
-    /// ⚠️ 만들기만 하고 넘어가면 "저장했다"로 끝난다. 첫 단축어에 세운 규칙과 같다
-    ///    **한 번 눌러 봐야** 왜 만들었는지를 안다. 그래서 무대에서 그 키를 가리키고,
-    ///    누르는 순간(`completeFirstUse`) 다음 장을 권한다.
-    private func chapterCreated(_ memo: Memo, chapter: TutorialChapter) {
-        TutorialCreations.remember(memo.id)
-        tutorialMaking = nil
-        markChapterDone(chapter)
-        firstUseMemoIdRaw = memo.id.uuidString
-        // 가리킨 키를 보려면 무대에 있어야 한다.
-        styleRaw = SnippetsTabStyle.keyboard.rawValue
-    }
-
-    /// 장을 마쳤다(건너뛰었거나 만들 것이 없었다) - 한 박자 뒤 다음 장으로.
-    private func finishChapter(_ chapter: TutorialChapter) {
-        tutorialMaking = nil
-        markChapterDone(chapter)
-        scheduleNextChapter()
-    }
-
-    /// 튜토리얼을 다 지났고 만든 것이 남아 있으면 **한 번만** 묻는다.
-    ///
-    /// ⚠️ 만든 것이 없으면(전부 건너뛴 경우) 묻지 않는다 - 지울 것도 없는데 물으면
-    ///    무엇을 지운다는 건지 모를 물음이 된다.
-    private func askCleanupIfFinished() {
-        guard !cleanupAsked, onboardingStep == .done, !TutorialCreations.all.isEmpty else { return }
-        cleanupAsked = true
-        showCleanupPrompt = true
     }
 
     /// 쓰던 사람에게 **한 번만** 권한다.
