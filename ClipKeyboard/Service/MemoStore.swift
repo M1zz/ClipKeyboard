@@ -219,7 +219,9 @@ class MemoStore: ObservableObject {
             memos[index].lastUsedAt = Date()
             try save(memos: memos, type: .memo)
             // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
-            KeyboardUsageTracker.recordMemoUse(value: memos[index].value, memoID: memoId)
+            KeyboardUsageTracker.recordMemoUse(value: memos[index].value,
+                                               type: memos[index].autoDetectedType,
+                                               memoID: memoId)
 
             // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
@@ -229,7 +231,9 @@ class MemoStore: ObservableObject {
                 object: nil,
                 userInfo: [MemoUsedKey.memoID: memoId,
                            MemoUsedKey.earnedSeconds: KeyboardUsageTracker.earnedSeconds(
-                            characterCount: memos[index].value.count, useCount: 1),
+                            value: memos[index].value,
+                            type: memos[index].autoDetectedType,
+                            useCount: 1),
                            MemoUsedKey.copiedText: copiedText ?? memos[index].value]
             )
         }
@@ -679,38 +683,65 @@ enum MemoUsedKey {
 enum KeyboardUsageTracker {
     private static let timeSavedKey = "kb.timeSaved.totalSeconds"
     private static let dailyKeyPrefix = "kb.usage.daily."
+    // 내역을 나눠 담는다 - 화면이 "왜 이만큼인가"를 펼쳐 보이려면 합계만으로는 안 된다.
+    private static let retrievalKey = "kb.timeSaved.retrievalSeconds"
+    private static let typingKey = "kb.timeSaved.typingSeconds"
+    private static let verificationKey = "kb.timeSaved.verificationSeconds"
+    private static let kindKeyPrefix = "kb.usage.kind."
 
-    /// 평균 입력 속도 가정 (한글/영문 혼용 보수적 추정).
-    private static let charsPerSecond: Double = 4.0
-    /// 메모 탭+선택에 드는 오버헤드 (초). 실제 절약 시간에서 차감.
-    private static let memoTapOverheadSeconds: Double = 1.0
-
-    /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp),
-    /// 그리고 월 원장에 문구별로 같은 금액을 적는다.
+    /// 메모 사용을 1건 기록한다.
     ///
-    /// ⚠️ 셋을 **한 곳에서** 갱신한다. 따로 부르게 두면 어느 하나가 빠진 경로가 생기고,
-    ///    그러면 잔고·영수증·기간 합계가 서로 다른 말을 하기 시작한다.
-    /// - Parameter memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
-    static func recordMemoUse(value: String, memoID: UUID? = nil, on date: Date = Date()) {
+    /// 한 곳에서 **네 가지**를 갱신한다 - 일일 카운트, 평생 절약 시간(합계와 내역),
+    /// 이득의 갈래별 횟수, 월 원장.
+    ///
+    /// ⚠️ 넷을 **한 곳에서** 갱신한다. 따로 부르게 두면 어느 하나가 빠진 경로가 생기고,
+    ///    그러면 잔고·영수증·기간 합계·내역이 서로 다른 말을 하기 시작한다.
+    ///
+    /// - Parameters:
+    ///   - type: 이 앱이 분류해 둔 값의 종류. **이게 있어야 "찾아오는 시간"을 셀 수 있다.**
+    ///           없으면 외워서 치는 글로 보고 치는 시간만 센다.
+    ///   - memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
+    static func recordMemoUse(value: String,
+                              type: ClipboardItemType? = nil,
+                              memoID: UUID? = nil,
+                              on date: Date = Date()) {
         guard let defaults = AppGroup.defaults else { return }
         let key = dailyKey(for: date)
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
-        let saved = earnedSeconds(characterCount: value.count, useCount: 1)
-        defaults.set(defaults.double(forKey: timeSavedKey) + saved, forKey: timeSavedKey)
+        let parts = TimeSavedModel.breakdown(value: value, type: type)
+        defaults.set(defaults.double(forKey: timeSavedKey) + parts.total, forKey: timeSavedKey)
+        defaults.set(defaults.double(forKey: retrievalKey) + parts.retrieval, forKey: retrievalKey)
+        defaults.set(defaults.double(forKey: typingKey) + parts.typing, forKey: typingKey)
+        defaults.set(defaults.double(forKey: verificationKey) + parts.verification, forKey: verificationKey)
+
+        let kind = TimeSavedModel.kind(value: value, type: type)
+        let kindKey = kindKeyPrefix + kind.rawValue
+        defaults.set(defaults.integer(forKey: kindKey) + 1, forKey: kindKey)
 
         if let memoID {
-            RefundLedger.record(memoID: memoID, seconds: saved, on: date)
+            RefundLedger.record(memoID: memoID, seconds: parts.total, on: date)
         }
     }
 
     /// 문구 하나가 지금까지 돌려준 시간(초).
     ///
     /// ⚠️ **누적과 같은 식이어야 한다.** 카드에 쌓인 동전, 영수증의 줄 금액, 잔고 합계가
-    ///    각자 계산하면 서로 안 맞고, 그러면 셋 중 둘은 거짓말이 된다. 그래서 여기 하나만 둔다.
+    ///    각자 계산하면 서로 안 맞고, 그러면 셋 중 둘은 거짓말이 된다.
+    ///    그래서 전부 `TimeSavedModel` 하나만 거친다.
+    static func earnedSeconds(value: String, type: ClipboardItemType?, useCount: Int) -> Double {
+        TimeSavedModel.breakdown(value: value, type: type, useCount: useCount).total
+    }
+
+    /// 값의 종류를 모르는 자리에서 쓰는 예전 창구.
+    ///
+    /// ⚠️ 종류를 모르면 **찾아오는 시간을 셀 수 없다.** 그래서 이 창구로 계산한 값은
+    ///    실제보다 작게 나온다. 메모를 들고 있는 자리라면 위의 `earnedSeconds(value:type:useCount:)`
+    ///    를 쓸 것. 이건 글자수밖에 없는 옛 호출부를 위해 남겨 둔다.
     static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
-        guard useCount > 0 else { return 0 }
-        let perUse = max(0, Double(characterCount) / charsPerSecond - memoTapOverheadSeconds)
+        guard useCount > 0, characterCount >= TimeSavedModel.minimumCharacters else { return 0 }
+        let perUse = max(0, Double(characterCount) / TimeSavedModel.proseCharsPerSecond
+                            - TimeSavedModel.tapCostSeconds)
         return perUse * Double(useCount)
     }
 
@@ -722,6 +753,23 @@ enum KeyboardUsageTracker {
     /// 평생 누적 절약 시간 (초)
     static func totalTimeSavedSeconds() -> Double {
         AppGroup.defaults?.double(forKey: timeSavedKey) ?? 0
+    }
+
+    /// 누적 절약 시간의 **내역**. 사용 기록 화면이 "왜 이만큼인가"를 펼치는 데 쓴다.
+    ///
+    /// ⚠️ 이 모델이 들어오기 전에 쌓인 시간은 내역이 없다(합계에만 들어 있다).
+    ///    그래서 세 조각의 합은 합계보다 **작을 수 있다.** 화면은 이걸 알고 그려야 한다.
+    static func savedBreakdown() -> TimeSavedModel.Breakdown {
+        guard let d = AppGroup.defaults else { return .zero }
+        return TimeSavedModel.Breakdown(retrieval: d.double(forKey: retrievalKey),
+                                        typing: d.double(forKey: typingKey),
+                                        verification: d.double(forKey: verificationKey),
+                                        tapCost: 0)
+    }
+
+    /// 이득의 갈래별 사용 횟수.
+    static func useCount(of kind: TimeSavedModel.Kind) -> Int {
+        AppGroup.defaults?.integer(forKey: kindKeyPrefix + kind.rawValue) ?? 0
     }
 
     private static func dailyKey(for date: Date) -> String {

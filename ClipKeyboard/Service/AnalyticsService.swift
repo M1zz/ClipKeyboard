@@ -110,6 +110,12 @@ enum AnalyticsEvent: String {
     /// 직전 런치가 끝까지 못 갔다 - `source` 에 멈춘 단계 이름이 실린다(LaunchGuard).
     /// 재현이 안 되는 런치 크래시를 **남의 기기에서** 잡아내는 유일한 통로다.
     case launchIncomplete = "launch_incomplete"
+    /// 아낀 시간이 이정표에 닿았다 - `source` 에 이정표 이름이 실린다(oneMinute…oneWorkday).
+    ///
+    /// ⚠️ **초 단위 숫자는 보내지 않는다.** 보내는 것은 "이 설치가 어느 칸까지 갔는가"뿐이다.
+    ///    이것만으로도 알고 싶던 것은 답이 나온다 - 몇 %가 1분을 넘고, 몇 %가 한 시간을
+    ///    넘는가. 반대로 초를 보내면 그건 개인의 사용량 그 자체라 수집 항목이 늘어난다.
+    case timeSavedMilestone = "time_saved_milestone"
 }
 
 /// 이벤트 파라미터 키 - 분석 시 슬라이싱용

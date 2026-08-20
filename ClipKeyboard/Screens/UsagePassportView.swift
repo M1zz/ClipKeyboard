@@ -23,6 +23,10 @@ struct UsagePassportView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var summary: UsagePassport.Summary?
+    /// 아낀 시간의 내역 - "왜 이만큼인가"를 펼쳐 보이는 데 쓴다.
+    @State private var breakdown: TimeSavedModel.Breakdown = .zero
+    /// 방금 새로 닿은 이정표. 있으면 축하 카드가 맨 위에 뜬다.
+    @State private var milestone: SavedTimeMilestone?
     /// 영수증을 뽑은 순간. 발행 시각을 고정해야 시트에서 기간을 바꿔도 시각이 안 흔들린다.
     @State private var receiptRequest: ReceiptRequest?
 
@@ -36,7 +40,10 @@ struct UsagePassportView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 if let summary, summary.totalUses > 0 {
+                    // 축하는 **맨 위**다. 아래에 두면 숫자를 보고 스크롤을 멈춘 사람이 못 본다.
+                    if let milestone { celebration(milestone) }
                     header(summary)
+                    groundsSection(summary)
                     receiptButton(summary)
                     stampsSection(summary)
                     footnote(summary)
@@ -213,9 +220,161 @@ struct UsagePassportView: View {
 
     private func reload() {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        summary = UsagePassport.summary(
-            memos: memos,
-            timeSavedSeconds: KeyboardUsageTracker.totalTimeSavedSeconds()
+        let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
+        summary = UsagePassport.summary(memos: memos, timeSavedSeconds: saved)
+        breakdown = KeyboardUsageTracker.savedBreakdown()
+
+        // ⚠️ 화면을 열 때 확인하고, **본 즉시 지나간 것으로 적는다.** 다음에 또 띄우면
+        //    축하가 아니라 배너가 된다.
+        if let reached = SavedTimeMilestone.newlyReached(totalSeconds: saved) {
+            milestone = reached
+            SavedTimeMilestone.markReached(upTo: reached)
+            // 어느 칸까지 갔는지만 남긴다 - 초는 보내지 않는다.
+            AnalyticsService.log(.timeSavedMilestone, parameters: [.source: reached.rawValue])
+        }
+    }
+
+    // MARK: - 축하
+
+    /// 새 이정표에 닿았을 때 한 번 뜨는 카드.
+    ///
+    /// ⚠️ 닫기 버튼을 두지 않는다. 이 카드는 다음에 열면 이미 없다 - 없앨 것을
+    ///    없애는 버튼은 할 일만 하나 늘린다.
+    private func celebration(_ milestone: SavedTimeMilestone) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image("MascotAvatar")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 44, height: 44)
+                .background(Circle().fill(theme.accentSoft))
+                .clipShape(Circle())
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(milestone.localizedTitle)
+                    .font(.headline)
+                    .foregroundColor(theme.text)
+                Text(milestone.localizedComparison)
+                    .font(.subheadline)
+                    .foregroundColor(theme.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                .fill(theme.accentSoft)
         )
+        .transition(.opacity.combined(with: .move(edge: .top)))
+        .accessibilityElement(children: .combine)
+    }
+
+    // MARK: - 근거
+
+    /// "왜 이만큼인가" - 아낀 시간을 세 조각으로 펼쳐 보인다.
+    ///
+    /// ⚠️ 이 자리가 이 화면에서 **가장 중요하다.** 큰 숫자 하나만 있으면 사람은 그 숫자를
+    ///    안 믿는다(믿을 근거가 없으니까). 무엇을 어떻게 셌는지 보여야 "이건 좀 후하네"
+    ///    라고 판단할 수 있고, 판단할 수 있어야 비로소 그 숫자를 자기 것으로 받아들인다.
+    ///
+    /// ⚠️ 내역이 합계보다 작을 수 있다. 이 모델이 들어오기 전에 쌓인 시간에는 내역이
+    ///    없기 때문이다. 그래서 **비율이 아니라 각 조각의 크기**를 그대로 적는다.
+    @ViewBuilder
+    private func groundsSection(_ summary: UsagePassport.Summary) -> some View {
+        let parts = breakdown
+        let sum = parts.retrieval + parts.typing + parts.verification
+        if sum > 0 {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(NSLocalizedString("이 시간은 이렇게 셌어요", comment: "Usage passport: grounds header"))
+                    .font(.caption.weight(.semibold))
+                    .kerning(0.8)
+                    .foregroundColor(theme.textMuted)
+
+                groundRow(symbol: "magnifyingglass",
+                          title: NSLocalizedString("찾아오지 않아도 된 시간", comment: "Grounds row: retrieval"),
+                          note: NSLocalizedString("계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요.",
+                                                  comment: "Grounds note: retrieval"),
+                          seconds: parts.retrieval)
+                groundRow(symbol: "keyboard",
+                          title: NSLocalizedString("치지 않아도 된 시간", comment: "Grounds row: typing"),
+                          note: NSLocalizedString("손으로 옮겨 적었다면 걸렸을 시간이에요.",
+                                                  comment: "Grounds note: typing"),
+                          seconds: parts.typing)
+                if parts.verification > 0 {
+                    groundRow(symbol: "checkmark.circle",
+                              title: NSLocalizedString("다시 읽지 않아도 된 시간", comment: "Grounds row: verification"),
+                              note: NSLocalizedString("한 자만 틀려도 곤란한 숫자를 되짚어 보는 시간이에요.",
+                                                      comment: "Grounds note: verification"),
+                              seconds: parts.verification)
+                }
+
+                kindCounts
+
+                Text(NSLocalizedString("어림한 값이에요. 한 번 쓸 때마다 키보드를 열고 누르는 시간(1초)은 빼고 셌어요.",
+                                       comment: "Usage passport: grounds disclaimer"))
+                    .font(.caption)
+                    .foregroundColor(theme.textFaint)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(18)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                    .fill(theme.surface)
+            )
+        }
+    }
+
+    private func groundRow(symbol: String, title: String, note: String, seconds: Double) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: symbol)
+                .font(.body.weight(.semibold))
+                .foregroundColor(theme.accent)
+                .frame(width: 24)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Text(note)
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 8)
+            Text(UsagePassport.timeSavedText(seconds: seconds)
+                 ?? NSLocalizedString("0분", comment: "Zero minutes"))
+                .font(.subheadline.weight(.bold))
+                .monospacedDigit()
+                .foregroundColor(theme.text)
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    /// 어떤 종류의 문구가 얼마나 일했나 - 횟수로 보여 준다.
+    @ViewBuilder
+    private var kindCounts: some View {
+        let rows = TimeSavedModel.Kind.allCases
+            .map { ($0, KeyboardUsageTracker.useCount(of: $0)) }
+            .filter { $0.1 > 0 }
+        if !rows.isEmpty {
+            VStack(alignment: .leading, spacing: 6) {
+                Divider().padding(.vertical, 2)
+                ForEach(rows, id: \.0) { kind, count in
+                    HStack(spacing: 8) {
+                        Text(kind.localizedName)
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(theme.text)
+                        Spacer(minLength: 8)
+                        Text(String(format: NSLocalizedString("%d번", comment: "Use count suffix"), count))
+                            .font(.caption)
+                            .monospacedDigit()
+                            .foregroundColor(theme.textMuted)
+                    }
+                }
+            }
+        }
     }
 }

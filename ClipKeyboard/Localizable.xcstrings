@@ -328,7 +328,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select 'ClipKeyboard'"
+            "value" : "Select 'CrocoClip'"
           }
         }
       }
@@ -340,7 +340,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap 'ClipKeyboard'"
+            "value" : "Tap 'CrocoClip'"
           }
         }
       }
@@ -2313,24 +2313,6 @@
         }
       }
     },
-    "🎉 첫 붙여넣기 완료! 이제 진짜 ClipKeyboard 사용자예요" : {
-      "comment" : "First paste celebration toast",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🎉 First paste done! You're a real ClipKeyboard user now"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🎉 첫 붙여넣기 완료! 이제 진짜 ClipKeyboard 사용자예요"
-          }
-        }
-      }
-    },
     "🎓 학번" : {
       "comment" : "Student example tag: student ID",
       "extractionState" : "manual",
@@ -2762,13 +2744,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "18 moments where ClipKeyboard saves you minutes, or saves you from a mistake."
+            "value" : "18 moments where CrocoClip saves you minutes, or saves you from a mistake."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ClipKeyboard가 시간을 아껴주거나 실수를 막아주는 18가지 순간."
+            "value" : "CrocoClip가 시간을 아껴주거나 실수를 막아주는 18가지 순간."
           }
         }
       }
@@ -3507,13 +3489,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Capture a quick note into ClipKeyboard."
+            "value" : "Capture a quick note into CrocoClip."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "클립키보드에 빠른 메모를 남깁니다."
+            "value" : "크로커클립에 빠른 메모를 남깁니다."
           }
         }
       }
@@ -3766,57 +3748,6 @@
         }
       }
     },
-    "ClipKeyboard" : {
-      "comment" : "App menu name\nKeyboard name\nKeyboard name in list",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard"
-          }
-        }
-      }
-    },
-    "ClipKeyboard for Mac" : {
-      "comment" : "Mac app intro title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard for Mac"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mac용 ClipKeyboard"
-          }
-        }
-      }
-    },
-    "ClipKeyboard Help" : {
-      "comment" : "Menu: help",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard Help"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 도움말"
-          }
-        }
-      }
-    },
     "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility." : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -3824,84 +3755,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
+            "value" : "CrocoClip needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
-          }
-        }
-      }
-    },
-    "ClipKeyboard Pro" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard Pro"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard Pro"
-          }
-        }
-      }
-    },
-    "ClipKeyboard 설치가 완료됐어요!\n저장한 단축어를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요." : {
-      "comment" : "Practice prompt description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard is all set!\nPractice typing your saved snippets\nwith just a tap on the keyboard."
-          }
-        }
-      }
-    },
-    "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요." : {
-      "comment" : "Keyboard tip message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Once you enable the ClipKeyboard keyboard, you can type anywhere."
-          }
-        }
-      }
-    },
-    "ClipKeyboard는 모든 사용자를 위해 설계됐습니다" : {
-      "comment" : "Accessibility guide hero title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard is designed for everyone"
-          }
-        }
-      }
-    },
-    "ClipKeyboard를 선택해요" : {
-      "comment" : "Setup step 2 title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select ClipKeyboard"
-          }
-        }
-      }
-    },
-    "ClipKeyboard에 담기" : {
-      "comment" : "Share extension title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to ClipKeyboard"
+            "value" : "CrocoClip needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility."
           }
         }
       }
@@ -3913,13 +3773,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to ClipKeyboard"
+            "value" : "Welcome to CrocoClip"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ClipKeyboard에 오신 것을 환영합니다"
+            "value" : "CrocoClip에 오신 것을 환영합니다"
           }
         }
       }
@@ -5743,17 +5603,6 @@
         }
       }
     },
-    "iPhone 설정에서 클립키보드 키보드를 추가하세요. 딱 한 번만 하면 됩니다." : {
-      "comment" : "Setup step 1 description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add the ClipKeyboard keyboard in iPhone Settings. You only need to do this once."
-          }
-        }
-      }
-    },
     "IP주소" : {
       "comment" : "IP Address",
       "localizations" : {
@@ -6722,23 +6571,6 @@
         }
       }
     },
-    "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud." : {
-      "comment" : "Mac install tip",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "설치 후 Mac 메뉴바에서 ClipKeyboard 아이콘을 찾아보세요. 같은 Apple ID로 로그인하면 iCloud 동기화가 작동합니다."
-          }
-        }
-      }
-    },
     "One per line" : {
       "comment" : "Bulk import: line split",
       "localizations" : {
@@ -6838,23 +6670,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱에서 플레이스홀더 관리에 들어가 '%@' 값을 추가해주세요"
-          }
-        }
-      }
-    },
-    "Open the ClipKeyboard inbox of quick notes." : {
-      "comment" : "OpenQuickNoteInboxIntent description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the ClipKeyboard inbox of notes."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 메모 보관함을 엽니다."
           }
         }
       }
@@ -7117,23 +6932,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱 비주얼 방향을 선택하세요. Dusk는 그라디언트 중심 · 인디고바이올렛. Paper는 웜톤 · 세리프 계열."
-          }
-        }
-      }
-    },
-    "Pin ClipKeyboard to the macOS menu bar and paste from anywhere." : {
-      "comment" : "Mac feature: menu bar description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pin ClipKeyboard to the macOS menu bar and paste from anywhere."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "macOS 메뉴바에 고정해 어느 앱에서든 붙여넣기."
           }
         }
       }
@@ -7646,40 +7444,6 @@
         }
       }
     },
-    "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo." : {
-      "comment" : "AddQuickNoteIntent description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard snippet."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 보관함에 텍스트를 빠르게 담아두고, 키보드 단축어로 쓸지는 나중에 결정하세요."
-          }
-        }
-      }
-    },
-    "Quit ClipKeyboard" : {
-      "comment" : "Menu: quit",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quit ClipKeyboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 종료"
-          }
-        }
-      }
-    },
     "QWERTY 스타일 (표준)" : {
       "comment" : "Dubeolsik subtitle",
       "localizations" : {
@@ -8052,23 +7816,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "보관함에 저장됨"
-          }
-        }
-      }
-    },
-    "Saved to your ClipKeyboard inbox." : {
-      "comment" : "Quick note intent success dialog",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saved to your ClipKeyboard inbox."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard 보관함에 저장했어요."
           }
         }
       }
@@ -8925,23 +8672,6 @@
         }
       }
     },
-    "Unlock keyboard in ClipKeyboard" : {
-      "comment" : "Keyboard locked title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unlock keyboard in ClipKeyboard"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메인 앱에서 키보드를 잠금해제하세요"
-          }
-        }
-      }
-    },
     "Upwork proposal intro" : {
       "comment" : "Scenario title: upwork",
       "extractionState" : "manual",
@@ -9245,13 +8975,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to ClipKeyboard"
+            "value" : "Welcome to CrocoClip"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to ClipKeyboard"
+            "value" : "Welcome to CrocoClip"
           }
         }
       }
@@ -12852,7 +12582,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To paste instantly when you tap a snippet, ClipKeyboard needs Accessibility permission.\n\nGo to System Settings > Privacy & Security > Accessibility and enable ClipKeyboard."
+            "value" : "To paste instantly when you tap a snippet, CrocoClip needs Accessibility permission.\n\nGo to System Settings > Privacy & Security > Accessibility and enable CrocoClip."
           }
         }
       }
@@ -17441,17 +17171,6 @@
         }
       }
     },
-    "서드파티 키보드 목록에서 'ClipKeyboard'를 찾아 탭하세요." : {
-      "comment" : "Setup step 2 description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Find and tap 'ClipKeyboard' in the third-party keyboard list."
-          }
-        }
-      }
-    },
     "서버에서 완전히 삭제되며 되돌릴 수 없어요." : {
       "comment" : "Feedback inbox delete confirm message",
       "extractionState" : "stale",
@@ -17744,39 +17463,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings → General → Keyboard → Keyboards"
-          }
-        }
-      }
-    },
-    "설정 → 클립키보드 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요." : {
-      "comment" : "Paste permission alert message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Go to Settings → ClipKeyboard → 'Paste from Other Apps' and choose 'Allow' so copied text is organized instantly without a popup."
-          }
-        }
-      }
-    },
-    "설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 바꾸면 팝업 없이 바로 정리돼요." : {
-      "comment" : "Paste permission main tip body",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In Settings → ClipKeyboard → Paste from Other Apps → Allow, and copied text is organized instantly: no popup."
-          }
-        }
-      }
-    },
-    "설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다." : {
-      "comment" : "Paste tip banner body",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Go to Settings → ClipKeyboard → Paste from Other Apps → Allow to prevent the popup from appearing."
           }
         }
       }
@@ -18978,7 +18664,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hello, I am a user of ClipKeyboard."
+            "value" : "Hello, I am a user of CrocoClip."
           }
         }
       }
@@ -19047,7 +18733,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications are turned off. Please allow them in iOS Settings > ClipKeyboard > Notifications."
+            "value" : "Notifications are turned off. Please allow them in iOS Settings > CrocoClip > Notifications."
           }
         }
       }
@@ -19116,13 +18802,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App menu: ClipKeyboard"
+            "value" : "App menu: CrocoClip"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱 메뉴: 클립키보드"
+            "value" : "앱 메뉴: 크로커클립"
           }
         }
       }
@@ -19444,7 +19130,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "How will you use ClipKeyboard?"
+            "value" : "How will you use CrocoClip?"
           }
         },
         "ko" : {
@@ -19568,17 +19254,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "here"
-          }
-        }
-      }
-    },
-    "여기를 탭하고 ClipKeyboard에서 단축어를 붙여넣어 보세요…" : {
-      "comment" : "Practice editor placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap here, then paste a snippet from ClipKeyboard…"
           }
         }
       }
@@ -20836,17 +20511,6 @@
         }
       }
     },
-    "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다." : {
-      "comment" : "Unrecognized backup file",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This isn’t a ClipKeyboard backup file, or it’s damaged."
-          }
-        }
-      }
-    },
     "이 피드백을 삭제할까요?" : {
       "comment" : "Feedback inbox delete confirm title",
       "extractionState" : "stale",
@@ -21172,17 +20836,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You've already saved %d minutes, go Pro for unlimited"
-          }
-        }
-      }
-    },
-    "이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요." : {
-      "comment" : "Paywall personalized time-saved proof",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You've already saved %d minutes with ClipKeyboard. Go Pro to keep saving without limits."
           }
         }
       }
@@ -21631,17 +21284,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "That's it: anywhere you need it."
-          }
-        }
-      }
-    },
-    "이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요." : {
-      "comment" : "Setup done description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now you can pull up your snippets right from the keyboard.\nOpen the keyboard and long-press 🌐 to switch to ClipKeyboard."
           }
         }
       }
@@ -22783,7 +22425,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Global hotkeys require Accessibility permission.\n\nGo to System Settings > Privacy & Security > Accessibility and enable ClipKeyboard."
+            "value" : "Global hotkeys require Accessibility permission.\n\nGo to System Settings > Privacy & Security > Accessibility and enable CrocoClip."
           }
         }
       }
@@ -23660,17 +23302,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No favorite snippets yet.\nLong-press a snippet to add it to favorites."
-          }
-        }
-      }
-    },
-    "지구본(🌐) 버튼으로 ClipKeyboard로 전환해요" : {
-      "comment" : "Practice step 2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use the 🌐 globe button to switch to ClipKeyboard"
           }
         }
       }
@@ -25497,17 +25128,6 @@
         }
       }
     },
-    "클립키보드" : {
-      "comment" : "ClipKeyboard app name",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ClipKeyboard"
-          }
-        }
-      }
-    },
     "클립키보드 추가" : {
       "comment" : "Setup step 1 label",
       "extractionState" : "manual",
@@ -25515,24 +25135,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add ClipKeyboard"
+            "value" : "Add CrocoClip"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "클립키보드 추가"
-          }
-        }
-      }
-    },
-    "클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다." : {
-      "comment" : "Review description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Did you like ClipKeyboard? Your review greatly helps improve the app."
+            "value" : "크로커클립 추가"
           }
         }
       }
@@ -25544,7 +25153,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enjoying ClipKeyboard?"
+            "value" : "Enjoying CrocoClip?"
           }
         }
       }
@@ -25556,7 +25165,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to\nClipKeyboard!"
+            "value" : "Welcome to\nCrocoClip!"
           }
         }
       }
@@ -25568,7 +25177,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I have a question about ClipKeyboard"
+            "value" : "I have a question about CrocoClip"
           }
         }
       }
@@ -25580,13 +25189,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Welcome to\nClipKeyboard!"
+            "value" : "Welcome to\nCrocoClip!"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "클립키보드에\\n오신 것을 환영합니다!"
+            "value" : "크로커클립에\\n오신 것을 환영합니다!"
           }
         }
       }
@@ -25728,24 +25337,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap 'ClipKeyboard' in the keyboard list"
+            "value" : "Tap 'CrocoClip' in the keyboard list"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키보드 목록에서 '클립키보드'를 탭"
-          }
-        }
-      }
-    },
-    "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다." : {
-      "comment" : "Setup step 3 description",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap ClipKeyboard in the keyboard list, then turn on 'Allow Full Access'.\nThis is required to access your saved snippets."
+            "value" : "키보드 목록에서 '크로커클립'를 탭"
           }
         }
       }
@@ -28807,6 +28405,901 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
+          }
+        }
+      }
+    },
+    "CrocoClip 키보드를 활성화하면 어디서든 바로 입력돼요." : {
+      "comment" : "Keyboard tip message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once you enable the CrocoClip keyboard, you can type anywhere."
+          }
+        }
+      }
+    },
+    "CrocoClip" : {
+      "comment" : "App menu name\nKeyboard name\nKeyboard name in list",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip"
+          }
+        }
+      }
+    },
+    "CrocoClip Help" : {
+      "comment" : "Menu: help",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip Help"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip 도움말"
+          }
+        }
+      }
+    },
+    "이미 CrocoClip로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요." : {
+      "comment" : "Paywall personalized time-saved proof",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've already saved %d minutes with CrocoClip. Go Pro to keep saving without limits."
+          }
+        }
+      }
+    },
+    "CrocoClip for Mac" : {
+      "comment" : "Mac app intro title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip for Mac"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac용 CrocoClip"
+          }
+        }
+      }
+    },
+    "Pin CrocoClip to the macOS menu bar and paste from anywhere." : {
+      "comment" : "Mac feature: menu bar description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin CrocoClip to the macOS menu bar and paste from anywhere."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 메뉴바에 고정해 어느 앱에서든 붙여넣기."
+          }
+        }
+      }
+    },
+    "Once installed, look for the CrocoClip icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud." : {
+      "comment" : "Mac install tip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Once installed, look for the CrocoClip icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설치 후 Mac 메뉴바에서 CrocoClip 아이콘을 찾아보세요. 같은 Apple ID로 로그인하면 iCloud 동기화가 작동합니다."
+          }
+        }
+      }
+    },
+    "CrocoClip는 모든 사용자를 위해 설계됐습니다" : {
+      "comment" : "Accessibility guide hero title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip is designed for everyone"
+          }
+        }
+      }
+    },
+    "iPhone 설정에서 크로커클립 키보드를 추가하세요. 딱 한 번만 하면 됩니다." : {
+      "comment" : "Setup step 1 description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add the CrocoClip keyboard in iPhone Settings. You only need to do this once."
+          }
+        }
+      }
+    },
+    "CrocoClip를 선택해요" : {
+      "comment" : "Setup step 2 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select CrocoClip"
+          }
+        }
+      }
+    },
+    "서드파티 키보드 목록에서 'CrocoClip'를 찾아 탭하세요." : {
+      "comment" : "Setup step 2 description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find and tap 'CrocoClip' in the third-party keyboard list."
+          }
+        }
+      }
+    },
+    "지구본(🌐) 버튼으로 CrocoClip로 전환해요" : {
+      "comment" : "Practice step 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the 🌐 globe button to switch to CrocoClip"
+          }
+        }
+      }
+    },
+    "여기를 탭하고 CrocoClip에서 단축어를 붙여넣어 보세요…" : {
+      "comment" : "Practice editor placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap here, then paste a snippet from CrocoClip…"
+          }
+        }
+      }
+    },
+    "이 파일은 CrocoClip 백업 파일이 아니거나 손상되었습니다." : {
+      "comment" : "Unrecognized backup file",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This isn’t a CrocoClip backup file, or it’s damaged."
+          }
+        }
+      }
+    },
+    "설정 → 크로커클립 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요." : {
+      "comment" : "Paste permission alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to Settings → CrocoClip → 'Paste from Other Apps' and choose 'Allow' so copied text is organized instantly without a popup."
+          }
+        }
+      }
+    },
+    "설정 → 크로커클립 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다." : {
+      "comment" : "Paste tip banner body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go to Settings → CrocoClip → Paste from Other Apps → Allow to prevent the popup from appearing."
+          }
+        }
+      }
+    },
+    "크로커클립" : {
+      "comment" : "ClipKeyboard app name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip"
+          }
+        }
+      }
+    },
+    "크로커클립가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다." : {
+      "comment" : "Review description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Did you like CrocoClip? Your review greatly helps improve the app."
+          }
+        }
+      }
+    },
+    "설정 → 크로커클립 → 다른 앱에서 붙여넣기 → 허용으로 바꾸면 팝업 없이 바로 정리돼요." : {
+      "comment" : "Paste permission main tip body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Settings → CrocoClip → Paste from Other Apps → Allow, and copied text is organized instantly: no popup."
+          }
+        }
+      }
+    },
+    "Quit CrocoClip" : {
+      "comment" : "Menu: quit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quit CrocoClip"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip 종료"
+          }
+        }
+      }
+    },
+    "🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요" : {
+      "comment" : "First paste celebration toast",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 First paste done! You're a real CrocoClip user now"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요"
+          }
+        }
+      }
+    },
+    "Unlock keyboard in CrocoClip" : {
+      "comment" : "Keyboard locked title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock keyboard in CrocoClip"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메인 앱에서 키보드를 잠금해제하세요"
+          }
+        }
+      }
+    },
+    "키보드 목록에서 CrocoClip를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다." : {
+      "comment" : "Setup step 3 description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap CrocoClip in the keyboard list, then turn on 'Allow Full Access'.\nThis is required to access your saved snippets."
+          }
+        }
+      }
+    },
+    "이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 CrocoClip로 전환하세요." : {
+      "comment" : "Setup done description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now you can pull up your snippets right from the keyboard.\nOpen the keyboard and long-press 🌐 to switch to CrocoClip."
+          }
+        }
+      }
+    },
+    "CrocoClip 설치가 완료됐어요!\n저장한 단축어를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요." : {
+      "comment" : "Practice prompt description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip is all set!\nPractice typing your saved snippets\nwith just a tap on the keyboard."
+          }
+        }
+      }
+    },
+    "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo." : {
+      "comment" : "AddQuickNoteIntent description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard snippet."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip 보관함에 텍스트를 빠르게 담아두고, 키보드 단축어로 쓸지는 나중에 결정하세요."
+          }
+        }
+      }
+    },
+    "Saved to your CrocoClip inbox." : {
+      "comment" : "Quick note intent success dialog",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to your CrocoClip inbox."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip 보관함에 저장했어요."
+          }
+        }
+      }
+    },
+    "Open the CrocoClip inbox of quick notes." : {
+      "comment" : "OpenQuickNoteInboxIntent description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the CrocoClip inbox of notes."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip 메모 보관함을 엽니다."
+          }
+        }
+      }
+    },
+    "CrocoClip Pro" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip Pro"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CrocoClip Pro"
+          }
+        }
+      }
+    },
+    "CrocoClip에 담기" : {
+      "comment" : "Share extension title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to CrocoClip"
+          }
+        }
+      }
+    },
+    "찾아와야 했던 것" : {
+      "comment" : "Saving kind: lookup",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Had to go find it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harus dicari dulu"
+          }
+        }
+      }
+    },
+    "길어서 치기 싫은 것" : {
+      "comment" : "Saving kind: long text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too long to type"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terlalu panjang untuk diketik"
+          }
+        }
+      }
+    },
+    "짧게 자주 쓰는 것" : {
+      "comment" : "Saving kind: quick",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short but frequent"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendek tapi sering"
+          }
+        }
+      }
+    },
+    "원래는 다른 앱을 열어 찾아와야 했던 값이에요. 아낀 시간의 대부분이 여기서 나와요." : {
+      "comment" : "Saving kind explanation: lookup",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You used to open another app to fetch this. Most of your saved time comes from here."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dulu Anda harus membuka aplikasi lain untuk mengambil ini. Sebagian besar waktu yang dihemat berasal dari sini."
+          }
+        }
+      }
+    },
+    "찾을 필요는 없지만 손으로 옮겨 적기엔 긴 글이에요." : {
+      "comment" : "Saving kind explanation: long text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to look up, but too long to retype by hand."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak perlu dicari, tapi terlalu panjang untuk diketik ulang."
+          }
+        }
+      }
+    },
+    "짧아서 아끼는 시간은 작지만, 자주 쓰면 쌓여요." : {
+      "comment" : "Saving kind explanation: quick",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It saves little each time, but it adds up when used often."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hematnya sedikit, tapi terkumpul kalau sering dipakai."
+          }
+        }
+      }
+    },
+    "1분을 벌었어요" : {
+      "comment" : "Milestone title: one minute",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned a minute"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat satu menit"
+          }
+        }
+      }
+    },
+    "5분을 벌었어요" : {
+      "comment" : "Milestone title: five minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned five minutes"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat lima menit"
+          }
+        }
+      }
+    },
+    "15분을 벌었어요" : {
+      "comment" : "Milestone title: fifteen minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned fifteen minutes"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat 15 menit"
+          }
+        }
+      }
+    },
+    "한 시간을 벌었어요" : {
+      "comment" : "Milestone title: one hour",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned a whole hour"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat satu jam penuh"
+          }
+        }
+      }
+    },
+    "세 시간을 벌었어요" : {
+      "comment" : "Milestone title: three hours",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned three hours"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat tiga jam"
+          }
+        }
+      }
+    },
+    "하루치 일과를 벌었어요" : {
+      "comment" : "Milestone title: one workday",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You earned a full workday"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anda menghemat satu hari kerja"
+          }
+        }
+      }
+    },
+    "아직 작지만, 여기서부터 쌓여요." : {
+      "comment" : "Milestone note: one minute",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small for now, but this is where it starts."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masih kecil, tapi dari sinilah semuanya dimulai."
+          }
+        }
+      }
+    },
+    "커피 한 잔 주문할 시간이에요." : {
+      "comment" : "Milestone note: five minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That's enough time to order a coffee."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cukup untuk memesan secangkir kopi."
+          }
+        }
+      }
+    },
+    "정류장 하나만큼 걸어갈 시간이에요." : {
+      "comment" : "Milestone note: fifteen minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That's a walk to the next bus stop."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setara dengan berjalan ke halte berikutnya."
+          }
+        }
+      }
+    },
+    "점심 한 끼를 통째로 벌었어요." : {
+      "comment" : "Milestone note: one hour",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That's a whole lunch break."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Itu setara satu jam makan siang penuh."
+          }
+        }
+      }
+    },
+    "영화 한 편 보고도 남아요." : {
+      "comment" : "Milestone note: three hours",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enough for a movie, with time to spare."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cukup untuk menonton film, malah lebih."
+          }
+        }
+      }
+    },
+    "하루 일과를 통째로 벌었어요. 이건 자랑해도 돼요." : {
+      "comment" : "Milestone note: one workday",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A full workday, earned back. Go ahead and brag."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satu hari kerja penuh. Silakan dibanggakan."
+          }
+        }
+      }
+    },
+    "이 시간은 이렇게 셌어요" : {
+      "comment" : "Usage passport: grounds header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How we counted this"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cara kami menghitungnya"
+          }
+        }
+      }
+    },
+    "찾아오지 않아도 된 시간" : {
+      "comment" : "Grounds row: retrieval",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time not spent fetching"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang tidak terbuang mencari"
+          }
+        }
+      }
+    },
+    "계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요." : {
+      "comment" : "Grounds note: retrieval",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Values like account numbers and addresses that you had to open another app to get."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nilai seperti nomor rekening dan alamat yang harus diambil dari aplikasi lain."
+          }
+        }
+      }
+    },
+    "치지 않아도 된 시간" : {
+      "comment" : "Grounds row: typing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time not spent typing"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang tidak terbuang mengetik"
+          }
+        }
+      }
+    },
+    "손으로 옮겨 적었다면 걸렸을 시간이에요." : {
+      "comment" : "Grounds note: typing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How long it would have taken to type it out by hand."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perkiraan waktu jika diketik dengan tangan."
+          }
+        }
+      }
+    },
+    "다시 읽지 않아도 된 시간" : {
+      "comment" : "Grounds row: verification",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time not spent double-checking"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang tidak terbuang memeriksa ulang"
+          }
+        }
+      }
+    },
+    "한 자만 틀려도 곤란한 숫자를 되짚어 보는 시간이에요." : {
+      "comment" : "Grounds note: verification",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-reading numbers where a single wrong digit causes trouble."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membaca ulang angka yang salah satu digitnya saja bisa jadi masalah."
+          }
+        }
+      }
+    },
+    "어림한 값이에요. 한 번 쓸 때마다 키보드를 열고 누르는 시간(1초)은 빼고 셌어요." : {
+      "comment" : "Usage passport: grounds disclaimer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These are estimates. We subtract the time it takes to open the keyboard and tap (1 second per use)."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini perkiraan. Waktu membuka keyboard dan mengetuk (1 detik per pemakaian) sudah dikurangi."
+          }
+        }
+      }
+    },
+    "0분" : {
+      "comment" : "Zero minutes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 min"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 mnt"
+          }
+        }
+      }
+    },
+    "아낀 시간" : {
+      "comment" : "Usage stats section: time saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang dihemat"
+          }
+        }
+      }
+    },
+    "사용자가 아낀 시간이 어느 칸까지 갔는지예요. 큰 칸에 있는 사람은 작은 칸에도 들어가 있어요. 1분은 누구나 넘으니, 5분과 한 시간의 비율을 보세요." : {
+      "comment" : "Usage stats time saved footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How far users got in saved time. Anyone in a bigger bucket is also counted in the smaller ones. Everyone passes one minute, so watch the five-minute and one-hour rates."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seberapa jauh pengguna menghemat waktu. Yang masuk kelompok besar juga terhitung di kelompok kecil. Semua orang melewati satu menit, jadi perhatikan rasio lima menit dan satu jam."
           }
         }
       }

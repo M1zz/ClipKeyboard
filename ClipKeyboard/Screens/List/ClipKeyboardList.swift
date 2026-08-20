@@ -1414,8 +1414,7 @@ struct ClipKeyboardList: View {
                 // 겹쳐 얹으면 내용이 안 읽히고, 옆에 두면 카드 높이가 흔들린다.
                 // 같은 자리를 번갈아 쓰면 둘 다 해결된다.
                 if !lightweight, showsCoin(memo) {
-                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount),
+                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo),
                                    onColor: onColor)
                         .frame(height: ContentHintPreview.zoneHeight, alignment: .leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1650,12 +1649,10 @@ struct ClipKeyboardList: View {
                 ZStack {
                     // 카드를 금고 문으로 - 경첩·다이얼·이음새는 전부 가장자리에 있어
                     // 글과 자리를 다투지 않는다.
-                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount))
+                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(for: memo))
 
                     if !contentHintEnabled, showsCoin(memo) {
-                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                            characterCount: memo.value.count, useCount: memo.clipCount))
+                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo))
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                             .padding(.trailing, 12)
                             .padding(.bottom, 10)

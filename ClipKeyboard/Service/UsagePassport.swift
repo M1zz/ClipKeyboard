@@ -30,6 +30,8 @@ enum UsagePassport {
         let lastUsedAt: Date?
         /// 이 문구가 지금까지 돌려준 시간(초) - 영수증의 줄 금액.
         let earnedSeconds: Double
+        /// 이 문구가 어떤 종류의 이득이었나 - 화면이 "왜 이만큼인가"를 한 줄로 말한다.
+        let kind: TimeSavedModel.Kind
     }
 
     // MARK: - 한 기간의 기록
@@ -89,7 +91,10 @@ enum UsagePassport {
                       useCount: memo.clipCount,
                       lastUsedAt: memo.lastUsedAt,
                       earnedSeconds: KeyboardUsageTracker.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount))
+                        value: memo.value,
+                        type: memo.autoDetectedType,
+                        useCount: memo.clipCount),
+                      kind: TimeSavedModel.kind(value: memo.value, type: memo.autoDetectedType))
             }
         )
     }

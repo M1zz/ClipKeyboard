@@ -445,3 +445,43 @@ enum UsageInsights {
         .sorted { $0.cohortStart > $1.cohortStart }
     }
 }
+
+// MARK: - 정말 시간을 아끼고 있나
+
+extension UsageInsights {
+
+    /// 아낀 시간의 이정표까지 간 설치 수 - **깔때기로 읽는다.**
+    ///
+    /// ⚠️ 이 앱을 만들며 가장 알고 싶던 것이 이것이다. 설치는 늘어도 사람들이 실제로
+    ///    시간을 아끼고 있지 않다면 그건 팔린 것이지 쓰이는 것이 아니다.
+    ///    1분에서 5분으로 못 넘어가는 비율이 크다면, 그건 "한 번 써 보고 말았다"는 뜻이다.
+    ///
+    /// ⚠️ 절대 수치가 아니라 **칸 사이 비율**을 보는 용도다. 이정표 이벤트는 지날 때
+    ///    한 번만 나가므로, 큰 칸에 있는 사람은 작은 칸에도 반드시 들어가 있다
+    ///    (`markReached(upTo:)` 가 지나온 칸을 전부 적는다).
+    struct SavedTimeStage: Identifiable {
+        let milestone: SavedTimeMilestone
+        /// 이 칸에 닿은 서로 다른 설치 수.
+        let installs: Int
+        /// 첫 칸 대비 비율(0.0 ~ 1.0).
+        let rateFromFirst: Double
+        var id: String { milestone.rawValue }
+    }
+
+    static func savedTimeStages(from samples: [UsageReportingService.EventSample]) -> [SavedTimeStage] {
+        let prefix = AnalyticsEvent.timeSavedMilestone.rawValue
+        var byMilestone: [String: Set<String>] = [:]
+        for sample in samples where sample.name.hasPrefix(prefix + ":") {
+            let slice = String(sample.name.dropFirst(prefix.count + 1))
+            guard let id = sample.installID else { continue }
+            byMilestone[slice, default: []].insert(id)
+        }
+        let first = byMilestone[SavedTimeMilestone.oneMinute.rawValue]?.count ?? 0
+        return SavedTimeMilestone.allCases.map { m in
+            let count = byMilestone[m.rawValue]?.count ?? 0
+            return SavedTimeStage(milestone: m,
+                                  installs: count,
+                                  rateFromFirst: first > 0 ? Double(count) / Double(first) : 0)
+        }
+    }
+}

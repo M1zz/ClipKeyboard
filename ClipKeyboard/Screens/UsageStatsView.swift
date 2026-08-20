@@ -58,6 +58,7 @@ struct UsageStatsView: View {
                 segmentSection
                 typeChartSection
                 marketingSection
+                savedTimeSection
                 funnelSection
                 retentionSection
                 usageSection
@@ -295,6 +296,53 @@ struct UsageStatsView: View {
                 }
             } header: {
                 Text(NSLocalizedString("마케팅 지표", comment: "Usage stats section: marketing signals"))
+            }
+        }
+    }
+
+    // MARK: - 정말 시간을 아끼고 있나
+
+    /// 아낀 시간이 어느 칸까지 갔나 - 이 앱이 팔린 것인지 쓰이는 것인지가 여기서 갈린다.
+    ///
+    /// ⚠️ 1분은 누구나 넘는다(몇 번만 써도 넘는다). 봐야 할 것은 **5분과 한 시간**이다.
+    ///    1분에서 5분으로 못 넘어가는 비율이 크면 "한 번 써 보고 말았다"는 뜻이고,
+    ///    그건 기능이 아니라 첫 흐름의 문제다.
+    ///
+    /// ⚠️ 초 단위 값은 애초에 올라오지 않는다 - 이정표 이름만 온다.
+    @ViewBuilder
+    private var savedTimeSection: some View {
+        let stages = UsageInsights.savedTimeStages(from: eventSamples)
+        if stages.first?.installs ?? 0 > 0 {
+            Section {
+                ForEach(stages) { stage in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(stage.milestone.localizedTitle)
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.text)
+                            Spacer()
+                            Text(String(format: NSLocalizedString("설치 %d곳", comment: "Funnel: install count"), stage.installs))
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
+                        }
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(theme.textFaint.opacity(0.2))
+                                Capsule().fill(Color.accentColor)
+                                    .frame(width: max(2, geo.size.width * stage.rateFromFirst))
+                            }
+                        }
+                        .frame(height: 6)
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityElement(children: .combine)
+                }
+            } header: {
+                Text(NSLocalizedString("아낀 시간", comment: "Usage stats section: time saved"))
+            } footer: {
+                Text(NSLocalizedString("사용자가 아낀 시간이 어느 칸까지 갔는지예요. 큰 칸에 있는 사람은 작은 칸에도 들어가 있어요. 1분은 누구나 넘으니, 5분과 한 시간의 비율을 보세요.",
+                                       comment: "Usage stats time saved footer"))
+                    .font(.body)
             }
         }
     }
