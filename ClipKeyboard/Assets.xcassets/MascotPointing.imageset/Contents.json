@@ -1,14 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "MascotPointing.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "MascotPointing@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "MascotPointing@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
