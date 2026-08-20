@@ -649,7 +649,7 @@ struct UsageGuideView: View {
                 .padding(.vertical, 12)
                 .background(
                     LinearGradient(
-                        colors: [Color.blue, Color.purple],
+                        colors: [Color.clipBrand, Color.clipBrandDeep],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -685,9 +685,9 @@ struct UsageGuideView: View {
                     HStack(spacing: 12) {
                         Image(systemName: guide.persona.icon)
                             .font(.system(.title3, weight: .semibold))
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .frame(width: 34, height: 34)
-                            .background(Color.blue.opacity(0.12))
+                            .background(Color.accentColor.opacity(0.12))
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
                             .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 2) {
@@ -799,10 +799,10 @@ struct UsageGuideView: View {
                         Text(NSLocalizedString("Save as snippet", comment: "CTA: save scenario as snippet"))
                             .font(.body.weight(.semibold))
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.accentForeground)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 7)
-                    .background(Color.blue)
+                    .background(Color.accentColor)
                     .clipShape(Capsule())
                 }
                 .buttonStyle(PlainButtonStyle())

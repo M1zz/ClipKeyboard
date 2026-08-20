@@ -104,14 +104,12 @@ struct SkinDisabledTests {
 struct SnippetsOnboardingStepTests {
 
     private func step(fresh: Bool = true,
-                      shortcut: Bool = false,
-                      firstUsePending: Bool = false,
+                      welcome: Bool = false,
                       chapters: Bool = false,
                       setup: Bool = false,
                       usable: Bool = false) -> SnippetsOnboardingStep {
         .current(startedFresh: fresh,
-                 firstShortcutDone: shortcut,
-                 firstUsePending: firstUsePending,
+                 welcomeDone: welcome,
                  chaptersDone: chapters,
                  keyboardSetupDone: setup,
                  keyboardUsable: usable)
@@ -120,44 +118,34 @@ struct SnippetsOnboardingStepTests {
     @Test("쓰던 사람은 이 길을 걷지 않는다. 업데이트했다고 튜토리얼이 뜨면 안 된다")
     func existingUserSkipsEverything() {
         #expect(step(fresh: false) == .done)
-        #expect(step(fresh: false, shortcut: true, firstUsePending: true) == .done)
+        #expect(step(fresh: false, welcome: true) == .done)
     }
 
-    @Test("처음이면 단축어 만들기부터")
-    func startsWithFirstShortcut() {
-        #expect(step() == .firstShortcut)
+    @Test("처음이면 무엇을 넣어 뒀는지 알리는 것부터")
+    func startsWithWelcome() {
+        #expect(step() == .welcome)
     }
 
-    @Test("만들었으면 **눌러 봐야** 끝난다. 만들기만 하고 끝나면 아무것도 안 배운 것이다")
-    func mustTryTheKeyBeforeMovingOn() {
-        #expect(step(shortcut: true, firstUsePending: true) == .tryInKeyboard)
+    @Test("환영을 지나면 **넣어 둔 것을 눌러 보는** 차례. 만들게 하지 않는다")
+    func goesToTryingAfterWelcome() {
+        #expect(step(welcome: true) == .tryScenarios)
     }
 
-    @Test("누르고 나면 배우는 차례: 템플릿·콤보 챕터로")
-    func goesToChaptersAfterFirstUse() {
-        #expect(step(shortcut: true) == .chapters)
-    }
-
-    @Test("건너뛰어 가리킬 것이 없으면 곧바로 챕터로")
-    func skippedCreationGoesStraightToChapters() {
-        #expect(step(shortcut: true, firstUsePending: false) == .chapters)
-    }
-
-    @Test("**키보드 설정은 맨 뒤**, 배울 걸 다 배운 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
+    @Test("**키보드 설정은 맨 뒤**, 다 써 본 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
     func keyboardSetupComesLast() {
-        #expect(step(shortcut: true, chapters: true) == .keyboardSetup)
-        // 챕터가 남아 있으면 아직 설정으로 보내지 않는다.
-        #expect(step(shortcut: true, chapters: false) == .chapters)
+        #expect(step(welcome: true, chapters: true) == .keyboardSetup)
+        // 써 볼 것이 남아 있으면 아직 설정으로 보내지 않는다.
+        #expect(step(welcome: true, chapters: false) == .tryScenarios)
     }
 
     @Test("이미 켜 둔 사람에게 켜는 법을 가르치지 않는다")
     func skipsSetupWhenKeyboardAlreadyUsable() {
-        #expect(step(shortcut: true, chapters: true, usable: true) == .done)
+        #expect(step(welcome: true, chapters: true, usable: true) == .done)
     }
 
     @Test("건너뛴 사람을 붙잡지 않는다. 한 번 지나갔으면 끝")
     func doesNotRepeatSetupOnceSeen() {
-        #expect(step(shortcut: true, chapters: true, setup: true) == .done)
+        #expect(step(welcome: true, chapters: true, setup: true) == .done)
     }
 
     // MARK: - 오가는 규칙

@@ -58,7 +58,7 @@ struct ClipboardCaptureCard: View {
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.blue.opacity(0.18), lineWidth: 1)
+                .stroke(Color.accentColor.opacity(0.18), lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
@@ -123,10 +123,10 @@ struct ClipboardCaptureCard: View {
                     .font(.caption.weight(.semibold))
                     .lineLimit(1)
             }
-            .foregroundColor(.blue)
+            .foregroundColor(.accentColor)
             .padding(.horizontal, 7)
             .padding(.vertical, 2)
-            .background(Color.blue.opacity(0.10))
+            .background(Color.accentColor.opacity(0.10))
             .clipShape(Capsule())
 
             Spacer(minLength: 0)
@@ -148,10 +148,10 @@ struct ClipboardCaptureCard: View {
                     Text(NSLocalizedString("단축어로 저장", comment: "Inline capture card: save as memo (one tap)"))
                         .font(.body.weight(.semibold))
                 }
-                .foregroundColor(.white)
+                .foregroundColor(Color.accentForeground)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 7)
-                .background(Color.blue)
+                .background(Color.accentColor)
                 .clipShape(Capsule())
             }
             .buttonStyle(PlainButtonStyle())
@@ -165,7 +165,7 @@ struct ClipboardCaptureCard: View {
             } label: {
                 Text(NSLocalizedString("편집", comment: "Inline capture card: edit before saving"))
                     .font(.body)
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 7)
             }

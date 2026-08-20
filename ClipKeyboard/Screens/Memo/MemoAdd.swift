@@ -45,11 +45,6 @@ struct MemoAdd: View {
     /// "템플릿으로 만들기"의 원본 단축어 id - 있으면 "기존 단축어 남기기" 토글이 노출되고,
     /// 끄면 저장할 때 원본이 함께 삭제된다(중복 방지).
     var templateSourceMemoId: UUID? = nil
-    /// 튜토리얼로 열렸을 때 화면 맨 위에 띄우는 한 줄 안내.
-    /// ⚠️ 열어 주기만 하고 말을 안 하면, 편집 화면을 처음 본 사람은 여기서 뭘 해야 하는지 모른다.
-    ///    "다음엔 무엇을" 이 없는 안내는 시작만 시키고 버리는 셈이다.
-    var tutorialHint: String? = nil
-
     // MARK: - View-only State
 
     @State private var isFocused: Bool = false
@@ -76,22 +71,6 @@ struct MemoAdd: View {
                 quickModeBody
             } else {
                 fullModeBody
-            }
-        }
-        .safeAreaInset(edge: .top, spacing: 0) {
-            if let tutorialHint {
-                HStack(spacing: 8) {
-                    Image(systemName: "wand.and.sparkles")
-                    Text(tutorialHint)
-                        .font(.subheadline.weight(.semibold))
-                        .fixedSize(horizontal: false, vertical: true)
-                    Spacer(minLength: 0)
-                }
-                .foregroundColor(.white)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 11)
-                .frame(maxWidth: .infinity)
-                .background(Color.accentColor)
             }
         }
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {}
@@ -445,7 +424,7 @@ struct MemoAdd: View {
                                 }
                                 .font(.body)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.accentForeground)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
                                 .background(Color.accentColor)
@@ -462,7 +441,7 @@ struct MemoAdd: View {
                                 }
                                 .font(.body)
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(Color.accentForeground)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
                                 .background(Color.accentColor)
@@ -579,7 +558,7 @@ struct MemoAdd: View {
                     inactiveIcon: "square.on.square.dashed",
                     title: NSLocalizedString("기존 단축어 남기기", comment: "Keep original snippet toggle"),
                     description: NSLocalizedString("끄면 저장할 때 원본 단축어가 삭제돼요", comment: "Keep original snippet toggle description"),
-                    activeColor: .blue,
+                    activeColor: .accentColor,
                     isOn: $viewModel.keepOriginalSource
                 )
             }
@@ -817,7 +796,7 @@ struct MemoAdd: View {
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
                 .background(Color.accentColor)
-                .foregroundColor(.white)
+                .foregroundColor(Color.accentForeground)
                 .cornerRadius(theme.radiusSm)
         }
         .accessibilityLabel(title)

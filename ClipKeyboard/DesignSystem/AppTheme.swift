@@ -2,8 +2,15 @@
 //  AppTheme.swift
 //  ClipKeyboard
 //
-//  Design handoff 기반 - Dusk (default) + Paper 두 테마, 각각 light/dark.
+//  Design handoff 기반 - Dusk + Paper 두 테마, 각각 light/dark.
 //  SwiftUI Environment으로 주입해 전 화면에서 동일 토큰 사용.
+//
+//  키컬러: 마스코트 악어에서 뽑은 녹색이다. 몸통(#2D8B79)을 글자 대비가
+//  나오는 선까지 조인 #1F7A67 이 라이트, 어두운 바탕에서 읽히도록 띄운
+//  #34A98F 이 다크. 외곽선(#0E5A4C)과 배(#FCBE35)는 Color.clipBrandDeep,
+//  Color.clipBrandYellow 로 ColorExtension 에 있다.
+//  같은 값이 Assets 의 AccentColor 에도 들어가 있어 `Color.accentColor` 와
+//  `theme.accent` 가 같은 색을 가리킨다. 한쪽만 바꾸면 앱이 두 색으로 갈린다.
 //
 
 import SwiftUI
@@ -144,24 +151,24 @@ struct AppTheme: Equatable {
     static let paperLight = AppTheme(
         kind: .paper,
         isDark: false,
-        bg: hx("EFEFF4"),
+        bg: hx("EFF3F1"),
         surface: .white,
-        surfaceAlt: hx("E5E5EA"),
-        text: hx("1B1814"),
-        textMuted: hx("6A6358"),
-        textFaint: hx("8E8E93"),
-        accent: hx("C85A3A"),
-        accentSoft: hx("F7E4DB"),
+        surfaceAlt: hx("E3EAE7"),
+        text: hx("16211D"),
+        textMuted: hx("5C665F"),
+        textFaint: hx("8B948F"),
+        accent: hx("1F7A67"),
+        accentSoft: hx("DCEFE9"),
         accentFg: .white,
         danger: hx("C8423A"),
-        success: hx("4A8A5A"),
-        warn: hx("C88A3A"),
+        success: hx("35804A"),
+        warn: hx("9A6B12"),
         pink: hx("C85A80"),
         divider: Color.black.opacity(0.07),
         heroGradientStops: [
-            hx("FBE8D9"),
-            hx("F5D5C2"),
-            hx("E8B79E")
+            hx("E4F3ED"),
+            hx("C3E6D9"),
+            hx("9DD5C4")
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
@@ -172,24 +179,24 @@ struct AppTheme: Equatable {
     static let paperDark = AppTheme(
         kind: .paper,
         isDark: true,
-        bg: hx("131210"),
-        surface: hx("1E1C18"),
-        surfaceAlt: hx("262320"),
-        text: hx("F3EEE4"),
-        textMuted: hx("A69E91"),
-        textFaint: hx("6A6358"),
-        accent: hx("E87555"),
-        accentSoft: hx("3A221A"),
-        accentFg: .white,
+        bg: hx("101413"),
+        surface: hx("1A201E"),
+        surfaceAlt: hx("222927"),
+        text: hx("EDF2EF"),
+        textMuted: hx("9AA8A1"),
+        textFaint: hx("6B7671"),
+        accent: hx("34A98F"),
+        accentSoft: hx("16332C"),
+        accentFg: hx("06231D"),
         danger: hx("E05A4F"),
-        success: hx("6BAE7F"),
-        warn: hx("E0A85A"),
+        success: hx("6BC47F"),
+        warn: hx("FCBE35"),
         pink: hx("E07FA0"),
         divider: Color.white.opacity(0.07),
         heroGradientStops: [
-            hx("2A1F18"),
-            hx("3B2519"),
-            hx("4A2A1A")
+            hx("10261F"),
+            hx("14332A"),
+            hx("1B4437")
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,

@@ -97,8 +97,8 @@ struct TemplateInputOverlay: View {
                                         .fixedSize()
                                         .frame(height: 36)
                                         .padding(.horizontal, 10)
-                                        .background(inactive ? Color.blue.opacity(0.05) : Color.blue.opacity(0.12))
-                                        .foregroundColor(inactive ? Color.blue.opacity(0.35) : Color.blue)
+                                        .background(inactive ? theme.accent.opacity(0.05) : theme.accent.opacity(0.12))
+                                        .foregroundColor(inactive ? theme.accent.opacity(0.35) : theme.accent)
                                         .cornerRadius(theme.radiusXs)
                                 }
                                 .disabled(inactive)
@@ -114,10 +114,10 @@ struct TemplateInputOverlay: View {
                             .font(.footnote.weight(.semibold))
                             .lineLimit(1)
                             .fixedSize()
-                            .foregroundColor(.white)
+                            .foregroundColor(theme.accentFg)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 8)
-                            .background(state.allPlaceholdersFilled ? Color.blue : Color.gray.opacity(0.4))
+                            .background(state.allPlaceholdersFilled ? theme.accent : Color.gray.opacity(0.4))
                             .cornerRadius(theme.radiusSm)
                     }
                     .disabled(!state.allPlaceholdersFilled)
@@ -311,8 +311,8 @@ struct PlaceholderInputView: View {
                                     .font(.caption)
                                     .padding(.horizontal, 10)
                                     .padding(.vertical, 4)
-                                    .background(selectedValue == value ? Color.blue.opacity(0.2) : Color(UIColor.systemGray5))
-                                    .foregroundColor(selectedValue == value ? .blue : .primary)
+                                    .background(selectedValue == value ? theme.accent.opacity(0.2) : Color(UIColor.systemGray5))
+                                    .foregroundColor(selectedValue == value ? theme.accent : .primary)
                                     .cornerRadius(theme.radiusSm)
                             }
                         }
@@ -397,8 +397,8 @@ struct PlaceholderInputView: View {
                                 .font(.footnote.weight(selectedValue == value ? .semibold : .regular))
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
-                                .background(selectedValue == value ? Color.blue : Color(UIColor.systemGray5))
-                                .foregroundColor(selectedValue == value ? .white : .primary)
+                                .background(selectedValue == value ? theme.accent : Color(UIColor.systemGray5))
+                                .foregroundColor(selectedValue == value ? theme.accentFg : .primary)
                                 .cornerRadius(theme.radiusLg)
                         }
                     }

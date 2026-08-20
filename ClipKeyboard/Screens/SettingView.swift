@@ -42,6 +42,9 @@ struct SettingView: View {
     /// 날인·봉인 등 입력 반응 마스터 스위치. App Group - 키보드 익스텐션도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.delightEffectsEnabled, store: AppGroup.defaults)
     private var delightEffectsEnabled: Bool = true
+    /// 단축어 줄을 악어 입속처럼 - App Group 이라 키보드 익스텐션도 바로 따라온다.
+    @AppStorage(DefaultsKey.keyboardToothStyle, store: AppGroup.defaults)
+    private var toothStyleOn: Bool = false
     /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
     /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
@@ -144,6 +147,13 @@ struct SettingView: View {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
+            // 악어 입속 - 단축어 줄을 이빨처럼 보이게 한다.
+            // ⚠️ 켜고 끄는 자리를 반드시 둔다. 키보드 생김새는 취향이 갈리는 것이라
+            //    "멋대로 바뀌었는데 되돌릴 수가 없다"가 가장 나쁘다.
+            Toggle(isOn: $toothStyleOn) {
+                Label(NSLocalizedString("악어 입속", comment: "Croc mouth keyboard toggle title"),
+                      systemImage: "mouth")
+            }
             // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
             //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
             //    자리는 화면을 바꾸는 것들 뒤에 둔다(자주 안 만지는 것은 아래로).
@@ -151,8 +161,8 @@ struct SettingView: View {
         } header: {
             Text(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"))
         } footer: {
-            Text(NSLocalizedString("문구를 넣을 때의 진동과 짧은 연출이에요. 끄면 조용히 입력만 돼요.",
-                                   comment: "Delight effects toggle footer"))
+            Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요.",
+                                   comment: "Appearance section footer"))
                 .font(.body)
         }
     }
@@ -554,7 +564,7 @@ struct SettingView: View {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: theme.radiusSm)
-                            .fill(LinearGradient(colors: [.blue, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(LinearGradient(colors: [Color.clipBrand, Color.clipBrandDeep], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 32, height: 32)
                         Image(systemName: AppSymbol.macbook)
                             .font(.body.weight(.semibold))
@@ -636,7 +646,7 @@ struct SettingView: View {
             }
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
         } message: {
-            Text(NSLocalizedString("단축어 만들기부터 키보드 켜기까지 처음부터 다시 안내해요. 만들어 둔 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
+            Text(NSLocalizedString("준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
         .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
         .navigationBarTitleDisplayMode(.inline)
@@ -1018,7 +1028,7 @@ struct CopyPasteView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.gear)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("설정", comment: "Settings"))
                             .fontWeight(.medium)
@@ -1032,7 +1042,7 @@ struct CopyPasteView: View {
 
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.appFill)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
@@ -1046,7 +1056,7 @@ struct CopyPasteView: View {
 
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.docOnClipboard)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("다른 앱에서 붙여넣기", comment: "Paste from other apps"))
                             .fontWeight(.medium)
@@ -1198,7 +1208,7 @@ struct ReviewWriteView: View {
                 }) {
                     HStack {
                         Image(systemName: AppSymbol.link)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
                         VStack(alignment: .leading, spacing: 4) {
                             Text(NSLocalizedString("App Store에서 리뷰 작성", comment: "App Store review button"))

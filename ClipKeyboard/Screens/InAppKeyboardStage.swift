@@ -22,6 +22,8 @@ import LeeoKit
 struct InAppKeyboardStage: View {
     /// 튜토리얼이 가리키는 키 - 방금 만든 문구. 누르면 첫 걸음이 끝난다.
     var highlightedMemoId: UUID? = nil
+    /// 가리키는 동안 대화 위에 얹을 안내 한 줄. 장마다 다르다(`TutorialChapter.coachLine`).
+    var tutorialLine: String? = nil
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -34,9 +36,10 @@ struct InAppKeyboardStage: View {
     ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
     ///    (목록 → 미리보기 방향만 이상했던 이유 - 반대 방향엔 다시 만들 일이 없다).
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
-    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil) {
+    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil, tutorialLine: String? = nil) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
+        self.tutorialLine = tutorialLine
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -56,6 +59,12 @@ struct InAppKeyboardStage: View {
     @State private var showsKeyboardSetup = false
     /// 새 단축어 만들기 시트.
     @State private var showsAddMemo = false
+    /// 악어 얼굴을 눌러 연 도움말. 무엇을 도와줄지 묻고 갈 곳을 알려 준다.
+    @State private var showsMascotHelp = false
+    /// 얼굴에 붙는 물음표 - **한 번 열어 보면 사라진다.** 누를 수 있다는 걸 모르면
+    /// 도움이 있어도 없는 것과 같지만, 알고 난 뒤에도 계속 붙어 있으면 잔소리다.
+    @AppStorage(DefaultsKey.mascotHelpSeen, store: AppGroup.defaults)
+    private var mascotHelpSeen: Bool = false
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
@@ -130,6 +139,9 @@ struct InAppKeyboardStage: View {
             reloadFeed()
         }
         // 만들고 나면 무대의 키보드에 바로 그 키가 있어야 한다 - 닫힐 때 다시 읽는다.
+        .sheet(isPresented: $showsMascotHelp) {
+            MascotHelpSheet()
+        }
         .sheet(isPresented: $showsAddMemo, onDismiss: reloadFeed) {
             NavigationStack {
                 MemoAdd(insertedCategory: "텍스트")
@@ -189,7 +201,7 @@ struct InAppKeyboardStage: View {
                 Spacer(minLength: 0)
                 Text(NSLocalizedString("켜기", comment: "Turn on the keyboard"))
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.accentForeground)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 7)
                     .background(Capsule().fill(Color.accentColor))
@@ -259,14 +271,15 @@ struct InAppKeyboardStage: View {
                 Spacer(minLength: 0)
                 Image(systemName: "hand.tap.fill")
                     .font(.subheadline.weight(.semibold))
-                Text(NSLocalizedString("방금 만든 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
+                Text(tutorialLine
+                     ?? NSLocalizedString("빛나는 단축어를 눌러 보세요", comment: "Tutorial cue on the stage"))
                     .font(.subheadline.weight(.bold))
                 // 아래를 가리킨다 - 글과 빛나는 키 사이를 눈이 건너갈 길을 만든다.
                 Image(systemName: "arrow.down")
                     .font(.caption.weight(.bold))
                 Spacer(minLength: 0)
             }
-            .foregroundColor(.white)
+            .foregroundColor(Color.accentForeground)
             .padding(.horizontal, 16)
             .padding(.vertical, 11)
             .frame(maxWidth: .infinity)
@@ -300,8 +313,13 @@ struct InAppKeyboardStage: View {
 
     private func bubble(_ message: StageMessage) -> some View {
         let mine = message.side == .outgoing
-        return HStack {
-            if mine { Spacer(minLength: 40) }
+        return HStack(alignment: .top, spacing: 8) {
+            if mine {
+                Spacer(minLength: 40)
+            } else {
+                // 말을 건네는 쪽의 얼굴. 누가 말하는지가 보이면 무대가 대화로 읽힌다.
+                mascotAvatar
+            }
             VStack(alignment: mine ? .trailing : .leading, spacing: 6) {
                 if let image = message.image {
                     Image(uiImage: image)
@@ -315,23 +333,58 @@ struct InAppKeyboardStage: View {
                 if !message.text.isEmpty {
                     Text(message.text.templateAwareAttributed(theme: theme, font: .callout))
                         .font(.callout)
-                        .foregroundColor(mine ? .white : theme.text)
+                        .foregroundColor(mine ? Color.accentForeground : theme.text)
                         .padding(.horizontal, 13)
                         .padding(.vertical, 9)
+                        // 꼬리가 붙는 쪽에 그만큼 자리를 비워 준다 - 안 비우면 글자가 꼬리에 물린다.
+                        .padding(mine ? .trailing : .leading, StageBubble.tailWidth)
                         // ⚠️ 받은 말풍선은 **바탕과 확실히 달라야** 한다. 풍선이 안 보이면
                         //    무대가 대화로 읽히지 않는다.
-                        //    · surface(흰색)  : 밝은 바탕(F4F1FA)과 밝기가 붙어 흐리다
-                        //    · surfaceAlt     : EDE7F7 로 바탕과 거의 같은 색이라 **풍선이 사라진다**
-                        //    그래서 테마 토큰이 아니라 중립 회색을 쓴다. 라벤더 계열 바탕에서도
-                        //    색이 달라 풍선으로 읽히고, 밝고 어두운 화면 모두에서 스스로 뒤집힌다.
-                        .background(mine ? Color.accentColor : Color(uiColor: .systemGray5))
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        //    · surface(흰색)  : 밝은 바탕과 밝기가 붙어 흐리다
+                        //    · surfaceAlt     : 바탕과 거의 같은 색이라 **풍선이 사라진다**
+                        //    그래서 테마 토큰이 아니라 중립 회색을 쓴다. 밝고 어두운 화면
+                        //    모두에서 스스로 뒤집힌다.
+                        .background(
+                            StageBubble(pointsLeft: !mine, radius: theme.radiusMd)
+                                .fill(mine ? Color.accentColor : Color(uiColor: .systemGray5))
+                        )
                         .textSelection(.enabled)
                 }
             }
             if !mine { Spacer(minLength: 40) }
         }
         .transition(.opacity.combined(with: .move(edge: .bottom)))
+    }
+
+    /// 말을 건네는 쪽의 프로필 - 마스코트 얼굴.
+    ///
+    /// ⚠️ 원 안에 얹는다. 캐릭터 그림은 배경이 비어 있어서 그냥 두면 허공에 뜬 것처럼
+    ///    보이는데, 브랜드색 옅은 원이 프로필 사진의 테두리 노릇을 한다.
+    ///
+    /// ⚠️ 이 얼굴은 **누를 수 있다.** 무대는 말풍선으로 된 대화라 얼굴 옆에서 이미
+    ///    말을 걸고 있고, 그 얼굴을 누르면 대화가 이어지는 것이 자연스럽다.
+    ///    도움말을 설정 깊은 곳에만 두면 막힌 사람은 막힌 자리에서 길을 못 찾는다.
+    private var mascotAvatar: some View {
+        Button {
+            HapticManager.shared.light()
+            mascotHelpSeen = true
+            showsMascotHelp = true
+        } label: {
+            MascotView(pose: .avatar, size: 34, framing: .badge)
+                .overlay(alignment: .bottomTrailing) {
+                    if !mascotHelpSeen {
+                        Image(systemName: AppSymbol.questionmarkCircleFill)
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundStyle(theme.accentFg, theme.accent)
+                            .offset(x: 3, y: 3)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(NSLocalizedString("도움말", comment: "Help"))
+        .accessibilityHint(NSLocalizedString("사용 가이드와 튜토리얼로 갈 수 있어요", comment: "Mascot help button hint"))
+        // 말풍선 꼭지와 눈높이를 맞춘다.
+        .padding(.top, 2)
     }
 
     // MARK: - 입력창
@@ -502,4 +555,53 @@ struct InAppKeyboardStage: View {
         return Text(caretGlyph + hint)
     }
 
+}
+
+// MARK: - 말풍선 모양
+
+/// 꼬리가 달린 진짜 말풍선.
+///
+/// ⚠️ 예전에는 그냥 둥근 사각형이었다. 둥근 사각형은 카드로도, 버튼으로도, 입력칸으로도
+///    읽힌다 - 무대에서 이것이 **누가 건넨 말**이라는 걸 알려 주는 것이 없었다.
+///    꼬리 하나가 붙으면 그 순간 대화가 된다.
+///
+/// ⚠️ 꼬리는 **말한 쪽을 가리킨다.** 받은 말은 왼쪽(프로필 쪽), 보낸 말은 오른쪽.
+struct StageBubble: Shape {
+    /// 꼬리가 왼쪽을 향하는가(= 받은 말풍선).
+    let pointsLeft: Bool
+    let radius: CGFloat
+
+    /// 꼬리가 차지하는 가로 폭. 글자 여백도 이만큼 밀어 준다.
+    static let tailWidth: CGFloat = 11
+
+    func path(in rect: CGRect) -> Path {
+        let t = Self.tailWidth
+        // 몸통은 꼬리만큼 안쪽으로 물러난다.
+        let body = CGRect(x: pointsLeft ? rect.minX + t : rect.minX,
+                          y: rect.minY,
+                          width: rect.width - t,
+                          height: rect.height)
+        let r = min(radius, min(body.width, body.height) / 2)
+
+        var path = Path(roundedRect: body, cornerRadius: r, style: .continuous)
+
+        // 꼬리 - 위쪽에 붙는 부드러운 부리. 풍선이 짧아도 밖으로 나가지 않게 높이로 묶는다.
+        let top = min(rect.minY + 8, rect.maxY - 4)
+        let bottom = min(rect.minY + 26, rect.maxY - 2)
+        let tipY = (top + bottom) / 2 - 3
+        let edgeX = pointsLeft ? body.minX : body.maxX
+        let tipX = pointsLeft ? rect.minX : rect.maxX
+        let ctrl = pointsLeft ? edgeX - t * 0.35 : edgeX + t * 0.35
+
+        var tail = Path()
+        tail.move(to: CGPoint(x: edgeX, y: top))
+        tail.addQuadCurve(to: CGPoint(x: tipX, y: tipY),
+                          control: CGPoint(x: ctrl, y: top - 1))
+        tail.addQuadCurve(to: CGPoint(x: edgeX, y: bottom),
+                          control: CGPoint(x: ctrl, y: tipY + 7))
+        tail.closeSubpath()
+
+        path.addPath(tail)
+        return path
+    }
 }

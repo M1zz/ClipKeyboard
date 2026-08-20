@@ -62,7 +62,7 @@ struct PastePracticeView: View {
                 Button(action: onDone) {
                     Text(NSLocalizedString("다 됐어요", comment: "Paste practice: finish"))
                         .font(.body.weight(.semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(theme.accentFg)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 15)
                         .background(

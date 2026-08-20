@@ -25,7 +25,6 @@
 		256F32EF1054402BBEBAA072 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		2574A4532CE38FCE6B309E62 /* RefundLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D6A773619BB7884CEA27B8 /* RefundLedger.swift */; };
 		27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
-		282748E17940F587E6441F41 /* FirstShortcutOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */; };
 		29187FD9B8AD5C0639E7FEDE /* DiscountOfferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */; };
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		2B647294E78814DF398CF307 /* CategoryBucketRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */; };
@@ -55,6 +54,7 @@
 		581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581D8A992F49B4E900F2F032 /* PaywallView.swift */; };
 		581D8A9C2F49E85000F2F032 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581D8A9B2F49E85000F2F032 /* StoreKit.framework */; };
 		58338FD62AD1A574002DC753 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
+		MASCOTWAVEBUILD000000001 /* MascotWave.mov in Resources */ = {isa = PBXBuildFile; fileRef = MASCOTWAVEFILE0000000001 /* MascotWave.mov */; };
 		585FE9772ACC62A5003A7FF9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
 		587381EE2F2A66120042ECA4 /* KeyboardLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */; };
 		587382A42F2B7EBD0042ECA4 /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587382A32F2B7EBD0042ECA4 /* ReviewManager.swift */; };
@@ -210,6 +210,7 @@
 		INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
 		INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */; };
+		5AC0DE0700000000000000C2 /* MascotHelpSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */; };
 		INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
@@ -232,6 +233,9 @@
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
 		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
+		5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
+		5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
+		5AC0DE0200000000000000A2 /* Mascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0100000000000000A1 /* Mascot.swift */; };
 		TPS0002A2F0000000000000002 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPS0001A2F0000000000000001 /* Tips.swift */; };
 		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
@@ -295,7 +299,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FirstShortcutOnboardingView.swift; sourceTree = "<group>"; };
 		050AEED88220E19330F5B15C /* MemoSyncCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncCore.swift; sourceTree = "<group>"; };
 		0622D45C06C97BE4FC38AC5B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0ADD191793C12DD7704034B4 /* VaultScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VaultScreen.swift; sourceTree = "<group>"; };
@@ -329,6 +332,7 @@
 		5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCaptureCard.swift; sourceTree = "<group>"; };
 		5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ClipKeyboard-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5815505F2AD52D6800A6115B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		MASCOTWAVEFILE0000000001 /* MascotWave.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = MascotWave.mov; sourceTree = "<group>"; };
 		581550622AD5321F00A6115B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProFeatureManager.swift; sourceTree = "<group>"; };
 		581D8A942F49B4DD00F2F032 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
@@ -374,6 +378,8 @@
 		58DL00A42F00000000000000A4 /* GuestCreature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCreature.swift; sourceTree = "<group>"; };
 		58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingSkinSettings.swift; sourceTree = "<group>"; };
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
+		5AC0DE0300000000000000B1 /* ShellCrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCrack.swift; sourceTree = "<group>"; };
+		5AC0DE0100000000000000A1 /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
 		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
@@ -464,6 +470,7 @@
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
 		INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardHost.swift; sourceTree = "<group>"; };
+		5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotHelpSheet.swift; sourceTree = "<group>"; };
 		INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardStage.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -583,6 +590,7 @@
 		03A5B4F86C963882100BF9AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				MASCOTWAVEFILE0000000001 /* MascotWave.mov */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -802,6 +810,8 @@
 			isa = PBXGroup;
 			children = (
 				58DS00022F0000000000000002 /* AppTheme.swift */,
+				5AC0DE0100000000000000A1 /* Mascot.swift */,
+				5AC0DE0300000000000000B1 /* ShellCrack.swift */,
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
@@ -878,6 +888,7 @@
 			children = (
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
+				5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */,
 				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
@@ -909,7 +920,6 @@
 				58DL00072F0000000000000007 /* UsagePassportView.swift */,
 				58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */,
 				0ADD191793C12DD7704034B4 /* VaultScreen.swift */,
-				0081FCF9E1F6A25E732F8B0D /* FirstShortcutOnboardingView.swift */,
 				2619185DB1FDBE519DF7FB51 /* PastePracticeView.swift */,
 				B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */,
 				6F37D408E1783A0877821F5A /* ListBackgroundSettings.swift */,
@@ -1269,6 +1279,7 @@
 			files = (
 				58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */,
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
+				MASCOTWAVEBUILD000000001 /* MascotWave.mov in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
 				8DC34C94DFB6A0B59259AEE6 /* PrivacyInfo.xcprivacy in Resources */,
@@ -1346,6 +1357,7 @@
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
 				58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
+				5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				D8192B676A21E7537C0D61FA /* UUIDExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
@@ -1383,6 +1395,7 @@
 				INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */,
 				INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */,
 				INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */,
+				5AC0DE0700000000000000C2 /* MascotHelpSheet.swift in Sources */,
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
 				QKN0BUILD000000000000001 /* QuickNote.swift in Sources */,
 				QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */,
@@ -1391,6 +1404,8 @@
 				QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */,
 				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
+				5AC0DE0200000000000000A2 /* Mascot.swift in Sources */,
+				5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,
@@ -1513,7 +1528,6 @@
 				2574A4532CE38FCE6B309E62 /* RefundLedger.swift in Sources */,
 				522895AA07E790D75C0A8EEB /* VaultDeposit.swift in Sources */,
 				F4D02850F071DD2B52FD1AEC /* VaultScreen.swift in Sources */,
-				282748E17940F587E6441F41 /* FirstShortcutOnboardingView.swift in Sources */,
 				5D5FC1F549C20F256F7B40BA /* PastePracticeView.swift in Sources */,
 				C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */,
 				AF23D3A3CD2BBE56EEB15F80 /* PlaceholderExamples.swift in Sources */,

@@ -73,8 +73,12 @@ struct ClipKeyboardApp: App {
         }
 
         // 이 기기가 4.4.4 에서 처음 시작했다는 사실을 남긴다.
-        // 스킨 기본값과 샘플 생략이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
+        // 스킨 기본값과 튜토리얼이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
         standard.set(true, forKey: DefaultsKey.startedFreshV444)
+
+        // 악어 입속은 **새로 오는 사람에게만** 켜 준다. 이 앱의 첫인상이 그것이기 때문이다.
+        // 쓰던 사람의 키보드는 업데이트로 바뀌지 않는다(설정에서 직접 켤 수 있다).
+        ToothStyle.seedDefaultIfNeeded(startedFresh: true)
 
         // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
         // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
@@ -475,13 +479,13 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    /// 첫 단축어를 아직 만들지도 건너뛰지도 않았는가.
+    /// 튜토리얼의 환영 화면을 아직 지나지 않았는가.
     /// ⚠️ 이때는 튜토리얼이 화면을 잡고 있다. 그 위에 결제 창을 얹으면 처음 쓰는 사람이
     ///    무엇을 하라는 건지 보기도 전에 값부터 보게 된다.
     private var isMidFirstShortcut: Bool {
         let d = UserDefaults.standard
         return d.bool(forKey: DefaultsKey.startedFreshV444)
-            && !d.bool(forKey: DefaultsKey.firstShortcutDone)
+            && !d.bool(forKey: DefaultsKey.tutorialWelcomeDone)
     }
 
     /// 지금 화면에 다른 안내가 떠 있지 않은가 - 모달이 모달 위에 얹히는 것을 막는다.
@@ -743,19 +747,12 @@ struct ClipKeyboardApp: App {
     private func insertDefaultSamplesIfNeeded() {
         guard !UserDefaults.standard.bool(forKey: samplesInsertedKey) else { return }
 
-        // ⚠️ 4.4.4 부터 새로 시작하는 사람에게는 샘플을 넣지 않는다.
+        // ⚠️ 새로 시작하는 사람에게 **반드시** 넣는다. 튜토리얼이 가리킬 것이 바로 이것이다.
         //
-        //    넣으면 목록이 비어 있지 않게 되고, 빈 목록 자리에 서는 **온보딩이 아예 안 뜬다.**
-        //    (첫 단축어를 자기 손으로 만드는 것이 이 버전 온보딩의 전부다.)
-        //    다시 안 돌게 플래그는 세워 둔다 - 나중에 하나를 지워 목록이 비었다고
-        //    그제야 샘플이 쏟아지면 안 된다.
-        if UserDefaults.standard.bool(forKey: DefaultsKey.startedFreshV444) {
-            UserDefaults.standard.set(true, forKey: samplesInsertedKey)
-            UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
-            print("🌱 [APP INIT] 새 설치, 샘플 대신 온보딩으로 시작")
-            return
-        }
-
+        //    한동안은 반대로 했다 - 새 설치에는 샘플을 넣지 않고 첫 단축어를 자기 손으로
+        //    만들게 했다. 그런데 처음 온 사람에게 필요한 건 만드는 법이 아니라 **이게 무엇을
+        //    해주는 물건인지**였다. 이제 단축어·템플릿·콤보를 한 벌 넣어 두고,
+        //    튜토리얼은 그것들을 차례로 눌러 보게 한다(`SnippetsTab` · `TutorialScenarios`).
         if performSampleInsertion() {
             UserDefaults.standard.set(true, forKey: samplesInsertedKey)
             UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
@@ -882,6 +879,9 @@ struct ClipKeyboardApp: App {
             AppThemedContainer {
             MainTabView()
                 .environmentObject(storeManager)
+                // 팁은 앱 어디에서 뜨든 **마스코트가 말을 거는 모양**이다.
+                // 여기 한 곳에 걸어 두면 TipView·popoverTip 이 모두 같은 얼굴로 나온다.
+                .tipViewStyle(MascotTipViewStyle())
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif

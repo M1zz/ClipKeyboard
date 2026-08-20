@@ -63,7 +63,7 @@ struct CategorySettings: View {
                         Text(NSLocalizedString("전체", comment: "Category: all"))
                     } icon: {
                         Image(systemName: AppSymbol.squareGrid2x2Fill)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.accentColor)
                     }
                     Spacer()
                     Text(NSLocalizedString("항상 표시", comment: "Category always visible"))

@@ -189,6 +189,7 @@ struct UsagePassportView: View {
 
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: 10) {
+            MascotView(pose: .sleeping, size: 64)
             Text(NSLocalizedString("아직 백지예요", comment: "Usage passport empty state title"))
                 .font(.title3.weight(.bold))
                 .foregroundColor(theme.text)

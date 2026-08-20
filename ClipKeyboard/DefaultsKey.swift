@@ -70,24 +70,21 @@ enum DefaultsKey {
     static let snippetsTabStyle = "snippetsTabStyle.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
-    /// '단축어를 템플릿으로' 장을 목록에서 시작해야 한다는 예약 표식.
-    /// ⚠️ 알림으로만 알리면 **목록이 아직 안 떠 있어 아무도 못 받는다** - 그 장이 통째로 사라진다.
-    ///    화면이 뜬 뒤 스스로 확인할 수 있게 표식으로 남긴다.
-    static let pendingMakeTemplateTutorial = "pendingMakeTemplateTutorial.v1"
-    /// 튜토리얼에서 **만든** 단축어 id 목록(쉼표 구분). 끝난 뒤 "지울까요?"에 쓴다.
-    static let tutorialCreatedMemoIds = "tutorialCreatedMemoIds.v1"
-    /// 그 물음을 이미 했는가 - 한 번만 묻는다.
-    static let tutorialCleanupAsked = "tutorialCleanupAsked.v1"
-    /// 배우는 장(템플릿·템플릿으로 만들기·콤보)을 다 지났는가.
-    /// ⚠️ 개별 완료 표식만으로는 판단하지 않는다 - 조건이 안 되어 조용히 건너뛴 장이 있으면
-    ///    영영 안 끝난 것으로 남는다. 목록의 챕터 기계가 "더 없다"고 알려줄 때 켠다.
+    /// 배우는 장(단축어·템플릿·콤보)을 다 지났는가.
+    /// ⚠️ 개별 완료 표식만으로는 판단하지 않는다 - 가리킬 것이 없어 조용히 건너뛴 장이 있으면
+    ///    영영 안 끝난 것으로 남는다. 챕터 기계가 "더 없다"고 알려줄 때 켠다.
     static let tutorialChaptersDone = "tutorialChaptersDone.v1"
-    /// 튜토리얼에서 방금 만든 단축어 id(UUID 문자열). 무대에서 이 키가 빛나고,
-    /// **그걸 눌러야** 첫 걸음이 끝난다. 누르면 비운다.
+    /// 지금 무대에서 **가리키고 있는** 단축어 id(UUID 문자열). 그 키가 빛나고,
+    /// **그걸 눌러야** 그 장이 끝난다. 누르면 비운다.
     static let tutorialFirstUseMemoId = "tutorialFirstUseMemoId.v1"
     /// 첫 흐름에서 **키보드 켜기 안내까지** 지나왔는가(끝냈든 건너뛰었든).
     /// 없으면 첫 단축어를 만든 직후 키보드 설치 안내가 곧바로 이어진다.
     static let keyboardSetupTutorialDone = "keyboardSetupTutorialDone.v1"
+    /// 단축어 줄을 악어 입속처럼 보이게 하는 장치가 켜져 있는가.
+    /// App Group - 익스텐션이 같은 값을 읽어야 앱과 키보드가 같은 입이 된다.
+    /// ⚠️ 값이 **없는 것**과 false 는 다르다. 없으면 아직 정하지 않았다는 뜻이라
+    ///    새 설치에만 한 번 켜 준다(`ToothStyle.seedDefaultIfNeeded`).
+    static let keyboardToothStyle = "keyboardToothStyle.v1"
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group - 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"
@@ -192,20 +189,30 @@ enum DefaultsKey {
     /// "새 배경 써보시겠어요?" 1회 제안을 이미 답했는지 (App Group)
     static let backgroundOfferResolvedV1 = "backgroundOfferResolved_v1"
 
-    // MARK: - 첫 단축어 온보딩
-    /// 첫 단축어 만들기를 끝냈거나 건너뛰었는지. 안 끝났으면 빈 목록 자리에 광부가 선다.
-    static let firstShortcutDone = "firstShortcut.done.v1"
+    // MARK: - 처음 쓰는 사람이 지나는 길
+    /// 환영 화면("바로 써 볼 수 있게 준비해 뒀어요")을 지났는지. 시작했든 건너뛰었든.
+    ///
+    /// ⚠️ 옛 키(`firstShortcut.done.v1`)를 그대로 쓴다. 4.4.x 에서 첫 단축어를 이미 만들고
+    ///    지나온 사람에게 새 키를 주면 **환영 화면이 다시 뜬다** - 그 사람에게는 다 아는 이야기다.
+    static let tutorialWelcomeDone = "firstShortcut.done.v1"
+    /// 무대의 악어 얼굴을 눌러 도움말을 한 번이라도 열어 봤는지.
+    /// 켜지면 얼굴에 붙던 물음표가 사라진다 - 알고 난 뒤에도 붙어 있으면 잔소리다.
+    static let mascotHelpSeen = "mascotHelpSeen.v1"
+
+    /// 미리보기에서 껍데기 깨는 연출을 몇 번 더 보여줄지. 0 이 되면 조용히 멈춘다.
+    /// 배우는 자리의 연출은 다 배우고 나면 소음이다.
+    static let shellCracksLeft = "shellCracksLeft.v1"
     /// 4.4.4 기본 스킨 씨앗을 이미 뿌렸는지(1회). 두 번 뿌리면 사용자가 바꾼 걸 되돌린다.
     static let skinSeededV444 = "skinSeeded.v444"
-    /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 샘플 생략이
+    /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 튜토리얼이
     /// 같은 판단을 근거로 움직이게 하는 표식이다.
     static let startedFreshV444 = "startedFresh.v444"
-    /// 콤보 튜토리얼을 끝냈거나 거절했는지. 거절도 답이라 다시 묻지 않는다.
-    static let tutorialComboDone = "tutorial.combo.done.v1"
-    /// 템플릿 튜토리얼을 끝냈거나 거절했는지.
+    /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
+    static let tutorialSnippetDone = "tutorial.snippet.done.v1"
+    /// 준비된 템플릿을 한 번 써 봤는지.
     static let tutorialTemplateDone = "tutorial.template.done.v1"
-    /// "있는 단축어를 템플릿으로 바꾸기" 튜토리얼을 끝냈거나 거절했는지.
-    static let tutorialMakeTemplateDone = "tutorial.makeTemplate.done.v1"
+    /// 준비된 콤보를 한 번 써 봤는지.
+    static let tutorialComboDone = "tutorial.combo.done.v1"
 
     // MARK: - 런치 안전장치 (LaunchGuard)
     /// 지금 진행 중인 런치 단계 `"<tier>:<stage>"`. 런치를 끝내면 지운다 (App Group).

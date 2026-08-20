@@ -824,7 +824,7 @@ struct PersonaSelectionView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                         .background(Color.accentColor)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.accentForeground)
                         .font(.headline)
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }

@@ -214,7 +214,7 @@ struct BulkImportView: View {
         Section {
             HStack(spacing: 10) {
                 Image(systemName: "clock.arrow.circlepath")
-                    .foregroundColor(.blue)
+                    .foregroundColor(.accentColor)
                 Text(NSLocalizedString("작성하던 내용을 불러왔어요", comment: "Bulk import: draft restored notice"))
                     .font(.body)
                 Spacer()

@@ -32,7 +32,7 @@ struct ClipboardSuggestionBanner: View {
                         .cornerRadius(theme.radiusSm)
                         .overlay(
                             RoundedRectangle(cornerRadius: theme.radiusSm)
-                                .stroke(Color.blue.opacity(0.5), lineWidth: 2)
+                                .stroke(Color.accentColor.opacity(0.5), lineWidth: 2)
                         )
                 }
 
@@ -81,10 +81,10 @@ struct ClipboardSuggestionBanner: View {
                         .frame(minWidth: 92)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(Color.blue)
+                        .background(Color.accentColor)
                         .foregroundColor(.white)
                         .cornerRadius(theme.radiusSm)
-                        .shadow(color: Color.blue.opacity(0.35), radius: 4, y: 2)
+                        .shadow(color: Color.accentColor.opacity(0.35), radius: 4, y: 2)
                     }
 
                     Button {

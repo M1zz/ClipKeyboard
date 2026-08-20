@@ -143,7 +143,7 @@ struct PlaceholderValueEditor: View {
                     isAdding.toggle()
                 } label: {
                     Image(systemName: isAdding ? "xmark.circle.fill" : "plus.circle.fill")
-                        .foregroundColor(isAdding ? .red : .blue)
+                        .foregroundColor(isAdding ? .red : .accentColor)
                 }
                 .accessibilityLabel(isAdding
                     ? NSLocalizedString("입력 취소", comment: "Cancel value input")
@@ -169,7 +169,7 @@ struct PlaceholderValueEditor: View {
                             }
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
-                            .background(Color.blue.opacity(0.1))
+                            .background(Color.accentColor.opacity(0.1))
                             .cornerRadius(theme.radiusMd)
                         }
                     }
@@ -195,7 +195,7 @@ struct PlaceholderValueEditor: View {
                             .fontWeight(.semibold)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
-                            .background(newValue.isEmpty ? Color.gray : Color.blue)
+                            .background(newValue.isEmpty ? Color.gray : Color.accentColor)
                             .foregroundColor(.white)
                             .cornerRadius(theme.radiusSm)
                     }
@@ -359,8 +359,8 @@ struct ContentInputSection: View {
                                 .font(.body)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(Color.blue.opacity(0.1))
-                                .foregroundColor(.blue)
+                                .background(Color.accentColor.opacity(0.1))
+                                .foregroundColor(.accentColor)
                                 .cornerRadius(theme.radiusSm)
                             }
 
@@ -397,7 +397,7 @@ struct ContentInputSection: View {
 
                             Text(NSLocalizedString("탭하여 사진 선택", comment: "Tap to select photo"))
                                 .font(.body)
-                                .foregroundColor(.blue.opacity(0.8))
+                                .foregroundColor(.accentColor.opacity(0.8))
                                 .multilineTextAlignment(.center)
                         }
                         .frame(maxWidth: .infinity)
@@ -406,7 +406,7 @@ struct ContentInputSection: View {
                         .cornerRadius(theme.radiusMd)
                         .overlay(
                             RoundedRectangle(cornerRadius: theme.radiusMd)
-                                .strokeBorder(Color.blue.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
+                                .strokeBorder(Color.accentColor.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
                         )
                     }
                     .buttonStyle(.plain)
@@ -432,7 +432,7 @@ struct ContentInputSection: View {
                                 } label: {
                                     Label(NSLocalizedString("변경", comment: "Change image"), systemImage: AppSymbol.photoBadgePlus)
                                         .font(.body)
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(.accentColor)
                                 }
                                 Button {
                                     withAnimation(reduceMotion ? nil : .default) { attachedImages.removeAll() }
@@ -775,7 +775,7 @@ struct OCRTextPickerSheet: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
                     .font(.system(.title3))
-                    .foregroundColor(isOn ? .blue : theme.textFaint)
+                    .foregroundColor(isOn ? .accentColor : theme.textFaint)
                     .accessibilityHidden(true)
                 Text(line)
                     .font(.body)
@@ -788,7 +788,7 @@ struct OCRTextPickerSheet: View {
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .stroke(isOn ? Color.blue.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
+                    .stroke(isOn ? Color.accentColor.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -814,7 +814,7 @@ struct OCRTextPickerSheet: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 15)
-                .background(count > 0 ? Color.blue : Color.gray)
+                .background(count > 0 ? Color.accentColor : Color.gray)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
         }
         .buttonStyle(PlainButtonStyle())

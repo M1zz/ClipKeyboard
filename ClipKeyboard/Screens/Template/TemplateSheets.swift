@@ -288,7 +288,7 @@ struct TemplatePlaceholderRow: View {
             }
             Spacer(minLength: 20)
             Image(systemName: isExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
-                .foregroundColor(.blue)
+                .foregroundColor(.accentColor)
                 .font(.system(.title2))
         }
         .padding(16)
@@ -339,7 +339,7 @@ struct TemplatePlaceholderRow: View {
                             } label: {
                                 Image(systemName: AppSymbol.pencilCircleFill)
                                     .font(.system(.title))
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.accentColor)
                             }
                             .accessibilityLabel(String(format: NSLocalizedString("%@ 수정", comment: "Edit value button label"), value.value))
                             .accessibilityHint(NSLocalizedString("이 값을 수정합니다", comment: "Edit value button hint"))

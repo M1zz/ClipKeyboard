@@ -90,8 +90,8 @@ struct ImageAttachmentView: View {
                 } label: {
                     Image(systemName: AppSymbol.docOnDocFill)
                         .font(.body)
-                        .foregroundStyle(.white)
-                        .background(Circle().fill(Color.blue).frame(width: 20, height: 20))
+                        .foregroundStyle(Color.accentForeground)
+                        .background(Circle().fill(Color.accentColor).frame(width: 20, height: 20))
                 }
             }
             .padding(4)

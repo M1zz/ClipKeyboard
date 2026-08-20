@@ -218,7 +218,7 @@ struct SymbolPickerSheet: View {
                     Image(systemName: symbol)
                         .font(.title2)
                         .frame(width: 48, height: 48)
-                        .background(current == symbol ? Color.blue : Color(.systemGray5))
+                        .background(current == symbol ? Color.accentColor : Color(.systemGray5))
                         .foregroundColor(current == symbol ? .white : .primary)
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                 }
