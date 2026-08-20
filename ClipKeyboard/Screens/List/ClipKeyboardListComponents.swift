@@ -127,7 +127,7 @@ struct PastePermissionTipBanner: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
 
-                    Text(NSLocalizedString("설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 바꾸면 팝업 없이 바로 정리돼요.", comment: "Paste permission main tip body"))
+                    Text(NSLocalizedString("설정 → 크로커클립 → 다른 앱에서 붙여넣기 → 허용으로 바꾸면 팝업 없이 바로 정리돼요.", comment: "Paste permission main tip body"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                         .fixedSize(horizontal: false, vertical: true)

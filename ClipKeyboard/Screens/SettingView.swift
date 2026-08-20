@@ -573,7 +573,7 @@ struct SettingView: View {
                     }
                     .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
+                        Text(NSLocalizedString("CrocoClip for Mac", comment: "Mac app intro title"))
                             .font(.body).fontWeight(.semibold)
                         Text(NSLocalizedString("Menu bar access · Global hotkey · iCloud sync", comment: "Mac promo subtitle"))
                             .font(.body).foregroundColor(theme.textMuted)
@@ -1044,7 +1044,7 @@ struct CopyPasteView: View {
                         Image(systemName: AppSymbol.appFill)
                             .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
-                        Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
+                        Text(NSLocalizedString("크로커클립", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
 
@@ -1161,7 +1161,7 @@ struct ReviewWriteView: View {
                         .font(.headline)
                         .padding(.bottom, 4)
 
-                    Text(NSLocalizedString("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
+                    Text(NSLocalizedString("크로커클립가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }

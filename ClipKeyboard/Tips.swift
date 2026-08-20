@@ -50,7 +50,7 @@ struct KeyboardTip: MascotTip {
         Text(NSLocalizedString("키보드에서도 쓸 수 있어요", comment: "Keyboard tip title"))
     }
     var message: Text? {
-        Text(NSLocalizedString("ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.", comment: "Keyboard tip message"))
+        Text(NSLocalizedString("CrocoClip 키보드를 활성화하면 어디서든 바로 입력돼요.", comment: "Keyboard tip message"))
     }
     var mascotPose: MascotPose { .typing }
 

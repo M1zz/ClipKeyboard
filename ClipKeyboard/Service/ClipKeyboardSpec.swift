@@ -14,7 +14,7 @@ import Foundation
 import LeeoKit
 
 enum ClipKeyboardSpec: LeeoAppSpec {
-    static let appName = "ClipKeyboard"
+    static let appName = "CrocoClip"
     static let developerEmail = Constants.developerEmail
 
     /// ClipKeyboard.entitlements에 iCloud.com.Ysoup.FeedbackHub 컨테이너가 있어야 한다.

@@ -124,7 +124,7 @@ class KeyboardViewController: UIInputViewController {
         lockIcon.translatesAutoresizingMaskIntoConstraints = false
 
         let title = UILabel()
-        title.text = NSLocalizedString("Unlock keyboard in ClipKeyboard", comment: "Keyboard locked title")
+        title.text = NSLocalizedString("Unlock keyboard in CrocoClip", comment: "Keyboard locked title")
         title.font = .systemFont(ofSize: 15, weight: .semibold)
         title.textAlignment = .center
         title.numberOfLines = 0

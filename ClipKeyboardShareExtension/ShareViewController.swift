@@ -138,7 +138,7 @@ class ShareViewController: UIViewController {
     }
 
     private func cancel() {
-        extensionContext?.cancelRequest(withError: NSError(domain: "ClipKeyboardShareCancel", code: 0))
+        extensionContext?.cancelRequest(withError: NSError(domain: "CrocoClipShareCancel", code: 0))
     }
 }
 
@@ -244,7 +244,7 @@ private struct ShareSaveView: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("ClipKeyboard에 담기", comment: "Share extension title"))
+            .navigationTitle(NSLocalizedString("CrocoClip에 담기", comment: "Share extension title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -207,7 +207,7 @@ struct SetupStep {
     static let all: [SetupStep] = [
         SetupStep(
             title: NSLocalizedString("키보드를 추가해요", comment: "Setup step 1 title"),
-            description: NSLocalizedString("iPhone 설정에서 클립키보드 키보드를 추가하세요. 딱 한 번만 하면 됩니다.", comment: "Setup step 1 description"),
+            description: NSLocalizedString("iPhone 설정에서 크로커클립 키보드를 추가하세요. 딱 한 번만 하면 됩니다.", comment: "Setup step 1 description"),
             path: [
                 NSLocalizedString("설정", comment: "iOS Settings"),
                 NSLocalizedString("일반", comment: "iOS Settings: General"),
@@ -217,25 +217,25 @@ struct SetupStep {
             kind: .addKeyboard
         ),
         SetupStep(
-            title: NSLocalizedString("ClipKeyboard를 선택해요", comment: "Setup step 2 title"),
-            description: NSLocalizedString("서드파티 키보드 목록에서 'ClipKeyboard'를 찾아 탭하세요.", comment: "Setup step 2 description"),
+            title: NSLocalizedString("CrocoClip를 선택해요", comment: "Setup step 2 title"),
+            description: NSLocalizedString("서드파티 키보드 목록에서 'CrocoClip'를 찾아 탭하세요.", comment: "Setup step 2 description"),
             path: [
-                NSLocalizedString("ClipKeyboard", comment: "Keyboard name in list")
+                NSLocalizedString("CrocoClip", comment: "Keyboard name in list")
             ],
             kind: .addKeyboard
         ),
         SetupStep(
             title: NSLocalizedString("전체 접근을 허용해요", comment: "Setup step 3 title"),
-            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
+            description: NSLocalizedString("키보드 목록에서 CrocoClip를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
             path: [
-                NSLocalizedString("ClipKeyboard", comment: "Keyboard name"),
+                NSLocalizedString("CrocoClip", comment: "Keyboard name"),
                 NSLocalizedString("전체 접근 허용", comment: "Allow Full Access toggle")
             ],
             kind: .fullAccess
         ),
         SetupStep(
             title: NSLocalizedString("준비 완료!", comment: "Setup done title"),
-            description: NSLocalizedString("이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요.", comment: "Setup done description"),
+            description: NSLocalizedString("이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 CrocoClip로 전환하세요.", comment: "Setup done description"),
             path: [],
             kind: .done
         )

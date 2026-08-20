@@ -591,7 +591,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     private func showCelebrationToast() {
-        toastMessage = NSLocalizedString("🎉 첫 붙여넣기 완료! 이제 진짜 ClipKeyboard 사용자예요", comment: "First paste celebration toast")
+        toastMessage = NSLocalizedString("🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요", comment: "First paste celebration toast")
         showToast = true
         #if os(iOS)
         UIAccessibility.post(notification: .announcement, argument: toastMessage)

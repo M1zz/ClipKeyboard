@@ -1010,7 +1010,7 @@ struct ClipKeyboardApp: App {
             // v4.2: ⌃⇧ (Control+Shift) + 영문자 3-key 조합으로 통일.
             // Mac에서 Control+Shift 계열 단축키는 거의 표준 바인딩이 없어
             // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
-            CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
+            CommandMenu(NSLocalizedString("CrocoClip", comment: "App menu name")) {
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
@@ -1041,7 +1041,7 @@ struct ClipKeyboardApp: App {
             }
 
             CommandGroup(replacing: .help) {
-                Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
+                Button(NSLocalizedString("CrocoClip Help", comment: "Menu: help")) {
                     if let url = URL(string: "https://m1zz.github.io/ClipKeyboard/tutorial.html") {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)

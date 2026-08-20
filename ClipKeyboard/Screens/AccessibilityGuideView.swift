@@ -45,7 +45,7 @@ struct AccessibilityGuideView: View {
 
     private var heroSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("ClipKeyboard는 모든 사용자를 위해 설계됐습니다", comment: "Accessibility guide hero title"))
+            Text(NSLocalizedString("CrocoClip는 모든 사용자를 위해 설계됐습니다", comment: "Accessibility guide hero title"))
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(theme.text)

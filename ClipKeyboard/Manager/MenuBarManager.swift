@@ -80,7 +80,7 @@ class MenuBarManager: NSObject {
         addMenuItem(to: menu, title: NSLocalizedString("Clipboard History", comment: "Menu: clipboard history"),
                     action: #selector(clipboardHistoryAction), key: "h")
         addSeparator(to: menu)
-        addMenuItem(to: menu, title: NSLocalizedString("Quit ClipKeyboard", comment: "Menu: quit"),
+        addMenuItem(to: menu, title: NSLocalizedString("Quit CrocoClip", comment: "Menu: quit"),
                     action: #selector(quitAction), key: "q")
 
         // 메뉴를 statusItem에 연결

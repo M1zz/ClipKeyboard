@@ -88,7 +88,7 @@ struct PaywallView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.yellow.gradient)
 
-            Text("ClipKeyboard Pro")
+            Text("CrocoClip Pro")
                 .font(.title)
                 .fontWeight(.bold)
 
@@ -158,7 +158,7 @@ struct PaywallView: View {
         let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
         guard seconds >= 300 else { return nil }
         let minutes = Int(seconds / 60)
-        return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), minutes)
+        return String(format: NSLocalizedString("이미 CrocoClip로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), minutes)
     }
 
     // MARK: - Limit Banner
