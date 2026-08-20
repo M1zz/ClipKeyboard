@@ -1397,10 +1397,15 @@ struct KeyboardView: View {
 
         // 껍데기를 깨서 값을 꺼내는 장면. **미리보기에서, 처음 몇 번만.**
         // 익스텐션은 메모리가 빠듯하고 하루에 수십 번 누르는 자리라 아예 들어가지 않는다.
-        // ⚠️ 삽입을 막거나 늦추지 않는다. 연출은 위에 얹힐 뿐이고, 값은 평소처럼 바로 들어간다.
-        if hostKind == .inApp, crackingMemoId == nil, ShellCrack.consumeBudget() {
-            crackingMemoId = memo.id
-        }
+        //
+        // ⚠️ 예전에는 "삽입을 막거나 늦추지 않는다"였다. 그랬더니 **값이 먼저 들어가고**
+        //    악어가 뒤늦게 깨물었다 - 이미 나와 있는 것을 꺼내는 시늉이라 무슨 그림인지
+        //    알 수 없었다. 깨는 장면이면 깨진 다음에 나와야 한다.
+        //
+        // ⚠️ 화면을 덮는 갈래(템플릿 빈칸·보안 인증·이미지 복사 토스트)는 **더 늦게** 연다.
+        //    먼저 열면 악어가 그 뒤에서 혼자 깨물고 사라진다.
+        let cracking = hostKind == .inApp && crackingMemoId == nil && ShellCrack.consumeBudget()
+        if cracking { crackingMemoId = memo.id }
 
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
@@ -1410,17 +1415,29 @@ struct KeyboardView: View {
             }
         }
 
-        if memo.contentType == .image || memo.contentType == .mixed {
-            copyImageToClipboard(memo: memo)
-            return
+        // 화면을 덮는가 - 그렇다면 악어가 나간 뒤에 연다.
+        let covers = memo.contentType == .image || memo.contentType == .mixed
+            || memo.isSecure
+            || (!bypassTemplate && memo.isTemplate)
+        let delay = cracking ? (covers ? ShellCrack.clearedDelay : ShellCrack.revealDelay) : 0
+
+        let proceed = {
+            if memo.contentType == .image || memo.contentType == .mixed {
+                copyImageToClipboard(memo: memo)
+                return
+            }
+            if memo.isSecure {
+                authenticateAndInsert(memo: memo, bypassTemplate: bypassTemplate)
+                return
+            }
+            insertMemo(memo, bypassTemplate: bypassTemplate)
         }
 
-        if memo.isSecure {
-            authenticateAndInsert(memo: memo, bypassTemplate: bypassTemplate)
-            return
+        if delay > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: proceed)
+        } else {
+            proceed()
         }
-
-        insertMemo(memo, bypassTemplate: bypassTemplate)
     }
 
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {

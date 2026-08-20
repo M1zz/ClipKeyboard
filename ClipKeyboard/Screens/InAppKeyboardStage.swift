@@ -158,10 +158,19 @@ struct InAppKeyboardStage: View {
     ///
     /// ⚠️ **바뀐 게 없으면 키보드를 다시 만들지 않는다.** 다시 만들면 그 순간 화면이 튀고,
     ///    검색어·콤보 위치 같은 그때그때의 상태도 함께 날아간다.
+    ///
+    /// ⚠️ 순서만 달라진 것은 **바뀐 것으로 치지 않는다.** 문구를 한 번 쓰면 `lastEdited` 가
+    ///    갱신되어 목록 순서가 바뀌는데, 그걸 변화로 보면 **누를 때마다 키보드가 통째로
+    ///    다시 만들어졌다.** 그 순간 방금 시작한 연출(껍데기 깨기)이 함께 사라졌고,
+    ///    무엇보다 방금 누른 키가 손가락 밑에서 다른 자리로 튀었다.
+    ///    있고 없고가 달라졌을 때만 다시 만든다.
     private func reloadFeed() {
         KeyboardMemoFeed.reload()
         let ids = clipMemos.map(\.id)
-        guard ids != loadedIds else { return }
+        guard Set(ids) != Set(loadedIds) else {
+            loadedIds = ids     // 순서는 조용히 따라간다(다음 판단의 기준이 되게)
+            return
+        }
         loadedIds = ids
         feedToken += 1
     }

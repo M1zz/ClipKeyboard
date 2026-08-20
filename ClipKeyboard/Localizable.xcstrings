@@ -29374,6 +29374,193 @@
           }
         }
       }
+    },
+    "키보드 켜기" : {
+      "comment" : "Mascot help: turn on the keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on the keyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktifkan keyboard"
+          }
+        }
+      }
+    },
+    "아직 다른 앱에서는 못 써요. 켜는 곳까지 같이 가 드릴게요." : {
+      "comment" : "Mascot help: keyboard setup detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It doesn't work in other apps yet. We'll walk you to the switch."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum bisa dipakai di aplikasi lain. Kami antar sampai tombolnya."
+          }
+        }
+      }
+    },
+    "셋이 뭐가 달라요?" : {
+      "comment" : "Mascot help: what is what header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's the difference?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apa bedanya?"
+          }
+        }
+      }
+    },
+    "눌러서 적힌 그대로 넣어요." : {
+      "comment" : "Mascot help: snippet detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap it and it types exactly what it says."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk dan teksnya masuk apa adanya."
+          }
+        }
+      }
+    },
+    "내 계좌 · 집 주소" : {
+      "comment" : "Mascot help: snippet example",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My account · Home address"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rekening saya · Alamat rumah"
+          }
+        }
+      }
+    },
+    "빈칸만 채우면 나머지는 그대로 완성돼요." : {
+      "comment" : "Mascot help: template detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill the blanks and the rest completes itself."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isi bagian kosongnya, sisanya selesai sendiri."
+          }
+        }
+      }
+    },
+    "{이름}님, 확인했습니다" : {
+      "comment" : "Mascot help: template example",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {name}, got it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halo {nama}, sudah diterima"
+          }
+        }
+      }
+    },
+    "여러 값이 순서대로 하나씩 들어가요." : {
+      "comment" : "Mascot help: combo detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Several values go in, one after another."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beberapa nilai masuk satu per satu."
+          }
+        }
+      }
+    },
+    "이름 → 연락처 → 주소" : {
+      "comment" : "Mascot help: combo example",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name → Phone → Address"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nama → Telepon → Alamat"
+          }
+        }
+      }
+    },
+    "자세한 사용 가이드" : {
+      "comment" : "User guide",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full user guide"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panduan lengkap"
+          }
+        }
+      }
+    },
+    "웹에서 열려요. 더 많은 예시와 화면별 설명이 있어요." : {
+      "comment" : "Mascot help: user guide detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens on the web. More examples and a walkthrough of every screen."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terbuka di web. Lebih banyak contoh dan penjelasan tiap layar."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
