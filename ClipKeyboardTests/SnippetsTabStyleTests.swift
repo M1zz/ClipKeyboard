@@ -159,3 +159,54 @@ struct SnippetsOnboardingStepTests {
         #expect(SnippetsTabStyle.list.toggled.toggled == .list)
     }
 }
+
+// MARK: - 처음 온 사람 · 쓰던 사람
+
+/// ⚠️ 이 갈림길이 어긋나면 가장 나쁜 두 가지가 생긴다.
+///    처음 온 사람이 "새로워졌어요"를 보거나, 쓰던 사람이 이름이 바뀐 걸 아무도 안 알려
+///    줘서 "내가 뭘 지웠나" 하고 앱을 지운다.
+@Suite("LaunchAudience, 앱을 연 사람이 어느 쪽인가")
+struct LaunchAudienceTests {
+
+    private let now = "5.0.0"
+
+    @Test("오늘 처음 받은 사람은 온보딩이 맞이한다. 새 단장 안내는 안 뜬다")
+    func firstLaunchIsNewcomer() {
+        let a = LaunchAudience.resolve(launchCount: 0, startedFresh: true,
+                                       lastSeenWhatsNewVersion: nil, currentWhatsNewVersion: now)
+        #expect(a == .newcomer)
+        #expect(a.showsWhatsNew == false)
+        #expect(a.marksWhatsNewSeenSilently, "본 것으로 표시해 둬야 두 번째 실행에 뒤늦게 안 튀어나온다")
+    }
+
+    @Test("업데이트한 사람은 새 단장을 한 번 본다")
+    func updatedUserSeesWhatsNew() {
+        let a = LaunchAudience.resolve(launchCount: 42, startedFresh: false,
+                                       lastSeenWhatsNewVersion: "4.4.5", currentWhatsNewVersion: now)
+        #expect(a == .returningNeedsWhatsNew)
+        #expect(a.showsWhatsNew)
+    }
+
+    @Test("한 번 본 사람에게 다시 띄우지 않는다")
+    func alreadySeenStaysQuiet() {
+        let a = LaunchAudience.resolve(launchCount: 43, startedFresh: false,
+                                       lastSeenWhatsNewVersion: now, currentWhatsNewVersion: now)
+        #expect(a == .returning)
+        #expect(a.showsWhatsNew == false)
+    }
+
+    @Test("온보딩을 아직 안 끝낸 사람도 두 번째 실행부터는 처음 온 사람이 아니다")
+    func freshButSecondLaunch() {
+        // startedFresh 는 온보딩이 끝날 때까지 켜져 있다. 그것만 보면 매번 처음이 된다.
+        let a = LaunchAudience.resolve(launchCount: 3, startedFresh: true,
+                                       lastSeenWhatsNewVersion: now, currentWhatsNewVersion: now)
+        #expect(a == .returning)
+    }
+
+    @Test("새 단장 안내의 버전이 앱 버전을 따라간다")
+    func whatsNewVersionIsCurrent() {
+        // ⚠️ 내용을 바꾸고 이 값을 안 올리면, 업데이트한 사람은 이미 본 것으로 기록돼 있어
+        //    **새 안내를 한 번도 못 본다.**
+        #expect(WhatsNewContent.version == "5.0.0")
+    }
+}

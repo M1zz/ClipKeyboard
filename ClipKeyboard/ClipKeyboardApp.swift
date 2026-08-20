@@ -385,19 +385,27 @@ struct ClipKeyboardApp: App {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
         let current = WhatsNewContent.version
-        let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
 
-        // 첫 실행(신규 설치)은 안내 대상이 아님 - 본 것으로 표시만 하고 끝.
-        if launchCount <= 1 {
+        // 처음 온 사람인지 쓰던 사람인지는 **한 곳**에서 가른다(`LaunchAudience`).
+        // 여기서 따로 판단하면 온보딩과 어긋나, 처음 온 사람이 "새로워졌어요"를 보게 된다.
+        let audience = LaunchAudience.resolve(
+            launchCount: defaults.integer(forKey: DefaultsKey.appLaunchCount),
+            startedFresh: defaults.bool(forKey: DefaultsKey.startedFreshV444),
+            lastSeenWhatsNewVersion: defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion),
+            currentWhatsNewVersion: current)
+
+        if audience.marksWhatsNewSeenSilently {
             defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
+            print("🎉 [WhatsNew] 처음 온 사람 - 안내 대신 온보딩이 맞이한다")
             return
         }
-
-        guard defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion) != current else { return }
+        guard audience.showsWhatsNew else { return }
+        // 데이터성 알림·리뷰 요청이 떠 있으면 양보한다(모달 중첩 방지). 다음 실행에 다시 온다.
         guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest, !showWhatsNew else { return }
 
         defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
         showWhatsNew = true
+        print("🎉 [WhatsNew] 쓰던 사람에게 \(current) 새 단장 안내")
     }
 
     // MARK: - Feedback Nudge (가끔 의견 요청)
@@ -991,8 +999,11 @@ struct ClipKeyboardApp: App {
                         onPrimaryAction: {
                             showWhatsNew = false
                             // 읽고 닫으면 아무것도 안 달라진다 - 소개한 그 화면으로 직접 데려간다.
-                            UserDefaults.standard.set(SnippetsTabStyle.keyboard.rawValue,
-                                                      forKey: DefaultsKey.snippetsTabStyle)
+                            //
+                            // ⚠️ 5.0 의 목적지는 **사용 기록**이다. 이번 안내에서 가장 크게
+                            //    달라진 것이 거기 있고, 무엇보다 그 화면은 "당신이 이만큼
+                            //    아꼈다"고 말해 준다. 새 단장을 알리는 자리의 끝으로 맞다.
+                            NotificationCenter.default.post(name: .openUsageTab, object: nil)
                         }
                     )
                     .presentationDetents([.large])
@@ -1242,6 +1253,11 @@ struct MainTabView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .showClipboardHistory)) { _ in
             showClipboardSheet = true
+        }
+        // 새 단장 안내에서 "내가 아낀 시간 보기"를 누르면 그 탭으로 데려간다.
+        // ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
+        .onReceive(NotificationCenter.default.publisher(for: .openUsageTab)) { _ in
+            withAnimation(.easeInOut(duration: 0.2)) { selection = .usage }
         }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면

@@ -29561,6 +29561,363 @@
           }
         }
       }
+    },
+    "이름이 크로커클립으로 바뀌었어요" : {
+      "comment" : "What's new title 5.0",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We're CrocoClip now"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sekarang kami CrocoClip"
+          }
+        }
+      }
+    },
+    "쓰던 그 앱이 맞아요. 단축어도, 설정도 그대로 있어요. 이름과 얼굴만 새로 입었어요." : {
+      "comment" : "What's new subtitle 5.0",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Same app you've been using. Your shortcuts and settings are all still here. Only the name and the face are new."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi yang sama. Pintasan dan pengaturan Anda tetap ada. Hanya nama dan wajahnya yang baru."
+          }
+        }
+      }
+    },
+    "홈 화면 아이콘이 달라졌어요" : {
+      "comment" : "What's new 5.0 feature 1 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The home screen icon changed"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikon di layar utama berubah"
+          }
+        }
+      }
+    },
+    "키캡을 문 악어를 찾으세요. 지우고 다시 깔 필요 없어요." : {
+      "comment" : "What's new 5.0 feature 1 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Look for the croc biting a keycap. No need to delete and reinstall."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cari buaya yang menggigit keycap. Tidak perlu hapus dan pasang ulang."
+          }
+        }
+      }
+    },
+    "아낀 시간을 제대로 세기 시작했어요" : {
+      "comment" : "What's new 5.0 feature 2 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We started counting saved time properly"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami mulai menghitung waktu yang dihemat dengan benar"
+          }
+        }
+      }
+    },
+    "치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요." : {
+      "comment" : "What's new 5.0 feature 2 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We used to count only typing time. Now values you had to fetch from another app, like an account number, include the time spent finding them. We also show how we counted."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dulu kami hanya menghitung waktu mengetik. Kini nilai yang harus diambil dari aplikasi lain, seperti nomor rekening, juga menghitung waktu mencarinya. Kami juga menunjukkan cara menghitungnya."
+          }
+        }
+      }
+    },
+    "자랑할 영상을 만들 수 있어요" : {
+      "comment" : "What's new 5.0 feature 3 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make a video worth bragging about"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat video untuk dipamerkan"
+          }
+        }
+      }
+    },
+    "아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요." : {
+      "comment" : "What's new 5.0 feature 3 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your saved time into a 3-second vertical clip, ready for your story."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah waktu yang Anda hemat jadi klip vertikal 3 detik, siap untuk story."
+          }
+        }
+      }
+    },
+    "막히면 악어를 누르세요" : {
+      "comment" : "What's new 5.0 feature 4 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stuck? Tap the croc"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bingung? Ketuk buayanya"
+          }
+        }
+      }
+    },
+    "키보드 미리보기의 악어 얼굴을 누르면, 단축어·템플릿·콤보가 뭐가 다른지 그 자리에서 알려드려요." : {
+      "comment" : "What's new 5.0 feature 4 detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the croc's face on the keyboard preview and we'll explain right there how snippets, templates, and combos differ."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk wajah buaya di pratinjau keyboard dan kami jelaskan langsung bedanya snippet, template, dan combo."
+          }
+        }
+      }
+    },
+    "내가 아낀 시간 보기" : {
+      "comment" : "What's new 5.0 primary button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See the time I saved"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat waktu yang saya hemat"
+          }
+        }
+      }
+    },
+    "이름이 크로커클립으로 바뀌었어요. 쓰던 그 앱이 맞고, 단축어도 설정도 그대로예요" : {
+      "comment" : "Changelog 5.0.0 item 1",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We're CrocoClip now. Same app, and your shortcuts and settings are unchanged"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sekarang kami CrocoClip. Aplikasi yang sama, pintasan dan pengaturan tidak berubah"
+          }
+        }
+      }
+    },
+    "홈 화면 아이콘이 키캡을 문 악어로 바뀌었어요. 지우고 다시 깔 필요 없어요" : {
+      "comment" : "Changelog 5.0.0 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The home screen icon is now a croc biting a keycap. No need to reinstall"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikon layar utama kini buaya menggigit keycap. Tidak perlu pasang ulang"
+          }
+        }
+      }
+    },
+    "아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다" : {
+      "comment" : "Changelog 5.0.0 item 3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We recount saved time. Values you had to fetch from another app now include the time spent finding them"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami menghitung ulang waktu yang dihemat. Nilai yang diambil dari aplikasi lain kini termasuk waktu mencarinya"
+          }
+        }
+      }
+    },
+    "아낀 시간이 어떻게 계산됐는지 사용 기록에서 펼쳐 볼 수 있어요" : {
+      "comment" : "Changelog 5.0.0 item 4",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See exactly how your saved time was counted, in the usage record"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lihat persis bagaimana waktu Anda dihitung, di catatan pemakaian"
+          }
+        }
+      }
+    },
+    "1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요" : {
+      "comment" : "Changelog 5.0.0 item 5",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll tell you when you hit a milestone like a minute, five minutes, or an hour"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami beri tahu saat Anda mencapai satu menit, lima menit, atau satu jam"
+          }
+        }
+      }
+    },
+    "아낀 시간을 3초짜리 세로 영상으로 뽑아 스토리에 올릴 수 있어요" : {
+      "comment" : "Changelog 5.0.0 item 6",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn your saved time into a 3-second vertical clip for your story"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubah waktu yang dihemat jadi klip vertikal 3 detik untuk story"
+          }
+        }
+      }
+    },
+    "환급 영수증에서 픽셀 그림을 빼고 진짜 영수증처럼 바꿨어요" : {
+      "comment" : "Changelog 5.0.0 item 7",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The refund receipt now looks like a real receipt, pixel art removed"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Struk kini tampak seperti struk asli, gambar piksel dihapus"
+          }
+        }
+      }
+    },
+    "키보드 미리보기의 악어를 누르면 단축어·템플릿·콤보가 뭐가 다른지 그 자리에서 알려드려요" : {
+      "comment" : "Changelog 5.0.0 item 8",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the croc on the keyboard preview to learn how snippets, templates, and combos differ"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk buaya di pratinjau keyboard untuk tahu bedanya snippet, template, dan combo"
+          }
+        }
+      }
+    },
+    "단축어를 처음 몇 번 누를 때 악어가 껍데기를 깨서 값을 꺼내 보여줘요" : {
+      "comment" : "Changelog 5.0.0 item 9",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For your first few taps, the croc cracks a shell open to show the value coming out"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk beberapa ketukan pertama, buaya memecah cangkang untuk menunjukkan nilainya keluar"
+          }
+        }
+      }
+    },
+    "처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요" : {
+      "comment" : "Changelog 5.0.0 item 10",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New users are no longer asked to create things. We hand them ready-made shortcuts to try"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengguna baru tidak lagi diminta membuat. Kami siapkan pintasan untuk dicoba"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

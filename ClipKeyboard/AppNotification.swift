@@ -38,6 +38,11 @@ extension Notification.Name {
     static let openQuickNoteAdd = Notification.Name("openQuickNoteAdd")
     static let reviewTriggerClipSaved = Notification.Name("reviewTriggerClipSaved")
     static let reviewTriggerComboCompleted = Notification.Name("reviewTriggerComboCompleted")
+    /// 사용 기록 탭을 연다. 새 단장 안내가 "내가 아낀 시간 보기"로 데려갈 때 쓴다.
+    ///
+    /// ⚠️ 탭 선택은 `MainTabView` 안에만 있는 상태라, 시트를 띄우는 쪽에서 직접 못 바꾼다.
+    ///    알림 한 줄이 두 화면을 잇는 가장 얇은 길이다.
+    static let openUsageTab = Notification.Name("openUsageTab")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showCloudBackup = Notification.Name("showCloudBackup")
     static let showMemoList = Notification.Name("showMemoList")
