@@ -562,6 +562,12 @@ struct KeyboardView: View {
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
                                     ))
+                                    // 껍데기를 깨서 값을 꺼내는 장면. 처음 몇 번만,
+                                    // 미리보기에서만 (`ShellCrackOverlay` 주석 참고).
+                                    .modifier(ShellCrackOverlay(
+                                        active: crackingMemoId == item.memo.id,
+                                        onEnd: { crackingMemoId = nil }
+                                    ))
                                     // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
                                     // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
                                     .overlay {
@@ -1213,6 +1219,12 @@ struct KeyboardView: View {
 
     // MARK: - Combo Split Button (여러 값: 왼쪽 현재 값 삽입 / 오른쪽 → 다음 값)
 
+    /// 지금 껍데기가 깨지고 있는 키. nil 이면 아무 데서도 안 벌어진다.
+    ///
+    /// ⚠️ 미리보기(`hostKind == .inApp`)에서만 값이 들어간다. 익스텐션에서는 이 값이
+    ///    영원히 nil 이라 연출이 그려지지 않는다.
+    @State private var crackingMemoId: UUID?
+
     /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
     @State private var peekMemo: Memo?
     /// 보안 단축어를 길게 눌러 복사하려 했을 때의 안내.
@@ -1382,6 +1394,13 @@ struct KeyboardView: View {
         // ⚠️ 여기서 햅틱을 울리지 않는다. 각 종착지가 자기 피드백을 갖고 있어서
         //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
         //    (일반 삽입 → stamp / 이미지 → 복사 완료 / 보안 → 인증 UI)
+
+        // 껍데기를 깨서 값을 꺼내는 장면. **미리보기에서, 처음 몇 번만.**
+        // 익스텐션은 메모리가 빠듯하고 하루에 수십 번 누르는 자리라 아예 들어가지 않는다.
+        // ⚠️ 삽입을 막거나 늦추지 않는다. 연출은 위에 얹힐 뿐이고, 값은 평소처럼 바로 들어간다.
+        if hostKind == .inApp, crackingMemoId == nil, ShellCrack.consumeBudget() {
+            crackingMemoId = memo.id
+        }
 
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {

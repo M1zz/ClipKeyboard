@@ -1,0 +1,115 @@
+# 마스코트 악어가 서는 자리
+
+앱 안에서 말을 거는 얼굴은 하나다. 이 문서는 **그림이 들어갈 칸의 목록**과 규격이다.
+
+코드는 그림을 고르지 않는다. 순간마다 필요한 표정을 `MascotPose` 로 이름 붙여 두고
+(`ClipKeyboard/DesignSystem/Mascot.swift`), 실제 PNG 는 같은 이름의 에셋 칸에 넣는다.
+**칸이 비어 있으면 조용히 기본 얼굴(`MascotAvatar`)로 대신 그린다.** 그림이 준비되는
+속도와 화면이 나가는 속도를 떼어 놓으려는 배치다. 빈 칸이 있어도 앱은 멀쩡하다.
+
+## 그림 넣는 법
+
+`ClipKeyboard/Assets.xcassets/<이름>.imageset/` 에 1x·2x·3x PNG 를 넣으면 끝이다.
+코드는 고치지 않는다. Xcode 에서 해당 이미지 셋을 열고 세 칸에 끌어다 놓아도 같다.
+
+파일 이름은 자유지만 `MascotGreeting.png` / `@2x` / `@3x` 처럼 맞추면 읽기 쉽다.
+파일명을 다르게 두면 `Contents.json` 의 `filename` 만 그에 맞춰 적는다.
+
+## 규격
+
+- **배경은 비운다(알파 PNG).** 흰 판이 깔린 그림을 넣으면 다크 모드에서 캐릭터를
+  둘러싼 밝은 사각형이 보인다. 온보딩 영상에서 한 번 겪은 일이다.
+- **렌더링 의도는 original.** 새로 만든 칸에는 이미 박아 두었다. 템플릿으로 렌더되면
+  실루엣만 남아 악어가 사라진다.
+- **정사각형에 맞춘다.** 화면에서는 `scaledToFit` 으로 60pt 안팎에 들어간다.
+  3x 기준 180px 이상이면 넉넉하다.
+- **여백을 그림 안에 조금 둔다.** 뒤에 브랜드색 옅은 원을 깔기 때문에, 캐릭터가
+  가장자리에 딱 붙어 있으면 원 밖으로 잘려 보인다.
+- 얼굴만 그린 `MascotAvatar` 는 동그랗게 잘라 쓰므로(프로필 사진) 가운데 정렬이 중요하다.
+
+## 칸 목록
+
+| 에셋 이름 | 포즈 | 쓰이는 자리 | 상태 |
+|---|---|---|---|
+| `MascotAvatar` | 기본 얼굴 | 폴백, 무대 말풍선 프로필 | 있음 |
+| `MascotGreeting` | 손 흔들며 인사 | 환영 팁, 온보딩 | 비어 있음 |
+| `MascotPointing` | 손가락으로 가리킴 | "여기를 눌러보세요"(단축어 추가 팁) | 비어 있음 |
+| `MascotExplaining` | 펼쳐 보이며 설명 | 템플릿·콤보 동작 설명 팁 | 비어 있음 |
+| `MascotTyping` | 키보드를 두드림 | 키보드 설정·연습 안내 | 비어 있음 |
+| `MascotCarrying` | 짐을 안고 옮김 | 보관함에 담기, 백업·복원 | 비어 있음 |
+| `MascotThinking` | 갸웃하며 생각 | 카테고리 제안 팁 | 비어 있음 |
+| `MascotCelebrating` | 두 팔 들고 축하 | 첫 저장, 목표 달성, 구매 완료 | 비어 있음 |
+| `MascotGuarding` | 지키고 섬 | 보안 단축어, 잠금, 개인정보 | 비어 있음 |
+| `MascotBiting` | 껍데기를 깨묾 | 미리보기에서 값을 꺼내는 장면 | 비어 있음 |
+| `MascotSleeping` | 잠들어 있음 | 아무것도 없는 빈 화면 | 비어 있음 |
+| `MascotApologizing` | 머쓱해함 | 오류·실패·복구 안내 | 비어 있음 |
+
+새 포즈가 필요하면 `MascotPose` 에 case 를 하나 추가하고 같은 이름의 imageset 을 만든다.
+
+## 팁에 얼굴을 붙이는 법
+
+팁은 `Tip` 대신 `MascotTip` 을 채택하고 **포즈만 고른다.** 그림을 어디서 가져올지,
+없으면 무엇으로 대신할지는 `MascotPose` 가 정한다.
+
+```swift
+struct WelcomeTip: MascotTip {
+    var title: Text { Text(NSLocalizedString("탭하면 바로 복사돼요", comment: "…")) }
+    var message: Text? { Text(NSLocalizedString("단축어를 탭해보세요.", comment: "…")) }
+    var mascotPose: MascotPose { .greeting }   // 이 한 줄이 전부다
+}
+```
+
+포즈를 안 고르면 기본 얼굴로 말한다. `image` 는 직접 쓰지 않는다.
+
+## 팁이 그려지는 모양
+
+기본 TipKit 카드는 그림을 작은 아이콘 자리에 밀어 넣어서, 캐릭터를 넣어도 **등장했다는
+느낌이 안 난다.** 그래서 `MascotTipViewStyle` 이 왼쪽에 마스코트를 세우고 오른쪽
+말풍선이 그 입에서 나오도록 그린다. 무대(`InAppKeyboardStage`)의 대화 말풍선과 같은 문법이다.
+
+스타일은 `ClipKeyboardApp` 의 루트 한 곳에 걸려 있어서, `TipView` 든 `popoverTip` 이든
+앱 어디에서 뜨는 팁이든 같은 얼굴로 나온다.
+
+⚠️ 이 스타일을 쓰는 팁에는 `.tipBackground(...)` 를 걸지 않는다. 말풍선을 직접 그리므로
+바깥에 판을 하나 더 깔면 풍선 뒤에 빈 카드가 겹쳐 보인다.
+
+## 팁 밖에서 쓰기
+
+`MascotView` 는 어디에나 놓을 수 있다.
+
+```swift
+MascotView(pose: .sleeping, size: 96)                    // 빈 화면
+MascotView(pose: .avatar, size: 34, framing: .badge)     // 말풍선 프로필
+MascotView(pose: .celebrating, size: 120, showsHalo: false)  // 이미 색이 있는 바탕 위
+```
+
+`framing` 은 두 가지다. `.figure` 는 그림 전체를 보여 준다(몸까지 그려진 포즈).
+`.badge` 는 동그랗게 잘라 프로필 사진처럼 쓴다(얼굴 그림).
+`showsHalo` 는 뒤에 까는 브랜드색 옅은 원이다. 캐릭터 그림은 배경이 비어 있어서
+그냥 두면 허공에 뜬 것처럼 보이는데, 이 원이 바닥 노릇을 한다.
+
+## 껍데기를 깨서 값을 꺼내는 장면
+
+미리보기에서 단축어를 누르면 키 위에 껍데기가 씌워지고, 악어가 들어와 깨물고,
+갈라진 틈에서 알맹이가 나온다. 코드는 `ClipKeyboard/DesignSystem/ShellCrack.swift`.
+
+껍데기는 **벡터로 그린다.** 에셋이 필요 없고, 종류를 바꾸려면 `ShellKind.current`
+한 줄만 고치면 된다: `.fortuneCookie`(기본) · `.capsule` · `.acorn`.
+
+⚠️ **이빨 스킨과 같이 서지 못한다.** 같은 키가 이빨이면서 먹이일 수는 없다.
+키가 이빨이면 악어가 자기 이빨을 무는 그림이 된다. 그래서 이 연출을 택하면서
+이빨 스킨은 새 설치에서 켜지지 않게 했다. 설정의 토글은 남아 있다.
+
+⚠️ **익스텐션에서는 돌지 않는다.** `hostKind == .inApp` 일 때만이다.
+익스텐션은 메모리가 빠듯하고, 하루에 수십 번 누르는 자리라 매번 깨지면 방해가 된다.
+미리보기에서도 `ShellCrack.initialBudget`(3회)이 닳으면 조용히 멈춘다.
+
+## 이미 악어가 있는 자리
+
+- 앱 아이콘: 키캡을 문 악어
+- 키 컬러: 마스코트의 녹색
+- 온보딩 환영 화면: 손 흔드는 영상(`Resources/MascotWave.mov`, 알파 HEVC)
+- 무대 말풍선의 프로필
+- 키보드의 단축어 줄: 악어 입속 이빨처럼 보이는 배치(설정에 남아 있으나 새 설치에서는 꺼짐)
+- 미리보기에서 껍데기를 깨무는 장면
+- 팁 전부

@@ -2073,7 +2073,6 @@ struct ClipKeyboardList: View {
                 // 비어 있어도 "추가" 카드를 함께 보여 바로 만들 수 있게.
                 emptyPage(for: tab) {
                     emptyStateWithAddCard(
-                        icon: b.icon,
                         message: String(format: NSLocalizedString("'%@'에 해당하는 단축어가 없습니다", comment: "Built-in category empty state"), b.displayName),
                         tab: tab
                     )
@@ -2086,7 +2085,6 @@ struct ClipKeyboardList: View {
                 // 커스텀 탭은 메모 1개 이상일 때만 노출되지만, 안전망으로 추가 카드 포함.
                 emptyPage(for: tab) {
                     emptyStateWithAddCard(
-                        icon: "folder",
                         message: String(format: NSLocalizedString("'%@'에 단축어가 없습니다", comment: "Custom category empty state"), name),
                         tab: tab
                     )
@@ -2356,8 +2354,9 @@ struct ClipKeyboardList: View {
                 //    샘플을 받지 않고 **자기 손으로 첫 단축어를 만든다**(온보딩).
                 //    지울 예제가 없는 사람에게 예제를 지우라고 묻는 팁이었다.
                 VStack(spacing: 12) {
+                    // ⚠️ tipBackground 를 걸지 않는다. 마스코트 스타일이 말풍선을
+                    //    직접 그리므로, 바깥에 판을 하나 더 깔면 풍선 뒤에 빈 카드가 겹친다.
                     TipView(welcomeTip)
-                        .tipBackground(theme.surface)
                         .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
                 }
                 .padding(.horizontal, 16)
@@ -2540,11 +2539,15 @@ struct ClipKeyboardList: View {
 
     /// 빈 상태 안내(아이콘+문구) - 배경 사진이 있으면 프로스트 유리 패널을 받쳐
     /// 밝은 설경 같은 사진 위에서도 회색 안내가 씻겨 보이지 않게 한다.
-    private func emptyStateMessage(icon: String, message: String) -> some View {
+    /// 아무것도 없는 화면. **기호 대신 마스코트가 자고 있다.**
+    ///
+    /// ⚠️ 예전에는 카테고리마다 다른 SF 기호를 세웠는데, 빈 화면에 회색 기호만 있으면
+    ///    "아직 없는 것"이 아니라 "고장난 것"으로 읽힌다. 문구가 이미 어느 칸이 비었는지
+    ///    말하고 있으므로 기호는 자리만 차지했다. (포즈 그림이 준비되기 전에는
+    ///    기본 얼굴로 대신 그려진다 - `MascotPose`)
+    private func emptyStateMessage(message: String) -> some View {
         VStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.system(size: 44))
-                .foregroundColor(theme.textFaint)
+            MascotView(pose: .sleeping, size: 76)
             Text(message)
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -2561,9 +2564,9 @@ struct ClipKeyboardList: View {
     }
 
     /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
-    private func emptyStateWithAddCard(icon: String, message: String, tab: CategoryTab) -> some View {
+    private func emptyStateWithAddCard(message: String, tab: CategoryTab) -> some View {
         ZStack(alignment: .center) {
-            emptyStateMessage(icon: icon, message: message)
+            emptyStateMessage(message: message)
             VStack {
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     addCard(for: tab)
@@ -2580,7 +2583,6 @@ struct ClipKeyboardList: View {
         ZStack(alignment: .center) {
             // 화면 정 중앙 - 빈 상태 안내
             emptyStateMessage(
-                icon: AppSymbol.heartSlash,
                 message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint")
             )
 

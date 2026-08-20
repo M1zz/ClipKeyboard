@@ -9628,6 +9628,17 @@
         }
       }
     },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        }
+      }
+    },
     "가져오기 완료" : {
       "comment" : "Import completed",
       "localizations" : {
@@ -9664,17 +9675,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Interval"
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
           }
         }
       }
@@ -11221,23 +11221,6 @@
         }
       }
     },
-    "나중에 볼게요" : {
-      "comment" : "Tutorial welcome: skip",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Maybe later"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nanti saja"
-          }
-        }
-      }
-    },
     "나중에 필요한 값만 골라서 쓸 수 있어요." : {
       "comment" : "Combo tutorial: subline",
       "extractionState" : "stale",
@@ -11644,23 +11627,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "눌러 보고 익히세요"
-          }
-        }
-      }
-    },
-    "눌러볼게요" : {
-      "comment" : "Tutorial welcome: start",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Let's try one"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coba sekarang"
           }
         }
       }
@@ -12903,7 +12869,7 @@
       }
     },
     "닫기" : {
-      "comment" : "Close\nClose / dismiss\nClose button\nClose paste tip\nClose paywall\nClose sheet",
+      "comment" : "Close\nClose / dismiss\nClose button\nClose paste tip\nClose paywall\nClose sheet\nClose the tip",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14507,6 +14473,7 @@
     },
     "문구를 넣을 때의 진동과 짧은 연출이에요. 끄면 조용히 입력만 돼요." : {
       "comment" : "Delight effects toggle footer",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -18964,6 +18931,23 @@
         }
       }
     },
+    "악어 입속" : {
+      "comment" : "Croc mouth keyboard toggle title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Croc mouth"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mulut buaya"
+          }
+        }
+      }
+    },
     "안 쓰는 단축어" : {
       "comment" : "Marketing: unused shortcuts",
       "localizations" : {
@@ -21968,6 +21952,23 @@
         }
       }
     },
+    "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요." : {
+      "comment" : "Appearance section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing feedback is the haptic and short animation when text goes in. Turn on Croc mouth and the shortcut rows look like teeth lined up between gums."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umpan balik ketikan adalah getaran dan animasi singkat saat teks dimasukkan. Aktifkan Mulut buaya dan baris pintasan akan tampak seperti gigi yang berjajar di antara gusi."
+          }
+        }
+      }
+    },
     "입력 언어 전환" : {
       "comment" : "Toggle input language key",
       "localizations" : {
@@ -22510,24 +22511,6 @@
         }
       }
     },
-    "전" : {
-      "comment" : "Auto-registered",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ago"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전"
-          }
-        }
-      }
-    },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
       "localizations" : {
@@ -22550,17 +22533,6 @@
         }
       }
     },
-    "저장된 내용을 불러오지 못했어요" : {
-      "comment" : "Data recovery title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We couldn't load your saved data"
-          }
-        }
-      }
-    },
     "저장된 단축어 (키보드에서 보임)" : {
       "comment" : "Saved memos hint label",
       "localizations" : {
@@ -22568,6 +22540,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your Snippets (shown in keyboard)"
+          }
+        }
+      }
+    },
+    "전" : {
+      "comment" : "Auto-registered",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ago"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전"
+          }
+        }
+      }
+    },
+    "저장된 내용을 불러오지 못했어요" : {
+      "comment" : "Data recovery title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't load your saved data"
           }
         }
       }
@@ -23345,6 +23346,108 @@
         }
       }
     },
+    "무엇을 도와드릴까요?" : {
+      "comment" : "Mascot help sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How can I help?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ada yang bisa saya bantu?"
+          }
+        }
+      }
+    },
+    "처음이면 손잡고 한 번 같이 해 봐요. 이미 해 봤다면 필요한 것만 찾아보셔도 돼요." : {
+      "comment" : "Mascot help sheet subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New here? Let's walk through it together. Already know your way around? Just look up what you need."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baru di sini? Mari kita coba bersama. Sudah terbiasa? Cari saja yang Anda butuhkan."
+          }
+        }
+      }
+    },
+    "단축어·템플릿·콤보가 무엇인지, 키보드는 어떻게 켜는지 읽어 보세요." : {
+      "comment" : "Mascot help: user guide detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read about snippets, templates, and combos, and how to turn the keyboard on."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baca tentang pintasan, templat, dan kombo, serta cara mengaktifkan papan ketik."
+          }
+        }
+      }
+    },
+    "읽는 대신 직접 눌러 보면서 배워요. 준비된 것을 하나씩 가리켜 드릴게요." : {
+      "comment" : "Mascot help: tutorial detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn by tapping instead of reading. I'll point at one thing at a time."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belajar dengan mengetuk, bukan membaca. Saya akan menunjuk satu per satu."
+          }
+        }
+      }
+    },
+    "사용 가이드와 튜토리얼로 갈 수 있어요" : {
+      "comment" : "Mascot help button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the user guide and the tutorial"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membuka panduan pengguna dan tutorial"
+          }
+        }
+      }
+    },
+    "준비되었어요" : {
+      "comment" : "Tutorial welcome: start",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I'm ready"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saya siap"
+          }
+        }
+      }
+    },
     "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
       "comment" : "Restart tutorial alert message",
       "localizations" : {
@@ -23579,6 +23682,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Upgrade to Pro now and use it for life"
+          }
+        }
+      }
+    },
+    "지금 말고 다음에 할래요" : {
+      "comment" : "Tutorial welcome: skip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now, later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nanti saja, bukan sekarang"
           }
         }
       }
@@ -24881,29 +25001,6 @@
         }
       }
     },
-    "켜짐" : {
-      "comment" : "On",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        }
-      }
-    },
-    "켠 사용자당 평균 입력" : {
-      "comment" : "Uses per active install",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avg per enabled user"
-          }
-        }
-      }
-    },
     "켬" : {
       "comment" : "Toggle state: on",
       "localizations" : {
@@ -24939,6 +25036,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn on to also type Korean on the keyboard"
+          }
+        }
+      }
+    },
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "켠 사용자당 평균 입력" : {
+      "comment" : "Uses per active install",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avg per enabled user"
           }
         }
       }
@@ -28067,6 +28187,17 @@
         }
       }
     },
+    "한꺼번에 가져오기도 미리 보고" : {
+      "comment" : "What's new 4.4.5 feature title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview your batch imports"
+          }
+        }
+      }
+    },
     "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요" : {
       "comment" : "Changelog 4.4.5 item 1",
       "localizations" : {
@@ -28085,17 +28216,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bulk imported"
-          }
-        }
-      }
-    },
-    "한꺼번에 가져오기도 미리 보고" : {
-      "comment" : "What's new 4.4.5 feature title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preview your batch imports"
           }
         }
       }
@@ -28687,40 +28807,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hint (optional)"
-          }
-        }
-      }
-    },
-    "악어 입속" : {
-      "comment" : "Croc mouth keyboard toggle title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Croc mouth"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mulut buaya"
-          }
-        }
-      }
-    },
-    "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요." : {
-      "comment" : "Appearance section footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Typing feedback is the haptic and short animation when text goes in. Turn on Croc mouth and the shortcut rows look like teeth lined up between gums."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Umpan balik ketikan adalah getaran dan animasi singkat saat teks dimasukkan. Aktifkan Mulut buaya dan baris pintasan akan tampak seperti gigi yang berjajar di antara gusi."
           }
         }
       }

@@ -222,11 +222,16 @@ enum ToothStyle {
         AppGroup.defaults?.set(on, forKey: DefaultsKey.keyboardToothStyle)
     }
 
-    /// 새 설치에 한 번만 켜 준다. 쓰던 사람에게는 손대지 않는다.
+    /// 새 설치의 기본값을 한 번만 정한다. 쓰던 사람에게는 손대지 않는다.
+    ///
+    /// ⚠️ 이제 **새 설치에서도 꺼진 채 시작한다.** 값을 꺼내는 연출(`ShellCrack`)이
+    ///    키를 껍데기로 다루는데, 같은 키가 이빨이면 악어가 자기 이빨을 무는 그림이 된다.
+    ///    둘은 같이 설 수 없어서 앱의 첫인상을 껍데기 쪽으로 정했다.
+    ///    설정의 토글은 그대로 둔다 - 켜 놓고 쓰던 사람 것을 뺏지 않는다.
     static func seedDefaultIfNeeded(startedFresh: Bool) {
         guard let d = AppGroup.defaults,
               d.object(forKey: DefaultsKey.keyboardToothStyle) == nil else { return }
-        d.set(startedFresh, forKey: DefaultsKey.keyboardToothStyle)
+        d.set(false, forKey: DefaultsKey.keyboardToothStyle)
     }
 }
 

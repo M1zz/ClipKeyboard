@@ -879,6 +879,9 @@ struct ClipKeyboardApp: App {
             AppThemedContainer {
             MainTabView()
                 .environmentObject(storeManager)
+                // 팁은 앱 어디에서 뜨든 **마스코트가 말을 거는 모양**이다.
+                // 여기 한 곳에 걸어 두면 TipView·popoverTip 이 모두 같은 얼굴로 나온다.
+                .tipViewStyle(MascotTipViewStyle())
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif

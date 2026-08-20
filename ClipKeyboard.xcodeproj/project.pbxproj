@@ -210,6 +210,7 @@
 		INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
 		INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */; };
+		5AC0DE0700000000000000C2 /* MascotHelpSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */; };
 		INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */; };
 		INFOPLISTBF1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG1 /* InfoPlist.strings */; };
 		INFOPLISTBF2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = INFOPLISTVG2 /* InfoPlist.strings */; };
@@ -232,6 +233,9 @@
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
 		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
+		5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
+		5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
+		5AC0DE0200000000000000A2 /* Mascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0100000000000000A1 /* Mascot.swift */; };
 		TPS0002A2F0000000000000002 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPS0001A2F0000000000000001 /* Tips.swift */; };
 		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
@@ -374,6 +378,8 @@
 		58DL00A42F00000000000000A4 /* GuestCreature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCreature.swift; sourceTree = "<group>"; };
 		58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingSkinSettings.swift; sourceTree = "<group>"; };
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
+		5AC0DE0300000000000000B1 /* ShellCrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCrack.swift; sourceTree = "<group>"; };
+		5AC0DE0100000000000000A1 /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
 		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
@@ -464,6 +470,7 @@
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
 		INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardHost.swift; sourceTree = "<group>"; };
+		5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotHelpSheet.swift; sourceTree = "<group>"; };
 		INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardStage.swift; sourceTree = "<group>"; };
 		INFOPLIST001 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		INFOPLIST002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -803,6 +810,8 @@
 			isa = PBXGroup;
 			children = (
 				58DS00022F0000000000000002 /* AppTheme.swift */,
+				5AC0DE0100000000000000A1 /* Mascot.swift */,
+				5AC0DE0300000000000000B1 /* ShellCrack.swift */,
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
@@ -879,6 +888,7 @@
 			children = (
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
+				5AC0DE0600000000000000C1 /* MascotHelpSheet.swift */,
 				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
@@ -1347,6 +1357,7 @@
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
 				58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
+				5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				D8192B676A21E7537C0D61FA /* UUIDExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
@@ -1384,6 +1395,7 @@
 				INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */,
 				INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */,
 				INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */,
+				5AC0DE0700000000000000C2 /* MascotHelpSheet.swift in Sources */,
 				58C4733C2A109F0D009D87BC /* ClipKeyboardApp.swift in Sources */,
 				QKN0BUILD000000000000001 /* QuickNote.swift in Sources */,
 				QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */,
@@ -1392,6 +1404,8 @@
 				QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */,
 				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
+				5AC0DE0200000000000000A2 /* Mascot.swift in Sources */,
+				5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,

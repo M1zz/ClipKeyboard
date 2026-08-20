@@ -347,7 +347,7 @@ struct TutorialWelcomeView: View {
             .padding(.top, 26)
 
             Button(action: onStart) {
-                Text(NSLocalizedString("눌러볼게요", comment: "Tutorial welcome: start"))
+                Text(NSLocalizedString("준비되었어요", comment: "Tutorial welcome: start"))
                     .font(.body.weight(.semibold))
                     .foregroundColor(theme.accentFg)
                     .frame(maxWidth: .infinity)
@@ -360,9 +360,11 @@ struct TutorialWelcomeView: View {
             .buttonStyle(.plain)
             .padding(.top, 26)
 
-            // 빠져나갈 길은 언제나 열어 둔다 - 붙잡으면 다음에 안 온다.
+            // 빠져나갈 길은 열어 두되, **눈에 덜 띄게** 둔다. 이 튜토리얼은 한 번은
+            // 지나야 하는 길이라 "해볼래요/말래요"의 고르기가 아니다. 그래서 위 버튼은
+            // 권유가 아니라 준비 확인("준비되었어요")이고, 이쪽은 미루기다.
             Button(action: onSkip) {
-                Text(NSLocalizedString("나중에 볼게요", comment: "Tutorial welcome: skip"))
+                Text(NSLocalizedString("지금 말고 다음에 할래요", comment: "Tutorial welcome: skip"))
                     .font(.subheadline)
                     .foregroundColor(theme.textMuted)
                     .padding(.vertical, 12)

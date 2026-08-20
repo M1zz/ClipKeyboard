@@ -496,7 +496,7 @@ struct MemoActionSheet: View {
 /// 메모를 보고 "이 카테고리를 만들어 정리할까요?"를 부드럽게 제안하는 팁.
 /// 메모는 자동 분류로 이미 `category` 값을 갖고 있어, 카테고리를 추가하면 곧바로 모인다.
 /// id에 카테고리 rawValue를 포함 → 카테고리별로 1회씩 노출/무효화가 추적된다.
-struct CategorySuggestionTip: Tip {
+struct CategorySuggestionTip: MascotTip {
     let categoryRawName: String
     let displayName: String
     let count: Int
@@ -513,9 +513,7 @@ struct CategorySuggestionTip: Tip {
                     displayName))
     }
 
-    var image: Image? {
-        Image(systemName: AppSymbol.folderBadgePlus)
-    }
+    var mascotPose: MascotPose { .thinking }
 
     var actions: [Tips.Action] {
         [Tips.Action(id: "create") {
@@ -525,7 +523,7 @@ struct CategorySuggestionTip: Tip {
 }
 
 /// 페르소나에 맞는 카테고리 '이름'을 제안하는 팁. 액션(카테고리명)을 탭하면 그 카테고리를 만든다.
-struct PersonaCategoryTip: Tip {
+struct PersonaCategoryTip: MascotTip {
     let suggestions: [String]
 
     var id: String { "persona-category-suggestion" }
@@ -536,9 +534,7 @@ struct PersonaCategoryTip: Tip {
     var message: Text? {
         Text(NSLocalizedString("선택한 사용 패턴에 맞는 카테고리예요. 탭하면 만들어서 단축어를 한곳에 모을 수 있어요.", comment: "Persona category suggestion tip message"))
     }
-    var image: Image? {
-        Image(systemName: AppSymbol.folderBadgePlus)
-    }
+    var mascotPose: MascotPose { .thinking }
     var actions: [Tips.Action] {
         suggestions.map { name in Tips.Action(id: name) { Text(name) } }
     }
