@@ -266,6 +266,28 @@ struct ShellCrackOverlay: ViewModifier {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    // MARK: 악어를 어디에 놓을 것인가
+    //
+    // ⚠️ 악어 그림의 **입**이 껍데기 위에 와야 무는 그림이 된다. 그림의 가운데가 아니다.
+    //    `MascotBiting` 은 입을 벌린 앞모습이고, 입은 그림의 가로 38% · 세로 29% 자리에 있다.
+    //
+    //    74pt 틀에 `scaledToFit` 로 넣으면 그림은 62×74 가 되어 가로로 5.9pt 씩 남는다.
+    //    그러면 입은 틀 중심에서 (-7.5, -15.5) 만큼 어긋난 곳에 앉는다.
+    //    껍데기는 장면 한가운데(0,0)에 있으므로, 악어를 그만큼 **반대로 밀어야** 입이 온다.
+    //
+    //    ⚠️ 그림을 갈아 끼울 때 **이 값을 같이 안 고치면 허공을 문다.** 실제로 겪었다 -
+    //       입이 위를 향한 앞모습 그림을 그대로 넣었더니 입이 껍데기보다 45pt 위에 떴다.
+    private static let crocSize: CGFloat = 74
+    /// 입이 껍데기에 닿는 자리.
+    ///
+    /// ⚠️ 지금 값은 **기본 얼굴**(`MascotAvatar`, 입 다문 옆모습) 기준이다.
+    ///    `MascotBiting` 그림이 생기면 그 그림의 입 위치에 맞춰 여기를 다시 잡아야 한다.
+    ///    계산법: 그림을 74pt 틀에 `scaledToFit` 했을 때 입이 틀 중심에서 얼마나
+    ///    어긋나는지를 재고, 그 반대로 밀면 입이 껍데기(장면 한가운데)에 온다.
+    private static let crocRest = CGSize(width: 6, height: -30)
+    /// 들어오기 전·나간 뒤에 서 있는 곳(오른쪽 화면 밖).
+    private static let crocAway = CGSize(width: 120, height: -30)
+
     @State private var shellOpacity: Double = 0
     @State private var split: Double = 0
     @State private var crocOffset: CGSize = .zero
@@ -303,7 +325,7 @@ struct ShellCrackOverlay: ViewModifier {
                 Image(ShellCrack.mascotImageName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 74, height: 74)
+                    .frame(width: Self.crocSize, height: Self.crocSize)
                     .rotationEffect(.degrees(crocAngle))
                     .offset(crocOffset)
                     .opacity(crocOpacity)
@@ -331,10 +353,10 @@ struct ShellCrackOverlay: ViewModifier {
         shellOpacity = 1
         split = 0
         crocAngle = 0
-        crocOffset = CGSize(width: 120, height: -30)
+        crocOffset = Self.crocAway
         crocOpacity = 1
         withAnimation(.spring(response: 0.32, dampingFraction: 0.82)) {
-            crocOffset = CGSize(width: 6, height: -30)
+            crocOffset = Self.crocRest
         }
 
         // 330ms - 깨문다.
@@ -352,7 +374,7 @@ struct ShellCrackOverlay: ViewModifier {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.62) {
             withAnimation(.easeInOut(duration: 0.1)) { crocAngle = 0 }
             withAnimation(.easeIn(duration: 0.28)) {
-                crocOffset = CGSize(width: 120, height: -30)
+                crocOffset = Self.crocAway
                 crocOpacity = 0
             }
         }
