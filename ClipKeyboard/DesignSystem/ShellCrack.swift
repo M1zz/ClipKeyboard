@@ -250,6 +250,67 @@ enum ShellCrack {
     }
 }
 
+// MARK: - 입에 물리기
+
+/// 악어가 **무언가를 물고 있는** 한 장.
+///
+/// 입 벌린 악어를 바닥에 깔고, 물릴 물건을 **입 자리에 얹는다.**
+///
+/// ⚠️ 처음에는 반대로 했다 - 물건을 바닥에 두고 악어를 그 위에 얹었다. 그랬더니
+///    **악어 얼굴이 물건을 가려서** 무엇을 무는지가 안 보였다. 물건이 위에 와야 한다.
+///
+/// ⚠️ 입 자리는 **비율로 적는다.** 그림 안에서 입은 가로 38% · 세로 29% 지점에 있고,
+///    이 값은 그림이 커지든 작아지든 변하지 않는다. 픽셀로 적어 두면 크기를 바꿀 때마다
+///    입이 어긋나고, 어긋난 걸 눈으로 찾아 다시 맞추는 일이 반복된다.
+///
+/// ⚠️ 그림을 갈아 끼우면 이 비율도 같이 잰다. 안 재면 허공을 문다(실제로 겪었다).
+struct MascotBitingView<Item: View>: View {
+
+    /// 그림 안에서 입이 있는 자리(가로·세로 비율).
+    /// 재는 법: 그림에서 분홍 혀의 중심을 찾고(가로 0.378 · 세로 0.288), 물릴 것이
+    /// 턱 사이에 들어가 보이도록 조금 위로 올린 값이다. 눈으로 몇 번 맞춰 고른 자리다.
+    static var mouthRatio: CGSize { CGSize(width: 0.38, height: 0.27) }
+    /// 그림의 가로세로비(가로 ÷ 세로). `scaledToFit` 이 만드는 여백을 계산하는 데 쓴다.
+    static var imageAspect: CGFloat { 0.84 }
+
+    /// 악어를 그릴 정사각 틀의 한 변.
+    var size: CGFloat = 120
+    /// 물릴 물건의 크기 - 틀 한 변에 대한 비율.
+    /// ⚠️ 너무 크면 입 밖으로 삐져나와 **무는 게 아니라 얼굴에 얹은 것**이 된다.
+    ///    벌린 턱 사이가 그림 가로의 0.2 남짓이라 그보다 작아야 한다.
+    var itemScale: CGFloat = 0.19
+    /// 물건이 입에 물린 각도.
+    var itemAngle: Double = -12
+
+    @ViewBuilder let item: () -> Item
+
+    /// 물건을 놓을 자리 - 틀 한가운데에서 얼마나 밀 것인가.
+    ///
+    /// `scaledToFit` 은 세로를 꽉 채우고 가로에 여백을 남기므로(이 그림은 세로가 길다),
+    /// 그 여백만큼 더해서 입의 실제 자리를 구한다.
+    private var mouthOffset: CGSize {
+        let inset = size * (1 - Self.imageAspect) / 2          // 좌우 여백
+        let x = inset + Self.mouthRatio.width * size * Self.imageAspect
+        let y = Self.mouthRatio.height * size
+        return CGSize(width: x - size / 2, height: y - size / 2)
+    }
+
+    var body: some View {
+        ZStack {
+            Image(ShellCrack.mascotImageName)
+                .resizable()
+                .scaledToFit()
+
+            item()
+                .frame(width: size * itemScale, height: size * itemScale)
+                .rotationEffect(.degrees(itemAngle))
+                .offset(mouthOffset)
+        }
+        .frame(width: size, height: size)
+        .accessibilityHidden(true)
+    }
+}
+
 // MARK: - 키 위에 얹는 연출
 
 /// 눌린 키 위에서 벌어지는 한 장면. 키 자체는 건드리지 않고 **위에 얹기만** 한다.
@@ -277,16 +338,18 @@ struct ShellCrackOverlay: ViewModifier {
     //
     //    ⚠️ 그림을 갈아 끼울 때 **이 값을 같이 안 고치면 허공을 문다.** 실제로 겪었다 -
     //       입이 위를 향한 앞모습 그림을 그대로 넣었더니 입이 껍데기보다 45pt 위에 떴다.
-    private static let crocSize: CGFloat = 74
+    private static let crocSize: CGFloat = 104
     /// 입이 껍데기에 닿는 자리.
     ///
     /// ⚠️ 지금 값은 **기본 얼굴**(`MascotAvatar`, 입 다문 옆모습) 기준이다.
     ///    `MascotBiting` 그림이 생기면 그 그림의 입 위치에 맞춰 여기를 다시 잡아야 한다.
     ///    계산법: 그림을 74pt 틀에 `scaledToFit` 했을 때 입이 틀 중심에서 얼마나
     ///    어긋나는지를 재고, 그 반대로 밀면 입이 껍데기(장면 한가운데)에 온다.
-    private static let crocRest = CGSize(width: 6, height: -30)
+    private static let crocRest = CGSize(width: 4, height: -6)
     /// 들어오기 전·나간 뒤에 서 있는 곳(오른쪽 화면 밖).
-    private static let crocAway = CGSize(width: 120, height: -30)
+    private static let crocAway = CGSize(width: 150, height: -6)
+    /// 빛이 터지는 자리 - 물린 껍데기가 있는 곳(악어 입).
+    private static let flashOffset = CGSize(width: -6, height: -30)
 
     @State private var shellOpacity: Double = 0
     @State private var split: Double = 0
@@ -317,18 +380,18 @@ struct ShellCrackOverlay: ViewModifier {
                     .frame(width: 54, height: 54)
                     .scaleEffect(0.4 + flash)
                     .opacity(flash)
+                    .offset(Self.flashOffset)
 
-                ShellView(split: split)
-                    .frame(width: 38, height: 38)
-                    .opacity(shellOpacity)
-
-                Image(ShellCrack.mascotImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: Self.crocSize, height: Self.crocSize)
-                    .rotationEffect(.degrees(crocAngle))
-                    .offset(crocOffset)
-                    .opacity(crocOpacity)
+                // ⚠️ 껍데기를 따로 놓고 악어를 그 위에 얹지 않는다. 그러면 **얼굴이
+                //    껍데기를 가려서** 무엇을 무는지가 안 보인다. 껍데기를 악어의 입에
+                //    얹는다 - 물린 것이 위에 와야 물린 것으로 보인다.
+                MascotBitingView(size: Self.crocSize) {
+                    ShellView(split: split)
+                        .opacity(shellOpacity)
+                }
+                .rotationEffect(.degrees(crocAngle))
+                .offset(crocOffset)
+                .opacity(crocOpacity)
             }
             .allowsHitTesting(false)
             .accessibilityHidden(true)
