@@ -274,12 +274,18 @@ struct RefundReceiptView: View {
 
     private var header: some View {
         VStack(spacing: 8) {
-            VaultHero(isOpen: true, pixel: 2)
+            // ⚠️ 픽셀 금고를 걷어냈다. 종이 영수증 위에 도트 그림이 앉아 있으면
+            //    그건 영수증이 아니라 게임 화면이다. 영수증의 머리에 오는 것은
+            //    **가게 이름**이다 - 실제 영수증이 그렇게 생겼다.
+            Text(verbatim: "CROCOCLIP")
+                .font(.system(.title3, design: .monospaced).weight(.black))
+                .kerning(4)
+                .foregroundColor(ink)
 
             Text(NSLocalizedString("환급 영수증", comment: "Refund receipt title"))
-                .font(.system(.headline, design: .monospaced).weight(.bold))
+                .font(.system(.caption, design: .monospaced).weight(.bold))
                 .kerning(2)
-                .foregroundColor(ink)
+                .foregroundColor(inkFaint)
 
             // 기간은 제목만큼 크게 - 나중에 이 종이를 다시 봤을 때 언제 것인지가 먼저 읽혀야 한다.
             Text(receipt.periodLabel)
@@ -377,9 +383,29 @@ struct RefundReceiptView: View {
             Text(NSLocalizedString("기기 안에서만 계산했어요. 어디에도 보내지 않았어요.", comment: "Receipt: privacy footnote"))
                 .font(.system(size: 9, design: .monospaced))
                 .foregroundColor(inkFaint)
+
+            // 영수증의 끝은 바코드다. 없으면 종이 모양의 카드일 뿐이다.
+            ReceiptBarcode(seed: receipt.issuedAt)
+                .fill(ink)
+                .frame(height: 34)
+                .padding(.top, 10)
+                .accessibilityHidden(true)
+
+            Text(barcodeNumber)
+                .font(.system(size: 9, design: .monospaced))
+                .kerning(2)
+                .foregroundColor(inkFaint)
+                .accessibilityHidden(true)
         }
         .multilineTextAlignment(.center)
         .padding(.top, 16)
+    }
+
+    /// 바코드 아래 숫자 - 발행 시각에서 뽑는다. 뜻은 없지만 **같은 종이는 같은 숫자**여야
+    /// 다시 봤을 때 그 종이가 맞다는 느낌이 든다.
+    private var barcodeNumber: String {
+        let stamp = Int(receipt.issuedAt.timeIntervalSince1970)
+        return String(format: "%010d", stamp % 10_000_000_000)
     }
 
     private func coverageText(_ date: Date) -> String {
@@ -517,3 +543,35 @@ extension RefundReceiptView {
     }
 }
 #endif
+
+// MARK: - 바코드
+
+/// 영수증 아래에 찍히는 바코드.
+///
+/// ⚠️ 진짜 바코드가 아니다. 읽히는 코드를 넣으면 스캔했을 때 아무 뜻도 없는 값이 나와
+///    오히려 가짜라는 게 드러난다. **모양만** 영수증의 그것이다.
+///
+/// ⚠️ 굵기는 발행 시각에서 정해진다 - 같은 종이는 언제 다시 그려도 같은 무늬여야 한다.
+///    난수를 쓰면 스크롤할 때마다 무늬가 바뀌어 종이가 살아 움직인다.
+struct ReceiptBarcode: Shape {
+    let seed: Date
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        // 발행 시각을 씨앗으로 한 결정적 수열(선형 합동법) - 기기·시점이 같으면 같은 무늬.
+        var state = UInt64(bitPattern: Int64(seed.timeIntervalSince1970)) &* 6364136223846793005 &+ 1
+        var x = rect.minX
+        while x < rect.maxX {
+            state = state &* 6364136223846793005 &+ 1442695040888963407
+            let pick = Int((state >> 33) % 4)
+            let barWidth = [1.0, 1.0, 2.0, 3.0][pick]
+            let gap = pick == 3 ? 2.0 : 1.0
+            let w = min(barWidth, rect.maxX - x)
+            if w > 0 {
+                path.addRect(CGRect(x: x, y: rect.minY, width: w, height: rect.height))
+            }
+            x += w + gap
+        }
+        return path
+    }
+}

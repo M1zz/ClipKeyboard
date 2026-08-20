@@ -29303,6 +29303,74 @@
           }
         }
       }
+    },
+    "자랑할 영상 만들기" : {
+      "comment" : "Button: make a brag video",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make a video to share"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buat video untuk dibagikan"
+          }
+        }
+      }
+    },
+    "스토리에 바로 올릴 수 있는 3초짜리 세로 영상이에요." : {
+      "comment" : "Button subtitle: brag video",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A 3-second vertical clip, ready for your story."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klip vertikal 3 detik, siap untuk story Anda."
+          }
+        }
+      }
+    },
+    "다시 치지 않아서 아낀 시간" : {
+      "comment" : "Share video: caption above the number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time saved by not retyping"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang dihemat karena tidak mengetik ulang"
+          }
+        }
+      }
+    },
+    "단축어 %d번으로" : {
+      "comment" : "Share video: uses line",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "across %d shortcuts used"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dari %d pemakaian pintasan"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -29,6 +29,15 @@ struct UsagePassportView: View {
     @State private var milestone: SavedTimeMilestone?
     /// 영수증을 뽑은 순간. 발행 시각을 고정해야 시트에서 기간을 바꿔도 시각이 안 흔들린다.
     @State private var receiptRequest: ReceiptRequest?
+    /// 자랑 영상을 만드는 중인가 - 만드는 데 1~2초 걸려서 버튼이 죽은 것처럼 보이면 안 된다.
+    @State private var isRenderingVideo = false
+    /// 다 만들어진 영상. 공유 시트가 이걸 들고 뜬다.
+    @State private var videoToShare: VideoShare?
+
+    private struct VideoShare: Identifiable {
+        let id = UUID()
+        let url: URL
+    }
 
     private struct ReceiptRequest: Identifiable {
         let id = UUID()
@@ -44,6 +53,7 @@ struct UsagePassportView: View {
                     if let milestone { celebration(milestone) }
                     header(summary)
                     groundsSection(summary)
+                    shareVideoButton(summary)
                     receiptButton(summary)
                     stampsSection(summary)
                     footnote(summary)
@@ -59,6 +69,9 @@ struct UsagePassportView: View {
         .onAppear(perform: reload)
         .sheet(item: $receiptRequest) { request in
             RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt)
+        }
+        .sheet(item: $videoToShare) { share in
+            ActivityShareSheet(items: [share.url])
         }
     }
 
@@ -96,6 +109,71 @@ struct UsagePassportView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: - 자랑 영상
+
+    /// 아낀 시간을 세로 영상으로 뽑아 공유 시트로 넘긴다.
+    ///
+    /// ⚠️ 이미지가 아니라 영상인 이유는 **자랑이 숫자가 아니라 숫자가 올라가는 장면에서**
+    ///    생기기 때문이다. 멈춘 그림은 스크롤에 묻히고, 3초간 굴러 올라가는 숫자는 눈이 따라간다.
+    ///
+    /// ⚠️ 만드는 동안 버튼을 잠그고 도는 표시를 둔다. 1~2초가 걸리는데 아무 반응이 없으면
+    ///    사람은 버튼이 고장 난 줄 알고 한 번 더 누른다.
+    @ViewBuilder
+    private func shareVideoButton(_ summary: UsagePassport.Summary) -> some View {
+        if summary.timeSavedSeconds > 0 {
+            Button {
+                makeShareVideo(summary)
+            } label: {
+                HStack(spacing: 12) {
+                    if isRenderingVideo {
+                        ProgressView().frame(width: 26, height: 26)
+                    } else {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.title3.weight(.semibold))
+                            .frame(width: 26, height: 26)
+                    }
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("자랑할 영상 만들기", comment: "Button: make a brag video"))
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(theme.accentFg)
+                        Text(NSLocalizedString("스토리에 바로 올릴 수 있는 3초짜리 세로 영상이에요.",
+                                               comment: "Button subtitle: brag video"))
+                            .font(.caption)
+                            .foregroundColor(theme.accentFg.opacity(0.8))
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                        .fill(theme.accent)
+                )
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .disabled(isRenderingVideo)
+        }
+    }
+
+    private func makeShareVideo(_ summary: UsagePassport.Summary) {
+        guard !isRenderingVideo else { return }
+        isRenderingVideo = true
+        HapticManager.shared.light()
+        Task {
+            defer { isRenderingVideo = false }
+            do {
+                let url = try await ShareVideoRenderer.render(totalSeconds: summary.timeSavedSeconds,
+                                                              totalUses: summary.totalUses)
+                videoToShare = VideoShare(url: url)
+            } catch {
+                // ⚠️ 조용히 실패하지 않는다. 눌렀는데 아무 일도 안 일어나면 그게 가장 나쁘다.
+                print("❌ [UsagePassport] 자랑 영상 만들기 실패: \(error)")
+                HapticManager.shared.error()
+            }
+        }
     }
 
     // MARK: - 머리말
@@ -377,4 +455,23 @@ struct UsagePassportView: View {
             }
         }
     }
+}
+
+// MARK: - 공유 시트
+
+/// 파일 하나를 시스템 공유 시트에 넘긴다.
+///
+/// ⚠️ `ShareLink` 를 쓰지 않는다. 그건 누를 때 이미 물건이 있어야 하는데, 영상은
+///    누른 뒤에 만들어진다. 다 만든 다음 이 시트를 띄우는 편이 순서가 맞다.
+///
+/// ⚠️ 영상 파일을 넘기면 스토리에 올릴 수 있는 앱들이 시트에 나타난다. 우리가 특정
+///    앱을 직접 열지 않는다 - 어디에 올릴지는 사용자가 고를 일이다.
+struct ActivityShareSheet: UIViewControllerRepresentable {
+    let items: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+
+    func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }
