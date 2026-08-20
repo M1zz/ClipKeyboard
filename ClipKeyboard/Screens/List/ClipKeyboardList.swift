@@ -3038,6 +3038,10 @@ struct ClipKeyboardList: View {
     /// 다 지워서 비었을 때. 첫 온보딩을 이미 지난 사람에게 안내를 다시 깔지 않는다.
     private var minimalEmptyState: some View {
         VStack(spacing: 16) {
+            // 빈 화면은 **아무 말도 안 하는 화면**이다. 글 한 줄만 있으면 "고장인가"로도
+            // 읽힌다. 턱 괴고 기다리는 악어가 있으면 그 자체로 "아직 없다"가 된다.
+            MascotView(pose: .thinking, size: 120, framing: .figure)
+
             Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)

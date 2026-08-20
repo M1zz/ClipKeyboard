@@ -151,3 +151,4 @@ enum AppSymbol {
     static let xmarkCircle = "xmark.circle"
     static let xmarkCircleFill = "xmark.circle.fill"
 }
+

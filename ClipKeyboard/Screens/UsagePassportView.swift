@@ -320,13 +320,9 @@ struct UsagePassportView: View {
     ///    없애는 버튼은 할 일만 하나 늘린다.
     private func celebration(_ milestone: SavedTimeMilestone) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            Image("MascotAvatar")
-                .resizable()
-                .scaledToFill()
-                .frame(width: 44, height: 44)
-                .background(Circle().fill(theme.accentSoft))
-                .clipShape(Circle())
-                .accessibilityHidden(true)
+            // ⚠️ 여기만 얼굴이 아니라 **온몸**이다. 축하하는 자리에서 얼굴만 동그랗게
+            //    떠 있으면 프로필이고, 두 손 든 몸이 있어야 축하가 된다.
+            MascotView(pose: .celebrating, size: 64, framing: .figure)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(milestone.localizedTitle)

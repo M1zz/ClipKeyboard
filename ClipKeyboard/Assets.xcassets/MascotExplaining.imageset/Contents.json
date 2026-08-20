@@ -1,14 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "MascotExplaining.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "MascotExplaining@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "MascotExplaining@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
