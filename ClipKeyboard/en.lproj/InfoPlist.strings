@@ -4,7 +4,7 @@
 */
 
 /* App display name */
-"CFBundleDisplayName" = "CrocoClip";
+"CFBundleDisplayName" = "ClipKeyboard";
 
 /* Camera permission (bulk import OCR) */
 "NSCameraUsageDescription" = "Camera access is needed to capture cards or documents and recognize their text.";

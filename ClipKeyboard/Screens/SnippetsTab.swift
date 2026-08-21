@@ -95,27 +95,59 @@ enum SnippetsOnboardingStep: Equatable {
     case welcome
     /// ② 넣어 둔 것을 **무대에서 차례로 눌러 본다** (단축어 → 템플릿 → 콤보).
     case tryScenarios
-    /// ③ 마지막에 진짜 키보드 켜기 - 이미 켜져 있으면 건너뛴다.
+    /// ③ **직접 하나 만들어 본다.** 남의 것을 눌러 본 다음에 오는 걸음이다.
+    case makeOwn
+    /// ④ 마지막에 진짜 키보드 켜기 - 이미 켜져 있으면 건너뛴다.
     case keyboardSetup
     /// 다 지났다. 평소 화면으로.
     case done
 
-    /// 순서: 환영 → 써 보기 → 키보드 설정.
+    /// 안내를 밀어 둔 지 얼마나 지나면 다시 데려오는가(초).
+    ///
+    /// ⚠️ **영영 끝나는 표식을 두지 않는다.** 예전에는 안내 화면을 닫기만 해도
+    ///    "지났다"로 못박아서, 설정에 다녀오지 않은 사람에게는 다시는 안 떴다.
+    ///    그 사람은 이 앱을 **다른 앱에서 한 번도 못 써 본 채로** 남는다.
+    ///    키보드를 켜지 않으면 이 앱은 아무것도 아니라서, 그건 조용히 잃는 것이다.
+    ///
+    /// ⚠️ 그렇다고 열 때마다 전체 화면으로 막아서면 그것도 앱을 닫게 만든다.
+    ///    하루에 한 번까지만 데려오고, 그 사이에는 무대의 띠가 대신 말한다
+    ///    (`InAppKeyboardStage.keyboardSetupBanner` - 그건 늘 떠 있다).
+    static let setupSnooze: TimeInterval = 24 * 60 * 60
+
+    /// 순서: 환영 → 써 보기 → 직접 만들기 → 키보드 설정.
+    ///
+    /// ⚠️ **직접 만들기가 맨 앞이 아니라 여기 있는 이유.** 처음 온 사람에게 빈 칸부터
+    ///    내밀면 무엇을 적어야 할지 모른다. 단축어·템플릿·콤보를 눌러 보고 나면
+    ///    "아, 나는 이런 걸 넣으면 되겠다"가 생긴다. 그때 만들게 한다.
+    ///
+    /// ⚠️ 예전에는 콤보를 눌러 본 뒤 **아무 걸음도 없었다.** 키보드를 이미 켜 둔 사람은
+    ///    거기서 튜토리얼이 끝나 버려, 셋을 눌러 본 것으로 끝나고 자기 것은 하나도
+    ///    없는 채로 남았다. 눌러 보는 것과 갖는 것은 다르다.
     ///
     /// ⚠️ 키보드 설정이 **맨 뒤**인 이유: 설정 앱으로 나갔다 오는 일이라 흐름이 가장 크게 끊긴다.
     ///    써 볼 것을 다 써 본 뒤에 "이제 다른 앱에서도 쓰려면" 으로 이어져야 나갔다 돌아올 이유가
     ///    분명하다. (무대에서 눌러 보는 데에는 진짜 키보드가 켜져 있을 필요가 없다.)
+    /// - Parameters:
+    ///   - keyboardUsable: **하나뿐인 진실.** 켜져 있으면 다시 묻지 않는다.
+    ///   - setupSnoozedAt: 안내를 마지막으로 밀어 둔 시각. nil 이면 민 적 없다.
     static func current(startedFresh: Bool,
                         welcomeDone: Bool,
                         chaptersDone: Bool,
-                        keyboardSetupDone: Bool,
-                        keyboardUsable: Bool) -> SnippetsOnboardingStep {
+                        makeOwnDone: Bool,
+                        keyboardUsable: Bool,
+                        setupSnoozedAt: Date? = nil,
+                        now: Date = Date()) -> SnippetsOnboardingStep {
         guard startedFresh else { return .done }
         if !welcomeDone { return .welcome }
         if !chaptersDone { return .tryScenarios }
-        // 이미 켜 둔 사람에게 켜는 법을 가르치지 않는다.
-        if !keyboardSetupDone, !keyboardUsable { return .keyboardSetup }
-        return .done
+        if !makeOwnDone { return .makeOwn }
+        // 이미 켜 둔 사람에게 켜는 법을 가르치지 않는다 - 여기가 유일한 종료 조건이다.
+        guard !keyboardUsable else { return .done }
+        // 아직 안 켰다. 방금 밀어 둔 게 아니라면 다시 데려온다.
+        if let snoozed = setupSnoozedAt, now.timeIntervalSince(snoozed) < setupSnooze {
+            return .done
+        }
+        return .keyboardSetup
     }
 }
 
@@ -177,8 +209,11 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialWelcomeDone) private var welcomeDone: Bool = false
     /// 이 기기가 4.4.4 이후로 처음 시작했는가 - 쓰던 사람에게 튜토리얼을 다시 깔지 않기 위한 표식.
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
-    /// 키보드 켜기 안내까지 지나왔는가(끝냈든 건너뛰었든).
-    @AppStorage(DefaultsKey.keyboardSetupTutorialDone) private var keyboardSetupDone: Bool = false
+    /// 키보드 켜기 안내를 마지막으로 밀어 둔 시각(1970 기준 초). 0이면 민 적 없다.
+    ///
+    /// ⚠️ 예전의 `keyboardSetupTutorialDone`(영영 끝) 을 대신한다. 닫았다는 것과
+    ///    켰다는 것은 다른 일인데 같은 표식을 쓰고 있었다.
+    @AppStorage(DefaultsKey.keyboardSetupSnoozedAt) private var keyboardSetupSnoozedAt: Double = 0
     /// 지금 무대에서 가리키고 있는 단축어 id - 아직 안 눌러 봤으면 값이 남아 있다.
     @AppStorage(DefaultsKey.tutorialFirstUseMemoId) private var firstUseMemoIdRaw: String = ""
     /// 써 보는 장(단축어 → 템플릿 → 콤보) 완료 표식.
@@ -187,8 +222,14 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialComboDone) private var tutorialComboDone: Bool = false
     /// 챕터 기계가 "더 가리킬 것이 없다"고 알려주면 켜진다.
     @AppStorage(DefaultsKey.tutorialChaptersDone) private var chaptersFinished: Bool = false
+    /// 직접 하나 만들어 보는 걸음을 지났는가(만들었든 미뤘든).
+    @AppStorage(DefaultsKey.tutorialMakeOwnDone) private var makeOwnDone: Bool = false
+    /// 샘플을 치울지 물어봤는가 - 답이 무엇이든 한 번만 묻는다.
+    @AppStorage(DefaultsKey.tutorialSampleCleanupAsked) private var sampleCleanupAsked: Bool = false
 
     @State private var showOffer = false
+    /// 연습용 단축어를 치울지 묻는 알림.
+    @State private var showSampleCleanup = false
     /// 다음 장까지 도는 원이 끝나는 시각. nil 이면 안 보인다.
     @State private var countdownEndsAt: Date?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -207,8 +248,10 @@ struct SnippetsTab: View {
                  welcomeDone: welcomeDone,
                  chaptersDone: chaptersFinished
                      || (tutorialSnippetDone && tutorialTemplateDone && tutorialComboDone),
-                 keyboardSetupDone: keyboardSetupDone,
-                 keyboardUsable: KeyboardInstallState.isUsable)
+                 makeOwnDone: makeOwnDone,
+                 keyboardUsable: KeyboardInstallState.isUsable,
+                 setupSnoozedAt: keyboardSetupSnoozedAt > 0
+                     ? Date(timeIntervalSince1970: keyboardSetupSnoozedAt) : nil)
     }
 
     /// 누른 뒤 **입력된 걸 보여주는** 시간(초).
@@ -241,14 +284,24 @@ struct SnippetsTab: View {
                 )
                 .transition(screenTransition)
             case .keyboardSetup:
-                KeyboardSetupOnboardingView { keyboardSetupDone = true }
-                    .transition(screenTransition)
+                // ⚠️ 닫았다고 끝난 것으로 치지 않는다. **켜졌는지 지금 확인**하고,
+                //    아직이면 하루만 밀어 둔다(`SnippetsOnboardingStep.setupSnooze`).
+                KeyboardSetupOnboardingView {
+                    if KeyboardInstallState.isUsable {
+                        keyboardSetupSnoozedAt = 0
+                        print("⌨️ [SnippetsTab] 키보드 켜진 것 확인, 안내 종료")
+                    } else {
+                        keyboardSetupSnoozedAt = Date().timeIntervalSince1970
+                        print("⌨️ [SnippetsTab] 아직 안 켜짐, 하루 뒤 다시 안내")
+                    }
+                }
+                .transition(screenTransition)
 
             // ⚠️ 이 둘을 **한 분기로 묶는다.** 나눠 두면 단계가 바뀔 때 SwiftUI가 무대를
             //    다른 뷰로 보고 새로 만든다 - 그 순간 입력창을 들고 있던 객체도 새것이 되어
             //    **방금 넣은 글이 사라진다.** 눌러서 배운 결과가 눈앞에서 지워지는 셈이다.
             //    (가리키는 키는 뷰를 갈아 끼우지 않고 `highlightedMemoId` 값만 바뀌면 된다)
-            case .tryScenarios, .done:
+            case .tryScenarios, .makeOwn, .done:
                 switch style {
                 case .list:
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
@@ -258,7 +311,9 @@ struct SnippetsTab: View {
                 case .keyboard:
                     InAppKeyboardStage(styleRaw: $styleRaw,
                                        highlightedMemoId: highlightedMemoId,
-                                       tutorialLine: nextChapter?.coachLine)
+                                       tutorialLine: nextChapter?.coachLine,
+                                       asksToMakeOwn: onboardingStep == .makeOwn,
+                                       onMakeOwnSkipped: { finishMakeOwn() })
                         .transition(screenTransition)
                 }
             }
@@ -278,12 +333,31 @@ struct SnippetsTab: View {
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeChapter)
+        // 자기 것을 하나라도 만들면 그 걸음은 끝난다 - 어디서 만들었든(무대의 +, 목록, 공유 시트).
+        .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+            completeMakeOwnIfMadeSomething()
+        }
         .onAppear {
             offerKeyboardStageIfNeeded()
             resumeTutorialIfStalled()
+            completeMakeOwnIfMadeSomething()
+            askToCleanUpSamplesIfNeeded()
         }
         // 걸음이 바뀌어 무대로 들어왔는데 가리키는 것이 없으면 여기서 이어 붙인다.
-        .onChange(of: onboardingStep) { _, _ in resumeTutorialIfStalled() }
+        .onChange(of: onboardingStep) { _, _ in
+            resumeTutorialIfStalled()
+            askToCleanUpSamplesIfNeeded()
+        }
+        .alert(NSLocalizedString("연습용 단축어를 치울까요?", comment: "Sample cleanup title"),
+               isPresented: $showSampleCleanup) {
+            Button(NSLocalizedString("치우기", comment: "Sample cleanup: delete"), role: .destructive) {
+                deleteSampleMemos()
+            }
+            Button(NSLocalizedString("그대로 둘게요", comment: "Sample cleanup: keep"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
+                                   comment: "Sample cleanup message"))
+        }
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
             Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
@@ -401,6 +475,69 @@ struct SnippetsTab: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + gap) {
             withAnimation(.easeOut(duration: 0.2)) { countdownEndsAt = nil }
             openNextChapter()
+        }
+    }
+
+    // MARK: - 직접 만들어 보기
+
+    /// 자기 것을 하나라도 갖고 있으면 이 걸음은 끝난 것이다.
+    ///
+    /// ⚠️ **어디서 만들었는지는 묻지 않는다.** 무대의 +, 목록의 +, 공유 시트, 스타터팩
+    ///    어느 길로 들어왔든 자기 단축어가 생겼으면 배운 것이다. 특정 버튼을 누르게
+    ///    강요하면 그건 배우는 것이 아니라 시키는 대로 하는 것이다.
+    ///
+    /// ⚠️ 심어 준 샘플은 자기 것이 아니다(`SampleMemoStorage`). 그걸 세면 첫 실행에
+    ///    이미 넷을 갖고 있으므로 이 걸음이 열리자마자 닫힌다.
+    private func completeMakeOwnIfMadeSomething() {
+        guard onboardingStep == .makeOwn else { return }
+        let seeded = SampleMemoStorage.load()
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        guard memos.contains(where: { !seeded.contains($0.id) }) else { return }
+        finishMakeOwn()
+    }
+
+    /// 만들었든 미뤘든 이 걸음을 지난 것으로 둔다.
+    private func finishMakeOwn() {
+        guard !makeOwnDone else { return }
+        withAnimation(.easeInOut(duration: 0.28)) { makeOwnDone = true }
+        print("🎓 [SnippetsTab] 직접 만들기 걸음 종료")
+    }
+
+    // MARK: - 연습용 단축어 치우기
+
+    /// 다 지나고 나면 **한 번만** 묻는다.
+    ///
+    /// ⚠️ 묻는 자리를 여기 둔 이유: 자기 것을 만들기 전에 물으면 "치우기"를 고른 사람의
+    ///    화면이 텅 빈다. 만들고 난 뒤라야 치워도 남는 것이 있다.
+    ///
+    /// ⚠️ 답이 무엇이든 다시 묻지 않는다. 지울지 말지는 한 번 고르면 그만인 일이고,
+    ///    남겨 둔 사람에게 되풀이해 물으면 그건 묻는 게 아니라 재촉하는 것이다.
+    ///    (나중에 마음이 바뀌면 목록에서 그냥 지우면 된다)
+    private func askToCleanUpSamplesIfNeeded() {
+        guard startedFresh, onboardingStep == .done, !sampleCleanupAsked else { return }
+        guard !SampleMemoStorage.load().isEmpty else {
+            sampleCleanupAsked = true   // 이미 지운 사람에게 물을 것이 없다
+            return
+        }
+        sampleCleanupAsked = true
+        // 화면이 자리를 잡은 뒤에 - 마지막 걸음이 끝나는 순간에 겹쳐 뜨면 무엇에 대한 물음인지 안 보인다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            showSampleCleanup = true
+        }
+    }
+
+    /// 심어 준 것만 지운다 - 사용자가 만든 것은 건드리지 않는다.
+    private func deleteSampleMemos() {
+        let sampleIds = SampleMemoStorage.load()
+        guard !sampleIds.isEmpty else { return }
+        do {
+            let all = try MemoStore.shared.load(type: .memo)
+            try MemoStore.shared.save(memos: all.filter { !sampleIds.contains($0.id) }, type: .memo)
+            SampleMemoStorage.clear()
+            NotificationCenter.default.post(name: .memoDataChanged, object: nil)
+            print("🗑️ [SnippetsTab] 연습용 단축어 \(sampleIds.count)개 정리")
+        } catch {
+            print("❌ [SnippetsTab.deleteSampleMemos] 실패: \(error)")
         }
     }
 

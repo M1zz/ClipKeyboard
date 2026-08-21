@@ -128,15 +128,27 @@ struct KeyboardSetupOnboardingView: View {
                         }
 
                         // Next / Done
-                        if currentPage < steps.count - 1 {
+                        if currentPage == 2 {
+                            // ⚠️ 여기서 **말로 넘어가지 않는다.** 예전에는 "설정 완료"를 누르면
+                            //    그대로 다음 장으로 갔다. 설정에 다녀오지 않은 사람도 눌렀고,
+                            //    그러면 켜지지도 않은 채로 "다 됐다"가 되었다.
+                            //    이제 누르면 **실제로 켜졌는지 본다.**
+                            Button(action: verifySetup) {
+                                Text(NSLocalizedString("네, 켰어요", comment: "Setup confirm button"))
+                                    .font(.headline.weight(.semibold))
+                                    .foregroundColor(theme.accentFg)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(theme.accent)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                            }
+                        } else if currentPage < steps.count - 1 {
                             Button {
                                 withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
                                     currentPage += 1
                                 }
                             } label: {
-                                Text(currentPage == 2
-                                     ? NSLocalizedString("설정 완료", comment: "Setup done button")
-                                     : NSLocalizedString("다음", comment: "Next button"))
+                                Text(NSLocalizedString("다음", comment: "Next button"))
                                     .font(.headline.weight(.semibold))
                                     .foregroundColor(theme.accentFg)
                                     .frame(maxWidth: .infinity)
@@ -175,6 +187,23 @@ struct KeyboardSetupOnboardingView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                     withAnimation { currentPage = steps.count - 1 }
                 }
+            }
+        }
+    }
+
+    /// "네, 켰어요" - **말이 아니라 사실을 본다.**
+    ///
+    /// ⚠️ 못 찾았다고 나무라지 않는다. 켜는 자리가 헷갈리는 것은 흔한 일이고,
+    ///    여기서 "안 하셨네요"로 읽히면 사람은 화면을 닫는다. 어디가 막혔는지
+    ///    한 줄로 다시 알려 주고 그 자리에 세워 둔다.
+    private func verifySetup() {
+        withAnimation(.easeInOut(duration: 0.2)) { setupStatus = .checking }
+        // 시스템이 `AppleKeyboards` 를 비추는 데 한 박자 걸린다 - 곧바로 물으면 방금 켠 것도 못 본다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            let on = KeyboardInstallState.isUsable
+            withAnimation(.easeInOut(duration: 0.3)) {
+                setupStatus = on ? .confirmed : .notFound
+                if on { currentPage = steps.count - 1 }
             }
         }
     }

@@ -128,4 +128,21 @@ enum UsagePassport {
         }
         return String(format: NSLocalizedString("%d분", comment: "Duration: minutes only"), minutes)
     }
+
+    /// 내역 줄에 쓰는 표기 - **1분 아래도 숫자로 적는다.**
+    ///
+    /// ⚠️ 큰 숫자(`timeSavedText`)는 1분 아래를 nil 로 돌려준다. 40초를 자랑거리로
+    ///    내밀지 않으려는 뜻이고, 그건 그대로 둔다.
+    ///
+    /// ⚠️ 그런데 **내역 줄에까지 그 규칙을 쓰면** 몇 번 안 써 본 사람의 화면이
+    ///    "0분 / 0분" 이 된다. 셈을 펼쳐 보이려고 만든 자리가 "아껴 준 게 없다"는
+    ///    말을 하게 되는 것이다. 내역은 자랑이 아니라 **근거**라서, 작아도 있는
+    ///    그대로 적어야 한다.
+    static func breakdownText(seconds: Double) -> String {
+        let total = Int(max(0, seconds.rounded()))
+        guard total >= 60 else {
+            return String(format: NSLocalizedString("%d초", comment: "Duration: seconds only"), total)
+        }
+        return timeSavedText(seconds: Double(total)) ?? ""
+    }
 }

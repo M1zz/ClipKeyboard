@@ -673,6 +673,8 @@ enum KeyboardUsageTracker {
     private static let dailyKeyPrefix = "kb.usage.daily."
     // 내역을 나눠 담는다 - 화면이 "왜 이만큼인가"를 펼쳐 보이려면 합계만으로는 안 된다.
     private static let retrievalKey = "kb.timeSaved.retrievalSeconds"
+    /// 선택·복사·붙여넣기로 옮겨 담던 시간. (이 조각이 늦게 들어와 예전 기록에는 없다)
+    private static let handlingKey = "kb.timeSaved.handlingSeconds"
     private static let typingKey = "kb.timeSaved.typingSeconds"
     private static let verificationKey = "kb.timeSaved.verificationSeconds"
     private static let kindKeyPrefix = "kb.usage.kind."
@@ -700,6 +702,7 @@ enum KeyboardUsageTracker {
         let parts = TimeSavedModel.breakdown(value: value, type: type)
         defaults.set(defaults.double(forKey: timeSavedKey) + parts.total, forKey: timeSavedKey)
         defaults.set(defaults.double(forKey: retrievalKey) + parts.retrieval, forKey: retrievalKey)
+        defaults.set(defaults.double(forKey: handlingKey) + parts.handling, forKey: handlingKey)
         defaults.set(defaults.double(forKey: typingKey) + parts.typing, forKey: typingKey)
         defaults.set(defaults.double(forKey: verificationKey) + parts.verification, forKey: verificationKey)
 
@@ -750,6 +753,7 @@ enum KeyboardUsageTracker {
     static func savedBreakdown() -> TimeSavedModel.Breakdown {
         guard let d = AppGroup.defaults else { return .zero }
         return TimeSavedModel.Breakdown(retrieval: d.double(forKey: retrievalKey),
+                                        handling: d.double(forKey: handlingKey),
                                         typing: d.double(forKey: typingKey),
                                         verification: d.double(forKey: verificationKey),
                                         tapCost: 0)

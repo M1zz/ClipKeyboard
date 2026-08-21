@@ -5,10 +5,21 @@
 //  Design handoff 기반 - Dusk + Paper 두 테마, 각각 light/dark.
 //  SwiftUI Environment으로 주입해 전 화면에서 동일 토큰 사용.
 //
-//  키컬러: 마스코트 악어에서 뽑은 녹색이다. 몸통(#2D8B79)을 글자 대비가
-//  나오는 선까지 조인 #1F7A67 이 라이트, 어두운 바탕에서 읽히도록 띄운
-//  #34A98F 이 다크. 외곽선(#0E5A4C)과 배(#FCBE35)는 Color.clipBrandDeep,
-//  Color.clipBrandYellow 로 ColorExtension 에 있다.
+//  키컬러: 주황(#E8501C). 어두운 바탕에서 읽히도록 띄운 #FF7A4D 가 다크.
+//  짝이 되는 짙은 쪽(#B83A0F)은 Color.clipBrandDeep 으로 ColorExtension 에 있다.
+//
+//  ⚠️ **따뜻한 계열이어야 하는 이유가 있다.** 카테고리 칩과 키 자체가 이미
+//     파랑·분홍 계열이다(카테고리 팔레트). 키컬러까지 그 줄에 서면, 튜토리얼이
+//     "여기를 누르세요"로 감싼 테두리가 강조가 아니라 **또 하나의 카테고리 칩**으로
+//     읽힌다. 실제로 인디고·블루로 칠해 보고 확인했다.
+//
+//     그래서 규칙은 이렇다: **카테고리 색은 "무슨 갈래", 키컬러는 "누를 곳".**
+//     둘은 서로 다른 줄에 서야 한다. 키컬러를 고를 때 이 조건을 먼저 볼 것.
+//
+//  ⚠️ 한동안 마스코트 악어의 녹색(#1F7A67)이었다. 캐릭터를 걷어낸 뒤로 그 녹색은
+//     가리키는 것이 없었고, 되돌린 테라코타(#C85A3A)는 채도가 낮아 눌러야 할 것으로
+//     읽히지 않았다. 지금 값은 그 둘을 지나 정한 것이다.
+//
 //  같은 값이 Assets 의 AccentColor 에도 들어가 있어 `Color.accentColor` 와
 //  `theme.accent` 가 같은 색을 가리킨다. 한쪽만 바꾸면 앱이 두 색으로 갈린다.
 //
@@ -151,24 +162,24 @@ struct AppTheme: Equatable {
     static let paperLight = AppTheme(
         kind: .paper,
         isDark: false,
-        bg: hx("EFF3F1"),
+        bg: hx("EFEFF4"),
         surface: .white,
-        surfaceAlt: hx("E3EAE7"),
-        text: hx("16211D"),
-        textMuted: hx("5C665F"),
-        textFaint: hx("8B948F"),
-        accent: hx("1F7A67"),
-        accentSoft: hx("DCEFE9"),
+        surfaceAlt: hx("E5E5EA"),
+        text: hx("1B1814"),
+        textMuted: hx("6A6358"),
+        textFaint: hx("8E8E93"),
+        accent: hx("E8501C"),
+        accentSoft: hx("FFE6DC"),
         accentFg: .white,
         danger: hx("C8423A"),
-        success: hx("35804A"),
-        warn: hx("9A6B12"),
+        success: hx("4A8A5A"),
+        warn: hx("C88A3A"),
         pink: hx("C85A80"),
         divider: Color.black.opacity(0.07),
         heroGradientStops: [
-            hx("E4F3ED"),
-            hx("C3E6D9"),
-            hx("9DD5C4")
+            hx("FBE8D9"),
+            hx("F5D5C2"),
+            hx("E8B79E")
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
@@ -179,24 +190,26 @@ struct AppTheme: Equatable {
     static let paperDark = AppTheme(
         kind: .paper,
         isDark: true,
-        bg: hx("101413"),
-        surface: hx("1A201E"),
-        surfaceAlt: hx("222927"),
-        text: hx("EDF2EF"),
-        textMuted: hx("9AA8A1"),
-        textFaint: hx("6B7671"),
-        accent: hx("34A98F"),
-        accentSoft: hx("16332C"),
-        accentFg: hx("06231D"),
+        bg: hx("131210"),
+        surface: hx("1E1C18"),
+        surfaceAlt: hx("262320"),
+        text: hx("F3EEE4"),
+        textMuted: hx("A69E91"),
+        textFaint: hx("6A6358"),
+        accent: hx("FF7A4D"),
+        accentSoft: hx("3A1A0E"),
+        // 밝은 테라코타 위의 흰 글자는 대비가 얕다. 짙은 갈색을 얹어 읽히게 둔다
+        // (라이트의 #E8501C 위에서는 흰 글자가 제 몫을 한다).
+        accentFg: hx("2A0E03"),
         danger: hx("E05A4F"),
-        success: hx("6BC47F"),
-        warn: hx("FCBE35"),
+        success: hx("6BAE7F"),
+        warn: hx("E0A85A"),
         pink: hx("E07FA0"),
         divider: Color.white.opacity(0.07),
         heroGradientStops: [
-            hx("10261F"),
-            hx("14332A"),
-            hx("1B4437")
+            hx("2A1F18"),
+            hx("3B2519"),
+            hx("4A2A1A")
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,

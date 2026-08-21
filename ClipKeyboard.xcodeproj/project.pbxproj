@@ -185,6 +185,8 @@
 		DB9369B530D061A24ABCD298 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D663A47B0F30561381AFD709 /* Foundation.framework */; };
 		DC74E10AEFDB32B44493A01E /* ClipKeyboardShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DE87579F5366C8D8404AED74 /* ExperimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427CED7AE75EED7C96E8587 /* ExperimentService.swift */; };
+		DYK0BUILD000000000000001 /* DidYouKnow.swift in Sources */ = {isa = PBXBuildFile; fileRef = DYK0FILE0000000000000001 /* DidYouKnow.swift */; };
+		DYK0BUILD000000000000002 /* DidYouKnowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DYK0FILE0000000000000002 /* DidYouKnowView.swift */; };
 		E1CE2D342D3BE0BAB7A65B27 /* VaultSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2BAD64480FDDD9FD723377 /* VaultSprite.swift */; };
 		E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396EB22C5749F763307098D /* ShareViewController.swift */; };
 		E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B23DD9375263CB858911DF /* KeyboardMemoPeek.swift */; };
@@ -385,7 +387,6 @@
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
-		58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipKeyboard.tap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
 		58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupOnboardingView.swift; sourceTree = "<group>"; };
 		58MA00022F0000000000000002 /* MacAppIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppIntroView.swift; sourceTree = "<group>"; };
@@ -455,6 +456,8 @@
 		D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardSurfaceEffects.swift; sourceTree = "<group>"; };
 		DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddViewModel.swift; sourceTree = "<group>"; };
 		DC80C83D38691863F9E226D5 /* DataRecoveryView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DataRecoveryView.swift; sourceTree = "<group>"; };
+		DYK0FILE0000000000000001 /* DidYouKnow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnow.swift; sourceTree = "<group>"; };
+		DYK0FILE0000000000000002 /* DidYouKnowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DidYouKnowView.swift; sourceTree = "<group>"; };
 		E3875D8CD57527397640A15F /* ComboEditSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ComboEditSheet.swift; sourceTree = "<group>"; };
 		E80B27002654B5731B9DDCAF /* AppSymbol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSymbol.swift; sourceTree = "<group>"; };
 		E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoReorderDropDelegates.swift; sourceTree = "<group>"; };
@@ -687,7 +690,6 @@
 			children = (
 				58C473382A109F0D009D87BC /* ClipKeyboard.app */,
 				587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */,
-				58FBB90A2ED9AD0B004231BE /* ClipKeyboard.tap.app */,
 				9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */,
 				587384822F2E7AD40042ECA4 /* widgetExtension.appex */,
 				2EFC92377712F79DE105AA6A /* ClipKeyboardShareExtension.appex */,
@@ -852,6 +854,7 @@
 				7427CED7AE75EED7C96E8587 /* ExperimentService.swift */,
 				24CD8B81F083063C5634B606 /* CategorySnapshot.swift */,
 				58DL00052F0000000000000005 /* ChecksumVerifier.swift */,
+				DYK0FILE0000000000000001 /* DidYouKnow.swift */,
 				58DL00062F0000000000000006 /* UsagePassport.swift */,
 				79D6A773619BB7884CEA27B8 /* RefundLedger.swift */,
 				ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */,
@@ -886,6 +889,7 @@
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				AA00000800000001F3B00002 /* PersonaGuideData.swift */,
+				DYK0FILE0000000000000002 /* DidYouKnowView.swift */,
 				QKN0FILE0000000000000005 /* WhatsNewView.swift */,
 				STP00022F0000000000000002 /* StarterPackView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
@@ -1380,6 +1384,7 @@
 				QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */,
 				QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */,
 				QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */,
+				DYK0BUILD000000000000002 /* DidYouKnowView.swift in Sources */,
 				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
 				TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */,
@@ -1493,6 +1498,7 @@
 				58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */,
 				58DL00042F0000000000000104 /* WaxSealView.swift in Sources */,
 				58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */,
+				DYK0BUILD000000000000001 /* DidYouKnow.swift in Sources */,
 				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
 				58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,

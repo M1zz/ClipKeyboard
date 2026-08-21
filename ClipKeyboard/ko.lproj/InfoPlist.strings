@@ -4,7 +4,7 @@
 */
 
 /* App display name */
-"CFBundleDisplayName" = "크로커클립";
+"CFBundleDisplayName" = "클립키보드";
 
 /* Camera permission (bulk import OCR) */
 "NSCameraUsageDescription" = "카드나 문서를 촬영해 텍스트를 인식하기 위해 카메라 접근이 필요합니다.";

@@ -20,6 +20,9 @@ struct ClipKeyboardApp: App {
     @State private var showDemoSampleOffer = false
     /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
     @State private var showRestoreHint = false
+    /// 그거 아세요? - 지금 보여 줄 이야기와 시트 상태.
+    @State private var didYouKnowItem: DidYouKnow?
+    @State private var showDidYouKnow = false
     /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
     @State private var showCloudBackupSheet = false
     private let restoreHintShownKey = "restoreHintShown_v1"
@@ -341,6 +344,13 @@ struct ClipKeyboardApp: App {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                 maybeShowDiscountOffer()
             }
+
+            // ⚠️ **정말 맨 마지막.** 이건 급한 이야기가 아니라서 앞의 것들에게 자리를
+            //    다 내주고 남으면 한다. 다른 안내가 떠 있으면 조용히 접고 다음 실행을
+            //    기다린다(`markShown` 을 부르지 않으므로 그 이야기는 없어지지 않는다).
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                maybeShowDidYouKnow()
+            }
         }
 
         // ⚠️ 마지막 안내가 뜨는 자리(3.5초)까지 지켜본 뒤에 런치를 닫는다.
@@ -414,6 +424,49 @@ struct ClipKeyboardApp: App {
     /// - 10회째 실행에서 처음, 이후 40회 실행 간격으로 노출
     /// - "다시 보지 않기"를 누르면 6개월 유예 후 다시 노출 대상이 된다(영구 아님)
     /// - 다른 모달(리뷰 요청·What's New 등)이 떠 있으면 양보한다
+    // MARK: - 그거 아세요?
+
+    /// 이 앱의 좋은 점은 대부분 **안 보이는 곳**에 있다. 서버가 없다는 것, 설정 어딘가의
+    /// 기능들, 길게 누르면 되는 동작들. 화면에 안 나오는 것은 아무리 좋아도 없는 것과 같다.
+    ///
+    /// ⚠️ 언제 말을 걸지는 `DidYouKnowScheduler` 가 혼자 판단한다(첫날 침묵 · 사흘 간격 ·
+    ///    다 하면 멈춤). 여기서는 **다른 안내가 떠 있지 않은지**만 본다 - 모달이 모달 위에
+    ///    얹히는 것이 이 화면들에서 가장 나쁜 일이다.
+    private func maybeShowDidYouKnow() {
+        guard !ClipKeyboardApp.isRunningUnitTests, noOtherModalIsUp else { return }
+        // 처음 오는 길을 지나는 중이면 말하지 않는다 - 온보딩 위에 얹히면 둘 다 안 읽힌다.
+        let d = UserDefaults.standard
+        let stillOnboarding = d.bool(forKey: DefaultsKey.startedFreshV444)
+            && !d.bool(forKey: DefaultsKey.tutorialMakeOwnDone)
+        guard let item = DidYouKnowScheduler.candidate(
+            onboardingFinished: !stillOnboarding,
+            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date) else { return }
+
+        DidYouKnowScheduler.markShown(item)
+        didYouKnowItem = item
+        showDidYouKnow = true
+        print("💡 [DidYouKnow] \(item.id)")
+    }
+
+    /// 읽고 나서 갈 곳으로 데려간다.
+    ///
+    /// ⚠️ **읽고 닫으면 아무것도 안 달라진다.** "설정에서 켤 수 있어요"를 읽은 사람이
+    ///    설정을 스스로 찾아 들어가는 일은 드물다. 알려 준 그 자리로 직접 데려간다.
+    private func handleDidYouKnowAction(_ action: DidYouKnow.Action) {
+        showDidYouKnow = false
+        // 시트가 내려간 뒤에 다음 화면을 연다 - 겹치면 둘 다 제대로 안 뜬다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            switch action {
+            case .openSettings:
+                NotificationCenter.default.post(name: .showSettings, object: nil)
+            case .openStage:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+            case .openBackup:
+                showCloudBackupSheet = true
+            }
+        }
+    }
+
     private func maybeShowFeedbackNudge() {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
@@ -501,6 +554,7 @@ struct ClipKeyboardApp: App {
     private var noOtherModalIsUp: Bool {
         !showDemoSampleOffer && !showRestoreHint && !showReviewRequest
             && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showDiscountOffer
+            && !showDidYouKnow
     }
 
     // MARK: - Default Sample Data
@@ -525,6 +579,7 @@ struct ClipKeyboardApp: App {
             memos.append(contentsOf: result.memos)
             try MemoStore.shared.save(memos: memos, type: .memo)
             SampleMemoStorage.save(ids: result.memos.map { $0.id })
+            seedPlaceholderValues(from: result.memos)
             // 샘플이 속한 카테고리를 실제로 만들고 기능을 켜 → 스와이프 페이지(탭)가 생긴다.
             result.categories.forEach { CategoryStore.shared.add($0) }
             CategoryStore.shared.enableFeature()
@@ -794,6 +849,58 @@ struct ClipKeyboardApp: App {
         }
     }
 
+    // MARK: - 심어 두는 플레이스홀더 값
+
+    /// 일반 샘플 템플릿의 빈칸에 미리 넣어 두는 값.
+    ///
+    /// ⚠️ **그대로 써도 말이 되는 것**으로 고른다. "홍길동" 같은 예시용 가짜를 넣으면
+    ///    사용자는 그걸 지우는 것부터 배우게 된다. "고객님"은 지울 필요 없이 바로 쓰인다.
+    ///
+    /// ⚠️ 내장 토큰({날짜}·{시간}·{통화} 등)에는 값을 심지 않는다. 시스템이 채우는 자리다.
+    static func starterPlaceholderValues(isKorean: Bool) -> [String: [String]] {
+        isKorean
+            ? ["{이름}": ["고객님", "대표님", "선생님"]]
+            : ["{name}": ["there", "team"]]
+    }
+
+    /// 노마드 샘플 템플릿에 심는 값.
+    ///
+    /// ⚠️ **계좌정보({iban}·{swift}·{수신인})에는 심지 않는다.** 예시 IBAN 을 넣어 두면
+    ///    사용자가 그것을 자기 계좌로 착각하고 청구서에 붙여넣을 수 있다. 돈이 남에게 간다.
+    ///    그 자리는 비워 두고, 값 화면에서 **바로 적어 넣을 수 있게** 열어 두었다
+    ///    (`PlaceholderInputView.emptyValuesSection`). 비어 있는 것과 막힌 것은 다르다.
+    ///
+    /// ⚠️ 나머지는 누구에게나 같은 것이라 심어도 안전하다.
+    static func starterNomadPlaceholderValues(isKorean: Bool) -> [String: [String]] {
+        isKorean
+            ? ["{금액}": ["USD 500", "EUR 1,200", "USD 1,000"],
+               "{참조번호}": ["INV-001", "2026-08"]]
+            : ["{amount}": ["USD 500", "EUR 1,200", "USD 1,000"],
+               "{reference}": ["INV-001", "2026-08"]]
+    }
+
+    /// 심어 둔 값을 **앱 전체가 함께 보는 저장소**에도 적는다.
+    ///
+    /// ⚠️ 두 곳에 있어야 한다. 키보드는 메모에 붙은 값(`Memo.placeholderValues`)을 먼저 보고,
+    ///    앱의 입력 화면·플레이스홀더 관리는 공용 저장소(`placeholder_values_{토큰}`)를 본다.
+    ///    한 곳만 채우면 화면마다 "값이 있다/없다"가 갈린다.
+    private func seedPlaceholderValues(from memos: [Memo]) {
+        for memo in memos {
+            for (token, values) in memo.placeholderValues {
+                // 시스템이 채우는 자리에는 값을 심지 않는다 - 심어 봐야 쓰이지 않고,
+                // 플레이스홀더 관리 화면에 "고를 수 없는 값"으로 남는다.
+                guard !TemplateVariableProcessor.autoVariableTokens.contains(token) else { continue }
+                // 뒤에서부터 넣는다 - addPlaceholderValue 가 맨 앞에 꽂으므로 순서가 뒤집힌다.
+                for value in values.reversed() {
+                    MemoStore.shared.addPlaceholderValue(value,
+                                                         for: token,
+                                                         sourceMemoId: memo.id,
+                                                         sourceMemoTitle: memo.title)
+                }
+            }
+        }
+    }
+
     private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
         let work = isKorean ? "업무" : "Work"
         let personal = isKorean ? "개인" : "Personal"
@@ -806,6 +913,15 @@ struct ClipKeyboardApp: App {
             hint: isKorean ? "가장 단순한 단축어, 탭 한 번이면 입력 끝" : "The simplest snippet: one tap to type"
         )
         // 2) 템플릿 - 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
+        //
+        // ⚠️ {날짜} 는 여기 **적지 않는다.** 시스템이 오늘 날짜로 알아서 채우는 내장 토큰이라
+        //    (`TemplateVariableProcessor.autoVariableTokens`), 사용자 빈칸 목록에 넣으면
+        //    이미 채워질 자리를 사람에게 채우라고 묻게 된다. 사람이 채울 것만 여기 적는다.
+        //
+        // ⚠️ 값은 **함께 심는다.** 빈칸만 만들어 두면 튜토리얼에서 이 키를 누른 사람이
+        //    "저장된 값이 없어요"를 만난다. 처음 온 사람에게 처음 보여 주는 것이
+        //    비어 있다는 안내면, 가르치려던 것을 가르치지 못한다.
+        //    (아래 값들은 그대로 써도 말이 되는 것으로 골랐다. 예시용 가짜가 아니다)
         let template = Memo(
             title: isKorean ? "회신 템플릿" : "Reply Template",
             value: isKorean
@@ -813,6 +929,7 @@ struct ClipKeyboardApp: App {
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: work,
             templateVariables: isKorean ? ["{이름}"] : ["{name}"],
+            placeholderValues: Self.starterPlaceholderValues(isKorean: isKorean),
             hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
         // 3) 콤보 - 메모 안에 순서 있는 단계들(comboValues)
@@ -831,6 +948,7 @@ struct ClipKeyboardApp: App {
             value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
             category: work,
             templateVariables: template.templateVariables,
+            placeholderValues: template.placeholderValues,
             hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
@@ -848,6 +966,11 @@ struct ClipKeyboardApp: App {
             templateVariables: isKorean
                 ? ["{금액}", "{수신인}", "{iban}", "{swift}", "{참조번호}"]
                 : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"],
+            // ⚠️ **IBAN·SWIFT 에는 값을 심지 않는다.** 남의 계좌번호를 예시로 넣어 두면
+            //    사용자가 그것을 자기 것으로 착각하고 청구서에 붙여넣을 수 있다.
+            //    그 자리는 비워 두고, 대신 키보드에서 바로 채울 수 있게 열어 뒀다
+            //    (`KeyboardOverlays` 의 값 추가). 통화 단위처럼 **누구에게나 같은 것**만 심는다.
+            placeholderValues: Self.starterNomadPlaceholderValues(isKorean: isKorean),
             hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
         let combo = Memo(
@@ -872,6 +995,7 @@ struct ClipKeyboardApp: App {
             value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
             category: finance,
             templateVariables: template.templateVariables,
+            placeholderValues: template.placeholderValues,
             hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
@@ -991,6 +1115,14 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showFeedbackSheet) {
                     FeedbackView()
+                }
+                .sheet(isPresented: $showDidYouKnow) {
+                    if let item = didYouKnowItem {
+                        DidYouKnowView(item: item,
+                                       onAction: { handleDidYouKnowAction($0) },
+                                       onClose: { showDidYouKnow = false })
+                            .presentationDetents([.medium])
+                    }
                 }
                 .sheet(isPresented: $showWhatsNew) {
                     WhatsNewView(

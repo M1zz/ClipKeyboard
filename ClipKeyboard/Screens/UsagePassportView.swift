@@ -362,7 +362,7 @@ struct UsagePassportView: View {
     @ViewBuilder
     private func groundsSection(_ summary: UsagePassport.Summary) -> some View {
         let parts = breakdown
-        let sum = parts.retrieval + parts.typing + parts.verification
+        let sum = parts.retrieval + parts.handling + parts.typing + parts.verification
         if sum > 0 {
             VStack(alignment: .leading, spacing: 12) {
                 Text(NSLocalizedString("이 시간은 이렇게 셌어요", comment: "Usage passport: grounds header"))
@@ -375,6 +375,13 @@ struct UsagePassportView: View {
                           note: NSLocalizedString("계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요.",
                                                   comment: "Grounds note: retrieval"),
                           seconds: parts.retrieval)
+                if parts.handling > 0 {
+                    groundRow(symbol: "doc.on.clipboard",
+                              title: NSLocalizedString("복사·붙여넣기 하지 않아도 된 시간", comment: "Grounds row: handling"),
+                              note: NSLocalizedString("길게 눌러 선택하고, 복사하고, 돌아와서 붙여넣던 손놀림이에요.",
+                                                      comment: "Grounds note: handling"),
+                              seconds: parts.handling)
+                }
                 groundRow(symbol: "keyboard",
                           title: NSLocalizedString("치지 않아도 된 시간", comment: "Grounds row: typing"),
                           note: NSLocalizedString("손으로 옮겨 적었다면 걸렸을 시간이에요.",
@@ -422,8 +429,7 @@ struct UsagePassportView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 8)
-            Text(UsagePassport.timeSavedText(seconds: seconds)
-                 ?? NSLocalizedString("0분", comment: "Zero minutes"))
+            Text(UsagePassport.breakdownText(seconds: seconds))
                 .font(.subheadline.weight(.bold))
                 .monospacedDigit()
                 .foregroundColor(theme.text)

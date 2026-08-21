@@ -24,6 +24,10 @@ struct InAppKeyboardStage: View {
     var highlightedMemoId: UUID? = nil
     /// 가리키는 동안 대화 위에 얹을 안내 한 줄. 장마다 다르다(`TutorialChapter.coachLine`).
     var tutorialLine: String? = nil
+    /// 마지막 걸음 - **직접 하나 만들어 보라고** 권하는 중인가. 머리말의 + 를 가리킨다.
+    var asksToMakeOwn: Bool = false
+    /// "나중에 할게요" - 이 걸음을 미룬다.
+    var onMakeOwnSkipped: () -> Void = {}
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -36,10 +40,16 @@ struct InAppKeyboardStage: View {
     ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
     ///    (목록 → 미리보기 방향만 이상했던 이유 - 반대 방향엔 다시 만들 일이 없다).
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
-    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil, tutorialLine: String? = nil) {
+    init(styleRaw: Binding<String>,
+         highlightedMemoId: UUID? = nil,
+         tutorialLine: String? = nil,
+         asksToMakeOwn: Bool = false,
+         onMakeOwnSkipped: @escaping () -> Void = {}) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
         self.tutorialLine = tutorialLine
+        self.asksToMakeOwn = asksToMakeOwn
+        self.onMakeOwnSkipped = onMakeOwnSkipped
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -90,6 +100,9 @@ struct InAppKeyboardStage: View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 stageHeader
+                // 마지막 걸음 - 위의 + 를 가리킨다. 머리말 **바로 아래**여야
+                // 화살표가 가리키는 것이 무엇인지 눈이 바로 안다.
+                makeOwnCue
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
                 if !keyboardReady { keyboardSetupBanner }
@@ -257,6 +270,48 @@ struct InAppKeyboardStage: View {
         .background(theme.surface.opacity(0.6))
         .overlay(alignment: .bottom) {
             Rectangle().fill(theme.divider.opacity(0.5)).frame(height: 0.5)
+        }
+    }
+
+    /// 직접 만들어 보라는 마지막 안내 - **위의 + 를 가리킨다.**
+    ///
+    /// ⚠️ 이 걸음이 없던 동안, 콤보를 눌러 본 사람은 거기서 튜토리얼이 끝났다. 셋을
+    ///    눌러 본 것으로 끝나고 **자기 것은 하나도 없는 채로** 남았다. 눌러 보는 것과
+    ///    갖는 것은 다르고, 이 앱은 자기 것이 하나라도 있어야 다시 열린다.
+    ///
+    /// ⚠️ 미루는 길을 연다. 지금 넣을 것이 떠오르지 않는 사람도 있고, 그 사람을
+    ///    빈 칸 앞에 붙잡아 두면 앱을 닫는 것으로 끝난다.
+    @ViewBuilder
+    private var makeOwnCue: some View {
+        if asksToMakeOwn {
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    // 위를 가리킨다 - 누를 곳이 머리말에 있다.
+                    Image(systemName: "arrow.up")
+                        .font(.caption.weight(.bold))
+                    Text(NSLocalizedString("이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.",
+                                           comment: "Make-own cue on the stage"))
+                        .font(.subheadline.weight(.bold))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
+                    Spacer(minLength: 0)
+                }
+                HStack {
+                    Spacer(minLength: 0)
+                    Button(action: onMakeOwnSkipped) {
+                        Text(NSLocalizedString("나중에 할게요", comment: "Make-own cue: skip"))
+                            .font(.footnote.weight(.semibold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
         }
     }
 

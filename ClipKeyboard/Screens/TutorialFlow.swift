@@ -536,7 +536,11 @@ enum TutorialReset {
         d.set(false, forKey: DefaultsKey.tutorialTemplateDone)
         d.set(false, forKey: DefaultsKey.tutorialComboDone)
         d.set(false, forKey: DefaultsKey.tutorialChaptersDone)
+        d.set(false, forKey: DefaultsKey.tutorialMakeOwnDone)
         d.set(false, forKey: DefaultsKey.keyboardSetupTutorialDone)
+        // ⚠️ 샘플 정리 물음은 **되살리지 않는다.** 이미 답한 사람에게 다시 묻는 것은
+        //    묻는 게 아니라 재촉이다. 다시 하기는 배우는 길을 되짚는 것이지,
+        //    한 번 고른 결정을 없던 일로 만드는 것이 아니다.
         d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
         // 튜토리얼은 무대에서 시작한다 - 목록에 있으면 첫 걸음이 열리지 않는다.
         d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)

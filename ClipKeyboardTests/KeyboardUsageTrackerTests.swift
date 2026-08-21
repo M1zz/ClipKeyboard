@@ -114,7 +114,7 @@ final class TimeSavedModelTests: XCTestCase {
         let short = "12345678"
         XCTAssertEqual(TimeSavedModel.breakdown(value: short, type: .text).total,
                        max(0, 8 / TimeSavedModel.digitCharsPerSecond - 1), accuracy: 0.001)
-        XCTAssertGreaterThan(TimeSavedModel.breakdown(value: short, type: .bankAccount).total, 20,
+        XCTAssertGreaterThan(TimeSavedModel.breakdown(value: short, type: .bankAccount).total, 30,
                              "짧다고 0으로 세면 이 앱이 가장 쓸모 있는 경우를 못 센다")
     }
 
@@ -132,8 +132,41 @@ final class TimeSavedModelTests: XCTestCase {
 
     func test_내역의_합에서_탭_값을_뺀_것이_총합이다() {
         let b = TimeSavedModel.breakdown(value: "1234-5678-9012-3456", type: .creditCard)
-        XCTAssertEqual(b.total, b.retrieval + b.typing + b.verification - b.tapCost, accuracy: 0.001,
+        XCTAssertEqual(b.total,
+                       b.retrieval + b.handling + b.typing + b.verification - b.tapCost,
+                       accuracy: 0.001,
                        "화면이 내역을 펼쳐 보이는데 합이 안 맞으면 그 화면은 거짓말이 된다")
+    }
+
+    func test_찾아온_값에는_옮겨_담는_시간이_붙는다() {
+        // 이 앱이 없애 주는 일의 절반은 "찾은 다음"에 있다
+        // 선택하고 복사하고 돌아와서 붙여넣는 손놀림.
+        let account = TimeSavedModel.breakdown(value: "110-123-456789", type: .bankAccount)
+        XCTAssertGreaterThan(account.handling, 0,
+                             "다른 앱에서 가져오던 값이라면 복사·붙여넣기 시간이 반드시 붙는다")
+
+        let greeting = TimeSavedModel.breakdown(value: "안녕하세요, 반갑습니다", type: .text)
+        XCTAssertEqual(greeting.handling, 0,
+                       "찾아올 곳이 없으면 복사할 원본도 없다")
+    }
+
+    func test_실물에서_오는_값은_복사할_수_없다() {
+        // 여권은 복사가 안 된다. 눈으로 읽어 손으로 옮겨 적으므로 그 시간은
+        // typing 이 이미 세고 있다. handling 까지 붙이면 같은 시간을 두 번 세는 것이다.
+        let passport = TimeSavedModel.breakdown(value: "M12345678", type: .passportNumber)
+        XCTAssertEqual(passport.handling, 0,
+                       "실물에서 오는 값에 복사 시간을 붙이면 같은 시간을 두 번 센다")
+        XCTAssertGreaterThan(passport.retrieval, 0)
+    }
+
+    func test_아는_값이어도_그냥_치는_것보다는_아껴_준다() {
+        // 예전 식은 이메일 한 줄을 "치는 시간 - 탭 값" 으로만 셌다. 실제로 사람이 하던 일은
+        // 지난 메일을 열어 주소를 확인하고, 선택해 복사해서 돌아오는 것이었다.
+        let email = TimeSavedModel.breakdown(value: "hyunho.lee@example.com", type: .email)
+        let sameLengthProse = TimeSavedModel.breakdown(
+            value: String(repeating: "가", count: "hyunho.lee@example.com".count), type: .text)
+        XCTAssertGreaterThan(email.total, sameLengthProse.total * 2,
+                             "이메일이 같은 길이의 인사말과 비슷하게 세어지면 모델이 현실을 못 보는 것이다")
     }
 
     func test_손해_본_것을_이득으로_적지_않는다() {
@@ -146,6 +179,9 @@ final class TimeSavedModelTests: XCTestCase {
         XCTAssertEqual(TimeSavedModel.kind(value: "12345678", type: .bankAccount), .lookup)
         XCTAssertEqual(TimeSavedModel.kind(value: String(repeating: "가", count: 80), type: .text), .longText)
         XCTAssertEqual(TimeSavedModel.kind(value: "감사합니다", type: .text), .quick)
+        // 시간은 후하게 세되 이름표는 정확하게 - 이메일까지 "찾아와야 했던 것"으로
+        // 부르면 그 갈래가 부풀어, 정작 은행 앱을 열던 값이 묻힌다.
+        XCTAssertEqual(TimeSavedModel.kind(value: "me@example.com", type: .email), .quick)
     }
 
     func test_여러_번_쓰면_그만큼_곱해진다() {

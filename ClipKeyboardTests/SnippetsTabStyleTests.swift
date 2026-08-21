@@ -103,16 +103,21 @@ struct SkinDisabledTests {
 @Suite("SnippetsOnboardingStep, 처음 쓰는 사람이 지나는 길")
 struct SnippetsOnboardingStepTests {
 
+    private let now = Date(timeIntervalSince1970: 1_800_000_000)
+
     private func step(fresh: Bool = true,
                       welcome: Bool = false,
                       chapters: Bool = false,
-                      setup: Bool = false,
+                      makeOwn: Bool = false,
+                      snoozedHoursAgo: Double? = nil,
                       usable: Bool = false) -> SnippetsOnboardingStep {
         .current(startedFresh: fresh,
                  welcomeDone: welcome,
                  chaptersDone: chapters,
-                 keyboardSetupDone: setup,
-                 keyboardUsable: usable)
+                 makeOwnDone: makeOwn,
+                 keyboardUsable: usable,
+                 setupSnoozedAt: snoozedHoursAgo.map { now.addingTimeInterval(-$0 * 3600) },
+                 now: now)
     }
 
     @Test("쓰던 사람은 이 길을 걷지 않는다. 업데이트했다고 튜토리얼이 뜨면 안 된다")
@@ -131,21 +136,84 @@ struct SnippetsOnboardingStepTests {
         #expect(step(welcome: true) == .tryScenarios)
     }
 
+    @Test("셋을 눌러 보고 나면 **직접 하나 만들어 보는** 차례로 이어진다")
+    func goesToMakeOwnAfterChapters() {
+        // 예전에는 여기서 끝이었다. 키보드를 이미 켜 둔 사람은 콤보를 눌러 본 순간
+        // 튜토리얼이 사라지고, 자기 것은 하나도 없는 채로 남았다.
+        #expect(step(welcome: true, chapters: true) == .makeOwn)
+        #expect(step(welcome: true, chapters: true, usable: true) == .makeOwn)
+    }
+
+    @Test("직접 만들기는 **맨 앞이 아니라 셋을 눌러 본 다음**이다")
+    func makeOwnNeverComesBeforeTrying() {
+        // 처음 온 사람에게 빈 칸부터 내밀면 무엇을 적어야 할지 모른다.
+        #expect(step(welcome: true, chapters: false, makeOwn: false) == .tryScenarios)
+        #expect(step(welcome: true, chapters: false, makeOwn: true) == .tryScenarios)
+    }
+
     @Test("**키보드 설정은 맨 뒤**, 다 써 본 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
     func keyboardSetupComesLast() {
-        #expect(step(welcome: true, chapters: true) == .keyboardSetup)
+        #expect(step(welcome: true, chapters: true, makeOwn: true) == .keyboardSetup)
         // 써 볼 것이 남아 있으면 아직 설정으로 보내지 않는다.
         #expect(step(welcome: true, chapters: false) == .tryScenarios)
     }
 
     @Test("이미 켜 둔 사람에게 켜는 법을 가르치지 않는다")
     func skipsSetupWhenKeyboardAlreadyUsable() {
-        #expect(step(welcome: true, chapters: true, usable: true) == .done)
+        #expect(step(welcome: true, chapters: true, makeOwn: true, usable: true) == .done)
+        // 밀어 둔 적이 있어도, 켜져 있으면 그것으로 끝이다.
+        #expect(step(welcome: true, chapters: true, makeOwn: true,
+                     snoozedHoursAgo: 1, usable: true) == .done)
     }
 
-    @Test("건너뛴 사람을 붙잡지 않는다. 한 번 지나갔으면 끝")
-    func doesNotRepeatSetupOnceSeen() {
-        #expect(step(welcome: true, chapters: true, setup: true) == .done)
+    // MARK: - 켜기 전에는 놓아주지 않는다
+
+    @Test("**닫았다고 끝난 것이 아니다.** 안 켰으면 하루 뒤에 다시 데려온다")
+    func setupComesBackUntilActuallyOn() {
+        let done = (welcome: true, chapters: true, makeOwn: true)
+        // 방금 밀어 뒀으면 오늘은 놔둔다 - 열 때마다 막아서면 앱을 닫는다.
+        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
+                     snoozedHoursAgo: 1) == .done)
+        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
+                     snoozedHoursAgo: 23) == .done)
+        // 하루가 지나면 다시. 키보드를 켜지 않으면 이 앱은 아무것도 아니라서,
+        // 여기서 놓아주는 것은 조용히 잃는 것이다.
+        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
+                     snoozedHoursAgo: 25) == .keyboardSetup)
+        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
+                     snoozedHoursAgo: 24 * 30) == .keyboardSetup)
+    }
+
+    @Test("켜져 있는지가 **하나뿐인 진실**이다")
+    func onlyRealityEndsTheNagging() {
+        // 어떤 조합이든, 켜져 있으면 끝. 안 켜져 있으면 (밀어 둔 동안만 빼고) 계속 데려온다.
+        for hours in [nil, 1.0, 25.0] as [Double?] {
+            #expect(step(welcome: true, chapters: true, makeOwn: true,
+                         snoozedHoursAgo: hours, usable: true) == .done)
+        }
+    }
+
+    @Test("길 전체가 끊기지 않고 이어진다")
+    func theWholePathIsConnected() {
+        // 어느 걸음에서도 `.done` 으로 빠지지 않는다 - 중간에 끊기면 거기서 튜토리얼이
+        // 사라진 것처럼 보인다. 이 시험이 그 구멍을 막는다.
+        var seen: [SnippetsOnboardingStep] = []
+        var welcome = false, chapters = false, makeOwn = false
+        var snoozed: Double?
+        for _ in 0..<10 {
+            let s = step(welcome: welcome, chapters: chapters, makeOwn: makeOwn,
+                         snoozedHoursAgo: snoozed)
+            seen.append(s)
+            if s == .done { break }
+            switch s {
+            case .welcome:       welcome = true
+            case .tryScenarios:  chapters = true
+            case .makeOwn:       makeOwn = true
+            case .keyboardSetup: snoozed = 1   // 안내를 보고 오늘은 밀어 뒀다
+            case .done:          break
+            }
+        }
+        #expect(seen == [.welcome, .tryScenarios, .makeOwn, .keyboardSetup, .done])
     }
 
     // MARK: - 오가는 규칙

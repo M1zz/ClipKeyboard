@@ -74,6 +74,13 @@ enum DefaultsKey {
     /// ⚠️ 개별 완료 표식만으로는 판단하지 않는다 - 가리킬 것이 없어 조용히 건너뛴 장이 있으면
     ///    영영 안 끝난 것으로 남는다. 챕터 기계가 "더 없다"고 알려줄 때 켠다.
     static let tutorialChaptersDone = "tutorialChaptersDone.v1"
+    /// 직접 단축어를 하나 만들어 보는 마지막 걸음을 지났는가(만들었든 미뤘든).
+    static let tutorialMakeOwnDone = "tutorialMakeOwnDone.v1"
+    /// 튜토리얼이 쓰던 샘플을 **치울지 물어봤는가.** 답이 무엇이든 한 번만 묻는다.
+    static let tutorialSampleCleanupAsked = "tutorialSampleCleanupAsked.v1"
+    /// 키보드 켜기 안내를 **마지막으로 밀어 둔 시각**(초, 1970 기준).
+    /// 영영 끄는 표식이 아니다 - 켜기 전에는 하루에 한 번 다시 데려온다.
+    static let keyboardSetupSnoozedAt = "keyboardSetupSnoozedAt.v1"
     /// 지금 무대에서 **가리키고 있는** 단축어 id(UUID 문자열). 그 키가 빛나고,
     /// **그걸 눌러야** 그 장이 끝난다. 누르면 비운다.
     static let tutorialFirstUseMemoId = "tutorialFirstUseMemoId.v1"
@@ -163,6 +170,9 @@ enum DefaultsKey {
 
     // MARK: - 메모 실시간 동기화 (CKSyncEngine)
     static let memoSyncEnabled = "memoSyncEnabled"
+    /// iCloud KV 에 켜져 있던 동기화 설정을 **이 기기가 받아들일지** 한 번 판정했는가 (App Group).
+    /// 판정 자체를 한 번만 하기 위한 표식이라, 결과(켬/끔)는 `memoSyncEnabled` 에 남는다.
+    static let memoSyncCloudAdoptedV1 = "memoSync.cloudAdopted.v1"
     static let syncEngineState = "sync.engine.state"
     static let syncShadow = "sync.shadow"
     static let syncTombstones = "sync.tombstones"

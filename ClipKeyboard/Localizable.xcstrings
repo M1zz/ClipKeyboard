@@ -341,6 +341,23 @@
         }
       }
     },
+    "%@ 값": {
+      "comment": "Placeholder value field prompt",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ value"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nilai %@"
+          }
+        }
+      }
+    },
     "%@ 단축어로 저장": {
       "comment": "VoiceOver: save scenario as snippet",
       "localizations": {
@@ -1185,7 +1202,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%d sec"
+            "value": "%ds"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d dtk"
           }
         }
       }
@@ -1373,6 +1396,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Saved as snippet: %@"
+          }
+        }
+      }
+    },
+    "'%@' 자리에 넣을 값을 여기서 바로 만들 수 있어요.": {
+      "comment": "Placeholder inline add hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can create a value for '%@' right here."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa membuat nilai untuk '%@' langsung di sini."
           }
         }
       }
@@ -1778,6 +1818,7 @@
     },
     "0분": {
       "comment": "Zero minutes",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -2948,7 +2989,7 @@
       }
     },
     "ClipKeyboard": {
-      "comment": "ClipKeyboard app name",
+      "comment": "App menu name\nClipKeyboard app name\nKeyboard name\nKeyboard name in list",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -6818,19 +6859,19 @@
         }
       }
     },
-    "Save your IBAN once. Paste forever.": {
+    "Save it once. Paste it forever.": {
       "comment": "Empty: zero memos",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Save your IBAN once. Paste forever."
+            "value": "Save it once. Paste it forever."
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "IBAN 한 번 저장, 평생 사용"
+            "value": "한 번만 저장하면, 계속 꺼내 씁니다"
           }
         }
       }
@@ -8494,6 +8535,23 @@
         }
       }
     },
+    "iCloud 백업이 켜져 있으면 새 폰에서 그대로 불러올 수 있어요. 백업은 본인 iCloud 계정에만 저장됩니다.": {
+      "comment": "DYK body: backup",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With iCloud backup on, a new phone gets everything back. The backup lives only in your own iCloud account."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dengan cadangan iCloud aktif, ponsel baru mendapatkan semuanya kembali. Cadangan hanya ada di akun iCloud Anda."
+          }
+        }
+      }
+    },
     "iCloud 상태": {
       "comment": "iCloud status label",
       "localizations": {
@@ -8972,6 +9030,7 @@
     },
     "{이름}님, 확인했습니다": {
       "comment": "Mascot help: template example",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -9039,6 +9098,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "{clipboard}"
+          }
+        }
+      }
+    },
+    "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.": {
+      "comment": "DYK body: clipboard token",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Write {clipboard} and whatever you just copied goes there. Like \"Your tracking number is {clipboard}\"."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tulis {clipboard} dan apa pun yang baru Anda salin masuk ke sana. Seperti \"Nomor resi Anda {clipboard}\"."
           }
         }
       }
@@ -9315,6 +9391,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Now and then a cat wanders past the cards."
+          }
+        }
+      }
+    },
+    "가끔 새 안내 받기": {
+      "comment": "Did you know: opt in toggle",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get an occasional tip"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terima tips sesekali"
           }
         }
       }
@@ -10093,6 +10186,23 @@
         }
       }
     },
+    "계좌번호를 복사하면 계좌로, 주소를 복사하면 주소로 스스로 분류돼요. 나중에 찾을 때 검색하지 않고 갈래만 고르면 됩니다.": {
+      "comment": "DYK body: auto classify",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy an account number and it files itself under accounts; copy an address and it goes to addresses. Later you just pick the group instead of searching."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin nomor rekening dan ia masuk ke rekening; salin alamat dan ia ke alamat. Nanti Anda tinggal pilih grupnya."
+          }
+        }
+      }
+    },
     "고양이": {
       "comment": "Living skin name: cat",
       "localizations": {
@@ -10311,6 +10421,23 @@
         }
       }
     },
+    "그거 아세요?": {
+      "comment": "Did you know header",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Did you know?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahukah Anda?"
+          }
+        }
+      }
+    },
     "그냥 닫음": {
       "comment": "Dropoff: dismissed",
       "localizations": {
@@ -10334,8 +10461,7 @@
       }
     },
     "그대로 둘게요": {
-      "comment": "Keep tutorial creations",
-      "extractionState": "stale",
+      "comment": "Sample cleanup: keep",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -10343,10 +10469,10 @@
             "value": "Keep them"
           }
         },
-        "ko": {
+        "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "그대로 둘게요"
+            "value": "Biarkan saja"
           }
         }
       }
@@ -10918,6 +11044,40 @@
         }
       }
     },
+    "길게 누르면 복사돼요": {
+      "comment": "DYK title: long press",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Press and hold to copy"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tekan lama untuk menyalin"
+          }
+        }
+      }
+    },
+    "길게 눌러 선택하고, 복사하고, 돌아와서 붙여넣던 손놀림이에요.": {
+      "comment": "Grounds note: handling",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Long-pressing to select, copying, coming back, pasting. That whole routine."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menekan lama untuk memilih, menyalin, kembali, lalu menempel. Seluruh rutinitas itu."
+          }
+        }
+      }
+    },
     "길어서 치기 싫은 것": {
       "comment": "Saving kind: long text",
       "localizations": {
@@ -11044,12 +11204,18 @@
       }
     },
     "나중에 할게요": {
-      "comment": "Skip practice button",
+      "comment": "Make-own cue: skip",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Maybe Later"
+            "value": "Maybe later"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nanti saja"
           }
         }
       }
@@ -11093,6 +11259,23 @@
         }
       }
     },
+    "남에게 보여주기 싫은 건 잠글 수 있어요": {
+      "comment": "DYK title: secure memo",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can lock the ones you'd rather not show"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa mengunci yang tak ingin ditunjukkan"
+          }
+        }
+      }
+    },
     "납작": {
       "comment": "Keyboard skin name: flat",
       "localizations": {
@@ -11128,6 +11311,7 @@
     },
     "내 계좌 · 집 주소": {
       "comment": "Mascot help: snippet example",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -11358,6 +11542,23 @@
         }
       }
     },
+    "네, 켰어요": {
+      "comment": "Setup confirm button",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yes, it's on"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ya, sudah aktif"
+          }
+        }
+      }
+    },
     "네, 해볼게요": {
       "comment": "Tutorial invite: accept",
       "extractionState": "stale",
@@ -11517,6 +11718,7 @@
     },
     "눌러서 적힌 그대로 넣어요.": {
       "comment": "Mascot help: snippet detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -11585,6 +11787,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open with Another Mail App"
+          }
+        }
+      }
+    },
+    "다른 앱에서 바로 저장할 수 있어요": {
+      "comment": "DYK title: share sheet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can save straight from other apps"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa menyimpan langsung dari aplikasi lain"
           }
         }
       }
@@ -11931,7 +12150,7 @@
       }
     },
     "단축어": {
-      "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet\nSnippet (saved key-value item) display name",
+      "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -12356,6 +12575,23 @@
         }
       }
     },
+    "단축어 안에 {커서} 를 적어 두면, 넣은 뒤 커서가 그 자리에 섭니다. 뒷말을 이어 쓸 때 손이 덜 갑니다.": {
+      "comment": "DYK body: cursor token",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Put {cursor} in a snippet and the cursor stops there after it's typed. Less reaching when you keep writing."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Taruh {cursor} di pintasan dan kursor berhenti di sana. Lebih sedikit gerakan saat Anda lanjut menulis."
+          }
+        }
+      }
+    },
     "단축어 없음": {
       "comment": "Empty state: no memos",
       "extractionState": "stale",
@@ -12703,6 +12939,23 @@
         }
       }
     },
+    "단축어를 보안으로 두면 Face ID 를 통과해야 열려요. 폰을 잠깐 빌려줘도 그것만은 안 보입니다.": {
+      "comment": "DYK body: secure memo",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark a snippet as secure and it takes Face ID to open. Hand your phone to someone and that one stays hidden."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tandai pintasan sebagai aman dan perlu Face ID untuk membukanya. Serahkan ponsel Anda, yang itu tetap tersembunyi."
+          }
+        }
+      }
+    },
     "단축어를 분류할 카테고리 이름을 입력하세요.": {
       "comment": "Add category alert message",
       "localizations": {
@@ -12801,7 +13054,7 @@
       }
     },
     "닫기": {
-      "comment": "Close\nClose / dismiss\nClose button\nClose paste tip\nClose paywall\nClose sheet\nClose the tip",
+      "comment": "Close\nClose / dismiss\nClose button\nClose paste tip\nClose paywall\nClose sheet",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -13086,6 +13339,7 @@
     },
     "도움말": {
       "comment": "Help",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -14354,6 +14608,7 @@
     },
     "무엇을 도와드릴까요?": {
       "comment": "Mascot help sheet title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -14900,6 +15155,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "백업 중..."
+          }
+        }
+      }
+    },
+    "백업 화면 열기": {
+      "comment": "Did-you-know action: backup",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open backup"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka cadangan"
           }
         }
       }
@@ -15687,6 +15959,23 @@
         }
       }
     },
+    "복사·붙여넣기 하지 않아도 된 시간": {
+      "comment": "Grounds row: handling",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time you didn't spend copying and pasting"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waktu yang tak terpakai untuk menyalin dan menempel"
+          }
+        }
+      }
+    },
     "복사됨": {
       "comment": "VoiceOver: copied\nWidget: copied confirmation",
       "localizations": {
@@ -15733,6 +16022,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clipboard"
+          }
+        }
+      }
+    },
+    "복사한 것이 알아서 갈래를 찾아가요": {
+      "comment": "DYK title: auto classify",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copied things sort themselves"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yang disalin menyortir dirinya sendiri"
           }
         }
       }
@@ -15813,6 +16119,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Choose what to copy"
+          }
+        }
+      }
+    },
+    "복사해 둔 것을 문장 안에 끼울 수 있어요": {
+      "comment": "DYK title: clipboard token",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can drop what you copied into a sentence"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa menyisipkan salinan ke dalam kalimat"
           }
         }
       }
@@ -16166,6 +16489,7 @@
     },
     "빈칸만 채우면 나머지는 그대로 완성돼요.": {
       "comment": "Mascot help: template detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -16701,6 +17025,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Share from Safari and it becomes a shortcut right away, no second step inside the app"
+          }
+        }
+      }
+    },
+    "사흘에 한 번, 아직 안 본 것만 하나씩 알려드려요. 다 보고 나면 더 뜨지 않아요.": {
+      "comment": "Did you know: cadence footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One tip every three days, only ones you haven't seen. Once you've seen them all, they stop."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Satu tips setiap tiga hari, hanya yang belum Anda lihat. Setelah semua terlihat, tips berhenti."
           }
         }
       }
@@ -17908,6 +18249,23 @@
         }
       }
     },
+    "설정에서 보기": {
+      "comment": "Did-you-know action: settings",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show me in Settings"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tunjukkan di Pengaturan"
+          }
+        }
+      }
+    },
     "설정에서 키보드를 추가한 후\n이 화면으로 돌아와 다음 단계를 진행하세요": {
       "comment": "Onboarding: return after adding keyboard",
       "extractionState": "stale",
@@ -18107,6 +18465,7 @@
     },
     "셋이 뭐가 달라요?": {
       "comment": "Mascot help: what is what header",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -18970,6 +19329,7 @@
     },
     "아직 다른 앱에서는 못 써요. 켜는 곳까지 같이 가 드릴게요.": {
       "comment": "Mascot help: keyboard setup detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -19247,6 +19607,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "The Stability screen now tells you what it is waiting for instead of showing a raw error."
+          }
+        }
+      }
+    },
+    "알겠어요": {
+      "comment": "Did you know: dismiss",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Got it"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mengerti"
           }
         }
       }
@@ -19649,6 +20026,23 @@
         }
       }
     },
+    "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
+      "comment": "DYK body: share sheet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select text in any app, tap Share, pick ClipKeyboard, and it becomes a snippet. No need to open the app."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilih teks di aplikasi mana pun, ketuk Bagikan, pilih ClipKeyboard, dan jadilah pintasan. Tak perlu membuka aplikasi."
+          }
+        }
+      }
+    },
     "어떻게 사용하실 예정인가요?": {
       "comment": "Persona onboarding title",
       "extractionState": "manual",
@@ -19801,6 +20195,23 @@
         }
       }
     },
+    "여기 적은 것은 어디로도 가지 않아요": {
+      "comment": "DYK title: no server",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What you write here never leaves your phone"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yang Anda tulis di sini tak pernah meninggalkan ponsel"
+          }
+        }
+      }
+    },
     "여기를 탭하고 ClipKeyboard에서 단축어를 붙여넣어 보세요…": {
       "comment": "Practice editor placeholder",
       "localizations": {
@@ -19882,6 +20293,7 @@
     },
     "여러 값이 순서대로 하나씩 들어가요.": {
       "comment": "Mascot help: combo detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -20032,6 +20444,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Practice"
+          }
+        }
+      }
+    },
+    "연습용 단축어를 치울까요?": {
+      "comment": "Sample cleanup title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear out the practice snippets?"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bersihkan pintasan latihan?"
           }
         }
       }
@@ -20609,19 +21038,19 @@
         }
       }
     },
-    "원래는 다른 앱을 열어 찾아와야 했던 값이에요. 아낀 시간의 대부분이 여기서 나와요.": {
+    "원래는 다른 앱을 열어 찾고, 선택해서 복사하고, 돌아와서 붙여넣어야 했던 값이에요. 아낀 시간의 대부분이 여기서 나와요.": {
       "comment": "Saving kind explanation: lookup",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You used to open another app to fetch this. Most of your saved time comes from here."
+            "value": "You used to open another app, find it, select and copy it, then come back and paste. Most of your saved time comes from here."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dulu Anda harus membuka aplikasi lain untuk mengambil ini. Sebagian besar waktu yang dihemat berasal dari sini."
+            "value": "Dulu Anda harus membuka aplikasi lain, mencarinya, menyalinnya, lalu kembali dan menempelkannya. Sebagian besar waktu yang dihemat berasal dari sini."
           }
         }
       }
@@ -20672,6 +21101,7 @@
     },
     "웹에서 열려요. 더 많은 예시와 화면별 설명이 있어요.": {
       "comment": "Mascot help: user guide detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -20977,6 +21407,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restore to this point?"
+          }
+        }
+      }
+    },
+    "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
+      "comment": "DYK body: no server",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app has no server. Your account numbers and ID numbers live only on this phone, and even we can't see them. There's no server to breach, so there's nothing to breach."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplikasi ini tak punya server. Nomor rekening dan identitas Anda hanya ada di ponsel ini, bahkan kami tak bisa melihatnya. Tak ada server untuk diretas."
           }
         }
       }
@@ -21328,6 +21775,23 @@
         }
       }
     },
+    "이런 안내 그만 볼게요": {
+      "comment": "Did you know: opt out",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop showing these"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berhenti tampilkan ini"
+          }
+        }
+      }
+    },
     "이런 카테고리는 어때요?": {
       "comment": "Persona category suggestion tip title",
       "localizations": {
@@ -21385,6 +21849,7 @@
     },
     "이름 → 연락처 → 주소": {
       "comment": "Mascot help: combo example",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -21990,6 +22455,23 @@
         }
       }
     },
+    "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
+      "comment": "Make-own cue on the stage",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Now make one of your own. Tap the + above."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sekarang buat milik Anda sendiri. Ketuk + di atas."
+          }
+        }
+      }
+    },
     "이제 키보드에서 단축어를 바로 불러올 수 있어요.\n키보드를 열고 🌐를 길게 눌러 ClipKeyboard로 전환하세요.": {
       "comment": "Setup done description",
       "localizations": {
@@ -22163,6 +22645,7 @@
     },
     "읽는 대신 직접 눌러 보면서 배워요. 준비된 것을 하나씩 가리켜 드릴게요.": {
       "comment": "Mascot help: tutorial detail",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -22734,6 +23217,7 @@
     },
     "자세한 사용 가이드": {
       "comment": "User guide",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -24594,6 +25078,7 @@
     },
     "처음이면 손잡고 한 번 같이 해 봐요. 이미 해 봤다면 필요한 것만 찾아보셔도 돼요.": {
       "comment": "Mascot help sheet subtitle",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -24969,7 +25454,7 @@
       }
     },
     "추가": {
-      "comment": "Add\nAdd button",
+      "comment": "Add\nAdd button\nAdd placeholder value button",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -25092,6 +25577,23 @@
         }
       }
     },
+    "치우기": {
+      "comment": "Sample cleanup: delete",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear them"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bersihkan"
+          }
+        }
+      }
+    },
     "치지 않아도 된 시간": {
       "comment": "Grounds row: typing",
       "localizations": {
@@ -25178,6 +25680,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enter card number: 1234 → 5678 → 9012 → 3456"
+          }
+        }
+      }
+    },
+    "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
+      "comment": "DYK body: checksum",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card numbers, IBANs, and business numbers have checksums. Get one digit wrong and we'll say so before you save."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nomor kartu, IBAN, dan nomor usaha punya checksum. Salah satu digit, kami beri tahu sebelum Anda menyimpan."
           }
         }
       }
@@ -25476,6 +25995,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cursor"
+          }
+        }
+      }
+    },
+    "커서를 어디에 둘지 정할 수 있어요": {
+      "comment": "DYK title: cursor token",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can decide where the cursor lands"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa menentukan letak kursor"
           }
         }
       }
@@ -26111,6 +26647,23 @@
         }
       }
     },
+    "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
+      "comment": "DYK body: keyboard look",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key count, height, text size, colors: all yours to set. Some people fit eight keys on one screen."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jumlah tombol, tinggi, ukuran teks, warna: semua bisa diatur. Ada yang memuat delapan tombol dalam satu layar."
+          }
+        }
+      }
+    },
     "키 색상": {
       "comment": "Key color picker",
       "localizations": {
@@ -26322,6 +26875,23 @@
         }
       }
     },
+    "키보드 생김새를 바꿀 수 있어요": {
+      "comment": "DYK title: keyboard look",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can change how the keyboard looks"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda bisa mengubah tampilan papan ketik"
+          }
+        }
+      }
+    },
     "키보드 설정": {
       "comment": "Keyboard settings nav title",
       "extractionState": "stale",
@@ -26456,6 +27026,7 @@
     },
     "키보드 켜기": {
       "comment": "Mascot help: turn on the keyboard",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -26690,6 +27261,23 @@
         }
       }
     },
+    "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
+      "comment": "DYK body: long press",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hold a snippet on the keyboard and it goes to the clipboard instead of being typed. Handy when you're pasting somewhere else."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tahan pintasan di papan ketik dan ia masuk ke papan klip alih-alih diketik. Berguna saat menempel di tempat lain."
+          }
+        }
+      }
+    },
     "키보드에서 문구를 한 번 쓰면 여기에 자국이 남기 시작해요.": {
       "comment": "Usage passport empty state body",
       "localizations": {
@@ -26832,6 +27420,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Change the icon shown on the category tab in the keyboard."
+          }
+        }
+      }
+    },
+    "키보드에서 해보기": {
+      "comment": "Did-you-know action: stage",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try it on the keyboard"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coba di papan ketik"
           }
         }
       }
@@ -27927,7 +28532,7 @@
       }
     },
     "튜토리얼 다시 하기": {
-      "comment": "Restart the tutorial\nRestart tutorial",
+      "comment": "Restart the tutorial",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -27939,6 +28544,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "튜토리얼 다시 하기"
+          }
+        }
+      }
+    },
+    "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+      "comment": "Sample cleanup message",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These are the snippet, template, and combo you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ini pintasan, templat, dan kombo yang Anda coba di tutorial. Anda sudah membuat milik sendiri, jadi bisa dibersihkan atau disimpan dan diubah sesuai kebutuhan."
           }
         }
       }
@@ -27986,6 +28608,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "One more walkthrough"
+          }
+        }
+      }
+    },
+    "틀린 카드번호는 저장할 때 알려드려요": {
+      "comment": "DYK title: checksum",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We catch a mistyped card number"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami menangkap nomor kartu yang salah ketik"
           }
         }
       }
@@ -28224,6 +28863,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Included"
+          }
+        }
+      }
+    },
+    "폰을 잃어버려도 단축어는 남아요": {
+      "comment": "DYK title: backup",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lose the phone, keep the snippets"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kehilangan ponsel, pintasan tetap ada"
           }
         }
       }

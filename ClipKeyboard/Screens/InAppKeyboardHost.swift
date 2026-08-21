@@ -74,7 +74,15 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     // MARK: - 생애
 
-    init() {
+    /// 글을 **한 글자씩 흘려 넣을지.**
+    ///
+    /// 화면에서는 언제나 켠다(움직임 줄이기를 켠 사람에게는 `animatesTyping` 이 알아서 끈다).
+    /// 결과만 보면 되는 자리(시험)에서는 꺼서 한 번에 넣는다 - 흐르는 동안 값을 읽으면
+    /// 반쯤 들어온 글을 보게 되어 시험이 시간에 흔들린다.
+    private let typesOut: Bool
+
+    init(typesOut: Bool = true) {
+        self.typesOut = typesOut
         // 앱에는 "전체 접근" 개념이 없다 - 클립보드는 언제나 열려 있다.
         // 이 값을 켜 두지 않으면 KeyboardView가 클립보드 동작을 막고
         // "설정 > 키보드에서 전체 접근을 켜세요" 라는 엉뚱한 안내를 띄운다.
@@ -89,6 +97,10 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     /// 화면을 떠날 때 - 돌고 있던 콤보 순차 입력을 세운다.
     func stop() {
+        typingTask?.cancel()
+        typingTask = nil
+        typingRemainder = []
+        typingCompletion = nil
         comboWorkItems.forEach { $0.cancel() }
         comboWorkItems.removeAll()
     }
@@ -120,6 +132,8 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     nonisolated func deleteBackward() {
         MainActor.assumeIsolated {
+            // 흐르는 중에 지우면 뒤에서 글자가 계속 밀려 들어와 지운 티가 안 난다.
+            flushTyping()
             guard caret > 0 else { return }
             let idx = self.text.index(self.text.startIndex, offsetBy: caret - 1)
             self.text.remove(at: idx)
@@ -144,6 +158,10 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     nonisolated func clearAll() {
         MainActor.assumeIsolated {
+            typingTask?.cancel()
+            typingTask = nil
+            typingRemainder = []
+            typingCompletion = nil
             text = ""
             caret = 0
             syncDocumentState()
@@ -157,6 +175,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     /// 이미지만 붙이고 글은 안 쓴 채로도 보낼 수 있다 - 이미지 단축어를 눌러 본 사람이
     /// 결과를 보려고 굳이 글까지 써야 하는 것은 이유 없는 한 걸음이다.
     func send() {
+        flushTyping()   // 반쯤 흐른 글을 말풍선으로 올리지 않는다
         guard canSend else { return }
         #if os(iOS)
         messages.append(.init(side: .outgoing, text: text, image: attachedImage))
@@ -218,11 +237,91 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     ///    채우고 온 것도, 잠긴 것을 풀고 온 것도 마지막엔 전부 여기로 모인다.
     private func insertResolved(_ processed: String) {
         let placement = TemplateVariableProcessor.resolveCursor(in: processed)
-        insert(placement.text)
-        if placement.needsCursorMove {
-            caret = max(0, caret - placement.offsetFromEnd)
+        typeOut(placement.text) { [weak self] in
+            guard let self, placement.needsCursorMove else { return }
+            self.caret = max(0, self.caret - placement.offsetFromEnd)
         }
         KeyboardHaptics.stamp()
+    }
+
+    // MARK: - 치는 것처럼 넣기
+
+    /// 아직 안 들어간 글자들. 비어 있으면 지금 흐르는 것이 없다는 뜻이다.
+    private var typingRemainder: [Character] = []
+    /// 다 들어간 뒤에 할 일(캐럿 되돌리기 등).
+    private var typingCompletion: (() -> Void)?
+    private var typingTask: Task<Void, Never>?
+
+    /// 글자 하나 사이의 쉼(초). 짧은 글은 이 값 그대로, 긴 글은 아래 총 시간에 맞춰 줄어든다.
+    private static let typingStep: TimeInterval = 0.03
+    /// 아무리 길어도 이 시간 안에 다 들어간다.
+    ///
+    /// ⚠️ 상한이 없으면 서른 줄짜리 템플릿이 십몇 초를 흐른다. 그건 보여 주는 것이 아니라
+    ///    **기다리게 하는 것**이다. 이 연출은 "눌렀더니 대신 쳐 준다"를 한 번 보여주려는
+    ///    것이지, 진짜 타자기를 흉내 내려는 것이 아니다.
+    private static let typingBudget: TimeInterval = 0.7
+
+    /// 움직임 줄이기를 켠 사람에게는 흐르지 않는다 - 한 번에 들어간다.
+    private var animatesTyping: Bool {
+        guard typesOut else { return false }
+        #if os(iOS)
+        return !UIAccessibility.isReduceMotionEnabled
+        #else
+        return false
+        #endif
+    }
+
+    /// 한 글자씩 밀어 넣는다 - **대신 쳐 주는 장면**을 보여준다.
+    ///
+    /// ⚠️ 왜 한 번에 안 넣나: 이 화면의 값어치는 "긴 걸 안 쳐도 된다"인데, 글이 순간이동하면
+    ///    무엇을 안 해도 됐는지가 안 보인다. 흐르는 동안 눈이 그 길이를 읽는다.
+    ///    (진짜 익스텐션은 남의 앱 입력칸에 넣는 자리라 이런 연출을 하지 않는다.
+    ///     거기서는 빠른 것이 전부다. 이건 **미리보기에서만** 하는 일이다)
+    ///
+    /// ⚠️ 흐르는 도중에 다음 것이 오면 **앞의 것을 먼저 끝내 놓는다**(`flushTyping`).
+    ///    두 개가 겹쳐 흐르면 글자가 서로 끼어들어 문장이 뒤섞인다.
+    private func typeOut(_ chunk: String, completion: @escaping () -> Void) {
+        flushTyping()
+        guard !chunk.isEmpty else { completion(); return }
+        guard animatesTyping, chunk.count > 1 else {
+            insert(chunk)
+            completion()
+            return
+        }
+
+        typingRemainder = Array(chunk)
+        typingCompletion = completion
+        let step = min(Self.typingStep, Self.typingBudget / Double(typingRemainder.count))
+
+        typingTask = Task { @MainActor [weak self] in
+            while true {
+                guard let self, !Task.isCancelled, !self.typingRemainder.isEmpty else { return }
+                self.insert(String(self.typingRemainder.removeFirst()))
+                if self.typingRemainder.isEmpty { break }
+                try? await Task.sleep(for: .seconds(step))
+            }
+            guard let self, !Task.isCancelled else { return }
+            self.typingTask = nil
+            let done = self.typingCompletion
+            self.typingCompletion = nil
+            done?()
+        }
+    }
+
+    /// 흐르는 중이면 **지금 당장 끝낸다.** 남은 글자를 한 번에 넣는다.
+    ///
+    /// 보내기·지우기·다음 삽입처럼 "글이 다 들어와 있어야 하는" 자리에서 먼저 부른다.
+    /// 반쯤 흐른 글을 말풍선으로 올리면 사용자가 누른 적 없는 문장이 올라간다.
+    private func flushTyping() {
+        typingTask?.cancel()
+        typingTask = nil
+        if !typingRemainder.isEmpty {
+            insert(String(typingRemainder))
+            typingRemainder = []
+        }
+        let done = typingCompletion
+        typingCompletion = nil
+        done?()
     }
 
     private func syncDocumentState() {

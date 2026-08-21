@@ -64,6 +64,41 @@ class PredefinedValuesStore {
         return []
     }
 
+    /// 값을 하나 **적어 넣는다.** 앱 쪽 `MemoStore.addPlaceholderValue` 와 같은 자리·같은 형식.
+    ///
+    /// ⚠️ 두 타깃이 같은 파일을 보므로 여기 하나만 있으면 된다. 형식이 갈리면 한쪽이 쓴 값을
+    ///    다른 쪽이 못 읽는다 - `KeyboardPlaceholderValue` 는 앱의 `PlaceholderValue` 와
+    ///    필드 이름까지 같아야 한다(그래서 같은 JSON 을 주고받는다).
+    ///
+    /// ⚠️ 같은 값이 이미 있으면 **맨 앞으로 끌어올린다.** 두 번 적히면 고를 때 같은 칩이
+    ///    두 개 보인다.
+    @discardableResult
+    func addValue(_ value: String,
+                  for placeholder: String,
+                  sourceMemoId: UUID?,
+                  sourceMemoTitle: String) -> Bool {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, let defaults = AppGroup.defaults else { return false }
+
+        let key = "placeholder_values_\(placeholder)"
+        var values: [KeyboardPlaceholderValue] = []
+        if let data = defaults.data(forKey: key),
+           let decoded = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
+            values = decoded
+        }
+        values.removeAll { $0.value == trimmed }
+        values.insert(KeyboardPlaceholderValue(id: UUID(),
+                                               value: trimmed,
+                                               sourceMemoId: sourceMemoId ?? UUID(),
+                                               sourceMemoTitle: sourceMemoTitle,
+                                               addedAt: Date()),
+                      at: 0)
+        guard let data = try? JSONEncoder().encode(values) else { return false }
+        defaults.set(data, forKey: key)
+        print("✅ [PredefinedValuesStore] '\(placeholder)' 에 값 추가: \(trimmed)")
+        return true
+    }
+
     // 특정 템플릿에서 사용하는 값만 필터링
     func getValuesForTemplate(placeholder: String, templateId: UUID?) -> [String] {
         print("\n🔍 [PredefinedValuesStore] getValuesForTemplate 호출")
@@ -272,9 +307,27 @@ struct KeyboardView: View {
     /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
     /// 별 토글은 v4.1.0에서 제거됨 - 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
     private var filteredMemos: [Memo] {
+        var result = memos(onPage: selectedCategoryFilter)
+
+        if !searchQuery.isEmpty {
+            let q = searchQuery
+            result = result.filter {
+                $0.title.localizedStandardContains(q) ||
+                $0.value.localizedStandardContains(q) ||
+                $0.category.localizedStandardContains(q)
+            }
+        }
+        return result
+    }
+
+    /// **한 페이지**에 서는 단축어들. 검색은 얹지 않는다.
+    ///
+    /// ⚠️ 페이지를 인자로 받는다. `filteredMemos` 가 지금 페이지만 알던 동안에는
+    ///    "가리키는 키가 어느 페이지에 있는가"를 물을 방법이 없었다(`pageIndex(containing:)`).
+    private func memos(onPage page: String?) -> [Memo] {
         var result = allMemos
 
-        if isCategoryFeatureEnabled, let category = selectedCategoryFilter {
+        if isCategoryFeatureEnabled, let category = page {
             switch category {
             case "★basic":
                 // 기본 = **갈 수 있는** 어떤 카테고리 페이지에도 속하지 않은 비즐겨찾기 메모.
@@ -301,16 +354,27 @@ struct KeyboardView: View {
                 result = result.filter { $0.category == category }
             }
         }
-
-        if !searchQuery.isEmpty {
-            let q = searchQuery
-            result = result.filter {
-                $0.title.localizedStandardContains(q) ||
-                $0.value.localizedStandardContains(q) ||
-                $0.category.localizedStandardContains(q)
-            }
-        }
         return result
+    }
+
+    /// 그 단축어가 서 있는 페이지의 번호. 어느 페이지에도 없으면 nil.
+    private func pageIndex(containing id: UUID) -> Int? {
+        categoryPages.firstIndex { page in
+            memos(onPage: page).contains { $0.id == id }
+        }
+    }
+
+    /// 튜토리얼이 가리키는 키가 **다른 페이지에 있으면** 그 페이지로 옮긴다.
+    ///
+    /// ⚠️ 이게 없으면 처음 온 사람의 첫 걸음이 그대로 끊긴다. 심어 둔 샘플은 즐겨찾기와
+    ///    사용자 카테고리로 들어가는데, 키보드는 늘 첫 페이지(★basic)에서 열린다.
+    ///    그 페이지는 **비어 있다** - "이걸 눌러보세요 ↓" 아래에 아무것도 없는 화면이 된다.
+    private func revealHighlightedPageIfNeeded() {
+        guard let id = highlightedMemoId, isCategoryFeatureEnabled else { return }
+        // 이미 보이면 건드리지 않는다 - 사용자가 넘긴 페이지를 도로 끌고 오지 않기 위해서다.
+        guard !filteredMemos.contains(where: { $0.id == id }) else { return }
+        guard let index = pageIndex(containing: id), index != currentCategoryPage else { return }
+        currentCategoryPage = index
     }
 
     /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
@@ -564,12 +628,10 @@ struct KeyboardView: View {
                                     ))
                                     // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
                                     // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
+                                    // 튜토리얼이 가리키는 키 - **말이 아니라 파형으로** 알린다.
                                     .overlay {
                                         if item.memo.id == highlightedMemoId {
-                                            keycapShape
-                                                .strokeBorder(theme.accent, lineWidth: 3)
-                                                .shadow(color: theme.accent.opacity(0.7), radius: 8)
-                                                .allowsHitTesting(false)
+                                            KeyRipple(shape: keycapShape, color: theme.accent)
                                         }
                                     }
                             }
@@ -612,7 +674,7 @@ struct KeyboardView: View {
         .overlay(
             Group {
                 if templateInputState.isShowing {
-                    TemplateInputOverlay(state: templateInputState)
+                    TemplateInputOverlay(state: templateInputState, hostKind: hostKind)
                 }
             }
         )
@@ -684,8 +746,11 @@ struct KeyboardView: View {
         .onReceive(NotificationCenter.default.publisher(for: .needsFullAccess)) { _ in
             showFullAccessNotice()
         }
+        // 장이 넘어가면 가리키는 키가 바뀐다 - 뷰는 그대로라 onAppear 가 다시 돌지 않는다.
+        .onChange(of: highlightedMemoId) { _, _ in revealHighlightedPageIfNeeded() }
         .onAppear {
             loadAllMemos()
+            revealHighlightedPageIfNeeded()
 
             guard templateObserverToken == nil else { return }
             // 템플릿 입력 알림 구독
@@ -923,7 +988,7 @@ struct KeyboardView: View {
         if selectedCategoryFilter == "★favorites" {
             return NSLocalizedString("No favorites yet", comment: "Empty: no favorites")
         }
-        return NSLocalizedString("Save your IBAN once. Paste forever.", comment: "Empty: zero memos")
+        return NSLocalizedString("Save it once. Paste it forever.", comment: "Empty: zero memos")
     }
 
     private var emptyStateSubtitle: String {
