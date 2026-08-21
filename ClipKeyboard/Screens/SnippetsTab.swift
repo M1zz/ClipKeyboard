@@ -230,6 +230,12 @@ struct SnippetsTab: View {
     @State private var showOffer = false
     /// 연습용 단축어를 치울지 묻는 알림.
     @State private var showSampleCleanup = false
+    /// 넣기까지 끝났고 **보내기만 남았다.** 이 동안 보내기 동그라미에 파형이 인다.
+    ///
+    /// ⚠️ 일부러 저장하지 않는다. 앱을 껐다 켜면 입력창이 비어 있어 보낼 것이 없으므로,
+    ///    기다리던 상태만 남으면 아무것도 못 하는 화면이 된다. 그때는
+    ///    `resumeTutorialIfStalled` 가 그 장을 다시 열어 준다(키가 다시 빛난다).
+    @State private var awaitingSend = false
     /// 다음 장까지 도는 원이 끝나는 시각. nil 이면 안 보인다.
     @State private var countdownEndsAt: Date?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -313,7 +319,8 @@ struct SnippetsTab: View {
                                        highlightedMemoId: highlightedMemoId,
                                        tutorialLine: nextChapter?.coachLine,
                                        asksToMakeOwn: onboardingStep == .makeOwn,
-                                       onMakeOwnSkipped: { finishMakeOwn() })
+                                       onMakeOwnSkipped: { finishMakeOwn() },
+                                       highlightsSend: awaitingSend)
                         .transition(screenTransition)
                 }
             }
@@ -332,7 +339,11 @@ struct SnippetsTab: View {
         // 밀려 들어오면 어디로 이동한 것처럼 보이고, 여기서는 이동한 게 아니라 모습이 바뀐 것이다.
         // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
-        .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: completeChapter)
+        .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: chapterKeyWasUsed)
+        // 보내야 한 바퀴가 끝난다 - 넣은 것이 어디로 가는지는 말풍선이 올라와야 보인다.
+        .onReceive(NotificationCenter.default.publisher(for: .stageMessageSent)) { _ in
+            finishChapterAfterSend()
+        }
         // 자기 것을 하나라도 만들면 그 걸음은 끝난다 - 어디서 만들었든(무대의 +, 목록, 공유 시트).
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             completeMakeOwnIfMadeSomething()
@@ -390,6 +401,7 @@ struct SnippetsTab: View {
     private func resumeTutorialIfStalled() {
         guard onboardingStep == .tryScenarios,
               highlightedMemoId == nil,
+              !awaitingSend,
               countdownEndsAt == nil else { return }
         openNextChapter()
     }
@@ -436,28 +448,41 @@ struct SnippetsTab: View {
         }
     }
 
-    /// 가리킨 키를 실제로 눌렀다 - 이 장 끝. 한 박자 쉬고 다음 장으로.
+    /// 가리킨 키를 실제로 눌렀다 - **아직 끝이 아니다.** 보내기까지가 한 바퀴다.
     ///
     /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다
     ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
-    private func completeChapter(_ note: Notification) {
+    ///
+    /// ⚠️ 예전에는 여기서 0.9초 뒤에 곧바로 다음 장으로 넘어갔다. 그러면 이 무대의
+    ///    이야기가 **반만 보인다.** 눌렀더니 글이 들어가는 것까지는 보는데, 그 글이
+    ///    어디로 가는지는 못 본다. 보내기를 눌러 말풍선이 올라가야 한 바퀴가 닫힌다.
+    private func chapterKeyWasUsed(_ note: Notification) {
         guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
               used == highlightedMemoId,
-              let chapter = nextChapter else { return }
+              nextChapter != nil else { return }
 
         // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
         //    일어났는지 못 보고 지나간다 - 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
         DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
-            withAnimation(.easeInOut(duration: 0.28)) { firstUseMemoIdRaw = "" }
-            markChapterDone(chapter)
-            // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
-            //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에서** 이어진다.
-            //
-            // ⚠️ 곧바로 다음 걸 켜지 않는다. 방금 "눌렀더니 글이 들어갔다"를 본 참인데
-            //    바로 다음이 빛나면 그 장면을 음미할 틈이 없고, 배우는 게 아니라
-            //    떠밀리는 느낌이 된다. 쉬는 동안은 카운트다운 원이 대신 말해 준다.
-            scheduleNextChapter()
+            withAnimation(.easeInOut(duration: 0.28)) {
+                firstUseMemoIdRaw = ""   // 키의 파형을 끈다
+                awaitingSend = true      // 보내기 동그라미로 옮겨 붙는다
+            }
         }
+    }
+
+    /// 보냈다 - 이제 이 장이 끝났다. 한 박자 쉬고 다음 장으로.
+    private func finishChapterAfterSend() {
+        guard awaitingSend, let chapter = nextChapter else { return }
+        withAnimation(.easeInOut(duration: 0.28)) { awaitingSend = false }
+        markChapterDone(chapter)
+        // ⚠️ **무대에 그대로 머문다.** 화면을 옮기면 방금 익힌 자리가 사라져서
+        //    배우던 흐름이 끊긴 것처럼 느껴진다. 다음 장은 이 화면 **위에서** 이어진다.
+        //
+        // ⚠️ 곧바로 다음 걸 켜지 않는다. 방금 한 바퀴를 돈 참인데 바로 다음이 빛나면
+        //    그 장면을 음미할 틈이 없고, 배우는 게 아니라 떠밀리는 느낌이 된다.
+        //    쉬는 동안은 카운트다운 원이 대신 말해 준다.
+        scheduleNextChapter()
     }
 
     /// 장과 장 사이의 쉼. 남은 시간을 원으로 보여주고, 다 돌면 다음 장을 연다.

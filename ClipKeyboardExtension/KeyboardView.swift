@@ -674,7 +674,11 @@ struct KeyboardView: View {
         .overlay(
             Group {
                 if templateInputState.isShowing {
-                    TemplateInputOverlay(state: templateInputState, hostKind: hostKind)
+                    // 가리키는 키가 있다는 것은 지금 튜토리얼이 돌고 있다는 뜻이다.
+                    // 그 키를 눌러 여기까지 왔으므로, 다음에 누를 곳도 이어서 알려 준다.
+                    TemplateInputOverlay(state: templateInputState,
+                                         hostKind: hostKind,
+                                         guidesUser: highlightedMemoId != nil)
                 }
             }
         )

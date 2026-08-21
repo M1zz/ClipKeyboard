@@ -11204,7 +11204,7 @@
       }
     },
     "나중에 할게요": {
-      "comment": "Make-own cue: skip",
+      "comment": "Make-own cue: skip\nSkip practice button",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -13648,6 +13648,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Drag to reorder. Items are entered in this order when the Combo runs."
+          }
+        }
+      }
+    },
+    "들어갔어요. 이제 보내기를 눌러 보세요.": {
+      "comment": "Tutorial cue: press send",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "There it is. Now tap send."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sudah masuk. Sekarang ketuk kirim."
           }
         }
       }

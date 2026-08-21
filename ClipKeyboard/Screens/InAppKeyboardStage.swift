@@ -28,6 +28,12 @@ struct InAppKeyboardStage: View {
     var asksToMakeOwn: Bool = false
     /// "나중에 할게요" - 이 걸음을 미룬다.
     var onMakeOwnSkipped: () -> Void = {}
+    /// 넣기까지 했고 이제 **보내기만 남았는가.** 그러면 보내기 동그라미에 파형이 인다.
+    ///
+    /// ⚠️ 이 걸음이 없던 동안, 키를 누르면 글이 들어가는 것까지만 보고 끝났다.
+    ///    그런데 이 무대의 이야기는 "눌러서 넣고 → 보낸다" 한 바퀴이고, 보내야
+    ///    말풍선이 올라가 **넣은 것이 어디로 가는지**가 보인다.
+    var highlightsSend: Bool = false
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -44,12 +50,14 @@ struct InAppKeyboardStage: View {
          highlightedMemoId: UUID? = nil,
          tutorialLine: String? = nil,
          asksToMakeOwn: Bool = false,
-         onMakeOwnSkipped: @escaping () -> Void = {}) {
+         onMakeOwnSkipped: @escaping () -> Void = {},
+         highlightsSend: Bool = false) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
         self.tutorialLine = tutorialLine
         self.asksToMakeOwn = asksToMakeOwn
         self.onMakeOwnSkipped = onMakeOwnSkipped
+        self.highlightsSend = highlightsSend
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -264,6 +272,13 @@ struct InAppKeyboardStage: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))
+            // 마지막 걸음 - 화살표와 글이 "위의 +" 라고 말하는데, 정작 그 + 는
+            // 가만히 있었다. 가리키는 말과 가리켜지는 것이 같은 언어를 써야 한다.
+            .overlay {
+                if asksToMakeOwn {
+                    KeyRipple(shape: Circle(), color: theme.accent, reach: 9)
+                }
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
@@ -321,7 +336,24 @@ struct InAppKeyboardStage: View {
     /// 빛만으로는 모를 수 있다. 빛은 **어디**를, 이 줄은 **무엇을** 알려 준다.
     @ViewBuilder
     private var tutorialCue: some View {
-        if highlightedMemoId != nil {
+        if highlightsSend {
+            HStack(spacing: 8) {
+                Spacer(minLength: 0)
+                Image(systemName: "arrow.up.circle.fill")
+                    .font(.subheadline.weight(.semibold))
+                Text(NSLocalizedString("들어갔어요. 이제 보내기를 눌러 보세요.",
+                                       comment: "Tutorial cue: press send"))
+                    .font(.subheadline.weight(.bold))
+                Image(systemName: "arrow.up")
+                    .font(.caption.weight(.bold))
+                Spacer(minLength: 0)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+        } else if highlightedMemoId != nil {
             HStack(spacing: 8) {
                 Spacer(minLength: 0)
                 Image(systemName: "hand.tap.fill")
@@ -430,6 +462,13 @@ struct InAppKeyboardStage: View {
                 .buttonStyle(.plain)
                 .disabled(!host.canSend)
                 .accessibilityLabel(NSLocalizedString("보내기", comment: "Send composed message"))
+                // 넣었으면 다음은 보내기다. 보낼 것이 있을 때만 인다 -
+                // 누를 수 없는 버튼이 물결치면 그건 안내가 아니라 고장이다.
+                .overlay {
+                    if highlightsSend && host.canSend {
+                        KeyRipple(shape: Circle(), color: theme.accent, reach: 10)
+                    }
+                }
             }
         }
         .padding(.horizontal, 12)

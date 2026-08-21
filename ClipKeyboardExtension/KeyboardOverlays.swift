@@ -76,6 +76,12 @@ struct TemplateInputOverlay: View {
     ///    같은 화면이지만 할 수 있는 일이 다른 것은 이 한 가지 때문이다.
     var hostKind: KeyboardHostKind = .keyboardExtension
 
+    /// 지금 **튜토리얼이 손을 잡고 있는가.** 그러면 다음에 누를 곳마다 파형이 인다.
+    ///
+    /// ⚠️ 평소에는 켜지 않는다. 늘 물결치는 화면은 안내가 아니라 소음이고,
+    ///    무엇보다 이 연출의 뜻("여기가 다음")이 닳아 없어진다.
+    var guidesUser: Bool = false
+
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
 
@@ -129,6 +135,14 @@ struct TemplateInputOverlay: View {
                             .cornerRadius(theme.radiusSm)
                     }
                     .disabled(!state.allPlaceholdersFilled)
+                    // 채울 것을 다 채웠으면 **다음은 여기**라고 알린다.
+                    .overlay {
+                        if guidesUser && state.allPlaceholdersFilled {
+                            KeyRipple(shape: RoundedRectangle(cornerRadius: theme.radiusSm,
+                                                              style: .continuous),
+                                      color: theme.accent, reach: 10)
+                        }
+                    }
 
                     // 닫기
                     Button {
@@ -179,6 +193,7 @@ struct TemplateInputOverlay: View {
                             ForEach(state.placeholders, id: \.self) { placeholder in
                                 PlaceholderInputView(
                                     hostKind: hostKind,
+                                    guidesUser: guidesUser,
                                     placeholder: placeholder,
                                     // ⚠️ 값을 고른다고 **바로 넣지 않는다.**
                                     //
@@ -284,6 +299,8 @@ struct TemplateInputOverlay: View {
 // 플레이스홀더 입력 뷰 (선택 방식 + 숫자 토큰 직접 입력)
 struct PlaceholderInputView: View {
     let hostKind: KeyboardHostKind
+    /// 튜토리얼이 손을 잡고 있는가 - 고를 값들에 파형이 인다.
+    var guidesUser: Bool = false
     let placeholder: String
     @Binding var selectedValue: String
     let templateId: UUID?
@@ -291,19 +308,23 @@ struct PlaceholderInputView: View {
     @Environment(\.colorScheme) private var colorScheme
     private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
 
-    /// 여기서 방금 적어 넣은 값 - 저장소를 다시 읽게 만드는 방아쇠.
+    /// 고를 수 있는 값들. **한 번 읽어 들고 있는다.**
     ///
-    /// ⚠️ `predefinedValues` 는 계산 프로퍼티라 저장소만 바꿔서는 화면이 안 바뀐다.
-    ///    (SwiftUI 는 저장소를 지켜보지 않는다) 이 값이 바뀌어야 다시 그린다.
-    @State private var addedValues: [String] = []
+    /// ⚠️ 예전에는 계산 프로퍼티라 body 가 그려질 때마다 저장소를 읽었다. 평소에는
+    ///    티가 안 났는데, 파형(`TimelineView`)이 들어오면서 body 가 초당 수십 번
+    ///    다시 그려지자 **App Group 을 초당 수십 번 읽고 JSON 을 그만큼 디코딩**하게 됐다.
+    ///    (로그도 그만큼 쏟아진다)
+    ///
+    /// ⚠️ 그리는 자리에서 저장소를 직접 읽지 않는다. 언제 몇 번 그릴지는 SwiftUI 가
+    ///    정하는 일이라, 그 횟수에 값이 딸려 가면 안 된다.
+    @State private var predefinedValues: [String] = []
     /// 값을 적는 칸. 앱 안에서만 쓰인다.
     @State private var draftValue: String = ""
     @FocusState private var draftFocused: Bool
 
-    private var predefinedValues: [String] {
-        _ = addedValues   // 방금 적어 넣은 것이 있으면 다시 읽는다
-        return PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder,
-                                                                 templateId: templateId)
+    private func reloadValues() {
+        predefinedValues = PredefinedValuesStore.shared
+            .getValuesForTemplate(placeholder: placeholder, templateId: templateId)
     }
 
     /// 적어 넣고 **곧바로 고른 것으로 둔다.** 적은 뒤에 한 번 더 눌러야 한다면
@@ -315,7 +336,7 @@ struct PlaceholderInputView: View {
                                               for: placeholder,
                                               sourceMemoId: templateId,
                                               sourceMemoTitle: placeholder.strippingTemplateBraces)
-        addedValues.append(value)
+        reloadValues()
         selectedValue = value
         draftValue = ""
         draftFocused = false
@@ -337,6 +358,7 @@ struct PlaceholderInputView: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
+        .onAppear(perform: reloadValues)
     }
 
     // MARK: - Numeric input
@@ -507,8 +529,18 @@ struct PlaceholderInputView: View {
                                 .foregroundColor(selectedValue == value ? theme.accentFg : .primary)
                                 .cornerRadius(theme.radiusLg)
                         }
+                        // ⚠️ 파형은 **아직 안 고른 것**에만 인다. 이미 고른 칩에까지 얹으면
+                        //    "여기를 눌러라"가 아니라 그냥 장식이 되고, 무엇보다
+                        //    고른 것과 안 고른 것의 차이가 흐려진다.
+                        .overlay {
+                            if guidesUser && selectedValue != value {
+                                KeyRipple(shape: Capsule(), color: theme.accent, reach: 8)
+                            }
+                        }
                     }
                 }
+                // 파형이 잘리지 않게 - ScrollView 는 넘치는 것을 잘라낸다.
+                .padding(.vertical, 8)
             }
         }
     }
@@ -531,16 +563,19 @@ struct PlaceholderInputView: View {
 ///
 /// ⚠️ 움직임 줄이기를 켠 사람에게는 번지지 않는다. 대신 **가만히 있는 두 겹**을 둔다
 ///    움직임을 뺀다고 표시까지 없애면 그 사람만 무엇을 누를지 모르게 된다.
-struct KeyRipple: View {
-    let shape: KeycapShape
+/// ⚠️ 어떤 모양이든 감쌀 수 있게 열어 뒀다. 튜토리얼이 가리키는 것은 키만이 아니다
+///    템플릿의 값 칩, 입력하기 버튼, 보내기 동그라미까지 **차례로** 눈을 데려가야 한다.
+///    모양마다 다른 연출을 쓰면 그 셋이 같은 뜻이라는 것이 안 읽힌다.
+struct KeyRipple<S: InsettableShape>: View {
+    let shape: S
     let color: Color
+    /// 얼마나 멀리 번지는가(pt). 좁은 자리에서는 줄여 옆을 침범하지 않게 한다.
+    var reach: CGFloat = 14
 
     /// 한 겹이 태어나서 사라지기까지(초).
-    private static let period: Double = 1.6
+    private static var period: Double { 1.6 }
     /// 몇 겹이 동시에 번지는가. 셋이면 끊기지 않고 이어져 보인다.
-    private static let ringCount = 3
-    /// 얼마나 멀리 번지는가(pt). 옆 키를 침범하지 않는 선.
-    private static let reach: CGFloat = 14
+    private static var ringCount: Int { 3 }
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -573,7 +608,7 @@ struct KeyRipple: View {
 
     /// 한 겹 - 밖으로 나가며 옅어지고 가늘어진다.
     private func ring(progress p: Double) -> some View {
-        let spread = Self.reach * CGFloat(p)
+        let spread = reach * CGFloat(p)
         return shape
             .strokeBorder(color.opacity(0.55 * (1 - p)), lineWidth: 3 * (1 - p) + 0.5)
             .padding(-spread)
@@ -582,7 +617,7 @@ struct KeyRipple: View {
     /// 움직임 없이도 "여기"가 읽히게 - 굵은 한 겹과 옅은 한 겹.
     private var still: some View {
         ZStack {
-            shape.strokeBorder(color.opacity(0.25), lineWidth: 2).padding(-7)
+            shape.strokeBorder(color.opacity(0.25), lineWidth: 2).padding(-reach / 2)
             shape.strokeBorder(color, lineWidth: 3)
         }
     }

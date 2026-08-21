@@ -43,6 +43,10 @@ extension Notification.Name {
     /// ⚠️ 탭 선택은 `MainTabView` 안에만 있는 상태라, 시트를 띄우는 쪽에서 직접 못 바꾼다.
     ///    알림 한 줄이 두 화면을 잇는 가장 얇은 길이다.
     static let openUsageTab = Notification.Name("openUsageTab")
+    /// 무대에서 쓴 글을 **보냈다.** 튜토리얼이 "눌러서 넣고 → 보내기"의 한 바퀴가
+    /// 끝났는지를 이걸로 안다. (무대를 들고 있는 건 `InAppKeyboardStage` 라
+    ///  걸음을 세는 `SnippetsTab` 이 직접 볼 수가 없다)
+    static let stageMessageSent = Notification.Name("stageMessageSent")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showCloudBackup = Notification.Name("showCloudBackup")
     static let showMemoList = Notification.Name("showMemoList")
