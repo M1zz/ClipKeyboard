@@ -73,7 +73,7 @@ struct TemplateInputSheet: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(theme.textMuted)
                             }
-                            Text(previewText.templateChipAttributed(theme: theme))
+                            Text(previewText.templateAwareAttributed(theme: theme))
                                 .font(.body)
                                 .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -156,7 +156,7 @@ struct TemplateDetailPlaceholderView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
 
-                    Text(template.value.templateChipAttributed(theme: theme))
+                    Text(template.value.templateAwareAttributed(theme: theme))
                         .font(.body)
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -502,43 +502,8 @@ struct DatePlaceholderSelector: View {
 // MARK: - String Helper
 
 extension String {
-    /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
-    /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
-    /// - Parameter font: 칩 텍스트에 적용할 폰트 - 주변 텍스트와 크기를 맞추기 위해 호출부가 지정.
-    func templateChipAttributed(theme: AppTheme, font: Font = .body.weight(.semibold)) -> AttributedString {
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return AttributedString(self)
-        }
-        let ns = self as NSString
-        var out = AttributedString()
-        var cursor = 0
-        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
-            let full = match.range
-            if full.location > cursor {
-                let plain = ns.substring(with: NSRange(location: cursor, length: full.location - cursor))
-                out += AttributedString(plain)
-            }
-            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
-            let name = ns.substring(with: match.range(at: 1))
-            var chip = AttributedString("\u{2009}\(name)\u{2009}")
-            chip.foregroundColor = theme.accent
-            chip.backgroundColor = theme.accentSoft
-            chip.font = font
-            out += chip
-            cursor = full.location + full.length
-        }
-        if cursor < ns.length {
-            out += AttributedString(ns.substring(from: cursor))
-        }
-        return out
-    }
-
-    /// `{변수}`가 있으면 칩으로, 없으면 그대로 반환 - 제목·본문 등 모든 노출면에서 부담 없이
-    /// 쓰는 진입점(중괄호가 없는 대다수 문자열은 정규식 비용 없이 즉시 반환).
-    /// "플레이스홀더는 어디서든 원문 {중괄호}가 아닌 하이라이트로 보인다" 규칙의 구현.
-    func templateAwareAttributed(theme: AppTheme, font: Font) -> AttributedString {
-        contains("{") ? templateChipAttributed(theme: theme, font: font) : AttributedString(self)
-    }
+    // `{변수}` 를 다루는 것은 전부 DesignSystem/TemplatePlaceholder.swift 한 곳에 있다.
+    // (`templateAwareAttributed` · `strippingTemplateBraces` · `extractTemplatePlaceholders`)
 
     /// 형식 문자열을 마커에서 갈라 **가운데 한 조각만** 다른 색으로 칠한다.
     /// "무엇이 고정이고 무엇이 바뀌는지"를 색으로 보여주는 안내 문장이 여러 화면에 흩어져
@@ -568,21 +533,6 @@ extension String {
         return painted(parts[0], base) + middle + painted(parts[1], base)
     }
 
-    func extractTemplatePlaceholders() -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let matches = regex.matches(in: self, range: NSRange(startIndex..., in: self))
-        var result: [String] = []
-        for match in matches {
-            if let range = Range(match.range, in: self) {
-                let token = String(self[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(token), !result.contains(token) {
-                    result.append(token)
-                }
-            }
-        }
-        return result
-    }
 }
 
 // MARK: - Template Fill Sheet (탭 시 하프모달, 키보드 스타일 값 입력)
@@ -633,7 +583,7 @@ struct TemplateFillSheet: View {
             VStack(spacing: 0) {
                 // MARK: 미리보기 - 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
                 // 다른 화면(TemplateInputSheet/TemplateEditSheet)과 동일하게 중괄호 없는 강조색
-                // 칩으로 표시한다(templateChipAttributed).
+                // 칩으로 표시한다(templateAwareAttributed).
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
                         Image(systemName: AppSymbol.eyeFill)
@@ -643,7 +593,7 @@ struct TemplateFillSheet: View {
                             .font(.footnote.weight(.semibold))
                             .foregroundColor(theme.textMuted)
                     }
-                    Text(previewValue.templateChipAttributed(theme: theme))
+                    Text(previewValue.templateAwareAttributed(theme: theme))
                         .font(.body)
                         .foregroundColor(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)

@@ -5,8 +5,8 @@
 
 import SwiftUI
 
-// String.strippingTemplateBraces는 MemoPreviewFormatter.swift로 이동
-// (키보드 익스텐션 타겟과 공유하기 위해).
+// `{변수}` 규칙(패턴·칩 색·중괄호 감추기)은 DesignSystem/TemplatePlaceholder.swift 한 곳에 있다.
+// 이 입력칸도 거기서 그린다 - 편집 중인 글과 카드·키보드에 보이는 글이 같아 보여야 한다.
 
 #if os(iOS)
 /// `[Your Name]` 같은 더미 placeholder를 빨간색으로 syntax highlight하는 입력칸.
@@ -81,27 +81,19 @@ struct HighlightedTextEditor: UIViewRepresentable {
         return result
     }
 
-    /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 - 강조색 + 은은한 배경.
-    /// 편집 가능한 입력칸이므로 중괄호는 텍스트에 남기되, `{`·`}` 글자만 투명색으로 처리해
-    /// 화면에는 칩 배경 안에 변수명만 보이게 한다(4.3.0 스타일 - 중괄호 노출 X).
+    /// `{이름}` 을 칩으로. 그리는 규칙은 `NSMutableAttributedString.applyTemplateChipHighlight`
+    /// 한 곳에 있고, 여기서는 **어떤 색으로** 칠할지만 정한다.
+    ///
+    /// ⚠️ 색은 테마 토큰을 따르지 않고 시스템 강조색이다. 이 입력칸은 UIKit 뷰라
+    ///    SwiftUI 환경(@Environment(\.appTheme))이 닿지 않는다. 앱 테마를 바꿔도
+    ///    편집칸 칩만 파랗게 남는 것이 걸리면 테마를 프로퍼티로 받아 내려주면 된다.
     static func applyTemplateVariableHighlight(to storage: NSMutableAttributedString) {
-        let pattern = "\\{[^}]+\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-        let fullRange = NSRange(location: 0, length: storage.length)
-        regex.enumerateMatches(in: storage.string, range: fullRange) { match, _, _ in
-            guard let range = match?.range, range.length >= 2 else { return }
-            // 토큰 전체에 칩 배경 + 강조색.
-            storage.addAttributes([
-                .foregroundColor: UIColor.systemBlue,
-                .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.12),
-                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
-            ], range: range)
-            // 여는/닫는 중괄호 글자만 투명 처리 - 배경(칩)은 유지되어 좌우 여백처럼 보인다.
-            storage.addAttribute(.foregroundColor, value: UIColor.clear,
-                                 range: NSRange(location: range.location, length: 1))
-            storage.addAttribute(.foregroundColor, value: UIColor.clear,
-                                 range: NSRange(location: range.location + range.length - 1, length: 1))
-        }
+        let body = UIFont.preferredFont(forTextStyle: .body)
+        storage.applyTemplateChipHighlight(
+            accent: .systemBlue,
+            accentSoft: UIColor.systemBlue.withAlphaComponent(0.12),
+            font: .systemFont(ofSize: body.pointSize, weight: .semibold)
+        )
     }
 
     static func applyDummyPlaceholderHighlight(to storage: NSMutableAttributedString) {

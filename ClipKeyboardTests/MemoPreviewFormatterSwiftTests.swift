@@ -10,6 +10,7 @@
 
 import Testing
 import Foundation
+import SwiftUI
 @testable import ClipKeyboard
 
 @Suite("MemoPreviewFormatter: 미리보기")
@@ -25,16 +26,37 @@ struct MemoPreviewFormatterSwiftTests {
         #expect(preview.contains("3"))   // "%d items" - 로케일 무관하게 숫자는 포함
     }
 
-    @Test("템플릿 미리보기는 중괄호를 제거하고 변수 개수를 덧붙인다")
-    func templatePreviewStripsBraces() {
+    @Test("템플릿 미리보기는 토큰을 그대로 두고 변수 개수를 덧붙인다")
+    func templatePreviewKeepsTokens() {
+        // 중괄호를 여기서 떼면 그리는 쪽이 칩으로 칠할 실마리를 잃는다.
+        // 화면에서는 `templateAwareAttributed` 가 칩으로 바꾸고, 중괄호는 보이지 않는다.
         let memo = Memo(title: "템플릿", value: "안녕 {이름} {날짜}",
                         templateVariables: ["{이름}"])
         let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: nil)
-        #expect(!preview.contains("{"))
-        #expect(!preview.contains("}"))
-        #expect(preview.contains("이름"))
+        #expect(preview.contains("{이름}"))
         #expect(preview.contains("·"))   // "본문 · N variables" 구분자
         #expect(preview.contains("2"))   // {이름}, {날짜} → 2개
+    }
+
+    @Test("읽어 주기용 미리보기는 중괄호를 뗀다")
+    func accessibilityPreviewStripsBraces() {
+        // VoiceOver 는 칩을 그릴 수 없으니 여기서만 평문으로 내린다.
+        let memo = Memo(title: "템플릿", value: "안녕 {이름}",
+                        templateVariables: ["{이름}"])
+        let spoken = MemoPreviewFormatter.accessibilityPreview(for: memo, resolvedType: nil)
+        #expect(!spoken.contains("{"))
+        #expect(!spoken.contains("}"))
+        #expect(spoken.contains("이름"))
+    }
+
+    @Test("잘라내기는 변수 한가운데를 자르지 않는다")
+    func truncationNeverSplitsToken() {
+        // 반쪽만 남으면 칩으로 칠할 수 없어 여는 중괄호가 글자로 드러난다.
+        let long = String(repeating: "가", count: 26) + "{아주긴변수이름}"
+        let memo = Memo(title: "템플릿", value: long, templateVariables: ["{아주긴변수이름}"])
+        let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: nil)
+        let head = preview.components(separatedBy: " · ").first ?? preview
+        #expect(head.filter { $0 == "{" }.count == head.filter { $0 == "}" }.count)
     }
 
     @Test("이미지 메모는 이미지 개수를 미리보기에 포함한다")
@@ -105,14 +127,35 @@ struct MemoPreviewFormatterSwiftTests {
 
     // MARK: - 플레이스홀더 추출
 
-    @Test("extractPlaceholders는 중괄호를 떼고 중복 제거해 변수명을 반환한다")
+    @Test("names는 중괄호를 떼고 중복 제거해 변수명을 반환한다")
     func extractPlaceholderNames() {
-        let names = MemoPreviewFormatter.extractPlaceholders(in: "{이름} {이름} {금액}")
-        #expect(names == ["이름", "금액"])
+        #expect(TemplatePlaceholder.names(in: "{이름} {이름} {금액}") == ["이름", "금액"])
+    }
+
+    @Test("tokens는 중괄호를 붙인 채 중복 제거하고 등장 순서를 지킨다")
+    func extractPlaceholderTokens() {
+        #expect(TemplatePlaceholder.tokens(in: "{금액} {이름} {금액}") == ["{금액}", "{이름}"])
+    }
+
+    @Test("customTokens는 자동 변수를 뺀다")
+    func customTokensDropAutoVariables() {
+        // 자동 변수 목록을 아는 곳이 하나라서, 목록이 늘어도 걸러내기가 갈라지지 않는다.
+        #expect(TemplatePlaceholder.customTokens(in: "{이름} {날짜} {city}") == ["{이름}"])
     }
 
     @Test("플레이스홀더가 없으면 빈 배열")
     func extractPlaceholdersEmpty() {
-        #expect(MemoPreviewFormatter.extractPlaceholders(in: "변수 없음").isEmpty)
+        #expect(TemplatePlaceholder.names(in: "변수 없음").isEmpty)
+        #expect(TemplatePlaceholder.tokens(in: "변수 없음").isEmpty)
+    }
+
+    @Test("칩으로 그리면 중괄호가 글자로 남지 않는다")
+    func chipRenderingHidesBraces() {
+        // "플레이스홀더는 어디서든 하이라이트" 규칙의 최종 관문.
+        let rendered = "안녕 {이름}님".templateAwareAttributed(accent: .blue, accentSoft: .gray)
+        let plain = String(rendered.characters)
+        #expect(!plain.contains("{"))
+        #expect(!plain.contains("}"))
+        #expect(plain.contains("이름"))
     }
 }

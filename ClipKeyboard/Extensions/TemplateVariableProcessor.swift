@@ -220,23 +220,35 @@ extension TemplateVariableProcessor {
     /// 메모 본문에서 사용자 정의 토큰만 추출 (autoVariableTokens 제외).
     /// 중복 제거 + 등장 순서 보존.
     static func extractCustomTokens(in text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let nsRange = NSRange(text.startIndex..., in: text)
-        let matches = regex.matches(in: text, range: nsRange)
-        var seen: Set<String> = []
-        var ordered: [String] = []
-        for match in matches {
-            guard let range = Range(match.range, in: text) else { continue }
-            let token = String(text[range])
-            if autoVariableTokens.contains(token) { continue }
-            if seen.insert(token).inserted {
-                ordered.append(token)
-            }
-        }
-        return ordered
+        TemplatePlaceholder.customTokens(in: text)
     }
+}
 
+// MARK: - 자동 변수를 뺀 토큰 고르기
+//
+// 토큰을 **찾는** 일은 TemplatePlaceholder(어느 타겟에서나 돈다)가 하고,
+// 그중 무엇이 자동 변수인지 **아는** 것은 여기다. 그래서 이 걸러내기만 이 파일에 있다.
+//
+// ⚠️ 예전에는 이 걸러내기가 여섯 군데에 각자 적혀 있었다(본문 처리·무대·키보드·저장소·
+//    단축어 편집·플레이스홀더 설정). 자동 변수 목록이 다섯 개에서 스무 개 넘게 늘었을 때
+//    한 곳(단축어 편집)이 옛 목록을 그대로 들고 있어서, `{도시}` 같은 자동 변수가
+//    "값을 채워야 하는 칸"으로 잡혔다.
+
+extension TemplatePlaceholder {
+    /// 사용자가 값을 채워야 하는 토큰만. 자동 변수(`{날짜}`·`{클립보드}` 등)는 뺀다.
+    static func customTokens(in text: String) -> [String] {
+        tokens(in: text).filter { !TemplateVariableProcessor.autoVariableTokens.contains($0) }
+    }
+}
+
+extension String {
+    /// 사용자가 채워야 하는 토큰만(자동 변수 제외).
+    func extractTemplatePlaceholders() -> [String] { TemplatePlaceholder.customTokens(in: self) }
+}
+
+// MARK: - Memo + attached template composition (v4.0.8)
+
+extension TemplateVariableProcessor {
     /// 사용자 입력값으로 토큰을 치환한 후 자동 변수까지 처리한 최종 문자열을 반환.
     /// `inputs` key는 토큰 wrapping 포함 (예: `{금액}`).
     static func substitute(_ text: String, with inputs: [String: String]) -> String {

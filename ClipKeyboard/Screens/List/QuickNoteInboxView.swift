@@ -140,6 +140,8 @@ struct QuickNoteInboxView: View {
 private struct QuickNoteRow: View {
     let note: QuickNote
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         HStack(spacing: 12) {
             if note.hasImages, let first = note.imageFileNames.first,
@@ -164,7 +166,7 @@ private struct QuickNoteRow: View {
                     .font(.body.weight(.medium))
                     .lineLimit(1)
                 if !note.text.isEmpty {
-                    Text(note.text)
+                    Text(note.text.templateAwareAttributed(theme: theme, font: .caption))
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .lineLimit(2)

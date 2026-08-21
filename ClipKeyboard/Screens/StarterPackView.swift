@@ -141,7 +141,7 @@ struct StarterPackView: View {
                         featureBadge(item.feature)
                         Spacer(minLength: 0)
                     }
-                    Text(item.example.templateChipAttributed(theme: theme))
+                    Text(item.example.templateAwareAttributed(theme: theme))
                         .font(.callout)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(2)

@@ -141,7 +141,7 @@ struct TemplateInputOverlay: View {
                 Divider()
 
                 // MARK: 컬러 프리뷰
-                coloredPreviewText
+                Text(previewText)
                     .font(.subheadline)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
@@ -201,36 +201,53 @@ struct TemplateInputOverlay: View {
         let isValue: Bool
     }
 
+    /// 아직 안 채운 자리는 **토큰 그대로**(`{이름}`) 돌려준다 - 그리는 쪽에서 칩으로 바꾼다.
     private func parseSegments() -> [PreviewSegment] {
         let original = state.originalText
         var segments: [PreviewSegment] = []
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return [PreviewSegment(text: original, isValue: false)]
-        }
-        var lastEnd = original.startIndex
-        for match in regex.matches(in: original, range: NSRange(original.startIndex..., in: original)) {
-            guard let range = Range(match.range, in: original) else { continue }
-            if lastEnd < range.lowerBound {
-                segments.append(PreviewSegment(text: String(original[lastEnd..<range.lowerBound]), isValue: false))
+        let ns = original as NSString
+        var cursor = 0
+        for match in TemplatePlaceholder.matches(in: original) {
+            let full = match.range
+            if full.location > cursor {
+                segments.append(PreviewSegment(
+                    text: ns.substring(with: NSRange(location: cursor, length: full.location - cursor)),
+                    isValue: false))
             }
-            let key = String(original[range])
+            let key = ns.substring(with: full)
             let value = state.inputs[key] ?? ""
             segments.append(PreviewSegment(text: value.isEmpty ? key : value, isValue: !value.isEmpty))
-            lastEnd = range.upperBound
+            cursor = full.location + full.length
         }
-        if lastEnd < original.endIndex {
-            segments.append(PreviewSegment(text: String(original[lastEnd...]), isValue: false))
+        if cursor < ns.length {
+            segments.append(PreviewSegment(text: ns.substring(from: cursor), isValue: false))
         }
         return segments
     }
 
-    private var coloredPreviewText: Text {
-        let base: Text = state.baseMemoValue.isEmpty ? Text("") : Text(state.baseMemoValue + "\n")
-        return parseSegments().reduce(base) { acc, seg in
-            seg.isValue
-                ? Text("\(acc)\(Text(seg.text).foregroundColor(Color(UIColor.systemGreen)).bold())")
-                : Text("\(acc)\(Text(seg.text))")
+    /// 채운 값은 초록으로, **아직 안 채운 자리는 칩으로.**
+    ///
+    /// ⚠️ 예전에는 안 채운 자리를 `{이름}` 그대로 그렸다. 이 화면은 템플릿 단축어를 누르면
+    ///    바로 올라오는 첫 화면이라, 스타터팩으로 막 담은 사람이 이 앱에서 제일 먼저 보는
+    ///    글자가 중괄호였다. 다른 화면은 모두 칩인데 여기만 원문이었다.
+    private var previewText: AttributedString {
+        let font: Font = .subheadline
+        var out = AttributedString()
+        if !state.baseMemoValue.isEmpty {
+            out += state.baseMemoValue.templateAwareAttributed(theme: theme, font: font)
+            out += AttributedString("\n")
         }
+        for seg in parseSegments() {
+            if seg.isValue {
+                var filled = AttributedString(seg.text)
+                filled.foregroundColor = Color(UIColor.systemGreen)
+                filled.font = font.weight(.semibold)
+                out += filled
+            } else {
+                out += seg.text.templateAwareAttributed(theme: theme, font: font)
+            }
+        }
+        return out
     }
 
     private func completeInput() {
@@ -375,7 +392,7 @@ struct PlaceholderInputView: View {
                         .foregroundColor(.orange)
                 }
 
-                Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")))
+                Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.strippingTemplateBraces))
                     .font(.caption2)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)

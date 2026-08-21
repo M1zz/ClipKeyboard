@@ -654,24 +654,11 @@ final class MemoAddViewModel: ObservableObject {
         }
     }
 
+    /// ⚠️ 예전에는 자동 변수 목록을 여기에 다섯 개만 따로 적어 두었다. 본진
+    ///    (`TemplateVariableProcessor.autoVariableTokens`)이 스무 개 넘게 늘어난 뒤에도
+    ///    이 목록은 그대로여서, `{도시}` 같은 자동 변수가 "값을 채워야 하는 칸"으로 잡혔다.
     private func detectPlaceholders() {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        let matches = regex.matches(in: value, range: NSRange(value.startIndex..., in: value))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: value) {
-                let placeholder = String(value[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
-        }
-
-        detectedPlaceholders = placeholders
+        detectedPlaceholders = TemplatePlaceholder.customTokens(in: value)
     }
 
     private func loadPlaceholderValues() {
@@ -682,14 +669,7 @@ final class MemoAddViewModel: ObservableObject {
     }
 
     private func extractTemplateVariables(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        return matches.compactMap { match in
-            guard let range = Range(match.range(at: 1), in: text) else { return nil }
-            return String(text[range])
-        }
+        TemplatePlaceholder.names(in: text)
     }
 
     // MARK: - Clipboard Helpers

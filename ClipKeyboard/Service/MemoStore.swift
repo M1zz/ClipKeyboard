@@ -465,19 +465,7 @@ class MemoStore: ObservableObject {
     }
 
     private func extractPlaceholders(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let token = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(token), !placeholders.contains(token) {
-                    placeholders.append(token)
-                }
-            }
-        }
-        return placeholders
+        TemplatePlaceholder.customTokens(in: text)
     }
 
     // MARK: - Combo

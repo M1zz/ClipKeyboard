@@ -49,8 +49,9 @@ struct KeyboardMemoPeek: View {
 
     private var header: some View {
         HStack(spacing: 8) {
-            Text(memo.title.kbTemplateAwareAttributed(font: .callout.weight(.semibold),
-                                                       accent: theme.accent, accentSoft: theme.accentSoft))
+            Text(memo.title.templateAwareAttributed(accent: theme.accent,
+                                                    accentSoft: theme.accentSoft,
+                                                    font: .callout.weight(.semibold)))
                 .font(.callout.weight(.semibold))
                 .foregroundColor(theme.text)
                 .lineLimit(1)
@@ -110,8 +111,9 @@ struct KeyboardMemoPeek: View {
 
     /// 값 한 줄 - `{변수}` 는 여기서도 칩으로 보인다(값이 가장 크게 보이는 자리다).
     private func valueText(_ value: String) -> some View {
-        Text(value.kbTemplateAwareAttributed(font: .callout,
-                                             accent: theme.accent, accentSoft: theme.accentSoft))
+        Text(value.templateAwareAttributed(accent: theme.accent,
+                                           accentSoft: theme.accentSoft,
+                                           font: .callout))
             .font(.callout)
             .foregroundColor(theme.text)
             .textSelection(.enabled)

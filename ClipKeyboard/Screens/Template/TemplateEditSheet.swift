@@ -138,7 +138,7 @@ struct TemplateEditSheet: View {
                     .accessibilityLabel(NSLocalizedString("템플릿 내용 편집", comment: "Template content editor label"))
                     .accessibilityHint(NSLocalizedString("내용을 수정 후 완료를 눌러 저장합니다", comment: "Template editor hint"))
             } else {
-                Text(memo.value.templateChipAttributed(theme: theme))
+                Text(memo.value.templateAwareAttributed(theme: theme))
                     .font(.body)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -284,7 +284,7 @@ struct TemplateEditSheet: View {
                 .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
-            Text(previewText.templateChipAttributed(theme: theme))
+            Text(previewText.templateAwareAttributed(theme: theme))
                 .font(.body)
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)

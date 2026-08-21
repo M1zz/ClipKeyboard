@@ -755,7 +755,7 @@ struct UsageGuideView: View {
             }
 
             // {플레이스홀더}는 템플릿 화면과 동일하게 칩으로 표시 (날것 [] / {} 노출 방지)
-            Text(scenario.example.templateChipAttributed(theme: theme))
+            Text(scenario.example.templateAwareAttributed(theme: theme))
                 .font(.body)
                 .foregroundColor(theme.text)
                 .padding(10)

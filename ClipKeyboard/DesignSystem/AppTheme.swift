@@ -361,3 +361,15 @@ extension View {
             )
     }
 }
+
+// MARK: - 테마 색으로 그리는 `{변수}` 칩
+
+// 칩을 그리는 코드는 TemplatePlaceholder.swift 한 곳에 있다(위젯 타겟에서도 돌아야 해서
+// 테마를 모른다). 앱과 키보드는 거의 언제나 테마 색을 쓰므로, 그 편한 형태만 여기 둔다.
+extension String {
+    /// `{변수}` 를 테마 강조색 칩으로. 중괄호가 없으면 그대로 통과한다.
+    func templateAwareAttributed(theme: AppTheme,
+                                 font: Font = .body.weight(.semibold)) -> AttributedString {
+        templateAwareAttributed(accent: theme.accent, accentSoft: theme.accentSoft, font: font)
+    }
+}

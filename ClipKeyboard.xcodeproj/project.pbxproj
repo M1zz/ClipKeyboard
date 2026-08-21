@@ -238,6 +238,9 @@
 		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
 		5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
 		5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0300000000000000B1 /* ShellCrack.swift */; };
+		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
+		TPH00032F0000000000000003 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
+		TPH00052F0000000000000005 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
 		5AC0DE0200000000000000A2 /* Mascot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0DE0100000000000000A1 /* Mascot.swift */; };
 		TPS0002A2F0000000000000002 /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPS0001A2F0000000000000001 /* Tips.swift */; };
 		TSH00012F0000000000000001 /* TemplateSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = TSH00022F0000000000000002 /* TemplateSheets.swift */; };
@@ -382,6 +385,7 @@
 		58DL00C12F00000000000000C1 /* LivingSkinSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingSkinSettings.swift; sourceTree = "<group>"; };
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		5AC0DE0300000000000000B1 /* ShellCrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellCrack.swift; sourceTree = "<group>"; };
+		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
 		5AC0DE0100000000000000A1 /* Mascot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mascot.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
@@ -817,6 +821,7 @@
 				58DS00022F0000000000000002 /* AppTheme.swift */,
 				5AC0DE0100000000000000A1 /* Mascot.swift */,
 				5AC0DE0300000000000000B1 /* ShellCrack.swift */,
+				TPH00022F0000000000000002 /* TemplatePlaceholder.swift */,
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
@@ -1336,6 +1341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				TPH00052F0000000000000005 /* TemplatePlaceholder.swift in Sources */,
 				5607D41CA7EB9B2C5BA16751 /* DefaultsKey.swift in Sources */,
 				AA10000000000000000001AA /* AppGroup.swift in Sources */,
 			);
@@ -1366,6 +1372,7 @@
 				58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
 				5AC0DE0500000000000000B3 /* ShellCrack.swift in Sources */,
+				TPH00032F0000000000000003 /* TemplatePlaceholder.swift in Sources */,
 				AA00000800000001F3B00003 /* ColorExtension.swift in Sources */,
 				D8192B676A21E7537C0D61FA /* UUIDExtension.swift in Sources */,
 				58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */,
@@ -1414,6 +1421,7 @@
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
 				5AC0DE0200000000000000A2 /* Mascot.swift in Sources */,
 				5AC0DE0400000000000000B2 /* ShellCrack.swift in Sources */,
+				TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */,
 				AA00001600000001F3B00006 /* AnalyticsService.swift in Sources */,
 				E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */,
 				098CCF4F4398A71308DC9B95 /* CategoryStore.swift in Sources */,

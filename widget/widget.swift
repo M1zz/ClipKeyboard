@@ -113,13 +113,13 @@ struct FavoriteMemoWidgetView: View {
                 HStack(spacing: 4) {
                     Image(systemName: entry.justCopied ? "checkmark.circle.fill" : "heart.fill")
                         .font(.caption2)
-                    Text(memo.title)
+                    Text(memo.title.widgetTemplateAttributed(font: .headline))
                         .font(.headline)
                         .lineLimit(1)
                 }
                 Text(entry.justCopied
-                     ? NSLocalizedString("복사됨", comment: "Widget: copied confirmation")
-                     : memo.value)
+                     ? AttributedString(NSLocalizedString("복사됨", comment: "Widget: copied confirmation"))
+                     : memo.value.widgetTemplateAttributed(font: .caption))
                     .font(.caption)
                     .lineLimit(2)
                     .foregroundStyle(.secondary)
@@ -166,13 +166,13 @@ struct FavoriteMemoWidgetView: View {
                         Image(systemName: "heart.fill")
                             .font(.caption)
                             .foregroundStyle(.pink)
-                        Text(memo.title)
+                        Text(memo.title.widgetTemplateAttributed(font: .subheadline.weight(.semibold)))
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .lineLimit(1)
                     }
 
-                    Text(memo.value)
+                    Text(memo.value.widgetTemplateAttributed(font: .caption))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(3)
@@ -296,5 +296,17 @@ extension WidgetMemo {
         {"id":"00000000-0000-0000-0000-000000000001","title":"계좌번호","value":"110-123-456789","isFavorite":true,"lastEdited":"2026-01-01T00:00:00Z","category":"계좌번호","isSecure":false}
         """
         return try? JSONDecoder().decode(WidgetMemo.self, from: json.data(using: .utf8)!)
+    }
+}
+
+// MARK: - `{변수}` 칩
+
+// 앱·키보드와 **같은 코드**(TemplatePlaceholder.swift)로 그린다. 위젯에는 앱 테마가
+// 없으므로 색만 시스템 강조색으로 잡는다. 그래도 "중괄호는 안 보인다"는 규칙은 같다.
+private extension String {
+    func widgetTemplateAttributed(font: Font) -> AttributedString {
+        templateAwareAttributed(accent: .accentColor,
+                                accentSoft: Color.accentColor.opacity(0.15),
+                                font: font)
     }
 }

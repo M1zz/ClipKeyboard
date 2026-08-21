@@ -497,7 +497,8 @@ struct KeyboardPreviewView: View {
                 )
                 .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
 
-            Text(memo.title)
+            Text(memo.title.templateAwareAttributed(
+                theme: theme, font: .system(size: buttonFontSize, weight: .semibold)))
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)

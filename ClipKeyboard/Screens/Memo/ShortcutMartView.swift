@@ -135,7 +135,7 @@ struct ShortcutMartView: View {
                             .foregroundColor(theme.textMuted)
                     }
                 }
-                Text(item.example.templateChipAttributed(theme: theme, font: .callout))
+                Text(item.example.templateAwareAttributed(theme: theme, font: .callout))
                     .font(.callout)
                     .foregroundColor(theme.textMuted)
                     .lineLimit(3)
@@ -165,8 +165,10 @@ struct ShortcutMartView: View {
     private var emptySection: some View {
         Section {
             VStack(spacing: 8) {
-                // 같이 고민하는 얼굴. 못 찾은 게 내 잘못처럼 느껴지지 않게 한다.
-                MascotView(pose: .thinking, size: 68)
+                Image(systemName: AppSymbol.magnifyingglass)
+                    .font(.system(size: 40, weight: .light))
+                    .foregroundColor(theme.textFaint)
+                    .accessibilityHidden(true)
                 Text(NSLocalizedString("찾는 것이 없어요", comment: "Shortcut mart empty title"))
                     .font(.headline)
                 Text(NSLocalizedString("전체로 바꿔서 더 둘러보거나, 직접 하나 만들어도 돼요.",

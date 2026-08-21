@@ -32,7 +32,7 @@ struct PlaceholderSelectorView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
-                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
+                Text(placeholder.strippingTemplateBraces)
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textMuted)
@@ -276,7 +276,7 @@ struct PlaceholderManagementSheet: View {
                             TemplateDetailPlaceholderView(template: template)
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(template.title)
+                                Text(template.title.templateAwareAttributed(theme: theme, font: .headline))
                                     .font(.headline)
 
                                 Text(extractPlaceholderPreview(from: template.value))
@@ -306,26 +306,10 @@ struct PlaceholderManagementSheet: View {
     }
 
     private func extractPlaceholderPreview(from text: String) -> String {
-        let emptyLabel = NSLocalizedString("No placeholders", comment: "Fallback when template has no placeholders")
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return emptyLabel }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let placeholder = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
+        let placeholders = TemplatePlaceholder.customTokens(in: text)
+        guard !placeholders.isEmpty else {
+            return NSLocalizedString("No placeholders", comment: "Fallback when template has no placeholders")
         }
-
-        if placeholders.isEmpty {
-            return emptyLabel
-        }
-
-        return placeholders.map { $0.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "") }.joined(separator: ", ")
+        return placeholders.map { $0.strippingTemplateBraces }.joined(separator: ", ")
     }
 }

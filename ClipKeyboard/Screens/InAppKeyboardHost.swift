@@ -213,6 +213,9 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     }
 
     /// 넣은 뒤 캐럿을 끝에서 `offsetFromEnd` 만큼 되돌린다(`{커서}` 토큰 처리).
+    ///
+    /// ⚠️ **값이 입력칸에 들어가는 길은 여기 하나뿐이다.** 그냥 누른 것도, 템플릿 빈칸을
+    ///    채우고 온 것도, 잠긴 것을 풀고 온 것도 마지막엔 전부 여기로 모인다.
     private func insertResolved(_ processed: String) {
         let placement = TemplateVariableProcessor.resolveCursor(in: processed)
         insert(placement.text)
@@ -325,16 +328,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     /// 사용자가 값을 채워야 하는 변수만 골라낸다(자동 변수 `{날짜}` 등은 제외).
     private func customPlaceholders(in text: String) -> [String] {
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else { return [] }
-        var found: [String] = []
-        for match in regex.matches(in: text, range: NSRange(text.startIndex..., in: text)) {
-            guard let range = Range(match.range, in: text) else { continue }
-            let token = String(text[range])
-            if !TemplateVariableProcessor.autoVariableTokens.contains(token), !found.contains(token) {
-                found.append(token)
-            }
-        }
-        return found
+        TemplatePlaceholder.customTokens(in: text)
     }
 
     private func processVariables(in text: String) -> String {
