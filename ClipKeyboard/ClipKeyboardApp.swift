@@ -20,9 +20,13 @@ struct ClipKeyboardApp: App {
     @State private var showDemoSampleOffer = false
     /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
     @State private var showRestoreHint = false
-    /// 그거 아세요? - 지금 보여 줄 이야기와 시트 상태.
+    /// 그거 아세요? - 지금 보여 줄 이야기. **이 값이 곧 시트의 상태다.**
+    ///
+    /// ⚠️ `isPresented` 로 띄우지 않는다. 켜는 값과 그릴 값이 둘로 나뉘어 있으면,
+    ///    SwiftUI 가 시트를 올리는 시점에 그릴 값이 아직 안 들어와 **빈 시트**가 뜬다.
+    ///    실제로 그렇게 떴다(하얀 화면 하나가 올라오고 아무것도 안 보였다).
+    ///    `item:` 은 값이 있을 때만 올라오므로 그 틈이 생기지 않는다.
     @State private var didYouKnowItem: DidYouKnow?
-    @State private var showDidYouKnow = false
     /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
     @State private var showCloudBackupSheet = false
     private let restoreHintShownKey = "restoreHintShown_v1"
@@ -444,7 +448,6 @@ struct ClipKeyboardApp: App {
 
         DidYouKnowScheduler.markShown(item)
         didYouKnowItem = item
-        showDidYouKnow = true
         print("💡 [DidYouKnow] \(item.id)")
     }
 
@@ -453,7 +456,7 @@ struct ClipKeyboardApp: App {
     /// ⚠️ **읽고 닫으면 아무것도 안 달라진다.** "설정에서 켤 수 있어요"를 읽은 사람이
     ///    설정을 스스로 찾아 들어가는 일은 드물다. 알려 준 그 자리로 직접 데려간다.
     private func handleDidYouKnowAction(_ action: DidYouKnow.Action) {
-        showDidYouKnow = false
+        didYouKnowItem = nil
         // 시트가 내려간 뒤에 다음 화면을 연다 - 겹치면 둘 다 제대로 안 뜬다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             switch action {
@@ -554,7 +557,7 @@ struct ClipKeyboardApp: App {
     private var noOtherModalIsUp: Bool {
         !showDemoSampleOffer && !showRestoreHint && !showReviewRequest
             && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showDiscountOffer
-            && !showDidYouKnow
+            && didYouKnowItem == nil
     }
 
     // MARK: - Default Sample Data
@@ -1116,13 +1119,11 @@ struct ClipKeyboardApp: App {
                 .sheet(isPresented: $showFeedbackSheet) {
                     FeedbackView()
                 }
-                .sheet(isPresented: $showDidYouKnow) {
-                    if let item = didYouKnowItem {
-                        DidYouKnowView(item: item,
-                                       onAction: { handleDidYouKnowAction($0) },
-                                       onClose: { showDidYouKnow = false })
-                            .presentationDetents([.medium])
-                    }
+                .sheet(item: $didYouKnowItem) { item in
+                    DidYouKnowView(item: item,
+                                   onAction: { handleDidYouKnowAction($0) },
+                                   onClose: { didYouKnowItem = nil })
+                        .presentationDetents([.medium])
                 }
                 .sheet(isPresented: $showWhatsNew) {
                     WhatsNewView(
