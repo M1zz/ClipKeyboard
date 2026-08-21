@@ -1,0 +1,128 @@
+# 5.0.0 릴리즈 노트
+
+앱 스토어 "이번 버전의 새로운 기능"에 그대로 붙여 넣을 수 있는 문안입니다.
+(앱 안 변경 이력은 `ChangelogView.swift` 의 `5.0.0` 항목, 저장소 기록은 `RELEASE_NOTES.md`)
+
+아래 두 문안은 **특수기호를 쓰지 않은 평문**입니다. App Store Connect 의 입력칸은
+마크다운을 해석하지 않아서, 별표나 가운뎃점을 넣으면 그 글자가 그대로 보입니다.
+그대로 복사해 붙이면 됩니다.
+
+---
+
+## 한국어 (App Store)
+
+```
+처음 쓰는 분이 지나는 길을 다시 놓았습니다.
+
+빈 칸부터 내밀지 않습니다. 단축어와 템플릿과 콤보를 한 벌 넣어 두고 하나씩 눌러 보게 합니다. 셋이 어떻게 다른지 설명 대신 손이 먼저 압니다. 넣어 둔 것은 튜토리얼이 끝나도 지우지 않습니다. 그날부터 바로 쓸 수 있는 셋이 됩니다. 다 끝나면 치울지 한 번 물어봅니다.
+
+누를 곳마다 물결이 번집니다. 단축어를 누르고, 값을 고르고, 넣고, 보내는 순서로 다음 자리를 알려드립니다. 마지막에는 직접 하나 만들어 보게 합니다. 눌러 보는 것과 갖는 것은 다르니까요. 지금 넣을 것이 안 떠오르면 미뤄도 됩니다.
+
+키보드를 켜지 않으면 이 앱은 아무것도 아닙니다. 그래서 켠 것이 확인될 때까지 하루에 한 번 다시 알려드립니다. 예전에는 안내를 닫기만 해도 다시 뜨지 않았습니다.
+
+템플릿이 훨씬 쓰기 편해졌습니다.
+
+빈칸이 넷인 템플릿에서 어느 줄이 무슨 값인지 헷갈리지 않습니다. 칸마다 이름과 지금 고른 값을 함께 보여주고, 각 칸을 따로 구분해 그립니다. 값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어갑니다. 이 값 말고 저 값을 바꿔 볼 수 있습니다.
+
+오늘 날짜처럼 자동으로 채워지는 자리는 이제 구멍이 아니라 값으로 보입니다. 내가 고른 값과 알아서 채워진 값과 아직 빈칸을 색으로 갈라 드립니다. 저장된 값이 없으면 그 자리에서 바로 만들 수 있습니다. 앱을 나갔다 올 필요가 없습니다.
+
+아낀 시간을 제대로 셉니다.
+
+예전에는 치는 시간만 셌습니다. 그런데 계좌번호를 넣을 때 드는 값은 스물몇 자를 치는 몇 초가 아닙니다. 은행 앱을 열고, 찾고, 길게 눌러 선택하고, 복사하고, 돌아와서 붙여넣는 그 사이입니다. 그 손놀림을 전부 세도록 다시 만들었습니다. 어떻게 셌는지는 사용 기록 화면에 그대로 펼쳐 두었습니다.
+
+그거 아세요.
+
+며칠에 한 번, 아직 모르실 만한 것을 하나씩 알려드립니다. 설정에 다 모아 두었고 그만 보고 싶으면 언제든 끌 수 있습니다. 첫 이야기는 이것입니다. 이 앱에는 서버가 없습니다. 계좌번호도 주민등록번호도 이 폰 안에만 있고 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없습니다.
+
+고친 것.
+
+앱을 지웠다 깔거나 새 폰을 켜면, 나중에를 눌러도 예전 단축어가 이미 들어와 있었습니다. 이제 그 기기에서 켜기 전에는 아무것도 당겨오지 않습니다. 홈 화면에 다른 이름이 뜨던 것과 앱 아이콘이 비어 있던 것을 바로잡았습니다. 키컬러를 주황으로 바꿔 눌러야 할 곳이 분명해졌습니다.
+```
+
+---
+
+## English (App Store)
+
+```
+We rebuilt the path a first-time user walks.
+
+We do not hand you an empty box. A snippet, a template, and a combo are waiting, and we walk you through tapping each one. Your hands learn the difference before any explanation would. What we planted stays after the tutorial ends, so you start with three things you can actually use. At the end we ask once whether you would like them cleared.
+
+A ripple shows you what comes next. It travels from the snippet key to picking a value, to inserting, to sending. The last step asks you to make one of your own, because trying is not the same as having. If nothing comes to mind, you can put it off.
+
+Without the keyboard turned on, this app is nothing. So we remind you once a day until we can confirm it is on. Closing the guide used to count as done. It does not anymore.
+
+Templates are far easier to fill.
+
+With four blanks you no longer have to guess which row belongs to which value. Every blank shows its name and the value you picked, and each one sits in its own boxed area. Picking a value updates the preview first, and nothing is typed until you tap insert, so you can try a different one.
+
+Blanks that fill themselves, like today's date, now show the value instead of looking like an empty hole. Your picks, auto-filled values, and empty blanks each get their own color. If there are no saved values, you can create one right there without leaving for the app.
+
+Time saved, counted honestly.
+
+We used to count typing time only. But the real cost of an account number is not the few seconds of typing. It is opening the bank app, finding it, long-pressing to select, copying, coming back, and pasting. Now we count all of it, and your record screen shows exactly how we counted.
+
+Did you know.
+
+Every few days we tell you one thing you might not know yet. They all live in Settings, and you can turn them off any time. The first one is this. This app has no server. Your account numbers and ID numbers live only on this phone, and even we cannot see them. There is no server to breach, so there is nothing to breach.
+
+Fixed.
+
+After a reinstall or on a new phone, your old snippets showed up even if you tapped later. Nothing is pulled down now until you turn sync on from that device. The home screen showed the wrong name and the app icon was missing, and both are back to normal. A new orange key color makes the thing to tap obvious.
+```
+
+---
+
+## 심사·배포 메모 (내부)
+
+- 버전: `Version.xcconfig` 의 `MARKETING_VERSION = 5.0.0`, `CURRENT_PROJECT_VERSION = 1`.
+  앱과 익스텐션 네 개가 전부 같은 값을 들고 있는 것을 확인했다.
+  App Store Connect 에 5.0.0(1) 이 이미 올라가 있다면 빌드 번호만 올릴 것.
+- 새 권한 없음. 추가된 엔타이틀먼트 없음.
+
+### ⚠️ 사용자는 4.4.3 에서 곧장 5.0.0 으로 넘어온다
+
+`ChangelogView` 기준으로 **4.4.8 도 아직 출시되지 않았다**(`released: nil`).
+4.4.4 부터 4.4.8 까지 다섯 버전이 App Store 에 나가지 않았으므로, 이번 빌드가
+그 코드를 전부 처음 들고 나간다.
+
+위 문안은 **5.0.0 에서 바뀐 것만** 담는다. 그래서 그 다섯 버전에서 만든 것은
+사용자에게 한 번도 소개되지 않은 채 들어간다.
+
+- 첫 화면 키보드 미리보기 · 단축어 마트 · 이미지 단축어 · 사진에서 글자 읽기
+- 공유 익스텐션 · 제어센터 복사 · 설정 정리
+- 런치 워치독 수정(4.4.6 이 실기기 런치 중에 죽던 것) · 동기화 수정 반영
+
+누적 문안이 필요하면 `docs/RELEASE_NOTES_4.4.7.md` 와 `docs/RELEASE_NOTES_4.4.8.md`
+에 그대로 있다. **어느 쪽으로 갈지는 올리기 전에 정할 것.**
+
+### ⚠️ 이전 버전들의 배포 조건이 그대로 살아 있다
+
+4.4.4~4.4.8 이 나가지 않았으므로 그때 적어 둔 확인 항목이 전부 유효하다.
+전문은 `docs/RELEASE_NOTES_4.4.7.md` · `docs/RELEASE_NOTES_4.4.8.md`.
+
+1. 새 상품 두 개 등록 (`com.Ysoup.TokenMemo.pro.halfoff`, `com.Ysoup.TokenMemo.slots5`).
+2. CloudKit 스키마를 앱보다 먼저 Production 에 올릴 것.
+3. Xcode Cloud 가 아직 옛 이름을 부른다. 저장소의 심볼릭 링크·스킴 복사본을 지우지 말 것.
+
+### ⚠️ 실기기 확인 없이 올리지 말 것
+
+이번에 고친 iCloud 동기화 게이트는 **시뮬레이터에서 통째로 건너뛰는 경로**다.
+아이폰에서 다음 셋을 실제로 밟을 것.
+
+1. 앱을 지웠다 다시 깔고, 첫 실행에 예전 단축어가 들어오지 않는지.
+2. 설정에서 동기화를 켜면 그때 들어오는지.
+3. 키보드를 켜지 않은 채로 앱을 하루 뒤 다시 열어 안내가 다시 뜨는지.
+
+### 이번에 고친 것 중 가장 큰 것
+
+`MemoSyncFlags.enabled` 가 iCloud 키값 저장소(`NSUbiquitousKeyValueStore`)를 함께 보고 있었다.
+그 저장소는 **앱을 지워도 남고 계정을 따라다닌다.** 그래서 앱을 지웠다 깐 사람과 새 폰을
+켠 사람의 첫 실행에 이미 켜져 있었고, 런치가 끝나기도 전에 엔진이 원격을 통째로 당겨왔다.
+"기존 단축어를 불러올까요"에 나중에를 눌러도 이미 들어와 있던 이유가 이것이다.
+설정의 토글은 App Group 값을 그리므로 화면에는 꺼짐으로 보였다. 보이는 것과 도는 것이
+어긋나 있었던 셈이다.
+
+게이트를 이 기기의 값만 보도록 바꿨고, 켜 둔 채로 업데이트한 사람의 동기화가 멎지 않게
+**이 기기에 동기화 이력이 있을 때만** 이어받는 승계 판정을 뒀다.
+맥 저장소에도 같은 내용으로 넣었다(`ClipKeyboardMac` 의 `fix/sync-needs-consent-on-this-device`).
