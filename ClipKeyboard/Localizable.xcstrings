@@ -19413,6 +19413,23 @@
         }
       }
     },
+    "아직 안 골랐어요": {
+      "comment": "Placeholder not chosen yet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not chosen yet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Belum dipilih"
+          }
+        }
+      }
+    },
     "아직 안 만든 사람": {
       "comment": "User segment: created nothing yet",
       "localizations": {

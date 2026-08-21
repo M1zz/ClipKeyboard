@@ -222,7 +222,12 @@ struct TemplateInputOverlay: View {
                         }
                     }
                     .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                    .padding(.top, 8)
+                    // ⚠️ 아래를 넉넉히 비운다. 앱 안에서는 **탭바가 이 위에 떠 있어서**,
+                    //    빈칸이 넷다섯인 템플릿을 열면 마지막 칸이 탭바 뒤에 깔린다.
+                    //    보이지도 않고 눌리지도 않는 칸이 생기는 것이라, 빈칸이 많을수록
+                    //    (= 이 화면이 가장 필요할 때) 못 쓰게 된다.
+                    .padding(.bottom, hostKind == .inApp ? 96 : 16)
                 }
                 .background(Color(UIColor.systemBackground))
         }
@@ -350,6 +355,7 @@ struct PlaceholderInputView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
+            header
             if isNumericToken {
                 numericInputSection
             } else {
@@ -357,8 +363,71 @@ struct PlaceholderInputView: View {
             }
         }
         .padding(.horizontal, 12)
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        // ⚠️ 빈칸 하나가 **한 덩어리**로 읽혀야 한다.
+        //
+        //    예전에는 줄바꿈과 여백만으로 갈라 두었다. 빈칸이 하나일 때는 그것으로
+        //    충분했는데, 넷이 되자 "이 칩 줄이 위 이름 것인가 아래 것인가"가
+        //    매번 헷갈렸다. 여백은 **가까운 쪽**을 말해 주지만 **경계**를 말해 주지는
+        //    못한다.
+        //
+        //    바탕과 테두리로 칸을 그으면 그 물음이 사라진다. 이름과 칩이 같은 판
+        //    위에 있으니 묶인 것이 눈에 먼저 들어온다.
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                .fill(theme.surfaceAlt.opacity(colorScheme == .dark ? 0.5 : 0.7))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                .strokeBorder(theme.divider, lineWidth: 0.5)
+        )
         .onAppear(perform: reloadValues)
+    }
+
+    // MARK: - 이 칸이 무슨 칸인가
+
+    /// **어느 빈칸의 값을 고르는 중인지** 알려 주는 한 줄.
+    ///
+    /// ⚠️ 이게 없던 동안, 빈칸이 넷인 템플릿(송금 양식: 금액·수신인·IBAN·SWIFT)을 열면
+    ///    **이름 없는 칩 줄이 네 개** 나왔다. 어느 줄이 무슨 값인지 알 길이 없어서,
+    ///    위 미리보기와 아래 칩을 눈으로 번갈아 맞춰 봐야 했다.
+    ///    빈칸이 하나뿐일 때는 티가 안 나던 문제라 오래 남아 있었다.
+    ///
+    /// ⚠️ 이름은 위 미리보기의 **칩과 같은 모습**으로 그린다. 미리보기에서 `{수신인}` 으로
+    ///    보이던 것이 여기서는 다른 모양이면, 그 둘이 같은 자리라는 것을 스스로 이어야 한다.
+    ///
+    /// ⚠️ 고른 값을 오른쪽에 함께 적는다. 칩은 가로로 넘칠 수 있어 고른 것이 화면 밖으로
+    ///    밀려나 있을 수 있는데, 그러면 "이 칸은 채웠나?"에 답할 수가 없다.
+    ///    색도 미리보기와 맞춘다 - 채운 값은 초록이다.
+    private var header: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(placeholder.strippingTemplateBraces)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(
+                    RoundedRectangle(cornerRadius: theme.radiusXs, style: .continuous)
+                        .fill(theme.accentSoft)
+                )
+                .lineLimit(1)
+
+            Spacer(minLength: 0)
+
+            if selectedValue.isEmpty {
+                Text(NSLocalizedString("아직 안 골랐어요", comment: "Placeholder not chosen yet"))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            } else {
+                Text(selectedValue)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(Color(UIColor.systemGreen))
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+            }
+        }
+        .accessibilityElement(children: .combine)
     }
 
     // MARK: - Numeric input
