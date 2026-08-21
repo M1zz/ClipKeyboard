@@ -26,7 +26,7 @@ struct MacAppIntroView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 24)
         }
-        .navigationTitle(NSLocalizedString("CrocoClip for Mac", comment: "Mac app intro title"))
+        .navigationTitle(NSLocalizedString("ClipKeyboard for Mac", comment: "Mac app intro title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
@@ -62,7 +62,7 @@ struct MacAppIntroView: View {
                 icon: "menubar.rectangle",
                 tint: .blue,
                 title: NSLocalizedString("Menu bar access", comment: "Mac feature: menu bar"),
-                description: NSLocalizedString("Pin CrocoClip to the macOS menu bar and paste from anywhere.", comment: "Mac feature: menu bar description")
+                description: NSLocalizedString("Pin ClipKeyboard to the macOS menu bar and paste from anywhere.", comment: "Mac feature: menu bar description")
             )
             MacFeatureRow(
                 icon: "keyboard",
@@ -139,7 +139,7 @@ struct MacAppIntroView: View {
                 .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
-            Text(NSLocalizedString("Once installed, look for the CrocoClip icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud.", comment: "Mac install tip"))
+            Text(NSLocalizedString("Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud.", comment: "Mac install tip"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)

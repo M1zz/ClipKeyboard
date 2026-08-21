@@ -274,7 +274,10 @@ struct UsagePassportView: View {
 
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: 10) {
-            MascotView(pose: .sleeping, size: 64)
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 44, weight: .light))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
             Text(NSLocalizedString("아직 백지예요", comment: "Usage passport empty state title"))
                 .font(.title3.weight(.bold))
                 .foregroundColor(theme.text)
@@ -320,9 +323,10 @@ struct UsagePassportView: View {
     ///    없애는 버튼은 할 일만 하나 늘린다.
     private func celebration(_ milestone: SavedTimeMilestone) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            // ⚠️ 여기만 얼굴이 아니라 **온몸**이다. 축하하는 자리에서 얼굴만 동그랗게
-            //    떠 있으면 프로필이고, 두 손 든 몸이 있어야 축하가 된다.
-            MascotView(pose: .celebrating, size: 64, framing: .figure)
+            Image(systemName: AppSymbol.checkmarkSealFill)
+                .font(.system(size: 40))
+                .foregroundColor(theme.accent)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(milestone.localizedTitle)

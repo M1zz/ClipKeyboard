@@ -218,7 +218,7 @@ struct ClipboardList: View {
                 }
                 Button(NSLocalizedString("나중에", comment: "Later button"), role: .cancel) {}
             } message: {
-                Text(NSLocalizedString("설정 → 크로커클립 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요.", comment: "Paste permission alert message"))
+                Text(NSLocalizedString("설정 → ClipKeyboard → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요.", comment: "Paste permission alert message"))
             }
 
             // Toast 메시지
@@ -680,7 +680,7 @@ struct ClipboardItemRow: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         // 내용
-                        Text(item.content)
+                        Text(item.content.templateAwareAttributed(theme: theme, font: .body))
                             .font(.body)
                             .lineLimit(3)
                             .foregroundColor(.primary)
@@ -830,7 +830,7 @@ struct SaveToMemoSheet: View {
                 }
 
                 Section(NSLocalizedString("내용", comment: "Content section header")) {
-                    Text(item.content)
+                    Text(item.content.templateAwareAttributed(theme: theme, font: .body))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -960,7 +960,7 @@ private struct PasteTipBanner: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
 
-                    Text(NSLocalizedString("설정 → 크로커클립 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
+                    Text(NSLocalizedString("설정 → ClipKeyboard → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                         .fixedSize(horizontal: false, vertical: true)

@@ -72,7 +72,7 @@ struct KeyboardPracticeView: View {
                             text: NSLocalizedString("아래 입력창을 탭해서 키보드를 열어요",
                                                     comment: "Practice step 1"))
             PracticeStepRow(number: "2",
-                            text: NSLocalizedString("지구본(🌐) 버튼으로 CrocoClip로 전환해요",
+                            text: NSLocalizedString("지구본(🌐) 버튼으로 ClipKeyboard로 전환해요",
                                                     comment: "Practice step 2"))
             PracticeStepRow(number: "3",
                             text: isNomad
@@ -104,12 +104,12 @@ struct KeyboardPracticeView: View {
                         .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(memo.title)
+                        Text(memo.title.templateAwareAttributed(theme: theme, font: .body.weight(.medium)))
                             .font(.body)
                             .fontWeight(.medium)
                             .foregroundColor(theme.text)
                         if !memo.value.isEmpty {
-                            Text(memo.value)
+                            Text(memo.value.templateAwareAttributed(theme: theme, font: .body))
                                 .font(.body)
                                 .foregroundColor(theme.textMuted)
                                 .lineLimit(1)
@@ -146,7 +146,7 @@ struct KeyboardPracticeView: View {
                     )
 
                 if practiceText.isEmpty {
-                    Text(NSLocalizedString("여기를 탭하고 CrocoClip에서 단축어를 붙여넣어 보세요…",
+                    Text(NSLocalizedString("여기를 탭하고 ClipKeyboard에서 단축어를 붙여넣어 보세요…",
                                           comment: "Practice editor placeholder"))
                         .font(.body)
                         .foregroundColor(theme.textFaint)
@@ -244,7 +244,7 @@ struct KeyboardPracticeSheet: View {
                 .padding(.bottom, 12)
 
             Text(NSLocalizedString(
-                "CrocoClip 설치가 완료됐어요!\n저장한 단축어를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요.",
+                "ClipKeyboard 설치가 완료됐어요!\n저장한 단축어를 키보드에서 탭 한 번으로\n입력하는 연습을 지금 바로 해볼 수 있어요.",
                 comment: "Practice prompt description"
             ))
             .font(.body)

@@ -889,7 +889,6 @@ struct ClipKeyboardApp: App {
                 .environmentObject(storeManager)
                 // 팁은 앱 어디에서 뜨든 **마스코트가 말을 거는 모양**이다.
                 // 여기 한 곳에 걸어 두면 TipView·popoverTip 이 모두 같은 얼굴로 나온다.
-                .tipViewStyle(MascotTipViewStyle())
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif
@@ -1021,7 +1020,7 @@ struct ClipKeyboardApp: App {
             // v4.2: ⌃⇧ (Control+Shift) + 영문자 3-key 조합으로 통일.
             // Mac에서 Control+Shift 계열 단축키는 거의 표준 바인딩이 없어
             // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
-            CommandMenu(NSLocalizedString("CrocoClip", comment: "App menu name")) {
+            CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
                     NotificationCenter.default.post(name: .showMemoList, object: nil)
                 }
@@ -1052,7 +1051,7 @@ struct ClipKeyboardApp: App {
             }
 
             CommandGroup(replacing: .help) {
-                Button(NSLocalizedString("CrocoClip Help", comment: "Menu: help")) {
+                Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
                     if let url = URL(string: "https://m1zz.github.io/ClipKeyboard/tutorial.html") {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)
@@ -1346,7 +1345,7 @@ struct MemoSearchView: View {
                     .lineLimit(1)
                 let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
                 if !preview.isEmpty {
-                    Text(preview)
+                    Text(preview.templateAwareAttributed(theme: theme, font: .subheadline))
                         .font(.subheadline)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(1)

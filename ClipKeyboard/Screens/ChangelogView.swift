@@ -34,15 +34,11 @@ enum ChangelogData {
             version: "5.0.0",
             released: nil,
             highlights: [
-                NSLocalizedString("이름이 크로커클립으로 바뀌었어요. 쓰던 그 앱이 맞고, 단축어도 설정도 그대로예요", comment: "Changelog 5.0.0 item 1"),
-                NSLocalizedString("홈 화면 아이콘이 키캡을 문 악어로 바뀌었어요. 지우고 다시 깔 필요 없어요", comment: "Changelog 5.0.0 item 2"),
                 NSLocalizedString("아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다", comment: "Changelog 5.0.0 item 3"),
                 NSLocalizedString("아낀 시간이 어떻게 계산됐는지 사용 기록에서 펼쳐 볼 수 있어요", comment: "Changelog 5.0.0 item 4"),
                 NSLocalizedString("1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요", comment: "Changelog 5.0.0 item 5"),
                 NSLocalizedString("아낀 시간을 3초짜리 세로 영상으로 뽑아 스토리에 올릴 수 있어요", comment: "Changelog 5.0.0 item 6"),
                 NSLocalizedString("환급 영수증에서 픽셀 그림을 빼고 진짜 영수증처럼 바꿨어요", comment: "Changelog 5.0.0 item 7"),
-                NSLocalizedString("키보드 미리보기의 악어를 누르면 단축어·템플릿·콤보가 뭐가 다른지 그 자리에서 알려드려요", comment: "Changelog 5.0.0 item 8"),
-                NSLocalizedString("단축어를 처음 몇 번 누를 때 악어가 껍데기를 깨서 값을 꺼내 보여줘요", comment: "Changelog 5.0.0 item 9"),
                 NSLocalizedString("처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요", comment: "Changelog 5.0.0 item 10"),
             ]
         ),

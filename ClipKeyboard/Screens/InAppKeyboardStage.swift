@@ -59,12 +59,6 @@ struct InAppKeyboardStage: View {
     @State private var showsKeyboardSetup = false
     /// 새 단축어 만들기 시트.
     @State private var showsAddMemo = false
-    /// 악어 얼굴을 눌러 연 도움말. 무엇을 도와줄지 묻고 갈 곳을 알려 준다.
-    @State private var showsMascotHelp = false
-    /// 얼굴에 붙는 물음표 - **한 번 열어 보면 사라진다.** 누를 수 있다는 걸 모르면
-    /// 도움이 있어도 없는 것과 같지만, 알고 난 뒤에도 계속 붙어 있으면 잔소리다.
-    @AppStorage(DefaultsKey.mascotHelpSeen, store: AppGroup.defaults)
-    private var mascotHelpSeen: Bool = false
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
@@ -139,9 +133,6 @@ struct InAppKeyboardStage: View {
             reloadFeed()
         }
         // 만들고 나면 무대의 키보드에 바로 그 키가 있어야 한다 - 닫힐 때 다시 읽는다.
-        .sheet(isPresented: $showsMascotHelp) {
-            MascotHelpSheet()
-        }
         .sheet(isPresented: $showsAddMemo, onDismiss: reloadFeed) {
             NavigationStack {
                 MemoAdd(insertedCategory: "텍스트")
@@ -323,12 +314,7 @@ struct InAppKeyboardStage: View {
     private func bubble(_ message: StageMessage) -> some View {
         let mine = message.side == .outgoing
         return HStack(alignment: .top, spacing: 8) {
-            if mine {
-                Spacer(minLength: 40)
-            } else {
-                // 말을 건네는 쪽의 얼굴. 누가 말하는지가 보이면 무대가 대화로 읽힌다.
-                mascotAvatar
-            }
+            if mine { Spacer(minLength: 40) }
             VStack(alignment: mine ? .trailing : .leading, spacing: 6) {
                 if let image = message.image {
                     Image(uiImage: image)
@@ -363,37 +349,6 @@ struct InAppKeyboardStage: View {
             if !mine { Spacer(minLength: 40) }
         }
         .transition(.opacity.combined(with: .move(edge: .bottom)))
-    }
-
-    /// 말을 건네는 쪽의 프로필 - 마스코트 얼굴.
-    ///
-    /// ⚠️ 원 안에 얹는다. 캐릭터 그림은 배경이 비어 있어서 그냥 두면 허공에 뜬 것처럼
-    ///    보이는데, 브랜드색 옅은 원이 프로필 사진의 테두리 노릇을 한다.
-    ///
-    /// ⚠️ 이 얼굴은 **누를 수 있다.** 무대는 말풍선으로 된 대화라 얼굴 옆에서 이미
-    ///    말을 걸고 있고, 그 얼굴을 누르면 대화가 이어지는 것이 자연스럽다.
-    ///    도움말을 설정 깊은 곳에만 두면 막힌 사람은 막힌 자리에서 길을 못 찾는다.
-    private var mascotAvatar: some View {
-        Button {
-            HapticManager.shared.light()
-            mascotHelpSeen = true
-            showsMascotHelp = true
-        } label: {
-            MascotView(pose: .avatar, size: 34, framing: .badge)
-                .overlay(alignment: .bottomTrailing) {
-                    if !mascotHelpSeen {
-                        Image(systemName: AppSymbol.questionmarkCircleFill)
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(theme.accentFg, theme.accent)
-                            .offset(x: 3, y: 3)
-                    }
-                }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(NSLocalizedString("도움말", comment: "Help"))
-        .accessibilityHint(NSLocalizedString("사용 가이드와 튜토리얼로 갈 수 있어요", comment: "Mascot help button hint"))
-        // 말풍선 꼭지와 눈높이를 맞춘다.
-        .padding(.top, 2)
     }
 
     // MARK: - 입력창

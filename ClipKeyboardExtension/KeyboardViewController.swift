@@ -124,7 +124,7 @@ class KeyboardViewController: UIInputViewController {
         lockIcon.translatesAutoresizingMaskIntoConstraints = false
 
         let title = UILabel()
-        title.text = NSLocalizedString("Unlock keyboard in CrocoClip", comment: "Keyboard locked title")
+        title.text = NSLocalizedString("Unlock keyboard in ClipKeyboard", comment: "Keyboard locked title")
         title.font = .systemFont(ofSize: 15, weight: .semibold)
         title.textAlignment = .center
         title.numberOfLines = 0
@@ -617,22 +617,7 @@ class KeyboardViewController: UIInputViewController {
 
     // 템플릿 관련 함수들
     private func extractCustomPlaceholders(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let placeholder = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
-        }
-
-        return placeholders
+        TemplatePlaceholder.customTokens(in: text)
     }
 
     private func processTemplateVariables(in text: String) -> String {

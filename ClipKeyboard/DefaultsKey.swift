@@ -195,13 +195,6 @@ enum DefaultsKey {
     /// ⚠️ 옛 키(`firstShortcut.done.v1`)를 그대로 쓴다. 4.4.x 에서 첫 단축어를 이미 만들고
     ///    지나온 사람에게 새 키를 주면 **환영 화면이 다시 뜬다** - 그 사람에게는 다 아는 이야기다.
     static let tutorialWelcomeDone = "firstShortcut.done.v1"
-    /// 무대의 악어 얼굴을 눌러 도움말을 한 번이라도 열어 봤는지.
-    /// 켜지면 얼굴에 붙던 물음표가 사라진다 - 알고 난 뒤에도 붙어 있으면 잔소리다.
-    static let mascotHelpSeen = "mascotHelpSeen.v1"
-
-    /// 미리보기에서 껍데기 깨는 연출을 몇 번 더 보여줄지. 0 이 되면 조용히 멈춘다.
-    /// 배우는 자리의 연출은 다 배우고 나면 소음이다.
-    static let shellCracksLeft = "shellCracksLeft.v1"
     /// 4.4.4 기본 스킨 씨앗을 이미 뿌렸는지(1회). 두 번 뿌리면 사용자가 바꾼 걸 되돌린다.
     static let skinSeededV444 = "skinSeeded.v444"
     /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 튜토리얼이

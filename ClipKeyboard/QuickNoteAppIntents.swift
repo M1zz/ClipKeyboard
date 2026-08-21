@@ -14,7 +14,7 @@ import Foundation
 /// 텍스트를 받아 보관함에 추가하는 인텐트. 앱을 띄우지 않고 백그라운드에서 실행된다.
 struct AddQuickNoteIntent: AppIntent {
     static var title: LocalizedStringResource = "Add Quick Note"
-    static var description = IntentDescription("Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo.")
+    static var description = IntentDescription("Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo.")
     static var openAppWhenRun: Bool = false
 
     @Parameter(
@@ -30,7 +30,7 @@ struct AddQuickNoteIntent: AppIntent {
             return .result(dialog: "Nothing to save.")
         }
         QuickNoteStore.shared.add(QuickNote(text: trimmed, source: "shortcut"))
-        return .result(dialog: "Saved to your CrocoClip inbox.")
+        return .result(dialog: "Saved to your ClipKeyboard inbox.")
     }
 }
 
@@ -39,7 +39,7 @@ struct AddQuickNoteIntent: AppIntent {
 /// 보관함 화면을 바로 여는 인텐트(Control Center 버튼·액션 버튼에서 "받은편지함 열기"용).
 struct OpenQuickNoteInboxIntent: AppIntent {
     static var title: LocalizedStringResource = "Open Inbox"
-    static var description = IntentDescription("Open the CrocoClip inbox of quick notes.")
+    static var description = IntentDescription("Open the ClipKeyboard inbox of quick notes.")
     static var openAppWhenRun: Bool = true
 
     @MainActor

@@ -2544,7 +2544,10 @@ struct ClipKeyboardList: View {
     ///    기본 얼굴로 대신 그려진다 - `MascotPose`)
     private func emptyStateMessage(message: String) -> some View {
         VStack(spacing: 14) {
-            MascotView(pose: .sleeping, size: 76)
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 46, weight: .light))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
             Text(message)
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -3039,8 +3042,11 @@ struct ClipKeyboardList: View {
     private var minimalEmptyState: some View {
         VStack(spacing: 16) {
             // 빈 화면은 **아무 말도 안 하는 화면**이다. 글 한 줄만 있으면 "고장인가"로도
-            // 읽힌다. 턱 괴고 기다리는 악어가 있으면 그 자체로 "아직 없다"가 된다.
-            MascotView(pose: .thinking, size: 120, framing: .figure)
+            // 읽힌다. 빈 서랍 그림이 그 자체로 "아직 없다"를 말한다.
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 64, weight: .ultraLight))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
 
             Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
                 .font(.body)

@@ -697,7 +697,7 @@ enum PortabilityError: LocalizedError {
         case .noContainer:
             return NSLocalizedString("저장소를 찾을 수 없습니다.", comment: "App Group container missing")
         case .unreadableFile:
-            return NSLocalizedString("이 파일은 CrocoClip 백업 파일이 아니거나 손상되었습니다.", comment: "Unrecognized backup file")
+            return NSLocalizedString("이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다.", comment: "Unrecognized backup file")
         }
     }
 }

@@ -36,16 +36,17 @@ struct WhatsNewView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 10) {
-                        // 새 얼굴을 **직접 보여 준다.** 홈 화면에서 바뀐 그 그림이 여기 있어야
-                        // "그 앱이 이 앱"이 한눈에 이어진다.
-                        MascotView(pose: .greeting, size: 96, framing: .figure)
+                        Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
+                            .font(.system(size: 64, weight: .light))
+                            .foregroundColor(.accentColor)
                             .padding(.top, 24)
+                            .accessibilityHidden(true)
 
-                        Text(NSLocalizedString("이름이 크로커클립으로 바뀌었어요", comment: "What's new title 5.0"))
+                        Text(NSLocalizedString("이번엔 셈을 고쳤어요", comment: "What's new title 5.0"))
                             .font(.title.bold())
                             .multilineTextAlignment(.center)
 
-                        Text(NSLocalizedString("쓰던 그 앱이 맞아요. 단축어도, 설정도 그대로 있어요. 이름과 얼굴만 새로 입었어요.",
+                        Text(NSLocalizedString("아낀 시간을 다시 셌고, 그 시간을 자랑할 영상도 만들 수 있어요.",
                                                comment: "What's new subtitle 5.0"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
@@ -55,11 +56,6 @@ struct WhatsNewView: View {
 
                     VStack(spacing: 18) {
                         featureRow(
-                            symbol: "app.badge.checkmark",
-                            title: NSLocalizedString("홈 화면 아이콘이 달라졌어요", comment: "What's new 5.0 feature 1 title"),
-                            detail: NSLocalizedString("키캡을 문 악어를 찾으세요. 지우고 다시 깔 필요 없어요.", comment: "What's new 5.0 feature 1 detail")
-                        )
-                        featureRow(
                             symbol: AppSymbol.checkmarkSealFill,
                             title: NSLocalizedString("아낀 시간을 제대로 세기 시작했어요", comment: "What's new 5.0 feature 2 title"),
                             detail: NSLocalizedString("치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.", comment: "What's new 5.0 feature 2 detail")
@@ -68,11 +64,6 @@ struct WhatsNewView: View {
                             symbol: "square.and.arrow.up",
                             title: NSLocalizedString("자랑할 영상을 만들 수 있어요", comment: "What's new 5.0 feature 3 title"),
                             detail: NSLocalizedString("아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요.", comment: "What's new 5.0 feature 3 detail")
-                        )
-                        featureRow(
-                            symbol: "bubble.left.and.bubble.right.fill",
-                            title: NSLocalizedString("막히면 악어를 누르세요", comment: "What's new 5.0 feature 4 title"),
-                            detail: NSLocalizedString("키보드 미리보기의 악어 얼굴을 누르면, 단축어·템플릿·콤보가 뭐가 다른지 그 자리에서 알려드려요.", comment: "What's new 5.0 feature 4 detail")
                         )
                     }
                     .padding(.horizontal, 24)

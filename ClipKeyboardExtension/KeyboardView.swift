@@ -562,12 +562,6 @@ struct KeyboardView: View {
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
                                     ))
-                                    // 껍데기를 깨서 값을 꺼내는 장면. 처음 몇 번만,
-                                    // 미리보기에서만 (`ShellCrackOverlay` 주석 참고).
-                                    .modifier(ShellCrackOverlay(
-                                        active: crackingMemoId == item.memo.id,
-                                        onEnd: { crackingMemoId = nil }
-                                    ))
                                     // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
                                     // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
                                     .overlay {
@@ -1148,8 +1142,9 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.caption2)
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title.kbTemplateAwareAttributed(font: .caption.weight(.medium),
-                                                          accent: theme.accent, accentSoft: theme.accentSoft))
+                Text(memo.title.templateAwareAttributed(accent: theme.accent,
+                                                        accentSoft: theme.accentSoft,
+                                                        font: .caption.weight(.medium)))
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
                     .lineLimit(1)
@@ -1223,7 +1218,6 @@ struct KeyboardView: View {
     ///
     /// ⚠️ 미리보기(`hostKind == .inApp`)에서만 값이 들어간다. 익스텐션에서는 이 값이
     ///    영원히 nil 이라 연출이 그려지지 않는다.
-    @State private var crackingMemoId: UUID?
 
     /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
     @State private var peekMemo: Memo?
@@ -1363,7 +1357,7 @@ struct KeyboardView: View {
         if memo.contentType == .image || memo.contentType == .mixed {
             parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo"))
         } else if !memo.value.isEmpty {
-            let preview = String(memo.value.prefix(40))
+            let preview = String(memo.value.strippingTemplateBraces.prefix(40))
             parts.append(preview)
         }
         return parts.joined(separator: ", ")
@@ -1395,18 +1389,6 @@ struct KeyboardView: View {
         //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
         //    (일반 삽입 → stamp / 이미지 → 복사 완료 / 보안 → 인증 UI)
 
-        // 껍데기를 깨서 값을 꺼내는 장면. **미리보기에서, 처음 몇 번만.**
-        // 익스텐션은 메모리가 빠듯하고 하루에 수십 번 누르는 자리라 아예 들어가지 않는다.
-        //
-        // ⚠️ 예전에는 "삽입을 막거나 늦추지 않는다"였다. 그랬더니 **값이 먼저 들어가고**
-        //    악어가 뒤늦게 깨물었다 - 이미 나와 있는 것을 꺼내는 시늉이라 무슨 그림인지
-        //    알 수 없었다. 깨는 장면이면 깨진 다음에 나와야 한다.
-        //
-        // ⚠️ 화면을 덮는 갈래(템플릿 빈칸·보안 인증·이미지 복사 토스트)는 **더 늦게** 연다.
-        //    먼저 열면 악어가 그 뒤에서 혼자 깨물고 사라진다.
-        let cracking = hostKind == .inApp && crackingMemoId == nil && ShellCrack.consumeBudget()
-        if cracking { crackingMemoId = memo.id }
-
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
                 hangul.reset()
@@ -1414,12 +1396,6 @@ struct KeyboardView: View {
                 isSearching = false
             }
         }
-
-        // 화면을 덮는가 - 그렇다면 악어가 나간 뒤에 연다.
-        let covers = memo.contentType == .image || memo.contentType == .mixed
-            || memo.isSecure
-            || (!bypassTemplate && memo.isTemplate)
-        let delay = cracking ? (covers ? ShellCrack.clearedDelay : ShellCrack.revealDelay) : 0
 
         let proceed = {
             if memo.contentType == .image || memo.contentType == .mixed {
@@ -1433,11 +1409,7 @@ struct KeyboardView: View {
             insertMemo(memo, bypassTemplate: bypassTemplate)
         }
 
-        if delay > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: proceed)
-        } else {
-            proceed()
-        }
+        proceed()
     }
 
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {
@@ -2032,13 +2004,16 @@ struct ComboKeyValueLabel: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
-                                                 accent: accent, accentSoft: accentSoft))
+            Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                               font: .system(size: fontSize, weight: .semibold)))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingValue ? 0 : 1)
                 .blur(radius: !reduceMotion && showingValue ? 3 : 0)
-            Text(value.isEmpty ? "-" : value)
+            Text(value.isEmpty
+                 ? AttributedString("-")
+                 : value.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                                 font: .system(size: fontSize * 0.92)))
                 .font(.system(size: fontSize * 0.92))
                 .foregroundColor(valueColor)
                 .opacity(showingValue ? 1 : 0)
@@ -2098,14 +2073,15 @@ struct MemoTitleHintSwap: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
-                                                 accent: accent, accentSoft: accentSoft))
+            Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                               font: .system(size: fontSize, weight: .semibold)))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingHint ? 0 : 1)
                 .blur(radius: !reduceMotion && showingHint ? 3 : 0)
             if let hint {
-                Text(hint)
+                Text(hint.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                                  font: .system(size: fontSize * 0.92)))
                     .font(.system(size: fontSize * 0.92))
                     .foregroundColor(hintColor)
                     .opacity(showingHint ? 1 : 0)
@@ -2214,44 +2190,9 @@ struct KeycapPressReporter: ButtonStyle {
     }
 }
 
-// MARK: - Template Chip Rendering (키보드 전용)
-
-extension String {
-    /// `{변수}`가 있으면 중괄호 없는 하이라이트 칩으로, 없으면 그대로 반환.
-    /// 앱 타겟 String.templateChipAttributed와 동일 규칙 - 타깃 분리로 확장을 공유하지 못해
-    /// 키보드 전용으로 복제(색은 시스템 블루 고정). "플레이스홀더는 어디서든 하이라이트" 규칙.
-    /// - Parameters:
-    ///   - accent / accentSoft: 앱의 `templateChipAttributed` 와 **같은 테마 토큰**을 받는다.
-    ///     예전에는 여기서만 시스템 블루로 고정돼 있어서, 테마를 바꾸면 앱 카드의 변수 칩과
-    ///     키보드 키의 변수 칩 색이 서로 달라졌다.
-    func kbTemplateAwareAttributed(font: Font,
-                                   accent: Color,
-                                   accentSoft: Color) -> AttributedString {
-        guard contains("{"), let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return AttributedString(self)
-        }
-        let ns = self as NSString
-        var out = AttributedString()
-        var cursor = 0
-        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
-            let full = match.range
-            if full.location > cursor {
-                out += AttributedString(ns.substring(with: NSRange(location: cursor, length: full.location - cursor)))
-            }
-            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
-            var chip = AttributedString("\u{2009}\(ns.substring(with: match.range(at: 1)))\u{2009}")
-            chip.foregroundColor = accent
-            chip.backgroundColor = accentSoft
-            chip.font = font
-            out += chip
-            cursor = full.location + full.length
-        }
-        if cursor < ns.length {
-            out += AttributedString(ns.substring(from: cursor))
-        }
-        return out
-    }
-}
+// MARK: - Template Chip Rendering
+// `{변수}` 칩은 앱과 키보드가 **같은 코드**를 쓴다.
+// DesignSystem/TemplatePlaceholder.swift (`templateAwareAttributed`) - 양쪽 타겟에 들어간다.
 
 // MARK: - Search Hangul Composition
 

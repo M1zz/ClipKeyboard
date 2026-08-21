@@ -49,7 +49,7 @@ enum ShareVideoRenderer {
     ///    저장 공간에 우리 파일을 남기지 않는다.
     static func render(totalSeconds: Double, totalUses: Int) async throws -> URL {
         let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("CrocoClip-\(Int(Date().timeIntervalSince1970)).mp4")
+            .appendingPathComponent("ClipKeyboard-\(Int(Date().timeIntervalSince1970)).mp4")
         try? FileManager.default.removeItem(at: url)
 
         guard let writer = try? AVAssetWriter(outputURL: url, fileType: .mp4) else {
@@ -168,9 +168,9 @@ struct ShareVideoFrame: View {
             VStack(spacing: 0) {
                 Spacer(minLength: 0)
 
-                Image("MascotAvatar")
-                    .resizable()
-                    .scaledToFit()
+                Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
+                    .font(.system(size: 200, weight: .light))
+                    .foregroundColor(.white)
                     .frame(width: 320, height: 320)
 
                 Text(NSLocalizedString("다시 치지 않아서 아낀 시간", comment: "Share video: caption above the number"))
@@ -194,7 +194,7 @@ struct ShareVideoFrame: View {
                     .padding(.top, 12)
 
                 // 다 굴러간 뒤에만 나타난다 - 숫자와 같이 뜨면 눈이 둘로 갈린다.
-                Text(verbatim: "CrocoClip")
+                Text(verbatim: "ClipKeyboard")
                     .font(.system(size: 46, weight: .heavy, design: .rounded))
                     .foregroundColor(deep)
                     .padding(.top, 70)
