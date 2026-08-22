@@ -22,6 +22,12 @@ struct UsagePassportView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    /// 지금 보고 있는 기간. **처음 열면 이번 달이다.**
+    ///
+    /// ⚠️ 예전에는 평생 누적만 보여줬다. 몇 달 쓴 사람에게 그 숫자는 크기만 하고
+    ///    **지금 잘 쓰고 있는지**를 말해 주지 않는다. 이번 달이 먼저 보여야
+    ///    "요즘도 도움이 되고 있나"에 답이 된다. 평생 누적은 골라서 본다.
+    @State private var period: RefundPeriod = .thisMonth
     @State private var summary: UsagePassport.Summary?
     /// 아낀 시간의 내역 - "왜 이만큼인가"를 펼쳐 보이는 데 쓴다.
     @State private var breakdown: TimeSavedModel.Breakdown = .zero
@@ -51,12 +57,19 @@ struct UsagePassportView: View {
                 if let summary, summary.totalUses > 0 {
                     // 축하는 **맨 위**다. 아래에 두면 숫자를 보고 스크롤을 멈춘 사람이 못 본다.
                     if let milestone { celebration(milestone) }
+                    periodPicker
                     header(summary)
                     groundsSection(summary)
                     shareVideoButton(summary)
                     receiptButton(summary)
                     stampsSection(summary)
                     footnote(summary)
+                } else if period != .allTime {
+                    // ⚠️ 이 기간에만 없는 것이지 **아무것도 없는 것이 아니다.**
+                    //    빈 화면을 그대로 띄우면 몇 달 치 기록이 있는 사람도
+                    //    "아무것도 안 했다"는 화면을 보게 된다.
+                    periodPicker
+                    emptyPeriodState
                 } else {
                     emptyState
                 }
@@ -270,6 +283,44 @@ struct UsagePassportView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    // MARK: - 기간 고르기
+
+    private var periodPicker: some View {
+        Picker(NSLocalizedString("기간", comment: "Usage passport: period"), selection: $period) {
+            ForEach(RefundPeriod.allCases) { p in
+                Text(p.localizedName).tag(p)
+            }
+        }
+        .pickerStyle(.segmented)
+        .onChange(of: period) { _, _ in reload() }
+    }
+
+    /// 고른 기간에만 기록이 없을 때. **전체로 가는 길을 함께 둔다.**
+    private var emptyPeriodState: some View {
+        VStack(spacing: 10) {
+            Image(systemName: AppSymbol.calendar)
+                .font(.largeTitle)
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
+            Text(String(format: NSLocalizedString("%@에는 아직 쓴 기록이 없어요",
+                                                  comment: "Usage passport: empty for this period"),
+                        period.localizedName))
+                .font(.body.weight(.semibold))
+                .foregroundColor(theme.text)
+                .multilineTextAlignment(.center)
+            Button {
+                period = .allTime
+            } label: {
+                Text(NSLocalizedString("전체 기간 보기", comment: "Usage passport: see all time"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.accent)
+            }
+            .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
+    }
+
     // MARK: - 빈 상태
 
     private var emptyState: some View {
@@ -302,8 +353,11 @@ struct UsagePassportView: View {
     private func reload() {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
-        summary = UsagePassport.summary(memos: memos, timeSavedSeconds: saved)
-        breakdown = KeyboardUsageTracker.savedBreakdown()
+        summary = UsagePassport.summary(memos: memos, period: period, timeSavedSeconds: saved)
+        // ⚠️ 셈의 내역은 **평생 것만** 남아 있다(합계만 쌓고 달별로 안 나눠 뒀다).
+        //    그래서 기간을 좁혔을 때는 펼치지 않는다 - 위 숫자와 아래 내역이
+        //    다른 기간을 말하면 그 화면은 거짓말이 된다.
+        breakdown = period == .allTime ? KeyboardUsageTracker.savedBreakdown() : .zero
 
         // ⚠️ 화면을 열 때 확인하고, **본 즉시 지나간 것으로 적는다.** 다음에 또 띄우면
         //    축하가 아니라 배너가 된다.

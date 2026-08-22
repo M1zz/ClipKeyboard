@@ -760,6 +760,17 @@
         }
       }
     },
+    "%@에는 아직 쓴 기록이 없어요": {
+      "comment": "Usage passport: empty state for a period",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No records for %@ yet"
+          }
+        }
+      }
+    },
     "%d categories": {
       "comment": "Categories count header",
       "localizations": {
@@ -24398,6 +24409,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "All Time"
+          }
+        }
+      }
+    },
+    "전체 기간 보기": {
+      "comment": "Usage passport: escape to the all-time period",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See all time"
           }
         }
       }

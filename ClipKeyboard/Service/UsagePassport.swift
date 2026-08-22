@@ -99,6 +99,61 @@ enum UsagePassport {
         )
     }
 
+    // MARK: - 기간별
+
+    /// 한 기간만 잘라 본 요약.
+    ///
+    /// ⚠️ **월 원장에서 뽑는다**(`RefundLedger`). 문구별 초와 횟수가 달 단위로 남아 있어
+    ///    그 달만 정확히 셀 수 있다. 전체는 원장 이전에 쌓인 것까지 있는 평생 누적을 쓴다.
+    ///
+    /// ⚠️ **주 단위는 만들지 않았다.** 원장이 달 단위라 거기서 한 주를 오려 내면 그 달
+    ///    전체가 딸려와 틀린 수가 찍힌다. `RefundPeriod` 머리말에 같은 이유가 적혀 있고,
+    ///    그 원칙을 여기서도 지킨다. 주 단위가 필요하면 **먼저 주 단위로 기록**해야 한다.
+    ///
+    /// ⚠️ 원장이 생기기 전부터 쓰던 사람은 그 달 값이 비어 있을 수 있다. 그때는 화면이
+    ///    "이 달에는 아직"이라고 말해야지, 0을 자랑처럼 띄우면 안 된다.
+    static func summary(memos: [Memo],
+                        period: RefundPeriod,
+                        timeSavedSeconds: Double,
+                        now: Date = Date(),
+                        limit: Int = stampLimit) -> Summary {
+        guard let month = period.month(from: now) else {
+            return summary(memos: memos, timeSavedSeconds: timeSavedSeconds, limit: limit)
+        }
+
+        let seconds = RefundLedger.entries(forMonthOf: month)
+        let uses = RefundLedger.uses(forMonthOf: month)
+        let byID = Dictionary(uniqueKeysWithValues: memos.map { ($0.id, $0) })
+
+        // 그 달에 실제로 쓰인 것만. 지운 문구는 원장에 남아 있어도 셀 수 없다
+        // (이름을 모르니 도장을 찍을 수 없다). 시간 합계에는 그대로 들어간다.
+        let ranked = uses
+            .compactMap { id, count -> (Memo, Int, Double)? in
+                guard let memo = byID[id], count > 0 else { return nil }
+                return (memo, count, seconds[id] ?? 0)
+            }
+            .sorted { lhs, rhs in
+                if lhs.1 != rhs.1 { return lhs.1 > rhs.1 }
+                return lhs.0.title < rhs.0.title
+            }
+
+        return Summary(
+            totalUses: uses.values.reduce(0, +),
+            timeSavedSeconds: max(0, seconds.values.reduce(0, +)),
+            usedShortcuts: ranked.count,
+            // 이 기간에 안 쓴 것 - 만들어만 두고 이번 달에 한 번도 안 꺼낸 문구.
+            unusedShortcuts: max(0, memos.count - ranked.count),
+            stamps: ranked.prefix(max(0, limit)).map { memo, count, earned in
+                Stamp(id: memo.id,
+                      label: displayLabel(for: memo),
+                      useCount: count,
+                      lastUsedAt: memo.lastUsedAt,
+                      earnedSeconds: earned,
+                      kind: TimeSavedModel.kind(value: memo.value, type: memo.autoDetectedType))
+            }
+        )
+    }
+
     /// 도장에 찍을 이름.
     /// 보안 메모는 **제목도 내보내지 않는다** - 이 화면은 공유 대상이라 제목이 새어나가면 안 된다.
     /// 제목이 비었으면 이름 없는 문구로 표시한다(값을 대신 쓰지 않는다).
