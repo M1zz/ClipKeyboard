@@ -233,7 +233,6 @@
 		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
-		STP00012F0000000000000001 /* StarterPackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = STP00022F0000000000000002 /* StarterPackView.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -491,7 +490,6 @@
 		SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVideoRenderer.swift; sourceTree = "<group>"; };
 		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
 		SNIPTAB0R000000000000001 /* SnippetsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTab.swift; sourceTree = "<group>"; };
-		STP00022F0000000000000002 /* StarterPackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterPackView.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
@@ -891,7 +889,6 @@
 				AA00000800000001F3B00002 /* PersonaGuideData.swift */,
 				DYK0FILE0000000000000002 /* DidYouKnowView.swift */,
 				QKN0FILE0000000000000005 /* WhatsNewView.swift */,
-				STP00022F0000000000000002 /* StarterPackView.swift */,
 				58MA00022F0000000000000002 /* MacAppIntroView.swift */,
 				58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */,
 				58CK00022B5E1A2100000002 /* CloudBackupView.swift */,
@@ -1400,7 +1397,6 @@
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */,
 				AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */,
-				STP00012F0000000000000001 /* StarterPackView.swift in Sources */,
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,

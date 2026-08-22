@@ -141,7 +141,6 @@ struct ClipKeyboardList: View {
     @State private var showSwipeCategoryDialog: Bool = false
 
     // 스타터팩 - 추천 묶음 일괄 추가 시트
-    @State private var showStarterPack: Bool = false
 
     // 고스트 메모 제안 - 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
     @State private var ghostSuggestion: QuickPattern?
@@ -546,13 +545,6 @@ struct ClipKeyboardList: View {
 
     private var screenBody2: some View {
         screenBody
-            .sheet(isPresented: $showStarterPack, onDismiss: { viewModel.loadMemos() }) {
-                StarterPackView { count in
-                    viewModel.showPlainToast(
-                        String(format: NSLocalizedString("스타터팩 %d개를 추가했어요", comment: "Starter pack added toast"), count)
-                    )
-                }
-            }
             .sheet(item: $ghostAddPattern, onDismiss: {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()

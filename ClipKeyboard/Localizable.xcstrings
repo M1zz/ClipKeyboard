@@ -14097,6 +14097,23 @@
         }
       }
     },
+    "만들기": {
+      "comment": "Create the secure PIN",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Set one up"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buat"
+          }
+        }
+      }
+    },
     "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
       "comment": "Changelog 4.3.8 item 3",
       "localizations": {
@@ -18892,17 +18909,6 @@
         }
       }
     },
-    "스타터팩 %d개를 추가했어요": {
-      "comment": "Starter pack added toast",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Added %d from the starter pack"
-          }
-        }
-      }
-    },
     "스토리에 바로 올릴 수 있는 3초짜리 세로 영상이에요.": {
       "comment": "Button subtitle: brag video",
       "localizations": {
@@ -23061,6 +23067,23 @@
         }
       }
     },
+    "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요.": {
+      "comment": "Appearance section footer",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Input feedback is the haptic tap and the small flourish when a snippet goes in."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Umpan balik masukan adalah getaran dan animasi kecil saat pintasan dimasukkan."
+          }
+        }
+      }
+    },
     "입력 언어 전환": {
       "comment": "Toggle input language key",
       "localizations": {
@@ -23610,6 +23633,23 @@
         }
       }
     },
+    "잠금 번호를 아직 안 만드셨어요. 만들어야 키보드에서 꺼낼 수 있어요.": {
+      "comment": "Secure PIN missing banner body",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You haven't set a passcode yet. You'll need one to use them from the keyboard."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anda belum membuat kode sandi. Diperlukan untuk memakainya dari papan ketik."
+          }
+        }
+      }
+    },
     "잠긴 값이에요. 눌러서 인증하면 입력돼요.": {
       "comment": "Long-press preview: secure memo value is hidden",
       "localizations": {
@@ -23628,6 +23668,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Locked shortcuts can't be copied. Tap the key and authenticate to insert it."
+          }
+        }
+      }
+    },
+    "잠긴 단축어를 열 수 없어요": {
+      "comment": "Secure PIN missing banner title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your locked snippets can't be opened"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pintasan terkunci tak bisa dibuka"
           }
         }
       }

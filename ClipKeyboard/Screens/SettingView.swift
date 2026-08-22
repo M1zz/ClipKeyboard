@@ -18,7 +18,6 @@ struct SettingView: View {
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
     /// 예전 목록 화면 ⋯ 메뉴에 있던 것들. 바가 넘쳐서 여기로 옮겼다.
-    @State private var showStarterPack = false
     @State private var showPlaceholderManagement = false
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
@@ -397,14 +396,6 @@ struct SettingView: View {
                     Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
                 }
             }
-            Button {
-                HapticManager.shared.light()
-                showStarterPack = true
-            } label: {
-                Label(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
-                      systemImage: AppSymbol.squareStack3dUpFill)
-                    .foregroundColor(theme.text)
-            }
             NavigationLink(destination: QuickNoteInboxView()) {
                 Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
                       systemImage: AppSymbol.trayFull)
@@ -665,7 +656,6 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
-        .sheet(isPresented: $showStarterPack) { StarterPackView { _ in } }
         .sheet(isPresented: $showPlaceholderManagement) {
             PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
                 .presentationDetents([.medium, .large])
