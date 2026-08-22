@@ -8,9 +8,8 @@
 //  근거가 없는데, 줄 단위로 쪼개 놓으면 사용자가 자기 손으로 검산할 수 있다.
 //  그래서 이 화면의 값어치는 합계가 아니라 **줄 항목**에 있다.
 //
-//  ⚠️ 기간을 나누지 않는다. 기기에 쌓인 값이 평생 누적(`clipCount`,
-//     `totalTimeSavedSeconds`)뿐이라 "이번 달"을 만들려면 없는 데이터를 지어내야 한다.
-//     그래서 발행일만 찍고 합계는 **누적**이라고 정직하게 쓴다.
+//  ⚠️ 기간은 **원장 한 칸에 맞는 것만** 끊는다(`RefundPeriod`). 달은 월 원장에서,
+//     주는 일 원장에서 온다. 없는 칸을 오려 내면 숫자를 지어내는 것과 같다.
 //
 //  ⚠️ 이 종이는 **공유 대상**이다. 문구의 내용(value)은 한 글자도 들어가지 않는다.
 //     제목만 들어가고, 보안 문구는 제목조차 `UsagePassport.displayLabel` 이 가린다.
@@ -168,29 +167,22 @@ struct RefundReceipt: Equatable, Identifiable {
                       now: Date = Date(),
                       calendar: Calendar = .current) -> RefundReceipt {
 
-        guard let month = period.month(from: now, calendar: calendar) else {
+        guard let book = RefundLedger.book(for: period, now: now, calendar: calendar) else {
             let summary = UsagePassport.summary(memos: memos,
                                                 timeSavedSeconds: KeyboardUsageTracker.totalTimeSavedSeconds(),
                                                 limit: lineLimit * 3)
             return make(from: summary, issuedAt: now, periodLabel: period.label(from: now, calendar: calendar))
         }
 
-        // 원장이 이 달 중간에 시작했다면 합계가 달 전체를 못 덮는다 - 종이에 밝힌다.
-        var coverage: Date?
-        if let started = RefundLedger.startedAt,
-           let interval = calendar.dateInterval(of: .month, for: month),
-           started > interval.start {
-            coverage = started
-        }
-
         return make(period: period,
                     periodLabel: period.label(from: now, calendar: calendar),
-                    earned: RefundLedger.entries(forMonthOf: month),
-                    uses: RefundLedger.uses(forMonthOf: month),
+                    earned: book.seconds,
+                    uses: book.uses,
                     memos: memos,
-                    fallbackUses: RefundLedger.useCount(forMonthOf: month, calendar: calendar),
+                    fallbackUses: RefundLedger.useCount(in: book.interval, calendar: calendar),
                     issuedAt: now,
-                    coverageStartedAt: coverage)
+                    // 원장이 기간 중간에 시작했다면 합계가 기간 전체를 못 덮는다 - 종이에 밝힌다.
+                    coverageStartedAt: book.coverageStartedAt)
     }
 
     // MARK: 표시 문구

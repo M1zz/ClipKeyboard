@@ -27,6 +27,9 @@ struct UsagePassportView: View {
     /// ⚠️ 예전에는 평생 누적만 보여줬다. 몇 달 쓴 사람에게 그 숫자는 크기만 하고
     ///    **지금 잘 쓰고 있는지**를 말해 주지 않는다. 이번 달이 먼저 보여야
     ///    "요즘도 도움이 되고 있나"에 답이 된다. 평생 누적은 골라서 본다.
+    ///
+    /// ⚠️ 이번 주가 첫 칸이지만 **기본값은 아니다.** 일 원장이 나중에 들어와서, 예전부터
+    ///    쓰던 사람은 이번 주가 한동안 비어 있다. 열자마자 빈 화면을 띄우면 안 된다.
     @State private var period: RefundPeriod = .thisMonth
     @State private var summary: UsagePassport.Summary?
     /// 아낀 시간의 내역 - "왜 이만큼인가"를 펼쳐 보이는 데 쓴다.
@@ -49,6 +52,8 @@ struct UsagePassportView: View {
         let id = UUID()
         let issuedAt: Date
         let memos: [Memo]
+        /// 화면에서 보던 기간 그대로 뽑는다 - 다른 기간의 종이가 나오면 딴 물건이 된다.
+        let period: RefundPeriod
     }
 
     var body: some View {
@@ -81,7 +86,7 @@ struct UsagePassportView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: reload)
         .sheet(item: $receiptRequest) { request in
-            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt)
+            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt, initialPeriod: request.period)
         }
         .sheet(item: $videoToShare) { share in
             ActivityShareSheet(items: [share.url])
@@ -96,7 +101,8 @@ struct UsagePassportView: View {
         Button {
             HapticManager.shared.light()
             receiptRequest = ReceiptRequest(issuedAt: Date(),
-                                            memos: (try? MemoStore.shared.load(type: .memo)) ?? [])
+                                            memos: (try? MemoStore.shared.load(type: .memo)) ?? [],
+                                            period: period)
         } label: {
             HStack(spacing: 12) {
                 VaultSpriteStrip(sprites: [.receipt], pixel: 3)
@@ -270,6 +276,14 @@ struct UsagePassportView: View {
 
     private func footnote(_ summary: UsagePassport.Summary) -> some View {
         VStack(alignment: .leading, spacing: 6) {
+            // ⚠️ 이 기간을 다 못 덮었으면 **먼저** 밝힌다. 아래 숫자가 작은 이유가
+            //    안 써서가 아니라 아직 안 세서일 수 있다.
+            if let started = summary.coverageStartedAt {
+                Text(String(format: NSLocalizedString("%@부터 센 값이에요.", comment: "Usage passport: coverage note"),
+                            coverageDateText(started)))
+                    .font(.footnote)
+                    .foregroundColor(theme.textMuted)
+            }
             if summary.unusedShortcuts > 0 {
                 Text(String(format: NSLocalizedString("아직 한 번도 안 쓴 문구가 %d개 있어요.", comment: "Usage passport: unused shortcuts hint"),
                             summary.unusedShortcuts))
@@ -287,7 +301,8 @@ struct UsagePassportView: View {
 
     private var periodPicker: some View {
         Picker(NSLocalizedString("기간", comment: "Usage passport: period"), selection: $period) {
-            ForEach(RefundPeriod.allCases) { p in
+            // ⚠️ `allCases` 가 아니라 고르게 할 것만 둔다 - 지난달은 금고와 영수증에 있다.
+            ForEach(RefundPeriod.selectable) { p in
                 Text(p.localizedName).tag(p)
             }
         }
@@ -308,6 +323,14 @@ struct UsagePassportView: View {
                 .font(.body.weight(.semibold))
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
+            // ⚠️ 안 쓴 것과 아직 안 센 것은 다르다. 후자면 그렇다고 말한다.
+            if let started = summary?.coverageStartedAt {
+                Text(String(format: NSLocalizedString("%@부터 센 값이에요.", comment: "Usage passport: coverage note"),
+                            coverageDateText(started)))
+                    .font(.footnote)
+                    .foregroundColor(theme.textMuted)
+                    .multilineTextAlignment(.center)
+            }
             Button {
                 period = .allTime
             } label: {
@@ -345,6 +368,13 @@ struct UsagePassportView: View {
     }
 
     // MARK: - 데이터
+
+    /// "8월 17일" - 언제부터 센 값인지 밝힐 때 쓴다.
+    private func coverageDateText(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MMMd")
+        return formatter.string(from: date)
+    }
 
     private func countText(_ count: Int) -> String {
         String(format: NSLocalizedString("%d번", comment: "Usage passport: times count"), count)

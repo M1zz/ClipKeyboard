@@ -110,6 +110,17 @@
         }
       }
     },
+    "%1$@ ~ %2$@": {
+      "comment": "Refund receipt period: date range",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ ~ %2$@"
+          }
+        }
+      }
+    },
     "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.": {
       "comment": "DYK body: persona picks",
       "localizations": {
@@ -732,6 +743,17 @@
         }
       }
     },
+    "%@부터 센 값이에요.": {
+      "comment": "Usage passport: coverage note",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Counted from %@."
+          }
+        }
+      }
+    },
     "%@부터 센 금액이에요.": {
       "comment": "Receipt: partial coverage note",
       "localizations": {
@@ -761,7 +783,7 @@
       }
     },
     "%@에는 아직 쓴 기록이 없어요": {
-      "comment": "Usage passport: empty state for a period",
+      "comment": "Usage passport: empty for this period",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -10357,6 +10379,7 @@
     },
     "골라서 한 번에 추가하세요. 키보드에서 바로 꺼내 쓸 수 있어요.": {
       "comment": "Starter pack subtitle",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -10712,7 +10735,7 @@
       }
     },
     "기간": {
-      "comment": "Chart axis: period\nRefund period picker label",
+      "comment": "Chart axis: period\nRefund period picker label\nUsage passport: period",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -15153,6 +15176,7 @@
     },
     "바로 쓸 수 있는 단축어": {
       "comment": "Starter pack header",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -18295,6 +18319,7 @@
     },
     "선택한 %d개 추가하기": {
       "comment": "Starter pack add button (count)",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -19115,6 +19140,7 @@
     },
     "스타터팩": {
       "comment": "Starter pack screen title",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -22901,6 +22927,17 @@
         }
       }
     },
+    "이번 주": {
+      "comment": "Refund period: this week",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This week"
+          }
+        }
+      }
+    },
     "이번엔 셈을 고쳤어요": {
       "comment": "What's new title 5.0",
       "localizations": {
@@ -24414,7 +24451,7 @@
       }
     },
     "전체 기간 보기": {
-      "comment": "Usage passport: escape to the all-time period",
+      "comment": "Usage passport: see all time",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -24685,6 +24722,7 @@
     },
     "접힘": {
       "comment": "VoiceOver: collapsed",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -28592,6 +28630,7 @@
     },
     "탭하면 스타터팩에 추가/제외": {
       "comment": "VoiceOver: toggle starter pack item",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -29623,6 +29662,7 @@
     },
     "펼침": {
       "comment": "VoiceOver: expanded",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -30185,7 +30225,7 @@
       }
     },
     "한 번에 옮기기": {
-      "comment": "Did-you-know action: bulk import",
+      "comment": "Bulk move sheet title\nDid-you-know action: bulk import",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -30468,6 +30508,7 @@
     },
     "항목을 골라주세요": {
       "comment": "Starter pack add button (none selected)",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
