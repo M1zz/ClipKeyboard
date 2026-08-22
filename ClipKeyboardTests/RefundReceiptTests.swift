@@ -119,7 +119,7 @@ struct RefundReceiptTests {
     private func monthReceipt(earned: [UUID: Double],
                               uses: [UUID: Int],
                               memos: [Memo],
-                              totalUses: Int = 0,
+                              fallbackUses: Int = 0,
                               coverage: Date? = nil,
                               limit: Int = RefundReceipt.lineLimit) -> RefundReceipt {
         RefundReceipt.make(period: .thisMonth,
@@ -127,7 +127,7 @@ struct RefundReceiptTests {
                            earned: earned,
                            uses: uses,
                            memos: memos,
-                           totalUses: totalUses,
+                           fallbackUses: fallbackUses,
                            issuedAt: Self.issued,
                            coverageStartedAt: coverage,
                            limit: limit)
@@ -164,11 +164,29 @@ struct RefundReceiptTests {
         #expect(deleted.first?.useCount == 12)
     }
 
-    @Test("총 사용 횟수는 따로 받는다. 원장 이전부터 쌓이던 값이라 줄 합보다 완전하다")
-    func totalUsesIsIndependentOfLines() {
-        let a = memo("가", uses: 0)
-        let made = monthReceipt(earned: [a.id: 10], uses: [a.id: 1], memos: [a], totalUses: 42)
+    @Test("머리의 총 횟수는 줄의 합이다. 영수증은 줄을 더하면 총계가 나와야 한다")
+    func totalUsesIsSumOfLines() {
+        let a = memo("가", uses: 0), b = memo("나", uses: 0)
+        let made = monthReceipt(earned: [a.id: 10, b.id: 20],
+                                uses: [a.id: 3, b.id: 4],
+                                memos: [a, b],
+                                fallbackUses: 42)   // 원장에 횟수가 있으니 이 값은 안 쓴다
+        #expect(made.totalUses == 7)
+    }
+
+    @Test("원장에 횟수가 하나도 없는 달만 일별 횟수로 메운다")
+    func fallbackUsesOnlyWhenLedgerIsEmpty() {
+        let made = monthReceipt(earned: [:], uses: [:], memos: [], fallbackUses: 42)
         #expect(made.totalUses == 42)
+    }
+
+    @Test("0초를 번 문구도 한 줄로 남는다. 빼면 줄 합과 총 횟수가 어긋난다")
+    func zeroEarningUsesStillCount() {
+        let a = memo("짧은거", uses: 0)
+        let made = monthReceipt(earned: [:], uses: [a.id: 5], memos: [a])
+        #expect(made.lines.count == 1)
+        #expect(made.lines.first?.useCount == 5)
+        #expect(made.totalUses == 5)
     }
 
     @Test("덮지 못한 기간은 종이에 밝힌다. 안 밝히면 0원이 사실처럼 읽힌다")

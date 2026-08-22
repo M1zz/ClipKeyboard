@@ -59,18 +59,20 @@ enum RefundLedger {
             defaults.set(date.timeIntervalSince1970, forKey: startedAtKey)
         }
 
-        guard seconds > 0 else { return }
-
         let id = memoID.uuidString
         let stamp = monthString(date)
+
+        // 횟수는 벌이가 0초여도 적는다. 짧은 문구도 "다시 치지 않은" 한 번이고,
+        // 여기서 빼면 영수증 머리의 총 횟수와 줄의 합이 어긋난다.
+        var uses = defaults.dictionary(forKey: usesKeyPrefix + stamp) as? [String: Int] ?? [:]
+        uses[id, default: 0] += 1
+        defaults.set(uses, forKey: usesKeyPrefix + stamp)
+
+        guard seconds > 0 else { return }
 
         var month = defaults.dictionary(forKey: monthKeyPrefix + stamp) as? [String: Double] ?? [:]
         month[id, default: 0] += seconds
         defaults.set(month, forKey: monthKeyPrefix + stamp)
-
-        var uses = defaults.dictionary(forKey: usesKeyPrefix + stamp) as? [String: Int] ?? [:]
-        uses[id, default: 0] += 1
-        defaults.set(uses, forKey: usesKeyPrefix + stamp)
     }
 
     // MARK: - 읽기

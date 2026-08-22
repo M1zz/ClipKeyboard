@@ -84,10 +84,13 @@ final class RefundLedgerTests: XCTestCase {
 
     func testZeroEarningStillMarksTheStartButAddsNothing() {
         // 벌이가 0이어도 "언제부터 셌나"는 사실이라 남긴다.
-        RefundLedger.record(memoID: UUID(), seconds: 0)
+        let id = UUID()
+        RefundLedger.record(memoID: id, seconds: 0)
 
         XCTAssertNotNil(RefundLedger.startedAt, "시작일은 금액과 무관하게 남아야 한다")
         XCTAssertEqual(RefundLedger.total(forMonthOf: Date()), 0)
+        XCTAssertEqual(RefundLedger.uses(forMonthOf: Date())[id], 1,
+                       "0초를 벌었어도 '다시 치지 않은 한 번'이다. 빼면 영수증 총 횟수와 줄 합이 어긋난다")
     }
 
     func testStartedAtDoesNotMoveOnLaterWrites() {

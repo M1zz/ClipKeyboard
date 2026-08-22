@@ -98,14 +98,15 @@ struct RefundReceipt: Equatable, Identifiable {
     ///   - earned: 문구별 돌려준 초.
     ///   - uses: 문구별 쓴 횟수. 초에서 역산하지 않는다 - 문구를 고친 순간부터 어긋난다.
     ///   - memos: 이름을 붙이기 위한 현재 문구들. 그 사이 지운 문구는 이름 없이 합쳐진다.
-    ///   - totalUses: 그 달의 총 사용 횟수(일별 횟수 합). 줄 합과 다를 수 있다
-    ///     원장 이전부터 쌓이던 값이라 더 완전하다.
+    ///   - fallbackUses: 원장에 횟수가 하나도 없을 때만 쓰는 값(일별 횟수 합).
+    ///     원장 이전부터 쌓이던 달을 위한 것이다. 원장에 횟수가 있으면
+    ///     머리의 총 횟수는 **줄의 합**으로 낸다 - 영수증은 줄을 더하면 총계가 나와야 한다.
     static func make(period: RefundPeriod,
                      periodLabel: String,
                      earned: [UUID: Double],
                      uses: [UUID: Int],
                      memos: [Memo],
-                     totalUses: Int,
+                     fallbackUses: Int,
                      issuedAt: Date,
                      coverageStartedAt: Date? = nil,
                      limit: Int = lineLimit) -> RefundReceipt {
@@ -117,8 +118,12 @@ struct RefundReceipt: Equatable, Identifiable {
         var deletedSeconds: Double = 0
         var deletedUses = 0
 
-        for (id, seconds) in earned where seconds > 0 {
+        // 벌이가 0초여도 쓴 적이 있으면 줄로 남긴다. 그래야 줄의 합이 총 횟수가 된다.
+        let allIDs = Set(earned.keys).union(uses.keys)
+        for id in allIDs {
+            let seconds = earned[id] ?? 0
             let count = uses[id] ?? 0
+            guard seconds > 0 || count > 0 else { continue }
             if let memo = byID[id] {
                 named.append(Line(id: id,
                                   label: UsagePassport.displayLabel(for: memo),
@@ -130,7 +135,7 @@ struct RefundReceipt: Equatable, Identifiable {
             }
         }
 
-        if deletedSeconds > 0 {
+        if deletedSeconds > 0 || deletedUses > 0 {
             named.append(Line(id: UUID(uuidString: "00000000-0000-0000-0000-0000DE1E7ED0") ?? UUID(),
                               label: NSLocalizedString("지운 문구", comment: "Receipt line for deleted shortcuts"),
                               useCount: deletedUses,
@@ -142,12 +147,13 @@ struct RefundReceipt: Equatable, Identifiable {
             return lhs.useCount > rhs.useCount
         }
         let kept = Array(sorted.prefix(max(0, limit)))
+        let ledgerUses = sorted.reduce(0) { $0 + $1.useCount }
 
         return RefundReceipt(
             issuedAt: issuedAt,
             period: period,
             periodLabel: periodLabel,
-            totalUses: totalUses,
+            totalUses: ledgerUses > 0 ? ledgerUses : fallbackUses,
             // 기간 합계는 **줄의 합**이다. 평생 누적을 쓰면 그 달 것이 아니게 된다.
             totalSeconds: earned.values.reduce(0, +),
             lines: kept,
@@ -182,7 +188,7 @@ struct RefundReceipt: Equatable, Identifiable {
                     earned: RefundLedger.entries(forMonthOf: month),
                     uses: RefundLedger.uses(forMonthOf: month),
                     memos: memos,
-                    totalUses: RefundLedger.useCount(forMonthOf: month, calendar: calendar),
+                    fallbackUses: RefundLedger.useCount(forMonthOf: month, calendar: calendar),
                     issuedAt: now,
                     coverageStartedAt: coverage)
     }
@@ -277,7 +283,7 @@ struct RefundReceiptView: View {
             // ⚠️ 픽셀 금고를 걷어냈다. 종이 영수증 위에 도트 그림이 앉아 있으면
             //    그건 영수증이 아니라 게임 화면이다. 영수증의 머리에 오는 것은
             //    **가게 이름**이다 - 실제 영수증이 그렇게 생겼다.
-            Text(verbatim: "CROCOCLIP")
+            Text(verbatim: "CLIPKEYBOARD")
                 .font(.system(.title3, design: .monospaced).weight(.black))
                 .kerning(4)
                 .foregroundColor(ink)
