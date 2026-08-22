@@ -476,6 +476,23 @@ struct ClipKeyboardList: View {
                 theme.bg
                     .ignoresSafeArea()
 
+                // 배경 사진(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
+                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
+                //
+                // ⚠️ **바닥색 위**에 있어야 한다. 예전에는 이 화면 전체의 `.background` 로
+                //    달아 뒀는데, 그 자리는 위 `theme.bg` 보다 **뒤**다. 불투명한 바닥이
+                //    사진을 통째로 덮어서, 골라도 아무 일도 일어나지 않았다(실측).
+                //
+                // ⚠️ 그렇다고 바닥을 걷어내면 안 된다. 사진이 아직 안 그려진 첫 프레임에
+                //    창의 검정이 그대로 비친다 - 위 주석의 그 사고다. 바닥은 두고 덮는다.
+                if !resolvedBackgroundImage.isEmpty {
+                    BackgroundImageView(name: resolvedBackgroundImage)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .id(resolvedBackgroundImage)
+                }
+
                 // 현재 탭에 따라 배경색이 부드럽게 전환
                 tabBackgroundColor
                     .ignoresSafeArea()
@@ -486,6 +503,8 @@ struct ClipKeyboardList: View {
                 // GraceQuotaBanner 등)과 통일된 패턴.
                 mainColumn
             }
+            // 탭을 넘길 때 배경 사진이 부드럽게 교차한다(위 transition 과 짝).
+            .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
             // 검색 키보드 내리기: 메모 영역 아무 데나 탭(simultaneous라 카드 탭 동작은 그대로 실행)
             // 하거나 스크롤하면 닫힌다. 검색바 자신은 safeAreaInset의 분리 영역이라
             // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
@@ -957,11 +976,22 @@ struct ClipKeyboardList: View {
     private func loadPerTabBackgrounds() {
         perTabBackgrounds = (AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.listBackgroundPerTabV1) as? [String: String]) ?? [:]
+        preloadBackgrounds()
+    }
+
+    /// 이 화면이 쓸 배경들을 미리 풀어 둔다.
+    ///
+    /// ⚠️ **탭을 넘긴 뒤에 읽으면 늦다.** 그때 읽으면 디코드가 그 프레임에서 일어나
+    ///    배경이 한 박자 늦게 들어오고, 그 사이가 바닥색으로 비친다.
+    ///    옆 탭 것까지 미리 읽어 두면 넘기는 순간에는 그릴 일만 남는다.
+    private func preloadBackgrounds() {
+        BackgroundImageStore.preload(Array(perTabBackgrounds.values) + [listBackgroundImage])
     }
 
     private func persistPerTabBackgrounds() {
         AppGroup.defaults?
             .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
+        preloadBackgrounds()
     }
 
     /// 배경 선택 적용 - 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
@@ -1008,18 +1038,6 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
-                // 배경 이미지(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
-                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
-                .background {
-                    if !resolvedBackgroundImage.isEmpty {
-                        BackgroundImageView(name: resolvedBackgroundImage)
-                            .scaledToFill()
-                            .ignoresSafeArea()
-                            .transition(.opacity)
-                            .id(resolvedBackgroundImage)
-                    }
-                }
-                .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
                 // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),

@@ -65,11 +65,46 @@ enum BackgroundImageStore {
     }
 
     #if os(iOS)
+    /// 한 번 읽어 **디코드까지 마친** 그림을 들고 있는다.
+    ///
+    /// ⚠️ 캐시가 없으면 이 함수가 `body` 평가마다 불린다 - 탭을 넘길 때마다 1600px JPEG 를
+    ///    디스크에서 다시 읽고 다시 푼다. 그 사이 첫 프레임을 놓쳐서 **배경이 한 번 사라졌다
+    ///    돌아오는 것처럼** 보인다. 배경은 화면당 한 장이라 들고 있어도 값이 싸다.
+    private static let cache: NSCache<NSString, UIImage> = {
+        let c = NSCache<NSString, UIImage>()
+        c.countLimit = 8          // 탭마다 다른 배경을 깔아도 이 정도면 다 담긴다
+        return c
+    }()
+
     static func image(for stored: String) -> UIImage? {
-        guard isUserImage(stored), let directory else { return nil }
+        guard isUserImage(stored) else { return nil }
+        if let hit = cache.object(forKey: stored as NSString) { return hit }
+        guard let directory else { return nil }
         let url = directory.appendingPathComponent(fileName(from: stored))
-        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
-        return UIImage(contentsOfFile: url.path)
+        guard FileManager.default.fileExists(atPath: url.path),
+              let loaded = UIImage(contentsOfFile: url.path) else { return nil }
+        // ⚠️ `UIImage(contentsOfFile:)` 는 **그릴 때** 푼다. 여기서 미리 풀어 두지 않으면
+        //    디코드가 첫 프레임의 메인 스레드에서 일어나 그 프레임을 놓친다.
+        let ready = loaded.preparingForDisplay() ?? loaded
+        cache.setObject(ready, forKey: stored as NSString)
+        return ready
+    }
+
+    /// 곧 쓸 배경들을 미리 읽어 둔다 - 화면에 붙기 전에 캐시를 채우는 것이 목적이다.
+    ///
+    /// ⚠️ 배경 안 쓰는 사람에게는 아무 일도 하지 않는다(빈 이름은 그냥 건너뛴다).
+    ///    에셋 배경은 `Image(name)` 이 알아서 캐시하므로 여기서 다루지 않는다.
+    static func preload(_ names: [String]) {
+        let targets = names.filter { isUserImage($0) && cache.object(forKey: $0 as NSString) == nil }
+        guard !targets.isEmpty else { return }
+        DispatchQueue.global(qos: .userInitiated).async {
+            for name in targets { _ = image(for: name) }
+        }
+    }
+
+    /// 그림 하나를 캐시에서 뺀다 - 지운 배경을 계속 들고 있으면 안 된다.
+    static func forget(_ stored: String) {
+        cache.removeObject(forKey: stored as NSString)
     }
 
     // MARK: - 쓰기
@@ -89,7 +124,11 @@ enum BackgroundImageStore {
         do {
             try data.write(to: directory.appendingPathComponent(name), options: .atomic)
             print("🖼️ [BackgroundImageStore] 배경 추가: \(name) (\(data.count / 1024)KB)")
-            return userPrefix + name
+            let stored = userPrefix + name
+            // 고르자마자 적용되는 자리다. 방금 손에 든 그림을 캐시에 넣어 두면
+            // 화면이 다시 디스크로 갈 일이 없다.
+            cache.setObject(resized.preparingForDisplay() ?? resized, forKey: stored as NSString)
+            return stored
         } catch {
             print("❌ [BackgroundImageStore] 저장 실패: \(error)")
             return nil
@@ -99,6 +138,7 @@ enum BackgroundImageStore {
     static func remove(_ stored: String) {
         guard isUserImage(stored), let directory else { return }
         try? FileManager.default.removeItem(at: directory.appendingPathComponent(fileName(from: stored)))
+        forget(stored)
     }
 
     private static func downscaled(_ image: UIImage) -> UIImage {
