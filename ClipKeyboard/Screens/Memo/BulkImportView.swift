@@ -482,6 +482,12 @@ struct BulkImportView: View {
                     .font(.system(.title3))
             }
             .buttonStyle(.plain)
+            // ⚠️ 색만으로 켬/끔을 말하지 않는다. 읽어 줄 때도 상태가 들려야 한다.
+            .accessibilityLabel(NSLocalizedString("가져오기", comment: "Include this item"))
+            .accessibilityValue(d.include
+                                ? NSLocalizedString("선택됨", comment: "Selected")
+                                : NSLocalizedString("선택 안 됨", comment: "Not selected"))
+            .accessibilityAddTraits(d.include ? [.isSelected] : [])
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {

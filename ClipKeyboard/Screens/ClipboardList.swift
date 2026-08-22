@@ -200,6 +200,7 @@ struct ClipboardList: View {
                         } label: {
                             Image(systemName: AppSymbol.ellipsisCircle)
                         }
+                        .accessibilityLabel(NSLocalizedString("더보기", comment: "More options"))
                     }
                 }
             }

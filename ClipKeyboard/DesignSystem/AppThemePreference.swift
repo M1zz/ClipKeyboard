@@ -32,7 +32,10 @@ final class AppThemePreference: ObservableObject {
     }
 
     /// 주어진 시스템 colorScheme과 사용자 설정을 종합해 AppTheme 인스턴스 반환.
-    func theme(for systemColorScheme: ColorScheme) -> AppTheme {
+    ///
+    /// - Parameter increasedContrast: 설정 > 손쉬운 사용 > 대비 증가. 흐린 글자와 선을 끌어올린다.
+    func theme(for systemColorScheme: ColorScheme,
+               increasedContrast: Bool = false) -> AppTheme {
         let isDark: Bool
         switch mode {
         case .system:
@@ -42,7 +45,7 @@ final class AppThemePreference: ObservableObject {
         case .dark:
             isDark = true
         }
-        return AppTheme.resolve(kind: kind, isDark: isDark)
+        return AppTheme.resolve(kind: kind, isDark: isDark, increasedContrast: increasedContrast)
     }
 
     /// View에서 `preferredColorScheme`에 전달할 값. system일 땐 nil(시스템 따름).
@@ -62,6 +65,8 @@ final class AppThemePreference: ObservableObject {
 struct AppThemedContainer<Content: View>: View {
     @ObservedObject private var prefs = AppThemePreference.shared
     @Environment(\.colorScheme) private var systemColorScheme
+    /// 설정 > 손쉬운 사용 > 디스플레이 > 대비 증가.
+    @Environment(\.colorSchemeContrast) private var contrast
     let content: () -> Content
 
     init(@ViewBuilder content: @escaping () -> Content) {
@@ -69,7 +74,7 @@ struct AppThemedContainer<Content: View>: View {
     }
 
     var body: some View {
-        let theme = prefs.theme(for: systemColorScheme)
+        let theme = prefs.theme(for: systemColorScheme, increasedContrast: contrast == .increased)
         content()
             .environmentObject(prefs)
             .environment(\.appTheme, theme)

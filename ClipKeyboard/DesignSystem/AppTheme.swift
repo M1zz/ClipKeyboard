@@ -227,6 +227,45 @@ struct AppTheme: Equatable {
         }
     }
 
+    /// 대비 증가(설정 > 손쉬운 사용 > 디스플레이 > 대비 증가)를 켠 사람의 테마.
+    ///
+    /// ⚠️ **흐린 것만 고친다.** 배경·본문·키컬러는 그대로 둔다. 그 셋은 이미 대비가 나오고,
+    ///    건드리면 앱이 다른 앱처럼 보인다. 대비 증가는 "화면을 바꿔 달라"가 아니라
+    ///    "안 보이는 것을 보이게 해 달라"는 요청이다.
+    ///
+    /// ⚠️ 이 앱에서 안 보이는 것은 셋이다.
+    ///    · `textMuted` - 설명 한 줄, 부제. 본문 옆에서 흐리라고 만든 색이다.
+    ///    · `textFaint` - 시간·횟수 같은 곁들이는 글. 가장 흐리다.
+    ///    · `divider` - 선. 라이트에서 검정 7% 라 대비 증가를 켠 사람에게는 없는 선이다.
+    ///
+    /// ⚠️ 흐린 글자는 **본문 색 쪽으로 당긴다.** 회색을 더 진하게 하는 것이 아니라
+    ///    본문에 가깝게 섞어야, 테마가 바뀌어도(종이/저녁) 그 테마의 글자색을 따라간다.
+    static func resolve(kind: AppThemeKind, isDark: Bool, increasedContrast: Bool) -> AppTheme {
+        let base = resolve(kind: kind, isDark: isDark)
+        guard increasedContrast else { return base }
+        return base.withIncreasedContrast()
+    }
+
+    /// 흐린 세 가지를 끌어올린 사본.
+    func withIncreasedContrast() -> AppTheme {
+        AppTheme(
+            kind: kind, isDark: isDark,
+            bg: bg, surface: surface, surfaceAlt: surfaceAlt,
+            text: text,
+            // 본문 쪽으로 크게 당긴다. 설명 글이 본문만큼은 아니어도 확실히 읽혀야 한다.
+            textMuted: text.mixed(with: textMuted, amount: 0.35),
+            textFaint: text.mixed(with: textFaint, amount: 0.5),
+            accent: accent, accentSoft: accentSoft, accentFg: accentFg,
+            danger: danger, success: success, warn: warn, pink: pink,
+            // 없는 것처럼 보이던 선을 실제로 보이게.
+            divider: isDark ? Color.white.opacity(0.3) : Color.black.opacity(0.32),
+            heroGradientStops: heroGradientStops, heroGradientAngle: heroGradientAngle,
+            radiusXs: radiusXs, radiusSm: radiusSm, radiusMd: radiusMd,
+            radiusLg: radiusLg, radiusXl: radiusXl,
+            displayFontName: displayFontName, bodyFontName: bodyFontName
+        )
+    }
+
     // MARK: Gradient helper
 
     var heroGradient: LinearGradient {

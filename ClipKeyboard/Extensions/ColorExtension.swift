@@ -50,6 +50,28 @@ extension Color {
     /// 이빨 장치가 켜졌을 때 단축어 격자 뒤에 깔린다.
     static let clipMouthInterior = Color(red: 0x5A/255, green: 0x2A/255, blue: 0x21/255)
 
+    /// 두 색을 섞는다. `amount` 는 **받는 쪽(self)** 의 비율.
+    ///
+    /// 대비 증가에서 흐린 글자를 본문 색 쪽으로 당길 때 쓴다. 회색을 더 진하게 만드는 것이
+    /// 아니라 본문에 가깝게 섞어야, 테마가 바뀌어도(종이/저녁) 그 테마의 글자색을 따라간다.
+    ///
+    /// ⚠️ 라이트/다크로 뒤집히는 색이라 `UIColor` 로 내려가 **각 모드에서 따로 섞는다.**
+    ///    한쪽에서 섞은 값을 양쪽에 쓰면 반대 모드에서 글자가 배경에 묻는다.
+    func mixed(with other: Color, amount: Double) -> Color {
+        let a = UIColor(self), b = UIColor(other)
+        let t = CGFloat(max(0, min(1, amount)))
+        return Color(UIColor { trait in
+            var ar: CGFloat = 0, ag: CGFloat = 0, ab: CGFloat = 0, aa: CGFloat = 0
+            var br: CGFloat = 0, bg: CGFloat = 0, bb: CGFloat = 0, ba: CGFloat = 0
+            a.resolvedColor(with: trait).getRed(&ar, green: &ag, blue: &ab, alpha: &aa)
+            b.resolvedColor(with: trait).getRed(&br, green: &bg, blue: &bb, alpha: &ba)
+            return UIColor(red:   ar * t + br * (1 - t),
+                           green: ag * t + bg * (1 - t),
+                           blue:  ab * t + bb * (1 - t),
+                           alpha: aa * t + ba * (1 - t))
+        })
+    }
+
     /// Toast background color
     static var toastBackground: Color {
         Color(UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 0.9))

@@ -719,6 +719,7 @@ private struct TemplateFillRow: View {
                         .foregroundColor(.primary)
                         .cornerRadius(theme.radiusXs)
                 }
+                .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
             }
             HStack(spacing: 6) {
                 numericKey("0")

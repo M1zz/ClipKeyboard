@@ -166,6 +166,7 @@ struct PlaceholderValueEditor: View {
                                         .font(.caption2)
                                         .foregroundColor(.red)
                                 }
+                                .accessibilityLabel(String(format: NSLocalizedString("%@ 삭제", comment: "Delete value"), value))
                             }
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)

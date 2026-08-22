@@ -295,11 +295,16 @@ struct KeyboardView: View {
 
     @Environment(\.colorScheme) var colorScheme
 
+    /// 설정 > 손쉬운 사용 > 디스플레이 > 대비 증가.
+    @Environment(\.colorSchemeContrast) private var contrast
+
     enum SearchLang { case english, korean }
 
-    /// iOS 앱과 동일한 Paper 테마 - light/dark는 시스템 모드 따름
+    /// iOS 앱과 동일한 Paper 테마 - light/dark는 시스템 모드 따름.
+    /// ⚠️ 익스텐션은 앱의 `AppThemedContainer` 를 거치지 않으므로 대비 증가를 **직접 본다.**
     private var theme: AppTheme {
-        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark)
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
     }
 
     // MARK: - Computed Properties
@@ -885,6 +890,7 @@ struct KeyboardView: View {
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
+                .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search"))
             } else {
                 Text(NSLocalizedString("Search snippets", comment: "Search bar idle"))
                     .font(.footnote)
@@ -1959,6 +1965,7 @@ struct KeyboardView: View {
                 .frame(height: 40)
                 .background(Color(UIColor.systemGray5))
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
         }
         .buttonStyle(PlainButtonStyle())
     }

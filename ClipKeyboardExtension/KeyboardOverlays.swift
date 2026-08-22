@@ -17,7 +17,13 @@ struct ImageMemoButton: View {
     let buttonFontSize: Double
 
     @Environment(\.colorScheme) private var colorScheme
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    /// 대비 증가를 켠 사람에게는 흐린 글자와 선을 끌어올린다.
+    /// ⚠️ 익스텐션은 앱의 `AppThemedContainer` 를 거치지 않으므로 **여기서 직접 본다.**
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     @State private var image: UIImage?
 
@@ -83,7 +89,13 @@ struct TemplateInputOverlay: View {
     var guidesUser: Bool = false
 
     @Environment(\.colorScheme) private var colorScheme
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    /// 대비 증가를 켠 사람에게는 흐린 글자와 선을 끌어올린다.
+    /// ⚠️ 익스텐션은 앱의 `AppThemedContainer` 를 거치지 않으므로 **여기서 직접 본다.**
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -155,6 +167,7 @@ struct TemplateInputOverlay: View {
                             .font(.title2)
                             .foregroundColor(.gray)
                     }
+                    .accessibilityLabel(NSLocalizedString("닫기", comment: "Close"))
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -311,7 +324,13 @@ struct PlaceholderInputView: View {
     let templateId: UUID?
 
     @Environment(\.colorScheme) private var colorScheme
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    /// 대비 증가를 켠 사람에게는 흐린 글자와 선을 끌어올린다.
+    /// ⚠️ 익스텐션은 앱의 `AppThemedContainer` 를 거치지 않으므로 **여기서 직접 본다.**
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     /// 고를 수 있는 값들. **한 번 읽어 들고 있는다.**
     ///
@@ -503,6 +522,7 @@ struct PlaceholderInputView: View {
                 .foregroundColor(.primary)
                 .cornerRadius(theme.radiusXs)
         }
+        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
     }
 
     // MARK: - 값이 아직 없을 때

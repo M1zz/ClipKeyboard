@@ -402,7 +402,11 @@ struct KeyboardPreviewView: View {
     /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
     private var visualCuesVisible: Bool { showVisualCues }
 
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     private var bgColor: Color {
         if useCustomColors, !customBgHex.isEmpty, let c = Color(hex: customBgHex) { return c }
@@ -639,6 +643,7 @@ struct SecurePINSetupView: View {
                                 .font(.system(size: 22)).foregroundColor(.primary)
                                 .frame(width: 80, height: 60)
                         }
+                        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
                     }
                 }
                 Spacer()
