@@ -42,9 +42,6 @@ struct SettingView: View {
     /// 날인·봉인 등 입력 반응 마스터 스위치. App Group - 키보드 익스텐션도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.delightEffectsEnabled, store: AppGroup.defaults)
     private var delightEffectsEnabled: Bool = true
-    /// 단축어 줄을 악어 입속처럼 - App Group 이라 키보드 익스텐션도 바로 따라온다.
-    @AppStorage(DefaultsKey.keyboardToothStyle, store: AppGroup.defaults)
-    private var toothStyleOn: Bool = false
     /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
     /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
@@ -147,13 +144,6 @@ struct SettingView: View {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
-            // 악어 입속 - 단축어 줄을 이빨처럼 보이게 한다.
-            // ⚠️ 켜고 끄는 자리를 반드시 둔다. 키보드 생김새는 취향이 갈리는 것이라
-            //    "멋대로 바뀌었는데 되돌릴 수가 없다"가 가장 나쁘다.
-            Toggle(isOn: $toothStyleOn) {
-                Label(NSLocalizedString("악어 입속", comment: "Croc mouth keyboard toggle title"),
-                      systemImage: "mouth")
-            }
             // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
             //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
             //    자리는 화면을 바꾸는 것들 뒤에 둔다(자주 안 만지는 것은 아래로).
@@ -161,7 +151,7 @@ struct SettingView: View {
         } header: {
             Text(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"))
         } footer: {
-            Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요.",
+            Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요.",
                                    comment: "Appearance section footer"))
                 .font(.body)
         }

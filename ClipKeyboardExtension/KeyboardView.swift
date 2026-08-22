@@ -208,8 +208,6 @@ struct KeyboardView: View {
     @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 단축어 줄을 악어 입속처럼 - 켜면 키가 송곳니가 되고 그 위에 잇몸이 얹힌다.
-    @AppStorage(DefaultsKey.keyboardToothStyle, store: AppGroup.defaults)
-    private var toothStyleOn: Bool = false
     /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -612,7 +610,6 @@ struct KeyboardView: View {
                 if filteredMemos.isEmpty {
                     emptyStateView
                 } else {
-                    gumBar
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
@@ -644,8 +641,6 @@ struct KeyboardView: View {
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                     }
-                    // 입 안쪽 - 이빨(키)이 어두운 곳에 박혀 있어야 입속으로 읽힌다.
-                    .background(mouthInterior)
                     // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
                     .simultaneousGesture(
                         DragGesture(minimumDistance: 40)
@@ -663,8 +658,6 @@ struct KeyboardView: View {
                                 }
                             }
                     )
-                    // 아래턱 잇몸 - 위아래로 감싸야 "줄지어 선 이빨"이 아니라 "입속"이 된다.
-                    gumBarBottom
                 }
             }
             // 인디케이터 점 제거 - 상단 categoryTabRow에서 심볼 버튼으로 이동
@@ -1739,62 +1732,11 @@ struct KeyboardView: View {
         skin.cornerRadius(base: theme.radiusMd)
     }
 
-    /// 아래턱 잇몸. 위 잇몸을 뒤집어 쓴다 - 같은 입의 반대쪽이라 모양이 같아야 한다.
-    @ViewBuilder
-    private var gumBarBottom: some View {
-        if toothStyleOn {
-            GumShape()
-                .fill(gumColor)
-                .frame(height: 14)
-                .rotationEffect(.degrees(180))
-                .allowsHitTesting(false)
-                .accessibilityHidden(true)
-        }
-    }
-
-    /// 입 안쪽 바탕.
-    ///
-    /// ⚠️ 키보드 전체가 아니라 **격자 뒤에만** 깐다. 머리말·검색줄까지 어두워지면
-    ///    키보드가 아니라 다른 앱처럼 보인다. 어두운 곳은 이빨이 박힌 자리뿐이다.
-    ///
-    /// ⚠️ 키 색은 그대로 둔다(스킨과 같은 규칙). 기본 키색이 흰색이라 어두운 입 안에서
-    ///    저절로 상아색 이빨이 된다 - 색을 덮을 이유가 없다.
-    @ViewBuilder
-    private var mouthInterior: some View {
-        if toothStyleOn {
-            Color.clipMouthInterior
-        }
-    }
-
-    /// 잇몸 - 이 한 줄이 아래 키들을 이빨로 읽히게 한다.
-    ///
-    /// ⚠️ 키의 윤곽만으로는 "조금 다른 사각형"에 그친다. 위에 잇몸이 얹혀야 비로소
-    ///    **입속**이 된다. 이빨 장치가 꺼져 있으면 아무것도 그리지 않는다.
-    ///
-    /// ⚠️ 본문(`body`)에 직접 쓰지 않고 여기로 뺐다. 이 화면의 본문은 이미 커서
-    ///    한 겹만 더 얹어도 타입 검사가 시간 초과로 터진다.
-    @ViewBuilder
-    private var gumBar: some View {
-        if toothStyleOn {
-            GumShape()
-                .fill(gumColor)
-                .frame(height: 14)
-                .allowsHitTesting(false)
-                .accessibilityHidden(true)
-        }
-    }
-
-    /// 잇몸 색 - 마스코트의 턱과 같은 주황. 키 색은 사용자 것이라 건드리지 않고,
-    /// **잇몸만** 브랜드 색을 쓴다. 어두운 화면에서는 한 톤 죽여 눈을 찌르지 않게.
-    private var gumColor: Color {
-        Color.clipBrandYellow.opacity(theme.isDark ? 0.55 : 0.85)
-    }
-
-    /// 키캡 윤곽. 이빨 장치가 켜지면 아래로 살짝 좁아지는 송곳니가 된다.
+    /// 키캡 윤곽.
     /// ⚠️ 키를 그리는 곳이 여럿이라(배경·틴트·표면광·테두리·클립·가리키는 빛) 모양을
     ///    한 곳에서 꺼내 쓴다. 한 군데만 사각형으로 남으면 그 겹만 튀어나온다.
     private var keycapShape: KeycapShape {
-        KeycapShape(radius: keycapRadius, tooth: toothStyleOn)
+        KeycapShape(radius: keycapRadius)
     }
 
     /// 눌림을 그릴 수 있는 상태인가. `KeycapButtonStyle`과 같은 조건

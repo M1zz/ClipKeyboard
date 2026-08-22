@@ -83,10 +83,6 @@ struct ClipKeyboardApp: App {
         // 스킨 기본값과 튜토리얼이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
         standard.set(true, forKey: DefaultsKey.startedFreshV444)
 
-        // 악어 입속은 **새로 오는 사람에게만** 켜 준다. 이 앱의 첫인상이 그것이기 때문이다.
-        // 쓰던 사람의 키보드는 업데이트로 바뀌지 않는다(설정에서 직접 켤 수 있다).
-        ToothStyle.seedDefaultIfNeeded(startedFresh: true)
-
         // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
         // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
         //    (SnippetsTab.offerKeyboardStageIfNeeded).

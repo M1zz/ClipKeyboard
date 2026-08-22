@@ -110,6 +110,23 @@
         }
       }
     },
+    "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.": {
+      "comment": "DYK body: persona picks",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "They're sorted into groups like %1$@, with ready-to-use lines such as %2$@. Take only the ones you like."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dikelompokkan seperti %1$@, dengan kalimat siap pakai seperti %2$@. Ambil yang Anda suka saja."
+          }
+        }
+      }
+    },
     "%1$@ 로 %2$d칸만 더 늘리기": {
       "comment": "Slot pack button",
       "localizations": {
@@ -392,7 +409,7 @@
       }
     },
     "%@ 삭제": {
-      "comment": "Delete value button label\nDelete value label",
+      "comment": "Delete value\nDelete value button label\nDelete value label",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -722,6 +739,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Counted from %@."
+          }
+        }
+      }
+    },
+    "%@에게 맞는 것들을 골라 뒀어요": {
+      "comment": "DYK title: persona picks",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We picked these for %@"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami pilih ini untuk %@"
           }
         }
       }
@@ -10052,8 +10086,7 @@
       }
     },
     "검색어 지우기": {
-      "comment": "Clear search field",
-      "extractionState": "stale",
+      "comment": "Clear search",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -10256,6 +10289,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pinned"
+          }
+        }
+      }
+    },
+    "골라 담으러 가기": {
+      "comment": "Did-you-know action: mart",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Go pick some"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilih beberapa"
           }
         }
       }
@@ -17960,7 +18010,7 @@
       }
     },
     "선택 안 됨": {
-      "comment": "Bulk import key preview: not picked for bundling\nCombo checkbox: not selected",
+      "comment": "Bulk import key preview: not picked for bundling\nCombo checkbox: not selected\nNot selected",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -17982,7 +18032,7 @@
       }
     },
     "선택됨": {
-      "comment": "Bulk import key preview: picked for bundling\nCombo checkbox: selected",
+      "comment": "Bulk import key preview: picked for bundling\nCombo checkbox: selected\nSelected",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -19651,23 +19701,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "No refunds yet"
-          }
-        }
-      }
-    },
-    "악어 입속": {
-      "comment": "Croc mouth keyboard toggle title",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Croc mouth"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mulut buaya"
           }
         }
       }
@@ -23028,23 +23061,6 @@
         }
       }
     },
-    "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요.": {
-      "comment": "Appearance section footer",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Typing feedback is the haptic and short animation when text goes in. Turn on Croc mouth and the shortcut rows look like teeth lined up between gums."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Umpan balik ketikan adalah getaran dan animasi singkat saat teks dimasukkan. Aktifkan Mulut buaya dan baris pintasan akan tampak seperti gigi yang berjajar di antara gusi."
-          }
-        }
-      }
-    },
     "입력 언어 전환": {
       "comment": "Toggle input language key",
       "localizations": {
@@ -25777,17 +25793,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pick recommended snippets and add them at once"
-          }
-        }
-      }
-    },
-    "추천 스타터팩 추가": {
-      "comment": "Empty state: add starter pack title",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add a starter pack"
           }
         }
       }
@@ -30196,6 +30201,7 @@
     },
     "활용 사례": {
       "comment": "Use cases / usage scenarios",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {

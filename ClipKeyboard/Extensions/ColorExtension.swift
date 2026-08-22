@@ -46,10 +46,6 @@ extension Color {
     /// 브랜드 노랑(#F0A93A). 강조 배지·하이라이트용 - 키컬러와 같은 따뜻한 줄에 선다.
     static let clipBrandYellow = Color(red: 0xF0/255, green: 0xA9/255, blue: 0x3A/255)
 
-    /// 악어 입 안쪽 - 마스코트 입속의 짙은 적갈색(#5A2A21).
-    /// 이빨 장치가 켜졌을 때 단축어 격자 뒤에 깔린다.
-    static let clipMouthInterior = Color(red: 0x5A/255, green: 0x2A/255, blue: 0x21/255)
-
     /// 두 색을 섞는다. `amount` 는 **받는 쪽(self)** 의 비율.
     ///
     /// 대비 증가에서 흐린 글자를 본문 색 쪽으로 당길 때 쓴다. 회색을 더 진하게 만드는 것이
