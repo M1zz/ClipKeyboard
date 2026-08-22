@@ -9503,6 +9503,23 @@
         }
       }
     },
+    "가져오기": {
+      "comment": "Include this item",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Include"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sertakan"
+          }
+        }
+      }
+    },
     "가져오기 실패": {
       "comment": "Bulk import failed alert title\nImport failed",
       "localizations": {
@@ -13200,6 +13217,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Larger Text: Set text size to maximum in settings → confirm text size in the app snippet list."
+          }
+        }
+      }
+    },
+    "더보기": {
+      "comment": "More options",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "More"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lainnya"
           }
         }
       }
@@ -21972,6 +22006,23 @@
         }
       }
     },
+    "이렇게들 써요": {
+      "comment": "Use cases / usage scenarios",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How people use it"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cara orang menggunakannya"
+          }
+        }
+      }
+    },
     "이름": {
       "comment": "Name\nName token button",
       "localizations": {
@@ -22231,6 +22282,23 @@
         }
       }
     },
+    "이미지 복사": {
+      "comment": "Copy image",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy image"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salin gambar"
+          }
+        }
+      }
+    },
     "이미지 복사됨 · 붙여넣기 하세요": {
       "comment": "Image copied toast",
       "localizations": {
@@ -22238,6 +22306,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Image copied · Paste it"
+          }
+        }
+      }
+    },
+    "이미지 삭제": {
+      "comment": "Remove image",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove image"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hapus gambar"
           }
         }
       }
@@ -23838,6 +23923,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "All"
+          }
+        }
+      }
+    },
+    "전체 관리": {
+      "comment": "Manage all placeholder values",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage all"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kelola semua"
           }
         }
       }
@@ -29152,6 +29254,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Placeholders (%d)"
+          }
+        }
+      }
+    },
+    "플레이스홀더 값 관리": {
+      "comment": "Menu: placeholder values",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage placeholder values"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kelola nilai placeholder"
           }
         }
       }

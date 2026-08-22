@@ -390,7 +390,7 @@ struct SettingView: View {
             // ⚠️ 예전에는 이 행이 "단축어 관리"와 "도움말" 양쪽에 있었다(같은 UsageGuideView).
             //    같은 곳으로 가는 문이 둘이면 다른 화면인 줄 안다. 여기 하나만 남긴다.
             NavigationLink(destination: UsageGuideView()) {
-                Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                Label(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"),
                       systemImage: AppSymbol.lightbulb)
             }
             NavigationLink(destination: PersonaSettingsContainer()) {

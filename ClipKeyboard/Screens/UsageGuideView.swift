@@ -588,7 +588,6 @@ struct UsageGuideView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     // 페르소나 단위로 펼침/접힘 관리 (PersonaGuide.id == persona.rawValue).
     @State private var expanded: Set<String> = Set(personaGuides.prefix(1).map { $0.id })
-    @State private var showStarterPack: Bool = false
 
     var body: some View {
         ScrollView {
@@ -604,14 +603,17 @@ struct UsageGuideView: View {
             .padding(16)
         }
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
+        // ⚠️ 예전 이름은 "활용 사례"였다. 설명서에서나 쓰는 말이라, 열어 보기 전에는
+        //    무엇이 있는 화면인지 짐작이 안 갔다.
+        //
+        // ⚠️ "골라담기"로 하지 않았다. 그건 **단축어 마트**가 하는 일이고(+ 메뉴),
+        //    둘 다 같은 글을 본다. 이름까지 겹치면 어느 쪽을 열어야 할지 알 수 없다.
+        //    이 화면의 고유한 값은 담는 것이 아니라 **누가 어떻게 쓰는지 보는 것**이다.
+        .navigationTitle(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
         #endif
-        .sheet(isPresented: $showStarterPack) {
-            StarterPackView()
-        }
     }
 
     // MARK: - Subviews
@@ -629,34 +631,15 @@ struct UsageGuideView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
 
-            // 둘러보다가 바로 묶음으로 추가 - 갤러리에서도 스타터팩 진입.
-            Button {
-                HapticManager.shared.light()
-                showStarterPack = true
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: AppSymbol.squareStack3dUpFill)
-                        .accessibilityHidden(true)
-                    Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
-                        .font(.body.weight(.semibold))
-                    Spacer()
-                    Image(systemName: AppSymbol.chevronRight)
-                        .font(.caption.weight(.semibold))
-                        .accessibilityHidden(true)
-                }
-                .foregroundColor(.white)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
-                .background(
-                    LinearGradient(
-                        colors: [Color.clipBrand, Color.clipBrandDeep],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .cornerRadius(theme.radiusMd)
-            }
-            .buttonStyle(PlainButtonStyle())
+            // ⚠️ 여기 있던 "추천 스타터팩 추가" 버튼을 뺐다.
+            //
+            //    이 화면의 예시는 **하나씩 탭해서 담는 것**이고, 그 버튼은 같은 글에서
+            //    (`personaGuides`) 여러 개를 통째로 담는 다른 화면을 열었다.
+            //    같은 자리에서 같은 것을 두 가지 방법으로 담게 되니, 사용자는 무엇이
+            //    다른지 알 수 없는 채로 고르기부터 해야 했다.
+            //
+            //    담는 길은 이 화면 안에 이미 있다(예시 탭). 묶음으로 담는 길이 다시
+            //    필요해지면 `StarterPackView` 는 그대로 있으니 부르기만 하면 된다.
         }
         .padding(.vertical, 8)
     }
