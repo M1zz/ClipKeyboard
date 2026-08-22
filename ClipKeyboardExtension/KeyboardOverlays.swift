@@ -384,24 +384,27 @@ struct PlaceholderInputView: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
-        // ⚠️ 빈칸 하나가 **한 덩어리**로 읽혀야 한다.
+        // ⚠️ 빈칸 하나가 **한 덩어리**로 읽혀야 한다. 여백은 **가까운 쪽**을 말해 주지만
+        //    **경계**를 말해 주지는 못해서, 빈칸이 넷이 되자 "이 칩 줄이 위 이름 것인가
+        //    아래 것인가"가 매번 헷갈렸다.
         //
-        //    예전에는 줄바꿈과 여백만으로 갈라 두었다. 빈칸이 하나일 때는 그것으로
-        //    충분했는데, 넷이 되자 "이 칩 줄이 위 이름 것인가 아래 것인가"가
-        //    매번 헷갈렸다. 여백은 **가까운 쪽**을 말해 주지만 **경계**를 말해 주지는
-        //    못한다.
-        //
-        //    바탕과 테두리로 칸을 그으면 그 물음이 사라진다. 이름과 칩이 같은 판
-        //    위에 있으니 묶인 것이 눈에 먼저 들어온다.
-        .background(
+        // ⚠️ **판은 한 겹뿐이다.** 처음에는 바탕에 테두리까지 둘렀는데, 값이 없는 칸은
+        //    안내 패널이 이미 자기 판을 갖고 있어 **판 안에 판**이 됐다. 겹쳐 놓으면
+        //    경계가 분명해지는 게 아니라 무엇이 한 덩어리인지가 흐려진다.
+        //    그래서 테두리를 빼고, 안내 패널이 뜨는 칸은 그 패널을 판으로 삼는다.
+        .background(cardBackground)
+        .onAppear(perform: reloadValues)
+    }
+
+    /// 이 칸이 앉는 판. **값이 없을 때는 그리지 않는다** - 안내 패널이 이미 판이다.
+    @ViewBuilder
+    private var cardBackground: some View {
+        if predefinedValues.isEmpty {
+            Color.clear
+        } else {
             RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
                 .fill(theme.surfaceAlt.opacity(colorScheme == .dark ? 0.5 : 0.7))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                .strokeBorder(theme.divider, lineWidth: 0.5)
-        )
-        .onAppear(perform: reloadValues)
+        }
     }
 
     // MARK: - 이 칸이 무슨 칸인가
