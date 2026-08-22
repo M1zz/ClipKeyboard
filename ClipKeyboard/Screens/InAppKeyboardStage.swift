@@ -77,6 +77,8 @@ struct InAppKeyboardStage: View {
     @State private var showsKeyboardSetup = false
     /// 새 단축어 만들기 시트.
     @State private var showsAddMemo = false
+    /// 잠금 번호 만들기 화면.
+    @State private var showsSecurePINSetup = false
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
     @State private var keyboardReady = true
 
@@ -114,6 +116,8 @@ struct InAppKeyboardStage: View {
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
                 if !keyboardReady { keyboardSetupBanner }
+                // 잠긴 단축어가 있는데 잠금을 안 만들어 뒀으면, 누르기 **전에** 알린다.
+                if needsSecurePIN { securePINBanner }
                 conversation
                 composer
                 // ⚠️ 안내는 **가리키는 것 바로 옆**에 둔다. 화면 맨 위에 두었더니 빛나는 키와
@@ -145,6 +149,9 @@ struct InAppKeyboardStage: View {
         // 그 직후에 한 번 더 확인한다.
         .onReceive(NotificationCenter.default.publisher(for: .addImageEntry)) { _ in
             refreshClipboardImage()
+        }
+        .sheet(isPresented: $showsSecurePINSetup, onDismiss: reloadFeed) {
+            NavigationStack { SecurePINSettings() }
         }
         .fullScreenCover(isPresented: $showsKeyboardSetup, onDismiss: refreshKeyboardReady) {
             KeyboardSetupOnboardingView { showsKeyboardSetup = false }
@@ -233,6 +240,55 @@ struct InAppKeyboardStage: View {
         }
         .buttonStyle(.plain)
         .background(Color.accentColor.opacity(0.10))
+    }
+
+    /// 잠긴 단축어가 있는데 **PIN 이 없다.**
+    ///
+    /// ⚠️ 예전에는 그 키를 누른 **뒤에야** 토스트로 알렸다. 잠긴 단축어는 계좌번호나
+    ///    주민등록번호처럼 급할 때 꺼내는 것이라, 정작 필요한 순간에 "설정이 안 됐다"를
+    ///    처음 듣게 된다. 그때는 이미 늦었다.
+    ///
+    /// ⚠️ 잠긴 단축어가 **하나도 없으면 띄우지 않는다.** 쓰지도 않는 기능을 설정하라고
+    ///    조르는 것은 안내가 아니다.
+    private var needsSecurePIN: Bool {
+        guard clipMemos.contains(where: { $0.isSecure }) else { return false }
+        let hash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
+        return hash.isEmpty
+    }
+
+    private var securePINBanner: some View {
+        Button {
+            HapticManager.shared.light()
+            showsSecurePINSetup = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: AppSymbol.lockShield)
+                    .font(.title3)
+                    .foregroundColor(theme.warn)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(NSLocalizedString("잠긴 단축어를 열 수 없어요", comment: "Secure PIN missing banner title"))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("잠금 번호를 아직 안 만드셨어요. 만들어야 키보드에서 꺼낼 수 있어요.",
+                                           comment: "Secure PIN missing banner body"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Text(NSLocalizedString("만들기", comment: "Create the secure PIN"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(Color.accentForeground)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+                    .background(Capsule().fill(Color.accentColor))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background(theme.warn.opacity(0.12))
     }
 
     // MARK: - 머리말
