@@ -466,6 +466,10 @@ struct ClipKeyboardApp: App {
                 NotificationCenter.default.post(name: .showMemoList, object: nil)
             case .openBackup:
                 showCloudBackupSheet = true
+            case .openList:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+            case .openQuickNoteInbox:
+                NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
             }
         }
     }

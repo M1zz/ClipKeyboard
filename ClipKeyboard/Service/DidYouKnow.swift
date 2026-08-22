@@ -42,6 +42,10 @@ struct DidYouKnow: Identifiable, Equatable {
         case openStage
         /// 백업 화면으로.
         case openBackup
+        /// 단축어 목록으로 - 거기 + 안에 여러 개를 한 번에 담는 길이 있다.
+        case openList
+        /// 빠른 메모 보관함으로.
+        case openQuickNoteInbox
 
         var localizedLabel: String {
             switch self {
@@ -51,6 +55,10 @@ struct DidYouKnow: Identifiable, Equatable {
                 return NSLocalizedString("키보드에서 해보기", comment: "Did-you-know action: stage")
             case .openBackup:
                 return NSLocalizedString("백업 화면 열기", comment: "Did-you-know action: backup")
+            case .openList:
+                return NSLocalizedString("단축어 목록 열기", comment: "Did-you-know action: list")
+            case .openQuickNoteInbox:
+                return NSLocalizedString("보관함 열기", comment: "Did-you-know action: inbox")
             }
         }
     }
@@ -120,6 +128,26 @@ extension DidYouKnow {
             body: NSLocalizedString("키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.", comment: "DYK body: keyboard look"),
             symbol: "keyboard",
             action: .openSettings
+        ),
+        DidYouKnow(
+            id: "bulk-import",
+            title: NSLocalizedString("여태 딴 데 적어 두신 것, 한 번에 옮겨요", comment: "DYK title: bulk import"),
+            body: NSLocalizedString("메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.", comment: "DYK body: bulk import"),
+            symbol: "square.and.arrow.down.on.square",
+            action: .openList
+        ),
+        DidYouKnow(
+            id: "quick-note-control",
+            title: NSLocalizedString("제어센터에서 바로 적어 둘 수 있어요", comment: "DYK title: quick note control"),
+            body: NSLocalizedString("제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.", comment: "DYK body: quick note control"),
+            symbol: "switch.2",
+            action: .openQuickNoteInbox
+        ),
+        DidYouKnow(
+            id: "siri-shortcuts",
+            title: NSLocalizedString("단축어 앱에서도 부를 수 있어요", comment: "DYK title: siri shortcuts"),
+            body: NSLocalizedString("iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.", comment: "DYK body: siri shortcuts"),
+            symbol: "app.connected.to.app.below.fill"
         ),
         DidYouKnow(
             id: "share-sheet",

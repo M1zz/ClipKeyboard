@@ -8786,6 +8786,23 @@
         }
       }
     },
+    "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.": {
+      "comment": "DYK body: siri shortcuts",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This app's actions show up in the iPhone Shortcuts app. Drop Add Quick Note or Open Inbox into an automation, or just ask Siri."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tindakan aplikasi ini muncul di aplikasi Pintasan iPhone. Masukkan Tambah Catatan Cepat atau Buka Kotak Masuk ke otomatisasi, atau minta Siri."
+          }
+        }
+      }
+    },
     "iPhone 설정에서 ClipKeyboard 키보드를 추가하세요. 딱 한 번만 하면 됩니다.": {
       "comment": "Setup step 1 description",
       "localizations": {
@@ -12469,6 +12486,23 @@
         }
       }
     },
+    "단축어 목록 열기": {
+      "comment": "Did-you-know action: list",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open my snippets"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka pintasan saya"
+          }
+        }
+      }
+    },
     "단축어 목록 표시": {
       "comment": "Show memo list label",
       "extractionState": "manual",
@@ -12588,6 +12622,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Taruh {cursor} di pintasan dan kursor berhenti di sana. Lebih sedikit gerakan saat Anda lanjut menulis."
+          }
+        }
+      }
+    },
+    "단축어 앱에서도 부를 수 있어요": {
+      "comment": "DYK title: siri shortcuts",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "It works in the Shortcuts app too"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bisa juga lewat aplikasi Pintasan"
           }
         }
       }
@@ -14218,6 +14269,23 @@
         }
       }
     },
+    "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
+      "comment": "DYK body: bulk import",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paste a whole pile from your notes app and we split it into separate snippets for you. You can also read it off a photo, and anything that looks like a password comes in locked. Look under + in your snippet list."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tempel seluruh isi aplikasi catatan Anda dan kami pisahkan menjadi pintasan terpisah. Bisa juga dibaca dari foto, dan apa pun yang tampak seperti kata sandi akan terkunci. Ada di menu + pada daftar pintasan."
+          }
+        }
+      }
+    },
     "메시지 보내기": {
       "comment": "Paste target action: send message",
       "localizations": {
@@ -15542,6 +15610,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Inbox"
+          }
+        }
+      }
+    },
+    "보관함 열기": {
+      "comment": "Did-you-know action: inbox",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the inbox"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buka kotak masuk"
           }
         }
       }
@@ -20396,6 +20481,23 @@
         }
       }
     },
+    "여태 딴 데 적어 두신 것, 한 번에 옮겨요": {
+      "comment": "DYK title: bulk import",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring over everything you've kept elsewhere"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pindahkan semua yang Anda simpan di tempat lain"
+          }
+        }
+      }
+    },
     "연간": {
       "comment": "Chart bucket: yearly",
       "localizations": {
@@ -24238,6 +24340,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Suggested title: %@"
+          }
+        }
+      }
+    },
+    "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.": {
+      "comment": "DYK body: quick note control",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add the Quick Note button to Control Center and you can capture text without opening the app. It lands in your inbox, and later you promote only the ones worth keeping."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tambahkan tombol Catatan Cepat ke Pusat Kontrol dan Anda bisa menangkap teks tanpa membuka aplikasi. Teks masuk ke kotak masuk, lalu Anda pilih yang layak disimpan."
+          }
+        }
+      }
+    },
+    "제어센터에서 바로 적어 둘 수 있어요": {
+      "comment": "DYK title: quick note control",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jot something down straight from Control Center"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Catat sesuatu langsung dari Pusat Kontrol"
           }
         }
       }
