@@ -81,6 +81,7 @@
 		58DL00032F0000000000000103 /* VerificationSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00032F0000000000000003 /* VerificationSealView.swift */; };
 		58DL00042F0000000000000104 /* WaxSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00042F0000000000000004 /* WaxSealView.swift */; };
 		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
+		BGIMGBUILD00000000000001 /* BackgroundImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BGIMGFILE000000000000001 /* BackgroundImageStore.swift */; };
 		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
 		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
 		58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
@@ -369,6 +370,7 @@
 		58DL00032F0000000000000003 /* VerificationSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationSealView.swift; sourceTree = "<group>"; };
 		58DL00042F0000000000000004 /* WaxSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaxSealView.swift; sourceTree = "<group>"; };
 		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
+		BGIMGFILE000000000000001 /* BackgroundImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageStore.swift; sourceTree = "<group>"; };
 		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
 		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
 		58DL00902F0000000000000090 /* MemoTypeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTypeStyle.swift; sourceTree = "<group>"; };
@@ -853,6 +855,7 @@
 				24CD8B81F083063C5634B606 /* CategorySnapshot.swift */,
 				58DL00052F0000000000000005 /* ChecksumVerifier.swift */,
 				DYK0FILE0000000000000001 /* DidYouKnow.swift */,
+				BGIMGFILE000000000000001 /* BackgroundImageStore.swift */,
 				58DL00062F0000000000000006 /* UsagePassport.swift */,
 				79D6A773619BB7884CEA27B8 /* RefundLedger.swift */,
 				ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */,
@@ -1495,6 +1498,7 @@
 				58DL00042F0000000000000104 /* WaxSealView.swift in Sources */,
 				58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */,
 				DYK0BUILD000000000000001 /* DidYouKnow.swift in Sources */,
+				BGIMGBUILD00000000000001 /* BackgroundImageStore.swift in Sources */,
 				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
 				58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,

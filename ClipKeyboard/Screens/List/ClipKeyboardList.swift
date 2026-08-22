@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 import TipKit
 import UniformTypeIdentifiers
+import PhotosUI
 import LeeoKit
 
 var fontSize: CGFloat = 20
@@ -908,6 +909,42 @@ struct ClipKeyboardList: View {
     @State private var perTabBackgrounds: [String: String] = [:]
     /// 배경 선택 시트의 적용 범위 - 현재 탭만 / 모든 탭.
     @State private var backgroundScopeAllTabs = false
+    /// 사진첩에서 고른 것. 고르는 즉시 저장하고 배경으로 적용한다.
+    @State private var pickedBackgroundItem: PhotosPickerItem?
+    /// 내가 넣어 둔 배경들.
+    @State private var myBackgrounds: [String] = []
+
+    /// 내 사진 하나를 들인다. **고르자마자 적용한다** - 넣고 또 골라야 하면 두 걸음이다.
+    private func adoptPickedBackground(_ item: PhotosPickerItem?) {
+        guard let item else { return }
+        Task { @MainActor in
+            guard let data = try? await item.loadTransferable(type: Data.self),
+                  let image = UIImage(data: data),
+                  let stored = BackgroundImageStore.add(image) else {
+                viewModel.showPlainToast(NSLocalizedString("사진을 가져오지 못했어요",
+                                                           comment: "Background import failed"))
+                return
+            }
+            myBackgrounds = BackgroundImageStore.saved()
+            applyBackground(stored)
+            pickedBackgroundItem = nil
+        }
+    }
+
+    /// 내가 넣은 배경 하나를 지운다.
+    ///
+    /// ⚠️ 지금 쓰고 있는 것을 지우면 **배경 없음으로 되돌린다.** 그러지 않으면 파일이
+    ///    사라진 이름만 남아, 배경이 조용히 안 보이는 채로 설정만 켜져 있게 된다.
+    private func removeUserBackground(_ name: String) {
+        BackgroundImageStore.remove(name)
+        myBackgrounds = BackgroundImageStore.saved()
+        if listBackgroundImage == name { listBackgroundImage = "" }
+        for (tab, value) in perTabBackgrounds where value == name {
+            perTabBackgrounds[tab] = ""
+        }
+        persistPerTabBackgrounds()
+        HapticManager.shared.selection()
+    }
 
     /// 현재 탭에 실제로 보여줄 배경 - 탭 덮어쓰기 우선, 없으면 전체 기본값.
     private var resolvedBackgroundImage: String {
@@ -972,8 +1009,7 @@ struct ClipKeyboardList: View {
                 // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
                 .background {
                     if !resolvedBackgroundImage.isEmpty {
-                        Image(resolvedBackgroundImage)
-                            .resizable()
+                        BackgroundImageView(name: resolvedBackgroundImage)
                             .scaledToFill()
                             .ignoresSafeArea()
                             .transition(.opacity)
@@ -998,8 +1034,12 @@ struct ClipKeyboardList: View {
                 } message: {
                     Text(NSLocalizedString("리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.", comment: "Background offer alert message"))
                 }
-                .sheet(isPresented: $showBackgroundPicker) {
+                .sheet(isPresented: $showBackgroundPicker, onDismiss: { pickedBackgroundItem = nil }) {
                     backgroundPickerSheet
+                        .onAppear { myBackgrounds = BackgroundImageStore.saved() }
+                        .onChange(of: pickedBackgroundItem) { _, item in
+                            adoptPickedBackground(item)
+                        }
                 }
                 .onAppear {
                     loadPerTabBackgrounds()
@@ -1048,12 +1088,59 @@ struct ClipKeyboardList: View {
                         .buttonStyle(.plain)
                         .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
 
+                        // ⚠️ **사진 고르기가 맨 앞이다.** 내장 여덟 장을 다 지나야 나오면,
+                        //    내 사진을 쓸 수 있다는 것부터 모른 채 여덟 개 중에서 고르게 된다.
+                        PhotosPicker(selection: $pickedBackgroundItem, matching: .images) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                                    .fill(theme.accentSoft)
+                                VStack(spacing: 6) {
+                                    Image(systemName: AppSymbol.photoOnRectangleAngled)
+                                        .font(.title2)
+                                    Text(NSLocalizedString("내 사진", comment: "Background: my photo"))
+                                        .font(.footnote.weight(.medium))
+                                }
+                                .foregroundColor(theme.accent)
+                            }
+                            .frame(height: 150)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(NSLocalizedString("사진에서 배경 고르기",
+                                                              comment: "Background: pick from photos"))
+
+                        // 내가 넣은 것이 내장보다 먼저 - 방금 넣은 것을 찾으러 스크롤하지 않게.
+                        ForEach(myBackgrounds, id: \.self) { name in
+                            Button {
+                                applyBackground(name)
+                            } label: {
+                                BackgroundImageView(name: name)
+                                    .scaledToFill()
+                                    .frame(height: 150)
+                                    .frame(maxWidth: .infinity)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
+                                    .overlay(alignment: .topLeading) {
+                                        Button {
+                                            removeUserBackground(name)
+                                        } label: {
+                                            Image(systemName: AppSymbol.xmarkCircleFill)
+                                                .font(.title3)
+                                                .foregroundStyle(.white, .black.opacity(0.45))
+                                                .padding(8)
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel(NSLocalizedString("이 배경 지우기",
+                                                                              comment: "Remove my background"))
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
+
                         ForEach(Self.backgroundOptions, id: \.self) { name in
                             Button {
                                 applyBackground(name)
                             } label: {
-                                Image(name)
-                                    .resizable()
+                                BackgroundImageView(name: name)
                                     .scaledToFill()
                                     .frame(height: 150)
                                     .frame(maxWidth: .infinity)

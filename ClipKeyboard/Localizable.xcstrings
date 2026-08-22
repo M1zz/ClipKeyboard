@@ -11434,6 +11434,23 @@
         }
       }
     },
+    "내 사진": {
+      "comment": "Background: my photo",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My photo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto saya"
+          }
+        }
+      }
+    },
     "내 소개": {
       "comment": "Combo tutorial: created combo title",
       "extractionState": "stale",
@@ -17177,6 +17194,23 @@
         }
       }
     },
+    "사진에서 배경 고르기": {
+      "comment": "Background: pick from photos",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick a background from Photos"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilih latar dari Foto"
+          }
+        }
+      }
+    },
     "사진에서 알아본 값이에요. 아래 읽은 글자에서 직접 고를 수도 있어요.": {
       "comment": "Photo value picker: parsed values footer",
       "localizations": {
@@ -17217,6 +17251,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Extract Text from Photo"
+          }
+        }
+      }
+    },
+    "사진을 가져오지 못했어요": {
+      "comment": "Background import failed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't load that photo"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak bisa memuat foto itu"
           }
         }
       }
@@ -21513,6 +21564,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "This snippet has a template attached. Fill in the blanks, and the result is copied along with the snippet. See the combined result in 'Live preview' below."
+          }
+        }
+      }
+    },
+    "이 배경 지우기": {
+      "comment": "Remove my background",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove this background"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hapus latar ini"
           }
         }
       }
