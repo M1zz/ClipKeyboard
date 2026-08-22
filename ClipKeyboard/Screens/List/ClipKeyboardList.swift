@@ -2863,6 +2863,16 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
+            // ⚠️ 이 시트는 배선만 돼 있고 **여는 길이 어디에도 없었다.**
+            //    ⋯ 메뉴를 설정으로 옮길 때 항목만 빠지고 바인딩은 남아, 목록에서는
+            //    죽은 화면이 되어 있었다. 설정 깊숙이 들어가야만 닿았다.
+            Button {
+                HapticManager.shared.light()
+                viewModel.showPlaceholderManagementSheet = true
+            } label: {
+                Label(NSLocalizedString("플레이스홀더 값 관리", comment: "Menu: placeholder values"),
+                      systemImage: AppSymbol.listBulletRectangle)
+            }
         } label: {
             // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
             Image(systemName: AppSymbol.plus)

@@ -53,6 +53,8 @@ struct MemoAdd: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// 저장해 둔 플레이스홀더 값을 통째로 손보는 시트 - 빈칸을 다루는 이 자리에서 바로 연다.
+    @State private var showPlaceholderManagement = false
     @State private var showNewTemplateSheet = false
     @State private var showResetConfirm = false
     /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
@@ -175,6 +177,9 @@ struct MemoAdd: View {
             // 저장 없이 화면을 떠나면 사용자가 직접 입력한 내용을 자동 임시저장(드래프트)한다.
             // (정식 저장·기존 메모 편집·샘플 그대로 등은 VM 내부에서 걸러진다.)
             viewModel.saveDraftIfNeeded()
+        }
+        .sheet(isPresented: $showPlaceholderManagement) {
+            PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
         .sheet(isPresented: $showNewTemplateSheet) {
             NavigationView {
@@ -722,6 +727,19 @@ struct MemoAdd: View {
                         Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))
                             .font(.body)
                             .fontWeight(.semibold)
+                        Spacer(minLength: 8)
+                        // ⚠️ 여기가 **빈칸을 다루는 그 자리**다. 예전에는 저장해 둔 값을
+                        //    손보려면 이 화면을 저장하고 나가서 설정까지 들어가야 했다.
+                        //    쓰는 자리와 고치는 자리가 멀면 고치지 않고 그냥 쓴다.
+                        Button {
+                            HapticManager.shared.light()
+                            showPlaceholderManagement = true
+                        } label: {
+                            Text(NSLocalizedString("전체 관리", comment: "Manage all placeholder values"))
+                                .font(.footnote.weight(.semibold))
+                                .foregroundColor(.accentColor)
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     ForEach(viewModel.detectedPlaceholders, id: \.self) { placeholder in
