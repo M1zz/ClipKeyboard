@@ -466,6 +466,11 @@ struct ClipKeyboardApp: App {
                 NotificationCenter.default.post(name: .showMemoList, object: nil)
             case .openQuickNoteInbox:
                 NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
+            case .openBulkImport:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .openBulkImport, object: nil)
+                }
             case .openShortcutMart:
                 // 목록으로 먼저 보내고 마트를 연다 - 마트는 목록이 들고 있는 시트다.
                 NotificationCenter.default.post(name: .showMemoList, object: nil)

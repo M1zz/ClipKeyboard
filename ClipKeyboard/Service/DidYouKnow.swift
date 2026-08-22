@@ -48,6 +48,8 @@ struct DidYouKnow: Identifiable, Equatable {
         case openQuickNoteInbox
         /// 단축어 마트로 - 페르소나에 맞춰 차려 둔 곳.
         case openShortcutMart
+        /// 한 번에 많은 단축어 정리하기로.
+        case openBulkImport
 
         var localizedLabel: String {
             switch self {
@@ -63,6 +65,8 @@ struct DidYouKnow: Identifiable, Equatable {
                 return NSLocalizedString("보관함 열기", comment: "Did-you-know action: inbox")
             case .openShortcutMart:
                 return NSLocalizedString("골라 담으러 가기", comment: "Did-you-know action: mart")
+            case .openBulkImport:
+                return NSLocalizedString("한 번에 옮기기", comment: "Did-you-know action: bulk import")
             }
         }
     }
@@ -176,7 +180,10 @@ extension DidYouKnow {
             title: NSLocalizedString("여태 딴 데 적어 두신 것, 한 번에 옮겨요", comment: "DYK title: bulk import"),
             body: NSLocalizedString("메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.", comment: "DYK body: bulk import"),
             symbol: "square.and.arrow.down.on.square",
-            action: .openList
+            // ⚠️ 목록이 아니라 **그 화면으로 바로** 데려간다. 예전에는 목록까지만 보내서
+            //    "+ 안 어딘가에 있다"는 말만 듣고 스스로 찾아야 했다. 찾는 일이 남으면
+            //    알려 준 것이 아니다.
+            action: .openBulkImport
         ),
         DidYouKnow(
             id: "quick-note-control",

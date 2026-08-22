@@ -150,6 +150,11 @@ struct InAppKeyboardStage: View {
         .onReceive(NotificationCenter.default.publisher(for: .addImageEntry)) { _ in
             refreshClipboardImage()
         }
+        // 무대에서 "한 번에 옮기기"를 누르면 목록으로 건너가 그 화면이 열린다
+        // (대량 가져오기는 목록이 들고 있는 시트다).
+        .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
+            withAnimation { styleRaw = SnippetsTabStyle.list.rawValue }
+        }
         .sheet(isPresented: $showsSecurePINSetup, onDismiss: reloadFeed) {
             NavigationStack { SecurePINSettings() }
         }
@@ -367,7 +372,22 @@ struct InAppKeyboardStage: View {
                         .multilineTextAlignment(.leading)
                     Spacer(minLength: 0)
                 }
-                HStack {
+                HStack(spacing: 14) {
+                    // ⚠️ **여기서 한 번에 옮기는 길을 같이 연다.** 이 앱을 쓰기 시작할지
+                    //    말지는 대개 "여태 딴 데 적어 둔 걸 어떻게 옮기지"에서 갈린다.
+                    //    하나씩 만들라고만 하면 그 사람은 하나도 안 옮기고 앱을 닫는다.
+                    //
+                    // ⚠️ 이 길로 담아도 이 걸음은 끝난다. 자기 단축어가 생겼는지만 보므로
+                    //    (`completeMakeOwnIfMadeSomething`) 어느 길로 왔는지는 묻지 않는다.
+                    Button {
+                        HapticManager.shared.light()
+                        NotificationCenter.default.post(name: .openBulkImport, object: nil)
+                    } label: {
+                        Text(NSLocalizedString("여러 개를 한 번에 옮기기", comment: "Make-own cue: bulk import"))
+                            .font(.footnote.weight(.semibold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
                     Spacer(minLength: 0)
                     Button(action: onMakeOwnSkipped) {
                         Text(NSLocalizedString("나중에 할게요", comment: "Make-own cue: skip"))

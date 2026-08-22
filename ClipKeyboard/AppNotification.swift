@@ -55,6 +55,8 @@ extension Notification.Name {
     static let didYouKnowAction = Notification.Name("didYouKnowAction")
     /// 단축어 마트를 연다 - 페르소나에 맞춰 차려 둔 곳.
     static let openShortcutMart = Notification.Name("openShortcutMart")
+    /// 한 번에 많은 단축어 정리하기(대량 가져오기)를 연다.
+    static let openBulkImport = Notification.Name("openBulkImport")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showCloudBackup = Notification.Name("showCloudBackup")
     static let showMemoList = Notification.Name("showMemoList")

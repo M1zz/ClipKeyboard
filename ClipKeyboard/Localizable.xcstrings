@@ -20751,6 +20751,23 @@
         }
       }
     },
+    "여러 개를 한 번에 옮기기": {
+      "comment": "Make-own cue: bulk import",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring over a whole batch"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pindahkan sekaligus"
+          }
+        }
+      }
+    },
     "여러 단축어를 순서대로 자동 입력하는\nCombo를 만들어보세요": {
       "comment": "Empty combo list description",
       "extractionState": "stale",
@@ -30146,12 +30163,18 @@
       }
     },
     "한 번에 옮기기": {
-      "comment": "Bulk move sheet title",
+      "comment": "Did-you-know action: bulk import",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Move all at once"
+            "value": "Bring them over"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pindahkan"
           }
         }
       }

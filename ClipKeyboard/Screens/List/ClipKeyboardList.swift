@@ -881,6 +881,9 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: .openShortcutMart)) { _ in
                 showShortcutMart = true
             }
+            .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
+                showBulkImport = true
+            }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
                 AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
