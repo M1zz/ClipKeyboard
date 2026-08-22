@@ -9749,6 +9749,23 @@
         }
       }
     },
+    "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요": {
+      "comment": "Changelog 5.0.0 insert",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Picking a value updates the preview first; nothing is typed until you tap insert"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memilih nilai memperbarui pratinjau dulu; tidak diketik sampai Anda ketuk sisipkan"
+          }
+        }
+      }
+    },
     "값을 눌러 복사하세요": {
       "comment": "Combo preview: tap a value to copy",
       "localizations": {
@@ -10266,6 +10283,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Salin nomor rekening dan ia masuk ke rekening; salin alamat dan ia ke alamat. Nanti Anda tinggal pilih grupnya."
+          }
+        }
+      }
+    },
+    "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
+      "comment": "Changelog 5.0.0 persona",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We point out the groups and lines picked for how you use the app"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami tunjukkan grup dan kalimat sesuai cara Anda memakainya"
           }
         }
       }
@@ -11690,6 +11724,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nomad"
+          }
+        }
+      }
+    },
+    "누를 곳마다 물결이 번져서 다음에 무엇을 할지 알 수 있어요": {
+      "comment": "Changelog 5.0.0 ripple",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A ripple shows you what to tap next"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riak menunjukkan apa yang harus diketuk berikutnya"
           }
         }
       }
@@ -13221,6 +13272,23 @@
         }
       }
     },
+    "대비 증가를 켜면 흐린 글자와 선이 또렷해져요": {
+      "comment": "Changelog 5.0.0 contrast",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on Increase Contrast and faint text and lines sharpen up"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktifkan Tingkatkan Kontras dan teks samar menjadi jelas"
+          }
+        }
+      }
+    },
     "더 보기": {
       "comment": "More options menu label",
       "extractionState": "stale",
@@ -14455,6 +14523,23 @@
         }
       }
     },
+    "며칠에 한 번, 아직 모르실 만한 기능을 하나씩 알려드려요": {
+      "comment": "Changelog 5.0.0 dyk",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every few days, one thing you might not know yet"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setiap beberapa hari, satu hal yang mungkin belum Anda tahu"
+          }
+        }
+      }
+    },
     "명함 정보": {
       "comment": "Business memo category: business card",
       "extractionState": "manual",
@@ -14663,6 +14748,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "목록"
+          }
+        }
+      }
+    },
+    "목록 배경으로 내 사진을 쓸 수 있어요": {
+      "comment": "Changelog 5.0.0 background",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use your own photo as the list background"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gunakan foto Anda sebagai latar daftar"
+          }
+        }
+      }
+    },
+    "목록 탭에 들어갈 때 화면이 한 번 까매지던 것을 고쳤어요": {
+      "comment": "Changelog 5.0.0 black flash",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed the screen flashing black when opening the list tab"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memperbaiki layar berkedip hitam saat membuka tab daftar"
           }
         }
       }
@@ -16707,6 +16826,23 @@
         }
       }
     },
+    "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요": {
+      "comment": "Changelog 5.0.0 blank names",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Every blank shows its name, and each sits in its own area"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setiap isian menampilkan namanya, masing-masing di areanya"
+          }
+        }
+      }
+    },
     "빈칸만 채우면 나머지는 그대로 완성돼요.": {
       "comment": "Mascot help: template detail",
       "extractionState": "stale",
@@ -18717,6 +18853,23 @@
         }
       }
     },
+    "셋을 눌러 본 뒤에는 직접 하나 만들어 보는 걸음으로 이어져요": {
+      "comment": "Changelog 5.0.0 make own",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After trying all three, you make one of your own"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setelah mencoba ketiganya, Anda membuat milik sendiri"
+          }
+        }
+      }
+    },
     "셋이 뭐가 달라요?": {
       "comment": "Mascot help: what is what header",
       "extractionState": "stale",
@@ -19980,6 +20133,23 @@
         }
       }
     },
+    "앱 안 키보드 미리보기에서 글이 한 글자씩 흘러 들어가요": {
+      "comment": "Changelog 5.0.0 typing",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the in-app preview, text types itself in one character at a time"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Di pratinjau, teks diketik satu per satu"
+          }
+        }
+      }
+    },
     "앱 정보": {
       "comment": "App info section",
       "localizations": {
@@ -20033,6 +20203,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tap in the app to pick a value from a list; on the keyboard, a 2/3 split inserts values one by one"
+          }
+        }
+      }
+    },
+    "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요": {
+      "comment": "Changelog 5.0.0 sync consent",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After a reinstall or on a new phone, nothing is pulled from iCloud until you turn sync on"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setelah instal ulang atau di ponsel baru, tak ada yang diambil dari iCloud sampai Anda aktifkan"
           }
         }
       }
@@ -20708,6 +20895,23 @@
         }
       }
     },
+    "연습용 단축어는 다 끝나면 치울지 한 번 물어봐요": {
+      "comment": "Changelog 5.0.0 cleanup",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We ask once whether to clear the practice snippets"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami tanya sekali apakah pintasan latihan dibersihkan"
+          }
+        }
+      }
+    },
     "연습용 단축어를 치울까요?": {
       "comment": "Sample cleanup title",
       "localizations": {
@@ -21095,6 +21299,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Today"
+          }
+        }
+      }
+    },
+    "오늘 날짜처럼 자동으로 채워지는 자리는 구멍이 아니라 값으로 보여요": {
+      "comment": "Changelog 5.0.0 preview",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto-filled blanks like today's date now show the value, not an empty hole"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Isian otomatis seperti tanggal kini menampilkan nilainya"
           }
         }
       }
@@ -22130,6 +22351,23 @@
         }
       }
     },
+    "이렇게들 써요에서 사람을 고르면 그 사람 이야기만 따로 볼 수 있어요": {
+      "comment": "Changelog 5.0.0 persona detail",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick someone in How people use it and read just their story"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilih seseorang dan baca kisahnya saja"
+          }
+        }
+      }
+    },
     "이름": {
       "comment": "Name\nName token button",
       "localizations": {
@@ -22219,6 +22457,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Like a notice where you only swap the name. What goes there today?"
+          }
+        }
+      }
+    },
+    "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
+      "comment": "Changelog 5.0.0 a11y labels",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlabeled buttons now have names for VoiceOver and Voice Control"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tombol tanpa label kini punya nama untuk VoiceOver dan Kontrol Suara"
           }
         }
       }
@@ -23729,6 +23984,23 @@
         }
       }
     },
+    "잠긴 단축어가 있는데 잠금 번호가 없으면 누르기 전에 알려드려요": {
+      "comment": "Changelog 5.0.0 pin",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If you have locked snippets but no passcode, we say so before you tap"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika ada pintasan terkunci tanpa kode sandi, kami beri tahu lebih dulu"
+          }
+        }
+      }
+    },
     "잠긴 단축어라 복사되지 않아요. 눌러서 인증하면 입력돼요.": {
       "comment": "Toast: secure memo cannot be copied by long press",
       "localizations": {
@@ -23798,6 +24070,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Save failed: %@"
+          }
+        }
+      }
+    },
+    "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요": {
+      "comment": "Changelog 5.0.0 inline add",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No saved values? Create one right there"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tak ada nilai tersimpan? Buat di tempat"
           }
         }
       }
@@ -25349,6 +25638,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "What we found"
+          }
+        }
+      }
+    },
+    "찾은 뒤 선택하고 복사해서 돌아오는 손놀림도 이제 함께 세요": {
+      "comment": "Changelog 5.0.0 handling",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecting, copying, and coming back now counts too"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memilih, menyalin, dan kembali kini ikut dihitung"
           }
         }
       }
@@ -27582,6 +27888,23 @@
         }
       }
     },
+    "키보드를 켠 것이 확인될 때까지 안내가 다시 떠요. 닫기만 해서는 끝나지 않아요": {
+      "comment": "Changelog 5.0.0 keyboard nag",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The setup guide comes back until we can confirm the keyboard is on"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panduan kembali sampai papan ketik terkonfirmasi aktif"
+          }
+        }
+      }
+    },
     "키보드를 켠 비율이 이 앱에서 가장 중요한 숫자예요. 앱만 깔고 키보드를 안 켰다면 핵심 가치를 아직 못 받은 거예요.": {
       "comment": "Keyboard section footer",
       "localizations": {
@@ -27918,6 +28241,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "How it looked before keycaps. Cards respond with a soft bounce."
+          }
+        }
+      }
+    },
+    "키컬러를 주황으로 바꿔 눌러야 할 곳이 분명해졌어요": {
+      "comment": "Changelog 5.0.0 accent",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new orange key color makes the thing to tap obvious"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warna oranye baru memperjelas yang harus diketuk"
           }
         }
       }
@@ -29002,6 +29342,23 @@
         }
       }
     },
+    "튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요": {
+      "comment": "Changelog 5.0.0 tutorial page",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed the tutorial pointing at a snippet that was on another page"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memperbaiki tutorial yang menunjuk pintasan di halaman lain"
+          }
+        }
+      }
+    },
     "튜토리얼이 하나 더 있어요": {
       "comment": "Tutorial invite: eyebrow",
       "extractionState": "stale",
@@ -29401,6 +29758,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kelola nilai placeholder"
+          }
+        }
+      }
+    },
+    "플레이스홀더 값 관리를 단축어 목록과 편집 화면에서 바로 열 수 있어요": {
+      "comment": "Changelog 5.0.0 placeholder reach",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage placeholder values straight from your snippet list or the editor"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kelola nilai placeholder langsung dari daftar atau editor"
           }
         }
       }
@@ -30143,6 +30517,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Anything bothering you?"
+          }
+        }
+      }
+    },
+    "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
+      "comment": "Changelog 5.0.0 name icon",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed the app name and icon on the home screen"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memperbaiki nama dan ikon aplikasi di layar utama"
           }
         }
       }

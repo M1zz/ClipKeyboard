@@ -34,12 +34,46 @@ enum ChangelogData {
             version: "5.0.0",
             released: nil,
             highlights: [
+                // 처음 오는 길
+                NSLocalizedString("처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요", comment: "Changelog 5.0.0 item 10"),
+                NSLocalizedString("누를 곳마다 물결이 번져서 다음에 무엇을 할지 알 수 있어요", comment: "Changelog 5.0.0 ripple"),
+                NSLocalizedString("셋을 눌러 본 뒤에는 직접 하나 만들어 보는 걸음으로 이어져요", comment: "Changelog 5.0.0 make own"),
+                NSLocalizedString("연습용 단축어는 다 끝나면 치울지 한 번 물어봐요", comment: "Changelog 5.0.0 cleanup"),
+                NSLocalizedString("키보드를 켠 것이 확인될 때까지 안내가 다시 떠요. 닫기만 해서는 끝나지 않아요", comment: "Changelog 5.0.0 keyboard nag"),
+                NSLocalizedString("앱 안 키보드 미리보기에서 글이 한 글자씩 흘러 들어가요", comment: "Changelog 5.0.0 typing"),
+
+                // 템플릿
+                NSLocalizedString("빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요", comment: "Changelog 5.0.0 blank names"),
+                NSLocalizedString("값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요", comment: "Changelog 5.0.0 insert"),
+                NSLocalizedString("오늘 날짜처럼 자동으로 채워지는 자리는 구멍이 아니라 값으로 보여요", comment: "Changelog 5.0.0 preview"),
+                NSLocalizedString("저장된 값이 없으면 그 자리에서 바로 만들 수 있어요", comment: "Changelog 5.0.0 inline add"),
+                NSLocalizedString("플레이스홀더 값 관리를 단축어 목록과 편집 화면에서 바로 열 수 있어요", comment: "Changelog 5.0.0 placeholder reach"),
+
+                // 아낀 시간
                 NSLocalizedString("아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다", comment: "Changelog 5.0.0 item 3"),
+                NSLocalizedString("찾은 뒤 선택하고 복사해서 돌아오는 손놀림도 이제 함께 세요", comment: "Changelog 5.0.0 handling"),
                 NSLocalizedString("아낀 시간이 어떻게 계산됐는지 사용 기록에서 펼쳐 볼 수 있어요", comment: "Changelog 5.0.0 item 4"),
                 NSLocalizedString("1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요", comment: "Changelog 5.0.0 item 5"),
                 NSLocalizedString("아낀 시간을 3초짜리 세로 영상으로 뽑아 스토리에 올릴 수 있어요", comment: "Changelog 5.0.0 item 6"),
                 NSLocalizedString("환급 영수증에서 픽셀 그림을 빼고 진짜 영수증처럼 바꿨어요", comment: "Changelog 5.0.0 item 7"),
-                NSLocalizedString("처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요", comment: "Changelog 5.0.0 item 10"),
+
+                // 알려 주는 것들
+                NSLocalizedString("며칠에 한 번, 아직 모르실 만한 기능을 하나씩 알려드려요", comment: "Changelog 5.0.0 dyk"),
+                NSLocalizedString("고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요", comment: "Changelog 5.0.0 persona"),
+                NSLocalizedString("잠긴 단축어가 있는데 잠금 번호가 없으면 누르기 전에 알려드려요", comment: "Changelog 5.0.0 pin"),
+
+                // 화면
+                NSLocalizedString("목록 배경으로 내 사진을 쓸 수 있어요", comment: "Changelog 5.0.0 background"),
+                NSLocalizedString("이렇게들 써요에서 사람을 고르면 그 사람 이야기만 따로 볼 수 있어요", comment: "Changelog 5.0.0 persona detail"),
+                NSLocalizedString("키컬러를 주황으로 바꿔 눌러야 할 곳이 분명해졌어요", comment: "Changelog 5.0.0 accent"),
+                NSLocalizedString("대비 증가를 켜면 흐린 글자와 선이 또렷해져요", comment: "Changelog 5.0.0 contrast"),
+                NSLocalizedString("이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요", comment: "Changelog 5.0.0 a11y labels"),
+
+                // 고친 것
+                NSLocalizedString("앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요", comment: "Changelog 5.0.0 sync consent"),
+                NSLocalizedString("홈 화면 앱 이름과 아이콘을 바로잡았어요", comment: "Changelog 5.0.0 name icon"),
+                NSLocalizedString("목록 탭에 들어갈 때 화면이 한 번 까매지던 것을 고쳤어요", comment: "Changelog 5.0.0 black flash"),
+                NSLocalizedString("튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요", comment: "Changelog 5.0.0 tutorial page"),
             ]
         ),
         ChangelogEntry(
