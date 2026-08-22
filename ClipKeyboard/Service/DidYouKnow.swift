@@ -46,6 +46,8 @@ struct DidYouKnow: Identifiable, Equatable {
         case openList
         /// 빠른 메모 보관함으로.
         case openQuickNoteInbox
+        /// 단축어 마트로 - 페르소나에 맞춰 차려 둔 곳.
+        case openShortcutMart
 
         var localizedLabel: String {
             switch self {
@@ -59,6 +61,8 @@ struct DidYouKnow: Identifiable, Equatable {
                 return NSLocalizedString("단축어 목록 열기", comment: "Did-you-know action: list")
             case .openQuickNoteInbox:
                 return NSLocalizedString("보관함 열기", comment: "Did-you-know action: inbox")
+            case .openShortcutMart:
+                return NSLocalizedString("골라 담으러 가기", comment: "Did-you-know action: mart")
             }
         }
     }
@@ -70,7 +74,45 @@ extension DidYouKnow {
 
     /// 순서에 뜻이 있다. **가장 안심되는 것이 먼저다** - 이 앱에 개인정보를 적어도 되는지가
     /// 첫 며칠의 가장 큰 물음이고, 그 답을 못 들으면 나머지 기능은 쓸 일이 없다.
-    static let all: [DidYouKnow] = [
+    ///
+    /// ⚠️ 계산 프로퍼티다. 고른 페르소나에 따라 **한 항목의 내용이 달라진다**
+    ///    (`personaPicks`). 고정 배열로 두면 노마드에게 학생용 갈래를 권하게 된다.
+    static var all: [DidYouKnow] {
+        var items = fixed
+        // 안심시키는 첫 이야기 **바로 다음**에 둔다. 나를 위해 골라 뒀다는 말은
+        // 일찍 들을수록 좋지만, 여기가 안전한 곳인지부터 답하는 것이 먼저다.
+        items.insert(personaPicks, at: 1)
+        return items
+    }
+
+    /// 이 페르소나에게 뭘 골라 뒀는지.
+    ///
+    /// ⚠️ 권하는 목록과 이 문장은 **같은 곳**(`SuggestionManager`)에서 나온다.
+    ///    화면에 그 갈래가 안 보이는 사람에게 골라 뒀다고 말하면 거짓말이 된다.
+    static var personaPicks: DidYouKnow {
+        let persona = CategoryStore.shared.selectedPersona ?? .general
+        let categories = SuggestionManager.recommendedCategories(for: persona)
+        let titles = SuggestionManager.recommendedTitles(for: persona)
+
+        let categoryList = categories.joined(separator: ", ")
+        let sample = titles.prefix(2).joined(separator: ", ")
+
+        return DidYouKnow(
+            // ⚠️ 열쇠에 페르소나를 넣지 않는다. 넣으면 페르소나를 바꿀 때마다
+            //    같은 이야기를 처음 보는 것으로 쳐서 또 뜬다.
+            id: "persona-picks",
+            title: String(format: NSLocalizedString("%@에게 맞는 것들을 골라 뒀어요",
+                                                    comment: "DYK title: persona picks"),
+                          persona.localizedTitle),
+            body: String(format: NSLocalizedString("%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.",
+                                                   comment: "DYK body: persona picks"),
+                         categoryList, sample),
+            symbol: persona.icon,
+            action: .openShortcutMart
+        )
+    }
+
+    private static let fixed: [DidYouKnow] = [
         DidYouKnow(
             id: "no-server",
             title: NSLocalizedString("여기 적은 것은 어디로도 가지 않아요", comment: "DYK title: no server"),

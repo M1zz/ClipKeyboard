@@ -465,6 +465,17 @@ struct ClipKeyboardList: View {
 
     private var screenBody: some View {
             ZStack {
+                // ⚠️ **바닥은 언제나 있어야 한다.**
+                //
+                //    `tabBackgroundColor` 는 기본 갈래에서 `.clear` 를 돌려준다. 그것만
+                //    깔고 `ignoresSafeArea` 를 걸면 뒤에 아무것도 없어서 **창의 검정이
+                //    그대로 비친다.** 탭을 옮길 때마다 화면이 한 번 까매지는 것으로 보였고,
+                //    그건 연출이 아니라 고장으로 읽힌다.
+                //
+                //    갈래 색은 바닥이 아니라 **바닥 위에 얹는 얇은 막**이다. 그래서 둘로 나눈다.
+                theme.bg
+                    .ignoresSafeArea()
+
                 // 현재 탭에 따라 배경색이 부드럽게 전환
                 tabBackgroundColor
                     .ignoresSafeArea()
@@ -873,6 +884,9 @@ struct ClipKeyboardList: View {
             }
             .navigationDestination(isPresented: $showInboxFromIntent) {
                 QuickNoteInboxView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openShortcutMart)) { _ in
+                showShortcutMart = true
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
@@ -1827,6 +1841,18 @@ struct ClipKeyboardList: View {
         }
     }
 
+    /// 하단 베일이 **가라앉는 색.** 갈래 색이 없으면 바닥색으로 사라진다.
+    ///
+    /// ⚠️ 여기서 `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
+    ///    베일의 일은 "카드가 탭바에 어중간하게 걸치지 않게 지우는 것"이라,
+    ///    지운 자리에 **무엇이 남는지**까지가 이 색의 몫이다.
+    private var tabVeilColor: Color {
+        switch viewModel.selectedCategoryTab {
+        case .basic, .all: return theme.bg
+        default: return tabBackgroundColor
+        }
+    }
+
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
     private func customCategoryColor(_ name: String) -> Color {
@@ -1981,9 +2007,9 @@ struct ClipKeyboardList: View {
         .overlay(alignment: .bottom) {
             LinearGradient(
                 stops: [
-                    .init(color: tabBackgroundColor.opacity(0), location: 0),
-                    .init(color: tabBackgroundColor.opacity(0.9), location: 0.45),
-                    .init(color: tabBackgroundColor, location: 1)
+                    .init(color: tabVeilColor.opacity(0), location: 0),
+                    .init(color: tabVeilColor.opacity(0.9), location: 0.45),
+                    .init(color: tabVeilColor, location: 1)
                 ],
                 startPoint: .top, endPoint: .bottom
             )

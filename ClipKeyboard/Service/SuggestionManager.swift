@@ -116,6 +116,29 @@ final class SuggestionManager: ObservableObject {
         return filtered.count >= 3 ? filtered : allSuggestions
     }
 
+    // MARK: - 페르소나가 무엇을 받게 되는가
+
+    /// 이 페르소나에게 권하는 **갈래 이름**들. 등장 순서를 지키고 중복은 뺀다.
+    ///
+    /// ⚠️ "그거 아세요?"가 이 값을 읽어 **당신에게는 이런 걸 골라 뒀다**고 말한다.
+    ///    화면에 그 갈래가 보이지 않는 사람에게 그 말을 하면 거짓말이 되므로,
+    ///    권하는 목록과 알리는 문장은 **같은 곳에서** 나와야 한다.
+    static func recommendedCategories(for persona: Persona) -> [String] {
+        var seen = Set<String>(), ordered: [String] = []
+        for seed in personaSeedSuggestions where seed.persona == persona {
+            let name = NSLocalizedString(seed.categoryKey, comment: "Empty state seed category")
+            if seen.insert(name).inserted { ordered.append(name) }
+        }
+        return ordered
+    }
+
+    /// 이 페르소나에게 권하는 **문구 제목**들.
+    static func recommendedTitles(for persona: Persona) -> [String] {
+        personaSeedSuggestions
+            .filter { $0.persona == persona }
+            .map { NSLocalizedString($0.titleKey, comment: "Empty state seed title") }
+    }
+
     // MARK: - Persona seed pool (v4.0.8)
 
     /// 페르소나별 친화 seed. 본문은 영어/한국어 mix - 페르소나 맥락에 맞춰 자연스럽게.

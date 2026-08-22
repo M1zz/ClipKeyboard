@@ -466,6 +466,12 @@ struct ClipKeyboardApp: App {
                 NotificationCenter.default.post(name: .showMemoList, object: nil)
             case .openQuickNoteInbox:
                 NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
+            case .openShortcutMart:
+                // 목록으로 먼저 보내고 마트를 연다 - 마트는 목록이 들고 있는 시트다.
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .openShortcutMart, object: nil)
+                }
             }
         }
     }
@@ -1118,6 +1124,11 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showFeedbackSheet) {
                     FeedbackView()
+                }
+                // 설정 안쪽 목록에서 고른 행선지도 여기로 모인다 - 행선지를 아는 곳은 한 군데다.
+                .onReceive(NotificationCenter.default.publisher(for: .didYouKnowAction)) { note in
+                    guard let action = note.object as? DidYouKnow.Action else { return }
+                    handleDidYouKnowAction(action)
                 }
                 .sheet(item: $didYouKnowItem) { item in
                     DidYouKnowView(item: item,

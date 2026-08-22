@@ -114,28 +114,48 @@ struct DidYouKnowView: View {
 struct DidYouKnowListView: View {
     @Environment(\.appTheme) private var theme
     @State private var optedOut = DidYouKnowScheduler.isOptedOut
+    /// 눌러서 펼쳐 본 이야기. 값이 있을 때만 모달이 올라온다.
+    ///
+    /// ⚠️ `isPresented` 로 띄우지 않는다. 켜는 값과 그릴 값이 둘로 나뉘면 SwiftUI 가
+    ///    시트를 올리는 시점에 그릴 값이 아직 안 들어와 **빈 시트**가 뜬다.
+    ///    이 앱에서 실제로 한 번 그렇게 떴다.
+    @State private var opened: DidYouKnow?
 
     var body: some View {
         List {
             Section {
                 ForEach(DidYouKnow.all) { item in
-                    HStack(alignment: .top, spacing: 12) {
-                        Image(systemName: item.symbol)
-                            .font(.body.weight(.medium))
-                            .foregroundColor(theme.accent)
-                            .frame(width: 28)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.title)
-                                .font(.subheadline.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(item.body)
-                                .font(.caption)
-                                .foregroundColor(theme.textMuted)
+                    // ⚠️ 목록에서는 **줄여서** 보여준다. 열세 개를 전문으로 늘어놓으면
+                    //    찾으러 온 사람이 스크롤부터 해야 한다. 자세한 것은 눌러서 본다.
+                    Button {
+                        opened = item
+                    } label: {
+                        HStack(alignment: .top, spacing: 12) {
+                            Image(systemName: item.symbol)
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.accent)
+                                .frame(width: 28)
+                                .accessibilityHidden(true)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.title)
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundColor(theme.text)
+                                Text(item.body)
+                                    .font(.caption)
+                                    .foregroundColor(theme.textMuted)
+                                    .lineLimit(2)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            Spacer(minLength: 4)
+                            Image(systemName: AppSymbol.chevronRight)
+                                .font(.caption.weight(.semibold))
+                                .foregroundColor(theme.textFaint)
+                                .accessibilityHidden(true)
                         }
-                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.vertical, 4)
+                        .contentShape(Rectangle())
                     }
-                    .padding(.vertical, 4)
+                    .buttonStyle(.plain)
                 }
             } header: {
                 Text(NSLocalizedString("그거 아세요?", comment: "Did you know header"))
@@ -158,5 +178,20 @@ struct DidYouKnowListView: View {
         }
         .navigationTitle(NSLocalizedString("그거 아세요?", comment: "Did you know header"))
         .navigationBarTitleDisplayMode(.inline)
+        // 하나를 누르면 그 이야기만 따로 올라온다 - 처음 만났을 때와 **같은 화면**이다.
+        // 여기서만 다른 모양으로 보여주면 "아까 그거"를 못 알아본다.
+        .sheet(item: $opened) { item in
+            DidYouKnowView(item: item,
+                           onAction: { action in
+                               opened = nil
+                               // 시트가 내려간 뒤에 데려간다 - 겹치면 둘 다 제대로 안 뜬다.
+                               DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                   NotificationCenter.default.post(name: .didYouKnowAction,
+                                                                   object: action)
+                               }
+                           },
+                           onClose: { opened = nil })
+                .presentationDetents([.medium])
+        }
     }
 }

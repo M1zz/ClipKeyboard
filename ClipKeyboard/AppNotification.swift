@@ -47,6 +47,14 @@ extension Notification.Name {
     /// 끝났는지를 이걸로 안다. (무대를 들고 있는 건 `InAppKeyboardStage` 라
     ///  걸음을 세는 `SnippetsTab` 이 직접 볼 수가 없다)
     static let stageMessageSent = Notification.Name("stageMessageSent")
+    /// "그거 아세요?"에서 읽고 나서 갈 곳을 골랐다. object 에 `DidYouKnow.Action`.
+    ///
+    /// ⚠️ 설정 안쪽(`DidYouKnowListView`)에서도 같은 화면이 뜨는데, 거기서는 목적지로
+    ///    보내는 길을 직접 들고 있지 않다. 행선지를 아는 곳은 루트 하나뿐이라
+    ///    알림으로 넘긴다.
+    static let didYouKnowAction = Notification.Name("didYouKnowAction")
+    /// 단축어 마트를 연다 - 페르소나에 맞춰 차려 둔 곳.
+    static let openShortcutMart = Notification.Name("openShortcutMart")
     static let showClipboardHistory = Notification.Name("showClipboardHistory")
     static let showCloudBackup = Notification.Name("showCloudBackup")
     static let showMemoList = Notification.Name("showMemoList")
