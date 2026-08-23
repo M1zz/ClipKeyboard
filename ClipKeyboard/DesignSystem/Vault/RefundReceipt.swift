@@ -490,9 +490,6 @@ struct RefundReceiptSheet: View {
 
     /// 미리 구워 둔다. 공유를 누른 뒤에 굽면 시트가 한 박자 늦게 뜬다.
     @State private var baked: UIImage?
-    /// 스토리용 세로 그림. 영수증만 덜렁 보내면 인스타그램이 9:16 에 맞춰 늘리거나 잘라서
-    /// 종이가 뭉개진다. 그래서 배경까지 얹은 세로 한 장을 따로 굽는다.
-    @State private var storyCard: UIImage?
     @State private var isSharing = false
 
     init(memos: [Memo], issuedAt: Date, period: RefundPeriod = .thisMonth) {
@@ -512,7 +509,7 @@ struct RefundReceiptSheet: View {
                     RefundReceiptView(receipt: receipt)
                         .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
 
-                    shareButtons
+                    shareButton
                 }
                 .padding(.vertical, 24)
                 .padding(.horizontal, 20)
@@ -536,69 +533,40 @@ struct RefundReceiptSheet: View {
         }
         .task {
             baked = RefundReceiptView.render(receipt)
-            storyCard = RefundReceiptView.renderStoryCard(receipt)
         }
     }
 
     // MARK: 가져가기
 
-    /// ⚠️ 인스타그램 단추가 **위**다. 이 종이를 뽑는 사람의 대부분이 하고 싶은 일이
-    ///    "남에게 보여주기"라서, 가장 흔한 길이 가장 손에 가까워야 한다.
-    ///    그렇다고 다른 길을 감추지는 않는다 - 아래에 그대로 둔다.
-    @ViewBuilder
-    private var shareButtons: some View {
-        VStack(spacing: 10) {
-            if StoryShare.isInstagramAvailable {
-                Button {
-                    shareToStory()
-                } label: {
-                    shareLabel(NSLocalizedString("인스타 스토리에 올리기", comment: "Button: share to Instagram story"),
-                               symbol: "camera.on.rectangle",
-                               isPrimary: true)
-                }
-                .buttonStyle(.plain)
-                .disabled(storyCard == nil)
-                .opacity(storyCard == nil ? 0.5 : 1)
-            }
-
-            Button {
-                isSharing = true
-            } label: {
-                shareLabel(NSLocalizedString("다른 앱으로 보내기", comment: "Button: share elsewhere"),
-                           symbol: AppSymbol.squareAndArrowUp,
-                           isPrimary: false)
-            }
-            .buttonStyle(.plain)
-            .disabled(baked == nil)
-            .opacity(baked == nil ? 0.5 : 1)
-        }
-    }
-
-    private func shareLabel(_ title: String, symbol: String, isPrimary: Bool) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: symbol)
-                .font(.body.weight(.semibold))
-            Text(title)
-                .font(.body.weight(.semibold))
-            Spacer(minLength: 0)
-        }
-        .foregroundColor(isPrimary ? theme.accentFg : theme.text)
-        .padding(14)
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .fill(isPrimary ? theme.accent : theme.surface)
-        )
-        .contentShape(Rectangle())
-    }
-
-    private func shareToStory() {
-        guard let storyCard else { return }
-        HapticManager.shared.light()
-        // 못 열면 조용히 넘어가지 않는다. 곧장 가는 길이 막혔으면 공유 시트로 물러선다.
-        if !StoryShare.shareToInstagram(image: storyCard) {
+    /// ⚠️ 예전에는 여기 "인스타 스토리에 올리기"가 따로 있었다. 뺐다.
+    ///    특정 서비스로 가는 길을 앱이 직접 들고 있으면, 그 서비스가 규칙을 바꿀 때마다
+    ///    우리 코드가 따라가야 하고(스토리 공유는 페이스북 앱 ID를 요구한다), 그 서비스를
+    ///    안 쓰는 사람에게는 자리만 차지하는 단추가 된다. 어디로 보낼지는 시스템 공유
+    ///    시트가 이미 사람이 고른 대로 알고 있다. 우리는 **보낼 것**만 잘 만들면 된다.
+    private var shareButton: some View {
+        Button {
+            HapticManager.shared.light()
             isSharing = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: AppSymbol.squareAndArrowUp)
+                    .font(.body.weight(.semibold))
+                Text(NSLocalizedString("공유하기", comment: "Button: share"))
+                    .font(.body.weight(.semibold))
+                Spacer(minLength: 0)
+            }
+            .foregroundColor(theme.accentFg)
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .fill(theme.accent)
+            )
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .disabled(baked == nil)
+        .opacity(baked == nil ? 0.5 : 1)
     }
 }
 
@@ -612,76 +580,6 @@ extension RefundReceiptView {
         renderer.scale = scale
         renderer.isOpaque = false
         return renderer.uiImage
-    }
-
-    /// 스토리용 세로 한 장(1080×1920)으로 굽는다.
-    ///
-    /// ⚠️ 영수증 그림을 그대로 인스타그램에 넘기면 안 된다. 스토리는 9:16 이라 세로로 긴
-    ///    종이 한 장을 받으면 **늘리거나 잘라서** 얹는다. 어느 쪽이든 종이가 망가진다.
-    ///    그래서 배경까지 포함한 9:16 한 장을 여기서 완성해 넘긴다.
-    ///
-    /// ⚠️ 배경은 테마를 따르지 않는다. 남의 스토리에 올라가는 그림이라, 만든 사람이
-    ///    다크 모드였다는 이유로 어두운 그림이 나가면 안 된다. 영상과 같은 모래색을 쓴다.
-    ///
-    /// ⚠️ 캔버스를 **포인트**로 잡고 배율로 키운다. 1080×1920 을 통째로 잡아 놓고 뷰를
-    ///    확대(scaleEffect)하면 글자가 번진다 - 포인트로 그린 뒤 배율로 키워야 또렷하다.
-    ///
-    /// ⚠️ 캔버스 폭은 종이 폭(320)에서 거꾸로 정했다. 캔버스가 넓을수록 종이가 작게
-    ///    보이는데, 스토리는 **1초 안에 훑고 넘기는 것**이라 종이가 화면을 채워야 읽힌다.
-    ///    지금은 종이가 폭의 4분의 3을 차지한다.
-    @MainActor
-    static func renderStoryCard(_ receipt: RefundReceipt) -> UIImage? {
-        let renderer = ImageRenderer(content: ReceiptStoryCard(receipt: receipt))
-        renderer.scale = ReceiptStoryCard.renderScale
-        renderer.isOpaque = true
-        return renderer.uiImage
-    }
-}
-
-/// 스토리 한 장 - 모래색 배경 위에 영수증 한 장이 놓여 있다.
-struct ReceiptStoryCard: View {
-    let receipt: RefundReceipt
-
-    /// 포인트 기준 캔버스. `renderScale` 배로 구우면 정확히 1080×1920 이 된다.
-    ///
-    /// ⚠️ 이 둘은 **같이** 고친다. 한쪽만 고치면 스토리 규격에서 어긋나고, 어긋난 그림은
-    ///    인스타그램이 잘라 얹는다. 어긋나지 않는지는 테스트가 지킨다.
-    static let canvas = CGSize(width: 432, height: 768)
-    static let renderScale: CGFloat = 2.5
-
-    private let sand = Color(red: 0xEE/255, green: 0xD2/255, blue: 0xA7/255)
-    private let deep = Color(red: 0x0E/255, green: 0x5A/255, blue: 0x4C/255)
-    private let ink = Color(red: 0x16/255, green: 0x21/255, blue: 0x1D/255)
-
-    var body: some View {
-        ZStack {
-            sand
-
-            VStack(spacing: 22) {
-                Spacer(minLength: 0)
-
-                Text(NSLocalizedString("다시 치지 않아서 돌려받은 시간", comment: "Story card: caption above the receipt"))
-                    .font(.system(size: 19, weight: .semibold))
-                    .foregroundColor(ink.opacity(0.7))
-                    .multilineTextAlignment(.center)
-
-                RefundReceiptView(receipt: receipt)
-                    // 종이를 살짝 기울인다. 반듯하게 놓으면 화면 그림처럼 보이고,
-                    // 기울면 손으로 올려 둔 종이처럼 보인다.
-                    .rotationEffect(.degrees(-2))
-                    .shadow(color: .black.opacity(0.22), radius: 18, x: 0, y: 10)
-
-                Text(verbatim: "ClipKeyboard")
-                    .font(.system(size: 24, weight: .heavy, design: .rounded))
-                    .foregroundColor(deep)
-
-                Spacer(minLength: 0)
-            }
-            // ⚠️ 위아래 여백을 넉넉히 둔다. 인스타그램이 스토리 위아래에 자기 단추를
-            //    얹기 때문에, 가장자리에 붙은 글자는 그 아래로 가려진다.
-            .padding(.vertical, 96)
-        }
-        .frame(width: Self.canvas.width, height: Self.canvas.height)
     }
 }
 #endif

@@ -142,7 +142,6 @@
 		A167A2509A17EB507E7F67B3 /* ComboExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* ComboExecutionService.swift */; };
 		A30C59B8DC51235598880EBC /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		A54E9621A9472F1221D993BC /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80AD4C015115FE0308071A /* ActionViewController.swift */; };
-		A5B11B620183DC18A8F713E5 /* StoryShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE83824059901AD387133D4C /* StoryShare.swift */; };
 		AA00000200000001F3B00001 /* ReviewRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000100000001F3B00001 /* ReviewRequestView.swift */; };
 		AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000600000001F3B00002 /* UsageGuideView.swift */; };
 		AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000800000001F3B00002 /* PersonaGuideData.swift */; };
@@ -458,7 +457,6 @@
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
 		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
-		CE83824059901AD387133D4C /* StoryShare.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoryShare.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
 		D663A47B0F30561381AFD709 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardSurfaceEffects.swift; sourceTree = "<group>"; };
@@ -509,7 +507,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -519,8 +517,29 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
+		587384882F2E7AD40042ECA4 /* widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = ClipKeyboardTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -869,7 +888,6 @@
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
 				9A29C214B56C5162247ACD82 /* LaunchGuard.swift */,
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
-				CE83824059901AD387133D4C /* StoryShare.swift */,
 				033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */,
 			);
 			path = Service;
@@ -1537,7 +1555,6 @@
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
 				9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */,
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,
-				A5B11B620183DC18A8F713E5 /* StoryShare.swift in Sources */,
 				A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */,
 				C09F146774868650F62B4FB8 /* TypingSpeedMeter.swift in Sources */,
 			);

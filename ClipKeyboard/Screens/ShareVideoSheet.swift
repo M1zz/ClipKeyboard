@@ -108,62 +108,34 @@ struct ShareVideoSheet: View {
 
     // MARK: - 내보내기
 
-    /// ⚠️ 인스타그램 단추가 위다. 이 영상을 만드는 사람이 하려던 일이 대개 그것이라,
-    ///    가장 흔한 길이 가장 손에 가까워야 한다.
-    @ViewBuilder
+    /// ⚠️ 예전에는 "인스타 스토리에 올리기"가 따로 있었다. 뺐다. 특정 서비스로 가는 길을
+    ///    앱이 직접 들고 있으면 그 서비스가 규칙을 바꿀 때마다 우리 코드가 따라가야 하고,
+    ///    그 서비스를 안 쓰는 사람에게는 자리만 차지하는 단추가 된다. 어디로 보낼지는
+    ///    시스템 공유 시트가 이미 안다. 우리는 **보낼 것**만 잘 만들면 된다.
     private var buttons: some View {
-        VStack(spacing: 10) {
-            if StoryShare.isInstagramAvailable {
-                Button {
-                    shareToStory()
-                } label: {
-                    label(NSLocalizedString("인스타 스토리에 올리기", comment: "Button: share to Instagram story"),
-                          symbol: "camera.on.rectangle",
-                          isPrimary: true)
-                }
-                .buttonStyle(.plain)
-                .disabled(videoURL == nil)
-                .opacity(videoURL == nil ? 0.5 : 1)
-            }
-
-            Button {
-                isSharing = true
-            } label: {
-                label(NSLocalizedString("다른 앱으로 보내기", comment: "Button: share elsewhere"),
-                      symbol: AppSymbol.squareAndArrowUp,
-                      isPrimary: false)
-            }
-            .buttonStyle(.plain)
-            .disabled(videoURL == nil)
-            .opacity(videoURL == nil ? 0.5 : 1)
-        }
-    }
-
-    private func label(_ title: String, symbol: String, isPrimary: Bool) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: symbol)
-                .font(.body.weight(.semibold))
-            Text(title)
-                .font(.body.weight(.semibold))
-            Spacer(minLength: 0)
-        }
-        .foregroundColor(isPrimary ? theme.accentFg : theme.text)
-        .padding(14)
-        .frame(maxWidth: .infinity)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .fill(isPrimary ? theme.accent : theme.surface)
-        )
-        .contentShape(Rectangle())
-    }
-
-    private func shareToStory() {
-        guard let videoURL else { return }
-        HapticManager.shared.light()
-        // 곧장 가는 길이 막혔으면 조용히 넘어가지 않고 공유 시트로 물러선다.
-        if !StoryShare.shareToInstagram(videoURL: videoURL) {
+        Button {
+            HapticManager.shared.light()
             isSharing = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: AppSymbol.squareAndArrowUp)
+                    .font(.body.weight(.semibold))
+                Text(NSLocalizedString("공유하기", comment: "Button: share"))
+                    .font(.body.weight(.semibold))
+                Spacer(minLength: 0)
+            }
+            .foregroundColor(theme.accentFg)
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .fill(theme.accent)
+            )
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+        .disabled(videoURL == nil)
+        .opacity(videoURL == nil ? 0.5 : 1)
     }
 
     // MARK: - 굽기

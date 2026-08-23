@@ -248,15 +248,15 @@ struct RefundReceiptTests {
     }
 }
 
-// MARK: - 스토리로 내보내기
+// MARK: - 이미지로 굽기
 
-/// 인스타그램 스토리로 곧장 보내는 그림의 계약을 고정한다.
+/// 공유로 내보낼 그림의 계약을 고정한다.
 ///
-/// ⚠️ 가장 중요한 것은 **크기**다. 스토리는 9:16 이라, 다른 비율을 넘기면 인스타그램이
-///    늘리거나 잘라서 얹는다. 어느 쪽이든 종이가 망가지고, 망가진 그림은 아무도 안 올린다.
-@Suite("스토리 카드")
+/// ⚠️ 종이 폭이 고정이라는 것이 핵심이다. 화면 폭을 따라가면 기기마다 다른 크기의
+///    영수증이 나가서, 공유된 그림들이 서로 다른 물건처럼 보인다.
+@Suite("영수증 이미지")
 @MainActor
-struct ReceiptStoryCardTests {
+struct RefundReceiptImageTests {
 
     private func sampleReceipt() -> RefundReceipt {
         var memo = Memo(title: "계좌번호", value: "110-234-567890")
@@ -271,31 +271,23 @@ struct ReceiptStoryCardTests {
                                   coverageStartedAt: nil)
     }
 
-    @Test("스토리 카드는 정확히 1080×1920 이다. 비율이 어긋나면 인스타그램이 잘라 얹는다")
-    func storyCardIsExactlyStorySized() throws {
-        let image = try #require(RefundReceiptView.renderStoryCard(sampleReceipt()))
-
-        #expect(image.size.width * image.scale == StoryShare.canvasSize.width)
-        #expect(image.size.height * image.scale == StoryShare.canvasSize.height)
-    }
-
-    @Test("캔버스에 배율을 곱하면 스토리 규격이 된다. 둘이 어긋나면 한쪽만 고쳐진 것이다")
-    func canvasMatchesStorySize() {
-        #expect(ReceiptStoryCard.canvas.width * ReceiptStoryCard.renderScale == StoryShare.canvasSize.width)
-        #expect(ReceiptStoryCard.canvas.height * ReceiptStoryCard.renderScale == StoryShare.canvasSize.height)
-    }
-
-    @Test("스토리 카드는 배경까지 채운 불투명한 한 장이다. 비면 스토리에서 검게 나온다")
-    func storyCardIsOpaque() throws {
-        let image = try #require(RefundReceiptView.renderStoryCard(sampleReceipt()))
-        let cg = try #require(image.cgImage)
-        #expect(cg.alphaInfo != .first && cg.alphaInfo != .last)
-    }
-
     @Test("영수증 그림은 종이 폭 그대로 굽는다. 기기마다 다른 종이가 나오면 안 된다")
     func receiptImageKeepsPaperWidth() throws {
         let image = try #require(RefundReceiptView.render(sampleReceipt(), scale: 3))
         #expect(image.size.width * image.scale == RefundReceiptView.paperWidth * 3)
+    }
+
+    /// ⚠️ 높이까지 똑같기를 바라면 안 된다. 배율이 다르면 줄 높이가 픽셀에 맞춰 반올림되어
+    ///    포인트 높이가 한두 점 달라진다. 여기서 지킬 것은 **폭이 고정**이라는 것뿐이다.
+    @Test("배율은 해상도만 바꾼다. 종이 폭은 배율과 무관하게 고정이다")
+    func scaleOnlyChangesResolution() throws {
+        let small = try #require(RefundReceiptView.render(sampleReceipt(), scale: 1))
+        let large = try #require(RefundReceiptView.render(sampleReceipt(), scale: 3))
+
+        #expect(small.size.width == RefundReceiptView.paperWidth)
+        #expect(large.size.width == RefundReceiptView.paperWidth)
+        #expect(large.size.width * large.scale == small.size.width * small.scale * 3,
+                "배율을 세 배로 올리면 픽셀도 세 배여야 한다")
     }
 }
 

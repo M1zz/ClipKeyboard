@@ -2099,19 +2099,19 @@
         }
       }
     },
-    "3초짜리 세로 영상으로 만들어 인스타 스토리에 바로 올려요.": {
+    "3초짜리 세로 영상으로 만들어 어디로든 보낼 수 있어요.": {
       "comment": "Button subtitle: tell friends",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "A 3-second vertical video, ready to post straight to your story."
+            "value": "A 3-second vertical video you can send anywhere."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Video vertikal 3 detik, siap langsung diunggah ke story Anda."
+            "value": "Video vertikal 3 detik yang bisa Anda kirim ke mana saja."
           }
         }
       }
@@ -10457,6 +10457,23 @@
         }
       }
     },
+    "공유하기": {
+      "comment": "Button: share",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bagikan"
+          }
+        }
+      }
+    },
     "과도한 디스크 쓰기": {
       "comment": "Diagnostic kind: disk write",
       "localizations": {
@@ -12121,23 +12138,6 @@
         }
       }
     },
-    "다른 앱으로 보내기": {
-      "comment": "Button: share elsewhere",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Send somewhere else"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kirim ke aplikasi lain"
-          }
-        }
-      }
-    },
     "다른 카테고리 탭에서 순서 바꾸기를 열어 보세요": {
       "comment": "Reorder empty state subtitle",
       "localizations": {
@@ -12201,23 +12201,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Waktu yang tidak terbuang memeriksa ulang"
-          }
-        }
-      }
-    },
-    "다시 치지 않아서 돌려받은 시간": {
-      "comment": "Story card: caption above the receipt",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Time refunded by not retyping"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Waktu yang dikembalikan karena tak mengetik ulang"
           }
         }
       }
@@ -21274,19 +21257,19 @@
         }
       }
     },
-    "영수증과 영상을 인스타 스토리에 버튼 하나로 바로 올릴 수 있어요": {
-      "comment": "Changelog 5.0.1 instagram",
+    "영수증과 영상을 공유하기 한 번으로 어디로든 보낼 수 있어요": {
+      "comment": "Changelog 5.0.1 share",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Post your receipt or video straight to your Instagram Story with one button."
+            "value": "Send a receipt or a video anywhere with a single Share button."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unggah struk atau video langsung ke Instagram Story Anda dengan satu tombol."
+            "value": "Kirim struk atau video ke mana saja dengan satu tombol Bagikan."
           }
         }
       }
@@ -23476,23 +23459,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Greeting"
-          }
-        }
-      }
-    },
-    "인스타 스토리에 올리기": {
-      "comment": "Button: share to Instagram story",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Share to Instagram Story"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bagikan ke Instagram Story"
           }
         }
       }

@@ -46,7 +46,7 @@ enum ChangelogData {
 
                 // 자랑하기
                 NSLocalizedString("영수증을 뽑으면 지금 보고 있던 기간이 그대로 찍혀요. 종이 한 장만 뜹니다", comment: "Changelog 5.0.1 receipt period"),
-                NSLocalizedString("영수증과 영상을 인스타 스토리에 버튼 하나로 바로 올릴 수 있어요", comment: "Changelog 5.0.1 instagram"),
+                NSLocalizedString("영수증과 영상을 공유하기 한 번으로 어디로든 보낼 수 있어요", comment: "Changelog 5.0.1 share"),
                 NSLocalizedString("친구들에게 알리기를 누르면 영상을 먼저 보고 나서 보낼 수 있어요", comment: "Changelog 5.0.1 video preview"),
             ]
         ),

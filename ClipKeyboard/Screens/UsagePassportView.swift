@@ -159,7 +159,7 @@ struct UsagePassportView: View {
                         Text(NSLocalizedString("친구들에게 알리기", comment: "Button: tell friends"))
                             .font(.body.weight(.semibold))
                             .foregroundColor(theme.accentFg)
-                        Text(NSLocalizedString("3초짜리 세로 영상으로 만들어 인스타 스토리에 바로 올려요.",
+                        Text(NSLocalizedString("3초짜리 세로 영상으로 만들어 어디로든 보낼 수 있어요.",
                                                comment: "Button subtitle: tell friends"))
                             .font(.caption)
                             .foregroundColor(theme.accentFg.opacity(0.8))

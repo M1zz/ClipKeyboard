@@ -20,10 +20,6 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>clipkeyboard://open</string>
-		<!-- 인스타 스토리로 곧장 보내기. 이게 없으면 인스타그램이 깔려 있어도
-		     canOpenURL 이 거짓을 돌려주어 "없는 것"으로 보인다. -->
-		<string>instagram-stories</string>
-		<string>instagram</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
