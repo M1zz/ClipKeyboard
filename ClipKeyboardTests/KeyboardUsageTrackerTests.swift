@@ -177,6 +177,11 @@ final class KeyboardUsageTrackerTests: XCTestCase {
 ///    많이 아껴 준다" 같은 관계가 뒤집히면 그건 모델이 틀린 것이다.
 final class TimeSavedModelTests: XCTestCase {
 
+    /// ⚠️ 예전에는 "계좌번호가 인사말의 **두 배** 넘게"였다. 밑값이 2분으로 올라가면서
+    ///    그 단언은 못 지킨다. 인사말이 이미 120초라 두 배는 240초이고, 그걸 넘기려면
+    ///    은행 앱 여는 값을 4분 넘게 잡아야 하는데 그건 변호할 수 없는 숫자다.
+    ///    밑값을 높게 잡기로 한 이상 **갈래 사이가 좁아지는 것은 값이 아니라 결과**다.
+    ///    그래서 지금 지키는 것은 배수가 아니라 **순서**다.
     func test_찾아와야_하는_값이_같은_길이의_글보다_크다() {
         let length = 20
         let prose = String(repeating: "가", count: length)
@@ -185,8 +190,8 @@ final class TimeSavedModelTests: XCTestCase {
         let greeting = TimeSavedModel.breakdown(value: prose, type: .text).total
         let account = TimeSavedModel.breakdown(value: digits, type: .bankAccount).total
 
-        XCTAssertGreaterThan(account, greeting * 2,
-                             "은행 앱을 열어 찾아오던 값이 인사말과 비슷하게 세어지면 모델이 틀린 것이다")
+        XCTAssertGreaterThan(account, greeting,
+                             "은행 앱을 열어 찾아오던 값이 인사말보다 싸면 모델이 뒤집힌 것이다")
     }
 
     func test_짧아도_찾아와야_하는_값이면_0이_아니다() {
@@ -201,17 +206,44 @@ final class TimeSavedModelTests: XCTestCase {
     }
 
     /// 밑값이 받쳐 주지만, **밑값 위에서는 갈래가 살아 있어야 한다.**
-    /// 전부 30초로 뭉개지면 이 모델은 상수 하나와 다를 게 없다.
+    /// 전부 밑값으로 뭉개지면 이 모델은 상수 하나와 다를 게 없다.
+    ///
+    /// ⚠️ 밑값이 2분으로 올라가면서 실제로 밑값을 넘는 갈래는 **잠긴 앱과 실물** 둘뿐이다.
+    ///    이메일·주소·깃 토큰은 전부 정확히 2분이 된다. 그건 모델이 고장 난 게 아니라
+    ///    "제일 조금 아껴도 2분"이라는 약속이 그만큼 세다는 뜻이다. 다만 **그 둘마저**
+    ///    밑값과 같아지면 갈래를 나눈 뜻이 사라지므로, 그 선은 여기서 지킨다.
     func test_밑값_위에서는_갈래가_살아_있다() {
         let account = TimeSavedModel.breakdown(value: "110-234-567890", type: .bankAccount).total
         let passport = TimeSavedModel.breakdown(value: "M12345678", type: .passportNumber).total
         let greeting = TimeSavedModel.breakdown(value: "안녕하세요 반갑습니다", type: .text).total
 
         XCTAssertEqual(greeting, TimeSavedModel.minimumSavedSeconds, accuracy: 0.001)
-        XCTAssertGreaterThan(account, greeting * 2,
-                             "은행 앱을 열던 값이 인사말의 두 배도 안 되면 모델이 뭉개진 것이다")
+        XCTAssertGreaterThan(account, TimeSavedModel.minimumSavedSeconds,
+                             "은행 앱을 열던 값까지 밑값으로 뭉개지면 갈래를 나눈 뜻이 없다")
         XCTAssertGreaterThan(passport, account,
                              "지갑에서 꺼내 오던 것이 앱에서 꺼내 오던 것보다 싸면 순서가 뒤집힌 것이다")
+    }
+
+    /// 저장된 갈래가 없어도 값을 보고 알아낸다.
+    ///
+    /// ⚠️ `Memo.autoDetectedType` 은 클립보드·공유 시트로 들어온 문구에만 채워진다.
+    ///    "문구 추가"에서 계좌번호를 손으로 쳐 넣으면 끝까지 nil 이고, 그러면 이 모델이
+    ///    인사말과 똑같이 셌다. 갈래를 나눠 놓고 정작 대부분의 문구에 갈래가 안 붙어
+    ///    있던 것이라, 나눈 것이 통째로 죽어 있었다.
+    func test_손으로_쳐_넣은_계좌번호도_갈래를_찾아낸다() {
+        let account = "110-234-567890"
+
+        XCTAssertEqual(TimeSavedModel.resolvedType(value: account, type: nil), .bankAccount,
+                       "갈래가 안 붙은 문구를 그냥 글로 보면 나눠 놓은 갈래가 죽는다")
+        XCTAssertEqual(TimeSavedModel.breakdown(value: account, type: nil).total,
+                       TimeSavedModel.breakdown(value: account, type: .bankAccount).total,
+                       accuracy: 0.001,
+                       "같은 값이 어디서 만들어졌는지에 따라 다른 금액이 되면 안 된다")
+    }
+
+    /// 이미 갈래가 붙어 있으면 그것을 존중한다. 사용자가 고른 것을 덮어쓰지 않는다.
+    func test_붙어_있는_갈래를_덮어쓰지_않는다() {
+        XCTAssertEqual(TimeSavedModel.resolvedType(value: "110-234-567890", type: .text), .text)
     }
 
     func test_밑값은_모자란_만큼만_채운다() {

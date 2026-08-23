@@ -466,8 +466,8 @@ struct UsagePassportView: View {
                 }
                 if parts.baseline > 0 {
                     groundRow(symbol: "arrow.up.to.line",
-                              title: NSLocalizedString("꺼내 쓸 때마다 드는 기본값", comment: "Grounds row: baseline"),
-                              note: NSLocalizedString("하던 일을 멈추고, 값을 어디서 가져올지 떠올리고, 넣고, 맞는지 보는 시간이에요. 아무리 짧아도 한 번에 30초는 잡았어요.",
+                              title: NSLocalizedString("한 번에 최소 2분", comment: "Grounds row: baseline"),
+                              note: NSLocalizedString("위의 조각을 다 더해도 2분이 안 되면 2분으로 봐요. 재서 나온 값이 아니라 저희가 정한 최소치예요. 하던 일을 멈추고 값을 찾아 넣고 확인하는 데 그보다 덜 드는 경우가 드물어서요.",
                                                       comment: "Grounds note: baseline"),
                               seconds: parts.baseline)
                 }

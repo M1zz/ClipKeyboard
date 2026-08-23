@@ -11298,23 +11298,6 @@
         }
       }
     },
-    "꺼내 쓸 때마다 드는 기본값": {
-      "comment": "Grounds row: baseline",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Baseline cost of reaching for it"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Biaya dasar setiap kali mengambilnya"
-          }
-        }
-      }
-    },
     "꺼짐": {
       "comment": "Off",
       "extractionState": "stale",
@@ -19112,6 +19095,23 @@
         }
       }
     },
+    "손으로 쳐 넣은 계좌번호도 이제 계좌번호로 알아봐요. 클립보드에서 온 것만 갈래가 붙던 걸 고쳤어요": {
+      "comment": "Changelog 5.0.1 resolve type",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An account number you typed in by hand is now recognized as one. Only values arriving from the clipboard used to get a category."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nomor rekening yang Anda ketik sendiri kini dikenali sebagai nomor rekening. Dulu hanya nilai dari papan klip yang mendapat kategori."
+          }
+        }
+      }
+    },
     "손짓": {
       "comment": "Emoji category: hand gestures",
       "extractionState": "stale",
@@ -21904,6 +21904,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Move up"
+          }
+        }
+      }
+    },
+    "위의 조각을 다 더해도 2분이 안 되면 2분으로 봐요. 재서 나온 값이 아니라 저희가 정한 최소치예요. 하던 일을 멈추고 값을 찾아 넣고 확인하는 데 그보다 덜 드는 경우가 드물어서요.": {
+      "comment": "Grounds note: baseline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When the rows above add up to less than 2 minutes, we count 2 minutes. That's a minimum we chose, not something we measured. Stopping, fetching a value, entering it and checking it rarely costs less."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bila baris di atas berjumlah kurang dari 2 menit, kami hitung 2 menit. Itu batas minimum pilihan kami, bukan hasil pengukuran. Berhenti, mengambil nilai, memasukkan, dan memeriksanya jarang lebih murah dari itu."
           }
         }
       }
@@ -30363,23 +30380,6 @@
         }
       }
     },
-    "하던 일을 멈추고, 값을 어디서 가져올지 떠올리고, 넣고, 맞는지 보는 시간이에요. 아무리 짧아도 한 번에 30초는 잡았어요.": {
-      "comment": "Grounds note: baseline",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stopping what you were doing, working out where the value lives, fetching it, entering it, checking it. We count at least 30 seconds per use, however short the text."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Berhenti dari pekerjaan Anda, mengingat di mana nilainya, mengambilnya, memasukkannya, memeriksanya. Kami hitung minimal 30 detik per penggunaan, sependek apa pun teksnya."
-          }
-        }
-      }
-    },
     "하루 일과를 통째로 벌었어요. 이건 자랑해도 돼요.": {
       "comment": "Milestone note: one workday",
       "localizations": {
@@ -30559,19 +30559,19 @@
         }
       }
     },
-    "한 번 꺼내 쓸 때마다 적어도 30초는 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
+    "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
       "comment": "Changelog 5.0.1 baseline",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Every use now counts as at least 30 seconds saved. Values we can't classify, like a git token, used to be logged as 10 seconds."
+            "value": "Every use now counts as at least 2 minutes saved. Values we can't classify, like a git token, used to be logged as 10 seconds."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Setiap pemakaian kini dihitung minimal hemat 30 detik. Nilai yang tak bisa kami klasifikasikan, seperti token git, dulu tercatat 10 detik."
+            "value": "Setiap pemakaian kini dihitung minimal hemat 2 menit. Nilai yang tak bisa kami klasifikasikan, seperti token git, dulu tercatat 10 detik."
           }
         }
       }
@@ -30589,6 +30589,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pindahkan"
+          }
+        }
+      }
+    },
+    "한 번에 최소 2분": {
+      "comment": "Grounds row: baseline",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At least 2 minutes per use"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minimal 2 menit per pemakaian"
           }
         }
       }

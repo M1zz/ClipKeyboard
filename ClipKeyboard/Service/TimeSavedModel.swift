@@ -39,7 +39,7 @@
 //     낮은 숫자는 이 앱이 하는 일을 **아예 안 보이게** 만든다. 그것도 틀린 것이다.
 //
 //     깃 토큰이 그 예였다. 40자짜리 무작위 문자열이라 이 앱은 "글"로 보고 치는 시간
-//     10초만 셌다. 그런데 실제로 사람이 하던 일은 깃허브를 열고 → 설정으로 들어가 →
+//     10초 남짓만 셌다. 그런데 실제로 사람이 하던 일은 깃허브를 열고 → 설정으로 들어가 →
 //     토큰을 찾거나 새로 만들고 → 복사해서 → 돌아오는 것이었다. 10초일 리가 없다.
 //     못 본 것은 못 봤다고 인정하고 **밑값**(`minimumSavedSeconds`)으로 받친다.
 //
@@ -89,17 +89,17 @@ enum TimeSavedModel {
     ///
     /// ⚠️ 조각을 다 더해도 이 아래로 나오는 경우가 있다. 그런데 그 숫자는 대체로
     ///    **모델이 못 본 것**이지 실제로 안 아낀 것이 아니다. 깃 토큰이 그 예다.
-    ///    40자짜리 무작위 문자열이라 이 앱은 그냥 "글"로 보고 치는 시간 10초만 세는데,
+    ///    40자짜리 무작위 문자열이라 이 앱은 그냥 "글"로 보고 치는 시간 10초 남짓만 세는데,
     ///    실제로 사람이 하던 일은 깃허브를 열고 → 설정으로 들어가 → 토큰을 찾거나 새로
     ///    만들고 → 복사해서 → 돌아오는 것이었다. 10초일 리가 없다.
     ///
     /// ⚠️ 문구로 저장해 뒀다는 것 자체가 "이걸 매번 처리하기 싫다"는 뜻이다. 한 번 꺼내
     ///    쓸 때마다 하던 일을 멈추고 → 값을 어디서 가져올지 떠올리고 → 가져와서 → 넣고 →
-    ///    맞는지 본다. 이 **멈췄다 다시 시작하는 값**이 30초 아래인 경우는 드물다.
+    ///    맞는지 본다. 이 **멈췄다 다시 시작하는 값**이 2분 아래인 경우는 드물다.
     ///
     /// ⚠️ 밑값은 `minimumCharacters` 를 넘긴 것에만 붙는다. "네"·"ok" 는 여전히 0이다
     ///    - 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아니다.
-    static let minimumSavedSeconds: Double = 30
+    static let minimumSavedSeconds: Double = 120
 
     /// 한 번 쓸 때 **치는 시간**으로 셀 수 있는 최대치(초).
     ///
@@ -116,7 +116,8 @@ enum TimeSavedModel {
     ///
     /// ⚠️ 계좌번호를 한 화면에서 세 번 붙여넣었다고 은행 앱을 세 번 연 것은 아니다.
     ///    한 번 꺼내 온 값은 손에(클립보드에) 남아 있어서, 두 번째부터 사람이 하던 일은
-    ///    "붙여넣기" 하나뿐이다. 그런데도 매번 28초를 얹으면 한 번의 수고가 세 번이 된다.
+    ///    "붙여넣기" 하나뿐이다. 그런데도 매번 은행 앱을 여는 값을 얹으면 한 번의
+    ///    수고가 세 번이 된다.
     ///
     /// ⚠️ 되짚어 읽는 시간은 **깎지 않는다.** 붙여넣을 때마다 자릿수는 다시 확인한다.
     ///
@@ -133,7 +134,7 @@ enum TimeSavedModel {
     /// 컨텍스트 스위칭 비용 - 쓰던 앱을 벗어났다가 돌아오는 값이다.
     ///
     /// ⚠️ 근거를 밝힌다. 아래 값은 전부 **머릿속으로 검산할 수 있는 크기**로 잡았다.
-    ///    "은행 앱을 열고 Face ID 를 통과해 계좌 화면까지 가는 데 28초"를 스스로
+    ///    "은행 앱을 열고 Face ID 를 통과해 계좌 화면까지 가는 데 얼마"를 스스로
     ///    세어 보면 맞는지 틀리는지 바로 안다. 검산이 안 되는 숫자는 못 믿는다.
     ///
     /// ⚠️ 여기 값은 두 번 올렸다. 처음에는 실측 범위의 **가장 짧은 쪽**이었고, 그다음엔
@@ -154,22 +155,23 @@ enum TimeSavedModel {
         ///
         /// 0 이 아닌 이유: 아는 값이어도 사람은 한 번 확인하고 넣는다. 오타 하나면
         /// 답장이 안 오는 주소라서, 지난 메일이나 메모를 열어 눈으로 맞춰 보는 일이 잦다.
-        /// (4초였다. 앱을 여는 시간도 안 되는 값이라 올렸다.)
-        static let fromRecall: Double = 10
+        /// (처음엔 4초였다. 앱을 여는 시간도 안 되는 값이라 올렸다.)
+        static let fromRecall: Double = 20
         /// 이 기기 어딘가 - 다른 앱을 열어 눈으로 찾는다(주소록·메모·배송 앱).
         ///
-        /// 앱이 뜨고 → 목록을 훑고 → 맞는 항목인지 보는 데까지. 12초로는 앱이 뜨고 나면
-        /// 남는 게 없다.
-        static let fromAnotherApp: Double = 25
+        /// 앱이 뜨고 → 목록을 훑고 → 맞는 항목인지 보는 데까지. 처음의 12초로는
+        /// 앱이 뜨고 나면 남는 게 없었다.
+        static let fromAnotherApp: Double = 55
         /// 잠긴 곳 - 은행·카드 앱을 열고 인증을 거쳐 해당 화면까지 간다.
         ///
-        /// 콜드 스타트 + 생체인증 + 계좌 화면까지 이동 + 네트워크 대기. 스스로 한 번
-        /// 재 보면 안다. 28초에 끝나는 일이 아니다.
-        static let fromSecuredApp: Double = 50
+        /// 콜드 스타트 + 생체인증 + 계좌 화면까지 이동 + 네트워크 대기. 인증이 한 번에
+        /// 안 되면 다시 하는 것까지. 스스로 재 보면 30초에 끝나는 일이 아니다.
+        static let fromSecuredApp: Double = 110
         /// 기기 밖 - 지갑·서랍의 실물을 꺼내 온다(여권·보험증).
         ///
-        /// 자리에서 일어나는 순간 이미 45초는 지나 있다.
-        static let fromPhysical: Double = 75
+        /// 자리에서 일어나 지갑이나 서랍을 뒤지고 돌아오는 데까지. 일어나는 순간
+        /// 이미 30초는 지나 있다.
+        static let fromPhysical: Double = 165
     }
 
     // MARK: - 옮겨 담는 시간
@@ -182,9 +184,9 @@ enum TimeSavedModel {
     ///
     /// 이 앱에서는 이 다섯 단계가 통째로 사라지고 탭 한 번이 된다.
     ///
-    /// 8초였다. 다섯 단계를 8초에 끝내려면 한 번도 안 어긋나야 하는데, 손잡이 끌기는
-    /// 원래 잘 어긋난다. 두 번째 시도가 흔한 것을 감안해 12초로 잡는다.
-    static let handlingSeconds: Double = 12
+    /// 처음엔 8초였다. 다섯 단계를 8초에 끝내려면 한 번도 안 어긋나야 하는데, 손잡이
+    /// 끌기는 원래 잘 어긋난다. 두 번째 시도가 흔한 것을 감안한 값이다.
+    static let handlingSeconds: Double = 25
 
     /// 이 값에 **옮겨 담는 시간이 붙는가.**
     ///
@@ -197,6 +199,23 @@ enum TimeSavedModel {
         let retrieval = retrievalSeconds(for: type)
         guard retrieval > 0, retrieval != Retrieval.fromPhysical else { return 0 }
         return handlingSeconds
+    }
+
+    /// 값의 종류를 **알아낸다.** 저장된 갈래가 없으면 값을 보고 그 자리에서 분류한다.
+    ///
+    /// ⚠️ `Memo.autoDetectedType` 은 **저장된 값**이고, 클립보드나 공유 시트로 들어온
+    ///    문구에만 채워진다. 사용자가 "문구 추가"를 열어 계좌번호를 **손으로 쳐 넣으면
+    ///    끝까지 nil** 이다. 그런데 이 모델은 nil 을 "찾아올 곳이 없는 글"로 읽는다.
+    ///    그래서 손으로 만든 계좌번호·카드번호가 통째로 인사말과 같은 값으로 세어졌다.
+    ///    갈래를 나눠 놓고 정작 대부분의 문구에 갈래가 안 붙어 있던 것이다.
+    ///
+    /// ⚠️ 그래서 갈래가 없으면 **셀 때 분류한다.** 값은 어차피 손에 있고, 분류기는
+    ///    이미 이 앱 안에 있다(익스텐션에도 들어 있다). 새로 수집하는 것은 여전히 없다.
+    static func resolvedType(value: String, type: ClipboardItemType?) -> ClipboardItemType? {
+        if let type { return type }
+        let detected = ClipboardClassificationService.shared.classify(content: value).type
+        // `.text` 는 "분류에 실패했다"는 뜻이라 nil 과 같게 둔다 - 굳이 구분할 게 없다.
+        return detected == .text ? nil : detected
     }
 
     /// 값의 종류별로 "원래 어디서 가져와야 했나".
@@ -243,8 +262,8 @@ enum TimeSavedModel {
              .passportNumber, .taxID, .vat, .declarationNumber,
              .insuranceNumber, .medicalRecord:
             // 한 번 훑는 것으로 끝나지 않는다. 넣고 한 번, 보내기 전에 또 한 번 본다.
-            // 자릿수를 손가락으로 짚어 가며 읽는 일이라 8초보다 오래 걸린다.
-            return 12
+            // 자릿수를 손가락으로 짚어 가며 두 번 읽는 일이다.
+            return 25
         default:
             return 0
         }
@@ -312,6 +331,10 @@ enum TimeSavedModel {
         // 숫자가 섞인 만큼 치는 속도를 낮춘다(글 4자/초 ↔ 숫자 2자/초 사이).
         let ratio = digitRatio(of: value)
         let cps = proseCharsPerSecond + (digitCharsPerSecond - proseCharsPerSecond) * ratio
+
+        // 저장된 갈래가 없으면 값을 보고 알아낸다. 손으로 쳐 넣은 계좌번호가
+        // 인사말과 같은 값으로 세어지던 구멍이 여기였다.
+        let type = resolvedType(value: value, type: type)
 
         let retrieval = isRepeat ? 0 : retrievalSeconds(for: type)
         let handling = isRepeat ? 0 : handlingSeconds(for: type)
@@ -396,6 +419,7 @@ enum TimeSavedModel {
     ///    부르면 그 갈래가 통째로 부풀어, 정작 은행 앱을 열던 값이 묻힌다.
     ///    시간은 후하게 세되, **이름표는 정확하게** 붙인다.
     static func kind(value: String, type: ClipboardItemType?) -> Kind {
+        let type = resolvedType(value: value, type: type)
         if retrievalSeconds(for: type) >= Retrieval.fromAnotherApp { return .lookup }
         if value.count >= Kind.longTextThreshold { return .longText }
         return .quick
