@@ -443,10 +443,13 @@ struct UsagePassportView: View {
     ///
     /// ⚠️ 내역이 합계보다 작을 수 있다. 이 모델이 들어오기 전에 쌓인 시간에는 내역이
     ///    없기 때문이다. 그래서 **비율이 아니라 각 조각의 크기**를 그대로 적는다.
+    ///
+    /// ⚠️ 뺀 줄(이 앱을 쓰느라 든 시간)도 함께 적는다. 더한 줄만 보이던 때는 줄의 합이
+    ///    위의 큰 숫자보다 늘 커서, 세어 보는 사람에게 셈이 틀린 것처럼 보였다.
     @ViewBuilder
     private func groundsSection(_ summary: UsagePassport.Summary) -> some View {
         let parts = breakdown
-        let sum = parts.retrieval + parts.handling + parts.typing + parts.verification
+        let sum = parts.retrieval + parts.handling + parts.typing + parts.verification + parts.baseline
         if sum > 0 {
             VStack(alignment: .leading, spacing: 12) {
                 Text(NSLocalizedString("이 시간은 이렇게 셌어요", comment: "Usage passport: grounds header"))
@@ -478,10 +481,27 @@ struct UsagePassportView: View {
                                                       comment: "Grounds note: verification"),
                               seconds: parts.verification)
                 }
+                if parts.baseline > 0 {
+                    groundRow(symbol: "arrow.up.to.line",
+                              title: NSLocalizedString("꺼내 쓸 때마다 드는 기본값", comment: "Grounds row: baseline"),
+                              note: NSLocalizedString("하던 일을 멈추고, 값을 어디서 가져올지 떠올리고, 넣고, 맞는지 보는 시간이에요. 아무리 짧아도 한 번에 30초는 잡았어요.",
+                                                      comment: "Grounds note: baseline"),
+                              seconds: parts.baseline)
+                }
+                // ⚠️ 뺀 것도 적는다. 더한 줄만 보이면 위의 큰 숫자와 아래 줄들의 합이 안 맞고,
+                //    셈을 펼쳐 보이려고 만든 자리가 셈이 안 맞는다고 말하게 된다.
+                if parts.tapCost > 0 {
+                    groundRow(symbol: "minus.circle",
+                              title: NSLocalizedString("이 앱을 쓰느라 든 시간", comment: "Grounds row: tap cost"),
+                              note: NSLocalizedString("키보드를 올리고 키를 찾아 누르기까지, 한 번에 1초로 봤어요.",
+                                                      comment: "Grounds note: tap cost"),
+                              seconds: parts.tapCost,
+                              isSubtracted: true)
+                }
 
                 kindCounts
 
-                Text(NSLocalizedString("어림한 값이에요. 한 번 쓸 때마다 키보드를 열고 누르는 시간(1초)은 빼고 셌어요.",
+                Text(NSLocalizedString("어림한 값이에요. 같은 문구를 잇달아 쓰면 찾아오는 시간은 한 번만 셉니다.",
                                        comment: "Usage passport: grounds disclaimer"))
                     .font(.caption)
                     .foregroundColor(theme.textFaint)
@@ -496,27 +516,36 @@ struct UsagePassportView: View {
         }
     }
 
-    private func groundRow(symbol: String, title: String, note: String, seconds: Double) -> some View {
-        HStack(alignment: .top, spacing: 12) {
+    /// - Parameter isSubtracted: 더한 줄이 아니라 **뺀** 줄인가. 금액 앞에 빼기를 붙이고
+    ///   색을 죽여, 훑어만 봐도 방향이 보이게 한다.
+    private func groundRow(symbol: String,
+                           title: String,
+                           note: String,
+                           seconds: Double,
+                           isSubtracted: Bool = false) -> some View {
+        let amount = UsagePassport.breakdownText(seconds: seconds)
+        return HStack(alignment: .top, spacing: 12) {
             Image(systemName: symbol)
                 .font(.body.weight(.semibold))
-                .foregroundColor(theme.accent)
+                .foregroundColor(isSubtracted ? theme.textFaint : theme.accent)
                 .frame(width: 24)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(theme.text)
+                    .foregroundColor(isSubtracted ? theme.textMuted : theme.text)
                 Text(note)
                     .font(.caption)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 8)
-            Text(UsagePassport.breakdownText(seconds: seconds))
+            Text(isSubtracted
+                 ? String(format: NSLocalizedString("-%@", comment: "Grounds row: subtracted amount"), amount)
+                 : amount)
                 .font(.subheadline.weight(.bold))
                 .monospacedDigit()
-                .foregroundColor(theme.text)
+                .foregroundColor(isSubtracted ? theme.textMuted : theme.text)
         }
         .accessibilityElement(children: .combine)
     }

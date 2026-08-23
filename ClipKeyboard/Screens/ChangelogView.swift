@@ -31,6 +31,17 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.1",
+            released: nil,
+            highlights: [
+                NSLocalizedString("한 번 꺼내 쓸 때마다 적어도 30초는 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요", comment: "Changelog 5.0.1 baseline"),
+                NSLocalizedString("다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요", comment: "Changelog 5.0.1 retrieval"),
+                NSLocalizedString("같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요", comment: "Changelog 5.0.1 repeat"),
+                NSLocalizedString("아주 긴 글은 손으로 옮겨 적었을 만큼까지만 세요. 탭 한 번에 20분을 아꼈다고 적지 않아요", comment: "Changelog 5.0.1 ceiling"),
+                NSLocalizedString("사용 기록의 내역에 뺀 시간도 함께 적어서, 줄을 더해 보면 위의 숫자가 나와요", comment: "Changelog 5.0.1 reconcile"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.0",
             released: nil,
             highlights: [

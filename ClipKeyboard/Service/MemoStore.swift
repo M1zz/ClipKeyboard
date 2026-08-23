@@ -677,7 +677,16 @@ enum KeyboardUsageTracker {
     private static let handlingKey = "kb.timeSaved.handlingSeconds"
     private static let typingKey = "kb.timeSaved.typingSeconds"
     private static let verificationKey = "kb.timeSaved.verificationSeconds"
+    /// 밑값을 채운 몫. 조각을 다 더해도 `minimumSavedSeconds` 에 못 미칠 때 붙는다.
+    /// (이 조각도 늦게 들어와 예전 기록에는 없다)
+    private static let baselineKey = "kb.timeSaved.baselineSeconds"
+    /// 이 앱을 쓰느라 **든** 시간. 내역을 펼쳤을 때 네 줄의 합에서 이걸 빼야 위의 큰 숫자가 된다.
+    /// (오래 안 쌓아 두던 값이라 예전 기록에는 없다 - 그때는 합계에서만 빠져 있었다)
+    private static let tapCostKey = "kb.timeSaved.tapCostSeconds"
     private static let kindKeyPrefix = "kb.usage.kind."
+    /// 문구별 **마지막으로 쓴 시각**. 잇달아 쓴 것을 가려내는 데만 쓴다.
+    /// 창을 벗어난 것은 쓸 때마다 지우므로, 이 사전은 최근 몇 분치보다 커지지 않는다.
+    private static let recentUseKey = "kb.timeSaved.recentUse"
 
     /// 메모 사용을 1건 기록한다.
     ///
@@ -691,6 +700,7 @@ enum KeyboardUsageTracker {
     ///   - type: 이 앱이 분류해 둔 값의 종류. **이게 있어야 "찾아오는 시간"을 셀 수 있다.**
     ///           없으면 외워서 치는 글로 보고 치는 시간만 센다.
     ///   - memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
+    ///     **잇달아 쓴 것을 가려내는 데도 쓴다** - 무엇을 썼는지 알아야 방금 그것인지 안다.
     static func recordMemoUse(value: String,
                               type: ClipboardItemType? = nil,
                               memoID: UUID? = nil,
@@ -699,12 +709,23 @@ enum KeyboardUsageTracker {
         let key = dailyKey(for: date)
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
-        let parts = TimeSavedModel.breakdown(value: value, type: type)
-        defaults.set(defaults.double(forKey: timeSavedKey) + parts.total, forKey: timeSavedKey)
-        defaults.set(defaults.double(forKey: retrievalKey) + parts.retrieval, forKey: retrievalKey)
-        defaults.set(defaults.double(forKey: handlingKey) + parts.handling, forKey: handlingKey)
-        defaults.set(defaults.double(forKey: typingKey) + parts.typing, forKey: typingKey)
-        defaults.set(defaults.double(forKey: verificationKey) + parts.verification, forKey: verificationKey)
+        // 방금 쓴 것을 또 쓴 것이면 찾아오는 값을 다시 물리지 않는다.
+        // ⚠️ 판별과 동시에 시각을 갱신한다 - 나눠 두면 한쪽만 부르는 경로가 생긴다.
+        let isRepeat = markUseAndCheckRepeat(memoID: memoID, at: date, defaults: defaults)
+        let parts = TimeSavedModel.breakdown(value: value, type: type, isRepeat: isRepeat)
+
+        // ⚠️ 순이득이 0인 사용은 **조각도 쌓지 않는다.** 합계에는 안 들어가는데 내역만 늘면
+        //    "이렇게 셌어요" 의 줄들이 위의 큰 숫자보다 커진다. 셈을 펼쳐 보이려고 만든
+        //    자리가 셈이 안 맞는다고 말하게 되는 것이다.
+        if parts.total > 0 {
+            defaults.set(defaults.double(forKey: timeSavedKey) + parts.total, forKey: timeSavedKey)
+            defaults.set(defaults.double(forKey: retrievalKey) + parts.retrieval, forKey: retrievalKey)
+            defaults.set(defaults.double(forKey: handlingKey) + parts.handling, forKey: handlingKey)
+            defaults.set(defaults.double(forKey: typingKey) + parts.typing, forKey: typingKey)
+            defaults.set(defaults.double(forKey: verificationKey) + parts.verification, forKey: verificationKey)
+            defaults.set(defaults.double(forKey: baselineKey) + parts.baseline, forKey: baselineKey)
+            defaults.set(defaults.double(forKey: tapCostKey) + parts.tapCost, forKey: tapCostKey)
+        }
 
         let kind = TimeSavedModel.kind(value: value, type: type)
         let kindKey = kindKeyPrefix + kind.rawValue
@@ -713,6 +734,31 @@ enum KeyboardUsageTracker {
         if let memoID {
             RefundLedger.record(memoID: memoID, seconds: parts.total, on: date)
         }
+    }
+
+    /// 이 문구를 **방금 전에도** 썼는지 보고, 마지막으로 쓴 시각을 새로 적는다.
+    ///
+    /// ⚠️ 무엇을 썼는지 모르면(memoID 가 없으면) 판별할 수 없다. 그때는 "처음 쓴 것"으로 본다
+    ///    - 모르는 것을 반복이라고 우겨 깎으면 그건 다른 방향의 거짓말이다.
+    ///
+    /// ⚠️ 사전은 **창 안에 든 것만** 남긴다. 이 경로는 키보드 익스텐션(메모리 60MB)에서도
+    ///    돌기 때문에, 문구 수만큼 불어나는 사전을 매번 읽게 두면 안 된다.
+    private static func markUseAndCheckRepeat(memoID: UUID?,
+                                              at date: Date,
+                                              defaults: UserDefaults) -> Bool {
+        guard let memoID else { return false }
+
+        let now = date.timeIntervalSince1970
+        let window = TimeSavedModel.repeatWindowSeconds
+        let raw = defaults.dictionary(forKey: recentUseKey) as? [String: Double] ?? [:]
+        // 기기 시각이 뒤로 간 경우(음수)도 걸러 낸다 - 미래에 쓴 것으로 남은 값은 못 믿는다.
+        var recent = raw.filter { (0..<window).contains(now - $0.value) }
+
+        let key = memoID.uuidString
+        let repeated = recent[key] != nil
+        recent[key] = now
+        defaults.set(recent, forKey: recentUseKey)
+        return repeated
     }
 
     /// 문구 하나가 지금까지 돌려준 시간(초).
@@ -749,14 +795,19 @@ enum KeyboardUsageTracker {
     /// 누적 절약 시간의 **내역**. 사용 기록 화면이 "왜 이만큼인가"를 펼치는 데 쓴다.
     ///
     /// ⚠️ 이 모델이 들어오기 전에 쌓인 시간은 내역이 없다(합계에만 들어 있다).
-    ///    그래서 세 조각의 합은 합계보다 **작을 수 있다.** 화면은 이걸 알고 그려야 한다.
+    ///    그래서 조각의 합은 합계보다 **작을 수 있다.** 화면은 이걸 알고 그려야 한다.
+    ///
+    /// ⚠️ 뺀 값(`tapCost`)도 함께 돌려준다. 예전에는 0을 넣어 두고 화면에는 안 보여줬는데,
+    ///    그러면 펼친 줄들의 합이 위의 큰 숫자보다 **늘 커서** 셈이 안 맞았다.
+    ///    내역은 자랑이 아니라 근거라, 뺀 것도 적혀 있어야 근거가 된다.
     static func savedBreakdown() -> TimeSavedModel.Breakdown {
         guard let d = AppGroup.defaults else { return .zero }
         return TimeSavedModel.Breakdown(retrieval: d.double(forKey: retrievalKey),
                                         handling: d.double(forKey: handlingKey),
                                         typing: d.double(forKey: typingKey),
                                         verification: d.double(forKey: verificationKey),
-                                        tapCost: 0)
+                                        baseline: d.double(forKey: baselineKey),
+                                        tapCost: d.double(forKey: tapCostKey))
     }
 
     /// 이득의 갈래별 사용 횟수.

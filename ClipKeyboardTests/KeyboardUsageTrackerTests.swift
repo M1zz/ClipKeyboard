@@ -46,7 +46,18 @@ final class KeyboardUsageTrackerTests: XCTestCase {
         if let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date()) {
             groupDefaults?.removeObject(forKey: dailyKey(for: yesterday))
         }
-        groupDefaults?.removeObject(forKey: "kb.timeSaved.totalSeconds")
+        // 내역 조각과 "방금 쓴 것" 기록까지 지운다 - 남아 있으면 다음 실행이
+        // 첫 사용을 반복 사용으로 보고 찾아오는 시간을 빼 버린다.
+        for key in ["kb.timeSaved.totalSeconds", "kb.timeSaved.retrievalSeconds",
+                    "kb.timeSaved.handlingSeconds", "kb.timeSaved.typingSeconds",
+                    "kb.timeSaved.verificationSeconds", "kb.timeSaved.baselineSeconds",
+                    "kb.timeSaved.tapCostSeconds", "kb.timeSaved.recentUse"] {
+            groupDefaults?.removeObject(forKey: key)
+        }
+        let allKeys = Array(groupDefaults?.dictionaryRepresentation().keys ?? Dictionary<String, Any>().keys)
+        for key in allKeys where key.hasPrefix("kb.ledger.") {
+            groupDefaults?.removeObject(forKey: key)
+        }
     }
 
     func testRecordMemoUse_IncrementsTodayCount() {
@@ -59,7 +70,8 @@ final class KeyboardUsageTrackerTests: XCTestCase {
     }
 
     func testRecordMemoUse_AccumulatesTimeSaved() {
-        // Given - 40자 메모: 40자 ÷ 4자/초 - 1초(탭 오버헤드) = 9초 절약
+        // Given - 40자 메모: 치는 시간 10초 - 탭 값 1초 = 9초. 밑값에 못 미치므로
+        // 모자란 21초가 채워져 회당 30초가 된다.
         let fortyChars = String(repeating: "가", count: 40)
 
         // When
@@ -67,7 +79,8 @@ final class KeyboardUsageTrackerTests: XCTestCase {
         KeyboardUsageTracker.recordMemoUse(value: fortyChars)
 
         // Then
-        XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(), 18.0, accuracy: 0.001)
+        XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(),
+                       TimeSavedModel.minimumSavedSeconds * 2, accuracy: 0.001)
     }
 
     func testRecordMemoUse_ShortValue_NeverGoesNegative() {
@@ -76,6 +89,73 @@ final class KeyboardUsageTrackerTests: XCTestCase {
 
         // Then - 절약 시간은 음수가 되면 안 됨 (통계 화면에 마이너스 노출 방지)
         XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(), 0.0, accuracy: 0.001)
+        XCTAssertEqual(KeyboardUsageTracker.dailyUsageCount(), 1, "횟수는 그래도 1 증가")
+    }
+
+    /// 한 번의 수고를 여러 번으로 세지 않는다.
+    ///
+    /// 계좌번호를 한 서식에 두 번 넣었다고 은행 앱을 두 번 연 것은 아니다. 두 번째는
+    /// 값이 이미 손에 있었으므로, 찾아오는 시간과 옮겨 담는 시간이 붙으면 안 된다.
+    func testRecordMemoUse_RepeatWithinWindow_DoesNotChargeRetrievalTwice() {
+        let account = "110-234-567890"
+        let id = UUID()
+
+        KeyboardUsageTracker.recordMemoUse(value: account, type: .bankAccount, memoID: id)
+        let afterFirst = KeyboardUsageTracker.totalTimeSavedSeconds()
+        KeyboardUsageTracker.recordMemoUse(value: account, type: .bankAccount, memoID: id)
+        let afterSecond = KeyboardUsageTracker.totalTimeSavedSeconds()
+
+        let secondUse = afterSecond - afterFirst
+        XCTAssertGreaterThan(secondUse, 0, "두 번째도 붙여넣은 것은 맞으니 0은 아니다")
+        XCTAssertLessThan(secondUse, afterFirst,
+                          "두 번째에도 은행 앱을 여는 값을 물리면 한 번의 수고가 두 번이 된다")
+        XCTAssertEqual(secondUse,
+                       TimeSavedModel.breakdown(value: account, type: .bankAccount, isRepeat: true).total,
+                       accuracy: 0.001)
+    }
+
+    /// 다른 문구를 쓴 것은 반복이 아니다. 창이 문구별이 아니면 서로 다른 값을 잇달아
+    /// 넣은 사람의 찾아오는 시간이 통째로 사라진다.
+    func testRecordMemoUse_DifferentShortcut_IsNotARepeat() {
+        let account = "110-234-567890"
+
+        KeyboardUsageTracker.recordMemoUse(value: account, type: .bankAccount, memoID: UUID())
+        let afterFirst = KeyboardUsageTracker.totalTimeSavedSeconds()
+        KeyboardUsageTracker.recordMemoUse(value: account, type: .bankAccount, memoID: UUID())
+
+        XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(), afterFirst * 2, accuracy: 0.001)
+    }
+
+    /// 화면이 펼쳐 보이는 내역의 합에서 뺀 값을 빼면 위의 큰 숫자가 나와야 한다.
+    /// 안 맞으면 그 화면은 근거가 아니라 거짓말이 된다.
+    func testSavedBreakdown_ReconcilesWithTotal() {
+        KeyboardUsageTracker.recordMemoUse(value: "서울시 강남구 테헤란로 123", type: .address, memoID: UUID())
+        KeyboardUsageTracker.recordMemoUse(value: "1234-5678-9012-3456", type: .creditCard, memoID: UUID())
+
+        let parts = KeyboardUsageTracker.savedBreakdown()
+
+        XCTAssertGreaterThan(parts.tapCost, 0, "뺀 값을 안 쌓으면 줄의 합이 늘 크게 나온다")
+        XCTAssertEqual(parts.retrieval + parts.handling + parts.typing
+                        + parts.verification + parts.baseline - parts.tapCost,
+                       KeyboardUsageTracker.totalTimeSavedSeconds(),
+                       accuracy: 0.001)
+    }
+
+    /// 아껴 준 것이 없는 사용은 조각도 쌓지 않는다. 합계는 그대로인데 내역만 늘면
+    /// 펼친 줄들이 위의 큰 숫자보다 커진다.
+    ///
+    /// ⚠️ 밑값이 생긴 뒤로 0이 나오는 경우는 **글자 수 문턱 아래**뿐이다. 밑값은 못 센
+    ///    것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아니다.
+    func testSavedBreakdown_ZeroNetUse_DoesNotGrowTheParts() {
+        KeyboardUsageTracker.recordMemoUse(value: "네", type: .text, memoID: UUID())
+
+        let parts = KeyboardUsageTracker.savedBreakdown()
+
+        XCTAssertEqual(KeyboardUsageTracker.totalTimeSavedSeconds(), 0, accuracy: 0.001)
+        XCTAssertEqual(parts.typing, 0, accuracy: 0.001,
+                       "합계에 안 들어간 시간이 내역에만 남으면 셈이 안 맞는다")
+        XCTAssertEqual(parts.baseline, 0, accuracy: 0.001,
+                       "문턱 아래인 것에 밑값을 붙이면 \"네\" 한 글자가 30초가 된다")
         XCTAssertEqual(KeyboardUsageTracker.dailyUsageCount(), 1, "횟수는 그래도 1 증가")
     }
 
@@ -110,12 +190,49 @@ final class TimeSavedModelTests: XCTestCase {
     }
 
     func test_짧아도_찾아와야_하는_값이면_0이_아니다() {
-        // 8자짜리 계좌번호 - 치는 시간만 세면 탭 값에 먹혀 0이 된다.
+        // 8자짜리 계좌번호 - 치는 시간만 세면 탭 값에 먹혀 3초가 되고, 밑값이 받친다.
         let short = "12345678"
         XCTAssertEqual(TimeSavedModel.breakdown(value: short, type: .text).total,
-                       max(0, 8 / TimeSavedModel.digitCharsPerSecond - 1), accuracy: 0.001)
-        XCTAssertGreaterThan(TimeSavedModel.breakdown(value: short, type: .bankAccount).total, 30,
-                             "짧다고 0으로 세면 이 앱이 가장 쓸모 있는 경우를 못 센다")
+                       TimeSavedModel.minimumSavedSeconds, accuracy: 0.001,
+                       "못 센 것을 0으로 적지 않는다")
+        XCTAssertGreaterThan(TimeSavedModel.breakdown(value: short, type: .bankAccount).total,
+                             TimeSavedModel.minimumSavedSeconds,
+                             "은행 앱을 열던 값이 밑값과 같아지면 갈래를 나눈 뜻이 없다")
+    }
+
+    /// 밑값이 받쳐 주지만, **밑값 위에서는 갈래가 살아 있어야 한다.**
+    /// 전부 30초로 뭉개지면 이 모델은 상수 하나와 다를 게 없다.
+    func test_밑값_위에서는_갈래가_살아_있다() {
+        let account = TimeSavedModel.breakdown(value: "110-234-567890", type: .bankAccount).total
+        let passport = TimeSavedModel.breakdown(value: "M12345678", type: .passportNumber).total
+        let greeting = TimeSavedModel.breakdown(value: "안녕하세요 반갑습니다", type: .text).total
+
+        XCTAssertEqual(greeting, TimeSavedModel.minimumSavedSeconds, accuracy: 0.001)
+        XCTAssertGreaterThan(account, greeting * 2,
+                             "은행 앱을 열던 값이 인사말의 두 배도 안 되면 모델이 뭉개진 것이다")
+        XCTAssertGreaterThan(passport, account,
+                             "지갑에서 꺼내 오던 것이 앱에서 꺼내 오던 것보다 싸면 순서가 뒤집힌 것이다")
+    }
+
+    func test_밑값은_모자란_만큼만_채운다() {
+        // 이미 밑값을 넘긴 값에는 0이 붙는다 - 얹는 게 아니라 채우는 것이다.
+        let account = TimeSavedModel.breakdown(value: "110-234-567890", type: .bankAccount)
+        XCTAssertEqual(account.baseline, 0, accuracy: 0.001)
+
+        // 못 미치는 값은 정확히 밑값까지만 올라간다.
+        let greeting = TimeSavedModel.breakdown(value: "안녕하세요 반갑습니다", type: .text)
+        XCTAssertGreaterThan(greeting.baseline, 0)
+        XCTAssertEqual(greeting.total, TimeSavedModel.minimumSavedSeconds, accuracy: 0.001)
+    }
+
+    /// 사용자가 든 예 - 깃 토큰. 이 앱은 이걸 그냥 "글"로 보기 때문에 찾아오는 시간을
+    /// 못 센다. 그렇다고 10초로 적으면 실제로 하던 일(깃허브를 열고 찾아서 복사)과 너무 멀다.
+    func test_깃_토큰처럼_분류를_못_하는_값도_밑값은_받는다() {
+        let token = "ghp_" + String(repeating: "a1B2", count: 9)
+        let saved = TimeSavedModel.breakdown(value: token, type: nil).total
+
+        XCTAssertGreaterThanOrEqual(saved, TimeSavedModel.minimumSavedSeconds,
+                                    "못 본 것을 0에 가깝게 적으면 이 앱이 하는 일이 안 보인다")
     }
 
     func test_숫자는_글보다_치는_데_오래_걸린다() {
@@ -131,11 +248,13 @@ final class TimeSavedModelTests: XCTestCase {
     }
 
     func test_내역의_합에서_탭_값을_뺀_것이_총합이다() {
-        let b = TimeSavedModel.breakdown(value: "1234-5678-9012-3456", type: .creditCard)
-        XCTAssertEqual(b.total,
-                       b.retrieval + b.handling + b.typing + b.verification - b.tapCost,
-                       accuracy: 0.001,
-                       "화면이 내역을 펼쳐 보이는데 합이 안 맞으면 그 화면은 거짓말이 된다")
+        for value in ["1234-5678-9012-3456", "안녕하세요 반갑습니다"] {
+            let b = TimeSavedModel.breakdown(value: value, type: .creditCard)
+            XCTAssertEqual(b.total,
+                           b.retrieval + b.handling + b.typing + b.verification + b.baseline - b.tapCost,
+                           accuracy: 0.001,
+                           "화면이 내역을 펼쳐 보이는데 합이 안 맞으면 그 화면은 거짓말이 된다")
+        }
     }
 
     func test_찾아온_값에는_옮겨_담는_시간이_붙는다() {
@@ -165,14 +284,47 @@ final class TimeSavedModelTests: XCTestCase {
         let email = TimeSavedModel.breakdown(value: "hyunho.lee@example.com", type: .email)
         let sameLengthProse = TimeSavedModel.breakdown(
             value: String(repeating: "가", count: "hyunho.lee@example.com".count), type: .text)
-        XCTAssertGreaterThan(email.total, sameLengthProse.total * 2,
-                             "이메일이 같은 길이의 인사말과 비슷하게 세어지면 모델이 현실을 못 보는 것이다")
+        // ⚠️ 총합끼리 비교하지 않는다. 둘 다 밑값에 받쳐 30초로 같아지기 때문이다
+        //    - 밑값 아래에서는 갈래를 안 나눈다는 것이 이 모델의 약속이다.
+        //    확인할 것은 **밑값을 걷어낸 몫**이 다른가이다.
+        XCTAssertGreaterThan(email.retrieval + email.handling,
+                             sameLengthProse.retrieval + sameLengthProse.handling,
+                             "이메일이 같은 길이의 인사말과 똑같이 세어지면 모델이 현실을 못 보는 것이다")
     }
 
     func test_손해_본_것을_이득으로_적지_않는다() {
         // 탭 값보다 적게 아끼는 경우 - 음수가 아니라 0이어야 한다.
         let b = TimeSavedModel.breakdown(value: "1234", type: .text)
         XCTAssertGreaterThanOrEqual(b.total, 0)
+    }
+
+    func test_잇달아_쓰면_찾아오는_값을_다시_물리지_않는다() {
+        let account = "110-234-567890"
+        let first = TimeSavedModel.breakdown(value: account, type: .bankAccount)
+        let again = TimeSavedModel.breakdown(value: account, type: .bankAccount, isRepeat: true)
+
+        XCTAssertEqual(again.retrieval, 0, "값은 이미 손에 있었다")
+        XCTAssertEqual(again.handling, 0, "이미 꺼내 온 것을 다시 복사하지는 않는다")
+        XCTAssertEqual(again.typing, first.typing, accuracy: 0.001,
+                       "손으로 옮겨 적는 수고는 두 번째에도 그대로 든다")
+        XCTAssertEqual(again.verification, first.verification, accuracy: 0.001,
+                       "붙여넣을 때마다 자릿수는 다시 확인한다")
+        XCTAssertGreaterThan(again.total, 0, "두 번째도 다시 치지 않은 것은 맞다")
+    }
+
+    func test_손으로_옮겨_적을_글이_아니면_그_위는_안_센다() {
+        let veryLong = String(repeating: "가", count: 5000)
+        let typing = TimeSavedModel.breakdown(value: veryLong, type: .text).typing
+
+        XCTAssertEqual(typing, TimeSavedModel.typingCeilingSeconds, accuracy: 0.001,
+                       "탭 한 번에 20분을 아꼈다고 찍으면 나머지 숫자까지 못 믿게 된다")
+    }
+
+    func test_상한_아래의_글은_길이만큼_그대로_센다() {
+        // 천장이 멀쩡한 길이의 글까지 깎으면 안 된다.
+        let paragraph = String(repeating: "가", count: 200)
+        XCTAssertEqual(TimeSavedModel.breakdown(value: paragraph, type: .text).typing,
+                       200 / TimeSavedModel.proseCharsPerSecond, accuracy: 0.001)
     }
 
     func test_갈래_분류() {

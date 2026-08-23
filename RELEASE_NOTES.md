@@ -1,5 +1,51 @@
 # ClipKeyboard Release Notes
 
+## v5.0.1 (build 1)
+
+### 한국어
+
+**아낀 시간을 제대로 세도록 다시 맞췄어요**
+
+5.0에서 셈을 고쳤는데, 이번에는 **너무 낮게** 잡혀 있던 걸 바로잡았어요. 과장한 숫자만 거짓말인 게 아닙니다. 지나치게 낮은 숫자는 이 앱이 하는 일을 아예 안 보이게 만들어요.
+
+- **한 번 쓸 때마다 적어도 30초**: 깃 토큰이 대표적인 예였어요. 40자짜리 무작위 문자열이라 앱은 그냥 "글"로 보고 치는 시간 10초만 셌습니다. 그런데 실제로 하던 일은 깃허브를 열고, 설정으로 들어가서, 토큰을 찾거나 새로 만들고, 복사해서 돌아오는 것이었죠. 10초일 리가 없어요. 문구로 저장해 뒀다는 것 자체가 "이걸 매번 처리하기 싫다"는 뜻이라, 이제 한 번 꺼내 쓸 때마다 최소 30초는 아낀 것으로 셉니다.
+- **찾아오는 시간을 실제 크기로**: 은행 앱을 여는 걸 28초로 잡고 있었어요. 콜드 스타트에 생체인증에 계좌 화면까지 이동하는 걸 직접 재 보면 그 시간에 안 끝납니다. 50초로 올렸어요. 다른 앱에서 찾아오기는 12초에서 25초로, 지갑에서 실물을 꺼내 오기는 45초에서 75초로 올렸습니다. 선택하고 복사해서 돌아오는 손놀림도 8초에서 12초로 올렸어요. 손잡이 끌기는 원래 한 번에 안 맞습니다.
+- **그래서 얼마나 달라지냐면**: 계좌번호 한 번이 50초에서 80초로, 이메일이 17초에서 30초로, 깃 토큰이 12초에서 30초로 바뀝니다.
+
+**그래도 부풀리지는 않아요**
+
+- **한 번의 수고를 여러 번으로 세지 않아요**: 계좌번호를 한 서식에 세 번 넣었다고 은행 앱을 세 번 연 것은 아닙니다. 같은 문구를 10분 안에 다시 쓰면 찾아오는 시간과 복사·붙여넣기 시간은 처음 한 번만 셉니다.
+- **손으로 옮겨 적을 글이 아니면 그 위는 안 세요**: 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍히던 걸 고쳤어요. 아무도 그렇게 긴 글을 손으로 치지 않습니다. 치는 시간은 3분까지만 셉니다.
+- **"네", "ok" 같은 건 여전히 0초예요**: 30초 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아닙니다.
+
+**내역을 더하면 위의 숫자가 나와요**
+
+사용 기록에서 셈을 펼쳐 보면 더한 줄만 있고 뺀 줄이 없어서, 줄을 더해 보면 늘 위의 큰 숫자보다 컸습니다. 이 앱을 쓰느라 든 시간과 밑값도 각각 한 줄로 적어 뒀어요. 내역은 자랑이 아니라 근거라서, 세어 보면 맞아야 합니다.
+
+---
+
+### English
+
+**Time saved, recalibrated**
+
+5.0 rebuilt how we count. This release fixes the fact that it was set **too low**. Inflated numbers aren't the only kind of lie: numbers that are far too low make the app's actual work invisible.
+
+- **At least 30 seconds per use.** A git token was the giveaway. It's a 40-character random string, so the app saw "text" and counted 10 seconds of typing. What you actually did was open GitHub, dig into settings, find or generate the token, copy it, and come back. That is not 10 seconds. Saving something as a snippet means "I don't want to deal with this every time," so every use now counts as at least 30 seconds saved.
+- **Fetch times sized to reality.** Opening a banking app was counted as 28 seconds. Time yourself: cold start, biometric auth, navigating to the account screen. It doesn't finish in 28 seconds, so it's now 50. Fetching from another app went from 12 to 25 seconds, and retrieving a physical document from 45 to 75. The select-copy-return handling went from 8 to 12 seconds, because drag handles never land right the first time.
+- **What that changes.** One account number goes from 50 to 80 seconds, an email from 17 to 30, a git token from 12 to 30.
+
+**Still not inflated**
+
+- **One effort isn't counted as several.** Pasting your account number three times into one form doesn't mean you opened the bank app three times. Reuse the same snippet within 10 minutes and the lookup and copy-paste are charged only once.
+- **We stop counting where you'd have stopped typing.** A 5,000-character snippet used to read "20 minutes saved" from a single tap. Nobody types that by hand. Typing time now tops out at three minutes.
+- **"ok" is still zero.** The 30-second baseline fills in what we failed to measure. It doesn't claim savings that weren't there.
+
+**The breakdown adds up**
+
+The record screen showed only what we added, never what we subtracted, so the rows always came out larger than the headline. The time this app costs you and the baseline each get their own row now. A breakdown is evidence, not a boast, so it has to survive being checked.
+
+---
+
 ## v5.0.0 (build 1)
 
 ### 한국어

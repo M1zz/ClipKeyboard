@@ -16,6 +16,7 @@
 //      ② 옮겨 담는 시간(handling)   - 찾은 다음, 그걸 여기까지 가져오는 손놀림
 //      ③ 치는 시간(typing)          - 손으로 옮겨 적었다면 걸렸을 시간
 //      ④ 확인하는 시간(verification) - 틀리면 큰일 나는 숫자를 되짚어 보는 시간
+//      ⑤ 밑값(baseline)             - 위를 다 더해도 못 미칠 때 채우는 몫
 //      빼기: 이 앱을 쓰는 값(tap)    - 키보드를 열고 키를 찾아 누르는 값
 //
 //  ⚠️ **②가 오래 빠져 있었다.** 찾는 시간과 치는 시간만 세면, 정작 사람이 실제로 하던
@@ -33,8 +34,23 @@
 //     사용 기록 화면은 `Breakdown` 을 받아 세 조각을 그대로 보여준다.
 //     사용자가 "이건 좀 후하네" 라고 판단할 수 있어야 그 숫자를 믿는다.
 //
-//  ⚠️ 보수적으로 잡는다. 어느 쪽으로 틀릴지 골라야 한다면 **적게 세는 쪽**이다.
-//     과장한 숫자는 한 번 들키면 나머지 화면까지 다 못 믿게 된다.
+//  ⚠️ 보수적으로 잡되, **못 본 것을 0으로 적지는 않는다.** 이 둘은 다르다.
+//     과장한 숫자는 한 번 들키면 나머지 화면까지 다 못 믿게 되지만, 반대로 지나치게
+//     낮은 숫자는 이 앱이 하는 일을 **아예 안 보이게** 만든다. 그것도 틀린 것이다.
+//
+//     깃 토큰이 그 예였다. 40자짜리 무작위 문자열이라 이 앱은 "글"로 보고 치는 시간
+//     10초만 셌다. 그런데 실제로 사람이 하던 일은 깃허브를 열고 → 설정으로 들어가 →
+//     토큰을 찾거나 새로 만들고 → 복사해서 → 돌아오는 것이었다. 10초일 리가 없다.
+//     못 본 것은 못 봤다고 인정하고 **밑값**(`minimumSavedSeconds`)으로 받친다.
+//
+//  ⚠️ **한 번의 수고를 여러 번으로 세지 않는다.** 위의 네 조각을 매번 그대로 얹으면
+//     같은 값을 잇달아 붙여넣은 사람의 화면이 부푼다. 계좌번호를 한 서식에 세 번
+//     넣었다고 은행 앱을 세 번 연 것은 아니다. 그래서 두 가지 상한을 둔다.
+//
+//      · 잇달아 쓰면(`repeatWindowSeconds`) 찾아오는 시간·옮겨 담는 시간을 안 물린다.
+//        값은 이미 손에 있었다.
+//      · 치는 시간에는 천장이 있다(`typingCeilingSeconds`). 그보다 긴 글은 애초에
+//        손으로 옮겨 적을 글이 아니라, 어딘가에서 복사해 왔을 글이다.
 //
 
 import Foundation
@@ -69,6 +85,46 @@ enum TimeSavedModel {
     /// 아껴 준 것이 없으면 0이라고 말해야 한다.
     static let minimumCharacters = 4
 
+    /// 한 번 쓸 때 **적어도 이만큼은** 아낀 것으로 본다(초).
+    ///
+    /// ⚠️ 조각을 다 더해도 이 아래로 나오는 경우가 있다. 그런데 그 숫자는 대체로
+    ///    **모델이 못 본 것**이지 실제로 안 아낀 것이 아니다. 깃 토큰이 그 예다.
+    ///    40자짜리 무작위 문자열이라 이 앱은 그냥 "글"로 보고 치는 시간 10초만 세는데,
+    ///    실제로 사람이 하던 일은 깃허브를 열고 → 설정으로 들어가 → 토큰을 찾거나 새로
+    ///    만들고 → 복사해서 → 돌아오는 것이었다. 10초일 리가 없다.
+    ///
+    /// ⚠️ 문구로 저장해 뒀다는 것 자체가 "이걸 매번 처리하기 싫다"는 뜻이다. 한 번 꺼내
+    ///    쓸 때마다 하던 일을 멈추고 → 값을 어디서 가져올지 떠올리고 → 가져와서 → 넣고 →
+    ///    맞는지 본다. 이 **멈췄다 다시 시작하는 값**이 30초 아래인 경우는 드물다.
+    ///
+    /// ⚠️ 밑값은 `minimumCharacters` 를 넘긴 것에만 붙는다. "네"·"ok" 는 여전히 0이다
+    ///    - 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아니다.
+    static let minimumSavedSeconds: Double = 30
+
+    /// 한 번 쓸 때 **치는 시간**으로 셀 수 있는 최대치(초).
+    ///
+    /// ⚠️ 상한이 없으면 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍힌다.
+    ///    그건 아무도 안 믿는다. 실제로 사람이 그만한 글을 손으로 옮겨 적는 일은 없기
+    ///    때문이다. 어딘가에서 복사해 왔을 것이고, **그 길은 이미 찾아오는 시간과
+    ///    옮겨 담는 시간이 세고 있다.** 상한을 안 두면 같은 일을 두 번 세는 셈이다.
+    ///
+    /// 근거: 3분이면 초당 4자로 720자다. 문자 메시지 한 통이나 자기소개 한 문단은
+    /// 넉넉히 들어가고, 그보다 긴 것은 "쳐서 넣는 글"이 아니라 "어딘가에 있던 글"이다.
+    static let typingCeilingSeconds: Double = 180
+
+    /// 앞서 쓴 뒤 이 시간 안에 **또 쓰면** 찾아오는 값을 다시 물리지 않는다(초).
+    ///
+    /// ⚠️ 계좌번호를 한 화면에서 세 번 붙여넣었다고 은행 앱을 세 번 연 것은 아니다.
+    ///    한 번 꺼내 온 값은 손에(클립보드에) 남아 있어서, 두 번째부터 사람이 하던 일은
+    ///    "붙여넣기" 하나뿐이다. 그런데도 매번 28초를 얹으면 한 번의 수고가 세 번이 된다.
+    ///
+    /// ⚠️ 되짚어 읽는 시간은 **깎지 않는다.** 붙여넣을 때마다 자릿수는 다시 확인한다.
+    ///
+    /// 근거: 10분. 이보다 길게 잡으면 오후에 다시 꺼낸 값까지 공짜로 세고, 짧게 잡으면
+    /// 같은 서식을 채우는 몇 분 사이가 갈라진다. 어느 쪽으로 틀릴지 골라야 한다면
+    /// **적게 세는 쪽**이라, 넉넉한 10분을 쓴다.
+    static let repeatWindowSeconds: Double = 10 * 60
+
     // MARK: - 찾아오는 시간
 
     /// 이 값을 원래 **어디서 가져와야 했는가**에 따른 시간(초).
@@ -80,24 +136,40 @@ enum TimeSavedModel {
     ///    "은행 앱을 열고 Face ID 를 통과해 계좌 화면까지 가는 데 28초"를 스스로
     ///    세어 보면 맞는지 틀리는지 바로 안다. 검산이 안 되는 숫자는 못 믿는다.
     ///
-    /// ⚠️ 예전에는 여기 실측 범위의 **가장 짧은 쪽**을 넣어 두었다. 보수적으로 잡자는
-    ///    뜻이었는데, 지나쳤다. "앱을 열어 찾아 온다"가 8초에 끝나는 일은 거의 없다.
-    ///    화면이 열리기를 기다리고, 목록에서 눈으로 찾고, 맞는지 한 번 본다.
-    ///    지금은 **가운데**를 잡는다. 여전히 긴 쪽 실측치보다는 훨씬 짧다.
+    /// ⚠️ 여기 값은 두 번 올렸다. 처음에는 실측 범위의 **가장 짧은 쪽**이었고, 그다음엔
+    ///    가운데를 잡았는데 그것도 낮았다. 낮게 잡은 쪽이 안전하다고 여겼지만, 실제로는
+    ///    **이 앱이 하는 일을 못 보이게 하는 쪽**이었다. 앱을 열어 값을 찾아오는 일을
+    ///    직접 초를 재 보면, 화면이 뜨기를 기다리는 시간·목록에서 눈으로 훑는 시간·
+    ///    맞는지 한 번 더 보는 시간이 전부 들어간다. 지금 값은 그걸 실제로 재 본 크기다.
+    ///
+    /// ⚠️ 그래도 **긴 쪽 실측치는 아니다.** 은행 앱이 콜드 스타트로 뜨고 인증이 한 번에
+    ///    안 되면 1분을 넘기는 일도 흔한데, 그건 안 쓴다. 어느 쪽으로 틀릴지 골라야 한다면
+    ///    여전히 적게 세는 쪽이다.
     enum Retrieval {
         /// 찾아올 곳이 없다 - 인사말·자기 이름처럼 그냥 쳐 내려가는 것.
+        ///
+        /// 0 이지만 실제로 0원이 되지는 않는다. 밑값(`minimumSavedSeconds`)이 받쳐 준다.
         static let fromMemory: Double = 0
         /// 외우고는 있지만 **정확히** 옮겨야 하는 것(이메일·전화번호).
         ///
         /// 0 이 아닌 이유: 아는 값이어도 사람은 한 번 확인하고 넣는다. 오타 하나면
         /// 답장이 안 오는 주소라서, 지난 메일이나 메모를 열어 눈으로 맞춰 보는 일이 잦다.
-        static let fromRecall: Double = 4
+        /// (4초였다. 앱을 여는 시간도 안 되는 값이라 올렸다.)
+        static let fromRecall: Double = 10
         /// 이 기기 어딘가 - 다른 앱을 열어 눈으로 찾는다(주소록·메모·배송 앱).
-        static let fromAnotherApp: Double = 12
+        ///
+        /// 앱이 뜨고 → 목록을 훑고 → 맞는 항목인지 보는 데까지. 12초로는 앱이 뜨고 나면
+        /// 남는 게 없다.
+        static let fromAnotherApp: Double = 25
         /// 잠긴 곳 - 은행·카드 앱을 열고 인증을 거쳐 해당 화면까지 간다.
-        static let fromSecuredApp: Double = 28
+        ///
+        /// 콜드 스타트 + 생체인증 + 계좌 화면까지 이동 + 네트워크 대기. 스스로 한 번
+        /// 재 보면 안다. 28초에 끝나는 일이 아니다.
+        static let fromSecuredApp: Double = 50
         /// 기기 밖 - 지갑·서랍의 실물을 꺼내 온다(여권·보험증).
-        static let fromPhysical: Double = 45
+        ///
+        /// 자리에서 일어나는 순간 이미 45초는 지나 있다.
+        static let fromPhysical: Double = 75
     }
 
     // MARK: - 옮겨 담는 시간
@@ -109,7 +181,10 @@ enum TimeSavedModel {
     /// 섞인 문자열은 단어 단위 선택이 어긋나서 손잡이를 손보게 된다.
     ///
     /// 이 앱에서는 이 다섯 단계가 통째로 사라지고 탭 한 번이 된다.
-    static let handlingSeconds: Double = 8
+    ///
+    /// 8초였다. 다섯 단계를 8초에 끝내려면 한 번도 안 어긋나야 하는데, 손잡이 끌기는
+    /// 원래 잘 어긋난다. 두 번째 시도가 흔한 것을 감안해 12초로 잡는다.
+    static let handlingSeconds: Double = 12
 
     /// 이 값에 **옮겨 담는 시간이 붙는가.**
     ///
@@ -168,7 +243,8 @@ enum TimeSavedModel {
              .passportNumber, .taxID, .vat, .declarationNumber,
              .insuranceNumber, .medicalRecord:
             // 한 번 훑는 것으로 끝나지 않는다. 넣고 한 번, 보내기 전에 또 한 번 본다.
-            return 8
+            // 자릿수를 손가락으로 짚어 가며 읽는 일이라 8초보다 오래 걸린다.
+            return 12
         default:
             return 0
         }
@@ -186,20 +262,30 @@ enum TimeSavedModel {
         let typing: Double
         /// 되짚어 읽지 않아도 된 시간.
         let verification: Double
+        /// 밑값을 채우는 몫 - 위의 조각이 `minimumSavedSeconds` 에 못 미칠 때 그 차이.
+        ///
+        /// ⚠️ 이걸 **따로 둔 이유**가 있다. 그냥 합계를 30으로 올려 버리면 화면이 펼쳐
+        ///    보이는 네 줄의 합과 위의 큰 숫자가 안 맞는다. 셈을 펼쳐 보이려고 만든
+        ///    자리가 셈이 안 맞는다고 말하게 되는 것이다. 밑값도 한 줄로 적으면
+        ///    **더해 보면 그대로 맞는다.**
+        let baseline: Double
         /// 이 앱을 쓰는 데 든 값(뺀다).
         let tapCost: Double
 
         /// 실제로 아낀 시간(초). 음수는 0으로 - 손해 본 것을 이득으로 적지 않는다.
-        var total: Double { max(0, retrieval + handling + typing + verification - tapCost) }
+        var total: Double {
+            max(0, retrieval + handling + typing + verification + baseline - tapCost)
+        }
 
         static let zero = Breakdown(retrieval: 0, handling: 0, typing: 0,
-                                    verification: 0, tapCost: 0)
+                                    verification: 0, baseline: 0, tapCost: 0)
 
         static func + (lhs: Breakdown, rhs: Breakdown) -> Breakdown {
             Breakdown(retrieval: lhs.retrieval + rhs.retrieval,
                       handling: lhs.handling + rhs.handling,
                       typing: lhs.typing + rhs.typing,
                       verification: lhs.verification + rhs.verification,
+                      baseline: lhs.baseline + rhs.baseline,
                       tapCost: lhs.tapCost + rhs.tapCost)
         }
     }
@@ -217,22 +303,43 @@ enum TimeSavedModel {
     /// - Parameters:
     ///   - value: 실제로 들어간 글. 길이와 숫자 비율을 여기서 본다.
     ///   - type: 이 앱이 분류해 둔 값의 종류. 없으면 "외워서 치는 글"로 본다.
-    static func breakdown(value: String, type: ClipboardItemType?) -> Breakdown {
+    ///   - isRepeat: 바로 앞서 쓴 것을 `repeatWindowSeconds` 안에 **또** 쓴 것인가.
+    ///     그렇다면 값은 이미 손에 있었으므로 찾아오는 시간과 옮겨 담는 시간을 물리지 않는다.
+    static func breakdown(value: String, type: ClipboardItemType?, isRepeat: Bool = false) -> Breakdown {
         let length = value.count
         guard length >= minimumCharacters else { return .zero }
 
-        // 숫자가 섞인 만큼 치는 속도를 낮춘다(글 4자/초 ↔ 숫자 2.5자/초 사이).
+        // 숫자가 섞인 만큼 치는 속도를 낮춘다(글 4자/초 ↔ 숫자 2자/초 사이).
         let ratio = digitRatio(of: value)
         let cps = proseCharsPerSecond + (digitCharsPerSecond - proseCharsPerSecond) * ratio
 
-        return Breakdown(retrieval: retrievalSeconds(for: type),
-                         handling: handlingSeconds(for: type),
-                         typing: Double(length) / cps,
-                         verification: verificationSeconds(for: type),
+        let retrieval = isRepeat ? 0 : retrievalSeconds(for: type)
+        let handling = isRepeat ? 0 : handlingSeconds(for: type)
+        // 손으로 옮겨 적었다고 볼 수 있는 데까지만 센다. 위쪽은 자르는 게 아니라
+        // 애초에 손으로 옮겨 적을 글이 아니라서 셀 수 없는 것이다.
+        let typing = min(Double(length) / cps, typingCeilingSeconds)
+        let verification = verificationSeconds(for: type)
+
+        // 조각을 다 더해도 밑값에 못 미치면 그 차이를 채운다.
+        // ⚠️ 못 센 것을 채우는 것이지, 위에서 센 것에 얹는 게 아니다. 그래서 더하기가
+        //    아니라 **모자란 만큼**이고, 이미 밑값을 넘긴 값에는 0이 붙는다.
+        let counted = retrieval + handling + typing + verification - tapCostSeconds
+        let baseline = max(0, minimumSavedSeconds - counted)
+
+        return Breakdown(retrieval: retrieval,
+                         handling: handling,
+                         typing: typing,
+                         verification: verification,
+                         baseline: baseline,
                          tapCost: tapCostSeconds)
     }
 
     /// 여러 번 썼을 때의 내역 - 한 번 값을 그대로 곱한다.
+    ///
+    /// ⚠️ 여기서는 **잇달아 쓴 것을 가려낼 수 없다**(언제 썼는지가 아니라 몇 번 썼는지만
+    ///    안다). 그래서 이 값은 실제로 원장에 쌓인 것보다 조금 클 수 있다. 원장이 있는
+    ///    자리에서는 원장을 읽을 것 - 이건 횟수밖에 없는 자리(카드에 쌓인 동전 등)를 위한
+    ///    어림이다.
     static func breakdown(value: String, type: ClipboardItemType?, useCount: Int) -> Breakdown {
         guard useCount > 0 else { return .zero }
         let one = breakdown(value: value, type: type)
@@ -241,6 +348,7 @@ enum TimeSavedModel {
                          handling: one.handling * n,
                          typing: one.typing * n,
                          verification: one.verification * n,
+                         baseline: one.baseline * n,
                          tapCost: one.tapCost * n)
     }
 

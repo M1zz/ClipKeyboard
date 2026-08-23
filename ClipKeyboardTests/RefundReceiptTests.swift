@@ -39,7 +39,13 @@ struct RefundReceiptTests {
     @Test("줄은 사용 횟수가 아니라 돌려준 시간 순으로 놓인다")
     func linesSortByRefundNotUseCount() {
         // 짧은 문구를 많이 쓴 쪽 vs 긴 문구를 적게 쓴 쪽.
-        let short = memo("짧게 많이", uses: 50, characters: 12)   // (12/4-1)=2초 × 50 = 100초
+        //
+        // ⚠️ 밑값(회당 30초)이 생긴 뒤로는 **횟수가 아주 세다.** 짧은 문구도 회당 30초를
+        //    받기 때문에, 예전처럼 "12자 50회 vs 400자 10회" 로는 짧은 쪽이 이긴다
+        //    (1,500초 vs 990초). 그건 모델이 틀린 게 아니라 밑값의 뜻 그대로다.
+        //    이 테스트가 지키려는 것은 "줄이 금액 순인가"이므로, 회당 금액이 확실히
+        //    갈리도록 길이를 벌린다.
+        let short = memo("짧게 많이", uses: 20, characters: 12)   // 밑값 30초 × 20 = 600초
         let long  = memo("길게 적게", uses: 10, characters: 400)  // (400/4-1)=99초 × 10 = 990초
 
         let lines = receipt([short, long]).lines
@@ -52,8 +58,9 @@ struct RefundReceiptTests {
         #expect(lines.map(\.label) == ["쓴것"])
     }
 
-    @Test("탭 오버헤드보다 짧아 벌이가 0인 문구도 줄에 안 오른다")
+    @Test("글자 수 문턱 아래라 벌이가 0인 문구도 줄에 안 오른다")
     func zeroEarningNeverGetsALine() {
+        // ⚠️ 밑값은 문턱을 넘긴 것에만 붙는다. 2자짜리는 여전히 0원이고, 0원짜리 줄은 안 찍는다.
         let lines = receipt([memo("너무짧음", uses: 100, characters: 2)]).lines
         #expect(lines.isEmpty)
     }
