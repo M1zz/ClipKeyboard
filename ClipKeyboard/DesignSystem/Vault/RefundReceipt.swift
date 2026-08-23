@@ -18,6 +18,9 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
+import LeeoKit
+#endif
 
 // MARK: - 내용 (순수 값 - 테스트 가능)
 
@@ -451,27 +454,34 @@ struct RefundReceiptView: View {
 
 #if canImport(UIKit)
 
-/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다
-/// 공유 시트 하나로 사진 저장·파일 저장·인쇄·전송이 전부 갈린다.
+/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다.
+///
+/// ⚠️ 기간 고르개가 **없다.** 예전에는 여기서 기간을 다시 고를 수 있었는데, 그러면
+///    사용 기록 화면에서 "이번 주"를 보다가 영수증을 뽑았는데 종이에는 이번 달이 찍혀
+///    있는 일이 생긴다. 뽑기 버튼을 누른 그 화면이 무엇을 보고 있었는지가 곧 이 종이다.
+///    고를 자리는 뒤 화면 하나로 충분하고, 여기는 **뽑힌 종이 한 장만** 있는 자리다.
 struct RefundReceiptSheet: View {
     let memos: [Memo]
-    /// 발행 시각. 시트를 여는 동안 고정한다 - 기간을 바꿀 때마다 시각이 흔들리면
+    /// 발행 시각. 시트를 여는 동안 고정한다 - 다시 그릴 때마다 시각이 흔들리면
     /// 같은 자리에서 뽑은 종이들이 서로 다른 물건이 된다.
     let issuedAt: Date
-    var initialPeriod: RefundPeriod = .thisMonth
+    /// 뽑기 버튼을 누른 화면이 보고 있던 기간. 이 시트에서는 바꾸지 않는다.
+    let period: RefundPeriod
 
     @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
 
-    @State private var period: RefundPeriod
-    /// 미리 구워 둔다. ShareLink 를 누른 뒤에 굽면 시트가 한 박자 늦게 뜬다.
+    /// 미리 구워 둔다. 공유를 누른 뒤에 굽면 시트가 한 박자 늦게 뜬다.
     @State private var baked: UIImage?
+    /// 스토리용 세로 그림. 영수증만 덜렁 보내면 인스타그램이 9:16 에 맞춰 늘리거나 잘라서
+    /// 종이가 뭉개진다. 그래서 배경까지 얹은 세로 한 장을 따로 굽는다.
+    @State private var storyCard: UIImage?
+    @State private var isSharing = false
 
-    init(memos: [Memo], issuedAt: Date, initialPeriod: RefundPeriod = .thisMonth) {
+    init(memos: [Memo], issuedAt: Date, period: RefundPeriod = .thisMonth) {
         self.memos = memos
         self.issuedAt = issuedAt
-        self.initialPeriod = initialPeriod
-        _period = State(initialValue: initialPeriod)
+        self.period = period
     }
 
     private var receipt: RefundReceipt {
@@ -481,19 +491,14 @@ struct RefundReceiptSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    Picker(NSLocalizedString("기간", comment: "Refund period picker label"), selection: $period) {
-                        ForEach(RefundPeriod.allCases) { candidate in
-                            Text(candidate.localizedName).tag(candidate)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20)
-
+                VStack(spacing: 22) {
                     RefundReceiptView(receipt: receipt)
                         .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
+
+                    shareButtons
                 }
                 .padding(.vertical, 24)
+                .padding(.horizontal, 20)
                 .frame(maxWidth: .infinity)
             }
             .background(theme.bg.ignoresSafeArea())
@@ -505,25 +510,77 @@ struct RefundReceiptSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("닫기", comment: "Close button")) { dismiss() }
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    if let baked {
-                        let image = Image(uiImage: baked)
-                        ShareLink(item: image,
-                                  preview: SharePreview(NSLocalizedString("환급 영수증", comment: "Refund receipt title"),
-                                                        image: image)) {
-                            Label(NSLocalizedString("가져가기", comment: "Share/save the receipt"),
-                                  systemImage: AppSymbol.squareAndArrowUp)
-                        }
-                    } else {
-                        ProgressView()
-                    }
+            }
+            .sheet(isPresented: $isSharing) {
+                if let baked {
+                    ActivityShareSheet(items: [baked])
                 }
             }
         }
-        // 기간을 바꾸면 굽은 이미지도 다시 굽는다 - 안 그러면 화면과 다른 종이를 내보낸다.
-        .task(id: period) {
-            baked = nil                                  // 굽는 동안 옛 종이를 내보내지 않도록
+        .task {
             baked = RefundReceiptView.render(receipt)
+            storyCard = RefundReceiptView.renderStoryCard(receipt)
+        }
+    }
+
+    // MARK: 가져가기
+
+    /// ⚠️ 인스타그램 단추가 **위**다. 이 종이를 뽑는 사람의 대부분이 하고 싶은 일이
+    ///    "남에게 보여주기"라서, 가장 흔한 길이 가장 손에 가까워야 한다.
+    ///    그렇다고 다른 길을 감추지는 않는다 - 아래에 그대로 둔다.
+    @ViewBuilder
+    private var shareButtons: some View {
+        VStack(spacing: 10) {
+            if StoryShare.isInstagramAvailable {
+                Button {
+                    shareToStory()
+                } label: {
+                    shareLabel(NSLocalizedString("인스타 스토리에 올리기", comment: "Button: share to Instagram story"),
+                               symbol: "camera.on.rectangle",
+                               isPrimary: true)
+                }
+                .buttonStyle(.plain)
+                .disabled(storyCard == nil)
+                .opacity(storyCard == nil ? 0.5 : 1)
+            }
+
+            Button {
+                isSharing = true
+            } label: {
+                shareLabel(NSLocalizedString("다른 앱으로 보내기", comment: "Button: share elsewhere"),
+                           symbol: AppSymbol.squareAndArrowUp,
+                           isPrimary: false)
+            }
+            .buttonStyle(.plain)
+            .disabled(baked == nil)
+            .opacity(baked == nil ? 0.5 : 1)
+        }
+    }
+
+    private func shareLabel(_ title: String, symbol: String, isPrimary: Bool) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: symbol)
+                .font(.body.weight(.semibold))
+            Text(title)
+                .font(.body.weight(.semibold))
+            Spacer(minLength: 0)
+        }
+        .foregroundColor(isPrimary ? theme.accentFg : theme.text)
+        .padding(14)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                .fill(isPrimary ? theme.accent : theme.surface)
+        )
+        .contentShape(Rectangle())
+    }
+
+    private func shareToStory() {
+        guard let storyCard else { return }
+        HapticManager.shared.light()
+        // 못 열면 조용히 넘어가지 않는다. 곧장 가는 길이 막혔으면 공유 시트로 물러선다.
+        if !StoryShare.shareToInstagram(image: storyCard) {
+            isSharing = true
         }
     }
 }
@@ -538,6 +595,76 @@ extension RefundReceiptView {
         renderer.scale = scale
         renderer.isOpaque = false
         return renderer.uiImage
+    }
+
+    /// 스토리용 세로 한 장(1080×1920)으로 굽는다.
+    ///
+    /// ⚠️ 영수증 그림을 그대로 인스타그램에 넘기면 안 된다. 스토리는 9:16 이라 세로로 긴
+    ///    종이 한 장을 받으면 **늘리거나 잘라서** 얹는다. 어느 쪽이든 종이가 망가진다.
+    ///    그래서 배경까지 포함한 9:16 한 장을 여기서 완성해 넘긴다.
+    ///
+    /// ⚠️ 배경은 테마를 따르지 않는다. 남의 스토리에 올라가는 그림이라, 만든 사람이
+    ///    다크 모드였다는 이유로 어두운 그림이 나가면 안 된다. 영상과 같은 모래색을 쓴다.
+    ///
+    /// ⚠️ 캔버스를 **포인트**로 잡고 배율로 키운다. 1080×1920 을 통째로 잡아 놓고 뷰를
+    ///    확대(scaleEffect)하면 글자가 번진다 - 포인트로 그린 뒤 배율로 키워야 또렷하다.
+    ///
+    /// ⚠️ 캔버스 폭은 종이 폭(320)에서 거꾸로 정했다. 캔버스가 넓을수록 종이가 작게
+    ///    보이는데, 스토리는 **1초 안에 훑고 넘기는 것**이라 종이가 화면을 채워야 읽힌다.
+    ///    지금은 종이가 폭의 4분의 3을 차지한다.
+    @MainActor
+    static func renderStoryCard(_ receipt: RefundReceipt) -> UIImage? {
+        let renderer = ImageRenderer(content: ReceiptStoryCard(receipt: receipt))
+        renderer.scale = ReceiptStoryCard.renderScale
+        renderer.isOpaque = true
+        return renderer.uiImage
+    }
+}
+
+/// 스토리 한 장 - 모래색 배경 위에 영수증 한 장이 놓여 있다.
+struct ReceiptStoryCard: View {
+    let receipt: RefundReceipt
+
+    /// 포인트 기준 캔버스. `renderScale` 배로 구우면 정확히 1080×1920 이 된다.
+    ///
+    /// ⚠️ 이 둘은 **같이** 고친다. 한쪽만 고치면 스토리 규격에서 어긋나고, 어긋난 그림은
+    ///    인스타그램이 잘라 얹는다. 어긋나지 않는지는 테스트가 지킨다.
+    static let canvas = CGSize(width: 432, height: 768)
+    static let renderScale: CGFloat = 2.5
+
+    private let sand = Color(red: 0xEE/255, green: 0xD2/255, blue: 0xA7/255)
+    private let deep = Color(red: 0x0E/255, green: 0x5A/255, blue: 0x4C/255)
+    private let ink = Color(red: 0x16/255, green: 0x21/255, blue: 0x1D/255)
+
+    var body: some View {
+        ZStack {
+            sand
+
+            VStack(spacing: 22) {
+                Spacer(minLength: 0)
+
+                Text(NSLocalizedString("다시 치지 않아서 돌려받은 시간", comment: "Story card: caption above the receipt"))
+                    .font(.system(size: 19, weight: .semibold))
+                    .foregroundColor(ink.opacity(0.7))
+                    .multilineTextAlignment(.center)
+
+                RefundReceiptView(receipt: receipt)
+                    // 종이를 살짝 기울인다. 반듯하게 놓으면 화면 그림처럼 보이고,
+                    // 기울면 손으로 올려 둔 종이처럼 보인다.
+                    .rotationEffect(.degrees(-2))
+                    .shadow(color: .black.opacity(0.22), radius: 18, x: 0, y: 10)
+
+                Text(verbatim: "ClipKeyboard")
+                    .font(.system(size: 24, weight: .heavy, design: .rounded))
+                    .foregroundColor(deep)
+
+                Spacer(minLength: 0)
+            }
+            // ⚠️ 위아래 여백을 넉넉히 둔다. 인스타그램이 스토리 위아래에 자기 단추를
+            //    얹기 때문에, 가장자리에 붙은 글자는 그 아래로 가려진다.
+            .padding(.vertical, 96)
+        }
+        .frame(width: Self.canvas.width, height: Self.canvas.height)
     }
 }
 #endif

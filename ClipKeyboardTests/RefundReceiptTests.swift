@@ -13,6 +13,10 @@
 
 import Testing
 import Foundation
+import CoreGraphics
+#if canImport(UIKit)
+import UIKit
+#endif
 @testable import ClipKeyboard
 
 @Suite("RefundReceipt: 환급 영수증")
@@ -240,5 +244,56 @@ struct RefundReceiptTests {
         let labels = receipt([secure]).lines.map(\.label)
         #expect(!labels.contains("계좌 비밀번호"))
         #expect(labels == [localizedForTest("잠긴 문구")])
+    }
+}
+
+// MARK: - 스토리로 내보내기
+
+/// 인스타그램 스토리로 곧장 보내는 그림의 계약을 고정한다.
+///
+/// ⚠️ 가장 중요한 것은 **크기**다. 스토리는 9:16 이라, 다른 비율을 넘기면 인스타그램이
+///    늘리거나 잘라서 얹는다. 어느 쪽이든 종이가 망가지고, 망가진 그림은 아무도 안 올린다.
+@Suite("스토리 카드")
+@MainActor
+struct ReceiptStoryCardTests {
+
+    private func sampleReceipt() -> RefundReceipt {
+        var memo = Memo(title: "계좌번호", value: "110-234-567890")
+        memo.clipCount = 12
+        return RefundReceipt.make(period: .thisMonth,
+                                  periodLabel: "2026년 8월",
+                                  earned: [memo.id: 960],
+                                  uses: [memo.id: 12],
+                                  memos: [memo],
+                                  fallbackUses: 0,
+                                  issuedAt: Date(timeIntervalSince1970: 1_770_000_000),
+                                  coverageStartedAt: nil)
+    }
+
+    @Test("스토리 카드는 정확히 1080×1920 이다. 비율이 어긋나면 인스타그램이 잘라 얹는다")
+    func storyCardIsExactlyStorySized() throws {
+        let image = try #require(RefundReceiptView.renderStoryCard(sampleReceipt()))
+
+        #expect(image.size.width * image.scale == StoryShare.canvasSize.width)
+        #expect(image.size.height * image.scale == StoryShare.canvasSize.height)
+    }
+
+    @Test("캔버스에 배율을 곱하면 스토리 규격이 된다. 둘이 어긋나면 한쪽만 고쳐진 것이다")
+    func canvasMatchesStorySize() {
+        #expect(ReceiptStoryCard.canvas.width * ReceiptStoryCard.renderScale == StoryShare.canvasSize.width)
+        #expect(ReceiptStoryCard.canvas.height * ReceiptStoryCard.renderScale == StoryShare.canvasSize.height)
+    }
+
+    @Test("스토리 카드는 배경까지 채운 불투명한 한 장이다. 비면 스토리에서 검게 나온다")
+    func storyCardIsOpaque() throws {
+        let image = try #require(RefundReceiptView.renderStoryCard(sampleReceipt()))
+        let cg = try #require(image.cgImage)
+        #expect(cg.alphaInfo != .first && cg.alphaInfo != .last)
+    }
+
+    @Test("영수증 그림은 종이 폭 그대로 굽는다. 기기마다 다른 종이가 나오면 안 된다")
+    func receiptImageKeepsPaperWidth() throws {
+        let image = try #require(RefundReceiptView.render(sampleReceipt(), scale: 3))
+        #expect(image.size.width * image.scale == RefundReceiptView.paperWidth * 3)
     }
 }

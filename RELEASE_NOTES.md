@@ -22,6 +22,13 @@
 
 사용 기록에서 셈을 펼쳐 보면 더한 줄만 있고 뺀 줄이 없어서, 줄을 더해 보면 늘 위의 큰 숫자보다 컸습니다. 이 앱을 쓰느라 든 시간과 밑값도 각각 한 줄로 적어 뒀어요. 내역은 자랑이 아니라 근거라서, 세어 보면 맞아야 합니다.
 
+**자랑하기가 훨씬 쉬워졌어요**
+
+- **영수증은 보고 있던 기간 그대로**: 사용 기록에서 "이번 주"를 보다가 영수증을 뽑았는데 종이에는 이번 달이 찍혀 있는 일이 없어요. 뽑기 버튼을 누른 그 화면이 곧 그 종이입니다. 시트에는 종이 한 장만 뜨고, 고를 것이 없어요.
+- **인스타 스토리에 버튼 하나로**: 영수증도 영상도 스토리 편집기까지 바로 갑니다. 공유 시트에서 인스타그램을 찾아 스토리인지 게시물인지 고르는 사이에 대부분 그만두니까요. 물론 다른 앱으로 보내는 길도 그대로 있습니다.
+- **영수증이 스토리 모양으로 나가요**: 세로로 긴 종이를 그대로 넘기면 인스타그램이 늘리거나 잘라서 얹어요. 그래서 배경까지 얹은 9:16 한 장을 따로 만들어 보냅니다.
+- **보내기 전에 먼저 봅니다**: "자랑할 영상 만들기"가 **"친구들에게 알리기"**가 됐어요. 누르면 영상이 먼저 뜨고, 마음에 들면 그때 보냅니다. 남에게 보여줄 물건이라면 본인이 먼저 봐야죠.
+
 ---
 
 ### English
@@ -43,6 +50,13 @@
 **The breakdown adds up**
 
 The record screen showed only what we added, never what we subtracted, so the rows always came out larger than the headline. The time this app costs you and the baseline each get their own row now. A breakdown is evidence, not a boast, so it has to survive being checked.
+
+**Showing it off got much easier**
+
+- **The receipt matches what you were looking at.** Print one while viewing "This week" and you get this week, not this month. The screen you printed from *is* the slip. The sheet shows the slip and nothing else.
+- **One button to your Instagram Story.** Receipts and videos go straight to the story editor. Most people give up somewhere between finding Instagram in the share sheet and choosing story-or-post. Sending it anywhere else still works exactly as before.
+- **The receipt goes out story-shaped.** Hand Instagram a tall narrow slip and it stretches or crops it. So we compose a proper 9:16 card, background and all, and send that.
+- **See it before you send it.** "Make a brag video" is now **"Tell your friends."** Tap it and the video plays first; you send it only if you like it. If it's going to other people, you should see it first.
 
 ---
 

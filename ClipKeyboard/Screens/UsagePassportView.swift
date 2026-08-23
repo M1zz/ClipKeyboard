@@ -38,14 +38,14 @@ struct UsagePassportView: View {
     @State private var milestone: SavedTimeMilestone?
     /// 영수증을 뽑은 순간. 발행 시각을 고정해야 시트에서 기간을 바꿔도 시각이 안 흔들린다.
     @State private var receiptRequest: ReceiptRequest?
-    /// 자랑 영상을 만드는 중인가 - 만드는 데 1~2초 걸려서 버튼이 죽은 것처럼 보이면 안 된다.
-    @State private var isRenderingVideo = false
-    /// 다 만들어진 영상. 공유 시트가 이걸 들고 뜬다.
-    @State private var videoToShare: VideoShare?
+    /// 영상 미리보기 시트에 넘길 거리. 굽는 일은 그 시트 안에서 한다
+    /// - 여기서 구워 놓고 시트를 열면 버튼이 1~2초 죽은 것처럼 보인다.
+    @State private var videoRequest: VideoRequest?
 
-    private struct VideoShare: Identifiable {
+    private struct VideoRequest: Identifiable {
         let id = UUID()
-        let url: URL
+        let totalSeconds: Double
+        let totalUses: Int
     }
 
     private struct ReceiptRequest: Identifiable {
@@ -86,10 +86,10 @@ struct UsagePassportView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: reload)
         .sheet(item: $receiptRequest) { request in
-            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt, initialPeriod: request.period)
+            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt, period: request.period)
         }
-        .sheet(item: $videoToShare) { share in
-            ActivityShareSheet(items: [share.url])
+        .sheet(item: $videoRequest) { request in
+            ShareVideoSheet(totalSeconds: request.totalSeconds, totalUses: request.totalUses)
         }
     }
 
@@ -110,7 +110,7 @@ struct UsagePassportView: View {
                     Text(NSLocalizedString("영수증 뽑기", comment: "Button: print refund receipt"))
                         .font(.body.weight(.semibold))
                         .foregroundColor(theme.text)
-                    Text(NSLocalizedString("돌려받은 시간을 한 장으로 저장해 두세요.", comment: "Button subtitle: refund receipt"))
+                    Text(NSLocalizedString("지금 보고 있는 기간을 한 장으로 뽑아요.", comment: "Button subtitle: refund receipt"))
                         .font(.caption)
                         .foregroundColor(theme.textMuted)
                 }
@@ -130,35 +130,37 @@ struct UsagePassportView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - 자랑 영상
+    // MARK: - 친구들에게 알리기
 
-    /// 아낀 시간을 세로 영상으로 뽑아 공유 시트로 넘긴다.
+    /// 아낀 시간을 세로 영상으로 만들어 **미리 보여준 뒤** 내보낸다.
     ///
     /// ⚠️ 이미지가 아니라 영상인 이유는 **자랑이 숫자가 아니라 숫자가 올라가는 장면에서**
     ///    생기기 때문이다. 멈춘 그림은 스크롤에 묻히고, 3초간 굴러 올라가는 숫자는 눈이 따라간다.
     ///
-    /// ⚠️ 만드는 동안 버튼을 잠그고 도는 표시를 둔다. 1~2초가 걸리는데 아무 반응이 없으면
-    ///    사람은 버튼이 고장 난 줄 알고 한 번 더 누른다.
+    /// ⚠️ 이름이 "자랑할 영상 만들기"였다. 그건 **우리가 주는 물건**의 이름이지 사람이
+    ///    하려는 일의 이름이 아니다. 하려는 일은 친구들에게 알리는 것이고 영상은 그 수단이라,
+    ///    버튼에는 하려는 일을 적는다.
+    ///
+    /// ⚠️ 여기서 굽지 않는다. 굽는 데 1~2초 걸리는데 그동안 버튼이 죽은 것처럼 보이면
+    ///    사람은 한 번 더 누른다. 시트를 즉시 열고 **그 안에서** 굽는다.
     @ViewBuilder
     private func shareVideoButton(_ summary: UsagePassport.Summary) -> some View {
         if summary.timeSavedSeconds > 0 {
             Button {
-                makeShareVideo(summary)
+                HapticManager.shared.light()
+                videoRequest = VideoRequest(totalSeconds: summary.timeSavedSeconds,
+                                            totalUses: summary.totalUses)
             } label: {
                 HStack(spacing: 12) {
-                    if isRenderingVideo {
-                        ProgressView().frame(width: 26, height: 26)
-                    } else {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.title3.weight(.semibold))
-                            .frame(width: 26, height: 26)
-                    }
+                    Image(systemName: AppSymbol.squareAndArrowUp)
+                        .font(.title3.weight(.semibold))
+                        .frame(width: 26, height: 26)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("자랑할 영상 만들기", comment: "Button: make a brag video"))
+                        Text(NSLocalizedString("친구들에게 알리기", comment: "Button: tell friends"))
                             .font(.body.weight(.semibold))
                             .foregroundColor(theme.accentFg)
-                        Text(NSLocalizedString("스토리에 바로 올릴 수 있는 3초짜리 세로 영상이에요.",
-                                               comment: "Button subtitle: brag video"))
+                        Text(NSLocalizedString("3초짜리 세로 영상으로 만들어 인스타 스토리에 바로 올려요.",
+                                               comment: "Button subtitle: tell friends"))
                             .font(.caption)
                             .foregroundColor(theme.accentFg.opacity(0.8))
                     }
@@ -173,25 +175,6 @@ struct UsagePassportView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .disabled(isRenderingVideo)
-        }
-    }
-
-    private func makeShareVideo(_ summary: UsagePassport.Summary) {
-        guard !isRenderingVideo else { return }
-        isRenderingVideo = true
-        HapticManager.shared.light()
-        Task {
-            defer { isRenderingVideo = false }
-            do {
-                let url = try await ShareVideoRenderer.render(totalSeconds: summary.timeSavedSeconds,
-                                                              totalUses: summary.totalUses)
-                videoToShare = VideoShare(url: url)
-            } catch {
-                // ⚠️ 조용히 실패하지 않는다. 눌렀는데 아무 일도 안 일어나면 그게 가장 나쁘다.
-                print("❌ [UsagePassport] 자랑 영상 만들기 실패: \(error)")
-                HapticManager.shared.error()
-            }
         }
     }
 

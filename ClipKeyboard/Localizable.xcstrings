@@ -2099,6 +2099,23 @@
         }
       }
     },
+    "3초짜리 세로 영상으로 만들어 인스타 스토리에 바로 올려요.": {
+      "comment": "Button subtitle: tell friends",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A 3-second vertical video, ready to post straight to your story."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video vertikal 3 detik, siap langsung diunggah ke story Anda."
+          }
+        }
+      }
+    },
     "4자리 PIN 입력": {
       "comment": "PIN setup: enter step title",
       "localizations": {
@@ -9576,17 +9593,6 @@
         }
       }
     },
-    "가져가기": {
-      "comment": "Share/save the receipt",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
-          }
-        }
-      }
-    },
     "가져오기": {
       "comment": "Include this item",
       "localizations": {
@@ -12143,6 +12149,23 @@
         }
       }
     },
+    "다른 앱으로 보내기": {
+      "comment": "Button: share elsewhere",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send somewhere else"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kirim ke aplikasi lain"
+          }
+        }
+      }
+    },
     "다른 카테고리 탭에서 순서 바꾸기를 열어 보세요": {
       "comment": "Reorder empty state subtitle",
       "localizations": {
@@ -12176,6 +12199,23 @@
         }
       }
     },
+    "다시 시도": {
+      "comment": "Retry button",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coba lagi"
+          }
+        }
+      }
+    },
     "다시 읽지 않아도 된 시간": {
       "comment": "Grounds row: verification",
       "localizations": {
@@ -12189,6 +12229,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Waktu yang tidak terbuang memeriksa ulang"
+          }
+        }
+      }
+    },
+    "다시 치지 않아서 돌려받은 시간": {
+      "comment": "Story card: caption above the receipt",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Time refunded by not retyping"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waktu yang dikembalikan karena tak mengetik ulang"
           }
         }
       }
@@ -13678,17 +13735,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Help & contact"
-          }
-        }
-      }
-    },
-    "돌려받은 시간을 한 장으로 저장해 두세요.": {
-      "comment": "Button subtitle: refund receipt",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keep the time you got back on a single slip."
           }
         }
       }
@@ -19235,23 +19281,6 @@
         }
       }
     },
-    "스토리에 바로 올릴 수 있는 3초짜리 세로 영상이에요.": {
-      "comment": "Button subtitle: brag video",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A 3-second vertical clip, ready for your story."
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Klip vertikal 3 detik, siap untuk story Anda."
-          }
-        }
-      }
-    },
     "스페이스": {
       "comment": "Space key",
       "localizations": {
@@ -19636,6 +19665,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kami menghitung ulang waktu yang dihemat. Nilai yang diambil dari aplikasi lain kini termasuk waktu mencarinya"
+          }
+        }
+      }
+    },
+    "아낀 시간을 담은 영상 미리보기": {
+      "comment": "Share video preview accessibility label",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview of the video showing the time you saved"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pratinjau video yang menampilkan waktu yang Anda hemat"
           }
         }
       }
@@ -21148,6 +21194,40 @@
         }
       }
     },
+    "영상을 만드는 중이에요": {
+      "comment": "Share video: rendering",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Making your video"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sedang membuat video Anda"
+          }
+        }
+      }
+    },
+    "영상을 만들지 못했어요": {
+      "comment": "Share video: render failed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't make the video"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tidak bisa membuat video"
+          }
+        }
+      }
+    },
     "영수증 뽑기": {
       "comment": "Button: print refund receipt",
       "localizations": {
@@ -21155,6 +21235,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Print Receipt"
+          }
+        }
+      }
+    },
+    "영수증과 영상을 인스타 스토리에 버튼 하나로 바로 올릴 수 있어요": {
+      "comment": "Changelog 5.0.1 instagram",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Post your receipt or video straight to your Instagram Story with one button."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unggah struk atau video langsung ke Instagram Story Anda dengan satu tombol."
+          }
+        }
+      }
+    },
+    "영수증을 뽑으면 지금 보고 있던 기간이 그대로 찍혀요. 종이 한 장만 뜹니다": {
+      "comment": "Changelog 5.0.1 receipt period",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Printing a receipt now uses the period you were looking at, and shows just the slip."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mencetak struk kini memakai periode yang sedang Anda lihat, dan hanya menampilkan struknya."
           }
         }
       }
@@ -23274,6 +23388,23 @@
         }
       }
     },
+    "인스타 스토리에 올리기": {
+      "comment": "Button: share to Instagram story",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share to Instagram Story"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bagikan ke Instagram Story"
+          }
+        }
+      }
+    },
     "인스타그램 DM (@lee25_ios)": {
       "comment": "Instagram DM contact entry",
       "localizations": {
@@ -23910,23 +24041,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "This value is filled in automatically"
-          }
-        }
-      }
-    },
-    "자랑할 영상 만들기": {
-      "comment": "Button: make a brag video",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Make a video to share"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Buat video untuk dibagikan"
           }
         }
       }
@@ -25457,6 +25571,23 @@
         }
       }
     },
+    "지금 보고 있는 기간을 한 장으로 뽑아요.": {
+      "comment": "Button subtitle: refund receipt",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prints the period you're looking at as a single slip."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mencetak periode yang sedang Anda lihat menjadi satu lembar."
+          }
+        }
+      }
+    },
     "지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.": {
       "comment": "Discount offer: no pressure notice",
       "localizations": {
@@ -26511,6 +26642,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Waktu yang tidak terbuang mengetik"
+          }
+        }
+      }
+    },
+    "친구들에게 알리기": {
+      "comment": "Button: tell friends",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tell your friends"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beri tahu teman"
+          }
+        }
+      }
+    },
+    "친구들에게 알리기를 누르면 영상을 먼저 보고 나서 보낼 수 있어요": {
+      "comment": "Changelog 5.0.1 video preview",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tell your friends now shows you the video first, so you can decide before sending."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beri tahu teman kini menampilkan videonya dulu, jadi Anda bisa memutuskan sebelum mengirim."
           }
         }
       }
