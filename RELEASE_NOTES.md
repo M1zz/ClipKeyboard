@@ -19,6 +19,18 @@
 - **손으로 옮겨 적을 글이 아니면 그 위는 안 세요**: 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍히던 걸 고쳤어요. 아무도 그렇게 긴 글을 손으로 치지 않습니다. 치는 시간은 3분까지만 셉니다.
 - **"네", "ok" 같은 건 여전히 0초예요**: 2분 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아닙니다.
 
+**어느 쪽이 사실이고 어느 쪽이 어림인지 밝혔어요**
+
+이 앱이 말하는 "아낀 시간"은 **일어나지 않은 일의 소요 시간**이에요. 손으로 했을 세상은 존재한 적이 없으니 저희가 잰 적도 없습니다. 반면 "32번"은 실제로 일어났고 저희가 셌어요. 그래서 영수증과 자랑 영상에서 **센 횟수를 앞에, 어림한 시간을 뒤에** 두었습니다. 영상 문구도 "아낀 시간"에서 "이걸 손으로 했다면"으로 바꿨어요. 같은 숫자지만 주장하는 바가 다릅니다.
+
+**치는 속도만은 재서 씁니다**
+
+문구를 만드실 때 그 값을 저희 편집기에 직접 쳐 넣으시죠. 그 순간이 이 앱에서 반사실이 **실제로 관측되는 유일한 지점**이에요. 그때 걸린 시간을 재 두었다가, 다음부터는 평균치 대신 **그 사람의 속도**로 셈합니다. 사용 기록 화면에도 "재 둔 속도로 셌어요"라고 적어 뒀어요.
+
+- 붙여넣은 건 안 셉니다. 그건 친 게 아니니까요.
+- 무슨 값을 넣을지 고민하며 멈춘 시간도 안 셉니다. 그건 치는 시간이 아니에요.
+- 한글은 한 글자에 자판을 두세 번 누르는 걸 감안해서 잽니다. 안 그러면 한국어 쓰는 분이 실제보다 세 배 빠른 걸로 잡혀요.
+
 **셈을 고치기 전에 쓴 기록도 새 셈으로 보여요**
 
 원장에 적힌 초는 적을 때의 셈이라, 그대로 두면 업데이트 전에 쓴 것만 옛 값으로 남습니다. 깃 토큰 한 번이 이번 주 영수증에는 10초, 전체 영수증에는 30초로 찍히는 식이죠(전체는 원장이 없어 늘 그때그때 계산해 왔거든요). 같은 한 번이 두 금액을 가지면 둘 중 하나는 거짓말입니다. 이제 문구가 아직 있으면 지난 기록도 지금 셈으로 다시 매겨 보여줍니다. 아낀 시간은 어림값이지 장부에 적힌 돈이 아니니까요.
@@ -52,6 +64,18 @@
 - **One effort isn't counted as several.** Pasting your account number three times into one form doesn't mean you opened the bank app three times. Reuse the same snippet within 10 minutes and the lookup and copy-paste are charged only once.
 - **We stop counting where you'd have stopped typing.** A 5,000-character snippet used to read "20 minutes saved" from a single tap. Nobody types that by hand. Typing time now tops out at three minutes.
 - **"ok" is still zero.** The 2-minute baseline fills in what we failed to measure. It doesn't claim savings that weren't there.
+
+**We now say which part is measured and which part is a guess**
+
+"Time saved" is the duration of something that never happened. The world where you did it by hand does not exist, so we never measured it. "32 times," on the other hand, actually happened and we counted it. So receipts and share videos now lead with the count and put the estimate second. The video caption changed from "time saved" to "doing this by hand". Same number, different claim.
+
+**Typing speed, at least, is measured**
+
+When you create a snippet you type its value into our own editor. That is the one moment where the counterfactual is actually observable. We time it, and from then on we count with your speed instead of an average. The record screen says when it's using your measured speed.
+
+- Pasting doesn't count. That isn't typing.
+- Neither does time spent stopped, working out what to write. That isn't typing either.
+- Korean takes two or three keystrokes per character, and we account for that. Otherwise Korean typists come out three times faster than they are.
 
 **Uses recorded before the recount show the new numbers too**
 

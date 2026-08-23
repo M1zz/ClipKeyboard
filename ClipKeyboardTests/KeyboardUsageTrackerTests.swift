@@ -54,6 +54,8 @@ final class KeyboardUsageTrackerTests: XCTestCase {
                     "kb.timeSaved.tapCostSeconds", "kb.timeSaved.recentUse"] {
             groupDefaults?.removeObject(forKey: key)
         }
+        // 잰 타자 속도도 지운다 - 남아 있으면 이 클래스가 기대하는 초가 흔들린다.
+        TypingSpeedMeter.reset()
         let allKeys = Array(groupDefaults?.dictionaryRepresentation().keys ?? Dictionary<String, Any>().keys)
         for key in allKeys where key.hasPrefix("kb.ledger.") {
             groupDefaults?.removeObject(forKey: key)

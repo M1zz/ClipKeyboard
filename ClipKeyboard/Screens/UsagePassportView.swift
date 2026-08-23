@@ -452,10 +452,18 @@ struct UsagePassportView: View {
                                                       comment: "Grounds note: handling"),
                               seconds: parts.handling)
                 }
+                // ⚠️ 이 줄만 **잰 값**이 될 수 있다. 문구를 만들 때 그 값을 직접 쳐 넣은
+                //    시간을 재 두기 때문이다(TypingSpeedMeter). 재서 쓰는 중이면 그렇다고
+                //    밝힌다 - 어림한 것과 잰 것이 한 화면에 나란히 있으면, 어느 쪽이
+                //    어느 쪽인지 화면이 스스로 말해야 한다.
                 groundRow(symbol: "keyboard",
                           title: NSLocalizedString("치지 않아도 된 시간", comment: "Grounds row: typing"),
-                          note: NSLocalizedString("손으로 옮겨 적었다면 걸렸을 시간이에요.",
-                                                  comment: "Grounds note: typing"),
+                          note: TypingSpeedMeter.isMeasured
+                              ? String(format: NSLocalizedString("손으로 옮겨 적었다면 걸렸을 시간이에요. 문구를 만드실 때 재 둔 속도(초당 %.1f자)로 셌어요.",
+                                                                comment: "Grounds note: typing, measured"),
+                                       TypingSpeedMeter.charsPerSecond)
+                              : NSLocalizedString("손으로 옮겨 적었다면 걸렸을 시간이에요. 아직 재 둔 게 없어서 평균 속도로 어림했어요.",
+                                                  comment: "Grounds note: typing, assumed"),
                           seconds: parts.typing)
                 if parts.verification > 0 {
                     groundRow(symbol: "checkmark.circle",

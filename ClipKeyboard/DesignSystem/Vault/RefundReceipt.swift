@@ -342,30 +342,41 @@ struct RefundReceiptView: View {
 
     // MARK: 합계
 
+    /// ⚠️ **센 것이 위, 어림한 것이 아래다.** 예전에는 시간이 큰 숫자였는데, 이 종이에서
+    ///    시간은 **일어나지 않은 일의 소요 시간**이다. 손으로 했을 세상은 존재한 적이
+    ///    없으니 우리는 그걸 잰 적이 없다. 반면 "32번"은 실제로 일어났고 우리가 셌다.
+    ///    영수증의 총계 자리에 어림값을 두고 사실을 각주로 내리면, 종이가 가장 확실한
+    ///    것을 가장 작게 적는 셈이 된다.
+    ///
+    /// ⚠️ 그래도 시간을 빼지는 않는다. 사람에게 뜻이 닿는 것은 "32번"이 아니라
+    ///    "27분"이라서다. 대신 **어림이라고 적고**, 크기로 서열을 밝힌다.
     private var total: some View {
         VStack(spacing: 6) {
             HStack {
-                Text(receipt.period == .allTime
-                     ? NSLocalizedString("누적 환급 합계", comment: "Receipt: total label")
-                     : NSLocalizedString("이 기간 환급 합계", comment: "Receipt: period total label"))
+                Text(NSLocalizedString("다시 치지 않은 횟수", comment: "Receipt: total uses label"))
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(inkFaint)
                 Spacer(minLength: 0)
             }
             HStack(alignment: .firstTextBaseline) {
                 Spacer(minLength: 0)
-                Text(RefundReceipt.durationText(seconds: receipt.totalSeconds))
+                Text(String(format: NSLocalizedString("%d번", comment: "Usage passport: times count"),
+                            receipt.totalUses))
                     .font(.system(size: 27, weight: .heavy, design: .monospaced))
                     .foregroundColor(brand)
                     .monospacedDigit()
             }
-            HStack {
-                Text(String(format: NSLocalizedString("다시 치지 않은 횟수 %d번", comment: "Receipt: total uses line"),
-                            receipt.totalUses))
+            HStack(alignment: .firstTextBaseline) {
+                Text(receipt.period == .allTime
+                     ? NSLocalizedString("손으로 했다면 (어림)", comment: "Receipt: estimated total label, all time")
+                     : NSLocalizedString("이 기간에 손으로 했다면 (어림)", comment: "Receipt: estimated total label, period"))
                     .font(.system(.caption2, design: .monospaced))
                     .foregroundColor(inkFaint)
+                Spacer(minLength: 4)
+                Text(RefundReceipt.durationText(seconds: receipt.totalSeconds))
+                    .font(.system(.subheadline, design: .monospaced).weight(.bold))
+                    .foregroundColor(ink)
                     .monospacedDigit()
-                Spacer(minLength: 0)
             }
         }
         .padding(.top, 12)
@@ -382,6 +393,11 @@ struct RefundReceiptView: View {
                     .font(.system(size: 9, design: .monospaced))
                     .foregroundColor(inkFaint)
             }
+            // ⚠️ 횟수는 센 것이고 시간은 어림한 것이다. 한 종이에 나란히 찍히므로
+            //    어느 쪽이 어느 쪽인지 종이가 스스로 밝혀야 한다.
+            Text(NSLocalizedString("횟수는 실제로 센 값이고, 시간은 어림한 값이에요.", comment: "Receipt: estimate footnote"))
+                .font(.system(size: 9, design: .monospaced))
+                .foregroundColor(inkFaint)
             Text(NSLocalizedString("기기 안에서만 계산했어요. 어디에도 보내지 않았어요.", comment: "Receipt: privacy footnote"))
                 .font(.system(size: 9, design: .monospaced))
                 .foregroundColor(inkFaint)
@@ -444,10 +460,10 @@ struct RefundReceiptView: View {
     }
 
     private var accessibilityText: String {
-        String(format: NSLocalizedString("환급 영수증. 누적 환급 합계 %1$@, 다시 치지 않은 횟수 %2$d번.",
+        String(format: NSLocalizedString("환급 영수증. 다시 치지 않은 횟수 %1$d번, 손으로 했다면 어림잡아 %2$@.",
                                          comment: "Receipt accessibility summary"),
-               RefundReceipt.durationText(seconds: receipt.totalSeconds),
-               receipt.totalUses)
+               receipt.totalUses,
+               RefundReceipt.durationText(seconds: receipt.totalSeconds))
     }
 }
 

@@ -359,6 +359,11 @@ final class MemoAddViewModel: ObservableObject {
         guard validateMemoInput() else { return }
         guard checkProLimitsForNewMemo() else { return }
 
+        // 손으로 친 한 판이 끝났다. 쓸 만한 표본이면 넘기고, 아니면 조용히 버린다
+        // (붙여넣었거나·너무 짧거나·중간에 오래 멈췄으면 표본이 아니다).
+        typingRun.commit()
+        typingRun = TypingRun(startingWith: value)
+
         do {
             var loadedMemos = try memoRepository.fetchAll()
             let imageFileNames = try saveAttachedImages()
@@ -409,7 +414,14 @@ final class MemoAddViewModel: ObservableObject {
 
     func onValueChanged() {
         detectPlaceholders()
+        // 이 사람이 실제로 얼마나 빨리 치는지 지켜본다. 이 앱에서 "손으로 했다면"을
+        // 가정이 아니라 관측으로 말할 수 있는 유일한 자리다(TypingSpeedMeter 참고).
+        typingRun.note(value, at: Date())
     }
+
+    /// 값 편집기에서 지금 치고 있는 한 판. 저장할 때 표본으로 넘긴다.
+    /// ⚠️ 실패해도 아무 일도 안 일어난다 - 재는 일이 저장을 방해하면 안 된다.
+    private var typingRun = TypingRun()
 
     func onIsTemplateChanged() {
         if isTemplate {

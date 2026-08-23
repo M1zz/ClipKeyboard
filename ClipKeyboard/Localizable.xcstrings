@@ -11841,17 +11841,6 @@
         }
       }
     },
-    "누적 환급 합계": {
-      "comment": "Receipt: total label",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Total refunded"
-          }
-        }
-      }
-    },
     "눈 덮인 카드에 쓸 때마다 발자국이 하나씩 남아요.": {
       "comment": "Living skin description: snow",
       "localizations": {
@@ -12233,41 +12222,19 @@
         }
       }
     },
-    "다시 치지 않아서 아낀 시간": {
-      "comment": "Share video: caption above the number",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Time saved by not retyping"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Waktu yang dihemat karena tidak mengetik ulang"
-          }
-        }
-      }
-    },
     "다시 치지 않은 횟수": {
-      "comment": "Usage passport: headline label",
+      "comment": "Receipt: total uses label",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Times you didn't retype"
           }
-        }
-      }
-    },
-    "다시 치지 않은 횟수 %d번": {
-      "comment": "Receipt: total uses line",
-      "localizations": {
-        "en": {
+        },
+        "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "%d times you didn't retype"
+            "value": "Berapa kali Anda tak mengetik ulang"
           }
         }
       }
@@ -12522,23 +12489,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "You've been using %d snippets for over a week. Half price, from this screen only."
-          }
-        }
-      }
-    },
-    "단축어 %d번으로": {
-      "comment": "Share video: uses line",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "across %d shortcuts used"
-          }
-        },
-        "id": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "dari %d pemakaian pintasan"
           }
         }
       }
@@ -15136,6 +15086,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "The tap you feel and the brief mark you see when a snippet goes in. Turn it off to insert silently."
+          }
+        }
+      }
+    },
+    "문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요": {
+      "comment": "Changelog 5.0.1 measured typing",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We measure how fast you actually type while you create a snippet, and count with that. One assumption fewer."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kami mengukur kecepatan mengetik Anda saat membuat pintasan, lalu menghitung dengan itu. Satu asumsi berkurang."
           }
         }
       }
@@ -19078,19 +19045,36 @@
         }
       }
     },
-    "손으로 옮겨 적었다면 걸렸을 시간이에요.": {
-      "comment": "Grounds note: typing",
+    "손으로 옮겨 적었다면 걸렸을 시간이에요. 문구를 만드실 때 재 둔 속도(초당 %.1f자)로 셌어요.": {
+      "comment": "Grounds note: typing, measured",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "How long it would have taken to type it out by hand."
+            "value": "How long writing it out by hand would have taken. Counted at the speed we measured while you were creating your snippets (%.1f characters a second)."
           }
         },
         "id": {
           "stringUnit": {
             "state": "translated",
-            "value": "Perkiraan waktu jika diketik dengan tangan."
+            "value": "Berapa lama menulisnya dengan tangan. Dihitung dengan kecepatan yang kami ukur saat Anda membuat pintasan (%.1f karakter per detik)."
+          }
+        }
+      }
+    },
+    "손으로 옮겨 적었다면 걸렸을 시간이에요. 아직 재 둔 게 없어서 평균 속도로 어림했어요.": {
+      "comment": "Grounds note: typing, assumed",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How long writing it out by hand would have taken. We haven't measured your speed yet, so this uses an average."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Berapa lama menulisnya dengan tangan. Kami belum mengukur kecepatan Anda, jadi ini memakai rata-rata."
           }
         }
       }
@@ -19108,6 +19092,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nomor rekening yang Anda ketik sendiri kini dikenali sebagai nomor rekening. Dulu hanya nilai dari papan klip yang mendapat kategori."
+          }
+        }
+      }
+    },
+    "손으로 했다면 (어림)": {
+      "comment": "Receipt: estimated total label, all time",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By hand, roughly"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika manual, kira-kira"
           }
         }
       }
@@ -19471,6 +19472,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "실제로 쓰는 영어 템플릿을 골라 시작하세요"
+          }
+        }
+      }
+    },
+    "실제로는 단축어 %d번": {
+      "comment": "Share video: uses line",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actually: %d taps"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nyatanya: %d ketukan"
           }
         }
       }
@@ -21273,6 +21291,23 @@
         }
       }
     },
+    "영수증과 자랑 영상이 '센 횟수'를 앞에 두고 '어림한 시간'을 뒤에 둬요. 어느 쪽이 사실인지 밝혀요": {
+      "comment": "Changelog 5.0.1 fact first",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receipts and share videos now lead with the count we measured and put the estimated time second, so you can tell which is which."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Struk dan video kini menampilkan jumlah terukur lebih dulu dan waktu perkiraan setelahnya, agar jelas mana yang mana."
+          }
+        }
+      }
+    },
     "영수증을 뽑으면 지금 보고 있던 기간이 그대로 찍혀요. 종이 한 장만 뜹니다": {
       "comment": "Changelog 5.0.1 receipt period",
       "localizations": {
@@ -22049,13 +22084,19 @@
         }
       }
     },
-    "이 기간 환급 합계": {
-      "comment": "Receipt: period total label",
+    "이 기간에 손으로 했다면 (어림)": {
+      "comment": "Receipt: estimated total label, period",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Refunded this period"
+            "value": "By hand this period, roughly"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika manual periode ini, kira-kira"
           }
         }
       }
@@ -22498,6 +22539,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ketuk yang ini. Teksnya langsung masuk apa adanya."
+          }
+        }
+      }
+    },
+    "이걸 손으로 했다면": {
+      "comment": "Share video: caption above the number",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doing this by hand"
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jika dikerjakan manual"
           }
         }
       }
@@ -31107,13 +31165,19 @@
         }
       }
     },
-    "환급 영수증. 누적 환급 합계 %1$@, 다시 치지 않은 횟수 %2$d번.": {
+    "환급 영수증. 다시 치지 않은 횟수 %1$d번, 손으로 했다면 어림잡아 %2$@.": {
       "comment": "Receipt accessibility summary",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Refund receipt. Total refunded %1$@, %2$d times you didn't retype."
+            "value": "Refund receipt. You didn't retype %1$d times; by hand that would have been roughly %2$@."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Struk pengembalian. Anda tak mengetik ulang %1$d kali; secara manual kira-kira %2$@."
           }
         }
       }
@@ -31326,6 +31390,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Room A"
+          }
+        }
+      }
+    },
+    "횟수는 실제로 센 값이고, 시간은 어림한 값이에요.": {
+      "comment": "Receipt: estimate footnote",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The count is measured. The time is an estimate."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jumlahnya terukur. Waktunya perkiraan."
           }
         }
       }

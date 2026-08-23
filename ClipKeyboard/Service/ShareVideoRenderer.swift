@@ -173,7 +173,12 @@ struct ShareVideoFrame: View {
                     .foregroundColor(.white)
                     .frame(width: 320, height: 320)
 
-                Text(NSLocalizedString("다시 치지 않아서 아낀 시간", comment: "Share video: caption above the number"))
+                // ⚠️ "아낀 시간"이 아니라 "손으로 했다면"이다. 같은 숫자인데 주장하는 바가
+                //    다르다. 앞의 것은 일어난 일을 말하고, 뒤의 것은 일어나지 않은 쪽을
+                //    말한다. 우리가 아는 것은 뒤쪽뿐이다 - 손으로 한 세상은 존재한 적이
+                //    없어서 잰 적도 없다. 스토리에 올라가 남이 보는 그림이라, 여기서
+                //    사실인 척하면 그 거짓말이 가장 멀리 간다.
+                Text(NSLocalizedString("이걸 손으로 했다면", comment: "Share video: caption above the number"))
                     .font(.system(size: 44, weight: .semibold))
                     .foregroundColor(ink.opacity(0.75))
                     .padding(.top, 40)
@@ -187,11 +192,13 @@ struct ShareVideoFrame: View {
                     .padding(.horizontal, 60)
                     .padding(.top, 8)
 
-                Text(String(format: NSLocalizedString("단축어 %d번으로", comment: "Share video: uses line"), uses))
-                    .font(.system(size: 40, weight: .medium))
+                // ⚠️ **이 줄만 사실이다.** 위의 큰 숫자는 어림한 것이고, 이건 실제로
+                //    일어나서 우리가 센 것이다. 그래서 어림값 뒤에 숨기지 않고 또렷하게 둔다.
+                Text(String(format: NSLocalizedString("실제로는 단축어 %d번", comment: "Share video: uses line"), uses))
+                    .font(.system(size: 44, weight: .semibold))
                     .monospacedDigit()
-                    .foregroundColor(ink.opacity(0.6))
-                    .padding(.top, 12)
+                    .foregroundColor(deep.opacity(0.85))
+                    .padding(.top, 18)
 
                 // 다 굴러간 뒤에만 나타난다 - 숫자와 같이 뜨면 눈이 둘로 갈린다.
                 Text(verbatim: "ClipKeyboard")

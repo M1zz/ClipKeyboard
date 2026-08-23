@@ -41,6 +41,8 @@ enum ChangelogData {
                 NSLocalizedString("아주 긴 글은 손으로 옮겨 적었을 만큼까지만 세요. 탭 한 번에 20분을 아꼈다고 적지 않아요", comment: "Changelog 5.0.1 ceiling"),
                 NSLocalizedString("사용 기록의 내역에 뺀 시간도 함께 적어서, 줄을 더해 보면 위의 숫자가 나와요", comment: "Changelog 5.0.1 reconcile"),
                 NSLocalizedString("셈을 고치기 전에 쓴 기록도 새 셈으로 보여요. 기간마다 같은 한 번이 다른 금액으로 찍히던 걸 고쳤어요", comment: "Changelog 5.0.1 reprice"),
+                NSLocalizedString("문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요", comment: "Changelog 5.0.1 measured typing"),
+                NSLocalizedString("영수증과 자랑 영상이 '센 횟수'를 앞에 두고 '어림한 시간'을 뒤에 둬요. 어느 쪽이 사실인지 밝혀요", comment: "Changelog 5.0.1 fact first"),
 
                 // 자랑하기
                 NSLocalizedString("영수증을 뽑으면 지금 보고 있던 기간이 그대로 찍혀요. 종이 한 장만 뜹니다", comment: "Changelog 5.0.1 receipt period"),
