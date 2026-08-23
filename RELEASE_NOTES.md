@@ -4,36 +4,41 @@
 
 ### 한국어
 
-**아낀 시간을 제대로 세도록 다시 맞췄어요**
+**아낀 시간을 다시 셌어요**
 
-5.0에서 셈을 고쳤는데, 이번에는 **너무 낮게** 잡혀 있던 걸 바로잡았어요. 과장한 숫자만 거짓말인 게 아닙니다. 지나치게 낮은 숫자는 이 앱이 하는 일을 아예 안 보이게 만들어요.
+5.0에서 셈을 고쳤는데, 이번에는 **너무 낮게** 잡혀 있던 걸 바로잡았습니다. 과장한 숫자만 거짓말인 게 아니에요. 지나치게 낮은 숫자는 이 앱이 하는 일을 아예 안 보이게 만듭니다.
 
-- **한 번 쓸 때마다 적어도 2분**: 깃 토큰이 대표적인 예였어요. 40자짜리 무작위 문자열이라 앱은 그냥 "글"로 보고 치는 시간 10초만 셌습니다. 그런데 실제로 하던 일은 깃허브를 열고, 설정으로 들어가서, 토큰을 찾거나 새로 만들고, 복사해서 돌아오는 것이었죠. 10초일 리가 없어요. 문구로 저장해 뒀다는 것 자체가 "이걸 매번 처리하기 싫다"는 뜻이라, 이제 한 번 꺼내 쓸 때마다 최소 2분은 아낀 것으로 셉니다. 재서 나온 값이 아니라 저희가 정한 최소치이고, 사용 기록 화면에도 그렇게 적어 뒀어요.
-- **찾아오는 시간을 실제 크기로**: 은행 앱을 여는 걸 28초로 잡고 있었어요. 콜드 스타트에 생체인증에 계좌 화면까지 이동하는 걸 직접 재 보면 그 시간에 안 끝납니다. 50초로 올렸어요. 다른 앱에서 찾아오기는 12초에서 25초로, 지갑에서 실물을 꺼내 오기는 45초에서 75초로 올렸습니다. 선택하고 복사해서 돌아오는 손놀림도 8초에서 12초로 올렸어요. 손잡이 끌기는 원래 한 번에 안 맞습니다.
-- **손으로 쳐 넣은 값도 갈래를 찾아냅니다**: 갈래는 클립보드나 공유 시트로 들어온 문구에만 붙어 있었어요. "문구 추가"에서 계좌번호를 직접 쳐 넣으면 끝까지 갈래가 없어서, 은행 앱을 열던 값이 인사말과 똑같이 세어졌습니다. 이제 셀 때 값을 보고 알아냅니다.
-- **그래서 얼마나 달라지냐면**: 계좌번호 한 번이 50초에서 2분 46초로, 여권번호가 3분 13초로, 깃 토큰과 이메일이 2분으로 바뀝니다.
+- **한 번 쓸 때마다 적어도 2분**: 깃 토큰이 그 예였어요. 40자짜리 무작위 문자열이라 앱은 그냥 "글"로 보고 치는 시간 10초 남짓만 셌습니다. 그런데 실제로 하던 일은 깃허브를 열고, 설정으로 들어가서, 토큰을 찾거나 새로 만들고, 복사해서 돌아오는 것이었죠. 10초일 리가 없어요. 문구로 저장해 뒀다는 것 자체가 "이걸 매번 처리하기 싫다"는 뜻이라, 이제 한 번 꺼내 쓸 때마다 최소 2분은 아낀 것으로 셉니다. 재서 나온 값이 아니라 **저희가 정한 최소치**이고, 사용 기록 화면에도 그렇게 적어 뒀어요.
+- **손으로 쳐 넣은 값도 갈래를 찾아냅니다**: 이게 더 큰 구멍이었어요. 값의 갈래는 클립보드나 공유 시트로 들어온 문구에만 붙어 있었습니다. "문구 추가"를 열어 계좌번호를 직접 쳐 넣으면 끝까지 갈래가 없어서, 은행 앱을 열던 값이 인사말과 똑같이 세어졌어요. 갈래를 다섯으로 나눠 놓고 정작 대부분의 문구에 갈래가 안 붙어 있었으니, 나눈 것이 통째로 죽어 있던 셈입니다. 이제 셀 때 값을 보고 알아냅니다.
+- **찾아오는 시간을 실제 크기로**: 은행 앱을 여는 걸 28초로 잡고 있었어요. 콜드 스타트에 생체인증에 계좌 화면까지 이동하고 네트워크를 기다리는 걸 직접 재 보면 그 시간에 안 끝납니다. 110초로 올렸어요. 다른 앱에서 찾아오기는 12초에서 55초로, 지갑에서 실물을 꺼내 오기는 45초에서 165초로 올렸습니다. 선택하고 복사해서 돌아오는 손놀림도 8초에서 25초로 올렸어요. 손잡이 끌기는 원래 한 번에 안 맞습니다.
+- **그래서 얼마나 달라지냐면**: 계좌번호 한 번이 50초에서 **2분 46초**로, 여권번호가 **3분 13초**로, 깃 토큰과 이메일과 주소는 **2분**이 됩니다.
 
 **그래도 부풀리지는 않아요**
 
 - **한 번의 수고를 여러 번으로 세지 않아요**: 계좌번호를 한 서식에 세 번 넣었다고 은행 앱을 세 번 연 것은 아닙니다. 같은 문구를 10분 안에 다시 쓰면 찾아오는 시간과 복사·붙여넣기 시간은 처음 한 번만 셉니다.
-- **손으로 옮겨 적을 글이 아니면 그 위는 안 세요**: 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍히던 걸 고쳤어요. 아무도 그렇게 긴 글을 손으로 치지 않습니다. 치는 시간은 3분까지만 셉니다.
+- **손으로 옮겨 적을 글이 아니면 그 위는 안 세요**: 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍히던 걸 고쳤어요. 아무도 그렇게 긴 글을 손으로 치지 않습니다. 어딘가에서 복사해 왔을 것이고, 그 길은 이미 따로 세고 있었어요. 치는 시간은 3분까지만 셉니다.
 - **"네", "ok" 같은 건 여전히 0초예요**: 2분 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아닙니다.
 
 **어느 쪽이 사실이고 어느 쪽이 어림인지 밝혔어요**
 
-이 앱이 말하는 "아낀 시간"은 **일어나지 않은 일의 소요 시간**이에요. 손으로 했을 세상은 존재한 적이 없으니 저희가 잰 적도 없습니다. 반면 "32번"은 실제로 일어났고 저희가 셌어요. 그래서 영수증과 자랑 영상에서 **센 횟수를 앞에, 어림한 시간을 뒤에** 두었습니다. 영상 문구도 "아낀 시간"에서 "이걸 손으로 했다면"으로 바꿨어요. 같은 숫자지만 주장하는 바가 다릅니다.
+이 앱이 말하는 "아낀 시간"은 **일어나지 않은 일의 소요 시간**이에요. 손으로 했을 세상은 존재한 적이 없으니 저희가 잰 적도 없습니다. 반면 "32번"은 실제로 일어났고 저희가 셌어요. 그런데 화면은 어림값을 가장 크게 띄우고 정작 확실한 것을 각주로 내리고 있었습니다.
+
+- 영수증의 큰 숫자가 "27분"에서 **"32번"**으로 바뀌었어요. 시간은 "손으로 했다면 (어림)"으로 아래에 둡니다.
+- 영수증 꼬리말에 "횟수는 실제로 센 값이고, 시간은 어림한 값이에요"를 적어 뒀어요.
+- 자랑 영상 문구도 "다시 치지 않아서 아낀 시간"에서 **"이걸 손으로 했다면"**으로 바꿨습니다. 같은 숫자지만 주장하는 바가 달라요. 대신 "실제로는 단축어 32번"을 같은 크기로 올렸습니다.
 
 **치는 속도만은 재서 씁니다**
 
-문구를 만드실 때 그 값을 저희 편집기에 직접 쳐 넣으시죠. 그 순간이 이 앱에서 반사실이 **실제로 관측되는 유일한 지점**이에요. 그때 걸린 시간을 재 두었다가, 다음부터는 평균치 대신 **그 사람의 속도**로 셈합니다. 사용 기록 화면에도 "재 둔 속도로 셌어요"라고 적어 뒀어요.
+문구를 만드실 때 그 값을 저희 편집기에 직접 쳐 넣으시죠. 그 순간이 이 앱에서 "손으로 했다면"이 **실제로 관측되는 유일한 지점**이에요. 그때 걸린 시간을 재 두었다가, 다음부터는 평균치 대신 **그 사람의 속도**로 셈합니다. 가정 하나를 관측으로 바꾼 거예요.
 
 - 붙여넣은 건 안 셉니다. 그건 친 게 아니니까요.
 - 무슨 값을 넣을지 고민하며 멈춘 시간도 안 셉니다. 그건 치는 시간이 아니에요.
 - 한글은 한 글자에 자판을 두세 번 누르는 걸 감안해서 잽니다. 안 그러면 한국어 쓰는 분이 실제보다 세 배 빠른 걸로 잡혀요.
+- 아직 잴 기회가 없었으면 예전 가정으로 셈하고, 사용 기록 화면이 어느 쪽인지 밝힙니다.
 
 **셈을 고치기 전에 쓴 기록도 새 셈으로 보여요**
 
-원장에 적힌 초는 적을 때의 셈이라, 그대로 두면 업데이트 전에 쓴 것만 옛 값으로 남습니다. 깃 토큰 한 번이 이번 주 영수증에는 10초, 전체 영수증에는 30초로 찍히는 식이죠(전체는 원장이 없어 늘 그때그때 계산해 왔거든요). 같은 한 번이 두 금액을 가지면 둘 중 하나는 거짓말입니다. 이제 문구가 아직 있으면 지난 기록도 지금 셈으로 다시 매겨 보여줍니다. 아낀 시간은 어림값이지 장부에 적힌 돈이 아니니까요.
+원장에 적힌 초는 적을 때의 셈이라, 그대로 두면 업데이트 전에 쓴 것만 옛 값으로 남습니다. 깃 토큰 한 번이 이번 주 영수증에는 10초, 전체 영수증에는 2분으로 찍히는 식이죠(전체는 원장이 없어 늘 그때그때 계산해 왔거든요). 같은 한 번이 두 금액을 가지면 둘 중 하나는 거짓말입니다. 이제 문구가 아직 있으면 지난 기록도 지금 셈으로 다시 매겨 보여줍니다. 아낀 시간은 어림값이지 장부에 적힌 돈이 아니니까요.
 
 **내역을 더하면 위의 숫자가 나와요**
 
@@ -50,36 +55,41 @@
 
 ### English
 
-**Time saved, recalibrated**
+**Time saved, counted again**
 
 5.0 rebuilt how we count. This release fixes the fact that it was set **too low**. Inflated numbers aren't the only kind of lie: numbers that are far too low make the app's actual work invisible.
 
-- **At least 2 minutes per use.** A git token was the giveaway. It's a 40-character random string, so the app saw "text" and counted 10 seconds of typing. What you actually did was open GitHub, dig into settings, find or generate the token, copy it, and come back. That is not 10 seconds. Saving something as a snippet means "I don't want to deal with this every time," so every use now counts as at least 2 minutes saved. That is a minimum we chose, not something we measured, and the record screen says so.
-- **Fetch times sized to reality.** Opening a banking app was counted as 28 seconds. Time yourself: cold start, biometric auth, navigating to the account screen. It doesn't finish in 28 seconds, so it's now 50. Fetching from another app went from 12 to 25 seconds, and retrieving a physical document from 45 to 75. The select-copy-return handling went from 8 to 12 seconds, because drag handles never land right the first time.
-- **Hand-typed values get classified too.** A category was only attached to snippets arriving from the clipboard or share sheet. Type an account number into "Add snippet" and it never had one, so a value you opened a banking app for counted the same as a greeting. Now we work it out at counting time.
-- **What that changes.** One account number goes from 50 seconds to 2m46s, a passport number to 3m13s, a git token and an email to 2 minutes.
+- **At least 2 minutes per use.** A git token was the giveaway. It's a 40-character random string, so the app saw "text" and counted about 10 seconds of typing. What you actually did was open GitHub, dig into settings, find or generate the token, copy it, and come back. That is not 10 seconds. Saving something as a snippet means "I don't want to deal with this every time," so every use now counts as at least 2 minutes saved. That is **a minimum we chose**, not something we measured, and the record screen says so.
+- **Hand-typed values get classified too.** This was the bigger hole. A category was only attached to snippets arriving from the clipboard or share sheet. Type an account number into "Add snippet" and it never had one, so a value you opened a banking app for counted the same as a greeting. We had five categories and most snippets carried none of them, which meant the whole distinction was dead. Now we work it out at counting time.
+- **Fetch times sized to reality.** Opening a banking app was counted as 28 seconds. Time yourself: cold start, biometric auth, navigating to the account screen, waiting on the network. It doesn't finish in 28 seconds, so it's now 110. Fetching from another app went from 12 to 55 seconds, and retrieving a physical document from 45 to 165. The select-copy-return handling went from 8 to 25 seconds, because drag handles never land right the first time.
+- **What that changes.** One account number goes from 50 seconds to **2m46s**, a passport number to **3m13s**, and a git token, an email or an address to **2 minutes**.
 
 **Still not inflated**
 
 - **One effort isn't counted as several.** Pasting your account number three times into one form doesn't mean you opened the bank app three times. Reuse the same snippet within 10 minutes and the lookup and copy-paste are charged only once.
-- **We stop counting where you'd have stopped typing.** A 5,000-character snippet used to read "20 minutes saved" from a single tap. Nobody types that by hand. Typing time now tops out at three minutes.
+- **We stop counting where you'd have stopped typing.** A 5,000-character snippet used to read "20 minutes saved" from a single tap. Nobody types that by hand; they copy it from somewhere, and that path was already counted. Typing time now tops out at three minutes.
 - **"ok" is still zero.** The 2-minute baseline fills in what we failed to measure. It doesn't claim savings that weren't there.
 
 **We now say which part is measured and which part is a guess**
 
-"Time saved" is the duration of something that never happened. The world where you did it by hand does not exist, so we never measured it. "32 times," on the other hand, actually happened and we counted it. So receipts and share videos now lead with the count and put the estimate second. The video caption changed from "time saved" to "doing this by hand". Same number, different claim.
+"Time saved" is the duration of something that never happened. The world where you did it by hand does not exist, so we never measured it. "32 times," on the other hand, actually happened and we counted it. Yet the screen was showing the estimate large and the certain thing as a footnote.
+
+- The big number on a receipt changed from "27 minutes" to **"32 times."** The time sits below it, labelled "by hand, roughly."
+- The receipt footer now reads "The count is measured. The time is an estimate."
+- The share video caption changed from "time saved" to **"doing this by hand."** Same number, different claim. In exchange, "Actually: 32 taps" now gets the same size.
 
 **Typing speed, at least, is measured**
 
-When you create a snippet you type its value into our own editor. That is the one moment where the counterfactual is actually observable. We time it, and from then on we count with your speed instead of an average. The record screen says when it's using your measured speed.
+When you create a snippet you type its value into our own editor. That is the one moment where "if you'd done it by hand" is **actually observable**. We time it, and from then on we count with your speed instead of an average. One assumption turned into an observation.
 
 - Pasting doesn't count. That isn't typing.
 - Neither does time spent stopped, working out what to write. That isn't typing either.
 - Korean takes two or three keystrokes per character, and we account for that. Otherwise Korean typists come out three times faster than they are.
+- Until we've had a chance to measure, we fall back to the old average, and the record screen tells you which one is in use.
 
 **Uses recorded before the recount show the new numbers too**
 
-The seconds in the ledger are whatever the formula said at the time, so leaving them alone means only pre-update uses keep the old value. One git token would print as 10 seconds on this week's receipt and 30 on the all-time one, since all-time has no ledger and always recalculated. The same single use can't have two prices without one of them being a lie. Now, as long as the snippet still exists, past uses are re-priced with today's formula. Time saved is an estimate, not money in a ledger.
+The seconds in the ledger are whatever the formula said at the time, so leaving them alone means only pre-update uses keep the old value. One git token would print as 10 seconds on this week's receipt and 2 minutes on the all-time one, since all-time has no ledger and always recalculated. The same single use can't have two prices without one of them being a lie. Now, as long as the snippet still exists, past uses are re-priced with today's formula. Time saved is an estimate, not money in a ledger.
 
 **The breakdown adds up**
 
