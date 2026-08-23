@@ -80,7 +80,13 @@ struct InAppKeyboardStage: View {
     /// 잠금 번호 만들기 화면.
     @State private var showsSecurePINSetup = false
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
-    @State private var keyboardReady = true
+    /// 키보드가 켜져 있는가.
+    ///
+    /// ⚠️ **처음부터 맞는 값으로 시작한다.** 예전에는 `true` 로 두고 `onAppear` 에서
+    ///    고쳤는데, 무대가 올라오는 도중에 값이 뒤집히면서 안내 띠가 그제야 생겼다.
+    ///    띠가 자리를 차지하는 만큼 머리말과 말풍선이 밀려, 올라오는 무대 안에서
+    ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
+    @State private var keyboardReady = KeyboardInstallState.isUsable
 
     /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.
     ///
@@ -134,7 +140,13 @@ struct InAppKeyboardStage: View {
         }
         .background(stageBackground.ignoresSafeArea())
         .onAppear {
-            reloadFeed()
+            // ⚠️ **여기서 키보드를 다시 만들지 않는다.** 무대는 목록 위로 미끄러져 올라오는데
+            //    (`SnippetsTab.stageTransition`), 그 도중에 `feedToken` 이 올라가면
+            //    `KeyboardView` 만 새 뷰로 갈려 **제자리에 툭 나타난다.** 나머지는 아직
+            //    올라오는 중이라, 키만 먼저 도착해 머리말·말풍선과 겹친 그림이 된다(실측).
+            //    올릴 것은 init 에서 이미 읽어 두었으므로(위 init 주석), 여기서는
+            //    다음 판단의 기준만 맞춰 두면 된다.
+            syncFeedIds()
             refreshKeyboardReady()
             refreshClipboardImage()
         }
@@ -153,7 +165,7 @@ struct InAppKeyboardStage: View {
         // 무대에서 "한 번에 옮기기"를 누르면 목록으로 건너가 그 화면이 열린다
         // (대량 가져오기는 목록이 들고 있는 시트다).
         .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
-            withAnimation { styleRaw = SnippetsTabStyle.list.rawValue }
+            styleRaw = SnippetsTabStyle.list.rawValue
         }
         .sheet(isPresented: $showsSecurePINSetup, onDismiss: reloadFeed) {
             NavigationStack { SecurePINSettings() }
@@ -197,6 +209,12 @@ struct InAppKeyboardStage: View {
         }
         loadedIds = ids
         feedToken += 1
+    }
+
+    /// 키보드를 **다시 만들지 않고** 기준만 맞춘다 - 무대가 올라오는 동안 쓰는 길.
+    private func syncFeedIds() {
+        KeyboardMemoFeed.reload()
+        loadedIds = clipMemos.map(\.id)
     }
 
     /// 진짜 키보드를 쓸 수 있는 상태인가 - 판단은 `KeyboardInstallState` 한 곳에서만 한다.

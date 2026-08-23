@@ -1353,9 +1353,8 @@ struct MainTabView: View {
         } set: { tapped in
             if tapped == .snippets, selection == .snippets {
                 HapticManager.shared.light()
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    snippetsStyleRaw = snippetsStyle.toggled.rawValue
-                }
+                // 값만 바꾼다 - 연출은 `SnippetsTab.content` 가 건다.
+                snippetsStyleRaw = snippetsStyle.toggled.rawValue
             }
             selection = tapped
         }

@@ -184,7 +184,9 @@ struct SnippetsStyleSwitchButton: View {
     var body: some View {
         Button {
             HapticManager.shared.light()
-            withAnimation(.easeInOut(duration: 0.2)) { styleRaw = target.rawValue }
+            // 값만 바꾼다. 오르내리는 연출은 두 화면을 쥐고 있는 쪽이 건다
+            // (`SnippetsTab.content` 의 `screenSwapAnimation`).
+            styleRaw = target.rawValue
         } label: {
             // 툴바의 + 와 **같은 유리 언어** - 클리어 글래스 서클(하단 탭바와도 같다).
             // 옆에 나란히 선 버튼이 하나만 맨몸이면 그것만 다른 앱에서 온 것처럼 보인다.
@@ -244,6 +246,26 @@ struct SnippetsTab: View {
     /// 화면이 갈아 끼워질 때의 모습 - 자리를 옮기지 않고 그 자리에서 바뀐다.
     private var screenTransition: AnyTransition {
         .opacity.combined(with: .scale(scale: 0.985))
+    }
+
+    // MARK: - 목록 ↔ 무대가 바뀌는 모습
+
+    /// **무대는 키보드처럼 아래에서 올라온다.**
+    ///
+    /// 이 화면이 보여주는 것이 "다른 앱에서 키보드가 올라온 장면"이라, 오르내리는 방향이
+    /// 그 물건의 방향과 같아야 한다. 페이드로 갈아 끼우면 어디서 왔는지가 없어서,
+    /// 화면이 바뀐 게 아니라 잘못 그려진 것처럼 보인다(예전 모습).
+    private var stageTransition: AnyTransition {
+        reduceMotion ? .opacity : .move(edge: .bottom)
+    }
+
+    /// 오르내리는 속도.
+    ///
+    /// ⚠️ **튕기지 않는 곡선이라야 한다.** 스프링에 반동을 조금이라도 남기면 무대가
+    ///    자리에 닿고 한 번 더 흔들려서, 화면이 덜그럭거리는 것으로 읽힌다.
+    ///    `.smooth` 는 반동이 없는 스프링이다.
+    private var screenSwapAnimation: Animation? {
+        reduceMotion ? nil : .smooth(duration: 0.36)
     }
 
     private var style: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
@@ -308,21 +330,37 @@ struct SnippetsTab: View {
             //    **방금 넣은 글이 사라진다.** 눌러서 배운 결과가 눈앞에서 지워지는 셈이다.
             //    (가리키는 키는 뷰를 갈아 끼우지 않고 `highlightedMemoId` 값만 바뀌면 된다)
             case .tryScenarios, .makeOwn, .done:
-                switch style {
-                case .list:
+                // **목록은 늘 깔려 있고, 무대가 그 위로 오르내린다.**
+                //
+                // ⚠️ 목록을 넣었다 뺐다 하지 않는다. 그러면 오갈 때마다 목록이 통째로 다시
+                //    만들어져서, 미끄러짐이 **끝난 뒤에** 카드·팁·유리가 한 번 더 자리를
+                //    잡는다. 움직임은 멈췄는데 화면이 계속 달그락거리는 것으로 보였다.
+                //    깔아 두면 돌아왔을 때 이미 다 되어 있다.
+                //
+                // ⚠️ 목록에는 아무 연출도 걸지 않는다. 무대 바닥이 불투명해서 어차피 가려지는데
+                //    (`stageBackground`), 그 밑에서 목록까지 같이 줄었다 커지면 움직이는 것이
+                //    둘이 된다. 움직이는 것은 하나여야 눈이 편하다.
+                ZStack {
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
                     // 화면 위에 겹쳐 띄우면 카드를 가린다.
                     ClipKeyboardList()
-                        .transition(screenTransition)
-                case .keyboard:
-                    InAppKeyboardStage(styleRaw: $styleRaw,
-                                       highlightedMemoId: highlightedMemoId,
-                                       tutorialLine: nextChapter?.coachLine,
-                                       asksToMakeOwn: onboardingStep == .makeOwn,
-                                       onMakeOwnSkipped: { finishMakeOwn() },
-                                       highlightsSend: awaitingSend)
-                        .transition(screenTransition)
+                        .allowsHitTesting(style == .list)
+                        .accessibilityHidden(style != .list)
+
+                    // 겹치는 순서를 우리가 정한다. SwiftUI 에 맡기면 내려가는 무대가 목록
+                    // 뒤로 숨어서 **아무것도 안 움직이는 것처럼** 보인다.
+                    if style == .keyboard {
+                        InAppKeyboardStage(styleRaw: $styleRaw,
+                                           highlightedMemoId: highlightedMemoId,
+                                           tutorialLine: nextChapter?.coachLine,
+                                           asksToMakeOwn: onboardingStep == .makeOwn,
+                                           onMakeOwnSkipped: { finishMakeOwn() },
+                                           highlightsSend: awaitingSend)
+                            .transition(stageTransition)
+                            .zIndex(1)
+                    }
                 }
+                .animation(screenSwapAnimation, value: styleRaw)
             }
         }
         // 장과 장 사이의 원 - 아래쪽에 잠깐 떠 있다가 스스로 사라진다.
@@ -335,10 +373,6 @@ struct SnippetsTab: View {
             }
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: onboardingStep)
-        // 두 화면은 **같은 자리에서 갈아 끼우는 것**이라 서로 밀어내지 않는다
-        // 밀려 들어오면 어디로 이동한 것처럼 보이고, 여기서는 이동한 게 아니라 모습이 바뀐 것이다.
-        // 살짝 줄었다 펴지는 것만 얹어 "바뀌었다"를 눈이 알아채게 한다.
-        .animation(reduceMotion ? nil : .easeInOut(duration: 0.28), value: styleRaw)
         .onReceive(NotificationCenter.default.publisher(for: .memoUsed), perform: chapterKeyWasUsed)
         // 보내야 한 바퀴가 끝난다 - 넣은 것이 어디로 가는지는 말풍선이 올라와야 보인다.
         .onReceive(NotificationCenter.default.publisher(for: .stageMessageSent)) { _ in
@@ -372,7 +406,7 @@ struct SnippetsTab: View {
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
             Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
-                withAnimation { styleRaw = SnippetsTabStyle.keyboard.rawValue }
+                styleRaw = SnippetsTabStyle.keyboard.rawValue
             }
             Button(NSLocalizedString("괜찮아요", comment: "Decline category activation"), role: .cancel) { }
         } message: {

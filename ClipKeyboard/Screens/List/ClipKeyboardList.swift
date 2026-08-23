@@ -282,8 +282,33 @@ struct ClipKeyboardList: View {
             // 상단에 고정 크롬이 없어 콘텐츠가 화면을 온전히 쓴다.
             categoryContent
         }
+        // ⚠️ **목록이 자리를 잡는 동안에는 아무것도 움직이지 않는다.**
+        //
+        //    화면이 뜨고 1초 사이에 늦게 도착하는 것들이 있다: TipKit 팁(보여줄지를 스스로
+        //    늦게 판단한다), 상단 배너들, 읽어 들인 메모. 저마다 자기 애니메이션으로
+        //    들어오면서 아래 카드를 통째로 밀어 내려서, 목록에 들어갈 때마다 화면이
+        //    한 번 출렁이는 것으로 보였다("하늘에서 뚝 떨어진다").
+        //
+        //    끄는 것은 **그 창 동안의 암묵 애니메이션뿐**이다. 손을 대서 생기는 것들
+        //    (카드 누름·동전·글로우·내용 힌트)은 그 뒤에 일어나므로 그대로 산다.
+        .transaction { if settling { $0.animation = nil } }
         // 순정 Liquid Glass: 상·하단 스크롤 엣지 효과는 시스템 기본에 맡긴다
         // (네비바·플로팅 탭바가 콘텐츠와 만날 때 soft glass 처리).
+    }
+
+    /// 목록이 자리를 잡는 중인가. 위 `mainColumn` 의 주석이 이 값의 전부다.
+    ///
+    /// ⚠️ 화면에 나타날 때마다 다시 켠다. 탭을 오가면 이 화면이 새로 만들어질 때도,
+    ///    그대로 살아 있을 때도 있어서 `@State` 초기값만 믿으면 한쪽이 빠진다.
+    private static let settleWindow: TimeInterval = 1.0
+
+    @State private var settling: Bool = true
+
+    private func beginSettling() {
+        settling = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleWindow) {
+            settling = false
+        }
     }
 
     /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
@@ -850,6 +875,7 @@ struct ClipKeyboardList: View {
             ))
             .onChange(of: livingSkinRaw) { _, _ in startGuestsIfNeeded() }
             .onAppear {
+                beginSettling()
                 startGuestsIfNeeded()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
@@ -857,12 +883,10 @@ struct ClipKeyboardList: View {
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
-                // 첫 로드 시 stagger enter 트리거 (한 번만)
+                // 이 화면을 연 것을 한 번만 센다 - 목록은 탭을 오갈 때마다 다시 나타난다.
                 if !hasAppeared {
+                    hasAppeared = true
                     SuggestionManager.shared.recordAppOpen()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        hasAppeared = true
-                    }
                 }
                 // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
                 if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
@@ -890,6 +914,12 @@ struct ClipKeyboardList: View {
         screenL7
             .onAppear { syncCoachTarget() }
             .onChange(of: tutorialTargetRaw) { _, _ in syncCoachTarget() }
+            // ⚠️ 목록은 무대 뒤에 **깔린 채로 살아 있다**(`SnippetsTab.content`).
+            //    무대에서 단축어를 만들어도 이 화면은 다시 만들어지지 않으므로,
+            //    바뀌었다는 소식을 직접 듣고 다시 읽어야 한다.
+            .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+                viewModel.loadMemos()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
@@ -1475,6 +1505,8 @@ struct ClipKeyboardList: View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
+        // 유리를 붙일 수 있는 카드인가 - 사진 카드와 재정렬(경량) 모드는 단색이다.
+        let glassOn = !hasImage && !lightweight
 
         return VStack(alignment: .leading, spacing: 0) {
             // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
@@ -1540,13 +1572,9 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        // 유리 카드 글자 가독성 - 맑은 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
-        // 글 내용 뒤에 은은한 할로를 깐다. 흰 글자(색 유리)는 어두운 할로,
-        // 테마색 글자(무색 유리)는 테마 배경색 할로 - 배경이 무엇이든 최소 대비 확보.
-        // 이미지 카드는 자체 그라디언트가 가독성을 책임지므로 제외.
-        .compositingGroup()
-        .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.55) : theme.bg),
-                radius: 4, x: 0, y: 0)
+        // 유리 카드 글자 가독성 - 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
+        // 글 내용 뒤에 은은한 할로를 깐다. 언제 까는지는 `cardTextHaloColor` 참고.
+        .modifier(CardTextHalo(color: cardTextHaloColor(hasImage: hasImage, onColor: onColor)))
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
@@ -1554,10 +1582,11 @@ struct ClipKeyboardList: View {
         // 배경: 이미지 카드는 사진 그대로. 텍스트 카드는 리퀴드 글래스(아래 CardGlass)가
         // 배경을 대신하되, 경량(재정렬) 모드에선 글래스가 프레임마다 비싸 단색으로 폴백.
         .background {
-            if hasImage || lightweight {
+            if !glassOn {
+                // 유리가 없는 카드(사진·재정렬)는 단색이 그대로 얼굴이다.
                 memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
             } else {
-                // 맑은 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
+                // 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
                 // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
                 theme.surface.opacity(CardGlass.backingOpacity)
             }
@@ -1570,7 +1599,7 @@ struct ClipKeyboardList: View {
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) - 카테고리 색은 tint로 유지.
         .modifier(CardGlass(
-            active: !hasImage && !lightweight,
+            active: glassOn,
             tint: cardGlassTint(memo: memo),
             cornerRadius: theme.radiusXl
         ))
@@ -1831,6 +1860,18 @@ struct ClipKeyboardList: View {
                   offsetY: offsetY,
                   radius: theme.radiusXl,
                   opacity: keycapSkin.skirtOpacity(isDark: theme.isDark))
+    }
+
+    /// 글자 뒤 할로 색. nil 이면 할로를 아예 깔지 않는다(`CardTextHalo` 참고).
+    ///
+    /// - 사진 카드: 자체 그라디언트가 가독성을 책임진다 → 없음
+    /// - 색 카드(즐겨찾기·카테고리): 흰 글자라 어두운 할로
+    /// - 무색 카드: **뒤에 사진이 깔렸을 때만.** 민 바탕에서는 테마 배경색과 같은 색이라
+    ///   보이지도 않으면서 카드마다 화면 밖 합성만 한 번씩 더 만든다.
+    private func cardTextHaloColor(hasImage: Bool, onColor: Bool) -> Color? {
+        if hasImage { return nil }
+        if onColor { return Color.black.opacity(0.55) }
+        return resolvedBackgroundImage.isEmpty ? nil : theme.bg
     }
 
     /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
@@ -2513,11 +2554,14 @@ struct ClipKeyboardList: View {
                         if let ghost = ghostSuggestion {
                             ghostMemoCell(pattern: ghost)
                         }
-                        ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
+                        ForEach(allMemos) { memo in
+                            // ⚠️ 카드가 목록에 **끼워질 때 아무 연출도 하지 않는다.**
+                            //    기본값은 페이드인데, 투명도가 걸린 뷰는 화면 밖에서 한 장으로
+                            //    합쳐 그려지고 그 안의 유리(`glassEffect`)는 뒤를 못 봐서
+                            //    잿빛으로 뜬다. 메모는 화면이 뜬 뒤에 읽혀 들어오므로
+                            //    (`viewModel.loadMemos`) 목록을 열 때마다 그 순간을 지난다.
                             memoGridCell(memo: memo)
-                                .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                                .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                                .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                                .transition(.identity)
                         }
                         // 그리드 끝 "추가" 카드는 두지 않는다 - 우상단 툴바 + 버튼이 있으므로
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
@@ -2549,11 +2593,10 @@ struct ClipKeyboardList: View {
                 pageHeader(for: tab)
                 Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
-                    ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
+                    ForEach(memos) { memo in
+                        // 끼워질 때 연출 없음 - 이유는 위 `allTabScrollView` 의 주석 참고.
                         memoGridCell(memo: memo)
-                            .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                            .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                            .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                            .transition(.identity)
                     }
                     // 그리드 끝 "추가" 카드 없음 - 우상단 툴바 + 버튼으로 충분.
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
@@ -3308,19 +3351,15 @@ struct ClipKeyboardList: View {
 /// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
 /// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
 /// tint가 있으면 카테고리 색을 글래스에 입힌다 - 색=카테고리 정체성 유지.
-/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** - 뒤 배경이
-/// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
-/// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
+/// tint가 없는 기본(무색) 카드도 같은 유리를 쓴다 - 뒤 배경(사진·색)이 비쳐 보여
+/// 상단 투명 배경·유리 탭바와 같은 유리 언어가 된다.
 ///
 /// ⚠️ **투명도를 바꾸려면 `backingOpacity` 하나만 만지면 된다.**
 ///
 /// `Glass` 에는 `.regular` / `.clear` / `.identity` 세 변형뿐이고 그 사이를 나타낼
 /// 불투명도 인자가 없다. 그래서 두 가지를 조합해 원하는 지점을 만든다:
-///   - 유리는 `.clear` (가장 맑은 변형)
+///   - 유리는 `.regular` (`.clear` 를 쓰면 안 되는 이유는 `CardGlass` 에 적어 두었다)
 ///   - 그 **뒤에** 카드 표면색을 아주 옅게 깐다 → 이 판의 불투명도가 곧 다이얼
-///
-/// `backingOpacity` 0.0 이면 순정 `.clear`(배경에 묻힐 만큼 투명),
-/// 0.5 를 넘어가면 체감상 `.regular` 와 비슷해진다. 그 사이를 취한다.
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
