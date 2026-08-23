@@ -179,7 +179,8 @@ struct RefundReceipt: Equatable, Identifiable {
 
         return make(period: period,
                     periodLabel: period.label(from: now, calendar: calendar),
-                    earned: book.seconds,
+                    // 적힌 초가 아니라 지금 셈으로 다시 매긴 값 - 화면과 종이가 같아야 한다.
+                    earned: book.repriced(with: memos),
                     uses: book.uses,
                     memos: memos,
                     fallbackUses: RefundLedger.useCount(in: book.interval, calendar: calendar),

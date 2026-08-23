@@ -219,7 +219,7 @@ enum RefundLedger {
     /// 한 기간의 원장 한 벌.
     struct Book: Equatable {
         let interval: DateInterval
-        /// 문구별 돌려준 시간(초).
+        /// 문구별 돌려준 시간(초). **적힌 그대로**다 - 화면에 낼 값은 `repriced(with:)` 를 거친다.
         let seconds: [UUID: Double]
         /// 문구별 쓴 횟수. 초에서 역산하지 않는다 - 문구를 고친 순간부터 어긋난다.
         let uses: [UUID: Int]
@@ -228,6 +228,37 @@ enum RefundLedger {
 
         var totalSeconds: Double { seconds.values.reduce(0, +) }
         var totalUses: Int { uses.values.reduce(0, +) }
+
+        /// **지금 셈으로 다시 매긴** 문구별 금액. 화면과 영수증은 전부 이 값을 쓴다.
+        ///
+        /// ⚠️ 왜 적힌 초를 그대로 안 쓰나. 원장에 적힌 초는 **적을 때의 셈**이다. 셈을
+        ///    고치면 그 뒤에 쓴 것만 새 값으로 적히고 옛 기록은 옛 값으로 남는다. 그러면
+        ///    같은 한 번이 이번 주 영수증에서는 10초, 전체 영수증에서는 30초가 된다
+        ///    (전체는 원장이 없어 늘 지금 셈으로 다시 계산해 왔다). 한 화면 안에서 같은
+        ///    일이 두 값을 갖는 것이라, 둘 중 하나는 반드시 거짓말이다.
+        ///
+        /// ⚠️ 아낀 시간은 **어림값이지 장부에 적힌 돈이 아니다.** 셈이 나아졌으면 지난
+        ///    기록도 나아진 셈으로 보는 것이 맞다. 옛 셈을 지키느라 사용자에게 우리가
+        ///    이미 틀렸다고 인정한 숫자를 계속 보여줄 이유가 없다.
+        ///
+        /// ⚠️ 다만 **지운 문구는 다시 매길 수 없다.** 값을 모르니 회당 금액을 낼 수 없다.
+        ///    그건 적힌 초를 그대로 쓴다 - 영수증에서 "지운 문구" 한 줄로 합쳐지는 몫이다.
+        ///
+        /// ⚠️ 한계를 적어 둔다. 문구를 고치면 **고치기 전에 쓴 것까지** 새 값으로 매겨진다.
+        ///    그리고 잇달아 쓴 것의 할인이 여기서는 빠져서, 다시 매긴 값이 실제로 적힌
+        ///    것보다 조금 클 수 있다. 둘 다 아는 채로 고른 것이다 - 한 화면이 서로 다른
+        ///    말을 하는 것보다는 낫다.
+        func repriced(with memos: [Memo]) -> [UUID: Double] {
+            let byID = Dictionary(memos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            var out = seconds
+            for (id, count) in uses {
+                guard count > 0, let memo = byID[id] else { continue }
+                out[id] = KeyboardUsageTracker.earnedSeconds(value: memo.value,
+                                                             type: memo.autoDetectedType,
+                                                             useCount: count)
+            }
+            return out
+        }
     }
 
     /// 원장을 처음 적은 날. 없으면 아직 한 번도 안 썼다는 뜻.

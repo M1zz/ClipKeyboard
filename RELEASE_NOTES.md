@@ -18,6 +18,10 @@
 - **손으로 옮겨 적을 글이 아니면 그 위는 안 세요**: 5,000자짜리 문구 하나가 탭 한 번에 "20분을 아꼈다"고 찍히던 걸 고쳤어요. 아무도 그렇게 긴 글을 손으로 치지 않습니다. 치는 시간은 3분까지만 셉니다.
 - **"네", "ok" 같은 건 여전히 0초예요**: 30초 밑값은 못 센 것을 채우는 것이지, 안 아낀 것을 아꼈다고 하는 게 아닙니다.
 
+**셈을 고치기 전에 쓴 기록도 새 셈으로 보여요**
+
+원장에 적힌 초는 적을 때의 셈이라, 그대로 두면 업데이트 전에 쓴 것만 옛 값으로 남습니다. 깃 토큰 한 번이 이번 주 영수증에는 10초, 전체 영수증에는 30초로 찍히는 식이죠(전체는 원장이 없어 늘 그때그때 계산해 왔거든요). 같은 한 번이 두 금액을 가지면 둘 중 하나는 거짓말입니다. 이제 문구가 아직 있으면 지난 기록도 지금 셈으로 다시 매겨 보여줍니다. 아낀 시간은 어림값이지 장부에 적힌 돈이 아니니까요.
+
 **내역을 더하면 위의 숫자가 나와요**
 
 사용 기록에서 셈을 펼쳐 보면 더한 줄만 있고 뺀 줄이 없어서, 줄을 더해 보면 늘 위의 큰 숫자보다 컸습니다. 이 앱을 쓰느라 든 시간과 밑값도 각각 한 줄로 적어 뒀어요. 내역은 자랑이 아니라 근거라서, 세어 보면 맞아야 합니다.
@@ -46,6 +50,10 @@
 - **One effort isn't counted as several.** Pasting your account number three times into one form doesn't mean you opened the bank app three times. Reuse the same snippet within 10 minutes and the lookup and copy-paste are charged only once.
 - **We stop counting where you'd have stopped typing.** A 5,000-character snippet used to read "20 minutes saved" from a single tap. Nobody types that by hand. Typing time now tops out at three minutes.
 - **"ok" is still zero.** The 30-second baseline fills in what we failed to measure. It doesn't claim savings that weren't there.
+
+**Uses recorded before the recount show the new numbers too**
+
+The seconds in the ledger are whatever the formula said at the time, so leaving them alone means only pre-update uses keep the old value. One git token would print as 10 seconds on this week's receipt and 30 on the all-time one, since all-time has no ledger and always recalculated. The same single use can't have two prices without one of them being a lie. Now, as long as the snippet still exists, past uses are re-priced with today's formula. Time saved is an estimate, not money in a ledger.
 
 **The breakdown adds up**
 

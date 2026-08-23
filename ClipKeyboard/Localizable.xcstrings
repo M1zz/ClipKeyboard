@@ -10775,7 +10775,7 @@
       }
     },
     "기간": {
-      "comment": "Chart axis: period\nRefund period picker label\nUsage passport: period",
+      "comment": "Chart axis: period\nUsage passport: period",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -19020,6 +19020,23 @@
         }
       }
     },
+    "셈을 고치기 전에 쓴 기록도 새 셈으로 보여요. 기간마다 같은 한 번이 다른 금액으로 찍히던 걸 고쳤어요": {
+      "comment": "Changelog 5.0.1 reprice",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uses recorded before the recount now show the new numbers too. The same single use no longer prints a different amount on different periods."
+          }
+        },
+        "id": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pemakaian yang tercatat sebelum perhitungan baru kini juga memakai angka baru. Satu pemakaian yang sama tak lagi tercetak berbeda di tiap periode."
+          }
+        }
+      }
+    },
     "셋을 눌러 본 뒤에는 직접 하나 만들어 보는 걸음으로 이어져요": {
       "comment": "Changelog 5.0.0 make own",
       "localizations": {
@@ -26647,7 +26664,7 @@
       }
     },
     "친구들에게 알리기": {
-      "comment": "Button: tell friends",
+      "comment": "Button: tell friends\nShare video sheet title",
       "localizations": {
         "en": {
           "stringUnit": {

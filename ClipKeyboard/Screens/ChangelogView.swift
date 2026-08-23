@@ -39,6 +39,7 @@ enum ChangelogData {
                 NSLocalizedString("같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요", comment: "Changelog 5.0.1 repeat"),
                 NSLocalizedString("아주 긴 글은 손으로 옮겨 적었을 만큼까지만 세요. 탭 한 번에 20분을 아꼈다고 적지 않아요", comment: "Changelog 5.0.1 ceiling"),
                 NSLocalizedString("사용 기록의 내역에 뺀 시간도 함께 적어서, 줄을 더해 보면 위의 숫자가 나와요", comment: "Changelog 5.0.1 reconcile"),
+                NSLocalizedString("셈을 고치기 전에 쓴 기록도 새 셈으로 보여요. 기간마다 같은 한 번이 다른 금액으로 찍히던 걸 고쳤어요", comment: "Changelog 5.0.1 reprice"),
 
                 // 자랑하기
                 NSLocalizedString("영수증을 뽑으면 지금 보고 있던 기간이 그대로 찍혀요. 종이 한 장만 뜹니다", comment: "Changelog 5.0.1 receipt period"),

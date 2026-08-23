@@ -297,3 +297,78 @@ struct ReceiptStoryCardTests {
         #expect(image.size.width * image.scale == RefundReceiptView.paperWidth * 3)
     }
 }
+
+// MARK: - 셈을 고친 뒤의 옛 기록
+
+/// ⚠️ 원장에 적힌 초는 **적을 때의 셈**이다. 셈을 고치면 그 뒤에 쓴 것만 새 값으로 적히고
+///    옛 기록은 옛 값으로 남는다. 그대로 두면 같은 한 번이 이번 주 영수증에서는 10초,
+///    전체 영수증에서는 30초가 된다(전체는 원장이 없어 늘 지금 셈으로 계산해 왔다).
+///    한 화면 안에서 같은 일이 두 값을 가지면 둘 중 하나는 반드시 거짓말이다.
+@Suite("옛 원장 다시 매기기")
+struct RepricedLedgerTests {
+
+    /// 40자짜리 깃 토큰 - 이 앱이 갈래를 못 알아보는 값이라 예전 셈으로는 9초였다.
+    private func gitTokenMemo() -> Memo {
+        var memo = Memo(title: "깃 토큰", value: "ghp_" + String(repeating: "a1B2", count: 9))
+        memo.clipCount = 1
+        return memo
+    }
+
+    private func book(memo: Memo, storedSeconds: Double, uses: Int) -> RefundLedger.Book {
+        RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                 duration: 86_400 * 7),
+                          seconds: [memo.id: storedSeconds],
+                          uses: [memo.id: uses],
+                          coverageStartedAt: nil)
+    }
+
+    @Test("예전 셈으로 적힌 옛 기록도 지금 셈으로 다시 매긴다")
+    func oldEntriesArePricedWithTodaysModel() {
+        let memo = gitTokenMemo()
+        // 5.0.0 이 적어 둔 값(치는 시간만 셌다)
+        let priced = book(memo: memo, storedSeconds: 9, uses: 1).repriced(with: [memo])
+
+        #expect(priced[memo.id] == TimeSavedModel.minimumSavedSeconds,
+                "셈을 고쳤는데 옛 기록만 옛 값으로 남으면, 고친 것이 사용자에게 안 보인다")
+    }
+
+    @Test("기간 영수증과 전체 영수증이 같은 한 번을 같은 금액으로 적는다")
+    func periodAndAllTimeAgree() {
+        let memo = gitTokenMemo()
+        let priced = book(memo: memo, storedSeconds: 9, uses: 1).repriced(with: [memo])
+
+        // 전체 기간이 늘 쓰던 길 - 지금 셈으로 회당 금액 × 횟수.
+        let allTime = KeyboardUsageTracker.earnedSeconds(value: memo.value,
+                                                        type: memo.autoDetectedType,
+                                                        useCount: memo.clipCount)
+
+        #expect(priced[memo.id] == allTime,
+                "같은 한 번이 기간마다 다른 금액이면 둘 중 하나는 거짓말이다")
+    }
+
+    @Test("지운 문구는 다시 매길 수 없다. 적힌 초를 그대로 쓴다")
+    func deletedShortcutsKeepStoredSeconds() {
+        let gone = UUID()
+        let priced = RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                              duration: 86_400 * 7),
+                                       seconds: [gone: 42],
+                                       uses: [gone: 3],
+                                       coverageStartedAt: nil)
+            .repriced(with: [])
+
+        #expect(priced[gone] == 42, "값을 모르는 문구를 억지로 매기면 없는 숫자를 지어내는 것이다")
+    }
+
+    @Test("쓴 적 없는 문구에는 금액이 붙지 않는다")
+    func unusedShortcutsGetNothing() {
+        let memo = gitTokenMemo()
+        let priced = RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                              duration: 86_400 * 7),
+                                       seconds: [:],
+                                       uses: [memo.id: 0],
+                                       coverageStartedAt: nil)
+            .repriced(with: [memo])
+
+        #expect(priced[memo.id] == nil)
+    }
+}

@@ -125,7 +125,9 @@ enum UsagePassport {
             return summary(memos: memos, timeSavedSeconds: timeSavedSeconds, limit: limit)
         }
 
-        let seconds = book.seconds
+        // ⚠️ 적힌 초가 아니라 **지금 셈으로 다시 매긴** 값이다. 안 그러면 셈을 고치기
+        //    전에 쓴 것만 옛 값으로 남아, 같은 한 번이 기간마다 다른 금액이 된다.
+        let seconds = book.repriced(with: memos)
         let uses = book.uses
         let byID = Dictionary(memos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
