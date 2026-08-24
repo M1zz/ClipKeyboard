@@ -173,6 +173,9 @@ enum DefaultsKey {
     static let syncTombstones = "sync.tombstones"
     /// 마지막으로 원격 변경을 이 기기에 적용한 시각과 건수 (App Group) - 동기화 상태 화면 표시용
     static let syncLastPullAt = "sync.lastPullAt"
+    /// 사진 위를 문질러 글자를 담는 화면의 안내 문구를 보여준 횟수.
+    /// 몇 번 해보면 몸이 먼저 기억한다 - 그다음부터 안내는 자리만 차지한다.
+    static let smearHintShownCount = "smear.hint.shownCount"
     static let syncLastPullCount = "sync.lastPullCount"
     /// 마지막으로 이 기기 변경을 올린 시각과 건수 (App Group)
     static let syncLastPushAt = "sync.lastPushAt"

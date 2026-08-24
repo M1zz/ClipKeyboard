@@ -246,8 +246,11 @@ struct ContentInputSection: View {
     @State private var showTextPhotoLibrary = false
     @State private var showTextCamera = false
     @State private var isRecognizingText = false
-    /// 읽어낸 줄들 - 값이 있으면 고르는 시트가 뜬다.
+    /// 읽어낸 줄들 - 값이 있으면 **줄 목록에서** 고르는 시트가 뜬다.
+    /// (문지르기가 어려운 사람을 위한 길. 평소엔 아래 `smearSource` 쪽으로 간다.)
     @State private var recognizedLines: [String]?
+    /// 읽어낸 사진과 글자 자리 - 값이 있으면 **문질러 담는** 화면이 뜬다.
+    @State private var smearSource: SmearSource?
     @State private var showNoTextFound = false
 
     var body: some View {
@@ -258,70 +261,61 @@ struct ContentInputSection: View {
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
-            // 값 채우기 버튼 - 각자 한 줄 폭을 반씩 차지하는 명확한 보더 버튼.
-            // (예전엔 라벨과 한 줄에 눌려 폭이 없어 글자가 세로로 깨졌음.)
-            HStack(spacing: 10) {
-                Button {
-                    pasteFromClipboard()
-                } label: {
-                    Label(NSLocalizedString("붙여넣기", comment: "Paste clipboard value chip"),
-                          systemImage: AppSymbol.docOnClipboard)
-                        .font(.subheadline.weight(.medium))
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                }
-                .buttonStyle(.bordered)
-                .tint(.secondary)
-                .accessibilityLabel(NSLocalizedString("클립보드 값 가져오기", comment: "Paste value from clipboard"))
-
+            // 값을 채우는 두 길. **글자를 가져오는 것**과 **그림을 붙이는 것**은 다른 일이다.
+            //
+            // ⚠️ 예전엔 칩 셋(붙여넣기·글자 읽기·이미지)이 한 줄을 나눠 가져 글자가 잘렸고,
+            //    잘리고 남은 "글자 읽기 / 이미지"는 둘 다 사진 이야기로 읽혀 무엇이 다른지
+            //    흐렸다. 한 줄에 하나씩 놓고, 이름 옆에 **무엇이 값이 되는지**를 적는다.
+            //
+            // ⚠️ 붙여넣기 칩은 뺐다. 클립보드에 쓸 만한 것이 있으면 이 화면 위쪽에
+            //    제안 배너가 뜨고(`ClipboardSuggestionBanner`), 본문을 길게 눌러도 붙는다.
+            VStack(spacing: 8) {
                 // 사진 속 글자 → 값. 계좌번호·카드번호처럼 **보고 옮겨 적던 것**이
-                // 이 앱에 들어오는 가장 흔한 경로라, 붙여넣기 바로 옆에 둔다.
+                // 이 앱에 들어오는 가장 흔한 경로라 위에 둔다.
                 Menu {
-                    Button {
-                        showTextPhotoLibrary = true
-                    } label: {
-                        Label(NSLocalizedString("사진 보관함에서", comment: "Read text from photo library"),
-                              systemImage: AppSymbol.photo)
-                    }
-                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                    Section {
                         Button {
-                            showTextCamera = true
+                            showTextPhotoLibrary = true
                         } label: {
-                            Label(NSLocalizedString("카메라로 찍어서", comment: "Read text using the camera"),
-                                  systemImage: AppSymbol.cameraViewfinder)
+                            Label(NSLocalizedString("사진 보관함에서", comment: "Read text from photo library"),
+                                  systemImage: AppSymbol.photo)
                         }
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            Button {
+                                showTextCamera = true
+                            } label: {
+                                Label(NSLocalizedString("카메라로 찍어서", comment: "Read text using the camera"),
+                                      systemImage: AppSymbol.cameraViewfinder)
+                            }
+                        }
+                    } header: {
+                        // 사진을 고르기 **전에** 무슨 일이 일어나는지 알려 준다.
+                        // 찍고 나서야 알면, 필요한 글자가 안 나오게 찍은 뒤다.
+                        Text(NSLocalizedString("필요한 글자만 손가락으로 문질러 담아요",
+                                               comment: "Read-text menu header: smear to pick"))
                     }
                 } label: {
-                    // ⚠️ 칩 하나에 4글자를 넘기지 말 것 - 세 칸으로 나눈 폭이라 말줄임으로 잘린다.
-                    //    "사진 …"류를 쓰지 않는 이유는 하나 더 있다: 옆 칩이 '이미지'라
-                    //    둘 다 사진 이야기로 읽혀 무엇이 다른지 흐려진다. 여기는 **글자**를 가져온다.
-                    Label(NSLocalizedString("글자 읽기", comment: "Fill the value from text in a photo"),
-                          systemImage: AppSymbol.textViewfinder)
-                        .font(.subheadline.weight(.medium))
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
+                    sourceRow(
+                        symbol: AppSymbol.textViewfinder,
+                        title: NSLocalizedString("스캔해서 글자 넣기", comment: "Scan text into the value row title"),
+                        caption: NSLocalizedString("사진 속 글자만 읽어 와요. 사진은 저장되지 않아요",
+                                                   comment: "Scan text into the value row caption")
+                    )
                 }
-                .buttonStyle(.bordered)
-                .tint(.secondary)
                 .disabled(isRecognizingText)
-                .accessibilityLabel(NSLocalizedString("사진에서 글자를 읽어 값으로 넣기",
-                                                      comment: "Fill value from text in a photo (a11y)"))
 
+                // 그림 자체가 값이 되는 길. 위와 달리 사진이 **남는다.**
                 Button {
                     showImagePicker = true
                 } label: {
-                    Label(NSLocalizedString("이미지", comment: "Add image chip"),
-                          systemImage: AppSymbol.photo)
-                        .font(.subheadline.weight(.medium))
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
+                    sourceRow(
+                        symbol: AppSymbol.photoBadgePlus,
+                        title: NSLocalizedString("이미지 붙이기", comment: "Attach image row title"),
+                        caption: NSLocalizedString("사진을 그대로 담아요. 누르면 사진이 복사돼요",
+                                                   comment: "Attach image row caption")
+                    )
                 }
-                .buttonStyle(.bordered)
-                .tint(.secondary)
-                .accessibilityLabel(NSLocalizedString("사진 라이브러리에서 선택", comment: "Select from photo library"))
+                .buttonStyle(.plain)
             }
 
             // 인식은 몇 초 걸릴 수 있다 - 아무 반응이 없으면 눌린 줄 모르고 다시 누른다.
@@ -548,6 +542,25 @@ struct ContentInputSection: View {
         .sheet(isPresented: $showTextCamera) {
             ImagePickerView(sourceType: .camera) { image in recognizeText(in: image) }
         }
+        // 문질러 담기 - 사진에서 **필요한 곳만** 손가락으로 쓸어 담는 기본 길.
+        .sheet(item: $smearSource) { source in
+            SmearTextPickerView(
+                image: source.image,
+                layout: source.layout,
+                onPick: { picked in
+                    value = picked
+                    showToastMessage(NSLocalizedString("사진에서 값을 넣었습니다", comment: "Filled value from photo toast"))
+                },
+                onSwitchToLineList: {
+                    // 문지르기 어려운 사람(VoiceOver·손 떨림)을 위한 다른 길.
+                    // ⚠️ 시트가 닫히는 중에 다음 시트를 띄우면 삼켜진다 - 닫힘을 기다렸다 연다.
+                    let lines = source.layout.plainLines
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        recognizedLines = lines
+                    }
+                }
+            )
+        }
         .sheet(isPresented: Binding(
             get: { recognizedLines != nil },
             set: { if !$0 { recognizedLines = nil } }
@@ -593,58 +606,66 @@ struct ContentInputSection: View {
         )
     }
 
-    /// 고른 사진에서 글자를 읽어 **고르는 시트**로 넘긴다.
+    /// 값을 채우는 길 한 줄. 이름만으로는 둘이 헷갈린다 - **무엇이 값이 되는지**를 함께 적는다.
+    ///
+    /// ⚠️ 글자를 자르지 않는다. 큰 글씨(Dynamic Type)에서도 설명이 접혀 내려갈 뿐
+    ///    말줄임으로 사라지지 않아야, 두 길의 차이가 끝까지 읽힌다.
+    private func sourceRow(symbol: String, title: String, caption: String) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: symbol)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(theme.accent)
+                .frame(width: 34, height: 34)
+                .background(Circle().fill(theme.accentSoft))
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Text(caption)
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+            .multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Image(systemName: AppSymbol.chevronRight)
+                .font(.caption.weight(.semibold))
+                .foregroundColor(theme.textFaint)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityLabel(title)
+        .accessibilityHint(caption)
+    }
+
+    /// 고른 사진에서 글자를 읽어 **문질러 담는 화면**으로 넘긴다.
     ///
     /// ⚠️ 읽은 것을 값에 곧바로 쏟아붓지 않는다. 카드 한 장에서도 카드사 이름·영문 이름·
     ///    유효기간이 함께 읽히는데, 전부 넣으면 사용자가 지우는 일을 하게 된다
-    ///    손으로 치는 것보다 나을 게 없다. 줄을 늘어놓고 **하나를 집게** 해야 사진이 입력을 대신한다.
+    ///    손으로 치는 것보다 나을 게 없다. 필요한 곳만 **손가락으로 쓸어 담게** 해야
+    ///    사진이 입력을 대신한다.
     ///
     /// ⚠️ 사진 자체는 첨부하지 않는다. 여기서 사진은 글자를 담아 온 그릇일 뿐이고,
     ///    첨부는 옆의 '이미지' 버튼이 하는 다른 일이다.
     private func recognizeText(in image: UIImage?) {
         guard let image else { return }
         isRecognizingText = true
-        OCRService.shared.recognizeText(from: image) { texts in
+        // 글자만이 아니라 **글자가 어디에 있는지**까지 읽는다 - 손가락으로 고르려면 자리가 필요하다.
+        OCRService.shared.recognizeLayout(from: image) { layout in
             isRecognizingText = false
-            let lines = texts
-                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-                .filter { !$0.isEmpty }
-            guard !lines.isEmpty else {
+            guard !layout.isEmpty else {
                 showNoTextFound = true
                 return
             }
-            recognizedLines = lines
+            smearSource = SmearSource(image: image, layout: layout)
         }
-    }
-
-    /// 클립보드 값 가져오기 - 텍스트가 있으면 값으로 넣고, 이미지면 이미지로 첨부한다.
-    private func pasteFromClipboard() {
-        #if os(iOS)
-        if let text = UIPasteboard.general.string,
-           !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            value = text
-            showToastMessage(NSLocalizedString("클립보드 값을 가져왔습니다", comment: "Pasted clipboard text into value toast"))
-            return
-        }
-        guard UIPasteboard.general.hasImages else {
-            showToastMessage(NSLocalizedString("클립보드가 비어 있습니다", comment: "Clipboard empty toast"))
-            return
-        }
-
-        let image = UIPasteboard.general.image
-            ?? UIPasteboard.general.data(forPasteboardType: "public.png").flatMap(UIImage.init)
-            ?? UIPasteboard.general.data(forPasteboardType: "public.jpeg").flatMap(UIImage.init)
-
-        if let image {
-            withAnimation(reduceMotion ? nil : .default) {
-                attachedImages.append(ImageWrapper(image: image))
-                value = "" // 이미지를 값으로 쓰므로 텍스트 값은 비운다.
-            }
-            showToastMessage(NSLocalizedString("이미지를 추가했습니다", comment: ""))
-        } else {
-            showToastMessage(NSLocalizedString("이미지 형식을 지원하지 않습니다", comment: ""))
-        }
-        #endif
     }
 
     // 이미지 클립보드에 복사

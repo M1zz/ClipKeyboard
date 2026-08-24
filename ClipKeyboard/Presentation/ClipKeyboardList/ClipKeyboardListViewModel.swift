@@ -1050,26 +1050,33 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Clipboard Capture Card
 
     /// 앱 진입 시 클립보드 내용을 분류하고, 이전에 "숨기기"한 값과 다르면 상단 카드를 표시한다.
+    ///
+    /// ⚠️ 클립보드는 **메인 밖에서** 읽는다(`PasteboardReader`). 이 함수는 화면이 뜰 때와
+    ///    앱이 앞으로 올 때마다 불리는데, 유니버설 클립보드가 켜져 있으면 값 하나 읽는 데
+    ///    옆 기기를 기다리느라 초 단위로 걸린다. 그걸 메인에서 하면 앱이 그 자리에서 굳는다.
+    ///    기록: docs/HANG_PASTEBOARD_5_0_1.md
     func checkFreshClipboard() {
         #if os(iOS)
-        guard let clipboardString = UIPasteboard.general.string,
-              !clipboardString.isEmpty else {
-            hasFreshClipboard = false
-            return
-        }
+        PasteboardReader.string { [weak self] clipboardString in
+            guard let self else { return }
+            guard let clipboardString, !clipboardString.isEmpty else {
+                self.hasFreshClipboard = false
+                return
+            }
 
-        let lastDismissed = UserDefaults.standard.string(forKey: lastDismissedClipboardKey) ?? ""
-        if clipboardString == lastDismissed {
-            hasFreshClipboard = false
-            return
-        }
+            let lastDismissed = UserDefaults.standard.string(forKey: self.lastDismissedClipboardKey) ?? ""
+            if clipboardString == lastDismissed {
+                self.hasFreshClipboard = false
+                return
+            }
 
-        value = clipboardString
-        let classification = ClipboardClassificationService.shared.classify(content: value)
-        clipboardDetectedType = classification.type
-        clipboardConfidence = classification.confidence
-        hasFreshClipboard = true
-        print("📋 [checkFreshClipboard] 새 클립보드 감지: \(classification.type.rawValue)")
+            self.value = clipboardString
+            let classification = ClipboardClassificationService.shared.classify(content: clipboardString)
+            self.clipboardDetectedType = classification.type
+            self.clipboardConfidence = classification.confidence
+            self.hasFreshClipboard = true
+            print("📋 [checkFreshClipboard] 새 클립보드 감지: \(classification.type.rawValue)")
+        }
         #endif
     }
 
@@ -1267,6 +1274,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // iOS 16+는 읽을 때마다 붙여넣기 허용 프롬프트를 띄우므로, 토큰이 없는 대다수 메모에서
         // 미리 읽어 두면 아무 이유 없이 프롬프트가 뜬다.
         let clipboard = TemplateVariableProcessor.containsClipboardToken(text)
+            // pasteboard-ok: {클립보드} 가 든 단축어를 눌렀을 때만 읽는다
             ? UIPasteboard.general.string
             : nil
         // keepCursorToken은 기본값(false) - 여기는 클립보드로 복사하는 경로라

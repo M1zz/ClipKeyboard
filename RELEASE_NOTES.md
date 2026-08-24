@@ -1,5 +1,51 @@
 # ClipKeyboard Release Notes
 
+## v5.0.2 (build 1)
+
+### 한국어
+
+사진에서 필요한 글자만 문질러 담습니다
+
+통장에 적힌 계좌번호나 명함의 전화번호를 보고 옮겨 적지 않아도 됩니다. 단축어를 만들다가 스캔해서 글자 넣기로 사진을 찍고, 필요한 곳 위를 손가락으로 문지르면 지나간 글자만 내용으로 들어옵니다.
+
+사진 한 장에는 필요한 것보다 많은 글자가 들어 있습니다. 통장 사진이라면 은행 이름과 예금주와 상품명이 계좌번호와 함께 찍힙니다. 읽은 것을 전부 넣으면 결국 지우는 일을 하게 됩니다. 손가락이 지나간 자리만 담기니까 계좌번호만 집어 올 수 있습니다.
+
+잘못 담았으면 지우개로 다시 문지르면 빠집니다. 글자가 작으면 두 손가락으로 벌려 확대하세요. 확대할수록 더 정밀하게 짚힙니다. 하이픈 없는 긴 숫자는 다섯 자씩 나뉘어 있어서 필요한 자리까지만 담을 수 있습니다.
+
+문지르기가 어려우면 오른쪽 위 줄로 고르기를 누르세요. 읽어낸 줄이 목록으로 떠서 눌러 고를 수 있고, 여러 줄을 이어 붙일 수도 있습니다.
+
+사진은 저장되지 않습니다. 글자만 꺼내 쓰고 사진은 버립니다. 읽는 일은 iPhone 안에서 끝나기 때문에 사진도 글자도 어디로도 전송되지 않습니다.
+
+스캔과 이미지를 갈라 놓았습니다
+
+붙여넣을 내용 아래에 단추가 셋이라 글자가 잘렸고, 남은 둘은 둘 다 사진 이야기로 읽혀 무엇이 다른지 흐렸습니다. 한 줄에 하나씩 놓고 무엇이 값이 되는지 적었습니다. 스캔해서 글자 넣기는 사진 속 글자만 읽어 오고 사진은 버립니다. 이미지 붙이기는 사진을 그대로 담아서, 단축어를 누르면 그림이 복사됩니다.
+
+앱을 다시 열 때 잠깐 멈추던 것을 고쳤습니다
+
+맥에서 무언가 복사한 직후 앱을 앞으로 부르면, 그 내용을 옆 기기에서 끌어오느라 화면이 잠깐 굳었습니다. 기다리는 자리를 화면 밖으로 옮겼습니다. 클립보드에 그림이 들어 있을 때 그것을 줄이고 저장하던 일도 함께 옮겼습니다.
+
+### English
+
+Swipe a photo to take only the text you need
+
+You no longer have to retype an account number from a bankbook or a phone number from a business card. While creating a shortcut, tap Scan text in, take a photo, and swipe your finger over the part you need. Only the text your finger passes over becomes the content.
+
+A photo holds more text than you need. A bankbook photo carries the bank name, the account holder and the product name along with the account number. Pour all of it into the value and you end up deleting most of it. Swiping takes just the account number.
+
+Picked something by mistake? Swipe over it again with the eraser and it comes back out. Pinch with two fingers to zoom in on small text, and the more you zoom the more precisely it selects. Long numbers without hyphens are split into five character pieces, so you can take just the part you need.
+
+If swiping is hard, tap Pick by line at the top right. The recognized lines appear as a list you can tap, and you can join several lines together.
+
+The photo is never saved. The text is taken out and the photo is discarded. Recognition happens entirely on your iPhone, so neither the photo nor the text is sent anywhere.
+
+Scanning and attaching now look like the different things they are
+
+Three buttons shared one row, the labels were cut off, and the two that remained both read as something about photos. Each now gets its own row that says what becomes the value. Scan text in takes only the text from the photo and discards the photo. Attach an image keeps the photo itself, so tapping the shortcut copies the image.
+
+Fixed a brief freeze when reopening the app
+
+Copy something on your Mac, bring the app forward, and the screen would freeze for a moment while it pulled that content across from the other device. That wait now happens away from the screen, along with the resizing and storing of images left on the clipboard.
+
 ## v5.0.1 (build 1)
 
 ### 한국어

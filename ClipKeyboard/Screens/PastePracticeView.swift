@@ -150,6 +150,7 @@ struct PastePracticeView: View {
     private var helpButton: some View {
         Button {
             #if canImport(UIKit)
+            // pasteboard-ok: 방금 사용자가 붙여넣은 것을 확인하는 연습 화면이다
             typed = UIPasteboard.general.string ?? ""
             #endif
         } label: {

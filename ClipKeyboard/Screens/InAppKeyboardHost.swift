@@ -213,6 +213,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     @discardableResult
     func pasteImageFromClipboard() -> Bool {
         guard UIPasteboard.general.hasImages,
+              // pasteboard-ok: 입력창의 붙여넣기 버튼을 눌러 부른 자리다
               let image = UIPasteboard.general.image else { return false }
         attachedImage = image
         KeyboardHaptics.stamp()
@@ -437,6 +438,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         var clipboard: String?
         #if os(iOS)
         if TemplateVariableProcessor.containsClipboardToken(text) {
+            // pasteboard-ok: {클립보드} 가 든 문구를 눌렀을 때만 읽는다
             clipboard = UIPasteboard.general.string
         }
         #endif

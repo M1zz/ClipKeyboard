@@ -25,6 +25,15 @@ sh "$ROOT/scripts/check_main_thread_cloudkit.sh" || {
   echo "   (긴급 우회: git commit --no-verify)"
   exit 1
 }
+
+# 클립보드를 메인 스레드에서 읽는 코드가 들어오면 커밋 차단.
+# 유니버설 클립보드가 켜져 있으면 그 한 줄이 초 단위로 기다린다 (5.0.1 멈춤).
+sh "$ROOT/scripts/check_main_thread_pasteboard.sh" || {
+  echo ""
+  echo "❌ 커밋 차단: 클립보드를 메인에서 읽고 있습니다."
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+}
 SH
 
 chmod +x "$HOOK"

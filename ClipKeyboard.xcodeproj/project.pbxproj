@@ -115,6 +115,9 @@
 		58TV00012F0000000000000001 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		58TV00032F0000000000000003 /* TemplateVariableProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */; };
 		5902BF8EBEF271AC2729F554 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */; };
+		5AE1C2D30001SMEAR0000000 /* SmearTextPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */; };
+		5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */; };
+		5AE1C2D30005PASTE0000003 /* PasteboardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */; };
 		5D5FC1F549C20F256F7B40BA /* PastePracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2619185DB1FDBE519DF7FB51 /* PastePracticeView.swift */; };
 		61864F395C2773BF9C2498DF /* CategorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */; };
 		6458A8E49F277CF662FA4424 /* SlotPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */; };
@@ -399,6 +402,8 @@
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
+		5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmearTextPickerView.swift; sourceTree = "<group>"; };
+		5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PasteboardReader.swift; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		616238CD1282F3D06FC7E369 /* BulkImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportView.swift; sourceTree = "<group>"; };
 		616238CD1282F3D06FC7E36A /* BulkImportKeyPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportKeyPreview.swift; sourceTree = "<group>"; };
@@ -507,7 +512,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
+		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -517,29 +522,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = widget;
-			sourceTree = "<group>";
-		};
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = ClipKeyboardTests;
-			sourceTree = "<group>";
-		};
+		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -888,6 +872,7 @@
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
 				9A29C214B56C5162247ACD82 /* LaunchGuard.swift */,
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
+				5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */,
 				033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */,
 			);
 			path = Service;
@@ -965,6 +950,7 @@
 				616238CD1282F3D06FC7E369 /* BulkImportView.swift */,
 				616238CD1282F3D06FC7E36A /* BulkImportKeyPreview.swift */,
 				616238CD1282F3D06FC7E36B /* PhotoValuePicker.swift */,
+				5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */,
 				616238CD1282F3D06FC7E36D /* ShortcutMartFillView.swift */,
 				616238CD1282F3D06FC7E36C /* ShortcutMartView.swift */,
 				A56FDA09917E06D6C068468D /* DraftListView.swift */,
@@ -1366,6 +1352,7 @@
 				581D8A972F49B4DD00F2F032 /* ProFeatureManager.swift in Sources */,
 				58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */,
 				58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */,
+				5AE1C2D30005PASTE0000003 /* PasteboardReader.swift in Sources */,
 				58DM00032FAA1B0100000003 /* DemoDataService.swift in Sources */,
 				AA00000700000001F3B00003 /* AppTheme.swift in Sources */,
 				TPH00032F0000000000000003 /* TemplatePlaceholder.swift in Sources */,
@@ -1461,6 +1448,7 @@
 				0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */,
 				0D09EE54F35B63F09270E523 /* BulkImportKeyPreview.swift in Sources */,
 				0D09EE54F35B63F09270E524 /* PhotoValuePicker.swift in Sources */,
+				5AE1C2D30001SMEAR0000000 /* SmearTextPickerView.swift in Sources */,
 				0D09EE54F35B63F09270E526 /* ShortcutMartFillView.swift in Sources */,
 				0D09EE54F35B63F09270E525 /* ShortcutMartView.swift in Sources */,
 				581D8A9A2F49B4E900F2F032 /* PaywallView.swift in Sources */,
@@ -1555,6 +1543,7 @@
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
 				9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */,
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,
+				5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */,
 				A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */,
 				C09F146774868650F62B4FB8 /* TypingSpeedMeter.swift in Sources */,
 			);

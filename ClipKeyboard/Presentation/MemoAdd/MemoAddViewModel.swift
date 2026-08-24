@@ -686,10 +686,25 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - Clipboard Helpers
 
+    /// 화면이 뜰 때 클립보드에 쓸 만한 것이 있으면 제안 배너를 띄운다.
+    ///
+    /// ⚠️ 읽기는 **메인 밖에서** 한다. 그림이 담겨 있으면 읽는 데다 줄이고 인코딩하는 일까지
+    ///    붙는데, 예전에는 그 전부가 메인에서 돌아 화면이 뜨는 것을 막고 있었다.
+    ///    기록: docs/HANG_PASTEBOARD_5_0_1.md
     private func checkClipboardAndSuggest() {
         #if os(iOS)
-        guard let history = ClipboardClassificationService.shared.checkClipboard() else { return }
+        ClipboardClassificationService.shared.checkClipboardOffMain { [weak self] history in
+            guard let self, let history else { return }
+            // 읽어 오는 사이에 사용자가 이미 무언가를 하고 있을 수 있다.
+            // 수정으로 넘어갔거나 이미 값을 채웠으면 이제 와서 끼어들지 않는다.
+            guard self.editingMemo == nil, !self.showClipboardSuggestion else { return }
+            self.applyClipboardSuggestion(history)
+        }
+        #endif
+    }
 
+    #if os(iOS)
+    private func applyClipboardSuggestion(_ history: SmartClipboardHistory) {
         if history.contentType == ClipboardContentType.text {
             guard history.content.count < 500 else { return }
             guard history.content != value else { return }
@@ -716,11 +731,12 @@ final class MemoAddViewModel: ObservableObject {
 
             print("📋 [MemoAddViewModel] 클립보드 이미지 감지: \(history.content)")
         }
-        #endif
     }
+    #endif
 
     private func acceptImageClipboardSuggestion(_ history: SmartClipboardHistory) {
         #if os(iOS)
+        // pasteboard-ok: 제안 배너의 "가져오기" 를 눌렀다
         if let image = UIPasteboard.general.image {
             withAnimation { attachedImages = [ImageWrapper(image: image)] }
             print("✅ [MemoAddViewModel] 클립보드에서 이미지를 가져왔습니다")

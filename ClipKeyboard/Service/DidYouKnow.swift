@@ -186,6 +186,13 @@ extension DidYouKnow {
             action: .openBulkImport
         ),
         DidYouKnow(
+            id: "photo-smear",
+            title: NSLocalizedString("종이에 적힌 건 옮겨 적지 말고 문지르세요", comment: "DYK title: photo smear"),
+            body: NSLocalizedString("단축어를 만들 때 스캔해서 글자 넣기로 사진을 찍고, 필요한 곳 위를 손가락으로 쓱 문지르면 그 글자만 값으로 들어와요. 통장 사진에서 계좌번호만, 명함에서 전화번호만 집어 올 수 있습니다.", comment: "DYK body: photo smear"),
+            symbol: AppSymbol.textViewfinder,
+            action: .openList
+        ),
+        DidYouKnow(
             id: "quick-note-control",
             title: NSLocalizedString("제어센터에서 바로 적어 둘 수 있어요", comment: "DYK title: quick note control"),
             body: NSLocalizedString("제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.", comment: "DYK body: quick note control"),

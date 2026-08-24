@@ -358,25 +358,31 @@ struct ClipboardList: View {
         }
         guard !isCheckingClipboard else { return }
         isCheckingClipboard = true
-        defer { isCheckingClipboard = false }
 
-        guard let currentClipboard = UIPasteboard.general.string,
-              !currentClipboard.isEmpty else { return }
+        // ⚠️ 읽기는 **메인 밖에서** 한다. 유니버설 클립보드가 켜져 있으면 이 한 줄이
+        //    옆 기기를 기다리느라 초 단위로 걸리고, 메인에서 하면 화면이 그동안 굳는다.
+        //    ⚠️ `defer` 로 깃발을 내리지 않는다 - 그러면 읽어 오기도 전에 내려간다.
+        //    기록: docs/HANG_PASTEBOARD_5_0_1.md
+        PasteboardReader.string { currentClipboard in
+            isCheckingClipboard = false
 
-        do {
-            let history = try MemoStore.shared.loadSmartClipboardHistory()
-            guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
+            guard let currentClipboard, !currentClipboard.isEmpty else { return }
 
-            try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
-            print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
-            loadHistory()
+            do {
+                let history = try MemoStore.shared.loadSmartClipboardHistory()
+                guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
 
-            let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
-            if let newItem = updatedHistory.first {
-                highlightNewlyAdded(newItem)
+                try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
+                print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
+                loadHistory()
+
+                let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
+                if let newItem = updatedHistory.first {
+                    highlightNewlyAdded(newItem)
+                }
+            } catch {
+                print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
             }
-        } catch {
-            print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
         }
     }
 

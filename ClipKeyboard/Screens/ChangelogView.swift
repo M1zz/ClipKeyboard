@@ -31,6 +31,19 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.2",
+            released: nil,
+            highlights: [
+                // 사진에서 글자 가져오기
+                NSLocalizedString("사진을 찍고 필요한 글자 위를 손가락으로 문지르면 그 부분만 값으로 들어와요. 통장 사진에서 계좌번호만 집어 올 수 있어요", comment: "Changelog 5.0.2 smear to pick"),
+                NSLocalizedString("문지르기 어려우면 읽은 줄을 목록에서 고를 수도 있어요", comment: "Changelog 5.0.2 smear fallback"),
+                NSLocalizedString("붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요", comment: "Changelog 5.0.2 scan vs image"),
+
+                // 멈춤
+                NSLocalizedString("앱을 다시 열 때 잠깐 멈추던 것을 고쳤어요. 맥에서 복사한 것을 가져오느라 기다리던 자리를 화면 밖으로 옮겼어요", comment: "Changelog 5.0.2 pasteboard hang"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.1",
             released: nil,
             highlights: [

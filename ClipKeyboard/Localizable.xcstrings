@@ -9632,6 +9632,17 @@
         }
       }
     },
+    "가져올 글자 위를 손가락으로 쓸어 보세요. 두 손가락으로 벌리면 확대됩니다.": {
+      "comment": "Smear picker hint",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe your finger over the text you want. Pinch with two fingers to zoom in."
+          }
+        }
+      }
+    },
     "가져올 단축어가 없어요": {
       "comment": "No snippets to import",
       "localizations": {
@@ -10377,6 +10388,17 @@
         }
       }
     },
+    "고른 글자": {
+      "comment": "Smear picker: picked text (a11y)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Picked text"
+          }
+        }
+      }
+    },
     "고양이": {
       "comment": "Living skin name: cat",
       "localizations": {
@@ -10714,8 +10736,20 @@
         }
       }
     },
+    "글자 위를 문질러 주세요": {
+      "comment": "Smear picker apply button (none picked)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe over some text"
+          }
+        }
+      }
+    },
     "글자 읽기": {
       "comment": "Fill the value from text in a photo",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -12206,7 +12240,7 @@
       }
     },
     "다시 치지 않은 횟수": {
-      "comment": "Receipt: total uses label",
+      "comment": "Receipt: total uses label\nUsage passport: headline label",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -13174,6 +13208,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Couldn't import snippets. Please try again later."
+          }
+        }
+      }
+    },
+    "단축어를 만들 때 스캔해서 글자 넣기로 사진을 찍고, 필요한 곳 위를 손가락으로 쓱 문지르면 그 글자만 값으로 들어와요. 통장 사진에서 계좌번호만, 명함에서 전화번호만 집어 올 수 있습니다.": {
+      "comment": "DYK body: photo smear",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "When you create a shortcut, tap Scan text in, take a photo, then swipe your finger over the part you need. Only that text goes into the value: just the account number from a bankbook, just the phone number from a business card."
           }
         }
       }
@@ -14656,6 +14701,17 @@
         }
       }
     },
+    "모두 지우기": {
+      "comment": "Smear picker tool: clear selection",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear all"
+          }
+        }
+      }
+    },
     "모든 AI 처리는 기기 안에서만 이루어져요. 텍스트가 기기 밖으로 전송되지 않습니다.": {
       "comment": "AI on-device privacy footer",
       "localizations": {
@@ -15121,6 +15177,39 @@
           "stringUnit": {
             "state": "translated",
             "value": "An error occurred. Please check your network connection and iCloud status, then try again."
+          }
+        }
+      }
+    },
+    "문지르기 어려우면 읽은 줄을 목록에서 고를 수도 있어요": {
+      "comment": "Changelog 5.0.2 smear fallback",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If swiping is hard, you can pick from a list of the recognized lines instead"
+          }
+        }
+      }
+    },
+    "문지르는 대신 읽은 줄을 목록에서 고릅니다": {
+      "comment": "Switch to line list picker (a11y hint)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick from a list of recognized lines instead of swiping"
+          }
+        }
+      }
+    },
+    "문질러 담기": {
+      "comment": "Smear text picker title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe to Pick"
           }
         }
       }
@@ -16685,6 +16774,7 @@
     },
     "붙여넣기": {
       "comment": "Paste clipboard value chip",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -16802,6 +16892,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Enter the content to paste. To make a fill-in slot, wrap a variable name in curly braces, e.g. name."
+          }
+        }
+      }
+    },
+    "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
+      "comment": "Changelog 5.0.2 scan vs image",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The content buttons are now two separate rows. Scan text in takes only the text from a photo; Attach an image keeps the photo itself"
           }
         }
       }
@@ -17363,6 +17464,17 @@
         }
       }
     },
+    "사진 속 글자": {
+      "comment": "Smear picker canvas (a11y label)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text in the photo"
+          }
+        }
+      }
+    },
     "사진 속 글자를 값으로 바로 넣을 수 있어요. 읽은 줄에서 필요한 것만 고르면 돼요": {
       "comment": "Changelog 4.4.5 item 2",
       "localizations": {
@@ -17370,6 +17482,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fill a value straight from text in a photo, just pick the line you need"
+          }
+        }
+      }
+    },
+    "사진 속 글자만 읽어 와요. 사진은 저장되지 않아요": {
+      "comment": "Scan text into the value row caption",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Takes only the text from a photo. The photo is not saved"
           }
         }
       }
@@ -17420,6 +17543,7 @@
     },
     "사진에서 글자를 읽어 값으로 넣기": {
       "comment": "Fill value from text in a photo (a11y)",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -17503,6 +17627,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tidak bisa memuat foto itu"
+          }
+        }
+      }
+    },
+    "사진을 그대로 담아요. 누르면 사진이 복사돼요": {
+      "comment": "Attach image row caption",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keeps the photo itself. Tapping the shortcut copies the image"
+          }
+        }
+      }
+    },
+    "사진을 찍고 필요한 글자 위를 손가락으로 문지르면 그 부분만 값으로 들어와요. 통장 사진에서 계좌번호만 집어 올 수 있어요": {
+      "comment": "Changelog 5.0.2 smear to pick",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take a photo and swipe over the text you need. Only that part becomes the value, like just the account number from a bankbook photo"
           }
         }
       }
@@ -19017,6 +19163,17 @@
         }
       }
     },
+    "손가락으로 문질러 고릅니다. 문지르기 어려우면 오른쪽 위 줄로 고르기를 쓰세요.": {
+      "comment": "Smear picker canvas (a11y hint)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe with your finger to pick. If swiping is hard, use Pick by line at the top right."
+          }
+        }
+      }
+    },
     "손쉬운 사용": {
       "comment": "Accessibility guide navigation title\nAccessibility guide settings entry",
       "localizations": {
@@ -19266,6 +19423,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "One digit is off. Compare it with the number on your card."
+          }
+        }
+      }
+    },
+    "스캔해서 글자 넣기": {
+      "comment": "Scan text into the value row title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan text in"
           }
         }
       }
@@ -19887,6 +20055,17 @@
         }
       }
     },
+    "아직 고른 글자가 없어요": {
+      "comment": "Smear picker: nothing selected yet",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing picked yet"
+          }
+        }
+      }
+    },
     "아직 그릴 데이터가 없어요.": {
       "comment": "Chart: no data yet",
       "localizations": {
@@ -20423,6 +20602,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Setelah instal ulang atau di ponsel baru, tak ada yang diambil dari iCloud sampai Anda aktifkan"
+          }
+        }
+      }
+    },
+    "앱을 다시 열 때 잠깐 멈추던 것을 고쳤어요. 맥에서 복사한 것을 가져오느라 기다리던 자리를 화면 밖으로 옮겼어요": {
+      "comment": "Changelog 5.0.2 pasteboard hang",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixed a brief freeze when reopening the app. Waiting for clipboard content copied on your Mac now happens off the screen's path"
           }
         }
       }
@@ -20997,6 +21187,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "여러 단축어를 순서대로 자동 입력하는\\nCombo를 만들어보세요"
+          }
+        }
+      }
+    },
+    "여러 줄을 골랐을 때 줄바꿈을 살립니다": {
+      "comment": "Smear picker: keep line breaks (a11y hint)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keeps the line breaks when you pick more than one line"
           }
         }
       }
@@ -21841,6 +22042,17 @@
         }
       }
     },
+    "원래대로": {
+      "comment": "Smear picker tool: reset zoom",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset"
+          }
+        }
+      }
+    },
     "원문": {
       "comment": "Translation: source text label",
       "localizations": {
@@ -22063,6 +22275,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@ in view: %2$d"
+          }
+        }
+      }
+    },
+    "이 글자 담기 (%d자)": {
+      "comment": "Smear picker apply button (count)",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use this text (%d chars)"
           }
         }
       }
@@ -22567,6 +22790,17 @@
         }
       }
     },
+    "이동": {
+      "comment": "Smear picker tool: pan",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Move"
+          }
+        }
+      }
+    },
     "이런 값을 넣어요": {
       "comment": "Placeholder examples header",
       "localizations": {
@@ -22919,7 +23153,7 @@
       }
     },
     "이미지": {
-      "comment": "Add image chip\nImage\nShortcut type: image",
+      "comment": "Image\nShortcut type: image",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -23034,6 +23268,17 @@
         }
       }
     },
+    "이미지 붙이기": {
+      "comment": "Attach image row title",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attach an image"
+          }
+        }
+      }
+    },
     "이미지 삭제": {
       "comment": "Remove image",
       "localizations": {
@@ -23093,6 +23338,7 @@
       }
     },
     "이미지 형식을 지원하지 않습니다": {
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -23182,6 +23428,7 @@
       }
     },
     "이미지를 추가했습니다": {
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -24703,7 +24950,7 @@
       }
     },
     "전체": {
-      "comment": "All\nCategory tab: all\nCategory: all\nDonut center: total\nRefund period: all time\nShortcut mart: show every scenario",
+      "comment": "All\nCategory tab: all\nCategory: all\nDonut center: total\nRefund period: all time\nShortcut mart: show every scenario\nSmear picker tool: select all",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -25289,6 +25536,17 @@
         }
       }
     },
+    "종이에 적힌 건 옮겨 적지 말고 문지르세요": {
+      "comment": "DYK title: photo smear",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Don't retype what's on paper. Swipe it."
+          }
+        }
+      }
+    },
     "좋아요": {
       "comment": "Onboarding: start button",
       "extractionState": "stale",
@@ -25387,6 +25645,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kami akan memandu Anda mengetuk snippet, template, dan combo yang sudah disiapkan sekali lagi. Daftar Anda tidak akan berubah."
+          }
+        }
+      }
+    },
+    "줄로 고르기": {
+      "comment": "Switch to line list picker",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick by line"
+          }
+        }
+      }
+    },
+    "줄바꿈": {
+      "comment": "Smear picker tool: keep line breaks",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Line breaks"
           }
         }
       }
@@ -25732,6 +26012,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Open in Maps"
+          }
+        }
+      }
+    },
+    "지우개": {
+      "comment": "Smear picker tool: eraser",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eraser"
           }
         }
       }
@@ -27460,6 +27751,7 @@
     },
     "클립보드 값 가져오기": {
       "comment": "Paste value from clipboard",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -27471,6 +27763,7 @@
     },
     "클립보드 값을 가져왔습니다": {
       "comment": "Pasted clipboard text into value toast",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -27606,6 +27899,7 @@
     },
     "클립보드가 비어 있습니다": {
       "comment": "Clipboard empty toast",
+      "extractionState": "stale",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -30367,6 +30661,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pixel village"
+          }
+        }
+      }
+    },
+    "필요한 글자만 손가락으로 문질러 담아요": {
+      "comment": "Read-text menu header: smear to pick",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swipe your finger over just the text you need"
           }
         }
       }
