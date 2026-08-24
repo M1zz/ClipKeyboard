@@ -83,8 +83,13 @@ ClipKeyboard/
 ├── Shared/                      # Shared Models (iOS + macOS)
 ├── Config/                      # Build Configurations
 ├── docs/                        # Documentation & Landing Page
-│   ├── index.html               # Marketing Landing Page
-│   └── *.md                     # Design Guides, Release Notes
+│   ├── index.html               # Marketing Landing Page (GitHub Pages)
+│   ├── release-notes/           # 버전별 App Store 문안 + HISTORY.md
+│   ├── engineering/             # 개발 기록·설정·테스트
+│   ├── postmortem/              # 사고 기록 (워치독·멈춤)
+│   ├── design/                  # 디자인 가이드
+│   ├── product/                 # 기획·점검·심사 답변
+│   └── marketing/               # 알리는 글·스크린샷
 └── widget/                      # Widget Extension
 ```
 
@@ -118,6 +123,10 @@ open ClipKeyboard.xcodeproj
 - **URL**: [m1zz.github.io/clip-keyboard](https://m1zz.github.io/ClipKeyboard/)
 - **Features**: 반응형 디자인, 다크모드 지원, App Store 연동
 - **Deploy**: `docs/` 폴더를 GitHub Pages source로 설정
+- ⚠️ 공개되는 페이지(`index.html` · `tutorial.html` · `privacy.html` · `terms.html` ·
+  `accessibility.html`)와 그 자산(`favicon.png` · `app-icon.png` · `media/`)은
+  **docs 루트에 그대로 둘 것.** 옮기면 이미 나가 있는 주소가 깨집니다.
+- 릴리즈 노트는 `docs/release-notes/` 에 모여 있습니다 (`docs/release-notes/README.md`)
 
 ## License
 

@@ -690,7 +690,7 @@ final class MemoAddViewModel: ObservableObject {
     ///
     /// ⚠️ 읽기는 **메인 밖에서** 한다. 그림이 담겨 있으면 읽는 데다 줄이고 인코딩하는 일까지
     ///    붙는데, 예전에는 그 전부가 메인에서 돌아 화면이 뜨는 것을 막고 있었다.
-    ///    기록: docs/HANG_PASTEBOARD_5_0_1.md
+    ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
     private func checkClipboardAndSuggest() {
         #if os(iOS)
         ClipboardClassificationService.shared.checkClipboardOffMain { [weak self] history in

@@ -362,7 +362,7 @@ struct ClipboardList: View {
         // ⚠️ 읽기는 **메인 밖에서** 한다. 유니버설 클립보드가 켜져 있으면 이 한 줄이
         //    옆 기기를 기다리느라 초 단위로 걸리고, 메인에서 하면 화면이 그동안 굳는다.
         //    ⚠️ `defer` 로 깃발을 내리지 않는다 - 그러면 읽어 오기도 전에 내려간다.
-        //    기록: docs/HANG_PASTEBOARD_5_0_1.md
+        //    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
         PasteboardReader.string { currentClipboard in
             isCheckingClipboard = false
 

@@ -6,7 +6,7 @@
 //  기존 XCTest(ClipboardClassificationServiceTests)와 상호 보완하며,
 //  파라미터라이즈드 테이블로 핵심 타입을 한눈에 검증한다.
 //
-//  명세: docs/FEATURE_SPEC.md §2
+//  명세: docs/product/FEATURE_SPEC.md §2
 //
 
 import Testing

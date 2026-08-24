@@ -6,7 +6,7 @@
 //  Codable 라운드트립, 그리고 리팩터로 제거된 키(attachedTemplateId/
 //  currentComboIndex/저장형 isTemplate)에 대한 하위 호환 디코딩을 검증한다.
 //
-//  명세: docs/FEATURE_SPEC.md §1
+//  명세: docs/product/FEATURE_SPEC.md §1
 //
 
 import Testing

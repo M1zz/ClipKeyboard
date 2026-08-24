@@ -11,7 +11,7 @@
 //
 //  4.4.6 의 `CKContainer(identifier:)` 와 같은 종류의 함정이다. 생김새는 값 읽기,
 //  하는 일은 프로세스 사이 통신.
-//  기록: docs/HANG_PASTEBOARD_5_0_1.md · docs/LAUNCH_WATCHDOG_4_4_6.md
+//  기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md · docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md
 //
 //  ⚠️ **자동으로 읽는 자리는 반드시 이 길로 온다.** 화면이 뜰 때·앱이 앞으로 올 때처럼
 //     사용자가 시키지 않은 읽기는 예외 없이 여기를 지난다.

@@ -5,7 +5,7 @@
 //  Swift Testing 스위트 - 리스트 한 줄 미리보기(콤보/템플릿/이미지/보안 마스킹/
 //  URL/truncate)와 플레이스홀더 추출.
 //
-//  명세: docs/FEATURE_SPEC.md §5
+//  명세: docs/product/FEATURE_SPEC.md §5
 //
 
 import Testing

@@ -8,7 +8,7 @@
 //   ③ 접수된 피드백 요약 (Feedback) → 인박스로 이동
 //
 //  ⚠️ 남의 레코드를 읽는 화면이라 CloudKit 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
-//     스키마·권한 절차: docs/USAGE_STATS_HUB.md
+//     스키마·권한 절차: docs/engineering/USAGE_STATS_HUB.md
 //
 
 import SwiftUI

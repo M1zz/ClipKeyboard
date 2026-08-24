@@ -1054,7 +1054,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// ⚠️ 클립보드는 **메인 밖에서** 읽는다(`PasteboardReader`). 이 함수는 화면이 뜰 때와
     ///    앱이 앞으로 올 때마다 불리는데, 유니버설 클립보드가 켜져 있으면 값 하나 읽는 데
     ///    옆 기기를 기다리느라 초 단위로 걸린다. 그걸 메인에서 하면 앱이 그 자리에서 굳는다.
-    ///    기록: docs/HANG_PASTEBOARD_5_0_1.md
+    ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
     func checkFreshClipboard() {
         #if os(iOS)
         PasteboardReader.string { [weak self] clipboardString in

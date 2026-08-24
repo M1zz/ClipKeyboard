@@ -11,7 +11,7 @@
 # ⚠️ 실행 권한이 있어야 한다. `git update-index --chmod=+x` 로 저장소에 권한째 들어가 있다.
 # ⚠️ 실패하면(비0 종료) 빌드가 거기서 멈춘다. 그게 이 파일의 존재 이유다.
 #
-# 자세한 배경과 워크플로 설정 방법: docs/XCODE_CLOUD.md
+# 자세한 배경과 워크플로 설정 방법: docs/engineering/XCODE_CLOUD.md
 #
 
 set -e

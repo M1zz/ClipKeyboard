@@ -6,7 +6,7 @@
 # 일이고, 유니버설 클립보드가 켜져 있으면 **옆 기기에서 내용을 끌어오기까지 기다린다.**
 # 기다리는 동안 부른 스레드는 선다. 그 스레드가 메인이면 화면이 굳는다.
 # `.image` 는 거기에 큰 그림을 푸는 일까지 얹힌다.
-# 5.0.1 에서 1.28초 멈춤(hang)이 실제로 올라왔다. 기록: docs/HANG_PASTEBOARD_5_0_1.md
+# 5.0.1 에서 1.28초 멈춤(hang)이 실제로 올라왔다. 기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
 #
 # 규칙: **자동으로** 읽는 자리(화면이 뜰 때·앱이 앞으로 올 때)는 `PasteboardReader` 로만 읽는다.
 #
@@ -61,7 +61,7 @@ if [ -n "$HITS" ]; then
   echo "     PasteboardReader.content { content in … }"
   echo "   사용자가 직접 누른 자리라면 그 줄 위에 이유를 적으세요:"
   echo "     // pasteboard-ok: 사용자가 붙여넣기 버튼을 눌렀다"
-  echo "   이유: $READER 위쪽 주석 · docs/HANG_PASTEBOARD_5_0_1.md"
+  echo "   이유: $READER 위쪽 주석 · docs/postmortem/HANG_PASTEBOARD_5_0_1.md"
   exit 1
 fi
 

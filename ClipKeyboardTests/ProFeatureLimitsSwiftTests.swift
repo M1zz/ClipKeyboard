@@ -6,7 +6,7 @@
 //  Pro 상태(App Group)가 환경에 따라 다를 수 있으므로, 전역 상태에 의존하지
 //  않는 불변식(상수, hasFullAccess와 한도의 관계)을 검증한다.
 //
-//  명세: docs/FEATURE_SPEC.md §6
+//  명세: docs/product/FEATURE_SPEC.md §6
 //
 
 import Testing

@@ -170,7 +170,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         //    이 메서드는 런치 시퀀스와 포그라운드 복귀(`scenePhase == .active`) 양쪽에서
         //    메인 액터로 불리는데, 그 자리에서 데몬이 대답하지 않으면 화면이 통째로 멈춘다.
         //    같은 종류의 한 줄이 4.4.6 런치를 22초 붙잡아 워치독에 죽었다.
-        //    기록: docs/LAUNCH_WATCHDOG_4_4_6.md
+        //    기록: docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md
         startTask = Task { [weak self] in
             guard let self else { return }
             let database = await CloudKitContainer.privateDatabase(self.containerID)

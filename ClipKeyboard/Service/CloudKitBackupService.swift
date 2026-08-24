@@ -135,7 +135,7 @@ class CloudKitBackupService: ObservableObject {
     /// ⚠️ 저장 프로퍼티가 아니라 `async` 접근자인 것이 핵심이다. 저장 프로퍼티였을 때는
     ///    `init()` 안에서 컨테이너를 만들었고, 그 `init()` 은 첫 화면을 그리는 메인 스레드에서
     ///    `swift_once` 로 불렸다. cloudd 가 대답하지 않던 기기에서 앱은 22초를 기다리다
-    ///    워치독에 죽었다(4.4.6, `docs/LAUNCH_WATCHDOG_4_4_6.md`). 지금은 백업/복원처럼
+    ///    워치독에 죽었다(4.4.6, `docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md`). 지금은 백업/복원처럼
     ///    실제로 CloudKit 이 필요한 순간에, 메인 스레드 밖에서 만들어진다.
     private var backend: Backend {
         get async {

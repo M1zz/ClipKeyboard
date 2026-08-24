@@ -6,7 +6,7 @@
 # 주고받는다. 데몬이 대답하지 않으면 부른 스레드가 그대로 멈추고, 그 스레드가 메인이면
 # 앱은 화면 한 장 못 그린 채 워치독에 죽는다. 4.4.6 이 실제로 그렇게 죽었다
 # (0x8BADF00D, scene-create, 앱 CPU 0.135초 / 경과 22초).
-# 기록: docs/LAUNCH_WATCHDOG_4_4_6.md
+# 기록: docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md
 #
 # 규칙: `CKContainer(identifier:)` 를 부르는 자리는
 #       ClipKeyboard/Service/CloudKitContainerGate.swift 하나뿐이다.

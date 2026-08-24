@@ -14,7 +14,7 @@
 //  ⚠️ 옵트아웃 없음 - 앱 소유자 결정으로 항상 켜진 상태다(끄는 설정을 두지 않는다).
 //     그래서 보내는 항목을 늘릴 땐 "이게 익명 집계 수치인가"를 더 엄격히 따질 것.
 //  ⚠️ CloudKit Dashboard에 UsageSnapshot/UsageEvent 스키마 배포가 선행되어야 한다.
-//     자세한 절차: docs/USAGE_STATS_HUB.md
+//     자세한 절차: docs/engineering/USAGE_STATS_HUB.md
 //
 
 import Foundation
