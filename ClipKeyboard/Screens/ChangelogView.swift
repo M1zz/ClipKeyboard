@@ -8,8 +8,11 @@
 //   · WhatsNewView  = 업데이트 직후 **1회만** 뜨는 새 기능 소개(놓치면 다시 못 봄)
 //   · ChangelogView = **상시 조회**용 버전별 기록. "그 기능이 언제 들어왔더라"에 답한다
 //
-//  ⚠️ 내용은 `docs/RELEASE_NOTES_*.md` 의 App Store 요약과 **같은 문장**을 쓴다.
-//     새 버전을 낼 때 이 파일 맨 위에 항목을 추가하고, 문자열을 ko/en/id 에 넣을 것.
+//  ⚠️ 내용은 `docs/release-notes/<버전>.md` 의 App Store 문안과 **같은 문장**을 쓴다.
+//     새 버전을 낼 때 이 파일 맨 위에 항목을 추가하고, 문자열을 ko/en 에 넣을 것.
+//
+//  ⚠️ 옛 버전 항목은 **기록에서 되살린 것**이라 출시일(released)이 nil 이다.
+//     날짜를 지어내지 않는다. 그 버전의 전문은 docs/release-notes/ 에 있다.
 //     (릴리즈 노트를 런타임에 읽지 않는 이유: docs/ 는 앱 번들에 포함되지 않는다)
 //
 
@@ -18,7 +21,8 @@ import SwiftUI
 /// 한 버전의 변경 기록.
 struct ChangelogEntry: Identifiable {
     let version: String
-    /// 출시일 (yyyy-MM-dd). 아직 안 나온 버전은 nil.
+    /// 출시일 (yyyy-MM-dd). 아직 안 나온 버전, 그리고 **기록에서 되살려 출시일을
+    /// 모르는 옛 버전**은 nil. 화면에는 날짜 줄이 아예 안 나온다.
     let released: String?
     let highlights: [String]
 
@@ -146,6 +150,41 @@ enum ChangelogData {
             ]
         ),
         ChangelogEntry(
+            version: "4.4.7",
+            released: nil,
+            highlights: [
+                NSLocalizedString("이미지 단축어를 누르면 무엇이 복사됐는지 바로 보여요", comment: "Changelog 4.4.7 item 1"),
+                NSLocalizedString("키보드에서 길게 누르면 값이 크게 보여요", comment: "Changelog 4.4.7 item 2"),
+                NSLocalizedString("카테고리를 정리하는 자리를 하나로 모았어요", comment: "Changelog 4.4.7 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.4.6",
+            released: nil,
+            highlights: [
+                NSLocalizedString("앱을 열다가 멈추던 것을 고쳤어요. iCloud 준비가 첫 화면을 그리는 일과 같은 줄에 서 있었어요", comment: "Changelog 4.4.6 item 1"),
+                NSLocalizedString("시작하다 문제가 생겨도 다음 실행은 열려요", comment: "Changelog 4.4.6 item 2"),
+                NSLocalizedString("기기 사이 동기화에서 수정과 삭제가 반영되지 않던 것을 고쳤어요", comment: "Changelog 4.4.6 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.4.5",
+            released: nil,
+            highlights: [
+                NSLocalizedString("제어센터와 위젯에서 앱을 열지 않고 바로 복사해요", comment: "Changelog 4.4.5 item 1"),
+                NSLocalizedString("다른 앱에서 고른 글을 공유로 바로 단축어로 저장해요", comment: "Changelog 4.4.5 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.4.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("앱을 열면 키보드가 올라온 모습이 그대로 보여요", comment: "Changelog 4.4.4 item 1"),
+                NSLocalizedString("짧게 누르면 입력, 길게 누르면 복사예요", comment: "Changelog 4.4.4 item 2"),
+                NSLocalizedString("단축어 마트에서 쓸 만한 문구를 골라 담을 수 있어요", comment: "Changelog 4.4.4 item 3")
+            ]
+        ),
+        ChangelogEntry(
             version: "4.4.3",
             released: "2026-07-30",
             highlights: [
@@ -154,6 +193,15 @@ enum ChangelogData {
                 NSLocalizedString("이미지와 여러 값을 한 단축어에 함께 담을 수 있어요", comment: "Changelog 4.4.3 item 3"),
                 NSLocalizedString("새 단축어 화면 정리, 채우기 버튼과 변수 설명이 또렷해졌어요", comment: "Changelog 4.4.3 item 4"),
                 NSLocalizedString("기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요", comment: "Changelog 4.4.3 item 5")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.4.1",
+            released: nil,
+            highlights: [
+                NSLocalizedString("콤보를 키보드에서 값 하나씩 골라 넣을 수 있어요", comment: "Changelog 4.4.1 item 1"),
+                NSLocalizedString("이미 만들어 둔 단축어를 골라 콤보로 묶을 수 있어요", comment: "Changelog 4.4.1 item 2"),
+                NSLocalizedString("키보드 검색창에 한글을 칠 때 글자가 깨지던 것을 고쳤어요", comment: "Changelog 4.4.1 item 3")
             ]
         ),
         ChangelogEntry(
@@ -195,6 +243,208 @@ enum ChangelogData {
                 NSLocalizedString("홈 화면 작성 가이드 카드를 닫으면 조용히 사라져요", comment: "Changelog 4.3.7 item 2"),
                 NSLocalizedString("붙여넣기 허용을 한 번에, 클립보드 화면에서 iOS 설정으로 바로 이동", comment: "Changelog 4.3.7 item 3"),
                 NSLocalizedString("여러분이 남겨주신 피드백을 반영한 다듬기 업데이트", comment: "Changelog 4.3.7 item 4")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.6",
+            released: nil,
+            highlights: [
+                NSLocalizedString("정규식으로 알아보기 어렵던 것을 기기 안의 AI가 다시 분류해요", comment: "Changelog 4.3.6 item 1"),
+                NSLocalizedString("복사한 것에 맞는 단축 버튼이 붙어요. URL은 브라우저로, 주소는 지도로", comment: "Changelog 4.3.6 item 2"),
+                NSLocalizedString("클립보드 글을 16개 언어로 기기 안에서 번역해요", comment: "Changelog 4.3.6 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.5",
+            released: nil,
+            highlights: [
+                NSLocalizedString("제어센터에서 한 번 눌러 빠른 메모를 적어요", comment: "Changelog 4.3.5 item 1"),
+                NSLocalizedString("잠금 화면과 홈 화면 위젯에서도 바로 적을 수 있어요", comment: "Changelog 4.3.5 item 2"),
+                NSLocalizedString("카테고리에서 추가하면 그 카테고리로 저장돼요", comment: "Changelog 4.3.5 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("데이터를 파일 하나로 내보내고 가져올 수 있어요. 사진까지 함께 담겨요", comment: "Changelog 4.3.4 item 1"),
+                NSLocalizedString("백업이 무엇을 올렸는지 분명하게 알려줘요", comment: "Changelog 4.3.4 item 2"),
+                NSLocalizedString("저장하는 도중 앱이 닫혀도 원본이 깨지지 않아요", comment: "Changelog 4.3.4 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.3",
+            released: nil,
+            highlights: [
+                NSLocalizedString("iCloud 백업에 첨부 사진까지 담겨요", comment: "Changelog 4.3.3 item 1"),
+                NSLocalizedString("새 기기에서 처음 열면 예전 단축어를 불러올 수 있다고 알려줘요", comment: "Changelog 4.3.3 item 2"),
+                NSLocalizedString("아이폰과 맥에서 단축어를 함께 써요 (베타)", comment: "Changelog 4.3.3 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.2",
+            released: nil,
+            highlights: [
+                NSLocalizedString("카드가 잠시 머물면 제목 아래에 내용이 살며시 맺혀요", comment: "Changelog 4.3.2 item 1"),
+                NSLocalizedString("보여줄 한 줄을 직접 정할 수 있어요", comment: "Changelog 4.3.2 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.1",
+            released: nil,
+            highlights: [
+                NSLocalizedString("템플릿을 누르면 그 자리에서 빈칸을 채워 복사해요", comment: "Changelog 4.3.1 item 1"),
+                NSLocalizedString("단축어를 길게 눌러 템플릿으로 만들 수 있어요", comment: "Changelog 4.3.1 item 2"),
+                NSLocalizedString("따로 있던 콤보를 단축어 목록 안으로 들여왔어요", comment: "Changelog 4.3.1 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.3.0",
+            released: nil,
+            highlights: [
+                NSLocalizedString("단축어를 끌어서 순서를 바꿀 수 있어요", comment: "Changelog 4.3.0 item 1"),
+                NSLocalizedString("종류별로 모아 보는 카테고리를 준비해 뒀어요", comment: "Changelog 4.3.0 item 2"),
+                NSLocalizedString("모든 카테고리 끝에 추가 카드가 생겼어요", comment: "Changelog 4.3.0 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.2.2",
+            released: nil,
+            highlights: [
+                NSLocalizedString("카테고리를 만들고 고치는 자리를 한곳으로 모았어요", comment: "Changelog 4.2.2 item 1"),
+                NSLocalizedString("키보드에서 카테고리 색이 엉뚱하게 나오던 것을 고쳤어요", comment: "Changelog 4.2.2 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.2.1",
+            released: nil,
+            highlights: [
+                NSLocalizedString("예전 유료 버전을 사신 분께 Pro 안내가 계속 뜨던 것을 고쳤어요", comment: "Changelog 4.2.1 item 1"),
+                NSLocalizedString("카테고리를 처음부터 비워 뒀어요. 필요한 것만 만들어 쓰세요", comment: "Changelog 4.2.1 item 2"),
+                NSLocalizedString("같은 종류가 쌓이면 카테고리를 만들어 드릴까 여쭤봐요", comment: "Changelog 4.2.1 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.2.0",
+            released: nil,
+            highlights: [
+                NSLocalizedString("빨리 칠 때 첫 입력이 끊기던 것을 고쳤어요", comment: "Changelog 4.2.0 item 1"),
+                NSLocalizedString("키보드 카드에서 작은 뱃지를 걷어내고 제목만 남겼어요", comment: "Changelog 4.2.0 item 2"),
+                NSLocalizedString("템플릿과 콤보와 잠긴 단축어를 테두리 무늬로 구분해요", comment: "Changelog 4.2.0 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.1.0",
+            released: nil,
+            highlights: [
+                NSLocalizedString("카테고리를 고르면 그에 맞는 예시가 미리 채워져요", comment: "Changelog 4.1.0 item 1"),
+                NSLocalizedString("처음 쓰시는 분께 쓰임새에 맞는 예시를 세 개씩 보여드려요", comment: "Changelog 4.1.0 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.9",
+            released: nil,
+            highlights: [
+                NSLocalizedString("무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요", comment: "Changelog 4.0.9 item 1"),
+                NSLocalizedString("채워야 할 자리를 빨갛게 보여드려요", comment: "Changelog 4.0.9 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.8",
+            released: nil,
+            highlights: [
+                NSLocalizedString("단축어 하나에 템플릿을 붙여 쓸 수 있어요", comment: "Changelog 4.0.8 item 1"),
+                NSLocalizedString("금액이나 수량처럼 숫자를 넣는 칸은 숫자 키패드로 열려요", comment: "Changelog 4.0.8 item 2"),
+                NSLocalizedString("채우는 동안 최종 결과를 미리 보여드려요", comment: "Changelog 4.0.8 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.7",
+            released: nil,
+            highlights: [
+                NSLocalizedString("처음 실행에서 쓰임새를 고르면 자주 쓰는 갈래를 미리 만들어 드려요", comment: "Changelog 4.0.7 item 1"),
+                NSLocalizedString("노마드, 직장인, 학생, 개인 네 갈래를 준비했어요", comment: "Changelog 4.0.7 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.6",
+            released: nil,
+            highlights: [
+                NSLocalizedString("무료로 쓸 수 있는 단축어를 5개에서 10개로 늘렸어요", comment: "Changelog 4.0.6 item 1"),
+                NSLocalizedString("콤보는 3개까지, 클립보드 기록은 50개까지 늘렸어요", comment: "Changelog 4.0.6 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.5",
+            released: nil,
+            highlights: [
+                NSLocalizedString("다른 메모 앱의 글을 통째로 붙여넣으면 알아서 나눠 담아요", comment: "Changelog 4.0.5 item 1"),
+                NSLocalizedString("카테고리를 직접 만들고 이름과 순서를 바꿀 수 있어요", comment: "Changelog 4.0.5 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("천지인 키보드의 한글 조합을 바로잡았어요", comment: "Changelog 4.0.4 item 1")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.3",
+            released: nil,
+            highlights: [
+                NSLocalizedString("키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요", comment: "Changelog 4.0.3 item 1"),
+                NSLocalizedString("키보드의 기본 동작을 결제 없이 쓸 수 있어요", comment: "Changelog 4.0.3 item 2"),
+                NSLocalizedString("화면 전체를 종이 느낌으로 다시 칠했어요", comment: "Changelog 4.0.3 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.1",
+            released: nil,
+            highlights: [
+                NSLocalizedString("Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요", comment: "Changelog 4.0.1 item 1"),
+                NSLocalizedString("목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요", comment: "Changelog 4.0.1 item 2"),
+                NSLocalizedString("IBAN, SWIFT, VAT 같은 해외 업무용 값도 갈래를 찾아내요", comment: "Changelog 4.0.1 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "4.0.0",
+            released: nil,
+            highlights: [
+                NSLocalizedString("잠금화면 위젯에서 즐겨찾기를 바로 복사해요", comment: "Changelog 4.0.0 item 1"),
+                NSLocalizedString("Pro 를 열었어요. 기본 기능은 그대로 무료예요", comment: "Changelog 4.0.0 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "3.1.3",
+            released: nil,
+            highlights: [
+                NSLocalizedString("키보드 오른쪽 끝이 잘려 보이던 것을 고쳤어요", comment: "Changelog 3.1.3 item 1")
+            ]
+        ),
+        ChangelogEntry(
+            version: "3.1.2",
+            released: nil,
+            highlights: [
+                NSLocalizedString("첫 실행에 무엇부터 할지 알려 드리는 안내를 넣었어요", comment: "Changelog 3.1.2 item 1"),
+                NSLocalizedString("콤보를 앱에서 바로 고칠 수 있어요", comment: "Changelog 3.1.2 item 2"),
+                NSLocalizedString("갈래마다 아이콘이 붙어 목록에서 찾기 쉬워졌어요", comment: "Changelog 3.1.2 item 3")
+            ]
+        ),
+        ChangelogEntry(
+            version: "3.1.0",
+            released: nil,
+            highlights: [
+                NSLocalizedString("설정 화면까지 전부 영어로 볼 수 있어요", comment: "Changelog 3.1.0 item 1"),
+                NSLocalizedString("iCloud 동기화가 어긋나던 것을 고쳤어요", comment: "Changelog 3.1.0 item 2")
+            ]
+        ),
+        ChangelogEntry(
+            version: "3.0.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("모든 화면이 한국어와 영어로 제공돼요", comment: "Changelog 3.0.4 item 1"),
+                NSLocalizedString("적절한 때에만 리뷰를 여쭤봐요", comment: "Changelog 3.0.4 item 2")
             ]
         )
     ]

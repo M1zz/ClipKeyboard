@@ -404,7 +404,7 @@ struct SettingView: View {
                 HapticManager.shared.light()
                 showPlaceholderManagement = true
             } label: {
-                Label(NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBullet)
                     .foregroundColor(theme.text)
             }

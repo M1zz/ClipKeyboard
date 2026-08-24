@@ -118,6 +118,7 @@
 		5AE1C2D30001SMEAR0000000 /* SmearTextPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */; };
 		5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */; };
 		5AE1C2D30005PASTE0000003 /* PasteboardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */; };
+		5AE1C2D30006PHCAT0000001 /* PlaceholderCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */; };
 		5D5FC1F549C20F256F7B40BA /* PastePracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2619185DB1FDBE519DF7FB51 /* PastePracticeView.swift */; };
 		61864F395C2773BF9C2498DF /* CategorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */; };
 		6458A8E49F277CF662FA4424 /* SlotPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */; };
@@ -404,6 +405,7 @@
 		58TV00022F0000000000000002 /* TemplateVariableProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateVariableProcessor.swift; sourceTree = "<group>"; };
 		5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmearTextPickerView.swift; sourceTree = "<group>"; };
 		5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PasteboardReader.swift; sourceTree = "<group>"; };
+		5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceholderCatalog.swift; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
 		616238CD1282F3D06FC7E369 /* BulkImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportView.swift; sourceTree = "<group>"; };
 		616238CD1282F3D06FC7E36A /* BulkImportKeyPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkImportKeyPreview.swift; sourceTree = "<group>"; };
@@ -872,6 +874,7 @@
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
 				9A29C214B56C5162247ACD82 /* LaunchGuard.swift */,
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
+				5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */,
 				5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */,
 				033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */,
 			);
@@ -1543,6 +1546,7 @@
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
 				9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */,
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,
+				5AE1C2D30006PHCAT0000001 /* PlaceholderCatalog.swift in Sources */,
 				5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */,
 				A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */,
 				C09F146774868650F62B4FB8 /* TypingSpeedMeter.swift in Sources */,

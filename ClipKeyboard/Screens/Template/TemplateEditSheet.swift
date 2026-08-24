@@ -307,17 +307,37 @@ struct TemplateEditSheet: View {
         }
     }
 
+    /// 방금 채운 값을 다음에도 쓸 수 있게 남긴다.
+    ///
+    /// ⚠️ **공용 저장소(`placeholder_values_{이름}`)가 본진이다.** 앱의 빈칸 관리와 입력 화면,
+    ///    그리고 키보드가 모두 그곳을 본다. 예전에는 여기서 단축어에 붙은 사본만 적어서,
+    ///    이 화면에서 채운 값이 다른 어느 화면에도 나타나지 않았다.
+    ///
+    /// ⚠️ 사본을 **통째로 덮어쓰지 않는다.** 예전에는 `= placeholderInputs` 로 갈아치워서
+    ///    그 단축어에 붙어 있던 다른 빈칸의 값이 조용히 사라졌다.
     private func savePlaceholderInputsToMemo() {
+        let filled = placeholderInputs.filter { !$0.value.trimmingCharacters(in: .whitespaces).isEmpty }
+        guard !filled.isEmpty else { return }
+
+        // 본진에 먼저
+        for (placeholder, value) in filled {
+            MemoStore.shared.addPlaceholderValue(value,
+                                                 for: placeholder,
+                                                 sourceMemoId: memo.id,
+                                                 sourceMemoTitle: memo.title)
+        }
+
+        // 사본은 덧쓰기만 (옛 키보드 데이터 호환)
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             guard let index = memos.firstIndex(where: { $0.id == memo.id }) else { return }
-            memos[index].placeholderValues = placeholderInputs
-                .filter { !$0.value.isEmpty }
-                .mapValues { [$0] }
+            for (placeholder, value) in filled {
+                memos[index].placeholderValues[placeholder] = [value]
+            }
             try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
-            // 플레이스홀더 값 저장 실패는 치명적이지 않음(복사 기능 자체는 계속 동작) - 로그만 남김
-            print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 플레이스홀더 값 저장 실패: \(error)")
+            // 공용 저장소에는 이미 들어갔다. 사본 저장 실패로 되돌리지 않는다.
+            print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 사본 저장 실패: \(error)")
         }
     }
 }

@@ -895,9 +895,10 @@ struct ClipKeyboardApp: App {
 
     /// 심어 둔 값을 **앱 전체가 함께 보는 저장소**에도 적는다.
     ///
-    /// ⚠️ 두 곳에 있어야 한다. 키보드는 메모에 붙은 값(`Memo.placeholderValues`)을 먼저 보고,
-    ///    앱의 입력 화면·플레이스홀더 관리는 공용 저장소(`placeholder_values_{토큰}`)를 본다.
-    ///    한 곳만 채우면 화면마다 "값이 있다/없다"가 갈린다.
+    /// ⚠️ **본진은 공용 저장소(`placeholder_values_{토큰}`)다.** 앱의 입력 화면·빈칸 관리·
+    ///    키보드가 모두 그곳을 본다. 단축어에 붙은 사본(`Memo.placeholderValues`)은 옛 데이터를
+    ///    위한 폴백으로만 남아 있다(키보드는 공용 저장소가 비었을 때만 그것을 본다).
+    ///    그래서 심어 둔 값도 **공용 저장소에 적어야** 화면에 보인다.
     private func seedPlaceholderValues(from memos: [Memo]) {
         for memo in memos {
             for (token, values) in memo.placeholderValues {

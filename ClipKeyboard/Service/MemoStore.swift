@@ -443,10 +443,65 @@ class MemoStore: ObservableObject {
         savePlaceholderValues(values, for: placeholder)
     }
 
+    /// 값 하나를 지운다.
+    ///
+    /// ⚠️ **단축어에 붙어 있는 사본(`Memo.placeholderValues`)에서도 함께 지운다.**
+    ///    그 사본은 키보드가 폴백으로 읽는 자리라, 공용 저장소에서만 지우면 앱에서는 사라졌는데
+    ///    키보드에서는 그대로 나오는 일이 생긴다. 지운 것이 다시 나오면 사용자는 지웠다는 것을
+    ///    믿지 못하게 된다.
     func deletePlaceholderValue(valueId: UUID, for placeholder: String) {
         var values = loadPlaceholderValues(for: placeholder)
+        let removed = values.first { $0.id == valueId }?.value
         values.removeAll { $0.id == valueId }
         savePlaceholderValues(values, for: placeholder)
+
+        if let removed {
+            removeValueFromMemoCopies(removed, for: placeholder)
+        }
+    }
+
+    /// 단축어에 붙어 있는 옛 사본에서 같은 값을 걷어낸다. 사본이 없으면 아무 일도 안 한다.
+    private func removeValueFromMemoCopies(_ value: String, for placeholder: String) {
+        guard var memos = try? load(type: .memo) else { return }
+        var touched = false
+
+        for index in memos.indices {
+            guard var values = memos[index].placeholderValues[placeholder],
+                  values.contains(value) else { continue }
+            values.removeAll { $0 == value }
+            if values.isEmpty {
+                memos[index].placeholderValues.removeValue(forKey: placeholder)
+            } else {
+                memos[index].placeholderValues[placeholder] = values
+            }
+            touched = true
+        }
+
+        guard touched else { return }
+        do {
+            try save(memos: memos, type: .memo)
+            print("🧹 [MemoStore.deletePlaceholderValue] 단축어에 붙어 있던 사본에서도 지웠다: \(placeholder)")
+        } catch {
+            // 공용 저장소에서는 이미 지워졌다. 사본 정리 실패로 지우기 자체를 되돌리지는 않는다.
+            print("⚠️ [MemoStore.deletePlaceholderValue] 사본 정리 실패: \(error)")
+        }
+    }
+
+    /// 값이 저장돼 있는 빈칸 이름 전부.
+    ///
+    /// 어디에 쓰나: 단축어에서 사라진 빈칸도 값은 남아 있다(템플릿을 지웠거나 이름을 바꿨을 때).
+    /// 그 값이 화면 어디에도 안 보이면 지울 수도 없다. 관리 화면이 이 목록으로 그것들까지 보여 준다.
+    ///
+    /// ⚠️ 값은 **App Group** 에 저장된다. 예전에 표준 UserDefaults 로 쓰던 것도 있어 양쪽을 훑는다.
+    func storedPlaceholderTokens() -> [String] {
+        let prefix = "placeholder_values_"
+        var tokens: Set<String> = []
+        for defaults in [AppGroup.defaults, UserDefaults.standard].compactMap({ $0 }) {
+            for key in defaults.dictionaryRepresentation().keys where key.hasPrefix(prefix) {
+                tokens.insert(String(key.dropFirst(prefix.count)))
+            }
+        }
+        return tokens.sorted()
     }
 
     func deletePlaceholderValues(fromMemoId memoId: UUID) {

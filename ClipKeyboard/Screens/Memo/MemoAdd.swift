@@ -674,9 +674,16 @@ struct MemoAdd: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
-                // 빠른 삽입 - 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
+                // 이미 쓰는 빈칸 - 다른 단축어에서 쓰던 것을 그대로 가져다 쓴다.
+                // ⚠️ 권하는 것보다 **먼저** 놓는다. 값이 따라오는 쪽이 먼저 눈에 들어와야
+                //    같은 빈칸을 이름만 다르게 새로 만드는 일이 줄어든다.
+                UsedPlaceholderBar { token in
+                    viewModel.value += token
+                }
+
+                // 자주 쓰는 빈칸 - 아직 아무것도 안 만든 사람에게도 시작할 자리를 준다.
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(NSLocalizedString("빠른 삽입", comment: "Quick insert label"))
+                    Text(NSLocalizedString("자주 쓰는 빈칸", comment: "Suggested placeholders label"))
                         .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)

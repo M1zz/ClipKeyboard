@@ -99,16 +99,29 @@ class PredefinedValuesStore {
         return true
     }
 
-    // 특정 템플릿에서 사용하는 값만 필터링
+    // 특정 템플릿에서 쓸 값
+    //
+    // ⚠️ **공용 저장소(`placeholder_values_{이름}`)를 먼저 본다.** 값은 이름으로 묶이고,
+    //    앱의 빈칸 관리·입력 화면이 손대는 곳도 거기다. 예전에는 단축어에 붙은 사본
+    //    (`Memo.placeholderValues`)을 먼저 봤는데, 그래서 **앱에서 지운 값이 키보드에는
+    //    그대로 남았다.** 지운 것이 다시 나오는 것만큼 못 미더운 일이 없다.
+    //
+    //    단축어에 붙은 사본은 **옛 데이터를 위한 폴백**으로만 남긴다. 공용 저장소가 비어 있을
+    //    때만 쓴다(4.4 이전에 만든 템플릿, 그리고 맥이 쓴 데이터가 여기 해당한다).
     func getValuesForTemplate(placeholder: String, templateId: UUID?) -> [String] {
         print("\n🔍 [PredefinedValuesStore] getValuesForTemplate 호출")
         print("   플레이스홀더: \(placeholder), 템플릿 ID: \(templateId?.uuidString ?? "nil")")
         logClipMemosState()
 
-        if let values = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
-            return values
+        let shared = getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
+        if !shared.isEmpty {
+            return shared
         }
-        return getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
+        if let legacy = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
+            print("   ↩️ 공용 저장소가 비어 단축어에 붙은 옛 값을 쓴다")
+            return legacy
+        }
+        return []
     }
 
     /// clipMemos 배열 상태 디버그 출력

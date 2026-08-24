@@ -77,8 +77,29 @@ struct ToggleTraitModifier: ViewModifier {
 struct QuickInsertTokenButton: View {
     let token: String
     let isNumeric: Bool
+    /// 저장해 둔 값의 개수. nil 이면 숫자를 붙이지 않는다(아직 안 쓰는 빈칸).
+    var valueCount: Int? = nil
+    /// **색으로 가르는 두 갈래.** 내가 이미 쓰는 빈칸인가, 앱이 권하는 빈칸인가.
+    ///
+    /// ⚠️ 둘을 같은 색으로 두면 안 된다. 하나는 누르는 순간 **예전 값이 따라오는 것**이고
+    ///    다른 하나는 이름만 들어가는 것이라, 결과가 다르다. 결과가 다르면 보이는 것도 달라야 한다.
+    var tone: Tone = .suggested
     let action: () -> Void
+
+    enum Tone {
+        /// 이미 쓰고 있는 빈칸 - 키컬러.
+        case mine
+        /// 앱이 권하는 빈칸 - 회색.
+        case suggested
+    }
+
     @Environment(\.appTheme) private var theme
+
+    private var foreground: Color { tone == .mine ? theme.accent : .secondary }
+    private var background: Color { tone == .mine ? theme.accentSoft : Color.secondary.opacity(0.12) }
+    private var border: Color {
+        tone == .mine ? theme.accent.opacity(0.45) : Color.secondary.opacity(0.25)
+    }
 
     var body: some View {
         Button(action: action) {
@@ -89,19 +110,97 @@ struct QuickInsertTokenButton: View {
                 // 중괄호 없이 변수명만 칩으로 표시(삽입은 {…} 형태 그대로).
                 Text(token.strippingTemplateBraces)
                     .font(.body.weight(.medium))
+                if let valueCount, valueCount > 0 {
+                    Text("\(valueCount)")
+                        .font(.caption2.weight(.semibold))
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, 1)
+                        .background(Capsule().fill(theme.accent.opacity(0.18)))
+                }
             }
-            .foregroundColor(.secondary)
+            .foregroundColor(foreground)
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
-            .background(Color.secondary.opacity(0.12))
+            .background(background)
             .cornerRadius(theme.radiusSm)
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusSm)
-                    .strokeBorder(Color.secondary.opacity(0.25), lineWidth: 1)
+                    .strokeBorder(border, lineWidth: 1)
             )
         }
-        .accessibilityLabel(token)
-        .accessibilityHint(NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다", comment: "Quick insert token button hint"))
+        .accessibilityLabel(accessibilityText)
+        .accessibilityHint(tone == .mine
+            ? NSLocalizedString("탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다",
+                                comment: "Insert existing placeholder hint")
+            : NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다",
+                                comment: "Quick insert token button hint"))
+    }
+
+    private var accessibilityText: String {
+        guard let valueCount, valueCount > 0 else { return token }
+        return String(format: NSLocalizedString("%1$@, 저장된 값 %2$d개",
+                                                comment: "Placeholder chip with value count (a11y)"),
+                      token.strippingTemplateBraces, valueCount)
+    }
+}
+
+// MARK: - 이미 쓰는 빈칸
+
+/// 이미 쓰고 있는 빈칸을 늘어놓고, 눌러서 그대로 가져다 쓰게 한다.
+///
+/// 왜 필요한가: 빈칸의 값은 **이름으로** 묶인다(`placeholder_values_{이름}`). 그래서 다른
+/// 단축어에서 쓰던 `{회사명}` 을 그대로 치면 값이 따라온다. 문제는 그걸 알려 주는 자리가
+/// 없어서, 이름을 조금 다르게 적는 순간(`{회사 이름}`) 값이 갈라진다는 것이다.
+/// 목록으로 내밀면 손으로 칠 일이 없어지고, 이름도 갈라지지 않는다.
+///
+/// ⚠️ 값이 있는 빈칸이 앞에 온다(`PlaceholderCatalog` 가 정렬한다). 처음 쓰는 사람에게는
+///    아무것도 안 보인다 - 빈 목록에 자리를 내주지 않는다.
+struct UsedPlaceholderBar: View {
+    let onInsert: (String) -> Void
+
+    @Environment(\.appTheme) private var theme
+    @State private var items: [PlaceholderSummary] = []
+
+    var body: some View {
+        Group {
+            if !items.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(NSLocalizedString("이미 쓰는 빈칸", comment: "Placeholders already in use label"))
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .foregroundColor(theme.textMuted)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(items) { item in
+                                QuickInsertTokenButton(token: item.token,
+                                                       isNumeric: item.isNumeric,
+                                                       valueCount: item.valueCount,
+                                                       tone: .mine) {
+                                    onInsert(item.token)
+                                    #if os(iOS)
+                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                    #endif
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 1)   // 테두리가 잘리지 않게
+                    }
+
+                    Text(NSLocalizedString("누르면 그 빈칸이 들어가고, 예전에 넣어 둔 값도 함께 따라와요",
+                                           comment: "Placeholders already in use hint"))
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        .onAppear(perform: load)
+    }
+
+    private func load() {
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        items = PlaceholderCatalog.insertable(from: memos)
     }
 }
 

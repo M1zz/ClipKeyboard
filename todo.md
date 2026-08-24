@@ -1,5 +1,101 @@
 # ClipKeyboard 진행 상황
 
+## 🔗 이원화를 걷어내고, 맥과 다시 이었다 (2026-08-24)
+
+### iOS - 빈칸 값의 본진을 하나로
+
+값이 두 곳에 살고 있었다. 공용 저장소(`placeholder_values_{이름}`)와 단축어에 붙은 사본
+(`Memo.placeholderValues`). 쓰는 쪽과 읽는 쪽이 어긋나 있었다.
+
+- [x] 키보드가 **공용 저장소를 먼저** 본다(예전엔 사본 먼저). 앱에서 지운 값이 키보드에
+      그대로 남던 것이 이걸로 끝난다. 사본은 옛 데이터 폴백으로만 남는다
+- [x] 삭제가 **양쪽에 닿는다**(`MemoStore.deletePlaceholderValue`). 폴백이 지운 값을
+      되살리지 못하게
+- [x] `TemplateEditSheet` 이 공용 저장소에도 쓴다. 그리고 사본을 **통째로 덮어쓰지 않는다** -
+      예전에는 `= placeholderInputs` 라 그 단축어의 다른 빈칸 값이 조용히 사라졌다
+- [x] 시험 3개(`PlaceholderSingleSourceTests`) 추가, 전체 835개 그린
+
+### 맥 - 다시 잇고, 검사를 셋으로
+
+- [x] 공유 파일 7개가 전부 어긋나 있었다. 6개는 동기화했다.
+      ⚠️ `sync_shared.sh` 를 그냥 돌리면 **맥 빌드가 깨졌다** - `hasCompletedOnboarding` 이
+      맥에만 있고 맥 코드가 썼다. iOS 원본에 그 키를 넣어 원본이 상위집합이 되게 했다
+- [x] `MemoSyncEngine` 은 **보류**로 뺐다. iOS 것이 `AppLog`·`RemoteFlagsService`·
+      `CloudKitContainer`·`SampleMemoStorage`·`CategorySnapshot` 을 쓰는데 맥에 없다.
+      검사는 알리되 배포를 막지 않는다
+- [x] `check_ported_drift.sh` - 손으로 옮겨 심은 것은 파일이 같을 수 없으니 **목록만** 견준다.
+      이게 없어서 맥의 자동 변수 목록이 4.4.4 부터 낡아 있었다(`{클립보드}`·`{커서}` 없음 →
+      맥은 그 토큰을 사용자 빈칸으로 물었다). 채워 넣었다
+- [x] `MacPasteboardReader` - 1초마다 메인에서 읽던 클립보드를 밖으로 옮겼다(5.0.1 멈춤과 같은 자리)
+- [x] 맥 저장소 엠대시 32개 파일에서 제거(문자열 카탈로그 24개 문구 포함)
+- [x] ⚠️ **맥 HEAD 는 원래 빌드가 안 되고 있었다.** LeeoKit 3.x 계약(`legal`·`monetization`)을
+      `ClipKeyboardTapSpec` 이 안 지켰다. 채워서 고쳤다(맥 앱은 `.paidUpfront`)
+- [ ] 맥 작업 트리의 `SyncStatusView`/`SyncCloudPeek` 은 아직 못 세운다 - 새 동기화 엔진의
+      `MemoSyncStatus` 가 필요하다. 엔진 이식이 선행 조건
+- [ ] 맥이 공용 빈칸 값을 아직 안 읽는다(`MacTemplateFillSheet`). 아이폰에서 관리한 값이 맥에 안 나온다
+- [ ] 맥 4.4.2 ↔ iOS 5.0.2 - 일곱 버전 차이는 그대로다
+
+
+## 🧩 빈칸을 이름 기준으로 다시 세웠다 (2026-08-24)
+
+값은 처음부터 이름으로 묶여 있었다(`placeholder_values_{이름}`). 그런데 화면이 템플릿부터
+고르게 해서 그 사실이 어디에도 안 보였고, 사용자는 템플릿마다 빈칸을 새로 만드는 줄 알고
+이름을 조금씩 다르게 적었다. 이름이 갈라지면 값도 갈라진다.
+
+- [x] `PlaceholderCatalog` - 빈칸을 이름으로 모은다. 쓰는 단축어 · 값 개수 · 숫자 칸 여부.
+      **쓰는 곳이 없어진 빈칸도** 값이 남아 있으면 센다(안 보이면 지울 수도 없다)
+- [x] `MemoStore.storedPlaceholderTokens()` - 값이 저장된 이름을 훑는다
+- [x] 새 단축어 화면에 **이미 쓰는 빈칸** 줄. 누르면 그 빈칸이 들어가고 값도 따라온다.
+      ⚠️ 권하는 빈칸보다 **위**에 둔다
+- [x] **색으로 갈랐다**: 이미 쓰는 것은 키컬러 + 값 개수 뱃지, 권하는 것은 회색.
+      누르는 결과가 다르므로(값이 따라오는가) 보이는 것도 달라야 한다
+- [x] 관리 화면을 **뒤집었다**. 템플릿 고르기 → 빈칸 목록이 아니라, 빈칸 하나가 한 줄이고
+      열면 저장된 값과 "이 빈칸을 쓰는 단축어"가 함께 보인다. 저장 방식은 안 건드렸다
+- [x] 갈래도 색으로: 숫자 입력(키컬러) · 선택지(인디고) · 쓰는 곳 없음(주황)
+- [x] 진입점 이름을 화면과 맞췄다: 플레이스홀더 관리 → **빈칸 관리** (설정 · 목록 둘 다)
+- [x] ⚠️ **덤으로 찾은 버그**: "전부 지우기"가 빈칸 값을 안 지우고 있었다.
+      값은 App Group 에 저장되는데 `DataWipeService` 는 표준 UserDefaults 만 훑었다.
+      양쪽을 다 훑도록 고쳤다
+- [x] 시험 7개(`PlaceholderCatalogTests`) 추가, 전체 832개 그린
+- [ ] 이름이 비슷할 때 "이거 쓰시려는 건가요?" 하고 짚어 주는 것은 아직 안 했다
+
+
+## 📚 릴리즈 노트 구멍을 메우고, 앱 안 기록도 채웠다 (2026-08-24)
+
+- [x] 기록(git 이력·todo·HISTORY)에서 **실제로 있었던 버전**을 뽑았다.
+      3.0.4 부터 5.0.2 까지 43개. 3.1.1 · 4.4.2 · 4.2.3 같은 번호는 그런 버전이 없었다
+- [x] 문안이 없던 **열 개를 되살렸다**: 3.1.0 · 3.1.2 · 3.1.3 · 4.0.0 · 4.0.1 · 4.0.3 ·
+      4.0.9 · 4.2.2 · 4.4.1 · 5.0.1. ⚠️ 그때 올린 문안이 아니라 커밋에서 다시 쓴 것이라,
+      각 파일 메모에 **되살린 것**이라고 적어 두었다
+- [x] 43개 전부 같은 템플릿으로 맞췄다. App Store 문안 블록에서 별표·불릿·가운뎃점·
+      화살표·백틱을 걷어냈다(App Store Connect 는 마크다운을 해석하지 않는다).
+      문안 자체는 손대지 않았다
+- [x] `docs/release-notes/README.md` 목록 갱신
+- [x] **앱 안 변경사항(ChangelogView)에 29개 버전을 더해 38개로.** 문자열 72개를 ko/en 으로
+      카탈로그에 넣었다. 옛 버전은 출시일을 모르므로 `released: nil` - 날짜를 지어내지 않는다
+- [x] 빌드 그린, 시험 825개 통과
+
+
+## 🗂️ docs 를 정리했다 (2026-08-24)
+
+87개가 한 폴더에 평평하게 쌓여 있던 것을 갈래로 나눴다. 규칙은 하나다.
+**docs 루트는 GitHub Pages 의 소스라 옮기지 않는다** - 그 파일들은 그대로 공개 주소이고,
+그 주소는 앱 안과 App Store 에 이미 적혀 있다.
+
+- [x] `docs/release-notes/` - 릴리즈 노트 33개를 모으고 이름을 버전만 남겼다
+      (`RELEASE_NOTES_4.4.8.md` → `4.4.8.md`, 맥은 `4.4.0-macos.md`).
+      루트의 `RELEASE_NOTES.md`(누적 기록)도 `HISTORY.md` 로 들여왔다
+- [x] `docs/release-notes/5.0.2.md` 새로 작성 - App Store 문안(ko/en) + 심사·배포 메모.
+      **특수기호 없는 평문**(App Store Connect 는 마크다운을 해석하지 않는다)
+- [x] `docs/release-notes/README.md` - 목록과 **새 버전을 낼 때 지킬 것** 여섯 가지
+- [x] 나머지를 다섯 폴더로: `postmortem` · `engineering` · `design` · `product` · `marketing`
+- [x] 루트에 남긴 것: 공개 페이지 5개와 자산(`favicon.png` · `app-icon.png` · `media/`)
+- [x] `docs/README.md` - 어디에 무엇이 있고 왜 루트를 안 건드리는지
+- [x] 참조 57개 파일 갱신(코드 주석·스크립트·문서). docs 안의 상대 링크도 다시 이었다.
+      링크 검사 통과, 빌드 그린
+- [x] `CLAUDE.md` 와 `README.md` 에 새 구조를 적었다
+
+
 ## 🔖 5.0.2 (2026-08-24)
 
 - [x] `Version.xcconfig` → `MARKETING_VERSION = 5.0.2` (빌드 번호는 1 그대로 - 새 마케팅 버전이라 다시 1부터).
@@ -7,7 +103,7 @@
 - [x] 이번에 한 일(문질러 담기 · 스캔/이미지 구분 · 멈춤 수정)을 **5.0.1 에서 5.0.2 로 옮겼다.**
       5.0.1 은 이미 나가 있다(8/23 그 버전에서 멈춤 리포트가 올라왔다).
       그대로 두면 5.0.1 을 쓰는 사람에게 없는 기능을 있다고 알리는 화면이 된다
-- [x] `RELEASE_NOTES.md` 에 v5.0.2 절(ko/en)
+- [x] `docs/release-notes/HISTORY.md` 에 v5.0.2 절(ko/en)
 - [ ] **새 소식(WhatsNewView)은 5.0.0 에 머물러 있다.** 문질러 담기를 한 번 띄워 알릴지는 판단이 필요하다
 - [ ] ⚠️ 올릴 때 **아카이브를 남길 것** (5.0.1 이 없어 멈춤 리포트를 심볼화하지 못했다)
 
@@ -17,7 +113,7 @@
 5.0.1 에서 **1.28초 멈춤** 리포트가 올라왔다. 스택이 잎 프레임 앞에서 잘려 있고
 5.0.1 dSYM 이 로컬에 없어(아카이브는 4.4.8 이 마지막) **원인은 확정하지 못했다.**
 대신 그 모양(메인이 한 호출에서 초 단위로 기다림)에 맞는 자리를 걷어냈다.
-기록: `docs/HANG_PASTEBOARD_5_0_1.md`
+기록: `docs/postmortem/HANG_PASTEBOARD_5_0_1.md`
 
 - [x] `PasteboardReader` - 자동으로 읽는 클립보드는 **이 통로 하나뿐**.
       직렬 큐에서 읽고 · `has…` 로 먼저 물어보고 · 완료는 메인.
@@ -84,7 +180,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 
 ## 📦 봉투와 운송장 이야기 (2026-08-21)
 
-- [x] `docs/METAPHOR_PARCEL.md` - 단축어·템플릿·콤보를 **하나의 그림**으로.
+- [x] `docs/design/METAPHOR_PARCEL.md` - 단축어·템플릿·콤보를 **하나의 그림**으로.
       단축어=봉투 하나 · 템플릿=운송장(받는 사람 칸만 빈) · 콤보=택배상자(봉투 여럿을 순서대로)
 - [x] ⚠️ 셋을 각각 설명하지 않는다. 예전 문구는 따로따로 말해서 **셋이 무슨 사이인지**가
       없었고, 읽고 나도 언제 무엇을 쓸지는 몰랐다. 하나에서 갈라져 나와야 관계가 보인다
@@ -282,9 +378,9 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 - [x] `ChangelogView` 의 미출시 `4.4.7` 항목을 `4.4.8` 이 흡수했다(기존 규약).
       새 항목 3줄을 맨 위에 붙였다: 앱이 열리다 멈추던 문제 · 런치 복구 · 동기화 수정.
       ⚠️ 여긴 상시 조회용이라 흡수를 유지한다. 릴리즈 노트만 4.4.8 것으로 좁혔다
-- [x] `docs/RELEASE_NOTES_4.4.8.md` 작성. **4.4.8 에서 바뀐 것만** 담는다(4.4.7 문안 승계 안 함).
+- [x] `docs/release-notes/4.4.8.md` 작성. **4.4.8 에서 바뀐 것만** 담는다(4.4.7 문안 승계 안 함).
       ⚠️ 4.4.4~4.4.7 이 안 나갔으므로 그 네 버전의 기능은 사용자에게 소개되지 않은 채 나간다.
-      누적 문안이 필요해지면 `docs/RELEASE_NOTES_4.4.7.md` 에 그대로 있다.
+      누적 문안이 필요해지면 `docs/release-notes/4.4.7.md` 에 그대로 있다.
       배포 전 확인 항목(상품 두 개 등록 · CloudKit 스키마 선반영)은 그 버전들 것이 그대로 유효
 - [ ] Mac 앱(`~/workspace/code/ClipKeyboardMac`)의 `CFBundleVersion` 은 절대 되돌리지 않는다
 
@@ -308,7 +404,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
       직전 단계(`tips`) 것으로 기록돼 죄 없는 TipKit 이 격리되고 진짜 원인은 계속 숨는다
 - [x] `scripts/check_main_thread_cloudkit.sh` + pre-commit 훅 + `predeploy.sh` 게이트.
       위반 상태를 일부러 만들어 차단되는 것까지 확인했다
-- [x] `docs/LAUNCH_WATCHDOG_4_4_6.md` 기록. 심볼화 절차를 그대로 적어 뒀다
+- [x] `docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md` 기록. 심볼화 절차를 그대로 적어 뒀다
 - [x] 직전 커밋에서 새어 들어온 엠대시 1건(`MemoSyncEngine.swift:427`)도 같이 걷어냈다.
       `ci_scripts/ci_post_clone.sh` 가 이걸로 CI 를 세운다
 - [ ] **실기기 확인 필수.** 이 경로는 시뮬레이터에서 통째로 건너뛰는 곳이라
@@ -326,7 +422,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
       같은 4.4.7 로 두 번째 빌드를 올릴 때만 올린다
 - [x] `ChangelogView` 의 미출시 `4.4.6` 항목을 `4.4.7` 이 흡수했다(4.4.5 가 4.4.4 를 흡수한 것과 같은 규약).
       새 항목 2줄을 맨 위에 붙였다: 이미지 붙여넣기 · 카테고리 숨기기 전 안내
-- [x] `docs/RELEASE_NOTES_4.4.7.md` 작성. 4.4.6(→4.4.5→4.4.4) 문안을 승계했고,
+- [x] `docs/release-notes/4.4.7.md` 작성. 4.4.6(→4.4.5→4.4.4) 문안을 승계했고,
       4.4.7 에서 더한 것 세 가지와 배포 전 확인 항목(반값 상품 등록, CloudKit 스키마 순서)을 담았다
 
 ## 🧾 4.4.7 에서 한 일 (2026-08-14)
@@ -383,7 +479,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 > 4.4.4 · 4.4.5 가 App Store 에 안 나갔다. 사용자는 4.4.3 에서 곧장 넘어온다.
 
 - [x] **4.4.5 문안을 승계했다.** 4.4.5 가 4.4.4 를 승계한 것과 같은 방식이다.
-      `docs/RELEASE_NOTES_4.4.6.md` 가 심사에 올릴 문안이고, 앞 두 파일은 기록용으로 둔다
+      `docs/release-notes/4.4.6.md` 가 심사에 올릴 문안이고, 앞 두 파일은 기록용으로 둔다
 - [x] **4.4.6 에서 새로 더한 것은 둘뿐**: 설정 8개 묶음 정리, 안정성 화면 문구
 - [x] `ChangelogView` 항목을 `4.4.5` → `4.4.6` 으로 올리고 새 항목 3줄을 맨 위에 붙였다
       (미출시 버전을 흡수하는 기존 규약 그대로. 4.4.5 항목 안에 4.4.4 주석이 남아 있는 이유)
@@ -430,7 +526,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
       `CrashReportReader.isSchemaNotReady` 로 묶어 **스키마 미배포 상태**로 구분하고,
       한국어 안내로 바꾼다. 원문은 `AppLog.warning(.diagnostics, ...)` 로만 남긴다
 - [x] 빌드 그린 (`xcodebuild -scheme ClipKeyboard` BUILD SUCCEEDED)
-- [ ] **남은 일: CloudKit Console 에서 스키마 배포.** 절차는 `docs/CRASH_REPORT_SCHEMA.md`
+- [ ] **남은 일: CloudKit Console 에서 스키마 배포.** 절차는 `docs/postmortem/CRASH_REPORT_SCHEMA.md`
       (필드 7개 + 인덱스 2개 + Security Roles + Production 배포).
       배포 전까지는 위 안내 문구가 뜬다
 - [ ] ⚠️ 배포할 때 `_world` 에 read 주지 말 것. 콜스택은 admin 역할만 읽는다
@@ -665,7 +761,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 ## 📝 4.4.4 릴리즈 노트 + 맥 호환성 검토 (2026-08-06)
 
 - [x] 앱 안 변경 이력에 **4.4.4** 항목 추가(ChangelogView) · 문구 7개 ko/en/id
-- [x] 앱스토어용 문안 `docs/RELEASE_NOTES_4.4.4.md`, 한국어/영어 + 심사 메모
+- [x] 앱스토어용 문안 `docs/release-notes/4.4.4.md`, 한국어/영어 + 심사 메모
       · 심사 메모에 **붙여넣기 프롬프트 지연**을 적어 둠, 신규 설치에서 클립보드 탭이
         비어 있는 것이 정상이라는 걸 모르면 리젝 사유로 오해될 수 있다
 - [x] **맥 앱(별도 저장소) 호환성, 깨지는 지점 없음**
@@ -995,14 +1091,14 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
   - ⚠️ 심사 5.1.1(ii)/GDPR 지적 여지 있는 선택, 리젝 시 토글 복구가 가장 빠른 해법(문서에 기록)
 - [x] 신규 문자열 51개 ko/en/id 추가(토글 문구 2개는 제거), `check_localization.py` 통과
 - [x] 테스트 14개 추가(쓰로틀(기본/커스텀)·지표 키/PII 없음·훅 규약·이름별 집계·일/주/월/연 버킷팅·빈 구간 채움) · 전체 스위트 TEST SUCCEEDED · 빌드 그린
-- [ ] ⚠️ **CloudKit Dashboard 선행 작업**: FeedbackHub에 `UsageSnapshot`·`UsageEvent` 스키마 생성 → 인덱스(recordName Queryable, UsageEvent는 createdTimestamp Sortable) → admin read 권한 → **Production 배포**. 절차: `docs/USAGE_STATS_HUB.md`
+- [ ] ⚠️ **CloudKit Dashboard 선행 작업**: FeedbackHub에 `UsageSnapshot`·`UsageEvent` 스키마 생성 → 인덱스(recordName Queryable, UsageEvent는 createdTimestamp Sortable) → admin read 권한 → **Production 배포**. 절차: `docs/engineering/USAGE_STATS_HUB.md`
 - [ ] ⚠️ App Store **App Privacy** 갱신 필요(Usage Data / Product Interaction, 사용자와 미연결·추적 아님) + "외부로 아무 통계도 보내지 않음" 문구가 있는 릴리즈 노트·개인정보 처리방침 수정
 - [ ] 실기기에서 스냅샷 1건 올라가는지 → 통계 화면에서 카운트·차트 보이는지 확인 (차트는 유닛 테스트·빌드까지만 검증, 실데이터 렌더링 미확인, Xcode 캔버스용 `UsageTrendChartView_Previews` 있음)
 
 ## 🔖 버전 4.4.3 (2026-07-30, 커밋 대기)
 - [x] iOS `Version.xcconfig` 4.4.2(1) → **4.4.3(1)**, 4.4.2는 미출시(커밋 전)라 그대로 4.4.3으로 올림
 - [x] `CLAUDE.md` 현재 버전 4.4.0 → 4.4.3 (오래 방치돼 있던 값)
-- [x] iOS 릴리즈 노트 `RELEASE_NOTES_4.4.2.md` → `RELEASE_NOTES_4.4.3.md` 이름·제목 변경
+- [x] iOS 릴리즈 노트 `RELEASE_NOTES_4.4.2.md` → `docs/release-notes/4.4.3.md` 이름·제목 변경
 - [ ] 릴리즈 노트에 "익명 사용 통계 수집 시작" 문구 추가 여부 결정 (수집 사실 고지, App Privacy 갱신과 세트)
 - [ ] 맥 `Version.xcconfig`도 4.4.3으로 맞출지 (맥 빌드번호는 절대 리셋 금지, 전역 단조 증가)
 
@@ -1167,9 +1263,9 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 - [x] 메모 심볼 기본 숨김, 상시 노출되던 보안 자물쇠(그리드 카드·키보드 셀)를 구분 표시 토글 뒤로,
   설정 미리보기 좌상단 심볼도 토글 연동, showVisualCues 1회 강제 OFF 리셋(v4.3.6 정책, 구 승계 마이그레이션 폐기)
 - [x] 인박스 완료 표시(status=done)·삭제 스와이프 + 새 피드백 푸시 알림(CKQuerySubscription 토글)
-- [x] 4.3.6 릴리즈 노트 (docs/RELEASE_NOTES_4.3.6.md)
+- [x] 4.3.6 릴리즈 노트 (docs/release-notes/4.3.6.md)
 
-### 사용자(leeo)가 해야 하는 것, CloudKit 피드백 1회 설정 (docs/FEEDBACK_CLOUDKIT.md)
+### 사용자(leeo)가 해야 하는 것, CloudKit 피드백 1회 설정 (docs/engineering/FEEDBACK_CLOUDKIT.md)
 - [ ] Xcode 빌드에서 피드백 1회 제출 → Development에 Feedback 스키마 자동 생성
 - [ ] CloudKit Dashboard에서 인덱스(createdTimestamp Queryable+Sortable) 추가
 - [ ] Security Roles: _world는 Create만 (Read 제거)
@@ -1180,15 +1276,15 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 
 ---
 
-## 🎯 마케팅 (2026-07-07 시작), 상세: docs/MARKETING_PLAN_2026-07.md
+## 🎯 마케팅 (2026-07-07 시작), 상세: docs/marketing/MARKETING_PLAN_2026-07.md
 
 ### Claude가 완료한 것
 - [x] 시장/경쟁/채널 리서치 (KR 4.7★/13리뷰, 최대 병목=리뷰 수, 차별화=구독 없음)
 - [x] 랜딩페이지 가격 오류 수정 (docs/index.html: ₩14,900 일시불 → 무료+Pro ₩17,000), **커밋/푸시 대기**
-- [x] ASO 카피 팩 작성 (docs/ASO_2026-07.md)
-- [x] 한국 커뮤니티 포스트 4종 (docs/KR_COMMUNITY_POSTS.md)
-- [x] Product Hunt 런칭 킷 (docs/PRODUCT_HUNT_LAUNCH.md)
-- [x] Apple 피처링 신청서 (docs/APPLE_FEATURING_PITCH.md)
+- [x] ASO 카피 팩 작성 (docs/marketing/ASO_2026-07.md)
+- [x] 한국 커뮤니티 포스트 4종 (docs/marketing/KR_COMMUNITY_POSTS.md)
+- [x] Product Hunt 런칭 킷 (docs/marketing/PRODUCT_HUNT_LAUNCH.md)
+- [x] Apple 피처링 신청서 (docs/marketing/APPLE_FEATURING_PITCH.md)
 
 ### 사용자(leeo)가 해야 하는 것, 우선순위: 글로벌 먼저 (2026-07-07 결정)
 - [ ] ASC 프로모션 텍스트 교체 (심사 불필요, 오늘 가능)
@@ -1576,7 +1672,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 - 앱의 데이터 모델링을 UML 다이어그램으로 시각화한 HTML 문서로 남기기.
 
 ## 산출물 ✅
-- [x] `docs/data-model-uml.html` 생성, 완전 자립형(인터넷/CDN 불필요)
+- [x] `docs/engineering/data-model-uml.html` 생성, 완전 자립형(인터넷/CDN 불필요)
   - Mermaid classDiagram을 **다크 테마 SVG로 미리 렌더해 인라인 임베드**(오프라인 OK)
   - 편집용 Mermaid 소스는 `<details>`에 보존
   - 엔티티 상세 카드(속성·타입·프로토콜) + 영속화 테이블 + 마이그레이션 노트
@@ -1598,7 +1694,7 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 - 현재 존재하는 기능을 명세하고, 이를 검증하는 테스트코드(Swift Testing)를 대거 작성.
 
 ## 산출물 ✅
-- [x] `docs/FEATURE_SPEC.md`, 현재(4.3.x dev) 기능 명세 8개 영역 + 테스트 매핑표.
+- [x] `docs/product/FEATURE_SPEC.md`, 현재(4.3.x dev) 기능 명세 8개 영역 + 테스트 매핑표.
 - [x] Swift Testing 신규 6개 스위트(`ClipKeyboardTests/*SwiftTests.swift`):
   - MemoModelSwiftTests / TemplateVariableProcessorSwiftTests / MemoPreviewFormatterSwiftTests
   - ClipboardClassificationSwiftTests / ProFeatureLimitsSwiftTests / ComboAndTemplateModelSwiftTests

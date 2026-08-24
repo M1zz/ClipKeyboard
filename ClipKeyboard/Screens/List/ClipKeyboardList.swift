@@ -3039,7 +3039,7 @@ struct ClipKeyboardList: View {
                 HapticManager.shared.light()
                 viewModel.showPlaceholderManagementSheet = true
             } label: {
-                Label(NSLocalizedString("플레이스홀더 값 관리", comment: "Menu: placeholder values"),
+                Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBulletRectangle)
             }
         } label: {

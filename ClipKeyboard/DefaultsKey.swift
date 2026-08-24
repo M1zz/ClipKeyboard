@@ -104,6 +104,11 @@ enum DefaultsKey {
     /// 수동 순서 활성 여부. true면 즐겨찾기 상단 고정 대신 저장된 순서 그대로 정렬.
     static let memoManualOrderActiveV1 = "memoManualOrderActive_v1"
     static let onboarding = "onboarding"
+    /// 맥 앱의 온보딩을 마쳤는지 (standard UD).
+    /// ⚠️ **맥 전용이지만 iOS 원본에 둔다.** 이 파일은 맥 저장소가 그대로 복사해 가는 원본이라
+    ///    (`ClipKeyboardMac/scripts/sync_shared.sh`), 여기 없으면 동기화가 맥 빌드를 깨뜨린다.
+    ///    iOS 의 온보딩 상태는 위의 `onboarding` 이다.
+    static let hasCompletedOnboarding = "hasCompletedOnboarding"
     static let pasteTipDismissed = "pasteTipDismissed"
     /// 클립보드 화면 첫 진입 시 붙여넣기 허용 안내 알림을 한 번 띄웠는지 여부.
     static let pastePermissionPromptShownV1 = "pastePermissionPromptShown_v1"

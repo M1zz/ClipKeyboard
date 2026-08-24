@@ -98,10 +98,15 @@ enum DataWipeService {
         }
 
         // ④ 플레이스홀더 값 - 키가 `placeholder_values_{이름}` 이라 접두사로 훑는다
-        let standard = UserDefaults.standard
-        let placeholderKeys = standard.dictionaryRepresentation().keys
-            .filter { $0.hasPrefix("placeholder_values_") }
-        for key in placeholderKeys { standard.removeObject(forKey: key) }
+        //
+        // ⚠️ **양쪽을 다 훑는다.** 값은 App Group 에 저장되는데(`MemoStore.savePlaceholderValues`)
+        //    예전에는 여기서 표준 UserDefaults 만 훑고 있었다. 그래서 "전부 지우기"를 눌러도
+        //    빈칸에 넣어 둔 값(이름·계좌번호 같은 것)이 그대로 남았다.
+        for defaults in [AppGroup.defaults, UserDefaults.standard].compactMap({ $0 }) {
+            let keys = defaults.dictionaryRepresentation().keys
+                .filter { $0.hasPrefix("placeholder_values_") }
+            for key in keys { defaults.removeObject(forKey: key) }
+        }
 
         // ⑤ 메모리 상태 비우기 - 화면이 지워진 데이터를 계속 들고 있지 않게
         let store = MemoStore.shared
