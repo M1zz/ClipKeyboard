@@ -222,12 +222,16 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialSnippetDone) private var tutorialSnippetDone: Bool = false
     @AppStorage(DefaultsKey.tutorialTemplateDone) private var tutorialTemplateDone: Bool = false
     @AppStorage(DefaultsKey.tutorialComboDone) private var tutorialComboDone: Bool = false
+    /// 콤보 장 안쪽의 걸음. 빈 값이면 그 장이 아니거나 아직 안 열렸다.
+    @AppStorage(DefaultsKey.tutorialComboStep) private var comboStepRaw: String = ""
     /// 챕터 기계가 "더 가리킬 것이 없다"고 알려주면 켜진다.
     @AppStorage(DefaultsKey.tutorialChaptersDone) private var chaptersFinished: Bool = false
     /// 직접 하나 만들어 보는 걸음을 지났는가(만들었든 미뤘든).
     @AppStorage(DefaultsKey.tutorialMakeOwnDone) private var makeOwnDone: Bool = false
     /// 샘플을 치울지 물어봤는가 - 답이 무엇이든 한 번만 묻는다.
     @AppStorage(DefaultsKey.tutorialSampleCleanupAsked) private var sampleCleanupAsked: Bool = false
+    /// 목록 ↔ 키보드를 오가는 법을 한 번 짚어 줬는가.
+    @AppStorage(DefaultsKey.tutorialSwitchHintSeen) private var switchHintSeen: Bool = false
 
     @State private var showOffer = false
     /// 연습용 단축어를 치울지 묻는 알림.
@@ -240,6 +244,8 @@ struct SnippetsTab: View {
     @State private var awaitingSend = false
     /// 다음 장까지 도는 원이 끝나는 시각. nil 이면 안 보인다.
     @State private var countdownEndsAt: Date?
+    /// 그 원이 다 돌면 할 일. 눌러서 건너뛸 때 이걸 취소해야 두 번 열리지 않는다.
+    @State private var breatherWork: DispatchWorkItem?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.appTheme) private var theme
 
@@ -282,14 +288,63 @@ struct SnippetsTab: View {
                      ? Date(timeIntervalSince1970: keyboardSetupSnoozedAt) : nil)
     }
 
-    /// 누른 뒤 **입력된 걸 보여주는** 시간(초).
-    private let dwellAfterUse: Double = 0.9
     /// 장과 장 사이 쉼(초). 이 동안 카운트다운 원이 돈다.
-    static let chapterBreather: Double = 5.0
+    ///
+    /// ⚠️ 5초였다가 3초로 줄였다. 방금 한 바퀴를 돈 참에 한 박자 쉬라고 둔 자리인데,
+    ///    5초는 쉼이 아니라 **멈춤**으로 읽혔다. 원이 누를 수 있게 된 지금은
+    ///    (`NextChapterCountdown.onSkip`) 급한 사람이 기다릴 이유도 없다.
+    static let chapterBreather: Double = 3.0
 
     /// 아직 안 눌러 본, 지금 가리키는 단축어.
     private var highlightedMemoId: UUID? {
         firstUseMemoIdRaw.isEmpty ? nil : UUID(uuidString: firstUseMemoIdRaw)
+    }
+
+    /// 콤보 장 안쪽에서 지금 서 있는 걸음. 그 장이 아니면 nil.
+    private var comboStep: ComboTutorialStep? {
+        ComboTutorialStep(rawValue: comboStepRaw)
+    }
+
+    /// 무대에 띄울 안내 한 줄. 콤보 장이면 그 장 안쪽의 걸음이 말하고, 아니면 장 자체가 말한다.
+    ///
+    /// ⚠️ 넣기까지 끝나고 보내기만 남은 자리에서는 **아무 말도 넘기지 않는다.** 그 자리에
+    ///    장의 안내("이걸 눌러보세요")를 그대로 흘리면, 이미 누른 사람에게 또 누르라고
+    ///    말하는 꼴이 된다. 그때 할 말은 무대가 스스로 갖고 있다.
+    private var stageTutorialLine: String? {
+        if let comboStep { return comboStep.coachLine }
+        if awaitingSend { return nil }
+        return nextChapter?.coachLine
+    }
+
+    /// 무대의 키보드에서 **실제로 물결칠** 키.
+    ///
+    /// ⚠️ 콤보 장에서 보내기를 가리키는 걸음(과 마지막 확인)에서는 키를 끈다. 안 끄면
+    ///    키캡과 보내기 동그라미가 **동시에** 물결쳐서, 지금 눌러야 할 곳이 둘이 된다.
+    ///    물결은 언제나 한 곳에만 있어야 안내로 읽힌다.
+    private var stageHighlightedMemoId: UUID? {
+        if let comboStep { return comboStep.comboPart == nil ? nil : highlightedMemoId }
+        return highlightedMemoId
+    }
+
+    /// 지금 보내기 동그라미가 물결쳐야 하는가.
+    ///
+    /// 콤보 장에서는 걸음이 정한다(`sendFirst`·`sendSecond`). 나머지 장에서는
+    /// "넣었고 보내기만 남은" 상태(`awaitingSend`)가 정한다.
+    private var stageHighlightsSend: Bool {
+        if let comboStep { return comboStep.highlightsSend }
+        return awaitingSend
+    }
+
+    /// 목록 ↔ 키보드를 오가는 법을 지금 짚어 줄 때인가.
+    ///
+    /// ⚠️ **다 배운 뒤에** 한 번만 나온다. 배우는 중에 "다른 화면도 있어요"를 말하면
+    ///    지금 하던 걸음에서 눈이 떠나고, 처음 온 사람은 그 길로 나갔다가 안 돌아온다.
+    ///
+    /// ⚠️ 무대에 있을 때만이다. 목록에 있는 사람에게 무대 머리말의 버튼을 가리켜 봐야
+    ///    그 버튼이 화면에 없다.
+    private var showsSwitchHint: Bool {
+        startedFresh && !switchHintSeen
+            && style == .keyboard && onboardingStep == .done
     }
 
     var body: some View {
@@ -351,11 +406,16 @@ struct SnippetsTab: View {
                     // 뒤로 숨어서 **아무것도 안 움직이는 것처럼** 보인다.
                     if style == .keyboard {
                         InAppKeyboardStage(styleRaw: $styleRaw,
-                                           highlightedMemoId: highlightedMemoId,
-                                           tutorialLine: nextChapter?.coachLine,
+                                           highlightedMemoId: stageHighlightedMemoId,
+                                           highlightedComboPart: comboStep?.comboPart,
+                                           tutorialLine: stageTutorialLine,
                                            asksToMakeOwn: onboardingStep == .makeOwn,
                                            onMakeOwnSkipped: { finishMakeOwn() },
-                                           highlightsSend: awaitingSend)
+                                           highlightsSend: stageHighlightsSend,
+                                           awaitsComboConfirm: comboStep == .confirm,
+                                           onComboConfirmed: { finishComboChapter() },
+                                           showsSwitchHint: showsSwitchHint,
+                                           onSwitchHintSeen: { switchHintSeen = true })
                             .transition(stageTransition)
                             .zIndex(1)
                     }
@@ -367,7 +427,9 @@ struct SnippetsTab: View {
         // 무대 위에 얹되 누를 수 없어서, 뒤에서 하던 것을 가리지 않는다.
         .overlay(alignment: .bottom) {
             if let endsAt = countdownEndsAt {
-                NextChapterCountdown(endsAt: endsAt, total: Self.chapterBreather)
+                NextChapterCountdown(endsAt: endsAt,
+                                     total: Self.chapterBreather,
+                                     onSkip: { advanceAfterBreather() })
                     .padding(.bottom, 92)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
@@ -378,6 +440,9 @@ struct SnippetsTab: View {
         .onReceive(NotificationCenter.default.publisher(for: .stageMessageSent)) { _ in
             finishChapterAfterSend()
         }
+        // 콤보의 → 는 글을 넣지 않아 `.memoUsed` 가 안 나간다 - 따로 듣는다.
+        .onReceive(NotificationCenter.default.publisher(for: .comboValueAdvanced),
+                   perform: comboValueWasAdvanced)
         // 자기 것을 하나라도 만들면 그 걸음은 끝난다 - 어디서 만들었든(무대의 +, 목록, 공유 시트).
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             completeMakeOwnIfMadeSomething()
@@ -435,6 +500,7 @@ struct SnippetsTab: View {
     private func resumeTutorialIfStalled() {
         guard onboardingStep == .tryScenarios,
               highlightedMemoId == nil,
+              comboStep == nil,
               !awaitingSend,
               countdownEndsAt == nil else { return }
         openNextChapter()
@@ -479,6 +545,9 @@ struct SnippetsTab: View {
         }
         withAnimation(.easeInOut(duration: 0.28)) {
             firstUseMemoIdRaw = memo.id.uuidString
+            // 콤보만 장 안쪽에 걸음이 다섯이다 - 첫 걸음부터 연다.
+            // (다른 장은 이 값이 늘 비어 있어야 하므로 여기서 확실히 비운다)
+            comboStepRaw = chapter == .combo ? ComboTutorialStep.insertFirst.rawValue : ""
         }
     }
 
@@ -487,26 +556,69 @@ struct SnippetsTab: View {
     /// ⚠️ 아무 문구나 눌러도 끝난 것으로 치지 않는다. **그 문구**를 눌러야 한다
     ///    가리킨 것과 다른 걸 눌렀는데 안내가 사라지면 무엇 때문에 끝났는지 알 수 없다.
     ///
-    /// ⚠️ 예전에는 여기서 0.9초 뒤에 곧바로 다음 장으로 넘어갔다. 그러면 이 무대의
-    ///    이야기가 **반만 보인다.** 눌렀더니 글이 들어가는 것까지는 보는데, 그 글이
-    ///    어디로 가는지는 못 본다. 보내기를 눌러 말풍선이 올라가야 한 바퀴가 닫힌다.
+    /// ⚠️ 예전에는 여기서 0.9초를 기다렸다가 키의 불을 껐다. 그런데 템플릿은 누른 뒤에
+    ///    **빈칸을 채우는 시트가 한 번 뜬다.** 채우고 '넣기'를 누르면 시트가 내려가고,
+    ///    그 아래에서 키가 0.9초 동안 **다시 물결치다가** 꺼졌다. 다 끝난 걸음이
+    ///    한 번 더 빛나니 "아직 저길 눌러야 하나" 로 읽혔다(사용자 보고).
+    ///    이제 곧바로 끄고 곧바로 보내기로 옮겨 붙는다 - 물결은 늘 **다음에 할 곳**에만 있다.
     private func chapterKeyWasUsed(_ note: Notification) {
         guard let used = note.userInfo?[MemoUsedKey.memoID] as? UUID,
               used == highlightedMemoId,
-              nextChapter != nil else { return }
+              let chapter = nextChapter else { return }
 
-        // ⚠️ 넘기기 전에 **입력된 걸 보여준다.** 누르자마자 화면이 바뀌면 방금 무슨 일이
-        //    일어났는지 못 보고 지나간다 - 이 튜토리얼이 알려주려던 게 바로 그 장면이다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + dwellAfterUse) {
-            withAnimation(.easeInOut(duration: 0.28)) {
-                firstUseMemoIdRaw = ""   // 키의 파형을 끈다
-                awaitingSend = true      // 보내기 동그라미로 옮겨 붙는다
-            }
+        // 콤보 장은 넣는 걸음이 둘이라 따로 센다.
+        if chapter == .combo {
+            advanceComboStep(after: [.insertFirst, .insertSecond])
+            return
         }
+
+        withAnimation(.easeInOut(duration: 0.28)) {
+            firstUseMemoIdRaw = ""   // 키의 파형을 끈다
+            awaitingSend = true      // 보내기 동그라미로 옮겨 붙는다
+        }
+    }
+
+    /// 콤보 키의 오른쪽 → 를 눌러 다음 값으로 넘겼다.
+    private func comboValueWasAdvanced(_ note: Notification) {
+        guard let used = note.userInfo?["memoId"] as? UUID,
+              used == highlightedMemoId else { return }
+        advanceComboStep(after: [.advance])
+    }
+
+    /// 콤보 장의 걸음을 하나 넘긴다 - **지금 서 있는 걸음이 기다리던 것일 때만.**
+    ///
+    /// ⚠️ 어느 걸음에서 온 신호인지 확인하지 않으면 순서가 무너진다. 예를 들어 값을
+    ///    넣으라고 한 자리에서 → 를 두 번 누르면, 확인 없이는 걸음이 둘 건너뛴다.
+    private func advanceComboStep(after expected: [ComboTutorialStep]) {
+        guard let step = comboStep, expected.contains(step) else { return }
+        let following = step.next
+        withAnimation(.easeInOut(duration: 0.28)) {
+            // 물결은 걸음을 따라 옮겨 붙는다 - 어디를 누를지는 `comboPart` 가 정한다.
+            comboStepRaw = following?.rawValue ?? ""
+        }
+        print("🎓 [SnippetsTab] 콤보 걸음 \(step.rawValue) → \(following?.rawValue ?? "끝")")
+        if following == nil { finishComboChapter() }
+    }
+
+    /// "확인했어요" - 콤보 장이 여기서 끝난다. 다음은 직접 만들어 보는 걸음(+).
+    private func finishComboChapter() {
+        guard !tutorialComboDone else { return }
+        withAnimation(.easeInOut(duration: 0.28)) {
+            comboStepRaw = ""
+            firstUseMemoIdRaw = ""
+            awaitingSend = false
+        }
+        markChapterDone(.combo)
+        scheduleNextChapter()
     }
 
     /// 보냈다 - 이제 이 장이 끝났다. 한 박자 쉬고 다음 장으로.
     private func finishChapterAfterSend() {
+        // 콤보 장은 보내는 걸음이 둘이라, 보냈다고 장이 끝나지 않는다.
+        if nextChapter == .combo {
+            advanceComboStep(after: [.sendFirst, .sendSecond])
+            return
+        }
         guard awaitingSend, let chapter = nextChapter else { return }
         withAnimation(.easeInOut(duration: 0.28)) { awaitingSend = false }
         markChapterDone(chapter)
@@ -523,7 +635,11 @@ struct SnippetsTab: View {
     ///
     /// ⚠️ 예전에는 곳마다 0.45~0.6초씩 제각각 기다렸다가 곧바로 다음 걸 띄웠다.
     ///    그 사이 화면은 아무 말도 안 해서 끝난 건지 멈춘 건지 알 수 없었다.
-    ///    이제 **모든 장 사이가 같은 5초**이고, 그동안 원이 돈다.
+    ///    이제 **모든 장 사이가 같은 3초**이고, 그동안 원이 돈다.
+    ///
+    /// ⚠️ 예약을 `DispatchWorkItem` 으로 붙잡아 둔다. 눌러서 건너뛸 수 있게 되면서
+    ///    (`skipBreather`) 취소할 손잡이가 필요해졌다 - 없으면 눌러서 한 번 열고
+    ///    3초 뒤에 예약이 또 깨어나 **다음 장을 한 번 더** 연다.
     private func scheduleNextChapter() {
         guard nextChapter != nil else {
             openNextChapter()      // 더 없으면 곧바로 마무리한다 - 셀 이유가 없다.
@@ -531,10 +647,18 @@ struct SnippetsTab: View {
         }
         let gap = Self.chapterBreather
         countdownEndsAt = Date().addingTimeInterval(gap)
-        DispatchQueue.main.asyncAfter(deadline: .now() + gap) {
-            withAnimation(.easeOut(duration: 0.2)) { countdownEndsAt = nil }
-            openNextChapter()
-        }
+        let work = DispatchWorkItem { advanceAfterBreather() }
+        breatherWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + gap, execute: work)
+    }
+
+    /// 쉼이 끝났다(혹은 눌러서 건너뛰었다) - 원을 거두고 다음 장을 연다.
+    private func advanceAfterBreather() {
+        guard countdownEndsAt != nil else { return }
+        breatherWork?.cancel()
+        breatherWork = nil
+        withAnimation(.easeOut(duration: 0.2)) { countdownEndsAt = nil }
+        openNextChapter()
     }
 
     // MARK: - 직접 만들어 보기

@@ -228,7 +228,9 @@ struct KeyboardPracticeSheet: View {
                 .font(.system(size: 64))
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [Color.clipBrand, Color.clipBrandDeep],
+                        // 고른 키컬러를 따라간다. 예전엔 브랜드 주황으로 못박혀 있어,
+                        // 흑백을 고른 사람의 화면에서 이 글리프만 혼자 주황이었다.
+                        colors: [theme.accent, theme.accent.mixed(with: .black, amount: 0.7)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )

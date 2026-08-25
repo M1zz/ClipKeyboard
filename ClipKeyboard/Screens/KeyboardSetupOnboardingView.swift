@@ -375,7 +375,7 @@ private struct StepPageView: View {
                     } else {
                         Image(systemName: i == step.path.count - 1 ? "checkmark.circle.fill" : "arrow.right")
                             .font(.caption.weight(.semibold))
-                            .foregroundColor(i == step.path.count - 1 ? theme.success : theme.accent)
+                            .foregroundColor(i == step.path.count - 1 ? Color.checkGreen : theme.accent)
                             .accessibilityHidden(true)
                     }
 
@@ -405,7 +405,7 @@ private struct StepPageView: View {
         case .confirmed:
             HStack(spacing: 8) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
-                    .foregroundColor(theme.success)
+                    .foregroundColor(Color.checkGreen)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("키보드가 확인됐어요! 다음으로 넘어갈게요.", comment: "Setup confirmed"))
                     .font(.body)
@@ -630,7 +630,7 @@ private struct DoneIllustration: View {
 
                 Image(systemName: AppSymbol.checkmark)
                     .font(.system(size: 44, weight: .bold))
-                    .foregroundColor(theme.accent)
+                    .foregroundColor(Color.checkGreen)
                     .scaleEffect(appeared ? 1 : 0.3)
                     .opacity(appeared ? 1 : 0)
             }
@@ -939,7 +939,7 @@ private struct PersonaCard: View {
 
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title3)
-                        .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.5))
+                        .foregroundStyle(isSelected ? Color.checkGreen : Color.gray.opacity(0.5))
                 }
 
                 ScrollView(.horizontal, showsIndicators: false) {

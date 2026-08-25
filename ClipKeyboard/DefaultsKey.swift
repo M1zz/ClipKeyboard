@@ -21,6 +21,18 @@ enum DefaultsKey {
     /// ⚠️ 기본값은 **꺼짐**이다. 목록을 훑는 동안 카드마다 글이 맺혔다 흩어지면 눈이 쉴 곳이
     ///    없다. 보고 싶은 사람은 설정 > 화면과 표시에서 켠다.
     static let contentHintEnabled = "contentHintEnabled"
+    /// 단축어별로 배운 "넣은 뒤 캐럿이 설 자리"(App Group, `[UUID문자열: CursorMemory.Learned]` JSON).
+    /// ⚠️ 사용자의 본문에는 아무것도 안 쓴다. 배운 값은 전부 여기 따로 있다.
+    ///    자세한 이유: ClipKeyboard/Service/CursorMemory.swift
+    static let cursorMemory = "cursor.memory.v1"
+    /// 한 번에 정리하기 권유를 사용자가 물렸다(App Group, Bool).
+    /// ⚠️ 붙여넣기 순간의 제안은 이 값을 보지 않는다. 자세한 이유:
+    ///    ClipKeyboard/Service/BulkImportNudge.swift
+    static let bulkImportNudgeDismissed = "bulkImport.nudge.dismissed"
+    /// 손으로 단축어를 만든 마지막 시각(App Group, epoch 초).
+    static let bulkImportLastManualCreateAt = "bulkImport.lastManualCreateAt"
+    /// 짧은 사이에 손으로 잇달아 만든 횟수(App Group, Int).
+    static let bulkImportManualStreak = "bulkImport.manualStreak"
     static let didRemoveAds = "didRemoveAds"
     /// 칸 추가 상품으로 얻은 추가 단축어 칸수 (App Group, Int).
     /// ⚠️ 키보드 익스텐션은 StoreKit 을 못 보므로 앱이 결제 권한을 여기에 미러링한다.
@@ -37,6 +49,10 @@ enum DefaultsKey {
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
     static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
+    /// 단축어별로 쌓인 "넣고 나서 고친 자리"(App Group, `[UUID문자열: EditPattern.Record]` JSON).
+    /// ⚠️ 고친 **자리와 값**만 담는다. 사용자의 본문은 건드리지 않는다.
+    ///    자세한 이유: ClipKeyboard/Service/EditPattern.swift
+    static let editPatterns = "edit.patterns.v1"
     static let entries = "entries"
     static let fontSize = "fontSize"
     /// What's-New(새 기능) 시트를 마지막으로 보여준 기능 버전. 다르면 업데이트 유저에게 1회 노출.
@@ -68,6 +84,20 @@ enum DefaultsKey {
     /// ⚠️ 기존 사용자는 값이 없으면 **목록**이다. 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     ///    새 설치에만 첫 실행에서 `keyboard`를 뿌린다(ClipKeyboardApp.seedSnippetsTabStyle).
     static let snippetsTabStyle = "snippetsTabStyle.v1"
+    /// 단축어를 만들 때 "쓸 때 채우는 칸" 서랍을 펼쳐 두는가.
+    ///
+    /// ⚠️ **기본은 닫힘.** 예전에는 내용 칸에 커서만 가면 파란 버튼 아홉 개가 통째로
+    ///    올라왔다. 대부분은 그냥 글을 적으러 온 사람이라, 그 줄은 도움이 아니라
+    ///    "이걸 다 골라야 하나" 라는 물음이었다.
+    ///
+    /// ⚠️ 그렇다고 한 번 편 사람에게 매번 다시 닫아 주지는 않는다. 빈칸을 쓰는 사람은
+    ///    거의 매번 쓰므로, 편 채로 두는 것이 그 사람의 선택이다.
+    static let contentTokenBarExpanded = "memoAdd.tokenBar.expanded.v1"
+    /// 사용자가 고른 **키컬러**(`AppAccent` rawValue). 값이 없으면 `.ink`(흑백).
+    ///
+    /// ⚠️ **App Group 이다.** 키보드 익스텐션과 위젯이 같은 값을 읽어야 앱과 키보드가
+    ///    두 색으로 갈리지 않는다. 표준 UserDefaults 에 두면 앱만 바뀐다.
+    static let appAccent = "app.accent.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
     /// 배우는 장(단축어·템플릿·콤보)을 다 지났는가.
@@ -219,6 +249,18 @@ enum DefaultsKey {
     static let tutorialTemplateDone = "tutorial.template.done.v1"
     /// 준비된 콤보를 한 번 써 봤는지.
     static let tutorialComboDone = "tutorial.combo.done.v1"
+    /// 콤보 장 **안쪽**의 어느 걸음에 서 있는가(`ComboTutorialStep.rawValue`). 빈 값이면 그 장이 아니다.
+    ///
+    /// ⚠️ 저장해 두어야 한다. 콤보 장은 다섯 걸음이라 그 중간에 앱을 끄는 일이 실제로 생기는데,
+    ///    기억해 두지 않으면 다시 열었을 때 가리키는 키는 그대로인데 걸음만 사라져
+    ///    **눌러도 아무 일이 안 일어나는 화면**이 된다.
+    static let tutorialComboStep = "tutorial.combo.step.v1"
+    /// 목록과 키보드를 오가는 법을 한 번 알려 줬는지.
+    ///
+    /// ⚠️ 이 앱의 단축어 탭은 **화면이 둘**(목록 · 키보드 무대)인데, 그걸 아무도 안 알려 줬다.
+    ///    무대에서 시작한 사람은 자기 목록이 어디 있는지 모른 채로 남고, 목록에서 시작한
+    ///    사람은 무대를 아예 못 본다. 튜토리얼을 다 지난 뒤 **한 번만** 짚어 준다.
+    static let tutorialSwitchHintSeen = "tutorial.switchHint.seen.v1"
 
     // MARK: - 런치 안전장치 (LaunchGuard)
     /// 지금 진행 중인 런치 단계 `"<tier>:<stage>"`. 런치를 끝내면 지운다 (App Group).

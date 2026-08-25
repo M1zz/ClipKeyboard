@@ -35,6 +35,32 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.3",
+            released: nil,
+            highlights: [
+                // 키 컬러
+                NSLocalizedString("설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요", comment: "Changelog 5.0.3 key color"),
+                NSLocalizedString("기본값은 아이폰이 쓰는 그 파랑이에요. 예전 주황은 테라코타로, 색을 아예 빼고 싶으면 먹으로 고르면 돼요", comment: "Changelog 5.0.3 default blue"),
+                NSLocalizedString("화면 색조에서 옅게 섞여 있던 노란 기를 걷어냈어요. 삭제·저장·주의를 알리는 빨강·초록·노랑과 갈래 색은 그대로예요", comment: "Changelog 5.0.3 neutral tone"),
+                NSLocalizedString("체크 표시는 언제나 연두예요. 골랐다는 말은 원래 자기 색을 갖고 있어서, 키 컬러를 따라가지 않아요", comment: "Changelog 5.0.3 check green"),
+
+                // 스스로 배우는 것들
+                NSLocalizedString("넣고 나서 매번 같은 자리로 커서를 옮겨 이어 쓰시면, 세 번째부터 커서를 그 자리에 세워 드려요. 본문은 한 글자도 고치지 않고, 단축어 편집에서 끌 수 있어요", comment: "Changelog 5.0.3 cursor memory"),
+                NSLocalizedString("넣고 나서 매번 같은 자리를 고치시면 그 자리를 빈칸으로 만들지 물어봐요. 매번 같은 값으로 고치시면 저장해 둔 글을 그 값으로 바꿀지 물어봐요", comment: "Changelog 5.0.3 edit pattern"),
+                NSLocalizedString("여러 줄을 붙여넣거나 손으로 줄줄이 만들고 계시면, 한 번에 정리하기를 그 자리에서 내놓아요", comment: "Changelog 5.0.3 bulk import nudge"),
+
+                // 처음 쓰는 사람이 지나는 길
+                NSLocalizedString("콤보를 배우는 자리를 다시 만들었어요. 값을 넣고 보내고, 오른쪽 화살표로 값을 바꾸고, 다시 넣고 보내는 데까지 데려가요", comment: "Changelog 5.0.3 combo tutorial"),
+                NSLocalizedString("이 탭에 화면이 둘이라는 것을 한 번 짚어 드려요. 카드 목록과 키보드 화면을 오가는 두 가지 길을 같이 알려드려요", comment: "Changelog 5.0.3 switch hint"),
+                NSLocalizedString("장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요", comment: "Changelog 5.0.3 countdown"),
+                NSLocalizedString("붙여넣기 연습 화면을 뺐어요. 카드를 누른 순간 값은 이미 들어간 뒤였어요", comment: "Changelog 5.0.3 paste practice removed"),
+                NSLocalizedString("템플릿을 배울 때 다 끝난 걸음의 키가 한 번 더 물결치던 것을 고쳤어요", comment: "Changelog 5.0.3 template ripple"),
+
+                // 만드는 자리
+                NSLocalizedString("단축어를 만들 때 내용 칸의 파란 버튼 줄을 접었어요. 쓸 때 채우는 칸을 누르면 펼쳐지고, 한 번 펼치면 그대로 남아요", comment: "Changelog 5.0.3 token bar drawer"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.2",
             released: nil,
             highlights: [

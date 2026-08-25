@@ -9,6 +9,30 @@ import WidgetKit
 import SwiftUI
 import AppIntents
 
+// MARK: - 체크 연두
+
+extension Color {
+    /// **체크 표시는 언제나 연두다.** 앱의 `Color.checkGreen` 과 같은 값이다.
+    ///
+    /// ⚠️ 왜 베껴 두는가: 위젯 타겟은 폴더가 통째로 동기화되는 그룹이라
+    ///    (`PBXFileSystemSynchronizedRootGroup`) `ClipKeyboard/Extensions/ColorExtension.swift`
+    ///    를 끌어다 쓸 수 없다. 값을 옮길 때는 **두 곳을 같이** 고칠 것.
+    ///
+    /// ⚠️ 진짜 연두(#9ACD32)는 흰 바탕에서 1.9:1 이라 안 보인다. 라이트는 읽히는 선까지
+    ///    눌러 내린 연두, 다크는 마음껏 밝은 연두다(앱 쪽 `CheckGreenTests` 가 그 선을 지킨다).
+    static var checkGreen: Color {
+        Color(UIColor { trait in
+            trait.userInterfaceStyle == .dark
+                ? UIColor(red: 0xA8/255, green: 0xE0/255, blue: 0x63/255, alpha: 1)
+                : UIColor(red: 0x52/255, green: 0x90/255, blue: 0x1A/255, alpha: 1)
+        })
+    }
+
+    /// 채워진 체크(`checkmark.circle.fill`) 안쪽 표시색.
+    /// 흰색이면 다크의 밝은 연두 위에서 1.4:1 로 사라진다.
+    static let checkOnGreen = Color(red: 0x10/255, green: 0x14/255, blue: 0x0A/255)
+}
+
 // MARK: - Timeline Provider
 
 struct FavoriteMemoProvider: AppIntentTimelineProvider {
@@ -188,7 +212,7 @@ struct FavoriteMemoWidgetView: View {
                             systemImage: entry.justCopied ? "checkmark.circle.fill" : "doc.on.doc"
                         )
                         .font(.caption2)
-                        .foregroundStyle(entry.justCopied ? .green : Color.accentColor)
+                        .foregroundStyle(entry.justCopied ? Color.checkGreen : Color.accentColor)
                     }
                 }
             } else {

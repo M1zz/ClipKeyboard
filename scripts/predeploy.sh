@@ -25,6 +25,9 @@ sh scripts/check_main_thread_cloudkit.sh
 echo "📋 [3/4] 클립보드 읽는 위치 검사 (멈춤 재발 방지)"
 sh scripts/check_main_thread_pasteboard.sh
 
+echo "✒️  긴 줄표 검사 (check_dashes.sh)"
+sh scripts/check_dashes.sh
+
 # 사용 가능한 첫 iPhone 시뮬레이터를 자동 선택
 DEST_ID="$(xcrun simctl list devices available | grep "iPhone" | head -1 | grep -oE '[0-9A-F-]{36}')"
 if [ -z "$DEST_ID" ]; then

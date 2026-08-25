@@ -390,6 +390,11 @@ final class MemoAddViewModel: ObservableObject {
             didCommitSave = true
             if let draftId = resumedDraftId { DraftStore.shared.remove(draftId) }
 
+            // 손으로 잇달아 만드는 중인지 센다 - 줄줄이 만들고 있으면 목록이 한 번에
+            // 정리하는 길을 내놓는다(`BulkImportNudge`). 대량 가져오기로 만든 것은
+            // 이 경로를 안 지나므로 저절로 빠진다.
+            if isNewMemo { BulkImportNudge.recordManualCreate() }
+
             // Analytics - 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String

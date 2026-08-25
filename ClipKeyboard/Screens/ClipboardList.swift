@@ -91,7 +91,7 @@ struct ClipboardList: View {
                                             toggleSelection(item.id)
                                         } label: {
                                             Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(isChecked ? .accentColor : .gray)
+                                                .foregroundColor(isChecked ? Color.checkGreen : .gray)
                                                 .font(.title3)
                                         }
                                         .buttonStyle(.plain)

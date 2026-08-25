@@ -38,6 +38,7 @@ enum AppSymbol {
     static let chevronForward = "chevron.forward"
     static let chevronRight = "chevron.right"
     static let chevronRightCircleFill = "chevron.right.circle.fill"
+    static let chevronUp = "chevron.up"
     /// 단축어 마트 - 차려 둔 것에서 골라 담는 자리.
     static let bagFill = "bag.fill"
     static let circle = "circle"
@@ -99,6 +100,8 @@ enum AppSymbol {
     static let link = "link"
     static let listBullet = "list.bullet"
     static let listBulletRectangle = "list.bullet.rectangle"
+    /// 배운 캐럿 자리 스위치(단축어 편집).
+    static let textCursor = "text.cursor"
     static let lockFill = "lock.fill"
     static let lockOpenFill = "lock.open.fill"
     static let lockShield = "lock.shield"

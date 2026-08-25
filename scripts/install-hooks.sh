@@ -34,7 +34,34 @@ sh "$ROOT/scripts/check_main_thread_pasteboard.sh" || {
   echo "   (긴급 우회: git commit --no-verify)"
   exit 1
 }
+# 긴 줄표(U+2014 / U+2013)가 들어오면 커밋 차단 - 저장소 전 범위 규칙(CLAUDE.md).
+sh "$ROOT/scripts/check_dashes.sh" --staged || {
+  echo ""
+  echo "❌ 커밋 차단: 긴 줄표가 들어 있습니다."
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+}
+
 SH
 
 chmod +x "$HOOK"
 echo "✅ pre-commit 훅 설치 완료: $HOOK"
+
+# ── commit-msg: 커밋 메시지에도 같은 규칙 ──
+# CLAUDE.md 의 금지 범위에 커밋 메시지가 포함돼 있는데, 예전에는 검사가 없었다.
+MSGHOOK="$ROOT/.git/hooks/commit-msg"
+cat > "$MSGHOOK" <<'SH2'
+#!/bin/sh
+# 커밋 메시지에 긴 줄표(U+2014 / U+2013)가 있으면 차단.
+EM="$(printf '\342\200\224')"
+EN="$(printf '\342\200\223')"
+if grep -q "[$EM$EN]" "$1"; then
+  echo "❌ 커밋 차단: 커밋 메시지에 긴 줄표가 있습니다."
+  grep -n "[$EM$EN]" "$1"
+  echo "   쉼표(,) 마침표(.) 가운뎃점(·) 콜론(:) 또는 괄호로 바꿉니다."
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+fi
+SH2
+chmod +x "$MSGHOOK"
+echo "✅ commit-msg 훅 설치: $MSGHOOK"

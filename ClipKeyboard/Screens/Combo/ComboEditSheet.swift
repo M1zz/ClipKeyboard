@@ -130,7 +130,7 @@ struct ComboPreviewSheet: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Image(systemName: copiedStepIndex == idx ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
                     .font(.body)
-                    .foregroundColor(copiedStepIndex == idx ? .green : theme.textMuted)
+                    .foregroundColor(copiedStepIndex == idx ? Color.checkGreen : theme.textMuted)
                     .frame(width: 30, height: 30)
                     .background(theme.surfaceAlt)
                     .clipShape(Circle())
@@ -208,7 +208,7 @@ struct ComboImportSheet: View {
                             } label: {
                                 HStack(spacing: 10) {
                                     Image(systemName: selected.contains(memo.id) ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(selected.contains(memo.id) ? .accentColor : theme.textFaint)
+                                        .foregroundColor(selected.contains(memo.id) ? Color.checkGreen : theme.textFaint)
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(memo.title.templateAwareAttributed(theme: theme, font: .body))
                                             .font(.body)

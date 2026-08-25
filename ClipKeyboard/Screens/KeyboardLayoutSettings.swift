@@ -293,7 +293,7 @@ struct KeyboardLayoutSettings: View {
                         if keyboardSkinRaw == candidate.rawValue {
                             Image(systemName: AppSymbol.checkmark)
                                 .font(.body.weight(.semibold))
-                                .foregroundColor(theme.accent)
+                                .foregroundColor(Color.checkGreen)
                         }
                     }
                     .contentShape(Rectangle())

@@ -896,7 +896,7 @@ struct OCRTextPickerSheet: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: isOn ? "checkmark.circle.fill" : "circle")
                     .font(.system(.title3))
-                    .foregroundColor(isOn ? .accentColor : theme.textFaint)
+                    .foregroundColor(isOn ? Color.checkGreen : theme.textFaint)
                     .accessibilityHidden(true)
                 Text(line)
                     .font(.body)
@@ -943,5 +943,39 @@ struct OCRTextPickerSheet: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
         .background(.regularMaterial)
+    }
+}
+
+// MARK: - 배운 캐럿 자리 스위치
+
+/// 키보드가 스스로 배운 "넣은 뒤 캐럿이 설 자리"를 끄고 켜는 줄.
+///
+/// ⚠️ 이건 **끄는 스위치이지 켜는 스위치가 아니다.** 켜는 일은 사용자가 같은 자리로
+///    세 번 돌아갔을 때 앱이 알아서 한다. 여기까지 오는 사람은 "왜 커서가 여기 서지?"를
+///    묻는 사람이라, 답 한 줄과 되돌리는 길만 있으면 된다.
+///
+/// ⚠️ `CursorMemory` 는 관찰 가능한 물건이 아니라(App Group UserDefaults 다) 상태를
+///    여기서 들고 있어야 스위치가 즉시 반응한다.
+struct CursorMemoryToggleRow: View {
+    let memoId: UUID
+    @State private var isOn: Bool = true
+
+    var body: some View {
+        ToggleOptionRow(
+            activeIcon: AppSymbol.textCursor,
+            inactiveIcon: AppSymbol.textCursor,
+            title: NSLocalizedString("넣은 뒤 커서 자리 기억", comment: "Learned caret position toggle"),
+            description: NSLocalizedString("여기서 자주 이어 쓰셔서 커서를 그 자리에 세워요", comment: "Learned caret position toggle description"),
+            activeColor: .accentColor,
+            isOn: Binding(
+                get: { isOn },
+                set: { newValue in
+                    isOn = newValue
+                    if newValue { CursorMemory.turnOn(for: memoId) }
+                    else { CursorMemory.turnOff(for: memoId) }
+                }
+            )
+        )
+        .onAppear { isOn = !(CursorMemory.learned(for: memoId)?.off ?? false) }
     }
 }

@@ -157,8 +157,18 @@ struct ClipKeyboardApp: App {
         ReviewManager.shared.incrementAppLaunchCount()
 
         // TipKit 설정 - 온보딩 대신 상황에 맞는 팁으로 안내
+        //
+        // ⚠️ **한 번에 하나만 뜬다.** 빈도를 안 정하면 기본이 `.immediate` 라,
+        //    조건을 만족한 팁이 전부 한꺼번에 뜬다(팁은 7개다). 화면 여기저기서
+        //    동시에 말을 걸면 하나도 안 읽힌다.
+        //    `.daily` 는 **앱 전체에서** 하루 한 개로 끊는다. 팁마다 거는 규칙이 아니라
+        //    TipKit 이 들고 있는 전역 문지기라, 새 팁을 늘려도 저절로 지켜진다.
+        //
+        //    빠르게 하려면 `.hourly` 한 단어만 바꾸면 된다. 다만 이 앱의 팁들은
+        //    서로 순서가 있어(탭 → 저장 → 키보드) 하루 간격이 흐름과 맞는다.
         LaunchGuard.optional(.tips) {
             try? Tips.configure([
+                .displayFrequency(.daily),
                 .datastoreLocation(.applicationDefault)
             ])
         }
@@ -1511,7 +1521,7 @@ struct MemoSearchView: View {
             } else {
                 Image(systemName: copiedMemoId == memo.id ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
                     .font(.body)
-                    .foregroundColor(copiedMemoId == memo.id ? .green : theme.textFaint)
+                    .foregroundColor(copiedMemoId == memo.id ? Color.checkGreen : theme.textFaint)
             }
         }
         .padding(.vertical, 12)

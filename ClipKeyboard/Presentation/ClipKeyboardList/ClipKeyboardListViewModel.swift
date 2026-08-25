@@ -141,6 +141,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Data State
 
     @Published var memos: [Memo] = []
+    /// 디스크에서 한 번이라도 읽어 왔는가.
+    ///
+    /// ⚠️ `memos.isEmpty` 를 "단축어가 없는 사람"으로 읽으면 안 된다. 화면이 뜨고
+    ///    읽어 오기 전까지는 누구나 비어 있어서, 그 창에 뜨는 안내는 **모든 사람에게**
+    ///    한 번씩 번쩍였다 사라진다(그러면서 아래 목록을 밀어 내린다).
+    @Published private(set) var hasLoadedMemos = false
     @Published var loadedData: [Memo] = []
 
     // MARK: - Search & Filter
@@ -675,6 +681,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             let normalizedMemos = normalizeEmptyCategories(loadedMemos)
             memos = sortMemos(normalizedMemos)
             loadedData = memos
+            hasLoadedMemos = true
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
             checkTemplateHintIfNeeded()

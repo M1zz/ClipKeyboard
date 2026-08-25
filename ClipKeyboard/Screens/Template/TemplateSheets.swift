@@ -170,7 +170,7 @@ struct TemplateDetailPlaceholderView: View {
                     VStack(spacing: 12) {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
                             .font(.system(size: 40))
-                            .foregroundColor(.green)
+                            .foregroundColor(Color.checkGreen)
                         Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
                             .font(.body)
                             .foregroundColor(theme.textMuted)

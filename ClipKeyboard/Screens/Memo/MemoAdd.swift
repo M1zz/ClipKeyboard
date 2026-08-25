@@ -48,12 +48,20 @@ struct MemoAdd: View {
     // MARK: - View-only State
 
     @State private var isFocused: Bool = false
+    /// "쓸 때 채우는 칸" 서랍이 펴져 있는가. **기본은 닫힘**(`DefaultsKey.contentTokenBarExpanded`).
+    @AppStorage(DefaultsKey.contentTokenBarExpanded) private var tokenBarExpanded: Bool = false
     @FocusState private var isQuickTextFocused: Bool  // quickModeBody TextEditor 전용
     @FocusState private var isTitleFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// 저장해 둔 플레이스홀더 값을 통째로 손보는 시트 - 빈칸을 다루는 이 자리에서 바로 연다.
+    /// 여러 줄을 한꺼번에 붙여넣은 순간, 나눠 담을지 묻는다. 값은 줄 수.
+    ///
+    /// ⚠️ 한 화면에서 **한 번만** 묻는다. 붙여넣을 때마다 물으면 잔소리가 된다.
+    @State private var splitOfferLineCount: Int?
+    @State private var didOfferSplit = false
+    @State private var showBulkImportFromPaste = false
     @State private var showPlaceholderManagement = false
     @State private var showNewTemplateSheet = false
     @State private var showResetConfirm = false
@@ -172,7 +180,28 @@ struct MemoAdd: View {
                 }
             }
         }
-        .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
+        .onChange(of: viewModel.value) { oldValue, newValue in
+            viewModel.onValueChanged()
+            offerSplitIfPastedList(from: oldValue, to: newValue)
+        }
+        // 붙여넣은 것이 목록처럼 생겼다. **이미 그 일을 하고 있는 중**이라 지금이 묻기 좋은 때다.
+        .alert(splitOfferTitle,
+               isPresented: Binding(get: { splitOfferLineCount != nil },
+                                    set: { if !$0 { splitOfferLineCount = nil } })) {
+            Button(NSLocalizedString("나눠 담기", comment: "Accept splitting a pasted list into separate snippets")) {
+                splitOfferLineCount = nil
+                showBulkImportFromPaste = true
+            }
+            Button(NSLocalizedString("그대로 두기", comment: "Keep the pasted text as one snippet"),
+                   role: .cancel) { splitOfferLineCount = nil }
+        } message: {
+            Text(NSLocalizedString("한 줄씩 나눠서 담으면 키보드에서 따로따로 꺼내 쓸 수 있어요.",
+                                   comment: "Explanation for splitting a pasted list"))
+        }
+        .sheet(isPresented: $showBulkImportFromPaste) {
+            // 붙여넣던 글을 그대로 들고 간다. 같은 것을 두 번 붙여넣게 하지 않는다.
+            BulkImportView(initialText: viewModel.value)
+        }
         .onDisappear {
             // 저장 없이 화면을 떠나면 사용자가 직접 입력한 내용을 자동 임시저장(드래프트)한다.
             // (정식 저장·기존 메모 편집·샘플 그대로 등은 VM 내부에서 걸러진다.)
@@ -555,6 +584,11 @@ struct MemoAdd: View {
                 )
             )
 
+            // 키보드가 스스로 배운 캐럿 자리. **배운 게 있을 때만** 나타난다.
+            // 아무것도 안 배웠을 때도 자리를 차지하면, 조용히 해 주려던 것이
+            // 설정 항목 하나로 바뀐다.
+            cursorMemoryRow
+
             // "템플릿으로 만들기"로 들어온 경우 - 원본 단축어를 남길지 선택.
             // 끄면 저장할 때 원본이 함께 삭제된다(비슷한 단축어 중복 방지).
             if templateSourceMemoId != nil {
@@ -567,6 +601,34 @@ struct MemoAdd: View {
                     isOn: $viewModel.keepOriginalSource
                 )
             }
+        }
+    }
+
+    /// 알림 제목 - 줄 수를 그대로 말한다. "여러 개"보다 "12개"가 훨씬 잘 와닿는다.
+    private var splitOfferTitle: String {
+        String(format: NSLocalizedString("줄이 %d개네요. 하나씩 나눠 담을까요?",
+                                         comment: "Ask whether to split a pasted multi-line text into separate snippets"),
+               splitOfferLineCount ?? 0)
+    }
+
+    /// 한꺼번에 크게 늘어난 글이 목록처럼 생겼으면 묻는다.
+    ///
+    /// ⚠️ 손으로 친 것과 붙여넣은 것을 글자 수가 뛴 폭으로 가른다. 타이핑은 한 글자씩 는다.
+    /// ⚠️ 이미 물었으면 다시 묻지 않고, 편집 중인 단축어에서는 아예 묻지 않는다
+    ///    (있던 글을 나누자고 하는 건 다른 이야기다).
+    private func offerSplitIfPastedList(from oldValue: String, to newValue: String) {
+        guard !didOfferSplit, viewModel.editingMemo == nil else { return }
+        guard newValue.count - oldValue.count >= 20 else { return }
+        guard let lines = BulkImportNudge.splittableLineCount(in: newValue) else { return }
+        didOfferSplit = true
+        splitOfferLineCount = lines
+    }
+
+    /// 배운 캐럿 자리를 보여주고 끄는 자리. 배운 게 있을 때만 나타난다.
+    @ViewBuilder
+    private var cursorMemoryRow: some View {
+        if let memo = viewModel.editingMemo, CursorMemory.hasSwitch(for: memo.id) {
+            CursorMemoryToggleRow(memoId: memo.id)
         }
     }
 
@@ -774,19 +836,75 @@ struct MemoAdd: View {
         return memos.filter { $0.isTemplate }
     }
 
-    // 템플릿 변수 버튼
-    @ViewBuilder
+    // MARK: - 쓸 때 채우는 칸 (서랍)
+
     /// 키보드 위에 뜨는 템플릿 변수 옵션 바 - 본문(붙여넣을 내용) 입력 중에만 노출.
     /// 탭하면 커서 위치에 {변수}가 삽입되어 자동으로 템플릿이 된다.
+    ///
+    /// ⚠️ **닫힌 채로 시작한다.** 예전에는 내용 칸에 커서가 닿는 순간 파란 버튼 아홉 개가
+    ///    통째로 올라왔다. 이 화면에 온 사람의 대부분은 그냥 글 한 줄을 적으러 온 것이라,
+    ///    그 줄은 도움이 아니라 **"이걸 다 골라야 하나"** 라는 물음이 됐다.
+    ///
+    /// ⚠️ 그래도 **줄 자체는 남긴다.** 통째로 감추면 빈칸이라는 기능이 있다는 것을
+    ///    아무도 모르게 된다(그 줄을 처음 넣은 이유가 그것이다). 접힌 손잡이 한 줄이
+    ///    "여기 뭔가 더 있다"를 말하고, 펴는 것은 그 사람이 정한다.
     private var variableTokenBar: some View {
+        VStack(spacing: 0) {
+            tokenBarHandle
+            if tokenBarExpanded {
+                tokenBarRow
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
+        .clipped()   // 접힐 때 아래로 미끄러지는 줄이 손잡이 위로 삐져나오지 않게
+    }
+
+    /// 접었다 펴는 손잡이 한 줄.
+    ///
+    /// ⚠️ 여는 방법을 **글로 적는다.** 화살표만 두면 그게 무엇을 펴는 것인지 모른다.
+    ///    닫혀 있을 때는 무엇이 들어 있는지도 한 줄로 일러 준다.
+    private var tokenBarHandle: some View {
+        Button {
+            HapticManager.shared.light()
+            withAnimation(.easeInOut(duration: 0.22)) { tokenBarExpanded.toggle() }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: AppSymbol.curlybraces)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(.accentColor)
+                Text(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                if !tokenBarExpanded {
+                    Text(NSLocalizedString("이름·날짜처럼 쓸 때마다 달라지는 자리",
+                                           comment: "Fill-in field drawer: collapsed subtitle"))
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+                Spacer(minLength: 8)
+                Image(systemName: tokenBarExpanded ? AppSymbol.chevronDown : AppSymbol.chevronUp)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
+        .accessibilityHint(tokenBarExpanded
+            ? NSLocalizedString("접으려면 두 번 탭하세요", comment: "Fill-in field drawer: collapse hint")
+            : NSLocalizedString("펼치려면 두 번 탭하세요", comment: "Fill-in field drawer: expand hint"))
+        .accessibilityAddTraits(.isButton)
+    }
+
+    // 템플릿 변수 버튼
+    @ViewBuilder
+    private var tokenBarRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                // 이 버튼들은 "고정 텍스트"가 아니라 "쓸 때마다 채우는 칸"을 넣는다는 걸 명시.
-                Text(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
-                    .font(.caption)
-                    .foregroundColor(theme.textFaint)
-                    .fixedSize()
-                Divider().frame(height: 16)
                 // 삽입되는 토큰도 로케일에 맞춘다 (영어는 {amount} 등). 프로세서가 양쪽 인식.
                 templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: NSLocalizedString("{금액}", comment: "Amount token variable"))
                 templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: NSLocalizedString("{수량}", comment: "Quantity token variable"))
@@ -806,7 +924,7 @@ struct MemoAdd: View {
             }
             .padding(.horizontal, 20)
         }
-        .padding(.vertical, 8)
+        .padding(.bottom, 8)
     }
 
     private func templateButton(title: String, variable: String) -> some View {

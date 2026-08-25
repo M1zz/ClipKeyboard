@@ -184,8 +184,19 @@ Text(NSLocalizedString("단축어 10개 잠김, Pro 구매 시 동기화됩니�
 **검사** (결과가 비어 있어야 한다):
 
 ```bash
-grep -rn "$(printf '\u2014')" . --exclude-dir=.git --exclude-dir=build
+sh scripts/check_dashes.sh
 ```
+
+이 검사는 **저장소 전 범위**(앱 문자열·카탈로그·docs·릴리즈 노트·주석·스크립트)를 본다.
+사람이 기억으로 지키지 않도록 세 곳에 물려 있다.
+
+| 언제 | 무엇이 부르나 |
+| --- | --- |
+| 커밋할 때 | `.git/hooks/pre-commit` (스테이지된 파일만) |
+| 커밋 메시지 | `.git/hooks/commit-msg` |
+| 빌드·배포 | `ci_scripts/ci_post_clone.sh` · `scripts/predeploy.sh` |
+
+새 머신에서는 `sh scripts/install-hooks.sh` 를 한 번 돌린다.
 
 ## 주요 패턴 및 규칙
 

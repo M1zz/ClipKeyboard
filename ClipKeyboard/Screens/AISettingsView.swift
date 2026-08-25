@@ -31,7 +31,7 @@ struct AISettingsView: View {
                           ? AppSymbol.checkmarkCircleFill
                           : AppSymbol.infoCircle)
                         .font(.title3)
-                        .foregroundColor(availability == .available ? .green : .orange)
+                        .foregroundColor(availability == .available ? Color.checkGreen : .orange)
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"))

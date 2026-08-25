@@ -257,14 +257,31 @@ struct KeyboardView: View {
     /// nil이면 아무것도 가리키지 않는다(평소).
     let highlightedMemoId: UUID?
 
+    /// 가리키는 키가 콤보라면 **그 키의 어느 쪽**을 가리키는가.
+    ///
+    /// ⚠️ nil 이면 키캡 전체가 인다(콤보가 아닌 보통 키의 평소 모습). 콤보 키는 좌·우가
+    ///    하는 일이 달라서, 통째로 빛나면 "어디를 누르라는 거지"가 된다 - 실제로 콤보
+    ///    튜토리얼에서 사람들이 오른쪽 → 를 못 찾았다.
+    let highlightedComboPart: ComboKeyPart?
+
+    /// 콤보 키의 두 쪽. 왼쪽은 값을 넣고, 오른쪽은 다음 값으로 넘긴다.
+    enum ComboKeyPart: String, Equatable {
+        /// 왼쪽 2/3 - 지금 값을 입력창에 넣는다.
+        case value
+        /// 오른쪽 1/3 - 다음 값으로 넘긴다(글은 안 들어간다).
+        case next
+    }
+
     init(typingProxy: TypingInputProxy? = nil,
          documentState: KeyboardDocumentState = KeyboardDocumentState(),
          hostKind: KeyboardHostKind = .keyboardExtension,
-         highlightedMemoId: UUID? = nil) {
+         highlightedMemoId: UUID? = nil,
+         highlightedComboPart: ComboKeyPart? = nil) {
         self.typingProxy = typingProxy
         self.documentState = documentState
         self.hostKind = hostKind
         self.highlightedMemoId = highlightedMemoId
+        self.highlightedComboPart = highlightedComboPart
     }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
@@ -279,6 +296,12 @@ struct KeyboardView: View {
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
+    /// 배운 캐럿 자리를 처음 적용했을 때 한 번만 뜨는 줄. 단축어당 한 번뿐이다.
+    @State private var showCursorMemoryToast = false
+    /// 매번 같은 자리를 고치는 것을 알아챘을 때 뜨는 제안. 단축어당 한 번뿐이다.
+    @State private var editSuggestion: (memoId: UUID, kind: EditPattern.Suggestion)?
+    /// 제안을 받아들여 단축어를 바꾼 직후 잠깐 뜨는 줄.
+    @State private var showEditAppliedToast = false
     /// 앱 안에서 길게 눌러 복사했다는 확인. (익스텐션에서는 뜰 일이 없다)
     @State private var showCopiedToast = false
     /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
@@ -641,11 +664,16 @@ struct KeyboardView: View {
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
                                     ))
-                                    // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
-                                    // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
                                     // 튜토리얼이 가리키는 키 - **말이 아니라 파형으로** 알린다.
+                                    // 글로 설명하면 아무도 안 읽는다.
+                                    //
+                                    // ⚠️ 콤보 키의 **한쪽만** 가리키는 중이면 여기서는 안 그린다.
+                                    //    좌·우가 각자 자기 물결을 그린다(`comboSplitButton`).
+                                    //    둘 다 그리면 키 전체가 빛나는 위에 반쪽이 또 빛나서
+                                    //    가리키는 곳이 오히려 흐려진다.
                                     .overlay {
-                                        if item.memo.id == highlightedMemoId {
+                                        if item.memo.id == highlightedMemoId,
+                                           highlightedComboPart == nil {
                                             KeyRipple(shape: keycapShape, color: theme.accent)
                                         }
                                     }
@@ -741,6 +769,41 @@ struct KeyboardView: View {
                     .padding(.bottom, 8)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
+            if let suggestion = editSuggestion {
+                // ⚠️ 말만 하지 않는다. 누르면 그 자리에서 바꿔 준다.
+                //    "이런 기능이 있어요"는 알림이고, "바꿔 드릴까요"는 도움이다.
+                editSuggestionBar(suggestion)
+            }
+            if showEditAppliedToast {
+                Text(NSLocalizedString("바꿨어요. 앱에서 다시 손볼 수 있어요.",
+                                       comment: "Toast after applying an edit-pattern suggestion"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showCursorMemoryToast {
+                // 조용히 해 주는 게 목적이라 매번 말하지 않는다. 다만 한 번도 안 알리면
+                // 사용자는 자기 키보드가 왜 이러는지 모른다. 그래서 단축어당 딱 한 번.
+                Text(NSLocalizedString("여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.",
+                                       comment: "Toast shown once when a learned caret position is first applied"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
             if showFullAccessToast {
                 // 무엇을 켜야 하는지·어디서 켜는지를 한 줄에 담는다.
                 // 이 토스트가 없으면 클립보드 동작이 조용히 실패해 앱이 고장 난 것처럼 보인다.
@@ -760,6 +823,20 @@ struct KeyboardView: View {
         // {clipboard} 치환이 전체 접근 때문에 막혔을 때 KeyboardViewController가 알려 준다.
         .onReceive(NotificationCenter.default.publisher(for: .needsFullAccess)) { _ in
             showFullAccessNotice()
+        }
+        // 매번 같은 자리를 고치는 것을 알아챘다 - KeyboardViewController 가 알려 준다.
+        .onReceive(NotificationCenter.default.publisher(for: .editPatternSuggestion)) { note in
+            guard let memoId = note.userInfo?["memoId"] as? UUID,
+                  let raw = note.userInfo?["suggestion"] as? String,
+                  let kind = EditPattern.Suggestion(rawValue: raw) else { return }
+            withAnimation { editSuggestion = (memoId, kind) }
+        }
+        // 배운 캐럿 자리를 처음 써먹었다 - KeyboardViewController 가 알려 준다.
+        .onReceive(NotificationCenter.default.publisher(for: .cursorMemoryApplied)) { _ in
+            withAnimation { showCursorMemoryToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
+                withAnimation { showCursorMemoryToast = false }
+            }
         }
         // 장이 넘어가면 가리키는 키가 바뀐다 - 뷰는 그대로라 onAppear 가 다시 돌지 않는다.
         .onChange(of: highlightedMemoId) { _, _ in revealHighlightedPageIfNeeded() }
@@ -1332,6 +1409,8 @@ struct KeyboardView: View {
             get: { pressedComboId == memo.id },
             set: { pressedComboId = $0 ? memo.id : nil }
         )
+        // 튜토리얼이 이 키의 어느 쪽을 가리키고 있는가(가리키는 키일 때만).
+        let guided: ComboKeyPart? = memo.id == highlightedMemoId ? highlightedComboPart : nil
 
         return HStack(spacing: 0) {
             // 왼쪽 2/3 - 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
@@ -1354,6 +1433,13 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
+            // 왼쪽만 가리키는 중 - 값이 들어가는 쪽은 여기다.
+            .overlay {
+                if guided == .value {
+                    KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                              color: theme.accent, reach: 7)
+                }
+            }
 
             // 두 키 사이의 '틈'이 아니라 하나의 캡에 파인 '홈'으로 읽히도록 옅게.
             Rectangle()
@@ -1370,12 +1456,21 @@ struct KeyboardView: View {
                     Text("\(idx + 1)/\(values.count)")
                         .font(.system(size: buttonFontSize * 0.6, weight: .medium))
                 }
-                .foregroundColor(theme.textMuted)
+                // 가리키는 중에는 흐린 회색이 아니라 **강조색**으로 선다.
+                // 물결만으로는 자리가 좁아 눈에 안 걸린다(실측).
+                .foregroundColor(guided == .next ? theme.accent : theme.textMuted)
                 .frame(width: max(46, buttonHeight))
                 .frame(height: buttonHeight)
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
+            // 오른쪽만 가리키는 중 - 다음 값으로 넘기는 쪽은 여기다.
+            .overlay {
+                if guided == .next {
+                    KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                              color: theme.accent, reach: 7)
+                }
+            }
         }
         .background(
             keycapShape
@@ -1428,6 +1523,10 @@ struct KeyboardView: View {
         comboValueIndex[memo.id] = (cur + 1) % count
         // 값을 잠깐 보여줬다 사라지게(디졸브) 트리거.
         comboFlash[memo.id] = (comboFlash[memo.id] ?? 0) + 1
+        // ⚠️ 여기서는 **글이 하나도 안 들어간다** - 값만 바뀐다. 그래서 `.memoUsed` 가
+        //    나가지 않고, 튜토리얼은 이 걸음을 지났는지 알 길이 없었다. 따로 알린다.
+        NotificationCenter.default.post(name: .comboValueAdvanced, object: nil,
+                                        userInfo: ["memoId": memo.id])
     }
 
     private func memoAccessibilityLabel(for memo: Memo) -> String {
@@ -1618,6 +1717,62 @@ struct KeyboardView: View {
                 content
             }
         }
+    }
+
+    // MARK: - 고친 자리 제안
+
+    /// "매번 여기만 바꾸시네요" 한 줄. 누르면 그 자리에서 바꿔 준다.
+    ///
+    /// ⚠️ 단축어당 한 번만 뜬다(`EditPattern.markAsked` 는 띄우는 쪽에서 이미 찍었다).
+    ///    되풀이하면 그때부터 광고로 읽힌다.
+    /// ⚠️ 거절은 **거절로 남긴다.** 닫기만 하고 잊으면 다음에 또 물어보게 된다.
+    @ViewBuilder
+    private func editSuggestionBar(_ suggestion: (memoId: UUID, kind: EditPattern.Suggestion)) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: AppSymbol.textCursor)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(.white.opacity(0.85))
+
+            Text(suggestion.kind == .makeTemplate
+                 ? NSLocalizedString("넣고 나서 매번 같은 자리만 바꾸시네요. 그 자리를 빈칸으로 만들까요?",
+                                     comment: "Suggestion bar: turn the repeatedly edited spot into a template placeholder")
+                 : NSLocalizedString("넣고 나서 매번 같은 곳을 같게 고치시네요. 단축어를 그 값으로 바꿀까요?",
+                                     comment: "Suggestion bar: update the snippet itself with the repeated correction"))
+                .font(.caption)
+                .foregroundColor(.white)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer(minLength: 4)
+
+            Button(NSLocalizedString("아니요", comment: "Decline the edit-pattern suggestion")) {
+                EditPattern.markDeclined(for: suggestion.memoId)
+                withAnimation { editSuggestion = nil }
+            }
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+
+            Button(NSLocalizedString("바꾸기", comment: "Accept the edit-pattern suggestion")) {
+                let changed = EditPattern.apply(suggestion.kind, memoId: suggestion.memoId)
+                withAnimation { editSuggestion = nil }
+                if changed {
+                    loadAllMemos()
+                    KeyboardHaptics.tap()
+                    withAnimation { showEditAppliedToast = true }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+                        withAnimation { showEditAppliedToast = false }
+                    }
+                }
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundColor(.white)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .background(Color.black.opacity(0.82))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .padding(.horizontal, 10)
+        .padding(.bottom, 8)
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
     /// 복사 버튼의 동작 - 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.

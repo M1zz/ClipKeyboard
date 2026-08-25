@@ -122,6 +122,19 @@ struct SettingView: View {
     private var appearanceSection: some View {
         Section {
             firstScreenRow
+            // 키 컬러가 이 섹션의 맨 위쪽에 있는 이유: 이 하나가 앱 전체의 인상을 바꾼다.
+            // 아래 항목들(높이·배경·반응)은 그다음에 손보는 것들이다.
+            NavigationLink(destination: KeyColorSettingsView()) {
+                Label {
+                    Text(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+                } icon: {
+                    // 심볼 대신 **지금 그 색**을 보여준다. 무슨 색인지 들어가 보지 않아도 안다.
+                    Circle()
+                        .fill(theme.accent)
+                        .frame(width: 20, height: 20)
+                        .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
+                }
+            }
             NavigationLink(destination: DisplaySettingsView()) {
                 Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
                       systemImage: AppSymbol.rectangleGrid1x2)
@@ -551,11 +564,15 @@ struct SettingView: View {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: theme.radiusSm)
-                            .fill(LinearGradient(colors: [Color.clipBrand, Color.clipBrandDeep], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            // 고른 키컬러를 따라간다 - 흑백을 고른 사람의 설정에서
+                            // 이 타일만 혼자 주황으로 남으면 그것만 다른 앱에서 온 것처럼 보인다.
+                            .fill(LinearGradient(colors: [theme.accent,
+                                                          theme.accent.mixed(with: .black, amount: 0.7)],
+                                                 startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 32, height: 32)
                         Image(systemName: AppSymbol.macbook)
                             .font(.body.weight(.semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(theme.accentFg)
                             .accessibilityHidden(true)
                     }
                     .accessibilityHidden(true)
@@ -1088,7 +1105,7 @@ struct CopyPasteView: View {
                     // 허용 (권장)
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
-                            .foregroundColor(.green)
+                            .foregroundColor(Color.checkGreen)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
@@ -1335,7 +1352,7 @@ struct FirstScreenSettingsView: View {
                             if snippetsTabStyleRaw == candidate.rawValue {
                                 Image(systemName: AppSymbol.checkmark)
                                     .font(.body.weight(.semibold))
-                                    .foregroundColor(theme.accent)
+                                    .foregroundColor(Color.checkGreen)
                             }
                         }
                         .contentShape(Rectangle())
@@ -1353,5 +1370,146 @@ struct FirstScreenSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .solidNavBar(theme.bg)
+    }
+}
+
+// MARK: - 키 컬러 고르기
+
+/// **누를 곳을 가리키는 색**을 고르는 자리.
+///
+/// ⚠️ 견본만 늘어놓지 않는다. 색 동그라미 여섯 개는 예쁘지만, 그걸 고르면 **내 화면이
+///    어떻게 되는지**는 안 알려 준다. 그래서 아래에 진짜 카드와 진짜 버튼을 그대로
+///    올려 둔다 - 고르는 순간 그 자리에서 바뀐다.
+///
+/// ⚠️ 고른 값은 App Group 에 저장돼 **키보드 익스텐션·위젯도 같은 색**을 쓴다
+///    (`AppAccent.select`). 앱만 바뀌면 같은 앱이 두 색으로 갈린다.
+struct KeyColorSettingsView: View {
+    @EnvironmentObject private var prefs: AppThemePreference
+    @Environment(\.appTheme) private var theme
+
+    /// 동그라미 하나의 지름. 손가락으로 고르는 것이라 44pt 아래로 내리지 않는다.
+    private let swatch: CGFloat = 46
+
+    var body: some View {
+        List {
+            Section {
+                swatchRow
+                    .listRowInsets(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
+            } header: {
+                Text(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+            } footer: {
+                Text(prefs.accent.localizedNote)
+                    .font(.body)
+            }
+
+            Section {
+                previewCard
+                    .listRowInsets(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
+            } header: {
+                Text(NSLocalizedString("미리보기", comment: "Preview"))
+            } footer: {
+                Text(NSLocalizedString("고른 색은 키보드에서도 같이 써요. 갈래(카테고리) 색은 따로예요, 그건 \"무슨 종류인지\"를 말하는 색이라 그대로 둡니다.",
+                                       comment: "Key color section footer"))
+                    .font(.body)
+            }
+        }
+        .navigationTitle(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
+    }
+
+    // MARK: 고르는 자리
+
+    private var swatchRow: some View {
+        HStack(spacing: 12) {
+            ForEach(AppAccent.allCases) { candidate in
+                swatchButton(candidate)
+                if candidate != AppAccent.allCases.last { Spacer(minLength: 0) }
+            }
+        }
+    }
+
+    private func swatchButton(_ candidate: AppAccent) -> some View {
+        let selected = prefs.accent == candidate
+        let fill = candidate.accent(isDark: theme.isDark)
+        return Button {
+            guard !selected else { return }
+            HapticManager.shared.light()
+            withAnimation(.easeInOut(duration: 0.2)) { prefs.accent = candidate }
+        } label: {
+            VStack(spacing: 6) {
+                Circle()
+                    .fill(fill)
+                    .frame(width: swatch, height: swatch)
+                    // 먹은 라이트에서 바탕과 붙지 않지만, 다크의 백지는 카드와 붙는다.
+                    // 얇은 테두리 하나로 어느 쪽에서든 동그라미가 동그라미로 보인다.
+                    .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
+                    .overlay {
+                        if selected {
+                            Image(systemName: AppSymbol.checkmark)
+                                .font(.footnote.weight(.bold))
+                                .foregroundColor(candidate.accentFg(isDark: theme.isDark))
+                        }
+                    }
+                    // 고른 것에는 고리를 두른다. 체크만으로는 밝은 색 위에서 잘 안 보인다.
+                    .overlay {
+                        if selected {
+                            Circle()
+                                .strokeBorder(fill, lineWidth: 2)
+                                .padding(-4)
+                        }
+                    }
+                Text(candidate.localizedName)
+                    .font(.caption2)
+                    .foregroundColor(selected ? theme.text : theme.textFaint)
+                    .lineLimit(1)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(candidate.localizedName)
+        .accessibilityValue(candidate.localizedNote)
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+
+    // MARK: 진짜 화면으로 보여준다
+
+    private var previewCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 단축어 카드 한 장 - 갈래 칩이 키컬러를 쓴다.
+            VStack(alignment: .leading, spacing: 5) {
+                Text(NSLocalizedString("계좌", comment: "Bank account category name"))
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Capsule().fill(theme.accentSoft))
+                Text(NSLocalizedString("국민 123456-78-901234", comment: "Key color preview: sample snippet"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Text(NSLocalizedString("어제 · 12번 씀", comment: "Key color preview: sample usage line"))
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+
+            // 주요 버튼 하나 - 키컬러 위에 글자가 읽히는지가 여기서 보인다.
+            Text(NSLocalizedString("단축어 만들기", comment: "Key color preview: sample primary button"))
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(theme.accentFg)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 11)
+                .background(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                    .fill(theme.accent))
+        }
+        .padding(12)
+        .background(theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .animation(.easeInOut(duration: 0.2), value: prefs.accent)
     }
 }

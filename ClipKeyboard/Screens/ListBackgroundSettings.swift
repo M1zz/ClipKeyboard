@@ -71,7 +71,7 @@ struct ListBackgroundSettings: View {
                         .overlay(alignment: .topTrailing) {
                             Image(systemName: AppSymbol.checkmarkCircleFill)
                                 .font(.title3)
-                                .foregroundStyle(.white, Color.accentColor)
+                                .foregroundStyle(Color.checkOnGreen, Color.checkGreen)
                                 .padding(6)
                         }
                 }

@@ -154,7 +154,7 @@ struct TemplateEditSheet: View {
             VStack(spacing: 8) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 30))
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.checkGreen)
                 Text(NSLocalizedString("설정할 값이 없습니다", comment: "No values to set"))
                     .font(.body)
                     .fontWeight(.semibold)

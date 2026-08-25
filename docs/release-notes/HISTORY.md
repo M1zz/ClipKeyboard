@@ -1,5 +1,99 @@
 # ClipKeyboard Release Notes
 
+## v5.0.3 (build 1)
+
+### 한국어
+
+누를 곳의 색을 직접 고릅니다
+
+설정 안에 키 컬러가 생겼습니다. 기본색, 먹, 테라코타, 쪽, 솔, 자두, 노을 일곱 가지 중에서 고르면 앱과 키보드가 함께 그 색으로 바뀝니다. 고르는 화면 아래에 실제 카드와 버튼이 놓여 있어서, 색을 누르는 순간 내 화면이 어떻게 되는지 바로 보입니다.
+
+기본값은 아이폰이 쓰는 그 파랑입니다. 값을 적어 두지 않고 시스템에서 받아 오기 때문에, 애플이 그 파랑을 손보면 이 앱도 같이 따라갑니다. 이 앱은 남의 앱 안에 키보드로 올라가 있는 시간이 대부분이라, 어느 앱에서 왔는지 티가 나지 않는 편이 낫습니다. 예전 주황을 그대로 쓰고 싶으면 테라코타를 고르면 되고, 색을 아예 빼고 싶으면 먹이 있습니다.
+
+화면 전체의 색조도 함께 손봤습니다. 배경과 글자에 옅게 섞여 있던 노란 기를 걷어내고 중립색으로 세웠습니다. 삭제와 저장과 주의를 알리는 빨강, 초록, 노랑은 그대로 남겼습니다. 그건 취향이 아니라 신호라서 색이 사라지면 안 됩니다. 갈래를 알리는 카테고리 색도 그대로입니다.
+
+체크 표시는 언제나 연두입니다
+
+무엇을 골랐는지, 무엇이 끝났는지 알리는 표시까지 키 컬러를 따라가면 자두를 고른 사람에게는 자주색 체크가, 먹을 고른 사람에게는 검은 체크가 뜹니다. 골랐다는 말은 원래 자기 색을 갖고 있습니다. 체크만은 키 컬러에서 떼어 냈습니다.
+
+키보드가 몇 가지를 스스로 배웁니다
+
+`{커서}` 와 `{빈칸}` 은 이 앱에서 쓸모가 가장 큰데, 문법을 알아야 존재를 압니다. 알려 주는 방식은 설정을 뒤져 볼 몇 명에게만 닿습니다. 그래서 알려 주는 대신, 이미 그 일을 손으로 하고 있는 사람에게만 말을 겁니다.
+
+넣고 나서 매번 같은 자리로 커서를 옮겨 이어 쓰면, 세 번째부터 앱이 커서를 그 자리에 세웁니다. 배운 값은 본문이 아니라 따로 둡니다. 본문에 토큰을 꽂아 넣으면 사용자가 안 쓴 글자가 자기 단축어에 박히고, 맥으로 동기화되면 거기서도 보이고, 되돌리려면 손으로 지워야 합니다. 본문 밖에 두면 셋 다 없고 끄는 것도 값 하나 지우면 끝입니다. 본문이 바뀌면 배운 값을 버립니다. 틀린 자동화는 없는 것만 못합니다.
+
+넣고 나서 매번 같은 자리를 고치면 갈래가 셋이고 셋 다 다른 답이 필요합니다. 같은 자리에 다른 값이면 그 자리는 빈칸이니 템플릿으로 만들지 묻습니다. 같은 자리에 같은 값이면 저장해 둔 글이 낡은 것이니 그 값으로 바꿀지 묻습니다. 자리가 매번 다르면 그냥 딴 글을 쓴 것이라 아무 말도 하지 않습니다. 세 번째가 제일 중요합니다. 여기서 말을 걸면 그때부터 잔소리가 됩니다.
+
+한 번에 정리하기를 찾아오게 하지 않습니다
+
+대량 가져오기는 단축어 목록의 더하기 안에 있습니다. 안내 문구가 위치를 말로 알려 줘야 한다는 것 자체가 자리가 틀렸다는 뜻입니다. 자리를 옮기는 대신 필요한 순간 셋에 각각 내놓습니다. 여러 줄을 붙여넣는 중일 때, 아직 단축어가 몇 개 없을 때, 손으로 줄줄이 만들고 있을 때. 첫 번째가 압도적으로 진하고 나머지 둘은 추측이라 문턱을 높였습니다. 한 번 물리면 다시 묻지 않습니다.
+
+콤보를 배우는 자리를 다시 만들었습니다
+
+콤보는 한 번 눌러서는 값 하나가 들어갈 뿐이라 보통 단축어와 똑같이 생겼고, 값을 여러 개 갖고 있다는 사실이 화면 어디에도 나타나지 않았습니다. 이제 다섯 걸음으로 데려갑니다. 키의 왼쪽을 눌러 값을 넣고, 보내고, 오른쪽 화살표로 다음 값으로 넘기고, 다시 넣고, 다시 보냅니다. 서로 다른 값 두 개가 나란히 올라온 것을 보고 나서 한 번 짚어 드립니다.
+
+이 탭에 화면이 둘이라는 것
+
+카드 목록과 키보드 화면을 오가는 방법을 아무도 알려 주지 않았습니다. 무대에서 시작한 분은 자기 목록이 어디 있는지 모른 채로 남고, 목록에서 시작한 분은 키보드 화면을 아예 못 봤습니다. 다 배우고 나면 한 번만 짚어 드립니다. 머리말의 단추와 아래 키보드 탭을 한 번 더 누르는 것, 두 길을 같이 적었습니다.
+
+기다리는 시간과 없앤 화면
+
+장과 장 사이에 기다리던 5초를 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어갑니다. 예전에는 눌러도 아무 일이 없어서 앱이 굳은 것처럼 보였습니다.
+
+붙여넣기 연습 화면은 통째로 뺐습니다. 카드를 누른 순간 값은 이미 들어간 뒤라, 같은 값을 한 번 더 붙여넣어 보라고 전체 화면으로 막아서는 화면이었습니다.
+
+템플릿을 배우는 자리에서 빈칸을 채우고 넣기를 누르면, 시트가 내려간 뒤에 키가 한 번 더 물결치다 꺼졌습니다. 다 끝난 걸음이 다시 빛나서 아직 저기를 눌러야 하나로 읽혔습니다. 이제 곧바로 보내기로 옮겨 붙습니다.
+
+빈칸 버튼 줄을 접었습니다
+
+단축어를 만들 때 내용 칸에 커서가 닿는 순간 파란 버튼 아홉 개가 통째로 올라왔습니다. 대부분은 그냥 글을 적으러 온 분이라, 그 줄은 도움이 아니라 이걸 다 골라야 하나라는 물음이었습니다. 이제 쓸 때 채우는 칸 줄을 눌러야 펼쳐집니다. 한 번 펼치면 그대로 남습니다.
+
+### English
+
+Pick the color of what you tap
+
+Settings now has a Key color. Choose from seven, and the app and the keyboard both switch to it. A real card and a real button sit under the swatches, so you see what your screen becomes the moment you tap a color.
+
+The default is the blue iPhone itself uses, read from the system rather than written down, so it follows along if Apple ever adjusts it. This app spends most of its life as a keyboard inside someone else's app, so it is better when nothing gives away which app it came from. If you want the old orange, pick Terracotta. If you want no color at all, there is Ink.
+
+The rest of the palette was reset with it. The faint yellow cast in backgrounds and text is gone, replaced by a neutral gray. Red, green and yellow stay exactly as they were. Those are signals, not taste, and a delete button must never look like a save button. Category colors stay too.
+
+Checkmarks are always yellow green
+
+If the mark that says picked or done followed your key color, someone who chose Plum would get a purple checkmark and someone who chose Ink would get a black one. Saying yes has a color of its own, so checkmarks were taken off the key color entirely.
+
+The keyboard learns a few things on its own
+
+Cursor tokens and fill in blanks are the most useful things this app has, and both require knowing a brace syntax to even discover. Telling people reaches only the few who read settings. So instead of telling, we speak only to people already doing the work by hand.
+
+If you keep moving the cursor to the same spot after inserting and typing from there, the app places the cursor there for you from the third time on. What it learns is kept outside your text. Injecting a token into the body would put characters the user never typed into their own snippet, show up on the Mac after syncing, and require deleting by hand to undo. Kept outside, none of that happens and turning it off is deleting one value. If the body changes, what was learned is discarded. Automation that is wrong is worse than none.
+
+Corrections after inserting come in three kinds, and each needs a different answer. Same spot, different value each time means that spot is a blank, so we offer to make it a template. Same spot, same value means the saved text is out of date, so we offer to update it. A different spot each time just means you wrote something else, so we say nothing. The third case matters most: speak there and it becomes nagging.
+
+Bulk import comes to you
+
+Bulk import lives inside the plus button on the snippets list. Needing a sentence to explain where it is means the placement is wrong. Rather than move it, it now appears at three moments: while you are pasting several lines, when you still have very few snippets, and when you are creating several by hand in a row. The first is by far the strongest signal; the other two are guesses, so their thresholds are higher and declining once means never asking again.
+
+Combos are taught properly now
+
+Tapped once, a combo inserts a single value and looks exactly like an ordinary snippet, so nothing on screen said it was holding several. The tutorial now walks five steps. Tap the left side of the key to insert a value, send it, tap the arrow on the right to switch to the next value, insert again, send again. Then we name what you just saw.
+
+This tab has two screens
+
+Nothing had ever explained how to move between the card list and the keyboard. Anyone who started on the keyboard never found their own list, and anyone who started on the list never saw the keyboard screen. Once you finish learning, we point it out once, and we name both routes: the button in the header, and tapping the Keyboard tab again.
+
+Waiting, and a screen we removed
+
+The pause between tutorial chapters is down from five seconds to three, and tapping the countdown skips it. It used to do nothing when tapped, which reads as a frozen app.
+
+The paste practice screen is gone entirely. The value is already in place the moment you tap a card, so a full screen asking you to paste the same thing again was asking you to redo what you had just done.
+
+In the template chapter, filling in the blank and tapping Insert used to leave the key rippling for another moment after the sheet came down. A finished step lighting up again reads as do I still need to tap there. It now moves straight to the send button.
+
+The fill in field row is folded away
+
+Creating a snippet used to spring nine blue buttons up the instant your cursor touched the content field. Most people are there to write a line of text, so that row was not help, it was a question: do I have to choose one of these. Tap the fill in field row to open it. Once opened, it stays open.
+
 ## v5.0.2 (build 1)
 
 ### 한국어

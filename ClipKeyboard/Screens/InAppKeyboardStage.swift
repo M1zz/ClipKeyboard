@@ -22,6 +22,9 @@ import LeeoKit
 struct InAppKeyboardStage: View {
     /// 튜토리얼이 가리키는 키 - 방금 만든 문구. 누르면 첫 걸음이 끝난다.
     var highlightedMemoId: UUID? = nil
+    /// 가리키는 키가 콤보라면 **그 키의 어느 쪽**인가(왼쪽=값 넣기 · 오른쪽=다음 값).
+    /// nil 이면 키캡이 통째로 인다(보통 키).
+    var highlightedComboPart: KeyboardView.ComboKeyPart? = nil
     /// 가리키는 동안 대화 위에 얹을 안내 한 줄. 장마다 다르다(`TutorialChapter.coachLine`).
     var tutorialLine: String? = nil
     /// 마지막 걸음 - **직접 하나 만들어 보라고** 권하는 중인가. 머리말의 + 를 가리킨다.
@@ -34,6 +37,17 @@ struct InAppKeyboardStage: View {
     ///    그런데 이 무대의 이야기는 "눌러서 넣고 → 보낸다" 한 바퀴이고, 보내야
     ///    말풍선이 올라가 **넣은 것이 어디로 가는지**가 보인다.
     var highlightsSend: Bool = false
+    /// 콤보 장의 마지막 걸음 - **무엇을 본 것인지 한 번 짚는** 카드를 띄운다.
+    ///
+    /// ⚠️ 두 번 보내 놓고 그냥 지나가면 "두 번 눌렀다"만 남는다. 콤보가 값을 여러 개
+    ///    갖고 있다는 것은 두 말풍선을 **나란히 놓고 짚어 줘야** 뜻이 된다.
+    var awaitsComboConfirm: Bool = false
+    /// 그 카드의 "확인했어요".
+    var onComboConfirmed: () -> Void = {}
+    /// 목록 ↔ 키보드를 오가는 법을 지금 짚어 주는가(다 배운 뒤 한 번).
+    var showsSwitchHint: Bool = false
+    /// 그 안내를 봤다 - 다시는 안 나온다.
+    var onSwitchHintSeen: () -> Void = {}
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -48,16 +62,26 @@ struct InAppKeyboardStage: View {
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
     init(styleRaw: Binding<String>,
          highlightedMemoId: UUID? = nil,
+         highlightedComboPart: KeyboardView.ComboKeyPart? = nil,
          tutorialLine: String? = nil,
          asksToMakeOwn: Bool = false,
          onMakeOwnSkipped: @escaping () -> Void = {},
-         highlightsSend: Bool = false) {
+         highlightsSend: Bool = false,
+         awaitsComboConfirm: Bool = false,
+         onComboConfirmed: @escaping () -> Void = {},
+         showsSwitchHint: Bool = false,
+         onSwitchHintSeen: @escaping () -> Void = {}) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
+        self.highlightedComboPart = highlightedComboPart
         self.tutorialLine = tutorialLine
         self.asksToMakeOwn = asksToMakeOwn
         self.onMakeOwnSkipped = onMakeOwnSkipped
         self.highlightsSend = highlightsSend
+        self.awaitsComboConfirm = awaitsComboConfirm
+        self.onComboConfirmed = onComboConfirmed
+        self.showsSwitchHint = showsSwitchHint
+        self.onSwitchHintSeen = onSwitchHintSeen
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -116,6 +140,9 @@ struct InAppKeyboardStage: View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 stageHeader
+                // 다 배운 사람에게 **여기 화면이 둘이라는 것**을 한 번 짚는다.
+                // 머리말 바로 아래여야 화살표가 가리키는 전환 버튼과 이어져 읽힌다.
+                switchHintCue
                 // 마지막 걸음 - 위의 + 를 가리킨다. 머리말 **바로 아래**여야
                 // 화살표가 가리키는 것이 무엇인지 눈이 바로 안다.
                 makeOwnCue
@@ -125,6 +152,9 @@ struct InAppKeyboardStage: View {
                 // 잠긴 단축어가 있는데 잠금을 안 만들어 뒀으면, 누르기 **전에** 알린다.
                 if needsSecurePIN { securePINBanner }
                 conversation
+                // 콤보 장의 마지막 - 두 말풍선을 **눈앞에 둔 채로** 무엇을 본 것인지 짚는다.
+                // 대화 바로 아래여야 "저 둘"이 무엇을 가리키는지 눈이 안다.
+                comboConfirmCard
                 composer
                 // ⚠️ 안내는 **가리키는 것 바로 옆**에 둔다. 화면 맨 위에 두었더니 빛나는 키와
                 //    멀어서 둘이 같은 이야기인 줄 몰랐다 - 눈이 글에서 키로 바로 건너가야 한다.
@@ -133,7 +163,8 @@ struct InAppKeyboardStage: View {
                 KeyboardView(typingProxy: host,
                              documentState: host.documentState,
                              hostKind: .inApp,
-                             highlightedMemoId: highlightedMemoId)
+                             highlightedMemoId: highlightedMemoId,
+                             highlightedComboPart: highlightedComboPart)
                     .frame(height: min(max(geo.size.height * 0.5, 260), 430))
                     .id(feedToken)
             }
@@ -424,20 +455,120 @@ struct InAppKeyboardStage: View {
         }
     }
 
+    // MARK: - 이 탭에는 화면이 둘이다
+
+    /// 목록 ↔ 키보드를 오가는 법 - **다 배운 뒤에 한 번만.**
+    ///
+    /// ⚠️ 이 앱의 단축어 탭은 화면이 둘인데(카드 목록 · 키보드 무대) 그걸 아무도 안 알려
+    ///    줬다. 무대에서 시작한 사람은 자기 목록이 어디 있는지 모르고, 목록에서 시작한
+    ///    사람은 무대를 아예 못 본다. 만들 곳과 쓸 곳이 갈려 있는 앱에서 이건 반쪽을 잃는 일이다.
+    ///
+    /// ⚠️ **두 길을 같이 적는다.** 머리말의 버튼과 아래 탭을 한 번 더 누르는 것 - 둘 다
+    ///    같은 일을 한다(`SnippetsTabStyle.toggled`). 하나만 알려 주면 나머지 하나는
+    ///    누를 때마다 "왜 화면이 바뀌지"가 된다.
+    @ViewBuilder
+    private var switchHintCue: some View {
+        if showsSwitchHint {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 8) {
+                    // 위를 가리킨다 - 누를 버튼이 머리말에 있다.
+                    Image(systemName: "arrow.up")
+                        .font(.caption.weight(.bold))
+                    Text(NSLocalizedString("이 탭에는 화면이 둘이에요",
+                                           comment: "Switch hint: headline"))
+                        .font(.subheadline.weight(.bold))
+                    Spacer(minLength: 0)
+                    Button(action: onSwitchHintSeen) {
+                        Text(NSLocalizedString("알겠어요", comment: "Switch hint: dismiss"))
+                            .font(.footnote.weight(.bold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
+                }
+                Text(NSLocalizedString("위의 버튼을 누르면 카드 목록으로 갑니다. 만들고 고치는 건 거기서 해요. 아래 키보드 탭을 한 번 더 눌러도 같은 곳을 오갑니다.",
+                                       comment: "Switch hint: body"))
+                    .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
+        }
+    }
+
+    // MARK: - 콤보를 다 본 뒤
+
+    /// "서로 다른 값 두 개가 들어갔어요" - 콤보 장의 마지막 걸음.
+    ///
+    /// ⚠️ 시트가 아니라 **무대 위의 카드**다. 시트로 띄우면 방금 올라온 두 말풍선이 가려져,
+    ///    무엇이 서로 다르다는 건지 확인할 길이 사라진다. 짚어 주는 글은 짚어지는 것과
+    ///    같은 화면에 있어야 한다.
+    @ViewBuilder
+    private var comboConfirmCard: some View {
+        if awaitsComboConfirm {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.subheadline.weight(.semibold))
+                    Text(NSLocalizedString("서로 다른 값 두 개가 들어갔어요",
+                                           comment: "Combo step: confirmation headline"))
+                        .font(.subheadline.weight(.bold))
+                    Spacer(minLength: 0)
+                }
+                Text(NSLocalizedString("콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
+                                       comment: "Combo step: confirmation body"))
+                    .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+                Button(action: onComboConfirmed) {
+                    Text(NSLocalizedString("확인했어요", comment: "Combo step: confirm button"))
+                        .font(.subheadline.weight(.bold))
+                        .foregroundColor(Color.accentColor)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 9)
+                        .background(Capsule().fill(Color.accentForeground))
+                }
+                .buttonStyle(.plain)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
+        }
+    }
+
     // MARK: - 대화
 
     /// 튜토리얼이 가리키는 중이면 대화 위에 한 줄 더 얹는다 - 무엇을 하라는 건지
     /// 빛만으로는 모를 수 있다. 빛은 **어디**를, 이 줄은 **무엇을** 알려 준다.
+    ///
+    /// ⚠️ 안내 문구는 **가진 것이 있으면 그것을 쓴다**(`tutorialLine`). 콤보 장은 걸음이
+    ///    다섯이라 보내는 자리에서도 할 말이 걸음마다 다르다("보내기를 눌러 올려보세요" /
+    ///    "한 번 더 보내볼까요?"). 여기에 문구를 못박아 두면 그 다섯이 전부 같은 말이 된다.
+    ///
+    /// ⚠️ 짚어 주는 카드가 떠 있으면 이 줄은 물러난다 - 한 화면에서 두 곳이 동시에
+    ///    말을 걸면 어느 쪽을 따라야 하는지 알 수 없다.
     @ViewBuilder
     private var tutorialCue: some View {
-        if highlightsSend {
+        if awaitsComboConfirm {
+            EmptyView()
+        } else if highlightsSend {
             HStack(spacing: 8) {
                 Spacer(minLength: 0)
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.subheadline.weight(.semibold))
-                Text(NSLocalizedString("들어갔어요. 이제 보내기를 눌러 보세요.",
-                                       comment: "Tutorial cue: press send"))
+                Text(tutorialLine
+                     ?? NSLocalizedString("들어갔어요. 이제 보내기를 눌러 보세요.",
+                                          comment: "Tutorial cue: press send"))
                     .font(.subheadline.weight(.bold))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
                 Image(systemName: "arrow.up")
                     .font(.caption.weight(.bold))
                 Spacer(minLength: 0)

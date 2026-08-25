@@ -21,18 +21,46 @@ extension Color {
     /// 두 곳에 있는 색은 언젠가 한쪽만 바뀐다. 두 타깃이 함께 보는 이 파일로 옮긴다.
     static let clipFavorite = Color(red: 1.0, green: 0.29, blue: 0.62)
 
-    /// 키컬러(AccentColor 에셋) 위에 얹는 글자·아이콘 색.
+    /// 키컬러 위에 얹는 글자·아이콘 색.
     ///
-    /// 라이트의 키컬러는 짙은 주황이라 흰 글자가 잘 보이지만, 다크의 키컬러는
-    /// 밝게 띄운 주황이라 흰 글자를 얹으면 대비가 3:1 아래로 떨어진다. 두 모드에서
-    /// 같은 `.white` 를 쓰는 대신 이 색을 쓴다. (테마 토큰이 닿는 곳은 `theme.accentFg`.)
+    /// 라이트의 키컬러는 짙어서 흰 글자가 잘 보이지만, 다크의 키컬러는 밝게 띄운
+    /// 색이라 흰 글자를 얹으면 대비가 3:1 아래로 떨어진다. 두 모드에서 같은 `.white` 를
+    /// 쓰는 대신 이 색을 쓴다. (테마 토큰이 닿는 곳은 `theme.accentFg`.)
+    ///
+    /// ⚠️ **사용자가 고른 키컬러를 따라간다.** 예전에는 다크 값이 짙은 갈색(#2A0E03)으로
+    ///    못박혀 있었다 - 키컬러가 주황 하나뿐이던 시절의 짝이다. 그대로 두면 먹을 고른
+    ///    사람의 화면에서 흰 바탕 위에 **갈색 글자**가 얹힌다.
     static var accentForeground: Color {
-        Color(UIColor { trait in
-            trait.userInterfaceStyle == .dark
-                ? UIColor(red: 0x2A/255, green: 0x0E/255, blue: 0x03/255, alpha: 1)
-                : .white
+        let choice = AppAccent.current
+        return Color(UIColor { trait in
+            UIColor(choice.accentFg(isDark: trait.userInterfaceStyle == .dark))
         })
     }
+
+    /// **체크 표시는 언제나 연두다.**
+    ///
+    /// ⚠️ 키컬러를 고를 수 있게 되면서(`AppAccent`) 생긴 규칙이다. 체크를 키컬러로 그리면
+    ///    자두를 고른 사람에게는 **자주색 체크**가, 먹을 고른 사람에게는 **검은 체크**가
+    ///    뜬다. "골랐다 · 됐다 · 맞다"는 색을 갖고 있는 말이고, 그 색은 사람이 고르는 것이
+    ///    아니다. 그래서 체크만은 키컬러에서 떼어 낸다.
+    ///
+    /// ⚠️ 값은 눈으로만 고르지 않았다. 진짜 연두(#9ACD32)는 흰 바탕에서 1.9:1 이라
+    ///    글리프가 안 보인다. 라이트는 읽히는 선까지 눌러 내린 연두(3.9:1 on white),
+    ///    다크는 마음껏 밝은 연두다. 시험이 이 선을 지킨다(`CheckGreenTests`).
+    static var checkGreen: Color {
+        Color(UIColor { trait in
+            trait.userInterfaceStyle == .dark
+                ? UIColor(red: 0xA8/255, green: 0xE0/255, blue: 0x63/255, alpha: 1)
+                : UIColor(red: 0x52/255, green: 0x90/255, blue: 0x1A/255, alpha: 1)
+        })
+    }
+
+    /// 채워진 체크(`checkmark.circle.fill`) **안쪽** 표시색.
+    ///
+    /// ⚠️ 흰색이면 안 된다. 다크의 연두(#A8E063)는 아주 밝아서 흰 체크를 얹으면 1.4:1 이라
+    ///    원만 보이고 체크가 안 보인다 - 그건 그냥 초록 점이다. 짙은 먹을 얹으면
+    ///    라이트 연두(4.9:1) 와 다크 연두(12.9:1) 양쪽에서 다 읽힌다.
+    static let checkOnGreen = Color(red: 0x10/255, green: 0x14/255, blue: 0x0A/255)
 
     /// 브랜드 주황 - 키컬러(#E8501C).
     /// 라이트/다크로 뒤집히는 `Color.accentColor` 와 달리 **항상 같은 값**이라,

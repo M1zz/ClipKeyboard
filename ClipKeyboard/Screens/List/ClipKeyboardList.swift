@@ -83,15 +83,6 @@ struct ClipKeyboardList: View {
     private var tutorialTargetRaw: String = ""
     /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
     @State private var coachRect: CGRect = .zero
-    /// 복사까지 해 본 직후 이어지는 붙여넣기 연습. 복사만 시키고 끝내면
-    /// "복사됐다"로 끝나고, 값어치는 **그 다음에 안 친 것**에 있다.
-    @State private var pastePractice: PastePracticeRequest?
-
-    private struct PastePracticeRequest: Identifiable {
-        let id = UUID()
-        let value: String
-    }
-
     /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
@@ -361,6 +352,14 @@ struct ClipKeyboardList: View {
                     .padding(.bottom, 4)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
+                }
+
+                // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
+                // (mainColumn 타입 복잡도에 영향이 없도록 자식 하나로 유지)
+                BulkImportNudgeBannerContainer(memoCount: viewModel.memos.count,
+                                               hasLoaded: viewModel.hasLoadedMemos) {
+                    HapticManager.shared.light()
+                    showBulkImport = true
                 }
 
                 if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
@@ -647,12 +646,6 @@ struct ClipKeyboardList: View {
             }
             .navigationDestination(isPresented: $showVault) {
                 VaultScreen()
-            }
-            // 온보딩의 마지막 걸음 - 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
-            .fullScreenCover(item: $pastePractice) { request in
-                PastePracticeView(expected: request.value) {
-                    pastePractice = nil
-                }
             }
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
@@ -1228,7 +1221,7 @@ struct ClipKeyboardList: View {
                 .overlay(alignment: .topTrailing) {
                     Image(systemName: AppSymbol.checkmarkCircleFill)
                         .font(.title3)
-                        .foregroundStyle(.white, Color.accentColor)
+                        .foregroundStyle(Color.checkOnGreen, Color.checkGreen)
                         .padding(6)
                 }
         }
@@ -1677,20 +1670,13 @@ struct ClipKeyboardList: View {
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
         lightUpCard(memoID)
 
-        // 가리키던 카드를 실제로 눌렀다 → 복사한 것을 붙여넣기까지 이어서 데려간다.
+        // 가리키던 카드를 실제로 눌렀다 → 안내를 거둔다. 배운 것은 여기서 끝난다.
         //
-        // ⚠️ 클립보드를 읽어 값을 알아내지 않는다. iOS 16+ 는 읽을 때마다
-        //    "붙여넣기 허용" 프롬프트를 띄워서, 가르치려던 동작을 시스템 팝업으로 가로챈다.
-        //    알림이 실어 온 복사값(copiedText)을 그대로 쓴다.
+        // ⚠️ 예전에는 여기서 **붙여넣기 연습 화면**(`PastePracticeView`)을 전체 화면으로
+        //    띄웠다. 뺐다. 카드를 누른 순간 값은 이미 들어간 뒤라, 같은 값을 한 번 더
+        //    "붙여넣어 보라"고 하는 것은 방금 한 일을 다시 시키는 일이었다.
         if coachMemoID == memoID {
             withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil }
-
-            let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
-            if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                    pastePractice = PastePracticeRequest(value: copied)
-                }
-            }
         }
 
         guard livingSkin == .vault else { return }
