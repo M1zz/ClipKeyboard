@@ -13,20 +13,49 @@ sampleCount: 127 → 127 → …    ← 붙여넣은 구간 내내 한 갈래
 샘플이 한 갈래로만 내려간다는 것은 여러 일이 조금씩 느린 게 아니라
 **한 호출이 그 자리에서 기다리고 있었다**는 뜻이다.
 
-## ⚠️ 원인은 확정하지 못했다
+## 심볼화: 2026-08-25 에 다시 붙였다
 
-받은 스택이 **잎(leaf) 프레임 앞에서 잘려 있었다.** `callStackRootFrames` 는 바깥
-(`start` → `main` → …)부터 안쪽으로 내려가는데, 남아 있는 여덟아홉 겹은 아직 UIKit
-언저리라 어느 앱이든 똑같이 나온다. 범인을 부르는 자리는 잘린 뒤에 있었다.
+처음 이 문서를 쓸 때는 **"UUID 일치 없음, 원인 미확정"** 으로 닫았다. 그건 틀린 결론이었다.
+아카이브를 `4.4.8 이 마지막` 으로 본 것이 잘못이고, 실제로는 **멈추기 21분 전에 만든
+5.0.1 아카이브가 그대로 있었다.**
 
-심볼화도 막혔다.
+```
+~/Library/Developer/Xcode/Archives/2026-08-23/ClipKeyboard 8-23-26, 6.37 PM.xcarchive
+  버전 5.0.1 (1)
+  ClipKeyboard.app.dSYM : FAE8F200-B00C-33BD-BCB1-DCB12C52F7B6   ← 리포트의 두 번째 프레임
+```
 
-- 리포트의 `binaryUUID` 7개를 로컬 아카이브와 DerivedData 전체에서 훑었으나 **일치 없음**
-  (아카이브는 4.4.8(2026-08-18)이 마지막, 5.0.x 없음)
-- iOS 26.6.1(23G82) 기기 심볼도 없어(로컬 최신 26.5.2) 시스템 프레임도 못 붙임
+> 다음에 같은 일이 생기면 아카이브 폴더를 **날짜별로 전부** 훑을 것.
+> `find ~/Library/Developer/Xcode/Archives -name "*.xcarchive"` 한 줄이면 된다.
 
-그래서 이 문서는 "범인을 잡았다"가 아니라 **"그 모양에 맞는 자리를 걷어냈다"** 는 기록이다.
-다음에 같은 리포트가 오면 잘리지 않은 전체 JSON 이나 Organizer 의 심볼화 화면을 먼저 확보할 것.
+시스템 프레임은 26.6.1(23G82) 심볼이 없어 정확히는 못 붙였지만, 같은 기기의
+**26.6(23G71) 심볼**로 자리를 맞춰 봤더니 여섯 중 다섯이 예상한 함수로 떨어졌다.
+그 정도면 스택의 모양은 확정이다.
+
+| # | 바이너리 | 심볼 |
+| --- | --- | --- |
+| 1 | dyld | `start` |
+| 2 | **ClipKeyboard 5.0.1** | `main` (앱 dSYM 으로 확정) |
+| 3~5 | SwiftUI | (공유 캐시에 이름 없음) |
+| 6 | UIKitCore | `UIApplicationMain` |
+| 7 | UIKitCore | `-[UIApplication _run]` |
+| 8 | GraphicsServices | `GSEventRunModal` |
+| 9 | CoreFoundation | `_CFRunLoopRunSpecificWithOptions` |
+| 10 | CoreFoundation | `__CFRunLoopRun` |
+| 11 | CoreFoundation | `__CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__` |
+| 12 | libdispatch | `_dispatch_main_queue_callback_4CF` |
+| 13 | libdispatch | `_dispatch_main_queue_drain` ← 121 샘플, 여기서 잘림 |
+
+**멈춘 곳은 메인 큐에 실린 일 안이다.** 터치 처리도, 레이아웃도, CA 커밋도 아니다.
+`DispatchQueue.main.async` · `queue: .main` 알림 · MainActor 작업, 그리고 **SwiftUI 의
+갱신 패스**가 여기로 드레인된다. `.onAppear` 클로저가 이 자리에 실린다.
+
+## 그래서 아래 결론은 맞았다
+
+5.0.1 의 `ClipKeyboardList.onAppear` → `viewModel.onAppear()` → `checkFreshClipboard()` →
+`UIPasteboard.general.string`. **`.onAppear` 는 메인 큐에서 드레인되는 자리**라 스택 모양과
+정확히 맞는다. 아래 고친 내용(`PasteboardReader`)은 2026-08-24 11:38 에 들어갔으니
+**멈춘 그 빌드에는 없었다.**
 
 ## 걷어낸 자리
 
