@@ -48,6 +48,10 @@ enum ShareVideoRenderer {
     /// ⚠️ 임시 폴더에 쓴다. 공유 시트가 읽어 간 뒤 시스템이 정리한다 - 사용자의
     ///    저장 공간에 우리 파일을 남기지 않는다.
     static func render(totalSeconds: Double, totalUses: Int) async throws -> URL {
+        // ⚠️ **한 번만 묻는다.** 프레임마다 트레이트를 물으면 102장을 굽는 동안
+        //    사용자가 화면을 뒤집었을 때 영상 중간에서 배경이 갈린다.
+        let isDark = UITraitCollection.current.userInterfaceStyle == .dark
+
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("ClipKeyboard-\(Int(Date().timeIntervalSince1970)).mp4")
         try? FileManager.default.removeItem(at: url)
@@ -76,7 +80,7 @@ enum ShareVideoRenderer {
         let frameCount = Int(duration * Double(fps))
         for index in 0..<frameCount {
             let progress = Double(index) / Double(max(1, frameCount - 1))
-            let image = frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses)
+            let image = frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses, isDark: isDark)
             guard let buffer = pixelBuffer(from: image, pool: adaptor.pixelBufferPool) else {
                 throw RenderError.frameFailed
             }
@@ -102,7 +106,7 @@ enum ShareVideoRenderer {
     ///    스토리는 넘기면서 보는 것이라, 멈춰 있는 구간이 없으면 숫자를 못 읽는다.
     private static let countUpPortion = 0.7
 
-    private static func frame(progress: Double, totalSeconds: Double, totalUses: Int) -> UIImage {
+    private static func frame(progress: Double, totalSeconds: Double, totalUses: Int, isDark: Bool) -> UIImage {
         let eased = min(1, progress / countUpPortion)
         // 처음엔 빠르게, 끝에서 천천히 - 숫자가 자리를 잡는 느낌이 난다.
         let curve = 1 - pow(1 - eased, 3)
@@ -111,7 +115,8 @@ enum ShareVideoRenderer {
 
         let view = ShareVideoFrame(seconds: shownSeconds,
                                    uses: shownUses,
-                                   settled: eased >= 1)
+                                   settled: eased >= 1,
+                                   isDark: isDark)
             .frame(width: size.width, height: size.height)
 
         let renderer = ImageRenderer(content: view)
@@ -149,28 +154,59 @@ enum ShareVideoRenderer {
 
 /// 영상의 한 프레임. 세로 스토리 한 장이라고 보면 된다.
 ///
-/// ⚠️ 테마를 따르지 않고 **밝은 브랜드 화면 하나로 고정**한다. 이 그림은 남의 스토리에
-///    올라가는 것이라, 만든 사람이 다크 모드였다는 이유로 어두운 그림이 나가면 안 된다.
+/// ⚠️ **바탕은 흰색(또는 다크의 검정)이다.** 예전에는 모래빛 베이지(#EED2A7) 한 장으로
+///    고정돼 있었다. 그 색은 앱 어디에도 없어서 남의 스토리에 올라갔을 때 이 앱의
+///    그림으로 안 읽혔고, 흰 시계 글리프를 얹으려니 바탕이 탁해야만 했다.
+///
+/// ⚠️ **다크 모드를 따른다.** 예전에는 일부러 안 따랐다 - 만든 사람이 다크였다는 이유로
+///    어두운 그림이 나가면 안 된다고 봤다. 뒤집었다. 스토리는 대개 어두운 배경에서
+///    넘겨 보고, 무엇보다 **자기 화면에서 본 그대로 나가는 쪽**이 놀랄 일이 없다.
+///    (`isDark` 는 밖에서 넣어 준다 - 프레임마다 트레이트를 묻지 않기 위해서다)
+///
+/// ⚠️ 숫자는 **사용자가 고른 키컬러**로 칠한다(`AppAccent`). 앱에서 크게 보던 그 색이
+///    그대로 나가야 자기 앱에서 나온 그림으로 읽힌다.
 struct ShareVideoFrame: View {
     let seconds: Double
     let uses: Int
     /// 숫자가 다 굴러 제자리에 섰는가 - 이때만 아래 문구가 나타난다.
     let settled: Bool
+    /// 어두운 화면으로 뽑을 것인가.
+    var isDark: Bool = false
 
-    private let sand = Color(red: 0xEE/255, green: 0xD2/255, blue: 0xA7/255)
-    private let deep = Color(red: 0x0E/255, green: 0x5A/255, blue: 0x4C/255)
-    private let ink = Color(red: 0x16/255, green: 0x21/255, blue: 0x1D/255)
+    /// 바탕 - 흰 종이, 또는 앱의 다크 바탕과 같은 검정.
+    private var ground: Color {
+        isDark ? Color(red: 0x0D/255, green: 0x0D/255, blue: 0x0E/255) : .white
+    }
+    /// 큰 숫자와 시계에 쓰는 키컬러. 앱에서 보던 그 색이다.
+    private var accent: Color { AppAccent.current.accent(isDark: isDark) }
+    /// 본문 글자.
+    private var ink: Color {
+        isDark ? Color(red: 0xF2/255, green: 0xF2/255, blue: 0xF4/255)
+               : Color(red: 0x13/255, green: 0x13/255, blue: 0x15/255)
+    }
+    /// 곁들이는 글자.
+    private var muted: Color {
+        isDark ? Color(red: 0x9C/255, green: 0x9C/255, blue: 0xA3/255)
+               : Color(red: 0x6B/255, green: 0x6B/255, blue: 0x72/255)
+    }
 
     var body: some View {
         ZStack {
-            sand.ignoresSafeArea()
+            ground.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 Spacer(minLength: 0)
 
+                // ⚠️ 흰 바탕에 흰 글리프를 얹을 수는 없다(예전에는 베이지라 됐다).
+                //    시계는 키컬러, 배지의 체크는 **연두**로 나눠 칠한다 - 체크는
+                //    언제나 연두라는 규칙이 이 그림에도 걸린다(`Color.checkGreen`).
+                //
+                // ⚠️ 이 심볼의 팔레트 순서는 **직관과 반대다.** 첫 번째가 배지(체크),
+                //    두 번째가 시계판이다. 반대로 넣었더니 초록 시계에 파란 배지가 나왔다
+                //    (실제로 구워 보고 알았다). 순서를 바꾸기 전에 한 장 뽑아 볼 것.
                 Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                     .font(.system(size: 200, weight: .light))
-                    .foregroundColor(.white)
+                    .foregroundStyle(Color.checkGreen(isDark: isDark), accent)
                     .frame(width: 320, height: 320)
 
                 // ⚠️ "아낀 시간"이 아니라 "손으로 했다면"이다. 같은 숫자인데 주장하는 바가
@@ -180,7 +216,7 @@ struct ShareVideoFrame: View {
                 //    사실인 척하면 그 거짓말이 가장 멀리 간다.
                 Text(NSLocalizedString("이걸 손으로 했다면", comment: "Share video: caption above the number"))
                     .font(.system(size: 44, weight: .semibold))
-                    .foregroundColor(ink.opacity(0.75))
+                    .foregroundColor(muted)
                     .padding(.top, 40)
 
                 Text(RefundReceipt.durationText(seconds: seconds))
@@ -188,7 +224,7 @@ struct ShareVideoFrame: View {
                     .monospacedDigit()
                     .minimumScaleFactor(0.5)
                     .lineLimit(1)
-                    .foregroundColor(deep)
+                    .foregroundColor(accent)
                     .padding(.horizontal, 60)
                     .padding(.top, 8)
 
@@ -197,13 +233,13 @@ struct ShareVideoFrame: View {
                 Text(String(format: NSLocalizedString("실제로는 단축어 %d번", comment: "Share video: uses line"), uses))
                     .font(.system(size: 44, weight: .semibold))
                     .monospacedDigit()
-                    .foregroundColor(deep.opacity(0.85))
+                    .foregroundColor(muted)
                     .padding(.top, 18)
 
                 // 다 굴러간 뒤에만 나타난다 - 숫자와 같이 뜨면 눈이 둘로 갈린다.
                 Text(verbatim: "ClipKeyboard")
                     .font(.system(size: 46, weight: .heavy, design: .rounded))
-                    .foregroundColor(deep)
+                    .foregroundColor(ink)
                     .padding(.top, 70)
                     .opacity(settled ? 1 : 0)
 

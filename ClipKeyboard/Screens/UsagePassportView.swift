@@ -82,7 +82,9 @@ struct UsagePassportView: View {
             .padding(20)
         }
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("사용 기록", comment: "Usage passport screen title"))
+        // ⚠️ 제목을 안 단다. 이건 **탭의 뿌리 화면**이고, 아래 탭바가 이미 "사용 기록"이라고
+        //    적고 있다. 위아래에 같은 말이 두 번 적히면 화면만 좁아진다.
+        //    (파고 들어가는 화면들은 그대로 제목을 단다 - 거기서는 어디까지 왔는지가 필요하다)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform: reload)
         .sheet(item: $receiptRequest) { request in
@@ -195,9 +197,23 @@ struct UsagePassportView: View {
                 .animation(Delight.motion(.once, reduceMotion: reduceMotion), value: summary.totalUses)
 
             if let saved = UsagePassport.timeSavedText(seconds: summary.timeSavedSeconds) {
-                Text(String(format: NSLocalizedString("대략 %@을 아꼈어요.", comment: "Usage passport: time saved sentence"), saved))
-                    .font(.body)
-                    .foregroundColor(theme.text)
+                // ⚠️ 체크는 **연두 하나로 고정**이다(`Color.checkGreen`). 키컬러를 따라가면
+                //    자두를 고른 사람에게는 자주색 체크가 뜬다 - 이 앱에서 "됐다"는 말은
+                //    사람이 고르는 색이 아니다(같은 규칙이 앱 전체에 걸려 있다).
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    // ⚠️ **탭바의 그 표시와 같은 모양**이다(`MainTabView` 의 사용 기록 탭).
+                    //    아래 탭에서 이 화면으로 들어왔는데 안의 표시가 다른 모양이면
+                    //    같은 이야기를 두 기호로 하는 셈이 된다.
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Color.checkGreen)
+                        .accessibilityHidden(true)
+                    Text(String(format: NSLocalizedString("대략 %@을 아꼈어요.", comment: "Usage passport: time saved sentence"), saved))
+                        .font(.body)
+                        .foregroundColor(theme.text)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer(minLength: 0)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

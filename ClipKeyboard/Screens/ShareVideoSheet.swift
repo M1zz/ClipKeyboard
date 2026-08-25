@@ -100,6 +100,13 @@ struct ShareVideoSheet: View {
                 }
             }
         }
+        // ⚠️ 테두리를 두른다. 영상 바탕이 흰색(다크에서는 검정)이 되면서 **미리보기 카드와
+        //    같은 색**이 됐다 - 선이 없으면 어디까지가 영상인지 안 보이고, 스토리 비율이
+        //    어떻게 잘리는지도 가늠이 안 된다. 베이지였을 때는 저절로 갈라졌던 자리다.
+        .overlay(
+            RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                .strokeBorder(theme.divider, lineWidth: 1)
+        )
         // 스토리 비율 그대로 보여준다. 다른 비율로 보여주고 다른 비율을 내보내면
         // 본 것과 보낸 것이 다른 물건이 된다.
         .aspectRatio(9.0 / 16.0, contentMode: .fit)

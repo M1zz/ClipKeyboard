@@ -652,7 +652,9 @@ struct SettingView: View {
         } message: {
             Text(NSLocalizedString("준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
-        .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
+        // ⚠️ 제목을 안 단다. 탭의 뿌리 화면이고 아래 탭바가 이미 "설정"이라고 적고 있다.
+        //    안쪽 화면들(단축어 표시·키 컬러 …)은 그대로 제목을 단다 - 거기서는
+        //    어디까지 들어왔는지를 제목이 말해 준다.
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             refreshSecurePINState()

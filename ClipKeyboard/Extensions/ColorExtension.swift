@@ -49,10 +49,19 @@ extension Color {
     ///    다크는 마음껏 밝은 연두다. 시험이 이 선을 지킨다(`CheckGreenTests`).
     static var checkGreen: Color {
         Color(UIColor { trait in
-            trait.userInterfaceStyle == .dark
-                ? UIColor(red: 0xA8/255, green: 0xE0/255, blue: 0x63/255, alpha: 1)
-                : UIColor(red: 0x52/255, green: 0x90/255, blue: 0x1A/255, alpha: 1)
+            UIColor(checkGreen(isDark: trait.userInterfaceStyle == .dark))
         })
+    }
+
+    /// 밝기를 **못박아** 고른 체크 연두.
+    ///
+    /// ⚠️ 그리는 자리의 트레이트를 못 믿는 곳에서 쓴다. 실제로 공유 영상이 그랬다
+    ///    (`ShareVideoRenderer`) - `ImageRenderer` 는 화면과 무관하게 라이트 트레이트로
+    ///    굽기 때문에, 위의 동적 색을 쓰면 **어두운 영상에도 라이트용 초록**이 들어간다.
+    ///    구워 놓고 보기 전에는 안 보이는 종류의 어긋남이다.
+    static func checkGreen(isDark: Bool) -> Color {
+        isDark ? Color(red: 0xA8/255, green: 0xE0/255, blue: 0x63/255)
+               : Color(red: 0x52/255, green: 0x90/255, blue: 0x1A/255)
     }
 
     /// 채워진 체크(`checkmark.circle.fill`) **안쪽** 표시색.

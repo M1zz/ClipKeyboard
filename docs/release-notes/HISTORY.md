@@ -28,6 +28,14 @@
 
 대량 가져오기는 단축어 목록의 더하기 안에 있습니다. 안내 문구가 위치를 말로 알려 줘야 한다는 것 자체가 자리가 틀렸다는 뜻입니다. 자리를 옮기는 대신 필요한 순간 셋에 각각 내놓습니다. 여러 줄을 붙여넣는 중일 때, 아직 단축어가 몇 개 없을 때, 손으로 줄줄이 만들고 있을 때. 첫 번째가 압도적으로 진하고 나머지 둘은 추측이라 문턱을 높였습니다. 한 번 물리면 다시 묻지 않습니다.
 
+남에게 보여주는 그림도 다시 그렸습니다
+
+아낀 시간을 담은 영상은 모래빛 베이지(#EED2A7) 한 장으로 고정돼 있었습니다. 그 색은 앱 어디에도 없어서 남의 스토리에 올라갔을 때 이 앱의 그림으로 안 읽혔고, 흰 시계를 얹으려니 바탕이 탁해야만 했습니다. 흰 바탕으로 바꾸고, 시계는 키 컬러로, 배지의 체크는 연두로 나눠 칠했습니다. 환급 영수증의 누런 종이빛과 짙은 청록도 같은 이유로 걷어냈습니다.
+
+다크 모드를 따릅니다. 예전에는 일부러 안 따랐습니다. 만든 사람이 다크였다는 이유로 어두운 그림이 나가면 안 된다고 봤습니다. 뒤집었습니다. 자기 화면에서 본 그대로 나가는 쪽이 놀랄 일이 없습니다.
+
+두 그림 다 ImageRenderer 로 굽는데, 이건 화면 밝기와 무관하게 라이트 트레이트로 그립니다. 동적 색을 그대로 쓰면 어두운 화면에서 뽑은 그림만 혼자 밝게 나옵니다. 밝기를 밖에서 넣어 주도록 고쳤습니다. 구워 놓고 눈으로 보기 전에는 안 보이는 종류의 어긋남이었습니다.
+
 콤보를 배우는 자리를 다시 만들었습니다
 
 콤보는 한 번 눌러서는 값 하나가 들어갈 뿐이라 보통 단축어와 똑같이 생겼고, 값을 여러 개 갖고 있다는 사실이 화면 어디에도 나타나지 않았습니다. 이제 다섯 걸음으로 데려갑니다. 키의 왼쪽을 눌러 값을 넣고, 보내고, 오른쪽 화살표로 다음 값으로 넘기고, 다시 넣고, 다시 보냅니다. 서로 다른 값 두 개가 나란히 올라온 것을 보고 나서 한 번 짚어 드립니다.
@@ -73,6 +81,14 @@ Corrections after inserting come in three kinds, and each needs a different answ
 Bulk import comes to you
 
 Bulk import lives inside the plus button on the snippets list. Needing a sentence to explain where it is means the placement is wrong. Rather than move it, it now appears at three moments: while you are pasting several lines, when you still have very few snippets, and when you are creating several by hand in a row. The first is by far the strongest signal; the other two are guesses, so their thresholds are higher and declining once means never asking again.
+
+The pictures you share were redrawn
+
+The saved time video was fixed to a single sand beige (#EED2A7). That color appears nowhere in the app, so on someone's story it did not read as this app, and the white clock on it only worked because the ground was muddy. The ground is white now, the clock carries your key color, and the badge check is yellow green. The refund receipt lost its yellowed paper and dark teal for the same reason.
+
+Both follow dark mode now. They deliberately did not before: it seemed wrong to export a dark picture just because the author happened to be in dark mode. That is reversed. What leaves should look like what you saw.
+
+Both are baked with ImageRenderer, which draws in the light trait regardless of the screen. Using a dynamic color there means a picture exported from a dark screen comes out light on its own. Brightness is now passed in explicitly. This is the kind of mismatch you cannot see until you bake one and look at it.
 
 Combos are taught properly now
 

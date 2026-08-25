@@ -249,10 +249,32 @@ struct RefundReceiptView: View {
     /// 공유된 이미지들이 서로 다른 물건처럼 보인다.
     static let paperWidth: CGFloat = 320
 
-    private let ink = Color(red: 0.16, green: 0.15, blue: 0.14)
-    private let inkFaint = Color(red: 0.45, green: 0.43, blue: 0.40)
-    private let paper = Color(red: 0.96, green: 0.94, blue: 0.90)
-    private let brand = Color(red: 0.13, green: 0.36, blue: 0.27)
+    /// 어두운 종이로 뽑을 것인가.
+    ///
+    /// ⚠️ **밖에서 넣어 준다.** 이 뷰는 화면에도 서고 `ImageRenderer` 로 굽기도 하는데,
+    ///    `ImageRenderer` 는 화면 밝기와 무관하게 **라이트 트레이트로** 그린다.
+    ///    동적 색(`Color(UIColor { trait in ... })`)을 쓰면 어두운 화면에서 뽑은 종이만
+    ///    혼자 밝게 나온다 - 구워 놓고 보기 전에는 안 보이는 어긋남이다
+    ///    (같은 이유로 공유 영상도 이 방식이다, `ShareVideoFrame`).
+    var isDark: Bool = false
+
+    /// ⚠️ 종이는 **흰색**이다(다크에서는 앱의 카드와 같은 검정). 예전에는 누런 종이빛
+    ///    (#F5F0E6)에 짙은 청록 글자였다. 그 색들은 앱 어디에도 없어서, 공유된 그림이
+    ///    이 앱에서 나온 것으로 안 읽혔다. 공유 영상과 같은 바탕을 쓴다.
+    private var ink: Color {
+        isDark ? Color(red: 0xF2/255, green: 0xF2/255, blue: 0xF4/255)
+               : Color(red: 0x13/255, green: 0x13/255, blue: 0x15/255)
+    }
+    private var inkFaint: Color {
+        isDark ? Color(red: 0x9C/255, green: 0x9C/255, blue: 0xA3/255)
+               : Color(red: 0x6B/255, green: 0x6B/255, blue: 0x72/255)
+    }
+    private var paper: Color {
+        isDark ? Color(red: 0x1A/255, green: 0x1A/255, blue: 0x1C/255) : .white
+    }
+    /// 기간과 큰 숫자에 쓰는 색 - **사용자가 고른 키컬러**다. 앱에서 보던 그 색이
+    /// 그대로 나가야 자기 앱에서 뽑은 종이로 읽힌다.
+    private var brand: Color { AppAccent.current.accent(isDark: isDark) }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -506,8 +528,14 @@ struct RefundReceiptSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 22) {
-                    RefundReceiptView(receipt: receipt)
-                        .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
+                    RefundReceiptView(receipt: receipt, isDark: theme.isDark)
+                        // 다크에서는 검은 종이가 검은 바탕 위에 놓인다. 검은 그림자로는
+                        // 종이가 바탕에서 안 떨어지므로, 그때는 옅은 테두리가 대신한다.
+                        .shadow(color: .black.opacity(theme.isDark ? 0.5 : 0.18), radius: 12, x: 0, y: 6)
+                        .overlay(
+                            ReceiptPaperShape()
+                                .stroke(theme.divider, lineWidth: theme.isDark ? 1 : 0)
+                        )
 
                     shareButton
                 }
@@ -532,7 +560,7 @@ struct RefundReceiptSheet: View {
             }
         }
         .task {
-            baked = RefundReceiptView.render(receipt)
+            baked = RefundReceiptView.render(receipt, isDark: theme.isDark)
         }
     }
 
@@ -575,8 +603,8 @@ extension RefundReceiptView {
     ///
     /// ⚠️ `@MainActor` - ImageRenderer 는 뷰를 실제로 그린다.
     @MainActor
-    static func render(_ receipt: RefundReceipt, scale: CGFloat = 3) -> UIImage? {
-        let renderer = ImageRenderer(content: RefundReceiptView(receipt: receipt))
+    static func render(_ receipt: RefundReceipt, isDark: Bool = false, scale: CGFloat = 3) -> UIImage? {
+        let renderer = ImageRenderer(content: RefundReceiptView(receipt: receipt, isDark: isDark))
         renderer.scale = scale
         renderer.isOpaque = false
         return renderer.uiImage
