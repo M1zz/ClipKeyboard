@@ -91,6 +91,7 @@ struct InAppKeyboardStage: View {
 
     @StateObject private var host = InAppKeyboardHost()
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// 문구 목록이 바뀔 때마다 올린다 - `KeyboardView`는 등장할 때 한 번만 목록을 읽으므로
     /// (익스텐션에서는 키보드가 뜰 때마다 새 프로세스라 그걸로 충분했다),
@@ -111,6 +112,42 @@ struct InAppKeyboardStage: View {
     ///    띠가 자리를 차지하는 만큼 머리말과 말풍선이 밀려, 올라오는 무대 안에서
     ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
     @State private var keyboardReady = KeyboardInstallState.isUsable
+
+    /// 켜기 띠를 **언제부터** 띄울지 가르는 값들(`KeyboardSetupBannerGate`).
+    /// 튜토리얼을 막 끝낸 자리에서 곧바로 "아직 못 쓴다"가 뜨지 않게 한 호흡 쉰다.
+    @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
+    @AppStorage(DefaultsKey.tutorialFinishedAt) private var tutorialFinishedAt: Double = 0
+    @AppStorage(DefaultsKey.tutorialFinishedAtLaunch) private var tutorialFinishedAtLaunch: Int = 0
+    @AppStorage(DefaultsKey.tutorialSwitchHintSeen) private var switchHintSeen: Bool = false
+
+    /// 머리말 아래 **띠 한 자리**를 이미 다른 안내가 쓰고 있는가.
+    ///
+    /// ⚠️ 여기 오는 것들은 저마다 지금 아니면 안 되는 말이라, 쌓아 올리면 무대가
+    ///    통째로 밀려 내려가고 무엇부터 읽어야 하는지도 알 수 없다. 한 자리에 하나만.
+    private var otherBannerShowing: Bool {
+        showsSwitchHint || asksToMakeOwn || needsSecurePIN
+    }
+
+    /// 안내가 들고 나는 곡선. 무대와 탭바가 **같은 값을 쓴다.**
+    var guidanceAnimation: Animation? {
+        reduceMotion ? nil : Self.guidanceCurve
+    }
+
+    /// 곡선 자체 - 탭바 쪽(`MainTabView`)에서도 이 값을 본다.
+    static let guidanceCurve: Animation = .easeOut(duration: 0.22)
+
+    /// 지금 켜기 띠를 보여줄 자리인가.
+    private var showsKeyboardSetupBanner: Bool {
+        KeyboardSetupBannerGate.shows(
+            keyboardUsable: keyboardReady,
+            startedFresh: startedFresh,
+            finishedAt: tutorialFinishedAt > 0
+                ? Date(timeIntervalSince1970: tutorialFinishedAt) : nil,
+            finishedAtLaunch: tutorialFinishedAtLaunch,
+            launchCount: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
+            otherBannerShowing: otherBannerShowing,
+            switchHintSeen: switchHintSeen)
+    }
 
     /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.
     ///
@@ -148,7 +185,7 @@ struct InAppKeyboardStage: View {
                 makeOwnCue
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
-                if !keyboardReady { keyboardSetupBanner }
+                if showsKeyboardSetupBanner { keyboardSetupBanner }
                 // 잠긴 단축어가 있는데 잠금을 안 만들어 뒀으면, 누르기 **전에** 알린다.
                 if needsSecurePIN { securePINBanner }
                 conversation
@@ -170,6 +207,14 @@ struct InAppKeyboardStage: View {
             }
         }
         .background(stageBackground.ignoresSafeArea())
+        // ⚠️ 안내 하나가 **여러 곳에 동시에** 뜬다 - 띠 하나에 물결 두셋이 딸린다.
+        //    각자 제 시간에 나타나면 같은 이야기가 따로 도착해서, 무엇이 무엇을 가리키는지
+        //    눈이 다시 짝을 지어야 한다. 같은 값에 같은 곡선을 걸어 **한 번에** 들고 난다.
+        //    (탭바 물결은 `MainTabView` 가 그리지만 같은 곡선을 쓴다)
+        .animation(guidanceAnimation, value: showsSwitchHint)
+        .animation(guidanceAnimation, value: asksToMakeOwn)
+        .animation(guidanceAnimation, value: showsKeyboardSetupBanner)
+        .animation(guidanceAnimation, value: needsSecurePIN)
         .onAppear {
             // ⚠️ **여기서 키보드를 다시 만들지 않는다.** 무대는 목록 위로 미끄러져 올라오는데
             //    (`SnippetsTab.stageTransition`), 그 도중에 `feedToken` 이 올라가면
@@ -367,7 +412,9 @@ struct InAppKeyboardStage: View {
                 .minimumScaleFactor(0.8)
                 .accessibilityAddTraits(.isHeader)
             Spacer(minLength: 0)
-            SnippetsStyleSwitchButton(styleRaw: $styleRaw)
+            // 화면이 둘이라는 안내가 떠 있는 동안 **이 버튼이 빛난다.** 안내가 가리키는
+            // "위의 버튼"이 셋 중 어느 것인지 글만으로는 못 짚는다.
+            SnippetsStyleSwitchButton(styleRaw: $styleRaw, highlighted: showsSwitchHint)
             Button {
                 HapticManager.shared.light()
                 showsAddMemo = true
@@ -857,6 +904,22 @@ struct StageBubble: Shape {
     /// 꼬리가 차지하는 가로 폭. 글자 여백도 이만큼 밀어 준다.
     static let tailWidth: CGFloat = 11
 
+    /// 꼬리 밑동이 몸통을 **파고드는 깊이.**
+    ///
+    /// ⚠️ 0 이면 꼬리가 몸통에서 떨어져 따로 뜬 물방울로 보인다. 몸통의 옆면은
+    ///    직선이 아니라 둥근 모서리라, 꼬리가 붙는 자리에서 실제 가장자리가 안으로
+    ///    물러나 있기 때문이다(한 줄 말풍선에서 실측 최대 3pt).
+    static let tailOverlap: CGFloat = 8
+
+    /// 부리 밑동의 **절반** 높이. 밑동이 넉넉해야 몸통에서 자라난 것으로 읽힌다.
+    ///
+    /// ⚠️ 좁게 잡으면 뿔이 하나 돋은 것처럼 보이고, 넓게 잡으면 몸통이 부은 것처럼 보인다.
+    static let tailHalfHeight: CGFloat = 10
+
+    /// 부리 끝이 밑동 한가운데보다 얼마나 위로 들리는가.
+    /// 살짝 들려야 "말이 나오는 쪽"으로 읽힌다. 0 이면 그냥 삼각형이다.
+    static let tailTipRise: CGFloat = 3
+
     func path(in rect: CGRect) -> Path {
         let t = Self.tailWidth
         // 몸통은 꼬리만큼 안쪽으로 물러난다.
@@ -868,20 +931,34 @@ struct StageBubble: Shape {
 
         var path = Path(roundedRect: body, cornerRadius: r, style: .continuous)
 
-        // 꼬리 - 위쪽에 붙는 부드러운 부리. 풍선이 짧아도 밖으로 나가지 않게 높이로 묶는다.
-        let top = min(rect.minY + 8, rect.maxY - 4)
-        let bottom = min(rect.minY + 26, rect.maxY - 2)
-        let tipY = (top + bottom) / 2 - 3
-        let edgeX = pointsLeft ? body.minX : body.maxX
-        let tipX = pointsLeft ? rect.minX : rect.maxX
-        let ctrl = pointsLeft ? edgeX - t * 0.35 : edgeX + t * 0.35
+        // 꼬리가 뻗는 방향. 왼쪽이면 -1, 오른쪽이면 +1.
+        let s: CGFloat = pointsLeft ? -1 : 1
+        let edge = pointsLeft ? body.minX : body.maxX
+        // 밑동은 옆면이 아니라 몸통 **안쪽**에서 시작한다(위 tailOverlap 참고).
+        let inner = edge - s * Self.tailOverlap
+        let tipX = edge + s * t
+
+        // ⚠️ 부리는 **둥근 모서리가 끝나는 자리 바로 아래**에 붙인다. 모서리 한복판에
+        //    걸치면 밑동이 곡선을 타고 앉아 한쪽이 들뜬다.
+        let cy = min(rect.minY + max(radius, 14) + 1, rect.midY)
+        let half = min(Self.tailHalfHeight, max(4, (rect.height - 4) / 2))
+        let lo = min(cy + half, rect.maxY - 2)
+        let hi = max(cy - half, rect.minY + 2)
+
+        // ⚠️ 꼬리는 몸통과 **같은 방향으로 감아야** 한다. 반대로 감으면 non-zero 규칙에서
+        //    겹친 자리가 서로 지워져 말풍선 한복판에 구멍이 뚫린다(실측). 둥근 사각형의
+        //    감는 방향은 하나뿐이라, 왼쪽 부리와 오른쪽 부리는 그리는 순서가 서로 뒤집힌다.
+        let first = pointsLeft ? lo : hi
+        let last = pointsLeft ? hi : lo
+        let ctrlFirst = pointsLeft ? lo - 1 : hi + 1
+        let ctrlLast = pointsLeft ? hi + 1 : lo - 1
 
         var tail = Path()
-        tail.move(to: CGPoint(x: edgeX, y: top))
-        tail.addQuadCurve(to: CGPoint(x: tipX, y: tipY),
-                          control: CGPoint(x: ctrl, y: top - 1))
-        tail.addQuadCurve(to: CGPoint(x: edgeX, y: bottom),
-                          control: CGPoint(x: ctrl, y: tipY + 7))
+        tail.move(to: CGPoint(x: inner, y: first))
+        tail.addQuadCurve(to: CGPoint(x: tipX, y: cy - Self.tailTipRise),
+                          control: CGPoint(x: edge + s * 3, y: ctrlFirst))
+        tail.addQuadCurve(to: CGPoint(x: inner, y: last),
+                          control: CGPoint(x: edge + s * 2, y: ctrlLast))
         tail.closeSubpath()
 
         path.addPath(tail)

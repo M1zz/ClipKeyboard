@@ -232,6 +232,7 @@
 		KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
 		KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */; };
 		MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAC00022F0000000000000002 /* MemoAddComponents.swift */; };
+		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
 		QKN0BUILD000000000000001 /* QuickNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000001 /* QuickNote.swift */; };
 		QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000002 /* QuickNoteStore.swift */; };
 		QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */; };
@@ -246,6 +247,8 @@
 		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
+		KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */; };
+		TB00012F0000000000000001 /* TabBarProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = TB00022F0000000000000002 /* TabBarProbe.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -501,6 +504,7 @@
 		KBO00022F0000000000000002 /* KeyboardOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardOverlays.swift; sourceTree = "<group>"; };
 		KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPracticeView.swift; sourceTree = "<group>"; };
 		MAC00022F0000000000000002 /* MemoAddComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddComponents.swift; sourceTree = "<group>"; };
+		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000001 /* QuickNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNote.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000002 /* QuickNoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteStore.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteInboxView.swift; sourceTree = "<group>"; };
@@ -512,6 +516,8 @@
 		SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVideoRenderer.swift; sourceTree = "<group>"; };
 		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
 		SNIPTAB0R000000000000001 /* SnippetsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTab.swift; sourceTree = "<group>"; };
+		KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupBannerGate.swift; sourceTree = "<group>"; };
+		TB00022F0000000000000002 /* TabBarProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProbe.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
@@ -899,6 +905,8 @@
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
 				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
+				KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */,
+				TB00022F0000000000000002 /* TabBarProbe.swift */,
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
 				587381ED2F2A66120042ECA4 /* KeyboardLayoutSettings.swift */,
 				5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */,
@@ -960,6 +968,7 @@
 				HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */,
 				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
 				MAC00022F0000000000000002 /* MemoAddComponents.swift */,
+				CO00022F0000000000000002 /* MemoAddCoach.swift */,
 				QKP00022F0000000000000002 /* QuickPatterns.swift */,
 				616238CD1282F3D06FC7E369 /* BulkImportView.swift */,
 				616238CD1282F3D06FC7E36A /* BulkImportKeyPreview.swift */,
@@ -1400,6 +1409,8 @@
 			files = (
 				B41E7C09D5A2F3610E88AA12 /* UUIDExtension.swift in Sources */,
 				SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */,
+				KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */,
+				TB00012F0000000000000001 /* TabBarProbe.swift in Sources */,
 				KBFEED0B0000000000000001 /* KeyboardMemoFeed.swift in Sources */,
 				INAPPKBD0000000000000001 /* KeyboardView.swift in Sources */,
 				INAPPKBD0000000000000002 /* KeyboardOverlays.swift in Sources */,
@@ -1460,6 +1471,7 @@
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,
 				58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */,
 				MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */,
+				CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */,
 				QKP00012F0000000000000001 /* QuickPatterns.swift in Sources */,
 				0D09EE54F35B63F09270E522 /* BulkImportView.swift in Sources */,
 				0D09EE54F35B63F09270E523 /* BulkImportKeyPreview.swift in Sources */,

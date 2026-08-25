@@ -40,13 +40,38 @@ enum KeyboardInstallState {
     }
 
     /// 익스텐션이 한 번이라도 떠 본 적 있는가(App Group 표식).
+    ///
+    /// ⚠️ **한 번 켜지면 영영 안 꺼지는 걸쇠다.** 익스텐션이 뜰 때 `true` 로 적고,
+    ///    지우는 코드는 어디에도 없다. 지울 수도 없다 - 키보드를 설정에서 뺐다는 것을
+    ///    익스텐션이 알 길이 없기 때문이다(빠진 익스텐션은 뜨지 않는다).
     static var didLoadOnce: Bool {
         AppGroup.defaults?
             .bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
     }
 
-    /// 둘 중 하나라도 참이면 "쓸 수 있다"로 본다.
-    static var isUsable: Bool { isEnabledInSettings || didLoadOnce }
+    /// 지금 이 키보드를 다른 앱에서 쓸 수 있는가.
+    ///
+    /// ⚠️ 예전에는 `isEnabledInSettings || didLoadOnce` 였다. **한 번이라도 키보드를
+    ///    띄워 본 사람에게는 이 값이 영영 참**이라, 나중에 설정에서 키보드를 빼도 앱은
+    ///    계속 "켜져 있다"고 믿었다. 그 사람은 무대에서 켜라는 안내를 다시는 못 받는다.
+    ///    (실제로 그렇게 신고가 들어왔다 - "설정 안 했는데 왜 안내가 안 뜨지")
+    ///
+    /// ⚠️ 그래서 **읽을 수 있으면 `AppleKeyboards` 가 진실이다.** 걸쇠는 그 값을 못 읽는
+    ///    상황에서만 대신 쓴다. 못 읽는데 걸쇠도 없으면 "아직" 으로 보고 안내를 띄운다
+    ///    - 켜 둔 사람을 한 번 귀찮게 하는 것보다, 못 켠 사람을 영영 놓치는 쪽이 나쁘다.
+    static var isUsable: Bool {
+        usable(enabledKeyboards: UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String],
+               didLoadOnce: didLoadOnce)
+    }
+
+    /// 위 규칙만 떼어 낸 것 - 시험에서 값을 넣어 볼 수 있게 한다.
+    /// - Parameter enabledKeyboards: `AppleKeyboards` 값. 못 읽었으면 nil.
+    static func usable(enabledKeyboards: [String]?, didLoadOnce: Bool) -> Bool {
+        if let enabledKeyboards {
+            return enabledKeyboards.contains(extensionBundleID)
+        }
+        return didLoadOnce
+    }
 }
 
 struct KeyboardSetupOnboardingView: View {

@@ -58,6 +58,15 @@ enum ChangelogData {
 
                 // 만드는 자리
                 NSLocalizedString("단축어를 만들 때 내용 칸의 파란 버튼 줄을 접었어요. 쓸 때 채우는 칸을 누르면 펼쳐지고, 한 번 펼치면 그대로 남아요", comment: "Changelog 5.0.3 token bar drawer"),
+                NSLocalizedString("첫 단축어를 만드는 자리까지 안내가 이어져요. 이름, 값을 가져오는 방법, 붙여넣을 내용, 저장까지 위에서부터 하나씩 짚어 드려요", comment: "Changelog 5.0.3 new snippet coach"),
+
+                // 키보드 켜기 안내
+                NSLocalizedString("키보드를 켜라는 안내가 더는 앞을 막지 않아요. 키보드 화면 위쪽에 띠로 남고, 다른 안내가 그 자리를 쓰고 있으면 비켜 있다가 자리가 비면 올라와요", comment: "Changelog 5.0.3 setup banner"),
+                NSLocalizedString("키보드를 설정에서 뺐는데도 켜라는 안내가 다시는 안 뜨던 것을 고쳤어요. 이제 설정 목록을 그때그때 확인해요", comment: "Changelog 5.0.3 install state fix"),
+
+                // 가리키는 표시
+                NSLocalizedString("화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요", comment: "Changelog 5.0.3 highlight fix"),
+                NSLocalizedString("키보드 화면이 아래로 사라질 때 끝에서 끌리던 것과 말풍선 꼬리 모양을 손봤어요", comment: "Changelog 5.0.3 stage polish"),
             ]
         ),
         ChangelogEntry(

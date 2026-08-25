@@ -103,21 +103,14 @@ struct SkinDisabledTests {
 @Suite("SnippetsOnboardingStep, 처음 쓰는 사람이 지나는 길")
 struct SnippetsOnboardingStepTests {
 
-    private let now = Date(timeIntervalSince1970: 1_800_000_000)
-
     private func step(fresh: Bool = true,
                       welcome: Bool = false,
                       chapters: Bool = false,
-                      makeOwn: Bool = false,
-                      snoozedHoursAgo: Double? = nil,
-                      usable: Bool = false) -> SnippetsOnboardingStep {
+                      makeOwn: Bool = false) -> SnippetsOnboardingStep {
         .current(startedFresh: fresh,
                  welcomeDone: welcome,
                  chaptersDone: chapters,
-                 makeOwnDone: makeOwn,
-                 keyboardUsable: usable,
-                 setupSnoozedAt: snoozedHoursAgo.map { now.addingTimeInterval(-$0 * 3600) },
-                 now: now)
+                 makeOwnDone: makeOwn)
     }
 
     @Test("쓰던 사람은 이 길을 걷지 않는다. 업데이트했다고 튜토리얼이 뜨면 안 된다")
@@ -141,7 +134,6 @@ struct SnippetsOnboardingStepTests {
         // 예전에는 여기서 끝이었다. 키보드를 이미 켜 둔 사람은 콤보를 눌러 본 순간
         // 튜토리얼이 사라지고, 자기 것은 하나도 없는 채로 남았다.
         #expect(step(welcome: true, chapters: true) == .makeOwn)
-        #expect(step(welcome: true, chapters: true, usable: true) == .makeOwn)
     }
 
     @Test("직접 만들기는 **맨 앞이 아니라 셋을 눌러 본 다음**이다")
@@ -151,46 +143,14 @@ struct SnippetsOnboardingStepTests {
         #expect(step(welcome: true, chapters: false, makeOwn: true) == .tryScenarios)
     }
 
-    @Test("**키보드 설정은 맨 뒤**, 다 써 본 다음이라야 설정 앱까지 다녀올 이유가 분명하다")
-    func keyboardSetupComesLast() {
-        #expect(step(welcome: true, chapters: true, makeOwn: true) == .keyboardSetup)
-        // 써 볼 것이 남아 있으면 아직 설정으로 보내지 않는다.
+    @Test("**키보드 켜기는 이 길을 막지 않는다.** 다 배우면 그대로 평소 화면으로 나간다")
+    func keyboardSetupNeverBlocksThePath() {
+        // 예전에는 여기가 전체 화면 안내였다. 설정 앱에 다녀와야 끝나는 걸음이라
+        // 지금 안 할 사람에게는 지날 길이 없는 문이었다.
+        // 이제 켜야 한다는 말은 무대의 띠가 한다(`InAppKeyboardStage.keyboardSetupBanner`).
+        #expect(step(welcome: true, chapters: true, makeOwn: true) == .done)
+        // 써 볼 것이 남아 있으면 아직 끝이 아니다.
         #expect(step(welcome: true, chapters: false) == .tryScenarios)
-    }
-
-    @Test("이미 켜 둔 사람에게 켜는 법을 가르치지 않는다")
-    func skipsSetupWhenKeyboardAlreadyUsable() {
-        #expect(step(welcome: true, chapters: true, makeOwn: true, usable: true) == .done)
-        // 밀어 둔 적이 있어도, 켜져 있으면 그것으로 끝이다.
-        #expect(step(welcome: true, chapters: true, makeOwn: true,
-                     snoozedHoursAgo: 1, usable: true) == .done)
-    }
-
-    // MARK: - 켜기 전에는 놓아주지 않는다
-
-    @Test("**닫았다고 끝난 것이 아니다.** 안 켰으면 하루 뒤에 다시 데려온다")
-    func setupComesBackUntilActuallyOn() {
-        let done = (welcome: true, chapters: true, makeOwn: true)
-        // 방금 밀어 뒀으면 오늘은 놔둔다 - 열 때마다 막아서면 앱을 닫는다.
-        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
-                     snoozedHoursAgo: 1) == .done)
-        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
-                     snoozedHoursAgo: 23) == .done)
-        // 하루가 지나면 다시. 키보드를 켜지 않으면 이 앱은 아무것도 아니라서,
-        // 여기서 놓아주는 것은 조용히 잃는 것이다.
-        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
-                     snoozedHoursAgo: 25) == .keyboardSetup)
-        #expect(step(welcome: done.welcome, chapters: done.chapters, makeOwn: done.makeOwn,
-                     snoozedHoursAgo: 24 * 30) == .keyboardSetup)
-    }
-
-    @Test("켜져 있는지가 **하나뿐인 진실**이다")
-    func onlyRealityEndsTheNagging() {
-        // 어떤 조합이든, 켜져 있으면 끝. 안 켜져 있으면 (밀어 둔 동안만 빼고) 계속 데려온다.
-        for hours in [nil, 1.0, 25.0] as [Double?] {
-            #expect(step(welcome: true, chapters: true, makeOwn: true,
-                         snoozedHoursAgo: hours, usable: true) == .done)
-        }
     }
 
     @Test("길 전체가 끊기지 않고 이어진다")
@@ -199,21 +159,18 @@ struct SnippetsOnboardingStepTests {
         // 사라진 것처럼 보인다. 이 시험이 그 구멍을 막는다.
         var seen: [SnippetsOnboardingStep] = []
         var welcome = false, chapters = false, makeOwn = false
-        var snoozed: Double?
         for _ in 0..<10 {
-            let s = step(welcome: welcome, chapters: chapters, makeOwn: makeOwn,
-                         snoozedHoursAgo: snoozed)
+            let s = step(welcome: welcome, chapters: chapters, makeOwn: makeOwn)
             seen.append(s)
             if s == .done { break }
             switch s {
             case .welcome:       welcome = true
             case .tryScenarios:  chapters = true
             case .makeOwn:       makeOwn = true
-            case .keyboardSetup: snoozed = 1   // 안내를 보고 오늘은 밀어 뒀다
             case .done:          break
             }
         }
-        #expect(seen == [.welcome, .tryScenarios, .makeOwn, .keyboardSetup, .done])
+        #expect(seen == [.welcome, .tryScenarios, .makeOwn, .done])
     }
 
     // MARK: - 오가는 규칙
@@ -276,5 +233,94 @@ struct LaunchAudienceTests {
         // ⚠️ 내용을 바꾸고 이 값을 안 올리면, 업데이트한 사람은 이미 본 것으로 기록돼 있어
         //    **새 안내를 한 번도 못 본다.**
         #expect(WhatsNewContent.version == "5.0.0")
+    }
+}
+
+@Suite("KeyboardSetupBannerGate, 켜라는 말을 언제 꺼내는가")
+struct KeyboardSetupBannerGateTests {
+
+    private let now = Date(timeIntervalSince1970: 1_800_000_000)
+
+    private func shows(usable: Bool = false,
+                       fresh: Bool = true,
+                       finishedMinutesAgo: Double? = 0,
+                       finishedAtLaunch: Int = 10,
+                       launchCount: Int = 10,
+                       otherBanner: Bool = false,
+                       hintSeen: Bool = false) -> Bool {
+        KeyboardSetupBannerGate.shows(
+            keyboardUsable: usable,
+            startedFresh: fresh,
+            finishedAt: finishedMinutesAgo.map { now.addingTimeInterval(-$0 * 60) },
+            finishedAtLaunch: finishedAtLaunch,
+            launchCount: launchCount,
+            otherBannerShowing: otherBanner,
+            switchHintSeen: hintSeen,
+            now: now)
+    }
+
+    @Test("켜져 있으면 무슨 일이 있어도 말하지 않는다. 켜진 사람에게 켜라는 말은 잡음이다")
+    func silentWhenAlreadyUsable() {
+        #expect(shows(usable: true) == false)
+        #expect(shows(usable: true, finishedMinutesAgo: 60 * 24) == false)
+        #expect(shows(usable: true, fresh: false) == false)
+        #expect(shows(usable: true, launchCount: 99) == false)
+    }
+
+    @Test("쓰던 사람에게는 미룰 이유가 없다. 튜토리얼을 걷지 않으니 끝날 일도 없다")
+    func existingUserSeesItRightAway() {
+        #expect(shows(fresh: false, finishedMinutesAgo: nil) == true)
+    }
+
+    @Test("**배우는 도중에는 끼어들지 않는다.** 둘 다 안 읽힌다")
+    func silentWhileStillLearning() {
+        #expect(shows(finishedMinutesAgo: nil) == false)
+    }
+
+    @Test("튜토리얼을 **막 끝낸 자리**에서는 말하지 않는다. 방금 한 일이 헛일로 읽힌다")
+    func silentRightAfterFinishing() {
+        #expect(shows(finishedMinutesAgo: 0) == false)
+        #expect(shows(finishedMinutesAgo: 30) == false)
+        #expect(shows(finishedMinutesAgo: 59) == false)
+    }
+
+    @Test("한 시간이 지나면 말한다. 미룰수록 한 번도 못 써 본 채로 떠나는 사람이 는다")
+    func speaksAfterAnHour() {
+        #expect(shows(finishedMinutesAgo: 60) == true)
+        #expect(shows(finishedMinutesAgo: 60 * 24 * 30) == true)
+    }
+
+    @Test("앱을 **다시 열었으면** 시간과 상관없이 말한다")
+    func speaksOnTheNextLaunch() {
+        // 끝낸 그 실행에서는 아직.
+        #expect(shows(finishedMinutesAgo: 1, finishedAtLaunch: 10, launchCount: 10) == false)
+        // 다시 열었다.
+        #expect(shows(finishedMinutesAgo: 1, finishedAtLaunch: 10, launchCount: 11) == true)
+    }
+
+    @Test("**띠 한 자리에 하나만.** 다른 안내가 쓰고 있으면 비켜 준다")
+    func yieldsTheSlotToOtherBanners() {
+        // 뜰 조건을 다 갖췄어도, 그 자리를 쓰는 것이 있으면 안 뜬다.
+        #expect(shows(finishedMinutesAgo: 120) == true)
+        #expect(shows(finishedMinutesAgo: 120, otherBanner: true) == false)
+        // 쓰던 사람에게도 마찬가지 - 쌓지 않는다.
+        #expect(shows(fresh: false, finishedMinutesAgo: nil, otherBanner: true) == false)
+    }
+
+    @Test("자리가 비면 **바로 채운다.** 먼저 뜬 안내를 읽고 넘긴 것도 한 호흡이다")
+    func fillsTheSlotOnceTheHintIsDismissed() {
+        // 튜토리얼이 끝나는 자리에는 전환 안내가 먼저 선다 - 그동안은 비켜 있다가,
+        #expect(shows(finishedMinutesAgo: 1, otherBanner: true) == false)
+        // 그걸 읽고 넘기면 시간이 안 지났어도 그 자리를 이어받는다.
+        #expect(shows(finishedMinutesAgo: 1, otherBanner: false, hintSeen: true) == true)
+    }
+
+    @Test("한 번 뜨기 시작하면 **켤 때까지 계속** 떠 있다. 닫는 표식을 두지 않는다")
+    func neverGoesAwayUntilActuallyOn() {
+        for minutes in [60.0, 300.0, 129_600.0] {
+            #expect(shows(finishedMinutesAgo: minutes) == true)
+        }
+        // 끝내는 길은 하나뿐 - 실제로 켜는 것.
+        #expect(shows(usable: true, finishedMinutesAgo: 60 * 24 * 90) == false)
     }
 }

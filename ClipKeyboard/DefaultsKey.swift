@@ -108,8 +108,21 @@ enum DefaultsKey {
     static let tutorialMakeOwnDone = "tutorialMakeOwnDone.v1"
     /// 튜토리얼이 쓰던 샘플을 **치울지 물어봤는가.** 답이 무엇이든 한 번만 묻는다.
     static let tutorialSampleCleanupAsked = "tutorialSampleCleanupAsked.v1"
+    /// 튜토리얼을 **끝낸 시각**(초, 1970 기준). 0이면 아직 걷는 중이거나 걷지 않는 사람.
+    /// 무대의 키보드 켜기 띠가 한 호흡 쉬었다 뜨는 기준(`KeyboardSetupBannerGate`).
+    static let tutorialFinishedAt = "tutorialFinishedAt.v1"
+    /// 튜토리얼이 끝나던 그 실행의 앱 실행 횟수. 지금 실행이 이보다 크면 **다시 연 것**이다.
+    static let tutorialFinishedAtLaunch = "tutorialFinishedAtLaunch.v1"
+    /// 새 단축어 화면에서 칸을 하나씩 짚어 주는 안내를 **손수 껐는가.**
+    /// ⚠️ "만들다 말고 나갔다"와 "안내가 필요 없다"는 다르다. 앞은 다시 데려와야 하고,
+    ///    뒤는 다시 걸리적거리면 안 된다. 그래서 끈 것만 여기 남긴다.
+    static let tutorialMakeOwnCoachSkipped = "tutorialMakeOwnCoachSkipped.v1"
     /// 키보드 켜기 안내를 **마지막으로 밀어 둔 시각**(초, 1970 기준).
-    /// 영영 끄는 표식이 아니다 - 켜기 전에는 하루에 한 번 다시 데려온다.
+    ///
+    /// ⚠️ 더는 읽지 않는다. 키보드 켜기가 첫 흐름을 막고 서던 시절의 값으로, 지금은
+    ///    무대의 띠가 켜질 때까지 그냥 떠 있는다(`SnippetsOnboardingStep` 주석).
+    ///    **지우지는 않는다** - 예전 버전에서 올라온 기기에 남아 있는 값이라, 키를
+    ///    없애도 기기에서 사라지지 않고 이름만 잃는다.
     static let keyboardSetupSnoozedAt = "keyboardSetupSnoozedAt.v1"
     /// 지금 무대에서 **가리키고 있는** 단축어 id(UUID 문자열). 그 키가 빛나고,
     /// **그걸 눌러야** 그 장이 끝난다. 누르면 비운다.

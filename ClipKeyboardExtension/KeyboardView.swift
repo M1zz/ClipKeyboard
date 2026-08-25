@@ -289,6 +289,11 @@ struct KeyboardView: View {
         Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, keyboardColumnCount)))
     }
 
+    /// 튜토리얼 물결이 키 밖으로 번져 나가는 거리이자, 그리드가 위아래로 비워 두는 여백.
+    /// **한 값을 둘이 같이 본다** - 어긋나면 그 차이만큼 물결이 잘린다.
+    /// 가로 여백(12pt)보다 크지 않게 둔다. 가로는 늘릴 수 없다(키가 좁아진다).
+    private static let gridRippleReach: CGFloat = 12
+
     // 데이터 상태
     @State private var allMemos: [Memo] = []
     @State private var templateObserverToken: NSObjectProtocol?
@@ -674,13 +679,18 @@ struct KeyboardView: View {
                                     .overlay {
                                         if item.memo.id == highlightedMemoId,
                                            highlightedComboPart == nil {
-                                            KeyRipple(shape: keycapShape, color: theme.accent)
+                                            KeyRipple(shape: keycapShape, color: theme.accent,
+                                                      reach: Self.gridRippleReach)
                                         }
                                     }
                             }
                         }
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        // ⚠️ 세로 여백은 물결이 번져 나갈 자리이기도 하다. `ScrollView` 는
+                        //    넘치는 것을 잘라내므로, 여기가 물결보다 좁으면 첫 줄·끝 줄 키의
+                        //    물결이 위아래로 싹둑 잘린다(예전 6pt, 물결 14pt).
+                        //    가로 12pt 는 그대로 둔다 - 늘리면 키가 그만큼 좁아진다.
+                        .padding(.vertical, Self.gridRippleReach)
                     }
                     // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
                     .simultaneousGesture(
@@ -1433,13 +1443,6 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
-            // 왼쪽만 가리키는 중 - 값이 들어가는 쪽은 여기다.
-            .overlay {
-                if guided == .value {
-                    KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
-                              color: theme.accent, reach: 7)
-                }
-            }
 
             // 두 키 사이의 '틈'이 아니라 하나의 캡에 파인 '홈'으로 읽히도록 옅게.
             Rectangle()
@@ -1459,18 +1462,11 @@ struct KeyboardView: View {
                 // 가리키는 중에는 흐린 회색이 아니라 **강조색**으로 선다.
                 // 물결만으로는 자리가 좁아 눈에 안 걸린다(실측).
                 .foregroundColor(guided == .next ? theme.accent : theme.textMuted)
-                .frame(width: max(46, buttonHeight))
+                .frame(width: comboNextWidth)
                 .frame(height: buttonHeight)
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
-            // 오른쪽만 가리키는 중 - 다음 값으로 넘기는 쪽은 여기다.
-            .overlay {
-                if guided == .next {
-                    KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
-                              color: theme.accent, reach: 7)
-                }
-            }
         }
         .background(
             keycapShape
@@ -1493,12 +1489,36 @@ struct KeyboardView: View {
                               style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
         .clipShape(keycapShape)
+        // ⚠️ 물결은 **`clipShape` 뒤에** 얹는다. 좌·우 버튼에 직접 달았더니 키캡 윤곽에
+        //    통째로 잘려 나가, 번져 나가야 할 물결이 잘린 조각으로 보였다. 물결은
+        //    키 밖으로 나가는 것이 전부라 안쪽으로 가두면 뜻이 사라진다.
+        //    (자리는 좌·우 버튼과 똑같이 잡는다 - 오른쪽 폭 + 홈 1pt)
+        .overlay {
+            if guided == .value {
+                KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                          color: theme.accent, reach: 7)
+                    .padding(.trailing, comboNextWidth + 1)
+            }
+        }
+        .overlay(alignment: .trailing) {
+            if guided == .next {
+                KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                          color: theme.accent, reach: 7)
+                    .frame(width: comboNextWidth)
+            }
+        }
         // 통짜 키캡 - 좌·우 어디를 눌러도 한 덩어리로 내려앉는다.
         .modifier(KeycapSurface(skin: skin,
                                 cornerRadius: keycapRadius,
                                 skirtColor: keycapSkirtColor,
                                 pressed: pressedComboId == memo.id,
                                 enabled: keycapPressEnabled))
+    }
+
+    /// 콤보 키 오른쪽(다음 값) 칸의 폭. 버튼과 그 위의 물결이 **같은 값**을 봐야
+    /// 가리키는 자리가 어긋나지 않는다.
+    private var comboNextWidth: CGFloat {
+        max(46, buttonHeight)
     }
 
     private func insertComboValue(memo: Memo, value: String) {

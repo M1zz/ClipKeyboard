@@ -326,6 +326,9 @@ struct ContentInputSection: View {
     var onAddContent: (() -> Void)?
     /// 템플릿 작성 모드 - 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
+    /// 처음 만드는 사람을 짚어 주는 중이면 지금 걸음(`MemoAddCoach.swift`).
+    /// 이 칸은 **값을 가져오는 줄**과 **실제 내용**으로 나뉘어서 걸음도 둘이다.
+    var coachStep: MemoAddCoachStep?
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -416,6 +419,9 @@ struct ContentInputSection: View {
                 }
                 .buttonStyle(.plain)
             }
+            // 두 줄을 **한 덩어리로** 짚는다. 줄마다 따로 빛나면 둘 중 하나를 꼭
+            // 골라야 하는 것처럼 보이는데, 여기는 안 골라도 되는 자리다.
+            .memoAddCoachRipple(coachStep == .inputMethod, radius: theme.radiusMd)
 
             // 인식은 몇 초 걸릴 수 있다 - 아무 반응이 없으면 눌린 줄 모르고 다시 누른다.
             if isRecognizingText {
@@ -591,6 +597,7 @@ struct ContentInputSection: View {
                 .padding(.vertical, 4)
                 .background(theme.surfaceAlt)
                 .cornerRadius(theme.radiusMd)
+                .memoAddCoachRipple(coachStep == .content, radius: theme.radiusMd)
                 .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
                 .onChange(of: value) { _, newValue in
                     if !newValue.isEmpty {

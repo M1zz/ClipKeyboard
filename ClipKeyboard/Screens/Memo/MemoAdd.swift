@@ -67,6 +67,14 @@ struct MemoAdd: View {
     @State private var showResetConfirm = false
     /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
     @State private var showAdvancedOptions: Bool = false
+
+    // MARK: - 처음 만드는 사람 짚어 주기 (MemoAddCoach.swift)
+
+    /// 지금 짚고 있는 칸. nil 이면 안내가 돌고 있지 않다.
+    @State private var coachStep: MemoAddCoachStep?
+    @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeOwnDone) private var makeOwnDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeOwnCoachSkipped) private var coachSkipped: Bool = false
     /// 기존 단축어를 골라 값으로 가져오는 시트.
     @State private var showComboImport: Bool = false
 
@@ -207,6 +215,18 @@ struct MemoAdd: View {
             // (정식 저장·기존 메모 편집·샘플 그대로 등은 VM 내부에서 걸러진다.)
             viewModel.saveDraftIfNeeded()
         }
+        // ── 처음 만드는 사람 짚어 주기 (MemoAddCoach.swift) ──
+        .onAppear { startCoachIfNeeded() }
+        // 이름 칸에서 손을 뗐다 - 다 적었으면 다음 칸으로.
+        .onChange(of: isTitleFocused) { _, focused in
+            if !focused { advanceCoachIfFilled() }
+        }
+        // 내용 칸에서 손을 뗐다 - 같은 규칙.
+        .onChange(of: isFocused) { _, focused in
+            if !focused { advanceCoachIfFilled() }
+        }
+        // 사진을 붙이는 길로 값을 채운 사람은 칸을 떠나는 일이 없다 - 여기서 따로 본다.
+        .onChange(of: viewModel.attachedImages.count) { _, _ in advanceCoachIfFilled() }
         .sheet(isPresented: $showPlaceholderManagement) {
             PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
@@ -251,10 +271,81 @@ struct MemoAdd: View {
                     }
                     // 텍스트 또는 이미지 중 하나라도 있으면 저장 가능 - validateMemoInput과 동일 기준.
                     // (기존엔 텍스트만 봐서 "이미지+이름"만 넣은 단축어가 저장 불가였음)
-                    .disabled(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
+                    .disabled(!canSave)
+                    // ⚠️ 물결 반경을 좁게 잡는다(기본 14). 여기는 네비게이션 바 안이라
+                    //    번질 자리가 위아래 몇 pt 뿐이고, 넘치면 바 밖으로 잘려 나간다.
+                    //
+                    // ⚠️ **잠긴 버튼은 가리키지 않는다.** 누를 수 없는 것이 물결치면
+                    //    그건 안내가 아니라 고장이다(무대의 보내기 버튼과 같은 규칙).
+                    //    아직 못 누르는 사람에게는 띠가 대신 무엇이 남았는지 말한다.
+                    .memoAddCoachRipple(coachStep == .save && canSave,
+                                        radius: theme.radiusSm, reach: 6)
                 }
             }
         }
+    }
+
+    // MARK: - 처음 만드는 사람 짚어 주기
+
+    /// 저장 버튼이 지금 눌리는가. **잠금 조건과 안내가 같은 값을 봐야** 한다
+    /// (`validateMemoInput` 과 같은 기준: 글이든 그림이든 하나는 있어야).
+    private var canSave: Bool {
+        !(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
+    }
+
+    /// 지금 이 화면에서 안내를 켤 자리인가.
+    ///
+    /// ⚠️ **튜토리얼의 마지막 걸음일 때만** 켠다(`SnippetsOnboardingStep.makeOwn`).
+    ///    쓰던 사람이 단축어를 만들 때마다 띠가 뜨면 그건 안내가 아니라 방해다.
+    ///
+    /// ⚠️ 새로 만드는 화면에서만. 고치러 들어온 사람은 이미 만들어 본 사람이고,
+    ///    무엇보다 이름·내용이 채워져 있어 첫 두 걸음이 그 자리에서 지나가 버린다.
+    private var coachShouldRun: Bool {
+        startedFresh && !makeOwnDone && !coachSkipped
+            && memoId == nil && isQuickMode
+            && viewModel.keyword.isEmpty && viewModel.value.isEmpty
+    }
+
+    /// 화면이 자리를 잡은 뒤에 띠를 올린다. 열리자마자 같이 뜨면 무엇에 대한
+    /// 안내인지 보기 전에 띠부터 보게 된다.
+    private func startCoachIfNeeded() {
+        guard coachShouldRun, coachStep == nil else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            guard coachShouldRun, coachStep == nil else { return }
+            withAnimation(.easeOut(duration: 0.28)) { coachStep = .name }
+            print("🎓 [MemoAdd] 새 단축어 안내 시작")
+        }
+    }
+
+    /// 한 걸음 나아간다. 마지막(저장)에서 부르면 안내가 끝난다.
+    ///
+    /// ⚠️ 저장 걸음은 **여기서 끝내지 않는다.** 저장은 사용자가 눌러야 일어나는 일이라
+    ///    띠를 눌러 지나갈 수 있게 두되, 지나가도 `makeOwnDone` 은 건드리지 않는다.
+    ///    자기 것이 생겼는지는 목록이 스스로 센다(`completeMakeOwnIfMadeSomething`).
+    private func advanceCoach(from step: MemoAddCoachStep) {
+        withAnimation(.easeOut(duration: 0.24)) { coachStep = step.next }
+    }
+
+    /// 안내가 필요 없다고 한 사람. 다시 걸리적거리지 않는다.
+    private func skipCoach() {
+        HapticManager.shared.light()
+        coachSkipped = true
+        withAnimation(.easeOut(duration: 0.24)) { coachStep = nil }
+        print("🎓 [MemoAdd] 새 단축어 안내 끔")
+    }
+
+    /// 채워야 할 것을 채웠으면 **누르지 않아도** 다음으로 넘어간다.
+    /// 다 한 칸을 계속 짚고 있으면 안내가 아니라 잔소리가 된다.
+    ///
+    /// ⚠️ 부르는 자리가 중요하다. 글자가 바뀔 때마다 부르면 **이름을 치는 도중에**
+    ///    다음 걸음으로 달아난다. 칸에서 손을 뗐을 때(포커스가 빠질 때)와
+    ///    사진을 붙였을 때만 묻는다.
+    private func advanceCoachIfFilled() {
+        guard let step = coachStep else { return }
+        guard step.isFilled(title: viewModel.keyword,
+                            value: viewModel.value,
+                            hasImage: !viewModel.attachedImages.isEmpty) else { return }
+        advanceCoach(from: step)
     }
 
     // MARK: - Quick Mode Body
@@ -281,6 +372,7 @@ struct MemoAdd: View {
                 VStack(alignment: .leading, spacing: 22) {
                     // 1) 키보드에 표시할 이름(KEY) - 단축어의 정체성이므로 맨 위. 핵심.
                     titleInputSection
+                        .memoAddCoachRipple(coachStep == .name, radius: theme.radiusMd)
 
                     // 2) 붙여넣을 내용(VALUE) + 이미지 - 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
                     ContentInputSection(
@@ -295,7 +387,9 @@ struct MemoAdd: View {
                             HapticManager.shared.light()
                             viewModel.addContinuation()
                         },
-                        forceTextKeyboard: startInTemplateMode
+                        forceTextKeyboard: startInTemplateMode,
+                        // 이 칸은 둘로 나뉜다(값 가져오는 줄 · 실제 내용). 안내도 따로 짚는다.
+                        coachStep: coachStep
                     )
 
                     // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 - 더하면 콤보.
@@ -313,13 +407,23 @@ struct MemoAdd: View {
             // 저장 버튼은 헤더 오른쪽(toolbar)에 위치.
         }
         // 붙여넣을 내용 입력 중에만 키보드 위에 변수 옵션 바 노출 (이름·기타 필드에선 숨김).
+        // 짚어 주는 띠는 그 **아래**에 눕는다 - 안내가 도구보다 위로 오면 도구를 가린다.
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            if isFocused {
-                VStack(spacing: 0) {
-                    Divider()
-                    variableTokenBar
+            VStack(spacing: 0) {
+                if isFocused {
+                    VStack(spacing: 0) {
+                        Divider()
+                        variableTokenBar
+                    }
+                    .background(theme.surface)
                 }
-                .background(theme.surface)
+                if let step = coachStep {
+                    MemoAddCoachBar(step: step,
+                                    canSave: canSave,
+                                    onNext: { advanceCoach(from: step) },
+                                    onSkip: { skipCoach() })
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
             }
         }
     }

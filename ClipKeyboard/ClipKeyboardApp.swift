@@ -1340,6 +1340,22 @@ struct MainTabView: View {
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
     @State private var selection: MainTab = .snippets
 
+    // MARK: - "이 탭에는 화면이 둘이에요" 를 띄우는 동안
+
+    /// ⚠️ 조건을 **여기서 다시 적지 않는다.** 처음에는 그렇게 했다가 "다 배운 뒤"라는
+    ///    조건이 빠져, 앱을 켜자마자 탭만 빛나고 그게 무슨 뜻인지 말해 주는 띠는 없었다.
+    ///    조건은 `SnippetsTab.showsSwitchHint` 한 곳에서 정하고 여기로 흘러온다.
+    @ObservedObject private var switchHint = SwitchHintBeacon.shared
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// 잰 탭바 첫 칸의 자리(화면 좌표). 못 재면 nil - 그러면 아무것도 안 그린다.
+    @State private var firstTabFrame: CGRect?
+
+    /// 단축어 탭을 보고 있을 때만 짚는다 - 다른 탭에서 1번 칸이 빛나면 그건 딴소리다.
+    private var showsSwitchHint: Bool {
+        switchHint.isShowing && selection == .snippets
+    }
+
     private enum MainTab: Hashable {
         case snippets, usage, settings, search
     }
@@ -1404,6 +1420,31 @@ struct MainTabView: View {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
+        // ⚠️ 물결은 **`TabView` 바깥쪽**에 얹는다. 탭바는 UIKit 이 콘텐츠 위에 그리므로
+        //    탭 안쪽(무대)에 그리면 탭바 유리 뒤로 들어가 뭉개진다. 여기라야 위로 올라온다.
+        //
+        //    무대 머리말의 격자 버튼도 같이 빛난다(`SnippetsStyleSwitchButton.highlighted`).
+        //    안내가 두 길을 적어 두었으니(버튼·탭 다시 누르기) 가리키는 것도 둘이어야 한다.
+        .overlay {
+            if showsSwitchHint, let frame = firstTabFrame {
+                KeyRipple(shape: Capsule(), color: .accentColor, reach: 7)
+                    .frame(width: frame.width, height: frame.height)
+                    .position(x: frame.midX, y: frame.midY)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+            }
+        }
+        // 무대의 띠·격자 버튼과 **같은 곡선**으로 든다(`InAppKeyboardStage.guidanceCurve`).
+        // 하나가 먼저 뜨면 같은 이야기가 따로 도착한 것으로 읽힌다.
+        .animation(reduceMotion ? nil : InAppKeyboardStage.guidanceCurve, value: showsSwitchHint)
+        // ⚠️ 자리는 **미리 재 두고 들고 있는다.** 안내가 켜질 때 재기 시작하면 재는 데 걸린
+        //    시간만큼 탭바 물결만 늦게 떠서, 무대의 띠·격자 버튼과 따로 노는 그림이 된다.
+        //    켜고 끄는 것은 `showsSwitchHint` 하나가 정하고, 자리는 늘 준비돼 있어야 한다.
+        .onAppear { measureFirstTab() }
+        // 탭 이름이 바뀌면(목록 ↔ 키보드) 칸 너비도 따라 바뀐다. 탭을 옮겨도 마찬가지.
+        .onChange(of: snippetsStyleRaw) { _, _ in measureFirstTab() }
+        .onChange(of: selection) { _, _ in measureFirstTab() }
         // 맥 메뉴·딥링크의 "클립보드 기록"이 갈 곳 - 탭에서 내려온 뒤로도 길은 남긴다.
         // ⚠️ 예전에는 이 알림을 **아무도 받지 않아** 메뉴를 눌러도 조용히 아무 일이 없었다.
         .sheet(isPresented: $showClipboardSheet) {
@@ -1422,6 +1463,21 @@ struct MainTabView: View {
         // 인라인 타이틀이 콘텐츠와 겹치고 네비바 영역 터치가 막힌다.
         // (각 탭 루트의 alwaysTransparentBars()와 함께 동작; 지우면 회귀)
         .scrollEdgeEffectHidden(true, for: .bottom)
+    }
+
+    /// 탭바 첫 칸의 자리를 잰다.
+    ///
+    /// ⚠️ **화면이 다 바뀌고 나서** 잰다. 재는 일은 창의 뷰 계층을 훑는 일이라,
+    ///    무대가 오르내리는 도중에 끼면 그 프레임에서 화면이 한 번 걸린다.
+    ///    (`SnippetsTab.swapSettleDelay` 와 같은 이유로 기다린다)
+    private func measureFirstTab() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + SnippetsTab.swapSettleDelay) {
+            let measured = TabBarProbe.firstItemFrame()
+            // ⚠️ 못 잰 값으로 **들고 있던 자리를 지우지 않는다.** 탭바가 잠깐 안 잡히는
+            //    순간(화면 전환 중)에 지워 버리면 물결이 깜빡인다.
+            guard let measured, measured != firstTabFrame else { return }
+            firstTabFrame = measured
+        }
     }
 }
 

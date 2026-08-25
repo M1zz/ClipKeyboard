@@ -21,9 +21,18 @@ struct WelcomeTip: Tip {
 
 // MARK: - AddMemoTip
 
+/// ⚠️ 이 팁만 `popoverTip` 이라 **화면 밖으로 튀어나온다.** 나머지 팁은 목록 안에
+///    줄로 얹혀 있어 무대가 올라오면 같이 가려지는데, 팝오버는 창 위에 그려져
+///    무대의 안내 띠까지 덮었다(실측: "이 탭에는 화면이 둘이에요"가 통째로 가려짐).
+///    목록이 뒤에 깔려만 있을 때는 뜨지 않게 규칙을 하나 더 둔다.
 struct AddMemoTip: Tip {
     @Parameter
     static var welcomeTipInvalidated: Bool = false
+
+    /// 목록이 **지금 보이는 화면**인가. 무대가 위에 올라와 있으면 목록은 뒤에 깔려만
+    /// 있고, 거기 붙은 팝오버가 뜨면 무대 위 안내를 덮는다.
+    @Parameter
+    static var listIsVisible: Bool = true
 
     var title: Text {
         Text(NSLocalizedString("내 것을 저장해보세요", comment: "Add memo tip title"))
@@ -34,6 +43,7 @@ struct AddMemoTip: Tip {
 
     var rules: [Rule] {
         #Rule(Self.$welcomeTipInvalidated) { $0 == true }
+        #Rule(Self.$listIsVisible) { $0 == true }
     }
 }
 

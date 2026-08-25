@@ -97,24 +97,10 @@ enum SnippetsOnboardingStep: Equatable {
     case tryScenarios
     /// ③ **직접 하나 만들어 본다.** 남의 것을 눌러 본 다음에 오는 걸음이다.
     case makeOwn
-    /// ④ 마지막에 진짜 키보드 켜기 - 이미 켜져 있으면 건너뛴다.
-    case keyboardSetup
     /// 다 지났다. 평소 화면으로.
     case done
 
-    /// 안내를 밀어 둔 지 얼마나 지나면 다시 데려오는가(초).
-    ///
-    /// ⚠️ **영영 끝나는 표식을 두지 않는다.** 예전에는 안내 화면을 닫기만 해도
-    ///    "지났다"로 못박아서, 설정에 다녀오지 않은 사람에게는 다시는 안 떴다.
-    ///    그 사람은 이 앱을 **다른 앱에서 한 번도 못 써 본 채로** 남는다.
-    ///    키보드를 켜지 않으면 이 앱은 아무것도 아니라서, 그건 조용히 잃는 것이다.
-    ///
-    /// ⚠️ 그렇다고 열 때마다 전체 화면으로 막아서면 그것도 앱을 닫게 만든다.
-    ///    하루에 한 번까지만 데려오고, 그 사이에는 무대의 띠가 대신 말한다
-    ///    (`InAppKeyboardStage.keyboardSetupBanner` - 그건 늘 떠 있다).
-    static let setupSnooze: TimeInterval = 24 * 60 * 60
-
-    /// 순서: 환영 → 써 보기 → 직접 만들기 → 키보드 설정.
+    /// 순서: 환영 → 써 보기 → 직접 만들기.
     ///
     /// ⚠️ **직접 만들기가 맨 앞이 아니라 여기 있는 이유.** 처음 온 사람에게 빈 칸부터
     ///    내밀면 무엇을 적어야 할지 모른다. 단축어·템플릿·콤보를 눌러 보고 나면
@@ -124,31 +110,48 @@ enum SnippetsOnboardingStep: Equatable {
     ///    거기서 튜토리얼이 끝나 버려, 셋을 눌러 본 것으로 끝나고 자기 것은 하나도
     ///    없는 채로 남았다. 눌러 보는 것과 갖는 것은 다르다.
     ///
-    /// ⚠️ 키보드 설정이 **맨 뒤**인 이유: 설정 앱으로 나갔다 오는 일이라 흐름이 가장 크게 끊긴다.
-    ///    써 볼 것을 다 써 본 뒤에 "이제 다른 앱에서도 쓰려면" 으로 이어져야 나갔다 돌아올 이유가
-    ///    분명하다. (무대에서 눌러 보는 데에는 진짜 키보드가 켜져 있을 필요가 없다.)
-    /// - Parameters:
-    ///   - keyboardUsable: **하나뿐인 진실.** 켜져 있으면 다시 묻지 않는다.
-    ///   - setupSnoozedAt: 안내를 마지막으로 밀어 둔 시각. nil 이면 민 적 없다.
+    /// ⚠️ **키보드 켜기는 이 길에서 뺐다.** 예전에는 여기가 마지막 걸음이라, 다 배우고 나면
+    ///    전체 화면 안내가 앞을 막고 섰다. 그런데 그 걸음은 설정 앱으로 나갔다 와야 끝나는
+    ///    일이라, 지금 안 할 사람에게는 **지날 길이 없는 문**이었다. 하루 밀어 두는 장치를
+    ///    달아 둬도 다음 날 또 막아선다.
+    ///
+    ///    켜야 한다는 사실은 무대의 띠가 대신 말한다(`InAppKeyboardStage.keyboardSetupBanner`).
+    ///    그 띠는 **켜졌다고 확인될 때까지 계속 떠 있고**(`KeyboardInstallState.isUsable`),
+    ///    누르면 같은 안내가 시트로 열린다. 막지 않으면서 사라지지도 않는 자리다.
+    ///
+    ///    그래서 **켜졌는지를 여기서 묻지 않는다.** 예전에는 `keyboardUsable` 을 받아
+    ///    걸음을 갈랐는데, 지금 그 값은 걸음과 아무 상관이 없다. 안 쓰는 값을 받아 두면
+    ///    다음 사람이 "여기서 뭔가 하겠거니" 하고 다시 문을 세운다.
     static func current(startedFresh: Bool,
                         welcomeDone: Bool,
                         chaptersDone: Bool,
-                        makeOwnDone: Bool,
-                        keyboardUsable: Bool,
-                        setupSnoozedAt: Date? = nil,
-                        now: Date = Date()) -> SnippetsOnboardingStep {
+                        makeOwnDone: Bool) -> SnippetsOnboardingStep {
         guard startedFresh else { return .done }
         if !welcomeDone { return .welcome }
         if !chaptersDone { return .tryScenarios }
         if !makeOwnDone { return .makeOwn }
-        // 이미 켜 둔 사람에게 켜는 법을 가르치지 않는다 - 여기가 유일한 종료 조건이다.
-        guard !keyboardUsable else { return .done }
-        // 아직 안 켰다. 방금 밀어 둔 게 아니라면 다시 데려온다.
-        if let snoozed = setupSnoozedAt, now.timeIntervalSince(snoozed) < setupSnooze {
-            return .done
-        }
-        return .keyboardSetup
+        return .done
     }
+}
+
+// MARK: - "화면이 둘이에요" 를 지금 짚고 있는가
+
+/// 안내가 떠 있다는 **한 가지 사실**을 두 화면이 같이 본다.
+///
+/// ⚠️ 짚어 주는 것이 세 군데다 - 무대의 띠, 무대 머리말의 격자 버튼, 그리고 **하단 탭바**.
+///    앞의 둘은 무대 안에 있지만 탭바는 `TabView` 바깥에 그려야 해서(UIKit 이 콘텐츠 위에
+///    얹는다) `MainTabView` 몫이다.
+///
+/// ⚠️ 그래서 조건을 **두 번 적었더니 갈라졌다.** 무대 쪽은 "다 배운 뒤"까지 봤는데
+///    탭바 쪽은 그 조건이 빠져, 앱을 켜자마자 탭만 빛나고 정작 그게 무슨 뜻인지 말해 주는
+///    띠는 없었다. 가리키는 것만 있고 말이 없으면 그건 안내가 아니라 얼룩이다.
+///    조건은 `SnippetsTab.showsSwitchHint` 한 곳에서만 정하고, 여기로 흘려보낸다.
+@MainActor
+final class SwitchHintBeacon: ObservableObject {
+    static let shared = SwitchHintBeacon()
+    private init() {}
+
+    @Published var isShowing = false
 }
 
 // MARK: - 화면 전환 버튼
@@ -176,6 +179,12 @@ struct SnippetsStyleSwitchButton: View {
 
     @Binding var styleRaw: String
 
+    /// 지금 이 버튼을 **짚어 주는 중인가**(화면이 둘이라는 안내가 떠 있을 때).
+    ///
+    /// ⚠️ 안내는 "위의 버튼을 누르면" 이라고 말하는데 정작 그 버튼은 가만히 있었다.
+    ///    유리 서클 셋이 나란한 머리말에서 **어느 것**인지 글만으로는 못 짚는다.
+    var highlighted: Bool = false
+
     private var current: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
     /// 탭바를 다시 누르는 것과 **같은 규칙**을 쓴다(`SnippetsTabStyle.toggled`).
     /// 두 길이 다른 곳으로 가면 같은 자리에서 누를 때마다 결과가 달라진다.
@@ -197,6 +206,13 @@ struct SnippetsStyleSwitchButton: View {
                 .glassEffect(.clear.interactive(), in: Circle())
         }
         .buttonStyle(.plain)
+        // 머리말의 + 를 가리킬 때와 **같은 물결**이다(`InAppKeyboardStage.stageHeader`).
+        // 튜토리얼이 가리키는 것은 늘 같은 모양으로 빛나야 한 가지 뜻으로 읽힌다.
+        .overlay {
+            if highlighted {
+                KeyRipple(shape: Circle(), color: .accentColor, reach: 9)
+            }
+        }
         .accessibilityLabel(target.localizedName)
         .accessibilityHint(NSLocalizedString("이 화면과 저 화면을 오갑니다", comment: "Switch between list and keyboard preview"))
     }
@@ -211,11 +227,9 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialWelcomeDone) private var welcomeDone: Bool = false
     /// 이 기기가 4.4.4 이후로 처음 시작했는가 - 쓰던 사람에게 튜토리얼을 다시 깔지 않기 위한 표식.
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
-    /// 키보드 켜기 안내를 마지막으로 밀어 둔 시각(1970 기준 초). 0이면 민 적 없다.
-    ///
-    /// ⚠️ 예전의 `keyboardSetupTutorialDone`(영영 끝) 을 대신한다. 닫았다는 것과
-    ///    켰다는 것은 다른 일인데 같은 표식을 쓰고 있었다.
-    @AppStorage(DefaultsKey.keyboardSetupSnoozedAt) private var keyboardSetupSnoozedAt: Double = 0
+    /// 튜토리얼이 끝난 시각·실행 횟수 - 무대의 키보드 켜기 띠가 이 둘을 본다.
+    @AppStorage(DefaultsKey.tutorialFinishedAt) private var tutorialFinishedAt: Double = 0
+    @AppStorage(DefaultsKey.tutorialFinishedAtLaunch) private var tutorialFinishedAtLaunch: Int = 0
     /// 지금 무대에서 가리키고 있는 단축어 id - 아직 안 눌러 봤으면 값이 남아 있다.
     @AppStorage(DefaultsKey.tutorialFirstUseMemoId) private var firstUseMemoIdRaw: String = ""
     /// 써 보는 장(단축어 → 템플릿 → 콤보) 완료 표식.
@@ -265,13 +279,21 @@ struct SnippetsTab: View {
         reduceMotion ? .opacity : .move(edge: .bottom)
     }
 
-    /// 오르내리는 속도.
+    /// 오르내리는 속도. **올라올 때와 내려갈 때가 다르다.**
     ///
     /// ⚠️ **튕기지 않는 곡선이라야 한다.** 스프링에 반동을 조금이라도 남기면 무대가
     ///    자리에 닿고 한 번 더 흔들려서, 화면이 덜그럭거리는 것으로 읽힌다.
     ///    `.smooth` 는 반동이 없는 스프링이다.
+    ///
+    /// ⚠️ 그런데 **내려갈 때 같은 스프링을 쓰면 끝에서 버벅인다.** 스프링은 끝으로
+    ///    갈수록 느려지며 목표에 스며드는 곡선이라, 자리에 안착할 때는 좋지만
+    ///    화면 밖으로 나가는 데 쓰면 마지막 몇 pt 를 질질 끈다. 다 사라진 줄 알았는데
+    ///    아직 조금 남아 기어가는 그림이 된다.
+    ///    나가는 것은 **가속해서** 나가야 한다(`easeIn`) - 눈이 끝을 기다리지 않는다.
     private var screenSwapAnimation: Animation? {
-        reduceMotion ? nil : .smooth(duration: 0.36)
+        guard !reduceMotion else { return nil }
+        // `styleRaw` 가 이미 새 값이라, 여기 `style` 은 **가려는 곳**이다.
+        return style == .keyboard ? .smooth(duration: 0.36) : .easeIn(duration: 0.24)
     }
 
     private var style: SnippetsTabStyle { SnippetsTabStyle(rawValue: styleRaw) ?? .list }
@@ -282,10 +304,7 @@ struct SnippetsTab: View {
                  welcomeDone: welcomeDone,
                  chaptersDone: chaptersFinished
                      || (tutorialSnippetDone && tutorialTemplateDone && tutorialComboDone),
-                 makeOwnDone: makeOwnDone,
-                 keyboardUsable: KeyboardInstallState.isUsable,
-                 setupSnoozedAt: keyboardSetupSnoozedAt > 0
-                     ? Date(timeIntervalSince1970: keyboardSetupSnoozedAt) : nil)
+                 makeOwnDone: makeOwnDone)
     }
 
     /// 장과 장 사이 쉼(초). 이 동안 카운트다운 원이 돈다.
@@ -366,20 +385,6 @@ struct SnippetsTab: View {
                     onSkip: { skipTutorial() }
                 )
                 .transition(screenTransition)
-            case .keyboardSetup:
-                // ⚠️ 닫았다고 끝난 것으로 치지 않는다. **켜졌는지 지금 확인**하고,
-                //    아직이면 하루만 밀어 둔다(`SnippetsOnboardingStep.setupSnooze`).
-                KeyboardSetupOnboardingView {
-                    if KeyboardInstallState.isUsable {
-                        keyboardSetupSnoozedAt = 0
-                        print("⌨️ [SnippetsTab] 키보드 켜진 것 확인, 안내 종료")
-                    } else {
-                        keyboardSetupSnoozedAt = Date().timeIntervalSince1970
-                        print("⌨️ [SnippetsTab] 아직 안 켜짐, 하루 뒤 다시 안내")
-                    }
-                }
-                .transition(screenTransition)
-
             // ⚠️ 이 둘을 **한 분기로 묶는다.** 나눠 두면 단계가 바뀔 때 SwiftUI가 무대를
             //    다른 뷰로 보고 새로 만든다 - 그 순간 입력창을 들고 있던 객체도 새것이 되어
             //    **방금 넣은 글이 사라진다.** 눌러서 배운 결과가 눈앞에서 지워지는 셈이다.
@@ -456,7 +461,21 @@ struct SnippetsTab: View {
         // 걸음이 바뀌어 무대로 들어왔는데 가리키는 것이 없으면 여기서 이어 붙인다.
         .onChange(of: onboardingStep) { _, _ in
             resumeTutorialIfStalled()
+            markTutorialFinishedIfNeeded()
             askToCleanUpSamplesIfNeeded()
+        }
+        .onAppear {
+            markTutorialFinishedIfNeeded()
+            syncListVisibilityForTips()
+            SwitchHintBeacon.shared.isShowing = showsSwitchHint
+        }
+        .onDisappear { SwitchHintBeacon.shared.isShowing = false }
+        // 목록이 뒤에 깔려만 있는 동안에는 거기 붙은 팝오버 팁을 재운다.
+        // 팝오버는 창 위에 그려져 **무대 안내까지 덮는다**(`AddMemoTip` 주석).
+        .onChange(of: styleRaw) { _, _ in syncListVisibilityForTips() }
+        // 탭바를 짚는 물결은 `MainTabView` 가 그린다 - 조건은 여기서만 정한다.
+        .onChange(of: showsSwitchHint) { _, shows in
+            SwitchHintBeacon.shared.isShowing = shows
         }
         .alert(NSLocalizedString("연습용 단축어를 치울까요?", comment: "Sample cleanup title"),
                isPresented: $showSampleCleanup) {
@@ -677,6 +696,43 @@ struct SnippetsTab: View {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         guard memos.contains(where: { !seeded.contains($0.id) }) else { return }
         finishMakeOwn()
+    }
+
+    /// 지금 목록이 진짜로 보이는 화면인지 팁 쪽에 알려 준다.
+    ///
+    /// ⚠️ **재우는 것은 지금, 깨우는 것은 나중.** 팁이 깨어나면 TipKit 이 팝오버를
+    ///    띄우는데, 그게 무대가 내려가는 도중에 일어나면 미끄러지는 마지막 순간에
+    ///    화면이 한 번 걸린다. 무대가 다 내려간 뒤에 깨운다.
+    ///    (재우는 쪽은 급하다 - 늦으면 무대 위에 팝오버가 떠 버린다)
+    private func syncListVisibilityForTips() {
+        let listVisible = (style == .list)
+        guard listVisible else {
+            AddMemoTip.listIsVisible = false
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.swapSettleDelay) {
+            // 그 사이에 다시 무대로 갔으면 깨우지 않는다.
+            guard style == .list else { return }
+            AddMemoTip.listIsVisible = true
+        }
+    }
+
+    /// 화면이 다 바뀌고 나서 뒷일을 하기까지 기다리는 시간(초).
+    /// 미끄러지는 동안 무거운 일이 끼면 그 프레임에서 화면이 걸린다.
+    static let swapSettleDelay: Double = 0.45
+
+    /// 튜토리얼이 끝난 **시각과 실행 횟수**를 남긴다.
+    ///
+    /// ⚠️ 무대의 키보드 켜기 띠가 이 둘을 본다(`KeyboardSetupBannerGate`). 방금 자기
+    ///    단축어를 만들고 "다 했다" 하는 자리에서 곧바로 "아직 못 쓴다"가 뜨면,
+    ///    방금 한 일이 헛일이었다는 말로 읽힌다. 한 호흡 쉬고 말하려고 여기서 재 둔다.
+    ///
+    /// ⚠️ **한 번만 남긴다.** 다시 쓰면 띠가 뜰 시각이 계속 뒤로 밀려 영영 안 뜬다.
+    private func markTutorialFinishedIfNeeded() {
+        guard startedFresh, onboardingStep == .done, tutorialFinishedAt == 0 else { return }
+        tutorialFinishedAt = Date().timeIntervalSince1970
+        tutorialFinishedAtLaunch = UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount)
+        print("🎓 [SnippetsTab] 튜토리얼 종료 시각 기록 (실행 \(tutorialFinishedAtLaunch)회차)")
     }
 
     /// 만들었든 미뤘든 이 걸음을 지난 것으로 둔다.

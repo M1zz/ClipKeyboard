@@ -85,21 +85,37 @@ struct KeyboardInstallStateTests {
         #expect(KeyboardInstallState.extensionBundleID == "com.Ysoup.TokenMemo.ClipKeyboardExtension")
     }
 
-    @Test("떠 본 적 있으면 설정 확인과 무관하게 쓸 수 있다")
-    func didLoadOnceIsEnough() {
-        guard let group = AppGroup.defaults else { return }
-        let saved = group.object(forKey: DefaultsKey.keyboardExtensionDidLoad) as? Bool
-        defer {
-            if let saved { group.set(saved, forKey: DefaultsKey.keyboardExtensionDidLoad) }
-            else { group.removeObject(forKey: DefaultsKey.keyboardExtensionDidLoad) }
-        }
+    @Test("설정에 우리 키보드가 있으면 켜진 것")
+    func enabledWhenListed() {
+        let ours = KeyboardInstallState.extensionBundleID
+        #expect(KeyboardInstallState.usable(enabledKeyboards: ["com.example.Other.Keyboard", ours],
+                                            didLoadOnce: false))
+    }
 
-        group.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
-        #expect(KeyboardInstallState.didLoadOnce)
-        #expect(KeyboardInstallState.isUsable)
+    @Test("**설정에서 뺐으면 꺼진 것이다.** 예전에 띄워 본 적이 있어도 마찬가지")
+    func removedFromSettingsWinsOverTheLatch() {
+        // 예전 규칙은 `isEnabledInSettings || didLoadOnce` 였다. 그런데 `didLoadOnce` 는
+        // 익스텐션이 뜰 때 켜지고 **지우는 코드가 없는 걸쇠**다. 키보드를 한 번이라도
+        // 띄워 본 사람은 나중에 설정에서 빼도 앱이 계속 "켜져 있다"고 믿었고,
+        // 그 사람은 무대에서 켜라는 안내를 다시는 못 받았다.
+        #expect(KeyboardInstallState.usable(enabledKeyboards: ["com.example.Other.Keyboard"],
+                                            didLoadOnce: true) == false)
+        #expect(KeyboardInstallState.usable(enabledKeyboards: [], didLoadOnce: true) == false)
+    }
 
-        // 표식이 없으면 이제는 **설정 목록**이 판단한다(예전엔 여기서 무조건 '못 쓴다'였다).
-        group.set(false, forKey: DefaultsKey.keyboardExtensionDidLoad)
-        #expect(KeyboardInstallState.isUsable == KeyboardInstallState.isEnabledInSettings)
+    @Test("설정 목록을 **못 읽을 때만** 걸쇠로 대신한다")
+    func fallsBackToTheLatchOnlyWhenUnreadable() {
+        #expect(KeyboardInstallState.usable(enabledKeyboards: nil, didLoadOnce: true))
+        // 못 읽고 걸쇠도 없으면 "아직 안 켠 것"으로 본다 - 켜 둔 사람을 한 번 귀찮게 하는
+        // 것보다, 못 켠 사람을 영영 놓치는 쪽이 나쁘다.
+        #expect(KeyboardInstallState.usable(enabledKeyboards: nil, didLoadOnce: false) == false)
+    }
+
+    @Test("실제 읽기 경로도 같은 규칙을 쓴다")
+    func liveReadUsesTheSameRule() {
+        #expect(KeyboardInstallState.isUsable
+                == KeyboardInstallState.usable(
+                    enabledKeyboards: UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String],
+                    didLoadOnce: KeyboardInstallState.didLoadOnce))
     }
 }
