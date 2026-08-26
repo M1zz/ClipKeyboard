@@ -17,6 +17,190 @@
         }
       }
     },
+    "%@ · 단축어 %d번" : {
+      "comment" : "Share video: small footer with time and uses",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %d snippets"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %d pintasan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 단축어 %d번"
+          }
+        }
+      }
+    },
+    "%@km" : {
+      "comment" : "Equivalent unit: kilometers",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ km"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ km"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@km"
+          }
+        }
+      }
+    },
+    "%d곡" : {
+      "comment" : "Equivalent unit: songs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d songs"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d lagu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d곡"
+          }
+        }
+      }
+    },
+    "%d봉지" : {
+      "comment" : "Equivalent unit: packs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d packs"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d bungkus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d봉지"
+          }
+        }
+      }
+    },
+    "%d잔" : {
+      "comment" : "Equivalent unit: cups",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d cups"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d cangkir"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d잔"
+          }
+        }
+      }
+    },
+    "%d정거장" : {
+      "comment" : "Equivalent unit: transit stops",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d stops"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d stasiun"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d정거장"
+          }
+        }
+      }
+    },
+    "%d쪽" : {
+      "comment" : "Equivalent unit: pages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d pages"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d halaman"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d쪽"
+          }
+        }
+      }
+    },
+    "%d편" : {
+      "comment" : "Equivalent unit: episodes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d episodes"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d episode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d편"
+          }
+        }
+      }
+    },
     "--- separator" : {
       "comment" : "Bulk import: marker split mode",
       "localizations" : {
@@ -2497,6 +2681,420 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⭐️ Rate and Review"
+          }
+        }
+      }
+    },
+    "걸을 수 있는 시간이에요" : {
+      "comment" : "Share video: walking equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a walk"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berjalan kaki"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "걸을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "노래를 들을 수 있는 시간이에요" : {
+      "comment" : "Share video: music equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for that much music"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk mendengarkan lagu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노래를 들을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "다 읽을 수 있는 시간이에요" : {
+      "comment" : "Share video: whole book equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read them cover to cover"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membacanya sampai habis"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다 읽을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "다른 걸로" : {
+      "comment" : "Button: pick another equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try another"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba yang lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 걸로"
+          }
+        }
+      }
+    },
+    "달릴 수 있는 시간이에요" : {
+      "comment" : "Share video: running equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a run"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berlari"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "달릴 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요" : {
+      "comment" : "Changelog 5.0.4 local prices",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The ones counted in money use the minimum wage and prices where you live. If we have no prices for your region, those simply do not appear"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang dihitung dengan uang memakai upah minimum dan harga di negaramu. Jika kami tidak punya harganya, yang itu tidak muncul"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요"
+          }
+        }
+      }
+    },
+    "드라마를 볼 수 있는 시간이에요" : {
+      "comment" : "Share video: show equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a show"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk nonton serial"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "드라마를 볼 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "마라톤 %d번" : {
+      "comment" : "Equivalent unit: marathons",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d marathons"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d maraton"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마라톤 %d번"
+          }
+        }
+      }
+    },
+    "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요" : {
+      "comment" : "Changelog 5.0.4 footer stays",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The saved time and the real count stay small underneath. The big number is an estimate; that line is what we actually counted"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang dihemat dan jumlah sebenarnya tetap ada di bawah. Angka besar itu perkiraan; baris itulah yang benar benar kami hitung"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요"
+          }
+        }
+      }
+    },
+    "아낀 시간을 다른 것에 빗대어 보여줍니다" : {
+      "comment" : "Reroll button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the saved time compared to something else"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan waktu yang dihemat dibandingkan dengan hal lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아낀 시간을 다른 것에 빗대어 보여줍니다"
+          }
+        }
+      }
+    },
+    "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요" : {
+      "comment" : "Changelog 5.0.4 reroll",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One of ten, picked fresh each time you open it. Tap Try another to roll again"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satu dari sepuluh, dipilih ulang setiap kali dibuka. Ketuk Coba yang lain untuk mengocok lagi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요"
+          }
+        }
+      }
+    },
+    "완주할 수 있는 시간이에요" : {
+      "comment" : "Share video: marathon equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to finish them all"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk menyelesaikan semuanya"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완주할 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "지하철로 갈 수 있는 시간이에요" : {
+      "comment" : "Share video: transit equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to ride that far"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk naik kereta sejauh itu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지하철로 갈 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "책 %d권" : {
+      "comment" : "Equivalent unit: books",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d books"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d buku"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책 %d권"
+          }
+        }
+      }
+    },
+    "책을 읽을 수 있는 시간이에요" : {
+      "comment" : "Share video: reading equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read that far"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca sejauh itu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책을 읽을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 라면 값이에요" : {
+      "comment" : "Share video: instant noodle equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "that is instant noodle money, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "itu uang mi instan, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 라면 값이에요"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 커피 값이에요" : {
+      "comment" : "Share video: coffee equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "that is coffee money, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "itu uang kopi, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 커피 값이에요"
+          }
+        }
+      }
+    },
+    "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요" : {
+      "comment" : "Changelog 5.0.4 share video equivalents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The share video now puts what your saved time equals in the big type instead of the time itself: 12.5km of running, 8 episodes, 3 books, 4 marathons"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video berbagi kini menampilkan padanan waktu yang kamu hemat di tulisan besar, bukan waktunya: lari 12,5km, 8 episode, 3 buku, 4 maraton"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요"
           }
         }
       }

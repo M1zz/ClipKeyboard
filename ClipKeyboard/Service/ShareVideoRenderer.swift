@@ -12,6 +12,13 @@
 //  ⚠️ 세로 9:16(1080×1920)로 고정한다. 스토리·릴스가 전부 이 비율이고, 다른 비율로
 //     주면 사용자가 올릴 때 잘라야 한다. 잘라야 하는 순간 대부분 안 올린다.
 //
+//  무엇을 크게 띄우는가
+//  ⚠️ 큰 자리에 서는 것은 **시간이 아니라 시간을 바꿔 말한 것**이다("5.2km", "커피 3잔").
+//     시간은 크기가 안 잡히는 단위라, "1시간 24분"을 읽고 그게 큰지 작은지 알려면
+//     머릿속에서 한 번 더 환산해야 한다. 넘겨 보는 3초 안에 그 환산은 안 일어난다.
+//     시간과 횟수는 아래에 작게 남는다 - 사라지지는 않되 앞에 서지도 않는다.
+//     (무엇으로 바꿔 말할지는 `TimeEquivalent`, 매번 다른 것이 뽑힌다)
+//
 //  ⚠️ 내용은 **숫자와 앱 이름뿐이다.** 문구 제목도, 내용도 들어가지 않는다.
 //     이건 남에게 보여주려고 만드는 파일이라 실수로 새어나갈 여지를 아예 없앤다.
 //     (영수증은 제목까지는 넣지만, 영상은 그마저도 뺀다 - 스토리는 더 넓게 퍼진다)
@@ -44,10 +51,14 @@ enum ShareVideoRenderer {
     /// - Parameters:
     ///   - totalSeconds: 지금까지 아낀 시간(초).
     ///   - totalUses: 다시 치지 않은 횟수.
+    ///   - equivalent: 큰 자리에 세울 바꿔 말하기. nil 이면 예전처럼 시간이 큰 자리에 선다
+    ///     (아낀 시간이 너무 짧아 말이 되는 갈래가 하나도 없을 때 그렇다).
     ///
     /// ⚠️ 임시 폴더에 쓴다. 공유 시트가 읽어 간 뒤 시스템이 정리한다 - 사용자의
     ///    저장 공간에 우리 파일을 남기지 않는다.
-    static func render(totalSeconds: Double, totalUses: Int) async throws -> URL {
+    static func render(totalSeconds: Double,
+                       totalUses: Int,
+                       equivalent: TimeEquivalent?) async throws -> URL {
         // ⚠️ **한 번만 묻는다.** 프레임마다 트레이트를 물으면 102장을 굽는 동안
         //    사용자가 화면을 뒤집었을 때 영상 중간에서 배경이 갈린다.
         let isDark = UITraitCollection.current.userInterfaceStyle == .dark
@@ -80,7 +91,8 @@ enum ShareVideoRenderer {
         let frameCount = Int(duration * Double(fps))
         for index in 0..<frameCount {
             let progress = Double(index) / Double(max(1, frameCount - 1))
-            let image = frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses, isDark: isDark)
+            let image = frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses,
+                              equivalent: equivalent, isDark: isDark)
             guard let buffer = pixelBuffer(from: image, pool: adaptor.pixelBufferPool) else {
                 throw RenderError.frameFailed
             }
@@ -106,15 +118,18 @@ enum ShareVideoRenderer {
     ///    스토리는 넘기면서 보는 것이라, 멈춰 있는 구간이 없으면 숫자를 못 읽는다.
     private static let countUpPortion = 0.7
 
-    private static func frame(progress: Double, totalSeconds: Double, totalUses: Int, isDark: Bool) -> UIImage {
+    private static func frame(progress: Double, totalSeconds: Double, totalUses: Int,
+                              equivalent: TimeEquivalent?, isDark: Bool) -> UIImage {
         let eased = min(1, progress / countUpPortion)
         // 처음엔 빠르게, 끝에서 천천히 - 숫자가 자리를 잡는 느낌이 난다.
         let curve = 1 - pow(1 - eased, 3)
-        let shownSeconds = totalSeconds * curve
-        let shownUses = Int((Double(totalUses) * curve).rounded())
 
-        let view = ShareVideoFrame(seconds: shownSeconds,
-                                   uses: shownUses,
+        let view = ShareVideoFrame(seconds: totalSeconds,
+                                   uses: totalUses,
+                                   equivalent: equivalent,
+                                   // 굴러 올라가는 것은 **큰 자리 하나뿐**이다. 둘이 같이
+                                   // 구르면 눈이 어디를 따라갈지 못 정한다.
+                                   countUp: curve,
                                    settled: eased >= 1,
                                    isDark: isDark)
             .frame(width: size.width, height: size.height)
@@ -166,8 +181,13 @@ enum ShareVideoRenderer {
 /// ⚠️ 숫자는 **사용자가 고른 키컬러**로 칠한다(`AppAccent`). 앱에서 크게 보던 그 색이
 ///    그대로 나가야 자기 앱에서 나온 그림으로 읽힌다.
 struct ShareVideoFrame: View {
+    /// 아낀 시간(초). 이제 **큰 자리가 아니라 아래 작은 줄**에 선다.
     let seconds: Double
     let uses: Int
+    /// 큰 자리에 세울 바꿔 말하기. nil 이면 예전처럼 시간이 큰 자리에 선다.
+    let equivalent: TimeEquivalent?
+    /// 큰 숫자가 얼마나 굴러 올라왔는가(0~1).
+    var countUp: Double = 1
     /// 숫자가 다 굴러 제자리에 섰는가 - 이때만 아래 문구가 나타난다.
     let settled: Bool
     /// 어두운 화면으로 뽑을 것인가.
@@ -177,7 +197,7 @@ struct ShareVideoFrame: View {
     private var ground: Color {
         isDark ? Color(red: 0x0D/255, green: 0x0D/255, blue: 0x0E/255) : .white
     }
-    /// 큰 숫자와 시계에 쓰는 키컬러. 앱에서 보던 그 색이다.
+    /// 큰 숫자와 그림에 쓰는 키컬러. 앱에서 보던 그 색이다.
     private var accent: Color { AppAccent.current.accent(isDark: isDark) }
     /// 본문 글자.
     private var ink: Color {
@@ -189,6 +209,38 @@ struct ShareVideoFrame: View {
         isDark ? Color(red: 0x9C/255, green: 0x9C/255, blue: 0xA3/255)
                : Color(red: 0x6B/255, green: 0x6B/255, blue: 0x72/255)
     }
+    /// 맨 아래 작은 줄 - 곁들이는 글자보다 한 단계 더 물러난다.
+    private var faint: Color {
+        isDark ? Color(red: 0x6E/255, green: 0x6E/255, blue: 0x75/255)
+               : Color(red: 0x9A/255, green: 0x9A/255, blue: 0xA1/255)
+    }
+
+    /// 그림. 바꿔 말하기마다 다르다 - 달리기에는 달리는 사람, 커피에는 잔.
+    ///
+    /// ⚠️ 예전에는 시계 하나뿐이었고 두 가지 색을 쓰는 심볼이라 팔레트 순서에
+    ///    걸려 넘어졌다(첫 번째가 배지, 두 번째가 시계판이라 반대로 넣으면
+    ///    초록 시계에 파란 배지가 나왔다). 지금 쓰는 그림은 전부 한 색짜리라
+    ///    그 함정이 없다. 두 색 심볼로 바꾸려거든 **한 장 구워 보고** 정할 것.
+    private var symbolName: String {
+        equivalent?.symbol ?? AppSymbol.clockBadgeCheckmarkFill
+    }
+
+    /// 큰 자리에 설 글자. 굴러 올라가는 중간값을 그린다.
+    private var headline: String {
+        if let equivalent {
+            return equivalent.amountText(equivalent.value * countUp)
+        }
+        return RefundReceipt.durationText(seconds: seconds * countUp)
+    }
+
+    /// 큰 숫자 **아래** 한 줄. 위의 "이걸 손으로 했다면" 과 이어져 한 문장이 된다.
+    ///
+    /// ⚠️ 바꿔 말하기가 없을 때는 이 줄이 예전의 "실제로는 단축어 N번" 자리다.
+    ///    그때는 큰 자리에 시간이 서 있으므로 아래 작은 줄과 겹치지 않는다.
+    private var subline: String {
+        equivalent?.caption
+            ?? String(format: NSLocalizedString("실제로는 단축어 %d번", comment: "Share video: uses line"), uses)
+    }
 
     var body: some View {
         ZStack {
@@ -197,16 +249,9 @@ struct ShareVideoFrame: View {
             VStack(spacing: 0) {
                 Spacer(minLength: 0)
 
-                // ⚠️ 흰 바탕에 흰 글리프를 얹을 수는 없다(예전에는 베이지라 됐다).
-                //    시계는 키컬러, 배지의 체크는 **연두**로 나눠 칠한다 - 체크는
-                //    언제나 연두라는 규칙이 이 그림에도 걸린다(`Color.checkGreen`).
-                //
-                // ⚠️ 이 심볼의 팔레트 순서는 **직관과 반대다.** 첫 번째가 배지(체크),
-                //    두 번째가 시계판이다. 반대로 넣었더니 초록 시계에 파란 배지가 나왔다
-                //    (실제로 구워 보고 알았다). 순서를 바꾸기 전에 한 장 뽑아 볼 것.
-                Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
-                    .font(.system(size: 200, weight: .light))
-                    .foregroundStyle(Color.checkGreen(isDark: isDark), accent)
+                Image(systemName: symbolName)
+                    .font(.system(size: 190, weight: .light))
+                    .foregroundStyle(accent)
                     .frame(width: 320, height: 320)
 
                 // ⚠️ "아낀 시간"이 아니라 "손으로 했다면"이다. 같은 숫자인데 주장하는 바가
@@ -219,7 +264,7 @@ struct ShareVideoFrame: View {
                     .foregroundColor(muted)
                     .padding(.top, 40)
 
-                Text(RefundReceipt.durationText(seconds: seconds))
+                Text(headline)
                     .font(.system(size: 150, weight: .black, design: .rounded))
                     .monospacedDigit()
                     .minimumScaleFactor(0.5)
@@ -228,19 +273,36 @@ struct ShareVideoFrame: View {
                     .padding(.horizontal, 60)
                     .padding(.top, 8)
 
-                // ⚠️ **이 줄만 사실이다.** 위의 큰 숫자는 어림한 것이고, 이건 실제로
-                //    일어나서 우리가 센 것이다. 그래서 어림값 뒤에 숨기지 않고 또렷하게 둔다.
-                Text(String(format: NSLocalizedString("실제로는 단축어 %d번", comment: "Share video: uses line"), uses))
+                Text(subline)
                     .font(.system(size: 44, weight: .semibold))
-                    .monospacedDigit()
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.7)
+                    .lineLimit(2)
                     .foregroundColor(muted)
+                    .padding(.horizontal, 60)
                     .padding(.top, 18)
 
-                // 다 굴러간 뒤에만 나타난다 - 숫자와 같이 뜨면 눈이 둘로 갈린다.
+                // ⚠️ **이 줄만 사실이다.** 위의 큰 숫자는 어림한 것을 또 한 번 바꿔 말한
+                //    것이고, 이 줄의 횟수는 실제로 일어나서 우리가 센 것이다. 그래서
+                //    작더라도 반드시 남긴다 - 어림값만 있는 그림은 자랑이 아니라 광고다.
+                //
+                // ⚠️ 굴러 올라가는 중에는 안 보인다. 큰 숫자가 구르는 동안 아래에서
+                //    또 무언가가 움직이면 눈이 둘로 갈린다.
+                if equivalent != nil {
+                    Text(String(format: NSLocalizedString("%@ · 단축어 %d번",
+                                                          comment: "Share video: small footer with time and uses"),
+                                RefundReceipt.durationText(seconds: seconds), uses))
+                        .font(.system(size: 38, weight: .medium))
+                        .monospacedDigit()
+                        .foregroundColor(faint)
+                        .padding(.top, 44)
+                        .opacity(settled ? 1 : 0)
+                }
+
                 Text(verbatim: "ClipKeyboard")
                     .font(.system(size: 46, weight: .heavy, design: .rounded))
                     .foregroundColor(ink)
-                    .padding(.top, 70)
+                    .padding(.top, equivalent == nil ? 70 : 44)
                     .opacity(settled ? 1 : 0)
 
                 Spacer(minLength: 0)

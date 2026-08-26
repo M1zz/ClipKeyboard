@@ -250,6 +250,7 @@
 		KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */; };
 		TB00012F0000000000000001 /* TabBarProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = TB00022F0000000000000002 /* TabBarProbe.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
+		TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
 		TPH00032F0000000000000003 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -519,6 +520,7 @@
 		KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupBannerGate.swift; sourceTree = "<group>"; };
 		TB00022F0000000000000002 /* TabBarProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProbe.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
+		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		TSH00022F0000000000000002 /* TemplateSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSheets.swift; sourceTree = "<group>"; };
@@ -857,6 +859,7 @@
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */,
+				TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */,
 				SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */,
 				QKN0FILE0000000000000002 /* QuickNoteStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
@@ -1447,6 +1450,7 @@
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */,
+				TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */,
 				SHAREVIDEOBUILDAPP000001 /* ShareVideoRenderer.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
 				58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */,

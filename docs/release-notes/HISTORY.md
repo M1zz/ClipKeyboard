@@ -4,6 +4,20 @@
 
 ### 한국어
 
+아낀 시간을 다른 것에 빗대어 보여줍니다
+
+친구들에게 알리기로 만드는 영상에서 큰 자리에 서던 것이 아낀 시간이었습니다. 그런데 시간은 크기가 잡히지 않는 단위입니다. 한 시간 반을 아꼈다는 말을 읽고 그게 큰지 작은지 알려면 머릿속에서 한 번 더 환산해야 하는데, 남의 스토리에서 넘겨 보는 3초 안에 그 환산은 일어나지 않습니다.
+
+이제 큰 자리에는 환산이 끝난 것이 섭니다. 12.5km 달릴 수 있는 시간, 드라마 여덟 편, 책 세 권, 마라톤 네 번, 최저임금으로 쳐도 커피 열두 잔. 열 가지 중에서 열 때마다 다른 것이 뽑히고, 다른 걸로 버튼으로 굴려 볼 수 있습니다.
+
+갈래마다 아래 문턱과 위 천장이 함께 있습니다. 천장이 없던 첫 판에서는 오래 쓴 분에게 라면 1,218봉지, 지하철 4,250정거장이 나왔습니다. 그건 자랑이 아니라 농담으로 읽힙니다. 머릿속에 그려지지 않는 숫자는 크기를 전달하지 못할 뿐 아니라, 아래 작은 줄의 진짜 횟수까지 같이 못 믿게 만듭니다.
+
+돈으로 셈하는 것은 사는 나라의 최저임금과 물건값으로 합니다. 금액을 그대로 적지 않고 커피 잔 수로 바꾸는 데는 이유가 있습니다. 금액은 해마다 조금씩 틀려지지만 잔 수는 오래 버팁니다. 최저임금과 커피값이 대체로 같이 오르기 때문입니다. 우리가 쓰는 것은 두 값의 비율이고, 비율은 물가를 타지 않습니다. 그래도 표가 3년 넘게 낡거나 사는 곳이 표에 없으면 그 갈래는 통째로 빠집니다. 낡은 값을 계속 내보내느니 접는 편이 낫습니다.
+
+최저임금은 내 시간값이 아니라 바닥값입니다. 그래서 그 시간에 일했으면 얼마라고 적지 않고 최저임금으로 쳐도라고 적습니다. 같은 숫자가 하한선이 되면서 더 세집니다.
+
+아낀 시간과 실제 횟수는 사라지지 않고 아래에 작게 남습니다. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라, 어림한 숫자만 있는 그림은 자랑이 아니라 광고가 됩니다.
+
 키보드에서 어떤 키는 눌러도 아무 일이 없었습니다
 
 그 키가 고장 난 것이 아니라, 옆에 있던 이미지 단축어가 그 위를 덮고 있었습니다. 가로로 긴 사진을 담은 단축어는 자기 칸보다 넓게 누워 있었습니다. 사진이 칸을 채울 때까지 커지는데 폭을 붙잡아 두는 것이 없어서, 넘친 만큼이 옆 칸으로 흘러 들어갔습니다.
@@ -15,6 +29,20 @@
 이제 사진이 아무리 길어도 키는 자기 칸 안에 머뭅니다. 옆 키는 옆 키가 됩니다. 이미지 단축어의 둥근 모서리도 이제 눌립니다. 예전에는 네 귀퉁이가 손가락을 받지 않는 죽은 자리였습니다.
 
 ### English
+
+Your saved time, said in something you can picture
+
+The video you share used to put the saved time itself in the big type. Time is a unit you cannot size up. Reading that you saved an hour and a half tells you nothing about whether that is a lot until you convert it in your head, and nobody does that in the three seconds a story gets.
+
+Now the big type holds the conversion already done. Far enough to run 12.5km. Eight episodes. Three books. Four marathons. Twelve cups of coffee, even at minimum wage. Ten of them, a different one each time you open it, with a Try another button.
+
+Every one has a floor and a ceiling. Without the ceiling, a long time user got 1,218 packs of instant noodles and 4,250 subway stops. That reads as a joke, not a brag. A number you cannot picture fails to convey size, and it takes the real count on the small line down with it.
+
+The ones counted in money use the minimum wage and prices where you live. There is a reason we say cups instead of an amount: an amount drifts wrong a little every year, and a cup count holds far longer, because minimum wage and the price of coffee move together. What we use is the ratio, and ratios do not track inflation. Even so, if the table is more than three years old or we have no prices for where you are, that whole group drops out.
+
+Minimum wage is not what your time is worth, it is the floor. So we do not say what you would have earned, we say even at minimum wage. The same number gets stronger as a lower bound.
+
+The saved time and the real count stay, small, underneath. The big number is an estimate and that line is the part we actually counted. A picture with nothing but estimates on it is not a brag, it is an ad.
 
 Some keys on the keyboard did nothing when tapped
 

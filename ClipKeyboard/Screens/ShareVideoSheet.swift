@@ -33,6 +33,15 @@ struct ShareVideoSheet: View {
     @State private var failed = false
     @State private var isSharing = false
 
+    /// 지금 큰 자리에 서 있는 바꿔 말하기. 열 때마다 다른 것이 뽑힌다.
+    ///
+    /// ⚠️ nil 일 수 있다. 아낀 시간이 짧아 말이 되는 갈래가 하나도 없을 때 그렇고,
+    ///    그때는 예전처럼 시간이 큰 자리에 선다. 억지로 하나를 세우면
+    ///    "커피 0잔" 같은 것이 스토리로 나간다.
+    @State private var equivalent: TimeEquivalent?
+    /// 굽는 중에는 바꾸기를 막는다. 누를 때마다 새로 구워야 해서 겹치면 헛일이 된다.
+    @State private var isRendering = false
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -115,11 +124,43 @@ struct ShareVideoSheet: View {
 
     // MARK: - 내보내기
 
+    private var buttons: some View {
+        VStack(spacing: 10) {
+            // ⚠️ 바꿔 말하기는 열 때마다 저절로 바뀌지만, 그것만으로는 **바뀐다는 사실이
+            //    안 보인다.** 마음에 안 드는 것이 나왔을 때 시트를 닫았다 다시 여는 것이
+            //    유일한 길이면 아무도 안 한다. 여기 단추 하나가 그 길을 대신한다.
+            if equivalent != nil {
+                Button {
+                    HapticManager.shared.light()
+                    Task { await make(reroll: true) }
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: AppSymbol.arrowClockwise)
+                            .font(.subheadline.weight(.semibold))
+                        Text(NSLocalizedString("다른 걸로", comment: "Button: pick another equivalent"))
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .foregroundColor(theme.accent)
+                    .padding(.vertical, 10)
+                    .frame(maxWidth: .infinity)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .disabled(isRendering)
+                .opacity(isRendering ? 0.5 : 1)
+                .accessibilityHint(NSLocalizedString("아낀 시간을 다른 것에 빗대어 보여줍니다",
+                                                     comment: "Reroll button hint"))
+            }
+
+            shareButton
+        }
+    }
+
     /// ⚠️ 예전에는 "인스타 스토리에 올리기"가 따로 있었다. 뺐다. 특정 서비스로 가는 길을
     ///    앱이 직접 들고 있으면 그 서비스가 규칙을 바꿀 때마다 우리 코드가 따라가야 하고,
     ///    그 서비스를 안 쓰는 사람에게는 자리만 차지하는 단추가 된다. 어디로 보낼지는
     ///    시스템 공유 시트가 이미 안다. 우리는 **보낼 것**만 잘 만들면 된다.
-    private var buttons: some View {
+    private var shareButton: some View {
         Button {
             HapticManager.shared.light()
             isSharing = true
@@ -147,11 +188,24 @@ struct ShareVideoSheet: View {
 
     // MARK: - 굽기
 
-    private func make() async {
+    /// - Parameter reroll: 바꿔 말하기를 새로 뽑을 것인가. 다시 시도는 **같은 것으로**
+    ///   다시 구워야 한다 - 실패했다고 화면이 딴 이야기로 바뀌면 고장으로 읽힌다.
+    private func make(reroll: Bool = false) async {
         failed = false
         player = nil
+        isRendering = true
+        defer { isRendering = false }
+
+        if reroll || equivalent == nil {
+            // 방금 보여 준 것은 빼고 뽑는다. 눌렀는데 같은 게 나오면 안 눌린 것과 같다.
+            equivalent = TimeEquivalentCatalog.pick(seconds: totalSeconds,
+                                                    avoiding: reroll ? equivalent?.kind : nil)
+        }
+
         do {
-            let url = try await ShareVideoRenderer.render(totalSeconds: totalSeconds, totalUses: totalUses)
+            let url = try await ShareVideoRenderer.render(totalSeconds: totalSeconds,
+                                                          totalUses: totalUses,
+                                                          equivalent: equivalent)
             videoURL = url
             player = loopingPlayer(for: url)
             player?.play()
