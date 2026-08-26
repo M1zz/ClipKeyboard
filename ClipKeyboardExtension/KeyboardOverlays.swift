@@ -27,42 +27,57 @@ struct ImageMemoButton: View {
 
     @State private var image: UIImage?
 
+    /// 키캡 모양 - 사진·그늘·글자·누를 자리가 **모두 같은 모양**을 봐야 어긋나지 않는다.
+    private var shape: RoundedRectangle {
+        RoundedRectangle(cornerRadius: theme.radiusSm)
+    }
+
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            RoundedRectangle(cornerRadius: theme.radiusSm)
-                .foregroundColor(Color(uiColor: .systemGray5))
-
-            if let image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: buttonHeight)
-                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
+        // ⚠️ 사진은 `overlay` 로 얹는다. `ZStack` 에 그냥 넣으면 사진이 **자리 크기를 정해 버린다.**
+        //    `scaledToFill` 은 제안된 칸을 덮을 때까지 키우는데, 폭이 묶여 있지 않으면
+        //    가로로 긴 사진(파노라마·영수증·잘라낸 화면)에서 키 하나가 칸을 넘어 66pt 자리에
+        //    225pt 로 눕는다. 넘친 만큼이 옆 키를 덮으면 **그 키는 눌러도 반응하지 않는다.**
+        //    (`overlay` 의 자식은 부모 크기를 제안받고 자기 크기는 부모에 영향을 주지 않는다)
+        shape
+            .foregroundColor(Color(uiColor: .systemGray5))
+            .frame(maxWidth: .infinity)
+            .frame(height: buttonHeight)
+            .overlay {
+                if let image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                }
             }
+            .clipShape(shape)
+            .overlay(alignment: .bottomLeading) {
+                ZStack(alignment: .bottomLeading) {
+                    // 텍스트 가독성을 위한 하단 그라디언트
+                    LinearGradient(
+                        colors: [.clear, .black.opacity(0.6)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
 
-            // 텍스트 가독성을 위한 하단 그라디언트
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.6)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
-
-            Text(title)
-                .font(.system(size: buttonFontSize, weight: .semibold))
-                .foregroundColor(.white)
-                .lineLimit(2)
-                .padding(10)
-        }
-        .frame(height: buttonHeight)
-        .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
-        .onAppear {
-            guard image == nil, !fileName.isEmpty else { return }
-            DispatchQueue.global(qos: .userInitiated).async {
-                let loaded = MemoStore.shared.loadImage(fileName: fileName)
-                DispatchQueue.main.async { image = loaded }
+                    Text(title)
+                        .font(.system(size: buttonFontSize, weight: .semibold))
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                        .padding(10)
+                }
+                .clipShape(shape)
+                .allowsHitTesting(false)
             }
-        }
+            // 누를 자리는 칸 전체. 모서리를 깎아 두면 둥근 귀퉁이가 죽은 자리가 된다.
+            .contentShape(Rectangle())
+            .shadow(color: .black.opacity(0.2), radius: 3, y: 1)
+            .onAppear {
+                guard image == nil, !fileName.isEmpty else { return }
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let loaded = MemoStore.shared.loadImage(fileName: fileName)
+                    DispatchQueue.main.async { image = loaded }
+                }
+            }
     }
 }
 

@@ -1,5 +1,37 @@
 # ClipKeyboard Release Notes
 
+## v5.0.4 (build 1)
+
+### 한국어
+
+키보드에서 어떤 키는 눌러도 아무 일이 없었습니다
+
+그 키가 고장 난 것이 아니라, 옆에 있던 이미지 단축어가 그 위를 덮고 있었습니다. 가로로 긴 사진을 담은 단축어는 자기 칸보다 넓게 누워 있었습니다. 사진이 칸을 채울 때까지 커지는데 폭을 붙잡아 두는 것이 없어서, 넘친 만큼이 옆 칸으로 흘러 들어갔습니다.
+
+눈에는 사진이 반듯하게 잘려 보였습니다. 자르는 것은 그림만 자르고 손가락이 닿는 자리는 그대로 두기 때문입니다. 그래서 옆 키를 눌러도 손가락은 사진에 닿고 있었고, 옆 키는 고장 난 것처럼 보였습니다.
+
+파노라마나 잘라낸 화면처럼 아주 긴 사진이면 옆 키가 통째로 가려졌습니다. 영수증이나 명함처럼 조금 긴 사진이면 옆 키의 한쪽 끝만 안 눌렸습니다. 사진이 세로거나 정사각이면 아무 일도 없었습니다. 키를 몇 줄로 놓았는지, 키 높이를 얼마로 두었는지에 따라서도 갈렸습니다. 어떤 분에게는 늘 그랬고 어떤 분에게는 한 번도 없었던 이유가 이것입니다.
+
+이제 사진이 아무리 길어도 키는 자기 칸 안에 머뭅니다. 옆 키는 옆 키가 됩니다. 이미지 단축어의 둥근 모서리도 이제 눌립니다. 예전에는 네 귀퉁이가 손가락을 받지 않는 죽은 자리였습니다.
+
+### English
+
+Some keys on the keyboard did nothing when tapped
+
+The key was not broken. An image snippet beside it was lying on top of it. A snippet holding a wide photo was laid out wider than its own cell. The photo grows until it covers the cell, and nothing was holding its width, so the overflow spilled into the cell next door.
+
+On screen the photo still looked neatly cropped, because cropping trims the picture and leaves the touch area where it was. Tapping the key beside it meant putting your finger on the photo, and that key looked broken.
+
+With a very wide photo, a panorama or a cropped screenshot, the neighboring key was covered entirely. With a mildly wide one, a receipt or a business card, only one edge of it went dead. A portrait or square photo did nothing at all. How many columns of keys you use and how tall you set them changed it too. That is why this happened constantly to some people and never to others.
+
+Now the key stays inside its own cell no matter how long the photo is. The key next door is the key next door again. The rounded corners of an image snippet key now respond as well. They used to be dead spots that would not take a finger.
+
+### 안에서 무슨 일이었나
+
+`ImageMemoButton` 이 `scaledToFill` 한 사진에 높이만 걸고 폭은 걸지 않았다. 그 사진이 `ZStack` 의 폭을 정해 버려서 키가 `LazyVGrid` 셀을 넘었다. `clipShape` 는 그림만 자르고 배치와 히트 테스트는 그대로 둔다. 실측하면 5:1 파노라마가 65.8pt 칸에 225.3pt 로 눕는다.
+
+사진을 `overlay` 로 옮겼다. `overlay` 의 자식은 부모 크기를 제안받고 자기 크기는 부모 배치에 영향을 주지 않는다. 자세한 것은 `5.0.4.md` 의 배포 메모에 있다.
+
 ## v5.0.3 (build 1)
 
 ### 한국어

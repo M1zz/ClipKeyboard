@@ -24854,6 +24854,29 @@
         }
       }
     },
+    "이미지 단축어 옆의 키가 눌리지 않던 것을 고쳤어요. 가로로 긴 사진이 자기 칸을 넘어 옆 키를 덮고 있었어요" : {
+      "comment" : "Changelog 5.0.4 image key overflow",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed: keys next to an image snippet would not respond. A wide photo was spilling out of its cell and covering the key beside it"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diperbaiki: tombol di sebelah pintasan gambar tidak merespons. Foto lebar meluber dari selnya dan menutupi tombol di sebelahnya"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 단축어 옆의 키가 눌리지 않던 것을 고쳤어요. 가로로 긴 사진이 자기 칸을 넘어 옆 키를 덮고 있었어요"
+          }
+        }
+      }
+    },
     "이미지 단축어 추가" : {
       "comment" : "Add image memo card",
       "localizations" : {
@@ -24883,6 +24906,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap an image snippet and it attaches right in the preview composer. Send it and it posts as is."
+          }
+        }
+      }
+    },
+    "이미지 단축어의 둥근 모서리를 눌러도 이제 반응해요" : {
+      "comment" : "Changelog 5.0.4 image key corners",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The rounded corners of an image snippet key now respond to a tap"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sudut membulat pada tombol pintasan gambar kini merespons ketukan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지 단축어의 둥근 모서리를 눌러도 이제 반응해요"
           }
         }
       }

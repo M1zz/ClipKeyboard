@@ -35,6 +35,14 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.4",
+            released: nil,
+            highlights: [
+                NSLocalizedString("이미지 단축어 옆의 키가 눌리지 않던 것을 고쳤어요. 가로로 긴 사진이 자기 칸을 넘어 옆 키를 덮고 있었어요", comment: "Changelog 5.0.4 image key overflow"),
+                NSLocalizedString("이미지 단축어의 둥근 모서리를 눌러도 이제 반응해요", comment: "Changelog 5.0.4 image key corners"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.3",
             released: nil,
             highlights: [
