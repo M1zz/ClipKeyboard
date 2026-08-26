@@ -76,6 +76,55 @@ struct TimeEquivalent: Equatable {
     }
 
     private func count(_ shown: Double) -> Int { Int(max(0, shown).rounded()) }
+
+    /// 글줄 안에 그대로 들어가는 **한 문장.** "12.5km 달릴 수 있는 시간이에요"
+    ///
+    /// ⚠️ `amountText` + `caption` 을 이어 붙이지 않는다. 그 둘은 영상에서 큰 글씨와
+    ///    그 아래 줄로 **떨어져** 서 있을 때 읽히도록 쓴 것이라, 붙이면 말이 안 된다
+    ///    ("12잔 최저임금으로 쳐도 커피 값이에요"). 붙여 쓸 자리에는 붙여 쓸 문장을 따로 둔다.
+    var localizedSentence: String {
+        // ⚠️ 마침표는 여기서 붙인다. 이 문장이 서는 자리의 윗줄이 "대략 3시간을 아꼈어요." 라
+        //    마침표가 있고, 한 칸에서 돌아가는 문장들끼리 찍었다 안 찍었다 하면 눈에 걸린다.
+        //    (지금 쓰는 세 말 모두 마침표로 문장을 닫는다. 그렇지 않은 말을 더할 때는
+        //     이 줄을 카탈로그 쪽으로 옮길 것)
+        sentenceBody + "."
+    }
+
+    private var sentenceBody: String {
+        let amount = amountText(value)
+        switch kind {
+        case .run:
+            return String(format: NSLocalizedString("%@ 달릴 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: running"), amount)
+        case .marathon:
+            return String(format: NSLocalizedString("%@ 완주할 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: marathons"), amount)
+        case .walk:
+            return String(format: NSLocalizedString("%@ 걸을 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: walking"), amount)
+        case .show:
+            return String(format: NSLocalizedString("드라마 %@ 볼 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: show"), amount)
+        case .song:
+            return String(format: NSLocalizedString("노래 %@ 들을 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: music"), amount)
+        case .book:
+            return String(format: NSLocalizedString("책 %@ 읽을 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: book pages"), amount)
+        case .bookVolume:
+            return String(format: NSLocalizedString("%@ 다 읽을 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: whole books"), amount)
+        case .transit:
+            return String(format: NSLocalizedString("지하철 %@ 갈 수 있는 시간이에요",
+                                                    comment: "Inline equivalent: transit"), amount)
+        case .coffee:
+            return String(format: NSLocalizedString("최저임금으로 쳐도 커피 %@ 값이에요",
+                                                    comment: "Inline equivalent: coffee"), amount)
+        case .noodle:
+            return String(format: NSLocalizedString("최저임금으로 쳐도 라면 %@ 값이에요",
+                                                    comment: "Inline equivalent: instant noodles"), amount)
+        }
+    }
 }
 
 // MARK: - 뽑는 곳

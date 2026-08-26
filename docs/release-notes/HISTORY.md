@@ -18,6 +18,14 @@
 
 아낀 시간과 실제 횟수는 사라지지 않고 아래에 작게 남습니다. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라, 어림한 숫자만 있는 그림은 자랑이 아니라 광고가 됩니다.
 
+사용 기록 화면의 카드 두 장을 한 장으로 합쳤습니다
+
+세 시간을 벌었다는 축하 카드와, 그 아래 다시 치지 않은 횟수 카드가 위아래로 나란히 서서 같은 말을 두 번 하고 있었습니다. 하나는 세 시간을 벌었어요, 하나는 대략 3시간을 아꼈어요. 이제 한 장입니다. 축하할 일이 있는 날에는 그 카드가 물듭니다.
+
+빗대는 줄은 눌러서 바꿉니다. 영화 한 편이 안 와닿으면 눌러 보세요. 30km 달릴 수 있는 시간, 드라마 네 편, 책 135쪽, 최저임금으로 쳐도 커피 일곱 잔으로 바뀝니다. 크기를 잡아 주려고 둔 줄인데 한 가지 자로만 재면 그 자를 모르는 사람은 여전히 크기를 못 잡습니다. 무작위가 아니라 순서대로 넘어갑니다. 무작위로 뽑으면 눌렀는데 같은 것이 다시 나오고, 그건 안 눌린 것과 구별되지 않습니다.
+
+체크 도장은 언제나 연두입니다. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었습니다. 이 앱에서 됐다는 말은 사람이 고르는 색이 아닙니다.
+
 키보드에서 어떤 키는 눌러도 아무 일이 없었습니다
 
 그 키가 고장 난 것이 아니라, 옆에 있던 이미지 단축어가 그 위를 덮고 있었습니다. 가로로 긴 사진을 담은 단축어는 자기 칸보다 넓게 누워 있었습니다. 사진이 칸을 채울 때까지 커지는데 폭을 붙잡아 두는 것이 없어서, 넘친 만큼이 옆 칸으로 흘러 들어갔습니다.
@@ -43,6 +51,14 @@ The ones counted in money use the minimum wage and prices where you live. There 
 Minimum wage is not what your time is worth, it is the floor. So we do not say what you would have earned, we say even at minimum wage. The same number gets stronger as a lower bound.
 
 The saved time and the real count stay, small, underneath. The big number is an estimate and that line is the part we actually counted. A picture with nothing but estimates on it is not a brag, it is an ad.
+
+Two cards on the usage screen became one
+
+A card saying you had earned three hours sat right above a card saying you had saved about three hours. The same sentence, twice, one under the other. It is one card now, and it takes on color on a day worth celebrating.
+
+The comparison line changes when you tap it. If a movie does not land for you, tap. Far enough to run 30km. Four episodes. 135 pages. Seven cups of coffee, even at minimum wage. A line meant to give you a sense of scale fails at that job if it only ever measures with one ruler. It steps through them in order rather than at random: pick at random and a tap can land on what was already there, which is indistinguishable from the tap not registering.
+
+The check seal is always yellow green. The one on the old celebration card was the only place still following the key color. In this app, saying yes is not a color anyone picks.
 
 Some keys on the keyboard did nothing when tapped
 

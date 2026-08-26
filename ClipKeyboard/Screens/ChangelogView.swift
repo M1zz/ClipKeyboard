@@ -44,6 +44,11 @@ enum ChangelogData {
                 NSLocalizedString("돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요", comment: "Changelog 5.0.4 local prices"),
                 NSLocalizedString("아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요", comment: "Changelog 5.0.4 footer stays"),
 
+                // 사용 기록 카드
+                NSLocalizedString("사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요", comment: "Changelog 5.0.4 merged card"),
+                NSLocalizedString("빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요", comment: "Changelog 5.0.4 tap to cycle"),
+                NSLocalizedString("체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요", comment: "Changelog 5.0.4 green seal"),
+
                 // 이미지 키
                 NSLocalizedString("이미지 단축어 옆의 키가 눌리지 않던 것을 고쳤어요. 가로로 긴 사진이 자기 칸을 넘어 옆 키를 덮고 있었어요", comment: "Changelog 5.0.4 image key overflow"),
                 NSLocalizedString("이미지 단축어의 둥근 모서리를 눌러도 이제 반응해요", comment: "Changelog 5.0.4 image key corners"),

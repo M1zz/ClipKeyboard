@@ -34,8 +34,10 @@ struct UsagePassportView: View {
     @State private var summary: UsagePassport.Summary?
     /// 아낀 시간의 내역 - "왜 이만큼인가"를 펼쳐 보이는 데 쓴다.
     @State private var breakdown: TimeSavedModel.Breakdown = .zero
-    /// 방금 새로 닿은 이정표. 있으면 축하 카드가 맨 위에 뜬다.
+    /// 방금 새로 닿은 이정표. 있으면 머리말 카드가 물들고 그 문구가 첫 칸에 선다.
     @State private var milestone: SavedTimeMilestone?
+    /// 빗대는 줄에서 지금 몇 번째를 보고 있는가. 탭할 때마다 하나씩 넘어간다.
+    @State private var exampleIndex = 0
     /// 영수증을 뽑은 순간. 발행 시각을 고정해야 시트에서 기간을 바꿔도 시각이 안 흔들린다.
     @State private var receiptRequest: ReceiptRequest?
     /// 영상 미리보기 시트에 넘길 거리. 굽는 일은 그 시트 안에서 한다
@@ -60,8 +62,9 @@ struct UsagePassportView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 if let summary, summary.totalUses > 0 {
-                    // 축하는 **맨 위**다. 아래에 두면 숫자를 보고 스크롤을 멈춘 사람이 못 본다.
-                    if let milestone { celebration(milestone) }
+                    // ⚠️ 축하 카드가 따로 없다. 머리말이 축하를 겸한다 - 둘로 나눠 두었더니
+                    //    "세 시간을 벌었어요" 와 "대략 3시간을 아꼈어요" 가 위아래로 나란히
+                    //    서서 **같은 말을 두 번** 했다.
                     periodPicker
                     header(summary)
                     groundsSection(summary)
@@ -182,6 +185,12 @@ struct UsagePassportView: View {
 
     // MARK: - 머리말
 
+    /// 이 화면의 얼굴. **횟수와 아낀 시간과 축하가 한 카드에** 들어간다.
+    ///
+    /// ⚠️ 예전에는 축하가 위에 따로 한 카드였다. 그런데 축하 카드는 "세 시간을 벌었어요",
+    ///    이 카드는 "대략 3시간을 아꼈어요" 라고 적혀 있었다. 같은 말이 위아래로 나란히
+    ///    두 번 적힌 것이다. 축하할 일이 있으면 **이 카드가 물들고**, 이정표가 데려온
+    ///    비유가 아래 줄의 첫 칸에 들어간다.
     private func header(_ summary: UsagePassport.Summary) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(NSLocalizedString("다시 치지 않은 횟수", comment: "Usage passport: headline label"))
@@ -200,6 +209,7 @@ struct UsagePassportView: View {
                 // ⚠️ 체크는 **연두 하나로 고정**이다(`Color.checkGreen`). 키컬러를 따라가면
                 //    자두를 고른 사람에게는 자주색 체크가 뜬다 - 이 앱에서 "됐다"는 말은
                 //    사람이 고르는 색이 아니다(같은 규칙이 앱 전체에 걸려 있다).
+                //    (예전 축하 카드의 도장은 이 규칙을 안 지켜 혼자 키컬러였다)
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
                     // ⚠️ **탭바의 그 표시와 같은 모양**이다(`MainTabView` 의 사용 기록 탭).
                     //    아래 탭에서 이 화면으로 들어왔는데 안의 표시가 다른 모양이면
@@ -214,15 +224,85 @@ struct UsagePassportView: View {
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
                 }
+                .accessibilityElement(children: .combine)
             }
+
+            exampleLine
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(18)
         .background(
             RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                .fill(theme.surface)
+                // 이정표에 새로 닿은 날에만 카드가 물든다. 그날 한 번뿐이라 배너가 안 된다.
+                .fill(milestone == nil ? theme.surface : theme.accentSoft)
         )
-        .accessibilityElement(children: .combine)
+        .animation(Delight.motion(.once, reduceMotion: reduceMotion), value: milestone)
+    }
+
+    // MARK: - 빗대는 한 줄 (탭하면 바뀐다)
+
+    /// 아낀 시간을 사람이 아는 것에 견주는 줄. **탭하면 다음 것으로 넘어간다.**
+    ///
+    /// ⚠️ 하나만 박아 두지 않는다. "영화 한 편"이 안 와닿는 사람에게는 그 줄이 없는 것과
+    ///    같고, 무엇보다 크기를 잡아 주려고 둔 줄이 **한 가지 자로만 재면** 그 자를 모르는
+    ///    사람은 여전히 크기를 못 잡는다. 달리기·드라마·책·커피로 돌려 가며 잰다.
+    ///
+    /// ⚠️ 탭할 수 있다는 것을 화살표로 알린다. 안 보이는 손짓은 없는 손짓이다.
+    @ViewBuilder
+    private var exampleLine: some View {
+        let list = examples
+        if !list.isEmpty {
+            let text = list[exampleIndex % list.count]
+            Button {
+                HapticManager.shared.light()
+                withAnimation(Delight.motion(.daily, reduceMotion: reduceMotion)) {
+                    exampleIndex += 1
+                }
+            } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(text)
+                        .font(.subheadline)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
+                        // 글자만 갈아 끼운다 - 줄이 통째로 밀려나면 카드가 들썩인다.
+                        // (`id` 를 갈아 끼우지 않는다. 뷰가 통째로 바뀌면서 자리를 다시 잡아
+                        //  한 프레임 들썩인다. `contentTransition` 은 같은 뷰 안에서 글자만 바꾼다)
+                        .contentTransition(.opacity)
+                    if list.count > 1 {
+                        Image(systemName: AppSymbol.arrowClockwise)
+                            .font(.caption2.weight(.semibold))
+                            .foregroundColor(theme.textFaint)
+                    }
+                    Spacer(minLength: 0)
+                }
+                // 글줄 하나는 손가락에 좁다. 카드 폭 전체를 누를 자리로 준다.
+                .frame(minHeight: 32)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .disabled(list.count <= 1)
+            .accessibilityLabel(text)
+            .accessibilityHint(list.count > 1
+                               ? NSLocalizedString("탭하면 다른 것에 빗대어 보여줍니다",
+                                                   comment: "Accessibility hint: cycle equivalents")
+                               : "")
+        }
+    }
+
+    /// 돌아가며 보여줄 문장들.
+    ///
+    /// ⚠️ 첫 칸은 **방금 닿은 이정표의 문구**다. 그게 오늘의 축하이므로 먼저 보여야 한다.
+    ///    (이정표가 없는 날은 그냥 빗대는 것들만 돈다)
+    ///
+    /// ⚠️ 순서대로 넘어간다. 무작위로 뽑으면 탭했는데 같은 것이 다시 나오고, 그건
+    ///    안 눌린 것과 구별되지 않는다.
+    private var examples: [String] {
+        var out: [String] = []
+        if let milestone { out.append(milestone.localizedComparison) }
+        out += TimeEquivalentCatalog.all(seconds: summary?.timeSavedSeconds ?? 0)
+            .map(\.localizedSentence)
+        return out
     }
 
     // MARK: - 도장들
@@ -387,6 +467,8 @@ struct UsagePassportView: View {
         //    그래서 기간을 좁혔을 때는 펼치지 않는다 - 위 숫자와 아래 내역이
         //    다른 기간을 말하면 그 화면은 거짓말이 된다.
         breakdown = period == .allTime ? KeyboardUsageTracker.savedBreakdown() : .zero
+        // 기간이 바뀌면 빗대는 목록 자체가 달라진다. 자리를 그대로 두면 엉뚱한 칸에서 시작한다.
+        exampleIndex = 0
 
         // ⚠️ 화면을 열 때 확인하고, **본 즉시 지나간 것으로 적는다.** 다음에 또 띄우면
         //    축하가 아니라 배너가 된다.
@@ -396,40 +478,6 @@ struct UsagePassportView: View {
             // 어느 칸까지 갔는지만 남긴다 - 초는 보내지 않는다.
             AnalyticsService.log(.timeSavedMilestone, parameters: [.source: reached.rawValue])
         }
-    }
-
-    // MARK: - 축하
-
-    /// 새 이정표에 닿았을 때 한 번 뜨는 카드.
-    ///
-    /// ⚠️ 닫기 버튼을 두지 않는다. 이 카드는 다음에 열면 이미 없다 - 없앨 것을
-    ///    없애는 버튼은 할 일만 하나 늘린다.
-    private func celebration(_ milestone: SavedTimeMilestone) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: AppSymbol.checkmarkSealFill)
-                .font(.system(size: 40))
-                .foregroundColor(theme.accent)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(milestone.localizedTitle)
-                    .font(.headline)
-                    .foregroundColor(theme.text)
-                Text(milestone.localizedComparison)
-                    .font(.subheadline)
-                    .foregroundColor(theme.textMuted)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            Spacer(minLength: 0)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                .fill(theme.accentSoft)
-        )
-        .transition(.opacity.combined(with: .move(edge: .top)))
-        .accessibilityElement(children: .combine)
     }
 
     // MARK: - 근거

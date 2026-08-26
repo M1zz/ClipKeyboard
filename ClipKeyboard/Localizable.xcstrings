@@ -40,6 +40,98 @@
         }
       }
     },
+    "%@ 걸을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: walking",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to walk %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berjalan %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 걸을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "%@ 다 읽을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: whole books",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read %@ cover to cover"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca %@ sampai habis"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 다 읽을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "%@ 달릴 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: running",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to run %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berlari %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 달릴 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "%@ 완주할 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: marathons",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to finish %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk menyelesaikan %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 완주할 수 있는 시간이에요"
+          }
+        }
+      }
+    },
     "%@km" : {
       "comment" : "Equivalent unit: kilometers",
       "localizations" : {
@@ -2708,6 +2800,29 @@
         }
       }
     },
+    "노래 %@ 들을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: music",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노래 %@ 들을 수 있는 시간이에요"
+          }
+        }
+      }
+    },
     "노래를 들을 수 있는 시간이에요" : {
       "comment" : "Share video: music equivalent",
       "localizations" : {
@@ -2823,6 +2938,29 @@
         }
       }
     },
+    "드라마 %@ 볼 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: show",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for %@ of a show"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk %@ serial"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "드라마 %@ 볼 수 있는 시간이에요"
+          }
+        }
+      }
+    },
     "드라마를 볼 수 있는 시간이에요" : {
       "comment" : "Share video: show equivalent",
       "localizations" : {
@@ -2865,6 +3003,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "마라톤 %d번"
+          }
+        }
+      }
+    },
+    "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요" : {
+      "comment" : "Changelog 5.0.4 tap to cycle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the comparison line to change it. If a movie does not land, try 30km of running, 4 episodes, or 7 cups of coffee"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk baris perbandingan untuk menggantinya. Jika film tidak mengena, coba lari 30km, 4 episode, atau 7 cangkir kopi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요"
+          }
+        }
+      }
+    },
+    "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요" : {
+      "comment" : "Changelog 5.0.4 merged card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The celebration card and the count card on the usage screen are one card now. The same sentence was written twice, one above the other"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartu perayaan dan kartu jumlah di layar penggunaan kini jadi satu. Kalimat yang sama tertulis dua kali, atas dan bawah"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요"
           }
         }
       }
@@ -2961,6 +3145,29 @@
         }
       }
     },
+    "지하철 %@ 갈 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: transit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to ride %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk naik kereta %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지하철 %@ 갈 수 있는 시간이에요"
+          }
+        }
+      }
+    },
     "지하철로 갈 수 있는 시간이에요" : {
       "comment" : "Share video: transit equivalent",
       "localizations" : {
@@ -2980,6 +3187,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "지하철로 갈 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "책 %@ 읽을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: book pages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책 %@ 읽을 수 있는 시간이에요"
           }
         }
       }
@@ -3030,6 +3260,52 @@
         }
       }
     },
+    "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요" : {
+      "comment" : "Changelog 5.0.4 green seal",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The check seal is always yellow green. The one on the celebration card was the only place still following the key color"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segel centang selalu hijau muda. Yang di kartu perayaan satu satunya yang masih mengikuti warna kunci"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 라면 %@ 값이에요" : {
+      "comment" : "Inline equivalent: instant noodles",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ of instant noodles, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ mi instan, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 라면 %@ 값이에요"
+          }
+        }
+      }
+    },
     "최저임금으로 쳐도 라면 값이에요" : {
       "comment" : "Share video: instant noodle equivalent",
       "localizations" : {
@@ -3049,6 +3325,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "최저임금으로 쳐도 라면 값이에요"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 커피 %@ 값이에요" : {
+      "comment" : "Inline equivalent: coffee",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ of coffee, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kopi, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 커피 %@ 값이에요"
           }
         }
       }
@@ -3095,6 +3394,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요"
+          }
+        }
+      }
+    },
+    "탭하면 다른 것에 빗대어 보여줍니다" : {
+      "comment" : "Accessibility hint: cycle equivalents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to compare it to something else"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk membandingkannya dengan hal lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "탭하면 다른 것에 빗대어 보여줍니다"
           }
         }
       }
