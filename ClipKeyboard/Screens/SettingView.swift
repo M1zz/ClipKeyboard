@@ -339,16 +339,12 @@ struct SettingView: View {
             }
             .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
 
-            NavigationLink(destination: KeyboardPracticeView()) {
-                Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
-                      systemImage: AppSymbol.handTap)
-            }
             NavigationLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                       systemImage: AppSymbol.rectangle3Group)
             }
             NavigationLink(destination: CopyPasteView()) {
-                Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
+                Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
                       systemImage: AppSymbol.docOnClipboard)
             }
             // 온디바이스 AI(iOS 26+). 설명은 행 안에 둔다 - 예전에는 이 행 하나만을 위한
@@ -409,10 +405,9 @@ struct SettingView: View {
                     Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
                 }
             }
-            NavigationLink(destination: QuickNoteInboxView()) {
-                Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
-                      systemImage: AppSymbol.trayFull)
-            }
+            // ⚠️ 아래 세 행(빈칸 관리 · 카테고리 관리 · 보관함)은 **붙어 있어야 한다.**
+            //    셋 다 "만들어 둔 것을 들여다보는" 자리다. 보관함이 위쪽 페르소나 옆에
+            //    있었더니 고르는 것들 사이에 담아 두는 것이 하나 끼어 있는 꼴이었다.
             Button {
                 HapticManager.shared.light()
                 showPlaceholderManagement = true
@@ -425,6 +420,10 @@ struct SettingView: View {
             NavigationLink(destination: CategorySettings()) {
                 Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
                       systemImage: AppSymbol.folderBadgeGearshape)
+            }
+            NavigationLink(destination: QuickNoteInboxView()) {
+                Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
+                      systemImage: AppSymbol.trayFull)
             }
         } header: {
             Text(NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
@@ -1145,7 +1144,7 @@ struct CopyPasteView: View {
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
+        .navigationTitle(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
     }

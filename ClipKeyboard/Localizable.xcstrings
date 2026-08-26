@@ -2800,6 +2800,52 @@
         }
       }
     },
+    "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요" : {
+      "comment" : "Changelog 5.0.4 persona general",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until then it is set to General. The old default, Digital Nomad, was where this app started, not where you are"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sampai saat itu diatur ke Umum. Default lama, Digital Nomad, adalah tempat aplikasi ini bermula, bukan tempatmu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요"
+          }
+        }
+      }
+    },
+    "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요." : {
+      "comment" : "Delete background confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The photo you added will be removed. The original in your photo library stays."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto yang kamu tambahkan akan dihapus. Aslinya di galeri tetap ada."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요."
+          }
+        }
+      }
+    },
     "노래 %@ 들을 수 있는 시간이에요" : {
       "comment" : "Inline equivalent: music",
       "localizations" : {
@@ -3007,6 +3053,75 @@
         }
       }
     },
+    "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요" : {
+      "comment" : "Changelog 5.0.4 background in settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can now add and delete your own background image from Settings. That was only in the list screen picker before"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamu kini bisa menambah dan menghapus gambar latar sendiri dari Pengaturan. Sebelumnya hanya ada di pemilih layar daftar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요"
+          }
+        }
+      }
+    },
+    "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요" : {
+      "comment" : "Changelog 5.0.4 settings rename",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste notification settings is now Turn off the paste alert. Placeholders, categories and the inbox now sit together"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan notifikasi tempel kini Matikan peringatan tempel. Placeholder, kategori, dan kotak masuk kini berdampingan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요"
+          }
+        }
+      }
+    },
+    "붙여넣기 알림 허용 끄기" : {
+      "comment" : "Paste notification settings title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off the paste alert"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matikan peringatan tempel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "붙여넣기 알림 허용 끄기"
+          }
+        }
+      }
+    },
     "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요" : {
       "comment" : "Changelog 5.0.4 tap to cycle",
       "localizations" : {
@@ -3049,6 +3164,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요"
+          }
+        }
+      }
+    },
+    "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요" : {
+      "comment" : "Changelog 5.0.4 practice removed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard practice is gone from Settings. The keyboard setup guide right above it was doing the same job"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latihan keyboard dihapus dari Pengaturan. Panduan pengaturan keyboard tepat di atasnya melakukan hal yang sama"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요"
           }
         }
       }
@@ -3141,6 +3279,75 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "완주할 수 있는 시간이에요"
+          }
+        }
+      }
+    },
+    "이 배경을 지울까요?" : {
+      "comment" : "Delete background confirm title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this background?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus latar ini?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 배경을 지울까요?"
+          }
+        }
+      }
+    },
+    "이걸로 할게요" : {
+      "comment" : "Persona prompt apply button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This one"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang ini"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이걸로 할게요"
+          }
+        }
+      }
+    },
+    "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요." : {
+      "comment" : "Persona prompt subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asking because of what you have made so far. Picking one only tunes the suggestions. It is fine to skip."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami bertanya karena apa yang sudah kamu buat. Memilih hanya menyesuaikan saran. Tidak apa apa dilewati."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요."
           }
         }
       }
@@ -3417,6 +3624,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "탭하면 다른 것에 빗대어 보여줍니다"
+          }
+        }
+      }
+    },
+    "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요" : {
+      "comment" : "Changelog 5.0.4 persona later",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We ask about your persona after you have used the app, not on the first screen. Once, after two snippets or one category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami menanyakan persona setelah kamu memakai aplikasi, bukan di layar pertama. Sekali saja, setelah dua pintasan atau satu kategori"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요"
+          }
+        }
+      }
+    },
+    "혹시 이런 분이신가요?" : {
+      "comment" : "Persona prompt title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Does this sound like you?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apakah ini terdengar seperti kamu?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "혹시 이런 분이신가요?"
           }
         }
       }

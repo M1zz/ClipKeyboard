@@ -44,6 +44,13 @@ enum ChangelogData {
                 NSLocalizedString("돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요", comment: "Changelog 5.0.4 local prices"),
                 NSLocalizedString("아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요", comment: "Changelog 5.0.4 footer stays"),
 
+                // 설정·페르소나
+                NSLocalizedString("배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요", comment: "Changelog 5.0.4 background in settings"),
+                NSLocalizedString("페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요", comment: "Changelog 5.0.4 persona later"),
+                NSLocalizedString("그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요", comment: "Changelog 5.0.4 persona general"),
+                NSLocalizedString("설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요", comment: "Changelog 5.0.4 practice removed"),
+                NSLocalizedString("붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요", comment: "Changelog 5.0.4 settings rename"),
+
                 // 사용 기록 카드
                 NSLocalizedString("사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요", comment: "Changelog 5.0.4 merged card"),
                 NSLocalizedString("빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요", comment: "Changelog 5.0.4 tap to cycle"),

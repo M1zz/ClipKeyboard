@@ -230,7 +230,6 @@
 		KBFEED0B0000000000000001 /* KeyboardMemoFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */; };
 		KBFEED0B0000000000000002 /* KeyboardMemoFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */; };
 		KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
-		KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */; };
 		MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAC00022F0000000000000002 /* MemoAddComponents.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
 		QKN0BUILD000000000000001 /* QuickNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000001 /* QuickNote.swift */; };
@@ -251,6 +250,7 @@
 		TB00012F0000000000000001 /* TabBarProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = TB00022F0000000000000002 /* TabBarProbe.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */; };
+		PERSONAPROMPTBUILD000001 /* PersonaPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
 		TPH00032F0000000000000003 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -503,7 +503,6 @@
 		INFOPLIST004 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardMemoFeed.swift; sourceTree = "<group>"; };
 		KBO00022F0000000000000002 /* KeyboardOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardOverlays.swift; sourceTree = "<group>"; };
-		KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPracticeView.swift; sourceTree = "<group>"; };
 		MAC00022F0000000000000002 /* MemoAddComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddComponents.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000001 /* QuickNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNote.swift; sourceTree = "<group>"; };
@@ -521,6 +520,7 @@
 		TB00022F0000000000000002 /* TabBarProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProbe.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
 		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
+		PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaPrompt.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
 		TPS0001A2F0000000000000001 /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		TSH00022F0000000000000002 /* TemplateSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateSheets.swift; sourceTree = "<group>"; };
@@ -860,6 +860,7 @@
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */,
 				TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */,
+				PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */,
 				SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */,
 				QKN0FILE0000000000000002 /* QuickNoteStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
@@ -924,7 +925,6 @@
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
 				US00001A2F0000000000000001 /* UsageStatsView.swift */,
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
-				KP00001A2F0000000000000001 /* KeyboardPracticeView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				AA00000800000001F3B00002 /* PersonaGuideData.swift */,
@@ -1442,7 +1442,6 @@
 				US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */,
 				US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */,
 				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
-				KP00002A2F0000000000000002 /* KeyboardPracticeView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
 				AA00000500000001F3B00002 /* UsageGuideView.swift in Sources */,
 				AA00000700000001F3B00002 /* PersonaGuideData.swift in Sources */,
@@ -1451,6 +1450,7 @@
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */,
 				TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */,
+				PERSONAPROMPTBUILD000001 /* PersonaPrompt.swift in Sources */,
 				SHAREVIDEOBUILDAPP000001 /* ShareVideoRenderer.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
 				58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */,

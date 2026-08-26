@@ -700,7 +700,14 @@ enum Persona: String, CaseIterable, Codable {
     case student = "student"
     case general = "general"
 
-    static let `default`: Persona = .nomad
+    /// 아직 아무것도 안 고른 사람이 처음 보게 되는 갈래.
+    ///
+    /// ⚠️ 예전에는 노마드였다. 이 앱이 국제 송금·비자에서 출발했다는 **만든 사람의 사정**이지
+    ///    쓰는 사람의 사정이 아니다. 처음 여는 사람 대부분은 전화번호와 주소를 넣으려고
+    ///    왔고, 그 사람에게 IBAN 과 여권번호를 들이밀면 이 앱이 자기 것이 아닌 줄 안다.
+    ///    모르면 가장 넓은 것을 고른다. 좁히는 일은 **써 보고 나서** 물어본다
+    ///    (`PersonaPrompt`).
+    static let `default`: Persona = .general
 
     var icon: String {
         switch self {
@@ -819,7 +826,13 @@ enum Persona: String, CaseIterable, Codable {
 }
 
 struct PersonaSelectionView: View {
-    enum Mode { case onboarding, settings }
+    /// 어디서 열렸는가. **묻는 말과 나가는 길이 갈린다.**
+    enum Mode {
+        case onboarding
+        case settings
+        /// 써 보고 나서 한 번 묻는 자리(`PersonaPrompt`). 여기서만 **안 고르고 나갈 수 있다.**
+        case prompt
+    }
 
     @Environment(\.appTheme) private var theme
     let onContinue: () -> Void
@@ -883,8 +896,28 @@ struct PersonaSelectionView: View {
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }
                 .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+
+                // ⚠️ **안 고르고 나갈 길**은 물어보는 자리에만 둔다. 부른 적 없는 질문이라
+                //    답을 강요할 수 없다. 설정에서 일부러 들어온 사람에게는 필요 없는 문이고,
+                //    처음 안내에서는 이 화면이 걸음의 일부라 나가는 길이 따로 있다.
+                if mode == .prompt {
+                    Button {
+                        // 안 골랐어도 물어본 것은 물어본 것이다. 다시 묻지 않는다.
+                        PersonaPrompt.markAsked()
+                        onContinue()
+                    } label: {
+                        Text(NSLocalizedString("나중에 할게요", comment: "Persona prompt: skip"))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 16)
+                }
             }
+            .padding(.bottom, 20)
             .padding(.top, 12)
         }
         .onAppear {
@@ -898,6 +931,7 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
         case .settings: return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
+        case .prompt: return NSLocalizedString("혹시 이런 분이신가요?", comment: "Persona prompt title")
         }
     }
 
@@ -905,6 +939,9 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
         case .settings: return NSLocalizedString("추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.", comment: "Persona settings subtitle")
+        // ⚠️ 여기서만 "지금까지 만드신 걸 보니" 로 시작한다. 이 질문이 **왜 지금 떴는지**를
+        //    말해 주지 않으면 뜬금없이 끼어든 판이 된다.
+        case .prompt: return NSLocalizedString("지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.", comment: "Persona prompt subtitle")
         }
     }
 
@@ -912,12 +949,15 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("시작하기", comment: "Onboarding continue button")
         case .settings: return NSLocalizedString("변경 적용", comment: "Apply persona change button")
+        case .prompt: return NSLocalizedString("이걸로 할게요", comment: "Persona prompt apply button")
         }
     }
 
     private func apply() {
         let lang = Locale.current.language.languageCode?.identifier
         CategoryStore.shared.applyPersona(selected, language: lang)
+        // 물어봐서 답을 받았다. 다시 묻지 않는다.
+        if mode == .prompt { PersonaPrompt.markAsked() }
         // 설정에서 페르소나를 바꾸면 추천 카테고리를 추가하되 표시 토글은 OFF로 둔다.
         // 사용자가 카테고리 관리에서 직접 켜기 전까지 탭에 나타나지 않는다.
         if mode == .settings {

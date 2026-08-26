@@ -250,6 +250,8 @@ struct SnippetsTab: View {
     @State private var showOffer = false
     /// 연습용 단축어를 치울지 묻는 알림.
     @State private var showSampleCleanup = false
+    /// "혹시 이런 분이신가요?" - 써 보고 나서 한 번 묻는 판(`PersonaPrompt`).
+    @State private var showPersonaPrompt = false
     /// 넣기까지 끝났고 **보내기만 남았다.** 이 동안 보내기 동그라미에 파형이 인다.
     ///
     /// ⚠️ 일부러 저장하지 않는다. 앱을 껐다 켜면 입력창이 비어 있어 보낼 것이 없으므로,
@@ -451,12 +453,14 @@ struct SnippetsTab: View {
         // 자기 것을 하나라도 만들면 그 걸음은 끝난다 - 어디서 만들었든(무대의 +, 목록, 공유 시트).
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             completeMakeOwnIfMadeSomething()
+            askPersonaIfEarned()
         }
         .onAppear {
             offerKeyboardStageIfNeeded()
             resumeTutorialIfStalled()
             completeMakeOwnIfMadeSomething()
             askToCleanUpSamplesIfNeeded()
+            askPersonaIfEarned()
         }
         // 걸음이 바뀌어 무대로 들어왔는데 가리키는 것이 없으면 여기서 이어 붙인다.
         .onChange(of: onboardingStep) { _, _ in
@@ -486,6 +490,11 @@ struct SnippetsTab: View {
         } message: {
             Text(NSLocalizedString("튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
                                    comment: "Sample cleanup message"))
+        }
+        // ⚠️ 시트로 띄운다. 전체 화면으로 세우면 하던 일을 **끊는다** - 부른 적 없는
+        //    질문이라 그럴 자격이 없다. 아래로 쓸어내려 닫는 것도 "나중에" 와 같게 둔다.
+        .sheet(isPresented: $showPersonaPrompt, onDismiss: { PersonaPrompt.markAsked() }) {
+            PersonaSelectionView(onContinue: { showPersonaPrompt = false }, mode: .prompt)
         }
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
@@ -740,6 +749,25 @@ struct SnippetsTab: View {
         guard !makeOwnDone else { return }
         withAnimation(.easeInOut(duration: 0.28)) { makeOwnDone = true }
         print("🎓 [SnippetsTab] 직접 만들기 걸음 종료")
+    }
+
+    // MARK: - "혹시 이런 분이신가요?"
+
+    /// 써 볼 만큼 써 봤으면 그때 한 번 묻는다.
+    ///
+    /// ⚠️ 다른 판이 이미 떠 있으면 **비켜 있는다.** 판이 둘 겹치면 하나는 아예 안 보이거나
+    ///    (iOS 가 나중 것을 무시한다) 답한 것이 엉뚱한 판으로 간다. 다음 기회에 다시 본다
+    ///    - 이 함수는 화면에 들어올 때마다, 단축어가 바뀔 때마다 불린다.
+    ///
+    /// ⚠️ 카테고리는 **사용자가 직접 만든 것만** 센다. 기본 제공(타입별 모아보기)은
+    ///    켜기만 하면 생기는 것이라 "이 사람이 무엇을 모으려 하는가" 를 말해 주지 않는다.
+    private func askPersonaIfEarned() {
+        guard !showPersonaPrompt, !showOffer, !showSampleCleanup else { return }
+        let snippets = (try? MemoStore.shared.load(type: .memo))?.count ?? 0
+        guard PersonaPrompt.shouldAsk(snippetCount: snippets,
+                                      customCategoryCount: CategoryStore.shared.allCategories.count,
+                                      tutorialDone: onboardingStep == .done) else { return }
+        showPersonaPrompt = true
     }
 
     // MARK: - 연습용 단축어 치우기
