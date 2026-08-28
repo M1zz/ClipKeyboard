@@ -29,461 +29,6 @@
         }
       }
     },
-    "%1$d번째, 전체 %2$d개" : {
-      "comment" : "Reorder position: current index of total",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d of %2$d"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d dari %2$d"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d번째, 전체 %2$d개"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "第 %1$d 个，共 %2$d 个"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "第 %1$d 個，共 %2$d 個"
-          }
-        }
-      }
-    },
-    "%@ · 단축어 %d번" : {
-      "comment" : "Share video: small footer with time and uses",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · %d snippets"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · %d pintasan"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · 단축어 %d번"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · 第 %d 个短语"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ · 第 %d 個短語"
-          }
-        }
-      }
-    },
-    "%@ 걸을 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: walking",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to walk %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk berjalan %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 걸을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够走 %@ 的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠走 %@ 的時間"
-          }
-        }
-      }
-    },
-    "%@ 다 읽을 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: whole books",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to read %@ cover to cover"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk membaca %@ sampai habis"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 다 읽을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够把 %@ 读完的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠把 %@ 讀完的時間"
-          }
-        }
-      }
-    },
-    "%@ 달릴 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: running",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to run %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk berlari %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 달릴 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够跑 %@ 的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠跑 %@ 的時間"
-          }
-        }
-      }
-    },
-    "%@ 완주할 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: marathons",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to finish %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk menyelesaikan %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 완주할 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够跑完 %@ 的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠跑完 %@ 的時間"
-          }
-        }
-      }
-    },
-    "%@km" : {
-      "comment" : "Equivalent unit: kilometers",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ km"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ km"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@km"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 公里"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ 公里"
-          }
-        }
-      }
-    },
-    "%d곡" : {
-      "comment" : "Equivalent unit: songs",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d songs"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d lagu"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d곡"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 首歌"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 首歌"
-          }
-        }
-      }
-    },
-    "%d봉지" : {
-      "comment" : "Equivalent unit: packs",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d packs"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d bungkus"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d봉지"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 袋"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 袋"
-          }
-        }
-      }
-    },
-    "%d잔" : {
-      "comment" : "Equivalent unit: cups",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d cups"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d cangkir"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d잔"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 杯"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 杯"
-          }
-        }
-      }
-    },
-    "%d정거장" : {
-      "comment" : "Equivalent unit: transit stops",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d stops"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d stasiun"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d정거장"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 站"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 站"
-          }
-        }
-      }
-    },
-    "%d쪽" : {
-      "comment" : "Equivalent unit: pages",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d pages"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d halaman"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d쪽"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 页"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 頁"
-          }
-        }
-      }
-    },
-    "%d편" : {
-      "comment" : "Equivalent unit: episodes",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d episodes"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d episode"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d편"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 集"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 集"
-          }
-        }
-      }
-    },
     "--- separator" : {
       "comment" : "Bulk import: marker split mode",
       "localizations" : {
@@ -688,6 +233,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存為短語「%@」"
+          }
+        }
+      }
+    },
+    "'%@' 빈칸을 지울까요?" : {
+      "comment" : "Delete placeholder confirmation title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the '%@' blank?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除“%@”这个空位吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要刪除「%@」這個空位嗎？"
           }
         }
       }
@@ -2129,6 +1697,41 @@
         }
       }
     },
+    "%@ · 단축어 %d번" : {
+      "comment" : "Share video: small footer with time and uses",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %d snippets"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · %d pintasan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 단축어 %d번"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 第 %d 个短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ · 第 %d 個短語"
+          }
+        }
+      }
+    },
     "%@ %@" : {
       "comment" : "A heading that shows the category of a shortcut.",
       "isCommentAutoGenerated" : true,
@@ -2230,6 +1833,76 @@
         }
       }
     },
+    "%@ 걸을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: walking",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to walk %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berjalan %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 걸을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够走 %@ 的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠走 %@ 的時間"
+          }
+        }
+      }
+    },
+    "%@ 다 읽을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: whole books",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read %@ cover to cover"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca %@ sampai habis"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 다 읽을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够把 %@ 读完的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠把 %@ 讀完的時間"
+          }
+        }
+      }
+    },
     "%@ 단축어로 저장" : {
       "comment" : "VoiceOver: save scenario as snippet",
       "localizations" : {
@@ -2249,6 +1922,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存為 %@ 短語"
+          }
+        }
+      }
+    },
+    "%@ 달릴 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: running",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to run %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berlari %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 달릴 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够跑 %@ 的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠跑 %@ 的時間"
           }
         }
       }
@@ -2434,6 +2142,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ 完成"
+          }
+        }
+      }
+    },
+    "%@ 완주할 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: marathons",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to finish %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk menyelesaikan %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 완주할 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够跑完 %@ 的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠跑完 %@ 的時間"
           }
         }
       }
@@ -2899,6 +2642,41 @@
         }
       }
     },
+    "%@km" : {
+      "comment" : "Equivalent unit: kilometers",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ km"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ km"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@km"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 公里"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 公里"
+          }
+        }
+      }
+    },
     "%@부터 센 값이에요." : {
       "comment" : "Usage passport: coverage note",
       "localizations" : {
@@ -3233,6 +3011,75 @@
         }
       }
     },
+    "%1$@은(는) 상한인 %2$lld건까지만 받았어요. 더 오래된 기록은 빠져 있어요." : {
+      "comment" : "Usage stats: stopped at limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ stopped at the cap of %2$lld. Older records are left out."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 只取到上限 %2$lld 条。更早的记录没有包含在内。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 只取到上限 %2$lld 條。更早的記錄沒有包含在內。"
+          }
+        }
+      }
+    },
+    "%1$@은(는) 중간에 끊겨 %2$lld건까지만 받았어요: %3$@" : {
+      "comment" : "Usage stats: interrupted",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ was cut short at %2$lld: %3$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 中途断了，只取到 %2$lld 条：%3$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 中途斷了，只取到 %2$lld 條：%3$@"
+          }
+        }
+      }
+    },
+    "%1$@을(를) 받다가 멈췄어요(%2$lld건). 당겨서 새로고침하면 다시 받아요." : {
+      "comment" : "Usage stats: cancelled",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopped while loading %1$@ (%2$lld so far). Pull to refresh to try again."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载 %1$@ 时中断了（已取 %2$lld 条）。下拉刷新可以重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加載 %1$@ 時中斷了（已取 %2$lld 條）。下拉刷新可以重試。"
+          }
+        }
+      }
+    },
     "%1$d%% (%2$d)" : {
       "comment" : "Usage stats: percent and count",
       "localizations" : {
@@ -3373,6 +3220,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d 人（%2$@）"
+          }
+        }
+      }
+    },
+    "%1$d번째, 전체 %2$d개" : {
+      "comment" : "Reorder position: current index of total",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d of %2$d"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d dari %2$d"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d번째, 전체 %2$d개"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %1$d 个，共 %2$d 个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "第 %1$d 個，共 %2$d 個"
           }
         }
       }
@@ -3958,6 +3840,41 @@
         }
       }
     },
+    "%d곡" : {
+      "comment" : "Equivalent unit: songs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d songs"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d lagu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d곡"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 首歌"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 首歌"
+          }
+        }
+      }
+    },
     "%d단계 복사" : {
       "comment" : "Copy combo step button",
       "extractionState" : "stale",
@@ -4117,6 +4034,41 @@
         }
       }
     },
+    "%d봉지" : {
+      "comment" : "Equivalent unit: packs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d packs"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d bungkus"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d봉지"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 袋"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 袋"
+          }
+        }
+      }
+    },
     "%d분" : {
       "comment" : "Duration: minutes only\nMinutes",
       "localizations" : {
@@ -4255,6 +4207,111 @@
         }
       }
     },
+    "%d잔" : {
+      "comment" : "Equivalent unit: cups",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d cups"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d cangkir"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d잔"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 杯"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 杯"
+          }
+        }
+      }
+    },
+    "%d정거장" : {
+      "comment" : "Equivalent unit: transit stops",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d stops"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d stasiun"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d정거장"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 站"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 站"
+          }
+        }
+      }
+    },
+    "%d쪽" : {
+      "comment" : "Equivalent unit: pages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d pages"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d halaman"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d쪽"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 页"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 頁"
+          }
+        }
+      }
+    },
     "%d초" : {
       "comment" : "Duration: seconds only",
       "localizations" : {
@@ -4303,6 +4360,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "間隔 %d 秒"
+          }
+        }
+      }
+    },
+    "%d편" : {
+      "comment" : "Equivalent unit: episodes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d episodes"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d episode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d편"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 集"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 集"
           }
         }
       }
@@ -5183,1651 +5275,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⭐️ 評價與評分"
-          }
-        }
-      }
-    },
-    "걸을 수 있는 시간이에요" : {
-      "comment" : "Share video: walking equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for a walk"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk berjalan kaki"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "걸을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够散个步的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠散個步的時間"
-          }
-        }
-      }
-    },
-    "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d older records are left out: they don't report this count."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d catatan versi lama tidak disertakan karena tidak mengirim angka ini."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有 %d 条旧记录没有上报这个数字，所以没算进去。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有 %d 條舊記錄沒有上報這個數字，所以沒算進去。"
-          }
-        }
-      }
-    },
-    "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요" : {
-      "comment" : "Changelog 5.0.4 persona general",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Until then it is set to General. The old default, Digital Nomad, was where this app started, not where you are"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sampai saat itu diatur ke Umum. Default lama, Digital Nomad, adalah tempat aplikasi ini bermula, bukan tempatmu"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在那之前先放在通用。以前默认的“数字游民”是这个 App 出发的地方，不是你所在的位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在那之前先放在通用。以前預設的「數位遊民」是這個 App 出發的地方，不是你所在的位置"
-          }
-        }
-      }
-    },
-    "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요." : {
-      "comment" : "Delete background confirm message",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The photo you added will be removed. The original in your photo library stays."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foto yang kamu tambahkan akan dihapus. Aslinya di galeri tetap ada."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你放进去的照片会被删掉。相册里的原图不受影响。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你放進去的照片會被刪掉。相簿裡的原圖不受影響。"
-          }
-        }
-      }
-    },
-    "노래 %@ 들을 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: music",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노래 %@ 들을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够听 %@ 歌的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠聽 %@ 歌的時間"
-          }
-        }
-      }
-    },
-    "노래를 들을 수 있는 시간이에요" : {
-      "comment" : "Share video: music equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for that much music"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk mendengarkan lagu"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "노래를 들을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够听一阵子歌的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠聽一陣子歌的時間"
-          }
-        }
-      }
-    },
-    "다 읽을 수 있는 시간이에요" : {
-      "comment" : "Share video: whole book equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to read them cover to cover"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk membacanya sampai habis"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다 읽을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够从头读到尾的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠從頭讀到尾的時間"
-          }
-        }
-      }
-    },
-    "다른 걸로" : {
-      "comment" : "Button: pick another equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try another"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coba yang lain"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 걸로"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "换一个"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "換一個"
-          }
-        }
-      }
-    },
-    "달릴 수 있는 시간이에요" : {
-      "comment" : "Share video: running equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for a run"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk berlari"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "달릴 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够跑一会儿的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠跑一會兒的時間"
-          }
-        }
-      }
-    },
-    "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요" : {
-      "comment" : "Changelog 5.0.4 local prices",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The ones counted in money use the minimum wage and prices where you live. If we have no prices for your region, those simply do not appear"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yang dihitung dengan uang memakai upah minimum dan harga di negaramu. Jika kami tidak punya harganya, yang itu tidak muncul"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用钱来算的部分，看的是你所在国家的最低工资和物价。要是没有你所在地区的价格，这一类就不会出现"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用錢來算的部分，看的是你所在國家的最低工資和物價。要是沒有你所在地區的價格，這一類就不會出現"
-          }
-        }
-      }
-    },
-    "뒤로 옮기기" : {
-      "comment" : "Reorder accessibility action: move later",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Move later"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pindahkan ke belakang"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "뒤로 옮기기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "往后移"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "往後移"
-          }
-        }
-      }
-    },
-    "드라마 %@ 볼 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: show",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for %@ of a show"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk %@ serial"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "드라마 %@ 볼 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够看 %@ 剧的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠看 %@ 劇的時間"
-          }
-        }
-      }
-    },
-    "드라마를 볼 수 있는 시간이에요" : {
-      "comment" : "Share video: show equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time for a show"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk nonton serial"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "드라마를 볼 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够追一会儿剧的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠追一會兒劇的時間"
-          }
-        }
-      }
-    },
-    "마라톤 %d번" : {
-      "comment" : "Equivalent unit: marathons",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d marathons"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d maraton"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "마라톤 %d번"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 场马拉松"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 場馬拉松"
-          }
-        }
-      }
-    },
-    "바꾼 순서는 앱에도 그대로 반영돼요" : {
-      "comment" : "Keyboard reorder mode: the order syncs to the app",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The new order shows up in the app too"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Urutan baru juga berlaku di aplikasi"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "바꾼 순서는 앱에도 그대로 반영돼요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "调整后的顺序在 App 里也一样生效"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "調整後的順序在 App 裡也一樣生效"
-          }
-        }
-      }
-    },
-    "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요" : {
-      "comment" : "Changelog 5.0.4 background in settings",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can now add and delete your own background image from Settings. That was only in the list screen picker before"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kamu kini bisa menambah dan menghapus gambar latar sendiri dari Pengaturan. Sebelumnya hanya ada di pemilih layar daftar"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "现在在设置里也能直接添加和删除背景图片。以前只有列表页的选择器里才有"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "現在在設定裡也能直接新增和刪除背景圖片。以前只有列表頁的選擇器裡才有"
-          }
-        }
-      }
-    },
-    "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요" : {
-      "comment" : "Changelog 5.0.4 settings rename",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paste notification settings is now Turn off the paste alert. Placeholders, categories and the inbox now sit together"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pengaturan notifikasi tempel kini Matikan peringatan tempel. Placeholder, kategori, dan kotak masuk kini berdampingan"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“粘贴提醒设置”改成了“关闭粘贴提醒”。空位管理、分类管理、收件箱也并排放到了一起"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「貼上提醒設定」改成了「關閉貼上提醒」。空位管理、分類管理、收件匣也並排放到了一起"
-          }
-        }
-      }
-    },
-    "붙여넣기 알림 허용 끄기" : {
-      "comment" : "Paste notification settings title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turn off the paste alert"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Matikan peringatan tempel"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "붙여넣기 알림 허용 끄기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关闭粘贴提醒"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關閉貼上提醒"
-          }
-        }
-      }
-    },
-    "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요" : {
-      "comment" : "Changelog 5.0.4 tap to cycle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap the comparison line to change it. If a movie does not land, try 30km of running, 4 episodes, or 7 cups of coffee"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk baris perbandingan untuk menggantinya. Jika film tidak mengena, coba lari 30km, 4 episode, atau 7 cangkir kopi"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点按比喻那一行就会换成别的。要是“一部电影”没什么感觉，可以换成跑 30 公里、4 集剧、7 杯咖啡"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點一下比喻那一行就會換成別的。要是「一部電影」沒什麼感覺，可以換成跑 30 公里、4 集劇、7 杯咖啡"
-          }
-        }
-      }
-    },
-    "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요" : {
-      "comment" : "Changelog 5.0.4 merged card",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The celebration card and the count card on the usage screen are one card now. The same sentence was written twice, one above the other"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kartu perayaan dan kartu jumlah di layar penggunaan kini jadi satu. Kalimat yang sama tertulis dua kali, atas dan bawah"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把使用记录里的祝贺卡片和次数卡片合成了一张。同样的话上下写了两遍"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把使用記錄裡的祝賀卡片和次數卡片合成了一張。同樣的話上下寫了兩遍"
-          }
-        }
-      }
-    },
-    "사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Counts only what users saved themselves (the 4 onboarding samples are excluded). The buckets are tight around the free limit of 10, and 9 is counted on its own: those are one slot away, the group a discount offer can reach. A pile-up at 1~3 means people start and stop."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hanya menghitung yang disimpan sendiri oleh pengguna (4 contoh onboarding tidak dihitung). Rentangnya dirapatkan di sekitar batas gratis (10), dan 9 dihitung tersendiri: mereka tinggal satu slot lagi, kelompok yang bisa dijangkau penawaran diskon. Menumpuk di 1~3 berarti orang berhenti di tengah jalan."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只算用户自己保存的数量（不含新手引导的 4 个示例）。在免费限额（10 个）前后分得更细，9 个单独统计：他们只差一个位置，正是优惠能够到的一群人。如果都堆在 1~3 个，说明是做了一半就停下了。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只算使用者自己儲存的數量（不含新手引導的 4 個示例）。在免費限額（10 個）前後分得更細，9 個單獨統計：他們只差一個位置，正是優惠能夠到的一群人。如果都堆在 1~3 個，說明是做了一半就停下了。"
-          }
-        }
-      }
-    },
-    "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요" : {
-      "comment" : "Changelog 5.0.4 practice removed",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keyboard practice is gone from Settings. The keyboard setup guide right above it was doing the same job"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Latihan keyboard dihapus dari Pengaturan. Panduan pengaturan keyboard tepat di atasnya melakukan hal yang sama"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置里去掉了“键盘练习”。就在它上面的键盘设置向导做的是同一件事"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定裡去掉了「鍵盤練習」。就在它上面的鍵盤設定導覽做的是同一件事"
-          }
-        }
-      }
-    },
-    "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요" : {
-      "comment" : "Changelog 5.0.4 footer stays",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The saved time and the real count stay small underneath. The big number is an estimate; that line is what we actually counted"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waktu yang dihemat dan jumlah sebenarnya tetap ada di bawah. Angka besar itu perkiraan; baris itulah yang benar benar kami hitung"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "省下的时间和实际次数会用小字留在下面。大字是估算的，只有那一行是真正数出来的"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "省下的時間和實際次數會用小字留在下面。大字是估算的，只有那一行是真正數出來的"
-          }
-        }
-      }
-    },
-    "아낀 시간을 다른 것에 빗대어 보여줍니다" : {
-      "comment" : "Reroll button hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shows the saved time compared to something else"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menampilkan waktu yang dihemat dibandingkan dengan hal lain"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아낀 시간을 다른 것에 빗대어 보여줍니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把省下的时间换成别的东西来呈现"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把省下的時間換成別的東西來呈現"
-          }
-        }
-      }
-    },
-    "아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nothing to count yet. The new metric (snippets saved by the user) starts collecting the next time the app launches."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Belum ada yang bisa dihitung. Metrik baru (jumlah yang disimpan pengguna) mulai terkumpul saat aplikasi dijalankan lagi."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "还没有可统计的记录。新指标（自己保存的数量）会从 App 下次启动开始累积。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "還沒有可統計的記錄。新指標（自己儲存的數量）會從 App 下次啓動開始累積。"
-          }
-        }
-      }
-    },
-    "앞으로 옮기기" : {
-      "comment" : "Reorder accessibility action: move earlier",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Move earlier"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pindahkan ke depan"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앞으로 옮기기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "往前移"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "往前移"
-          }
-        }
-      }
-    },
-    "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요" : {
-      "comment" : "Changelog 5.0.4 reroll",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "One of ten, picked fresh each time you open it. Tap Try another to roll again"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Satu dari sepuluh, dipilih ulang setiap kali dibuka. Ketuk Coba yang lain untuk mengocok lagi"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "十个里每次打开随机抽一个。不喜欢就点“换一个”再抽一次"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "十個裡每次開啟隨機抽一個。不喜歡就點「換一個」再抽一次"
-          }
-        }
-      }
-    },
-    "완주할 수 있는 시간이에요" : {
-      "comment" : "Share video: marathon equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to finish them all"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk menyelesaikan semuanya"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "완주할 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够全部跑完的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠全部跑完的時間"
-          }
-        }
-      }
-    },
-    "이 배경을 지울까요?" : {
-      "comment" : "Delete background confirm title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete this background?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hapus latar ini?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 배경을 지울까요?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要删除这个背景吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要刪除這個背景嗎？"
-          }
-        }
-      }
-    },
-    "이걸로 할게요" : {
-      "comment" : "Persona prompt apply button",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This one"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yang ini"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이걸로 할게요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就选这个"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就選這個"
-          }
-        }
-      }
-    },
-    "자주 쓰는 단축어를 위로 옮길 수 있어요" : {
-      "comment" : "Reorder button hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Move the snippets you use most to the top"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pindahkan pintasan yang sering dipakai ke atas"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "자주 쓰는 단축어를 위로 옮길 수 있어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以把常用的短语挪到上面"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以把常用的短語挪到上面"
-          }
-        }
-      }
-    },
-    "잠깐 눌렀다 끌면 자리가 바뀌어요" : {
-      "comment" : "Keyboard reorder mode: how to move a key",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Press and hold, then drag to move"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tekan tahan, lalu seret untuk memindahkan"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "잠깐 눌렀다 끌면 자리가 바뀌어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按住稍等再拖动，就能换位置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按住稍等再拖移，就能換位置"
-          }
-        }
-      }
-    },
-    "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요." : {
-      "comment" : "Persona prompt subtitle",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Asking because of what you have made so far. Picking one only tunes the suggestions. It is fine to skip."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kami bertanya karena apa yang sudah kamu buat. Memilih hanya menyesuaikan saran. Tidak apa apa dilewati."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "是看了你到目前为止做的东西才问的。选了也只会让推荐更贴合你。现在不选也没关系。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "是看了你到目前為止做的東西才問的。選了也只會讓推薦更貼合你。現在不選也沒關係。"
-          }
-        }
-      }
-    },
-    "지하철 %@ 갈 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: transit",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to ride %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk naik kereta %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지하철 %@ 갈 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够坐 %@ 地铁的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠坐 %@ 捷運的時間"
-          }
-        }
-      }
-    },
-    "지하철로 갈 수 있는 시간이에요" : {
-      "comment" : "Share video: transit equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to ride that far"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk naik kereta sejauh itu"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지하철로 갈 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够坐一段地铁的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠坐一段捷運的時間"
-          }
-        }
-      }
-    },
-    "책 %@ 읽을 수 있는 시간이에요" : {
-      "comment" : "Inline equivalent: book pages",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to read %@"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk membaca %@"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "책 %@ 읽을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够读 %@ 书的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠讀 %@ 書的時間"
-          }
-        }
-      }
-    },
-    "책 %d권" : {
-      "comment" : "Equivalent unit: books",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d books"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d buku"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "책 %d권"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 本书"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 本書"
-          }
-        }
-      }
-    },
-    "책을 읽을 수 있는 시간이에요" : {
-      "comment" : "Share video: reading equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "enough time to read that far"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "cukup waktu untuk membaca sejauh itu"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "책을 읽을 수 있는 시간이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "够读一阵子书的时间"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "夠讀一陣子書的時間"
-          }
-        }
-      }
-    },
-    "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요" : {
-      "comment" : "Changelog 5.0.4 green seal",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The check seal is always yellow green. The one on the celebration card was the only place still following the key color"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Segel centang selalu hijau muda. Yang di kartu perayaan satu satunya yang masih mengikuti warna kunci"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "对勾印章一直是黄绿色。只有祝贺卡片上的那个还跟着主色在变"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "對勾印章一直是黃綠色。只有祝賀卡片上的那個還跟著主色在變"
-          }
-        }
-      }
-    },
-    "최저임금으로 쳐도 라면 %@ 값이에요" : {
-      "comment" : "Inline equivalent: instant noodles",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ of instant noodles, even at minimum wage"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ mi instan, bahkan dengan upah minimum"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "최저임금으로 쳐도 라면 %@ 값이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工资算，也是 %@ 泡面钱"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工資算，也是 %@ 泡麵錢"
-          }
-        }
-      }
-    },
-    "최저임금으로 쳐도 라면 값이에요" : {
-      "comment" : "Share video: instant noodle equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "that is instant noodle money, even at minimum wage"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "itu uang mi instan, bahkan dengan upah minimum"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "최저임금으로 쳐도 라면 값이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工资算，也是一碗泡面钱"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工資算，也是一碗泡麵錢"
-          }
-        }
-      }
-    },
-    "최저임금으로 쳐도 커피 %@ 값이에요" : {
-      "comment" : "Inline equivalent: coffee",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ of coffee, even at minimum wage"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ kopi, bahkan dengan upah minimum"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "최저임금으로 쳐도 커피 %@ 값이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工资算，也是 %@ 咖啡钱"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工資算，也是 %@ 咖啡錢"
-          }
-        }
-      }
-    },
-    "최저임금으로 쳐도 커피 값이에요" : {
-      "comment" : "Share video: coffee equivalent",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "that is coffee money, even at minimum wage"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "itu uang kopi, bahkan dengan upah minimum"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "최저임금으로 쳐도 커피 값이에요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工资算，也是一杯咖啡钱"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "就算按最低工資算，也是一杯咖啡錢"
-          }
-        }
-      }
-    },
-    "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요" : {
-      "comment" : "Changelog 5.0.4 share video equivalents",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The share video now puts what your saved time equals in the big type instead of the time itself: 12.5km of running, 8 episodes, 3 books, 4 marathons"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Video berbagi kini menampilkan padanan waktu yang kamu hemat di tulisan besar, bukan waktunya: lari 12,5km, 8 episode, 3 buku, 4 maraton"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分享视频里，大字的位置放的不再是省下的时间，而是它相当于什么：跑 12.5 公里、8 集剧、3 本书、4 场马拉松"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分享影片裡，大字的位置放的不再是省下的時間，而是它相當於什麼：跑 12.5 公里、8 集劇、3 本書、4 場馬拉松"
-          }
-        }
-      }
-    },
-    "탭하면 다른 것에 빗대어 보여줍니다" : {
-      "comment" : "Accessibility hint: cycle equivalents",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to compare it to something else"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ketuk untuk membandingkannya dengan hal lain"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "탭하면 다른 것에 빗대어 보여줍니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点按可以换成别的东西来比"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點一下可以換成別的東西來比"
-          }
-        }
-      }
-    },
-    "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요" : {
-      "comment" : "Changelog 5.0.4 persona later",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We ask about your persona after you have used the app, not on the first screen. Once, after two snippets or one category"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kami menanyakan persona setelah kamu memakai aplikasi, bukan di layar pertama. Sekali saja, setelah dua pintasan atau satu kategori"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "“你是哪种人”这个问题不放在最开始，而是等你用过之后再问。做了两个短语或建了一个分类之后，只问一次"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「你是哪種人」這個問題不放在最開始，而是等你用過之後再問。做了兩個短語或建了一個分類之後，只問一次"
-          }
-        }
-      }
-    },
-    "혹시 이런 분이신가요?" : {
-      "comment" : "Persona prompt title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Does this sound like you?"
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apakah ini terdengar seperti kamu?"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "혹시 이런 분이신가요?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你是这样的人吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你是這樣的人嗎？"
           }
         }
       }
@@ -19805,6 +18252,29 @@
         }
       }
     },
+    "가끔 고양이가 카드 사이를 지나가요." : {
+      "comment" : "Living skin description: cat",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now and then a cat wanders past the cards."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偶尔会有猫从卡片之间走过。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偶爾會有貓從卡片之間走過。"
+          }
+        }
+      }
+    },
     "가끔 새 안내 받기" : {
       "comment" : "Did you know: opt in toggle",
       "localizations" : {
@@ -19834,31 +18304,32 @@
         }
       }
     },
-    "가져오기" : {
-      "comment" : "Include this item",
+    "가입할 때 %@ 적기" : {
+      "comment" : "Onboarding situation: type email when signing up",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Include"
+            "value" : "%@: type it when signing up"
           }
         },
-        "id" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sertakan"
+            "value" : "가입할 때 %@ 적기"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "包含"
+            "value" : "注册时填 %@"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "包含"
+            "value" : "註冊時填 %@"
           }
         }
       }
@@ -19882,29 +18353,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "值"
-          }
-        }
-      }
-    },
-    "가끔 고양이가 카드 사이를 지나가요." : {
-      "comment" : "Living skin description: cat",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now and then a cat wanders past the cards."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偶尔会有猫从卡片之间走过。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "偶爾會有貓從卡片之間走過。"
           }
         }
       }
@@ -19978,36 +18426,6 @@
         }
       }
     },
-    "가입할 때 %@ 적기" : {
-      "comment" : "Onboarding situation: type email when signing up",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@: type it when signing up"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "가입할 때 %@ 적기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "注册时填 %@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "註冊時填 %@"
-          }
-        }
-      }
-    },
     "가입할 때마다 오타 나던 그거요." : {
       "comment" : "Onboarding seed hint: email",
       "extractionState" : "stale",
@@ -20028,6 +18446,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "就是那個每次註冊都會打錯的。"
+          }
+        }
+      }
+    },
+    "가져오기" : {
+      "comment" : "Include this item",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sertakan"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包含"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包含"
           }
         }
       }
@@ -21125,6 +19572,41 @@
         }
       }
     },
+    "걸을 수 있는 시간이에요" : {
+      "comment" : "Share video: walking equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a walk"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berjalan kaki"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "걸을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够散个步的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠散個步的時間"
+          }
+        }
+      }
+    },
     "검색" : {
       "comment" : "Search",
       "localizations" : {
@@ -21618,6 +20100,29 @@
         }
       }
     },
+    "고르는 즉시 앱에 적용돼요. 키보드는 다음에 열 때부터 바뀝니다." : {
+      "comment" : "Language settings footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applies to the app right away. The keyboard changes the next time you open it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选好后立即在 App 内生效。键盘会从下次打开时开始改变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選好後立即在 App 內生效。鍵盤會從下次開啟時開始改變。"
+          }
+        }
+      }
+    },
     "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요" : {
       "comment" : "Changelog 5.0.0 persona",
       "localizations" : {
@@ -22073,6 +20578,41 @@
         }
       }
     },
+    "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d older records are left out: they don't report this count."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d catatan versi lama tidak disertakan karena tidak mengirim angka ini."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有 %d 条旧记录没有上报这个数字，所以没算进去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有 %d 條舊記錄沒有上報這個數字，所以沒算進去。"
+          }
+        }
+      }
+    },
     "국민 123456-78-901234" : {
       "comment" : "Key color preview: sample snippet",
       "localizations" : {
@@ -22390,6 +20930,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "網格佈局"
+          }
+        }
+      }
+    },
+    "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요" : {
+      "comment" : "Changelog 5.0.4 persona general",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Until then it is set to General. The old default, Digital Nomad, was where this app started, not where you are"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sampai saat itu diatur ke Umum. Default lama, Digital Nomad, adalah tempat aplikasi ini bermula, bukan tempatmu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在那之前先放在通用。以前默认的“数字游民”是这个 App 出发的地方，不是你所在的位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在那之前先放在通用。以前預設的「數位遊民」是這個 App 出發的地方，不是你所在的位置"
           }
         }
       }
@@ -22829,6 +21404,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "修好了裝置之間的修改和刪除沒同步過去的問題"
+          }
+        }
+      }
+    },
+    "기기 설정 따르기" : {
+      "comment" : "Language option: follow system setting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow device setting"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随设备设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟隨裝置設定"
           }
         }
       }
@@ -23822,29 +22420,6 @@
         }
       }
     },
-    "끔" : {
-      "comment" : "Toggle state: off",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Off"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "关"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "關"
-          }
-        }
-      }
-    },
     "끄기" : {
       "comment" : "Nudge: turn off",
       "localizations" : {
@@ -23887,6 +22462,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關掉後，儲存時會刪除原來的短語"
+          }
+        }
+      }
+    },
+    "끔" : {
+      "comment" : "Toggle state: off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關"
           }
         }
       }
@@ -24828,6 +23426,41 @@
         }
       }
     },
+    "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요." : {
+      "comment" : "Delete background confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The photo you added will be removed. The original in your photo library stays."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto yang kamu tambahkan akan dihapus. Aslinya di galeri tetap ada."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "넣어 두신 사진이 지워져요. 사진첩의 원본은 그대로예요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你放进去的照片会被删掉。相册里的原图不受影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你放進去的照片會被刪掉。相簿裡的原圖不受影響。"
+          }
+        }
+      }
+    },
     "넣은 뒤 커서 자리 기억" : {
       "comment" : "Learned caret position toggle",
       "localizations" : {
@@ -24929,6 +23562,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請檢查網路連接後重試。"
+          }
+        }
+      }
+    },
+    "노래 %@ 들을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: music",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노래 %@ 들을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够听 %@ 歌的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠聽 %@ 歌的時間"
+          }
+        }
+      }
+    },
+    "노래를 들을 수 있는 시간이에요" : {
+      "comment" : "Share video: music equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for that much music"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk mendengarkan lagu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노래를 들을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够听一阵子歌的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠聽一陣子歌的時間"
           }
         }
       }
@@ -25404,6 +24107,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "都好了。儲存之後馬上就在鍵盤上了。"
+          }
+        }
+      }
+    },
+    "다 읽을 수 있는 시간이에요" : {
+      "comment" : "Share video: whole book equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read them cover to cover"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membacanya sampai habis"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다 읽을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够从头读到尾的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠從頭讀到尾的時間"
+          }
+        }
+      }
+    },
+    "다른 걸로" : {
+      "comment" : "Button: pick another equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try another"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coba yang lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 걸로"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "换一个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "換一個"
           }
         }
       }
@@ -26382,6 +25155,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你已經用了 %d 個短語，超過一周了。只在這個頁面是半價。"
+          }
+        }
+      }
+    },
+    "단축어 %d개의 내용에서 이 이름이 함께 바뀝니다." : {
+      "comment" : "Rename footer with affected snippet count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This name changes inside %d snippets too."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 个短语的内容里，这个名字也会一起改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 個短語的內容裡，這個名字也會一起改。"
           }
         }
       }
@@ -27968,6 +26764,29 @@
         }
       }
     },
+    "단축어를 만들다 이어지는 단계를 지울 때 앱이 죽던 것을 고쳤어요" : {
+      "comment" : "Changelog 5.0.5 continuation crash",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed the app dying when you removed a follow up step while making a snippet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了创建短语时删除后续步骤会导致 App 崩溃的问题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了建立短語時刪除後續步驟會導致 App 當機的問題"
+          }
+        }
+      }
+    },
     "단축어를 만들다 저장하지 않고 나가면 여기에 자동으로 보관돼요." : {
       "comment" : "Drafts empty state subtitle",
       "localizations" : {
@@ -28256,6 +27075,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "關閉"
+          }
+        }
+      }
+    },
+    "달릴 수 있는 시간이에요" : {
+      "comment" : "Share video: running equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a run"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk berlari"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "달릴 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够跑一会儿的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠跑一會兒的時間"
           }
         }
       }
@@ -28937,6 +27791,41 @@
         }
       }
     },
+    "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요" : {
+      "comment" : "Changelog 5.0.4 local prices",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The ones counted in money use the minimum wage and prices where you live. If we have no prices for your region, those simply do not appear"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang dihitung dengan uang memakai upah minimum dan harga di negaramu. Jika kami tidak punya harganya, yang itu tidak muncul"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用钱来算的部分，看的是你所在国家的最低工资和物价。要是没有你所在地区的价格，这一类就不会出现"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用錢來算的部分，看的是你所在國家的最低工資和物價。要是沒有你所在地區的價格，這一類就不會出現"
+          }
+        }
+      }
+    },
     "동기화 사용" : {
       "comment" : "Marketing: sync adoption",
       "localizations" : {
@@ -29464,6 +28353,111 @@
         }
       }
     },
+    "뒤로 옮기기" : {
+      "comment" : "Reorder accessibility action: move later",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move later"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pindahkan ke belakang"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "뒤로 옮기기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "往后移"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "往後移"
+          }
+        }
+      }
+    },
+    "드라마 %@ 볼 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: show",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for %@ of a show"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk %@ serial"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "드라마 %@ 볼 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够看 %@ 剧的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠看 %@ 劇的時間"
+          }
+        }
+      }
+    },
+    "드라마를 볼 수 있는 시간이에요" : {
+      "comment" : "Share video: show equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time for a show"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk nonton serial"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "드라마를 볼 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够追一会儿剧的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠追一會兒劇的時間"
+          }
+        }
+      }
+    },
     "드래그하여 순서를 바꿉니다" : {
       "comment" : "Reorder cell a11y hint",
       "localizations" : {
@@ -29900,6 +28894,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "留存（周同期群）"
+          }
+        }
+      }
+    },
+    "마라톤 %d번" : {
+      "comment" : "Equivalent unit: marathons",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d marathons"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d maraton"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마라톤 %d번"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 场马拉松"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 場馬拉松"
           }
         }
       }
@@ -31010,6 +30039,7 @@
     },
     "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
       "comment" : "Distribution footer",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -31055,7 +30085,7 @@
       }
     },
     "모두 지우기" : {
-      "comment" : "Smear picker tool: clear selection",
+      "comment" : "Delete all unused placeholders\nSmear picker tool: clear selection",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -32342,6 +31372,41 @@
         }
       }
     },
+    "바꾼 순서는 앱에도 그대로 반영돼요" : {
+      "comment" : "Keyboard reorder mode: the order syncs to the app",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new order shows up in the app too"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Urutan baru juga berlaku di aplikasi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "바꾼 순서는 앱에도 그대로 반영돼요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调整后的顺序在 App 里也一样生效"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "調整後的順序在 App 裡也一樣生效"
+          }
+        }
+      }
+    },
     "바꿨어요. 앱에서 다시 손볼 수 있어요." : {
       "comment" : "Toast after applying an edit-pattern suggestion",
       "localizations" : {
@@ -32668,6 +31733,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "背景圖片"
+          }
+        }
+      }
+    },
+    "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요" : {
+      "comment" : "Changelog 5.0.4 background in settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can now add and delete your own background image from Settings. That was only in the list screen picker before"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamu kini bisa menambah dan menghapus gambar latar sendiri dari Pengaturan. Sebelumnya hanya ada di pemilih layar daftar"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在在设置里也能直接添加和删除背景图片。以前只有列表页的选择器里才有"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在在設定裡也能直接新增和刪除背景圖片。以前只有列表頁的選擇器裡才有"
           }
         }
       }
@@ -33530,6 +32630,29 @@
         }
       }
     },
+    "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요" : {
+      "comment" : "Changelog 5.0.5 traditional",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traditional is not just swapped characters: it uses the words and quotes Taiwan uses, and the banks and addresses in the examples are local ones"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繁体不只是换字：用的是台湾的说法和引号，例子里的银行和地址也换成了当地的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繁體不只是換字：用的是台灣的說法和引號，例子裡的銀行和地址也換成了當地的"
+          }
+        }
+      }
+    },
     "변경" : {
       "comment" : "Change PIN button\nChange image",
       "localizations" : {
@@ -33793,6 +32916,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一個評分\\n對獨立開發者就是莫大的鼓勵。"
+          }
+        }
+      }
+    },
+    "별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭤봐요" : {
+      "comment" : "Changelog 5.0.5 review gate",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We ask for a rating only after you have pasted from the keyboard at least once"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在你至少用键盘粘贴过一次之后，我们才会请你评分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在你至少用鍵盤貼上過一次之後，我們才會請你評分"
           }
         }
       }
@@ -34447,6 +33593,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可以自己寫它顯示的那一行"
+          }
+        }
+      }
+    },
+    "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요" : {
+      "comment" : "Changelog 5.0.5 reorder across pages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything visible is laid out in one line while you move, so page one can go to the top of page two"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动时会把看得到的全部排成一行，所以第 1 页的可以送到第 2 页最上面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動時會把看得到的全部排成一行，所以第 1 頁的可以送到第 2 頁最上面"
           }
         }
       }
@@ -35325,6 +34494,35 @@
         }
       }
     },
+    "불러오는 중… 설치 %lld · 이벤트 %lld (%lld페이지)" : {
+      "comment" : "Usage stats: loading progress",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading… %lld installs · %lld events (page %lld)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "불러오는 중… 설치 %1$lld · 이벤트 %2$lld (%3$lld페이지)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加载… 安装 %lld · 事件 %lld（第 %lld 页）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在加載… 安裝 %lld · 事件 %lld（第 %lld 頁）"
+          }
+        }
+      }
+    },
     "불러오지 못했어요: %@" : {
       "comment" : "Crash reports load failure\nUsage stats load failed",
       "localizations" : {
@@ -35416,6 +34614,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "貼上提醒設定"
+          }
+        }
+      }
+    },
+    "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요" : {
+      "comment" : "Changelog 5.0.4 settings rename",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste notification settings is now Turn off the paste alert. Placeholders, categories and the inbox now sit together"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pengaturan notifikasi tempel kini Matikan peringatan tempel. Placeholder, kategori, dan kotak masuk kini berdampingan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "붙여넣기 알림 설정을 붙여넣기 알림 허용 끄기로 바꿨어요. 빈칸 관리·카테고리 관리·보관함도 나란히 모았어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“粘贴提醒设置”改成了“关闭粘贴提醒”。空位管理、分类管理、收件箱也并排放到了一起"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「貼上提醒設定」改成了「關閉貼上提醒」。空位管理、分類管理、收件匣也並排放到了一起"
+          }
+        }
+      }
+    },
+    "붙여넣기 알림 허용 끄기" : {
+      "comment" : "Paste notification settings title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off the paste alert"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matikan peringatan tempel"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "붙여넣기 알림 허용 끄기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭粘贴提醒"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉貼上提醒"
           }
         }
       }
@@ -35902,6 +35170,29 @@
         }
       }
     },
+    "빈칸 %1$d개와 거기 저장해 둔 값 %2$d개가 사라져요. 쓰는 단축어는 하나도 없습니다." : {
+      "comment" : "Sweep orphan placeholders message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d blanks and the %2$d values saved in them go away. Not one snippet uses them."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 个空位和存在里面的 %2$d 个值都会消失。没有任何短语在用它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 個空位和存在裡面的 %2$d 個值都會消失。沒有任何短語在用它們。"
+          }
+        }
+      }
+    },
     "빈칸 %d" : {
       "comment" : "Shortcut mart: blank count",
       "localizations" : {
@@ -35944,6 +35235,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "空位管理"
+          }
+        }
+      }
+    },
+    "빈칸 이름" : {
+      "comment" : "Placeholder name field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blank name"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位名稱"
+          }
+        }
+      }
+    },
+    "빈칸 이름을 바꿀 수 있어요. 그 이름을 쓰는 단축어의 내용도 함께 바뀌고, 몇 개가 바뀌는지 먼저 보여드려요" : {
+      "comment" : "Changelog 5.0.5 rename blank",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can rename a blank. The name changes inside every snippet that uses it, and we show you how many before you commit"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以给空位改名。用到它的短语内容也会一起改，改之前先告诉你会动几条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以給空位改名。用到它的短語內容也會一起改，改之前先告訴你會動幾條"
           }
         }
       }
@@ -36078,6 +35415,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下空位來填寫"
+          }
+        }
+      }
+    },
+    "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요" : {
+      "comment" : "Changelog 5.0.4 tap to cycle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the comparison line to change it. If a movie does not land, try 30km of running, 4 episodes, or 7 cups of coffee"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk baris perbandingan untuk menggantinya. Jika film tidak mengena, coba lari 30km, 4 episode, atau 7 cangkir kopi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按比喻那一行就会换成别的。要是“一部电影”没什么感觉，可以换成跑 30 公里、4 集剧、7 杯咖啡"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下比喻那一行就會換成別的。要是「一部電影」沒什麼感覺，可以換成跑 30 公里、4 集劇、7 杯咖啡"
           }
         }
       }
@@ -36419,6 +35791,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用記錄的明細裡也寫上了扣除的時間，把每一行加起來就是上面那個數字"
+          }
+        }
+      }
+    },
+    "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요" : {
+      "comment" : "Changelog 5.0.4 merged card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The celebration card and the count card on the usage screen are one card now. The same sentence was written twice, one above the other"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kartu perayaan dan kartu jumlah di layar penggunaan kini jadi satu. Kalimat yang sama tertulis dua kali, atas dan bawah"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 기록의 축하 카드와 횟수 카드를 한 장으로 합쳤어요. 같은 말이 위아래로 두 번 적혀 있었어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把使用记录里的祝贺卡片和次数卡片合成了一张。同样的话上下写了两遍"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把使用記錄裡的祝賀卡片和次數卡片合成了一張。同樣的話上下寫了兩遍"
           }
         }
       }
@@ -36794,6 +36201,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有使用者留言了。到收件匣看看吧。"
+          }
+        }
+      }
+    },
+    "사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Counts only what users saved themselves (the 4 onboarding samples are excluded). The buckets are tight around the free limit of 10, and 9 is counted on its own: those are one slot away, the group a discount offer can reach. A pile-up at 1~3 means people start and stop."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hanya menghitung yang disimpan sendiri oleh pengguna (4 contoh onboarding tidak dihitung). Rentangnya dirapatkan di sekitar batas gratis (10), dan 9 dihitung tersendiri: mereka tinggal satu slot lagi, kelompok yang bisa dijangkau penawaran diskon. Menumpuk di 1~3 berarti orang berhenti di tengah jalan."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只算用户自己保存的数量（不含新手引导的 4 个示例）。在免费限额（10 个）前后分得更细，9 个单独统计：他们只差一个位置，正是优惠能够到的一群人。如果都堆在 1~3 个，说明是做了一半就停下了。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只算使用者自己儲存的數量（不含新手引導的 4 個示例）。在免費限額（10 個）前後分得更細，9 個單獨統計：他們只差一個位置，正是優惠能夠到的一群人。如果都堆在 1~3 個，說明是做了一半就停下了。"
           }
         }
       }
@@ -39809,6 +39251,29 @@
         }
       }
     },
+    "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요" : {
+      "comment" : "Changelog 5.0.5 language picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick your language in Settings. It changes right away, and the keyboard follows the next time you open it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在设置里选语言。选了立刻生效，键盘从下次打开时跟上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在設定裡選語言。選了立刻生效，鍵盤從下次開啟時跟上"
+          }
+        }
+      }
+    },
     "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요" : {
       "comment" : "Changelog 5.0.3 key color",
       "localizations" : {
@@ -39834,6 +39299,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定裡可以選「主色」了。七種顏色裡挑一個，App 和鍵盤會一起變成那個顏色"
+          }
+        }
+      }
+    },
+    "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요" : {
+      "comment" : "Changelog 5.0.4 practice removed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard practice is gone from Settings. The keyboard setup guide right above it was doing the same job"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latihan keyboard dihapus dari Pengaturan. Panduan pengaturan keyboard tepat di atasnya melakukan hal yang sama"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정에서 키보드 연습하기를 뺐어요. 바로 위 키보드 설정 가이드가 같은 일을 하고 있었어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置里去掉了“键盘练习”。就在它上面的键盘设置向导做的是同一件事"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定裡去掉了「鍵盤練習」。就在它上面的鍵盤設定導覽做的是同一件事"
           }
         }
       }
@@ -40037,6 +39537,29 @@
         }
       }
     },
+    "설치" : {
+      "comment" : "Usage stats: installs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installs"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安裝"
+          }
+        }
+      }
+    },
     "설치 %d곳" : {
       "comment" : "Cohort: install count\nFunnel: install count",
       "localizations" : {
@@ -40056,6 +39579,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d 處安裝"
+          }
+        }
+      }
+    },
+    "설치 %lld · 이벤트 %lld건을 전부 불러왔어요 (%@ 기준)." : {
+      "comment" : "Usage stats: fully loaded",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loaded all %lld installs and %lld events (as of %@)."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "설치 %1$lld · 이벤트 %2$lld건을 전부 불러왔어요 (%3$@ 기준)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已全部加载：安装 %lld，事件 %lld 条（截至 %@）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已全部加載：安裝 %lld，事件 %lld 條（截至 %@）。"
           }
         }
       }
@@ -40654,7 +40206,7 @@
       }
     },
     "순서 바꾸기" : {
-      "comment" : "Action: reorder memos\nReorder mode title",
+      "comment" : "Action: reorder memos\nLong-press panel: enter reorder mode\nReorder mode title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -41433,6 +40985,75 @@
         }
       }
     },
+    "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요" : {
+      "comment" : "Changelog 5.0.5 delete blank",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blanks no snippet uses can be deleted. Ones still in use would come back, so we do not offer delete on them"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有短语在用的空位可以删掉。还在用的删了也会回来，所以不提供删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有短語在用的空位可以刪掉。還在用的刪了也會回來，所以不提供刪除"
+          }
+        }
+      }
+    },
+    "쓰지 않는 빈칸 %d개 지우기" : {
+      "comment" : "Sweep orphan placeholders button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete %d unused blanks"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除 %d 个没在用的空位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除 %d 個沒在用的空位"
+          }
+        }
+      }
+    },
+    "쓰지 않는 빈칸을 모두 지울까요?" : {
+      "comment" : "Sweep orphan placeholders title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete every unused blank?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除所有没在用的空位吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要刪除所有沒在用的空位嗎？"
+          }
+        }
+      }
+    },
     "쓸 때 채우는 칸" : {
       "comment" : "Fill-in field label prefix for token bar",
       "localizations" : {
@@ -41515,6 +41136,29 @@
         }
       }
     },
+    "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요." : {
+      "comment" : "Rename error: invalid name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That name won't work. Write it without curly braces."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个名字不能用。请不要带大括号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個名字不能用。請不要帶大括號。"
+          }
+        }
+      }
+    },
     "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요." : {
       "comment" : "Living skin description: village",
       "localizations" : {
@@ -41586,6 +41230,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "省下的時間"
+          }
+        }
+      }
+    },
+    "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요" : {
+      "comment" : "Changelog 5.0.4 footer stays",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The saved time and the real count stay small underneath. The big number is an estimate; that line is what we actually counted"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waktu yang dihemat dan jumlah sebenarnya tetap ada di bawah. Angka besar itu perkiraan; baris itulah yang benar benar kami hitung"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "省下的时间和实际次数会用小字留在下面。大字是估算的，只有那一行是真正数出来的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "省下的時間和實際次數會用小字留在下面。大字是估算的，只有那一行是真正數出來的"
           }
         }
       }
@@ -41667,6 +41346,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把省下的時間做成 3 秒直式短片，可以直接發到限時動態。"
+          }
+        }
+      }
+    },
+    "아낀 시간을 다른 것에 빗대어 보여줍니다" : {
+      "comment" : "Reroll button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the saved time compared to something else"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menampilkan waktu yang dihemat dibandingkan dengan hal lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아낀 시간을 다른 것에 빗대어 보여줍니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把省下的时间换成别的东西来呈现"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把省下的時間換成別的東西來呈現"
           }
         }
       }
@@ -42586,6 +42300,41 @@
         }
       }
     },
+    "아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to count yet. The new metric (snippets saved by the user) starts collecting the next time the app launches."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Belum ada yang bisa dihitung. Metrik baru (jumlah yang disimpan pengguna) mulai terkumpul saat aplikasi dijalankan lagi."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有可统计的记录。新指标（自己保存的数量）会从 App 下次启动开始累积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有可統計的記錄。新指標（自己儲存的數量）會從 App 下次啓動開始累積。"
+          }
+        }
+      }
+    },
     "아직 처리 안 함" : {
       "comment" : "Usage stats: feedback not done",
       "localizations" : {
@@ -42990,6 +42739,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保留開頭和結尾，只縮短中間，所以開頭相似的名字也能分得清。"
+          }
+        }
+      }
+    },
+    "앞으로 옮기기" : {
+      "comment" : "Reorder accessibility action: move earlier",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move earlier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pindahkan ke depan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앞으로 옮기기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "往前移"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "往前移"
           }
         }
       }
@@ -43513,6 +43297,29 @@
         }
       }
     },
+    "앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요." : {
+      "comment" : "Rename error: reserved auto variable name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app fills that name in by itself, so it can't be used. Pick another name."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个名字由 App 自动填入，不能用。请换一个名字。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個名字由 App 自動填入，不能用。請換一個名字。"
+          }
+        }
+      }
+    },
     "약관 및 개인정보" : {
       "comment" : "Settings section: legal",
       "extractionState" : "stale",
@@ -43968,7 +43775,7 @@
       }
     },
     "언어" : {
-      "comment" : "Section: language",
+      "comment" : "Section: language\nSettings: app language",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -44967,6 +44774,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "從頭重新開始練習"
+          }
+        }
+      }
+    },
+    "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요" : {
+      "comment" : "Changelog 5.0.4 reroll",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One of ten, picked fresh each time you open it. Tap Try another to roll again"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satu dari sepuluh, dipilih ulang setiap kali dibuka. Ketuk Coba yang lain untuk mengocok lagi"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "十个里每次打开随机抽一个。不喜欢就点“换一个”再抽一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "十個裡每次開啟隨機抽一個。不喜歡就點「換一個」再抽一次"
           }
         }
       }
@@ -46016,7 +45858,7 @@
       }
     },
     "완료" : {
-      "comment" : "Done\nDone bundling\nDone button",
+      "comment" : "Done\nDone bundling\nDone button\nKeyboard reorder mode: done",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -46088,6 +45930,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消已處理"
+          }
+        }
+      }
+    },
+    "완주할 수 있는 시간이에요" : {
+      "comment" : "Share video: marathon equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to finish them all"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk menyelesaikan semuanya"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완주할 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够全部跑完的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠全部跑完的時間"
           }
         }
       }
@@ -46698,6 +46575,29 @@
         }
       }
     },
+    "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요" : {
+      "comment" : "Changelog 5.0.5 feedback contact",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback now takes a name and email to reply to. Fill them in once and we fill them in for you next time"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送反馈时可以留下姓名和邮箱，方便我们回复。填过一次，下次就会自动帮你填好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發送意見回饋時可以留下姓名和信箱，方便我們回覆。填過一次，下次就會自動幫你填好"
+          }
+        }
+      }
+    },
     "이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요." : {
       "comment" : "Saved values footer",
       "localizations" : {
@@ -46917,6 +46817,41 @@
         }
       }
     },
+    "이 배경을 지울까요?" : {
+      "comment" : "Delete background confirm title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this background?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus latar ini?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 배경을 지울까요?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除这个背景吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要刪除這個背景嗎？"
+          }
+        }
+      }
+    },
     "이 버전으로 복원할까요?" : {
       "comment" : "Restore this version confirmation",
       "localizations" : {
@@ -46988,6 +46923,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有短語在用這個空位。只剩下它的值。"
+          }
+        }
+      }
+    },
+    "이 빈칸을 쓰는 단축어는 없어요. 저장해 둔 값만 새 이름으로 따라갑니다." : {
+      "comment" : "Rename footer for orphan placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No snippet uses this blank. Only the saved values move to the new name."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有短语在用这个空位。只有存好的值会跟到新名字下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有短語在用這個空位。只有存好的值會跟到新名字下。"
           }
         }
       }
@@ -47856,6 +47814,41 @@
         }
       }
     },
+    "이걸로 할게요" : {
+      "comment" : "Persona prompt apply button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This one"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yang ini"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이걸로 할게요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就选这个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就選這個"
+          }
+        }
+      }
+    },
     "이동" : {
       "comment" : "Smear picker tool: pan",
       "localizations" : {
@@ -48252,6 +48245,29 @@
         }
       }
     },
+    "이름 바꾸기" : {
+      "comment" : "Rename placeholder\nRename placeholder title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
+          }
+        }
+      }
+    },
     "이름 변경" : {
       "comment" : "Rename category button",
       "localizations" : {
@@ -48643,6 +48659,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已經記在別的地方了？可以一次全搬進來"
+          }
+        }
+      }
+    },
+    "이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요." : {
+      "comment" : "Rename error: name already exists",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That blank already exists. We don't merge two blanks together."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个空位已经存在。我们不会把两个空位合并。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個空位已經存在。我們不會把兩個空位合併。"
           }
         }
       }
@@ -49501,6 +49540,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這個是範本。點一下，把空位填上就行。"
+          }
+        }
+      }
+    },
+    "이벤트" : {
+      "comment" : "Usage stats: events",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "事件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "事件"
           }
         }
       }
@@ -51303,6 +51365,41 @@
         }
       }
     },
+    "자주 쓰는 단축어를 위로 옮길 수 있어요" : {
+      "comment" : "Reorder button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the snippets you use most to the top"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pindahkan pintasan yang sering dipakai ke atas"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 쓰는 단축어를 위로 옮길 수 있어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以把常用的短语挪到上面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以把常用的短語挪到上面"
+          }
+        }
+      }
+    },
     "자주 쓰는 빈칸" : {
       "comment" : "Suggested placeholders label",
       "localizations" : {
@@ -51711,6 +51808,41 @@
         }
       }
     },
+    "잠깐 눌렀다 끌면 자리가 바뀌어요" : {
+      "comment" : "Keyboard reorder mode: how to move a key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press and hold, then drag to move"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekan tahan, lalu seret untuk memindahkan"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠깐 눌렀다 끌면 자리가 바뀌어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按住稍等再拖动，就能换位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按住稍等再拖移，就能換位置"
+          }
+        }
+      }
+    },
     "장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요" : {
       "comment" : "Changelog 5.0.3 countdown",
       "localizations" : {
@@ -51764,6 +51896,122 @@
         }
       }
     },
+    "저장 실패: %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save failed: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存失败：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存失敗：%@"
+          }
+        }
+      }
+    },
+    "저장에 실패했습니다. 다시 시도해주세요." : {
+      "comment" : "Memo save failed toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to save. Please try again."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存失败。请重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存失敗。請重試。"
+          }
+        }
+      }
+    },
+    "저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠·콤보를 손보려면 목록으로 넘어가세요." : {
+      "comment" : "Bulk import: keyboard preview footer",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is how your keyboard will look. Tap a key to leave it out, or switch to List to edit titles, locks and combos."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存后键盘就是这个样子。点一下按键可以把不要的去掉；要改标题、锁和组合，请切到列表。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存後鍵盤就是這個樣子。點一下按鍵可以把不要的去掉；要改標題、鎖和組合，請切到列表。"
+          }
+        }
+      }
+    },
+    "저장해 둔 값" : {
+      "comment" : "Saved values section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved values"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存好的值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存好的值"
+          }
+        }
+      }
+    },
+    "적절한 때에만 리뷰를 여쭤봐요" : {
+      "comment" : "Changelog 3.0.4 item 2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app asks for a review only at a fitting moment"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只在合适的时候才请你写评价"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只在合適的時候才請你寫評價"
+          }
+        }
+      }
+    },
     "전" : {
       "comment" : "Auto-registered",
       "extractionState" : "manual",
@@ -51813,29 +52061,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存"
-          }
-        }
-      }
-    },
-    "저장 실패: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save failed: %@"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存失败：%@"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存失敗：%@"
           }
         }
       }
@@ -52061,29 +52286,6 @@
         }
       }
     },
-    "저장에 실패했습니다. 다시 시도해주세요." : {
-      "comment" : "Memo save failed toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to save. Please try again."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存失败。请重试。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存失敗。請重試。"
-          }
-        }
-      }
-    },
     "저장하는 도중 앱이 닫혀도 원본이 깨지지 않아요" : {
       "comment" : "Changelog 4.3.4 item 3",
       "localizations" : {
@@ -52103,30 +52305,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "就算儲存到一半 App 被關掉，原件也不會損壞"
-          }
-        }
-      }
-    },
-    "저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠·콤보를 손보려면 목록으로 넘어가세요." : {
-      "comment" : "Bulk import: keyboard preview footer",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This is how your keyboard will look. Tap a key to leave it out, or switch to List to edit titles, locks and combos."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存后键盘就是这个样子。点一下按键可以把不要的去掉；要改标题、锁和组合，请切到列表。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存後鍵盤就是這個樣子。點一下按鍵可以把不要的去掉；要改標題、鎖和組合，請切到列表。"
           }
         }
       }
@@ -52208,48 +52386,25 @@
         }
       }
     },
-    "저장해 둔 값" : {
-      "comment" : "Saved values section",
+    "저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다." : {
+      "comment" : "Delete placeholder confirmation message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saved values"
+            "value" : "The %d saved values go with it. No snippet uses this blank."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "存好的值"
+            "value" : "存好的 %d 个值会一起消失。没有短语在用这个空位。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "存好的值"
-          }
-        }
-      }
-    },
-    "적절한 때에만 리뷰를 여쭤봐요" : {
-      "comment" : "Changelog 3.0.4 item 2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The app asks for a review only at a fitting moment"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只在合适的时候才请你写评价"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只在合適的時候才請你寫評價"
+            "value" : "存好的 %d 個值會一起消失。沒有短語在用這個空位。"
           }
         }
       }
@@ -54024,6 +54179,29 @@
         }
       }
     },
+    "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요" : {
+      "comment" : "Changelog 5.0.5 chinese",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese is in, both Simplified and Traditional, and the app name changes with it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入了中文，简体和繁体两套，App 名称也会跟着变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入了中文，簡體和繁體兩套，App 名稱也會跟著變"
+          }
+        }
+      }
+    },
     "즐겨찾기" : {
       "comment" : "Category tab: favorites\nCategory: favorites\nFavorites\nFavorites filter chip\nVoiceOver: favorite badge",
       "localizations" : {
@@ -54568,6 +54746,41 @@
         }
       }
     },
+    "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요." : {
+      "comment" : "Persona prompt subtitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asking because of what you have made so far. Picking one only tunes the suggestions. It is fine to skip."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami bertanya karena apa yang sudah kamu buat. Memilih hanya menyesuaikan saran. Tidak apa apa dilewati."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是看了你到目前为止做的东西才问的。选了也只会让推荐更贴合你。现在不选也没关系。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是看了你到目前為止做的東西才問的。選了也只會讓推薦更貼合你。現在不選也沒關係。"
+          }
+        }
+      }
+    },
     "지금까지 쌓인 시간" : {
       "comment" : "Vault: balance label",
       "localizations" : {
@@ -54833,6 +55046,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "告訴朋友 %@"
+          }
+        }
+      }
+    },
+    "지하철 %@ 갈 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: transit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to ride %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk naik kereta %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지하철 %@ 갈 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够坐 %@ 地铁的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠坐 %@ 捷運的時間"
+          }
+        }
+      }
+    },
+    "지하철로 갈 수 있는 시간이에요" : {
+      "comment" : "Share video: transit equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to ride that far"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk naik kereta sejauh itu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지하철로 갈 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够坐一段地铁的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠坐一段捷運的時間"
           }
         }
       }
@@ -55494,6 +55777,111 @@
         }
       }
     },
+    "책 %@ 읽을 수 있는 시간이에요" : {
+      "comment" : "Inline equivalent: book pages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책 %@ 읽을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够读 %@ 书的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠讀 %@ 書的時間"
+          }
+        }
+      }
+    },
+    "책 %d권" : {
+      "comment" : "Equivalent unit: books",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d books"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d buku"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책 %d권"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 本书"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 本書"
+          }
+        }
+      }
+    },
+    "책을 읽을 수 있는 시간이에요" : {
+      "comment" : "Share video: reading equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enough time to read that far"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "cukup waktu untuk membaca sejauh itu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "책을 읽을 수 있는 시간이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "够读一阵子书的时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "夠讀一陣子書的時間"
+          }
+        }
+      }
+    },
     "처리 중" : {
       "comment" : "Purchase loading state",
       "localizations" : {
@@ -56000,6 +56388,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "首屏"
+          }
+        }
+      }
+    },
+    "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요" : {
+      "comment" : "Changelog 5.0.4 green seal",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The check seal is always yellow green. The one on the celebration card was the only place still following the key color"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segel centang selalu hijau muda. Yang di kartu perayaan satu satunya yang masih mengikuti warna kunci"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对勾印章一直是黄绿色。只有祝贺卡片上的那个还跟着主色在变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對勾印章一直是黃綠色。只有祝賀卡片上的那個還跟著主色在變"
           }
         }
       }
@@ -56539,6 +56962,146 @@
         }
       }
     },
+    "최저임금으로 쳐도 라면 %@ 값이에요" : {
+      "comment" : "Inline equivalent: instant noodles",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ of instant noodles, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ mi instan, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 라면 %@ 값이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工资算，也是 %@ 泡面钱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工資算，也是 %@ 泡麵錢"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 라면 값이에요" : {
+      "comment" : "Share video: instant noodle equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "that is instant noodle money, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "itu uang mi instan, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 라면 값이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工资算，也是一碗泡面钱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工資算，也是一碗泡麵錢"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 커피 %@ 값이에요" : {
+      "comment" : "Inline equivalent: coffee",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ of coffee, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kopi, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 커피 %@ 값이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工资算，也是 %@ 咖啡钱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工資算，也是 %@ 咖啡錢"
+          }
+        }
+      }
+    },
+    "최저임금으로 쳐도 커피 값이에요" : {
+      "comment" : "Share video: coffee equivalent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "that is coffee money, even at minimum wage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "itu uang kopi, bahkan dengan upah minimum"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최저임금으로 쳐도 커피 값이에요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工资算，也是一杯咖啡钱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "就算按最低工資算，也是一杯咖啡錢"
+          }
+        }
+      }
+    },
     "추가" : {
       "comment" : "Add\nAdd button\nAdd placeholder value button",
       "localizations" : {
@@ -56843,6 +57406,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "告訴朋友們"
+          }
+        }
+      }
+    },
+    "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요" : {
+      "comment" : "Changelog 5.0.4 share video equivalents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The share video now puts what your saved time equals in the big type instead of the time itself: 12.5km of running, 8 episodes, 3 books, 4 marathons"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video berbagi kini menampilkan padanan waktu yang kamu hemat di tulisan besar, bukan waktunya: lari 12,5km, 8 episode, 3 buku, 4 maraton"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享视频里，大字的位置放的不再是省下的时间，而是它相当于什么：跑 12.5 公里、8 集剧、3 本书、4 场马拉松"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分享影片裡，大字的位置放的不再是省下的時間，而是它相當於什麼：跑 12.5 公里、8 集劇、3 本書、4 場馬拉松"
           }
         }
       }
@@ -57961,52 +58559,6 @@
         }
       }
     },
-    "켠 사용자당 평균 입력" : {
-      "comment" : "Uses per active install",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avg per enabled user"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位开启用户的平均输入"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位開啓使用者的平均輸入"
-          }
-        }
-      }
-    },
-    "켬" : {
-      "comment" : "Toggle state: on",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開"
-          }
-        }
-      }
-    },
     "켜기" : {
       "comment" : "Turn on the keyboard",
       "localizations" : {
@@ -58079,6 +58631,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已開啟"
+          }
+        }
+      }
+    },
+    "켠 사용자당 평균 입력" : {
+      "comment" : "Uses per active install",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avg per enabled user"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位开启用户的平均输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位開啓使用者的平均輸入"
+          }
+        }
+      }
+    },
+    "켬" : {
+      "comment" : "Toggle state: on",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開"
           }
         }
       }
@@ -59861,6 +60459,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定鍵盤"
+          }
+        }
+      }
+    },
+    "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요" : {
+      "comment" : "Changelog 5.0.5 keyboard reorder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reorder snippets from inside the keyboard. If fixing the order means a trip back to the app, most people never fix it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在键盘里就能调整短语顺序。要是改个顺序还得回 App，多数人就干脆不改了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鍵盤裡就能調整短語順序。要是改個順序還得回 App，多數人就乾脆不改了"
           }
         }
       }
@@ -61727,6 +62348,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下填好內容再新增"
+          }
+        }
+      }
+    },
+    "탭하면 다른 것에 빗대어 보여줍니다" : {
+      "comment" : "Accessibility hint: cycle equivalents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to compare it to something else"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk membandingkannya dengan hal lain"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "탭하면 다른 것에 빗대어 보여줍니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按可以换成别的东西来比"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下可以換成別的東西來比"
           }
         }
       }
@@ -63930,6 +64586,41 @@
         }
       }
     },
+    "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요" : {
+      "comment" : "Changelog 5.0.4 persona later",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We ask about your persona after you have used the app, not on the first screen. Once, after two snippets or one category"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kami menanyakan persona setelah kamu memakai aplikasi, bukan di layar pertama. Sekali saja, setelah dua pintasan atau satu kategori"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“你是哪种人”这个问题不放在最开始，而是等你用过之后再问。做了两个短语或建了一个分类之后，只问一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「你是哪種人」這個問題不放在最開始，而是等你用過之後再問。做了兩個短語或建了一個分類之後，只問一次"
+          }
+        }
+      }
+    },
     "페이월 노출" : {
       "comment" : "Funnel stage: paywall shown",
       "localizations" : {
@@ -64045,30 +64736,6 @@
         }
       }
     },
-    "펼침" : {
-      "comment" : "VoiceOver: expanded",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Expanded"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已展开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已展開"
-          }
-        }
-      }
-    },
     "펼치려면 두 번 탭하세요" : {
       "comment" : "Fill-in field drawer: expand hint",
       "localizations" : {
@@ -64094,6 +64761,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雙擊可展開"
+          }
+        }
+      }
+    },
+    "펼침" : {
+      "comment" : "VoiceOver: expanded",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expanded"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展開"
           }
         }
       }
@@ -65249,6 +65940,29 @@
         }
       }
     },
+    "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요." : {
+      "comment" : "Usage stats: paged loading footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They arrive 200 at a time. The number keeps climbing because it is a partial count."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次取 200 条。现在的数字是中间统计，还会继续往上走。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次取 200 條。現在的數字是中間統計，還會繼續往上走。"
+          }
+        }
+      }
+    },
     "한 번에 옮기기" : {
       "comment" : "Bulk move sheet title\nDid-you-know action: bulk import",
       "localizations" : {
@@ -65538,29 +66252,6 @@
         }
       }
     },
-    "한꺼번에 가져옴" : {
-      "comment" : "Event label: bulk imported",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bulk imported"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "批量导入了"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "批量匯入了"
-          }
-        }
-      }
-    },
     "한꺼번에 가져오기도 미리 보고" : {
       "comment" : "What's new 4.4.5 feature title",
       "extractionState" : "stale",
@@ -65604,6 +66295,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "批量匯入現在會在儲存前按鍵盤的樣子給你看，點一下按鍵就能把不要的去掉"
+          }
+        }
+      }
+    },
+    "한꺼번에 가져옴" : {
+      "comment" : "Event label: bulk imported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bulk imported"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批量导入了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "批量匯入了"
           }
         }
       }
@@ -66099,6 +66813,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有什麼用著不順心的嗎？"
+          }
+        }
+      }
+    },
+    "혹시 이런 분이신가요?" : {
+      "comment" : "Persona prompt title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Does this sound like you?"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apakah ini terdengar seperti kamu?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "혹시 이런 분이신가요?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你是这样的人吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你是這樣的人嗎？"
           }
         }
       }
@@ -66958,534 +67707,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提示（可選）"
-          }
-        }
-      }
-    },
-    "기기 설정 따르기" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Follow device setting"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟随设备设置"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跟隨裝置設定"
-          }
-        }
-      }
-    },
-    "고르는 즉시 앱에 적용돼요. 키보드는 다음에 열 때부터 바뀝니다." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Applies to the app right away. The keyboard changes the next time you open it."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选好后立即在 App 内生效。键盘会从下次打开时开始改变。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選好後立即在 App 內生效。鍵盤會從下次開啟時開始改變。"
-          }
-        }
-      }
-    },
-    "'%@' 빈칸을 지울까요?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete the '%@' blank?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要删除“%@”这个空位吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要刪除「%@」這個空位嗎？"
-          }
-        }
-      }
-    },
-    "저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The %d saved values go with it. No snippet uses this blank."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "存好的 %d 个值会一起消失。没有短语在用这个空位。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "存好的 %d 個值會一起消失。沒有短語在用這個空位。"
-          }
-        }
-      }
-    },
-    "쓰지 않는 빈칸을 모두 지울까요?" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete every unused blank?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要删除所有没在用的空位吗？"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要刪除所有沒在用的空位嗎？"
-          }
-        }
-      }
-    },
-    "빈칸 %1$d개와 거기 저장해 둔 값 %2$d개가 사라져요. 쓰는 단축어는 하나도 없습니다." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d blanks and the %2$d values saved in them go away. Not one snippet uses them."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d 个空位和存在里面的 %2$d 个值都会消失。没有任何短语在用它们。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d 個空位和存在裡面的 %2$d 個值都會消失。沒有任何短語在用它們。"
-          }
-        }
-      }
-    },
-    "쓰지 않는 빈칸 %d개 지우기" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete %d unused blanks"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除 %d 个没在用的空位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "刪除 %d 個沒在用的空位"
-          }
-        }
-      }
-    },
-    "이름 바꾸기" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重命名"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重命名"
-          }
-        }
-      }
-    },
-    "빈칸 이름" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blank name"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "空位名称"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "空位名稱"
-          }
-        }
-      }
-    },
-    "이 빈칸을 쓰는 단축어는 없어요. 저장해 둔 값만 새 이름으로 따라갑니다." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No snippet uses this blank. Only the saved values move to the new name."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "没有短语在用这个空位。只有存好的值会跟到新名字下。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "沒有短語在用這個空位。只有存好的值會跟到新名字下。"
-          }
-        }
-      }
-    },
-    "단축어 %d개의 내용에서 이 이름이 함께 바뀝니다." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This name changes inside %d snippets too."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 个短语的内容里，这个名字也会一起改。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 個短語的內容裡，這個名字也會一起改。"
-          }
-        }
-      }
-    },
-    "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "That name won't work. Write it without curly braces."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这个名字不能用。请不要带大括号。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這個名字不能用。請不要帶大括號。"
-          }
-        }
-      }
-    },
-    "앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The app fills that name in by itself, so it can't be used. Pick another name."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这个名字由 App 自动填入，不能用。请换一个名字。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這個名字由 App 自動填入，不能用。請換一個名字。"
-          }
-        }
-      }
-    },
-    "이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "That blank already exists. We don't merge two blanks together."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这个空位已经存在。我们不会把两个空位合并。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這個空位已經存在。我們不會把兩個空位合併。"
-          }
-        }
-      }
-    },
-    "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chinese is in, both Simplified and Traditional, and the app name changes with it"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加入了中文，简体和繁体两套，App 名称也会跟着变"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "加入了中文，簡體和繁體兩套，App 名稱也會跟著變"
-          }
-        }
-      }
-    },
-    "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traditional is not just swapped characters: it uses the words and quotes Taiwan uses, and the banks and addresses in the examples are local ones"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "繁体不只是换字：用的是台湾的说法和引号，例子里的银行和地址也换成了当地的"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "繁體不只是換字：用的是台灣的說法和引號，例子裡的銀行和地址也換成了當地的"
-          }
-        }
-      }
-    },
-    "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pick your language in Settings. It changes right away, and the keyboard follows the next time you open it"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以在设置里选语言。选了立刻生效，键盘从下次打开时跟上"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以在設定裡選語言。選了立刻生效，鍵盤從下次開啟時跟上"
-          }
-        }
-      }
-    },
-    "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reorder snippets from inside the keyboard. If fixing the order means a trip back to the app, most people never fix it"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在键盘里就能调整短语顺序。要是改个顺序还得回 App，多数人就干脆不改了"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在鍵盤裡就能調整短語順序。要是改個順序還得回 App，多數人就乾脆不改了"
-          }
-        }
-      }
-    },
-    "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Everything visible is laid out in one line while you move, so page one can go to the top of page two"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移动时会把看得到的全部排成一行，所以第 1 页的可以送到第 2 页最上面"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "移動時會把看得到的全部排成一行，所以第 1 頁的可以送到第 2 頁最上面"
-          }
-        }
-      }
-    },
-    "빈칸 이름을 바꿀 수 있어요. 그 이름을 쓰는 단축어의 내용도 함께 바뀌고, 몇 개가 바뀌는지 먼저 보여드려요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can rename a blank. The name changes inside every snippet that uses it, and we show you how many before you commit"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以给空位改名。用到它的短语内容也会一起改，改之前先告诉你会动几条"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以給空位改名。用到它的短語內容也會一起改，改之前先告訴你會動幾條"
-          }
-        }
-      }
-    },
-    "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blanks no snippet uses can be deleted. Ones still in use would come back, so we do not offer delete on them"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "没有短语在用的空位可以删掉。还在用的删了也会回来，所以不提供删除"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "沒有短語在用的空位可以刪掉。還在用的刪了也會回來，所以不提供刪除"
-          }
-        }
-      }
-    },
-    "단축어를 만들다 이어지는 단계를 지울 때 앱이 죽던 것을 고쳤어요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fixed the app dying when you removed a follow up step while making a snippet"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "修复了创建短语时删除后续步骤会导致 App 崩溃的问题"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "修復了建立短語時刪除後續步驟會導致 App 當機的問題"
-          }
-        }
-      }
-    },
-    "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedback now takes a name and email to reply to. Fill them in once and we fill them in for you next time"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "发送反馈时可以留下姓名和邮箱，方便我们回复。填过一次，下次就会自动帮你填好"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "發送意見回饋時可以留下姓名和信箱，方便我們回覆。填過一次，下次就會自動幫你填好"
-          }
-        }
-      }
-    },
-    "별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭤봐요" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "We ask for a rating only after you have pasted from the keyboard at least once"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有在你至少用键盘粘贴过一次之后，我们才会请你评分"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只有在你至少用鍵盤貼上過一次之後，我們才會請你評分"
           }
         }
       }
