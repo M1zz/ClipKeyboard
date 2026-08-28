@@ -187,34 +187,43 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 ---
 
-## 개인정보 처리방침 링크 (로케일별)
+## 로케일별 링크 (개인정보 · 지원 · 마케팅)
 
-App Store Connect 의 **앱 정보 > 현지화 가능한 정보 > 개인정보 처리방침 URL** 은
-언어마다 따로 넣습니다. 같은 페이지에 `?lang=` 을 붙여 그 언어로 열리게 합니다.
+세 링크는 저장되는 자리가 다릅니다. 개인정보만 **앱 정보**(`appInfoLocalizations`,
+이름·부제와 같은 레코드)에 있고, 지원·마케팅은 **버전별 정보**
+(`appStoreVersionLocalizations`, 설명·키워드와 같은 레코드)에 있습니다.
 
-| 로케일 | URL |
-| --- | --- |
-| zh-Hans | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hans` |
-| zh-Hant | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hant` |
+| 로케일 | 개인정보 처리방침 | 지원 · 마케팅 |
+| --- | --- | --- |
+| zh-Hans | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hans` | `https://m1zz.github.io/ClipKeyboard/?lang=zh-Hans` |
+| zh-Hant | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hant` | `https://m1zz.github.io/ClipKeyboard/?lang=zh-Hant` |
+
+2026-08-29 기준 네 개 다 5.0.5 초안에 저장돼 있고, 페이지도 살아 있습니다.
 
 ⚠️ **`?lang=` 을 반드시 붙입니다.** 파라미터가 없으면 페이지는 **보는 사람의 브라우저
    언어**를 따릅니다. 심사자의 기기가 영어면 중국어 처리방침 대신 영어가 뜹니다.
    지금 한국어 링크에는 파라미터가 없어서 같은 위험이 있습니다(`?lang=ko` 를 붙이는 편이
    확실합니다).
 
-⚠️ **이 두 링크는 `main` 에 올라가야 살아납니다.** GitHub Pages 는 `main` 의 `docs/` 를
-   내보내는데, 중국어 페이지는 아직 `dev` 에만 있습니다. 지금 열면 영어가 뜹니다.
+### 페이지는 `main` 에서 나갑니다
 
-⚠️ 개인정보 URL 은 이름·부제와 **같은 레코드**(`appInfoLocalizations`)에 들어갑니다.
-   그래서 중국어 이름을 저장하기 전에는 중국어 개인정보 URL 도 넣을 수 없습니다.
-   순서가 있습니다: 이름·부제 저장 → 그 로케일에 개인정보 URL.
+GitHub Pages 는 `main` 의 `docs/` 만 내보냅니다. 중국어를 `dev` 에서 아무리 고쳐도
+링크는 영어로 떨어집니다. 2026-08-29 에 웹페이지 다섯 개와 아이콘 두 개를 `main` 에
+올려서(커밋 9a89632) 살렸습니다. **앞으로 페이지 문구를 고치면 `main` 에도 올려야
+스토어 링크에 반영됩니다.**
 
-### ⚠️ 따로 발견한 것: 영어 링크가 남의 사이트를 가리킵니다
+다섯 페이지 모두 한국어·영어·간체·번체가 빠짐없이 채워져 있는 것을 확인했습니다
+(랜딩 65키 · 가이드 157키 · 개인정보 90키 · 약관 43키, 손쉬운사용은 언어별 블록 54개씩).
 
-지금 en-US 의 개인정보 URL 은 `https://codershigh.github.io/WebSite/privacypolicy.html`
-입니다. 열어 보면 **이 앱과 무관한 코딩 학원의 2018년 방침**이고 한국어입니다.
-영어 스토어 이용자와 심사자가 이걸 봅니다. `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en`
-으로 바꾸는 편이 맞습니다.
+### 영어 링크: 살아 있는 쪽은 아직 남의 사이트입니다
+
+`appInfoLocalizations` 는 두 벌입니다. 판매 중인 쪽(READY_FOR_SALE)의 en-US 개인정보
+URL 이 `https://codershigh.github.io/WebSite/privacypolicy.html` 인데, 열어 보면
+**이 앱과 무관한 코딩 학원의 2018년 방침**이고 한국어입니다. 지금 영어 스토어에서
+그게 보입니다.
+
+5.0.5 초안 쪽은 이미 `.../privacy.html?lang=en` 으로 고쳐져 있어서, **5.0.5 가 나가면
+저절로 정리됩니다.** 그 전에 손보고 싶으면 판매 중인 레코드를 직접 고쳐야 합니다.
 
 ---
 
@@ -224,6 +233,7 @@ App Store Connect 의 **앱 정보 > 현지화 가능한 정보 > 개인정보 �
 
 - ~~설명 · 프로모션 텍스트 · 키워드~~ 넣었습니다(위 항목).
 - ~~5.0.5 "새로운 기능" 중국어판~~ 넣었습니다.
-- **앱 이름과 부제** (`appInfoLocalizations`) 는 아직입니다. 버전 문안과 저장되는 자리가
-  달라서, 이름이 정해져야 zh-Hans·zh-Hant 페이지가 중국어 이름으로 섭니다.
+- ~~앱 이름과 부제~~ 넣었습니다. 번체 1순위(`剪貼鍵盤`)는 이미 쓰이는 이름이라 거절돼서,
+  간체·번체 모두 `ClipKeyboard - 快捷短语一键输入` / `ClipKeyboard - 快捷短語一鍵輸入` 로 갔습니다.
+- ~~개인정보 · 지원 · 마케팅 URL~~ 넣었습니다(위 항목).
 - **스크린샷** (로케일별로 따로 올립니다. 지금은 ko·en 것만 있습니다)
