@@ -67269,6 +67269,226 @@
           }
         }
       }
+    },
+    "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese is in, both Simplified and Traditional, and the app name changes with it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入了中文，简体和繁体两套，App 名称也会跟着变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入了中文，簡體和繁體兩套，App 名稱也會跟著變"
+          }
+        }
+      }
+    },
+    "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traditional is not just swapped characters: it uses the words and quotes Taiwan uses, and the banks and addresses in the examples are local ones"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繁体不只是换字：用的是台湾的说法和引号，例子里的银行和地址也换成了当地的"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繁體不只是換字：用的是台灣的說法和引號，例子裡的銀行和地址也換成了當地的"
+          }
+        }
+      }
+    },
+    "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick your language in Settings. It changes right away, and the keyboard follows the next time you open it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在设置里选语言。选了立刻生效，键盘从下次打开时跟上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在設定裡選語言。選了立刻生效，鍵盤從下次開啟時跟上"
+          }
+        }
+      }
+    },
+    "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reorder snippets from inside the keyboard. If fixing the order means a trip back to the app, most people never fix it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在键盘里就能调整短语顺序。要是改个顺序还得回 App，多数人就干脆不改了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鍵盤裡就能調整短語順序。要是改個順序還得回 App，多數人就乾脆不改了"
+          }
+        }
+      }
+    },
+    "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everything visible is laid out in one line while you move, so page one can go to the top of page two"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移动时会把看得到的全部排成一行，所以第 1 页的可以送到第 2 页最上面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移動時會把看得到的全部排成一行，所以第 1 頁的可以送到第 2 頁最上面"
+          }
+        }
+      }
+    },
+    "빈칸 이름을 바꿀 수 있어요. 그 이름을 쓰는 단축어의 내용도 함께 바뀌고, 몇 개가 바뀌는지 먼저 보여드려요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can rename a blank. The name changes inside every snippet that uses it, and we show you how many before you commit"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以给空位改名。用到它的短语内容也会一起改，改之前先告诉你会动几条"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以給空位改名。用到它的短語內容也會一起改，改之前先告訴你會動幾條"
+          }
+        }
+      }
+    },
+    "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blanks no snippet uses can be deleted. Ones still in use would come back, so we do not offer delete on them"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有短语在用的空位可以删掉。还在用的删了也会回来，所以不提供删除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有短語在用的空位可以刪掉。還在用的刪了也會回來，所以不提供刪除"
+          }
+        }
+      }
+    },
+    "단축어를 만들다 이어지는 단계를 지울 때 앱이 죽던 것을 고쳤어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed the app dying when you removed a follow up step while making a snippet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了创建短语时删除后续步骤会导致 App 崩溃的问题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了建立短語時刪除後續步驟會導致 App 當機的問題"
+          }
+        }
+      }
+    },
+    "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback now takes a name and email to reply to. Fill them in once and we fill them in for you next time"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送反馈时可以留下姓名和邮箱，方便我们回复。填过一次，下次就会自动帮你填好"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發送意見回饋時可以留下姓名和信箱，方便我們回覆。填過一次，下次就會自動幫你填好"
+          }
+        }
+      }
+    },
+    "별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭤봐요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We ask for a rating only after you have pasted from the keyboard at least once"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在你至少用键盘粘贴过一次之后，我们才会请你评分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有在你至少用鍵盤貼上過一次之後，我們才會請你評分"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
