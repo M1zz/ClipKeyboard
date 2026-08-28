@@ -44,6 +44,8 @@ struct ClipKeyboardApp: App {
     @State private var showDiscountOffer = false
     /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
     @State private var discountOccasion: DiscountOfferManager.Occasion = .limitEdge
+    /// 언어를 바꿀 때마다 하나씩 올린다. 이 값이 곧 화면 트리의 `id` 라, 바뀌면 통째로 새로 그려진다.
+    @State private var languageRefreshToken = 0
 
     /// 유닛 테스트 실행 중인지 - `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -118,6 +120,10 @@ struct ClipKeyboardApp: App {
             print("🧪 [APP INIT] 유닛 테스트 모드, 무거운 초기화 스킵")
             return
         }
+
+        // ⚠️ 화면에 글자가 하나라도 나가기 **전에** 언어를 세운다. 늦으면 첫 화면만
+        //    기기 언어로 그려졌다가 뒤늦게 바뀌는 깜빡임이 생긴다.
+        AppLanguage.applyStored()
 
         // 직전 런치가 끝까지 갔는지 판정한다. 못 갔으면 이번 런치는 세이프 모드로 열린다.
         LaunchGuard.begin()
@@ -1036,6 +1042,13 @@ struct ClipKeyboardApp: App {
             AppThemedContainer {
             MainTabView()
                 .environmentObject(storeManager)
+                // 언어를 바꾸면 화면을 통째로 새로 그린다. NSLocalizedString 은 그릴 때
+                // 값을 읽으므로, 다시 그리기만 하면 앱을 껐다 켤 필요가 없다.
+                .id(languageRefreshToken)
+                .environment(\.locale, AppLanguage.locale)
+                .onReceive(NotificationCenter.default.publisher(for: .appLanguageChanged)) { _ in
+                    languageRefreshToken += 1
+                }
                 // 팁은 앱 어디에서 뜨든 **마스코트가 말을 거는 모양**이다.
                 // 여기 한 곳에 걸어 두면 TipView·popoverTip 이 모두 같은 얼굴로 나온다.
                 #if targetEnvironment(macCatalyst)

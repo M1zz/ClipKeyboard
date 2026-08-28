@@ -260,6 +260,12 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
+		B3D4BFBC2978C6B78156E1B6 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
+		D9F81F4005E5FDAAAEA43A3A /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
+		AB62FAF03467AD35F25D346F /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
+		12CBEB9291D41B92F0BB6704 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
+		3E4B4536927D6002BE759371 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
+		FCD2BA0589515519BB3C32B7 /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -527,6 +533,14 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LanguageSettingsView.swift; sourceTree = "<group>"; };
+		191E561FED630A1830E67EE2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		3EC90E725CACE57B682C1D9B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		321859E6D51EF831D6CABAB1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B22C185C179501DDC5DF2F2C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		61122E802E390645AAB06B0A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		42B5F7583D8813C742F7F07B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -855,6 +869,7 @@
 		58F8FBC32A15277700F5446E /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */,
 				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
@@ -906,6 +921,7 @@
 		58F8FBC42A15278100F5446E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */,
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
 				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
@@ -1256,6 +1272,8 @@
 				en,
 				Base,
 				ko,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
@@ -1339,6 +1357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12CBEB9291D41B92F0BB6704 /* AppLanguage.swift in Sources */,
 				973397FF455AC125E01E0BC5 /* DefaultsKey.swift in Sources */,
 				AA10000000000000000002AA /* AppGroup.swift in Sources */,
 				E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */,
@@ -1350,6 +1369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E4B4536927D6002BE759371 /* AppLanguage.swift in Sources */,
 				TPH00052F0000000000000005 /* TemplatePlaceholder.swift in Sources */,
 				5607D41CA7EB9B2C5BA16751 /* DefaultsKey.swift in Sources */,
 				AA10000000000000000001AA /* AppGroup.swift in Sources */,
@@ -1360,6 +1380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9F81F4005E5FDAAAEA43A3A /* AppLanguage.swift in Sources */,
 				KBFEED0B0000000000000002 /* KeyboardMemoFeed.swift in Sources */,
 				587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */,
 				587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */,
@@ -1410,6 +1431,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCD2BA0589515519BB3C32B7 /* LanguageSettingsView.swift in Sources */,
+				B3D4BFBC2978C6B78156E1B6 /* AppLanguage.swift in Sources */,
 				B41E7C09D5A2F3610E88AA12 /* UUIDExtension.swift in Sources */,
 				SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */,
 				KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */,
@@ -1598,6 +1621,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB62FAF03467AD35F25D346F /* AppLanguage.swift in Sources */,
 				A30C59B8DC51235598880EBC /* DefaultsKey.swift in Sources */,
 				AA10000000000000000003AA /* AppGroup.swift in Sources */,
 				A54E9621A9472F1221D993BC /* ActionViewController.swift in Sources */,
@@ -1641,6 +1665,8 @@
 		FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				42B5F7583D8813C742F7F07B /* zh-Hant */,
+				61122E802E390645AAB06B0A /* zh-Hans */,
 				4818E17ACCBD2DA8D12EC079 /* ko */,
 				9E4AC1D04D9BAAD9829EB098 /* en */,
 			);
@@ -1650,6 +1676,8 @@
 		INFOPLISTVG1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				3EC90E725CACE57B682C1D9B /* zh-Hant */,
+				191E561FED630A1830E67EE2 /* zh-Hans */,
 				INFOPLIST001 /* ko */,
 				INFOPLIST002 /* en */,
 			);
@@ -1659,6 +1687,8 @@
 		INFOPLISTVG2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				B22C185C179501DDC5DF2F2C /* zh-Hant */,
+				321859E6D51EF831D6CABAB1 /* zh-Hans */,
 				INFOPLIST003 /* ko */,
 				INFOPLIST004 /* en */,
 			);

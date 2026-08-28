@@ -135,6 +135,10 @@ class KeyboardViewController: UIInputViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // 키보드는 앱과 **다른 프로세스**라 앱에서 고른 언어를 스스로 다시 세워야 한다.
+        // 화면을 만들기 전에 부른다 - 키 이름이 한 번 그려진 뒤에는 안 바뀐다.
+        AppLanguage.applyStored()
+
         setupHeightConstraint()
         configureNextKeyboardButton()
         loadMemos()
