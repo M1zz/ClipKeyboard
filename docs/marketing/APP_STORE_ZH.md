@@ -187,6 +187,37 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 ---
 
+## 개인정보 처리방침 링크 (로케일별)
+
+App Store Connect 의 **앱 정보 > 현지화 가능한 정보 > 개인정보 처리방침 URL** 은
+언어마다 따로 넣습니다. 같은 페이지에 `?lang=` 을 붙여 그 언어로 열리게 합니다.
+
+| 로케일 | URL |
+| --- | --- |
+| zh-Hans | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hans` |
+| zh-Hant | `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hant` |
+
+⚠️ **`?lang=` 을 반드시 붙입니다.** 파라미터가 없으면 페이지는 **보는 사람의 브라우저
+   언어**를 따릅니다. 심사자의 기기가 영어면 중국어 처리방침 대신 영어가 뜹니다.
+   지금 한국어 링크에는 파라미터가 없어서 같은 위험이 있습니다(`?lang=ko` 를 붙이는 편이
+   확실합니다).
+
+⚠️ **이 두 링크는 `main` 에 올라가야 살아납니다.** GitHub Pages 는 `main` 의 `docs/` 를
+   내보내는데, 중국어 페이지는 아직 `dev` 에만 있습니다. 지금 열면 영어가 뜹니다.
+
+⚠️ 개인정보 URL 은 이름·부제와 **같은 레코드**(`appInfoLocalizations`)에 들어갑니다.
+   그래서 중국어 이름을 저장하기 전에는 중국어 개인정보 URL 도 넣을 수 없습니다.
+   순서가 있습니다: 이름·부제 저장 → 그 로케일에 개인정보 URL.
+
+### ⚠️ 따로 발견한 것: 영어 링크가 남의 사이트를 가리킵니다
+
+지금 en-US 의 개인정보 URL 은 `https://codershigh.github.io/WebSite/privacypolicy.html`
+입니다. 열어 보면 **이 앱과 무관한 코딩 학원의 2018년 방침**이고 한국어입니다.
+영어 스토어 이용자와 심사자가 이걸 봅니다. `https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en`
+으로 바꾸는 편이 맞습니다.
+
+---
+
 ## 아직 안 된 것 (같은 화면에서 함께 채울 것)
 
 이름·부제만으로는 페이지가 서지 않습니다. zh-Hans·zh-Hant 각각에 다음이 더 필요합니다.
