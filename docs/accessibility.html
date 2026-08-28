@@ -9,7 +9,7 @@
     <meta property="og:description" content="모든 사용자를 위해 설계된 ClipKeyboard의 접근성 기능을 소개합니다.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/accessibility.html">
-    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/app-icon.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,26 +20,39 @@
 
         :root {
             --primary: #007AFF;
-            --primary-dark: #0056CC;
-            --bg: #FAFAFA;
-            --text: #1D1D1F;
-            --text-secondary: #6E6E73;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
             --card-bg: #FFFFFF;
-            --border: #E5E5E7;
+            --border: rgba(0, 0, 0, 0.09);
             --success: #34C759;
             --purple: #AF52DE;
             --orange: #FF9500;
             --pink: #FF2D55;
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            color-scheme: light;
         }
 
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #0E0B17;
-                --text: #F4F1FA;
-                --text-secondary: #A39AB2;
-                --card-bg: #1A1524;
-                --border: rgba(255,255,255,0.08);
-                --primary: #8A6FFF;
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                color-scheme: dark;
             }
         }
 
@@ -351,12 +364,19 @@
             text-decoration: none;
         }
 
-        /* i18n */
+        /* i18n - 한 문장을 네 벌 적어 두고 body 의 클래스로 하나만 보인다.
+           ⚠️ 언어를 더하면 아래 세 줄(숨기기·한국어 끄기·그 언어 켜기)을 함께 늘려야 한다. */
         .ko { display: block; }
-        .en { display: none; }
-        body.en-mode .ko { display: none; }
+        .en, .zh-hans, .zh-hant { display: none; }
+        body.en-mode .ko,
+        body.zh-hans-mode .ko,
+        body.zh-hant-mode .ko { display: none; }
         body.en-mode .en { display: block; }
-        body.en-mode .features-grid .feature-card { display: block; }
+        body.zh-hans-mode .zh-hans { display: block; }
+        body.zh-hant-mode .zh-hant { display: block; }
+        body.en-mode .features-grid .feature-card,
+        body.zh-hans-mode .features-grid .feature-card,
+        body.zh-hant-mode .features-grid .feature-card { display: block; }
 
         @media (max-width: 600px) {
             .hero { padding: 4rem 1.25rem 3rem; }
@@ -371,6 +391,8 @@
 <div class="lang-toggle" role="group" aria-label="Language selector">
     <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko" aria-pressed="true">한국어</button>
     <button class="lang-btn" onclick="setLang('en')" id="btn-en" aria-pressed="false">English</button>
+    <button class="lang-btn" onclick="setLang('zh-Hans')" id="btn-zh-Hans" aria-pressed="false">简体</button>
+    <button class="lang-btn" onclick="setLang('zh-Hant')" id="btn-zh-Hant" aria-pressed="false">繁體</button>
 </div>
 
 <!-- Nav -->
@@ -379,7 +401,7 @@
     <span class="sep" aria-hidden="true">›</span>
     <a href="accessibility.html">
         <span class="ko">손쉬운 사용</span>
-        <span class="en">Accessibility</span>
+        <span class="en">Accessibility</span><span class="zh-hans">辅助功能</span><span class="zh-hant">輔助使用</span>
     </a>
 </nav>
 
@@ -388,11 +410,11 @@
     <div class="hero-badge" aria-hidden="true">♿ Accessibility</div>
     <h1>
         <span class="ko">모든 사람을 위한<br>ClipKeyboard</span>
-        <span class="en">ClipKeyboard<br>for Everyone</span>
+        <span class="en">ClipKeyboard<br>for Everyone</span><span class="zh-hans">为所有人准备的<br>剪贴键盘</span><span class="zh-hant">為所有人準備的<br>剪貼鍵盤</span>
     </h1>
     <p>
         <span class="ko">시각·운동·청각 보조 기능을 완전히 지원합니다. Apple 손쉬운 사용 철학을 바탕으로, 어떤 방식으로 기기를 사용하든 ClipKeyboard를 자유롭게 쓸 수 있습니다.</span>
-        <span class="en">Full support for visual, motor, and auditory assistive features. Built on Apple's accessibility philosophy: use ClipKeyboard your way, no matter how you interact with your device.</span>
+        <span class="en">Full support for visual, motor, and auditory assistive features. Built on Apple's accessibility philosophy: use ClipKeyboard your way, no matter how you interact with your device.</span><span class="zh-hans">完整支持视觉、行动和听觉方面的辅助功能。以 Apple 的辅助功能理念为基础，无论你用什么方式操作设备，都能自在地使用剪贴键盘。</span><span class="zh-hant">完整支援視覺、行動和聽覺方面的輔助使用。以 Apple 的輔助使用理念為基礎，無論你用什麼方式操作裝置，都能自在地使用剪貼鍵盤。</span>
     </p>
 </header>
 
@@ -401,11 +423,11 @@
 <section class="section" aria-labelledby="features-heading">
     <h2 class="section-title" id="features-heading">
         <span class="ko">지원하는 손쉬운 사용 기능</span>
-        <span class="en">Supported Accessibility Features</span>
+        <span class="en">Supported Accessibility Features</span><span class="zh-hans">支持的辅助功能</span><span class="zh-hant">支援的輔助使用</span>
     </h2>
     <p class="section-subtitle">
         <span class="ko">아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.</span>
-        <span class="en">Enable these features in iPhone Settings → Accessibility.</span>
+        <span class="en">Enable these features in iPhone Settings → Accessibility.</span><span class="zh-hans">下面这些可以在 iPhone 的“设置 → 辅助功能”里打开。</span><span class="zh-hant">下面這些可以在 iPhone 的「設定 → 輔助使用」裡開啟。</span>
     </p>
 
     <div class="features-grid" role="list">
@@ -415,11 +437,11 @@
             <h3 class="feature-title">VoiceOver</h3>
             <p class="feature-body">
                 <span class="ko">메모 목록에서 한 번 탭하면 카테고리·제목·내용을 읽어줍니다. 이중 탭하면 클립보드에 복사되며 <strong>"복사됨"</strong> 알림이 즉시 읽힙니다.<br><br>위아래 쓸기로 <strong>즐겨찾기 추가</strong>, <strong>삭제</strong> 커스텀 액션에 접근할 수 있어 별도 스와이프 없이 사용 가능합니다.</span>
-                <span class="en">One tap on a memo row announces category, title, content, and timestamp. Double-tap copies to clipboard and immediately announces <strong>"Copied"</strong>.<br><br>Swipe up/down to access <strong>Add Favorite</strong> and <strong>Delete</strong> custom actions without requiring swipe gestures.</span>
+                <span class="en">One tap on a memo row announces category, title, content, and timestamp. Double-tap copies to clipboard and immediately announces <strong>"Copied"</strong>.<br><br>Swipe up/down to access <strong>Add Favorite</strong> and <strong>Delete</strong> custom actions without requiring swipe gestures.</span><span class="zh-hans">在短语列表里点一下，就会朗读分类、标题和内容。双击会复制到剪贴板，并立刻朗读<strong>“已复制”</strong>提示。<br><br>上下轻扫可以调出<strong>加入收藏</strong>、<strong>删除</strong>这些自定操作，不用另外左右滑动。</span><span class="zh-hant">在短語列表裡點一下，就會朗讀分類、標題和內容。雙擊會複製到剪貼簿，並立刻朗讀<strong>「已複製」</strong>提示。<br><br>上下輕掃可以調出<strong>加入收藏</strong>、<strong>刪除</strong>這些自定操作，不用另外左右滑動。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 손쉬운 사용 → VoiceOver</span>
-                <span class="en">⚙️ Settings → Accessibility → VoiceOver</span>
+                <span class="en">⚙️ Settings → Accessibility → VoiceOver</span><span class="zh-hans">⚙️ 设置 → 辅助功能 → 旁白</span><span class="zh-hant">⚙️ 設定 → 輔助使用 → 旁白</span>
             </p>
         </article>
 
@@ -427,15 +449,15 @@
             <span class="feature-icon" aria-hidden="true">🎙</span>
             <h3 class="feature-title">
                 <span class="ko">음성 명령</span>
-                <span class="en">Voice Control</span>
+                <span class="en">Voice Control</span><span class="zh-hans">语音控制</span><span class="zh-hant">語音控制</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">화면에 보이는 버튼 이름을 그대로 말해 조작합니다. <strong>"메모 검색 탭"</strong>, <strong>"확인 탭"</strong>처럼 말하면 됩니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.</span>
-                <span class="en">Say the name of any visible button to activate it. <strong>"Tap Search"</strong>, <strong>"Tap Done"</strong>, and more. Every button and input field has an accessible name for precise voice targeting.</span>
+                <span class="en">Say the name of any visible button to activate it. <strong>"Tap Search"</strong>, <strong>"Tap Done"</strong>, and more. Every button and input field has an accessible name for precise voice targeting.</span><span class="zh-hans">直接说出屏幕上按钮的名称就能操作。像<strong>“点按 搜索短语”</strong>、<strong>“点按 确定”</strong>这样说即可。所有按钮和输入框都设有可朗读的名称。</span><span class="zh-hant">直接說出螢幕上按鈕的名稱就能操作。像<strong>「點一下 搜尋短語」</strong>、<strong>「點一下 確定」</strong>這樣說即可。所有按鈕和輸入框都設有可朗讀的名稱。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 손쉬운 사용 → 음성 명령</span>
-                <span class="en">⚙️ Settings → Accessibility → Voice Control</span>
+                <span class="en">⚙️ Settings → Accessibility → Voice Control</span><span class="zh-hans">⚙️ 设置 → 辅助功能 → 语音控制</span><span class="zh-hant">⚙️ 設定 → 輔助使用 → 語音控制</span>
             </p>
         </article>
 
@@ -443,15 +465,15 @@
             <span class="feature-icon" aria-hidden="true">🔠</span>
             <h3 class="feature-title">
                 <span class="ko">더 큰 텍스트</span>
-                <span class="en">Larger Text</span>
+                <span class="en">Larger Text</span><span class="zh-hans">更大的文字</span><span class="zh-hant">更大的文字</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">시스템 텍스트 크기를 키우면 메모 제목·내용 미리보기·배지가 비례해서 커집니다. 커스텀 폰트(Paper 테마)도 Dynamic Type 기반으로 스케일됩니다.<br><br>앱 내 글꼴 크기 슬라이더로 키보드만 별도 조정할 수도 있습니다.</span>
-                <span class="en">Increasing system text size proportionally scales memo titles, previews, and badges. Custom fonts (Paper theme) scale via Dynamic Type.<br><br>An in-app font size slider lets you adjust the keyboard separately.</span>
+                <span class="en">Increasing system text size proportionally scales memo titles, previews, and badges. Custom fonts (Paper theme) scale via Dynamic Type.<br><br>An in-app font size slider lets you adjust the keyboard separately.</span><span class="zh-hans">调大系统文字后，短语标题、内容预览和标记都会按比例变大。自定字体（Paper 主题）也基于动态字体缩放。<br><br>也可以用 App 内的字号滑块，单独调整键盘。</span><span class="zh-hant">調大系統文字後，短語標題、內容預覽和標記都會按比例變大。自定字體（Paper 主題）也基於動態字體縮放。<br><br>也可以用 App 內的字體大小滑塊，單獨調整鍵盤。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 디스플레이 및 밝기 → 텍스트 크기</span>
-                <span class="en">⚙️ Settings → Display &amp; Brightness → Text Size</span>
+                <span class="en">⚙️ Settings → Display &amp; Brightness → Text Size</span><span class="zh-hans">⚙️ 设置 → 显示与亮度 → 文字大小</span><span class="zh-hant">⚙️ 設定 → 顯示與亮度 → 文字大小</span>
             </p>
         </article>
 
@@ -459,15 +481,15 @@
             <span class="feature-icon" aria-hidden="true">🌙</span>
             <h3 class="feature-title">
                 <span class="ko">다크 모드</span>
-                <span class="en">Dark Mode</span>
+                <span class="en">Dark Mode</span><span class="zh-hans">深色模式</span><span class="zh-hant">深色模式</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">Dusk·Paper 두 테마 모두 다크 모드를 완전히 지원합니다. 시스템 설정을 따르거나 앱 내에서 직접 선택할 수 있습니다. 밝기에 민감한 사용자에게 권장됩니다.</span>
-                <span class="en">Both Dusk and Paper themes fully support dark mode. Follow the system setting or choose manually in-app. Recommended for users sensitive to bright screens.</span>
+                <span class="en">Both Dusk and Paper themes fully support dark mode. Follow the system setting or choose manually in-app. Recommended for users sensitive to bright screens.</span><span class="zh-hans">Dusk 和 Paper 两种主题都完整支持深色模式。可以跟随系统设置，也可以在 App 内直接选择。推荐给对亮度敏感的人。</span><span class="zh-hant">Dusk 和 Paper 兩種主題都完整支援深色模式。可以跟隨系統設定，也可以在 App 內直接選擇。推薦給對亮度敏感的人。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 디스플레이 및 밝기 → 다크</span>
-                <span class="en">⚙️ Settings → Display &amp; Brightness → Dark</span>
+                <span class="en">⚙️ Settings → Display &amp; Brightness → Dark</span><span class="zh-hans">⚙️ 设置 → 显示与亮度 → 深色</span><span class="zh-hant">⚙️ 設定 → 顯示與亮度 → 深色</span>
             </p>
         </article>
 
@@ -475,15 +497,15 @@
             <span class="feature-icon" aria-hidden="true">🎨</span>
             <h3 class="feature-title">
                 <span class="ko">색상 없이 구별</span>
-                <span class="en">Differentiate Without Color</span>
+                <span class="en">Differentiate Without Color</span><span class="zh-hans">无颜色区分</span><span class="zh-hant">不用顏色區分</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">Template · +Template · Combo · New 배지는 색상뿐 아니라 텍스트 라벨로도 구분됩니다. 색맹 사용자도 배지 종류를 읽을 수 있습니다.</span>
-                <span class="en">Template, +Template, Combo, and New badges are distinguished by text labels, not color alone. Color-blind users can read badge types without relying on color.</span>
+                <span class="en">Template, +Template, Combo, and New badges are distinguished by text labels, not color alone. Color-blind users can read badge types without relying on color.</span><span class="zh-hans">模板、+模板、组合、新增这些标记除了颜色，还用文字标签区分。色盲用户也能读出标记的类型。</span><span class="zh-hant">範本、+範本、組合、新增這些標記除了顏色，還用文字標籤區分。色盲使用者也能讀出標記的類型。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 색상 필터</span>
-                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Color Filters</span>
+                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Color Filters</span><span class="zh-hans">⚙️ 设置 → 辅助功能 → 显示与文字大小 → 颜色滤镜</span><span class="zh-hant">⚙️ 設定 → 輔助使用 → 顯示與文字大小 → 顏色濾鏡</span>
             </p>
         </article>
 
@@ -491,15 +513,15 @@
             <span class="feature-icon" aria-hidden="true">🌀</span>
             <h3 class="feature-title">
                 <span class="ko">동작 줄이기</span>
-                <span class="en">Reduce Motion</span>
+                <span class="en">Reduce Motion</span><span class="zh-hans">减弱动态效果</span><span class="zh-hant">減少動態效果</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">즐겨찾기 추가 시 나타나는 하트 애니메이션이 <strong>동작 줄이기</strong> 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 효과 없이 페이드만 사용합니다. 전정 장애가 있는 사용자에게 권장됩니다.</span>
-                <span class="en">The heart animation on favoriting automatically respects <strong>Reduce Motion</strong>. When enabled, only a fade is used: no movement or scale effects. Recommended for users with vestibular disorders.</span>
+                <span class="en">The heart animation on favoriting automatically respects <strong>Reduce Motion</strong>. When enabled, only a fade is used: no movement or scale effects. Recommended for users with vestibular disorders.</span><span class="zh-hans">加入收藏时的爱心动画会自动跟随<strong>减弱动态效果</strong>设置。开启后只做淡入淡出，没有移动和缩放。推荐给有前庭功能障碍的人。</span><span class="zh-hant">加入收藏時的愛心動畫會自動跟隨<strong>減少動態效果</strong>設定。開啓後只做淡入淡出，沒有移動和縮放。推薦給有前庭功能障礙的人。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 손쉬운 사용 → 동작 → 동작 줄이기</span>
-                <span class="en">⚙️ Settings → Accessibility → Motion → Reduce Motion</span>
+                <span class="en">⚙️ Settings → Accessibility → Motion → Reduce Motion</span><span class="zh-hans">⚙️ 设置 → 辅助功能 → 动态效果 → 减弱动态效果</span><span class="zh-hant">⚙️ 設定 → 輔助使用 → 動態效果 → 減少動態效果</span>
             </p>
         </article>
 
@@ -507,15 +529,15 @@
             <span class="feature-icon" aria-hidden="true">🔒</span>
             <h3 class="feature-title">
                 <span class="ko">충분한 대비</span>
-                <span class="en">Sufficient Contrast</span>
+                <span class="en">Sufficient Contrast</span><span class="zh-hans">足够的对比度</span><span class="zh-hant">足夠的對比度</span>
             </h3>
             <p class="feature-body">
                 <span class="ko">Dusk·Paper 두 테마 모두 WCAG 2.1 AA 기준(4.5:1) 이상의 색상 대비를 제공합니다. 저시력 사용자도 본문 텍스트와 배경을 명확히 구별할 수 있습니다.</span>
-                <span class="en">Both Dusk and Paper themes meet WCAG 2.1 AA contrast requirements (4.5:1 minimum). Users with low vision can clearly distinguish body text from backgrounds.</span>
+                <span class="en">Both Dusk and Paper themes meet WCAG 2.1 AA contrast requirements (4.5:1 minimum). Users with low vision can clearly distinguish body text from backgrounds.</span><span class="zh-hans">Dusk 和 Paper 两种主题都达到 WCAG 2.1 AA 标准（4.5:1）以上的色彩对比。低视力用户也能清楚分辨正文和背景。</span><span class="zh-hant">Dusk 和 Paper 兩種主題都達到 WCAG 2.1 AA 標準（4.5:1）以上的色彩對比。低視力使用者也能清楚分辨正文和背景。</span>
             </p>
             <p class="feature-tip">
                 <span class="ko">⚙️ 설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 대비 높이기</span>
-                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Increase Contrast</span>
+                <span class="en">⚙️ Settings → Accessibility → Display &amp; Text Size → Increase Contrast</span><span class="zh-hans">⚙️ 设置 → 辅助功能 → 显示与文字大小 → 增强对比度</span><span class="zh-hant">⚙️ 設定 → 輔助使用 → 顯示與文字大小 → 提高對比度</span>
             </p>
         </article>
 
@@ -526,49 +548,49 @@
         <h3 class="testing-title" id="testing-heading">
             <span aria-hidden="true">✅</span>
             <span class="ko">직접 테스트하는 방법</span>
-            <span class="en">How to Test</span>
+            <span class="en">How to Test</span><span class="zh-hans">自己怎么测试</span><span class="zh-hant">自己怎麼測試</span>
         </h3>
         <ol class="test-steps">
             <li>
                 <span class="step-num" aria-hidden="true">1</span>
                 <span class="step-body">
                     <span class="ko"><strong>VoiceOver</strong>, 메모 행 한 번 탭 → 전체 내용 읽기 확인. 이중 탭 → "복사됨" 알림 확인. 위아래 쓸기 → 즐겨찾기·삭제 액션 확인.</span>
-                    <span class="en"><strong>VoiceOver</strong>: Single-tap a memo row, verify full content is read. Double-tap, verify "Copied" announcement. Swipe up/down, verify Favorite and Delete actions appear.</span>
+                    <span class="en"><strong>VoiceOver</strong>: Single-tap a memo row, verify full content is read. Double-tap, verify "Copied" announcement. Swipe up/down, verify Favorite and Delete actions appear.</span><span class="zh-hans"><strong>旁白</strong>：在短语行上点一下 → 确认会读出全部内容。双击 → 确认有“已复制”提示。上下轻扫 → 确认出现收藏和删除操作。</span><span class="zh-hant"><strong>旁白</strong>：在短語行上點一下 → 確認會讀出全部內容。雙擊 → 確認有「已複製」提示。上下輕掃 → 確認出現收藏和刪除操作。</span>
                 </span>
             </li>
             <li>
                 <span class="step-num" aria-hidden="true">2</span>
                 <span class="step-body">
                     <span class="ko"><strong>음성 명령</strong>, "탭 검색" 또는 "탭 확인" 말하기 → 반응 확인.</span>
-                    <span class="en"><strong>Voice Control</strong>: Say "Tap Search" or "Tap Done" and verify the app responds.</span>
+                    <span class="en"><strong>Voice Control</strong>: Say "Tap Search" or "Tap Done" and verify the app responds.</span><span class="zh-hans"><strong>语音控制</strong>：说“点按 搜索”或“点按 确定” → 确认有反应。</span><span class="zh-hant"><strong>語音控制</strong>：說「點一下 搜尋」或「點一下 確定」 → 確認有反應。</span>
                 </span>
             </li>
             <li>
                 <span class="step-num" aria-hidden="true">3</span>
                 <span class="step-body">
                     <span class="ko"><strong>더 큰 텍스트</strong>, 설정에서 텍스트 크기 최대로 → 메모 목록 텍스트 크기 확인.</span>
-                    <span class="en"><strong>Larger Text</strong>: Set system text size to maximum. Verify memo titles and previews scale proportionally.</span>
+                    <span class="en"><strong>Larger Text</strong>: Set system text size to maximum. Verify memo titles and previews scale proportionally.</span><span class="zh-hans"><strong>更大的文字</strong>：在设置里把字号调到最大 → 确认短语列表的文字大小。</span><span class="zh-hant"><strong>更大的文字</strong>：在設定裡把字體大小調到最大 → 確認短語列表的文字大小。</span>
                 </span>
             </li>
             <li>
                 <span class="step-num" aria-hidden="true">4</span>
                 <span class="step-body">
                     <span class="ko"><strong>다크 모드</strong>, 제어 센터에서 다크 모드 전환 → 즉시 색상 변경 확인.</span>
-                    <span class="en"><strong>Dark Mode</strong>: Toggle dark mode from Control Center. Verify colors update instantly without relaunching.</span>
+                    <span class="en"><strong>Dark Mode</strong>: Toggle dark mode from Control Center. Verify colors update instantly without relaunching.</span><span class="zh-hans"><strong>深色模式</strong>：在控制中心切换深色模式 → 确认颜色立刻改变。</span><span class="zh-hant"><strong>深色模式</strong>：在控制中心切換深色模式 → 確認顏色立刻改變。</span>
                 </span>
             </li>
             <li>
                 <span class="step-num" aria-hidden="true">5</span>
                 <span class="step-body">
                     <span class="ko"><strong>색상 필터</strong>, 설정 → 적록색맹 필터 ON → 배지 구분 확인.</span>
-                    <span class="en"><strong>Color Filters</strong>: Enable red-green color blindness filter. Verify badges are distinguishable by text alone.</span>
+                    <span class="en"><strong>Color Filters</strong>: Enable red-green color blindness filter. Verify badges are distinguishable by text alone.</span><span class="zh-hans"><strong>颜色滤镜</strong>：设置 → 打开红绿色盲滤镜 → 确认标记仍能分辨。</span><span class="zh-hant"><strong>顏色濾鏡</strong>：設定 → 開啟紅綠色盲濾鏡 → 確認標記仍能分辨。</span>
                 </span>
             </li>
             <li>
                 <span class="step-num" aria-hidden="true">6</span>
                 <span class="step-body">
                     <span class="ko"><strong>동작 줄이기</strong>, 설정 ON → 즐겨찾기 추가 → 하트 애니메이션이 이동 없이 페이드만 되는지 확인.</span>
-                    <span class="en"><strong>Reduce Motion</strong>: Enable setting → add a favorite → verify the heart only fades, no movement or scale.</span>
+                    <span class="en"><strong>Reduce Motion</strong>: Enable setting → add a favorite → verify the heart only fades, no movement or scale.</span><span class="zh-hans"><strong>减弱动态效果</strong>：打开设置 → 加入收藏 → 确认爱心只淡入淡出、不移动。</span><span class="zh-hant"><strong>減少動態效果</strong>：開啟設定 → 加入收藏 → 確認愛心只淡入淡出、不移動。</span>
                 </span>
             </li>
         </ol>
@@ -578,46 +600,46 @@
     <div style="margin-top: 3rem;">
         <h3 class="section-title" style="font-size: 1.2rem;">
             <span class="ko">WCAG 2.1 적합성</span>
-            <span class="en">WCAG 2.1 Conformance</span>
+            <span class="en">WCAG 2.1 Conformance</span><span class="zh-hans">WCAG 2.1 符合情况</span><span class="zh-hant">WCAG 2.1 符合情況</span>
         </h3>
         <table class="wcag-table" aria-label="WCAG 2.1 conformance status">
             <thead>
                 <tr>
-                    <th><span class="ko">기준</span><span class="en">Criterion</span></th>
-                    <th><span class="ko">등급</span><span class="en">Level</span></th>
-                    <th><span class="ko">상태</span><span class="en">Status</span></th>
+                    <th><span class="ko">기준</span><span class="en">Criterion</span><span class="zh-hans">标准</span><span class="zh-hant">標準</span></th>
+                    <th><span class="ko">등급</span><span class="en">Level</span><span class="zh-hans">等级</span><span class="zh-hant">等級</span></th>
+                    <th><span class="ko">상태</span><span class="en">Status</span><span class="zh-hans">状态</span><span class="zh-hant">狀態</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><span class="ko">비텍스트 콘텐츠 대체 텍스트 (1.1.1)</span><span class="en">Non-text Content Alt Text (1.1.1)</span></td>
+                    <td><span class="ko">비텍스트 콘텐츠 대체 텍스트 (1.1.1)</span><span class="en">Non-text Content Alt Text (1.1.1)</span><span class="zh-hans">非文本内容的替代文本（1.1.1）</span><span class="zh-hant">非文字內容的替代文字（1.1.1）</span></td>
                     <td>A</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
                 <tr>
-                    <td><span class="ko">정보·구조의 색상 외 표현 (1.4.1)</span><span class="en">Use of Color (1.4.1)</span></td>
+                    <td><span class="ko">정보·구조의 색상 외 표현 (1.4.1)</span><span class="en">Use of Color (1.4.1)</span><span class="zh-hans">不只用颜色表达信息与结构（1.4.1）</span><span class="zh-hant">不只用顏色表達資訊與結構（1.4.1）</span></td>
                     <td>A</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
                 <tr>
-                    <td><span class="ko">텍스트 명암비 4.5:1 이상 (1.4.3)</span><span class="en">Contrast Minimum (1.4.3)</span></td>
+                    <td><span class="ko">텍스트 명암비 4.5:1 이상 (1.4.3)</span><span class="en">Contrast Minimum (1.4.3)</span><span class="zh-hans">文本对比度 4.5:1 以上（1.4.3）</span><span class="zh-hant">文字對比度 4.5:1 以上（1.4.3）</span></td>
                     <td>AA</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
                 <tr>
-                    <td><span class="ko">텍스트 크기 조정 (1.4.4)</span><span class="en">Resize Text (1.4.4)</span></td>
+                    <td><span class="ko">텍스트 크기 조정 (1.4.4)</span><span class="en">Resize Text (1.4.4)</span><span class="zh-hans">文字大小可调整（1.4.4）</span><span class="zh-hant">文字大小可調整（1.4.4）</span></td>
                     <td>AA</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
                 <tr>
-                    <td><span class="ko">모든 기능 키보드/포인터 접근 (2.1.1)</span><span class="en">Keyboard Accessible (2.1.1)</span></td>
+                    <td><span class="ko">모든 기능 키보드/포인터 접근 (2.1.1)</span><span class="en">Keyboard Accessible (2.1.1)</span><span class="zh-hans">所有功能可用键盘/指针操作（2.1.1）</span><span class="zh-hant">所有功能可用鍵盤/指針操作（2.1.1）</span></td>
                     <td>A</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
                 <tr>
-                    <td><span class="ko">동작으로 인한 불편 방지 (2.3.3)</span><span class="en">Animation from Interactions (2.3.3)</span></td>
+                    <td><span class="ko">동작으로 인한 불편 방지 (2.3.3)</span><span class="en">Animation from Interactions (2.3.3)</span><span class="zh-hans">避免交互动画带来的不适（2.3.3）</span><span class="zh-hant">避免交互動畫帶來的不適（2.3.3）</span></td>
                     <td>AAA</td>
-                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span></span></td>
+                    <td><span class="badge badge-pass">✓ <span class="ko">충족</span><span class="en">Pass</span><span class="zh-hans">符合</span><span class="zh-hant">符合</span></span></td>
                 </tr>
             </tbody>
         </table>
@@ -627,15 +649,15 @@
     <div class="commitment" role="complementary" aria-labelledby="commitment-heading">
         <h2 id="commitment-heading">
             <span class="ko">접근성 개선은 계속됩니다</span>
-            <span class="en">Our Accessibility Commitment</span>
+            <span class="en">Our Accessibility Commitment</span><span class="zh-hans">辅助功能会继续改进</span><span class="zh-hant">輔助使用會繼續改進</span>
         </h2>
         <p>
             <span class="ko">ClipKeyboard는 지속적으로 접근성을 개선하고 있습니다. 사용 중 불편한 점이나 개선 의견이 있으면 언제든 알려주세요.</span>
-            <span class="en">We continuously improve accessibility in ClipKeyboard. If you encounter any barriers or have suggestions, we'd love to hear from you.</span>
+            <span class="en">We continuously improve accessibility in ClipKeyboard. If you encounter any barriers or have suggestions, we'd love to hear from you.</span><span class="zh-hans">剪贴键盘会持续改进辅助功能。使用中有任何不便或建议，随时告诉我们。</span><span class="zh-hant">剪貼鍵盤會持續改進輔助使用。使用中有任何不便或建議，隨時告訴我們。</span>
         </p>
         <a href="mailto:leeo@kakao.com" class="contact-link">
             <span class="ko">접근성 피드백 보내기</span>
-            <span class="en">Send Accessibility Feedback</span>
+            <span class="en">Send Accessibility Feedback</span><span class="zh-hans">发送辅助功能反馈</span><span class="zh-hant">發送輔助使用意見回饋</span>
         </a>
     </div>
 </section>
@@ -644,40 +666,51 @@
 <footer>
     <p>
         <a href="index.html">ClipKeyboard</a> ·
-        <a href="privacy.html"><span class="ko">개인정보 처리방침</span><span class="en">Privacy Policy</span></a> ·
-        <a href="tutorial.html"><span class="ko">사용 가이드</span><span class="en">User Guide</span></a>
+        <a href="privacy.html"><span class="ko">개인정보 처리방침</span><span class="en">Privacy Policy</span><span class="zh-hans">隐私政策</span><span class="zh-hant">隱私權政策</span></a> ·
+        <a href="tutorial.html"><span class="ko">사용 가이드</span><span class="en">User Guide</span><span class="zh-hans">使用指南</span><span class="zh-hant">使用指南</span></a>
     </p>
     <p style="margin-top: 8px;">
         <span class="ko">© 2025 Ysoup. 개발자: leeo@kakao.com</span>
-        <span class="en">© 2025 Ysoup. Contact: leeo@kakao.com</span>
+        <span class="en">© 2025 Ysoup. Contact: leeo@kakao.com</span><span class="zh-hans">© 2025 Ysoup. 开发者：leeo@kakao.com</span><span class="zh-hant">© 2025 Ysoup. 開發者：leeo@kakao.com</span>
     </p>
 </footer>
 
 <script>
+    var LANGS = ['ko', 'en', 'zh-Hans', 'zh-Hant'];
+
+    /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+    /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+    function normalizeLang(tag) {
+        var t = (tag || '').toLowerCase().replace('_', '-');
+        if (!t) return '';
+        if (t.indexOf('ko') === 0) return 'ko';
+        if (t.indexOf('en') === 0) return 'en';
+        if (t.indexOf('zh') === 0) {
+            if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+            return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+        }
+        return '';
+    }
+
     function setLang(lang) {
-        document.body.classList.toggle('en-mode', lang === 'en');
-        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        document.getElementById('btn-ko').setAttribute('aria-pressed', lang === 'ko');
-        document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+        LANGS.forEach(function (code) {
+            if (code !== 'ko') document.body.classList.toggle(code.toLowerCase() + '-mode', lang === code);
+            var btn = document.getElementById('btn-' + code);
+            if (!btn) return;
+            btn.classList.toggle('active', lang === code);
+            btn.setAttribute('aria-pressed', lang === code);
+        });
         document.documentElement.lang = lang;
         localStorage.setItem('clipkb-lang', lang);
     }
 
-    // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
-    // setLang 은 저장을 하지 않으므로 여기서 직접 저장한다.
-    const requestedLang = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
-    if (requestedLang === 'en' || requestedLang === 'ko') {
-        localStorage.setItem('clipkb-lang', requestedLang);
-    }
-
-    // Restore saved language preference
-    const saved = localStorage.getItem('clipkb-lang');
-    if (saved) setLang(saved);
-    else {
-        const browser = navigator.language.startsWith('ko') ? 'ko' : 'en';
-        setLang(browser);
-    }
+    // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+    var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+    // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+    var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
+    var browser = normalizeLang(navigator.language || '');
+    setLang(asked || saved || browser || 'en');
 </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
     <meta property="og:description" content="키보드 설정부터 고급 기능까지, 5분 안에 마스터하는 ClipKeyboard.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/tutorial.html">
-    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/app-icon.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -34,14 +34,39 @@
 
         :root {
             --primary: #007AFF;
-            --primary-dark: #0056CC;
-            --bg: #FAFAFA;
-            --text: #1D1D1F;
-            --text-secondary: #6E6E73;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
             --card-bg: #FFFFFF;
-            --border: #E5E5E7;
+            --border: rgba(0, 0, 0, 0.09);
             --accent-green: #34C759;
             --accent-orange: #FF9500;
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                color-scheme: dark;
+            }
         }
 
         body {
@@ -82,13 +107,13 @@
             color: white;
         }
 
-        .lang-btn:hover:not(.active) { background: #F0F0F2; }
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
 
         /* Top Nav */
         .top-nav {
             position: sticky;
             top: 0;
-            background: rgba(255,255,255,0.85);
+            background: var(--veil);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border);
@@ -129,7 +154,7 @@
         .tutorial-hero {
             padding: 5rem 2rem 3rem;
             text-align: center;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
         }
 
         .tutorial-hero h1 {
@@ -352,7 +377,7 @@
         }
 
         code, kbd {
-            background: #F0F0F2;
+            background: var(--surface-alt);
             padding: 0.1rem 0.375rem;
             border-radius: 4px;
             font-family: 'SF Mono', Menlo, Consolas, monospace;
@@ -423,7 +448,7 @@
         .bottom-cta {
             text-align: center;
             padding: 3rem 2rem;
-            background: linear-gradient(180deg, #F5F5F7 0%, #FFFFFF 100%);
+            background: linear-gradient(180deg, var(--paper-1) 0%, var(--card-bg) 100%);
         }
 
         .bottom-cta .btn-primary {
@@ -472,6 +497,8 @@
     <div class="lang-toggle">
         <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
         <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
+        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
     </div>
 
     <nav class="top-nav">
@@ -560,6 +587,17 @@
             <h3 data-i18n="memoImageTitle">이미지 메모 & 문자 인식</h3>
             <p data-i18n-html="memoImage">사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. 캡처한 이미지에서 <strong>문자 인식(OCR)</strong>으로 필요한 텍스트만 골라 메모로 담을 수도 있습니다. <strong>무료 버전에서는 이미지 메모 5개까지 저장</strong> 가능, Pro에서 무제한.</p>
 
+            <h3 data-i18n="smearTitle">사진에서 문질러 담기</h3>
+            <p data-i18n-html="smearLead">종이에 적힌 계좌번호·전화번호를 보고 옮겨 적지 마세요. 사진을 찍고 <strong>필요한 곳만 손가락으로 문지르면</strong> 그 글자만 값으로 들어옵니다.</p>
+            <ol class="steps">
+                <li data-i18n-html="smear1">단축어를 만들 때 내용 위의 <strong>스캔해서 글자 넣기</strong>를 누르고 <strong>카메라로 찍어서</strong> 또는 <strong>사진 보관함에서</strong>를 고릅니다</li>
+                <li data-i18n="smear2">사진 속 글자 위를 손가락으로 쓸면, 지나간 글자가 노랗게 칠해집니다</li>
+                <li data-i18n-html="smear3">잘못 담았으면 <strong>지우개</strong>로 다시 문질러 빼고, 작은 글자는 두 손가락으로 벌려 확대합니다</li>
+                <li data-i18n-html="smear4"><strong>이 글자 담기</strong>를 누르면 고른 글자가 단축어 내용으로 들어갑니다</li>
+            </ol>
+            <div class="tip" data-i18n="smearTip">두 줄짜리 주소처럼 줄이 바뀌는 값은 줄바꿈 버튼을 켜세요. 두 줄에 걸쳐 찍힌 계좌번호는 꺼 두면 한 줄로 이어 붙습니다.</div>
+            <div class="note" data-i18n="smearNote">사진은 저장되지 않습니다. 글자만 꺼내 쓰고 사진은 버립니다. 인식은 기기 안에서만 이뤄지므로 사진도 글자도 어디로든 전송되지 않습니다. 문지르기가 어려우면 오른쪽 위 '줄로 고르기'로 읽은 줄을 목록에서 고를 수 있습니다.</div>
+
             <h3 data-i18n="memoSecureTitle">보안 메모 (잠금)</h3>
             <p data-i18n-html="memoSecure">민감한 메모는 잠가서 보호하세요. 메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하면 기기에 암호화되어 저장되고(키는 iCloud 키체인으로 안전하게 동기화), 열거나 잠금을 해제할 때 <strong>Face ID · Touch ID</strong>로 인증합니다. 잠긴 메모는 목록과 키보드에서 제목 앞 자물쇠로만 구분되며 카드 색은 그대로 유지됩니다. <strong>Pro 기능</strong>입니다.</p>
         </section>
@@ -568,7 +606,7 @@
         <section class="step" id="template">
             <span class="step-badge" data-i18n="stepLabel3">STEP 03</span>
             <h2 data-i18n="tmplTitle">템플릿 & 플레이스홀더</h2>
-            <p class="lead" data-i18n="tmplLead">매번 조금씩 달라지는 문구는 <code>{변수}</code>로 남겨두고, 쓸 때만 채우세요.</p>
+            <p class="lead" data-i18n-html="tmplLead">매번 조금씩 달라지는 문구는 <code>{변수}</code>로 남겨두고, 쓸 때만 채우세요.</p>
 
             <h3 data-i18n="tmplSyntaxTitle">문법</h3>
             <p data-i18n-html="tmplSyntax">중괄호 <code>{ }</code> 안에 변수 이름을 쓰면 플레이스홀더가 됩니다. 예:</p>
@@ -587,9 +625,9 @@
             <h3 data-i18n="tmplMakeTitle">기존 메모를 템플릿으로</h3>
             <p data-i18n-html="tmplMake">일반 메모를 길게 눌러 <strong>템플릿으로 만들기</strong>를 선택하면, 원본은 그대로 둔 채 그 내용으로 채운 새 템플릿 메모가 열립니다. 본문에서 <code>{변수}</code>를 원하는 자리에 넣어 저장하세요. 변수를 넣으면 커서가 바로 그 뒤로 이동해 이어서 입력하기 편합니다.</p>
 
-            <div class="note" data-i18n="tmplDateNote">날짜·시간 자동 변수는 <strong>오늘 · 내일 · 다음 주 · 2주 뒤 · 직접 선택</strong> 중에서 고를 수 있고, 탭하면 실제 날짜로 바뀌어 복사됩니다.</div>
+            <div class="note" data-i18n-html="tmplDateNote">날짜·시간 자동 변수는 <strong>오늘 · 내일 · 다음 주 · 2주 뒤 · 직접 선택</strong> 중에서 고를 수 있고, 탭하면 실제 날짜로 바뀌어 복사됩니다.</div>
 
-            <div class="tip" data-i18n="tmplTip">같은 이름의 변수는 여러 템플릿에서 공유됩니다. <code>{이름}</code>에 입력한 값은 다른 템플릿의 <code>{이름}</code>에서도 제안됩니다.</div>
+            <div class="tip" data-i18n-html="tmplTip">같은 이름의 변수는 여러 템플릿에서 공유됩니다. <code>{이름}</code>에 입력한 값은 다른 템플릿의 <code>{이름}</code>에서도 제안됩니다.</div>
         </section>
 
         <!-- 4. 스마트 클립보드 -->
@@ -840,6 +878,14 @@
                 memoKeyboardLook: "키보드에서도 앱과 똑같이 보입니다. 즐겨찾기 메모는 분홍색, 보안 메모는 제목 앞 자물쇠로 표시되고, 현재 보고 있는 카테고리가 화면 상단에 큰 제목으로 나타납니다.",
                 memoImageTitle: "이미지 메모 & 문자 인식",
                 memoImage: '사진을 첨부한 메모는 탭하면 클립보드에 이미지로 복사됩니다. 명함·영수증을 저장해두면 유용합니다. 캡처한 이미지에서 <strong>문자 인식(OCR)</strong>으로 필요한 텍스트만 골라 메모로 담을 수도 있습니다. <strong>무료 버전에서는 이미지 메모 5개까지 저장</strong> 가능, Pro에서 무제한.',
+                smearTitle: "사진에서 문질러 담기",
+                smearLead: '종이에 적힌 계좌번호·전화번호를 보고 옮겨 적지 마세요. 사진을 찍고 <strong>필요한 곳만 손가락으로 문지르면</strong> 그 글자만 값으로 들어옵니다.',
+                smear1: '단축어를 만들 때 내용 위의 <strong>스캔해서 글자 넣기</strong>를 누르고 <strong>카메라로 찍어서</strong> 또는 <strong>사진 보관함에서</strong>를 고릅니다',
+                smear2: "사진 속 글자 위를 손가락으로 쓸면, 지나간 글자가 노랗게 칠해집니다",
+                smear3: '잘못 담았으면 <strong>지우개</strong>로 다시 문질러 빼고, 작은 글자는 두 손가락으로 벌려 확대합니다',
+                smear4: '<strong>이 글자 담기</strong>를 누르면 고른 글자가 단축어 내용으로 들어갑니다',
+                smearTip: "두 줄짜리 주소처럼 줄이 바뀌는 값은 줄바꿈 버튼을 켜세요. 두 줄에 걸쳐 찍힌 계좌번호는 꺼 두면 한 줄로 이어 붙습니다.",
+                smearNote: "사진은 저장되지 않습니다. 글자만 꺼내 쓰고 사진은 버립니다. 인식은 기기 안에서만 이뤄지므로 사진도 글자도 어디로든 전송되지 않습니다. 문지르기가 어려우면 오른쪽 위 '줄로 고르기'로 읽은 줄을 목록에서 고를 수 있습니다.",
                 memoSecureTitle: "보안 메모 (잠금)",
                 memoSecure: '민감한 메모는 잠가서 보호하세요. 메모를 길게 눌러 <strong>보안 메모로 잠그기</strong>를 선택하면 기기에 암호화되어 저장되고(키는 iCloud 키체인으로 안전하게 동기화), 열거나 잠금을 해제할 때 <strong>Face ID · Touch ID</strong>로 인증합니다. 잠긴 메모는 목록과 키보드에서 제목 앞 자물쇠로만 구분되며 카드 색은 그대로 유지됩니다. <strong>Pro 기능</strong>입니다.',
                 // template
@@ -977,6 +1023,14 @@
                 memoKeyboardLook: "The keyboard mirrors the app: favorite memos appear in pink, secure memos show a lock before the title, and the category you're viewing appears as a large title at the top.",
                 memoImageTitle: "Image Memos & Text Recognition",
                 memoImage: 'Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. You can also pull just the text you need from a captured image with <strong>text recognition (OCR)</strong>. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.',
+                smearTitle: "Swipe to Pick from a Photo",
+                smearLead: 'Stop retyping account numbers and phone numbers off paper. Take a photo, then <strong>swipe your finger over just the part you need</strong> and only that text becomes the value.',
+                smear1: 'While creating a shortcut, tap <strong>Scan text in</strong> above the content field and choose <strong>Take a photo</strong> or <strong>From photo library</strong>',
+                smear2: "Swipe your finger across the text in the photo. Everything your finger passes over is highlighted in yellow",
+                smear3: 'Picked something by mistake? Swipe over it again with the <strong>Eraser</strong>. Pinch with two fingers to zoom in on small text',
+                smear4: 'Tap <strong>Use this text</strong> and what you picked goes into the shortcut content',
+                smearTip: "Turn on the line-breaks button for values that span lines, like a two-line address. Leave it off and an account number split across two lines joins into one.",
+                smearNote: "The photo is never saved. The text is taken out and the photo is discarded. Recognition happens entirely on your device, so neither the photo nor the text is ever sent anywhere. If swiping is hard, use Pick by line at the top right to choose from a list of the recognized lines.",
                 memoSecureTitle: "Secure Memos (Lock)",
                 memoSecure: 'Lock sensitive memos to protect them. Long-press a memo and choose <strong>Lock as secure memo</strong>: it\'s stored encrypted on your device (the key syncs safely via your iCloud Keychain), and opening or unlocking it requires <strong>Face ID / Touch ID</strong>. Locked memos are marked only by a lock before the title in both the list and the keyboard, keeping their card color. This is a <strong>Pro feature</strong>.',
                 // template
@@ -1072,8 +1126,342 @@
                 bottomCta: "Download on the App Store",
                 footerContact: "Contact", footerHome: "Home", footerPrivacy: "Privacy Policy",
                 appStoreUrl: "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
-            }
+            },
+            'zh-Hans': {
+             "pageTitle": "剪贴键盘 使用指南",
+             "navHome": "首页",
+             "navStore": "App Store",
+             "heroTitle": "5 分钟学会 <span>剪贴键盘</span>",
+             "heroSubtitle": "从设置键盘到进阶功能，一页讲完。",
+             "tocTitle": "目录",
+             "tocSetup": "开始使用",
+             "tocMemo": "保存与编辑短语",
+             "tocTemplate": "模板与占位",
+             "tocSmart": "智能剪贴板",
+             "tocCombo": "组合（连续输入）",
+             "tocMac": "macOS 菜单栏 App",
+             "tocBackup": "iCloud 备份",
+             "tocFaq": "常见问题与排查",
+             "stepLabel": "STEP 01",
+             "stepLabel2": "STEP 02",
+             "stepLabel3": "STEP 03",
+             "stepLabel4": "STEP 04",
+             "stepLabel5": "STEP 05",
+             "stepLabel6": "STEP 06",
+             "stepLabel7": "STEP 07",
+             "stepLabel8": "FAQ",
+             "setupTitle": "开始使用：添加键盘并允许完全访问",
+             "setupLead": "出于 iOS 的安全策略，键盘需要你亲自启用。一分钟就好。",
+             "setupAddTitle": "添加键盘",
+             "setupAdd1": "iOS 设置 App → 通用 → 键盘 → 键盘 → 添加新键盘…",
+             "setupAdd2": "在列表里选择 <strong>剪贴键盘</strong>",
+             "setupAccessTitle": "允许完全访问",
+             "setupAccess1": "在同一个页面，点一下刚添加的 <strong>剪贴键盘</strong>",
+             "setupAccess2": "打开 <strong>允许完全访问</strong> 开关",
+             "setupWhyAccess": "键盘需要“完全访问”才能读取主 App 里保存的短语。你保存的数据只留在你的设备上。",
+             "setupSwitchTitle": "切换到这个键盘",
+             "setupSwitch": "在任意 App 里调出键盘，长按左下角的 🌐 图标，选择 <strong>剪贴键盘</strong>。",
+             "memoTitle": "保存与编辑短语",
+             "memoLead": "把常打的话存起来，就能在键盘上随时取用。",
+             "memoAddTitle": "添加短语",
+             "memoAdd1": "在 App 主页面点右上角的 <strong>＋</strong> 按钮",
+             "memoAdd2": "填写标题和内容（内容就是实际会输入的文字）",
+             "memoAdd3": "需要的话选一个 <strong>分类</strong> 来归类",
+             "memoAdd4": "保存之后，键盘上马上就能看到",
+             "memoUseTitle": "在键盘上使用",
+             "memoUse1": "点一下存好的短语卡片 → 直接输入到光标位置",
+             "memoUse2": "长按可以打开复制、编辑菜单",
+             "memoUse3": "用顶部的搜索框快速找到",
+             "memoTip": "表情、换行、Markdown 都会原样输入。邮件签名那样的长文本也没问题。",
+             "memoKeyboardLook": "键盘上和 App 里看到的一样。收藏的短语是粉色，加密短语在标题前有一把锁，当前所在的分类会以大标题显示在页面顶部。",
+             "memoImageTitle": "图片短语与文字识别",
+             "memoImage": "点一下带照片的短语，图片就会复制到剪贴板。存名片、发票很好用。你也可以用 <strong>文字识别（OCR）</strong> 从拍下的图片里只挑需要的文字存成短语。<strong>免费版最多保存 5 个图片短语</strong>，Pro 则不限。",
+             "smearTitle": "从照片里划着取字",
+             "smearLead": "纸上写的账号、电话别再照着重打。拍张照，<strong>只在需要的地方用手指划一下</strong>，就只有那段文字变成值。",
+             "smear1": "创建短语时，点内容框上方的 <strong>扫描文字</strong>，选择 <strong>拍照获取</strong> 或 <strong>从照片中选</strong>",
+             "smear2": "用手指在照片里的文字上划过，划到的地方会被涂成黄色",
+             "smear3": "取错了就用 <strong>橡皮</strong> 再划一遍去掉；字太小可以两指张开放大",
+             "smear4": "点 <strong>取用这段文字</strong>，选中的文字就成为短语内容",
+             "smearTip": "像两行的地址那样会换行的值，请打开换行按钮。分成两行印出来的账号则关掉它，会接成一行。",
+             "smearNote": "照片不会被保存。只取出文字，照片随即丢弃。识别全部在你的设备上进行，照片和文字都不会发送到任何地方。划不动的话，可以用右上角的“按行选择”，从识别出的行里挑。",
+             "memoSecureTitle": "加密短语（上锁）",
+             "memoSecure": "把敏感的短语锁起来。长按短语选择 <strong>设为加密短语</strong>，它就会加密保存在你的设备上（密钥通过 iCloud 钥匙串安全同步），打开或解锁时需要 <strong>Face ID · Touch ID</strong> 验证。锁着的短语在列表和键盘上只用标题前的锁来区分，卡片颜色不变。这是 <strong>Pro 功能</strong>。",
+             "tmplTitle": "模板与占位",
+             "tmplLead": "每次只改一点点的句子，把会变的地方留成 <code>{变量}</code>，用的时候再填。",
+             "tmplSyntaxTitle": "写法",
+             "tmplSyntax": "在大括号 <code>{ }</code> 里写上变量名，就成了占位。例如：",
+             "tmplUseTitle": "怎么用",
+             "tmplUse1": "点一下模板短语，填值的面板会从下面缓缓升起",
+             "tmplUse2": "填好空位，点右上角的复制按钮，完整的句子就复制好了",
+             "tmplUse3": "填过一次的值会自动记下来，下次更好选（例如“姓名”里常用的那几个人）",
+             "tmplMakeTitle": "把已有的短语变成模板",
+             "tmplMake": "长按普通短语选择 <strong>做成模板</strong>，原来的那条保持不动，同时打开一条用它内容填好的新模板短语。把 <code>{变量}</code> 放到想要的位置再保存即可。插入变量后光标会停在它后面，接着打字很顺手。",
+             "tmplDateNote": "日期、时间这类自动变量可以选 <strong>今天 · 明天 · 下周 · 两周后 · 自己选日期</strong>，点一下就换成真正的日期再复制。",
+             "tmplTip": "同名的变量在多个模板之间共用。你为 <code>{姓名}</code> 填过的值，在别的模板的 <code>{姓名}</code> 里也会被推荐。",
+             "smartTitle": "智能剪贴板",
+             "smartLead": "自动给你复制的文字归类，之后随时都能再取出来用。",
+             "smartTypesTitle": "自动识别的 15 种类型",
+             "smartType1": "邮箱",
+             "smartType2": "电话",
+             "smartType3": "地址",
+             "smartType4": "URL",
+             "smartType5": "卡号",
+             "smartType6": "IBAN / 账号",
+             "smartType7": "SWIFT / BIC",
+             "smartType8": "VAT / 税号",
+             "smartType9": "金额·币种",
+             "smartType10": "运单号",
+             "smartType11": "PayPal / Wise",
+             "smartType12": "数字",
+             "smartType13": "纯文本",
+             "smartType14": "图片",
+             "smartType15": "其他",
+             "smartHowTitle": "它是怎么工作的",
+             "smartHow1": "每次复制都会用正则自动归类，并算出一个可信度分数",
+             "smartHow2": "历史最多保留 100 条",
+             "smartHow3": "临时项目 7 天后自动删除",
+             "smartHow4": "重要的项目可以固定（📌）永久保留",
+             "smartNote": "敏感项目（卡号、账号、税号）显示时会被遮挡。只有点一下时才复制真正的值。",
+             "comboTitle": "组合：多条短语一次输入",
+             "comboLead": "像宏一样，把姓名、邮箱、电话按顺序自动填进去。",
+             "comboWhenTitle": "这些时候好用",
+             "comboWhen1": "注册表单里一口气填姓名、邮箱、联系方式",
+             "comboWhen2": "下单时收货地址 + 备注 + 优惠码一次搞定",
+             "comboWhen3": "客服回复 = 问候语 + 正文 + 签名",
+             "comboMakeTitle": "创建组合",
+             "comboMakeIntro": "组合现在不在单独的页面里做，而是 <strong>在短语列表里</strong> 做。给一条短语接上后续内容，它就成了组合。",
+             "comboMake1": "在 App 主页点 <strong>＋</strong> 新建短语，先写第一段内容",
+             "comboMake2": "再加上 <strong>后续短语</strong>，写下要按顺序输入的内容",
+             "comboMake3": "设置每一步之间的等待时间（秒）",
+             "comboMake4": "保存后它会在短语列表里显示为组合，在键盘上点一下就按顺序输入",
+             "comboPreviewNote": "点一下组合短语会立刻复制，同时用半屏面板把即将按顺序输入的各步值一并展示出来。你之前做好的组合、分类和短语，更新之后依然原样保留。",
+             "comboTip": "等待时间低于 0.3 秒时系统可能跟不上。建议 0.5~1 秒。",
+             "macTitle": "macOS 菜单栏 App",
+             "macLead": "Mac 上也能用同样的短语、剪贴板和组合（Mac Catalyst）。",
+             "macInstallTitle": "安装",
+             "macInstall": "包含在 App Store 的同一次购买里。在 Mac App Store 搜索 <strong>ClipKeyboard</strong> 安装即可。用和 iOS 相同的 Apple ID 登录，数据就会通过 iCloud 自动同步。",
+             "macFeaturesTitle": "Mac 专属功能",
+             "macF1": "点一下菜单栏图标就打开面板",
+             "macF2": "用 <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> 这样的全局快捷键立刻调出",
+             "macF3": "监视剪贴板，一复制就智能归类",
+             "macF4": "浮动面板，可以悬在其他 App 之上",
+             "macNote": "在 Mac 上存的常用句子，iPhone 键盘上马上就能看到，反过来也一样。",
+             "backupTitle": "iCloud 备份与恢复",
+             "backupLead": "换设备、重装 App 都不丢短语，可以备份到 iCloud。",
+             "backupHowTitle": "备份",
+             "backupHow1": "App <strong>设置</strong> → <strong>iCloud 备份</strong>",
+             "backupHow2": "点 <strong>立即备份</strong>：手动备份",
+             "backupHow3": "打开 <strong>自动备份</strong>：有改动时每 5 分钟自动保存",
+             "backupRestoreTitle": "恢复",
+             "backupRestore1": "在新设备上装好 App，用同一个 Apple ID 登录",
+             "backupRestore2": "设置 → iCloud 备份 → <strong>恢复</strong>",
+             "backupWarn": "执行恢复会把当前设备上所有短语、剪贴板、组合替换成备份数据。此操作无法撤销。",
+             "backupTip": "备份容量不限。图片短语也会一起保存。",
+             "faqTitle": "常见问题与排查",
+             "faq1Q": "键盘上看不到我添加的短语",
+             "faq1A": "<p>多半是“允许完全访问”没打开。请检查 iOS 设置 → 通用 → 键盘 → 剪贴键盘 → <strong>允许完全访问</strong>。</p>",
+             "faq2Q": "复制的文字没有进历史",
+             "faq2A": "<p>iOS 默认限制别的 App 自动读取剪贴板。先打开一次 App，再切到键盘就会同步。</p>",
+             "faq3Q": "复制的 IBAN 被认成了卡号",
+             "faq3A": "<p>数字长度和形状相近时可能会认错。长按该项目手动改类型，或者加上空格、连字符再复制一次（例如 <code>1234-5678-...</code>）。</p>",
+             "faq4Q": "模板变量填过的值会自动保存，怎么删掉？",
+             "faq4A": "<p>在模板编辑页面点一下占位，就会出现“已保存的值”列表。左右滑动可以逐条删除。</p>",
+             "faq5Q": "组合中途断了 / 只输入了一部分",
+             "faq5A": "<p>把每步之间的等待时间调长一些（建议 0.5~1 秒）。各个 App 能接受的输入速度不同，太快可能会丢字。</p>",
+             "faq6Q": "Mac 和 iPhone 的数据同步不了",
+             "faq6A": "<p>请确认两台设备登录的是同一个 Apple ID，并且已开启 iCloud 云盘。也可以在 App 内点 <strong>iCloud 备份 → 立即备份</strong> 手动同步一次。</p>",
+             "faq7Q": "我的数据保存在哪里？",
+             "faq7A": "<p>所有短语都只保存在你的设备上（App Group 容器）。开启 iCloud 备份后，会以加密状态保存在你自己的 iCloud 里。开发者不会收集短语内容，只收集匿名的使用统计（例如某个功能用了多少次）来改进 App。</p>",
+             "faq9Q": "免费版和 Pro 有什么不同？",
+             "faq9A": "<p>免费版也能用 10 个短语、3 个组合、3 个模板、50 条剪贴板记录、5 个图片短语，以及主题自定义。Pro（一次性买断）解除所有上限，并额外提供 iCloud 备份和生物识别锁。</p>",
+             "faq10Q": "7 天免费试用怎么开始？",
+             "faq10A": "<p>App 内的 Pro 升级页面上有 <strong>开始 7 天免费试用</strong> 按钮。点一次，所有 Pro 功能就解锁 7 天（仅限一次）。到期后会自动回到免费版，不购买也没有任何惩罚。</p>",
+             "faq11Q": "加密短语怎么上锁？",
+             "faq11A": "<p>长按短语选择 <strong>设为加密短语</strong>。锁着的短语会加密保存在你的设备上，密钥通过 iCloud 钥匙串安全同步。打开或解锁需要 Face ID·Touch ID 验证。（Pro 功能）</p>",
+             "faq8Q": "我的问题这份指南里没有",
+             "faq8A": "<p>直接发邮件给开发者：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>。多半一天之内会回复。</p>",
+             "bottomCta": "在 App Store 下载",
+             "footerContact": "联系我们",
+             "footerHome": "回首页",
+             "footerPrivacy": "隐私政策",
+             "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+            },
+            'zh-Hant': {
+ "pageTitle": "剪貼鍵盤 使用指南",
+ "navHome": "首頁",
+ "navStore": "App Store",
+ "heroTitle": "5 分鐘學會 <span>剪貼鍵盤</span>",
+ "heroSubtitle": "從設定鍵盤到進階功能，一頁講完。",
+ "tocTitle": "目錄",
+ "tocSetup": "開始使用",
+ "tocMemo": "儲存與編輯短語",
+ "tocTemplate": "範本與佔位",
+ "tocSmart": "智慧剪貼簿",
+ "tocCombo": "組合（連續輸入）",
+ "tocMac": "macOS 菜單欄 App",
+ "tocBackup": "iCloud 備份",
+ "tocFaq": "常見問題與排查",
+ "stepLabel": "STEP 01",
+ "stepLabel2": "STEP 02",
+ "stepLabel3": "STEP 03",
+ "stepLabel4": "STEP 04",
+ "stepLabel5": "STEP 05",
+ "stepLabel6": "STEP 06",
+ "stepLabel7": "STEP 07",
+ "stepLabel8": "FAQ",
+ "setupTitle": "開始使用：新增鍵盤並允許完全取用",
+ "setupLead": "出於 iOS 的安全策略，鍵盤需要你親自啓用。一分鐘就好。",
+ "setupAddTitle": "新增鍵盤",
+ "setupAdd1": "iOS 設定 App → 一般 → 鍵盤 → 鍵盤 → 新增新鍵盤…",
+ "setupAdd2": "在列表裡選擇 <strong>剪貼鍵盤</strong>",
+ "setupAccessTitle": "允許完全取用",
+ "setupAccess1": "在同一個頁面，點一下剛新增的 <strong>剪貼鍵盤</strong>",
+ "setupAccess2": "開啟 <strong>允許完全取用</strong> 開關",
+ "setupWhyAccess": "鍵盤需要「完全存取」才能讀取主 App 裡儲存的短語。你儲存的資料只留在你的裝置上。",
+ "setupSwitchTitle": "切換到這個鍵盤",
+ "setupSwitch": "在任意 App 裡調出鍵盤，長按左下角的 🌐 圖標，選擇 <strong>剪貼鍵盤</strong>。",
+ "memoTitle": "儲存與編輯短語",
+ "memoLead": "把常打的話存起來，就能在鍵盤上隨時取用。",
+ "memoAddTitle": "新增短語",
+ "memoAdd1": "在 App 主頁面點右上角的 <strong>＋</strong> 按鈕",
+ "memoAdd2": "填寫標題和內容（內容就是實際會輸入的文字）",
+ "memoAdd3": "需要的話選一個 <strong>分類</strong> 來歸類",
+ "memoAdd4": "儲存之後，鍵盤上馬上就能看到",
+ "memoUseTitle": "在鍵盤上使用",
+ "memoUse1": "點一下存好的短語卡片 → 直接輸入到光標位置",
+ "memoUse2": "長按可以開啟複製、編輯菜單",
+ "memoUse3": "用頂部的搜尋框快速找到",
+ "memoTip": "表情、換行、Markdown 都會原樣輸入。郵件簽名那樣的長文字也沒問題。",
+ "memoKeyboardLook": "鍵盤上和 App 裡看到的一樣。收藏的短語是粉色，加密短語在標題前有一把鎖，當前所在的分類會以大標題顯示在頁面頂部。",
+ "memoImageTitle": "圖片短語與文字識別",
+ "memoImage": "點一下帶照片的短語，圖片就會複製到剪貼簿。存名片、發票很好用。你也可以用 <strong>文字識別（OCR）</strong> 從拍下的圖片裡只挑需要的文字存成短語。<strong>免費版最多儲存 5 個圖片短語</strong>，Pro 則不限。",
+ "smearTitle": "從照片裡滑著取字",
+ "smearLead": "紙上寫的帳號、電話別再照著重打。拍張照，<strong>只在需要的地方用手指滑一下</strong>，就只有那段文字變成值。",
+ "smear1": "建立短語時，點內容框上方的 <strong>掃描文字</strong>，選擇 <strong>拍照獲取</strong> 或 <strong>從照片中選</strong>",
+ "smear2": "用手指在照片裡的文字上滑過，滑到的地方會被塗成黃色",
+ "smear3": "取錯了就用 <strong>橡皮</strong> 再劃一遍去掉；字太小可以兩指張開放大",
+ "smear4": "點 <strong>取用這段文字</strong>，選中的文字就成為短語內容",
+ "smearTip": "像兩行的地址那樣會換行的值，請開啟換行按鈕。分成兩行印出來的帳號則關掉它，會接成一行。",
+ "smearNote": "照片不會被儲存。只取出文字，照片隨即丟棄。識別全部在你的裝置上進行，照片和文字都不會發送到任何地方。滑不動的話，可以用右上角的「按行選擇」，從識別出的行裡挑。",
+ "memoSecureTitle": "加密短語（上鎖）",
+ "memoSecure": "把敏感的短語鎖起來。長按短語選擇 <strong>設為加密短語</strong>，它就會加密儲存在你的裝置上（密鑰透過 iCloud 鑰匙串安全同步），開啟或解鎖時需要 <strong>Face ID · Touch ID</strong> 驗證。鎖著的短語在列表和鍵盤上只用標題前的鎖來區分，卡片顏色不變。這是 <strong>Pro 功能</strong>。",
+ "tmplTitle": "範本與佔位",
+ "tmplLead": "每次只改一點點的句子，把會變的地方留成 <code>{變量}</code>，用的時候再填。",
+ "tmplSyntaxTitle": "寫法",
+ "tmplSyntax": "在大括號 <code>{ }</code> 裡寫上變量名，就成了佔位。例如：",
+ "tmplUseTitle": "怎麼用",
+ "tmplUse1": "點一下範本短語，填值的面板會從下面緩緩升起",
+ "tmplUse2": "填好空位，點右上角的複製按鈕，完整的句子就複製好了",
+ "tmplUse3": "填過一次的值會自動記下來，下次更好選（例如「姓名」裡常用的那幾個人）",
+ "tmplMakeTitle": "把已有的短語變成範本",
+ "tmplMake": "長按普通短語選擇 <strong>做成範本</strong>，原來的那條保持不動，同時開啟一條用它內容填好的新範本短語。把 <code>{變量}</code> 放到想要的位置再儲存即可。插入變量後光標會停在它後面，接著打字很順手。",
+ "tmplDateNote": "日期、時間這類自動變量可以選 <strong>今天 · 明天 · 下周 · 兩周後 · 自己選日期</strong>，點一下就換成真正的日期再複製。",
+ "tmplTip": "同名的變量在多個範本之間共用。你為 <code>{姓名}</code> 填過的值，在別的範本的 <code>{姓名}</code> 裡也會被推薦。",
+ "smartTitle": "智慧剪貼簿",
+ "smartLead": "自動給你複製的文字歸類，之後隨時都能再取出來用。",
+ "smartTypesTitle": "自動識別的 15 種類型",
+ "smartType1": "信箱",
+ "smartType2": "電話",
+ "smartType3": "地址",
+ "smartType4": "URL",
+ "smartType5": "卡號",
+ "smartType6": "IBAN / 帳號",
+ "smartType7": "SWIFT / BIC",
+ "smartType8": "VAT / 稅號",
+ "smartType9": "金額·幣種",
+ "smartType10": "運單號",
+ "smartType11": "PayPal / Wise",
+ "smartType12": "數字",
+ "smartType13": "純文字",
+ "smartType14": "圖片",
+ "smartType15": "其他",
+ "smartHowTitle": "它是怎麼工作的",
+ "smartHow1": "每次複製都會用正則自動歸類，並算出一個可信度分數",
+ "smartHow2": "歷史最多保留 100 條",
+ "smartHow3": "臨時項目 7 天後自動刪除",
+ "smartHow4": "重要的項目可以固定（📌）永久保留",
+ "smartNote": "敏感項目（卡號、帳號、稅號）顯示時會被遮擋。只有點一下時才複製真正的值。",
+ "comboTitle": "組合：多條短語一次輸入",
+ "comboLead": "像宏一樣，把姓名、信箱、電話按順序自動填進去。",
+ "comboWhenTitle": "這些時候好用",
+ "comboWhen1": "註冊表單裡一口氣填姓名、信箱、聯繫方式",
+ "comboWhen2": "下單時收貨地址 + 備註 + 優惠碼一次搞定",
+ "comboWhen3": "客服回覆 = 問候語 + 正文 + 簽名",
+ "comboMakeTitle": "建立組合",
+ "comboMakeIntro": "組合現在不在單獨的頁面裡做，而是 <strong>在短語列表裡</strong> 做。給一條短語接上後續內容，它就成了組合。",
+ "comboMake1": "在 App 主頁點 <strong>＋</strong> 新建短語，先寫第一段內容",
+ "comboMake2": "再加上 <strong>後續短語</strong>，寫下要按順序輸入的內容",
+ "comboMake3": "設定每一步之間的等待時間（秒）",
+ "comboMake4": "儲存後它會在短語列表裡顯示為組合，在鍵盤上點一下就按順序輸入",
+ "comboPreviewNote": "點一下組合短語會立刻複製，同時用半屏面板把即將按順序輸入的各步值一並展示出來。你之前做好的組合、分類和短語，更新之後依然原樣保留。",
+ "comboTip": "等待時間低於 0.3 秒時系統可能跟不上。建議 0.5~1 秒。",
+ "macTitle": "macOS 菜單欄 App",
+ "macLead": "Mac 上也能用同樣的短語、剪貼簿和組合（Mac Catalyst）。",
+ "macInstallTitle": "安裝",
+ "macInstall": "包含在 App Store 的同一次購買裡。在 Mac App Store 搜尋 <strong>ClipKeyboard</strong> 安裝即可。用和 iOS 相同的 Apple ID 登入，資料就會透過 iCloud 自動同步。",
+ "macFeaturesTitle": "Mac 專屬功能",
+ "macF1": "點一下菜單欄圖標就開啟面板",
+ "macF2": "用 <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> 這樣的全域快速鍵立刻調出",
+ "macF3": "監視剪貼簿，一複製就智慧歸類",
+ "macF4": "浮動面板，可以懸在其他 App 之上",
+ "macNote": "在 Mac 上存的常用句子，iPhone 鍵盤上馬上就能看到，反過來也一樣。",
+ "backupTitle": "iCloud 備份與還原",
+ "backupLead": "換裝置、重裝 App 都不丟短語，可以備份到 iCloud。",
+ "backupHowTitle": "備份",
+ "backupHow1": "App <strong>設定</strong> → <strong>iCloud 備份</strong>",
+ "backupHow2": "點 <strong>立即備份</strong>：手動備份",
+ "backupHow3": "開啟 <strong>自動備份</strong>：有改動時每 5 分鐘自動儲存",
+ "backupRestoreTitle": "還原",
+ "backupRestore1": "在新裝置上裝好 App，用同一個 Apple ID 登入",
+ "backupRestore2": "設定 → iCloud 備份 → <strong>還原</strong>",
+ "backupWarn": "執行還原會把當前裝置上所有短語、剪貼簿、組合替換成備份資料。此操作無法復原。",
+ "backupTip": "備份容量不限。圖片短語也會一起儲存。",
+ "faqTitle": "常見問題與排查",
+ "faq1Q": "鍵盤上看不到我新增的短語",
+ "faq1A": "<p>多半是「允許完全取用」沒開啟。請檢查 iOS 設定 → 一般 → 鍵盤 → 剪貼鍵盤 → <strong>允許完全取用</strong>。</p>",
+ "faq2Q": "複製的文字沒有進歷史",
+ "faq2A": "<p>iOS 預設限制別的 App 自動讀取剪貼簿。先開啟一次 App，再切到鍵盤就會同步。</p>",
+ "faq3Q": "複製的 IBAN 被認成了卡號",
+ "faq3A": "<p>數字長度和形狀相近時可能會認錯。長按該項目手動改類型，或者加上空格、連字符再複製一次（例如 <code>1234-5678-...</code>）。</p>",
+ "faq4Q": "範本變量填過的值會自動儲存，怎麼刪掉？",
+ "faq4A": "<p>在範本編輯頁面點一下佔位，就會出現「已儲存的值」列表。左右滑動可以逐條刪除。</p>",
+ "faq5Q": "組合中途斷了 / 只輸入了一部分",
+ "faq5A": "<p>把每步之間的等待時間調長一些（建議 0.5~1 秒）。各個 App 能接受的輸入速度不同，太快可能會丟字。</p>",
+ "faq6Q": "Mac 和 iPhone 的資料同步不了",
+ "faq6A": "<p>請確認兩台裝置登入的是同一個 Apple ID，並且已開啓 iCloud 雲碟。也可以在 App 內點 <strong>iCloud 備份 → 立即備份</strong> 手動同步一次。</p>",
+ "faq7Q": "我的資料儲存在哪裡？",
+ "faq7A": "<p>所有短語都只儲存在你的裝置上（App Group 容器）。開啓 iCloud 備份後，會以加密狀態儲存在你自己的 iCloud 裡。開發者不會收集短語內容，只收集匿名的使用統計（例如某個功能用了多少次）來改進 App。</p>",
+ "faq9Q": "免費版和 Pro 有什麼不同？",
+ "faq9A": "<p>免費版也能用 10 個短語、3 個組合、3 個範本、50 條剪貼簿記錄、5 個圖片短語，以及主題自定義。Pro（一次性買斷）解除所有上限，並額外提供 iCloud 備份和生物識別鎖。</p>",
+ "faq10Q": "7 天免費試用怎麼開始？",
+ "faq10A": "<p>App 內的 Pro 升級頁面上有 <strong>開始 7 天免費試用</strong> 按鈕。點一次，所有 Pro 功能就解鎖 7 天（僅限一次）。到期後會自動回到免費版，不購買也沒有任何懲罰。</p>",
+ "faq11Q": "加密短語怎麼上鎖？",
+ "faq11A": "<p>長按短語選擇 <strong>設為加密短語</strong>。鎖著的短語會加密儲存在你的裝置上，密鑰透過 iCloud 鑰匙串安全同步。開啟或解鎖需要 Face ID·Touch ID 驗證。（Pro 功能）</p>",
+ "faq8Q": "我的問題這份指南裡沒有",
+ "faq8A": "<p>直接發郵件給開發者：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>。多半一天之內會回覆。</p>",
+ "bottomCta": "在 App Store 下載",
+ "footerContact": "聯繫我們",
+ "footerHome": "回首頁",
+ "footerPrivacy": "隱私權政策",
+ "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+}
         };
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
 
         function setLanguage(lang) {
             localStorage.setItem('clipkb-lang', lang);
@@ -1110,20 +1498,19 @@
         }
 
         (function() {
-            // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
-            var requested = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
-            if (requested === 'en' || requested === 'ko') {
-                setLanguage(requested);
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
                 return;
             }
-            var saved = localStorage.getItem('clipkb-lang');
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
             if (saved) {
                 applyLanguage(saved);
-            } else {
-                var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-                var lang = browserLang.startsWith('ko') ? 'ko' : 'en';
-                applyLanguage(lang);
+                return;
             }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
         })();
     </script>
 </body>
