@@ -84,7 +84,7 @@ What it actually does day-to-day:
   previous values.
 - **Combos**: chain multiple snippets. E.g. "send banking info" = name + IBAN
   + SWIFT + address, typed in sequence.
-- **iCloud sync** between iPhone, iPad, Mac. One $9.99 purchase covers all.
+- **iCloud sync** between iPhone and iPad. (The Mac app is sold separately.)
 - **No subscription. No data collection. No ads.** Local-only storage.
 
 **Why a keyboard extension matters:** every "clipboard manager" app on iOS
