@@ -740,19 +740,23 @@ struct MemoAdd: View {
     /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
     private var continuationsSection: some View {
             VStack(alignment: .leading, spacing: 10) {
-                ForEach(viewModel.continuations.indices, id: \.self) { idx in
+                // ⚠️ 인덱스가 아니라 **단계 자체**를 돌린다. 인덱스로 돌면서 배열에 바인딩을 걸면
+                //    한 칸을 지우는 순간 옛 인덱스로 바인딩을 한 번 더 읽어 앱이 죽는다
+                //    (`ContinuationStep` 머리말 참고). 번호만 지금 자리에서 세어 보여 준다.
+                ForEach($viewModel.continuations) { $step in
+                    let number = (viewModel.continuations.firstIndex(of: step) ?? 0) + 2
                     HStack(spacing: 8) {
-                        Text("\(idx + 2).")
+                        Text("\(number).")
                             .font(.system(.callout, design: .monospaced))
                             .foregroundColor(theme.textFaint)
                         TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
-                                  text: $viewModel.continuations[idx], axis: .vertical)
+                                  text: $step.text, axis: .vertical)
                             .textFieldStyle(.roundedBorder)
                             // 본문 편집기와 동일 - 붙여넣을 원문이라 자동 대문자/수정 금지.
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                         Button {
-                            viewModel.removeContinuation(at: idx)
+                            viewModel.removeContinuation(id: step.id)
                         } label: {
                             Image(systemName: AppSymbol.minusCircleFill)
                                 .foregroundColor(theme.textFaint)
@@ -815,7 +819,7 @@ struct MemoAdd: View {
             }
             .sheet(isPresented: $showComboImport) {
                 ComboImportSheet { values in
-                    viewModel.continuations.append(contentsOf: values)
+                    viewModel.continuations.append(contentsOf: values.map(ContinuationStep.init(text:)))
                 }
             }
     }
