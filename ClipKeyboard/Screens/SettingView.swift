@@ -82,7 +82,8 @@ struct SettingView: View {
     }
 
     private func refreshMemoCount() {
-        memoCountState = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
+        // 한도와 같은 개수를 센다 - 심어 준 샘플은 칸을 차지하지 않는다.
+        memoCountState = ProFeatureManager.ownMemoCount(((try? MemoStore.shared.load(type: .memo)) ?? []))
     }
 
     private func refreshSecurePINState() {
@@ -251,6 +252,8 @@ struct SettingView: View {
     /// 남았는지 먼저 보이고, 바로 아래에 그 칸을 늘리는 길이 있다.
     ///
     /// ⚠️ 숫자는 `ProFeatureManager.memoLimit` 을 본다 - 칸을 산 사람은 15가 기준이다.
+    /// ⚠️ 쓰고 있는 개수는 **자기 것만** 센다. 저장을 막는 관문과 다른 숫자를 보이면,
+    ///    "3칸 남았어요" 를 보고 만들러 갔다가 막히는 일이 생긴다.
     /// ⚠️ 겁을 주지 않는다. 남은 칸이 0이어도 "다 썼어요"가 아니라 몇 개 중 몇 개인지만 말한다.
     @ViewBuilder
     private var remainingSlotsRow: some View {

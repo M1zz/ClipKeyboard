@@ -100,6 +100,9 @@ struct ProFeatureManager {
 
     /// 키보드에서 표시할 메모 최대 개수.
     /// (칸을 산 사람은 그만큼 더 보인다 - `memoLimit` 이 이미 그 계산을 한다)
+    ///
+    /// ⚠️ 이 숫자로 목록을 앞에서 자르지 않는다. 자르는 일은 `memosWithinLimit` 이 한다.
+    ///    샘플은 칸을 차지하지 않아서, 몇 개를 남길지는 자기 것만 세어야 정해진다.
     static var keyboardMemoDisplayLimit: Int { memoLimit }
 
     // MARK: - 상태 체크
@@ -300,9 +303,59 @@ struct ProFeatureManager {
     // MARK: - 제한 체크
 
     /// 메모 추가 가능 여부 - **저장을 막는 실제 관문.**
+    ///
+    /// ⚠️ `currentCount` 에는 **자기 것만** 넘긴다(`ownMemoCount`). 온보딩이 심어 준
+    ///    샘플까지 세면 아무것도 안 만든 사람이 4/10 에서 시작해, 실제로 쓸 수 있는
+    ///    무료 칸이 6개가 된다. 한도를 10으로 올려 둔 뜻이 그만큼 사라진다.
     /// ⚠️ 여기가 `freeMemoLimit` 을 보면 칸을 산 사람이 11번째에서 그대로 막힌다.
     static func canAddMemo(currentCount: Int) -> Bool {
         currentCount < memoLimit
+    }
+
+    // MARK: - 한도가 세는 개수
+
+    /// 온보딩이 심어 준 샘플 단축어의 id.
+    ///
+    /// 앱과 키보드가 같은 답을 내야 해서 App Group 에 있다. 심는 쪽은
+    /// `SampleMemoStorage`, 세는 쪽은 여기 하나다.
+    static var sampleMemoIds: Set<UUID> {
+        let raw = groupDefaults?.stringArray(forKey: DefaultsKey.sampleMemoIdsV1) ?? []
+        return Set(raw.compactMap { UUID(uuidString: $0) })
+    }
+
+    /// **이 사람이 직접 저장한** 단축어 개수. 한도를 묻는 곳은 전부 이 값을 센다.
+    ///
+    /// 왜 샘플을 빼는가: 심어 준 4개는 앱이 자기를 소개하려고 넣은 것이지 사용자가
+    /// 만든 것이 아니다. 그걸 한도에 세면 앱이 자기 광고비를 사용자 지갑에서 꺼내
+    /// 내는 셈이 된다. 샘플을 지웠는지 그냥 뒀는지로 쓸 수 있는 칸이 달라지는 것도
+    /// 이상하다. 지우든 두든 자기 칸은 10개다.
+    ///
+    /// ⚠️ 샘플을 **고쳐 쓴** 것도 여전히 샘플로 센다(id 로 가른다). 자기 문구로 바꿔
+    ///    쓰는 순간 칸이 하나 줄어든다면, 고쳐 쓰라고 심어 둔 것과 앞뒤가 안 맞는다.
+    static func ownMemoCount(_ memos: [Memo]) -> Int {
+        let samples = sampleMemoIds
+        return memos.reduce(0) { $0 + (samples.contains($1.id) ? 0 : 1) }
+    }
+
+    /// 무료 한도 안에서 실제로 보여 줄 것들.
+    ///
+    /// 샘플은 칸을 차지하지 않으므로 **가려지지 않는다.** 자기 것만 앞에서부터
+    /// `memoLimit` 개까지 남긴다. 순서는 들어온 그대로 둔다.
+    ///
+    /// ⚠️ 단순히 앞에서 `memoLimit` 개를 자르면 안 된다. 그러면 샘플이 앞자리를
+    ///    차지한 만큼 자기 단축어가 뒤로 밀려 안 보이게 된다. 한도에서 뺀 것을
+    ///    화면에서 도로 세는 셈이다.
+    static func memosWithinLimit(_ memos: [Memo]) -> [Memo] {
+        let limit = memoLimit
+        if limit == Int.max { return memos }
+        let samples = sampleMemoIds
+        var ownKept = 0
+        return memos.filter { memo in
+            if samples.contains(memo.id) { return true }
+            guard ownKept < limit else { return false }
+            ownKept += 1
+            return true
+        }
     }
 
     /// 콤보 추가 가능 여부

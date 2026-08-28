@@ -2724,29 +2724,6 @@
         }
       }
     },
-    "⚠️ 한도 판정은 아직 샘플까지 세요. 샘플을 남겨 둔 사람은 여기 6개에서 이미 한도에 닿아요." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ 한도 판정은 아직 샘플까지 세요. 샘플을 남겨 둔 사람은 여기 6개에서 이미 한도에 닿아요."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ The limit check still counts samples. Anyone who kept them hits the limit at 6 on this chart."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "⚠️ Pemeriksaan batas masih menghitung contoh. Yang membiarkannya sudah mencapai batas pada angka 6 di grafik ini."
-          }
-        }
-      }
-    },
     "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?" : {
       "comment" : "Restore with data warning message",
       "localizations" : {

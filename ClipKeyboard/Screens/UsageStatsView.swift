@@ -240,10 +240,9 @@ struct UsageStatsView: View {
             } footer: {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(NSLocalizedString("사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
-                    // ⚠️ 한도 판정(`canAddMemo`)은 아직 샘플까지 센다. 그 둘이 다른 값을
-                    //    보는 동안에는 이 차트의 거리와 실제 페이월 거리가 어긋나므로,
-                    //    읽는 사람이 모르고 지나가지 않도록 화면에 적어 둔다.
-                    Text(NSLocalizedString("⚠️ 한도 판정은 아직 샘플까지 세요. 샘플을 남겨 둔 사람은 여기 6개에서 이미 한도에 닿아요.", comment: "Distribution footer: limit still counts samples"))
+                    // 한도 판정(`ProFeatureManager.ownMemoCount`)도 같은 개수를 센다.
+                    // 그래서 여기 보이는 거리가 곧 결제 자리까지의 거리다. 둘이 다른 값을
+                    // 보기 시작하면 이 차트는 다시 거짓말이 된다.
                     if legacy > 0 {
                         Text(String(format: NSLocalizedString("구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.", comment: "Distribution footer: legacy snapshots excluded"), legacy))
                     }

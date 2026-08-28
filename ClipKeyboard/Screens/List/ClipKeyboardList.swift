@@ -172,7 +172,8 @@ struct ClipKeyboardList: View {
               !ProFeatureManager.hasFullAccess,
               !shouldShowGraceBanner else { return false }
         let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
-        let nearLimit = viewModel.memos.count >= max(1, ProFeatureManager.memoLimit - 3)
+        // 한도와 같은 개수를 센다 - 심어 준 샘플로 넛지가 앞당겨 뜨면 안 된다.
+        let nearLimit = ProFeatureManager.ownMemoCount(viewModel.memos) >= max(1, ProFeatureManager.memoLimit - 3)
         return savedEnough || nearLimit
     }
 
@@ -188,7 +189,7 @@ struct ClipKeyboardList: View {
             let minutes = Int(saved / 60)
             return String(format: NSLocalizedString("이미 %d분을 아꼈어요. Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
         }
-        let left = max(0, ProFeatureManager.memoLimit - viewModel.memos.count)
+        let left = max(0, ProFeatureManager.memoLimit - ProFeatureManager.ownMemoCount(viewModel.memos))
         return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요. Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 

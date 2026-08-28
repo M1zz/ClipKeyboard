@@ -146,6 +146,12 @@ enum DefaultsKey {
     static let memoManualOrderV1 = "memoManualOrder_v1"
     /// 수동 순서 활성 여부. true면 즐겨찾기 상단 고정 대신 저장된 순서 그대로 정렬.
     static let memoManualOrderActiveV1 = "memoManualOrderActive_v1"
+    /// 온보딩이 심어 준 샘플 단축어의 id 목록.
+    ///
+    /// ⚠️ App Group 이다. 예전에는 표준 UserDefaults 에 있었는데, 그러면 키보드
+    ///    익스텐션이 "심어 준 것" 과 "직접 만든 것" 을 구분하지 못해 남은 칸을
+    ///    앱과 다르게 센다. 한도를 세는 두 쪽이 같은 표를 봐야 한다.
+    static let sampleMemoIdsV1 = "sampleMemoUUIDs_v1"
     static let onboarding = "onboarding"
     /// 맥 앱의 온보딩을 마쳤는지 (standard UD).
     /// ⚠️ **맥 전용이지만 iOS 원본에 둔다.** 이 파일은 맥 저장소가 그대로 복사해 가는 원본이라

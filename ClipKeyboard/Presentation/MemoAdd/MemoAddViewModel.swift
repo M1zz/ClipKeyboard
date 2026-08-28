@@ -541,7 +541,9 @@ final class MemoAddViewModel: ObservableObject {
                 showPaywall = true
                 return false
             }
-            if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
+            // 심어 준 샘플은 세지 않는다 - 아무것도 안 만든 사람이 4/10 에서
+            // 시작하면 안 된다(`ownMemoCount`).
+            if !ProFeatureManager.canAddMemo(currentCount: ProFeatureManager.ownMemoCount(existingMemos)) {
                 paywallTrigger = .memo
                 showPaywall = true
                 return false
@@ -631,7 +633,7 @@ final class MemoAddViewModel: ObservableObject {
             loadedMemos[index] = updatedMemo
             return (existing.id, keyword)
         } else {
-            if !ProFeatureManager.canAddMemo(currentCount: loadedMemos.count) {
+            if !ProFeatureManager.canAddMemo(currentCount: ProFeatureManager.ownMemoCount(loadedMemos)) {
                 showPaywall = true
                 throw CancellationError()
             }

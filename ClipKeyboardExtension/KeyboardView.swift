@@ -956,14 +956,14 @@ struct KeyboardView: View {
         if hiddenMemoCount > 0 {
             return String(format: NSLocalizedString("%d개 단축어 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
         }
-        let remaining = max(0, ProFeatureManager.memoLimit - totalMemoCount)
+        let remaining = max(0, ProFeatureManager.memoLimit - ownMemoCount)
         return String(format: NSLocalizedString("단축어 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
     }
 
     /// 한도 도달 임박 (남은 슬롯 2개 이하)
     private var isMemoLimitNear: Bool {
         guard isFreeUser else { return false }
-        let remaining = ProFeatureManager.memoLimit - totalMemoCount
+        let remaining = ProFeatureManager.memoLimit - ownMemoCount
         return remaining > 0 && remaining <= 2
     }
 
@@ -2210,8 +2210,9 @@ struct KeyboardView: View {
     // MARK: - Data Loading
 
     private func loadAllMemos() {
-        let limit = ProFeatureManager.keyboardMemoDisplayLimit
-        allMemos = limit == Int.max ? clipMemos : Array(clipMemos.prefix(limit))
+        // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
+        // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
+        allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
     }
 
     // MARK: - Free tier
@@ -2221,9 +2222,14 @@ struct KeyboardView: View {
     }
 
     private var totalMemoCount: Int { clipMemos.count }
+
+    /// 한도가 세는 개수 - **자기 것만.** 온보딩이 심어 준 샘플은 칸을 차지하지 않는다.
+    /// 앱의 설정 화면·저장 관문과 같은 값을 봐야 한 화면이 두 말을 하지 않는다.
+    private var ownMemoCount: Int { ProFeatureManager.ownMemoCount(clipMemos) }
+
     private var hiddenMemoCount: Int {
         guard isFreeUser else { return 0 }
-        return max(0, totalMemoCount - ProFeatureManager.memoLimit)
+        return max(0, ownMemoCount - ProFeatureManager.memoLimit)
     }
 
     // MARK: - PIN Entry Overlay

@@ -224,6 +224,10 @@ struct ClipKeyboardApp: App {
 
         // ② 결제 권한 - 세이프 모드에서도 돈다. 여기를 쉬면 산 사람이 Pro 를 잃는다.
         LaunchGuard.essential(.entitlement) {
+            // 심어 준 샘플의 id 를 App Group 으로 옮긴다. 한도가 자기 것만 세는 일이
+            // 이 표에 달려 있어서, 한도를 묻기 **전에** 옮겨야 한다.
+            SampleMemoStorage.migrateToAppGroupIfNeeded()
+
             // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
             bootstrapV4GrandfatherFlags()
 
@@ -526,7 +530,9 @@ struct ClipKeyboardApp: App {
     /// 지금 단축어가 몇 개인지 세어 "한 칸 앞에 닿은 시각"을 기록한다.
     /// (판정과 저장은 `DiscountOfferManager` 가 한다 - 여기서는 개수만 넘긴다)
     private func noteShortcutCountForDiscountOffer() {
-        let count = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
+        // 한도와 같은 개수를 센다. 전체를 세면 자기 걸 5개 만든 사람에게
+        // "한 칸 남았다" 며 할인이 나간다.
+        let count = ProFeatureManager.ownMemoCount(((try? MemoStore.shared.load(type: .memo)) ?? []))
         DiscountOfferManager.noteShortcutCount(count)
     }
 
