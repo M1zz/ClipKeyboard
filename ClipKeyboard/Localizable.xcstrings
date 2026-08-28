@@ -67115,6 +67115,160 @@
           }
         }
       }
+    },
+    "이름 바꾸기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重命名"
+          }
+        }
+      }
+    },
+    "빈칸 이름" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blank name"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位名称"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位名稱"
+          }
+        }
+      }
+    },
+    "이 빈칸을 쓰는 단축어는 없어요. 저장해 둔 값만 새 이름으로 따라갑니다." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No snippet uses this blank. Only the saved values move to the new name."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有短语在用这个空位。只有存好的值会跟到新名字下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有短語在用這個空位。只有存好的值會跟到新名字下。"
+          }
+        }
+      }
+    },
+    "단축어 %d개의 내용에서 이 이름이 함께 바뀝니다." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This name changes inside %d snippets too."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 个短语的内容里，这个名字也会一起改。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 個短語的內容裡，這個名字也會一起改。"
+          }
+        }
+      }
+    },
+    "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That name won't work. Write it without curly braces."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个名字不能用。请不要带大括号。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個名字不能用。請不要帶大括號。"
+          }
+        }
+      }
+    },
+    "앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app fills that name in by itself, so it can't be used. Pick another name."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个名字由 App 自动填入，不能用。请换一个名字。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個名字由 App 自動填入，不能用。請換一個名字。"
+          }
+        }
+      }
+    },
+    "이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That blank already exists. We don't merge two blanks together."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个空位已经存在。我们不会把两个空位合并。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個空位已經存在。我們不會把兩個空位合併。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

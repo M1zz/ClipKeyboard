@@ -248,6 +248,8 @@ struct PlaceholderManagementSheet: View {
     @State private var summaries: [PlaceholderSummary] = []
     /// 지울지 물어보는 중인 빈칸. 값이 있으면 곧 확인 창이 떠 있다는 뜻이다.
     @State private var pendingDelete: PlaceholderSummary?
+    /// 이름을 바꾸는 중인 빈칸.
+    @State private var renaming: PlaceholderSummary?
     /// 쓰지 않는 빈칸을 한 번에 지울지 물어보는 중.
     @State private var confirmingSweep = false
 
@@ -277,6 +279,9 @@ struct PlaceholderManagementSheet: View {
             }
         }
         .onAppear(perform: reload)
+        .sheet(item: $renaming) { summary in
+            PlaceholderRenameSheet(summary: summary, onDone: reload)
+        }
         .alert(item: $pendingDelete) { summary in
             Alert(
                 title: Text(String(format: NSLocalizedString("'%@' 빈칸을 지울까요?",
@@ -364,6 +369,14 @@ struct PlaceholderManagementSheet: View {
                                 Label(NSLocalizedString("삭제", comment: "Delete"), systemImage: AppSymbol.trash)
                             }
                         }
+                        // 이름 바꾸기는 쓰는 곳이 있어도 된다. 본문의 이름까지 함께 바꾸기 때문이다.
+                        Button {
+                            renaming = summary
+                        } label: {
+                            Label(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder"),
+                                  systemImage: AppSymbol.pencil)
+                        }
+                        .tint(.indigo)
                     }
                 }
             } footer: {
@@ -422,6 +435,86 @@ struct PlaceholderManagementSheet: View {
     }
 }
 
+// MARK: - 이름 바꾸기
+
+/// 빈칸 이름을 바꾸는 작은 시트.
+///
+/// ⚠️ 이름 바꾸기는 **남의 본문을 고치는 일**이다(`{옛이름}` → `{새이름}`).
+///    그래서 몇 개가 바뀌는지 먼저 보여 주고, 누르기 전에 알 수 있게 한다.
+struct PlaceholderRenameSheet: View {
+    let summary: PlaceholderSummary
+    var onDone: () -> Void = {}
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @State private var name: String = ""
+    @State private var failure: String?
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField(NSLocalizedString("빈칸 이름", comment: "Placeholder name field"), text: $name)
+                        .focused($focused)
+                        .autocorrectionDisabled()
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        #endif
+                        .onSubmit(rename)
+                } footer: {
+                    if let failure {
+                        Text(failure).foregroundColor(theme.danger)
+                    } else if summary.memos.isEmpty {
+                        Text(NSLocalizedString("이 빈칸을 쓰는 단축어는 없어요. 저장해 둔 값만 새 이름으로 따라갑니다.",
+                                               comment: "Rename footer for orphan placeholder"))
+                    } else {
+                        Text(String(format: NSLocalizedString("단축어 %d개의 내용에서 이 이름이 함께 바뀝니다.",
+                                                              comment: "Rename footer with affected snippet count"),
+                                    summary.memos.count))
+                    }
+                }
+            }
+            .navigationTitle(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder title"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .solidNavBar(theme.bg)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("저장", comment: "Save"), action: rename)
+                        .fontWeight(.semibold)
+                        .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+            .onAppear {
+                name = summary.displayName
+                focused = true
+            }
+        }
+    }
+
+    private func rename() {
+        switch MemoStore.shared.renamePlaceholder(summary.token, to: name) {
+        case .renamed, .unchanged:
+            onDone()
+            dismiss()
+        case .invalidName:
+            failure = NSLocalizedString("쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.",
+                                        comment: "Rename error: invalid name")
+        case .reservedName:
+            failure = NSLocalizedString("앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요.",
+                                        comment: "Rename error: reserved auto variable name")
+        case .nameTaken:
+            failure = NSLocalizedString("이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요.",
+                                        comment: "Rename error: name already exists")
+        }
+    }
+}
+
 // MARK: - 빈칸 하나
 
 /// 빈칸 하나에 딸린 것 전부 - 저장해 둔 값과, 이 빈칸을 쓰는 단축어들.
@@ -432,10 +525,13 @@ struct PlaceholderDetailView: View {
     var onChange: () -> Void = {}
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.dismiss) private var dismiss
     @State private var values: [PlaceholderValue] = []
     @State private var newValue: String = ""
     @State private var pendingDelete: PlaceholderValue?
     @State private var showDeleteAlert = false
+    /// 이 빈칸의 이름을 바꾸는 중.
+    @State private var renaming = false
 
     var body: some View {
         List {
@@ -457,6 +553,25 @@ struct PlaceholderDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .solidNavBar(theme.bg)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    renaming = true
+                } label: {
+                    Label(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder"),
+                          systemImage: AppSymbol.pencil)
+                }
+            }
+        }
+        .sheet(isPresented: $renaming) {
+            PlaceholderRenameSheet(summary: summary) {
+                // ⚠️ 이름이 바뀌면 이 화면이 들고 있는 summary 는 **옛 이름**이다.
+                //    그대로 두면 값이 안 보이고, 여기서 더 고치면 옛 이름 아래에 쓰인다.
+                //    목록으로 돌아가 새 이름으로 다시 들어가게 한다.
+                onChange()
+                dismiss()
+            }
+        }
         .onAppear { values = MemoStore.shared.loadPlaceholderValues(for: summary.token) }
         .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"), isPresented: $showDeleteAlert) {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { pendingDelete = nil }
