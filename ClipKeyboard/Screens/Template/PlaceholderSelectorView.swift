@@ -246,6 +246,14 @@ struct PlaceholderManagementSheet: View {
     @Environment(\.appTheme) private var theme
 
     @State private var summaries: [PlaceholderSummary] = []
+    /// 지울지 물어보는 중인 빈칸. 값이 있으면 곧 확인 창이 떠 있다는 뜻이다.
+    @State private var pendingDelete: PlaceholderSummary?
+    /// 쓰지 않는 빈칸을 한 번에 지울지 물어보는 중.
+    @State private var confirmingSweep = false
+
+    /// 지금 어느 단축어도 쓰지 않는 빈칸들. 지워도 되는 것은 이것뿐이다
+    /// (쓰는 곳이 있는 빈칸은 본문에서 다시 읽어 들이므로 지워도 되살아난다).
+    private var orphans: [PlaceholderSummary] { summaries.filter(\.isOrphan) }
 
     var body: some View {
         NavigationStack {
@@ -269,6 +277,52 @@ struct PlaceholderManagementSheet: View {
             }
         }
         .onAppear(perform: reload)
+        .alert(item: $pendingDelete) { summary in
+            Alert(
+                title: Text(String(format: NSLocalizedString("'%@' 빈칸을 지울까요?",
+                                                             comment: "Delete placeholder confirmation title"),
+                                   summary.displayName)),
+                message: Text(String(format: NSLocalizedString("저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다.",
+                                                               comment: "Delete placeholder confirmation message"),
+                                     summary.valueCount)),
+                primaryButton: .destructive(Text(NSLocalizedString("삭제", comment: "Delete"))) {
+                    delete(summary)
+                },
+                secondaryButton: .cancel(Text(NSLocalizedString("취소", comment: "Cancel")))
+            )
+        }
+        .alert(NSLocalizedString("쓰지 않는 빈칸을 모두 지울까요?", comment: "Sweep orphan placeholders title"),
+               isPresented: $confirmingSweep) {
+            Button(NSLocalizedString("모두 지우기", comment: "Delete all unused placeholders"), role: .destructive) {
+                orphans.forEach(delete)
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+        } message: {
+            Text(String(format: NSLocalizedString("빈칸 %1$d개와 거기 저장해 둔 값 %2$d개가 사라져요. 쓰는 단축어는 하나도 없습니다.",
+                                                  comment: "Sweep orphan placeholders message"),
+                        orphans.count, orphans.reduce(0) { $0 + $1.valueCount }))
+        }
+    }
+
+    /// 쓰지 않는 빈칸이 여러 개일 때만 나오는 줄. 하나씩 미는 것보다 이쪽이 빠르다.
+    private var sweepSection: some View {
+        Section {
+            Button(role: .destructive) {
+                confirmingSweep = true
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: AppSymbol.trash)
+                    Text(String(format: NSLocalizedString("쓰지 않는 빈칸 %d개 지우기",
+                                                          comment: "Sweep orphan placeholders button"),
+                                orphans.count))
+                }
+            }
+        }
+    }
+
+    private func delete(_ summary: PlaceholderSummary) {
+        MemoStore.shared.deletePlaceholder(summary.token)
+        reload()
     }
 
     private var emptyState: some View {
@@ -291,12 +345,25 @@ struct PlaceholderManagementSheet: View {
 
     private var list: some View {
         List {
+            if orphans.count >= 2 { sweepSection }
             Section {
                 ForEach(summaries) { summary in
                     NavigationLink {
                         PlaceholderDetailView(summary: summary, allMemos: allMemos, onChange: reload)
                     } label: {
                         row(summary)
+                    }
+                    // ⚠️ **쓰는 단축어가 없는 것만** 지울 수 있다. 쓰는 곳이 있는 빈칸을 지우면
+                    //    다음에 본문을 읽을 때 그 자리에서 다시 살아난다. 지워지지 않는 삭제
+                    //    버튼을 보여 주느니 아예 내놓지 않는다.
+                    .swipeActions(edge: .trailing) {
+                        if summary.isOrphan {
+                            Button(role: .destructive) {
+                                pendingDelete = summary
+                            } label: {
+                                Label(NSLocalizedString("삭제", comment: "Delete"), systemImage: AppSymbol.trash)
+                            }
+                        }
                     }
                 }
             } footer: {

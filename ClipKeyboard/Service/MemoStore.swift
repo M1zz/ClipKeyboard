@@ -487,6 +487,50 @@ class MemoStore: ObservableObject {
         }
     }
 
+    /// 빈칸 하나를 통째로 지운다. 값도, 남아 있던 사본도 함께.
+    ///
+    /// 어디에 쓰나: 템플릿을 지웠거나 이름을 바꿔서 **쓰는 단축어가 하나도 없는** 빈칸이
+    /// 관리 화면에 계속 남는다. 값은 하나씩 지울 수 있었지만 빈칸 자체는 지울 방법이 없어,
+    /// 목록이 쓰지 않는 이름으로 불어나기만 했다(사용자 피드백, 2026-08).
+    ///
+    /// ⚠️ 지워야 할 자리가 **세 곳**이다. 하나라도 빠뜨리면 지운 것이 되살아난다.
+    ///    1. App Group 의 값 (지금 저장소)
+    ///    2. 표준 UserDefaults 의 옛 값 - `storedPlaceholderTokens()` 가 양쪽을 훑기 때문에
+    ///       안 지우면 값이 0인 유령 이름으로 목록에 남는다
+    ///    3. 단축어에 붙어 있는 사본(`Memo.placeholderValues`) - 키보드가 폴백으로 읽는 자리다
+    ///
+    /// ⚠️ **본문의 `{토큰}` 은 건드리지 않는다.** 남의 글을 말없이 고치지 않는다는 뜻이고,
+    ///    그래서 아직 쓰는 단축어가 있는 빈칸은 지워도 다음에 다시 나타난다.
+    ///    부르는 쪽이 "쓰는 단축어 없음"(`PlaceholderSummary.isOrphan`)만 지우게 할 것.
+    func deletePlaceholder(_ placeholder: String) {
+        let key = "placeholder_values_\(placeholder)"
+        AppGroup.defaults?.removeObject(forKey: key)
+        AppGroup.defaults?.synchronize()
+        UserDefaults.standard.removeObject(forKey: key)
+        removePlaceholderFromMemoCopies(placeholder)
+        print("🗑️ [MemoStore.deletePlaceholder] 빈칸을 지웠다: \(placeholder)")
+    }
+
+    /// 단축어에 붙어 있는 사본에서 이 빈칸을 통째로 걷어낸다. 사본이 없으면 아무 일도 안 한다.
+    private func removePlaceholderFromMemoCopies(_ placeholder: String) {
+        guard var memos = try? load(type: .memo) else { return }
+        var touched = false
+
+        for index in memos.indices where memos[index].placeholderValues[placeholder] != nil {
+            memos[index].placeholderValues.removeValue(forKey: placeholder)
+            touched = true
+        }
+
+        guard touched else { return }
+        do {
+            try save(memos: memos, type: .memo)
+            print("🧹 [MemoStore.deletePlaceholder] 단축어에 붙어 있던 사본에서도 지웠다: \(placeholder)")
+        } catch {
+            // 공용 저장소에서는 이미 지워졌다. 사본 정리 실패로 지우기 자체를 되돌리지는 않는다.
+            print("⚠️ [MemoStore.deletePlaceholder] 사본 정리 실패: \(error)")
+        }
+    }
+
     /// 값이 저장돼 있는 빈칸 이름 전부.
     ///
     /// 어디에 쓰나: 단축어에서 사라진 빈칸도 값은 남아 있다(템플릿을 지웠거나 이름을 바꿨을 때).

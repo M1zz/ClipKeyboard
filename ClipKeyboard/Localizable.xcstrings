@@ -67005,6 +67005,116 @@
           }
         }
       }
+    },
+    "'%@' 빈칸을 지울까요?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the '%@' blank?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除“%@”这个空位吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要刪除「%@」這個空位嗎？"
+          }
+        }
+      }
+    },
+    "저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The %d saved values go with it. No snippet uses this blank."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存好的 %d 个值会一起消失。没有短语在用这个空位。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存好的 %d 個值會一起消失。沒有短語在用這個空位。"
+          }
+        }
+      }
+    },
+    "쓰지 않는 빈칸을 모두 지울까요?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete every unused blank?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除所有没在用的空位吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要刪除所有沒在用的空位嗎？"
+          }
+        }
+      }
+    },
+    "빈칸 %1$d개와 거기 저장해 둔 값 %2$d개가 사라져요. 쓰는 단축어는 하나도 없습니다." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d blanks and the %2$d values saved in them go away. Not one snippet uses them."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 个空位和存在里面的 %2$d 个值都会消失。没有任何短语在用它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 個空位和存在裡面的 %2$d 個值都會消失。沒有任何短語在用它們。"
+          }
+        }
+      }
+    },
+    "쓰지 않는 빈칸 %d개 지우기" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete %d unused blanks"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除 %d 个没在用的空位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除 %d 個沒在用的空位"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
