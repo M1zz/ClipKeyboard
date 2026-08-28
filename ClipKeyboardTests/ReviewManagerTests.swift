@@ -115,6 +115,42 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertTrue(info.contains("리뷰 요청 통계"))
     }
 
+    // MARK: - 붙여넣기 경험 게이트
+    //
+    // 별점을 물어도 되는 사람인지 가리는 단 하나의 조건이다.
+    // 앱 실행·단축어 생성만으로는 아직 값을 받은 게 아니라서 묻지 않는다.
+
+    func testHasPastedFromKeyboard_FalseUntilFirstPaste() {
+        AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardPasteCount)
+        XCTAssertFalse(sut.hasPastedFromKeyboard)
+
+        sut.trackKeyboardPaste()
+        XCTAssertTrue(sut.hasPastedFromKeyboard)
+    }
+
+    func testRequestReviewIfAppropriate_BlockedBeforeFirstPaste() {
+        AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardPasteCount)
+        // 기존 조건(단축어 3개 + 실행 5회)은 모두 채운다
+        for _ in 0..<3 { sut.incrementMemoCreatedCount() }
+        for _ in 0..<5 { sut.incrementAppLaunchCount() }
+
+        XCTAssertFalse(sut.requestReviewIfAppropriate())
+        // 쿨다운·요청 플래그를 태우지 않았는지 - 붙여넣기 뒤에 다시 물을 수 있어야 한다
+        XCTAssertNil(UserDefaults.standard.object(forKey: "lastReviewRequestDate"))
+        XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasRequestedReview"))
+    }
+
+    func testComboTrigger_DoesNotBurnFlagBeforeFirstPaste() {
+        AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardPasteCount)
+        sut.trackComboCompleted()
+        // 아직 자격이 없으므로 플래그도 세우지 않는다 (나중에 기회가 남아 있어야 한다)
+        XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasRequestedReview_combo"))
+
+        sut.trackKeyboardPaste()
+        sut.trackComboCompleted()
+        XCTAssertTrue(UserDefaults.standard.bool(forKey: "hasRequestedReview_combo"))
+    }
+
     // MARK: - 트리거 1회 한정성
 
     func testFirstPaste_OnlyMarkedOnce() {
@@ -128,6 +164,7 @@ final class ReviewManagerTests: XCTestCase {
     }
 
     func testTrackComboCompleted_MarksFlag() {
+        sut.trackKeyboardPaste()  // 리뷰 요청의 전제 조건
         sut.trackComboCompleted()
         XCTAssertTrue(UserDefaults.standard.bool(forKey: "hasRequestedReview_combo"))
     }
