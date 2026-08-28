@@ -213,8 +213,9 @@ enum UsageReportingService {
     /// 설치가 그 선을 넘는 순간 조회 하나가 통째로 거부되며 화면 전체가 0이 됐다.
     /// 이제 200건씩 이어 받고, `onPage`로 도착하는 대로 화면을 갱신한다.
     static func fetchSnapshots(limit: Int = 5000,
+                               changedSince: Date? = nil,
                                onProgress: (@MainActor (LeeoCloudProgress<Snapshot>) -> Void)? = nil) async throws -> [Snapshot] {
-        try await reporter.fetchSnapshots(limit: limit, onProgress: onProgress)
+        try await reporter.fetchSnapshots(limit: limit, changedSince: changedSince, onProgress: onProgress)
     }
 
     /// 이벤트 이름별 집계 결과.
@@ -233,20 +234,41 @@ enum UsageReportingService {
     struct EventSample: Sendable {
         let name: String
         let installID: String?
+        /// 실제로 일어난 시각. 차트는 이걸 본다.
         let date: Date
+        /// 서버가 찍은 만든 시각. **다음에 어디서부터 받을지**를 이걸로 잰다.
+        /// ⚠️ `date` 로 재면 안 된다. 키보드 활동일처럼 소급 전송된 것은 일어난 시각이
+        ///    과거라, 그걸 물때로 삼으면 이미 받은 것을 계속 다시 받는다.
+        let createdAt: Date?
+
+        /// 물때를 안 쓰는 자리(시험·미리보기)는 `createdAt` 없이 만들 수 있다.
+        init(name: String, installID: String?, date: Date, createdAt: Date? = nil) {
+            self.name = name
+            self.installID = installID
+            self.date = date
+            self.createdAt = createdAt
+        }
     }
 
     /// 최근 이벤트를 원본 표본 그대로 읽는다 - 이름별 집계와 기간별 차트가 이 하나를 함께 쓴다.
     /// LeeoKit은 스냅샷 조회만 제공해서, 이벤트 스트림은 여기서 직접 읽는다.
     /// CloudKit이 한 요청에 주는 개수는 서버가 정하므로 커서로 이어 받는다.
     /// ⚠️ 남의 레코드를 읽으므로 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
+    /// - Parameter createdSince: 이 시각 뒤에 **만들어진** 이벤트만 받는다(증분).
+    ///   nil 이면 상한까지 전부 받는다.
+    ///   ⚠️ 이벤트는 덧붙기만 하므로 만든 시각이 기준이다. 스냅샷과 다르다(그쪽은 덮어써진다).
+    ///   ⚠️ `creationDate` 가 Queryable 이 아닌 컨테이너에서는 조회가 거부된다.
+    ///      에러를 삼키지 않으므로 부르는 쪽이 전체 조회로 되돌아갈 수 있다.
     static func fetchEvents(limit: Int = 3000,
+                            createdSince: Date? = nil,
                             onProgress: (@MainActor (LeeoCloudProgress<EventSample>) -> Void)? = nil) async throws -> [EventSample] {
         let config = ClipKeyboardSpec.feedback
         let database = await CloudKitContainer.publicDatabase(config.containerIdentifier)
 
         // 허브 전체를 읽고 appId는 클라이언트에서 거른다 - appId Queryable 인덱스 없이 동작하게.
-        let query = CKQuery(recordType: LeeoUsageReporter.eventType, predicate: NSPredicate(value: true))
+        let predicate = createdSince.map { NSPredicate(format: "creationDate > %@", $0 as NSDate) }
+            ?? NSPredicate(value: true)
+        let query = CKQuery(recordType: LeeoUsageReporter.eventType, predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
         // 페이지를 작게 끊어 커서로 이어 받는다(LeeoCloudPage). 한 페이지가 도착할 때마다
@@ -259,7 +281,8 @@ enum UsageReportingService {
             let occurredAt = (record["occurredAt"] as? Date) ?? record.creationDate ?? Date()
             return EventSample(name: (record["event"] as? String) ?? "-",
                                installID: record["installID"] as? String,
-                               date: occurredAt)
+                               date: occurredAt,
+                               createdAt: record.creationDate)
         }, onProgress: onProgress)
     }
 
