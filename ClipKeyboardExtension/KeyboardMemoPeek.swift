@@ -20,6 +20,11 @@ struct KeyboardMemoPeek: View {
     let theme: AppTheme
     /// 클립보드로 복사한다 - 전체 접근 확인은 부르는 쪽(KeyboardView)이 한다.
     let onCopy: () -> Void
+    /// 순서 바꾸기로 들어간다. nil 이면 그 버튼을 두지 않는다.
+    ///
+    /// ⚠️ 길게 누르기는 이 판이 이미 쓰고 있어서(한 손짓에 주인은 하나) 순서 바꾸기는
+    ///    손짓을 하나 더 만들지 않고 **이 판 안에서** 시작한다.
+    let onReorder: (() -> Void)?
     let onClose: () -> Void
 
     var body: some View {
@@ -125,22 +130,48 @@ struct KeyboardMemoPeek: View {
     /// 보안 단축어에는 복사 버튼 자체를 두지 않는다.
     /// (예전에는 opacity·disabled·frame 세 개를 맞춰 숨겼는데, 셋이 어긋나면 안 보이는
     ///  버튼이 자리와 보이스오버 순서를 차지한다)
+    ///
+    /// 순서 바꾸기는 **잠긴 단축어에도 둔다.** 자리를 옮기는 일에는 값이 필요 없다.
     @ViewBuilder
     private var actions: some View {
-        if !memo.isSecure {
-            Button(action: onCopy) {
-                HStack(spacing: 6) {
-                    Image(systemName: AppSymbol.docOnDoc)
-                    Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))
+        VStack(spacing: 8) {
+            if !memo.isSecure {
+                Button(action: onCopy) {
+                    HStack(spacing: 6) {
+                        Image(systemName: AppSymbol.docOnDoc)
+                        Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.accentFg)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 42)
+                    .background(theme.accent)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(theme.accentFg)
-                .frame(maxWidth: .infinity)
-                .frame(height: 42)
-                .background(theme.accent)
-                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
+
+            if let onReorder {
+                Button(action: onReorder) {
+                    HStack(spacing: 6) {
+                        Image(systemName: AppSymbol.arrowUpArrowDown)
+                        Text(NSLocalizedString("순서 바꾸기", comment: "Long-press panel: enter reorder mode"))
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 42)
+                    .background(theme.surfaceAlt)
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(theme.divider, lineWidth: 1)
+                    )
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint(NSLocalizedString("자주 쓰는 단축어를 위로 옮길 수 있어요",
+                                                    comment: "Reorder button hint"))
+            }
         }
     }
 }

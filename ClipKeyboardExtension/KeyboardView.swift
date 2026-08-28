@@ -578,6 +578,8 @@ struct KeyboardView: View {
                         copyTextToClipboard(memo.comboValues.first ?? memo.value)
                         peekMemo = nil
                     },
+                    // 하나뿐이면 바꿀 순서가 없다 - 버튼도 두지 않는다.
+                    onReorder: allMemos.count > 1 ? { enterReorderMode() } : nil,
                     onClose: { peekMemo = nil }
                 )
                 .transition(.opacity)
@@ -608,39 +610,47 @@ struct KeyboardView: View {
     private var memoModeContent: some View {
         VStack(spacing: 0) {
             // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
-            if isFreeUser && (hiddenMemoCount > 0 || isMemoLimitNear) {
+            if isFreeUser && !isReorderMode && (hiddenMemoCount > 0 || isMemoLimitNear) {
                 freeUpgradeBanner
             }
 
-            // 상단 헤더 - 카테고리 탭 + clear 버튼
-            HStack(spacing: 0) {
-                // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
-                // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
-                if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
-                    categoryTabRow
-                } else {
-                    Spacer()
-                }
-                // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
-                // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
-                if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
-                    clearAllButton(proxy: proxy)
-                        .padding(.trailing, 4)
-                        .transition(.opacity.combined(with: .scale(scale: 0.85)))
-                        // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
-                        .opacity(documentState.hasText ? 1 : 0.4)
-                        .disabled(!documentState.hasText)
-                }
+            // 순서를 바꾸는 동안에는 위 줄을 이 안내가 대신 쓴다.
+            // 카테고리 탭은 이때 뜻이 없다 - 페이지와 무관하게 전체를 한 줄로 늘어놓고 옮긴다.
+            if isReorderMode {
+                reorderBanner
             }
-            .animation(.easeOut(duration: 0.18), value: documentState.hasText)
+
+            // 상단 헤더 - 카테고리 탭 + clear 버튼
+            if !isReorderMode {
+                HStack(spacing: 0) {
+                    // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
+                    // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
+                    if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
+                        categoryTabRow
+                    } else {
+                        Spacer()
+                    }
+                    // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
+                    // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                        clearAllButton(proxy: proxy)
+                            .padding(.trailing, 4)
+                            .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                            // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
+                            .opacity(documentState.hasText ? 1 : 0.4)
+                            .disabled(!documentState.hasText)
+                    }
+                }
+                .animation(.easeOut(duration: 0.18), value: documentState.hasText)
+            }
 
             // 검색 바 - 사용자 토글 ON일 때만
-            if showSearchBar {
+            if showSearchBar && !isReorderMode {
                 searchBar
             }
 
             // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
-            if showRecentSection && !isSearching && shouldShowRecentSection {
+            if showRecentSection && !isReorderMode && !isSearching && shouldShowRecentSection {
                 recentSection
             }
 
@@ -648,7 +658,9 @@ struct KeyboardView: View {
             ZStack {
                 backgroundColor
 
-                if filteredMemos.isEmpty {
+                if isReorderMode {
+                    reorderGrid
+                } else if filteredMemos.isEmpty {
                     emptyStateView
                 } else {
                     ScrollView {
@@ -714,7 +726,7 @@ struct KeyboardView: View {
             // 인디케이터 점 제거 - 상단 categoryTabRow에서 심볼 버튼으로 이동
 
             // 미니 검색 키보드 - 검색 중일 때만
-            if isSearching {
+            if isSearching && !isReorderMode {
                 miniSearchKeyboard
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -1964,6 +1976,237 @@ struct KeyboardView: View {
                              forceTemplate: useTemplate)
     }
 
+    // MARK: - 순서 바꾸기
+
+    // 왜 여기에 있는가: 자주 쓰는 문구가 저장한 순서에 묻힌다는 이야기가 들어왔다.
+    // 앱에는 이미 '순서 바꾸기'가 있지만, 문구를 실제로 고르는 자리는 키보드다.
+    // 앱까지 다녀와야 순서를 고칠 수 있으면 대개 안 고친다.
+    //
+    // ⚠️ 들어오는 길은 **값 판 안의 버튼** 하나다. 길게 누르기는 그 판이 이미 쓰고 있어서
+    //    (`MemoPeekOnLongPress`) 같은 손짓에 둘을 얹으면 한 번 눌렀는데 판도 열리고
+    //    키도 들린다. 한 손짓에 주인은 하나여야 한다.
+
+    /// 순서를 바꾸는 중인가.
+    @State private var isReorderMode = false
+    /// 끌어서 실시간으로 바뀌는 작업용 목록.
+    ///
+    /// ⚠️ 지금 보는 페이지가 아니라 **보이는 전체**다. 페이지 안에서만 바꾸게 하면
+    ///    "1번 페이지의 3번을 2번 페이지 맨 위로" 같은 걸 아예 할 수 없다.
+    @State private var reorderList: [Memo] = []
+    /// 지금 손에 들려 있는 키. nil 이면 아무것도 안 들고 있다.
+    @State private var draggingMemoId: UUID?
+    /// 들고 있는 키가 지금 있는 자리(그리드 좌표계).
+    @State private var dragLocation: CGPoint?
+    /// 키마다의 자리. 손가락 밑에 어느 키가 있는지는 이 표로만 안다.
+    @State private var reorderCellFrames: [UUID: CGRect] = [:]
+    /// 방금 자리를 내준 키. 같은 키를 연달아 다시 밀지 않도록 기억해 둔다.
+    @State private var lastReorderHitId: UUID?
+
+    /// 자리를 재는 좌표계 이름. 재는 쪽(셀)과 그리는 쪽(떠 있는 키)이 같은 자를 써야 한다.
+    private static let reorderSpace = "reorderSpace"
+
+    /// 순서 바꾸기 안내 줄. 헤더 자리를 대신 쓴다.
+    private var reorderBanner: some View {
+        HStack(spacing: 8) {
+            Image(systemName: AppSymbol.arrowUpArrowDown)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(NSLocalizedString("잠깐 눌렀다 끌면 자리가 바뀌어요",
+                                       comment: "Keyboard reorder mode: how to move a key"))
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.text)
+                // 바꾼 순서가 앱에도 간다는 걸 **미리** 적는다. 끝난 뒤 알려 주면
+                // 그때는 이미 "여기서만 바뀌나" 하고 앱을 열어 본 뒤다.
+                Text(NSLocalizedString("바꾼 순서는 앱에도 그대로 반영돼요",
+                                       comment: "Keyboard reorder mode: the order syncs to the app"))
+                    .font(.caption2)
+                    .foregroundColor(theme.textMuted)
+            }
+            Spacer(minLength: 0)
+            Button(action: exitReorderMode) {
+                Text(NSLocalizedString("완료", comment: "Keyboard reorder mode: done"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.accentFg)
+                    .padding(.horizontal, 14)
+                    .frame(height: 30)
+                    .background(theme.accent)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+            .frame(minHeight: 44)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 4)
+        .background(theme.surface)
+    }
+
+    /// 순서를 바꾸는 격자.
+    private var reorderGrid: some View {
+        ScrollView {
+            LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                ForEach(reorderList) { memo in
+                    reorderCell(for: memo)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+        }
+        .coordinateSpace(name: Self.reorderSpace)
+        .onPreferenceChange(ReorderCellFrameKey.self) { reorderCellFrames = $0 }
+        // 들고 있는 키는 격자 **안이 아니라 위에** 그린다. 격자 안에서 옮기면
+        // 자리를 재는 자와 자리를 옮기는 손이 서로를 물어 좌표가 떨린다
+        // (잰 값에 오프셋이 섞이고, 그 값으로 다시 오프셋을 정하게 된다).
+        .overlay { carriedKey }
+    }
+
+    /// 격자 안의 키 하나. 순서 바꾸기 중에는 **눌러도 글이 안 들어간다** -
+    /// 버튼이 아니라 겉모습(`memoButtonLabel`)만 쓴다.
+    ///
+    /// 이미지 단축어도 여기서는 같은 이름표 모양으로 선다. 옮길 때 보는 것은 제목이고,
+    /// 크기가 제각각이면 어디로 들어가는지가 오히려 안 읽힌다.
+    private func reorderCell(for memo: Memo) -> some View {
+        let isCarried = draggingMemoId == memo.id
+        return memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+            // 들려 나간 자리는 빈 자리로 남는다 - 어디서 떠났는지가 보여야 한다.
+            .opacity(isCarried ? 0.22 : 1)
+            .background(
+                GeometryReader { geo in
+                    Color.clear.preference(
+                        key: ReorderCellFrameKey.self,
+                        value: [memo.id: geo.frame(in: .named(Self.reorderSpace))]
+                    )
+                }
+            )
+            .contentShape(Rectangle())
+            .gesture(reorderDrag(for: memo))
+            // 끌기는 손이 불편한 사람에게는 없는 길이다. 한 칸씩 옮기는 길을 따로 둔다.
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(memo.title)
+            .accessibilityValue(reorderPositionLabel(for: memo))
+            .accessibilityAction(named: Text(NSLocalizedString("앞으로 옮기기",
+                                                              comment: "Reorder accessibility action: move earlier"))) {
+                shiftCarried(memo, by: -1)
+            }
+            .accessibilityAction(named: Text(NSLocalizedString("뒤로 옮기기",
+                                                              comment: "Reorder accessibility action: move later"))) {
+                shiftCarried(memo, by: 1)
+            }
+    }
+
+    /// 지금 손에 들려 격자 위에 떠 있는 키.
+    @ViewBuilder
+    private var carriedKey: some View {
+        if let id = draggingMemoId,
+           let memo = reorderList.first(where: { $0.id == id }),
+           let point = dragLocation,
+           let width = reorderCellFrames[id]?.width {
+            memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+                .frame(width: width)
+                .scaleEffect(1.06)
+                .shadow(color: Color.black.opacity(0.28), radius: 8, y: 4)
+                .position(x: point.x, y: point.y)
+                .allowsHitTesting(false)
+        }
+    }
+
+    /// "3번째, 전체 12개" - 화면을 못 보는 사람에게 지금 자리를 알려 준다.
+    private func reorderPositionLabel(for memo: Memo) -> String {
+        guard let index = reorderList.firstIndex(where: { $0.id == memo.id }) else { return "" }
+        return String(format: NSLocalizedString("%1$d번째, 전체 %2$d개",
+                                                comment: "Reorder position: current index of total"),
+                      index + 1, reorderList.count)
+    }
+
+    /// 키를 드는 손짓.
+    ///
+    /// ⚠️ 잠깐 누른 **뒤에** 끌어야 든다(`sequenced`). 바로 끌리게 하면 목록을 훑어보려는
+    ///    쓸어내림까지 키를 들어 올려, 순서 바꾸기 중에는 스크롤을 아예 못 하게 된다.
+    private func reorderDrag(for memo: Memo) -> some Gesture {
+        LongPressGesture(minimumDuration: 0.2)
+            .sequenced(before: DragGesture(minimumDistance: 0,
+                                           coordinateSpace: .named(Self.reorderSpace)))
+            .onChanged { value in
+                guard case .second(true, let drag?) = value else { return }
+                if draggingMemoId != memo.id {
+                    draggingMemoId = memo.id
+                    lastReorderHitId = nil
+                    KeyboardHaptics.mediumTap()
+                }
+                dragLocation = drag.location
+                moveCarriedKey(to: drag.location)
+            }
+            .onEnded { _ in dropCarriedKey() }
+    }
+
+    /// 손가락 밑에 다른 키가 오면 그 자리를 넘겨받는다.
+    private func moveCarriedKey(to point: CGPoint) {
+        guard let carried = draggingMemoId,
+              let from = reorderList.firstIndex(where: { $0.id == carried }) else { return }
+        guard let hit = reorderCellFrames.first(where: { $0.key != carried && $0.value.contains(point) })?.key,
+              hit != lastReorderHitId,
+              let to = reorderList.firstIndex(where: { $0.id == hit }) else { return }
+        lastReorderHitId = hit
+        withAnimation(.easeInOut(duration: 0.18)) {
+            let item = reorderList.remove(at: from)
+            reorderList.insert(item, at: to)
+        }
+        KeyboardHaptics.softTap()
+    }
+
+    /// 손을 뗐다.
+    ///
+    /// ⚠️ **뗄 때마다 적는다.** 키보드는 우리가 내리는 게 아니라 호스트 앱이 내린다 -
+    ///    '완료'를 눌러야만 적으면, 옮겨 놓고 그대로 다른 앱으로 넘어간 사람은
+    ///    다음에 열었을 때 아무것도 안 바뀐 화면을 본다.
+    private func dropCarriedKey() {
+        guard draggingMemoId != nil else { return }
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        KeyboardHaptics.tap()
+        saveReorder()
+    }
+
+    /// 접근성 동작으로 한 칸 옮긴다(끌기 없이).
+    private func shiftCarried(_ memo: Memo, by delta: Int) {
+        guard let from = reorderList.firstIndex(where: { $0.id == memo.id }) else { return }
+        let to = from + delta
+        guard reorderList.indices.contains(to) else { return }
+        withAnimation(.easeInOut(duration: 0.18)) {
+            let item = reorderList.remove(at: from)
+            reorderList.insert(item, at: to)
+        }
+        KeyboardHaptics.softTap()
+        saveReorder()
+    }
+
+    /// 지금 순서를 앱과 같은 자리에 적고, 이 화면의 목록도 그 순서로 맞춘다.
+    private func saveReorder() {
+        KeyboardMemoFeed.commitManualOrder(reorderList, within: clipMemos)
+        loadAllMemos()
+    }
+
+    private func enterReorderMode() {
+        peekMemo = nil
+        reorderList = allMemos
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        KeyboardHaptics.mediumTap()
+        withAnimation(.easeInOut(duration: 0.22)) { isReorderMode = true }
+    }
+
+    private func exitReorderMode() {
+        saveReorder()
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        reorderCellFrames = [:]
+        KeyboardHaptics.tap()
+        withAnimation(.easeInOut(duration: 0.22)) { isReorderMode = false }
+    }
+
     // MARK: - Data Loading
 
     private func loadAllMemos() {
@@ -2431,4 +2674,16 @@ final class HangulSearchController: HangulInputProxy {
     // MARK: HangulInputProxy
     func insertText(_ text: String) { buffer.append(text) }
     func deleteBackward() { if !buffer.isEmpty { buffer.removeLast() } }
+}
+
+// MARK: - 순서 바꾸기: 키마다의 자리
+
+/// 격자 안 키들의 자리를 한 표로 모은다.
+/// 손가락 밑에 어느 키가 있는지는 좌표 계산이 아니라 이 표를 두드려 안다 -
+/// 열 개수·키 높이·여백이 설정마다 달라서, 계산으로는 어느 하나만 바뀌어도 어긋난다.
+private struct ReorderCellFrameKey: PreferenceKey {
+    static let defaultValue: [UUID: CGRect] = [:]
+    static func reduce(value: inout [UUID: CGRect], nextValue: () -> [UUID: CGRect]) {
+        value.merge(nextValue()) { _, new in new }
+    }
 }
