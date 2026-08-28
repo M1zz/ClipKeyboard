@@ -18,7 +18,7 @@ import CloudKit
 import LeeoKit   // HapticManager
 
 /// 크래시 리포트 한 건 (읽기 전용 표현).
-struct CrashReportRecord: Identifiable {
+struct CrashReportRecord: Identifiable, Sendable {
     let id: String
     let kind: String          // crash / hang / disk_write
     let detail: String
@@ -255,20 +255,19 @@ enum CrashReportReader {
         let query = CKQuery(recordType: "CrashReport", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
-        let page = try await database.records(matching: query, resultsLimit: limit)
-        return page.matchResults.compactMap { try? $0.1.get() }
-            .filter { config.appIdentifier == nil || ($0["appId"] as? String) == config.appIdentifier }
-            .map { record in
-                CrashReportRecord(
-                    id: record.recordID.recordName,
-                    kind: record["kind"] as? String ?? "-",
-                    detail: record["detail"] as? String ?? "-",
-                    appVersion: record["appVersion"] as? String ?? "-",
-                    osVersion: record["osVersion"] as? String ?? "-",
-                    deviceType: record["deviceType"] as? String ?? "-",
-                    stack: record["stack"] as? String ?? "",
-                    createdAt: record.creationDate
-                )
-            }
+        // 통계와 같은 이유로 페이지를 나눠 받는다 - 한 요청에 400개를 넘기면 서버가 거부한다.
+        return try await LeeoCloudPage.collect(query, in: database, limit: limit, transform: { record -> CrashReportRecord? in
+            guard config.appIdentifier == nil || (record["appId"] as? String) == config.appIdentifier else { return nil }
+            return CrashReportRecord(
+                id: record.recordID.recordName,
+                kind: record["kind"] as? String ?? "-",
+                detail: record["detail"] as? String ?? "-",
+                appVersion: record["appVersion"] as? String ?? "-",
+                osVersion: record["osVersion"] as? String ?? "-",
+                deviceType: record["deviceType"] as? String ?? "-",
+                stack: record["stack"] as? String ?? "",
+                createdAt: record.creationDate
+            )
+        })
     }
 }

@@ -20,9 +20,28 @@
 | `Feedback` | 사용자가 피드백을 보낼 때 | 기존 LeeoKit 피드백 (변경 없음) |
 
 `metrics` (설치당 대략 지표, 전부 숫자):
-`shortcuts` `combos` `templates` `images` `texts` `favorites` `uses` `timeSavedMin`
+`shortcuts` `ownShortcuts` `combos` `templates` `images` `texts` `favorites` `uses` `timeSavedMin`
 `categories` `unusedShortcuts` `topUses` `clips` `keyboardUses`
 `flag.isPro` `flag.keyboardActive` `flag.syncOn` `persona.<페르소나>`
+
+### `shortcuts` 와 `ownShortcuts` 는 다른 숫자다
+
+`shortcuts` 는 저장된 단축어 **전부**를 센다. 온보딩이 심어 주는 샘플 4개
+(`ClipKeyboardApp.performSampleInsertion`, 페르소나 무관하게 4개)가 여기 포함된다.
+그래서 아무것도 만들지 않은 신규 설치도 4에서 시작하고, 개수 분포의 봉우리가
+`4~6` 칸에 섰다. 그것은 사용자의 행동이 아니라 시드값이었다.
+
+`ownShortcuts` 는 `SampleMemoStorage` 에 적힌 샘플 ID를 뺀 값, 즉 **사용자가 직접
+저장한 개수**다. "결제 문턱까지 얼마나 왔나" 를 묻는 개수 분포 차트는 이쪽을 본다.
+
+- `shortcuts` 는 **뜻을 바꾸지 않는다.** 과거 스냅샷이 그 키로 쌓여 있어서, 같은
+  이름의 뜻을 바꾸면 추이가 그 지점에서 끊긴다
+- 분포 차트는 `ownShortcuts` 가 **없는 구버전 스냅샷을 세지 않는다.** 폴백으로
+  `shortcuts` 를 쓰면 뜻이 다른 두 숫자가 한 막대에 섞여, 지우려던 봉우리가 남는다.
+  빠진 개수는 `UsageInsights.legacyShortcutSnapshotCount` 로 화면 아래에 밝힌다
+- ⚠️ **한도 판정(`ProFeatureManager.canAddMemo`)은 아직 `memos.count` 를 본다**, 즉
+  샘플까지 센다. 차트와 페이월이 서로 다른 숫자를 보는 동안에는 거리가 4만큼 어긋난다
+  (샘플을 남겨 둔 사람은 차트의 6개에서 이미 한도). 화면 아래 경고가 그 말을 하고 있다
 
 ## 키보드만 쓰는 사용자를 어떻게 세나
 

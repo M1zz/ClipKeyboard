@@ -150,6 +150,18 @@ enum UsageReportingService {
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         metrics["shortcuts"] = Double(memos.count)
 
+        // 사용자가 **직접 저장한** 개수. 온보딩이 심어 준 샘플 4개를 뺀 값이다.
+        //
+        // 왜 따로 보내나: `shortcuts` 는 심어 준 것까지 세므로, 신규 설치는 아무것도
+        // 만들지 않아도 4에서 시작한다. 개수 분포의 봉우리가 4~6 에 서는 것은 사용자의
+        // 행동이 아니라 시드값이고, "결제 문턱까지 얼마나 왔나" 를 그 값으로 읽으면
+        // 거리를 4만큼 잘못 본다.
+        //
+        // ⚠️ `shortcuts` 는 **뜻을 바꾸지 않고 그대로 둔다.** 과거 스냅샷이 그 키로
+        //    쌓여 있어서, 같은 이름의 뜻을 바꾸면 추이가 그 지점에서 끊긴다.
+        let sampleIds = SampleMemoStorage.load()
+        metrics["ownShortcuts"] = Double(memos.filter { !sampleIds.contains($0.id) }.count)
+
         // ⚠️ 종류는 **서로 겹치지 않게** 센다 - 도넛 차트가 "전체의 몫"을 그리는데
         //    한 메모가 두 종류에 잡히면 합이 전체를 넘어 비율이 거짓말이 된다.
         //    우선순위: 콤보 > 템플릿 > 이미지 > 텍스트 (더 구체적인 것 먼저).
@@ -196,8 +208,13 @@ enum UsageReportingService {
     typealias Snapshot = LeeoUsageReporter.UsageSnapshot
 
     /// 설치 스냅샷 전체 (이 앱 것만, 최근 활동순).
-    static func fetchSnapshots(limit: Int = 1000) async throws -> [Snapshot] {
-        try await reporter.fetchSnapshots(limit: limit)
+    ///
+    /// 한 요청에 전부 요구하지 않는다 - CloudKit은 한 요청당 400개가 상한이라,
+    /// 설치가 그 선을 넘는 순간 조회 하나가 통째로 거부되며 화면 전체가 0이 됐다.
+    /// 이제 200건씩 이어 받고, `onPage`로 도착하는 대로 화면을 갱신한다.
+    static func fetchSnapshots(limit: Int = 5000,
+                               onProgress: (@MainActor (LeeoCloudProgress<Snapshot>) -> Void)? = nil) async throws -> [Snapshot] {
+        try await reporter.fetchSnapshots(limit: limit, onProgress: onProgress)
     }
 
     /// 이벤트 이름별 집계 결과.
@@ -223,7 +240,8 @@ enum UsageReportingService {
     /// LeeoKit은 스냅샷 조회만 제공해서, 이벤트 스트림은 여기서 직접 읽는다.
     /// CloudKit이 한 요청에 주는 개수는 서버가 정하므로 커서로 이어 받는다.
     /// ⚠️ 남의 레코드를 읽으므로 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
-    static func fetchEvents(limit: Int = 3000) async throws -> [EventSample] {
+    static func fetchEvents(limit: Int = 3000,
+                            onProgress: (@MainActor (LeeoCloudProgress<EventSample>) -> Void)? = nil) async throws -> [EventSample] {
         let config = ClipKeyboardSpec.feedback
         let database = await CloudKitContainer.publicDatabase(config.containerIdentifier)
 
@@ -231,32 +249,18 @@ enum UsageReportingService {
         let query = CKQuery(recordType: LeeoUsageReporter.eventType, predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
-        var samples: [EventSample] = []
-        var cursor: CKQueryOperation.Cursor?
-        repeat {
-            let page: (matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?)
-            if let cursor {
-                page = try await database.records(continuingMatchFrom: cursor,
-                                                  resultsLimit: min(200, limit - samples.count))
-            } else {
-                page = try await database.records(matching: query,
-                                                  resultsLimit: min(200, limit))
-            }
-
-            for record in page.matchResults.compactMap({ try? $0.1.get() }) {
-                guard config.appIdentifier == nil || (record["appId"] as? String) == config.appIdentifier else { continue }
-                // ⚠️ creationDate는 서버가 "쓴 시각"으로 찍는다. 키보드 활동일처럼 소급
-                //    전송된 건 보낸 날로 뭉치므로, 실제 발생 시각(occurredAt)을 우선 본다.
-                //    구버전이 남긴 레코드엔 이 필드가 없어 creationDate로 떨어진다.
-                let occurredAt = (record["occurredAt"] as? Date) ?? record.creationDate ?? Date()
-                samples.append(EventSample(name: (record["event"] as? String) ?? "-",
-                                           installID: record["installID"] as? String,
-                                           date: occurredAt))
-            }
-            cursor = page.queryCursor
-        } while cursor != nil && samples.count < limit
-
-        return samples
+        // 페이지를 작게 끊어 커서로 이어 받는다(LeeoCloudPage). 한 페이지가 도착할 때마다
+        // 지금까지의 표본을 넘겨서, 다 받기 전에도 차트가 채워지며 자라게 한다.
+        return try await LeeoCloudPage.collect(query, in: database, limit: limit, transform: { record -> EventSample? in
+            guard config.appIdentifier == nil || (record["appId"] as? String) == config.appIdentifier else { return nil }
+            // ⚠️ creationDate는 서버가 "쓴 시각"으로 찍는다. 키보드 활동일처럼 소급
+            //    전송된 건 보낸 날로 뭉치므로, 실제 발생 시각(occurredAt)을 우선 본다.
+            //    구버전이 남긴 레코드엔 이 필드가 없어 creationDate로 떨어진다.
+            let occurredAt = (record["occurredAt"] as? Date) ?? record.creationDate ?? Date()
+            return EventSample(name: (record["event"] as? String) ?? "-",
+                               installID: record["installID"] as? String,
+                               date: occurredAt)
+        }, onProgress: onProgress)
     }
 
     /// 표본 → 이름별 집계 (화면 계산용, 네트워크 없음).

@@ -22,6 +22,17 @@ struct UsageStatsView: View {
     @State private var feedback: [LeeoFeedbackService.FeedbackRecord] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
+    /// 조회 하나하나가 왜 멈췄는지. 받는 중이면 nil.
+    /// 나눠 받는 조회에서 이게 없으면, 낮은 숫자가 "아직 받는 중"인지 "원래 그만큼"인지
+    /// "중간에 끊긴 것"인지 사람이 구분할 수 없다 - 셋은 할 일이 서로 다르다.
+    @State private var snapshotStop: LeeoCloudStop?
+    @State private var eventStop: LeeoCloudStop?
+    /// 지금까지 받은 페이지 수 - 진행이 실제로 일어나고 있다는 증거.
+    @State private var snapshotPages = 0
+    @State private var eventPages = 0
+    private var pagesLoaded: Int { snapshotPages + eventPages }
+    /// 지금 보이는 숫자가 언제 기준인지.
+    @State private var loadedAt: Date?
 
     /// 이벤트 표본을 이름별로 묶은 것 - 차트와 같은 원본을 쓴다.
     private var events: [UsageReportingService.EventStat] {
@@ -51,6 +62,7 @@ struct UsageStatsView: View {
                             .font(.body)
                     }
                 }
+                statusSection
                 usersSection
                 trendSection
                 keyboardSection
@@ -78,6 +90,74 @@ struct UsageStatsView: View {
         .solidNavBar(theme.bg)
         .task { await load() }
         .refreshable { await load() }
+    }
+
+    // MARK: - 어디까지 왔나
+
+    /// 지금 보이는 숫자가 중간 집계인지 최종본인지 화면이 직접 말한다.
+    /// 허브가 커지면 조회는 수십 번의 왕복이 된다. 그동안 아무 말도 없으면
+    /// "다 불러온 건가?" 를 사람이 알 방법이 없고, 낮은 숫자를 사실로 믿게 된다.
+    @ViewBuilder
+    private var statusSection: some View {
+        if isLoading {
+            Section {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    Text(String(format: NSLocalizedString("불러오는 중… 설치 %lld · 이벤트 %lld (%lld페이지)", comment: "Usage stats: loading progress"),
+                                snapshots.count, eventSamples.count, pagesLoaded))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+            } footer: {
+                Text(NSLocalizedString("한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.", comment: "Usage stats: paged loading footer"))
+                    .font(.body)
+            }
+        } else if let text = completionText {
+            Section {
+                Label {
+                    Text(text).font(.body)
+                } icon: {
+                    Image(systemName: isFullyLoaded ? "checkmark.circle" : "exclamationmark.triangle")
+                }
+                .foregroundColor(isFullyLoaded ? theme.textMuted : .orange)
+            }
+        }
+    }
+
+    /// 두 조회가 모두 끝까지 갔는가.
+    private var isFullyLoaded: Bool {
+        snapshotStop?.isComplete == true && eventStop?.isComplete == true
+    }
+
+    /// 다 받았으면 언제 기준인지, 못 받았으면 무엇이 왜 빠졌는지.
+    private var completionText: String? {
+        guard snapshotStop != nil || eventStop != nil else { return nil }
+        if isFullyLoaded {
+            let at = loadedAt.map { DateFormatter.localizedString(from: $0, dateStyle: .none, timeStyle: .short) } ?? "-"
+            return String(format: NSLocalizedString("설치 %lld · 이벤트 %lld건을 전부 불러왔어요 (%@ 기준).", comment: "Usage stats: fully loaded"),
+                          snapshots.count, eventSamples.count, at)
+        }
+        var lines: [String] = []
+        if let reason = incompleteReason(snapshotStop, what: NSLocalizedString("설치", comment: "Usage stats: installs"), count: snapshots.count) {
+            lines.append(reason)
+        }
+        if let reason = incompleteReason(eventStop, what: NSLocalizedString("이벤트", comment: "Usage stats: events"), count: eventSamples.count) {
+            lines.append(reason)
+        }
+        return lines.isEmpty ? nil : lines.joined(separator: "\n")
+    }
+
+    private func incompleteReason(_ stop: LeeoCloudStop?, what: String, count: Int) -> String? {
+        switch stop {
+        case .none, .some(.exhausted):
+            return nil
+        case .some(.reachedLimit):
+            return String(format: NSLocalizedString("%1$@은(는) 상한인 %2$lld건까지만 받았어요. 더 오래된 기록은 빠져 있어요.", comment: "Usage stats: stopped at limit"), what, count)
+        case .some(.cancelled):
+            return String(format: NSLocalizedString("%1$@을(를) 받다가 멈췄어요(%2$lld건). 당겨서 새로고침하면 다시 받아요.", comment: "Usage stats: cancelled"), what, count)
+        case .some(.failed(let why)):
+            return String(format: NSLocalizedString("%1$@은(는) 중간에 끊겨 %2$lld건까지만 받았어요: %3$@", comment: "Usage stats: interrupted"), what, count, why)
+        }
     }
 
     // MARK: - 사용자 수
@@ -141,15 +221,34 @@ struct UsageStatsView: View {
     @ViewBuilder
     private var distributionChartSection: some View {
         let buckets = UsageInsights.shortcutDistribution(snapshots: snapshots)
+        let counted = buckets.reduce(0) { $0 + $1.installs }
+        let legacy = UsageInsights.legacyShortcutSnapshotCount(snapshots: snapshots)
         if !snapshots.isEmpty {
             Section {
-                ShortcutDistributionChart(buckets: buckets)
-                    .padding(.vertical, 4)
+                // 셀 것이 하나도 없으면 0짜리 막대 일곱 개 대신 이유를 적는다.
+                // 빈 차트는 "아무도 안 만들었다" 로 읽히는데, 실제로는 아직 안 모인 것이다.
+                if counted == 0 {
+                    Text(NSLocalizedString("아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요.", comment: "Distribution empty state"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                } else {
+                    ShortcutDistributionChart(buckets: buckets)
+                        .padding(.vertical, 4)
+                }
             } header: {
                 Text(NSLocalizedString("단축어 개수 분포", comment: "Usage stats section: shortcut distribution"))
             } footer: {
-                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
-                    .font(.body)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(NSLocalizedString("사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
+                    // ⚠️ 한도 판정(`canAddMemo`)은 아직 샘플까지 센다. 그 둘이 다른 값을
+                    //    보는 동안에는 이 차트의 거리와 실제 페이월 거리가 어긋나므로,
+                    //    읽는 사람이 모르고 지나가지 않도록 화면에 적어 둔다.
+                    Text(NSLocalizedString("⚠️ 한도 판정은 아직 샘플까지 세요. 샘플을 남겨 둔 사람은 여기 6개에서 이미 한도에 닿아요.", comment: "Distribution footer: limit still counts samples"))
+                    if legacy > 0 {
+                        Text(String(format: NSLocalizedString("구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.", comment: "Distribution footer: legacy snapshots excluded"), legacy))
+                    }
+                }
+                .font(.body)
             }
         }
     }
@@ -663,11 +762,32 @@ struct UsageStatsView: View {
         errorMessage = nil
         var failures: [String] = []
 
-        do { snapshots = try await UsageReportingService.fetchSnapshots() }
-        catch { failures.append(error.localizedDescription) }
+        // 한 번에 다 달라고 하지 않는다 - 200건씩 이어 받으며 도착하는 대로 화면을 갱신한다.
+        // 설치가 900건이 됐을 때 단일 요청이 서버 상한(400)에 걸려 화면 전체가 0이 됐던 게
+        // 이 방식으로 바꾼 이유다. 도중에 끊겨도 그때까지 채워진 숫자는 남는다.
+        //
+        // 진행 상황(건수·페이지)과 "왜 멈췄는지" 를 같은 통로로 받아 두는 이유는 하나다.
+        // 나눠 받기 시작한 순간부터, 화면은 지금 보이는 숫자가 최종본인지 말할 의무가 생긴다.
+        snapshotStop = nil
+        eventStop = nil
+        snapshotPages = 0
+        eventPages = 0
 
-        do { eventSamples = try await UsageReportingService.fetchEvents() }
-        catch { failures.append(error.localizedDescription) }
+        do {
+            snapshots = try await UsageReportingService.fetchSnapshots { progress in
+                snapshots = progress.items
+                snapshotPages = progress.pages
+                snapshotStop = progress.stop
+            }
+        } catch { failures.append(error.localizedDescription) }
+
+        do {
+            eventSamples = try await UsageReportingService.fetchEvents { progress in
+                eventSamples = progress.items
+                eventPages = progress.pages
+                eventStop = progress.stop
+            }
+        } catch { failures.append(error.localizedDescription) }
 
         do { feedback = try await UsageReportingService.fetchFeedback() }
         catch { failures.append(error.localizedDescription) }
@@ -676,6 +796,7 @@ struct UsageStatsView: View {
             errorMessage = String(format: NSLocalizedString("불러오지 못했어요: %@", comment: "Usage stats load failed"),
                                   Set(failures).joined(separator: "\n"))
         }
+        loadedAt = Date()
         isLoading = false
     }
 }
