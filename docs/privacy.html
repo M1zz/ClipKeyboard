@@ -23,12 +23,37 @@
 
         :root {
             --primary: #007AFF;
-            --primary-dark: #0056CC;
-            --bg: #FAFAFA;
-            --text: #1D1D1F;
-            --text-secondary: #6E6E73;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
             --card-bg: #FFFFFF;
-            --border: #E5E5E7;
+            --border: rgba(0, 0, 0, 0.09);
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                color-scheme: dark;
+            }
         }
 
         body {
@@ -69,13 +94,13 @@
             color: white;
         }
 
-        .lang-btn:hover:not(.active) { background: #F0F0F2; }
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
 
         /* Top Nav */
         .top-nav {
             position: sticky;
             top: 0;
-            background: rgba(255,255,255,0.85);
+            background: var(--veil);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border);
@@ -116,7 +141,7 @@
         .hero {
             padding: 4rem 2rem 2rem;
             text-align: center;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
         }
 
         .hero h1 {
@@ -267,6 +292,8 @@
     <div class="lang-toggle">
         <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
         <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
+        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
     </div>
 
     <nav class="top-nav">
@@ -304,7 +331,7 @@
             <h2 data-i18n="s2Title">2. 수집하는 정보 / 수집하지 않는 정보</h2>
 
             <h3 data-i18n="s2H1">📊 수집하는 정보 (익명)</h3>
-            <p data-i18n="s2CP1">서비스 개선을 위해 다음의 <strong>익명</strong> 정보를 개발자의 CloudKit 저장소로 보냅니다:</p>
+            <p data-i18n-html="s2CP1">서비스 개선을 위해 다음의 <strong>익명</strong> 정보를 개발자의 CloudKit 저장소로 보냅니다:</p>
             <ul>
                 <li data-i18n-html="s2CL1"><strong>사용 지표</strong>: 단축어·템플릿·콤보의 <em>개수</em>, 사용 횟수, 절약한 시간(분), Pro 보유 여부, 키보드·동기화 사용 여부</li>
                 <li data-i18n-html="s2CL2"><strong>행동 이벤트</strong>, 어떤 기능을 썼는지 <em>이름만</em> (예: 앱 열기, 단축어 추가). 내용은 포함되지 않습니다</li>
@@ -315,7 +342,7 @@
             <p data-i18n-html="s2CP2">이 정보는 개인을 식별하지 않으며, 광고·추적(ATT)에 사용하거나 외부에 판매·공유하지 않습니다. <strong>앱 안에 수집을 끄는 설정은 없습니다.</strong></p>
 
             <h3 data-i18n="s2H2">🚫 수집하지 않는 정보</h3>
-            <p data-i18n="s2P1">본 앱은 다음 정보를 <strong>수집하지 않습니다</strong>:</p>
+            <p data-i18n-html="s2P1">본 앱은 다음 정보를 <strong>수집하지 않습니다</strong>:</p>
             <ul>
                 <li data-i18n="s2L1">개인 식별 정보 (이름·이메일·전화번호·주소 등), 피드백에 직접 적어 보내는 경우는 제외</li>
                 <li data-i18n="s2L2">화면 이동 경로·체류 시간·클릭 좌표 등 상세 행동 기록</li>
@@ -618,8 +645,208 @@
                 s11L3: "<strong>App Bundle ID</strong>: com.Ysoup.TokenMemo",
                 s11P2: "Most inquiries are answered within a day.",
                 footerHome: "Home", footerTutorial: "Tutorial", footerContact: "Contact"
-            }
+            },
+            'zh-Hans': {
+             "pageTitle": "剪贴键盘：隐私政策",
+             "navHome": "首页",
+             "navTutorial": "指南",
+             "heroTitle": "隐私 <span>政策</span>",
+             "metaUpdated": "最后更新",
+             "highlightText": "剪贴键盘绝不收集或传输你的短语、支付信息和其他内容。匿名的使用统计仅用于改进 App（不使用 IDFA）。",
+             "s1Title": "1. 概述",
+             "s1P1": "剪贴键盘（“本 App”“我们”）把你的隐私放在第一位。本政策说明使用 App 时，哪些数据会被如何处理。",
+             "s1P2": "核心原则：<strong>我们不收集你写的内容</strong>。短语、剪贴板、模板的内容以及支付信息都不会传给开发者。不过为了改进 App，我们会收集 <strong>无法识别到个人的匿名使用统计</strong>（见第 2 节）。不使用任何第三方分析工具。",
+             "s2Title": "2. 收集什么 / 不收集什么",
+             "s2H1": "📊 会收集的信息（匿名）",
+             "s2CP1": "为了改进 App，以下 <strong>匿名</strong> 信息会发送到开发者的 CloudKit 存储：",
+             "s2CL1": "<strong>使用指标</strong>：短语、模板、组合的<em>数量</em>，使用次数，省下的时间（分钟），是否拥有 Pro，是否在用键盘和同步",
+             "s2CL2": "<strong>行为事件</strong>：用了哪个功能，<em>只有名称</em>（例如打开 App、添加短语）。不包含内容",
+             "s2CL3": "<strong>App 环境</strong>：App 版本、系统版本、平台、语言设置，以及安装后经过的天数",
+             "s2CL4": "<strong>安装标识</strong>：App 生成的随机 UUID。与设备、账户、广告 ID 无关，删除后重装会变成新的值",
+             "s2CL5": "<strong>反馈</strong>：你主动发送的内容。只有在你<em>自己填写</em>希望得到回复时，姓名和邮箱才会一并发送",
+             "s2CP2": "这些信息无法识别到个人，不会用于广告或追踪（ATT），也不会出售或提供给任何人。<strong>App 内没有关闭这项收集的设置。</strong>",
+             "s2H2": "🚫 不会收集的信息",
+             "s2P1": "本 App <strong>不收集</strong>以下信息：",
+             "s2L1": "个人识别信息（姓名、邮箱、电话、地址等），你自己写进反馈里的除外",
+             "s2L2": "页面跳转路径、停留时长、点击坐标等详细行为记录",
+             "s2L3": "广告标识符（IDFA）、设备唯一 ID",
+             "s2L4": "位置信息",
+             "s2L5": "保存的短语、剪贴板、模板的内容",
+             "s2L6": "支付信息（由 Apple 处理，开发者无法访问）",
+             "s3Title": "3. 数据保存在哪里",
+             "s3P1": "你在 App 里输入的一切（短语、剪贴板历史、模板、组合、设置等）只保存在以下位置：",
+             "s3H1": "📱 设备内部（App Group 容器）",
+             "s3P2": "保存在 iOS App Group 容器 <code>group.com.Ysoup.TokenMemo</code> 中。主 App 和键盘扩展共用，但<strong>不会传输给开发者或任何外部服务器</strong>。",
+             "s3H2": "☁️ iCloud（可选）",
+             "s3P3": "只有当你在 App 内开启 <strong>iCloud 备份</strong> 时，数据才会通过 Apple 的 CloudKit 以<strong>加密状态</strong>保存到你自己的 iCloud 账户。开发者无法访问这些数据。",
+             "s3P4": "iCloud 备份可以<strong>随时关闭</strong>，并遵循 Apple 的 iCloud 政策：<a href=\"https://www.apple.com/legal/privacy/\" target=\"_blank\">Apple 隐私政策</a>",
+             "s4Title": "4. 权限说明",
+             "s4P1": "本 App 申请的权限及其用途：",
+             "s4TH1": "权限",
+             "s4TH2": "用途",
+             "s4TH3": "数据传输",
+             "s4R1C1": "允许完全访问（键盘）",
+             "s4R1C2": "为了在键盘上调出保存的短语",
+             "s4R1C3": "无",
+             "s4R2C1": "Face ID / Touch ID",
+             "s4R2C2": "解锁加密短语（由 iOS 处理）",
+             "s4R2C3": "无",
+             "s4R3C1": "照片图库",
+             "s4R3C2": "保存图片短语（仅限你选择的照片）",
+             "s4R3C3": "无",
+             "s4R4C1": "iCloud",
+             "s4R4C2": "开启备份时同步到你的 iCloud",
+             "s4R4C3": "仅限你本人的 iCloud",
+             "s5Title": "5. 第三方服务",
+             "s5P1": "除以下几项外，本 App 不包含任何第三方服务：",
+             "s5L1": "<strong>Apple CloudKit</strong>：仅用于 iCloud 备份功能，只有你开启时才工作",
+             "s5L2": "<strong>Apple StoreKit</strong>：处理 App 内购买（由 Apple 处理，开发者只能看到交易记录）",
+             "s5L3": "<strong>开发者的 CloudKit 存储</strong>：接收匿名使用统计和反馈的地方。它建在 Apple 的 iCloud 基础设施上，除开发者外无人可以访问",
+             "s5P2": "不使用第三方分析工具（Firebase、Mixpanel、Amplitude 等）、广告网络或外部崩溃上报服务。以上都在 Apple 的基础设施内，数据不会流向第三方公司。",
+             "s6Title": "6. 支付处理",
+             "s6P1": "App 内购买（Pro 解锁）由 Apple 的 App Store 处理。开发者只能看到：",
+             "s6L1": "购买是否成功（收据校验）",
+             "s6L2": "汇总后的销售数据（由 App Store Connect 提供）",
+             "s6P2": "卡号、账单地址等支付细节不会传给开发者。",
+             "s7Title": "7. App Store Connect 分析",
+             "s7P1": "我们会查看 Apple 自动汇总后提供给开发者的匿名统计（下载量、转化率、留存等）。这些数据：",
+             "s7L1": "只以 Apple 匿名化并汇总后的形式提供",
+             "s7L2": "无法识别到某一个用户",
+             "s7L3": "只有当你在 iOS 设置里打开了“与 App 开发者共享”开关时才包含在内",
+             "s8Title": "8. 用户权利（GDPR / CCPA）",
+             "s8P1": "你写的内容全部只在你的设备（以及你自己的 iCloud）上，因此相关权利可以由你直接行使。我们收集的匿名使用统计无法识别到个人：",
+             "s8H1": "🇪🇺 GDPR（欧盟用户）",
+             "s8L1": "<strong>访问权</strong>：所有保存的数据都在你的设备上，可以在 App 内直接查看",
+             "s8L2": "<strong>删除权</strong>：删除 App 或在 App 内清除数据，所有信息即被永久删除",
+             "s8L3": "<strong>可携权</strong>：可以通过 iCloud 备份迁移到别的设备",
+             "s8L4": "<strong>关于匿名统计</strong>：安装标识是随机 UUID，无法定位到某个人的记录，因此我们无法受理针对单条记录的查阅、更正或删除请求。删除 App 后传输即停止，重装会得到一个与此前记录无法关联的新标识",
+             "s8L7": "<strong>咨询</strong>：关于收集项目或处理方式的问题，我们会通过第 11 节的邮箱回复",
+             "s8H2": "🇺🇸 CCPA（加州用户）",
+             "s8L5": "我们不出售个人信息，也不与第三方共享",
+             "s8L6": "“Do Not Sell”选项不适用（因为根本没有出售）",
+             "s9Title": "9. 儿童隐私保护",
+             "s9P1": "本 App 并非面向 13 岁以下儿童设计，也不会有意收集该年龄段的信息（遵循 COPPA）。",
+             "s10Title": "10. 政策变更",
+             "s10P1": "政策变更时，我们会在本页面标注更新日期予以公告。如有重大变更，会通过 App 内通知或 App Store 说明告知。",
+             "s11Title": "11. 联系我们",
+             "s11P1": "关于本政策或隐私方面的问题，请联系开发者：",
+             "s11L1": "<strong>邮箱</strong>：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+             "s11L2": "<strong>开发者</strong>：Leeo (Ysoup)",
+             "s11L3": "<strong>App Bundle ID</strong>：com.Ysoup.TokenMemo",
+             "s11P2": "大部分咨询会在一天之内回复。",
+             "footerHome": "首页",
+             "footerTutorial": "使用指南",
+             "footerContact": "联系"
+            },
+            'zh-Hant': {
+ "pageTitle": "剪貼鍵盤：隱私權政策",
+ "navHome": "首頁",
+ "navTutorial": "指南",
+ "heroTitle": "隱私 <span>政策</span>",
+ "metaUpdated": "最後更新",
+ "highlightText": "剪貼鍵盤絕不收集或傳輸你的短語、付款資訊和其他內容。匿名的使用統計僅用於改進 App（不使用 IDFA）。",
+ "s1Title": "1. 概述",
+ "s1P1": "剪貼鍵盤（「本 App」「我們」）把你的隱私放在第一位。本政策說明使用 App 時，哪些資料會被如何處理。",
+ "s1P2": "核心原則：<strong>我們不收集你寫的內容</strong>。短語、剪貼簿、範本的內容以及付款資訊都不會傳給開發者。不過為了改進 App，我們會收集 <strong>無法識別到個人的匿名使用統計</strong>（見第 2 節）。不使用任何第三方分析工具。",
+ "s2Title": "2. 收集什麼 / 不收集什麼",
+ "s2H1": "📊 會收集的資訊（匿名）",
+ "s2CP1": "為了改進 App，以下 <strong>匿名</strong> 資訊會發送到開發者的 CloudKit 儲存：",
+ "s2CL1": "<strong>使用指標</strong>：短語、範本、組合的<em>數量</em>，使用次數，省下的時間（分鐘），是否擁有 Pro，是否在用鍵盤和同步",
+ "s2CL2": "<strong>行為事件</strong>：用了哪個功能，<em>只有名稱</em>（例如開啟 App、新增短語）。不包含內容",
+ "s2CL3": "<strong>App 環境</strong>：App 版本、系統版本、平台、語言設定，以及安裝後經過的天數",
+ "s2CL4": "<strong>安裝標識</strong>：App 生成的隨機 UUID。與裝置、帳戶、廣告 ID 無關，刪除後重裝會變成新的值",
+ "s2CL5": "<strong>意見回饋</strong>：你主動發送的內容。只有在你<em>自己填寫</em>希望得到回覆時，姓名和信箱才會一併發送",
+ "s2CP2": "這些資訊無法識別到個人，不會用於廣告或追蹤（ATT），也不會出售或提供給任何人。<strong>App 內沒有關閉這項收集的設定。</strong>",
+ "s2H2": "🚫 不會收集的資訊",
+ "s2P1": "本 App <strong>不收集</strong>以下資訊：",
+ "s2L1": "個人識別資訊（姓名、信箱、電話、地址等），你自己寫進意見回饋裡的除外",
+ "s2L2": "頁面跳轉路徑、停留時長、點一下坐標等詳細行為記錄",
+ "s2L3": "廣告標識符（IDFA）、裝置唯一 ID",
+ "s2L4": "位置資訊",
+ "s2L5": "儲存的短語、剪貼簿、範本的內容",
+ "s2L6": "付款資訊（由 Apple 處理，開發者無法存取）",
+ "s3Title": "3. 資料儲存在哪裡",
+ "s3P1": "你在 App 裡輸入的一切（短語、剪貼簿歷史、範本、組合、設定等）只儲存在以下位置：",
+ "s3H1": "📱 裝置內部（App Group 容器）",
+ "s3P2": "儲存在 iOS App Group 容器 <code>group.com.Ysoup.TokenMemo</code> 中。主 App 和鍵盤擴展共用，但<strong>不會傳輸給開發者或任何外部服務器</strong>。",
+ "s3H2": "☁️ iCloud（可選）",
+ "s3P3": "只有當你在 App 內開啓 <strong>iCloud 備份</strong> 時，資料才會透過 Apple 的 CloudKit 以<strong>加密狀態</strong>儲存到你自己的 iCloud 帳戶。開發者無法存取這些資料。",
+ "s3P4": "iCloud 備份可以<strong>隨時關閉</strong>，並遵循 Apple 的 iCloud 政策：<a href=\"https://www.apple.com/legal/privacy/\" target=\"_blank\">Apple 隱私權政策</a>",
+ "s4Title": "4. 權限說明",
+ "s4P1": "本 App 申請的權限及其用途：",
+ "s4TH1": "權限",
+ "s4TH2": "用途",
+ "s4TH3": "資料傳輸",
+ "s4R1C1": "允許完全取用（鍵盤）",
+ "s4R1C2": "為了在鍵盤上調出儲存的短語",
+ "s4R1C3": "無",
+ "s4R2C1": "Face ID / Touch ID",
+ "s4R2C2": "解鎖加密短語（由 iOS 處理）",
+ "s4R2C3": "無",
+ "s4R3C1": "照片圖庫",
+ "s4R3C2": "儲存圖片短語（僅限你選擇的照片）",
+ "s4R3C3": "無",
+ "s4R4C1": "iCloud",
+ "s4R4C2": "開啓備份時同步到你的 iCloud",
+ "s4R4C3": "僅限你本人的 iCloud",
+ "s5Title": "5. 第三方服務",
+ "s5P1": "除以下幾項外，本 App 不包含任何第三方服務：",
+ "s5L1": "<strong>Apple CloudKit</strong>：僅用於 iCloud 備份功能，只有你開啓時才工作",
+ "s5L2": "<strong>Apple StoreKit</strong>：處理 App 內購買（由 Apple 處理，開發者只能看到交易記錄）",
+ "s5L3": "<strong>開發者的 CloudKit 儲存</strong>：接收匿名使用統計和意見回饋的地方。它建在 Apple 的 iCloud 基礎設施上，除開發者外無人可以存取",
+ "s5P2": "不使用第三方分析工具（Firebase、Mixpanel、Amplitude 等）、廣告網路或外部當機上報服務。以上都在 Apple 的基礎設施內，資料不會流向第三方公司。",
+ "s6Title": "6. 付款處理",
+ "s6P1": "App 內購買（Pro 解鎖）由 Apple 的 App Store 處理。開發者只能看到：",
+ "s6L1": "購買是否成功（收據驗證）",
+ "s6L2": "匯總後的銷售資料（由 App Store Connect 提供）",
+ "s6P2": "卡號、帳單地址等付款細節不會傳給開發者。",
+ "s7Title": "7. App Store Connect 分析",
+ "s7P1": "我們會查看 Apple 自動匯總後提供給開發者的匿名統計（下載量、轉化率、留存等）。這些資料：",
+ "s7L1": "只以 Apple 匿名化並匯總後的形式提供",
+ "s7L2": "無法識別到某一個使用者",
+ "s7L3": "只有當你在 iOS 設定裡開啟了「與 App 開發者分享」開關時才包含在內",
+ "s8Title": "8. 使用者權利（GDPR / CCPA）",
+ "s8P1": "你寫的內容全部只在你的裝置（以及你自己的 iCloud）上，因此相關權利可以由你直接行使。我們收集的匿名使用統計無法識別到個人：",
+ "s8H1": "🇪🇺 GDPR（歐盟使用者）",
+ "s8L1": "<strong>存取權</strong>：所有儲存的資料都在你的裝置上，可以在 App 內直接查看",
+ "s8L2": "<strong>刪除權</strong>：刪除 App 或在 App 內清除資料，所有資訊即被永久刪除",
+ "s8L3": "<strong>可攜權</strong>：可以透過 iCloud 備份遷移到別的裝置",
+ "s8L4": "<strong>關於匿名統計</strong>：安裝標識是隨機 UUID，無法定位到某個人的記錄，因此我們無法受理針對單條記錄的查閱、更正或刪除請求。刪除 App 後傳輸即停止，重裝會得到一個與此前記錄無法關聯的新標識",
+ "s8L7": "<strong>咨詢</strong>：關於收集項目或處理方式的問題，我們會透過第 11 節的信箱回覆",
+ "s8H2": "🇺🇸 CCPA（加州使用者）",
+ "s8L5": "我們不出售個人資訊，也不與第三方分享",
+ "s8L6": "「Do Not Sell」選項不適用（因為根本沒有出售）",
+ "s9Title": "9. 兒童隱私保護",
+ "s9P1": "本 App 並非面向 13 歲以下兒童設計，也不會有意收集該年齡段的資訊（遵循 COPPA）。",
+ "s10Title": "10. 政策變更",
+ "s10P1": "政策變更時，我們會在本頁面標注更新日期予以公告。如有重大變更，會透過 App 內通知或 App Store 說明告知。",
+ "s11Title": "11. 聯繫我們",
+ "s11P1": "關於本政策或隱私方面的問題，請聯繫開發者：",
+ "s11L1": "<strong>信箱</strong>：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+ "s11L2": "<strong>開發者</strong>：Leeo (Ysoup)",
+ "s11L3": "<strong>App Bundle ID</strong>：com.Ysoup.TokenMemo",
+ "s11P2": "大部分咨詢會在一天之內回覆。",
+ "footerHome": "首頁",
+ "footerTutorial": "使用指南",
+ "footerContact": "聯繫"
+}
         };
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
 
         function setLanguage(lang) {
             localStorage.setItem('clipkb-lang', lang);
@@ -646,20 +873,19 @@
         }
 
         (function() {
-            // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
-            var requested = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
-            if (requested === 'en' || requested === 'ko') {
-                setLanguage(requested);
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
                 return;
             }
-            var saved = localStorage.getItem('clipkb-lang');
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
             if (saved) {
                 applyLanguage(saved);
-            } else {
-                var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-                var lang = browserLang.startsWith('ko') ? 'ko' : 'en';
-                applyLanguage(lang);
+                return;
             }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
         })();
     </script>
 </body>
