@@ -1,3 +1,106 @@
+## 🎯 5.0.6 멈춤: Instruments 로 재서 나온 것만 고쳤다 (2026-08-30)
+
+WWDC23 "Analyze hangs with Instruments"(10248) 의 방법을 그대로 적용했다.
+기기: iPhone 14 Pro Max(iPhone15,3) · iOS 26.5.2 · **Release 빌드** · 메모 505개 · 339 KB.
+
+먼저 알게 된 것 두 가지가 이후 판단을 다 바꿨다.
+
+**하나. Hangs 계측은 첫 프레임 이전을 아예 보지 않는다.** 런치 구간은
+`life-cycle-period` 로 봐야 한다. `docs/postmortem/` 의 워치독 사고 두 건이
+Hangs 로 안 잡혔던 이유가 이것이다.
+
+**둘. 데이터가 없으면 아무것도 안 보인다.** 메모 3 KB 짜리 기기에서는 행이 0건이었다.
+505개를 넣으니 106 ms 가 나왔다. 성능 측정은 **현실적인 데이터로** 해야 한다.
+
+### 고친 것 (e0e1e79, 04bb279)
+
+- [x] `MemoStore.load(type:)` 에 파일 신원표(수정시각·크기·inode) 기반 캐시.
+      부르는 자리마다 파일을 읽고 JSON 을 통째로 풀고 있었다(`loadMemos()` 호출 지점만 18곳).
+      무효화를 알림이 아니라 `stat` 으로 하는 이유: 이 파일은 이 프로세스만 쓰는 것이
+      아니다(익스텐션 `QuickShortcutSave` · CloudKit 복원 · 백업 가져오기).
+      알림에 기대면 경로 하나만 빠뜨려도 낡은 목록을 보여주고 이어서 저장할 때
+      남의 변경을 지운다. 저장이 전부 `.atomic` 이라 inode 까지 바뀌어 누가 썼든 걸린다.
+      **`decodeMemosFromData` 60 ms → 4 ms**
+- [x] `ClipKeyboardApp.hasLegacyComboData()`. `guard !alreadyMigrated || hasLegacyComboData()`
+      는 `alreadyMigrated` 가 참일 때 **반드시 뒤를 평가한다.** 몇 달 전에 변환이 끝난
+      사용자도 매 런치마다 메모 파일 전체를 String 으로 바꿔 `contains` 를 두 번 돌렸다.
+      그것도 워치독의 `scene-create` 창 안에서. **호출당 17 ms, 106 ms 행의 최대 지분.**
+      싼 검사(`combos.data` 존재)와 비싼 검사(파일 스캔)를 나누고, 비싼 쪽은 `Data.range(of:)`
+      로 바이트에서 바로 찾는다
+- [x] `MemoSearchView` 의 조건 없는 `onAppear` 재로드. 뷰가 계층에 다시 들어올 때마다
+      메모 파일을 통째로 디코딩했고, **스크롤 중 258 ms 행의 스택 뿌리**가 여기였다.
+      최초 1회 + `.memoDataChanged` 구독으로 바꿈
+- [x] `ClipboardClassificationService.resolvedType` 의 직렬 큐 `.sync` → `NSLock`.
+      `applyFilters()` 가 검색어 `onChange` 에 물려 있어 **글자 하나당 `메모 수 × 2` 번의
+      큐 홉**이 메인에서 일어났다
+- [x] `diagnoseMemoStorage()` 를 `#if DEBUG` 로. 릴리즈에서 `loadMemos()` 마다 돌며
+      Images 폴더를 전부 열거하고 `memos.data` 를 읽어 전수 스캔을 두 번 했다.
+      바로 다음 줄의 `MemoStore.load` 가 같은 파일을 또 읽으니 한 번의 로드에 세 번 읽던 셈
+- [x] `LocalizedBundle` 에 조회 캐시. `.alert`/`.sheet` 제목은 그 알럿이 안 떠 있어도
+      뷰 사슬을 훑을 때마다 평가된다. 값을 굳히지 않고 조회만 캐시해 런타임 언어 전환 유지
+- [x] `print` 셤을 `AppLog.swift` 최상위에. 릴리즈 빌드에 410개가 그대로 실려 나갔다.
+      호출부 무수정, 앱·키보드 익스텐션 양 타겟 커버
+
+### 측정 결과
+
+| | 수정 전 | 수정 후 |
+| --- | --- | --- |
+| 런치 행 | 106.60 ms | 0건 (3회 연속) |
+| 런치 0~3초 메인 CPU | 785 ms | 577 ms |
+| 첫 10초 메인 CPU | 1268 ms | 645 ms |
+| `instantiateConcreteType` | 71 ms | 2 ms |
+
+`instantiateConcreteType` 이 같이 떨어진 것이 중요하다. 제네릭 메타데이터 비용의
+상당 부분은 **타입이 커서가 아니라 뷰를 너무 자주 다시 지어서**였다.
+
+### 아직 안 한 것
+
+- [ ] ⚠️ **상호작용 행 8건이 해결됐는지 미확인.** 수정 전 측정에서 스크롤 258·247·171 ms,
+      검색 타이핑 108·106·163·127 ms 가 잡혔는데, 수정 후 재측정을 두 번 시도해서
+      두 번 다 녹화 중에 기기 조작이 안 들어갔다(트레이스의 10초 이후 메인 CPU 가 0).
+      **기기를 손에 들고 시작해야 한다.** 순서는 아래 "재측정 대본".
+- [ ] `ClipKeyboardList` 의 `screenL` 사슬(8계층 571줄, alert/sheet/onReceive 28개).
+      애초 근거였던 제네릭 메타데이터 47 ms 가 캐시 수정 후 2 ms 로 떨어져 **보류**.
+      다만 구조적 문제는 남아 있다. 이 뷰 하나에 상태 소스가 **79개**(`@State` 61 +
+      `@AppStorage` 10 + 그 외)라 뭐 하나 바뀌면 사슬 전체가 재평가된다.
+      할 일은 "제네릭 줄이기"가 아니라 **서브뷰로 쪼개 상태 영향 범위를 좁히기**.
+      상호작용 실측이 나온 뒤에 착수 여부를 정한다
+- [ ] 45.6 s 편집 구간의 `UIKeyboardTaskQueue.waitUntilAllTasksAreFinished` 41 ms 대기.
+      syscall 스택을 전부 붙여봤더니 `UIAssistantBarButtonItemProvider` 의 심볼 이미지
+      탐색(`faccessat` 204회) · `TIGetInputModeProperties` 의 번들 plist 읽기(`open` 70회) ·
+      `becomeFirstResponder` 의 입력뷰 재구성(`stat64` 69회) 로 **전부 UIKit 내부**였다.
+      우리 `reloadInputViews()` 는 `keyboardTypeForTheme` 이 카테고리 바뀔 때만 달라져
+      헛돌지 않는다. 지금 근거로는 앱 쪽에서 고칠 것이 없다. 새 단서가 나오면 다시 본다
+- [ ] 54.8 s 의 461 ms 는 `FBSSceneSnapshotRequest` 149 ms 대기다. 앱을 백그라운드로
+      보낼 때 시스템이 앱 스위처 스냅샷을 굽는 구간이라 앱 버그가 아니다.
+      다만 스냅샷 시간은 뷰 계층이 그리기 비쌀수록 길어지므로 위 `screenL` 과 이어진다
+- [ ] 기존 테스트 실패 2건: `SnippetsTabStyleTests/defaultsToList`,
+      `DiscountOfferManagerTests/targetsTheSlotBeforeTheLimit`.
+      이번 작업과 무관하고 HEAD 에서도 같다. `UserDefaults` 상태를 공유해 순서에 흔들린다
+
+### 재측정 대본
+
+준비: 메모가 수백 개인 상태여야 한다(3 KB 짜리로는 아무것도 안 보인다).
+Release 빌드를 실기기에 설치하고, **기기를 손에 든 뒤에** 녹화를 시작한다.
+
+```sh
+xcrun xctrace record --device <UDID> \
+  --instrument Hangs --instrument 'Time Profiler' --instrument SwiftUI \
+  --output ui.trace --time-limit 75s --no-prompt --launch -- com.Ysoup.TokenMemo
+```
+
+| 구간 | 할 것 |
+| --- | --- |
+| 0~15초 | 그냥 둔다(런치가 끝나야 한다) |
+| 15~35초 | 리스트를 위아래로 빠르게 스크롤, 카테고리 탭 좌우로 넘기기 |
+| 35~55초 | 검색창에 한 글자씩 입력하고 지우기를 반복 |
+| 55~75초 | 메모를 열어 본문에 타이핑 |
+
+앱을 백그라운드로 보내지 말 것(스냅샷 대기가 섞여 비교가 흐려진다).
+
+읽는 법: `potential-hangs` 가 비어 있어도 안심하지 말고 **10초 구간별 메인 CPU 가
+0 이 아닌지** 먼저 본다. 0 이면 조작이 안 들어간 것이고 그 트레이스는 버린다.
+
 ## 🎯 5.0.4 워치독: 심볼을 붙였더니 포커스 고리였다 (2026-08-29)
 
 리포트 15건 중 하나가 26.5.2 라 로컬 심볼과 **UUID 가 정확히 일치**했다. libobjc 가
