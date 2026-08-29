@@ -12,11 +12,34 @@ import Vision
 import VisionKit
 #endif
 
-enum MemoType {
+enum MemoType: Hashable {
     case memo
     case clipboardHistory
     case smartClipboardHistory
     case combo
+}
+
+// MARK: - 파일 신원표
+
+/// 파일이 그 사이에 바뀌었는지 판정하기 위한 표식. `stat` 한 번으로 전부 얻는다.
+///
+/// 왜 mtime 만으로는 부족한가: 이 앱의 저장은 전부 `.write(to:options:.atomic)` 이라
+/// 새 파일을 만들어 갈아끼운다. 그래서 **inode 가 바뀐다.** 세 값을 함께 보면
+/// 같은 나노초에 같은 크기로 갈아끼운 경우까지 걸러진다.
+struct FileStamp: Equatable {
+    let modified: Date
+    let size: Int
+    /// inode. `.atomic` 저장은 새 파일을 만들어 갈아끼우므로 여기서 반드시 달라진다.
+    let fileNumber: Int
+
+    /// 파일이 없거나 읽을 수 없으면 nil.
+    static func of(_ url: URL) -> FileStamp? {
+        guard let a = try? FileManager.default.attributesOfItem(atPath: url.path),
+              let modified = a[.modificationDate] as? Date,
+              let size = a[.size] as? Int,
+              let fileNumber = a[.systemFileNumber] as? Int else { return nil }
+        return FileStamp(modified: modified, size: size, fileNumber: fileNumber)
+    }
 }
 
 class MemoStore: ObservableObject {
@@ -26,6 +49,41 @@ class MemoStore: ObservableObject {
     @Published var clipboardHistory: [ClipboardHistory] = []
     @Published var smartClipboardHistory: [SmartClipboardHistory] = []
     @Published var combos: [Combo] = []
+
+    // MARK: - 로드 캐시
+
+    /// 디코딩 결과를 파일 신원표와 함께 들고 있는다. 파일이 그대로면 다시 풀지 않는다.
+    ///
+    /// 왜 필요한가: `load(type:)` 은 부르는 자리가 아주 많다(목록 화면 하나만 해도
+    /// `loadMemos()` 호출 지점이 18곳이고, 대부분 시트 `onDismiss` 와 `.memoDataChanged`
+    /// 에 물려 있다). 그 전부가 메인 스레드에서 파일을 읽고 JSON 을 통째로 푼다.
+    ///
+    /// 측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release / 메모 505개 · 339 KB):
+    /// 25초 트레이스에서 `decodeMemosFromData` 만 60 ms 였고, 스크롤 도중에도 돌았다.
+    ///
+    /// ⚠️ 무효화는 **파일 신원표**로 한다. 이 파일은 이 프로세스만 쓰는 것이 아니다.
+    ///    키보드·공유 익스텐션(`Shared/QuickShortcutSave.swift`)이 같은 파일을 직접
+    ///    갈아끼우고, CloudKit 복원과 백업 가져오기도 그렇다. 알림이나 플래그에
+    ///    기대면 그 경로 중 하나만 빠뜨려도 **낡은 목록을 보여주고, 이어서 저장하면
+    ///    남의 변경이 조용히 지워진다.** `stat` 은 누가 썼든 알아챈다.
+    private var loadCache: [MemoType: (stamp: FileStamp, memos: [Memo])] = [:]
+    private let loadCacheLock = NSLock()
+
+    private func cachedMemos(for type: MemoType, stamp: FileStamp?) -> [Memo]? {
+        guard let stamp else { return nil }
+        loadCacheLock.lock()
+        defer { loadCacheLock.unlock() }
+        guard let hit = loadCache[type], hit.stamp == stamp else { return nil }
+        return hit.memos
+    }
+
+    private func rememberMemos(_ memos: [Memo], for type: MemoType, at url: URL) {
+        // 치유 저장 등으로 읽은 뒤 파일이 바뀌었을 수 있어 **지금** 다시 잰다.
+        guard let stamp = FileStamp.of(url) else { return }
+        loadCacheLock.lock()
+        loadCache[type] = (stamp, memos)
+        loadCacheLock.unlock()
+    }
 
     private static func fileURL(type: MemoType) throws -> URL? {
         guard let containerURL = FileManager.default.containerURL(
@@ -55,6 +113,9 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
         try data.write(to: outfile, options: .atomic)
+        // 방금 쓴 내용이 곧 진실이다. 알림을 받은 화면들이 바로 다시 읽으므로
+        // 여기서 캐시를 채워두면 그 재로드가 디코딩 없이 끝난다.
+        rememberMemos(memos, for: type, at: outfile)
         // 다운그레이드로 유실되지 않도록 카테고리 할당을 사이드카에도 보관.
         if type == .memo {
             Self.writeCategorySidecar(memos)
@@ -71,6 +132,11 @@ class MemoStore: ObservableObject {
 
     func load(type: MemoType) throws -> [Memo] {
         guard let fileURL = try Self.fileURL(type: type) else { return [] }
+
+        // 파일이 그대로면 디코딩을 통째로 건너뛴다. `stat` 은 마이크로초, 디코딩은 밀리초다.
+        let stamp = FileStamp.of(fileURL)
+        if let cached = cachedMemos(for: type, stamp: stamp) { return cached }
+
         guard let data = try? Data(contentsOf: fileURL) else { return [] }
 
         // ⚠️ 손상 감지: 예전에는 디코딩이 실패해도 빈 배열을 돌려줘서 "메모가 전부 사라진 것처럼"
@@ -97,6 +163,7 @@ class MemoStore: ObservableObject {
                 Self.writeCategorySidecar(memos)
             }
         }
+        rememberMemos(memos, for: type, at: fileURL)
         return memos
     }
 
