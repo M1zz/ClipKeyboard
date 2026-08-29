@@ -1,3 +1,35 @@
+## 🎯 5.0.4 워치독: 심볼을 붙였더니 포커스 고리였다 (2026-08-29)
+
+리포트 15건 중 하나가 26.5.2 라 로컬 심볼과 **UUID 가 정확히 일치**했다. libobjc 가
+맞아떨어졌으므로 나머지 셋(SwiftUI·SwiftUICore·UIKitCore)도 확정.
+
+- [x] 확정된 스택: `_setFirstResponder:` → `_UIHostingView._didChange(toFirstResponder:)`
+      → `ViewGraphRootValueUpdater.updateGraph()`. 포커스가 바뀌자 뷰 그래프를 통째로
+      다시 계산했다
+- [x] 우리 고리: `HighlightedTextEditor.updateUIView` 안에서 `becomeFirstResponder()` 를
+      동기로 부르고, 그게 부른 `textViewDidBeginEditing` 이 `@Binding` 을 쓴다.
+      **뷰를 그리는 도중에 상태를 바꾸는 일**이고, 그 갱신이 다시 `updateUIView` 로 온다
+- [x] 고침: `Coordinator.syncFocus` 로 한 박자 미뤄 갱신 밖에서 바꾼다. 우리가 옮기는
+      중이면 델리게이트가 되쓰지 않고, 같은 값이면 아예 쓰지 않는다
+- [x] 시험 4개(`FocusUpdateLoopTests`). 값이 아니라 **시점**을 지킨다.
+      옛 코드로 되돌리면 2개가 실패하는 것까지 확인
+- [x] 앞서 쓴 영상 렌더러 postmortem 에 "이 진단은 빗나갔다" 를 명시하고 새 문서로 연결
+- [x] 같은 유형 전수 조사: `becomeFirstResponder`/`resignFirstResponder` 는 저장소에
+      이 한 곳뿐. `onPreferenceChange` 두 곳은 측정값이 레이아웃으로 되먹임되지 않아 안전.
+      렌더 경로의 디스크 읽기도 없음(버튼 액션·시트 빌더·캐시된 이미지 로더뿐)
+
+### 아직 안 한 것
+
+- [ ] ⚠️ **크래시 리포트가 우리 손에서 잘리고 있다.**
+      `LeeoDiagnostics.maxStackLength = 4000` 인데 MetricKit JSON 은 들여쓰기가 붙은
+      pretty-print 라 13~16 프레임에서 끊긴다. 크래시 스택은 잎부터 나열되므로
+      **잘려 나간 뒤쪽이 정확히 앱 코드 자리**다. 그래서 15건 어디에도 앱 프레임이 없다.
+      프레임을 납작하게(`UUID+오프셋` 한 줄씩) 적으면 같은 4000자에 80~100 프레임이
+      들어간다. 앱 바이너리 UUID 도 함께 저장할 것.
+      LeeoKit 수정 → 3.3.1 태그 → 의존성 올리기
+- [ ] 나머지 14건이 같은 원인인지는 정황이다(CPU 프로파일·반복 프레임·공유 오프셋 열).
+      위 수집 수정이 들어간 뒤 새 리포트가 오면 한 번에 갈린다
+
 ## 🔥 5.0.4 워치독 종료: 영상을 메인에서 구웠다 (2026-08-29)
 
 하루에 여덟 건. 전부 `0x8BADF00D` 다. 앱 CPU 가 허용 시간과 거의 같아서

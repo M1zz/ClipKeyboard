@@ -58,11 +58,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
             uiView.keyboardType = keyboardType
             uiView.reloadInputViews()
         }
-        if isFocused && !uiView.isFirstResponder {
-            uiView.becomeFirstResponder()
-        } else if !isFocused && uiView.isFirstResponder {
-            uiView.resignFirstResponder()
-        }
+        context.coordinator.syncFocus(uiView, desired: isFocused)
         context.coordinator.refreshPlaceholderIfNeeded(uiView, placeholder: placeholder)
     }
 
@@ -113,6 +109,10 @@ struct HighlightedTextEditor: UIViewRepresentable {
         var parent: HighlightedTextEditor
         var isShowingPlaceholder = false
 
+        /// 우리가 스스로 first responder 를 바꾸는 중인가.
+        /// 그때 오는 델리게이트 호출은 사용자가 낸 것이 아니므로 바인딩에 되쓰지 않는다.
+        private var isSyncingFocus = false
+
         init(_ parent: HighlightedTextEditor) {
             self.parent = parent
         }
@@ -129,12 +129,43 @@ struct HighlightedTextEditor: UIViewRepresentable {
                 textView.attributedText = HighlightedTextEditor.highlight("")
                 isShowingPlaceholder = false
             }
-            parent.isFocused = true
+            // 우리가 옮긴 것이면 바인딩은 이미 그 값이다. 다시 쓰면 갱신만 한 번 더 돈다.
+            if !isSyncingFocus, parent.isFocused != true { parent.isFocused = true }
         }
 
         func textViewDidEndEditing(_ textView: UITextView) {
-            parent.isFocused = false
+            if !isSyncingFocus, parent.isFocused != false { parent.isFocused = false }
             refreshPlaceholderIfNeeded(textView, placeholder: parent.placeholder)
+        }
+
+        // MARK: - 포커스 맞추기
+
+        /// 바인딩이 말하는 상태로 first responder 를 맞춘다.
+        ///
+        /// ⚠️ **`updateUIView` 안에서 곧바로 부르지 않는다.** `becomeFirstResponder()` 는
+        ///    그 자리에서 `textViewDidBeginEditing` 을 부르고, 거기서 `@Binding` 을 쓰면
+        ///    **뷰를 갱신하는 도중에 상태를 바꾸는 일**이 된다. 게다가 UIKit 이 호스팅 뷰에
+        ///    first responder 가 바뀌었다고 알리면 SwiftUI 는 뷰 그래프를 통째로 다시
+        ///    계산하는데(`_UIHostingView._didChange(toFirstResponder:)` →
+        ///    `ViewGraphRootValueUpdater.updateGraph()`), 그 갱신이 다시 `updateUIView` 로
+        ///    들어오면 고리가 닫힌다. 5.0.4 워치독 종료 리포트에서 심볼로 확인된 스택이
+        ///    정확히 그 모양이다. → `docs/postmortem/WATCHDOG_SHARE_VIDEO_5_0_4.md`
+        ///
+        /// 그래서 한 박자 미뤄 **갱신 밖에서** 바꾸고, 그때 오는 델리게이트가 바인딩에
+        /// 되쓰지 않도록 표시를 세워 둔다.
+        func syncFocus(_ textView: UITextView, desired: Bool) {
+            guard !isSyncingFocus, desired != textView.isFirstResponder else { return }
+            isSyncingFocus = true
+            DispatchQueue.main.async { [weak self, weak textView] in
+                guard let self else { return }
+                defer { self.isSyncingFocus = false }
+                guard let textView, desired != textView.isFirstResponder else { return }
+                if desired {
+                    textView.becomeFirstResponder()
+                } else {
+                    textView.resignFirstResponder()
+                }
+            }
         }
 
         // MARK: - NSTextStorageDelegate
