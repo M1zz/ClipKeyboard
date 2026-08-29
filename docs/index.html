@@ -15,7 +15,8 @@
     <meta property="og:description" content="자주 쓰는 문구를 단축어로. 40가지 실전 템플릿을 지금 바로 복사해 쓰세요.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/">
-    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/og-image.png">
+    <!-- og-image.png 은 없던 파일이라 링크를 뿌려도 미리보기가 비어 있었다. 지금 아이콘을 쓴다. -->
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/app-icon.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -28,29 +29,75 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* 앱의 기본 테마(AppTheme.paperLight)를 그대로 옮겨 온 값이다.
+           ⚠️ 예전 주황(#E8501C)은 앱이 더는 쓰지 않는 옛 키 컬러다. 되살리지 말 것.
+              지금 앱의 기본 키 컬러는 아이폰이 쓰는 파랑이고, 아이콘은 색 없는 먹선이다. */
         :root {
-            --primary: #E8501C;
-            --primary-dark: #B83A0F;
-            --bg: #FAFAFA;
-            --text: #1D1D1F;
-            --text-secondary: #6E6E73;
-            --card-bg: #FFFFFF;
-            --border: #E5E5E7;
-            --green: #34C759;
-            --green-bg: #EAF9EF;
-            --orange: #FF9500;
-            --purple: #AF52DE;
+            --primary: #007AFF;          /* accent */
+            --primary-dark: #0062CC;
+            --primary-soft: #EBF3FF;     /* accentSoft */
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;   /* textMuted */
+            --text-faint: #9A9AA1;
+            --card-bg: #FFFFFF;          /* surface */
+            --surface-alt: #E8E8EA;
+            --border: rgba(0, 0, 0, 0.09); /* divider */
+            --green: #4E8760;            /* success */
+            --green-bg: #EAF1EC;
+            --orange: #FF9500;           /* 콤보 - 타입 색은 뜻이 있어 그대로 둔다 */
+            --purple: #AF52DE;           /* 템플릿 */
+            --paper-1: #F5F5F6;          /* heroGradientStops */
+            --paper-2: #E2E2E5;
+            --paper-3: #CFCFD4;
+            --display: 'Fraunces', 'Apple SD Gothic Neo', Georgia, serif;
+            --veil: rgba(255, 255, 255, 0.72);      /* 폰 화면 위 반투명 막 */
+            --scrim: rgba(255, 255, 255, 0.96);
+            --key-gloss: rgba(255, 255, 255, 0.5);  /* 키 윗면 광 */
+            --chip-lite: rgba(255, 255, 255, 0.28);
+            --tray: #C9C9CE;                        /* 키보드 바닥 */
+            --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+            color-scheme: light;
+        }
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다.
+           ⚠️ 여기서는 **토큰만** 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --primary-soft: #16233D;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --text-faint: #68686F;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --green: #6FA983;
+                --green-bg: #17251B;
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --paper-3: #34353A;
+                --veil: rgba(26, 26, 28, 0.72);
+                --scrim: rgba(26, 26, 28, 0.96);
+                --key-gloss: rgba(255, 255, 255, 0.06);
+                --chip-lite: rgba(255, 255, 255, 0.16);
+                --tray: #303034;
+                --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.5);
+                color-scheme: dark;
+            }
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+            font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -67,7 +114,7 @@
             overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
         .lang-btn {
-            padding: 0.5rem 1rem; border: none; background: transparent;
+            padding: 0.5rem 0.85rem; border: none; background: transparent;
             cursor: pointer; font-size: 0.875rem; font-weight: 500;
             font-family: inherit; color: var(--text-secondary); transition: all 0.2s;
         }
@@ -77,20 +124,22 @@
         .hero {
             text-align: center;
             padding: 5.5rem 1.25rem 4rem;
-            background: linear-gradient(180deg, #E9F5F1 0%, var(--bg) 100%);
+            background: linear-gradient(160deg, var(--paper-1) 0%, var(--paper-2) 55%, var(--paper-3) 100%);
         }
         .hero-badge {
             display: inline-block; padding: 0.4rem 1rem; border-radius: 100px;
-            background: #FFE6DC; color: var(--primary-dark);
+            background: var(--primary-soft); color: var(--primary-dark);
             font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
         }
         .app-icon {
             width: 96px; height: 96px; border-radius: 22px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12); margin-bottom: 1.5rem;
+            background: var(--card-bg); border: 1px solid var(--border);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06); margin-bottom: 1.5rem;
         }
         .hero h1 {
+            font-family: var(--display);
             font-size: clamp(1.9rem, 5vw, 3rem);
-            font-weight: 800; letter-spacing: -0.02em; line-height: 1.25;
+            font-weight: 700; letter-spacing: -0.02em; line-height: 1.25;
         }
         .hero h1 span { color: var(--primary); }
         .hero-subtitle {
@@ -116,8 +165,9 @@
         /* Section base */
         section { padding: 4.5rem 0; }
         .section-title {
+            font-family: var(--display);
             text-align: center; font-size: clamp(1.5rem, 4vw, 2.1rem);
-            font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.6rem;
+            font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem;
         }
         .section-subtitle {
             text-align: center; color: var(--text-secondary);
@@ -193,9 +243,9 @@
             flex: 0 0 auto; font-size: 0.72rem; font-weight: 700;
             padding: 0.18rem 0.55rem; border-radius: 100px;
         }
-        .badge-snippet { color: var(--primary); background: #FFE6DC; }
-        .badge-template { color: var(--orange); background: #FFF3E0; }
-        .badge-combo { color: var(--purple); background: #F5E9FC; }
+        .badge-snippet { color: var(--primary); background: var(--primary-soft); }
+        .badge-template { color: var(--purple); background: #F5E9FC; }
+        .badge-combo { color: #A96A12; background: #FDF0DC; }
         .badge-smartClipboard { color: var(--green); background: var(--green-bg); }
         .story-pain {
             color: var(--text-secondary); font-size: 0.92rem; font-style: italic;
@@ -208,7 +258,7 @@
             white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.55;
         }
         .chip {
-            display: inline-block; background: #FFE6DC; color: var(--primary-dark);
+            display: inline-block; background: var(--primary-soft); color: var(--primary-dark);
             border-radius: 6px; padding: 0 0.35rem; font-weight: 600; font-size: 0.85em;
         }
         .copy-btn {
@@ -222,7 +272,7 @@
         .copy-btn.copied { color: var(--green); border-color: var(--green); background: var(--green-bg); }
         .story-impact {
             background: var(--green-bg); border-radius: 12px;
-            padding: 0.7rem 0.9rem; font-size: 0.9rem; color: #1B7A3D;
+            padding: 0.7rem 0.9rem; font-size: 0.9rem; color: var(--green);
         }
         .library-note {
             text-align: center; color: var(--text-secondary);
@@ -231,7 +281,7 @@
 
         /* ===== Interactive Keyboard Demo ===== */
         .demo {
-            background: linear-gradient(180deg, #E9F5F1 0%, var(--card-bg) 55%);
+            background: linear-gradient(180deg, var(--paper-1) 0%, var(--card-bg) 55%);
             border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
         }
         .demo-layout { display: grid; grid-template-columns: 1fr; gap: 2.25rem; align-items: center; }
@@ -243,24 +293,24 @@
         /* Phone shell */
         .phone {
             position: relative; width: min(330px, 100%); margin: 0 auto;
-            background: #0F0F12; border-radius: 46px; padding: 9px;
+            background: #131315; border-radius: 46px; padding: 9px;
             box-shadow: 0 26px 60px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.08);
         }
         .phone-screen {
             position: relative; border-radius: 38px; overflow: hidden;
-            background: #EFF3F1; height: 638px; display: flex; flex-direction: column;
-            font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Inter', sans-serif;
-            color: #16211D;
+            background: var(--bg); height: 638px; display: flex; flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Instrument Sans', sans-serif;
+            color: var(--text);
         }
         .phone-island {
             position: absolute; top: 9px; left: 50%; transform: translateX(-50%);
-            width: 88px; height: 24px; border-radius: 20px; background: #0F0F12; z-index: 30;
+            width: 88px; height: 24px; border-radius: 20px; background: #131315; z-index: 30;
         }
 
         /* Stage header (앱의 "키보드 미리보기" 머리말) */
         .stage-header {
             display: flex; align-items: center; gap: 8px;
-            padding: 42px 14px 9px; background: rgba(255,255,255,0.72);
+            padding: 42px 14px 9px; background: var(--veil);
             border-bottom: 0.5px solid rgba(0,0,0,0.08);
         }
         .stage-header h4 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
@@ -282,27 +332,27 @@
             font-size: 13.5px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere;
             animation: bubbleIn 0.28s ease-out;
         }
-        .bubble.inc { align-self: flex-start; background: #fff; color: #16211D; box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
+        .bubble.inc { align-self: flex-start; background: var(--card-bg); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.06); }
         .bubble.out { align-self: flex-end; background: var(--primary); color: #fff; }
-        .bubble .chip-lite { background: rgba(255,255,255,0.28); border-radius: 5px; padding: 0 3px; }
+        .bubble .chip-lite { background: var(--chip-lite); border-radius: 5px; padding: 0 3px; }
         @keyframes bubbleIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
         /* Composer */
         .stage-composer {
             display: flex; align-items: flex-end; gap: 8px; padding: 8px 12px;
-            background: rgba(255,255,255,0.72); border-top: 0.5px solid rgba(0,0,0,0.08);
+            background: var(--veil); border-top: 0.5px solid var(--border);
         }
         .composer-field {
             flex: 1; min-height: 34px; padding: 7px 12px; border-radius: 18px;
-            background: #EFF3F1; border: 0.5px solid rgba(0,0,0,0.10);
+            background: var(--bg); border: 0.5px solid rgba(0,0,0,0.10);
             font-size: 13.5px; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere;
             max-height: 92px; overflow-y: auto; scrollbar-width: none;
         }
         .composer-field::-webkit-scrollbar { display: none; }
-        .composer-field .ph { color: #8B948F; }
+        .composer-field .ph { color: var(--text-faint); }
         .caret { color: var(--primary); font-weight: 300; }
         .kb-chip {
-            display: inline-block; background: #FFE6DC; color: var(--primary-dark);
+            display: inline-block; background: var(--primary-soft); color: var(--primary-dark);
             border-radius: 5px; padding: 0 3px; font-weight: 600;
         }
         .send-btn {
@@ -310,7 +360,7 @@
             background: transparent; color: var(--primary); cursor: pointer;
             transition: transform 0.12s, opacity 0.2s;
         }
-        .send-btn[disabled] { color: #B8B8BE; cursor: default; }
+        .send-btn[disabled] { color: var(--text-faint); cursor: default; }
         .send-btn.glow { animation: sendPulse 1.4s ease-in-out infinite; }
         @keyframes sendPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.16); } }
 
@@ -324,14 +374,14 @@
 
         /* Keyboard */
         .kb {
-            position: relative; background: #D0D3DA; flex: 0 0 auto;
+            position: relative; background: var(--tray); flex: 0 0 auto;
             padding-bottom: 10px; height: 292px; display: flex; flex-direction: column;
         }
         .kb-tabs { display: flex; align-items: center; gap: 6px; padding: 6px 8px 4px; overflow-x: auto; scrollbar-width: none; }
         .kb-tabs::-webkit-scrollbar { display: none; }
         .kb-tab {
             flex: 0 0 auto; width: 32px; height: 28px; border: none; border-radius: 6px;
-            background: #fff; color: #5C665F; display: flex; align-items: center; justify-content: center;
+            background: var(--card-bg); color: var(--text-secondary); display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: background 0.15s, color 0.15s;
         }
         .kb-tab.active { color: #fff; }
@@ -344,7 +394,7 @@
         .kb-grid::-webkit-scrollbar { display: none; }
         .kb-key {
             position: relative; height: 46px; border: none; border-radius: 12px;
-            background: #fff; color: #16211D; font-family: inherit; font-size: 14.5px; font-weight: 600;
+            background: var(--card-bg); color: var(--text); font-family: inherit; font-size: 14.5px; font-weight: 600;
             display: flex; align-items: center; justify-content: center; gap: 5px; padding: 0 8px;
             cursor: pointer; overflow: hidden; text-align: center;
             box-shadow: 0 1px 2px rgba(0,0,0,0.18), 0 2px 0 rgba(0,0,0,0.07);
@@ -352,11 +402,11 @@
         }
         .kb-key::after {
             content: ''; position: absolute; inset: 0; pointer-events: none;
-            background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0) 55%);
+            background: linear-gradient(180deg, var(--key-gloss), transparent 55%);
         }
         .kb-key:active { transform: translateY(2px); box-shadow: 0 0 0 rgba(0,0,0,0); }
         .kb-key .kb-key-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .kb-key .type-ic { flex: 0 0 auto; color: #5C665F; opacity: 0.75; }
+        .kb-key .type-ic { flex: 0 0 auto; color: var(--text-secondary); opacity: 0.75; }
         .kb-key.glow { animation: keyGlow 1.5s ease-in-out infinite; }
         @keyframes keyGlow {
             0%, 100% { box-shadow: 0 0 0 2.5px var(--primary), 0 0 0 rgba(0,122,255,0); }
@@ -369,15 +419,15 @@
         .combo-div { width: 1px; height: 19px; background: rgba(0,0,0,0.12); flex: 0 0 auto; }
         .combo-next {
             flex: 0 0 auto; width: 46px; height: 100%; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; gap: 1px; color: #5C665F;
+            align-items: center; justify-content: center; gap: 1px; color: var(--text-secondary);
         }
         .combo-next small { font-size: 9px; font-weight: 600; }
-        .combo-flash { color: #5C665F; font-weight: 500; font-size: 12.5px; animation: flashIn 0.9s ease-out; }
+        .combo-flash { color: var(--text-secondary); font-weight: 500; font-size: 12.5px; animation: flashIn 0.9s ease-out; }
         @keyframes flashIn { 0% { opacity: 0; } 15% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
 
         /* Keyboard overlays (template / secure) */
         .kb-overlay {
-            position: absolute; inset: 0; background: #fff; z-index: 20;
+            position: absolute; inset: 0; background: var(--card-bg); z-index: 20;
             display: flex; flex-direction: column; animation: overlayUp 0.22s ease-out;
         }
         @keyframes overlayUp { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -391,10 +441,10 @@
             font-family: inherit; font-size: 12.5px; font-weight: 700; color: #fff; background: var(--primary);
             transition: background 0.15s;
         }
-        .tpl-insert[disabled] { background: #C3C3C8; cursor: default; }
-        .tpl-close { border: none; background: transparent; color: #B0B0B5; cursor: pointer; padding: 0; line-height: 0; }
+        .tpl-insert[disabled] { background: var(--text-faint); cursor: default; }
+        .tpl-close { border: none; background: transparent; color: var(--text-faint); cursor: pointer; padding: 0; line-height: 0; }
         .tpl-preview {
-            margin: 8px 12px 4px; padding: 8px 10px; border-radius: 8px; background: #F2F2F7;
+            margin: 8px 12px 4px; padding: 8px 10px; border-radius: 8px; background: var(--surface-alt);
             font-size: 12.5px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere;
             max-height: 78px; overflow-y: auto; scrollbar-width: none;
         }
@@ -403,24 +453,24 @@
         .tpl-body { flex: 1; overflow-y: auto; padding: 4px 12px 12px; scrollbar-width: none; }
         .tpl-body::-webkit-scrollbar { display: none; }
         .tpl-row { margin-bottom: 9px; }
-        .tpl-row-label { font-size: 11.5px; font-weight: 700; color: #5C665F; margin-bottom: 5px; }
+        .tpl-row-label { font-size: 11.5px; font-weight: 700; color: var(--text-secondary); margin-bottom: 5px; }
         .tpl-row-label .kb-chip { font-size: 12px; padding: 2px 7px; border-radius: 6px; }
         .tpl-vals { display: flex; gap: 7px; flex-wrap: wrap; }
         .tpl-val {
             border: none; border-radius: 18px; padding: 7px 12px; cursor: pointer;
-            font-family: inherit; font-size: 12px; background: #E3EAE7; color: #16211D;
+            font-family: inherit; font-size: 12px; background: var(--surface-alt); color: var(--text);
             transition: background 0.15s, color 0.15s;
         }
         .tpl-val.sel { background: var(--primary); color: #fff; font-weight: 700; }
 
         .face-overlay {
-            position: absolute; inset: 0; z-index: 22; background: rgba(255,255,255,0.96);
+            position: absolute; inset: 0; z-index: 22; background: var(--scrim);
             display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
             animation: overlayUp 0.2s ease-out;
         }
         .face-icon { color: var(--primary); animation: faceScan 1s ease-in-out infinite; }
         @keyframes faceScan { 0%,100% { opacity: 0.45; transform: scale(0.96); } 50% { opacity: 1; transform: scale(1); } }
-        .face-overlay p { font-size: 13px; font-weight: 600; color: #5C665F; }
+        .face-overlay p { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
         .face-overlay.ok .face-icon { animation: none; color: var(--green); }
 
         .kb-toast {
@@ -476,7 +526,7 @@
         .privacy p { color: var(--text-secondary); max-width: 560px; margin: 0 auto 1.25rem; }
         .privacy-badge {
             display: inline-block; padding: 0.5rem 1.1rem; border-radius: 100px;
-            background: var(--green-bg); color: #1B7A3D; font-weight: 600; font-size: 0.9rem;
+            background: var(--green-bg); color: var(--green); font-weight: 600; font-size: 0.9rem;
         }
 
         /* Pricing */
@@ -486,7 +536,7 @@
             padding: 2.25rem 2rem; text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.06);
         }
-        .price { font-size: 2.6rem; font-weight: 800; color: var(--primary); }
+        .price { font-family: var(--display); font-size: 2.6rem; font-weight: 700; color: var(--text); }
         .price-desc { color: var(--text-secondary); margin-bottom: 1.4rem; }
         .price-features { list-style: none; text-align: left; margin-bottom: 1.6rem; }
         .price-features li {
@@ -511,6 +561,8 @@
     <div class="lang-toggle">
         <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
         <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
+        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
     </div>
 
     <!-- Hero -->
@@ -670,7 +722,620 @@
 
     <script>
         // ===== 페르소나 스토리 데이터 (앱 PersonaGuideData.swift와 동일 원본) =====
-        const PERSONA_DATA = {"ko": [{"persona": "nomad", "intro": "카페와 코워킹 스페이스를 옮겨 다니며 해외 클라이언트와 일하는 당신. 시차, 국제 송금, 비자, 매번 비슷한 영어 이메일: 필요한 정보를 다른 창에서 찾아 붙여넣는 사이 하루가 새어나갑니다. 한 번 저장해두면, 그다음부턴 탭 한 번이면 끝나요.", "scenarios": [{"title": "해외 송금 정보 요청", "pain": "\"Send me your banking details\" 한 줄에, IBAN·SWIFT를 은행 앱에서 다시 찾아 헤맵니다.", "example": "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {은행 주소}\nWise: {Wise 이메일}", "impact": "송금 요청이 올 때마다 30초 검색이 탭 한 번으로. 자릿수 틀릴 걱정도 사라집니다.", "feature": "combo"}, {"title": "시차 안내 한 줄", "pain": "새벽 2시에 온 \"Can we hop on a call?\"에 매번 시차를 설명하느라 지칩니다.", "example": "Hi {이름}, I'm in GMT+{시차} ({도시}) right now. I can do {가능 시간대}. Calendly: {링크}", "impact": "\"몇 시가 편하세요\" 왕복 3통이 한 통으로 줄어듭니다.", "feature": "template"}, {"title": "인보이스 발송", "pain": "인보이스 번호·금액·통화·기한을 매번 손으로 맞춰 적습니다.", "example": "Invoice #{번호} · {통화} {금액}\nDue: {기한}\nPayment: Wise ({이메일})\nThank you! 🙏", "impact": "빠뜨리기 쉬운 항목을 템플릿이 붙잡아줘, 재청구·정정 메일이 줄어요.", "feature": "template"}, {"title": "제안서 팔로업", "pain": "보낸 제안서에 3일째 답이 없을 때, 재촉 같지 않게 쓰는 게 매번 어렵습니다.", "example": "Hi {클라이언트}, just following up on the proposal I sent {요일}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {이름}", "impact": "정중한 팔로업을 고민 없이 즉시 발송, 놓치던 계약을 되살립니다.", "feature": "template"}, {"title": "여권·비자 정보", "pain": "항공·숙소·비자 신청마다 여권번호와 만료일을 확인하러 서랍을 뒤집니다.", "example": "여권번호: {여권번호}\n영문 성명: {영문 이름}\n발급일/만료일: {발급일} / {만료일}\n국적: {국적}", "impact": "보안 단축어(생체인증)로 잠가두면, 필요할 때만 열어 안전하게 붙여넣기.", "feature": "snippet"}, {"title": "\"어디 사세요?\" 답변", "pain": "새 클라이언트의 가벼운 질문에, 노마드라는 걸 매번 길게 설명하게 됩니다.", "example": "Based nowhere in particular: currently in {도시}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "불안해 보이지 않게, 프로페셔널한 인상을 한 번에 전달합니다.", "feature": "template"}, {"title": "와이파이 끊김 알림", "pain": "통화 직전 코워킹 와이파이가 끊기면, 급하게 사과 메시지를 쥐어짜냅니다.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {분}분. Ready to continue right after. 🙏", "impact": "당황한 순간에도 침착하고 신뢰감 있는 한 줄을 즉시 보냅니다.", "feature": "snippet"}, {"title": "환율·견적 안내", "pain": "통화가 다른 클라이언트에게 견적을 줄 때, 환율 안내 문구를 매번 새로 씁니다.", "example": "Quote: {통화} {금액} (≈ {환산액} at today's rate).\nInvoiced in {통화} via Wise to keep fees low for you.", "impact": "가격 오해를 미리 차단해, 정산 단계의 실랑이를 없앱니다.", "feature": "template"}, {"title": "신규 클라이언트 온보딩", "pain": "계약 직후 캘린들리·슬랙·결제·진행 방식을 매번 순서대로 안내합니다.", "example": "환영합니다, {클라이언트}님! 진행은 이렇게 해요:\n1. 첫 미팅 캘린들리: {링크}\n2. 결제(원할 시 송금 정보 첨부)\n3. 슬랙 초대 24시간 내 발송\n4. 매주 목요일 진행 데모\n\n잘 부탁드려요!", "impact": "Combo로 여러 단축어를 순서대로 자동 입력, 온보딩 메일이 5분에서 5초로.", "feature": "combo"}, {"title": "하루 마감·오프라인 전환", "pain": "밤 10시 급한 DM에 '지금은 대응 어렵다'를 매번 예의 있게 쓰기 어렵습니다.", "example": "Hi! Signing off for the night ({시간} in {도시}). I'll reply first thing in my morning (thanks for your patience 🙏", "impact": "경계는 지키되 무례하지 않게) 번아웃 없이 신뢰를 지킵니다.", "feature": "template"}]}, {"persona": "business", "intro": "회의, 보고, 회신: 하루에도 수십 번 같은 문구를 다시 씁니다. '확인 부탁드립니다', 미팅 안내, 부재중 응답. 예의를 갖춘 반복 문구를 저장해두면, 손이 아니라 머리를 일에 씁니다.", "scenarios": [{"title": "부재중 자동응답", "pain": "휴가·출장 때마다 부재 안내를 새로 쓰고, 대체 담당자 연락처를 빠뜨립니다.", "example": "안녕하세요. {시작일}부터 {종료일}까지 부재중입니다.\n급한 업무는 {담당자}({연락처})에게 연락 주세요.\n복귀 후 순차적으로 회신드리겠습니다. 감사합니다.", "impact": "빠짐없는 안내로 업무 공백을 막고, 복귀 후 폭탄 회신을 줄입니다.", "feature": "template"}, {"title": "회의 일정 안내", "pain": "미팅을 잡을 때마다 일시·장소·안건 형식을 매번 새로 타이핑합니다.", "example": "안녕하세요 {이름}님,\n아래 일정으로 미팅 요청드립니다.\n📅 일시: {날짜} {시간}\n📍 장소: {장소}\n📌 안건: {안건}\n참석 가능 여부 회신 부탁드립니다 😊", "impact": "정돈된 안내로 재확인 메일이 줄고, 노쇼가 눈에 띄게 감소합니다.", "feature": "template"}, {"title": "주간 업무 보고", "pain": "매주 같은 양식의 보고를 빈 화면에서 다시 시작합니다.", "example": "안녕하세요. 금주 업무 보고드립니다.\n✅ 완료: {완료사항}\n🔄 진행 중: {진행중}\n📋 다음 주 예정: {예정사항}\n문의사항 있으시면 말씀해 주세요.", "impact": "양식은 고정, 내용만 채우면 끝: 금요일 저녁이 가벼워집니다.", "feature": "template"}, {"title": "명함·자기소개", "pain": "처음 인사드리는 자리마다 소속·직함·연락처를 매번 다르게 적습니다.", "example": "안녕하세요, {이름}입니다.\n{소속}에서 {업무}를 맡고 있습니다.\n📧 {이메일} / 📞 {전화번호}\n잘 부탁드립니다 🙏", "impact": "일관된 소개로 신뢰를 주고, 오타 난 연락처로 연락이 끊길 일이 없어요.", "feature": "snippet"}, {"title": "이메일 서명", "pain": "회사 메일 앱마다 서명이 안 옮겨져, 매번 손으로 붙입니다.", "example": "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}", "impact": "어느 앱·기기에서 보내든 통일된 서명. 브랜드 인상이 흐트러지지 않아요.", "feature": "snippet"}, {"title": "세금계산서·입금 정보", "pain": "거래처가 계좌·사업자번호를 물을 때마다 회계 파일을 열어 확인합니다.", "example": "입금 계좌: {은행} {계좌번호} ({예금주})\n사업자등록번호: {사업자번호}\n상호: {상호}\n세금계산서 이메일: {이메일}", "impact": "요청 즉시 정확히 전달, 정산 지연과 오류 입금이 사라집니다.", "feature": "snippet"}, {"title": "외주·협업 제안", "pain": "협업을 제안할 때, 나를 소개하고 용건을 정중히 여는 첫 메일이 늘 어렵습니다.", "example": "안녕하세요 {담당자}님,\n{프로젝트} 관련 협업을 제안드리고자 연락드립니다.\n저는 {회사/이름}에서 {업무}를 맡고 있습니다.\n간단히 통화 가능하실까요? 편하신 시간 알려주세요. 감사합니다.", "impact": "매번 고민하던 첫 문장을 즉시 발송, 제안 횟수 자체가 늘어납니다.", "feature": "template"}, {"title": "회신 지연 양해", "pain": "답이 늦어질 때, 무성의해 보이지 않게 양해를 구하는 게 신경 쓰입니다.", "example": "안녕하세요 {이름}님, 회신이 늦어 죄송합니다. {사유}로 확인이 지연되었습니다. {일시}까지 정리해 다시 연락드리겠습니다. 양해 부탁드립니다.", "impact": "침묵 대신 신뢰를 주는 한 줄로, 관계가 상하지 않게 지킵니다.", "feature": "template"}, {"title": "프로젝트 마무리 감사", "pain": "잘 끝난 프로젝트일수록, 마무리 인사를 미루다 타이밍을 놓칩니다.", "example": "안녕하세요 {이름}님,\n이번 {프로젝트} 함께해 주셔서 진심으로 감사드립니다.\n덕분에 좋은 결과를 낼 수 있었습니다.\n앞으로도 좋은 인연 이어가고 싶습니다 😊", "impact": "관계를 다음 일로 잇는 인사를 놓치지 않게, 재의뢰로 이어집니다.", "feature": "template"}, {"title": "정산·비용 청구", "pain": "월말마다 정산 내역과 계좌를 정리해 보내느라 손이 많이 갑니다.", "example": "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원 (VAT 포함)\n입금 계좌: {은행} {계좌번호} ({예금주})\n확인 부탁드립니다 😊", "impact": "형식 실수 없는 청구로 재작성이 사라지고, 입금이 빨라집니다.", "feature": "template"}]}, {"persona": "student", "intro": "학번, 학교 이메일, 과제 제출 양식, 조별과제 공지: 학교 생활은 반복 입력의 연속입니다. 교수님 메일부터 팀플 정산, 자취방 주소까지 저장해두면, 그만큼 공부와 나에게 쓸 시간이 늘어나요.", "scenarios": [{"title": "학번+이름 세트", "pain": "수강신청·과제 제출·증명서 발급마다 학번과 이름을 다시 칩니다.", "example": "{학과} {학번} {이름}", "impact": "제출칸에 탭 한 번. 마감 직전 오타로 감점되는 일이 없어져요.", "feature": "snippet"}, {"title": "교수님께 보내는 메일", "pain": "교수님 메일은 예의를 갖춰야 해서, 첫 문장부터 매번 긴장됩니다.", "example": "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목}({분반}) 수강 중입니다.\n{용건}에 대해 여쭤보고자 메일 드립니다.\n바쁘신 중에 죄송합니다. 감사합니다.", "impact": "형식 걱정 없이 용건만 채우면 끝, 메일 보내기가 미루지 않게 됩니다.", "feature": "template"}, {"title": "과제 표지·제출 양식", "pain": "과목마다 표지 양식이 달라, 제출 직전에 형식 맞추느라 시간을 씁니다.", "example": "과목명: {과목}\n담당 교수: {교수}\n제출자: {학과} {학번} {이름}\n제출일: {날짜}\n주제: {주제}", "impact": "양식은 저장, 내용만 갱신: 마감 스트레스가 한 겹 줄어요.", "feature": "template"}, {"title": "조별과제 공지", "pain": "팀 단톡에 회의 일정·역할 분담을 정리해 올리는 게 매번 번거롭습니다.", "example": "[{과제}] 팀 공지 📢\n다음 회의: {날짜} {시간} @ {장소/링크}\n각자 준비: {준비물}\n마감: {마감일}\n확인하면 👍 눌러주세요!", "impact": "정돈된 공지로 '언제였지?' 되묻기가 사라지고 팀이 굴러갑니다.", "feature": "template"}, {"title": "자취방·기숙사 주소", "pain": "배달·택배마다 상세주소와 공동현관 비번을 다시 입력합니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n공동현관: {비밀번호}\n받는 분: {이름} / {전화번호}", "impact": "배달앱 주소칸에 탭 한 번. 잘못 간 택배로 헤맬 일이 없어요.", "feature": "snippet"}, {"title": "팀플·모임 N빵 정산", "pain": "회식·과제 재료비를 걷을 때, 금액과 계좌를 매번 계산해 올립니다.", "example": "오늘 총 {총금액}원! {인원}명이니까 1인당 {1인금액}원이에요 🙏\n{은행} {계좌번호} ({이름})으로 보내주세요~", "impact": "정산 메시지를 즉시 발송, 돈 얘기 꺼내는 어색함이 줄어듭니다.", "feature": "template"}, {"title": "결석·사유 안내", "pain": "아프거나 사정이 생겼을 때, 교수님·조교께 알리는 문구가 급할수록 안 떠오릅니다.", "example": "안녕하세요 교수님, {학번} {이름}입니다.\n{날짜} {과목} 수업에 {사유}로 부득이 결석하게 되었습니다.\n관련 증빙은 {방법}으로 제출하겠습니다. 죄송합니다.", "impact": "당황한 순간에도 예의를 갖춘 연락을 즉시, 불이익을 줄입니다.", "feature": "template"}, {"title": "동아리·스터디 모집", "pain": "모집 글을 여러 커뮤니티에 올릴 때마다 소개를 조금씩 다시 씁니다.", "example": "[{모임명}] 함께할 분을 찾아요! 🙌\n활동: {활동 내용}\n시간: {요일/시간}\n장소: {장소}\n신청: {링크/연락처}\n부담 없이 문의 주세요 😊", "impact": "여러 곳에 같은 글을 붙여넣기 한 번으로, 모집이 훨씬 빨라져요.", "feature": "snippet"}, {"title": "인턴 지원 기본 정보", "pain": "지원서마다 이름·연락처·학력·링크를 반복 입력하다 지칩니다.", "example": "{이름} · {전화번호} · {이메일}\n{학교} {학과} ({학년})\n포트폴리오: {링크}\nGitHub/블로그: {링크}", "impact": "지원 폼 채우기가 빨라져, 더 많은 기회에 도전하게 됩니다.", "feature": "snippet"}, {"title": "지각·약속 변경", "pain": "수업·약속에 늦을 때, 미안한 마음에 문장이 자꾸 길어집니다.", "example": "미안해! {분}분 정도 늦을 것 같아. 거의 다 왔어 🙏", "impact": "짧고 확실한 연락으로, 기다리는 사람의 불안을 바로 덜어줍니다.", "feature": "template"}]}, {"persona": "general", "intro": "매일 쓰는 기본 정보: 계좌번호, 집 주소, 전화번호, 자주 보내는 인사. 매번 기억을 더듬거나 예전 대화를 뒤지지 않아도, 필요한 순간 탭 한 번이면 됩니다. 사소해 보여도, 하루에 쌓이면 꽤 큰 시간이에요.", "scenarios": [{"title": "계좌번호 공유", "pain": "\"계좌 좀\" 한마디에 은행 앱을 열어 번호를 확인하고 옮겨 적습니다.", "example": "{은행} {계좌번호}\n예금주: {이름}\n(카카오페이/토스도 가능해요 🙏)", "impact": "탭 한 번으로 정확히 전달, 자릿수 실수로 엉뚱한 곳에 갈 걱정이 없어요.", "feature": "snippet"}, {"title": "집 주소(배송)", "pain": "쇼핑·중고거래마다 상세주소와 연락처를 처음부터 다시 칩니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n받는 분: {이름} / {전화번호}", "impact": "주소 입력이 한 번에 끝나, 오배송으로 시간 버릴 일이 줄어요.", "feature": "snippet"}, {"title": "약속 잡기", "pain": "만날 때마다 시간·장소를 조율하는 메시지를 새로 씁니다.", "example": "{날짜} {시간}에 {장소} 어때요? 안 되면 편한 시간 알려줘요 😊", "impact": "제안을 먼저 던지는 한 줄로, 약속이 훨씬 빨리 정해집니다.", "feature": "template"}, {"title": "지각 알림", "pain": "늦을 때마다 미안함에 사과 문장을 길게 고쳐 씁니다.", "example": "미안해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏", "impact": "바로 보내는 짧은 알림이, 기다리는 사람 마음을 편하게 합니다.", "feature": "template"}, {"title": "경조사 계좌 안내", "pain": "축의·조의 계좌를 물어올 때, 급하게 번호를 찾아 전합니다.", "example": "마음 전해주셔서 감사합니다.\n{은행} {계좌번호} ({예금주})\n와주시는 것만으로 큰 힘이 됩니다 🙏", "impact": "경황 없는 순간에도, 실수 없이 정중하게 안내할 수 있어요.", "feature": "snippet"}, {"title": "중고거래 안내", "pain": "거래마다 가격·상태·직거래 장소를 비슷하게 다시 씁니다.", "example": "{상품명} 판매합니다.\n가격: {가격} (네고 {가능/불가})\n상태: {상태}\n거래: {직거래 장소} 또는 택배\n연락: {연락처}", "impact": "여러 플랫폼에 붙여넣기 한 번, 문의 대응이 빨라집니다.", "feature": "snippet"}, {"title": "긴급 연락처·가족 정보", "pain": "병원 접수·서류 작성 때 보호자 연락처와 정보를 매번 떠올립니다.", "example": "보호자: {이름} ({관계})\n연락처: {전화번호}\n혈액형: {혈액형}\n특이사항/알레르기: {내용}", "impact": "급한 순간에 정확한 정보를 바로, 당황 대신 침착하게 대응합니다.", "feature": "snippet"}, {"title": "병원·예약 정보", "pain": "예약 문의·접수 때 이름·생년월일·증상을 매번 정리해 전합니다.", "example": "예약 문의드립니다.\n이름: {이름} / 생년월일: {생년월일}\n증상: {증상}\n희망 일시: {날짜} {시간}", "impact": "정리된 문의로 통화가 짧아지고, 원하는 시간을 잡기 쉬워집니다.", "feature": "template"}, {"title": "와이파이 비번 공유", "pain": "손님이 올 때마다 공유기 비밀번호를 불러주거나 사진 찾아 헤맵니다.", "example": "WiFi: {네트워크 이름}\n비밀번호: {비밀번호}\n편하게 쓰세요 😊", "impact": "한 번에 공유: \"비번 뭐예요\"를 세 번 반복하지 않아도 돼요.", "feature": "snippet"}, {"title": "자주 쓰는 안부 인사", "pain": "명절·생일마다 비슷한 안부를, 매번 처음부터 고민해 씁니다.", "example": "{이름}님, {행사} 잘 보내고 계세요? 늘 건강하고 좋은 일만 가득하시길 바라요 😊", "impact": "마음은 담되 시간은 아껴, 챙길 사람을 더 많이 챙기게 됩니다.", "feature": "template"}]}], "en": [{"persona": "nomad", "intro": "You hop between cafés and co-working spaces, working with clients across the world. Timezones, international transfers, visas, near-identical English emails: your day leaks away hunting for the same details in another tab. Save each one once, and from then on it's a single tap.", "scenarios": [{"title": "\"Send your banking details\"", "pain": "One line from a client sends you digging through your bank app for the IBAN and SWIFT again.", "example": "Name: {your name}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {bank address}\nWise: {Wise email}", "impact": "A 30-second hunt becomes one tap, and no more transposed digits.", "feature": "combo"}, {"title": "Timezone reply", "pain": "A 2 a.m. \"Can we hop on a call?\" and you're explaining your timezone yet again.", "example": "Hi {client}, I'm in GMT+{offset} ({city}) right now. I can do {time window}. Calendly: {link}", "impact": "Three back-and-forth messages collapse into one clear answer.", "feature": "template"}, {"title": "Sending an invoice", "pain": "You re-type the invoice number, amount, currency, and due date every single time.", "example": "Invoice #{no} · {currency} {amount}\nDue: {due date}\nPayment: Wise ({email})\nThank you! 🙏", "impact": "The template catches the fields you'd forget: fewer re-bills and corrections.", "feature": "template"}, {"title": "Proposal follow-up", "pain": "Three days of silence, and writing a nudge that doesn't feel pushy is hard every time.", "example": "Hi {client}, just following up on the proposal I sent {day}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}", "impact": "A polite follow-up you send instantly, rescuing deals you used to let slip.", "feature": "template"}, {"title": "Passport & visa info", "pain": "Every flight, stay, or visa form has you hunting for your passport number and expiry.", "example": "Passport no: {passport}\nFull name: {name}\nIssued / Expires: {issued} / {expiry}\nNationality: {nationality}", "impact": "Lock it behind Face ID as a secure snippet, open only when you need it.", "feature": "snippet"}, {"title": "\"Where are you based?\"", "pain": "A new client asks casually, and you over-explain the nomad thing every time.", "example": "Based nowhere in particular: currently in {city}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "One confident, professional answer instead of sounding unsettled.", "feature": "template"}, {"title": "Wifi dropped", "pain": "The co-working wifi dies right before a call and you scramble for an apology.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {min} min. Ready to continue right after. 🙏", "impact": "Even mid-panic, you send a calm, reassuring line in a second.", "feature": "snippet"}, {"title": "Currency & quote note", "pain": "Quoting a client in another currency means re-writing the FX caveat each time.", "example": "Quote: {currency} {amount} (≈ {converted} at today's rate).\nInvoiced in {currency} via Wise to keep fees low for you.", "impact": "Head off price confusion early, no haggling at payment time.", "feature": "template"}, {"title": "New client onboarding", "pain": "Right after signing, you walk every client through Calendly, Slack, payment, cadence.", "example": "Welcome aboard, {client}! Here's how we'll work:\n1. First sync: Calendly: {link}\n2. Payment (banking info attached if needed)\n3. Slack invite within 24h\n4. Progress demos every Thursday\n\nExcited to get started!", "impact": "A Combo pastes several snippets in order, onboarding drops from 5 minutes to 5 seconds.", "feature": "combo"}, {"title": "Signing off for the night", "pain": "A 10 p.m. urgent DM, and saying \"not now\" politely is awkward every time.", "example": "Hi! Signing off for the night ({time} in {city}). I'll reply first thing in my morning, thanks for your patience 🙏", "impact": "Hold your boundary without seeming rude: trust intact, burnout avoided.", "feature": "template"}]}, {"persona": "business", "intro": "Meetings, reports, replies: you rewrite the same phrases dozens of times a day. \"Please confirm,\" meeting invites, out-of-office notes. Save the polite, repeated lines once, and spend your focus on the work, not the wording.", "scenarios": [{"title": "Out-of-office reply", "pain": "Every trip means rewriting your away note, and forgetting the backup contact.", "example": "Hello, I'm out of office from {start} to {end}.\nFor anything urgent, please reach {contact} ({phone}).\nI'll reply in order once I'm back. Thank you.", "impact": "No gaps in coverage, and no inbox avalanche waiting when you return.", "feature": "template"}, {"title": "Meeting invite", "pain": "You retype the date / place / agenda format for every single meeting.", "example": "Hi {name},\nRequesting a meeting as follows:\n📅 {date} {time}\n📍 {place}\n📌 Agenda: {agenda}\nPlease confirm if you can join 😊", "impact": "A clean invite means fewer re-confirmations and far fewer no-shows.", "feature": "template"}, {"title": "Weekly status report", "pain": "Every week you start the same report format from a blank screen.", "example": "Hi team, this week's update:\n✅ Done: {done}\n🔄 In progress: {in progress}\n📋 Next week: {planned}\nHappy to discuss anything above.", "impact": "Format fixed, just fill the content. Friday evenings get lighter.", "feature": "template"}, {"title": "Intro & business card", "pain": "Every first introduction has you re-typing your role, team, and contact.", "example": "Hi, I'm {name}.\nI handle {role} at {company}.\n📧 {email} / 📞 {phone}\nLooking forward to working together 🙏", "impact": "A consistent intro builds trust, and no dropped contact from a typo.", "feature": "snippet"}, {"title": "Email signature", "pain": "Signatures don't carry across mail apps, so you paste yours by hand.", "example": "{name}\n{title} | {company}\n📧 {email}\n📞 {phone}\n🌐 {website}", "impact": "One signature, any app or device: your brand impression stays sharp.", "feature": "snippet"}, {"title": "Payment & tax details", "pain": "Every time a vendor asks for account or tax info, you dig through finance files.", "example": "Account: {bank} {number} ({holder})\nTax ID: {tax id}\nCompany: {company}\nInvoice email: {email}", "impact": "Send it exactly right, instantly: no delayed or misdirected payments.", "feature": "snippet"}, {"title": "Partnership outreach", "pain": "Proposing a collaboration, that polite opening line is always the hard part.", "example": "Hi {name},\nReaching out about a possible collaboration on {project}.\nI handle {role} at {company/name}.\nWould a quick call work? Let me know a time that suits you. Thanks!", "impact": "The first sentence you agonized over is ready, so you actually reach out more.", "feature": "template"}, {"title": "Apologizing for a late reply", "pain": "When you're slow to respond, asking forgiveness without sounding careless is delicate.", "example": "Hi {name}, apologies for the delayed reply. {reason} held things up. I'll get back to you with details by {date}. Thanks for your patience.", "impact": "A line that earns trust instead of silence, the relationship stays intact.", "feature": "template"}, {"title": "Project wrap-up thanks", "pain": "The better the project went, the more you delay the thank-you and miss the moment.", "example": "Hi {name},\nThank you sincerely for working together on {project}.\nWe reached a great outcome because of you.\nI'd love to keep the door open for what's next 😊", "impact": "Never miss the note that turns a project into the next one, repeat work follows.", "feature": "template"}, {"title": "Billing & settlement", "pain": "Month-end means assembling the statement and account details by hand again.", "example": "Hi! Here's the {month} statement.\nAmount: {amount} (incl. tax)\nAccount: {bank} {number} ({holder})\nPlease confirm 😊", "impact": "A format-perfect bill means no rewrites, and you get paid faster.", "feature": "template"}]}, {"persona": "student", "intro": "Student ID, school email, assignment cover sheets, group-project notices: campus life is one repeated form after another. Save your professor emails, group settle-ups, and apartment address, and you win back time for studying and for yourself.", "scenarios": [{"title": "Student ID + name", "pain": "Course registration, submissions, certificates: you re-type your ID and name each time.", "example": "{major} {student ID} {name}", "impact": "One tap into any field, no last-minute typo costing you points.", "feature": "snippet"}, {"title": "Email to a professor", "pain": "Professor emails demand a polite tone, so the first line makes you tense every time.", "example": "Dear Professor, this is {name} ({student ID}), from {major}.\nI'm enrolled in {course} (section {no}).\nI'm writing regarding {topic}.\nSorry to bother you, and thank you.", "impact": "Fill in the point, format's handled: you stop putting off emails.", "feature": "template"}, {"title": "Assignment cover sheet", "pain": "Every course wants a different cover format, so you fuss with it right before the deadline.", "example": "Course: {course}\nProfessor: {professor}\nSubmitted by: {major} {student ID} {name}\nDate: {date}\nTopic: {topic}", "impact": "Format saved, content refreshed: one layer of deadline stress gone.", "feature": "template"}, {"title": "Group-project notice", "pain": "Posting the meeting time and role split to the team chat is a chore every round.", "example": "[{assignment}] Team notice 📢\nNext meeting: {date} {time} @ {place/link}\nBring: {items}\nDeadline: {due}\nReact 👍 once you've seen this!", "impact": "A tidy notice ends the \"wait, when was it?\" and keeps the team moving.", "feature": "template"}, {"title": "Apartment / dorm address", "pain": "Every delivery has you re-entering the full address and door code.", "example": "{postcode}\n{address}\n{unit details}\nEntry code: {code}\nRecipient: {name} / {phone}", "impact": "One tap into the delivery app, no packages lost to a wrong address.", "feature": "snippet"}, {"title": "Splitting the bill", "pain": "Collecting money for supplies or a team dinner means recalculating and posting it each time.", "example": "Total was {total} for {people} people, so {per person} each 🙏\nSend to {bank} {number} ({name}) please~", "impact": "Send the split instantly: and the money talk feels a lot less awkward.", "feature": "template"}, {"title": "Absence notice", "pain": "When you're sick, the note to a professor or TA won't come to mind exactly when it's urgent.", "example": "Dear Professor, this is {name} ({student ID}).\nI have to miss {course} on {date} due to {reason}.\nI'll submit documentation via {method}. My apologies.", "impact": "Even flustered, you send a courteous heads-up right away: less penalty.", "feature": "template"}, {"title": "Club / study recruiting", "pain": "Posting a recruit call across communities means rewriting the intro slightly each time.", "example": "[{group}] Looking for members! 🙌\nWhat we do: {activity}\nWhen: {day/time}\nWhere: {place}\nApply: {link/contact}\nReach out anytime 😊", "impact": "Paste the same post everywhere in one tap, recruiting moves much faster.", "feature": "snippet"}, {"title": "Internship application basics", "pain": "Every application repeats your name, contact, education, and links until you're worn out.", "example": "{name} · {phone} · {email}\n{school} {major} (year {year})\nPortfolio: {link}\nGitHub/blog: {link}", "impact": "Filling forms gets fast, so you apply to more opportunities.", "feature": "snippet"}, {"title": "Running late", "pain": "When you're late to class or a friend, guilt makes the message longer and longer.", "example": "So sorry! I'll be about {min} min late. Almost there 🙏", "impact": "A short, sure message eases the waiting person right away.", "feature": "template"}]}, {"persona": "general", "intro": "The basics you use every day: account number, home address, phone number, the greetings you send often. No more digging through memory or old chats; when the moment comes, it's a single tap. Small on their own, these add up to real time across a day.", "scenarios": [{"title": "Sharing an account number", "pain": "\"What's your account?\" and you open the bank app to check and copy the number.", "example": "{bank} {account number}\nHolder: {name}\n(Apple Pay / transfer also fine 🙏)", "impact": "One tap, exactly right: no wrong digits sending money astray.", "feature": "snippet"}, {"title": "Home address (delivery)", "pain": "Shopping and resale both make you re-type the full address and contact.", "example": "{postcode}\n{address}\n{unit details}\nRecipient: {name} / {phone}", "impact": "Address entry done in one go, fewer misdeliveries eating your time.", "feature": "snippet"}, {"title": "Making plans", "pain": "Every meet-up means writing a fresh message to sort time and place.", "example": "How about {place} at {time} on {date}? If not, tell me what works 😊", "impact": "Leading with a concrete offer gets plans locked in much faster.", "feature": "template"}, {"title": "Running late", "pain": "Each time you're late, guilt has you rewriting the apology at length.", "example": "So sorry! I'll be about {min} min late. Go ahead without me 🙏", "impact": "A quick note sent right away puts the waiting person at ease.", "feature": "template"}, {"title": "Event account (gifts/condolences)", "pain": "When someone asks for the gift or condolence account, you scramble for the number.", "example": "Thank you for the kind thought.\n{bank} {account number} ({holder})\nYour presence alone means so much 🙏", "impact": "Even in a hectic moment, you share it correctly and graciously.", "feature": "snippet"}, {"title": "Resale listing", "pain": "Every sale has you rewriting price, condition, and meet-up spot the same way.", "example": "Selling: {item}\nPrice: {price} (negotiable: {yes/no})\nCondition: {condition}\nMeet: {location} or shipping\nContact: {contact}", "impact": "Paste to any platform in one tap, you answer buyers faster.", "feature": "snippet"}, {"title": "Emergency & family info", "pain": "Hospital check-in and forms have you recalling guardian contact and details every time.", "example": "Guardian: {name} ({relation})\nPhone: {phone}\nBlood type: {blood type}\nNotes/allergies: {details}", "impact": "Accurate info in an urgent moment, calm response instead of panic.", "feature": "snippet"}, {"title": "Appointment / booking info", "pain": "Booking calls have you assembling name, birth date, and symptoms each time.", "example": "I'd like to book an appointment.\nName: {name} / DOB: {DOB}\nReason: {reason}\nPreferred: {date} {time}", "impact": "A tidy request shortens the call and lands the time you want.", "feature": "template"}, {"title": "Sharing wifi password", "pain": "Every guest means reading out the router password or hunting for a photo of it.", "example": "WiFi: {network name}\nPassword: {password}\nEnjoy 😊", "impact": "Share it once: no repeating \"what's the password?\" three times.", "feature": "snippet"}, {"title": "Go-to greetings", "pain": "Holidays and birthdays have you drafting a similar note from scratch each time.", "example": "Hi {name}, hope your {occasion} is wonderful! Wishing you good health and only good things ahead 😊", "impact": "Heartfelt but quick: so you actually reach everyone you meant to.", "feature": "template"}]}]};
+        const PERSONA_DATA = {"ko": [{"persona": "nomad", "intro": "카페와 코워킹 스페이스를 옮겨 다니며 해외 클라이언트와 일하는 당신. 시차, 국제 송금, 비자, 매번 비슷한 영어 이메일: 필요한 정보를 다른 창에서 찾아 붙여넣는 사이 하루가 새어나갑니다. 한 번 저장해두면, 그다음부턴 탭 한 번이면 끝나요.", "scenarios": [{"title": "해외 송금 정보 요청", "pain": "\"Send me your banking details\" 한 줄에, IBAN·SWIFT를 은행 앱에서 다시 찾아 헤맵니다.", "example": "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {은행 주소}\nWise: {Wise 이메일}", "impact": "송금 요청이 올 때마다 30초 검색이 탭 한 번으로. 자릿수 틀릴 걱정도 사라집니다.", "feature": "combo"}, {"title": "시차 안내 한 줄", "pain": "새벽 2시에 온 \"Can we hop on a call?\"에 매번 시차를 설명하느라 지칩니다.", "example": "Hi {이름}, I'm in GMT+{시차} ({도시}) right now. I can do {가능 시간대}. Calendly: {링크}", "impact": "\"몇 시가 편하세요\" 왕복 3통이 한 통으로 줄어듭니다.", "feature": "template"}, {"title": "인보이스 발송", "pain": "인보이스 번호·금액·통화·기한을 매번 손으로 맞춰 적습니다.", "example": "Invoice #{번호} · {통화} {금액}\nDue: {기한}\nPayment: Wise ({이메일})\nThank you! 🙏", "impact": "빠뜨리기 쉬운 항목을 템플릿이 붙잡아줘, 재청구·정정 메일이 줄어요.", "feature": "template"}, {"title": "제안서 팔로업", "pain": "보낸 제안서에 3일째 답이 없을 때, 재촉 같지 않게 쓰는 게 매번 어렵습니다.", "example": "Hi {클라이언트}, just following up on the proposal I sent {요일}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {이름}", "impact": "정중한 팔로업을 고민 없이 즉시 발송, 놓치던 계약을 되살립니다.", "feature": "template"}, {"title": "여권·비자 정보", "pain": "항공·숙소·비자 신청마다 여권번호와 만료일을 확인하러 서랍을 뒤집니다.", "example": "여권번호: {여권번호}\n영문 성명: {영문 이름}\n발급일/만료일: {발급일} / {만료일}\n국적: {국적}", "impact": "보안 단축어(생체인증)로 잠가두면, 필요할 때만 열어 안전하게 붙여넣기.", "feature": "snippet"}, {"title": "\"어디 사세요?\" 답변", "pain": "새 클라이언트의 가벼운 질문에, 노마드라는 걸 매번 길게 설명하게 됩니다.", "example": "Based nowhere in particular: currently in {도시}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "불안해 보이지 않게, 프로페셔널한 인상을 한 번에 전달합니다.", "feature": "template"}, {"title": "와이파이 끊김 알림", "pain": "통화 직전 코워킹 와이파이가 끊기면, 급하게 사과 메시지를 쥐어짜냅니다.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {분}분. Ready to continue right after. 🙏", "impact": "당황한 순간에도 침착하고 신뢰감 있는 한 줄을 즉시 보냅니다.", "feature": "snippet"}, {"title": "환율·견적 안내", "pain": "통화가 다른 클라이언트에게 견적을 줄 때, 환율 안내 문구를 매번 새로 씁니다.", "example": "Quote: {통화} {금액} (≈ {환산액} at today's rate).\nInvoiced in {통화} via Wise to keep fees low for you.", "impact": "가격 오해를 미리 차단해, 정산 단계의 실랑이를 없앱니다.", "feature": "template"}, {"title": "신규 클라이언트 온보딩", "pain": "계약 직후 캘린들리·슬랙·결제·진행 방식을 매번 순서대로 안내합니다.", "example": "환영합니다, {클라이언트}님! 진행은 이렇게 해요:\n1. 첫 미팅 캘린들리: {링크}\n2. 결제(원할 시 송금 정보 첨부)\n3. 슬랙 초대 24시간 내 발송\n4. 매주 목요일 진행 데모\n\n잘 부탁드려요!", "impact": "Combo로 여러 단축어를 순서대로 자동 입력, 온보딩 메일이 5분에서 5초로.", "feature": "combo"}, {"title": "하루 마감·오프라인 전환", "pain": "밤 10시 급한 DM에 '지금은 대응 어렵다'를 매번 예의 있게 쓰기 어렵습니다.", "example": "Hi! Signing off for the night ({시간} in {도시}). I'll reply first thing in my morning (thanks for your patience 🙏", "impact": "경계는 지키되 무례하지 않게) 번아웃 없이 신뢰를 지킵니다.", "feature": "template"}]}, {"persona": "business", "intro": "회의, 보고, 회신: 하루에도 수십 번 같은 문구를 다시 씁니다. '확인 부탁드립니다', 미팅 안내, 부재중 응답. 예의를 갖춘 반복 문구를 저장해두면, 손이 아니라 머리를 일에 씁니다.", "scenarios": [{"title": "부재중 자동응답", "pain": "휴가·출장 때마다 부재 안내를 새로 쓰고, 대체 담당자 연락처를 빠뜨립니다.", "example": "안녕하세요. {시작일}부터 {종료일}까지 부재중입니다.\n급한 업무는 {담당자}({연락처})에게 연락 주세요.\n복귀 후 순차적으로 회신드리겠습니다. 감사합니다.", "impact": "빠짐없는 안내로 업무 공백을 막고, 복귀 후 폭탄 회신을 줄입니다.", "feature": "template"}, {"title": "회의 일정 안내", "pain": "미팅을 잡을 때마다 일시·장소·안건 형식을 매번 새로 타이핑합니다.", "example": "안녕하세요 {이름}님,\n아래 일정으로 미팅 요청드립니다.\n📅 일시: {날짜} {시간}\n📍 장소: {장소}\n📌 안건: {안건}\n참석 가능 여부 회신 부탁드립니다 😊", "impact": "정돈된 안내로 재확인 메일이 줄고, 노쇼가 눈에 띄게 감소합니다.", "feature": "template"}, {"title": "주간 업무 보고", "pain": "매주 같은 양식의 보고를 빈 화면에서 다시 시작합니다.", "example": "안녕하세요. 금주 업무 보고드립니다.\n✅ 완료: {완료사항}\n🔄 진행 중: {진행중}\n📋 다음 주 예정: {예정사항}\n문의사항 있으시면 말씀해 주세요.", "impact": "양식은 고정, 내용만 채우면 끝: 금요일 저녁이 가벼워집니다.", "feature": "template"}, {"title": "명함·자기소개", "pain": "처음 인사드리는 자리마다 소속·직함·연락처를 매번 다르게 적습니다.", "example": "안녕하세요, {이름}입니다.\n{소속}에서 {업무}를 맡고 있습니다.\n📧 {이메일} / 📞 {전화번호}\n잘 부탁드립니다 🙏", "impact": "일관된 소개로 신뢰를 주고, 오타 난 연락처로 연락이 끊길 일이 없어요.", "feature": "snippet"}, {"title": "이메일 서명", "pain": "회사 메일 앱마다 서명이 안 옮겨져, 매번 손으로 붙입니다.", "example": "{이름}\n{직책} | {회사명}\n📧 {이메일}\n📞 {전화번호}\n🌐 {홈페이지}", "impact": "어느 앱·기기에서 보내든 통일된 서명. 브랜드 인상이 흐트러지지 않아요.", "feature": "snippet"}, {"title": "세금계산서·입금 정보", "pain": "거래처가 계좌·사업자번호를 물을 때마다 회계 파일을 열어 확인합니다.", "example": "입금 계좌: {은행} {계좌번호} ({예금주})\n사업자등록번호: {사업자번호}\n상호: {상호}\n세금계산서 이메일: {이메일}", "impact": "요청 즉시 정확히 전달, 정산 지연과 오류 입금이 사라집니다.", "feature": "snippet"}, {"title": "외주·협업 제안", "pain": "협업을 제안할 때, 나를 소개하고 용건을 정중히 여는 첫 메일이 늘 어렵습니다.", "example": "안녕하세요 {담당자}님,\n{프로젝트} 관련 협업을 제안드리고자 연락드립니다.\n저는 {회사/이름}에서 {업무}를 맡고 있습니다.\n간단히 통화 가능하실까요? 편하신 시간 알려주세요. 감사합니다.", "impact": "매번 고민하던 첫 문장을 즉시 발송, 제안 횟수 자체가 늘어납니다.", "feature": "template"}, {"title": "회신 지연 양해", "pain": "답이 늦어질 때, 무성의해 보이지 않게 양해를 구하는 게 신경 쓰입니다.", "example": "안녕하세요 {이름}님, 회신이 늦어 죄송합니다. {사유}로 확인이 지연되었습니다. {일시}까지 정리해 다시 연락드리겠습니다. 양해 부탁드립니다.", "impact": "침묵 대신 신뢰를 주는 한 줄로, 관계가 상하지 않게 지킵니다.", "feature": "template"}, {"title": "프로젝트 마무리 감사", "pain": "잘 끝난 프로젝트일수록, 마무리 인사를 미루다 타이밍을 놓칩니다.", "example": "안녕하세요 {이름}님,\n이번 {프로젝트} 함께해 주셔서 진심으로 감사드립니다.\n덕분에 좋은 결과를 낼 수 있었습니다.\n앞으로도 좋은 인연 이어가고 싶습니다 😊", "impact": "관계를 다음 일로 잇는 인사를 놓치지 않게, 재의뢰로 이어집니다.", "feature": "template"}, {"title": "정산·비용 청구", "pain": "월말마다 정산 내역과 계좌를 정리해 보내느라 손이 많이 갑니다.", "example": "안녕하세요! {월}월 정산 내역 보내드립니다.\n금액: {금액}원 (VAT 포함)\n입금 계좌: {은행} {계좌번호} ({예금주})\n확인 부탁드립니다 😊", "impact": "형식 실수 없는 청구로 재작성이 사라지고, 입금이 빨라집니다.", "feature": "template"}]}, {"persona": "student", "intro": "학번, 학교 이메일, 과제 제출 양식, 조별과제 공지: 학교 생활은 반복 입력의 연속입니다. 교수님 메일부터 팀플 정산, 자취방 주소까지 저장해두면, 그만큼 공부와 나에게 쓸 시간이 늘어나요.", "scenarios": [{"title": "학번+이름 세트", "pain": "수강신청·과제 제출·증명서 발급마다 학번과 이름을 다시 칩니다.", "example": "{학과} {학번} {이름}", "impact": "제출칸에 탭 한 번. 마감 직전 오타로 감점되는 일이 없어져요.", "feature": "snippet"}, {"title": "교수님께 보내는 메일", "pain": "교수님 메일은 예의를 갖춰야 해서, 첫 문장부터 매번 긴장됩니다.", "example": "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목}({분반}) 수강 중입니다.\n{용건}에 대해 여쭤보고자 메일 드립니다.\n바쁘신 중에 죄송합니다. 감사합니다.", "impact": "형식 걱정 없이 용건만 채우면 끝, 메일 보내기가 미루지 않게 됩니다.", "feature": "template"}, {"title": "과제 표지·제출 양식", "pain": "과목마다 표지 양식이 달라, 제출 직전에 형식 맞추느라 시간을 씁니다.", "example": "과목명: {과목}\n담당 교수: {교수}\n제출자: {학과} {학번} {이름}\n제출일: {날짜}\n주제: {주제}", "impact": "양식은 저장, 내용만 갱신: 마감 스트레스가 한 겹 줄어요.", "feature": "template"}, {"title": "조별과제 공지", "pain": "팀 단톡에 회의 일정·역할 분담을 정리해 올리는 게 매번 번거롭습니다.", "example": "[{과제}] 팀 공지 📢\n다음 회의: {날짜} {시간} @ {장소/링크}\n각자 준비: {준비물}\n마감: {마감일}\n확인하면 👍 눌러주세요!", "impact": "정돈된 공지로 '언제였지?' 되묻기가 사라지고 팀이 굴러갑니다.", "feature": "template"}, {"title": "자취방·기숙사 주소", "pain": "배달·택배마다 상세주소와 공동현관 비번을 다시 입력합니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n공동현관: {비밀번호}\n받는 분: {이름} / {전화번호}", "impact": "배달앱 주소칸에 탭 한 번. 잘못 간 택배로 헤맬 일이 없어요.", "feature": "snippet"}, {"title": "팀플·모임 N빵 정산", "pain": "회식·과제 재료비를 걷을 때, 금액과 계좌를 매번 계산해 올립니다.", "example": "오늘 총 {총금액}원! {인원}명이니까 1인당 {1인금액}원이에요 🙏\n{은행} {계좌번호} ({이름})으로 보내주세요~", "impact": "정산 메시지를 즉시 발송, 돈 얘기 꺼내는 어색함이 줄어듭니다.", "feature": "template"}, {"title": "결석·사유 안내", "pain": "아프거나 사정이 생겼을 때, 교수님·조교께 알리는 문구가 급할수록 안 떠오릅니다.", "example": "안녕하세요 교수님, {학번} {이름}입니다.\n{날짜} {과목} 수업에 {사유}로 부득이 결석하게 되었습니다.\n관련 증빙은 {방법}으로 제출하겠습니다. 죄송합니다.", "impact": "당황한 순간에도 예의를 갖춘 연락을 즉시, 불이익을 줄입니다.", "feature": "template"}, {"title": "동아리·스터디 모집", "pain": "모집 글을 여러 커뮤니티에 올릴 때마다 소개를 조금씩 다시 씁니다.", "example": "[{모임명}] 함께할 분을 찾아요! 🙌\n활동: {활동 내용}\n시간: {요일/시간}\n장소: {장소}\n신청: {링크/연락처}\n부담 없이 문의 주세요 😊", "impact": "여러 곳에 같은 글을 붙여넣기 한 번으로, 모집이 훨씬 빨라져요.", "feature": "snippet"}, {"title": "인턴 지원 기본 정보", "pain": "지원서마다 이름·연락처·학력·링크를 반복 입력하다 지칩니다.", "example": "{이름} · {전화번호} · {이메일}\n{학교} {학과} ({학년})\n포트폴리오: {링크}\nGitHub/블로그: {링크}", "impact": "지원 폼 채우기가 빨라져, 더 많은 기회에 도전하게 됩니다.", "feature": "snippet"}, {"title": "지각·약속 변경", "pain": "수업·약속에 늦을 때, 미안한 마음에 문장이 자꾸 길어집니다.", "example": "미안해! {분}분 정도 늦을 것 같아. 거의 다 왔어 🙏", "impact": "짧고 확실한 연락으로, 기다리는 사람의 불안을 바로 덜어줍니다.", "feature": "template"}]}, {"persona": "general", "intro": "매일 쓰는 기본 정보: 계좌번호, 집 주소, 전화번호, 자주 보내는 인사. 매번 기억을 더듬거나 예전 대화를 뒤지지 않아도, 필요한 순간 탭 한 번이면 됩니다. 사소해 보여도, 하루에 쌓이면 꽤 큰 시간이에요.", "scenarios": [{"title": "계좌번호 공유", "pain": "\"계좌 좀\" 한마디에 은행 앱을 열어 번호를 확인하고 옮겨 적습니다.", "example": "{은행} {계좌번호}\n예금주: {이름}\n(카카오페이/토스도 가능해요 🙏)", "impact": "탭 한 번으로 정확히 전달, 자릿수 실수로 엉뚱한 곳에 갈 걱정이 없어요.", "feature": "snippet"}, {"title": "집 주소(배송)", "pain": "쇼핑·중고거래마다 상세주소와 연락처를 처음부터 다시 칩니다.", "example": "{우편번호}\n{주소}\n{상세주소}\n받는 분: {이름} / {전화번호}", "impact": "주소 입력이 한 번에 끝나, 오배송으로 시간 버릴 일이 줄어요.", "feature": "snippet"}, {"title": "약속 잡기", "pain": "만날 때마다 시간·장소를 조율하는 메시지를 새로 씁니다.", "example": "{날짜} {시간}에 {장소} 어때요? 안 되면 편한 시간 알려줘요 😊", "impact": "제안을 먼저 던지는 한 줄로, 약속이 훨씬 빨리 정해집니다.", "feature": "template"}, {"title": "지각 알림", "pain": "늦을 때마다 미안함에 사과 문장을 길게 고쳐 씁니다.", "example": "미안해요! {분}분 정도 늦을 것 같아요. 먼저 가 계세요 🙏", "impact": "바로 보내는 짧은 알림이, 기다리는 사람 마음을 편하게 합니다.", "feature": "template"}, {"title": "경조사 계좌 안내", "pain": "축의·조의 계좌를 물어올 때, 급하게 번호를 찾아 전합니다.", "example": "마음 전해주셔서 감사합니다.\n{은행} {계좌번호} ({예금주})\n와주시는 것만으로 큰 힘이 됩니다 🙏", "impact": "경황 없는 순간에도, 실수 없이 정중하게 안내할 수 있어요.", "feature": "snippet"}, {"title": "중고거래 안내", "pain": "거래마다 가격·상태·직거래 장소를 비슷하게 다시 씁니다.", "example": "{상품명} 판매합니다.\n가격: {가격} (네고 {가능/불가})\n상태: {상태}\n거래: {직거래 장소} 또는 택배\n연락: {연락처}", "impact": "여러 플랫폼에 붙여넣기 한 번, 문의 대응이 빨라집니다.", "feature": "snippet"}, {"title": "긴급 연락처·가족 정보", "pain": "병원 접수·서류 작성 때 보호자 연락처와 정보를 매번 떠올립니다.", "example": "보호자: {이름} ({관계})\n연락처: {전화번호}\n혈액형: {혈액형}\n특이사항/알레르기: {내용}", "impact": "급한 순간에 정확한 정보를 바로, 당황 대신 침착하게 대응합니다.", "feature": "snippet"}, {"title": "병원·예약 정보", "pain": "예약 문의·접수 때 이름·생년월일·증상을 매번 정리해 전합니다.", "example": "예약 문의드립니다.\n이름: {이름} / 생년월일: {생년월일}\n증상: {증상}\n희망 일시: {날짜} {시간}", "impact": "정리된 문의로 통화가 짧아지고, 원하는 시간을 잡기 쉬워집니다.", "feature": "template"}, {"title": "와이파이 비번 공유", "pain": "손님이 올 때마다 공유기 비밀번호를 불러주거나 사진 찾아 헤맵니다.", "example": "WiFi: {네트워크 이름}\n비밀번호: {비밀번호}\n편하게 쓰세요 😊", "impact": "한 번에 공유: \"비번 뭐예요\"를 세 번 반복하지 않아도 돼요.", "feature": "snippet"}, {"title": "자주 쓰는 안부 인사", "pain": "명절·생일마다 비슷한 안부를, 매번 처음부터 고민해 씁니다.", "example": "{이름}님, {행사} 잘 보내고 계세요? 늘 건강하고 좋은 일만 가득하시길 바라요 😊", "impact": "마음은 담되 시간은 아껴, 챙길 사람을 더 많이 챙기게 됩니다.", "feature": "template"}]}], "en": [{"persona": "nomad", "intro": "You hop between cafés and co-working spaces, working with clients across the world. Timezones, international transfers, visas, near-identical English emails: your day leaks away hunting for the same details in another tab. Save each one once, and from then on it's a single tap.", "scenarios": [{"title": "\"Send your banking details\"", "pain": "One line from a client sends you digging through your bank app for the IBAN and SWIFT again.", "example": "Name: {your name}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {bank address}\nWise: {Wise email}", "impact": "A 30-second hunt becomes one tap, and no more transposed digits.", "feature": "combo"}, {"title": "Timezone reply", "pain": "A 2 a.m. \"Can we hop on a call?\" and you're explaining your timezone yet again.", "example": "Hi {client}, I'm in GMT+{offset} ({city}) right now. I can do {time window}. Calendly: {link}", "impact": "Three back-and-forth messages collapse into one clear answer.", "feature": "template"}, {"title": "Sending an invoice", "pain": "You re-type the invoice number, amount, currency, and due date every single time.", "example": "Invoice #{no} · {currency} {amount}\nDue: {due date}\nPayment: Wise ({email})\nThank you! 🙏", "impact": "The template catches the fields you'd forget: fewer re-bills and corrections.", "feature": "template"}, {"title": "Proposal follow-up", "pain": "Three days of silence, and writing a nudge that doesn't feel pushy is hard every time.", "example": "Hi {client}, just following up on the proposal I sent {day}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}", "impact": "A polite follow-up you send instantly, rescuing deals you used to let slip.", "feature": "template"}, {"title": "Passport & visa info", "pain": "Every flight, stay, or visa form has you hunting for your passport number and expiry.", "example": "Passport no: {passport}\nFull name: {name}\nIssued / Expires: {issued} / {expiry}\nNationality: {nationality}", "impact": "Lock it behind Face ID as a secure snippet, open only when you need it.", "feature": "snippet"}, {"title": "\"Where are you based?\"", "pain": "A new client asks casually, and you over-explain the nomad thing every time.", "example": "Based nowhere in particular: currently in {city}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.", "impact": "One confident, professional answer instead of sounding unsettled.", "feature": "template"}, {"title": "Wifi dropped", "pain": "The co-working wifi dies right before a call and you scramble for an apology.", "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {min} min. Ready to continue right after. 🙏", "impact": "Even mid-panic, you send a calm, reassuring line in a second.", "feature": "snippet"}, {"title": "Currency & quote note", "pain": "Quoting a client in another currency means re-writing the FX caveat each time.", "example": "Quote: {currency} {amount} (≈ {converted} at today's rate).\nInvoiced in {currency} via Wise to keep fees low for you.", "impact": "Head off price confusion early, no haggling at payment time.", "feature": "template"}, {"title": "New client onboarding", "pain": "Right after signing, you walk every client through Calendly, Slack, payment, cadence.", "example": "Welcome aboard, {client}! Here's how we'll work:\n1. First sync: Calendly: {link}\n2. Payment (banking info attached if needed)\n3. Slack invite within 24h\n4. Progress demos every Thursday\n\nExcited to get started!", "impact": "A Combo pastes several snippets in order, onboarding drops from 5 minutes to 5 seconds.", "feature": "combo"}, {"title": "Signing off for the night", "pain": "A 10 p.m. urgent DM, and saying \"not now\" politely is awkward every time.", "example": "Hi! Signing off for the night ({time} in {city}). I'll reply first thing in my morning, thanks for your patience 🙏", "impact": "Hold your boundary without seeming rude: trust intact, burnout avoided.", "feature": "template"}]}, {"persona": "business", "intro": "Meetings, reports, replies: you rewrite the same phrases dozens of times a day. \"Please confirm,\" meeting invites, out-of-office notes. Save the polite, repeated lines once, and spend your focus on the work, not the wording.", "scenarios": [{"title": "Out-of-office reply", "pain": "Every trip means rewriting your away note, and forgetting the backup contact.", "example": "Hello, I'm out of office from {start} to {end}.\nFor anything urgent, please reach {contact} ({phone}).\nI'll reply in order once I'm back. Thank you.", "impact": "No gaps in coverage, and no inbox avalanche waiting when you return.", "feature": "template"}, {"title": "Meeting invite", "pain": "You retype the date / place / agenda format for every single meeting.", "example": "Hi {name},\nRequesting a meeting as follows:\n📅 {date} {time}\n📍 {place}\n📌 Agenda: {agenda}\nPlease confirm if you can join 😊", "impact": "A clean invite means fewer re-confirmations and far fewer no-shows.", "feature": "template"}, {"title": "Weekly status report", "pain": "Every week you start the same report format from a blank screen.", "example": "Hi team, this week's update:\n✅ Done: {done}\n🔄 In progress: {in progress}\n📋 Next week: {planned}\nHappy to discuss anything above.", "impact": "Format fixed, just fill the content. Friday evenings get lighter.", "feature": "template"}, {"title": "Intro & business card", "pain": "Every first introduction has you re-typing your role, team, and contact.", "example": "Hi, I'm {name}.\nI handle {role} at {company}.\n📧 {email} / 📞 {phone}\nLooking forward to working together 🙏", "impact": "A consistent intro builds trust, and no dropped contact from a typo.", "feature": "snippet"}, {"title": "Email signature", "pain": "Signatures don't carry across mail apps, so you paste yours by hand.", "example": "{name}\n{title} | {company}\n📧 {email}\n📞 {phone}\n🌐 {website}", "impact": "One signature, any app or device: your brand impression stays sharp.", "feature": "snippet"}, {"title": "Payment & tax details", "pain": "Every time a vendor asks for account or tax info, you dig through finance files.", "example": "Account: {bank} {number} ({holder})\nTax ID: {tax id}\nCompany: {company}\nInvoice email: {email}", "impact": "Send it exactly right, instantly: no delayed or misdirected payments.", "feature": "snippet"}, {"title": "Partnership outreach", "pain": "Proposing a collaboration, that polite opening line is always the hard part.", "example": "Hi {name},\nReaching out about a possible collaboration on {project}.\nI handle {role} at {company/name}.\nWould a quick call work? Let me know a time that suits you. Thanks!", "impact": "The first sentence you agonized over is ready, so you actually reach out more.", "feature": "template"}, {"title": "Apologizing for a late reply", "pain": "When you're slow to respond, asking forgiveness without sounding careless is delicate.", "example": "Hi {name}, apologies for the delayed reply. {reason} held things up. I'll get back to you with details by {date}. Thanks for your patience.", "impact": "A line that earns trust instead of silence, the relationship stays intact.", "feature": "template"}, {"title": "Project wrap-up thanks", "pain": "The better the project went, the more you delay the thank-you and miss the moment.", "example": "Hi {name},\nThank you sincerely for working together on {project}.\nWe reached a great outcome because of you.\nI'd love to keep the door open for what's next 😊", "impact": "Never miss the note that turns a project into the next one, repeat work follows.", "feature": "template"}, {"title": "Billing & settlement", "pain": "Month-end means assembling the statement and account details by hand again.", "example": "Hi! Here's the {month} statement.\nAmount: {amount} (incl. tax)\nAccount: {bank} {number} ({holder})\nPlease confirm 😊", "impact": "A format-perfect bill means no rewrites, and you get paid faster.", "feature": "template"}]}, {"persona": "student", "intro": "Student ID, school email, assignment cover sheets, group-project notices: campus life is one repeated form after another. Save your professor emails, group settle-ups, and apartment address, and you win back time for studying and for yourself.", "scenarios": [{"title": "Student ID + name", "pain": "Course registration, submissions, certificates: you re-type your ID and name each time.", "example": "{major} {student ID} {name}", "impact": "One tap into any field, no last-minute typo costing you points.", "feature": "snippet"}, {"title": "Email to a professor", "pain": "Professor emails demand a polite tone, so the first line makes you tense every time.", "example": "Dear Professor, this is {name} ({student ID}), from {major}.\nI'm enrolled in {course} (section {no}).\nI'm writing regarding {topic}.\nSorry to bother you, and thank you.", "impact": "Fill in the point, format's handled: you stop putting off emails.", "feature": "template"}, {"title": "Assignment cover sheet", "pain": "Every course wants a different cover format, so you fuss with it right before the deadline.", "example": "Course: {course}\nProfessor: {professor}\nSubmitted by: {major} {student ID} {name}\nDate: {date}\nTopic: {topic}", "impact": "Format saved, content refreshed: one layer of deadline stress gone.", "feature": "template"}, {"title": "Group-project notice", "pain": "Posting the meeting time and role split to the team chat is a chore every round.", "example": "[{assignment}] Team notice 📢\nNext meeting: {date} {time} @ {place/link}\nBring: {items}\nDeadline: {due}\nReact 👍 once you've seen this!", "impact": "A tidy notice ends the \"wait, when was it?\" and keeps the team moving.", "feature": "template"}, {"title": "Apartment / dorm address", "pain": "Every delivery has you re-entering the full address and door code.", "example": "{postcode}\n{address}\n{unit details}\nEntry code: {code}\nRecipient: {name} / {phone}", "impact": "One tap into the delivery app, no packages lost to a wrong address.", "feature": "snippet"}, {"title": "Splitting the bill", "pain": "Collecting money for supplies or a team dinner means recalculating and posting it each time.", "example": "Total was {total} for {people} people, so {per person} each 🙏\nSend to {bank} {number} ({name}) please~", "impact": "Send the split instantly: and the money talk feels a lot less awkward.", "feature": "template"}, {"title": "Absence notice", "pain": "When you're sick, the note to a professor or TA won't come to mind exactly when it's urgent.", "example": "Dear Professor, this is {name} ({student ID}).\nI have to miss {course} on {date} due to {reason}.\nI'll submit documentation via {method}. My apologies.", "impact": "Even flustered, you send a courteous heads-up right away: less penalty.", "feature": "template"}, {"title": "Club / study recruiting", "pain": "Posting a recruit call across communities means rewriting the intro slightly each time.", "example": "[{group}] Looking for members! 🙌\nWhat we do: {activity}\nWhen: {day/time}\nWhere: {place}\nApply: {link/contact}\nReach out anytime 😊", "impact": "Paste the same post everywhere in one tap, recruiting moves much faster.", "feature": "snippet"}, {"title": "Internship application basics", "pain": "Every application repeats your name, contact, education, and links until you're worn out.", "example": "{name} · {phone} · {email}\n{school} {major} (year {year})\nPortfolio: {link}\nGitHub/blog: {link}", "impact": "Filling forms gets fast, so you apply to more opportunities.", "feature": "snippet"}, {"title": "Running late", "pain": "When you're late to class or a friend, guilt makes the message longer and longer.", "example": "So sorry! I'll be about {min} min late. Almost there 🙏", "impact": "A short, sure message eases the waiting person right away.", "feature": "template"}]}, {"persona": "general", "intro": "The basics you use every day: account number, home address, phone number, the greetings you send often. No more digging through memory or old chats; when the moment comes, it's a single tap. Small on their own, these add up to real time across a day.", "scenarios": [{"title": "Sharing an account number", "pain": "\"What's your account?\" and you open the bank app to check and copy the number.", "example": "{bank} {account number}\nHolder: {name}\n(Apple Pay / transfer also fine 🙏)", "impact": "One tap, exactly right: no wrong digits sending money astray.", "feature": "snippet"}, {"title": "Home address (delivery)", "pain": "Shopping and resale both make you re-type the full address and contact.", "example": "{postcode}\n{address}\n{unit details}\nRecipient: {name} / {phone}", "impact": "Address entry done in one go, fewer misdeliveries eating your time.", "feature": "snippet"}, {"title": "Making plans", "pain": "Every meet-up means writing a fresh message to sort time and place.", "example": "How about {place} at {time} on {date}? If not, tell me what works 😊", "impact": "Leading with a concrete offer gets plans locked in much faster.", "feature": "template"}, {"title": "Running late", "pain": "Each time you're late, guilt has you rewriting the apology at length.", "example": "So sorry! I'll be about {min} min late. Go ahead without me 🙏", "impact": "A quick note sent right away puts the waiting person at ease.", "feature": "template"}, {"title": "Event account (gifts/condolences)", "pain": "When someone asks for the gift or condolence account, you scramble for the number.", "example": "Thank you for the kind thought.\n{bank} {account number} ({holder})\nYour presence alone means so much 🙏", "impact": "Even in a hectic moment, you share it correctly and graciously.", "feature": "snippet"}, {"title": "Resale listing", "pain": "Every sale has you rewriting price, condition, and meet-up spot the same way.", "example": "Selling: {item}\nPrice: {price} (negotiable: {yes/no})\nCondition: {condition}\nMeet: {location} or shipping\nContact: {contact}", "impact": "Paste to any platform in one tap, you answer buyers faster.", "feature": "snippet"}, {"title": "Emergency & family info", "pain": "Hospital check-in and forms have you recalling guardian contact and details every time.", "example": "Guardian: {name} ({relation})\nPhone: {phone}\nBlood type: {blood type}\nNotes/allergies: {details}", "impact": "Accurate info in an urgent moment, calm response instead of panic.", "feature": "snippet"}, {"title": "Appointment / booking info", "pain": "Booking calls have you assembling name, birth date, and symptoms each time.", "example": "I'd like to book an appointment.\nName: {name} / DOB: {DOB}\nReason: {reason}\nPreferred: {date} {time}", "impact": "A tidy request shortens the call and lands the time you want.", "feature": "template"}, {"title": "Sharing wifi password", "pain": "Every guest means reading out the router password or hunting for a photo of it.", "example": "WiFi: {network name}\nPassword: {password}\nEnjoy 😊", "impact": "Share it once: no repeating \"what's the password?\" three times.", "feature": "snippet"}, {"title": "Go-to greetings", "pain": "Holidays and birthdays have you drafting a similar note from scratch each time.", "example": "Hi {name}, hope your {occasion} is wonderful! Wishing you good health and only good things ahead 😊", "impact": "Heartfelt but quick: so you actually reach everyone you meant to.", "feature": "template"}]}],
+        'zh-Hans': [
+         {
+          "persona": "nomad",
+          "intro": "你在咖啡馆和联合办公之间辗转，和海外客户打交道。时差、跨境汇款、签证、每次都差不多的英文邮件：光是切到别的窗口找信息再粘回来，一天就漏掉了。存一次，之后一点就好。",
+          "scenarios": [
+           {
+            "title": "海外汇款信息请求",
+            "pain": "对方一句 \"Send me your banking details\"，你又要翻银行 App 找 IBAN 和 SWIFT。",
+            "example": "Name: {英文姓名}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {银行地址}\nWise: {Wise 邮箱}",
+            "impact": "每次收到汇款请求，30 秒的翻找变成一点。也不用担心数字打错。",
+            "feature": "combo"
+           },
+           {
+            "title": "时差说明一句话",
+            "pain": "凌晨两点收到 \"Can we hop on a call?\"，每次都要重新解释时差，很累。",
+            "example": "Hi {姓名}, I'm in GMT+{时差} ({城市}) right now. I can do {可约时段}. Calendly: {链接}",
+            "impact": "“你几点方便”来回三封，缩成一封。",
+            "feature": "template"
+           },
+           {
+            "title": "发送发票",
+            "pain": "发票编号、金额、币种、期限，每次都要手动对着填。",
+            "example": "Invoice #{编号} · {币种} {金额}\nDue: {期限}\nPayment: Wise ({邮箱})\nThank you! 🙏",
+            "impact": "容易漏的项目由模板兜住，重开发票和更正邮件都少了。",
+            "feature": "template"
+           },
+           {
+            "title": "方案跟进",
+            "pain": "方案发出去第三天还没回音，写得不像催，每次都难。",
+            "example": "Hi {客户}, just following up on the proposal I sent {星期}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {姓名}",
+            "impact": "礼貌的跟进不用再琢磨，立刻就发，救回本来会丢的单子。",
+            "feature": "template"
+           },
+           {
+            "title": "护照与签证信息",
+            "pain": "订机票、订住处、办签证，每次都要翻抽屉确认护照号和有效期。",
+            "example": "护照号：{护照号}\n英文姓名：{英文姓名}\n签发/到期：{签发日} / {到期日}\n国籍：{国籍}",
+            "impact": "存成加密短语（生物识别）锁着，需要时才打开，安全地填进去。",
+            "feature": "snippet"
+           },
+           {
+            "title": "“你住在哪里？”的回答",
+            "pain": "新客户随口一问，你每次都要长篇解释自己是数字游民。",
+            "example": "Based nowhere in particular: currently in {城市}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.",
+            "impact": "不显得漂泊不定，一次就传达出专业的印象。",
+            "feature": "template"
+           },
+           {
+            "title": "断网通知",
+            "pain": "通话前联合办公的 Wi-Fi 断了，你手忙脚乱地挤出一条道歉消息。",
+            "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {分钟}分. Ready to continue right after. 🙏",
+            "impact": "慌乱的时刻也能立刻发出一条镇定、可靠的话。",
+            "feature": "snippet"
+           },
+           {
+            "title": "汇率与报价说明",
+            "pain": "给用别的币种的客户报价时，汇率说明每次都要重写。",
+            "example": "Quote: {币种} {金额} (≈ {折算额} at today's rate).\nInvoiced in {币种} via Wise to keep fees low for you.",
+            "impact": "提前堵住价格误解，结算时不用再拉扯。",
+            "feature": "template"
+           },
+           {
+            "title": "新客户开场",
+            "pain": "签下之后，Calendly、Slack、付款、协作方式，每次都要按顺序讲一遍。",
+            "example": "欢迎，{客户}！接下来是这样：\n1. 首次会议 Calendly：{链接}\n2. 付款（需要的话附上汇款信息）\n3. Slack 邀请 24 小时内发出\n4. 每周四进度演示\n\n请多关照！",
+            "impact": "用组合把多条短语按顺序自动填入，开场邮件从 5 分钟变成 5 秒。",
+            "feature": "combo"
+           },
+           {
+            "title": "收工·下线",
+            "pain": "晚上十点的急事私信，要礼貌地说“现在不方便”，每次都难写。",
+            "example": "Hi! Signing off for the night ({时间} in {城市}). I'll reply first thing in my morning. Thanks for your patience 🙏",
+            "impact": "守住边界又不失礼，不用把自己耗干也能维持信任。",
+            "feature": "template"
+           }
+          ]
+         },
+         {
+          "persona": "business",
+          "intro": "开会、汇报、回信：同样的话一天要重写几十遍。“麻烦确认一下”、会议通知、不在办公室的回复。把这些客气的重复句子存起来，脑子就能用在工作上，而不是用在手上。",
+          "scenarios": [
+           {
+            "title": "不在办公室的自动回复",
+            "pain": "每次休假、出差都要重写不在通知，还常常漏掉代理人的联系方式。",
+            "example": "您好。本人 {开始日} 至 {结束日} 不在办公室。\n紧急事务请联系 {负责人}（{联系方式}）。\n回来后会依次回复。谢谢。",
+            "impact": "通知不漏项，工作不断档，回来也不用面对一堆积压。",
+            "feature": "template"
+           },
+           {
+            "title": "会议安排通知",
+            "pain": "每次约会议，时间、地点、议题的格式都要重新打一遍。",
+            "example": "{姓名} 您好，\n想约以下时间开个会。\n📅 时间：{日期} {时间}\n📍 地点：{地点}\n📌 议题：{议题}\n麻烦回复是否方便出席 😊",
+            "impact": "通知规整，确认邮件少了，缺席也明显减少。",
+            "feature": "template"
+           },
+           {
+            "title": "周报",
+            "pain": "每周同样格式的汇报，都要从空白页重新开始。",
+            "example": "您好，本周工作汇报如下。\n✅ 已完成：{完成事项}\n🔄 进行中：{进行中}\n📋 下周计划：{计划事项}\n有任何问题请随时告诉我。",
+            "impact": "格式固定，只填内容：周五傍晚轻松多了。",
+            "feature": "template"
+           },
+           {
+            "title": "名片·自我介绍",
+            "pain": "每次初次打招呼，单位、职务、联系方式写得都不一样。",
+            "example": "您好，我是 {姓名}。\n在 {单位} 负责 {工作}。\n📧 {邮箱} / 📞 {电话}\n请多关照 🙏",
+            "impact": "一致的自我介绍让人放心，也不会因为写错联系方式而失联。",
+            "feature": "snippet"
+           },
+           {
+            "title": "邮件签名",
+            "pain": "换个邮件 App 签名就带不过去，每次都要手动贴。",
+            "example": "{姓名}\n{职务} | {公司名}\n📧 {邮箱}\n📞 {电话}\n🌐 {主页}",
+            "impact": "不管从哪个 App、哪台设备发，签名都一致，品牌印象不会散掉。",
+            "feature": "snippet"
+           },
+           {
+            "title": "发票·收款信息",
+            "pain": "客户每次问账号和税号，你都要打开财务文件确认。",
+            "example": "收款账户：{银行} {账号}（{户名}）\n纳税人识别号：{税号}\n名称：{单位名称}\n发票邮箱：{邮箱}",
+            "impact": "一问就能准确给出，结算不再拖延，也不会打错款。",
+            "feature": "snippet"
+           },
+           {
+            "title": "合作·外包提案",
+            "pain": "提合作时，既要介绍自己又要客气地说明来意的第一封邮件，总是难写。",
+            "example": "{负责人} 您好，\n想就 {项目} 的合作与您联系。\n我在 {公司/姓名} 负责 {工作}。\n方便简单通个电话吗？请告诉我合适的时间。谢谢。",
+            "impact": "那句每次都要斟酌的开场立刻发得出去，提案的次数本身也变多了。",
+            "feature": "template"
+           },
+           {
+            "title": "回复延迟致歉",
+            "pain": "回复晚了的时候，怎么说才不显得敷衍，很费神。",
+            "example": "{姓名} 您好，抱歉回复晚了。因为 {原因}，确认花了些时间。我会在 {时间} 前整理好再联系您。请您谅解。",
+            "impact": "用一句让人安心的话代替沉默，关系不会因此受损。",
+            "feature": "template"
+           },
+           {
+            "title": "项目收尾致谢",
+            "pain": "越是顺利结束的项目，收尾问候越容易一拖再拖，最后错过时机。",
+            "example": "{姓名} 您好，\n这次 {项目} 承蒙一起合作，非常感谢。\n多亏了您，才有这么好的结果。\n希望往后也能继续合作 😊",
+            "impact": "把关系接到下一件事上的问候不会漏掉，也更容易带来回头单。",
+            "feature": "template"
+           },
+           {
+            "title": "结算·费用请款",
+            "pain": "每到月底整理结算明细和账号发出去，都很费手。",
+            "example": "您好！这是 {月} 月的结算明细。\n金额：{金额} 元（含税）\n收款账户：{银行} {账号}（{户名}）\n麻烦确认 😊",
+            "impact": "格式不出错，不用重写，回款也更快。",
+            "feature": "template"
+           }
+          ]
+         },
+         {
+          "persona": "student",
+          "intro": "学号、学校邮箱、作业提交格式、小组通知：学校生活就是一连串的重复输入。从给老师的邮件到小组分摊、再到租房地址，存起来之后，留给学习和自己的时间就多了。",
+          "scenarios": [
+           {
+            "title": "学号 + 姓名",
+            "pain": "选课、交作业、开证明，每次都要重新打学号和姓名。",
+            "example": "{院系} {学号} {姓名}",
+            "impact": "提交栏里点一下。也不会在截止前因为打错字被扣分。",
+            "feature": "snippet"
+           },
+           {
+            "title": "给老师的邮件",
+            "pain": "给老师写邮件要客气，第一句话每次都让人紧张。",
+            "example": "老师您好，我是 {院系} {学号} {姓名}。\n正在上您的 {课程}（{班次}）。\n想就 {事由} 向您请教。\n打扰您了，谢谢老师。",
+            "impact": "不用再操心格式，只填事由就好，也不会一拖再拖不敢发。",
+            "feature": "template"
+           },
+           {
+            "title": "作业封面·提交格式",
+            "pain": "每门课的封面格式都不一样，交之前还要花时间对格式。",
+            "example": "课程名称：{课程}\n任课老师：{老师}\n提交人：{院系} {学号} {姓名}\n提交日期：{日期}\n题目：{题目}",
+            "impact": "格式存好，只更新内容：截止前的压力少一层。",
+            "feature": "template"
+           },
+           {
+            "title": "小组作业通知",
+            "pain": "在小组群里整理会议时间和分工，每次都挺麻烦。",
+            "example": "【{作业}】小组通知 📢\n下次开会：{日期} {时间} @ {地点/链接}\n各自准备：{准备内容}\n截止：{截止日}\n看到请回 👍！",
+            "impact": "通知规整，没人再问“是什么时候来着？”，小组转得起来。",
+            "feature": "template"
+           },
+           {
+            "title": "租房·宿舍地址",
+            "pain": "每次点外卖、收快递都要重新填详细地址和门禁密码。",
+            "example": "{邮编}\n{地址}\n{门牌详情}\n单元门禁：{密码}\n收件人：{姓名} / {电话}",
+            "impact": "地址栏点一下。也不用为送错的快递跑来跑去。",
+            "feature": "snippet"
+           },
+           {
+            "title": "小组·聚会 AA 分摊",
+            "pain": "收聚餐费或材料费时，金额和账号每次都要算好再发。",
+            "example": "今天一共 {总金额} 元！{人数} 个人，每人 {人均} 元 🙏\n微信或支付宝转给 {姓名} 就行～",
+            "impact": "分摊消息立刻发出去，开口谈钱的尴尬也少了。",
+            "feature": "template"
+           },
+           {
+            "title": "请假·说明事由",
+            "pain": "生病或有事的时候，越急越想不出该怎么跟老师、助教说。",
+            "example": "老师您好，我是 {学号} {姓名}。\n{日期} 的 {课程} 因为 {事由} 实在无法到课。\n相关证明我会通过 {方式} 提交。非常抱歉。",
+            "impact": "慌乱的时候也能立刻发出得体的说明，少受影响。",
+            "feature": "template"
+           },
+           {
+            "title": "社团·学习小组招人",
+            "pain": "在好几个平台发招募帖时，介绍每次都要重写一点。",
+            "example": "【{小组名称}】招人啦！🙌\n内容：{活动内容}\n时间：{星期/时间}\n地点：{地点}\n报名：{链接/联系方式}\n随时来问 😊",
+            "impact": "同一段话在多个地方一贴就好，招人快多了。",
+            "feature": "snippet"
+           },
+           {
+            "title": "实习申请基本信息",
+            "pain": "每份申请表都要重复填姓名、联系方式、学历和链接，填到累。",
+            "example": "{姓名} · {电话} · {邮箱}\n{学校} {院系}（{年级}）\n作品集：{链接}\nGitHub/博客：{链接}",
+            "impact": "申请表填得快，就更愿意多投几家。",
+            "feature": "snippet"
+           },
+           {
+            "title": "迟到·改约",
+            "pain": "上课或约人要迟到时，因为不好意思，句子越写越长。",
+            "example": "抱歉！我大概会晚 {分钟} 分钟，快到了 🙏",
+            "impact": "一条又短又明确的消息，马上让等的人安心。",
+            "feature": "template"
+           }
+          ]
+         },
+         {
+          "persona": "general",
+          "intro": "每天都要用的基本信息：银行账号、家庭住址、电话号码、常发的问候。不用再回忆，也不用翻旧聊天记录，需要的时候点一下就好。看着不起眼，一天攒下来其实是不少时间。",
+          "scenarios": [
+           {
+            "title": "分享银行账号",
+            "pain": "一句“把账号发我”，你就得打开银行 App 查号码再抄过来。",
+            "example": "{银行} {账号}\n户名：{姓名}\n（微信、支付宝也可以 🙏）",
+            "impact": "一点就准确发出，也不用担心少一位数转错地方。",
+            "feature": "snippet"
+           },
+           {
+            "title": "家庭住址（收货）",
+            "pain": "网购、二手交易，每次都要从头打详细地址和联系方式。",
+            "example": "{邮编}\n{地址}\n{门牌详情}\n收件人：{姓名} / {电话}",
+            "impact": "地址一次填完，也不会因为送错而白白花时间。",
+            "feature": "snippet"
+           },
+           {
+            "title": "约时间",
+            "pain": "每次约见面，时间和地点的消息都要重写。",
+            "example": "{日期} {时间} 在 {地点} 怎么样？不方便的话告诉我你什么时候有空 😊",
+            "impact": "主动给出方案的一句话，见面定得快多了。",
+            "feature": "template"
+           },
+           {
+            "title": "迟到通知",
+            "pain": "每次要迟到，都因为过意不去而把道歉改来改去。",
+            "example": "不好意思！我大概会晚 {分钟} 分钟，你们先过去 🙏",
+            "impact": "马上发出的一条短消息，让等的人心里踏实。",
+            "feature": "template"
+           },
+           {
+            "title": "随礼账号",
+            "pain": "别人问份子钱转到哪里时，你还要急着找账号。",
+            "example": "谢谢你的心意。\n{银行} {账号}（{户名}）\n你能来就已经是很大的支持了 🙏",
+            "impact": "就算手忙脚乱，也能不出错、得体地回复。",
+            "feature": "snippet"
+           },
+           {
+            "title": "二手交易说明",
+            "pain": "每次出二手，价格、成色、面交地点都要写得差不多一遍。",
+            "example": "出 {商品名称}。\n价格：{价格}（{可议价/不议价}）\n成色：{成色}\n交易：{面交地点} 或快递\n联系：{联系方式}",
+            "impact": "多个平台一贴就好，回复咨询也更快。",
+            "feature": "snippet"
+           },
+           {
+            "title": "紧急联系人·家人信息",
+            "pain": "医院挂号、填表时，每次都要现想家人的联系方式和信息。",
+            "example": "紧急联系人：{姓名}（{关系}）\n电话：{电话}\n血型：{血型}\n特殊情况/过敏：{内容}",
+            "impact": "着急的时候也能马上给出准确信息，不慌不忙地应对。",
+            "feature": "snippet"
+           },
+           {
+            "title": "医院·预约信息",
+            "pain": "预约或挂号时，姓名、出生日期、症状每次都要重新整理。",
+            "example": "想预约。\n姓名：{姓名} / 出生日期：{出生日期}\n症状：{症状}\n希望时间：{日期} {时间}",
+            "impact": "说明整齐，电话变短，也更容易约到想要的时间。",
+            "feature": "template"
+           },
+           {
+            "title": "分享 Wi-Fi 密码",
+            "pain": "每次有客人来，都要念一遍路由器密码，或者翻照片找。",
+            "example": "WiFi：{网络名称}\n密码：{密码}\n随便用 😊",
+            "impact": "一次就分享完：不用把“密码多少”重复三遍。",
+            "feature": "snippet"
+           },
+           {
+            "title": "常用问候",
+            "pain": "过节、过生日，差不多的问候每次都要从头想。",
+            "example": "{姓名}，{节日} 过得好吗？祝你一直健康，好事不断 😊",
+            "impact": "心意照旧，时间省下来，能顾到的人反而更多。",
+            "feature": "template"
+           }
+          ]
+         }
+        ],
+            'zh-Hant': [
+ {
+  "persona": "nomad",
+  "intro": "你在咖啡館和聯合辦公之間輾轉，和海外客戶打交道。時差、跨境匯款、簽證、每次都差不多的英文郵件：光是切到別的窗口找資訊再貼回來，一天就漏掉了。存一次，之後一點就好。",
+  "scenarios": [
+   {
+    "title": "海外匯款資訊請求",
+    "pain": "對方一句 \"Send me your banking details\"，你又要翻銀行 App 找 IBAN 和 SWIFT。",
+    "example": "Name: {英文姓名}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {銀行地址}\nWise: {Wise 信箱}",
+    "impact": "每次收到匯款請求，30 秒的翻找變成一點。也不用擔心數字打錯。",
+    "feature": "combo"
+   },
+   {
+    "title": "時差說明一句話",
+    "pain": "凌晨兩點收到 \"Can we hop on a call?\"，每次都要重新解釋時差，很累。",
+    "example": "Hi {姓名}, I'm in GMT+{時差} ({城市}) right now. I can do {可約時段}. Calendly: {連結}",
+    "impact": "「你幾點方便」來回三封，縮成一封。",
+    "feature": "template"
+   },
+   {
+    "title": "發送發票",
+    "pain": "發票編號、金額、幣種、期限，每次都要手動對著填。",
+    "example": "Invoice #{編號} · {幣種} {金額}\nDue: {期限}\nPayment: Wise ({信箱})\nThank you! 🙏",
+    "impact": "容易漏的項目由範本兜住，重開發票和更正郵件都少了。",
+    "feature": "template"
+   },
+   {
+    "title": "方案跟進",
+    "pain": "方案發出去第三天還沒回音，寫得不像催，每次都難。",
+    "example": "Hi {客戶}, just following up on the proposal I sent {星期}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {姓名}",
+    "impact": "禮貌的跟進不用再琢磨，立刻就發，救回本來會丟的單子。",
+    "feature": "template"
+   },
+   {
+    "title": "護照與簽證資訊",
+    "pain": "訂機票、訂住處、辦簽證，每次都要翻抽屜確認護照號和有效期。",
+    "example": "護照號：{護照號}\n英文姓名：{英文姓名}\n簽發/到期：{簽發日} / {到期日}\n國籍：{國籍}",
+    "impact": "存成加密短語（生物識別）鎖著，需要時才開啟，安全地填進去。",
+    "feature": "snippet"
+   },
+   {
+    "title": "「你住在哪裡？」的回答",
+    "pain": "新客戶隨口一問，你每次都要長篇解釋自己是數位遊民。",
+    "example": "Based nowhere in particular: currently in {城市}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.",
+    "impact": "不顯得漂泊不定，一次就傳達出專業的印象。",
+    "feature": "template"
+   },
+   {
+    "title": "斷網通知",
+    "pain": "通話前聯合辦公的 Wi-Fi 斷了，你手忙腳亂地擠出一條道歉訊息。",
+    "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {分鐘}分. Ready to continue right after. 🙏",
+    "impact": "慌亂的時刻也能立刻發出一條鎮定、可靠的話。",
+    "feature": "snippet"
+   },
+   {
+    "title": "匯率與報價說明",
+    "pain": "給用別的幣種的客戶報價時，匯率說明每次都要重寫。",
+    "example": "Quote: {幣種} {金額} (≈ {折算額} at today's rate).\nInvoiced in {幣種} via Wise to keep fees low for you.",
+    "impact": "提前堵住價格誤解，結算時不用再拉扯。",
+    "feature": "template"
+   },
+   {
+    "title": "新客戶開場",
+    "pain": "簽下之後，Calendly、Slack、付款、協作方式，每次都要按順序講一遍。",
+    "example": "歡迎，{客戶}！接下來是這樣：\n1. 首次會議 Calendly：{連結}\n2. 付款（需要的話附上匯款資訊）\n3. Slack 邀請 24 小時內發出\n4. 每週四進度示範\n\n請多關照！",
+    "impact": "用組合把多條短語按順序自動填入，開場郵件從 5 分鐘變成 5 秒。",
+    "feature": "combo"
+   },
+   {
+    "title": "收工·下線",
+    "pain": "晚上十點的急事私訊，要禮貌地說「現在不方便」，每次都難寫。",
+    "example": "Hi! Signing off for the night ({時間} in {城市}). I'll reply first thing in my morning. Thanks for your patience 🙏",
+    "impact": "守住邊界又不失禮，不用把自己耗乾也能維持信任。",
+    "feature": "template"
+   }
+  ]
+ },
+ {
+  "persona": "business",
+  "intro": "開會、彙報、回信：同樣的話一天要重寫幾十遍。「麻煩確認一下」、會議通知、不在辦公室的回覆。把這些客氣的重複句子存起來，腦子就能用在工作上，而不是用在手上。",
+  "scenarios": [
+   {
+    "title": "不在辦公室的自動回覆",
+    "pain": "每次休假、出差都要重寫不在通知，還常常漏掉代理人的聯繫方式。",
+    "example": "您好。本人 {開始日} 至 {結束日} 不在辦公室。\n緊急事務請聯繫 {負責人}（{聯繫方式}）。\n回來後會依次回覆。謝謝。",
+    "impact": "通知不漏項，工作不斷檔，回來也不用面對一堆積壓。",
+    "feature": "template"
+   },
+   {
+    "title": "會議安排通知",
+    "pain": "每次約會議，時間、地點、議題的格式都要重新打一遍。",
+    "example": "{姓名} 您好，\n想約以下時間開個會。\n📅 時間：{日期} {時間}\n📍 地點：{地點}\n📌 議題：{議題}\n麻煩回覆是否方便出席 😊",
+    "impact": "通知規整，確認郵件少了，缺席也明顯減少。",
+    "feature": "template"
+   },
+   {
+    "title": "周報",
+    "pain": "每周同樣格式的彙報，都要從空白頁重新開始。",
+    "example": "您好，本週工作彙報如下。\n✅ 已完成：{完成事項}\n🔄 進行中：{進行中}\n📋 下周計劃：{計劃事項}\n有任何問題請隨時告訴我。",
+    "impact": "格式固定，只填內容：週五傍晚輕鬆多了。",
+    "feature": "template"
+   },
+   {
+    "title": "名片·自我介紹",
+    "pain": "每次初次打招呼，單位、職務、聯繫方式寫得都不一樣。",
+    "example": "您好，我是 {姓名}。\n在 {單位} 負責 {工作}。\n📧 {信箱} / 📞 {電話}\n請多關照 🙏",
+    "impact": "一致的自我介紹讓人放心，也不會因為寫錯聯繫方式而失聯。",
+    "feature": "snippet"
+   },
+   {
+    "title": "郵件簽名",
+    "pain": "換個郵件 App 簽名就帶不過去，每次都要手動貼。",
+    "example": "{姓名}\n{職務} | {公司名}\n📧 {信箱}\n📞 {電話}\n🌐 {主頁}",
+    "impact": "不管從哪個 App、哪台裝置發，簽名都一致，品牌印象不會散掉。",
+    "feature": "snippet"
+   },
+   {
+    "title": "發票·收款資訊",
+    "pain": "客戶每次問帳號和稅號，你都要開啟財務檔案確認。",
+    "example": "收款帳戶：{銀行} {帳號}（{戶名}）\n統一編號：{稅號}\n名稱：{單位名稱}\n發票信箱：{信箱}",
+    "impact": "一問就能準確給出，結算不再拖延，也不會打錯款。",
+    "feature": "snippet"
+   },
+   {
+    "title": "合作·外包提案",
+    "pain": "提合作時，既要介紹自己又要客氣地說明來意的第一封郵件，總是難寫。",
+    "example": "{負責人} 您好，\n想就 {項目} 的合作與您聯繫。\n我在 {公司/姓名} 負責 {工作}。\n方便簡單通個電話嗎？請告訴我合適的時間。謝謝。",
+    "impact": "那句每次都要斟酌的開場立刻發得出去，提案的次數本身也變多了。",
+    "feature": "template"
+   },
+   {
+    "title": "回覆延遲致歉",
+    "pain": "回覆晚了的時候，怎麼說才不顯得敷衍，很費神。",
+    "example": "{姓名} 您好，抱歉回覆晚了。因為 {原因}，確認花了些時間。我會在 {時間} 前整理好再聯繫您。請您諒解。",
+    "impact": "用一句讓人安心的話代替沈默，關係不會因此受損。",
+    "feature": "template"
+   },
+   {
+    "title": "項目收尾致謝",
+    "pain": "越是順利結束的項目，收尾問候越容易一拖再拖，最後錯過時機。",
+    "example": "{姓名} 您好，\n這次 {項目} 承蒙一起合作，非常感謝。\n多虧了您，才有這麼好的結果。\n希望往後也能繼續合作 😊",
+    "impact": "把關係接到下一件事上的問候不會漏掉，也更容易帶來回頭單。",
+    "feature": "template"
+   },
+   {
+    "title": "結算·費用請款",
+    "pain": "每到月底整理結算明細和帳號發出去，都很費手。",
+    "example": "您好！這是 {月} 月的結算明細。\n金額：{金額} 元（含稅）\n收款帳戶：{銀行} {帳號}（{戶名}）\n麻煩確認 😊",
+    "impact": "格式不出錯，不用重寫，回款也更快。",
+    "feature": "template"
+   }
+  ]
+ },
+ {
+  "persona": "student",
+  "intro": "學號、學校信箱、作業提交格式、小組通知：學校生活就是一連串的重複輸入。從給老師的郵件到小組分攤、再到租房地址，存起來之後，留給學習和自己的時間就多了。",
+  "scenarios": [
+   {
+    "title": "學號 + 姓名",
+    "pain": "選課、交作業、開證明，每次都要重新打學號和姓名。",
+    "example": "{院系} {學號} {姓名}",
+    "impact": "提交欄裡點一下。也不會在截止前因為打錯字被扣分。",
+    "feature": "snippet"
+   },
+   {
+    "title": "給老師的郵件",
+    "pain": "給老師寫郵件要客氣，第一句話每次都讓人緊張。",
+    "example": "老師您好，我是 {院系} {學號} {姓名}。\n正在上您的 {課程}（{班次}）。\n想就 {事由} 向您請教。\n打擾您了，謝謝老師。",
+    "impact": "不用再操心格式，只填事由就好，也不會一拖再拖不敢發。",
+    "feature": "template"
+   },
+   {
+    "title": "作業封面·提交格式",
+    "pain": "每門課的封面格式都不一樣，交之前還要花時間對格式。",
+    "example": "課程名稱：{課程}\n任課老師：{老師}\n提交人：{院系} {學號} {姓名}\n提交日期：{日期}\n題目：{題目}",
+    "impact": "格式存好，只更新內容：截止前的壓力少一層。",
+    "feature": "template"
+   },
+   {
+    "title": "小組作業通知",
+    "pain": "在小組群裡整理會議時間和分工，每次都挺麻煩。",
+    "example": "【{作業}】小組通知 📢\n下次開會：{日期} {時間} @ {地點/連結}\n各自準備：{準備內容}\n截止：{截止日}\n看到請回 👍！",
+    "impact": "通知規整，沒人再問「是什麼時候來著？」，小組轉得起來。",
+    "feature": "template"
+   },
+   {
+    "title": "租房·宿舍地址",
+    "pain": "每次點外送、收快遞都要重新填詳細地址和門禁密碼。",
+    "example": "{郵遞區號}\n{地址}\n{門牌詳情}\n單元門禁：{密碼}\n收件人：{姓名} / {電話}",
+    "impact": "地址欄點一下。也不用為送錯的快遞跑來跑去。",
+    "feature": "snippet"
+   },
+   {
+    "title": "小組·聚會 AA 分攤",
+    "pain": "收聚餐費或材料費時，金額和帳號每次都要算好再發。",
+    "example": "今天一共 {總金額} 元！{人數} 個人，每人 {人均} 元 🙏\nLINE Pay 或街口支付轉給 {姓名} 就行～",
+    "impact": "分攤訊息立刻發出去，開口談錢的尷尬也少了。",
+    "feature": "template"
+   },
+   {
+    "title": "請假·說明事由",
+    "pain": "生病或有事的時候，越急越想不出該怎麼跟老師、助教說。",
+    "example": "老師您好，我是 {學號} {姓名}。\n{日期} 的 {課程} 因為 {事由} 實在無法到課。\n相關證明我會透過 {方式} 提交。非常抱歉。",
+    "impact": "慌亂的時候也能立刻發出得體的說明，少受影響。",
+    "feature": "template"
+   },
+   {
+    "title": "社團·學習小組招人",
+    "pain": "在好幾個平台發招募帖時，介紹每次都要重寫一點。",
+    "example": "【{小組名稱}】招人啦！🙌\n內容：{活動內容}\n時間：{星期/時間}\n地點：{地點}\n報名：{連結/聯繫方式}\n隨時來問 😊",
+    "impact": "同一段話在多個地方一貼就好，招人快多了。",
+    "feature": "snippet"
+   },
+   {
+    "title": "實習申請基本資訊",
+    "pain": "每份申請表都要重複填姓名、聯繫方式、學歷和連結，填到累。",
+    "example": "{姓名} · {電話} · {信箱}\n{學校} {院系}（{年級}）\n作品集：{連結}\nGitHub/博客：{連結}",
+    "impact": "申請表填得快，就更願意多投幾家。",
+    "feature": "snippet"
+   },
+   {
+    "title": "遲到·改約",
+    "pain": "上課或約人要遲到時，因為不好意思，句子越寫越長。",
+    "example": "抱歉！我大概會晚 {分鐘} 分鐘，快到了 🙏",
+    "impact": "一條又短又明確的訊息，馬上讓等的人安心。",
+    "feature": "template"
+   }
+  ]
+ },
+ {
+  "persona": "general",
+  "intro": "每天都要用的基本資訊：銀行帳號、家庭住址、電話號碼、常發的問候。不用再回憶，也不用翻舊聊天記錄，需要的時候點一下就好。看著不起眼，一天攢下來其實是不少時間。",
+  "scenarios": [
+   {
+    "title": "分享銀行帳號",
+    "pain": "一句「把帳號發我」，你就得開啟銀行 App 查號碼再抄過來。",
+    "example": "{銀行} {帳號}\n戶名：{姓名}\n（LINE Pay、街口支付也可以 🙏）",
+    "impact": "一點就準確發出，也不用擔心少一位數轉錯地方。",
+    "feature": "snippet"
+   },
+   {
+    "title": "家庭住址（收貨）",
+    "pain": "網購、二手交易，每次都要從頭打詳細地址和聯繫方式。",
+    "example": "{郵遞區號}\n{地址}\n{門牌詳情}\n收件人：{姓名} / {電話}",
+    "impact": "地址一次填完，也不會因為送錯而白白花時間。",
+    "feature": "snippet"
+   },
+   {
+    "title": "約時間",
+    "pain": "每次約見面，時間和地點的訊息都要重寫。",
+    "example": "{日期} {時間} 在 {地點} 怎麼樣？不方便的話告訴我你什麼時候有空 😊",
+    "impact": "主動給出方案的一句話，見面定得快多了。",
+    "feature": "template"
+   },
+   {
+    "title": "遲到通知",
+    "pain": "每次要遲到，都因為過意不去而把道歉改來改去。",
+    "example": "不好意思！我大概會晚 {分鐘} 分鐘，你們先過去 🙏",
+    "impact": "馬上發出的一條短訊息，讓等的人心裡踏實。",
+    "feature": "template"
+   },
+   {
+    "title": "隨禮帳號",
+    "pain": "別人問份子錢轉到哪裡時，你還要急著找帳號。",
+    "example": "謝謝你的心意。\n{銀行} {帳號}（{戶名}）\n你能來就已經是很大的支援了 🙏",
+    "impact": "就算手忙腳亂，也能不出錯、得體地回覆。",
+    "feature": "snippet"
+   },
+   {
+    "title": "二手交易說明",
+    "pain": "每次出二手，價格、成色、面交地點都要寫得差不多一遍。",
+    "example": "出 {商品名稱}。\n價格：{價格}（{可議價/不議價}）\n成色：{成色}\n交易：{面交地點} 或快遞\n聯繫：{聯繫方式}",
+    "impact": "多個平台一貼就好，回覆咨詢也更快。",
+    "feature": "snippet"
+   },
+   {
+    "title": "緊急聯繫人·家人資訊",
+    "pain": "醫院掛號、填表時，每次都要現想家人的聯繫方式和資訊。",
+    "example": "緊急聯繫人：{姓名}（{關係}）\n電話：{電話}\n血型：{血型}\n特殊情況/過敏：{內容}",
+    "impact": "著急的時候也能馬上給出準確資訊，不慌不忙地應對。",
+    "feature": "snippet"
+   },
+   {
+    "title": "醫院·預約資訊",
+    "pain": "預約或掛號時，姓名、出生日期、症狀每次都要重新整理。",
+    "example": "想預約。\n姓名：{姓名} / 出生日期：{出生日期}\n症狀：{症狀}\n希望時間：{日期} {時間}",
+    "impact": "說明整齊，電話變短，也更容易約到想要的時間。",
+    "feature": "template"
+   },
+   {
+    "title": "分享 Wi-Fi 密碼",
+    "pain": "每次有客人來，都要念一遍路由器密碼，或者翻照片找。",
+    "example": "WiFi：{網路名稱}\n密碼：{密碼}\n隨便用 😊",
+    "impact": "一次就分享完：不用把「密碼多少」重複三遍。",
+    "feature": "snippet"
+   },
+   {
+    "title": "常用問候",
+    "pain": "過節、過生日，差不多的問候每次都要從頭想。",
+    "example": "{姓名}，{節日} 過得好嗎？祝你一直健康，好事不斷 😊",
+    "impact": "心意照舊，時間省下來，能顧到的人反而更多。",
+    "feature": "template"
+   }
+  ]
+ }
+]
+    };
 
         const PERSONA_META = {
             ko: {
@@ -685,11 +1350,61 @@
                 student:  { icon: "🎓", name: "Student" },
                 general:  { icon: "👤", name: "Everyday" }
             }
+        ,
+            'zh-Hans': {
+             "nomad": {
+              "icon": "🌏",
+              "name": "数字游民 · 自由职业"
+             },
+             "business": {
+              "icon": "💼",
+              "name": "商务 · 上班族"
+             },
+             "student": {
+              "icon": "🎓",
+              "name": "学生"
+             },
+             "general": {
+              "icon": "👤",
+              "name": "日常"
+             }
+            },
+            'zh-Hant': {
+ "nomad": {
+  "icon": "🌏",
+  "name": "數位遊民 · 自由職業"
+ },
+ "business": {
+  "icon": "💼",
+  "name": "商務 · 上班族"
+ },
+ "student": {
+  "icon": "🎓",
+  "name": "學生"
+ },
+ "general": {
+  "icon": "👤",
+  "name": "日常"
+ }
+}
         };
 
         const BADGE_LABEL = {
             ko: { snippet: "단축어", template: "템플릿", combo: "콤보", smartClipboard: "클립보드" },
             en: { snippet: "Snippet", template: "Template", combo: "Combo", smartClipboard: "Clipboard" }
+        ,
+            'zh-Hans': {
+             "snippet": "短语",
+             "template": "模板",
+             "combo": "组合",
+             "smartClipboard": "剪贴板"
+            },
+            'zh-Hant': {
+ "snippet": "短語",
+ "template": "範本",
+ "combo": "組合",
+ "smartClipboard": "剪貼簿"
+}
         };
 
         const translations = {
@@ -837,6 +1552,183 @@
                 footerPrivacy: "Privacy Policy",
                 appStoreUrl: "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
             }
+        ,
+            'zh-Hans': {
+             "pageTitle": "剪贴键盘 ClipKeyboard：别再重复打字，一个短语就够了",
+             "metaDescription": "把银行账号、地址、邮件模板存成短语，在任何 App 的键盘上一点就输入。为数字游民、上班族、学生和日常准备的 40 个实用模板，免费。",
+             "ogTitle": "剪贴键盘 ClipKeyboard：别再重复打字，一个短语就够了",
+             "ogDescription": "把反复要打的话变成短语。40 个现成模板，现在就能复制来用。",
+             "heroBadge": "🔒 你的短语只在你手里 · 隐私优先",
+             "heroTitle": "别再重复打字，<br><span>一个短语就够了</span>",
+             "heroSubtitle": "银行账号 · 地址 · 自我介绍 · 英文模板<br>存一次，就能在任何 App 的键盘上一点输入。",
+             "heroCta": "在 App Store 下载",
+             "heroDemo": "⌨️ 30 秒体验键盘",
+             "heroTemplates": "📋 直接看 40 个实用模板",
+             "videoTitle": "实际用起来是这样",
+             "videoSubtitle": "23 秒的屏幕录制，没有声音。",
+             "videoNote": "录制的是英文界面。App 支持中文。",
+             "demoTitle": "在这里直接点点看",
+             "demoSubtitle": "这就是 App 里的“键盘预览”页面。实际上，在微信、邮件、Safari，任何要打字的地方都会弹出这个键盘。",
+             "demoBrief": "下面的键盘就是 <strong>App 里的那个页面</strong>。点一下短语就直接填进输入框，发送之后还可以继续点。",
+             "demoCta": "用我自己的短语开始",
+             "demoReset": "从头再来",
+             "demoNote": "* 演示里的账号和护照信息都是假的示例。你真正保存的短语不会离开设备。",
+             "demoStageTitle": "键盘预览",
+             "demoComposerPh": "文字会输入到这里",
+             "demoCueTap": "点一下“%@”键试试",
+             "demoCueSend": "进去了吧？现在按发送（↑）",
+             "demoCueDone": "就这么简单，别的键也点点看",
+             "demoTplInsert": "输入",
+             "demoTplPick": "选一个值",
+             "demoFaceScanning": "正在用 Face ID 解锁…",
+             "demoFaceDone": "已解锁",
+             "demoToastCombo": "已换成下一个值",
+             "demoTabBasic": "通用",
+             "demoTabFav": "收藏",
+             "demoTabTemplate": "模板",
+             "demoTabCombo": "组合",
+             "demoFeatures": [
+              {
+               "k": "snippet",
+               "t": "短语，一点就输入完",
+               "d": "存好的账号、地址、签名会原样填进去。"
+              },
+              {
+               "k": "template",
+               "t": "模板，只挑空位来填",
+               "d": "{日期} {时间} 这类变量，从存好的值里点一下就填上。"
+              },
+              {
+               "k": "combo",
+               "t": "组合，用 → 轮换多个值",
+               "d": "三个银行账号、三种付款方式放在一个键上，用的时候挑。"
+              },
+              {
+               "k": "secure",
+               "t": "加密短语，用 Face ID 锁着",
+               "d": "护照号、卡号锁起来，需要的时候才打开填入。"
+              }
+             ],
+             "howTitle": "什么是短语？",
+             "howSubtitle": "把常用的一句话起个名字存起来，就这么简单。",
+             "how1Title": "存成短语",
+             "how1Desc": "给它起个名字（键），比如“银行账号”，再填上真正的内容（值）。存一次就好。",
+             "how2Title": "在键盘上点一下",
+             "how2Desc": "在微信、邮件、Safari，随便哪里，切换到剪贴键盘，存好的短语就在键盘上。点一下，输入完成。",
+             "how3Title": "再用模板和组合扩展",
+             "how3Desc": "加上 <span class=\"chip\">姓名</span> <span class=\"chip\">日期</span> 这样的变量就成了模板；把多个短语串起来就是组合。整套重复动作都消失了。",
+             "libTitle": "这些人每天都在省时间",
+             "libSubtitle": "挑一个和你相像的一天。喜欢的模板现在就能复制来用，存进 App 就住在你的键盘上。",
+             "libNote": "💡 蓝色小块是模板变量，在 App 里点一下就能填好。",
+             "copy": "复制",
+             "copied": "已复制 ✓",
+             "impactPrefix": "✨ ",
+             "privacyTitle": "🔒 你的数据，只在你的设备上",
+             "privacyDesc": "短语的内容只存在你的设备上（如果你开启，也会在你自己的 iCloud 里），我们从不收集。只收集匿名的使用统计来改进 App。",
+             "privacyBadge": "✓ 符合 Apple 隐私政策",
+             "pricingTitle": "免费开始用",
+             "pricingSubtitle": "下载免费 · Pro 一次性买断，没有订阅",
+             "price": "免费",
+             "priceDesc": "Pro 升级 ¥68 · 一次性买断 · 7 天免费试用",
+             "priceFeature1": "免费：10 个短语 · 3 个模板 · 3 个组合",
+             "priceFeature2": "Pro：无限保存 · iCloud 备份 · 加密短语",
+             "priceFeature3": "支持 iPhone、iPad、Mac、Vision Pro",
+             "priceFeature4": "没有订阅 · 没有广告",
+             "priceFeature5": "终身免费更新",
+             "pricingCta": "免费下载",
+             "footerContact": "联系我们",
+             "footerTutorial": "使用指南",
+             "footerPrivacy": "隐私政策",
+             "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+            },
+            'zh-Hant': {
+ "pageTitle": "剪貼鍵盤 ClipKeyboard：別再重複打字，一個短語就夠了",
+ "metaDescription": "把銀行帳號、地址、郵件範本存成短語，在任何 App 的鍵盤上一點就輸入。為數位遊民、上班族、學生和日常準備的 40 個實用範本，免費。",
+ "ogTitle": "剪貼鍵盤 ClipKeyboard：別再重複打字，一個短語就夠了",
+ "ogDescription": "把反復要打的話變成短語。40 個現成範本，現在就能複製來用。",
+ "heroBadge": "🔒 你的短語只在你手裡 · 隱私優先",
+ "heroTitle": "別再重複打字，<br><span>一個短語就夠了</span>",
+ "heroSubtitle": "銀行帳號 · 地址 · 自我介紹 · 英文範本<br>存一次，就能在任何 App 的鍵盤上一點輸入。",
+ "heroCta": "在 App Store 下載",
+ "heroDemo": "⌨️ 30 秒體驗鍵盤",
+ "heroTemplates": "📋 直接看 40 個實用範本",
+ "videoTitle": "實際用起來是這樣",
+ "videoSubtitle": "23 秒的螢幕錄製，沒有聲音。",
+ "videoNote": "錄製的是英文介面。App 支援中文。",
+ "demoTitle": "在這裡直接點點看",
+ "demoSubtitle": "這就是 App 裡的「鍵盤預覽」頁面。實際上，在LINE、郵件、Safari，任何要打字的地方都會彈出這個鍵盤。",
+ "demoBrief": "下面的鍵盤就是 <strong>App 裡的那個頁面</strong>。點一下短語就直接填進輸入框，發送之後還可以繼續點。",
+ "demoCta": "用我自己的短語開始",
+ "demoReset": "從頭再來",
+ "demoNote": "* 示範裡的帳號和護照資訊都是假的示例。你真正儲存的短語不會離開裝置。",
+ "demoStageTitle": "鍵盤預覽",
+ "demoComposerPh": "文字會輸入到這裡",
+ "demoCueTap": "點一下「%@」鍵試試",
+ "demoCueSend": "進去了吧？現在按發送（↑）",
+ "demoCueDone": "就這麼簡單，別的鍵也點點看",
+ "demoTplInsert": "輸入",
+ "demoTplPick": "選一個值",
+ "demoFaceScanning": "正在用 Face ID 解鎖…",
+ "demoFaceDone": "已解鎖",
+ "demoToastCombo": "已換成下一個值",
+ "demoTabBasic": "通用",
+ "demoTabFav": "收藏",
+ "demoTabTemplate": "範本",
+ "demoTabCombo": "組合",
+ "demoFeatures": [
+  {
+   "k": "snippet",
+   "t": "短語，一點就輸入完",
+   "d": "存好的帳號、地址、簽名會原樣填進去。"
+  },
+  {
+   "k": "template",
+   "t": "範本，只挑空位來填",
+   "d": "{日期} {時間} 這類變量，從存好的值裡點一下就填上。"
+  },
+  {
+   "k": "combo",
+   "t": "組合，用 → 輪換多個值",
+   "d": "三個銀行帳號、三種付款方式放在一個鍵上，用的時候挑。"
+  },
+  {
+   "k": "secure",
+   "t": "加密短語，用 Face ID 鎖著",
+   "d": "護照號、卡號鎖起來，需要的時候才開啟填入。"
+  }
+ ],
+ "howTitle": "什麼是短語？",
+ "howSubtitle": "把常用的一句話起個名字存起來，就這麼簡單。",
+ "how1Title": "存成短語",
+ "how1Desc": "給它起個名字（鍵），比如「銀行帳號」，再填上真正的內容（值）。存一次就好。",
+ "how2Title": "在鍵盤上點一下",
+ "how2Desc": "在LINE、郵件、Safari，隨便哪裡，切換到剪貼鍵盤，存好的短語就在鍵盤上。點一下，輸入完成。",
+ "how3Title": "再用範本和組合擴展",
+ "how3Desc": "加上 <span class=\"chip\">姓名</span> <span class=\"chip\">日期</span> 這樣的變量就成了範本；把多個短語串起來就是組合。整套重複動作都消失了。",
+ "libTitle": "這些人每天都在省時間",
+ "libSubtitle": "挑一個和你相像的一天。喜歡的範本現在就能複製來用，存進 App 就住在你的鍵盤上。",
+ "libNote": "💡 藍色小塊是範本變量，在 App 裡點一下就能填好。",
+ "copy": "複製",
+ "copied": "已複製 ✓",
+ "impactPrefix": "✨ ",
+ "privacyTitle": "🔒 你的資料，只在你的裝置上",
+ "privacyDesc": "短語的內容只存在你的裝置上（如果你開啓，也會在你自己的 iCloud 裡），我們從不收集。只收集匿名的使用統計來改進 App。",
+ "privacyBadge": "✓ 符合 Apple 隱私權政策",
+ "pricingTitle": "免費開始用",
+ "pricingSubtitle": "下載免費 · Pro 一次性買斷，沒有訂閱",
+ "price": "免費",
+ "priceDesc": "Pro 升級 NT$320 · 一次買斷 · 7 天免費試用",
+ "priceFeature1": "免費：10 個短語 · 3 個範本 · 3 個組合",
+ "priceFeature2": "Pro：無限儲存 · iCloud 備份 · 加密短語",
+ "priceFeature3": "支援 iPhone、iPad、Mac、Vision Pro",
+ "priceFeature4": "沒有訂閱 · 沒有廣告",
+ "priceFeature5": "終身免費更新",
+ "pricingCta": "免費下載",
+ "footerContact": "聯繫我們",
+ "footerTutorial": "使用指南",
+ "footerPrivacy": "隱私權政策",
+ "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+}
         };
 
         let currentLang = 'en';
@@ -914,6 +1806,23 @@
                 ta.select(); document.execCommand('copy');
                 document.body.removeChild(ta); done();
             }
+        }
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        ///
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 읽는 사람이 남의 글자를 본다.
+        function normalizeLang(tag) {
+            const t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
         }
 
         function setLanguage(lang) {
@@ -1201,7 +2110,690 @@
                     ]
                 }
             ]
-        };
+        ,
+        'zh-Hans': [
+         {
+          "id": "daily",
+          "tab": "👤 日常",
+          "incoming": "今天的活动费我转给你！转多少、账号发我一下？🙏",
+          "target": "settle",
+          "keys": [
+           {
+            "id": "settle",
+            "title": "分摊",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "今天一共 {金额} 元！🙏\n转到 {账号}（李贤浩）就行～",
+            "ph": [
+             {
+              "name": "金额",
+              "values": [
+               "150",
+               "320",
+               "480"
+              ]
+             },
+             {
+              "name": "账号",
+              "values": [
+               "招商银行 6225 8801 2345 6789",
+               "工商银行 6222 0212 3456 789",
+               "微信 leeo_pay"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "addr",
+            "title": "家庭住址",
+            "fav": true,
+            "type": "snippet",
+            "tint": "#007AFF",
+            "value": "200001 上海市黄浦区南京东路 100 号\n2 号楼 1203 室（收件人：李贤浩 / 138-1234-5678）"
+           },
+           {
+            "id": "late",
+            "title": "我要迟到",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "不好意思！我大概会晚 {分钟} 分钟，你们先过去 🙏",
+            "ph": [
+             {
+              "name": "分钟",
+              "values": [
+               "5",
+               "10",
+               "20"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "pay",
+            "title": "快捷转账",
+            "type": "combo",
+            "tint": "#FF9500",
+            "values": [
+             "微信 138-1234-5678",
+             "支付宝 leeo@example.com",
+             "云闪付 @leeo"
+            ]
+           },
+           {
+            "id": "wifi",
+            "title": "家里的 Wi-Fi",
+            "fav": true,
+            "type": "snippet",
+            "tint": "#007AFF",
+            "value": "WiFi: Home_5G\n密码: welcome2026!"
+           },
+           {
+            "id": "card",
+            "title": "卡号",
+            "type": "secure",
+            "tint": "#5E8BFF",
+            "value": "4212 3456 7890 7788 (12/29)"
+           },
+           {
+            "id": "delivery",
+            "title": "外卖备注",
+            "type": "snippet",
+            "tint": "#007AFF",
+            "value": "请放在门口 🙏\n单元门禁密码：#1234\n请不要按门铃（孩子在睡觉）"
+           },
+           {
+            "id": "sale",
+            "title": "二手交易说明",
+            "type": "snippet",
+            "tint": "#007AFF",
+            "value": "出 iPad Air 5。\n价格：2200 元（可小刀）\n成色：轻微使用痕迹，有原盒\n交易：人民广场面交或快递"
+           }
+          ]
+         },
+         {
+          "id": "work",
+          "tab": "💼 上班族",
+          "incoming": "下周的会议时间麻烦定一下，然后同步给大家。",
+          "target": "meet",
+          "keys": [
+           {
+            "id": "meet",
+            "title": "会议通知",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "您好，想约以下时间开个会。\n📅 {日期} {时间}\n📍 {地点}\n麻烦回复是否方便出席 😊",
+            "ph": [
+             {
+              "name": "日期",
+              "values": [
+               "3 月 12 日（周二）",
+               "3 月 14 日（周四）"
+              ]
+             },
+             {
+              "name": "时间",
+              "values": [
+               "上午 10 点",
+               "下午 2 点"
+              ]
+             },
+             {
+              "name": "地点",
+              "values": [
+               "3 楼会议室",
+               "腾讯会议"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "sign",
+            "title": "邮件签名",
+            "fav": true,
+            "type": "snippet",
+            "tint": "#FF9F0A",
+            "value": "李贤浩\n产品经理 | Ysoup\n📧 leeo@example.com / 📞 138-1234-5678"
+           },
+           {
+            "id": "ok",
+            "title": "收到致谢",
+            "fav": true,
+            "type": "snippet",
+            "tint": "#34C759",
+            "value": "收到了。谢谢您费心 🙏"
+           },
+           {
+            "id": "ooo",
+            "title": "不在办公室",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "{开始日} 至 {结束日} 不在办公室。\n紧急事务请联系张娜（138-0000-0000）。",
+            "ph": [
+             {
+              "name": "开始日",
+              "values": [
+               "3 月 18 日",
+               "4 月 1 日"
+              ]
+             },
+             {
+              "name": "结束日",
+              "values": [
+               "3 月 22 日",
+               "4 月 5 日"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "biz",
+            "title": "收款·公司信息",
+            "type": "combo",
+            "tint": "#FF9500",
+            "values": [
+             "收款账户：招商银行 6225 8801 2345 6789（Ysoup 有限公司）",
+             "纳税人识别号：91310000MA1234567X",
+             "发票邮箱：tax@example.com"
+            ]
+           },
+           {
+            "id": "rrn",
+            "title": "身份证号",
+            "type": "secure",
+            "tint": "#5E8BFF",
+            "value": "310101 1990 0101 ••••"
+           },
+           {
+            "id": "report",
+            "title": "周报",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "本周工作汇报。\n✅ 已完成：{完成}\n🔄 进行中：{进行中}\n📋 下周：{计划}",
+            "ph": [
+             {
+              "name": "完成",
+              "values": [
+               "4.5 发布",
+               "支付 QA"
+              ]
+             },
+             {
+              "name": "进行中",
+              "values": [
+               "小工具改版",
+               "留存分析"
+              ]
+             },
+             {
+              "name": "计划",
+              "values": [
+               "App Store 审核",
+               "冲刺复盘"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "delay",
+            "title": "回复延迟致歉",
+            "type": "snippet",
+            "tint": "#34C759",
+            "value": "抱歉回复晚了，内部确认花了些时间。\n今天之内整理好再联系您 🙏"
+           }
+          ]
+         },
+         {
+          "id": "nomad",
+          "tab": "🌏 数字游民",
+          "incoming": "Great, let's start Monday! Could you send your banking details?",
+          "target": "iban",
+          "keys": [
+           {
+            "id": "iban",
+            "title": "IBAN · SWIFT",
+            "type": "snippet",
+            "tint": "#FF9F0A",
+            "value": "Name: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+           },
+           {
+            "id": "tz",
+            "title": "时差说明",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "Hi, I'm in GMT+{时差} right now. I can do {可约时间}. Calendly: cal.com/leeo",
+            "ph": [
+             {
+              "name": "时差",
+              "values": [
+               "9",
+               "2"
+              ]
+             },
+             {
+              "name": "可约时间",
+              "values": [
+               "9~11am your time",
+               "anytime after 3pm"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "inv",
+            "title": "发票",
+            "type": "template",
+            "tint": "#AF52DE",
+            "text": "Invoice #{编号} · USD {金额}\nDue: {期限}\nPayment: Wise (leeo@example.com)\nThank you! 🙏",
+            "ph": [
+             {
+              "name": "编号",
+              "values": [
+               "2026-014",
+               "2026-015"
+              ]
+             },
+             {
+              "name": "金额",
+              "values": [
+               "2,400",
+               "3,800"
+              ]
+             },
+             {
+              "name": "期限",
+              "values": [
+               "Mar 31",
+               "Apr 15"
+              ]
+             }
+            ]
+           },
+           {
+            "id": "pm",
+            "title": "付款方式",
+            "fav": true,
+            "type": "combo",
+            "tint": "#FF9500",
+            "values": [
+             "Wise: leeo@example.com",
+             "PayPal: leeo@example.com",
+             "Stripe: stripe.me/leeo"
+            ]
+           },
+           {
+            "id": "wifi2",
+            "title": "断网通知",
+            "fav": true,
+            "type": "snippet",
+            "tint": "#007AFF",
+            "value": "Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏"
+           },
+           {
+            "id": "pass",
+            "title": "护照信息",
+            "type": "secure",
+            "tint": "#5E8BFF",
+            "value": "Passport: M12345678 · Exp. 2031-04-18"
+           },
+           {
+            "id": "quote",
+            "title": "报价·汇率说明",
+            "type": "snippet",
+            "tint": "#34C759",
+            "value": "Quote: USD 2,400 (≈ CNY 17,300 at today's rate).\nInvoiced in USD via Wise to keep fees low for you."
+           },
+           {
+            "id": "signoff",
+            "title": "收工问候",
+            "type": "snippet",
+            "tint": "#34C759",
+            "value": "Signing off for the night (11pm in Shanghai). I'll reply first thing in my morning, thanks for your patience 🙏"
+           }
+          ]
+         }
+        ],
+            'zh-Hant': [
+ {
+  "id": "daily",
+  "tab": "👤 日常",
+  "incoming": "今天的活動費我轉給你！轉多少、帳號發我一下？🙏",
+  "target": "settle",
+  "keys": [
+   {
+    "id": "settle",
+    "title": "分攤",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "今天一共 {金額} 元！🙏\n轉到 {帳號}（李賢浩）就行～",
+    "ph": [
+     {
+      "name": "金額",
+      "values": [
+       "150",
+       "320",
+       "480"
+      ]
+     },
+     {
+      "name": "帳號",
+      "values": [
+       "國泰世華 6225 8801 2345 6789",
+       "玉山銀行 0123-456-789012",
+       "LINE Pay leeo_pay"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "addr",
+    "title": "家庭住址",
+    "fav": true,
+    "type": "snippet",
+    "tint": "#007AFF",
+    "value": "110 臺北市信義區信義路五段 7 號\n12 樓之 3（收件人：李賢浩 / 0912-345-678）"
+   },
+   {
+    "id": "late",
+    "title": "我要遲到",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "不好意思！我大概會晚 {分鐘} 分鐘，你們先過去 🙏",
+    "ph": [
+     {
+      "name": "分鐘",
+      "values": [
+       "5",
+       "10",
+       "20"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pay",
+    "title": "快捷轉帳",
+    "type": "combo",
+    "tint": "#FF9500",
+    "values": [
+     "LINE 0912-345-678",
+     "街口支付 leeo@example.com",
+     "悠遊付 @leeo"
+    ]
+   },
+   {
+    "id": "wifi",
+    "title": "家裡的 Wi-Fi",
+    "fav": true,
+    "type": "snippet",
+    "tint": "#007AFF",
+    "value": "WiFi: Home_5G\n密碼: welcome2026!"
+   },
+   {
+    "id": "card",
+    "title": "卡號",
+    "type": "secure",
+    "tint": "#5E8BFF",
+    "value": "4212 3456 7890 7788 (12/29)"
+   },
+   {
+    "id": "delivery",
+    "title": "外送備註",
+    "type": "snippet",
+    "tint": "#007AFF",
+    "value": "請放在門口 🙏\n單元門禁密碼：#1234\n請不要按門鈴（孩子在睡覺）"
+   },
+   {
+    "id": "sale",
+    "title": "二手交易說明",
+    "type": "snippet",
+    "tint": "#007AFF",
+    "value": "出 iPad Air 5。\n價格：9500 元（可議價）\n成色：輕微使用痕跡，有原盒\n交易：臺北車站面交或快遞"
+   }
+  ]
+ },
+ {
+  "id": "work",
+  "tab": "💼 上班族",
+  "incoming": "下周的會議時間麻煩定一下，然後同步給大家。",
+  "target": "meet",
+  "keys": [
+   {
+    "id": "meet",
+    "title": "會議通知",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "您好，想約以下時間開個會。\n📅 {日期} {時間}\n📍 {地點}\n麻煩回覆是否方便出席 😊",
+    "ph": [
+     {
+      "name": "日期",
+      "values": [
+       "3 月 12 日（週二）",
+       "3 月 14 日（週四）"
+      ]
+     },
+     {
+      "name": "時間",
+      "values": [
+       "上午 10 點",
+       "下午 2 點"
+      ]
+     },
+     {
+      "name": "地點",
+      "values": [
+       "3 樓會議室",
+       "Google Meet"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "sign",
+    "title": "郵件簽名",
+    "fav": true,
+    "type": "snippet",
+    "tint": "#FF9F0A",
+    "value": "李賢浩\n產品經理 | Ysoup\n📧 leeo@example.com / 📞 0912-345-678"
+   },
+   {
+    "id": "ok",
+    "title": "收到致謝",
+    "fav": true,
+    "type": "snippet",
+    "tint": "#34C759",
+    "value": "收到了。謝謝您費心 🙏"
+   },
+   {
+    "id": "ooo",
+    "title": "不在辦公室",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "{開始日} 至 {結束日} 不在辦公室。\n緊急事務請聯繫張娜（138-0000-0000）。",
+    "ph": [
+     {
+      "name": "開始日",
+      "values": [
+       "3 月 18 日",
+       "4 月 1 日"
+      ]
+     },
+     {
+      "name": "結束日",
+      "values": [
+       "3 月 22 日",
+       "4 月 5 日"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "biz",
+    "title": "收款·公司資訊",
+    "type": "combo",
+    "tint": "#FF9500",
+    "values": [
+     "收款帳戶：國泰世華 6225 8801 2345 6789（Ysoup 有限公司）",
+     "統一編號：12345678",
+     "發票信箱：tax@example.com"
+    ]
+   },
+   {
+    "id": "rrn",
+    "title": "身分證字體大小",
+    "type": "secure",
+    "tint": "#5E8BFF",
+    "value": "A12345••••"
+   },
+   {
+    "id": "report",
+    "title": "周報",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "本週工作彙報。\n✅ 已完成：{完成}\n🔄 進行中：{進行中}\n📋 下周：{計劃}",
+    "ph": [
+     {
+      "name": "完成",
+      "values": [
+       "4.5 發佈",
+       "付款 QA"
+      ]
+     },
+     {
+      "name": "進行中",
+      "values": [
+       "小工具改版",
+       "留存分析"
+      ]
+     },
+     {
+      "name": "計劃",
+      "values": [
+       "App Store 審核",
+       "衝刺復盤"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "delay",
+    "title": "回覆延遲致歉",
+    "type": "snippet",
+    "tint": "#34C759",
+    "value": "抱歉回覆晚了，內部確認花了些時間。\n今天之內整理好再聯繫您 🙏"
+   }
+  ]
+ },
+ {
+  "id": "nomad",
+  "tab": "🌏 數位遊民",
+  "incoming": "Great, let's start Monday! Could you send your banking details?",
+  "target": "iban",
+  "keys": [
+   {
+    "id": "iban",
+    "title": "IBAN · SWIFT",
+    "type": "snippet",
+    "tint": "#FF9F0A",
+    "value": "Name: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+   },
+   {
+    "id": "tz",
+    "title": "時差說明",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "Hi, I'm in GMT+{時差} right now. I can do {可約時間}. Calendly: cal.com/leeo",
+    "ph": [
+     {
+      "name": "時差",
+      "values": [
+       "9",
+       "2"
+      ]
+     },
+     {
+      "name": "可約時間",
+      "values": [
+       "9~11am your time",
+       "anytime after 3pm"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "inv",
+    "title": "發票",
+    "type": "template",
+    "tint": "#AF52DE",
+    "text": "Invoice #{編號} · USD {金額}\nDue: {期限}\nPayment: Wise (leeo@example.com)\nThank you! 🙏",
+    "ph": [
+     {
+      "name": "編號",
+      "values": [
+       "2026-014",
+       "2026-015"
+      ]
+     },
+     {
+      "name": "金額",
+      "values": [
+       "2,400",
+       "3,800"
+      ]
+     },
+     {
+      "name": "期限",
+      "values": [
+       "Mar 31",
+       "Apr 15"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "pm",
+    "title": "付款方式",
+    "fav": true,
+    "type": "combo",
+    "tint": "#FF9500",
+    "values": [
+     "Wise: leeo@example.com",
+     "PayPal: leeo@example.com",
+     "Stripe: stripe.me/leeo"
+    ]
+   },
+   {
+    "id": "wifi2",
+    "title": "斷網通知",
+    "fav": true,
+    "type": "snippet",
+    "tint": "#007AFF",
+    "value": "Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏"
+   },
+   {
+    "id": "pass",
+    "title": "護照資訊",
+    "type": "secure",
+    "tint": "#5E8BFF",
+    "value": "Passport: M12345678 · Exp. 2031-04-18"
+   },
+   {
+    "id": "quote",
+    "title": "報價·匯率說明",
+    "type": "snippet",
+    "tint": "#34C759",
+    "value": "Quote: USD 2,400 (≈ CNY 17,300 at today's rate).\nInvoiced in USD via Wise to keep fees low for you."
+   },
+   {
+    "id": "signoff",
+    "title": "收工問候",
+    "type": "snippet",
+    "tint": "#34C759",
+    "value": "Signing off for the night (11pm in Shanghai). I'll reply first thing in my morning, thanks for your patience 🙏"
+   }
+  ]
+ }
+]
+    };
 
         const DEMO_TABS = [
             { key: 'basic', icon: 'doc', color: '#5856D6', label: 'demoTabBasic' },
@@ -1411,7 +3003,7 @@
             return demoVisibleKeys().map(function(k) {
                 const glow = (demo.step === 0 && k.id === target) ? ' glow' : '';
                 const bg = k.tint
-                    ? 'background:linear-gradient(' + hexA(k.tint, 0.14) + ',' + hexA(k.tint, 0.14) + '),#fff;'
+                    ? 'background:linear-gradient(' + hexA(k.tint, 0.14) + ',' + hexA(k.tint, 0.14) + '),var(--card-bg);'
                     : '';
                 const typeIc = k.type === 'template' ? demoIcon('wand', 13)
                              : k.type === 'combo' ? demoIcon('stack', 13)
@@ -1669,17 +3261,19 @@
             // 해외에 링크를 뿌릴 때 쓴다. 직접 고른 것과 똑같이 취급해 저장까지 하므로
             // 사용 가이드 등 다른 페이지로 넘어가도 같은 언어가 이어진다.
             const requested = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
-            if (requested === 'en' || requested === 'ko') {
-                setLanguage(requested);
+            const asked = normalizeLang(requested);
+            if (asked) {
+                setLanguage(asked);
                 return;
             }
-            const saved = localStorage.getItem('clipkb-lang');
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            const saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
             if (saved) {
                 applyLanguage(saved);
-            } else {
-                const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-                applyLanguage(browserLang.indexOf('ko') === 0 ? 'ko' : 'en');
+                return;
             }
+            // 고른 적이 없으면 브라우저(=컴퓨터) 언어를 따른다.
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
         })();
     </script>
 </body>

@@ -33,6 +33,10 @@ struct UsageStatsView: View {
     private var pagesLoaded: Int { snapshotPages + eventPages }
     /// 지금 보이는 숫자가 언제 기준인지.
     @State private var loadedAt: Date?
+    /// 디스크에 적어 둔 지난번 결과. 화면은 이걸로 **먼저** 선다.
+    @State private var cache = UsageStatsSnapshotCache()
+    /// 이번에 전부 다시 받았는가(증분이 아니라). 캐시가 없거나 증분 조회가 거부됐을 때.
+    @State private var didFullReload = false
 
     /// 이벤트 표본을 이름별로 묶은 것 - 차트와 같은 원본을 쓴다.
     private var events: [UsageReportingService.EventStat] {
@@ -761,32 +765,62 @@ struct UsageStatsView: View {
         errorMessage = nil
         var failures: [String] = []
 
-        // 한 번에 다 달라고 하지 않는다 - 200건씩 이어 받으며 도착하는 대로 화면을 갱신한다.
-        // 설치가 900건이 됐을 때 단일 요청이 서버 상한(400)에 걸려 화면 전체가 0이 됐던 게
-        // 이 방식으로 바꾼 이유다. 도중에 끊겨도 그때까지 채워진 숫자는 남는다.
+        // 열 때마다 처음부터 다 받지 않는다. 지난번에 받아 둔 것을 먼저 그리고,
+        // 그 뒤에 **새로 생긴 것만** 받아 합친다. 설치가 늘수록 받는 양이 그대로
+        // 늘어 화면이 버티지 못하던 것이 이 방식으로 바꾼 이유다.
         //
-        // 진행 상황(건수·페이지)과 "왜 멈췄는지" 를 같은 통로로 받아 두는 이유는 하나다.
-        // 나눠 받기 시작한 순간부터, 화면은 지금 보이는 숫자가 최종본인지 말할 의무가 생긴다.
+        // ⚠️ 증분은 CloudKit 스키마에서 creationDate·modificationDate 가 Queryable 일 때만
+        //    된다. 인덱스가 없으면 조회가 거부되므로, 그때는 조용히 전체 조회로 돌아간다.
+        //    개발자 화면이 인덱스 하나 때문에 통째로 비면 안 된다.
+        cache = UsageStatsCache.load()
+        applyCache()
+
         snapshotStop = nil
         eventStop = nil
         snapshotPages = 0
         eventPages = 0
+        didFullReload = cache.fetchedAt == nil
 
+        // 스냅샷 - 설치마다 한 줄이고 덮어써지므로 "고쳐진 시각" 이 기준이다.
         do {
-            snapshots = try await UsageReportingService.fetchSnapshots { progress in
-                snapshots = progress.items
-                snapshotPages = progress.pages
-                snapshotStop = progress.stop
+            let since = cache.snapshotWatermark
+            let fresh = try await fetchSnapshots(changedSince: since)
+            cache.snapshots = UsageStatsCache.merged(snapshots: cache.snapshots, with: fresh.map(Self.row))
+            cache.snapshotWatermark = UsageStatsCache.advanced(since, with: fresh.map { $0.lastActiveAt })
+        } catch {
+            // 증분이 거부됐으면 한 번은 전부 받아 본다.
+            if cache.snapshotWatermark != nil {
+                didFullReload = true
+                do {
+                    let all = try await fetchSnapshots(changedSince: nil)
+                    cache.snapshots = all.map(Self.row)
+                    cache.snapshotWatermark = UsageStatsCache.advanced(nil, with: all.map { $0.lastActiveAt })
+                } catch { failures.append(error.localizedDescription) }
+            } else {
+                failures.append(error.localizedDescription)
             }
-        } catch { failures.append(error.localizedDescription) }
+        }
+        applyCache()
 
+        // 이벤트 - 덧붙기만 하므로 "만들어진 시각" 이 기준이다.
         do {
-            eventSamples = try await UsageReportingService.fetchEvents { progress in
-                eventSamples = progress.items
-                eventPages = progress.pages
-                eventStop = progress.stop
+            let since = cache.eventWatermark
+            let fresh = try await fetchEvents(createdSince: since)
+            cache.events = UsageStatsCache.merged(events: cache.events, with: fresh.map(Self.event))
+            cache.eventWatermark = UsageStatsCache.advanced(since, with: fresh.map { $0.createdAt })
+        } catch {
+            if cache.eventWatermark != nil {
+                didFullReload = true
+                do {
+                    let all = try await fetchEvents(createdSince: nil)
+                    cache.events = all.map(Self.event)
+                    cache.eventWatermark = UsageStatsCache.advanced(nil, with: all.map { $0.createdAt })
+                } catch { failures.append(error.localizedDescription) }
+            } else {
+                failures.append(error.localizedDescription)
             }
-        } catch { failures.append(error.localizedDescription) }
+        }
+        applyCache()
 
         do { feedback = try await UsageReportingService.fetchFeedback() }
         catch { failures.append(error.localizedDescription) }
@@ -795,7 +829,55 @@ struct UsageStatsView: View {
             errorMessage = String(format: NSLocalizedString("불러오지 못했어요: %@", comment: "Usage stats load failed"),
                                   Set(failures).joined(separator: "\n"))
         }
-        loadedAt = Date()
+        cache.fetchedAt = Date()
+        UsageStatsCache.save(cache)
+        loadedAt = cache.fetchedAt
         isLoading = false
+    }
+
+    /// 캐시를 화면이 쓰는 모양으로 옮긴다.
+    private func applyCache() {
+        snapshots = cache.snapshots.map(Self.snapshot)
+        eventSamples = cache.events.map(Self.sample)
+    }
+
+    private func fetchSnapshots(changedSince: Date?) async throws -> [UsageReportingService.Snapshot] {
+        // ⚠️ 페이지가 도착할 때마다 화면 전부를 다시 계산하면(리텐션·분포·차트) 그것만으로
+        //    앱이 넘어간다. 진행 표시만 갱신하고, 목록은 다 받은 뒤 한 번에 넣는다.
+        try await UsageReportingService.fetchSnapshots(changedSince: changedSince) { progress in
+            snapshotPages = progress.pages
+            snapshotStop = progress.stop
+        }
+    }
+
+    private func fetchEvents(createdSince: Date?) async throws -> [UsageReportingService.EventSample] {
+        try await UsageReportingService.fetchEvents(createdSince: createdSince) { progress in
+            eventPages = progress.pages
+            eventStop = progress.stop
+        }
+    }
+
+    // MARK: - 캐시 ↔ 화면 타입 옮기기
+
+    private static func row(_ s: UsageReportingService.Snapshot) -> UsageStatsSnapshotCache.Row {
+        .init(id: s.id, appVersion: s.appVersion, platform: s.platform, osVersion: s.osVersion,
+              locale: s.locale, launchCount: s.launchCount, eventCount: s.eventCount,
+              daysSinceInstall: s.daysSinceInstall, installDate: s.installDate,
+              lastActiveAt: s.lastActiveAt, metrics: s.metrics)
+    }
+
+    private static func snapshot(_ r: UsageStatsSnapshotCache.Row) -> UsageReportingService.Snapshot {
+        .init(id: r.id, appId: nil, appVersion: r.appVersion, platform: r.platform,
+              osVersion: r.osVersion, locale: r.locale, launchCount: r.launchCount,
+              eventCount: r.eventCount, daysSinceInstall: r.daysSinceInstall,
+              installDate: r.installDate, lastActiveAt: r.lastActiveAt, metrics: r.metrics)
+    }
+
+    private static func event(_ s: UsageReportingService.EventSample) -> UsageStatsSnapshotCache.Event {
+        .init(name: s.name, installID: s.installID, date: s.date, createdAt: s.createdAt)
+    }
+
+    private static func sample(_ e: UsageStatsSnapshotCache.Event) -> UsageReportingService.EventSample {
+        .init(name: e.name, installID: e.installID, date: e.date, createdAt: e.createdAt)
     }
 }

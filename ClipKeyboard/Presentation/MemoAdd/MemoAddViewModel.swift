@@ -11,6 +11,18 @@ import UIKit
 
 // MARK: - MemoAddViewModel
 
+/// 콤보의 "이어지는 단계" 한 칸.
+///
+/// ⚠️ **id 를 갖는 이유**가 이 타입의 존재 이유다. 예전에는 그냥 `[String]` 이었고 화면이
+///    `ForEach(continuations.indices, id: \.self)` 로 돌면서 `$continuations[idx]` 로
+///    바인딩을 걸었다. 그러면 한 칸을 지우는 순간 SwiftUI 가 아직 살아 있는 옛 인덱스로
+///    바인딩을 한 번 더 읽어 **Index out of range 로 앱이 죽는다.**
+///    단계마다 제 id 를 들고 있으면 ForEach 가 무엇이 사라졌는지 알아 그런 일이 없다.
+struct ContinuationStep: Identifiable, Equatable {
+    let id = UUID()
+    var text: String
+}
+
 @MainActor
 final class MemoAddViewModel: ObservableObject {
 
@@ -53,12 +65,12 @@ final class MemoAddViewModel: ObservableObject {
     @Published var isTemplate: Bool = false
     @Published var isFavorite: Bool = false
     /// "이어지는 메모" 단계들(본문 value=1단계, 이 배열=2..N단계). 비어있으면 일반 메모.
-    @Published var continuations: [String] = []
+    @Published var continuations: [ContinuationStep] = []
 
     /// 저장용 콤보 단계 = [본문] + 비어있지 않은 이어지는 단계들. 이어지는 단계가 없으면 빈 배열(=일반 메모).
     private var resolvedComboValues: [String] {
         let extra = continuations
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { $0.text.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
         return extra.isEmpty ? [] : ([value] + extra)
     }
@@ -251,7 +263,7 @@ final class MemoAddViewModel: ObservableObject {
             if !existing.comboValues.isEmpty {
                 // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
                 let steps = SecureMemoCrypto.decryptSteps(existing.comboValues)
-                continuations = Array(steps.dropFirst())
+                continuations = steps.dropFirst().map(ContinuationStep.init(text:))
                 if value.isEmpty { value = steps.first ?? "" }
             }
         } else if !insertedHint.isEmpty {
@@ -287,10 +299,12 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - 이어지는 메모(콤보 단계)
 
-    func addContinuation() { continuations.append("") }
-    func removeContinuation(at index: Int) {
-        guard continuations.indices.contains(index) else { return }
-        continuations.remove(at: index)
+    func addContinuation() { continuations.append(ContinuationStep(text: "")) }
+
+    /// ⚠️ 인덱스가 아니라 **id 로** 지운다. 인덱스로 받으면 지우는 순간 화면이 들고 있던
+    ///    옛 번호로 지워서 엉뚱한 칸이 사라진다(그리고 그 번호가 범위를 벗어나면 죽는다).
+    func removeContinuation(id: ContinuationStep.ID) {
+        continuations.removeAll { $0.id == id }
     }
 
     // MARK: - 초기화 (리셋)

@@ -487,6 +487,141 @@ class MemoStore: ObservableObject {
         }
     }
 
+    /// 빈칸 이름 바꾸기의 결과. 화면이 무엇을 말해 줄지 이 값으로 정한다.
+    enum PlaceholderRenameResult: Equatable {
+        /// 바꿨다. 본문을 고친 단축어 수를 함께 준다(0이면 값만 남아 있던 빈칸).
+        case renamed(memosTouched: Int)
+        /// 이름이 비었거나 중괄호만 남는 등 쓸 수 없는 이름.
+        case invalidName
+        /// `{날짜}` 처럼 앱이 알아서 채우는 자동 변수 이름이라 쓸 수 없다.
+        case reservedName
+        /// 이미 있는 빈칸 이름이다. 두 빈칸을 합치는 일은 하지 않는다.
+        case nameTaken
+        /// 같은 이름이라 할 일이 없다.
+        case unchanged
+    }
+
+    /// 빈칸 이름을 바꾼다. 값도, 본문도, 사본도 함께 옮긴다.
+    ///
+    /// 어디에 쓰나: "안 쓰는 이름이 쌓여 목록이 지저분하다"는 제보에서 지우기와 함께 나온 요청.
+    /// 이름을 잘못 지었을 때 지우고 다시 만드는 것 말고는 길이 없었다(사용자 제보, 2026-08).
+    ///
+    /// ⚠️ 지우기와 달리 **본문의 `{토큰}` 을 고친다.** 그렇게 하지 않으면 이름만 바뀌고
+    ///    단축어들은 여전히 옛 이름을 가리켜, 바꾼 쪽이 곧바로 고아가 된다. 본문을 건드리는
+    ///    일이라 부르는 쪽에서 몇 개가 바뀌는지 먼저 보여 주고 물어야 한다.
+    ///
+    /// ⚠️ 이미 있는 이름으로는 바꾸지 않는다(`nameTaken`). 두 빈칸을 합치면 값이 섞이고
+    ///    어느 쪽 값이 남는지 사용자가 알 수 없다. 합치기는 다른 기능이다.
+    ///
+    /// - Parameters:
+    ///   - old: 중괄호를 포함한 지금 이름. 예: `{이름}`
+    ///   - newName: 사용자가 적은 새 이름. 중괄호는 있어도 없어도 된다.
+    @discardableResult
+    func renamePlaceholder(_ old: String, to newName: String) -> PlaceholderRenameResult {
+        let bare = newName.strippingTemplateBraces.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !bare.isEmpty, !bare.contains("{"), !bare.contains("}") else { return .invalidName }
+        let new = "{\(bare)}"
+        guard new != old else { return .unchanged }
+        guard !TemplateVariableProcessor.autoVariableTokens.contains(new) else { return .reservedName }
+
+        var memos = (try? load(type: .memo)) ?? []
+        let taken = Set(storedPlaceholderTokens())
+            .union(memos.flatMap { TemplatePlaceholder.customTokens(in: $0.value) })
+        guard !taken.contains(new) else { return .nameTaken }
+
+        // 1) 값 - 새 이름으로 옮기고 옛 자리는 비운다(App Group + 표준 UserDefaults 의 옛 값).
+        let values = loadPlaceholderValues(for: old)
+        if !values.isEmpty { savePlaceholderValues(values, for: new) }
+        let oldKey = "placeholder_values_\(old)"
+        AppGroup.defaults?.removeObject(forKey: oldKey)
+        AppGroup.defaults?.synchronize()
+        UserDefaults.standard.removeObject(forKey: oldKey)
+
+        // 2) 본문·변수 목록·사본 - 셋 다 옛 이름을 들고 있다.
+        var touched = 0
+        for index in memos.indices where Self.rename(&memos[index], from: old, to: new) {
+            touched += 1
+        }
+
+        if touched > 0 {
+            do {
+                try save(memos: memos, type: .memo)
+            } catch {
+                // 값은 이미 옮겨졌다. 본문 저장이 실패하면 옛 이름이 본문에 남아 새 빈칸이
+                // 고아가 된다. 되돌리기보다 무엇이 어긋났는지 남기고 화면에 알린다.
+                print("❌ [MemoStore.renamePlaceholder] 본문 저장 실패: \(error)")
+            }
+        }
+        print("✏️ [MemoStore.renamePlaceholder] \(old) → \(new) (단축어 \(touched)개)")
+        return .renamed(memosTouched: touched)
+    }
+
+    /// 단축어 하나에서 빈칸 이름을 갈아 끼운다. 바꾼 것이 있으면 true.
+    ///
+    /// 옛 이름이 숨어 있는 자리가 셋이라 따로 뺐다 - 본문, 변수 목록(`templateVariables`),
+    /// 그리고 단축어에 붙어 있는 값 사본. 저장소를 건드리지 않는 순수한 일이라
+    /// 시험도 여기에 걸 수 있다.
+    static func rename(_ memo: inout Memo, from old: String, to new: String) -> Bool {
+        var changed = false
+        if memo.value.contains(old) {
+            memo.value = memo.value.replacingOccurrences(of: old, with: new)
+            changed = true
+        }
+        if memo.templateVariables.contains(old) {
+            memo.templateVariables = memo.templateVariables.map { $0 == old ? new : $0 }
+            changed = true
+        }
+        if let copies = memo.placeholderValues.removeValue(forKey: old) {
+            memo.placeholderValues[new] = copies
+            changed = true
+        }
+        return changed
+    }
+
+    /// 빈칸 하나를 통째로 지운다. 값도, 남아 있던 사본도 함께.
+    ///
+    /// 어디에 쓰나: 템플릿을 지웠거나 이름을 바꿔서 **쓰는 단축어가 하나도 없는** 빈칸이
+    /// 관리 화면에 계속 남는다. 값은 하나씩 지울 수 있었지만 빈칸 자체는 지울 방법이 없어,
+    /// 목록이 쓰지 않는 이름으로 불어나기만 했다(사용자 피드백, 2026-08).
+    ///
+    /// ⚠️ 지워야 할 자리가 **세 곳**이다. 하나라도 빠뜨리면 지운 것이 되살아난다.
+    ///    1. App Group 의 값 (지금 저장소)
+    ///    2. 표준 UserDefaults 의 옛 값 - `storedPlaceholderTokens()` 가 양쪽을 훑기 때문에
+    ///       안 지우면 값이 0인 유령 이름으로 목록에 남는다
+    ///    3. 단축어에 붙어 있는 사본(`Memo.placeholderValues`) - 키보드가 폴백으로 읽는 자리다
+    ///
+    /// ⚠️ **본문의 `{토큰}` 은 건드리지 않는다.** 남의 글을 말없이 고치지 않는다는 뜻이고,
+    ///    그래서 아직 쓰는 단축어가 있는 빈칸은 지워도 다음에 다시 나타난다.
+    ///    부르는 쪽이 "쓰는 단축어 없음"(`PlaceholderSummary.isOrphan`)만 지우게 할 것.
+    func deletePlaceholder(_ placeholder: String) {
+        let key = "placeholder_values_\(placeholder)"
+        AppGroup.defaults?.removeObject(forKey: key)
+        AppGroup.defaults?.synchronize()
+        UserDefaults.standard.removeObject(forKey: key)
+        removePlaceholderFromMemoCopies(placeholder)
+        print("🗑️ [MemoStore.deletePlaceholder] 빈칸을 지웠다: \(placeholder)")
+    }
+
+    /// 단축어에 붙어 있는 사본에서 이 빈칸을 통째로 걷어낸다. 사본이 없으면 아무 일도 안 한다.
+    private func removePlaceholderFromMemoCopies(_ placeholder: String) {
+        guard var memos = try? load(type: .memo) else { return }
+        var touched = false
+
+        for index in memos.indices where memos[index].placeholderValues[placeholder] != nil {
+            memos[index].placeholderValues.removeValue(forKey: placeholder)
+            touched = true
+        }
+
+        guard touched else { return }
+        do {
+            try save(memos: memos, type: .memo)
+            print("🧹 [MemoStore.deletePlaceholder] 단축어에 붙어 있던 사본에서도 지웠다: \(placeholder)")
+        } catch {
+            // 공용 저장소에서는 이미 지워졌다. 사본 정리 실패로 지우기 자체를 되돌리지는 않는다.
+            print("⚠️ [MemoStore.deletePlaceholder] 사본 정리 실패: \(error)")
+        }
+    }
+
     /// 값이 저장돼 있는 빈칸 이름 전부.
     ///
     /// 어디에 쓰나: 단축어에서 사라진 빈칸도 값은 남아 있다(템플릿을 지웠거나 이름을 바꿨을 때).

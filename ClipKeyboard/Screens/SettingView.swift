@@ -157,6 +157,12 @@ struct SettingView: View {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
+            // 기기 언어와 읽고 싶은 언어가 다른 사람이 있다. iOS 설정까지 가지 않아도
+            // 여기서 바로 고르게 한다(자세한 건 AppLanguage 머리말).
+            NavigationLink(destination: LanguageSettingsView()) {
+                Label(NSLocalizedString("언어", comment: "Settings: app language"),
+                      systemImage: "globe")
+            }
             // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
             //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
             //    자리는 화면을 바꾸는 것들 뒤에 둔다(자주 안 만지는 것은 아래로).

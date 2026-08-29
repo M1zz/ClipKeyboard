@@ -49,6 +49,9 @@ enum DefaultsKey {
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
     static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
+    /// 사용자가 고른 앱 언어 (App Group, `AppLanguage.rawValue`). 값이 없으면 기기 설정을 따른다.
+    /// ⚠️ App Group 이어야 한다. 키보드 익스텐션은 다른 프로세스라 표준 UserDefaults 를 못 본다.
+    static let appLanguage = "app.language.v1"
     /// 단축어별로 쌓인 "넣고 나서 고친 자리"(App Group, `[UUID문자열: EditPattern.Record]` JSON).
     /// ⚠️ 고친 **자리와 값**만 담는다. 사용자의 본문은 건드리지 않는다.
     ///    자세한 이유: ClipKeyboard/Service/EditPattern.swift

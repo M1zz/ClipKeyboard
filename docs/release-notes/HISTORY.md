@@ -1,5 +1,57 @@
 # ClipKeyboard Release Notes
 
+## v5.0.5 (build 1)
+
+### 한국어
+
+중국어를 넣었습니다
+
+한 분이 물으셨습니다. 중국어를 지원해 줄 수 있느냐고. 넣었습니다. 간체와 번체 두 벌이고, 앱의 모든 화면과 키보드가 중국어로 서고 앱 이름도 함께 바뀝니다.
+
+번체는 글자만 바꾼 것이 아닙니다. 剪贴板을 剪貼簿로, 設置를 設定으로 적고 인용부호도 그쪽에서 쓰는 것으로 적습니다. 글자만 바꾸면 대만에서 읽는 분에게는 남의 나라 말이 그대로 남습니다. 예시의 은행과 주소와 결제 수단도 그 지역의 것으로 바꿨습니다.
+
+기기 언어와 읽고 싶은 언어가 다른 분을 위해 설정에 언어를 뒀습니다. 고르는 즉시 바뀌고 앱을 껐다 켜지 않아도 됩니다. 키보드는 다음에 열 때부터 같은 언어로 섭니다.
+
+키보드 안에서 문구 순서를 바꿉니다
+
+저장한 순서대로만 서 있어서 자주 쓰는 것이 뒤에 있었습니다. 앱에는 순서 바꾸기가 있었지만 문구를 실제로 고르는 자리는 키보드입니다. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고칩니다. 이제 키보드 안에서 바로 옮깁니다. 보이는 것 전체를 한 줄로 늘어놓고 옮기기 때문에 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있습니다. 손을 뗄 때마다 적어 두므로 옮겨 놓고 다른 앱으로 넘어가도 그대로 남습니다.
+
+빈칸 이름을 바꾸고, 안 쓰는 빈칸을 지웁니다
+
+한 분이 알려 주셨습니다. 빈칸 관리에서 값은 하나씩 지울 수 있는데 빈칸 자체는 못 지운다고, 안 쓰는 이름이 쌓여 목록이 지저분해진다고. 맞는 말이었습니다.
+
+이름을 바꾸면 그 이름을 쓰는 단축어의 내용도 함께 바뀝니다. 내용에 옛 이름을 둔 채 이름만 바꾸면 바꾼 빈칸이 그 자리에서 미아가 되고 단축어들은 여전히 옛 이름을 가리킵니다. 저장해 두신 글을 고치는 일이라 몇 개가 바뀌는지 누르기 전에 먼저 보여 드립니다.
+
+지우기는 쓰는 단축어가 하나도 없는 빈칸에만 나옵니다. 쓰는 곳이 있는 빈칸은 지워도 다음에 내용을 읽을 때 되살아납니다. 눌러도 지워지지 않는 삭제 버튼을 내놓느니 아예 보여 드리지 않기로 했습니다.
+
+단축어를 만들다 앱이 죽던 것을 고쳤습니다
+
+같은 분이 알려 주셨습니다. 이어지는 단계를 하나 지우는 순간이었고, 화면이 방금 사라진 칸의 번호를 한 번 더 읽으면서 죽었습니다. 가끔인 이유는 화면이 다시 그려지는 시점에 달려 있었기 때문입니다.
+
+의견을 보내실 때 답장 받을 자리를 뒀습니다. 이름과 이메일 둘 다 선택이고, 적어 주시면 다음에는 자동으로 채워 드립니다. 그 값은 이 기기에만 저장됩니다.
+
+별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭙니다. 만들어만 두고 키보드는 아직 못 켜신 분께 별점을 물으면 답은 정해져 있습니다.
+
+### English
+
+Chinese is in, both Simplified and Traditional. Every screen and the keyboard speak Chinese, and the app name changes with them. Traditional is not just the characters swapped: it says the words Taiwan uses and quotes the way Taiwan quotes, and the banks, addresses and payment methods in the examples were changed to local ones. For people whose device language and reading language differ, there is now a language setting that takes effect the moment you pick it.
+
+You can reorder snippets from inside the keyboard. They stood in the order you saved them, so the ones you use most ended up at the back. The app had reordering, but the place you actually pick a snippet is the keyboard, and if fixing the order means a trip back to the app, most people never fix it. Everything visible is laid out in a single line while you move, so page one can go to the top of page two, and each move is written down as you let go.
+
+You can rename a blank, and delete the ones no snippet uses. Renaming changes the name inside every snippet that uses it, and because that edits text you wrote, we show how many snippets will change before you commit. Delete only appears on blanks nothing uses: one still in use would come back the next time we read your text.
+
+Fixed a crash while making a snippet. Removing one of the follow up steps made the screen read the number of the row that had just disappeared, one more time.
+
+Feedback now takes a name and email to reply to, both optional and stored on your device only. And we ask for a rating only after you have pasted from the keyboard at least once.
+
+### 안에서 무슨 일이었나
+
+크래시는 `MemoAdd` 가 `ForEach(continuations.indices, id: \.self)` 로 돌면서 그 인덱스로 배열에 바인딩을 건 것이었다. 한 칸을 지우면 SwiftUI 가 아직 살아 있는 옛 인덱스로 바인딩을 한 번 더 읽는다. 단계마다 id 를 갖는 `ContinuationStep` 으로 바꿨다.
+
+빈칸을 지울 때 지워야 할 자리가 셋이다. App Group 의 값, 표준 UserDefaults 의 옛 값, 그리고 단축어에 붙어 있는 사본. 사본을 남기면 키보드가 폴백으로 읽어 되살린다. 이름 바꾸기는 여기에 본문과 `templateVariables` 까지 넷이다.
+
+번체는 손으로 관리하지 않는다. `scripts/make_zh_hant.py` 가 간체에서 다시 뽑는다. ICU 는 글자만 바꿔서 대륙 어휘가 남으므로 `scripts/zh_hant_vocab.py` 의 표가 대만 말과 인용부호를 맡는다. 자세한 것은 `5.0.5.md` 의 배포 메모에 있다.
+
 ## v5.0.4 (build 1)
 
 ### 한국어

@@ -23,12 +23,37 @@
 
         :root {
             --primary: #007AFF;
-            --primary-dark: #0056CC;
-            --bg: #FAFAFA;
-            --text: #1D1D1F;
-            --text-secondary: #6E6E73;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
             --card-bg: #FFFFFF;
-            --border: #E5E5E7;
+            --border: rgba(0, 0, 0, 0.09);
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                color-scheme: dark;
+            }
         }
 
         body {
@@ -69,13 +94,13 @@
             color: white;
         }
 
-        .lang-btn:hover:not(.active) { background: #F0F0F2; }
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
 
         /* Top Nav */
         .top-nav {
             position: sticky;
             top: 0;
-            background: rgba(255,255,255,0.85);
+            background: var(--veil);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid var(--border);
@@ -116,7 +141,7 @@
         .hero {
             padding: 4rem 2rem 2rem;
             text-align: center;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
         }
 
         .hero h1 {
@@ -267,6 +292,8 @@
     <div class="lang-toggle">
         <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
         <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
+        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
     </div>
 
     <nav class="top-nav">
@@ -457,8 +484,114 @@
                 footerHome: "Home",
                 footerPrivacy: "Privacy Policy",
                 footerContact: "Contact",
-            }
+            },
+            'zh-Hans': {
+             "pageTitle": "剪贴键盘：使用条款",
+             "navHome": "首页",
+             "navTutorial": "指南",
+             "heroTitle": "使用 <span>条款</span>",
+             "metaUpdated": "最后更新",
+             "highlightText": "剪贴键盘遵循 Apple 的标准使用许可协议（EULA）。以下是与本 App 相关的内容，用平实的话整理了一遍。",
+             "s1Title": "1. 条款的接受",
+             "s1P1": "下载并使用剪贴键盘（以下称“本 App”），即视为你同意本条款。如果不同意，请不要使用并删除本 App。",
+             "s1P2": "本 App 以 Apple 的 <strong>标准使用许可协议（Licensed Application End User License Agreement）</strong> 为基础，本条款是在其之上补充的、只与本 App 有关的内容。",
+             "s2Title": "2. 使用许可",
+             "s2P1": "在 App Store 使用条款允许的范围内，开发者授予你个人、非商业地使用本 App 的<strong>不可转让的使用许可</strong>。",
+             "s2L1": "不对 App 进行逆向工程、反编译或提取源码",
+             "s2L2": "不转售、出租或再分发本 App",
+             "s2L3": "不将本 App 用于非法目的",
+             "s3Title": "3. 付费（剪贴键盘 Pro）",
+             "s3P1": "本 App 可以免费开始使用，部分功能通过 <strong>Pro 一次性购买</strong> 解锁。不是订阅。",
+             "s3L1": "<strong>支付处理</strong>：所有付款都由 Apple App Store 处理，开发者不会拿到你的卡片信息",
+             "s3L2": "<strong>免费试用</strong>：如果提供试用期，期满后只保留免费功能，不会自动扣费",
+             "s3L3": "<strong>恢复购买</strong>：换设备或重装 App 后，可以用“恢复购买”找回",
+             "s3L4": "<strong>退款</strong>：退款遵循 Apple 的政策，需要通过 App Store 申请（开发者无法直接退款）",
+             "s4Title": "4. 你的数据与责任",
+             "s4P1": "本 App 把你输入的内容保存在你的设备上（以及你开启后的自有 iCloud）。开发者无法访问这些内容。",
+             "s4P2": "因此，<strong>备份数据的责任在你自己</strong>。因设备丢失、重置或删除 App 造成的数据丢失，开发者无法帮你恢复。重要的信息请使用 iCloud 备份或导出功能。",
+             "s4P3": "如果你要在本 App 里保存 <strong>密码、身份证号等敏感信息</strong>，建议同时使用设备锁和 App 的生物识别锁。",
+             "s5Title": "5. 键盘扩展（允许完全访问）",
+             "s5P1": "自定义键盘为了调出保存的短语，可能会申请“允许完全访问”权限。这个权限不会让开发者收集你输入的内容，键盘也不会保存或外传你打过的文字。详情请见<a href=\"privacy.html\">隐私政策</a>。",
+             "s6Title": "6. 服务的变更与终止",
+             "s6P1": "开发者可以增加、更改或移除 App 的功能。如果必须移除已付费购买的功能，会事先通过 App 内公告或版本说明告知。",
+             "s6P2": "本 App 包含依赖 Apple iCloud/CloudKit 的功能（备份、同步）。因 Apple 服务故障导致的暂时不可用，开发者不承担责任。",
+             "s7Title": "7. 免责",
+             "s7P1": "本 App 按“现状”提供。在法律允许的范围内，开发者不对因使用本 App 而产生的直接或间接损失承担责任。但这不限制韩国消费者相关法律所保障的你的权利。",
+             "s8Title": "8. 知识产权",
+             "s8P1": "本 App 及其设计、代码、商标的权利归开发者所有。你在 App 中输入的内容，其权利完全属于你。",
+             "s9Title": "9. 条款变更",
+             "s9P1": "条款变更时，本页面会标注更新日期。重大变更会通过 App 内公告或版本说明告知。变更后继续使用本 App，即视为你同意变更后的条款。",
+             "s10Title": "10. 适用法律与联系方式",
+             "s10P1": "本条款以大韩民国法律为适用法律。",
+             "s10L1": "<strong>邮箱</strong>：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+             "s10L2": "<strong>开发者</strong>：Leeo (Ysoup)",
+             "s10L3": "<strong>Apple 标准 EULA</strong>：<a href=\"https://www.apple.com/legal/internet-services/itunes/dev/stdeula/\" target=\"_blank\">查看全文</a>",
+             "footerHome": "首页",
+             "footerPrivacy": "隐私政策",
+             "footerContact": "联系"
+            },
+            'zh-Hant': {
+ "pageTitle": "剪貼鍵盤：使用條款",
+ "navHome": "首頁",
+ "navTutorial": "指南",
+ "heroTitle": "使用 <span>條款</span>",
+ "metaUpdated": "最後更新",
+ "highlightText": "剪貼鍵盤遵循 Apple 的標準使用許可協議（EULA）。以下是與本 App 相關的內容，用平實的話整理了一遍。",
+ "s1Title": "1. 條款的接受",
+ "s1P1": "下載並使用剪貼鍵盤（以下稱「本 App」），即視為你同意本條款。如果不同意，請不要使用並刪除本 App。",
+ "s1P2": "本 App 以 Apple 的 <strong>標準使用許可協議（Licensed Application End User License Agreement）</strong> 為基礎，本條款是在其之上補充的、只與本 App 有關的內容。",
+ "s2Title": "2. 使用許可",
+ "s2P1": "在 App Store 使用條款允許的範圍內，開發者授予你個人、非商業地使用本 App 的<strong>不可轉讓的使用許可</strong>。",
+ "s2L1": "不對 App 進行逆向工程、反編譯或提取源碼",
+ "s2L2": "不轉售、出租或再分發本 App",
+ "s2L3": "不將本 App 用於非法目的",
+ "s3Title": "3. 付費（剪貼鍵盤 Pro）",
+ "s3P1": "本 App 可以免費開始使用，部分功能透過 <strong>Pro 一次性購買</strong> 解鎖。不是訂閱。",
+ "s3L1": "<strong>付款處理</strong>：所有付款都由 Apple App Store 處理，開發者不會拿到你的卡片資訊",
+ "s3L2": "<strong>免費試用</strong>：如果提供試用期，期滿後只保留免費功能，不會自動扣費",
+ "s3L3": "<strong>還原購買</strong>：換裝置或重裝 App 後，可以用「還原購買」找回",
+ "s3L4": "<strong>退款</strong>：退款遵循 Apple 的政策，需要透過 App Store 申請（開發者無法直接退款）",
+ "s4Title": "4. 你的資料與責任",
+ "s4P1": "本 App 把你輸入的內容儲存在你的裝置上（以及你開啓後的自有 iCloud）。開發者無法存取這些內容。",
+ "s4P2": "因此，<strong>備份資料的責任在你自己</strong>。因裝置丟失、重置或刪除 App 造成的資料丟失，開發者無法幫你還原。重要的資訊請使用 iCloud 備份或匯出功能。",
+ "s4P3": "如果你要在本 App 裡儲存 <strong>密碼、身分證字體大小等敏感資訊</strong>，建議同時使用裝置鎖和 App 的生物識別鎖。",
+ "s5Title": "5. 鍵盤擴展（允許完全取用）",
+ "s5P1": "自定義鍵盤為了調出儲存的短語，可能會申請「允許完全取用」權限。這個權限不會讓開發者收集你輸入的內容，鍵盤也不會儲存或外傳你打過的文字。詳情請見<a href=\"privacy.html\">隱私權政策</a>。",
+ "s6Title": "6. 服務的變更與終止",
+ "s6P1": "開發者可以增加、更改或移除 App 的功能。如果必須移除已付費購買的功能，會事先透過 App 內公告或版本說明告知。",
+ "s6P2": "本 App 包含依賴 Apple iCloud/CloudKit 的功能（備份、同步）。因 Apple 服務故障導致的暫時不可用，開發者不承擔責任。",
+ "s7Title": "7. 免責",
+ "s7P1": "本 App 按「現狀」提供。在法律允許的範圍內，開發者不對因使用本 App 而產生的直接或間接損失承擔責任。但這不限制韓國消費者相關法律所保障的你的權利。",
+ "s8Title": "8. 知識產權",
+ "s8P1": "本 App 及其設計、代碼、商標的權利歸開發者所有。你在 App 中輸入的內容，其權利完全屬於你。",
+ "s9Title": "9. 條款變更",
+ "s9P1": "條款變更時，本頁面會標注更新日期。重大變更會透過 App 內公告或版本說明告知。變更後繼續使用本 App，即視為你同意變更後的條款。",
+ "s10Title": "10. 適用法律與聯繫方式",
+ "s10P1": "本條款以大韓民國法律為適用法律。",
+ "s10L1": "<strong>信箱</strong>：<a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+ "s10L2": "<strong>開發者</strong>：Leeo (Ysoup)",
+ "s10L3": "<strong>Apple 標準 EULA</strong>：<a href=\"https://www.apple.com/legal/internet-services/itunes/dev/stdeula/\" target=\"_blank\">查看全文</a>",
+ "footerHome": "首頁",
+ "footerPrivacy": "隱私權政策",
+ "footerContact": "聯繫"
+}
         };
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
 
         function setLanguage(lang) {
             localStorage.setItem('clipkb-lang', lang);
@@ -485,20 +618,19 @@
         }
 
         (function() {
-            // ?lang=en / ?lang=ko 로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
-            var requested = (new URLSearchParams(window.location.search).get('lang') || '').toLowerCase();
-            if (requested === 'en' || requested === 'ko') {
-                setLanguage(requested);
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
                 return;
             }
-            var saved = localStorage.getItem('clipkb-lang');
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
             if (saved) {
                 applyLanguage(saved);
-            } else {
-                var browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-                var lang = browserLang.startsWith('ko') ? 'ko' : 'en';
-                applyLanguage(lang);
+                return;
             }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
         })();
     </script>
 </body>

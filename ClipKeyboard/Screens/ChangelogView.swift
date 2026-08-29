@@ -35,6 +35,31 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.5",
+            released: nil,
+            highlights: [
+                // 중국어 · 언어 고르기
+                NSLocalizedString("중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요", comment: "Changelog 5.0.5 chinese"),
+                NSLocalizedString("번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요", comment: "Changelog 5.0.5 traditional"),
+                NSLocalizedString("설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요", comment: "Changelog 5.0.5 language picker"),
+
+                // 키보드 순서
+                NSLocalizedString("키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요", comment: "Changelog 5.0.5 keyboard reorder"),
+                NSLocalizedString("보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요", comment: "Changelog 5.0.5 reorder across pages"),
+
+                // 빈칸 관리
+                NSLocalizedString("빈칸 이름을 바꿀 수 있어요. 그 이름을 쓰는 단축어의 내용도 함께 바뀌고, 몇 개가 바뀌는지 먼저 보여드려요", comment: "Changelog 5.0.5 rename blank"),
+                NSLocalizedString("쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요", comment: "Changelog 5.0.5 delete blank"),
+
+                // 고친 것
+                NSLocalizedString("단축어를 만들다 이어지는 단계를 지울 때 앱이 죽던 것을 고쳤어요", comment: "Changelog 5.0.5 continuation crash"),
+
+                // 피드백 · 별점
+                NSLocalizedString("의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요", comment: "Changelog 5.0.5 feedback contact"),
+                NSLocalizedString("별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭤봐요", comment: "Changelog 5.0.5 review gate"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.4",
             released: nil,
             highlights: [
