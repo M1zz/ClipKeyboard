@@ -359,6 +359,17 @@ enum VaultLedger {
     static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
         KeyboardUsageTracker.earnedSeconds(characterCount: characterCount, useCount: useCount)
     }
+
+    /// 메모를 들고 있는 자리에서 쓰는 창구.
+    ///
+    /// ⚠️ 위의 글자수 창구는 **찾아오는 시간을 셀 수 없다**(값의 종류를 모르니까).
+    ///    메모가 있으면 반드시 이쪽을 쓸 것 - 안 그러면 계좌번호 카드에 쌓인 동전이
+    ///    사용 기록의 숫자보다 한참 적게 나온다.
+    static func earnedSeconds(for memo: Memo) -> Double {
+        KeyboardUsageTracker.earnedSeconds(value: memo.value,
+                                           type: memo.autoDetectedType,
+                                           useCount: memo.clipCount)
+    }
 }
 
 // MARK: - 렌더러

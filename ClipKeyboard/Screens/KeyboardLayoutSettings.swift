@@ -293,7 +293,7 @@ struct KeyboardLayoutSettings: View {
                         if keyboardSkinRaw == candidate.rawValue {
                             Image(systemName: AppSymbol.checkmark)
                                 .font(.body.weight(.semibold))
-                                .foregroundColor(theme.accent)
+                                .foregroundColor(Color.checkGreen)
                         }
                     }
                     .contentShape(Rectangle())
@@ -402,7 +402,11 @@ struct KeyboardPreviewView: View {
     /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
     private var visualCuesVisible: Bool { showVisualCues }
 
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     private var bgColor: Color {
         if useCustomColors, !customBgHex.isEmpty, let c = Color(hex: customBgHex) { return c }
@@ -497,7 +501,8 @@ struct KeyboardPreviewView: View {
                 )
                 .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
 
-            Text(memo.title)
+            Text(memo.title.templateAwareAttributed(
+                theme: theme, font: .system(size: buttonFontSize, weight: .semibold)))
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
@@ -638,6 +643,7 @@ struct SecurePINSetupView: View {
                                 .font(.system(size: 22)).foregroundColor(.primary)
                                 .frame(width: 80, height: 60)
                         }
+                        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
                     }
                 }
                 Spacer()

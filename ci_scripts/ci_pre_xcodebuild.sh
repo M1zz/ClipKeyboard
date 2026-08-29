@@ -17,7 +17,7 @@
 #
 # ⚠️ 이 수정은 클라우드가 클론한 **일회용 사본**에만 일어난다. 저장소로 커밋되지 않는다.
 #
-# 자세한 배경: docs/XCODE_CLOUD.md
+# 자세한 배경: docs/engineering/XCODE_CLOUD.md
 #
 
 set -e

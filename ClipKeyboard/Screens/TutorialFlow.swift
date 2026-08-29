@@ -81,6 +81,84 @@ enum TutorialChapter: String, Identifiable, CaseIterable {
     }
 }
 
+// MARK: - 콤보는 한 번 눌러서는 안 배워진다
+
+/// 콤보 장 **안쪽**의 걸음들.
+///
+/// ⚠️ 왜 콤보만 여러 걸음인가: 단축어와 템플릿은 한 번 누르면 그것이 무엇인지 다 보인다.
+///    콤보는 **한 번 눌러서는 아무것도 안 보인다.** 값 하나가 들어갈 뿐이라 보통 단축어와
+///    똑같이 생겼고, 이 키가 값 여러 개를 갖고 있다는 사실이 화면 어디에도 안 나타난다.
+///    서로 다른 값이 **두 번** 들어가는 걸 자기 눈으로 봐야 그때 알아진다.
+///
+/// ⚠️ 그래서 걸음이 다섯이다. 넣고 → 보내고 → **→ 로 값을 바꾸고** → 다시 넣고 → 보낸다.
+///    가운데 세 번째가 이 장의 전부다. 나머지 넷은 그 하나를 앞뒤로 감싸 대비를 만든다.
+///
+/// ⚠️ 마지막에 **묻는다.** 두 번 보내 놓고 그냥 지나가면 두 번 눌렀다는 것만 남는다.
+///    "서로 다른 값 두 개가 들어갔죠?" 를 한 번 짚어 주어야 손에 남은 것이 뜻이 된다.
+enum ComboTutorialStep: String, CaseIterable, Identifiable {
+    /// 콤보 키 **왼쪽**을 눌러 첫 값을 넣는다.
+    case insertFirst
+    /// 보내기(위 화살표)를 눌러 올린다.
+    case sendFirst
+    /// 콤보 키 **오른쪽 →** 를 눌러 다음 값으로 넘긴다. 이 장의 핵심.
+    case advance
+    /// 다시 왼쪽을 눌러 **아까와 다른 값**을 넣는다.
+    case insertSecond
+    /// 다시 보낸다 - 두 말풍선이 나란히 서야 다른 값인 것이 보인다.
+    case sendSecond
+    /// 무엇을 본 것인지 한 번 짚는다.
+    case confirm
+
+    var id: String { rawValue }
+
+    /// 무대 위 안내 한 줄.
+    ///
+    /// ⚠️ "무엇을 누르라"가 아니라 **"누르면 무슨 일이 나는지"**를 적는다(다른 장과 같은 규칙).
+    var coachLine: String {
+        switch self {
+        case .insertFirst:
+            return NSLocalizedString("마지막은 콤보예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
+                                     comment: "Combo step: insert the first value")
+        case .sendFirst:
+            return NSLocalizedString("들어갔어요. 보내기를 눌러 올려보세요.",
+                                     comment: "Combo step: send the first value")
+        case .advance:
+            return NSLocalizedString("이제 키의 오른쪽 → 를 눌러보세요. 다음 값으로 바뀝니다.",
+                                     comment: "Combo step: advance to the next value")
+        case .insertSecond:
+            return NSLocalizedString("값이 바뀌었죠? 이번엔 왼쪽을 눌러 두 번째 값을 넣어보세요.",
+                                     comment: "Combo step: insert the second value")
+        case .sendSecond:
+            return NSLocalizedString("아까와 다른 값이에요. 한 번 더 보내볼까요?",
+                                     comment: "Combo step: send the second value")
+        case .confirm:
+            return NSLocalizedString("서로 다른 값 두 개가 들어갔어요",
+                                     comment: "Combo step: confirmation headline")
+        }
+    }
+
+    /// 지금 가리키는 것이 콤보 키의 어느 쪽인가. nil 이면 키가 아닌 다른 곳을 가리킨다.
+    var comboPart: KeyboardView.ComboKeyPart? {
+        switch self {
+        case .insertFirst, .insertSecond: return .value
+        case .advance:                    return .next
+        case .sendFirst, .sendSecond, .confirm: return nil
+        }
+    }
+
+    /// 지금 보내기 동그라미를 가리키고 있는가.
+    var highlightsSend: Bool {
+        self == .sendFirst || self == .sendSecond
+    }
+
+    /// 이 걸음을 지나면 다음은 무엇인가. 마지막(`confirm`)이면 nil - 장이 끝난다.
+    var next: ComboTutorialStep? {
+        let all = ComboTutorialStep.allCases
+        guard let i = all.firstIndex(of: self), i + 1 < all.count else { return nil }
+        return all[i + 1]
+    }
+}
+
 // MARK: - 넣어 둔 시나리오
 
 /// 첫 실행에 심어 둔 시나리오 중 **장마다 하나씩**을 찾아 준다.
@@ -112,7 +190,11 @@ enum TutorialScenarios {
         case .template:
             return memos.first { $0.isTemplate && !$0.isCombo }
         case .combo:
-            return memos.first { $0.isCombo }
+            // ⚠️ **값이 둘 이상이라야 한다.** `isCombo` 는 값이 하나여도 참이다
+            //    (`comboValues` 가 비지만 않으면 콤보다). 값이 하나뿐인 콤보를 가리키면
+            //    "오른쪽 → 를 눌러보세요, 다음 값으로 바뀝니다" 라고 해 놓고 아무것도
+            //    안 바뀐다. 가리킬 것이 없으면 그 장은 조용히 건너뛰는 편이 낫다.
+            return memos.first { $0.comboValues.count > 1 }
         }
     }
 
@@ -463,17 +545,21 @@ private struct Triangle: Shape {
 
 // MARK: - 다음 장까지
 
-/// 장과 장 사이에 도는 5초 원.
+/// 장과 장 사이에 도는 3초 원.
 ///
 /// ⚠️ 왜 그냥 기다리지 않고 원을 보여주나: 방금 하나를 끝냈는데 화면이 잠시 아무것도 안 하면
 ///    **끝난 건지 멈춘 건지** 알 수 없다. 남은 시간이 보이면 그 몇 초가 '기다림'이 아니라
 ///    '숨 고르기'가 된다 - 곧 뭔가 온다는 걸 알고 쉬는 것과 모르고 멈춰 있는 건 다르다.
 ///
-/// ⚠️ 시간이 지나면 스스로 사라진다. 닫는 버튼은 없다 - 누를 것이 하나 더 생기면
-///    쉬라고 만든 자리가 또 하나의 할 일이 된다.
+/// ⚠️ **누르면 곧바로 넘어간다.** 예전에는 누를 수 없는 표시였다(`allowsHitTesting(false)`).
+///    그런데 화면 한가운데에 숫자가 줄어드는 원이 떠 있으면 사람은 그걸 누른다 - 눌러도
+///    아무 일이 없으면 앱이 굳은 것으로 읽힌다. 기다리는 것은 배우는 일이 아니므로,
+///    빨리 가고 싶은 사람에게는 길을 열어 준다.
 struct NextChapterCountdown: View {
     let endsAt: Date
     let total: Double
+    /// 눌러서 남은 시간을 건너뛴다. 다음 장이 곧바로 열린다.
+    var onSkip: () -> Void = {}
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -481,36 +567,45 @@ struct NextChapterCountdown: View {
     private let ring: CGFloat = 46
 
     var body: some View {
-        TimelineView(.animation) { context in
-            let remaining = max(0, endsAt.timeIntervalSince(context.date))
-            let progress = total > 0 ? remaining / total : 0
+        Button(action: onSkip) {
+            TimelineView(.animation) { context in
+                let remaining = max(0, endsAt.timeIntervalSince(context.date))
+                let progress = total > 0 ? remaining / total : 0
 
-            HStack(spacing: 10) {
-                ZStack {
-                    Circle()
-                        .stroke(theme.divider, lineWidth: 3)
-                    Circle()
-                        .trim(from: 0, to: progress)
-                        .stroke(theme.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                        .rotationEffect(.degrees(-90))   // 12시 방향에서 줄어들게
-                    Text("\(Int(remaining.rounded(.up)))")
-                        .font(.footnote.weight(.bold))
-                        .monospacedDigit()
-                        .foregroundColor(theme.text)
+                HStack(spacing: 10) {
+                    ZStack {
+                        Circle()
+                            .stroke(theme.divider, lineWidth: 3)
+                        Circle()
+                            .trim(from: 0, to: progress)
+                            .stroke(theme.accent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                            .rotationEffect(.degrees(-90))   // 12시 방향에서 줄어들게
+                        Text("\(Int(remaining.rounded(.up)))")
+                            .font(.footnote.weight(.bold))
+                            .monospacedDigit()
+                            .foregroundColor(theme.text)
+                    }
+                    .frame(width: ring, height: ring)
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
+                            .font(.footnote.weight(.medium))
+                            .foregroundColor(theme.textMuted)
+                        // 누를 수 있다는 것은 **적어 주어야** 안다. 원만 돌면 기다리는 표시로 읽힌다.
+                        Text(NSLocalizedString("눌러서 바로 넘어가기", comment: "Countdown: tap to skip the wait"))
+                            .font(.caption2.weight(.semibold))
+                            .foregroundColor(theme.accent)
+                    }
                 }
-                .frame(width: ring, height: ring)
-
-                Text(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
-                    .font(.footnote.weight(.medium))
-                    .foregroundColor(theme.textMuted)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(Capsule().fill(.ultraThinMaterial))
+                .overlay(Capsule().strokeBorder(theme.divider, lineWidth: 0.5))
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Capsule().fill(.ultraThinMaterial))
-            .overlay(Capsule().strokeBorder(theme.divider, lineWidth: 0.5))
         }
-        .allowsHitTesting(false)
+        .buttonStyle(.plain)
         .accessibilityLabel(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
+        .accessibilityHint(NSLocalizedString("눌러서 바로 넘어가기", comment: "Countdown: tap to skip the wait"))
     }
 }
 
@@ -535,8 +630,16 @@ enum TutorialReset {
         d.set(false, forKey: DefaultsKey.tutorialSnippetDone)
         d.set(false, forKey: DefaultsKey.tutorialTemplateDone)
         d.set(false, forKey: DefaultsKey.tutorialComboDone)
+        // 콤보 장 안쪽의 걸음도 함께 비운다 - 남겨 두면 다시 하기를 눌러도 그 장이
+        // 중간부터 열려서, 처음부터 다시 하겠다고 한 사람의 말과 어긋난다.
+        d.set("", forKey: DefaultsKey.tutorialComboStep)
+        d.set(false, forKey: DefaultsKey.tutorialSwitchHintSeen)
         d.set(false, forKey: DefaultsKey.tutorialChaptersDone)
+        d.set(false, forKey: DefaultsKey.tutorialMakeOwnDone)
         d.set(false, forKey: DefaultsKey.keyboardSetupTutorialDone)
+        // ⚠️ 샘플 정리 물음은 **되살리지 않는다.** 이미 답한 사람에게 다시 묻는 것은
+        //    묻는 게 아니라 재촉이다. 다시 하기는 배우는 길을 되짚는 것이지,
+        //    한 번 고른 결정을 없던 일로 만드는 것이 아니다.
         d.set("", forKey: DefaultsKey.tutorialFirstUseMemoId)
         // 튜토리얼은 무대에서 시작한다 - 목록에 있으면 첫 걸음이 열리지 않는다.
         d.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)

@@ -44,7 +44,7 @@ struct SecurePINSettings: View {
                 if pinIsSet {
                     HStack {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
-                            .foregroundColor(.green)
+                            .foregroundColor(Color.checkGreen)
                             .accessibilityHidden(true)
                         Text(NSLocalizedString("보안 PIN이 설정되어 있습니다", comment: "Secure PIN is set"))
                         Spacer()

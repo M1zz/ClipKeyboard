@@ -153,7 +153,7 @@ enum LaunchGuard {
     ///
     /// 여기서부터 `runLaunchSequence()` 의 첫 단계까지가 SwiftUI 가 `body` 를 처음
     /// 평가하는 구간이고, **워치독의 `scene-create` 창이 정확히 이 구간이다.**
-    /// 4.4.6 이 죽은 자리도 여기였다(`docs/LAUNCH_WATCHDOG_4_4_6.md`).
+    /// 4.4.6 이 죽은 자리도 여기였다(`docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md`).
     ///
     /// 표식이 없으면 그 죽음이 직전 단계(`tips`)의 것으로 기록된다. 그러면 두 번째
     /// 사고에서 TipKit 이 격리되고 - 죄 없는 단계가 꺼지고, 진짜 원인은 계속 숨는다.

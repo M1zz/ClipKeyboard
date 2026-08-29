@@ -585,10 +585,6 @@ private enum UsageScenarioData {
 
 struct UsageGuideView: View {
     @Environment(\.appTheme) private var theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    // 페르소나 단위로 펼침/접힘 관리 (PersonaGuide.id == persona.rawValue).
-    @State private var expanded: Set<String> = Set(personaGuides.prefix(1).map { $0.id })
-    @State private var showStarterPack: Bool = false
 
     var body: some View {
         ScrollView {
@@ -596,7 +592,7 @@ struct UsageGuideView: View {
                 heroHeader
 
                 ForEach(personaGuides) { guide in
-                    personaSection(guide)
+                    personaRow(guide)
                 }
 
                 Spacer(minLength: 40)
@@ -604,14 +600,17 @@ struct UsageGuideView: View {
             .padding(16)
         }
         .background(theme.bg.ignoresSafeArea())
-        .navigationTitle(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"))
+        // ⚠️ 예전 이름은 "활용 사례"였다. 설명서에서나 쓰는 말이라, 열어 보기 전에는
+        //    무엇이 있는 화면인지 짐작이 안 갔다.
+        //
+        // ⚠️ "골라담기"로 하지 않았다. 그건 **단축어 마트**가 하는 일이고(+ 메뉴),
+        //    둘 다 같은 글을 본다. 이름까지 겹치면 어느 쪽을 열어야 할지 알 수 없다.
+        //    이 화면의 고유한 값은 담는 것이 아니라 **누가 어떻게 쓰는지 보는 것**이다.
+        .navigationTitle(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
         #endif
-        .sheet(isPresented: $showStarterPack) {
-            StarterPackView()
-        }
     }
 
     // MARK: - Subviews
@@ -629,109 +628,149 @@ struct UsageGuideView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
 
-            // 둘러보다가 바로 묶음으로 추가 - 갤러리에서도 스타터팩 진입.
-            Button {
-                HapticManager.shared.light()
-                showStarterPack = true
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: AppSymbol.squareStack3dUpFill)
-                        .accessibilityHidden(true)
-                    Text(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"))
-                        .font(.body.weight(.semibold))
-                    Spacer()
-                    Image(systemName: AppSymbol.chevronRight)
-                        .font(.caption.weight(.semibold))
-                        .accessibilityHidden(true)
-                }
-                .foregroundColor(.white)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 12)
-                .background(
-                    LinearGradient(
-                        colors: [Color.clipBrand, Color.clipBrandDeep],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .cornerRadius(theme.radiusMd)
-            }
-            .buttonStyle(PlainButtonStyle())
+            // ⚠️ 여기 있던 묶음 추가 버튼(스타터팩)을 뺐다.
+            //
+            //    이 화면의 예시는 **하나씩 탭해서 담는 것**이고, 그 버튼은 같은 글에서
+            //    (`personaGuides`) 여러 개를 통째로 담는 다른 화면을 열었다.
+            //    같은 자리에서 같은 것을 두 가지 방법으로 담게 되니, 사용자는 무엇이
+            //    다른지 알 수 없는 채로 고르기부터 해야 했다.
+            //
+            //    담는 길은 이 화면 안에 이미 있다(예시 탭). 여러 개를 한 번에 담고
+            //    싶으면 단축어 마트로 간다(+ 메뉴) - 거기가 골라 담는 자리다.
         }
         .padding(.vertical, 8)
     }
 
-    private func personaSection(_ guide: PersonaGuide) -> some View {
-        let isOpen = expanded.contains(guide.id)
-        return VStack(alignment: .leading, spacing: 0) {
-            Button {
-                HapticManager.shared.soft()
-                let animation: Animation = reduceMotion
-                    ? .linear(duration: 0.1)
-                    : .easeInOut(duration: 0.22)
-                withAnimation(animation) {
-                    if isOpen { expanded.remove(guide.id) } else { expanded.insert(guide.id) }
-                }
-                #if os(iOS)
-                if UIAccessibility.isVoiceOverRunning {
-                    let state = isOpen
-                        ? NSLocalizedString("접힘", comment: "VoiceOver: collapsed")
-                        : NSLocalizedString("펼침", comment: "VoiceOver: expanded")
-                    UIAccessibility.post(notification: .announcement, argument: "\(guide.persona.localizedTitle), \(state)")
-                }
-                #endif
-            } label: {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(spacing: 12) {
-                        Image(systemName: guide.persona.icon)
-                            .font(.system(.title3, weight: .semibold))
-                            .foregroundColor(.accentColor)
-                            .frame(width: 34, height: 34)
-                            .background(Color.accentColor.opacity(0.12))
-                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(guide.persona.localizedTitle)
-                                .font(.callout.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(String(format: NSLocalizedString("%d가지 활용법", comment: "Persona: N use cases"), guide.scenarios.count))
-                                .font(.caption)
-                                .foregroundColor(theme.textFaint)
-                        }
-                        Spacer()
-                        Image(systemName: isOpen ? "chevron.up" : "chevron.down")
-                            .font(.body.weight(.semibold))
+    /// 목록의 한 줄 - 누르면 **그 사람의 이야기만 있는 화면**으로 넘어간다.
+    ///
+    /// ⚠️ 예전에는 이 자리에서 접었다 폈다 했다. 페르소나가 넷이고 각자 열 가지가 넘어서,
+    ///    하나를 펴면 그 아래로 화면 몇 개 분량이 쏟아졌다. 다른 사람 것을 보려면
+    ///    그만큼을 다시 스크롤해 올라와야 했고, 스크롤 도중에는 **내가 지금 누구의
+    ///    이야기를 읽고 있는지**가 화면에서 사라졌다.
+    ///
+    /// ⚠️ 하위 화면으로 넘기면 그 둘이 해결된다. 제목이 위에 남아 누구 이야기인지
+    ///    계속 보이고, 돌아가는 길이 뒤로 가기 하나로 분명해진다.
+    private func personaRow(_ guide: PersonaGuide) -> some View {
+        NavigationLink {
+            PersonaDetailView(guide: guide)
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 12) {
+                    Image(systemName: guide.persona.icon)
+                        .font(.system(.title3, weight: .semibold))
+                        .foregroundColor(.accentColor)
+                        .frame(width: 34, height: 34)
+                        .background(Color.accentColor.opacity(0.12))
+                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(guide.persona.localizedTitle)
+                            .font(.callout.weight(.semibold))
+                            .foregroundColor(theme.text)
+                        Text(String(format: NSLocalizedString("%d가지 활용법", comment: "Persona: N use cases"), guide.scenarios.count))
+                            .font(.caption)
                             .foregroundColor(theme.textFaint)
-                            .accessibilityHidden(true)
                     }
-                    // 페르소나 공감 인트로 - 펼쳤을 때만 전문 노출, 접혔을 땐 2줄 미리보기.
-                    Text(guide.intro)
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(isOpen ? nil : 2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                    Image(systemName: AppSymbol.chevronRight)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.textFaint)
+                        .accessibilityHidden(true)
                 }
-                .padding(14)
-                .background(theme.surface)
-                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                // 목록에서는 두 줄만 - 전문은 들어가서 읽는다.
+                Text(guide.intro)
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(PlainButtonStyle())
-            .accessibilityLabel(guide.persona.localizedTitle)
-            .accessibilityHint(guide.intro)
-
-            if isOpen {
-                VStack(spacing: 10) {
-                    ForEach(guide.scenarios) { scenario in
-                        personaScenarioCard(scenario)
-                    }
-                }
-                .padding(.top, 10)
-            }
+            .padding(14)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+            .contentShape(Rectangle())
         }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(guide.persona.localizedTitle)
+        .accessibilityHint(guide.intro)
     }
 
-    private func personaScenarioCard(_ scenario: PersonaScenario) -> some View {
+}
+
+#if DEBUG
+struct UsageGuideView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            UsageGuideView()
+        }
+    }
+}
+#endif
+
+// MARK: - 한 사람의 이야기
+
+/// 페르소나 하나의 활용법만 모아 놓은 화면.
+///
+/// ⚠️ 목록에서 접었다 펴던 것을 여기로 옮겼다. 페르소나가 넷이고 각자 열 가지가 넘어서,
+///    한 자리에서 펴면 화면 몇 개 분량이 쏟아지고 **내가 누구 이야기를 읽는 중인지**가
+///    스크롤 도중에 사라졌다. 제목이 위에 남아 있어야 그 물음이 안 생긴다.
+///
+/// ⚠️ 인트로는 여기서 **전문**을 보여준다. 목록에서는 두 줄로 잘리는데, 들어온 사람은
+///    이 사람이 어떤 하루를 보내는지 읽으러 온 것이다.
+struct PersonaDetailView: View {
+    let guide: PersonaGuide
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(guide.intro)
+                    .font(.body)
+                    .foregroundColor(theme.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(14)
+                    .background(theme.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+
+                Text(String(format: NSLocalizedString("%d가지 활용법", comment: "Persona: N use cases"),
+                            guide.scenarios.count))
+                    .font(.caption.weight(.semibold))
+                    .kerning(0.8)
+                    .foregroundColor(theme.textMuted)
+                    .padding(.top, 4)
+
+                ForEach(guide.scenarios) { scenario in
+                    PersonaScenarioCard(scenario: scenario)
+                }
+
+                Spacer(minLength: 40)
+            }
+            .padding(16)
+        }
+        .background(theme.bg.ignoresSafeArea())
+        .navigationTitle(guide.persona.localizedTitle)
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        .solidNavBar(theme.bg)
+        #endif
+    }
+}
+
+// MARK: - 활용법 카드
+
+/// 활용법 한 장. **목록과 상세가 같은 카드를 쓴다.**
+///
+/// ⚠️ 예전에는 `UsageGuideView` 안의 private 함수였다. 상세 화면을 따로 만들면서
+///    두 곳이 같은 카드를 그려야 했고, 복사해 두면 한쪽만 고쳐지는 날이 온다.
+struct PersonaScenarioCard: View {
+    let scenario: PersonaScenario
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 8) {
                 Text(scenario.title)
@@ -755,7 +794,7 @@ struct UsageGuideView: View {
             }
 
             // {플레이스홀더}는 템플릿 화면과 동일하게 칩으로 표시 (날것 [] / {} 노출 방지)
-            Text(scenario.example.templateChipAttributed(theme: theme))
+            Text(scenario.example.templateAwareAttributed(theme: theme))
                 .font(.body)
                 .foregroundColor(theme.text)
                 .padding(10)
@@ -852,13 +891,3 @@ struct UsageGuideView: View {
             .accessibilityHidden(true)
     }
 }
-
-#if DEBUG
-struct UsageGuideView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            UsageGuideView()
-        }
-    }
-}
-#endif

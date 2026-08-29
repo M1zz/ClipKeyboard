@@ -52,7 +52,9 @@ struct VaultScreen: View {
         #endif
         .onAppear(perform: load)
         .sheet(item: $receiptRequest) { request in
-            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt)
+            // 금고 화면에는 고른 기간이 없다. 이 화면이 크게 보여주는 것이 이번 달이라
+            // 종이도 이번 달로 뽑는다 - 화면과 종이가 다른 달을 말하면 안 된다.
+            RefundReceiptSheet(memos: request.memos, issuedAt: request.issuedAt, period: .thisMonth)
         }
     }
 

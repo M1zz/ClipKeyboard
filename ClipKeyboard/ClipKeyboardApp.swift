@@ -20,6 +20,13 @@ struct ClipKeyboardApp: App {
     @State private var showDemoSampleOffer = false
     /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
     @State private var showRestoreHint = false
+    /// 그거 아세요? - 지금 보여 줄 이야기. **이 값이 곧 시트의 상태다.**
+    ///
+    /// ⚠️ `isPresented` 로 띄우지 않는다. 켜는 값과 그릴 값이 둘로 나뉘어 있으면,
+    ///    SwiftUI 가 시트를 올리는 시점에 그릴 값이 아직 안 들어와 **빈 시트**가 뜬다.
+    ///    실제로 그렇게 떴다(하얀 화면 하나가 올라오고 아무것도 안 보였다).
+    ///    `item:` 은 값이 있을 때만 올라오므로 그 틈이 생기지 않는다.
+    @State private var didYouKnowItem: DidYouKnow?
     /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
     @State private var showCloudBackupSheet = false
     private let restoreHintShownKey = "restoreHintShown_v1"
@@ -37,6 +44,8 @@ struct ClipKeyboardApp: App {
     @State private var showDiscountOffer = false
     /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
     @State private var discountOccasion: DiscountOfferManager.Occasion = .limitEdge
+    /// 언어를 바꿀 때마다 하나씩 올린다. 이 값이 곧 화면 트리의 `id` 라, 바뀌면 통째로 새로 그려진다.
+    @State private var languageRefreshToken = 0
 
     /// 유닛 테스트 실행 중인지 - `XCTestConfigurationFilePath`는 xcodebuild test로
     /// (XCTest/Swift Testing 모두) 번들을 주입할 때만 설정되고, 프로덕션/TestFlight/
@@ -76,10 +85,6 @@ struct ClipKeyboardApp: App {
         // 스킨 기본값과 튜토리얼이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
         standard.set(true, forKey: DefaultsKey.startedFreshV444)
 
-        // 악어 입속은 **새로 오는 사람에게만** 켜 준다. 이 앱의 첫인상이 그것이기 때문이다.
-        // 쓰던 사람의 키보드는 업데이트로 바뀌지 않는다(설정에서 직접 켤 수 있다).
-        ToothStyle.seedDefaultIfNeeded(startedFresh: true)
-
         // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
         // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
         //    (SnippetsTab.offerKeyboardStageIfNeeded).
@@ -115,6 +120,10 @@ struct ClipKeyboardApp: App {
             print("🧪 [APP INIT] 유닛 테스트 모드, 무거운 초기화 스킵")
             return
         }
+
+        // ⚠️ 화면에 글자가 하나라도 나가기 **전에** 언어를 세운다. 늦으면 첫 화면만
+        //    기기 언어로 그려졌다가 뒤늦게 바뀌는 깜빡임이 생긴다.
+        AppLanguage.applyStored()
 
         // 직전 런치가 끝까지 갔는지 판정한다. 못 갔으면 이번 런치는 세이프 모드로 열린다.
         LaunchGuard.begin()
@@ -154,8 +163,18 @@ struct ClipKeyboardApp: App {
         ReviewManager.shared.incrementAppLaunchCount()
 
         // TipKit 설정 - 온보딩 대신 상황에 맞는 팁으로 안내
+        //
+        // ⚠️ **한 번에 하나만 뜬다.** 빈도를 안 정하면 기본이 `.immediate` 라,
+        //    조건을 만족한 팁이 전부 한꺼번에 뜬다(팁은 7개다). 화면 여기저기서
+        //    동시에 말을 걸면 하나도 안 읽힌다.
+        //    `.daily` 는 **앱 전체에서** 하루 한 개로 끊는다. 팁마다 거는 규칙이 아니라
+        //    TipKit 이 들고 있는 전역 문지기라, 새 팁을 늘려도 저절로 지켜진다.
+        //
+        //    빠르게 하려면 `.hourly` 한 단어만 바꾸면 된다. 다만 이 앱의 팁들은
+        //    서로 순서가 있어(탭 → 저장 → 키보드) 하루 간격이 흐름과 맞는다.
         LaunchGuard.optional(.tips) {
             try? Tips.configure([
+                .displayFrequency(.daily),
                 .datastoreLocation(.applicationDefault)
             ])
         }
@@ -211,6 +230,10 @@ struct ClipKeyboardApp: App {
 
         // ② 결제 권한 - 세이프 모드에서도 돈다. 여기를 쉬면 산 사람이 Pro 를 잃는다.
         LaunchGuard.essential(.entitlement) {
+            // 심어 준 샘플의 id 를 App Group 으로 옮긴다. 한도가 자기 것만 세는 일이
+            // 이 표에 달려 있어서, 한도를 묻기 **전에** 옮겨야 한다.
+            SampleMemoStorage.migrateToAppGroupIfNeeded()
+
             // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
             bootstrapV4GrandfatherFlags()
 
@@ -341,6 +364,13 @@ struct ClipKeyboardApp: App {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                 maybeShowDiscountOffer()
             }
+
+            // ⚠️ **정말 맨 마지막.** 이건 급한 이야기가 아니라서 앞의 것들에게 자리를
+            //    다 내주고 남으면 한다. 다른 안내가 떠 있으면 조용히 접고 다음 실행을
+            //    기다린다(`markShown` 을 부르지 않으므로 그 이야기는 없어지지 않는다).
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
+                maybeShowDidYouKnow()
+            }
         }
 
         // ⚠️ 마지막 안내가 뜨는 자리(3.5초)까지 지켜본 뒤에 런치를 닫는다.
@@ -385,19 +415,27 @@ struct ClipKeyboardApp: App {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
         let current = WhatsNewContent.version
-        let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
 
-        // 첫 실행(신규 설치)은 안내 대상이 아님 - 본 것으로 표시만 하고 끝.
-        if launchCount <= 1 {
+        // 처음 온 사람인지 쓰던 사람인지는 **한 곳**에서 가른다(`LaunchAudience`).
+        // 여기서 따로 판단하면 온보딩과 어긋나, 처음 온 사람이 "새로워졌어요"를 보게 된다.
+        let audience = LaunchAudience.resolve(
+            launchCount: defaults.integer(forKey: DefaultsKey.appLaunchCount),
+            startedFresh: defaults.bool(forKey: DefaultsKey.startedFreshV444),
+            lastSeenWhatsNewVersion: defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion),
+            currentWhatsNewVersion: current)
+
+        if audience.marksWhatsNewSeenSilently {
             defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
+            print("🎉 [WhatsNew] 처음 온 사람 - 안내 대신 온보딩이 맞이한다")
             return
         }
-
-        guard defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion) != current else { return }
+        guard audience.showsWhatsNew else { return }
+        // 데이터성 알림·리뷰 요청이 떠 있으면 양보한다(모달 중첩 방지). 다음 실행에 다시 온다.
         guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest, !showWhatsNew else { return }
 
         defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
         showWhatsNew = true
+        print("🎉 [WhatsNew] 쓰던 사람에게 \(current) 새 단장 안내")
     }
 
     // MARK: - Feedback Nudge (가끔 의견 요청)
@@ -406,6 +444,63 @@ struct ClipKeyboardApp: App {
     /// - 10회째 실행에서 처음, 이후 40회 실행 간격으로 노출
     /// - "다시 보지 않기"를 누르면 6개월 유예 후 다시 노출 대상이 된다(영구 아님)
     /// - 다른 모달(리뷰 요청·What's New 등)이 떠 있으면 양보한다
+    // MARK: - 그거 아세요?
+
+    /// 이 앱의 좋은 점은 대부분 **안 보이는 곳**에 있다. 서버가 없다는 것, 설정 어딘가의
+    /// 기능들, 길게 누르면 되는 동작들. 화면에 안 나오는 것은 아무리 좋아도 없는 것과 같다.
+    ///
+    /// ⚠️ 언제 말을 걸지는 `DidYouKnowScheduler` 가 혼자 판단한다(첫날 침묵 · 사흘 간격 ·
+    ///    다 하면 멈춤). 여기서는 **다른 안내가 떠 있지 않은지**만 본다 - 모달이 모달 위에
+    ///    얹히는 것이 이 화면들에서 가장 나쁜 일이다.
+    private func maybeShowDidYouKnow() {
+        guard !ClipKeyboardApp.isRunningUnitTests, noOtherModalIsUp else { return }
+        // 처음 오는 길을 지나는 중이면 말하지 않는다 - 온보딩 위에 얹히면 둘 다 안 읽힌다.
+        let d = UserDefaults.standard
+        let stillOnboarding = d.bool(forKey: DefaultsKey.startedFreshV444)
+            && !d.bool(forKey: DefaultsKey.tutorialMakeOwnDone)
+        guard let item = DidYouKnowScheduler.candidate(
+            onboardingFinished: !stillOnboarding,
+            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date) else { return }
+
+        DidYouKnowScheduler.markShown(item)
+        didYouKnowItem = item
+        print("💡 [DidYouKnow] \(item.id)")
+    }
+
+    /// 읽고 나서 갈 곳으로 데려간다.
+    ///
+    /// ⚠️ **읽고 닫으면 아무것도 안 달라진다.** "설정에서 켤 수 있어요"를 읽은 사람이
+    ///    설정을 스스로 찾아 들어가는 일은 드물다. 알려 준 그 자리로 직접 데려간다.
+    private func handleDidYouKnowAction(_ action: DidYouKnow.Action) {
+        didYouKnowItem = nil
+        // 시트가 내려간 뒤에 다음 화면을 연다 - 겹치면 둘 다 제대로 안 뜬다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            switch action {
+            case .openSettings:
+                NotificationCenter.default.post(name: .showSettings, object: nil)
+            case .openStage:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+            case .openBackup:
+                showCloudBackupSheet = true
+            case .openList:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+            case .openQuickNoteInbox:
+                NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
+            case .openBulkImport:
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .openBulkImport, object: nil)
+                }
+            case .openShortcutMart:
+                // 목록으로 먼저 보내고 마트를 연다 - 마트는 목록이 들고 있는 시트다.
+                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    NotificationCenter.default.post(name: .openShortcutMart, object: nil)
+                }
+            }
+        }
+    }
+
     private func maybeShowFeedbackNudge() {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
         let defaults = UserDefaults.standard
@@ -441,7 +536,9 @@ struct ClipKeyboardApp: App {
     /// 지금 단축어가 몇 개인지 세어 "한 칸 앞에 닿은 시각"을 기록한다.
     /// (판정과 저장은 `DiscountOfferManager` 가 한다 - 여기서는 개수만 넘긴다)
     private func noteShortcutCountForDiscountOffer() {
-        let count = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
+        // 한도와 같은 개수를 센다. 전체를 세면 자기 걸 5개 만든 사람에게
+        // "한 칸 남았다" 며 할인이 나간다.
+        let count = ProFeatureManager.ownMemoCount(((try? MemoStore.shared.load(type: .memo)) ?? []))
         DiscountOfferManager.noteShortcutCount(count)
     }
 
@@ -493,6 +590,7 @@ struct ClipKeyboardApp: App {
     private var noOtherModalIsUp: Bool {
         !showDemoSampleOffer && !showRestoreHint && !showReviewRequest
             && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showDiscountOffer
+            && didYouKnowItem == nil
     }
 
     // MARK: - Default Sample Data
@@ -517,6 +615,7 @@ struct ClipKeyboardApp: App {
             memos.append(contentsOf: result.memos)
             try MemoStore.shared.save(memos: memos, type: .memo)
             SampleMemoStorage.save(ids: result.memos.map { $0.id })
+            seedPlaceholderValues(from: result.memos)
             // 샘플이 속한 카테고리를 실제로 만들고 기능을 켜 → 스와이프 페이지(탭)가 생긴다.
             result.categories.forEach { CategoryStore.shared.add($0) }
             CategoryStore.shared.enableFeature()
@@ -786,6 +885,59 @@ struct ClipKeyboardApp: App {
         }
     }
 
+    // MARK: - 심어 두는 플레이스홀더 값
+
+    /// 일반 샘플 템플릿의 빈칸에 미리 넣어 두는 값.
+    ///
+    /// ⚠️ **그대로 써도 말이 되는 것**으로 고른다. "홍길동" 같은 예시용 가짜를 넣으면
+    ///    사용자는 그걸 지우는 것부터 배우게 된다. "고객님"은 지울 필요 없이 바로 쓰인다.
+    ///
+    /// ⚠️ 내장 토큰({날짜}·{시간}·{통화} 등)에는 값을 심지 않는다. 시스템이 채우는 자리다.
+    static func starterPlaceholderValues(isKorean: Bool) -> [String: [String]] {
+        isKorean
+            ? ["{이름}": ["고객님", "대표님", "선생님"]]
+            : ["{name}": ["there", "team"]]
+    }
+
+    /// 노마드 샘플 템플릿에 심는 값.
+    ///
+    /// ⚠️ **계좌정보({iban}·{swift}·{수신인})에는 심지 않는다.** 예시 IBAN 을 넣어 두면
+    ///    사용자가 그것을 자기 계좌로 착각하고 청구서에 붙여넣을 수 있다. 돈이 남에게 간다.
+    ///    그 자리는 비워 두고, 값 화면에서 **바로 적어 넣을 수 있게** 열어 두었다
+    ///    (`PlaceholderInputView.emptyValuesSection`). 비어 있는 것과 막힌 것은 다르다.
+    ///
+    /// ⚠️ 나머지는 누구에게나 같은 것이라 심어도 안전하다.
+    static func starterNomadPlaceholderValues(isKorean: Bool) -> [String: [String]] {
+        isKorean
+            ? ["{금액}": ["USD 500", "EUR 1,200", "USD 1,000"],
+               "{참조번호}": ["INV-001", "2026-08"]]
+            : ["{amount}": ["USD 500", "EUR 1,200", "USD 1,000"],
+               "{reference}": ["INV-001", "2026-08"]]
+    }
+
+    /// 심어 둔 값을 **앱 전체가 함께 보는 저장소**에도 적는다.
+    ///
+    /// ⚠️ **본진은 공용 저장소(`placeholder_values_{토큰}`)다.** 앱의 입력 화면·빈칸 관리·
+    ///    키보드가 모두 그곳을 본다. 단축어에 붙은 사본(`Memo.placeholderValues`)은 옛 데이터를
+    ///    위한 폴백으로만 남아 있다(키보드는 공용 저장소가 비었을 때만 그것을 본다).
+    ///    그래서 심어 둔 값도 **공용 저장소에 적어야** 화면에 보인다.
+    private func seedPlaceholderValues(from memos: [Memo]) {
+        for memo in memos {
+            for (token, values) in memo.placeholderValues {
+                // 시스템이 채우는 자리에는 값을 심지 않는다 - 심어 봐야 쓰이지 않고,
+                // 플레이스홀더 관리 화면에 "고를 수 없는 값"으로 남는다.
+                guard !TemplateVariableProcessor.autoVariableTokens.contains(token) else { continue }
+                // 뒤에서부터 넣는다 - addPlaceholderValue 가 맨 앞에 꽂으므로 순서가 뒤집힌다.
+                for value in values.reversed() {
+                    MemoStore.shared.addPlaceholderValue(value,
+                                                         for: token,
+                                                         sourceMemoId: memo.id,
+                                                         sourceMemoTitle: memo.title)
+                }
+            }
+        }
+    }
+
     private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
         let work = isKorean ? "업무" : "Work"
         let personal = isKorean ? "개인" : "Personal"
@@ -798,6 +950,15 @@ struct ClipKeyboardApp: App {
             hint: isKorean ? "가장 단순한 단축어, 탭 한 번이면 입력 끝" : "The simplest snippet: one tap to type"
         )
         // 2) 템플릿 - 본문에 {변수}가 있으면 자동으로 템플릿(templateVariables로 판정)
+        //
+        // ⚠️ {날짜} 는 여기 **적지 않는다.** 시스템이 오늘 날짜로 알아서 채우는 내장 토큰이라
+        //    (`TemplateVariableProcessor.autoVariableTokens`), 사용자 빈칸 목록에 넣으면
+        //    이미 채워질 자리를 사람에게 채우라고 묻게 된다. 사람이 채울 것만 여기 적는다.
+        //
+        // ⚠️ 값은 **함께 심는다.** 빈칸만 만들어 두면 튜토리얼에서 이 키를 누른 사람이
+        //    "저장된 값이 없어요"를 만난다. 처음 온 사람에게 처음 보여 주는 것이
+        //    비어 있다는 안내면, 가르치려던 것을 가르치지 못한다.
+        //    (아래 값들은 그대로 써도 말이 되는 것으로 골랐다. 예시용 가짜가 아니다)
         let template = Memo(
             title: isKorean ? "회신 템플릿" : "Reply Template",
             value: isKorean
@@ -805,6 +966,7 @@ struct ClipKeyboardApp: App {
                 : "Hi {name}, thanks for reaching out.\nI'll reply by {date}.",
             category: work,
             templateVariables: isKorean ? ["{이름}"] : ["{name}"],
+            placeholderValues: Self.starterPlaceholderValues(isKorean: isKorean),
             hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
         // 3) 콤보 - 메모 안에 순서 있는 단계들(comboValues)
@@ -823,6 +985,7 @@ struct ClipKeyboardApp: App {
             value: (isKorean ? "안녕하세요, 연락 주셔서 반갑습니다!" : "Hi, great to hear from you!") + "\n" + template.value,
             category: work,
             templateVariables: template.templateVariables,
+            placeholderValues: template.placeholderValues,
             hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([memo, template, combo, memoWithTemplate], [work, personal])
@@ -840,6 +1003,11 @@ struct ClipKeyboardApp: App {
             templateVariables: isKorean
                 ? ["{금액}", "{수신인}", "{iban}", "{swift}", "{참조번호}"]
                 : ["{amount}", "{recipient}", "{iban}", "{swift}", "{reference}"],
+            // ⚠️ **IBAN·SWIFT 에는 값을 심지 않는다.** 남의 계좌번호를 예시로 넣어 두면
+            //    사용자가 그것을 자기 것으로 착각하고 청구서에 붙여넣을 수 있다.
+            //    그 자리는 비워 두고, 대신 키보드에서 바로 채울 수 있게 열어 뒀다
+            //    (`KeyboardOverlays` 의 값 추가). 통화 단위처럼 **누구에게나 같은 것**만 심는다.
+            placeholderValues: Self.starterNomadPlaceholderValues(isKorean: isKorean),
             hint: isKorean ? "{변수} 빈칸을 채워 쓰는 템플릿" : "A template: fill in the {blanks}"
         )
         let combo = Memo(
@@ -864,6 +1032,7 @@ struct ClipKeyboardApp: App {
             value: (isKorean ? "아래 계좌로 송금 부탁드립니다." : "Please send payment to the account below.") + "\n" + template.value,
             category: finance,
             templateVariables: template.templateVariables,
+            placeholderValues: template.placeholderValues,
             hint: isKorean ? "단축어에 템플릿을 이어 붙인 중첩 단축어" : "A nested snippet: a snippet plus a template"
         )
         return ([template, combo, checklist, noteWithTemplate], [finance, travel])
@@ -879,9 +1048,15 @@ struct ClipKeyboardApp: App {
             AppThemedContainer {
             MainTabView()
                 .environmentObject(storeManager)
+                // 언어를 바꾸면 화면을 통째로 새로 그린다. NSLocalizedString 은 그릴 때
+                // 값을 읽으므로, 다시 그리기만 하면 앱을 껐다 켤 필요가 없다.
+                .id(languageRefreshToken)
+                .environment(\.locale, AppLanguage.locale)
+                .onReceive(NotificationCenter.default.publisher(for: .appLanguageChanged)) { _ in
+                    languageRefreshToken += 1
+                }
                 // 팁은 앱 어디에서 뜨든 **마스코트가 말을 거는 모양**이다.
                 // 여기 한 곳에 걸어 두면 TipView·popoverTip 이 모두 같은 얼굴로 나온다.
-                .tipViewStyle(MascotTipViewStyle())
                 #if targetEnvironment(macCatalyst)
                 .frame(minWidth: 520, minHeight: 640)
                 #endif
@@ -985,14 +1160,28 @@ struct ClipKeyboardApp: App {
                 .sheet(isPresented: $showFeedbackSheet) {
                     FeedbackView()
                 }
+                // 설정 안쪽 목록에서 고른 행선지도 여기로 모인다 - 행선지를 아는 곳은 한 군데다.
+                .onReceive(NotificationCenter.default.publisher(for: .didYouKnowAction)) { note in
+                    guard let action = note.object as? DidYouKnow.Action else { return }
+                    handleDidYouKnowAction(action)
+                }
+                .sheet(item: $didYouKnowItem) { item in
+                    DidYouKnowView(item: item,
+                                   onAction: { handleDidYouKnowAction($0) },
+                                   onClose: { didYouKnowItem = nil })
+                        .presentationDetents([.medium])
+                }
                 .sheet(isPresented: $showWhatsNew) {
                     WhatsNewView(
                         onClose: { showWhatsNew = false },
                         onPrimaryAction: {
                             showWhatsNew = false
                             // 읽고 닫으면 아무것도 안 달라진다 - 소개한 그 화면으로 직접 데려간다.
-                            UserDefaults.standard.set(SnippetsTabStyle.keyboard.rawValue,
-                                                      forKey: DefaultsKey.snippetsTabStyle)
+                            //
+                            // ⚠️ 5.0 의 목적지는 **사용 기록**이다. 이번 안내에서 가장 크게
+                            //    달라진 것이 거기 있고, 무엇보다 그 화면은 "당신이 이만큼
+                            //    아꼈다"고 말해 준다. 새 단장을 알리는 자리의 끝으로 맞다.
+                            NotificationCenter.default.post(name: .openUsageTab, object: nil)
                         }
                     )
                     .presentationDetents([.large])
@@ -1170,6 +1359,22 @@ struct MainTabView: View {
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
     @State private var selection: MainTab = .snippets
 
+    // MARK: - "이 탭에는 화면이 둘이에요" 를 띄우는 동안
+
+    /// ⚠️ 조건을 **여기서 다시 적지 않는다.** 처음에는 그렇게 했다가 "다 배운 뒤"라는
+    ///    조건이 빠져, 앱을 켜자마자 탭만 빛나고 그게 무슨 뜻인지 말해 주는 띠는 없었다.
+    ///    조건은 `SnippetsTab.showsSwitchHint` 한 곳에서 정하고 여기로 흘러온다.
+    @ObservedObject private var switchHint = SwitchHintBeacon.shared
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// 잰 탭바 첫 칸의 자리(화면 좌표). 못 재면 nil - 그러면 아무것도 안 그린다.
+    @State private var firstTabFrame: CGRect?
+
+    /// 단축어 탭을 보고 있을 때만 짚는다 - 다른 탭에서 1번 칸이 빛나면 그건 딴소리다.
+    private var showsSwitchHint: Bool {
+        switchHint.isShowing && selection == .snippets
+    }
+
     private enum MainTab: Hashable {
         case snippets, usage, settings, search
     }
@@ -1194,9 +1399,8 @@ struct MainTabView: View {
         } set: { tapped in
             if tapped == .snippets, selection == .snippets {
                 HapticManager.shared.light()
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    snippetsStyleRaw = snippetsStyle.toggled.rawValue
-                }
+                // 값만 바꾼다 - 연출은 `SnippetsTab.content` 가 건다.
+                snippetsStyleRaw = snippetsStyle.toggled.rawValue
             }
             selection = tapped
         }
@@ -1235,6 +1439,31 @@ struct MainTabView: View {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
+        // ⚠️ 물결은 **`TabView` 바깥쪽**에 얹는다. 탭바는 UIKit 이 콘텐츠 위에 그리므로
+        //    탭 안쪽(무대)에 그리면 탭바 유리 뒤로 들어가 뭉개진다. 여기라야 위로 올라온다.
+        //
+        //    무대 머리말의 격자 버튼도 같이 빛난다(`SnippetsStyleSwitchButton.highlighted`).
+        //    안내가 두 길을 적어 두었으니(버튼·탭 다시 누르기) 가리키는 것도 둘이어야 한다.
+        .overlay {
+            if showsSwitchHint, let frame = firstTabFrame {
+                KeyRipple(shape: Capsule(), color: .accentColor, reach: 7)
+                    .frame(width: frame.width, height: frame.height)
+                    .position(x: frame.midX, y: frame.midY)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                    .transition(.opacity)
+            }
+        }
+        // 무대의 띠·격자 버튼과 **같은 곡선**으로 든다(`InAppKeyboardStage.guidanceCurve`).
+        // 하나가 먼저 뜨면 같은 이야기가 따로 도착한 것으로 읽힌다.
+        .animation(reduceMotion ? nil : InAppKeyboardStage.guidanceCurve, value: showsSwitchHint)
+        // ⚠️ 자리는 **미리 재 두고 들고 있는다.** 안내가 켜질 때 재기 시작하면 재는 데 걸린
+        //    시간만큼 탭바 물결만 늦게 떠서, 무대의 띠·격자 버튼과 따로 노는 그림이 된다.
+        //    켜고 끄는 것은 `showsSwitchHint` 하나가 정하고, 자리는 늘 준비돼 있어야 한다.
+        .onAppear { measureFirstTab() }
+        // 탭 이름이 바뀌면(목록 ↔ 키보드) 칸 너비도 따라 바뀐다. 탭을 옮겨도 마찬가지.
+        .onChange(of: snippetsStyleRaw) { _, _ in measureFirstTab() }
+        .onChange(of: selection) { _, _ in measureFirstTab() }
         // 맥 메뉴·딥링크의 "클립보드 기록"이 갈 곳 - 탭에서 내려온 뒤로도 길은 남긴다.
         // ⚠️ 예전에는 이 알림을 **아무도 받지 않아** 메뉴를 눌러도 조용히 아무 일이 없었다.
         .sheet(isPresented: $showClipboardSheet) {
@@ -1243,11 +1472,31 @@ struct MainTabView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showClipboardHistory)) { _ in
             showClipboardSheet = true
         }
+        // 새 단장 안내에서 "내가 아낀 시간 보기"를 누르면 그 탭으로 데려간다.
+        // ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
+        .onReceive(NotificationCenter.default.publisher(for: .openUsageTab)) { _ in
+            withAnimation(.easeInOut(duration: 0.2)) { selection = .usage }
+        }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면
         // 인라인 타이틀이 콘텐츠와 겹치고 네비바 영역 터치가 막힌다.
         // (각 탭 루트의 alwaysTransparentBars()와 함께 동작; 지우면 회귀)
         .scrollEdgeEffectHidden(true, for: .bottom)
+    }
+
+    /// 탭바 첫 칸의 자리를 잰다.
+    ///
+    /// ⚠️ **화면이 다 바뀌고 나서** 잰다. 재는 일은 창의 뷰 계층을 훑는 일이라,
+    ///    무대가 오르내리는 도중에 끼면 그 프레임에서 화면이 한 번 걸린다.
+    ///    (`SnippetsTab.swapSettleDelay` 와 같은 이유로 기다린다)
+    private func measureFirstTab() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + SnippetsTab.swapSettleDelay) {
+            let measured = TabBarProbe.firstItemFrame()
+            // ⚠️ 못 잰 값으로 **들고 있던 자리를 지우지 않는다.** 탭바가 잠깐 안 잡히는
+            //    순간(화면 전환 중)에 지워 버리면 물결이 깜빡인다.
+            guard let measured, measured != firstTabFrame else { return }
+            firstTabFrame = measured
+        }
     }
 }
 
@@ -1330,7 +1579,7 @@ struct MemoSearchView: View {
                     .lineLimit(1)
                 let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
                 if !preview.isEmpty {
-                    Text(preview)
+                    Text(preview.templateAwareAttributed(theme: theme, font: .subheadline))
                         .font(.subheadline)
                         .foregroundColor(theme.textMuted)
                         .lineLimit(1)
@@ -1347,7 +1596,7 @@ struct MemoSearchView: View {
             } else {
                 Image(systemName: copiedMemoId == memo.id ? AppSymbol.checkmarkCircleFill : AppSymbol.docOnDoc)
                     .font(.body)
-                    .foregroundColor(copiedMemoId == memo.id ? .green : theme.textFaint)
+                    .foregroundColor(copiedMemoId == memo.id ? Color.checkGreen : theme.textFaint)
             }
         }
         .padding(.vertical, 12)

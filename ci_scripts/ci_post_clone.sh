@@ -11,7 +11,7 @@
 # ⚠️ 실행 권한이 있어야 한다. `git update-index --chmod=+x` 로 저장소에 권한째 들어가 있다.
 # ⚠️ 실패하면(비0 종료) 빌드가 거기서 멈춘다. 그게 이 파일의 존재 이유다.
 #
-# 자세한 배경과 워크플로 설정 방법: docs/XCODE_CLOUD.md
+# 자세한 배경과 워크플로 설정 방법: docs/engineering/XCODE_CLOUD.md
 #
 
 set -e
@@ -28,16 +28,9 @@ else
   echo "⚠️ [ci_post_clone] python3 없음, 다국어 검사를 건너뜁니다"
 fi
 
-# ── 2. 긴 줄표(em dash / en dash) 금지 - 저장소 규칙 ──
-# 사람이 쓴 글처럼 읽히게 하려고 정한 규칙이라, 사람이 아니라 여기서 지킨다.
-echo "▶︎ [ci_post_clone] 긴 줄표 검사"
-DASH_HITS=$(grep -rln "$(printf '—')" \
-  --include="*.swift" --include="*.xcstrings" \
-  ClipKeyboard ClipKeyboardExtension widget 2>/dev/null || true)
-if [ -n "$DASH_HITS" ]; then
-  echo "❌ [ci_post_clone] 긴 줄표(U+2014)가 남아 있습니다:"
-  echo "$DASH_HITS"
-  exit 1
-fi
+# ── 2. 긴 줄표 금지, 저장소 전 범위 ──
+# 규칙 범위는 CLAUDE.md 에 적혀 있고, 그 범위대로 검사하는 곳은 여기 하나다.
+echo "▶︎ [ci_post_clone] 긴 줄표 검사 (전 범위)"
+sh scripts/check_dashes.sh || exit 1
 
 echo "✅ [ci_post_clone] 검사 통과"

@@ -120,7 +120,7 @@ struct CloudBackupView: View {
                             Spacer()
 
                             Image(systemName: AppSymbol.checkmarkCircleFill)
-                                .foregroundColor(.green)
+                                .foregroundColor(Color.checkGreen)
                                 .font(.title2)
                         }
                         .padding(.vertical, 4)

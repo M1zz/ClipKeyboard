@@ -84,6 +84,7 @@ struct ImageAttachmentView: View {
                         .foregroundStyle(.white)
                         .background(Circle().fill(Color.red).frame(width: 20, height: 20))
                 }
+                .accessibilityLabel(NSLocalizedString("이미지 삭제", comment: "Remove image"))
 
                 Button {
                     onCopy()
@@ -93,6 +94,7 @@ struct ImageAttachmentView: View {
                         .foregroundStyle(Color.accentForeground)
                         .background(Circle().fill(Color.accentColor).frame(width: 20, height: 20))
                 }
+                .accessibilityLabel(NSLocalizedString("이미지 복사", comment: "Copy image"))
             }
             .padding(4)
         }

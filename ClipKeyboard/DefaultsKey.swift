@@ -21,6 +21,18 @@ enum DefaultsKey {
     /// ⚠️ 기본값은 **꺼짐**이다. 목록을 훑는 동안 카드마다 글이 맺혔다 흩어지면 눈이 쉴 곳이
     ///    없다. 보고 싶은 사람은 설정 > 화면과 표시에서 켠다.
     static let contentHintEnabled = "contentHintEnabled"
+    /// 단축어별로 배운 "넣은 뒤 캐럿이 설 자리"(App Group, `[UUID문자열: CursorMemory.Learned]` JSON).
+    /// ⚠️ 사용자의 본문에는 아무것도 안 쓴다. 배운 값은 전부 여기 따로 있다.
+    ///    자세한 이유: ClipKeyboard/Service/CursorMemory.swift
+    static let cursorMemory = "cursor.memory.v1"
+    /// 한 번에 정리하기 권유를 사용자가 물렸다(App Group, Bool).
+    /// ⚠️ 붙여넣기 순간의 제안은 이 값을 보지 않는다. 자세한 이유:
+    ///    ClipKeyboard/Service/BulkImportNudge.swift
+    static let bulkImportNudgeDismissed = "bulkImport.nudge.dismissed"
+    /// 손으로 단축어를 만든 마지막 시각(App Group, epoch 초).
+    static let bulkImportLastManualCreateAt = "bulkImport.lastManualCreateAt"
+    /// 짧은 사이에 손으로 잇달아 만든 횟수(App Group, Int).
+    static let bulkImportManualStreak = "bulkImport.manualStreak"
     static let didRemoveAds = "didRemoveAds"
     /// 칸 추가 상품으로 얻은 추가 단축어 칸수 (App Group, Int).
     /// ⚠️ 키보드 익스텐션은 StoreKit 을 못 보므로 앱이 결제 권한을 여기에 미러링한다.
@@ -37,6 +49,13 @@ enum DefaultsKey {
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
     static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
+    /// 사용자가 고른 앱 언어 (App Group, `AppLanguage.rawValue`). 값이 없으면 기기 설정을 따른다.
+    /// ⚠️ App Group 이어야 한다. 키보드 익스텐션은 다른 프로세스라 표준 UserDefaults 를 못 본다.
+    static let appLanguage = "app.language.v1"
+    /// 단축어별로 쌓인 "넣고 나서 고친 자리"(App Group, `[UUID문자열: EditPattern.Record]` JSON).
+    /// ⚠️ 고친 **자리와 값**만 담는다. 사용자의 본문은 건드리지 않는다.
+    ///    자세한 이유: ClipKeyboard/Service/EditPattern.swift
+    static let editPatterns = "edit.patterns.v1"
     static let entries = "entries"
     static let fontSize = "fontSize"
     /// What's-New(새 기능) 시트를 마지막으로 보여준 기능 버전. 다르면 업데이트 유저에게 1회 노출.
@@ -68,23 +87,52 @@ enum DefaultsKey {
     /// ⚠️ 기존 사용자는 값이 없으면 **목록**이다. 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     ///    새 설치에만 첫 실행에서 `keyboard`를 뿌린다(ClipKeyboardApp.seedSnippetsTabStyle).
     static let snippetsTabStyle = "snippetsTabStyle.v1"
+    /// 단축어를 만들 때 "쓸 때 채우는 칸" 서랍을 펼쳐 두는가.
+    ///
+    /// ⚠️ **기본은 닫힘.** 예전에는 내용 칸에 커서만 가면 파란 버튼 아홉 개가 통째로
+    ///    올라왔다. 대부분은 그냥 글을 적으러 온 사람이라, 그 줄은 도움이 아니라
+    ///    "이걸 다 골라야 하나" 라는 물음이었다.
+    ///
+    /// ⚠️ 그렇다고 한 번 편 사람에게 매번 다시 닫아 주지는 않는다. 빈칸을 쓰는 사람은
+    ///    거의 매번 쓰므로, 편 채로 두는 것이 그 사람의 선택이다.
+    static let contentTokenBarExpanded = "memoAdd.tokenBar.expanded.v1"
+    /// 사용자가 고른 **키컬러**(`AppAccent` rawValue). 값이 없으면 `.ink`(흑백).
+    ///
+    /// ⚠️ **App Group 이다.** 키보드 익스텐션과 위젯이 같은 값을 읽어야 앱과 키보드가
+    ///    두 색으로 갈리지 않는다. 표준 UserDefaults 에 두면 앱만 바뀐다.
+    static let appAccent = "app.accent.v1"
     /// 키보드 화면을 한 번 권했는가(기존 사용자 1회 제안). 다시 묻지 않기 위한 표식.
     static let keyboardStageOffered = "keyboardStageOffered.v1"
     /// 배우는 장(단축어·템플릿·콤보)을 다 지났는가.
     /// ⚠️ 개별 완료 표식만으로는 판단하지 않는다 - 가리킬 것이 없어 조용히 건너뛴 장이 있으면
     ///    영영 안 끝난 것으로 남는다. 챕터 기계가 "더 없다"고 알려줄 때 켠다.
     static let tutorialChaptersDone = "tutorialChaptersDone.v1"
+    /// 직접 단축어를 하나 만들어 보는 마지막 걸음을 지났는가(만들었든 미뤘든).
+    static let tutorialMakeOwnDone = "tutorialMakeOwnDone.v1"
+    /// 튜토리얼이 쓰던 샘플을 **치울지 물어봤는가.** 답이 무엇이든 한 번만 묻는다.
+    static let tutorialSampleCleanupAsked = "tutorialSampleCleanupAsked.v1"
+    /// 튜토리얼을 **끝낸 시각**(초, 1970 기준). 0이면 아직 걷는 중이거나 걷지 않는 사람.
+    /// 무대의 키보드 켜기 띠가 한 호흡 쉬었다 뜨는 기준(`KeyboardSetupBannerGate`).
+    static let tutorialFinishedAt = "tutorialFinishedAt.v1"
+    /// 튜토리얼이 끝나던 그 실행의 앱 실행 횟수. 지금 실행이 이보다 크면 **다시 연 것**이다.
+    static let tutorialFinishedAtLaunch = "tutorialFinishedAtLaunch.v1"
+    /// 새 단축어 화면에서 칸을 하나씩 짚어 주는 안내를 **손수 껐는가.**
+    /// ⚠️ "만들다 말고 나갔다"와 "안내가 필요 없다"는 다르다. 앞은 다시 데려와야 하고,
+    ///    뒤는 다시 걸리적거리면 안 된다. 그래서 끈 것만 여기 남긴다.
+    static let tutorialMakeOwnCoachSkipped = "tutorialMakeOwnCoachSkipped.v1"
+    /// 키보드 켜기 안내를 **마지막으로 밀어 둔 시각**(초, 1970 기준).
+    ///
+    /// ⚠️ 더는 읽지 않는다. 키보드 켜기가 첫 흐름을 막고 서던 시절의 값으로, 지금은
+    ///    무대의 띠가 켜질 때까지 그냥 떠 있는다(`SnippetsOnboardingStep` 주석).
+    ///    **지우지는 않는다** - 예전 버전에서 올라온 기기에 남아 있는 값이라, 키를
+    ///    없애도 기기에서 사라지지 않고 이름만 잃는다.
+    static let keyboardSetupSnoozedAt = "keyboardSetupSnoozedAt.v1"
     /// 지금 무대에서 **가리키고 있는** 단축어 id(UUID 문자열). 그 키가 빛나고,
     /// **그걸 눌러야** 그 장이 끝난다. 누르면 비운다.
     static let tutorialFirstUseMemoId = "tutorialFirstUseMemoId.v1"
     /// 첫 흐름에서 **키보드 켜기 안내까지** 지나왔는가(끝냈든 건너뛰었든).
     /// 없으면 첫 단축어를 만든 직후 키보드 설치 안내가 곧바로 이어진다.
     static let keyboardSetupTutorialDone = "keyboardSetupTutorialDone.v1"
-    /// 단축어 줄을 악어 입속처럼 보이게 하는 장치가 켜져 있는가.
-    /// App Group - 익스텐션이 같은 값을 읽어야 앱과 키보드가 같은 입이 된다.
-    /// ⚠️ 값이 **없는 것**과 false 는 다르다. 없으면 아직 정하지 않았다는 뜻이라
-    ///    새 설치에만 한 번 켜 준다(`ToothStyle.seedDefaultIfNeeded`).
-    static let keyboardToothStyle = "keyboardToothStyle.v1"
     /// 키캡 물성 프리셋(KeyboardSkin rawValue). 값이 없으면 `.standard`.
     /// App Group - 익스텐션이 렌더에 쓴다. 색은 건드리지 않는다(테마·커스텀 색이 담당).
     static let keyboardSkin = "keyboardSkin.v1"
@@ -101,7 +149,18 @@ enum DefaultsKey {
     static let memoManualOrderV1 = "memoManualOrder_v1"
     /// 수동 순서 활성 여부. true면 즐겨찾기 상단 고정 대신 저장된 순서 그대로 정렬.
     static let memoManualOrderActiveV1 = "memoManualOrderActive_v1"
+    /// 온보딩이 심어 준 샘플 단축어의 id 목록.
+    ///
+    /// ⚠️ App Group 이다. 예전에는 표준 UserDefaults 에 있었는데, 그러면 키보드
+    ///    익스텐션이 "심어 준 것" 과 "직접 만든 것" 을 구분하지 못해 남은 칸을
+    ///    앱과 다르게 센다. 한도를 세는 두 쪽이 같은 표를 봐야 한다.
+    static let sampleMemoIdsV1 = "sampleMemoUUIDs_v1"
     static let onboarding = "onboarding"
+    /// 맥 앱의 온보딩을 마쳤는지 (standard UD).
+    /// ⚠️ **맥 전용이지만 iOS 원본에 둔다.** 이 파일은 맥 저장소가 그대로 복사해 가는 원본이라
+    ///    (`ClipKeyboardMac/scripts/sync_shared.sh`), 여기 없으면 동기화가 맥 빌드를 깨뜨린다.
+    ///    iOS 의 온보딩 상태는 위의 `onboarding` 이다.
+    static let hasCompletedOnboarding = "hasCompletedOnboarding"
     static let pasteTipDismissed = "pasteTipDismissed"
     /// 클립보드 화면 첫 진입 시 붙여넣기 허용 안내 알림을 한 번 띄웠는지 여부.
     static let pastePermissionPromptShownV1 = "pastePermissionPromptShown_v1"
@@ -163,11 +222,17 @@ enum DefaultsKey {
 
     // MARK: - 메모 실시간 동기화 (CKSyncEngine)
     static let memoSyncEnabled = "memoSyncEnabled"
+    /// iCloud KV 에 켜져 있던 동기화 설정을 **이 기기가 받아들일지** 한 번 판정했는가 (App Group).
+    /// 판정 자체를 한 번만 하기 위한 표식이라, 결과(켬/끔)는 `memoSyncEnabled` 에 남는다.
+    static let memoSyncCloudAdoptedV1 = "memoSync.cloudAdopted.v1"
     static let syncEngineState = "sync.engine.state"
     static let syncShadow = "sync.shadow"
     static let syncTombstones = "sync.tombstones"
     /// 마지막으로 원격 변경을 이 기기에 적용한 시각과 건수 (App Group) - 동기화 상태 화면 표시용
     static let syncLastPullAt = "sync.lastPullAt"
+    /// 사진 위를 문질러 글자를 담는 화면의 안내 문구를 보여준 횟수.
+    /// 몇 번 해보면 몸이 먼저 기억한다 - 그다음부터 안내는 자리만 차지한다.
+    static let smearHintShownCount = "smear.hint.shownCount"
     static let syncLastPullCount = "sync.lastPullCount"
     /// 마지막으로 이 기기 변경을 올린 시각과 건수 (App Group)
     static let syncLastPushAt = "sync.lastPushAt"
@@ -195,13 +260,6 @@ enum DefaultsKey {
     /// ⚠️ 옛 키(`firstShortcut.done.v1`)를 그대로 쓴다. 4.4.x 에서 첫 단축어를 이미 만들고
     ///    지나온 사람에게 새 키를 주면 **환영 화면이 다시 뜬다** - 그 사람에게는 다 아는 이야기다.
     static let tutorialWelcomeDone = "firstShortcut.done.v1"
-    /// 무대의 악어 얼굴을 눌러 도움말을 한 번이라도 열어 봤는지.
-    /// 켜지면 얼굴에 붙던 물음표가 사라진다 - 알고 난 뒤에도 붙어 있으면 잔소리다.
-    static let mascotHelpSeen = "mascotHelpSeen.v1"
-
-    /// 미리보기에서 껍데기 깨는 연출을 몇 번 더 보여줄지. 0 이 되면 조용히 멈춘다.
-    /// 배우는 자리의 연출은 다 배우고 나면 소음이다.
-    static let shellCracksLeft = "shellCracksLeft.v1"
     /// 4.4.4 기본 스킨 씨앗을 이미 뿌렸는지(1회). 두 번 뿌리면 사용자가 바꾼 걸 되돌린다.
     static let skinSeededV444 = "skinSeeded.v444"
     /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 튜토리얼이
@@ -213,6 +271,18 @@ enum DefaultsKey {
     static let tutorialTemplateDone = "tutorial.template.done.v1"
     /// 준비된 콤보를 한 번 써 봤는지.
     static let tutorialComboDone = "tutorial.combo.done.v1"
+    /// 콤보 장 **안쪽**의 어느 걸음에 서 있는가(`ComboTutorialStep.rawValue`). 빈 값이면 그 장이 아니다.
+    ///
+    /// ⚠️ 저장해 두어야 한다. 콤보 장은 다섯 걸음이라 그 중간에 앱을 끄는 일이 실제로 생기는데,
+    ///    기억해 두지 않으면 다시 열었을 때 가리키는 키는 그대로인데 걸음만 사라져
+    ///    **눌러도 아무 일이 안 일어나는 화면**이 된다.
+    static let tutorialComboStep = "tutorial.combo.step.v1"
+    /// 목록과 키보드를 오가는 법을 한 번 알려 줬는지.
+    ///
+    /// ⚠️ 이 앱의 단축어 탭은 **화면이 둘**(목록 · 키보드 무대)인데, 그걸 아무도 안 알려 줬다.
+    ///    무대에서 시작한 사람은 자기 목록이 어디 있는지 모른 채로 남고, 목록에서 시작한
+    ///    사람은 무대를 아예 못 본다. 튜토리얼을 다 지난 뒤 **한 번만** 짚어 준다.
+    static let tutorialSwitchHintSeen = "tutorial.switchHint.seen.v1"
 
     // MARK: - 런치 안전장치 (LaunchGuard)
     /// 지금 진행 중인 런치 단계 `"<tier>:<stage>"`. 런치를 끝내면 지운다 (App Group).

@@ -115,25 +115,35 @@ class ClipboardClassificationService {
     // MARK: - Clipboard Image Detection
 
     #if canImport(UIKit)
-    /// 클립보드에서 내용 가져오기 (텍스트 또는 이미지)
-    /// - Returns: SmartClipboardHistory 객체 또는 nil
-    func checkClipboard() -> SmartClipboardHistory? {
-        let pasteboard = UIPasteboard.general
+    /// 클립보드를 **메인 스레드 밖에서** 읽어 갈래까지 붙여 온다.
+    ///
+    /// ⚠️ 읽기와 무거운 뒷일(그림 줄이기·인코딩)을 **한 덩어리로** 백그라운드에 둔다.
+    ///    읽기만 밖으로 내보내고 인코딩을 메인에서 하면 멈추는 자리만 옮긴 셈이 된다.
+    ///
+    /// - Parameter completion: **메인에서** 부른다. 담긴 게 없으면 nil.
+    func checkClipboardOffMain(completion: @escaping (SmartClipboardHistory?) -> Void) {
+        PasteboardReader.content(transform: { content in
+            ClipboardClassificationService.shared.makeHistory(from: content)
+        }, completion: completion)
+    }
 
-        // 1. 이미지 우선 확인
-        if let image = pasteboard.image {
+    /// 읽어 온 것을 히스토리 한 줄로 만든다.
+    /// ⚠️ **백그라운드에서 불린다.** UIKit 그리기는 `UIGraphicsImageRenderer` 만 쓸 것.
+    private func makeHistory(from content: PasteboardContent) -> SmartClipboardHistory? {
+        switch content {
+        case .empty:
+            return nil
+        case .image(let image):
             return createHistoryFromImage(image)
-        }
-
-        // 2. 텍스트 확인
-        if let text = pasteboard.string, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        case .text(let text):
             return createHistoryFromText(text)
         }
-
-        return nil
     }
 
     /// 이미지로부터 클립보드 히스토리 생성
+    ///
+    /// ⚠️ 줄일 때 배율은 **1** 이다. 예전에는 `UIGraphicsBeginImageContextWithOptions(_:_:0.0)`
+    ///    라 화면 배율(3x)이 붙어, 1024로 줄인다면서 3072px 짜리를 만들어 base64 로 안고 있었다.
     private func createHistoryFromImage(_ image: UIImage) -> SmartClipboardHistory? {
         let maxDimension: CGFloat = 1024
         let maxSize = max(image.size.width, image.size.height)
@@ -143,14 +153,13 @@ class ClipboardClassificationService {
             let ratio = maxDimension / maxSize
             let newSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
 
-            UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-            defer { UIGraphicsEndImageContext() }
-            image.draw(in: CGRect(origin: .zero, size: newSize))
-
-            guard let resizedImage = UIGraphicsGetImageFromCurrentImageContext() else {
-                return nil
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = 1
+            format.opaque = false
+            // `UIGraphicsImageRenderer` 는 백그라운드에서도 안전하다(예전 UIGraphics 컨텍스트와 다르다).
+            finalImage = UIGraphicsImageRenderer(size: newSize, format: format).image { _ in
+                image.draw(in: CGRect(origin: .zero, size: newSize))
             }
-            finalImage = resizedImage
         }
 
         guard let imageData = finalImage.jpegData(compressionQuality: 0.7) else {
@@ -180,18 +189,6 @@ class ClipboardClassificationService {
         )
     }
 
-    /// 클립보드에 이미지가 있는지 확인
-    func hasImage() -> Bool {
-        return UIPasteboard.general.image != nil
-    }
-
-    /// 클립보드에 텍스트가 있는지 확인
-    func hasText() -> Bool {
-        if let text = UIPasteboard.general.string {
-            return !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-        return false
-    }
     #endif
 
     // MARK: - Detection Methods

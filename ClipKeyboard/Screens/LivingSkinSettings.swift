@@ -65,7 +65,7 @@ struct LivingSkinSettings: View {
                 if livingSkinRaw == candidate.rawValue {
                     Image(systemName: AppSymbol.checkmark)
                         .font(.body.weight(.semibold))
-                        .foregroundColor(theme.accent)
+                        .foregroundColor(Color.checkGreen)
                 }
             }
             .contentShape(Rectangle())

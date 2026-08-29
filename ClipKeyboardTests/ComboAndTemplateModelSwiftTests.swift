@@ -5,7 +5,7 @@
 //  Swift Testing 스위트 - 콤보 실행 상태 머신(ComboExecutionState) 및
 //  레거시 Combo/ComboItem 구조(정렬·Codable).
 //
-//  명세: docs/FEATURE_SPEC.md §4
+//  명세: docs/product/FEATURE_SPEC.md §4
 //
 
 import Testing

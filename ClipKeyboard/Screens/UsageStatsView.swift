@@ -8,7 +8,7 @@
 //   ③ 접수된 피드백 요약 (Feedback) → 인박스로 이동
 //
 //  ⚠️ 남의 레코드를 읽는 화면이라 CloudKit 컨테이너 read 권한이 필요하다(피드백 인박스와 동일).
-//     스키마·권한 절차: docs/USAGE_STATS_HUB.md
+//     스키마·권한 절차: docs/engineering/USAGE_STATS_HUB.md
 //
 
 import SwiftUI
@@ -22,6 +22,21 @@ struct UsageStatsView: View {
     @State private var feedback: [LeeoFeedbackService.FeedbackRecord] = []
     @State private var isLoading = false
     @State private var errorMessage: String?
+    /// 조회 하나하나가 왜 멈췄는지. 받는 중이면 nil.
+    /// 나눠 받는 조회에서 이게 없으면, 낮은 숫자가 "아직 받는 중"인지 "원래 그만큼"인지
+    /// "중간에 끊긴 것"인지 사람이 구분할 수 없다 - 셋은 할 일이 서로 다르다.
+    @State private var snapshotStop: LeeoCloudStop?
+    @State private var eventStop: LeeoCloudStop?
+    /// 지금까지 받은 페이지 수 - 진행이 실제로 일어나고 있다는 증거.
+    @State private var snapshotPages = 0
+    @State private var eventPages = 0
+    private var pagesLoaded: Int { snapshotPages + eventPages }
+    /// 지금 보이는 숫자가 언제 기준인지.
+    @State private var loadedAt: Date?
+    /// 디스크에 적어 둔 지난번 결과. 화면은 이걸로 **먼저** 선다.
+    @State private var cache = UsageStatsSnapshotCache()
+    /// 이번에 전부 다시 받았는가(증분이 아니라). 캐시가 없거나 증분 조회가 거부됐을 때.
+    @State private var didFullReload = false
 
     /// 이벤트 표본을 이름별로 묶은 것 - 차트와 같은 원본을 쓴다.
     private var events: [UsageReportingService.EventStat] {
@@ -51,6 +66,7 @@ struct UsageStatsView: View {
                             .font(.body)
                     }
                 }
+                statusSection
                 usersSection
                 trendSection
                 keyboardSection
@@ -58,6 +74,7 @@ struct UsageStatsView: View {
                 segmentSection
                 typeChartSection
                 marketingSection
+                savedTimeSection
                 funnelSection
                 retentionSection
                 usageSection
@@ -77,6 +94,74 @@ struct UsageStatsView: View {
         .solidNavBar(theme.bg)
         .task { await load() }
         .refreshable { await load() }
+    }
+
+    // MARK: - 어디까지 왔나
+
+    /// 지금 보이는 숫자가 중간 집계인지 최종본인지 화면이 직접 말한다.
+    /// 허브가 커지면 조회는 수십 번의 왕복이 된다. 그동안 아무 말도 없으면
+    /// "다 불러온 건가?" 를 사람이 알 방법이 없고, 낮은 숫자를 사실로 믿게 된다.
+    @ViewBuilder
+    private var statusSection: some View {
+        if isLoading {
+            Section {
+                HStack(spacing: 10) {
+                    ProgressView()
+                    Text(String(format: NSLocalizedString("불러오는 중… 설치 %lld · 이벤트 %lld (%lld페이지)", comment: "Usage stats: loading progress"),
+                                snapshots.count, eventSamples.count, pagesLoaded))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+            } footer: {
+                Text(NSLocalizedString("한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.", comment: "Usage stats: paged loading footer"))
+                    .font(.body)
+            }
+        } else if let text = completionText {
+            Section {
+                Label {
+                    Text(text).font(.body)
+                } icon: {
+                    Image(systemName: isFullyLoaded ? "checkmark.circle" : "exclamationmark.triangle")
+                }
+                .foregroundColor(isFullyLoaded ? theme.textMuted : .orange)
+            }
+        }
+    }
+
+    /// 두 조회가 모두 끝까지 갔는가.
+    private var isFullyLoaded: Bool {
+        snapshotStop?.isComplete == true && eventStop?.isComplete == true
+    }
+
+    /// 다 받았으면 언제 기준인지, 못 받았으면 무엇이 왜 빠졌는지.
+    private var completionText: String? {
+        guard snapshotStop != nil || eventStop != nil else { return nil }
+        if isFullyLoaded {
+            let at = loadedAt.map { DateFormatter.localizedString(from: $0, dateStyle: .none, timeStyle: .short) } ?? "-"
+            return String(format: NSLocalizedString("설치 %lld · 이벤트 %lld건을 전부 불러왔어요 (%@ 기준).", comment: "Usage stats: fully loaded"),
+                          snapshots.count, eventSamples.count, at)
+        }
+        var lines: [String] = []
+        if let reason = incompleteReason(snapshotStop, what: NSLocalizedString("설치", comment: "Usage stats: installs"), count: snapshots.count) {
+            lines.append(reason)
+        }
+        if let reason = incompleteReason(eventStop, what: NSLocalizedString("이벤트", comment: "Usage stats: events"), count: eventSamples.count) {
+            lines.append(reason)
+        }
+        return lines.isEmpty ? nil : lines.joined(separator: "\n")
+    }
+
+    private func incompleteReason(_ stop: LeeoCloudStop?, what: String, count: Int) -> String? {
+        switch stop {
+        case .none, .some(.exhausted):
+            return nil
+        case .some(.reachedLimit):
+            return String(format: NSLocalizedString("%1$@은(는) 상한인 %2$lld건까지만 받았어요. 더 오래된 기록은 빠져 있어요.", comment: "Usage stats: stopped at limit"), what, count)
+        case .some(.cancelled):
+            return String(format: NSLocalizedString("%1$@을(를) 받다가 멈췄어요(%2$lld건). 당겨서 새로고침하면 다시 받아요.", comment: "Usage stats: cancelled"), what, count)
+        case .some(.failed(let why)):
+            return String(format: NSLocalizedString("%1$@은(는) 중간에 끊겨 %2$lld건까지만 받았어요: %3$@", comment: "Usage stats: interrupted"), what, count, why)
+        }
     }
 
     // MARK: - 사용자 수
@@ -140,15 +225,33 @@ struct UsageStatsView: View {
     @ViewBuilder
     private var distributionChartSection: some View {
         let buckets = UsageInsights.shortcutDistribution(snapshots: snapshots)
+        let counted = buckets.reduce(0) { $0 + $1.installs }
+        let legacy = UsageInsights.legacyShortcutSnapshotCount(snapshots: snapshots)
         if !snapshots.isEmpty {
             Section {
-                ShortcutDistributionChart(buckets: buckets)
-                    .padding(.vertical, 4)
+                // 셀 것이 하나도 없으면 0짜리 막대 일곱 개 대신 이유를 적는다.
+                // 빈 차트는 "아무도 안 만들었다" 로 읽히는데, 실제로는 아직 안 모인 것이다.
+                if counted == 0 {
+                    Text(NSLocalizedString("아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요.", comment: "Distribution empty state"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                } else {
+                    ShortcutDistributionChart(buckets: buckets)
+                        .padding(.vertical, 4)
+                }
             } header: {
                 Text(NSLocalizedString("단축어 개수 분포", comment: "Usage stats section: shortcut distribution"))
             } footer: {
-                Text(NSLocalizedString("몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
-                    .font(.body)
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(NSLocalizedString("사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요.", comment: "Distribution footer"))
+                    // 한도 판정(`ProFeatureManager.ownMemoCount`)도 같은 개수를 센다.
+                    // 그래서 여기 보이는 거리가 곧 결제 자리까지의 거리다. 둘이 다른 값을
+                    // 보기 시작하면 이 차트는 다시 거짓말이 된다.
+                    if legacy > 0 {
+                        Text(String(format: NSLocalizedString("구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.", comment: "Distribution footer: legacy snapshots excluded"), legacy))
+                    }
+                }
+                .font(.body)
             }
         }
     }
@@ -295,6 +398,53 @@ struct UsageStatsView: View {
                 }
             } header: {
                 Text(NSLocalizedString("마케팅 지표", comment: "Usage stats section: marketing signals"))
+            }
+        }
+    }
+
+    // MARK: - 정말 시간을 아끼고 있나
+
+    /// 아낀 시간이 어느 칸까지 갔나 - 이 앱이 팔린 것인지 쓰이는 것인지가 여기서 갈린다.
+    ///
+    /// ⚠️ 1분은 누구나 넘는다(몇 번만 써도 넘는다). 봐야 할 것은 **5분과 한 시간**이다.
+    ///    1분에서 5분으로 못 넘어가는 비율이 크면 "한 번 써 보고 말았다"는 뜻이고,
+    ///    그건 기능이 아니라 첫 흐름의 문제다.
+    ///
+    /// ⚠️ 초 단위 값은 애초에 올라오지 않는다 - 이정표 이름만 온다.
+    @ViewBuilder
+    private var savedTimeSection: some View {
+        let stages = UsageInsights.savedTimeStages(from: eventSamples)
+        if stages.first?.installs ?? 0 > 0 {
+            Section {
+                ForEach(stages) { stage in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(stage.milestone.localizedTitle)
+                                .font(.body.weight(.medium))
+                                .foregroundColor(theme.text)
+                            Spacer()
+                            Text(String(format: NSLocalizedString("설치 %d곳", comment: "Funnel: install count"), stage.installs))
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
+                        }
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(theme.textFaint.opacity(0.2))
+                                Capsule().fill(Color.accentColor)
+                                    .frame(width: max(2, geo.size.width * stage.rateFromFirst))
+                            }
+                        }
+                        .frame(height: 6)
+                    }
+                    .padding(.vertical, 2)
+                    .accessibilityElement(children: .combine)
+                }
+            } header: {
+                Text(NSLocalizedString("아낀 시간", comment: "Usage stats section: time saved"))
+            } footer: {
+                Text(NSLocalizedString("사용자가 아낀 시간이 어느 칸까지 갔는지예요. 큰 칸에 있는 사람은 작은 칸에도 들어가 있어요. 1분은 누구나 넘으니, 5분과 한 시간의 비율을 보세요.",
+                                       comment: "Usage stats time saved footer"))
+                    .font(.body)
             }
         }
     }
@@ -615,11 +765,62 @@ struct UsageStatsView: View {
         errorMessage = nil
         var failures: [String] = []
 
-        do { snapshots = try await UsageReportingService.fetchSnapshots() }
-        catch { failures.append(error.localizedDescription) }
+        // 열 때마다 처음부터 다 받지 않는다. 지난번에 받아 둔 것을 먼저 그리고,
+        // 그 뒤에 **새로 생긴 것만** 받아 합친다. 설치가 늘수록 받는 양이 그대로
+        // 늘어 화면이 버티지 못하던 것이 이 방식으로 바꾼 이유다.
+        //
+        // ⚠️ 증분은 CloudKit 스키마에서 creationDate·modificationDate 가 Queryable 일 때만
+        //    된다. 인덱스가 없으면 조회가 거부되므로, 그때는 조용히 전체 조회로 돌아간다.
+        //    개발자 화면이 인덱스 하나 때문에 통째로 비면 안 된다.
+        cache = UsageStatsCache.load()
+        applyCache()
 
-        do { eventSamples = try await UsageReportingService.fetchEvents() }
-        catch { failures.append(error.localizedDescription) }
+        snapshotStop = nil
+        eventStop = nil
+        snapshotPages = 0
+        eventPages = 0
+        didFullReload = cache.fetchedAt == nil
+
+        // 스냅샷 - 설치마다 한 줄이고 덮어써지므로 "고쳐진 시각" 이 기준이다.
+        do {
+            let since = cache.snapshotWatermark
+            let fresh = try await fetchSnapshots(changedSince: since)
+            cache.snapshots = UsageStatsCache.merged(snapshots: cache.snapshots, with: fresh.map(Self.row))
+            cache.snapshotWatermark = UsageStatsCache.advanced(since, with: fresh.map { $0.lastActiveAt })
+        } catch {
+            // 증분이 거부됐으면 한 번은 전부 받아 본다.
+            if cache.snapshotWatermark != nil {
+                didFullReload = true
+                do {
+                    let all = try await fetchSnapshots(changedSince: nil)
+                    cache.snapshots = all.map(Self.row)
+                    cache.snapshotWatermark = UsageStatsCache.advanced(nil, with: all.map { $0.lastActiveAt })
+                } catch { failures.append(error.localizedDescription) }
+            } else {
+                failures.append(error.localizedDescription)
+            }
+        }
+        applyCache()
+
+        // 이벤트 - 덧붙기만 하므로 "만들어진 시각" 이 기준이다.
+        do {
+            let since = cache.eventWatermark
+            let fresh = try await fetchEvents(createdSince: since)
+            cache.events = UsageStatsCache.merged(events: cache.events, with: fresh.map(Self.event))
+            cache.eventWatermark = UsageStatsCache.advanced(since, with: fresh.map { $0.createdAt })
+        } catch {
+            if cache.eventWatermark != nil {
+                didFullReload = true
+                do {
+                    let all = try await fetchEvents(createdSince: nil)
+                    cache.events = all.map(Self.event)
+                    cache.eventWatermark = UsageStatsCache.advanced(nil, with: all.map { $0.createdAt })
+                } catch { failures.append(error.localizedDescription) }
+            } else {
+                failures.append(error.localizedDescription)
+            }
+        }
+        applyCache()
 
         do { feedback = try await UsageReportingService.fetchFeedback() }
         catch { failures.append(error.localizedDescription) }
@@ -628,6 +829,55 @@ struct UsageStatsView: View {
             errorMessage = String(format: NSLocalizedString("불러오지 못했어요: %@", comment: "Usage stats load failed"),
                                   Set(failures).joined(separator: "\n"))
         }
+        cache.fetchedAt = Date()
+        UsageStatsCache.save(cache)
+        loadedAt = cache.fetchedAt
         isLoading = false
+    }
+
+    /// 캐시를 화면이 쓰는 모양으로 옮긴다.
+    private func applyCache() {
+        snapshots = cache.snapshots.map(Self.snapshot)
+        eventSamples = cache.events.map(Self.sample)
+    }
+
+    private func fetchSnapshots(changedSince: Date?) async throws -> [UsageReportingService.Snapshot] {
+        // ⚠️ 페이지가 도착할 때마다 화면 전부를 다시 계산하면(리텐션·분포·차트) 그것만으로
+        //    앱이 넘어간다. 진행 표시만 갱신하고, 목록은 다 받은 뒤 한 번에 넣는다.
+        try await UsageReportingService.fetchSnapshots(changedSince: changedSince) { progress in
+            snapshotPages = progress.pages
+            snapshotStop = progress.stop
+        }
+    }
+
+    private func fetchEvents(createdSince: Date?) async throws -> [UsageReportingService.EventSample] {
+        try await UsageReportingService.fetchEvents(createdSince: createdSince) { progress in
+            eventPages = progress.pages
+            eventStop = progress.stop
+        }
+    }
+
+    // MARK: - 캐시 ↔ 화면 타입 옮기기
+
+    private static func row(_ s: UsageReportingService.Snapshot) -> UsageStatsSnapshotCache.Row {
+        .init(id: s.id, appVersion: s.appVersion, platform: s.platform, osVersion: s.osVersion,
+              locale: s.locale, launchCount: s.launchCount, eventCount: s.eventCount,
+              daysSinceInstall: s.daysSinceInstall, installDate: s.installDate,
+              lastActiveAt: s.lastActiveAt, metrics: s.metrics)
+    }
+
+    private static func snapshot(_ r: UsageStatsSnapshotCache.Row) -> UsageReportingService.Snapshot {
+        .init(id: r.id, appId: nil, appVersion: r.appVersion, platform: r.platform,
+              osVersion: r.osVersion, locale: r.locale, launchCount: r.launchCount,
+              eventCount: r.eventCount, daysSinceInstall: r.daysSinceInstall,
+              installDate: r.installDate, lastActiveAt: r.lastActiveAt, metrics: r.metrics)
+    }
+
+    private static func event(_ s: UsageReportingService.EventSample) -> UsageStatsSnapshotCache.Event {
+        .init(name: s.name, installID: s.installID, date: s.date, createdAt: s.createdAt)
+    }
+
+    private static func sample(_ e: UsageStatsSnapshotCache.Event) -> UsageReportingService.EventSample {
+        .init(name: e.name, installID: e.installID, date: e.date, createdAt: e.createdAt)
     }
 }

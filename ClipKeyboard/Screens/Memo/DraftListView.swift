@@ -83,7 +83,10 @@ struct DraftListView: View {
 
     private var emptyState: some View {
         VStack(spacing: 12) {
-            MascotView(pose: .sleeping, size: 76)
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 46, weight: .light))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
             Text(NSLocalizedString("임시 저장된 항목이 없어요", comment: "Drafts empty state title"))
                 .font(.headline)
                 .foregroundColor(theme.text)

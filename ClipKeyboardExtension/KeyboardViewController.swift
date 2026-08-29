@@ -23,6 +23,42 @@ class KeyboardViewController: UIInputViewController {
     private var deleteStartTime: Date?
     private var notificationTokens: [NSObjectProtocol] = []
 
+    /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
+    /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
+    private struct CaretWatch {
+        let memoId: UUID
+        /// 토큰이 제거된, 실제로 넣은 글.
+        let insertedText: String
+        /// 넣은 **직후**의 캐럿 앞 글.
+        let beforeAtInsert: String
+        /// 캐럿이 앞으로 옮겨 간 거리(아직 거기서 쓰기 전이라 후보다).
+        var candidateOffset: Int?
+        let startedAt: Date
+    }
+    private var caretWatch: CaretWatch?
+
+    /// 지켜보는 시간. 이보다 오래 지나면 같은 문장을 고치는 중이라고 보기 어렵다.
+    private let caretWatchWindow: TimeInterval = 30
+
+    /// 넣은 글이 **결국 어떤 모양이 됐는지** 보려고 들고 있는 메모지.
+    /// 여기서 나온 차이를 `EditPattern` 이 읽는다.
+    private struct EditWatch {
+        let memoId: UUID
+        /// 토큰이 제거된, 실제로 넣은 글.
+        let insertedText: String
+        /// 넣기 **직전**까지 캐럿 앞에 있던 글. 고쳐진 구간을 잘라내는 왼쪽 울타리.
+        let headBeforeInsert: String
+        /// 넣은 직후 캐럿 뒤에 있던 글. 오른쪽 울타리.
+        let tailAtInsert: String
+        let startedAt: Date
+    }
+    private var editWatch: EditWatch?
+
+    /// 손이 멎고 이만큼 지나면 "다 썼다"고 본다. 남의 앱 보내기 버튼은 볼 수 없어서
+    /// 멎은 시간으로 대신한다.
+    private let editSettleDelay: TimeInterval = 1.5
+    private var editSettleTimer: Timer?
+
     private let globeKeyboardButton: UIButton = {
             let button = UIButton(type: .system)
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -98,6 +134,10 @@ class KeyboardViewController: UIInputViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // 키보드는 앱과 **다른 프로세스**라 앱에서 고른 언어를 스스로 다시 세워야 한다.
+        // 화면을 만들기 전에 부른다 - 키 이름이 한 번 그려진 뒤에는 안 바뀐다.
+        AppLanguage.applyStored()
 
         setupHeightConstraint()
         configureNextKeyboardButton()
@@ -281,7 +321,7 @@ class KeyboardViewController: UIInputViewController {
             )
         } else {
             print("⚡ 자동 변수만 치환해서 바로 입력")
-            insertProcessedText(text)
+            insertProcessedText(text, memoId: memoId)
             trackKeyboardPaste(memoId: memoId)
         }
     }
@@ -300,13 +340,13 @@ class KeyboardViewController: UIInputViewController {
         }
 
         print("🔄 Combo 메모 '\(memo.title)' - 자식 \(values.count)개 순차 입력 (간격 \(memo.comboInterval)s)")
-        insertComboValuesSequentially(values, interval: memo.comboInterval, index: 0)
+        insertComboValuesSequentially(values, interval: memo.comboInterval, index: 0, memoId: memoId)
         trackKeyboardPaste(memoId: memoId)
         return true
     }
 
     /// 콤보 자식 값들을 interval 간격으로 하나씩 입력(정책 A). 자동변수 치환 포함.
-    private func insertComboValuesSequentially(_ values: [String], interval: TimeInterval, index: Int) {
+    private func insertComboValuesSequentially(_ values: [String], interval: TimeInterval, index: Int, memoId: UUID? = nil) {
         guard index < values.count else { return }
 
         if index < values.count - 1 {
@@ -316,11 +356,11 @@ class KeyboardViewController: UIInputViewController {
             textDocumentProxy.insertText(processed)
             KeyboardHaptics.mediumTap()
             DispatchQueue.main.asyncAfter(deadline: .now() + interval) { [weak self] in
-                self?.insertComboValuesSequentially(values, interval: interval, index: index + 1)
+                self?.insertComboValuesSequentially(values, interval: interval, index: index + 1, memoId: memoId)
             }
         } else {
             // 마지막 항목 - 여기서만 커서 위치를 반영하고 날인으로 마무리.
-            insertProcessedText(values[index])
+            insertProcessedText(values[index], memoId: memoId)
         }
     }
 
@@ -348,12 +388,12 @@ class KeyboardViewController: UIInputViewController {
            let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
             let combined = baseMemo.value.isEmpty ? processedText : "\(baseMemo.value)\n\(processedText)"
             print("🔗 [attachedTemplate] 결합 출력: \(combined)")
-            insertResolvedText(combined)
+            insertResolvedText(combined, memoId: baseId)
             trackKeyboardPaste(memoId: baseId)
         } else {
             print("   최종 텍스트: \(processedText)")
             print("📝 textDocumentProxy.insertText 호출")
-            insertResolvedText(processedText)
+            insertResolvedText(processedText, memoId: memoId)
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")
@@ -502,12 +542,18 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
         // SwiftUI 관찰 가능한 hasText 상태 갱신 - clearAll(X) 버튼 표시 여부에 사용
         updateHasTextState()
+        // 앞으로 옮겨 간 자리에서 글이 바뀌었으면 그 자리를 배운다.
+        commitCaretWatchIfTyped()
+        // 손이 멎으면 넣은 글이 어떤 모양이 됐는지 본다.
+        restartEditSettleTimer()
     }
 
     override func selectionDidChange(_ textInput: UITextInput?) {
         super.selectionDidChange(textInput)
         // 커서 이동 시에도 텍스트 존재 여부가 바뀔 수 있어 다시 확인
         updateHasTextState()
+        // 넣은 글 안쪽으로 캐럿이 갔는지 적어 둔다(아직 배우지는 않는다).
+        noteCaretMove()
     }
 
     private func updateHasTextState() {
@@ -617,22 +663,7 @@ class KeyboardViewController: UIInputViewController {
 
     // 템플릿 관련 함수들
     private func extractCustomPlaceholders(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let placeholder = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
-        }
-
-        return placeholders
+        TemplatePlaceholder.customTokens(in: text)
     }
 
     private func processTemplateVariables(in text: String) -> String {
@@ -658,21 +689,166 @@ class KeyboardViewController: UIInputViewController {
     /// 자동 변수 치환 → 커서 위치 해석 → 삽입 → 캐럿 되돌리기 → 날인 순.
     /// 삽입 지점이 여러 곳(일반·템플릿·attached)이라 여기로 모아 두지 않으면
     /// 커서 토큰이 어떤 경로에서만 동작하는 사태가 난다.
-    private func insertProcessedText(_ raw: String) {
-        insertResolvedText(processTemplateVariables(in: raw))
+    private func insertProcessedText(_ raw: String, memoId: UUID? = nil) {
+        insertResolvedText(processTemplateVariables(in: raw), memoId: memoId)
     }
 
     /// 치환이 이미 끝난 텍스트를 커서 토큰만 해석해서 넣는다.
     /// (플레이스홀더 입력을 거친 경로는 치환을 자기가 하므로 이쪽으로 들어온다)
-    private func insertResolvedText(_ processed: String) {
-        let placement = TemplateVariableProcessor.resolveCursor(in: processed)
+    ///
+    /// `memoId` 가 있으면 캐럿 자리를 **배우고 써먹는다**(`CursorMemory`).
+    /// 토큰이 이미 있으면 배우지도 쓰지도 않는다. 사용자가 직접 정한 자리가 언제나 이긴다.
+    private func insertResolvedText(_ processed: String, memoId: UUID? = nil) {
+        let resolved = TemplateVariableProcessor.resolveCursor(in: processed)
+        let text = resolved.text
+        // 넣기 **전**의 캐럿 앞뒤. 나중에 고쳐진 구간을 잘라낼 울타리로 쓴다.
+        let headBeforeInsert = textDocumentProxy.documentContextBeforeInput ?? ""
 
-        textDocumentProxy.insertText(placement.text)
-        if placement.needsCursorMove {
-            // 삽입 직후 캐럿은 문장 끝에 있다 - 토큰이 있던 자리까지 되돌린다.
-            textDocumentProxy.adjustTextPosition(byCharacterOffset: -placement.offsetFromEnd)
+        // 토큰이 없을 때만 배운 자리를 꺼내 쓴다.
+        var offsetFromEnd = resolved.offsetFromEnd
+        var usedLearned = false
+        if resolved.offsetFromEnd == 0,
+           let memoId,
+           let learned = CursorMemory.offset(for: memoId, textLength: text.count) {
+            offsetFromEnd = learned
+            usedLearned = true
+        }
+
+        textDocumentProxy.insertText(text)
+        if offsetFromEnd > 0 {
+            // 삽입 직후 캐럿은 문장 끝에 있다 - 정해진 자리까지 되돌린다.
+            textDocumentProxy.adjustTextPosition(byCharacterOffset: -offsetFromEnd)
         }
         KeyboardHaptics.stamp()
+
+        beginCaretWatchIfNeeded(memoId: memoId,
+                                insertedText: text,
+                                hasExplicitToken: resolved.offsetFromEnd > 0,
+                                usedLearned: usedLearned)
+        beginEditWatchIfNeeded(memoId: memoId,
+                               insertedText: text,
+                               headBeforeInsert: headBeforeInsert)
+    }
+
+    // MARK: - 캐럿 자리 배우기
+
+    /// 넣은 뒤 지켜보기 시작. 이미 자리가 정해진 경우(토큰·학습값)에는 지켜보지 않는다.
+    ///
+    /// ⚠️ 처음 적용한 순간에만 한 줄 알린다. 조용히 해 주는 게 목적이라 매번 말하지 않고,
+    ///    그렇다고 한 번도 안 알리면 사용자가 자기 키보드가 왜 이러는지 모른다.
+    private func beginCaretWatchIfNeeded(memoId: UUID?,
+                                         insertedText: String,
+                                         hasExplicitToken: Bool,
+                                         usedLearned: Bool) {
+        guard let memoId else { caretWatch = nil; return }
+
+        if usedLearned {
+            caretWatch = nil
+            if CursorMemory.markNoticedIfFirstTime(for: memoId) {
+                NotificationCenter.default.post(name: .cursorMemoryApplied,
+                                                object: nil,
+                                                userInfo: ["memoId": memoId])
+            }
+            return
+        }
+
+        guard !hasExplicitToken, !insertedText.isEmpty else { caretWatch = nil; return }
+
+        caretWatch = CaretWatch(memoId: memoId,
+                                insertedText: insertedText,
+                                beforeAtInsert: textDocumentProxy.documentContextBeforeInput ?? "",
+                                candidateOffset: nil,
+                                startedAt: Date())
+    }
+
+    /// 캐럿이 옮겨 갔다. 넣은 글 **안쪽**으로 간 것이면 후보로 적어 둔다.
+    /// 아직 배우지는 않는다. 거기서 실제로 쓰기 시작해야 뜻이 있는 이동이다.
+    private func noteCaretMove() {
+        guard var watch = caretWatch else { return }
+        guard Date().timeIntervalSince(watch.startedAt) <= caretWatchWindow else {
+            caretWatch = nil
+            return
+        }
+        let now = textDocumentProxy.documentContextBeforeInput ?? ""
+        guard let offset = CursorMemory.offsetFromCaretMove(insertedText: watch.insertedText,
+                                                            beforeContextAtInsert: watch.beforeAtInsert,
+                                                            beforeContextNow: now) else { return }
+        watch.candidateOffset = offset
+        caretWatch = watch
+    }
+
+    /// 옮겨 간 자리에서 글이 바뀌었다. 이제야 "거기가 시작점이었다"고 볼 수 있다.
+    private func commitCaretWatchIfTyped() {
+        guard let watch = caretWatch, let offset = watch.candidateOffset else { return }
+        caretWatch = nil
+        guard Date().timeIntervalSince(watch.startedAt) <= caretWatchWindow else { return }
+        CursorMemory.observe(memoId: watch.memoId,
+                             offsetFromEnd: offset,
+                             textLength: watch.insertedText.count)
+    }
+
+    // MARK: - 고친 자리 알아채기
+
+    /// 넣은 글이 결국 어떤 모양이 되는지 지켜보기 시작.
+    /// 이미 물어봤거나 거절한 단축어는 지켜보지 않는다.
+    private func beginEditWatchIfNeeded(memoId: UUID?, insertedText: String, headBeforeInsert: String) {
+        cancelEditSettleTimer()
+        guard let memoId,
+              !insertedText.isEmpty,
+              insertedText.count <= EditPattern.maxTextLength else { editWatch = nil; return }
+
+        let record = EditPattern.record(for: memoId)
+        guard record?.declined != true, record?.asked != true else { editWatch = nil; return }
+
+        editWatch = EditWatch(memoId: memoId,
+                              insertedText: insertedText,
+                              headBeforeInsert: headBeforeInsert,
+                              tailAtInsert: textDocumentProxy.documentContextAfterInput ?? "",
+                              startedAt: Date())
+    }
+
+    /// 글이 바뀔 때마다 "다 썼나" 재는 시계를 다시 건다.
+    /// 남의 앱 보내기 버튼은 볼 수 없어서, 손이 멎은 것으로 대신한다.
+    private func restartEditSettleTimer() {
+        guard editWatch != nil else { return }
+        cancelEditSettleTimer()
+        editSettleTimer = Timer.scheduledTimer(withTimeInterval: editSettleDelay, repeats: false) { [weak self] _ in
+            self?.evaluateEditWatch()
+        }
+    }
+
+    private func cancelEditSettleTimer() {
+        editSettleTimer?.invalidate()
+        editSettleTimer = nil
+    }
+
+    /// 손이 멎었다. 넣은 글이 어떤 모양이 됐는지 잘라내 견준다.
+    ///
+    /// ⚠️ 울타리(앞뒤 글)가 그대로일 때만 본다. 울타리가 흔들렸다는 건 사용자가
+    ///    넣은 글 **바깥**까지 손댔다는 뜻이라, 잘라낸 구간이 넣은 글이라고 믿을 수 없다.
+    private func evaluateEditWatch() {
+        cancelEditSettleTimer()
+        guard let watch = editWatch else { return }
+        editWatch = nil
+
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        let after = textDocumentProxy.documentContextAfterInput ?? ""
+        let whole = before + after
+
+        guard whole.hasPrefix(watch.headBeforeInsert), whole.hasSuffix(watch.tailAtInsert) else { return }
+        let middle = String(whole.dropFirst(watch.headBeforeInsert.count).dropLast(watch.tailAtInsert.count))
+        guard !middle.isEmpty else { return }
+
+        guard let diff = EditPattern.diff(inserted: watch.insertedText, edited: middle) else { return }
+        guard let suggestion = EditPattern.observe(memoId: watch.memoId,
+                                                   diff: diff,
+                                                   textLength: watch.insertedText.count) else { return }
+
+        EditPattern.markAsked(for: watch.memoId)
+        NotificationCenter.default.post(name: .editPatternSuggestion,
+                                        object: nil,
+                                        userInfo: ["memoId": watch.memoId,
+                                                   "suggestion": suggestion.rawValue])
     }
 
 }

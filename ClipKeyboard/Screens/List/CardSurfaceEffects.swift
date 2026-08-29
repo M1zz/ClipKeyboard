@@ -15,6 +15,20 @@ struct CardGlass: ViewModifier {
     /// 올리면 더 불투명(뚜렷)해지고, 내리면 더 맑아진다.
     static let backingOpacity: Double = 0.22
 
+    // ⚠️ **`.clear` 로 되돌리지 말 것.**
+    //
+    //    `.clear` 는 사진 위에 흰 글자를 얹으려고 만든 변형이라 **어두운 막을 함께 그린다.**
+    //    화면이 자리를 잡는 동안(목록에 처음 들어갈 때·탭에서 돌아올 때, 콘텐츠가 한 번
+    //    움직인다) 유리가 뒤를 못 읽어서 그 막만 남는다 - 카드가 통째로 잿빛이 되고
+    //    글자까지 뭉개진다. 실측으로 0.27~0.67초, 스크린샷으로도 잡힌다.
+    //
+    //    등장 연출을 걷어내 그 시간을 줄여도 0 이 되지 않았다. 콘텐츠가 자리를 잡는 일
+    //    자체는 남기 때문이다. `.regular` 는 그 막이 없어서 어느 순간에도 밝다.
+    //
+    //    맑기가 아쉬워 보일 수 있지만, 배경 사진은 `.regular` 로도 카드 너머로 비친다
+    //    (실측). 잃는 것은 약간의 선명함이고, 얻는 것은 "가끔 화면이 고장 난 것처럼
+    //    보이는 일"이 없어지는 것이다.
+
     let active: Bool
     let tint: Color?
     let cornerRadius: CGFloat
@@ -24,15 +38,36 @@ struct CardGlass: ViewModifier {
             if let tint {
                 // 색 정체성(즐겨찾기 분홍/커스텀 팔레트색)은 틴트로 유지된다.
                 content.glassEffect(
-                    .clear.tint(tint).interactive(),
+                    .regular.tint(tint).interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             } else {
                 content.glassEffect(
-                    .clear.interactive(),
+                    .regular.interactive(),
                     in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                 )
             }
+        } else {
+            content
+        }
+    }
+}
+
+/// 카드 글자 뒤에 까는 할로 - **필요할 때만 깐다.**
+///
+/// ⚠️ `color` 가 nil 이면 `compositingGroup` 째로 건너뛴다. 이게 이 뷰의 전부다.
+///    할로는 유리 너머로 사진이나 카테고리 색이 비칠 때 글자를 붙잡아 주려고 있는데,
+///    민 바탕(배경 사진 없음 + 무색 카드) 위에서는 테마 배경색과 **같은 색**이라
+///    보이지도 않는다. 그런데 `compositingGroup` 은 카드마다 화면 밖 합성을 한 번씩
+///    더 만든다 - 목록에 들어갈 때마다 카드 수만큼 공짜로 내는 값이었다.
+struct CardTextHalo: ViewModifier {
+    let color: Color?
+
+    func body(content: Content) -> some View {
+        if let color {
+            content
+                .compositingGroup()
+                .shadow(color: color, radius: 4, x: 0, y: 0)
         } else {
             content
         }

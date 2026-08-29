@@ -184,8 +184,19 @@ Text(NSLocalizedString("단축어 10개 잠김, Pro 구매 시 동기화됩니�
 **검사** (결과가 비어 있어야 한다):
 
 ```bash
-grep -rn "$(printf '\u2014')" . --exclude-dir=.git --exclude-dir=build
+sh scripts/check_dashes.sh
 ```
+
+이 검사는 **저장소 전 범위**(앱 문자열·카탈로그·docs·릴리즈 노트·주석·스크립트)를 본다.
+사람이 기억으로 지키지 않도록 세 곳에 물려 있다.
+
+| 언제 | 무엇이 부르나 |
+| --- | --- |
+| 커밋할 때 | `.git/hooks/pre-commit` (스테이지된 파일만) |
+| 커밋 메시지 | `.git/hooks/commit-msg` |
+| 빌드·배포 | `ci_scripts/ci_post_clone.sh` · `scripts/predeploy.sh` |
+
+새 머신에서는 `sh scripts/install-hooks.sh` 를 한 번 돌린다.
 
 ## 주요 패턴 및 규칙
 
@@ -326,7 +337,7 @@ static var supportedModes: IntentModes { .foreground }
 - 포그라운드 인텐트는 **메인 앱 프로세스에서 실행**되므로 위젯 타겟에만 두면 탭이 조용히 무시됨
 - 위젯 측 `widget/QuickNoteControl.swift` ↔ 앱 측 `ClipKeyboard/QuickNoteControlIntent.swift` 타입명·동작 일치 유지
 - 인텐트 시그니처 변경 시 컨트롤 kind 도 새 문자열로 (죽은 컨트롤 캐시 방지)
-- 상세 기록: `docs/CONTROL_CENTER_APP_LAUNCH.md`
+- 상세 기록: `docs/engineering/CONTROL_CENTER_APP_LAUNCH.md`
 
 ### 10. 다국어 지원 누락
 ```swift
@@ -425,6 +436,24 @@ if let dict = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?.dictionaryRe
 
 - [사용 가이드](https://m1zz.github.io/ClipKeyboard/tutorial.html)
 - 개발자 이메일: leeo@kakao.com
+
+### docs 폴더 (자세한 것은 `docs/README.md`)
+
+⚠️ **docs 루트는 GitHub Pages 의 소스다.** `index.html` · `tutorial.html` · `privacy.html` ·
+`terms.html` · `accessibility.html` 과 그 자산(`favicon.png` · `app-icon.png` · `media/`)은
+그대로 공개 주소가 되므로 **옮기지 않는다.** 글은 아래 폴더에 넣는다.
+
+| 폴더 | 무엇 |
+| --- | --- |
+| `docs/release-notes/` | 버전별 App Store 문안(`5.0.2.md`, 맥은 `-macos`) + 누적 기록 `HISTORY.md` |
+| `docs/postmortem/` | 죽거나 멈춘 기록. 대개 `scripts/` 의 검사와 짝을 이룬다 |
+| `docs/engineering/` | 개발 기록·빌드 설정·시험 |
+| `docs/design/` | 디자인 가이드 |
+| `docs/product/` | 명세·점검·심사 답변 |
+| `docs/marketing/` | 알리는 글·스크린샷 |
+
+코드 주석에서 문서를 가리킬 때는 저장소 루트 기준 경로로 적는다
+(`docs/postmortem/HANG_PASTEBOARD_5_0_1.md`).
 
 ## 버전 히스토리
 

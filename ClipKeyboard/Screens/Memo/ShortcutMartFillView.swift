@@ -76,7 +76,7 @@ struct ShortcutMartFillView: View {
     /// 빈칸 채우기는 그냥 서식 작성이 된다.
     private var previewSection: some View {
         Section {
-            Text(filledValue.templateChipAttributed(theme: theme, font: .callout))
+            Text(filledValue.templateAwareAttributed(theme: theme, font: .callout))
                 .font(.callout)
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, alignment: .leading)

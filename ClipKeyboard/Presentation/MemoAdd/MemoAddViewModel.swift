@@ -11,6 +11,18 @@ import UIKit
 
 // MARK: - MemoAddViewModel
 
+/// 콤보의 "이어지는 단계" 한 칸.
+///
+/// ⚠️ **id 를 갖는 이유**가 이 타입의 존재 이유다. 예전에는 그냥 `[String]` 이었고 화면이
+///    `ForEach(continuations.indices, id: \.self)` 로 돌면서 `$continuations[idx]` 로
+///    바인딩을 걸었다. 그러면 한 칸을 지우는 순간 SwiftUI 가 아직 살아 있는 옛 인덱스로
+///    바인딩을 한 번 더 읽어 **Index out of range 로 앱이 죽는다.**
+///    단계마다 제 id 를 들고 있으면 ForEach 가 무엇이 사라졌는지 알아 그런 일이 없다.
+struct ContinuationStep: Identifiable, Equatable {
+    let id = UUID()
+    var text: String
+}
+
 @MainActor
 final class MemoAddViewModel: ObservableObject {
 
@@ -53,12 +65,12 @@ final class MemoAddViewModel: ObservableObject {
     @Published var isTemplate: Bool = false
     @Published var isFavorite: Bool = false
     /// "이어지는 메모" 단계들(본문 value=1단계, 이 배열=2..N단계). 비어있으면 일반 메모.
-    @Published var continuations: [String] = []
+    @Published var continuations: [ContinuationStep] = []
 
     /// 저장용 콤보 단계 = [본문] + 비어있지 않은 이어지는 단계들. 이어지는 단계가 없으면 빈 배열(=일반 메모).
     private var resolvedComboValues: [String] {
         let extra = continuations
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map { $0.text.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
         return extra.isEmpty ? [] : ([value] + extra)
     }
@@ -251,7 +263,7 @@ final class MemoAddViewModel: ObservableObject {
             if !existing.comboValues.isEmpty {
                 // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
                 let steps = SecureMemoCrypto.decryptSteps(existing.comboValues)
-                continuations = Array(steps.dropFirst())
+                continuations = steps.dropFirst().map(ContinuationStep.init(text:))
                 if value.isEmpty { value = steps.first ?? "" }
             }
         } else if !insertedHint.isEmpty {
@@ -287,10 +299,12 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - 이어지는 메모(콤보 단계)
 
-    func addContinuation() { continuations.append("") }
-    func removeContinuation(at index: Int) {
-        guard continuations.indices.contains(index) else { return }
-        continuations.remove(at: index)
+    func addContinuation() { continuations.append(ContinuationStep(text: "")) }
+
+    /// ⚠️ 인덱스가 아니라 **id 로** 지운다. 인덱스로 받으면 지우는 순간 화면이 들고 있던
+    ///    옛 번호로 지워서 엉뚱한 칸이 사라진다(그리고 그 번호가 범위를 벗어나면 죽는다).
+    func removeContinuation(id: ContinuationStep.ID) {
+        continuations.removeAll { $0.id == id }
     }
 
     // MARK: - 초기화 (리셋)
@@ -359,6 +373,11 @@ final class MemoAddViewModel: ObservableObject {
         guard validateMemoInput() else { return }
         guard checkProLimitsForNewMemo() else { return }
 
+        // 손으로 친 한 판이 끝났다. 쓸 만한 표본이면 넘기고, 아니면 조용히 버린다
+        // (붙여넣었거나·너무 짧거나·중간에 오래 멈췄으면 표본이 아니다).
+        typingRun.commit()
+        typingRun = TypingRun(startingWith: value)
+
         do {
             var loadedMemos = try memoRepository.fetchAll()
             let imageFileNames = try saveAttachedImages()
@@ -385,6 +404,11 @@ final class MemoAddViewModel: ObservableObject {
             didCommitSave = true
             if let draftId = resumedDraftId { DraftStore.shared.remove(draftId) }
 
+            // 손으로 잇달아 만드는 중인지 센다 - 줄줄이 만들고 있으면 목록이 한 번에
+            // 정리하는 길을 내놓는다(`BulkImportNudge`). 대량 가져오기로 만든 것은
+            // 이 경로를 안 지나므로 저절로 빠진다.
+            if isNewMemo { BulkImportNudge.recordManualCreate() }
+
             // Analytics - 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String
@@ -409,7 +433,14 @@ final class MemoAddViewModel: ObservableObject {
 
     func onValueChanged() {
         detectPlaceholders()
+        // 이 사람이 실제로 얼마나 빨리 치는지 지켜본다. 이 앱에서 "손으로 했다면"을
+        // 가정이 아니라 관측으로 말할 수 있는 유일한 자리다(TypingSpeedMeter 참고).
+        typingRun.note(value, at: Date())
     }
+
+    /// 값 편집기에서 지금 치고 있는 한 판. 저장할 때 표본으로 넘긴다.
+    /// ⚠️ 실패해도 아무 일도 안 일어난다 - 재는 일이 저장을 방해하면 안 된다.
+    private var typingRun = TypingRun()
 
     func onIsTemplateChanged() {
         if isTemplate {
@@ -524,7 +555,9 @@ final class MemoAddViewModel: ObservableObject {
                 showPaywall = true
                 return false
             }
-            if !ProFeatureManager.canAddMemo(currentCount: existingMemos.count) {
+            // 심어 준 샘플은 세지 않는다 - 아무것도 안 만든 사람이 4/10 에서
+            // 시작하면 안 된다(`ownMemoCount`).
+            if !ProFeatureManager.canAddMemo(currentCount: ProFeatureManager.ownMemoCount(existingMemos)) {
                 paywallTrigger = .memo
                 showPaywall = true
                 return false
@@ -614,7 +647,7 @@ final class MemoAddViewModel: ObservableObject {
             loadedMemos[index] = updatedMemo
             return (existing.id, keyword)
         } else {
-            if !ProFeatureManager.canAddMemo(currentCount: loadedMemos.count) {
+            if !ProFeatureManager.canAddMemo(currentCount: ProFeatureManager.ownMemoCount(loadedMemos)) {
                 showPaywall = true
                 throw CancellationError()
             }
@@ -654,24 +687,11 @@ final class MemoAddViewModel: ObservableObject {
         }
     }
 
+    /// ⚠️ 예전에는 자동 변수 목록을 여기에 다섯 개만 따로 적어 두었다. 본진
+    ///    (`TemplateVariableProcessor.autoVariableTokens`)이 스무 개 넘게 늘어난 뒤에도
+    ///    이 목록은 그대로여서, `{도시}` 같은 자동 변수가 "값을 채워야 하는 칸"으로 잡혔다.
     private func detectPlaceholders() {
-        let autoVariables = ["{날짜}", "{시간}", "{연도}", "{월}", "{일}"]
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-
-        let matches = regex.matches(in: value, range: NSRange(value.startIndex..., in: value))
-        var placeholders: [String] = []
-
-        for match in matches {
-            if let range = Range(match.range, in: value) {
-                let placeholder = String(value[range])
-                if !autoVariables.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
-                }
-            }
-        }
-
-        detectedPlaceholders = placeholders
+        detectedPlaceholders = TemplatePlaceholder.customTokens(in: value)
     }
 
     private func loadPlaceholderValues() {
@@ -682,22 +702,30 @@ final class MemoAddViewModel: ObservableObject {
     }
 
     private func extractTemplateVariables(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        return matches.compactMap { match in
-            guard let range = Range(match.range(at: 1), in: text) else { return nil }
-            return String(text[range])
-        }
+        TemplatePlaceholder.names(in: text)
     }
 
     // MARK: - Clipboard Helpers
 
+    /// 화면이 뜰 때 클립보드에 쓸 만한 것이 있으면 제안 배너를 띄운다.
+    ///
+    /// ⚠️ 읽기는 **메인 밖에서** 한다. 그림이 담겨 있으면 읽는 데다 줄이고 인코딩하는 일까지
+    ///    붙는데, 예전에는 그 전부가 메인에서 돌아 화면이 뜨는 것을 막고 있었다.
+    ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
     private func checkClipboardAndSuggest() {
         #if os(iOS)
-        guard let history = ClipboardClassificationService.shared.checkClipboard() else { return }
+        ClipboardClassificationService.shared.checkClipboardOffMain { [weak self] history in
+            guard let self, let history else { return }
+            // 읽어 오는 사이에 사용자가 이미 무언가를 하고 있을 수 있다.
+            // 수정으로 넘어갔거나 이미 값을 채웠으면 이제 와서 끼어들지 않는다.
+            guard self.editingMemo == nil, !self.showClipboardSuggestion else { return }
+            self.applyClipboardSuggestion(history)
+        }
+        #endif
+    }
 
+    #if os(iOS)
+    private func applyClipboardSuggestion(_ history: SmartClipboardHistory) {
         if history.contentType == ClipboardContentType.text {
             guard history.content.count < 500 else { return }
             guard history.content != value else { return }
@@ -724,11 +752,12 @@ final class MemoAddViewModel: ObservableObject {
 
             print("📋 [MemoAddViewModel] 클립보드 이미지 감지: \(history.content)")
         }
-        #endif
     }
+    #endif
 
     private func acceptImageClipboardSuggestion(_ history: SmartClipboardHistory) {
         #if os(iOS)
+        // pasteboard-ok: 제안 배너의 "가져오기" 를 눌렀다
         if let image = UIPasteboard.general.image {
             withAnimation { attachedImages = [ImageWrapper(image: image)] }
             print("✅ [MemoAddViewModel] 클립보드에서 이미지를 가져왔습니다")

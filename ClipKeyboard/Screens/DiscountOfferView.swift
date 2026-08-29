@@ -290,7 +290,7 @@ struct DiscountOfferView: View {
             VStack(spacing: 16) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 64))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.checkGreen)
                 Text(NSLocalizedString("Pro 활성화 완료!", comment: "Pro activated"))
                     .font(.title2.weight(.bold))
                     .multilineTextAlignment(.center)

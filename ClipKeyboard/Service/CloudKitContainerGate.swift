@@ -17,7 +17,7 @@ import CloudKit
 ///
 /// 4.4.6 에서 이 한 줄이 첫 화면을 그리던 메인 스레드를 22초 붙잡았고, iOS 가 앱을
 /// 워치독으로 죽였다(`0x8BADF00D`, `scene-create`). 그 런치에서 앱이 쓴 CPU 는 0.135초다.
-/// 느려서 죽은 게 아니라 기다리다 죽었다. 기록: `docs/LAUNCH_WATCHDOG_4_4_6.md`
+/// 느려서 죽은 게 아니라 기다리다 죽었다. 기록: `docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md`
 ///
 /// ⚠️ **`CKContainer(identifier:)` 를 다른 곳에서 직접 부르지 않는다.** 여기를 거친다.
 ///    액터 안에서 만들기 때문에, `@MainActor` 코드가 불러도 생성은 메인 스레드가 아닌

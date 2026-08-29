@@ -19,16 +19,16 @@ final class UsageBreakdownTests: XCTestCase {
     /// 9는 **혼자 한 구간**이다(한 칸 남은 사람 수. 할인 제안이 겨냥하는 무리).
     func testDistributionBucketBoundaries() {
         let metrics: [[String: Double]] = [
-            ["shortcuts": 0],   // 0개
-            ["shortcuts": 3],   // 1~3
-            ["shortcuts": 6],   // 4~6
-            ["shortcuts": 7],   // 7~8  ← 경계
-            ["shortcuts": 8],   // 7~8  ← 경계 (9로 새지 않아야 한다)
-            ["shortcuts": 9],   // 9개   ← 단독 구간
-            ["shortcuts": 10],  // 10~19 ← 경계
-            ["shortcuts": 19],  // 10~19
-            ["shortcuts": 20],  // 20+  ← 경계
-            ["shortcuts": 500]  // 20+
+            ["ownShortcuts": 0],   // 0개
+            ["ownShortcuts": 3],   // 1~3
+            ["ownShortcuts": 6],   // 4~6
+            ["ownShortcuts": 7],   // 7~8  ← 경계
+            ["ownShortcuts": 8],   // 7~8  ← 경계 (9로 새지 않아야 한다)
+            ["ownShortcuts": 9],   // 9개   ← 단독 구간
+            ["ownShortcuts": 10],  // 10~19 ← 경계
+            ["ownShortcuts": 19],  // 10~19
+            ["ownShortcuts": 20],  // 20+  ← 경계
+            ["ownShortcuts": 500]  // 20+
         ]
 
         let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
@@ -46,7 +46,7 @@ final class UsageBreakdownTests: XCTestCase {
     /// 9개인 사람은 9 구간에만 잡히고 7~8 로 새지 않아야 한다 - 이 숫자로 제안을 띄울지 정한다.
     func testDistributionCountsExactlyNineOnItsOwn() {
         let metrics: [[String: Double]] = [
-            ["shortcuts": 8], ["shortcuts": 9], ["shortcuts": 9], ["shortcuts": 10]
+            ["ownShortcuts": 8], ["ownShortcuts": 9], ["ownShortcuts": 9], ["ownShortcuts": 10]
         ]
 
         let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
@@ -58,18 +58,40 @@ final class UsageBreakdownTests: XCTestCase {
 
     /// 모든 설치가 정확히 한 구간에만 속해야 한다(중복/누락 없음).
     func testDistributionCoversEveryInstallExactlyOnce() {
-        let metrics = (0...50).map { ["shortcuts": Double($0)] }
+        let metrics = (0...50).map { ["ownShortcuts": Double($0)] }
 
         let total = UsageInsights.shortcutDistribution(metrics: metrics).reduce(0) { $0 + $1.installs }
 
         XCTAssertEqual(total, metrics.count)
     }
 
-    /// 지표가 없는 옛 스냅샷은 0개로 잡힌다(크래시하지 않는다).
-    func testDistributionHandlesMissingMetric() {
-        let buckets = UsageInsights.shortcutDistribution(metrics: [[:]])
+    /// `ownShortcuts` 를 안 보내는 옛 스냅샷은 **세지 않는다.**
+    ///
+    /// 예전엔 `shortcuts` 로 폴백해 0개 칸에 넣었는데, 그러면 뜻이 다른 두 숫자
+    /// (샘플 포함 · 샘플 제외)가 한 막대에 섞인다. 지우려던 4~6 봉우리가 그대로 남는다.
+    func testDistributionSkipsLegacySnapshots() {
+        let metrics: [[String: Double]] = [[:], ["shortcuts": 6], ["ownShortcuts": 2]]
 
-        XCTAssertEqual(buckets[0].installs, 1)
+        let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
+
+        XCTAssertEqual(buckets.reduce(0) { $0 + $1.installs }, 1, "새 키를 보낸 하나만 센다")
+        XCTAssertEqual(buckets[1].installs, 1, "1~3")
+        XCTAssertEqual(buckets[2].installs, 0, "4~6 에 옛 스냅샷이 새지 않는다")
+        XCTAssertEqual(UsageInsights.legacyShortcutSnapshotCount(metrics: metrics), 2,
+                       "빠진 개수는 화면에 밝힐 수 있게 따로 센다")
+    }
+
+    /// 아무것도 안 만든 신규 설치는 **0개** 다. 샘플 4개는 사용자가 저장한 것이 아니다.
+    ///
+    /// 이 차트가 답하는 질문은 "결제 문턱까지 얼마나 왔나" 이고, 심어 준 것으로 채운
+    /// 4개를 세면 그 거리를 4만큼 잘못 본다. 4~6 에 서 있던 봉우리가 그 자국이었다.
+    func testFreshInstallWithOnlySamplesCountsAsZero() {
+        let metrics: [[String: Double]] = [["shortcuts": 4, "ownShortcuts": 0]]
+
+        let buckets = UsageInsights.shortcutDistribution(metrics: metrics)
+
+        XCTAssertEqual(buckets[0].installs, 1, "0개")
+        XCTAssertEqual(buckets[2].installs, 0, "4~6 이 아니다")
     }
 
     // MARK: - 사용 유형

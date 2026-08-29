@@ -107,7 +107,7 @@ struct BulkImportKeyPreview: View {
                     if isBundling {
                         Image(systemName: checked ? AppSymbol.checkmarkCircleFill : AppSymbol.circle)
                             .font(.system(size: buttonFontSize * 0.9, weight: .semibold))
-                            .foregroundColor(checked ? .accentColor : theme.textMuted)
+                            .foregroundColor(checked ? Color.checkGreen : theme.textMuted)
                             .accessibilityHidden(true)
                     } else if showVisualCues, MemoTypeStyle.hasDistinctType(memo) {
                         Image(systemName: MemoTypeStyle.symbolName(for: memo))

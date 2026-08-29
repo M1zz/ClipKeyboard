@@ -8,9 +8,9 @@
 //  쓸 만한 문장은 이미 52개나 갖고 있으면서(활용 사례), 그건 **읽는 자료**로만 있었다.
 //  읽고 나서 직접 옮겨 적어야 했으니 결국 처음부터 만드는 것과 다르지 않았다.
 //
-//  ⚠️ `StarterPackView`와 겹치지 않는다. 저쪽은 **처음 한 번** 여러 개를 통째로 담는 곳이고
-//     (빈칸은 채우지 않은 채 들어간다), 여기는 **언제든 들어와 하나를 골라 채워 가는** 곳이다.
-//     같은 시나리오 데이터를 보지만 하는 일이 다르다.
+//  ⚠️ 여기가 **골라 담는 유일한 자리**다. 예전에는 `StarterPackView`(묶음으로 통째로 담기)가
+//     따로 있었는데, 같은 시나리오 데이터를 보면서 담는 방법만 다른 화면이라
+//     사용자는 무엇이 다른지 알 수 없는 채로 고르기부터 해야 했다. 그쪽을 지웠다.
 //
 //  ⚠️ 시나리오 데이터(`usageCategories`)를 여기서 복제하지 않는다. 문구가 두 벌이 되면
 //     한쪽만 고쳐지는 날이 반드시 온다.
@@ -135,7 +135,7 @@ struct ShortcutMartView: View {
                             .foregroundColor(theme.textMuted)
                     }
                 }
-                Text(item.example.templateChipAttributed(theme: theme, font: .callout))
+                Text(item.example.templateAwareAttributed(theme: theme, font: .callout))
                     .font(.callout)
                     .foregroundColor(theme.textMuted)
                     .lineLimit(3)
@@ -165,8 +165,10 @@ struct ShortcutMartView: View {
     private var emptySection: some View {
         Section {
             VStack(spacing: 8) {
-                // 같이 고민하는 얼굴. 못 찾은 게 내 잘못처럼 느껴지지 않게 한다.
-                MascotView(pose: .thinking, size: 68)
+                Image(systemName: AppSymbol.magnifyingglass)
+                    .font(.system(size: 40, weight: .light))
+                    .foregroundColor(theme.textFaint)
+                    .accessibilityHidden(true)
                 Text(NSLocalizedString("찾는 것이 없어요", comment: "Shortcut mart empty title"))
                     .font(.headline)
                 Text(NSLocalizedString("전체로 바꿔서 더 둘러보거나, 직접 하나 만들어도 돼요.",

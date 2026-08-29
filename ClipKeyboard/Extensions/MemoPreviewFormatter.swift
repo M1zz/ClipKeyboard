@@ -8,13 +8,7 @@
 
 import Foundation
 
-extension String {
-    /// {중괄호}만 떼어낸 자연스러운 문장 - 템플릿 미리보기·하이라이트 입력칸에서 공용.
-    /// (키보드 익스텐션 타겟에도 포함되는 파일이라 여기에 둔다.)
-    var strippingTemplateBraces: String {
-        replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
-    }
-}
+// `{변수}` 를 찾고·떼고·칩으로 그리는 일은 DesignSystem/TemplatePlaceholder.swift 한 곳에 있다.
 
 enum MemoPreviewFormatter {
 
@@ -65,7 +59,8 @@ enum MemoPreviewFormatter {
     /// Accessibility label that describes masked content in full, so VoiceOver
     /// users can hear the last visible digits with context.
     static func accessibilityPreview(for memo: Memo, resolvedType: ClipboardItemType?) -> String {
-        let preview = self.preview(for: memo, resolvedType: resolvedType)
+        // 읽어 주는 자리라 칩을 그릴 수 없다 - 여기서만 중괄호를 뗀다.
+        let preview = self.preview(for: memo, resolvedType: resolvedType).strippingTemplateBraces
         guard memo.isSecure, let type = resolvedType, isMaskableType(type) else {
             return preview
         }
@@ -78,30 +73,16 @@ enum MemoPreviewFormatter {
         return String(format: format, typeName, tail)
     }
 
-    /// Extracts placeholder names from a template value, e.g. {이름} → "이름".
-    static func extractPlaceholders(in text: String) -> [String] {
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else { return [] }
-        let range = NSRange(text.startIndex..., in: text)
-        let matches = regex.matches(in: text, range: range)
-        var seen = Set<String>()
-        var result: [String] = []
-        for match in matches where match.numberOfRanges >= 2 {
-            if let r = Range(match.range(at: 1), in: text) {
-                let name = String(text[r])
-                if seen.insert(name).inserted {
-                    result.append(name)
-                }
-            }
-        }
-        return result
-    }
 
     // MARK: - Type-specific renderers
 
     private static func templatePreview(_ memo: Memo) -> String {
-        // 리스트 행에서는 {중괄호}를 떼고 자연스럽게 - 변수 개수는 "· N variables"로 안내된다.
-        let first = truncate(singleLine(memo.value).strippingTemplateBraces, max: 28)
-        let placeholders = extractPlaceholders(in: memo.value)
+        // ⚠️ 여기서 중괄호를 떼지 않는다. 예전에는 떼서 돌려줬는데, 그러면 이 문자열을
+        //    받아 그리는 쪽이 칩으로 칠할 실마리를 잃어서 **목록만 맹물 글씨**가 됐다.
+        //    토큰은 그대로 두고, 그리는 자리에서 `templateAwareAttributed` 가 칩으로 바꾼다.
+        //    평문이 필요한 곳(읽어 주기)은 `accessibilityPreview` 가 떼어 준다.
+        let first = truncate(singleLine(memo.value), max: 28)
+        let placeholders = TemplatePlaceholder.names(in: memo.value)
         guard !placeholders.isEmpty else { return first }
         let format = NSLocalizedString("%d variables", comment: "Template placeholder count suffix")
         let count = String(format: format, placeholders.count)
@@ -180,9 +161,14 @@ enum MemoPreviewFormatter {
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    /// 길면 자른다. **`{변수}` 한가운데서는 자르지 않는다** - 반쪽만 남으면 칩으로 칠할 수 없어
+    /// 여는 중괄호 하나가 글자로 드러난다. 그런 경우 그 토큰 앞에서 끊는다.
     private static func truncate(_ text: String, max: Int = maxPreviewLength) -> String {
         guard text.count > max else { return text }
-        let end = text.index(text.startIndex, offsetBy: max)
-        return String(text[..<end]) + ellipsis
+        var head = String(text[..<text.index(text.startIndex, offsetBy: max)])
+        if let open = head.lastIndex(of: "{"), !head[open...].contains("}") {
+            head = String(head[..<open])
+        }
+        return head + ellipsis
     }
 }

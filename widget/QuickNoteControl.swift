@@ -5,7 +5,7 @@
 //  Control Center / 잠금화면 컨트롤 - 탭하면 ClipKeyboard 를 열어 빠른 메모 입력 시트를 띄운다.
 //  애플 "빠른 메모"처럼 앱을 일일이 찾지 않고 어디서든 바로 캡처를 시작하게 한다.
 //
-//  ⚠️ 동작 원리 (iOS 26 - 자세한 트러블슈팅 기록은 docs/CONTROL_CENTER_APP_LAUNCH.md):
+//  ⚠️ 동작 원리 (iOS 26 - 자세한 트러블슈팅 기록은 docs/engineering/CONTROL_CENTER_APP_LAUNCH.md):
 //  1. 포그라운드 모드 인텐트는 위젯 프로세스가 아니라 "메인 앱 프로세스"에서 실행된다.
 //     따라서 이 인텐트와 동일한 타입이 앱 타겟(ClipKeyboard/QuickNoteControlIntent.swift)에도
 //     반드시 존재해야 한다. 없으면 시스템이 실행 대상을 못 찾아 탭이 조용히 무시된다.

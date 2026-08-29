@@ -219,7 +219,9 @@ class MemoStore: ObservableObject {
             memos[index].lastUsedAt = Date()
             try save(memos: memos, type: .memo)
             // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
-            KeyboardUsageTracker.recordMemoUse(value: memos[index].value, memoID: memoId)
+            KeyboardUsageTracker.recordMemoUse(value: memos[index].value,
+                                               type: memos[index].autoDetectedType,
+                                               memoID: memoId)
 
             // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
@@ -229,7 +231,9 @@ class MemoStore: ObservableObject {
                 object: nil,
                 userInfo: [MemoUsedKey.memoID: memoId,
                            MemoUsedKey.earnedSeconds: KeyboardUsageTracker.earnedSeconds(
-                            characterCount: memos[index].value.count, useCount: 1),
+                            value: memos[index].value,
+                            type: memos[index].autoDetectedType,
+                            useCount: 1),
                            MemoUsedKey.copiedText: copiedText ?? memos[index].value]
             )
         }
@@ -439,10 +443,200 @@ class MemoStore: ObservableObject {
         savePlaceholderValues(values, for: placeholder)
     }
 
+    /// 값 하나를 지운다.
+    ///
+    /// ⚠️ **단축어에 붙어 있는 사본(`Memo.placeholderValues`)에서도 함께 지운다.**
+    ///    그 사본은 키보드가 폴백으로 읽는 자리라, 공용 저장소에서만 지우면 앱에서는 사라졌는데
+    ///    키보드에서는 그대로 나오는 일이 생긴다. 지운 것이 다시 나오면 사용자는 지웠다는 것을
+    ///    믿지 못하게 된다.
     func deletePlaceholderValue(valueId: UUID, for placeholder: String) {
         var values = loadPlaceholderValues(for: placeholder)
+        let removed = values.first { $0.id == valueId }?.value
         values.removeAll { $0.id == valueId }
         savePlaceholderValues(values, for: placeholder)
+
+        if let removed {
+            removeValueFromMemoCopies(removed, for: placeholder)
+        }
+    }
+
+    /// 단축어에 붙어 있는 옛 사본에서 같은 값을 걷어낸다. 사본이 없으면 아무 일도 안 한다.
+    private func removeValueFromMemoCopies(_ value: String, for placeholder: String) {
+        guard var memos = try? load(type: .memo) else { return }
+        var touched = false
+
+        for index in memos.indices {
+            guard var values = memos[index].placeholderValues[placeholder],
+                  values.contains(value) else { continue }
+            values.removeAll { $0 == value }
+            if values.isEmpty {
+                memos[index].placeholderValues.removeValue(forKey: placeholder)
+            } else {
+                memos[index].placeholderValues[placeholder] = values
+            }
+            touched = true
+        }
+
+        guard touched else { return }
+        do {
+            try save(memos: memos, type: .memo)
+            print("🧹 [MemoStore.deletePlaceholderValue] 단축어에 붙어 있던 사본에서도 지웠다: \(placeholder)")
+        } catch {
+            // 공용 저장소에서는 이미 지워졌다. 사본 정리 실패로 지우기 자체를 되돌리지는 않는다.
+            print("⚠️ [MemoStore.deletePlaceholderValue] 사본 정리 실패: \(error)")
+        }
+    }
+
+    /// 빈칸 이름 바꾸기의 결과. 화면이 무엇을 말해 줄지 이 값으로 정한다.
+    enum PlaceholderRenameResult: Equatable {
+        /// 바꿨다. 본문을 고친 단축어 수를 함께 준다(0이면 값만 남아 있던 빈칸).
+        case renamed(memosTouched: Int)
+        /// 이름이 비었거나 중괄호만 남는 등 쓸 수 없는 이름.
+        case invalidName
+        /// `{날짜}` 처럼 앱이 알아서 채우는 자동 변수 이름이라 쓸 수 없다.
+        case reservedName
+        /// 이미 있는 빈칸 이름이다. 두 빈칸을 합치는 일은 하지 않는다.
+        case nameTaken
+        /// 같은 이름이라 할 일이 없다.
+        case unchanged
+    }
+
+    /// 빈칸 이름을 바꾼다. 값도, 본문도, 사본도 함께 옮긴다.
+    ///
+    /// 어디에 쓰나: "안 쓰는 이름이 쌓여 목록이 지저분하다"는 제보에서 지우기와 함께 나온 요청.
+    /// 이름을 잘못 지었을 때 지우고 다시 만드는 것 말고는 길이 없었다(사용자 제보, 2026-08).
+    ///
+    /// ⚠️ 지우기와 달리 **본문의 `{토큰}` 을 고친다.** 그렇게 하지 않으면 이름만 바뀌고
+    ///    단축어들은 여전히 옛 이름을 가리켜, 바꾼 쪽이 곧바로 고아가 된다. 본문을 건드리는
+    ///    일이라 부르는 쪽에서 몇 개가 바뀌는지 먼저 보여 주고 물어야 한다.
+    ///
+    /// ⚠️ 이미 있는 이름으로는 바꾸지 않는다(`nameTaken`). 두 빈칸을 합치면 값이 섞이고
+    ///    어느 쪽 값이 남는지 사용자가 알 수 없다. 합치기는 다른 기능이다.
+    ///
+    /// - Parameters:
+    ///   - old: 중괄호를 포함한 지금 이름. 예: `{이름}`
+    ///   - newName: 사용자가 적은 새 이름. 중괄호는 있어도 없어도 된다.
+    @discardableResult
+    func renamePlaceholder(_ old: String, to newName: String) -> PlaceholderRenameResult {
+        let bare = newName.strippingTemplateBraces.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !bare.isEmpty, !bare.contains("{"), !bare.contains("}") else { return .invalidName }
+        let new = "{\(bare)}"
+        guard new != old else { return .unchanged }
+        guard !TemplateVariableProcessor.autoVariableTokens.contains(new) else { return .reservedName }
+
+        var memos = (try? load(type: .memo)) ?? []
+        let taken = Set(storedPlaceholderTokens())
+            .union(memos.flatMap { TemplatePlaceholder.customTokens(in: $0.value) })
+        guard !taken.contains(new) else { return .nameTaken }
+
+        // 1) 값 - 새 이름으로 옮기고 옛 자리는 비운다(App Group + 표준 UserDefaults 의 옛 값).
+        let values = loadPlaceholderValues(for: old)
+        if !values.isEmpty { savePlaceholderValues(values, for: new) }
+        let oldKey = "placeholder_values_\(old)"
+        AppGroup.defaults?.removeObject(forKey: oldKey)
+        AppGroup.defaults?.synchronize()
+        UserDefaults.standard.removeObject(forKey: oldKey)
+
+        // 2) 본문·변수 목록·사본 - 셋 다 옛 이름을 들고 있다.
+        var touched = 0
+        for index in memos.indices where Self.rename(&memos[index], from: old, to: new) {
+            touched += 1
+        }
+
+        if touched > 0 {
+            do {
+                try save(memos: memos, type: .memo)
+            } catch {
+                // 값은 이미 옮겨졌다. 본문 저장이 실패하면 옛 이름이 본문에 남아 새 빈칸이
+                // 고아가 된다. 되돌리기보다 무엇이 어긋났는지 남기고 화면에 알린다.
+                print("❌ [MemoStore.renamePlaceholder] 본문 저장 실패: \(error)")
+            }
+        }
+        print("✏️ [MemoStore.renamePlaceholder] \(old) → \(new) (단축어 \(touched)개)")
+        return .renamed(memosTouched: touched)
+    }
+
+    /// 단축어 하나에서 빈칸 이름을 갈아 끼운다. 바꾼 것이 있으면 true.
+    ///
+    /// 옛 이름이 숨어 있는 자리가 셋이라 따로 뺐다 - 본문, 변수 목록(`templateVariables`),
+    /// 그리고 단축어에 붙어 있는 값 사본. 저장소를 건드리지 않는 순수한 일이라
+    /// 시험도 여기에 걸 수 있다.
+    static func rename(_ memo: inout Memo, from old: String, to new: String) -> Bool {
+        var changed = false
+        if memo.value.contains(old) {
+            memo.value = memo.value.replacingOccurrences(of: old, with: new)
+            changed = true
+        }
+        if memo.templateVariables.contains(old) {
+            memo.templateVariables = memo.templateVariables.map { $0 == old ? new : $0 }
+            changed = true
+        }
+        if let copies = memo.placeholderValues.removeValue(forKey: old) {
+            memo.placeholderValues[new] = copies
+            changed = true
+        }
+        return changed
+    }
+
+    /// 빈칸 하나를 통째로 지운다. 값도, 남아 있던 사본도 함께.
+    ///
+    /// 어디에 쓰나: 템플릿을 지웠거나 이름을 바꿔서 **쓰는 단축어가 하나도 없는** 빈칸이
+    /// 관리 화면에 계속 남는다. 값은 하나씩 지울 수 있었지만 빈칸 자체는 지울 방법이 없어,
+    /// 목록이 쓰지 않는 이름으로 불어나기만 했다(사용자 피드백, 2026-08).
+    ///
+    /// ⚠️ 지워야 할 자리가 **세 곳**이다. 하나라도 빠뜨리면 지운 것이 되살아난다.
+    ///    1. App Group 의 값 (지금 저장소)
+    ///    2. 표준 UserDefaults 의 옛 값 - `storedPlaceholderTokens()` 가 양쪽을 훑기 때문에
+    ///       안 지우면 값이 0인 유령 이름으로 목록에 남는다
+    ///    3. 단축어에 붙어 있는 사본(`Memo.placeholderValues`) - 키보드가 폴백으로 읽는 자리다
+    ///
+    /// ⚠️ **본문의 `{토큰}` 은 건드리지 않는다.** 남의 글을 말없이 고치지 않는다는 뜻이고,
+    ///    그래서 아직 쓰는 단축어가 있는 빈칸은 지워도 다음에 다시 나타난다.
+    ///    부르는 쪽이 "쓰는 단축어 없음"(`PlaceholderSummary.isOrphan`)만 지우게 할 것.
+    func deletePlaceholder(_ placeholder: String) {
+        let key = "placeholder_values_\(placeholder)"
+        AppGroup.defaults?.removeObject(forKey: key)
+        AppGroup.defaults?.synchronize()
+        UserDefaults.standard.removeObject(forKey: key)
+        removePlaceholderFromMemoCopies(placeholder)
+        print("🗑️ [MemoStore.deletePlaceholder] 빈칸을 지웠다: \(placeholder)")
+    }
+
+    /// 단축어에 붙어 있는 사본에서 이 빈칸을 통째로 걷어낸다. 사본이 없으면 아무 일도 안 한다.
+    private func removePlaceholderFromMemoCopies(_ placeholder: String) {
+        guard var memos = try? load(type: .memo) else { return }
+        var touched = false
+
+        for index in memos.indices where memos[index].placeholderValues[placeholder] != nil {
+            memos[index].placeholderValues.removeValue(forKey: placeholder)
+            touched = true
+        }
+
+        guard touched else { return }
+        do {
+            try save(memos: memos, type: .memo)
+            print("🧹 [MemoStore.deletePlaceholder] 단축어에 붙어 있던 사본에서도 지웠다: \(placeholder)")
+        } catch {
+            // 공용 저장소에서는 이미 지워졌다. 사본 정리 실패로 지우기 자체를 되돌리지는 않는다.
+            print("⚠️ [MemoStore.deletePlaceholder] 사본 정리 실패: \(error)")
+        }
+    }
+
+    /// 값이 저장돼 있는 빈칸 이름 전부.
+    ///
+    /// 어디에 쓰나: 단축어에서 사라진 빈칸도 값은 남아 있다(템플릿을 지웠거나 이름을 바꿨을 때).
+    /// 그 값이 화면 어디에도 안 보이면 지울 수도 없다. 관리 화면이 이 목록으로 그것들까지 보여 준다.
+    ///
+    /// ⚠️ 값은 **App Group** 에 저장된다. 예전에 표준 UserDefaults 로 쓰던 것도 있어 양쪽을 훑는다.
+    func storedPlaceholderTokens() -> [String] {
+        let prefix = "placeholder_values_"
+        var tokens: Set<String> = []
+        for defaults in [AppGroup.defaults, UserDefaults.standard].compactMap({ $0 }) {
+            for key in defaults.dictionaryRepresentation().keys where key.hasPrefix(prefix) {
+                tokens.insert(String(key.dropFirst(prefix.count)))
+            }
+        }
+        return tokens.sorted()
     }
 
     func deletePlaceholderValues(fromMemoId memoId: UUID) {
@@ -461,19 +655,7 @@ class MemoStore: ObservableObject {
     }
 
     private func extractPlaceholders(from text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let token = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(token), !placeholders.contains(token) {
-                    placeholders.append(token)
-                }
-            }
-        }
-        return placeholders
+        TemplatePlaceholder.customTokens(in: text)
     }
 
     // MARK: - Combo
@@ -679,38 +861,114 @@ enum MemoUsedKey {
 enum KeyboardUsageTracker {
     private static let timeSavedKey = "kb.timeSaved.totalSeconds"
     private static let dailyKeyPrefix = "kb.usage.daily."
+    // 내역을 나눠 담는다 - 화면이 "왜 이만큼인가"를 펼쳐 보이려면 합계만으로는 안 된다.
+    private static let retrievalKey = "kb.timeSaved.retrievalSeconds"
+    /// 선택·복사·붙여넣기로 옮겨 담던 시간. (이 조각이 늦게 들어와 예전 기록에는 없다)
+    private static let handlingKey = "kb.timeSaved.handlingSeconds"
+    private static let typingKey = "kb.timeSaved.typingSeconds"
+    private static let verificationKey = "kb.timeSaved.verificationSeconds"
+    /// 밑값을 채운 몫. 조각을 다 더해도 `minimumSavedSeconds` 에 못 미칠 때 붙는다.
+    /// (이 조각도 늦게 들어와 예전 기록에는 없다)
+    private static let baselineKey = "kb.timeSaved.baselineSeconds"
+    /// 이 앱을 쓰느라 **든** 시간. 내역을 펼쳤을 때 네 줄의 합에서 이걸 빼야 위의 큰 숫자가 된다.
+    /// (오래 안 쌓아 두던 값이라 예전 기록에는 없다 - 그때는 합계에서만 빠져 있었다)
+    private static let tapCostKey = "kb.timeSaved.tapCostSeconds"
+    private static let kindKeyPrefix = "kb.usage.kind."
+    /// 문구별 **마지막으로 쓴 시각**. 잇달아 쓴 것을 가려내는 데만 쓴다.
+    /// 창을 벗어난 것은 쓸 때마다 지우므로, 이 사전은 최근 몇 분치보다 커지지 않는다.
+    private static let recentUseKey = "kb.timeSaved.recentUse"
 
-    /// 평균 입력 속도 가정 (한글/영문 혼용 보수적 추정).
-    private static let charsPerSecond: Double = 4.0
-    /// 메모 탭+선택에 드는 오버헤드 (초). 실제 절약 시간에서 차감.
-    private static let memoTapOverheadSeconds: Double = 1.0
-
-    /// 메모 사용을 1건 기록한다. 일일 카운트 +1, 평생 절약 시간 += (글자수/4 - 1, 음수 clamp),
-    /// 그리고 월 원장에 문구별로 같은 금액을 적는다.
+    /// 메모 사용을 1건 기록한다.
     ///
-    /// ⚠️ 셋을 **한 곳에서** 갱신한다. 따로 부르게 두면 어느 하나가 빠진 경로가 생기고,
-    ///    그러면 잔고·영수증·기간 합계가 서로 다른 말을 하기 시작한다.
-    /// - Parameter memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
-    static func recordMemoUse(value: String, memoID: UUID? = nil, on date: Date = Date()) {
+    /// 한 곳에서 **네 가지**를 갱신한다 - 일일 카운트, 평생 절약 시간(합계와 내역),
+    /// 이득의 갈래별 횟수, 월 원장.
+    ///
+    /// ⚠️ 넷을 **한 곳에서** 갱신한다. 따로 부르게 두면 어느 하나가 빠진 경로가 생기고,
+    ///    그러면 잔고·영수증·기간 합계·내역이 서로 다른 말을 하기 시작한다.
+    ///
+    /// - Parameters:
+    ///   - type: 이 앱이 분류해 둔 값의 종류. **이게 있어야 "찾아오는 시간"을 셀 수 있다.**
+    ///           없으면 외워서 치는 글로 보고 치는 시간만 센다.
+    ///   - memoID: 월 원장용. 없으면 기간별 집계에서만 빠지고 누적은 그대로 쌓인다.
+    ///     **잇달아 쓴 것을 가려내는 데도 쓴다** - 무엇을 썼는지 알아야 방금 그것인지 안다.
+    static func recordMemoUse(value: String,
+                              type: ClipboardItemType? = nil,
+                              memoID: UUID? = nil,
+                              on date: Date = Date()) {
         guard let defaults = AppGroup.defaults else { return }
         let key = dailyKey(for: date)
         defaults.set(defaults.integer(forKey: key) + 1, forKey: key)
 
-        let saved = earnedSeconds(characterCount: value.count, useCount: 1)
-        defaults.set(defaults.double(forKey: timeSavedKey) + saved, forKey: timeSavedKey)
+        // 방금 쓴 것을 또 쓴 것이면 찾아오는 값을 다시 물리지 않는다.
+        // ⚠️ 판별과 동시에 시각을 갱신한다 - 나눠 두면 한쪽만 부르는 경로가 생긴다.
+        let isRepeat = markUseAndCheckRepeat(memoID: memoID, at: date, defaults: defaults)
+        let parts = TimeSavedModel.breakdown(value: value, type: type, isRepeat: isRepeat)
+
+        // ⚠️ 순이득이 0인 사용은 **조각도 쌓지 않는다.** 합계에는 안 들어가는데 내역만 늘면
+        //    "이렇게 셌어요" 의 줄들이 위의 큰 숫자보다 커진다. 셈을 펼쳐 보이려고 만든
+        //    자리가 셈이 안 맞는다고 말하게 되는 것이다.
+        if parts.total > 0 {
+            defaults.set(defaults.double(forKey: timeSavedKey) + parts.total, forKey: timeSavedKey)
+            defaults.set(defaults.double(forKey: retrievalKey) + parts.retrieval, forKey: retrievalKey)
+            defaults.set(defaults.double(forKey: handlingKey) + parts.handling, forKey: handlingKey)
+            defaults.set(defaults.double(forKey: typingKey) + parts.typing, forKey: typingKey)
+            defaults.set(defaults.double(forKey: verificationKey) + parts.verification, forKey: verificationKey)
+            defaults.set(defaults.double(forKey: baselineKey) + parts.baseline, forKey: baselineKey)
+            defaults.set(defaults.double(forKey: tapCostKey) + parts.tapCost, forKey: tapCostKey)
+        }
+
+        let kind = TimeSavedModel.kind(value: value, type: type)
+        let kindKey = kindKeyPrefix + kind.rawValue
+        defaults.set(defaults.integer(forKey: kindKey) + 1, forKey: kindKey)
 
         if let memoID {
-            RefundLedger.record(memoID: memoID, seconds: saved, on: date)
+            RefundLedger.record(memoID: memoID, seconds: parts.total, on: date)
         }
+    }
+
+    /// 이 문구를 **방금 전에도** 썼는지 보고, 마지막으로 쓴 시각을 새로 적는다.
+    ///
+    /// ⚠️ 무엇을 썼는지 모르면(memoID 가 없으면) 판별할 수 없다. 그때는 "처음 쓴 것"으로 본다
+    ///    - 모르는 것을 반복이라고 우겨 깎으면 그건 다른 방향의 거짓말이다.
+    ///
+    /// ⚠️ 사전은 **창 안에 든 것만** 남긴다. 이 경로는 키보드 익스텐션(메모리 60MB)에서도
+    ///    돌기 때문에, 문구 수만큼 불어나는 사전을 매번 읽게 두면 안 된다.
+    private static func markUseAndCheckRepeat(memoID: UUID?,
+                                              at date: Date,
+                                              defaults: UserDefaults) -> Bool {
+        guard let memoID else { return false }
+
+        let now = date.timeIntervalSince1970
+        let window = TimeSavedModel.repeatWindowSeconds
+        let raw = defaults.dictionary(forKey: recentUseKey) as? [String: Double] ?? [:]
+        // 기기 시각이 뒤로 간 경우(음수)도 걸러 낸다 - 미래에 쓴 것으로 남은 값은 못 믿는다.
+        var recent = raw.filter { (0..<window).contains(now - $0.value) }
+
+        let key = memoID.uuidString
+        let repeated = recent[key] != nil
+        recent[key] = now
+        defaults.set(recent, forKey: recentUseKey)
+        return repeated
     }
 
     /// 문구 하나가 지금까지 돌려준 시간(초).
     ///
     /// ⚠️ **누적과 같은 식이어야 한다.** 카드에 쌓인 동전, 영수증의 줄 금액, 잔고 합계가
-    ///    각자 계산하면 서로 안 맞고, 그러면 셋 중 둘은 거짓말이 된다. 그래서 여기 하나만 둔다.
+    ///    각자 계산하면 서로 안 맞고, 그러면 셋 중 둘은 거짓말이 된다.
+    ///    그래서 전부 `TimeSavedModel` 하나만 거친다.
+    static func earnedSeconds(value: String, type: ClipboardItemType?, useCount: Int) -> Double {
+        TimeSavedModel.breakdown(value: value, type: type, useCount: useCount).total
+    }
+
+    /// 값의 종류를 모르는 자리에서 쓰는 예전 창구.
+    ///
+    /// ⚠️ 종류를 모르면 **찾아오는 시간을 셀 수 없다.** 그래서 이 창구로 계산한 값은
+    ///    실제보다 작게 나온다. 메모를 들고 있는 자리라면 위의 `earnedSeconds(value:type:useCount:)`
+    ///    를 쓸 것. 이건 글자수밖에 없는 옛 호출부를 위해 남겨 둔다.
     static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
-        guard useCount > 0 else { return 0 }
-        let perUse = max(0, Double(characterCount) / charsPerSecond - memoTapOverheadSeconds)
+        guard useCount > 0, characterCount >= TimeSavedModel.minimumCharacters else { return 0 }
+        let perUse = max(0, Double(characterCount) / TimeSavedModel.proseCharsPerSecond
+                            - TimeSavedModel.tapCostSeconds)
         return perUse * Double(useCount)
     }
 
@@ -722,6 +980,29 @@ enum KeyboardUsageTracker {
     /// 평생 누적 절약 시간 (초)
     static func totalTimeSavedSeconds() -> Double {
         AppGroup.defaults?.double(forKey: timeSavedKey) ?? 0
+    }
+
+    /// 누적 절약 시간의 **내역**. 사용 기록 화면이 "왜 이만큼인가"를 펼치는 데 쓴다.
+    ///
+    /// ⚠️ 이 모델이 들어오기 전에 쌓인 시간은 내역이 없다(합계에만 들어 있다).
+    ///    그래서 조각의 합은 합계보다 **작을 수 있다.** 화면은 이걸 알고 그려야 한다.
+    ///
+    /// ⚠️ 뺀 값(`tapCost`)도 함께 돌려준다. 예전에는 0을 넣어 두고 화면에는 안 보여줬는데,
+    ///    그러면 펼친 줄들의 합이 위의 큰 숫자보다 **늘 커서** 셈이 안 맞았다.
+    ///    내역은 자랑이 아니라 근거라, 뺀 것도 적혀 있어야 근거가 된다.
+    static func savedBreakdown() -> TimeSavedModel.Breakdown {
+        guard let d = AppGroup.defaults else { return .zero }
+        return TimeSavedModel.Breakdown(retrieval: d.double(forKey: retrievalKey),
+                                        handling: d.double(forKey: handlingKey),
+                                        typing: d.double(forKey: typingKey),
+                                        verification: d.double(forKey: verificationKey),
+                                        baseline: d.double(forKey: baselineKey),
+                                        tapCost: d.double(forKey: tapCostKey))
+    }
+
+    /// 이득의 갈래별 사용 횟수.
+    static func useCount(of kind: TimeSavedModel.Kind) -> Int {
+        AppGroup.defaults?.integer(forKey: kindKeyPrefix + kind.rawValue) ?? 0
     }
 
     private static func dailyKey(for date: Date) -> String {

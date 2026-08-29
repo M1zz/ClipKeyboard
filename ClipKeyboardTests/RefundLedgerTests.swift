@@ -7,8 +7,8 @@
 //  가장 중요한 세 지점:
 //   ① **초와 횟수를 따로 쌓는다** - 초를 회당 금액으로 나눠 역산하면 문구를 고친 순간부터
 //      "×N"이 어긋난다. 실제로 그래서 키를 하나 더 뒀다.
-//   ② **기간은 월 단위뿐이다** - 월 원장에서 임의 구간을 뽑으면 그 달 전체가 딸려와
-//      틀린 수를 찍는다. 정확하지 않은 기간은 아예 만들지 않았다.
+//   ② **기간과 원장 칸이 맞아야 한다** - 월 원장에서 한 주를 오려 내면 그 달 전체가
+//      딸려와 틀린 수를 찍는다. 그래서 주는 일 원장에서만 뽑고, 일 원장은 짧게만 산다.
 //   ③ **원장 이전은 없다** - 예전부터 쓰던 사람의 지난달을 0원으로 찍으면 거짓말이라,
 //      시작일을 남겨 영수증이 "여기서부터 셌다"고 밝힌다.
 //
@@ -84,10 +84,13 @@ final class RefundLedgerTests: XCTestCase {
 
     func testZeroEarningStillMarksTheStartButAddsNothing() {
         // 벌이가 0이어도 "언제부터 셌나"는 사실이라 남긴다.
-        RefundLedger.record(memoID: UUID(), seconds: 0)
+        let id = UUID()
+        RefundLedger.record(memoID: id, seconds: 0)
 
         XCTAssertNotNil(RefundLedger.startedAt, "시작일은 금액과 무관하게 남아야 한다")
         XCTAssertEqual(RefundLedger.total(forMonthOf: Date()), 0)
+        XCTAssertEqual(RefundLedger.uses(forMonthOf: Date())[id], 1,
+                       "0초를 벌었어도 '다시 치지 않은 한 번'이다. 빼면 영수증 총 횟수와 줄 합이 어긋난다")
     }
 
     func testStartedAtDoesNotMoveOnLaterWrites() {
@@ -145,7 +148,78 @@ final class RefundLedgerTests: XCTestCase {
         XCTAssertEqual(RefundLedger.pruneIfNeeded(), 0)
     }
 
+    // MARK: - 일 원장 (주 단위)
+
+    func testWeekCountsOnlyDaysInsideTheWeek() {
+        let id = UUID()
+        let now = Date()
+        let longAgo = Calendar.current.date(byAdding: .day, value: -10, to: now)!
+
+        RefundLedger.record(memoID: id, seconds: 30, on: now)
+        RefundLedger.record(memoID: id, seconds: 700, on: longAgo)
+
+        let book = RefundLedger.book(for: .thisWeek, now: now)
+        XCTAssertEqual(book?.seconds[id], 30, "열흘 전은 이번 주가 아니다")
+        XCTAssertEqual(book?.uses[id], 1)
+    }
+
+    func testWeekAndMonthAgreeOnTheSameUse() {
+        let id = UUID()
+        let now = Date()
+        RefundLedger.record(memoID: id, seconds: 42, on: now)
+
+        // 한 번을 두 칸에 적는다 - 달과 주가 서로 다른 말을 하면 화면이 거짓말을 한다.
+        XCTAssertEqual(RefundLedger.book(for: .thisWeek, now: now)?.totalSeconds, 42)
+        XCTAssertEqual(RefundLedger.book(for: .thisMonth, now: now)?.totalSeconds, 42)
+        XCTAssertEqual(RefundLedger.book(for: .thisWeek, now: now)?.totalUses, 1)
+    }
+
+    func testWeekTellsWhenItStartedCounting() {
+        let now = Date(timeIntervalSince1970: 1_770_000_000)
+        guard let week = RefundPeriod.thisWeek.interval(from: now) else { return XCTFail("주 구간 없음") }
+        let midWeek = Calendar.current.date(byAdding: .day, value: 2, to: week.start)!
+
+        RefundLedger.record(memoID: UUID(), seconds: 10, on: midWeek)
+
+        let book = RefundLedger.book(for: .thisWeek, now: now)
+        XCTAssertNotNil(book?.coverageStartedAt,
+                        "주 중간부터 셌으면 그 사실을 밝혀야 한다. 0을 그냥 띄우면 거짓말이 된다")
+    }
+
+    func testDailyLedgerIsPrunedFasterThanTheMonthlyOne() {
+        let id = UUID()
+        let old = Calendar.current.date(byAdding: .day, value: -60, to: Date())!
+
+        RefundLedger.record(memoID: id, seconds: 50, on: old)
+        RefundLedger.pruneIfNeeded()
+
+        XCTAssertEqual(RefundLedger.total(forMonthOf: old), 50, "달 기록은 남는다")
+        let day = DateInterval(start: Calendar.current.startOfDay(for: old), duration: 86_400)
+        XCTAssertTrue(RefundLedger.dailyEntries(in: day).isEmpty, "60일 전 일 원장은 지워진다")
+    }
+
     // MARK: - 기간
+
+    func testThisWeekIsSevenDaysAndDoesNotPointAtAMonth() {
+        let now = Date(timeIntervalSince1970: 1_770_000_000)
+        guard let week = RefundPeriod.thisWeek.interval(from: now) else { return XCTFail("주 구간 없음") }
+
+        XCTAssertEqual(Calendar.current.dateComponents([.day], from: week.start, to: week.end).day, 7)
+        XCTAssertNil(RefundPeriod.thisWeek.month(from: now), "주는 달이 아니다")
+        XCTAssertTrue(RefundPeriod.thisWeek.readsDailyLedger, "주는 일 원장에서 읽어야 한다")
+        XCTAssertFalse(RefundPeriod.thisMonth.readsDailyLedger)
+    }
+
+    func testWeekLabelPrintsRealDatesNotItsName() {
+        let label = RefundPeriod.thisWeek.label(from: Date(timeIntervalSince1970: 1_770_000_000))
+        XCTAssertFalse(label.isEmpty)
+        XCTAssertNotEqual(label, RefundPeriod.thisWeek.localizedName,
+                          "종이에 '이번 주'라고 찍으면 나중에 언제 것인지 알 수 없다")
+    }
+
+    func testSelectablePeriodsAreTheOnesTheScreenOffers() {
+        XCTAssertEqual(RefundPeriod.selectable, [.thisWeek, .thisMonth, .allTime])
+    }
 
     func testThisMonthAndLastMonthPointAtDifferentMonths() {
         let now = Date(timeIntervalSince1970: 1_770_000_000)

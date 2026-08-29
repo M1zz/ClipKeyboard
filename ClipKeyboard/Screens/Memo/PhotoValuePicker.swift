@@ -112,7 +112,7 @@ struct PhotoValuePicker: View {
             } label: {
                 Image(systemName: appended.contains(text) ? AppSymbol.checkmarkCircleFill : AppSymbol.plusCircle)
                     .font(.title3)
-                    .foregroundColor(appended.contains(text) ? .green : .accentColor)
+                    .foregroundColor(appended.contains(text) ? Color.checkGreen : .accentColor)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(NSLocalizedString("값 끝에 이어 붙이기", comment: "Photo value picker: append line to value"))

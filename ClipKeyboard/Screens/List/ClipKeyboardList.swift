@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 import TipKit
 import UniformTypeIdentifiers
+import PhotosUI
 import LeeoKit
 
 var fontSize: CGFloat = 20
@@ -82,15 +83,6 @@ struct ClipKeyboardList: View {
     private var tutorialTargetRaw: String = ""
     /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
     @State private var coachRect: CGRect = .zero
-    /// 복사까지 해 본 직후 이어지는 붙여넣기 연습. 복사만 시키고 끝내면
-    /// "복사됐다"로 끝나고, 값어치는 **그 다음에 안 친 것**에 있다.
-    @State private var pastePractice: PastePracticeRequest?
-
-    private struct PastePracticeRequest: Identifiable {
-        let id = UUID()
-        let value: String
-    }
-
     /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
@@ -141,7 +133,6 @@ struct ClipKeyboardList: View {
     @State private var showSwipeCategoryDialog: Bool = false
 
     // 스타터팩 - 추천 묶음 일괄 추가 시트
-    @State private var showStarterPack: Bool = false
 
     // 고스트 메모 제안 - 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
     @State private var ghostSuggestion: QuickPattern?
@@ -181,7 +172,8 @@ struct ClipKeyboardList: View {
               !ProFeatureManager.hasFullAccess,
               !shouldShowGraceBanner else { return false }
         let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
-        let nearLimit = viewModel.memos.count >= max(1, ProFeatureManager.memoLimit - 3)
+        // 한도와 같은 개수를 센다 - 심어 준 샘플로 넛지가 앞당겨 뜨면 안 된다.
+        let nearLimit = ProFeatureManager.ownMemoCount(viewModel.memos) >= max(1, ProFeatureManager.memoLimit - 3)
         return savedEnough || nearLimit
     }
 
@@ -197,7 +189,7 @@ struct ClipKeyboardList: View {
             let minutes = Int(saved / 60)
             return String(format: NSLocalizedString("이미 %d분을 아꼈어요. Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
         }
-        let left = max(0, ProFeatureManager.memoLimit - viewModel.memos.count)
+        let left = max(0, ProFeatureManager.memoLimit - ProFeatureManager.ownMemoCount(viewModel.memos))
         return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요. Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
@@ -282,8 +274,33 @@ struct ClipKeyboardList: View {
             // 상단에 고정 크롬이 없어 콘텐츠가 화면을 온전히 쓴다.
             categoryContent
         }
+        // ⚠️ **목록이 자리를 잡는 동안에는 아무것도 움직이지 않는다.**
+        //
+        //    화면이 뜨고 1초 사이에 늦게 도착하는 것들이 있다: TipKit 팁(보여줄지를 스스로
+        //    늦게 판단한다), 상단 배너들, 읽어 들인 메모. 저마다 자기 애니메이션으로
+        //    들어오면서 아래 카드를 통째로 밀어 내려서, 목록에 들어갈 때마다 화면이
+        //    한 번 출렁이는 것으로 보였다("하늘에서 뚝 떨어진다").
+        //
+        //    끄는 것은 **그 창 동안의 암묵 애니메이션뿐**이다. 손을 대서 생기는 것들
+        //    (카드 누름·동전·글로우·내용 힌트)은 그 뒤에 일어나므로 그대로 산다.
+        .transaction { if settling { $0.animation = nil } }
         // 순정 Liquid Glass: 상·하단 스크롤 엣지 효과는 시스템 기본에 맡긴다
         // (네비바·플로팅 탭바가 콘텐츠와 만날 때 soft glass 처리).
+    }
+
+    /// 목록이 자리를 잡는 중인가. 위 `mainColumn` 의 주석이 이 값의 전부다.
+    ///
+    /// ⚠️ 화면에 나타날 때마다 다시 켠다. 탭을 오가면 이 화면이 새로 만들어질 때도,
+    ///    그대로 살아 있을 때도 있어서 `@State` 초기값만 믿으면 한쪽이 빠진다.
+    private static let settleWindow: TimeInterval = 1.0
+
+    @State private var settling: Bool = true
+
+    private func beginSettling() {
+        settling = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleWindow) {
+            settling = false
+        }
     }
 
     /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
@@ -336,6 +353,14 @@ struct ClipKeyboardList: View {
                     .padding(.bottom, 4)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
+                }
+
+                // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
+                // (mainColumn 타입 복잡도에 영향이 없도록 자식 하나로 유지)
+                BulkImportNudgeBannerContainer(memoCount: viewModel.memos.count,
+                                               hasLoaded: viewModel.hasLoadedMemos) {
+                    HapticManager.shared.light()
+                    showBulkImport = true
                 }
 
                 if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
@@ -465,6 +490,34 @@ struct ClipKeyboardList: View {
 
     private var screenBody: some View {
             ZStack {
+                // ⚠️ **바닥은 언제나 있어야 한다.**
+                //
+                //    `tabBackgroundColor` 는 기본 갈래에서 `.clear` 를 돌려준다. 그것만
+                //    깔고 `ignoresSafeArea` 를 걸면 뒤에 아무것도 없어서 **창의 검정이
+                //    그대로 비친다.** 탭을 옮길 때마다 화면이 한 번 까매지는 것으로 보였고,
+                //    그건 연출이 아니라 고장으로 읽힌다.
+                //
+                //    갈래 색은 바닥이 아니라 **바닥 위에 얹는 얇은 막**이다. 그래서 둘로 나눈다.
+                theme.bg
+                    .ignoresSafeArea()
+
+                // 배경 사진(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
+                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
+                //
+                // ⚠️ **바닥색 위**에 있어야 한다. 예전에는 이 화면 전체의 `.background` 로
+                //    달아 뒀는데, 그 자리는 위 `theme.bg` 보다 **뒤**다. 불투명한 바닥이
+                //    사진을 통째로 덮어서, 골라도 아무 일도 일어나지 않았다(실측).
+                //
+                // ⚠️ 그렇다고 바닥을 걷어내면 안 된다. 사진이 아직 안 그려진 첫 프레임에
+                //    창의 검정이 그대로 비친다 - 위 주석의 그 사고다. 바닥은 두고 덮는다.
+                if !resolvedBackgroundImage.isEmpty {
+                    BackgroundImageView(name: resolvedBackgroundImage)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .id(resolvedBackgroundImage)
+                }
+
                 // 현재 탭에 따라 배경색이 부드럽게 전환
                 tabBackgroundColor
                     .ignoresSafeArea()
@@ -475,6 +528,8 @@ struct ClipKeyboardList: View {
                 // GraceQuotaBanner 등)과 통일된 패턴.
                 mainColumn
             }
+            // 탭을 넘길 때 배경 사진이 부드럽게 교차한다(위 transition 과 짝).
+            .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
             // 검색 키보드 내리기: 메모 영역 아무 데나 탭(simultaneous라 카드 탭 동작은 그대로 실행)
             // 하거나 스크롤하면 닫힌다. 검색바 자신은 safeAreaInset의 분리 영역이라
             // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
@@ -535,13 +590,6 @@ struct ClipKeyboardList: View {
 
     private var screenBody2: some View {
         screenBody
-            .sheet(isPresented: $showStarterPack, onDismiss: { viewModel.loadMemos() }) {
-                StarterPackView { count in
-                    viewModel.showPlainToast(
-                        String(format: NSLocalizedString("스타터팩 %d개를 추가했어요", comment: "Starter pack added toast"), count)
-                    )
-                }
-            }
             .sheet(item: $ghostAddPattern, onDismiss: {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
@@ -599,12 +647,6 @@ struct ClipKeyboardList: View {
             }
             .navigationDestination(isPresented: $showVault) {
                 VaultScreen()
-            }
-            // 온보딩의 마지막 걸음 - 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
-            .fullScreenCover(item: $pastePractice) { request in
-                PastePracticeView(expected: request.value) {
-                    pastePractice = nil
-                }
             }
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
@@ -827,6 +869,7 @@ struct ClipKeyboardList: View {
             ))
             .onChange(of: livingSkinRaw) { _, _ in startGuestsIfNeeded() }
             .onAppear {
+                beginSettling()
                 startGuestsIfNeeded()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
@@ -834,12 +877,10 @@ struct ClipKeyboardList: View {
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
-                // 첫 로드 시 stagger enter 트리거 (한 번만)
+                // 이 화면을 연 것을 한 번만 센다 - 목록은 탭을 오갈 때마다 다시 나타난다.
                 if !hasAppeared {
+                    hasAppeared = true
                     SuggestionManager.shared.recordAppOpen()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        hasAppeared = true
-                    }
                 }
                 // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
                 if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
@@ -867,12 +908,24 @@ struct ClipKeyboardList: View {
         screenL7
             .onAppear { syncCoachTarget() }
             .onChange(of: tutorialTargetRaw) { _, _ in syncCoachTarget() }
+            // ⚠️ 목록은 무대 뒤에 **깔린 채로 살아 있다**(`SnippetsTab.content`).
+            //    무대에서 단축어를 만들어도 이 화면은 다시 만들어지지 않으므로,
+            //    바뀌었다는 소식을 직접 듣고 다시 읽어야 한다.
+            .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+                viewModel.loadMemos()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
             .navigationDestination(isPresented: $showInboxFromIntent) {
                 QuickNoteInboxView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openShortcutMart)) { _ in
+                showShortcutMart = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
+                showBulkImport = true
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
@@ -902,6 +955,42 @@ struct ClipKeyboardList: View {
     @State private var perTabBackgrounds: [String: String] = [:]
     /// 배경 선택 시트의 적용 범위 - 현재 탭만 / 모든 탭.
     @State private var backgroundScopeAllTabs = false
+    /// 사진첩에서 고른 것. 고르는 즉시 저장하고 배경으로 적용한다.
+    @State private var pickedBackgroundItem: PhotosPickerItem?
+    /// 내가 넣어 둔 배경들.
+    @State private var myBackgrounds: [String] = []
+
+    /// 내 사진 하나를 들인다. **고르자마자 적용한다** - 넣고 또 골라야 하면 두 걸음이다.
+    private func adoptPickedBackground(_ item: PhotosPickerItem?) {
+        guard let item else { return }
+        Task { @MainActor in
+            guard let data = try? await item.loadTransferable(type: Data.self),
+                  let image = UIImage(data: data),
+                  let stored = BackgroundImageStore.add(image) else {
+                viewModel.showPlainToast(NSLocalizedString("사진을 가져오지 못했어요",
+                                                           comment: "Background import failed"))
+                return
+            }
+            myBackgrounds = BackgroundImageStore.saved()
+            applyBackground(stored)
+            pickedBackgroundItem = nil
+        }
+    }
+
+    /// 내가 넣은 배경 하나를 지운다.
+    ///
+    /// ⚠️ 지금 쓰고 있는 것을 지우면 **배경 없음으로 되돌린다.** 그러지 않으면 파일이
+    ///    사라진 이름만 남아, 배경이 조용히 안 보이는 채로 설정만 켜져 있게 된다.
+    private func removeUserBackground(_ name: String) {
+        BackgroundImageStore.remove(name)
+        myBackgrounds = BackgroundImageStore.saved()
+        if listBackgroundImage == name { listBackgroundImage = "" }
+        for (tab, value) in perTabBackgrounds where value == name {
+            perTabBackgrounds[tab] = ""
+        }
+        persistPerTabBackgrounds()
+        HapticManager.shared.selection()
+    }
 
     /// 현재 탭에 실제로 보여줄 배경 - 탭 덮어쓰기 우선, 없으면 전체 기본값.
     private var resolvedBackgroundImage: String {
@@ -911,11 +1000,22 @@ struct ClipKeyboardList: View {
     private func loadPerTabBackgrounds() {
         perTabBackgrounds = (AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.listBackgroundPerTabV1) as? [String: String]) ?? [:]
+        preloadBackgrounds()
+    }
+
+    /// 이 화면이 쓸 배경들을 미리 풀어 둔다.
+    ///
+    /// ⚠️ **탭을 넘긴 뒤에 읽으면 늦다.** 그때 읽으면 디코드가 그 프레임에서 일어나
+    ///    배경이 한 박자 늦게 들어오고, 그 사이가 바닥색으로 비친다.
+    ///    옆 탭 것까지 미리 읽어 두면 넘기는 순간에는 그릴 일만 남는다.
+    private func preloadBackgrounds() {
+        BackgroundImageStore.preload(Array(perTabBackgrounds.values) + [listBackgroundImage])
     }
 
     private func persistPerTabBackgrounds() {
         AppGroup.defaults?
             .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
+        preloadBackgrounds()
     }
 
     /// 배경 선택 적용 - 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
@@ -962,19 +1062,6 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
-                // 배경 이미지(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
-                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
-                .background {
-                    if !resolvedBackgroundImage.isEmpty {
-                        Image(resolvedBackgroundImage)
-                            .resizable()
-                            .scaledToFill()
-                            .ignoresSafeArea()
-                            .transition(.opacity)
-                            .id(resolvedBackgroundImage)
-                    }
-                }
-                .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
                 // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
@@ -992,8 +1079,12 @@ struct ClipKeyboardList: View {
                 } message: {
                     Text(NSLocalizedString("리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.", comment: "Background offer alert message"))
                 }
-                .sheet(isPresented: $showBackgroundPicker) {
+                .sheet(isPresented: $showBackgroundPicker, onDismiss: { pickedBackgroundItem = nil }) {
                     backgroundPickerSheet
+                        .onAppear { myBackgrounds = BackgroundImageStore.saved() }
+                        .onChange(of: pickedBackgroundItem) { _, item in
+                            adoptPickedBackground(item)
+                        }
                 }
                 .onAppear {
                     loadPerTabBackgrounds()
@@ -1042,12 +1133,59 @@ struct ClipKeyboardList: View {
                         .buttonStyle(.plain)
                         .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
 
+                        // ⚠️ **사진 고르기가 맨 앞이다.** 내장 여덟 장을 다 지나야 나오면,
+                        //    내 사진을 쓸 수 있다는 것부터 모른 채 여덟 개 중에서 고르게 된다.
+                        PhotosPicker(selection: $pickedBackgroundItem, matching: .images) {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                                    .fill(theme.accentSoft)
+                                VStack(spacing: 6) {
+                                    Image(systemName: AppSymbol.photoOnRectangleAngled)
+                                        .font(.title2)
+                                    Text(NSLocalizedString("내 사진", comment: "Background: my photo"))
+                                        .font(.footnote.weight(.medium))
+                                }
+                                .foregroundColor(theme.accent)
+                            }
+                            .frame(height: 150)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(NSLocalizedString("사진에서 배경 고르기",
+                                                              comment: "Background: pick from photos"))
+
+                        // 내가 넣은 것이 내장보다 먼저 - 방금 넣은 것을 찾으러 스크롤하지 않게.
+                        ForEach(myBackgrounds, id: \.self) { name in
+                            Button {
+                                applyBackground(name)
+                            } label: {
+                                BackgroundImageView(name: name)
+                                    .scaledToFill()
+                                    .frame(height: 150)
+                                    .frame(maxWidth: .infinity)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
+                                    .overlay(alignment: .topLeading) {
+                                        Button {
+                                            removeUserBackground(name)
+                                        } label: {
+                                            Image(systemName: AppSymbol.xmarkCircleFill)
+                                                .font(.title3)
+                                                .foregroundStyle(.white, .black.opacity(0.45))
+                                                .padding(8)
+                                        }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel(NSLocalizedString("이 배경 지우기",
+                                                                              comment: "Remove my background"))
+                                    }
+                            }
+                            .buttonStyle(.plain)
+                        }
+
                         ForEach(Self.backgroundOptions, id: \.self) { name in
                             Button {
                                 applyBackground(name)
                             } label: {
-                                Image(name)
-                                    .resizable()
+                                BackgroundImageView(name: name)
                                     .scaledToFill()
                                     .frame(height: 150)
                                     .frame(maxWidth: .infinity)
@@ -1084,7 +1222,7 @@ struct ClipKeyboardList: View {
                 .overlay(alignment: .topTrailing) {
                     Image(systemName: AppSymbol.checkmarkCircleFill)
                         .font(.title3)
-                        .foregroundStyle(.white, Color.accentColor)
+                        .foregroundStyle(Color.checkOnGreen, Color.checkGreen)
                         .padding(6)
                 }
         }
@@ -1361,6 +1499,8 @@ struct ClipKeyboardList: View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
+        // 유리를 붙일 수 있는 카드인가 - 사진 카드와 재정렬(경량) 모드는 단색이다.
+        let glassOn = !hasImage && !lightweight
 
         return VStack(alignment: .leading, spacing: 0) {
             // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
@@ -1414,8 +1554,7 @@ struct ClipKeyboardList: View {
                 // 겹쳐 얹으면 내용이 안 읽히고, 옆에 두면 카드 높이가 흔들린다.
                 // 같은 자리를 번갈아 쓰면 둘 다 해결된다.
                 if !lightweight, showsCoin(memo) {
-                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount),
+                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo),
                                    onColor: onColor)
                         .frame(height: ContentHintPreview.zoneHeight, alignment: .leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1427,13 +1566,9 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        // 유리 카드 글자 가독성 - 맑은 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
-        // 글 내용 뒤에 은은한 할로를 깐다. 흰 글자(색 유리)는 어두운 할로,
-        // 테마색 글자(무색 유리)는 테마 배경색 할로 - 배경이 무엇이든 최소 대비 확보.
-        // 이미지 카드는 자체 그라디언트가 가독성을 책임지므로 제외.
-        .compositingGroup()
-        .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.55) : theme.bg),
-                radius: 4, x: 0, y: 0)
+        // 유리 카드 글자 가독성 - 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
+        // 글 내용 뒤에 은은한 할로를 깐다. 언제 까는지는 `cardTextHaloColor` 참고.
+        .modifier(CardTextHalo(color: cardTextHaloColor(hasImage: hasImage, onColor: onColor)))
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
@@ -1441,10 +1576,11 @@ struct ClipKeyboardList: View {
         // 배경: 이미지 카드는 사진 그대로. 텍스트 카드는 리퀴드 글래스(아래 CardGlass)가
         // 배경을 대신하되, 경량(재정렬) 모드에선 글래스가 프레임마다 비싸 단색으로 폴백.
         .background {
-            if hasImage || lightweight {
+            if !glassOn {
+                // 유리가 없는 카드(사진·재정렬)는 단색이 그대로 얼굴이다.
                 memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
             } else {
-                // 맑은 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
+                // 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
                 // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
                 theme.surface.opacity(CardGlass.backingOpacity)
             }
@@ -1457,7 +1593,7 @@ struct ClipKeyboardList: View {
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) - 카테고리 색은 tint로 유지.
         .modifier(CardGlass(
-            active: !hasImage && !lightweight,
+            active: glassOn,
             tint: cardGlassTint(memo: memo),
             cornerRadius: theme.radiusXl
         ))
@@ -1535,20 +1671,13 @@ struct ClipKeyboardList: View {
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
         lightUpCard(memoID)
 
-        // 가리키던 카드를 실제로 눌렀다 → 복사한 것을 붙여넣기까지 이어서 데려간다.
+        // 가리키던 카드를 실제로 눌렀다 → 안내를 거둔다. 배운 것은 여기서 끝난다.
         //
-        // ⚠️ 클립보드를 읽어 값을 알아내지 않는다. iOS 16+ 는 읽을 때마다
-        //    "붙여넣기 허용" 프롬프트를 띄워서, 가르치려던 동작을 시스템 팝업으로 가로챈다.
-        //    알림이 실어 온 복사값(copiedText)을 그대로 쓴다.
+        // ⚠️ 예전에는 여기서 **붙여넣기 연습 화면**(`PastePracticeView`)을 전체 화면으로
+        //    띄웠다. 뺐다. 카드를 누른 순간 값은 이미 들어간 뒤라, 같은 값을 한 번 더
+        //    "붙여넣어 보라"고 하는 것은 방금 한 일을 다시 시키는 일이었다.
         if coachMemoID == memoID {
             withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil }
-
-            let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
-            if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                    pastePractice = PastePracticeRequest(value: copied)
-                }
-            }
         }
 
         guard livingSkin == .vault else { return }
@@ -1650,12 +1779,10 @@ struct ClipKeyboardList: View {
                 ZStack {
                     // 카드를 금고 문으로 - 경첩·다이얼·이음새는 전부 가장자리에 있어
                     // 글과 자리를 다투지 않는다.
-                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount))
+                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(for: memo))
 
                     if !contentHintEnabled, showsCoin(memo) {
-                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                            characterCount: memo.value.count, useCount: memo.clipCount))
+                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo))
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                             .padding(.trailing, 12)
                             .padding(.bottom, 10)
@@ -1720,6 +1847,18 @@ struct ClipKeyboardList: View {
                   offsetY: offsetY,
                   radius: theme.radiusXl,
                   opacity: keycapSkin.skirtOpacity(isDark: theme.isDark))
+    }
+
+    /// 글자 뒤 할로 색. nil 이면 할로를 아예 깔지 않는다(`CardTextHalo` 참고).
+    ///
+    /// - 사진 카드: 자체 그라디언트가 가독성을 책임진다 → 없음
+    /// - 색 카드(즐겨찾기·카테고리): 흰 글자라 어두운 할로
+    /// - 무색 카드: **뒤에 사진이 깔렸을 때만.** 민 바탕에서는 테마 배경색과 같은 색이라
+    ///   보이지도 않으면서 카드마다 화면 밖 합성만 한 번씩 더 만든다.
+    private func cardTextHaloColor(hasImage: Bool, onColor: Bool) -> Color? {
+        if hasImage { return nil }
+        if onColor { return Color.black.opacity(0.55) }
+        return resolvedBackgroundImage.isEmpty ? nil : theme.bg
     }
 
     /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
@@ -1827,6 +1966,18 @@ struct ClipKeyboardList: View {
         case .favorites: return Color.clipFavorite.opacity(0.13)
         case .builtIn(let b): return b.tint.opacity(0.11)
         case .custom(let name): return customCategoryColor(name).opacity(0.11)
+        }
+    }
+
+    /// 하단 베일이 **가라앉는 색.** 갈래 색이 없으면 바닥색으로 사라진다.
+    ///
+    /// ⚠️ 여기서 `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
+    ///    베일의 일은 "카드가 탭바에 어중간하게 걸치지 않게 지우는 것"이라,
+    ///    지운 자리에 **무엇이 남는지**까지가 이 색의 몫이다.
+    private var tabVeilColor: Color {
+        switch viewModel.selectedCategoryTab {
+        case .basic, .all: return theme.bg
+        default: return tabBackgroundColor
         }
     }
 
@@ -1984,9 +2135,9 @@ struct ClipKeyboardList: View {
         .overlay(alignment: .bottom) {
             LinearGradient(
                 stops: [
-                    .init(color: tabBackgroundColor.opacity(0), location: 0),
-                    .init(color: tabBackgroundColor.opacity(0.9), location: 0.45),
-                    .init(color: tabBackgroundColor, location: 1)
+                    .init(color: tabVeilColor.opacity(0), location: 0),
+                    .init(color: tabVeilColor.opacity(0.9), location: 0.45),
+                    .init(color: tabVeilColor, location: 1)
                 ],
                 startPoint: .top, endPoint: .bottom
             )
@@ -2390,11 +2541,14 @@ struct ClipKeyboardList: View {
                         if let ghost = ghostSuggestion {
                             ghostMemoCell(pattern: ghost)
                         }
-                        ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
+                        ForEach(allMemos) { memo in
+                            // ⚠️ 카드가 목록에 **끼워질 때 아무 연출도 하지 않는다.**
+                            //    기본값은 페이드인데, 투명도가 걸린 뷰는 화면 밖에서 한 장으로
+                            //    합쳐 그려지고 그 안의 유리(`glassEffect`)는 뒤를 못 봐서
+                            //    잿빛으로 뜬다. 메모는 화면이 뜬 뒤에 읽혀 들어오므로
+                            //    (`viewModel.loadMemos`) 목록을 열 때마다 그 순간을 지난다.
                             memoGridCell(memo: memo)
-                                .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                                .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                                .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                                .transition(.identity)
                         }
                         // 그리드 끝 "추가" 카드는 두지 않는다 - 우상단 툴바 + 버튼이 있으므로
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
@@ -2426,11 +2580,10 @@ struct ClipKeyboardList: View {
                 pageHeader(for: tab)
                 Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
-                    ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
+                    ForEach(memos) { memo in
+                        // 끼워질 때 연출 없음 - 이유는 위 `allTabScrollView` 의 주석 참고.
                         memoGridCell(memo: memo)
-                            .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                            .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                            .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                            .transition(.identity)
                     }
                     // 그리드 끝 "추가" 카드 없음 - 우상단 툴바 + 버튼으로 충분.
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
@@ -2547,7 +2700,10 @@ struct ClipKeyboardList: View {
     ///    기본 얼굴로 대신 그려진다 - `MascotPose`)
     private func emptyStateMessage(message: String) -> some View {
         VStack(spacing: 14) {
-            MascotView(pose: .sleeping, size: 76)
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 46, weight: .light))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
             Text(message)
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -2863,6 +3019,16 @@ struct ClipKeyboardList: View {
             } label: {
                 Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
             }
+            // ⚠️ 이 시트는 배선만 돼 있고 **여는 길이 어디에도 없었다.**
+            //    ⋯ 메뉴를 설정으로 옮길 때 항목만 빠지고 바인딩은 남아, 목록에서는
+            //    죽은 화면이 되어 있었다. 설정 깊숙이 들어가야만 닿았다.
+            Button {
+                HapticManager.shared.light()
+                viewModel.showPlaceholderManagementSheet = true
+            } label: {
+                Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
+                      systemImage: AppSymbol.listBulletRectangle)
+            }
         } label: {
             // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
             Image(systemName: AppSymbol.plus)
@@ -3041,6 +3207,13 @@ struct ClipKeyboardList: View {
     /// 다 지워서 비었을 때. 첫 온보딩을 이미 지난 사람에게 안내를 다시 깔지 않는다.
     private var minimalEmptyState: some View {
         VStack(spacing: 16) {
+            // 빈 화면은 **아무 말도 안 하는 화면**이다. 글 한 줄만 있으면 "고장인가"로도
+            // 읽힌다. 빈 서랍 그림이 그 자체로 "아직 없다"를 말한다.
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 64, weight: .ultraLight))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
+
             Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -3165,19 +3338,15 @@ struct ClipKeyboardList: View {
 /// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
 /// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
 /// tint가 있으면 카테고리 색을 글래스에 입힌다 - 색=카테고리 정체성 유지.
-/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** - 뒤 배경이
-/// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
-/// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
+/// tint가 없는 기본(무색) 카드도 같은 유리를 쓴다 - 뒤 배경(사진·색)이 비쳐 보여
+/// 상단 투명 배경·유리 탭바와 같은 유리 언어가 된다.
 ///
 /// ⚠️ **투명도를 바꾸려면 `backingOpacity` 하나만 만지면 된다.**
 ///
 /// `Glass` 에는 `.regular` / `.clear` / `.identity` 세 변형뿐이고 그 사이를 나타낼
 /// 불투명도 인자가 없다. 그래서 두 가지를 조합해 원하는 지점을 만든다:
-///   - 유리는 `.clear` (가장 맑은 변형)
+///   - 유리는 `.regular` (`.clear` 를 쓰면 안 되는 이유는 `CardGlass` 에 적어 두었다)
 ///   - 그 **뒤에** 카드 표면색을 아주 옅게 깐다 → 이 판의 불투명도가 곧 다이얼
-///
-/// `backingOpacity` 0.0 이면 순정 `.clear`(배경에 묻힐 만큼 투명),
-/// 0.5 를 넘어가면 체감상 `.regular` 와 비슷해진다. 그 사이를 취한다.
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()

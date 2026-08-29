@@ -220,23 +220,115 @@ extension TemplateVariableProcessor {
     /// 메모 본문에서 사용자 정의 토큰만 추출 (autoVariableTokens 제외).
     /// 중복 제거 + 등장 순서 보존.
     static func extractCustomTokens(in text: String) -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let nsRange = NSRange(text.startIndex..., in: text)
-        let matches = regex.matches(in: text, range: nsRange)
-        var seen: Set<String> = []
-        var ordered: [String] = []
-        for match in matches {
-            guard let range = Range(match.range, in: text) else { continue }
-            let token = String(text[range])
-            if autoVariableTokens.contains(token) { continue }
-            if seen.insert(token).inserted {
-                ordered.append(token)
-            }
-        }
-        return ordered
+        TemplatePlaceholder.customTokens(in: text)
+    }
+}
+
+// MARK: - 자동 변수를 뺀 토큰 고르기
+//
+// 토큰을 **찾는** 일은 TemplatePlaceholder(어느 타겟에서나 돈다)가 하고,
+// 그중 무엇이 자동 변수인지 **아는** 것은 여기다. 그래서 이 걸러내기만 이 파일에 있다.
+//
+// ⚠️ 예전에는 이 걸러내기가 여섯 군데에 각자 적혀 있었다(본문 처리·무대·키보드·저장소·
+//    단축어 편집·플레이스홀더 설정). 자동 변수 목록이 다섯 개에서 스무 개 넘게 늘었을 때
+//    한 곳(단축어 편집)이 옛 목록을 그대로 들고 있어서, `{도시}` 같은 자동 변수가
+//    "값을 채워야 하는 칸"으로 잡혔다.
+
+extension TemplatePlaceholder {
+    /// 사용자가 값을 채워야 하는 토큰만. 자동 변수(`{날짜}`·`{클립보드}` 등)는 뺀다.
+    static func customTokens(in text: String) -> [String] {
+        tokens(in: text).filter { !TemplateVariableProcessor.autoVariableTokens.contains($0) }
+    }
+}
+
+extension String {
+    /// 사용자가 채워야 하는 토큰만(자동 변수 제외).
+    func extractTemplatePlaceholders() -> [String] { TemplatePlaceholder.customTokens(in: self) }
+}
+
+// MARK: - 미리보기 조각내기
+
+extension TemplatePlaceholder {
+
+    /// 미리보기 한 조각이 **어떤 상태인지.**
+    enum PreviewKind: Equatable {
+        /// 그냥 글.
+        case plain
+        /// 사람이 채운 값.
+        case filled
+        /// **시스템이 대신 채운 값**(오늘 날짜·통화 등). 사람이 할 일이 없다.
+        case automatic
+        /// 아직 빈칸. 사람이 채워야 한다.
+        case blank
     }
 
+    struct PreviewSegment: Equatable {
+        let text: String
+        let kind: PreviewKind
+    }
+
+    /// 템플릿 본문을 **넣으면 이렇게 된다**로 조각낸다.
+    ///
+    /// ⚠️ 이 함수가 있는 이유: 예전 미리보기는 `inputs` 에 없는 토큰을 전부 **빈칸**으로 그렸다.
+    ///    그런데 `{날짜}` 같은 자동 변수는 넣는 순간 시스템이 채운다. 그래서 화면에는
+    ///    **구멍이 둘로 보이는데 채우는 칸은 하나**뿐이었다. 하나가 사라진 것처럼 보이지만
+    ///    사라진 적이 없다 - 미리보기가 결과와 다른 그림을 그리고 있었을 뿐이다.
+    ///
+    /// ⚠️ 그래서 미리보기는 **실제로 들어갈 것**을 그린다. 자동 변수는 값으로 바꿔 보여주되
+    ///    사람이 채운 값과 다른 색을 입힐 수 있게 `.automatic` 으로 갈라 준다.
+    ///    "내가 채운 것"과 "알아서 채워진 것"은 다른 이야기라서다.
+    ///
+    /// ⚠️ `{커서}` 는 값이 아니라 **위치**라 빈 문자열이 된다. 조각 자체를 내보내지 않는다
+    ///    보이지 않는 것을 자리만 차지하게 두면 문장에 이유 없는 틈이 생긴다.
+    static func previewSegments(of text: String,
+                                inputs: [String: String],
+                                clipboard: String? = nil,
+                                now: Date = Date()) -> [PreviewSegment] {
+        let ns = text as NSString
+        var segments: [PreviewSegment] = []
+        var cursor = 0
+
+        func appendPlain(_ piece: String) {
+            guard !piece.isEmpty else { return }
+            segments.append(PreviewSegment(text: piece, kind: .plain))
+        }
+
+        for match in matches(in: text) {
+            let full = match.range
+            if full.location > cursor {
+                appendPlain(ns.substring(with: NSRange(location: cursor, length: full.location - cursor)))
+            }
+            cursor = full.location + full.length
+            let token = ns.substring(with: full)
+
+            if let value = inputs[token], !value.isEmpty {
+                segments.append(PreviewSegment(text: value, kind: .filled))
+                continue
+            }
+            guard TemplateVariableProcessor.autoVariableTokens.contains(token) else {
+                segments.append(PreviewSegment(text: token, kind: .blank))
+                continue
+            }
+            // 위치를 가리키는 토큰은 글자를 만들지 않는다.
+            if TemplateVariableProcessor.cursorTokens.contains(token) { continue }
+
+            let resolved = TemplateVariableProcessor.process(token,
+                                                             at: now,
+                                                             clipboard: clipboard,
+                                                             keepCursorToken: false)
+            if resolved.isEmpty { continue }
+            segments.append(PreviewSegment(text: resolved, kind: .automatic))
+        }
+        if cursor < ns.length {
+            appendPlain(ns.substring(from: cursor))
+        }
+        return segments
+    }
+}
+
+// MARK: - Memo + attached template composition (v4.0.8)
+
+extension TemplateVariableProcessor {
     /// 사용자 입력값으로 토큰을 치환한 후 자동 변수까지 처리한 최종 문자열을 반환.
     /// `inputs` key는 토큰 wrapping 포함 (예: `{금액}`).
     static func substitute(_ text: String, with inputs: [String: String]) -> String {

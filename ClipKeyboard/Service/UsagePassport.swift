@@ -30,6 +30,8 @@ enum UsagePassport {
         let lastUsedAt: Date?
         /// 이 문구가 지금까지 돌려준 시간(초) - 영수증의 줄 금액.
         let earnedSeconds: Double
+        /// 이 문구가 어떤 종류의 이득이었나 - 화면이 "왜 이만큼인가"를 한 줄로 말한다.
+        let kind: TimeSavedModel.Kind
     }
 
     // MARK: - 한 기간의 기록
@@ -45,6 +47,11 @@ enum UsagePassport {
         let unusedShortcuts: Int
         /// 상위 도장들 (많이 쓴 순).
         let stamps: [Stamp]
+        /// 이 기간을 다 덮지 못할 때, 실제로 세기 시작한 날. 전체 기간은 언제나 nil.
+        ///
+        /// ⚠️ 화면이 이걸 밝혀야 한다. 예전부터 쓰던 사람에게 "이번 주 0회"를 그냥 띄우면
+        ///    그 사람이 안 쓴 게 아니라 우리가 아직 안 센 것인데 거짓말이 된다.
+        let coverageStartedAt: Date?
 
         /// 보여줄 만한 기록이 쌓였는지. 텅 빈 여권을 자랑처럼 띄우지 않기 위한 문턱.
         var isWorthShowing: Bool { totalUses >= 20 }
@@ -89,8 +96,68 @@ enum UsagePassport {
                       useCount: memo.clipCount,
                       lastUsedAt: memo.lastUsedAt,
                       earnedSeconds: KeyboardUsageTracker.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount))
+                        value: memo.value,
+                        type: memo.autoDetectedType,
+                        useCount: memo.clipCount),
+                      kind: TimeSavedModel.kind(value: memo.value, type: memo.autoDetectedType))
+            },
+            // 평생 누적은 원장 이전 것까지 들어 있어 늘 완전하다 - 밝힐 게 없다.
+            coverageStartedAt: nil
+        )
+    }
+
+    // MARK: - 기간별
+
+    /// 한 기간만 잘라 본 요약.
+    ///
+    /// ⚠️ **원장에서 뽑는다**(`RefundLedger.book`). 달은 월 원장에서, 주는 일 원장에서
+    ///    모은다 - 어느 칸을 볼지는 기간이 정하고, 여기서 다시 갈라 쓰지 않는다.
+    ///    전체는 원장 이전에 쌓인 것까지 있는 평생 누적을 쓴다.
+    ///
+    /// ⚠️ 원장이 생기기 전부터 쓰던 사람은 그 기간 값이 비어 있을 수 있다. 그때는 화면이
+    ///    "이 기간에는 아직"이라고 말하고 **언제부터 셌는지** 밝혀야지, 0을 자랑처럼 띄우면 안 된다.
+    static func summary(memos: [Memo],
+                        period: RefundPeriod,
+                        timeSavedSeconds: Double,
+                        now: Date = Date(),
+                        limit: Int = stampLimit) -> Summary {
+        guard let book = RefundLedger.book(for: period, now: now) else {
+            return summary(memos: memos, timeSavedSeconds: timeSavedSeconds, limit: limit)
+        }
+
+        // ⚠️ 적힌 초가 아니라 **지금 셈으로 다시 매긴** 값이다. 안 그러면 셈을 고치기
+        //    전에 쓴 것만 옛 값으로 남아, 같은 한 번이 기간마다 다른 금액이 된다.
+        let seconds = book.repriced(with: memos)
+        let uses = book.uses
+        let byID = Dictionary(memos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+
+        // 그 달에 실제로 쓰인 것만. 지운 문구는 원장에 남아 있어도 셀 수 없다
+        // (이름을 모르니 도장을 찍을 수 없다). 시간 합계에는 그대로 들어간다.
+        let ranked = uses
+            .compactMap { id, count -> (Memo, Int, Double)? in
+                guard let memo = byID[id], count > 0 else { return nil }
+                return (memo, count, seconds[id] ?? 0)
             }
+            .sorted { lhs, rhs in
+                if lhs.1 != rhs.1 { return lhs.1 > rhs.1 }
+                return lhs.0.title < rhs.0.title
+            }
+
+        return Summary(
+            totalUses: uses.values.reduce(0, +),
+            timeSavedSeconds: max(0, seconds.values.reduce(0, +)),
+            usedShortcuts: ranked.count,
+            // 이 기간에 안 쓴 것 - 만들어만 두고 이 기간에 한 번도 안 꺼낸 문구.
+            unusedShortcuts: max(0, memos.count - ranked.count),
+            stamps: ranked.prefix(max(0, limit)).map { memo, count, earned in
+                Stamp(id: memo.id,
+                      label: displayLabel(for: memo),
+                      useCount: count,
+                      lastUsedAt: memo.lastUsedAt,
+                      earnedSeconds: earned,
+                      kind: TimeSavedModel.kind(value: memo.value, type: memo.autoDetectedType))
+            },
+            coverageStartedAt: book.coverageStartedAt
         )
     }
 
@@ -122,5 +189,22 @@ enum UsagePassport {
             return String(format: NSLocalizedString("%d시간 %d분", comment: "Duration: hours and minutes"), hours, minutes)
         }
         return String(format: NSLocalizedString("%d분", comment: "Duration: minutes only"), minutes)
+    }
+
+    /// 내역 줄에 쓰는 표기 - **1분 아래도 숫자로 적는다.**
+    ///
+    /// ⚠️ 큰 숫자(`timeSavedText`)는 1분 아래를 nil 로 돌려준다. 40초를 자랑거리로
+    ///    내밀지 않으려는 뜻이고, 그건 그대로 둔다.
+    ///
+    /// ⚠️ 그런데 **내역 줄에까지 그 규칙을 쓰면** 몇 번 안 써 본 사람의 화면이
+    ///    "0분 / 0분" 이 된다. 셈을 펼쳐 보이려고 만든 자리가 "아껴 준 게 없다"는
+    ///    말을 하게 되는 것이다. 내역은 자랑이 아니라 **근거**라서, 작아도 있는
+    ///    그대로 적어야 한다.
+    static func breakdownText(seconds: Double) -> String {
+        let total = Int(max(0, seconds.rounded()))
+        guard total >= 60 else {
+            return String(format: NSLocalizedString("%d초", comment: "Duration: seconds only"), total)
+        }
+        return timeSavedText(seconds: Double(total)) ?? ""
     }
 }

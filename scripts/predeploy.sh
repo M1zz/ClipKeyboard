@@ -16,11 +16,17 @@ SCHEME="ClipKeyboard"
 # -project 를 안 주면 xcodebuild 가 "프로젝트가 둘"이라며 멈춘다.
 PROJECT="ClipKeyboard.xcodeproj"
 
-echo "🌐 [1/3] 다국어 검사 (check_localization.py)"
+echo "🌐 [1/4] 다국어 검사 (check_localization.py)"
 python3 scripts/check_localization.py
 
-echo "☁️  [2/3] CloudKit 컨테이너 생성 위치 검사 (런치 워치독 재발 방지)"
+echo "☁️  [2/4] CloudKit 컨테이너 생성 위치 검사 (런치 워치독 재발 방지)"
 sh scripts/check_main_thread_cloudkit.sh
+
+echo "📋 [3/4] 클립보드 읽는 위치 검사 (멈춤 재발 방지)"
+sh scripts/check_main_thread_pasteboard.sh
+
+echo "✒️  긴 줄표 검사 (check_dashes.sh)"
+sh scripts/check_dashes.sh
 
 # 사용 가능한 첫 iPhone 시뮬레이터를 자동 선택
 DEST_ID="$(xcrun simctl list devices available | grep "iPhone" | head -1 | grep -oE '[0-9A-F-]{36}')"
@@ -29,7 +35,7 @@ if [ -z "$DEST_ID" ]; then
   exit 1
 fi
 
-echo "🧪 [3/3] 전체 테스트 실행 (ClipKeyboardTests, 시뮬레이터 $DEST_ID)"
+echo "🧪 [4/4] 전체 테스트 실행 (ClipKeyboardTests, 시뮬레이터 $DEST_ID)"
 xcodebuild test \
   -project "$PROJECT" \
   -scheme "$SCHEME" \

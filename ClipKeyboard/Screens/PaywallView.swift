@@ -477,7 +477,7 @@ struct PaywallView: View {
             VStack(spacing: 16) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 64))
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.checkGreen)
 
                 Text(successText)
                     .font(.title2)

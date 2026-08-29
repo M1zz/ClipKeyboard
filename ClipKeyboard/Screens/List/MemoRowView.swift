@@ -49,7 +49,8 @@ struct MemoRowView: View {
                 if !compact {
                     let previewText = MemoPreviewFormatter.preview(for: memo, resolvedType: resolvedType)
                     if !previewText.isEmpty {
-                        Text(previewText)
+                        Text(previewText.templateAwareAttributed(
+                            theme: theme, font: theme.bodyFont(style: .footnote)))
                             .font(theme.bodyFont(style: .footnote))
                             .foregroundColor(theme.textMuted)
                             .lineLimit(3)
@@ -61,7 +62,7 @@ struct MemoRowView: View {
                         Image(systemName: AppSymbol.lightbulbFill)
                             .font(.caption2)
                             .foregroundColor(.yellow.opacity(0.7))
-                        Text(hint)
+                        Text(hint.templateAwareAttributed(theme: theme, font: .caption2))
                             .font(.caption2)
                             .foregroundColor(theme.textFaint)
                             .lineLimit(1)
