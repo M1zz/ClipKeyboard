@@ -32,7 +32,13 @@ import AVFoundation
 import SwiftUI
 import UIKit
 
-@MainActor
+/// ⚠️ **이 타입은 메인 액터가 아니다.** 예전에는 `@MainActor` 였고, 그래서 102장을
+///    굽는 동안 메인 스레드가 통째로 잡혔다. 5.0.4 의 워치독 종료(0x8BADF00D,
+///    `scene-update` · `Failed to terminate gracefully`)가 전부 이 자리였다.
+///    자세한 것: `docs/postmortem/WATCHDOG_SHARE_VIDEO_5_0_4.md`
+///
+///    메인에서 해야만 하는 것은 `frame(...)` 하나다(`ImageRenderer` 가 메인 액터다).
+///    나머지(픽셀 버퍼로 옮기기·인코더에 넣기)는 메인 밖에서 한다.
 enum ShareVideoRenderer {
 
     /// 스토리 규격.
@@ -61,7 +67,7 @@ enum ShareVideoRenderer {
                        equivalent: TimeEquivalent?) async throws -> URL {
         // ⚠️ **한 번만 묻는다.** 프레임마다 트레이트를 물으면 102장을 굽는 동안
         //    사용자가 화면을 뒤집었을 때 영상 중간에서 배경이 갈린다.
-        let isDark = UITraitCollection.current.userInterfaceStyle == .dark
+        let isDark = await MainActor.run { UITraitCollection.current.userInterfaceStyle == .dark }
 
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent("ClipKeyboard-\(Int(Date().timeIntervalSince1970)).mp4")
@@ -90,9 +96,16 @@ enum ShareVideoRenderer {
 
         let frameCount = Int(duration * Double(fps))
         for index in 0..<frameCount {
+            // 시트를 닫았으면 그만둔다. `.task` 는 화면이 사라질 때 취소를 걸어 주는데,
+            // 예전에는 이 고리가 그걸 듣지 않아 안 볼 영상을 끝까지 구웠다.
+            try Task.checkCancellation()
+
             let progress = Double(index) / Double(max(1, frameCount - 1))
-            let image = frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses,
-                              equivalent: equivalent, isDark: isDark)
+            // 메인에서 해야만 하는 딱 한 가지. 한 장 그리고 바로 메인을 놓아 준다.
+            let image = await frame(progress: progress, totalSeconds: totalSeconds, totalUses: totalUses,
+                                    equivalent: equivalent, isDark: isDark)
+            // 여기부터는 메인 밖이다. 2.1MP 를 픽셀 버퍼로 옮기는 일이 장당 붙는데,
+            // 이걸 메인에서 하면 한 장의 비용이 두 배가 된다.
             guard let buffer = pixelBuffer(from: image, pool: adaptor.pixelBufferPool) else {
                 throw RenderError.frameFailed
             }
@@ -118,6 +131,10 @@ enum ShareVideoRenderer {
     ///    스토리는 넘기면서 보는 것이라, 멈춰 있는 구간이 없으면 숫자를 못 읽는다.
     private static let countUpPortion = 0.7
 
+    /// ⚠️ `ImageRenderer` 가 메인 액터라 이 함수도 메인에서 돈다.
+    ///    **여기 말고 다른 것을 메인으로 끌어들이지 말 것.** 한 장의 비용이 곧
+    ///    메인이 멈춰 있는 시간이고, 102장이 쌓이면 워치독이 앱을 끈다.
+    @MainActor
     private static func frame(progress: Double, totalSeconds: Double, totalUses: Int,
                               equivalent: TimeEquivalent?, isDark: Bool) -> UIImage {
         let eased = min(1, progress / countUpPortion)

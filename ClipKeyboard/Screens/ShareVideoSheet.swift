@@ -209,6 +209,10 @@ struct ShareVideoSheet: View {
             videoURL = url
             player = loopingPlayer(for: url)
             player?.play()
+        } catch is CancellationError {
+            // 시트를 닫아서 그만둔 것이다. 고장이 아니므로 아무 말도 하지 않는다.
+            // (이걸 실패로 치면 닫는 순간 진동이 울리고, 다시 열었을 때 오류가 남아 있다)
+            return
         } catch {
             // ⚠️ 조용히 실패하지 않는다. 눌렀는데 아무 일도 안 일어나면 그게 가장 나쁘다.
             print("❌ [ShareVideoSheet.make] 영상 만들기 실패: \(error)")
