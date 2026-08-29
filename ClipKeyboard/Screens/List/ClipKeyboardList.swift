@@ -2090,6 +2090,11 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab View (Page Swipe)
 
+    /// 이 페이지를 지금 지어 둘 것인가. 선택된 페이지와 좌우 한 장까지.
+    private func isPageNearSelection(_ index: Int) -> Bool {
+        abs(index - viewModel.selectedCategoryIndex) <= 1
+    }
+
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
     private var categoryTabView: some View {
@@ -2100,9 +2105,36 @@ struct ClipKeyboardList: View {
             }
         )
         return TabView(selection: binding) {
-            ForEach(viewModel.allCategoryTabs, id: \.self) { tab in
-                tabPageView(for: tab)
-                    .tag(tab)
+            // ⚠️ **지금 페이지와 좌우 한 장씩만 짓는다.**
+            //
+            //    예전에는 `ForEach` 가 카테고리 수만큼 페이지를 전부 지었다. 페이지마다
+            //    `LazyVGrid` 가 들어 있어도 소용이 없다. 그리드 **안**은 게을러도
+            //    그리드 **자체**가 카테고리 수만큼 살아 있으면, 카드가 통째로 뷰 그래프에
+            //    올라간다. 그 상태에서 키보드가 올라와 safe area 가 한 번 바뀌면
+            //    올라와 있던 것이 **전부** 더럽혀진다.
+            //
+            //    측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release / 메모 505개):
+            //    편집 중 722 ms 짜리 행이 잡혔고, 그 0.7초에 SwiftUI 업데이트가 41,796건.
+            //    뷰별로 세어 보면 **뷰당 갱신 수가 전부 1.0** 이었다. 적은 뷰가 여러 번
+            //    갱신된 것이 아니라 **고유한 뷰가 그만큼 많았다**는 뜻이다
+            //    (유리 2,799개 · 텍스트 1,220개 · ForEach 761개).
+            //    WWDC23 "Analyze hangs with Instruments" 의 "too long or too often?" 에서
+            //    이건 어느 쪽도 아닌 **"too many"** 다.
+            //
+            //    좌우 한 장을 남기는 이유: 스와이프는 옆 페이지를 미리 보여준다.
+            //    창을 0 으로 좁히면 손가락을 끄는 동안 빈 화면이 따라온다.
+            //
+            //    대가: 세 장 넘게 떨어진 페이지로 갔다가 돌아오면 그 페이지의 스크롤
+            //    위치가 처음으로 돌아간다. 이웃 페이지 사이를 오갈 때는 그대로다.
+            ForEach(Array(viewModel.allCategoryTabs.enumerated()), id: \.element) { index, tab in
+                Group {
+                    if isPageNearSelection(index) {
+                        tabPageView(for: tab)
+                    } else {
+                        Color.clear
+                    }
+                }
+                .tag(tab)
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
