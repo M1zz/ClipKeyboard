@@ -117,7 +117,40 @@ private final class LocalizedBundle: Bundle, @unchecked Sendable {
     private static var installed = false
 
     /// 지금 앞에 세운 번들. nil 이면 원래대로 기기 설정을 따른다.
-    static var override: Bundle?
+    ///
+    /// 바뀌면 캐시를 비운다. 언어를 바꾼 순간 화면의 모든 글자가 새 언어로 나와야 한다.
+    static var override: Bundle? {
+        didSet { clearCache() }
+    }
+
+    // MARK: - 조회 캐시
+
+    /// 왜 캐시하나: `NSLocalizedString` 은 결국 여기로 모인다. 이 저장소에는 호출부가
+    /// 2,200곳 넘게 있고, 그중 상당수가 SwiftUI `body` 안에 있어 **뷰가 갱신될 때마다
+    /// 다시 조회된다.** 특히 `.alert` `.sheet` 의 제목 문자열은 그 알럿이 화면에
+    /// 떠 있지 않아도 뷰 사슬을 한 번 훑을 때마다 평가된다.
+    ///
+    /// 측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release):
+    /// 첫 프레임을 그리는 296 ms 짜리 메인 스레드 구간에서 이 함수가 **48 ms** 를 썼다.
+    /// 한 번이 느린 게 아니라 수천 번 불린 결과다.
+    /// (WWDC23 "Analyze hangs with Instruments" 의 "too long or too often?" 에서 후자)
+    ///
+    /// ⚠️ 값을 굳히지 않고 **조회만** 캐시한다. `static let` 로 문자열을 박아 두면
+    ///    런타임 언어 전환(이 파일의 존재 이유)이 깨진다.
+    private struct CacheKey: Hashable {
+        let key: String
+        let value: String?
+        let table: String?
+    }
+
+    private static let cacheLock = NSLock()
+    private static var cache: [CacheKey: String] = [:]
+
+    static func clearCache() {
+        cacheLock.lock()
+        cache.removeAll(keepingCapacity: true)
+        cacheLock.unlock()
+    }
 
     static func install() {
         guard !installed else { return }
@@ -126,10 +159,24 @@ private final class LocalizedBundle: Bundle, @unchecked Sendable {
     }
 
     override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
-        guard let bundle = LocalizedBundle.override else {
-            return super.localizedString(forKey: key, value: value, table: tableName)
+        let cacheKey = CacheKey(key: key, value: value, table: tableName)
+
+        Self.cacheLock.lock()
+        let hit = Self.cache[cacheKey]
+        Self.cacheLock.unlock()
+        if let hit { return hit }
+
+        let resolved: String
+        if let bundle = Self.override {
+            resolved = bundle.localizedString(forKey: key, value: value, table: tableName)
+        } else {
+            resolved = super.localizedString(forKey: key, value: value, table: tableName)
         }
-        return bundle.localizedString(forKey: key, value: value, table: tableName)
+
+        Self.cacheLock.lock()
+        Self.cache[cacheKey] = resolved
+        Self.cacheLock.unlock()
+        return resolved
     }
 }
 

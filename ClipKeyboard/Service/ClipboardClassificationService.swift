@@ -21,7 +21,16 @@ class ClipboardClassificationService {
     /// 리스트 렌더 시점에 재분류 비용을 피하기 위한 in-memory 캐시.
     /// 키: memo id + value 해시. memo.value가 바뀌면 새로 분류된다.
     private var resolverCache: [UUID: (contentHash: Int, type: ClipboardItemType)] = [:]
-    private let resolverQueue = DispatchQueue(label: "com.Ysoup.TokenMemo.classification.resolver")
+
+    /// ⚠️ 직렬 큐가 아니라 **락**이다.
+    ///
+    /// 예전에는 `DispatchQueue(label:).sync` 였다. 이 캐시는 `applyFilters()` 안에서
+    /// **항목마다** 읽고 쓰이고, `applyFilters()` 는 검색어 `onChange` 에 물려 있다.
+    /// 즉 글자 하나를 칠 때마다 `메모 수 × 2` 번의 큐 홉이 메인 스레드에서 일어났다.
+    /// 큐 홉은 스레드를 실제로 재우고 깨우지만, 여기서 지키는 것은 딕셔너리 한 개다.
+    /// 경합이 거의 없는 짧은 구간이라 `NSLock` 이 비교가 안 되게 싸다.
+    /// (WWDC23 "Analyze hangs with Instruments" 의 Blocked Main Thread 사례)
+    private let resolverLock = NSLock()
 
     /// 메모에 적용할 타입을 결정한다.
     /// 우선순위: 명시 카테고리 매칭 → autoDetectedType → contentType(이미지) → 콘텐츠 기반 자동분류
@@ -40,28 +49,25 @@ class ClipboardClassificationService {
         guard !trimmed.isEmpty else { return nil }
 
         let hash = trimmed.hashValue
-        let cached: ClipboardItemType? = resolverQueue.sync {
-            if let entry = resolverCache[memo.id], entry.contentHash == hash {
-                return entry.type
-            }
-            return nil
-        }
-        if let cached { return cached }
+        resolverLock.lock()
+        let cached = resolverCache[memo.id]
+        resolverLock.unlock()
+        if let cached, cached.contentHash == hash { return cached.type }
 
         let classified = classify(content: trimmed)
         // 신뢰도가 너무 낮으면 기본 '텍스트'로 남겨 잘못된 아이콘을 피한다.
         let type: ClipboardItemType = classified.confidence >= 0.5 ? classified.type : .text
-        resolverQueue.sync {
-            resolverCache[memo.id] = (hash, type)
-        }
+        resolverLock.lock()
+        resolverCache[memo.id] = (hash, type)
+        resolverLock.unlock()
         return type
     }
 
     /// 특정 메모의 캐시만 제거 (편집/삭제 시 호출 가능).
     func invalidateResolvedType(for memoId: UUID) {
-        resolverQueue.sync { [self] in
-            _ = resolverCache.removeValue(forKey: memoId)
-        }
+        resolverLock.lock()
+        _ = resolverCache.removeValue(forKey: memoId)
+        resolverLock.unlock()
     }
 
     // MARK: - Public Methods

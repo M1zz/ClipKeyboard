@@ -716,7 +716,16 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     // MARK: - Storage Diagnosis
 
+    /// 저장소 상태를 콘솔에 찍어 보는 **개발용** 점검.
+    ///
+    /// ⚠️ 릴리즈에서는 통째로 사라진다. 예전에는 조건 없이 살아 있었고
+    ///    `loadMemos()` 첫 줄이라 **메모를 저장할 때마다** 메인 스레드에서
+    ///    Images 폴더를 전부 열거하고 `memos.data` 를 통째로 읽어 문자열로 바꾼 뒤
+    ///    전수 스캔을 두 번 했다. 바로 다음 줄의 `MemoStore.load` 가 같은 파일을
+    ///    또 읽으므로 한 번의 로드에 파일을 세 번 읽던 셈이다.
+    ///    (측정: Instruments, iPhone15,3 / 5.0.6 / Release)
     private func diagnoseMemoStorage() {
+        #if DEBUG
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
@@ -745,6 +754,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         } else {
             print("🔴 [diagnosis] memos.data 파일을 읽을 수 없음")
         }
+        #endif
     }
 
     // MARK: - Filter

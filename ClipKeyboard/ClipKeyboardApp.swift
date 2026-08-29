@@ -722,23 +722,39 @@ struct ClipKeyboardApp: App {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)
     }
 
-    /// 변환되지 않은 레거시 콤보/attached 데이터가 디스크에 남아있는지 빠르게 감지.
-    /// (combos.data 존재, 또는 memos.data 원본에 레거시 키가 살아있으면 true.)
-    /// CloudKit으로 옛 백업을 복원한 경우처럼 플래그가 이미 set돼 있어도 재변환이 필요한 상황을 잡아낸다.
+    /// 플랫 콤보 파일(`combos.data`)이 비어있지 않게 남아 있는가.
+    ///
+    /// **싸다.** 콤보 파일은 작고, 변환이 끝난 뒤에는 대개 존재하지 않는다.
+    /// 옛 백업을 CloudKit 으로 복원하면 이 파일이 되살아나므로 그 경우를 여기서 잡는다.
+    private func hasLegacyComboFile() -> Bool {
+        guard let url = appGroupContainerURL?.appendingPathComponent(StorageFile.combos),
+              let d = try? Data(contentsOf: url) else { return false }
+        return d.count > 2
+    }
+
+    /// `memos.data` 원본에 레거시 콤보/attached 키가 살아 있는가.
+    ///
+    /// ⚠️ **비싸다.** 메모 파일 전체를 읽어 전수 스캔한다. 아직 한 번도 변환하지
+    ///    않은 런치에서만 부를 것.
+    ///
+    /// 측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release / 메모 505개 · 339 KB):
+    /// 예전에는 `String(data:encoding:)` 으로 통째로 문자열을 만든 뒤 `contains` 를
+    /// 두 번 돌려 **호출당 17 ms** 였고, 첫 프레임 이전 구간이라 106 ms 짜리 행의
+    /// 가장 큰 앱 코드 지분이었다. 바이트에서 바로 찾으면 String 변환이 통째로 빠진다.
+    private func hasLegacyKeysInMemoFile() -> Bool {
+        guard let url = appGroupContainerURL?.appendingPathComponent(StorageFile.memos),
+              let d = try? Data(contentsOf: url) else { return false }
+        let isCombo = Data("\"isCombo\":true".utf8)
+        let attached = Data("\"attachedTemplateId\":\"".utf8)
+        return d.range(of: isCombo) != nil || d.range(of: attached) != nil
+    }
+
+    /// 변환되지 않은 레거시 콤보/attached 데이터가 디스크에 남아있는지 감지.
+    ///
+    /// ⚠️ 이미 변환을 끝낸 런치에서는 **부르지 않는다.** `migrateComboModelIfNeeded()`
+    ///    의 guard 를 볼 것.
     private func hasLegacyComboData() -> Bool {
-        // 1) 플랫 콤보 파일이 비어있지 않게 존재
-        if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.combos),
-           let d = try? Data(contentsOf: url), d.count > 2 {
-            return true
-        }
-        // 2) 메모 원본에 레거시 콤보/attached 키가 살아있음 (신 모델 save 후엔 사라짐)
-        if let url = appGroupContainerURL?.appendingPathComponent(StorageFile.memos),
-           let d = try? Data(contentsOf: url),
-           let s = String(data: d, encoding: .utf8) {
-            if s.contains("\"isCombo\":true") { return true }
-            if s.contains("\"attachedTemplateId\":\"") { return true }
-        }
-        return false
+        hasLegacyComboFile() || hasLegacyKeysInMemoFile()
     }
 
     /// 콤보/메모+템플릿 데이터 모델 통합 마이그레이션.
@@ -755,7 +771,18 @@ struct ClipKeyboardApp: App {
         let g = AppGroup.defaults
         let alreadyMigrated = (g?.bool(forKey: DefaultsKey.comboModelUnifyMigratedV1) == true)
         // 이미 변환됐고 남은 레거시 데이터도 없으면 빠르게 종료.
-        guard !alreadyMigrated || hasLegacyComboData() else { return }
+        //
+        // ⚠️ 변환이 끝난 런치에서는 **싼 검사만** 한다. 예전에는 여기서 무조건
+        //    `hasLegacyComboData()` 를 불렀는데, 그 안에 메모 파일 전수 스캔이 들어
+        //    있어서 몇 달 전에 변환이 끝난 사용자도 **매 런치마다 17 ms** 를 냈다.
+        //    그것도 첫 프레임 이전, 워치독의 `scene-create` 창 안에서다.
+        //    (docs/postmortem/LAUNCH_WATCHDOG_4_4_6.md 가 바로 그 구간의 사고다)
+        //
+        //    비싼 검사를 빼도 안전한 이유: 옛 백업 복원이 되살리는 것은 `combos.data`
+        //    이고 그건 싼 검사가 잡는다. 게다가 CloudKit 복원 경로는 플래그 자체를
+        //    명시적으로 내린다(`CloudKitBackupService.restore`). 그러면 아래 guard 의
+        //    `!alreadyMigrated` 가 참이 되어 비싼 검사까지 정상적으로 돈다.
+        if alreadyMigrated, !hasLegacyComboFile() { return }
         do {
             // 1) 원본 JSON에서 레거시 필드 먼저 읽기 (이후 save로 사라지기 전에).
             //    OldMemo 등 과거 포맷도 id만 있으면 디코드됨(콤보 필드는 기본값).
@@ -1555,9 +1582,28 @@ struct MemoSearchView: View {
         .background(theme.bg.ignoresSafeArea())
         .navigationTitle(NSLocalizedString("검색", comment: "Search"))
         .searchable(text: $query, prompt: NSLocalizedString("검색", comment: "Search"))
+        // ⚠️ **처음 한 번만** 읽는다. 예전에는 조건 없는 `onAppear` 였는데, `onAppear` 는
+        //    이 뷰가 계층에 다시 들어올 때마다 다시 불린다. 그래서 목록을 스크롤하는
+        //    도중에도 메모 파일 전체가 다시 디코딩됐다.
+        //
+        //    측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release / 메모 505개 · 339 KB):
+        //    스크롤 중 258 ms 짜리 행의 스택 뿌리가 바로 여기였다.
+        //    `MemoSearchView.body` 의 `_AppearanceActionModifier` 안에서
+        //    `JSONScanner.scanObject` 가 돌고 있었다.
+        //
+        //    바뀐 내용은 `.memoDataChanged` 로 듣는다. 이 화면 밖에서 단축어를 고쳐도
+        //    검색 결과가 낡지 않는다. (목록 화면이 쓰는 것과 같은 신호다)
         .onAppear {
-            memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+            guard memos.isEmpty else { return }
+            reloadMemos()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+            reloadMemos()
+        }
+    }
+
+    private func reloadMemos() {
+        memos = (try? MemoStore.shared.load(type: .memo)) ?? []
     }
 
     /// 검색 결과 행 - 메인 리스트와 같은 디자인 언어(테마 표면 카드, 타입 아이콘, 본문 크기 글자).
