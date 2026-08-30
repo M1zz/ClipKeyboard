@@ -820,7 +820,7 @@ enum DataPortability {
         }
         try write(clips, to: StorageFile.smartClipboardHistory)
 
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        MemoStore.postDataChanged()
 
         return ImportSummary(addedMemos: added, updatedMemos: updated, totalMemos: memos.count,
                              addedCombos: addedCombos, addedClips: addedClips, images: restoredImages)

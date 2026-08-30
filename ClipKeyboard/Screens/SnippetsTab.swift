@@ -801,7 +801,7 @@ struct SnippetsTab: View {
             let all = try MemoStore.shared.load(type: .memo)
             try MemoStore.shared.save(memos: all.filter { !sampleIds.contains($0.id) }, type: .memo)
             SampleMemoStorage.clear()
-            NotificationCenter.default.post(name: .memoDataChanged, object: nil)
+            MemoStore.postDataChanged()
             print("🗑️ [SnippetsTab] 연습용 단축어 \(sampleIds.count)개 정리")
         } catch {
             print("❌ [SnippetsTab.deleteSampleMemos] 실패: \(error)")

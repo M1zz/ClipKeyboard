@@ -104,6 +104,31 @@ class MemoStore: ObservableObject {
         }
     }
 
+    /// 데이터가 바뀌었다고 알린다. **언제나 메인에서 쏜다.**
+    ///
+    /// ⚠️ 받는 쪽은 전부 화면이다. 목록·설정·무대·카테고리 관리가 `onReceive` 로 받아
+    ///    곧바로 다시 읽는데, `onReceive` 는 **알림이 쏘아진 스레드에서** 돈다.
+    ///    저장은 배경에서도 일어나므로(동기화·백업·일괄 가져오기), 거기서 그대로 쏘면
+    ///    화면의 `@Published` 가 배경에서 바뀌어 이 경고가 뜬다.
+    ///
+    ///        Publishing changes from background threads is not allowed
+    ///
+    ///    경고로 끝나지 않는다. 뷰 갱신이 배경에서 시작되면 드물게 화면이 어긋나거나
+    ///    죽는다. 값이 아니라 **알리는 자리**를 메인으로 옮기는 것이 옳다.
+    ///    받는 쪽마다 `receive(on:)` 을 붙이는 방법도 있지만, 받는 곳이 일곱이고
+    ///    앞으로 더 는다. 쏘는 곳 한 군데를 고치면 전부 끝난다.
+    ///
+    /// 이미 메인이면 그 자리에서 쏜다. 굳이 미루면 저장 직후의 순서가 흐트러진다.
+    static func postDataChanged() {
+        if Thread.isMainThread {
+            NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        } else {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+            }
+        }
+    }
+
     func save(memos: [Memo], type: MemoType, recordHistory: Bool = true) throws {
         // 타임머신: 메모를 덮어쓰기 직전, 의미 있는 변경이면 "이전 상태"를 스냅샷으로 보관.
         // (대량 삭제·편집·마이그레이션 사고를 되돌릴 수 있는 로컬 안전망. 최근 10개 유지.)
@@ -120,14 +145,14 @@ class MemoStore: ObservableObject {
         if type == .memo {
             Self.writeCategorySidecar(memos)
         }
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        Self.postDataChanged()
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
         try data.write(to: outfile, options: .atomic)
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        Self.postDataChanged()
     }
 
     func load(type: MemoType) throws -> [Memo] {
@@ -330,7 +355,7 @@ class MemoStore: ObservableObject {
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
         try data.write(to: outfile, options: .atomic)
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        Self.postDataChanged()
     }
 
     func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
@@ -732,7 +757,7 @@ class MemoStore: ObservableObject {
         guard let outfile = try Self.fileURL(type: .combo) else { return }
         try data.write(to: outfile, options: .atomic)
         DispatchQueue.main.async { [weak self] in self?.combos = combos }
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        Self.postDataChanged()
     }
 
     func loadCombos() throws -> [Combo] {
