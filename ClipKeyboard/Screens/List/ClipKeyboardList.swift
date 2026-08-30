@@ -1968,19 +1968,29 @@ struct ClipKeyboardList: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        // ⚠️ **창은 고른 페이지를 곧바로 따라간다.**
+        // ⚠️ **창을 한 박자 늦게 옮긴다.** 스와이프가 뻑뻑하던 마지막 이유가 여기였다.
         //
-        //    한때 400ms 늦춰 옮겼다. 스와이프 애니메이션과 페이지 짓는 일이 겹치지 않게
-        //    하려던 것이었는데, 그러면 **도착하고 0.4초 뒤에** 새 이웃 페이지를 통째로
-        //    짓게 된다. 손이 멎어 화면이 가만히 있는 순간에 메인 스레드가 한 번 걸리니
-        //    "딱 도착하면 잠깐 두근" 하는 것으로 느껴졌다. 가만히 있어야 할 때 일하는 것이
-        //    가장 눈에 띈다.
+        //    창이 고른 페이지를 곧바로 따라가면, 넘기는 **그 순간** 반대편 이웃 페이지가
+        //    통째로 지어지고(카드 한 화면치) 반대쪽 한 장이 헐린다. 그 일이 페이지가
+        //    미끄러지는 애니메이션과 같은 프레임에서 벌어지니 손가락을 못 따라간다.
         //
-        //    이제 창은 곧바로 따라가고, 지을 일은 페이지가 미끄러지는 동안에 끝난다.
-        //    그 동안의 비용은 아래 `tabPageView` 가 화면 밖 페이지를 첫 화면치만 짓는
-        //    것으로 줄인다.
-        .onChange(of: selected, initial: true) { _, new in
-            pageWindowCenter = new
+        //    넘긴 뒤 잠깐 기다렸다 옮기면, 미끄러지는 동안에는 지을 것도 헐 것도 없다.
+        //    다음 이웃은 손이 멎은 뒤에 조용히 지어진다.
+        //
+        //    `.task(id:)` 라 다음 스와이프가 오면 앞의 기다림은 취소된다. 그래서 빠르게
+        //    여러 장을 넘기는 동안에는 미리 짓는 일이 아예 일어나지 않는다. 그때 보고 있는
+        //    페이지는 `isPageBuilt` 의 `index == selected` 가 책임진다.
+        //
+        //    멀리 뛴 경우(탭 바를 눌러 건너뛰기)는 기다리지 않는다. 창 밖이라 미리 지어 둔
+        //    것이 없고, 늦추면 빈 화면을 보여주게 된다.
+        .task(id: selected) {
+            if abs(selected - pageWindowCenter) > 1 {
+                pageWindowCenter = selected
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(400))
+            guard !Task.isCancelled else { return }
+            pageWindowCenter = selected
         }
         .id(viewModel.customCategories)
         // 경계 스와이프 감지: 없는 페이지 방향으로 스와이프할 때만 동작.
@@ -2042,20 +2052,9 @@ struct ClipKeyboardList: View {
         !viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    /// 화면 밖 페이지가 미리 지어 둘 카드 수.
-    ///
-    /// 넘길 때 옆 페이지는 **첫 화면만** 보인다. 그 아래는 어차피 못 본다. 그런데 전부
-    /// 지으면 카드 수만큼 값을 치르고, 그 값을 페이지를 넘길 때마다 낸다.
-    /// 고른 페이지가 되는 순간 나머지가 붙는다(화면 밖이라 붙는 것이 안 보인다).
-    private static let offscreenCardCap = 12
-
     @ViewBuilder
     private func tabPageView(for tab: CategoryTab) -> some View {
-        let all = viewModel.memos(for: tab)
-        // 지금 보고 있는 페이지만 전부 짓는다. 나머지는 첫 화면치까지만.
-        let filtered = tab == viewModel.selectedCategoryTab
-            ? all
-            : Array(all.prefix(Self.offscreenCardCap))
+        let filtered = viewModel.memos(for: tab)
         // 검색 중인데 결과가 하나도 없으면, 메모가 아예 없을 때의 빈 화면(EmptyListView 등)
         // 대신 "검색 결과 없음" 피드백 + 실제 메모 모양의 제안 카드를 보여준다.
         if isSearching && filtered.isEmpty {
@@ -2093,8 +2092,8 @@ struct ClipKeyboardList: View {
                 emptyPage(for: tab) { EmptyListView }
             }
         case .all:
-            if !filtered.isEmpty {
-                allTabScrollView(memos: filtered, tab: .all)
+            if !viewModel.memos.isEmpty {
+                allTabScrollView(memos: viewModel.memos, tab: .all)
             } else {
                 emptyPage(for: tab) { EmptyListView }
             }
