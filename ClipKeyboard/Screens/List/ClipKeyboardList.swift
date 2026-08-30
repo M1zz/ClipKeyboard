@@ -31,6 +31,9 @@ struct ClipKeyboardList: View {
         && PastePermissionGuidance.isReady
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
+    /// 페이지를 지어 둘 창의 **한가운데**. 고른 페이지를 곧바로 따라가지 않고 한 박자 늦게 따라간다.
+    /// 왜 늦추는지는 `categoryTabView` 의 주석에 있다.
+    @State private var pageWindowCenter: Int = 0
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     // 가치 순간 Pro 넛지 - 1회·닫기 가능 (페이월 노출률 향상)
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
@@ -2090,15 +2093,8 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab View (Page Swipe)
 
-    /// 이 페이지를 지금 지어 둘 것인가. 선택된 페이지와 좌우 한 장까지.
-    ///
-    /// ⚠️ 선택된 자리를 **인자로 받는다.** 예전에는 이 안에서 `viewModel.selectedCategoryIndex`
-    ///    를 읽었는데, 그 값은 계산 프로퍼티라 읽을 때마다 `allCategoryTabs` 배열을 통째로
-    ///    새로 짓고 그 안을 `firstIndex` 로 훑는다. 그걸 `ForEach` 안에서 페이지마다
-    ///    불렀으니 **본문을 한 번 그릴 때마다 O(페이지 수²)** 였다. 카테고리가 늘수록
-    ///    스와이프가 뻑뻑해지던 자리다. 밖에서 한 번만 재서 넘긴다.
-    private func isPageNearSelection(_ index: Int, selected: Int) -> Bool {
-        abs(index - selected) <= 1
+    private func isPageBuilt(_ index: Int, center: Int, selected: Int) -> Bool {
+        CategoryPageWindow.isBuilt(index: index, center: center, selected: selected)
     }
 
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
@@ -2137,7 +2133,7 @@ struct ClipKeyboardList: View {
             //    위치가 처음으로 돌아간다. 이웃 페이지 사이를 오갈 때는 그대로다.
             ForEach(Array(tabs.enumerated()), id: \.element) { index, tab in
                 Group {
-                    if isPageNearSelection(index, selected: selected) {
+                    if isPageBuilt(index, center: pageWindowCenter, selected: selected) {
                         tabPageView(for: tab)
                     } else {
                         Color.clear
@@ -2147,6 +2143,30 @@ struct ClipKeyboardList: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+        // ⚠️ **창을 한 박자 늦게 옮긴다.** 스와이프가 뻑뻑하던 마지막 이유가 여기였다.
+        //
+        //    창이 고른 페이지를 곧바로 따라가면, 넘기는 **그 순간** 반대편 이웃 페이지가
+        //    통째로 지어지고(카드 한 화면치) 반대쪽 한 장이 헐린다. 그 일이 페이지가
+        //    미끄러지는 애니메이션과 같은 프레임에서 벌어지니 손가락을 못 따라간다.
+        //
+        //    넘긴 뒤 잠깐 기다렸다 옮기면, 미끄러지는 동안에는 지을 것도 헐 것도 없다.
+        //    다음 이웃은 손이 멎은 뒤에 조용히 지어진다.
+        //
+        //    `.task(id:)` 라 다음 스와이프가 오면 앞의 기다림은 취소된다. 그래서 빠르게
+        //    여러 장을 넘기는 동안에는 미리 짓는 일이 아예 일어나지 않는다. 그때 보고 있는
+        //    페이지는 `isPageBuilt` 의 `index == selected` 가 책임진다.
+        //
+        //    멀리 뛴 경우(탭 바를 눌러 건너뛰기)는 기다리지 않는다. 창 밖이라 미리 지어 둔
+        //    것이 없고, 늦추면 빈 화면을 보여주게 된다.
+        .task(id: selected) {
+            if abs(selected - pageWindowCenter) > 1 {
+                pageWindowCenter = selected
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(400))
+            guard !Task.isCancelled else { return }
+            pageWindowCenter = selected
+        }
         .id(viewModel.customCategories)
         // 경계 스와이프 감지: 없는 페이지 방향으로 스와이프할 때만 동작.
         // 첫 탭에서 오른쪽 → 마지막 탭으로 순환,
@@ -3391,5 +3411,25 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+// MARK: - 페이지 창
+
+/// 카테고리 페이지 가운데 **무엇을 지어 둘지** 정하는 규칙.
+///
+/// 화면에서 떼어 둔 이유는 두 가지다. 시험할 수 있고, 규칙이 한 줄로 읽힌다.
+/// 스와이프가 뻑뻑하던 원인이 전부 이 판정 주변에 있었다.
+enum CategoryPageWindow {
+
+    /// 이 페이지를 지금 지어 둘 것인가.
+    ///
+    /// - `center` 좌우 한 장: 넘길 때 옆 페이지가 미리 서 있어야 손가락을 따라온다.
+    ///   창을 0 으로 좁히면 끄는 동안 빈 화면이 따라온다.
+    /// - `selected`: **지금 보고 있는 페이지는 무조건 짓는다.** 창은 한 박자 늦게
+    ///   따라오므로(스와이프 애니메이션과 겹치지 않게), 빠르게 여러 장을 넘기면
+    ///   창이 못 따라온다. 이 조건이 없으면 그때 빈 화면이 스친다.
+    static func isBuilt(index: Int, center: Int, selected: Int) -> Bool {
+        abs(index - center) <= 1 || index == selected
     }
 }
