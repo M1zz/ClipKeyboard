@@ -55,7 +55,7 @@ struct TemplateEditSheet: View {
             ScrollView {
                 VStack(spacing: 20) {
                     // 템플릿을 탭해 처음 열었을 때 채우는 방법 안내
-                    TipView(templateInfoTip)
+                    AnimatedTip(tip: templateInfoTip) { TipView(templateInfoTip) }
 
                     templateOriginalSection
                     if !customPlaceholders.isEmpty || !autoVarsInTemplate.isEmpty {

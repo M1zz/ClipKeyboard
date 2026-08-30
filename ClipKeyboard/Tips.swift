@@ -8,6 +8,57 @@ import SwiftUI
 // ⚠️ 팁 그림은 전부 마스코트다. 예전에는 팁마다 다른 SF 기호였는데, 기호는 내용을
 //    설명하지만 정작 **누가 말하고 있는지**는 매번 달라졌다.
 
+// MARK: - 팁이 뜨고 사라지는 모습
+
+/// 팁을 **닫기(X) 자리에서** 늘어났다가 그 자리로 줄어들게 감싼다.
+///
+/// 왜 감싸는가: `TipView` 는 팁이 무효화되면 스스로 내용을 비운다. 뷰는 그대로 있고
+/// 안이 비는 것이라 SwiftUI 가 보기에는 **넣고 빼는 일이 없어** 전이가 걸리지 않는다.
+/// 그래서 팁은 늘 툭 나타났다 툭 사라졌다.
+///
+/// 여기서는 팁의 상태를 직접 듣고(`statusUpdates`) 우리가 넣고 뺀다. 그래야 전이가 산다.
+///
+/// ⚠️ 애니메이션을 `withAnimation` 이 아니라 `.animation(_:value:)` 으로 건다.
+///    목록 화면은 처음 1초 동안 암묵 애니메이션을 통째로 끄는데
+///    (`ClipKeyboardList` 의 `settling`), `withAnimation` 은 그 규칙에 걸려 죽는다.
+///    팁이 사라지는 것은 **사용자가 X 를 누른 결과**라 언제나 보여야 한다.
+///
+/// 자리가 위-오른쪽인 이유는 `TipView` 의 닫기 단추가 거기 있기 때문이다.
+/// 오른쪽에서 왼쪽으로 읽는 언어에서는 `.topTrailing` 이 알아서 반대편이 된다.
+struct AnimatedTip<T: Tip, Content: View>: View {
+    let tip: T
+    @ViewBuilder let content: () -> Content
+
+    @State private var isShowing = false
+
+    /// 늘어나고 줄어드는 정도. 0 이 아니라 아주 작은 값인 이유는, 0 에서는 크기가
+    /// 없어 어느 자리에서 자라는지가 안 보이기 때문이다.
+    private static var transition: AnyTransition {
+        .scale(scale: 0.02, anchor: .topTrailing).combined(with: .opacity)
+    }
+
+    var body: some View {
+        // ⚠️ `Group` 을 쓰면 안 된다. `Group` 은 모디파이어를 **자식마다** 붙이는데,
+        //    팁이 아직 안 보이는 동안에는 자식이 없어서 아래 `.task` 가 붙을 곳이 없다.
+        //    그러면 상태를 구독하지 못하고, 구독을 못 하니 영영 보이지 않는다.
+        //    (실제로 그렇게 만들었다가 팁이 통째로 사라졌다)
+        //    자식이 없어도 남아 있는 그릇이 필요하다. 빈 `VStack` 은 크기가 0 이라
+        //    레이아웃에 아무 자국도 남기지 않는다.
+        VStack(spacing: 0) {
+            if isShowing {
+                content().transition(Self.transition)
+            }
+        }
+        .animation(.spring(response: 0.34, dampingFraction: 0.82), value: isShowing)
+        .task {
+            // 팁의 상태를 계속 듣는다. 다시 조건이 맞아 떠야 할 때도 같은 흐름으로 온다.
+            for await status in tip.statusUpdates {
+                isShowing = (status == .available)
+            }
+        }
+    }
+}
+
 // MARK: - WelcomeTip
 
 struct WelcomeTip: Tip {

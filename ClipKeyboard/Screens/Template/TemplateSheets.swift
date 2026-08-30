@@ -50,9 +50,9 @@ struct TemplateInputSheet: View {
                 Section {
                     Group {
                         if baseMemoValue.isEmpty {
-                            TipView(templateInfoTip)
+                            AnimatedTip(tip: templateInfoTip) { TipView(templateInfoTip) }
                         } else {
-                            TipView(attachedTemplateTip)
+                            AnimatedTip(tip: attachedTemplateTip) { TipView(attachedTemplateTip) }
                         }
                     }
                     .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))

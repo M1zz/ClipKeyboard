@@ -1845,14 +1845,16 @@ struct ClipKeyboardList: View {
     /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
     private func personaCategorySuggestionTip() -> some View {
         let tip = PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
-        return TipView(tip) { action in
-            // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
-            viewModel.addCustomCategory(action.id)
-            CategoryStore.shared.enableFeature()
-            HapticManager.shared.success()
-            viewModel.loadCustomCategories()
-            viewModel.loadMemos()
-            tip.invalidate(reason: .actionPerformed)
+        return AnimatedTip(tip: tip) {
+            TipView(tip) { action in
+                // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
+                viewModel.addCustomCategory(action.id)
+                CategoryStore.shared.enableFeature()
+                HapticManager.shared.success()
+                viewModel.loadCustomCategories()
+                viewModel.loadMemos()
+                tip.invalidate(reason: .actionPerformed)
+            }
         }
     }
 
@@ -1862,11 +1864,13 @@ struct ClipKeyboardList: View {
             displayName: Constants.localizedThemeName(name),
             count: count
         )
-        return TipView(tip) { action in
-            if action.id == "create" {
-                withAnimation { viewModel.acceptSuggestedCategory(name) }
-                HapticManager.shared.success()
-                tip.invalidate(reason: .actionPerformed)
+        return AnimatedTip(tip: tip) {
+            TipView(tip) { action in
+                if action.id == "create" {
+                    withAnimation { viewModel.acceptSuggestedCategory(name) }
+                    HapticManager.shared.success()
+                    tip.invalidate(reason: .actionPerformed)
+                }
             }
         }
     }
@@ -2393,8 +2397,10 @@ struct ClipKeyboardList: View {
                 VStack(spacing: 12) {
                     // ⚠️ tipBackground 를 걸지 않는다. 마스코트 스타일이 말풍선을
                     //    직접 그리므로, 바깥에 판을 하나 더 깔면 풍선 뒤에 빈 카드가 겹친다.
-                    TipView(welcomeTip)
-                        .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
+                    AnimatedTip(tip: welcomeTip) {
+                        TipView(welcomeTip)
+                            .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
+                    }
                 }
                 .padding(.horizontal, 16)
 
