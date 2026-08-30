@@ -695,10 +695,16 @@ struct KeyboardSetupOnboardingView_Previews: PreviewProvider {
 import Foundation
 
 enum Persona: String, CaseIterable, Codable {
+    // ⚠️ **선언 순서가 곧 화면 순서다.** 고르는 판이 `ForEach(Persona.allCases)` 로 그린다.
+    //    그래서 기본으로 고를 것(`default`)이 맨 위에 있어야 한다. 기본값이 맨 아래 있으면
+    //    "권하는 것"과 "먼저 보이는 것"이 어긋나서, 처음 여는 사람이 자기와 상관없는
+    //    노마드부터 읽고 내려가야 한다.
+    //
+    // ⚠️ `rawValue` 는 저장에 쓰이므로 **문자열은 건드리지 않는다.** 순서만 바꾼다.
+    case general = "general"
     case nomad = "nomad"
     case business = "business"
     case student = "student"
-    case general = "general"
 
     /// 아직 아무것도 안 고른 사람이 처음 보게 되는 갈래.
     ///
