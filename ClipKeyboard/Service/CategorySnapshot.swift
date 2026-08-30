@@ -74,6 +74,11 @@ enum CategorySnapshotStore {
     static let enabledBuiltInsKey = "enabledBuiltInCategories_v1"
     static let featureEnabledKey = "category.feature.enabled.v1"
 
+    /// `Memo.category` 의 기본값이자 아이폰·맥이 주고받는 **저장 센티널**.
+    /// 사용자 정의 카테고리 목록에는 절대 들어가지 않는다(들어가면 기본 탭과 겹친다).
+    /// ⚠️ 번역 금지 - 화면에 뿌릴 때만 현지화한다.
+    static let basicCategoryName = "기본"
+
     private static var defaults: UserDefaults? { AppGroup.defaults }
 
     /// 기기 간 **동기화용** 스냅샷 - 실제로 쓰이는 카테고리만 담는다.
@@ -92,11 +97,34 @@ enum CategorySnapshotStore {
         let usedNames = Set(
             memos.filter { !sampleIDs.contains($0.id) }
                  .map(\.category)
-                 .filter { !$0.isEmpty }
+                 .filter { !$0.isEmpty && $0 != basicCategoryName }
         )
         snapshot.categories = snapshot.categories.filter { usedNames.contains($0) }
+
+        // ⛔️ 여기서 `memo.category` 에 있는 이름을 목록에 **더하지 않는다.**
+        //
+        //    한때 그렇게 했다. "목록에는 없는데 단축어는 이미 그 카테고리에 들어 있는" 경우를
+        //    받아 주려던 것이었는데, 카테고리가 걷잡을 수 없이 불어났다. 고리는 이렇다.
+        //
+        //      올릴 때는 payload 를 **교체**하고, 받을 때는 `.merge` 로 **더하기만** 한다.
+        //      그래서 memo.category 문자열이 한 번 목록에 들어가면 다시는 빠지지 않는다.
+        //      기기를 오갈 때마다 쌓이기만 하는 래칫이 된다.
+        //
+        //    들어오는 이름이 사용자가 만든 카테고리라는 보장도 없다. 지운 카테고리를 아직
+        //    달고 있는 단축어, 다른 언어로 심긴 페르소나 이름, 가져오기로 들어온 임의의
+        //    문자열이 전부 **사용자가 만든 카테고리**로 승격됐다. 한 기기에서도 동기화가
+        //    한 바퀴 돌면 그대로 불어난다.
+        //
+        //    ⚠️ 카테고리는 **사용자가 만들 때만** 늘어난다. 앱이 알아서 늘리지 않는다.
+        //       목록이 빈약한 기기가 공용 레코드를 덮어쓰는 문제는 이 자리가 아니라
+        //       올리는 자리에서 풀어야 한다(MemoSyncEngine.makeCategoryRecord).
+
         snapshot.icons = snapshot.icons.filter { usedNames.contains($0.key) }
-        snapshot.hiddenTabs = snapshot.hiddenTabs.filter { usedNames.contains($0) }
+        // ⚠️ 즐겨찾기 숨김은 카테고리 이름이 아니라 센티널이라 `usedNames` 에 절대 걸리지 않는다.
+        //    그냥 거르면 "즐겨찾기 탭을 숨김" 설정이 기기 간에 영영 넘어가지 않는다.
+        snapshot.hiddenTabs = snapshot.hiddenTabs.filter {
+            $0 == CategoryBucketRule.favoritesTabKey || usedNames.contains($0)
+        }
         return snapshot
     }
 
@@ -175,7 +203,7 @@ enum CategorySnapshotStore {
         // "기본"은 시스템 기본값이라 사용자 정의 목록에 넣지 않는다.
         let derived = memos
             .map(\.category)
-            .filter { !$0.isEmpty && $0 != "기본" }
+            .filter { !$0.isEmpty && $0 != basicCategoryName }
         // 등장 순서를 유지하면서 중복 제거 - 사용자가 많이 쓴 순서에 가깝다.
         var seen = Set(existing)
         var added: [String] = []

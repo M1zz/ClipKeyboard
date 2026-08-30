@@ -206,4 +206,71 @@ final class CategorySnapshotTests: XCTestCase {
 
         XCTAssertEqual(CategorySnapshotStore.current().categories, ["업무", "아직안씀"])
     }
+
+    // MARK: - 목록이 빈약한 기기가 공용 레코드를 깎아내지 않는다
+
+    /// 실제 사고: 맥에 단축어 37개가 카테고리 12개를 쓰고 있는데 이 기기의 목록에는 2개만
+    /// 있었다. `syncable` 이 목록에서만 추리는 바람에 2개짜리 스냅샷이 올라갔고,
+    /// 그것이 공용 레코드를 통째로 덮어썼다(payload 는 병합이 아니라 교체다).
+    /// 받는 쪽은 `.merge` 라 더하기만 하므로 **아이폰은 멀쩡해 보이고** 맥만 고착됐다.
+    /// → 단축어가 이미 그 카테고리에 들어 있다면, 목록에 없어도 싣는다.
+    func testSyncableAdoptsCategoriesUsedByMemosButMissingFromLocalList() {
+        defaults.set(["내앱"], forKey: CategorySnapshotStore.categoriesKey)
+
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "내앱"),
+                    memo("b", category: "계좌번호"),
+                    memo("c", category: "여행")],
+            sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["내앱", "계좌번호", "여행"],
+                       "목록에 있던 것이 먼저, 단축어에서 주운 것은 등장 순서대로 뒤에")
+    }
+
+    /// 주워 온 카테고리도 "비샘플 메모가 붙은 것만" 이라는 원래 기준을 그대로 지킨다.
+    /// 안 그러면 페르소나 시드가 언어별로 중복돼 올라가는 원래 문제가 되살아난다.
+    func testSyncableDoesNotAdoptCategoriesUsedOnlyBySamples() {
+        let sample = memo("s", category: "샘플전용")
+        let real = memo("r", category: "진짜")
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [sample, real], sampleIDs: [sample.id])
+
+        XCTAssertEqual(snapshot.categories, ["진짜"])
+    }
+
+    /// `"기본"` 은 저장 센티널이지 사용자 카테고리가 아니다.
+    /// 목록에 들어가면 기본 탭과 같은 이름의 탭이 하나 더 서서 단축어가 두 곳에 보인다.
+    func testSyncableNeverAdoptsBasicSentinel() {
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "기본"), memo("b", category: "업무")],
+            sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+        XCTAssertFalse(snapshot.categories.contains(CategorySnapshotStore.basicCategoryName))
+    }
+
+    /// 같은 카테고리를 여러 단축어가 써도 목록에는 한 번만 들어간다.
+    func testSyncableDoesNotDuplicateAdoptedCategories() {
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "업무"), memo("b", category: "업무")],
+            sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+    }
+
+    /// 즐겨찾기 숨김은 카테고리 이름이 아니라 센티널(`__favorites__`)이라
+    /// "쓰이는 카테고리만" 필터에 걸려 매번 탈락했다 - 즐겨찾기 탭을 숨겨도
+    /// 그 설정이 다른 기기로 영영 넘어가지 않았다.
+    func testSyncableKeepsHiddenFavoritesSentinel() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set([CategoryBucketRule.favoritesTabKey, "안쓰는카테고리"],
+                     forKey: CategorySnapshotStore.hiddenTabsKey)
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [memo("a", category: "업무")], sampleIDs: [])
+
+        XCTAssertTrue(snapshot.hiddenTabs.contains(CategoryBucketRule.favoritesTabKey),
+                      "즐겨찾기 숨김은 카테고리가 아니라 센티널이라 걸러지면 안 된다")
+        XCTAssertFalse(snapshot.hiddenTabs.contains("안쓰는카테고리"),
+                       "안 쓰는 카테고리의 숨김은 그대로 빠진다")
+    }
 }
