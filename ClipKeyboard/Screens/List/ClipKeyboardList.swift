@@ -1494,8 +1494,14 @@ struct ClipKeyboardList: View {
                 Spacer(minLength: 16)
             }
             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                // 보안 메모 자물쇠 - 구분 표시 ON일 때만 (기본은 심볼 없이 제목만).
-                if visualCuesVisible, memo.isSecure {
+                // 보안 단축어 자물쇠 - **구분 표시 설정과 무관하게 언제나 보인다.**
+                //
+                // ⚠️ 예전에는 `visualCuesVisible` 이 켜져 있을 때만 그렸다. 그 설정은
+                //    기본이 꺼짐이라, 대부분의 사람에게 보안 단축어와 보통 단축어가
+                //    **겉으로 구별되지 않았다.** 구분 표시는 "있으면 좋은 꾸밈"을 켜는
+                //    스위치지, 잠겨 있다는 사실을 감출 스위치가 아니다.
+                //    (목록 행 모양은 원래부터 봉랍을 늘 보여 준다, `MemoRowView`)
+                if memo.isSecure {
                     Image(systemName: AppSymbol.lockFill)
                         .font(.title3)
                         .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
