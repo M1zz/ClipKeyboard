@@ -34,7 +34,27 @@ CloudKit 은 **저장(save)이 성공할 때만, 그것도 Development 환경에
 | `appVersion` | `CFBundleShortVersionString` |
 | `osVersion` | `MXMetaData.osVersion` |
 | `deviceType` | `MXMetaData.deviceType` |
-| `stack` | 콜스택 JSON, 4000자에서 자름 |
+| `stack` | 콜스택, **프레임 한 줄씩** 8000자에서 자름 (0번이 죽은 자리) |
+
+5.0.6 에서 늘린 필드. 옛 레코드에는 없으므로 읽는 쪽은 **전부 없을 수 있다고** 보고 다룬다.
+
+| 필드 | 타입 | 내용 |
+|---|---|---|
+| `occurredAt` | **Date/Time** | 크래시가 **난** 시각(`MXDiagnosticPayload.timeStampEnd`). 레코드 생성 시각은 배달된 때라 하루까지 늦다 |
+| `buildNumber` | String | `MXMetaData.applicationBuildVersion`. **죽은 빌드를 정확히 가리키는 유일한 값** |
+| `exceptionType` | String | 크래시만. 없으면 필드 자체를 안 보낸다 |
+| `exceptionCode` | String | 〃 |
+| `signal` | String | 〃 (예: `11` = SIGSEGV, `6` = SIGABRT) |
+
+⚠️ `occurredAt` 만 **Date/Time** 이고 나머지는 전부 String 이다. 콘솔에서 타입을 String 으로
+만들면 저장이 실패한다.
+
+⚠️ `appVersion` 은 `Bundle.main` 에서 읽으므로 **지금 깔려 있는** 버전이다. 죽은 버전이
+아닐 수 있다(MetricKit 배달이 늦는 사이에 업데이트가 깔리면 옛 크래시가 새 버전 이름표를
+단다). 정확한 값은 `buildNumber` 쪽이고, 둘이 어긋나면 이름표를 의심한다.
+
+`stack` 형식이 5.0.6 에서 바뀌었다. 읽는 쪽은 `{` 로 시작하는지로 옛 형식(JSON 덩어리)과
+새 형식(프레임 목록)을 구분한다. 왜 바뀌었는지는 `docs/postmortem/CRASH_STACK_TRUNCATION.md`.
 
 ## 인덱스
 
@@ -66,6 +86,15 @@ https://icloud.developer.apple.com → `iCloud.com.Ysoup.FeedbackHub`
 2. 위 인덱스 2개 추가
 3. 위 Security Roles 설정
 4. **Schema → Deploy Schema Changes to Production**
+
+### 5.0.6 에서 늘린 필드 (추가 1회)
+
+기존 타입에 위 표의 5개 필드를 더한다. `occurredAt` 만 **Date/Time**, 나머지는 String.
+필드를 더한 뒤 다시 **Deploy Schema Changes to Production** 을 한 번 더 눌러야 한다.
+누르지 않으면 Production 에서 저장이 조용히 실패하고, 진단이 **하나도 안 올라온다.**
+
+인덱스는 늘리지 않는다. 새 필드로 서버 쪽 조회를 하지 않기 때문이다
+(`occurredAt` 정렬도 클라이언트에서 한다).
 
 배포 전까지 안정성 화면은 "진단 스키마가 아직 허브에 배포되지 않았어요" 안내를 보여준다
 (에러가 아니라 정상 상태). 배포 후 첫 진단이 올라오기 전까지는 평소의 빈 화면 문구가 뜬다.
