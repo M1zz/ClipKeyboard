@@ -489,12 +489,9 @@ struct ClipKeyboardList: View {
             ZStack {
                 // ⚠️ **바닥은 언제나 있어야 한다.**
                 //
-                //    `tabBackgroundColor` 는 기본 갈래에서 `.clear` 를 돌려준다. 그것만
-                //    깔고 `ignoresSafeArea` 를 걸면 뒤에 아무것도 없어서 **창의 검정이
-                //    그대로 비친다.** 탭을 옮길 때마다 화면이 한 번 까매지는 것으로 보였고,
-                //    그건 연출이 아니라 고장으로 읽힌다.
-                //
-                //    갈래 색은 바닥이 아니라 **바닥 위에 얹는 얇은 막**이다. 그래서 둘로 나눈다.
+                //    투명하게 두고 `ignoresSafeArea` 를 걸면 뒤에 아무것도 없어서
+                //    **창의 검정이 그대로 비친다.** 탭을 옮길 때마다 화면이 한 번 까매지는
+                //    것으로 보였고, 그건 연출이 아니라 고장으로 읽힌다.
                 theme.bg
                     .ignoresSafeArea()
 
@@ -515,10 +512,19 @@ struct ClipKeyboardList: View {
                         .id(resolvedBackgroundImage)
                 }
 
-                // 현재 탭에 따라 배경색이 부드럽게 전환
-                tabBackgroundColor
-                    .ignoresSafeArea()
-                    .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
+                // ⚠️ **화면 전체를 갈래 색으로 물들이지 않는다.**
+                //
+                //    예전에는 여기에 카테고리 색을 옅게(0.11) 깔고 0.38초에 걸쳐 바꿨다.
+                //    그런데 페이지는 0.25초쯤에 다 넘어간다. 그래서 카드는 이미 새 카테고리
+                //    것인데 화면 색만 뒤늦게 따라오는 구간이 생겼고, 카테고리를 오갈 때마다
+                //    **화면 전체가 색을 쓸어 바꾸는 것**이 번쩍임으로 보였다.
+                //
+                //    녹화 프레임으로 잰 값: 초록(217,233,221) -> 파랑(210,226,243) 이
+                //    프레임 77~97 사이, 0.33초에 걸쳐 진행. 그 사이 제목과 카드는 이미
+                //    새 카테고리였다.
+                //
+                //    갈래가 무엇인지는 **카드 색**이 이미 말한다. 바닥까지 같이 물들일
+                //    이유가 없다. 바닥은 테마색 하나로 가만히 있는다.
 
                 // v4.1.0: 활성화 배너를 메모 위에 overlay하지 않고 VStack flow 안에
                 // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
@@ -1784,30 +1790,17 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 현재 탭에 맞는 배경색 - 기본/전체=투명(회색 없이 시스템 배경), favorites=핑크, custom=팔레트색
-    private var tabBackgroundColor: Color {
-        switch viewModel.selectedCategoryTab {
-        case .basic:     return .clear
-        case .all:       return .clear
-        // ⚠️ 예전(0.08~0.10)은 **흰 바탕** 위에 얹히던 값이다. 지금은 테마색 바닥 위라
-        //    같은 값으로는 눈에 안 보인다 - 색이 사라진 게 아니라 묻혔던 것이다.
-        case .favorites: return Color.clipFavorite.opacity(0.13)
-        case .builtIn(let b): return b.tint.opacity(0.11)
-        case .custom(let name): return customCategoryColor(name).opacity(0.11)
-        }
-    }
 
-    /// 하단 베일이 **가라앉는 색.** 갈래 색이 없으면 바닥색으로 사라진다.
+    /// 하단 베일이 **가라앉는 색.** 언제나 바닥색이다.
     ///
-    /// ⚠️ 여기서 `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
+    /// ⚠️ `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
     ///    베일의 일은 "카드가 탭바에 어중간하게 걸치지 않게 지우는 것"이라,
     ///    지운 자리에 **무엇이 남는지**까지가 이 색의 몫이다.
-    private var tabVeilColor: Color {
-        switch viewModel.selectedCategoryTab {
-        case .basic, .all: return theme.bg
-        default: return tabBackgroundColor
-        }
-    }
+    ///
+    /// ⚠️ 예전에는 갈래마다 다른 색으로 가라앉았다. 화면 전체 틴트를 걷어낸 지금
+    ///    (`screenBody` 주석 참고) 여기만 갈래 색을 따라가면, 카테고리를 바꿀 때마다
+    ///    바닥 띠만 색이 바뀌어 오히려 더 눈에 띈다. 바닥은 한 색으로 가만히 둔다.
+    private var tabVeilColor: Color { theme.bg }
 
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
