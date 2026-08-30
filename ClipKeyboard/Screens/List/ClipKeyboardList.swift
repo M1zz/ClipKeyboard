@@ -99,11 +99,6 @@ struct ClipKeyboardList: View {
     /// 모달이 닫히기를 기다리는 입금. 콤보·템플릿은 시트가 떠 있는 동안 사용이 확정되는데,
     /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
     @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
-    /// 키캡 물성 - 설정에서 바꾸면 이 화면도 바로 따라야 한다.
-    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
-    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-    /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
-    @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
     @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
     private var contentHintEnabled: Bool = false
@@ -125,7 +120,6 @@ struct ClipKeyboardList: View {
     @State private var showMemoActions: Bool = false
 
     // 탭 누름 바운스 - 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
-    @State private var bounceTriggers: [UUID: Int] = [:]
 
     // 순서 바꾸기(흔들기/드래그 재정렬)
     @State private var draggingMemo: Memo?
@@ -870,10 +864,8 @@ struct ClipKeyboardList: View {
                     viewModel.loadMemos()
                 }
             ))
-            .onChange(of: livingSkinRaw) { _, _ in startGuestsIfNeeded() }
             .onAppear {
                 beginSettling()
-                startGuestsIfNeeded()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
                 // v4.1.0: 카테고리 기능 마이그레이션 - 기존 사용자 자동 활성
@@ -1369,20 +1361,7 @@ struct ClipKeyboardList: View {
         // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
         // 그대로 유지 (button trait 명시 + tap 햅틱).
-        let skirtDepth = cardSkirtDepth(lightweight: false)
-
         return memoCardSurface(memo: memo)
-        // 손님(새·고양이)은 카드 밖으로 넘쳐야 해서 clip 바깥에 얹는다.
-        // 카드 한 장 위에서만 벌어진다 - 격자는 스크롤·재정렬되므로 전역 경로를 못 쓴다.
-        .overlay(alignment: .topLeading) {
-            if livingSkin.isVisitor, guestScheduler.hostId == memo.id {
-                GeometryReader { geo in
-                    GuestCreature(kind: livingSkin, cardWidth: geo.size.width)
-                        .position(x: geo.size.width * 0.32, y: 0)
-                }
-                .allowsHitTesting(false)
-            }
-        }
         // 방금 쓴 카드에 잠깐 켜지는 테두리.
         // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다
         //    끼웠다 빼면 나타날 때 끊겨 보이고, 사라질 때 애니메이션이 안 걸린다.
@@ -1403,23 +1382,6 @@ struct ClipKeyboardList: View {
             }
         )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 누름 - 스킨에 따라 두 방식으로 갈린다.
-        //
-        // 두께가 있으면 **키캡처럼** 바닥까지 내려앉았다 돌아온다.
-        // 두께가 없으면(납작·예전 방식) 내려앉을 바닥이 없으므로 **예전의 푹신한 바운스**로
-        // 되돌린다 - 그러지 않으면 눌러도 아무 반응이 없는 죽은 카드가 된다.
-        .modifier(CardPressEffect(
-            trigger: bounceTriggers[memo.id] ?? 0,
-            legacyBounce: keycapSkin.usesLegacyCardBounce,
-            depth: skirtDepth,
-            pressDuration: keycapSkin.pressDuration,
-            // 스커트가 그려지는 곳은 `@Sendable` 클로저 안이라 테마·스킨을 거기서 읽을 수 없다.
-            // 지금 여기서 값으로 뽑아 넘긴다.
-            skirt: { [radius = theme.radiusXl,
-                      opacity = keycapSkin.skirtOpacity(isDark: theme.isDark)] dy in
-                CardSkirt(depth: skirtDepth, offsetY: dy, radius: radius, opacity: opacity)
-            }
-        ))
         // 좌표를 받는 탭 - 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
         // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.
         //
@@ -1427,7 +1389,6 @@ struct ClipKeyboardList: View {
         //    닿지 않았고, 그 바람에 어느 카드를 눌러도 동전이 화면 왼쪽 위에서 날아갔다.
         .onTapGesture(coordinateSpace: .global) { location in
             HapticManager.shared.selection() // 탭: 선택 햅틱
-            if !reduceMotion { bounceTriggers[memo.id, default: 0] += 1 } // 푹신 바운스 재생
             // 동전은 여기서 날리지 않는다. 콤보·템플릿은 아직 **쓴 게 아니라** 시트가 뜰 뿐이라,
             // 실제 사용이 확정될 때(.memoUsed) 날린다. 자리만 기억해 둔다.
             lastTapPoint = location
@@ -1588,37 +1549,12 @@ struct ClipKeyboardList: View {
         .background {
             memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
         }
-        // 생활 레이어(마을·눈+발자국) - **글자 뒤, 카드 표면 위.**
-        // overlay로 얹으면 눈 베일과 발자국이 제목을 덮어 글이 묻힌다.
-        .background {
-            livingLayer(memo: memo, lightweight: lightweight)
-        }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 타입 테두리 - 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(memoTypeBorder(memo).color,
-                              style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
-                                                 dash: memoTypeBorder(memo).dash))
-        )
-        // 경량 모드(재정렬)에선 그림자 생략 - 회전하는 카드의 그림자는 매 프레임 오프스크린
-        // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
-        .shadow(color: lightweight ? .clear : .black.opacity(0.10),
-                radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
+        // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
+        //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
     }
 
     // MARK: - 생활 레이어
-
-    /// 손님 스케줄러를 현재 스킨에 맞춰 켜거나 끈다.
-    /// 스케줄러가 저전력 모드·동작 줄이기를 스스로 확인하므로 여기서는 재료만 넘긴다.
-    private func startGuestsIfNeeded() {
-        guestScheduler.start(
-            skin: livingSkin,
-            // 화면 위쪽 카드들만 후보 - 스크롤 밖에서 손님이 오가면 아무도 못 본다.
-            candidates: { viewModel.memos.prefix(12).map(\.id) },
-            reduceMotion: reduceMotion
-        )
-    }
 
     /// 카드 위에 사는 것 - 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
     private var livingSkin: LivingSkin {
@@ -1760,92 +1696,6 @@ struct ClipKeyboardList: View {
         livingSkin == .vault && coinBadgeMemoID == memo.id
     }
 
-    /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다
-    /// 회전하는 카드마다 Canvas가 하나씩 더 붙으면 드래그가 눈에 띄게 무거워진다.
-    @ViewBuilder
-    private func livingLayer(memo: Memo, lightweight: Bool) -> some View {
-        if !lightweight, Delight.isEnabled {
-            switch livingSkin {
-            case .vault:
-                // 내용 힌트 자리를 번갈아 쓰는 게 기본이라(위 memoCardSurface 참고) 여기서는
-                // **그 자리가 아예 없을 때만** 구석에 잠깐 띄운다.
-                //
-                // ⚠️ 동전을 상시로 늘어놓지 않는다. 처음엔 마을처럼 아래쪽에 쭉 깔았는데,
-                //    마을은 새싹처럼 성긴 그림이라 글이 비쳐 보였지만 동전은 꽉 찬 원이라
-                //    제목과 내용을 통째로 덮어버렸다.
-                ZStack {
-                    // 카드를 금고 문으로 - 경첩·다이얼·이음새는 전부 가장자리에 있어
-                    // 글과 자리를 다투지 않는다.
-                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(for: memo))
-
-                    if !contentHintEnabled, showsCoin(memo) {
-                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                            .padding(.trailing, 12)
-                            .padding(.bottom, 10)
-                            .transition(.opacity)
-                    }
-                }
-            case .geode:
-                // 세 번 쓸 때마다 깨진다. 금고 동전과 같은 이유로 **구석**에만 둔다
-                // 가운데에 크게 놓으면 제목과 내용을 덮는다.
-                // ⚠️ 금고 다이얼과 **같은 자리**(오른쪽 가운데)에 둔다.
-                //    카드에서 눈이 가는 자리는 여기다. 아래 구석에 뒀더니 있는 줄도 몰랐다.
-                //    제목은 왼쪽 정렬이라 이 자리는 비어 있다.
-                GeodeBadge(useCount: memo.clipCount,
-                           bursting: burstingMemoID == memo.id,
-                           size: 38)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                    .padding(.trailing, 6)
-            case .village:
-                // 사용 기록이 그대로 마을이 된다 - 움직이지 않으므로 스크린샷에 남는다.
-                // 카드 **아래쪽**에 세운다. 위는 제목 자리라 겹치면 둘 다 안 읽힌다.
-                VillageStrip(useCount: memo.clipCount)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                    .padding(.leading, 18)
-                    .padding(.bottom, 12)
-            case .snow:
-                ZStack {
-                    SnowTexture(seed: memo.id.hashValue)
-                    FootprintLayer(useCount: memo.clipCount)
-                }
-            case .none, .bird, .cat:
-                EmptyView()
-            }
-        }
-    }
-
-    // MARK: - 카드 키캡
-
-    /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다
-    /// 따로 고르게 하면 설정만 늘고 두 화면이 안 맞는다.
-    ///
-    /// ⚠️ `KeyboardSkin.current`(UserDefaults 직접 읽기)가 아니라 @AppStorage를 쓴다.
-    ///    직접 읽으면 설정에서 바꿔도 이 화면이 다시 그려지지 않아 "골라도 반응이 없다".
-    private var keycapSkin: KeyboardSkin {
-        KeyboardSkin.resolved(keyboardSkinRaw)
-    }
-
-    /// 카드가 얹혀 있는 두께. 0이면 스커트를 아예 그리지 않는다.
-    /// 재정렬(경량) 모드에선 회전하는 카드마다 레이어가 하나 더 늘어 버벅임을 만들므로 뺀다.
-    private func cardSkirtDepth(lightweight: Bool) -> CGFloat {
-        guard !lightweight, Delight.isEnabled else { return 0 }
-        return keycapSkin.cardSkirtDepth
-    }
-
-    /// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다
-    /// 유리는 표면이고 스커트는 두께라 서로 싸우지 않는다.
-    ///
-    /// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
-    ///    키는 누르고 있는 동안(`isPressed`) 내려가 있고, 카드는 탭 한 번에
-    ///    키프레임으로 내려갔다 올라온다(리스트는 롱프레스가 따로 있어 press 상태를 못 쓴다).
-    private func cardSkirt(depth: CGFloat, offsetY: CGFloat) -> CardSkirt {
-        CardSkirt(depth: depth,
-                  offsetY: offsetY,
-                  radius: theme.radiusXl,
-                  opacity: keycapSkin.skirtOpacity(isDark: theme.isDark))
-    }
-
     /// 글자 뒤 할로 색. nil 이면 할로를 아예 깔지 않는다(`CardTextHalo` 참고).
     ///
     /// - 사진 카드: 자체 그라디언트가 가독성을 책임진다 → 없음
@@ -1889,14 +1739,6 @@ struct ClipKeyboardList: View {
     /// 키보드 키와 **같은 그림**을 쓴다 (DesignSystem/MemoTypeStyle.swift).
     private func memoTypeIconName(memo: Memo) -> String {
         MemoTypeStyle.symbolName(for: memo)
-    }
-
-    /// 메모 타입별 테두리 - 키보드 익스텐션과 같은 규칙을 공유한다.
-    /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
-    /// "메모 구분 표시" 토글이 켜진 경우에만 노출(기본은 깔끔한 카드).
-    private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
-        let style = MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
-        return (style.color, style.lineWidth, style.dash)
     }
 
     private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
