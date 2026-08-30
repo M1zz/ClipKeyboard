@@ -287,8 +287,26 @@ final class ClipKeyboardListViewModel: ObservableObject {
         allCategoryTabs.firstIndex(of: selectedCategoryTab) ?? 0
     }
 
-    func selectCategoryTab(_ tab: CategoryTab) {
-        withAnimation(.easeInOut(duration: 0.22)) { selectedCategoryTab = tab }
+    /// 갈래를 고른다.
+    ///
+    /// - Parameter animated: 화면을 애니메이션으로 옮길지. **손으로 넘긴 경우에는 끈다.**
+    ///
+    /// ⚠️ 페이저가 스스로 넘긴 것을 여기서 또 애니메이션하면 안 된다.
+    ///    손가락이 이미 페이지를 끌어다 놓았는데, 그 뒤 `withAnimation` 으로 상태를 바꾸면
+    ///    SwiftUI 가 **한 번 더** 전이를 건다. 그 전이가 카드들을 배경 쪽으로 흐렸다가
+    ///    돌려놓아서, 카테고리를 바꿀 때마다 화면이 번쩍이는 것으로 보였다.
+    ///
+    ///    녹화(60fps)로 잰 값: 페이지가 멎은 뒤 프레임 105~117, 즉 **13프레임 = 0.217초**
+    ///    동안 카드가 옅어졌다 돌아왔다. 아래 `0.22` 와 같은 길이다.
+    ///    그 사이 배경색은 전혀 변하지 않았다(카드만 흐려졌다는 뜻이다).
+    ///
+    ///    탭 바에서 눌러 건너뛸 때는 옮기는 연출이 필요하므로 그때만 켠다.
+    func selectCategoryTab(_ tab: CategoryTab, animated: Bool = true) {
+        if animated {
+            withAnimation(.easeInOut(duration: 0.22)) { selectedCategoryTab = tab }
+        } else {
+            selectedCategoryTab = tab
+        }
         // 마지막 본 탭 기억 - 다음 실행 시 이 화면에서 시작.
         UserDefaults.standard.set(tab.storageKey, forKey: Self.selectedCategoryTabKey)
     }

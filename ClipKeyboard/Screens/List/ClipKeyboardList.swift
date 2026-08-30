@@ -1925,7 +1925,10 @@ struct ClipKeyboardList: View {
         let binding = Binding<CategoryTab>(
             get: { viewModel.selectedCategoryTab },
             set: { newTab in
-                viewModel.selectCategoryTab(newTab)
+                // 손가락이 이미 페이지를 옮겨 놓았다. 여기서 또 애니메이션하면
+                // SwiftUI 가 전이를 한 번 더 걸어 카드가 흐려졌다 돌아온다.
+                // (자세한 이유와 실측: `selectCategoryTab(_:animated:)`)
+                viewModel.selectCategoryTab(newTab, animated: false)
             }
         )
         // 한 번만 잰다. 아래 `ForEach` 가 페이지마다 다시 재면 O(페이지 수²)가 된다.
