@@ -31,9 +31,6 @@ struct ClipKeyboardList: View {
         && PastePermissionGuidance.isReady
     @FocusState private var isSearchFieldFocused: Bool
     @State private var memoToDelete: Memo?
-    /// 페이지를 지어 둘 창의 **한가운데**. 고른 페이지를 곧바로 따라가지 않고 한 박자 늦게 따라간다.
-    /// 왜 늦추는지는 `categoryTabView` 의 주석에 있다.
-    @State private var pageWindowCenter: Int = 0
     @State private var graceBannerVisible: Bool = ProFeatureManager.hasGraceMemoQuota && !ProFeatureManager.didDismissGraceBanner
     // 가치 순간 Pro 넛지 - 1회·닫기 가능 (페이월 노출률 향상)
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
@@ -1915,9 +1912,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab View (Page Swipe)
 
-    private func isPageBuilt(_ index: Int, center: Int, selected: Int) -> Bool {
-        CategoryPageWindow.isBuilt(index: index, center: center, selected: selected)
-    }
 
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
@@ -1931,67 +1925,32 @@ struct ClipKeyboardList: View {
                 viewModel.selectCategoryTab(newTab, animated: false)
             }
         )
-        // 한 번만 잰다. 아래 `ForEach` 가 페이지마다 다시 재면 O(페이지 수²)가 된다.
         let tabs = viewModel.allCategoryTabs
-        let selected = viewModel.selectedCategoryIndex
         return TabView(selection: binding) {
-            // ⚠️ **지금 페이지와 좌우 한 장씩만 짓는다.**
+            // ⚠️ **페이지를 골라 짓지 않는다.** 그냥 다 짓는다.
             //
-            //    예전에는 `ForEach` 가 카테고리 수만큼 페이지를 전부 지었다. 페이지마다
-            //    `LazyVGrid` 가 들어 있어도 소용이 없다. 그리드 **안**은 게을러도
-            //    그리드 **자체**가 카테고리 수만큼 살아 있으면, 카드가 통째로 뷰 그래프에
-            //    올라간다. 그 상태에서 키보드가 올라와 safe area 가 한 번 바뀌면
-            //    올라와 있던 것이 **전부** 더럽혀진다.
+            //    한때 "지금 페이지와 좌우 몇 장" 만 짓는 창을 손으로 만들었다. 그때는
+            //    카드 한 장이 비쌌기 때문이다(유리 + 두께 + 그림자 + 테두리 + 생활 레이어).
+            //    메모 505개에서 722ms 행이 잡혔고, 유리만 2,799개였다(커밋 1f8aea8).
             //
-            //    측정(Instruments, iPhone15,3 / iOS 26.5.2 / Release / 메모 505개):
-            //    편집 중 722 ms 짜리 행이 잡혔고, 그 0.7초에 SwiftUI 업데이트가 41,796건.
-            //    뷰별로 세어 보면 **뷰당 갱신 수가 전부 1.0** 이었다. 적은 뷰가 여러 번
-            //    갱신된 것이 아니라 **고유한 뷰가 그만큼 많았다**는 뜻이다
-            //    (유리 2,799개 · 텍스트 1,220개 · ForEach 761개).
-            //    WWDC23 "Analyze hangs with Instruments" 의 "too long or too often?" 에서
-            //    이건 어느 쪽도 아닌 **"too many"** 다.
+            //    그 뒤 카드에서 그것들을 전부 걷어냈다. 지금 카드는 단색 둥근 사각형
+            //    하나다. 창이 필요했던 이유가 사라졌다.
             //
-            //    좌우 한 장을 남기는 이유: 스와이프는 옆 페이지를 미리 보여준다.
-            //    창을 0 으로 좁히면 손가락을 끄는 동안 빈 화면이 따라온다.
+            //    그리고 창은 그 자체가 세 가지 사고를 냈다. 창이 늦게 따라와 빈 화면이
+            //    스쳤고(10689b3), 도착한 뒤에 페이지를 지어 "두근" 했고(e333a3e),
+            //    화면 밖 페이지만 줄여 지었더니 페이지가 1.5장씩 어긋났다(되돌림).
+            //    셋 다 "언제 지을지" 를 손으로 정하려다 생긴 것이다. 정하지 않으면 없다.
             //
-            //    대가: 세 장 넘게 떨어진 페이지로 갔다가 돌아오면 그 페이지의 스크롤
-            //    위치가 처음으로 돌아간다. 이웃 페이지 사이를 오갈 때는 그대로다.
-            ForEach(Array(tabs.enumerated()), id: \.element) { index, tab in
-                Group {
-                    if isPageBuilt(index, center: pageWindowCenter, selected: selected) {
-                        tabPageView(for: tab)
-                    } else {
-                        Color.clear
-                    }
-                }
-                .tag(tab)
+            //    ⚠️ 카테고리가 아주 많고 메모도 아주 많은 사람에게는 다시 무거워질 수
+            //       있다. 그때는 창을 되살리지 말고 `ScrollView` + `LazyHStack` +
+            //       `.scrollTargetBehavior(.paging)` 으로 옮길 것. 게으름이 기본으로
+            //       제공되니 "언제 지을지" 를 우리가 정하지 않아도 된다.
+            ForEach(tabs, id: \.self) { tab in
+                tabPageView(for: tab)
+                    .tag(tab)
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        // ⚠️ **창을 한 박자 늦게 옮긴다.** 스와이프가 뻑뻑하던 마지막 이유가 여기였다.
-        //
-        //    창이 고른 페이지를 곧바로 따라가면, 넘기는 **그 순간** 반대편 이웃 페이지가
-        //    통째로 지어지고(카드 한 화면치) 반대쪽 한 장이 헐린다. 그 일이 페이지가
-        //    미끄러지는 애니메이션과 같은 프레임에서 벌어지니 손가락을 못 따라간다.
-        //
-        //    넘긴 뒤 잠깐 기다렸다 옮기면, 미끄러지는 동안에는 지을 것도 헐 것도 없다.
-        //    다음 이웃은 손이 멎은 뒤에 조용히 지어진다.
-        //
-        //    `.task(id:)` 라 다음 스와이프가 오면 앞의 기다림은 취소된다. 그래서 빠르게
-        //    여러 장을 넘기는 동안에는 미리 짓는 일이 아예 일어나지 않는다. 그때 보고 있는
-        //    페이지는 `isPageBuilt` 의 `index == selected` 가 책임진다.
-        //
-        //    멀리 뛴 경우(탭 바를 눌러 건너뛰기)는 기다리지 않는다. 창 밖이라 미리 지어 둔
-        //    것이 없고, 늦추면 빈 화면을 보여주게 된다.
-        .task(id: selected) {
-            if abs(selected - pageWindowCenter) > 1 {
-                pageWindowCenter = selected
-                return
-            }
-            try? await Task.sleep(for: .milliseconds(400))
-            guard !Task.isCancelled else { return }
-            pageWindowCenter = selected
-        }
         .id(viewModel.customCategories)
         // 경계 스와이프 감지: 없는 페이지 방향으로 스와이프할 때만 동작.
         // 첫 탭에서 오른쪽 → 마지막 탭으로 순환,
@@ -3226,35 +3185,5 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
-    }
-}
-
-// MARK: - 페이지 창
-
-/// 카테고리 페이지 가운데 **무엇을 지어 둘지** 정하는 규칙.
-///
-/// 화면에서 떼어 둔 이유는 두 가지다. 시험할 수 있고, 규칙이 한 줄로 읽힌다.
-/// 스와이프가 뻑뻑하던 원인이 전부 이 판정 주변에 있었다.
-enum CategoryPageWindow {
-
-    /// 창의 반지름. **좌우 두 장씩** 지어 둔다.
-    ///
-    /// ⚠️ 한 장이면 모자란다. 창은 스와이프 애니메이션과 겹치지 않으려고 한 박자 늦게
-    ///    따라오는데(`categoryTabView` 의 `.task`), 그 사이에 한 칸 더 넘기면 도착할
-    ///    페이지가 창 밖이다. 끄는 동안 빈 페이지가 따라오다가 손을 놓는 순간 내용이
-    ///    뜬다 - 한 칸씩 연달아 넘기면 **두 번째 넘김마다** 깜빡였다.
-    ///
-    ///    두 장이면 창이 늦는 동안 한 번 더 넘겨도 이미 서 있다. 대신 살아 있는 페이지가
-    ///    셋에서 다섯으로 는다. 카테고리가 몇 개든 다섯이라 원래 문제(페이지를 전부
-    ///    지어 두면 카드가 통째로 뷰 그래프에 올라가 722ms 행)와는 자릿수가 다르다.
-    static let radius = 2
-
-    /// 이 페이지를 지금 지어 둘 것인가.
-    ///
-    /// - 창 안(`center` 좌우 `radius` 장): 넘길 때 옆 페이지가 미리 서 있어야 따라온다.
-    /// - `selected`: **지금 보고 있는 페이지는 무조건 짓는다.** 창보다 빨리 여러 장을
-    ///   넘기면 창이 못 따라오는데, 그때도 보고 있는 페이지가 비면 안 된다.
-    static func isBuilt(index: Int, center: Int, selected: Int) -> Bool {
-        abs(index - center) <= radius || index == selected
     }
 }
