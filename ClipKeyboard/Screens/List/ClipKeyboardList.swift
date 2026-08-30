@@ -1502,8 +1502,6 @@ struct ClipKeyboardList: View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
         let onColor = cardIsColored(memo: memo, hasImage: hasImage)
-        // 유리를 붙일 수 있는 카드인가 - 사진 카드와 재정렬(경량) 모드는 단색이다.
-        let glassOn = !hasImage && !lightweight
 
         return VStack(alignment: .leading, spacing: 0) {
             // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
@@ -1576,17 +1574,19 @@ struct ClipKeyboardList: View {
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
         .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        // 배경: 이미지 카드는 사진 그대로. 텍스트 카드는 리퀴드 글래스(아래 CardGlass)가
-        // 배경을 대신하되, 경량(재정렬) 모드에선 글래스가 프레임마다 비싸 단색으로 폴백.
+        // 배경은 단색이 그대로 얼굴이다(사진 카드는 사진).
+        //
+        // ⚠️ 예전에는 텍스트 카드에 `glassEffect` 를 얹었다. 걷어낸 이유는 그 유리가
+        //    **뒤를 실시간으로 읽어야** 하기 때문이다. 카테고리 페이지를 넘길 때는 옆
+        //    페이지가 지어졌다 헐리기를 반복하는데, 그 사이 유리가 읽을 뒤가 없어
+        //    카드가 번쩍인다. `CardGlass` 주석에 그 증상이 이미 적혀 있었고
+        //    (0.27~0.67초 동안 잿빛), 변형을 `.clear` 에서 `.regular` 로 바꿔 완화했을 뿐
+        //    없애지는 못했다. 유리를 안 쓰면 읽을 뒤가 없어도 될 일이 없다.
+        //
+        //    색 정체성(즐겨찾기 분홍·카테고리 색)은 그대로다. 유리의 tint 로 내던 것을
+        //    `memoCardBackground` 가 단색으로 낸다. 같은 규칙, 같은 색이다.
         .background {
-            if !glassOn {
-                // 유리가 없는 카드(사진·재정렬)는 단색이 그대로 얼굴이다.
-                memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
-            } else {
-                // 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
-                // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
-                theme.surface.opacity(CardGlass.backingOpacity)
-            }
+            memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
         }
         // 생활 레이어(마을·눈+발자국) - **글자 뒤, 카드 표면 위.**
         // overlay로 얹으면 눈 베일과 발자국이 제목을 덮어 글이 묻힌다.
@@ -1594,12 +1594,6 @@ struct ClipKeyboardList: View {
             livingLayer(memo: memo, lightweight: lightweight)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) - 카테고리 색은 tint로 유지.
-        .modifier(CardGlass(
-            active: glassOn,
-            tint: cardGlassTint(memo: memo),
-            cornerRadius: theme.radiusXl
-        ))
         // 타입 테두리 - 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
         .overlay(
             RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
@@ -1862,17 +1856,6 @@ struct ClipKeyboardList: View {
         if hasImage { return nil }
         if onColor { return Color.black.opacity(0.55) }
         return resolvedBackgroundImage.isEmpty ? nil : theme.bg
-    }
-
-    /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
-    /// 색이 없는 일반 카드는 nil(무색 프로스트 글래스).
-    private func cardGlassTint(memo: Memo) -> Color? {
-        if memo.isFavorite { return .clipFavorite }
-        if CategoryStore.shared.isFeatureEnabled,
-           viewModel.customCategories.contains(memo.category) {
-            return customCategoryColor(memo.category)
-        }
-        return nil
     }
 
     /// 카드 배경이 짙은 색(컬러드)인지 여부 - 텍스트/아이콘 색상 결정에 사용.
@@ -3396,18 +3379,6 @@ struct ClipKeyboardList: View {
 
 }
 
-/// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
-/// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
-/// tint가 있으면 카테고리 색을 글래스에 입힌다 - 색=카테고리 정체성 유지.
-/// tint가 없는 기본(무색) 카드도 같은 유리를 쓴다 - 뒤 배경(사진·색)이 비쳐 보여
-/// 상단 투명 배경·유리 탭바와 같은 유리 언어가 된다.
-///
-/// ⚠️ **투명도를 바꾸려면 `backingOpacity` 하나만 만지면 된다.**
-///
-/// `Glass` 에는 `.regular` / `.clear` / `.identity` 세 변형뿐이고 그 사이를 나타낼
-/// 불투명도 인자가 없다. 그래서 두 가지를 조합해 원하는 지점을 만든다:
-///   - 유리는 `.regular` (`.clear` 를 쓰면 안 되는 이유는 `CardGlass` 에 적어 두었다)
-///   - 그 **뒤에** 카드 표면색을 아주 옅게 깐다 → 이 판의 불투명도가 곧 다이얼
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
