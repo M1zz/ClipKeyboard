@@ -246,11 +246,59 @@ class KeyboardViewController: UIInputViewController {
 
     // MARK: - viewDidLoad Helpers
 
+    /// 키보드의 키. 회전할 때 상수만 갈아 끼우려고 들고 있는다.
+    private var heightConstraint: NSLayoutConstraint?
+
+    /// 높이를 **시스템 키보드와 같게** 세운다.
+    ///
+    /// 예전에는 `254` 고정이었다. 그 숫자에는 지금 근거가 없다. 주석은 "SwiftUI 영역(200)
+    /// + 하단 바(54)" 였는데 그 하단 UIKit 바는 이미 없어졌고(아래 `setupHostingController`),
+    /// 남은 건 기기마다 어긋나는 상수 하나뿐이었다. 회전도 보지 않아 가로에서는 시스템
+    /// 키보드보다 한참 높았다.
+    ///
+    /// ⚠️ 우선순위가 핵심이다. `.defaultHigh`(750) 로 두면 iOS 가 **자기 기본 높이로 한 번
+    ///    세운 뒤** 우리 값으로 끌어당기고, 그 변화를 애니메이션한다. 키보드가 뜰 때 높이가
+    ///    팍 튀어 버그처럼 보이던 것이 이것이다. 999 면 첫 레이아웃부터 우리 값으로 선다.
+    ///    (1000 = `.required` 는 시스템이 입력 뷰에 거는 제약과 충돌해 로그를 더럽힌다)
+    ///
+    ///    그리고 높이가 실제 시스템 키보드와 같아지면 애니메이션할 차이 자체가 사라진다.
+    ///    두 증상은 뿌리가 하나였다.
     private func setupHeightConstraint() {
-        let keyboardHeight: CGFloat = 254  // SwiftUI 영역(200) + 하단 바(54)
-        let heightConstraint = view.heightAnchor.constraint(equalToConstant: keyboardHeight)
-        heightConstraint.priority = .defaultHigh
-        heightConstraint.isActive = true
+        let constraint = view.heightAnchor.constraint(equalToConstant: desiredHeight)
+        constraint.priority = UILayoutPriority(999)
+        constraint.isActive = true
+        heightConstraint = constraint
+    }
+
+    /// 지금 화면에서 시스템 키보드가 갖는 높이. 앱이 재 둔 값이 있으면 그것을 쓴다.
+    /// (없으면 화면 비율로 어림한다. `KeyboardHeightBook` 머리말 참고)
+    private var desiredHeight: CGFloat {
+        KeyboardHeightBook.height(for: screenSize)
+    }
+
+    /// 화면 크기. 익스텐션에는 씬이 늦게 붙어 `view.window` 가 비어 있는 순간이 있으므로
+    /// 그때는 화면을 직접 본다.
+    private var screenSize: CGSize {
+        view.window?.windowScene?.screen.bounds.size ?? UIScreen.main.bounds.size
+    }
+
+    /// 회전 등으로 화면이 바뀐 뒤 높이를 다시 맞춘다.
+    private func applyHeight() {
+        let target = desiredHeight
+        guard let heightConstraint, heightConstraint.constant != target else { return }
+        heightConstraint.constant = target
+        view.layoutIfNeeded()
+    }
+
+    /// 가로와 세로는 시스템 키보드 높이가 완전히 다르다.
+    ///
+    /// ⚠️ 회전 **애니메이션 안에서** 바꾼다. 끝난 뒤에 바꾸면 회전이 멎은 다음 한 번 더
+    ///    움찔하는데, 그게 정확히 없애려는 그 움직임이다.
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            self?.applyHeight()
+        })
     }
 
     /// SwiftUI KeyboardView를 호스팅하고, 하단 bottomView를 생성하여 반환
@@ -508,7 +556,8 @@ class KeyboardViewController: UIInputViewController {
         // 키보드가 뜰 때마다 읽으면 항상 최신이다.
         KeyboardCapability.update(hasFullAccess: hasFullAccess,
                                   needsInputModeSwitchKey: needsInputModeSwitchKey)
-        // 레이아웃을 미리 계산하여 튀는 현상 방지
+        // 등장 **전에** 한 번 재 둔다. 첫 프레임이 이미 제 높이로 그려지게 하는 것이라
+        // 남긴다(등장 뒤에 부르는 것과는 성격이 다르다, `viewDidAppear` 참고).
         view.layoutIfNeeded()
         // 새 텍스트 필드에 키보드가 나타날 때마다 한글 컴포저 상태를 초기화.
         // 이전 필드에서 조합 중이던 음절이 새 필드에 딸려오는 버그를 방지한다.
@@ -517,8 +566,10 @@ class KeyboardViewController: UIInputViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // 뷰가 완전히 나타난 후 한 번 더 레이아웃 업데이트
-        view.layoutIfNeeded()
+        // ⚠️ 여기서 `view.layoutIfNeeded()` 를 부르지 않는다. 등장 애니메이션이 **끝난 뒤**라,
+        //    이 시점의 레이아웃 변화는 사용자 눈에 한 번 더 움찔하는 것으로 보인다.
+        //    높이는 `viewDidLoad` 에서 이미 옳게 세워지고(999 우선순위), 회전은
+        //    `viewWillTransition` 이 회전 애니메이션 안에서 처리한다.
         // 호스트 필드가 이미 텍스트를 가진 채로 키보드가 떴을 때도 X 버튼이 즉시 보이도록 초기 상태 반영
         updateHasTextState()
         // App Group 비콘 - 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)

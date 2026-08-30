@@ -18,7 +18,7 @@ struct KeyboardLayoutSettings: View {
 
     // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
     @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
     @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
@@ -387,7 +387,7 @@ struct KeyboardPreviewView: View {
     private let ud = AppGroup.defaults
 
     @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
     @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""

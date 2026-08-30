@@ -12,6 +12,10 @@ import Foundation
 enum DefaultsKey {
     static let autoBackupEnabled = "autoBackupEnabled"
     static let categoryBadgeNudgeDismissed = "categoryBadgeNudgeDismissed"
+    /// "카테고리가 많아졌어요" 안내를 **마지막으로 띄웠을 때의 카테고리 수**(표준 UserDefaults).
+    /// 0 이면 아직 안 물어본 것이다. 되풀이해 말하지 않되, 그 뒤로 또 크게 늘면 한 번 더 묻는다.
+    /// ⚠️ 앱은 카테고리를 임의로 지우지 않는다. 이 값은 "물어봤다"는 표시일 뿐이다.
+    static let categoryCleanupAskedAtCount = "category.cleanup.askedAtCount.v1"
     static let categoryFeatureEnabledV1 = "category.feature.enabled.v1"
     static let comboModelUnifyMigratedV1 = "comboModelUnifyMigrated_v1"
     /// 날인·편철·봉인 등 delight 연출과 햅틱의 마스터 스위치. 값이 없으면 켜짐(기본).
@@ -176,6 +180,11 @@ enum DefaultsKey {
     static let reviewBannerLaterDate = "review_banner_later_date"
     static let sampleTemplateFlagsMigratedV1 = "sampleTemplateFlagsMigrated_v1"
     static let secureMemoEncryptionMigratedV1 = "secureMemoEncryptionMigrated_v1"
+    /// 앱이 실제로 잰 **시스템 키보드 높이** 장부(App Group, `[화면키: Double]`).
+    /// 화면키는 `"390x844-P"` 처럼 크기와 방향을 함께 담는다.
+    /// ⚠️ 적는 쪽은 메인 앱뿐이다. 익스텐션이 적으면 자기 높이를 정답으로 삼는 고리가 생긴다.
+    ///    자세한 이유: ClipKeyboard/Service/KeyboardHeightBook.swift
+    static let systemKeyboardHeights = "systemKeyboardHeights.v1"
     static let showVisualCues = "showVisualCues"
     static let useCaseSelection = "useCaseSelection"
     static let userCategoryColorsV1 = "userCategoryColors_v1"

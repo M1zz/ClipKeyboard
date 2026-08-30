@@ -128,6 +128,40 @@ enum CategorySnapshotStore {
         return snapshot
     }
 
+    /// 올릴 스냅샷을 **원격에 이미 있는 것 위에 얹는다.**
+    ///
+    /// 왜: 올리는 쪽은 payload 를 통째로 **교체**한다. 그래서 목록이 빈약한 기기가 한 번
+    /// 올리면 공용 레코드가 그만큼 깎인다. 받는 쪽은 `.merge` 라 더하기만 하므로 **원본
+    /// 기기는 멀쩡해 보이고**, 새로 붙는 기기만 빈약한 목록을 받아 고착된다.
+    /// 실제로 맥에서 단축어 37개가 카테고리 12개를 쓰는데 탭은 2개만 서던 사고가 이것이었다.
+    ///
+    /// ⚠️ 여기서 **카테고리를 새로 만들지 않는다.** 원격에 이미 있는 것을 지우지 않을 뿐이다.
+    ///    한때 `syncable` 이 `memo.category` 문자열을 목록으로 승격시켜 카테고리가 걷잡을 수
+    ///    없이 불어난 적이 있다. 늘리는 것은 사용자뿐이다.
+    ///
+    /// ⚠️ `hiddenTabs` 는 합치지 **않는다.** 그건 "사용자가 치운 것" 목록이라, 합치면
+    ///    한 기기에서 숨긴 탭을 다른 기기에서 영영 못 되살린다. 더하기만 하는 목록에
+    ///    "숨김"을 넣으면 한 방향으로만 굳는다.
+    static func union(local: CategorySnapshot, remote: CategorySnapshot) -> CategorySnapshot {
+        var merged = local
+
+        var seen = Set(local.categories)
+        for name in remote.categories where seen.insert(name).inserted {
+            merged.categories.append(name)
+        }
+
+        // 아이콘은 이 기기 것이 이긴다. 원격에만 있는 것은 그대로 데려온다.
+        merged.icons = remote.icons.merging(local.icons) { _, mine in mine }
+
+        var seenBuiltIns = Set(local.enabledBuiltIns)
+        for name in remote.enabledBuiltIns where seenBuiltIns.insert(name).inserted {
+            merged.enabledBuiltIns.append(name)
+        }
+
+        merged.featureEnabled = local.featureEnabled || remote.featureEnabled
+        return merged
+    }
+
     /// 현재 기기의 카테고리 설정을 읽어 스냅샷으로 만든다. (백업용 - 전부 담는다)
     static func current() -> CategorySnapshot {
         guard let d = defaults else { return CategorySnapshot() }

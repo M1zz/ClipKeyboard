@@ -2091,8 +2091,14 @@ struct ClipKeyboardList: View {
     // MARK: - Category Tab View (Page Swipe)
 
     /// 이 페이지를 지금 지어 둘 것인가. 선택된 페이지와 좌우 한 장까지.
-    private func isPageNearSelection(_ index: Int) -> Bool {
-        abs(index - viewModel.selectedCategoryIndex) <= 1
+    ///
+    /// ⚠️ 선택된 자리를 **인자로 받는다.** 예전에는 이 안에서 `viewModel.selectedCategoryIndex`
+    ///    를 읽었는데, 그 값은 계산 프로퍼티라 읽을 때마다 `allCategoryTabs` 배열을 통째로
+    ///    새로 짓고 그 안을 `firstIndex` 로 훑는다. 그걸 `ForEach` 안에서 페이지마다
+    ///    불렀으니 **본문을 한 번 그릴 때마다 O(페이지 수²)** 였다. 카테고리가 늘수록
+    ///    스와이프가 뻑뻑해지던 자리다. 밖에서 한 번만 재서 넘긴다.
+    private func isPageNearSelection(_ index: Int, selected: Int) -> Bool {
+        abs(index - selected) <= 1
     }
 
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
@@ -2104,6 +2110,9 @@ struct ClipKeyboardList: View {
                 viewModel.selectCategoryTab(newTab)
             }
         )
+        // 한 번만 잰다. 아래 `ForEach` 가 페이지마다 다시 재면 O(페이지 수²)가 된다.
+        let tabs = viewModel.allCategoryTabs
+        let selected = viewModel.selectedCategoryIndex
         return TabView(selection: binding) {
             // ⚠️ **지금 페이지와 좌우 한 장씩만 짓는다.**
             //
@@ -2126,9 +2135,9 @@ struct ClipKeyboardList: View {
             //
             //    대가: 세 장 넘게 떨어진 페이지로 갔다가 돌아오면 그 페이지의 스크롤
             //    위치가 처음으로 돌아간다. 이웃 페이지 사이를 오갈 때는 그대로다.
-            ForEach(Array(viewModel.allCategoryTabs.enumerated()), id: \.element) { index, tab in
+            ForEach(Array(tabs.enumerated()), id: \.element) { index, tab in
                 Group {
-                    if isPageNearSelection(index) {
+                    if isPageNearSelection(index, selected: selected) {
                         tabPageView(for: tab)
                     } else {
                         Color.clear

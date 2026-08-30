@@ -207,14 +207,20 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertEqual(CategorySnapshotStore.current().categories, ["업무", "아직안씀"])
     }
 
-    // MARK: - 목록이 빈약한 기기가 공용 레코드를 깎아내지 않는다
+    // MARK: - 카테고리는 사용자가 만들 때만 늘어난다
 
-    /// 실제 사고: 맥에 단축어 37개가 카테고리 12개를 쓰고 있는데 이 기기의 목록에는 2개만
-    /// 있었다. `syncable` 이 목록에서만 추리는 바람에 2개짜리 스냅샷이 올라갔고,
-    /// 그것이 공용 레코드를 통째로 덮어썼다(payload 는 병합이 아니라 교체다).
-    /// 받는 쪽은 `.merge` 라 더하기만 하므로 **아이폰은 멀쩡해 보이고** 맥만 고착됐다.
-    /// → 단축어가 이미 그 카테고리에 들어 있다면, 목록에 없어도 싣는다.
-    func testSyncableAdoptsCategoriesUsedByMemosButMissingFromLocalList() {
+    /// ⛔️ 한때 `syncable` 이 `memo.category` 문자열을 목록에 주워 담았다.
+    ///    "목록에는 없는데 단축어는 이미 그 카테고리에 들어 있는" 경우를 받아 주려던
+    ///    것이었는데, 카테고리가 걷잡을 수 없이 불어났다.
+    ///
+    ///    고리: 올릴 때는 payload 를 **교체**하고 받을 때는 `.merge` 로 **더하기만** 한다.
+    ///    한 번 들어간 이름은 다시 빠지지 않으니 오갈수록 쌓이는 래칫이 된다.
+    ///    게다가 주워 온 이름이 사용자가 만든 카테고리라는 보장이 없다. 지운 카테고리를
+    ///    아직 달고 있는 단축어, 다른 언어로 심긴 페르소나 이름, 가져오기로 들어온 임의의
+    ///    문자열이 전부 "사용자가 만든 카테고리"로 승격됐다.
+    ///
+    ///    **앱은 카테고리를 스스로 늘리지 않는다.** 늘리는 것은 사용자뿐이다.
+    func test_단축어에_붙은_이름을_목록으로_승격시키지_않는다() {
         defaults.set(["내앱"], forKey: CategorySnapshotStore.categoriesKey)
 
         let snapshot = CategorySnapshotStore.syncable(
@@ -223,13 +229,24 @@ final class CategorySnapshotTests: XCTestCase {
                     memo("c", category: "여행")],
             sampleIDs: [])
 
-        XCTAssertEqual(snapshot.categories, ["내앱", "계좌번호", "여행"],
-                       "목록에 있던 것이 먼저, 단축어에서 주운 것은 등장 순서대로 뒤에")
+        XCTAssertEqual(snapshot.categories, ["내앱"],
+                       "목록에 있던 것만 실린다. 단축어가 달고 있는 이름은 카테고리가 아니다")
     }
 
-    /// 주워 온 카테고리도 "비샘플 메모가 붙은 것만" 이라는 원래 기준을 그대로 지킨다.
-    /// 안 그러면 페르소나 시드가 언어별로 중복돼 올라가는 원래 문제가 되살아난다.
-    func testSyncableDoesNotAdoptCategoriesUsedOnlyBySamples() {
+    /// 목록에 있고 실제로 쓰이는 것만 싣는다는 원래 기준은 그대로다.
+    func test_목록에_있어도_안_쓰이면_싣지_않는다() {
+        defaults.set(["업무", "아직안씀"], forKey: CategorySnapshotStore.categoriesKey)
+
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "업무")], sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+    }
+
+    /// 샘플 단축어만 붙은 카테고리는 싣지 않는다.
+    /// 페르소나 시드가 기기 언어별로 중복돼 올라가던 원래 문제를 막는 기준이다.
+    func test_샘플만_붙은_카테고리는_싣지_않는다() {
+        defaults.set(["샘플전용", "진짜"], forKey: CategorySnapshotStore.categoriesKey)
         let sample = memo("s", category: "샘플전용")
         let real = memo("r", category: "진짜")
 
@@ -240,22 +257,15 @@ final class CategorySnapshotTests: XCTestCase {
 
     /// `"기본"` 은 저장 센티널이지 사용자 카테고리가 아니다.
     /// 목록에 들어가면 기본 탭과 같은 이름의 탭이 하나 더 서서 단축어가 두 곳에 보인다.
-    func testSyncableNeverAdoptsBasicSentinel() {
+    func test_기본_센티널은_목록에_들어가지_않는다() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+
         let snapshot = CategorySnapshotStore.syncable(
             memos: [memo("a", category: "기본"), memo("b", category: "업무")],
             sampleIDs: [])
 
         XCTAssertEqual(snapshot.categories, ["업무"])
         XCTAssertFalse(snapshot.categories.contains(CategorySnapshotStore.basicCategoryName))
-    }
-
-    /// 같은 카테고리를 여러 단축어가 써도 목록에는 한 번만 들어간다.
-    func testSyncableDoesNotDuplicateAdoptedCategories() {
-        let snapshot = CategorySnapshotStore.syncable(
-            memos: [memo("a", category: "업무"), memo("b", category: "업무")],
-            sampleIDs: [])
-
-        XCTAssertEqual(snapshot.categories, ["업무"])
     }
 
     /// 즐겨찾기 숨김은 카테고리 이름이 아니라 센티널(`__favorites__`)이라

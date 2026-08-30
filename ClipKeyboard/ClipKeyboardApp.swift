@@ -34,6 +34,8 @@ struct ClipKeyboardApp: App {
     @State private var showWhatsNew = false
     /// 가끔 "불편한 점 남겨주세요" 피드백 넛지 (10회째 실행 첫 노출, 이후 40회 간격)
     @State private var showFeedbackNudge = false
+    /// "카테고리가 많아졌어요" 안내. 값이 있을 때만 뜬다(빈 시트 방지, `didYouKnowItem`과 같은 이유).
+    @State private var categoryCleanup: CategoryCleanupRequest?
     /// 저장 파일을 못 읽었을 때 띄우는 복구 안내(전역 폴백).
     /// 조용히 빈 목록을 보여주면 사용자는 "데이터가 날아갔다"고 오해하고,
     /// 그 상태에서 저장하면 실제로 덮어써진다.
@@ -294,6 +296,14 @@ struct ClipKeyboardApp: App {
             RemoteFlagsService.shared.refreshInBackground()
         }
 
+        // ④-b 시스템 키보드 높이 재기 - 알림 구독 하나가 전부다.
+        //     **우리 키보드가 시스템 키보드와 같은 높이로 서는 유일한 길이다.** 익스텐션에는
+        //     시스템 키보드 높이를 물어볼 API 가 없어서, 앱이 대신 재서 App Group 에 적어 둔다.
+        //     (자세한 이유: ClipKeyboard/Service/KeyboardHeightBook.swift)
+        LaunchGuard.optional(.keyboardHeight) {
+            KeyboardHeightBook.startWatching()
+        }
+
         // ⑤ 크래시·행 진단 구독(MetricKit) - 구독만 하고 즉시 반환한다.
         //    페이로드는 iOS가 하루 한 번꼴로 묶어서 준다(실시간 아님).
         LaunchGuard.optional(.diagnostics) {
@@ -356,6 +366,11 @@ struct ClipKeyboardApp: App {
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 maybeShowFeedbackNudge()
+            }
+
+            // 카테고리 정리 안내 - 앞의 안내들에게 자리를 내주고 조용히 한 번만 묻는다.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                maybeOfferCategoryCleanup()
             }
 
             // 반값 제안은 맨 뒤에 - 앞의 안내들이 자리를 잡고 난 다음에야 물어본다.
@@ -529,6 +544,38 @@ struct ClipKeyboardApp: App {
 
         defaults.set(launchCount, forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
         showFeedbackNudge = true
+    }
+
+    /// 카테고리 정리 안내에 넘길 것. 세어 둔 결과를 그대로 들고 간다
+    /// (시트가 뜬 뒤 다시 세면 화면이 한 번 더 흔들린다).
+    struct CategoryCleanupRequest: Identifiable {
+        let id = UUID()
+        let categories: [String]
+        let empty: [String]
+    }
+
+    /// 카테고리가 너무 늘었으면 한 번 물어본다.
+    ///
+    /// ⚠️ **앱이 지우지 않는다.** 어느 것이 사용자가 만든 것이고 어느 것이 동기화 사고로
+    ///    불어난 것인지 앱은 구분할 수 없다. 보여 주고 정리할 자리로 데려다주는 데까지가
+    ///    앱의 몫이다. 자세한 사연: ClipKeyboard/Screens/CategoryCleanupNotice.swift
+    private func maybeOfferCategoryCleanup() {
+        // 다른 안내가 떠 있으면 양보한다. 급한 이야기가 아니다.
+        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest,
+              !showWhatsNew, !showFeedbackNudge, !showDataRecovery,
+              !showDiscountOffer, categoryCleanup == nil else { return }
+
+        // 개수부터 본다. 여기서 걸리면 단축어를 읽지 않는다(런치 뒤라도 공짜는 아니다).
+        let categories = CategoryStore.shared.categories
+        guard categories.count >= 12 else { return }
+
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let empty = CategoryCleanupNudge.emptyCategories(categories, memos: memos)
+        guard CategoryCleanupNudge.shouldAsk(categoryCount: categories.count,
+                                             emptyCount: empty.count) else { return }
+
+        CategoryCleanupNudge.markAsked(categoryCount: categories.count)
+        categoryCleanup = CategoryCleanupRequest(categories: categories, empty: empty)
     }
 
     // MARK: - 반값 제안 (한도 한 칸 앞에서 일주일)
@@ -1186,6 +1233,9 @@ struct ClipKeyboardApp: App {
                 }
                 .sheet(isPresented: $showFeedbackSheet) {
                     FeedbackView()
+                }
+                .sheet(item: $categoryCleanup) { request in
+                    CategoryCleanupNotice(categories: request.categories, empty: request.empty)
                 }
                 // 설정 안쪽 목록에서 고른 행선지도 여기로 모인다 - 행선지를 아는 곳은 한 군데다.
                 .onReceive(NotificationCenter.default.publisher(for: .didYouKnowAction)) { note in

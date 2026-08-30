@@ -67675,6 +67675,251 @@
           }
         }
       }
+    },
+    "그 밖에 %d개" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그 밖에 %d개"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d more"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d lainnya"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %d 个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %d 個"
+          }
+        }
+      }
+    },
+    "비어 있는 카테고리" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비어 있는 카테고리"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empty categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori kosong"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空分类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空分類"
+          }
+        }
+      }
+    },
+    "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidying up never deletes shortcuts. When you remove a category, the shortcuts inside move to the Basic tab."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merapikan tidak pernah menghapus pintasan. Saat Anda menghapus kategori, pintasan di dalamnya pindah ke tab Dasar."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整理不会删除快捷项。删除分类后，里面的快捷项会移到「基本」标签。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整理不會刪除捷徑。刪除分類後，裡面的捷徑會移到「基本」標籤。"
+          }
+        }
+      }
+    },
+    "카테고리 %1$d개 가운데 %2$d개에는 단축어가 하나도 없어요. 안 쓰는 것을 정리하면 목록을 옆으로 넘길 때 훨씬 가벼워집니다." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리 %1$d개 가운데 %2$d개에는 단축어가 하나도 없어요. 안 쓰는 것을 정리하면 목록을 옆으로 넘길 때 훨씬 가벼워집니다."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d of your %1$d categories have no shortcuts at all. Tidying up the ones you don't use makes swiping through the list much lighter."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d dari %1$d kategori Anda tidak memiliki pintasan sama sekali. Merapikan yang tidak terpakai membuat geser daftar jauh lebih ringan."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 个分类中有 %2$d 个没有任何快捷项。整理掉不用的，左右滑动列表会轻快很多。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 個分類中有 %2$d 個沒有任何捷徑。整理掉不用的，左右滑動列表會輕快很多。"
+          }
+        }
+      }
+    },
+    "카테고리 정리" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리 정리"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidy categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapikan kategori"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整理分类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整理分類"
+          }
+        }
+      }
+    },
+    "카테고리 정리하기" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리 정리하기"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidy categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapikan kategori"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去整理分类"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去整理分類"
+          }
+        }
+      }
+    },
+    "카테고리가 많아졌어요" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리가 많아졌어요"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have a lot of categories"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategori Anda sudah banyak"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分类变多了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分類變多了"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

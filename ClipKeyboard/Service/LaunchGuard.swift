@@ -54,6 +54,8 @@ enum LaunchGuard {
         case remoteFlags = "remote-flags"
         /// MetricKit 진단 구독.
         case diagnostics = "diagnostics"
+        /// 시스템 키보드 높이 재기(알림 구독).
+        case keyboardHeight = "keyboard-height"
         /// 저장 파일 마이그레이션 묶음(심볼·한국어·보안메모·샘플).
         case dataMigrations = "data-migrations"
         /// iCloud 백업 서비스 기동.
