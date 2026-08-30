@@ -5244,6 +5244,29 @@
         }
       }
     },
+    "입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다" : {
+      "comment" : "Reset button hint v2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clears what you typed and the name. The category stays."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除输入的内容和名称，分类保持不变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除輸入的內容和名稱，分類保持不變。"
+          }
+        }
+      }
+    },
     "🌐 길게 눌러 전환" : {
       "comment" : "Long press globe to switch",
       "localizations" : {
@@ -24992,25 +25015,25 @@
         }
       }
     },
-    "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다." : {
+    "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다." : {
       "comment" : "Import summary message",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d combos and %5$d images."
+            "value" : "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d combos, %5$d images and %6$d categories."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新增 %1$d 个短语，更新 %2$d 个（共 %3$d 个）。"
+            "value" : "新增 %1$d 个短语，更新 %2$d 个（共 %3$d 个）。\n已导入 %4$d 个组合、%5$d 张图片和 %6$d 个分类。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新增 %1$d 個短語，更新 %2$d 個（共 %3$d 個）。"
+            "value" : "新增 %1$d 個短語，更新 %2$d 個（共 %3$d 個）。\n已匯入 %4$d 個組合、%5$d 張圖片和 %6$d 個分類。"
           }
         }
       }
@@ -57871,6 +57894,75 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d 個分類中有 %2$d 個沒有任何捷徑。整理掉不用的，左右滑動列表會輕快很多。"
+          }
+        }
+      }
+    },
+    "날짜 형식" : {
+      "comment" : "Date format setting row title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date format"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期格式"
+          }
+        }
+      }
+    },
+    "시간 형식" : {
+      "comment" : "Time format setting row title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time format"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間格式"
+          }
+        }
+      }
+    },
+    "자동 (%@)" : {
+      "comment" : "Date format: automatic option, %@ is today rendered",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic (%@)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动（%@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動（%@）"
           }
         }
       }

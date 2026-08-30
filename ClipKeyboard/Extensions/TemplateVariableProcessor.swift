@@ -12,6 +12,227 @@
 
 import Foundation
 
+// MARK: - 토큰 모양 (v5.0.6)
+
+/// 서식 한 가지를 만드는 법. `DateFormatter` 에 무엇을 얹을지만 말한다.
+enum TokenFormatRecipe: Equatable {
+    /// 패턴 문자열을 그대로 (`"yyyy-MM-dd"`).
+    case pattern(String)
+    /// 시스템이 언어에 맞춰 만드는 모양 (`.long` 이면 "August 31, 2026" · "2026년 8월 31일").
+    case style(DateFormatter.Style)
+    /// **언어·지역이 정한다.** 목록의 첫 줄이자 기본값.
+    case automatic
+}
+
+/// `{날짜}` · `{시간}` 처럼 **모양을 고를 수 있는 토큰**의 설정.
+///
+/// 왜 protocol 인가: 날짜와 시각이 하는 일이 똑같다. 고른 값을 App Group 에 적고,
+/// 안 골랐으면 언어·지역에 맞춰 정하고, 고르는 화면에는 지금 값을 그려서 보여준다.
+/// 두 벌로 적어 두면 한쪽만 고치는 날이 반드시 온다(이 저장소가 여러 번 겪은 일이다).
+///
+/// ⚠️ 앱과 키보드 익스텐션이 **같은 값을 읽어야 한다.** 그래서 App Group 에 적는다.
+///    표준 UserDefaults 에 적으면 키보드는 영영 못 본다.
+protocol TokenFormat: RawRepresentable, CaseIterable, Identifiable, Hashable where RawValue == String {
+
+    /// App Group 에 적을 자리.
+    static var storageKey: String { get }
+
+    /// 고른 적이 없을 때 쓰는 보기. 언제나 `.automatic` 에 해당하는 것.
+    static var automaticCase: Self { get }
+
+    /// 한국어·중국어·일본어에서 **지금까지 넣어 온 모양.**
+    ///
+    /// ⚠️ 여기를 바꾸면 쓰던 사람의 결과가 어느 날 갑자기 달라진다. 이 기능을 만든 요청은
+    ///    "미국이 어색하다"였지 "한국을 바꿔 달라"가 아니었다.
+    static var cjkPattern: String { get }
+
+    /// 그 지역이 쓰는 모양을 시스템에 물을 때 넘기는 뼈대.
+    /// (`"yyyyMMdd"` → 미국 `MM/dd/yyyy` · 영국 `dd/MM/yyyy`, `"jmm"` → 미국 `h:mm a`)
+    static var localeSkeleton: String { get }
+
+    /// 이 보기를 만드는 법.
+    var recipe: TokenFormatRecipe { get }
+}
+
+extension TokenFormat {
+
+    var id: String { rawValue }
+
+    // MARK: - 저장
+
+    /// 지금 고른 모양. 고른 적이 없거나 알 수 없는 값이면 자동.
+    static var current: Self {
+        get {
+            AppGroup.defaults?.string(forKey: storageKey).flatMap(Self.init(rawValue:)) ?? automaticCase
+        }
+        set {
+            AppGroup.defaults?.set(newValue.rawValue, forKey: storageKey)
+        }
+    }
+
+    // MARK: - 서식
+
+    /// 이 모양의 글자로.
+    func string(from date: Date, locale: Locale = TokenFormatLocale.current) -> String {
+        Self.formatter(for: recipe, locale: locale).string(from: date)
+    }
+
+    /// 글자를 다시 날짜로. 못 읽으면 nil.
+    ///
+    /// ⚠️ **모든 모양을 다 시도한다.** 사람이 날짜를 고른 뒤에 형식을 바꿀 수 있고, 그때
+    ///    예전 모양으로 저장된 글자를 못 읽으면 고른 값이 조용히 오늘로 되돌아간다.
+    static func date(from text: String, locale: Locale = TokenFormatLocale.current) -> Date? {
+        let ordered = [current] + allCases.filter { $0 != current }
+        for format in ordered {
+            if let date = formatter(for: format.recipe, locale: locale).date(from: text) { return date }
+        }
+        return nil
+    }
+
+    /// `.automatic` 이 실제로 쓰는 서식 패턴.
+    ///
+    /// 나라 목록을 손으로 들고 있지 않고 시스템에 묻는다. 손으로 적어 두면 빠뜨린 나라가
+    /// 반드시 생긴다.
+    static func automaticPattern(for locale: Locale = TokenFormatLocale.current) -> String {
+        if let code = locale.language.languageCode?.identifier,
+           TokenFormatLocale.keepsLegacyPattern(code) {
+            return cjkPattern
+        }
+        return DateFormatter.dateFormat(fromTemplate: localeSkeleton, options: 0, locale: locale)
+            ?? cjkPattern
+    }
+
+    private static func formatter(for recipe: TokenFormatRecipe, locale: Locale) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = locale
+        switch recipe {
+        case .pattern(let pattern):
+            formatter.dateFormat = pattern
+        case .style(let style):
+            formatter.dateStyle = style
+            formatter.timeStyle = .none
+        case .automatic:
+            formatter.dateFormat = automaticPattern(for: locale)
+        }
+        return formatter
+    }
+
+    // MARK: - 고르는 화면
+
+    /// 목록에 세울 이름. **지금 값을 그 모양으로 그려서** 보여준다.
+    /// 패턴 글자("MM/DD/YYYY")는 개발자만 읽는다. `08/31/2026` 은 누구나 읽는다.
+    func sampleText(at reference: Date = Date()) -> String {
+        let rendered = string(from: reference)
+        guard recipe == .automatic else { return rendered }
+        return String(format: NSLocalizedString("자동 (%@)", comment: "Date format: automatic option, %@ is today rendered"),
+                      rendered)
+    }
+
+    var sampleText: String { sampleText() }
+}
+
+/// 서식을 고를 때 쓰는 로케일과, 예전 모양을 지켜야 하는 언어.
+enum TokenFormatLocale {
+
+    /// 언어는 **앱에서 고른 언어**, 지역은 **기기 지역**을 쓴다.
+    ///
+    /// 미국에 살면서 한국어로 쓰는 사람과 한국에 살면서 영어로 쓰는 사람이 각각
+    /// 자기에게 맞는 것을 받는다.
+    static var current: Locale {
+        guard let code = AppLanguage.current.bundleCode else { return .current }
+        let language = code.replacingOccurrences(of: "-", with: "_")
+        guard let region = Locale.current.region?.identifier else {
+            return Locale(identifier: language)
+        }
+        return Locale(identifier: "\(language)_\(region)")
+    }
+
+    /// 이 언어는 예전 모양을 그대로 둔다(`TokenFormat.cjkPattern`).
+    static func keepsLegacyPattern(_ languageCode: String) -> Bool {
+        ["ko", "zh", "ja"].contains(languageCode)
+    }
+}
+
+// MARK: - 날짜
+
+/// `{날짜}` / `{date}` 를 어떤 모양으로 넣을지.
+///
+/// 왜 생겼나: 미국 사용자에게서 이런 이야기가 왔다.
+///
+/// > Can the Date variable be changed to display in different formats?
+/// > We use Month-Day-Year in the US.
+///
+/// 그때까지 `{날짜}` 는 언제 어디서나 `yyyy-MM-dd` 였다. 한국에서는 그게 자연스럽지만
+/// 미국에서는 아무도 그렇게 안 쓴다. 날짜를 넣어 주는 기능인데 **그 나라 모양이 아니면
+/// 넣어 주나 마나**라, 손으로 고쳐 쓰게 된다.
+enum DateTokenFormat: String, TokenFormat {
+    /// 언어·지역에 맞춰 고른다. **기본값.**
+    case automatic
+    /// 2026-08-31
+    case isoDash
+    /// 08/31/2026
+    case monthDayYear
+    /// 31/08/2026
+    case dayMonthYear
+    /// 2026. 08. 31.
+    case yearMonthDayDot
+    /// August 31, 2026 · 2026년 8월 31일
+    case long
+
+    static let storageKey = DefaultsKey.templateDateFormat
+    static let automaticCase = DateTokenFormat.automatic
+    static let cjkPattern = "yyyy-MM-dd"
+    /// 네 자리 연도를 달라고 명시한다. 그냥 short 로 받으면 나라에 따라 두 자리가 온다.
+    static let localeSkeleton = "yyyyMMdd"
+
+    var recipe: TokenFormatRecipe {
+        switch self {
+        case .automatic: return .automatic
+        case .isoDash: return .pattern("yyyy-MM-dd")
+        case .monthDayYear: return .pattern("MM/dd/yyyy")
+        case .dayMonthYear: return .pattern("dd/MM/yyyy")
+        case .yearMonthDayDot: return .pattern("yyyy. MM. dd.")
+        case .long: return .style(.long)
+        }
+    }
+}
+
+// MARK: - 시각
+
+/// `{시간}` / `{time}` 을 어떤 모양으로 넣을지.
+///
+/// 날짜와 같은 이야기다(`DateTokenFormat` 머리말 참고). 24시간제 `HH:mm:ss` 는
+/// 한국에서는 읽히지만 미국에서는 아무도 그렇게 안 적는다.
+enum TimeTokenFormat: String, TokenFormat {
+    /// 언어·지역에 맞춰 고른다. **기본값.**
+    case automatic
+    /// 21:57
+    case twentyFour
+    /// 21:57:03
+    case twentyFourWithSeconds
+    /// 9:57 PM
+    case twelveHour
+    /// 9:57:03 PM
+    case twelveHourWithSeconds
+
+    static let storageKey = DefaultsKey.templateTimeFormat
+    static let automaticCase = TimeTokenFormat.automatic
+    static let cjkPattern = "HH:mm:ss"
+    /// 초는 넣지 않는다 - 문장에 붙여넣는 시각에 초까지 적는 사람은 드물다.
+    static let localeSkeleton = "jmm"
+
+    var recipe: TokenFormatRecipe {
+        switch self {
+        case .automatic: return .automatic
+        case .twentyFour: return .pattern("HH:mm")
+        case .twentyFourWithSeconds: return .pattern("HH:mm:ss")
+        case .twelveHour: return .pattern("h:mm a")
+        case .twelveHourWithSeconds: return .pattern("h:mm:ss a")
+        }
+    }
+}
+
+
 enum TemplateVariableProcessor {
 
     /// App Group UserDefaults keys for user-configured values (set in onboarding).
@@ -74,10 +295,16 @@ enum TemplateVariableProcessor {
     ///     커서를 옮길 수 있는 곳은 키보드 익스텐션뿐이고, 나머지 경로(클립보드 복사·미리보기·
     ///     콤보 실행)에서 토큰이 살아 있으면 사용자 눈에 `{커서}` 가 그대로 붙여넣어진다.
     ///     즉 **안전한 쪽이 기본**이고, 키보드만 true로 열어 쓴다.
+    ///   - dateFormat: `{날짜}` 모양. nil 이면 사용자가 설정에서 고른 것을 쓴다.
+    ///   - timeFormat: `{시간}` 모양. 같은 이유로 열어 둔다.
+    ///     ⚠️ 시험에서만 넘긴다. 넘길 수 있게 열어 둔 이유는, 안 그러면 시험이 App Group 의
+    ///     공용 값을 바꿔 가며 돌아야 하고 그러면 **다른 시험과 부딪힌다**(실제로 부딪혔다).
     static func process(_ text: String,
                         at reference: Date = Date(),
                         clipboard: String? = nil,
-                        keepCursorToken: Bool = false) -> String {
+                        keepCursorToken: Bool = false,
+                        dateFormat: DateTokenFormat? = nil,
+                        timeFormat: TimeTokenFormat? = nil) -> String {
         var result = text
 
         // 클립보드 - 값이 없으면 지운다(빈칸이 남는 게 토큰이 노출되는 것보다 낫다).
@@ -97,15 +324,12 @@ enum TemplateVariableProcessor {
         let month = String(format: "%02d", calendar.component(.month, from: reference))
         let day = String(format: "%02d", calendar.component(.day, from: reference))
 
-        let dateFormatter = DateFormatter()
+        // 날짜 모양은 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰 알아서
+        // (`DateTokenFormat` 머리말 참고 - 미국은 08/31/2026, 한국은 2026-08-31).
+        let dateText = (dateFormat ?? DateTokenFormat.current).string(from: reference)
 
-        // ISO date
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let isoDate = dateFormatter.string(from: reference)
-
-        // 24h time
-        dateFormatter.dateFormat = "HH:mm:ss"
-        let isoTime = dateFormatter.string(from: reference)
+        // 시각도 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰.
+        let timeText = (timeFormat ?? TimeTokenFormat.current).string(from: reference)
 
         // Date/time (ko + en aliases)
         let dateTokens: [String] = ["{날짜}", "{date}"]
@@ -114,8 +338,8 @@ enum TemplateVariableProcessor {
         let monthTokens: [String] = ["{월}", "{month}"]
         let dayTokens: [String] = ["{일}", "{day}"]
 
-        for token in dateTokens { result = result.replacingOccurrences(of: token, with: isoDate) }
-        for token in timeTokens { result = result.replacingOccurrences(of: token, with: isoTime) }
+        for token in dateTokens { result = result.replacingOccurrences(of: token, with: dateText) }
+        for token in timeTokens { result = result.replacingOccurrences(of: token, with: timeText) }
         for token in yearTokens { result = result.replacingOccurrences(of: token, with: year) }
         for token in monthTokens { result = result.replacingOccurrences(of: token, with: month) }
         for token in dayTokens { result = result.replacingOccurrences(of: token, with: day) }

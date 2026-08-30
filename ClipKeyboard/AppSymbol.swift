@@ -32,6 +32,7 @@ enum AppSymbol {
     static let booksVerticalFill = "books.vertical.fill"
     static let calendar = "calendar"
     static let checkmark = "checkmark"
+    static let chevronUpChevronDown = "chevron.up.chevron.down"
     static let checkmarkCircleFill = "checkmark.circle.fill"
     static let checkmarkSealFill = "checkmark.seal.fill"
     static let checkmarkShieldFill = "checkmark.shield.fill"

@@ -61,6 +61,26 @@ final class MemoAddViewModel: ObservableObject {
     /// 힌트를 키보드에서도 표시(제목과 잠시 스왑)할지 - 힌트가 비어있으면 무의미. 기본 ON.
     @Published var hintShownOnKeyboard: Bool = true
     @Published var selectedCategory: String = "텍스트"
+
+    /// 사람이 **저장 화면에서 직접 고른** 카테고리. 빈 문자열이면 "기본"(자동 분류에 맡김).
+    ///
+    /// ⚠️ `selectedCategory` 와 다른 값이다. 저쪽은 **내용의 갈래**(텍스트·이미지)라
+    ///    본문 편집기 모양까지 정한다("이미지" 면 풀-이미지 모드). 여기는 **어느 칸에
+    ///    들어갈지**다. 둘을 한 칸에 담았더니 이미지 단축어를 '업무'에 넣는 순간
+    ///    편집기가 이미지 모드에서 튕겨 나갔다.
+    ///
+    /// 왜 생겼나: 사용자 피드백.
+    ///
+    /// > 저장할 때 카테고리 지정할 수 있게 해주세영
+    /// > 기본 가서 다시 카테고리로 보내는 거 불편해요
+    @Published var userCategory: String = ""
+
+    /// 이 화면을 **열 때** 정해져 있던 카테고리. 초기화는 여기까지만 되돌린다.
+    ///
+    /// ⚠️ 초기화가 카테고리까지 비우면 안 된다. '업무' 탭에서 + 로 들어와 쓰다가
+    ///    다시 쓰려고 초기화를 눌렀는데 기본으로 돌아가 버리면, 저장한 것이 기본에 가 있다.
+    ///    그게 이 기능이 없애려던 바로 그 불편이다.
+    private var initialUserCategory: String = ""
     @Published var isSecure: Bool = false
     @Published var isTemplate: Bool = false
     @Published var isFavorite: Bool = false
@@ -140,6 +160,32 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - 카테고리 선택
 
+    /// 고를 수 있는 사용자 카테고리 목록.
+    var availableUserCategories: [String] { CategoryStore.shared.allCategories }
+
+    /// 저장 화면에서 카테고리를 골랐다. 빈 문자열이면 "기본".
+    func selectUserCategory(_ name: String) {
+        userCategory = name
+        if !name.isEmpty { updateRecentlyUsedCategories(name) }
+    }
+
+    /// 그 자리에서 카테고리를 새로 만들고 곧바로 고른다.
+    ///
+    /// ⚠️ 만드는 길이 여기 없으면, 카테고리를 하나도 안 만든 사람에게는 이 줄이
+    ///    "기본" 하나뿐인 고장난 칸으로 보인다.
+    /// - Returns: 만들어졌으면 true. 이름이 비었거나 이미 있으면 false(그래도 그 이름을 고른다).
+    @discardableResult
+    func createAndSelectUserCategory(_ rawName: String) -> Bool {
+        let name = rawName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else { return false }
+        let added = CategoryStore.shared.add(name)
+        // 카테고리를 처음 만드는 사람은 기능이 꺼져 있을 수 있다. 만들었는데 탭이
+        // 안 서면 "저장했는데 사라졌다"가 된다.
+        CategoryStore.shared.enableFeature()
+        selectUserCategory(name)
+        return added
+    }
+
     func selectCategory(_ theme: String) {
         let previousCategory = selectedCategory
         selectedCategory = theme
@@ -203,6 +249,16 @@ final class MemoAddViewModel: ObservableObject {
             editingMemo = resolved
         }
 
+        // 들어온 카테고리가 **사용자 카테고리**면 그건 갈 칸 이야기다.
+        // `selectedCategory`(내용의 갈래)에 섞지 않고 따로 받는다.
+        // 카테고리 탭에서 + 를 눌러 들어온 경우가 여기다 - 누른 그 칸에 그대로 저장된다.
+        let insertedIsUserCategory = CategoryStore.shared.allCategories.contains(insertedCategory)
+        if insertedIsUserCategory {
+            userCategory = insertedCategory
+            initialUserCategory = insertedCategory
+        }
+        let insertedTypeCategory = insertedIsUserCategory ? "텍스트" : insertedCategory
+
         // 새 메모 생성 시 클립보드 내용 확인
         if editingMemo == nil && insertedValue.isEmpty {
             checkClipboardAndSuggest()
@@ -216,10 +272,10 @@ final class MemoAddViewModel: ObservableObject {
         if !insertedValue.isEmpty {
             value = insertedValue
 
-            if insertedCategory != "텍스트" {
-                // 명시적 카테고리로 진입(카테고리 추가 카드·템플릿으로 만들기 등)
-                // 자동 분류로 덮어쓰지 않고 진입한 카테고리를 그대로 사용.
-                selectedCategory = insertedCategory
+            if insertedTypeCategory != "텍스트" {
+                // 명시적 갈래로 진입(이미지 단축어 추가 카드 등)
+                // 자동 분류로 덮어쓰지 않고 진입한 갈래를 그대로 사용.
+                selectedCategory = insertedTypeCategory
             } else {
                 // 기본 카테고리로 진입한 경우만 자동 분류 수행 (클립보드에서 온 새 메모 등)
                 let classification = ClipboardClassificationService.shared.classify(content: insertedValue)
@@ -240,17 +296,19 @@ final class MemoAddViewModel: ObservableObject {
             }
         } else {
             let prev = selectedCategory
-            selectedCategory = insertedCategory
-            // 빈 메모로 진입 시점에도 인접 카테고리에 매핑이 있으면 샘플 자동 채움.
-            // insertedCategory가 "텍스트"이면 sampleValue가 없어 자연스럽게 no-op.
-            applySampleIfAppropriate(newCategory: insertedCategory, previousCategory: prev)
+            selectedCategory = insertedTypeCategory
+            // 빈 메모로 진입 시점에도 인접 갈래에 매핑이 있으면 샘플 자동 채움.
+            // "텍스트"이면 sampleValue가 없어 자연스럽게 no-op.
+            applySampleIfAppropriate(newCategory: insertedTypeCategory, previousCategory: prev)
         }
 
         // 편집 모드: 기존 메모의 카테고리를 그대로 보존한다.
         // (위 자동 분류 블록이 선택 카테고리를 건드렸을 수 있으므로 여기서 확정적으로 덮어쓴다.
         //  템플릿·콤보·일반 메모 모두 카테고리가 자동 재분류로 사라지지 않게 하는 핵심.)
         if editingMemo != nil {
-            selectedCategory = insertedCategory
+            selectedCategory = insertedTypeCategory
+            // 사용자 카테고리에 들어 있던 단축어는 고쳐도 그 칸에 남아야 한다.
+            if insertedIsUserCategory { userCategory = insertedCategory }
         }
 
         isTemplate = insertedIsTemplate
@@ -315,6 +373,7 @@ final class MemoAddViewModel: ObservableObject {
         hint = ""
         hintShownOnKeyboard = true
         selectedCategory = "텍스트"
+        userCategory = initialUserCategory
         isSecure = false
         isTemplate = false
         continuations = []
@@ -415,6 +474,11 @@ final class MemoAddViewModel: ObservableObject {
                 if isTemplate { memoType = "template" } else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" } else if !imageFileNames.isEmpty { memoType = "image" } else { memoType = "text" }
                 AnalyticsService.logMemoCreated(memoType: memoType, memoCount: loadedMemos.count)
             }
+
+            // 목록이 **이 단축어가 보이는 자리로** 옮겨 갈 수 있게 알린다.
+            // (피드백: "저장한 위치의 카테고리, 저장된 거 바로 보이는 위치로 도달하게
+            //  해주세요. 순간 길 헤매요.")
+            if isNewMemo { NotificationCenter.postOnMain(name: .memoSaved, object: finalMemoId) }
 
             showToastMessage(NSLocalizedString("저장됨", comment: "Saved toast"))
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { dismiss() }
@@ -582,6 +646,9 @@ final class MemoAddViewModel: ObservableObject {
     }
 
     private func determineFinalCategory() -> String {
+        // 0) **사람이 고른 카테고리가 가장 세다.** 저장 화면에서 고른 자리가 곧 갈 자리다.
+        //    자동 분류가 이걸 덮으면 "골랐는데 딴 데 가 있다"가 된다.
+        if !userCategory.isEmpty { return userCategory }
         // 0) 편집 모드면 기존 카테고리를 그대로 유지(자동 재분류로 덮어쓰지 않음).
         //    신규 메모만 자동 분류 대상. 템플릿/콤보 포함 모든 메모의 카테고리 보존.
         if editingMemo != nil { return selectedCategory }

@@ -26,6 +26,12 @@ struct SettingView: View {
     private var memoSyncEnabled: Bool = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
+    /// `{날짜}` 모양. App Group 이라 키보드도 같은 값을 본다.
+    @AppStorage(DefaultsKey.templateDateFormat, store: AppGroup.defaults)
+    private var dateTokenFormatRaw: String = DateTokenFormat.automatic.rawValue
+    /// `{시간}` 모양.
+    @AppStorage(DefaultsKey.templateTimeFormat, store: AppGroup.defaults)
+    private var timeTokenFormatRaw: String = TimeTokenFormat.automatic.rawValue
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
     /// 모든 데이터 삭제 - 되돌릴 수 없어 2단계로 확인받는다.
@@ -425,6 +431,8 @@ struct SettingView: View {
                       systemImage: AppSymbol.listBullet)
                     .foregroundColor(theme.text)
             }
+            dateFormatRow
+            timeFormatRow
             // 카테고리 아이콘은 이 화면 안에서 이어서 고른다(예전에는 형제 행이었다).
             NavigationLink(destination: CategorySettings()) {
                 Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
@@ -437,6 +445,47 @@ struct SettingView: View {
         } header: {
             Text(NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
         }
+    }
+
+    /// `{날짜}` · `{시간}` 을 어떤 모양으로 넣을지 고르는 행.
+    ///
+    /// ⚠️ 보기마다 **지금 값을 그 모양으로 직접 그려서** 보여준다. "MM/DD/YYYY" 같은
+    ///    패턴 글자는 개발자만 읽는다. 08/31/2026 은 누구나 읽는다.
+    ///
+    /// ⚠️ 설명 줄을 따로 두지 않는다. 고른 보기가 행에 그대로 다시 그려지는 자리라
+    ///    두 줄이 되면 목록이 무거워진다. "자동 (2026-08-31)" 한 줄이면 이미 다 말한다.
+    private func tokenFormatRow<Format: TokenFormat>(
+        _ type: Format.Type,
+        raw: Binding<String>,
+        title: String,
+        systemImage: String
+    ) -> some View {
+        Picker(selection: Binding(
+            get: { Format(rawValue: raw.wrappedValue) ?? Format.automaticCase },
+            set: { raw.wrappedValue = $0.rawValue }
+        )) {
+            ForEach(Array(Format.allCases)) { format in
+                Text(format.sampleText).tag(format)
+            }
+        } label: {
+            Label(title, systemImage: systemImage)
+        }
+        .pickerStyle(.navigationLink)
+    }
+
+    private var dateFormatRow: some View {
+        tokenFormatRow(DateTokenFormat.self,
+                       raw: $dateTokenFormatRaw,
+                       title: NSLocalizedString("날짜 형식", comment: "Date format setting row title"),
+                       systemImage: AppSymbol.calendar)
+    }
+
+    /// 날짜 바로 아래에 둔다 - 같은 종류의 선택이다.
+    private var timeFormatRow: some View {
+        tokenFormatRow(TimeTokenFormat.self,
+                       raw: $timeTokenFormatRaw,
+                       title: NSLocalizedString("시간 형식", comment: "Time format setting row title"),
+                       systemImage: AppSymbol.clock)
     }
 
     /// 내 데이터 - 내 것이 어디에 있고 어떻게 지켜지는가.

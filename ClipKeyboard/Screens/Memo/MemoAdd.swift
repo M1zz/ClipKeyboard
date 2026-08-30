@@ -65,6 +65,9 @@ struct MemoAdd: View {
     @State private var showPlaceholderManagement = false
     @State private var showNewTemplateSheet = false
     @State private var showResetConfirm = false
+    /// 저장 화면에서 카테고리를 새로 만들 때 쓰는 이름 입력.
+    @State private var showNewCategoryPrompt = false
+    @State private var newCategoryName = ""
     /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
     @State private var showAdvancedOptions: Bool = false
 
@@ -101,6 +104,16 @@ struct MemoAdd: View {
             }
         } message: {
             Text(NSLocalizedString("입력한 내용이 모두 지워집니다. 계속하시겠습니까?", comment: "Reset form confirm message"))
+        }
+        // 저장 화면에서 곧바로 카테고리를 만든다. 만드는 길이 없으면 카테고리를 하나도
+        // 안 만든 사람에게는 위 줄이 "기본" 하나뿐인 고장난 칸으로 보인다.
+        .alert(NSLocalizedString("새 카테고리", comment: "Create a new category from the add screen"),
+               isPresented: $showNewCategoryPrompt) {
+            TextField(NSLocalizedString("카테고리 이름", comment: "New category name field"), text: $newCategoryName)
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("카테고리 만들기", comment: "Create category button in the add screen")) {
+                viewModel.createAndSelectUserCategory(newCategoryName)
+            }
         }
         .overlay {
             if viewModel.showToast {
@@ -506,6 +519,10 @@ struct MemoAdd: View {
                         // 📌 내용 힌트 (카드·키보드에서 살며시 보일 한 줄, 선택)
                         hintInputSection
 
+                        // 📌 어느 칸에 넣을지 - **저장하기 전에** 고른다.
+                        //    (예전에는 기본으로 저장된 뒤 손으로 옮겨야 했다)
+                        categoryPickerSection
+
                         // 📌 추가 옵션 (보안)
                         additionalOptionsSection
                         // 변수가 있으면 자동으로 템플릿 도우미 노출
@@ -548,7 +565,7 @@ struct MemoAdd: View {
                             .background(theme.surfaceAlt)
                             .cornerRadius(theme.radiusMd)
                         }
-                        .accessibilityHint(NSLocalizedString("입력한 내용, 이름, 카테고리를 모두 지웁니다", comment: "Reset button hint"))
+                        .accessibilityHint(NSLocalizedString("입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다", comment: "Reset button hint v2"))
 
                         if isFocused {
                             // 내용 입력 중: 입력을 마치고 키보드를 내린다 (이름은 위에 있어 "다음"이 없음)
@@ -665,6 +682,75 @@ struct MemoAdd: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: viewModel.hint.isEmpty)
+    }
+
+    /// 어느 카테고리에 넣을지 고르는 줄.
+    ///
+    /// ⚠️ "추가 옵션" 안이 아니라 **본문 바로 아래**에 둔다. 여기에 온 피드백이
+    ///    "기본 가서 다시 카테고리로 보내는 게 불편하다"였다. 접혀 있으면 못 찾고,
+    ///    못 찾으면 예전처럼 저장한 뒤에 옮기게 된다.
+    ///
+    /// ⚠️ 카테고리 탭에서 + 로 들어왔으면 그 칸이 이미 골라져 있다. 그때는 이 줄이
+    ///    "어디로 가는지 확인해 주는 자리"가 된다 - 손댈 일이 없어야 정상이다.
+    private var categoryPickerSection: some View {
+        HStack(spacing: 12) {
+            Image(systemName: AppSymbol.folderBadgeGearshape)
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .accessibilityHidden(true)
+
+            Text(NSLocalizedString("카테고리", comment: "Category picker label in add screen"))
+                .font(.body)
+                .foregroundColor(theme.text)
+
+            Spacer()
+
+            Menu {
+                Button {
+                    HapticManager.shared.light()
+                    viewModel.selectUserCategory("")
+                } label: {
+                    Label(NSLocalizedString("기본", comment: "Default category (no user category)"),
+                          systemImage: viewModel.userCategory.isEmpty ? AppSymbol.checkmark : "")
+                }
+                ForEach(viewModel.availableUserCategories, id: \.self) { name in
+                    Button {
+                        HapticManager.shared.light()
+                        viewModel.selectUserCategory(name)
+                    } label: {
+                        Label(name, systemImage: viewModel.userCategory == name ? AppSymbol.checkmark : "")
+                    }
+                }
+                Divider()
+                Button {
+                    HapticManager.shared.light()
+                    newCategoryName = ""
+                    showNewCategoryPrompt = true
+                } label: {
+                    Label(NSLocalizedString("새 카테고리", comment: "Create a new category from the add screen"),
+                          systemImage: AppSymbol.plus)
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(viewModel.userCategory.isEmpty
+                         ? NSLocalizedString("기본", comment: "Default category (no user category)")
+                         : viewModel.userCategory)
+                        .font(.body)
+                        .fontWeight(.medium)
+                    Image(systemName: AppSymbol.chevronUpChevronDown)
+                        .font(.caption2)
+                }
+                .foregroundColor(theme.accent)
+            }
+            .accessibilityLabel(NSLocalizedString("카테고리", comment: "Category picker label in add screen"))
+            .accessibilityValue(viewModel.userCategory.isEmpty
+                                ? NSLocalizedString("기본", comment: "Default category (no user category)")
+                                : viewModel.userCategory)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(theme.surfaceAlt)
+        .cornerRadius(theme.radiusMd)
     }
 
     private var additionalOptionsSection: some View {

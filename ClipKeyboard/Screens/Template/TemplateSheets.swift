@@ -437,12 +437,12 @@ struct DatePlaceholderSelector: View {
     @Environment(\.appTheme) private var theme
     @State private var customDate: Date = Date()
 
-    private static let fmt: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        f.locale = Locale(identifier: "en_US_POSIX")
-        return f
-    }()
+    /// ⚠️ 여기서 만든 글자가 그대로 문장에 들어간다. `{날짜}` 를 자동으로 넣을 때와
+    ///    **같은 모양이어야 한다** - 고른 날짜만 08/31/2026 이고 오늘 날짜는 2026-08-31 이면
+    ///    같은 문서 안에서 날짜 모양이 둘로 갈린다.
+    private static func formatted(_ date: Date) -> String {
+        DateTokenFormat.current.string(from: date)
+    }
 
     private struct Opt: Identifiable { let id = UUID(); let label: String; let days: Int }
     private var opts: [Opt] {
@@ -452,7 +452,7 @@ struct DatePlaceholderSelector: View {
          Opt(label: NSLocalizedString("2주 뒤", comment: "Date option: in two weeks"), days: 14)]
     }
     private func str(_ days: Int) -> String {
-        Self.fmt.string(from: Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date())
+        Self.formatted(Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date())
     }
     private var effectiveValue: String { value.isEmpty ? str(0) : value }
 
@@ -491,11 +491,11 @@ struct DatePlaceholderSelector: View {
             DatePicker(NSLocalizedString("직접 선택", comment: "Pick a specific date"),
                        selection: $customDate, displayedComponents: .date)
                 .font(.body)
-                .onChange(of: customDate) { _, d in value = Self.fmt.string(from: d) }
+                .onChange(of: customDate) { _, d in value = Self.formatted(d) }
         }
         .embeddableCard(embedded: embedded, isHighlighted: isHighlighted, theme: theme)
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
-        .onAppear { if !value.isEmpty, let d = Self.fmt.date(from: value) { customDate = d } }
+        .onAppear { if !value.isEmpty, let d = DateTokenFormat.date(from: value) { customDate = d } }
     }
 }
 

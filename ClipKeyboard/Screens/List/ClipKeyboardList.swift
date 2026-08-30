@@ -912,6 +912,20 @@ struct ClipKeyboardList: View {
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
+            // 방금 만든 단축어가 지금 탭에서 안 보이면 보이는 탭으로 옮겨 간다.
+            // (저장은 됐는데 화면은 그대로라 "어디 갔지?" 가 되던 자리)
+            .onReceive(NotificationCenter.default.publisher(for: .memoSaved)) { note in
+                guard let id = note.object as? UUID else { return }
+                viewModel.loadCustomCategories()   // 저장 화면에서 새로 만든 카테고리 반영
+                viewModel.loadMemos()
+                viewModel.revealSavedMemo(id: id)
+            }
+            // 복원·가져오기는 카테고리 목록을 App Group 에 직접 갈아끼운다.
+            // `.memoDataChanged` 는 단축어만 다시 읽으므로 탭은 그대로 비어 있었다.
+            .onReceive(NotificationCenter.default.publisher(for: .dataRestored)) { _ in
+                viewModel.loadCustomCategories()
+                viewModel.loadMemos()
+            }
             .navigationDestination(isPresented: $showInboxFromIntent) {
                 QuickNoteInboxView()
             }

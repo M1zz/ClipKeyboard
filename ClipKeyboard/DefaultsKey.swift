@@ -205,6 +205,11 @@ enum DefaultsKey {
     static let trialLastSeen = "clipkeyboard_trial_last_seen"
     static let userTimezone = "clipkeyboard_user_timezone"
     static let userCurrency = "clipkeyboard_user_currency"
+    /// `{날짜}` 를 어떤 모양으로 넣을지 (App Group - 키보드도 같은 값을 읽는다).
+    /// 값은 `DateTokenFormat.rawValue`. 없으면 `.automatic`(언어에 맞춰 고름).
+    static let templateDateFormat = "clipkeyboard_template_date_format"
+    /// `{시간}` 을 어떤 모양으로 넣을지. 값은 `TimeTokenFormat.rawValue`.
+    static let templateTimeFormat = "clipkeyboard_template_time_format"
 
     /// 마스터(개발자) 모드 - 설정 > 앱 정보의 버전 행 7번 탭으로 토글 (standard UD)
     static let masterModeEnabled = "masterModeEnabled"

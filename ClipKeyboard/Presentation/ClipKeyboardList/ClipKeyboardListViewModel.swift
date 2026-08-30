@@ -311,6 +311,38 @@ final class ClipKeyboardListViewModel: ObservableObject {
         UserDefaults.standard.set(tab.storageKey, forKey: Self.selectedCategoryTabKey)
     }
 
+    /// 방금 저장한 단축어가 **보이는 자리로** 옮겨 간다.
+    ///
+    /// 왜 필요한가: 사용자 피드백.
+    ///
+    /// > 한 개 저장하면 저장한 위치의 카테고리, 저장된 거 바로 보이는 위치로 도달하게
+    /// > 해주세요. 순간 길 헤매요.
+    ///
+    /// 기본 탭에서 '업무'를 골라 저장하면, 저장은 됐는데 화면은 기본에 남아 있어서
+    /// **만든 것이 어디로 갔는지 안 보인다.** 사라진 것처럼 보이는 것이 제일 나쁘다.
+    ///
+    /// ⚠️ 지금 탭에서 이미 보이면 **아무것도 하지 않는다.** 카테고리 탭에서 + 로
+    ///    만든 흔한 경우가 여기다. 잘 보이는데 화면을 또 옮기면 그게 길을 헤매게 한다.
+    func revealSavedMemo(id: UUID) {
+        guard let saved = memos.first(where: { $0.id == id }) else { return }
+        if memos(for: selectedCategoryTab).contains(where: { $0.id == id }) { return }
+
+        func contains(_ tab: CategoryTab) -> Bool {
+            memos(for: tab).contains { $0.id == id }
+        }
+
+        // ⚠️ **고른 카테고리를 먼저 본다.** `allCategoryTabs` 순서대로 찾으면 즐겨찾기·
+        //    템플릿 탭이 앞에 있어서, '업무'를 골라 저장한 즐겨찾기가 즐겨찾기 탭으로
+        //    끌려간다. 보이기는 하지만 **사람이 고른 자리가 아니다.**
+        let chosen = CategoryTab.custom(saved.category)
+        if allCategoryTabs.contains(chosen), contains(chosen) {
+            selectCategoryTab(chosen)
+            return
+        }
+        guard let destination = allCategoryTabs.first(where: contains) else { return }
+        selectCategoryTab(destination)
+    }
+
     private static let selectedCategoryTabKey = "selectedCategoryTab_v1"
     private var didRestoreCategoryTab = false
 
