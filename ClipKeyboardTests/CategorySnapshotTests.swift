@@ -20,6 +20,7 @@ final class CategorySnapshotTests: XCTestCase {
 
     private var allKeys: [String] {
         [CategorySnapshotStore.categoriesKey, CategorySnapshotStore.iconsKey,
+         CategorySnapshotStore.colorsKey,
          CategorySnapshotStore.hiddenTabsKey, CategorySnapshotStore.enabledBuiltInsKey,
          CategorySnapshotStore.featureEnabledKey]
     }
@@ -128,6 +129,93 @@ final class CategorySnapshotTests: XCTestCase {
         CategorySnapshotStore.apply(CategorySnapshot(categories: ["업무"]), strategy: .replace)
 
         XCTAssertTrue(defaults.bool(forKey: CategorySnapshotStore.featureEnabledKey))
+    }
+
+    // MARK: - 색 (5.0.6 에 뒤늦게 합류)
+
+    /// 색은 `userCategoryColors_v1` 에만 살아서 백업 어디에도 안 실렸다.
+    /// 복원하면 이름은 돌아오는데 색이 전부 팔레트 기본값으로 리셋됐다.
+    func test_색도_스냅샷에_담기고_왕복한다() throws {
+        let original = CategorySnapshot(categories: ["업무"], colors: ["업무": "FF0000"])
+
+        let data = try JSONEncoder().encode(original)
+        let restored = try JSONDecoder().decode(CategorySnapshot.self, from: data)
+
+        XCTAssertEqual(restored.colors["업무"], "FF0000")
+    }
+
+    func test_색이_없던_옛_스냅샷도_읽힌다() throws {
+        let json = #"{"categories":["업무"],"icons":{"업무":"briefcase"}}"#
+        let data = try XCTUnwrap(json.data(using: .utf8))
+
+        let snapshot = try JSONDecoder().decode(CategorySnapshot.self, from: data)
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+        XCTAssertTrue(snapshot.colors.isEmpty)
+    }
+
+    func test_현재_설정을_읽을_때_색도_담는다() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["업무": "00FF00"], forKey: CategorySnapshotStore.colorsKey)
+
+        XCTAssertEqual(CategorySnapshotStore.current().colors["업무"], "00FF00")
+    }
+
+    func test_복원은_색까지_되돌린다() {
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], colors: ["업무": "0000FF"]), strategy: .replace)
+
+        let stored = defaults.dictionary(forKey: CategorySnapshotStore.colorsKey) as? [String: String]
+        XCTAssertEqual(stored?["업무"], "0000FF")
+    }
+
+    // MARK: - .replace 는 그 시점 상태로 되돌린다
+
+    /// 복원인데 아이콘·숨김이 합집합으로 남으면 "되돌렸는데 지운 게 살아 있다"가 된다.
+    func test_복원은_이_기기에만_있던_설정을_남기지_않는다() {
+        defaults.set(["옛것"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["옛것": "trash"], forKey: CategorySnapshotStore.iconsKey)
+        defaults.set(["옛것"], forKey: CategorySnapshotStore.hiddenTabsKey)
+
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], icons: ["업무": "briefcase"], featureEnabled: true),
+            strategy: .replace)
+
+        XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.categoriesKey), ["업무"])
+        let icons = defaults.dictionary(forKey: CategorySnapshotStore.iconsKey) as? [String: String]
+        XCTAssertNil(icons?["옛것"], "복원은 그 시점 상태다. 지웠던 카테고리의 아이콘이 남으면 안 된다")
+        XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.hiddenTabsKey), [],
+                       "백업 시점에 숨긴 탭이 없었으면 복원 뒤에도 없어야 한다")
+    }
+
+    /// 반대로 동기화(.merge)는 이 기기 설정을 지우지 않는다.
+    func test_동기화는_이_기기_색과_아이콘을_지우지_않는다() {
+        defaults.set(["로컬": "star"], forKey: CategorySnapshotStore.iconsKey)
+        defaults.set(["로컬": "ABCDEF"], forKey: CategorySnapshotStore.colorsKey)
+
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], icons: ["업무": "briefcase"],
+                             colors: ["업무": "123456"]),
+            strategy: .merge)
+
+        let icons = defaults.dictionary(forKey: CategorySnapshotStore.iconsKey) as? [String: String]
+        let colors = defaults.dictionary(forKey: CategorySnapshotStore.colorsKey) as? [String: String]
+        XCTAssertEqual(icons?["로컬"], "star")
+        XCTAssertEqual(icons?["업무"], "briefcase")
+        XCTAssertEqual(colors?["로컬"], "ABCDEF")
+        XCTAssertEqual(colors?["업무"], "123456")
+    }
+
+    /// 동기화용 스냅샷은 안 쓰는 카테고리를 거르는데, 색도 같이 걸러야 짝이 맞는다.
+    func test_동기화_스냅샷은_안_쓰는_카테고리의_색을_싣지_않는다() {
+        defaults.set(["쓰는것", "안쓰는것"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["쓰는것": "AAAAAA", "안쓰는것": "BBBBBB"], forKey: CategorySnapshotStore.colorsKey)
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [memo("a", category: "쓰는것")],
+                                                     sampleIDs: [])
+
+        XCTAssertEqual(snapshot.colors["쓰는것"], "AAAAAA")
+        XCTAssertNil(snapshot.colors["안쓰는것"])
     }
 
     // MARK: - 옛 백업 구제 (메모에서 역산)

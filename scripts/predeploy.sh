@@ -25,6 +25,9 @@ sh scripts/check_main_thread_cloudkit.sh
 echo "📋 [3/4] 클립보드 읽는 위치 검사 (멈춤 재발 방지)"
 sh scripts/check_main_thread_pasteboard.sh
 
+echo "🔔 알림 쏘는 위치 검사 (배경 발행 재발 방지)"
+sh scripts/check_notification_main.sh
+
 echo "✒️  긴 줄표 검사 (check_dashes.sh)"
 sh scripts/check_dashes.sh
 

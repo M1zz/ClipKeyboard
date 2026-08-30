@@ -760,6 +760,8 @@ struct UsageStatsView: View {
 
     // MARK: - Load
 
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State` 를 고치므로 반드시 메인에서 깨어나야 한다.
+    @MainActor
     private func load() async {
         isLoading = true
         errorMessage = nil

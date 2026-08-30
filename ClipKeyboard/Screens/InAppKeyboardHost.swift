@@ -184,7 +184,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         messages.append(.init(side: .outgoing, text: text))
         #endif
         clearAll()
-        NotificationCenter.default.post(name: .stageMessageSent, object: nil)
+        NotificationCenter.postOnMain(name: .stageMessageSent, object: nil)
     }
 
     /// 보낼 것이 하나라도 있는가 - 보내기 버튼의 활성 조건이자 `send()`의 관문.
@@ -347,7 +347,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         } else {
             // 값을 물어봐야 한다 - 오버레이는 KeyboardView가 띄우고,
             // 다 채우면 `.templateInputComplete` 로 돌아온다.
-            NotificationCenter.default.post(
+            NotificationCenter.postOnMain(
                 name: .showTemplateInput,
                 object: nil,
                 userInfo: ["text": raw, "placeholders": custom, "memoId": memoId]

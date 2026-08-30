@@ -477,7 +477,7 @@ struct InAppKeyboardStage: View {
                     //    (`completeMakeOwnIfMadeSomething`) 어느 길로 왔는지는 묻지 않는다.
                     Button {
                         HapticManager.shared.light()
-                        NotificationCenter.default.post(name: .openBulkImport, object: nil)
+                        NotificationCenter.postOnMain(name: .openBulkImport, object: nil)
                     } label: {
                         Text(NSLocalizedString("여러 개를 한 번에 옮기기", comment: "Make-own cue: bulk import"))
                             .font(.footnote.weight(.semibold))

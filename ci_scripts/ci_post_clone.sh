@@ -32,5 +32,6 @@ fi
 # 규칙 범위는 CLAUDE.md 에 적혀 있고, 그 범위대로 검사하는 곳은 여기 하나다.
 echo "▶︎ [ci_post_clone] 긴 줄표 검사 (전 범위)"
 sh scripts/check_dashes.sh || exit 1
+sh scripts/check_notification_main.sh || exit 1
 
 echo "✅ [ci_post_clone] 검사 통과"

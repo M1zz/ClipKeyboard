@@ -161,6 +161,8 @@ struct SuggestedActionChips: View {
         }
     }
 
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State`(`aiPrediction`)를 고친다.
+    @MainActor
     private func loadAIPredictionIfNeeded() async {
         guard aiEnabled, aiPrediction == nil,
               item.contentType == .text,
@@ -324,6 +326,8 @@ struct TranslationSheet: View {
         }
     }
 
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State` 를 고친다.
+    @MainActor
     private func translate() async {
         isTranslating = true
         errorMessage = nil

@@ -508,7 +508,12 @@ class CloudKitBackupService: ObservableObject {
             let (memosData, smartClipboardData, combosData) = try encodeDataForBackup(
                 memos: memos, smartClipboard: smartClipboard, combos: combos
             )
-            try configureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData)
+            // ⚠️ 한 번만 만들어 **메인 레코드와 버전 스냅샷에 같은 것을** 싣는다.
+            //    예전에는 메인 레코드에서만 만들어, 타임머신으로 되돌리면 카테고리가
+            //    통째로 사라졌다(백업엔 있는데 그 시점 스냅샷엔 없으니).
+            let categoriesData = try? JSONEncoder().encode(CategorySnapshotStore.current())
+            try configureRecord(&record, memosData: memosData, smartClipboardData: smartClipboardData,
+                                combosData: combosData, categoriesData: categoriesData)
             record["memoCount"] = memos.count as CKRecordValue  // 다음 백업의 축소 가드용(저렴한 비교 필드)
             attachImages(to: &record, memos: memos)   // 첨부 이미지(PNG)도 함께 백업
 
@@ -522,6 +527,7 @@ class CloudKitBackupService: ObservableObject {
             do {
                 try await writeVersionSnapshot(
                     memosData: memosData, smartClipboardData: smartClipboardData, combosData: combosData,
+                    categoriesData: categoriesData,
                     memos: memos, memoCount: memos.count, date: backupDate
                 )
             } catch {
@@ -597,14 +603,15 @@ class CloudKitBackupService: ObservableObject {
         }
     }
 
-    private func configureRecord(_ record: inout CKRecord, memosData: Data, smartClipboardData: Data, combosData: Data) throws {
+    private func configureRecord(_ record: inout CKRecord, memosData: Data, smartClipboardData: Data,
+                                combosData: Data, categoriesData: Data?) throws {
         record["memosAsset"] = try createAsset(from: memosData, filename: "memos.json")
         record["smartClipboardAsset"] = try createAsset(from: smartClipboardData, filename: "smartClipboard.json")
         record["combosAsset"] = try createAsset(from: combosData, filename: "combos.json")
-        // 카테고리 설정(목록·아이콘·순서·숨김)은 App Group UserDefaults 에만 있어
+        // 카테고리 설정(목록·아이콘·색·순서·숨김)은 App Group UserDefaults 에만 있어
         // 예전엔 백업에서 통째로 빠졌다 → 새 기기 복원 시 탭이 사라졌다.
-        if let categoryData = try? JSONEncoder().encode(CategorySnapshotStore.current()) {
-            record["categoriesAsset"] = try createAsset(from: categoryData, filename: "categories.json")
+        if let categoriesData {
+            record["categoriesAsset"] = try createAsset(from: categoriesData, filename: "categories.json")
         }
         record["backupDate"] = Date() as CKRecordValue
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
@@ -687,6 +694,7 @@ class CloudKitBackupService: ObservableObject {
     /// 메인 백업 성공 후 타임스탬프 스냅샷을 따로 저장하고, 최신 maxSnapshots개만 남기고 정리한다.
     /// 단일 레코드를 덮어쓰던 구조의 약점(이전 백업 소실)을 보완 - 잘못된 백업이 끼어도 과거로 복원 가능.
     private func writeVersionSnapshot(memosData: Data, smartClipboardData: Data, combosData: Data,
+                                      categoriesData: Data?,
                                       memos: [Memo], memoCount: Int, date: Date) async throws {
         let snapName = "TokenMemoBackup_snap_\(UUID().uuidString)"
         var snap = CKRecord(recordType: "BackupSnapshot", recordID: CKRecord.ID(recordName: snapName))
@@ -694,6 +702,10 @@ class CloudKitBackupService: ObservableObject {
         snap["memosAsset"] = try createAsset(from: memosData, filename: "\(snapName)_memos.json")
         snap["smartClipboardAsset"] = try createAsset(from: smartClipboardData, filename: "\(snapName)_smart.json")
         snap["combosAsset"] = try createAsset(from: combosData, filename: "\(snapName)_combos.json")
+        // ⚠️ 카테고리도 함께. 이게 빠져 있어서 타임머신으로 되돌리면 탭이 다 사라졌다.
+        if let categoriesData {
+            snap["categoriesAsset"] = try createAsset(from: categoriesData, filename: "\(snapName)_categories.json")
+        }
         snap["backupDate"] = date as CKRecordValue
         snap["memoCount"] = memoCount as CKRecordValue
         let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
@@ -774,6 +786,10 @@ class CloudKitBackupService: ObservableObject {
             // 카테고리는 메모를 저장한 **뒤에** 복원한다 - 옛 백업 폴백이 메모의
             // category 값을 읽어 역산하므로 메모가 먼저 자리를 잡아야 한다.
             restoreCategories(from: record, memos: memos)
+            // 카테고리는 `.memoDataChanged` 로 안 딸려 온다(그건 memos.data 이야기다).
+            // 여기서 알려야 `CategoryStore` 와 목록이 되살린 값을 다시 읽는다.
+            // ⚠️ 부르는 쪽에 맡기지 않는다. 복원 경로가 늘 때마다 빠뜨리게 된다.
+            NotificationCenter.postOnMain(name: .dataRestored)
             AppLog.info(.backup, "🎉 [CloudKit] 전체 복구 완료!")
 
         } catch let error as CKError where error.code == .unknownItem {

@@ -157,7 +157,7 @@ class ComboExecutionService: ObservableObject {
             }
 
             // 리뷰 요청 트리거: Combo 완료
-            NotificationCenter.default.post(name: .reviewTriggerComboCompleted, object: nil)
+            NotificationCenter.postOnMain(name: .reviewTriggerComboCompleted, object: nil)
         }
 
         // 3초 후 상태 초기화
@@ -169,7 +169,7 @@ class ComboExecutionService: ObservableObject {
     }
 
     private func postNotification(value: String) {
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: .comboItemExecuted,
             object: nil,
             userInfo: [

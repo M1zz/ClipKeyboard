@@ -130,7 +130,10 @@ class MemoStore: ObservableObject {
     ///    상태에서 읽는다. 늦어지는 것은 한 런루프이고, 받는 일은 화면을 다시 읽는 것뿐이라
     ///    그 지연이 보이지 않는다.
     static func postDataChanged() {
+        // ⚠️ `NotificationCenter.postOnMain` 이 아니다. 그쪽은 이미 메인이면 그 자리에서 쏜다.
+        //    여기는 위에 적은 재진입 때문에 **메인이어도** 한 박자 미뤄야 한다.
         DispatchQueue.main.async {
+            // notify-ok: 메인이어도 한 박자 미뤄야 하는 재진입 때문(위 머리말)
             NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
         }
     }
@@ -324,7 +327,7 @@ class MemoStore: ObservableObject {
             // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
             // 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.
-            NotificationCenter.default.post(
+            NotificationCenter.postOnMain(
                 name: .memoUsed,
                 object: nil,
                 userInfo: [MemoUsedKey.memoID: memoId,
@@ -393,7 +396,7 @@ class MemoStore: ObservableObject {
 
         try saveSmartClipboardHistory(history: history)
 
-        NotificationCenter.default.post(name: .reviewTriggerClipSaved, object: nil)
+        NotificationCenter.postOnMain(name: .reviewTriggerClipSaved, object: nil)
 
         DispatchQueue.main.async { [weak self] in
             self?.smartClipboardHistory = history

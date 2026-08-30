@@ -932,7 +932,7 @@ struct KeyboardView: View {
     private var freeUpgradeBanner: some View {
         Button {
             // KeyboardViewController가 이 알림을 받아 URL scheme으로 메인 앱 열기
-            NotificationCenter.default.post(name: Notification.Name.openMainAppPaywall, object: nil)
+            NotificationCenter.postOnMain(name: Notification.Name.openMainAppPaywall, object: nil)
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: AppSymbol.lockFill)
@@ -1541,7 +1541,7 @@ struct KeyboardView: View {
                 isSearching = false
             }
         }
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: value,
             userInfo: ["memoId": memo.id, "skipCombo": true]
@@ -1557,7 +1557,7 @@ struct KeyboardView: View {
         comboFlash[memo.id] = (comboFlash[memo.id] ?? 0) + 1
         // ⚠️ 여기서는 **글이 하나도 안 들어간다** - 값만 바뀐다. 그래서 `.memoUsed` 가
         //    나가지 않고, 튜토리얼은 이 걸음을 지났는지 알 길이 없었다. 따로 알린다.
-        NotificationCenter.default.post(name: .comboValueAdvanced, object: nil,
+        NotificationCenter.postOnMain(name: .comboValueAdvanced, object: nil,
                                         userInfo: ["memoId": memo.id])
     }
 
@@ -1637,7 +1637,7 @@ struct KeyboardView: View {
             valueToInsert = memo.value
         }
         let userInfo: [String: Any] = ["memoId": memo.id]
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: valueToInsert,
             userInfo: userInfo
@@ -1694,7 +1694,7 @@ struct KeyboardView: View {
         // 앱 무대에서는 복사에서 끝내지 않는다 - 입력창이 우리 것이라 붙여넣은 모습까지
         // 보여줄 수 있다. 익스텐션에서는 남의 텍스트 필드라 넣을 길이 없어 복사가 끝이다.
         if hostKind == .inApp {
-            NotificationCenter.default.post(
+            NotificationCenter.postOnMain(
                 name: .addImageEntry,
                 object: fileName,
                 userInfo: ["memoId": memo.id]
@@ -2417,11 +2417,18 @@ struct KeyboardView: View {
     // MARK: - Theme-derived Colors (Paper 테마 + 사용자 커스텀 오버라이드)
 
     /// 기본은 iOS 앱 Paper 테마. `useCustomColors=true`이면 사용자 hex로 오버라이드.
+    ///
+    /// ⚠️ **익스텐션에서는 기본이 투명이다.** 뒤에 시스템 키보드 재질을 깔아 두었으므로
+    ///    (`KeyboardViewController.setupSystemBackdrop`) 여기서 색을 칠하면 그 재질을 가린다.
+    ///    가리면 iOS 26 이 우리 뷰 **밖에** 그리는 지구본 줄과 바탕이 갈려 이음매가 보인다.
+    ///    앱 안(무대)에는 그 재질이 없으니 예전대로 테마 색을 칠한다.
+    ///
+    ///    색을 직접 고른 사람은 그 색이 이긴다. 고른 것을 안 보여 주면 그건 고장이다.
     private var backgroundColor: Color {
         if useCustomColors, !customBgHex.isEmpty, let custom = Color(hex: customBgHex) {
             return custom
         }
-        return theme.bg
+        return hostKind == .inApp ? theme.bg : .clear
     }
 
     private var keyColor: Color {

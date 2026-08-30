@@ -190,6 +190,8 @@ struct ShareVideoSheet: View {
 
     /// - Parameter reroll: 바꿔 말하기를 새로 뽑을 것인가. 다시 시도는 **같은 것으로**
     ///   다시 구워야 한다 - 실패했다고 화면이 딴 이야기로 바뀌면 고장으로 읽힌다.
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State`(`videoURL`·`player`…)를 고친다.
+    @MainActor
     private func make(reroll: Bool = false) async {
         failed = false
         player = nil

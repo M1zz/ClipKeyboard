@@ -132,25 +132,25 @@ class MenuBarManager: NSObject {
 
     @objc private func memoListAction() {
         print("📋 [MenuBar] 메모 목록 클릭")
-        NotificationCenter.default.post(name: .showMemoList, object: nil)
+        NotificationCenter.postOnMain(name: .showMemoList, object: nil)
         activateApp()
     }
 
     @objc private func newMemoAction() {
         print("📝 [MenuBar] 새 메모 클릭")
-        NotificationCenter.default.post(name: .showNewMemo, object: nil)
+        NotificationCenter.postOnMain(name: .showNewMemo, object: nil)
         activateApp()
     }
 
     @objc private func clipboardHistoryAction() {
         print("📋 [MenuBar] 클립보드 히스토리 클릭")
-        NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
+        NotificationCenter.postOnMain(name: .showClipboardHistory, object: nil)
         activateApp()
     }
 
     @objc private func settingsAction() {
         print("⚙️ [MenuBar] 설정 클릭")
-        NotificationCenter.default.post(name: .showSettings, object: nil)
+        NotificationCenter.postOnMain(name: .showSettings, object: nil)
         activateApp()
     }
 

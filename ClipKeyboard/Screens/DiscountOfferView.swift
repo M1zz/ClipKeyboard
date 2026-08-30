@@ -252,6 +252,8 @@ struct DiscountOfferView: View {
         return String(format: NSLocalizedString("%@ 로 평생 사용", comment: "Discount offer buy button with price"), price)
     }
 
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State` 를 고친다.
+    @MainActor
     private func buy() async {
         let success = await store.purchaseDiscountedPro(triggeredBy: analyticsSource)
         guard success else { return }

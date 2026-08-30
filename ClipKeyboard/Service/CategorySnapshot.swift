@@ -23,6 +23,8 @@ struct CategorySnapshot: Codable, Equatable {
     var categories: [String] = []
     /// [카테고리명: SF Symbol 이름]
     var icons: [String: String] = [:]
+    /// [카테고리명: 색 hex] - 사용자가 직접 고른 색만. 미지정 카테고리는 팔레트가 정한다.
+    var colors: [String: String] = [:]
     /// 사용자가 숨긴 탭 이름.
     var hiddenTabs: [String] = []
     /// 켜 둔 기본 제공 카테고리(BuiltInCategory.rawValue).
@@ -33,17 +35,20 @@ struct CategorySnapshot: Codable, Equatable {
     var updatedAt: Date = Date()
 
     var isEmpty: Bool {
-        categories.isEmpty && icons.isEmpty && hiddenTabs.isEmpty && enabledBuiltIns.isEmpty
+        categories.isEmpty && icons.isEmpty && colors.isEmpty
+            && hiddenTabs.isEmpty && enabledBuiltIns.isEmpty
     }
 
     enum CodingKeys: String, CodingKey {
-        case categories, icons, hiddenTabs, enabledBuiltIns, featureEnabled, updatedAt
+        case categories, icons, colors, hiddenTabs, enabledBuiltIns, featureEnabled, updatedAt
     }
 
-    init(categories: [String] = [], icons: [String: String] = [:], hiddenTabs: [String] = [],
-         enabledBuiltIns: [String] = [], featureEnabled: Bool = false, updatedAt: Date = Date()) {
+    init(categories: [String] = [], icons: [String: String] = [:], colors: [String: String] = [:],
+         hiddenTabs: [String] = [], enabledBuiltIns: [String] = [],
+         featureEnabled: Bool = false, updatedAt: Date = Date()) {
         self.categories = categories
         self.icons = icons
+        self.colors = colors
         self.hiddenTabs = hiddenTabs
         self.enabledBuiltIns = enabledBuiltIns
         self.featureEnabled = featureEnabled
@@ -55,6 +60,7 @@ struct CategorySnapshot: Codable, Equatable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         self.categories = try c.decodeIfPresent([String].self, forKey: .categories) ?? []
         self.icons = try c.decodeIfPresent([String: String].self, forKey: .icons) ?? [:]
+        self.colors = try c.decodeIfPresent([String: String].self, forKey: .colors) ?? [:]
         self.hiddenTabs = try c.decodeIfPresent([String].self, forKey: .hiddenTabs) ?? []
         self.enabledBuiltIns = try c.decodeIfPresent([String].self, forKey: .enabledBuiltIns) ?? []
         self.featureEnabled = try c.decodeIfPresent(Bool.self, forKey: .featureEnabled) ?? false
@@ -70,6 +76,7 @@ enum CategorySnapshotStore {
     //    한 글자만 달라도 조용히 빈 값이 되어 "복원했는데 카테고리가 없다"가 반복된다.
     static let categoriesKey = "userDefinedCategories_v1"
     static let iconsKey = "userCategoryIcons_v1"
+    static let colorsKey = "userCategoryColors_v1"
     static let hiddenTabsKey = "hiddenCategoryTabs_v1"
     static let enabledBuiltInsKey = "enabledBuiltInCategories_v1"
     static let featureEnabledKey = "category.feature.enabled.v1"
@@ -120,6 +127,7 @@ enum CategorySnapshotStore {
         //       올리는 자리에서 풀어야 한다(MemoSyncEngine.makeCategoryRecord).
 
         snapshot.icons = snapshot.icons.filter { usedNames.contains($0.key) }
+        snapshot.colors = snapshot.colors.filter { usedNames.contains($0.key) }
         // ⚠️ 즐겨찾기 숨김은 카테고리 이름이 아니라 센티널이라 `usedNames` 에 절대 걸리지 않는다.
         //    그냥 거르면 "즐겨찾기 탭을 숨김" 설정이 기기 간에 영영 넘어가지 않는다.
         snapshot.hiddenTabs = snapshot.hiddenTabs.filter {
@@ -150,8 +158,9 @@ enum CategorySnapshotStore {
             merged.categories.append(name)
         }
 
-        // 아이콘은 이 기기 것이 이긴다. 원격에만 있는 것은 그대로 데려온다.
+        // 아이콘·색은 이 기기 것이 이긴다. 원격에만 있는 것은 그대로 데려온다.
         merged.icons = remote.icons.merging(local.icons) { _, mine in mine }
+        merged.colors = remote.colors.merging(local.colors) { _, mine in mine }
 
         var seenBuiltIns = Set(local.enabledBuiltIns)
         for name in remote.enabledBuiltIns where seenBuiltIns.insert(name).inserted {
@@ -168,6 +177,7 @@ enum CategorySnapshotStore {
         return CategorySnapshot(
             categories: d.stringArray(forKey: categoriesKey) ?? [],
             icons: (d.dictionary(forKey: iconsKey) as? [String: String]) ?? [:],
+            colors: (d.dictionary(forKey: colorsKey) as? [String: String]) ?? [:],
             hiddenTabs: d.stringArray(forKey: hiddenTabsKey) ?? [],
             enabledBuiltIns: d.stringArray(forKey: enabledBuiltInsKey) ?? [],
             featureEnabled: d.bool(forKey: featureEnabledKey)
@@ -178,42 +188,56 @@ enum CategorySnapshotStore {
     ///
     /// ⚠️ **비어 있는 스냅샷으로 기존 설정을 지우지 않는다.** 복원 데이터에 카테고리가
     ///    없다고 해서 이미 잘 쓰고 있던 카테고리를 날리면 그게 더 큰 사고다.
-    /// - Parameter mergeStrategy: `.replace` 는 순서까지 스냅샷 기준으로, `.merge` 는
-    ///   기존에 없는 것만 뒤에 덧붙인다(동기화 기본값).
+    ///
+    /// - `.replace` (백업 복원): **그 시점 상태로 되돌린다.** 목록·아이콘·색·숨김·기본 제공까지
+    ///   스냅샷이 결정한다. 백업에 숨긴 탭이 없었으면 지금도 없어야 한다. 합집합으로 두면
+    ///   "되돌렸는데 지운 카테고리가 되살아나 있다"가 되어 복원이 아니게 된다.
+    /// - `.merge` (동기화 기본값): **더하기만 한다.** 이 기기에만 있는 것을 다른 기기가
+    ///   지우면 안 되기 때문이다.
     static func apply(_ snapshot: CategorySnapshot, strategy: MergeStrategy = .merge) {
         guard let d = defaults, !snapshot.isEmpty else { return }
 
         switch strategy {
         case .replace:
             d.set(snapshot.categories, forKey: categoriesKey)
+            d.set(snapshot.icons, forKey: iconsKey)
+            d.set(snapshot.colors, forKey: colorsKey)
+            d.set(snapshot.hiddenTabs, forKey: hiddenTabsKey)
+            d.set(snapshot.enabledBuiltIns, forKey: enabledBuiltInsKey)
+
         case .merge:
             var merged = d.stringArray(forKey: categoriesKey) ?? []
             for name in snapshot.categories where !merged.contains(name) {
                 merged.append(name)
             }
             d.set(merged, forKey: categoriesKey)
+
+            // 아이콘·색·숨김은 합집합 - 한쪽에만 있는 설정이 사라지지 않게.
+            var icons = (d.dictionary(forKey: iconsKey) as? [String: String]) ?? [:]
+            for (name, symbol) in snapshot.icons where icons[name] == nil { icons[name] = symbol }
+            if !icons.isEmpty { d.set(icons, forKey: iconsKey) }
+
+            var colors = (d.dictionary(forKey: colorsKey) as? [String: String]) ?? [:]
+            for (name, hex) in snapshot.colors where colors[name] == nil { colors[name] = hex }
+            if !colors.isEmpty { d.set(colors, forKey: colorsKey) }
+
+            if !snapshot.hiddenTabs.isEmpty {
+                let hidden = Set(d.stringArray(forKey: hiddenTabsKey) ?? []).union(snapshot.hiddenTabs)
+                d.set(Array(hidden), forKey: hiddenTabsKey)
+            }
+            if !snapshot.enabledBuiltIns.isEmpty {
+                let builtIns = Set(d.stringArray(forKey: enabledBuiltInsKey) ?? []).union(snapshot.enabledBuiltIns)
+                d.set(Array(builtIns), forKey: enabledBuiltInsKey)
+            }
         }
 
-        // 아이콘·숨김은 합집합 - 한쪽에만 있는 설정이 사라지지 않게.
-        var icons = (d.dictionary(forKey: iconsKey) as? [String: String]) ?? [:]
-        for (name, symbol) in snapshot.icons where icons[name] == nil { icons[name] = symbol }
-        if !icons.isEmpty { d.set(icons, forKey: iconsKey) }
-
-        if !snapshot.hiddenTabs.isEmpty {
-            let hidden = Set(d.stringArray(forKey: hiddenTabsKey) ?? []).union(snapshot.hiddenTabs)
-            d.set(Array(hidden), forKey: hiddenTabsKey)
-        }
-        if !snapshot.enabledBuiltIns.isEmpty {
-            let builtIns = Set(d.stringArray(forKey: enabledBuiltInsKey) ?? []).union(snapshot.enabledBuiltIns)
-            d.set(Array(builtIns), forKey: enabledBuiltInsKey)
-        }
         // 카테고리가 하나라도 생기면 기능은 켜 준다 - 복원했는데 기능이 꺼져 있어
         // 탭이 안 보이면 사용자는 "복원 실패"로 받아들인다.
         if snapshot.featureEnabled || !snapshot.categories.isEmpty {
             d.set(true, forKey: featureEnabledKey)
         }
 
-        AppLog.info(.store, "🗂 [CategorySnapshot.apply] 카테고리 \(snapshot.categories.count)개 적용(\(strategy))")
+        AppLog.info(.store, "🗂 [CategorySnapshot.apply] 카테고리 \(snapshot.categories.count)개 · 아이콘 \(snapshot.icons.count) · 색 \(snapshot.colors.count) 적용(\(strategy))")
     }
 
     enum MergeStrategy: CustomStringConvertible {

@@ -186,7 +186,7 @@ struct DidYouKnowListView: View {
                                opened = nil
                                // 시트가 내려간 뒤에 데려간다 - 겹치면 둘 다 제대로 안 뜬다.
                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                   NotificationCenter.default.post(name: .didYouKnowAction,
+                                   NotificationCenter.postOnMain(name: .didYouKnowAction,
                                                                    object: action)
                                }
                            },

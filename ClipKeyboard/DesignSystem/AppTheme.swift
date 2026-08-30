@@ -91,7 +91,7 @@ enum AppAccent: String, CaseIterable, Identifiable {
     /// 고른 값을 적어 둔다 - 앱과 키보드가 같이 본다.
     static func select(_ accent: AppAccent) {
         AppGroup.defaults?.set(accent.rawValue, forKey: DefaultsKey.appAccent)
-        NotificationCenter.default.post(name: .appAccentChanged, object: nil)
+        NotificationCenter.postOnMain(name: .appAccentChanged, object: nil)
         print("🎨 [AppAccent] 키컬러 \(accent.rawValue)")
     }
 

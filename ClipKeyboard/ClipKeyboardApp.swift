@@ -497,25 +497,25 @@ struct ClipKeyboardApp: App {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             switch action {
             case .openSettings:
-                NotificationCenter.default.post(name: .showSettings, object: nil)
+                NotificationCenter.postOnMain(name: .showSettings, object: nil)
             case .openStage:
-                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                NotificationCenter.postOnMain(name: .showMemoList, object: nil)
             case .openBackup:
                 showCloudBackupSheet = true
             case .openList:
-                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                NotificationCenter.postOnMain(name: .showMemoList, object: nil)
             case .openQuickNoteInbox:
-                NotificationCenter.default.post(name: .openQuickNoteInbox, object: nil)
+                NotificationCenter.postOnMain(name: .openQuickNoteInbox, object: nil)
             case .openBulkImport:
-                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                NotificationCenter.postOnMain(name: .showMemoList, object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    NotificationCenter.default.post(name: .openBulkImport, object: nil)
+                    NotificationCenter.postOnMain(name: .openBulkImport, object: nil)
                 }
             case .openShortcutMart:
                 // 목록으로 먼저 보내고 마트를 연다 - 마트는 목록이 들고 있는 시트다.
-                NotificationCenter.default.post(name: .showMemoList, object: nil)
+                NotificationCenter.postOnMain(name: .showMemoList, object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    NotificationCenter.default.post(name: .openShortcutMart, object: nil)
+                    NotificationCenter.postOnMain(name: .openShortcutMart, object: nil)
                 }
             }
         }
@@ -674,7 +674,7 @@ struct ClipKeyboardApp: App {
             print("✅ [APP INIT] 샘플 \(result.memos.count)개 + 카테고리 \(result.categories.count)개 시드 (persona=\(persona.rawValue))")
             // 시딩 후 리스트가 카테고리/메모를 다시 읽도록 알림 (신규 설치·체험 수락 공통)
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
+                NotificationCenter.postOnMain(name: .demoSamplesInserted, object: nil)
             }
             return true
         } catch {
@@ -1263,7 +1263,7 @@ struct ClipKeyboardApp: App {
                             // ⚠️ 5.0 의 목적지는 **사용 기록**이다. 이번 안내에서 가장 크게
                             //    달라진 것이 거기 있고, 무엇보다 그 화면은 "당신이 이만큼
                             //    아꼈다"고 말해 준다. 새 단장을 알리는 자리의 끝으로 맞다.
-                            NotificationCenter.default.post(name: .openUsageTab, object: nil)
+                            NotificationCenter.postOnMain(name: .openUsageTab, object: nil)
                         }
                     )
                     .presentationDetents([.large])
@@ -1283,30 +1283,30 @@ struct ClipKeyboardApp: App {
             // 타 유틸(Raycast/Maccy/Alfred 등)과 충돌 가능성이 낮음.
             CommandMenu(NSLocalizedString("ClipKeyboard", comment: "App menu name")) {
                 Button(NSLocalizedString("Memo List", comment: "Menu: memo list")) {
-                    NotificationCenter.default.post(name: .showMemoList, object: nil)
+                    NotificationCenter.postOnMain(name: .showMemoList, object: nil)
                 }
                 .keyboardShortcut("m", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("New Memo", comment: "Menu: new memo")) {
-                    NotificationCenter.default.post(name: .showNewMemo, object: nil)
+                    NotificationCenter.postOnMain(name: .showNewMemo, object: nil)
                 }
                 .keyboardShortcut("n", modifiers: [.control, .shift])
 
                 Divider()
 
                 Button(NSLocalizedString("Clipboard History", comment: "Menu: clipboard history")) {
-                    NotificationCenter.default.post(name: .showClipboardHistory, object: nil)
+                    NotificationCenter.postOnMain(name: .showClipboardHistory, object: nil)
                 }
                 .keyboardShortcut("h", modifiers: [.control, .shift])
 
                 Button(NSLocalizedString("Paywall", comment: "Menu: paywall")) {
-                    NotificationCenter.default.post(name: .showPaywall, object: nil)
+                    NotificationCenter.postOnMain(name: .showPaywall, object: nil)
                 }
 
                 Divider()
 
                 Button(NSLocalizedString("Preferences…", comment: "Menu: preferences")) {
-                    NotificationCenter.default.post(name: .showSettings, object: nil)
+                    NotificationCenter.postOnMain(name: .showSettings, object: nil)
                 }
                 .keyboardShortcut(",", modifiers: [.command])
             }
@@ -1367,13 +1367,13 @@ struct ClipKeyboardApp: App {
             copyMemoToClipboard(memoId: memoId)
         } else if url.host == "paywall" {
             // 키보드 익스텐션에서 paywall 직행 요청 (v4.0)
-            NotificationCenter.default.post(name: .showPaywall, object: nil)
+            NotificationCenter.postOnMain(name: .showPaywall, object: nil)
         } else if url.host == "quicknote" {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어
             // 보류 플래그도 함께 켠다(리스트가 활성화/onAppear에서 소비, 소비 시 해제라 중복 없음).
             AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
-            NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
+            NotificationCenter.postOnMain(name: .openQuickNoteAdd, object: nil)
         }
     }
 
@@ -1766,12 +1766,19 @@ enum OffMainPublishDetector {
         })
     }
 
+    /// 화면이 보는 싱글톤은 **전부** 건다. 다섯 개만 걸어 두면 못 걸린 하나가 범인일 때
+    /// 또 헛짚는다 - 지난번이 그랬다.
+    @MainActor
     static func watchKnownStores() {
         watch(MemoStore.shared, "MemoStore")
         watch(CategoryStore.shared, "CategoryStore")
         watch(QuickNoteStore.shared, "QuickNoteStore")
+        watch(DraftStore.shared, "DraftStore")
         watch(ProStatusManager.shared, "ProStatusManager")
         watch(CloudKitBackupService.shared, "CloudKitBackupService")
+        watch(ComboExecutionService.shared, "ComboExecutionService")
+        watch(SuggestionManager.shared, "SuggestionManager")
+        watch(StoreManager.shared, "StoreManager")
     }
 }
 #endif

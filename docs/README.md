@@ -37,6 +37,8 @@
 
 - `LAUNCH_WATCHDOG_4_4_6.md` - 런치 중 워치독. `CKContainer(identifier:)` 가 메인에서 기다렸다
 - `HANG_PASTEBOARD_5_0_1.md` - 1.28초 멈춤. 클립보드를 메인에서 읽고 있었다 (원인 미확정)
+- `OFF_MAIN_PUBLISH_5_0_6.md` - 배경 발행 경고. 경고가 가리킨 줄은 범인이 아니었다
+- `KEYBOARD_SYSTEM_CHROME_5_0_6.md` - iOS 26 이 우리 뷰 밖에 그리는 지구본 줄. 높이·배경색이 어긋났다
 - `CRASH_REPORT_SCHEMA.md` - 앱이 모으는 크래시 기록의 형식
 
 ### [engineering/](engineering/)

@@ -305,6 +305,8 @@ class KeyboardViewController: UIInputViewController {
     /// SwiftUI KeyboardView를 화면 전체에 호스팅. 하단 UIKit 바 제거됨
     /// globe/space/backspace/return은 모두 SwiftUI 키보드 (특히 Type 탭) 안에 통합.
     private func setupHostingController() {
+        setupSystemBackdrop()
+
         let hostingVC = UIHostingController(rootView: keyboardView)
         self.hostingController = hostingVC
         addChild(hostingVC)
@@ -322,6 +324,30 @@ class KeyboardViewController: UIInputViewController {
             myKeyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             myKeyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             myKeyboardView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+
+    /// 시스템 키보드와 **같은 바탕**을 우리 판 뒤에 깐다.
+    ///
+    /// ⚠️ 왜 우리가 색을 칠하면 안 되나: iOS 26 은 우리 뷰 **바깥에** 지구본·받아쓰기 줄을
+    ///    직접 그린다. 그 줄의 바탕은 시스템 키보드 재질(반투명)이라 뒤에 있는 앱 색을
+    ///    받아 간다. 우리가 그 위쪽을 불투명한 회색으로 칠하면 두 바탕이 갈려 **이음매가
+    ///    한 줄 그어진 것처럼** 보인다. 카톡처럼 배경이 푸른 앱에서 특히 도드라졌다.
+    ///
+    /// `UIInputView(inputViewStyle: .keyboard)` 은 그 재질을 그대로 그려 주는 유일한 공개 API 다.
+    /// 이걸 맨 뒤에 깔고 SwiftUI 는 투명하게 두면, 우리 판과 시스템 줄이 한 장으로 이어진다.
+    ///
+    /// ⚠️ 사용자가 키보드 배경색을 직접 골랐으면 그 색이 이 위를 덮는다
+    ///    (`KeyboardView.backgroundColor`). 고른 사람의 선택이 우선이다.
+    private func setupSystemBackdrop() {
+        let backdrop = UIInputView(frame: .zero, inputViewStyle: .keyboard)
+        backdrop.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(backdrop, at: 0)
+        NSLayoutConstraint.activate([
+            backdrop.topAnchor.constraint(equalTo: view.topAnchor),
+            backdrop.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backdrop.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backdrop.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
@@ -362,7 +388,7 @@ class KeyboardViewController: UIInputViewController {
 
         if !customPlaceholders.isEmpty {
             print("✅ 템플릿 입력 오버레이 표시")
-            NotificationCenter.default.post(
+            NotificationCenter.postOnMain(
                 name: Notification.Name.showTemplateInput,
                 object: nil,
                 userInfo: ["text": text, "placeholders": customPlaceholders, "memoId": memoId]
@@ -578,6 +604,7 @@ class KeyboardViewController: UIInputViewController {
         KeyboardHaptics.prepare()
     }
 
+
     override func textWillChange(_ textInput: UITextInput?) {
 
     }
@@ -728,7 +755,7 @@ class KeyboardViewController: UIInputViewController {
                 // 전체 접근이 없으면 클립보드를 못 읽는다. 조용히 빈칸을 넣으면
                 // 사용자는 "왜 아무것도 안 들어왔지"만 알게 되므로 이유를 알려 준다.
                 print("⚠️ [processTemplateVariables] 전체 접근 꺼짐 - {clipboard} 치환 불가")
-                NotificationCenter.default.post(name: .needsFullAccess, object: nil)
+                NotificationCenter.postOnMain(name: .needsFullAccess, object: nil)
             }
         }
         // 커서 토큰은 남긴다 - 바로 아래 insertProcessedText가 위치 계산에 쓴다.
@@ -796,7 +823,7 @@ class KeyboardViewController: UIInputViewController {
         if usedLearned {
             caretWatch = nil
             if CursorMemory.markNoticedIfFirstTime(for: memoId) {
-                NotificationCenter.default.post(name: .cursorMemoryApplied,
+                NotificationCenter.postOnMain(name: .cursorMemoryApplied,
                                                 object: nil,
                                                 userInfo: ["memoId": memoId])
             }
@@ -896,7 +923,7 @@ class KeyboardViewController: UIInputViewController {
                                                    textLength: watch.insertedText.count) else { return }
 
         EditPattern.markAsked(for: watch.memoId)
-        NotificationCenter.default.post(name: .editPatternSuggestion,
+        NotificationCenter.postOnMain(name: .editPatternSuggestion,
                                         object: nil,
                                         userInfo: ["memoId": watch.memoId,
                                                    "suggestion": suggestion.rawValue])

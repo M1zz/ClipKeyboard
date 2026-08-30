@@ -166,7 +166,7 @@ struct ShortcutMartFillView: View {
                                                      sourceMemoTitle: memo.title)
             }
 
-            NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
+            NotificationCenter.postOnMain(name: .demoSamplesInserted, object: nil)
             #if os(iOS)
             HapticManager.shared.success()
             #endif

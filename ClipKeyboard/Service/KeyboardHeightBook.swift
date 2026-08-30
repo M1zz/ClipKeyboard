@@ -59,10 +59,67 @@ enum KeyboardHeightBook {
         return CGFloat(value)
     }
 
-    /// 익스텐션이 쓸 최종 높이. 잰 값이 있으면 그것, 없으면 어림값.
-    static func height(for size: CGSize) -> CGFloat {
+    /// 시스템 키보드가 화면에서 차지하는 **전체** 높이. 잰 값이 있으면 그것, 없으면 어림값.
+    static func totalHeight(for size: CGSize) -> CGFloat {
         measuredHeight(for: size) ?? fallbackHeight(for: size)
     }
+
+    /// 익스텐션이 입력 뷰에 걸 높이. **우리가 그리는 판만큼**이다.
+    ///
+    /// ⚠️ 전체 높이가 아니다. iOS 26 부터 시스템이 우리 뷰 **바깥에** 지구본·받아쓰기 줄을
+    ///    직접 그리기 때문에, 전체 높이를 그대로 요구하면 그 줄만큼 키보드가 더 높아진다
+    ///    (`systemChrome` 머리말 참고).
+    static func height(for size: CGSize) -> CGFloat {
+        let content = totalHeight(for: size) - systemChrome(for: size)
+        // 울타리: 상수가 빗나가도 **쓸 수 없는 키보드**가 되지는 않게 한다.
+        return max(content, minimumContentHeight)
+    }
+
+    /// 우리 판이 이보다 낮아지지는 않는다. 카테고리 줄 + 키 한 줄이 겨우 들어가는 높이.
+    static let minimumContentHeight: CGFloat = 150
+
+    // MARK: - 시스템이 우리 뷰 밖에 그리는 몫
+
+    /// iOS 26 부터 시스템이 **우리 뷰 바깥에** 그리는 높이.
+    ///
+    /// 무엇인가: 키보드 판 위쪽 여백과, 아래쪽 지구본·받아쓰기 줄(그리고 그 아래 홈 인디케이터
+    /// 자리)이다. 예전에는 지구본을 키보드가 직접 그렸는데, iOS 26 은 시스템이 그린다.
+    /// `needsInputModeSwitchKey` 가 false 로 오는 것이 그 증거다.
+    ///
+    /// ⚠️ **이 몫은 우리 뷰에 포함되지 않는다.** `safeAreaInsets` 로도 안 온다(전부 0 이다).
+    ///    그래서 전체 높이를 그대로 요구하면 딱 이만큼 키보드가 더 높아진다.
+    ///
+    /// 실측 (iPhone 17 Pro · iOS 26.0.1 · 세로, 사파리 주소창 위치로 잼):
+    ///
+    /// | 우리 뷰에 건 높이 | 키보드 전체 | 차이 |
+    /// | --- | --- | --- |
+    /// | 314.6 (예전 코드) | 399.7 | 85.1 |
+    /// | 268 (제약 없이 iOS 기본) | 353.0 | 85.0 |
+    /// | 시스템 키보드 | 311.0 | - |
+    ///
+    /// 85pt 의 내역은 위 여백 13 + 지구본·받아쓰기 줄 40 + 홈 인디케이터 34 이다.
+    /// 재는 방법은 `docs/postmortem/KEYBOARD_SYSTEM_CHROME_5_0_6.md` 에 적어 두었다.
+    ///
+    /// ⚠️ 가로·아이패드 값은 같은 방법으로 재서 넣은 것이다. 새 값이 필요하면 그 문서를 따를 것.
+    static func systemChrome(for size: CGSize) -> CGFloat {
+        guard systemDrawsKeyboardChrome else { return 0 }
+        let isLandscape = size.width > size.height
+        let isPad = min(size.width, size.height) >= 600
+        if isPad { return isLandscape ? padLandscapeChrome : padPortraitChrome }
+        return isLandscape ? phoneLandscapeChrome : phonePortraitChrome
+    }
+
+    /// 시스템이 지구본·받아쓰기 줄을 직접 그리는 OS 인가.
+    static var systemDrawsKeyboardChrome: Bool {
+        if #available(iOS 26.0, *) { return true }
+        return false
+    }
+
+    static let phonePortraitChrome: CGFloat = 85
+    /// 가로에서는 홈 인디케이터 자리가 21pt 로 줄어든다(세로 34pt).
+    static let phoneLandscapeChrome: CGFloat = 72
+    static let padPortraitChrome: CGFloat = 85
+    static let padLandscapeChrome: CGFloat = 85
 
     /// 잰 값이 없을 때의 어림. **정답이 아니라 첫 인상용 임시값**이다.
     ///

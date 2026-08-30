@@ -34,6 +34,15 @@ sh "$ROOT/scripts/check_main_thread_pasteboard.sh" || {
   echo "   (긴급 우회: git commit --no-verify)"
   exit 1
 }
+# 알림을 메인 밖에서 쏠 수 있는 코드가 들어오면 커밋 차단.
+# 배경에서 쏜 알림은 배경에서 화면을 고치게 만든다 (5.0.6 배경 발행 경고).
+sh "$ROOT/scripts/check_notification_main.sh" || {
+  echo ""
+  echo "❌ 커밋 차단: 알림을 메인 밖에서 쏘고 있습니다."
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+}
+
 # 긴 줄표(U+2014 / U+2013)가 들어오면 커밋 차단 - 저장소 전 범위 규칙(CLAUDE.md).
 sh "$ROOT/scripts/check_dashes.sh" --staged || {
   echo ""

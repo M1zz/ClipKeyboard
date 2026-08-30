@@ -441,7 +441,7 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
         }
 
         MemoSyncStatus.recordPull(count: remotes.count)
-        await MainActor.run { NotificationCenter.default.post(name: .dataRestored, object: nil) }
+        NotificationCenter.postOnMain(name: .dataRestored)
         log.info("applied remote: \(remotes.count) records → \(result.memos.count) local memos")
     }
 

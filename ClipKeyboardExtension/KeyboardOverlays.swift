@@ -316,7 +316,7 @@ struct TemplateInputOverlay: View {
         ]
         if let baseId = state.baseMemoId { userInfo["baseMemoId"] = baseId }
         if let templateId = state.templateId { userInfo["memoId"] = templateId }
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: Notification.Name.templateInputComplete,
             object: nil,
             userInfo: userInfo

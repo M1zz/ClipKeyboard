@@ -24,7 +24,7 @@ struct AddQuickNoteControlIntent: AppIntent {
         // 콜드 런치 대비 보류 플래그 + 이미 떠 있는 리스트 대비 알림, 양쪽 모두 건다.
         // (플래그는 ClipKeyboardList 가 onAppear/didBecomeActive 에서 소비하며 멱등)
         AppGroup.defaults?.set(true, forKey: DefaultsKey.pendingQuickNoteAdd)
-        NotificationCenter.default.post(name: .openQuickNoteAdd, object: nil)
+        NotificationCenter.postOnMain(name: .openQuickNoteAdd, object: nil)
         return .result()
     }
 }

@@ -212,6 +212,10 @@ struct CrashReportsView: View {
         }
     }
 
+    /// ⚠️ `@MainActor` 가 꼭 있어야 한다. `View` 는 몸(`body`)만 메인이고 이런 도우미 함수는
+    ///    격리가 없다. `await` 뒤에 이어지는 줄은 아무 스레드에서나 깨어나므로, 그 자리에서
+    ///    `@State` 를 고치면 배경에서 발행이 일어난다.
+    @MainActor
     private func load() async {
         isLoading = true
         errorMessage = nil
