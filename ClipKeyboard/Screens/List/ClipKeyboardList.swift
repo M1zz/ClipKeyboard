@@ -232,9 +232,6 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 세이프에어리어 무시 전 페이저의 상단 y(=네비바 하단). categoryContent에서 실측.
-    @State private var pageTopInset: CGFloat = 113
-
     /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 - 페이저(UIKit 셀) 안 스크롤은
     /// 네비바가 자동 추적하지 못하고, preference도 셀 경계에서 업데이트가 끊겨(실측)
     /// onScrollGeometryChange(iOS 18+)를 쓴다. iOS 17은 전환 없이 inlineLarge 유지.
@@ -412,84 +409,36 @@ struct ClipKeyboardList: View {
     }
 
     /// 카테고리 탭/단일 페이지 - 가장 깊은 단일 요소라 AnyView로 타입 소거.
-    /// GeometryReader: 세이프에어리어를 무시하기 전의 상단 오프셋(=네비바 하단)을 재서
-    /// 각 페이지 스크롤 콘텐츠의 시작 위치(contentMargins)로 쓴다.
+    ///
+    /// ⚠️ 예전에는 `GeometryReader` 로 네비바 하단 y 를 실측해 각 페이지의 여백으로 썼다.
+    ///    세이프에어리어를 스스로 거부한 대가였다. 그 측정이 흔들려 생긴 버그들의 뿌리라
+    ///    거부를 그만두고 측정도 걷어냈다(`pageContentTopMargin` 주석 참고).
     private var categoryContent: some View {
         AnyView(
-            GeometryReader { geo in
-                let minY = geo.frame(in: .global).minY
-                Group {
-                    // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
-                    if CategoryStore.shared.isFeatureEnabled {
-                        categoryTabView
-                    } else {
-                        tabPageView(for: .all)
-                    }
-                }
-                // 콘텐츠 시작점 = 확장(inlineLarge) 상태의 바 하단.
-                // - 유효 범위(60~160) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단.
-                //   상한을 200→160으로 좁힘 - .large→.inlineLarge 전환 중간의 과대값(~199)이
-                //   latch되면 그리드가 화면 중앙부터 시작하는 버그가 됨(실측: inlineLarge 바
-                //   하단은 100~130 언저리라 160이면 큰 글씨 설정까지 여유 있음).
-                // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
-                //
-                // ⚠️ **커지는 쪽으로는 절대 안 움직인다.** 이 버그의 실패 방식은 언제나
-                //    "너무 큼"이었다 - 큰 타이틀이 완전히 펼쳐진 순간의 값(150~160)이 latch되면
-                //    그리드가 화면 한복판에서 시작한다. 반대로 작아서 생기는 사고는 없었다
-                //    (바 하단에는 타이틀 쿠션이 넉넉해 몇 pt 붙어도 겹치지 않는다, 실측).
-                //    범위 가드만으로는 못 막는다 - 유효 범위 안의 값 중에서도 **가장 작은 것**이
-                //    우리가 원하는 상태(inlineLarge)의 바 하단이다.
-                .onChange(of: minY, initial: true) { _, v in
-                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 {
-                        pageTopInset = min(pageTopInset, v)
-                    }
-                }
-                // 정착 시점에 minY가 이미 최종값이면 위 onChange가 다시 안 불리므로 한 번 더 측정.
-                .onChange(of: titleBarSettled) { _, settled in
-                    if settled, !showsInlineNavTitle, minY > 60, minY < 160 {
-                        pageTopInset = min(pageTopInset, minY)
-                    }
-                }
-                // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 - 어떤 경로로든 오염된 값을
-                // 사용자가 맨 위로 돌아오는 순간 자가 치유한다.
-                .onChange(of: showsInlineNavTitle) { _, inline in
-                    if !inline, titleBarSettled, minY > 60, minY < 160 {
-                        pageTopInset = min(pageTopInset, minY)
-                    }
+            Group {
+                // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
+                if CategoryStore.shared.isFeatureEnabled {
+                    categoryTabView
+                } else {
+                    tabPageView(for: .all)
                 }
             }
         )
     }
 
-    /// 페이지 스크롤 콘텐츠의 상단 시작점 - 네비바 하단에서 10pt 끌어올려 타이틀과의
-    /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
-    /// 상한 150 클램프: 측정값이 어떤 경로로든 오염돼도(전환 중간값 latch 등)
-    /// 그리드가 화면 중앙부터 시작하는 최악의 표시는 막는다.
-    /// **스크롤 페이지의 위 여백 - 경로에 따라 다르다.**
+    /// 페이지 위 여백.
     ///
-    /// ⚠️ 여기에 두 가지 화면이 섞여 있었고, 둘의 사정이 **정반대**라 값 하나로는 못 맞춘다.
+    /// ⚠️ **네비바 아래로 내리는 일은 여기서 하지 않는다.** 시스템이 안전영역으로 이미 한다
+    ///    (페이저가 위쪽을 거부하지 않는다, `categoryTabView` 주석 참고).
+    ///    숨 쉴 간격은 페이지 안쪽이 이미 갖고 있다(`Color.clear` 8pt + 그리드 위 8pt).
     ///
-    ///  ① **카테고리 페이저(TabView)** - 시스템이 바 아래로 안 밀어 준다.
-    ///     우리가 잰 바 하단(100~130)을 그대로 줘야 한다. 안 주면 카드가 타이틀·툴바를 덮는다.
-    ///  ② **단일 페이지**(카테고리 기능이 꺼진 '전체' 한 장) - ScrollView 를 시스템이
-    ///     알아서 바 아래로 밀어 준다. 여기에 잰 값을 또 얹으면 여백이 **두 번** 들어가
-    ///     그리드가 화면 중앙쯤에서 시작한다(오래된 "그리드가 안 올라간다" 버그의 정체).
-    ///     실측: 0으로 두면 타이틀 아래 36pt 에 정확히 붙는다.
-    ///
-    /// 그래서 **어느 경로로 그려지는지**를 그대로 따라간다(categoryContent 의 분기와 같은 조건).
-    private var pageContentTopMargin: CGFloat {
-        CategoryStore.shared.isFeatureEnabled ? measuredBarBottomMargin : 8
-    }
+    ///    예전에는 바 하단을 직접 재서 60~130pt 를 얹었다. 언제 재느냐에 따라 값이 달랐고,
+    ///    페이저가 다시 지어지면 시스템 여백과 겹쳐 목록이 화면 한복판에서 시작했다.
+    ///    두 곳이 같은 일을 하던 것이 문제였다. 이제 한 곳만 정한다.
+    private var pageContentTopMargin: CGFloat { 0 }
 
-    /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
-    /// 경로에서만 쓴다. 상한 130: 측정이 오염돼도 최악(화면 중앙 시작)은 막는다.
-    private var measuredBarBottomMargin: CGFloat { min(max(pageTopInset - 10, 60), 130) }
-
-    /// **스크롤이 없는 페이지(빈 화면)의 위 여백.**
-    ///
-    /// 이쪽도 시스템이 안 밀어 준다 - ScrollView 가 아니라 그냥 VStack 이다.
-    /// 직접 재서 바 아래로 내려야 네비바에 글이 가려지지 않는다.
-    private var emptyPageTopMargin: CGFloat { measuredBarBottomMargin }
+    /// 스크롤이 없는 빈 화면도 같다. 시스템이 이미 바 아래로 내려 준다.
+    private var emptyPageTopMargin: CGFloat { 0 }
 
     private var screenBody: some View {
             ZStack {
@@ -2207,8 +2156,18 @@ struct ClipKeyboardList: View {
         }
         // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 - 페이저를 화면 위아래 끝까지 확장.
         // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
-        // 콘텐츠 시작 위치는 각 ScrollView의 contentMargins(.top, pageContentTopMargin)가 잡는다.
-        .ignoresSafeArea(.container, edges: .vertical)
+        // ⚠️ **바닥만 확장한다.** 위쪽은 시스템 안전영역을 그대로 존중한다.
+        //
+        //    예전에는 위아래를 모두 거부하고, 네비바 아래 여백을 손으로 재서
+        //    (`pageTopInset`) 콘텐츠에 얹었다. 처음 뜰 때는 맞았지만, 카테고리를 지워
+        //    아래 `.id` 가 바뀌면 페이저가 통째로 다시 지어지고 그때 이 거부가 다시 걸리지
+        //    않는다. 그러면 시스템 여백(네비바 높이) **위에** 잰 값이 한 번 더 얹혀
+        //    목록이 화면 한복판에서 시작한다.
+        //    "카테고리 관리에서 지우고 목록으로 오면 내려가 있다"가 그 모습이었다.
+        //
+        //    재는 값을 더 잘 재려고 고치는 대신 재는 일을 그만둔다. 위 여백을 아는 곳은
+        //    시스템 한 곳뿐이고, 다시 지어져도 흔들리지 않는다.
+        .ignoresSafeArea(.container, edges: .bottom)
         .overlay(alignment: .bottom) {
             if viewModel.allCategoryTabs.count > 1 {
                 SwipePageIndicator(
