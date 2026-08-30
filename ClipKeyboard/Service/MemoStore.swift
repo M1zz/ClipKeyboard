@@ -118,14 +118,20 @@ class MemoStore: ObservableObject {
     ///    받는 쪽마다 `receive(on:)` 을 붙이는 방법도 있지만, 받는 곳이 일곱이고
     ///    앞으로 더 는다. 쏘는 곳 한 군데를 고치면 전부 끝난다.
     ///
-    /// 이미 메인이면 그 자리에서 쏜다. 굳이 미루면 저장 직후의 순서가 흐트러진다.
+    /// ⚠️ **메인이어도 미룬다.** 조건 없이 `DispatchQueue.main.async` 하나만 쓴다.
+    ///
+    ///    처음에는 "이미 메인이면 그 자리에서 쏜다"로 두었다. 순서를 지키려던 것인데,
+    ///    그렇게 두면 받는 쪽이 **쏘는 쪽의 호출 스택 안에서 곧바로** 돈다.
+    ///    `memoDataChanged` 를 받으면 목록이 `loadMemos()` 를 부르고, 그 안에서
+    ///    빈 카테고리를 정규화하다 다시 저장하면 이 함수가 **다시** 불린다.
+    ///    저장 도중에 저장이 겹치는 재진입이라, 그 안에서 무엇이 발행되는지 따라가기 어렵다.
+    ///
+    ///    한 박자 미루면 그런 겹침이 없다. 받는 쪽은 언제나 **저장이 끝난 뒤** 깨끗한
+    ///    상태에서 읽는다. 늦어지는 것은 한 런루프이고, 받는 일은 화면을 다시 읽는 것뿐이라
+    ///    그 지연이 보이지 않는다.
     static func postDataChanged() {
-        if Thread.isMainThread {
+        DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
-        } else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
-            }
         }
     }
 
