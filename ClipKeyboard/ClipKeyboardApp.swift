@@ -145,6 +145,11 @@ struct ClipKeyboardApp: App {
             migrateComboModelIfNeeded()
         }
 
+        #if DEBUG
+        // 배경 발행 잡기 - 원인을 찾으면 지운다(`OffMainPublishDetector`).
+        OffMainPublishDetector.watchKnownStores()
+        #endif
+
         // 익명 사용 통계 → 공용 허브(FeedbackHub). 이벤트 훅을 먼저 꽂아야 이후 로그가 전달된다.
         // (클로저 대입뿐이라 여기서 죽을 일이 없다. 실제 전송은 첫 화면 뒤로 미룬다)
         AnalyticsService.eventSink = { UsageReportingService.record(event: $0) }
@@ -1731,3 +1736,42 @@ struct MemoSearchView: View {
         #endif
     }
 }
+
+#if DEBUG
+import Combine
+
+// MARK: - 배경 발행 잡기 (DEBUG 전용)
+
+/// "Publishing changes from background threads is not allowed" 의 **범인을 찍는다.**
+///
+/// 이 경고는 어느 줄에서 났는지를 잘 알려주지 않는다. Xcode 가 붙여 주는 파일·행은
+/// 발행을 촉발한 자리이지 발행한 자리가 아니라, 그 줄만 고쳐서는 안 사라진다
+/// (실제로 두 번 헛짚었다).
+///
+/// 그래서 감시 대상의 `objectWillChange` 를 듣고, 메인이 아닐 때 **호출 스택을 통째로**
+/// 찍는다. 그 스택 한 장이면 어느 경로인지 바로 나온다.
+///
+/// ⚠️ 원인을 찾으면 이 파일에서 통째로 지운다. 진단용 발판이지 기능이 아니다.
+enum OffMainPublishDetector {
+    nonisolated(unsafe) private static var bag: [AnyCancellable] = []
+
+    static func watch<O: ObservableObject>(_ object: O, _ name: String)
+    where O.ObjectWillChangePublisher == ObservableObjectPublisher {
+        bag.append(object.objectWillChange.sink { _ in
+            guard !Thread.isMainThread else { return }
+            let stack = Thread.callStackSymbols.dropFirst(2).prefix(14)
+                .map { "    " + $0 }
+                .joined(separator: "\n")
+            print("⚠️ [OFF-MAIN PUBLISH] \(name) 가 배경에서 발행했다\n\(stack)")
+        })
+    }
+
+    static func watchKnownStores() {
+        watch(MemoStore.shared, "MemoStore")
+        watch(CategoryStore.shared, "CategoryStore")
+        watch(QuickNoteStore.shared, "QuickNoteStore")
+        watch(ProStatusManager.shared, "ProStatusManager")
+        watch(CloudKitBackupService.shared, "CloudKitBackupService")
+    }
+}
+#endif
