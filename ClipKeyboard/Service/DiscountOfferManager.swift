@@ -48,7 +48,15 @@ enum DiscountOfferManager {
     /// ② 기회가 겨냥하는 개수 - **지금 이 사람의** 한도 한 칸 앞.
     /// ⚠️ 기본 한도가 아니라 `memoLimit` 을 본다. 칸을 산 사람(15개)에게 9개에서
     ///    "한 칸 남았다"고 말하면 거짓말이고, 정작 14개일 때는 아무 말도 안 하게 된다.
-    static var limitEdgeCount: Int { max(1, ProFeatureManager.memoLimit - 1) }
+    static var limitEdgeCount: Int { limitEdge(forMemoLimit: ProFeatureManager.memoLimit) }
+
+    /// 위 값의 순수한 규칙만 떼어 둔 것. 한도가 주어지면 겨냥할 개수는 이것 하나로 정해진다.
+    ///
+    /// 왜 나눠 두나: `limitEdgeCount` 는 App Group 에 남아 있는 Pro 권한·산 칸수를 읽는다.
+    /// 그래서 시험이 그 값을 그대로 보면 **주변에 남은 상태에 따라 통과했다 실패했다** 한다
+    /// (실제로 그랬다. 다른 시험이 키를 치워 줄 때만 초록이었다). 규칙 자체는 여기서
+    /// 상태 없이 확인하고, 상태가 필요한 곳은 인자로 받는다.
+    static func limitEdge(forMemoLimit limit: Int) -> Int { max(1, limit - 1) }
 
     /// ② 그 개수에 닿은 뒤 기다리는 날 수.
     static let waitDays = 7
@@ -137,8 +145,10 @@ enum DiscountOfferManager {
     ///
     /// ⚠️ 개수가 도로 줄었다고 지우지 않는다. 지우면 하나 지웠다 다시 만드는 것만으로
     ///    시계가 초기화돼, 오래 쓴 사람일수록 제안을 못 받는 거꾸로 된 규칙이 된다.
-    static func noteShortcutCount(_ count: Int) {
-        guard count >= limitEdgeCount else { return }
+    /// - Parameter edge: 겨냥하는 개수. 기본값은 지금 이 사람의 한도 한 칸 앞이다.
+    ///   시험에서만 직접 넘긴다(주변 상태에 흔들리지 않게).
+    static func noteShortcutCount(_ count: Int, edge: Int = limitEdgeCount) {
+        guard count >= edge else { return }
         guard reachedLimitEdgeAt == nil else { return }
         defaults?.set(Date().timeIntervalSince1970, forKey: DefaultsKey.discountOfferReachedLimitEdgeAt)
         print("📌 [DiscountOfferManager] 한도 한 칸 앞(\(count)개) 도달 기록")
