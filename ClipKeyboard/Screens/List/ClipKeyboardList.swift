@@ -304,20 +304,17 @@ struct ClipKeyboardList: View {
             VStack(spacing: 0) {
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
-                if showPasteTip {
+                DismissibleRow(isShowing: showPasteTip) {
                     PastePermissionTipBanner(
                         onOpenSettings: { openAppSettings() },
                         onDismiss: {
                             UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
-                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
-                                showPasteTip = false
-                            }
+                            showPasteTip = false
                         }
                     )
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 // 빠른 메모(Inbox) 배너 - 분류 대기 항목이 있으면 상단에 즉시 노출.
@@ -329,7 +326,7 @@ struct ClipKeyboardList: View {
                 }
 
                 // 가치 순간 Pro 넛지 - 무료 유저가 가치를 느낀 시점에 1회 노출.
-                if shouldShowProValueNudge {
+                DismissibleRow(isShowing: shouldShowProValueNudge) {
                     ProValueNudgeBanner(
                         message: proValueNudgeMessage,
                         onTap: {
@@ -339,13 +336,12 @@ struct ClipKeyboardList: View {
                         },
                         onDismiss: {
                             UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
-                            withAnimation { proNudgeDismissed = true }
+                            proNudgeDismissed = true
                         }
                     )
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
                 }
 

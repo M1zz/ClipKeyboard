@@ -25,17 +25,50 @@ import SwiftUI
 ///
 /// 자리가 위-오른쪽인 이유는 `TipView` 의 닫기 단추가 거기 있기 때문이다.
 /// 오른쪽에서 왼쪽으로 읽는 언어에서는 `.topTrailing` 이 알아서 반대편이 된다.
+extension AnyTransition {
+    /// 닫기(X) 자리에서 늘어났다 줄어드는 몸짓.
+    ///
+    /// 팁과 배너가 **같은 몸짓**을 쓴다. 둘 다 "줄 하나가 얹혔다가 사용자가 X 를 눌러
+    /// 걷어내는 것" 이라, 사라지는 모양이 다르면 같은 종류로 안 읽힌다.
+    ///
+    /// 배율이 0 이 아니라 0.02 인 것은, 0 에서는 크기가 없어 어느 자리에서 줄어드는지가
+    /// 안 보이기 때문이다. 오른쪽에서 왼쪽으로 읽는 언어에서는 `.topTrailing` 이
+    /// 알아서 반대편이 된다.
+    static var closeButtonAnchored: AnyTransition {
+        .scale(scale: 0.02, anchor: .topTrailing).combined(with: .opacity)
+    }
+}
+
+/// 닫을 수 있는 줄(배너)을 감싼다. 사라질 때 X 자리로 줄어든다.
+///
+/// ⚠️ **빈 `VStack` 을 그릇으로 둔다.** `Group` 이나 맨 `if` 로 두면 안 된다.
+///    이 줄들은 페이지의 `LazyVStack` 안에 사는데, 조건이 거짓이 되는 순간 게으른 스택이
+///    행을 그냥 걷어내 버려서 전이가 걸릴 자리가 없다. 크기 0 인 그릇이 남아 있어야
+///    SwiftUI 가 "여기 있던 것이 사라진다"를 알아본다.
+///
+/// ⚠️ 애니메이션을 `withAnimation` 이 아니라 `.animation(_:value:)` 으로 건다.
+///    목록 화면은 처음 1초 동안 암묵 애니메이션을 통째로 끄는데(`settling`),
+///    `withAnimation` 은 그 규칙에 걸려 죽는다. 닫는 것은 사용자가 X 를 누른 결과라
+///    언제나 보여야 한다.
+struct DismissibleRow<Content: View>: View {
+    let isShowing: Bool
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if isShowing {
+                content().transition(.closeButtonAnchored)
+            }
+        }
+        .animation(.spring(response: 0.34, dampingFraction: 0.82), value: isShowing)
+    }
+}
+
 struct AnimatedTip<T: Tip, Content: View>: View {
     let tip: T
     @ViewBuilder let content: () -> Content
 
     @State private var isShowing = false
-
-    /// 늘어나고 줄어드는 정도. 0 이 아니라 아주 작은 값인 이유는, 0 에서는 크기가
-    /// 없어 어느 자리에서 자라는지가 안 보이기 때문이다.
-    private static var transition: AnyTransition {
-        .scale(scale: 0.02, anchor: .topTrailing).combined(with: .opacity)
-    }
 
     var body: some View {
         // ⚠️ `Group` 을 쓰면 안 된다. `Group` 은 모디파이어를 **자식마다** 붙이는데,
@@ -46,7 +79,7 @@ struct AnimatedTip<T: Tip, Content: View>: View {
         //    레이아웃에 아무 자국도 남기지 않는다.
         VStack(spacing: 0) {
             if isShowing {
-                content().transition(Self.transition)
+                content().transition(.closeButtonAnchored)
             }
         }
         .animation(.spring(response: 0.34, dampingFraction: 0.82), value: isShowing)

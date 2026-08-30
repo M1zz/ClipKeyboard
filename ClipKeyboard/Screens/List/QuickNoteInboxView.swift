@@ -202,16 +202,16 @@ struct QuickNoteInboxBannerContainer: View {
     }
 
     var body: some View {
-        if store.count > dismissCount {
+        // 게으른 스택 안이라 맨 `if` 로 두면 전이가 안 걸린다(`DismissibleRow` 주석 참고).
+        DismissibleRow(isShowing: store.count > dismissCount) {
             QuickNoteInboxBanner(
                 count: store.count,
                 onTap: onOpen,
-                onDismiss: { withAnimation { dismissCount = store.count } }
+                onDismiss: { dismissCount = store.count }
             )
             .padding(.horizontal, 16)
             .padding(.top, 8)
             .padding(.bottom, 4)
-            .transition(.move(edge: .top).combined(with: .opacity))
         }
     }
 }
