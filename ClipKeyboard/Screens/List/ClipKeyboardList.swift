@@ -2643,9 +2643,14 @@ struct ClipKeyboardList: View {
     /// 두 손가락으로 톡 치면 여기로 온다.
     ///
     /// ⚠️ 이 몸짓은 **눈에 보이지 않는다.** 아는 사람만 쓰는 지름길이고, 같은 문이
-    ///    꾹 누르기 판에도 있다(`onSelectMultiple`). 보이스오버가 켜져 있으면 두 손가락
-    ///    탭을 시스템이 먼저 가져가므로 여기까지 오지 않는다.
+    ///    꾹 누르기 판에도 있다(`onSelectMultiple`).
+    ///
+    /// ⛔️ 보이스오버가 켜져 있으면 오지 않는다. 인식기가 아예 꺼져 있고
+    ///    (`TwoFingerTapAvailability`), 여기서 한 번 더 확인한다.
     private func enterSelectionFromTwoFingerTap() {
+        #if os(iOS)
+        guard TwoFingerTapAvailability.isAllowedNow else { return }
+        #endif
         guard !viewModel.isSelectionMode, !viewModel.isReorderMode else { return }
         HapticManager.shared.medium()
         viewModel.enterSelectionMode()

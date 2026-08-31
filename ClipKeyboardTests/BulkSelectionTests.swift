@@ -243,6 +243,31 @@ final class BulkSelectionTests: XCTestCase {
                        "이 화면에 남아 이어서 고를 수 있어야 한다")
     }
 
+    // MARK: - 보이스오버가 켜져 있으면 두 손가락 탭은 열리지 않는다
+
+    /// 보이스오버에서 두 손가락 탭은 이미 시스템의 것이다(읽기를 멈추고 다시 잇는 몸짓).
+    /// 그 위에 우리 것을 얹으면 말을 멈추려 할 때마다 엉뚱한 화면이 열린다.
+    /// 우리 지름길 하나 때문에 그 사람이 앱을 쓰는 방식 전체가 어긋나므로 우리가 물러난다.
+    func test_보이스오버가_켜져_있으면_두손가락탭은_열리지_않는다() {
+        XCTAssertFalse(TwoFingerTapAvailability.isAllowed(voiceOverRunning: true))
+    }
+
+    func test_보이스오버가_꺼져_있으면_두손가락탭이_열린다() {
+        XCTAssertTrue(TwoFingerTapAvailability.isAllowed(voiceOverRunning: false))
+    }
+
+    /// 물러나도 길이 끊기면 안 된다 - 꾹 누르기 판에서 들어오는 문은 그대로 살아 있어야 한다.
+    func test_보이스오버여도_꾹눌러_들어오는_길은_그대로다() {
+        let a = memo("계좌번호")
+        seed(categories: [], memos: [a])
+
+        viewModel.enterSelectionMode(preselect: a.id)
+
+        XCTAssertTrue(viewModel.isSelectionMode)
+        XCTAssertEqual(viewModel.selectedMemoIDs, [a.id],
+                       "몸짓을 막는 것이지 기능을 막는 것이 아니다")
+    }
+
     // MARK: - ⑥ 닫으면 선택이 남지 않는다
 
     func test_닫으면_고른_것이_남지_않는다() {
