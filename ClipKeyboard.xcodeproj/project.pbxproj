@@ -634,13 +634,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03A5B4F86C963882100BF9AF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		178C7665A7A4609E05128882 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -774,7 +767,6 @@
 				E35F7AD602EB409DA9ED0332 /* Data */,
 				1B870C9374FF4EF98817D4B5 /* Domain */,
 				A7C39DB74D62055606CA7077 /* PrivacyInfo.xcprivacy */,
-				03A5B4F86C963882100BF9AF /* Resources */,
 			);
 			path = ClipKeyboard;
 			sourceTree = "<group>";

@@ -253,11 +253,6 @@ struct AppTheme: Equatable {
     let radiusLg: CGFloat
     let radiusXl: CGFloat
 
-    // Typography
-    /// display 용 폰트 이름 (Fraunces for Paper, Inter/system for Dusk).
-    let displayFontName: String?
-    /// 본문/UI 폰트 이름 (system if nil).
-    let bodyFontName: String?
 
     // MARK: Static instances
 
@@ -285,8 +280,6 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 155,
         radiusXs: 6, radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
-        displayFontName: nil,   // Inter → system fallback
-        bodyFontName: nil
     )
 
     static let duskDark = AppTheme(
@@ -313,8 +306,6 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 155,
         radiusXs: 6, radiusSm: 10, radiusMd: 14, radiusLg: 20, radiusXl: 28,
-        displayFontName: nil,
-        bodyFontName: nil
     )
 
     /// ⚠️ **따뜻한 기를 걷어냈다(5.0.3).** 예전 값은 배경도 글자도 조금씩 노랑·주황이
@@ -358,8 +349,6 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
-        displayFontName: "Fraunces-Bold",
-        bodyFontName: "InstrumentSans-Regular"
     )
 
     static let paperDark = AppTheme(
@@ -386,8 +375,6 @@ struct AppTheme: Equatable {
         ],
         heroGradientAngle: 160,
         radiusXs: 6, radiusSm: 10, radiusMd: 18, radiusLg: 24, radiusXl: 32,
-        displayFontName: "Fraunces-Bold",
-        bodyFontName: "InstrumentSans-Regular"
     )
 
     /// 선택된 kind + mode + **고른 키컬러**에 따라 테마를 만든다.
@@ -423,8 +410,7 @@ struct AppTheme: Equatable {
             divider: divider,
             heroGradientStops: heroGradientStops, heroGradientAngle: heroGradientAngle,
             radiusXs: radiusXs, radiusSm: radiusSm, radiusMd: radiusMd,
-            radiusLg: radiusLg, radiusXl: radiusXl,
-            displayFontName: displayFontName, bodyFontName: bodyFontName
+            radiusLg: radiusLg, radiusXl: radiusXl
         )
     }
 
@@ -463,8 +449,7 @@ struct AppTheme: Equatable {
             divider: isDark ? Color.white.opacity(0.3) : Color.black.opacity(0.32),
             heroGradientStops: heroGradientStops, heroGradientAngle: heroGradientAngle,
             radiusXs: radiusXs, radiusSm: radiusSm, radiusMd: radiusMd,
-            radiusLg: radiusLg, radiusXl: radiusXl,
-            displayFontName: displayFontName, bodyFontName: bodyFontName
+            radiusLg: radiusLg, radiusXl: radiusXl
         )
     }
 
@@ -483,64 +468,15 @@ struct AppTheme: Equatable {
 
     // MARK: Font helpers
 
-    func displayFont(size: CGFloat, weight: Font.Weight = .bold) -> Font {
-        if let name = displayFontName {
-            return Font.custom(name, size: size, relativeTo: .title)
-        }
-        return Font.system(Font.TextStyle.nearest(to: size), weight: weight)
-    }
-
-    func bodyFont(size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        if let name = bodyFontName {
-            return Font.custom(name, size: size, relativeTo: .body)
-        }
-        return Font.system(Font.TextStyle.nearest(to: size), weight: weight)
-    }
-
     /// Dynamic Type 시맨틱 스타일 기반 폰트.
-    /// 숫자 크기 대신 TextStyle을 직접 지정해 시스템 접근성 크기에 완전히 연동.
+    /// 숫자 크기 대신 TextStyle을 직접 지정해 시스템 접근성 크기에 완전히 연동한다.
+    ///
+    /// ⚠️ 예전에는 테마마다 글꼴 이름(Fraunces · InstrumentSans)을 들고 있었다. 그런데
+    ///    그 글꼴 파일들이 **앱 번들에 들어간 적이 없어서**(Info.plist 의 UIAppFonts 에만
+    ///    적혀 있었다) 언제나 시스템 글꼴로 되돌아왔다. 있지도 않은 갈래를 남겨 두면
+    ///    다음 사람이 "종이 테마는 세리프"라고 읽고 그 전제 위에 무언가를 쌓는다.
     func bodyFont(style: Font.TextStyle, weight: Font.Weight = .regular) -> Font {
-        if let name = bodyFontName {
-            let baseSize = style.basePointSize
-            return Font.custom(name, size: baseSize, relativeTo: style)
-        }
-        return Font.system(style, weight: weight)
-    }
-}
-
-extension Font.TextStyle {
-    /// 포인트 크기에서 가장 가까운 TextStyle을 반환 - Dynamic Type 스케일링에 사용.
-    static func nearest(to size: CGFloat) -> Font.TextStyle {
-        switch size {
-        case ..<11.5: return .caption2
-        case ..<12.5: return .caption
-        case ..<14:   return .footnote
-        case ..<15.5: return .subheadline
-        case ..<16.5: return .callout
-        case ..<18.5: return .body
-        case ..<21:   return .title3
-        case ..<25:   return .title2
-        case ..<31:   return .title
-        default:      return .largeTitle
-        }
-    }
-
-    /// HIG 기준 각 텍스트 스타일의 기본 포인트 크기.
-    var basePointSize: CGFloat {
-        switch self {
-        case .largeTitle: return 34
-        case .title:      return 28
-        case .title2:     return 22
-        case .title3:     return 20
-        case .headline:   return 17
-        case .body:       return 17
-        case .callout:    return 16
-        case .subheadline: return 15
-        case .footnote:   return 13
-        case .caption:    return 12
-        case .caption2:   return 11
-        @unknown default: return 17
-        }
+        Font.system(style, weight: weight)
     }
 }
 

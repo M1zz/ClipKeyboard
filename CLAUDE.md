@@ -72,8 +72,7 @@ ClipKeyboard/
 │   ├── Manager/                 # 시스템 관리 (생체인증, 단축키, 메뉴바)
 │   ├── Domain/  Data/           # 메모 저장 한 갈래만 계층으로 나눠 둔 것
 │   ├── DesignSystem/            # 테마·카드 표면·공용 부품
-│   ├── Extensions/              # Swift 확장
-│   └── Resources/               # 폰트 등
+│   └── Extensions/              # Swift 확장
 ├── ClipKeyboardExtension/               # iOS 키보드 익스텐션
 │   ├── KeyboardViewController.swift
 │   └── KeyboardView.swift

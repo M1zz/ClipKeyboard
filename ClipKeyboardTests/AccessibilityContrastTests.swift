@@ -86,12 +86,18 @@ final class AccessibilityContrastTests: XCTestCase {
 
     func test_모양과_글꼴은_그대로다() {
         // 대비는 색의 일이다. 모서리나 글꼴이 같이 바뀌면 그건 다른 테마다.
+        //
+        // ⚠️ 글꼴 이름은 더 이상 테마가 들고 있지 않다. 예전에는 종이 테마가
+        //    Fraunces·InstrumentSans 를 들고 있었는데, 그 파일들이 앱 번들에 들어간
+        //    적이 없어 언제나 시스템 글꼴로 되돌아왔다. 그래서 이름 대신 **실제로
+        //    돌려주는 글꼴**을 견준다 - 이름이 아니라 결과가 같아야 하는 것이 약속이다.
         for (kind, dark) in themes {
             let base = AppTheme.resolve(kind: kind, isDark: dark, increasedContrast: false)
             let high = AppTheme.resolve(kind: kind, isDark: dark, increasedContrast: true)
             XCTAssertEqual(base.radiusMd, high.radiusMd)
-            XCTAssertEqual(base.displayFontName, high.displayFontName)
-            XCTAssertEqual(base.bodyFontName, high.bodyFontName)
+            XCTAssertEqual(base.bodyFont(style: .body), high.bodyFont(style: .body))
+            XCTAssertEqual(base.bodyFont(style: .subheadline, weight: .semibold),
+                           high.bodyFont(style: .subheadline, weight: .semibold))
             XCTAssertEqual(base.kind, high.kind)
             XCTAssertEqual(base.isDark, high.isDark)
         }
