@@ -270,10 +270,26 @@ class KeyboardViewController: UIInputViewController {
         heightConstraint = constraint
     }
 
-    /// 지금 화면에서 시스템 키보드가 갖는 높이. 앱이 재 둔 값이 있으면 그것을 쓴다.
+    /// 지금 화면에서 우리 판이 가질 높이. 앱이 재 둔 시스템 키보드 값이 바탕이 된다.
     /// (없으면 화면 비율로 어림한다. `KeyboardHeightBook` 머리말 참고)
     private var desiredHeight: CGFloat {
-        KeyboardHeightBook.height(for: screenSize)
+        KeyboardHeightBook.height(for: screenSize, content: contentMetrics)
+    }
+
+    /// 우리 판이 지금 무엇을 그리는지. 키 높이와 칸 수는 사용자가 설정에서 바꾼다.
+    ///
+    /// ⚠️ `UserDefaults` 는 키가 없으면 0 을 돌려준다. 그대로 쓰면 격자가 필요로 하는
+    ///    높이가 0 이 되어 바닥 계산이 통째로 무너진다. 없을 때는 기본값을 쓴다.
+    private var contentMetrics: KeyboardHeightBook.ContentMetrics {
+        var metrics = KeyboardHeightBook.ContentMetrics()
+        let defaults = AppGroup.defaults
+        if let height = defaults?.object(forKey: "keyboardButtonHeight") as? Double, height > 0 {
+            metrics.buttonHeight = CGFloat(height)
+        }
+        if let columns = defaults?.object(forKey: "keyboardColumnCount") as? Int, columns > 0 {
+            metrics.columns = columns
+        }
+        return metrics
     }
 
     /// 화면 크기. 익스텐션에는 씬이 늦게 붙어 `view.window` 가 비어 있는 순간이 있으므로

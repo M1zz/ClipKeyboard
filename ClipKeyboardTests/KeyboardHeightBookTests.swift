@@ -59,7 +59,8 @@ final class KeyboardHeightBookTests: XCTestCase {
         for device in devices {
             let height = KeyboardHeightBook.fallbackHeight(for: device.size)
             // 화면의 4분의 1보다 낮으면 못 쓰고, 절반을 넘으면 화면을 잡아먹는다.
-            XCTAssertGreaterThan(height, device.size.height * 0.25, "\(device.name) 너무 낮다")
+            // 5.0.6 에서 0.36 을 쓰다 짜부라졌다. 어느 기기의 실측 비율(0.37~0.41)보다도 낮았다.
+            XCTAssertGreaterThan(height, device.size.height * 0.34, "\(device.name) 너무 낮다")
             XCTAssertLessThan(height, device.size.height * 0.45, "\(device.name) 너무 높다")
         }
     }
@@ -73,7 +74,7 @@ final class KeyboardHeightBookTests: XCTestCase {
 
     func test_아이패드는_따로_잡는다() {
         let pad = KeyboardHeightBook.fallbackHeight(for: CGSize(width: 834, height: 1194))
-        // 아이폰 비율(0.36)을 그대로 쓰면 430pt 로 지나치게 높아진다.
+        // 아이폰 비율(0.39)을 그대로 쓰면 465pt 로 지나치게 높아진다.
         XCTAssertLessThan(pad, 1194 * 0.36)
         XCTAssertGreaterThan(pad, 260)
     }
@@ -111,22 +112,42 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// iOS 26 은 지구본·받아쓰기 줄을 **우리 뷰 바깥에** 직접 그린다.
     /// 전체 높이를 그대로 요구하면 딱 그 줄만큼 키보드가 더 높아진다.
     /// 실제로 5.0.6 에서 키보드가 시스템 키보드보다 89pt 높게 섰다.
-    func test_입력뷰에_거는_높이는_전체에서_시스템_몫을_뺀_것이다() {
+    func test_격자가_받는_몫은_시스템_키보드의_키_자리와_같다() {
         let size = CGSize(width: 393, height: 852)
-        KeyboardHeightBook.record(height: 311, for: size)
+        KeyboardHeightBook.record(height: 336, for: size)
 
         let chrome = KeyboardHeightBook.systemChrome(for: size)
-        XCTAssertEqual(KeyboardHeightBook.height(for: size), 311 - chrome, accuracy: 0.01,
-                       "전체 높이를 그대로 요구하면 시스템 줄만큼 더 높아진다")
+        let metrics = KeyboardHeightBook.ContentMetrics()
+        let panel = KeyboardHeightBook.height(for: size, content: metrics)
+
+        XCTAssertEqual(panel - metrics.headerHeight, 336 - chrome, accuracy: 0.01,
+                       "머리 줄을 뺀 나머지가 시스템 키보드의 키 자리와 같아야 한다")
     }
 
-    /// 우리 판 + 시스템 몫 = 시스템 키보드 전체. 이것이 이 계산의 목적 전부다.
-    func test_우리_판과_시스템_몫을_더하면_시스템_키보드가_된다() {
+    /// 5.0.6 에서 판이 짜부라진 이유. 시스템 키보드와 **똑같이** 세우면, 시스템에는 없는
+    /// 카테고리 줄을 우리가 그리는 만큼 격자가 굶는다. 머리 줄은 그 위에 얹어야 한다.
+    func test_시스템_키보드보다_머리_줄만큼_높다() {
+        let size = CGSize(width: 393, height: 852)
+        KeyboardHeightBook.record(height: 336, for: size)
+
+        let metrics = KeyboardHeightBook.ContentMetrics()
+        let total = KeyboardHeightBook.height(for: size, content: metrics)
+            + KeyboardHeightBook.systemChrome(for: size)
+
+        XCTAssertEqual(total, 336 + metrics.headerHeight, accuracy: 0.01,
+                       "시스템에 없는 줄을 그리는 만큼은 더 필요하다")
+        XCTAssertGreaterThan(total, KeyboardHeightBook.totalHeight(for: size))
+    }
+
+    /// 시스템이 그려 주지 않는 OS 에서는 뺄 것이 없다. 머리 줄은 그래도 얹는다.
+    func test_시스템이_안_그리면_전체_위에_머리_줄만_얹는다() {
+        guard !KeyboardHeightBook.systemDrawsKeyboardChrome else { return }
         let size = CGSize(width: 393, height: 852)
         KeyboardHeightBook.record(height: 311, for: size)
 
-        let total = KeyboardHeightBook.height(for: size) + KeyboardHeightBook.systemChrome(for: size)
-        XCTAssertEqual(total, KeyboardHeightBook.totalHeight(for: size), accuracy: 0.01)
+        let metrics = KeyboardHeightBook.ContentMetrics()
+        XCTAssertEqual(KeyboardHeightBook.height(for: size, content: metrics),
+                       311 + metrics.headerHeight, accuracy: 0.01)
     }
 
     func test_세로가_가로보다_시스템_몫이_크다() {
@@ -139,6 +160,48 @@ final class KeyboardHeightBookTests: XCTestCase {
                              "가로에서는 홈 인디케이터 자리가 줄어든다")
     }
 
+    // MARK: - 버튼 여섯은 보인다
+
+    /// 사용자 신고: "키보드가 너무 낮아졌어, 짜부라졌네."
+    /// 화면이 작아 시스템 키보드 자체가 낮은 기기에서도 격자가 조각으로 보이면 안 된다.
+    func test_작은_화면에서도_버튼_여섯이_들어간다() {
+        let small = CGSize(width: 320, height: 568)
+        let metrics = KeyboardHeightBook.ContentMetrics()
+        let panel = KeyboardHeightBook.height(for: small, content: metrics)
+
+        let grid = panel - metrics.headerHeight - metrics.gridPadding
+        let rows = (grid + metrics.rowSpacing) / (metrics.buttonHeight + metrics.rowSpacing)
+        XCTAssertGreaterThanOrEqual(rows, 3,
+                                    "두 칸씩 세 줄이면 여섯이다. 그보다 낮으면 목록이 아니라 조각이다")
+    }
+
+    /// 키를 크게 쓰는 사람의 격자가 그만큼 잘리면 안 된다. 바닥은 **설정을 따라** 움직인다.
+    func test_키를_크게_쓰면_바닥도_함께_올라간다() {
+        var small = KeyboardHeightBook.ContentMetrics()
+        small.buttonHeight = 44
+        var large = KeyboardHeightBook.ContentMetrics()
+        large.buttonHeight = 72
+
+        XCTAssertGreaterThan(large.floorHeight, small.floorHeight)
+    }
+
+    /// 한 칸씩 쓰면 여섯을 세로로 쌓아야 하지만, 여섯 줄을 그대로 주면 화면 절반을 넘는다.
+    func test_한_칸_배치에서도_줄_수에_울타리가_있다() {
+        var single = KeyboardHeightBook.ContentMetrics()
+        single.columns = 1
+        // 네 줄까지만 센다: 38 + 24 + (4 × 44 + 3 × 10) = 268
+        XCTAssertEqual(single.floorHeight, 268, accuracy: 0.01)
+    }
+
+    /// 세 칸이면 두 줄에 여섯이 다 선다. 굳이 더 높일 이유가 없다.
+    func test_칸이_많으면_바닥이_낮아진다() {
+        var wide = KeyboardHeightBook.ContentMetrics()
+        wide.columns = 3
+        XCTAssertLessThan(wide.floorHeight, KeyboardHeightBook.ContentMetrics().floorHeight)
+    }
+
+    // MARK: - 울타리
+
     /// 울타리: 상수가 빗나가도 **쓸 수 없는 키보드**가 되지는 않는다.
     func test_아주_낮은_화면에서도_판이_최소치_아래로_내려가지_않는다() {
         let tiny = CGSize(width: 320, height: 480)
@@ -146,13 +209,25 @@ final class KeyboardHeightBookTests: XCTestCase {
                                     KeyboardHeightBook.minimumContentHeight)
     }
 
-    /// 시스템이 그려 주지 않는 OS 에서는 뺄 것이 없다.
-    func test_시스템이_안_그리면_전체를_그대로_쓴다() {
-        guard !KeyboardHeightBook.systemDrawsKeyboardChrome else { return }
-        let size = CGSize(width: 393, height: 852)
-        KeyboardHeightBook.record(height: 311, for: size)
+    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다.
+    /// 특히 가로에서는 바닥(버튼 여섯)을 그대로 쓰면 본문이 사라진다.
+    func test_가로에서_바닥이_화면을_덮지_않는다() {
+        let landscape = CGSize(width: 852, height: 393)
+        let panel = KeyboardHeightBook.height(for: landscape)
+        let total = panel + KeyboardHeightBook.systemChrome(for: landscape)
 
-        XCTAssertEqual(KeyboardHeightBook.height(for: size), 311)
+        XCTAssertLessThan(total, 393 * 0.65, "가로에서 키보드가 화면의 3분의 2를 넘으면 못 쓴다")
+    }
+
+    func test_어떤_설정으로도_울타리를_넘지_않는다() {
+        let size = CGSize(width: 393, height: 852)
+        var greedy = KeyboardHeightBook.ContentMetrics()
+        greedy.columns = 1
+        greedy.buttonHeight = 100
+        greedy.minimumVisibleButtons = 12
+
+        XCTAssertLessThanOrEqual(KeyboardHeightBook.height(for: size, content: greedy),
+                                 KeyboardHeightBook.maximumContentHeight(for: size))
     }
 
     // MARK: - ③ 믿을 수 없는 측정은 안 적는다

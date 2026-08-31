@@ -69,14 +69,82 @@ enum KeyboardHeightBook {
     /// ⚠️ 전체 높이가 아니다. iOS 26 부터 시스템이 우리 뷰 **바깥에** 지구본·받아쓰기 줄을
     ///    직접 그리기 때문에, 전체 높이를 그대로 요구하면 그 줄만큼 키보드가 더 높아진다
     ///    (`systemChrome` 머리말 참고).
-    static func height(for size: CGSize) -> CGFloat {
-        let content = totalHeight(for: size) - systemChrome(for: size)
-        // 울타리: 상수가 빗나가도 **쓸 수 없는 키보드**가 되지는 않게 한다.
-        return max(content, minimumContentHeight)
+    ///
+    /// ## 왜 시스템 키보드와 "똑같이" 세우지 않는가
+    ///
+    /// 5.0.6 에서 한 번 그렇게 세웠다가 **판이 짜부라졌다.** 계산은 맞았는데 전제가 틀렸다.
+    /// 시스템 키보드는 그 높이를 통째로 키에 쓴다. 우리 판은 같은 높이 안에 카테고리 줄을
+    /// 먼저 얹고 남은 자리에 키를 깐다. 같은 값을 받으면 우리 격자만 한 줄 넘게 굶는다.
+    ///
+    /// 그래서 재는 값은 **격자가 받을 몫**으로 보고, 우리에게만 있는 머리 줄을 그 위에 얹는다.
+    /// 총 높이는 시스템 키보드보다 머리 줄만큼 높아진다. 그게 맞다. 시스템 키보드에 없는
+    /// 것을 우리가 그리고 있으니 그만큼 자리가 더 필요하다.
+    ///
+    /// - Parameter content: 우리 판이 그리는 것들의 치수. 사용자가 설정에서 키 높이와
+    ///   칸 수를 바꾸므로 값이 고정이 아니다.
+    static func height(for size: CGSize, content: ContentMetrics = ContentMetrics()) -> CGFloat {
+        // ① 시스템 키보드가 키에 쓰는 만큼은 격자에 준다. 머리 줄은 그 위에 얹는다.
+        let keyArea = totalHeight(for: size) - systemChrome(for: size)
+        let matched = keyArea + content.headerHeight
+
+        // ② 그래도 버튼 여섯은 보인다. 화면이 작아 ① 이 모자란 기기를 위한 바닥.
+        let floor = max(content.floorHeight, minimumContentHeight)
+
+        // ③ 그러나 화면을 통째로 먹지는 않는다. 가로에서 ② 를 그대로 쓰면 본문이 사라진다.
+        let ceiling = maximumContentHeight(for: size)
+
+        return min(max(matched, floor), ceiling)
     }
 
     /// 우리 판이 이보다 낮아지지는 않는다. 카테고리 줄 + 키 한 줄이 겨우 들어가는 높이.
     static let minimumContentHeight: CGFloat = 150
+
+    /// 우리 판이 이보다 높아지지는 않는다.
+    ///
+    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 55%,
+    /// 가로에서는 62% 까지만 쓴다(가로는 화면이 낮아 같은 비율로는 키가 안 들어간다).
+    static func maximumContentHeight(for size: CGSize) -> CGFloat {
+        let isLandscape = size.width > size.height
+        let share: CGFloat = isLandscape ? 0.62 : 0.55
+        let room = size.height * share - systemChrome(for: size)
+        return max(room, minimumContentHeight)
+    }
+
+    // MARK: - 우리 판이 그리는 것들의 치수
+
+    /// 판 높이를 정하려면 **우리가 무엇을 그리는지** 알아야 한다.
+    ///
+    /// 키 높이와 칸 수는 설정에서 사용자가 바꾼다(App Group 공유). 값을 여기 박아 두면
+    /// 키를 크게 쓰는 사람의 격자가 그만큼 잘린다. 그래서 인자로 받는다.
+    ///
+    /// ⚠️ 여기 숫자들은 `KeyboardView` 의 실제 레이아웃에서 온 것이다. 저쪽을 고치면
+    ///    여기도 고쳐야 한다. 어긋나면 판이 다시 짜부라지거나 빈 자리가 남는다.
+    struct ContentMetrics {
+        /// 카테고리 줄. `categoryTabRow` 는 28pt 버튼에 위아래 5pt 여백이다.
+        var headerHeight: CGFloat = 38
+        /// 격자 위아래 여백. 키를 누를 때 번지는 물결이 잘리지 않을 자리다(`gridRippleReach` × 2).
+        var gridPadding: CGFloat = 24
+        /// 격자 줄 사이.
+        var rowSpacing: CGFloat = 10
+        /// 키 하나의 높이. 설정 > 키보드 모양에서 바꾼다.
+        var buttonHeight: CGFloat = 44
+        /// 한 줄에 서는 키 개수. 설정에서 1~5.
+        var columns: Int = 2
+        /// 적어도 이만큼은 보인다. 셋만 보이면 목록이 아니라 조각으로 읽힌다.
+        var minimumVisibleButtons: Int = 6
+
+        /// 버튼 `minimumVisibleButtons` 개가 실제로 보이려면 판이 얼마나 높아야 하는가.
+        ///
+        /// ⚠️ 줄 수에 울타리를 둔다. 한 칸씩 쓰는 사람에게 여섯 줄을 그대로 주면
+        ///    키보드가 화면 절반을 넘는다. 넷까지만 센다(가로에서는 위 ③ 이 또 깎는다).
+        var floorHeight: CGFloat {
+            let perRow = max(1, min(5, columns))
+            let needed = Int(ceil(Double(minimumVisibleButtons) / Double(perRow)))
+            let rows = CGFloat(max(1, min(4, needed)))
+            let grid = rows * buttonHeight + (rows - 1) * rowSpacing
+            return headerHeight + gridPadding + grid
+        }
+    }
 
     // MARK: - 시스템이 우리 뷰 밖에 그리는 몫
 
@@ -124,9 +192,18 @@ enum KeyboardHeightBook {
     /// 잰 값이 없을 때의 어림. **정답이 아니라 첫 인상용 임시값**이다.
     ///
     /// 애플이 키보드 높이를 공개하지 않으므로 화면 높이에 대한 비율로 어림한다.
-    /// 비율은 세로에서 0.36, 가로에서 0.5 쯤이 실제 값에 가깝게 떨어진다
-    /// (세로 844pt 화면이면 304pt, 실제와 몇 pt 차이). 아이패드는 화면이 커서
-    /// 같은 비율을 쓰면 지나치게 높아지므로 따로 잡는다.
+    /// 비율은 실제로 올라오는 키보드(예측 입력 줄 포함)를 재서 맞췄다.
+    ///
+    /// | 기기 | 화면 | 키보드 | 비율 |
+    /// | --- | --- | --- | --- |
+    /// | iPhone SE 3 | 667 | 260 | 0.390 |
+    /// | iPhone 13 mini | 812 | 335 | 0.413 |
+    /// | iPhone 15 · 16 | 852 | 336 | 0.394 |
+    /// | iPhone Pro Max | 932 | 346 | 0.371 |
+    ///
+    /// ⚠️ 예전에는 0.36 이었다. 위 표의 어느 기기보다도 낮아서, 앱을 아직 안 연 사람은
+    ///    처음부터 짜부라진 키보드를 봤다. 0.39 로 올린다.
+    /// 가로는 0.5, 아이패드는 화면이 커서 같은 비율을 쓰면 지나치게 높아지므로 따로 잡는다.
     ///
     /// 위아래 울타리를 두는 건 새 기기가 나와 비율이 어긋나도 말이 되는 범위에
     /// 머물게 하려는 것이다. 어림이 빗나가도 **쓸 수 없는 키보드**가 되지는 않는다.
@@ -141,7 +218,7 @@ enum KeyboardHeightBook {
         }
         return isLandscape
             ? clamp(height * 0.50, low: 150, high: 240)
-            : clamp(height * 0.36, low: 230, high: 350)
+            : clamp(height * 0.39, low: 250, high: 380)
     }
 
     private static func clamp(_ value: CGFloat, low: CGFloat, high: CGFloat) -> CGFloat {
